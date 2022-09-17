@@ -1,0 +1,206 @@
+.auction-filters
+  background: $color-white-4
+  padding: 60px 0 20px
+  &-content
+    max-width: 1240px
+    margin: auto
+    text-align: center
+    padding: 0 30px
+  &-title
+    position: relative
+    display: inline-block
+    margin: auto
+    margin-bottom: 34px
+    svg
+      position: absolute
+      top: 0
+      right: -16px
+      width: 16px
+      height: 16px
+  .auction-type-btn
+    font-weight: $medium
+    font-size: 26px
+    line-height: 32px
+    color: $black
+    margin: 0 3em 44px
+    cursor: pointer
+    &.inactive
+      color: $gray
+    &.active
+      color: $black
+      text-decoration: underline
+      svg
+        display: none
+    svg
+      margin-left: 12px
+  .searchbox
+    flex: 1
+    margin-right: 25px
+    position: relative
+    &.open
+      .rounded-search-input
+        border-bottom-left-radius: 0
+        border-bottom-right-radius: 0
+        border: 1px solid $gray
+    .rounded-search-input
+      border-radius: 8px
+      background: $white
+      padding: 13px 21px
+      display: flex
+      align-items: center
+      margin: 0
+      border: 1px solid transaprent
+      .icon-search
+        width: 18px
+        height: 18px
+        margin-right: 20px
+      input
+        font-size: 16px
+        line-height: 20px
+        font-weight: $normal
+        color: $black
+        letter-spacing: 0.06em
+        text-transform: capitalize
+        width: 100%
+        border: none
+        outline: none
+    .dropdown-options
+      width: 100%
+      background: $white
+      border: thin solid $gray
+      border-top-left-radius: 0
+      border-top-right-radius: 0
+      top: 100%
+      border-top: none
+      margin: 0
+      .dropdown-option
+        text-align: left
+        font-size: 16px
+        line-height: 20px
+        letter-spacing: 0.06em
+        text-transform: capitalize
+        color: $black
+        font-weight: $normal
+        &:hover
+          background-color: $color-white-5
+        img
+          height: 36px
+          width: 36px
+
+  .status-select-box
+    min-width: 320px
+    .selected
+      border: none
+      background: $white
+      padding: 13px 24px
+      &.open
+        border-bottom-left-radius: 0
+        border-bottom-right-radius: 0
+        border: 1px solid $gray
+      span
+        font-size: 16px
+        line-height: 20px
+    .items
+      border-top-left-radius: 0
+      border-top-right-radius: 0
+      border: 1px solid $gray
+      top: 100%
+      border-top: none
+      padding: 0
+      z-index: 100
+      div
+        font-size: 16px
+        line-height: 20px
+        border-bottom: 1px solid $light-gray-2
+        text-align: left
+        padding: 1em 1.5em
+.auction-more-filters
+  border-radius: 8px
+  &-block
+    display: flex
+    padding: 1em
+    border-top: 1px solid $color-gray-3
+    &:first-child
+      border-top: none
+    &-column
+      display: flex
+      flex-direction: column
+      margin-right: 3em
+      &:last-child
+        margin-right: 0
+      strong
+        font-weight: $bold
+        font-size: 16px
+        line-height: 19px
+        color: $color-black-1
+      label:not(.form-check-label):not(.custom-file-label)
+        font-weight: $normal
+        font-size: 16px
+        line-height: 19px
+        color: $color-black-1
+        display: flex
+        align-items: center
+        input[type="checkbox"]
+          width: 16px
+          height: 16px
+          background: $color-gray-3
+          -webkit-appearance: none
+          -moz-appearance: none
+          appearance: none
+          display: inline-block
+          margin-right: 1em
+          &:checked
+            background: $color-blue-2
+        &.size
+          width: 5.5%
+      .filter-price
+        label:not(.form-check-label):not(.custom-file-label)
+          font-size: 12px
+          line-height: 14px
+          text-transform: capitalize
+          color: $color-black-9
+        .input-group
+          background: $color-white-3
+          border-radius: 2px
+          flex-direction: row
+          flex-wrap: nowrap
+          &-text
+            font-weight: $normal
+            font-size: 12px
+            line-height: 14px
+            color: $color-gray-4
+            border: none
+            background: transparent
+          input
+            background: transparent
+            padding: 0 0.3em
+            color: $color-black-10
+  .apply-filters-btn
+    background: $color-blue-2
+    border-radius: 4px
+    font-weight: $normal
+    font-size: 16px
+    line-height: 19px
+    color: $color-white-1
+    padding: 9px 25px
+    border: none
+  .apply-filters-tag
+    font-size: 12px
+    line-height: 15px
+    color: $color-blue-2
+    background: rgba($color-blue-2, 0.08)
+    border-radius: 20px
+    padding: 8px
+    display: flex
+    align-items: center
+    margin-left: 1em
+    span
+      margin-right: 0.5em
+    svg
+      width: 12px
+      height: 12px
+      padding: 3px
+      background: $color-blue-2
+      border-radius: 50%
+      line
+        stroke: $color-white-1

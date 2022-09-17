@@ -1,0 +1,102 @@
+.inventory-toolbar {
+  margin-top: -60px;
+
+  .rounded-search-input {
+    align-items: center;
+    background: $white-5;
+    border-radius: 40px;
+    display: flex;
+    margin-bottom: 1rem;
+    padding: 6px 12px;
+
+    .icon-search {
+      height: 18px;
+      width: 18px;
+    }
+
+    input {
+      background: transparent;
+      border: 0;
+      color: $dark-gray;
+      font-size: 15px;
+      line-height: 18px;
+      outline: none;
+      padding: 0 8px;
+      width: 300px;
+    }
+  }
+
+  .listing-type-select {
+    label {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 18px;
+      margin-bottom: 6px;
+    }
+
+    select {
+      border: 1px solid $black;
+      color: $black;
+      font-size: 18px;
+      height: auto;
+      min-width: 160px;
+      padding: 2.5px;
+    }
+  }
+
+  .form-checkbox {
+    align-items: center;
+    color: $black;
+    display: flex;
+    font-size: 15px;
+    line-height: 30px;
+    position: relative;
+
+    input {
+      margin: 0;
+      margin-right: .5em;
+      position: relative;
+    }
+
+    .tooltip {
+      cursor: pointer;
+      opacity: 1;
+      position: absolute;
+      right: -15px;
+      top: -2px;
+    }
+  }
+
+  .btn {
+    font-size: 15px;
+    line-height: 18px;
+
+    &-dark {
+      background-color: $black;
+      color: $white;
+      transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+
+      &:hover {
+        background-color: transparent;
+        color: $black;
+      }
+    }
+
+    &-outline-dark {
+      color: $black;
+
+      &:hover {
+        background-color: $black;
+        color: $white;
+      }
+    }
+  }
+
+  .bulk-delete {
+    .btn-dark {
+      background-color: $black;
+      color: $white;
+      transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+  }
+}

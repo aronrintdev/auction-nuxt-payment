@@ -1,0 +1,758 @@
+@charset 'utf-8'
+
+// Import fonts
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2&display=swap')
+@import url('https://fonts.cdnfonts.com/css/sf-pro-display')
+@import url('https://fonts.cdnfonts.com/css/futura-md-bt')
+@import url('https://use.typekit.net/hrv7zep.css') // import adobe-garamond-pro font
+
+// CSS Document
+@import './font-awesome.min'
+
+// Global variables
+@import 'variables'
+
+// Import pages styles
+@import './pages/confirm-listing'
+@import './pages/create-listing'
+@import './pages/create-trade-listing'
+@import './pages/notifications'
+@import './pages/payment'
+@import './pages/payout-details'
+@import './pages/sale-confirm'
+@import './pages/shipping-page'
+@import './pages/sell-inventory'
+@import './pages/success'
+@import './pages/trades/index'
+@import './pages/trades/confirmation-trade'
+@import './pages/wish-lists'
+@import './pages/shopping-cart'
+@import './pages/vendor-selling'
+@import './pages/heat-check/heat-check'
+@import './pages/heat-check/new-heat-check'
+@import './pages/preferences'
+@import './pages/auctions-list'
+@import './pages/auction-bids'
+@import './pages/create-listing-new'
+@import './pages/trades/create-listing'
+@import './pages/trades/create-trade'
+@import './pages/trades/index'
+@import './pages/auction-details'
+@import './pages/vendor-purchases'
+@import './pages/features'
+@import './pages/create-a-listing'
+@import './pages/watchlists'
+
+// Common styles
+@import './common/buttons'
+@import './common/inputs'
+@import './common/modals'
+@import './common/scrollbar'
+@import './common/animations'
+@import './common/collapsible'
+
+// import components styles
+@import './components/common/checkbox-switch'
+@import './components/switch-tab-bar'
+@import './components/status-select-box'
+@import './components/d-stepper'
+@import './components/auctions/new-auction-collection'
+@import './components/sell/inventory-toolbar'
+@import './components/sell/top-tabsbar'
+@import './components/tabbar'
+@import './components/auctions/banner'
+@import './components/auctions/filterbar'
+@import './components/auctions/slider'
+@import './components/auctions/sell-with-us'
+@import './components/auctions/media-carousel-with-thumbs'
+@import './components/auctions/size-table'
+@import './components/auctions/cart'
+@import './components/purchases/multiple-order'
+@import './components/vue-slider-component'
+@import './components/promotions/banner'
+@import './components/promotions/category-page'
+
+// Import shop by style detail page
+@import './components/shop-by-style/detail'
+
+// Import layout styles
+@import './layouts/error'
+
+@font-face
+  font-family: 'San Francisco'
+  font-weight: 400
+  src: url('https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff')
+
+@font-face
+  font-family: 'San Francisco'
+  font-weight: 500
+  src: url('https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.woff')
+
+@font-face
+  font-family: 'San Francisco'
+  font-weight: 600
+  src: url('https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-semibold-webfont.woff')
+
+@font-face
+  font-family: 'San Francisco'
+  font-weight: 700
+  src: url('https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.woff')
+
+@font-face
+  font-family: 'Adobe Garamond Pro Regular'
+  font-style: normal
+  font-weight: normal
+  src: local('Adobe Garamond Pro Regular'), url('fonts/AGaramondPro-Regular.woff') format('woff')
+
+@font-face
+  font-family: $font-family-garamond
+  font-weight: $bold
+  src: url('./fonts/AGaramondPro-Bold.otf')
+
+@font-face
+  font-family: $font-family-garamond
+  font-weight: $medium
+  src: url('./fonts/AGaramondPro-Semibold.otf')
+
+@font-face
+  font-family: 'Proxima Nova'
+  font-weight: 900
+  src: url('./fonts/Proxima-Nova-Bold.otf')
+
+@font-face
+  font-family: 'SF Pro Text'
+  font-weight: 400
+  src: url('./fonts/SFProText-Regular.ttf')
+
+html,
+body
+  font-family: $font-family-base
+
+.h-logo img
+  height: auto
+  width: 100%
+
+.bg-light
+
+
+  li
+    list-style: none
+
+.content-wrapper
+  padding: 110px 10px
+
+.os-content
+  padding: 0 !important
+
+.user-panel
+  background: $white-4
+  border-radius: 0 0 20px 20px
+  padding: 30px 30px 10px
+
+.os-host-scrollbar-vertical-hidden .user-panel
+  padding: 10px
+
+.info p
+  color: $black
+  font-size: 16px
+  font-weight: 700
+  margin-bottom: 0 !important
+  padding-bottom: 0 !important
+  padding-top: 5px
+
+  span
+    color: $dark-gray
+
+.leftlink li
+  border-bottom: solid 1px $gray
+
+  a
+    color: $gray
+    font-size: 18px
+    font-weight: 700
+    opacity: .6
+
+    &:hover
+      color: $black
+      opacity: 1 !important
+
+    i
+      float: right
+
+      &:hover
+        opacity: 1 !important
+
+.activelink a
+  color: $black !important
+  opacity: 1 !important
+
+  i:hover
+    color: $black !important
+    opacity: 1 !important
+
+.profileimg
+  background: $light-gray-2
+  border-radius: 4px
+  bottom: 70px
+  padding: 5px 2px
+  position: absolute
+  right: 20px
+
+.subtxt
+  display: none !important
+  font-size: 13px !important
+  font-weight: 400
+
+.activelink .subtxt
+  display: block !important
+  font-size: 13px !important
+  font-weight: 400
+
+.logout
+  background: $black
+  border-bottom: 0
+  border-radius: 10px
+  color: $white
+  cursor: pointer
+  margin: 0 12px 0 5px
+
+  a
+    opacity: 1 !important
+    padding-top: 8px
+
+.nav-sidebar .nav-item > .nav-link.logouttxt
+  background-color: transparent
+  margin: 0
+
+.sidebar .nav .nav-item > .nav-link.logouttxt p
+  color: $white
+
+.sidebar .nav .nav-item > .nav-link.logouttxt .nav-icon img
+  filter: none
+
+.logouttxt:hover
+  color: $white !important
+  opacity: 1 !important
+  padding-top: 8px
+
+@media only screen and (max-width: 600px)
+  .topmenu li
+    border-bottom: solid 1px $black
+    padding: 10px
+
+  .h-logo img
+    height: auto
+    width: 100%
+
+  .notification-icons
+    flex-direction: row !important
+
+    li
+      padding: 0 3px
+
+  .navbar-nav .dropdown-menu
+    position: absolute
+
+  .navbar-toggler
+    border: 0
+
+  .h-logo
+    float: left
+    height: auto
+    left: 50px
+    position: absolute
+    top: 20px
+    width: 120px
+
+  .navbar-badge
+    right: 0 !important
+    top: -5px !important
+
+  .icon-position
+    position: absolute
+    right: 20px
+    top: 25px
+
+  .right-pad
+    right: 15px !important
+
+  .layout-fixed .main-sidebar
+    background: $white
+    top: 90px !important
+
+  .copy
+    color: $dark-gray
+    text-align: left
+
+  .footersocial
+    text-align: left
+
+  .leftlink li
+    padding-bottom: 10px
+
+.col-xs-1,
+.col-xs-10,
+.col-xs-11,
+.col-xs-12,
+.col-xs-2,
+.col-xs-3,
+.col-xs-4,
+.col-xs-5,
+.col-xs-6,
+.col-xs-7,
+.col-xs-8,
+.col-xs-9
+  float: left
+
+.col-xs-12
+  width: 100%
+
+.col-xs-11
+  width: 91.66666667%
+
+.col-xs-10
+  width: 83.33333333%
+
+.col-xs-9
+  width: 75%
+
+.col-xs-8
+  width: 66.66666667%
+
+.col-xs-7
+  width: 58.33333333%
+
+.col-xs-6
+  width: 50%
+
+.col-xs-5
+  width: 41.66666667%
+
+.col-xs-4
+  width: 33.33333333%
+
+.col-xs-3
+  width: 25%
+
+.col-xs-2
+  width: 16.66666667%
+
+.col-xs-1
+  width: 8.33333333%
+
+.col-xs-pull-12
+  right: 100%
+
+.col-xs-pull-11
+  right: 91.66666667%
+
+.col-xs-pull-10
+  right: 83.33333333%
+
+.col-xs-pull-9
+  right: 75%
+
+.col-xs-pull-8
+  right: 66.66666667%
+
+.col-xs-pull-7
+  right: 58.33333333%
+
+.col-xs-pull-6
+  right: 50%
+
+.col-xs-pull-5
+  right: 41.66666667%
+
+.col-xs-pull-4
+  right: 33.33333333%
+
+.col-xs-pull-3
+  right: 25%
+
+.col-xs-pull-2
+  right: 16.66666667%
+
+.col-xs-pull-1
+  right: 8.33333333%
+
+.col-xs-pull-0
+  right: auto
+
+.col-xs-push-12
+  left: 100%
+
+.col-xs-push-11
+  left: 91.66666667%
+
+.col-xs-push-10
+  left: 83.33333333%
+
+.col-xs-push-9
+  left: 75%
+
+.col-xs-push-8
+  left: 66.66666667%
+
+.col-xs-push-7
+  left: 58.33333333%
+
+.col-xs-push-6
+  left: 50%
+
+.col-xs-push-5
+  left: 41.66666667%
+
+.col-xs-push-4
+  left: 33.33333333%
+
+.col-xs-push-3
+  left: 25%
+
+.col-xs-push-2
+  left: 16.66666667%
+
+.col-xs-push-1
+  left: 8.33333333%
+
+.col-xs-push-0
+  left: auto
+
+.col-xs-offset-12
+  margin-left: 100%
+
+.col-xs-offset-11
+  margin-left: 91.66666667%
+
+.col-xs-offset-10
+  margin-left: 83.33333333%
+
+.col-xs-offset-9
+  margin-left: 75%
+
+.col-xs-offset-8
+  margin-left: 66.66666667%
+
+.col-xs-offset-7
+  margin-left: 58.33333333%
+
+.col-xs-offset-6
+  margin-left: 50%
+
+.col-xs-offset-5
+  margin-left: 41.66666667%
+
+.col-xs-offset-4
+  margin-left: 33.33333333%
+
+.col-xs-offset-3
+  margin-left: 25%
+
+.col-xs-offset-2
+  margin-left: 16.66666667%
+
+.col-xs-offset-1
+  margin-left: 8.33333333%
+
+.col-xs-offset-0
+  margin-left: 0
+
+.policy a:last-child
+  padding: 0
+
+.signup-social
+  cursor: pointer
+
+.auth-layout .bg-light
+  position: fixed
+  width: 100%
+  z-index: 10
+
+  li
+    list-style: none
+
+.nav
+  padding-bottom: 100px
+
+.nuxt-error-page
+  -ms-text-size-adjust: 100%
+  -webkit-font-smoothing: antialiased
+  -webkit-text-size-adjust: 100%
+  align-items: center
+  background: $color-gray-1
+  bottom: 0
+  color: $color-gray-9
+  display: flex
+  flex-direction: column
+  font-family: sans-serif
+  font-weight: 100 !important
+  justify-content: center
+  left: 0
+  padding: 1rem
+  position: absolute
+  right: 0
+  text-align: center
+  top: 0
+
+  .error
+    max-width: 450px
+
+  .title
+    color: $color-gray-9
+    font-size: 1.5rem
+    margin-bottom: 8px
+    margin-top: 15px
+
+  .description
+    color: $color-gray-8
+    line-height: 21px
+    margin-bottom: 10px
+
+  a
+    color: $color-gray-8 !important
+    text-decoration: none
+
+svg
+  overflow: hidden
+  vertical-align: middle
+
+.browsepage-paginator
+  li
+    button
+      border-radius: 50%
+
+  .page-item.active
+    .page-link
+      background-color: $color-white-1 !important
+      border: 0 !important
+      color: $color-black-1 !important
+
+
+.trade-pagination
+  li
+    button
+      border-radius: 50%
+
+  .page-item
+    .page-link
+      background: none !important
+      color: $color-gray-23 !important
+
+
+  .page-item.active
+    .page-link
+      background: unset !important
+      border: 0 !important
+      color: $color-black-1 !important
+
+.main-browse
+  .b-overlay
+    .bg-light
+      box-shadow: none
+      padding: 0
+
+.sidebar .nav .nav-item .desc
+  color: $black
+  display: none
+  font-size: 12px
+  font-weight: 300
+  line-height: 14px
+  margin: 0 1em 1em
+
+.sidebar .nav .nav-item .nav-link.nuxt-link-active + .desc
+  display: block
+
+.sidebar .nav .nav-item .nav-link p
+  color: $gray
+  font-size: 18px
+  font-weight: bold
+  line-height: 21px
+
+.sidebar .nav .nav-item .nav-link .nav-icon img
+  filter: invert(67%) sepia(14%) saturate(17%) hue-rotate(319deg) brightness(88%) contrast(89%)
+
+.sidebar .nav .nav-item .nav-link.nuxt-link-active p
+  color: $black
+
+.sidebar .nav .nav-item .nav-link.nuxt-link-active .nav-icon img
+  filter: none
+
+.filter-dark
+  filter: brightness(0) !important
+
+.error-message
+  color: $red
+
+.settings-addresses-input
+  background-color: $color-gray-3
+  border-radius: 5px
+  height: 32px
+  left: 545px
+  top: 627px
+  width: 369px
+
+.settings-addresses-button-continue
+  background-color: $color-black-1
+  border-radius: 5px
+  color: $color-white-1
+  height: 2.7vw
+  margin-right: 3vw
+  width: 15vw
+
+.settings-addresses-button-discard
+  background: $color-white-1
+  border: 1px solid $color-black-1
+  border-radius: 5px
+  box-sizing: border-box
+  height: 2.7vw
+  width: 15vw
+
+.settings-address-phone-send-code
+  border: 1px solid $color-gray-3
+  border-radius: 5px
+  cursor: pointer
+  left: 35%
+  position: absolute
+  top: 10%
+
+.settings-address-phone-verification-status-verified
+  color: $color-green-1
+
+.settings-address-phone-verification-status-not-verified
+  color: $red
+
+.settings-address-phone-timeout-message
+  color: $red
+
+.show-addresses
+  padding: 3%
+
+.show-title
+  border-bottom: 1px solid $color-black-1
+
+.addresses-table
+  display: flex
+
+.address-container
+  margin-right: 5%
+
+.address-first-name
+  font-weight: bold
+
+.buttons-style
+  display: flex
+
+.button-edit
+  color: $color-blue-1
+  cursor: pointer
+
+.button-delete
+  color: $red
+  cursor: pointer
+
+.settings-menu
+  display: inline-flex
+  margin-top: 22vh
+
+.settings-menu > *
+  color: $color-gray-4
+  font-size: 25px
+  font-style: normal
+  font-weight: 600 !important
+  line-height: 30px
+  margin-right: 5%
+
+.settings-addresses-menu-underline
+  background: $light-gray
+  border-radius: 11px
+  height: 6px
+  width: 861px
+
+svg[disabled]
+  pointer-events: none
+  opacity: 0.8
+
+.pac-container
+  display: block
+  z-index: 9999
+
+.text-base-blue
+  color: $color-blue-20
+
+.text-black
+  color: $color-black-1
+
+.bg-lightgrey
+  background-color: $color-white-4
+
+.font-primary
+  font-family: $font-family-base
+
+.font-secondary
+  font-family: $font-sp-pro
+
+@for $i from 3 through 9
+  .fw-#{$i}
+    font-weight: $i * 100
+
+$font-sizes: 12, 14, 15, 16, 18, 20, 22, 24, 26, 30, 32, 36, 40, 48, 50, 52, 60
+@each $font-size in $font-sizes
+  .fs-#{$font-size}
+    font-size: #{$font-size}px
+
+$radii: 3, 5, 8, 10, 15, 20, 25
+@each $radius in $radii
+  .br-#{$radius}
+    border-radius: #{$radius}px
+
+@for $i from 2 through 10
+  .gap-#{$i}
+    column-gap: #{$i}0px
+    row-gap: #{$i}0px
+
+.w-fit-content
+  width: fit-content
+
+@mixin status-badge
+  @include body-5-normal
+  border-radius: 5px
+  font-style: normal
+  font-family: $font-sp-pro
+  font-weight: 500
+  padding: 10px
+  margin: 0
+  border-radius: 5px
+
+.status-badge-primary
+  @include status-badge
+  color: $color-blue-1
+  background: $color-blue-18
+
+.status-badge-secondary
+  @include status-badge
+  background: $color-gray-70
+  color: $color-gray-25
+
+.status-badge-success
+  @include status-badge
+  color: $color-green-3
+  background: $color-green-23
+
+.status-badge-warning
+  @include status-badge
+  color: $color-orange-9
+  background: $color-orange-10
+
+.status-badge-danger
+  @include status-badge
+  color: $color-red-20
+  background: $color-red-23
+
+.status-badge-purple
+  @include status-badge
+  color: $color-blue-17
+  background: $color-purple-8
+
+.bg-white-4
+  background-color: $color-white-4

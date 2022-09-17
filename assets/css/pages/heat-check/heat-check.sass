@@ -1,0 +1,277 @@
+.container-heatcheck
+  background-color: $color-white-4
+  max-width: 97%
+  padding: 29px
+  margin-right: 0px
+  margin-left: 0px
+  .header
+    min-height: 61px
+  .title
+    h2
+      font-weight: $bolder
+      font-size: 36px
+      font-family: $font-family-sf-pro-display
+    span
+      @include body-5-normal
+      margin-top: 9px
+  .heatcheck-add-button
+    align-items: center
+    border-radius: 25px
+    display: flex
+    filter: drop-shadow(0 4px 4px rgba($color-black-1, 0.25))
+    justify-content: center
+    align-items: center
+    filter: drop-shadow(0px 4px 4px rgba($color-black-1, 0.25))
+    background: linear-gradient(180deg, $color-red-14 0%, $color-orange-14 100%)
+    width: 266px
+    font-family: $font-family-sf-pro-display
+    font-weight: $medium
+    font-size: 20px
+    padding: 5px
+    height: 41px
+    box-shadow: 0px 5px 2px 1px $color-gray-53 0.4
+    img
+      margin-left: 15px
+      height: 28px
+  .date-box
+    input
+      background: $color-white-1
+      border: 0
+      border-radius: 5px
+      padding: 10px
+    .fa-calendar
+      position: absolute
+      right: 8px
+  .top-bar
+    width: 100%
+    .search-box-container
+      margin-top: -35px
+      width: 50%
+      .rounded-search-input
+        align-items: center
+        background: $color-white-1
+        border-radius: 10px
+        display: flex
+        margin: 0
+        padding: 10px 14px
+        i
+          font-size: 18px
+          margin: 5px 0 0 9px
+    .filters
+      align-items: baseline
+      display: flex
+      margin-left: auto
+      width: 50%
+      div
+        margin-right: 15px
+        label
+          background: $color-white-1
+          border-radius: 5px
+          color: $color-gray-5
+          font-size: 16px
+          font-weight: $normal
+          font-weight: normal
+          padding: 10px 20px
+    button
+      color: $color-white-1
+  .category_row
+    align-items: center
+    display: flex
+    .btn-categories
+      width: 70%
+      .nav-group .btn-group[data-v-1712a275]
+        float: right
+    .statuses_dorpdown
+      width: 30%
+      select
+        background-color: $color-white-11
+        border: 0
+        border-radius: 5px
+        float: right
+        padding: 14px 25px
+  .products_table
+    table
+      border-collapse: separate
+      border-spacing: 0 20px
+      .table_body
+        .tbody_row
+          background: $color-white-1
+          height: 100px
+          position: relative
+  td.prod-img img 
+    width: 108px
+    height: 54px
+
+  .users-pagination
+    .page-item
+      .page-link
+        color: gray
+
+        font-size: 15px
+        line-height: 18px
+        font-weight: $bold
+        border: none
+        background: transparent
+        outline: none
+      &.active
+        .page-link
+          color: black
+
+          outline: none
+          box-shadow: none
+  .filterByPage
+    margin-top: 5px
+    margin-left: 14px
+.static-color
+  color: $color-orange-5
+  font-size: 32px
+  font-weight: $bold
+h4.pro-heading
+  font-size: 16px
+  font-weight: $bold
+td.ddraft-heading
+  vertical-align: middle
+.complate-check
+  color: $color-gray-6
+  position: absolute
+  right: -75%
+  text-decoration: underline
+  top: 65px
+  width: 100%
+  img
+    margin-left: 10px
+.static-color-green
+  color: $color-green-3
+  font-size: 32px
+  font-weight: $bold
+.static-color-red
+  color: $color-red-3
+  font-size: 32px
+  font-weight: $bold
+.static-color-perpal
+  color: $color-blue-2
+  font-size: 32px
+  font-weight: $bold
+p.parah,p.pro-size-color
+    color: $color-gray-6
+    line-height: 7px
+.alignment
+  vertical-align: middle
+.status-date
+  color: $color-black-1
+  font-size: 16px
+  font-weight: $medium
+  .btn-categories
+    margin: 20px 0
+  .section-lists
+    margin-bottom: 125px
+    margin-right: 20px
+    min-width: 156px
+
+    h5
+      @include body-4-bold
+      margin-bottom: 18px
+    .share-block
+      margin-top: 6px
+      padding: 10px
+      h6
+        @include body-5-bold
+        margin-bottom: 10px
+    .btn
+      @include body-5-normal
+      display: block
+      margin-bottom: 2px
+      padding: 10px
+      text-align: left
+      width: 100%
+      &.active
+        background-color: $color-gray-1
+        border-radius: 8px
+  .section-items
+    .card-container
+      margin-bottom: 34px
+  .action-container
+    margin: 0 auto
+    width: 254px
+    .btn
+      margin-bottom: 20px
+      width: 100%
+.create-list-modal
+  .modal-header
+    align-items: center
+    border-bottom: 0.5px solid $color-gray-4
+    display: flex
+    justify-content: space-between
+    h5
+      @include body-3-bold
+      margin: 0
+  .modal-body
+    label
+      @include body-5-medium
+    .form-text
+      @include body-5-regular
+      color: $color-black-1
+
+
+
+.form-control.form-input 
+  padding: 10px 15px 10px 30px
+  
+.search-box-container .form .fa-search
+  position: absolute
+  top: 11px
+  left: 7px
+
+.search-box-container .form
+  display: flex
+  justify-content: center
+  align-items: center
+
+
+.modal-fullscreen .modal-dialog
+    max-width: 80%
+    margin: 1.7rem auto
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    height: auto
+    display: flex
+    z-index: 100000
+
+.card-img-top.prodct-modal-img
+  max-width: 120px
+  min-width: 120px
+  min-height: 120px
+  max-height: 120px
+
+.modal-fullscreen .modal-dialog .modal-body
+  padding-top: 0
+
+.card-text.example-photos-desc
+  text-align: left
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $normal
+  font-size: 12px
+  line-height: 15px
+  display: flex
+  align-items: center
+  color: $color-black-1
+
+.example-photos-cards .title
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $regular
+  font-size: 14px
+  line-height: 17px
+  letter-spacing: -0.02em
+  text-transform: capitalize
+  color: $color-black-1
+
+.card.example-photos-cards
+  min-height: 340px
+
+@media screen and ( min-width: 1450px)
+  .container-heatcheck
+    max-width: 100%

@@ -1,0 +1,246 @@
+{
+  "index": {
+    "sign_up": "S’enregistrer",
+    "log_in": "S'identifier"
+  },
+  "socialLogins": {
+    "log_in_with_google": "Connectez-vous avec Google",
+    "log_in_with_facebook": "Connectez-vous avec Facebook",
+    "log_in_with_apple_id": "Connectez-vous avec un identifiant Apple",
+    "log_in_with_twitter": "Connectez-vous avec Twitter"
+  },
+  "signup": {
+    "or": "OU",
+    "first_name": "Prénom",
+    "last_name": "Nom",
+    "user_name": "Nom d’utilisateur",
+    "email_address": "Adresse courriel",
+    "password": "Mot de passe",
+    "confirm_password": "Confirmer le mot de passe",
+    "create_account": "Créer un compte",
+    "creating_cccount": "La création du compte..",
+    "password_validation_text": "Minimum 8 caractères, 1 lettre majuscule, 1 chiffre et 1 symbole",
+    "by_logging_in_you_agree_to_the": "En vous connectant, vous acceptez le",
+    "terms_of_service": "Conditions d’utilisation",
+    "and": "et",
+    "private_policy": "Politique de confidentialité",
+    "please_wait": "Veuillez patienter",
+    "success_message": {
+      "user_successfully_registered": "Utilisateur enregistré avec succès",
+      "username_available": "Nom d’utilisateur disponible"
+    },
+    "error_message": {
+      "something_went_wrong_please_try_later": "Quelque chose a mal tourné. Veuillez essayer plus tard.",
+      "username_already_taken": "Nom d’utilisateur déjà pris. Essayez-en un autre.",
+      "the_email_has_already_been_taken": "L’e-mail a déjà été pris."
+    },
+    "validation": {
+      "please_enter_firstname": "Veuillez entrer le prénom.",
+      "firstname_must_contain_more_than_2_characters": "Le prénom doit contenir plus de 2 caractères.",
+      "please_enter_lastname": "Veuillez entrer le nom de famille.",
+      "please_enter_a_username": "Veuillez entrer un nom d’utilisateur.",
+      "please_enter_email": "Veuillez saisir Email.",
+      "please_enter_a_valid_email": "Veuillez saisir un e-mail valide.",
+      "password_cannot_be_empty": "Le mot de passe ne peut pas être vide.",
+      "password_must_contain_one_lowercase_letter": "Le mot de passe doit contenir une lettre minuscule.",
+      "password_must_contain_one_uppercase_letter": "Le mot de passe doit contenir une lettre majuscule.",
+      "password_must_contain_one_numberr": "Le mot de passe doit contenir un chiffre.",
+      "password_must_contain_8_characters_minimum": "Le mot de passe doit contenir 8 caractères minimum.",
+      "password_must_contain_one_symbol": "Le mot de passe doit contenir un symbole.",
+      "confirm_password_cannot_be_empty": "Confirmer que le mot de passe ne peut pas être vide.",
+      "confirm_password_must_be_same_as_password": "Confirmer que le mot de passe doit être identique au mot de passe."
+    }
+  },
+  "login": {
+    "or": "OU",
+    "username_email": "Nom d’utilisateur / Email",
+    "password": "Mot de passe",
+    "forgot_password": "Mot de passe oublié?",
+    "remember_me": "Souvenez-vous de moi",
+    "login": "Connectez-vous",
+    "loading": "Chargement",
+    "by_logging_in_you_agree_to_the": "En vous connectant, vous acceptez le",
+    "terms_of_service": "Conditions d’utilisation",
+    "and": "et",
+    "private_policy": "Politique de confidentialité",
+    "invalid_token": "jeton invalide",
+    "please_wait" : "S'il vous plaît, attendez",
+    "error_message": {
+      "password_required": "Mot de passe requis.",
+      "username_email_required": "Nom d'utilisateur/courriel requis.",
+      "unauthorized": "Non autorisée"
+    },
+    "success_message": {
+      "login_successfull": "Connexion réussie"
+    }
+  },
+  "footer": {
+    "authentication_process": "Processus d’authentification",
+    "refund_and_returns": "Remboursement et retours",
+    "shipping": "Livraison",
+    "selling_and_trading": "Vente & Trading",
+    "fee_policy": "Politique de frais",
+    "contact_us": "Contactez-nous",
+    "faq": "FAQ",
+    "private_policy": "Politique de confidentialité",
+    "terms_and_conditions": "Termes & Conditions",
+    "all_rights_reserved": "Tous droits réservés"
+  },
+  "home": {
+    "home": "Accueil",
+    "dashboard": "Tableau de bord",
+    "welcome": "Bienvenu",
+    "logout": "Déconnexion",
+    "please_wait": "Veuillez patienter",
+    "security": "Sécurité",
+    "purchases": "Achats",
+    "logout_successful": "Déconnexion réussie"
+  },
+  "navbar": {
+    "browse": "Parcourir",
+    "sell": "Vendre",
+    "trade": "Commerce",
+    "support": "Soutien",
+    "profile": "Profil",
+    "find_some_heat": "Trouvez un peu de chaleur"
+  },
+  "Sign Up": "S’enregistrer",
+  "Log In": "S'identifier",
+
+  "Dashboard": "Tableau de bord",
+  "sell": {
+    "summary": {
+      "title": "Sommaire"
+    },
+    "settings": {
+      "title": "Paramètres"
+    },
+    "orders": {
+      "title": "Ordres"
+    },
+    "inventory": {
+      "bulk_delete": "Suppression en masse",
+      "sku": "UGS",
+      "view_offers": "Voir les offres",
+      "delete_modal": {
+        "title": "Confirmation de la suppression",
+        "content": "Êtes-vous vraiment sûr de supprimer cette annonce de produit ?",
+        "cancel_btn": "Annuler",
+        "ok_btn": "D'accord"
+      },
+      "table_columns": {
+        "details": "Des détails",
+        "size": "Taille",
+        "colorway": "Coloris",
+        "status": "Statut",
+        "amount": "Montante",
+        "listed_price": "Prix indiqué",
+        "current_bid": "Enchère actuelle",
+        "offers_made": "Offres faites",
+        "date_posted": "date postée",
+        "sale_price": "Prix de vente",
+        "listing_type": "Type d'annonce",
+        "bid_price": "Prix de l'offre"
+      },
+      "toolbar": {
+        "listing_type": "Type d'annonce",
+        "show_all": "Afficher tout",
+        "bids": "Enchères",
+        "sell": "Vendre",
+        "trades": "Métiers",
+        "auctions": "Les enchères",
+        "search_box_placeholder": "Rechercher dans l'inventaire par SKU",
+        "enable_vacation": "Activer le mode vacances",
+        "enable_vacation_tooltip": "Qu'est-ce que Activer le mode vacances ?",
+        "create_listing_btn": "Créer une annonce",
+        "edit_listing_btn": "Modifier une annonce"
+      }
+    },
+    "sell_now": {
+      "no_result": "Pas de résultat",
+      "price_listings": "Listes de prix",
+      "lowest_price": "Prix le plus bas sur les cadavres d'animaux",
+      "not_available": "N / A",
+      "highest_bid": "Offre la plus élevée",
+      "last_sold": "Dernière vente",
+      "payment_breakdown": "Répartition des paiements",
+      "amount_box_placeholder": "Quantité",
+      "size_box_placeholder": "Taille",
+      "price_box_placeholder": "Entrer un prix",
+      "info": "Vous vendez cet article",
+      "transaction_fee": "Frais de transaction (10,0 %)",
+      "payment_proc": "Procédure de paiement (3%)",
+      "shipping": "Expédition",
+      "free": "Libérer",
+      "discount": "Remise",
+      "add_discount": "Ajouter une remise +",
+      "total_payout": "Paiement total",
+      "sell_now": "Vendre maintenant"
+    },
+    "create_listing": {
+      "no_result": "Pas de résultat",
+      "enter_csv_file": "Entrez le fichier CSV",
+      "price_by_size": "Prix par taille",
+      "not_available": "N / A",
+      "price_listings": "Listes de prix",
+      "lowest_price": "Prix le plus bas sur les cadavres d'animaux",
+      "highest_bid": "Offre la plus élevée",
+      "last_sold": "Dernière vente",
+      "size_box_placeholder": "Taille",
+      "amount_box_placeholder": "Quantité",
+      "price_box_placeholder": "Ton prix",
+      "trade_btn": "Échanger",
+      "or": "OU",
+      "allow_bids": "Autoriser les enchères",
+      "bid_amount_placeholder": "Régler Min. Montant de l'enchère",
+      "add_to_list": "Ajouter à la liste",
+      "current_listing": "Annonce actuelle",
+      "nothing_yet": "Rien pour le moment",
+      "confirm_listing": "Confirmer l'annonce",
+      "product_sku_invalid": "Le SKU du produit n'est pas valide.",
+      "csv_invalid": "Le CSV importé a un SKU non valide.",
+      "load_file_error": "Échec du chargement du fichier"
+    },
+    "sale_confirmed": {
+      "title": "Vente confirmée",
+      "subtitle": "Merci d'avoir vendu avec Deadstock !",
+      "description": "* Les paiements prendront jusqu'à 1-2 heures avant d'apparaître dans votre méthode de paiement préférée.",
+      "return_to_sellers": "Retour à la page des vendeurs"
+    },
+    "confirm_listing": {
+      "title": "Confirmer l'annonce",
+      "sku": "UGS",
+      "edit_listing_btn": "Modifier l'annonce",
+      "post_listing_btn": "Liste des messages",
+      "delete_modal": {
+        "content": "Êtes-vous vraiment sûr de supprimer cette annonce de produit ?",
+        "title": "Confirmation de la suppression",
+        "cancel_btn": "Annuler",
+        "ok_btn": "D'accord"
+      },
+      "table_columns": {
+        "details": "Des détails",
+        "size": "Taille",
+        "status": "Statut",
+        "amount": "Montante",
+        "sale_price": "Prix de vente",
+        "min_bid_price": "Min. Montant de l'enchère"
+      }
+    },
+    "top_tab_bar": {
+      "summary": "Sommaire",
+      "inventory": "Inventaire",
+      "orders": "Ordres",
+      "settings": "Paramètres"
+    },
+    "create_listing_tabbar": {
+      "create_listing": "Créer une annonce",
+      "sell_now": "Vendre maintenant"
+    }
+  },
+  "components": {
+    "product_search_box": {
+      "default_placeholder": "Recherche par SKU ou mot-clé"
+    }
+  }
+}

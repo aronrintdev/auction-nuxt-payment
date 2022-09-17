@@ -1,0 +1,13 @@
+export const BODY_REMOVE = 'remove'
+export const BODY_LOWER_UNDER_HIGHEST = 'lower_under_highest'
+export const BODY_NOT_LOWER_UNDER_HIGHEST = 'not_lower_under_highest'
+export const BODY_DELISTED_DONE = 'delisted_done'
+export const BODY_RELIST_EDIT = 'relist_edit'
+export const BODY_SUCCESS = 'success'
+export const FINAL_OFFER = 'final_send'
+export const FINAL_OFFER_GO_BACK = 'discard_go_back'
+export const AUCTION_TYPE_SINGLE = 'single'
+export const AUCTION_TYPE_COLLECTION = 'collection'
+export const LIVE_STATUS = 'live'
+export const SCHEDULED_STATUS = 'scheduled'
+export const BIDS_PER_PAGE = 5

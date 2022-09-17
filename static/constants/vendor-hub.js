@@ -1,0 +1,11 @@
+export const DOCUMENT_STATUS_EXPIRED = 'expired'
+export const DOCUMENT_STATUS_STARTED = 'started'
+export const DOCUMENT_STATUS_NOT_STARTED = 'not_started'
+export const USER_STATUS_PENDING = 'Pending'
+export const USER_STATUS_APPROVED = 'Approved'
+export const USER_STATUS_REJECTED = 'Rejected'
+export const VERIFICATION_TIMER = 5 * 60000
+export const VERIFICATION_TIMER_SECONDS = 5 * 60
+export const COMMISSIONS_PER_PAGE = 5
+export const VERIFICATION_CODE_TRY_COUNT = 3
+export const COMMISSIONS_PAGE_OPTIONS = [8, 16, 32, 48]

@@ -1,0 +1,11 @@
+export const WINNING_BID_STATUS = 'winner'
+export const HIGHEST_BID_STATUS = 'highest_bid'
+export const OUTBID_BID_STATUS = 'outbid'
+export const BID_ACCEPTED = 'accepted'
+export const BID_TYPE_INCOMING = 'incoming'
+export const BID_TYPE_OUTGOING = 'outgoing'
+export const AUCTION_BIDS_PER_PAGE = 5
+export const BIDS_TAB_ALL = 'all'
+export const BIDS_TAB_YOUR = 'my'
+export const BID_AUCTION_TYPE_SINGLE = 'single'
+export const BID_AUCTION_TYPE_COLLECTION = 'collection'

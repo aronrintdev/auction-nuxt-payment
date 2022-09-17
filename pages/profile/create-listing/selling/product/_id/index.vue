@@ -1,0 +1,91 @@
+<template>
+  <b-container fluid class="container-profile-create-listing h-100 py-5">
+    <div v-if="product">
+      <DetailsListing
+        v-model="form"
+        :action="`add`"
+        :product="product"
+        @addToDraft="addToDraft"
+      />
+    </div>
+  </b-container>
+</template>
+
+<script>
+import { mapActions } from 'vuex'
+import DetailsListing from '~/components/profile/create-listing/product/DetailsListing.vue'
+export default {
+  name: 'ProductDetails',
+
+  components: {
+    DetailsListing,
+  },
+
+  layout: 'Profile',
+
+  data() {
+    return {
+      product: null,
+      form: {
+        currentSize: null,
+        quantity: 1, // by default
+        price: null,
+        boxCondition: null,
+        minOfferAmount: null,
+        color: null
+      },
+    }
+  },
+
+  created() {
+    // Get the product details
+    const { id } = this.$route.params
+    this.$axios
+      .get(`/product/${id}`)
+      .then((res) => {
+        this.product = res.data
+      })
+      .catch((err) => {
+        this.$logger.logToServer(err.response.data?.error)
+        this.$router.push('/profile/create-listing/selling')
+      })
+  },
+
+  methods: {
+    ...mapActions({
+      addListingToDraft: 'listingItems/addListingToDraft',
+    }),
+
+    // Add to Draft.
+    addToDraft() {
+      this.addListingToDraft({
+        product: this.product,
+        sizeId: Number(this.form.currentSize),
+        quantity: Number(this.form.quantity),
+        price: Number(this.form.price) * 100,
+        packagingConditionId: Number(this.form.boxCondition),
+        minOfferAmount: Number(this.form.minOfferAmount) * 100,
+        color: this.form.color
+      })
+      this.$router.push('/profile/create-listing/selling/confirm')
+    },
+  },
+}
+</script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
+.container-profile-create-listing
+  padding: 47px 54px
+  background-color: $color-white-5
+  .back-to-search
+    @include body-4-regular
+    position: absolute
+    height: 19px
+    left: 309px
+    top: 130px
+    font-style: normal
+    letter-spacing: 0.06em
+    color: $color-black-1
+</style>

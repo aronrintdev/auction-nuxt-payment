@@ -1,0 +1,116 @@
+<template>
+  <div v-if="user.vendor_status" class="vendor-page h-100 d-flex flex-column">
+    <div class="title-area">
+      <h1 class="title">
+        {{ $t('vendor_hub.vendor_hub') }}
+      </h1>
+    </div>
+
+    <div class="flex-grow-1 bg-white d-flex flex-column">
+      <div class="d-flex justify-content-center nav-area mt-3">
+        <NavGroup
+            :data="NAV_ITEMS"
+            :value="currentTab"
+            @change="handleCategoryChange"
+        />
+      </div>
+
+      <div class="m-3 h-100 ">
+        <VendorPaymentMethod v-if="currentTab === 'payout_method'"/>
+        <Documents v-if="currentTab === 'documents'"/>
+        <StoreDetails v-if="currentTab === 'store_details'"/>
+        <Commissions v-if="currentTab === 'commission'"/>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import {mapActions, mapGetters} from 'vuex';
+import NavGroup from '~/components/common/NavGroup';
+import VendorPaymentMethod from '~/components/profile/vendor-hub/VendorPaymentMethod';
+import Documents from '~/components/profile/vendor-hub/Documents';
+import StoreDetails from '~/components/profile/vendor-hub/StoreDetails';
+import Commissions from '~/components/profile/vendor-hub/Commissions';
+import {USER_STATUS_PENDING, USER_STATUS_REJECTED} from '~/static/constants';
+
+export default {
+  name: 'VendorHub',
+  components: {Commissions, StoreDetails, Documents, VendorPaymentMethod, NavGroup},
+  layout: 'Profile',
+  data() {
+    return {
+      modalActionLoading: false,
+      currentTab: 'store_details',
+      NAV_ITEMS: Object.keys(this.$t('vendor_hub.tabs')).map((key) => {
+        return {
+          label: this.$t('vendor_hub.tabs.' + key),
+          value: key
+        }
+      })
+    }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'auth/user'
+    })
+  },
+  mounted() {
+    this.getVendorDocRequirements()
+    this.routeUser()
+  },
+  methods: {
+    ...mapActions({
+      getVendorDocRequirements: 'vendor-hub/getVendorDocRequirements',
+    }),
+    handleCategoryChange(value) {
+      this.currentTab = value
+    },
+    /**
+     * Checking the user's vendor status and routing them to the appropriate page.
+     */
+    routeUser() {
+      switch (this.user.vendor_status) {
+        case USER_STATUS_PENDING:
+          this.$router.push({
+            path: '/profile/vendor-hub/application-received'
+          })
+          break;
+        case USER_STATUS_REJECTED:
+          this.$router.push({
+            path: '/profile/vendor-hub/apply'
+          })
+          break;
+        case null:
+          this.$router.push({
+            path: '/profile/vendor-hub/apply'
+          })
+          break;
+        default:
+          break;
+      }
+    }
+  }
+}
+</script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
+.bg-blue-2.btn
+  background: $color-blue-2
+  border: 1px solid $color-blue-2
+
+.title-area
+  padding: 80px 120px
+
+.title
+  @include heading-4
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $bold
+
+.vendor-page
+  background-color: $color-gray-1
+  height: 100vh
+</style>

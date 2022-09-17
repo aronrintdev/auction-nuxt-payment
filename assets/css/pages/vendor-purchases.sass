@@ -1,0 +1,576 @@
+.vd-purchases-section
+  .vendor-dashboard-body
+    min-height: 130vh
+
+    .shipping-items-col
+      border-radius: 10px
+      height: 670px
+      overflow: auto
+
+    .shipping-items-col::-webkit-scrollbar
+      width: 12px
+
+    .shipping-items-col::-webkit-scrollbar-track
+      background: $color-grey-34
+      border-radius: 10px
+
+    .shipping-items-col::-webkit-scrollbar-thumb
+      background: $color-grey-35
+      border-radius: 10px
+
+    .shipping-items-col .activeClassItem
+      border: 1px solid $color-blue-12
+      border-radius: 10px
+
+    .gmap-height
+      height: 700px
+
+    .payment-summary-details
+      .alert-payment-success
+        background: $color-green-11
+        border: 1px solid $color-green-10
+
+    .btn-purchase
+      background: $color-blue-2
+      color: $color-white-1
+      padding: 10px 18px
+
+      &:hover
+        background: $color-blue-2
+        box-shadow: rgb(0 0 0 / 35%) 0 5px 15px
+        color: $color-white-1
+
+  .cash-summary-header
+    font-size: 1.5rem
+    font-weight: $medium
+
+    .dollar-image-trade
+      width: 7%
+
+  .filter-row
+    .filter-badge
+      background: $color-blue-24
+      color: $color-blue-2
+
+      i
+        &:before
+          background: $color-blue-2
+          border-radius: 42px
+          color: $color-white-1
+          padding: 0 2.5px
+
+  .f-w-500
+    font-weight: $normal
+
+  .btn-export-to-pdf
+    background: $color-blue-2
+    padding: 10px 18px
+
+  .update-payment-information
+    .purchase-history-heading
+      @include body-7-bold
+      font-style: normal
+      letter-spacing: -0.02em
+      text-align: left
+
+    .alert-payment-warning
+      background-color: $color-yellow-1
+      color: $color-black-1
+
+    .country-select
+      select
+        background-color: $color-gray-1
+
+    .btn-update_info
+      border: 1px solid $color-blue-2
+      border-color: $color-blue-2
+      color: $color-blue-2
+
+      &:hover
+        background: $color-blue-2
+        box-shadow: rgb(0 0 0 / 35%) 0 5px 15px
+        color: $color-white-1
+
+    .payment-row
+      .custom-checkbox
+        label
+          font-weight: $regular
+
+  .purchase-paginator
+    ul
+      li
+        span
+          border: 0
+          font-weight: $medium
+
+        &.active
+          .page-link
+            border: 1px solid $color-black-1
+            color: $color-black-1
+
+      .page-item.disabled
+        .page-link
+          background-color: $color-white-4
+          font-weight: $medium
+
+      .page-item
+        .page-link
+          background-color: $color-white-4
+          border: 0
+          color: $color-black-1
+          font-weight: $medium
+
+  .vd-purchase-css
+    @include heading-3
+    border-bottom: 0
+    font-style: normal
+    text-align: left
+
+    .purchase-heading
+      @include heading-3
+      font-style: normal
+      text-align: left
+
+    .browse-search
+      input
+        background-color: $color-white-1
+        border: 0
+
+    .custom-selectbox
+      .selected, .items
+        background: $color-white-1
+
+    .vd-purchases-tabtext
+      @include body-2-regular
+      font-style: normal
+      letter-spacing: 0
+      text-align: left
+
+      .active-text
+        font-weight: $bold
+
+    .filter-customselect
+      .custom-selectbox
+        label
+          display: none
+
+  .filter-second-row
+    .apply-btn-wrapper
+      .btn-apply
+        background: $color-blue-2
+        padding: 10px 18px
+
+  #tracking
+    margin-bottom: 1rem
+    .order-status-date
+      justify-content: end
+
+  [class*="tracking-status-"]
+    p
+      color: $color-white-1
+      font-size: 1.1rem
+      margin: 0
+      text-align: center
+  .tracking-item
+    .tracking-icon
+      left: -0.4rem
+
+  .tracking-item
+    border-left: 5px dotted $color-blue-2
+    padding: 0rem 1rem 1rem 1rem
+    font-size: .9rem
+    min-height: 5rem
+    position: relative
+
+    .tracking-date
+      margin-bottom: 0.5rem
+
+      span
+        color: $color-grey-36
+        font-size: 85%
+        padding-left: 0.4rem
+
+    .tracking-content
+      background-color: $color-gray-1
+      border-radius: 0.5rem
+      font-weight: $medium
+      padding: .5rem .8rem
+
+      span
+        color: $color-grey-36
+        display: block
+        font-size: 85%
+
+    .tracking-icon
+      background-color: $color-white-1
+      color: $color-white-1
+      font-size: 1.1rem
+      left: -0.7rem
+      position: absolute
+      text-align: center
+      width: 1.1rem
+
+      &.status-sponsored
+        background-color: $color-pink-1
+
+      &.status-delivered
+        background-color: $color-green-9
+
+      &.status-outfordelivery
+        background-color: $color-orange-8
+
+      &.status-deliveryoffice
+        background-color: $color-yellow-2
+
+      &.status-attemptfail
+        background-color: $color-purple-4
+
+      &.status-exception
+        background-color: $color-red-10
+
+      &.status-inforeceived
+        background-color: $color-blue-11
+  @media (min-width: 992px)
+    .tracking-item
+      .tracking-date
+        left: -10rem
+        position: absolute
+        text-align: right
+        width: 7.5rem
+
+        span
+          display: block
+
+      .tracking-content
+        background-color: transparent
+        padding: 0
+
+  // Purchase history
+  .vd-purchase-history
+    .shipping-address::before
+      display: none
+
+    .export-to-pdf
+      float: right
+
+    .purchase-history-heading
+      @include body-7-bold
+      font-style: normal
+      letter-spacing: -0.02em
+      text-align: left
+
+    .purchase-summary-details
+      .card-title
+        font-size: 1.5rem
+        font-weight: $bold
+      .order-on
+        .shipping-label
+          float: right
+      .shipping-address
+        .shipping-address-description
+          .tracking-number
+            @include body-5
+        .tracking-number
+          float: right
+      .order-bar
+        left: 20px
+        top: -20px
+
+      #delivered
+        background-color: $color-blue-8
+        border-color: none
+        color: $color-blue-9
+
+      #processing
+        color: $color-orange-7
+        left: 631px
+        top: 662px
+        background: $color-orange-18
+        border-radius: 4px
+        font-style: normal
+        @include body-4-normal
+        text-align: center
+        color: $color-orange-19
+        float: right
+
+      #auth_completed
+        background-color: $color-blue-8
+        border-color: none
+        color: $color-blue-3
+
+      #pending
+        background-color: $color-red-3
+        border-color: $color-red-3
+
+      #auth_failed, #multiple
+        background-color: none
+        color: $color-red-7
+
+      #shipped_to_ds
+        background-color: $color-green-6
+        color: $color-green-7
+
+      #ordered
+        color: $color-green-7
+
+      #on_hold
+        color: $color-gray-15
+      #arrived_to_ds
+        color: $color-green-8
+        background: $color-green-14
+      #awaiting_shipment
+        color: $color-yellow-2
+
+      #awaiting_auth
+        color: $color-red-2
+
+      #auth_issued
+        background: $color-red-9
+        color: $color-red-8
+
+      #shipped_to_buyer
+        background: $color-grey-33
+        color: $color-gray-15
+
+      #pending
+        background-color: $color-yellow-3
+        color: $color-orange-9
+      #cancelled,
+      #declined
+        background: $color-red-11
+        color: $color-red-1
+
+      #processing_payment
+        background-color: $color-orange-10
+        color: $color-orange-7
+        background-color: $color-orange-10
+      #send_to_ds
+        color: $color-purple-7
+        background-color: $color-purple-8
+      #authenticated_and_shipped
+        color: $color-blue-12
+        background: $color-blue-18
+      #received_at_deadstock
+        color: $color-green-4
+        background: $color-green-14
+
+  .vd-purchase-empty
+    align-items: center
+    height: 25%
+
+    .vd-purchase-browse-now
+      @include body-4-medium
+      color: $color-gray-5
+      font-style: normal
+      letter-spacing: 0
+      text-align: center
+
+    .vd-purchase-browse-btn
+      @include body-4-medium
+      background-color: $color-blue-2
+      border-radius: 21px
+      color: $color-white-1
+      font-style: normal
+      height: 38px
+      letter-spacing: 0
+      text-align: center
+      width: 147px
+
+      &:hover
+        background-color: $color-white-1
+        border-color: $color-blue-2
+        box-shadow: 0 4px 8px rgb(0 0 0 / 10%)
+        color: $color-blue-2
+
+  // Purchase history cards
+  .vd-purchase-history-slots
+    .end-content
+      justify-content: end
+
+    .start-content
+      justify-content: start
+
+    .view-order
+      float: right
+
+    .vd-purchase-history-cards
+
+      .card-body
+        .ordered-date
+          font-weight: $normal
+
+        .btn-delivered
+          background-color: $color-blue-8
+          color: $color-blue-17
+        .btn-processing
+          color: $color-orange-7
+          font-size: 1.6rem
+          font-weight: $bold
+
+        .btn-auth_completed
+          background-color: $color-blue-8
+          border-color: none
+          color: $color-blue-3
+          font-weight: $bold
+
+        .btn-pending
+          background-color: $color-red-3
+          border-color: $color-red-3
+        .btn-received_at_deadstock
+          color: $color-green-4
+          padding: 10px
+          background: $color-green-14
+        .btn-auth_failed, .btn-multiple
+          background-color: none
+          color: $color-red-7
+          font-size: 1.3rem
+          font-weight: $bold
+
+        .btn-shipped_to_ds
+          background-color: $color-green-6
+          color: $color-green-7
+        .btn-ordered
+          @include body-1-bold
+          color: $color-green-7
+
+        .btn-on_hold
+          @include body-1-medium
+          color: $color-gray-15
+
+        .btn-send_to_ds
+          background: $color-purple-8
+          color: $color-purple-7
+        .btn-arrived_to_ds
+          color: $color-green-8
+          background: $color-green-14
+        .btn-awaiting_shipment
+          @include body-3-medium
+          color: $color-yellow-4
+
+        .btn-awaiting_auth
+          @include body-3-medium
+          color: $color-red-2
+
+        .btn-auth_issued
+          background: $color-red-9
+          color: $color-red-8
+          font-weight: $bold
+
+        .btn-shipped_to_buyer
+          background: $color-grey-33
+          color: $color-gray-15
+          font-weight: $bold
+
+        .btn-pending
+          background-color: $color-yellow-3
+          border-color: $color-yellow-3
+          color: $color-orange-9
+        .btn-processing_payment
+          background-color: $color-orange-10
+          color: $color-orange-7
+          background-color: $color-orange-10
+        .btn-authenticated_and_shipped
+          color: $color-blue-16
+          padding: 6px
+          background: $color-blue-18
+        .btn-cancelled,
+        .btn-declined
+          color: $color-red-3
+          background: $color-red-11
+          font-weight: $regular
+        .vd-purchase-imgblur
+          filter: blur(2px)
+
+        .overlap-text
+          @include heading-2
+          left: 25%
+          padding-left: 20px
+          padding-right: 20px
+          position: absolute
+          text-align: center
+          top: 25%
+
+        .purchase-status-btn
+          .btn
+            float: right
+
+@media (max-width: 426px)
+  .purchase-heading
+    .btn-back
+      width: 40%
+  .vd-purchases-section
+    #tracking .order-status-date
+      justify-content: start
+    .vd-purchase-css
+      .vd-purchases-tabtext
+        @include body-10
+
+    .vd-purchase-history-slots
+      .vd-purchase-history-cards
+        .card-body
+          .overlap-text
+            left: 0%
+            top: 0%
+
+  .vendor-dashboard-body
+    .location-marker-col
+      margin-top: 5%
+
+    .purchase-multiple-orders
+      .img-wrapper
+        img
+          display: none
+
+      .card-body
+        .card-title
+          @include body-8-normal
+
+        span
+          @include body-8-normal
+    .vd-purchase-history
+      .purchase-summary-details
+        .order-bar
+          margin-top: 15px
+        .order-on
+          @include body-5
+          .shipping-label
+            @include body-5
+            float: initial
+            margin-top: 0.5rem
+        .shipping-address
+          .shipping-address-description
+            @include body-8
+          .tracking-number
+            @include body-5
+            float: initial
+            margin-top: 0.5rem
+      .shipping-details-wrapper
+        p,
+        .shipping-carrier,
+        .tracking_no
+          @include body-5
+
+@media (max-width: 767px)
+  .vd-purchases-section
+    .vd-purchase-css
+      .purchase-heading
+        margin-bottom: 20px
+
+    .vd-purchase-history-slots
+      .end-content, .start-content
+        justify-content: center
+
+      .view-order
+        float: left
+
+      .vd-purchase-history-cards
+        .purchase-details-col
+          padding-bottom: 20px
+
+        .purchase-status-btn
+          align-items: center
+          display: flex
+          justify-content: center
+    .vd-purchase-history
+      .export-to-pdf
+        float: initial

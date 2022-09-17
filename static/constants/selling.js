@@ -1,0 +1,5 @@
+export const PENDING_STATUS = 'pending'
+export const AWAITING_APPROVAL = 'Awaiting Approval'
+export const DELISTED = 'delisted'
+export const ACCEPT = 'accept'
+export const DECLINE = 'decline'

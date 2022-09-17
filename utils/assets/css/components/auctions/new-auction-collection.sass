@@ -1,0 +1,147 @@
+.new-auction-collection-step
+  .step-header
+    border-bottom: 1px solid $gray
+    margin-bottom: 1em
+    padding-bottom: 8px
+    &-title
+      color: $black
+      font-size: 20px
+      font-weight: $medium
+      line-height: 24px
+    &-desc
+      color: $gray
+      font-size: 14px
+      line-height: 17px
+      margin-top: 8px
+  .categories
+    margin: 0 -10px
+    .category
+      flex: 1
+      margin: 10px
+      &:hover
+        cursor: pointer
+        .category-img
+          border: 1px solid $secondary
+          box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6)
+      &-title
+        color: $black
+        font-size: 20px
+        letter-spacing: -0.02em
+        line-height: 24px
+        margin-bottom: 10px
+        text-transform: capitalize
+      &-img
+        border: 1px solid $white-6
+        border-radius: 8px
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.27)
+        box-sizing: border-box
+        height: 0
+        overflow: hidden
+        padding-top: 78%
+        position: relative
+        width: 100%
+        img
+          height: 100%
+          left: 0
+          object-fit: cover
+          position: absolute
+          top: 0
+          width: 100%
+  .next-btn
+    background: $primary
+    border: 1px solid transparent
+    border-radius: 5px
+    color: $white
+    font-size: 15px
+    font-weight: $medium
+    line-height: 18px
+    padding: 10px 24px
+    width: 475px
+  .next-outline-btn
+    border: 2px solid $primary
+    border-radius: 25px
+    color: $white
+    color: $primary
+    font-size: 15px
+    font-weight: $medium
+    height: auto
+    line-height: 18px
+    padding: 10px 24px
+    width: 475px
+    &:hover
+      background-color: $primary
+      color: $white
+  .inline-form
+    &-box
+      display: flex
+      margin-bottom: 2em
+      label
+        color: $black
+        width: 35%
+    &-input
+      width: 65%
+      input,
+      textarea
+        border: 1px solid $black
+        border-radius: 5px
+        padding: 0.3em 0.6em
+        width: 100%
+      .example
+        color: $dark-gray
+        font-size: 10px
+        font-style: italic
+        font-weight: $normal
+        line-height: 12px
+        margin-top: 0.5em
+      textarea
+        min-height: 180px
+    &-checkbox
+      label
+        align-items: center
+        display: flex
+        width: 100%
+        input
+          margin-right: 0.3em
+          transform: scale(1.3)
+  .add-to-listing-btn
+    width: 65%
+  .collection-listing
+    &-title
+      color: $black
+      font-size: 15px
+      line-height: 18px
+    &-content
+      background: $white
+      border: 1px solid $white-7
+      border-radius: 5px
+      margin-top: 0.5em
+      min-height: 150px
+      padding: 6px 15px
+      th
+        border-bottom: 1px solid $black
+        border-top: 0
+        color: $black
+        font-size: 12px
+        font-weight: $medium
+        line-height: 14px
+        padding: 6px 0
+      td
+        color: $black
+        font-size: 12px
+        line-height: 14px
+        padding: 6px 0
+  .form-row
+    margin: 0 -12px
+  .estimated-values,
+  .suggested-prices
+    &-title
+      font-size: 20px
+      font-weight: $medium
+      line-height: 24px
+      padding: 10px 0
+    &-price
+      font-size: 40px
+      font-weight: $bold
+      line-height: 48px
+  .step-content-main
+    min-height: calc(100vh - 720px)

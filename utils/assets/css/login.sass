@@ -1,0 +1,211 @@
+@import 'variables'
+
+$panel-heading-color: #00415d
+$black-1: rgba(0, 0, 0, 0)
+$black-2: rgba(0, 0, 0, .15)
+$btn-login-color: #59b2e0
+$btn-login-color-focused: #53a3cd
+$btn-register-color: #1cb94e
+$btn-register-color-focused: #1ca347
+
+.panel-login
+  background: $white-3
+  margin-bottom: 0
+  margin-top: 100px
+  padding: 25px
+.panel_login
+  background: $white-3
+  margin-bottom: 0
+  padding: 25px
+
+.loginmain
+  padding: 50px
+
+  h2
+    border-bottom: 1px solid $black
+    font-size: 18px
+    line-height: .1em
+    margin: 10px 0 20px
+    text-align: center
+    width: 100%
+
+    span
+      background: $white-3
+      padding: 0 10px
+
+.panel-login > .panel-heading
+  color: $panel-heading-color
+  padding-bottom: 15px
+  text-align: center
+
+  a
+    border-bottom: solid 5px $light-gray-2
+    color: $dark-gray
+    display: block
+    font-size: 20px
+    font-weight: 800
+    text-decoration: none
+    transition: border-bottom .1s linear, color .1s linear
+
+    &.active
+      border-bottom: solid 5px $black
+      color: $black
+
+.panel_login > .panel-heading
+  color: $panel-heading-color
+  padding-bottom: 15px
+  text-align: center
+
+  a
+    border-bottom: solid 5px $light-gray-2
+    color: $dark-gray
+    display: block
+    font-size: 20px
+    font-weight: $bolder
+    text-decoration: none
+    transition: border-bottom .1s linear, color .1s linear
+
+    &.active
+      border-bottom: solid 5px $black
+      color: $black
+
+
+.signupfeilds
+  background: $white-3 !important
+  border: solid 1px $light-gray !important
+  border-radius: 20px !important
+
+input
+  filter: none
+
+.panel-login input
+  &:hover,
+  &:focus
+    -moz-box-shadow: none
+    -webkit-box-shadow: none
+    border-color: $light-gray-2
+    box-shadow: none
+    outline: none
+
+.btn-login
+  background-color: $btn-login-color
+  border-color: $btn-login-color
+  color: $white
+  font-size: 14px
+  font-weight: normal
+  height: auto
+  outline: none
+  padding: 14px 0
+  text-transform: uppercase
+
+  &:hover,
+  &:focus
+    background-color: $btn-login-color-focused
+    border-color: $btn-login-color-focused
+    color: $white
+
+.forgot-password
+  color: $gray
+  text-decoration: underline
+
+  &:hover,
+  &:focus
+    color: $dark-gray
+    text-decoration: underline
+
+.btn-register
+  background-color: $btn-register-color
+  border-color: $btn-register-color
+  color: $white
+  font-size: 14px
+  font-weight: normal
+  height: auto
+  outline: none
+  padding: 14px 0
+  text-transform: uppercase
+
+  &:hover,
+  &:focus
+    background-color: $btn-register-color-focused
+    border-color: $btn-register-color-focused
+    color: $white
+
+.signup
+  background: $white
+  padding: 12px
+  text-align: center
+
+  a
+    color: $black
+    display: block
+    font-size: 16px
+    font-weight: 600
+    text-align: center
+
+  i
+    float: left
+
+.input-group-addon
+  position: absolute
+  right: 20px
+  top: 8px
+
+  a
+    color: $gray
+
+.feildtxt
+  font-size: 11px
+
+.createac
+  background: $white-3 !important
+  border: solid 1px $black !important
+  border-radius: 20px !important
+  color: $black !important
+  font-size: 18px
+  margin-top: 10px
+
+  &:hover
+    background: $black !important
+    color: $white !important
+
+.createac-b
+  background: $black !important
+  border: solid 1px $black !important
+  border-radius: 20px !important
+  color: $white !important
+  font-size: 18px
+  margin-top: 10px
+
+  &:hover
+    background: $white-3 !important
+    color: $black !important
+
+.terms
+  color: $dark-gray
+  font-size: 11px
+
+  a
+    color: $dark-gray
+    font-weight: 600
+
+.feildtxt2
+  font-size: 11px
+  text-align: right
+
+.text-info span
+  color: $black
+  font-weight: normal
+
+.show-password
+  cursor: pointer
+
+@media only screen and (max-width: 600px)
+  .loginlogo
+    float: left
+    height: auto
+    left: 0 !important
+    position: relative !important
+    top: 0 !important
+
+  .loginmain
+    padding: 50px 30px

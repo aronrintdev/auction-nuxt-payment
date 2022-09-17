@@ -1,0 +1,180 @@
+.auctions-header
+  margin-bottom: 2em
+  padding-bottom: 0.9em
+  padding-top: 1em
+  &.has-border
+    border-bottom: 1px solid $dark-gray
+  &-title
+    font-size: 24px
+    font-weight: $bold
+    line-height: 29px
+  .back-auctions-btn
+    border: 1px solid $black
+    border-radius: 5px
+    font-weight: $bold
+    line-height: 1em
+  .sell-top-nav.center .formatted_li a span
+    color: $light-gray-3
+.delisted-auctions
+  .auction-details-cell
+    border: 0
+  .view-details-btn
+    align-items: center
+    background: transparent
+    border: 1px solid $gray
+    border-radius: 5px
+    box-sizing: border-box
+    color: $black
+    display: inline-flex
+    height: 30px
+    padding: 5px 16px
+    transition: all 0.3s ease
+  .view-details-btn:hover
+    background: $color-gray-13
+  .view-details-btn span
+    font-size: 16px
+    font-weight: $normal
+    line-height: 18px
+  .view-details-btn .icon-eyeline
+    margin-left: 5px
+.auctions-pagination
+  li
+    button
+      background-color: $white
+      border: 1px solid $white-2
+      color: $black
+      display: block
+      line-height: 1.25
+      margin-left: -1px
+      padding: 0.5rem 0.75rem
+      position: relative
+      &:hover
+        text-decoration: none
+    &:first-child
+      button
+        border-bottom-left-radius: 0.25rem
+        border-top-left-radius: 0.25rem
+        margin-left: 0
+    &:last-child
+      button
+        border-bottom-right-radius: 0.25rem
+        border-top-right-radius: 0.25rem
+    &.disabled
+      button
+        background-color: $white
+        border-color: $white-2
+        color: $dark-gray-1
+        cursor: auto
+        pointer-events: none
+    &.active
+      button
+        z-index: 3
+        color: $white
+        background-color: $black
+        border-color: $black
+.auctions-table
+  .thumb-wrapper
+    width: 120px
+    min-width: 120px
+  thead th
+    border-bottom: 1px solid $gray
+    border-top: 0
+    color: $black
+    font-size: 18px
+    font-weight: $normal
+    line-height: 21px
+    text-align: center
+  td
+    border-bottom: 1px solid $gray
+    text-align: center
+    vertical-align: top
+    .cell-wrapper
+      align-items: center
+      display: flex
+      flex-direction: column
+      justify-content: center
+      min-height: 75px
+  .icon-down-arrow
+    cursor: pointer
+    margin-left: 5px
+    transform-origin: center
+    transition: all 0.2s linear
+    &.open
+      transform: rotate(-180deg)
+  .product-image
+    max-height: 65px
+    max-width: 65px
+  .product-name
+    color: $black
+    font-size: 16px
+    font-weight: $medium
+    line-height: 19px
+  .product-sku
+    color: $dark-gray
+    font-size: 12px
+    font-weight: $normal
+    line-height: 14px
+  .status
+    color: $primary
+    font-size: 16px
+    line-height: 19px
+    text-transform: capitalize
+  .bids span
+    margin: 0 4px 0 8px
+  .relist-item
+    cursor: pointer
+    font-size: 12px
+    font-weight: $normal
+    line-height: 14px
+  &.auctions-delisted-table
+    td
+      .cell-wrapper
+        min-height: 95px
+  .my-bid
+    &-alert
+      color: $secondary
+      font-size: 14px
+      font-weight: $medium
+      line-height: 17px
+      &.danger
+        color: $red
+    &-price
+      border: 1px solid $black
+      border-radius: 5px
+      color: $black
+      font-size: 14px
+      font-weight: $bold
+      line-height: 14px
+      padding: 4px
+      width: 160px
+    &-update-btn
+      border-radius: 5px
+      color: $black
+      display: block
+      font-size: 12px
+      font-weight: $regular
+      height: 2em
+      line-height: 14px
+      padding: 4px
+      transition: all 0.3s ease
+      width: 160px
+      &:hover
+        background-color: $black
+        color: $white
+    .current-bid-price
+      align-items: center
+      background: $secondary
+      border: 0
+      border-radius: 8px
+      color: $white
+      display: flex
+      font-size: 16px
+      font-weight: $bold
+      height: 35px
+      justify-content: center
+      line-height: 20px
+      width: 160px
+.auction-browser
+  .back-btn
+    span
+      line-height: 1em

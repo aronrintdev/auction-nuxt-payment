@@ -1,0 +1,131 @@
+$color-shipping-page-card: rgba(0, 0, 0, .19)
+$color-shipping-page-border: rgba(0, 0, 0, .137)
+$color-code-bg-from: rgba(255, 255, 255, .253)
+$color-code-bg-to: rgba(255, 255, 255, .185)
+
+.shipping-page
+  .title
+    margin-bottom: 5vh
+
+  .card
+    border: transparent
+    border-radius: 1rem
+    box-shadow: 0 6px 20px 0 $color-shipping-page-card
+    margin: auto
+    max-width: 950px
+    width: 90%
+
+  .cart
+    border-bottom-left-radius: 1rem
+    border-top-left-radius: 1rem
+    padding: 4vh 5vh
+
+  .summary
+    background-color: $color-gray-13
+    color: $color-gray-14
+    padding: 4vh
+
+    .col-2,
+    .col-10
+      padding: 0
+
+  .row
+    margin: 0
+
+  .title b
+    font-size: 1.5rem
+
+  .main
+    margin: 0
+    padding: 2vh 0
+    width: 100%
+
+  .col-2,
+  .col,
+  a
+    padding: 0 1vh
+
+  .close
+    font-size: .7rem
+    margin-left: auto
+
+  img
+    width: 3.5rem
+
+  .back-to-shop
+    margin-top: 4.5rem
+
+  h5
+    margin-top: 4vh
+
+  hr
+    margin-top: 1.25rem
+
+  form
+    padding: 2vh 0
+
+  select
+    background-color: $color-white-5
+    border: 1px solid $color-shipping-page-border
+    margin-bottom: 4vh
+    outline: none
+    padding: 1.5vh 1vh
+    width: 100%
+
+  input
+    background-color: $color-white-5
+    border: 1px solid $color-shipping-page-border
+    margin-bottom: 4vh
+    outline: none
+    padding: 1vh
+    width: 100%
+
+    &:focus::-webkit-input-placeholder
+      color: transparent
+
+  a
+    color: $color-black-1
+
+    &:hover
+      color: $color-black-1
+      text-decoration: none
+
+  .shippingform-row
+    width: 55%
+
+  .promoblock
+    .promoinput
+      margin-bottom: 0% !important
+
+    .promoapply
+      margin-top: 0% !important
+
+  .createaccount
+    display: inline-flex !important
+
+    .checkbox
+      width: 2% !important
+
+  .collapse-btn
+    width: 5%
+
+  .w-10-shipping
+    width: 10%
+
+  .sameas-billing
+    width: 10px
+
+  @media (max-width: 767px)
+    .card
+      margin: 3vh auto
+
+  @media (max-width: 767px)
+    .cart
+      border-bottom-left-radius: unset
+      border-top-right-radius: 1rem
+      padding: 4vh
+
+  @media (max-width: 767px)
+    .summary
+      border-bottom-left-radius: 1rem
+      border-top-right-radius: unset

@@ -1,0 +1,1116 @@
+[
+  {
+    "name": "auction",
+    "path": "/auction",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/auction/index.vue",
+    "chunkName": "pages/auction/index",
+    "_name": "_65c98c45"
+  },
+  {
+    "name": "Auctions",
+    "path": "/Auctions",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Auctions/index.vue",
+    "chunkName": "pages/Auctions/index",
+    "_name": "_65461ff8"
+  },
+  {
+    "name": "create-listing",
+    "path": "/create-listing",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/index.vue",
+    "chunkName": "pages/create-listing/index",
+    "_name": "_e0a824f2"
+  },
+  {
+    "name": "features",
+    "path": "/features",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/index.vue",
+    "chunkName": "pages/features/index",
+    "_name": "_f53e8d5e"
+  },
+  {
+    "name": "forgot-password",
+    "path": "/forgot-password",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/forgot-password.vue",
+    "chunkName": "pages/forgot-password",
+    "_name": "_6450cb04"
+  },
+  {
+    "name": "heat-check",
+    "path": "/heat-check",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/heat-check/index.vue",
+    "chunkName": "pages/heat-check/index",
+    "_name": "_6e608782"
+  },
+  {
+    "name": "Home",
+    "path": "/Home",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Home.vue",
+    "chunkName": "pages/Home",
+    "_name": "_ba0ac4e0"
+  },
+  {
+    "name": "login",
+    "path": "/login",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/login.vue",
+    "chunkName": "pages/login",
+    "_name": "_62cbdb28"
+  },
+  {
+    "name": "Notifications",
+    "path": "/Notifications",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Notifications.vue",
+    "chunkName": "pages/Notifications",
+    "_name": "_66235207"
+  },
+  {
+    "name": "payout-details",
+    "path": "/payout-details",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/payout-details/index.vue",
+    "chunkName": "pages/payout-details/index",
+    "_name": "_0c06b5ef"
+  },
+  {
+    "name": "reset-password",
+    "path": "/reset-password",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/reset-password.vue",
+    "chunkName": "pages/reset-password",
+    "_name": "_93e144ac"
+  },
+  {
+    "name": "search",
+    "path": "/search",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/search/index.vue",
+    "chunkName": "pages/search/index",
+    "_name": "_46b9eb3c"
+  },
+  {
+    "name": "Sell",
+    "path": "/Sell",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Sell/index.vue",
+    "chunkName": "pages/Sell/index",
+    "_name": "_75175ec6"
+  },
+  {
+    "name": "Settings",
+    "path": "/Settings",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Settings/index.vue",
+    "chunkName": "pages/Settings/index",
+    "_name": "_6b5225d7"
+  },
+  {
+    "name": "shop",
+    "path": "/shop",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/shop/index.vue",
+    "chunkName": "pages/shop/index",
+    "_name": "_31fd3d6c"
+  },
+  {
+    "name": "shop-by-style",
+    "path": "/shop-by-style",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/shop-by-style/index.vue",
+    "chunkName": "pages/shop-by-style/index",
+    "_name": "_5e4cd898"
+  },
+  {
+    "name": "signup",
+    "path": "/signup",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/signup.vue",
+    "chunkName": "pages/signup",
+    "_name": "_430976e9"
+  },
+  {
+    "name": "social-callback",
+    "path": "/social-callback",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/social-callback.vue",
+    "chunkName": "pages/social-callback",
+    "_name": "_430cdfa4"
+  },
+  {
+    "name": "trades",
+    "path": "/trades",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/trades/index.vue",
+    "chunkName": "pages/trades/index",
+    "_name": "_227ccc63"
+  },
+  {
+    "name": "Admin-Notifications",
+    "path": "/Admin/Notifications",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Admin/Notifications.vue",
+    "chunkName": "pages/Admin/Notifications",
+    "_name": "_ef5b7c32"
+  },
+  {
+    "name": "checkout-auction",
+    "path": "/checkout/auction",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/checkout/auction/index.vue",
+    "chunkName": "pages/checkout/auction/index",
+    "_name": "_4d94664e"
+  },
+  {
+    "name": "checkout-heat-check",
+    "path": "/checkout/heat-check",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/checkout/heat-check/index.vue",
+    "chunkName": "pages/checkout/heat-check/index",
+    "_name": "_903a8cd4"
+  },
+  {
+    "name": "checkout-selling",
+    "path": "/checkout/selling",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/checkout/selling/index.vue",
+    "chunkName": "pages/checkout/selling/index",
+    "_name": "_3f83e9ca"
+  },
+  {
+    "name": "create-listing-confirm",
+    "path": "/create-listing/confirm",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/confirm/index.vue",
+    "chunkName": "pages/create-listing/confirm/index",
+    "_name": "_08868810"
+  },
+  {
+    "name": "create-listing-details",
+    "path": "/create-listing/details",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/details/index.vue",
+    "chunkName": "pages/create-listing/details/index",
+    "_name": "_7db5ccfa"
+  },
+  {
+    "name": "create-listing-SelectProductType",
+    "path": "/create-listing/SelectProductType",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/SelectProductType.vue",
+    "chunkName": "pages/create-listing/SelectProductType",
+    "_name": "_b70cac7c"
+  },
+  {
+    "name": "features-2fa-security",
+    "path": "/features/2fa-security",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/2fa-security.vue",
+    "chunkName": "pages/features/2fa-security",
+    "_name": "_acc4331e"
+  },
+  {
+    "name": "features-auctions",
+    "path": "/features/auctions",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/auctions.vue",
+    "chunkName": "pages/features/auctions",
+    "_name": "_2db380e1"
+  },
+  {
+    "name": "features-blockchain-authentication-ledger",
+    "path": "/features/blockchain-authentication-ledger",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/blockchain-authentication-ledger.vue",
+    "chunkName": "pages/features/blockchain-authentication-ledger",
+    "_name": "_7323bf14"
+  },
+  {
+    "name": "features-buying",
+    "path": "/features/buying",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/buying.vue",
+    "chunkName": "pages/features/buying",
+    "_name": "_5cd1e3a6"
+  },
+  {
+    "name": "features-crypto-payments",
+    "path": "/features/crypto-payments",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/crypto-payments.vue",
+    "chunkName": "pages/features/crypto-payments",
+    "_name": "_64460a10"
+  },
+  {
+    "name": "features-csv-bulk-uploading",
+    "path": "/features/csv-bulk-uploading",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/csv-bulk-uploading.vue",
+    "chunkName": "pages/features/csv-bulk-uploading",
+    "_name": "_69f7ee7e"
+  },
+  {
+    "name": "features-deadstock-exchange",
+    "path": "/features/deadstock-exchange",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/deadstock-exchange.vue",
+    "chunkName": "pages/features/deadstock-exchange",
+    "_name": "_b2f8c722"
+  },
+  {
+    "name": "features-heat-check",
+    "path": "/features/heat-check",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/heat-check.vue",
+    "chunkName": "pages/features/heat-check",
+    "_name": "_d4810d08"
+  },
+  {
+    "name": "features-in-app-game",
+    "path": "/features/in-app-game",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/in-app-game.vue",
+    "chunkName": "pages/features/in-app-game",
+    "_name": "_08207d05"
+  },
+  {
+    "name": "features-live-customer-service",
+    "path": "/features/live-customer-service",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/live-customer-service.vue",
+    "chunkName": "pages/features/live-customer-service",
+    "_name": "_53af92f4"
+  },
+  {
+    "name": "features-payment-plans",
+    "path": "/features/payment-plans",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/payment-plans.vue",
+    "chunkName": "pages/features/payment-plans",
+    "_name": "_0af4cce2"
+  },
+  {
+    "name": "features-rewards-program",
+    "path": "/features/rewards-program",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/rewards-program.vue",
+    "chunkName": "pages/features/rewards-program",
+    "_name": "_eda137cc"
+  },
+  {
+    "name": "features-selling",
+    "path": "/features/selling",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/selling.vue",
+    "chunkName": "pages/features/selling",
+    "_name": "_92fa99e2"
+  },
+  {
+    "name": "features-streetwear",
+    "path": "/features/streetwear",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/streetwear.vue",
+    "chunkName": "pages/features/streetwear",
+    "_name": "_6920b913"
+  },
+  {
+    "name": "features-trading",
+    "path": "/features/trading",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/trading.vue",
+    "chunkName": "pages/features/trading",
+    "_name": "_1527f860"
+  },
+  {
+    "name": "features-virtual-giftcards",
+    "path": "/features/virtual-giftcards",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/features/virtual-giftcards.vue",
+    "chunkName": "pages/features/virtual-giftcards",
+    "_name": "_6ec87270"
+  },
+  {
+    "name": "heat-check-listing",
+    "path": "/heat-check/listing",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/heat-check/listing.vue",
+    "chunkName": "pages/heat-check/listing",
+    "_name": "_33ebf89e"
+  },
+  {
+    "name": "heat-check-new",
+    "path": "/heat-check/new",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/heat-check/new.vue",
+    "chunkName": "pages/heat-check/new",
+    "_name": "_6df8d166"
+  },
+  {
+    "name": "heat-check-product",
+    "path": "/heat-check/product",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/heat-check/product.vue",
+    "chunkName": "pages/heat-check/product",
+    "_name": "_69c9e89c"
+  },
+  {
+    "name": "heat-check-product-detail",
+    "path": "/heat-check/product-detail",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/heat-check/product-detail.vue",
+    "chunkName": "pages/heat-check/product-detail",
+    "_name": "_3773385c"
+  },
+  {
+    "name": "heat-check-public",
+    "path": "/heat-check/public",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/heat-check/public.vue",
+    "chunkName": "pages/heat-check/public",
+    "_name": "_ce78ad68"
+  },
+  {
+    "name": "profile-auctions",
+    "path": "/profile/auctions",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/auctions/index.vue",
+    "chunkName": "pages/profile/auctions/index",
+    "_name": "_8aad8dec"
+  },
+  {
+    "name": "profile-bids",
+    "path": "/profile/bids",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/bids/index.vue",
+    "chunkName": "pages/profile/bids/index",
+    "_name": "_8b5aece0"
+  },
+  {
+    "name": "profile-create-listing",
+    "path": "/profile/create-listing",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/create-listing/index.vue",
+    "chunkName": "pages/profile/create-listing/index",
+    "_name": "_8fde03a6"
+  },
+  {
+    "name": "profile-inventory",
+    "path": "/profile/inventory",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/inventory/index.vue",
+    "chunkName": "pages/profile/inventory/index",
+    "_name": "_07e00df8"
+  },
+  {
+    "name": "profile-offers-placed",
+    "path": "/profile/offers-placed",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/offers-placed/index.vue",
+    "chunkName": "pages/profile/offers-placed/index",
+    "_name": "_1e99048f"
+  },
+  {
+    "name": "profile-preferences",
+    "path": "/profile/preferences",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/preferences/index.vue",
+    "chunkName": "pages/profile/preferences/index",
+    "_name": "_c9d93758"
+  },
+  {
+    "name": "profile-purchases",
+    "path": "/profile/purchases",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/purchases/index.vue",
+    "chunkName": "pages/profile/purchases/index",
+    "_name": "_086a76a4"
+  },
+  {
+    "name": "profile-rewards",
+    "path": "/profile/rewards",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/rewards/index.vue",
+    "chunkName": "pages/profile/rewards/index",
+    "_name": "_7c0bc400"
+  },
+  {
+    "name": "profile-security",
+    "path": "/profile/security",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/security/index.vue",
+    "chunkName": "pages/profile/security/index",
+    "_name": "_3d2eac8c"
+  },
+  {
+    "name": "profile-support",
+    "path": "/profile/support",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/support/index.vue",
+    "chunkName": "pages/profile/support/index",
+    "_name": "_27d36ceb"
+  },
+  {
+    "name": "profile-vendor-hub",
+    "path": "/profile/vendor-hub",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/vendor-hub/index.vue",
+    "chunkName": "pages/profile/vendor-hub/index",
+    "_name": "_9a2674ac"
+  },
+  {
+    "name": "profile-vendor-selling",
+    "path": "/profile/vendor-selling",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/vendor-selling/index.vue",
+    "chunkName": "pages/profile/vendor-selling/index",
+    "_name": "_c3d52576"
+  },
+  {
+    "name": "profile-watchlist",
+    "path": "/profile/watchlist",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/watchlist/index.vue",
+    "chunkName": "pages/profile/watchlist/index",
+    "_name": "_4566a949"
+  },
+  {
+    "name": "profile-wish-lists",
+    "path": "/profile/wish-lists",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/wish-lists/index.vue",
+    "chunkName": "pages/profile/wish-lists/index",
+    "_name": "_99d7d22e"
+  },
+  {
+    "name": "Sell-confirm-listing",
+    "path": "/Sell/confirm-listing",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Sell/confirm-listing/index.vue",
+    "chunkName": "pages/Sell/confirm-listing/index",
+    "_name": "_3b8671a4"
+  },
+  {
+    "name": "Sell-create-listing",
+    "path": "/Sell/create-listing",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Sell/create-listing/index.vue",
+    "chunkName": "pages/Sell/create-listing/index",
+    "_name": "_1269e632"
+  },
+  {
+    "name": "Sell-Inventory",
+    "path": "/Sell/Inventory",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Sell/Inventory.vue",
+    "chunkName": "pages/Sell/Inventory",
+    "_name": "_177e9c30"
+  },
+  {
+    "name": "Sell-Orders",
+    "path": "/Sell/Orders",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Sell/Orders.vue",
+    "chunkName": "pages/Sell/Orders",
+    "_name": "_ae41737e"
+  },
+  {
+    "name": "Sell-sale-confirmed",
+    "path": "/Sell/sale-confirmed",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Sell/sale-confirmed/index.vue",
+    "chunkName": "pages/Sell/sale-confirmed/index",
+    "_name": "_06184558"
+  },
+  {
+    "name": "Sell-Settings",
+    "path": "/Sell/Settings",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Sell/Settings.vue",
+    "chunkName": "pages/Sell/Settings",
+    "_name": "_237a0f7f"
+  },
+  {
+    "name": "Sell-Summary",
+    "path": "/Sell/Summary",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Sell/Summary.vue",
+    "chunkName": "pages/Sell/Summary",
+    "_name": "_d029570c"
+  },
+  {
+    "name": "Settings-Addresses",
+    "path": "/Settings/Addresses",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Settings/Addresses/index.vue",
+    "chunkName": "pages/Settings/Addresses/index",
+    "_name": "_6775e74a"
+  },
+  {
+    "name": "shop-by-style-archive",
+    "path": "/shop-by-style/archive",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/shop-by-style/archive.vue",
+    "chunkName": "pages/shop-by-style/archive",
+    "_name": "_2e72a924"
+  },
+  {
+    "name": "trades-CompletedTrades",
+    "path": "/trades/CompletedTrades",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/trades/CompletedTrades.vue",
+    "chunkName": "pages/trades/CompletedTrades",
+    "_name": "_19d44deb"
+  },
+  {
+    "name": "trades-OpenTrades",
+    "path": "/trades/OpenTrades",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/trades/OpenTrades.vue",
+    "chunkName": "pages/trades/OpenTrades",
+    "_name": "_06503258"
+  },
+  {
+    "name": "trades-Thanks",
+    "path": "/trades/Thanks",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/trades/Thanks.vue",
+    "chunkName": "pages/trades/Thanks",
+    "_name": "_3b6d0e28"
+  },
+  {
+    "name": "checkout-heat-check-itemsList",
+    "path": "/checkout/heat-check/itemsList",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/checkout/heat-check/itemsList.vue",
+    "chunkName": "pages/checkout/heat-check/itemsList",
+    "_name": "_28569142"
+  },
+  {
+    "name": "checkout-heat-check-order-confirmation",
+    "path": "/checkout/heat-check/order-confirmation",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/checkout/heat-check/order-confirmation/index.vue",
+    "chunkName": "pages/checkout/heat-check/order-confirmation/index",
+    "_name": "_75b1307a"
+  },
+  {
+    "name": "checkout-selling-order-confirmation",
+    "path": "/checkout/selling/order-confirmation",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/checkout/selling/order-confirmation/index.vue",
+    "chunkName": "pages/checkout/selling/order-confirmation/index",
+    "_name": "_5cd4d61e"
+  },
+  {
+    "name": "create-listing-auction-Collection",
+    "path": "/create-listing/auction/Collection",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/auction/Collection.vue",
+    "chunkName": "pages/create-listing/auction/Collection",
+    "_name": "_49728fa5"
+  },
+  {
+    "name": "create-listing-auction-Single",
+    "path": "/create-listing/auction/Single",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/auction/Single.vue",
+    "chunkName": "pages/create-listing/auction/Single",
+    "_name": "_6216e062"
+  },
+  {
+    "name": "create-listing-confirm-Collection",
+    "path": "/create-listing/confirm/Collection",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/confirm/Collection.vue",
+    "chunkName": "pages/create-listing/confirm/Collection",
+    "_name": "_601244f0"
+  },
+  {
+    "name": "create-listing-confirm-Details",
+    "path": "/create-listing/confirm/Details",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/confirm/Details.vue",
+    "chunkName": "pages/create-listing/confirm/Details",
+    "_name": "_4ebc6c70"
+  },
+  {
+    "name": "create-listing-details-collection",
+    "path": "/create-listing/details/collection",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/details/collection.vue",
+    "chunkName": "pages/create-listing/details/collection",
+    "_name": "_39b95cb4"
+  },
+  {
+    "name": "create-listing-product-Confirm",
+    "path": "/create-listing/product/Confirm",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/product/Confirm.vue",
+    "chunkName": "pages/create-listing/product/Confirm",
+    "_name": "_331166f5"
+  },
+  {
+    "name": "create-listing-product-Edit",
+    "path": "/create-listing/product/Edit",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/product/Edit.vue",
+    "chunkName": "pages/create-listing/product/Edit",
+    "_name": "_5dcfe9b6"
+  },
+  {
+    "name": "create-listing-product-Inventory",
+    "path": "/create-listing/product/Inventory",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/product/Inventory.vue",
+    "chunkName": "pages/create-listing/product/Inventory",
+    "_name": "_ecee0f5e"
+  },
+  {
+    "name": "create-listing-product-Search",
+    "path": "/create-listing/product/Search",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/product/Search.vue",
+    "chunkName": "pages/create-listing/product/Search",
+    "_name": "_e77fa1fa"
+  },
+  {
+    "name": "create-listing-search-Inventory",
+    "path": "/create-listing/search/Inventory",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/search/Inventory.vue",
+    "chunkName": "pages/create-listing/search/Inventory",
+    "_name": "_af3d3b20"
+  },
+  {
+    "name": "profile-auctions-send-offer",
+    "path": "/profile/auctions/send-offer",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/auctions/send-offer.vue",
+    "chunkName": "pages/profile/auctions/send-offer",
+    "_name": "_f1f39762"
+  },
+  {
+    "name": "profile-bids-incoming",
+    "path": "/profile/bids/incoming",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/bids/incoming.vue",
+    "chunkName": "pages/profile/bids/incoming",
+    "_name": "_0d38a6d8"
+  },
+  {
+    "path": "/profile/create-listing/drafts",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/create-listing/drafts.vue",
+    "chunkName": "pages/profile/create-listing/drafts",
+    "children": [
+      {
+        "name": "profile-create-listing-drafts",
+        "path": "",
+        "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/create-listing/drafts/index.vue",
+        "chunkName": "pages/profile/create-listing/drafts/index",
+        "_name": "_5eb70e6a"
+      }
+    ],
+    "_name": "_60677db2"
+  },
+  {
+    "name": "profile-create-listing-selling",
+    "path": "/profile/create-listing/selling",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/create-listing/selling/index.vue",
+    "chunkName": "pages/profile/create-listing/selling/index",
+    "_name": "_de93c9a4"
+  },
+  {
+    "name": "profile-inventory-confirm",
+    "path": "/profile/inventory/confirm",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/inventory/confirm.vue",
+    "chunkName": "pages/profile/inventory/confirm",
+    "_name": "_d9070d34"
+  },
+  {
+    "name": "profile-inventory-csv-drafts",
+    "path": "/profile/inventory/csv-drafts",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/inventory/csv-drafts.vue",
+    "chunkName": "pages/profile/inventory/csv-drafts",
+    "_name": "_44b9683a"
+  },
+  {
+    "name": "profile-inventory-draft",
+    "path": "/profile/inventory/draft",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/inventory/draft.vue",
+    "chunkName": "pages/profile/inventory/draft",
+    "_name": "_24d85f47"
+  },
+  {
+    "name": "profile-inventory-edit",
+    "path": "/profile/inventory/edit",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/inventory/edit.vue",
+    "chunkName": "pages/profile/inventory/edit",
+    "_name": "_0ea67654"
+  },
+  {
+    "name": "profile-inventory-new",
+    "path": "/profile/inventory/new",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/inventory/new.vue",
+    "chunkName": "pages/profile/inventory/new",
+    "_name": "_293f0346"
+  },
+  {
+    "name": "profile-inventory-search",
+    "path": "/profile/inventory/search",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/inventory/search.vue",
+    "chunkName": "pages/profile/inventory/search",
+    "_name": "_c03eeb1c"
+  },
+  {
+    "name": "profile-preferences-redeem-giftcard",
+    "path": "/profile/preferences/redeem-giftcard",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/preferences/redeem-giftcard/index.vue",
+    "chunkName": "pages/profile/preferences/redeem-giftcard/index",
+    "_name": "_2f6d0916"
+  },
+  {
+    "name": "profile-preferences-social-connect",
+    "path": "/profile/preferences/social-connect",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/preferences/social-connect.vue",
+    "chunkName": "pages/profile/preferences/social-connect",
+    "_name": "_71b34d10"
+  },
+  {
+    "name": "profile-rewards-faq",
+    "path": "/profile/rewards/faq",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/rewards/faq.vue",
+    "chunkName": "pages/profile/rewards/faq",
+    "_name": "_76d3abc4"
+  },
+  {
+    "name": "profile-security-faq",
+    "path": "/profile/security/faq",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/security/faq.vue",
+    "chunkName": "pages/profile/security/faq",
+    "_name": "_cbf44404"
+  },
+  {
+    "name": "profile-support-about-us",
+    "path": "/profile/support/about-us",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/support/about-us/index.vue",
+    "chunkName": "pages/profile/support/about-us/index",
+    "_name": "_3400ad18"
+  },
+  {
+    "name": "profile-support-contact-us",
+    "path": "/profile/support/contact-us",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/support/contact-us/index.vue",
+    "chunkName": "pages/profile/support/contact-us/index",
+    "_name": "_148647a5"
+  },
+  {
+    "name": "profile-support-faqs",
+    "path": "/profile/support/faqs",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/support/faqs/index.vue",
+    "chunkName": "pages/profile/support/faqs/index",
+    "_name": "_2dec1d17"
+  },
+  {
+    "name": "profile-support-live-chat",
+    "path": "/profile/support/live-chat",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/support/live-chat/index.vue",
+    "chunkName": "pages/profile/support/live-chat/index",
+    "_name": "_50ca90b5"
+  },
+  {
+    "name": "profile-trades-dashboard",
+    "path": "/profile/trades/dashboard",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/dashboard/index.vue",
+    "chunkName": "pages/profile/trades/dashboard/index",
+    "_name": "_19b46e8e"
+  },
+  {
+    "name": "profile-trades-prefrences",
+    "path": "/profile/trades/prefrences",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/prefrences/index.vue",
+    "chunkName": "pages/profile/trades/prefrences/index",
+    "_name": "_68764395"
+  },
+  {
+    "name": "profile-vendor-hub-application-received",
+    "path": "/profile/vendor-hub/application-received",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/vendor-hub/application-received.vue",
+    "chunkName": "pages/profile/vendor-hub/application-received",
+    "_name": "_51ed0bd4"
+  },
+  {
+    "name": "profile-vendor-hub-apply",
+    "path": "/profile/vendor-hub/apply",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/vendor-hub/apply.vue",
+    "chunkName": "pages/profile/vendor-hub/apply",
+    "_name": "_67567246"
+  },
+  {
+    "name": "profile-vendor-hub-faq",
+    "path": "/profile/vendor-hub/faq",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/vendor-hub/faq.vue",
+    "chunkName": "pages/profile/vendor-hub/faq",
+    "_name": "_30c035ee"
+  },
+  {
+    "name": "Sell-create-listing-CreateInventory",
+    "path": "/Sell/create-listing/CreateInventory",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Sell/create-listing/CreateInventory.vue",
+    "chunkName": "pages/Sell/create-listing/CreateInventory",
+    "_name": "_f2519000"
+  },
+  {
+    "name": "Sell-create-listing-CreateListing",
+    "path": "/Sell/create-listing/CreateListing",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Sell/create-listing/CreateListing.vue",
+    "chunkName": "pages/Sell/create-listing/CreateListing",
+    "_name": "_17ca1828"
+  },
+  {
+    "name": "Sell-create-listing-SellNow",
+    "path": "/Sell/create-listing/SellNow",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Sell/create-listing/SellNow.vue",
+    "chunkName": "pages/Sell/create-listing/SellNow",
+    "_name": "_10a83738"
+  },
+  {
+    "name": "trades-create-listing-ConfirmTrade",
+    "path": "/trades/create-listing/ConfirmTrade",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/trades/create-listing/ConfirmTrade.vue",
+    "chunkName": "pages/trades/create-listing/ConfirmTrade",
+    "_name": "_914c075e"
+  },
+  {
+    "name": "trades-create-listing-CreateTrade",
+    "path": "/trades/create-listing/CreateTrade",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/trades/create-listing/CreateTrade.vue",
+    "chunkName": "pages/trades/create-listing/CreateTrade",
+    "_name": "_a2424eea"
+  },
+  {
+    "name": "trades-create-listing-SelectTrade",
+    "path": "/trades/create-listing/SelectTrade",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/trades/create-listing/SelectTrade.vue",
+    "chunkName": "pages/trades/create-listing/SelectTrade",
+    "_name": "_346876ea"
+  },
+  {
+    "name": "create-listing-product-collection-Confirm",
+    "path": "/create-listing/product/collection/Confirm",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/product/collection/Confirm.vue",
+    "chunkName": "pages/create-listing/product/collection/Confirm",
+    "_name": "_1abc616a"
+  },
+  {
+    "name": "create-listing-product-collection-Create",
+    "path": "/create-listing/product/collection/Create",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/product/collection/Create.vue",
+    "chunkName": "pages/create-listing/product/collection/Create",
+    "_name": "_30b70342"
+  },
+  {
+    "name": "create-listing-product-collection-Details",
+    "path": "/create-listing/product/collection/Details",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/product/collection/Details.vue",
+    "chunkName": "pages/create-listing/product/collection/Details",
+    "_name": "_e5e24828"
+  },
+  {
+    "name": "create-listing-product-collection-Edit",
+    "path": "/create-listing/product/collection/Edit",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/product/collection/Edit.vue",
+    "chunkName": "pages/create-listing/product/collection/Edit",
+    "_name": "_1ddb2cd0"
+  },
+  {
+    "name": "create-listing-product-collection-Inventory",
+    "path": "/create-listing/product/collection/Inventory",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/create-listing/product/collection/Inventory.vue",
+    "chunkName": "pages/create-listing/product/collection/Inventory",
+    "_name": "_325f2986"
+  },
+  {
+    "name": "profile-create-listing-selling-confirm",
+    "path": "/profile/create-listing/selling/confirm",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/create-listing/selling/confirm.vue",
+    "chunkName": "pages/profile/create-listing/selling/confirm",
+    "_name": "_3f04111c"
+  },
+  {
+    "name": "profile-create-listing-trades-AlreadyListedModal",
+    "path": "/profile/create-listing/trades/AlreadyListedModal",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/create-listing/trades/AlreadyListedModal.vue",
+    "chunkName": "pages/profile/create-listing/trades/AlreadyListedModal",
+    "_name": "_707c70f3"
+  },
+  {
+    "name": "profile-create-listing-trades-confirmation",
+    "path": "/profile/create-listing/trades/confirmation",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/create-listing/trades/confirmation/index.vue",
+    "chunkName": "pages/profile/create-listing/trades/confirmation/index",
+    "_name": "_8be3b05a"
+  },
+  {
+    "name": "profile-create-listing-trades-create",
+    "path": "/profile/create-listing/trades/create",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/create-listing/trades/create.vue",
+    "chunkName": "pages/profile/create-listing/trades/create",
+    "_name": "_25d81652"
+  },
+  {
+    "name": "profile-create-listing-trades-CreateTradeSearchItem",
+    "path": "/profile/create-listing/trades/CreateTradeSearchItem",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/create-listing/trades/CreateTradeSearchItem.vue",
+    "chunkName": "pages/profile/create-listing/trades/CreateTradeSearchItem",
+    "_name": "_2227cc18"
+  },
+  {
+    "name": "profile-create-listing-trades-wants",
+    "path": "/profile/create-listing/trades/wants",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/create-listing/trades/wants/index.vue",
+    "chunkName": "pages/profile/create-listing/trades/wants/index",
+    "_name": "_621c4a5b"
+  },
+  {
+    "name": "profile-trades-dashboard-AllOffersItems",
+    "path": "/profile/trades/dashboard/AllOffersItems",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/dashboard/AllOffersItems.vue",
+    "chunkName": "pages/profile/trades/dashboard/AllOffersItems",
+    "_name": "_0bbdf9c8"
+  },
+  {
+    "name": "profile-trades-dashboard-AllTradeListings",
+    "path": "/profile/trades/dashboard/AllTradeListings",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/dashboard/AllTradeListings.vue",
+    "chunkName": "pages/profile/trades/dashboard/AllTradeListings",
+    "_name": "_417b8ee6"
+  },
+  {
+    "name": "profile-trades-dashboard-DeclineModel",
+    "path": "/profile/trades/dashboard/DeclineModel",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/dashboard/DeclineModel.vue",
+    "chunkName": "pages/profile/trades/dashboard/DeclineModel",
+    "_name": "_62356a67"
+  },
+  {
+    "name": "profile-trades-dashboard-ExpiredOffers",
+    "path": "/profile/trades/dashboard/ExpiredOffers",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/dashboard/ExpiredOffers.vue",
+    "chunkName": "pages/profile/trades/dashboard/ExpiredOffers",
+    "_name": "_1463fc90"
+  },
+  {
+    "name": "profile-trades-dashboard-InitialListing",
+    "path": "/profile/trades/dashboard/InitialListing",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/dashboard/InitialListing.vue",
+    "chunkName": "pages/profile/trades/dashboard/InitialListing",
+    "_name": "_640f7c98"
+  },
+  {
+    "name": "profile-trades-dashboard-OfferHistory",
+    "path": "/profile/trades/dashboard/OfferHistory",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/dashboard/OfferHistory.vue",
+    "chunkName": "pages/profile/trades/dashboard/OfferHistory",
+    "_name": "_1fb69ea8"
+  },
+  {
+    "name": "profile-trades-dashboard-OfferItems",
+    "path": "/profile/trades/dashboard/OfferItems",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/dashboard/OfferItems.vue",
+    "chunkName": "pages/profile/trades/dashboard/OfferItems",
+    "_name": "_08601dd8"
+  },
+  {
+    "name": "profile-trades-dashboard-TradeListingItems",
+    "path": "/profile/trades/dashboard/TradeListingItems",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/dashboard/TradeListingItems.vue",
+    "chunkName": "pages/profile/trades/dashboard/TradeListingItems",
+    "_name": "_ab47b088"
+  },
+  {
+    "name": "profile-trades-dashboard-TradeOfferItems",
+    "path": "/profile/trades/dashboard/TradeOfferItems",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/dashboard/TradeOfferItems.vue",
+    "chunkName": "pages/profile/trades/dashboard/TradeOfferItems",
+    "_name": "_c75b4638"
+  },
+  {
+    "name": "profile-trades-dashboard-ViewAllTradeOffers",
+    "path": "/profile/trades/dashboard/ViewAllTradeOffers",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/dashboard/ViewAllTradeOffers.vue",
+    "chunkName": "pages/profile/trades/dashboard/ViewAllTradeOffers",
+    "_name": "_04eefb53"
+  },
+  {
+    "name": "profile-trades-prefrences-InventoryCardItem",
+    "path": "/profile/trades/prefrences/InventoryCardItem",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/prefrences/InventoryCardItem.vue",
+    "chunkName": "pages/profile/trades/prefrences/InventoryCardItem",
+    "_name": "_3c8af13c"
+  },
+  {
+    "name": "profile-trades-prefrences-ResetModal",
+    "path": "/profile/trades/prefrences/ResetModal",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/prefrences/ResetModal.vue",
+    "chunkName": "pages/profile/trades/prefrences/ResetModal",
+    "_name": "_5204c80b"
+  },
+  {
+    "name": "profile-trades-prefrences-YourInventory",
+    "path": "/profile/trades/prefrences/YourInventory",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/prefrences/YourInventory.vue",
+    "chunkName": "pages/profile/trades/prefrences/YourInventory",
+    "_name": "_251d22e8"
+  },
+  {
+    "name": "profile-vendor-selling-details-modify",
+    "path": "/profile/vendor-selling/details/modify",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/vendor-selling/details/modify/index.vue",
+    "chunkName": "pages/profile/vendor-selling/details/modify/index",
+    "_name": "_7720df47"
+  },
+  {
+    "name": "profile-create-listing-trades-wants-ViewOfferItemsModal",
+    "path": "/profile/create-listing/trades/wants/ViewOfferItemsModal",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/create-listing/trades/wants/ViewOfferItemsModal.vue",
+    "chunkName": "pages/profile/create-listing/trades/wants/ViewOfferItemsModal",
+    "_name": "_2e50538d"
+  },
+  {
+    "name": "profile-trades-dashboard-counter-offer-DiscardModel",
+    "path": "/profile/trades/dashboard/counter-offer/DiscardModel",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/dashboard/counter-offer/DiscardModel.vue",
+    "chunkName": "pages/profile/trades/dashboard/counter-offer/DiscardModel",
+    "_name": "_94c949fa"
+  },
+  {
+    "name": "profile-create-listing-selling-product-edit-id",
+    "path": "/profile/create-listing/selling/product/edit/:id",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/create-listing/selling/product/edit/_id/index.vue",
+    "chunkName": "pages/profile/create-listing/selling/product/edit/_id/index",
+    "_name": "_3e5901ec"
+  },
+  {
+    "name": "profile-create-listing-selling-product-id",
+    "path": "/profile/create-listing/selling/product/:id",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/create-listing/selling/product/_id/index.vue",
+    "chunkName": "pages/profile/create-listing/selling/product/_id/index",
+    "_name": "_d8ac240e"
+  },
+  {
+    "name": "profile-preferences-giftcard-view-giftcard-id",
+    "path": "/profile/preferences/giftcard/view-giftcard/:id?",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/preferences/giftcard/view-giftcard/_id.vue",
+    "chunkName": "pages/profile/preferences/giftcard/view-giftcard/_id",
+    "_name": "_da48c31c"
+  },
+  {
+    "name": "profile-trades-dashboard-counter-offer-id",
+    "path": "/profile/trades/dashboard/counter-offer/:id",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/dashboard/counter-offer/_id/index.vue",
+    "chunkName": "pages/profile/trades/dashboard/counter-offer/_id/index",
+    "_name": "_0804ffb5"
+  },
+  {
+    "name": "profile-purchases-summary-id",
+    "path": "/profile/purchases/summary/:id?",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/purchases/summary/_id.vue",
+    "chunkName": "pages/profile/purchases/summary/_id",
+    "_name": "_597f752d"
+  },
+  {
+    "name": "profile-trades-dashboard-id",
+    "path": "/profile/trades/dashboard/:id",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/trades/dashboard/_id/index.vue",
+    "chunkName": "pages/profile/trades/dashboard/_id/index",
+    "_name": "_a710db0e"
+  },
+  {
+    "name": "profile-vendor-selling-details-id",
+    "path": "/profile/vendor-selling/details/:id",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/vendor-selling/details/_id.vue",
+    "chunkName": "pages/profile/vendor-selling/details/_id",
+    "_name": "_2254ff20"
+  },
+  {
+    "name": "profile-auctions-id",
+    "path": "/profile/auctions/:id",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/auctions/_id.vue",
+    "chunkName": "pages/profile/auctions/_id",
+    "_name": "_0c65f5f2"
+  },
+  {
+    "name": "profile-wish-lists-id",
+    "path": "/profile/wish-lists/:id?",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/wish-lists/_id.vue",
+    "chunkName": "pages/profile/wish-lists/_id",
+    "_name": "_314680de"
+  },
+  {
+    "name": "User-logintoken-logintoken",
+    "path": "/User/logintoken/:logintoken?",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/User/logintoken/_logintoken.vue",
+    "chunkName": "pages/User/logintoken/_logintoken",
+    "_name": "_e11d57da"
+  },
+  {
+    "name": "profile-bids-id-edit",
+    "path": "/profile/bids/:id/edit",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/profile/bids/_id/edit.vue",
+    "chunkName": "pages/profile/bids/_id/edit",
+    "_name": "_6ba4cb71"
+  },
+  {
+    "name": "auction-id",
+    "path": "/auction/:id",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/auction/_id/index.vue",
+    "chunkName": "pages/auction/_id/index",
+    "_name": "_ee6e06a0"
+  },
+  {
+    "name": "shop-by-style-id",
+    "path": "/shop-by-style/:id",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/shop-by-style/_id.vue",
+    "chunkName": "pages/shop-by-style/_id",
+    "_name": "_7560f31c"
+  },
+  {
+    "name": "shop-sku",
+    "path": "/shop/:sku",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/shop/_sku.vue",
+    "chunkName": "pages/shop/_sku",
+    "_name": "_70f2a516"
+  },
+  {
+    "name": "Auctions-id-Bids",
+    "path": "/Auctions/:id/Bids",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/Auctions/_id/Bids.vue",
+    "chunkName": "pages/Auctions/_id/Bids",
+    "_name": "_01e5d8ae"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/arsl/development/deadstock/dsv2/deadstockV2/frontend/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_cdb78fde"
+  }
+]

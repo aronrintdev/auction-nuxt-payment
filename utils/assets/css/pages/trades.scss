@@ -1,0 +1,73 @@
+.trades-table {
+  th,
+  td {
+    text-align: center;
+    vertical-align: middle;
+
+    .product-image {
+      height: 70px;
+      width: 70px;
+    }
+
+    .view-offers {
+      color: $black;
+      text-decoration: underline;
+    }
+
+    .print-shipping-label {
+      color: $black;
+      font-size: 15px;
+      text-decoration: underline;
+    }
+  }
+
+  th {
+    border-top: 0;
+    font-weight: bold;
+  }
+}
+
+.open-trades,
+.completed-trades {
+  .tabbar {
+    display: flex;
+
+    &::before {
+      background: $gray;
+      height: 2px;
+    }
+
+    .formatted-li {
+      a {
+        padding: 8px 12px;
+
+        span {
+          color: $gray;
+          font-size: 20px;
+          line-height: 24px;
+
+          &::after {
+            display: none;
+          }
+        }
+      }
+
+      &.active {
+        a {
+          span {
+            color: $black;
+          }
+        }
+      }
+    }
+  }
+}
+
+.completed-trades {
+  .trades-table {
+    th,
+    td {
+      height: 80px;
+    }
+  }
+}

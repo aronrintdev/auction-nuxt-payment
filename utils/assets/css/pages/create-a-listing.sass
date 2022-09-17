@@ -1,0 +1,80 @@
+.vd-create-listing-section
+  
+  .vendor-dashboard-body
+    padding: 47px 54px
+    min-height: 130vh
+    .vd-create-listing-css
+      @include heading-3
+      border-bottom: 0px
+      font-style: normal
+      text-align: left
+      padding: 0.5rem 1rem
+
+      // Heading
+      .purchase-heading
+        @include heading-3
+        font-style: normal
+        text-align: left
+
+      // Search Input
+      .browse-search
+        input
+          background-color: $color-white-1
+          border: none
+
+    // Create new inventory button
+    .btn-create-new-inventory
+      background-color: $color-blue-2
+      border-color: $color-blue-2
+      color: $color-white-1
+      border: 1px solid $color-blue-2
+
+    // inventory heading with count
+    .inventory-heading
+      @include body-1-bold
+      font-style: normal
+      letter-spacing: -0.02em
+      text-align: left
+
+    // Empty inventory
+    .vd-purchase-empty
+      height: 25%
+      align-items: center
+      .vd-purchase-browse-now
+        @include body-4-medium
+        font-style: normal
+        letter-spacing: 0em
+        text-align: center
+        color: $color-gray-5
+    .dropdown-results
+      .add-product-arrow
+        width: 35px
+    
+    #filters
+      #filter-category
+        #category-types
+          border: 0
+          .items, .selected
+            border: 1px solid $color-gray-46
+            label
+              display: none
+      #filter-sizetype
+        #size-types
+          border: 0
+          .items, .selected
+            border: 1px solid $color-gray-46
+            label
+              display: none
+      #filter-size,#filter-sizetype
+        .custom-selectbox
+          .item-wrapper
+            overflow: scroll
+            height: 20rem
+              
+
+
+@media (max-width: 767px)
+  .vd-create-listing-section
+    .vd-create-listing-css
+      .purchase-heading
+        margin-bottom: 20px

@@ -1,0 +1,246 @@
+{
+  "index": {
+    "sign_up": "Únete",
+    "log_in": "Inicia sesión"
+  },
+  "socialLogins": {
+    "log_in_with_google": "Iniciar sesión con Google",
+    "log_in_with_facebook": "Iniciar sesión con Facebook",
+    "log_in_with_apple_id": "Iniciar sesión con ID de Apple",
+    "log_in_with_twitter": "Iniciar sesión con Twitter"
+  },
+  "signup": {
+    "or": "O",
+    "first_name": "Nombre",
+    "last_name": "Apellido",
+    "user_name": "Nombre de usuario",
+    "email_address": "Dirección de correo electrónico",
+    "password": "Contraseña",
+    "confirm_password": "Confirmar contraseña",
+    "create_account": "Crear cuenta",
+    "creating_cccount": "Creando cuenta..",
+    "password_validation_text": "Mínimo 8 caracteres, 1 letra mayúscula, 1 número y 1 símbolo",
+    "by_logging_in_you_agree_to_the": "Al iniciar sesión, usted acepta el",
+    "terms_of_service": "Términos de servicio",
+    "and": "y",
+    "private_policy": "Política de Privacidad",
+    "please_wait": "Espera",
+    "success_message": {
+      "user_successfully_registered": "Usuario registrado correctamente",
+      "username_available": "Nombre de usuario disponible"
+    },
+    "error_message": {
+      "something_went_wrong_please_try_later": "Algo salió mal. Por favor, inténtalo más tarde.",
+      "username_already_taken": "Nombre de usuario ya tomado. Pruebe con otro.",
+      "the_email_has_already_been_taken": "El correo electrónico ya ha sido tomado."
+    },
+    "validation": {
+      "please_enter_firstname": "Introduzca el nombre.",
+      "firstname_must_contain_more_than_2_characters": "El nombre debe contener más de 2 caracteres.",
+      "please_enter_lastname": "Introduzca Apellido.",
+      "please_enter_a_username": "Introduzca un nombre de usuario.",
+      "please_enter_email": "Por favor, introduzca el correo electrónico.",
+      "please_enter_a_valid_email": "Introduce un correo electrónico válido.",
+      "password_cannot_be_empty": "La contraseña no puede estar vacía.",
+      "password_must_contain_one_lowercase_letter": "La contraseña debe contener una letra minúscula.",
+      "password_must_contain_one_uppercase_letter": "La contraseña debe contener una letra mayúscula.",
+      "password_must_contain_one_number": "La contraseña debe contener un número.",
+      "password_must_contain_8_characters_minimum": "La contraseña debe contener un mínimo de 8 caracteres.",
+      "password_must_contain_one_symbol": "La contraseña debe contener un símbolo.",
+      "confirm_password_cannot_be_empty": "Confirmar que la contraseña no puede estar vacía.",
+      "confirm_password_must_be_same_as_password": "Confirmar contraseña debe ser igual que Contraseña."
+    }
+  },
+  "login": {
+    "or": "O",
+    "username_email": "Nombre de usuario / Correo electrónico",
+    "password": "Contraseña",
+    "forgot_password": "¿Olvidó su contraseña?",
+    "remember_me": "Recuérdame",
+    "login": "Iniciar sesión",
+    "loading": "Cargando",
+    "by_logging_in_you_agree_to_the": "Al iniciar sesión, usted acepta el",
+    "terms_of_service": "Términos de servicio",
+    "and": "y",
+    "private_policy": "Política de Privacidad",
+    "invalid_token": "Simbolo no valido",
+    "please_wait" : "Espere por favor",
+    "error_message": {
+      "password_required": "Se requiere contraseña.",
+      "username_email_required": "Se requiere nombre de usuario / correo electrónico.",
+      "unauthorized": "Desautorizado"
+    },
+    "success_message": {
+      "login_successfull": "Inicio de sesión exitoso"
+    }
+  },
+  "footer": {
+    "authentication_process": "Proceso de autenticación",
+    "refund_and_returns": "Reembolso y devoluciones",
+    "shipping": "Naviero",
+    "selling_and_trading": "Venta y Trading",
+    "fee_policy": "Política de tarifas",
+    "contact_us": "Contáctenos",
+    "faq": "PREGUNTAS MÁS FRECUENTES",
+    "private_policy": "Política de Privacidad",
+    "terms_and_conditions": "Términos y Condiciones",
+    "all_rights_reserved": "Todos los derechos reservados"
+  },
+  "home": {
+    "home": "Hogar",
+    "dashboard": "Tablero",
+    "welcome": "Bienvenido",
+    "logout": "Cerrar sesión",
+    "please_wait": "Espera",
+    "security": "Seguridad",
+    "purchases": "Compras",
+    "logout_successful": "Cierre de sesión correctamente"
+  },
+  "navbar": {
+    "browse": "Hojear",
+    "sell": "Vender",
+    "trade": "Comercio",
+    "support": "Apoyo",
+    "profile": "Perfil",
+    "find_some_heat": "Encuentra un poco de calor"
+  },
+  "Sign Up": "Únete",
+  "Log In": "Inicia sesión",
+
+  "Dashboard": "Tablero",
+  "sell": {
+    "summary": {
+      "title": "Resumen"
+    },
+    "settings": {
+      "title": "Ajustes"
+    },
+    "orders": {
+      "title": "Pedidos"
+    },
+    "inventory": {
+      "bulk_delete": "Eliminación masiva",
+      "sku": "SKU",
+      "view_offers": "Ver ofertas",
+      "delete_modal": {
+        "title": "Confirmar eliminación",
+        "content": "¿Está realmente seguro de eliminar este producto de la lista?",
+        "cancel_btn": "Cancelar",
+        "ok_btn": "OK"
+      },
+      "table_columns": {
+        "details": "Detalles",
+        "size": "Tamaño",
+        "colorway": "Colorway",
+        "status": "Estado",
+        "amount": "Monto",
+        "listed_price": "Precio listado",
+        "current_bid": "Oferta actual",
+        "offers_made": "Ofertas hechas",
+        "date_posted": "Fecha de publicación",
+        "sale_price": "Precio de venta",
+        "listing_type": "Tipo de listado",
+        "bid_price": "Precio de oferta"
+      },
+      "toolbar": {
+        "listing_type": "Tipo de listado",
+        "show_all": "Mostrar todo",
+        "bids": "Pujas",
+        "sell": "Vender",
+        "trades": "Vientos alisios",
+        "auctions": "Subastas",
+        "search_box_placeholder": "Buscar inventario por SKU",
+        "enable_vacation": "Habilitar el modo de vacaciones",
+        "enable_vacation_tooltip": "¿Qué es Activar el modo de vacaciones?",
+        "create_listing_btn": "Crear un listado",
+        "edit_listing_btn": "Editar un listado"
+      }
+    },
+    "sell_now": {
+      "no_result": "Sin resultados",
+      "price_listings": "Listados de precios",
+      "lowest_price": "Precio más bajo en material muerto",
+      "not_available": "N / A",
+      "highest_bid": "Apuesta más alta",
+      "last_sold": "Vendido por última vez",
+      "payment_breakdown": "Desglose de pagos",
+      "amount_box_placeholder": "Cantidad",
+      "size_box_placeholder": "Tamaño",
+      "price_box_placeholder": "Ingrese un precio",
+      "info": "Estás vendiendo este artículo",
+      "transaction_fee": "Tarifa de transacción (10.0%)",
+      "payment_proc": "Proceso de pago (3%)",
+      "shipping": "Transporte",
+      "free": "Gratis",
+      "discount": "Descuento",
+      "add_discount": "Agregar descuento +",
+      "total_payout": "Pago total",
+      "sell_now": "Vende ahora"
+    },
+    "create_listing": {
+      "no_result": "Sin resultados",
+      "enter_csv_file": "Ingrese archivo CSV",
+      "price_by_size": "Precio por tamaño",
+      "not_available": "N / A",
+      "price_listings": "Listados de precios",
+      "lowest_price": "Precio más bajo en material muerto",
+      "highest_bid": "Apuesta más alta",
+      "last_sold": "Vendido por última vez",
+      "size_box_placeholder": "Tamaño",
+      "amount_box_placeholder": "Cantidad",
+      "price_box_placeholder": "Tu precio",
+      "trade_btn": "Comercio",
+      "or": "O",
+      "allow_bids": "Permitir pujas",
+      "bid_amount_placeholder": "Establecer Min. Monto de la oferta",
+      "add_to_list": "Agregar a la lista",
+      "current_listing": "Listado actual",
+      "nothing_yet": "Nada aún",
+      "confirm_listing": "Confirmar listado",
+      "product_sku_invalid": "El SKU del producto no es válido.",
+      "csv_invalid": "El archivo CSV cargado tiene un SKU no válido.",
+      "load_file_error": "No se pudo cargar el archivo"
+    },
+    "sale_confirmed": {
+      "title": "Venta confirmada",
+      "subtitle": "¡Gracias por vender con Deadstock!",
+      "description": "* Los pagos tardarán entre 1 y 2 horas antes de aparecer en su método de pago preferido.",
+      "return_to_sellers": "Volver a la página de vendedores"
+    },
+    "confirm_listing": {
+      "title": "Confirmar listado",
+      "sku": "SKU",
+      "edit_listing_btn": "Editar lista",
+      "post_listing_btn": "Publicar listado",
+      "delete_modal": {
+        "content": "¿Está realmente seguro de eliminar este producto de la lista?",
+        "title": "Confirmar eliminación",
+        "cancel_btn": "Cancelar",
+        "ok_btn": "OK"
+      },
+      "table_columns": {
+        "details": "Detalles",
+        "size": "Tamaño",
+        "status": "Estado",
+        "amount": "Monto",
+        "sale_price": "Precio de venta",
+        "min_bid_price": "Min. Monto de la oferta"
+      }
+    },
+    "top_tab_bar": {
+      "summary": "Resumen",
+      "inventory": "Inventario",
+      "orders": "Pedidos",
+      "settings": "Ajustes"
+    },
+    "create_listing_tabbar": {
+      "create_listing": "Crear un listado",
+      "sell_now": "Vende ahora"
+    }
+  },
+  "components": {
+    "product_search_box": {
+      "default_placeholder": "Buscar por SKU o palabra clave"
+    }
+  }
+}

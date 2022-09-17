@@ -1,0 +1,8 @@
+export const CARD_LAST_DIGITS_OFFSET = 4
+export const PAYMENT_METHOD_TYPE_CARD = 'card'
+export const PAYMENT_METHOD_TYPE_CRYPTO = 'crypto'
+export const GIFT_CARD_AMOUNT_DECIMAL_OFFSET = 100
+
+export const PAYMENT_METHOD_INSTALLMENT_AFFIRMPAY = 'affirm'
+export const PAYMENT_METHOD_INSTALLMENT_AFTERPAY = 'afterpay'
+export const PAYMENT_METHOD_TYPE_INSTALLMENT = 'installment'

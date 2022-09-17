@@ -1,0 +1,602 @@
+.create-trade-heading
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $bold
+  font-size: 24px
+  line-height: 29px
+  color: $color-black-1
+  padding-left: 22px
+  padding-top: 22px
+
+.wrapper-progressBar
+  width: 100%
+
+.progressBar li
+  list-style-type: none
+  float: left
+  width: 33%
+  position: relative
+  text-align: center
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $regular
+  font-size: 14px
+  line-height: 17px
+  color: $color-black-1
+
+
+.progressBar li:before
+  content: " "
+  line-height: 30px
+  border-radius: 50%
+  width: 16px
+  height: 16px
+  border: 1px solid $color-gray-13
+  display: block
+  text-align: center
+  margin: 9px auto 10px
+  background-color: $color-white-1
+
+
+.progressBar li:after
+  content: ""
+  position: absolute
+  width: 100%
+  height: 4px
+  background-color: $color-white-1
+  top: 15px
+  left: -50%
+  z-index: 2
+
+
+.progressBar li:first-child:after
+  content: none
+
+
+.progressBar li.active
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $regular
+  font-size: 14px
+  line-height: 17px
+  color: $color-black-1
+  z-index: 5
+
+
+.progressBar li.active:before
+  border-color: $color-blue-14
+  background-color: $color-blue-14
+  z-index: 5
+
+
+.progressBar .active:after
+  background-color: $color-blue-14
+  z-index: 5
+
+.stepper-text
+  position: absolute
+  top: -15px
+
+.create-trade-bg
+  background: $color-white-5
+  min-height: 100vh
+  padding: 13px 50px 100px
+  z-index: -3
+
+.bg-grey
+  background: $color-white-5
+
+.trade_form_progress
+  width: 450px
+  float: right
+  margin-top: 13px
+  margin-right: 30px
+
+.create-trade-pl-22
+  padding-left: 22px
+
+.create-new-inventory-btn
+  width: 203px
+  height: 38px
+  background: $color-blue-2
+  border-radius: 20px
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $medium
+  font-size: 16px
+  line-height: 19px
+  color: $color-white-1
+  border: 1px solid $color-blue-2
+  margin-right: 100px
+
+  &:hover
+    color: $color-white-1
+
+.available-invent-trade-heading
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $bold
+  font-size: 24px
+  line-height: 29px
+  color: $color-black-1
+  padding-left: 22px
+  padding-top: 37px
+
+.available-invent-trade-text
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $regular
+  font-size: 18px
+  line-height: 21px
+  color: $color-gray-5
+  padding-left: 22px
+
+.filter-btn-create-trade
+  width: 86px
+  height: 38px
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $normal
+  font-size: 16px
+  line-height: 19px
+  color: $color-white-1
+  background: $color-blue-2
+  border-radius: 5px
+
+.select-filter
+  height: 42px !important
+
+.create-trade-size-car
+  border: 1px solid $color-gray-23
+  box-sizing: border-box
+  border-radius: 2px
+  padding: 1px
+  width: 88px
+  height: 20px
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $regular
+  font-size: 14px
+  line-height: 17px
+  text-align: center
+  color: $color-black-1
+  position: absolute
+  margin-left: 13px
+  margin-top: 12px
+
+
+.create-trade-size-car-sm
+  border: 1px solid $color-gray-23
+  box-sizing: border-box
+  border-radius: 2px
+  width: 66px
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $regular
+  font-size: 12px
+  line-height: 15px
+  text-align: center
+  color: $color-black-1
+
+.create-trade-quantity-car-sm
+  border: 1px solid $color-gray-23
+  box-sizing: border-box
+  border-radius: 2px
+  width: 45px
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $regular
+  font-size: 12px
+  line-height: 15px
+  text-align: center
+  color: $color-black-1
+
+.create-trade-item-image
+  width: 162px
+  height: 185px
+  border-radius: 0
+  display: flex
+  margin: 0 auto
+
+.create-trade-item-image-sm
+  width: 121px
+  border-radius: 0
+
+.create-trade-item-image-div-sm
+  display: flex
+  justify-content: center
+  align-items: center
+
+.create-trade-item
+  display: flex
+  justify-content: space-between
+  flex-direction: column
+  width: 213px
+  height: 281px
+  background: $color-white-1
+  border: 1px solid $color-gray-23
+  overflow: hidden
+
+.create-trade-item-want
+  width: 213px
+  min-height: 281px
+  background: $color-white-1
+  margin-right: 3.813rem
+  border: 1px solid $color-gray-23
+  margin-bottom: 54px
+
+.create-trade-item-sm
+  width: 160px
+  height: 211px
+  background: $color-white-1
+  border: 1px solid $color-gray-23
+  overflow: hidden
+
+.create-trade-item-caption
+  background: $color-gray-1
+  padding: 5px 10px
+  font-family: $font-sp-pro, serif
+  font-style: normal
+
+.create-trade-item-caption-sm
+  background: $color-gray-1
+  padding: 9px 10px
+  font-family: $font-sp-pro, serif
+  font-style: normal
+  font-size: 12px
+  text-align: left
+
+.create-trade-item-caption-description
+  display: block
+  align-items: center
+  color: $color-gray-5
+  font-weight: $normal
+  font-size: 13px
+  line-height: 16px
+  width: 185px
+  $color-white-1-space: nowrap
+  white-space: nowrap
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
+
+.create-trade-item-caption-description-sm
+  display: block
+  align-items: center
+  color: $color-gray-5
+  font-weight: $normal
+  font-size: 12px
+  line-height: 16px
+  width: 130px
+  overflow: hidden
+  $color-white-1-space: nowrap
+  white-space: nowrap
+  text-overflow: ellipsis
+
+.create-trade-plus-icon
+  position: absolute
+  top: 0.8rem
+  right: 1rem
+
+.create-trade-drag-drop-item
+  height: 276px
+  background: $color-white-1
+  border: 3px dashed $color-gray-43
+  box-sizing: border-box
+  border-radius: 22px
+  margin-left: 55px
+  margin-right: 60px
+
+.create-trade-drag-drop-sub-heading
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $regular
+  font-size: 16px
+  line-height: 19px
+  color: $color-black-1
+
+.create-trade-drag-drop-heading
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $medium
+  font-size: 24px
+  line-height: 29px
+  color: $color-black-1
+  padding-top: 80px
+
+.create-trade-minus-icon-sm
+  height: 16px
+  width: 16px
+  border-radius: 50%
+  background: $color-red-13
+  cursor: pointer
+
+.create-trade-minus-line-sm
+  height: 4px
+  width: 8px
+  background: $color-white-1
+  margin-left: 4px
+  margin-top: 6px
+
+.create-trade-next-btn
+  width: 203px
+  height: 38px
+  background: $color-blue-1
+  border-radius: 20px
+  border: 1px solid $color-blue-1
+  margin-top: 10px
+  margin-right: 20px
+
+.create-trade-back-to-search
+  position: absolute
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $regular
+  font-size: 16px
+  line-height: 19px
+  letter-spacing: 0.06em
+  color: $color-black-1
+  margin-top: 15px
+  margin-left: 12px
+  z-index: 100
+  cursor: pointer
+
+.create-trade-product-color
+  display: block
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $normal
+  font-size: 18px
+  line-height: 22px
+  letter-spacing: -0.04em
+  color: $color-gray-5
+  padding-left: 14px
+  padding-top: 8px
+
+
+.trade-search-item-image
+  width: 323px
+
+.search-trade-item-size
+  height: 70px
+  width: 70px
+  min-width: 70px
+  background: $color-white-1
+  border: 3px solid $color-gray-62
+  box-sizing: border-box
+  border-radius: 10px
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $medium
+  font-size: 20px
+  line-height: 24px
+  text-align: center
+  color: $color-black-4
+  padding-top: 20px
+  cursor: pointer
+
+.search-trade-left-arow
+  margin-right: 20px
+  margin-top: 20px
+
+.search-trade-right-arow
+  margin-top: 20px
+  margin-left: 20px
+
+.search-trade-add-btn
+  width: 203px
+  height: 32px
+  background: $color-white-1
+  border: 0.5px solid $color-blue-1
+  box-sizing: border-box
+  border-radius: 46px
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $medium
+  font-size: 16px
+  line-height: 19px
+  color: $color-blue-1
+  margin-top: 31px
+
+.cursor-pointer
+  cursor: pointer
+
+.search-trade-size-heading
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $normal
+  font-size: 18px
+  line-height: 21px
+  color: $color-black-1
+  position: absolute
+  margin-top: -24px
+
+.active-size
+  border: 3px solid $color-blue-1 !important
+
+.offered-item-confirm-trade
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $bold
+  font-size: 18px
+  line-height: 21px
+  color: $color-black-1
+  margin-top: 50px
+  padding-left: 40px
+
+.confirm-trade-detail-section
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $normal
+  font-size: 18px
+  line-height: 21px
+  color: $color-black-1
+  margin-top: 43px
+  padding-left: 52px
+
+.confirm-trade-item
+  height: 125px
+  background: $color-white-1
+  margin: 5px 28px 11px
+
+.back-color-gray
+  background-color: $color-white-5
+  padding-bottom: 50px
+
+.confirm-trade-item-image
+  width: 71px
+
+.confirm-trade-item-name
+  font-family: $font-sf-pro-text
+  font-style: normal
+  font-weight: $bold
+  font-size: 14px
+  line-height: 17px
+  color: $color-black-1
+
+.confirm-trade-item-detail
+  font-family: $font-sf-pro-text
+  font-style: normal
+  font-weight: $normal
+  font-size: 14px
+  line-height: 17px
+  color: $color-gray-6
+
+.confirm-trade-item-quantity
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $regular
+  font-size: 16px
+  line-height: 19px
+  color: $color-black-1
+  padding-left: 60px
+  padding-top: 55px
+
+.confirm-trade-icons
+  padding-left: 33px
+  padding-top: 48px
+
+.confirm-trade-draft-btn
+  background: $color-white-1
+  border: 1px solid $color-blue-1
+  box-sizing: border-box
+  border-radius: 46px
+  width: 238px
+  height: 38px
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $medium
+  font-size: 16px
+  line-height: 19px
+  color: $color-blue-1
+
+.confirm-trade-post-btn
+  background: $color-blue-2
+  border: 1px solid $color-blue-2
+  box-sizing: border-box
+  border-radius: 46px
+  width: 238px
+  height: 38px
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $medium
+  font-size: 16px
+  line-height: 19px
+  color: $color-white-1
+
+.title-combination
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $medium
+  font-size: 17px
+  line-height: 21px
+  display: flex
+  align-items: center
+  text-align: center
+  text-transform: uppercase
+  color: $color-black-1
+
+
+.large-image-combination
+  width: auto
+  height: 210px
+
+.text-div-combination
+  font-size: 14px
+
+.item-image-combination
+  width: 140px
+  height: auto
+
+.bar-combination
+  border-bottom: 2px solid
+  width: 80px
+  margin-top: -15px
+  margin-left: -40px
+  position: absolute
+
+.combination-div
+  background: $color-white-1
+  border: 1px solid $color-gray-24
+  box-sizing: border-box
+  border-radius: 16px
+  height: 100%
+
+.combination-sort-row
+  justify-content: right
+
+.wants-combination-checkbox
+  position: absolute
+  top: 0.8rem
+  right: 0
+
+.bg-grey-wants
+  padding-left: 15px
+  background: $color-white-5
+  min-height: 100vh
+  padding-top: 15px
+  padding-bottom: 100px
+
+.bg-white
+  background: $color-white-1
+
+.create-trade-item-name
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $medium
+  display: block
+  font-size: 14px
+  line-height: 17px
+  color: $color-black-1
+  width: 185px
+  $color-white-1-space: nowrap
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
+
+.create-trade-item-name-sm
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $medium
+  font-size: 12px
+  line-height: 14px
+  display: block
+  align-items: center
+  color: $color-black-1
+  width: 130px
+  $color-white-1-space: nowrap
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
+
+.pointer
+  cursor: pointer
+
+#offer-item-modal .modal-header
+  background-color: $color-gray-63
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $bold
+  font-size: 24px
+  line-height: 29px
+  color: $color-black-1

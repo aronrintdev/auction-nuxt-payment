@@ -1,0 +1,1 @@
+export const TAX_RATE_FALLBACK_PERCENTAGE = 0

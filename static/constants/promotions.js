@@ -1,0 +1,5 @@
+export const PROMOTION_TYPE_PROMOTION = 'promotion'
+export const PROMOTION_TYPE_GIVEAWAY= 'giveaway'
+export const PROMOTION_TYPE_SWEEPSTAKES = 'sweepstakes'
+export const SWEEPSTAKES_TYPE_CASH = 'cash'
+export const SWEEPSTAKES_TYPE_CAR = 'car'

@@ -1,0 +1,139 @@
+<template>
+  <b-container fluid class="container-profile-selling h-100 px-5 py-5">
+    <b-row class="mt-md-4 mt-2 vd-selling">
+      <b-col cols="12" class="vd-selling-details-heading">
+        {{ $t('selling_page.selling_page_heading') }}
+        <Button
+          to="/profile/vendor-selling"
+          variant="link"
+          class="btn-back float-right"
+        >
+          <img
+            :src="require('~/assets/img/icons/arrow-back.svg')"
+            :alt="$t('common.back')"
+            class="mr-2"
+          />
+          {{ $t('vendor_purchase.back_to_selling') }}
+        </Button>
+      </b-col>
+      <b-col md="8" cols="12" sm="6" class="mt-md-4 vd-selling-search">
+        <!-- TODO -->
+        <div class="form browse-search border rounded">
+          <div class="form-group selling-search-input">
+            <img
+              :src="require('~/assets/img/icons/search.svg')"
+              class="icon-search"
+              alt="Search"
+            />
+            <input
+              id="search-result"
+              class="form-control form-input vd-purchases-browse-input"
+              :placeholder="$t('vendor_purchase.search_purchases_summary')"
+              autocomplete="on"
+            />
+          </div>
+        </div>
+        <!-- ./TODO -->
+      </b-col>
+    </b-row>
+    <!-- Purchase Summary Section -->
+    <template v-if="loaded">
+      <SellingDetailsPurchaseSummary
+        :details="details"
+        :listingId="listingId"
+        @reloadData="reloadData"
+      />
+    </template>
+    <!-- ./Purchase Summary Section -->
+
+    <!-- Offers Section -->
+    <template v-if="loaded">
+      <SellingOffers
+        :offers="getOffers"
+        :status="details.status"
+        @reloadData="reloadData"
+      />
+    </template>
+    <!-- Offers Section -->
+  </b-container>
+</template>
+
+<script>
+import { mapActions } from 'vuex'
+import SellingDetailsPurchaseSummary from '~/components/profile/vendor-selling/details/PurchaseSummary.vue'
+import SellingOffers from '~/components/profile/vendor-selling/details/Offers.vue'
+import { Button } from '~/components/common'
+export default {
+  name: 'VendorSellingDetails',
+
+  components: {
+    SellingDetailsPurchaseSummary,
+    SellingOffers,
+    Button,
+  },
+
+  layout: 'Profile',
+
+  data() {
+    return {
+      details: [],
+      loaded: false,
+      listingId: null
+    }
+  },
+  computed: {
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    getOffers: (vm) => {
+      if (vm.details) {
+        return vm.details.offers
+      }
+    },
+  },
+
+  created() {
+    this.listingId = Number(this.$route.params.id)
+    this.loadData()
+  },
+
+  methods: {
+    ...mapActions({
+      addListingData: 'sell-listing/addListingData'
+    }),
+    // Load the data
+    loadData() {
+      this.$axios
+        .get(`/selling-items/details/${this.$route.params.id}`)
+        .then((res) => {
+          this.details = res.data.data
+          this.loaded = true
+          // Save the selected data.
+          this.addListingData({data: this.details})
+        })
+        .catch((err) => {
+          this.$toasted.error(this.$t(err.response.data.message))
+          this.$logger.logToServer('Vendor selling', err.response.data)
+          this.$router.push('/profile/vendor-selling')
+        })
+    },
+
+    // Reload data
+    reloadData() {
+      this.loadData()
+    },
+  },
+}
+</script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+.selling-search-input
+  align-items: center
+  background: $color-white-1
+  border-radius: 4px
+  display: flex
+  height: 44px
+  margin: 0
+  padding: 10px 14px
+#search-result
+  background: $color-white-1
+</style>
