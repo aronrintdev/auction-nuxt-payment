@@ -22,7 +22,7 @@ jobs:
       - uses: hmanzur/actions-aws-eb@v1.0.0
         timeout-minutes: 20
         with:
-          command: 'deploy Deadstockv2-env-2'
+          command: 'deploy Deadstockv2app-env'
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

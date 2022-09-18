@@ -1,0 +1,18 @@
+branch-defaults:
+  develop:
+    environment: Deadstockv2app-env
+environment-defaults:
+  Deadstockv2app-env:
+    branch: null
+    repository: null
+global:
+  application_name: deadstockv2-app
+  default_ec2_keyname: bitnami-l_Kq2xI
+  default_platform: Node.js 14 running on 64bit Amazon Linux 2
+  default_region: us-east-2
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  sc: git
+  workspace_type: Application

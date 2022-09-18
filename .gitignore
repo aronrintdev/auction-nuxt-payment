@@ -26,11 +26,6 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
-
 vendor
 .php-cs-fixer.cache
 admin/.eslintcache
