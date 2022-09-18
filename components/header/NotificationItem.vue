@@ -1,28 +1,46 @@
 <template>
   <client-only>
-    <div :class="{
-    read: !!notification.read,
-    'from-down': fromDown
-    }"
-         class="notification-item d-flex align-items-center px-2">
-      <div :class="{'image-prefix': !fromDown}" class="image d-flex justify-content-center align-items-center">
-        <favoriteOutline v-if="!notification.favorite" class="mr-1"></favoriteOutline>
+    <div
+      :class="{
+        read: !!notification.read,
+        'from-down': fromDown,
+      }"
+      class="notification-item d-flex align-items-center px-2"
+    >
+      <div
+        :class="{ 'image-prefix': !fromDown }"
+        class="image d-flex justify-content-center align-items-center"
+      >
+        <favoriteOutline
+          v-if="!notification.favorite"
+          class="mr-1"
+        ></favoriteOutline>
         <favorite-filled v-else class="mr-1"></favorite-filled>
-        <img :src="'https://images.deadstock.co/products/sneakers/DD1399-102/800xAUTO/IMG01.jpg'" class="m-2"
-             width="50">
+        <img
+          :src="'https://images.deadstock.co/products/sneakers/DD1399-102/800xAUTO/IMG01.jpg'"
+          class="m-2"
+          width="50"
+        />
       </div>
       <div class="body d-flex flex-column flex-grow-1 py-3">
-        <div :class="{'body-lighter': fromDown}" class="body-text d-flex align-items-center">
-          <img v-if="!fromDown && notificationTitleImage()"
-               :src="require(`~/assets/img/profile/notifications/${notificationTitleImage()}`)" class="mr-1">
+        <div
+          :class="{ 'body-lighter': fromDown }"
+          class="body-text d-flex align-items-center"
+        >
+          <img
+            v-if="!fromDown && notificationTitleImage()"
+            :src="
+              require(`~/assets/img/profile/notifications/${notificationTitleImage()}`)
+            "
+            class="mr-1"
+          />
           {{ notification.text }}
-          <b-link
-              v-if="notification.url && !fromDown"
-              :href="notification.url"
-              class="underline ml-2"
-          >- {{ notificationCategory(notification.type) }}
-          </b-link
-          >
+          <nuxt-link
+            v-if="notification.url && !fromDown"
+            :to="notification.url"
+            class="underline ml-2"
+            >- {{ notificationCategory(notification.type) }}
+          </nuxt-link>
         </div>
         <div class="body-secondary mt-1">
           <!-- TODO  -->
@@ -31,40 +49,39 @@
       </div>
       <div class="dot d-flex justify-content-center align-items-center m-2">
         <b-btn
-            v-if="!fromDown && !notification.read"
-            class="text-decoration-underline mr-md-5 p-0 mr-2"
-            size="sm"
-            style="white-space: nowrap"
-            variant="link"
+          v-if="!fromDown && !notification.read"
+          class="text-decoration-underline mr-md-5 p-0 mr-2"
+          size="sm"
+          style="white-space: nowrap"
+          variant="link"
         >
           {{ $t('notifications.mark_as_read') }}
         </b-btn>
-        <notification-unread v-if="!notification.read"/>
+        <notification-unread v-if="!notification.read" />
       </div>
     </div>
   </client-only>
-
 </template>
 
 <script>
-import _ from 'lodash';
+import _ from 'lodash'
 import notificationUnread from '~/assets/img/profile/notifications/notification-unread-dot.svg?inline'
 import favoriteOutline from '~/assets/img/profile/notifications/notification-star-outline.svg?inline'
 import favoriteFilled from '~/assets/img/profile/notifications/notification-star-filled.svg?inline'
-import {NOTIFICATION_TYPES} from '~/static/constants/notifications';
+import { NOTIFICATION_TYPES } from '~/static/constants/notifications'
 
 export default {
   name: 'NotificationItem',
-  components: {notificationUnread, favoriteOutline, favoriteFilled},
+  components: { notificationUnread, favoriteOutline, favoriteFilled },
   props: {
     notification: {
       type: Object,
-      required: true
+      required: true,
     },
     fromDown: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -73,15 +90,21 @@ export default {
   },
   methods: {
     notificationTitleImage() {
-      const image = _.get(this.NOTIFICATION_TYPES, `${this.notification.category}.${this.notification.status}`)
+      const image = _.get(
+        this.NOTIFICATION_TYPES,
+        `${this.notification.category}.${this.notification.status}`
+      )
       return image ? image.icon : false
     },
     notificationCategory(category) {
       // TODO change it when new notification structure introduced
-      return category === 'trade' ? 'Go to Trade Page' : (category === 'order' ? 'View Order' : 'Check out more options in your Wishlist')
+      return category === 'trade'
+        ? 'Go to Trade Page'
+        : category === 'order'
+        ? 'View Order'
+        : 'Check out more options in your Wishlist'
     },
-  }
-
+  },
 }
 </script>
 

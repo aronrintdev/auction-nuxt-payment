@@ -118,7 +118,9 @@ export default {
         {
           label: this.$t('profile_menu.dashboard'),
           icon: require('~/assets/img/icons/profile/dashboard.svg'),
-          href: '#',
+          iconActive: require('~/assets/img/icons/profile/dashboard-active.svg'),
+          route: 'profile-buyer-dashboard',
+          href: '/profile/buyer-dashboard',
           menu: MENU_CATEGORY_BUYING,
         },
         {
@@ -153,7 +155,7 @@ export default {
           iconActive: require('~/assets/img/icons/profile/wishlist-active.svg'),
           href: '/profile/wish-lists',
           route: 'profile-wish-lists',
-          menu: MENU_CATEGORY_BUYING, 
+          menu: MENU_CATEGORY_BUYING,
         },
 
         {

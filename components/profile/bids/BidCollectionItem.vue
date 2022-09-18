@@ -1,7 +1,13 @@
 <template>
-  <div v-if="auction.auction_items" class="mt-3 text-center px-5 font-weight-bold w-100 bg-white collection-item position-relative"  >
-    <div class="position-absolute tag-bid d-flex align-items-center justify-content-center text-white" :class="bid.place">
-      {{ $t('bids.bid_status.'+bid.place) }}
+  <div
+    v-if="auction.auction_items"
+    class="mt-3 text-center px-5 font-weight-bold w-100 bg-white collection-item position-relative"
+  >
+    <div
+      class="position-absolute tag-bid d-flex align-items-center justify-content-center text-white"
+      :class="bid.place"
+    >
+      {{ $t('bids.bid_status.' + bid.place) }}
     </div>
     <b-row class="">
       <b-col sm="12" md="5" class="text-left mt-4">
@@ -16,64 +22,84 @@
               >
               </b-form-checkbox>
             </div>
-            <img :src="CollectionSvg" alt="collection image">
+            <img :src="CollectionSvg" alt="collection image" />
           </b-col>
-          <b-col md="10" class="pl-4 body-4-bold  d-flex justify-content-around flex-column">
-            {{ auction.name }} ( {{auction.auction_items.length}} {{$t('bids.items')}} )
+          <b-col
+            md="10"
+            class="pl-4 body-4-bold d-flex justify-content-around flex-column"
+          >
+            {{ auction.name }} ( {{ auction.auction_items.length }}
+            {{ $t('bids.items') }} )
           </b-col>
         </b-row>
       </b-col>
       <b-col sm="12" md="1" class="d-flex justify-content-around flex-column">
-        {{$t('bids.auction_types.'+auction.type)}}
+        {{ $t('bids.auction_types.' + auction.type) }}
       </b-col>
       <b-col sm="12" md="1" class="d-flex justify-content-around flex-column">
-        {{$t('bids.outbid_types.'+ (haveAutoBidOn? 'on' : 'off'))}}
+        {{ $t('bids.outbid_types.' + (haveAutoBidOn ? 'on' : 'off')) }}
       </b-col>
       <b-col sm="12" md="1" class="d-flex justify-content-around flex-column">
-        {{bid.price/100}}
+        {{ bid.price / 100 }}
       </b-col>
       <b-col sm="12" md="2" class="d-flex justify-content-around flex-column">
-        {{!isExpiredOrDelisted? bid.auction.remaining_time : $t('bids.expired')}}
+        {{
+          !isExpiredOrDelisted ? bid.auction.remaining_time : $t('bids.expired')
+        }}
       </b-col>
-      <b-col v-if="bidType === BID_TYPE_OUTGOING" sm="12" md="2" class="d-flex justify-content-start align-items-center flex-column">
-
-        <Button
-          class="bg-blue-2 mt-4"
-          pill
-          @click="$emit('edit', bid)"
-        >
-          <span class="px-4">  {{isExpiredOrDelisted? $t('bids.view'): $t('bids.edit_bid') }}</span>
+      <b-col
+        v-if="bidType === BID_TYPE_OUTGOING"
+        sm="12"
+        md="2"
+        class="d-flex justify-content-start align-items-center flex-column"
+      >
+        <Button class="bg-blue-2 mt-4" pill @click="$emit('edit', bid)">
+          <span>
+            {{
+              isExpiredOrDelisted ? $t('bids.view') : $t('bids.edit_bid')
+            }}</span
+          >
         </Button>
 
-
-        <span role="button" class="view-similar mt-2 "
-              @click="$router.push('/auction')"
-        >{{$t('bids.view_similar')}}</span>
+        <span
+          role="button"
+          class="view-similar mt-2"
+          @click="$router.push('/auction')"
+          >{{ $t('bids.view_similar') }}</span
+        >
       </b-col>
 
-      <b-col v-if="acceptable" sm="12" md="2" class="d-flex justify-content-center align-items-center flex-column">
-        <Button
-          variant="success"
-          pill
-          @click="$emit('accept', bid)"
-        >
+      <b-col
+        v-if="acceptable"
+        sm="12"
+        md="2"
+        class="d-flex justify-content-center align-items-center flex-column"
+      >
+        <Button variant="success" pill @click="$emit('accept', bid)">
           <span class="px-4"> {{ $t('bids.accept') }}</span>
         </Button>
       </b-col>
     </b-row>
 
-
-    <b-row >
-      <b-col sm="12" md="1" class="text-left">
-      </b-col>
+    <b-row>
+      <b-col sm="12" md="1" class="text-left"> </b-col>
       <b-col sm="12" md="11">
         <b-row class="mt-2">
-          <b-col v-for="(item, i) in auction.auction_items" :key="i" cols="12" sm="12" md="4">
+          <b-col
+            v-for="(item, i) in auction.auction_items"
+            :key="i"
+            cols="12"
+            sm="12"
+            md="4"
+          >
             <b-row class="">
               <b-col md="3">
                 <ProductThumb :product="item.inventory.product" />
               </b-col>
-              <b-col md="5" class="pl-2 d-flex flex-column justify-content-around text-body item-name">
+              <b-col
+                md="5"
+                class="pl-2 d-flex flex-column justify-content-around text-body item-name"
+              >
                 {{ item.inventory.product.name }}
               </b-col>
             </b-row>
@@ -86,70 +112,73 @@
 
 <script>
 import CollectionSvg from '~/assets/img/icons/collection.svg'
-import ProductThumb from '~/components/product/Thumb';
-import {Button} from '~/components/common';
+import ProductThumb from '~/components/product/Thumb'
+import { Button } from '~/components/common'
 import {
   BID_TYPE_INCOMING,
   BID_TYPE_OUTGOING,
   DELISTED_STATUS,
   EXPIRED_STATUS,
-  HIGHEST_BID_STATUS
-} from '~/static/constants';
+  HIGHEST_BID_STATUS,
+} from '~/static/constants'
 export default {
   name: 'BidCollectionItem',
-  components: {ProductThumb, Button},
+  components: { ProductThumb, Button },
   props: {
     bid: {
       type: Object,
-      required: true
+      required: true,
     },
     selectable: {
       type: Boolean,
-      default: false
+      default: false,
     },
     selected: {
       type: Boolean,
-      default: false
+      default: false,
     },
     acceptable: {
       type: Boolean,
-      default: false
+      default: false,
     },
     bidType: {
       type: String,
-      default: BID_TYPE_INCOMING
-    }
+      default: BID_TYPE_INCOMING,
+    },
   },
-  data(){
+  data() {
     return {
       BID_TYPE_INCOMING,
       BID_TYPE_OUTGOING,
       HIGHEST_BID_STATUS,
-      CollectionSvg
+      CollectionSvg,
     }
   },
-  computed:{
-    product(){
+  computed: {
+    product() {
       return this.auction.auction_items[0]
     },
-    auction(){
+    auction() {
       return this.bid.auction
     },
     /**
      * Checking if the bid is expired or delisted
      * @returns {boolean|*}
      */
-    haveAutoBidOn(){
+    haveAutoBidOn() {
       return this.auction?.autoBidSetting?.is_disabled
     },
     /**
      * Checking if the bid is expired or delisted
      * @returns {boolean}
      */
-    isExpiredOrDelisted(){
-      return this.bid.auction.status === EXPIRED_STATUS || this.bid.auction.status === DELISTED_STATUS
+    isExpiredOrDelisted() {
+      return (
+        this.bid.auction.status === EXPIRED_STATUS ||
+        this.bid.auction.status === DELISTED_STATUS
+      )
     },
-  }
+  },
 }
 </script>
 
@@ -163,7 +192,6 @@ export default {
   background-color: $color-red-15
 .winner
   background-color: $color-blue-1
-
 
 .tag-bid
   @include body-4

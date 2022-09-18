@@ -4358,8 +4358,8 @@
     "are_you_sure_discard": "Are you sure you would like to discard your changes? The changes will be lost.",
     "discard": "Discard",
     "your_changes_discarded": "Your changes have been discarded!",
-    "my_trade_offer":  "My Trade Offers",
-    "trade_offers":  "Trade Offers ({0})",
+    "my_trade_offer": "My Trade Offers",
+    "trade_offers": "Trade Offers ({0})",
     "are_you_sure_to_delist_trade": "Are you sure you would like to delist this trade listing?",
     "all_active_trade_offers_will_be_lost": "All the active trade offers associated with this trade listing will be lost after delisting this trade.",
     "are_you_sure_to_edit_trade": "Are you sure you would like to edit this trade listing?",
@@ -4905,7 +4905,7 @@
     "title": "Dashbaord",
     "bronze_seller": "Bronze Seller",
     "view_details": "View Details",
-    "view_all":"View All",
+    "view_all": "View All",
     "total_sales": "Total Sales",
     "commision_pending": "Commision Pending",
     "inventory": "Inventory",
@@ -4914,18 +4914,18 @@
     "week_to_date": "Week to Date",
     "by_type": "By Type",
     "view_breakdown": "View Breakdown",
-    "top_products":"Top Products",
+    "top_products": "Top Products",
     "all": "All",
     "footwear": "Footwear",
     "apparel": "Apparel",
-    "accessories":"Accessories",
-    "product":"Product",
+    "accessories": "Accessories",
+    "product": "Product",
     "avg_price": "Avg. Sale Price",
     "sales_this_month": "Sales this month",
     "orders": "Orders",
-    "order_id":"Order ID",
-    "date_ordered":"Date Ordered",
-    "type":"Type",
+    "order_id": "Order ID",
+    "date_ordered": "Date Ordered",
+    "type": "Type",
     "vendor_payout": "Vendor Payout",
     "status": "Status",
     "actions": "Actions",
@@ -4936,48 +4936,96 @@
     "fedex": "FedEx"
   },
   "notifications": {
-      "title": "Notifications",
-      "title_settings": "Settings",
-      "type": "Type",
-      "this_week": "This Week",
-      "new": "New",
-      "date_range": "Date Range",
-      "mark_all_read": "Mark All as Read",
-      "mark_as_read": "Mark as Read",
-      "view_all": "View All Notifications",
-      "search": "Search",
-      "filters": {
-          "all": "All",
-          "unread": "Unread",
-          "read": "Read",
-          "important": "Important"
-      },
-      "actions": {
-          "bid_now": "Bid Now",
-          "view_order": "View Order",
-          "check_out_more_wishlist": "Check out more options in your Wishlist",
-          "go_to_trade": " Go to Trade Page"
-      },
-      "types": {
-          "all": "All",
-          "buying": "Buying",
-          "selling": "Selling",
-          "comms": "Deadstock Comms"
-      },
-      "start": "Start",
-      "end": "End"
+    "title": "Notifications",
+    "title_settings": "Settings",
+    "type": "Type",
+    "this_week": "This Week",
+    "new": "New",
+    "date_range": "Date Range",
+    "mark_all_read": "Mark All as Read",
+    "mark_as_read": "Mark as Read",
+    "view_all": "View All Notifications",
+    "search": "Search",
+    "filters": {
+      "all": "All",
+      "unread": "Unread",
+      "read": "Read",
+      "important": "Important"
+    },
+    "actions": {
+      "bid_now": "Bid Now",
+      "view_order": "View Order",
+      "check_out_more_wishlist": "Check out more options in your Wishlist",
+      "go_to_trade": " Go to Trade Page"
+    },
+    "types": {
+      "all": "All",
+      "buying": "Buying",
+      "selling": "Selling",
+      "comms": "Deadstock Comms"
+    },
+    "start": "Start",
+    "end": "End"
   },
-  "place_offer" : {
-    "offer_accepted_text" : "*If this offer is accepted, the charges on your card will be automatically be placed",
-    "my_products" : "My Product",
-    "quantity"  : "Quantity",
-    "duration"  : "Duration",
-    "offer" : "Offer",
-    "days"  : "Days",
-    "offer_summary" : "Offer Summary",
-    "offer_amount"  : "Offer Amount",
-    "remove"  : "Remove",
-    "save_for_later"  : "Save for later"
+  "place_offer": {
+    "offer_accepted_text": "*If this offer is accepted, the charges on your card will be automatically be placed",
+    "my_products": "My Product",
+    "quantity": "Quantity",
+    "duration": "Duration",
+    "offer": "Offer",
+    "days": "Days",
+    "offer_summary": "Offer Summary",
+    "offer_amount": "Offer Amount",
+    "remove": "Remove",
+    "save_for_later": "Save for later"
+  },
+  "offers_received": {
+    "heading": "Offers Received",
+    "your_placed_offers": "Your Received Offers ({count})",
+    "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "remove_multiple": "Remove Multiple"
+  },
+  "terms": {
+    "title": "Terms and Conditions",
+    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas est a tempor porttitor. Praesent tempor leo sed odio bibendum pretium. Integer porttitor, metus eget pulvinar egestas, orci ligula malesuada sem, sed tincidunt libero orci eu libero. In vitae justo eros. Etiam a rutrum mauris. Sed sagittis dolor in urna hendrerit, vel cursus erat scelerisque. Vivamus mauris ex, suscipit sit amet leo a, varius elementum lacus. Suspendisse potenti. Nulla facilisi. Nam eget ultrices purus. Quisque ac condimentum massa. Fusce vel mi et lectus egestas tristique vel vel mauris. Sed consequat enim sed consequat lacinia. Proin vel malesuada velit, ullamcorper facilisis eros. Maecenas pharetra venenatis arcu, quis fringilla tortor ultricies sed. Morbi quis pulvinar ligula.\n\nUt efficitur libero eget eros varius tincidunt. Cras et bibendum metus. Ut faucibus purus vulputate purus tempus, nec dignissim tellus venenatis. Ut in lectus ac purus interdum condimentum sed vitae metus. Nam id tellus et sem venenatis rutrum ut eu neque. Cras turpis sem, rhoncus quis diam ac, lacinia posuere lacus. Phasellus pellentesque cursus sem, et lobortis ex. Pellentesque enim metus, vulputate in leo eu, posuere aliquam elit. Quisque at ante ultricies, auctor odio non, feugiat purus. Maecenas ut lacus tincidunt, porttitor lacus sed, elementum sapien. Praesent semper scelerisque augue, eget consectetur quam. Etiam tempus risus sed justo suscipit blandit. Curabitur ultricies est ut elit euismod, egestas volutpat risus efficitur. Aliquam egestas pulvinar ligula vitae accumsan.\n\nPhasellus pharetra semper sem, nec dapibus arcu venenatis vitae. Nullam placerat nec ex vitae iaculis. Nunc vitae tincidunt leo. Sed feugiat sed odio vel euismod. Phasellus ut sagittis nunc. Donec nunc ligula, ultricies in pellentesque non, aliquam vitae metus. Maecenas eu velit pulvinar, pharetra dolor vestibulum, tempor leo. In ac ligula ac velit sollicitudin tristique. Nunc ante risus, tristique sit amet arcu sit amet, interdum laoreet ex."
+  },
+  "buyer_dashboard": {
+    "dashobard_buyer": {
+      "dashboard": "Dashboard",
+      "total_purchases": "Total Purchases",
+      "rewards_points": "Rewards Points",
+      "items_bought": "Items Bought",
+      "offers_placed": "Offers Placed",
+      "total_purchases_main": "Total Purchases",
+      "earn_money": "Earn Money",
+      "rewards": "Rewards",
+      "view_rewards": "View Rewards",
+      "ds_points": "DS Points",
+      "your_next_reward": "Your Next Reward",
+      "points_will_expire_on": "Points Will Expire On"
+      
+    },
+    "promotions": {
+      "title": "Promotions",
+      "view_promotions": "View Promotion",
+      "days": "Days",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds",
+      "your_entries": "Your Entries"
+    },
+    "purchases": {
+      "title": "Purchases",
+      "order": "Order",
+      "ordred_on": "Ordered on",
+      "quantity": "Quantity",
+      "order_total": "Order Total",
+      "pending": "Pending",
+      "send_to_deadstock": "Send to Deadstock",
+      "view_order": "View Order"
+    }
   },
   "offers_received" : {
     "heading" : "Offers Received",

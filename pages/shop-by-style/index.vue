@@ -1,5 +1,5 @@
 <template>
-  <div class="container-shop-by-style mx-auto">
+  <div class="container-shop-by-style mx-auto vh-100">
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="title">{{ $t('shop_by_style.title') }}</h2>
       <Button
@@ -37,14 +37,14 @@
         @apply="applyFilter"
       />
     </b-collapse>
-    
+
     <b-row v-if="type === 'look'" class="mt-5">
       <b-col v-for="(style, index) in styles" :key="index" md="3" sm="6">
         <ShopByStyleCard
           :style-id="style.id"
           :image-url="style.image"
           class="style-card"
-        ></ShopByStyleCard> 
+        ></ShopByStyleCard>
       </b-col>
     </b-row>
     <b-row v-else class="mt-5">
@@ -64,7 +64,7 @@
             :image-url="style.image"
             class="style-card"
           />
-        </b-col>      
+        </b-col>
       </template>
     </b-row>
   </div>
@@ -98,7 +98,7 @@ export default {
       page: 1,
       perPage: null,
       styles: null,
-      styleCount: 0
+      styleCount: 0,
     }
   },
 
@@ -113,13 +113,13 @@ export default {
       await this.$axios
         .get('shop-by-style', {
           params: {
-            selectedType: this.type
-          }
+            selectedType: this.type,
+          },
         })
         .then((res) => {
           this.styles = res.data.data
         })
-        .catch(error => {
+        .catch((error) => {
           this.$toasted.error(error)
         })
     },
@@ -131,7 +131,7 @@ export default {
         .then((res) => {
           this.styleCount = res.data.archived
         })
-        .catch(error => {
+        .catch((error) => {
           this.$toasted.error(error)
         })
     },
@@ -143,8 +143,8 @@ export default {
 
     closeFilter() {
       this.$refs.btnFilter.$el.click()
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="sass" scoped>
