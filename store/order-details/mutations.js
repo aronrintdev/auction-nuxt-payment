@@ -158,3 +158,17 @@ export function removeCryptoDetails(state) {
 
   state.crypto = crypto
 }
+
+/**
+ * Reset user's order details.
+ * @param state
+ * @param payload
+ */
+ export function resetOrderDetails(state) {
+  state.orderDetails = {
+    products: null,
+    redeemedReward: {},
+    orderId: null,
+    transactionId: null
+  }
+}

@@ -23,10 +23,8 @@
         </b-row><!-- End of Contact Details -->
 
         <b-row class="mt-5 pt-5">
-          <b-col md="12" class="text-center">
-            <NuxtLink to="/profile/auctions">
-              <b-button type="button" class="px-5" variant="confirm" pill>{{ $t('create_listing.details.go_to_auctions') }}</b-button>
-            </NuxtLink>
+          <b-col md="12" class="text-center mt-5 pt-5">
+            <b-button type="button" class="px-5" variant="confirm" pill @click="goToAuctions">{{ $t('create_listing.details.go_to_auctions') }}</b-button>
           </b-col>
         </b-row>
       </b-col>
@@ -35,7 +33,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import emitEvent from '~/plugins/mixins/emit-event';
 import BaseTitle from '~/components/checkout/auction/order-confirmation/BaseTitle';
 
@@ -43,11 +41,17 @@ export default {
   name: 'ThankYou',
   components: {BaseTitle},
   mixins: [ emitEvent ],
-  computed: {
-    ...mapGetters({
-      cryptoDetails: 'order-details/getCryptoDetails'
-    })
-  },
+  methods: {
+    ...mapActions({
+      setAuctionItemsAction: 'create-listing/setAuctionItemsAction',
+      resetOrderDetails: 'order-details/resetOrderDetails',
+    }),
+    goToAuctions() {
+      this.$router.push('/profile/auctions')
+      this.setAuctionItemsAction([])
+      this.resetOrderDetails()
+    }
+  }
 }
 </script>
 

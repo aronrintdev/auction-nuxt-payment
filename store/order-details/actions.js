@@ -158,3 +158,12 @@ export function createCryptoPayment({ commit }, payload) {
       return Promise.reject(error)
     })
 }
+
+/**
+ * reset user's order details.
+ * @param commit
+ * @param payload
+ */
+ export function resetOrderDetails({ commit }) {
+  commit('resetOrderDetails')
+}

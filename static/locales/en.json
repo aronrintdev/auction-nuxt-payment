@@ -2700,7 +2700,8 @@
       "thankyou": "Thank You",
       "go_to_auctions": "Go to Auction Dashboard",
       "contact_details": "If you have any questions about your order, you can email us at {0} or call us at {1}",
-      "reference_number": "Reference Number"
+      "reference_number": "Reference Number",
+      "auction_posted": "Auction(s) Posted!"
     },
     "product": {
       "back_to_search": "Back To Search",
