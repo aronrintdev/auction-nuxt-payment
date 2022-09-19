@@ -1,8 +1,13 @@
 <template>
   <!-- Thank you message, Order Number -->
   <b-row>
-    <b-col md="8" offset="2">
+    <b-col md="12">
       <!-- Thank You Message -->
+      <b-row>
+        <b-col md="12" class="mt-3 mb-5 text-center">
+          <div class="heading-2-bold">{{ $t('create_listing.details.auction_posted') }}</div>
+        </b-col>
+      </b-row>
       <b-row>
         <b-col md="12" class="text-center">
           <b-img
@@ -15,7 +20,7 @@
       </b-row> <!-- End of Thank You Message -->
 
       <!-- Order Number -->
-      <b-row class="mt-4">
+      <b-row v-if="orderDetails.orderId" class="mt-4">
         <b-col md="12" class="text-center">
           <div class="body-5-bold">{{ $t('create_listing.details.reference_number') }}&colon;&nbsp;<span class="body-5-normal">{{ orderDetails.orderId }}</span></div>
         </b-col>

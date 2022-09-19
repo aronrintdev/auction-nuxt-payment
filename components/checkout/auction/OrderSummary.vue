@@ -21,7 +21,7 @@
     <!-- End of Shopping Cart Order Summary Card -->
 
     <!-- Shopping Cart Promo Code -->
-    <b-row v-if="!promoCode">
+    <b-row v-if="!promoCode" class="mt-3">
       <b-col md="12">
         <div class="body-4-medium">
           {{ $t('shopping_cart.promo_code') }}&colon;
@@ -36,7 +36,7 @@
     <!-- End of Shopping Cart Promo Code -->
 
     <!-- Shopping Cart Billing Address -->
-    <b-row v-if="billingAddress" :class="{ 'mt-3': !promoCode }">
+    <b-row v-if="billingAddress" class="mt-4">
       <b-col md="12">
         <div class="body-4-medium">
           {{ $t('shopping_cart.billing_address') }}&colon;
@@ -53,25 +53,14 @@
     />
     <!-- End of Shopping Cart Billing Address -->
 
-    <!-- Shopping Cart Shipping Address -->
-    <b-row v-if="shippingAddress">
+    <!-- Shopping Cart Payment Details -->
+    <b-row v-if="paymentMethod">
       <b-col md="12">
         <div class="body-4-medium">
-          {{ $t('shopping_cart.shipping_address') }}&colon;
+          {{ $t('shopping_cart.payment') }}&colon;
         </div>
       </b-col>
     </b-row>
-    <AddressCard
-      v-if="shippingAddress"
-      class="mt-2"
-      editable
-      :full-name="getShippingFullName"
-      :full-address="getShippingAddress"
-      @edit="emitRenderComponentEvent($parent.$options.components.ShippingForm.name)"
-    />
-    <!-- End of Shopping Cart Shipping Address -->
-
-    <!-- Shopping Cart Payment Details -->
     <PaymentCardDetailsCard
       v-if="paymentMethod.paymentType === isCard"
       class="mt-2"
@@ -84,7 +73,7 @@
     <!-- End of Shopping Cart Payment Details -->
 
     <!-- Terms & Conditions Paragraph -->
-    <b-row v-if="billingAddress && shippingAddress && paymentMethod" class="mt-4">
+    <b-row v-if="billingAddress && paymentMethod" class="mt-4">
       <b-col md="3" class="text-center">
         <b-form-checkbox v-model="form.agreedToTerms"></b-form-checkbox>
       </b-col>
@@ -102,26 +91,23 @@
     ><!-- End of Terms & Conditions Paragraph -->
 
     <!-- Shopping Cart Total Price Heading -->
-    <b-row class="mt-4">
-      <b-col md="6" class="text-center">
-        <div class="body-4-medium">{{ $t('shopping_cart.current_total') }}&colon;</div>
+    <b-row class="mt-4 mx-4">
+      <b-col md="6" class="text-left">
+        <div class="body-4-medium">{{ $t('common.total') }}&colon;</div>
       </b-col>
-      <b-col md="6" class="text-center">
+      <b-col md="6" class="text-right">
         <div class="body-4-medium">&dollar;{{ getTotal | formatPrice }}</div>
       </b-col>
     </b-row><!-- End of Shopping Cart Total Price Heading -->
 
     <!-- Shopping Cart Place Order Button -->
-    <b-row class="mt-4">
+    <b-row class="mt-5">
       <b-col v-if="loading" md="12" class="text-center">
         <b-spinner variant="color-blue-2"></b-spinner>
       </b-col>
       <b-col v-else md="12" class="text-center">
         <b-button v-if="!billingAddress" type="button" class="px-5" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.BillingForm.name)">{{
             $t('shopping_cart.proceed_to_billing')
-          }}</b-button>
-        <b-button v-else-if="!shippingAddress" type="button" class="px-5" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.ShippingForm.name)">{{
-            $t('shopping_cart.proceed_to_shipping')
           }}</b-button>
         <b-button v-else-if="!paymentMethod" type="button" class="px-5" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.PaymentOption.name)">{{
             $t('shopping_cart.proceed_to_payment')
@@ -135,7 +121,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import emitEvent from '~/plugins/mixins/emit-event'
 import OrderTitle from '~/components/checkout/common/OrderTitle'
 import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
@@ -194,14 +180,6 @@ export default {
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getBillingAddress: (vm) => {
       return `${vm.billingAddress.addressLine}, ${vm.billingAddress.city}, ${vm.billingAddress.country}, ${vm.billingAddress.zipCode}`
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getShippingFullName: (vm) => {
-      return `${vm.shippingAddress.firstName} ${vm.shippingAddress.lastName}`
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getShippingAddress: (vm) => {
-      return `${vm.shippingAddress.addressLine}, ${vm.shippingAddress.city}, ${vm.shippingAddress.country}, ${vm.shippingAddress.zipCode}`
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getSubtotal: (vm) => {
@@ -301,9 +279,7 @@ export default {
       cardCheckout: 'create-listing/cardCheckout',
       removePaymentToken: 'order-details/removePaymentToken',
       removePaymentMethod: 'auth/removePaymentMethod',
-    }),
-    ...mapMutations({
-      setAuctionItems: 'create-listing/setAuctionItems',
+      addOrderDetails: 'order-details/addOrderDetails',
     }),
     clearPromoCode() {
       this.removePromoCode()
@@ -335,19 +311,6 @@ export default {
           is_default: this.billingAddress.isDefault,
           id: this.billingAddress.id,
         },
-        shipping_address: {
-          first_name: this.shippingAddress.firstName,
-          last_name: this.shippingAddress.lastName,
-          address_line_1: this.shippingAddress.addressLine,
-          email: this.shippingAddress.email,
-          city: this.shippingAddress.city,
-          state: this.shippingAddress.state,
-          zip: this.shippingAddress.zipCode,
-          country: this.shippingAddress.country,
-          type: this.shippingAddress.type,
-          is_default: this.shippingAddress.isDefault,
-          id: this.shippingAddress.id,
-        },
       }))
       Promise.all(promises)
         .then(response => response.map(res => res.data))
@@ -366,37 +329,37 @@ export default {
               paymentToken: this.paymentToken,
               paymentMethod: this.paymentMethod,
               billingAddress: this.billingAddress,
-              shippingAddress: this.shippingAddress,
+              shippingAddress: this.billingAddress,
               shoppingCart: data.map(auction => ({
                 auction_id: auction.id,
                 quantity: 1,
                 price: auction.is_reserved ? auction.reserve_price * this.reserveFee : 0,
               })),
-            }).then(() => {
-              this.loading = false
-              this.removePaymentToken()
-              this.removePaymentMethod()
-              this.setAuctionItems([])
+            }).then((resp) => {
+              this.addOrderDetails(resp.data)
               this.emitRenderComponentEvent(this.$parent.$options.components.ThankYou.name)
             })
             .catch(error => {
-              this.removePaymentToken()
-              this.removePaymentMethod()
-              this.loading = false
-
               if (error.response.status === 400) {
                 this.$toasted.error(this.$t(error.response.data.response_text).toString())
-
-                return
+              } else {
+                this.$toasted.error(error.response.statusText)
               }
-
-              this.$toasted.error(error.response.statusText)
+              this.$axios.delete('/auctions', {
+                data: {
+                  ids: data.map(auction => auction.id)
+                }
+              })
+            })
+            .finally(() => {
+              this.loading = false
+              this.removePaymentToken()
+              this.removePaymentMethod()
             })
           } else {
             this.loading = false
             this.removePaymentToken()
             this.removePaymentMethod()
-            this.setAuctionItems([])
             this.emitRenderComponentEvent(this.$parent.$options.components.ThankYou.name)
           }
         })
