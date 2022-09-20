@@ -115,7 +115,7 @@
                        @dragstart="startDrag($event, item)">
                     <div>
                       <div class="create-trade-size-car">{{$t('trades.create_listing.vendor.wants.size')}} {{ item.size && item.size.size }}</div>
-                      <img alt="No Image" class="plus-icon-add create-trade-plus-icon mt-0" :src="require('~/assets/img/icons/addPlus.svg')"
+                      <img role="button" alt="No Image" class="plus-icon-add create-trade-plus-icon mt-0" :src="require('~/assets/img/icons/addPlus.svg')"
                            @click="addOrIncrementWantedItem(item)"/>
                     </div>
                     <object
@@ -192,7 +192,7 @@
                       <div class="text-left title-combination">
                         {{ $t('trades.create_listing.vendor.wants.combination_no') }} {{ combinationIndex + 1 }}
                       </div>
-                      <img :alt="$t('trades.create_listing.vendor.wants.on_image')"
+                      <img role="button" :alt="$t('trades.create_listing.vendor.wants.on_image')"
                            class="plus-icon-add mt-2 mr-3 create-trade-plus-icon"
                            :src="require('~/assets/img/icons/addPlus.svg')"
                            @click="addWantCombinationItem(combination)"/>
