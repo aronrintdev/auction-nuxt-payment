@@ -307,6 +307,8 @@ export default {
     backToTradeEditing(){
       this.searchForProductsType = null
       this.productFor = null
+      this.searchText = null
+      this.searchedItems = []
     },
     addMoreWantItems(){
       this.searchForProductsType = SEARCH_FOR_WANT_ITEMS
