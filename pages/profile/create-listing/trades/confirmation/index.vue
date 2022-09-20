@@ -115,7 +115,7 @@
     </b-row>
     <b-row v-if="!getTradeItemsWants.length">
       <b-col cols="12" class="d-flex mt-3 pl-5 ml-2 mb-4">
-        <NuxtLink class="font-weight-bolder text-gray" to="/profile/create-listing/drafts">
+        <NuxtLink class="font-weight-bolder text-gray" to="/profile/create-listing/trades/wants">
           {{ $t('trades.create_listing.vendor.wants.click_to_add_want_items') }}
         </NuxtLink>
       </b-col>
