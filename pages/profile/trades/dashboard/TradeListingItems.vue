@@ -28,7 +28,7 @@
         <div v-for="(offer) in trade.offers" :key="'trade-offer-'+offer.id" class="d-flex align-items-center ml-4">
           <img :src="offer.inventory.product | getProductImageUrl" class="inner-item-image h-auto">
           <ul class="inner-item-text">
-            <li class="pt-3">{{ offer.inventory.product.name }}</li>
+            <li class="pt-3 text-truncate product-name">{{ offer.inventory.product.name }}</li>
           </ul>
         </div>
       </div>
@@ -63,7 +63,7 @@ export default {
 
 .trade-listing-item-single
   width: 514px
-  height: 340px
+  height: 370px
   filter: drop-shadow(0px 1px 4px $drop-shadow1)
   background: $color-white-1
   border-radius: 10px
@@ -88,8 +88,8 @@ export default {
   color: $color-gray-4
 
 .inner-items-listed
-  width: 418px
-  height: 190px
+  width: 430px
+  height: 220px
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
 
@@ -110,4 +110,6 @@ export default {
   @include body-12-normal
   color: $color-gray-5
 
+.product-name
+    width : 65%
 </style>
