@@ -22,6 +22,7 @@
         :options="orderFilterItems"
         :label="orderFilterLabel"
         variant="white"
+        width="250px"
         maxWidth="245px"
         dropDownHeight="38px"
         @change="changeOrderFilter"
@@ -40,6 +41,7 @@
             :label="statusFilterLabel"
             variant="white"
             dropDownHeight="38px"
+            width="270px"
             @getResults="fetchTradesListing"
             @change="changeStatusFilter"
           />
