@@ -89,7 +89,7 @@ export default {
 
 .inner-items-listed
   width: 418px
-  height: 217px
+  height: 190px
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
 
