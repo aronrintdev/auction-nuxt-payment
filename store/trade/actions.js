@@ -27,3 +27,14 @@ export async function fetchTradeHubListings({ commit }) {
             commit('setInterestedListings', res.data.data.interested_in_your_listing)
         })
 }
+
+/**
+ * Get Vendor Trade Summary
+ * @param commit
+ */
+export async function fetchVendorTradeSummary({ commit }) {
+    await this.$axios.get('/trades/vendor-summary')
+        .then(res => {
+            commit('setVendorTradeSummary', res.data.data)
+        })
+}

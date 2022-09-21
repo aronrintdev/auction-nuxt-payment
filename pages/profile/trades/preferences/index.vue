@@ -329,6 +329,7 @@ export default {
   methods:{
 
     ...mapActions('browse', ['fetchFilters']), // getter to get filter listing from store
+    ...mapActions('trade', ['fetchTradePreferences']), // getter to get trade preferences
     // get vendor trade preference
     getTradePreferences(){
       this.$axios
