@@ -159,11 +159,13 @@
                       <div
                         class="body-5-normal text-color-gray-38 text-center mt-2"
                       >
-                        <span class="text-decoration-underline">{{
+                        <span class="text-decoration-underline" role="button" @click="$router.push('/terms-and-conditions')">{{
                           $t('auth.terms')
                         }}</span
                         >&nbsp;&amp;&nbsp;<span
                           class="text-decoration-underline"
+                          role="button"
+                          @click="$router.push('/privacy-policy')"
                           >{{ $t('auth.privacy') }}</span
                         >
                       </div>
