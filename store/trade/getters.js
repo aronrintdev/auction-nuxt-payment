@@ -156,4 +156,7 @@ export function getSubmittedOffer(state) {
 export function getCombinationsId(state) {
   return state.combinations
 }
+export function getUpdateCombinations(state) {
+    return state.updateCombinations
+}
 

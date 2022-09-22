@@ -20,6 +20,7 @@ export default function() {
         bestMatches: [],
         activeTrade: [],
         submittedOffer: null,
-        combinations:[]
+        combinations:[],
+        updateCombinations:[],
     }
 }

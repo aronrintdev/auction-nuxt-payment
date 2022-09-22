@@ -1,7 +1,7 @@
 <template>
   <div class="mb-5">
-    <edit-item v-if="editItem" :product="editItem" :itemId="itemId"  :combinationId="combination.combination_id" productFor="wantsList"/>
-    <add-want-item v-else-if="addWantItem" :combinationId="combination.combination_id"/>
+    <edit-item v-if="editItem" :product="editItem" :itemId="itemId"  :combinationId="getUpdateCombinations.combination_id" productFor="wantsList"/>
+    <add-want-item v-else-if="addWantItem" :combinationId="getUpdateCombinations.combination_id"/>
     <div v-else>
       <div  class="back-to-search pt-4" role="button" @click="backWants()">
         <b-icon icon="chevron-left" aria-hidden="true"></b-icon>
@@ -11,9 +11,9 @@
         <b-col cols="6">
           <div class="d-flex align-items-center">
             <div class="create-trade-heading">
-              {{ $t('trades.wants_listing.edit_combination', {0: combination.combination_id}) }}
+              {{ $t('trades.wants_listing.edit_combination', {0: getUpdateCombinations.combination_id}) }}
             </div>
-            <div v-if="combination.combination_items.length < THREE_ITEMS" class="add-item" role="button" @click="addNewItem">
+            <div v-if="getUpdateCombinations.combination_items.length < THREE_ITEMS" class="add-item" role="button" @click="addNewItem">
               {{ $t('trades.wants_listing.add_another_item') }}
             </div>
           </div>
@@ -22,7 +22,7 @@
           </div>
         </b-col>
       </b-row>
-      <div v-for="(item, index) in combination.combination_items" :key="'offer-'+index+item.id">
+      <div v-for="(item, index) in getUpdateCombinations.combination_items" :key="'offer-'+index+item.id">
       <div class="product-num">
         {{ $tc('common.product') }} {{ index + 1 }}
       </div>
@@ -48,7 +48,7 @@
           </div>
         </b-col>
         <b-col cols="2">
-          <div class="confirm-trade-item-quantity">{{ item.quantity }}</div>
+          <div class="confirm-trade-item-quantity" v-if="item.quantity == null">{{ item.quantity }}</div>
         </b-col>
         <b-col cols="2" class="confirm-trade-icons d-flex">
           <div>
@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 import {THREE_ITEMS} from '~/static/constants/trades';
 
 import EditItem from '~/pages/profile/trades/wants/EditItem'
@@ -76,6 +77,7 @@ import {
   STATUS_LIVE
 } from '~/static/constants/create-listing'
 import AddWantItem from '~/pages/profile/trades/wants/AddWantItem'
+
 export default {
   name: 'EditCombination',
   components: {
@@ -84,12 +86,12 @@ export default {
   },
   layout: 'Profile',
   middleware: 'auth',
-  props:{
-    combination: {
-      type: Object,
-      default: () => {},
-    },
-  },
+  // props:{
+  //   combination: {
+  //     type: Object,
+  //     default: () => {},
+  //   },
+  // },
   data() {
     return {
       THREE_ITEMS,
@@ -108,6 +110,7 @@ export default {
     }
   },
   computed:{
+      ...mapGetters('trade', ['getUpdateCombinations']),
     productImage() {
       return this.product.image ? this.product.image : 'https://images.deadstock.co/404.png'
     }
@@ -251,7 +254,7 @@ export default {
       this.$axios.post('/trades/wants/destroy', {
         type,
         want_item_id: id,
-        combination_id: this.combination.combination_id
+        combination_id: this.getUpdateCombinations.combination_id
 
       })
         .then(() => {
