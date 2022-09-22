@@ -78,6 +78,7 @@
       />
     </div>
     <div v-if="wantedItems.length" class="row d-flex mt-3 mb-4">
+
       <b-col  md="2" ms="12">
         <CustomDropdown v-model="category"
                         :options="categoryItems"
@@ -409,6 +410,7 @@ export default {
       }
     },
     handleSelect(item) {
+        console.log('item',item)
       this.selected = []
       if (item?.value === 'create_combination') {
         this.removeCombination = false;
@@ -429,8 +431,8 @@ export default {
     },
 
     handleSelectAll() {
-      if (this.action === 'delete_combination_selected') {
-        this.selected = this.combinationItems.map((p) => p.id)
+      if (this.action === 'delete_combination') {
+        this.selected = this.combinationItems.map((p) => p.combination_id)
       } else {
         this.selected = this.wantedItems.map((p) => p.id)
       }
@@ -485,6 +487,7 @@ export default {
       }, 3000)
     },
     selectItemCombination(data, checked) {
+        console.log('checked',checked,data,'data')
       this.selectedActionType = data.type
       if (checked) {
         this.selected.push(data.id)
