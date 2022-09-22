@@ -66,6 +66,7 @@ export const ITEM_COUNT_ONE = 1
 export const ITEM_COUNT_TWO = 2
 export const ITEM_COUNT_THREE = 3
 export const DEFAULT_FAIR_TRADE_VALUE = 80
+export const CASH_ADDED = 'Cash Added'
 export const CASH_TYPE_ADDED = 'added'
 export const CASH_TYPE_REQUESTED = 'requested'
 export const MAX_LABELS_IN_CUSTOM_DROP_DOWN = 5

@@ -157,3 +157,12 @@ export function getCombinationsId(state) {
   return state.combinations
 }
 
+/**
+ * This mutation is used to get vendor trade summary (trading percentage and total trades)
+ * @param state
+ * @returns {*}
+ */
+export function getVendorTradeSummary(state){
+    return state.vendorSummary
+}
+

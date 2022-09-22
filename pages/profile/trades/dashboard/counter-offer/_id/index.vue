@@ -14,10 +14,10 @@
             <div class="left-item" :class="{'left-item-margin':getTheirItems.length === ONE_ITEM && getYourItems.length}">
               <div class="item-head-trade-hub">{{ $t('trades.trade_arena.theirs') }}:</div>
               <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'trade-item-'+index : ''"
-                  :key="item.id" class="item mb-4"
+                  :key="'their-trade-item-key-'+index" class="item mb-4"
                   :class="[((getTheirItems.length > ONE_ITEM )|| (getYourItems.length)) ? 'item-length' : 'item-normal']">
                 <div v-if="!editYours" class="position-relative">
-                  <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.id)">
+                  <div class="position-absolute remove-item-icon" role="button" @click="removeItem(index)">
                     <img :src="require('~/assets/img/trades/minus-icon.svg')">
                   </div>
                 </div>
@@ -42,14 +42,14 @@
               <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right"></div>
             </div>
             <div class="right-item"
-                :class="{'right-item-margin':getTheirItems.length > ONE_ITEM && getYourItems.length === 0,'mt-10p': getTheirItems.length > ONE_ITEM && getYourItems.length === ONE_ITEM,'mt-8p': getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM}">
+                :class="{'right-item-margin':getTheirItems.length > ONE_ITEM || getYourItems.length === ONE_ITEM,'mt-10p': getTheirItems.length > ONE_ITEM && getYourItems.length === ONE_ITEM,'mt-8p': getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM}">
               <div class="item-head-trade-hub">{{ $t('trades.trade_arena.yours') }}:</div>
               <div v-if="getYourItems.length" >
                 <div v-for="(item, index) in getYourItems"
-                    :id="getYourItems.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="item.id"
+                    :id="getYourItems.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="'your-trade-item-key-'+index"
                     class="preview item-length mb-4">
                   <div v-if="editYours" class="position-relative">
-                    <div class="position-absolute remove-item-icon" role="button" @click.stop="removeItem(item.inventory.id)">
+                    <div class="position-absolute remove-item-icon" role="button" @click.stop="removeItem(index)">
                       <img :src="require('~/assets/img/trades/minus-icon.svg')">
                     </div>
                   </div>
@@ -419,11 +419,11 @@ export default {
       this.cashAdded = value
       this.updateActiveTrade()
     },
-    removeItem(itemId){
+    removeItem(itemIndex){
       if(this.editYours){
-        this.$store.commit('counter-offer/removeYourItem', itemId)
+        this.$store.commit('counter-offer/removeYourItem', itemIndex)
       }else{
-        this.$store.commit('counter-offer/removeTheirItem', itemId)
+        this.$store.commit('counter-offer/removeTheirItem', itemIndex)
       }
       this.$nextTick(() => this.$forceUpdate())
       this.updateActiveTrade()
