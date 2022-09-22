@@ -40,13 +40,15 @@
           />
       </b-col>
     </b-row>
+       {{wantedItems.length}}
+       {{ combinationItems.length}}
     <BulkSelectToolbar
       ref="bulkSelectToolbar"
       :active="!!action"
       :selected="selected"
       :unit-label="$tc('common.item', selected.length)"
       :action-label="`${$tc(`trades.${action}_selected`)} ${action === 'create_combination' ? `#${combinationNum}` : ''}`"
-      :total="wantedItems.length"
+      :total="action === 'delete_combination' ? combinationItems.length :wantedItems.length"
       :error="errorSelection"
       class="mt-3"
       @close="cancelAction()"
@@ -410,7 +412,6 @@ export default {
       }
     },
     handleSelect(item) {
-        console.log('item',item)
       this.selected = []
       if (item?.value === 'create_combination') {
         this.removeCombination = false;
@@ -470,6 +471,8 @@ export default {
       }
     },
     deleteWant(type) {
+        console.log('type',type)
+        console.log('selected',this.selected)
       this.$axios.post('/trades/wants/destroy', {type, selected_ids: this.selected})
         .then(() => {
           this.selected = []
