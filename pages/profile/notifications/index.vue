@@ -1,11 +1,11 @@
 <template>
   <div class="profile-notification p-5">
     <div class="title">
-      {{ $t('notifications.title') }}
+      {{ tabTitle }}
     </div>
-    <NotificationFilters @filter="filtersChanged"/>
+    <NotificationFilters v-if="currentTab === 'Notifications'" @filter="filtersChanged"/>
 
-    <div class="text-center">
+    <div class="text-center mt-4">
       <NavGroup
           :data="tabs"
           :value="currentTab"
@@ -14,6 +14,7 @@
       />
     </div>
     <NotificationsTab v-if="currentTab === 'Notifications'"/>
+    <NotificationSettings v-if="currentTab === 'Settings'"/>
   </div>
 </template>
 
@@ -21,10 +22,11 @@
 import {NavGroup} from '~/components/common';
 import NotificationFilters from '~/components/profile/notifications/NotificationFilters';
 import NotificationsTab from '~/components/profile/notifications/NotificationsTab';
+import NotificationSettings from '~/components/profile/notifications/NotificationSettings';
 
 export default {
   name: 'Notifications',
-  components: {NotificationsTab, NotificationFilters, NavGroup},
+  components: {NotificationSettings, NotificationsTab, NotificationFilters, NavGroup},
   layout: 'Profile',
   data() {
     return {
@@ -40,6 +42,11 @@ export default {
         },
       ],
       NotificationTab: null
+    }
+  },
+  computed: {
+    tabTitle(){
+      return this.currentTab === 'Notifications'? this.$t('notifications.title'):  this.$t('notifications.notification_settings')
     }
   },
   methods: {

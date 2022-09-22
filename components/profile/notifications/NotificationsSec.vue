@@ -2,11 +2,11 @@
   <div>
     <section class="mt-3">
       <NotificationItem
-        v-for="(notification, x) in newNotifications"
-        :key="x"
-        :notification="notification"
-        action
-        class="mt-2"
+          v-for="(notification, x) in newNotifications"
+          :key="x"
+          :notification="notification"
+          action
+          class="mt-2"
       />
     </section>
     <div class="d-flex justify-content-between align-items-center mt-4">
@@ -14,25 +14,26 @@
         {{ $t('notifications.this_week') }}
         <span class="text-primary ml-2">{{ earlyNotifications.length }}</span>
       </h3>
+
     </div>
     <section class="mt-3">
       <NotificationItem
-        v-for="(notification, x) in earlyNotifications"
-        :key="x"
-        :notification="notification"
-        action
-        class="mt-2"
+          v-for="(notification, x) in earlyNotifications"
+          :key="x"
+          :notification="notification"
+          action
+          class="mt-2"
       />
     </section>
   </div>
 </template>
 
 <script>
-import NotificationItem from '~/components/header/NotificationItem'
+import NotificationItem from '~/components/header/NotificationItem';
 
 export default {
   name: 'NotificationsSec',
-  components: { NotificationItem },
+  components: {NotificationItem},
   data() {
     return {
       // TODO
@@ -57,7 +58,7 @@ export default {
           text: 'There is only one day left to approve your Jordan 4 Retro (2021) trade',
           read: true,
           favorite: false,
-          url: '/profile/wish-lists',
+          url: '#',
           category: 'trade',
           type: 'new',
         },
@@ -65,14 +66,14 @@ export default {
           text: 'Trade offer accepted',
           category: 'order',
           favorite: false,
-          url: '/profile/wish-lists',
+          url: '#',
           type: 'earlier',
         },
         {
           text: 'Order has been delivered',
           category: 'order',
           favorite: false,
-          url: '/profile/wish-lists',
+          url: '#',
           type: 'earlier',
         },
         {
@@ -87,12 +88,12 @@ export default {
           category: 'wishlist',
           read: true,
           favorite: false,
-          url: '/profile/wish-lists',
+          url: '#',
           type: 'earlier',
         },
         {
           text: 'There is only one day left to approve your Jordan 4 Retro (2021) trade',
-          url: '/profile/wish-lists',
+          url: '#',
           category: 'trade',
           favorite: false,
           type: 'earlier',
@@ -101,21 +102,21 @@ export default {
           text: 'Order has been delivered',
           category: 'order',
           favorite: false,
-          url: '/profile/wish-lists',
+          url: '#',
           type: 'earlier',
         },
         {
           text: 'Order has been delivered',
           category: 'order',
           favorite: false,
-          url: '/profile/wish-lists',
+          url: '#',
           type: 'earlier',
         },
         {
           text: 'Order has been delivered',
           category: 'order',
           favorite: false,
-          url: '/profile/wish-lists',
+          url: '#',
           type: 'earlier',
         },
       ],
