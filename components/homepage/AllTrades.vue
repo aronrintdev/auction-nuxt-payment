@@ -3,26 +3,29 @@
     <div class="row align-items-center mx-md-5">
       <div class="col-4 col-md-2 d-flex">
         <h1 class="heading-garamond">
-          {{ $t('home_page.new') }} <br />
-          {{ $t('home_page.releases') }}
+          {{ $t('home_page.all') }} <br />
+          {{ $t('home.trades') }}
         </h1>
       </div>
       <div class="col-6 col-md-3">
         <h5 class="fw-4 fs-18 font-primary mb-0 text-gray-light garamond-desc">
-          {{ $t('home_page.new_releases_description') }}
+          {{ $t('home_page.trade_desc') }}
         </h5>
       </div>
       <div class="col-2 col-md-7 d-flex justify-content-end">
-        <ViewMoreBtn :label="$t('home_page.view_more_products')" to="#" />
+        <ViewMoreBtn :label="$t('home_page.view_more_trade')" to="#" />
       </div>
     </div>
-    <NavGroup
-      :data="categoryItems"
-      :value="currentCategory"
-      nav-key="new_releases"
-      class="text-center my-5"
-      @change="handleCategoryChange"
-    />
+
+    <div class="my-5">
+      <div class="banner">
+        <h1
+          class="fw-7 fs-24 font-primary text-white text-center text-uppercase mb-0"
+        >
+          {{ $t('home_page.trade_areana') }}
+        </h1>
+      </div>
+    </div>
 
     <div class="row">
       <div
@@ -36,21 +39,14 @@
   </div>
 </template>
 <script>
-import NavGroup from '~/components/common/NavGroup.vue'
 import ProductCard from '~/components/product/Card'
 export default {
-  name: 'HomeNewReleases',
-  components: { NavGroup, ProductCard },
+  name: 'AllTrades',
+  components: { ProductCard },
   fetchOnServer: false,
   data() {
     return {
       products: [],
-      categoryItems: [
-        { label: this.$t('common.footwear'), value: 'sneakers' },
-        { label: this.$t('common.apparel'), value: 'apparel' },
-        { label: this.$tc('common.accessory', 2), value: 'accessories' },
-      ],
-      currentCategory: 'sneakers',
     }
   },
   async fetch() {
@@ -71,12 +67,19 @@ export default {
         .then((res) => res.data || [])
         .catch(() => [])
     },
-    handleCategoryChange(category) {
-      if (this.currentCategory !== category) {
-        this.currentCategory = category
-        this.fetchProducts()
-      }
-    },
   },
 }
 </script>
+<style lang="sass" scoped>
+.banner
+  background-image: url('~/assets/img/home/all-trades-cover.png')
+  background-repeat: no-repeat
+  background-position: center
+  background-size: cover
+  height: 400px
+  padding: 50px
+  @media (max-width: 550px)
+    background-image: url('~/assets/img/home/all-trades-cover-sm.png')
+    height: 215px
+    padding: 24px
+</style>

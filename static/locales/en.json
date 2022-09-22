@@ -351,7 +351,31 @@
     "new_releases_description": "Shop the latest sneakers, apperal and accessories",
     "view_all": "View All",
     "view_more_products": "View More Products",
+    "price": "Price",
+    "trends": "Trends",
+    "price_trends_desc": "Stay up to date on the latest price trends with the Dead Stock-Exchange.",
+    "view_price_trends": "View Dead Stock Exchange",
     "shop": "Shop",
+    "shop_now": "Shop Now",
+    "hero_heading": "Footwear, Apparel, and",
+    "hero_heading2": "Accessories",
+    "by_category": "By Category",
+    "shop_by_category_desc": "Browse through different types of items to secure the latest releases.",
+    "shop_by_brand_description": "  Browse items from your favorite names in fashion.",
+    "auction_desc": "Place bids on a single item or an entire collection to secure your favorite footwear, apparel and accessories",
+    "auction_house": "Auction House",
+    "trade": "Trade",
+    "trade_desc": "Use footwear, apparel, accessories, and cash to trade items.",
+    "trade_areana": "Trade Areana",
+    "newestfeatures_description": "View the latest features found on Deadstock V2 app",
+    "shareable_wishlist": "SHARABLE WISHLISTS & WATCHLISTS",
+    "intl_shipping": "INTL’ SHIPPING",
+    "crypto": "Crypto",
+    "clothing": "CLOTHING & ACCESSORIES",
+    "search_results": "Search Results",
+    "instant": "Instant",
+    "shipping": "Shipping",
+    "instant_shipping_desc": "View products pre-authenticated and ready to ship today",
     "footwear": "Footwear",
     "shop_footwear_description": "Shop for your favorite sneakers",
     "view_more_footwear": "View More Footwear",
@@ -366,7 +390,6 @@
     "shop_by_style_description": "Shop from looks, categories or best sellers",
     "view_more_styles": "View More Styles",
     "by_brand": "By Brand",
-    "shop_by_brand_description": "Shop from your favorite brands",
     "view_more_brands": "View More Brands",
     "looks": "Looks",
     "brand": "Brand",
@@ -398,7 +421,6 @@
     "up_for_trade": "Up For Trade",
     "newest": "Newest",
     "features": "Features",
-    "newestfeatures_description": "View the lastest features found on Deadstock",
     "releasecalendar": "Release Calendar",
     "in_app_games": "In App Games",
     "ambassador_hub": "Ambassador Hub",
@@ -419,8 +441,7 @@
     "all": "All",
     "payments": "Payments",
     "profile": "Profile",
-    "view_more": "View More",
-    "search_results": "Search Results"
+    "view_more": "View More"
   },
   "Sign Up": "Sign Up",
   "Log In": "Log In",
@@ -4423,14 +4444,14 @@
       "date_low_to_high": "Date Added - Ascending",
       "date_high_to_low": "Date Added - Descending ",
       "edit_combination": "Edit Combination #{0}",
-      "add_another_item" : "+ Add Another Item",
+      "add_another_item": "+ Add Another Item",
       "edit_or_add_new_items_to_your_combination": "Edit or add new items to your combination",
       "back_to_wants": "Back to Trade Wants",
       "you_cannot_select_more_than": "You cannot select more than 3 items in one combination"
     },
-    "create_combination_selected" : "Add to Combination",
+    "create_combination_selected": "Add to Combination",
     "delete_selected": "Delete Selected",
-    "delete_combination_selected" : "Delete Selected",
+    "delete_combination_selected": "Delete Selected",
     "add_new_item": "Add New Item",
     "back_to_trade_editing": "Back to Trade Editing",
     "back_to_trade_search": "Back to Trade Search",
@@ -5006,7 +5027,6 @@
       "ds_points": "DS Points",
       "your_next_reward": "Your Next Reward",
       "points_will_expire_on": "Points Will Expire On"
-      
     },
     "promotions": {
       "title": "Promotions",
@@ -5027,13 +5047,5 @@
       "send_to_deadstock": "Send to Deadstock",
       "view_order": "View Order"
     }
-  },
-  "offers_received" : {
-    "heading" : "Offers Received",
-    "your_placed_offers"  : "Your Received Offers ({count})",
-    "placed_offers_desc"  : "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
-    "start_date"  : "Start Date",
-    "end_date"  : "End Date",
-    "remove_multiple" : "Remove Multiple"
   }
-}
+} 

@@ -3,19 +3,30 @@
     <div class="row align-items-center mx-md-5">
       <div class="col-4 col-md-2 d-flex">
         <h1 class="heading-garamond">
-          {{ $t('home_page.new') }} <br />
-          {{ $t('home_page.releases') }}
+          {{ $t('home_page.price') }} <br />
+          {{ $t('home_page.trends') }}
         </h1>
       </div>
       <div class="col-6 col-md-3">
         <h5 class="fw-4 fs-18 font-primary mb-0 text-gray-light garamond-desc">
-          {{ $t('home_page.new_releases_description') }}
+          {{ $t('home_page.price_trends_desc') }}
         </h5>
       </div>
       <div class="col-2 col-md-7 d-flex justify-content-end">
-        <ViewMoreBtn :label="$t('home_page.view_more_products')" to="#" />
+        <ViewMoreBtn :label="$t('home_page.view_price_trends')" to="#" />
       </div>
     </div>
+
+    <div class="my-5">
+      <div class="banner">
+        <h1
+          class="fw-7 fs-24 font-primary text-white text-center text-uppercase mb-0"
+        >
+          {{ $t('home.deadstock_exchange') }}
+        </h1>
+      </div>
+    </div>
+
     <NavGroup
       :data="categoryItems"
       :value="currentCategory"
@@ -23,34 +34,25 @@
       class="text-center my-5"
       @change="handleCategoryChange"
     />
-
-    <div class="row">
-      <div
-        v-for="(product, index) in products"
-        :key="index"
-        class="col-6 col-md-3"
-      >
-        <ProductCard :product="product" />
-      </div>
-    </div>
+    <ProductTrendTable />
   </div>
 </template>
 <script>
 import NavGroup from '~/components/common/NavGroup.vue'
-import ProductCard from '~/components/product/Card'
+import ProductTrendTable from '~/components/product/TrendTable.vue'
 export default {
-  name: 'HomeNewReleases',
-  components: { NavGroup, ProductCard },
+  name: 'PriceTrends',
+  components: { NavGroup, ProductTrendTable },
   fetchOnServer: false,
   data() {
     return {
       products: [],
       categoryItems: [
-        { label: this.$t('common.footwear'), value: 'sneakers' },
-        { label: this.$t('common.apparel'), value: 'apparel' },
-        { label: this.$tc('common.accessory', 2), value: 'accessories' },
+        { label: 'Trending', value: 'trending' },
+        { label: 'Biggest Gainers', value: 'gainers' },
+        { label: 'Biggest Losers', value: 'losers' },
       ],
-      currentCategory: 'sneakers',
+      currentCategory: 'trending',
     }
   },
   async fetch() {
@@ -80,3 +82,16 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+.banner
+  background-image: url('~/assets/img/home/price-trend-cover.png')
+  background-repeat: no-repeat
+  background-position: center
+  background-size: cover
+  height: 400px
+  padding: 50px
+  @media (max-width: 550px)
+    background-image: url('~/assets/img/home/price-trend-cover-sm.png')
+    height: 215px
+    padding: 24px
+</style>

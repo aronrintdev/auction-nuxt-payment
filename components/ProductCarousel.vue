@@ -12,7 +12,6 @@
         :mouse-drag="false"
         :dots="false"
         class="carousel"
-        autoWidth
       >
         <template #default>
           <div
@@ -20,13 +19,15 @@
             :key="`product-carousel-${index}`"
             :class="{ item: true, 'photo-item': variant === 'photo' }"
           >
-            <ProductCard v-if="variant === 'detail'" :product="product" />
+            <div>
+              <ProductCard v-if="variant === 'detail'" :product="product" />
+            </div>
             <nuxt-link v-if="variant === 'photo'" :to="`/shop/${product.sku}`">
               <ProductThumb
                 :src="product.image"
                 :product="product"
-                :width="261"
-                :height="445"
+                :width="300"
+                :height="350"
               />
             </nuxt-link>
           </div>
@@ -56,7 +57,7 @@ import ProductCard from '~/components/product/Card.vue'
 import ProductThumb from '~/components/product/Thumb.vue'
 
 export default {
-  name: 'ProductCarousel',
+  name: 'ProductCarousel2',
 
   components: { ProductCard, ProductThumb },
 
@@ -83,7 +84,7 @@ export default {
           700: { items: 2, nav: false, center: false },
           950: { items: 3, nav: false, center: false },
           1150: { items: 4, nav: false, center: false },
-          1400: { items: 5, nav: false, center: false },
+          1400: { items: 4, nav: false, center: false },
         }
       } else {
         return {
@@ -110,42 +111,48 @@ export default {
 
 .product-carousel-wrapper
   padding: 0
+
   .no-text
     @include body-4-medium
     text-align: center
     color: $color-gray-5
-  .owl-stage::v-deep
-      width: 100%
+
   .carousel::v-deep
     width: 100%
-    padding: 0
     text-align: center
     position: relative
     margin-left: auto
     margin-right: auto
     display: flex
     align-items: center
+
     >span .owl-nav
       display: block
+
     .owl-carousel
       .item
         text-align: left
         margin: 0
-        max-width: 280px
-        // margin-left: auto
-        // margin-right: auto
+        margin-left: auto
+        margin-right: auto
+
         &.photo-item
-          max-width: 261px
+          max-width: 260px
+
           img
-            border-radius: 4px
+            border-radius: 5px
+
     .owl-nav
       width: auto
       cursor: pointer
+
       [class*='owl-']
         background: none
+
       &.owl-next
         float: right
         margin-right: -47px !important
+
       &.owl-prev
         float: left
         margin-left: -47px !important

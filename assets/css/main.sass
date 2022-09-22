@@ -129,12 +129,14 @@ html,
 body
   font-family: $font-family-base
 
+body
+  margin: 0
+
 .h-logo img
   height: auto
   width: 100%
 
 .bg-light
-
 
   li
     list-style: none
@@ -528,7 +530,6 @@ svg
       border: 0 !important
       color: $color-black-1 !important
 
-
 .trade-pagination
   li
     button
@@ -538,7 +539,6 @@ svg
     .page-link
       background: none !important
       color: $color-gray-23 !important
-
 
   .page-item.active
     .page-link
@@ -686,11 +686,17 @@ svg[disabled]
 .bg-lightgrey
   background-color: $color-white-4
 
+.text-gray-light
+  color: $color-gray-30
+
 .font-primary
   font-family: $font-family-base
 
 .font-secondary
   font-family: $font-sp-pro
+
+.font-adobe-garamond
+  font-family: $font-family-garamond
 
 @for $i from 3 through 9
   .fw-#{$i}
@@ -758,5 +764,20 @@ $radii: 3, 5, 8, 10, 15, 20, 25
 .bg-white-4
   background-color: $color-white-4
 
-.bg-blue-primary 
+.bg-blue-primary
   background-color: $color-blue-20
+
+.heading-garamond
+  font-weight: 700
+  font-size: 40px
+  line-height: 40px
+  font-family: $font-family-garamond
+  margin: 0
+  text-align: right
+  @media (max-width: 768px)
+    font-size: 24px
+    line-height: 24px
+
+.garamond-desc
+  @media (max-width: 768px)
+    font-size: 12px

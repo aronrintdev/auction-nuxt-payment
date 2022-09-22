@@ -54,7 +54,7 @@
 import ProductThumb from '~/components/product/Thumb.vue'
 
 export default {
-  name: 'ProductCarousel',
+  name: 'ProductCarousel3',
 
   components: { ProductThumb },
 

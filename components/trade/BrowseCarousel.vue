@@ -17,10 +17,7 @@
         class="carousel"
       >
         <template #default>
-          <div
-            v-for="(trade) in trades"
-            :key="`trade-carousel-item-${trade.id}`"
-          >
+          <div v-for="trade in trades" :key="`trade-carousel-item-${trade.id}`">
             <div
               v-for="(product, index) in trade.offers"
               :key="`trade-carousel-${index}`"
@@ -29,7 +26,8 @@
               <nuxt-link :to="'/trades/' + trade.id">
                 <BrowseItemCard
                   :trade="extractTradeInformation(trade)"
-                  :product="product.inventory.product" />
+                  :product="product.inventory.product"
+                />
               </nuxt-link>
             </div>
           </div>
@@ -70,13 +68,13 @@ export default {
   },
   methods: {
     // extract trade information
-    extractTradeInformation(trade){
+    extractTradeInformation(trade) {
       return {
-          id: trade.id,
-          created_at: trade.created_at,
-        }
+        id: trade.id,
+        created_at: trade.created_at,
+      }
     },
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>

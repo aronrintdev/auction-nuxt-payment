@@ -1,5 +1,5 @@
 <template>
-  <div class="thumb-wrapper" @click="handleClick">
+  <div class="thumb-wrapper overflow-hidden" @click="handleClick">
     <b-img :src="imageUrl" :width="width" :height="height" :alt="altText" />
     <div v-if="overlay" class="overlay"></div>
   </div>
@@ -8,7 +8,6 @@
 import { PRODUCT_FALLBACK_URL, API_PROD_URL } from '~/static/constants'
 export default {
   name: 'ProductThumb',
-
   props: {
     src: {
       type: String,
@@ -35,19 +34,16 @@ export default {
       default: false,
     },
   },
-
   data() {
     return {
       API_PROD_URL,
     }
   },
-
   computed: {
     params() {
       const values = { small: '300', large: '800', original: 'original' }
       return this.variant ? '?width=' + values[this.variant] : ''
     },
-
     imageUrl() {
       if (this.src) {
         if (this.src.indexOf('//') === 0) {
@@ -56,17 +52,25 @@ export default {
           return this.src
         }
       } else if (this.product) {
-        return API_PROD_URL+'/'+(this.product.category_name ? this.product.category_name : this.product.category.name)+'/'+this.product.sku+'/image'+this.params
+        return (
+          API_PROD_URL +
+          '/' +
+          (this.product.category_name
+            ? this.product.category_name
+            : this.product.category.name) +
+          '/' +
+          this.product.sku +
+          '/image' +
+          this.params
+        )
       } else {
         return PRODUCT_FALLBACK_URL
       }
     },
-
     altText() {
       return this.product ? this.product.name : ''
     },
   },
-
   methods: {
     handleClick(event) {
       this.$emit('click', event)
@@ -75,17 +79,18 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
 .thumb-wrapper
   position: relative
-
+  background-color: $color-white-4
   img
     width: 100%
-
+    aspect-ratio: 1
   .overlay
     position: absolute
     top: 0px
     left: 0px
     width: 100%
     height: 100%
-    background: rgb(153,153,153,0.1)
+    background: $color-black-12
 </style>

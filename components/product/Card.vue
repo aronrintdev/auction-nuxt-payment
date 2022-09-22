@@ -4,7 +4,7 @@
     class="product-card-wrapper"
   >
     <div class="product-image">
-      <ProductThumb :product="product" />
+      <ProductThumb :src="product.image" :product="product" />
       <div class="overlay" @click="goToDetailPage"></div>
       <b-checkbox
         v-if="selectable"
@@ -43,9 +43,15 @@
         </div>
       </div>
     </div>
-    <div class="product-name">{{ product.name }}</div>
-    <div class="product-color">{{ product.colorway }}</div>
-    <div class="product-price">{{ product.sale_price | toCurrency }}</div>
+    <div class="mt-1 px-2">
+      <div class="fs-15 fw-6 font-secondary">{{ product.name }}</div>
+      <div class="fs-14 fw-5 font-secondary text-gray-light">
+        {{ product.colorway }}
+      </div>
+      <div class="fs-15 fw-6 font-secondary">
+        {{ product.sale_price | toCurrency }}
+      </div>
+    </div>
 
     <WishListPopover
       v-if="!wishList"
@@ -174,24 +180,21 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .product-card-wrapper
-  max-width: 213px
-  margin-left: auto
-  margin-right: auto
+  max-width: initial
+  margin-left: 10px
+  margin-right: 10px
   text-align: left
-
   &:hover
     .product-image
       .overlay
         background: rgb(98,98,98,0.1)
-
       .product-actions
         display: flex
-
   .product-image
     position: relative
-    height: 240px
+    height: auto
+    aspect-ratio: 1
     padding: 0 20px
     display: flex
     justify-content: center
@@ -199,17 +202,14 @@ export default {
     margin-left: auto
     margin-right: auto
     cursor: pointer
-
     .check-box
       left: 13px
       position: absolute
       top: 9px
-
     img
       width: 100%
       height: auto
       cursor: pointer
-
     .overlay
       position: absolute
       top: 0px
@@ -218,7 +218,6 @@ export default {
       height: 100%
       background: rgb(153,153,153,0.1)
       transition: .5s ease
-
     .product-actions
       display: none
       align-items: center
@@ -228,43 +227,15 @@ export default {
       border-radius: 20px
       padding: 7px 16px
       width: 162px
-
       &.show-actions
         display: flex
-
       .action-item
         padding: 0 22px
         height: 15px
-
         &:not(:last-child)
           border-right: 1px solid $color-gray-4
-
       .action-icon::v-deep
         img
           width: 15px
           height: 15px
-
-  .product-name
-    @include body-8-medium
-    color: $color-black-1
-    margin-top: 13px
-    text-overflow: ellipsis
-    overflow: hidden
-    white-space: nowrap
-    padding: 0 7px
-
-  .product-color
-    @include body-5-normal
-    color: $color-gray-5
-    margin-top: 3px
-    text-overflow: ellipsis
-    overflow: hidden
-    white-space: nowrap
-    padding: 0 7px
-
-  .product-price
-    @include body-4-medium
-    color: $color-black-1
-    margin-top: 7px
-    padding: 0 7px
 </style>

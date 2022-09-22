@@ -3,13 +3,13 @@
     <div class="row align-items-center mx-md-5">
       <div class="col-4 col-md-2 d-flex">
         <h1 class="heading-garamond">
-          {{ $t('home_page.shop') }} <br />
-          {{ $t('home_page.by_style') }}
+          {{ $t('home_page.instant') }} <br />
+          {{ $t('home_page.shipping') }}
         </h1>
       </div>
       <div class="col-6 col-md-3">
         <h5 class="fw-4 fs-18 font-primary mb-0 text-gray-light garamond-desc">
-          {{ $t('home_page.shop_by_style_description') }}
+          {{ $t('home_page.instant_shipping_desc') }}
         </h5>
       </div>
       <div class="col-2 col-md-7 d-flex justify-content-end">
@@ -23,75 +23,60 @@
       class="text-center my-5"
       @change="handleCategoryChange"
     />
-    <div class="products row">
-      <div v-for="product in products" :key="product.id" class="col-6 col-lg-3">
-        <ProductThumb :src="product.image" :height="500" :product="product" />
+
+    <div class="row">
+      <div
+        v-for="(product, index) in products"
+        :key="index"
+        class="col-6 col-md-3"
+      >
+        <ProductCard :product="product" />
       </div>
     </div>
   </div>
 </template>
 <script>
 import NavGroup from '~/components/common/NavGroup.vue'
-import ProductThumb from '~/components/product/Thumb.vue'
+import ProductCard from '~/components/product/Card'
 export default {
-  name: 'HomeShopByStyle',
-
-  components: { NavGroup, ProductThumb },
-
+  name: 'InstantShipping',
+  components: { NavGroup, ProductCard },
   fetchOnServer: false,
-
   data() {
     return {
+      products: [],
       categoryItems: [
         { label: 'All', value: 'all' },
         { label: 'Trending', value: 'trending' },
         { label: 'Best Seller', value: 'best' },
       ],
       currentCategory: 'all',
-      products: [],
-      styles: [],
     }
   },
-
-  mounted() {
-    this.fetchStyles()
+  async fetch() {
+    await this.fetchProducts()
   },
-
   methods: {
-    // fetch styles as per selected category
-    fetchStyles() {
-      this.$axios
-        .get('/shop-by-style', {
+    async fetchProducts() {
+      this.products = await this.$axios
+        .get('/products/selling', {
           params: {
-            type: this.currentCategory,
+            order_by: 'release_date',
+            desc: 1,
+            take: 10,
+            category: this.currentCategory,
           },
+          handleError: false,
         })
-        .then((res) => {
-          this.styles = res.data
-        })
-        .catch((error) => {
-          this.$toasted.error(error)
-        })
+        .then((res) => res.data || [])
+        .catch(() => [])
     },
-
     handleCategoryChange(category) {
-      this.currentCategory = category
-      this.fetchStyles()
+      if (this.currentCategory !== category) {
+        this.currentCategory = category
+        this.fetchProducts()
+      }
     },
   },
 }
 </script>
-<style lang="sass" scoped>
-.section-wrapper
-  padding: 0
-
-  .section-header
-    margin-top: 70px
-
-  .section-nav
-    margin-top: 37px
-    text-align: center
-
-  .section-carousel
-    margin-top: 37px
-</style>

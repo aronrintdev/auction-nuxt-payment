@@ -1,7 +1,7 @@
 <template>
   <table class="table trend-table-wrapper">
     <thead>
-      <tr>
+      <tr class="d-none d-sm-table-row">
         <td></td>
         <td colspan="2">{{ $t('common.ranking') }} #</td>
         <td>{{ $t('common.name') }}</td>
@@ -26,11 +26,14 @@
           <div class="text-name">{{ product.name }}</div>
           <div class="text-color">{{ product.colorway }}</div>
         </td>
-        <td class="col-price">{{ product.last_price | toCurrency }}</td>
+        <td class="col-price d-none d-sm-table-cell">
+          {{ product.last_price | toCurrency }}
+        </td>
         <td
           :class="`col-trend-${
             product.trend_24h >= 0 ? 'positive' : 'negative'
           }`"
+          class="d-none d-sm-table-cell"
         >
           {{ product.trend_24h | toPercentage }}
         </td>
@@ -38,6 +41,7 @@
           :class="`col-trend-${
             product.trend_7d >= 0 ? 'positive' : 'negative'
           }`"
+          class="d-none d-sm-table-cell"
         >
           {{ product.trend_7d | toPercentage }}
         </td>
@@ -45,15 +49,26 @@
           :class="`col-trend-${
             product.trend_30d >= 0 ? 'positive' : 'negative'
           }`"
+          class="d-none d-sm-table-cell"
         >
           {{ product.trend_30d | toPercentage }}
         </td>
-        <td class="col-graph">
+        <td class="col-graph d-none d-sm-table-cell">
           <LineChart
             :chart-data="product.last_7d_data"
             :options="chartOptions"
             class="trend-graph"
           ></LineChart>
+        </td>
+        <td class="d-table-cell d-sm-none text-right">
+          <div class="col-price">{{ product.last_price | toCurrency }}</div>
+          <div
+            :class="`col-trend-${
+              product.trend_24h >= 0 ? 'positive' : 'negative'
+            }`"
+          >
+            {{ product.trend_24h | toPercentage }}
+          </div>
         </td>
       </tr>
     </tbody>
@@ -61,12 +76,9 @@
 </template>
 <script>
 import ProductThumb from '~/components/product/Thumb.vue'
-
 export default {
   name: 'ProductTrendListCard',
-
   components: { ProductThumb },
-
   props: {
     products: {
       type: Array,
@@ -231,7 +243,6 @@ export default {
       },
     },
   },
-
   data() {
     return {
       chartOptions: {
