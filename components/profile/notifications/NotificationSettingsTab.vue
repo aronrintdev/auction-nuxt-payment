@@ -13,8 +13,11 @@
 </template>
 
 <script>
+import _ from 'lodash'
+import {mapActions, mapGetters} from 'vuex';
 import NotificationSettingsSection from '~/components/profile/notifications/NotificationSettingsSection';
 import {ALL_SETTINGS} from '~/static/constants/notifications';
+
 export default {
   name: 'NotificationSettingsTab',
   components: {NotificationSettingsSection},
@@ -24,9 +27,25 @@ export default {
       default: 'buying'
     }
   },
+  computed: {
+    ...mapGetters({
+      'getSettings': 'notifications/getSettings'
+    })
+  },
+  mounted() {
+    this.fetchSettings()
+  },
   methods: {
-    settings(category){
-      return Object.keys(ALL_SETTINGS[this.tab][category]).map(key => ALL_SETTINGS[this.tab][category][key])
+    ...mapActions({
+      'fetchSettings': 'notifications/getUserSettings'
+    }),
+    getSingleSetting(key) {
+      const setting = this.getSettings.filter(sett => sett.key === key)
+      return setting.length ? JSON.parse(setting[0].extra) || {} : {}
+    },
+    settings(category) {
+      return Object.keys(ALL_SETTINGS[this.tab][category])
+          .map(key => _.merge(ALL_SETTINGS[this.tab][category][key], {data: this.getSingleSetting(ALL_SETTINGS[this.tab][category][key].key)}))
     }
   }
 }

@@ -59,11 +59,16 @@ export function getUnreadCount({commit}, payload) {
 
 /**
  * Get user notification Settings
- * @param {Object} context
+ * @param commit
  * @return {Promise<AxiosResponse<any>>}
  */
-export function getUserSettings(context) {
-    return this.$axios.get('notification-settings')
+export function getUserSettings({commit}) {
+    return this.$axios.get('notification-settings').then(res => {
+        commit('setSettings', res.data.data)
+        Promise.resolve(res)
+    }).catch(err => {
+        Promise.reject(err)
+    })
 }
 
 /**

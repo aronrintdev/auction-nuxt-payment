@@ -60,6 +60,8 @@ export default {
       this.$router.push('/login')
     }
     this.onResize()
+    this.$store.dispatch('notifications/getNotifications')
+    this.$store.dispatch('notifications/getUnreadCount')
     window.addEventListener('resize', this.onResize);
   },
   beforeDestroy() {

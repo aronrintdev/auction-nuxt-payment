@@ -80,7 +80,7 @@ export default {
     color: $color-black-1
     background-color: $color-white-1
     border: none
-    min-width: 230px
+    min-width: 240px
 
     &.h-32
       height: 40px

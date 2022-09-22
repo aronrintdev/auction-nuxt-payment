@@ -14,3 +14,12 @@ export function getNotifications(state) {
 export function getUnreadCount(state) {
   return state.unreadCount
 }
+
+/**
+ * Get settings
+ * @param state
+ * @return {number}
+ */
+export function getSettings(state) {
+  return state.settings
+}

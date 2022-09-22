@@ -266,6 +266,8 @@ export default {
           this.$toasted.success(
             this.$t('login.success_message.login_successfull').toString()
           )
+          this.$store.dispatch('notifications/getNotifications')
+          this.$store.dispatch('notifications/getUnreadCount')
           this.$router.push('/?lang=' + this.getLang.locale)
         })
         .catch((error) => {
