@@ -486,7 +486,6 @@ export default {
       }, 3000)
     },
     selectItemCombination(data, checked) {
-        console.log('checked',checked,data,'data')
       this.selectedActionType = data.type
       if (checked) {
         this.selected.push(data.id)
