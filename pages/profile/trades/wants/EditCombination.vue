@@ -47,9 +47,7 @@
             </div>
           </div>
         </b-col>
-        <b-col cols="2">
-          <div class="confirm-trade-item-quantity" v-if="item.quantity == null">{{ item.quantity }}</div>
-        </b-col>
+
         <b-col cols="2" class="confirm-trade-icons d-flex">
           <div>
               <img :src="require('~/assets/img/box-pencil.svg')" :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="editWant(item)"/>
