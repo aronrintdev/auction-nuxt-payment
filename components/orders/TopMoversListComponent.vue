@@ -23,7 +23,7 @@
         @submit="exportToCSV"
       />
       <b-table-simple responsive borderless class="collapsible-table top-movers-table">
-        <b-thead>
+        <b-thead class="d-none d-md-header-group">
           <b-tr>
             <b-th class="d-flex">
               <div v-if="action !== 'none'" class="mr-auto">
@@ -302,6 +302,9 @@ export default {
 </script>
 
 <style scoped lang="sass">
+@import 'bootstrap/scss/functions'
+@import 'bootstrap/scss/variables'
+@import 'bootstrap/scss/mixins'
 @import '/assets/css/variables'
 
 .py-20
@@ -396,5 +399,9 @@ export default {
 
 .desc
   transform: rotate(180deg)
+
+@include media-breakpoint-up(md)
+    .d-md-header-group
+        display: table-header-group !important
 
 </style>
