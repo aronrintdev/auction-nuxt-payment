@@ -6,7 +6,7 @@
           v-if="selectable"
           class="pr-2 pt-2"
           :checked="selected"
-          @change="toggleSelect"
+          @change="toggleSelect(trade.id)"
         >
         </b-checkbox>
       </b-row>
@@ -48,12 +48,25 @@ export default {
       type: Boolean,
       default: false,
       required: false
-    }
+    },
+      selected: {
+          type: Boolean,
+          default: false,
+      }
   },
+    data(){
+      return {
+
+      }
+    },
   methods: {
     showTrade(tradeId){
       this.$router.push('/profile/trades/dashboard/' + tradeId + '/offers')
-    }
+    },
+      toggleSelect(id) {
+
+          this.$emit('click',id)
+      },
   }
 }
 </script>

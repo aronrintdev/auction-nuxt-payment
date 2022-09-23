@@ -101,7 +101,12 @@
         {{$t('trades.select_all_expired_trades')}}
       </b-form-checkbox>
     </b-row>
-    <trade-listing-items v-if="totalCount" :tradesList="tradeListing" :selectable="delete_expired"></trade-listing-items>
+    <trade-listing-items
+        v-if="totalCount"
+        :tradesList="tradeListing"
+        :selectable="delete_expired"
+        @click="selectItems"
+    ></trade-listing-items>
     <div v-else>{{$t('trades.no_trade_list_have_been_found')}}</div>
     <b-row class="justify-content-center mt-4 mb-5">
       <Pagination
@@ -175,7 +180,7 @@ export default {
       totalCount: 0,
       perPageOptions: PER_PAGE_OPTIONS,
       delete_expired: false,
-      selected: [],
+        selected: [],
       TAKE_SEARCHED_PRODUCTS
     }
   },
@@ -183,6 +188,13 @@ export default {
     this.fetchTradesListing()
   },
   methods:{
+      selectItems(id){
+          if(!this.selected.includes(id)){
+              this.selected.push(id);
+          }else{
+              this.selected.splice(this.selected.indexOf(id), 1);
+          }
+      },
     /**
      * This function is used to change status filter
      * @param selectedStatuses
