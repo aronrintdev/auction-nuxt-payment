@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="d-flex justify-content-between py-20">
-      <div class="nav-align">
+    <div class="row justify-content-between py-20">
+      <div class="text-center flex-md-grow-1">
         <NavGroup :value="activeNav" :data="categories" @change="navItem"/>
       </div>
-      <div>
+      <div class="d-none d-md-block">
         <button class="btn-export" @click="handleExportBtnClick">{{ $t('orders.export_to_csv') }}</button>
       </div>
     </div>
