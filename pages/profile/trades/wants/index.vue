@@ -469,8 +469,6 @@ export default {
       }
     },
     deleteWant(type) {
-        console.log('type',type)
-        console.log('selected',this.selected)
       this.$axios.post('/trades/wants/destroy', {type, selected_ids: this.selected})
         .then(() => {
           this.selected = []
