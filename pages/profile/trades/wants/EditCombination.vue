@@ -84,12 +84,6 @@ export default {
   },
   layout: 'Profile',
   middleware: 'auth',
-  // props:{
-  //   combination: {
-  //     type: Object,
-  //     default: () => {},
-  //   },
-  // },
   data() {
     return {
       THREE_ITEMS,
