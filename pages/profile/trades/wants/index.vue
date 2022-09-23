@@ -40,8 +40,6 @@
           />
       </b-col>
     </b-row>
-       {{wantedItems.length}}
-       {{ combinationItems.length}}
     <BulkSelectToolbar
       ref="bulkSelectToolbar"
       :active="!!action"
