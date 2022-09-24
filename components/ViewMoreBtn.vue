@@ -2,7 +2,7 @@
   <div class="view-more-wrapper d-flex align-items-center">
     <b-button
       variant="link"
-      class="btn-view-more font-primary text-gray-light mr-4 d-none d-md-flex"
+      class="btn-view-more font-primary text-gray-light mr-3 d-none d-lg-flex"
       @click="handleClick"
     >
       {{ label }}
@@ -17,7 +17,6 @@
 <script>
 export default {
   name: 'ViewMoreBtn',
-
   props: {
     label: {
       type: String,
@@ -28,7 +27,6 @@ export default {
       required: true,
     },
   },
-
   methods: {
     handleClick() {
       this.$router.push(this.to)
@@ -43,4 +41,9 @@ export default {
   .btn-view-more
     &:hover
       color: $color-black-1
+    @media (max-width: 768px)
+      font-size: 12px
+  img
+    @media (max-width: 768px)
+      width: 44px
 </style>

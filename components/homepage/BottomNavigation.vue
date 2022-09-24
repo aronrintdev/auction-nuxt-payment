@@ -17,7 +17,7 @@
       <div class="navLink" @click="handleSearchFocus">
         <img :src="require('~/assets/img/home/bottom-nav/search.svg')" />
         <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
-          {{ $t('home.browse') }}
+          {{ $t('navbar.browse') }}
         </h6>
       </div>
       <nuxt-link class="navLink" to="/shop">

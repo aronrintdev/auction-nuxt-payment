@@ -1,21 +1,12 @@
 <template>
   <div class="py-5">
-    <div class="row align-items-center mx-md-5">
-      <div class="col-4 col-md-2 d-flex">
-        <h1 class="heading-garamond">
-          {{ $t('home_page.newest') }} <br />
-          {{ $t('home_page.features') }}
-        </h1>
-      </div>
-      <div class="col-6 col-md-3">
-        <h5 class="fw-4 fs-18 font-primary mb-0 text-gray-light garamond-desc">
-          {{ $t('home_page.newestfeatures_description') }}
-        </h5>
-      </div>
-      <div class="col-2 col-md-7 d-flex justify-content-end">
-        <ViewMoreBtn :label="$t('home_page.view_more_features')" to="#" />
-      </div>
-    </div>
+    <SectionHeader
+      :title="$t('home_page.newest_features')"
+      :desc="$t('home_page.newestfeatures_description')"
+      :label="$t('home_page.view_more_features')"
+      to="#"
+    />
+
     <div class="my-5 newest-features-grid row no-gutters">
       <div class="col-12 col-sm-6 row no-gutters border-right features-sm">
         <div class="col-7 col-sm-12 border-bottom">
@@ -27,7 +18,7 @@
             />
             <img
               width="100%"
-              height="100%"
+              height="113px"
               class="d-block d-sm-none"
               :src="require('~/assets/img/home/features/features1-sm.png')"
             />
@@ -70,7 +61,6 @@
             <h1 class="feature-title fs-24 fw-4 font-primary text-white mb-0">
               {{ $t('home_page.crypto') }} <br />
               {{ $t('home_page.payments') }}
-              {{ $t('home_page.shareable_wishlist') }}
             </h1>
           </div>
         </div>
@@ -143,6 +133,9 @@ export default {
     background: $color-black-rgb3
     padding: 10px
     text-align: center
+    @media (max-width: 550px)
+      font-size: 16px
+      background: none
 .features-sm
   @media (max-width: 550px)
     &.border-right

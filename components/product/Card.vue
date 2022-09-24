@@ -1,8 +1,11 @@
 <template>
   <div
     :id="`product-card-container-${product.id}`"
-    class="product-card-wrapper"
+    class="product-card-wrapper position-relative"
   >
+    <div class="badge-slot">
+      <slot name="badge"></slot>
+    </div>
     <div class="product-image">
       <ProductThumb :src="product.image" :product="product" />
       <div class="overlay" @click="goToDetailPage"></div>
@@ -43,13 +46,18 @@
         </div>
       </div>
     </div>
-    <div class="mt-1 px-2">
-      <div class="fs-15 fw-6 font-secondary">{{ product.name }}</div>
-      <div class="fs-14 fw-5 font-secondary text-gray-light">
-        {{ product.colorway }}
+    <div class="mt-1 row">
+      <div class="col-7">
+        <div class="fs-15 fw-6 font-secondary">{{ product.name }}</div>
+        <div class="fs-14 fw-5 font-secondary text-gray-light">
+          {{ product.colorway }}
+        </div>
+        <div class="fs-15 fw-6 font-secondary">
+          {{ product.sale_price | toCurrency }}
+        </div>
       </div>
-      <div class="fs-15 fw-6 font-secondary">
-        {{ product.sale_price | toCurrency }}
+      <div class="col-5 d-flex align-items-center">
+        <slot name="action"> </slot>
       </div>
     </div>
 
@@ -185,6 +193,12 @@ export default {
   margin-left: 10px
   margin-right: 10px
   text-align: left
+  .badge-slot
+    position: absolute
+    top: 10px
+    left: 10px
+    z-index: 9
+    width: calc(100% - 20px)
   &:hover
     .product-image
       .overlay

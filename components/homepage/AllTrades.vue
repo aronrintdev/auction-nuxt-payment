@@ -1,21 +1,11 @@
 <template>
   <div class="section-wrapper py-5">
-    <div class="row align-items-center mx-md-5">
-      <div class="col-4 col-md-2 d-flex">
-        <h1 class="heading-garamond">
-          {{ $t('home_page.all') }} <br />
-          {{ $t('home.trades') }}
-        </h1>
-      </div>
-      <div class="col-6 col-md-3">
-        <h5 class="fw-4 fs-18 font-primary mb-0 text-gray-light garamond-desc">
-          {{ $t('home_page.trade_desc') }}
-        </h5>
-      </div>
-      <div class="col-2 col-md-7 d-flex justify-content-end">
-        <ViewMoreBtn :label="$t('home_page.view_more_trade')" to="#" />
-      </div>
-    </div>
+    <SectionHeader
+      :title="$t('home_page.all_trades')"
+      :desc="$t('home_page.trade_desc')"
+      :label="$t('home_page.view_more_trades')"
+      to="/new-release"
+    />
 
     <div class="my-5">
       <div class="banner">
@@ -33,7 +23,22 @@
         :key="index"
         class="col-6 col-md-3"
       >
-        <ProductCard :product="product" />
+        <ProductCard :product="product">
+          <template #badge>
+            <div class="d-flex">
+              <div class="bg-red px-2 py-1 fs-14 fw-6 font-primary">
+                <img src="~/assets/img/home/clock.svg" />
+                {{ $t('home_page.instant') }}
+              </div>
+            </div>
+          </template>
+          <template #action>
+            <b-button variant="dark" class="d-flex justify-content-end w-100">
+              <img src="~/assets/img/home/trade.svg" />
+              {{ $t('home_page.trade') }}
+            </b-button>
+          </template>
+        </ProductCard>
       </div>
     </div>
   </div>
@@ -65,7 +70,9 @@ export default {
           handleError: false,
         })
         .then((res) => res.data || [])
-        .catch(() => [])
+        .catch((error) => {
+          this.$toasted.error(error.message)
+        })
     },
   },
 }

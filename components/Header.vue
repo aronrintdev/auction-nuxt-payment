@@ -2,7 +2,7 @@
   <b-navbar toggleable="lg" class="navbar-wrapper border-bottom px-2 px-md-4">
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-navbar-brand to="/" class="navbar-brand ml-auto m-lg-0">
-      <Logo :width="171" :height="52" />
+      <Logo :width="171" />
     </b-navbar-brand>
     <b-nav-form class="search-box-wrapper fsdfsd">
       <SearchInput

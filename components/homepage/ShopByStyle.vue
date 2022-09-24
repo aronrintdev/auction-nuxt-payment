@@ -1,23 +1,13 @@
 <template>
   <div class="section-wrapper py-5">
-    <div class="row align-items-center mx-md-5">
-      <div class="col-4 col-md-2 d-flex">
-        <h1 class="heading-garamond">
-          {{ $t('home_page.shop') }} <br />
-          {{ $t('home_page.by_style') }}
-        </h1>
-      </div>
-      <div class="col-6 col-md-3">
-        <h5 class="fw-4 fs-18 font-primary mb-0 text-gray-light garamond-desc">
-          {{ $t('home_page.shop_by_style_description') }}
-        </h5>
-      </div>
-      <div class="col-2 col-md-7 d-flex justify-content-end">
-        <ViewMoreBtn :label="$t('home_page.view_more_products')" to="#" />
-      </div>
-    </div>
+    <SectionHeader
+      :title="$t('home_page.shop_by_style')"
+      :desc="$t('home_page.shop_by_style_description')"
+      :label="$t('home_page.view_more_products')"
+      to="#"
+    />
     <NavGroup
-      :data="categoryItems"
+      :data="categoryItems" 
       :value="currentCategory"
       nav-key="new_releases"
       class="text-center my-5"

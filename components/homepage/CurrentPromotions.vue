@@ -1,21 +1,11 @@
 <template>
   <div class="p-0">
-    <div class="row align-items-center mx-md-5">
-      <div class="col-4 col-md-3 d-flex">
-        <h1 class="heading-garamond">
-          {{ $t('home_page.current') }} <br />
-          {{ $t('home_page.promotions') }}
-        </h1>
-      </div>
-      <div class="col-6 col-md-3">
-        <h5 class="fw-4 fs-18 font-primary mb-0 text-gray-light garamond-desc">
-          {{ $t('home_page.current_promotions_description') }}
-        </h5>
-      </div>
-      <div class="col-2 col-md-6 d-flex justify-content-end">
-        <ViewMoreBtn :label="$t('home_page.view_more_promotions')" to="/shop" />
-      </div>
-    </div>
+    <SectionHeader
+      :title="$t('home_page.current_promotions')"
+      :desc="$t('home_page.current_promotions_description')"
+      :label="$t('home_page.view_more_promotions')"
+      to="/shop"
+    />
     <div class="row my-5">
       <div class="col-6 col-md-4">
         <img

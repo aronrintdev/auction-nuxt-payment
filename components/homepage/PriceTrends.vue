@@ -1,22 +1,11 @@
 <template>
   <div class="section-wrapper py-5">
-    <div class="row align-items-center mx-md-5">
-      <div class="col-4 col-md-2 d-flex">
-        <h1 class="heading-garamond">
-          {{ $t('home_page.price') }} <br />
-          {{ $t('home_page.trends') }}
-        </h1>
-      </div>
-      <div class="col-6 col-md-3">
-        <h5 class="fw-4 fs-18 font-primary mb-0 text-gray-light garamond-desc">
-          {{ $t('home_page.price_trends_desc') }}
-        </h5>
-      </div>
-      <div class="col-2 col-md-7 d-flex justify-content-end">
-        <ViewMoreBtn :label="$t('home_page.view_price_trends')" to="#" />
-      </div>
-    </div>
-
+    <SectionHeader
+      :title="$t('home_page.price_trends')"
+      :desc="$t('home_page.price_trends_desc')"
+      :label="$t('home_page.view_price_trends')"
+      to="#"
+    />
     <div class="my-5">
       <div class="banner">
         <h1
@@ -48,9 +37,9 @@ export default {
     return {
       products: [],
       categoryItems: [
-        { label: 'Trending', value: 'trending' },
-        { label: 'Biggest Gainers', value: 'gainers' },
-        { label: 'Biggest Losers', value: 'losers' },
+        { label: this.$t('home.trending'), value: 'trending' },
+        { label: this.$t('home.biggest_gainers'), value: 'gainers' },
+        { label: this.$t('home.biggest_losers'), value: 'losers' },
       ],
       currentCategory: 'trending',
     }
@@ -71,7 +60,9 @@ export default {
           handleError: false,
         })
         .then((res) => res.data || [])
-        .catch(() => [])
+        .catch((error) => {
+          this.$toasted.error(error.message)
+        })
     },
     handleCategoryChange(category) {
       if (this.currentCategory !== category) {

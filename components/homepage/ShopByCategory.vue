@@ -1,23 +1,12 @@
 <template>
   <div class="section-wrapper py-5">
-    <div class="row align-items-center mx-md-5">
-      <div class="col-4 col-md-3 d-flex">
-        <h1 class="heading-garamond">
-          {{ $t('home_page.shop') }}
-          <br />
-          {{ $t('home_page.by_category') }}
-        </h1>
-      </div>
-      <div class="col-6 col-md-3">
-        <h5 class="fw-4 fs-18 font-primary mb-0 text-gray-light garamond-desc">
-          {{ $t('home_page.shop_by_category_desc') }}
-        </h5>
-      </div>
-      <div class="col-2 col-md-6 d-flex justify-content-end">
-        <ViewMoreBtn :label="$t('home_page.view_more_products')" to="#" />
-      </div>
-    </div>
-    <div class="row products-category no-gutters mt-5">
+    <SectionHeader
+      :title="$t('home_page.shop_by_category')"
+      :desc="$t('home_page.shop_by_category_desc')"
+      :label="$t('home_page.view_more_products')"
+      to="#"
+    />
+    <div class="row products-category no-gutters mt-5 overflow-hidden">
       <div
         v-for="(category, index) in categories"
         :key="index"
@@ -44,35 +33,35 @@ export default {
     return {
       categories: [
         {
-          title: 'Tops',
+          title: this.$t('home_page.tops'),
           image: require('~/assets/img/home/categories/tops.png'),
         },
         {
-          title: 'T-Shirts',
+          title: this.$t('home_page.t-shirts'),
           image: require('~/assets/img/home/categories/t-shirts.png'),
         },
         {
-          title: 'SWEATSHIRTS',
+          title: this.$t('home_page.sweatshirts'),
           image: require('~/assets/img/home/categories/sweat-shirts.png'),
         },
         {
-          title: 'FOOTWEAR',
+          title: this.$t('home_page.footwear'),
           image: require('~/assets/img/home/categories/footwear.png'),
         },
         {
-          title: 'BOTTOMS',
+          title: this.$t('home_page.bottoms'),
           image: require('~/assets/img/home/categories/bottoms.png'),
         },
         {
-          title: 'SHIRTS',
+          title: this.$t('home_page.shirts'),
           image: require('~/assets/img/home/categories/shirts.png'),
         },
         {
-          title: 'JACKETS',
+          title: this.$t('home_page.jackets'),
           image: require('~/assets/img/home/categories/jackets.png'),
         },
         {
-          title: 'ACCESSORIES',
+          title: this.$t('home_page.accessories'),
           image: require('~/assets/img/home/categories/accessories.png'),
         },
       ],

@@ -1,21 +1,11 @@
 <template>
   <div class="section-wrapper py-5">
-    <div class="row align-items-center mx-md-5">
-      <div class="col-4 col-md-2 d-flex">
-        <h1 class="heading-garamond">
-          {{ $t('home_page.instant') }} <br />
-          {{ $t('home_page.shipping') }}
-        </h1>
-      </div>
-      <div class="col-6 col-md-3">
-        <h5 class="fw-4 fs-18 font-primary mb-0 text-gray-light garamond-desc">
-          {{ $t('home_page.instant_shipping_desc') }}
-        </h5>
-      </div>
-      <div class="col-2 col-md-7 d-flex justify-content-end">
-        <ViewMoreBtn :label="$t('home_page.view_more_products')" to="#" />
-      </div>
-    </div>
+    <SectionHeader
+      :title="$t('home_page.instant_shipping')"
+      :desc="$t('home_page.instant_shipping_desc')"
+      :label="$t('home_page.view_more_products')"
+      to="/shop"
+    />
     <NavGroup
       :data="categoryItems"
       :value="currentCategory"
@@ -30,7 +20,16 @@
         :key="index"
         class="col-6 col-md-3"
       >
-        <ProductCard :product="product" />
+        <ProductCard :product="product">
+          <template #badge>
+            <div class="d-flex justify-content-end">
+              <div class="bg-black px-2 py-1 fs-14 fw-6 font-primary">
+                <img src="~/assets/img/home/instant.svg" />
+                {{ $t('home_page.instant') }}
+              </div>
+            </div>
+          </template>
+        </ProductCard>
       </div>
     </div>
   </div>
@@ -46,9 +45,9 @@ export default {
     return {
       products: [],
       categoryItems: [
-        { label: 'All', value: 'all' },
-        { label: 'Trending', value: 'trending' },
-        { label: 'Best Seller', value: 'best' },
+        { label: this.$t('home_page.all'), value: 'all' },
+        { label: this.$t('home.trending'), value: 'trending' },
+        { label: this.$t('home_page.bestsellers'), value: 'best' },
       ],
       currentCategory: 'all',
     }

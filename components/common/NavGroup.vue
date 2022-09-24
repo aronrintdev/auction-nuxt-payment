@@ -64,4 +64,6 @@ export default {
         height: 0
         overflow: hidden
         visibility: hidden
+      @media (max-width: 500px)
+        padding: 6px 20px
 </style>

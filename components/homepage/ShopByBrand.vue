@@ -1,21 +1,11 @@
 <template>
   <div class="p-0">
-    <div class="row align-items-center mx-md-5">
-      <div class="col-4 col-md-2 d-flex">
-        <h1 class="heading-garamond">
-          {{ $t('home_page.shop') }} <br />
-          {{ $t('home_page.by_brand') }}
-        </h1>
-      </div>
-      <div class="col-6 col-md-3">
-        <h5 class="fw-4 fs-18 font-primary mb-0 text-gray-light garamond-desc">
-          {{ $t('home_page.shop_by_brand_description') }}
-        </h5>
-      </div>
-      <div class="col-2 col-md-7 d-flex justify-content-end">
-        <ViewMoreBtn :label="$t('home_page.view_more_brands')" to="/shop" />
-      </div>
-    </div>
+    <SectionHeader
+      :title="$t('home_page.shop_by_brand')"
+      :desc="$t('home_page.shop_by_brand_description')"
+      :label="$t('home_page.view_more_brands')"
+      to="#"
+    />
     <div class="row mt-5">
       <div
         class="col-lg-9 d-none d-lg-flex justify-content-end border-right pr-3"
@@ -137,6 +127,7 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
 .brands-list
   max-height: 575px
   overflow: auto
@@ -151,8 +142,8 @@ export default {
     left: 0
     width: 100%
     height: 80px
-    background: rgb(255,255,255)
-    background: linear-gradient(180deg, rgb(255 255 255 / 7%) 0%, rgb(255 255 255) 100%)
+    background: $color-white-1
+    background: linear-gradient(180deg, $color-white-18 0%, $color-white-1 100%)
   @media (max-width: 1020px)
     max-height: 260px
   .brand-link
@@ -164,12 +155,12 @@ export default {
       position: absolute
       width: 0px
       height: 2px
-      background: #000
+      background: $color-black-1
       left: 0
       bottom: 5px
       transition: 0.2s all ease-in
     &:hover
-      color: #000
+      color:$color-black-1
       &::after
         width: 100%
 </style>
