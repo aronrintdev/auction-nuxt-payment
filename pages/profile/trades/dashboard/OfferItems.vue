@@ -41,10 +41,10 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 .product-card
-    width : 350px
+    //width : 350px
 .offer-item
     width: 247px
-    height: 210px
+    height: 230px
     background: $color-white-1
     box-shadow: 0 2px 4px $drop-shadow1
     border-radius: 8px
