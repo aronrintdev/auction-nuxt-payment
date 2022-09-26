@@ -262,14 +262,8 @@ export default {
 
       })
         .then(() => {
-          this.selected = []
-          this.getWantItems()
-          this.getCombinations()
+          this.getCombination()
         })
-        .catch(() => {
-          this.selected = []
-        })
-      this.$nextTick(() => this.$forceUpdate())
     },
 
     editWant(item){

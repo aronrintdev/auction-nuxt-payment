@@ -369,42 +369,16 @@ export default {
     addWantItemCombination(selectedProduct) {
       const _self = this;
       const data = {
-        want_combination_id: this.combinationId,
-        product_id: selectedProduct.id,
-         quantity: parseInt(_self.quantity),
-        size_id: _self.selected_size,
-        packaging_condition_id: _self.box_condition,
-          packaging_condition:  selectedProduct.packaging_condition = selectedProduct.packaging_conditions
-              .filter(condition => condition.id === _self.box_condition)[0],
-        year: _self.year,
-        wants_list_type: _self.selectList,
-          product : {
-              id: selectedProduct.id,
+              want_combination_id: this.combinationId,
               product_id: selectedProduct.id,
-              name: selectedProduct.name,
-              colorway: selectedProduct.colorway,
-              sku: selectedProduct.sku,
-              category: selectedProduct.category.name,
-              image: selectedProduct.image,
-              selected_box_condition: this.box_condition,
-              selected_box_condition_name: selectedProduct.packaging_conditions.filter(function(condition) {
-                  return (condition.id === _self.box_condition) ?
-                      condition.name : null
-              })[0].name,
-              // selected_quantity: parseInt(this.quantity),
-              selected_year: this.year,
-              selected_size: this.selected_size,
-              selected_size_name: 'Size ' + selectedProduct.sizes.filter(function(size) {
-                  return (size.id === _self.selected_size) ?
-                      'Size ' + size.size : null
-
-              })[0].size,
-              product: selectedProduct
-          },
+              quantity: parseInt(_self.quantity),
+              size_id: _self.selected_size,
+              packaging_condition_id: _self.box_condition,
+              year: _self.year,
+              wants_list_type: _self.selectList
       }
       this.$axios.post('trades/wants/combination/items', data)
         .then(()=>{
-             this.$store.commit('trade/setUpdateCombinationItem', data)
             this.$root.$emit('back_to_edit')
         })
         .catch((error) => {
