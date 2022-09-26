@@ -4,7 +4,20 @@ export const NOTIFICATION_MAX_YEAR = 2099
 export const NOTIFICATION_CHANNEL_APP = 'app'
 export const NOTIFICATION_CHANNEL_EMAIL = 'email'
 export const NOTIFICATION_CHANNEL_TEXT = 'text'
-
+export const ORDER_STATUS_KEYS = [
+    'pending',
+    'processing',
+    'send_to_ds',
+    'arrived_to_ds',
+    'authenticated_and_shipped',
+    'delivered',
+    'cancelled',
+]
+export const WISHLIST_STATUS_KEYS = [
+    'in_stock',
+    'out_of_stock',
+    'price_change',
+]
 // TODO change it when types decided
 export const NOTIFICATION_TYPES = {
     order: {
@@ -120,7 +133,7 @@ export const ALL_SETTINGS = {
                 desc: 'Get a notification with the shipping status of your purchased order',
                 data: {
                     when: {
-                        value: [],
+                        value: [...ORDER_STATUS_KEYS],
                         type: 'order'
                     },
 
@@ -132,7 +145,7 @@ export const ALL_SETTINGS = {
                 desc: 'Get a notification when your wishlist item is back in stock or sold out ',
                 data: {
                     when: {
-                        value: [],
+                        value: [...WISHLIST_STATUS_KEYS],
                         type: 'wishlist'
                     },
                 }

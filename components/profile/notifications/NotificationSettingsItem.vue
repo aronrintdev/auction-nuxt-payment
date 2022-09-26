@@ -1,17 +1,20 @@
 <template>
   <b-row v-if="settings" class="mt-2 mb-3 align-items-center">
     <b-col md="5">
-      <div class="title">{{settings.label}}</div>
-      <div class="sub-title mt-2 mr-2 ">{{settings.desc}}</div>
+      <div class="title">{{ settings.label }}</div>
+      <div class="sub-title mt-2 mr-2 ">{{ settings.desc }}</div>
     </b-col>
-    <b-col md="4" class="title-labels w-50">
-      <div v-if="fieldExist(settings.data, 'when') || fieldExist(settings.data, 'every')" class="d-flex align-items-center">
-        <span v-if="fieldExist(settings.data, 'when')" class="label mr-2">{{ $t('notifications.settings.notify_when')}}</span>
-        <span v-if="fieldExist(settings.data, 'every')" class="label mr-2">{{ $t('notifications.settings.notify_every')}}</span>
+    <b-col class="title-labels w-50" md="4">
+      <div v-if="fieldExist(settings.data, 'when') || fieldExist(settings.data, 'every')"
+           class="d-flex align-items-center">
+        <span v-if="fieldExist(settings.data, 'when')"
+              class="label mr-2">{{ $t('notifications.settings.notify_when') }}</span>
+        <span v-if="fieldExist(settings.data, 'every')"
+              class="label mr-2">{{ $t('notifications.settings.notify_every') }}</span>
         <WhiteDropDown
             :id="'multiSelect'"
-            :label="settingsLabel(settings)"
             :dropdown-class="'outlined'"
+            :label="settingsLabel"
             :toggle-class="'h-32'"
             class="mr-4"
         >
@@ -19,24 +22,47 @@
             <div class="type-checkboxes">
               <b-form-checkbox
                   v-if="isWhenOptionsActive(settings)"
-                  :checked="settings.data.when.value.length === 0"
+                  :checked="isAllWhenOptionsChecked"
                   class="d-flex flex-column"
+                  @change="selectAllWhenOptions"
               >
-                {{ settingsLabel(settings) }}
+                {{ $t('notifications.settings.all_statuses') }}
               </b-form-checkbox>
             </div>
 
             <b-form-checkbox-group
                 v-if="isWhenOptionsActive(settings)"
+                :checked="formData.extra?formData.extra.when.value: [] "
                 :options="whenOptions(settings.data)"
                 class="type-checkboxes d-flex flex-column"
+                @change="whenChanged"
             ></b-form-checkbox-group>
 
             <b-form-radio-group
                 v-if="fieldExist(settings.data, 'every')"
+                :checked="formData.extra?formData.extra.every.value: 0 "
                 :options="getEveryOptions"
                 class="type-radios d-flex flex-column"
-            ></b-form-radio-group>
+            >
+              <b-form-radio
+                  v-model="isEveryCustom"
+                  class=" d-flex flex-column"
+              >
+                <div class="d-flex align-items-center">
+                  <span>{{ $t('notifications.settings.custom') }}:</span>
+                  <b-input
+                      :disabled="!!isEveryCustom"
+                      :placeholder="$t('notifications.settings.custom_value')"
+                      type="number"
+                      :min="getEveryOptions[getEveryOptions.length-1].value / (settings.data.every.type === 'hour' ? 24: 1)"
+                      class="ml-2 h-26px"
+                  >
+
+                  </b-input>
+                </div>
+              </b-form-radio>
+            </b-form-radio-group>
+
 
           </div>
         </WhiteDropDown>
@@ -44,16 +70,16 @@
       <div v-if="fieldExist(settings.data, 'until')" class="mt-3">
         <vue-slider
             v-if="settings.data.until.type === 'slider' "
-            :value="settings.data.until.value"
             :max="100"
             :min="0"
-            tooltip="always"
             :min-range="0"
+            :tooltip-formatter="val => val + '%'"
             :tooltipStyle="{
               'background-color': 'transparent'
             }"
-            :tooltip-formatter="val => val + '%'"
+            :value="settings.data.until.value"
             class="vue-slider-ltr-shop w-50"
+            tooltip="always"
         ></vue-slider>
       </div>
     </b-col>
@@ -83,6 +109,7 @@ import {
   NOTIFICATION_CHANNEL_EMAIL,
   NOTIFICATION_CHANNEL_TEXT
 } from '~/static/constants/notifications';
+
 export default {
   name: 'NotificationSettingsItem',
   components: {WhiteDropDown, NotificationSwitch},
@@ -115,51 +142,82 @@ export default {
           value: key,
         }
       }),
-      itemData: {
-      }
+      isAllWhenOptionsChecked: false,
+      isEveryCustom: false,
+      formData: {}
     }
   },
   computed: {
     ...mapGetters({
       'getSettings': 'notifications/getSettings'
     }),
-    getChannelValue(){
+    getChannelValue() {
       return (channel) => {
         return this.getSettings.filter(sett => sett.key === this.settings.key && sett.channel === channel)[0].is_active === 1
       }
     },
-    getEveryOptions(){
+    getEveryOptions() {
       return Object.keys(this.$t(`notifications.settings.${this.settings.data.every.type}_statuses`)).map(key => {
         return {
           text: this.$t(`notifications.settings.${this.settings.data.every.type}_statuses.${key}`),
           value: key,
         }
       })
+    },
+    settingsLabel: {
+      cache: false,
+      get() {
+        const key = this.fieldExist(this.formData.extra, 'every') ? 'every' : 'when'
+        if (key === 'when' && _.isArray(this.formData.extra[key].value)) {
+          return this.formData.extra.when.value.length === this.whenOptions(this.formData.extra).length ?
+              this.$t('notifications.settings.all_statuses') : this.formData.extra.when.value.length === 0 ?
+                  this.$t('notifications.settings.no_statuses') : (this.whenOptions(this.formData.extra)
+                      .filter(item => this.formData.extra.when.value.includes(item.value))[0].text + ' ...')
+        }
+        return this.$t(`notifications.settings.${this.formData.extra[key].type}_statuses.${this.formData.extra[key].value}`)
+      }
+    }
+  },
+  created() {
+    this.formData.extra = this.settings.data
+    if (this.fieldExist(this.formData.extra, 'when')) {
+      this.whenChanged(this.formData.extra.when.value)
     }
   },
   methods: {
-    isWhenOptionsActive(settings) {
-      return  this.fieldExist(settings.data, 'when') && ['order', 'wishlist'].includes(settings.data.when.type)
+    selectAllWhenOptions(check) {
+      this.isAllWhenOptionsChecked = check
+      this.formData.extra.when.value = check ? this.whenOptions(this.settings.data).map(item => item.value) : []
     },
-    whenOptions(settings){
+    whenChanged(all) {
+      this.formData.extra.when.value = all
+      this.isAllWhenOptionsChecked = all.length === this.whenOptions(this.settings.data).length
+      this.$forceUpdate()
+    },
+    isWhenOptionsActive(settings) {
+      return this.fieldExist(settings.data, 'when') && ['order', 'wishlist'].includes(settings.data.when.type)
+    },
+    whenOptions(settings) {
       return settings.when.type === 'order' ? this.order_statuses : this.wishlist_statuses
     },
     fieldExist(item, field) {
       return !!_.get(item, field, false);
-    },
-    settingsLabel(settings){
-      const key = this.fieldExist(settings.data, 'every')? 'every' : 'when'
-      if (_.isArray(settings.data[key].value)){
-        return this.$t('notifications.settings.all_statuses')
-      }
-      return this.$t(`notifications.settings.${settings.data[key].type}_statuses.${settings.data[key].value}`)
     }
   }
 }
 </script>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 @import "~/assets/css/variables"
+
+.h-26px
+  @include body-8
+  height: 26px
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $normal
+  color: $color-gray-24
+  opacity: 0.66
 
 .label
   @include body-8
@@ -212,15 +270,16 @@ export default {
       background-color: $color-white-5
       border: none
       box-shadow: none
+
     .custom-control-input:checked ~ .custom-control-label
-        &:before
-          background-color: $color-blue-2
-          border-color: $color-blue-2
+      &:before
+        background-color: $color-green-16
+        border-color: $color-green-16
 
 .type-checkboxes::v-deep
   .custom-checkbox
     input[type="checkbox"]:checked + label::after
-      background-color: $color-blue-2
+      background-color: $color-green-16
 
     label
       @include body-13

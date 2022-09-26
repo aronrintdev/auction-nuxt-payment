@@ -100,6 +100,20 @@ export function editNotificationSettings(context, payload) {
 }
 
 /**
+ * Edit user notification Settings
+ * @param {Object} context
+ * @param {Object} payload
+ * @param {Object[]} payload.settings
+ * @param {number} payload.settings.payload.id
+ * @param {boolean} payload.settings.payload.value
+ * @param {Object} payload.settings.payload.data
+ * @return {Promise<AxiosResponse<any>>}
+ */
+export function bulkEditNotificationSettings(context, payload) {
+    return this.$axios.put('notification-settings/bulk-edit', {payload})
+}
+
+/**
  * read notification
  * @param {Object} context
  * @param {Object} payload
