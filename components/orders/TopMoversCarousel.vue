@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="border">
     <div class="d-flex justify-content-between align-items-baseline">
       <h2 class="top-movers-heading">{{ $t('orders.your_top_movers') }} <small>({{ $t('orders.this_month') }})</small>
       </h2>
