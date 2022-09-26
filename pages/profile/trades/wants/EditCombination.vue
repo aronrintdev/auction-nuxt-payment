@@ -112,11 +112,23 @@ export default {
     this.$root.$on('back_to_edit', () => {
       this.addWantItem = false
       this.editItem = null
+      this.getCombination()
       this.$nextTick(() => this.$forceUpdate())
     })
+    this.getCombination()
   },
   methods: {
-
+    getCombination(){
+        const url = 'trades/wants/combination/item'
+      this.$axios.get(url,{
+          params:{
+              combination_id: this.getUpdateCombinations.combination_id
+          }
+      })
+          .then((res)=>{
+              this.$store.commit('trade/setUpdateCombination', res.data.data)
+          })
+    },
     /**
      * This function is used to add items in offer listing
      * to pass data as param to create listing in api
