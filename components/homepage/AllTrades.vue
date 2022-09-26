@@ -16,42 +16,114 @@
         </h1>
       </div>
     </div>
-
     <div class="row">
-      <div
-        v-for="(product, index) in products"
-        :key="index"
-        class="col-6 col-md-3"
-      >
-        <ProductCard :product="product">
-          <template #badge>
-            <div class="d-flex">
-              <div class="bg-red px-2 py-1 fs-14 fw-6 font-primary">
-                <img src="~/assets/img/home/clock.svg" />
-                {{ $t('home_page.instant') }}
-              </div>
+      <div class="col-12">
+        <ProductCarousel :products="products">
+          <template #product>
+            <div
+              v-for="(product, index) in products"
+              :key="`product-carousel-${index}`"
+              class="item"
+            >
+              <ProductCard :product="product">
+                <template #badge>
+                  <!-- TODO -->
+                  <Badge
+                    title="5d 18h"
+                    :icon="require('~/assets/img/home/clock.svg')"
+                    color="red"
+                  />
+                </template>
+                <template #action>
+                  <b-button
+                    variant="dark"
+                    class="fs-15 fw-5 font-secondary w-100 btn-sm d-flex align-items-center justify-content-center"
+                  >
+                    <img class="btnIcon" src="~/assets/img/home/trade.svg" />
+                    <span class="ml-1">
+                      {{ $t('home_page.trade') }}
+                    </span>
+                  </b-button>
+                </template>
+              </ProductCard>
             </div>
           </template>
-          <template #action>
-            <b-button variant="dark" class="d-flex justify-content-end w-100">
-              <img src="~/assets/img/home/trade.svg" />
-              {{ $t('home_page.trade') }}
-            </b-button>
-          </template>
-        </ProductCard>
+        </ProductCarousel>
       </div>
     </div>
   </div>
 </template>
 <script>
 import ProductCard from '~/components/product/Card'
+import Badge from '~/components/product/Badge'
 export default {
   name: 'AllTrades',
-  components: { ProductCard },
+  components: { ProductCard, Badge },
   fetchOnServer: false,
   data() {
     return {
-      products: [],
+      products: [
+        {
+          id: 8,
+          sku: 'DC6515-100',
+          name: 'Jordan Retro 4',
+          colorway: 'University Blue',
+          brand: 'Lockman, Lehner and Kling',
+          category: 'sneakers',
+          release_year: 2003,
+          created_at: '2022-03-04T04:05:29.000000Z',
+          updated_at: '2022-03-04T04:05:29.000000Z',
+          vendor_id: 8,
+          size_category_id: 5,
+          sale_price: 500,
+          size: 9,
+        },
+        {
+          id: 9,
+          sku: 'DC6515-100',
+          name: 'Jordan Retro 4',
+          colorway: 'University Blue',
+          brand: 'Lockman, Lehner and Kling',
+          category: 'sneakers',
+          release_year: 2003,
+          created_at: '2022-03-04T04:05:29.000000Z',
+          updated_at: '2022-03-04T04:05:29.000000Z',
+          vendor_id: 8,
+          size_category_id: 5,
+          sale_price: 500,
+          size: 9,
+        },
+        {
+          id: 10,
+          sku: 'DC6515-100',
+          name: 'Jordan Retro 4',
+          colorway: 'University Blue',
+          brand: 'Lockman, Lehner and Kling',
+          category: 'sneakers',
+          release_year: 2003,
+          created_at: '2022-03-04T04:05:29.000000Z',
+          updated_at: '2022-03-04T04:05:29.000000Z',
+          vendor_id: 8,
+          size_category_id: 5,
+          sale_price: 500,
+          size: 9,
+        },
+        {
+          id: 11,
+          sku: 'DC6515-100',
+          name: 'Jordan Retro 4',
+          colorway: 'University Blue',
+          brand: 'Lockman, Lehner and Kling',
+          category: 'sneakers',
+          release_year: 2003,
+          created_at: '2022-03-04T04:05:29.000000Z',
+          updated_at: '2022-03-04T04:05:29.000000Z',
+          vendor_id: 8,
+          size_category_id: 5,
+          sale_price: 500,
+          size: 9,
+        },
+      ],
     }
   },
   async fetch() {

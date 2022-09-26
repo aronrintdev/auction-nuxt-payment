@@ -14,7 +14,7 @@
       >
         <div class="overflow-wrapper">
           <div
-            class="category-wrapper d-flex align-items-center justify-content-center"
+            class="category-wrapper d-flex align-items-center justify-content-center cursor-pointer"
             :style="{ '--image': `url(${category.image})` }"
           >
             <h1 class="fs-24 fw-4 font-primary text-white">
@@ -82,6 +82,9 @@ export default {
       background-position: center
       width: 100%
       aspect-ratio: 1 / 1
+      @media (max-width: 500px)
+        h1
+          font-size: 14px
   @media (min-width: 992px)
     &:nth-child(-n+4)
       .overflow-wrapper

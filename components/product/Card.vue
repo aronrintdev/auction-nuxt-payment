@@ -46,17 +46,21 @@
         </div>
       </div>
     </div>
-    <div class="mt-1 row">
+    <div class="mt-2 row">
       <div class="col-7">
-        <div class="fs-15 fw-6 font-secondary">{{ product.name }}</div>
-        <div class="fs-14 fw-5 font-secondary text-gray-light">
+        <div class="fs-15 fw-6 font-secondary text-truncate">
+          {{ product.name }}
+        </div>
+        <div class="fs-14 fw-5 font-secondary text-gray-light text-truncate">
           {{ product.colorway }}
         </div>
         <div class="fs-15 fw-6 font-secondary">
           {{ product.sale_price | toCurrency }}
         </div>
       </div>
-      <div class="col-5 d-flex align-items-center">
+      <div
+        class="col-5 d-flex align-items-end align-items-sm-center action-btn-slot pl-0 pl-1"
+      >
         <slot name="action"> </slot>
       </div>
     </div>
@@ -190,8 +194,6 @@ export default {
 @import '~/assets/css/_variables'
 .product-card-wrapper
   max-width: initial
-  margin-left: 10px
-  margin-right: 10px
   text-align: left
   .badge-slot
     position: absolute
@@ -252,4 +254,12 @@ export default {
         img
           width: 15px
           height: 15px
+  .action-btn-slot button
+    img.btnIcon
+      width: 20px
+  @media (max-width: 500px)
+    .action-btn-slot button
+      font-size: 10px
+      img.btnIcon
+        width: 12px
 </style>

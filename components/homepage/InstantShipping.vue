@@ -13,23 +13,29 @@
       class="text-center my-5"
       @change="handleCategoryChange"
     />
-
     <div class="row">
-      <div
-        v-for="(product, index) in products"
-        :key="index"
-        class="col-6 col-md-3"
-      >
-        <ProductCard :product="product">
-          <template #badge>
-            <div class="d-flex justify-content-end">
-              <div class="bg-black px-2 py-1 fs-14 fw-6 font-primary">
-                <img src="~/assets/img/home/instant.svg" />
-                {{ $t('home_page.instant') }}
-              </div>
+      <div class="col-12">
+        <ProductCarousel :products="products">
+          <template #product>
+            <div
+              v-for="(product, index) in products"
+              :key="`product-carousel-${index}`"
+              class="item"
+            >
+              <ProductCard :product="product">
+                <template #badge>
+                  <!-- TODO -->
+                  <Badge
+                    :title="$t('home_page.instant')"
+                    :icon="require('~/assets/img/home/instant.svg')"
+                    color="black"
+                    right
+                  />
+                </template>
+              </ProductCard>
             </div>
           </template>
-        </ProductCard>
+        </ProductCarousel>
       </div>
     </div>
   </div>
@@ -37,13 +43,75 @@
 <script>
 import NavGroup from '~/components/common/NavGroup.vue'
 import ProductCard from '~/components/product/Card'
+import Badge from '~/components/product/Badge'
 export default {
   name: 'InstantShipping',
-  components: { NavGroup, ProductCard },
+  components: { NavGroup, ProductCard, Badge },
   fetchOnServer: false,
   data() {
     return {
-      products: [],
+      products: [
+        {
+          id: 8,
+          sku: 'DC6515-100',
+          name: 'Jordan Retro 4',
+          colorway: 'University Blue',
+          brand: 'Lockman, Lehner and Kling',
+          category: 'sneakers',
+          release_year: 2003,
+          created_at: '2022-03-04T04:05:29.000000Z',
+          updated_at: '2022-03-04T04:05:29.000000Z',
+          vendor_id: 8,
+          size_category_id: 5,
+          sale_price: 500,
+          size: 9,
+        },
+        {
+          id: 9,
+          sku: 'DC6515-100',
+          name: 'Jordan Retro 4',
+          colorway: 'University Blue',
+          brand: 'Lockman, Lehner and Kling',
+          category: 'sneakers',
+          release_year: 2003,
+          created_at: '2022-03-04T04:05:29.000000Z',
+          updated_at: '2022-03-04T04:05:29.000000Z',
+          vendor_id: 8,
+          size_category_id: 5,
+          sale_price: 500,
+          size: 9,
+        },
+        {
+          id: 10,
+          sku: 'DC6515-100',
+          name: 'Jordan Retro 4',
+          colorway: 'University Blue',
+          brand: 'Lockman, Lehner and Kling',
+          category: 'sneakers',
+          release_year: 2003,
+          created_at: '2022-03-04T04:05:29.000000Z',
+          updated_at: '2022-03-04T04:05:29.000000Z',
+          vendor_id: 8,
+          size_category_id: 5,
+          sale_price: 500,
+          size: 9,
+        },
+        {
+          id: 11,
+          sku: 'DC6515-100',
+          name: 'Jordan Retro 4',
+          colorway: 'University Blue',
+          brand: 'Lockman, Lehner and Kling',
+          category: 'sneakers',
+          release_year: 2003,
+          created_at: '2022-03-04T04:05:29.000000Z',
+          updated_at: '2022-03-04T04:05:29.000000Z',
+          vendor_id: 8,
+          size_category_id: 5,
+          sale_price: 500,
+          size: 9,
+        },
+      ],
       categoryItems: [
         { label: this.$t('home_page.all'), value: 'all' },
         { label: this.$t('home.trending'), value: 'trending' },
@@ -52,9 +120,9 @@ export default {
       currentCategory: 'all',
     }
   },
-  async fetch() {
-    await this.fetchProducts()
-  },
+  // async fetch() {
+  //   await this.fetchProducts()
+  // },
   methods: {
     async fetchProducts() {
       this.products = await this.$axios

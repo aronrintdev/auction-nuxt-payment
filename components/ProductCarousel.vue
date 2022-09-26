@@ -9,40 +9,33 @@
         :center="true"
         :margin="0"
         :responsive="responsiveAttr"
-        :mouse-drag="false"
+        :mouse-drag="true"
         :dots="false"
         class="carousel"
       >
         <template #default>
-          <div
-            v-for="(product, index) in products"
-            :key="`product-carousel-${index}`"
-            :class="{ item: true, 'photo-item': variant === 'photo' }"
-          >
-            <div>
-              <ProductCard v-if="variant === 'detail'" :product="product" />
+          <slot name="product">
+            <div
+              v-for="(product, index) in products"
+              :key="`product-carousel-${index}`"
+              :class="{ item: true, 'photo-item': variant === 'photo' }"
+            >
+              <div>
+                <ProductCard v-if="variant === 'detail'" :product="product" />
+              </div>
+              <nuxt-link
+                v-if="variant === 'photo'"
+                :to="`/shop/${product.sku}`"
+              >
+                <ProductThumb
+                  :src="product.image"
+                  :product="product"
+                  :width="300"
+                  :height="350"
+                />
+              </nuxt-link>
             </div>
-            <nuxt-link v-if="variant === 'photo'" :to="`/shop/${product.sku}`">
-              <ProductThumb
-                :src="product.image"
-                :product="product"
-                :width="300"
-                :height="350"
-              />
-            </nuxt-link>
-          </div>
-        </template>
-
-        <template #prev>
-          <div class="owl-nav owl-prev">
-            <img :src="require('~/assets/img/home/arrow-left.svg')" />
-          </div>
-        </template>
-
-        <template #next>
-          <div class="owl-nav owl-next">
-            <img :src="require('~/assets/img/home/arrow-right.svg')" />
-          </div>
+          </slot>
         </template>
       </Carousel>
 
@@ -55,12 +48,9 @@
 <script>
 import ProductCard from '~/components/product/Card.vue'
 import ProductThumb from '~/components/product/Thumb.vue'
-
 export default {
-  name: 'ProductCarousel2',
-
+  name: 'HomeProductCarousel',
   components: { ProductCard, ProductThumb },
-
   props: {
     products: {
       type: Array,
@@ -75,16 +65,13 @@ export default {
       default: false,
     },
   },
-
   computed: {
     responsiveAttr() {
       if (this.variant === 'detail') {
         return {
-          0: { items: 1, nav: false, center: false },
-          700: { items: 2, nav: false, center: false },
-          950: { items: 3, nav: false, center: false },
-          1150: { items: 4, nav: false, center: false },
-          1400: { items: 4, nav: false, center: false },
+          0: { items: 2, nav: false, center: false },
+          768: { items: 3, nav: false, center: false },
+          950: { items: 4, nav: false, center: false },
         }
       } else {
         return {
@@ -125,7 +112,10 @@ export default {
     margin-right: auto
     display: flex
     align-items: center
-
+    [id^='carousel_next_']
+      display: none
+    [id^='carousel_prev_']
+      display: none
     >span .owl-nav
       display: block
 
@@ -133,12 +123,10 @@ export default {
       .item
         text-align: left
         margin: 0
-        margin-left: auto
-        margin-right: auto
-
+        margin-left: 0.5em
+        margin-right: 0.5em
         &.photo-item
           max-width: 260px
-
           img
             border-radius: 5px
 
