@@ -131,7 +131,7 @@
         <close-icon role="button" class="close-icon" @click="$bvModal.hide('order-success-modal')"></close-icon>
       </div>
       <div class="text-center w-75 mx-auto my-2">
-        <div class="success-text">{{ ((getOfferType === ACCEPT_OFFER) ? $t('trades.offer_has_been_placed') : $t('trades.offer_accepted_successfully')) }}</div>
+        <div class="success-text">{{ ((getOfferType !== ACCEPT_OFFER) ? $t('trades.offer_has_been_placed') : $t('trades.offer_accepted_successfully')) }}</div>
         <div class="d-flex align-items-center justify-content-center mx-auto mt-3 checkmark-icon">
           <CheckmarkIcon />
         </div>
@@ -234,7 +234,7 @@ export default {
       return vm.shoppingCart.offerParentId
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getSubtotal: (vm) => {
+    getItemsPrice: (vm) => {
       let items = vm.shoppingCart.theirItems
       if(vm.getSubmittedItemType === OFFER_TYPE_YOURS){
         items = vm.shoppingCart.yourItems
@@ -247,6 +247,10 @@ export default {
         }
         return sum
       }, 0)
+    },
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    getSubtotal: (vm) => {
+      return vm.getCashAdded
     },
     getCashAdded: (vm) => {
       return vm.shoppingCart.cashAdded
@@ -275,20 +279,20 @@ export default {
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getProcessingFee: (vm) => {
-      return Math.trunc(vm.processingFee * vm.getSubtotal)
+      return Math.trunc(vm.processingFee * vm.getItemsPrice)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTax: (vm) => {
-      return Math.trunc(vm.taxRate * vm.getSubtotal)
+      return Math.trunc(vm.taxRate * vm.getItemsPrice)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getTradeFee: () => {
+    getTradeFee: (vm) => {
       // TODO
-      return 1000
+      return Math.trunc(0.1 * vm.getItemsPrice)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTotal: (vm) => {
-      const total = vm.getShippingFee + vm.getProcessingFee + vm.getTax + vm.getSubtotal + vm.getCashAdded + vm.getTradeFee
+      const total = vm.getShippingFee + vm.getProcessingFee + vm.getTax + vm.getSubtotal + vm.getTradeFee
 
       return vm.getTotalQuantity > 0 ? total : 0
     },
