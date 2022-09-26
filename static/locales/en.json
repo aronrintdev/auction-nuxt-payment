@@ -4949,9 +4949,12 @@
       "email": "Email",
       "text": "Text",
       "all_statuses": "All Statuses",
+      "no_statuses": "No Statuses",
       "notify_when": "Notify When",
       "notify_every": "Notify Every",
       "bid": "Bid",
+      "custom": "Custom",
+      "custom_value": "Value",
       "hour_before": "Hour Before",
       "tabs": {
         "buying": "Purchasing",
@@ -4974,22 +4977,26 @@
       "hour_statuses": {
         "1": "1 Hour Before",
         "24": "24 Hours Before",
-        "168": "7 Days"
+        "168": "7 Days",
+        "null": "{n} Days"
       },
       "bid_statuses": {
         "1": "1 Bid",
         "2": "2 Bids",
-        "3": "3 Bids"
+        "3": "3 Bids",
+        "null": "{n} Bids"
       },
       "offer_statuses": {
         "1": "1 Offer",
         "2": "2 Offers",
-        "3": "3 Offers"
+        "3": "3 Offers",
+        "null": "{n} Offers"
       },
       "trade_offer_statuses": {
         "1": "1 Trade Offer",
         "2": "2 Trade Offers",
-        "3": "3 Trade Offers"
+        "3": "3 Trade Offers",
+        "null": "{n} Trade Offers"
       }
     }
   },

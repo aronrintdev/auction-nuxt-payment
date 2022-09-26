@@ -4,15 +4,16 @@
  * @return {number}
  */
 export function getNotifications(state) {
-  return state.notifications
+    return state.notifications
 }
+
 /**
  * Get unreadCount
  * @param state
  * @return {number}
  */
 export function getUnreadCount(state) {
-  return state.unreadCount
+    return state.unreadCount
 }
 
 /**
@@ -21,5 +22,14 @@ export function getUnreadCount(state) {
  * @return {number}
  */
 export function getSettings(state) {
-  return state.settings
+    return state.settings
+}
+
+/**
+ * Get Changed Settings
+ * @param state
+ * @return {number}
+ */
+export function getChangedSettings(state) {
+    return state.changedSettings
 }

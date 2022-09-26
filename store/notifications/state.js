@@ -1,7 +1,9 @@
 export default function () {
-  return {
-    notifications: [],
-    settings: [],
-    unreadCount: 0
-  }
+    return {
+        notifications: [],
+        settings: [],
+        oldSettings: [],
+        changedSettings: [],
+        unreadCount: 0
+    }
 }

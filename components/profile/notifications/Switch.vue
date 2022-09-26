@@ -14,15 +14,14 @@ export default {
     }
   },
   methods: {
-    changed(e){
-      console.log(e);
+    changed(e) {
       this.$emit('change', e)
     }
   }
 }
 </script>
 
-<style scoped lang="sass">
+<style lang="sass" scoped>
 @import "~/assets/css/variables"
 ::v-deep.notification-switch
   .custom-control-label
@@ -42,9 +41,10 @@ export default {
       background-color: $color-white-1
 
 ::v-deep.notification-switch
-  .custom-control-input:checked~.custom-control-label
+  .custom-control-input:checked ~ .custom-control-label
     &:before
       background: $color-green-16
+
     &:after
       transform: translateX(1.2rem)
       background-color: $color-white-1

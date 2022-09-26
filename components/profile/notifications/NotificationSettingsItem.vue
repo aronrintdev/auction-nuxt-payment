@@ -32,7 +32,7 @@
 
             <b-form-checkbox-group
                 v-if="isWhenOptionsActive(settings)"
-                :checked="formData.extra?formData.extra.when.value: [] "
+                :checked="formData.extra.when.value"
                 :options="whenOptions(settings.data)"
                 class="type-checkboxes d-flex flex-column"
                 @change="whenChanged"
@@ -40,24 +40,27 @@
 
             <b-form-radio-group
                 v-if="fieldExist(settings.data, 'every')"
+                v-model="formData.extra.every.value"
                 :checked="formData.extra?formData.extra.every.value: 0 "
                 :options="getEveryOptions"
                 class="type-radios d-flex flex-column"
+                @change="everyChanged"
             >
               <b-form-radio
                   v-model="isEveryCustom"
+                  :value="null"
                   class=" d-flex flex-column"
               >
                 <div class="d-flex align-items-center">
                   <span>{{ $t('notifications.settings.custom') }}:</span>
                   <b-input
+                      v-model="everyValue"
                       :disabled="!!isEveryCustom"
+                      :min="everyOptionMin"
                       :placeholder="$t('notifications.settings.custom_value')"
-                      type="number"
-                      :min="getEveryOptions[getEveryOptions.length-1].value / (settings.data.every.type === 'hour' ? 24: 1)"
                       class="ml-2 h-26px"
+                      type="number"
                   >
-
                   </b-input>
                 </div>
               </b-form-radio>
@@ -69,7 +72,7 @@
       </div>
       <div v-if="fieldExist(settings.data, 'until')" class="mt-3">
         <vue-slider
-            v-if="settings.data.until.type === 'slider' "
+            v-if="settings.data.until.type === 'slider'"
             :max="100"
             :min="0"
             :min-range="0"
@@ -77,22 +80,26 @@
             :tooltipStyle="{
               'background-color': 'transparent'
             }"
-            :value="settings.data.until.value"
+            :value="formData.extra.until.value"
             class="vue-slider-ltr-shop w-50"
             tooltip="always"
+            @change="percentageChange"
         ></vue-slider>
       </div>
     </b-col>
     <b-col md="3">
       <b-row class="title-labels text-center">
         <b-col>
-          <NotificationSwitch :value="getChannelValue(NOTIFICATION_CHANNEL_APP)"/>
+          <NotificationSwitch :value="channelSettings[NOTIFICATION_CHANNEL_APP]"
+                              @change="(e) => setChannelSetting(e, NOTIFICATION_CHANNEL_APP)"/>
         </b-col>
         <b-col>
-          <NotificationSwitch :value="getChannelValue(NOTIFICATION_CHANNEL_EMAIL)"/>
+          <NotificationSwitch :value="channelSettings[NOTIFICATION_CHANNEL_EMAIL]"
+                              @change="(e) => setChannelSetting(e, NOTIFICATION_CHANNEL_EMAIL)"/>
         </b-col>
         <b-col>
-          <NotificationSwitch :value="getChannelValue(NOTIFICATION_CHANNEL_TEXT)"/>
+          <NotificationSwitch :value="channelSettings[NOTIFICATION_CHANNEL_TEXT]"
+                              @change="(e) => setChannelSetting(e, NOTIFICATION_CHANNEL_TEXT)"/>
         </b-col>
       </b-row>
     </b-col>
@@ -124,6 +131,12 @@ export default {
       NOTIFICATION_CHANNEL_APP,
       NOTIFICATION_CHANNEL_TEXT,
       NOTIFICATION_CHANNEL_EMAIL,
+      channelSettings: {
+        [NOTIFICATION_CHANNEL_APP]: false,
+        [NOTIFICATION_CHANNEL_TEXT]: false,
+        [NOTIFICATION_CHANNEL_EMAIL]: false
+      },
+      everyValue: null,
       types: Object.keys(this.$t('notifications.types')).map(key => {
         return {
           text: this.$t(`notifications.types.${key}`),
@@ -144,55 +157,107 @@ export default {
       }),
       isAllWhenOptionsChecked: false,
       isEveryCustom: false,
-      formData: {}
+      formData: {
+        extra: {
+          until: {
+            value: 0
+          },
+          every: {
+            value: 1
+          },
+          when: {
+            value: []
+          }
+        }
+      }
     }
   },
   computed: {
     ...mapGetters({
       'getSettings': 'notifications/getSettings'
     }),
-    getChannelValue() {
-      return (channel) => {
-        return this.getSettings.filter(sett => sett.key === this.settings.key && sett.channel === channel)[0].is_active === 1
-      }
-    },
     getEveryOptions() {
-      return Object.keys(this.$t(`notifications.settings.${this.settings.data.every.type}_statuses`)).map(key => {
+      return Object.keys(this.$t(`notifications.settings.${this.settings.data.every.type}_statuses`)).filter(key => key !== 'null').map(key => {
         return {
           text: this.$t(`notifications.settings.${this.settings.data.every.type}_statuses.${key}`),
           value: key,
         }
       })
     },
+    everyOptionMin() {
+      return this.getEveryOptions[this.getEveryOptions.length - 1].value / (this.formData.extra.every.type === 'hour' ? 24 : 1)
+    },
     settingsLabel: {
       cache: false,
       get() {
-        const key = this.fieldExist(this.formData.extra, 'every') ? 'every' : 'when'
+        const key = this.fieldExist(this.settings.data, 'every') ? 'every' : 'when'
         if (key === 'when' && _.isArray(this.formData.extra[key].value)) {
           return this.formData.extra.when.value.length === this.whenOptions(this.formData.extra).length ?
               this.$t('notifications.settings.all_statuses') : this.formData.extra.when.value.length === 0 ?
                   this.$t('notifications.settings.no_statuses') : (this.whenOptions(this.formData.extra)
                       .filter(item => this.formData.extra.when.value.includes(item.value))[0].text + ' ...')
         }
-        return this.$t(`notifications.settings.${this.formData.extra[key].type}_statuses.${this.formData.extra[key].value}`)
+        return this.$t(`notifications.settings.${this.formData.extra[key].type}_statuses.${this.formData.extra[key].value}`, {n: this.everyValue})
       }
     }
   },
-  created() {
-    this.formData.extra = this.settings.data
-    if (this.fieldExist(this.formData.extra, 'when')) {
-      this.whenChanged(this.formData.extra.when.value)
+  watch: {
+    getSettings(va) {
+      this.initChannelSettings()
+      this.initFormData()
     }
   },
+  mounted() {
+    this.initChannelSettings()
+  },
+  created() {
+    this.initFormData()
+  },
   methods: {
+    initFormData() {
+      if (this.fieldExist(this.settings.data, 'when')) {
+        this.whenChanged(this.settings.data.when.value)
+        const data = this.settings.data.when
+        this.formData.extra.when = Object.assign({}, this.formData.extra.when, {value: data.value, type: data.type})
+      }
+      if (this.fieldExist(this.settings.data, 'until')) {
+        const data = this.settings.data.until
+        this.formData.extra.until = Object.assign({}, this.formData.extra.until, {value: data.value, type: data.type})
+      }
+      if (this.fieldExist(this.settings.data, 'every')) {
+        const data = this.settings.data.every
+        this.formData.extra.every = Object.assign({}, this.formData.extra.every, {value: data.value, type: data.type})
+      }
+    },
+    percentageChange(e) {
+      this.formData.extra.until.value = e
+    },
+    setChannelSetting(e, channel) {
+      this.channelSettings[channel] = e
+      this.addChangedItem(this.editItemConstructor(channel))
+    },
+    initChannelSettings() {
+      this.channelSettings = {
+        [NOTIFICATION_CHANNEL_APP]: this.getChannelValue(NOTIFICATION_CHANNEL_APP),
+        [NOTIFICATION_CHANNEL_TEXT]: this.getChannelValue(NOTIFICATION_CHANNEL_TEXT),
+        [NOTIFICATION_CHANNEL_EMAIL]: this.getChannelValue(NOTIFICATION_CHANNEL_EMAIL)
+      }
+    },
+    getChannelValue(channel) {
+      return this.getSettings.filter(sett => sett.key === this.settings.key && sett.channel === channel)[0].is_active === 1
+    },
     selectAllWhenOptions(check) {
       this.isAllWhenOptionsChecked = check
       this.formData.extra.when.value = check ? this.whenOptions(this.settings.data).map(item => item.value) : []
     },
     whenChanged(all) {
+      console.log(all);
       this.formData.extra.when.value = all
       this.isAllWhenOptionsChecked = all.length === this.whenOptions(this.settings.data).length
       this.$forceUpdate()
+    },
+    everyChanged(value) {
+      this.everyValue = value !== null ? null : this.everyValue
     },
     isWhenOptionsActive(settings) {
       return this.fieldExist(settings.data, 'when') && ['order', 'wishlist'].includes(settings.data.when.type)
@@ -202,6 +267,20 @@ export default {
     },
     fieldExist(item, field) {
       return !!_.get(item, field, false);
+    },
+    editItemConstructor(channel) {
+      const id = this.getSettings.filter(sett => sett.key === this.settings.key && sett.channel === channel)[0].id
+      return {
+        id,
+        data: JSON.stringify(Object.keys(this.settings.data).reduce((obj, key) => {
+          obj[key] = this.formData.extra[key]
+          return obj
+        }, {})),
+        value: this.channelSettings[channel] ? 1 : 0
+      }
+    },
+    addChangedItem(item) {
+      this.$store.commit('notifications/addOrChangeChangedSetting', item)
     }
   }
 }

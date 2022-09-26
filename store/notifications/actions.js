@@ -110,7 +110,7 @@ export function editNotificationSettings(context, payload) {
  * @return {Promise<AxiosResponse<any>>}
  */
 export function bulkEditNotificationSettings(context, payload) {
-    return this.$axios.put('notification-settings/bulk-edit', {payload})
+    return this.$axios.put('notification-settings/bulk-update', payload)
 }
 
 /**

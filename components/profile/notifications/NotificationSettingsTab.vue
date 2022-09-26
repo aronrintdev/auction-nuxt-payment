@@ -30,7 +30,17 @@ export default {
   computed: {
     ...mapGetters({
       'getSettings': 'notifications/getSettings'
-    })
+    }),
+    settings() {
+      return category => Object.keys(ALL_SETTINGS[this.tab][category])
+          .map(key => _.merge(ALL_SETTINGS[this.tab][category][key], {data: this.getSingleSetting(ALL_SETTINGS[this.tab][category][key].key)}))
+    },
+    getSingleSetting() {
+      return key => {
+        const setting = this.getSettings.filter(sett => sett.key === key)
+        return setting.length ? JSON.parse(setting[0].extra) || {} : {}
+      }
+    }
   },
   mounted() {
     this.fetchSettings()
@@ -38,15 +48,7 @@ export default {
   methods: {
     ...mapActions({
       'fetchSettings': 'notifications/getUserSettings'
-    }),
-    getSingleSetting(key) {
-      const setting = this.getSettings.filter(sett => sett.key === key)
-      return setting.length ? JSON.parse(setting[0].extra) || {} : {}
-    },
-    settings(category) {
-      return Object.keys(ALL_SETTINGS[this.tab][category])
-          .map(key => _.merge(ALL_SETTINGS[this.tab][category][key], {data: this.getSingleSetting(ALL_SETTINGS[this.tab][category][key].key)}))
-    }
+    })
   }
 }
 </script>
