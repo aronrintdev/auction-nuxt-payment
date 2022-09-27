@@ -49,12 +49,10 @@
         </b-nav-item>
         <b-nav-item
           v-if="authenticated"
-          to="/trades"
           :link-attrs="{ title: $t('navbar.trade') }">
           {{ $t('navbar.trade') }}
         </b-nav-item>
         <b-nav-item
-          v-if="authenticated"
           to="/auction"
           :link-attrs="{ title: $t('navbar.auction') }">
           {{ $t('navbar.auction') }}
