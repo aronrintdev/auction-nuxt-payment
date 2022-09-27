@@ -41,21 +41,20 @@
             <b-form-radio-group
                 v-if="fieldExist(settings.data, 'every')"
                 v-model="formData.extra.every.value"
-                :checked="formData.extra?formData.extra.every.value: 0 "
+                :checked="formData.extra.every.value"
                 :options="getEveryOptions"
                 class="type-radios d-flex flex-column"
                 @change="everyChanged"
             >
               <b-form-radio
-                  v-model="isEveryCustom"
-                  :value="null"
+                  :value="everyValue"
+                  :checked="everyValue"
                   class=" d-flex flex-column"
               >
                 <div class="d-flex align-items-center">
                   <span>{{ $t('notifications.settings.custom') }}:</span>
                   <b-input
                       v-model="everyValue"
-                      :disabled="!!isEveryCustom"
                       :min="everyOptionMin"
                       :placeholder="$t('notifications.settings.custom_value')"
                       class="ml-2 h-26px"
@@ -187,6 +186,10 @@ export default {
     everyOptionMin() {
       return this.getEveryOptions[this.getEveryOptions.length - 1].value / (this.formData.extra.every.type === 'hour' ? 24 : 1)
     },
+    /**
+     * A computed function that returns a settings label based on the value of the formData.extra.
+     * @return string
+     */
     settingsLabel: {
       cache: false,
       get() {
@@ -197,7 +200,8 @@ export default {
                   this.$t('notifications.settings.no_statuses') : (this.whenOptions(this.formData.extra)
                       .filter(item => this.formData.extra.when.value.includes(item.value))[0].text + ' ...')
         }
-        return this.$t(`notifications.settings.${this.formData.extra[key].type}_statuses.${this.formData.extra[key].value}`, {n: this.everyValue})
+        const option = this.everyValueSorted()
+        return this.$t(`notifications.settings.${this.formData.extra[key].type}_statuses.${option}`, {n: this.everyValue})
       }
     }
   },
@@ -214,6 +218,12 @@ export default {
     this.initFormData()
   },
   methods: {
+    everyValueSorted(){
+      return this.getEveryOptions.filter(option => option.value === this.formData.extra.every.value+'').length>0? this.formData.extra.every.value : 'null'
+    },
+    /**
+     * Initializing the formData object.
+     */
     initFormData() {
       if (this.fieldExist(this.settings.data, 'when')) {
         this.whenChanged(this.settings.data.when.value)
@@ -227,6 +237,7 @@ export default {
       if (this.fieldExist(this.settings.data, 'every')) {
         const data = this.settings.data.every
         this.formData.extra.every = Object.assign({}, this.formData.extra.every, {value: data.value, type: data.type})
+        this.everyValue = this.everyValueSorted() === 'null' ? this.formData.extra.every.value : null
       }
     },
     percentageChange(e) {
@@ -268,16 +279,26 @@ export default {
     fieldExist(item, field) {
       return !!_.get(item, field, false);
     },
+
+    /**
+     * Creating a edit item object with the id, data, and value properties.
+     * @param channel
+     * @return {{data: {Object}, id: {number}, value: (number)}}
+     */
     editItemConstructor(channel) {
       const id = this.getSettings.filter(sett => sett.key === this.settings.key && sett.channel === channel)[0].id
-      return {
+      const  data = {
         id,
         data: JSON.stringify(Object.keys(this.settings.data).reduce((obj, key) => {
           obj[key] = this.formData.extra[key]
+          if (this.everyValue !== null && key === 'every'){
+            obj[key].value = parseInt(this.everyValue)
+          }
           return obj
         }, {})),
         value: this.channelSettings[channel] ? 1 : 0
       }
+      return data
     },
     addChangedItem(item) {
       this.$store.commit('notifications/addOrChangeChangedSetting', item)

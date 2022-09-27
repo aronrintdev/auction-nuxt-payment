@@ -12,7 +12,7 @@ export function getNotifications({commit}, payload) {
     return this.$axios.get('notifications/user', {
         params: payload
     }).then(res => {
-        commit('setNotification', res.data.data)
+        commit('setNotification', res.data.data.data)
         Promise.resolve(res)
     }).catch(err => {
         Promise.reject(err)

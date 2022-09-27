@@ -18,7 +18,7 @@
 
     <div class="mt-5">
       <Button
-          :disabled="loading"
+          :disabled="loading || changedSettings.length === 0"
           class="mr-2"
           pill
           variant="blue"
@@ -89,7 +89,7 @@ export default {
       })
     },
     saveChanges() {
-      console.log(this.changedSettings);
+      this.loading = true
       this.bulkEditNotificationSettings({settings: this.changedSettings}).then(res => {
         this.updateSettings()
         this.$toasted.success(res.data.message)
