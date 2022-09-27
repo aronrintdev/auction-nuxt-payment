@@ -1,71 +1,73 @@
 <template>
-  <b-row class="vh-100">
-    <b-col md="8">
+  <b-row class="w-100">
+    <b-col lg="8" class="w-100 py-5 px-5 px-md-0">
       <b-row class="h-100">
         <b-col
           md="6"
           offset-md="3"
           class="d-flex flex-column align-items-center justify-content-center"
-        >
-          <b-row>
-            <b-col md="12">
-              <div class="right-heading-bold text-center">
-                {{ $t('auth.login_to_your_account') }}
-              </div>
-              <div class="body-5-normal text-color-gray-38 text-center mt-3">
-                {{ $t('auth.login_via_social_media') }}
-              </div>
-            </b-col>
-          </b-row>
+          ><b-row
+            class="justify-content-center order-lg-1 order-2 flex-column align-items-center"
+            ><b-row class="order-2 order-lg-1 mb-4">
+              <b-col md="12">
+                <div class="right-heading-bold text-center d-none d-lg-flex">
+                  {{ $t('auth.login_to_your_account') }}
+                </div>
+                <div class="body-5-normal text-color-gray-38 text-center mt-3">
+                  {{ $t('auth.login_via_social_media') }}
+                </div>
+              </b-col>
+            </b-row>
 
-          <b-row class="mt-4">
-            <b-col
-              md="12"
-              class="d-flex align-items-center justify-content-center"
-            >
-              <b-img
-                :src="require('~/assets/img/auth/social_login_google.svg')"
-                class="mx-3"
-                role="button"
-                alt="..."
-                @click="socialLogin('google')"
-              />
-              <b-img
-                :src="require('~/assets/img/auth/social_login_facebook.svg')"
-                class="mx-3"
-                role="button"
-                alt="..."
-                @click="socialLogin('facebook')"
-              />
-              <b-img
-                :src="require('~/assets/img/auth/social_login_apple.svg')"
-                class="mx-3"
-                role="button"
-                alt="..."
-                @click="socialLogin('apple')"
-              />
-              <b-img
-                :src="require('~/assets/img/auth/social_login_twitter.svg')"
-                class="mx-3"
-                role="button"
-                alt="..."
-                @click="socialLogin('twitter')"
-              />
-            </b-col>
-          </b-row>
+            <b-row class="mb-lg-4 order-3 order-lg-2">
+              <b-col
+                md="12"
+                class="d-flex align-items-center justify-content-center"
+              >
+                <b-img
+                  :src="require('~/assets/img/auth/social_login_google.svg')"
+                  class="mx-sm-3 mx-1 img-fluid"
+                  role="button"
+                  alt="..."
+                  @click="socialLogin('google')"
+                />
+                <b-img
+                  :src="require('~/assets/img/auth/social_login_facebook.svg')"
+                  class="mx-sm-3 mx-1 img-fluid"
+                  role="button"
+                  alt="..."
+                  @click="socialLogin('facebook')"
+                />
+                <b-img
+                  :src="require('~/assets/img/auth/social_login_apple.svg')"
+                  class="mx-sm-3 mx-1 img-fluid"
+                  role="button"
+                  alt="..."
+                  @click="socialLogin('apple')"
+                />
+                <b-img
+                  :src="require('~/assets/img/auth/social_login_twitter.svg')"
+                  class="mx-sm-3 mx-1 img-fluid"
+                  role="button"
+                  alt="..."
+                  @click="socialLogin('twitter')"
+                />
+              </b-col>
+            </b-row>
 
-          <b-row class="mt-4 w-100">
-            <b-col md="12">
-              <div class="text-line-middle">
-                <span
-                  class="body-4-bold text-color-gray-22 text-uppercase mx-5"
-                  >{{ $t('auth.or') }}</span
-                >
-              </div>
-            </b-col>
-          </b-row>
+            <b-row class="my-2 w-100 order-1 order-lg-3 px-4 px-lg-0">
+              <b-col md="12">
+                <div class="text-line-middle">
+                  <span
+                    class="body-4-bold text-color-gray-22 text-uppercase mx-5"
+                    >{{ $t('auth.or') }}</span
+                  >
+                </div>
+              </b-col>
+            </b-row></b-row
+          >
 
-          <b-row class="mt-5 w-100">
+          <b-row class="form-login-area mt-5 w-100 order-lg-2 order-1">
             <b-col md="12">
               <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
                 <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
@@ -73,7 +75,25 @@
                     v-slot="validationContext"
                     :name="$t('auth.email_address')"
                     :rules="{ required: true, email: true, min: 3, max: 128 }"
-                  >
+                    ><b-row class="d-lg-none d-flex"
+                      ><b-col
+                        class="d-flex justify-content-center flex-column align-items-center"
+                      >
+                        <Logo class="img-fluid w-auto mb-2" />
+                        <p
+                          class="fs-15 fw-6 font-primary w-50 text-center text-black-50"
+                        >
+                          {{ $t('home.welcome_back') }}
+                        </p></b-col
+                      ></b-row
+                    >
+                    <NavGroup
+                      :data="tabs"
+                      :value="currentTab"
+                      nav-key="new_releases"
+                      class="text-center mb-4 d-lg-none d-block"
+                      @change="handleTabChange"
+                    />
                     <b-form-group>
                       <b-form-input
                         id="email-address"
@@ -127,24 +147,28 @@
                     </b-form-group>
                   </ValidationProvider>
 
-                  <b-row class="mt-5 w-100">
-                    <b-col md="4" offset-md="4" class="text-center">
+                  <b-row class="mt-5 w-100 d-flex justify-content-center mx-0">
+                    <b-col
+                      md="6"
+                      class="text-center d-flex justify-content-center"
+                    >
                       <Button
                         :disabled="!isFormFilled"
                         block
                         pill
                         variant="confirm"
                         type="submit"
+                        class="w-75 fs-16 fw-5 font-primary"
                         :class="{ 'btn-disabled': !isFormFilled }"
                         >{{ $t('auth.login') }}</Button
                       >
                     </b-col>
                   </b-row>
 
-                  <b-row class="mt-5 w-100">
+                  <b-row class="mt-5 w-100 mx-0">
                     <b-col md="12" class="text-center">
                       <b-link
-                        class="text-color-black-1 text-decoration-underline"
+                        class="text-color-black-1 text-decoration-underline fs-14 fw-5 font-primary text-black-50"
                         to="/forgot-password"
                         >{{ $t('auth.forgot_password') }}&quest;</b-link
                       >
@@ -153,15 +177,43 @@
 
                   <b-row class="mt-4 mb-5">
                     <b-col md="12">
-                      <div class="body-5-normal text-color-gray-38 text-center">
+                      <div
+                        class="face-id flex-column align-items-center d-lg-none d-flex"
+                      >
+                        <img
+                          src="~/assets/img/sign-up/icons/face-id.svg"
+                          class="img-fluid"
+                          width="50px"
+                        />
+                        <p class="fs-10 fw-5 font-secondary text-black-50">
+                          {{ $t('signup.face_id_icon') }}
+                        </p>
+                      </div>
+                      <div
+                        class="touch-id d-flex flex-column align-items-center d-lg-none"
+                      >
+                        <img
+                          src="~/assets/img/sign-up/icons/Touch-ID-black.svg"
+                          class="img-fluid"
+                          width="50px"
+                        />
+                        <p class="mb-0 fs-10 fw-5 font-secondary text-black-50">
+                          {{ $t('signup.touch_id_icon') }}
+                        </p>
+                      </div>
+                      <div
+                        class="body-5-normal text-color-gray-38 text-center d-none d-lg-block"
+                      >
                         {{ $t('auth.secure_login_with_recaptcha') }}
                       </div>
                       <div
-                        class="body-5-normal text-color-gray-38 text-center mt-2"
+                        class="body-5-normal text-color-gray-38 text-center mt-2 d-none d-lg-block"
                       >
-                        <span class="text-decoration-underline" role="button" @click="$router.push('/terms-and-conditions')">{{
-                          $t('auth.terms')
-                        }}</span
+                        <span
+                          class="text-decoration-underline"
+                          role="button"
+                          @click="$router.push('/terms-and-conditions')"
+                          >{{ $t('auth.terms') }}</span
                         >&nbsp;&amp;&nbsp;<span
                           class="text-decoration-underline"
                           role="button"
@@ -180,7 +232,7 @@
     </b-col>
     <b-col
       md="4"
-      class="d-flex flex-column align-items-center justify-content-center bg-color-white-5"
+      class="flex-column align-items-center justify-content-center login-right-area d-none d-lg-flex"
     >
       <b-row>
         <b-col md="12">
@@ -195,11 +247,16 @@
         </b-col>
       </b-row>
 
-      <b-row class="mt-5 w-100">
-        <b-col md="4" offset-md="4">
-          <Button pill block variant="dark" to="/signup">{{
-            $t('auth.signup')
-          }}</Button>
+      <b-row class="mt-5 w-100 d-flex justify-content-center">
+        <b-col lg="6" md="12" class="d-flex justify-content-center">
+          <Button
+            pill
+            block
+            variant="black"
+            class="w-75 fs-16 fw-5 font-primary bg-dark sign-up-btn"
+            to="/signup"
+            >{{ $t('auth.signup') }}</Button
+          >
         </b-col>
       </b-row>
     </b-col>
@@ -210,13 +267,27 @@ import { mapActions } from 'vuex'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import Button from '~/components/common/Button'
 import { UNAUTHORIZED } from '~/static/constants'
+import NavGroup from '~/utils/components/common/NavGroup.vue'
+import Logo from '~/components/header/Logo.vue'
 
 export default {
   name: 'Login',
-  components: { ValidationProvider, ValidationObserver, Button },
+  components: {
+    ValidationProvider,
+    ValidationObserver,
+    Button,
+    Logo,
+    NavGroup,
+  },
   layout: 'Auth',
   data() {
     return {
+      tabs: [
+        { label: this.$t('auth.create_an_account'), value: 'signup' },
+        { label: this.$t('auth.login'), value: 'Login' },
+      ],
+      currentTab: 'Login',
+
       isPasswordShown: false,
       form: {
         email: '',
@@ -248,11 +319,15 @@ export default {
   methods: {
     ...mapActions({
       getUserDetails: 'auth/getUserDetails',
-      getUserRedeemedReward: 'redeemed-reward/getUserRedeemedReward'
+      getUserRedeemedReward: 'redeemed-reward/getUserRedeemedReward',
     }),
     getValidationState({ dirty, validated, valid = null }) {
       // Returns the contextual state (validation style) of the element being validated (false for invalid, true for valid, or null for no validation state)
       return dirty || validated ? valid : null
+    },
+    handleTabChange(tab) {
+      this.currentab = tab
+      this.$router.push('signup')
     },
     onSubmit() {
       // Do the login process
@@ -292,6 +367,12 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.login-right-area
+  background-image: url('~/assets/img/sign-up/loginbackground.png')
+  background-position: center center
+  background-repeat: no-repeat
+  background-size: cover
 
 .left-heading-bold
   color: black
@@ -383,6 +464,14 @@ export default {
   border-top-right-radius: 3rem !important
 
 .btn
+  background: $color-blue-20 !important
+  color: $color-white-1 !important
+
+.sign-up-btn
+  background-color: $color-black-1 !important
+  color: $color-white-1 !important
+
+.btn
   &.btn-confirm
     &.btn-disabled
       background: $color-gray-47
@@ -390,4 +479,27 @@ export default {
       cursor: not-allowed
       &:hover
         box-shadow: none
+
+// ------------------Responsive--------------------
+@media only screen and (max-width: 768px)
+  .form-login-area::v-deep
+    input
+      border-radius: 10px !important
+      background-color: transparent
+      border: 1px solid $color-gray-3
+      &:focus
+        background-color: $color-gray-3
+    #password
+      border-radius: 10px 0px 0px 10px !important
+      border: 1px solid $color-gray-3
+      border-right: 0px
+      &:focus
+        background-color: $color-gray-3
+    .append-icon
+      background: transparent
+      border: 1px solid $color-gray-3
+      border-left: 0px
+      border-radius: 0px 10px 10px 0px !important
+      &:focus
+        border-radius: 0px 10px 10px 0px
 </style>
