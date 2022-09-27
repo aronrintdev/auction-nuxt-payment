@@ -30,7 +30,6 @@ export default {
     getSingleSetting() {
       return key => {
         const setting = this.getSettings.filter(sett => sett.key === key)
-        console.log(key, setting.length ? JSON.parse(setting[0].extra) || {} : {});
         return setting.length ? JSON.parse(setting[0].extra) || {} : {}
       }
     },

@@ -126,10 +126,16 @@ export function readNotification(context, payload) {
 
 /**
  * read all notification
- * @param {Object} context
+ * @param {Object} dispatch
  * @return {Promise<AxiosResponse<any>>}
  */
-export function readAllNotification(context) {
-    return this.$axios.post('notification-reads/read-all')
+export function readAllNotification({dispatch}) {
+    return this.$axios.post('notification-reads/read-all').then(res => {
+        dispatch('getUnreadCount')
+        dispatch('getNotifications')
+        Promise.resolve(res)
+    }).catch(err => {
+        Promise.reject(err)
+    })
 }
 

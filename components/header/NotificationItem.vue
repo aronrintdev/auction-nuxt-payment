@@ -6,8 +6,8 @@
     }"
          class="notification-item d-flex align-items-center px-2">
       <div :class="{'image-prefix': !fromDown}" class="image d-flex justify-content-center align-items-center">
-        <favoriteOutline v-if="!notification.favorite" class="mr-1"></favoriteOutline>
-        <favorite-filled v-else class="mr-1"></favorite-filled>
+        <favoriteOutline v-if="!notification.important && !fromDown" class="mr-1"></favoriteOutline>
+        <favorite-filled v-if="notification.important && !fromDown" class="mr-1"></favorite-filled>
         <img :src="'https://images.deadstock.co/products/sneakers/DD1399-102/800xAUTO/IMG01.jpg'" class="m-2"
              width="50">
       </div>
@@ -15,18 +15,16 @@
         <div :class="{'body-lighter': fromDown}" class="body-text d-flex align-items-center">
           <img v-if="!fromDown && notificationTitleImage()"
                :src="require(`~/assets/img/profile/notifications/${notificationTitleImage()}`)" class="mr-1">
-          {{ notification.text }}
+          {{ notification.subject }}
           <b-link
-              v-if="notification.url && !fromDown"
-              :href="notification.url"
+              v-if="notification.link && !fromDown"
+              :href="notification.link"
               class="underline ml-2"
           >- {{ notificationCategory(notification.type) }}
-          </b-link
-          >
+          </b-link>
         </div>
         <div class="body-secondary mt-1">
-          <!-- TODO  -->
-          Fri, Oct 16th at 9:03 AM
+          {{ notificationDate }}
         </div>
       </div>
       <div class="dot d-flex justify-content-center align-items-center m-2">
@@ -69,6 +67,11 @@ export default {
   data() {
     return {
       NOTIFICATION_TYPES,
+    }
+  },
+  computed: {
+    notificationDate(){
+      return `${new Date(this.notification.created_at).toDateString()} ${this.$t('notifications.at')} ${new Date(this.notification.created_at).toLocaleTimeString()}`
     }
   },
   methods: {
@@ -122,4 +125,5 @@ export default {
     font-family: $font-family-montserrat
     font-style: normal
     font-weight: $normal
+    color: $color-gray-4
 </style>

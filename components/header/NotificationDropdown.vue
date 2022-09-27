@@ -15,19 +15,11 @@
 
     <div class="content-top mx-3 d-flex align-items-center justify-content-between my-3">
       <span class="header">{{ $t('notifications.title') }}</span>
-      <Button
-          class="mark-as-read"
-          size="sm"
-          style="white-space: nowrap"
-          variant="link"
-      >
-        <DoubleCheck class="mr-1"/>
-        {{ $t('notifications.mark_all_read') }}
-      </Button>
+     <NotificationMarkAllAsRead/>
     </div>
     <div class="">
       <NotificationItem
-          v-for="(notification, x) in notifications"
+          v-for="(notification, x) in notifications.slice(0,3)"
           :key="x"
           :notification="notification"
           action
@@ -48,40 +40,25 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
 import NotificationIcon from '~/components/header/NotificationIcon';
 import Button from '~/components/common/Button';
 import DoubleCheck from '~/assets/img/profile/notifications/notification-double-check.svg?inline'
 import NotificationItem from '~/components/header/NotificationItem';
+import NotificationMarkAllAsRead from '~/components/profile/notifications/NotificationMarkAllAsRead';
 
 export default {
   name: 'NotificationDropdown',
-  components: {NotificationItem, Button, NotificationIcon, DoubleCheck},
+  components: {NotificationMarkAllAsRead, NotificationItem, Button, NotificationIcon, DoubleCheck},
   data() {
     return {
       shown: false,
-      // TODO change it to use API or state when new API is ready
-      notifications: [
-        {
-          text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, deleniti!',
-          read: false,
-          category: 'notification',
-          type: 'new',
-        },
-        {
-          text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, deleniti!',
-          read: false,
-          category: 'notification',
-          type: 'new',
-        },
-        {
-          text: 'There is only one day left to approve your Jordan 4 Retro (2021) trade',
-          read: true,
-          url: '#',
-          category: 'trade',
-          type: 'new',
-        }
-      ]
     }
+  },
+  computed:{
+    ...mapGetters({
+      'notifications': 'notifications/getNotifications'
+    }),
   },
   methods: {
     viewAll() {
