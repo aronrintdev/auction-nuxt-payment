@@ -5,8 +5,8 @@
  export function fetchOfferDetails({ commit }, { offerId }) {
   this.$axios.get('trades/offer/' + offerId)
       .then(response => {
-          const lastSubmittedOffer = response.data.latest_offer ?? response.data
-          commit('setOffer', response.data)
+          const lastSubmittedOffer = response.data.data.latest_offer ?? response.data.data
+          commit('setOffer', response.data.data)
           commit('setLastSubmittedOffer', lastSubmittedOffer)
           commit('setTheirVendorId', lastSubmittedOffer.theirs_items[0].vendor_id)
           commit('setTheirItems', lastSubmittedOffer.theirs_items.map((item) => {
@@ -19,6 +19,6 @@
             return item
           }))
 
-          return response.data
+          return response.data.data
       })
 }
