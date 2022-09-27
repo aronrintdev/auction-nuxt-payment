@@ -97,7 +97,7 @@
 </template>
 <script>
 import Button from '~/components/common/Button'
-import LoginForm from '~/components/auth/LoginForm'
+import LoginForm from '~/components/Auth/LoginForm'
 import SocialLoginButtons from '~/components/Auth/SocialLoginButtons'
 import VerificationCodeForm from '~/components/Auth/VerificationCodeForm'
 
