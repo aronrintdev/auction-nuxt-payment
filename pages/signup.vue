@@ -410,14 +410,13 @@
                       <b-row
                         class="mt-4 w-100 mx-0 d-flex justify-content-center"
                       >
-                        <b-col md="6">
+                        <b-col md="6" class="text-center">
                           <Button
                             :disabled="!isFormFilled"
-                            block
                             pill
                             variant="confirm"
                             type="submit"
-                            className="border-0 w-75"
+                            class="border-0 px-5"
                             :class="{ 'btn-disabled': !isFormFilled }"
                             >{{ $t('auth.signup') }}</Button
                           >
