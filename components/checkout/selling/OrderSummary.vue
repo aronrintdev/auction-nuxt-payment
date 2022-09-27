@@ -427,7 +427,7 @@ export default {
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTax: (vm) => {
-      return Math.trunc(vm.taxRate * vm.getSubtotal)
+      return Math.trunc(vm.taxRate * vm.getSubtotalAfterDiscount)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTotal: (vm) => {
@@ -486,7 +486,7 @@ export default {
     getItems: (vm) => {
       const items = []
       // DVQ-24 items should be calculated if there is product in cart
-      items.push({ key: vm.$t('shopping_cart.subtotal'), value: vm.getTotalQuantity > 0 ? vm.getSubtotalAfterDiscount : 0 })
+      items.push({ key: vm.$t('shopping_cart.subtotal'), value: vm.getTotalQuantity > 0 ? vm.getSubtotal : 0 })
       items.push({ key: vm.$t('shopping_cart.shipping_fee'), value: vm.getTotalQuantity > 0 ? vm.getShippingFee : 0 })
       items.push({ key: vm.$t('shopping_cart.processing_fee'), value: vm.getTotalQuantity > 0 ? vm.getProcessingFee : 0 })
       items.push({ key: vm.$t('shopping_cart.tax'), value: vm.getTotalQuantity > 0 ? vm.getTax : 0 })
