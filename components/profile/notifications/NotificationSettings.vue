@@ -1,37 +1,42 @@
 <template>
   <div class="mt-4">
-    <NotificationSettingsSection :items="settings()" :preference="false"
-                                 :title="$t('notifications.settings.all_communication')"/>
-
-    <div class="text-center my-4">
-      <NavGroup
-          :data="tabs"
-          :value="currentTab"
-          nav-key="notification-tabs"
-          @change="handlePageChange"
-      />
+    <div v-if="loading && getSettings.length === 0" class="d-flex align-items-center justify-content-center">
+      <Loader :loading="loading"></Loader>
     </div>
+    <div v-else>
+      <NotificationSettingsSection :items="settings()" :preference="false"
+                                   :title="$t('notifications.settings.all_communication')"/>
 
-    <div>
-      <NotificationSettingsTab :tab="currentTab"/>
-    </div>
+      <div class="text-center my-4">
+        <NavGroup
+            :data="tabs"
+            :value="currentTab"
+            nav-key="notification-tabs"
+            @change="handlePageChange"
+        />
+      </div>
 
-    <div class="mt-5">
-      <Button
-          :disabled="loading || changedSettings.length === 0"
-          class="mr-2"
-          pill
-          variant="blue"
-          @click="saveChanges"
-      >{{ $t('common.save_changes') }}
-      </Button>
-      <Button
-          :disabled="loading"
-          pill
-          variant="outline-dark"
-          @click="updateSettings"
-      >{{ $t('common.discard_changes') }}
-      </Button>
+      <div>
+        <NotificationSettingsTab :tab="currentTab"/>
+      </div>
+
+      <div class="mt-5">
+        <Button
+            :disabled="loading || changedSettings.length === 0"
+            class="mr-2"
+            pill
+            variant="blue"
+            @click="saveChanges"
+        >{{ $t('common.save_changes') }}
+        </Button>
+        <Button
+            :disabled="loading"
+            pill
+            variant="outline-dark"
+            @click="updateSettings"
+        >{{ $t('common.discard_changes') }}
+        </Button>
+      </div>
     </div>
   </div>
 </template>
@@ -43,10 +48,11 @@ import NavGroup from '~/components/common/NavGroup';
 import NotificationSettingsTab from '~/components/profile/notifications/NotificationSettingsTab';
 import {ALL_SETTINGS} from '~/static/constants/notifications';
 import {Button} from '~/components/common';
+import Loader from '~/components/common/Loader';
 
 export default {
   name: 'NotificationSettings',
-  components: {NotificationSettingsTab, Button, NavGroup, NotificationSettingsSection},
+  components: {Loader, NotificationSettingsTab, Button, NavGroup, NotificationSettingsSection},
   data() {
     return {
       loading: false,
@@ -66,7 +72,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      'changedSettings': 'notifications/getChangedSettings'
+      'changedSettings': 'notifications/getChangedSettings',
+      'getSettings': 'notifications/getSettings'
     })
   },
   methods: {
