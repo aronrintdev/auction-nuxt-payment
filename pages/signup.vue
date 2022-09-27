@@ -1,5 +1,5 @@
 <template>
-  <b-row class="w-100 px-4">
+  <b-row class="w-100 px-4 px-lg-0">
     <b-col
       md="4"
       class="sign-upright-area flex-column align-items-center justify-content-center d-lg-flex d-none"
