@@ -26,8 +26,8 @@
         </nuxt-link>
         <div
           v-if="$route.name !== 'profile-support-live-chat'"
-          @click="openChat"
           class="navigation-link live-chat"
+          @click="openChat"
         >
           <div
             class="border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
