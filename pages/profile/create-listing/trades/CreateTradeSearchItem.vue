@@ -91,7 +91,7 @@
             @change="listType"
           />
         </div>
-        <b-btn class="search-trade-add-btn ml-4" :disabled="!isFormValid() && productFor !== 'wantsList'" @click="addToOffer(product)">
+        <b-btn class="search-trade-add-btn ml-4" :disabled = !disabledBtn  @click="addToOffer(product)">
           {{ ((productFor === tradeOffer) || (productFor === tradeArena)) ?
             $t('trades.create_listing.vendor.wants.add_to_offers') : $t('trades.create_listing.vendor.wants.add_to_wants') }}
         </b-btn>
@@ -153,6 +153,7 @@ export default {
   },
   data() {
     return {
+        disabled:false,
       PRODUCT_FOR_COUNTER_OFFER,
       MAX_ITEMS_ALLOWED,
       box_condition: null,
@@ -176,6 +177,9 @@ export default {
   computed: {
     ...mapGetters('trades', ['getTradeItems', 'getTradeItemsWants']),
     ...mapGetters('trade', ['getYourTradeItems']),
+      disabledBtn(){
+        return this.selected_size !== null &&  this.box_condition !== null
+      }
   },
   mounted() {
     if (this.itemId) {
@@ -232,6 +236,7 @@ export default {
      * @returns {false|any|boolean}
      */
     isFormValid() {
+        console.log('check', this.selected_size)
       return ((parseInt(this.itemsCount()) + parseInt(this.quantity)) <= MAX_ITEMS_ALLOWED &&
         (this.product.packaging_conditions && this.box_condition !== null) &&
         this.isValidQuantity(parseInt(this.quantity)) &&
