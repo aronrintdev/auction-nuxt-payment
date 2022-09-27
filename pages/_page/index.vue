@@ -2,27 +2,28 @@
   <b-row class="vh-100 mt-5">
     <b-col md="12" class="text-center">
       <!-- TODO: To be filled once content is ready -->
-      <span>{{ link }}</span>
+      <span>{{ page }}</span>
     </b-col>
   </b-row>
 </template>
 <script>
 export default {
-  name: 'TermsAndConditions',
+  name: 'page',
   layout: 'IndexLayout',
   data() {
     return {
-      link: '',
+      page: 'testing',
     }
   },
   mounted() {
-    this.link = this.$route.params.link
-    this.getPageData(this.link)
+    console.log(this.$route.params)
+    this.page = this.$route.params.page
+
+    this.getPageData(this.page)
   },
   methods: {
-    getPageData(link) {
-      /** Todo need to call api to get page data from database */
-      console.log(link.replace('-', '_'))
+    getPageData(page) {
+      this.page = page
     },
   },
 }
