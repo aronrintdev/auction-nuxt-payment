@@ -54,11 +54,6 @@ export default {
           default: false,
       }
   },
-    data(){
-      return {
-
-      }
-    },
   methods: {
     showTrade(tradeId){
       this.$router.push('/profile/trades/dashboard/' + tradeId + '/offers')
