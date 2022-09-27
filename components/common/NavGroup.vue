@@ -66,4 +66,6 @@ export default {
         visibility: hidden
       @media (max-width: 500px)
         padding: 6px 20px
+    @media (max-width: 500px)
+      width: calc( 100% - 20px )
 </style>

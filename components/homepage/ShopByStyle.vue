@@ -13,22 +13,17 @@
       class="text-center my-5"
       @change="handleCategoryChange"
     />
-    <div class="products row">
-      <div v-for="product in products" :key="product.id" class="col-6 col-lg-3">
-        <ProductThumb :src="product.image" :height="500" :product="product" />
-      </div>
+    <div>
+      <ProductCarousel :products="products" variant="photo" />
     </div>
   </div>
 </template>
 <script>
 import NavGroup from '~/components/common/NavGroup.vue'
-import ProductThumb from '~/components/product/Thumb.vue'
 export default {
   name: 'HomeShopByStyle',
-  components: { NavGroup, ProductThumb },
-
+  components: { NavGroup },
   fetchOnServer: false,
-
   data() {
     return {
       categoryItems: [
@@ -37,72 +32,13 @@ export default {
         { label: 'Best Seller', value: 'best' },
       ],
       currentCategory: 'all',
-      products: [
-        {
-          id: 8,
-          sku: 'DC6515-100',
-          name: 'Jordan Retro 4',
-          colorway: 'University Blue',
-          brand: 'Lockman, Lehner and Kling',
-          category: 'sneakers',
-          release_year: 2003,
-          created_at: '2022-03-04T04:05:29.000000Z',
-          updated_at: '2022-03-04T04:05:29.000000Z',
-          vendor_id: 8,
-          size_category_id: 5,
-          sale_price: 500,
-          size: 9,
-        },
-        {
-          id: 9,
-          sku: 'DC6515-100',
-          name: 'Jordan Retro 4',
-          colorway: 'University Blue',
-          brand: 'Lockman, Lehner and Kling',
-          category: 'sneakers',
-          release_year: 2003,
-          created_at: '2022-03-04T04:05:29.000000Z',
-          updated_at: '2022-03-04T04:05:29.000000Z',
-          vendor_id: 8,
-          size_category_id: 5,
-          sale_price: 500,
-          size: 9,
-        },
-        {
-          id: 10,
-          sku: 'DC6515-100',
-          name: 'Jordan Retro 4',
-          colorway: 'University Blue',
-          brand: 'Lockman, Lehner and Kling',
-          category: 'sneakers',
-          release_year: 2003,
-          created_at: '2022-03-04T04:05:29.000000Z',
-          updated_at: '2022-03-04T04:05:29.000000Z',
-          vendor_id: 8,
-          size_category_id: 5,
-          sale_price: 500,
-          size: 9,
-        },
-        {
-          id: 11,
-          sku: 'DC6515-100',
-          name: 'Jordan Retro 4',
-          colorway: 'University Blue',
-          brand: 'Lockman, Lehner and Kling',
-          category: 'sneakers',
-          release_year: 2003,
-          created_at: '2022-03-04T04:05:29.000000Z',
-          updated_at: '2022-03-04T04:05:29.000000Z',
-          vendor_id: 8,
-          size_category_id: 5,
-          sale_price: 500,
-          size: 9,
-        },
-      ],
+      products: [],
       styles: [],
     }
   },
-
+  async fetch() {
+    await this.fetchStyles()
+  },
   mounted() {
     this.fetchStyles()
   },

@@ -110,13 +110,12 @@ export default {
   async fetch() {
     this.brands = await this.$axios
       .get('/brands', {
-        params: {
-          take: 10,
-        },
         handleError: false,
       })
       .then((res) => res.data || [])
-      .catch(() => [])
+      .catch((error) => {
+        this.$toasted.error(error.message)
+      })
   },
   methods: {
     handleBrandClick(brand) {

@@ -50,68 +50,7 @@ export default {
   fetchOnServer: false,
   data() {
     return {
-      products: [
-        {
-          id: 8,
-          sku: 'DC6515-100',
-          name: 'Jordan Retro 4',
-          colorway: 'University Blue',
-          brand: 'Lockman, Lehner and Kling',
-          category: 'sneakers',
-          release_year: 2003,
-          created_at: '2022-03-04T04:05:29.000000Z',
-          updated_at: '2022-03-04T04:05:29.000000Z',
-          vendor_id: 8,
-          size_category_id: 5,
-          sale_price: 500,
-          size: 9,
-        },
-        {
-          id: 9,
-          sku: 'DC6515-100',
-          name: 'Jordan Retro 4',
-          colorway: 'University Blue',
-          brand: 'Lockman, Lehner and Kling',
-          category: 'sneakers',
-          release_year: 2003,
-          created_at: '2022-03-04T04:05:29.000000Z',
-          updated_at: '2022-03-04T04:05:29.000000Z',
-          vendor_id: 8,
-          size_category_id: 5,
-          sale_price: 500,
-          size: 9,
-        },
-        {
-          id: 10,
-          sku: 'DC6515-100',
-          name: 'Jordan Retro 4',
-          colorway: 'University Blue',
-          brand: 'Lockman, Lehner and Kling',
-          category: 'sneakers',
-          release_year: 2003,
-          created_at: '2022-03-04T04:05:29.000000Z',
-          updated_at: '2022-03-04T04:05:29.000000Z',
-          vendor_id: 8,
-          size_category_id: 5,
-          sale_price: 500,
-          size: 9,
-        },
-        {
-          id: 11,
-          sku: 'DC6515-100',
-          name: 'Jordan Retro 4',
-          colorway: 'University Blue',
-          brand: 'Lockman, Lehner and Kling',
-          category: 'sneakers',
-          release_year: 2003,
-          created_at: '2022-03-04T04:05:29.000000Z',
-          updated_at: '2022-03-04T04:05:29.000000Z',
-          vendor_id: 8,
-          size_category_id: 5,
-          sale_price: 500,
-          size: 9,
-        },
-      ],
+      products: [],
       categoryItems: [
         { label: this.$t('home_page.all'), value: 'all' },
         { label: this.$t('home.trending'), value: 'trending' },
@@ -120,9 +59,9 @@ export default {
       currentCategory: 'all',
     }
   },
-  // async fetch() {
-  //   await this.fetchProducts()
-  // },
+  async fetch() {
+    await this.fetchProducts()
+  },
   methods: {
     async fetchProducts() {
       this.products = await this.$axios
@@ -136,7 +75,9 @@ export default {
           handleError: false,
         })
         .then((res) => res.data || [])
-        .catch(() => [])
+        .catch((error) => {
+          this.$toasted.error(error.message)
+        })
     },
     handleCategoryChange(category) {
       if (this.currentCategory !== category) {

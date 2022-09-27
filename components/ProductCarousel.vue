@@ -30,8 +30,7 @@
                 <ProductThumb
                   :src="product.image"
                   :product="product"
-                  :width="300"
-                  :height="350"
+                  :height="500"
                 />
               </nuxt-link>
             </div>
@@ -75,10 +74,9 @@ export default {
         }
       } else {
         return {
-          0: { items: 1, nav: false, center: false },
-          700: { items: 2, nav: false, center: false },
-          1150: { items: 3, nav: false, center: false },
-          1400: { items: 4, nav: false, center: false },
+          0: { items: 2, nav: false, center: false },
+          768: { items: 3, nav: false, center: false },
+          950: { items: 4, nav: false, center: false },
         }
       }
     },
@@ -95,15 +93,12 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .product-carousel-wrapper
   padding: 0
-
   .no-text
     @include body-4-medium
     text-align: center
     color: $color-gray-5
-
   .carousel::v-deep
     width: 100%
     text-align: center
@@ -118,7 +113,6 @@ export default {
       display: none
     >span .owl-nav
       display: block
-
     .owl-carousel
       .item
         text-align: left
@@ -126,21 +120,18 @@ export default {
         margin-left: 0.5em
         margin-right: 0.5em
         &.photo-item
-          max-width: 260px
           img
             border-radius: 5px
-
+            @media (max-width: 500px)
+              height: 300px
     .owl-nav
       width: auto
       cursor: pointer
-
       [class*='owl-']
         background: none
-
       &.owl-next
         float: right
         margin-right: -47px !important
-
       &.owl-prev
         float: left
         margin-left: -47px !important
