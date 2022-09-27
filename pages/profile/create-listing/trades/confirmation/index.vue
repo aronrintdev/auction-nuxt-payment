@@ -79,7 +79,7 @@
     <b-row v-for="(wantItem, index) in getTradeItemsWants" :key="'want-'+index+wantItem.id" class="confirm-trade-item">
       <b-col cols="8" class="d-flex">
         <div class="pt-3">
-          <img class="confirm-trade-item-image" :src="wantItem.image"
+          <img class="confirm-trade-item-image" :src="wantItem.product | getProductImageUrl"
                :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
         </div>
         <div class="d-block pt-4 pl-4">

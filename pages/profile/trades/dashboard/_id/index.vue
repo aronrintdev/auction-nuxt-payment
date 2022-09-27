@@ -197,7 +197,7 @@ export default {
       return (this.getTheirTotal(false) * this.fairTradePercentage)
     },
     declineOffer(blockUser){
-      this.$axios.put(`/trades/${this.tradeId}/decline-offer`, {
+      this.$axios.put(`/trades/${this.lastSubmittedOffer.trade_id}/decline-offer`, {
           offer_id: this.lastSubmittedOffer.id,
           block_user: (blockUser) ? 1 : 0
         })

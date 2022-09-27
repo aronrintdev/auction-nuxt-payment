@@ -64,8 +64,11 @@ export function addYourItem(state, item) {
  * @param state
  * @param itemId
  */
-export function removeYourItem(state, itemIndex) {
-  state.yourItems = state.yourItems.splice(itemIndex, 1)
+export function removeCounterOfferYourItem(state, productId) {
+  const index = state.yourItems.findIndex(item => item.inventory.product.id === productId)
+  if (index > -1) {
+    state.yourItems.splice(index, 1)
+  }
 }
 
 /**
@@ -104,7 +107,9 @@ export function removeYourItem(state, itemIndex) {
 * @param state
 * @param itemId
 */
-export function removeTheirItem(state, itemIndex) {
-    console.log(itemIndex)
-  state.theirItems = state.theirItems.splice(itemIndex, 1)
+export function removeCounterOfferTheirItem(state, productId) {
+  const index = state.theirItems.findIndex(item => item.inventory.product.id === productId)
+  if (index > -1) {
+    state.theirItems.splice(index, 1)
+  }
 }

@@ -16,6 +16,34 @@ Vue.filter('getProductImageUrl', (product) => {
   return API_PROD_URL + '/' + product?.category?.name + '/' + product?.sku + '/image?width=' + PRODUCT_IMG_WIDTH
 })
 
+
+/**
+ * This function is used to show selected items by joining them
+ * in string format seperated by commas
+ * @param selectedOptionsArray
+ * @param maxLabelsAllowed
+ * @returns {string|*}
+ */
+Vue.filter('joinAndCapitalizeFirstLetters', (selectedOptionsArray, maxLabelsAllowed) => {
+  selectedOptionsArray = selectedOptionsArray.map(o => o[0].toUpperCase() + o.slice(1))
+  return (selectedOptionsArray.length > maxLabelsAllowed)
+    ? selectedOptionsArray.slice(0, maxLabelsAllowed).join(', ') + '...' // append dots if labels exceed limits of showing characters
+    : selectedOptionsArray.join(', ')
+})
+
+
+/**
+ * This function do first letter of word capital
+ * @param string
+ * @returns {string}
+ */
+Vue.filter('capitalizeFirstLetter', (string) => {
+  if (typeof string === 'string')
+    return string[0].toUpperCase() + string.slice(1);
+  else if (typeof string === 'object' && string.size && typeof string.size === 'string')
+    return string.size[0].toUpperCase() + string.size.slice(1);
+})
+
 Vue.filter('toCurrency', (value, currency = 'USD', alt = '-') => {
     if (typeof value !== 'number') {
         return alt

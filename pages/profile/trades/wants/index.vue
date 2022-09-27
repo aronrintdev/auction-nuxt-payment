@@ -547,20 +547,9 @@ export default {
     changeOrderFilter(selectedOrder) {
       this.orderFilter = selectedOrder
       const orderFilteredKey = this.generalListItemsCustomFilter.find(item => item.value === this.orderFilter)
-      this.orderFilterLabel = this.capitalizeFirstLetter(orderFilteredKey.text)
+      this.orderFilterLabel = this.$options.filters.capitalizeFirstLetter(orderFilteredKey.text)
       this.getWantItems()
       this.getCombinations()
-    },
-    /**
-     * This function do first letter of word capital
-     * @param string
-     * @returns {string}
-     */
-    capitalizeFirstLetter(string) {
-      if (typeof string === 'string')
-        return string[0].toUpperCase() + string.slice(1);
-      else if (typeof string === 'object' && string.size && typeof string.size === 'string')
-        return string.size[0].toUpperCase() + string.size.slice(1);
     },
     handleBulkAction() {
       if (this.action === 'delete' || this.action === 'delete_combination') {
@@ -600,7 +589,7 @@ export default {
     changeCategory(selectedCategory) {
       this.category = selectedCategory
       const categoryFilteredKey = this.categoryItems.find(item => item.value === this.category)
-      this.categoryFilterLabel = this.capitalizeFirstLetter(categoryFilteredKey.text)
+      this.categoryFilterLabel = this.$options.filters.capitalizeFirstLetter(categoryFilteredKey.text)
     },
     /**
      * This function is used to change product size filter
@@ -613,7 +602,7 @@ export default {
       } else {
         this.sizeTypesFilter = this.sizeTypesFilter.filter(item => item !== selectedSizeType)
       }
-      this.sizeTypesFilterLabel = this.joinAndCapitalizeFirstLetters(this.sizeTypesFilter, 2) || this.$t('trades.create_listing.vendor.wants.size_type') // 2 is max number of labels show in filter
+      this.sizeTypesFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeTypesFilter, 2) || this.$t('trades.create_listing.vendor.wants.size_type') // 2 is max number of labels show in filter
     },
     /**
      * This function is used to change size filter
@@ -627,21 +616,8 @@ export default {
         this.sizeFilter = this.sizeFilter.filter(item => item !== selectedSize.size)
       }
 
-      this.sizeFilterLabel = this.joinAndCapitalizeFirstLetters(this.sizeFilter, this.TAKE_SEARCHED_PRODUCTS)
+      this.sizeFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeFilter, this.TAKE_SEARCHED_PRODUCTS)
         || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
-    },
-    /**
-     * This function is used to show selected items by joining them
-     * in string format seperated by commas
-     * @param selectedOptionsArray
-     * @param maxLabelsAllowed
-     * @returns {string|*}
-     */
-    joinAndCapitalizeFirstLetters(selectedOptionsArray, maxLabelsAllowed) {
-      selectedOptionsArray = selectedOptionsArray.map(o => o[0].toUpperCase() + o.slice(1))
-      return (selectedOptionsArray.length > maxLabelsAllowed)
-        ? selectedOptionsArray.slice(0, maxLabelsAllowed).join(', ') + '...' // append dots if labels exceed limits of showing characters
-        : selectedOptionsArray.join(', ')
     },
   }
 }

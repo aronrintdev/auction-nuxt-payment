@@ -191,7 +191,7 @@ export default {
       } else {
         this.statusFilter = this.statusFilter.filter(item => item !== selectedStatuses)
       }
-      this.statusFilterLabel = this.joinAndCapitalizeFirstLetters(this.statusFilter, 2) || this.$t('trades.status') // 2 is max number of labels show in filter
+      this.statusFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.statusFilter, 2) || this.$t('trades.status') // 2 is max number of labels show in filter
     },
     fetchTradesListing(){
       this.$axios
@@ -215,20 +215,6 @@ export default {
           this.tradeListing =  []
           this.totalCount = 0
         })
-    },
-
-    /**
-     * This function is used to show selected items by joining them
-     * in string format seperated by commas
-     * @param selectedOptionsArray
-     * @param maxLabelsAllowed
-     * @returns {string|*}
-     */
-    joinAndCapitalizeFirstLetters(selectedOptionsArray, maxLabelsAllowed) {
-      selectedOptionsArray = selectedOptionsArray.map(o => o[0].toUpperCase() + o.slice(1))
-      return (selectedOptionsArray.length > maxLabelsAllowed)
-        ? selectedOptionsArray.slice(0, maxLabelsAllowed).join(', ') + '...' // append dots if labels exceed limits of showing characters
-        : selectedOptionsArray.join(', ')
     },
     /**
      * This function is used to get product and show in
@@ -267,20 +253,8 @@ export default {
     changeOrderFilter(selectedOrder) {
       this.orderFilter = selectedOrder
       const orderFilteredKey = this.orderFilterItems.find(item => item.value === this.orderFilter)
-      this.orderFilterLabel = this.capitalizeFirstLetter(orderFilteredKey.text)
+      this.orderFilterLabel = this.$options.filters.capitalizeFirstLetter(orderFilteredKey.text)
       this.fetchTradesListing()
-    },
-
-    /**
-     * This function do first letter of word capital
-     * @param string
-     * @returns {string}
-     */
-    capitalizeFirstLetter(string) {
-      if (typeof string === 'string')
-        return string[0].toUpperCase() + string.slice(1)
-      else if (typeof string === 'object' && string.size && typeof string.size === 'string')
-        return string.size[0].toUpperCase() + string.size.slice(1);
     },
 
     /**
