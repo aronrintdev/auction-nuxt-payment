@@ -32,6 +32,7 @@
 
             <b-form-checkbox-group
                 v-if="isWhenOptionsActive(settings)"
+                v-model="formData.extra.when.value"
                 :checked="formData.extra.when.value"
                 :options="whenOptions(settings.data)"
                 class="type-checkboxes d-flex flex-column"
@@ -47,8 +48,8 @@
                 @change="everyChanged"
             >
               <b-form-radio
-                  :value="everyValue"
                   :checked="everyValue"
+                  :value="everyValue"
                   class=" d-flex flex-column"
               >
                 <div class="d-flex align-items-center">
@@ -59,13 +60,12 @@
                       :placeholder="$t('notifications.settings.custom_value')"
                       class="ml-2 h-26px"
                       type="number"
+                      @input="updateChanges"
                   >
                   </b-input>
                 </div>
               </b-form-radio>
             </b-form-radio-group>
-
-
           </div>
         </WhiteDropDown>
       </div>
@@ -218,17 +218,18 @@ export default {
     this.initFormData()
   },
   methods: {
-    everyValueSorted(){
-      return this.getEveryOptions.filter(option => option.value === this.formData.extra.every.value+'').length>0? this.formData.extra.every.value : 'null'
+    everyValueSorted() {
+      return this.getEveryOptions.filter(option => option.value === this.formData.extra.every.value + '').length > 0 ? this.formData.extra.every.value : 'null'
     },
     /**
      * Initializing the formData object.
      */
     initFormData() {
       if (this.fieldExist(this.settings.data, 'when')) {
-        this.whenChanged(this.settings.data.when.value)
         const data = this.settings.data.when
         this.formData.extra.when = Object.assign({}, this.formData.extra.when, {value: data.value, type: data.type})
+        this.isAllWhenOptionsChecked = data.value.length === this.whenOptions(this.settings.data).length
+        this.$forceUpdate()
       }
       if (this.fieldExist(this.settings.data, 'until')) {
         const data = this.settings.data.until
@@ -242,10 +243,10 @@ export default {
     },
     percentageChange(e) {
       this.formData.extra.until.value = e
+      this.updateChanges()
     },
     setChannelSetting(e, channel) {
       this.channelSettings[channel] = e
-      this.addChangedItem(this.editItemConstructor(channel))
     },
     initChannelSettings() {
       this.channelSettings = {
@@ -260,15 +261,17 @@ export default {
     selectAllWhenOptions(check) {
       this.isAllWhenOptionsChecked = check
       this.formData.extra.when.value = check ? this.whenOptions(this.settings.data).map(item => item.value) : []
+      this.updateChanges()
     },
     whenChanged(all) {
-      console.log(all);
       this.formData.extra.when.value = all
       this.isAllWhenOptionsChecked = all.length === this.whenOptions(this.settings.data).length
       this.$forceUpdate()
+      this.updateChanges()
     },
     everyChanged(value) {
       this.everyValue = value !== null ? null : this.everyValue
+      this.updateChanges()
     },
     isWhenOptionsActive(settings) {
       return this.fieldExist(settings.data, 'when') && ['order', 'wishlist'].includes(settings.data.when.type)
@@ -276,10 +279,15 @@ export default {
     whenOptions(settings) {
       return settings.when.type === 'order' ? this.order_statuses : this.wishlist_statuses
     },
+    /**
+     * Checking if the field exists in the item.
+     * @param item
+     * @param field
+     * @return {boolean}
+     */
     fieldExist(item, field) {
       return !!_.get(item, field, false);
     },
-
     /**
      * Creating a edit item object with the id, data, and value properties.
      * @param channel
@@ -287,11 +295,11 @@ export default {
      */
     editItemConstructor(channel) {
       const id = this.getSettings.filter(sett => sett.key === this.settings.key && sett.channel === channel)[0].id
-      const  data = {
+      const data = {
         id,
         data: JSON.stringify(Object.keys(this.settings.data).reduce((obj, key) => {
           obj[key] = this.formData.extra[key]
-          if (this.everyValue !== null && key === 'every'){
+          if (this.everyValue !== null && key === 'every') {
             obj[key].value = parseInt(this.everyValue)
           }
           return obj
@@ -300,9 +308,15 @@ export default {
       }
       return data
     },
+    updateChanges: _.debounce(function () {
+          Object.keys(this.channelSettings).map(sett => {
+            this.addChangedItem(this.editItemConstructor(sett))
+            return sett
+          })
+        }, 500),
     addChangedItem(item) {
       this.$store.commit('notifications/addOrChangeChangedSetting', item)
-    }
+    },
   }
 }
 </script>

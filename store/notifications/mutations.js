@@ -48,7 +48,7 @@ export function setChangedSettings(state, settings) {
 export function addOrChangeChangedSetting(state, setting) {
     const ind = state.changedSettings.findIndex(el => el.id === setting.id)
     console.log(setting.id, ind);
-    if (ind >= 0) {
+    if (ind !== -1) {
         state.changedSettings = state.changedSettings.splice(ind, 1)
     }
     state.changedSettings.push(setting)

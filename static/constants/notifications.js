@@ -117,6 +117,7 @@ export const NOTIFICATION_TYPES = {
         }
     }
 }
+// TODO maybe move to backend
 export const ALL_SETTINGS = {
     communication: {
         all: {
