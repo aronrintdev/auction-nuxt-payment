@@ -17,6 +17,7 @@
           :placeholder="$t('trades.wants_listing.search_wants_list')"
           :clearSearch="true"
           inputHeight="46px"
+          @change="filterData"
         />
       </b-col>
       <b-col md="5 pl-3" sm="12">
@@ -644,6 +645,10 @@ export default {
         ? selectedOptionsArray.slice(0, maxLabelsAllowed).join(', ') + '...' // append dots if labels exceed limits of showing characters
         : selectedOptionsArray.join(', ')
     },
+    filterData(text){
+      this.searchText = text
+      this.wantedItems = this.wantedItems.filter(o => o.product.name.toLowerCase().includes(this.searchText.toLowerCase()) || o.product.sku.toLowerCase().includes(this.searchText.toLowerCase()));
+    }
   }
 }
 </script>
