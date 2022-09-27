@@ -48,11 +48,11 @@
     </div>
     <div class="mt-2 row">
       <div class="col-7">
-        <div class="fs-15 fw-6 font-secondary text-truncate">
-          {{ product.name }}
+        <div class="fs-15 fw-6 font-secondary">
+          {{ getTruncateName }}
         </div>
-        <div class="fs-14 fw-5 font-secondary text-gray-light text-truncate">
-          {{ product.colorway }}
+        <div class="fs-14 fw-5 font-secondary text-gray-light">
+          {{ getRemainingName }}
         </div>
         <div class="fs-15 fw-6 font-secondary">
           {{ product.sale_price | toCurrency }}
@@ -142,7 +142,19 @@ export default {
           : null,
     }
   },
-
+  computed: {
+    getTruncateName() {
+      const name = this.product?.name.split(' ').slice(0, 3).join(' ')
+      return name
+    },
+    getRemainingName() {
+      const name = this.product?.name
+        .split(' ') 
+        .slice(3, this.product.name.length)
+        .join(' ')
+      return name
+    },
+  },
   watch: {
     product(newVal, oldVal) {
       if (newVal.wish_lists !== oldVal.wish_lists) {
@@ -154,7 +166,6 @@ export default {
       }
     },
   },
-
   methods: {
     ...mapActions({
       addProductsToWishList: 'wish-list/addProductsToWishList',
