@@ -16,9 +16,8 @@
         <b-col md="6" class="d-flex justify-content-center">
           <Button
             pill
-            block
             variant="white"
-            class="text-white border-0 w-75"
+            class="text-white border-0 px-5"
             to="/login"
             >{{ $t('auth.login') }}</Button
           >
