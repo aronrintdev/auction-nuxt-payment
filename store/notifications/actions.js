@@ -115,18 +115,24 @@ export function bulkEditNotificationSettings(context, payload) {
 
 /**
  * read notification
- * @param {Object} context
+ * @param dispatch
  * @param {Object} payload
  * @param {number} payload.notification_id
  * @return {Promise<AxiosResponse<any>>}
  */
-export function readNotification(context, payload) {
-    return this.$axios.post('notification-reads', {payload})
+export function readNotification({dispatch}, payload) {
+    return this.$axios.post('notification-reads', payload).then(res => {
+        dispatch('getUnreadCount')
+        dispatch('getNotifications')
+        Promise.resolve(res)
+    }).catch(err => {
+        Promise.reject(err)
+    })
 }
 
 /**
  * read all notification
- * @param {Object} dispatch
+ * @param dispatch
  * @return {Promise<AxiosResponse<any>>}
  */
 export function readAllNotification({dispatch}) {
@@ -138,4 +144,21 @@ export function readAllNotification({dispatch}) {
         Promise.reject(err)
     })
 }
+
+
+
+/**
+ * read all notification
+ * @param dispatch
+ * @param {Object} filters
+ * @param {String} filters.from_year
+ * @param {String} filters.to_year
+ * @param {String} filters.search
+ * @param {String[]} filters.categories
+ */
+export function filterChange({dispatch, commit}, filters) {
+    commit('setNotificationFilters',filters)
+    dispatch('getNotifications', filters)
+}
+
 

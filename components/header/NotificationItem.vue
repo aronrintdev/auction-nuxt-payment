@@ -28,15 +28,7 @@
         </div>
       </div>
       <div class="dot d-flex justify-content-center align-items-center m-2">
-        <b-btn
-            v-if="!fromDown && !notification.read"
-            class="text-decoration-underline mr-md-5 p-0 mr-2"
-            size="sm"
-            style="white-space: nowrap"
-            variant="link"
-        >
-          {{ $t('notifications.mark_as_read') }}
-        </b-btn>
+        <NotificationMarkAsRead :from-down="fromDown" :notification="notification"/>
         <notification-unread v-if="!notification.read"/>
       </div>
     </div>
@@ -50,10 +42,10 @@ import notificationUnread from '~/assets/img/profile/notifications/notification-
 import favoriteOutline from '~/assets/img/profile/notifications/notification-star-outline.svg?inline'
 import favoriteFilled from '~/assets/img/profile/notifications/notification-star-filled.svg?inline'
 import {NOTIFICATION_TYPES} from '~/static/constants/notifications';
-
+import NotificationMarkAsRead from '~/components/profile/notifications/NotificationMarkAsRead';
 export default {
   name: 'NotificationItem',
-  components: {notificationUnread, favoriteOutline, favoriteFilled},
+  components: {NotificationMarkAsRead, notificationUnread, favoriteOutline, favoriteFilled},
   props: {
     notification: {
       type: Object,

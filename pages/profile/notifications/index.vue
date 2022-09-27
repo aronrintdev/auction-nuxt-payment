@@ -54,7 +54,15 @@ export default {
       this.currentTab = page
     },
     filtersChanged(filters) {
+      const allFilters = {
+        from_year: filters.years? filters.years[0]: null,
+        to_year: filters.years? filters.years[1]: null,
+        search: filters.search,
+        categories: filters.types
+      }
 
+
+      this.$store.dispatch('notifications/filterChange', allFilters)
     }
   },
 }

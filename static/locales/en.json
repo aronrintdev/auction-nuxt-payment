@@ -4915,14 +4915,15 @@
       "this_week": "This Week",
       "new": "New",
       "at": "at",
-      "date_range": "Date Range",
+    "all": "All",
+    "date_range": "Date Range",
       "mark_all_read": "Mark All as Read",
       "mark_as_read": "Mark as Read",
       "view_all": "View All Notifications",
       "search": "Search",
       "filters": {
-          "all": "All",
-          "unread": "Unread",
+        "all": "All",
+        "unread": "Unread",
           "read": "Read",
           "important": "Important"
       },
@@ -4933,7 +4934,6 @@
           "go_to_trade": " Go to Trade Page"
       },
       "types": {
-          "all": "All",
           "buying": "Buying",
           "selling": "Selling",
           "comms": "Deadstock Comms"

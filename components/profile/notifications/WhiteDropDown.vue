@@ -96,14 +96,17 @@ export default {
       background-color: $color-white-1
       border: none
       color: $color-black-1
-      border-bottom-right-radius: 0
-      border-bottom-left-radius: 0
 
       &.outlined
         border: 1px solid $color-gray-3
         border-radius: 20px
 
     &.outlined[aria-expanded="true"]
+      border-bottom: none
+      border-bottom-right-radius: 0
+      border-bottom-left-radius: 0
+
+    &.dropdown-toggle[aria-expanded="true"]
       border-bottom: none
       border-bottom-right-radius: 0
       border-bottom-left-radius: 0

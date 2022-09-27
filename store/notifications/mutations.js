@@ -8,6 +8,19 @@ export function setNotification(state, notifications) {
 }
 
 /**
+ * Set notifications filters
+ * @param state
+ * @param {Object} filters
+ * @param {String} filters.from_year
+ * @param {String} filters.to_year
+ * @param {String} filters.search
+ * @param {String[]} filters.categories
+ */
+export function setNotificationFilters(state, filters) {
+    state.notificationFilters = filters
+}
+
+/**
  * Set unread count
  * @param state
  * @param {number} count

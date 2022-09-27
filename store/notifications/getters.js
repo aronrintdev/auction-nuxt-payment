@@ -33,3 +33,13 @@ export function getSettings(state) {
 export function getChangedSettings(state) {
     return state.changedSettings
 }
+
+
+/**
+ * Get notification filters
+ * @param state
+ * @return {number}
+ */
+export function getNotificationFilters(state) {
+    return state.notificationFilters
+}

@@ -86,18 +86,36 @@ export default {
         return diff <= 7 && diff > 1
       })
     },
+    important() {
+      return this.notifications.filter((notification) => {
+        return notification.important === 1
+      })
+    },
+  },
+  watch:{
+    notifications(val){
+      this.updateCounts()
+    }
+  },
+  mounted() {
+    this.updateCounts()
   },
   methods: {
     ...mapActions({
       'readAll': 'notifications/readAllNotification'
     }),
+    updateCounts(){
+      this.notificationCounts = {
+        'all': this.notifications.length,
+        'unread': this.unread,
+        'read': this.notifications.length - this.unread,
+        'important': this.important.length
+      }
+    },
     onStatusSelect(status) {
       if (this.selectedStatus !== status)
         this.selectedStatus = status
     },
-    markAsRead(index) {
-
-    }
   }
 }
 </script>
@@ -137,8 +155,4 @@ export default {
     &:first-child
       a
         padding-left: 0
-
-::v-deep.mark-as-read.btn-link
-  color: $color-blue-1
-
 </style>
