@@ -258,5 +258,16 @@ export function setUpdateCombination(state, val) {
     state.updateCombinations = val
 }
 export function setUpdateCombinationItem(state, val) {
-    state.updateCombinations.combination_items.push(val)
+  state.updateCombinations.combination_items.push(val)
+}
+/**
+ * This mutation is used to set vendor trade summary (trading percentage and total trades)
+ * @param state
+ * @returns {*}
+ */
+export function setVendorTradeSummary(state, val){
+    state.vendorSummary = {
+        trader_ranking: val.ranking,
+        total_trades: val.trades
+    }
 }

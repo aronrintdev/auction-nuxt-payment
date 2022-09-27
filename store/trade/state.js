@@ -22,5 +22,9 @@ export default function() {
         submittedOffer: null,
         combinations:[],
         updateCombinations:[],
+        vendorSummary: {
+            trader_ranking: '100%',
+            total_trades: '100+'
+        }
     }
 }

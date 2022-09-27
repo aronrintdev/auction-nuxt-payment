@@ -160,3 +160,12 @@ export function getUpdateCombinations(state) {
     return state.updateCombinations
 }
 
+/**
+ * This mutation is used to get vendor trade summary (trading percentage and total trades)
+ * @param state
+ * @returns {*}
+ */
+export function getVendorTradeSummary(state){
+    return state.vendorSummary
+}
+

@@ -93,7 +93,7 @@
                   tag="span"
                   class="body-5-normal mx-2"
                 >
-                  <span class="text-bold">{{ $t('rewards.terms_and_conditions') }}</span>
+                  <span class="text-bold" role="button" @click="$router.push('/terms-and-conditions')">{{ $t('rewards.terms_and_conditions') }}</span>
                 </i18n>
               </div>
             </b-col>
