@@ -1,17 +1,24 @@
 <template>
-    <div class="row">
-        <template v-if="multiple">
-            <div class="col">Multiple: {{order.order_id}}</div>
-        </template>
-        <template v-else>
-            <div class="col">Single: {{order.order_id}}</div>
-        </template>
+    <div>
+        <div v-if="multiple">
+            <order-multiple-component :order="order"></order-multiple-component>
+        </div>
+        <div v-else>
+            <order-single-component :order="order"></order-single-component>
+        </div>
     </div>
 </template>
 
 <script>
+import OrderSingleComponent from '~/components/orders/OrderSingleComponent';
+import OrderMultipleComponent from '~/components/orders/OrderMultipleComponent';
+
 export default {
     name: 'TopMoverComponentNew',
+    components:{
+      OrderMultipleComponent,
+      OrderSingleComponent
+    },
     props: {
         order: {
             type: Object,
