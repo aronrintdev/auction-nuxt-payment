@@ -26,8 +26,11 @@
       class="mt-2"
       :items="getItems"
       :promo-code="promoCode"
-      :discount="getPromoDiscount"
+      :promo-code-discount="getPromoDiscount"
+      :gift-card-number="giftCard.number"
+      :gift-card-discount="getGiftCardDiscount"
       @clear-promo="clearPromoCode"
+      @clear-gift-card="removeGiftCard"
     />
     <!-- End of Shopping Cart Order Summary Card -->
 
@@ -486,10 +489,11 @@ export default {
     getItems: (vm) => {
       const items = []
       // DVQ-24 items should be calculated if there is product in cart
-      items.push({ key: vm.$t('shopping_cart.subtotal'), value: vm.getTotalQuantity > 0 ? vm.getSubtotal : 0 })
-      items.push({ key: vm.$t('shopping_cart.shipping_fee'), value: vm.getTotalQuantity > 0 ? vm.getShippingFee : 0 })
-      items.push({ key: vm.$t('shopping_cart.processing_fee'), value: vm.getTotalQuantity > 0 ? vm.getProcessingFee : 0 })
-      items.push({ key: vm.$t('shopping_cart.tax'), value: vm.getTotalQuantity > 0 ? vm.getTax : 0 })
+      items.push({ key: 'sub_total', label: vm.$t('shopping_cart.subtotal'), value: vm.getTotalQuantity > 0 ? vm.getSubtotal : 0 })
+      items.push({ key: 'sub_total_after_discount', label: '', value: vm.getTotalQuantity > 0 ? vm.getSubtotalAfterDiscount : 0 })
+      items.push({ key: 'shipping_fee', label: vm.$t('shopping_cart.shipping_fee'), value: vm.getTotalQuantity > 0 ? vm.getShippingFee : 0 })
+      items.push({ key: 'processing_fee', label: vm.$t('shopping_cart.processing_fee'), value: vm.getTotalQuantity > 0 ? vm.getProcessingFee : 0 })
+      items.push({ key: 'tax', label: vm.$t('shopping_cart.tax'), value: vm.getTotalQuantity > 0 ? vm.getTax : 0 })
 
       return items
     }
