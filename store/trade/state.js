@@ -20,6 +20,10 @@ export default function() {
         bestMatches: [],
         activeTrade: [],
         submittedOffer: null,
-        combinations:[]
+        combinations:[],
+        vendorSummary: {
+            trader_ranking: '100%',
+            total_trades: '100+'
+        }
     }
 }

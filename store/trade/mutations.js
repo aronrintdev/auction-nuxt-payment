@@ -254,3 +254,15 @@ export function setSubmittedOffer(state, val) {
 export function setCombinationsId(state, val) {
   state.combinations = val
 }
+
+/**
+ * This mutation is used to set vendor trade summary (trading percentage and total trades)
+ * @param state
+ * @returns {*}
+ */
+export function setVendorTradeSummary(state, val){
+    state.vendorSummary = {
+        trader_ranking: val.ranking,
+        total_trades: val.trades
+    }
+}

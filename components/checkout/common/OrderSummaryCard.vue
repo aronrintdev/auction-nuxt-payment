@@ -58,6 +58,9 @@
 </template>
 
 <script>
+import {
+    CASH_ADDED
+} from '~/static/constants/trades'
 export default {
   name: 'OrderSummaryCard',
   props: {
@@ -79,7 +82,7 @@ export default {
   computed: {
     getTotal: (vm) => {
       return vm.items.reduce((sum, item) => {
-        return sum + item.value
+        return ((item.key === CASH_ADDED) ? sum : sum + item.value)
       }, 0)
     }
   },

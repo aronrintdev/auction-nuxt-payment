@@ -64,8 +64,8 @@ export function addYourItem(state, item) {
  * @param state
  * @param itemId
  */
-export function removeYourItem(state, itemId) {
-  state.yourItems = state.yourItems.filter(item => item.inventory.id !== itemId)
+export function removeYourItem(state, itemIndex) {
+  state.yourItems = state.yourItems.splice(itemIndex, 1)
 }
 
 /**
@@ -104,6 +104,7 @@ export function removeYourItem(state, itemId) {
 * @param state
 * @param itemId
 */
-export function removeTheirItem(state, itemId) {
-  state.theirItems = state.theirItems.filter(item => item.inventory.id !== itemId)
+export function removeTheirItem(state, itemIndex) {
+    console.log(itemIndex)
+  state.theirItems = state.theirItems.splice(itemIndex, 1)
 }
