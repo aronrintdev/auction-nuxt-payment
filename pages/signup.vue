@@ -1,107 +1,114 @@
 <template>
-  <b-row class="w-100 px-4 px-lg-0">
-    <b-col
-      md="4"
-      class="sign-upright-area flex-column align-items-center justify-content-center d-lg-flex d-none"
-    >
-      <b-row>
-        <b-col md="12">
-          <div class="left-heading-bold text-pre-line text-center">
-            {{ $t('auth.welcome_back') }}
-          </div>
-        </b-col>
-      </b-row>
+  <b-container fluid class="px-0 mx-0">
+    <b-row class="w-100 mx-0">
+      <b-col
+        md="4"
+        class="sign-upright-area flex-column align-items-center justify-content-center d-lg-flex d-none"
+      >
+        <b-row>
+          <b-col md="12">
+            <div class="left-heading-bold text-pre-line text-center">
+              {{ $t('auth.welcome_back') }}
+            </div>
+          </b-col>
+        </b-row>
 
-      <b-row class="mt-5 w-100 d-flex justify-content-center">
-        <b-col md="6" class="d-flex justify-content-center">
-          <Button
-            pill
-            variant="white"
-            class="text-white border-0 px-5"
-            to="/login"
-            >{{ $t('auth.login') }}</Button
+        <b-row class="mt-5 w-100 d-flex justify-content-center">
+          <b-col md="6" class="d-flex justify-content-center">
+            <Button
+              pill
+              variant="white"
+              class="text-white border-0 px-5"
+              to="/login"
+              >{{ $t('auth.login') }}</Button
+            >
+          </b-col>
+        </b-row>
+      </b-col>
+      <b-col
+        class="social-area pt-5 col-lg-8 px-0 d-flex justify-content-center"
+      >
+        <b-row class="h-100 justify-content-center w-100">
+          <b-col
+            md="6"
+            class="d-flex flex-column align-items-center justify-content-center px-0"
           >
-        </b-col>
-      </b-row>
-    </b-col>
-    <b-col class="pt-5 col-12 col-lg-8">
-      <b-row class="h-100">
-        <b-col
-          md="6"
-          offset-md="3"
-          class="d-flex flex-column align-items-center justify-content-center"
-        >
-          <b-row
-            class="testing flex-column align-items-center d-flex justify-content-center order-2 order-lg-1 mb-5 mb-lg-0"
-          >
-            <b-row class="order-2">
-              <b-col md="12">
-                <div class="right-heading-bold text-center d-lg-block d-none">
-                  {{ $t('auth.create_an_account') }}
-                </div>
-                <div class="body-5-normal text-color-gray-38 text-center mt-3">
-                  {{ $t('auth.signup_up_via_social_media') }}
-                </div>
-              </b-col>
-            </b-row>
-
-            <b-row class="mt-4 order-3">
-              <b-col
-                md="12"
-                class="d-flex align-items-center justify-content-center"
-              >
-                <b-img
-                  :src="require('~/assets/img/auth/social_login_google.svg')"
-                  class="mx-1 mx-md-3"
-                  role="button"
-                  alt="..."
-                  @click="socialLogin('google')"
-                />
-                <b-img
-                  :src="require('~/assets/img/auth/social_login_facebook.svg')"
-                  class="mx-1 mx-md-3"
-                  role="button"
-                  alt="..."
-                  @click="socialLogin('facebook')"
-                />
-                <b-img
-                  :src="require('~/assets/img/auth/social_login_apple.svg')"
-                  class="mx-1 mx-md-3"
-                  role="button"
-                  alt="..."
-                  @click="socialLogin('apple')"
-                />
-                <b-img
-                  :src="require('~/assets/img/auth/social_login_twitter.svg')"
-                  class="mx-1 mx-md-3"
-                  role="button"
-                  alt="..."
-                  @click="socialLogin('twitter')"
-                />
-              </b-col>
-            </b-row>
-
-            <b-row class="mt-4 w-100 order-1 order-lg-3">
-              <b-col md="12">
-                <div class="text-line-middle">
-                  <span
-                    class="body-4-bold text-color-gray-22 text-uppercase mx-5"
-                    >{{ $t('auth.or') }}</span
+            <b-row
+              class="testing flex-column align-items-center d-flex justify-content-center order-2 order-lg-1 mb-5 mb-lg-0"
+            >
+              <b-row class="order-2">
+                <b-col md="12">
+                  <div class="right-heading-bold text-center d-lg-block d-none">
+                    {{ $t('auth.create_an_account') }}
+                  </div>
+                  <div
+                    class="fs-15 fw-4 text-color-gray-38 text-center font-primary"
                   >
-                </div>
-              </b-col>
+                    {{ $t('auth.signup_up_via_social_media') }}
+                  </div>
+                </b-col>
+              </b-row>
+
+              <b-row class="mt-3 order-3">
+                <b-col
+                  md="12"
+                  class="d-flex align-items-center justify-content-center social-login"
+                >
+                  <b-img
+                    :src="require('~/assets/img/auth/social_login_google.svg')"
+                    class="mx-md-3 social-login"
+                    role="button"
+                    alt="..."
+                    @click="socialLogin('google')"
+                  />
+                  <b-img
+                    :src="
+                      require('~/assets/img/auth/social_login_facebook.svg')
+                    "
+                    class="mx-md-3 social-login"
+                    role="button"
+                    alt="..."
+                    @click="socialLogin('facebook')"
+                  />
+                  <b-img
+                    :src="require('~/assets/img/auth/social_login_apple.svg')"
+                    class="mx-md-3 social-login"
+                    role="button"
+                    alt="..."
+                    @click="socialLogin('apple')"
+                  />
+                  <b-img
+                    :src="require('~/assets/img/auth/social_login_twitter.svg')"
+                    class="mx-md-3 social-login"
+                    role="button"
+                    alt="..."
+                    @click="socialLogin('twitter')"
+                  />
+                </b-col>
+              </b-row>
+
+              <b-row class="or my-lg-4 w-100 order-1 order-lg-3">
+                <b-col md="12">
+                  <div class="text-line-middle">
+                    <span
+                      class="fs-16 fw-6 text-color-gray-22 font-primary text-uppercase mx-5"
+                      >{{ $t('auth.or') }}</span
+                    >
+                  </div>
+                </b-col>
+              </b-row>
+              <b-row class="order-4 skip-link d-lg-none d-flex">
+                <b-col>
+                  <u
+                    ><a href="#" class="fs-15 fw-4 font-primary text-black">{{
+                      $t('signup.skip')
+                    }}</a></u
+                  ></b-col
+                >
+              </b-row>
             </b-row>
-            <b-row class="order-4 my-3 d-lg-none d-flex">
-              <b-col>
-                <a href="#" class="fs-15 fw-5 font-primary text-black">{{
-                  $t('signup.skip')
-                }}</a></b-col
-              >
-            </b-row>
-          </b-row>
-          <b-row class="form-area order-1 order-lg-2">
-            <b-row class="mt-4">
-              <b-col md="12">
+            <b-row class="form-area order-1 order-lg-2 w-100">
+              <b-col md="12" class="px-0">
                 <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
                   <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
                     <ValidationProvider
@@ -117,19 +124,18 @@
                         ><b-col
                           class="d-flex justify-content-center flex-column align-items-center"
                         >
-                          <Logo class="img-fluid w-auto mb-2" />
-                          <p
-                            class="fs-15 fw-6 font-primary w-50 text-center text-black-50"
-                          >
-                            {{ $t('signup.create_your_account') }}
-                          </p></b-col
+                          <Logo class="img-fluid w-auto" />
+                          <span
+                            class="signup-heading fs-15 fw-5 font-primary w-75 text-center text-color-grey-5 my-3 pre-line"
+                            >{{ $t('signup.create_your_account') }}</span
+                          ></b-col
                         ></b-row
                       >
                       <NavGroup
                         :data="tabs"
                         :value="currentTab"
                         nav-key="new_releases"
-                        class="text-center mb-4 d-lg-none d-block"
+                        class="text-center mb-4 d-lg-none d-block px-0"
                         @change="handleTabChange"
                       />
                       <b-form-group>
@@ -346,7 +352,7 @@
                           >
                             <i
                               v-if="isConfirmPasswordShown"
-                              class="fa fa-eye"
+                              class="fa fa-eye text-black-50"
                               aria-hidden="true"
                               role="button"
                               @click="
@@ -382,7 +388,7 @@
                             getValidationState(validationContext) ||
                             getValidationState(validationContext) === null
                           "
-                          class="body-5-normal text-color-gray-47 mt-2 text-center"
+                          class="body-5-normal text-color-gray-47 mt-2 text-lg-center validation minimum"
                         >
                           {{ $t('auth.password_validation_rule') }}
                         </div>
@@ -390,9 +396,7 @@
 
                       <b-row
                         ><b-col
-                          md="8"
-                          offset="2"
-                          class="d-flex flex-column align-items-baseline"
+                          class="d-flex flex-column align-items-baseline switch-btn"
                           ><b-row class="d-lg-none d-flex"
                             ><b-col
                               ><ToggleSwitch
@@ -407,15 +411,15 @@
                       ></b-row>
 
                       <b-row
-                        class="mt-4 w-100 mx-0 d-flex justify-content-center"
+                        class="mt-3 w-100 mx-0 d-flex justify-content-center submit-btn-p"
                       >
-                        <b-col md="6" class="text-center">
+                        <b-col md="8" class="text-center">
                           <Button
                             :disabled="!isFormFilled"
                             pill
                             variant="confirm"
                             type="submit"
-                            class="border-0 px-5"
+                            class="border-0 px-5 submit-btn"
                             :class="{ 'btn-disabled': !isFormFilled }"
                             >{{ $t('auth.signup') }}</Button
                           >
@@ -452,11 +456,11 @@
                 </ValidationObserver>
               </b-col>
             </b-row>
-          </b-row>
-        </b-col>
-      </b-row>
-    </b-col>
-  </b-row>
+          </b-col>
+        </b-row>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -629,6 +633,9 @@ export default {
 .text-color-gray-47
   color: $color-gray-47
 
+.text-color-grey-5
+  color: $color-gray-5
+
 // .btn-back-color-blue-20
 //   background: $color-blue-20
 
@@ -641,7 +648,7 @@ export default {
 /* Override bootstrap-vue 'b-form-input' styles */
 .input-signup
   @include body-5-normal
-  color: $black-1
+  color: $color-gray-47
   background-color: $color-white-5
   border: 0
   transition: border-color 0.01s ease-in-out, box-shadow 0.01s ease-in-out
@@ -649,7 +656,8 @@ export default {
   &:-ms-input-placeholder,
   &::-ms-input-placeholder
     @include body-5-normal
-    color: $color-gray-24
+    color: $color-gray-47
+
   &:-webkit-autofill,
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus,
@@ -700,10 +708,16 @@ export default {
   background: $color-white-5
   border-bottom-right-radius: 3rem !important
   border-top-right-radius: 3rem !important
+  .fa-eye-slash
+    &:before
+      color: $color-gray-47
 
 .btn
   background: $color-blue-20 !important
   color: $color-white-1 !important
+  font-size: 16px
+  font-weight: 400 !important
+  font-family: "Montserrat"
 
 .btn
   &.btn-confirm
@@ -716,19 +730,39 @@ export default {
 
 // ------------------Responsive--------------------
 @media only screen and (max-width: 768px)
+  .input-signup
+    font-size: 15px
+    line-height: 18px
+    color: $color-gray-47
+
   .form-area::v-deep
+    padding: 0px 16px
+    .form-group
+      margin-bottom: 14px !important
+    .minimum
+      margin-bottom: 15px
+    .submit-btn-p
+      .btn
+        filter: drop-shadow(0px 4px 4px $drop-shadow1) !important
+        width: 171px
+        height: 42px
     input
       border-radius: 10px !important
       background-color: transparent
-      border: 1px solid $color-gray-3
+      border: 1px solid $color-gray-3 !important
+      height: 40px !important
+      &::placeholder
+       color: $color-gray-47
+       font-weight: 500
       &:focus
-        background-color: $color-gray-3
+        font-size: 15px
+        border: 1px solid $color-gray-3
     #password, #password-confirmation
       border-radius: 10px 0px 0px 10px !important
       border: 1px solid $color-gray-3
-      border-right: 0px
+      border-right: 0px !important
       &:focus
-        background-color: $color-gray-3
+        // border: 1px solid $color-gray-3
 
     .append-icon
       background: transparent
@@ -737,4 +771,31 @@ export default {
       border-radius: 0px 10px 10px 0px !important
       &:focus
         border-radius: 0px 10px 10px 0px
+    .signup-heading
+      line-height: 18px
+    .logo-img
+      width: 134px
+      height: 40px
+    .validation
+      font-size: 10px !important
+      font-weight: 500 !important
+      font-family: $font-montserrat
+    .switch-btn
+      padding: 0px 64px 0px 70px
+  .social-area
+    .or
+      padding: 26px 0px !important
+    .skip-link
+      margin-top: 32px
+
+    .social-login
+      width: 48px
+      gap: 30px
+    .text-line-middle
+      span
+        margin: 0px 15px !important
+      &:before, &:after
+        background: $color-gray-71
+        flex: 1
+        width: 50px !important
 </style>

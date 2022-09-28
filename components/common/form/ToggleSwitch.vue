@@ -3,9 +3,11 @@
     <b-form-checkbox
       name="check-button"
       switch
-      class="switchtoggle d-flex justify-content-center fs-14 fw-5 font-weight-lighter"
+      class="switchtoggle d-flex justify-content-center fs-14 fw-4 font-weight-lighter"
     >
-      <p class="w-100 ml-4 mt-2 fs-15 fw-5 font-primary">{{ title }}</p>
+      <p class="w-100 mt-2 fs-15 fw-4 font-primary switchtoggle-data">
+        {{ title }}
+      </p>
     </b-form-checkbox>
   </div>
 </template>
@@ -23,9 +25,12 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .custom-switch::v-deep
+  .switchtoggle-data
+    margin-left: 30px
+
   .custom-control-label
     &:before
-      background: rgba(120, 120, 128, 0.16)
+      background: $color-grey-72
       border: none
       width: 51px
       height: 31px
@@ -36,7 +41,8 @@ export default {
       height: 27px
       background-color: $color-white-1
       border-radius: 50%
-      box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 4%)
+      border: 0.5px solid $drop-shadow2
+      box-shadow: 0px 3px 8px $drop-shadow, 0px 3px 1px $drop-shadow2
   .custom-control-input
     &:checked~.custom-control-label
       &:after
