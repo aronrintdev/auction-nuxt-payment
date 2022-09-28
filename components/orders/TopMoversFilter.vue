@@ -6,17 +6,22 @@
         <span class="header-title">&nbsp;</span>
         <b-row>
           <b-col md="12" lg="12" class="mt-2">
-            <SearchInput
-              :value="filters.search"
-              :placeholder="$t('orders.search_placeholder')"
-              class="flex-grow-1 mw-734 search"
-              :debounce="1000"
-              @change="handleSearch"
-            />
+            <div class="d-flex align-items-center">
+              <SearchInput
+                :value="filters.search"
+                :placeholder="$t('orders.search_placeholder')"
+                class="flex-grow-1 mw-734 search"
+                :debounce="1000"
+                @change="handleSearch"
+              />
+              <div class="p-1 cursor-pointer d-block d-md-none" @click="toggleBottomSheet">
+                <img :src="require('assets/img/icons/filter.svg')"/>
+              </div>
+            </div>
           </b-col>
         </b-row>
       </b-col>
-      <b-col md="12" lg="5">
+      <b-col md="12" lg="5" class="d-none d-md-block">
         <span class="header-title">{{ $t('orders.date_ordered') }}</span>
         <b-row>
           <b-col sm="12" md="4" class="mt-2">
@@ -50,7 +55,7 @@
         </b-row>
       </b-col>
     </b-row>
-    <b-row class="mt-2">
+    <b-row class="mt-2 d-none d-md-block">
       <b-col sm="8">
         <span class="header-title">{{ $t('orders.filter_by') }}</span>
         <b-row>
@@ -78,22 +83,60 @@
         </b-row>
       </b-col>
     </b-row>
+
+    <bottom-sheet :show="bottomSheetShow" title="Filter By">
+      <div class="p-3">
+        <div>
+          <button @click="() => bottomSheetShow=false">Hide</button>
+          <b-form-group label="Sort" v-slot="{ ariaDescribedby }">
+            <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="A">Date Ordered: Recent to
+              Oldest
+            </b-form-radio>
+            <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Date Ordered: Oldest to
+              Recent
+            </b-form-radio>
+            <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: A -> Z
+            </b-form-radio>
+            <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: Z -> A
+            </b-form-radio>
+            <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Vendor Payout: Lowest to
+              Highest
+            </b-form-radio>
+          </b-form-group>
+        </div>
+        <div class="border-top">
+          Type
+        </div>
+        <div class="border-top">
+          Status
+        </div>
+        <div class="border-top">
+          Date Ordered
+        </div>
+      </div>
+    </bottom-sheet>
   </div>
 </template>
 
 <script>
-import {SearchInput, CustomSelectwithCheckbox, Button} from '~/components/common';
+import {Button, CustomSelectwithCheckbox, SearchInput} from '~/components/common';
 import DownArrow from '~/assets/img/icons/down-arrow.svg';
 import CalendarImg from '~/assets/img/icons/calendar-gray.svg';
 import CalendarInput from '~/components/common/form/CalendarInput';
+import BottomSheet from '~/components/common/BottomSheet';
 
 export default {
   name: 'TopMoversFilter',
   components: {
-    CalendarInput, SearchInput, CustomSelectwithCheckbox, Button
+    CalendarInput,
+    SearchInput,
+    CustomSelectwithCheckbox,
+    Button,
+    BottomSheet
   },
   data() {
     return {
+      bottomSheetShow: false,
       DownArrow,
       CalendarImg,
       orderTypes: Object.keys(this.$t('orders.order_types')).map(a => {
@@ -152,6 +195,9 @@ export default {
     applyFilter() {
       this.$store.commit('vendors/setFilters', this.filters)
       this.$store.dispatch('vendors/getVendorOrders', 1)
+    },
+    toggleBottomSheet() {
+      this.bottomSheetShow = !this.bottomSheetShow
     }
   }
 }
