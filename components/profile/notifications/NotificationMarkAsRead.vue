@@ -1,14 +1,18 @@
 <template>
   <Button
-      v-if="!fromDown && !notification.read"
-      class="text-decoration-underline mr-md-5 p-0 mr-2 read-button"
+      v-if="!fromDown"
+      :class="{
+        'read-button': !notification.read,
+        'unread-button': notification.read
+      }"
+      class="text-decoration-underline mr-md-5 p-0 mr-2"
       size="sm"
       style="white-space: nowrap"
       variant="link"
       :disabled="readLoading"
       @click="read"
   >
-    {{ $t('notifications.mark_as_read') }}
+    {{ !notification.read ? $t('notifications.mark_as_read') : $t('notifications.mark_as_unread') }}
   </Button>
 </template>
 
@@ -35,11 +39,13 @@ export default {
   },
   methods: {
     ...mapActions({
-      'readOne': 'notifications/readNotification'
+      'readOne': 'notifications/readNotification',
+      'unreadOne': 'notifications/unreadNotification'
     }),
     read() {
       this.readLoading = true
-      this.readOne({notification_id: this.notification.id}).finally(() => {
+      const request = !this.notification.read ? this.readOne({notification_id: this.notification.id}) : this.unreadOne(this.notification.read.id)
+      request.finally(() => {
         this.readLoading = false
       })
     },
@@ -50,6 +56,10 @@ export default {
 <style scoped lang="sass">
 @import "~/assets/css/variables"
 
-::v-deep.read-button.btn-link
-  color: $color-blue-1
+::v-deep.btn-link
+  &.read-button
+    color: $color-blue-1
+
+  &.unread-button
+    color: $color-gray-6
 </style>

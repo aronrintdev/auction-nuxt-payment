@@ -131,6 +131,22 @@ export function readNotification({dispatch}, payload) {
 }
 
 /**
+ * Unread notification
+ * @param dispatch
+ * @param {number} readId
+ * @return {Promise<AxiosResponse<any>>}
+ */
+export function unreadNotification({dispatch}, readId) {
+    return this.$axios.delete(`notification-reads/${readId}`).then(res => {
+        dispatch('getUnreadCount')
+        dispatch('getNotifications')
+        Promise.resolve(res)
+    }).catch(err => {
+        Promise.reject(err)
+    })
+}
+
+/**
  * read all notification
  * @param dispatch
  * @return {Promise<AxiosResponse<any>>}

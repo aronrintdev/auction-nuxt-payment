@@ -76,12 +76,12 @@ export default {
       'unread': 'notifications/getUnreadCount'
     }),
     newNotifications() {
-      return this.notifications.filter((notification) => {
+      return this.filteredNotifications.filter((notification) => {
         return dayjs(Date.now()).diff(notification.created_at, 'day') <= 1
       })
     },
     earlyNotifications() {
-      return this.notifications.filter((notification) => {
+      return this.filteredNotifications.filter((notification) => {
         const diff = dayjs(Date.now()).diff(notification.created_at, 'day')
         return diff <= 7 && diff > 1
       })
@@ -91,6 +91,18 @@ export default {
         return notification.important === 1
       })
     },
+    filteredNotifications() {
+      switch (this.selectedStatus) {
+        case 'unread':
+          return this.readUnreadNotifications(false)
+        case 'read':
+          return this.readUnreadNotifications()
+        case 'important':
+          return this.important
+        default:
+          return this.notifications
+      }
+    }
   },
   watch:{
     notifications(val){
@@ -104,17 +116,22 @@ export default {
     ...mapActions({
       'readAll': 'notifications/readAllNotification'
     }),
-    updateCounts(){
+    readUnreadNotifications(read = true) {
+      return this.notifications.filter(notification => read ? notification.read : !notification.read)
+    },
+    updateCounts() {
+      const currentUnread = this.readUnreadNotifications(false).length
       this.notificationCounts = {
         'all': this.notifications.length,
-        'unread': this.unread,
-        'read': this.notifications.length - this.unread,
+        'unread': currentUnread,
+        'read': this.notifications.length - currentUnread,
         'important': this.important.length
       }
     },
     onStatusSelect(status) {
-      if (this.selectedStatus !== status)
+      if (this.selectedStatus !== status) {
         this.selectedStatus = status
+      }
     },
   }
 }

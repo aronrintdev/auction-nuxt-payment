@@ -4909,26 +4909,27 @@
   },
   "notifications": {
       "title": "Notifications",
-      "title_settings": "Settings",
-      "notification_settings": "Notifications Settings",
-      "type": "Type",
-      "this_week": "This Week",
-      "new": "New",
-      "at": "at",
+    "title_settings": "Settings",
+    "notification_settings": "Notifications Settings",
+    "type": "Type",
+    "this_week": "This Week",
+    "new": "New",
+    "at": "at",
     "all": "All",
     "date_range": "Date Range",
-      "mark_all_read": "Mark All as Read",
-      "mark_as_read": "Mark as Read",
-      "view_all": "View All Notifications",
-      "search": "Search",
-      "filters": {
-        "all": "All",
-        "unread": "Unread",
-          "read": "Read",
-          "important": "Important"
-      },
-      "actions": {
-          "bid_now": "Bid Now",
+    "mark_all_read": "Mark All as Read",
+    "mark_as_read": "Mark as Read",
+    "mark_as_unread": "Mark as Unread",
+    "view_all": "View All Notifications",
+    "search": "Search",
+    "filters": {
+      "all": "All",
+      "unread": "Unread",
+      "read": "Read",
+      "important": "Important"
+    },
+    "actions": {
+      "bid_now": "Bid Now",
           "view_order": "View Order",
           "check_out_more_wishlist": "Check out more options in your Wishlist",
           "go_to_trade": " Go to Trade Page"
@@ -4936,7 +4937,7 @@
       "types": {
           "buying": "Buying",
           "selling": "Selling",
-          "comms": "Deadstock Comms"
+        "communication": "Deadstock Comms"
       },
       "start": "Start",
       "end": "End",

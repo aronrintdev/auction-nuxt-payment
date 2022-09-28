@@ -8,19 +8,21 @@
       <div :class="{'image-prefix': !fromDown}" class="image d-flex justify-content-center align-items-center">
         <favoriteOutline v-if="!notification.important && !fromDown" class="mr-1"></favoriteOutline>
         <favorite-filled v-if="notification.important && !fromDown" class="mr-1"></favorite-filled>
-        <img :src="'https://images.deadstock.co/products/sneakers/DD1399-102/800xAUTO/IMG01.jpg'" class="m-2"
-             width="50">
+        <div class="image-box d-flex align-items-center justify-content-center">
+          <img v-if="notification.image" :src="notification.image" class="m-2"
+               height="50px" width="50">
+        </div>
       </div>
       <div class="body d-flex flex-column flex-grow-1 py-3">
         <div :class="{'body-lighter': fromDown}" class="body-text d-flex align-items-center">
-          <img v-if="!fromDown && notificationTitleImage()"
-               :src="require(`~/assets/img/profile/notifications/${notificationTitleImage()}`)" class="mr-1">
+          <img v-if="!fromDown && notification.icon_link"
+               :src="notification.icon_link" class="mr-1 icon-image">
           {{ notification.subject }}
           <b-link
               v-if="notification.link && !fromDown"
               :href="notification.link"
               class="underline ml-2"
-          >- {{ notificationCategory(notification.type) }}
+          >- {{ notification.link_text }}
           </b-link>
         </div>
         <div class="body-secondary mt-1">
@@ -37,12 +39,11 @@
 </template>
 
 <script>
-import _ from 'lodash';
 import notificationUnread from '~/assets/img/profile/notifications/notification-unread-dot.svg?inline'
 import favoriteOutline from '~/assets/img/profile/notifications/notification-star-outline.svg?inline'
 import favoriteFilled from '~/assets/img/profile/notifications/notification-star-filled.svg?inline'
-import {NOTIFICATION_TYPES} from '~/static/constants/notifications';
 import NotificationMarkAsRead from '~/components/profile/notifications/NotificationMarkAsRead';
+
 export default {
   name: 'NotificationItem',
   components: {NotificationMarkAsRead, notificationUnread, favoriteOutline, favoriteFilled},
@@ -56,26 +57,11 @@ export default {
       default: false
     }
   },
-  data() {
-    return {
-      NOTIFICATION_TYPES,
-    }
-  },
   computed: {
-    notificationDate(){
+    notificationDate() {
       return `${new Date(this.notification.created_at).toDateString()} ${this.$t('notifications.at')} ${new Date(this.notification.created_at).toLocaleTimeString()}`
     }
   },
-  methods: {
-    notificationTitleImage() {
-      const image = _.get(this.NOTIFICATION_TYPES, `${this.notification.category}.${this.notification.status}`)
-      return image ? image.icon : false
-    },
-    notificationCategory(category) {
-      // TODO change it when new notification structure introduced
-      return category === 'trade' ? 'Go to Trade Page' : (category === 'order' ? 'View Order' : 'Check out more options in your Wishlist')
-    },
-  }
 
 }
 </script>
@@ -88,6 +74,14 @@ export default {
   box-shadow: 0 1px 5px rgba($color-black-1, 0.15)
   padding-block: 10px
 
+
+  .image-box
+    width: 66px
+    height: 66px
+
+  .icon-image
+    max-width: 35px
+    max-height: 25px
 
   &.from-down
     border-top: 0.5px solid $light-gray-2
