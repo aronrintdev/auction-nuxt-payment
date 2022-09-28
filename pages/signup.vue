@@ -395,22 +395,6 @@
                       </b-form-group>
 
                       <b-row
-                        ><b-col
-                          class="d-flex flex-column align-items-baseline switch-btn"
-                          ><b-row class="d-lg-none d-flex"
-                            ><b-col
-                              ><ToggleSwitch
-                                :title="$t('signup.face_id')" /></b-col
-                          ></b-row>
-                          <b-row class="d-lg-none d-flex"
-                            ><b-col
-                              ><ToggleSwitch
-                                :title="
-                                  $t('signup.touch_id')
-                                " /></b-col></b-row></b-col
-                      ></b-row>
-
-                      <b-row
                         class="mt-3 w-100 mx-0 d-flex justify-content-center submit-btn-p"
                       >
                         <b-col md="8" class="text-center">
@@ -468,7 +452,6 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import Button from '~/components/common/Button'
 import { UNPROCESSABLE_ENTITY } from '~/static/constants'
 import NavGroup from '~/utils/components/common/NavGroup.vue'
-import ToggleSwitch from '~/components/common/form/ToggleSwitch.vue'
 import Logo from '~/components/header/Logo.vue'
 
 export default {
@@ -478,7 +461,6 @@ export default {
     ValidationObserver,
     Button,
     NavGroup,
-    ToggleSwitch,
     Logo,
   },
   layout: 'Auth',
