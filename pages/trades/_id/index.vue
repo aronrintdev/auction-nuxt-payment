@@ -8,8 +8,8 @@
       <div>
         <div class="px-5">
           <div class="heading">{{$t('trades.trade_arena.arena')}}</div>
-          <div class="sub-heading">{{$t('trades.trade_arena.trader_ranking')}} {{ vendor.trader_ranking }}</div>
-          <div class="sub-heading"> {{ vendor.total_trades }} {{ $t('trades.trade_arena.trades') }}</div>
+          <div class="sub-heading">{{$t('trades.trade_arena.trader_ranking')}} {{ getVendorTradeSummary.trader_ranking }}%</div>
+          <div class="sub-heading"> {{ getVendorTradeSummary.total_trades }}+ {{ $t('trades.trade_arena.trades') }}</div>
         </div>
         <div :class="{'timings-left' : isPayment}">
           <div v-if="!isExpire" class="timings">
@@ -355,14 +355,6 @@ export default {
         {text: this.$t('common.apparel'), value: 'apparel'},
         {text: this.$tc('common.accessory', 2), value: 'accessories'},
       ],
-      /* TODO
-        - Update Ranking Percentage
-        - Previous Trades Count
-      */
-      vendor: {
-        trader_ranking: '100%',
-        total_trades: '100+'
-      },
       totalOffersReceived: 0,
       MAX_ITEMS_ALLOWED,
       optional_cash: '0.00',
@@ -400,7 +392,7 @@ export default {
   },
   computed:{
     ...mapGetters('browse', ['filters']),
-    ...mapGetters('trade', ['getYourTradeItems', 'getSubmittedOffer']),// List of your trade items from store
+    ...mapGetters('trade', ['getYourTradeItems', 'getSubmittedOffer', 'getVendorTradeSummary']),// List of your trade items from store
 
     isExpire(){
       const date = new Date(this.trade.created_at)
@@ -428,6 +420,7 @@ export default {
     })
     this.$store.commit('trade/addTrade',null) // commit is used to set state empty
     this.fetchFilters()
+    this.fetchVendorTradeSummary()
     this.getInventory()
 
     this.trade_completed = this.getSubmittedOffer
@@ -435,6 +428,7 @@ export default {
   },
   methods: {
     ...mapActions('browse', ['fetchFilters']), // Action to call api request to get filter
+    ...mapActions('trade', ['fetchVendorTradeSummary']), // Action to call api request to get vendor trade summary
 
     /**
      * check if trade is poor/fair
@@ -477,11 +471,12 @@ export default {
      */
     yourTotal(formattedPrice = true){
       const price = this.getYourTradeItems.map((item) => item.sale_price)
+      const cashAdded = !isNaN(parseFloat(this.optional_cash)) ? this.optional_cash : 0
       if(price.length) {
         return (formattedPrice) ?
-          '$' + ((price.reduce((a, b) => a + b, 0)/100) + parseFloat(this.optional_cash)).toFixed(2) : price.reduce((a, b) => a + b, 0) + (this.optional_cash * 100)
+          '$' + ((price.reduce((a, b) => a + b, 0)/100) + parseFloat(cashAdded)).toFixed(2) : price.reduce((a, b) => a + b, 0) + (cashAdded * 100)
       }
-      return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(this.optional_cash)) : this.optional_cash * 100
+      return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(cashAdded)) : cashAdded * 100
     },
     /**
      * Load Product Image URL

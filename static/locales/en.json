@@ -155,6 +155,7 @@
     "welcome_back": "Welcome Back\nto Deadstock",
     "login_and_buy": "Log in and buy, sell, offer or trade\nyour favorite Streetwear",
     "login": "Log In",
+    "verification_code": "Verification Code",
     "create_an_account": "Create an Account",
     "signup_up_via_social_media": "Sign up via Social Media",
     "or": "Or",
@@ -169,6 +170,7 @@
     "secure_login_with_recaptcha": "Secure Login with reCAPTCHA subject to Google",
     "terms": "Terms",
     "privacy": "Privacy",
+    "verify": "Verify",
     "login_to_your_account": "Log in to your Account",
     "login_via_social_media": "Log in via Social Media",
     "forgot_password": "Forgot Password",
@@ -184,12 +186,18 @@
     "confirm_new_password": "Confirm New Password",
     "save_password": "Save Password",
     "your_account_password_has_been_reset": "Your account password has been reset.",
+    "verification_code_has_been_sent": "A verification code has been sent.",
+    "resend_code": "Resend verification code",
+    "resend": "Resend",
     "error": {
       "unauthorized": "The provided credentials do not match our records.",
+      "inactive": "This user is no longer active.",
       "something_went_wrong_please_try_later": "Something went wrong. Please try later.",
       "username_already_taken": "Username already taken. Try another.",
       "the_email_has_already_been_taken": "The email has already been taken",
-      "invalid_token": "Password reset token is invalid or expired"
+      "invalid_token": "Password reset token is invalid or expired",
+      "invalid_verification_code": "Invalid verification code.",
+      "code_generation_failed": "Verification code generation failed."
     }
   },
   "signup": {
@@ -5006,7 +5014,7 @@
       "ds_points": "DS Points",
       "your_next_reward": "Your Next Reward",
       "points_will_expire_on": "Points Will Expire On"
-      
+
     },
     "promotions": {
       "title": "Promotions",

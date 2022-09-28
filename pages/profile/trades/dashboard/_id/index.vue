@@ -79,10 +79,10 @@
               </div>
             </div>
             <div v-if="!lastSubmittedOffer.is_blocked" class="trade-hub-buttons mt-4 mb-4">
-              <Button v-if="!isOfferMine(lastSubmittedOffer)" variant="primary" class="mr-3" @click="acceptOffer()">{{ $t('trades.accept') }}</Button>
-              <Button v-if="!isOfferMine(lastSubmittedOffer)" variant="light" class="mr-3" @click="$bvModal.show('declineOffer')">{{ $t('trades.decline') }}
+              <Button v-if="!isOfferMine()" variant="primary" class="mr-3" @click="acceptOffer()">{{ $t('trades.accept') }}</Button>
+              <Button v-if="!isOfferMine()" variant="light" class="mr-3" @click="$bvModal.show('declineOffer')">{{ $t('trades.decline') }}
               </Button>
-              <Button v-if="!isOfferMine(lastSubmittedOffer)" variant="outline-primary"  @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
+              <Button v-if="!isOfferMine()" variant="outline-primary"  @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
                 {{ $t('trades.counter_offer') }}
               </Button>
             </div>
@@ -173,8 +173,8 @@ export default {
     acceptOffer(){
       let cashAdded = 0
       if(this.lastSubmittedOffer.cash_added &&
-        !this.isOfferMine(this.lastSubmittedOffer) &&
-        this.lastSubmittedOffer.cash_type === CASH_TYPE_REQUESTED)
+        !this.isOfferMine() &&
+        this.isCashTypeRequested())
       {
           cashAdded = (this.lastSubmittedOffer.cash_added)
       }
@@ -210,14 +210,16 @@ export default {
         this.$router.push('/profile/trades/dashboard/alloffers')
       }
     },
-    isOfferMine(offer) {
-      return offer.sent_by_id === this.$auth.user.vendor.id
+    isOfferMine() {
+      return this.lastSubmittedOffer.sent_by_id === this.$auth.user.vendor.id
     },
     getTheirTotal(formattedPrice = true){
       let cashAdded = 0
       if(this.lastSubmittedOffer.cash_added &&
-        !this.isOfferMine(this.lastSubmittedOffer) &&
-        this.lastSubmittedOffer.cash_type === CASH_TYPE_ADDED)
+        (((this.isOfferMine() &&
+        this.isCashTypeRequested())) ||
+        (!this.isOfferMine() &&
+        this.isCashTypeAdded())))
       {
           cashAdded = (this.lastSubmittedOffer.cash_added/100)
       }
@@ -228,11 +230,19 @@ export default {
       }
       return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(cashAdded)) : cashAdded * 100
     },
+    isCashTypeRequested(){
+        return this.lastSubmittedOffer.cash_type === CASH_TYPE_REQUESTED
+    },
+    isCashTypeAdded(){
+        return this.lastSubmittedOffer.cash_type === CASH_TYPE_ADDED
+    },
     getYourTotal(formattedPrice = true){
       let cashAdded = 0
       if(this.lastSubmittedOffer.cash_added &&
-        !this.isOfferMine(this.lastSubmittedOffer) &&
-        this.lastSubmittedOffer.cash_type === CASH_TYPE_REQUESTED)
+        (((!this.isOfferMine() &&
+        this.isCashTypeRequested())) ||
+        ((this.isOfferMine() &&
+        this.isCashTypeAdded()))))
       {
           cashAdded = (this.lastSubmittedOffer.cash_added/100)
       }
