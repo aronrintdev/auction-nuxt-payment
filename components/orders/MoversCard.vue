@@ -1,25 +1,25 @@
 <template>
-  <div class="movers-card d-flex flex-column justify-content-between">
+  <div class="movers-card col d-flex flex-column justify-content-between">
     <div class="d-flex justify-content-between">
-      <div><img :src="brandNameToLogoUrl(product.brand)" alt="" height="40"></div>
+      <div class="d-none d-md-block"><img :src="brandNameToLogoUrl(product.brand)" alt="" height="40"></div>
       <div v-if="topSalesPercentage > 0 && topSalesPercentage === product.sales_percentage"
            class="d-flex justify-content-end align-items-stretch">
         <div class="best-seller">{{ $t('orders.best_seller') }}</div>
         <img :src="require('~/assets/img/icons/yellow-star.svg')" alt="" height="19">
       </div>
     </div>
-    <div>
+    <div class="bg-x-grey">
       <div class="text-center">
         <img :src="productImage" alt="" height="100">
       </div>
     </div>
     <div class="d-flex justify-content-between align-items-end">
-      <div>
+      <div class="d-none d-md-block">
         <div class="product-name">{{ product.name }}</div>
         <div class="product-color">{{ product.colorway }}</div>
         <div class="product-sku">{{ $t('orders.sku') }}: {{ product.sku }}</div>
       </div>
-      <div>
+      <div class="ml-auto">
         <div class="sales d-flex align-items-end">
           <div class="sales-up">
             {{ salesPercentage }}
@@ -28,6 +28,11 @@
           <img :src="salesIndicator" alt="">
         </div>
       </div>
+    </div>
+    <div class="d-block d-md-none product-info">
+      <div class="product-name">{{ product.name }}</div>
+      <div class="product-color">{{ product.colorway }}</div>
+      <div class="product-sku">{{ $t('orders.sku') }}: {{ product.sku }}</div>
     </div>
   </div>
 </template>
@@ -81,12 +86,12 @@ export default {
 </script>
 
 <style scoped lang="sass">
+@import 'bootstrap/scss/functions'
+@import 'bootstrap/scss/variables'
+@import 'bootstrap/scss/mixins'
 @import '/assets/css/variables'
 
 .movers-card
-  min-width: 360px
-  width: 100%
-  height: 250px
   background: $white
   border: 1px solid $color-gray-21
   border-radius: 13px

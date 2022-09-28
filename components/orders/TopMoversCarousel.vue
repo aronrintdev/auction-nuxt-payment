@@ -1,9 +1,9 @@
 <template>
-  <div class="border">
+  <div>
     <div class="d-flex justify-content-between align-items-baseline">
       <h2 class="top-movers-heading">{{ $t('orders.your_top_movers') }} <small>({{ $t('orders.this_month') }})</small>
       </h2>
-      <div>
+      <div class="d-none d-md-block">
         <span class="cursor-pointer" @click="prev"><img :src="require('~/assets/img/icons/arrow-left-gray.svg')"></span>
         <span class="cursor-pointer" @click="next"><img
           :src="require('~/assets/img/icons/arrow-right-gray.svg')"></span>
@@ -20,7 +20,7 @@
       >
         <b-carousel-slide v-for="product in slides" :key="product.key">
           <template #img>
-            <div class="d-inline-flex justify-content-between w-100 box-gap">
+            <div class="row box-gap flex-nowrap">
               <movers-card v-if="product[0]" :product="product[0]"
                            :top-sales-percentage="topSalesPercentage"></movers-card>
               <movers-card v-if="product[1]" :product="product[1]"
@@ -74,6 +74,9 @@ export default {
       return slides
     }
   },
+  mounted() {
+
+  },
   methods: {
     prev() {
       this.$refs.showcase.prev()
@@ -86,9 +89,13 @@ export default {
 </script>
 
 <style scoped lang="sass">
+@import 'bootstrap/scss/functions'
+@import 'bootstrap/scss/variables'
+@import 'bootstrap/scss/mixins'
 @import '/assets/css/variables'
+
 .box-gap
-  gap: 30px
+  gap: 10px
 
 .top-movers-heading
   font-family: $font-family-sf-pro-display
@@ -98,4 +105,8 @@ export default {
   small
     color: $color-gray-6
     font-size: 16px
+
+@include media-breakpoint-up(md)
+  .box-gap
+    gap: 30px
 </style>
