@@ -3,9 +3,11 @@
       v-if="!fromDown"
       :class="{
         'read-button': !notification.read,
-        'unread-button': notification.read
+        'unread-button': notification.read,
+        'text-decoration-underline': !isScreenXS,
+        'mobile': isScreenXS
       }"
-      class="text-decoration-underline mr-md-5 p-0 mr-2"
+      class="mr-md-5 p-0 mr-2"
       size="sm"
       style="white-space: nowrap"
       variant="link"
@@ -19,9 +21,11 @@
 <script>
 import {mapActions} from 'vuex';
 import {Button} from '~/components/common';
+import screenSize from '~/plugins/mixins/screenSize';
 export default {
   name: 'NotificationMarkAsRead',
-  components:{Button},
+  components: {Button},
+  mixins: [screenSize],
   props: {
     notification: {
       type: Object,
@@ -62,4 +66,13 @@ export default {
 
   &.unread-button
     color: $color-gray-6
+
+  &.mobile
+    @include body-9
+    font-family: $font-montserrat
+    font-style: normal
+    font-weight: $normal
+    height: 15px
+    margin-bottom: 3px
+
 </style>

@@ -13,7 +13,7 @@
 
 <script>
 import {mapActions} from 'vuex';
-import DoubleCheck from '~/assets/img/profile/notifications/notification-double-check.svg?inline'
+import DoubleCheck from '~/assets/img/profile/notifications/single-check.svg?inline'
 import {Button} from '~/components/common';
 export default {
   name: 'NotificationMarkAllAsRead',
@@ -41,5 +41,9 @@ export default {
 @import "~/assets/css/variables"
 
 ::v-deep.mark-as-read.btn-link
+  @include body-9
   color: $color-blue-1
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $normal
 </style>

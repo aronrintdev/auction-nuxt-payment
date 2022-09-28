@@ -1,43 +1,45 @@
 <template>
   <div>
-    <div class="d-flex justify-content-between align-items-center mt-4">
-      <h3 class="fs-18 fw-6 text-black mb-0">
+    <div :class="{'mt-4': !isScreenXS}" class="d-flex justify-content-between align-items-center">
+      <h3 v-if="!isScreenXS" class="fs-18 fw-6 text-black mb-0">
         {{ $t('notifications.new') }}
         <span class="text-primary ml-2">{{ newNotifications.length }}</span>
       </h3>
-      <ul class="formatted_ul d-inline-flex mt-2">
+      <ul v-if="!isScreenXS" class="formatted_ul d-inline-flex mt-2">
         <li v-for="item in notificationFilters" :key="item.value"
             class="formatted_li mr-2" @click="onStatusSelect(item.value)">
-          <a class="nav-link" :class="{ active: selectedStatus === item.value }"><span>{{ item.text }} ({{ notificationCounts[item.value] }})</span></a>
+          <a class="nav-link" :class="{ active: selectedStatus === item.value }"><span>{{
+              item.text
+            }} ({{ notificationCounts[item.value] }})</span></a>
         </li>
       </ul>
 
-      <NotificationMarkAllAsRead/>
+      <NotificationMarkAllAsRead v-if="!isScreenXS"/>
     </div>
-    <div class="mt-4">
-      <div class="mt-3">
+    <div :class="{'mt-4': !isScreenXS}">
+      <div :class="{'mt-3': !isScreenXS}">
         <NotificationItem
             v-for="(notification, x) in newNotifications"
             :key="x"
             :notification="notification"
             action
-            class="mt-2"
+            :class="{'mt-2': !isScreenXS}"
         />
       </div>
-      <div class="d-flex justify-content-between align-items-center mt-4">
+      <div v-if="!isScreenXS" class="d-flex justify-content-between align-items-center mt-4">
         <h3 class="fs-18 fw-6 text-black mb-0">
           {{ $t('notifications.this_week') }}
           <span class="text-primary ml-2">{{ earlyNotifications.length }}</span>
         </h3>
 
       </div>
-      <div class="mt-3">
+      <div :class="{'mt-3': !isScreenXS}">
         <NotificationItem
             v-for="(notification, x) in earlyNotifications"
             :key="x"
             :notification="notification"
             action
-            class="mt-2"
+            :class="{'mt-2': !isScreenXS}"
         />
       </div>
     </div>
@@ -48,10 +50,12 @@ import {mapActions, mapGetters} from 'vuex';
 import dayjs from 'dayjs'
 import NotificationItem from '~/components/header/NotificationItem';
 import NotificationMarkAllAsRead from '~/components/profile/notifications/NotificationMarkAllAsRead';
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'NotificationsTab',
   components: {NotificationMarkAllAsRead, NotificationItem},
+  mixins: [screenSize],
   data() {
     return {
       readAllLoading: false,

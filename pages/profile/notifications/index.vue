@@ -1,11 +1,30 @@
 <template>
-  <div class="profile-notification p-5">
-    <div class="title">
+  <div :class="{
+        'p-5': !isScreenXS,
+      }"
+       class="profile-notification mb-2">
+    <MobileHeader v-if="isScreenXS" :title="tabTitle">
+      <template #actions>
+        <div class="d-flex align-items-center">
+          <filter-svg class="mr-3" role="button"></filter-svg>
+          <setting-svg role="button"></setting-svg>
+        </div>
+      </template>
+      <template #expanded-content>
+        <div class="d-flex flex-column">
+          <MobileSearchInput/>
+          <div class="d-flex align-items-center justify-content-end">
+            <NotificationMarkAllAsRead/>
+          </div>
+        </div>
+      </template>
+    </MobileHeader>
+    <div v-else class="title">
       {{ tabTitle }}
     </div>
-    <NotificationFilters v-if="currentTab === 'Notifications'" @filter="filtersChanged"/>
+    <NotificationFilters v-if="currentTab === 'Notifications' && !isScreenXS" @filter="filtersChanged"/>
 
-    <div class="text-center mt-4">
+    <div v-if="!isScreenXS" class="text-center mt-4">
       <NavGroup
           :data="tabs"
           :value="currentTab"
@@ -23,10 +42,21 @@ import {NavGroup} from '~/components/common';
 import NotificationFilters from '~/components/profile/notifications/NotificationFilters';
 import NotificationsTab from '~/components/profile/notifications/NotificationsTab';
 import NotificationSettings from '~/components/profile/notifications/NotificationSettings';
+import screenSize from '~/plugins/mixins/screenSize';
+import MobileHeader from '~/components/mobile/MobileHeader';
+import settingSvg from '~/assets/img/profile/notifications/settings.svg?inline'
+import filterSvg from '~/assets/img/profile/notifications/filters.svg?inline'
+import NotificationMarkAllAsRead from '~/components/profile/notifications/NotificationMarkAllAsRead';
+import MobileSearchInput from '~/components/mobile/MobileSearchInput';
 
 export default {
   name: 'Notifications',
-  components: {NotificationSettings, NotificationsTab, NotificationFilters, NavGroup},
+  components: {
+    MobileSearchInput,
+    NotificationMarkAllAsRead,
+    MobileHeader, NotificationSettings, NotificationsTab, NotificationFilters, NavGroup, settingSvg, filterSvg
+  },
+  mixins: [screenSize],
   layout: 'Profile',
   data() {
     return {

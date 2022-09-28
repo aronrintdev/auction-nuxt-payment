@@ -5,17 +5,17 @@
     <div class="custom-wrapper">
       <div class="row mb-bb">
         <div class="col-md-12 col-lg-2">
-          <button
-            v-b-toggle.sidebar
-            class="w3-button w3-xlarge w3-hide-large float-left"
-          >
-            <span class="text-bold">{{ $t('navbar.profile') }}</span>
-            <i class="fa fa-bars"></i>
-          </button>
+          <!--          <button-->
+          <!--            v-b-toggle.sidebar-->
+          <!--            class="w3-button w3-xlarge w3-hide-large float-left"-->
+          <!--          >-->
+          <!--            <span class="text-bold">{{ $t('navbar.profile') }}</span>-->
+          <!--            <i class="fa fa-bars"></i>-->
+          <!--          </button>-->
           <!-- BootstrapVue Sidebar: in small devices -->
-          <b-sidebar id="sidebar" ref="mySidebar" shadow>
-            <SideMenu id="sidemenu" />
-          </b-sidebar>
+          <!--          <b-sidebar id="sidebar" ref="mySidebar" shadow>-->
+          <!--            <SideMenu id="sidemenu" />-->
+          <!--          </b-sidebar>-->
           <!-- ./BootstrapVue Sidebar -->
 
           <!-- Collapsable SideMenu for large devices -->
@@ -35,7 +35,6 @@
 <script>
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
-import SideMenu from '~/components/profile/SideMenu.vue'
 import NewSideMenu from '~/components/profile/NewSideMenu'
 
 export default {
@@ -45,7 +44,6 @@ export default {
     NewSideMenu,
     Header,
     Footer,
-    SideMenu,
   },
   head() {
     return {

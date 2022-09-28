@@ -131,6 +131,8 @@ export default {
             this.getUserDetails(this.$store.state.auth.user.id)
             this.getUserRedeemedReward()
             this.$auth.$storage.removeCookie('rememberExpires')
+            this.$store.dispatch('notifications/getNotifications')
+            this.$store.dispatch('notifications/getUnreadCount')
             this.$toasted.success(this.$t('login.success_message.login_successfull').toString())
             this.$router.push('/?lang=' + this.getLang.locale)
           }
