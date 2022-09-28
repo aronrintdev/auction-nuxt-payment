@@ -112,7 +112,8 @@ export default {
       this.$emit('click', this.combination.combination_id, 'delete_combination')
     },
     editWant() {
-      this.$emit('click', this.combination, 'edit_combination')
+        this.$store.commit('trade/setUpdateCombination', this.combination)
+        this.$emit('click', this.combination, 'edit_combination')
     },
     /**
      * This function is used to return estimated total value
