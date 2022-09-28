@@ -11,6 +11,10 @@ export default function ({$axios, app}) {
       return Promise.reject(error)
     }
 
+    if (error.response?.status === 401) {
+      app.router.push('/login')
+    }
+
     // Show toast for error response
     // todo: should figure out proper locale structure
     if (error.response?.data?.error) {
