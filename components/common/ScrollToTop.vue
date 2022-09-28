@@ -1,0 +1,35 @@
+<template>
+  <span
+    id="back-to-top"
+    class="btn back-to-top"
+    role="button"
+    @click="scrollToTop"
+    >
+    <img :src="require('~/assets/img/icons/back-to-top.svg')" alt="back-to-top" />  
+  </span>
+</template>
+
+<script>
+export default {
+  name: 'ScrollToTop',
+
+  methods: {
+    // On scroll to top click
+    scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }, 
+  }
+}
+</script>
+
+<style lang="sass" scoped>
+.back-to-top
+  position: fixed
+  bottom: 25px
+  right: 25px
+  img
+    width: 41px
+    height: 41px
+    left: 317px
+    top: 1016px
+</style>

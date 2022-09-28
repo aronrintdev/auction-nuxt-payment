@@ -55,6 +55,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/vue-360.js', mode: 'client' },
     { src: '~/plugins/magic360.js', mode: 'client' },
     { src: '~/plugins/tawk.js', mode: 'client' },
+    { src: '~/plugins/vue-bottom-sheet.js', mode: 'client'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -142,7 +143,7 @@ export default defineNuxtConfig({
     },
     transpile: ['vee-validate/dist/rules'],
     extend(config, ctx) {},
-    extractCSS: process.env.NODE_ENV !== 'development', // Disable in development mode for debugging css
+    extractCSS: true, // Disable in development mode for debugging css
     plugins: [
       new webpack.ProvidePlugin({
         $: 'jquery',
