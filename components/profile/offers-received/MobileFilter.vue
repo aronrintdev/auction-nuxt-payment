@@ -7,7 +7,6 @@
     </div>
     <div :class="`filter-body ${mobileClass} p-4 w-100 h-100`">
       <!-- Sort By -->
-
       <div v-show="filterVisibility" class="sort-by">
         <div :class="`sort-by-filter ${mobileClass}`">
           <div class="header-filter">
@@ -19,7 +18,7 @@
               class="recent-to-old text-normal"
               name="sortby"
               value="recent_to_old"
-              @change="sortBy"
+              @change="sortBy($event, filter.sortBy)"
               >{{ $t('offers_received.offers_recent_old') }}</b-form-radio
             >
             <b-form-radio
@@ -37,7 +36,7 @@
       <!-- Sort By ends -->
       <div v-show="filterVisibility" class="collapses">
         <CollapseStatus
-          :value="filter.status"
+          :value="filter.status || {}"
           collapseKey="status"
           :title="$t('filter_sidebar.brands')"
           :options="status"
@@ -120,6 +119,21 @@ export default {
     filterVisibility: (vm) => {
       return vm.showFilter
     },
+
+    sortbyStatus: (vm) => {
+      return vm.filter.sortby
+    },
+  },
+
+  watch: {
+    sortbyStatus: {
+      deep: true,
+      handler(newValue, oldValue) {
+        if(!oldValue){
+          this.count = this.count + 1
+        }
+      }
+    },
   },
 
   methods: {
@@ -134,34 +148,29 @@ export default {
       if (!this.filter.status) {
         this.count = this.count + 1
       }
-      if (this.filter.status && this.filter.status === value) {
+      if (this.filter.status && this.filter.status.value === value.value) {
         this.filter.status = null
-        this.count = Number(this.count) - 1
+        this.count = this.count - 1
         return
       }
       this.filter.status = value
     },
 
     sortBy(event) {
-      if (this.filter.sortby === event) {
-        this.filter.sortby = ''
-      }
       if (!this.filter.sortby) {
-        this.count = Number(this.count) + 1
+        this.count = this.count + 1
       }
       this.filter.sortby = event
     },
 
     dateSelected({ value, data }) {
-      console.log(data)
-      if (
-        !this.filter.date &&
-        data.start !== 'Start Date' &&
-        data.end !== 'End Date'
-      ) {
-        this.count = this.count + 1
+      if (value === true) {
+        if ((data.start !== '' || data.end !== '') && !this.filter.date) {
+          this.count = this.count + 1
+        }
+        this.filter.date = data
       }
-      this.filter.date = data
+
       this.showFilter = value
     },
   },

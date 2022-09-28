@@ -15,8 +15,9 @@
             {{ title }}
           </div>
           <div class="col text-right">
-            <span v-if="visibleDate" class="filters"
-              >{{ startDate }}, {{ endDate }}</span
+            <span v-if="visibleDate" class="filters">
+              <span v-if="startDate !== 'Start Date'">{{ startDate }}</span>
+              <span v-if="endDate !== 'End Date'">{{ endDate }}</span></span
             >
           </div>
         </div>
@@ -37,60 +38,30 @@
           <b-input-group @click="showStartDate">
             <b-form-input
               v-model="startDate"
+              type="date"
               class="start-date-input bg-white rounded-circle"
             >
             </b-form-input>
-            <b-input-group-append
-              class="d-flex align-items-center append-icon p-2"
-            >
-              <img :src="require('~/assets/img/icons/calendar.svg')" />
-            </b-input-group-append>
           </b-input-group>
         </b-form-group>
         <b-form-group class="start-date h-100">
           <b-input-group @click="showEndDate">
             <b-form-input
               v-model="endDate"
+              type="date"
               class="start-date-input bg-white rounded-circle"
             >
             </b-form-input>
-            <b-input-group-append
-              class="d-flex align-items-center append-icon p-2"
-            >
-              <img :src="require('~/assets/img/icons/calendar.svg')" />
-            </b-input-group-append>
           </b-input-group>
         </b-form-group>
       </div>
-
-      <Scroller
-        v-if="startDateVisible"
-        v-model="startDate"
-        :control-text="`common.next`"
-        :control-label="`common.start_date`"
-        :confirm-text="`common.done`"
-        @updateAction="showEndDate"
-      />
-      <Scroller
-        v-if="endDateVisible"
-        v-model="endDate"
-        :control-text="`common.prev`"
-        :control-label="`common.end_date`"
-        :confirm-text="`common.done`"
-        @updateAction="showStartDate"
-      />
     </b-collapse>
   </div>
 </template>
 
 <script>
-import Scroller from './Scroller.vue'
 export default {
   name: 'CollapseDate',
-
-  components: {
-    Scroller,
-  },
 
   props: {
     collapseKey: {
@@ -133,26 +104,51 @@ export default {
   computed: {
     visibleDate: (vm) => {
       return (
-        vm.startDate !== vm.$t('common.start_date') &&
-        vm.endDate !== vm.$t('common.end_date') &&
+        vm.startDate !== vm.$t('common.start_date') ||
+        vm.endDate !== vm.$t('common.end_date') ||
         !vm.clearDate
       )
     },
   },
 
-  methods: {
-    hideFilter(value) {
-        this.$emit('showFilters', {
-          value,
-          data: { start: this.startDate && this.startDate !== 'Start Date', end: this.endDate && this.endDate !== 'End Date' },
-        })
+  watch: {
+    startDate() {
+      this.showStartDate()
     },
 
+    endDate() {
+      this.showEndDate()
+    },
+
+    clearDate() {
+      if (this.clearDate) {
+        this.startDate = ''
+        this.endDate = ''
+      }
+    },
+  },
+
+  methods: {
+    hideFilter(value) {
+      this.$emit('showFilters', {
+        value,
+        data: {
+          start:
+            this.startDate && this.startDate !== 'Start Date'
+              ? this.startDate
+              : '',
+          end: this.endDate && this.endDate !== 'End Date' ? this.endDate : '',
+        },
+      })
+    },
+
+    // Update the start date show flag
     showStartDate() {
       this.endDateVisible = false
       this.startDateVisible = !this.startDateVisible
     },
 
+    // Update end date show flag
     showEndDate() {
       this.startDateVisible = false
       this.endDateVisible = !this.endDateVisible
@@ -194,24 +190,22 @@ export default {
     background: none
     border: none
     overflow-anchor: none
-    font-family: 'SF Pro Display'
+    font-family: $font-sp-pro
     font-style: normal
     font-weight: 700
     font-size: 16px
     line-height: 19px
-    color: #667799
+    color: $color-blue-20
 
     .filters
       width: 93px
       height: 19px
       left: 209px
       top: 7px
-      font-family: 'SF Pro Display'
+      font-family: $font-sp-pro
       font-style: normal
-      font-weight: 500
-      font-size: 16px
-      line-height: 19px
-      color: #000000
+      @include body-4-normal
+      color: $color-black-1
       overflow: hidden
       display: inline-block
       text-overflow: ellipsis
@@ -253,7 +247,6 @@ export default {
 
   .accordion-filter-body
     max-height: 150px
-    // overflow: auto
     scroll-behavior: smooth
     margin: 20px 0 0 0
     padding: 0
@@ -303,31 +296,27 @@ export default {
     background-color: $color-gray-3
 
 .add-amount-item
-  background: #fff
-  color: #fff
-  border: 1px solid #6c757d
+  background: $color-white-1
+  color: $color-white-1
+  border: 1px solid $color-gray-7
   border-radius: 6px
-  color: #6c757d
+  color: $color-gray-7
   padding: 1rem
   text-align: center
   width: 99px
   height: 45px
-  font-family: 'SF Pro Display'
+  font-family: $font-sp-pro
   font-style: normal
-  font-weight: 500
-  font-size: 14px
-  line-height: 17px
+  @include body-5-normal
   display: flex
   align-items: center
   text-align: center
-  color: #A3A3A3
+  color: $color-gray-28
   justify-content: center
 .start-date
   width: 154px
   height: 49px
-  // left: 1px
-  // top: 222px
-  border: 1px solid #000000
+  border: 1px solid $color-black-1
   border-radius: 10px
   &.start-date-input
     margin: 1px

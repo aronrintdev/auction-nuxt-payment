@@ -74,10 +74,8 @@
             :threelineIcon="false"
             :options="{
               default: $t('vendor_purchase.sort_by'),
-              priceAsc: $t('offers_received.sort_by.price_low_high'),
-              priceDesc: $t('offers_received.sort_by.price_high_low'),
-              dateAsc: $t('offers_received.sort_by.date_listed_new_old'),
-              dateDesc: $t('offers_received.sort_by.date_listed_old_new'),
+              recent_to_old: $t('offers_received.offers_recent_old'),
+              old_to_recent: $t('offers_received.offers_old_recent'),
             }"
             @input="handleSortByChange"
           />
@@ -329,16 +327,30 @@
       >
         <div class="col-xs-12">
           <div class="bottom-pop">
-            <div class="delete-confirm-text d-flex justify-content-center align-items-center text-align-center">
+            <div
+              class="
+                delete-confirm-text
+                d-flex
+                justify-content-center
+                align-items-center
+                text-align-center
+              "
+            >
               {{ $t('offers_received.tap_on_offers_to_delete') }}
             </div>
             <div class="delete-confirm-button">
-              <b-button variant="outline" class="decline-btn d-flex align-items-center text-align-center" @click="onCancel">
+              <b-button
+                variant="outline"
+                class="decline-btn d-flex align-items-center text-align-center"
+                @click="onCancel"
+              >
                 {{ $t('common.cancel') }}
               </b-button>
               <b-button
                 variant="outline"
-                :class="`delete-btn d-flex align-items-center text-align-center ${itemSelected && 'selected'}`"
+                :class="`delete-btn d-flex align-items-center text-align-center ${
+                  itemSelected && 'selected'
+                }`"
                 @click="openDelete"
               >
                 {{ $t('offers_received.delete_selected') }}
@@ -663,23 +675,32 @@ export default {
     },
 
     applyFilter(val) {
-      if (val.date && val.date.start !== 'Start Date') {
-        this.searchFilters.startDate = this.$options.filters.formatDate(
-          val.date.start,
-          'YYYY-MM-DD'
-        )
-      }
-      if (val.date && val.date.end !== 'End Date') {
-        this.searchFilters.endDate = this.$options.filters.formatDate(
-          val.date.end,
-          'YYYY-MM-DD'
-        )
-      }
-      this.searchFilters.sortBy = val.sortby ? val.sortby : ''
+      if (val.date) {
+        if (val.date.start === '') {
+          this.searchFilters.startDate = ''
+        } else {
+          this.searchFilters.startDate = this.$options.filters.formatDate(
+            val.date.start,
+            'YYYY-MM-DD'
+          )
+        }
 
-      if (val.status && val.status.value) {
-        this.searchFilters.filterBy = val.status.value
+        if (val.date.end === '') {
+          this.searchFilters.endDate = ''
+        } else {
+          this.searchFilters.endDate = this.$options.filters.formatDate(
+            val.date.end,
+            'YYYY-MM-DD'
+          )
+        }
+      } else {
+        this.searchFilters.startDate = ''
+        this.searchFilters.endDate = ''
       }
+
+      this.searchFilters.sortBy = val.sortby ? val.sortby : ''
+      this.searchFilters.filterBy = val.status && val.status.value ?  val.status.value : ''  
+
       this.getOffers()
       this.hideFilter()
     },
@@ -833,7 +854,7 @@ export default {
 @media( min-width: 320px)
   .vd-purchase-browse-btn
     &.mobile
-          width: 309px
+      width: 309px
 .empty-data
   &.mobile
     margin: 35% 0 35%
