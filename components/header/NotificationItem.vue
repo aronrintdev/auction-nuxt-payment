@@ -8,8 +8,8 @@
       <div
           class=" d-flex align-items-center px-2">
         <div :class="{'image-prefix': !fromDown}" class="image d-flex justify-content-center align-items-center">
-          <favoriteOutline v-if="!notification.important && !fromDown" class="mr-1"></favoriteOutline>
-          <favorite-filled v-if="notification.important && !fromDown" class="mr-1"></favorite-filled>
+          <favoriteOutline v-if="!notification.important && !fromDown" class="mr-1" role="button"></favoriteOutline>
+          <favorite-filled v-if="notification.important && !fromDown" class="mr-1" role="button"></favorite-filled>
           <div class="image-box d-flex align-items-center justify-content-center">
             <img v-if="notification.image" :src="notification.image" class="m-2"
                  height="50px" width="50">
@@ -21,7 +21,7 @@
                  :src="notification.icon_link" class="mr-2 icon-image">
             <p class="mb-0">
               <span :class="{'mobile-subject': isScreenXS}">{{ notification.subject }}</span>
-              <span v-if="isScreenXS" class="ml-2 remaining-time">
+              <span v-if="isScreenXS" class="ml-1 remaining-time">
                 {{ notificationDate }}
               </span>
             </p>

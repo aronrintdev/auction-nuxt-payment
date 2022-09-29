@@ -4431,14 +4431,14 @@
       "date_low_to_high": "Date Added - Ascending",
       "date_high_to_low": "Date Added - Descending ",
       "edit_combination": "Edit Combination #{0}",
-      "add_another_item" : "+ Add Another Item",
+      "add_another_item": "+ Add Another Item",
       "edit_or_add_new_items_to_your_combination": "Edit or add new items to your combination",
       "back_to_wants": "Back to Trade Wants",
       "you_cannot_select_more_than": "You cannot select more than 3 items in one combination"
     },
-    "create_combination_selected" : "Add to Combination",
+    "create_combination_selected": "Add to Combination",
     "delete_selected": "Delete Selected",
-    "delete_combination_selected" : "Delete Selected",
+    "delete_combination_selected": "Delete Selected",
     "add_new_item": "Add New Item",
     "back_to_trade_editing": "Back to Trade Editing",
     "back_to_trade_search": "Back to Trade Search",
@@ -4949,6 +4949,10 @@
     "title_settings": "Settings",
     "notification_settings": "Notifications Settings",
     "type": "Type",
+    "filter_by": "Filter By",
+    "status": "Status",
+    "reset": "Reset",
+    "apply_filters": "Apply Filters",
     "this_week": "This Week",
     "new": "New",
     "at": "at",
@@ -4967,17 +4971,19 @@
     },
     "actions": {
       "bid_now": "Bid Now",
-          "view_order": "View Order",
-          "check_out_more_wishlist": "Check out more options in your Wishlist",
-          "go_to_trade": " Go to Trade Page"
-      },
-      "types": {
-          "buying": "Buying",
-          "selling": "Selling",
-        "communication": "Deadstock Comms"
-      },
-      "start": "Start",
-      "end": "End",
+      "view_order": "View Order",
+      "check_out_more_wishlist": "Check out more options in your Wishlist",
+      "go_to_trade": " Go to Trade Page"
+    },
+    "types": {
+      "buying": "Buying",
+      "selling": "Selling",
+      "communication": "Deadstock Comms"
+    },
+    "start": "Start",
+    "end": "End",
+    "start_date": "Start Date",
+    "end_date": "End Date",
     "settings": {
       "all_communication": "All Communications",
       "shop": "Shop",
@@ -5077,7 +5083,6 @@
       "ds_points": "DS Points",
       "your_next_reward": "Your Next Reward",
       "points_will_expire_on": "Points Will Expire On"
-
     },
     "promotions": {
       "title": "Promotions",
@@ -5099,12 +5104,12 @@
       "view_order": "View Order"
     }
   },
-  "offers_received" : {
-    "heading" : "Offers Received",
-    "your_placed_offers"  : "Your Received Offers ({count})",
-    "placed_offers_desc"  : "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
-    "start_date"  : "Start Date",
-    "end_date"  : "End Date",
-    "remove_multiple" : "Remove Multiple"
+  "offers_received": {
+    "heading": "Offers Received",
+    "your_placed_offers": "Your Received Offers ({count})",
+    "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "remove_multiple": "Remove Multiple"
   }
 }

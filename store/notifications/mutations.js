@@ -51,6 +51,15 @@ export function setChangedSettings(state, settings) {
 }
 
 /**
+ * Set user settings
+ * @param state
+ * @param {String} status
+ */
+export function setSelectedStatus(state, status) {
+    state.selectedStatus = status
+}
+
+/**
  * Add or change single setting in changedSettings
  * @param state
  * @param {Object} setting

@@ -1,9 +1,11 @@
 <template>
   <div>
     <div :class="{'mt-4': !isScreenXS}" class="d-flex justify-content-between align-items-center">
-      <h3 v-if="!isScreenXS" class="fs-18 fw-6 text-black mb-0">
+      <h3 :class="{'px-4': isScreenXS}"
+          class="fs-18 fw-6 text-black mb-0"
+      >
         {{ $t('notifications.new') }}
-        <span class="text-primary ml-2">{{ newNotifications.length }}</span>
+        <span v-if="!isScreenXS" class="text-primary ml-2">{{ newNotifications.length }}</span>
       </h3>
       <ul v-if="!isScreenXS" class="formatted_ul d-inline-flex mt-2">
         <li v-for="item in notificationFilters" :key="item.value"
@@ -26,10 +28,11 @@
             :class="{'mt-2': !isScreenXS}"
         />
       </div>
-      <div v-if="!isScreenXS" class="d-flex justify-content-between align-items-center mt-4">
+      <div :class="{'px-4': isScreenXS, 'mt-4': !isScreenXS}"
+           class="d-flex justify-content-between align-items-center">
         <h3 class="fs-18 fw-6 text-black mb-0">
           {{ $t('notifications.this_week') }}
-          <span class="text-primary ml-2">{{ earlyNotifications.length }}</span>
+          <span v-if="!isScreenXS" class="text-primary ml-2">{{ earlyNotifications.length }}</span>
         </h3>
 
       </div>
@@ -59,7 +62,6 @@ export default {
   data() {
     return {
       readAllLoading: false,
-      selectedStatus: 'all',
       notificationCounts: {
         'all': 0,
         'unread': 0,
@@ -77,7 +79,8 @@ export default {
   computed: {
     ...mapGetters({
       'notifications': 'notifications/getNotifications',
-      'unread': 'notifications/getUnreadCount'
+      'unread': 'notifications/getUnreadCount',
+      'selectedStatus': 'notifications/getSelectedStatus'
     }),
     newNotifications() {
       return this.filteredNotifications.filter((notification) => {
@@ -134,7 +137,7 @@ export default {
     },
     onStatusSelect(status) {
       if (this.selectedStatus !== status) {
-        this.selectedStatus = status
+        this.$store.commit('notifications/setSelectedStatus', status)
       }
     },
   }

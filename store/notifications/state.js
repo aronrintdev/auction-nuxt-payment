@@ -10,6 +10,7 @@ export default function () {
         settings: [],
         oldSettings: [],
         changedSettings: [],
-        unreadCount: 0
+        unreadCount: 0,
+        selectedStatus: 'all',
     }
 }

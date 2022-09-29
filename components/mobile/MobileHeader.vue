@@ -60,5 +60,5 @@ export default {
   font-style: normal
   font-weight: $bold
   color: $color-black-1
-  margin-left: 15%
+  margin-left: 12%
 </style>

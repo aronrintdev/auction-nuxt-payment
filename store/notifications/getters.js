@@ -43,3 +43,13 @@ export function getChangedSettings(state) {
 export function getNotificationFilters(state) {
     return state.notificationFilters
 }
+
+
+/**
+ * Get selected status
+ * @param state
+ * @return {number}
+ */
+export function getSelectedStatus(state) {
+    return state.selectedStatus
+}
