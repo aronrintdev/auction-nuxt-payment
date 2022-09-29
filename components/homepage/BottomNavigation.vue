@@ -1,5 +1,5 @@
 <template>
-  <div class="bottom-navigation bg-black px-4 py-3">
+  <div class="bottom-navigation bg-black px-4 pt-3">
     <SearchOverlay
       ref="searchOverlay"
       :show="showSearchOverlay"
@@ -84,4 +84,5 @@ export default {
     position: sticky
     bottom: 0
     z-index: 99
+    padding-bottom: 30px
 </style>

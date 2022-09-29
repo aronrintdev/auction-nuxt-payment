@@ -1,11 +1,15 @@
 <template>
-  <div class="d-flex align-items-center mx-md-5">
+  <div class="d-flex align-items-center mx-md-5 section-header">
     <div class="d-flex mr-0 mr-sm-3">
-      <h1 class="heading-garamond" v-html="getHeading"></h1>
+      <h1 class="heading-garamond pre-line">
+        <span>{{ title }}</span>
+      </h1>
     </div>
-    <div class="mx-3 mx-md-0 text-center text-md-left">
-      <h5 class="fw-4 fs-18 font-primary mb-0 text-gray-light garamond-desc">
-        {{ desc }}
+    <div class="mx-4 mx-md-0">
+      <h5
+        class="fw-4 fs-18 font-primary mb-0 text-gray-light garamond-desc pre-line"
+      >
+        <span>{{ desc }}</span>
       </h5>
     </div>
     <div class="ml-auto">
@@ -33,14 +37,20 @@ export default {
       default: '',
     },
   },
-  computed: {
-    getHeading() {
-      const str =
-        this.title.split(' ')[0] +
-        '<br />' +
-        this.title.substr(this.title.indexOf(' ') + 1)
-      return str
-    },
-  },
+  // computed: {
+  //   getHeading() {
+  //     const str =
+  //       this.title.split(' ')[0] +
+  //       '<br />' +
+  //       this.title.substr(this.title.indexOf(' ') + 1)
+  //     return str
+  //   },
+  // },
 }
 </script>
+<style lang="sass" scoped>
+@media (max-width: 500px)
+  .section-header
+    margin-left: calc(20px - 7.5px)
+    margin-right: calc(20px - 7.5px)
+</style>

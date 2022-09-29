@@ -1,10 +1,14 @@
 <template>
   <b-navbar toggleable="lg" class="navbar-wrapper border-bottom px-2 px-md-4">
-    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+    <b-navbar-toggle target="nav-collapse">
+      <template #default>
+        <img width="25px" :src="require('~/assets/img/icons/menu.svg')" />
+      </template>
+    </b-navbar-toggle>
     <b-navbar-brand to="/" class="navbar-brand ml-auto m-lg-0">
       <Logo :width="171" />
     </b-navbar-brand>
-    <b-nav-form class="search-box-wrapper fsdfsd">
+    <b-nav-form class="search-box-wrapper">
       <SearchInput
         :placeholder="$t('navbar.search')"
         :value="searchKeyword"
@@ -23,9 +27,14 @@
       @hide="handleSearchOverlayHide"
     />
     <b-navbar-nav class="nav-menu-wrapper flex-row d-flex d-lg-none">
-      <NotificationDropdown v-if="authenticated" />
+      <b-nav-item class="nav-item-icons" to="#">
+        <img
+          height="24px"
+          :src="require('~/assets/img/icons/notification-icon.svg')"
+        />
+      </b-nav-item>
       <b-nav-item class="nav-item-icons" to="/checkout/selling">
-        <BagIcon />
+        <img height="22px" :src="require('~/assets/img/icons/bag.png')" />
       </b-nav-item>
     </b-navbar-nav>
     <b-collapse id="nav-collapse" is-nav class="navbar-collapse">
@@ -161,11 +170,13 @@ export default {
 <style lang="sass">
 @import '~/assets/css/_variables'
 .navbar-wrapper
-  padding: 25px 30px 26px 30px
+  padding: 23px 30px 23px 30px
   background-color: $color-white-1
   .navbar-brand
     margin: 0
     padding: 0
+    @media (max-width: 450px)
+      padding-left: 15px
   .navbar-collapse
     padding: 0
     margin: 0

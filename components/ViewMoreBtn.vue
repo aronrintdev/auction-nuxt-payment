@@ -9,7 +9,8 @@
     </b-button>
     <img
       class="pointer"
-      :src="require('assets/img/home/view-more.png')"
+      width="44px"
+      :src="require('assets/img/icons/view-more-arrow.png')"
       @click="handleClick"
     />
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="section-wrapper py-5">
+  <div class="section-wrapper">
     <SectionHeader
       :title="$t('home_page.all_trades')"
       :desc="$t('home_page.trade_desc')"
@@ -7,7 +7,7 @@
       to="/trades"
     />
 
-    <div class="my-5">
+    <div class="banner-wrapper">
       <div class="banner">
         <h1
           class="fw-7 fs-24 font-primary text-white text-center text-uppercase mb-0"
@@ -25,19 +25,24 @@
               :key="`product-carousel-${index}`"
               class="item"
             >
-              <ProductCard :product="product">
+              <ProductCard
+                :product="product"
+                showActionBtn
+                showSize
+                :showPrice="false"
+              >
                 <template #badge>
                   <!-- TODO -->
                   <Badge
                     title="5d 18h"
                     :icon="require('~/assets/img/home/clock.svg')"
-                    color="red"
+                    color="red-24"
                   />
                 </template>
                 <template #action>
                   <b-button
                     variant="dark"
-                    class="fs-15 fw-5 font-secondary w-100 btn-sm d-flex align-items-center justify-content-center"
+                    class="fs-15 fw-5 font-secondary w-100 btn-sm d-flex align-items-center justify-content-center bg-grey-73"
                   >
                     <img class="btnIcon" src="~/assets/img/home/trade.svg" />
                     <span class="ml-1">
@@ -89,6 +94,14 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+.section-wrapper
+  margin-bottom: 48px
+.banner-wrapper
+  margin-top: 33px
+  margin-bottom: 28px
+  @media (max-width: 550px)
+    margin-left: -7.5px
+    margin-right: -7.5px
 .banner
   background-image: url('~/assets/img/home/all-trades-cover.png')
   background-repeat: no-repeat
@@ -98,6 +111,17 @@ export default {
   padding: 50px
   @media (max-width: 550px)
     background-image: url('~/assets/img/home/all-trades-cover-sm.png')
-    height: 215px
-    padding: 24px
+    background-size: contain
+    height: 214px
+    padding-top: 38px
+    h1
+      font-size: 15px
+      letter-spacing: 0.26em
+.product-card-wrapper::v-deep
+  @media (max-width: 550px)
+    .product-badge
+      .px-2.py-1
+        height: 25px
+    .badge-icon
+      width: 15px
 </style>

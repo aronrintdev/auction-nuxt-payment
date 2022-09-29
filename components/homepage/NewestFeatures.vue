@@ -1,13 +1,13 @@
 <template>
-  <div class="py-5">
+  <div class="section-wrapper">
     <SectionHeader
       :title="$t('home_page.newest_features')"
-      :desc="$t('home_page.newestfeatures_description')"
+      :desc="$t('home_page.trade_desc')"
       :label="$t('home_page.view_more_features')"
       to="#"
     />
 
-    <div class="my-5 newest-features-grid row no-gutters">
+    <div class="newest-features-grid row no-gutters">
       <div class="col-12 col-sm-6 row no-gutters border-right features-sm">
         <div class="col-7 col-sm-12 border-bottom">
           <div class="overflow-wrapper position-relative">
@@ -18,12 +18,19 @@
             />
             <img
               width="100%"
-              height="113px"
+              height="93px"
               class="d-block d-sm-none"
               :src="require('~/assets/img/home/features/features1-sm.png')"
             />
-            <h1 class="feature-title fs-24 fw-4 font-primary text-white mb-0">
+            <h1
+              class="feature-title fs-24 fw-4 font-primary text-white mb-0 d-none d-sm-block"
+            >
               {{ $t('home_page.shareable_wishlist') }}
+            </h1>
+            <h1
+              class="feature-title fs-24 fw-4 font-primary text-white mb-0 d-block d-sm-none"
+            >
+              {{ $t('home_page.shareable_wishlist_sm') }}
             </h1>
           </div>
         </div>
@@ -36,7 +43,7 @@
             />
             <img
               width="100%"
-              height="113px"
+              height="93px"
               class="d-block d-sm-none"
               :src="require('~/assets/img/home/features/features3-sm.png')"
             />
@@ -60,7 +67,9 @@
             />
             <h1 class="feature-title fs-24 fw-4 font-primary text-white mb-0">
               {{ $t('home_page.crypto') }} <br />
-              {{ $t('home_page.payments') }}
+              <span class="d-none d-md-inline-block">
+                {{ $t('home_page.payments') }}
+              </span>
             </h1>
           </div>
         </div>
@@ -122,6 +131,8 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.newest-features-grid
+  margin-top: 33px
 .overflow-wrapper
   margin: 0.5rem
   .feature-title

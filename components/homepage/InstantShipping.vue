@@ -1,5 +1,5 @@
 <template>
-  <div class="section-wrapper py-5">
+  <div class="section-wrapper">
     <SectionHeader
       :title="$t('home_page.instant_shipping')"
       :desc="$t('home_page.instant_shipping_desc')"
@@ -10,7 +10,7 @@
       :data="categoryItems"
       :value="currentCategory"
       nav-key="new_releases"
-      class="text-center my-5"
+      class="text-center nav-group my-md-4"
       @change="handleCategoryChange"
     />
     <div class="row">
@@ -52,16 +52,16 @@ export default {
     return {
       products: [],
       categoryItems: [
-        { label: this.$t('home_page.all'), value: 'all' },
-        { label: this.$t('home.trending'), value: 'trending' },
-        { label: this.$t('home_page.bestsellers'), value: 'best' },
+        { label: this.$t('home_page.footwear'), value: 'footwear' },
+        { label: this.$t('home_page.apparel'), value: 'apparel' },
+        { label: this.$t('home_page.accessories'), value: 'accessories' },
       ],
-      currentCategory: 'all',
+      currentCategory: 'footwear',
     }
   },
-  async fetch() {
-    await this.fetchProducts()
-  },
+  // async fetch() {
+  //   await this.fetchProducts()
+  // },
   methods: {
     async fetchProducts() {
       this.products = await this.$axios
@@ -88,3 +88,17 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+.section-wrapper
+  margin-bottom: 60px
+.nav-group
+  margin-top: 33px
+  margin-bottom: 25px
+@media (max-width: 550px)
+  .product-card-wrapper::v-deep
+    .product-badge
+      .px-2.py-1
+        height: 25px
+    .badge-icon
+      width: 7px
+</style>

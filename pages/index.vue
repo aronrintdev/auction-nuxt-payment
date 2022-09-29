@@ -1,5 +1,5 @@
 <template>
-  <div class="p-0 pb-5">
+  <div class="padding-bottom">
     <HeroSection />
     <div class="container">
       <HomeNewReleases />
@@ -45,3 +45,7 @@ export default {
   fetchOnServer: false,
 }
 </script>
+<style lang="sass" scoped>
+.padding-bottom
+  padding-bottom: 33px
+</style>

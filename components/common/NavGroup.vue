@@ -6,6 +6,7 @@
         :key="`nav-group-${navKey}-${index}`"
         :class="{ active: item.value === value }"
         :title="item.label"
+        class="font-primary"
         @click="onClick(item.value)"
         >{{ item.label }}</b-button
       >
@@ -43,12 +44,12 @@ export default {
 @import '~/assets/css/_variables'
 .nav-group
   .btn-group
-    background-color: $color-gray-3
+    background-color: $color-white-19
     border-radius: 20px
     padding: 4px 6px
     .btn
       @include body-6-regular
-      background-color: $color-gray-3
+      background-color: $color-white-19
       border: 0 !important
       border-radius: 20px !important
       color: $color-black-1 !important
@@ -56,11 +57,11 @@ export default {
       height: auto
       &.active
         background-color: $color-white-1
-        font-weight: $medium
+        font-weight: 700
       &::before
         display: block
         content: attr(title)
-        font-weight: $medium
+        font-weight: 500
         height: 0
         overflow: hidden
         visibility: hidden

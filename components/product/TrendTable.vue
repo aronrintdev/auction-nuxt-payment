@@ -18,13 +18,13 @@
         :key="`product-${product.id}-trend`"
       >
         <td></td>
-        <td class="col-no">{{ index + 1 }}</td>
+        <td class="col-no font-primary">{{ index + 1 }}</td>
         <td class="col-thumb">
           <div><ProductThumb :product="product" /></div>
         </td>
         <td class="col-product-detail">
-          <div class="text-name">{{ product.name }}</div>
-          <div class="text-color">{{ product.colorway }}</div>
+          <div class="text-name font-primary">{{ product.name }}</div>
+          <div class="text-color font-primary">{{ product.colorway }}</div>
         </td>
         <td class="col-price d-none d-sm-table-cell">
           {{ product.last_price | toCurrency }}
@@ -61,8 +61,11 @@
           ></LineChart>
         </td>
         <td class="d-table-cell d-sm-none text-right">
-          <div class="col-price">{{ product.last_price | toCurrency }}</div>
+          <div class="col-price pricing font-primary">
+            {{ product.last_price | toCurrency }}
+          </div>
           <div
+            class="font-primary pricing"
             :class="`col-trend-${
               product.trend_24h >= 0 ? 'positive' : 'negative'
             }`"
@@ -301,17 +304,15 @@ export default {
 @import '~/assets/css/_variables'
 
 .trend-table-wrapper
-  width: 100%
-
+  width: calc( 100% - 16px )
+  margin: 0 auto
   tr
-    border-bottom: 1px solid $color-gray-23
-
+    border-top: 1px solid $color-gray-63
   thead tr td
     @include body-4-bold
     color: $color-black-1
     padding: 29px 3px
     border: none
-
   tbody
     tr td
       @include body-8-medium
@@ -326,7 +327,6 @@ export default {
     .col-thumb
       display: flex
       justify-content: center
-
       >div
         width: 106px
         height: 71px
@@ -334,17 +334,29 @@ export default {
         display: flex
         align-items: center
         justify-content: center
-
+      @media (max-width: 550px)
+        padding: 4px 3px
+        >div
+          width: 80px
+          justify-content: start
+        .thumb-wrapper
+          width: 62px
     .col-product-detail
       .text-name
         @include body-8-bold
         color: $color-black-1
-
       .text-color
         @include body-10-normal
         color: $color-gray-5
         margin-top: 1px
-
+      @media (max-width: 550px)
+        .text-name
+          font-size: 11px
+          font-weight: 700
+        .text-color
+          color: $color-gray-74
+          font-size: 11px
+          font-weight: 500
     .col-price
       color: $color-black-1
 
@@ -358,4 +370,8 @@ export default {
       .trend-graph
         width: 96px
         height: 35px
+  @media (max-width: 550px)
+    .pricing
+      font-size: 11px
+      font-weight: 600
 </style>

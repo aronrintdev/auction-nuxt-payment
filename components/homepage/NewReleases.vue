@@ -1,8 +1,8 @@
 <template>
-  <div class="section-wrapper py-5">
+  <div class="section-wrapper">
     <SectionHeader
       :title="$t('home.new_releases')"
-      :desc="$t('home_page.new_releases_description')"
+      :desc="$t('home.new_releases_desc')"
       :label="$t('home_page.view_more_products')"
       to="/new-release"
     />
@@ -11,7 +11,7 @@
       :data="categoryItems"
       :value="currentCategory"
       nav-key="new_releases"
-      class="text-center my-5"
+      class="text-center nav-group my-md-4"
       @change="handleCategoryChange"
     />
     <div class="row">
@@ -67,3 +67,12 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+.section-wrapper
+  padding-top: 40px
+  padding-bottom: 48px
+@media (max-width:550px)
+  .nav-group
+    margin-top: 36px
+    margin-bottom: 26px
+</style>

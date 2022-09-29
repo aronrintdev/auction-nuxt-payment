@@ -47,19 +47,34 @@
       </div>
     </div>
     <div class="mt-2 row">
-      <div class="col-7">
-        <div class="fs-15 fw-6 font-secondary">
+      <div :class="[showActionBtn ? 'col-7' : 'col-12']">
+        <div class="fs-15 fw-6 font-secondary product-title">
           {{ getTruncateName }}
         </div>
-        <div class="fs-14 fw-5 font-secondary text-gray-light">
+        <div
+          class="fs-14 fw-5 font-secondary text-gray-light text-truncate product-title-2"
+        >
           {{ getRemainingName }}
         </div>
-        <div class="fs-15 fw-6 font-secondary">
+        <div v-if="showSize" class="fs-15 fw-6 font-secondary product-price">
+          {{ $t('home_page.size') }} {{ product.size }}
+        </div>
+        <div v-if="showPrice" class="fs-15 fw-6 font-secondary product-price">
           {{ product.sale_price | toCurrency }}
+        </div>
+        <div
+          v-if="showPriceAndSize"
+          class="fs-15 fw-6 font-secondary product-price"
+        >
+          {{ product.sale_price | toCurrency }}
+          <span class="fw-5 text-black-50">
+            ( {{ $t('home_page.size') }} {{ product.size }})</span
+          >
         </div>
       </div>
       <div
-        class="col-5 d-flex align-items-end align-items-sm-center action-btn-slot pl-0 pl-1"
+        class="col-5 align-items-end align-items-sm-center action-btn-slot pl-0 pl-1"
+        :class="[showActionBtn ? 'col-5 d-flex ' : 'd-none']"
       >
         <slot name="action"> </slot>
       </div>
@@ -129,6 +144,22 @@ export default {
       type: Boolean,
       default: true,
     },
+    showActionBtn: {
+      type: Boolean,
+      default: false,
+    },
+    showPrice: {
+      type: Boolean,
+      default: true,
+    },
+    showSize: {
+      type: Boolean,
+      default: false,
+    },
+    showPriceAndSize: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -149,7 +180,7 @@ export default {
     },
     getRemainingName() {
       const name = this.product?.name
-        .split(' ') 
+        .split(' ')
         .slice(3, this.product.name.length)
         .join(' ')
       return name
@@ -269,8 +300,21 @@ export default {
     img.btnIcon
       width: 20px
   @media (max-width: 500px)
+    .product-image
+      height: 185px
+      width: 164px
     .action-btn-slot button
       font-size: 10px
       img.btnIcon
         width: 12px
+    .product-title
+      font-size: 13px
+      font-weight: 600
+    .product-title-2
+      font-size: 13px
+      font-weight: 400
+      color:$color-gray-5
+    .product-price
+      font-size: 12px
+      font-weight: 600
 </style>

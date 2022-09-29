@@ -6,7 +6,7 @@
       <div class="wrapper">
         <div v-if="!loadingFilter" class="section-filters">
           <FilterSideBar ref="filterSidebar" @apply="fetchProducts" />
-        </div>
+        </div> 
 
         <div class="section-main flex-grow-1">
           <h2>{{ $t('navbar.shop') }}</h2>

@@ -7,7 +7,7 @@
       <span class="badge-icon">
         <img :src="icon" />
       </span>
-      <h5 class="fs-14 fw-6 font-primary ml-1 mb-0">
+      <h5 class="fs-14 fw-6 font-primary ml-1 mb-0 text-white">
         {{ title }}
       </h5>
     </div>
