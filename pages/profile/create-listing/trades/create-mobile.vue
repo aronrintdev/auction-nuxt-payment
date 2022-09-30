@@ -1,6 +1,6 @@
 <template>
   <div class="main-container p-2">
-    <div class="d-flex">
+    <div class="d-flex mt-2">
        <div>
          <SearchInput
            :value="searchText"
@@ -17,26 +17,150 @@
         <img class="ml-3 mt-1" :src="require('~/assets/img/filters.svg')" />
       </div>
     </div>
+    <div class="d-flex mt-2">
+      <div class="inventory-heading">
+        {{ $t('create_listing.trade.offer_items.available_inventory_mobile', {'0': totalCount}) }}
+      </div>
+      <div class="ml-5">
+        <span class="create-inventory-btn" @click="setReferrer()">
+        <img :src="require('~/assets/img/plus.svg')"/>  {{ $t('create_listing.trade.offer_items.create_inventory') }}
+        </span>
+      </div>
+    </div>
+    <div class="mt-2">
+      <b-row class="inventory-area">
+        <b-col v-for="item in inventory_items" :key="'offer-'+item.id" cols="6 mb-4">
+          <div class="create-trade-item-mobile" :draggable="true" @dragstart="startDrag($event, item)">
+            <div class="d-flex mt-1">
+              <div class="size ml-2">{{$t('trades.create_listing.vendor.wants.size')}} {{ item.size && item.size.size }}</div>
+              <div>
+                <img alt="No Image" class="plus-icon-add" :src="require('~/assets/img/icons/addPlus.svg')"
+                     @click="checkIfItemAlreadyListed(item)"/>
+              </div>
+            </div>
+            <object
+              :data="`${IMAGE_PATH}/${item.product && item.product.category && item.product.category.name}/${item.product && item.product.sku}/800xAUTO/IMG01.jpg`"
+              class="create-trade-item-image-mobile justify-content-center"
+              type="image/png">
+              <img class="create-trade-item-image-mobile justify-content-center mb-2" :src="fallbackImgUrl" alt="image"/>
+            </object>
+            <div class="create-trade-item-caption-mobile">
+                <span :id="`name${item.id}`"
+                      class="create-trade-item-name">{{ item.product && item.product.name }}</span>
+              <span :id="`colorway${item.id}`"
+                    class="create-trade-item-caption-description">{{ item.product && item.product.colorway }}</span>
+              <span
+                class="create-trade-item-caption-description">Box: {{
+                  item.packaging_condition && item.packaging_condition.name
+                }}</span>
+            </div>
+            <!-- tooltip for name -->
+            <b-tooltip :target="`name${item.id}`" triggers="hover">
+              {{ item.product && item.product.name }}
+            </b-tooltip>
+            <!-- tooltip for colorway -->
+            <b-tooltip :target="`colorway${item.id}`" triggers="hover">
+              {{ item.product && item.product.colorway }}
+            </b-tooltip>
+          </div>
+        </b-col>
+        <b-row v-if="!inventory_items || inventory_items.length === 0"
+               class="col-md-12 justify-content-center">
+          {{ $t('trades.create_listing.vendor.wants.no_products_found') }}
+        </b-row>
+        <b-row class="col-md-12 justify-content-center">
+          <Pagination
+            v-if="inventory_items && inventory_items.length > 0"
+            v-model="page"
+            :total="totalCount"
+            :per-page="perPage"
+            :per-page-options="perPageOptions"
+            class="mt-4"
+            @page-click="handlePageClick"
+            @per-page-change="handlePerPageChange"
+          />
+        </b-row>
+      </b-row>
+    </div>
+    <div class="mt-2">
+      <div class="row create-trade-drag-drop-item-mobile justify-content-center text-center py-2"
+           @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
+        <div v-if="getTradeItems.length < 1">
+          <div class="create-trade-drag-drop-heading">
+            {{ $t('create_listing.trade.offer_items.drag_drop_mobile') }}
+          </div>
+          <span class="create-trade-drag-drop-sub-heading">{{
+              $t('create_listing.trade.offer_items.search_at')
+            }}</span>
+          <b-row class="justify-content-center mt-2">
+            <img class="plus-image" :src="require('~/assets/img/Plus-circle.svg')">
+          </b-row>
+        </div>
+        <b-row v-else class="justify-content-center">
+          <div v-for="(prod, index) in getTradeItems"
+               :key="'selected-'+index+prod.id" class="create-trade-item-sm d-flex justify-content-between flex-column mr-2">
+            <div class="d-flex justify-content-between mt-2 mx-2">
+              <div v-if="prod.quantity > 1" class="create-trade-quantity-car-sm">x{{ prod.quantity || 1 }}</div>
+              <div class="create-trade-minus-icon-sm" @click="decrementOrRemoveItem(prod.id)">
+                <div class="create-trade-minus-line-sm"></div>
+              </div>
+            </div>
+            <div class="create-trade-item-image-div-sm">
+              <object
+                :data="`${IMAGE_PATH}/${prod.product && prod.product.category.name ? prod.product.category.name : prod.category.name }/${prod.sku ? prod.sku : prod.product.sku}/800xAUTO/IMG01.jpg`"
+                class="create-trade-item-image-sm" type="image/png">
+                <img class="create-trade-item-image-sm mb-2" :src="fallbackImgUrl" alt="image"/>
+              </object>
+            </div>
+            <div class="create-trade-item-caption-sm">
+                <span :id="`name-sm${prod.id}`"
+                      class="create-trade-item-name-sm">{{ prod.name ? prod.name : prod.product.name }}</span>
+              <span :id="`colorway-sm${prod.id}`"
+                    class="create-trade-item-caption-description-sm">{{ prod.colorway ? prod.colorway : prod.product.colorway }}</span>
+              <span class="create-trade-item-caption-description-sm">Box: {{
+                  prod.packaging_condition && prod.packaging_condition.name
+                }}</span>
+            </div>
+
+            <b-tooltip :target="`name-sm${prod.id}`" triggers="hover">
+              {{ prod.name ? prod.name : prod.product.name }}
+            </b-tooltip>
+
+            <!-- tooltip for colorway -->
+            <b-tooltip :target="`colorway-sm${prod.id}`" triggers="hover">
+              {{ prod.colorway ? prod.colorway : prod.product.colorway }}
+            </b-tooltip>
+
+          </div>
+          <div v-if="getTradeOfferItemQuantity < MAX_ITEMS_ALLOWED" class="create-trade-item-sm">
+            <div>
+              <img class="create-trade-item-image-sm-dummy"  :src="require('~/assets/img/three-items.svg')">
+            </div>
+          </div>
+        </b-row>
+      </div>
+    </div>
+    <div class="mt-2">
+     <div>
+       <FormStepProgressBar :steps="steps" variant="transparent"/>
+     </div>
+    </div>
   </div>
 </template>
 <script>
 import {mapActions, mapGetters} from 'vuex'
 import debounce from 'lodash.debounce';
-// import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
+import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
 import SearchInput from '~/components/common/SearchInput';
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox.vue'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED, PRODUCT_FALLBACK_URL} from '~/static/constants';
 
 import {TAKE_SEARCHED_PRODUCTS} from '~/static/constants/trades';
-// import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
-// import FormStepProgressBar from '~/components/common/FormStepProgressBar';
+
 // import CustomDropdown from '~/components/common/CustomDropdown';
-// import {Pagination} from '~/components/common';
-// import AlreadyListedModal from '~/pages/profile/create-listing/trades/AlreadyListedModal';
 // import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
 // import AlreadyListedModal from '~/pages/profile/create-listing/trades/AlreadyListedModal';
-// import CustomDropdown from '~/components/common/CustomDropdown.vue'
-// import {Pagination} from '~/components/common'
+import {Pagination} from '~/components/common'
 // import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 // import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 // import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
@@ -46,10 +170,11 @@ export default {
   components: {
     SearchInput,
     SearchedProductsBelowSearchTextBox,
+    FormStepProgressBar,
     // CreateTradeSearchItem,
-    // FormStepProgressBar,
+
     // CustomDropdown,
-    // Pagination,
+    Pagination,
     // AlreadyListedModal
   },
   layout: 'Profile', // Layout
@@ -479,8 +604,101 @@ export default {
 }
 </script>
 
+
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.main-container
+  background-color: #fff
+.inventory-heading
+  font-size: 14px
+  font-weight: 700
+  font-family: Montserrat
 
+.create-inventory-btn
+  font-size: 14px
+  font-weight: 400
+  line-height: 16.71px
+  font-family: SF Pro Display
+  cursor: pointer
+.create-trade-item-mobile
+  width: 164px
+  height: 190px
+  border: 1px solid #C4C4C4
+.size
+  font-size: 12px
 
+.plus-icon-add
+  width: 19px
+  margin-left: 5rem
+  height: 19px
+  cursor: pointer
+  z-index: 1000
+.create-trade-item-image-mobile
+  height: 70px
+  width: 109px
+  margin-left: 20px
+.create-trade-item-caption-mobile
+  width: 162px
+  height: 66px
+  background-color: #F7F7F7
+  margin-top: 16px
+  padding: 5px
+.create-trade-item-name
+  font-size: 11px
+  font-weight: 600
+  width: 147px
+  font-family: SF Pro Display
+.create-trade-item-caption-description
+  font-size: 11px
+  font-weight: 500
+  font-family: SF Pro Display
+  width: 71px
+.create-trade-drag-drop-item-mobile
+  width: 343px
+  height: 140px
+  margin-left: 5px
+  margin-right: 0px
+  border-radius: 3px
+  background-color: #FBFAFA
+.create-trade-drag-drop-heading
+  font-family: SF Pro Display
+  font-weight: 600
+  font-size: 14px
+  padding: 0px
+.create-trade-drag-drop-sub-heading
+  font-family: SF Pro Display
+  font-weight: 500
+  font-size: 12px
+  padding: 0px
+.plus-image
+  padding-top: 10px
+  height: 40px
+  width: 40px
+.create-trade-item-sm
+  width: 100px
+  height: 128px
+  border: 1px solid #D8D8D8
+.create-trade-item-image-sm
+  width: 79px
+  height: 46px
+.create-trade-item-caption-sm
+  width: 98px
+  height: 57px
+  border: 1px solid #F7F7F7
+.create-trade-item-name-sm
+  width: 62px
+  font-size: 11px
+  font-weight: 600
+  font-family: SF Pro Display
+.create-trade-item-caption-description-sm
+  width: 81px
+  font-size: 10px
+  font-weight: 500
+  font-family: SF Pro Display
+.create-trade-minus-icon-sm
+  background-color: #FF9696
+.create-trade-item-image-sm-dummy
+  width: 95px
+  height: 125px
+  padding: 2px
 </style>
