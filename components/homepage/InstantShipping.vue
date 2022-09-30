@@ -59,9 +59,9 @@ export default {
       currentCategory: 'footwear',
     }
   },
-  // async fetch() {
-  //   await this.fetchProducts()
-  // },
+  async fetch() {
+    await this.fetchProducts()
+  },
   methods: {
     async fetchProducts() {
       this.products = await this.$axios

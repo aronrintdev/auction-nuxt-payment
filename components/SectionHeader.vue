@@ -37,15 +37,6 @@ export default {
       default: '',
     },
   },
-  // computed: {
-  //   getHeading() {
-  //     const str =
-  //       this.title.split(' ')[0] +
-  //       '<br />' +
-  //       this.title.substr(this.title.indexOf(' ') + 1)
-  //     return str
-  //   },
-  // },
 }
 </script>
 <style lang="sass" scoped>

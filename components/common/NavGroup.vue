@@ -42,6 +42,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+@import '~/assets/css/_typography'
 .nav-group
   .btn-group
     background-color: $color-white-19
@@ -57,11 +58,11 @@ export default {
       height: auto
       &.active
         background-color: $color-white-1
-        font-weight: 700
+        font-weight: $bold
       &::before
         display: block
         content: attr(title)
-        font-weight: 500
+        font-weight: $normal
         height: 0
         overflow: hidden
         visibility: hidden

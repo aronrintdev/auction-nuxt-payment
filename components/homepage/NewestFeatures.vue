@@ -23,12 +23,12 @@
               :src="require('~/assets/img/home/features/features1-sm.png')"
             />
             <h1
-              class="feature-title fs-24 fw-4 font-primary text-white mb-0 d-none d-sm-block"
+              class="feature-title position-absolute text-center fs-24 fw-4 font-primary text-white mb-0 d-none d-sm-block"
             >
               {{ $t('home_page.shareable_wishlist') }}
             </h1>
             <h1
-              class="feature-title fs-24 fw-4 font-primary text-white mb-0 d-block d-sm-none"
+              class="feature-title position-absolute text-center fs-24 fw-4 font-primary text-white mb-0 d-block d-sm-none"
             >
               {{ $t('home_page.shareable_wishlist_sm') }}
             </h1>
@@ -47,7 +47,9 @@
               class="d-block d-sm-none"
               :src="require('~/assets/img/home/features/features3-sm.png')"
             />
-            <h1 class="feature-title fs-24 fw-4 font-primary text-white mb-0">
+            <h1
+              class="feature-title position-absolute text-center fs-24 fw-4 font-primary text-white mb-0"
+            >
               {{ $t('home_page.trade') }}
             </h1>
           </div>
@@ -65,7 +67,9 @@
               class="d-block d-sm-none"
               :src="require('~/assets/img/home/features/features4-sm.png')"
             />
-            <h1 class="feature-title fs-24 fw-4 font-primary text-white mb-0">
+            <h1
+              class="feature-title position-absolute text-center fs-24 fw-4 font-primary text-white mb-0"
+            >
               {{ $t('home_page.crypto') }} <br />
               <span class="d-none d-md-inline-block">
                 {{ $t('home_page.payments') }}
@@ -80,7 +84,9 @@
               height="100%"
               :src="require('~/assets/img/home/features/features2-sm.png')"
             />
-            <h1 class="feature-title fs-24 fw-4 font-primary text-white mb-0">
+            <h1
+              class="feature-title position-absolute text-center fs-24 fw-4 font-primary text-white mb-0"
+            >
               {{ $t('home_page.clothing') }}
             </h1>
           </div>
@@ -93,7 +99,9 @@
               width="100%"
               :src="require('~/assets/img/home/features/features2.png')"
             />
-            <h1 class="feature-title fs-24 fw-4 font-primary text-white mb-0">
+            <h1
+              class="feature-title position-absolute text-center fs-24 fw-4 font-primary text-white mb-0"
+            >
               {{ $t('home_page.clothing') }}
             </h1>
           </div>
@@ -104,7 +112,9 @@
               width="100%"
               :src="require('~/assets/img/home/features/features5.png')"
             />
-            <h1 class="feature-title fs-24 fw-4 font-primary text-white mb-0">
+            <h1
+              class="feature-title position-absolute text-center fs-24 fw-4 font-primary text-white mb-0"
+            >
               {{ $t('home_page.intl_shipping') }}
             </h1>
           </div>
@@ -115,7 +125,9 @@
               width="100%"
               :src="require('~/assets/img/home/features/features6.png')"
             />
-            <h1 class="feature-title fs-24 fw-4 font-primary text-white mb-0">
+            <h1
+              class="feature-title position-absolute text-center fs-24 fw-4 font-primary text-white mb-0"
+            >
               {{ $t('home_page.auctions') }}
             </h1>
           </div>
@@ -136,14 +148,12 @@ export default {
 .overflow-wrapper
   margin: 0.5rem
   .feature-title
-    position: absolute
     top: 50%
     left: 50%
     width: 90%
     translate: -50% -50%
     background: $color-black-rgb3
     padding: 10px
-    text-align: center
     @media (max-width: 550px)
       font-size: 16px
       background: none

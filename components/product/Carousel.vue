@@ -132,8 +132,6 @@ export default {
         text-align: left
         margin: 0
         max-width: 280px
-        // margin-left: auto
-        // margin-right: auto
         &.photo-item
           max-width: 261px
           img

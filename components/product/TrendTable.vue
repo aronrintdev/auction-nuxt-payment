@@ -302,6 +302,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+@import '~/assets/css/_typography'
 
 .trend-table-wrapper
   width: calc( 100% - 16px )
@@ -352,11 +353,11 @@ export default {
       @media (max-width: 550px)
         .text-name
           font-size: 11px
-          font-weight: 700
+          font-weight: $bold
         .text-color
           color: $color-gray-74
           font-size: 11px
-          font-weight: 500
+          font-weight: $normal
     .col-price
       color: $color-black-1
 
@@ -373,5 +374,5 @@ export default {
   @media (max-width: 550px)
     .pricing
       font-size: 11px
-      font-weight: 600
+      font-weight: $medium
 </style>
