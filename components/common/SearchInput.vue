@@ -7,7 +7,7 @@
       searchResultShow && $slots.default && 'opened'
     }`"
   >
-    <div class="position-relative w-100 d-flex align-items-center">
+    <div class="position-relative main-search-con d-flex align-items-center">
       <img
         :src="require('~/assets/img/icons/search.svg')"
         class="icon-search"
@@ -22,7 +22,6 @@
         :debounce="debounce"
         autocomplete="off"
         class="search-input"
-        :style="{'height': inputHeight}"
         :autofocus="autofocus"
         @input="handleTextInput"
         @keydown.enter="handleEnterKeyDown"
@@ -158,6 +157,14 @@ export default {
 
 .search-input-wrapper
   position: relative
+.main-search-con
+  width: 100%
+  height: 60px
+  @media (min-width: 300px)  and (max-width: 500px)
+      width: 303px !important
+      height: 33px !important
+      border-radius: 8px
+      background-color: #F7F7F7
 
   &.search-pill
     input.search-input
@@ -168,6 +175,7 @@ export default {
       @include body-4-normal
       height: 60px
       border-radius: 10px
+
 
   &.search-md
     input.search-input

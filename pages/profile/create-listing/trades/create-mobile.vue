@@ -1,0 +1,486 @@
+<template>
+  <div class="main-container p-2">
+    <div class="d-flex">
+       <div>
+         <SearchInput
+           :value="searchText"
+           variant="primary"
+           :placeholder="$t('create_listing.trade.offer_items.search_by')"
+           :clearSearch="true"
+           bordered
+           inputHeight="60px"
+           @change="onSearchInput"
+         />
+         <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="tradeItem" width="700px" class="position-absolute"/>
+       </div>
+      <div>
+        <img class="ml-3 mt-1" :src="require('~/assets/img/filters.svg')" />
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import {mapActions, mapGetters} from 'vuex'
+import debounce from 'lodash.debounce';
+// import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
+import SearchInput from '~/components/common/SearchInput';
+import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox.vue'
+import {IMAGE_PATH, MAX_ITEMS_ALLOWED, PRODUCT_FALLBACK_URL} from '~/static/constants';
+
+import {TAKE_SEARCHED_PRODUCTS} from '~/static/constants/trades';
+// import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
+// import FormStepProgressBar from '~/components/common/FormStepProgressBar';
+// import CustomDropdown from '~/components/common/CustomDropdown';
+// import {Pagination} from '~/components/common';
+// import AlreadyListedModal from '~/pages/profile/create-listing/trades/AlreadyListedModal';
+// import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
+// import AlreadyListedModal from '~/pages/profile/create-listing/trades/AlreadyListedModal';
+// import CustomDropdown from '~/components/common/CustomDropdown.vue'
+// import {Pagination} from '~/components/common'
+// import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
+// import { PRODUCT_FALLBACK_URL } from '~/static/constants'
+// import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
+
+export default {
+  name: 'create-mobile',
+  components: {
+    SearchInput,
+    SearchedProductsBelowSearchTextBox,
+    // CreateTradeSearchItem,
+    // FormStepProgressBar,
+    // CustomDropdown,
+    // Pagination,
+    // AlreadyListedModal
+  },
+  layout: 'Profile', // Layout
+  middleware: 'auth',
+  data() {
+    return {
+      IMAGE_PATH, // Image path const
+      MAX_ITEMS_ALLOWED,
+      selected_category: null,
+      productsFilter: 'most_viewed',
+      selected_checkbox: [],
+      search_item: null,
+      steps: [
+        {name: this.$t('trades.create_listing.vendor.wants.offer_items'), active: true},
+        {name: this.$t('trades.create_listing.vendor.wants.enter_what_you_want'), active: false},
+        {name: this.$t('trades.create_listing.vendor.wants.confirm_trade'), active: false}
+      ],
+      searchText: null,
+      searchedItems: [],
+      categoryItems: [
+        {text: this.$t('common.footwear'), value: 'sneakers'},
+        {text: this.$t('common.apparel'), value: 'apparel'},
+        {text: this.$tc('common.accessory', 2), value: 'accessories'},
+      ],
+      categoryFilter: '',
+      sizeTypesFilter: [],
+      sizeFilter: [],
+      categoryFilterLabel: this.$t('trades.create_listing.vendor.wants.category'),
+      sizeTypesFilterLabel: this.$t('trades.create_listing.vendor.wants.size_type'),
+      sizeFilterLabel: this.$t('trades.create_listing.vendor.wants.size'),
+      inventory_items: [],
+      page: 1,
+      perPage: 4,
+      totalCount: 0,
+      perPageOptions: [4, 8, 16, 24],
+      orderFilter: null,
+      generalListItemsCustomFilter: [
+        { text: this.$t('trades.create_listing.vendor.wants.price_low_to_high'), value: 'price_low_to_high' },
+        { text: this.$t('trades.create_listing.vendor.wants.price_high_to_low'), value: 'price_high_to_low' },
+      ],
+      orderFilterLabel: this.$t('trades.create_listing.vendor.wants.sort_by'),
+      itemListingId: 0,
+      alreadyListedItemDetails: {},
+      fallbackImgUrl: PRODUCT_FALLBACK_URL,
+    }
+  },
+  computed: {
+    ...mapGetters('trades', ['getTradeItems', 'getTradeId', 'getTradeOfferItemQuantity']), // Getter for getting trade items listing,quantity trade id from store
+    ...mapGetters('browse', ['filters']), // getter for getting list of filters data
+  },
+  mounted() {
+    // emit use to add item for search selection component
+    this.$root.$on('add_product_trade', (val) => {
+      this.search_item = val
+    })
+
+    // setting referrer to null
+    this.$store.commit('inventory/setReferrer', null)
+
+    // if trade id exists then set items in page for editing
+    if (this.getTradeId) {
+      this.$store.commit('trades/removeAllOfferItems')
+      this.$store.commit('trades/removeAllWantItems')
+      this.getAndSetTradeItems(this.getTradeId)
+    }
+
+    // To move user from search page to back in trade offer page
+    this.$root.$on('back_to_search_offer',()=>{
+      this.search_item = false
+      this.searchText =  null
+      this.searchedItems =  []
+    })
+
+    // To add product in search item for search page
+    this.$root.$on('add_trade_item', (val) => {
+      this.search_item = val
+      this.searchText =  null
+      this.searchedItems = []
+    })
+    this.fetchFilters();
+    this.getInventory();
+
+    // Emit listener to emtpy search items
+    this.$root.$on('click_outside', () => {
+      this.searchedItems = []
+    })
+  },
+  methods: {
+
+    /**
+     * This function is used to check  if item
+     * exits in already some listing if exists it will
+     * show model else call function to add item
+     * @param item
+     */
+    checkIfItemAlreadyListed(item) {
+      if (this.canAddMoreItems()) {
+        this.$axios
+          .post('check/product/in/listing', {
+            inventory_id: item.id
+          })
+          .then((response) => { // return product information that exits in already listing
+            const existingItem = this.getTradeItems.find(val => val.id === item.id)
+            if (response.data.is_listing_item && !existingItem) {
+              this.itemListingId = response.data.listingId
+              this.alreadyListedItemDetails = item
+              this.$bvModal.show('alreadyListed')
+            } else{
+              this.addOrIncrementOfferItem(item)
+            }
+          })
+          .catch((error) => {
+            this.$toasted.error(this.$t(error.response.data.error))
+            this.itemListingId = null
+          })
+      }
+    },
+
+    /**
+     * This function is used to check item can be added for trade
+     * or limit exceeds
+     * @returns {boolean}
+     */
+    canAddMoreItems() {
+      const itemsCount = this.getTradeItems.map(i => i.quantity).reduce((a, b) => a + b, 0)
+      if (itemsCount < MAX_ITEMS_ALLOWED) {
+        return true
+      } else {
+        this.$toasted.error(this.$t('trades.create_listing.vendor.wants.offer_items_quantity_should_not_exceed', [MAX_ITEMS_ALLOWED]));
+        return false
+      }
+    },
+
+    /**
+     * This function use trade idd as param and check draft listing
+     * against trade id then set offer items and want items for editing
+     * @param tradeId
+     */
+    getAndSetTradeItems(tradeId) {
+      this.$axios
+        .get('trades', {
+          params: {
+            trade_id: tradeId,
+            status: 'draft'
+          }
+        })
+        .then((response) => { // return offer items and wants item
+          const _self = this
+          const offerItemsList = response && response.data.data && response.data.data.data[0].offers
+          if (offerItemsList.length > 0) {
+            offerItemsList.forEach(function(offerItem) {
+              const item = offerItem.inventory
+              item.quantity = offerItem.quantity
+              item.id = offerItem.inventory_id
+              _self.$store.commit('trades/setTradeItems', item)
+              _self.$nextTick(() => _self.$forceUpdate())
+            })
+          }
+          const self = this;
+          const wantItemsList = response && response.data.data && response.data.data.data[0].wants
+          if (wantItemsList.length > 0) {
+            wantItemsList.forEach(function(wantItem) {
+              const selectedProductWithAttributes = {
+                id: wantItem.id,
+                product_id: wantItem.product_id,
+                name: wantItem.product.name,
+                colorway: wantItem.product.colorway,
+                sku: wantItem.product.sku,
+                category: wantItem.product.category.name,
+                image: wantItem.product.image,
+                selected_year: wantItem.year,
+                selected_box_condition: wantItem.packaging_condition_id,
+                selected_box_condition_name: wantItem.packaging_condition.name,
+                selected_quantity: wantItem.quantity,
+                selected_size: wantItem.size_id,
+                selected_size_name: self.$t('trades.create_listing.vendor.wants.size') + wantItem.size.size,
+                product: wantItem.product
+              }
+              self.$store.commit('trades/setWantsItemsTrade', selectedProductWithAttributes)
+              self.$nextTick(() => _self.$forceUpdate())
+            })
+          }
+        })
+        .catch((error) => {
+          this.$toasted.error(this.$t(error.response.data.error))
+        })
+    },
+
+    /**
+     * This function is used to set referrer that user move
+     * from this page to inventory
+     */
+    setReferrer() {
+      this.$store.commit('inventory/setReferrer', '/profile/create-listing/trades/create')
+      this.$router.push('/profile/inventory/search')
+    },
+
+    ...mapActions('browse', ['fetchFilters']), // getter to get filter listing from store
+
+    /**
+     * This function is used to drag offer item
+     * @param evt
+     * @param item
+     */
+    startDrag(evt, item) {
+      evt.dataTransfer.dropEffect = 'move'
+      evt.dataTransfer.effectAllowed = 'move'
+      evt.dataTransfer.setData('item', JSON.stringify(item))
+    },
+
+    /**
+     * This function is used to drop item which is drag
+     * @param evt
+     */
+    onDrop(evt) {
+      const items = evt.dataTransfer.getData('item')
+      const data = JSON.parse(items)
+      this.checkIfItemAlreadyListed(data)
+    },
+
+    /***
+     * This function is used to change order listing of
+     * inventory items
+     * @param selectedOrder
+     */
+    changeOrderFilter(selectedOrder) {
+      this.orderFilter = selectedOrder
+      const orderFilteredKey = this.generalListItemsCustomFilter.find(item => item.value === this.orderFilter)
+      this.orderFilterLabel = this.capitalizeFirstLetter(orderFilteredKey.text)
+      this.getInventory();
+    },
+
+    /****
+     * This function is used to change selected
+     * type of product filter
+     * @param selectedCategory
+     */
+    changeCategory(selectedCategory) {
+      this.categoryFilter = selectedCategory
+      const categoryFilteredKey = this.categoryItems.find(item => item.value === this.categoryFilter)
+      this.categoryFilterLabel = this.capitalizeFirstLetter(categoryFilteredKey.text)
+    },
+    /**
+     * This function is used to change product size filter
+     * @param selectedSizeType
+     */
+    changeSizeTypeFilter(selectedSizeType) {
+
+      if (!this.sizeTypesFilter.includes(selectedSizeType)) {
+        this.sizeTypesFilter.push(selectedSizeType)
+      } else {
+        this.sizeTypesFilter = this.sizeTypesFilter.filter(item => item !== selectedSizeType)
+      }
+      this.sizeTypesFilterLabel = this.joinAndCapitalizeFirstLetters(this.sizeTypesFilter, 2) || this.$t('trades.create_listing.vendor.wants.size_type') // 2 is max number of labels show in filter
+    },
+
+    /**
+     * This function is used to change size filter
+     * for product
+     * @param selectedSize
+     */
+    changeSizeFilter(selectedSize) {
+      if (!this.sizeFilter.includes(selectedSize.size)) {
+        this.sizeFilter.push(selectedSize.size)
+      } else {
+        this.sizeFilter = this.sizeFilter.filter(item => item !== selectedSize.size)
+      }
+
+      this.sizeFilterLabel = this.joinAndCapitalizeFirstLetters(this.sizeFilter, 5)
+        || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
+    },
+
+    /**
+     * This function do first letter of word capital
+     * @param string
+     * @returns {string}
+     */
+    capitalizeFirstLetter(string) {
+      if (typeof string === 'string')
+        return string[0].toUpperCase() + string.slice(1)
+      else if (typeof string === 'object' && string.size && typeof string.size === 'string')
+        return string.size[0].toUpperCase() + string.size.slice(1);
+    },
+
+    /**
+     * This function is used to show selected items by joining them
+     * in string format seperated by commas
+     * @param selectedOptionsArray
+     * @param maxLabelsAllowed
+     * @returns {string|*}
+     */
+    joinAndCapitalizeFirstLetters(selectedOptionsArray, maxLabelsAllowed) {
+      selectedOptionsArray = selectedOptionsArray.map(o => o[0].toUpperCase() + o.slice(1))
+      return (selectedOptionsArray.length > maxLabelsAllowed)
+        ? selectedOptionsArray.slice(0, maxLabelsAllowed).join(', ') + '...' // append dots if labels exceed limits of showing characters
+        : selectedOptionsArray.join(', ')
+    },
+
+    /**
+     * This function is used to add or increment offer item in listing
+     * @param item
+     */
+    addOrIncrementOfferItem(item) {
+      const existingItem = this.getTradeItems.find(val => val.id === item.id)
+      if (existingItem) {
+        this.$store.commit('trades/incrementTradeItemQuantity', item)
+      } else {
+        this.$store.commit('trades/setTradeItems', item)
+      }
+      this.$nextTick(() => this.$forceUpdate())
+    },
+
+    /**
+     * This function is used to get user listing of inventory
+     */
+    getInventory: debounce(function (filters = {}) {
+      filters.sort_by = this.orderFilter // sorting filter
+      filters.category = this.categoryFilter // category type filter
+      filters.sizes = this.sizeFilter.join(',') // size filter
+      filters.size_types = this.sizeTypesFilter.join(',') // size type filter
+      this.$axios
+        .get('/vendor/inventory', {
+          params: {
+            search: '',   // for search query
+            page: this.page, // no of page to change
+            per_page: this.perPage, // no of records to show on per page
+            ...filters
+          },
+        })
+        .then((response) => {  // list of vendor inventory
+          this.inventory_items = response.data.data
+          this.totalCount = parseInt(response.data.total)
+          this.perPage = parseInt(response.data.per_page)
+        })
+        .catch((error) => {
+          this.$toasted.error(this.$t(error.response.data.error))
+          this.searchedItems = []
+        })
+    }, 500),
+
+    /**
+     * This function is used to get product and show in
+     * listing below input search field
+     * @param term
+     */
+    onSearchInput(term) {
+      this.searchText = term
+      if (term) {
+        this.$axios
+          .post('/search/products', {
+            filters: {
+              search: term.toLowerCase(), // search query param
+              take: TAKE_SEARCHED_PRODUCTS,      // get 5 record
+            },
+            page: 1 // no of page
+          })
+          .then((response) => {
+            this.searchedItems = response.data && response.data.results && response.data.results.data // items for search list
+          })
+          .catch((error) => {
+            this.$toasted.error(this.$t(error.response.data.error))
+            this.searchedItems = []
+          })
+      } else {
+        this.searchText = null
+        this.searchedItems = []
+      }
+    },
+
+    /**
+     * This function is used to remove or decrement product
+     * quantity from offer listing
+     * @param id
+     */
+    decrementOrRemoveItem(id) {
+      const existingItem = this.getTradeItems.find(val => val.id === id)
+      if (existingItem.quantity > 1) {
+        this.$store.commit('trades/decrementTradeItemQuantity', id)
+      } else {
+        this.$store.commit('trades/removeTradeItem', id)
+      }
+      this.$nextTick(() => this.$forceUpdate())
+    },
+
+    /**
+     * This function is used to change pagination page no
+     * and get record again for that page
+     * @param bvEvent
+     * @param page
+     */
+    handlePageClick(bvEvent, page) {
+      if (this.page !== page) {
+        this.page = page
+        this.getInventory()
+      }
+    },
+
+    /**
+     * This function is used for change no records showing on per page
+     * @param value
+     */
+    handlePerPageChange(value) {
+      if (this.perPage !== value) {
+        this.perPage = value
+        this.page = 1
+        this.getInventory()
+      }
+    },
+
+    /**
+     * This function is used to clear all selected filters
+     */
+    clearFilters() {
+      this.orderFilter = null
+      this.categoryFilter = ''
+      this.sizeFilter = []
+      this.sizeTypesFilter = []
+      this.categoryFilterLabel = this.$t('trades.create_listing.vendor.wants.category')
+      this.sizeTypesFilterLabel = this.$t('trades.create_listing.vendor.wants.size_type')
+      this.sizeFilterLabel = this.$t('trades.create_listing.vendor.wants.size')
+      this.orderFilterLabel = this.$t('trades.create_listing.vendor.wants.sort_by')
+      this.$nextTick(() => {
+        this.getInventory()
+      })
+    },
+  }
+}
+</script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
+
+</style>
