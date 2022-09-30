@@ -143,7 +143,7 @@ export default defineNuxtConfig({
     },
     transpile: ['vee-validate/dist/rules'],
     extend(config, ctx) {},
-    extractCSS: true, // Disable in development mode for debugging css
+    extractCSS: process.env.NODE_ENV !== 'development', // Disable in development mode for debugging css
     plugins: [
       new webpack.ProvidePlugin({
         $: 'jquery',

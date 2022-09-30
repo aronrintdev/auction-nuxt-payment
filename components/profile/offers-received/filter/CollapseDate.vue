@@ -16,8 +16,8 @@
           </div>
           <div class="col text-right">
             <span v-if="visibleDate" class="filters">
-              <span v-if="startDate !== 'Start Date'">{{ startDate }}</span>
-              <span v-if="endDate !== 'End Date'">{{ endDate }}</span></span
+              <span v-if="startDate !== startDateText">{{ startDate }}</span>
+              <span v-if="endDate !== endDateText">{{ endDate }}</span></span
             >
           </div>
         </div>
@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import { START_DATE, END_DATE } from '~/static/constants'
 export default {
   name: 'CollapseDate',
 
@@ -98,6 +99,8 @@ export default {
       dateValue: '',
       startDateVisible: false,
       endDateVisible: false,
+      startDateText: START_DATE,
+      endDateText: END_DATE,
     }
   },
 
@@ -134,10 +137,10 @@ export default {
         value,
         data: {
           start:
-            this.startDate && this.startDate !== 'Start Date'
+            this.startDate && this.startDate !== this.startDateText
               ? this.startDate
               : '',
-          end: this.endDate && this.endDate !== 'End Date' ? this.endDate : '',
+          end: this.endDate && this.endDate !== this.endDateText ? this.endDate : '',
         },
       })
     },
@@ -192,9 +195,7 @@ export default {
     overflow-anchor: none
     font-family: $font-sp-pro
     font-style: normal
-    font-weight: 700
-    font-size: 16px
-    line-height: 19px
+    @include body-4-bold
     color: $color-blue-20
 
     .filters

@@ -98,7 +98,7 @@ export default {
     margin-right: auto
     &.mobile
       margin-top: 25px
-      font-family: 'Montserrat'
+      font-family: $font-montserrat
       font-style: normal
       @include body-4-normal
       display: flex

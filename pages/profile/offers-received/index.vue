@@ -338,7 +338,7 @@
             >
               {{ $t('offers_received.tap_on_offers_to_delete') }}
             </div>
-            <div class="delete-confirm-button">
+            <div class="delete-confirm-button d-flex">
               <b-button
                 variant="outline"
                 class="decline-btn d-flex align-items-center text-align-center"
@@ -846,9 +846,7 @@ export default {
   &.mobile
     font-family: $font-sp-pro
     font-style: normal
-    font-weight: 500
-    font-size: 15px
-    line-height: 14px
+    @include body-8-normal
     color: $color-gray-47
     float: right
 @media( min-width: 320px)
@@ -896,7 +894,6 @@ export default {
   top: 1056px
   margin: auto
 .delete-confirm-button
-  display: flex
   justify-content: space-evenly
   margin-top: 10px
 .delete-confirm-text

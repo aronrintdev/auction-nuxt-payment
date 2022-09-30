@@ -403,9 +403,9 @@ export default {
     opacity: 1
 .custom-checkbox
   .custom-control-label::before
-    border-radius: 2.25rem !important
-    width: 1.1rem !important
-    height: 1.1rem !important
+    border-radius: 2.25rem
+    width: 1.1rem
+    height: 1.1rem
 @media (min-width: 417px) and (max-width: 575px)
   .offer-received-item-wrapper
     height: 293px
