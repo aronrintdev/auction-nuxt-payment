@@ -1,10 +1,13 @@
 <template>
-  <b-row v-if="settings" class="mt-2 mb-3 align-items-center">
-    <b-col md="5">
-      <div class="title">{{ settings.label }}</div>
-      <div class="sub-title mt-2 mr-2 ">{{ settings.desc }}</div>
+  <b-row v-if="settings" :class="{'mobile': isScreenXS}" class="mt-2 mb-3 align-items-center">
+    <b-col md="5" sm="12">
+      <div :class="{'justify-content-between': isScreenXS}" class="title d-flex align-items-center ">
+        {{ settings.label }}
+        <arrow-right v-if="isScreenXS" @click="notificationSelect"/>
+      </div>
+      <div :class="{'w-75': isScreenXS}" class="sub-title mt-2 mr-2">{{ settings.desc }}</div>
     </b-col>
-    <b-col class="title-labels w-50" md="4">
+    <b-col v-if="!isScreenXS" class="title-labels w-50" md="4">
       <div v-if="fieldExist(settings.data, 'when') || fieldExist(settings.data, 'every')"
            class="d-flex align-items-center">
         <span v-if="fieldExist(settings.data, 'when')"
@@ -69,7 +72,7 @@
           </div>
         </WhiteDropDown>
       </div>
-      <div v-if="fieldExist(settings.data, 'until')" class="mt-3">
+      <div v-if="fieldExist(settings.data, 'until') && !isScreenXS" class="mt-3">
         <vue-slider
             v-if="settings.data.until.type === 'slider'"
             :max="100"
@@ -86,7 +89,7 @@
         ></vue-slider>
       </div>
     </b-col>
-    <b-col md="3">
+    <b-col v-if="!isScreenXS" md="3">
       <b-row class="title-labels text-center">
         <b-col>
           <NotificationSwitch :value="channelSettings[NOTIFICATION_CHANNEL_APP]"
@@ -115,15 +118,23 @@ import {
   NOTIFICATION_CHANNEL_EMAIL,
   NOTIFICATION_CHANNEL_TEXT
 } from '~/static/constants/notifications';
+import screenSize from '~/plugins/mixins/screenSize';
+import arrowRight from '~/assets/img/home/arrow-right.svg?inline'
+import settingsItem from '~/plugins/mixins/settings-item';
 
 export default {
   name: 'NotificationSettingsItem',
-  components: {WhiteDropDown, NotificationSwitch},
+  components: {WhiteDropDown, NotificationSwitch, arrowRight},
+  mixins: [screenSize, settingsItem],
   props: {
     settings: {
       type: Object,
       required: true
-    }
+    },
+    path: {
+      type: String,
+      default: ''
+    },
   },
   data() {
     return {
@@ -136,24 +147,6 @@ export default {
         [NOTIFICATION_CHANNEL_EMAIL]: false
       },
       everyValue: null,
-      types: Object.keys(this.$t('notifications.types')).map(key => {
-        return {
-          text: this.$t(`notifications.types.${key}`),
-          value: key,
-        }
-      }),
-      order_statuses: Object.keys(this.$t('notifications.settings.order_statuses')).map(key => {
-        return {
-          text: this.$t(`notifications.settings.order_statuses.${key}`),
-          value: key,
-        }
-      }),
-      wishlist_statuses: Object.keys(this.$t('notifications.settings.wishlist_statuses')).map(key => {
-        return {
-          text: this.$t(`notifications.settings.wishlist_statuses.${key}`),
-          value: key,
-        }
-      }),
       isAllWhenOptionsChecked: false,
       isEveryCustom: false,
       formData: {
@@ -218,6 +211,15 @@ export default {
     this.initFormData()
   },
   methods: {
+    notificationSelect() {
+      const selected = {
+        setting: this.settings,
+        formData: this.formData,
+        channelSettings: this.channelSettings,
+        path: this.path
+      }
+      this.$store.commit('notifications/setSelectedSetting', selected)
+    },
     everyValueSorted() {
       return this.getEveryOptions.filter(option => option.value === this.formData.extra.every.value + '').length > 0 ? this.formData.extra.every.value : 'null'
     },
@@ -273,21 +275,6 @@ export default {
       this.everyValue = value !== null ? null : this.everyValue
       this.updateChanges()
     },
-    isWhenOptionsActive(settings) {
-      return this.fieldExist(settings.data, 'when') && ['order', 'wishlist'].includes(settings.data.when.type)
-    },
-    whenOptions(settings) {
-      return settings.when.type === 'order' ? this.order_statuses : this.wishlist_statuses
-    },
-    /**
-     * Checking if the field exists in the item.
-     * @param item
-     * @param field
-     * @return {boolean}
-     */
-    fieldExist(item, field) {
-      return !!_.get(item, field, false);
-    },
     /**
      * Creating a edit item object with the id, data, and value properties.
      * @param channel
@@ -314,15 +301,16 @@ export default {
             return sett
           })
         }, 500),
-    addChangedItem(item) {
-      this.$store.commit('notifications/addOrChangeChangedSetting', item)
-    },
   }
 }
 </script>
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+
+.mobile
+  .sub-title
+    @include body-10
 
 .h-26px
   @include body-8

@@ -31,7 +31,7 @@ export const ALL_SETTINGS = {
         shop: {
             shipping: {
                 key: 'buying_shipping_status',
-                label: 'Shipping Status',
+                label: 'Shipping',
                 desc: 'Get a notification with the shipping status of your purchased order',
                 data: {
                     when: {
@@ -43,7 +43,7 @@ export const ALL_SETTINGS = {
             },
             wishlist: {
                 key: 'buying_wishlist',
-                label: 'Wishlist Status',
+                label: 'Wishlist',
                 desc: 'Get a notification when your wishlist item is back in stock or sold out ',
                 data: {
                     when: {

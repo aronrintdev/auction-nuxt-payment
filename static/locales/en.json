@@ -4948,6 +4948,10 @@
     "title": "Notifications",
     "title_settings": "Settings",
     "notification_settings": "Notifications Settings",
+    "push_notifications": "Push Notifications",
+    "notification_preferences": "Notification Preferences",
+    "how_often": "How often do you want to receive notifications? ",
+    "enter_custom_amount": "Enter amount of offers",
     "type": "Type",
     "filter_by": "Filter By",
     "status": "Status",
@@ -4984,15 +4988,51 @@
     "end": "End",
     "start_date": "Start Date",
     "end_date": "End Date",
+    "settings_titles": {
+      "all": "All Communications",
+      "buying": {
+        "shop": "Buying",
+        "trade": "Trade (Offerer)",
+        "auction": "Auction (Bidder)"
+      },
+      "selling": {
+        "shop": "Sell",
+        "trade": "Trade (Lister)",
+        "auction": "Auction (Auctioneer)"
+      }
+    },
     "settings": {
+      "texts": {
+        "buying_new_offer": {
+          "until_desc": "Will not be notified until {n} % of fair trade meter is met",
+          "until_title": "Percentage Trade Offer Value"
+        },
+        "selling_trade_offer": {
+          "until_desc": "Will not be sent a notification unless {n} % of your Offer has been reached.",
+          "until_title": "Percentage Reserve"
+        },
+        "selling_new_bids": {
+          "until_desc": "Will not be sent a notification unless {n} % of your Reserve Price has been reached.",
+          "until_title": "Percentage Reserve"
+        },
+        "selling_new_offer": {
+          "until_desc": "Will not be sent a notifications until {n} % of your asking price is reached",
+          "until_title": "Percentage Asking Price"
+        }
+      },
       "all_communication": "All Communications",
-      "shop": "Shop",
+      "shop": "Buy",
       "trade": "Trade",
       "auction": "Auction",
       "notification_preferences": "Notification Preferences",
       "in_app": "In - App",
       "email": "Email",
       "text": "Text",
+      "channels": {
+        "app": "In - App",
+        "email": "Email",
+        "text": "Text"
+      },
       "all_statuses": "All Statuses",
       "no_statuses": "No Statuses",
       "notify_when": "Notify When",

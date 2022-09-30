@@ -41,7 +41,16 @@ export function getChangedSettings(state) {
  * @return {number}
  */
 export function getNotificationFilters(state) {
-    return state.notificationFilters
+  return state.notificationFilters
+}
+
+/**
+ * Get tab
+ * @param state
+ * @return {number}
+ */
+export function getTab(state) {
+  return state.tab
 }
 
 
@@ -51,5 +60,15 @@ export function getNotificationFilters(state) {
  * @return {number}
  */
 export function getSelectedStatus(state) {
-    return state.selectedStatus
+  return state.selectedStatus
+}
+
+
+/**
+ * Get selected setting
+ * @param state
+ * @return {number}
+ */
+export function getSelectedSetting(state) {
+  return state.selectedNotificationSetting
 }

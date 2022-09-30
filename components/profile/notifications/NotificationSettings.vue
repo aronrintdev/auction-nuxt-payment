@@ -1,11 +1,17 @@
 <template>
-  <div class="mt-4">
+  <div :class="{
+    'mt-4': !isScreenXS,
+    'm-2': isScreenXS
+  }">
     <div v-if="loading && getSettings.length === 0" class="d-flex align-items-center justify-content-center">
       <Loader :loading="loading"></Loader>
     </div>
     <div v-else>
-      <NotificationSettingsSection :items="settings()" :preference="false"
-                                   :title="$t('notifications.settings.all_communication')"/>
+      <NotificationSettingsSection
+          :items="settings()"
+          :path="'all'"
+          :preference="false"
+          :title="$t('notifications.settings.all_communication')"/>
 
       <div class="text-center my-4">
         <NavGroup
@@ -20,7 +26,7 @@
         <NotificationSettingsTab :tab="currentTab"/>
       </div>
 
-      <div class="mt-5">
+      <div v-if="!isScreenXS" class="mt-5">
         <Button
             :disabled="loading || changedSettings.length === 0"
             class="mr-2"
@@ -49,10 +55,12 @@ import NotificationSettingsTab from '~/components/profile/notifications/Notifica
 import {ALL_SETTINGS} from '~/static/constants/notifications';
 import {Button} from '~/components/common';
 import Loader from '~/components/common/Loader';
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'NotificationSettings',
   components: {Loader, NotificationSettingsTab, Button, NavGroup, NotificationSettingsSection},
+  mixins: [screenSize],
   data() {
     return {
       loading: false,

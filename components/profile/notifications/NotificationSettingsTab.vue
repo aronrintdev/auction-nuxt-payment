@@ -1,13 +1,16 @@
 <template>
   <div>
     <div class="mt-3">
-      <NotificationSettingsSection :items="settings('shop')" :title="$t('notifications.settings.shop')"/>
+      <NotificationSettingsSection :items="settings('shop')" :path="titlePath('shop')"
+                                   :title="$t('notifications.settings.shop')"/>
     </div>
     <div class="mt-3">
-      <NotificationSettingsSection :items="settings('trade')" :title="$t('notifications.settings.trade')"/>
+      <NotificationSettingsSection :items="settings('trade')" :path="titlePath('trade')"
+                                   :title="$t('notifications.settings.trade')"/>
     </div>
     <div class="mt-3">
-      <NotificationSettingsSection :items="settings('auction')" :title="$t('notifications.settings.auction')"/>
+      <NotificationSettingsSection :items="settings('auction')" :path="titlePath('auction')"
+                                   :title="$t('notifications.settings.auction')"/>
     </div>
   </div>
 </template>
@@ -54,7 +57,10 @@ export default {
   methods: {
     ...mapActions({
       'fetchSettings': 'notifications/getUserSettings'
-    })
+    }),
+    titlePath(path) {
+      return `${this.tab}.${path}`
+    }
   }
 }
 </script>

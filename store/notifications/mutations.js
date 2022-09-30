@@ -35,7 +35,26 @@ export function setUnread(state, count) {
  * @param {Object[]} settings
  */
 export function setSettings(state, settings) {
-    state.settings = settings
+  state.settings = settings
+}
+
+/**
+ * Set user selected setting
+ * @param state
+ * @param {Object} setting
+ */
+export function setSelectedSetting(state, setting) {
+  state.tab = setting === null ? 'Settings' : 'SettingItemTab'
+  state.selectedNotificationSetting = setting
+}
+
+/**
+ * Set user selected tab
+ * @param state
+ * @param {Object} tab
+ */
+export function setTab(state, tab) {
+  state.tab = tab
 }
 
 /**

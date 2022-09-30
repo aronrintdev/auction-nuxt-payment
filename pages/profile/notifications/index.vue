@@ -1,19 +1,20 @@
 <template>
   <div :class="{
         'p-5': !isScreenXS,
+        'mobile': isScreenXS,
       }"
        class="profile-notification mb-2">
-    <MobileHeader v-if="isScreenXS" :title="tabTitle">
+    <MobileHeader v-if="isScreenXS && !onSettingsItemTab" :title="tabTitle">
       <template #actions>
         <div class="d-flex align-items-center">
-          <filter-svg v-if="!onSettings" class="mr-3" role="button"
+          <filter-svg v-if="onNotifications" class="mr-3" role="button"
                       @click="mobileFiltersOpen = !mobileFiltersOpen"></filter-svg>
-          <setting-svg v-if="!onSettings" role="button" @click="handlePageChange('Settings')"></setting-svg>
+          <setting-svg v-if="onNotifications" role="button" @click="handlePageChange('Settings')"></setting-svg>
           <close-svg v-if="onSettings" role="button" @click="handlePageChange('Notifications')"></close-svg>
         </div>
       </template>
       <template #expanded-content>
-        <div class="d-flex flex-column">
+        <div v-if="onNotifications" class="d-flex flex-column">
           <MobileSearchInput @input="searchChanged"/>
           <div class="d-flex align-items-center justify-content-end">
             <NotificationMarkAllAsRead/>
@@ -21,13 +22,13 @@
         </div>
       </template>
     </MobileHeader>
-    <div v-else class="title">
+    <div v-if="onSettings && !isScreenXS" class="title">
       {{ tabTitle }}
     </div>
-    <NotificationFilters v-if="currentTab === 'Notifications' && !isScreenXS" @filter="filtersChanged"/>
-    <NotificationMobileFilters v-if="currentTab === 'Notifications' && isScreenXS" :open="mobileFiltersOpen"
+    <NotificationFilters v-if="onNotifications && !isScreenXS" @filter="filtersChanged"/>
+    <NotificationMobileFilters v-if="onNotifications && isScreenXS" :open="mobileFiltersOpen"
                                @closed="mobileFiltersOpen = false" @filter="filtersChanged"/>
-    <div v-if="!isScreenXS" class="text-center mt-4">
+    <div v-if="!isScreenXS && !onSettingsItemTab" class="text-center mt-4">
       <NavGroup
           :data="tabs"
           :value="currentTab"
@@ -35,12 +36,14 @@
           @change="handlePageChange"
       />
     </div>
-    <NotificationsTab v-if="currentTab === 'Notifications'"/>
-    <NotificationSettings v-if="currentTab === 'Settings'"/>
+    <NotificationsTab v-if="onNotifications"/>
+    <NotificationSettings v-if="onSettings"/>
+    <MobileNotificationSettingsTab v-if="onSettingsItemTab"/>
   </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
 import {NavGroup} from '~/components/common';
 import NotificationFilters from '~/components/profile/notifications/NotificationFilters';
 import NotificationsTab from '~/components/profile/notifications/NotificationsTab';
@@ -53,10 +56,12 @@ import closeSvg from '~/assets/img/icons/close.svg?inline'
 import NotificationMarkAllAsRead from '~/components/profile/notifications/NotificationMarkAllAsRead';
 import MobileSearchInput from '~/components/mobile/MobileSearchInput';
 import NotificationMobileFilters from '~/components/profile/notifications/NotificationMobileFilters';
+import MobileNotificationSettingsTab from '~/components/profile/notifications/MobileNotificationSettingsTab';
 
 export default {
   name: 'Notifications',
   components: {
+    MobileNotificationSettingsTab,
     NotificationMobileFilters,
     MobileSearchInput,
     NotificationMarkAllAsRead,
@@ -67,7 +72,6 @@ export default {
   data() {
     return {
       mobileFiltersOpen: false,
-      currentTab: 'Notifications',
       tabs: [
         {
           label: this.$t('notifications.title'),
@@ -82,16 +86,25 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      'currentTab': 'notifications/getTab'
+    }),
     tabTitle() {
-      return this.currentTab === 'Notifications' ? this.$t('notifications.title') : this.$t('notifications.notification_settings')
+      return this.onNotifications ? this.$t('notifications.title') : (this.isScreenXS ? this.$t('notifications.push_notifications') : this.$t('notifications.notification_settings'))
     },
     onSettings() {
       return this.currentTab === 'Settings'
+    },
+    onNotifications() {
+      return this.currentTab === 'Notifications'
+    },
+    onSettingsItemTab() {
+      return this.currentTab === 'SettingItemTab'
     }
   },
   methods: {
     handlePageChange(page) {
-      this.currentTab = page
+      this.$store.commit('notifications/setTab', page)
     },
     searchChanged(e) {
       this.filtersChanged({search: e})
@@ -115,6 +128,9 @@ export default {
 @import "~/assets/css/variables"
 
 .profile-notification
+  &.mobile
+    background-color: $color-white-1
+
   .title
     @include body-16
     font-family: $font-family-sf-pro-display

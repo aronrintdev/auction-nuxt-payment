@@ -70,13 +70,8 @@ export default {
         visibility: hidden
 
   @media (max-width: 576px)
-    padding: 0 30px
-
     .btn-group
-      flex-direction: column
-      border-radius: 3px
       width: 100%
 
-      .btn
-        border-radius: 3px !important
+
 </style>
