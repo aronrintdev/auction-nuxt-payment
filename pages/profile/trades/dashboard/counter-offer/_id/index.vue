@@ -487,7 +487,15 @@ export default {
         })
     },
     getTheirTotal(formattedPrice = true){
-      const optionalCash = (!this.editYours) ? this.optionalCash : 0
+      let optionalCash = 0
+      if(this.getLastSubmittedOffer.cash_added &&
+        (((this.isOfferMine() &&
+        this.isCashTypeRequested())) ||
+        (!this.isOfferMine() &&
+        this.isCashTypeAdded())))
+      {
+        optionalCash = (this.getLastSubmittedOffer.cash_added/100)
+      }
       const totalPrice = this.getTheirItems.map((inventoryItem) => (inventoryItem.inventory ? inventoryItem.inventory.sale_price : inventoryItem.sale_price))
       if(totalPrice.length) {
         return (formattedPrice) ?
@@ -496,13 +504,30 @@ export default {
       return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(optionalCash)) : optionalCash * 100
     },
     getYourTotal(formattedPrice = true){
-      const optionalCash = (this.editYours) ? this.optionalCash : 0
+      let optionalCash = 0
+      if(this.getLastSubmittedOffer.cash_added &&
+        (((!this.isOfferMine() &&
+        this.isCashTypeRequested())) ||
+        ((this.isOfferMine() &&
+        this.isCashTypeAdded()))))
+      {
+          optionalCash = (this.getLastSubmittedOffer.cash_added/100)
+      }
       const totalPrice = this.getYourItems.map((inventoryItem) => (inventoryItem.inventory ? inventoryItem.inventory.sale_price : inventoryItem.sale_price))
       if(totalPrice.length) {
         return (formattedPrice) ?
           '$' + ((totalPrice.reduce((a, b) => a + b, 0)/100) + parseFloat(optionalCash)).toFixed(2) : totalPrice.reduce((a, b) => a + b, 0) + (optionalCash * 100)
       }
       return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(optionalCash)) : optionalCash * 100
+    },
+    isCashTypeRequested(){
+        return this.getLastSubmittedOffer.cash_type === CASH_TYPE_REQUESTED
+    },
+    isCashTypeAdded(){
+        return this.getLastSubmittedOffer.cash_type === CASH_TYPE_ADDED
+    },
+    isOfferMine() {
+      return this.getLastSubmittedOffer.sent_by_id === this.$auth.user.vendor.id
     },
     /**
      * This function is used to check item can be added for trade

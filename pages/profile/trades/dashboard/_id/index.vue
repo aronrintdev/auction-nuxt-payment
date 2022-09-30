@@ -210,9 +210,6 @@ export default {
         this.$router.push('/profile/trades/dashboard/alloffers')
       }
     },
-    isOfferMine() {
-      return this.lastSubmittedOffer.sent_by_id === this.$auth.user.vendor.id
-    },
     getTheirTotal(formattedPrice = true){
       let cashAdded = 0
       if(this.lastSubmittedOffer.cash_added &&
@@ -230,12 +227,6 @@ export default {
       }
       return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(cashAdded)) : cashAdded * 100
     },
-    isCashTypeRequested(){
-        return this.lastSubmittedOffer.cash_type === CASH_TYPE_REQUESTED
-    },
-    isCashTypeAdded(){
-        return this.lastSubmittedOffer.cash_type === CASH_TYPE_ADDED
-    },
     getYourTotal(formattedPrice = true){
       let cashAdded = 0
       if(this.lastSubmittedOffer.cash_added &&
@@ -252,6 +243,15 @@ export default {
           '$' + ((totalPrice.reduce((a, b) => a + b, 0)/100) + cashAdded).toFixed(2) : ((totalPrice.reduce((a, b) => a + b, 0)/100) + cashAdded)
       }
       return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(cashAdded)) : cashAdded * 100
+    },
+    isCashTypeRequested(){
+        return this.lastSubmittedOffer.cash_type === CASH_TYPE_REQUESTED
+    },
+    isCashTypeAdded(){
+        return this.lastSubmittedOffer.cash_type === CASH_TYPE_ADDED
+    },
+    isOfferMine() {
+      return this.lastSubmittedOffer.sent_by_id === this.$auth.user.vendor.id
     },
     fetchOfferDetails(){
       this.offerId = parseInt(this.$route.params.id)

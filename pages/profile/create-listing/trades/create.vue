@@ -53,14 +53,28 @@
                     dropDownHeight="38px" variant="white"
                     @getResults="getInventory"
                     @change="changeCategory"/>
-                <CustomDropdown v-model="sizeTypesFilter" :options="filters.size_types" type="multi-select-checkbox"
-                    :label="sizeTypesFilterLabel" class="mr-3 width-156" optionsWidth="custom"
-                    dropDownHeight="38px" variant="white"
+                <CustomDropdown
+                    v-model="sizeTypesFilter"
+                    :options="filters.size_types"
+                    type="multi-select-checkbox"
+                    :label="sizeTypesFilterLabel"
+                    class="mr-3 width-156"
+                    optionsWidth="custom"
+                    dropDownHeight="38px"
+                    variant="white"
+                    width="150px"
                     @getResults="getInventory"
                     @change="changeSizeTypeFilter"/>
-                <CustomDropdown v-model="sizeFilter" :options="filters.sizes" type="multi-select-checkbox"
-                    :label="sizeFilterLabel" class="mr-3 width-156" optionsWidth="custom"
-                    dropDownHeight="38px" variant="white"
+                <CustomDropdown
+                    v-model="sizeFilter"
+                    :options="filters.sizes"
+                    type="multi-select-checkbox"
+                    :label="sizeFilterLabel"
+                    class="mr-3 width-156"
+                    optionsWidth="custom"
+                    dropDownHeight="38px"
+                    variant="white"
+                    width="150px"
                     @getResults="getInventory"
                     @change="changeSizeFilter"/>
               </client-only>
