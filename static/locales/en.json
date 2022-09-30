@@ -651,6 +651,7 @@
       "tax": "Tax",
       "promo_code": "Promo Code",
       "promo_code_applied": "Promo code applied!",
+      "gift_card_applied": "Gift card applied!",
       "enter_your_code": "Enter your code",
       "apply": "Apply",
       "billing_address": "Billing Address",
