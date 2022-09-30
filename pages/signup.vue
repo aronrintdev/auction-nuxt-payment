@@ -26,7 +26,9 @@
         </b-row>
       </b-col>
       <b-col
-        class="social-area pt-5 col-lg-8 px-0 d-flex justify-content-center"
+        lg="8"
+        cols="12"
+        class="social-area pt-5 px-0 d-flex justify-content-center"
       >
         <b-row class="h-100 justify-content-center w-100">
           <b-col
@@ -337,7 +339,7 @@
                         confirmed: 'password',
                       }"
                     >
-                      <b-form-group class="">
+                      <b-form-group>
                         <b-input-group>
                           <b-form-input
                             id="password-confirmation"
@@ -618,11 +620,6 @@ export default {
 .text-color-grey-5
   color: $color-gray-5
 
-// .btn-back-color-blue-20
-//   background: $color-blue-20
-
-
-
 /* Override common Button component border color */
 .border-gray
   border-color: $color-gray-40 !important
@@ -743,8 +740,6 @@ export default {
       border-radius: 10px 0px 0px 10px !important
       border: 1px solid $color-gray-3
       border-right: 0px !important
-      &:focus
-        // border: 1px solid $color-gray-3
 
     .append-icon
       background: transparent
