@@ -85,7 +85,7 @@
     </b-row>
 
     <bottom-sheet :show="bottomSheetShow" title="Filter By">
-      <div class="p-3">
+      <div class="p-3 bottom-sheet-content">
         <div>
           <button @click="() => bottomSheetShow=false">Hide</button>
           <b-form-group label="Sort" v-slot="{ ariaDescribedby }">
@@ -95,23 +95,36 @@
             <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Date Ordered: Oldest to
               Recent
             </b-form-radio>
-            <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: A -> Z
+            <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: A &#10230; Z
             </b-form-radio>
-            <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: Z -> A
+            <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: Z &#10230; A
             </b-form-radio>
             <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Vendor Payout: Lowest to
               Highest
             </b-form-radio>
           </b-form-group>
         </div>
-        <div class="border-top">
-          Type
+        <div class="border-top py-1">
+          <collapsible-box title="Type">
+            Collapsible content
+          </collapsible-box>
         </div>
-        <div class="border-top">
-          Status
+        <div class="border-top py-1">
+          <collapsible-box title="Status">
+            Collapsible content
+          </collapsible-box>
         </div>
-        <div class="border-top">
-          Date Ordered
+        <div class="border-top py-1">
+          <collapsible-box title="Date Ordered">
+            Collapsible content
+          </collapsible-box>
+        </div>
+
+        <div class="pt-4">
+          <div class="d-flex justify-content-between align-items-center">
+            <button class="btn-bottom-sheet reset">Reset</button>
+            <button class="btn btn-bottom-sheet apply-filter">Apply Filters</button>
+          </div>
         </div>
       </div>
     </bottom-sheet>
@@ -124,6 +137,7 @@ import DownArrow from '~/assets/img/icons/down-arrow.svg';
 import CalendarImg from '~/assets/img/icons/calendar-gray.svg';
 import CalendarInput from '~/components/common/form/CalendarInput';
 import BottomSheet from '~/components/common/BottomSheet';
+import CollapsibleBox from '~/components/common/CollapsibleBox';
 
 export default {
   name: 'TopMoversFilter',
@@ -132,7 +146,8 @@ export default {
     SearchInput,
     CustomSelectwithCheckbox,
     Button,
-    BottomSheet
+    BottomSheet,
+    CollapsibleBox
   },
   data() {
     return {
@@ -277,4 +292,31 @@ export default {
 
 .mw-734
   max-width: 734px
+
+.btn-bottom-sheet
+  border-radius: 20px
+  padding: 5px 30px
+  font-size: 16px
+
+.btn-bottom-sheet.reset
+  background: #fff
+  border: 1px solid #000
+
+.btn-bottom-sheet.apply-filter
+  background: #667799
+  border: 1px solid #667799
+  color: #fff
+
+::v-deep .col-form-label
+  font-weight: bold
+  color: #667799
+  font-size: 16px
+
+::v-deep label.custom-control-label
+  font-weight: normal
+  color: #424242
+
+::v-deep .custom-control.custom-radio
+  padding-top: 5px
+  padding-bottom: 5px
 </style>
