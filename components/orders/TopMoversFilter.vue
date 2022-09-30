@@ -14,7 +14,7 @@
                 :debounce="1000"
                 @change="handleSearch"
               />
-              <div class="p-1 cursor-pointer d-block d-md-none" @click="toggleBottomSheet">
+              <div class="p-1 cursor-pointer d-block d-md-none" @click="open">
                 <img :src="require('assets/img/icons/filter.svg')"/>
               </div>
             </div>
@@ -84,50 +84,82 @@
       </b-col>
     </b-row>
 
-    <bottom-sheet :show="bottomSheetShow" title="Filter By">
-      <div class="p-3 bottom-sheet-content">
+    <vue-bottom-sheet ref="ordersFilter" max-height="90%" :is-full-screen="true">
+      <div class="d-flex flex-column justify-content-between h-100">
         <div>
-          <button @click="() => bottomSheetShow=false">Hide</button>
-          <b-form-group label="Sort" v-slot="{ ariaDescribedby }">
-            <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="A">Date Ordered: Recent to
-              Oldest
-            </b-form-radio>
-            <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Date Ordered: Oldest to
-              Recent
-            </b-form-radio>
-            <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: A &#10230; Z
-            </b-form-radio>
-            <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: Z &#10230; A
-            </b-form-radio>
-            <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Vendor Payout: Lowest to
-              Highest
-            </b-form-radio>
-          </b-form-group>
+          <div class="filter-title text-center pb-1">Filter By</div>
+          <div class="p-3 bottom-sheet-content">
+            <div>
+              <b-form-group label="Sort" v-slot="{ ariaDescribedby }">
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="A">Date Ordered: Recent to
+                  Oldest
+                </b-form-radio>
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Date Ordered: Oldest to
+                  Recent
+                </b-form-radio>
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: A &#10230; Z
+                </b-form-radio>
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: Z &#10230; A
+                </b-form-radio>
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Vendor Payout: Lowest to
+                  Highest
+                </b-form-radio>
+              </b-form-group>
+            </div>
+            <div class="border-top py-1">
+              <collapsible-box title="Type">
+                <div class="row my-2">
+                  <div v-for="type in orderTypes" :key="type.key" class="col-4 my-1 filter-boxes">
+                    <div class="border p-1 cursor-pointer h-100 d-flex align-items-center">
+                      <div class="text-center w-100 filter-text">{{ type.text }}</div>
+                    </div>
+                  </div>
+                </div>
+              </collapsible-box>
+            </div>
+            <div class="border-top py-1">
+              <collapsible-box title="Status">
+                <div class="row my-2">
+                  <div v-for="status in orderStatuses" :key="status.key" class="col-4 my-1 filter-boxes">
+                    <div class="border p-1 cursor-pointer h-100 d-flex align-items-center">
+                      <div class="text-center w-100 filter-text">{{ status.text }}</div>
+                    </div>
+                  </div>
+                </div>
+              </collapsible-box>
+            </div>
+            <div class="border-top py-1">
+              <collapsible-box title="Date Ordered">
+                <div class="row">
+                  <div class="col mt-2">
+                    <CalendarInput
+                      class="mr-4"
+                      :value="filters.start_date"
+                      :placeholder="$t('bids.start_date')"
+                      @context="(context) => filters.start_date = context.selectedYMD"
+                    ></CalendarInput>
+                  </div>
+                  <div class="col mt-2">
+                    <CalendarInput
+                      class="mr-4"
+                      :value="filters.end_date"
+                      :placeholder="$t('bids.end_date')"
+                      @context="(context) => filters.end_date = context.selectedYMD"
+                    ></CalendarInput>
+                  </div>
+                </div>
+              </collapsible-box>
+            </div>
+          </div>
         </div>
-        <div class="border-top py-1">
-          <collapsible-box title="Type">
-            Collapsible content
-          </collapsible-box>
-        </div>
-        <div class="border-top py-1">
-          <collapsible-box title="Status">
-            Collapsible content
-          </collapsible-box>
-        </div>
-        <div class="border-top py-1">
-          <collapsible-box title="Date Ordered">
-            Collapsible content
-          </collapsible-box>
-        </div>
-
-        <div class="pt-4">
+        <div class="p-3">
           <div class="d-flex justify-content-between align-items-center">
             <button class="btn-bottom-sheet reset">Reset</button>
             <button class="btn btn-bottom-sheet apply-filter">Apply Filters</button>
           </div>
         </div>
       </div>
-    </bottom-sheet>
+    </vue-bottom-sheet>
   </div>
 </template>
 
@@ -136,7 +168,6 @@ import {Button, CustomSelectwithCheckbox, SearchInput} from '~/components/common
 import DownArrow from '~/assets/img/icons/down-arrow.svg';
 import CalendarImg from '~/assets/img/icons/calendar-gray.svg';
 import CalendarInput from '~/components/common/form/CalendarInput';
-import BottomSheet from '~/components/common/BottomSheet';
 import CollapsibleBox from '~/components/common/CollapsibleBox';
 
 export default {
@@ -146,7 +177,6 @@ export default {
     SearchInput,
     CustomSelectwithCheckbox,
     Button,
-    BottomSheet,
     CollapsibleBox
   },
   data() {
@@ -213,6 +243,12 @@ export default {
     },
     toggleBottomSheet() {
       this.bottomSheetShow = !this.bottomSheetShow
+    },
+    open() {
+      this.$refs.ordersFilter.open();
+    },
+    close() {
+      this.$refs.ordersFilter.close();
     }
   }
 }
@@ -220,6 +256,12 @@ export default {
 
 <style scoped lang="sass">
 @import '/assets/css/variables'
+
+.filter-boxes
+  border-color: #A3A3A3
+
+  .filter-text
+    color: #A3A3A3
 
 .header-title
   @include body-4
@@ -292,6 +334,10 @@ export default {
 
 .mw-734
   max-width: 734px
+
+.filter-title
+  font-size: 17px
+  font-weight: bold
 
 .btn-bottom-sheet
   border-radius: 20px
