@@ -58,12 +58,12 @@ export function searchProductsList({ commit }, $payload){
 export function deleteSelectedTrades({ commit }, $payload){
   return new Promise((resolve, reject) => {
     this.$axios
-        .delete('/trades/multiple', $payload)
-      .then((response) => {
-        resolve(response)
-      })
-      .catch((error) => {
-        reject(error)
-      })
+      .delete('/trades/multiple', $payload)
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
   })
 }
