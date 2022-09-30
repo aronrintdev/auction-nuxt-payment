@@ -67,8 +67,11 @@ export default {
 
 
 .trade_form_progress
-  @media (max-width: 500px) and (min-width: 300px)
+  @media (max-width: 500px) and (min-width: 350px)
     width: 320px
+    height: 85px
+  @media (max-width: 349px) and (min-width: 300px)
+    width: 274px
     height: 85px
 .step-heading
   @media (max-width: 500px) and (min-width: 300px)

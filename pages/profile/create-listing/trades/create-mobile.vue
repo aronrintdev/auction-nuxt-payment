@@ -613,17 +613,22 @@ export default {
   font-size: 14px
   font-weight: 700
   font-family: Montserrat
-
+  @media (min-width: 300px)  and (max-width: 349px)
+    font-size: 11px
 .create-inventory-btn
   font-size: 14px
   font-weight: 400
   line-height: 16.71px
   font-family: SF Pro Display
   cursor: pointer
+  @media (min-width: 300px)  and (max-width: 349px)
+    font-size: 12px
 .create-trade-item-mobile
   width: 164px
   height: 190px
   border: 1px solid #C4C4C4
+  @media (min-width: 300px)  and (max-width: 349px)
+    width: 140px
 .size
   font-size: 12px
 
@@ -633,21 +638,29 @@ export default {
   height: 19px
   cursor: pointer
   z-index: 1000
+  @media (min-width: 300px)  and (max-width: 349px)
+    margin-left: 4rem
 .create-trade-item-image-mobile
   height: 70px
   width: 109px
   margin-left: 20px
+  @media (min-width: 300px)  and (max-width: 349px)
+    width: 80px
 .create-trade-item-caption-mobile
   width: 162px
   height: 66px
   background-color: #F7F7F7
   margin-top: 16px
   padding: 5px
+  @media (min-width: 300px)  and (max-width: 349px)
+    width: 138px
 .create-trade-item-name
   font-size: 11px
   font-weight: 600
   width: 147px
   font-family: SF Pro Display
+  @media (min-width: 300px)  and (max-width: 349px)
+    width: 120px
 .create-trade-item-caption-description
   font-size: 11px
   font-weight: 500
@@ -660,6 +673,8 @@ export default {
   margin-right: 0px
   border-radius: 3px
   background-color: #FBFAFA
+  @media (min-width: 300px)  and (max-width: 349px)
+    width: 294px
 .create-trade-drag-drop-heading
   font-family: SF Pro Display
   font-weight: 600
@@ -678,6 +693,8 @@ export default {
   width: 100px
   height: 128px
   border: 1px solid #D8D8D8
+  @media (min-width: 300px)  and (max-width: 349px)
+    width: 90px
 .create-trade-item-image-sm
   width: 79px
   height: 46px

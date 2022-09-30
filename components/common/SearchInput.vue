@@ -160,7 +160,12 @@ export default {
 .main-search-con
   width: 100%
   height: 60px
-  @media (min-width: 300px)  and (max-width: 500px)
+  @media (min-width: 300px)  and (max-width: 349px)
+      width: 250px !important
+      height: 33px !important
+      border-radius: 8px
+      background-color: #F7F7F7
+  @media (min-width: 350px)  and (max-width: 500px)
       width: 303px !important
       height: 33px !important
       border-radius: 8px
