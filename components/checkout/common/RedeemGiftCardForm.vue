@@ -95,7 +95,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import emitEvent from '~/plugins/mixins/emit-event'
-import { NOT_FOUND } from '~/static/constants'
+import { BAD_REQUEST, NOT_FOUND } from '~/static/constants'
 
 export default {
   name: 'RedeemGiftCardForm',
@@ -136,7 +136,7 @@ export default {
         this.giftCard.image = response.data.data.image
         this.$emit('gift-card-applied', this.giftCard)
       }).catch(error => {
-        if (error.response.status === NOT_FOUND) {
+        if (error.response.status === NOT_FOUND || error.response.status === BAD_REQUEST) {
           this.$toasted.error(this.$t(error.response.data.message).toString())
         } else {
           this.$toasted.error(error)
