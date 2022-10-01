@@ -1,11 +1,21 @@
 <template>
   <div class="row bg-white my-1 align-items-center py-1">
     <div class="col">
-      <div class="text-center">
-        <div class="pb-2"><img :src="product(single).image" height="70" alt=""></div>
-        <NuxtLink :to="`/orders/${order.order_id}-${single.id}`" class="d-none d-md-block">
-          <span>#{{ order.order_id }}-{{ single.id }}</span>
-        </NuxtLink>
+      <div class="d-flex align-items-center">
+        <div v-if="isSelectable">
+          <b-form-checkbox
+            v-model="selected"
+            name="select"
+            :value="order.order_id"
+            unchecked-value=""
+          />
+        </div>
+        <div class="text-center m-auto">
+          <div class="pb-2"><img :src="product(single).image" height="70" alt=""></div>
+          <NuxtLink :to="`/orders/${order.order_id}-${single.id}`" class="d-none d-md-block">
+            <span>#{{ order.order_id }}-{{ single.id }}</span>
+          </NuxtLink>
+        </div>
       </div>
     </div>
 
@@ -69,7 +79,9 @@
               </div>
               <div v-if="single.status !== PROCESSING && single.vendor_shipment">
                 <span>{{ single.vendor_shipment.shipping_method_text }}</span>
-                <a target="_blank" :href="single.vendor_shipment.tracking_url">{{ single.vendor_shipment.tracking_no }}</a>
+                <a target="_blank" :href="single.vendor_shipment.tracking_url">{{
+                    single.vendor_shipment.tracking_no
+                  }}</a>
               </div>
             </td>
           </tr>
@@ -125,17 +137,39 @@ export default {
       default() {
         return {}
       }
+    },
+    isSelectable: {
+      type: Boolean,
+      default: true
+    },
+    value: {
+      type: Number,
+      default: 0
     }
   },
   data() {
     return {
       PROCESSING,
-      AWAITING_SHIPMENT_TO_DEADSTOCK
+      AWAITING_SHIPMENT_TO_DEADSTOCK,
+      selected: this.value
     }
   },
   computed: {
     single() {
       return this.order.items[0]
+    }
+  },
+  watch: {
+    selected(newVal, oldVal) {
+      this.$emit('checked', newVal, oldVal)
+    },
+    isSelectable(newVal, oldVal) {
+      if (!newVal && oldVal) {
+        this.selected = ''
+      }
+    },
+    value(val) {
+      this.selected = val
     }
   },
   methods: {
@@ -145,6 +179,19 @@ export default {
     // formatting date to US format mm/dd/yyyy
     dateFormat(strDate) {
       return new Date(strDate).toLocaleDateString('en-US')
+    },
+    async generateLabel(item) {
+      const len = item.status_markable.length
+      if (len < 1) {
+        return false
+      }
+      const status = item.status_markable[len - 1]
+      const url = `/order-items/${this.order.id}/status?status=${status.key}`;
+
+      const resp = await this.$axios.put(url)
+      if (resp.status === 200) {
+        this.$emit('labelCreated')
+      }
     },
     styleFor(statusLabel) {
       switch (statusLabel.toLowerCase()) {

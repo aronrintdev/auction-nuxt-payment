@@ -89,85 +89,11 @@
                     :order="order"
                     :is-selectable="action !== 'none'"
                     :value="isSelected(order.order_id)?order.order_id:0"
+                    @labelCreated="reload"
+                    @checked="handleChecked"
                 >
                 </top-mover-component-new>
             </div>
-
-            <b-table-simple responsive borderless class="collapsible-table top-movers-table d-none">
-                <b-thead class="d-none d-md-header-group">
-                    <b-tr>
-                        <b-th class="d-flex">
-                            <div v-if="action !== 'none'" class="mr-auto">
-                                <b-form-checkbox
-                                    v-model="chkSelectAll"
-                                    name="select"
-                                    value="select_all"
-                                    unchecked-value="not_accepted"
-                                />
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center pointer"
-                                 @click="handleSort('order_id')">
-                                <div>{{ $t('orders.order_id') }}</div>
-                                <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                                      :class="(descSort === 'order_id')?'ml-1 desc':'ml-1'"/>
-                            </div>
-                        </b-th>
-                        <b-th>
-                            <div class="d-flex justify-content-center pointer" @click="handleSort('products.name')">
-                                <div>{{ $t('orders.product') }}</div>
-                                <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                                      :class="(descSort === 'products.name')?'ml-1 desc':'ml-1'"/>
-                            </div>
-                        </b-th>
-                        <b-th>
-                            <div class="d-flex justify-content-center pointer" @click="handleSort('created_at')">
-                                <div>{{ $t('orders.date_ordered') }}</div>
-                                <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                                      :class="(descSort === 'created_at')?'ml-1 desc':'ml-1'"/>
-                            </div>
-                        </b-th>
-                        <b-th>
-                            <div class="d-flex justify-content-center pointer" @click="handleSort('order_type')">
-                                <div>{{ $t('orders.type') }}</div>
-                                <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                                      :class="(descSort === 'order_type')?'ml-1 desc':'ml-1'"/>
-                            </div>
-                        </b-th>
-                        <b-th>
-                            <div class="d-flex justify-content-center pointer" @click="handleSort('total')">
-                                <div>{{ $t('orders.vendor_payout') }}</div>
-                                <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                                      :class="(descSort === 'total')?'ml-1 desc':'ml-1'"/>
-                            </div>
-                        </b-th>
-                        <b-th>
-                            <div class="d-flex justify-content-center pointer"
-                                 @click="handleSort('listing_item_order.status')">
-                                <div>{{ $t('orders.status') }}</div>
-                                <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                                      :class="(descSort === 'listing_item_order.status')?'ml-1 desc':'ml-1'"/>
-                            </div>
-                        </b-th>
-                        <b-th>{{ $t('orders.action') }}</b-th>
-                    </b-tr>
-                </b-thead>
-                <b-tbody v-if="isLoading">
-                    <b-tr>
-                        <b-td colspan="7">
-                            <loader :loading="isLoading"></loader>
-                        </b-td>
-                    </b-tr>
-                </b-tbody>
-                <template v-if="!isLoading">
-                    <top-mover-component
-                        v-for="order in orders" :key="order.key"
-                        :order="order"
-                        :is-selectable="action !== 'none'"
-                        :value="isSelected(order.order_id)?order.order_id:0"
-                        @labelCreated="reload"
-                        @checked="handleChecked"/>
-                </template>
-            </b-table-simple>
         </div>
         <div v-if="!isLoading">
             <Pagination
