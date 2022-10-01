@@ -119,7 +119,6 @@
 <script>
 import {mapGetters} from 'vuex';
 import {BulkSelectToolbar, Icon, Loader, NavGroup, Pagination} from '~/components/common';
-import TopMoverComponent from '~/components/orders/TopMoverComponent';
 import {AlertModal} from '~/components/modal';
 import TopMoverComponentNew from '~/components/orders/TopMoverComponentNew';
 
@@ -127,7 +126,6 @@ export default {
     name: 'TopMoversListComponent',
     components: {
         NavGroup,
-        TopMoverComponent,
         TopMoverComponentNew,
         Pagination,
         BulkSelectToolbar,
