@@ -14,18 +14,18 @@
           <b-col md="12">
             <ValidationProvider
               v-slot="validationContext"
-              :name="$t('shopping_cart.email')"
-              :rules="{ required: true, email: true }"
+              :name="$t('shopping_cart.login')"
+              :rules="{ required: true, max: 128 }"
             >
-              <b-form-group label-for="email">
+              <b-form-group label-for="login">
                 <template #label>
-                  {{ $t('shopping_cart.email') }}&ast;
+                  {{ $t('shopping_cart.email_or_username') }}&ast;
                 </template>
                 <b-form-input
-                  id="email"
-                  v-model="auth.email"
-                  type="email"
-                  :placeholder="$t('shopping_cart.email')"
+                  id="login"
+                  v-model="auth.login"
+                  type="text"
+                  :placeholder="$t('shopping_cart.email_or_username')"
                   :state="getValidationState(validationContext)"
                 ></b-form-input>
                 <b-form-invalid-feedback>{{
@@ -101,7 +101,7 @@
             <slot name="action">
               <b-button
                 pill
-                :disabled="! auth.email || ! auth.password"
+                :disabled="! auth.login || ! auth.password"
                 type="submit"
                 block
                 size="lg"
@@ -147,9 +147,10 @@ export default {
   data() {
     return {
       auth: {
-        email: '',
+        login: '',
         password: '',
         rememberMe: false,
+        verification_code: '',
         redirect_uri: null,
         redirect: {
           login: false
