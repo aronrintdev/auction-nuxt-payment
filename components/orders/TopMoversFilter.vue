@@ -97,9 +97,11 @@
                 <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Date Ordered: Oldest to
                   Recent
                 </b-form-radio>
-                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: A &#10230; Z
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: A &#10230;
+                  Z
                 </b-form-radio>
-                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: Z &#10230; A
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: Z &#10230;
+                  A
                 </b-form-radio>
                 <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Vendor Payout: Lowest to
                   Highest
@@ -110,7 +112,9 @@
               <collapsible-box title="Type">
                 <div class="row my-2">
                   <div v-for="type in orderTypes" :key="type.key" class="col-4 my-1 filter-boxes">
-                    <div class="border p-1 cursor-pointer h-100 d-flex align-items-center">
+                    <div
+                      :class="`border p-1 cursor-pointer h-100 d-flex align-items-center ${selectedFilterStyle(type, filters.activeTypeFilters)}`"
+                      @click="selectFilter(type, filters.activeTypeFilters, 'activeTypeFilters')">
                       <div class="text-center w-100 filter-text">{{ type.text }}</div>
                     </div>
                   </div>
@@ -121,7 +125,9 @@
               <collapsible-box title="Status">
                 <div class="row my-2">
                   <div v-for="status in orderStatuses" :key="status.key" class="col-4 my-1 filter-boxes">
-                    <div class="border p-1 cursor-pointer h-100 d-flex align-items-center">
+                    <div
+                      :class="`border p-1 cursor-pointer h-100 d-flex align-items-center ${selectedFilterStyle(status, filters.activeStatusFilters)}`"
+                      @click="selectFilter(status, filters.activeStatusFilters, 'activeStatusFilters')">
                       <div class="text-center w-100 filter-text">{{ status.text }}</div>
                     </div>
                   </div>
@@ -154,8 +160,8 @@
         </div>
         <div class="p-3">
           <div class="d-flex justify-content-between align-items-center">
-            <button class="btn-bottom-sheet reset">Reset</button>
-            <button class="btn btn-bottom-sheet apply-filter">Apply Filters</button>
+            <button class="btn-bottom-sheet reset" @click="clearFilters">Reset</button>
+            <button class="btn btn-bottom-sheet apply-filter" @click="applyFilter">Apply Filters</button>
           </div>
         </div>
       </div>
@@ -215,7 +221,7 @@ export default {
         this.filters.start_date ||
         this.filters.end_date ||
         this.filters.activeStatusFilters.length > 0
-    },
+    }
   },
   methods: {
     /**
@@ -240,6 +246,7 @@ export default {
     applyFilter() {
       this.$store.commit('vendors/setFilters', this.filters)
       this.$store.dispatch('vendors/getVendorOrders', 1)
+      this.close()
     },
     toggleBottomSheet() {
       this.bottomSheetShow = !this.bottomSheetShow
@@ -249,6 +256,20 @@ export default {
     },
     close() {
       this.$refs.ordersFilter.close();
+    },
+    selectFilter(type, activeFilters, filterName) {
+      const tempActiveFilters = activeFilters
+      const found = tempActiveFilters.findIndex(x => x.value === type.value)
+
+      if (found >= 0) {
+        tempActiveFilters.splice(found, 1)
+      } else {
+        tempActiveFilters.push({'text': type.text, 'value': type.value})
+        this.$set(activeFilters, filterName, tempActiveFilters)
+      }
+    },
+    selectedFilterStyle(type, activeFilters) {
+      return activeFilters.find(x => x.value === type.value) ? 'active-filter' : ''
     }
   }
 }
@@ -260,8 +281,20 @@ export default {
 .filter-boxes
   border-color: #A3A3A3
 
+  .border
+    border-radius: 3px
+
   .filter-text
     color: #A3A3A3
+
+.filter-boxes
+  .active-filter
+    border-color: #000 !important
+    background: #F2F2F2
+
+    .filter-text
+      color: #000
+
 
 .header-title
   @include body-4
