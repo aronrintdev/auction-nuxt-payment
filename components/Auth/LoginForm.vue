@@ -5,12 +5,12 @@
         <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
           <ValidationProvider
             v-slot="validationContext"
-            :name="$t('auth.email_address')"
+            :name="$t('auth.login')"
             :rules="{ required: true, min: 3, max: 128 }"
           >
             <b-form-group>
               <b-form-input
-                id="email-address"
+                id="login"
                 v-model="form.login"
                 class="rounded-pill input-login"
                 :placeholder="$t('auth.email_address_or_username')"
