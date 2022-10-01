@@ -109,7 +109,7 @@
               </b-form-group>
             </div>
             <div class="border-top py-1">
-              <collapsible-box title="Type">
+              <collapsible-box title="Type" :second-title="selectedTypesString">
                 <div class="row my-2">
                   <div v-for="type in orderTypes" :key="type.key" class="col-4 my-1 filter-boxes">
                     <div
@@ -122,7 +122,7 @@
               </collapsible-box>
             </div>
             <div class="border-top py-1">
-              <collapsible-box title="Status">
+              <collapsible-box title="Status" :second-title="selectedStatusString">
                 <div class="row my-2">
                   <div v-for="status in orderStatuses" :key="status.key" class="col-4 my-1 filter-boxes">
                     <div
@@ -135,7 +135,7 @@
               </collapsible-box>
             </div>
             <div class="border-top py-1">
-              <collapsible-box title="Date Ordered">
+              <collapsible-box title="Date Ordered" :second-title="selectedDateString">
                 <div class="row">
                   <div class="col mt-2">
                     <CalendarInput
@@ -221,6 +221,16 @@ export default {
         this.filters.start_date ||
         this.filters.end_date ||
         this.filters.activeStatusFilters.length > 0
+    },
+    selectedStatusString() {
+      return this.filters.activeStatusFilters.map(x => x.text).join(', ')
+    },
+    selectedTypesString() {
+      return this.filters.activeTypeFilters.map(x => x.text).join(', ')
+    },
+    selectedDateString() {
+      const separator = (this.filters.start_date || this.filters.end_date) ? ' to ' : ''
+      return this.filters.start_date + separator + this.filters.end_date
     }
   },
   methods: {
