@@ -6,14 +6,14 @@
           <ValidationProvider
             v-slot="validationContext"
             :name="$t('auth.email_address')"
-            :rules="{ required: true, email: true, min: 3, max: 128 }"
+            :rules="{ required: true, min: 3, max: 128 }"
           >
             <b-form-group>
               <b-form-input
                 id="email-address"
-                v-model="form.email"
+                v-model="form.login"
                 class="rounded-pill input-login"
-                :placeholder="$t('auth.email_address')"
+                :placeholder="$t('auth.email_address_or_username')"
                 :state="getValidationState(validationContext)"
               ></b-form-input>
               <b-form-invalid-feedback>{{
@@ -95,7 +95,7 @@ export default {
     return {
       isPasswordShown: false,
       form: {
-        email: '',
+        login: '',
         password: '',
         rememberMe: false,
         verification_code: '',
@@ -107,7 +107,7 @@ export default {
       return vm.isPasswordShown ? 'text' : 'password'
     },
     isFormFilled(vm) {
-      return !!(vm.form.email && vm.form.password)
+      return !!(vm.form.login && vm.form.password)
     },
   },
   methods: {
