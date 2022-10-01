@@ -1,28 +1,6 @@
 <template>
   <section class="auction-filters">
     <div class="auction-filters-content">
-      <h1 class="text-center auction-filters-title">
-        {{ $t('auctions.frontpage.filterbar.title') }}
-        <InfoIcon v-b-tooltip.hover :title="$t('auctions.frontpage.filterbar.title_tooltip')" />
-      </h1>
-      <div class="d-flex justify-content-center">
-        <div
-          class="auction-type-btn"
-          :class="{ 'inactive': selectedType, 'active': selectedType === 'single' }"
-          @click="auctionTypeChanged('single')"
-        >
-          {{ $t('auctions.frontpage.filterbar.types.single') }}
-          <ArrowIcon />
-        </div>
-        <div
-          class="auction-type-btn"
-          :class="{ 'inactive': selectedType, 'active': selectedType === 'collection' }"
-          @click="auctionTypeChanged('collection')"
-        >
-          {{ $t('auctions.frontpage.filterbar.types.collections') }}
-          <ArrowIcon />
-        </div>
-      </div>
       <div class="d-flex justify-content-between">
         <div v-click-outside="hideDropdown" class="searchbox" :class="{ 'open': hasSearchResult }">
           <search-box :searchText="searchText" :placeholder="$t('auctions.frontpage.filterbar.searchbox')" @search="search" />
@@ -30,14 +8,17 @@
             <div
               v-for="prod in searchedProducts"
               :key="`${prod.sku}-${prod.category.name}`"
-              class="dropdown-option flex justify-content-around"
+              class="dropdown-option d-flex align-items-center"
               @click="selectProduct(prod)"
             >
-              <b-img
-                :src="`${prod.image  || 'https://images.deadstock.co/404.png'}?width=150}`"
-                class="mx-auto"
-                alt="..."
-              />
+              <div class="position-relative d-inline-flex">
+                <b-img
+                  :src="`${prod.image  || 'https://images.deadstock.co/404.png'}?width=150}`"
+                  class="mx-auto"
+                  alt="..."
+                />
+                <div class="position-absolute overlay"></div>
+              </div>
               &nbsp; {{ prod.name }}
             </div>
             <div v-if="!searchedProducts.length" class="dropdown-option text-center">
@@ -52,272 +33,117 @@
           :items="SORT_OPTIONS"
           :icon="require('~/assets/img/icons/three-lines.svg')"
           :icon-arrow-down="
-            require('~/assets/img/icons/arrow-down-gray2.svg')
+            require('~/assets/img/icons/arrow-down-black.svg')
           "
           class="dropdown-sort flex-shrink-1"
           can-clear
           @select="changeOption"
         />
-        <b-button
-          class="px-3 ml-4 border-0"
-          :class="`${moreFiltersVisible ? 'bg-secondary': 'bg-white'}`"
-          pills
-          variant="light"
-          @click="showFilters"
-        >
-          {{ $t('auctions.frontpage.filterbar.filters') }}
-        </b-button>
       </div>
     </div>
-    <div v-if="moreFiltersVisible" class="auction-filters-content">
-      <h5 class="text-center body-2-bold my-3">{{ $t('auctions.frontpage.filterbar.more_filters') }}</h5>
-      <div :key="filterTags.length" class="bg-white p-4 auction-more-filters">
-        <div class="auction-more-filters-block">
-          <div class="auction-more-filters-block-column">
-            <strong class="text-left mb-3">{{ $t('auctions.frontpage.filterbar.size_type') }}</strong>
-            <label
-              v-for="type in sizeTypes"
-              :key="type.value"
-              role="button"
-            >
-              <input
-                type="checkbox"
-                :checked="isFilterSelected('type', type.value)"
-                @click="addFilterTag('type', type.value, type.label)"
-              >
-              {{ type.label }}
-            </label>
-          </div>
-          <div class="auction-more-filters-block-column">
-            <strong class="text-left mb-3">{{ $t('auctions.frontpage.filterbar.categories') }}</strong>
-            <label
-              v-for="category in categories"
-              :key="category.id"
-              role="button"
-            >
-              <input
-                type="checkbox"
-                :checked="isFilterSelected('category', category.id)"
-                @click="addFilterTag('category', category.id, category.name)"
-              >
-              <span class="text-capitalize">{{ category.name }}</span>
-            </label>
-          </div>
-          <div class="auction-more-filters-block-column">
-            <b-row class="filter-price">
-              <b-col class="text-left mb-3" cols="12">
-                <strong>{{ $t('auctions.frontpage.filterbar.current_bid_price') }}</strong>
-              </b-col>
-              <b-col cols="6">
-                <label for="formFileSm" class="form-label">{{
-                  $t('filter_sidebar.price_items.min')
-                }}</label>
-                <div class="input-group input-group-sm mb-3">
-                  <span
-                    id="inputGroup-sizing-sm"
-                    class="input-group-text from-to"
-                    >{{ $t('filter_sidebar.price_items.from') }}</span
-                  >
-                  <!-- Dividing by 100 to convert cents into dollars -->
-                  <input
-                    :value="selectedPrices[0]"
-                    aria-describedby="inputGroup-sizing-sm"
-                    aria-label="Sizing example input"
-                    class="form-control"
-                    name="min"
-                    placeholder="$0"
-                    type="text"
-                    @input="updatePriceFilters"
-                  />
-                </div>
-              </b-col>
-              <b-col cols="6">
-                <label for="formFileSm" class="form-label">{{
-                  $t('filter_sidebar.price_items.max')
-                }}</label>
-                <div class="input-group input-group-sm mb-3">
-                  <span
-                    id="inputGroup-sizing-sm"
-                    class="input-group-text from-to"
-                    >{{ $t('filter_sidebar.price_items.to') }}</span
-                  >
-                  <!-- Dividing by 100 to convert cents into dollars -->
-                  <input
-                    :value="selectedPrices[1]"
-                    aria-describedby="inputGroup-sizing-sm"
-                    aria-label="Sizing example input"
-                    class="form-control"
-                    name="max"
-                    placeholder="$0"
-                    type="text"
-                    @input="updatePriceFilters"
-                  />
-                </div>
-              </b-col>
+    <div v-if="!moreFiltersVisible" class="mt-4 d-flex align-items-center">
+      <!-- Categories -->
+      <MultiSelectDropdown
+        v-model="categories"
+        collapseKey="categories"
+        :title="$t('home_page.categories')"
+        :options="categoryOptions"
+        class="mr-4"
+        width="160"
+      />
 
-              <b-col cols="12">
-                <!-- Price Range -->
-                <vue-slider
-                  v-model="selectedPrices"
-                  :drag-on-click="false"
-                  :enable-cross="false"
-                  :max="MAX_PRICE"
-                  :min="MIN_PRICE"
-                  :min-range="MIN_PRICE_RANGE_WINDOW"
-                  tooltip="none"
-                  class="vue-slider-ltr-browse"
-                ></vue-slider>
-                <!-- Price Range -->
-              </b-col>
-            </b-row>
-          </div>
-          <div class="auction-more-filters-block-column">
-            <b-row class="filter-price">
-              <b-col class="text-left mb-3" cols="12">
-                <strong>{{ $t('auctions.frontpage.filterbar.year') }}</strong>
-              </b-col>
-              <b-col cols="6">
-                <label for="formFileSm" class="form-label">{{
-                  $t('filter_sidebar.price_items.min')
-                }}</label>
-                <div class="input-group input-group-sm mb-3">
-                  <span
-                    id="inputGroup-sizing-sm"
-                    class="input-group-text from-to"
-                    >{{ $t('filter_sidebar.price_items.from') }}</span
-                  >
-                  <!-- Dividing by 100 to convert cents into dollars -->
-                  <input
-                    :value="selectedYears[0]"
-                    aria-describedby="inputGroup-sizing-sm"
-                    aria-label="Sizing example input"
-                    class="form-control"
-                    name="min"
-                    type="text"
-                    @input="updateYearFilters"
-                  />
-                </div>
-              </b-col>
-              <b-col cols="6">
-                <label for="formFileSm" class="form-label">{{
-                  $t('filter_sidebar.price_items.max')
-                }}</label>
-                <div class="input-group input-group-sm mb-3">
-                  <span
-                    id="inputGroup-sizing-sm"
-                    class="input-group-text from-to"
-                    >{{ $t('filter_sidebar.price_items.to') }}</span
-                  >
-                  <!-- Dividing by 100 to convert cents into dollars -->
-                  <input
-                    :value="selectedYears[1]"
-                    aria-describedby="inputGroup-sizing-sm"
-                    aria-label="Sizing example input"
-                    class="form-control"
-                    name="max"
-                    type="text"
-                    @input="updateYearFilters"
-                  />
-                </div>
-              </b-col>
+      <!-- Size Types -->
+      <MultiSelectDropdown
+        v-model="sizeTypes"
+        collapseKey="size-types"
+        :title="$t('filter_sidebar.size_types')"
+        :options="sizeTypeOptions"
+        class="mr-4"
+        width="180"
+      />
 
-              <b-col cols="12">
-                <!-- Price Range -->
-                <vue-slider
-                  v-model="selectedYears"
-                  :drag-on-click="false"
-                  :enable-cross="false"
-                  :max="MAX_YEAR"
-                  :min="MIN_YEAR"
-                  :min-range="MIN_YEAR_RANGE_WINDOW"
-                  tooltip="none"
-                  class="vue-slider-ltr-browse"
-                ></vue-slider>
-                <!-- Price Range -->
-              </b-col>
-            </b-row>
-          </div>
-        </div>
-        <div v-if="hasSneakersCategory" class="auction-more-filters-block">
-          <div class="text-left auction-more-filters-block-column">
-            <strong>{{ $t('auctions.frontpage.filterbar.footwear_sizes') }}</strong>
-            <div class="mt-3 d-flex flex-wrap">
-              <label
-                v-for="size in SNEAKER_SIZES"
-                :key="size"
-                role="button"
-                class="mr-4 size"
-              >
-                <input
-                  type="checkbox"
-                  :checked="isFilterSelected('size', size)"
-                  @click="addFilterTag('size', size, size)"
-                >
-                {{ size.toFixed(1) }}
-              </label>
-            </div>
-          </div>
-        </div>
-        <div v-if="hasApparelCategory" class="auction-more-filters-block">
-          <div class="text-left auction-more-filters-block-column">
-            <strong>{{ $t('auctions.frontpage.filterbar.apparel_sizes') }}</strong>
-            <div class="mt-3 d-flex flex-wrap">
-              <label
-                v-for="size in APPAREL_SIZES"
-                :key="size"
-                role="button"
-                class="mr-4"
-              >
-                <input
-                  type="checkbox"
-                  :checked="isFilterSelected('size', size)"
-                  @click="addFilterTag('size', size, size)"
-                >
-                {{ size }}
-              </label>
-            </div>
-          </div>
-        </div>
-        <div class="d-flex align-items-center justify-content-between p-2">
-          <div class="d-flex align-items-center">
-            <span role="button" @click="clearFilters"><u class="text-black body-5-medium">{{ $t('auctions.frontpage.filterbar.clear_all_filters') }}</u></span>
-            <!-- Tags -->
-            <div v-for="(tag, idx) in filterTags" :key="idx" class="apply-filters-tag">
-              <span>{{ tag.label }}</span>
-              <CloseIcon role="button" @click="removeFilterTag(idx)" />
-            </div>
-          </div>
-          <div>
-            <b-button pills class="apply-filters-btn" @click="applyFilters">{{ $t('auctions.frontpage.filterbar.apply_filters') }}</b-button>
-          </div>
-        </div>
+      <!-- Sizes -->
+      <MultiSelectDropdown
+        v-model="sizes"
+        collapseKey="sizes"
+        :title="$t('filter_sidebar.sizes')"
+        :options="sizeOptions"
+        class="mr-4 flex-grow-1"
+      />
+
+      <!-- Current Bid -->
+      <SliderDropdown
+        :start-label="$t('filter_sidebar.price_items.min')"
+        :end-label="$t('filter_sidebar.price_items.max')"
+        :start-placeholder="$t('filter_sidebar.price_items.from')"
+        :end-placeholder="$t('filter_sidebar.price_items.to')"
+        :minValue="MIN_PRICE"
+        :maxValue="MAX_PRICE"
+        :step="MIN_PRICE_RANGE_WINDOW"
+        :title="$t('home_page.current_bid')"
+        :value="selectedPrices"
+        class="mr-4 flex-grow-1"
+      />
+
+      <!-- Brand -->
+      <MultiSelectDropdown
+        v-model="brands"
+        collapseKey="brands"
+        :title="$t('filter_sidebar.brands')"
+        :options="brandOptions"
+        class="mr-4 flex-grow-1"
+      />
+      <div role="button" class="d-inline-flex align-items-center more-filters-btn ml-3" @click="moreFiltersVisible=true">
+        <span class="text-nowrap">{{ $t('auctions.frontpage.filterbar.more_filters') }}</span>
+        <img class="ml-2" src="~/assets/img/home/arrow-right.svg" />
       </div>
-      <div class="mt-2 text-center">
-        <UpArrowIcon role="button" @click="moreFiltersVisible=false" />
+    </div>
+    <div v-else class="mt-4 d-flex align-items-center">
+      <div role="button" class="d-inline-flex align-items-center more-filters-btn mr-3" @click="moreFiltersVisible=false">
+        <img class="mr-2 before" src="~/assets/img/home/arrow-right.svg" />
+        <span class="text-nowrap">{{ $t('auctions.frontpage.filterbar.more_filters') }}</span>
       </div>
+      <!-- Status -->
+      <MultiSelectDropdown
+        v-model="sizes"
+        collapseKey="status"
+        :title="$t('filter_sidebar.status')"
+        :options="statusOptions"
+        class="ml-4"
+        width="250"
+      />
+
+      <!-- Years -->
+      <SliderDropdown
+        :start-label="$t('filter_sidebar.price_items.min')"
+        :end-label="$t('filter_sidebar.price_items.max')"
+        :start-placeholder="$t('filter_sidebar.price_items.from')"
+        :end-placeholder="$t('filter_sidebar.price_items.to')"
+        :minValue="MIN_YEAR"
+        :maxValue="MAX_YEAR"
+        :step="1"
+        :title="$t('auctions.frontpage.filterbar.year')"
+        :value="selectedYears"
+        class="ml-4"
+        width="250"
+      />
+    </div>
+    <div class="text-center auction-filters-type-selector">
+      <NavGroup :value="selectedType" :data="auctionTypes" @change="auctionTypeChanged"/>
     </div>
   </section>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ClickOutside from 'vue-click-outside'
-import VueSlider from 'vue-slider-component/dist-css/vue-slider-component.umd.min.js'
-import 'vue-slider-component/dist-css/vue-slider-component.css'
-import 'vue-slider-component/theme/material.css'
 
 import SearchBox from '../RoundSearchBox'
-import ArrowIcon from '~/assets/img/icons/arrow-in-circle.svg?inline'
-import InfoIcon from '~/assets/img/icons/info.svg?inline'
-import UpArrowIcon from '~/assets/img/icons/up-arrow.svg?inline'
-import CloseIcon from '~/assets/img/icons/close.svg?inline'
-import { FormDropdown } from '~/components/common'
+import { FormDropdown, NavGroup, MultiSelectDropdown, SliderDropdown } from '~/components/common'
 import {
   MAX_PRICE,
   MIN_PRICE,
   MIN_PRICE_RANGE_WINDOW,
-  MAX_YEAR,
-  MIN_YEAR,
-  MIN_YEAR_RANGE_WINDOW,
   SNEAKER_SIZES,
   APPAREL_SIZES,
 } from '~/static/constants'
@@ -328,13 +154,11 @@ import {
 export default {
   name: 'AuctionFilterBar',
   components: {
-    ArrowIcon,
     SearchBox,
-    InfoIcon,
-    UpArrowIcon,
-    VueSlider,
-    CloseIcon,
     FormDropdown,
+    NavGroup,
+    MultiSelectDropdown,
+    SliderDropdown,
   },
   directives: {
     ClickOutside
@@ -349,7 +173,7 @@ export default {
     return {
       searchText: null,
       selectedOption: null,
-      selectedType: null,
+      selectedType: 'single',
       selectedProduct: null,
       hasSearchResult: false,
       searchedProducts: [],
@@ -379,50 +203,85 @@ export default {
           label: this.$t('auctions.frontpage.filterbar.sortby.most_viewed'),
         },
       ],
-      selectedPrices: [MIN_PRICE, MAX_PRICE],
       MAX_PRICE,
       MIN_PRICE,
+      selectedPrices: [],
       MIN_PRICE_RANGE_WINDOW,
-      MAX_YEAR,
-      MIN_YEAR,
-      MIN_YEAR_RANGE_WINDOW,
       moreFiltersVisible: false,
-      selectedYears: [MIN_YEAR, MAX_YEAR],
+      selectedYears: [],
       filterTags: [],
-      sizeTypes: [
-        {
-          value: 'men',
-          label: this.$t('auctions.frontpage.filterbar.men'),
-        },
-        {
-          value: 'women',
-          label: this.$t('auctions.frontpage.filterbar.women'),
-        },
-        {
-          value: 'unisex',
-          label: this.$t('auctions.frontpage.filterbar.unisex'),
-        },
-        {
-          value: 'child',
-          label: this.$t('auctions.frontpage.filterbar.child'),
-        },
-        {
-          value: 'toddler',
-          label: this.$t('auctions.frontpage.filterbar.toddler'),
-        },
-      ],
+      sizeTypes: [],
       categories: [],
       SNEAKER_SIZES,
       APPAREL_SIZES,
+      auctionTypes: [
+        {
+          label: this.$t('auctions.frontpage.filterbar.types.single'),
+          value: 'single'
+        },
+        {
+          label: this.$t('auctions.frontpage.filterbar.types.collections'),
+          value: 'collection'
+        },
+      ],
+      brands: [],
+      sizes: [],
+      categoryOptions: [],
+      statusOptions: [
+        {
+          label: this.$t('filter_sidebar.status_options.live'),
+          value: 'live'
+        },
+        {
+          label: this.$t('filter_sidebar.status_options.upcoming'),
+          value: 'upcoming'
+        },
+        {
+          label: this.$t('filter_sidebar.status_options.expiring'),
+          value: 'expiring'
+        },
+        {
+          label: this.$t('filter_sidebar.status_options.expired'),
+          value: 'expired'
+        },
+        {
+          label: this.$t('filter_sidebar.status_options.sold'),
+          value: 'sold'
+        },
+      ],
     }
   },
   computed: {
-    hasSneakersCategory() {
-      return this.filterTags.findIndex(tag => tag.type === 'category' && tag.label === 'sneakers') > -1
+    ...mapGetters('browse', [
+      'filters',
+      'selectedBrands',
+      'selectedSizes',
+      'selectedSizeTypes',
+    ]),
+    sizeOptions() {
+      let options = this.filters?.sizes
+      if (options && this.sizeTypes && this.sizeTypes.length > 0) {
+        options = options.filter(({ type }) => this.sizeTypes.includes(type))
+      }
+      return (
+        options?.map(({ id, size, type }) => {
+          return {
+            label: `${type} - ${size}`,
+            value: id,
+          }
+        }) || []
+      )
     },
-    hasApparelCategory() {
-      return this.filterTags.findIndex(tag => tag.type === 'category' && tag.label === 'apparel') > -1
-    }
+    brandOptions() {
+      return this.filters?.brands?.map(({ name }) => {
+        return { label: name, value: name }
+      })
+    },
+    sizeTypeOptions() {
+      return this.filters?.size_types?.map((type) => {
+        return { label: type, value: type }
+      })
+    },
   },
   watch: {
     searchKeyword(newV) {
@@ -438,7 +297,13 @@ export default {
       }
     })
       .then(res => {
-        this.categories = res.data
+        this.categoryOptions = res.data.map(cat => ({
+          label: this.$t(`common.categories.${cat.name}`),
+          value: cat.id,
+        }))
+      })
+      .catch(() => {
+        this.categoryOptions = []
       })
   },
   methods: {
@@ -550,19 +415,16 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
-.filter-price
-  width: 250px
-
 .dropdown-sort::v-deep
   .btn-dropdown
     @include body-4-normal
     color: $color-black-1
-    border: 1px solid $color-white-1
-    background-color: $color-white-1
+    border: 1px solid transparent
+    background-color: $color-white-4
     border-radius: 8px
     height: 48px
     width: 327px
-    padding: 0 23px
+    padding: 0 13px 0 23px
 
     .icon-main
       margin-right: 20px !important
@@ -573,7 +435,7 @@ export default {
     &.opened
       border-bottom-left-radius: 0
       border-bottom-right-radius: 0
-      border: 1px solid $color-gray-59
+      border: 1px solid transparent
 
   .search-results
     .popover-body
@@ -581,17 +443,37 @@ export default {
         @include body-4-normal
         font-family: $font-family-base
         color: $color-black-1
-        background-color: $color-white-1
+        background-color: $color-white-4
         height: 46px
-        border: 1px solid $color-gray-59
-        border-top: none
+        border: none
+        border-bottom: 0.2px solid $light-gray-2
         padding: 0 23px
-
         &:hover
           color: $color-gray-5
 
         &:last-child
           border-bottom-left-radius: 8px
           border-bottom-right-radius: 8px
-
+          border: none
+.more-filters-btn
+  @include body-13-regular
+  font-family: $font-sp-pro
+  color: $color-blue-20
+  img
+    width: 8px
+    &.before
+      transform: rotate(-180deg)
+.overflow-x-hidden
+  overflow-x: hidden
+::v-deep .nav-group
+  .btn-group
+    background-color: $white-3
+    .btn
+      background-color: $white-3
+.overlay
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: rgba($gray, 0.05)
 </style>

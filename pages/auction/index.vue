@@ -1,9 +1,9 @@
 <template>
   <div class="auction-browser pb-4">
     <auction-banner />
-    <auction-filterbar :searchKeyword="productFilter ? productFilter.name : null" @change="handleFilterChange"/>
-    <div v-if="!isViewAll" :class="{ 'invisible': loading }">
-      <div v-if="recentViewedAuctions.length > 0">
+    <div class="auction-browser-container">
+      <auction-filterbar :searchKeyword="productFilter ? productFilter.name : null" @change="handleFilterChange"/>
+      <div v-if="!isViewAll" :class="{ 'invisible': loading }">
         <product-slider
           :title="$t('auctions.frontpage.recently_viewed')"
           :auctions="recentViewedAuctions"
@@ -16,7 +16,6 @@
           :type="'ending_soon'"
           @showAll="showAllAuctions('ending_soon')"
         ></product-slider>
-        <sell-with-us></sell-with-us>
         <product-slider
           :title="$t('auctions.frontpage.no_reserve')"
           :auctions="nonReserveAuctions"
@@ -30,46 +29,25 @@
           @showAll="showAllAuctions('reserve')"
         ></product-slider>
       </div>
-      <div v-else>
-        <product-slider
-          :title="$t('auctions.frontpage.ending_soon')"
-          :auctions="endingSoonAuctions"
-          :type="'ending_soon'"
-          @showAll="showAllAuctions('ending_soon')"
-        ></product-slider>
-        <product-slider
-          :title="$t('auctions.frontpage.no_reserve')"
-          :auctions="nonReserveAuctions"
-          :type="'no_reserve'"
-          @showAll="showAllAuctions('no_reserve')"
-        ></product-slider>
-        <sell-with-us></sell-with-us>
-        <product-slider
-          :title="$t('auctions.frontpage.reserve')"
-          :auctions="reserveAuctions"
-          :type="'reserve'"
-          @showAll="showAllAuctions('reserve')"
-        ></product-slider>
-      </div>
-    </div>
-    <div v-else class="position-relative">
-      <div class="container">
-        <div class="row">
-          <div class="col-12 ml-lg-n3 ml-xl-n5 mt-3">
-            <div class="d-flex align-items-center back-btn" @click="backToMainView">
-              <img :src="require('~/assets/img/icons/pagination-arrow-left.svg')" />
-              <span class="ml-1" role="button">{{ $t('common.back') }}</span>
+      <div v-else class="position-relative">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 ml-lg-n3 ml-xl-n5 mt-3">
+              <div class="d-flex align-items-center back-btn" @click="backToMainView">
+                <img :src="require('~/assets/img/icons/pagination-arrow-left.svg')" />
+                <span class="ml-1" role="button">{{ $t('common.back') }}</span>
+              </div>
             </div>
           </div>
         </div>
+        <product-slider
+          :title="$t(`auctions.frontpage.${isViewAll}`)"
+          :auctions="viewAllAuctions"
+          :type="'all'"
+          :isCarouselMode="false"
+        ></product-slider>
+        <sell-with-us :class="{ lg: viewAllAuctions.length > 16, md: viewAllAuctions.length > 12, sm: viewAllAuctions.length > 8 }"></sell-with-us>
       </div>
-      <product-slider
-        :title="$t(`auctions.frontpage.${isViewAll}`)"
-        :auctions="viewAllAuctions"
-        :type="'all'"
-        :isCarouselMode="false"
-      ></product-slider>
-      <sell-with-us :class="{ lg: viewAllAuctions.length > 16, md: viewAllAuctions.length > 12, sm: viewAllAuctions.length > 8 }"></sell-with-us>
     </div>
   </div>
 </template>
@@ -98,7 +76,9 @@ export default {
       nonReserveAuctions: [],
       endingSoonAuctions: [],
       recentViewedAuctions: [],
-      filterOptions: {},
+      filterOptions: {
+        type: 'collection',
+      },
       slidesCount: 8,
       loading: false,
     }
@@ -274,3 +254,9 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+  .auction-browser-container
+    max-width: 1440px
+    margin: auto
+</style>

@@ -1,11 +1,11 @@
 <template>
   <section class="auctions-block" >
-    <div class="row my-5">
-      <div class="col-7 new-releases-heading text-left">{{ title }}</div>
-      <div v-if="isCarouselMode" class="col-5 px-5 text-right mt-2">
+    <div class="row">
+      <div class="col-7 px-4 new-releases-heading text-left">{{ title }}</div>
+      <div v-if="isCarouselMode" class="col-5 px-4 text-right mt-2">
         <span class="view-more-products-text" @click="showAll">
-          {{ $t('home_page.view_more') }}
-          <RightArrow />
+          {{ $t('home.view_more_products') }}
+          <img src="~/assets/img/icons/arrow-right-in-circle.svg">
         </span>
       </div>
 
@@ -38,13 +38,13 @@
             </template>
             <template #prev>
               <div class="owl-nav owl-prev">
-                <img :src="require('~/assets/img/icons/carousel-arrow-left.svg')" />
+                <img :src="require('~/assets/img/icons/arrow-left-black.svg')" />
               </div>
             </template>
 
             <template #next>
               <div class="owl-nav owl-next">
-                <img :src="require('~/assets/img/icons/carousel-arrow-right.svg')" />
+                <img :src="require('~/assets/img/icons/arrow-right-black.svg')" />
               </div>
             </template>
           </carousel>
@@ -66,14 +66,10 @@
   </section>
 </template>
 <script>
-import RightArrow from '~/assets/img/icons/right-arrow.svg?inline'
-
-import {AUCTION_TYPE_COLLECTION, AUCTION_TYPE_SINGLE} from '~/static/constants';
 import AuctionCard from '~/components/Auctions/AuctionCard'
 
 export default {
   components: {
-    RightArrow,
     AuctionCard,
   },
   props: {
@@ -98,8 +94,6 @@ export default {
   data() {
     return {
       auctionList: [],
-      AUCTION_TYPE_COLLECTION,
-      AUCTION_TYPE_SINGLE,
     }
   },
 
@@ -123,3 +117,8 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.auctions-block
+  margin-bottom: 70px
+</style>

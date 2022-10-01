@@ -1,47 +1,54 @@
 <template>
   <div v-if="auction" class="mb-4 item">
-    <nuxt-link :to="`/auction/${auction.id}`">
-      <div class="thumbnail auct-card">
-        <div class="d-flex align-items-end justify-content-between pa-0 h-auto">
-          <div class="auct-current-bid">
-            <div class="text-uppercase mb-1">{{ $t('home_page.current_bid') }}</div>
-            <div class="auct-bid-price">${{ auction.highest_bid | formatPrice }}</div>
-          </div>
-          <div class="bids-count">{{ `${auction.bids.length} ${$t('home_page.bidnow_text')}` }}</div>
-        </div>
+    <div class="thumbnail auct-card">
+      <div
+        class="d-inline-flex align-items-center remaining-time"
+        :class="{ 'bg-danger': auction.status === 'ending_soon' || auction.status === 'expired' }"
+      >
+        <img src="~/assets/img/icons/clock-back.svg" />
+        <div>{{ auction | remainingTime('short') }}</div>
+      </div>
 
-        <div v-if="auction.auction_items && auction.auction_items.length > 0" class="auct-card-body">
-          <div class="product-image my-3">
-            <ProductThumb :product="auction.auction_items[0].inventory.product" overlay />
+      <div v-if="auction.auction_items && auction.auction_items.length > 0" class="auct-card-body collection-items">
+        <div class="product-image">
+          <ProductThumb :product="auction.auction_items[0].inventory.product" overlay />
+        </div>
+        <div v-if="auction.type === AUCTION_TYPE_COLLECTION" class="d-flex justify-content-center collection-product-imgs">
+          <div v-for="item in auction.auction_items.slice(0, 2)" :key="item.id" class="collection-product-img">
+            <ProductThumb :product="item.inventory.product" overlay />
           </div>
-          <div class="auct-card-body-title pt-1">
-            <h5 class="auct-card-title text-left">{{ auction.auction_items[0].inventory.product.name }}</h5>
-            <p class="auct-card-text text-left">
-              <span class="auct-card-text-colorway">{{ auction.auction_items[0].inventory.color }},&nbsp;</span>
-              <span class="auct-card-text-size">{{ `${$t('common.size')} ${auction.auction_items[0].inventory.size.size}` }}</span>
-            </p>
-            <div class="d-flex justify-content-between text-danger">
-              <div class="text-left text-capitalize bid-description-text text-bold">{{ $t('home_page.timeremaining') }}</div>
-              <div class="text-right text-capitalize bid-description-text">{{ auction | remainingTime('short') }}</div>
-            </div>
-            <div v-if="auction.type === AUCTION_TYPE_SINGLE" class="row">
-              <div class="col-12 mt-4">
-                <button class="w-100 btn btn-outline-primary bid-now-btn">{{ $t('home_page.bid_now') }}</button>
-              </div>
-            </div>
+          <div v-if="auction.auction_items.length > 2" class="collection-product-img">
+            <ProductThumb :product="auction.auction_items[2].inventory.product" overlay />
+            <span class="collection-product-img-overlay">+{{ auction.auction_items.length - 2 }}</span>
           </div>
         </div>
       </div>
-      <div v-if="auction.type === AUCTION_TYPE_COLLECTION" class="d-flex justify-content-center collection-product-imgs">
-        <div v-for="item in auction.auction_items.slice(0, 2)" :key="item.id" class="collection-product-img">
-          <ProductThumb :product="item.inventory.product" overlay />
+    </div>
+    <div class="d-flex justify-content-between align-items-end mt-3">
+      <div class="flex-grow-1 overflow-hidden mr-4">
+        <div v-if="auction.type === AUCTION_TYPE_SINGLE">
+          <h5 class="auct-card-title mb-1">{{ auction.auction_items[0].inventory.product.name }}</h5>
+          <div class="auct-card-text mb-1">
+            <span class="auct-card-text-colorway">{{ auction.auction_items[0].inventory.color }}</span>
+            <span class="auct-card-text-size">,&nbsp;{{ `${$t('auctions.frontpage.size')} ${auction.auction_items[0].inventory.size.size}` }}</span>
+          </div>
         </div>
-        <div v-if="auction.auction_items.length > 2" class="collection-product-img">
-          <ProductThumb :product="auction.auction_items[2].inventory.product" overlay />
-          <span class="collection-product-img-overlay">+{{ auction.auction_items.length - 2 }}</span>
+        <div v-else>
+          <h5 class="auct-card-title mb-1 text-capitalize">{{ auction.name }}</h5>
+          <div class="auct-card-text mb-1">
+            <span v-for="(cat, idx) in auction.categories" :key="cat" class="auct-card-text-colorway">
+              <span v-if="idx !== 0">&nbsp;&amp;&nbsp;</span>
+              {{ $t(`common.categories.${cat}`) }}
+            </span>
+          </div>
         </div>
+        <div v-if="auction.highest_bid" class="auct-card-price">${{ auction.highest_bid | formatPrice }}</div>
+        <div v-else class="auct-card-price">{{ $t('sell.sell_now.not_available') }}</div>
       </div>
-    </nuxt-link>
+      <nuxt-link :to="`/auction/${auction.id}`">
+        <button class="w-100 btn bid-now-btn text-nowrap">{{ $t('home_page.bid_now') }}</button>
+      </nuxt-link>
+    </div>
     <div class="auct-card-quick-btns">
       <div class="d-flex align-items-center justify-content-center">
         <div class="round-btn" role="button">
@@ -175,3 +182,27 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
+.auct-card
+  .remaining-time
+    background: #E2E2E2
+    padding: 4px 8px 4px 6px
+    img
+      margin-right: 10px
+      width: 24px
+    div
+      @include body-5-medium
+      color: $black
+::v-deep
+  .thumb-wrapper
+    .overlay
+      background: rgba(153, 153, 153, 0.05)
+.collection-product-imgs
+  ::v-deep
+    .thumb-wrapper
+      .overlay
+        background: rgba(153, 153, 153, 0.1)
+</style>
