@@ -2,7 +2,8 @@
   <b-row class="vh-100 mt-5">
     <b-col md="12" class="text-center">
       <!-- TODO: To be filled once content is ready -->
-      <span>{{ page }}</span>
+      <div>{{ page_detail.name }}</div>
+      <div v-html="page_detail.content"></div>
     </b-col>
   </b-row>
 </template>
@@ -12,18 +13,25 @@ export default {
   layout: 'IndexLayout',
   data() {
     return {
-      page: 'testing',
+      page: '',
+      page_detail: '',
     }
   },
   mounted() {
-    console.log(this.$route.params)
     this.page = this.$route.params.page
 
-    this.getPageData(this.page)
+    this.getPageData()
   },
   methods: {
-    getPageData(page) {
-      this.page = page
+    getPageData() {
+      this.$axios
+        .get(`/page/${this.page}`)
+        .then((res) => {
+          this.page_detail = res.data.data
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
     },
   },
 }
