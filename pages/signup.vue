@@ -453,7 +453,7 @@
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import Button from '~/components/common/Button'
 import { UNPROCESSABLE_ENTITY } from '~/static/constants'
-import NavGroup from '~/utils/components/common/NavGroup.vue'
+import NavGroup from '~/components/common/NavGroup'
 import Logo from '~/components/header/Logo.vue'
 
 export default {
