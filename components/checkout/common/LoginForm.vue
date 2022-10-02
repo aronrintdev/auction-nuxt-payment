@@ -71,29 +71,7 @@
             <span class="text-color-gray-38">{{ $t('shopping_cart.login_via_social') }}</span>
           </b-col>
         </b-row>
-        <b-row class="mt-3">
-          <b-col md="3" class="text-center">
-            <NuxtLink to="#">
-              <img :src="require('~/assets/img/shopping-cart/google-ellipse.png')" alt="..." @click="socialLogin('google')">
-            </NuxtLink>
-          </b-col>
-          <b-col md="3" class="text-center">
-            <NuxtLink to="#">
-              <img :src="require('~/assets/img/shopping-cart/facebook-ellipse.png')" alt="..." @click="socialLogin('facebook')">
-            </NuxtLink>
-          </b-col>
-          <b-col md="3" class="text-center">
-            <NuxtLink to="#">
-              <!-- TODO: Add social login once Apple is supported -->
-              <img :src="require('~/assets/img/shopping-cart/apple-ellipse.png')" alt="...">
-            </NuxtLink>
-          </b-col>
-          <b-col md="3" class="text-center">
-            <NuxtLink to="#">
-              <img :src="require('~/assets/img/shopping-cart/twitter-ellipse.png')" alt="..." @click="socialLogin('twitter')">
-            </NuxtLink>
-          </b-col>
-        </b-row><!-- End of Social Login Links -->
+        <SocialLoginButtons class="mt-4" /><!-- End of Social Login Links -->
 
         <!-- Login Button -->
         <b-row class="mt-5">
@@ -135,10 +113,12 @@ import { mapActions } from 'vuex'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import OrderTitle from '~/components/checkout/common/OrderTitle'
 import emitEvent from '~/plugins/mixins/emit-event'
+import SocialLoginButtons from '~/components/Auth/SocialLoginButtons'
 
 export default {
   name: 'LoginForm',
   components: {
+    SocialLoginButtons,
     OrderTitle,
     ValidationObserver,
     ValidationProvider,
@@ -191,12 +171,6 @@ export default {
           return false;
         }
       }
-    },
-    socialLogin(service){
-      this.$axios.get(`login/${service}`
-      ).then((res) => {
-        window.open(res.data, '_blank')
-      })
     },
     handleForgotPassword() {
       this.emitRenderComponentEvent(this.$parent.$options.components.ForgotPassword.name)
