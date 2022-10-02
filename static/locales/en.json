@@ -215,6 +215,7 @@
     "terms_of_service": "Terms of Service",
     "and": "and",
     "private_policy": "Private Policy",
+    "privacy_policy": "Privacy Policy",
     "please_wait": "Please wait",
     "success_message": {
       "user_successfully_registered": "User successfully registered",
@@ -275,6 +276,7 @@
     "contact_us": "Contact Us",
     "faq": "FAQ",
     "private_policy": "Private Policy",
+    "privacy_policy": "Privacy Policy",
     "terms_and_conditions": "Terms & Conditions",
     "all_rights_reserved": "All Rights Reserved",
     "process": "Process"

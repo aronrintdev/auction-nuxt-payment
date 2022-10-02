@@ -1,11 +1,13 @@
 <template>
-  <b-row class="vh-100 mt-5">
-    <b-col md="12" class="text-center">
-      <!-- TODO: To be filled once content is ready -->
-      <div>{{ page_detail.name }}</div>
-      <div v-html="page_detail.content"></div>
-    </b-col>
-  </b-row>
+  <div class="container page-container">
+    <!-- Content Wrapper. Contains page content -->
+    <b-row class="mt-5">
+      <b-col md="12">
+        <!-- TODO: To be filled once content is ready -->
+        <div v-html="page_detail.content"></div>
+      </b-col>
+    </b-row>
+  </div>
 </template>
 <script>
 export default {
@@ -36,3 +38,7 @@ export default {
   },
 }
 </script>
+<style scoped lang="sass">
+.page-container
+  min-height: 500px
+</style>
