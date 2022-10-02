@@ -204,7 +204,7 @@ import {
 } from '~/static/constants';
 
 export default {
-  name: 'ProfileBids',
+  name: 'ProfileBidsOutgoing',
   components: {
     BidsFilters,
     BidCollectionItem,

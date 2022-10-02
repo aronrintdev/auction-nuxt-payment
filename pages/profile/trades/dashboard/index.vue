@@ -107,7 +107,7 @@
         </div>
       </b-col>
       <b-col md="3">
-        <Button  variant="blue" class="mt-1">{{$t('trades.view_wants_list')}}</Button>
+        <Button  variant="blue" class="mt-1" @click="$router.push('/profile/trades/wants')">{{$t('trades.view_wants_list')}}</Button>
       </b-col>
     </b-row>
 

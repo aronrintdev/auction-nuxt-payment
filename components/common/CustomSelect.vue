@@ -10,7 +10,7 @@
       :class="{ open: open, border: bordered }"
       @click="open = !open"
     >
-      <label class="bg-white"
+      <label class="bg-white mr-2"
         ><img v-if="threelineIcon" src="~/assets/img/icons/feature.png"
       /></label>
       <span>{{ options[selected] }}</span>

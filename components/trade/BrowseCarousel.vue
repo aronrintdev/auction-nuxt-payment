@@ -2,7 +2,7 @@
   <div class="trade-carousel-wrapper">
     <client-only>
       <Carousel
-        :loop="true"
+        :loop="false"
         :nav="false"
         :center="true"
         :margin="0"

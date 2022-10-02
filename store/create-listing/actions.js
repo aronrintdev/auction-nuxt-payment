@@ -69,8 +69,6 @@ export function auctionCreate({ commit }, payload) {
       discount: payload.discount,
       payment_type: payload.paymentMethod.paymentType,
     },
-    auction_items: payload.shoppingCart,
-    auction_id: payload.auction_id,
   }).then(response => {
     return response.data
   }).catch(error => {

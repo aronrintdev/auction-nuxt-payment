@@ -44,7 +44,7 @@ export default {
     width: 45%
     border: none
     position: absolute
-    bottom: 35px
+    bottom: 8px
 
 
 </style>

@@ -2,8 +2,7 @@
   <b-container fluid class="container-profile-auctions h-100">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="title">{{ $t('bids.bids_summary') }}</h2>
-      <span role="button" class="view-similar mt-2 "
-      >{{$t('bids.view_similar')}}</span>
+      <span role="button" class="view-similar mt-2" @click="viewSimilarAuction">{{$t('bids.view_similar')}}</span>
     </div>
     <div v-if="selectedBid">
       <BidAuctionSummary/>
@@ -125,6 +124,7 @@ export default {
       getAuctionBids: 'profile-bids/getAuctionBids',
       getMyAuctionBids: 'profile-bids/getMyAuctionBids',
       getSingleBid: 'profile-bids/getSingleBid',
+      setProductFilter: 'auction/setProductFilter',
     }),
     /**
      * A method that changes the tab of the bids.
@@ -186,6 +186,11 @@ export default {
       }).finally(() => {
         this.bidsLoading = false
       })
+    },
+    viewSimilarAuction() {
+      const product = this.selectedBid.auction.auction_items[0].inventory.product
+      this.setProductFilter({ sku: product.sku, name: product.name })
+      this.$router.push('/auction')
     }
   }
 }

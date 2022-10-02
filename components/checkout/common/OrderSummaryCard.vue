@@ -3,13 +3,13 @@
     <b-col md="12">
       <b-card class="custom-card radius-3">
         <b-row
-          v-for="(item, index) in items"
+          v-for="(item, index) in getItems"
           :key="item.key"
           :class="{'mt-3': index }"
         >
           <b-col md="6">
             <div class="body-5-regular text-gray-25">
-              {{ item.key }}&colon;
+              {{ item.label }}&colon;
             </div>
           </b-col>
           <b-col md="6">
@@ -36,7 +36,29 @@
               <b-img :src="require('~/assets/img/shopping-cart/x-close.svg')" />
             </b-button>
             <span class="body-5-regular text-gray-25">
-              &minus;&dollar;{{ discount | formatPrice }}
+              &minus;&dollar;{{ promoCodeDiscount | formatPrice }}
+            </span>
+          </b-col>
+        </b-row>
+        <b-row v-if="giftCardNumber" class="mt-3">
+          <b-col md="6">
+            <div class="body-5-regular text-gray-25">
+              {{ $t('shopping_cart.gift_card') }}&colon;
+            </div>
+            <div class="body-5-regular text-success">
+              {{ $t('shopping_cart.gift_card_applied') }}
+            </div>
+          </b-col>
+          <b-col md="6" class="d-flex align-items-center">
+            <b-button
+              class="ml-auto pa-0"
+              variant="img"
+              @click="$emit('clear-gift-card')"
+            >
+              <b-img :src="require('~/assets/img/shopping-cart/x-close.svg')" />
+            </b-button>
+            <span class="body-5-regular text-gray-25">
+              &minus;&dollar;{{ giftCardDiscount | formatPrice }}
             </span>
           </b-col>
         </b-row>
@@ -58,9 +80,9 @@
 </template>
 
 <script>
-import {
-    CASH_ADDED
-} from '~/static/constants/trades'
+import { CASH_ADDED } from '~/static/constants/trades'
+import { SUB_TOTAL, SUB_TOTAL_AFTER_DISCOUNT } from '~/static/constants'
+
 export default {
   name: 'OrderSummaryCard',
   props: {
@@ -74,15 +96,32 @@ export default {
       type: [Object, Boolean],
       default: false,
     },
-    discount: {
+    promoCodeDiscount: {
+      type: Number,
+      default: 0
+    },
+    giftCardNumber: {
+      type: [String, Boolean],
+      default: false,
+    },
+    giftCardDiscount: {
       type: Number,
       default: 0
     }
   },
   computed: {
+    getItems: (vm) => {
+      return vm.items.filter((item) => {
+        return item.key !== SUB_TOTAL_AFTER_DISCOUNT
+      })
+    },
     getTotal: (vm) => {
       return vm.items.reduce((sum, item) => {
-        return ((item.key === CASH_ADDED) ? sum : sum + item.value)
+        if (item.key === CASH_ADDED || item.key === SUB_TOTAL) {
+          return sum
+        }
+
+        return sum + item.value
       }, 0)
     }
   },
