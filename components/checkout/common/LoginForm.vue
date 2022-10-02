@@ -180,7 +180,7 @@ export default {
           this.getUserDetails(this.$store.state.auth.user.id
           ).then(() => {
             this.$toasted.success(this.$t('login.success_message.login_successfull').toString())
-            this.$router.push('checkout/selling')
+            this.emitRenderComponentEvent(this.$parent.$options.components.OrderSummary.name)
           })
         })
       } catch (error) {
