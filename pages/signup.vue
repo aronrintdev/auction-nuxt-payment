@@ -512,6 +512,7 @@ export default {
   async mounted() {
     try {
       await this.$recaptcha.init()
+      await this.verify()
     } catch (error) {
       this.$toasted.error(error)
     }
@@ -532,26 +533,15 @@ export default {
       try {
         this.form.token = await this.$recaptcha.execute('login')
         // Do the registration process
-        this.$axios
-          .post('/register', this.form, { handleError: false })
-          .then((response) => {
-            this.$toasted.success(
-              this.$t(
-                'signup.success_message.user_successfully_registered'
-              ).toString()
-            )
-            this.$emit('complete', response.data.user)
-            this.$router.push('login')
-          })
-          .catch((error) => {
-            if (error.response.status === UNPROCESSABLE_ENTITY) {
-              if (error.response.data.errors.email) {
-                this.$toasted.error(
-                  this.$t(
-                    'auth.error.the_email_has_already_been_taken'
-                  ).toString()
-                )
-              }
+        this.$axios.post('/register', this.form, { handleError: false }).then((response) => {
+          this.$toasted.success(this.$t('signup.success_message.user_successfully_registered').toString())
+          this.$emit('complete', response.data.user)
+          this.$router.push('/login')
+        }).catch((error) => {
+          if (error.response.status === UNPROCESSABLE_ENTITY){
+            if (error.response.data.errors.email) {
+              this.$toasted.error(this.$t('auth.error.the_email_has_already_been_taken').toString())
+            }
 
               if (error.response.data.errors.username) {
                 this.$toasted.error(
@@ -575,7 +565,24 @@ export default {
         window.open(res.data, '_blank')
       })
     },
-  },
+    verify() {
+      if (this.$router.currentRoute.query.token && this.$router.currentRoute.query.email) {
+        const data = {
+          token: this.$router.currentRoute.query.token,
+          email: this.$router.currentRoute.query.email
+        }
+        const searchParams = new URLSearchParams(data)
+
+        this.$axios.get('verify/?' + searchParams, { handleError: false }).then((response) => {
+          this.$toasted.success(this.$t(response.data.message).toString())
+        }).catch((error) => {
+          this.$toasted.error(this.$t(error.response.data.message).toString())
+        }).finally(() => {
+          this.$router.push('/login')
+        })
+      }
+    },
+  }
 }
 </script>
 
