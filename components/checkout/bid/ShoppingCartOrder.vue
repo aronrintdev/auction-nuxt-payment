@@ -14,8 +14,8 @@ import PaymentOptionError from '~/components/checkout/bid/payment/PaymentOptionE
 import PaymentGiftCard from '~/components/checkout/bid/payment/PaymentGiftCard'
 import PaymentAffirm from '~/components/checkout/bid/payment/PaymentAffirm'
 import PaymentCrypto from '~/components/checkout/bid/payment/PaymentCrypto'
-import LoginForm from '~/components/checkout/bid/LoginForm'
-import ForgotPassword from '~/components/checkout/bid/ForgotPassword'
+import LoginForm from '~/components/checkout/common/LoginForm'
+import ForgotPassword from '~/components/checkout/common/ForgotPassword'
 
 export default {
   name: 'ShoppingCartOrder',

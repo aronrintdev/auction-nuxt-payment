@@ -14,18 +14,18 @@
           <b-col md="12">
             <ValidationProvider
               v-slot="validationContext"
-              :name="$t('shopping_cart.email')"
-              :rules="{ required: true, email: true }"
+              :name="$t('shopping_cart.login')"
+              :rules="{ required: true, max: 128 }"
             >
-              <b-form-group label-for="email">
+              <b-form-group label-for="login">
                 <template #label>
-                  {{ $t('shopping_cart.email') }}&ast;
+                  {{ $t('shopping_cart.email_or_username') }}&ast;
                 </template>
                 <b-form-input
-                  id="email"
-                  v-model="auth.email"
-                  type="email"
-                  :placeholder="$t('shopping_cart.email')"
+                  id="login"
+                  v-model="auth.login"
+                  type="text"
+                  :placeholder="$t('shopping_cart.email_or_username')"
                   :state="getValidationState(validationContext)"
                 ></b-form-input>
                 <b-form-invalid-feedback>{{
@@ -71,29 +71,7 @@
             <span class="text-color-gray-38">{{ $t('shopping_cart.login_via_social') }}</span>
           </b-col>
         </b-row>
-        <b-row class="mt-3">
-          <b-col md="3" class="text-center">
-            <NuxtLink to="#">
-              <img :src="require('~/assets/img/shopping-cart/google-ellipse.png')" alt="..." @click="socialLogin('google')">
-            </NuxtLink>
-          </b-col>
-          <b-col md="3" class="text-center">
-            <NuxtLink to="#">
-              <img :src="require('~/assets/img/shopping-cart/facebook-ellipse.png')" alt="..." @click="socialLogin('facebook')">
-            </NuxtLink>
-          </b-col>
-          <b-col md="3" class="text-center">
-            <NuxtLink to="#">
-              <!-- TODO: Add social login once Apple is supported -->
-              <img :src="require('~/assets/img/shopping-cart/apple-ellipse.png')" alt="...">
-            </NuxtLink>
-          </b-col>
-          <b-col md="3" class="text-center">
-            <NuxtLink to="#">
-              <img :src="require('~/assets/img/shopping-cart/twitter-ellipse.png')" alt="..." @click="socialLogin('twitter')">
-            </NuxtLink>
-          </b-col>
-        </b-row><!-- End of Social Login Links -->
+        <SocialLoginButtons class="mt-4" /><!-- End of Social Login Links -->
 
         <!-- Login Button -->
         <b-row class="mt-5">
@@ -101,7 +79,7 @@
             <slot name="action">
               <b-button
                 pill
-                :disabled="! auth.email || ! auth.password"
+                :disabled="! auth.login || ! auth.password"
                 type="submit"
                 block
                 size="lg"
@@ -135,10 +113,12 @@ import { mapActions } from 'vuex'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import OrderTitle from '~/components/checkout/common/OrderTitle'
 import emitEvent from '~/plugins/mixins/emit-event'
+import SocialLoginButtons from '~/components/Auth/SocialLoginButtons'
 
 export default {
   name: 'LoginForm',
   components: {
+    SocialLoginButtons,
     OrderTitle,
     ValidationObserver,
     ValidationProvider,
@@ -147,9 +127,10 @@ export default {
   data() {
     return {
       auth: {
-        email: '',
+        login: '',
         password: '',
         rememberMe: false,
+        verification_code: '',
         redirect_uri: null,
         redirect: {
           login: false
@@ -179,7 +160,7 @@ export default {
           this.getUserDetails(this.$store.state.auth.user.id
           ).then(() => {
             this.$toasted.success(this.$t('login.success_message.login_successfull').toString())
-            this.$router.push('checkout/selling')
+            this.emitRenderComponentEvent(this.$parent.$options.components.OrderSummary.name)
           })
         })
       } catch (error) {
@@ -190,12 +171,6 @@ export default {
           return false;
         }
       }
-    },
-    socialLogin(service){
-      this.$axios.get(`login/${service}`
-      ).then((res) => {
-        window.open(res.data, '_blank')
-      })
     },
     handleForgotPassword() {
       this.emitRenderComponentEvent(this.$parent.$options.components.ForgotPassword.name)
