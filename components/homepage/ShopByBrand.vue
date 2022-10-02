@@ -46,7 +46,7 @@ export default {
   name: 'HomeShopByBrand',
   data() {
     return {
-      // Dummy Data
+      // TODO: Replace Dummy Data
       brands: [
         [
           {
