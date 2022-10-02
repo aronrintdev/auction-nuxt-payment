@@ -165,7 +165,7 @@
     "email_address": "Email Address",
     "password": "Password",
     "confirm_password": "Confirm Password",
-    "password_validation_rule": "Min. 8 characters, 1 uppercase, 1 number, and 1 symbol",
+    "password_validation_rule": "Minimum. 8 characters, 1 uppercase, 1 number, and 1 symbol",
     "signup": "Sign Up",
     "secure_login_with_recaptcha": "Secure Login with reCAPTCHA subject to Google",
     "terms": "Terms",
@@ -217,6 +217,12 @@
     "and": "and",
     "private_policy": "Private Policy",
     "please_wait": "Please wait",
+    "create_your_account": "Create your Account \n with Dead Stock",
+    "face_id": "Allow Face ID Sign In",
+    "touch_id": "Allow Touch ID",
+    "touch_id_icon": "Touch ID",
+    "face_id_icon": "Face ID",
+    "skip": "Skip",
     "success_message": {
       "user_successfully_registered": "User successfully registered",
       "username_available": "Username available"
@@ -4433,14 +4439,14 @@
       "date_low_to_high": "Date Added - Ascending",
       "date_high_to_low": "Date Added - Descending ",
       "edit_combination": "Edit Combination #{0}",
-      "add_another_item" : "+ Add Another Item",
+      "add_another_item": "+ Add Another Item",
       "edit_or_add_new_items_to_your_combination": "Edit or add new items to your combination",
       "back_to_wants": "Back to Trade Wants",
       "you_cannot_select_more_than": "You cannot select more than 3 items in one combination"
     },
-    "create_combination_selected" : "Add to Combination",
+    "create_combination_selected": "Add to Combination",
     "delete_selected": "Delete Selected",
-    "delete_combination_selected" : "Delete Selected",
+    "delete_combination_selected": "Delete Selected",
     "add_new_item": "Add New Item",
     "back_to_trade_editing": "Back to Trade Editing",
     "back_to_trade_search": "Back to Trade Search",
@@ -5016,7 +5022,6 @@
       "ds_points": "DS Points",
       "your_next_reward": "Your Next Reward",
       "points_will_expire_on": "Points Will Expire On"
-
     },
     "promotions": {
       "title": "Promotions",
@@ -5038,12 +5043,12 @@
       "view_order": "View Order"
     }
   },
-  "offers_received" : {
-    "heading" : "Offers Received",
-    "your_placed_offers"  : "Your Received Offers ({count})",
-    "placed_offers_desc"  : "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
-    "start_date"  : "Start Date",
-    "end_date"  : "End Date",
-    "remove_multiple" : "Remove Multiple"
+  "offers_received": {
+    "heading": "Offers Received",
+    "your_placed_offers": "Your Received Offers ({count})",
+    "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "remove_multiple": "Remove Multiple"
   }
 }
