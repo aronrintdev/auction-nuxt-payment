@@ -68,17 +68,17 @@
           <b-col sm="12" md="4" class="mt-2">
             <CalendarInput
               class="mr-4"
-              :value="filters.start_date"
+              :value="filters.bid_start_date"
               :placeholder="$t('bids.start_date')"
-              @context="(context) => filters.start_date = context.selectedYMD"
+              @context="(context) => filters.bid_start_date = context.selectedYMD"
             ></CalendarInput>
           </b-col>
           <b-col sm="12" md="4" class="mt-2">
             <CalendarInput
               class="mr-4"
-              :value="filters.end_date"
+              :value="filters.bid_end_date"
               :placeholder="$t('bids.end_date')"
-              @context="(context) => filters.end_date = context.selectedYMD"
+              @context="(context) => filters.bid_end_date = context.selectedYMD"
             ></CalendarInput>
           </b-col>
           <b-col sm="12" md="4" class="mt-2">
@@ -124,8 +124,8 @@ export default {
         auctionType: null,
         statusType: null,
         outbidTypes: null,
-        start_date: null,
-        end_date: null,
+        bid_start_date: null,
+        bid_end_date: null,
       }
     }
   },
@@ -136,8 +136,8 @@ export default {
      */
     haveFilters() {
       return this.filters.activeTypeFilters.length > 0 ||
-        this.filters.start_date ||
-        this.filters.end_date ||
+        this.filters.bid_start_date ||
+        this.filters.bid_end_date ||
         this.filters.activeStatusFilters.length > 0 ||
         this.filters.activeOnOffBidFilters.length > 0
     },
@@ -161,8 +161,8 @@ export default {
         auctionType: null,
         statusType: null,
         outbidTypes: null,
-        start_date: null,
-        end_date: null,
+        bid_start_date: null,
+        bid_end_date: null,
       }
       this.GetBids()
     },
@@ -300,4 +300,23 @@ export default {
     button
       border-radius: 4px !important
 
+::v-deep 
+  .search-input-wrapper input.search-input
+    border: 1px solid $white-2
+  .form-dropdown-wrapper .btn-dropdown
+    height: 40px
+    border-radius: 5px
+    border: 1px solid $white-2
+
+  .custom-selectbox
+    height: 40px
+    border: 1px solid $white-2
+    .selected
+      padding: 10px 16px
+      height: 38px
+
+  .date-input-group
+    height: 40px
+    .form-control
+      height: 100%
 </style>

@@ -1,37 +1,43 @@
 <template>
-  <b-row class="vh-100">
-    <b-col md="8">
+  <b-row class="w-100">
+    <b-col lg="8" class="w-100 py-5 px-5 px-md-0">
       <b-row class="h-100">
         <b-col
           md="6"
           offset-md="3"
           class="d-flex flex-column align-items-center justify-content-center"
-        >
-          <b-row>
-            <b-col md="12">
-              <div class="right-heading-bold text-center">
-                {{ $t('auth.login_to_your_account') }}
-              </div>
-              <div class="body-5-normal text-color-gray-38 text-center mt-3">
-                {{ $t('auth.login_via_social_media') }}
-              </div>
-            </b-col>
-          </b-row>
+          ><b-row
+            class="justify-content-center order-lg-1 order-2 flex-column align-items-center"
+            ><b-row class="order-2 order-lg-1 mb-4">
+              <b-col md="12">
+                <div class="right-heading-bold text-center d-none d-lg-flex">
+                  {{ $t('auth.login_to_your_account') }}
+                </div>
+                <div class="body-5-normal text-color-gray-38 text-center mt-3">
+                  {{ $t('auth.login_via_social_media') }}
+                </div>
+              </b-col>
+            </b-row>
 
-          <SocialLoginButtons class="mt-4" />
+            <SocialLoginButtons class="mt-4" />
 
-          <b-row class="mt-4 w-100">
-            <b-col md="12">
-              <div class="text-line-middle">
-                <span
-                  class="body-4-bold text-color-gray-22 text-uppercase mx-5"
-                  >{{ $t('auth.or') }}</span
-                >
-              </div>
-            </b-col>
-          </b-row>
+            <b-row class="my-2 w-100 order-1 order-lg-3 px-4 px-lg-0">
+              <b-col md="12">
+                <div class="text-line-middle">
+                  <span
+                    class="body-4-bold text-color-gray-22 text-uppercase mx-5"
+                    >{{ $t('auth.or') }}</span
+                  >
+                </div>
+              </b-col>
+            </b-row></b-row
+          >
 
-          <VerificationCodeForm v-if="Object.keys(credentials).length" :credentials="credentials" class="mt-5 w-100" />
+          <VerificationCodeForm
+            v-if="Object.keys(credentials).length"
+            :credentials="credentials"
+            class="mt-5 w-100"
+          />
           <LoginForm v-else class="mt-5 w-100" @verify="handleVerify" />
 
           <b-row class="mt-5 w-100">
@@ -39,7 +45,7 @@
               <b-link
                 class="text-color-black-1 text-decoration-underline"
                 to="/forgot-password"
-              >{{ $t('auth.forgot_password') }}&quest;</b-link
+                >{{ $t('auth.forgot_password') }}&quest;</b-link
               >
             </b-col>
           </b-row>
@@ -49,28 +55,27 @@
               <div class="body-5-normal text-color-gray-38 text-center">
                 {{ $t('auth.secure_login_with_recaptcha') }}
               </div>
-              <div
-                class="body-5-normal text-color-gray-38 text-center mt-2"
-              >
-                        <span class="text-decoration-underline" role="button" @click="$router.push('/terms-and-conditions')">{{
-                            $t('auth.terms')
-                          }}</span
-                        >&nbsp;&amp;&nbsp;<span
-                class="text-decoration-underline"
-                role="button"
-                @click="$router.push('/privacy-policy')"
-              >{{ $t('auth.privacy') }}</span
-              >
+              <div class="body-5-normal text-color-gray-38 text-center mt-2">
+                <span
+                  class="text-decoration-underline"
+                  role="button"
+                  @click="$router.push('/terms-and-conditions')"
+                  >{{ $t('auth.terms') }}</span
+                >&nbsp;&amp;&nbsp;<span
+                  class="text-decoration-underline"
+                  role="button"
+                  @click="$router.push('/privacy-policy')"
+                  >{{ $t('auth.privacy') }}</span
+                >
               </div>
             </b-col>
           </b-row>
-
         </b-col>
       </b-row>
     </b-col>
     <b-col
       md="4"
-      class="d-flex flex-column align-items-center justify-content-center bg-color-white-5"
+      class="flex-column align-items-center justify-content-center login-right-area d-none d-lg-flex"
     >
       <b-row>
         <b-col md="12">
@@ -85,11 +90,16 @@
         </b-col>
       </b-row>
 
-      <b-row class="mt-5 w-100">
-        <b-col md="4" offset-md="4">
-          <Button pill block variant="dark" to="/signup">{{
-            $t('auth.signup')
-          }}</Button>
+      <b-row class="mt-5 w-100 d-flex justify-content-center">
+        <b-col lg="6" md="12" class="d-flex justify-content-center">
+          <Button
+            pill
+            block
+            variant="black"
+            class="w-75 fs-16 fw-5 font-primary bg-dark sign-up-btn"
+            to="/signup"
+            >{{ $t('auth.signup') }}</Button
+          >
         </b-col>
       </b-row>
     </b-col>
@@ -97,7 +107,7 @@
 </template>
 <script>
 import Button from '~/components/common/Button'
-import LoginForm from '~/components/auth/LoginForm'
+import LoginForm from '~/components/Auth/LoginForm'
 import SocialLoginButtons from '~/components/Auth/SocialLoginButtons'
 import VerificationCodeForm from '~/components/Auth/VerificationCodeForm'
 
@@ -120,6 +130,12 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.login-right-area
+  background-image: url('~/assets/img/sign-up/loginbackground.png')
+  background-position: center center
+  background-repeat: no-repeat
+  background-size: cover
 
 .left-heading-bold
   color: black
