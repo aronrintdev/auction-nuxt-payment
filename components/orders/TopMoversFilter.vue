@@ -289,21 +289,21 @@ export default {
 @import '/assets/css/variables'
 
 .filter-boxes
-  border-color: #A3A3A3
+  border-color: $color-gray-28
 
   .border
     border-radius: 3px
 
   .filter-text
-    color: #A3A3A3
+    color: $color-gray-28
 
 .filter-boxes
   .active-filter
-    border-color: #000 !important
-    background: #F2F2F2
+    border-color: $color-black-1 !important
+    background: $color-white-7
 
     .filter-text
-      color: #000
+      color: $color-black-1
 
 
 .header-title
@@ -388,22 +388,22 @@ export default {
   font-size: 16px
 
 .btn-bottom-sheet.reset
-  background: #fff
-  border: 1px solid #000
+  background: $color-white-1
+  border: 1px solid $color-black-1
 
 .btn-bottom-sheet.apply-filter
-  background: #667799
-  border: 1px solid #667799
-  color: #fff
+  background: $color-blue-20
+  border: 1px solid $color-blue-20
+  color: $color-white-1
 
 ::v-deep .col-form-label
   font-weight: bold
-  color: #667799
+  color: $color-blue-20
   font-size: 16px
 
 ::v-deep label.custom-control-label
   font-weight: normal
-  color: #424242
+  color: $color-black-9
 
 ::v-deep .custom-control.custom-radio
   padding-top: 5px

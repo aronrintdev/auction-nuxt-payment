@@ -46,8 +46,10 @@ export default {
 </script>
 
 <style scoped lang="sass">
+@import '/assets/css/variables'
+
 .title
-  color: #667799
+  color: $color-blue-20
   font-size: 16px
 
 .collapsible-box img.close
