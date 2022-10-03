@@ -106,6 +106,9 @@ export default {
     gap: 30px
 
 @media (max-width: 992px)
+  .box-gap
+    gap: 0
+
   .top-movers-heading
     font-family: $font-montserrat
     font-size: 14px
