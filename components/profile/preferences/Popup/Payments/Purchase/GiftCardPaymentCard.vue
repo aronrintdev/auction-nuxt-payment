@@ -503,6 +503,7 @@ export default {
         this.savePurchaseResponse({
           response: res,
         })
+        this.$nuxt.$emit('reloadPaymentMethods')
         // Render the success screen.
         this.emitRenderComponentEvent(
           this.$parent.$options.components.GiftCardPaymentOrderSuccess.name
