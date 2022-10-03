@@ -89,9 +89,6 @@ export default {
 </script>
 
 <style scoped lang="sass">
-@import 'bootstrap/scss/functions'
-@import 'bootstrap/scss/variables'
-@import 'bootstrap/scss/mixins'
 @import '/assets/css/variables'
 
 .box-gap
@@ -100,13 +97,25 @@ export default {
 .top-movers-heading
   font-family: $font-family-sf-pro-display
   @include body-15-bold
+  text-transform: uppercase
   margin: 20px 0
 
   small
     color: $color-gray-6
     font-size: 16px
 
-@include media-breakpoint-up(md)
+@media (min-width: 993px)
   .box-gap
     gap: 30px
+
+@media (max-width: 992px)
+  .top-movers-heading
+    font-family: $font-montserrat
+    font-size: 14px
+    line-height: 17px
+    text-transform: capitalize
+
+    small
+      font-size: 12px
+
 </style>

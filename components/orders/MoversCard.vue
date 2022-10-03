@@ -1,31 +1,31 @@
 <template>
-  <div class="movers-card col d-flex flex-column justify-content-between">
-    <div class="d-flex justify-content-between">
-      <div class="d-none d-md-block"><img :src="brandNameToLogoUrl(product.brand)" alt="" height="40"></div>
-      <div v-if="topSalesPercentage > 0 && topSalesPercentage === product.sales_percentage"
-           class="d-flex justify-content-end align-items-stretch">
-        <div class="best-seller">{{ $t('orders.best_seller') }}</div>
-        <img :src="require('~/assets/img/icons/yellow-star.svg')" alt="" height="19">
+  <div class="col mx-2">
+    <div class="movers-card row d-flex flex-column justify-content-between">
+      <div class="d-flex justify-content-between">
+        <div class="d-none d-md-block"><img :src="brandNameToLogoUrl(product.brand)" alt="" height="40"></div>
+        <div v-if="topSalesPercentage > 0 && topSalesPercentage === product.sales_percentage"
+             class="d-flex justify-content-end align-items-stretch">
+          <div class="best-seller">{{ $t('orders.best_seller') }}</div>
+          <img :src="require('~/assets/img/icons/yellow-star.svg')" alt="" height="19">
+        </div>
       </div>
-    </div>
-    <div class="bg-x-grey">
       <div class="text-center">
         <img :src="productImage" alt="" height="100">
       </div>
-    </div>
-    <div class="d-flex justify-content-between align-items-end">
-      <div class="d-none d-md-block">
-        <div class="product-name">{{ product.name }}</div>
-        <div class="product-color">{{ product.colorway }}</div>
-        <div class="product-sku">{{ $t('orders.sku') }}: {{ product.sku }}</div>
-      </div>
-      <div class="ml-auto">
-        <div class="sales d-flex align-items-end">
-          <div class="sales-up">
-            {{ salesPercentage }}
-            {{ $t('orders.sales') }}
+      <div class="d-flex justify-content-between align-items-end">
+        <div class="d-none d-md-block">
+          <div class="product-name">{{ product.name }}</div>
+          <div class="product-color">{{ product.colorway }}</div>
+          <div class="product-sku">{{ $t('orders.sku') }}: {{ product.sku }}</div>
+        </div>
+        <div class="ml-auto">
+          <div class="sales d-flex align-items-end">
+            <div class="sales-up">
+              {{ salesPercentage }}
+              {{ $t('orders.sales') }}
+            </div>
+            <img :src="salesIndicator" alt="">
           </div>
-          <img :src="salesIndicator" alt="">
         </div>
       </div>
     </div>
@@ -86,15 +86,9 @@ export default {
 </script>
 
 <style scoped lang="sass">
-@import 'bootstrap/scss/functions'
-@import 'bootstrap/scss/variables'
-@import 'bootstrap/scss/mixins'
 @import '/assets/css/variables'
 
 .movers-card
-  background: $white
-  border: 1px solid $color-gray-21
-  border-radius: 13px
   padding: 20px
 
 .best-seller
@@ -122,11 +116,24 @@ export default {
   @include body-9-regular
   color: $color-gray-5
 
-@include media-breakpoint-down(md)
+@media (min-width: 993px)
+  .movers-card
+    background-color: $white
+    height: 100%
+    border: 1px solid $color-gray-21
+    border-radius: 13px
+
+@media (max-width: 992px)
   .product-name
     font-size: 13px
+    line-height: 16px
 
   .sales
     font-size: 13px
+
+  .movers-card
+    border: 1px solid #FAFAFA
+    background-color: #FAFAFA
+    border-radius: 8px 8px 0 0
 
 </style>
