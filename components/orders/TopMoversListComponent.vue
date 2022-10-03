@@ -2,7 +2,7 @@
     <div>
         <div class="row justify-content-between py-20">
             <div class="text-center flex-md-grow-1">
-                <NavGroup :value="activeNav" :data="categories" @change="navItem"/>
+                <NavGroup :value="activeNav" :data="visibleCategories" @change="navItem"/>
             </div>
             <div class="d-none d-md-block">
                 <button class="btn-export" @click="handleExportBtnClick">{{ $t('orders.export_to_csv') }}</button>
@@ -153,6 +153,9 @@ export default {
             'categories': 'vendors/categories',
             'isLoading': 'vendors/isLoading'
         }),
+        visibleCategories(){
+          return this.categories.filter(x => ['all','apparel', 'footwear', 'accessories'].includes(x.value))
+        }
     },
     watch: {
         descSort(val) {
@@ -174,7 +177,7 @@ export default {
     methods: {
         navItem(val) {
             this.activeNav = val
-            const categoryId = this.categories.filter(x => x.value === val)[0]?.id
+            const categoryId = this.categories.find(x => x.value === val)?.id
             this.$store.commit('vendors/setCategoryId', {category_id: categoryId})
             this.reload()
         },
@@ -400,11 +403,13 @@ export default {
 ::v-deep .nav-align button.btn.btn-secondary
     text-transform: capitalize
 
+::v-deep .nav-group .btn-group .btn.btn-secondary
+  text-transform: capitalize
+
 .desc
     transform: rotate(180deg)
 
 @include media-breakpoint-up(md)
     .d-md-header-group
         display: table-header-group !important
-
 </style>

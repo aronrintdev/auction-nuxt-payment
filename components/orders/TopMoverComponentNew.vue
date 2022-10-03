@@ -1,14 +1,16 @@
 <template>
-  <div>
-    <div v-if="multiple">
-      <order-multiple-component :order="order" :is-selectable="isSelectable" :value="value"
+  <div class="">
+    <div class="bg-white my-2 top-movers-row py-2">
+      <div v-if="multiple">
+        <order-multiple-component :order="order" :is-selectable="isSelectable" :value="value"
+                                  @labelCreated="handleLabelCreated"
+                                  @checked="handleChecked"></order-multiple-component>
+      </div>
+      <div v-else>
+        <order-single-component :order="order" :is-selectable="isSelectable" :value="value"
                                 @labelCreated="handleLabelCreated"
-                                @checked="handleChecked"></order-multiple-component>
-    </div>
-    <div v-else>
-      <order-single-component :order="order" :is-selectable="isSelectable" :value="value"
-                              @labelCreated="handleLabelCreated"
-                              @checked="handleChecked"></order-single-component>
+                                @checked="handleChecked"></order-single-component>
+      </div>
     </div>
   </div>
 </template>
@@ -56,6 +58,23 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="sass">
+@import '/assets/css/variables'
+
+@media (max-width: 993px)
+  .top-movers-row
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+    border-radius: 8px
+
+  ::v-deep .top-movers-row table.table-striped td
+    padding: 5px 15px
+    font-family: $font-montserrat
+    font-size: 12px
+
+  ::v-deep .top-movers-row table.table-striped td:nth-child(1)
+    font-weight: 600
+
+  ::v-deep .top-movers-row table.table-striped td:nth-child(2)
+    color: #6F6F6F
 
 </style>

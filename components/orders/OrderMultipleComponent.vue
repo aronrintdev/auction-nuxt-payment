@@ -1,5 +1,5 @@
 <template>
-  <div class="row bg-white my-1 align-items-center py-1">
+  <div class="row align-items-center py-1">
     <div class="col d-none d-md-block">
       <div class="d-flex align-items-center">
         <div v-if="isSelectable">
@@ -56,7 +56,7 @@
                     </div>
                   </div>
                 </div>
-                <div>
+                <div class="my-2">
                   <table class="table table-striped table-borderless">
                     <tbody>
                     <tr>

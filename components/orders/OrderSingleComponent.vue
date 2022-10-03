@@ -1,5 +1,5 @@
 <template>
-  <div class="row bg-white my-1 align-items-center py-1">
+  <div class="row align-items-center py-1">
     <div class="col">
       <div class="d-flex align-items-center">
         <div v-if="isSelectable">
@@ -28,7 +28,7 @@
     </div>
 
     <div class="col-12 d-block d-md-none">
-      <div class="p-1 table-responsive">
+      <div class="table-responsive my-2">
         <table class="table table-striped table-borderless">
           <tbody>
           <tr>
@@ -215,9 +215,6 @@ export default {
 </script>
 
 <style scoped lang="sass">
-@import 'bootstrap/scss/functions'
-@import 'bootstrap/scss/variables'
-@import 'bootstrap/scss/mixins'
 @import '/assets/css/variables'
 
 .title
