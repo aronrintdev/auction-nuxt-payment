@@ -60,7 +60,7 @@
                   <table class="table table-striped table-borderless">
                     <tbody>
                     <tr>
-                      <td>Order Id</td>
+                      <td>{{ $t('orders.order_id') }}</td>
                       <td class="text-right">
                         <NuxtLink :to="`/orders/${order.order_id}-${single.id}`">
                           <span>#{{ order.order_id }}-{{ single.id }}</span>
@@ -68,31 +68,31 @@
                       </td>
                     </tr>
                     <tr>
-                      <td>Order Date</td>
+                      <td>{{ $t('orders.date_ordered') }}</td>
                       <td class="text-right">
                         {{ dateFormat(order.created_at) }}
                       </td>
                     </tr>
                     <tr>
-                      <td>Status</td>
+                      <td>{{ $t('orders.status') }}</td>
                       <td class="text-right">
                         {{ single.status_label }}
                       </td>
                     </tr>
                     <tr>
-                      <td>Type</td>
+                      <td>{{ $t('orders.type') }}</td>
                       <td class="text-right">
                         {{ order.type.label }}
                       </td>
                     </tr>
                     <tr>
-                      <td>Vendor Payout</td>
+                      <td>{{ $t('orders.vendor_payout') }}</td>
                       <td class="text-right">
-                        ${{ (order.total / 100).toFixed(2) }}
+                        ${{ order.total | formatPrice }}
                       </td>
                     </tr>
                     <tr>
-                      <td>Actions</td>
+                      <td>{{ $t('orders.action') }}</td>
                       <td class="text-right">
                         <div v-if="single.status === PROCESSING">
                           <a href="#generate-label"
@@ -134,7 +134,7 @@
     </div>
 
     <div class="col d-none d-md-block">
-      <div class="text-center">${{ (order.total / 100).toFixed(2) }}</div>
+      <div class="text-center">${{ order.total | formatPrice }}</div>
     </div>
     <div class="col"></div>
     <div class="col-2 text-center d-none d-md-block"> -</div>
