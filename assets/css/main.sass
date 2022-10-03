@@ -129,6 +129,9 @@ html,
 body
   font-family: $font-family-base
 
+body
+  margin: 0
+
 .h-logo img
   height: auto
   width: 100%
@@ -683,11 +686,17 @@ svg[disabled]
 .bg-lightgrey
   background-color: $color-white-4
 
+.text-gray-light
+  color: $color-gray-30
+
 .font-primary
   font-family: $font-family-base
 
 .font-secondary
   font-family: $font-sp-pro
+
+.font-adobe-garamond
+  font-family: $font-family-garamond
 
 @for $i from 3 through 9
   .fw-#{$i}
@@ -758,5 +767,29 @@ $radii: 3, 5, 8, 10, 15, 20, 25
 .bg-blue-primary
   background-color: $color-blue-20
 
+.heading-garamond
+  font-weight: $bold
+  font-size: 40px
+  line-height: 40px
+  font-family: $font-family-garamond
+  margin: 0
+  text-align: right
+  white-space: nowrap
+  letter-spacing: 1px
+  @media (max-width: 768px)
+    font-size: 24px
+    line-height: 24px
+
+.garamond-desc
+  width: 300px
+  @media (max-width: 768px)
+    width: 100%
+    font-size: 11px
+
 .pre-line
   white-space: pre-line
+
+.bg-grey-73
+  background: $color-gray-73
+.bg-red-24
+  background: $color-red-24

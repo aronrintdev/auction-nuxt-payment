@@ -1,10 +1,13 @@
 <template>
   <div
     :id="`product-card-container-${product.id}`"
-    class="product-card-wrapper"
+    class="product-card-wrapper position-relative"
   >
+    <div class="badge-slot">
+      <slot name="badge"></slot>
+    </div>
     <div class="product-image">
-      <ProductThumb :product="product" />
+      <ProductThumb :src="product.image" :product="product" />
       <div class="overlay" @click="goToDetailPage"></div>
       <b-checkbox
         v-if="selectable"
@@ -43,9 +46,39 @@
         </div>
       </div>
     </div>
-    <div class="product-name">{{ product.name }}</div>
-    <div class="product-color">{{ product.colorway }}</div>
-    <div class="product-price">{{ product.sale_price | toCurrency }}</div>
+    <div class="mt-2 row">
+      <div :class="[showActionBtn ? 'col-7' : 'col-12']">
+        <div class="fs-15 fw-6 font-secondary product-title text-truncate">
+          {{ getTruncateName }}
+        </div>
+        <div
+          class="fs-14 fw-5 font-secondary text-gray-light text-truncate product-title-2"
+        >
+          {{ getRemainingName }}
+        </div>
+        <div v-if="showSize" class="fs-15 fw-6 font-secondary product-price">
+          {{ $t('home_page.size') }} {{ product.size }}
+        </div>
+        <div v-if="showPrice" class="fs-15 fw-6 font-secondary product-price">
+          {{ product.sale_price | toCurrency }}
+        </div>
+        <div
+          v-if="showPriceAndSize"
+          class="fs-15 fw-6 font-secondary product-price"
+        >
+          {{ product.sale_price | toCurrency }}
+          <span class="fw-5 text-black-50">
+            ( {{ $t('home_page.size') }} {{ product.size }})</span
+          >
+        </div>
+      </div>
+      <div
+        class="col-5 align-items-end align-items-sm-center action-btn-slot pl-0 pl-1"
+        :class="[showActionBtn ? 'col-5 d-flex ' : 'd-none']"
+      >
+        <slot name="action"> </slot>
+      </div>
+    </div>
 
     <WishListPopover
       v-if="!wishList"
@@ -111,6 +144,22 @@ export default {
       type: Boolean,
       default: true,
     },
+    showActionBtn: {
+      type: Boolean,
+      default: false,
+    },
+    showPrice: {
+      type: Boolean,
+      default: true,
+    },
+    showSize: {
+      type: Boolean,
+      default: false,
+    },
+    showPriceAndSize: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -124,7 +173,19 @@ export default {
           : null,
     }
   },
-
+  computed: {
+    getTruncateName() {
+      const name = this.product?.name.split(' ').slice(0, 3).join(' ')
+      return name
+    },
+    getRemainingName() {
+      const name = this.product?.name
+        .split(' ')
+        .slice(3, this.product.name.length)
+        .join(' ')
+      return name
+    },
+  },
   watch: {
     product(newVal, oldVal) {
       if (newVal.wish_lists !== oldVal.wish_lists) {
@@ -136,7 +197,6 @@ export default {
       }
     },
   },
-
   methods: {
     ...mapActions({
       addProductsToWishList: 'wish-list/addProductsToWishList',
@@ -174,24 +234,25 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .product-card-wrapper
-  max-width: 213px
-  margin-left: auto
-  margin-right: auto
+  max-width: initial
   text-align: left
-
+  .badge-slot
+    position: absolute
+    top: 10px
+    left: 10px
+    z-index: 9
+    width: calc(100% - 20px)
   &:hover
     .product-image
       .overlay
         background: rgb(98,98,98,0.1)
-
       .product-actions
         display: flex
-
   .product-image
     position: relative
-    height: 240px
+    height: auto
+    aspect-ratio: 1
     padding: 0 20px
     display: flex
     justify-content: center
@@ -199,17 +260,14 @@ export default {
     margin-left: auto
     margin-right: auto
     cursor: pointer
-
     .check-box
       left: 13px
       position: absolute
       top: 9px
-
     img
       width: 100%
       height: auto
       cursor: pointer
-
     .overlay
       position: absolute
       top: 0px
@@ -218,7 +276,6 @@ export default {
       height: 100%
       background: rgb(153,153,153,0.1)
       transition: .5s ease
-
     .product-actions
       display: none
       align-items: center
@@ -228,43 +285,36 @@ export default {
       border-radius: 20px
       padding: 7px 16px
       width: 162px
-
       &.show-actions
         display: flex
-
       .action-item
         padding: 0 22px
         height: 15px
-
         &:not(:last-child)
           border-right: 1px solid $color-gray-4
-
       .action-icon::v-deep
         img
           width: 15px
           height: 15px
-
-  .product-name
-    @include body-8-medium
-    color: $color-black-1
-    margin-top: 13px
-    text-overflow: ellipsis
-    overflow: hidden
-    white-space: nowrap
-    padding: 0 7px
-
-  .product-color
-    @include body-5-normal
-    color: $color-gray-5
-    margin-top: 3px
-    text-overflow: ellipsis
-    overflow: hidden
-    white-space: nowrap
-    padding: 0 7px
-
-  .product-price
-    @include body-4-medium
-    color: $color-black-1
-    margin-top: 7px
-    padding: 0 7px
+  .action-btn-slot button
+    img.btnIcon
+      width: 20px
+  @media (max-width: 500px)
+    .product-image
+      height: 185px
+      width: 164px
+    .action-btn-slot button
+      font-size: 10px
+      img.btnIcon
+        width: 12px
+    .product-title
+      font-size: 13px
+      font-weight: 600
+    .product-title-2
+      font-size: 13px
+      font-weight: 400
+      color:$color-gray-5
+    .product-price
+      font-size: 12px
+      font-weight: 600
 </style>
