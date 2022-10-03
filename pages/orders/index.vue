@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid p-5">
+    <div class="container-fluid p-md-5 p-3">
         <div class="row">
             <div class="orders-heading w-100 order-md-0 order-3">
                 {{ $t('orders.orders') }} ({{ totalOrders }})

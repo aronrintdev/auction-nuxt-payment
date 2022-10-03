@@ -122,4 +122,11 @@ export default {
   @include body-9-regular
   color: $color-gray-5
 
+@include media-breakpoint-down(md)
+  .product-name
+    font-size: 13px
+
+  .sales
+    font-size: 13px
+
 </style>
