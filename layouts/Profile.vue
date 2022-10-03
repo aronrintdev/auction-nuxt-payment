@@ -132,6 +132,11 @@ export default {
   .sidebar
     display: block
 @media (max-width: 992px)
+  .wrapper
+    .custom-wrapper
+      .main-wrapper
+        background-color: #fff
+
   .sidebar
     display: none
   #sidemenu-expanded
