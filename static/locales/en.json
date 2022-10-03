@@ -217,6 +217,7 @@
     "terms_of_service": "Terms of Service",
     "and": "and",
     "private_policy": "Private Policy",
+    "privacy_policy": "Privacy Policy",
     "please_wait": "Please wait",
     "create_your_account": "Create your Account \n with Dead Stock",
     "face_id": "Allow Face ID Sign In",
@@ -283,6 +284,7 @@
     "contact_us": "Contact Us",
     "faq": "FAQ",
     "private_policy": "Private Policy",
+    "privacy_policy": "Privacy Policy",
     "terms_and_conditions": "Terms & Conditions",
     "all_rights_reserved": "All Rights Reserved",
     "process": "Process"
