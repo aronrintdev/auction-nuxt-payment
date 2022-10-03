@@ -1,8 +1,8 @@
 <template>
     <div class="overview-box col align-middle mx-1">
-        <div class="d-md-flex d-block">
+        <div class="d-md-flex d-block h-100">
             <div class="box-icon d-none d-md-block"><img :src="icon" alt=""></div>
-            <div class="text-md-left text-center">
+            <div class="text-md-left text-center d-flex d-md-block flex-column justify-content-between h-100">
                 <div class="box-title">{{ label }}</div>
                 <div class="box-value">${{ value.toFixed(2) }}</div>
             </div>
@@ -57,10 +57,15 @@ export default {
 
 @include media-breakpoint-down(md)
     .overview-box
-        padding: 10px
+      box-shadow: inset 0px 1px 4px #FFFFFF
+      filter: drop-shadow(0px 1px 4px rgba(0, 0, 0, 0.31))
+      border-radius: 8px
+      padding: 10px
 
     .box-title
-        font-size: 14px
+      font-family: $font-montserrat
+      color: #4A4A4A
+      font-size: 12px
 
     .box-value
         font-size: 15px
