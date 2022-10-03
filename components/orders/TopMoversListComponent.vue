@@ -5,7 +5,7 @@
         <NavGroup :value="activeNav" :data="visibleCategories" @change="navItem"/>
       </div>
       <div class="d-none d-md-block">
-        <button class="btn-export" @click="handleExportBtnClick">{{ $t('orders.export_to_csv') }}</button>
+        <button class="btn-export text-center border-0" @click="handleExportBtnClick">{{ $t('orders.export_to_csv') }}</button>
       </div>
     </div>
 
@@ -320,10 +320,8 @@ export default {
   font-family: $font-family-sf-pro-display
   font-weight: $normal
   @include body-8
-  text-align: center
   color: $white
   padding: 10px 25px
-  border: none
 
 ::v-deep .collapsible-table .table
   border-collapse: separate

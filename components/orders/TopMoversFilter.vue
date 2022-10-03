@@ -90,21 +90,21 @@
           <div class="filter-title text-center pb-1">Filter By</div>
           <div class="p-3 bottom-sheet-content">
             <div>
-              <b-form-group label="Sort" v-slot="{ ariaDescribedby }">
-                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="A">Date Ordered: Recent to
-                  Oldest
+              <b-form-group v-slot="{ ariaDescribedby }" label="Sort">
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="A">
+                  {{ $t('orders.date_ordered') }}: {{ $t('orders.recent_to_oldest') }}
                 </b-form-radio>
-                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Date Ordered: Oldest to
-                  Recent
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
+                  {{ $t('orders.date_ordered') }}: {{ $t('orders.oldest_to_recent') }}
                 </b-form-radio>
-                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: A &#10230;
-                  Z
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
+                  {{ $t('orders.product_name') }}: {{ $t('orders.a_to_z') }}
                 </b-form-radio>
-                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Product Name: Z &#10230;
-                  A
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
+                  {{ $t('orders.product_name') }}: {{ $t('orders.z_to_a') }}
                 </b-form-radio>
-                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">Vendor Payout: Lowest to
-                  Highest
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
+                  {{ $t('orders.vendor_payout') }}: {{ $t('orders.lowest_to_highest') }}
                 </b-form-radio>
               </b-form-group>
             </div>
@@ -408,4 +408,5 @@ export default {
 ::v-deep .custom-control.custom-radio
   padding-top: 5px
   padding-bottom: 5px
+
 </style>

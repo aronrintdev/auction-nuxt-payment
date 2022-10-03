@@ -4859,6 +4859,12 @@
     "more_from_order_id": "More From Order ID",
     "back": "Back",
     "and": "and",
+    "recent_to_oldest": "Recent to Oldest",
+    "oldest_to_recent": "Oldest to Recent",
+    "a_to_z": "A → Z",
+    "z_to_a": "Z → A",
+    "lowest_to_highest": "Lowest to Highest",
+    "product_name": "Product Name",
     "order_types": {
       "buy": "Buy",
       "trade": "Trade",
