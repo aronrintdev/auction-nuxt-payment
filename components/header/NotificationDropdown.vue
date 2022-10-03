@@ -43,19 +43,18 @@
 import {mapGetters} from 'vuex';
 import NotificationIcon from '~/components/header/NotificationIcon';
 import Button from '~/components/common/Button';
-import DoubleCheck from '~/assets/img/profile/notifications/notification-double-check.svg?inline'
 import NotificationItem from '~/components/header/NotificationItem';
 import NotificationMarkAllAsRead from '~/components/profile/notifications/NotificationMarkAllAsRead';
 
 export default {
   name: 'NotificationDropdown',
-  components: {NotificationMarkAllAsRead, NotificationItem, Button, NotificationIcon, DoubleCheck},
+  components: {NotificationMarkAllAsRead, NotificationItem, Button, NotificationIcon},
   data() {
     return {
       shown: false,
     }
   },
-  computed:{
+  computed: {
     ...mapGetters({
       'notifications': 'notifications/getNotifications'
     }),

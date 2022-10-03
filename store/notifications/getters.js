@@ -53,6 +53,15 @@ export function getTab(state) {
   return state.tab
 }
 
+/**
+ * Get push notification activity
+ * @param state
+ * @return {number}
+ */
+export function getPushNotificationsActive(state) {
+  return state.isPushNotificationsActive
+}
+
 
 /**
  * Get selected status

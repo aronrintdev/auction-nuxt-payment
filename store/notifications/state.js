@@ -13,6 +13,7 @@ export default function () {
       unreadCount: 0,
       selectedStatus: 'all',
       tab: 'Notifications',
-      selectedNotificationSetting: null
+      selectedNotificationSetting: null,
+      isPushNotificationsActive: false,
     }
 }

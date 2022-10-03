@@ -330,14 +330,14 @@ export default {
 
 
 .title
-  @include body-8
+  @include body-13
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $medium
   color: $color-black-1
 
 .sub-title
-  @include body-8
+  @include body-20
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $regular

@@ -11,7 +11,24 @@
           :items="settings()"
           :path="'all'"
           :preference="false"
-          :title="$t('notifications.settings.all_communication')"/>
+          :title="$t('notifications.settings.all_communication')">
+        <template #extra>
+          <div v-if="isScreenXS">
+            <ItemDivider/>
+            <div class="d-flex align-items-center ">
+              <div>
+                <div :class="{'justify-content-between': isScreenXS}" class="push-title d-flex align-items-center ">
+                  {{ $t('notifications.push.title') }}
+                </div>
+                <div class="push-sub-title mt-2 mr-2">{{ $t('notifications.push.desc') }}</div>
+              </div>
+              <NotificationSwitch :value="pushActive"
+                                  class="mr-3"
+                                  @change="activeChange"/>
+            </div>
+          </div>
+        </template>
+      </NotificationSettingsSection>
 
       <div class="text-center my-4">
         <NavGroup
@@ -56,10 +73,15 @@ import {ALL_SETTINGS} from '~/static/constants/notifications';
 import {Button} from '~/components/common';
 import Loader from '~/components/common/Loader';
 import screenSize from '~/plugins/mixins/screenSize';
+import ItemDivider from '~/components/profile/notifications/ItemDivider';
+import NotificationSwitch from '~/components/profile/notifications/Switch';
 
 export default {
   name: 'NotificationSettings',
-  components: {Loader, NotificationSettingsTab, Button, NavGroup, NotificationSettingsSection},
+  components: {
+    NotificationSwitch,
+    ItemDivider, Loader, NotificationSettingsTab, Button, NavGroup, NotificationSettingsSection
+  },
   mixins: [screenSize],
   data() {
     return {
@@ -81,7 +103,8 @@ export default {
   computed: {
     ...mapGetters({
       'changedSettings': 'notifications/getChangedSettings',
-      'getSettings': 'notifications/getSettings'
+      'getSettings': 'notifications/getSettings',
+      'pushActive': 'notifications/getPushNotificationsActive'
     })
   },
   methods: {
@@ -103,6 +126,9 @@ export default {
         this.loading = false
       })
     },
+    activeChange(e) {
+      this.$store.commit('notifications/setPushNotificationsActive', e)
+    },
     saveChanges() {
       this.loading = true
       this.bulkEditNotificationSettings({settings: this.changedSettings}).then(res => {
@@ -118,6 +144,20 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="sass" scoped>
+@import "~/assets/css/variables"
 
+.push-title
+  @include body-13
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $medium
+  color: $color-black-1
+
+.push-sub-title
+  @include body-20
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $regular
+  color: $color-gray-5
 </style>

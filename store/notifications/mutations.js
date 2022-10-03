@@ -58,6 +58,15 @@ export function setTab(state, tab) {
 }
 
 /**
+ * Set user selected tab
+ * @param state
+ * @param {Boolean} active
+ */
+export function setPushNotificationsActive(state, active) {
+  state.isPushNotificationsActive = active
+}
+
+/**
  * Set user settings
  * @param state
  * @param {Object[]} settings

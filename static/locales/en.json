@@ -4967,6 +4967,10 @@
     "mark_as_unread": "Mark as Unread",
     "view_all": "View All Notifications",
     "search": "Search",
+    "push": {
+      "title": "Mute Push Notifications",
+      "desc": "Deadstock may still send you urgent notifications that need attention."
+    },
     "filters": {
       "all": "All",
       "unread": "Unread",
