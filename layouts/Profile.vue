@@ -33,9 +33,11 @@
   </div>
 </template>
 <script>
+import {mapGetters} from 'vuex';
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
 import NewSideMenu from '~/components/profile/NewSideMenu'
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'Default',
@@ -45,12 +47,18 @@ export default {
     Header,
     Footer,
   },
+  mixins: [screenSize],
   head() {
     return {
       bodyAttrs: {
         class: 'hold-transition sidebar-mini layout-fixed authLayout',
       },
     }
+  },
+  computed: {
+    ...mapGetters({
+      'pushActive': 'notifications/getPushNotificationsActive'
+    })
   },
   mounted() {
     // disable guests to access this layout and pages that uses this layout
@@ -61,13 +69,50 @@ export default {
     this.$store.dispatch('notifications/getNotifications')
     this.$store.dispatch('notifications/getUnreadCount')
     window.addEventListener('resize', this.onResize);
+    this.notificationSubscriptions()
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize);
+    this.leaveChannels()
   },
-  methods:{
+  methods: {
     onResize() {
       this.$store.commit('size/setWindowWidth', window.innerWidth)
+    },
+    notificationSubscriptions() {
+      // single user subscriptions
+      window.Echo.private(`notifications.single.${this.$auth.user.id}`).listen('NotificationAdded', (not) => {
+        this.toastNotification(not[0])
+      })
+      // global notification subscriptions
+      window.Echo.channel('notifications.global').listen('NotificationAdded', (not) => {
+        this.toastNotification(not[0])
+      })
+      // Role Based subscriptions
+      this.$auth.user.roles.forEach(role => {
+        window.Echo.private(`notifications.role.${role}`).listen('NotificationAdded', (not) => {
+          this.toastNotification(not[0])
+        })
+      })
+    },
+    leaveChannels() {
+      window.Echo.leave(`notifications.single.${this.$auth.user.id}`)
+      window.Echo.leave('notifications.global')
+      this.$auth.user.roles.forEach(role => {
+        window.Echo.leave(`notifications.role.${role}`)
+      })
+    },
+    toastNotification(notification) {
+      if (this.isScreenXS) {
+        if (this.pushActive) {
+          this.$toasted.success(`New Notification: ${notification.subject}`)
+        }
+      } else {
+        this.$toasted.success(`New Notification: ${notification.subject}`)
+      }
+      // update notifications
+      this.$store.dispatch('notifications/getNotifications')
+      this.$store.dispatch('notifications/getUnreadCount')
     }
   }
 }

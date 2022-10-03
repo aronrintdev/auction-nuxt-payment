@@ -43,7 +43,6 @@ export default defineNuxtConfig({
     { src: '~/plugins/persistedState.js', mode: 'client' },
     { src: '~/plugins/owl.js', mode: 'client' },
     { src: '~/plugins/filters.js' },
-    { src: '~/plugins/echo.js', mode: 'client' },
     { src: '~/plugins/logger.js', mode: 'client' },
       {src: '~/plugins/utils.js', mode: 'client'},
       {src: '~/plugins/vue-chartjs.js', mode: 'client'},
@@ -134,6 +133,7 @@ export default defineNuxtConfig({
       home: '/',
       logout: '/',
     },
+    plugins: [{src: '~/plugins/echo.js', mode: 'client'}]
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

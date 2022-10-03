@@ -4,7 +4,7 @@
  * @param {Object[]} notifications
  */
 export function setNotification(state, notifications) {
-    state.notifications = notifications
+    state.notifications = notifications.sort((a, b) => b.id - a.id)
 }
 
 /**
