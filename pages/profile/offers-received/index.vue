@@ -888,16 +888,16 @@ export default {
   font-family: $font-sp-pro
   font-style: normal
   @include body-9-normal
-  color: $color-gray-76
+  color: $color-gray-80
 .decline-btn
-  border: 1px solid $color-gray-74
+  border: 1px solid $color-gray-80
   border-radius: 20px
   font-family: $font-sp-pro
   font-style: normal
   @include body-10-medium
-  color: $color-gray-74
+  color: $color-gray-80
 .delete-btn
-  background: $color-gray-73
+  background: $color-gray-81
   border-radius: 20px
   font-family: $font-sp-pro
   font-style: normal
@@ -952,7 +952,7 @@ export default {
         border: none
 #offer-delete-modal
   .modal-content
-    background: $color-gray-79
+    background: $color-gray-81
     backdrop-filter: blur(2px)
     border-radius: 8px
 </style>
