@@ -31,9 +31,6 @@ export default {
 </script>
 
 <style scoped lang="sass">
-@import 'bootstrap/scss/functions'
-@import 'bootstrap/scss/variables'
-@import 'bootstrap/scss/mixins'
 @import '/assets/css/variables'
 
 .overview-box
@@ -54,8 +51,7 @@ export default {
     font-family: $font-montserrat
     @include body-1-bold
 
-
-@include media-breakpoint-down(md)
+@media (max-width: 992px)
     .overview-box
       box-shadow: inset 0px 1px 4px #FFFFFF
       filter: drop-shadow(0px 1px 4px rgba(0, 0, 0, 0.31))

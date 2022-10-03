@@ -303,9 +303,6 @@ export default {
 </script>
 
 <style scoped lang="sass">
-@import 'bootstrap/scss/functions'
-@import 'bootstrap/scss/variables'
-@import 'bootstrap/scss/mixins'
 @import '/assets/css/variables'
 
 .title
@@ -321,7 +318,7 @@ export default {
   padding: 10px 15px
   border-radius: 4px
 
-@include media-breakpoint-up(md)
+@media (min-width: 993px)
   .forced-wide
     width: 350px
 
