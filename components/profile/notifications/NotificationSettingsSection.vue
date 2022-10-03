@@ -19,9 +19,7 @@
         </b-row>
       </b-col>
     </b-row>
-    <slot name="extra">
-
-    </slot>
+    <slot name="extra"></slot>
     <div :class="{'mt-3': !isScreenXS}">
       <div v-for="item in items" :key="item.key">
         <hr v-if="isScreenXS" class="divider">
