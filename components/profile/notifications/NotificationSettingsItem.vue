@@ -216,7 +216,8 @@ export default {
         setting: this.settings,
         formData: this.formData,
         channelSettings: this.channelSettings,
-        path: this.path
+        path: this.path,
+        id: this.getSettings.filter(sett => sett.key === this.settings.key)[0].id
       }
       this.$store.commit('notifications/setSelectedSetting', selected)
     },
@@ -249,6 +250,7 @@ export default {
     },
     setChannelSetting(e, channel) {
       this.channelSettings[channel] = e
+      this.updateChanges()
     },
     initChannelSettings() {
       this.channelSettings = {

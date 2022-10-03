@@ -19,7 +19,7 @@
             <div class="d-flex align-items-center justify-content-between ">
               <span class="label">{{ channel.text }}</span>
               <NotificationSwitch
-                  :value="selectedSetting.channelSettings[channel.value]"
+                  :value="channelSettings[channel.value]"
                   class="mr-3"
                   @change="(e) => setChannelSetting(e, channel.value)"/>
             </div>
@@ -50,14 +50,17 @@
               :tooltipStyle="{
               'background-color': 'transparent'
               }"
-              :value="selectedSetting.formData.extra.until.value"
+              :value="formData.extra.until.value"
               class="vue-slider-ltr-shop mt-3"
               height="9px"
               tooltip="always"
+              @change="percentageChange"
           >
           </vue-slider>
           <div class="until-desc mt-2">
-            {{ $t(`notifications.settings.texts.${selectedSetting.setting.key}.until_desc`, {n: selectedSetting.setting.data.until.value}) }}
+            {{
+              $t(`notifications.settings.texts.${selectedSetting.setting.key}.until_desc`, {n: selectedSetting.setting.data.until.value})
+            }}
           </div>
         </template>
       </MobileSettingsItemCard>
@@ -73,9 +76,10 @@
         <template #body>
           <b-form-checkbox-group
               v-if="fieldExist(selectedSetting.setting.data, 'when')"
-              :checked="selectedSetting.setting.data.when.value"
-              :value="selectedSetting.setting.data.when.value"
+              :checked="formData.extra.when.value"
+              :value="formData.extra.when.value"
               class="type-checkboxes"
+              @change="whenChanged"
           >
             <div v-for="status in whenOptions(selectedSetting.setting.data)" :key="status.value" class="my-4 ">
               <hr class="divider">
@@ -92,9 +96,10 @@
 
           <b-form-radio-group
               v-if="fieldExist(selectedSetting.setting.data, 'every')"
-              :checked="selectedSetting.setting.data.every.value"
-              :value="selectedSetting.setting.data.every.value"
+              :checked="formData.extra.every.value"
+              :value="formData.extra.every.value"
               class="type-radios"
+              @change="everyChanged"
           >
             <div v-for="status in getEveryOptions" :key="status.value" class="my-4 ">
               <hr class="divider">
@@ -102,6 +107,7 @@
                 <span class="label">{{ status.text }}</span>
                 <b-form-radio
                     :value="status.value"
+                    :checked="status.value"
                 >
                 </b-form-radio>
               </div>
@@ -117,6 +123,7 @@
                       :placeholder="$t('notifications.enter_custom_amount')"
                       class="ml-2 custom-radio-input"
                       type="number"
+                      @input="updateChanges"
                   >
                   </b-input>
                 </div>
@@ -136,7 +143,8 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import _ from 'lodash'
+import {mapActions, mapGetters} from 'vuex';
 import MobileHeader from '~/components/mobile/MobileHeader';
 import closeSvg from '~/assets/img/icons/close.svg?inline'
 import MobileSettingsItemCard from '~/components/profile/notifications/MobileSettingsItemCard';
@@ -156,6 +164,19 @@ export default {
         [NOTIFICATION_CHANNEL_APP]: false,
         [NOTIFICATION_CHANNEL_TEXT]: false,
         [NOTIFICATION_CHANNEL_EMAIL]: false
+      },
+      formData: {
+        extra: {
+          until: {
+            value: 0
+          },
+          every: {
+            value: 1
+          },
+          when: {
+            value: []
+          }
+        }
       }
     }
   },
@@ -175,13 +196,89 @@ export default {
       })
     },
   },
+  mounted() {
+    this.initChannelSettings()
+    this.initFormData()
+  },
   methods: {
+    ...mapActions({
+      'fetchSettings': 'notifications/getUserSettings',
+      'bulkEditNotificationSettings': 'notifications/bulkEditNotificationSettings',
+    }),
+    percentageChange(e) {
+      this.formData.extra.until.value = e
+      this.updateChanges()
+    },
+    initChannelSettings() {
+      this.channelSettings = {
+        [NOTIFICATION_CHANNEL_APP]: this.selectedSetting.channelSettings[NOTIFICATION_CHANNEL_APP],
+        [NOTIFICATION_CHANNEL_TEXT]: this.selectedSetting.channelSettings[NOTIFICATION_CHANNEL_TEXT],
+        [NOTIFICATION_CHANNEL_EMAIL]: this.selectedSetting.channelSettings[NOTIFICATION_CHANNEL_EMAIL]
+      }
+    },
+    /**
+     * Initializing the formData object.
+     */
+    initFormData() {
+      if (this.fieldExist(this.selectedSetting.setting.data, 'when')) {
+        const data = this.selectedSetting.setting.data.when
+        this.formData.extra.when = Object.assign({}, this.formData.extra.when, {value: data.value, type: data.type})
+        this.$forceUpdate()
+      }
+      if (this.fieldExist(this.selectedSetting.setting.data, 'until')) {
+        const data = this.selectedSetting.setting.data.until
+        this.formData.extra.until = Object.assign({}, this.formData.extra.until, {value: data.value, type: data.type})
+      }
+      if (this.fieldExist(this.selectedSetting.setting.data, 'every')) {
+        const data = this.selectedSetting.setting.data.every
+        this.formData.extra.every = Object.assign({}, this.formData.extra.every, {value: data.value, type: data.type})
+        this.everyValue = this.everyValueSorted() === 'null' ? this.formData.extra.every.value : null
+      }
+    },
+    everyValueSorted() {
+      return this.getEveryOptions.filter(option => option.value === this.formData.extra.every.value + '').length > 0 ? this.formData.extra.every.value : 'null'
+    },
     setChannelSetting(e, channel) {
       this.channelSettings[channel] = e
+      this.updateChanges()
     },
     handlePageChange() {
       this.$store.commit('notifications/setSelectedSetting', null)
-    }
+    },
+    whenChanged(all) {
+      this.formData.extra.when.value = all
+      this.$forceUpdate()
+      this.updateChanges()
+    },
+    everyChanged(value) {
+      this.everyValue = value !== null ? null : this.everyValue
+      this.updateChanges()
+    },
+    updateFormConstructor(channel) {
+      const data = {
+        id: this.selectedSetting.id,
+        data: JSON.stringify(Object.keys(this.selectedSetting.setting.data).reduce((obj, key) => {
+          obj[key] = this.formData.extra[key]
+          if (this.everyValue !== null && key === 'every') {
+            obj[key].value = parseInt(this.everyValue)
+          }
+          return obj
+        }, {})),
+        value: this.channelSettings[channel] ? 1 : 0
+      }
+      return data
+    },
+    updateChanges: _.debounce(function () {
+      const data = Object.keys(this.channelSettings).map(sett => {
+        return this.updateFormConstructor(sett)
+      })
+      this.bulkEditNotificationSettings({settings: data}).then(res => {
+        this.fetchSettings()
+        this.$toasted.success(res.data.message)
+      }).catch(err => {
+        this.$toasted.error(err.response.data.message)
+      })
+    }, 500)
   }
 }
 </script>
