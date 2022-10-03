@@ -1,11 +1,24 @@
 <template>
-  <div v-if="options && options.length" class="accordion-filter-item">
-    <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header">
+  <div
+    v-if="options && options.length"
+    class="accordion-filter-item bg-transparent border-0 w-100"
+  >
+    <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header mb-0">
       <button
         v-b-toggle="`collapse-${collapseKey}`"
         aria-controls="panelsStayOpen-collapseOne"
         aria-expanded="false"
-        class="accordion-filter-button collapsed position-relative d-flex align-items-center border-0 bg-none"
+        class="
+          accordion-filter-button
+          collapsed
+          position-relative
+          d-flex
+          align-items-center
+          border-0
+          bg-none
+          w-100
+          p-0
+        "
         data-bs-target="#panelsStayOpen-collapseOne"
         data-bs-toggle="collapse"
         type="button"
@@ -15,7 +28,10 @@
             {{ title }}
           </div>
           <div class="col text-right">
-            <span v-if="visibleDate" class="filters">
+            <span
+              v-if="visibleDate"
+              class="filters overflow-hidden d-inline-block text-nowrap"
+            >
               <span v-if="startDate !== startDateText">{{ startDate }}</span>
               <span v-if="endDate !== endDateText">{{ endDate }}</span></span
             >
@@ -33,7 +49,7 @@
       @show="hideFilter(false)"
       @hide="hideFilter(true)"
     >
-      <div class="accordion-filter-body d-flex justify-content-between">
+      <div class="accordion-filter-body d-flex justify-content-between p-0">
         <b-form-group class="start-date h-100">
           <b-input-group @click="showStartDate">
             <b-form-input
@@ -140,7 +156,10 @@ export default {
             this.startDate && this.startDate !== this.startDateText
               ? this.startDate
               : '',
-          end: this.endDate && this.endDate !== this.endDateText ? this.endDate : '',
+          end:
+            this.endDate && this.endDate !== this.endDateText
+              ? this.endDate
+              : '',
         },
       })
     },
@@ -164,16 +183,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .accordion-filter-item
-  background: none
-  border: none
-  width: 100%
-
-  .accordion-filter-header
-    margin-bottom: 0
-
   .accordion-filter-button
-    width: 100%
-    padding: 0
     color: $color-black-1
     overflow-anchor: none
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease
@@ -191,10 +201,7 @@ export default {
       font-style: normal
       @include body-4-normal
       color: $color-black-1
-      overflow: hidden
-      display: inline-block
       text-overflow: ellipsis
-      white-space: nowrap
 
     @media (prefers-reduced-motion: reduce)
       transition: none
@@ -234,41 +241,6 @@ export default {
     max-height: 150px
     scroll-behavior: smooth
     margin: 20px 0 0 0
-    padding: 0
-
-    .form-check
-      margin-bottom: 7px
-
-      & > *
-        cursor: pointer !important
-
-      .form-check-input
-        border: none
-        box-shadow: none
-
-        &::after
-          content: ' '
-          background-color: $color-gray-3
-          position: absolute
-          left: 0
-          top: 50%
-          width: 16px
-          height: 16px
-          transform: translateY(-7px)
-          border-radius: 2px
-
-        &:checked
-          &::after
-            background-color: $color-blue-2
-            border-color: $color-blue-2
-            box-shadow: none
-
-      label
-        @include body-5-normal
-        text-align: left
-        color: $color-gray-41
-        padding-left: 6px
-        width: 100%
 
   ::-webkit-scrollbar
     width: 6px !important

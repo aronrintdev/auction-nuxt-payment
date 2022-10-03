@@ -1,11 +1,11 @@
 <template>
-  <div v-if="options && options.length" class="accordion-filter-item">
-    <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header">
+  <div v-if="options && options.length" class="accordion-filter-item background-transparent border-0 w-100">
+    <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header mb-0">
       <button
         v-b-toggle="`collapse-${collapseKey}`"
         aria-controls="panelsStayOpen-collapseOne"
         aria-expanded="false"
-        class="accordion-filter-button collapsed position-relative d-flex align-items-center bg-none border-0"
+        class="accordion-filter-button mb-0 w-100 p-0 collapsed position-relative d-flex align-items-center bg-none border-0"
         data-bs-target="#panelsStayOpen-collapseOne"
         data-bs-toggle="collapse"
         type="button"
@@ -15,7 +15,7 @@
             {{ title }}
           </div>
           <div class="col text-right">
-            <span v-if="value" class="filters">{{ value.label }}</span>
+            <span v-if="value" class="filters overflow-hidden d-inline-block text-nowrap">{{ value.label }}</span>
           </div>
         </div>
         
@@ -29,7 +29,7 @@
       class="accordion-filter-collapse"
       aria-labelledby="panelsStayOpen-headingOne"
     >
-      <div class="accordion-filter-body d-flex">
+      <div class="accordion-filter-body d-flex p-0">
         <div
           v-for="(option, index) in options"
           id="amount-list-button"
@@ -38,7 +38,7 @@
           :class="selectedStatus === option.value ? 'active d-flex align-items-center text-align-center' : ''"
           role="button"
         >
-          <div class="add-amount-item d-flex align-items-center text-align-center" @click="activeStatus(option)">
+          <div class="add-amount-item d-flex align-items-center text-align-center justify-content-center" @click="activeStatus(option)">
             {{ option.label }}
           </div>
         </div>
@@ -102,21 +102,11 @@ export default {
 @import '~/assets/css/_variables'
 
 .accordion-filter-item
-  background: none
-  border: none
-  width: 100%
-
-  .accordion-filter-header
-    margin-bottom: 0
 
   .accordion-filter-button
-    width: 100%
-    padding: 0
     color: $color-black-1
     overflow-anchor: none
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease
-    background: none
-    border: none
     overflow-anchor: none
     font-family: $font-sp-pro
     font-style: normal
@@ -131,10 +121,7 @@ export default {
       font-style: normal
       @include body-4-normal
       color: $color-black-1
-      overflow: hidden
-      display: inline-block
       text-overflow: ellipsis
-      white-space: nowrap
 
     @media (prefers-reduced-motion: reduce)
       transition: none
@@ -175,7 +162,6 @@ export default {
     justify-content: space-evenly
     scroll-behavior: smooth
     margin: 20px 0 0 0
-    padding: 0
 
   ::-webkit-scrollbar
     width: 6px !important
@@ -199,7 +185,6 @@ export default {
   font-style: normal
   @include body-5-normal
   color: $color-gray-28
-  justify-content: center
 
 .denomination
   &.active

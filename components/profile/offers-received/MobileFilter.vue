@@ -1,5 +1,5 @@
 <template>
-  <div v-show="mobileClass" :class="`sidebar-wrapper ${mobileClass} d-flex w-100`">
+  <div v-show="mobileClass" :class="`sidebar-wrapper ${mobileClass} d-flex w-100 flex-column align-items-start`">
     <div :class="`header ${mobileClass} w-100 px-5 py-3 border-bottom`">
       <div :class="`filter-by w-100 ${mobileClass} d-flex aling-items-center justify-content-center`">
         <span>{{ $t('common.filter_by') }}</span>
@@ -34,7 +34,7 @@
         <hr />
       </div>
       <!-- Sort By ends -->
-      <div v-show="filterVisibility" class="collapses">
+      <div v-show="filterVisibility" class="collapses flex-column">
         <CollapseStatus
           :value="filter.status || {}"
           collapseKey="status"
@@ -44,7 +44,7 @@
         />
       </div>
       <hr v-show="filterVisibility" />
-      <div class="collapses">
+      <div class="collapses flex-column">
         <CollapseDate
           collapseKey="offer-date"
           :title="$t('offers_received.offer_date')"
@@ -54,12 +54,13 @@
         />
       </div>
 
-      <div v-show="filterVisibility" :class="`section-actions ${mobileClass} d-flex align-items-center w-100`">
-        <Button pill class="btn-reset btn-light" @click="resetFilter">{{
+      <div v-show="filterVisibility" :class="`section-actions ${mobileClass} d-flex align-items-center w-100 justify-content-between`">
+        <Button v-if="filterVisibility" pill class="btn-reset btn-light" @click="resetFilter">{{
           $t('offers_received.reset')
         }}</Button>
 
         <Button
+          v-if="filterVisibility"
           pill
           class="btn-apply border-0"
           @click="$emit('filter', { ...filter })"
@@ -181,8 +182,6 @@ export default {
 
 .sidebar-wrapper
   font-family: $font-sp-pro
-  flex-direction: column
-  align-items: flex-start
   &.mobile
     height: 450px
 
@@ -210,33 +209,12 @@ export default {
     color: $color-black-1
 
   .section-actions
-
     &.mobile
-      justify-content: center
       margin-top: 20%
-
-@media (max-width: 992px)
-  .sidebar-wrapper
-    .sliders, .collapses
-      flex-direction: row
-
-      >div
-        max-width: 206px
-
-        &:not(:last-child)
-          margin-right: 30px
-
-    .section-actions
-      justify-content: flex-start
-
-      >*
-        margin-right: 20px
 
 @media (max-width: 576px)
   .sidebar-wrapper
     .sliders, .collapses
-      flex-direction: column
-
       >div
         max-width: 100%
 

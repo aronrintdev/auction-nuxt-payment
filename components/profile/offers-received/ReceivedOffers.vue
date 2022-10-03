@@ -47,11 +47,11 @@
               :src="row.item.product.image || fallbackImage"
               alt="Product Picture"
               width="auto"
-              class="img-fluid"
+              class="img-fluid h-100"
               @error="imageLoadError"
             />
 
-            <span class="listing-id">{{
+            <span class="listing-id text-decoration-underline">{{
               $t('placed_offers.listing_id', {
                 listingID: getListingID(row.item),
               })
@@ -376,7 +376,6 @@ export default {
 .img-col
   img
     width: 113.1px
-    height: 100%
 :deep(.btn-outline-danger)
   font-family: $font-sp-pro
   font-style: normal
@@ -405,33 +404,6 @@ export default {
     @include body-5-normal
     color: $color-gray-25
 
-.offer-status-accepted
-  align-items: center
-  justify-content: center
-  width: fit-content
-  padding: 10px 40px
-  border-radius: 5px
-  color: $color-green-3
-  background: $color-green-23
-  .text-capitalize
-    font-style: normal
-    font-family: $font-sp-pro
-    @include body-4-normal
-    color: $color-green-3
-
-.offer-status-declined
-  align-items: center
-  justify-content: center
-  width: fit-content
-  padding: 10px 40px
-  border-radius: 5px
-  color: $color-red-3
-  background: $color-red-23
-  .text-capitalize
-    font-style: normal
-    font-family: $font-sp-pro
-    @include body-4-normal
-    color: $color-red-3
 .btn-outline-success
   font-family: $font-sp-pro
 .btn-outline-danger
@@ -444,27 +416,11 @@ export default {
   font-style: normal
   @include body-4-normal
   color: $color-red-3
-.btn-edit-offer
-  width: 30px
-  height: 30px
-  background-image: url('~/assets/img/box-pencil.svg')
-  background-position: center
-  border: none
-  border-radius: 4px
-.btn-update-offer
-  width: 45px
-  height: 30px
-  background-image: url('~/assets/img/icons/Circle-OK.png')
-  background-repeat: no-repeat
-  background-position: center
-  border: none
-  border-radius: 4px
 :deep(.offers-table-head > th)
   display: none
 .listing-id
   font-style: normal
   @include body-5-bold
-  text-decoration-line: underline
   color: $color-blue-1
 
 #validator-field

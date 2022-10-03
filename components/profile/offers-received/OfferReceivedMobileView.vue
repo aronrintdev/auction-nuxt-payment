@@ -2,9 +2,9 @@
   <div class="offer-received-item-wrapper">
 
     <div class="row product-details">
-      <div v-if="showCheckBox" class="check-box position-absolute round">
-        <input :id="`checkbox-${offer.id}`" class="check-box" type="checkbox" :value="offer.id" :checked="offerChecked.includes(offer.id) ? true : false" @change="toggleSelect" />
-        <label :for="`checkbox-${offer.id}`"></label>
+      <div v-if="showCheckBox" class="check-box position-absolute round position-relative">
+        <input :id="`checkbox-${offer.id}`" class="check-box invisible" type="checkbox" :value="offer.id" :checked="offerChecked.includes(offer.id) ? true : false" @change="toggleSelect" />
+        <label :for="`checkbox-${offer.id}`" class="position-absolute"></label>
       </div>
       <div class="col-xs-4">
         <img
@@ -33,7 +33,7 @@
         <span class="offer-details-key">
           {{ $t('selling_page.offer_amount') }}&colon;
         </span>
-        <span class="offer-details-value">{{
+        <span class="offer-details-value text-right">{{
           offerAmount | toCurrency('USD', 'N/A')
         }}</span>
       </div>
@@ -41,7 +41,7 @@
         <span class="offer-details-key">
           {{ $t('selling_page.offer_date') }}&colon;
         </span>
-        <span class="offer-details-value">{{ offerDate | formatDate }}</span>
+        <span class="offer-details-value text-right">{{ offerDate | formatDate }}</span>
       </div>
     </div>
     <div class="row product-details justify-content-center">
@@ -64,7 +64,7 @@
       </div>
 
       <!-- On accept or decline offer click, show the confirmation button and message -->
-      <span v-if="confirmation" class="confirm-text mb-1">
+      <span v-if="confirmation" class="confirm-text mb-1 text-align-center">
         {{ $t('offers_received.confirmation_text', { actiontype: action }) }}
       </span>
       <div v-if="confirmation" class="col-xs-12 d-flex justify-content-around">
@@ -259,10 +259,8 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .offer-received-item-wrapper
-  left: 0px
-  top: 0px
   background: $color-white-1
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+  box-shadow: 0px 1px 4px $color-black-rgb2
   border-radius: 10px
   .check-box
     right: 1rem
@@ -287,7 +285,6 @@ export default {
       font-family: $font-sp-pro
       font-style: normal
       @include body-9-normal
-      text-align: right
       color: $color-gray-6
       box-sizing: border-box
       padding: 9px
@@ -351,7 +348,6 @@ export default {
     font-family: $font-sp-pro
     font-style: normal
     @include body-8-medium
-    text-align: center
     color: $color-black-1
   .accepted-offer-text
     font-family: $font-sp-pro
@@ -364,15 +360,10 @@ export default {
     @include body-4-normal
     color: $color-red-3
 .round
-  position: relative
-
   & label
     border: 1px solid $color-gray-60
-    cursor: pointer
     height: 20px
     left: -5px
-    position: absolute
-    top: 0
     width: 20px
     border-radius: 62px
 
@@ -388,8 +379,6 @@ export default {
     transform: rotate(-45deg)
     width: 12px
 
-  & input[type="checkbox"]
-    visibility: hidden
 
   & input[type="checkbox"]:checked + label
     background-color: $color-blue-20

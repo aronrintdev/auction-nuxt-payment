@@ -181,7 +181,7 @@
         <div class="col remove-multiple-button mt-auto text-right">
           <Button
             variant="remove-multiple"
-            class="pa-0"
+            class="p-0 text-nowrap"
             @click="toggleCheckBox"
             >{{ $t('offers_received.remove_multiple') }}</Button
           >
@@ -207,7 +207,7 @@
           <!-- Delete offers -->
           <span
             v-if="!showCheckBox"
-            :class="`delete-offer ${mobileClass}`"
+            :class="`delete-offer ${mobileClass} && ${mobileClass  ? 'float-right' : ''}`"
             role="button"
             @click="onDeleteClick"
           >
@@ -222,12 +222,12 @@
           <span v-if="showCheckBox" class="check-box position-absolute round">
             <input
               :id="`checkbox`"
-              class="check-box"
+              class="check-box invisible"
               type="checkbox"
               :value="handleDelete"
               @change="handleDeleteSelectAll"
             />
-            <label :for="`checkbox`"></label>
+            <label :for="`checkbox`" class="position-absolute"></label>
             <span class="delete-offer mobile float-none">{{
               $t('common.select_all')
             }}</span>
@@ -250,7 +250,7 @@
               </p>
               <a
                 href="/shop"
-                :class="`btn vd-purchase-browse-btn ${mobileClass} ${mobileClass ? 'flex-row align-items-center justify-center' : ''}`"
+                :class="`btn vd-purchase-browse-btn ${mobileClass} ${mobileClass ? 'flex-row align-items-center justify-center flex-grow-0' : ''}`"
               >
                 {{ $t('home.create_listing') }}
               </a>
@@ -327,7 +327,7 @@
         class="row"
       >
         <div class="col-xs-12">
-          <div class="bottom-pop">
+          <div class="bottom-pop m-auto">
             <div
               class="
                 delete-confirm-text
@@ -798,7 +798,6 @@ export default {
     max-width: 50%
 .remove-multiple-button
   .btn-remove-multiple
-    white-space: nowrap
     @media (max-width: 320px)
       width: 139px
   @media (max-width: 320px)
@@ -846,7 +845,6 @@ export default {
     font-style: normal
     @include body-8-normal
     color: $color-gray-47
-    float: right
 @media( min-width: 320px)
   .vd-purchase-browse-btn
     &.mobile
@@ -876,7 +874,6 @@ export default {
         color: $color-white-1
         flex: none
         order: 0
-        flex-grow: 0
 .bottom-pop
   margin-left: -25%
   bottom: 0px
@@ -884,7 +881,6 @@ export default {
   height: 95px
   left: 0px
   top: 1056px
-  margin: auto
 .delete-confirm-button
   justify-content: space-evenly
   margin-top: 10px
@@ -912,17 +908,6 @@ export default {
     background: $color-blue-20
     border-radius: 20px
     color: $color-white-1
-.confirmation-delete
-  background: $color-white-1
-  border-radius: 20px 20px 0px 0px
-.highlight-symbol
-  width: 36px
-  height: 5px
-  left: calc(50% - 36px/2 - 0.5px)
-  bottom: 221px
-  background: $light-gray-2
-  border-radius: 5px
-  margin: auto
 .offer-deleted-modal
   height: 176px
 .sortby-col
@@ -931,15 +916,10 @@ export default {
     height: 38px
 /** Checkbox style */
 .round
-  position: relative
-
   & label
     border: 1px solid $color-gray-60
-    cursor: pointer
     height: 20px
     left: -5px
-    position: absolute
-    top: 0
     width: 20px
     border-radius: 62px
 
@@ -954,9 +934,6 @@ export default {
     top: 5px
     transform: rotate(-45deg)
     width: 12px
-
-  & input[type="checkbox"]
-    visibility: hidden
 
   & input[type="checkbox"]:checked + label
     background-color: $color-blue-20
@@ -973,7 +950,7 @@ export default {
         background: white
 #offer-delete-modal
   .modal-content
-    background: rgba(247, 247, 247, 0.91)
+    background: $color-gray-79
     backdrop-filter: blur(2px)
     border-radius: 8px
 </style>
