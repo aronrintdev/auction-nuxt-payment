@@ -94,15 +94,15 @@ export default {
     return {
       status: [
         {
-          label: 'Accepted',
+          label: this.$t('offers_received.accepted'),
           value: 'accepted',
         },
         {
-          label: 'Awaiting Response',
+          label: this.$t('offers_received.awaiting_response'),
           value: 'awaiting_response',
         },
         {
-          label: 'Declined',
+          label: this.$t('offers_received.declined'),
           value: 'declined',
         },
       ],

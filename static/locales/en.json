@@ -5078,7 +5078,8 @@
       "price_high_low": "Price: High to Low",
       "size_low_high": "Size: Low to High",
       "size_high_low": "Size: High to Low"
-    }
+    },
+    "awaiting_response" : "Awaiting Response"
   },
   "terms": {
     "title": "Terms and Conditions",
