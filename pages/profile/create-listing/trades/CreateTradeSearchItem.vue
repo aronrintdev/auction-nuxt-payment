@@ -33,7 +33,6 @@
         <div class="error-text mt-1 text-xs">
           {{ $t('trades.create_listing.vendor.wants.select_size') }}
         </div>
-        {{selected_size}}
           <ProductSizePicker
           :value="selected_size"
           :v-model="selected_size"
@@ -263,6 +262,31 @@ export default {
     },
     setSelectedItem(selectedProduct){
       const _self = this;
+      let productDetails;
+      if(selectedProduct.product){
+        productDetails = {
+          id: selectedProduct.product.id,
+          name: selectedProduct.product.name,
+          colorway: selectedProduct.product.colorway,
+          sku: selectedProduct.product.sku,
+          category: selectedProduct.product.category,
+          image: selectedProduct.product.image,
+          sizes: selectedProduct.product.sizes,
+          packaging_conditions: selectedProduct.product.packaging_conditions
+        }
+      }else{
+        productDetails = {
+          id: selectedProduct.id,
+          name: selectedProduct.name,
+          sku: selectedProduct.sku,
+          colorway: selectedProduct.colorway,
+          category: selectedProduct.category,
+          image: selectedProduct.image,
+          sizes: selectedProduct.sizes,
+          packaging_conditions: selectedProduct.packaging_conditions
+        }
+      }
+      selectedProduct.product = productDetails
       selectedProduct.product_id = selectedProduct.id
       selectedProduct.quantity = parseInt(this.quantity)
       selectedProduct.year = parseInt(this.year)

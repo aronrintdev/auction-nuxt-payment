@@ -4509,7 +4509,14 @@
     "offer_accepted_successfully": "Offer Accepted Successfully",
     "accepted": "Accepted",
     "start_date": "Start Date",
-    "end_date": "End Date"
+    "end_date": "End Date",
+    "offer_status": {
+      "open": "Open",
+      "declined": "Declined",
+      "deleted": "Deleted",
+      "accepted": "Accepted"
+    },
+    "trades_deleted_successfully": "Trades Deleted Successfully"
   },
   "change_password": {
     "password": "Password",

@@ -219,6 +219,7 @@ export default {
     setSearchedText(searchedText){
       this.searchedText = searchedText
       this.$store.commit('trade/setSearchedText', searchedText)
+      this.$emit('applyFilters')
     },
 
     // handle when sorting filters are selected

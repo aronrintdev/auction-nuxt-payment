@@ -2,7 +2,7 @@
  * Get the Offer Details
  * @param commit, state
  */
- export function fetchOfferDetails({ commit }, { offerId }) {
+ export function fetchOfferDetails({ commit }, offerId) {
   this.$axios.get('trades/offer/' + offerId)
       .then(response => {
           const lastSubmittedOffer = response.data.data.latest_offer ?? response.data.data

@@ -39,10 +39,6 @@ export default {
     Button
   },
   props: {
-    tradeId: {
-      type: Number,
-      required: true
-    },
     product: {
       type: Object,
       required: false,

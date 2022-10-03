@@ -23,7 +23,7 @@
         <b-col cols="8" class="d-flex">
           <div class="pt-3">
             <img class="confirm-trade-item-image"
-                :src="item.product.image | getProductImageUrl"
+                :src="item.product | getProductImageUrl"
                 :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
           </div>
           <div class="d-block pt-4 pl-4">
@@ -45,11 +45,11 @@
         </b-col>
         <b-col cols="2" class="confirm-trade-icons d-flex">
           <div>
-            <img :src="require('~/assets/img/box-pencil.svg')" :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addOfferProduct(item.product, item, 0)" />
+            <img :src="require('~/assets/img/box-pencil.svg')" :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="addOfferProduct(item.product, item, 0)" />
           </div>
           <div class="pl-3">
             <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"
-                :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="setOfferItemForDelete(item)"/>
+                :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="setOfferItemForDelete(item)"/>
           </div>
         </b-col>
       </b-row>
@@ -68,7 +68,7 @@
       <b-row v-for="(wantItem, index) in getTradeItemsWants" :key="'want-'+index+wantItem.id" class="confirm-trade-item">
         <b-col cols="8" class="d-flex">
           <div class="pt-3">
-            <img class="confirm-trade-item-image" :src="wantItem.image"
+            <img class="confirm-trade-item-image" :src="wantItem.product | getProductImageUrl"
                 :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
           </div>
           <div class="d-block pt-4 pl-4">
@@ -91,14 +91,14 @@
         <b-col cols="2" class="confirm-trade-icons d-flex">
           <div>
             <img class="cursor-pointer" :src="require('~/assets/img/box-copy.svg')"
-                :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, 0, getTradeItemsWants.map(i => parseInt(i.selected_quantity)).reduce((a, b) => a + b, 0))" />
+                :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="addProductWant(wantItem.product, 0, getTradeItemsWants.map(i => parseInt(i.selected_quantity)).reduce((a, b) => a + b, 0))" />
           </div>
           <div class="pl-3">
-              <img :src="require('~/assets/img/box-pencil.svg')" class="cursor-pointer" :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, wantItem, 0)"/>
+              <img :src="require('~/assets/img/box-pencil.svg')" class="cursor-pointer" :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="addProductWant(wantItem.product, wantItem, 0)"/>
           </div>
           <div class="pl-3">
             <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"
-                :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="setWantItemForDelete(wantItem)"/>
+                :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="setWantItemForDelete(wantItem)"/>
           </div>
         </b-col>
       </b-row>
@@ -106,9 +106,9 @@
         <Button class="confirm-trade-draft-btn" variant="listing" @click="saveVendorTrade('live')">{{ $t('trades.save_changes') }}</Button>
         <Button class="confirm-trade-post-btn ml-5" :disabled="!getTradeItemsWants.length || !getTradeItems.length" variant="listing" @click="$bvModal.show('discardModel')">{{ $t('trades.discard_changes') }}</Button>
       </b-row>
-      <delete-offer-item-modal :tradeId="getTradeId" :product="deleteOfferProduct" @delete="removeOfferItem"></delete-offer-item-modal>
-      <delete-want-item-modal :tradeId="getTradeId" :product="deleteWantProduct" @delete="removeWantItem"></delete-want-item-modal>
-      <discard-model @discard="moveBackToTradeOffers()"></discard-model>
+      <delete-offer-item-modal :product="deleteOfferProduct" @delete="removeOfferItem"></delete-offer-item-modal>
+      <delete-want-item-modal :product="deleteWantProduct" @delete="removeWantItem"></delete-want-item-modal>
+      <discard-model @discard="moveBackToTradeOffers(getTradeId)"></discard-model>
     </div>
     <b-row v-else-if="searchForProductsType" class="pr-md-5 pr-lg-5 pr-sm-0 mb-2">
       <div class="create-trade-back-to-search" @click="backToTradeEditing()">
@@ -263,6 +263,8 @@ export default {
             offerItemsList.forEach(function(offerItem) {
               const item = offerItem.inventory
               item.quantity = offerItem.quantity
+              item.selected_box_condition = offerItem.inventory.packaging_condition_id
+              item.selected_box_condition_name = offerItem.inventory.packaging_condition.name
               item.id = offerItem.inventory_id
               _self.$store.commit('trades/setTradeItems', item)
               _self.$nextTick(() => _self.$forceUpdate())
@@ -301,8 +303,8 @@ export default {
 
   },
   methods: {
-    moveBackToTradeOffers(){
-      this.$router.push(`/profile/trades/dashboard/${this.getTradeId}/offers`)
+    moveBackToTradeOffers(tradeId){
+      this.$router.push(`/profile/trades/dashboard/${tradeId}/offers`)
     },
     backToTradeEditing(){
       this.searchForProductsType = null
@@ -380,7 +382,7 @@ export default {
         this.$store.commit('trades/clearTradeItems')
         this.$store.commit('trades/clearWantsItemsTrade')
         this.$store.commit('trades/setTradeForEditing', null)
-        this.moveBackToTradeOffers()
+        this.moveBackToTradeOffers(tradeId)
       })
       .catch((error) => {
         this.$toasted.error(this.$t(error.response.data.message))
@@ -422,7 +424,7 @@ export default {
     }
     else {
       const product = JSON.parse(JSON.stringify(offerProduct));
-      product.selected_box_condition = offer?.packaging_condition.name
+      product.selected_box_condition = offer?.packaging_condition.id
       product.selected_quantity = offer?.quantity
       product.selected_year = product?.release_year
       product.selected_size = offer?.size.id

@@ -15,7 +15,7 @@
     </div>
     <b-row class="justify-content-center">
       <div class="thumb-wrapper">
-        <img :src="product.product.image" alt="No Image" class="trade-search-item-image"/>
+        <img :src="product.product | getProductImageUrl" alt="No Image" class="trade-search-item-image"/>
       </div>
     </b-row>
     <b-row class="justify-content-center" :class="!selected_size && 'error'">

@@ -752,7 +752,7 @@ export default {
     changeOrderFilter(selectedOrder) {
       this.orderFilter = selectedOrder
       const orderFilteredKey = this.generalListItemsCustomFilter.find(item => item.value === this.orderFilter)
-      this.orderFilterLabel = this.capitalizeFirstLetter(orderFilteredKey.text)
+      this.orderFilterLabel = this.$options.filters.capitalizeFirstLetter(orderFilteredKey.text)
       this.getGeneralListItems();
     },
 
@@ -764,7 +764,7 @@ export default {
     changeCategory(selectedCategory) {
       this.categoryFilter = selectedCategory
       const categoryFilteredKey = this.categoryItems.find(item => item.value === this.categoryFilter)
-      this.categoryFilterLabel = this.capitalizeFirstLetter(categoryFilteredKey.text)
+      this.categoryFilterLabel = this.$options.filters.capitalizeFirstLetter(categoryFilteredKey.text)
     },
 
     /**
@@ -777,7 +777,7 @@ export default {
       } else {
         this.sizeTypesFilter = this.sizeTypesFilter.filter(item => item !== selectedSizeType)
       }
-      this.sizeTypesFilterLabel = this.joinAndCapitalizeFirstLetters(this.sizeTypesFilter, 1) || this.$t('trades.create_listing.vendor.wants.size_type') // 1 is no of labels show in filter as selected
+      this.sizeTypesFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeTypesFilter, 1) || this.$t('trades.create_listing.vendor.wants.size_type') // 1 is no of labels show in filter as selected
     },
 
     /**
@@ -791,32 +791,7 @@ export default {
       } else {
         this.sizeFilter = this.sizeFilter.filter(item => item !== selectedSize.size)
       }
-      this.sizeFilterLabel = this.joinAndCapitalizeFirstLetters(this.sizeFilter, 5) || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
-    },
-
-    /**
-     * This function do first letter of word capital
-     * @param string
-     * @returns {string}
-     */
-    capitalizeFirstLetter(string) {
-      if (typeof string === 'string')
-        return string[0].toUpperCase() + string.slice(1);
-      else if (typeof string === 'object' && string.size && typeof string.size === 'string')
-        return string.size[0].toUpperCase() + string.size.slice(1);
-    },
-
-    /**
-     * This function is used to show selected items by joining them
-     * in string format seperated by commas
-     * @param selectedOptionsArray
-     * @param maxLabelsAllowed
-     * @returns {string|*}
-     */
-    joinAndCapitalizeFirstLetters(selectedOptionsArray, maxLabelsAllowed) {
-      selectedOptionsArray = selectedOptionsArray.map(item => item[0].toUpperCase() + item.slice(1))
-      return (selectedOptionsArray.length > maxLabelsAllowed) ? selectedOptionsArray.slice(0, maxLabelsAllowed).join(', ') + '...' // append dots if labels exceed limits of showing characters
-        : selectedOptionsArray.join(', ')
+      this.sizeFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeFilter, 5) || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
     },
 
     /**
@@ -856,7 +831,7 @@ export default {
     changeOrderFilterCombination(selectedOrder) {
       this.orderFilterCombination = selectedOrder
       const orderFilteredKey = this.combinationCustomFilter.find(item => item.value === this.orderFilterCombination)
-      this.orderFilterLabelCombination = (orderFilteredKey.text) ? this.capitalizeFirstLetter(orderFilteredKey.text) : this.orderFilterLabelCombination
+      this.orderFilterLabelCombination = (orderFilteredKey.text) ? this.$options.filters.capitalizeFirstLetter(orderFilteredKey.text) : this.orderFilterLabelCombination
       this.getCombinations()
     },
 
