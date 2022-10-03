@@ -74,9 +74,6 @@ export default {
       return slides
     }
   },
-  mounted() {
-
-  },
   methods: {
     prev() {
       this.$refs.showcase.prev()
