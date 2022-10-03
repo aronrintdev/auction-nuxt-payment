@@ -892,16 +892,16 @@ export default {
   font-family: $font-sp-pro
   font-style: normal
   @include body-9-normal
-  color: $color-gray-73
+  color: $color-gray-76
 .decline-btn
-  border: 1px solid $color-gray-72
+  border: 1px solid $color-gray-74
   border-radius: 20px
   font-family: $font-sp-pro
   font-style: normal
   @include body-10-medium
-  color: $color-gray-72
+  color: $color-gray-74
 .delete-btn
-  background: $color-gray-71
+  background: $color-gray-73
   border-radius: 20px
   font-family: $font-sp-pro
   font-style: normal

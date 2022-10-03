@@ -200,11 +200,11 @@ import {
   BID_ACCEPTED, BID_AUCTION_TYPE_SINGLE, BID_TYPE_INCOMING,
   HIGHEST_BID_STATUS,
   OUTBID_BID_STATUS,
-  WINNING_BID_STATUS,
+  WINNING_BID_STATUS, BID_TYPE_OUTGOING
 } from '~/static/constants';
 
 export default {
-  name: 'ProfileIncomingBids',
+  name: 'ProfileBidsOutgoing',
   components: {
     BidsFilters,
     BidCollectionItem,
@@ -241,7 +241,7 @@ export default {
       perPageOptions: [8, 16, 32, 48],
       perPage: 6,
       FilterDown,
-      bidType: BID_TYPE_INCOMING,
+      bidType: this.isVendor? BID_TYPE_INCOMING : BID_TYPE_OUTGOING,
       deletePayload: [],
       acceptedBid: null,
       modalActionLoading: false,
@@ -292,12 +292,13 @@ export default {
         this.$bvModal.hide('accept-item-modal')
         this.$bvModal.show('bid-accepted-modal')
         this.$router.push({
-          path: '/orders',
+          path: '/profile/orders',
         })
         this.$toasted.success(res.data.message)
-      }).catch(() => {
+      }).catch(err => {
+        this.$toasted.error(err.message || err.data.error)
+      }).finally(() => {
         this.modalActionLoading = false
-        this.$bvModal.hide('accept-item-modal')
       })
     },
     /**

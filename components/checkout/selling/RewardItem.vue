@@ -68,9 +68,9 @@ export default {
   name: 'RewardItem',
   props: {
     product: {
-      type: Object,
+      type: [Object, Array],
       default: () => {
-        return {}
+        return {}|[]
       },
       required: true
     },

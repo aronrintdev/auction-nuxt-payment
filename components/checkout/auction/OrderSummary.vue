@@ -330,11 +330,6 @@ export default {
               paymentMethod: this.paymentMethod,
               billingAddress: this.billingAddress,
               shippingAddress: this.billingAddress,
-              shoppingCart: data.map(auction => ({
-                auction_id: auction.id,
-                quantity: 1,
-                price: auction.is_reserved ? auction.reserve_price * this.reserveFee : 0,
-              })),
             }).then((resp) => {
               this.addOrderDetails(resp.data)
               this.emitRenderComponentEvent(this.$parent.$options.components.ThankYou.name)

@@ -64,7 +64,7 @@
         <span
           role="button"
           class="view-similar mt-2"
-          @click="$router.push('/auction')"
+          @click="viewSimilarAuction"
           >{{ $t('bids.view_similar') }}</span
         >
       </b-col>
@@ -111,6 +111,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import CollectionSvg from '~/assets/img/icons/collection.svg'
 import ProductThumb from '~/components/product/Thumb'
 import { Button } from '~/components/common'
@@ -179,6 +180,16 @@ export default {
       )
     },
   },
+  methods: {
+    ...mapActions({
+      setProductFilter: 'auction/setProductFilter',
+    }),
+    viewSimilarAuction() {
+      const product = this.bid.auction.auction_items[0].inventory.product
+      this.setProductFilter({ sku: product.sku, name: product.name })
+      this.$router.push('/auction')
+    }
+  }
 }
 </script>
 

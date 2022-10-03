@@ -135,8 +135,8 @@ export default {
           label: this.$t('profile_menu.bids_placed'),
           icon: require('~/assets/img/icons/profile/bids.svg'),
           iconActive: require('~/assets/img/icons/profile/bids-active.svg'),
-          href: '/profile/bids',
-          route: 'profile-bids',
+          href: '/profile/bids/outgoing',
+          route: 'profile-bids-outgoing',
           menu: MENU_CATEGORY_BUYING,
         },
 
