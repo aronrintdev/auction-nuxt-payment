@@ -1,7 +1,7 @@
 <template>
-  <div v-show="mobileClass" :class="`sidebar-wrapper ${mobileClass} w-100`">
+  <div v-show="mobileClass" :class="`sidebar-wrapper ${mobileClass} d-flex w-100`">
     <div :class="`header ${mobileClass} w-100 px-5 py-3 border-bottom`">
-      <div :class="`filter-by w-100 ${mobileClass} justify-content-center`">
+      <div :class="`filter-by w-100 ${mobileClass} d-flex aling-items-center justify-content-center`">
         <span>{{ $t('common.filter_by') }}</span>
       </div>
     </div>
@@ -54,7 +54,7 @@
         />
       </div>
 
-      <div v-show="filterVisibility" :class="`section-actions ${mobileClass}`">
+      <div v-show="filterVisibility" :class="`section-actions ${mobileClass} d-flex align-items-center w-100`">
         <Button pill class="btn-reset btn-light" @click="resetFilter">{{
           $t('offers_received.reset')
         }}</Button>
@@ -181,14 +181,12 @@ export default {
 
 .sidebar-wrapper
   font-family: $font-sp-pro
-  display: flex
   flex-direction: column
   align-items: flex-start
   &.mobile
     height: 450px
 
   .sliders, .collapses
-    display: flex
     flex-direction: column
     width: 100%
 
@@ -212,15 +210,9 @@ export default {
     color: $color-black-1
 
   .section-actions
-    width: 100%
-    display: flex
-    align-items: center
-    justify-content: space-between
 
     &.mobile
       justify-content: center
-      margin: auto
-      display: flex
       margin-top: 20%
 
 @media (max-width: 992px)
@@ -256,8 +248,6 @@ export default {
     font-family: $font-sp-pro
     font-style: normal
     @include body-17-bold
-    display: flex
-    align-items: center
     letter-spacing: -0.02em
     color: $color-black-1
 

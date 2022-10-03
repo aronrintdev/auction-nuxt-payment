@@ -5,7 +5,7 @@
         v-b-toggle="`collapse-${collapseKey}`"
         aria-controls="panelsStayOpen-collapseOne"
         aria-expanded="false"
-        class="accordion-filter-button collapsed"
+        class="accordion-filter-button collapsed position-relative d-flex align-items-center bg-none border-0"
         data-bs-target="#panelsStayOpen-collapseOne"
         data-bs-toggle="collapse"
         type="button"
@@ -35,10 +35,10 @@
           id="amount-list-button"
           :key="index"
           class="denomination mr-2"
-          :class="selectedStatus === option.value ? 'active' : ''"
+          :class="selectedStatus === option.value ? 'active d-flex align-items-center text-align-center' : ''"
           role="button"
         >
-          <div class="add-amount-item" @click="activeStatus(option)">
+          <div class="add-amount-item d-flex align-items-center text-align-center" @click="activeStatus(option)">
             {{ option.label }}
           </div>
         </div>
@@ -110,9 +110,6 @@ export default {
     margin-bottom: 0
 
   .accordion-filter-button
-    position: relative
-    display: flex
-    align-items: center
     width: 100%
     padding: 0
     color: $color-black-1
@@ -196,15 +193,11 @@ export default {
   border: 1px solid $color-gray-7
   color: $color-gray-7
   padding: 1rem
-  text-align: center
   width: 99px
   height: 45px
   font-family: $font-sp-pro
   font-style: normal
   @include body-5-normal
-  display: flex
-  align-items: center
-  text-align: center
   color: $color-gray-28
   justify-content: center
 
@@ -216,9 +209,6 @@ export default {
     .add-amount-item
       font-style: normal
       @include body-5-normal
-      display: flex
-      align-items: center
-      text-align: center
       color: $color-black-1
 @media (min-width: 320px) and (max-width:330px)
   .add-amount-item

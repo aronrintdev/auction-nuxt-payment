@@ -1,7 +1,7 @@
 <template>
   <span
     id="back-to-top"
-    class="btn back-to-top"
+    class="btn back-to-top position-fixed"
     role="button"
     @click="scrollToTop"
     >
@@ -24,7 +24,6 @@ export default {
 
 <style lang="sass" scoped>
 .back-to-top
-  position: fixed
   bottom: 25px
   right: 25px
   img

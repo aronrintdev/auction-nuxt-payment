@@ -42,6 +42,7 @@ import SideMenu from '~/components/profile/SideMenu.vue'
 import NewSideMenu from '~/components/profile/NewSideMenu'
 import ScrollToTop from '~/components/common/ScrollToTop.vue'
 import screenSize from '~/plugins/mixins/screenSize'
+import { SCROLLY } from '~/static/constants'
 export default {
   name: 'Default',
 
@@ -55,7 +56,8 @@ export default {
   mixins: [screenSize],
   data() {
     return {
-      showScroll: false
+      showScroll: false,
+      scrollY: SCROLLY
     }
   },
   head() {
@@ -88,7 +90,7 @@ export default {
     },
     handleScroll() {
       // Your scroll handling here
-      this.showScroll = window.scrollY > 1500
+      this.showScroll = window.scrollY > this.scrollY
     },
   },
 }

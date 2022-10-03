@@ -30,7 +30,7 @@
         :src="require('~/assets/img/icons/trash-mobile.svg')"
         @click="$emit('hidden')"
       />
-      <div :class="`message ${mobileClass}`" v-html="message"></div>
+      <div :class="`message ${mobileClass} ${mobileClass ? 'd-flex align-items-center text-center' : ''}`" v-html="message"></div>
     </div>
   </Modal>
 </template>
@@ -101,9 +101,6 @@ export default {
       font-family: $font-montserrat
       font-style: normal
       @include body-4-normal
-      display: flex
-      align-items: center
-      text-align: center
       color: $color-black-1
 
   img

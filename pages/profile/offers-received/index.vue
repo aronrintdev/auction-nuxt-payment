@@ -52,7 +52,7 @@
         </div>
         <div
           v-show="mobileClass"
-          :class="mobileClass ? 'col-xs-2 filter-icon-col' : ''"
+          :class="mobileClass ? 'col-xs-2 filter-icon-col text-center m-auto' : ''"
         >
           <span class="filter-wrapper" role="button" @click="showFilter">
             <img
@@ -70,6 +70,7 @@
           <CustomSelect
             id="category-types"
             bordered
+            class="float-right"
             :default="categorySelected"
             :threelineIcon="false"
             :options="{
@@ -240,7 +241,7 @@
           v-if="mobileClass && !offers.length"
           :class="`empty-data ${mobileClass}`"
         >
-          <div :class="`row vd-purchase-empty ${mobileClass}`">
+          <div :class="`row vd-purchase-empty ${mobileClass} ${mobileClass ? 'd-flex align-items-center text-center' : ''}`">
             <div class="col-12 text-center">
               <p class="vd-purchase-browse-now">
                 {{ $t('offers_received.empty.no_incoming_offers') }}
@@ -249,7 +250,7 @@
               </p>
               <a
                 href="/shop"
-                :class="`btn vd-purchase-browse-btn ${mobileClass}`"
+                :class="`btn vd-purchase-browse-btn ${mobileClass} ${mobileClass ? 'flex-row align-items-center justify-center' : ''}`"
               >
                 {{ $t('home.create_listing') }}
               </a>
@@ -835,9 +836,6 @@ export default {
 
 /** Mobile view filter icon */
 .filter-icon-col
-  text-align: center
-  margin: auto
-
   .filter-wrapper
     .filter-icon
       width: 40%
@@ -861,15 +859,9 @@ export default {
       font-family: $font-sp-pro
       font-style: normal
       @include body-5-medium
-      display: flex
-      align-items: center
-      text-align: center
       color: $color-gray-5
     .vd-purchase-browse-btn
       &.mobile
-        flex-direction: row
-        justify-content: center
-        align-items: center
         padding: 8px
         gap: 10px
         height: 40px
@@ -937,7 +929,6 @@ export default {
   #category-types
     width: 245px
     height: 38px
-    float: right
 /** Checkbox style */
 .round
   position: relative

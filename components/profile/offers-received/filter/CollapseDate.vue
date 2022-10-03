@@ -5,7 +5,7 @@
         v-b-toggle="`collapse-${collapseKey}`"
         aria-controls="panelsStayOpen-collapseOne"
         aria-expanded="false"
-        class="accordion-filter-button collapsed"
+        class="accordion-filter-button collapsed position-relative d-flex align-items-center border-0 bg-none"
         data-bs-target="#panelsStayOpen-collapseOne"
         data-bs-toggle="collapse"
         type="button"
@@ -172,27 +172,11 @@ export default {
     margin-bottom: 0
 
   .accordion-filter-button
-    position: relative
-    display: flex
-    align-items: center
     width: 100%
     padding: 0
     color: $color-black-1
     overflow-anchor: none
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease
-    background: none
-    border: none
-    position: relative
-    display: flex
-    align-items: center
-    width: 100%
-    padding: 0
-    color: $color-black-1
-    overflow-anchor: none
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease
-    background: none
-    border: none
-    overflow-anchor: none
     font-family: $font-sp-pro
     font-style: normal
     @include body-4-bold
@@ -296,24 +280,6 @@ export default {
   ::-webkit-scrollbar-track
     background-color: $color-gray-3
 
-.add-amount-item
-  background: $color-white-1
-  color: $color-white-1
-  border: 1px solid $color-gray-7
-  border-radius: 6px
-  color: $color-gray-7
-  padding: 1rem
-  text-align: center
-  width: 99px
-  height: 45px
-  font-family: $font-sp-pro
-  font-style: normal
-  @include body-5-normal
-  display: flex
-  align-items: center
-  text-align: center
-  color: $color-gray-28
-  justify-content: center
 .start-date
   width: 154px
   height: 49px

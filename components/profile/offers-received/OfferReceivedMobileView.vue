@@ -50,10 +50,10 @@
         v-if="showAcceptDeclineButton && !hideOnConfirm"
         class="col-xs-12 d-flex justify-content-around"
       >
-        <b-button variant="outline" class="decline-btn" @click="onDecline">
+        <b-button variant="outline" class="decline-btn align-items-center text-center" @click="onDecline">
           {{ $t('common.decline') }}
         </b-button>
-        <b-button variant="outline" class="accept-btn" @click="onAccept">
+        <b-button variant="outline" class="accept-btn align-items-center text-center" @click="onAccept">
           {{ $t('common.accept') }}
         </b-button>
       </div>
@@ -332,8 +332,6 @@ export default {
     font-family: $font-sp-pro
     font-style: normal
     @include body-9-medium
-    align-items: center
-    text-align: center
     color: $color-red-24
     width: 107px
     height: 39px
@@ -345,8 +343,6 @@ export default {
     font-family: $font-sp-pro
     font-style: normal
     @include body-9-medium
-    align-items: center
-    text-align: center
     color: $color-green-2
     width: 107px
     height: 39px
