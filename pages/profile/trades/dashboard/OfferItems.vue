@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="product-card">
     <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
-    <b-row class="justify-content-between">
+    <b-row class="justify-content-between" >
       <b-col v-for="(item) in offerItems" :key="'offer-item-list-' + item.id" class="offer-item text-center p-0" :class="`${marginItems}`">
-        <b-col class="item-heading p-0 d-flex justify-content-center align-items-center">
+        <b-col class="item-heading pt-2 pb-2 d-flex justify-content-center align-items-center">
           {{item.inventory ? item.inventory.product.name : item.product.name}}
         </b-col>
         <b-col>
@@ -40,24 +40,29 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
-
+.product-card
+    //width : 350px
 .offer-item
-  width: 247px
-  height: 210px
-  background: $color-white-1
-  box-shadow: 0 2px 4px $drop-shadow1
-  border-radius: 8px
-
+    width: 247px
+    height: 230px
+    background: $color-white-1
+    box-shadow: 0 2px 4px $drop-shadow1
+    border-radius: 8px
 .item-heading
-  background: $color-gray-1
-  border-radius: 9px 9px 0 0
-  height: 42px
-
+    background: $color-gray-1
+    border-radius: 9px 9px 0 0
+    height: 55px
 .offer-item-image
-  width: 100px
-  height: auto
-
+    width: 100px
+    height: auto
 .offer-item-text
-  font-family: $font-family-sf-pro-display
-  font-style: normal
-  @include body-5-regular
+    font-family: $font-family-sf-pro-display
+    font-style: normal
+    @include body-5-regular
+    color: $color-gray-4
+.item-heading-text
+    font-family: $font-family-sf-pro-display
+    font-style: normal
+    @include body-13-normal
+    color: $color-gray-47
+</style>

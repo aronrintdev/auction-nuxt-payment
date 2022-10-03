@@ -43,6 +43,7 @@
           :options="conditionFilterItems"
           :label="conditionFilterLabel"
           variant="white"
+          width="200px"
           maxWidth="162px"
           dropDownHeight="38px"
           @change="changeConditionFilter"
@@ -60,6 +61,7 @@
           :label="orderFilterLabel"
           variant="white"
           maxWidth="245px"
+          width="245px"
           class="pt-2"
           dropDownHeight="38px"
           @change="changeOrderFilter"/>

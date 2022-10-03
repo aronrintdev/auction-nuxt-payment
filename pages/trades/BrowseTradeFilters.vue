@@ -1,13 +1,13 @@
 <template>
   <div>
     <b-row class="d-flex justify-content-center m-5">
-      <b-col md="7">
+      <b-col md="6">
 
         <!-- Search Items Input -->
         <SearchInput :placeholder="$t('trades.index.browse.search_for_your_favorite_street_wear')" :value="searchedText" @input="setSearchedText" />
         <SearchedOfferItems :searchedOfferItems="searchedItems" />
       </b-col>
-      <b-col md="2">
+      <b-col md="3">
 
         <!-- Sort options -->
         <CustomSelect :options="sortOptions" :default="selectedSortOrder" @input="setSortOrder" />
