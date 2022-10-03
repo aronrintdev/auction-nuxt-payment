@@ -324,12 +324,12 @@ export default {
       color: $color-gray-6
   .decline-btn
     box-sizing: border-box
-    border: 1px solid $color-red-24
+    border: 1px solid $color-red-25
     border-radius: 8px
     font-family: $font-sp-pro
     font-style: normal
     @include body-9-medium
-    color: $color-red-24
+    color: $color-red-25
     width: 107px
     height: 39px
     background: $color-white-1

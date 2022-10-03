@@ -12,6 +12,7 @@
         :mouse-drag="false"
         :dots="false"
         class="carousel"
+        autoWidth
       >
         <template #default>
           <div
@@ -109,50 +110,40 @@ export default {
 
 .product-carousel-wrapper
   padding: 0
-
   .no-text
     @include body-4-medium
     text-align: center
     color: $color-gray-5
-
+  .owl-stage::v-deep
+      width: 100%
   .carousel::v-deep
     width: 100%
-    padding: 0 48px
+    padding: 0
     text-align: center
     position: relative
     margin-left: auto
     margin-right: auto
     display: flex
     align-items: center
-
     >span .owl-nav
       display: block
-
     .owl-carousel
       .item
         text-align: left
         margin: 0
-        max-width: 213px
-        margin-left: auto
-        margin-right: auto
-
+        max-width: 280px
         &.photo-item
           max-width: 261px
-
           img
             border-radius: 4px
-
     .owl-nav
       width: auto
       cursor: pointer
-
       [class*='owl-']
         background: none
-
       &.owl-next
         float: right
         margin-right: -47px !important
-
       &.owl-prev
         float: left
         margin-left: -47px !important

@@ -24,6 +24,7 @@
     "terms_of_service": "Conditions d’utilisation",
     "and": "et",
     "private_policy": "Politique de confidentialité",
+    "privacy_policy": "Politique de confidentialité",
     "please_wait": "Veuillez patienter",
     "success_message": {
       "user_successfully_registered": "Utilisateur enregistré avec succès",
@@ -83,6 +84,7 @@
     "contact_us": "Contactez-nous",
     "faq": "FAQ",
     "private_policy": "Politique de confidentialité",
+    "privacy_policy": "Politique de confidentialité",
     "terms_and_conditions": "Termes & Conditions",
     "all_rights_reserved": "Tous droits réservés"
   },

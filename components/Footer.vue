@@ -5,11 +5,11 @@
         <NuxtLink to="authentication-process">{{
           $t('footer.authentication_process')
         }}</NuxtLink>
-        <NuxtLink to="refund-and-returns">{{
+        <NuxtLink to="refunds-and-returns">{{
           $t('footer.refund_and_returns')
         }}</NuxtLink>
         <NuxtLink to="shipping">{{ $t('footer.shipping') }}</NuxtLink>
-        <NuxtLink to="selling-and-trading">{{
+        <NuxtLink to="selling-trading">{{
           $t('footer.selling_and_trading')
         }}</NuxtLink>
         <NuxtLink to="fee-policy">{{ $t('footer.fee_policy') }}</NuxtLink>
@@ -19,8 +19,8 @@
         <NuxtLink to="#">{{ $t('footer.faq') }}</NuxtLink>
       </div>
       <div class="secondary-links">
-        <NuxtLink to="private-policy">
-          {{ $t('footer.private_policy') }}
+        <NuxtLink to="privacy-policy">
+          {{ $t('footer.privacy_policy') }}
         </NuxtLink>
         <NuxtLink to="terms-and-conditions">
           {{ $t('footer.terms_and_conditions') }}
