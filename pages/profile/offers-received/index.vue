@@ -943,11 +943,13 @@ export default {
     opacity: 1
 /** Checkbox style ends here */
 
-.date-from-col
+.date-from-col::v-deep,
+.date-to-col::v-deep
   .input-group
     .input-group-append
       #append-b-datepicker
-        background: white
+        background: $color-white-1
+        border: none
 #offer-delete-modal
   .modal-content
     background: $color-gray-79
