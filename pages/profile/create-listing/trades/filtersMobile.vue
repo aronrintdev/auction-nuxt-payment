@@ -30,10 +30,6 @@
           <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/downArrow.svg')"/>
         </div>
       </div>
-<!--      <span class="filtersHeading" v-b-toggle="'collapse-1'">Category {{categoryFilter}}-->
-<!--        <img  v-if="isVisible" class="cross-image" :src="require('~/assets/img/upArrow.svg')"/>-->
-<!--        <img  v-else class="cross-image" :src="require('~/assets/img/downArrow.svg')"/>-->
-<!--      </span>-->
       <b-collapse id="collapse-1" v-model="isVisible">
           <div class="d-flex mt-3">
             <div class="footwear-box" @click="category('footwear')">Footwear</div>
