@@ -18,8 +18,14 @@ export default {
     },
     height: {
       type: [Number, String],
-      default: '100%',
+      default: 'auto',
     },
   },
 }
 </script>
+<style lang="sass">
+.logo-img
+  @media (max-width: 500px)
+    width: 125px
+    height: auto
+</style>

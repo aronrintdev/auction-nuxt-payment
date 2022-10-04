@@ -11,7 +11,7 @@
         </div>
         <div class="col-md-12 d-flex">
           <div class="col-md-6">
-            <img class="large-image" :src="getProductImageUrl(selected_item)"/>
+            <img class="large-image" :src="selected_item.product | getProductImageUrl"/>
           </div>
           <div class="col-md-6 d-block text-left text-div">
             <div class="text-bold">
@@ -31,7 +31,7 @@
         </div>
         <div class="col-md-12 d-flex justify-content-center">
           <div v-for="(item,index) in wants" :key="index" class="ml-4" role="button">
-            <img class="item-image-wants-modal" :src="getProductImageUrl(item)" @click="changeSelected(item,index)"/>
+            <img class="item-image-wants-modal" :src="item.product | getProductImageUrl" @click="changeSelected(item,index)"/>
             <div v-if="selected_index == index" class="bar"></div>
           </div>
         </div>
@@ -43,10 +43,6 @@
 </template>
 
 <script>
-import {
-  API_PROD_URL,
-  PRODUCT_IMG_WIDTH,
-} from '~/static/constants'
 export default {
   name: 'TraderWants',
   props:{
@@ -57,8 +53,6 @@ export default {
   },
   data(){
     return {
-      API_PROD_URL,
-      PRODUCT_IMG_WIDTH,
       selected_item: this.wants[0],
       selected_index: 0,
     }
@@ -86,14 +80,6 @@ export default {
     changeSelected(data,index){
       this.selected_item = data
       this.selected_index = index
-    },
-
-    /**
-     * Load Product Image URL
-     * @param item
-     */
-    getProductImageUrl(item){
-      return API_PROD_URL + '/' + item.product.category.name + '/' + item.product.sku + '/image?width=' + PRODUCT_IMG_WIDTH
     },
   }
 }

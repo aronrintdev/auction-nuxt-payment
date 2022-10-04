@@ -15,10 +15,10 @@
       <b-row v-if="offer.cash_added" class="justify-content-end pr-5 pt-3 pb-3">
         <b-col class="request-amount d-flex">
           <img class="mr-2" :src="require('~/assets/img/trades/dollar.svg')">
-          <span v-if="isOfferMine(offerHistory) && cashRequested(offer)" class="amount-text" v-html="$t('trades.you_requested',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
-          <span v-if="isOfferMine(offerHistory) && !cashRequested(offer)" class="amount-text" v-html="$t('trades.you_added',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
-          <span v-if="!isOfferMine(offerHistory) && !cashRequested(offer)" class="amount-text" v-html="$t('trades.they_offered_amount',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
-          <span v-if="!isOfferMine(offerHistory) && cashRequested(offer)" class="amount-text" v-html="$t('trades.they_requested_amount',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
+          <span v-if="isOfferMine(offer) && cashRequested(offer)" class="amount-text" v-html="$t('trades.you_requested',{0: convertCashToDollars(offer.cash_added)})"></span>
+          <span v-if="isOfferMine(offer) && !cashRequested(offer)" class="amount-text" v-html="$t('trades.you_added',{0: convertCashToDollars(offer.cash_added)})"></span>
+          <span v-if="!isOfferMine(offer) && !cashRequested(offer)" class="amount-text" v-html="$t('trades.they_offered_amount',{0: convertCashToDollars(offer.cash_added)})"></span>
+          <span v-if="!isOfferMine(offer) && cashRequested(offer)" class="amount-text" v-html="$t('trades.they_requested_amount',{0: convertCashToDollars(offer.cash_added)})"></span>
           <sup>
           <img class="ml-3" :src="require('~/assets/img/trades/info.svg')">
           </sup>

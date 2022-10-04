@@ -1,6 +1,6 @@
 <template>
   <div class="d-block">
-    <div v-for="(offer) in offers" :key="'offer-' + offer.id" class="offer-item-trade-container mb-4" role="button" @click="showOffer(offer.id)">
+    <div v-for="(offer) in offers" :key="'offer-' + offer.id" class="offer-item-trade-container mb-4" role="button" @click="showOffer(offer)">
       <div class="d-flex justify-content-between">
         <div :id="`flyer-${offer.condition}`">
           {{$t(offer.condition_translation)}}
@@ -89,8 +89,11 @@ export default {
     }
   },
   methods: {
-    showOffer(offerId){
-      this.$router.push('/profile/trades/dashboard/' + offerId)
+    showOffer(offer){
+      if(offer.deleted_at === null){
+        this.$router.push('/profile/trades/dashboard/' + offer.id)
+      }
+      return false
     }
   }
 }
