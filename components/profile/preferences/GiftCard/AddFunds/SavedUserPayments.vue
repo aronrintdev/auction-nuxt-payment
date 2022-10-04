@@ -3,6 +3,7 @@
     <Denomination />
 
     <PaymentOptions
+      :refresh="refresh"
       @savedPayments="savedPayments"
     />
 
@@ -45,7 +46,8 @@ export default {
       tax: 100, // TODO: Temporary dummy data
       amount: this.getAmount,
       MODAL_FADE_TIMEOUT: 2000,
-      saved: SAVED
+      saved: SAVED,
+      refresh: false
     }
   },
   
@@ -101,6 +103,7 @@ export default {
           this.$bvModal.show('reload-success');
         }
       }).catch((error) => {
+        this.refresh = true
         this.$logger.logToServer('Giftcard Add funds saved payment', error.response)
       });
     },

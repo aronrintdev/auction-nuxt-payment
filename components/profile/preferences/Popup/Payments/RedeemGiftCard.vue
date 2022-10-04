@@ -77,7 +77,10 @@
             >&#42;{{ errorMessage }}</span
           >
           <b-row>
-            <b-col>
+            <b-col v-if="buttonSpinnerLoading" md="12" class="text-center">
+              <b-spinner variant="color-blue-2"></b-spinner>
+            </b-col>
+            <b-col v-else>
               <b-button type="submit" pill class="float-right px-3">
                 {{ $t('preferences.payments.save_card') }}
               </b-button>
@@ -108,13 +111,14 @@ export default {
       pin: '',
       errorMessage: '',
       giftCardData: {},
+      buttonSpinnerLoading: false
     }
   },
 
   computed: {
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     giftCardImage: (vm) => {
-      if (vm.giftCardData.card) {
+      if (vm.giftCardData && vm.giftCardData.card) {
         return require(`assets/img/preferences/giftcard/${vm.giftCardData.card.image_name}`)
       }
       return require('~/assets/img/preferences/gift-card-2.png')
@@ -138,6 +142,7 @@ export default {
     // When the gift card redeemed form submit
     onGiftCardRedeem() {
       // On validation success.
+      this.buttonSpinnerLoading = true
       this.$refs.observer.validate().then((success) => {
         if (success) {
           this.errorMessage = ''
@@ -157,9 +162,12 @@ export default {
               }, 1000)
             })
             .catch((err) => {
+              this.buttonSpinnerLoading = false
               this.errorMessage = this.$t(err.response.data.message)
               this.$logger.logToServer('Giftcard redeem error:', err.response)
             })
+        }else{
+          this.buttonSpinnerLoading = false
         }
       })
     },
