@@ -214,6 +214,8 @@ export default {
         })
         // Render the success screen.
         this.$emit('showSuccessScreen')
+      }).catch((err) => {
+        this.$logger.logToServer('Gift card payment error', err.response)
       })
     },
   },

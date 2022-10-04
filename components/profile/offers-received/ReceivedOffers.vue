@@ -47,11 +47,11 @@
               :src="row.item.product.image || fallbackImage"
               alt="Product Picture"
               width="auto"
-              class="img-fluid"
+              class="img-fluid h-100"
               @error="imageLoadError"
             />
 
-            <span class="listing-id">{{
+            <span class="listing-id text-decoration-underline">{{
               $t('placed_offers.listing_id', {
                 listingID: getListingID(row.item),
               })
@@ -100,7 +100,7 @@
 
       <template #cell(actions)="row" class="text-center">
         <div class="action-col">
-          <div v-if="row.item.status === PENDING_OFFER">
+          <div v-if="row.item.status === PENDING_OFFER" class="d-flex justify-content-center">
             <Button
               variant="outline-success mr-4"
               class="br-10"
@@ -250,8 +250,8 @@ export default {
           key: 'actions',
           label: this.$t('placed_offers.table.actions'),
           sortable: true,
-          thClass: 'text-center',
-          tdClass: 'text-center',
+          thClass: 'text-center ',
+          tdClass: 'text-center action-width',
         },
       ],
       productImageWidth: PRODUCT_IMG_WIDTH,
@@ -370,9 +370,12 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.offer-placed-table
+  font-family: $font-sp-pro
+  font-style: normal
 .img-col
   img
-    height: 70px
+    width: 113.1px
 :deep(.btn-outline-danger)
   font-family: $font-sp-pro
   font-style: normal
@@ -380,12 +383,14 @@ export default {
   color: $color-red-3
 .vd-product-title
   font-style: normal
+  font-family: $font-sp-pro
   @include body-5-bold
   color: $color-black-1
 .vd-sku,
 .vd-color,
 .vd-size
   font-style: normal
+  font-family: $font-sp-pro
   @include body-5-normal
   color: $color-gray-6
 .offer-status-awaiting,
@@ -399,32 +404,10 @@ export default {
     @include body-5-normal
     color: $color-gray-25
 
-.offer-status-accepted
-  align-items: center
-  justify-content: center
-  width: fit-content
-  padding: 10px 40px
-  border-radius: 5px
-  color: $color-green-3
-  background: $color-green-23
-  .text-capitalize
-    font-style: normal
-    @include body-4-normal
-    color: $color-green-3
-
-.offer-status-declined
-  align-items: center
-  justify-content: center
-  width: fit-content
-  padding: 10px 40px
-  border-radius: 5px
-  color: $color-red-3
-  background: $color-red-23
-  .text-capitalize
-    font-style: normal
-    @include body-4-normal
-    color: $color-red-3
-
+.btn-outline-success
+  font-family: $font-sp-pro
+.btn-outline-danger
+  font-family: $font-sp-pro
 .offer-amount
   font-style: normal
   @include body-4-normal
@@ -433,27 +416,11 @@ export default {
   font-style: normal
   @include body-4-normal
   color: $color-red-3
-.btn-edit-offer
-  width: 30px
-  height: 30px
-  background-image: url('~/assets/img/box-pencil.svg')
-  background-position: center
-  border: none
-  border-radius: 4px
-.btn-update-offer
-  width: 45px
-  height: 30px
-  background-image: url('~/assets/img/icons/Circle-OK.png')
-  background-repeat: no-repeat
-  background-position: center
-  border: none
-  border-radius: 4px
 :deep(.offers-table-head > th)
   display: none
 .listing-id
   font-style: normal
   @include body-5-bold
-  text-decoration-line: underline
   color: $color-blue-1
 
 #validator-field

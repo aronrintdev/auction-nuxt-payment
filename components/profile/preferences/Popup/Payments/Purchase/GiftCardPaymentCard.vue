@@ -190,12 +190,16 @@
         </h5>
       </b-col>
 
-      <b-col md="12" class="mt-2">
+      <b-col v-if="buttonSpinnerLoading" md="12" class="text-center">
+        <b-spinner variant="color-blue-2"></b-spinner>
+      </b-col>
+      <b-col v-else md="12" class="mt-2">
         <b-button
           id="purchaseGiftCard"
           ref="purchaseGiftcard"
           class="float-right px-3 text-white"
           pill
+          @click="buttonSpinnerLoading = true"
           >{{ $t('preferences.payments.purchase_gift_card') }}</b-button
         >
       </b-col>
@@ -221,6 +225,7 @@ export default {
   data() {
     return {
       loading: false,
+      buttonSpinnerLoading: false,
       formErrors: {
         checkname: {
           message: '',
@@ -336,6 +341,9 @@ export default {
                 styleSniffer: 'true',
                 variant: 'inline',
                 validationCallback: (field, status, message) => {
+                  if (!status) {
+                    this.buttonSpinnerLoading = status
+                  }
                   this.formErrors[field].message = status ? '' : message
                   this.formErrors[field].textClass = status ? '' : 'text-danger'
                 },
@@ -345,7 +353,6 @@ export default {
                 callback: (response) => {
                   // If token exists
                   if (response.token) {
-                    this.$refs.purchaseGiftcard.disabled = true
                     this.validInfoError = false
                     this.form.cardBrand = response.card.type
                     this.form.paymentToken = response.token
@@ -360,6 +367,7 @@ export default {
                     // Do the purchase
                     this.purchaseGiftCard()
                   } else {
+                    this.buttonSpinnerLoading = false
                     this.validInfoError = true
                   }
                 },
@@ -402,6 +410,9 @@ export default {
           styleSniffer: 'true',
           variant: 'inline',
           validationCallback: (field, status, message) => {
+            if (!status) {
+              this.buttonSpinnerLoading = status
+            }
             this.formErrors[field].message = status ? '' : message
             this.formErrors[field].textClass = status ? '' : 'text-danger'
           },
@@ -411,7 +422,6 @@ export default {
           callback: (response) => {
             // If token exists
             if (response.token) {
-              this.$refs.purchaseGiftcard.disabled = false
               this.validInfoError = false
               this.form.cardBrand = response.card.type
               this.form.paymentToken = response.token
@@ -425,6 +435,7 @@ export default {
                 response.card.exp.substring(2)
               this.purchaseGiftCard()
             } else {
+              this.buttonSpinnerLoading = false
               this.validInfoError = true
             }
           },
@@ -488,15 +499,20 @@ export default {
       }).then((res) => {
         this.savePayment({ via: this.form.cardNumber })
         // Save the purchase response
-        this.$refs.purchaseGiftcard.disabled = false
         // Store the response
         this.savePurchaseResponse({
           response: res,
         })
+        this.$nuxt.$emit('reloadPaymentMethods')
         // Render the success screen.
         this.emitRenderComponentEvent(
           this.$parent.$options.components.GiftCardPaymentOrderSuccess.name
         )
+      }).catch((err) => {
+        this.buttonSpinnerLoading = false
+        this.$fetch();
+        this.form.saveforNextTime = false
+        this.$logger.logToServer('Gift card payment error', err.response)
       })
     },
 
