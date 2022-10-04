@@ -29,6 +29,9 @@
       </div>
     </div>
 
+    <!-- ScollTo Top Button -->
+    <ScrollToTop v-show="mobileClass && showScroll" />
+    <!-- ./ScrollTo Top Button Ends -->
     <Footer />
   </div>
 </template>
@@ -37,7 +40,9 @@ import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
 import SideMenu from '~/components/profile/SideMenu.vue'
 import NewSideMenu from '~/components/profile/NewSideMenu'
-
+import ScrollToTop from '~/components/common/ScrollToTop.vue'
+import screenSize from '~/plugins/mixins/screenSize'
+import { SCROLLY } from '~/static/constants'
 export default {
   name: 'Default',
 
@@ -46,6 +51,14 @@ export default {
     Header,
     Footer,
     SideMenu,
+    ScrollToTop,
+  },
+  mixins: [screenSize],
+  data() {
+    return {
+      showScroll: false,
+      scrollY: SCROLLY
+    }
   },
   head() {
     return {
@@ -54,22 +67,32 @@ export default {
       },
     }
   },
+  beforeMount() {
+    window.addEventListener('scroll', this.handleScroll)
+  },
   mounted() {
     // disable guests to access this layout and pages that uses this layout
     if (!this.$store.state.auth.loggedIn) {
       this.$router.push('/login')
     }
     this.onResize()
-    window.addEventListener('resize', this.onResize);
+    window.addEventListener('resize', this.onResize)
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('resize', this.onResize)
+
+    window.removeEventListener('scroll', this.handleScroll)
   },
-  methods:{
+
+  methods: {
     onResize() {
       this.$store.commit('size/setWindowWidth', window.innerWidth)
-    }
-  }
+    },
+    handleScroll() {
+      // Your scroll handling here
+      this.showScroll = window.scrollY > this.scrollY
+    },
+  },
 }
 </script>
 <style lang="sass" scoped>
