@@ -5,7 +5,7 @@
         <div class="item-head-trade-hub">{{$t('trades.trade_arena.theirs')}}:</div>
         <div v-for="(item,index) in trade.theirs[0].offers" :id="trade.theirs[0].offers.length === ITEM_COUNT_THREE ?'trade-item-'+index : ''" :key="index" class="item mb-4" :class="[((trade.theirs[0].offers.length > ITEM_COUNT_ONE )|| (trade.yours[0].offers.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
           <div class="image-wrapper">
-          <img class="item-image-trade" :src="item.inventory.product.image" alt="image" :class="{'item-image-cond':(trade.theirs[0].offers.length > ITEM_COUNT_ONE || trade.yours[0].offers.length > ITEM_COUNT_0) }"/>
+          <img class="item-image-trade" :src="item.inventory.product | getProductImageUrl" alt="image" :class="{'item-image-cond':(trade.theirs[0].offers.length > ITEM_COUNT_ONE || trade.yours[0].offers.length > ITEM_COUNT_0) }"/>
           </div>
           <div class="item-caption">
             <span class="item-name">{{item.inventory.product.name}}</span>
@@ -27,7 +27,7 @@
         <div  v-if="trade.yours[0].offers.length" class="">
           <div  v-for="(item,index) in trade.yours[0].offers" :id="trade.yours[0].offers.length > ITEM_COUNT_TWO ?'your-trade-item-'+index : 'your-item'" :key="index"  class="preview item-length mb-4">
             <div class="image-wrapper">
-            <img class="item-image-trade" :src="item.inventory.product.image" alt="image" :class="{'item-image-cond':(trade.theirs[0].offers.length > ITEM_COUNT_ONE || trade.yours[0].offers.length > ITEM_COUNT_0) }"/>
+            <img class="item-image-trade" :src="item.inventory.product | getProductImageUrl" alt="image" :class="{'item-image-cond':(trade.theirs[0].offers.length > ITEM_COUNT_ONE || trade.yours[0].offers.length > ITEM_COUNT_0) }"/>
             </div>
             <div class="item-caption">
               <span class="item-name">{{item.inventory.product.name}}</span>

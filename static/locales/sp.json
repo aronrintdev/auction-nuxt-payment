@@ -24,6 +24,7 @@
     "terms_of_service": "Términos de servicio",
     "and": "y",
     "private_policy": "Política de Privacidad",
+    "privacy_policy":"Política de privacidad",
     "please_wait": "Espera",
     "success_message": {
       "user_successfully_registered": "Usuario registrado correctamente",
@@ -83,6 +84,7 @@
     "contact_us": "Contáctenos",
     "faq": "PREGUNTAS MÁS FRECUENTES",
     "private_policy": "Política de Privacidad",
+    "privacy_policy":"Política de privacidad",
     "terms_and_conditions": "Términos y Condiciones",
     "all_rights_reserved": "Todos los derechos reservados"
   },

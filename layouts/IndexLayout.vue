@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="position-relative">
     <Header />
     <div class="container-fluid p-0">
       <Nuxt />
     </div>
-    <Footer />
+    <BottomNavigation class="d-flex d-md-none" />
+    <Footer class="d-none d-md-flex" />
   </div>
 </template>
 
@@ -12,18 +13,14 @@
 import { mapActions } from 'vuex'
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
-
+import BottomNavigation from '~/components/homepage/BottomNavigation.vue'
 export default {
   name: 'IndexLayout',
-
-  components: { Header, Footer },
-
+  components: { Header, Footer, BottomNavigation },
   async fetch() {
     await this.fetchWishLists()
   },
-
   fetchOnServer: false,
-
   methods: {
     ...mapActions({
       fetchWishLists: 'wish-list/fetchWishLists',

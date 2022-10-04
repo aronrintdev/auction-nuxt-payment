@@ -19,8 +19,11 @@
             :key="`product-carousel-${index}`"
             :class="{ item: true, 'photo-item': variant === 'photo' }"
           >
-          <h2>Tesst</h2>
-            <nuxt-link v-if="variant === 'photo'" :to="`/shop-by-style/${style.id}`">
+            <h2>Tesst</h2>
+            <nuxt-link
+              v-if="variant === 'photo'"
+              :to="`/shop-by-style/${style.id}`"
+            >
               <ProductThumb
                 :src="style.image"
                 :product="style"
@@ -54,7 +57,7 @@
 import ProductThumb from '~/components/product/Thumb.vue'
 
 export default {
-  name: 'ProductCarousel',
+  name: 'ShopProductCarousel',
 
   components: { ProductThumb },
 

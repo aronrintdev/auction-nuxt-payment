@@ -321,6 +321,17 @@ export default {
     getCardDetails(){
       return this.capitalize(this.paymentMethod.paymentType) + ' Payment ' + this.capitalize(this.paymentMethod.cardBrand) + ' -' + this.paymentMethod.cardLastDigits + ' Exp.' + this.paymentMethod.cardExpiryDate
     },
+    getPaymentMethodDetails(){
+      return {
+        'id': this.paymentMethod?.id,
+        'payment_type': this.paymentMethod.paymentType,
+        'card_last_digits': this.paymentMethod.cardLastDigits,
+        'card_holder_name': this.billingAddress.firstName + ' ' + this.billingAddress.lastName,
+        'card_expiry_date': this.paymentMethod.cardExpiryDate,
+        'card_brand': this.paymentMethod.cardBrand,
+        'is_default': this.paymentMethod.isDefault
+      }
+    },
     // Place offer for current trade
     placeOffer() {
       this.loading = true
@@ -335,6 +346,7 @@ export default {
           cash_added: this.getCashAdded,
           cash_type: this.getCashType,
           card_details: this.getCardDetails(),
+          payment_method: this.getPaymentMethodDetails(),
           condition: this.getTradeCondition,
           payment_token: this.paymentToken,
           offer_type: this.getOfferType,

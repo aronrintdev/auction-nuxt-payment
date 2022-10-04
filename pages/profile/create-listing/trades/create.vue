@@ -329,6 +329,7 @@ export default {
     })
   },
   methods: {
+    ...mapActions('trades', ['checkIfItemIsInListingItem', 'searchProductsList']),
 
     /**
      * This function is used to check  if item
@@ -338,11 +339,10 @@ export default {
      */
     checkIfItemAlreadyListed(item) {
       if (this.canAddMoreItems()) {
-        this.$axios
-          .post('check/product/in/listing', {
-            inventory_id: item.id
-          })
-          .then((response) => { // return product information that exits in already listing
+        this.checkIfItemIsInListingItem({
+        inventory_id: item.id
+      })
+        .then((response) => { // return product information that exits in already listing
             const existingItem = this.getTradeItems.find(val => val.id === item.id)
             if (response.data.is_listing_item && !existingItem) {
               this.itemListingId = response.data.listingId
@@ -469,7 +469,7 @@ export default {
     changeOrderFilter(selectedOrder) {
       this.orderFilter = selectedOrder
       const orderFilteredKey = this.generalListItemsCustomFilter.find(item => item.value === this.orderFilter)
-      this.orderFilterLabel = this.capitalizeFirstLetter(orderFilteredKey.text)
+      this.orderFilterLabel = this.$options.filters.capitalizeFirstLetter(orderFilteredKey.text)
       this.getInventory();
     },
 
@@ -481,7 +481,7 @@ export default {
     changeCategory(selectedCategory) {
       this.categoryFilter = selectedCategory
       const categoryFilteredKey = this.categoryItems.find(item => item.value === this.categoryFilter)
-      this.categoryFilterLabel = this.capitalizeFirstLetter(categoryFilteredKey.text)
+      this.categoryFilterLabel = this.$options.filters.capitalizeFirstLetter(categoryFilteredKey.text)
     },
     /**
      * This function is used to change product size filter
@@ -494,7 +494,7 @@ export default {
       } else {
         this.sizeTypesFilter = this.sizeTypesFilter.filter(item => item !== selectedSizeType)
       }
-      this.sizeTypesFilterLabel = this.joinAndCapitalizeFirstLetters(this.sizeTypesFilter, 2) || this.$t('trades.create_listing.vendor.wants.size_type') // 2 is max number of labels show in filter
+      this.sizeTypesFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeTypesFilter, 2) || this.$t('trades.create_listing.vendor.wants.size_type') // 2 is max number of labels show in filter
     },
 
     /**
@@ -509,34 +509,8 @@ export default {
         this.sizeFilter = this.sizeFilter.filter(item => item !== selectedSize.size)
       }
 
-      this.sizeFilterLabel = this.joinAndCapitalizeFirstLetters(this.sizeFilter, 5)
+      this.sizeFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeFilter, 5)
         || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
-    },
-
-    /**
-     * This function do first letter of word capital
-     * @param string
-     * @returns {string}
-     */
-    capitalizeFirstLetter(string) {
-      if (typeof string === 'string')
-        return string[0].toUpperCase() + string.slice(1)
-      else if (typeof string === 'object' && string.size && typeof string.size === 'string')
-        return string.size[0].toUpperCase() + string.size.slice(1);
-    },
-
-    /**
-     * This function is used to show selected items by joining them
-     * in string format seperated by commas
-     * @param selectedOptionsArray
-     * @param maxLabelsAllowed
-     * @returns {string|*}
-     */
-    joinAndCapitalizeFirstLetters(selectedOptionsArray, maxLabelsAllowed) {
-      selectedOptionsArray = selectedOptionsArray.map(o => o[0].toUpperCase() + o.slice(1))
-      return (selectedOptionsArray.length > maxLabelsAllowed)
-        ? selectedOptionsArray.slice(0, maxLabelsAllowed).join(', ') + '...' // append dots if labels exceed limits of showing characters
-        : selectedOptionsArray.join(', ')
     },
 
     /**
@@ -589,14 +563,10 @@ export default {
     onSearchInput(term) {
       this.searchText = term
       if (term) {
-        this.$axios
-          .post('/search/products', {
-            filters: {
-              search: term.toLowerCase(), // search query param
-              take: TAKE_SEARCHED_PRODUCTS,      // get 5 record
-            },
-            page: 1 // no of page
-          })
+        this.searchProductsList({
+          search: term.toLowerCase(),
+          take: TAKE_SEARCHED_PRODUCTS
+        })
           .then((response) => {
             this.searchedItems = response.data && response.data.results && response.data.results.data // items for search list
           })
