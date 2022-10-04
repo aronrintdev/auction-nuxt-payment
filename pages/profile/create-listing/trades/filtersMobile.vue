@@ -25,16 +25,16 @@
           Category
         </div>
         <div class="d-flex">
-          <span class="selected-catgory pull-left">{{categoryFilter}}</span>
+<!--          <span class="selected-catgory pull-left">{{categoryFilter}}</span>-->
           <img  v-if="isVisible" class="arrow-image pull-right" :src="require('~/assets/img/upArrow.svg')"/>
           <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/downArrow.svg')"/>
         </div>
       </div>
       <b-collapse id="collapse-1" v-model="isVisible">
           <div class="d-flex mt-3">
-            <div class="footwear-box" @click="category('footwear')">Footwear</div>
-            <div class="apparel-box ml-2" @click="category('apparel')">Apparel</div>
-            <div class="accessories-box ml-2" @click="category('accessories')">Accessories</div>
+            <div :class="[getTradesFilter.category == 'footwear' ? 'selected-item' : 'footwear-box']" @click="category('footwear')">Footwear</div>
+            <div :class="[getTradesFilter.category == 'apparel' ? 'selected-item' : 'apparel-box']" class="ml-2" @click="category('apparel')">Apparel</div>
+            <div :class="[getTradesFilter.category == 'accessories' ? 'selected-item' : 'accessories-box']" class="ml-2"  @click="category('accessories')">Accessories</div>
           </div>
       </b-collapse>
     </div>
