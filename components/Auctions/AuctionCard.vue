@@ -2,11 +2,31 @@
   <div v-if="auction" class="mb-4 item">
     <div class="thumbnail auct-card">
       <div
-        class="d-inline-flex align-items-center remaining-time"
-        :class="{ 'bg-danger': auction.status === 'ending_soon' || auction.status === 'expired' }"
+        v-if="auction.status === 'completed'"
+        class="d-inline-flex align-items-center remaining-time bg-success text-white"
       >
-        <img src="~/assets/img/icons/clock-back.svg" />
-        <div>{{ auction | remainingTime('short') }}</div>
+        <div class="text-capitalize">{{ $t('filter_sidebar.status_options.sold') }}</div>
+      </div>
+      <div
+        v-else-if="auction.status === 'scheduled'"
+        class="d-inline-flex align-items-center remaining-time"
+      >
+        <CalendarIcon />
+        <div class="text-capitalize">{{ auction.scheduled_date | diffForHumans }}</div>
+      </div>
+      <div
+        v-else-if="auction.remaining_hours < 24 && auction.remaining_hours"
+        class="d-inline-flex align-items-center remaining-time bg-danger text-white"
+      >
+        <ClockBackSvg v-if="auction.remaining_hours"/>
+        <div class="text-capitalize">{{ auction.remaining_hours ? auction.remaining_time : $t('filter_sidebar.status_options.expired') }}</div>
+      </div>
+      <div
+        v-else-if="auction.remaining_hours >= 24"
+        class="d-inline-flex align-items-center remaining-time"
+      >
+        <ClockBackSvg />
+        <div class="text-capitalize">{{ auction.remaining_time }}</div>
       </div>
 
       <div v-if="auction.auction_items && auction.auction_items.length > 0" class="auct-card-body collection-items">
@@ -29,8 +49,8 @@
         <div v-if="auction.type === AUCTION_TYPE_SINGLE">
           <h5 class="auct-card-title mb-1">{{ auction.auction_items[0].inventory.product.name }}</h5>
           <div class="auct-card-text mb-1">
-            <span class="auct-card-text-colorway">{{ auction.auction_items[0].inventory.color }}</span>
-            <span class="auct-card-text-size">,&nbsp;{{ `${$t('auctions.frontpage.size')} ${auction.auction_items[0].inventory.size.size}` }}</span>
+            <span class="auct-card-text-colorway">{{ auction.auction_items[0].inventory.color }},&nbsp;</span>
+            <span class="auct-card-text-size">{{ `${$t('auctions.frontpage.size')} ${auction.auction_items[0].inventory.size.size}` }}</span>
           </div>
         </div>
         <div v-else>
@@ -101,12 +121,17 @@
 
 <script>
 import { mapActions } from 'vuex'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
 import {AUCTION_TYPE_COLLECTION, AUCTION_TYPE_SINGLE, WATCHLIST_TYPE_AUCTION} from '~/static/constants';
 import WatchlistPopover from '~/components/watchlist/Popover'
 import ShareButton from '~/components/common/ShareButton'
 import ShareIcon from '~/assets/img/icons/share.svg?inline'
 import ProductThumb from '~/components/product/Thumb'
 import Icon from '~/components/common/Icon.vue'
+import ClockBackSvg from '~/assets/img/icons/clock-back.svg?inline'
+import CalendarIcon from '~/assets/img/icons/calendar-black.svg?inline'
 
 export default {
   name: 'AuctionCard',
@@ -116,6 +141,16 @@ export default {
     ShareIcon,
     Icon,
     ProductThumb,
+    ClockBackSvg,
+    CalendarIcon,
+  },
+  filters: {
+    diffForHumans: (date) => {
+      if (!date) {
+        return null
+      }
+      return dayjs(date).fromNow()
+    },
   },
   props: {
     auction: {
@@ -155,6 +190,9 @@ export default {
       this.watchlist = newV.watchlist_item?.watchlist
     }
   },
+  created() {
+    dayjs.extend(relativeTime)
+  },
   mounted() {
     this.watchlist = this.auction.watchlist_item?.watchlist
   },
@@ -188,14 +226,19 @@ export default {
 
 .auct-card
   .remaining-time
-    background: #E2E2E2
+    background: $dark-gray-8
     padding: 4px 8px 4px 6px
-    img
+    color: $black
+    min-width: 90px
+    min-height: 30px
+    justify-content: center
+    svg
       margin-right: 10px
       width: 24px
+      path
+        stroke: currentColor
     div
       @include body-5-medium
-      color: $black
 ::v-deep
   .thumb-wrapper
     .overlay
@@ -205,4 +248,20 @@ export default {
     .thumb-wrapper
       .overlay
         background: rgba(153, 153, 153, 0.1)
+
+@media (max-width: 576px)
+  .auct-card
+    .remaining-time
+      padding: 4px 8px 4px 6px
+      min-width: 70px
+      min-height: 25px
+      svg
+        margin-right: 10px
+        width: 15px
+        height: 15px
+        path
+          stroke: currentColor
+      div
+        font-size: 10px
+        line-height: 11px
 </style>

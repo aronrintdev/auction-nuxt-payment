@@ -1,7 +1,7 @@
 <template>
   <div class="form-group rounded-search-input">
     <img :src="searchIcon" class="icon-search" alt="search" />
-    <input id="product-search-input" type="text" :placeholder="placeholder" :value="text" @input="onSearch">
+    <input id="product-search-input" type="text" :placeholder="placeholder" :value="text" @input="onSearch" @focus="onFocus">
     <Icon
       v-if="text"
       src="close-gray.svg"
@@ -33,7 +33,7 @@ export default {
     searchText: {
       type: String,
       default: null,
-    }
+    },
   },
   data: () => ({
     searchIcon,
@@ -60,6 +60,9 @@ export default {
     handleClearClick() {
       this.text = null
       this.$emit('search', null)
+    },
+    onFocus() {
+      this.$emit('focus')
     }
   }
 };

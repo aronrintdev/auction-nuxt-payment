@@ -177,28 +177,35 @@
           display: flex
           align-items: center
           justify-content: center
-  @media (min-width: 1200px)
-    .item
-      &:nth-child(17),
-      &:nth-child(18),
-      &:nth-child(19),
-      &:nth-child(20)
-        margin-top: 300px
   @media (max-width: 1400px)
-    max-width: 1120px
     .item
       .collection-product-imgs
         margin: 0 -6px
         .collection-product-img
           margin: 12px 6px 0px 6px
-  @media (max-width: 1200px)
-    max-width: 960px
+  @media (max-width: 1024px)
+    padding: 0 30px
+    .auction-carousel
+      .owl-nav
+        &.owl-prev
+          left: -15px
+        &.owl-next
+          right: -30px
+  @media (max-width: 576px)
+    padding: 0 16px
     .item
-      &:nth-child(13),
-      &:nth-child(14),
-      &:nth-child(15)
-        margin-top: 300px
-      .collection-product-imgs
-        margin: 0 -10px
-        .collection-product-img
-          margin: 9px 10px 0px 10px
+      .bid-now-btn
+        font-size: 10px
+        line-height: 12px
+        padding: 4px 10px
+        height: auto
+      .auct-card
+        padding: 10px
+        &-title,
+        &-text-colorway,
+        &-text-size
+          font-size: 13px
+          line-height: 130%
+        &-price
+          font-size: 12px
+          line-height: 14px

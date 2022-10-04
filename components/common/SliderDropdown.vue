@@ -30,7 +30,7 @@
                 aria-label="Sizing example input"
                 class="form-control"
                 name="min"
-                placeholder="$0"
+                placeholder="0"
                 type="text"
                 @input="onValueChange"
               />
@@ -52,7 +52,7 @@
                 aria-label="Sizing example input"
                 class="form-control"
                 name="max"
-                placeholder="$0"
+                placeholder="0"
                 type="text"
                 @input="onValueChange"
               />
@@ -61,7 +61,8 @@
           <b-col cols="12" class="pb-2">
             <div class="mx-1">
               <vue-slider
-                v-model="selectedValues"
+                :key="`vue-slider-${title}`"
+                :value="selectedValues"
                 :drag-on-click="false"
                 :enable-cross="false"
                 :max="maxValue"
@@ -73,6 +74,7 @@
                 :railStyle="{ background: '#E8E8E8', borderRadius: '2px' }"
                 :processStyle="{ background: '#667799' }"
                 class="vue-slider-ltr-browse"
+                @change="onSliderChange"
               ></vue-slider>
             </div>
           </b-col>
@@ -144,7 +146,7 @@ export default {
     }
   },
   mounted() {
-    this.selectedValues = [this.minValue, this.maxValue]
+    this.selectedValues = this.value
   },
   methods: {
     capitalizeFirstLetter(string) {
@@ -154,6 +156,11 @@ export default {
     onValueChange(e) {
       const value = e.target.value ? Math.abs(e.target.value) : 0
       this.selectedValues[e.target.name === 'min' ? 0 : 1] = value
+      this.$emit('change', this.selectedValues)
+    },
+
+    onSliderChange(value) {
+      this.selectedValues = value
       this.$emit('change', this.selectedValues)
     },
 

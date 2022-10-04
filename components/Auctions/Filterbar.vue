@@ -28,7 +28,7 @@
         </div>
         <FormDropdown
           id="sort-by"
-          :value="selectedOption"
+          :value="selectedFilters.sortby"
           :placeholder="$t('selling_page.sortby')"
           :items="SORT_OPTIONS"
           :icon="require('~/assets/img/icons/three-lines.svg')"
@@ -44,31 +44,31 @@
     <div v-if="!moreFiltersVisible" class="mt-4 d-flex align-items-center">
       <!-- Categories -->
       <MultiSelectDropdown
-        v-model="categories"
+        v-model="selectedFilters.categories"
         collapseKey="categories"
         :title="$t('home_page.categories')"
         :options="categoryOptions"
-        class="mr-4"
+        class="mr-3 mr-xl-4"
         width="160"
       />
 
       <!-- Size Types -->
       <MultiSelectDropdown
-        v-model="sizeTypes"
+        v-model="selectedFilters.sizeTypes"
         collapseKey="size-types"
         :title="$t('filter_sidebar.size_types')"
         :options="sizeTypeOptions"
-        class="mr-4"
+        class="mr-3 mr-xl-4"
         width="180"
       />
 
       <!-- Sizes -->
       <MultiSelectDropdown
-        v-model="sizes"
+        v-model="selectedFilters.sizes"
         collapseKey="sizes"
         :title="$t('filter_sidebar.sizes')"
         :options="sizeOptions"
-        class="mr-4 flex-grow-1"
+        class="mr-3 mr-xl-4 flex-grow-1"
       />
 
       <!-- Current Bid -->
@@ -78,20 +78,21 @@
         :start-placeholder="$t('filter_sidebar.price_items.from')"
         :end-placeholder="$t('filter_sidebar.price_items.to')"
         :minValue="MIN_PRICE"
-        :maxValue="MAX_PRICE"
-        :step="MIN_PRICE_RANGE_WINDOW"
+        :maxValue="MAX_PRICE / 100"
+        :step="50"
         :title="$t('home_page.current_bid')"
         :value="selectedPrices"
-        class="mr-4 flex-grow-1"
+        class="mr-3 mr-xl-4 flex-grow-1"
+        @change="updatePriceFilters"
       />
 
       <!-- Brand -->
       <MultiSelectDropdown
-        v-model="brands"
+        v-model="selectedFilters.brands"
         collapseKey="brands"
         :title="$t('filter_sidebar.brands')"
         :options="brandOptions"
-        class="mr-4 flex-grow-1"
+        class="mr-3 mr-xl-4 d-none d-xl-block flex-grow-1"
       />
       <div role="button" class="d-inline-flex align-items-center more-filters-btn ml-3" @click="moreFiltersVisible=true">
         <span class="text-nowrap">{{ $t('auctions.frontpage.filterbar.more_filters') }}</span>
@@ -103,14 +104,23 @@
         <img class="mr-2 before" src="~/assets/img/home/arrow-right.svg" />
         <span class="text-nowrap">{{ $t('auctions.frontpage.filterbar.more_filters') }}</span>
       </div>
+       <!-- Brand -->
+       <MultiSelectDropdown
+        v-model="selectedFilters.brands"
+        collapseKey="brands"
+        :title="$t('filter_sidebar.brands')"
+        :options="brandOptions"
+        class="mr-3 mr-xl-4 d-none d-md-block d-xl-none"
+        :width="250"
+      />
       <!-- Status -->
       <MultiSelectDropdown
-        v-model="sizes"
+        v-model="selectedFilters.status"
         collapseKey="status"
         :title="$t('filter_sidebar.status')"
         :options="statusOptions"
-        class="ml-4"
-        width="250"
+        class="mr-3 mr-xl-4"
+        :width="250"
       />
 
       <!-- Years -->
@@ -124,12 +134,13 @@
         :step="1"
         :title="$t('auctions.frontpage.filterbar.year')"
         :value="selectedYears"
-        class="ml-4"
-        width="250"
+        class="mr-3 mr-xl-4"
+        :width="250"
+        @change="updateYearFilters"
       />
     </div>
     <div class="text-center auction-filters-type-selector">
-      <NavGroup :value="selectedType" :data="auctionTypes" @change="auctionTypeChanged"/>
+      <NavGroup :value="selectedFilters.type" :data="auctionTypes" @change="auctionTypeChanged"/>
     </div>
   </section>
 </template>
@@ -137,12 +148,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import ClickOutside from 'vue-click-outside'
+import debounce from 'lodash.debounce'
 
 import SearchBox from '../RoundSearchBox'
 import { FormDropdown, NavGroup, MultiSelectDropdown, SliderDropdown } from '~/components/common'
 import {
   MAX_PRICE,
   MIN_PRICE,
+  MIN_YEAR,
+  MAX_YEAR,
   MIN_PRICE_RANGE_WINDOW,
   SNEAKER_SIZES,
   APPAREL_SIZES,
@@ -172,9 +186,6 @@ export default {
   data() {
     return {
       searchText: null,
-      selectedOption: null,
-      selectedType: 'single',
-      selectedProduct: null,
       hasSearchResult: false,
       searchedProducts: [],
       SORT_OPTIONS: [
@@ -205,13 +216,10 @@ export default {
       ],
       MAX_PRICE,
       MIN_PRICE,
-      selectedPrices: [],
+      MAX_YEAR,
+      MIN_YEAR,
       MIN_PRICE_RANGE_WINDOW,
       moreFiltersVisible: false,
-      selectedYears: [],
-      filterTags: [],
-      sizeTypes: [],
-      categories: [],
       SNEAKER_SIZES,
       APPAREL_SIZES,
       auctionTypes: [
@@ -224,8 +232,6 @@ export default {
           value: 'collection'
         },
       ],
-      brands: [],
-      sizes: [],
       categoryOptions: [],
       statusOptions: [
         {
@@ -238,7 +244,7 @@ export default {
         },
         {
           label: this.$t('filter_sidebar.status_options.expiring'),
-          value: 'expiring'
+          value: 'ending_soon'
         },
         {
           label: this.$t('filter_sidebar.status_options.expired'),
@@ -249,6 +255,18 @@ export default {
           value: 'sold'
         },
       ],
+      selectedPrices: [MIN_PRICE, MAX_PRICE / 100],
+      selectedYears: [MIN_YEAR, MAX_YEAR],
+      selectedFilters: {
+        type: 'single',
+        sizeTypes: [],
+        sizes: [],
+        brands: [],
+        categories: [],
+        status: [],
+        sortby: null,
+        product: null,
+      }
     }
   },
   computed: {
@@ -286,6 +304,12 @@ export default {
   watch: {
     searchKeyword(newV) {
       this.searchText = newV
+    },
+    selectedFilters: {
+      handler (newV) {
+        this.emitChange(newV)
+      },
+      deep: true
     }
   },
   mounted() {
@@ -331,84 +355,54 @@ export default {
     selectProduct(product) {
       this.selectedProduct = product.sku
       this.searchText = product.name
-      this.emitChange()
+      this.selectedFilters = {
+        ...this.selectedFilters,
+        product: this.selectedProduct,
+      }
       this.hideDropdown()
     },
     // Select SortBy option
     changeOption(option) {
-      this.selectedOption = option?.value
-      this.emitChange()
+      this.selectedFilters = {
+        ...this.selectedFilters,
+        sortby: option?.value
+      }
     },
     // Auction Type Change Event
     auctionTypeChanged(type) {
-      if (this.selectedType === type) {
-        this.selectedType = null
-      } else {
-        this.selectedType = type
+      if (this.selectedFilters.type !== type) {
+        this.selectedFilters = {
+          ...this.selectedFilters,
+          type
+        }
       }
-      this.emitChange()
     },
     // Submit updated filters
-    emitChange() {
-      this.$emit('change', {
-        type: this.selectedType, 
-        sortby: this.selectedOption,
-        product: this.selectedProduct,
-        sizeTypes: this.filterTags.filter(tag => tag.type === 'type').map(tag => tag.value),
-        categories: this.filterTags.filter(tag => tag.type === 'category').map(tag => tag.value),
-        minPrice: this.selectedPrices[0] * 100,
-        maxPrice: this.selectedPrices[1] * 100,
-        minYear: this.selectedYears[0],
-        maxYear: this.selectedYears[1],
-        sizes: this.filterTags.filter(tag => tag.type === 'size').map(tag => tag.value),
-      })
-    },
+    emitChange: debounce(function(filters) {
+      this.$emit('change', filters)
+    }, 300),
     hideDropdown() {
       this.hasSearchResult = false
       this.searchedProducts = []
     },
     // Update selected prices and pass to parent component
-    updatePriceFilters(e) {
-      const value = e.target.value ? Math.abs(e.target.value) : 0
-      this.selectedPrices[e.target.name === 'min' ? 0 : 1] = value
-    },
-    // Update selected years and pass to parent component
-    updateYearFilters(e) {
-      const value = e.target.value ? Math.abs(e.target.value) : 0
-      this.selectedYears[e.target.name === 'min' ? 0 : 1] = value
-    },
-    showFilters() {
-      this.moreFiltersVisible = true
-    },
-    // Remove size filter tag
-    removeFilterTag(idx) {
-      this.filterTags.splice(idx, 1)
-    },
-    // Click size checkbox
-    addFilterTag(type, value, label) {
-      const idx = this.filterTags.findIndex(t => t.value === value && t.type === type)
-      if (idx > -1) {
-        this.filterTags.splice(idx, 1)
-      } else {
-        const tag = { label, type, value }
-        this.filterTags.push(tag)
+    updatePriceFilters(value) {
+      this.selectedPrices = value
+      this.selectedFilters = {
+        ...this.selectedFilters,
+        minPrice: value[0] === MIN_PRICE ? undefined : value[0] * 100,
+        maxPrice: value[1] === MAX_PRICE ? undefined : value[1] * 100,
       }
     },
-    // Click "Apply filters" button
-    applyFilters() {
-      this.moreFiltersVisible = false
-      this.emitChange()
+    // Update selected years and pass to parent component
+    updateYearFilters(value) {
+      this.selectedYears = value
+      this.selectedFilters = {
+        ...this.selectedFilters,
+        minYear: value[0] === MIN_YEAR ? undefined : value[0],
+        maxYear: value[1] === MAX_YEAR ? undefined : value[1],
+      }
     },
-    // Check if filter is selected or not
-    isFilterSelected(key, value) {
-      const selected = this.filterTags.filter(t => t.value === value && t.type === key)
-      return selected.length > 0
-    },
-    clearFilters() {
-      this.filterTags = []
-      this.selectedYears = [this.MIN_YEAR, this.MAX_YEAR]
-      this.selectedPrices = [this.MIN_PRICE, this.MAX_PRICE]
-    }
   }
 }
 </script>
