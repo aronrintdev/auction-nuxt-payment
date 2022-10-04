@@ -165,3 +165,8 @@ export function setTradeDraftCount(state,val) {
 export function setEditTradePageReferrer(state, referrer) {
     state.editTradePageReferrer = referrer
 }
+
+export function setTradeFilters(state, data) {
+  console.log('data',data)
+  state.filterTrade = data
+}

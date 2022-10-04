@@ -165,8 +165,13 @@ export default {
       height: 33px !important
       border-radius: 8px
       background-color: #F7F7F7
-  @media (min-width: 350px)  and (max-width: 500px)
+  @media (min-width: 350px)  and (max-width: 400px)
       width: 303px !important
+      height: 33px !important
+      border-radius: 8px
+      background-color: #F7F7F7
+  @media (min-width: 401px)  and (max-width: 500px)
+      width: 360px !important
       height: 33px !important
       border-radius: 8px
       background-color: #F7F7F7
