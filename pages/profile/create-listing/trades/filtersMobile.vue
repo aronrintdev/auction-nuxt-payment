@@ -45,17 +45,24 @@
           Size Type
         </div>
         <div class="d-flex">
-          <span class="selected-catgory pull-left">{{sizeTypesFilter}}</span>
+<!--          <span class="selected-catgory pull-left">{{sizeTypesFilter}}</span>-->
           <img  v-if="isVisibleSizeType" class="arrow-image pull-right" :src="require('~/assets/img/upArrow.svg')"/>
           <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/downArrow.svg')"/>
         </div>
       </div>
       <b-collapse id="collapse-sizeType" v-model="isVisibleSizeType">
         <div class="d-flex mt-3">
-          <div class="footwear-box" v-for="(item,index) in items" :key="index">
-            <span class="title" @click="() => onSelect(item)">{{item.text}}</span>
-          </div>
-
+          <div :class="[sizeTypesFilter.includes('men') || getTradesFilter.sizeType.includes('men') ? 'selected-item' : 'footwear-box']" id="men-box" @click="onSelect('men')">Men</div>
+          <div :class="[sizeTypesFilter.includes('women') || getTradesFilter.sizeType.includes('women') ? 'selected-item' : 'footwear-box']"  class="ml-2" id="women-box" @click="onSelect('women')">Women</div>
+          <div :class="[sizeTypesFilter.includes('unisex') || getTradesFilter.sizeType.includes('unisex') ? 'selected-item' : 'footwear-box']" class="ml-2"  id="unisex-box" @click="onSelect('unisex')">Unisex</div>
+        </div>
+        <div class="d-flex mt-3">
+          <div :class="[sizeTypesFilter.includes('bigkids') || getTradesFilter.sizeType.includes('bigkids') ? 'selected-item' : 'footwear-box']" @click="onSelect('bigkids')">Big Kids</div>
+          <div :class="[sizeTypesFilter.includes('littlekids') || getTradesFilter.sizeType.includes('littlekids') ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('littlekids')">Little Kids</div>
+          <div  :class="[sizeTypesFilter.includes('toddlers') || getTradesFilter.sizeType.includes('toddlers') ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('toddlers')">Toddlers</div>
+        </div>
+        <div class="d-flex mt-3">
+          <div :class="[sizeTypesFilter.includes('infants') || getTradesFilter.sizeType.includes('infants') ? 'selected-item' : 'footwear-box']" @click="onSelect('infants')">Infants</div>
         </div>
       </b-collapse>
     </div>
@@ -178,16 +185,11 @@ export default {
       this.$emit('click',data)
     },
     onSelect(item) {
-      console.log('item',item.value)
-      if(this.sizeTypesFilter !== null && this.sizeTypesFilter.includes(item.value))
-      {
-       const checkArray = this.sizeTypesFilter.indexOf(item.value)
-        console.log('checkArray',checkArray)
+      if(this.sizeTypesFilter !== null && this.sizeTypesFilter.includes(item)) {
+       const checkArray = this.sizeTypesFilter.indexOf(item)
         this.sizeTypesFilter.splice(checkArray,1)
-      }
-      else
-      {
-        this.sizeTypesFilter.push(item.value)
+      } else {
+        this.sizeTypesFilter.push(item)
       }
     }
   },
@@ -198,7 +200,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .filter-container
-   height: 500px
+   height: 700px
    width: 340px
    background-color: #fff
    //border: 1px solid grey
@@ -311,5 +313,18 @@ export default {
   font-family: SF Pro Display
   color: #000000
   //margin-left: 10rem
+.selected-item
+  width: 99px
+  height: 45px
+  border-radius: 3px
+  border: 1px solid #000
+  font-size: 14px
+  font-weight: 600
+  font-family: SF Pro Display
+  color: #999999
+  padding-top: 10px
+  padding-left: 20px
+  cursor: pointer
+  background: #F2F2F2
 
 </style>
