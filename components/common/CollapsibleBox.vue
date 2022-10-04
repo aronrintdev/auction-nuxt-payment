@@ -50,7 +50,7 @@ export default {
 
 .title
   color: $color-blue-20
-  font-size: 16px
+  @include body-13
 
 .collapsible-box img.close
   transform: rotate(0deg)

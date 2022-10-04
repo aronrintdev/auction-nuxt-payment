@@ -99,7 +99,7 @@ export default {
 
   small
     color: $color-gray-6
-    font-size: 16px
+    @include body-14
 
 @media (min-width: 993px)
   .box-gap
@@ -111,11 +111,10 @@ export default {
 
   .top-movers-heading
     font-family: $font-montserrat
-    font-size: 14px
-    line-height: 17px
+    @include body-5
     text-transform: capitalize
 
     small
-      font-size: 12px
+      @include body-9
 
 </style>

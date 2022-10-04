@@ -4865,6 +4865,9 @@
     "z_to_a": "Z → A",
     "lowest_to_highest": "Lowest to Highest",
     "product_name": "Product Name",
+    "sort": "Sort",
+    "apply_filter": "Apply Filter",
+    "reset": "Reset",
     "order_types": {
       "buy": "Buy",
       "trade": "Trade",

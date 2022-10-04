@@ -9,7 +9,7 @@
             <div class="d-flex align-items-center">
               <SearchInput
                 :value="filters.search"
-                :placeholder="$t('orders.search_placeholder')"
+                :placeholder="$t('orders.search_placeholder').toString()"
                 class="flex-grow-1 mw-734 search"
                 :debounce="1000"
                 @change="handleSearch"
@@ -28,7 +28,7 @@
             <CalendarInput
               class="mr-4"
               :value="filters.start_date"
-              :placeholder="$t('bids.start_date')"
+              :placeholder="$t('bids.start_date').toString()"
               @context="(context) => filters.start_date = context.selectedYMD"
             ></CalendarInput>
           </b-col>
@@ -36,7 +36,7 @@
             <CalendarInput
               class="mr-4"
               :value="filters.end_date"
-              :placeholder="$t('bids.end_date')"
+              :placeholder="$t('bids.end_date').toString()"
               @context="(context) => filters.end_date = context.selectedYMD"
             ></CalendarInput>
           </b-col>
@@ -76,7 +76,7 @@
               class="mr-4 dropdown-filters"
               :value="filters.statusType"
               :options="orderStatuses"
-              :title="$t('bids.status')"
+              :title="$t('bids.status').toString()"
               :updateFilters="filters.activeStatusFilters"
             />
           </b-col>
@@ -87,10 +87,10 @@
     <vue-bottom-sheet ref="ordersFilter" max-height="90%" :is-full-screen="true">
       <div class="d-flex flex-column justify-content-between h-100">
         <div>
-          <div class="filter-title text-center pb-1">Filter By</div>
+          <div class="filter-title text-center pb-1">{{ $t('orders.filter_by') }}</div>
           <div class="p-3 bottom-sheet-content">
             <div>
-              <b-form-group v-slot="{ ariaDescribedby }" label="Sort">
+              <b-form-group v-slot="{ ariaDescribedby }" :label="$t('orders.sort')">
                 <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="A">
                   {{ $t('orders.date_ordered') }}: {{ $t('orders.recent_to_oldest') }}
                 </b-form-radio>
@@ -109,7 +109,7 @@
               </b-form-group>
             </div>
             <div class="border-top py-1">
-              <collapsible-box title="Type" :second-title="selectedTypesString">
+              <collapsible-box :title="$t('orders.type').toString()" :second-title="selectedTypesString">
                 <div class="row my-2">
                   <div v-for="type in orderTypes" :key="type.key" class="col-4 my-1 filter-boxes">
                     <div
@@ -122,7 +122,7 @@
               </collapsible-box>
             </div>
             <div class="border-top py-1">
-              <collapsible-box title="Status" :second-title="selectedStatusString">
+              <collapsible-box :title="$t('orders.status').toString()" :second-title="selectedStatusString">
                 <div class="row my-2">
                   <div v-for="status in orderStatuses" :key="status.key" class="col-4 my-1 filter-boxes">
                     <div
@@ -135,13 +135,13 @@
               </collapsible-box>
             </div>
             <div class="border-top py-1">
-              <collapsible-box title="Date Ordered" :second-title="selectedDateString">
+              <collapsible-box :title="$t('orders.date_ordered').toString()" :second-title="selectedDateString">
                 <div class="row">
                   <div class="col mt-2">
                     <CalendarInput
                       class="mr-4"
                       :value="filters.start_date"
-                      :placeholder="$t('bids.start_date')"
+                      :placeholder="$t('bids.start_date').toString()"
                       @context="(context) => filters.start_date = context.selectedYMD"
                     ></CalendarInput>
                   </div>
@@ -149,7 +149,7 @@
                     <CalendarInput
                       class="mr-4"
                       :value="filters.end_date"
-                      :placeholder="$t('bids.end_date')"
+                      :placeholder="$t('bids.end_date').toString()"
                       @context="(context) => filters.end_date = context.selectedYMD"
                     ></CalendarInput>
                   </div>
@@ -160,8 +160,8 @@
         </div>
         <div class="p-3">
           <div class="d-flex justify-content-between align-items-center">
-            <button class="btn-bottom-sheet reset" @click="clearFilters">Reset</button>
-            <button class="btn btn-bottom-sheet apply-filter" @click="applyFilter">Apply Filters</button>
+            <button class="btn-bottom-sheet reset" @click="clearFilters">{{ $t('orders.reset') }}</button>
+            <button class="btn btn-bottom-sheet apply-filter" @click="applyFilter">{{ $t('orders.apply_filter') }}</button>
           </div>
         </div>
       </div>
@@ -379,8 +379,7 @@ export default {
   max-width: 734px
 
 .filter-title
-  font-size: 17px
-  font-weight: bold
+  @include body-17-bold
 
 .btn-bottom-sheet
   border-radius: 20px
@@ -399,7 +398,7 @@ export default {
 ::v-deep .col-form-label
   font-weight: bold
   color: $color-blue-20
-  font-size: 16px
+  @include body-14
 
 ::v-deep label.custom-control-label
   font-weight: normal
@@ -408,5 +407,9 @@ export default {
 ::v-deep .custom-control.custom-radio
   padding-top: 5px
   padding-bottom: 5px
+
+::v-deep .search .search-input.form-control
+  font-family: $font-montserrat
+  @include body-9
 
 </style>

@@ -132,8 +132,8 @@ export default {
     font-size: 13px
 
   .movers-card
-    border: 1px solid #FAFAFA
-    background-color: #FAFAFA
+    border: 1px solid $color-white-4
+    background-color: $color-white-4
     border-radius: 8px 8px 0 0
 
 </style>

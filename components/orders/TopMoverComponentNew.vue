@@ -72,9 +72,9 @@ export default {
     font-size: 12px
 
   ::v-deep .top-movers-row table.table-striped td:nth-child(1)
-    font-weight: 600
+    font-weight: $medium
 
   ::v-deep .top-movers-row table.table-striped td:nth-child(2)
-    color: #6F6F6F
+    color: $color-gray-6
 
 </style>

@@ -306,11 +306,10 @@ export default {
 @import '/assets/css/variables'
 
 .title
-  font-size: 14px
-  font-weight: bold
+  @include body-5-bold
 
 .sku, .attribute
-  font-size: 13px
+  @include body-10
   color: $color-gray-6
 
 .status

@@ -39,7 +39,6 @@ export default {
 
 .overview-heading
   font-family: $font-family-sf-pro-display
-  font-weight: $bold
   @include body-15-bold
   text-transform: uppercase
   margin: 30px 0
@@ -50,18 +49,18 @@ export default {
 @media (max-width: 992px)
   .overview-heading
     font-family: $font-montserrat
-    font-size: 14px
+    @include body-5
     text-transform: capitalize
 
   ::v-deep .overview-box:nth-child(1) .box-value
-    color: #667799
+    color: $color-blue-20
 
   ::v-deep .overview-box:nth-child(2) .box-value
-    color: #CE745F
+    color: $color-orange-11
 
   ::v-deep .overview-box:nth-child(3) .box-value
-    color: #7196B1
+    color: $color-blue-19
 
   ::v-deep .overview-box:nth-child(4) .box-value
-    color: #909090
+    color: $color-red-24
 </style>

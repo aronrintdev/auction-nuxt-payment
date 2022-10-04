@@ -53,14 +53,14 @@ export default {
 
 @media (max-width: 992px)
     .overview-box
-      box-shadow: inset 0px 1px 4px #FFFFFF
+      box-shadow: inset 0px 1px 4px $color-white-1
       filter: drop-shadow(0px 1px 4px rgba(0, 0, 0, 0.31))
       border-radius: 8px
       padding: 10px
 
     .box-title
       font-family: $font-montserrat
-      color: #4A4A4A
+      color: $color-gray-69
       font-size: 12px
 
     .box-value

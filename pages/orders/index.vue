@@ -66,8 +66,7 @@ export default {
 .orders-heading
   font-family: $font-family-base
   font-weight: $bold
-  font-size: 30px
-  line-height: 37px
+  @include body-16
   letter-spacing: -0.02em
   text-transform: capitalize
 
@@ -80,7 +79,5 @@ export default {
 @media (max-width: 992px)
   .orders-heading
     font-family: $font-montserrat
-    font-weight: 700
-    font-size: 14px
-    line-height: 25px
+    @include body-11-bold
 </style>

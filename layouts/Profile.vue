@@ -135,7 +135,7 @@ export default {
   .wrapper
     .custom-wrapper
       .main-wrapper
-        background-color: #fff
+        background-color: $color-white-1
 
   .sidebar
     display: none
