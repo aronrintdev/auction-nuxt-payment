@@ -280,6 +280,7 @@ export default {
       console.log('data',data)
       this.orderFilter = data.orderFilter ? data.orderFilter : null
       this.categoryFilter = data.category ? data.category : null
+      this.sizeTypesFilter = data.sizeType ? data.sizeType : null
       this.getInventory()
     },
     /**

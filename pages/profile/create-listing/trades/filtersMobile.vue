@@ -39,6 +39,27 @@
       </b-collapse>
     </div>
     <hr class="hr" />
+    <div class="mt-1 ml-2">
+      <div class="d-flex" v-b-toggle="'collapse-sizeType'">
+        <div class="filtersHeading">
+          Size Type
+        </div>
+        <div class="d-flex">
+          <span class="selected-catgory pull-left">{{sizeTypesFilter}}</span>
+          <img  v-if="isVisibleSizeType" class="arrow-image pull-right" :src="require('~/assets/img/upArrow.svg')"/>
+          <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/downArrow.svg')"/>
+        </div>
+      </div>
+      <b-collapse id="collapse-sizeType" v-model="isVisibleSizeType">
+        <div class="d-flex mt-3">
+          <div class="footwear-box" v-for="(item,index) in items" :key="index">
+            <span class="title" @click="() => onSelect(item)">{{item.text}}</span>
+          </div>
+
+        </div>
+      </b-collapse>
+    </div>
+    <hr class="hr" />
     <div class="d-flex">
       <div class="reset" @click="clearFilters">Reset</div>
       <div>
@@ -60,8 +81,18 @@ export default {
   name: 'filtersMobile.vue',
   data() {
     return {
+      items: [
+        { text: 'Men', value: 'men' },
+        { text: 'Women', value: 'women' },
+        { text: 'Unisex', value: 'unisex'},
+        { text: 'Big Kids', value: 'bigkids' },
+        { text: 'Little Kids', value: 'littlekids' },
+        { text: 'Toddlers', value: 'toddlers'},
+        { text: 'Infants', value: 'infants'},
+      ],
       order:'',
       isVisible: false,
+      isVisibleSizeType:false,
       filterSection:false,
       IMAGE_PATH, // Image path const
       MAX_ITEMS_ALLOWED,
@@ -124,7 +155,8 @@ export default {
     sendEmit() {
       const filtersData = {
         orderFilter :  this.orderFilters,
-        category : this.selected_category
+        category : this.selected_category,
+        sizeType:this.sizeTypesFilter,
       }
       this.$store.commit('trades/setTradeFilters', filtersData)
       this.$emit('click',filtersData)
@@ -134,14 +166,29 @@ export default {
       this.selected_category = null
       this.orderFilters = null
       this.categoryFilter = null
+      this.sizeTypesFilter = null
       const resetFiltersData = {
         orderFilter :  this.orderFilters,
-        category : this.selected_category
+        category : this.selected_category,
+        sizeType: this.sizeTypesFilter,
       }
       this.$store.commit('trades/setTradeFilters', resetFiltersData)
     },
     closeFilter(data) {
       this.$emit('click',data)
+    },
+    onSelect(item) {
+      console.log('item',item.value)
+      if(this.sizeTypesFilter !== null && this.sizeTypesFilter.includes(item.value))
+      {
+       const checkArray = this.sizeTypesFilter.indexOf(item.value)
+        console.log('checkArray',checkArray)
+        this.sizeTypesFilter.splice(checkArray,1)
+      }
+      else
+      {
+        this.sizeTypesFilter.push(item.value)
+      }
     }
   },
 }
