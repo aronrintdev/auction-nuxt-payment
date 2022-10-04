@@ -161,7 +161,10 @@
         <div class="p-3">
           <div class="d-flex justify-content-between align-items-center">
             <button class="btn-bottom-sheet reset" @click="clearFilters">{{ $t('orders.reset') }}</button>
-            <button class="btn btn-bottom-sheet apply-filter" @click="applyFilter">{{ $t('orders.apply_filter') }}</button>
+            <button class="btn btn-bottom-sheet apply-filter" @click="applyFilter">{{
+                $t('orders.apply_filter')
+              }}
+            </button>
           </div>
         </div>
       </div>
@@ -229,8 +232,10 @@ export default {
       return this.filters.activeTypeFilters.map(x => x.text).join(', ')
     },
     selectedDateString() {
-      const separator = (this.filters.start_date || this.filters.end_date) ? ' to ' : ''
-      return this.filters.start_date + separator + this.filters.end_date
+      if (this.filters.start_date || this.filters.end_date) {
+        return this.filters.start_date + ' to ' + this.filters.end_date
+      }
+      return ''
     }
   },
   methods: {
@@ -257,9 +262,6 @@ export default {
       this.$store.commit('vendors/setFilters', this.filters)
       this.$store.dispatch('vendors/getVendorOrders', 1)
       this.close()
-    },
-    toggleBottomSheet() {
-      this.bottomSheetShow = !this.bottomSheetShow
     },
     open() {
       this.$refs.ordersFilter.open();
