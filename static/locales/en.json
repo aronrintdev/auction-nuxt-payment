@@ -3993,7 +3993,8 @@
     }
   },
   "faqs": {
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "back": "Back"
   },
   "trades": {
     "index": {

@@ -14,7 +14,7 @@
       <b-button type="submit" class="btn-recovery-codes">{{ $t('features.2fa_security.recovery_codes') }}</b-button>
     </div>
 
-    <NuxtLink to="/profile/security/faq">
+    <NuxtLink to="/faqs/security">
       <div class="btn-faq-wrapper">
         <span>{{ $t('features.2fa_security.2fa_faq') }}</span>
       </div>

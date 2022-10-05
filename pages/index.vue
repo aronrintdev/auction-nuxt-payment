@@ -2,7 +2,6 @@
   <div class="padding-bottom">
     <HeroSection />
     <div class="container">
-      <nuxt-link to='faqs/security'>Testing</nuxt-link>
       <HomeNewReleases />
       <HomeShopByStyle />
       <HomeShopByBrand />

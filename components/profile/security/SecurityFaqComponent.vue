@@ -5,9 +5,9 @@
         <div class="ph-30">
           <div class="mb-4">
             <NuxtLink to="/profile/security">
-              <div class="d-flex align-baseline">
+              <div class="d-flex align-baseline" @click='backPage'>
                 <img :src="require('~/assets/img/icons/back-arrow.svg')"/>
-                <span class="back-text pl-2">{{ $t('features.2fa_security.back_to_security') }}</span>
+                <span class="back-text pl-2">{{ $t('faqs.back') }}</span>
               </div>
             </NuxtLink>
           </div>
@@ -58,6 +58,9 @@ export default {
     },
     updateTitle(){
       this.$emit('updateTitle', this.categoryDetail);
+    },
+    backPage(){
+      this.$route.go(-1)
     }
   }
 }
