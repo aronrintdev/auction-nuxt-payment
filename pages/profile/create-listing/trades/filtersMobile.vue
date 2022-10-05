@@ -52,17 +52,17 @@
       </div>
       <b-collapse id="collapse-sizeType" v-model="isVisibleSizeType">
         <div class="d-flex mt-3">
-          <div :class="[sizeTypesFilter.includes('men') || getTradesFilter.sizeType.includes('men') ? 'selected-item' : 'footwear-box']" id="men-box" @click="onSelect('men')">Men</div>
-          <div :class="[sizeTypesFilter.includes('women') || getTradesFilter.sizeType.includes('women') ? 'selected-item' : 'footwear-box']"  class="ml-2" id="women-box" @click="onSelect('women')">Women</div>
-          <div :class="[sizeTypesFilter.includes('unisex') || getTradesFilter.sizeType.includes('unisex') ? 'selected-item' : 'footwear-box']" class="ml-2"  id="unisex-box" @click="onSelect('unisex')">Unisex</div>
+          <div :class="[(this.sizeTypesFilter !== null && sizeTypesFilter.includes('men')) || (getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('men')) ? 'selected-item' : 'footwear-box']" id="men-box" @click="onSelect('men')">Men</div>
+          <div :class="[(this.sizeTypesFilter !== null && sizeTypesFilter.includes('women')) || (getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('women')) ? 'selected-item' : 'footwear-box']"  class="ml-2" id="women-box" @click="onSelect('women')">Women</div>
+          <div :class="[(this.sizeTypesFilter !== null && sizeTypesFilter.includes('unisex')) || (getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('unisex')) ? 'selected-item' : 'footwear-box']" class="ml-2"  id="unisex-box" @click="onSelect('unisex')">Unisex</div>
         </div>
         <div class="d-flex mt-3">
-          <div :class="[sizeTypesFilter.includes('bigkids') || getTradesFilter.sizeType.includes('bigkids') ? 'selected-item' : 'footwear-box']" @click="onSelect('bigkids')">Big Kids</div>
-          <div :class="[sizeTypesFilter.includes('littlekids') || getTradesFilter.sizeType.includes('littlekids') ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('littlekids')">Little Kids</div>
-          <div  :class="[sizeTypesFilter.includes('toddlers') || getTradesFilter.sizeType.includes('toddlers') ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('toddlers')">Toddlers</div>
+          <div :class="[(this.sizeTypesFilter !== null  && sizeTypesFilter.includes('bigkids')) || (getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('bigkids')) ? 'selected-item' : 'footwear-box']" @click="onSelect('bigkids')">Big Kids</div>
+          <div :class="[(this.sizeTypesFilter !== null  && sizeTypesFilter.includes('littlekids')) || (getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('littlekids') )? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('littlekids')">Little Kids</div>
+          <div  :class="[(this.sizeTypesFilter !== null && sizeTypesFilter.includes('toddlers')) || (getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('toddlers')) ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('toddlers')">Toddlers</div>
         </div>
         <div class="d-flex mt-3">
-          <div :class="[sizeTypesFilter.includes('infants') || getTradesFilter.sizeType.includes('infants') ? 'selected-item' : 'footwear-box']" @click="onSelect('infants')">Infants</div>
+          <div :class="[(this.sizeTypesFilter !== null && sizeTypesFilter.includes('infants')) || (getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('infants')) ? 'selected-item' : 'footwear-box']" @click="onSelect('infants')">Infants</div>
         </div>
       </b-collapse>
     </div>
@@ -88,15 +88,6 @@ export default {
   name: 'filtersMobile.vue',
   data() {
     return {
-      items: [
-        { text: 'Men', value: 'men' },
-        { text: 'Women', value: 'women' },
-        { text: 'Unisex', value: 'unisex'},
-        { text: 'Big Kids', value: 'bigkids' },
-        { text: 'Little Kids', value: 'littlekids' },
-        { text: 'Toddlers', value: 'toddlers'},
-        { text: 'Infants', value: 'infants'},
-      ],
       order:'',
       isVisible: false,
       isVisibleSizeType:false,
