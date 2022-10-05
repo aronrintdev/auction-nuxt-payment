@@ -67,12 +67,12 @@ export default {
   font-weight: $medium
   font-size: 30px
   line-height: 37px
-  color: $color-blue-20
+  color: $color-blue-2
 
 .btn-recovery-codes
-  background: $color-blue-20
+  background: $color-blue-2
   border-radius: 20px
-  border-color: $color-blue-20
+  border-color: $color-blue-2
   padding: 5px 50px
 
   &:hover
