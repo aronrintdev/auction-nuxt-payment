@@ -34,7 +34,6 @@ export default {
   methods:{
     updateTitle(row){
       this.categoryDetail = row[0]
-      console.log(this.categoryDetail,'her123123')
     }
   }
 }

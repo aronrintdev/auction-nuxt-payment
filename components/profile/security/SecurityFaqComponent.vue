@@ -48,7 +48,6 @@ export default {
           this.categoryDetail = response.data.data[0].category_details;
           this.updateTitle();
           response.data.data[0].questions[0].question_details.forEach(element => {
-            console.log(element)
             this.faqs.push({'id':'faq-'+element.id, 'title': element.question,'body': element.answer})
           });
         })
