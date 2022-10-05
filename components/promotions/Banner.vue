@@ -4,8 +4,9 @@
       <img
           :src="bannerImageUrl"
           class="banner-image"
+          :class="mobileClass"
       />
-      <div class="position-absolute w-100 promotions-banner-overlay">
+      <div v-if="!isScreenXS" class="position-absolute w-100 promotions-banner-overlay">
         <div class="container">
           <div class="row">
             <div class="col-12 text-left promotions-banner-title">{{ title || $t('promotions.promotions') }}</div>
@@ -16,8 +17,11 @@
   </transition>
 </template>
 <script>
+import screenSize from '~/plugins/mixins/screenSize';
+
 export default {
   name: 'PromotionsBanner',
+  mixins: [screenSize],
   props: {
     title: {
       type: [String, null],
@@ -35,3 +39,9 @@ export default {
   }
 };
 </script>
+<style lang="sass" scoped>
+@import "~/assets/css/variables"
+.banner-image
+  &.mobile
+    height: 195px
+</style>
