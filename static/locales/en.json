@@ -3992,6 +3992,9 @@
       "body": "Two-step authentication is available on the Deadstock app free of cost to its users."
     }
   },
+  "faqs": {
+    "faq": "FAQ"
+  },
   "trades": {
     "index": {
       "tabbar": {
