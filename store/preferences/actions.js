@@ -72,7 +72,8 @@ export function updateGiftCardDetails({ commit }, payload) {
  * @returns {Promise<AxiosResponse<any>>}
  */
 export function giftCardCheckoutWithCard({ commit }, payload) {
-  return this.$axios
+  return new Promise((resolve, reject) => {
+    this.$axios
     .post(process.env.API_URL + '/purchase-giftcard/card', {
       billing: {
         first_name: payload.data.billingInfo.inputFirstName,
@@ -115,12 +116,13 @@ export function giftCardCheckoutWithCard({ commit }, payload) {
       }
     })
     .then((res) => {
-      return res.data
+      return resolve(res.data)
     })
     .catch((error) => {
       this.$logger.logToServer('Purchase GiftCard Error', error.response)
-      return Promise.reject(error)
+      return reject(error)
     })
+  })
 }
 
 /**

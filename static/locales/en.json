@@ -130,7 +130,13 @@
     "no_items_found": "No items found",
     "sneakers_sizes": "Sneaker Sizes",
     "apparel_sizes": "Apparel Sizes",
-    "accessories_sizes": "Accessories Sizes"
+    "accessories_sizes": "Accessories Sizes",
+    "filter_by" : "Filter By",
+    "next"  : "Next",
+    "prev"  : "Prev",
+    "start_date"  : "Start Date",
+    "done"  : "Done",
+    "end_date"  : "End Date"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -5054,7 +5060,37 @@
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
     "start_date": "Start Date",
     "end_date": "End Date",
-    "remove_multiple": "Remove Multiple"
+    "remove_multiple": "Remove Multiple",
+    "delete_offers"  : "Delete Offers",
+    "confirmation_text" : "Are you sure you want to {actiontype} this offer?",
+    "accepted"  : "Accepted",
+    "declined"  : "Declined",
+    "delete_selected" : "Delete Selected",
+    "delete_selected_confirm"  : "Are you sure you want to delete the selected offers?",
+    "tap_on_offers_to_delete" : "Tap on the Offers you would like to delete",
+    "selected_offer_deleted"  : "Your selected offers have been deleted",
+    "sort"  : "Sort",
+    "offers_recent_old" : "Offers: Recent to Oldest",
+    "offers_old_recent" : "Offers: Oldest to Recent",
+    "reset" : "Reset",
+    "apply_filters" : "Apply Filters",
+    "offer_date"  : "Offer Date",
+    "empty" : {
+      "no_incoming_offers"  : "No Incoming Offers Have Been Found",
+      "list_a_product"  : "List a product today on Deadstock!"
+    },
+    "filter_by" : {
+      "accepted"  : "Accepted",
+      "rejected"  : "Rejected",
+      "awaiting_approval" : "Awaiting approval"
+    },
+    "sort_by": {
+      "price_low_high": "Price: Low to High",
+      "price_high_low": "Price: High to Low",
+      "size_low_high": "Size: Low to High",
+      "size_high_low": "Size: High to Low"
+    },
+    "awaiting_response" : "Awaiting Response"
   },
   "terms": {
     "title": "Terms and Conditions",
@@ -5094,13 +5130,5 @@
       "send_to_deadstock": "Send to Deadstock",
       "view_order": "View Order"
     }
-  },
-  "offers_received": {
-    "heading": "Offers Received",
-    "your_placed_offers": "Your Received Offers ({count})",
-    "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
-    "start_date": "Start Date",
-    "end_date": "End Date",
-    "remove_multiple": "Remove Multiple"
   }
 }

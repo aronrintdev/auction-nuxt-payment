@@ -98,6 +98,7 @@ export default {
     },
     // Clear the stored details.
     clearDetails() {
+      this.$nuxt.$emit('reloadPaymentMethods')
       this.removeGiftCardValues({})
     },
   },
