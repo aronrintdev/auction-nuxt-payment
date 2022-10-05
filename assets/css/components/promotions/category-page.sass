@@ -1,11 +1,42 @@
 .promotions-category-page
-  font-family: $font-montserrat
+  .main-image
+    &.mobile
+      height: 150px
+
+  .image-wrapper
+    background-color: $color-gray-1
+    font-family: $font-montserrat
+
+  .text-remaining
+    font-family: $font-montserrat
+    font-style: normal
+    font-weight: $medium
+    color: $color-black-1
+
+  .types-wrapper
+    background: $color-white-1
+    box-shadow: 0 1px 4px rgba($color-black-1, 0.25)
+    border-radius: 8px
+
+  .promo-type-header
+    &.mobile
+      text-align: center
+      @include body-17
+      font-family: $font-montserrat
+      font-style: normal
+      font-weight: $medium
+      color: $color-black-1
+
+  .divider
+    border-top: 1px solid $color-gray-16f
+
   &-title
     &-content
       font-weight: $bold
       @include body-19
       color: $black
       max-width: 450px
+
     &-before,
     &-after
       flex: 1
@@ -101,3 +132,4 @@
 
 .h-500
   height: 500px
+

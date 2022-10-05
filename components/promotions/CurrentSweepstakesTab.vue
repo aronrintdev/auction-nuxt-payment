@@ -60,6 +60,7 @@
       </div>
 
     </div>
+
     <div v-if="loading" class="d-flex align-items-center justify-content-center h-500">
       <Loader :loading="loading"></Loader>
     </div>
@@ -67,8 +68,9 @@
       <h3>{{ $t('promotions.not_found') }} {{ $t('promotions.sweepstakes') }}</h3>
     </div>
     <div v-if="isScreenXS" :class="mobileClass" class="promo-type-header mt-2 mb-4">
-      {{ $t('promotions.types_of_promotions') }}
+      {{ $t('promotions.sweepstake_prizes') }}
     </div>
+
     <div :class="{
       'flex-column-reverse mx-3 px-3 types-wrapper': isScreenXS
     }" class="d-flex flex-column ">
@@ -146,37 +148,3 @@ export default {
   }
 };
 </script>
-<style lang="sass" scoped>
-@import "~/assets/css/variables"
-.main-image
-  &.mobile
-    height: 150px
-
-.image-wrapper
-  background-color: $color-gray-1
-
-.text-remaining
-  font-family: $font-montserrat
-  font-style: normal
-  font-weight: $medium
-  color: $color-black-1
-
-.types-wrapper
-  background: $color-white-1
-  box-shadow: 0 1px 4px rgba($color-black-1, 0.25)
-  border-radius: 8px
-
-.promo-type-header
-  &.mobile
-    text-align: center
-    @include body-17
-    font-family: $font-montserrat
-    font-style: normal
-    font-weight: $medium
-    color: $color-black-1
-
-.divider
-  border-top: 1px solid $color-gray-16f
-
-</style>
-

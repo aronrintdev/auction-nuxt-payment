@@ -1,7 +1,6 @@
 <template>
   <div class="d-flex flex-column align-items-center justify-content-center">
-    <div class="prizes-text my-3 d-flex w-100 text-uppercase">{{ $t('promotions.prizes') }}</div>
-    <div class="d-flex flex-column align-items-center justify-content-center">
+    <div class="d-flex flex-column align-items-center justify-content-center mt-4">
       <img :alt="$t('promotions.cars')" :src="require('~/assets/img/promotions/car-with-bow.svg')" class="mb-4"
            width="124">
       <div class="type-title mb-3">{{ $t('promotions.cars') }}</div>
