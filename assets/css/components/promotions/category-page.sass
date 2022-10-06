@@ -8,10 +8,18 @@
     font-family: $font-montserrat
 
   .text-remaining
+    @include body-8
     font-family: $font-montserrat
     font-style: normal
     font-weight: $medium
     color: $color-black-1
+
+    &.single
+      color: $color-orange-11
+      background: $color-gray-1
+      border-radius: 5px
+      padding: 4px 17px
+      width: 170px
 
   .types-wrapper
     background: $color-white-1
@@ -29,6 +37,50 @@
 
   .divider
     border-top: 1px solid $color-gray-16f
+
+  .howto-card
+    box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
+    border-radius: 8px
+
+    .title
+      @include body-2
+      font-family: $font-montserrat
+      font-style: normal
+      font-weight: $bold
+      color: $color-black-1
+
+      &.dark-blue
+        color: $color-blue-22f
+
+
+    .desc
+      @include body-10
+      font-family: $font-montserrat
+      font-style: normal
+      font-weight: $normal
+      color: $color-black-1
+
+    .type-title
+      @include body-10
+      font-family: $font-montserrat
+      font-style: normal
+      font-weight: $bold
+      color: $color-blue-2
+
+    .list
+      @include body-10
+      font-family: $font-montserrat
+      font-style: normal
+      font-weight: $normal
+      color: $color-black-1
+
+      .index
+        height: 25px
+        width: 25px
+        margin-right: 10px
+        background: $color-blue-th-14
+        border-radius: 100%
+        text-align: center
 
   &-title
     &-content

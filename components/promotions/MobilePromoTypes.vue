@@ -12,13 +12,14 @@
       <div class="type-description mb-4">{{ $t('promotions.lorem') }}</div>
     </div>
     <div v-if="isGiveaway" class="d-flex flex-column align-items-center justify-content-center mt-4">
-      <img :alt="$t('promotions.cars')" :src="require('~/assets/img/promotions/shirt.svg')" class="mb-4"
+      <img :alt="$t('promotions.apparel')" :src="require('~/assets/img/promotions/shirt.svg')" class="mb-4"
            width="76">
       <div class="type-title mb-3">{{ $t('promotions.apparel') }}</div>
       <div class="type-description mb-4">{{ $t('promotions.lorem') }}</div>
     </div>
     <div v-if="isGiveaway" class="d-flex flex-column align-items-center justify-content-center">
-      <img :alt="$t('promotions.trips')" :src="require('~/assets/img/promotions/sneaker.svg')" class="mb-2" width="120">
+      <img :alt="$t('promotions.sneakers')" :src="require('~/assets/img/promotions/sneaker.svg')" class="mb-2"
+           width="120">
       <div class="type-title mb-3">{{ $t('promotions.sneakers') }}</div>
       <div class="type-description mb-4">{{ $t('promotions.lorem') }}</div>
     </div>

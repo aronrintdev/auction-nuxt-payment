@@ -1,10 +1,10 @@
 <template>
   <transition name="fade">
-    <div class="col-12 px-0 text-right position-relative promotions-banner">
+    <div :class="`col-12 px-0 position-relative promotions-banner ${singleBanner? 'text-center': 'text-right'}`">
       <img
           :src="bannerImageUrl"
           class="banner-image"
-          :class="mobileClass"
+          :class="`${mobileClass} ${(singleBanner && isScreenXS) && 'single'}`"
       />
       <div v-if="!isScreenXS" class="position-absolute w-100 promotions-banner-overlay">
         <div class="container">
@@ -30,6 +30,10 @@ export default {
     bannerImage: {
       type: [String, null],
       default: null,
+    },
+    singleBanner: {
+      type: Boolean,
+      default: false,
     }
   },
   computed: {
@@ -44,4 +48,9 @@ export default {
 .banner-image
   &.mobile
     height: 195px
+
+  &.single
+    width: 335px
+    margin-top: 10px
+    margin-inline: 10px
 </style>

@@ -2,10 +2,15 @@
   <div :class="{'flex-column my-2 ': isScreenXS, 'my-5': !isScreenXS}"
        class=" d-flex align-items-center justify-content-center shop-now">
     <div :class="mobileClass" class="body-1-bold mx-3 header-text">{{ $t('promotions.how_to_enter') }}</div>
-    <div :class="mobileClass" class="body-3-regular mx-3 subtitle-text">{{
-        $t('promotions.how_to_enter_content')
-      }}
-    </div>
+    <slot name="description">
+      <div :class="mobileClass" class="body-3-regular mx-3 subtitle-text">{{
+          $t('promotions.how_to_enter_content')
+        }}
+      </div>
+    </slot>
+    <slot name="body">
+
+    </slot>
     <Button
         v-if="!isScreenXS"
         class="px-5 mx-3"
