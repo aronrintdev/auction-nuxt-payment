@@ -62,6 +62,5 @@ export function getEditTradePageReferrer(state) {
     return state.editTradePageReferrer
 }
 export function getTradesFilter(state) {
-  console.log('state in trade getter',state)
   return state.filterTrade
 }

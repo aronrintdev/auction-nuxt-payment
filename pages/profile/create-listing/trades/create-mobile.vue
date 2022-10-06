@@ -271,17 +271,14 @@ export default {
       this.searchedItems = []
     })
     this.$root.$on('closeFilters', (val) => {
-      console.log('val',val)
       this.filterSection = val
     })
   },
   methods: {
     closeFiltersSection() {
-      console.log('main cross')
       this.filterSection = false
     },
     applyFilters(data){
-      console.log('data',data)
       this.orderFilter = data.orderFilter ? data.orderFilter : null
       this.categoryFilter = data.category ? data.category : null
       this.sizeTypesFilter = data.sizeType ? data.sizeType : null
