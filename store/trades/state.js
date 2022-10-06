@@ -4,6 +4,10 @@ export default function () {
      wants_items_trade : [],
      trade_draft_count: null,
      editTradePageReferrer: null,
-     filterTrade:{},
+     filterTrade:{
+       category: null,
+       orderFilter: null,
+       sizeType: []
+     },
    }
 }

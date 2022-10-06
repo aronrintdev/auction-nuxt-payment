@@ -152,14 +152,13 @@ export default {
     },
     sendEmit() {
       const filtersData = {
-        orderFilter :  this.orderFilters,
-        category : this.selected_category,
-        sizeType:this.sizeTypesFilter,
+        orderFilter :  this.getTradesFilter.orderFilter !== null ? this.getTradesFilter.orderFilter : this.orderFilters,
+        category :   this.getTradesFilter.category !== null ? this.getTradesFilter.category : this.selected_category,
+        sizeType : this.getTradesFilter.sizeType.length > 0 ? this.getTradesFilter.sizeType :  this.sizeTypesFilter,
       }
       this.$store.commit('trades/setTradeFilters', filtersData)
       this.$emit('click',filtersData)
     },
-
     clearFilters() {
       this.selected_category = null
       this.orderFilters = null
@@ -176,31 +175,16 @@ export default {
     closeFilter(data) {
       this.$emit('click',data)
     },
+
     onSelect(item) {
       if(this.sizeTypesFilter !== null && this.sizeTypesFilter.includes(item)) {
-        console.log('if')
        const checkArray = this.sizeTypesFilter.indexOf(item)
         this.sizeTypesFilter.splice(checkArray,1)
       } else if(this.getTradesFilter.sizeType !== undefined && this.getTradesFilter.sizeType !== null && this.getTradesFilter.sizeType.length > 0)  {
         if(this.getTradesFilter.sizeType.includes(item)) {
-          const arrayIndex = this.getTradesFilter.sizeType.indexOf(item)
-          this.getTradesFilter.sizeType.splice(arrayIndex,1)
-          const updatedFiltersData = {
-            orderFilter :  this.orderFilters === undefined ? null : this.orderFilters ,
-            category : this.selected_category,
-            sizeType: this.getTradesFilter.sizeType,
-          }
-          this.$store.commit('trades/setTradeFilters', updatedFiltersData)
+          this.$store.commit('trades/setTradeFiltersRemove', item)
         } else {
-          console.log('data push', this.getTradesFilter.sizeType)
-          this.getTradesFilter.sizeType.push(item)
-          const updatedFiltersData = {
-            orderFilter :   this.orderFilters === undefined ? null : this.orderFilters ,
-            category : this.selected_category,
-            sizeType:this.getTradesFilter.sizeType,
-          }
-          console.log('updatedFiltersData',updatedFiltersData)
-          this.$store.commit('trades/setTradeFilters', updatedFiltersData)
+          this.$store.commit('trades/setTradeFiltersUpdated', item)
         }
       }
       else {
