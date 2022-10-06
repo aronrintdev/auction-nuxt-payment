@@ -236,6 +236,7 @@
 <script>
 
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import _ from 'lodash';
 import { countryRestriction } from '~/static/constants/address'
 
 export default {
@@ -332,13 +333,13 @@ export default {
 
   methods: {
     // Submit Form. Emit theaddresses datas to parent
-    onSubmit() {
+    onSubmit: _.debounce(function() {
       this.$refs.observer.validate().then((success) => {
         if (success) {
           this.addAddress(this.address)
         }
       })
-    },
+    },1000),
     // Add Shipping/ Billing Address
     addAddress(address) {
       this.$axios

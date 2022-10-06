@@ -5,17 +5,17 @@
     <div class="custom-wrapper">
       <div class="row mb-bb">
         <div class="col-md-12 col-lg-2">
-          <!--          <button-->
-          <!--            v-b-toggle.sidebar-->
-          <!--            class="w3-button w3-xlarge w3-hide-large float-left"-->
-          <!--          >-->
-          <!--            <span class="text-bold">{{ $t('navbar.profile') }}</span>-->
-          <!--            <i class="fa fa-bars"></i>-->
-          <!--          </button>-->
+          <button
+            v-b-toggle.sidebar
+            class="w3-button w3-xlarge w3-hide-large float-left"
+          >
+            <span class="text-bold">{{ $t('navbar.profile') }}</span>
+            <i class="fa fa-bars"></i>
+          </button>
           <!-- BootstrapVue Sidebar: in small devices -->
-          <!--          <b-sidebar id="sidebar" ref="mySidebar" shadow>-->
-          <!--            <SideMenu id="sidemenu" />-->
-          <!--          </b-sidebar>-->
+          <b-sidebar id="sidebar" ref="mySidebar" shadow>
+            <SideMenu id="sidemenu" />
+          </b-sidebar>
           <!-- ./BootstrapVue Sidebar -->
 
           <!-- Collapsable SideMenu for large devices -->
@@ -29,6 +29,9 @@
       </div>
     </div>
 
+    <!-- ScollTo Top Button -->
+    <ScrollToTop v-show="mobileClass && showScroll" />
+    <!-- ./ScrollTo Top Button Ends -->
     <Footer />
   </div>
 </template>
@@ -36,9 +39,11 @@
 import {mapGetters} from 'vuex';
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
+import SideMenu from '~/components/profile/SideMenu.vue'
 import NewSideMenu from '~/components/profile/NewSideMenu'
-import screenSize from '~/plugins/mixins/screenSize';
-
+import ScrollToTop from '~/components/common/ScrollToTop.vue'
+import screenSize from '~/plugins/mixins/screenSize'
+import { SCROLLY } from '~/static/constants'
 export default {
   name: 'Default',
 
@@ -46,8 +51,16 @@ export default {
     NewSideMenu,
     Header,
     Footer,
+    SideMenu,
+    ScrollToTop,
   },
   mixins: [screenSize],
+  data() {
+    return {
+      showScroll: false,
+      scrollY: SCROLLY
+    }
+  },
   head() {
     return {
       bodyAttrs: {
@@ -59,6 +72,9 @@ export default {
     ...mapGetters({
       'pushActive': 'notifications/getPushNotificationsActive'
     })
+  },
+  beforeMount() {
+    window.addEventListener('scroll', this.handleScroll)
   },
   mounted() {
     // disable guests to access this layout and pages that uses this layout
@@ -72,9 +88,13 @@ export default {
     this.notificationSubscriptions()
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('resize', this.onResize)
+
+    window.removeEventListener('scroll', this.handleScroll)
     this.leaveChannels()
   },
+  methods: {
+
   methods: {
     onResize() {
       this.$store.commit('size/setWindowWidth', window.innerWidth)
@@ -115,6 +135,12 @@ export default {
       this.$store.dispatch('notifications/getUnreadCount')
     }
   }
+    },
+    handleScroll() {
+      // Your scroll handling here
+      this.showScroll = window.scrollY > this.scrollY
+    },
+  },
 }
 </script>
 <style lang="sass" scoped>
@@ -154,6 +180,11 @@ export default {
   .sidebar
     display: block
 @media (max-width: 992px)
+  .wrapper
+    .custom-wrapper
+      .main-wrapper
+        background-color: $color-white-1
+
   .sidebar
     display: none
   #sidemenu-expanded

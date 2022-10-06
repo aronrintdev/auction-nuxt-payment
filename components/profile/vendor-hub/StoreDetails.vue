@@ -295,7 +295,7 @@
 
     <div v-if="!isEditModeActive" class="d-flex align-items-center justify-content-between faq-card mt-4 mx-auto"
          role="button"
-         @click="$router.push({path: '/profile/vendor-hub/faq'})">
+         @click="$router.push({path: '/faqs/vendor-hub'})">
       <span class="faq-title">
         {{ $t('vendor_hub.faq') }}
       </span>

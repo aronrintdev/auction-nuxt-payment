@@ -1,27 +1,20 @@
 <template>
-  <div class="container-fluid vd-purchases-section p-0">
-    <div class="row h-100">
-      <div class="col-md-12 col-lg-12 vendor-dashboard-body px-5 py-5">
-        <!-- Row (Heading/ Search Fields/ Tabs) -->
-        <div class="row vd-purchase-css">
-          <!-- Heading -->
-          <div class="col-12 orders-heading">
-            {{ $t('orders.orders') }} ({{ totalOrders }})
-          </div>
-          <!-- ./Heading -->
-        </div>
-        <div>
-          <overview-component></overview-component>
-        </div>
-        <div class="pt-20">
-          <top-movers-carousel></top-movers-carousel>
-        </div>
-        <div class="py-20">
-          <top-movers-filter></top-movers-filter>
-        </div>
-        <div class="py-20">
-          <top-movers-list-component></top-movers-list-component>
-        </div>
+  <div class="container-fluid p-md-5 p-3">
+    <div class="row">
+      <div class="orders-heading w-100 order-md-0 order-3">
+        {{ $t('orders.orders') }} ({{ totalOrders }})
+      </div>
+      <div class="w-100 order-md-1 order-1">
+        <overview-component></overview-component>
+      </div>
+      <div class="w-100 pt-20 order-md-2 order-2">
+        <top-movers-carousel></top-movers-carousel>
+      </div>
+      <div class="w-100 py-20 order-md-3 order-0">
+        <top-movers-filter></top-movers-filter>
+      </div>
+      <div class="w-100 py-20 order-md-4 order-4">
+        <top-movers-list-component></top-movers-list-component>
       </div>
     </div>
   </div>
@@ -29,7 +22,7 @@
 
 <script>
 
-import {mapGetters, mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import OverviewComponent from '~/components/orders/OverviewComponent'
 import TopMoversFilter from '~/components/orders/TopMoversFilter';
 import TopMoversListComponent from '~/components/orders/TopMoversListComponent';
@@ -73,8 +66,7 @@ export default {
 .orders-heading
   font-family: $font-family-base
   font-weight: $bold
-  font-size: 30px
-  line-height: 37px
+  @include body-16
   letter-spacing: -0.02em
   text-transform: capitalize
 
@@ -83,4 +75,9 @@ export default {
 
 .py-20
   padding: 20px 0
+
+@media (max-width: 992px)
+  .orders-heading
+    font-family: $font-montserrat
+    @include body-11-bold
 </style>

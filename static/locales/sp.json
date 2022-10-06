@@ -244,5 +244,9 @@
     "product_search_box": {
       "default_placeholder": "Buscar por SKU o palabra clave"
     }
+  },
+  "faqs": {
+    "faq": "FAQ",
+    "back": "Back"
   }
 }

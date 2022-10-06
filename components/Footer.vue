@@ -2,27 +2,27 @@
   <footer class="footer-wrapper">
     <div class="footer-links">
       <div>
-        <NuxtLink to="authentication-process">{{
+        <NuxtLink to="/authentication-process">{{
           $t('footer.authentication_process')
         }}</NuxtLink>
-        <NuxtLink to="refunds-and-returns">{{
+        <NuxtLink to="/refunds-and-returns">{{
           $t('footer.refund_and_returns')
         }}</NuxtLink>
-        <NuxtLink to="shipping">{{ $t('footer.shipping') }}</NuxtLink>
-        <NuxtLink to="selling-trading">{{
+        <NuxtLink to="/shipping">{{ $t('footer.shipping') }}</NuxtLink>
+        <NuxtLink to="/selling-trading">{{
           $t('footer.selling_and_trading')
         }}</NuxtLink>
-        <NuxtLink to="fee-policy">{{ $t('footer.fee_policy') }}</NuxtLink>
+        <NuxtLink to="/fee-policy">{{ $t('footer.fee_policy') }}</NuxtLink>
       </div>
       <div>
         <NuxtLink to="#">{{ $t('footer.contact_us') }}</NuxtLink>
         <NuxtLink to="#">{{ $t('footer.faq') }}</NuxtLink>
       </div>
       <div class="secondary-links">
-        <NuxtLink to="privacy-policy">
+        <NuxtLink to="/privacy-policy">
           {{ $t('footer.privacy_policy') }}
         </NuxtLink>
-        <NuxtLink to="terms-and-conditions">
+        <NuxtLink to="/terms-and-conditions">
           {{ $t('footer.terms_and_conditions') }}
         </NuxtLink>
       </div>

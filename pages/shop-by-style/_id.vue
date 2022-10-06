@@ -27,10 +27,9 @@
           </Button>
         </div>
         <ShopByStyleImageCarousel :images="style.images" class="mt-4" />
-        <b-col sm="6" offset="3">
+        <b-col cols="12" class="d-flex justify-content-center">
           <Button
             variant="outline-dark-blue"
-            block
             black-text
             border="thick"
             class="mt-5"

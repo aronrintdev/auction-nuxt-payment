@@ -46,7 +46,7 @@
         <FilterCollapsible
           v-model="sizeTypes"
           collapseKey="size-types"
-          :title="$t('filter_sidebar.size_types')"
+          :title="$t('filter_sidebar.shoe_types')"
           :options="sizeTypeOptions"
           class="mt-4"
         />
