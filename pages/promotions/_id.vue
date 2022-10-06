@@ -263,7 +263,6 @@ export default {
     fetchPromotion() {
       this.loading = true
       this.getSinglePromotion(this.$route.params.id).then(res => {
-        console.log(res);
         this.promotion = res.data.data
       }).catch(err => {
         this.$toasted.error(this.$t(err.response.data.message).toString())
