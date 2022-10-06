@@ -52,17 +52,17 @@
       </div>
       <b-collapse id="collapse-sizeType" v-model="isVisibleSizeType">
         <div class="d-flex mt-3">
-          <div :class="[(this.sizeTypesFilter !== null && sizeTypesFilter.includes('men')) || (getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('men')) ? 'selected-item' : 'footwear-box']" id="men-box" @click="onSelect('men')">Men</div>
-          <div :class="[(this.sizeTypesFilter !== null && sizeTypesFilter.includes('women')) || (getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('women')) ? 'selected-item' : 'footwear-box']"  class="ml-2" id="women-box" @click="onSelect('women')">Women</div>
-          <div :class="[(this.sizeTypesFilter !== null && sizeTypesFilter.includes('unisex')) || (getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('unisex')) ? 'selected-item' : 'footwear-box']" class="ml-2"  id="unisex-box" @click="onSelect('unisex')">Unisex</div>
+          <div :class="[(this.sizeTypesFilter !== null && sizeTypesFilter.includes('men')) || (getTradesFilter.sizeType!== undefined && getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('men')) ? 'selected-item' : 'footwear-box']" id="men-box" @click="onSelect('men')">Men</div>
+          <div :class="[(this.sizeTypesFilter !== null && sizeTypesFilter.includes('women')) || (getTradesFilter.sizeType!== undefined && getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('women')) ? 'selected-item' : 'footwear-box']"  class="ml-2" id="women-box" @click="onSelect('women')">Women</div>
+          <div :class="[(this.sizeTypesFilter !== null && sizeTypesFilter.includes('unisex')) || (getTradesFilter.sizeType!== undefined && getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('unisex')) ? 'selected-item' : 'footwear-box']" class="ml-2"  id="unisex-box" @click="onSelect('unisex')">Unisex</div>
         </div>
         <div class="d-flex mt-3">
-          <div :class="[(this.sizeTypesFilter !== null  && sizeTypesFilter.includes('bigkids')) || (getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('bigkids')) ? 'selected-item' : 'footwear-box']" @click="onSelect('bigkids')">Big Kids</div>
-          <div :class="[(this.sizeTypesFilter !== null  && sizeTypesFilter.includes('littlekids')) || (getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('littlekids') )? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('littlekids')">Little Kids</div>
-          <div  :class="[(this.sizeTypesFilter !== null && sizeTypesFilter.includes('toddlers')) || (getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('toddlers')) ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('toddlers')">Toddlers</div>
+          <div :class="[(this.sizeTypesFilter !== null  && sizeTypesFilter.includes('bigkids')) || (getTradesFilter.sizeType!== undefined && getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('bigkids')) ? 'selected-item' : 'footwear-box']" @click="onSelect('bigkids')">Big Kids</div>
+          <div :class="[(this.sizeTypesFilter !== null  && sizeTypesFilter.includes('littlekids')) || (getTradesFilter.sizeType!== undefined && getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('littlekids') )? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('littlekids')">Little Kids</div>
+          <div  :class="[(this.sizeTypesFilter !== null && sizeTypesFilter.includes('toddlers')) || (getTradesFilter.sizeType!== undefined && getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('toddlers')) ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('toddlers')">Toddlers</div>
         </div>
         <div class="d-flex mt-3">
-          <div :class="[(this.sizeTypesFilter !== null && sizeTypesFilter.includes('infants')) || (getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('infants')) ? 'selected-item' : 'footwear-box']" @click="onSelect('infants')">Infants</div>
+          <div :class="[(this.sizeTypesFilter !== null && sizeTypesFilter.includes('infants')) || (getTradesFilter.sizeType!== undefined && getTradesFilter.sizeType !== null && getTradesFilter.sizeType.includes('infants')) ? 'selected-item' : 'footwear-box']" @click="onSelect('infants')">Infants</div>
         </div>
       </b-collapse>
     </div>
@@ -121,7 +121,7 @@ export default {
       perPage: 4,
       totalCount: 0,
       perPageOptions: [4, 8, 16, 24],
-      orderFilters: '',
+      orderFilters: null,
       generalListItemsCustomFilter: [
         { text: this.$t('trades.create_listing.vendor.wants.price_low_to_high'), value: 'price_low_to_high' },
         { text: this.$t('trades.create_listing.vendor.wants.price_high_to_low'), value: 'price_high_to_low' },
@@ -164,22 +164,46 @@ export default {
       this.selected_category = null
       this.orderFilters = null
       this.categoryFilter = null
-      this.sizeTypesFilter = null
+      this.sizeTypesFilter = []
       const resetFiltersData = {
-        orderFilter :  this.orderFilters,
+        orderFilter :  this.orderFilters === undefined ? null  : this.orderFilters,
         category : this.selected_category,
         sizeType: this.sizeTypesFilter,
       }
       this.$store.commit('trades/setTradeFilters', resetFiltersData)
+      this.$emit('click',resetFiltersData)
     },
     closeFilter(data) {
       this.$emit('click',data)
     },
     onSelect(item) {
       if(this.sizeTypesFilter !== null && this.sizeTypesFilter.includes(item)) {
+        console.log('if')
        const checkArray = this.sizeTypesFilter.indexOf(item)
         this.sizeTypesFilter.splice(checkArray,1)
-      } else {
+      } else if(this.getTradesFilter.sizeType !== undefined && this.getTradesFilter.sizeType !== null && this.getTradesFilter.sizeType.length > 0)  {
+        if(this.getTradesFilter.sizeType.includes(item)) {
+          const arrayIndex = this.getTradesFilter.sizeType.indexOf(item)
+          this.getTradesFilter.sizeType.splice(arrayIndex,1)
+          const updatedFiltersData = {
+            orderFilter :  this.orderFilters === undefined ? null : this.orderFilters ,
+            category : this.selected_category,
+            sizeType: this.getTradesFilter.sizeType,
+          }
+          this.$store.commit('trades/setTradeFilters', updatedFiltersData)
+        } else {
+          console.log('data push', this.getTradesFilter.sizeType)
+          this.getTradesFilter.sizeType.push(item)
+          const updatedFiltersData = {
+            orderFilter :   this.orderFilters === undefined ? null : this.orderFilters ,
+            category : this.selected_category,
+            sizeType:this.getTradesFilter.sizeType,
+          }
+          console.log('updatedFiltersData',updatedFiltersData)
+          this.$store.commit('trades/setTradeFilters', updatedFiltersData)
+        }
+      }
+      else {
         this.sizeTypesFilter.push(item)
       }
     }

@@ -167,6 +167,7 @@ export function setEditTradePageReferrer(state, referrer) {
 }
 
 export function setTradeFilters(state, data) {
-  console.log('data',data)
+  console.log('state',state)
+  console.log('check data',data)
   state.filterTrade = data
 }
