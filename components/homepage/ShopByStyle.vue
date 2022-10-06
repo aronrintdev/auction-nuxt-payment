@@ -4,7 +4,7 @@
       :title="$t('home_page.shop_by_style')"
       :desc="$t('home_page.shop_by_style_description')"
       :label="$t('home_page.view_more_products')"
-      to="#"
+      to="/shop-by-style"
     />
     <NavGroup
       :data="categoryItems"

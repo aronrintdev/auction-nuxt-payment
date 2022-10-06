@@ -5,13 +5,12 @@
         <div class="ph-30">
           <div class="mb-4">
             <NuxtLink to="/profile/security">
-              <div class="d-flex align-baseline">
+              <div class="d-flex align-baseline" @click='backPage'>
                 <img :src="require('~/assets/img/icons/back-arrow.svg')"/>
-                <span class="back-text pl-2">{{ $t('features.2fa_security.back_to_security') }}</span>
+                <span class="back-text pl-2">{{ $t('faqs.back') }}</span>
               </div>
             </NuxtLink>
           </div>
-
           <accordion :data="faqs"/>
         </div>
       </b-col>
@@ -29,32 +28,39 @@ export default {
   },
   data() {
     return {
-      faqs: []
+      faqs: [],
+      category: '',
+      categoryDetail: '',
     }
   },
   created() {
-    this.faqs = [
-      {
-        'id': 'faq-1',
-        'title': this.$t('2fa_faqs.faq_1.title').toString(),
-        'body': this.$t('2fa_faqs.faq_1.body').toString()
-      },
-      {
-        'id': 'faq-2',
-        'title': this.$t('2fa_faqs.faq_2.title').toString(),
-        'body': this.$t('2fa_faqs.faq_2.body').toString()
-      },
-      {
-        'id': 'faq-3',
-        'title': this.$t('2fa_faqs.faq_3.title').toString(),
-        'body': this.$t('2fa_faqs.faq_3.body').toString()
-      },
-      {
-        'id': 'faq-4',
-        'title': this.$t('2fa_faqs.faq_4.title').toString(),
-        'body': this.$t('2fa_faqs.faq_4.body').toString()
-      }
-    ];
+    this.faqs = [];
+  },
+  mounted(){
+    this.category = this.$route.params.faqs;
+    this.getFaqs();
+  },
+  methods: {
+    getFaqs(){
+      this.$axios
+        .get('/faqs/categories/'+this.category)
+        .then((response) => {
+          this.categoryDetail = response.data.data[0].category_details;
+          this.updateTitle();
+          response.data.data[0].questions[0].question_details.forEach(element => {
+            this.faqs.push({'id':'faq-'+element.id, 'title': element.question,'body': element.answer})
+          });
+        })
+        .catch((error) => {
+          this.$toasted.error(error)
+        })
+    },
+    updateTitle(){
+      this.$emit('updateTitle', this.categoryDetail);
+    },
+    backPage(){
+      this.$route.go(-1)
+    }
   }
 }
 </script>
