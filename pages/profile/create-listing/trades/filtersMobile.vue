@@ -285,8 +285,9 @@ export default {
    height: 1000px
    width: 340px
    background-color: #fff
-   //border: 1px solid grey
    border-radius: 5px
+   @media (min-width: 300px)  and (max-width: 349px)
+    width: 290px
 .filter-heading
   font-size: 18px
   font-weight: 700
@@ -376,6 +377,8 @@ export default {
   font-family: SF Pro Display
   font-weight: 600
   cursor: pointer
+  @media (min-width: 300px)  and (max-width: 349px)
+    padding-left: 25px
 .filter-btn
    width: 135px
    height: 40px
