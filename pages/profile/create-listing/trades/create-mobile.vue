@@ -1,6 +1,6 @@
 <template>
   <div class="main-container p-2">
-    <div class="d-flex mt-2">
+    <div class="d-flex mt-2" v-if="!filterSection">
        <div>
          <SearchInput
            :value="searchText"
@@ -19,7 +19,7 @@
     </div>
     <!-- Filters Section -->
     <div v-if="filterSection">
-      <mobileFilters @click="applyFilters" @change="closeFiltersSection"/>
+      <mobileFilters @click="applyFilters"/>
     </div>
     <div v-else>
       <div class="d-flex mt-2">
@@ -270,10 +270,14 @@ export default {
     this.$root.$on('click_outside', () => {
       this.searchedItems = []
     })
-
+    this.$root.$on('closeFilters', (val) => {
+      console.log('val',val)
+      this.filterSection = val
+    })
   },
   methods: {
     closeFiltersSection() {
+      console.log('main cross')
       this.filterSection = false
     },
     applyFilters(data){

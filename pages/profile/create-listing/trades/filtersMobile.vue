@@ -5,8 +5,8 @@
       <div class="filter-heading">
         Filters By
       </div>
-      <div>
-        <img @click="closeFilter(filterSection)" class="cross-image" :src="require('~/assets/img/cross.svg')"/>
+      <div @click="closeFilter()">
+        <img  class="cross-image" :src="require('~/assets/img/cross.svg')"/>
       </div>
     </div>
     <div class="mt-1 ml-2">
@@ -236,8 +236,8 @@ export default {
       this.$store.commit('trades/setTradeFilters', resetFiltersData)
       this.$emit('click',resetFiltersData)
     },
-    closeFilter(data) {
-      this.$emit('click',data)
+    closeFilter() {
+      this.$root.$emit('closeFilters', false)
     },
 
     onSelect(item) {
@@ -282,7 +282,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .filter-container
-   height: 700px
+   height: 1000px
    width: 340px
    background-color: #fff
    //border: 1px solid grey
