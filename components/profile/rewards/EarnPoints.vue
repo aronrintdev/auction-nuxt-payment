@@ -157,7 +157,7 @@ export default {
   },
   methods: {
     handleFaqClick() {
-      this.$router.push('/profile/rewards/faq')
+      this.$router.push('/faqs/rewards')
     }
   }
 }
