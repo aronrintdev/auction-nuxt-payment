@@ -4902,7 +4902,15 @@
     "hours": "Hours",
     "mins": "Mins",
     "secs": "Secs",
+    "copied": "Copied",
     "shop_to_enter": "Shop To Enter",
+    "share": "Share",
+    "socials": {
+      "twitter": "Twitter",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "copy_link": "Copy Link"
+    },
     "sign_up": "Sign Up",
     "participate": "Participate in More Rewards and Promotions",
     "trips": "Trips",

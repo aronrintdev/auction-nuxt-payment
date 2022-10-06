@@ -1,11 +1,15 @@
 <template>
   <transition name="fade">
     <div :class="`col-12 px-0 position-relative promotions-banner ${singleBanner? 'text-center': 'text-right'}`">
-      <img
-          :src="bannerImageUrl"
-          class="banner-image"
-          :class="`${mobileClass} ${(singleBanner && isScreenXS) && 'single'}`"
-      />
+      <div>
+        <img
+            :class="`${mobileClass} ${(singleBanner && isScreenXS) && 'single'}`"
+            :src="bannerImageUrl"
+            class="banner-image"
+        />
+        <img v-if="isScreenXS && singleBanner" :src="require('~/assets/img/promotions/share.png')"
+             class="share-img position-absolute" @click="$emit('share')">
+      </div>
       <div v-if="!isScreenXS" class="position-absolute w-100 promotions-banner-overlay">
         <div class="container">
           <div class="row">
@@ -53,4 +57,11 @@ export default {
     width: 335px
     margin-top: 10px
     margin-inline: 10px
+
+.share-img
+  height: 40px
+  width: 40px
+  z-index: 10
+  right: 10px
+  top: 0
 </style>

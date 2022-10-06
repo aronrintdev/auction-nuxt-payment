@@ -4,7 +4,8 @@
       <PromotionsBanner
           :banner-image="promotion? promotion.learn_more_page_banner : null"
           :single-banner="true"
-          :title="promotion? promotion.name : null"></PromotionsBanner>
+          :title="promotion? promotion.name : null"
+          @share="modalOpen = true"></PromotionsBanner>
       <div class="container">
         <div class="row">
           <div class="col-12">
@@ -122,6 +123,40 @@
         </div>
       </div>
     </div>
+    <MobileBottomSheet
+        :height="'27%'"
+        :open="modalOpen"
+        :title="$t('promotions.share')"
+        @closed="modalOpen = false"
+        @opened="modalOpen = true"
+    >
+      <template #default>
+        <b-row class="m-3">
+          <b-col v-for="item in socials" :key="item.key"
+                 class="d-flex align-items-center justify-content-center col-3 ">
+            <div class="d-flex flex-column align-items-center justify-content-center " role="button"
+                 @click="shareClick(item.key)">
+              <img :alt="item.label" :src="item.image" height="44" width="44">
+              <span class="mt-1 copy-text">
+                {{ item.label }}
+              </span>
+              <span v-if="shared === item.key" class="copied-text d-flex align-items-center justify-content-center">
+                {{ $t('promotions.copied') }} &nbsp;
+                <img :src="require('~/assets/img/promotions/check-green.svg')">
+              </span>
+            </div>
+          </b-col>
+        </b-row>
+        <div class="text-center">
+          <Button
+              variant="link-blue"
+              @click="modalOpen = false"
+          >
+            {{ $t('common.cancel') }}
+          </Button>
+        </div>
+      </template>
+    </MobileBottomSheet>
   </div>
 </template>
 <script>
@@ -140,10 +175,13 @@ import HowToEnter from '~/components/promotions/HowToEnter'
 import Button from '~/components/common/Button';
 import VideoCarousel from '~/components/promotions/VideoCarousel'
 import FAQ from '~/components/promotions/FAQ'
+import MobileBottomSheet from '~/components/mobile/MobileBottomSheet';
+import clipboardMixin from '~/plugins/mixins/clipboard';
 
 export default {
   name: 'PromotionsSweepstakePage',
   components: {
+    MobileBottomSheet,
     FAQ,
     VideoCarousel,
     Button,
@@ -157,13 +195,22 @@ export default {
     VideoCarouselWithText,
     PromotionBodyWithTimer,
   },
-  mixins: [screenSize],
+  mixins: [screenSize, clipboardMixin],
   layout(context) {
     return context.$auth.user ? 'Profile' : 'IndexLayout'
   },
   data() {
     return {
+      socials: Object.keys(this.$t('promotions.socials')).map(key => {
+        return {
+          label: this.$t('promotions.socials.' + key),
+          image: require(`~/assets/img/promotions/${key}.png`),
+          key,
+        }
+      }),
+      modalOpen: false,
       loading: false,
+      shared: false,
       promotion: null,
       prizes: [
         {
@@ -199,6 +246,20 @@ export default {
     ...mapActions({
       getSinglePromotion: 'promotions/getSinglePromotion'
     }),
+    shareClick(key) {
+      switch (key) {
+        case 'facebook':
+          window.open(`https://facebook.com/sharer.php?u=${window.location.href}`, '_blank').focus();
+          break
+        case 'twitter':
+          window.open(`https://twitter.com/intent/tweet?url=${window.location.href}`, '_blank').focus();
+          break
+        default :
+          this.shared = key
+          this.copyToClipboard(window.location.href)
+          break
+      }
+    },
     fetchPromotion() {
       this.loading = true
       this.getSinglePromotion(this.$route.params.id).then(res => {
