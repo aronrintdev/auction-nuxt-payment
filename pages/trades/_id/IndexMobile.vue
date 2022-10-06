@@ -5,6 +5,20 @@
       <create-trade-search-item v-if="search_item" :product="search_item" productFor="tradeArena" :progressBar="false" :padding="true" />
       <div v-else>
         <b-col v-if="Object.keys(trade).length && !trade_completed">
+          <div class="d-flex justify-content-between price-container">
+            <div class="theirs-total d-flex align-items-center">
+              <img class="list-icon" :src="require('~/assets/img/trades/list-icon.svg')">
+              <div class="price-text">
+                {{$t('trades.trade_arena.theirs')}}: {{theirTotal()}}
+              </div>
+            </div>
+            <div class="theirs-total d-flex align-items-center">
+              <img class="list-icon" :src="require('~/assets/img/trades/list-icon.svg')">
+              <div class="price-text">
+                {{$t('trades.trade_arena.yours')}}: {{yourTotal()}}
+              </div>
+            </div>
+          </div>
           <div class="center-container">
               <div class="left-item" :class="{'right-item-margin-top':trade.offers.length === ITEM_COUNT_TWO,'left-item-one':trade.offers.length === ITEM_COUNT_ONE}">
                 <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'card-'+index : ''" :key="index" class="item mb-4">
@@ -28,6 +42,7 @@
 <!--                <div class="long-line" :class="{'long-line-length' : trade.offers.length == ITEM_COUNT_ONE }"></div>-->
                 <div class="position-relative center-img d-flex justify-content-between">
                 <div class="line-bar" v-if="trade.offers.length === ITEM_COUNT_THREE || trade.offers.length === ITEM_COUNT_ONE"></div>
+                <div class="fair-text position-absolute">Fair</div>
                 <img class="trade-img position-absolute" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
                 <div v-if="getYourTradeItems.length === ITEM_COUNT_THREE || getYourTradeItems.length === ITEM_COUNT_ONE" class="line-bar"></div>
                 </div>
@@ -54,143 +69,182 @@
                 </div>
               </div>
             </div>
-          <div class="d-flex flex-column align-items-center mb-4">
-            <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
-              <span class="fair-trade-label">{{$t('trades.trade_arena.fair_trade_meter')}}</span>
-              <Meter :fair="getFairTradeValue()" :heading="false" :highest="theirTotal(false)" :lowest="0" :value="yourTotal(false)"/>
+          <div>
+            <Button variant="outline-secondary-blue" class="add-cash">{{$t('trades.add_cash')}}</Button>
+            <div class="authenticity d-flex justify-content-center align-items-center">
+              <img :src="require('~/assets/img/trades/authenticity.svg')">
+              <div class="pl-1">Authenticity Guaranteed</div>
             </div>
-            <div>
-              <div class="amounts-input">
-                <input type="text"  class="theirs" disabled :value="`${$t('trades.trade_arena.theirs')}: ${theirTotal()}`">
-                <input type="text"  class="yours" disabled :value="`${$t('trades.trade_arena.yours')}: ${yourTotal()}`">
-              </div>
+            <div class="authenticity-text d-flex justify-content-center text-center">
+              Every item is authenticated by our experts through our authentication process. 100% verification guranteed.
             </div>
-            <span v-if="!cash_added && !isExpire" class="optional-text">{{$t('trades.trade_arena.optional')}}</span>
-            <div v-if="!cash_added && !isExpire" class="optional-input d-flex">
-              <div class="position-relative">
-                <span v-if="optional_cash" class="position-absolute input-mt ml-2">$</span>
-                <input v-model="optional_cash" type="text" :placeholder="$t('trades.trade_arena.enter_amount_usd')" class="optional-input-field">
-              </div>
-              <button @click="addOptionalCash(true)">{{$t('trades.trade_arena.confirm')}}</button>
+            <div class="detail-heading">
+              Details
             </div>
-            <div v-else-if="cash_added && !isExpire">
-              <div class="d-flex cash-added justify-content-center mt-4">
-                <div>
-                  <img :src="require('~/assets/img/icons/dollar.svg')" class="ml-4 mr-2">
-                  {{$t('trades.trade_arena.you_added_cash',{'0': optional_cash })}}
-                  <sup class="ml-1 mr-4" role="button"><img  id="cashPopover" :src="infoIcon"/></sup>
+            <div class="details pb-4">
+              <b-row class="justify-content-between pb-2">
+                <div>Trade ID</div>
+                <div>{{trade.id}}</div>
+              </b-row>
+              <b-row class="justify-content-between pb-2">
+                <div>{{$t('trades.trade_arena.time_left')}}</div>
+                <div class="timer">
+                  <countdown :time="countDownTimer(trade.created_at)" :transform="countDownTimerTransform">
+                    <template slot-scope="{days, hours, minutes}">
+                      <div class="time-left">
+                        <span class="time">{{ days }} {{ hours }} {{ minutes }}</span>
+                      </div>
+                    </template>
+                  </countdown>
                 </div>
-                <b-popover target="cashPopover" triggers="hover" placement="top" >
-                  {{$t('trades.trade_arena.balance_the_deal')}}
-                </b-popover>
-              </div>
-              <div class="text-center edit-cash pt-1" role="button" @click="addOptionalCash(false)">
-                {{$t('trades.trade_arena.edit_cash')}}
-              </div>
-            </div>
-            <!--              <b-btn  v-if="!isExpire && !isPayment" ref="btnShow" class="next-btn" @click="showPoorTradeConfirmationModal">-->
-            <!--                {{$t('trades.trade_arena.next')}}-->
-            <!--              </b-btn>-->
-            <!--              <b-btn v-if="isPayment" class="back-btn-trade" @click="goBack" >{{$t('trades.trade_arena.go_back')}}</b-btn>-->
-          </div>
-          <div v-if="!isPayment || isExpire" class="trade-footer pb-5">
-            <div v-if="!login_user" class="overlay">
-              <b-row class="justify-content-center">
-                <b-row class="col-md-12 justify-content-center">
-                  <div class="signup-text">
-                    {{$t('trades.trade_arena.sign_up_buy_sell_offer_or_trade')}}
-                  </div>
-                </b-row>
-                <b-row class="col-md-12 justify-content-center">
-                  <b-btn class="acc-btn" @click="$router.push('/login')">
-                    {{$t('trades.trade_arena.create_an_account')}}
-                  </b-btn>
-                </b-row>
+              </b-row>
+              <b-row class="justify-content-between pb-2">
+                <div>Offers</div>
+                <div>{{totalOffersReceived}}</div>
+              </b-row>
+              <b-row class="justify-content-between">
+                <div>Estimated trade Value</div>
+                <div>{{theirTotal()}}</div>
               </b-row>
             </div>
-            <div v-if="isExpire" class="expired">
-              <div class="expire-item">{{$t('trades.trade_arena.expired')}}</div>
-            </div>
-            <div v-else class="px-5">
-            <span class="trade-inventory pt-4">
-              {{$t('trades.trade_arena.your_inventory',[inventoryItems.length])}}
-              <sup role="button"><img  id="inventoryPopover" :src="infoIcon"/></sup>
-            </span>
-              <b-popover target="inventoryPopover" triggers="hover" placement="top" >
-                {{$t('trades.trade_arena.inventory_popover')}}
-              </b-popover>
-              <span class="trade-inventory-tagline">{{$t('trades.trade_arena.trade_upto_items', [MAX_ITEMS_ALLOWED])}}</span>
-              <div class="container-fluid p-0 mt-4">
-                <div class="pb-md-4 w-100 d-flex">
-                  <div class="col-md-6 pl-0">
-                    <div class="form browse-search">
-                      <SearchInput
-                        :value="searchText"
-                        variant="primary"
-                        :placeholder="$t('trades.trade_arena.search_inventory')"
-                        :clearSearch="true"
-                        @change="onSearchInput"
-                      />
-                    </div>
-                    <SearchedProductsBelowSearchTextBox :productItems="searchedItems" productsFor="tradeItemArena" width="700px" class="position-absolute"/>
-                  </div>
-<!--                  <div class="col-md-6 mt&#45;&#45;4 pl-5 pr-0">-->
-<!--                    <span class="filter-by">{{$t('trades.trade_arena.filter_by')}}</span>-->
-<!--                    <div class="d-flex">-->
-<!--                      <client-only>-->
-<!--                        <CustomDropdown v-model="categoryFilter" :options="categoryItems" type="single-select"-->
-<!--                                        :label="categoryFilterLabel" class="mr-3 width-156 h-43" width="155px"-->
-<!--                                        optionsWidth="custom" @getResults="getInventory" @change="changeCategory"/>-->
-<!--                        <CustomDropdown v-model="sizeTypesFilter" :options="filters.size_types" type="multi-select-checkbox"-->
-<!--                                        :label="sizeTypesFilterLabel" class="mr-3 width-156 h-43" width="155px"-->
-<!--                                        optionsWidth="custom" @getResults="getInventory" @change="changeSizeTypeFilter"/>-->
-<!--                        <CustomDropdown v-model="sizeFilter" :options="filters.sizes" type="multi-select-checkbox"-->
-<!--                                        :label="sizeFilterLabel" class="mr-3 width-156 h-43" width="155px"-->
-<!--                                        optionsWidth="custom" @getResults="getInventory" @change="changeSizeFilter" />-->
-<!--                      </client-only>-->
-<!--                      <b-btn class="filter-btn ml-19" @click="getInventory()">{{$t('trades.trade_arena.apply')}}</b-btn>-->
-<!--                    </div>-->
-<!--                  </div>-->
-                </div>
-                <client-only>
-                  <div v-if="!inventoryItems.length" class="col-md-12">
-                    <div class="no-item">{{$t('trades.trade_arena.no_items')}}</div>
-                    <b-btn class="add-items">{{$t('trades.trade_arena.add_items')}}</b-btn>
-                  </div>
-                  <div v-else class="carousel row pl-2">
-                    <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item">
-                      <div draggable @dragstart="startDrag($event, item)">
-                        <div class="d-relative">
-                          <div class="size-car">{{$t('trades.trade_arena.size')}} {{item.size && item.size.size}}</div>
-                          <img alt="No Image" class="plus-icon-add-trade" role="button" :src="require('~/assets/img/icons/addPlus.svg')"
-                               @click="addYourItem(item)"/>
-                        </div>
-                        <img class="item-image-trade" :src="getProductImageUrl(item.product)" alt="image" />
-                        <div class="item-caption">
-                          <span class="item-name">{{item.product && item.product.name}}</span>
-                          <span class="item-box-condition">{{$t('common.box_condition')}}: {{item.packaging_condition && item.packaging_condition.name}}</span>
-                          <span class="item-caption-description">{{item.product && item.product.colorway}}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <b-row class="justify-content-center col-md-12">
-                      <Pagination
-                        v-if="inventoryItems && inventoryItems.length > ITEM_COUNT_0"
-                        v-model="page"
-                        :total="totalCount"
-                        :per-page="perPage"
-                        :per-page-options="perPageOptions"
-                        class="mt-4"
-                        @page-click="handlePageClick"
-                        @per-page-change="handlePerPageChange"
-                      />
-                    </b-row>
-                  </div>
-                </client-only>
-              </div>
-            </div>
           </div>
+<!--          <div class="d-flex flex-column align-items-center mb-4">-->
+<!--            <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">-->
+<!--              <span class="fair-trade-label">{{$t('trades.trade_arena.fair_trade_meter')}}</span>-->
+<!--              <Meter :fair="getFairTradeValue()" :heading="false" :highest="theirTotal(false)" :lowest="0" :value="yourTotal(false)"/>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--              <div class="amounts-input">-->
+<!--                <input type="text"  class="theirs" disabled :value="`${$t('trades.trade_arena.theirs')}: ${theirTotal()}`">-->
+<!--                <input type="text"  class="yours" disabled :value="`${$t('trades.trade_arena.yours')}: ${yourTotal()}`">-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <span v-if="!cash_added && !isExpire" class="optional-text">{{$t('trades.trade_arena.optional')}}</span>-->
+<!--            <div v-if="!cash_added && !isExpire" class="optional-input d-flex">-->
+<!--              <div class="position-relative">-->
+<!--                <span v-if="optional_cash" class="position-absolute input-mt ml-2">$</span>-->
+<!--                <input v-model="optional_cash" type="text" :placeholder="$t('trades.trade_arena.enter_amount_usd')" class="optional-input-field">-->
+<!--              </div>-->
+<!--              <button @click="addOptionalCash(true)">{{$t('trades.trade_arena.confirm')}}</button>-->
+<!--            </div>-->
+<!--            <div v-else-if="cash_added && !isExpire">-->
+<!--              <div class="d-flex cash-added justify-content-center mt-4">-->
+<!--                <div>-->
+<!--                  <img :src="require('~/assets/img/icons/dollar.svg')" class="ml-4 mr-2">-->
+<!--                  {{$t('trades.trade_arena.you_added_cash',{'0': optional_cash })}}-->
+<!--                  <sup class="ml-1 mr-4" role="button"><img  id="cashPopover" :src="infoIcon"/></sup>-->
+<!--                </div>-->
+<!--                <b-popover target="cashPopover" triggers="hover" placement="top" >-->
+<!--                  {{$t('trades.trade_arena.balance_the_deal')}}-->
+<!--                </b-popover>-->
+<!--              </div>-->
+<!--              <div class="text-center edit-cash pt-1" role="button" @click="addOptionalCash(false)">-->
+<!--                {{$t('trades.trade_arena.edit_cash')}}-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash;              <b-btn  v-if="!isExpire && !isPayment" ref="btnShow" class="next-btn" @click="showPoorTradeConfirmationModal">&ndash;&gt;-->
+<!--            &lt;!&ndash;                {{$t('trades.trade_arena.next')}}&ndash;&gt;-->
+<!--            &lt;!&ndash;              </b-btn>&ndash;&gt;-->
+<!--            &lt;!&ndash;              <b-btn v-if="isPayment" class="back-btn-trade" @click="goBack" >{{$t('trades.trade_arena.go_back')}}</b-btn>&ndash;&gt;-->
+<!--          </div>-->
+<!--          <div v-if="!isPayment || isExpire" class="trade-footer pb-5">-->
+<!--            <div v-if="!login_user" class="overlay">-->
+<!--              <b-row class="justify-content-center">-->
+<!--                <b-row class="col-md-12 justify-content-center">-->
+<!--                  <div class="signup-text">-->
+<!--                    {{$t('trades.trade_arena.sign_up_buy_sell_offer_or_trade')}}-->
+<!--                  </div>-->
+<!--                </b-row>-->
+<!--                <b-row class="col-md-12 justify-content-center">-->
+<!--                  <b-btn class="acc-btn" @click="$router.push('/login')">-->
+<!--                    {{$t('trades.trade_arena.create_an_account')}}-->
+<!--                  </b-btn>-->
+<!--                </b-row>-->
+<!--              </b-row>-->
+<!--            </div>-->
+<!--            <div v-if="isExpire" class="expired">-->
+<!--              <div class="expire-item">{{$t('trades.trade_arena.expired')}}</div>-->
+<!--            </div>-->
+<!--            <div v-else class="px-5">-->
+<!--            <span class="trade-inventory pt-4">-->
+<!--              {{$t('trades.trade_arena.your_inventory',[inventoryItems.length])}}-->
+<!--              <sup role="button"><img  id="inventoryPopover" :src="infoIcon"/></sup>-->
+<!--            </span>-->
+<!--              <b-popover target="inventoryPopover" triggers="hover" placement="top" >-->
+<!--                {{$t('trades.trade_arena.inventory_popover')}}-->
+<!--              </b-popover>-->
+<!--              <span class="trade-inventory-tagline">{{$t('trades.trade_arena.trade_upto_items', [MAX_ITEMS_ALLOWED])}}</span>-->
+<!--              <div class="container-fluid p-0 mt-4">-->
+<!--                <div class="pb-md-4 w-100 d-flex">-->
+<!--                  <div class="col-md-6 pl-0">-->
+<!--                    <div class="form browse-search">-->
+<!--                      <SearchInput-->
+<!--                        :value="searchText"-->
+<!--                        variant="primary"-->
+<!--                        :placeholder="$t('trades.trade_arena.search_inventory')"-->
+<!--                        :clearSearch="true"-->
+<!--                        @change="onSearchInput"-->
+<!--                      />-->
+<!--                    </div>-->
+<!--                    <SearchedProductsBelowSearchTextBox :productItems="searchedItems" productsFor="tradeItemArena" width="700px" class="position-absolute"/>-->
+<!--                  </div>-->
+<!--&lt;!&ndash;                  <div class="col-md-6 mt&#45;&#45;4 pl-5 pr-0">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <span class="filter-by">{{$t('trades.trade_arena.filter_by')}}</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="d-flex">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <client-only>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <CustomDropdown v-model="categoryFilter" :options="categoryItems" type="single-select"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        :label="categoryFilterLabel" class="mr-3 width-156 h-43" width="155px"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        optionsWidth="custom" @getResults="getInventory" @change="changeCategory"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <CustomDropdown v-model="sizeTypesFilter" :options="filters.size_types" type="multi-select-checkbox"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        :label="sizeTypesFilterLabel" class="mr-3 width-156 h-43" width="155px"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        optionsWidth="custom" @getResults="getInventory" @change="changeSizeTypeFilter"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <CustomDropdown v-model="sizeFilter" :options="filters.sizes" type="multi-select-checkbox"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        :label="sizeFilterLabel" class="mr-3 width-156 h-43" width="155px"&ndash;&gt;-->
+<!--&lt;!&ndash;                                        optionsWidth="custom" @getResults="getInventory" @change="changeSizeFilter" />&ndash;&gt;-->
+<!--&lt;!&ndash;                      </client-only>&ndash;&gt;-->
+<!--&lt;!&ndash;                      <b-btn class="filter-btn ml-19" @click="getInventory()">{{$t('trades.trade_arena.apply')}}</b-btn>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--                </div>-->
+<!--                <client-only>-->
+<!--                  <div v-if="!inventoryItems.length" class="col-md-12">-->
+<!--                    <div class="no-item">{{$t('trades.trade_arena.no_items')}}</div>-->
+<!--                    <b-btn class="add-items">{{$t('trades.trade_arena.add_items')}}</b-btn>-->
+<!--                  </div>-->
+<!--                  <div v-else class="carousel row pl-2">-->
+<!--                    <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item">-->
+<!--                      <div draggable @dragstart="startDrag($event, item)">-->
+<!--                        <div class="d-relative">-->
+<!--                          <div class="size-car">{{$t('trades.trade_arena.size')}} {{item.size && item.size.size}}</div>-->
+<!--                          <img alt="No Image" class="plus-icon-add-trade" role="button" :src="require('~/assets/img/icons/addPlus.svg')"-->
+<!--                               @click="addYourItem(item)"/>-->
+<!--                        </div>-->
+<!--                        <img class="item-image-trade" :src="getProductImageUrl(item.product)" alt="image" />-->
+<!--                        <div class="item-caption">-->
+<!--                          <span class="item-name">{{item.product && item.product.name}}</span>-->
+<!--                          <span class="item-box-condition">{{$t('common.box_condition')}}: {{item.packaging_condition && item.packaging_condition.name}}</span>-->
+<!--                          <span class="item-caption-description">{{item.product && item.product.colorway}}</span>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+
+<!--                    <b-row class="justify-content-center col-md-12">-->
+<!--                      <Pagination-->
+<!--                        v-if="inventoryItems && inventoryItems.length > ITEM_COUNT_0"-->
+<!--                        v-model="page"-->
+<!--                        :total="totalCount"-->
+<!--                        :per-page="perPage"-->
+<!--                        :per-page-options="perPageOptions"-->
+<!--                        class="mt-4"-->
+<!--                        @page-click="handlePageClick"-->
+<!--                        @per-page-change="handlePerPageChange"-->
+<!--                      />-->
+<!--                    </b-row>-->
+<!--                  </div>-->
+<!--                </client-only>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
           <TraderWants :wants="wants"/>
           <PoorTradeConfirmationModal :poorTrade="checkForPoorTrade()"></PoorTradeConfirmationModal>
           <AlreadyListedModal :listingId="itemListingId" :item="alreadyListedItemDetails" @confirm="addOrIncrementYourItem" />
@@ -204,15 +258,17 @@
 <script>
 import {mapGetters,mapActions} from 'vuex'
 import debounce from 'lodash.debounce'
+import Countdown from '@chenfengyuan/vue-countdown'
 import PoorTradeConfirmationModal from '~/pages/trades/_id/PoorTradeConfirmationModal'
 import TraderWants from '~/pages/trades/_id/TraderWants'
 import TradeCompleted from '~/pages/trades/_id/TradeCompleted'
 import AlreadyListedModal from '~/pages/profile/create-listing/trades/AlreadyListedModal'
-import Meter from '~/components/common/Meter'
-import SearchInput from '~/components/common/SearchInput'
+
+// import Meter from '~/components/common/Meter'
+// import SearchInput from '~/components/common/SearchInput'
 // import CustomDropdown from '~/components/common/CustomDropdown'
-import {Pagination} from '~/components/common'
-import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox'
+// import {Pagination} from '~/components/common'
+// import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox'
 import CheckoutSidebar from '~/components/checkout/trades/ShoppingCartOrder'
 import {
   GOOGLE_MAPS_BASE_URL
@@ -243,21 +299,24 @@ import {
   OFFER_TYPE,
   TAKE_SEARCHED_PRODUCTS
 } from '~/static/constants/trades'
+import Button from '~/components/common/Button';
 
 export default {
   name: 'IndexMobile',
   components: {
+    Button,
     CreateTradeSearchItem,
-    SearchedProductsBelowSearchTextBox,
+    // SearchedProductsBelowSearchTextBox,
     TraderWants,
     PoorTradeConfirmationModal,
     // CustomDropdown,
-    SearchInput,
-    Meter,
+    // SearchInput,
+    // Meter,
     TradeCompleted,
-    Pagination,
+    // Pagination,
     AlreadyListedModal,
-    CheckoutSidebar
+    CheckoutSidebar,
+    Countdown
   },
   layout: 'IndexLayout',
   data() {
@@ -854,7 +913,7 @@ export default {
 
 .image-wrapper
   height: 134px
-  background: #fafafa
+  background: $color-white-4
   position: relative
 
 .right-item,.left-item
@@ -865,7 +924,7 @@ export default {
   height: 13px
   width: 13px
   z-index: 1000
-  background: #FF9696
+  background: $color-red-24
 
 .minus
   width: 7px
@@ -876,7 +935,7 @@ export default {
 .item-name
   width: 85px
   font-size: 11px
-  color: #50555C
+  color: $color-gray-69
 
 .center-item
   min-width: 10px
@@ -892,7 +951,9 @@ export default {
   width: 31px
 .trade-img
   background: $color-white-1
-  margin-left: -1px
+  margin-left: -5px
+  height: 40px
+  width: 40px
 
 .center-container
   min-height: 550px
@@ -905,7 +966,7 @@ export default {
     left: 0
     width: 100%
     height: 100%
-    background: rgba(153, 153, 153, 0.1)
+    background: $color-grey-70
 
 .pro-image
   width: 117px
@@ -913,8 +974,8 @@ export default {
 .line-bar
   width: 9px
   height: 2px
-  background: #E3E3E3
-  margin: 15px -15px 0 -15px
+  background: $color-white-18
+  margin: 15px -20px 0 -20px
 
 .item-caption
   background: $color-white-1
@@ -925,11 +986,85 @@ export default {
 .pointer-right-two-items
   height: 223px
 .right-item-margin-top
-  margin-top: 9%
+  margin-top: 115px
 .right-item-one
-  margin-top: 13.2%
+  margin-top: 183px
   margin-left: 15px
 .left-item-one
-  margin-top: 13.2%
+  margin-top: 183px
   margin-right: 15px
+.fair-text
+  background: $color-white-1
+  color: $color-black-1
+  height: 30px
+  width: 50px
+  text-align: center
+  z-index: 500
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-12-bold
+  margin-top: -30px
+  margin-left: -10px
+  padding-top: 5px
+.price-container
+  margin-bottom: 8px
+  margin-top: 7px
+  padding: 0 15px
+
+.theirs-total
+  background: $color-white-4
+  border-radius: 2px
+  height: 38px
+  width: 118px
+
+.price-text
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $normal
+  font-size: 11px
+  line-height: 13px
+  color: $color-black-1
+  padding-left: 6px
+
+.list-icon
+  height: 24px
+  width: 24px
+  padding-left: 6px
+.add-cash
+  height: 37px
+  width: 315px
+  margin-left: 20px
+  border-radius: unset
+.authenticity
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $medium
+  font-size: 14.5px
+  line-height: 18px
+  letter-spacing: -0.04em
+  color: $color-black-1
+  padding-top: 25px
+.authenticity-text
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-9-regular
+  color: $color-black-1
+  margin-top: 15px
+
+.detail-heading
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-4-medium
+  color: $color-black-1
+  margin-top: 38px
+  padding-left: 10px
+  padding-bottom: 15px
+.details
+  padding: 0 18px
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-5-regular
+  color: $color-gray-5
+.timer
+  color: $color-red-3
 </style>
