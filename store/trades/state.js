@@ -7,7 +7,8 @@ export default function () {
      filterTrade:{
        category: null,
        orderFilter: null,
-       sizeType: []
+       sizeType: [],
+       sizes:[],
      },
    }
 }

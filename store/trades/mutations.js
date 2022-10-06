@@ -176,3 +176,10 @@ export function setTradeFiltersRemove(state, data) {
   state.filterTrade.sizeType.indexOf(data)
   state.filterTrade.sizeType.splice(data,1)
 }
+export function setTradeFiltersUpdatedSizes(state, data) {
+  state.filterTrade.sizes.push(data)
+}
+export function setTradeFiltersRemoveSizes(state, data) {
+  state.filterTrade.sizes.indexOf(data)
+  state.filterTrade.sizes.splice(data,1)
+}

@@ -67,6 +67,68 @@
       </b-collapse>
     </div>
     <hr class="hr" />
+    <div class="mt-1 ml-2">
+      <div class="d-flex" v-b-toggle="'collapse-sizes'">
+        <div class="filtersHeading">
+          Sizes
+        </div>
+        <div class="d-flex">
+          <!--          <span class="selected-catgory pull-left">{{sizeTypesFilter}}</span>-->
+          <img  v-if="isVisibleSizes" class="arrow-image pull-right" :src="require('~/assets/img/upArrow.svg')"/>
+          <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/downArrow.svg')"/>
+        </div>
+      </div>
+      <b-collapse id="collapse-sizes" v-model="isVisibleSizes">
+        <div class="d-flex">
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('3.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('3.0')) ? 'selected-size' : 'size-box']" id="men-box" @click="onSelectSizes('3.0')">3.0</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('3.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('3.5')) ? 'selected-size' : 'size-box']"  @click="onSelectSizes('3.5')">3.5</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('4.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('4.0')) ? 'selected-size' : 'size-box']"  @click="onSelectSizes('4.0')">4.0</div>
+          <div :class="[(this.sizeFilter !== null  && sizeFilter.includes('4.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('4.5')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('4.5')">4.5</div>
+          <div :class="[(this.sizeFilter !== null  && sizeFilter.includes('5.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('5.0') )? 'selected-size' : 'size-box']"  @click="onSelectSizes('5.0')">5.0</div>
+        </div>
+        <div class="d-flex">
+          <div  :class="[(this.sizeFilter !== null && sizeFilter.includes('5.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('5.5')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('5.5')">5.5</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('6.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('6.0')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('6.0')">6.0</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('6.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('6.5')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('6.5')">6.5</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('7.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('7.0')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('7.0')">7.0</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('7.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('7.5')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('7.5')">7.5</div>
+        </div>
+        <div class="d-flex">
+          <div  :class="[(this.sizeFilter !== null && sizeFilter.includes('8.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('8.0')) ? 'selected-size' : 'size-box']"  @click="onSelectSizes('8.0')">8.0</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('8.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('8.5')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('8.5')">8.5</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('9.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('9.0')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('9.0')">9.0</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('9.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('9.5')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('9.5')">9.5</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('10.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('10.0')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('10.0')">10.0</div>
+        </div>
+        <div class="d-flex">
+          <div  :class="[(this.sizeFilter !== null && sizeFilter.includes('10.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('10.5')) ? 'selected-size' : 'size-box']"  @click="onSelectSizes('10.5')">10.5</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('11.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('11.0')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('11.0')">11.0</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('11.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('11.5')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('11.5')">11.5</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('12.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('12.0')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('12.0')">12.0</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('12.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('12.5')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('12.5')">12.5</div>
+        </div>
+        <div class="d-flex">
+          <div  :class="[(this.sizeFilter !== null && sizeFilter.includes('13.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('13.0')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('13.0')">13.0</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('13.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('13.5')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('13.5')">13.5</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('14.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('14.0')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('14.0')">14.0</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('14.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('14.5')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('14.5')">14.5</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('15.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('15.0')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('15.0')">15.0</div>
+        </div>
+        <div class="d-flex">
+          <div  :class="[(this.sizeFilter !== null && sizeFilter.includes('15.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('15.5')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('15.5')">15.5</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('16.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('16.0')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('16.0')">16.0</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('16.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('16.5')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('16.5')">16.5</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('17.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('17.0')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('17.0')">17.0</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('17.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('17.5')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('17.5')">17.5</div>
+        </div>
+        <div class="d-flex">
+          <div  :class="[(this.sizeFilter !== null && sizeFilter.includes('18.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('18.0')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('18.0')">18.0</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('18.5')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('18.5')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('18.5')">18.5</div>
+          <div :class="[(this.sizeFilter !== null && sizeFilter.includes('19.0')) || (getTradesFilter.sizes!== undefined && getTradesFilter.sizes !== null && getTradesFilter.sizes.includes('19.0')) ? 'selected-size' : 'size-box']" @click="onSelectSizes('19.0')">19.0</div>
+        </div>
+      </b-collapse>
+    </div>
+    <hr class="hr" />
     <div class="d-flex">
       <div class="reset" @click="clearFilters">Reset</div>
       <div>
@@ -91,6 +153,7 @@ export default {
       order:'',
       isVisible: false,
       isVisibleSizeType:false,
+      isVisibleSizes:false,
       filterSection:false,
       IMAGE_PATH, // Image path const
       MAX_ITEMS_ALLOWED,
@@ -155,6 +218,7 @@ export default {
         orderFilter :  this.getTradesFilter.orderFilter !== null ? this.getTradesFilter.orderFilter : this.orderFilters,
         category :   this.getTradesFilter.category !== null ? this.getTradesFilter.category : this.selected_category,
         sizeType : this.getTradesFilter.sizeType.length > 0 ? this.getTradesFilter.sizeType :  this.sizeTypesFilter,
+        sizes : this.getTradesFilter.sizes.length > 0 ? this.getTradesFilter.sizes :  this.sizeFilter,
       }
       this.$store.commit('trades/setTradeFilters', filtersData)
       this.$emit('click',filtersData)
@@ -189,6 +253,25 @@ export default {
       }
       else {
         this.sizeTypesFilter.push(item)
+      }
+    },
+
+
+    onSelectSizes(item) {
+      if(this.sizeFilter !== null && this.sizeFilter.includes(item)) {
+        const checkSizes = this.sizeFilter.indexOf(item)
+        this.sizeFilter.splice(checkSizes,1)
+      }
+      else if(this.getTradesFilter.sizes !== undefined && this.getTradesFilter.sizes !== null && this.getTradesFilter.sizes.length > 0)
+      {
+        if(this.getTradesFilter.sizes.includes(item)) {
+          this.$store.commit('trades/setTradeFiltersRemoveSizes', item)
+        } else {
+          this.$store.commit('trades/setTradeFiltersUpdatedSizes', item)
+        }
+      }
+      else {
+        this.sizeFilter.push(item)
       }
     }
   },
@@ -325,5 +408,28 @@ export default {
   padding-left: 20px
   cursor: pointer
   background: #F2F2F2
-
+.selected-size
+  width: 42px
+  height: 42px
+  border-radius: 3px
+  border: 1px solid #000
+  font-size: 14px
+  font-weight: 600
+  font-family: SF Pro Display
+  color: #999999
+  padding: 5px
+  cursor: pointer
+  background: #F2F2F2
+  margin: 2px
+.size-box
+  width: 42px
+  height: 42px
+  border-radius: 3px
+  background: #FFFFFF
+  border: 1px solid #999999
+  font-size: 14px
+  font-weight: 500
+  font-family: SF Pro Display
+  color: #999999
+  padding: 5px
 </style>

@@ -19,7 +19,7 @@
     </div>
     <!-- Filters Section -->
     <div v-if="filterSection">
-      <mobileFilters @click="newfilters" @change="closeFiltersSection"/>
+      <mobileFilters @click="applyFilters" @change="closeFiltersSection"/>
     </div>
     <div v-else>
       <div class="d-flex mt-2">
@@ -276,11 +276,12 @@ export default {
     closeFiltersSection() {
       this.filterSection = false
     },
-    newfilters(data){
+    applyFilters(data){
       console.log('data',data)
       this.orderFilter = data.orderFilter ? data.orderFilter : null
       this.categoryFilter = data.category ? data.category : null
       this.sizeTypesFilter = data.sizeType ? data.sizeType : null
+      this.sizeFilter = data.sizes ? data.sizes: null
       this.getInventory()
     },
     /**
