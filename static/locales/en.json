@@ -4149,6 +4149,7 @@
           "click_to_add_offer_items": "Click here to add offer items",
           "click_to_add_want_items": "Click here to add want items",
           "no_products_found": "No product found against this filter...",
+          "no_products_found-mobile": "0 items have been found in your inventory",
           "offer_items_quantity_should_not_exceed": "Offer items/quantity should not exceed {0}",
           "drafts": "Drafts",
           "draft": "Draft",

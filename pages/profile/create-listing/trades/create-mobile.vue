@@ -70,8 +70,8 @@
             </div>
           </b-col>
           <b-row v-if="!inventory_items || inventory_items.length === 0"
-                 class="col-md-12 justify-content-center">
-            {{ $t('trades.create_listing.vendor.wants.no_products_found') }}
+                 class="col-md-12 justify-content-center no-found">
+            {{ $t('trades.create_listing.vendor.wants.no_products_found-mobile') }}
           </b-row>
           <b-row class="col-md-12 justify-content-center">
             <Pagination
@@ -87,7 +87,7 @@
           </b-row>
         </b-row>
       </div>
-      <div class="mt-2">
+      <div class="mt-2" v-if="inventory_items.length">
         <div class="row create-trade-drag-drop-item-mobile justify-content-center text-center py-2"
              @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
           <div v-if="getTradeItems.length < 1">
@@ -760,5 +760,11 @@ export default {
   width: 95px
   height: 125px
   padding: 2px
+
+.no-found
+  font-size: 14px
+  font-weight: 600
+  font-family: Montserrat
+  padding: 50px
 
 </style>
