@@ -1,14 +1,25 @@
 <template>
   <div class="d-flex flex-column align-items-center justify-content-center">
-    <div class="d-flex flex-column align-items-center justify-content-center mt-4">
+    <div v-if="!isGiveaway" class="d-flex flex-column align-items-center justify-content-center mt-4">
       <img :alt="$t('promotions.cars')" :src="require('~/assets/img/promotions/car-with-bow.svg')" class="mb-4"
            width="124">
       <div class="type-title mb-3">{{ $t('promotions.cars') }}</div>
       <div class="type-description mb-4">{{ $t('promotions.car_sweepstakes_desc') }}</div>
     </div>
-    <div class="d-flex flex-column align-items-center justify-content-center">
+    <div v-if="!isGiveaway" class="d-flex flex-column align-items-center justify-content-center">
       <img :alt="$t('promotions.trips')" :src="require('~/assets/img/promotions/plane.svg')" class="mb-4" width="138">
       <div class="type-title mb-3">{{ $t('promotions.trips') }}</div>
+      <div class="type-description mb-4">{{ $t('promotions.lorem') }}</div>
+    </div>
+    <div v-if="isGiveaway" class="d-flex flex-column align-items-center justify-content-center mt-4">
+      <img :alt="$t('promotions.cars')" :src="require('~/assets/img/promotions/shirt.svg')" class="mb-4"
+           width="76">
+      <div class="type-title mb-3">{{ $t('promotions.apparel') }}</div>
+      <div class="type-description mb-4">{{ $t('promotions.lorem') }}</div>
+    </div>
+    <div v-if="isGiveaway" class="d-flex flex-column align-items-center justify-content-center">
+      <img :alt="$t('promotions.trips')" :src="require('~/assets/img/promotions/sneaker.svg')" class="mb-2" width="120">
+      <div class="type-title mb-3">{{ $t('promotions.sneakers') }}</div>
       <div class="type-description mb-4">{{ $t('promotions.lorem') }}</div>
     </div>
     <div class="d-flex flex-column align-items-center justify-content-center">
@@ -21,7 +32,13 @@
 
 <script>
 export default {
-  name: 'MobilePromoTypes'
+  name: 'MobilePromoTypes',
+  props: {
+    isGiveaway: {
+      type: Boolean,
+      default: false
+    }
+  }
 }
 </script>
 

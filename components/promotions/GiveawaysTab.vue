@@ -70,7 +70,7 @@
       <div v-if="isScreenXS" class="divider my-3"/>
 
       <PromosTypes v-if="!isScreenXS"></PromosTypes>
-      <MobilePromoTypes v-if="isScreenXS"/>
+      <MobilePromoTypes v-if="isScreenXS" :is-giveaway="true"/>
     </div>
     <VideoCarousel></VideoCarousel>
     <FAQ></FAQ>
