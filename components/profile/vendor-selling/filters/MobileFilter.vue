@@ -17,14 +17,14 @@
               v-model="filter.sortby"
               class="recent-to-old text-normal"
               name="sortby"
-              value="recent_to_old"
+              value="date-new-old"
               >{{ $t('offers_received.offers_recent_old') }}</b-form-radio
             >
             <b-form-radio
               v-model="filter.sortby"
               class="old-to-recent text-normal"
               name="sortby"
-              value="old_to_recent"
+              value="date-old-new"
               >{{ $t('offers_received.offers_old_recent') }}</b-form-radio
             >
           </div>
@@ -32,25 +32,33 @@
         <hr />
       </div>
       <!-- Sort By ends -->
-      <div v-show="filterVisibility" class="collapses flex-column">
+      <!-- Status -->
+      
+      <div v-show="filterVisibility" class="collapses flex-column w-100">
         <CollapseStatus
-          :value="filter.status || {}"
+          :value="filter.status"
           collapseKey="status"
-          :title="$t('filter_sidebar.brands')"
+          :title="$t('selling_page.filter.status')"
           :options="status"
           @selected="statusSelected"
         />
       </div>
+      <!-- Status ends -->
       <hr v-show="filterVisibility" />
       <div class="collapses flex-column">
         <CollapseDate
+          :value="filter.date"
           collapseKey="offer-date"
-          :title="$t('offers_received.offer_date')"
+          :title="$t('selling_page.filter.date_send')"
           :options="status"
           :clearDate="!filter.date"
           @showFilters="dateSelected"
+          @startDate="startDateSelected"
+          @endDate="endDateSelected"
         />
       </div>
+
+      <hr v-show="filterVisibility" />
 
       <div v-show="filterVisibility" :class="`section-actions ${mobileClass} d-flex align-items-center w-100 justify-content-between`">
         <Button v-if="filterVisibility" pill class="btn-reset btn-light" @click="resetFilter">{{
@@ -61,7 +69,7 @@
           v-if="filterVisibility"
           pill
           class="btn-apply border-0"
-          @click="$emit('filter', { ...filter })"
+          @click="applyFilter()"
           ><span
             >{{ $t('offers_received.apply_filters') }}
             <span v-if="count">&#40;{{ count }}&#41;</span></span
@@ -73,8 +81,8 @@
 </template>
 
 <script>
-import CollapseStatus from './filter/CollapseStatus.vue'
-import CollapseDate from './filter/CollapseDate.vue'
+import CollapseStatus from './CollapseStatus.vue'
+import CollapseDate from './CollapseDate.vue'
 import screenSize from '~/plugins/mixins/screenSize'
 import { Button } from '~/components/common'
 export default {
@@ -92,25 +100,25 @@ export default {
     return {
       status: [
         {
-          label: this.$t('offers_received.accepted'),
-          value: 'accepted',
+          label: this.$t('selling_page.listed'),
+          value: 'listed',
         },
         {
-          label: this.$t('offers_received.awaiting_response'),
-          value: 'awaiting_response',
-        },
-        {
-          label: this.$t('offers_received.declined'),
-          value: 'declined',
+          label: this.$t('selling_page.delisted'),
+          value: 'delisted',
         },
       ],
       showFilter: true,
       filter: {
-        date: null,
-        status: null,
+        date: {
+          start: '',
+          end: ''
+        },
+        status: [],
         sortby: null,
       },
       count: 0,
+
     }
   },
 
@@ -122,6 +130,10 @@ export default {
     sortbyStatus: (vm) => {
       return vm.filter.sortby
     },
+
+    filterStatus: (vm) => {
+      return vm.filter.status
+    }
   },
 
   watch: {
@@ -139,31 +151,55 @@ export default {
     resetFilter() {
       this.count = 0
       this.filter.date = null
-      this.filter.status = null
+      this.filter.status = []
       this.filter.sortby = null
+      this.applyFilter()
     },
 
-    statusSelected({ value }) {
-      if (!this.filter.status) {
-        this.count = this.count + 1
-      }
-      if (this.filter.status && this.filter.status.value === value.value) {
-        this.filter.status = null
-        this.count = this.count - 1
-        return
-      }
-      this.filter.status = value
-    },
-    dateSelected({ value, data }) {
-      if (value === true) {
-        if ((data.start !== '' || data.end !== '') && !this.filter.date) {
+    // If status is selected
+    statusSelected(value) {
+      value.forEach(element => {
+        if(!this.filter.status.includes(element)){
           this.count = this.count + 1
         }
-        this.filter.date = data
-      }
+      });
+      this.filter.status = value
+    },
 
+    // If date is selected.
+    dateSelected(value) {
       this.showFilter = value
     },
+
+    // On start date select
+    startDateSelected(value) {
+      if(this.filter.date && !this.filter.date.end){
+        if(this.filter.date && !this.filter.date.start) {
+          this.count = this.count + 1
+        }
+        if(this.filter.date && this.filter.date.start && !value){
+          this.count = this.count - 1
+        }
+      }
+      this.filter.date.start = value
+    },
+
+    // On end date select
+    endDateSelected(value) {
+      if(this.filter.date && !this.filter.date.start){
+        if(this.filter.date && !this.filter.date.end) {
+          this.count = this.count + 1
+        }
+        if(this.filter.date && this.filter.date.end && !value){
+          this.count = this.count - 1
+        }
+      }
+      this.filter.date.end = value
+    },
+
+    applyFilter(){
+      this.$emit('filter', { ...this.filter })
+    }
   },
 }
 </script>
@@ -174,10 +210,6 @@ export default {
   font-family: $font-sp-pro
   &.mobile
     height: 450px
-
-  .sliders, .collapses
-    flex-direction: column
-    width: 100%
 
   .btn-apply
     height: 40px
@@ -204,7 +236,7 @@ export default {
 
 @media (max-width: 576px)
   .sidebar-wrapper
-    .sliders, .collapses
+    .collapses
       >div
         max-width: 100%
 

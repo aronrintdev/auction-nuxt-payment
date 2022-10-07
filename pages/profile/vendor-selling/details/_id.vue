@@ -1,5 +1,6 @@
 <template>
-  <b-container fluid class="container-profile-selling h-100 px-5 py-5">
+  <b-container fluid class="container-profile-selling h-100">
+    <div class="selling-listing">
     <b-row class="mt-md-4 mt-2 vd-selling">
       <b-col cols="12" class="vd-selling-details-heading">
         {{ $t('selling_page.selling_page_heading') }}
@@ -19,7 +20,7 @@
       <b-col md="8" cols="12" sm="6" class="mt-md-4 vd-selling-search">
         <!-- TODO -->
         <div class="form browse-search border rounded">
-          <div class="form-group selling-search-input">
+          <div class="form-group selling-search-input align-items-center d-flex m-0">
             <img
               :src="require('~/assets/img/icons/search.svg')"
               class="icon-search"
@@ -40,6 +41,7 @@
     <template v-if="loaded">
       <SellingDetailsPurchaseSummary
         :details="details"
+        class="purchase-summary"
         :listingId="listingId"
         @reloadData="reloadData"
       />
@@ -50,11 +52,18 @@
     <template v-if="loaded">
       <SellingOffers
         :offers="getOffers"
+        class="offer-details"
         :status="details.status"
+        :highestOffer="highestOffer"
         @reloadData="reloadData"
       />
     </template>
     <!-- Offers Section -->
+    </div>
+    <!-- Mobile Screen -->
+
+    <SellingDetails class="offer-responsive" :details="details" @reloadData="loadData"  />
+    <!-- ./Mobile Screen -->
   </b-container>
 </template>
 
@@ -63,6 +72,7 @@ import { mapActions } from 'vuex'
 import SellingDetailsPurchaseSummary from '~/components/profile/vendor-selling/details/PurchaseSummary.vue'
 import SellingOffers from '~/components/profile/vendor-selling/details/Offers.vue'
 import { Button } from '~/components/common'
+import SellingDetails from '~/components/profile/vendor-selling/SellingDetails.vue'
 export default {
   name: 'VendorSellingDetails',
 
@@ -70,13 +80,14 @@ export default {
     SellingDetailsPurchaseSummary,
     SellingOffers,
     Button,
+    SellingDetails
   },
 
   layout: 'Profile',
 
   data() {
     return {
-      details: [],
+      details: {},
       loaded: false,
       listingId: null
     }
@@ -88,6 +99,12 @@ export default {
         return vm.details.offers
       }
     },
+
+    highestOffer: (vm) => {
+      if(vm.details && vm.details.highest_offer) {
+        return vm.details.highest_offer
+      }
+    }
   },
 
   created() {
@@ -127,13 +144,28 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .selling-search-input
-  align-items: center
+  // align-items: center
   background: $color-white-1
   border-radius: 4px
-  display: flex
+  // display: flex
   height: 44px
-  margin: 0
+  // margin: 0
   padding: 10px 14px
 #search-result
   background: $color-white-1
+
+@media (min-width: 576px)
+  .selling-listing
+    display: block
+  .container-fluid-selling
+    padding: 3rem
+  .offer-responsive
+    display: none
+  .container-profile-selling
+    padding: 3rem
+@media (max-width: 576px)
+  .selling-listing
+    display: none
+  .container-profile-selling
+    background: $color-white-1
 </style>

@@ -1,26 +1,65 @@
 <template>
   <b-container fluid>
     <b-row class="h-100">
-      <b-col md="12" lg="12" class="vendor-dashboard-body px-5 py-5">
+      <b-col
+        md="12"
+        lg="12"
+        :class="`vendor-dashboard-body ${
+          !mobileClass ? 'px-5 py-5' : 'pad-responsive'
+        }`"
+      >
         <!-- FILTERS -->
         <!-- Row -->
         <div class="row vd-selling">
           <!-- Heading -->
-          <div class="col-12 mt-md-4 mt-2 vd-selling-heading">
+          <div
+            class="col-12 mt-md-4 mt-2 vd-selling-heading d-flex align-items-center"
+            :class="mobileClass"
+          >
             {{ $t('selling_page.selling_page_heading') }}
           </div>
           <!-- Heading -->
 
           <!-- Search Filter -->
-          <div v-if="userRole" class="col-md-8 col-12 col-sm-6 mt-md-4 vd-selling-search">
+          <div
+            v-if="userRole"
+            class="col-md-8 col-10 col-sm-6 mt-md-4 vd-selling-search"
+          >
             <VendorSellingSearchFilter
+              class="search-filter"
               @search="getProducts"
             />
+            <div class="search-filter-responsive">
+              <SearchInput
+                id="selling-search"
+                :placeholder="$t('navbar.search')"
+                :value="searchFilters.searchKeyword"
+                @change="getProducts"
+              />
+            </div>
           </div>
           <!-- Search Filter -->
 
+          <!-- Filter Image for Responsive -->
+          <div
+            v-show="mobileClass"
+            :class="mobileClass ? 'col-2 filter-icon-col' : ''"
+          >
+            <span class="filter-wrapper" role="button" @click="showFilter">
+              <img
+                class="mobile-filter"
+                :src="require('~/assets/img/icons/filter-icon.svg')"
+                alt="filter-icon"
+              />
+            </span>
+          </div>
+          <!-- Filter Image for Responsive ends -->
+
           <!-- Sort By -->
-          <div v-if="userRole" class="col-12 col-md-4 mt-md-4 col-sm-6 browse-dropdown">
+          <div
+            v-if="userRole"
+            class="col-12 col-md-4 mt-md-4 col-sm-6 browse-dropdown"
+          >
             <VendorSellingSortBy
               :default="purchaseFilter"
               :options="{
@@ -35,10 +74,12 @@
         </div>
 
         <!-- Row -->
-        <div v-if="searchResults.data" class="row">
+        <div v-if="searchResults.data" class="row filter-data">
           <!-- Tabs Filter -->
           <div class="col-md-3 col-sm-12 filter-by mt-md-4 mt-2">
-            <label>{{ $t('selling_page.filter_by') }}</label>
+            <label class="filter-text">{{
+              $t('selling_page.filter_by')
+            }}</label>
             <VendorSellingFilterBy
               :default="filterBy"
               :options="filterByOptions"
@@ -51,7 +92,9 @@
 
           <!-- Start Date -->
           <div class="col-md-2 col-sm-12 start-date mt-md-4 mt-2">
-            <label>{{ $t('selling_page.listed_date') }}</label>
+            <label class="filter-text">{{
+              $t('selling_page.listed_date')
+            }}</label>
             <b-form-datepicker
               id="example-datepicker-start"
               v-model="searchFilters.startDate"
@@ -61,7 +104,6 @@
                 month: 'numeric',
                 day: 'numeric',
               }"
-
             ></b-form-datepicker>
           </div>
           <!-- ./Start Date -->
@@ -79,7 +121,6 @@
                 day: 'numeric',
               }"
               class="mt-2"
-
             ></b-form-datepicker>
           </div>
           <!-- ./End Date -->
@@ -87,7 +128,7 @@
           <!-- Apply Button -->
           <div class="col-md-1 col-sm-12 col-xs-6 mt-md-4 mt-2">
             <br />
-            <Button variant="apply" class="mt-2" @click="loadData">
+            <Button variant="apply text-center" class="mt-2" @click="loadData">
               {{ $t('selling_page.apply') }}
             </Button>
           </div>
@@ -98,7 +139,7 @@
             <br />
             <Button
               variant="delist"
-              class="float-right mt-2"
+              class="float-right mt-2 text-center"
               @click="delistMultiple()"
             >
               {{ $t('selling_page.delist_multiple') }}
@@ -109,7 +150,7 @@
         <!-- ./Row -->
 
         <!-- Row -->
-        <div v-if="searchResults.data" class="row">
+        <div v-if="searchResults.data" class="row filter-data">
           <div class="col-md-10 filter-list mt-md-4 mt-2">
             <template v-if="activeFilters.length">
               <b-badge
@@ -155,12 +196,15 @@
         <!-- ./Row -->
         <!-- FILTERS ENDS HERE -->
 
-        <template v-if="!searchResults.data || !searchResults.data.length">
+        <template
+          v-if="!searchResults.data || !searchResults.data.length"
+          class="result-data"
+        >
           <!-- Empty Content -->
-          <EmptyListing />
+          <EmptyListing class="empty-listing" />
           <!-- ./Empty Content -->
         </template>
-        <template v-else>
+        <template v-else class="result-data">
           <div v-if="!!action" class="p-md-4 p-2">
             <BulkSelectToolbar
               ref="bulkSelectToolbar"
@@ -181,6 +225,7 @@
 
           <!-- DATA -->
           <VendorSellingListItem
+            class="list-item"
             :searchResults="searchResults.data"
             :loading="loading"
             :showCheckBox="showCheckBox"
@@ -193,22 +238,173 @@
             :total="totalCount"
             :per-page="perPage"
             :per-page-options="perPageOptions"
-            class="mt-2"
+            class="mt-2 pagination"
             @page-click="handlePageClick"
             @per-page-change="handlePerPageChange"
           />
         </template>
         <!-- ./DATA  -->
+
+        <!-- ListingData Responsive -->
+        <template
+          v-if="!searchResults.data || !searchResults.data.length"
+          class="result-data-empty"
+        >
+          <!-- Empty Content -->
+          <EmptyListing class="empty-listing-responsive" />
+          <!-- ./Empty Content -->
+        </template>
+        <template v-else>
+          <div class="listing-count py-4">
+            <div class="row">
+              <div class="col listing-heading-col">
+                <span class="float-left">
+                  {{ $t('selling_page.listings') }} &#40;{{
+                    searchData.length
+                  }}&#41;</span
+                >
+                <span class="float-left ml-2" role="button" @click="moreOption">
+                  <img
+                    :src="require('~/assets/img/icons/extra_dot.png')"
+                    alt="more-option"
+                  />
+                </span>
+              </div>
+              <div class="col select-all-col">
+                <span
+                  v-show="showCheckBox"
+                  class="float-right"
+                >
+                  <div class="check-box round position-relative">
+                    <input
+                      id="checkbox-select-all"
+                      v-model="delistCheckbox"
+
+                      type="checkbox"
+                      class="check-box invisible"
+                      @change="handleSelectAllListingItem"
+                    />
+                    <label
+                      for="checkbox-select-all"
+                      class="position-absolute"
+                    ></label>
+                    {{ $t('common.select_all') }}
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <ListItemResult
+            v-for="(result, index) in searchData"
+            :key="index"
+            :result="result"
+            :selected="selected"
+            :delistMultiple="showCheckBox"
+            @select="selectedListItem"
+          />
+
+          <Pagination
+            v-model="page"
+            :total="totalCount"
+            :per-page="perPage"
+            :per-page-options="perPageOptions"
+            class="mt-2 pagination-responsive"
+            @page-click="handlePageClick"
+            @per-page-change="handlePerPageChange"
+          />
+        </template>
+
+        <!-- ListingData Responsive Ends -->
       </b-col>
     </b-row>
 
+    <!-- Mobile Filters -->
+
+    <!-- For more options -->
+    <vue-bottom-sheet
+      ref="myBottomSheet"
+      class="more-options"
+      max-width="auto"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <MoreOptions
+        @delistMultiple="delistMultipleConfirmation"
+        @enterVacationModeConfirmation="enterVacationModeConfirmation"
+        @exitVacationModeConfirmation="exitVacationModeConfirmation"
+        @close="closeMoreOption"
+      />
+    </vue-bottom-sheet>
+    <!-- For more options end -->
+
+    <!-- For mobile filters -->
+    <vue-bottom-sheet
+      ref="filter"
+      class="responsive-filter"
+      max-width="auto"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <MobileFilter @filter="applyFilter" />
+    </vue-bottom-sheet>
+    <!-- For mobile filters end -->
+
+    <!-- For entering vacation mode -->
+    <vue-bottom-sheet
+      id="vacation-mode-enter"
+      ref="enterVacationModeConfirmation"
+      max-width="auto"
+      max-height="47vh"
+      :rounded="true"
+    >
+      <vacation-mode-confirmation
+        :enteringVacationMode="enteringVacationMode"
+        :exitingVacationMode="exitingVacationMode"
+        @onCancel="onVacationModeCancel"
+        @onConfirm="onVacationModeEnterConfirm"
+      />
+    </vue-bottom-sheet>
+    <vue-bottom-sheet
+      id="vacation-mode-exit"
+      ref="exitVacationModeConfirmation"
+      max-width="auto"
+      max-height="40vh"
+      :rounded="true"
+    >
+      <vacation-mode-confirmation
+        :enteringVacationMode="enteringVacationMode"
+        :exitingVacationMode="exitingVacationMode"
+        @onCancel="onVacationModeCancel"
+        @onConfirm="onVacationModeExitConfirm"
+      />
+    </vue-bottom-sheet>
+    <!-- For entering vacation mode ends -->
+
+    <vue-bottom-sheet
+      id="delistConfirmation"
+      ref="delistConfirmation"
+      max-width="100vw"
+      max-height="33vh"
+      :rounded="true"
+    >
+      <ListingConfirmation
+        :action="delist"
+        @onCancel="onDelistCancel"
+        @onConfirm="onDelistConfirm"
+      />
+    </vue-bottom-sheet>
+
+    <!-- Mobile Filters end here -->
+
+    <!-- Modal Popups Start Here -->
     <ConfirmModal
       id="confirm-modal"
       :message="$t('selling_page.bulk_delist')"
       :confirmLabel="$t('selling_page.delist')"
       @confirm="handleBulkDelist()"
     />
-    <!-- TODO -->
+
     <!-- Enable Vacation mode -->
     <SellingModal
       id="enable-vacationMode"
@@ -238,7 +434,16 @@
       @hidden="enabledVacationMode = false"
     />
     <!-- ./Exiting Vacation Mode -->
-    <!-- ./TODO -->
+
+    <AlertModal
+      id="delisted-modal"
+      :message="$t('selling_page.delisted_selected_listing')"
+      icon="trash"
+      hideHeader
+      @hidden="$bvModal.hide('delisted-modal')"
+    />
+
+    <!-- Modal Popups ends here -->
   </b-container>
 </template>
 
@@ -253,8 +458,18 @@ import {
   Button,
   Pagination,
   BulkSelectToolbar,
+  SearchInput,
 } from '~/components/common'
-import { ConfirmModal } from '~/components/modal'
+import { ConfirmModal, AlertModal } from '~/components/modal'
+//
+import screenSize from '~/plugins/mixins/screenSize'
+import ListItemResult from '~/components/profile/vendor-selling/ListItemResult.vue'
+import MoreOptions from '~/components/profile/vendor-selling/MoreOptions.vue'
+import MobileFilter from '~/components/profile/vendor-selling/filters/MobileFilter.vue'
+import VacationModeConfirmation from '~/components/profile/vendor-selling/VacationModeConfirmation.vue'
+import { DELIST } from '~/static/constants'
+import ListingConfirmation from '~/components/profile/vendor-selling/details/ListingConfirmation.vue'
+
 export default {
   name: 'Index',
 
@@ -269,8 +484,15 @@ export default {
     ConfirmModal,
     SellingModal,
     EmptyListing,
+    ListItemResult,
+    MoreOptions,
+    MobileFilter,
+    VacationModeConfirmation,
+    SearchInput,
+    ListingConfirmation,
+    AlertModal
   },
-
+  mixins: [screenSize],
   layout: 'Profile',
   middleware: ['vendor'],
   data() {
@@ -315,8 +537,21 @@ export default {
       showCheckBox: false,
       undoSelected: [],
       enabledVacationMode: false,
-      userRole: this.$auth.user.roles_name.includes('Vendor')
+      userRole: this.$auth.user.roles_name.includes('Vendor'),
+      //
+      selectAll: false,
+      enteringVacationMode: false,
+      exitingVacationMode: false,
+      pageCount: 0,
+      delist: DELIST,
+      delistCheckbox: false
     }
+  },
+
+  computed: {
+    searchData: (vm) => {
+      return vm.searchResults && vm.searchResults.data
+    },
   },
 
   watch: {
@@ -333,6 +568,7 @@ export default {
   mounted() {
     // Load the data
     this.loadData()
+    this.searchFilters.delistMultipleSelected = false
   },
 
   methods: {
@@ -351,6 +587,7 @@ export default {
           this.searchResults = res.data.data
           this.totalCount = parseInt(res.data.data.total)
           this.perPage = parseInt(res.data.data.per_page)
+          this.pageCount = parseInt(res.data.data.last_page)
         })
         .catch((err) => {
           this.$logger.logToServer('Selling Data', err.response)
@@ -504,14 +741,16 @@ export default {
     },
 
     // Undo Delisting
-    undoBulkAction() {
+    undoBulkAction(showPopUp) {
       this.$axios
         .put('/listing-items/relist', {
           id: this.undoSelected,
         })
         .then((res) => {
           this.cancelAction()
-          this.$toasted.success(this.$t(res.data.message))
+          if (!showPopUp === 'hidePopUp') {
+            this.$toasted.success(this.$t(res.data.message))
+          }
           this.$nuxt.refresh()
           this.loadData()
         })
@@ -541,6 +780,16 @@ export default {
       this.$bvModal.hide('exiting-vacationMode')
     },
 
+    handleSelectAllListingItem(){
+      if(this.delistCheckbox){
+        this.handleSelectAll()
+        this.loadData()
+        this.$refs.delistConfirmation.open()
+      } else {
+        this.handleDeselectAll()
+      }
+    },
+
     // Do delisting
     multipleDelist() {
       this.$axios
@@ -558,6 +807,355 @@ export default {
           this.$logger.logToServer('Delisting item:', error.response)
         })
     },
+
+    // Show more options.
+    moreOption() {
+      this.$refs.myBottomSheet.open()
+    },
+
+    // Show the filter
+    showFilter() {
+      this.$refs.filter.open()
+    },
+
+    // On responsive filter apply
+    applyFilter(value) {
+      this.searchFilters.searchFilterBy = value.status
+      this.searchFilters.searchSortBy = value.sortby
+      if (value.date && value.date.start) {
+        this.searchFilters.startDate = this.$options.filters.formatDate(
+          value.date.start,
+          'YYYY-MM-DD'
+        )
+      }
+      if (value.date && value.date.end) {
+        this.searchFilters.endDate = this.$options.filters.formatDate(
+          value.date.end,
+          'YYYY-MM-DD'
+        )
+      }
+
+      this.loadData()
+      this.$refs.filter.close()
+    },
+
+    delistMultipleConfirmation() {
+      this.showCheckBox = !this.showCheckBox
+      this.searchFilters.delistMultipleSelected =
+        !this.searchFilters.delistMultiple
+      this.loadData()
+      this.$refs.myBottomSheet.close()
+    },
+
+    // Entering vacation mode confirmation vue-bottom-sheet
+    enterVacationModeConfirmation() {
+      this.enteringVacationMode = true
+      this.exitingVacationMode = false
+
+      this.$refs.myBottomSheet.close()
+      this.$refs.enterVacationModeConfirmation.open()
+    },
+
+    // On exit vacation mode
+    exitVacationModeConfirmation() {
+      this.enteringVacationMode = false
+      this.exitingVacationMode = true
+
+      this.$refs.myBottomSheet.close()
+      this.$refs.exitVacationModeConfirmation.open()
+    },
+
+    // On vacation mode cancel
+    onVacationModeCancel() {
+      this.$refs.enterVacationModeConfirmation.close()
+    },
+
+    // On vacation mode enter
+    onVacationModeEnterConfirm() {
+      if (this.enteringVacationMode && !this.exitingVacationMode) {
+        this.handleBulkSelect('delist')
+        this.$auth.$storage.setUniversal(`vacationMode-${this.$auth.user.id}`, {
+          userid: this.$auth.user.id,
+          enable: true,
+        })
+        this.action = null
+        this.$nuxt.refresh()
+        this.$refs.enterVacationModeConfirmation.close()
+        this.loadData()
+        return true
+      }
+    },
+
+    // On vacation mode exit
+    onVacationModeExitConfirm() {
+      if (!this.enteringVacationMode && this.exitingVacationMode) {
+        this.handleBulkSelect('relist')
+        this.$auth.$storage.setUniversal(`vacationMode-${this.$auth.user.id}`, {
+          userid: this.$auth.user.id,
+          enable: false,
+        })
+        this.action = null
+        this.$nuxt.refresh()
+        this.$refs.exitVacationModeConfirmation.close()
+        this.loadData()
+
+        return true
+      }
+    },
+
+    // On bulk select
+    handleBulkSelect(value) {
+      for (let i = 1; i <= this.pageCount; i++) {
+        this.page = i
+        this.$axios
+          .get('selling-items', {
+            params: {
+              perPage: this.perPage,
+              searchFilters: this.searchFilters,
+              page: this.page,
+            },
+          })
+          .then((res) => {
+            this.page = 1
+            this.selected.push(...res.data.data.data.map((p) => p.id))
+            if (value === 'delist') {
+              this.multipleDelist()
+              return true
+            }
+            if (value === 'relist') {
+              this.undoBulkAction('hidePopUp')
+              return true
+            }
+          })
+          .catch((err) => {
+            this.$logger.logToServer('Selling Data', err.response)
+          })
+      }
+    },
+
+    // Close More option popup
+    closeMoreOption() {
+      this.$refs.myBottomSheet.close()
+    },
+
+    // On responsive item select
+    selectedListItem(val) {
+      this.selectedItem(val)
+      if(this.selected){
+              this.$refs.delistConfirmation.open()
+      }
+    },
+
+    // On confirm delist select
+    onDelistConfirm() {
+      this.$refs.delistConfirmation.close()
+      this.multipleDelist()
+      this.showCheckBox = false
+      this.delistCheckbox = false
+      this.searchFilters.delistMultipleSelected = false
+      // this.loadData()
+      this.$bvModal.show('delisted-modal')
+    },
+
+    // On cancel delist select
+    onDelistCancel() {
+      this.showCheckBox = false
+      this.searchFilters.delistMultipleSelected = false
+      this.loadData()
+      this.delistCheckbox = false
+      this.$refs.delistConfirmation.close()
+      this.selected = []
+    },
   },
 }
 </script>
+
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+.filter-text
+  font-family: $font-sp-pro
+  font-style: normal
+  @include body-8-normal
+  color: $color-black-1
+.vd-selling-heading
+  font-family: $font-montserrat
+  font-style: normal
+  @include body-16-bold
+  letter-spacing: -0.02em
+.btn-apply
+  background: $color-blue-20
+  border-radius: 5px
+  font-family: $font-sp-pro
+  font-style: normal
+  @include body-8-normal
+  color: $color-white-1
+.vacationMode::v-deep
+  .custom-checkbox,
+  label
+    font-family: $font-sp-pro
+    font-style: normal
+    @include body-8-normal
+    color: $color-black-1
+.start-date::v-deep,
+.end-date::v-deep
+  label
+    font-family: $font-sp-pro
+    font-style: normal
+    @include body-8-normal
+    color: $color-black-1
+.custom-selectbox
+  span
+    font-family: $font-montserrat
+    font-style: normal
+    @include body-5-regular
+    color: $color-gray-5
+.btn-delist
+  font-family: $font-montserrat
+  font-style: normal
+  @include body-5-regular
+  color: $color-black-1
+.browse-dropdown::v-deep
+  .custom-selectbox
+    label
+      display: none
+    span
+      font-family: $font-montserrat
+      font-style: normal
+      @include body-5-regular
+      color: $color-gray-5
+.pad-responsive
+  background-color: $color-white-1
+  padding: 2%
+
+@media (min-width: 577px)
+  .empty-listing-responsive,
+  .pagination-responsive,
+  .listing-count
+    display: none
+  .search-filter-responsive
+    display: none
+  .search-filter,
+  .pagination
+    display: flex
+@media (max-width: 576px)
+  .browse-dropdown,
+  .filter-data,
+  .result-data,
+  .empty-listing,
+  .list-item,
+  .pagination,
+  .search-filter
+    display: none
+  .vd-selling-heading,
+  .empty-listing-responsive,
+  .search-filter-responsive,
+  .listing-count
+    display: block
+
+  .pagination-responsive
+    display: flex
+    justify-content: center
+
+  .search-filter-responsive::v-deep
+    #search-textbox-selling-search
+      background: $color-white-5
+      border-radius: 8px
+      font-family: $font-montserrat
+      font-style: normal
+      @include body-10-regular
+      letter-spacing: 0.06em
+      text-transform: capitalize
+      color: $color-black-1
+    .btn-clear
+      letter-spacing: -0.408px
+      background: rgba(60, 60, 67, 0.6)
+      padding: 1.2%
+      border-radius: 11px
+      display: flex
+      justify-content: center
+      img
+        filter: brightness(0) invert(1)
+        width: 65%
+  .vd-selling-heading
+    &.mobile
+      text-align: center
+      font-family: $font-sp-pro
+      font-style: normal
+      @include body-3-medium
+      border-bottom: 0.5px solid $color-gray-47
+      justify-content: center
+  .vd-selling-search::v-deep
+    margin-top: 10px
+    .browse-search::v-deep
+      height: 44px
+      width: 80%
+      .selling-search-input::v-deep
+        height: 42px
+        background: $color-white-5
+        border-radius: 8px
+  .filter-icon-col
+    text-align: center
+    margin: auto
+    .filter-wrapper
+      .filter-icon
+        width: 40%
+  .listing-count
+    font-family: $font-montserrat
+    font-style: normal
+    @include body-4-medium
+    text-align: center
+    color: $color-black-1
+  .selling-search-input::v-deep
+    height: 42px
+    background: $color-white-5
+    border-radius: 8px
+.more-options::v-deep,
+.responsive-filter::v-deep
+  .bottom-sheet__pan
+    padding-bottom: 0
+    height: 0
+.round
+  & label
+    border: 1px solid $color-gray-60
+    height: 20px
+    left: -5px
+    width: 20px
+    border-radius: 62px
+
+  & label:after
+    border: 2px solid $color-white-1
+    border-top: none
+    border-right: none
+    content: ""
+    height: 6px
+    left: 3px
+    position: absolute
+    top: 5px
+    transform: rotate(-45deg)
+    width: 12px
+
+  & input[type="checkbox"]:checked + label
+    background-color: $color-blue-20
+    border-color: $color-blue-20
+
+  & input[type="checkbox"]:checked + label:after
+    opacity: 1
+.select-all-col
+  font-family: $font-sp-pro
+  font-style: normal
+  @include body-5-normal
+  color: $color-gray-47
+#vacation-mode-enter::v-deep
+  .bottom-sheet__content
+    overflow-y: visible
+    height: 350px
+#vacation-mode-exit::v-deep
+  .bottom-sheet__card
+    height: 39vh
+  .bottom-sheet__content
+    overflow-y: visible
+#delistConfirmation::v-deep
+  .bottom-sheet__content
+    overflow-y: hidden
+</style>
