@@ -2,14 +2,14 @@
   <div class="filter-group">
     <div class="d-flex align-items-center justify-content-between filter-group-main" :class="{ 'collapsed': isCollapsed }" @click="toggleDetails" >
       <span class="filter-group-title">{{ title }}</span>
-      <span class="flex-grow-1 text-right filter-group-values">{{ labelsOfSelected }}</span>
+      <span class="flex-grow-1 text-right text-capitalize filter-group-values">{{ labelsOfSelected }}</span>
       <img src="~/assets/img/icons/arrow-down-black.svg" role="button"/>
     </div>
-    <div v-if="!isCollapsed" class="d-flex filter-group-body">
+    <div v-if="!isCollapsed" class="d-flex flex-wrap justify-content-start filter-group-body">
       <div
         v-for="(option, index) in options"
         :key="`${name}-${index}`"
-        class="btn"
+        class="btn d-flex align-items-center justify-content-center text-capitalize"
         :class="{ 'active': selectedValues.includes(option.value) }"
         @click="toggleSelect(option.value)"
       >
@@ -89,7 +89,6 @@ export default {
       font-family: $font-sp-pro
     &-values
       margin-right: 20px
-      text-transform: capitalize
       font-weight: $normal
       font-size: 16px
       line-height: 19px
@@ -104,8 +103,6 @@ export default {
         img
           transform: rotate(180deg)
     &-body
-      flex-wrap: wrap
-      justify-content: flex-start
       margin: 0 -10px
       padding-bottom: 20px
       .btn
@@ -118,11 +115,7 @@ export default {
         border-radius: 3px
         margin: 8px 10px
         width: calc(33.3% - 20px)
-        text-transform: capitalize
         height: 45px
-        display: flex
-        align-items: center
-        justify-content: center
         &.active
           background: $color-gray-21
           color: $black

@@ -1,7 +1,7 @@
 <template>
   <div class="auction-browser pb-4">
     <auction-banner />
-    <div class="auction-browser-container">
+    <div class="m-auto auction-browser-container">
       <auction-filterbar :searchKeyword="productFilter ? productFilter.name : null" @change="handleFilterChange"/>
       <auction-mobile-filter @change="handleFilterChange"></auction-mobile-filter>
       <div v-if="!isViewAll" :class="{ 'invisible': loading }">
@@ -114,7 +114,6 @@ export default {
     handleFilterChange(filters) {
       this.isViewAll = 'search_results'
       this.filterOptions = filters
-      console.log('filters', filters)
       this.loadAuctions()
     },
     async loadAuctions() {
@@ -255,5 +254,4 @@ export default {
 <style lang="sass" scoped>
   .auction-browser-container
     max-width: 1440px
-    margin: auto
 </style>

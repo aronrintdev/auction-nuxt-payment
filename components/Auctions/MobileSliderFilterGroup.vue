@@ -2,10 +2,10 @@
   <div class="filter-group">
     <div class="d-flex align-items-center justify-content-between filter-group-main" :class="{ 'collapsed': isCollapsed }" @click="toggleDetails" >
       <span class="filter-group-title">{{ title }}</span>
-      <span v-if="labelVisible" class="flex-grow-1 text-right filter-group-values">{{ labelsOfSelected }}</span>
+      <span v-if="labelVisible" class="flex-grow-1 text-right text-capitalize filter-group-values">{{ labelsOfSelected }}</span>
       <img src="~/assets/img/icons/arrow-down-black.svg" role="button"/>
     </div>
-    <div v-if="!isCollapsed" class="d-flex filter-group-body">
+    <div v-if="!isCollapsed" class="d-flex flex-wrap justify-content-start filter-group-body">
       <vue-slider
         :key="`vue-slider-${name}`"
         :value="values"
@@ -95,7 +95,6 @@ export default {
       font-family: $font-sp-pro
     &-values
       margin-right: 20px
-      text-transform: capitalize
       font-weight: $normal
       font-size: 16px
       line-height: 19px
@@ -110,8 +109,6 @@ export default {
         img
           transform: rotate(180deg)
     &-body
-      flex-wrap: wrap
-      justify-content: flex-start
       margin: 0 -10px
       padding-bottom: 20px
 

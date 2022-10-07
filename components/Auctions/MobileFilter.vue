@@ -11,7 +11,7 @@
         <div
           v-for="prod in searchedProducts"
           :key="`${prod.sku}-${prod.category.name}`"
-          class="product d-flex align-items-center"
+          class="text-left text-capitalize product d-flex align-items-center"
           @click="selectProduct(prod)"
         >
           <div class="position-relative d-inline-flex">
@@ -33,13 +33,13 @@
       <NavGroup :value="selectedFilters.type" :data="auctionTypes" @change="auctionTypeChanged"/>
     </div>
     <vue-bottom-sheet ref="auctionFiltersSheet">
-      <div class="d-flex flex-column filters-sheet">
+      <div class="d-flex flex-column h-100 filters-sheet">
         <div class="filters-sheet-title text-center">{{ $t('auctions.frontpage.filterbar.filter_by') }}</div>
-        <div class="filters-sheet-content">
+        <div class="flex-shrink-1 overflow-auto filters-sheet-content">
           <!-- Sort -->
           <div class="filter-group">
             <div class="filter-group-title mb-3">{{ $t('auctions.frontpage.filterbar.sort') }}</div>
-            <div class="filter-group-body">
+            <div class="flex-wrap justify-content-between filter-group-body">
               <label v-for="(option, idx) in SORT_OPTIONS" :key="idx" class="d-flex align-items-center">
                 <input v-model="selectedFilters.sortby" :value="option.value" type="radio" name="sortby"/>
                 <span class="ml-2">{{ option.label }}</span>
@@ -280,7 +280,6 @@ export default {
           ...this.selectedFilters,
           product: null,
         }
-        // this.emitChange()
       }
     },
     enableSearch() {
@@ -293,7 +292,6 @@ export default {
         ...this.selectedFilters,
         product: product.sku,
       }
-      // this.emitChange()
     },
     auctionTypeChanged(type) {
       if (this.selectedFilters.type !== type) {
@@ -348,7 +346,6 @@ export default {
   @import '~/assets/css/_variables'
   
   .filters-sheet
-    height: 100%
     label
       font-family: $font-sp-pro
       font-weight: $normal
@@ -369,8 +366,6 @@ export default {
       padding-bottom: 18px
     &-content
       padding: 20px 25px 0
-      flex-shrink: 1
-      overflow: auto
     &-footer
       background: $white
       padding: 26px 25px
@@ -399,8 +394,6 @@ export default {
     &-main
       padding: 20px 0
     &-body
-      flex-wrap: wrap
-      justify-content: space-between
       padding-bottom: 20px
   .auction-mobile-filter
     &-bg
@@ -424,11 +417,9 @@ export default {
       height: 100vh
       overflow: auto
       .product
-        text-align: left
         font-size: 13px
         line-height: 16px
         letter-spacing: -0.02em
-        text-transform: capitalize
         color: $color-black-15
         border: 0.2px solid $color-gray-23
         font-weight: $normal

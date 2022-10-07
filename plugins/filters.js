@@ -80,7 +80,6 @@ Vue.filter('remainingTime', (value, type) => {
   const endingTimestamp = new Date(createdAt).valueOf() + 86400000 * timeLimit
   const currentTimestamp = new Date().valueOf()
   let diffInSeconds = (endingTimestamp - currentTimestamp) / 1000
-  console.log('----- diffinseconds', value.name, diffInSeconds)
   if (diffInSeconds < 0) {
     return EXPIRED_STATUS
   }

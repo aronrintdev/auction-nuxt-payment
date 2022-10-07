@@ -2,17 +2,17 @@
   <div
     v-if="options && options.length"
     v-click-outside="hideMenu"
-    class="position-relative accordion-filter-item"
+    class="position-relative border-0 accordion-filter-item"
     :class="{ 'collapsed': !menuVisible }"
     :style="{ width: `${width}px` }"
   >
-    <div class="d-flex align-center justify-between accordion-filter-header">
-      <div role="button" class="accordion-filter-button" @click="menuVisible = !menuVisible">
+    <div class="d-flex align-center justify-between m-0 accordion-filter-header">
+      <div role="button" class="position-relative d-flex align-items-center p-0 w-100 border-0 background-transparent accordion-filter-button" @click="menuVisible = !menuVisible">
         {{ title }}
       </div>
     </div>
 
-    <div v-show="menuVisible" class="accordion-filter-body">
+    <div v-show="menuVisible" class="position-absolute m-0 w-100 accordion-filter-body">
       <div class="mr-2">
         <div v-for="(item, index) in options" :key="index" class="form-check">
           <input
@@ -100,8 +100,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .accordion-filter-item
-  border: none
-  background: #F7F7F7
+  background: $color-white-5
   border-radius: 8px
   padding: 12px 14px 12px 20px
   width: max-content
@@ -114,23 +113,12 @@ export default {
       &::after
         transform: rotate(-180deg)
 
-
-  .accordion-filter-header
-    margin: 0
-
   .accordion-filter-button
     @include body-4-normal
     font-family: $font-sp-pro
-    position: relative
-    display: flex
-    align-items: center
-    width: 100%
-    padding: 0
     color: $color-black-1
     overflow-anchor: none
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease
-    background: none
-    border: none
 
     @media (prefers-reduced-motion: reduce)
       transition: none
@@ -168,9 +156,7 @@ export default {
     z-index: 1000
     left: 0
     top: 100%
-    margin: 0
-    width: 100%
-    background: #F7F7F7
+    background: $color-white-5
     border-bottom-left-radius: 8px
     border-bottom-right-radius: 8px
     padding-bottom: 10px
