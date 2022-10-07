@@ -8,9 +8,9 @@ export default {
       // single user subscriptions
       window.Echo.private(`notifications.single.${this.$auth.user.id}`).listen('NotificationAdded', (not) => {
         this.toastNotification(not[0])
-      }).
-          // global notification subscriptions
-          window.Echo.channel('notifications.global').listen('NotificationAdded', (not) => {
+      })
+      // global notification subscriptions
+      window.Echo.channel('notifications.global').listen('NotificationAdded', (not) => {
         this.toastNotification(not[0])
       })
       // Role Based subscriptions
