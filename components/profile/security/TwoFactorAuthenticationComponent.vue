@@ -1,22 +1,28 @@
 <template>
   <div>
-    <div id="two-factor-auth-component-title">{{ $t('home.2fa') }}</div>
-    <p class="mt-2">{{ $t('features.2fa_security.add_additional_security') }}</p>
-    <div>
-      <toggle-switch :value="enable2fa" :label-on="$t('features.2fa_security.2fa_enabled').toString()"
-                     :label-off="$t('features.2fa_security.2fa_disabled').toString()"
-                     @change="change"/>
-    </div>
-    <div class="mt-5">
-      <p v-html="$t('features.2fa_security.as_part_of_our_mission')"></p>
-    </div>
-    <div class="text-right">
-      <b-button type="submit" class="btn-recovery-codes">{{ $t('features.2fa_security.recovery_codes') }}</b-button>
+    <div class="two-fa-component">
+      <div id="two-factor-auth-component-title">{{ $t('home.2fa') }}</div>
+      <p class="mt-2 gray">{{ $t('features.2fa_security.add_additional_security') }}</p>
+      <div>
+        <toggle-switch :value="enable2fa" :label-on="$t('features.2fa_security.2fa_enabled').toString()"
+                       :label-off="$t('features.2fa_security.2fa_disabled').toString()"
+                       @change="change"/>
+      </div>
+      <div>
+
+      </div>
+      <div class="mt-5">
+        <p v-html="$t('features.2fa_security.as_part_of_our_mission')"></p>
+      </div>
+      <div class="text-right">
+        <b-button type="submit" class="btn-recovery-codes">{{ $t('features.2fa_security.recovery_codes') }}</b-button>
+      </div>
     </div>
 
     <NuxtLink to="/faqs/security">
       <div class="btn-faq-wrapper">
-        <span>{{ $t('features.2fa_security.2fa_faq') }}</span>
+        <span class="d-none d-md-block">{{ $t('features.2fa_security.2fa_faq_full') }}</span>
+        <span class="d-block d-md-none">{{ $t('features.2fa_security.2fa_faq_small') }}</span>
       </div>
     </NuxtLink>
   </div>
@@ -59,15 +65,11 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-@import '~/assets/css/_typography'
 
 #two-factor-auth-component-title
   font-family: $font-family-montserrat
-  font-style: normal
-  font-weight: $medium
-  font-size: 30px
-  line-height: 37px
-  color: $color-blue-2
+  @include body-16-medium
+  color: $color-blue-20
 
 .btn-recovery-codes
   background: $color-blue-2
@@ -99,5 +101,27 @@ export default {
     font-size: 20px
     line-height: 24px
     color: $color-blue-20
+
+@media (max-width: 767px)
+  .two-fa-component
+    font-family: $font-family-sf-pro-display
+    padding: 20px
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+    border-radius: 10px
+    @include body-10-regular
+
+  #two-factor-auth-component-title
+    font-family: $font-family-sf-pro-display
+    @include body-13-medium
+
+  .btn-faq-wrapper
+    span
+      @include body-5-medium
+
+  .gray
+    color: $color-gray-5
+
+  ::v-deep .checkbox-switch span
+    @include body-10-bold
 
 </style>
