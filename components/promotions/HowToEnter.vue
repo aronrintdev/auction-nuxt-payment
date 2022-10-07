@@ -3,7 +3,9 @@
        class=" d-flex align-items-center justify-content-center shop-now">
     <div :class="mobileClass" class="body-1-bold mx-3 header-text">{{ $t('promotions.how_to_enter') }}</div>
     <slot name="description">
-      <div :class="mobileClass" class="body-3-regular mx-3 subtitle-text">{{
+      <div :class="{
+        'mobile text-center': isScreenXS
+      }" class="body-3-regular mx-3 subtitle-text">{{
           $t('promotions.how_to_enter_content')
         }}
       </div>
@@ -46,7 +48,6 @@ export default {
 .subtitle-text
   &.mobile
     margin-top: 23px
-    text-align: center
     width: 100%
     @include body-10
     font-family: $font-montserrat
