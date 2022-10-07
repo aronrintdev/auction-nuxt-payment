@@ -152,7 +152,7 @@
       </div>
       <div class="mt-2">
         <b-btn class="create-trade-next-btn" :disabled="getTradeItems.length < 1"
-               @click="$router.push('/profile/create-listing/trades/wants')">
+               @click="$router.push('/profile/create-listing/trades/wants/wants-mobile')">
           {{ $t('create_listing.trade.offer_items.next') }}
         </b-btn>
       </div>
