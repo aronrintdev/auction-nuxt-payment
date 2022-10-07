@@ -14,7 +14,7 @@ export default function ({app, $auth}) {
         disableStats: true,
         auth: {
             headers: {
-                Authorization: 'Bearer ' + $auth.strategy.token.get(),
+                Authorization: $auth.strategy.token.get(),
             },
         },
     });

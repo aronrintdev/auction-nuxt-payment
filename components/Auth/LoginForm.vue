@@ -83,8 +83,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {mapActions, mapGetters} from 'vuex'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import Button from '~/components/common/Button'
 import { NO_CONTENT } from '~/static/constants'
 
@@ -103,6 +103,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      isVendor: 'auth/isVendor',
+    }),
     passwordFieldType(vm) {
       return vm.isPasswordShown ? 'text' : 'password'
     },
@@ -134,7 +137,15 @@ export default {
             this.$store.dispatch('notifications/getNotifications')
             this.$store.dispatch('notifications/getUnreadCount')
             this.$toasted.success(this.$t('login.success_message.login_successfull').toString())
-            this.$router.push('/?lang=' + this.getLang.locale)
+            if (this.isVendor) {
+              this.$router.push({
+                path: '/profile/vendor-dashboard'
+              })
+            } else {
+              this.$router.push({
+                path: '/profile/buyer-dashboard'
+              })
+            }
           }
         })
         .catch((error) => {
