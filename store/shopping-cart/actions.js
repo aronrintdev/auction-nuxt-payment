@@ -13,8 +13,6 @@ export function addProduct({ commit, state }, product) {
 
   if (!found) {
     commit('addProduct', product)
-  } else {
-    commit('incrementQuantity', found)
   }
 }
 
