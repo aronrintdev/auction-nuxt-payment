@@ -1011,6 +1011,7 @@
           "filter_btn": "Filter",
           "drag_drop": "Select or Drag Drop Inventory",
           "drag_drop_mobile": "Select Inventory",
+          "drag_drop_want_mobile": "Select upto 3 wants",
           "search_at": "or search at the top",
           "next": "Next",
           "offer_items_limit": "Offer items/quantity should not exceed 3"
@@ -2612,6 +2613,7 @@
         "filter_btn": "Filter",
         "drag_drop": "Select or Drag Drop Inventory",
         "drag_drop_mobile": "Select Inventory",
+        "drag_drop_want_mobile": "Select upto 3 wants",
         "search_at": "or search at the top",
         "next": "Next",
         "offer_items_limit": "Offer items/quantity should not exceed 3"
