@@ -150,6 +150,12 @@
           <FormStepProgressBar :steps="steps" variant="transparent"/>
         </div>
       </div>
+      <div class="mt-2">
+        <b-btn class="create-trade-next-btn" :disabled="getTradeItems.length < 1"
+               @click="$router.push('/profile/create-listing/trades/wants')">
+          {{ $t('create_listing.trade.offer_items.next') }}
+        </b-btn>
+      </div>
     </div>
 
 
@@ -763,5 +769,14 @@ export default {
   font-weight: 600
   font-family: Montserrat
   padding: 50px
-
+.create-trade-next-btn
+  background-color: #667799
+  border-radius: 20px
+  float: right
+  margin-bottom: 7px
+  cursor: pointer
+  width: 162px
+  font-family: Montserrat
+  font-weight: 600
+  font-size: 13px
 </style>
