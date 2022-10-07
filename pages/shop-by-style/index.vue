@@ -1,5 +1,5 @@
 <template>
-  <div class="container-shop-by-style mx-auto vh-100">
+  <div class="container-shop-by-style mx-auto h-auto">
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="title">{{ $t('shop_by_style.title') }}</h2>
       <Button
@@ -178,10 +178,8 @@ export default {
 @media (max-width: 768px)
   .container-shop-by-style
     .btn-filters
-      position: relative
-      margin-top: 20px
-      width: 200px
-      max-width: 100%
+      margin-top: 10px
+      position: relative !important
 
 @media (max-width: 576px)
   .container-shop-by-style

@@ -1900,6 +1900,7 @@
     "sizes": "Sizes",
     "year": "Year",
     "size_types": "Size Types",
+    "shoe_types": "Shoe Types",
     "year_items": {
       "start": "Start",
       "end": "End",
@@ -4019,6 +4020,10 @@
       "body": "Two-step authentication is available on the Deadstock app free of cost to its users."
     }
   },
+  "faqs": {
+    "faq": "FAQ",
+    "back": "Back"
+  },
   "trades": {
     "index": {
       "tabbar": {
@@ -4833,7 +4838,7 @@
     "orders": "Orders",
     "best_seller": "Best Seller",
     "overview": "Overview",
-    "your_top_movers": "YOUR TOP MOVERS",
+    "your_top_movers": "Your Top Movers",
     "this_month": "This month",
     "filter_by": "Filter By",
     "action": "Action",
@@ -4880,6 +4885,15 @@
     "more_from_order_id": "More From Order ID",
     "back": "Back",
     "and": "and",
+    "recent_to_oldest": "Recent to Oldest",
+    "oldest_to_recent": "Oldest to Recent",
+    "a_to_z": "A → Z",
+    "z_to_a": "Z → A",
+    "lowest_to_highest": "Lowest to Highest",
+    "product_name": "Product Name",
+    "sort": "Sort",
+    "apply_filter": "Apply Filter",
+    "reset": "Reset",
     "order_types": {
       "buy": "Buy",
       "trade": "Trade",
