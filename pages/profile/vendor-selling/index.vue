@@ -13,7 +13,13 @@
         <div class="row vd-selling">
           <!-- Heading -->
           <div
-            class="col-12 mt-md-4 mt-2 vd-selling-heading d-flex align-items-center"
+            class="
+              col-12
+              mt-md-4 mt-2
+              vd-selling-heading
+              d-flex
+              align-items-center
+            "
             :class="mobileClass"
           >
             {{ $t('selling_page.selling_page_heading') }}
@@ -271,15 +277,11 @@
                 </span>
               </div>
               <div class="col select-all-col">
-                <span
-                  v-show="showCheckBox"
-                  class="float-right"
-                >
+                <span v-show="showCheckBox" class="float-right">
                   <div class="check-box round position-relative">
                     <input
                       id="checkbox-select-all"
                       v-model="delistCheckbox"
-
                       type="checkbox"
                       class="check-box invisible"
                       @change="handleSelectAllListingItem"
@@ -467,7 +469,7 @@ import ListItemResult from '~/components/profile/vendor-selling/ListItemResult.v
 import MoreOptions from '~/components/profile/vendor-selling/MoreOptions.vue'
 import MobileFilter from '~/components/profile/vendor-selling/filters/MobileFilter.vue'
 import VacationModeConfirmation from '~/components/profile/vendor-selling/VacationModeConfirmation.vue'
-import { DELIST } from '~/static/constants'
+import { DELIST, RELIST } from '~/static/constants'
 import ListingConfirmation from '~/components/profile/vendor-selling/details/ListingConfirmation.vue'
 
 export default {
@@ -490,7 +492,7 @@ export default {
     VacationModeConfirmation,
     SearchInput,
     ListingConfirmation,
-    AlertModal
+    AlertModal,
   },
   mixins: [screenSize],
   layout: 'Profile',
@@ -544,7 +546,8 @@ export default {
       exitingVacationMode: false,
       pageCount: 0,
       delist: DELIST,
-      delistCheckbox: false
+      delistCheckbox: false,
+      relist: RELIST,
     }
   },
 
@@ -669,7 +672,7 @@ export default {
         this.selected = []
         this.showCheckBox = false
       } else {
-        this.action = 'delist'
+        this.action = this.delist
         this.showCheckBox = true
       }
       this.searchFilters.delistMultipleSelected =
@@ -780,8 +783,8 @@ export default {
       this.$bvModal.hide('exiting-vacationMode')
     },
 
-    handleSelectAllListingItem(){
-      if(this.delistCheckbox){
+    handleSelectAllListingItem() {
+      if (this.delistCheckbox) {
         this.handleSelectAll()
         this.loadData()
         this.$refs.delistConfirmation.open()
@@ -889,7 +892,7 @@ export default {
     // On vacation mode exit
     onVacationModeExitConfirm() {
       if (!this.enteringVacationMode && this.exitingVacationMode) {
-        this.handleBulkSelect('relist')
+        this.handleBulkSelect(this.relist)
         this.$auth.$storage.setUniversal(`vacationMode-${this.$auth.user.id}`, {
           userid: this.$auth.user.id,
           enable: false,
@@ -918,11 +921,11 @@ export default {
           .then((res) => {
             this.page = 1
             this.selected.push(...res.data.data.data.map((p) => p.id))
-            if (value === 'delist') {
+            if (value === this.delist) {
               this.multipleDelist()
               return true
             }
-            if (value === 'relist') {
+            if (value === this.relist) {
               this.undoBulkAction('hidePopUp')
               return true
             }
@@ -941,8 +944,8 @@ export default {
     // On responsive item select
     selectedListItem(val) {
       this.selectedItem(val)
-      if(this.selected){
-              this.$refs.delistConfirmation.open()
+      if (this.selected) {
+        this.$refs.delistConfirmation.open()
       }
     },
 
@@ -953,7 +956,6 @@ export default {
       this.showCheckBox = false
       this.delistCheckbox = false
       this.searchFilters.delistMultipleSelected = false
-      // this.loadData()
       this.$bvModal.show('delisted-modal')
     },
 

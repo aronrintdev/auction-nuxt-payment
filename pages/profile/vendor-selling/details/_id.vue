@@ -144,12 +144,9 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .selling-search-input
-  // align-items: center
   background: $color-white-1
   border-radius: 4px
-  // display: flex
   height: 44px
-  // margin: 0
   padding: 10px 14px
 #search-result
   background: $color-white-1

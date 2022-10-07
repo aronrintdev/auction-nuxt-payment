@@ -165,7 +165,6 @@ export default {
     justify-content: space-evenly
     scroll-behavior: smooth
     margin: 20px 0 0 0
-    // padding: 0
   ::-webkit-scrollbar
     width: 6px !important
   ::-webkit-scrollbar-thumb
@@ -185,7 +184,6 @@ export default {
   font-style: normal
   @include body-5-normal
   color: $color-gray-28
-  // justify-content: center
 .denomination
   &.active
     background: $color-gray-21
