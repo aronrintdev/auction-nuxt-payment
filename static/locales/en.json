@@ -35,6 +35,8 @@
     "search": "Search",
     "scan": "Scan",
     "save": "Save",
+    "save_changes": "Save Changes",
+    "discard_changes": "Discard Changes",
     "list": "List",
     "footwear": "Footwear",
     "apparel": "Apparel",
@@ -1887,6 +1889,7 @@
     "sizes": "Sizes",
     "year": "Year",
     "size_types": "Size Types",
+    "shoe_types": "Shoe Types",
     "year_items": {
       "start": "Start",
       "end": "End",
@@ -3998,6 +4001,10 @@
       "body": "Two-step authentication is available on the Deadstock app free of cost to its users."
     }
   },
+  "faqs": {
+    "faq": "FAQ",
+    "back": "Back"
+  },
   "trades": {
     "index": {
       "tabbar": {
@@ -4812,7 +4819,7 @@
     "orders": "Orders",
     "best_seller": "Best Seller",
     "overview": "Overview",
-    "your_top_movers": "YOUR TOP MOVERS",
+    "your_top_movers": "Your Top Movers",
     "this_month": "This month",
     "filter_by": "Filter By",
     "action": "Action",
@@ -4859,6 +4866,15 @@
     "more_from_order_id": "More From Order ID",
     "back": "Back",
     "and": "and",
+    "recent_to_oldest": "Recent to Oldest",
+    "oldest_to_recent": "Oldest to Recent",
+    "a_to_z": "A → Z",
+    "z_to_a": "Z → A",
+    "lowest_to_highest": "Lowest to Highest",
+    "product_name": "Product Name",
+    "sort": "Sort",
+    "apply_filter": "Apply Filter",
+    "reset": "Reset",
     "order_types": {
       "buy": "Buy",
       "trade": "Trade",
@@ -5009,14 +5025,30 @@
   "notifications": {
     "title": "Notifications",
     "title_settings": "Settings",
+    "notification_settings": "Notifications Settings",
+    "push_notifications": "Push Notifications",
+    "notification_preferences": "Notification Preferences",
+    "how_often": "How often do you want to receive notifications? ",
+    "enter_custom_amount": "Enter amount of offers",
     "type": "Type",
+    "filter_by": "Filter By",
+    "status": "Status",
+    "reset": "Reset",
+    "apply_filters": "Apply Filters",
     "this_week": "This Week",
     "new": "New",
+    "at": "at",
+    "all": "All",
     "date_range": "Date Range",
     "mark_all_read": "Mark All as Read",
     "mark_as_read": "Mark as Read",
+    "mark_as_unread": "Mark as Unread",
     "view_all": "View All Notifications",
     "search": "Search",
+    "push": {
+      "title": "Mute Push Notifications",
+      "desc": "Deadstock may still send you urgent notifications that need attention."
+    },
     "filters": {
       "all": "All",
       "unread": "Unread",
@@ -5030,13 +5062,110 @@
       "go_to_trade": " Go to Trade Page"
     },
     "types": {
-      "all": "All",
       "buying": "Buying",
       "selling": "Selling",
-      "comms": "Deadstock Comms"
+      "communication": "Deadstock Comms"
     },
     "start": "Start",
-    "end": "End"
+    "end": "End",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "settings_titles": {
+      "all": "All Communications",
+      "buying": {
+        "shop": "Buying",
+        "trade": "Trade (Offerer)",
+        "auction": "Auction (Bidder)"
+      },
+      "selling": {
+        "shop": "Sell",
+        "trade": "Trade (Lister)",
+        "auction": "Auction (Auctioneer)"
+      }
+    },
+    "settings": {
+      "texts": {
+        "buying_new_offer": {
+          "until_desc": "Will not be notified until {n} % of fair trade meter is met",
+          "until_title": "Percentage Trade Offer Value"
+        },
+        "selling_trade_offer": {
+          "until_desc": "Will not be sent a notification unless {n} % of your Offer has been reached.",
+          "until_title": "Percentage Reserve"
+        },
+        "selling_new_bids": {
+          "until_desc": "Will not be sent a notification unless {n} % of your Reserve Price has been reached.",
+          "until_title": "Percentage Reserve"
+        },
+        "selling_new_offer": {
+          "until_desc": "Will not be sent a notifications until {n} % of your asking price is reached",
+          "until_title": "Percentage Asking Price"
+        }
+      },
+      "all_communication": "All Communications",
+      "shop": "Buy",
+      "trade": "Trade",
+      "auction": "Auction",
+      "notification_preferences": "Notification Preferences",
+      "in_app": "In - App",
+      "email": "Email",
+      "text": "Text",
+      "channels": {
+        "app": "In - App",
+        "email": "Email",
+        "text": "Text"
+      },
+      "all_statuses": "All Statuses",
+      "no_statuses": "No Statuses",
+      "notify_when": "Notify When",
+      "notify_every": "Notify Every",
+      "bid": "Bid",
+      "custom": "Custom",
+      "custom_value": "Value",
+      "hour_before": "Hour Before",
+      "tabs": {
+        "buying": "Purchasing",
+        "selling": "Selling"
+      },
+      "order_statuses": {
+        "pending": "Pending",
+        "processing": "Processing Payment",
+        "send_to_ds": "Sent to Deadstock",
+        "arrived_to_ds": "Received at Deadstock",
+        "authenticated_and_shipped": "Authenticated and Shipped",
+        "delivered": "Delivered",
+        "cancelled": "Cancelled"
+      },
+      "wishlist_statuses": {
+        "in_stock": "In Stock",
+        "out_of_stock": "Out of Stock",
+        "price_change": "Price Change"
+      },
+      "hour_statuses": {
+        "1": "1 Hour Before",
+        "24": "24 Hours Before",
+        "168": "7 Days",
+        "null": "{n} Days"
+      },
+      "bid_statuses": {
+        "1": "1 Bid",
+        "2": "2 Bids",
+        "3": "3 Bids",
+        "null": "{n} Bids"
+      },
+      "offer_statuses": {
+        "1": "1 Offer",
+        "2": "2 Offers",
+        "3": "3 Offers",
+        "null": "{n} Offers"
+      },
+      "trade_offer_statuses": {
+        "1": "1 Trade Offer",
+        "2": "2 Trade Offers",
+        "3": "3 Trade Offers",
+        "null": "{n} Trade Offers"
+      }
+    }
   },
   "place_offer": {
     "offer_accepted_text": "*If this offer is accepted, the charges on your card will be automatically be placed",

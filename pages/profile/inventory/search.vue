@@ -5,7 +5,7 @@
       {{ $t('common.back') }}
     </Button>
 
-    <div class="d-flex justify-content-between align-items-center mt-3">
+    <div class="d-flex justify-content-between align-items-center mt-3 content-header">
       <h2 class="title">{{ $t('common.search') }}</h2>
 
       <Button
@@ -231,6 +231,10 @@ export default {
 .container-profile-inventory-search
   padding: 47px 54px
   background-color: $color-white-5
+
+  .content-header
+    border-bottom: 1px solid $color-gray-4
+    padding: 0px
 
   h2.title
     @include heading-3

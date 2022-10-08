@@ -344,4 +344,15 @@ export default {
     .close-btn
       right: 0
       top: 0
+
+@media (max-width: 768px)
+  .container
+    .all-sizes
+      .item
+        width: 25%
+@media (max-width: 450px)
+  .container
+    .all-sizes
+      .item
+        width: 50%
 </style>
