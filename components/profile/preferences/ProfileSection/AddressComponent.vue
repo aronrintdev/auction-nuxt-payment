@@ -104,7 +104,7 @@
             <!-- Apt-suite-unit-building(Optionals) -->
             <b-col md="3">
               <ValidationProvider
-                rules="required|alphaNum"
+                rules="alphaNum"
                 :name="$t('preferences.profile.apt_suite_unit_building')"
               >
                 <b-form-group
