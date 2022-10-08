@@ -7,11 +7,11 @@
         variant="link"
         class="btn-draft"
         underlinedText
-        >{{ $t('shop_by_style.archive') }} {{ styleCount }}</Button
+        >{{ $t('shop_by_style.archive') }} ({{ styleCount }})</Button
       >
     </div>
 
-    <div class="text-center mt-1 position-relative pt-2">
+    <div class="text-center mt-1 position-relative pt-2 d-flex offset-sm-4">
       <NavGroup
         v-model="type"
         :data="typeOptions"
@@ -30,7 +30,7 @@
       </Button>
     </div>
 
-    <b-collapse id="collapse-filters">
+    <b-collapse v-if="filters" id="collapse-filters">
       <ShopByStyleFilter
         class="mt-3"
         @close="closeFilter()"
@@ -87,18 +87,23 @@ export default {
       type: TYPE,
       typeOptions: [
         {
-          label: this.$tc('common.look', 2),
+          label: this.$tc('common.all', 2),
           value: TYPE,
         },
         {
-          label: this.$tc('common.outfit_grid', 2),
+          label: this.$tc('common.trending', 2),
           value: 'grid',
         },
+        {
+          label: this.$tc('common.best_seller', 2),
+          value: 'best_seller'
+        }
       ],
       page: 1,
       perPage: null,
       styles: null,
       styleCount: 0,
+      filters: false
     }
   },
 
@@ -118,6 +123,9 @@ export default {
         })
         .then((res) => {
           this.styles = res.data.data
+          if(this.styles.length) {
+            this.filters = true
+          }
         })
         .catch((error) => {
           this.$toasted.error(error)
@@ -163,6 +171,8 @@ export default {
 
   .btn-filters
     right: 0
+    width: 100px
+    margin-top: -5px
 
   .row
     margin-left: -27px
