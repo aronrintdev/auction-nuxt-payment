@@ -538,6 +538,7 @@ export default {
         quantity: 1,
         inventory_stock: this.currentListingItem?.inventory_stock,
         price: this.currentListingItem?.inventory?.sale_price,
+        instantShipPrice: this.currentListingItem?.inventory?.instant_ship_price,
         image: `${this.API_PROD_URL}/${this.category}/${this.sku}/image`,
         listing_item_id: this.currentListingItem?.id,
       }
@@ -654,7 +655,7 @@ export default {
           this.$store.dispatch('sell-now/selectedItem', res.data.data).then(() => {
             this.moveToSellNow()
           })
-          
+
           return true
         })
         .catch((err) => {
