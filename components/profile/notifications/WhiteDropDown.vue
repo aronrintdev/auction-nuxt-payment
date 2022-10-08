@@ -2,7 +2,9 @@
   <b-dropdown
       :id="id"
       class="multi-select-dropdown"
-      menu-class="w-100"
+      :class="dropdownClass"
+      :menu-class="`${dropdownClass} ${menuClass} w-100`"
+      :toggle-class="`${dropdownClass} ${toggleClass}`"
       @hidden="shown = false"
       @shown="shown = true"
   >
@@ -31,6 +33,18 @@ export default {
     id: {
       type: String,
       required: true
+    },
+    dropdownClass: {
+      type: String,
+      default: ''
+    },
+    toggleClass: {
+      type: String,
+      default: ''
+    },
+    menuClass: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -51,6 +65,11 @@ export default {
     margin-top: -0.5px
     border-radius: 0 0 8px 8px
 
+    &.outlined
+      border: 1px solid $color-gray-3
+      border-radius: 0 0 20px 20px
+      border-top: none
+
   button
     border-radius: 8px
     height: 44px
@@ -61,7 +80,14 @@ export default {
     color: $color-black-1
     background-color: $color-white-1
     border: none
-    min-width: 230px
+    min-width: 240px
+
+    &.h-32
+      height: 40px
+
+    &.outlined
+      border: 1px solid $color-gray-3
+      border-radius: 20px
 
     &:after
       display: none
@@ -70,10 +96,23 @@ export default {
       background-color: $color-white-1
       border: none
       color: $color-black-1
+
+      &.outlined
+        border: 1px solid $color-gray-3
+        border-radius: 20px
+
+    &.outlined[aria-expanded="true"]
+      border-bottom: none
       border-bottom-right-radius: 0
       border-bottom-left-radius: 0
 
-  .reverse
-    transform: rotate(180deg)
+    &.dropdown-toggle[aria-expanded="true"]
+      border-bottom: none
+      border-bottom-right-radius: 0
+      border-bottom-left-radius: 0
+
+.reverse
+  transform: rotate(180deg)
+
 
 </style>
