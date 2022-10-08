@@ -195,6 +195,7 @@ export default {
       paymentToken: 'order-details/getPaymentToken',
       shippingFee: 'order-settings/getShippingFee',
       processingFee: 'order-settings/getProcessingFee',
+      tradingFee: 'order-settings/getTradingFee',
       taxRate: 'tax-rate/getTaxRate',
     }),
     shoppingCart: (vm) => {
@@ -287,8 +288,7 @@ export default {
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTradeFee: (vm) => {
-      // TODO
-      return Math.trunc(0.1 * vm.getItemsPrice)
+      return vm.tradingFee
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTotal: (vm) => {

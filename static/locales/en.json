@@ -4395,6 +4395,7 @@
     "draft": "Draft",
     "expired": "Expired",
     "de-listed": "Delisted",
+    "delisted": "Delisted",
     "trade_dashboard": "Trade Dashboard",
     "my_trade_listing": "My Trade Listing ({0})",
     "create_a_new_listing": "Create a new listing",
@@ -4550,7 +4551,9 @@
       "deleted": "Deleted",
       "accepted": "Accepted"
     },
-    "trades_deleted_successfully": "Trades Deleted Successfully"
+    "trades_deleted_successfully": "Trades Deleted Successfully",
+    "are_you_sure_to_relist_trade": "Are you sure you would like to relist this trade listing?",
+    "relist": "Relist"
   },
   "change_password": {
     "password": "Password",
