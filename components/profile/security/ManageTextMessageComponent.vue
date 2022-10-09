@@ -46,4 +46,9 @@ export default {
     color: $color-blue-20
     @include body-13-medium
 
+@media (max-width: 767px)
+  .manage-text-message
+    width: 95%
+
+
 </style>

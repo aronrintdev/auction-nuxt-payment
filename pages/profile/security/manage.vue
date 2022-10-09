@@ -1,6 +1,6 @@
 <template>
   <b-col class="vendor-preferences-body">
-    <div class="vd-preferences-slider">
+    <div class="vd-preferences-slider d-none d-md-block">
       <h1 class="vd-preferences-slider-heading">
         {{ $t('manage_text_message.page_title') }}
       </h1>
