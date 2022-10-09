@@ -78,6 +78,7 @@
             <div class="authenticity-text d-flex justify-content-center text-center">
               Every item is authenticated by our experts through our authentication process. 100% verification guranteed.
             </div>
+            <div>
             <div class="detail-heading">
               Details
             </div>
@@ -107,7 +108,31 @@
                 <div>{{theirTotal()}}</div>
               </b-row>
             </div>
+            </div>
+            <!-- Wants section -->
+            <div>
+            <div class="wants-heading">
+              Trader’s Wants
+            </div>
+            <div class="d-flex wants-container">
+              <div class="trader-wants" v-for="(item,index) in wants" :key="index">
+                <div class="wants-wrapper">
+                  <img :src="item.product.image" >
+                  <div class="overlay"></div>
+                </div>
+                <div class="wants-name">{{item.product.name}}</div>
+                <div class="wants-size">{{item.product.colorway}},{{$t('trades.trade_arena.size')}} {{item.size.size}}</div>
+                <div class="wants-box">{{item.packaging_condition.name}}</div>
+              </div>
+            </div>
+            </div>
+            <!-- Buttons Section -->
+            <div class="d-flex justify-content-between mt-3 mb-4  ml-1 mr-1">
+              <Button variant="outline-info" pill class="invent-btn" @click="showInventory">Inventory</Button>
+              <Button variant="info" pill class="next-btns">Next</Button>
+            </div>
           </div>
+          <inventory-bottom-sheet ref="inventory"/>
 <!--          <div class="d-flex flex-column align-items-center mb-4">-->
 <!--            <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">-->
 <!--              <span class="fair-trade-label">{{$t('trades.trade_arena.fair_trade_meter')}}</span>-->
@@ -300,10 +325,12 @@ import {
   TAKE_SEARCHED_PRODUCTS
 } from '~/static/constants/trades'
 import Button from '~/components/common/Button';
+import InventoryBottomSheet from '~/pages/trades/_id/InventoryBottomSheet';
 
 export default {
   name: 'IndexMobile',
   components: {
+    InventoryBottomSheet,
     Button,
     CreateTradeSearchItem,
     // SearchedProductsBelowSearchTextBox,
@@ -316,7 +343,7 @@ export default {
     // Pagination,
     AlreadyListedModal,
     CheckoutSidebar,
-    Countdown
+    Countdown,
   },
   layout: 'IndexLayout',
   data() {
@@ -368,7 +395,7 @@ export default {
       cashType: CASH_TYPE_ADDED,
       OFFER_TYPE_YOURS,
       OFFER_TYPE_THEIR,
-      OFFER_TYPE
+      OFFER_TYPE,
     }
   },
   head() {
@@ -839,6 +866,10 @@ export default {
     addOptionalCash(value){
       this.cash_added = value
       this.updateActiveTrade()
+    },
+    showInventory(){
+      this.$refs.inventory.open();
+      this.$refs.inventory.getInventory();
     }
   }
 }
@@ -1067,4 +1098,59 @@ export default {
   color: $color-gray-5
 .timer
   color: $color-red-3
+.trader-wants
+  width: 164px
+  height: 265px
+  margin-right: 12px
+.wants-wrapper
+  position: relative
+  width: 164px
+  height: 185px
+  background: $color-white-4
+  .overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: $color-grey-70
+  img
+    width: 120px
+    height: auto
+    margin: 25px
+.wants-container
+    width: 375px
+    overflow: scroll
+    padding-left: 10px
+.wants-name
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $medium
+  font-size: 13px
+  line-height: 130%
+  color: $color-black-1
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
+.wants-size,.wants-box
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $regular
+  font-size: 13px
+  line-height: 130%
+  color: $color-gray-5
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
+.wants-heading
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-4-medium
+  color: $color-black-1
+  padding-left: 10px
+  padding-bottom: 14px
+
+.invent-btn,.next-btns
+  width: 162px
+  height: 40px
 </style>
