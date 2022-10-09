@@ -117,7 +117,7 @@ export default {
           }
         })
         .then((res) => {
-          this.styles = res.data
+          this.styles = res.data.data
           if(this.styles.length) {
             this.filters = true
           }
