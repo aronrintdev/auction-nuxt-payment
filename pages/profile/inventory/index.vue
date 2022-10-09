@@ -1,19 +1,20 @@
 <template>
-  <b-container fluid class="container-profile-inventory h-100">
-    <div class="d-flex justify-content-between align-items-center">
+  <b-container :class="mobileClass" class="container-profile-inventory h-100" fluid>
+    <div v-if="!isScreenXS" class="d-flex justify-content-between align-items-center">
       <h2 class="title">{{ $tc('common.inventory', 1) }}</h2>
       <Button
-        to="/profile/inventory/csv-drafts"
-        variant="link"
-        class="btn-draft"
-        underlinedText
-        :disabled="!csvDrafts.length"
-        >{{ $t('inventory.csv_drafts') }} ({{ csvDrafts.length }})</Button
+          to="/profile/inventory/csv-drafts"
+          variant="link"
+          class="btn-draft"
+          underlinedText
+          :disabled="!csvDrafts.length"
+      >{{ $t('inventory.csv_drafts') }} ({{ csvDrafts.length }})
+      </Button
       >
     </div>
 
     <div class="d-flex justify-content-between mt-3 align-items-center">
-      <div class="products-count">
+      <div v-if="!isScreenXS" class="products-count">
         {{ $tc('common.product', totalCount) }}({{ totalCount }})
       </div>
 
@@ -25,25 +26,26 @@
       />
 
       <Button
-        variant="primary"
-        pill
-        class="btn-add"
-        @click="moveToCreateInventory"
+          v-if="!isScreenXS"
+          variant="primary"
+          pill
+          class="btn-add"
+          @click="moveToCreateInventory"
         >{{ $t('inventory.add_inventory') }}</Button
       >
     </div>
 
-    <div class="d-flex justify-content-between align-items-center mt-4">
+    <div v-if="!isScreenXS" class="d-flex justify-content-between align-items-center mt-4">
       <SearchInput
-        :value="search"
-        :placeholder="$t('inventory.search_placeholder')"
-        class="flex-grow-1 mr-4"
-        :debounce="1000"
-        @change="handleSearch"
+          :value="search"
+          :placeholder="$t('inventory.search_placeholder')"
+          class="flex-grow-1 mr-4"
+          :debounce="1000"
+          @change="handleSearch"
       />
 
       <FormDropdown
-        id="inventory-filters"
+          id="inventory-filters"
         :value="category"
         :placeholder="$tc('common.filter', 1)"
         :items="FILTERS"
@@ -146,7 +148,8 @@ import {
   BulkSelectToolbar,
 } from '~/components/common'
 import InventoryCard from '~/components/inventory/Card'
-import { AlertModal, ConfirmModal } from '~/components/modal'
+import {AlertModal, ConfirmModal} from '~/components/modal'
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'ProfileInventory',
@@ -164,6 +167,7 @@ export default {
     ConfirmModal,
   },
 
+  mixins: [screenSize],
   layout: 'Profile',
 
   fetchOnServer: false,
@@ -502,6 +506,10 @@ export default {
 .container-profile-inventory
   padding: 47px 54px
   background-color: $color-white-5
+
+  &.mobile
+    background-color: $color-white-1
+    padding: 1rem
 
   h2.title
     @include heading-3
