@@ -86,9 +86,18 @@ export function removePaymentMethod(state) {
 }
 
 /**
+ * Add login redirect URL.
+ * @param state
+ * @param URL
+ */
+export function setLoginRedirectUrl(state, Url) {
+  state.redirectUrl = Url
+}
+
+/**
  * Store the default vendor payout method.
- * @param state 
- * @param payload 
+ * @param state
+ * @param payload
  */
 export function addDefaultVendorPayoutMethod(state, payload) {
   state.vendorPayoutMethod = payload

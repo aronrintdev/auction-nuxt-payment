@@ -4833,7 +4833,8 @@
       "payout_updated": "Payout method updated successfully",
       "payout_deleted": "Payout method deleted successfully",
       "user_already_registered": "User already registered!",
-      "user_not_registered_as_approved_vendor": "User was not registered as approved vendor"
+      "user_not_registered_as_approved_vendor": "User was not registered as approved vendor",
+      "user_not_registered_as_vendor": "User not registered as approved vendor"
     }
   },
   "orders": {
