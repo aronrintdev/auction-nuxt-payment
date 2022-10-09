@@ -7,7 +7,7 @@
       searchResultShow && $slots.default && 'opened'
     }`"
   >
-    <div class="position-relative w-100 d-flex align-items-center">
+    <div :id="styles" class="position-relative w-100 d-flex align-items-center">
       <img
         :src="require('~/assets/img/icons/search.svg')"
         class="icon-search"
@@ -110,6 +110,10 @@ export default {
       type: String,
       default: 'unset',
     },
+    styles: {
+      type: String,
+      default: ''
+    }
   },
 
   data() {
@@ -156,6 +160,9 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+#brands-search
+  input
+    font-size: 12px
 .search-input-wrapper
   position: relative
 

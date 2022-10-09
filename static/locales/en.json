@@ -136,7 +136,8 @@
     "prev"  : "Prev",
     "start_date"  : "Start Date",
     "done"  : "Done",
-    "end_date"  : "End Date"
+    "end_date"  : "End Date",
+    "search_brands": "Search Brands"
   },
   "message": {
     "no_products_found": "No Products Found",

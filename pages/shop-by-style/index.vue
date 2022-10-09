@@ -91,7 +91,7 @@ export default {
           value: TYPE,
         },
         {
-          label: this.$tc('common.trending', 2),
+          label: this.$tc('home.trending', 2),
           value: 'grid',
         },
         {

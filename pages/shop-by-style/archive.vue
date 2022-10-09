@@ -28,7 +28,7 @@
       </Button>
     </div>
 
-    <b-collapse id="collapse-filters">
+    <b-collapse  v-if="filters" id="collapse-filters">
       <ShopByStyleFilter
         class="mt-3"
         @close="closeFilter()"
@@ -87,17 +87,18 @@ export default {
       type: TYPE,
       typeOptions: [
         {
-          label: this.$tc('common.look', 2),
+          label: this.$tc('common.all', 2),
           value: TYPE,
         },
         {
-          label: this.$tc('common.outfit_grid', 2),
-          value: 'grid',
-        },
+          label: this.$tc('common.best_seller', 2),
+          value: 'best_seller'
+        }
       ],
       page: 1,
       perPage: null,
-      styles: null
+      styles: null,
+      filters: null
     }
   },
 
@@ -117,6 +118,9 @@ export default {
         })
         .then((res) => {
           this.styles = res.data
+          if(this.styles.length) {
+            this.filters = true
+          }
         })
         .catch(error => {
           this.$toasted.error(error)

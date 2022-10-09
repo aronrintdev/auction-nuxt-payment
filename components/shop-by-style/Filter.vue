@@ -10,28 +10,44 @@
             collapseKey="size-types"
             :title="$tc('common.size_type', 1)"
             :options="sizeTypeOptions"
-            class="mt-4"
+            class="p-2 mb-1  border border-success rounded"
           />
         </div>
-        <div class="offset-sm-1 col-sm-2 mb-4">
-          <FilterCollapsible
+        <div class="offset-sm-1 col-sm-3 mb-4">
+          <SearchFilterCollapsible
             v-model="brandsSelected"
             collapseKey="brands"
             :title="$t('filter_sidebar.brands')"
             :options="brandOptions"
-            class="mt-4"
+            class="p-2 mb-1  border border-success rounded filters-heading"
           />
         </div>
-        <div class="col-sm-7">
-          <div class="col-sm-1 w-fit-content">
+        <div class="col-sm-6">
+          <div class="row w-fit-content">
             <div
               v-for="(option, index) in sizeTypeSelected"
               :key="index"
-              class="mx-1 p-1 br-5 d-flex align-items-center bg-white"
+              class="p-1 br-5 d-flex align-items-center border border-success rounded ml-1 mt-1"
               @click.prevent
             >
               <span class="text-capitalize">{{ option }}</span>
               <span class="ml-3" @click.prevent="removeOption(index)">
+                <Icon
+                  src="close.svg"
+                  width="10"
+                  height="10"
+                  class="btn-close"
+                />
+              </span>
+            </div>
+            <div
+              v-for="(option, index) in brandsSelected"
+              :key="index"
+              class="p-1 br-5 d-flex align-items-center border border-success rounded ml-1 mt-1"
+              @click.prevent
+            >
+              <span class="text-capitalize">{{ option }}</span>
+              <span class="ml-3" @click.prevent="removeBrand(index)">
                 <Icon
                   src="close.svg"
                   width="10"
@@ -82,6 +98,7 @@ import { mapGetters } from 'vuex'
 import { capitalizeFirstLetter } from '~/utils/string'
 import { Button, Icon } from '~/components/common'
 import FilterCollapsible from '~/components/common/FilterCollapsible'
+import SearchFilterCollapsible from '~/components/common/SearchFilterCollapsible.vue'
 
 export default {
   name: 'ShopByStyleFilter',
@@ -89,6 +106,7 @@ export default {
   components: {
     Button,
     Icon,
+    SearchFilterCollapsible,
     FilterCollapsible
   },
 
@@ -97,8 +115,10 @@ export default {
       sizeTypeSelected: [],
       filtersApplied: {
         sizeTypeSelected: [],
+        brandsSelected: []
       },
-      brandsSelected: []
+      brandsSelected: [],
+      search: ''
     }
   },
 
@@ -118,12 +138,12 @@ export default {
     },
 
     filtersSelected() {
-      return this.sizeTypeSelected.length
+      return this.sizeTypeSelected.length+this.brandsSelected.length
     },
 
     filtersUpdated() {
       return (
-        _.xor(this.sizeTypeSelected, this.filtersApplied.sizeTypeSelected)
+        _.xor(this.sizeTypeSelected, this.filtersApplied.sizeTypeSelected, this.brandsSelected)
           .length > 0
       )
     },
@@ -132,22 +152,34 @@ export default {
   methods: {
     resetFilter() {
       this.sizeTypeSelected.splice(0, this.sizeTypeSelected.length)
+      this.brandsSelected.splice(0, this.brandsSelected.length)
       this.handleApply()
     },
 
     handleApply() {
       const filters = {}
-      if (this.sizeTypeSelected && this.sizeTypeSelected.length > 0) {
+      if ((this.sizeTypeSelected && this.sizeTypeSelected.length > 0) || (this.brandsSelected && this.brandsSelected.length > 0)) {
         filters.sizeTypes = this.sizeTypeSelected
+        filters.brandsSelected = this.brandsSelected
       }
       this.$emit('apply', filters)
       this.filtersApplied = _.cloneDeep({
         sizeTypeSelected: this.sizeTypeSelected,
+        brandsSelected: this.brandsSelected,
+
       })
     },
 
     removeOption(index) {
       this.sizeTypeSelected.splice(index, 1)
+    },
+    removeBrand(index) {
+      this.brandsSelected.splice(index, 1)
+    },
+    handleSearchChange(value) {
+      this.search = value
+      // this.page = 1
+      // this.fetchProducts()
     },
   },
 }
@@ -157,6 +189,9 @@ export default {
 
 .w-fit-content
   width: fit-content
+.filters-heading 
+  &.h2
+    margin-top: 0 !important
 .filter-wrapper
   .header
     @include body-2-medium
