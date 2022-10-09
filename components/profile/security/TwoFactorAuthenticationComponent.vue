@@ -8,8 +8,8 @@
                        :label-off="$t('features.2fa_security.2fa_disabled').toString()"
                        @change="change"/>
       </div>
-      <div>
-
+      <div class="mt-2">
+        <text-verification-component></text-verification-component>
       </div>
       <div class="mt-5">
         <p v-html="$t('features.2fa_security.as_part_of_our_mission')"></p>
@@ -30,11 +30,13 @@
 
 <script>
 import ToggleSwitch from '~/components/common/ToggleSwitch';
+import TextVerificationComponent from '~/components/profile/security/TextVerificationComponent';
 
 export default {
   name: 'TwoFactorAuthenticationComponent',
   components: {
-    ToggleSwitch
+    ToggleSwitch,
+    TextVerificationComponent
   },
   data() {
     return {

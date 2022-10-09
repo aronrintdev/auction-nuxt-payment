@@ -3931,7 +3931,11 @@
       "2fa_faq_small": "Frequently Asked Questions",
       "msg_enable_success": "2FA enabled successfully",
       "msg_disable_success": "2FA disabled successfully",
-      "back_to_security": "Back to Security"
+      "back_to_security": "Back to Security",
+      "label_when_you_login": "When you login we’ll send a message to your mobile device to verify your account",
+      "action_required": "Action Required",
+      "manage": "Manage",
+      "text_message": "Text Message"
     },
     "deadstock_exchange": {
       "title": "Deadstock Exchange",
@@ -5339,5 +5343,8 @@
     "the_page_is_missing": "The page is missing \n or the link’s sole is coming off",
     "home": "Home",
     "shop": "Shop"
+  },
+  "manage_text_message": {
+    "page_title": "Manage Text Message"
   }
 }
