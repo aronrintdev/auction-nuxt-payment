@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import searchIcon from '~/assets/img/profile/mobile/mobile-search.svg?inline';
-import clearIcon from '~/assets/img/profile/mobile/clear.svg?inline';
+import searchIcon from '~/assets/img/profile/notifications/mobile-search.svg?inline';
+import clearIcon from '~/assets/img/profile/notifications/clear.svg?inline';
 
 export default {
   name: 'MobileSearchInput',

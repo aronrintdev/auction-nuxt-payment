@@ -1,7 +1,8 @@
 <template>
   <div
-    class="new-side-bar d-flex flex-column"
-    :class="collapsed ? 'new-side-bar-collapsed' : 'new-side-bar-full'"
+      v-if="!isScreenXS && !isScreenMD"
+      class="new-side-bar d-flex flex-column"
+      :class="collapsed ? 'new-side-bar-collapsed' : 'new-side-bar-full'"
   >
     <div
       class="sidebar-header d-flex align-items-center justify-content-between mb-2"
@@ -103,10 +104,12 @@ import {
   MENU_CATEGORY_SELLING,
 } from '~/static/constants'
 import SideMenuItem from '~/components/side-menu/SideMenuItem'
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'NewSideMenu',
-  components: { SideMenuItem, Button },
+  components: {SideMenuItem, Button},
+  mixins: [screenSize],
   data() {
     return {
       collapsed: false,
