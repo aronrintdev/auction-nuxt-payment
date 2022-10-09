@@ -29,7 +29,7 @@
     </div>
 
     <b-collapse  v-if="filters" id="collapse-filters">
-      <ShopByStyleFilter
+      <ArchiveFilter
         class="mt-3"
         @close="closeFilter()"
         @apply="applyFilter"
@@ -71,12 +71,12 @@
 </template>
 <script>
 import { NavGroup, Button } from '~/components/common'
-import ShopByStyleFilter from '~/components/shop-by-style/Filter'
+import ArchiveFilter from '~/components/shop-by-style/ArchiveFilter'
 import ShopByStyleCard from '~/components/shop-by-style/Card'
 import { ARCHIVED, TYPE } from '~/static/constants/shop-by-style'
 
 export default {
-  components: { NavGroup, Button, ShopByStyleFilter, ShopByStyleCard },
+  components: { NavGroup, Button, ArchiveFilter, ShopByStyleCard },
 
   layout: 'IndexLayout',
 
