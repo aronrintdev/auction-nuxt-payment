@@ -38,7 +38,9 @@ export default {
     handleUpdate() {
       this.$emit('submit', this.phoneNumber)
       this.showVerificationCodeForm = true
-      this.countdown()
+      this.countdown(()=>{
+        // todo write code to execute after countdown finished
+      })
     },
     handleCodeSubmission(code) {
       this.$emit('codeSubmit', code)
@@ -46,7 +48,7 @@ export default {
       this.phoneNumber = ''
       this.resetTimer()
     },
-    countdown() {
+    countdown(callback) {
       const duration = this.duration.split(':')
       let minutes = parseInt(duration[0]) - 1
       let seconds = 60
@@ -60,13 +62,10 @@ export default {
 
         if (minutes === 0 && seconds === 0) {
           this.resetTimer()
-          this.countdownFinished()
+          callback()
         }
         this.duration = `${minutes}:${seconds}`
       }, 1000)
-    },
-    countdownFinished() {
-      // todo write code to execute after countdown
     },
     resetTimer() {
       clearInterval(this.timer)
