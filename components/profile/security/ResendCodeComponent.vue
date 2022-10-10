@@ -2,13 +2,13 @@
   <div class="resend-code">
     <div class="d-flex justify-content-between align-items-center">
       <div>
-        <verification-code-component/>
+        <verification-code-component ref="verification_code" @change="listenCodeChange"/>
       </div>
       <div class="mx-3">
         <button class="btn btn-dark">
-          <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center" @click="handleCodeSubmission">
             <img :src="require('/assets/img/icons/clock.svg')"/>
-            <span class="ml-1">5:00</span>
+            <span class="ml-1">{{ duration }}</span>
           </div>
         </button>
       </div>
@@ -31,7 +31,30 @@ export default {
   name: 'ResendCodeComponent',
   components: {
     VerificationCodeComponent
+  },
+  props: {
+    duration: {
+      type: String,
+      default: '5:00'
+    }
+  },
+  data() {
+    return {
+      verificationCode: ''
+    }
+  },
+  methods: {
+    handleCodeSubmission() {
+      this.$emit('submit', this.verificationCode)
+    },
+    listenCodeChange(code) {
+      this.verificationCode = code
+    },
+    clearVerificationCode() {
+      this.$refs.verification_code.clear()
+    }
   }
+
 }
 </script>
 

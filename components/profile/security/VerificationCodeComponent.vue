@@ -13,6 +13,12 @@
 <script>
 export default {
   name: 'VerificationCodeComponent',
+  props: {
+    value: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
       code_1: '',
@@ -55,6 +61,7 @@ export default {
 
       const index = parseInt(e.target.getAttribute('tabindex'));
       this.move(index + 1)
+      this.$emit('change', `${this.code_1}${this.code_2}${this.code_3}${this.code_4}${this.code_5}`)
     },
     erase(index) {
       switch (index) {
@@ -112,6 +119,13 @@ export default {
       this.code_3 = codes[2];
       this.code_4 = codes[3];
       this.code_5 = codes[4];
+    },
+    clear() {
+      this.code_1 = '';
+      this.code_2 = '';
+      this.code_3 = '';
+      this.code_4 = '';
+      this.code_5 = '';
     }
   }
 }
@@ -131,6 +145,7 @@ export default {
 
     &:focus
       outline: none
+
   @media (max-width: 767px)
     .txt
       width: 32px

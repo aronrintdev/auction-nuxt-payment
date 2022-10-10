@@ -4,22 +4,43 @@
       <div class="title">{{ $t('manage_text_message.manage_text_message_verification') }}</div>
       <div class="desc py-3">{{ $t('manage_text_message.label_we_will_send_a_message') }}</div>
       <div class="my-3">
-        <phone-number-component/>
+        <phone-number-component ref="phone_number" @submit="handleSubmit" @codeSubmit="handleCodeSubmit"/>
       </div>
       <div class="text-center go-back">
         <NuxtLink to="/profile/security">{{ $t('manage_text_message.go_back') }}</NuxtLink>
       </div>
     </div>
+    <transparent-alert-modal :text="$t('manage_text_message.alert_text')" :show="showAlert" @hide="listenModalClose"/>
   </div>
 </template>
 
 <script>
 import PhoneNumberComponent from '~/components/profile/security/PhoneNumberComponent';
+import TransparentAlertModal from '~/components/common/TransparentAlertModal';
 
 export default {
   name: 'ManageTextMessageComponent',
   components: {
-    PhoneNumberComponent
+    PhoneNumberComponent,
+    TransparentAlertModal
+  },
+  data() {
+    return {
+      showAlert: false
+    }
+  },
+  methods: {
+    handleCodeSubmit(code) {
+      console.debug('code: '+code)
+      this.$refs.phone_number.clearVerificationCode()
+      this.showAlert = !this.showAlert
+    },
+    listenModalClose() {
+      this.showAlert = false
+    },
+    handleSubmit(phone) {
+      console.debug('phone: '+phone)
+    }
   }
 }
 </script>
