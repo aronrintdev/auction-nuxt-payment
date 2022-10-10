@@ -264,6 +264,14 @@ export default {
           menu: MENU_CATEGORY_MISC,
         },
         {
+          label: this.$t('profile_menu.deadstock_exchange'),
+          icon: require('~/assets/img/icons/side-menu/promotions.svg'),
+          iconActive: require('~/assets/img/icons/side-menu/promotions-active.svg'),
+          href: '/deadstock-exchange',
+          route: 'deadstock-exchange',
+          menu: MENU_CATEGORY_MISC,
+        },
+        {
           label: this.$t('profile_menu.rewards'),
           iconActive: require('~/assets/img/rewards/rewards_active.svg'),
           icon: require('~/assets/img/rewards/rewards.svg'),

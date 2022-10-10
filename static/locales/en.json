@@ -2246,7 +2246,8 @@
     "notifications": "Notifications",
     "security": "Security",
     "security_settings": "Security Settings",
-    "support": "Support"
+    "support": "Support",
+    "deadstock_exchange": "Dead Stock Exchange"
   },
   "rewards": {
     "earn_points": "Earn Points",
@@ -5276,5 +5277,8 @@
       "send_to_deadstock": "Send to Deadstock",
       "view_order": "View Order"
     }
+  },
+  "deadstock_exchange":{
+    "title": "Deadstock Exchange"
   }
 }
