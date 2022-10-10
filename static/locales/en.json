@@ -133,6 +133,12 @@
     "sneakers_sizes": "Sneaker Sizes",
     "apparel_sizes": "Apparel Sizes",
     "accessories_sizes": "Accessories Sizes",
+    "categories": {
+      "sneakers": "Sneakers",
+      "apparel": "Apparel",
+      "footwear": "Footwear",
+      "accessories": "Accessories"
+    },
     "filter_by" : "Filter By",
     "next"  : "Next",
     "prev"  : "Prev",
@@ -1769,10 +1775,11 @@
         "title": "Auction Types",
         "title_tooltip": "Tooltip for Auction Types",
         "types": {
-          "single": "Single Items",
+          "single": "Single Item",
           "collections": "Collections"
         },
         "searchbox": "Search for your favorite streetwear",
+        "search_auctions": "Search Auctions",
         "sortby": {
           "placeholder": "Sort By",
           "relevance": "Relevance",
@@ -1796,14 +1803,17 @@
         "women": "Women",
         "unisex": "Unisex",
         "child": "Child",
-        "toddler": "Toddler"
+        "toddler": "Toddler",
+        "sort": "Sort",
+        "reset": "Reset",
+        "filter_by": "Filter By"
       },
       "sell_with_us": {
         "title": "Sell With Us",
         "description": "Become a seller and list an auction",
         "cta_label": "List"
       },
-      "recently_viewed": "Recently Viewed Items",
+      "recently_viewed": "Recently Viewed",
       "ending_soon": "Auctions Ending Soon",
       "no_reserve": "No-Reserve",
       "reserve": "Reserve",
@@ -1813,6 +1823,7 @@
         "thresholds_bid_increment": "Bid Increment",
         "thresholds_current_bid": "Current Bid"
       },
+      "size": "Size",
       "auction_number": "AUCTION NUMBER",
       "have_piece_to_sell": "Have a piece to sell?",
       "create_listing": "Create a listing!",
@@ -1871,7 +1882,9 @@
       "true_to_size": "'True to Size'",
       "of": "of",
       "insert_amount": "Insert Amount",
-      "payment_method": "Payment Method"
+      "payment_method": "Payment Method",
+      "no_results_found": "No results found",
+      "cant_find_anything": "We couldn’t find anything that matches this search"
     },
     "errors": {
       "missing_box_images": "Missing box images",
@@ -1911,7 +1924,15 @@
       "infant": "Infant",
       "toddler": "Toddler"
     },
-    "apply_filters": "Apply Filters"
+    "apply_filters": "Apply Filters",
+    "status": "Status",
+    "status_options": {
+      "live": "Live",
+      "upcoming": "Upcoming",
+      "expiring": "Expiring",
+      "expired": "Expired",
+      "sold": "Sold"
+    }
   },
   "shop": {
     "banner": {
