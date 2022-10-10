@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     bannerImageUrl() {
-      return this.bannerImage || require('~/assets/img/promotions/promotions-banner1.png')
+      return this.bannerImage || require('~/assets/img/exchanges/exchange-banner.png')
     }
   }
 };
