@@ -15,7 +15,8 @@ export default {
       })
       // Role Based subscriptions
       this.$auth.user.roles.forEach(role => {
-        window.Echo.private(`notifications.role.${role}`).listen('NotificationAdded', (not) => {
+        console.log(role.name.replace(/\s/g, ''));
+        window.Echo.private(`notifications.role.${role.name.replace(/\s/g, '')}`).listen('NotificationAdded', (not) => {
           this.toastNotification(not[0])
         })
       })
@@ -24,7 +25,7 @@ export default {
       window.Echo.leave(`notifications.single.${this.$auth.user.id}`)
       window.Echo.leave('notifications.global')
       this.$auth.user.roles.forEach(role => {
-        window.Echo.leave(`notifications.role.${role}`)
+        window.Echo.leave(`notifications.role.${role.name.replace(/\s/g, '')}`)
       })
     },
     toastNotification(notification) {
