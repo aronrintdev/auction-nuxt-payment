@@ -29,8 +29,6 @@ export default {
     listen(e) {
       const input = e.keyCode;
       const index = parseInt(e.target.getAttribute('tabindex'));
-      console.debug(index)
-      console.debug(e.keyCode)
       // if backspace key is pressed
       if (input === 8) {
         console.debug('backspace')
@@ -133,4 +131,8 @@ export default {
 
     &:focus
       outline: none
+  @media (max-width: 767px)
+    .txt
+      width: 35px
+
 </style>
