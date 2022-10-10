@@ -46,6 +46,7 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+
 ::v-deep.mobile-bottom-sheet
   .bottom-sheet__card
     .bottom-sheet__content
@@ -63,4 +64,5 @@ export default {
   color: $color-black-1
   padding-bottom: 17px
   border-bottom: 0.5px solid $color-gray-4
+
 </style>
