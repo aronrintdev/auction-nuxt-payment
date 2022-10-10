@@ -1,11 +1,11 @@
 <template>
-    <div v-if="options && options.length" class="accordion-filter-item">
-      <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header">
+    <div v-if="options && options.length" class="accordion-filter-item background-transparent border-0 w-100">
+      <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header mb-0">
         <button
           v-b-toggle="`collapse-${collapseKey}`"
           aria-controls="panelsStayOpen-collapseOne"
           aria-expanded="false"
-          class="accordion-filter-button collapsed"
+          class="accordion-filter-button collapsed position-relative d-flex align-items-center w-100 pa-0 background-transparent border-0"
           data-bs-target="#panelsStayOpen-collapseOne"
           data-bs-toggle="collapse"
           type="button"
@@ -35,7 +35,7 @@
             <input
               :id="`${title}-flexCheckDefault-${index}`"
               :checked="value && value.includes(item.value)"
-              class="form-check-input"
+              class="form-check-input border-0"
               type="checkbox"
               @click="updateFilter(item.value)"
             />
@@ -116,25 +116,12 @@
     img
         width: 14px
   .accordion-filter-item
-    background: none
-    border: none
-    width: 100%
-  
-    .accordion-filter-header
-      margin-bottom: 0
   
     .accordion-filter-button
       @include body-4-bold
-      position: relative
-      display: flex
-      align-items: center
-      width: 100%
-      padding: 0
       color: $color-black-1
       overflow-anchor: none
       transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease
-      background: none
-      border: none
   
       @media (prefers-reduced-motion: reduce)
         transition: none
@@ -184,7 +171,6 @@
           cursor: pointer !important
   
         .form-check-input
-          border: none
           box-shadow: none
   
           &::after
