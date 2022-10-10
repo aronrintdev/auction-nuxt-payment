@@ -14,15 +14,17 @@
       @change="handleCategoryChange"
     />
     <div>
-      <ProductCarousel :products="products" variant="photo" />
+      <ProductCarousel :products="styles" variant="photo" />
+      <Carousel :products="styles" variant="photo" />
     </div>
   </div>
 </template>
 <script>
 import NavGroup from '~/components/common/NavGroup.vue'
+import Carousel from '~/components/shop-by-style/Carousel.vue'
 export default {
   name: 'HomeShopByStyle',
-  components: { NavGroup },
+  components: { NavGroup, Carousel },
   fetchOnServer: false,
   data() {
     return {
@@ -52,7 +54,9 @@ export default {
           },
         })
         .then((res) => {
-          this.styles = res.data
+          this.styles = res.data.data
+          console.clear()
+          console.log(res.data.data)
         })
         .catch((error) => {
           this.$toasted.error(error)
