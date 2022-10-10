@@ -547,6 +547,7 @@
       "bulk_delete": "Bulk Delete",
       "sku": "SKU",
       "package": "Package",
+      "box": "Box",
       "size": "Size",
       "view_offers": "View Offers",
       "delete_modal": {

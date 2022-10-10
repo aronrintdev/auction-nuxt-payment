@@ -21,7 +21,7 @@
       <filter-svg class="ml-3" role="button"
                   @click="mobileFiltersOpen = !mobileFiltersOpen"></filter-svg>
     </div>
-    <div :class="`d-flex justify-content-${!isScreenXS? 'between': 'center'} mt-3 align-items-center`">
+    <div :class="`d-flex justify-content-${!isScreenXS? 'between mt-3': 'center mt-4'}  align-items-center`">
       <div v-if="!isScreenXS" class="products-count">
         {{ $tc('common.product', totalCount) }}({{ totalCount }})
       </div>
@@ -36,8 +36,7 @@
 
       <Button
           v-if="!isScreenXS"
-          variant="primary"
-          pill
+          variant="dark"
           class="btn-add"
           @click="moveToCreateInventory"
         >{{ $t('inventory.add_inventory') }}</Button
@@ -76,12 +75,12 @@
       />
     </div>
 
-    <div v-if="isScreenXS" class="d-flex align-items-center justify-content-between mx-1 mt-2">
+    <div v-if="isScreenXS" class="d-flex align-items-center justify-content-between mt-4">
       <div class="products-count">
         {{ $tc('common.inventory', totalCount) }}({{ totalCount }})
       </div>
-      <div class="d-flex align-items-center">
-        <add-svg height="13"/>
+      <div class="d-flex align-items-center" @click="moveToCreateInventory">
+        <add-svg class="add-svg mr-2" height="13" width="13"/>
         <span class="add-text">
           {{ $t('createlisting.create_new_inventory') }}
         </span>
@@ -102,9 +101,10 @@
       @submit="handleBulkAction()"
     />
 
-    <Loader v-if="loading" />
+    <Loader v-if="loading" :loading="loading"/>
     <div v-else>
-      <b-row v-if="inventories.length > 0" :class="!action && 'mt-3'">
+      <b-row v-if="inventories.length > 0" :class="(!action && !isScreenXS && 'mt-3 ') + mobileClass"
+             class=" items-wrapper ">
         <b-col
             v-for="inventory in inventories"
             :key="`inventory-${inventory.id}`"
@@ -160,15 +160,15 @@
 
 
     <MobileBottomSheet
-        :max-height="'45%'"
+        :max-height="'50%'"
         :open="mobileFiltersOpen"
         :title="$t('notifications.filter_by')"
         @closed="mobileFiltersOpen = false"
         @opened="mobileFiltersOpen = true">
 
-      <div class="filter-content py-2 px-4 d-flex flex-column justify-content-between h-75">
+      <div class="filter-content py-2 px-4 d-flex flex-column justify-content-between">
         <div class="my-2 flex-grow-1">
-          <FilterAccordion :open="true" :title="$tc('common.filter', 1)">
+          <FilterAccordion :open="true" :title="$tc('common.category', 1)">
             <div class="mt-2">
               <ButtonSelector :options="mobileFilters" :single="true" :values="category"
                               @change="handeMobileFilterSelect"/>
@@ -219,11 +219,13 @@ import MobileBottomSheet from '~/components/mobile/MobileBottomSheet';
 import FilterAccordion from '~/components/mobile/FilterAccordion';
 import ButtonSelector from '~/components/mobile/ButtonSelector';
 import NewInventoryCard from '~/components/inventory/NewInventoryCard';
+// import InventoryCard from '~/components/inventory/Card';
 
 export default {
   name: 'ProfileInventory',
 
   components: {
+    // InventoryCard,
     NewInventoryCard,
     addSvg,
     ButtonSelector,
@@ -592,7 +594,7 @@ export default {
 
   &.mobile
     background-color: $color-white-1
-    padding: 1rem
+    padding: 11px 1rem 1rem
 
   .add-text
     @include body-5
@@ -600,6 +602,10 @@ export default {
     font-style: normal
     font-weight: $regular
     color: $color-gray-5
+
+  .add-svg
+    path, rect
+      fill: $color-blue-20
 
   h2.title
     @include heading-3
@@ -718,4 +724,17 @@ export default {
     @media (min-width: 1800px)
       flex: 0 0 20%
       max-width: 20%
+
+::v-deep.mobile-bottom-sheet
+  .bottom-sheet__card.stripe
+    padding-bottom: 0
+
+
+.filter-content
+  height: 88%
+
+.items-wrapper
+  &.mobile
+    margin-top: 20px
+
 </style>
