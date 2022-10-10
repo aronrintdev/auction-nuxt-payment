@@ -5,18 +5,6 @@
     <div class="custom-wrapper">
       <div class="row mb-bb">
         <div class="col-md-12 col-lg-2">
-          <!--          <button-->
-          <!--            v-b-toggle.sidebar-->
-          <!--            class="w3-button w3-xlarge w3-hide-large float-left"-->
-          <!--          >-->
-          <!--            <span class="text-bold">{{ $t('navbar.profile') }}</span>-->
-          <!--            <i class="fa fa-bars"></i>-->
-          <!--          </button>-->
-          <!--          &lt;!&ndash; BootstrapVue Sidebar: in small devices &ndash;&gt;-->
-          <!--          <b-sidebar id="sidebar" ref="mySidebar" shadow>-->
-          <!--            <SideMenu id="sidemenu" />-->
-          <!--          </b-sidebar>-->
-          <!-- ./BootstrapVue Sidebar -->
 
           <!-- Collapsable SideMenu for large devices -->
           <NewSideMenu v-if="!isScreenXS"/>
