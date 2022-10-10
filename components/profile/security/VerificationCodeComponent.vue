@@ -133,6 +133,6 @@ export default {
       outline: none
   @media (max-width: 767px)
     .txt
-      width: 35px
+      width: 32px
 
 </style>
