@@ -151,6 +151,9 @@
     "reset" : "Reset",
     "apply_filters" :"Apply Filters",
     "view"  :"View"
+    "end_date"  : "End Date",
+    "read_less": "Read Less",
+    "read_more": "Read More"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -3926,7 +3929,6 @@
       "2fa_enabled": "Two-factor authentication is enabled",
       "2fa_disabled": "Two-factor authentication is disabled",
       "as_part_of_our_mission": "As part of our mission to build the world’s most trustworthy, secure, and technologically advanced marketplace for sneakerheads and streetwear fanatics. Deadstock further ensures protection from security breaches on our platform by using two-factor authentication.<br /><br /> With two-factor authentication, we take identity verification to the next level by requiring a second method of verification for users to access their account. By providing an ultra-secure online marketplace, Deadstock’s aim is to create the optimal user experience.",
-      "recovery_codes": "Recovery Codes",
       "2fa_faq_full": "Frequently Asked Questions about Two-Factor Authentication",
       "2fa_faq_small": "Frequently Asked Questions",
       "msg_enable_success": "2FA enabled successfully",
