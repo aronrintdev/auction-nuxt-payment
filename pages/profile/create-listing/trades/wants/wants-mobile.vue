@@ -99,7 +99,7 @@
                   <div>
                     <object v-if="combination.combination_items[combination.selectedItemIndex].product.image"
                             :data="combination.combination_items[combination.selectedItemIndex].product.image"
-                            class="com-img pointer"
+                            class="com-img pointer ma-2"
                             type="image/png">
                       <img class="com-img pointer" :src="fallbackImgUrl" alt="image"/>
                     </object>
@@ -140,26 +140,16 @@
                   </div>
                   </div>
 
-                <div class="col-md-12 d-flex justify-content-center">
-                  <b-col v-for="(item, index) in combination.combination_items"
-                         :key="item.id" class="d-flex justify-content-center flex-column align-items-center">
-                    <object v-if="item.product.image" :data="item.product.image"
-                            class="item-image-combination pointer"
-                            type="image/png"
-                            @click="setCombinationSelectedItem(combinationIndex, index)">
-                      <img class="item-image-combination mb-2 pointer" :src="fallbackImgUrl"
-                           alt="image"/>
-                    </object>
-                    <img v-else alt="image"
-                         class="item-image-combination mb-2 pointer" :src="fallbackImgUrl"
-                         @click="setCombinationSelectedItem(combinationIndex, index)"/>
-                    <div class="position-relative">
-                      <div v-if="combination.selectedItemIndex === index" class="bar-combination"></div>
+                  <div class="d-flex justify-content-center align-items-center mt-1">
+                    <div v-for="(item, index) in combination.combination_items"
+                         :key="item.id"  class="ml-2">
+                      <div  :class="combination.selectedItemIndex === index ? 'selected-circle' : 'un-selected-circle'"  @click="setCombinationSelectedItem(combinationIndex, index)"></div>
                     </div>
-                  </b-col>
-                </div>
-                <div class="col-md-12 d-flex justify-content-center align-center">
-                  <div class="estimate-amount">{{
+                  </div>
+
+
+                <div class="d-flex justify-content-center align-center mt-2">
+                  <div class="estimate-amount ml-5">{{
                       $t('trades.create_listing.vendor.wants.total_est_value')
                     }}:   ${{ estValue(combination.combination_items) }}
                   </div>
@@ -1067,12 +1057,12 @@ export default {
 .combination-div-mobile
   width: 343px
   background: #FFFFFF
-  height: 240px
+  height: 200px
   border-radius: 10px
   box-shadow: 0px 1px 4px rgb(0 0 0 / 25%)
 .com-img
-  width: 120px
-  height: 120px
+  width: 100px
+  height: 100px
 .combination-title
   font-size: 14px
   font-weight: 600
@@ -1095,5 +1085,15 @@ export default {
   font-size: 12px
   font-weight: 600
   font-family: Montserrat
+.un-selected-circle
+  height: 5px
+  width: 5px
+  border-radius: 50%
+  background: #999999
+.selected-circle
+  height: 5px
+  width: 5px
+  border-radius: 50%
+  background: #000000
 </style>
 
