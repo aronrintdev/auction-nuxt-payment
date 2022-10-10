@@ -32,8 +32,8 @@
       </NuxtLink>
     </div>
     <div class="mt-2">
-      <b-tabs pills id="nav-wants">
-        <b-tab title="Wants Inventory" active><b-card-text class="set-margin">
+      <b-tabs pills id="nav-wants" class="mytabs">
+        <b-tab title="Wants Inventory"  active><b-card-text class="set-margin">
           <b-row>
           <b-col v-for="item in generalListItems" :key="item.id"  cols="6 mb-4">
             <div  class="create-trade-item-mobile" :draggable="true"
@@ -1046,7 +1046,7 @@ export default {
 .main-container
   background: #fff
 .combination-div-mobile
-  width: 343px
+  width: 315px
   background: #FFFFFF
   height: 200px
   border-radius: 10px
@@ -1058,15 +1058,16 @@ export default {
   font-size: 14px
   font-weight: 600
   font-family: SF Pro Display
+  margin-left: 8px
 .combination-info
   margin-left: 25px
-  font-size: 11px
+  font-size: 10px
   font-weight: 500
   font-family: SF Pro Display
   margin-top: 3px
 .plus-icon
   height: 18px
-  margin-left: 4.5rem
+  margin-left: 3.5rem
 
 .set-margin
   margin-top: -5rem
@@ -1089,13 +1090,20 @@ export default {
   background: #000000
 #nav-wants
   font-size: 12px !important
-  height: 50px !important
+  height: 45px !important
   padding-bottom: 5px !important
   background-color: #F4F4F4 !important
   padding-top: 5px !important
-  padding-left: 5px !important
-  border-radius: 5px !important
+  padding-left: 15px !important
+  border-radius: 20px !important
 .selection-section
   margin-top: 35rem
+</style>
+<style>
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  color: #000;
+  background-color: #FFFFFF;
+  border-radius: 20px;
+}
 </style>
 
