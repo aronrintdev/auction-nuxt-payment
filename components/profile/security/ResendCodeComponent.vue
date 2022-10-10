@@ -7,19 +7,19 @@
       <div class="mx-3">
         <button class="btn btn-dark">
           <div class="d-flex align-items-center">
-            <img :src="require('/assets/img/icons/clock.svg')" />
+            <img :src="require('/assets/img/icons/clock.svg')"/>
             <span class="ml-1">5:00</span>
           </div>
         </button>
       </div>
       <div class="link d-none d-md-block">
-        <NuxtLink to="#">Resend Code</NuxtLink>
+        <NuxtLink to="#">{{ $t('manage_text_message.resend_code') }}</NuxtLink>
       </div>
     </div>
-    <div class="py-3 note">A verification code will be sent to your mobile phone, please input the code below to confirm</div>
+    <div class="py-3 note">{{ $t('manage_text_message.label_a_verification_code_will') }}</div>
     <div class="d-block d-md-none text-center">
-      Haven’t received it?
-      <NuxtLink to="#">Resend a new code.</NuxtLink>
+      {{ $t('manage_text_message.havent_received_it') }}
+      <NuxtLink to="#">{{ $t('manage_text_message.resend_a_new_code') }}</NuxtLink>
     </div>
   </div>
 </template>

@@ -5350,6 +5350,10 @@
     "label_we_will_send_a_message": "We’ll send a message to your mobile device to verify your account when you log into Deadstock.",
     "go_back": "Go Back",
     "update": "Update",
+    "resend_a_new_code": "Resend a new code.",
+    "havent_received_it": "Haven’t received it?",
+    "label_a_verification_code_will": "A verification code will be sent to your mobile phone, please input the code below to confirm",
+    "resend_code": "Resend Code",
     "action_required": "Action Required",
     "update_phone_number": "Update Phone Number"
   }
