@@ -181,20 +181,6 @@
 
     <section v-else class="content">
       <b-container fluid class="px-3">
-        <!-- Main row -->
-        <b-row class="pr-md-5 pr-lg-5 pr-sm-0 mb-2">
-          <b-col align-self="center" class="col-md-4 col-12 col-sm-6 mt-md-4 text-right">
-            <a class="font-weight-bolder text-gray cursor-pointer" @click="$bvModal.show('offer-item-modal')">
-              <b-img
-                :src="require('~/assets/img/icons/clarity_eye-line.svg')"
-                :alt="$t('trades.create_listing.vendor.wants.view_offer_items')"
-              />
-              <span class="border-bottom border-dark">{{
-                  $t('trades.create_listing.vendor.wants.view_offer_items')
-                }}</span>
-            </a>
-          </b-col>
-        </b-row>
         <div class="mt-2">
           <div class="row create-trade-drag-drop-item-mobile justify-content-center text-center py-2"
                @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
@@ -253,7 +239,13 @@
             </b-row>
           </div>
         </div>
-        <div class="mt-2">
+        <div class="mt-2 d-flex">
+          <div class="mt-2" @click="$bvModal.show('offer-item-modal')">
+            <b-img
+              :src="require('~/assets/img/icons/clarity_eye-line.svg')"
+              :alt="$t('trades.create_listing.vendor.wants.view_offer_items')"
+            />
+          </div>
           <div>
             <FormStepProgressBar :steps="steps" variant="transparent"/>
           </div>
@@ -1000,7 +992,6 @@ export default {
 .create-trade-drag-drop-item-mobile
   width: 343px
   height: 140px
-  margin-left: 5px
   margin-right: 0px
   border-radius: 3px
   background-color: #FBFAFA
