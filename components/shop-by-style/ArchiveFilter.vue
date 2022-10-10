@@ -198,8 +198,6 @@
       },
       handleSearchChange(value) {
         this.search = value
-        // this.page = 1
-        // this.fetchProducts()
       },
     },
   }
