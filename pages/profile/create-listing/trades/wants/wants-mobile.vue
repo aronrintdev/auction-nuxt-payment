@@ -91,7 +91,7 @@
           </b-row>
         </b-card-text></b-tab>
         <b-tab title="Wants Combinations"><b-card-text class="set-margin">
-          <b-row>
+          <b-row class="d-inline">
             <b-col v-for="(combination, combinationIndex) in combinationItems" :key="combination.combination_id" cols="6" class="mb-4">
               <div class="combination-div-mobile" :draggable="true"
                    @dragstart="startDragCombination($event, combination)">
@@ -158,8 +158,8 @@
                     </div>
                   </b-col>
                 </div>
-                <div class="col-md-12 d-flex">
-                  <div class="text-bold ml-auto mr-auto mt-3">{{
+                <div class="col-md-12 d-flex justify-content-center align-center">
+                  <div class="estimate-amount">{{
                       $t('trades.create_listing.vendor.wants.total_est_value')
                     }}:   ${{ estValue(combination.combination_items) }}
                   </div>
@@ -1067,7 +1067,7 @@ export default {
 .combination-div-mobile
   width: 343px
   background: #FFFFFF
-  height: 152px
+  height: 240px
   border-radius: 10px
   box-shadow: 0px 1px 4px rgb(0 0 0 / 25%)
 .com-img
@@ -1088,4 +1088,12 @@ export default {
   margin-left: 4.5rem
 .set-margin
   margin-top: -6rem
+.item-image-combination
+  height: 70px
+  width: 70px
+.estimate-amount
+  font-size: 12px
+  font-weight: 600
+  font-family: Montserrat
 </style>
+
