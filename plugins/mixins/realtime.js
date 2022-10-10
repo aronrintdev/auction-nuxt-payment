@@ -15,7 +15,6 @@ export default {
       })
       // Role Based subscriptions
       this.$auth.user.roles.forEach(role => {
-        console.log(role.name.replace(/\s/g, ''));
         window.Echo.private(`notifications.role.${role.name.replace(/\s/g, '')}`).listen('NotificationAdded', (not) => {
           this.toastNotification(not[0])
         })
