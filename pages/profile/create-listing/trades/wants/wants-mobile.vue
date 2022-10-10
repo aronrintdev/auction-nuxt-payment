@@ -160,7 +160,7 @@
           <b-row v-if="!combinationItems || combinationItems.length === 0" class="col-md-12 justify-content-center">
             {{$t('trades.create_listing.no_combination_found')}}
           </b-row>
-          <b-row class="col-md-12 justify-content-center my-3">
+          <b-row class="col-md-12 justify-content-center">
             <Pagination
               v-if="combinationItems && combinationItems.length > 0"
               v-model="pageCombination"
