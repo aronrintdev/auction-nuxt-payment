@@ -50,5 +50,11 @@ export default {
   .manage-text-message
     width: 95%
 
+    .title
+      color: $color-blue-20
+      @include body-13-medium
+
+    .desc
+      @include body-10-regular
 
 </style>

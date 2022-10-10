@@ -5348,6 +5348,9 @@
     "page_title": "Manage Text Message",
     "manage_text_message_verification":"Manage Text Message Verification",
     "label_we_will_send_a_message": "We’ll send a message to your mobile device to verify your account when you log into Deadstock.",
-    "go_back": "Go Back"
+    "go_back": "Go Back",
+    "update": "Update",
+    "action_required": "Action Required",
+    "update_phone_number": "Update Phone Number"
   }
 }
