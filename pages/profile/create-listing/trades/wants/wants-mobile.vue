@@ -181,7 +181,7 @@
 
     <section v-else class="content">
       <b-container fluid class="px-3">
-        <div class="mt-2">
+        <div class="selection-section">
           <div class="row create-trade-drag-drop-item-mobile justify-content-center text-center py-2"
                @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
             <div v-if="getTradeItemsWants.length < 1">
@@ -1067,8 +1067,9 @@ export default {
 .plus-icon
   height: 18px
   margin-left: 4.5rem
+
 .set-margin
-  margin-top: -6rem
+  margin-top: -5rem
 .item-image-combination
   height: 70px
   width: 70px
@@ -1086,5 +1087,15 @@ export default {
   width: 5px
   border-radius: 50%
   background: #000000
+#nav-wants
+  font-size: 12px !important
+  height: 50px !important
+  padding-bottom: 5px !important
+  background-color: #F4F4F4 !important
+  padding-top: 5px !important
+  padding-left: 5px !important
+  border-radius: 5px !important
+.selection-section
+  margin-top: 35rem
 </style>
 
