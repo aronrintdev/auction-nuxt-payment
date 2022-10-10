@@ -3,7 +3,7 @@
       ref="myBottomSheet"
       :is-full-screen="true"
       class="mobile-bottom-sheet"
-      max-height="60%"
+      :max-height="maxHeight"
       @closed="$emit('closed')"
       @opened="$emit('opened')">
     <div class="header-title w-100 d-flex flex-column align-items-center justify-content-center">
@@ -27,6 +27,10 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    maxHeight: {
+      type: String,
+      default: '60%'
     }
   },
   watch: {

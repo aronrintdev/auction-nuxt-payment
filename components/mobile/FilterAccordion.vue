@@ -28,12 +28,19 @@ export default {
     title: {
       type: String,
       default: 'filter-accordion'  // this should be set if you want accordion like behaviour
+    },
+    open: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
       shown: false
     }
+  },
+  mounted() {
+    this.shown = this.open
   }
 }
 </script>
