@@ -49,6 +49,7 @@ export default {
 @media (max-width: 767px)
   .manage-text-message
     width: 95%
+    border-radius: 10px
 
     .title
       color: $color-blue-20
