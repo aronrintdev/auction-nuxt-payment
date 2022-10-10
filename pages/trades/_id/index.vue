@@ -424,6 +424,10 @@ export default {
     this.fetchVendorTradeSummary()
     this.getInventory()
 
+    if(this.getSubmittedOffer && this.$route.params.id !== this.getSubmittedOffer.trade_id){
+      this.$store.commit('trade/setSubmittedOffer', null)
+    }
+
     this.trade_completed = this.getSubmittedOffer
 
   },

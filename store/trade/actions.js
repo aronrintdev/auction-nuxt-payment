@@ -38,3 +38,14 @@ export async function fetchVendorTradeSummary({ commit }) {
             commit('setVendorTradeSummary', res.data.data)
         })
 }
+
+/**
+ * Get Submitted Offer
+ * @param commit
+ */
+export async function fetchSubmittedOffer({ commit }, $payload) {
+    await this.$axios.get('/trades/vendor-summary')
+        .then(res => {
+            commit('setSubmittedOffer', res.data.data)
+        })
+}

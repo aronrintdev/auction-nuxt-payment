@@ -137,7 +137,19 @@ export default {
             this.$store.dispatch('notifications/getNotifications')
             this.$store.dispatch('notifications/getUnreadCount')
             this.$toasted.success(this.$t('login.success_message.login_successfull').toString())
-            if (this.isVendor) {
+
+            // redirect if redirect url is set in state
+            const redirectUrl = this.getLoginRedirectUrl()
+            if (redirectUrl) {
+              if (redirectUrl.includes('trades') && !this.isVendor) {
+                this.$router.push({
+                  path: '/profile/vendor-hub/apply'
+                })
+              } else {
+                this.$store.commit('auth/setLoginRedirectUrl', null)
+                this.$router.push(redirectUrl)
+              }
+            } else if (this.isVendor) {
               this.$router.push({
                 path: '/profile/vendor-dashboard'
               })
