@@ -13,6 +13,8 @@ export { default as SearchInput } from '~/components/common/SearchInput'
 export { default as ShareButton } from '~/components/common/ShareButton'
 export { default as SliderInput } from '~/components/common/SliderInput'
 export { default as CustomSelectwithCheckbox } from '~/components/common/CustomSelectwithCheckbox'
+export { default as MultiSelectDropdown } from '~/components/common/MultiSelectDropdown'
+export { default as SliderDropdown } from '~/components/common/SliderDropdown'
 // form elements
 export { default as FormInput } from '~/components/common/form/Input'
 export { default as FormDropdown } from '~/components/common/form/Dropdown'
