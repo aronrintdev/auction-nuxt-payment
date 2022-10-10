@@ -153,7 +153,8 @@
     "view"  :"View"
     "end_date"  : "End Date",
     "read_less": "Read Less",
-    "read_more": "Read More"
+    "read_more": "Read More",
+    "go_back": "Go Back"
   },
   "message": {
     "no_products_found": "No Products Found",

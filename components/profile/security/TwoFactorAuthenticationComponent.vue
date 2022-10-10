@@ -12,10 +12,7 @@
         <text-verification-component></text-verification-component>
       </div>
       <div class="mt-5">
-        <p v-html="$t('features.2fa_security.as_part_of_our_mission')"></p>
-      </div>
-      <div class="text-right">
-        <b-button type="submit" class="btn-recovery-codes">{{ $t('features.2fa_security.recovery_codes') }}</b-button>
+        <read-more :content="$t('features.2fa_security.as_part_of_our_mission')"/>
       </div>
     </div>
 
@@ -31,16 +28,19 @@
 <script>
 import ToggleSwitch from '~/components/common/ToggleSwitch';
 import TextVerificationComponent from '~/components/profile/security/TextVerificationComponent';
+import ReadMore from '~/components/common/ReadMore';
 
 export default {
   name: 'TwoFactorAuthenticationComponent',
   components: {
     ToggleSwitch,
-    TextVerificationComponent
+    TextVerificationComponent,
+    ReadMore
   },
   data() {
     return {
-      enable2fa: false
+      enable2fa: false,
+      description: this.$t('features.2fa_security.as_part_of_our_mission')
     }
   },
   created() {
@@ -60,6 +60,12 @@ export default {
             this.$toasted.success(msg).toString();
           }
         })
+    },
+    test() {
+      const desc = this.description.toString()
+      const firstBreakPosition = desc.search('<br')
+      const small = desc.substring(0, firstBreakPosition)
+      console.debug(small)
     }
   }
 }
