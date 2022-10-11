@@ -26,16 +26,21 @@
             {{ item.packaging_condition.name }}
           </div>
         </div>
-      </div>
-      <div cols="2" class="confirm-trade-icons d-flex">
-        <div>
-          <NuxtLink class="font-weight-bolder text-gray" to="/profile/create-listing/trades/create">
-            <img :src="require('~/assets/img/box-pencil.svg')" :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
-          </NuxtLink>
-        </div>
-        <div class="pl-3">
-          <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"
-               :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="removeOfferItem(item.id)"/>
+        <div class="mt-3">
+          <b-dropdown size="sm"  variant="link" toggle-class="text-decoration-none" no-caret>
+            <template #button-content>
+              <b-icon icon='three-dots-vertical' color="#999999"/>
+            </template>
+            <b-dropdown-item>
+              <NuxtLink class="font-weight-bolder text-gray" to="/profile/create-listing/trades/create">
+                <img :src="require('~/assets/img/box-pencil.svg')" :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
+              </NuxtLink>
+            </b-dropdown-item>
+            <b-dropdown-item>
+              <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"
+                   :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="removeOfferItem(item.id)"/>
+            </b-dropdown-item>
+          </b-dropdown>
         </div>
       </div>
     </div>
@@ -71,20 +76,42 @@
             {{ wantItem.selected_box_condition_name }}
           </div>
         </div>
+
+        <div class="mt-3">
+          <b-dropdown size="sm"  variant="link" toggle-class="text-decoration-none" no-caret>
+            <template #button-content>
+              <b-icon icon='three-dots-vertical' color="#999999"/>
+            </template>
+            <b-dropdown-item>
+              <img class="cursor-pointer" :src="require('~/assets/img/box-copy.svg')"
+                   :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, 0, getTradeItemsWants.map(i => parseInt(i.selected_quantity)).reduce((a, b) => a + b, 0))" />
+            </b-dropdown-item>
+            <b-dropdown-item>
+              <img :src="require('~/assets/img/box-pencil.svg')"
+                   class="cursor-pointer" :alt="$t('trades.create_listing.vendor.wants.no_image')"
+                   @click="addProductWant(wantItem.product, wantItem, 0)"/>
+            </b-dropdown-item>
+            <b-dropdown-item>
+              <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"
+                   :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="removeWantItem(wantItem.id)"/>
+            </b-dropdown-item>
+          </b-dropdown>
+        </div>
       </div>
-      <b-col cols="2" class="confirm-trade-icons d-flex">
-        <div>
-          <img class="cursor-pointer" :src="require('~/assets/img/box-copy.svg')"
-               :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, 0, getTradeItemsWants.map(i => parseInt(i.selected_quantity)).reduce((a, b) => a + b, 0))" />
-        </div>
-        <div class="pl-3">
-            <img :src="require('~/assets/img/box-pencil.svg')" class="cursor-pointer" :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, wantItem, 0)"/>
-        </div>
-        <div class="pl-3">
-          <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"
-               :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="removeWantItem(wantItem.id)"/>
-        </div>
-      </b-col>
+
+<!--      <b-col cols="2" class="confirm-trade-icons d-flex">-->
+<!--        <div>-->
+<!--          <img class="cursor-pointer" :src="require('~/assets/img/box-copy.svg')"-->
+<!--               :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, 0, getTradeItemsWants.map(i => parseInt(i.selected_quantity)).reduce((a, b) => a + b, 0))" />-->
+<!--        </div>-->
+<!--        <div class="pl-3">-->
+<!--            <img :src="require('~/assets/img/box-pencil.svg')" class="cursor-pointer" :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, wantItem, 0)"/>-->
+<!--        </div>-->
+<!--        <div class="pl-3">-->
+<!--          <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"-->
+<!--               :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="removeWantItem(wantItem.id)"/>-->
+<!--        </div>-->
+<!--      </b-col>-->
     </div>
     <b-row v-if="!getTradeItemsWants.length">
       <b-col cols="12" class="d-flex mt-3 pl-5 ml-2 mb-4">
@@ -363,4 +390,6 @@ export default {
   font-style: normal
   font-weight: 500
   font-size: 11px
+.confirm-trade-item
+  margin: 5px 17px 11px
 </style>
