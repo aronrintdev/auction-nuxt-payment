@@ -11,6 +11,7 @@
       <img
         :src="require('~/assets/img/icons/search.svg')"
         class="icon-search"
+        :style="iconStyle"
       />
 
       <b-form-input
@@ -21,8 +22,8 @@
         :placeholder="placeholder || $t('common.search')"
         :debounce="debounce"
         autocomplete="off"
-        class="search-input"
-        :style="{'height': inputHeight}"
+        :class="`search-input ${inputClass}`"
+        :style="inputStyle"
         :autofocus="autofocus"
         @input="handleTextInput"
         @keydown.enter="handleEnterKeyDown"
@@ -110,6 +111,14 @@ export default {
       type: String,
       default: 'unset',
     },
+    inputClass: {
+      type: String,
+      default: ''
+    },
+    iconStyle: {
+      type: String,
+      default: ''
+    }
   },
 
   data() {
@@ -124,6 +133,11 @@ export default {
         this.$emit('update:resultShow', newVal)
       }
     },
+  },
+  computed: {
+    inputStyle() {
+      return this.inputClass + 'height: ' + this.inputHeight + ';'
+    }
   },
   methods: {
     handleTextInput(value) {

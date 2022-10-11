@@ -169,6 +169,7 @@ export default {
   fetchOnServer: false,
   middleware: ['vendor'],
   data() {
+    console.log('INVENTORY');
     return {
       action: null,
       selected: [],
@@ -256,6 +257,10 @@ export default {
 
   destroyed() {
     window.removeEventListener('resize', this.updatePerPageOptions)
+  },
+
+  mounted() {
+    console.log('MOUNT INVENTORY');
   },
 
   methods: {

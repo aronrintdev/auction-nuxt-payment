@@ -1,26 +1,28 @@
 <template>
-  <div>
+  <div class="wants-container">
    <edit-combination v-if="editCombination" :combination="editCombination"/>
    <edit-item v-else-if="editItem" :product="editItem" productFor="wantsList" :itemId="editItem.id"/>
    <div v-else class="wants-main-container">
     <div class="wants-heading">
       {{$t('trades.wants_listing.trading_wants_list')}}
     </div>
-    <div class="wants-sub-heading col-md-7 pl-0 pt-1">
+    <div class="wants-sub-heading col-md-6 pl-0 pt-1 mb-4">
       {{$t('trades.wants_listing.wants_list_contains_items')}}
     </div>
-    <b-row class="mt-4">
-      <b-col md="7" sm="=12">
+    <b-row class="mt-2 pt-2">
+      <b-col md="7" sm="=12" class="mt-2">
         <SearchInput
+          class="searchInput"
           :value="searchText"
+          :inputClass="inputClass"
+          iconStyle='position: relative; left: 12px;'
           variant="primary"
-          :placeholder="$t('trades.wants_listing.search_wants_list')"
           :clearSearch="true"
           inputHeight="46px"
           @change="filterData"
         />
       </b-col>
-      <b-col md="5 pl-3" sm="12">
+      <b-col md="5 pl-3" sm="12" class="mt-2">
         <CustomDropdown
           v-model="orderFilter"
           :labelLeftImage="require('~/assets/img/icons/feature.png')"
@@ -29,6 +31,8 @@
           :label="orderFilterLabel"
           class="bg-white"
           optionsWidth="custom"
+          labelStyle='font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 16px; color: #000'
+          paddingX="23px"
           maxWidth="328px"
           variant="white"
           dropDownHeight="46px"
@@ -55,10 +59,15 @@
       @deselectAll="handleDeselectAll()"
       @submit="handleBulkAction()"
     />
-    <div v-if="wantedItems.length" class="listing-heading">
-      {{ $t('trades.wants_listing.general_list_items', {0: wantedItems.length}) }}
-    </div>
-    <div class="d-flex flex-wrap" :class="!wantedItems.length && 'mt-4'">
+    <b-row>
+      <div v-if="wantedItems.length" class="listing-heading">
+        {{ $t('trades.wants_listing.general_list_items', {0: wantedItems.length}) }}
+      </div>
+      <span class="wanted-items-heading">
+        {{ $t('trades.wants_listing.combinations', {0: combinationItems.length}) }}
+      </span>
+    </b-row>
+    <!-- <div class="d-flex flex-wrap" :class="!wantedItems.length && 'mt-4'">
       <NavGroup
         :data="categories"
         :value="category"
@@ -75,36 +84,44 @@
           :icon-arrow-up="require('~/assets/img/icons/arrow-up-blue.svg')"
           :icon-arrow-down="require('~/assets/img/icons/arrow-down-blue.svg')"
           @select="handleActionSelect"
-
       />
+    </div> -->
+    <div class="row">
+      <span class="filter-label">Filter by</span>
     </div>
-    <div v-if="wantedItems.length" class="row d-flex mt-3 mb-4">
 
-      <b-col  md="2" ms="12">
+    <div v-if="wantedItems.length" class="row d-flex mb-4">
+      <b-col md="2" ms="12">
         <CustomDropdown v-model="category"
                         :options="categoryItems"
                         type="single-select"
                         :label="categoryFilterLabel"
-                        class="mr-3 width-156"
+                        class="width-156"
                         optionsWidth="custom"
                         width="150px"
                         dropDownHeight="38px"
                         variant="white"
                         borderRadius="4px"
                         @change="changeCategory"
+                        paddingX="10px"
+                        labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
+                        arrowStyle='color: #000'
       />
       </b-col>
-      <b-col  md="2" sm="12">
+      <b-col md="2" sm="12">
         <CustomDropdown v-model="sizeTypesFilter"
                         :options="filters.size_types"
                         type="multi-select-checkbox"
                         :label="sizeTypesFilterLabel"
-                        class="mr-3 width-156"
+                        class="width-156"
                         optionsWidth="custom"
                         dropDownHeight="38px"
                         variant="white"
                         borderRadius="4px"
                         @change="changeSizeTypeFilter"
+                        paddingX="10px"
+                        labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
+                        arrowStyle='color: #000'
         />
       </b-col>
       <b-col  md="2" sm="12">
@@ -112,19 +129,28 @@
                         :options="filters.sizes"
                         type="multi-select-checkbox"
                         :label="sizeFilterLabel"
-                        class="mr-3 width-156"
+                        class="width-156"
                         optionsWidth="custom"
                         dropDownHeight="38px"
                         variant="white"
                         borderRadius="4px"
                         @change="changeSizeFilter"
+                        paddingX="10px"
+                        labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
+                        arrowStyle='color: #000'
         />
       </b-col>
-      <b-col  md="2" sm="12">
+      <b-col md="2" sm="12">
         <Button class="mr-3" variant="primary" @click="getWantItems">
           {{ $t('create_listing.trade.offer_items.filter_btn') }}
         </Button>
       </b-col>
+      <!-- <b-col md="2" sm="12">
+        <div class="delete-button">
+          <span class="delete-button-text">Delete Multiple</span>
+        </div>
+        
+      </b-col> -->
     </div>
     <div class="wanted-items-container" :class="{'wanted-items-container-border': wantedItems.length}">
       <div v-if="!wantedItems.length" class="mt-3">
@@ -238,7 +264,7 @@ import {
   TOTAL_COUNT,
   WANTS_NAV_ITEMS
 } from '~/static/constants/trades'
-import NavGroup from '~/components/common/NavGroup'
+// import NavGroup from '~/components/common/NavGroup'
 import FormDropdown from '~/components/common/form/Dropdown'
 import Button from '~/components/common/Button'
 import {Pagination} from '~/components/common'
@@ -256,7 +282,8 @@ export default {
     WantItemCard,
     BulkSelectToolbar,
     CombinationItemCard,
-    Pagination, Button, FormDropdown, NavGroup, CustomDropdown, SearchInput
+    Pagination, Button, FormDropdown,
+    CustomDropdown, SearchInput
   },
   layout: 'Profile',
   data() {
@@ -318,6 +345,9 @@ export default {
   },
   computed: {
     ...mapGetters('browse', ['filters']),
+    inputClass() {
+      return 'font-family: Montserrat; padding-left: 74px !important; font-weight: 400; font-size: 16px; line-height: 20px; letter-spacing: 0.06em; text-transform: capitalize; color: #626262;';
+    }
   },
   mounted() {
     this.$root.$on('discard_changes', () => {
@@ -635,10 +665,12 @@ export default {
 .wants-main-container
   padding-left: 54px
   padding-right: 54px
+  background-color: $color-white-5
 
 .wants-heading
   font-family: $font-family-montserrat
   font-style: normal
+  margin-bottom: 10
   @include heading-13
   color: $color-black-1
   padding-top: 47px
@@ -648,6 +680,7 @@ export default {
   font-style: normal
   @include body-13-regular
   color: $color-gray-5
+  font-weight: 500
 
 .listing-heading
   font-family: $font-family-sf-pro-display
@@ -655,6 +688,8 @@ export default {
   @include body-1-bold
   color: $color-black-1
   margin-top: 56px
+  margin-left: 7px
+  margin-right: 54px
 
 .dropdown-actions::v-deep
   .btn-dropdown
@@ -698,7 +733,8 @@ export default {
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-1-bold
-  color: $color-black-1
+  color: $color-gray-47
+  margin-top: 56px
 
 .list-text
   font-family: $font-family-sf-pro-display
@@ -721,4 +757,21 @@ export default {
 
 .wanted-items-container-border
   border-bottom: 0.5px solid $color-gray-5
+
+.filter-label
+  font-family: 'SF Pro Display'
+  font-style: normal
+  font-weight: 500
+  font-size: 15px
+  line-height: 18px
+  margin-left: 7px
+  margin-top: 32px
+  margin-bottom: 5px
+
+.delete-button
+  border-color: $color-blue-20
+  border-radius: 4px
+  border-width: 1
+
 </style>
+
