@@ -2,8 +2,8 @@
   <vue-bottom-sheet
       ref="myBottomSheet"
       :is-full-screen="true"
+      :max-height="height"
       class="mobile-bottom-sheet"
-      :max-height="maxHeight"
       @closed="$emit('closed')"
       @opened="$emit('opened')">
     <div class="header-title w-100 d-flex flex-column align-items-center justify-content-center">
@@ -16,7 +16,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'MobileBottomSheet',
   props: {
@@ -28,7 +27,7 @@ export default {
       type: String,
       required: true
     },
-    maxHeight: {
+    height: {
       type: String,
       default: '60%'
     }
