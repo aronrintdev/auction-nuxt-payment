@@ -144,7 +144,12 @@
     "prev"  : "Prev",
     "start_date"  : "Start Date",
     "done"  : "Done",
-    "end_date"  : "End Date"
+    "end_date"  : "End Date",
+    "sort_by" : "Sort By",
+    "options" : "Options",
+    "reset" : "Reset",
+    "apply_filters" :"Apply Filters",
+    "view"  :"View"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -2994,6 +2999,7 @@
     "days": "Days",
     "delist_multiple": "Delist Multiple",
     "delist_success": "Your selected item have been delisted.",
+    "last_sold" : "Last Sold",
     "sort_by": {
       "filter": "Filter",
       "date_listed_old_new": "Date Listed: Old to New",
@@ -3105,7 +3111,26 @@
     "list_a_product_today_on_ds": "List a product today on Deadstock!",
     "edit_listing_heading": "Are you sure you would like to edit this listing?",
     "edit_listing_text": "All the active offers associated with this trade listing will be lost after the edit is completed.",
-    "update_listing_success": "Listing updated successfully"
+    "update_listing_success": "Listing updated successfully",
+    "filter"  : {
+      "sort"  : "Sort",
+      "recent_old"  : "Selling: Recent to Oldest",
+      "old_recent"  : "Selling: Oldest to Recent",
+      "date_send" : "Date Sent",
+      "start_date"  : "Start Date",
+      "end_date"  : "End Date",
+      "status"  : "Status"
+    },
+    "view"  : "View",
+    "listid"  : "List ID",
+    "placed_on" : "Placed on",
+    "offer_action_confirmation" : "Are you sure you want to {action} the  offer?",
+    "confirmation"  : {
+      "delist_the_listing"  : "Are you sure you would like to\ndelist this listing?",
+      "all_offers_will_be_lost" : "All the active offers associated with this listing will be lost after the edit is completed.",
+      "relist_text" : "Are you sure you would like to relist this item?"
+    },
+    "delisted_selected_listing"  : "Your selected listings have been delisted."
   },
   "preferences": {
     "common": {
