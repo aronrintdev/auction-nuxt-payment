@@ -6,6 +6,7 @@
       <div class="row mb-bb">
         <div class="col-md-12 col-lg-2">
           <button
+              v-if="!isScreenXS"
               v-b-toggle.sidebar
               class="w3-button w3-xlarge w3-hide-large float-left"
           >
@@ -19,7 +20,7 @@
           <!-- ./BootstrapVue Sidebar -->
 
           <!-- Collapsable SideMenu for large devices -->
-          <NewSideMenu/>
+          <NewSideMenu v-if="!isScreenXS"/>
           <!-- Collapsable SideMenu for large devices -->
         </div>
       </div>

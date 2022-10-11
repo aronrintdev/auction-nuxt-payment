@@ -1,9 +1,10 @@
 <template>
   <div class="auction-browser pb-4">
     <auction-banner />
-    <auction-filterbar :searchKeyword="productFilter ? productFilter.name : null" @change="handleFilterChange"/>
-    <div v-if="!isViewAll" :class="{ 'invisible': loading }">
-      <div v-if="recentViewedAuctions.length > 0">
+    <div class="m-auto auction-browser-container">
+      <auction-filterbar :searchKeyword="productFilter ? productFilter.name : null" @change="handleFilterChange"/>
+      <auction-mobile-filter @change="handleFilterChange"></auction-mobile-filter>
+      <div v-if="!isViewAll" :class="{ 'invisible': loading }">
         <product-slider
           :title="$t('auctions.frontpage.recently_viewed')"
           :auctions="recentViewedAuctions"
@@ -16,7 +17,6 @@
           :type="'ending_soon'"
           @showAll="showAllAuctions('ending_soon')"
         ></product-slider>
-        <sell-with-us></sell-with-us>
         <product-slider
           :title="$t('auctions.frontpage.no_reserve')"
           :auctions="nonReserveAuctions"
@@ -30,46 +30,14 @@
           @showAll="showAllAuctions('reserve')"
         ></product-slider>
       </div>
-      <div v-else>
+      <div v-else class="position-relative">
         <product-slider
-          :title="$t('auctions.frontpage.ending_soon')"
-          :auctions="endingSoonAuctions"
-          :type="'ending_soon'"
-          @showAll="showAllAuctions('ending_soon')"
-        ></product-slider>
-        <product-slider
-          :title="$t('auctions.frontpage.no_reserve')"
-          :auctions="nonReserveAuctions"
-          :type="'no_reserve'"
-          @showAll="showAllAuctions('no_reserve')"
-        ></product-slider>
-        <sell-with-us></sell-with-us>
-        <product-slider
-          :title="$t('auctions.frontpage.reserve')"
-          :auctions="reserveAuctions"
-          :type="'reserve'"
-          @showAll="showAllAuctions('reserve')"
+          :title="$t(`auctions.frontpage.${isViewAll}`)"
+          :auctions="viewAllAuctions"
+          :type="'all'"
+          :isCarouselMode="false"
         ></product-slider>
       </div>
-    </div>
-    <div v-else class="position-relative">
-      <div class="container">
-        <div class="row">
-          <div class="col-12 ml-lg-n3 ml-xl-n5 mt-3">
-            <div class="d-flex align-items-center back-btn" @click="backToMainView">
-              <img :src="require('~/assets/img/icons/pagination-arrow-left.svg')" />
-              <span class="ml-1" role="button">{{ $t('common.back') }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <product-slider
-        :title="$t(`auctions.frontpage.${isViewAll}`)"
-        :auctions="viewAllAuctions"
-        :type="'all'"
-        :isCarouselMode="false"
-      ></product-slider>
-      <sell-with-us :class="{ lg: viewAllAuctions.length > 16, md: viewAllAuctions.length > 12, sm: viewAllAuctions.length > 8 }"></sell-with-us>
     </div>
   </div>
 </template>
@@ -79,14 +47,14 @@ import { mapActions, mapGetters } from 'vuex'
 import AuctionBanner from '~/components/Auctions/Banner'
 import AuctionFilterbar from '~/components/Auctions/Filterbar'
 import ProductSlider from '~/components/Auctions/ProductSlider'
-import SellWithUs from '~/components/Auctions/SellWithUs'
+import AuctionMobileFilter from '~/components/Auctions/MobileFilter'
 
 export default {
   components: {
     AuctionBanner,
     AuctionFilterbar,
     ProductSlider,
-    SellWithUs,
+    AuctionMobileFilter,
   },
   layout: 'IndexLayout',
   data() {
@@ -98,7 +66,9 @@ export default {
       nonReserveAuctions: [],
       endingSoonAuctions: [],
       recentViewedAuctions: [],
-      filterOptions: {},
+      filterOptions: {
+        type: 'single',
+      },
       slidesCount: 8,
       loading: false,
     }
@@ -141,14 +111,9 @@ export default {
       this.loadAuctions()
     },
     // Listen auction type, product name and sortBy option changes
-    handleFilterChange(value) {
-      this.filterOptions = value
-      // Returns to the main auction page if search keyword is empty
-      if (this.filterOptions.product) {
-        this.isViewAll = 'search_results'
-      } else if (this.isViewAll === 'search_results') {
-        this.isViewAll = null
-      }
+    handleFilterChange(filters) {
+      this.isViewAll = 'search_results'
+      this.filterOptions = filters
       this.loadAuctions()
     },
     async loadAuctions() {
@@ -238,31 +203,42 @@ export default {
     // Show all auctions
     showAllAuctions(status) {
       this.isViewAll = status
+      this.viewAllAuctions = []
       if (status === 'recently_viewed') {
         this.loadRecentAuctions()
-      } else {
-        this.$axios.get('/auctions/public', {
-          params: {
-            status: this.filterOptions.product ? 'live' : status,
-            product: this.filterOptions.product,
-            type: this.filterOptions.type,
-            sort: this.filterOptions.sortby,
-            category: this.filterOptions.categories,
-            sizeType: this.filterOptions.sizeTypes,
-            size: this.filterOptions.sizes,
-            min_price: this.filterOptions.minPrice,
-            max_price: this.filterOptions.maxPrice,
-            min_year: this.filterOptions.minYear,
-            max_year: this.filterOptions.maxYear,
-          }
+      } else if (this.filterOptions.status && this.filterOptions.status.length > 0) {
+        this.filterOptions.status.forEach(st => {
+          this.fetchByStatus(st)
         })
-          .then(res => {
-            this.viewAllAuctions = res.data.data
-          })
-          .catch(err => {
-            this.$toasted.error(err)
-          })
+      } else {
+        this.fetchByStatus('live')
       }
+    },
+    async fetchByStatus(status) {
+      const res = await this.$axios.get('/auctions/public', {
+        params: {
+          status,
+          product: this.filterOptions.product,
+          type: this.filterOptions.type,
+          sort: this.filterOptions.sortby,
+          category: this.filterOptions.categories,
+          sizeType: this.filterOptions.sizeTypes,
+          size: this.filterOptions.sizes,
+          min_price: this.filterOptions.minPrice,
+          max_price: this.filterOptions.maxPrice,
+          min_year: this.filterOptions.minYear,
+          max_year: this.filterOptions.maxYear,
+          brands: this.filterOptions.brands,
+        }
+      })
+      const data = this.viewAllAuctions.concat(res.data.data)
+      this.viewAllAuctions = data.reduce((unique, o) => {
+        if(!unique.some(obj => obj.id === o.id)) {
+          unique.push(o);
+        }
+        return unique;
+      }, []);
+
     },
     backToMainView() {
       this.loading = true
@@ -274,3 +250,8 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+  .auction-browser-container
+    max-width: 1440px
+</style>

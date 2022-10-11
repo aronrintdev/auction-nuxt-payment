@@ -18,7 +18,6 @@
               class="recent-to-old text-normal"
               name="sortby"
               value="recent_to_old"
-              @change="sortBy($event, filter.sortBy)"
               >{{ $t('offers_received.offers_recent_old') }}</b-form-radio
             >
             <b-form-radio
@@ -26,7 +25,6 @@
               class="old-to-recent text-normal"
               name="sortby"
               value="old_to_recent"
-              @change="sortBy"
               >{{ $t('offers_received.offers_old_recent') }}</b-form-radio
             >
           </div>
@@ -156,14 +154,6 @@ export default {
       }
       this.filter.status = value
     },
-
-    sortBy(event) {
-      if (!this.filter.sortby) {
-        this.count = this.count + 1
-      }
-      this.filter.sortby = event
-    },
-
     dateSelected({ value, data }) {
       if (value === true) {
         if ((data.start !== '' || data.end !== '') && !this.filter.date) {

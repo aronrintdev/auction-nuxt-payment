@@ -550,7 +550,7 @@ export default {
       }
 
       this.addingToCart = true
-      this.$store.dispatch('shopping-cart/addProduct', this.getCartProduct())
+      this.$store.dispatch('shopping-cart/addOrIncrementQuantityProduct', this.getCartProduct())
       this.showMessageModal(
         this.$t('products.message.added_to_cart', {
           productName: this.product.name,
@@ -654,7 +654,7 @@ export default {
           this.$store.dispatch('sell-now/selectedItem', res.data.data).then(() => {
             this.moveToSellNow()
           })
-          
+
           return true
         })
         .catch((err) => {
