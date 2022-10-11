@@ -5,7 +5,7 @@
           :src="bannerImageUrl"
           class="banner-image"
       />
-      <div class="position-absolute w-100 promotions-banner-overlay">
+      <div class="position-absolute w-100 promotions-banner-overlay col-8">
         <div class="container">
           <div class="row">
             <div class="col-4 exchange-heading ml-4 text-left">
