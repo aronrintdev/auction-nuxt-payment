@@ -5279,6 +5279,9 @@
     }
   },
   "deadstock_exchange":{
-    "title": "Deadstock Exchange"
+    "title": "Deadstock Exchange",
+    "trending":"Trending",
+    "biggest_gainers":"Biggest Gainers",
+    "biggest_losers":"Biggest Losers"
   }
 }

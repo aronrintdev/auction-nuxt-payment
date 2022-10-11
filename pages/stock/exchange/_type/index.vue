@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid promotions">
     <div class="row">
-      <PromotionsBanner :title="$t('deadstock_exchange.title')"></PromotionsBanner>
+      <Banner></Banner>
       <div class="col-12 py-5 text-center">
         <NavGroup
             :data="categoryItems"
@@ -14,7 +14,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <TopProductsList v-if="currentCategory === 'sweepstakes'" :loading="loading"></TopProductsList>
+            <TopProductsList  v-if="currentCategory === $t('deadstock_exchange.trending')" :loading="loading"></TopProductsList>
           </div>
         </div>
       </div>
@@ -22,14 +22,14 @@
   </div>
 </template>
 <script>
-import {mapActions} from 'vuex';
-import PromotionsBanner from '~/components/deadstock-exchange/Banner'
+import {mapActions} from 'vuex'
+import Banner from '~/components/Exchange/Banner'
 import NavGroup from '~/components/common/NavGroup.vue'
-import TopProductsList from '~/components/deadstock-exchange/TopProductsList'
+import TopProductsList from '~/components/Exchange/TopProductsList'
 
 export default {
   components: {
-    PromotionsBanner,
+    Banner,
     NavGroup,
     TopProductsList,
   },
@@ -40,30 +40,27 @@ export default {
     return {
       fetching: false,
       categoryItems: [
-        {label: this.$t('promotions.sweepstakes'), value: 'sweepstakes'},
-        {label: this.$t('promotions.giveaways'), value: 'giveaway'},
-        {label: this.$t('promotions.promotions'), value: 'promotion'},
+        {label: this.$t('deadstock_exchange.trending'), value: 'trending'},
+        {label: this.$t('deadstock_exchange.biggest_gainers'), value: 'biggest_gainers'},
+        {label: this.$t('deadstock_exchange.biggest_losers'), value: 'biggest_losers'},
       ],
-      currentCategory: 'sweepstakes',
+      currentCategory: this.$route.params.type,
       loading: false
     }
   },
-  mounted() {
-    this.fetchPromotion()
-  },
   methods: {
     ...mapActions({
-      getPromotions: 'promotions/getPromotions'
+      getStockExchange: 'stockExchange/getPromotions'
     }),
     handleCategoryChange(category) {
       if (this.currentCategory !== category) {
         this.currentCategory = category
-        this.fetchPromotion()
+        this.$router.push('/stock/exchange/'+ this.currentCategory)
       }
     },
-    fetchPromotion() {
+    fetchStockExchange() {
       this.loading = true
-      this.getPromotions({
+      this.getStockExchange({
         type: this.currentCategory,
         status: 'active'
       }).catch(err => {

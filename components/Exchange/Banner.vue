@@ -8,7 +8,7 @@
       <div class="position-absolute w-100 promotions-banner-overlay">
         <div class="container">
           <div class="row">
-            <div class="col-12 text-left promotions-banner-title">{{ title || $t('promotions.promotions') }}</div>
+            <div class="col-12 text-left promotions-banner-title">{{ title }}</div>
           </div>
         </div>
       </div>
@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     bannerImageUrl() {
-      return this.bannerImage || require('~/assets/img/promotions/promotions-banner1.png')
+      return this.bannerImage || require('~/assets/img/exchange/exchange-banner.png')
     }
   }
 };
