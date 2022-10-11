@@ -3,7 +3,7 @@
     <div class="d-flex promotions-category-page-title">
 
       <div class="text-uppercase text-center px-5 promotions-category-page-title-content">
-      
+
       </div>
       <div class="mt-4 promotions-category-page-title-after">
       </div>
@@ -15,12 +15,11 @@
       <h3>{{ $t('promotions.not_found') }} {{ $t('promotions.sweepstakes') }}</h3>
     </div>
 
-
-
   </div>
 </template>
 <script>
 import {mapGetters} from 'vuex';
+
 import {Loader} from '~/components/common';
 
 export default {
