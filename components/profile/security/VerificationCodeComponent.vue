@@ -6,6 +6,7 @@
       <input ref="code_3" v-model="code_3" type="text" class="txt" tabindex="3" @input="input" @keydown="listen">
       <input ref="code_4" v-model="code_4" type="text" class="txt" tabindex="4" @input="input" @keydown="listen">
       <input ref="code_5" v-model="code_5" type="text" class="txt" tabindex="5" @input="input" @keydown="listen">
+      <input ref="code_6" v-model="code_6" type="text" class="txt" tabindex="6" @input="input" @keydown="listen">
     </div>
   </div>
 </template>
@@ -25,7 +26,8 @@ export default {
       code_2: '',
       code_3: '',
       code_4: '',
-      code_5: ''
+      code_5: '',
+      code_6: '',
     }
   },
   mounted() {
@@ -35,9 +37,9 @@ export default {
     listen(e) {
       const input = e.keyCode;
       const index = parseInt(e.target.getAttribute('tabindex'));
+
       // if backspace key is pressed
       if (input === 8) {
-        console.debug('backspace')
         this.erase(index)
       }
 
@@ -53,15 +55,15 @@ export default {
       }
     },
     input(e) {
-      if (e.target.value.length === 5) {
+      if (e.target.value.length === 6) {
         this.splitAndSpread(e.target.value);
-        this.move(5)
+        this.move(6)
         return;
       }
 
       const index = parseInt(e.target.getAttribute('tabindex'));
       this.move(index + 1)
-      this.$emit('change', `${this.code_1}${this.code_2}${this.code_3}${this.code_4}${this.code_5}`)
+      this.$emit('change', `${this.code_1}${this.code_2}${this.code_3}${this.code_4}${this.code_5}${this.code_6}`)
     },
     erase(index) {
       switch (index) {
@@ -80,11 +82,14 @@ export default {
         case 5:
           this.code_5 = '';
           break;
+        case 6:
+          this.code_6 = '';
+          break;
       }
       this.move(index - 1);
     },
     move(index) {
-      if (index > 5 && index < 1) {
+      if (index > 6 && index < 1) {
         return;
       }
 
@@ -108,6 +113,9 @@ export default {
         case 5:
           value = this.code_5;
           break;
+        case 6:
+          value = this.code_6;
+          break;
       }
 
       return value !== '';
@@ -119,6 +127,7 @@ export default {
       this.code_3 = codes[2];
       this.code_4 = codes[3];
       this.code_5 = codes[4];
+      this.code_6 = codes[5];
     },
     clear() {
       this.code_1 = '';
@@ -126,6 +135,7 @@ export default {
       this.code_3 = '';
       this.code_4 = '';
       this.code_5 = '';
+      this.code_6 = '';
     }
   }
 }
@@ -136,7 +146,7 @@ export default {
 
 .verification-code
   .txt
-    width: 40px
+    width: 36px
     border: none
     text-align: center
     border-bottom: 1px solid $color-gray-47
@@ -148,6 +158,6 @@ export default {
 
   @media (max-width: 767px)
     .txt
-      width: 32px
+      width: 26px
 
 </style>
