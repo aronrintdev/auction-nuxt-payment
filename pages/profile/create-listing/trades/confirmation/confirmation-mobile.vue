@@ -121,7 +121,17 @@
       </b-col>
     </b-row>
 
-
+    <div class="mt-2 d-flex">
+      <div class="mt-2" @click="$bvModal.show('offer-item-modal')">
+        <b-img
+          :src="require('~/assets/img/icons/clarity_eye-line.svg')"
+          :alt="$t('trades.create_listing.vendor.wants.view_offer_items')"
+        />
+      </div>
+      <div>
+        <FormStepProgressBar :steps="steps" variant="transparent"/>
+      </div>
+    </div>
     <div class="d-flex mt-2">
       <b-btn class="confirm-trade-draft-btn ml-3"
              @click="saveVendorTrade(STATUS_DRAFT)">
@@ -133,6 +143,7 @@
       </b-btn>
     </div>
   </div>
+  <ViewOfferItemsModal />
 </div>
 </template>
 
@@ -141,6 +152,7 @@
 import { mapGetters } from 'vuex'
 import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem'
+import ViewOfferItemsModal from '~/pages/profile/create-listing/trades/wants/ViewOfferItemsModal';
 import {
   IMAGE_PATH,
   MAX_ITEMS_ALLOWED,
@@ -153,6 +165,7 @@ export default {
   name: 'Index',
   components: {
     // Button,
+    ViewOfferItemsModal,
     FormStepProgressBar,
     CreateTradeSearchItem
   },
