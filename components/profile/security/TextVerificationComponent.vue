@@ -12,7 +12,7 @@
       <div>
         <NuxtLink to="/profile/security/manage">
           <span class="d-none d-md-block">{{ $t('features.2fa_security.manage') }}</span>
-          <img class="d-block d-md-none" :src="require('/assets/img/icons/arrow-right-black.svg')"/>
+          <img class="d-block d-md-none" :src="require('/assets/img/icons/arrow-right-black-2.svg')"/>
         </NuxtLink>
       </div>
     </div>
