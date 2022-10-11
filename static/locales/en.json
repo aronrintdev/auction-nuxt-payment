@@ -5279,6 +5279,11 @@
     }
   },
   "deadstock_exchange":{
-    "title": "Deadstock Exchange"
+    "title": "Deadstock Exchange",
+    "biggest_lossers": "Biggest losers",
+    "biggest_winners": "Biggest Winners",
+    "trendings": "Trendings",
+    "heading_detail": "Search for the top trending streetwear ranked by price backed by data"
+
   }
 }

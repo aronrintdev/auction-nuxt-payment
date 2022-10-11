@@ -14,7 +14,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <TopProductsList v-if="currentCategory === 'sweepstakes'" :loading="loading"></TopProductsList>
+            <TopProductsList v-if="currentCategory === 'trendings'" :loading="loading"></TopProductsList>
           </div>
         </div>
       </div>
@@ -40,11 +40,11 @@ export default {
     return {
       fetching: false,
       categoryItems: [
-        {label: this.$t('promotions.sweepstakes'), value: 'sweepstakes'},
-        {label: this.$t('promotions.giveaways'), value: 'giveaway'},
-        {label: this.$t('promotions.promotions'), value: 'promotion'},
+        {label: this.$t('deadstock_exchange.trendings'), value: 'trendings'},
+        {label: this.$t('deadstock_exchange.biggest_winners'), value: 'biggest_winners'},
+        {label: this.$t('deadstock_exchange.biggest_lossers'), value: 'biggest_lossers'},
       ],
-      currentCategory: 'sweepstakes',
+      currentCategory: 'trendings',
       loading: false
     }
   },
