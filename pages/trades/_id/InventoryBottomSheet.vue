@@ -1,8 +1,6 @@
 <template>
   <client-only>
   <vue-bottom-sheet ref="myBottomSheet" max-height="90%" :is-full-screen="true" class="bottom-sheet">
-    <MobileFilters v-if="filterScreen" @click="applyFilters"/>
-    <div v-else>
     <div class="offer-items">
       <div class="d-flex justify-content-between pl-3 pr-3">
         <div class="clear" :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="clearItems()">Clear</div>
@@ -90,7 +88,6 @@
       </b-row>
     </div>
     </div>
-    </div>
   </vue-bottom-sheet>
   </client-only>
 </template>
@@ -104,11 +101,9 @@ import {
 import {DEFAULT_PER_PAGE_ITEMS, MAX_ITEMS_ALLOWED, PER_PAGE_ITEMS} from '~/static/constants';
 import {Pagination} from '~/components/common'
 import SearchInput from '~/components/common/SearchInput';
-import MobileFilters from '~/components/trade/MobileFilters';
 export default {
   name: 'InventoryBottomSheet',
   components:{
-    MobileFilters,
     SearchInput,
     Pagination
   },

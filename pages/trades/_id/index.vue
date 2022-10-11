@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="trade-arena">
     <index-mobile v-if="mobileView"/>
     <div v-else>
     <trade-completed v-if="trade_completed" :trade="getSubmittedOffer"></trade-completed>
@@ -382,7 +382,7 @@ export default {
       OFFER_TYPE_YOURS,
       OFFER_TYPE_THEIR,
       OFFER_TYPE,
-      mobileView: true
+      mobileView: false
     }
   },
   head() {
@@ -411,7 +411,7 @@ export default {
     this.getTrade()
   },
   mounted(){
-
+    this.screenWidth();
     this.$root.$on('trade_done',(val)=>{ // this emit is used to complete trade and show result
       this.trade_completed = val
     })
@@ -436,6 +436,17 @@ export default {
     ...mapActions('browse', ['fetchFilters']), // Action to call api request to get filter
     ...mapActions('trade', ['fetchVendorTradeSummary']), // Action to call api request to get vendor trade summary
 
+    screenWidth(){
+      const self = this;
+      const myObserver = new ResizeObserver(entries => {
+        // this will get called whenever div dimension changes
+        entries.forEach(entry => {
+          self.mobileView = entry.contentRect.width <= 450;
+        });
+      });
+      const tradeDiv = document.querySelector('.trade-arena');
+      myObserver.observe(tradeDiv);
+    },
     /**
      * check if trade is poor/fair
      */
