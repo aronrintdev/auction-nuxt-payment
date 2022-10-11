@@ -15,7 +15,7 @@
       <span class="cursor-pointer link" @click="toggle">{{ $t('common.read_more') }}</span>
     </p>
     <div class="d-block d-md-none">
-      <vue-bottom-sheet ref="readMore" max-height="90%" :is-full-screen="true">
+      <vue-bottom-sheet ref="readMore" max-height="70%" :is-full-screen="true">
         <div>
           <div class="p-4">
             <span v-html="$t('features.2fa_security.as_part_of_our_mission')"></span>
