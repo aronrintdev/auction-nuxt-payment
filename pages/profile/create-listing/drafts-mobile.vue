@@ -39,22 +39,21 @@
     <div v-else-if="type === LISTING_TYPES.AUCTION"> <!-- show drafts for auction -->
     </div>
     <div v-else class="mt-2" v-for="(trade, index) in tradeDrafts" :key="trade.id">
-      <div class="d-flex">
-        <div class="heading-draft">{{$t('trades.create_listing.vendor.wants.draft')}} {{(index+1)}} </div>
-        <div class="">
-          <img :src="require('~/assets/img/Delete.svg')" class="ml-1 del-img" role="button"
+      <div class="d-flex mb-2">
+        <div class="heading-draft ml-2">{{$t('trades.create_listing.vendor.wants.draft')}} # {{(index+1)}} </div>
+        <div class="margin-set">
+          <img :src="require('~/assets/img/Delete.svg')" class="ml-1 del-img mr-2" role="button"
                :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="deleteTrade(trade.id)"
           /><span class="del-text">{{$t('trades.create_listing.vendor.wants.delete_draft')}}</span>
         </div>
       </div>
-     <div class="sub-main-container">
+     <div class="sub-main-container ml-2">
        <div>
          <div v-if="trade.offers.length">
-           <div class="text-center font-weight-bold">{{$t('trades.create_listing.vendor.wants.offered_items')}}</div>
+           <div class="offer-text ml-3 mt-2">{{$t('trades.create_listing.vendor.wants.offering_items')}}</div>
            <div class="d-flex">
              <div v-for="offerItem in trade.offers" :key="offerItem.id" class="draft-list-item ml-2 mr-1 mt-4">
                <div class="d-flex justify-content-between mt-2 mx-2">
-                 <div class="create-trade-size-car-sm">{{$t('trades.create_listing.vendor.wants.size')}} {{ offerItem.inventory.size && offerItem.inventory.size.size }}</div>
                  <div v-if="offerItem.quantity > 1" class="create-trade-quantity-car-sm">x{{ offerItem.quantity || 1 }}</div>
                </div>
                <object
@@ -64,11 +63,14 @@
                </object>
                <div class="create-trade-item-caption">
                  <span :id="`name${offerItem.id}`" class="create-trade-item-name-sm">{{ offerItem.inventory.product && offerItem.inventory.product.name }}</span>
-                 <span :id="`colorway${offerItem.id}`" class="create-trade-item-caption-description-sm">{{ offerItem.inventory.product && offerItem.inventory.product.colorway }}</span>
+                 <span :id="`colorway${offerItem.id}`" class="create-trade-item-caption-description-sm">
+                   {{ offerItem.inventory.product && offerItem.inventory.product.colorway }}</span>
                  <span
                    class="create-trade-item-caption-description-sm">{{$t('trades.create_listing.vendor.wants.box')}}: {{
                      offerItem.inventory.packaging_condition && offerItem.inventory.packaging_condition.name
                    }}</span>
+                 <span :id="`size${offerItem.id}`" class="create-trade-item-caption-description-sm"> {{$t('trades.create_listing.vendor.wants.size')}}:
+                   {{ offerItem.inventory.product && offerItem.inventory.size.size }}</span>
                </div>
                <!-- tooltip for name -->
                <b-tooltip :target="`name${offerItem.id}`" triggers="hover">
@@ -88,11 +90,10 @@
        <hr/>
        <div>
        <div v-if="trade.wants.length">
-         <div class="text-center font-weight-bold">{{$t('trades.create_listing.vendor.wants.want_items')}}</div>
+         <div class="wants-text ml-3">{{$t('trades.create_listing.vendor.wants.want_items-sm')}}</div>
          <div class="d-flex">
            <div v-for="wantItem in trade.wants" :key="wantItem.id"  class="draft-list-item mr-1 ml-2 mt-4">
              <div class="d-flex justify-content-between mt-2 mx-2">
-               <div class="create-trade-size-car-sm">Size {{ wantItem.size && wantItem.size.size }}</div>
                <div v-if="wantItem.quantity > 1" class="create-trade-quantity-car-sm">x{{ wantItem.quantity || 1 }}</div>
              </div>
              <img class="create-trade-item-image" :src="wantItem.product.image" alt="image"/>
@@ -100,6 +101,7 @@
                <span :id="`want-name${wantItem.id}`" class="create-trade-item-name-sm">{{wantItem.product.name}}</span>
                <span :id="`want-colorway${wantItem.id}`" class="create-trade-item-caption-description-sm">{{wantItem.product.colorway}}</span>
                <span class="create-trade-item-caption-description-sm">{{ $t('trades.create_listing.vendor.wants.box') }}: {{wantItem.packaging_condition.name}}</span>
+               <span :id="`want-size${wantItem.id}`" class="create-trade-item-caption-description-sm">{{$t('trades.create_listing.vendor.wants.size')}}: {{wantItem.size.size}}</span>
              </div>
              <!-- tooltip for name -->
              <b-tooltip :target="`want-name${wantItem.id}`" triggers="hover">
@@ -116,6 +118,13 @@
          <div class="text-center">({{$t('trades.create_listing.vendor.wants.want_items')}})</div>
        </div>
      </div>
+       <hr/>
+       <div class="mt-2 d-flex justify-content-center align-center">
+         <b-btn class="edit-view-btn"
+                @click="setTradeId(trade.id)">
+           {{  $t('trades.create_listing.vendor.wants.view_edit_btn')  }}
+         </b-btn>
+       </div>
      </div>
     </div>
     <div>
@@ -405,7 +414,8 @@ export default {
   font-weight: 600
   font-family: SF Pro Display
   color: #000000
-
+.create-trade-item-caption
+ padding: 7px 10px
 .create-trade-item-caption-description-sm
   width: 81px
   height: 12px
@@ -413,5 +423,29 @@ export default {
   font-style: normal
   font-weight: 500
   font-size: 10px
+.wants-text
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 600
+  font-size: 12px
+  color: #667799
+
+.offer-text
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 600
+  font-size: 12px
+  color: #667799
+.margin-set
+  margin-left: 11rem
+.edit-view-btn
+  font-size: 13px
+  font-family: Montserrat
+  font-weight: 600
+  color: #FFFFFF
+  width: 155px
+  height: 32px
+  border-radius: 20px
+  background: #667799
 </style>
 

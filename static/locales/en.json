@@ -4143,6 +4143,7 @@
           "back_to_confirm_trade_listing": "Back to Confirm Trade Listing",
           "trade_confirmation": "Trade Confirmation",
           "offered_items": "Offered Items",
+          "offering_items": "Offering",
           "details": "Details",
           "actions": "Actions",
           "wanted_items": "Wanted Items",
@@ -4161,9 +4162,11 @@
           "offered": "Offered",
           "wants": "Wants",
           "box": "Box",
+          "size": "Size",
           "no_offers_specified": "No Offered Items Specified",
           "no_wants_specified": "No Wanted Items Specified",
           "want_items": "Want Items",
+          "want_items-sm": "Wants",
           "this_product": "This Product",
           "listing_id": "Listing ID:",
           "is_already_listed": "is already listed selling",
@@ -4172,7 +4175,8 @@
           "continue": "Continue",
           "cancel": "Cancel",
           "no_image": "No Image",
-          "delete_draft": "Delete Draft"
+          "delete_draft": "Delete Draft",
+          "view_edit_btn": "View/Edit"
         }
       },
       "create_a_listing": "Create a Listing"
