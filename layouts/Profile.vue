@@ -4,18 +4,22 @@
 
     <div class="custom-wrapper">
       <div class="row mb-bb">
-        <div class="col-md-12 col-lg-2">
-          <button
-              v-if="!isScreenXS"
-              v-b-toggle.sidebar
-              class="w3-button w3-xlarge w3-hide-large float-left"
-          >
+
+        <!-- TODO: It will remove after getting confirmation for the new menu design -->
+        <div v-if="false" class="col-md-12 col-lg-2">
+
+          <button v-if="isScreenXS || isScreenSM || isScreenMD"
+                  v-b-toggle.sidebar
+                  class="w3-button w3-xlarge w3-hide-large float-left">
             <span class="text-bold">{{ $t('navbar.profile') }}</span>
             <i class="fa fa-bars"></i>
           </button>
           <!-- BootstrapVue Sidebar: in small devices -->
-          <b-sidebar id="sidebar" ref="mySidebar" shadow>
-            <SideMenu id="sidemenu"/>
+          <b-sidebar id="sidebar" ref="mySidebar"
+                     shadow
+                     @shown="sidebarIsVisible = true"
+                     @hidden="sidebarIsVisible = false">
+            <NewSideMenu id="sidemenu" ref="sidemenu" v-click-outside="onClickOutside"  />
           </b-sidebar>
           <!-- ./BootstrapVue Sidebar -->
 
@@ -23,6 +27,29 @@
           <NewSideMenu v-if="!isScreenXS"/>
           <!-- Collapsable SideMenu for large devices -->
         </div>
+
+        <!-- New menu design begin -->
+        <div class="col">
+          <button
+            v-if="isScreenXS || isScreenSM || isScreenMD"
+            v-b-toggle.sidebar
+            class="w3-button w3-xlarge w3-hide-large float-left">
+            <span class="text-bold">{{ $t('navbar.profile') }}</span>
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- new menu area -->
+          <b-sidebar id="sidebar"
+                     ref="mySidebar"
+                     shadow
+                     @shown="sidebarIsVisible = true"
+                     @hidden="sidebarIsVisible = false">
+            <NewSideMenu id="sidemenu" ref="sidemenu" v-click-outside="onClickOutside" :show-title="false"  />
+          </b-sidebar>
+          <NewSideMenu v-if="!isScreenXS && !isScreenSM && !isScreenMD" />
+          <!-- new menu area end -->
+        </div>
+        <!-- New menu design end -->
       </div>
 
       <div class="main-wrapper">
@@ -40,7 +67,6 @@
 import {mapGetters} from 'vuex';
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
-import SideMenu from '~/components/profile/SideMenu.vue'
 import NewSideMenu from '~/components/profile/NewSideMenu'
 import ScrollToTop from '~/components/common/ScrollToTop.vue'
 import screenSize from '~/plugins/mixins/screenSize'
@@ -54,14 +80,14 @@ export default {
     NewSideMenu,
     Header,
     Footer,
-    SideMenu,
     ScrollToTop,
   },
   mixins: [screenSize, realtime],
   data() {
     return {
       showScroll: false,
-      scrollY: SCROLLY
+      scrollY: SCROLLY,
+      sidebarIsVisible: false,
     }
   },
   head() {
@@ -101,6 +127,12 @@ export default {
     handleScroll() {
       // Your scroll handling here
       this.showScroll = window.scrollY > this.scrollY
+    },
+    onClickOutside() {
+      const { mySidebar } = this.$refs
+      if (mySidebar && this.sidebarIsVisible) {
+        mySidebar.hide()
+      }
     }
   },
 }
