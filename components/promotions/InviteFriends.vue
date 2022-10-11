@@ -1,5 +1,6 @@
 <template>
-  <div v-if="$auth.user" class="my-5 p-4 d-flex align-items-center justify-content-center flex-column invite-friends">
+  <div v-if="$auth.user && !isScreenXS"
+       class="my-5 p-4 d-flex align-items-center justify-content-center flex-column invite-friends">
     <div class="body-7-bold">{{ $t('promotions.invite_friends_start') }}</div>
     <div class="heading-2-bold">{{ $t('promotions.everybody_gets_points') }}</div>
     <div class="description mt-1">{{ $t('promotions.invite_friends_description') }}</div>
@@ -43,6 +44,7 @@ import {mapActions} from 'vuex';
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
 import Button from '~/components/common/Button'
 import {BAD_REQUEST} from '~/static/constants';
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'PromotionsInviteFriends',
@@ -51,6 +53,7 @@ export default {
     ValidationObserver,
     ValidationProvider
   },
+  mixins: [screenSize],
   data() {
     return {
       form: {
