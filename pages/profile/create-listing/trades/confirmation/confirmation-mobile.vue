@@ -243,7 +243,7 @@ export default {
 
     redirectTo(status){
       if(status === STATUS_DRAFT){
-        this.$router.push('/profile/create-listing/drafts')
+        this.$router.push('/profile/create-listing/drafts-mobile')
       }else{
         this.$router.push('/profile/trades/dashboard')
       }

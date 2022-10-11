@@ -4171,7 +4171,8 @@
           "would_you_add_to_trade": "Would you like to add this product to your trade?",
           "continue": "Continue",
           "cancel": "Cancel",
-          "no_image": "No Image"
+          "no_image": "No Image",
+          "delete_draft": "Delete Draft"
         }
       },
       "create_a_listing": "Create a Listing"
