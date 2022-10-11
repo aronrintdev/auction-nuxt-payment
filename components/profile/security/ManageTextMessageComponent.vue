@@ -4,7 +4,8 @@
       <div class="title">{{ $t('manage_text_message.manage_text_message_verification') }}</div>
       <div class="desc py-3">{{ $t('manage_text_message.label_we_will_send_a_message') }}</div>
       <div class="my-3">
-        <phone-number-component ref="phone_number" @submit="handleSubmit" @codeSubmit="handleCodeSubmit"/>
+        <phone-number-component ref="phone_number" @submit="handleSubmit" @codeSubmit="handleCodeSubmit"
+                                @resend="handleSubmit"/>
       </div>
       <div class="text-center go-back">
         <NuxtLink to="/profile/security">{{ $t('manage_text_message.go_back') }}</NuxtLink>
@@ -26,20 +27,26 @@ export default {
   },
   data() {
     return {
-      showAlert: false
+      showAlert: false,
+      phone: ''
     }
   },
   methods: {
-    handleCodeSubmit(code) {
-      console.debug('code: '+code)
-      this.$refs.phone_number.clearVerificationCode()
-      this.showAlert = !this.showAlert
+    async handleCodeSubmit(code) {
+      const resp = await this.$axios.post('/verify-code', {phone: this.phone, code})
+
+      if (resp.data.status === true) {
+        this.$refs.phone_number.clearVerificationCode()
+        this.showAlert = !this.showAlert
+        this.$refs.phone_number.showVerificationCodeForm = false
+      }
     },
     listenModalClose() {
       this.showAlert = false
     },
-    handleSubmit(phone) {
-      console.debug('phone: '+phone)
+    async handleSubmit(phone) {
+      this.phone = phone
+      await this.$axios.post('/create-verification-code', {phone})
     }
   }
 }

@@ -13,13 +13,17 @@
         </button>
       </div>
       <div class="link d-none d-md-block">
-        <NuxtLink to="#">{{ $t('manage_text_message.resend_code') }}</NuxtLink>
+        <span v-if="showResend" class="link cursor-pointer" @click="resend">
+          {{ $t('manage_text_message.resend_code') }}
+        </span>
       </div>
     </div>
     <div class="py-3 note">{{ $t('manage_text_message.label_a_verification_code_will') }}</div>
-    <div class="d-block d-md-none text-center">
+    <div v-if="showResend" class="d-block d-md-none text-center" >
       {{ $t('manage_text_message.havent_received_it') }}
-      <NuxtLink to="#">{{ $t('manage_text_message.resend_a_new_code') }}</NuxtLink>
+      <span class="link cursor-pointer" @click="resend">
+        {{ $t('manage_text_message.resend_a_new_code') }}
+      </span>
     </div>
   </div>
 </template>
@@ -36,6 +40,10 @@ export default {
     duration: {
       type: String,
       default: '5:00'
+    },
+    showResend:{
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -52,6 +60,9 @@ export default {
     },
     clearVerificationCode() {
       this.$refs.verification_code.clear()
+    },
+    resend() {
+      this.$emit('resend')
     }
   }
 
@@ -64,7 +75,7 @@ export default {
   .btn
     vertical-align: bottom
 
-  .link a
+  .link
     color: #3A71EA
     text-decoration: underline
 

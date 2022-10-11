@@ -7,7 +7,12 @@
     </div>
     <div class="msg">{{ $t('manage_text_message.action_required') }}</div>
     <div v-if="showVerificationCodeForm" class="my-5">
-      <resend-code-component ref="resend_code" :duration="duration" @submit="handleCodeSubmission"/>
+      <resend-code-component
+        ref="resend_code"
+        :duration="duration"
+        :show-resend="showResend"
+        @submit="handleCodeSubmission"
+        @resend="handleResend"/>
     </div>
   </div>
 </template>
@@ -26,7 +31,8 @@ export default {
       duration: '5:00',
       timer: null,
       btnStyle: '',
-      showVerificationCodeForm: false
+      showVerificationCodeForm: false,
+      showResend: false
     }
   },
   watch: {
@@ -38,13 +44,13 @@ export default {
     handleUpdate() {
       this.$emit('submit', this.phoneNumber)
       this.showVerificationCodeForm = true
-      this.countdown(()=>{
-        // todo write code to execute after countdown finished
+
+      this.countdown(() => {
+        this.showResend = true
       })
     },
     handleCodeSubmission(code) {
       this.$emit('codeSubmit', code)
-      this.showVerificationCodeForm = false
       this.phoneNumber = ''
       this.resetTimer()
     },
@@ -54,17 +60,15 @@ export default {
       let seconds = 60
       this.timer = setInterval(() => {
         seconds = seconds - 1
+        this.duration = `${minutes}:${seconds}`
 
-        if (seconds === 0) {
+        if (minutes <= 0 && seconds <= 0) {
+          this.resetTimer()
+          callback()
+        } else if (seconds === 0) {
           seconds = 60
           minutes = minutes - 1
         }
-
-        if (minutes === 0 && seconds === 0) {
-          this.resetTimer()
-          callback()
-        }
-        this.duration = `${minutes}:${seconds}`
       }, 1000)
     },
     resetTimer() {
@@ -73,6 +77,9 @@ export default {
     },
     clearVerificationCode() {
       this.$refs.resend_code.clearVerificationCode()
+    },
+    handleResend() {
+      this.$emit('resend', this.phoneNumber)
     }
   }
 }
