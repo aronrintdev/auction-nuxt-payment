@@ -1,31 +1,32 @@
 <template>
   <client-only>
-  <vue-bottom-sheet ref="myBottomSheet" max-height="90%" :is-full-screen="true">
+  <vue-bottom-sheet ref="myBottomSheet" max-height="90%" :is-full-screen="true" class="bottom-sheet">
+    <MobileFilters v-if="filterScreen" @click="applyFilters"/>
+    <div v-else>
     <div class="offer-items">
       <div class="d-flex justify-content-between pl-3 pr-3">
-        <div class="clear">Clear</div>
+        <div class="clear" :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="clearItems()">Clear</div>
         <div class="d-block text-center">
           <div class="offer-heading">Your Offer</div>
-          <div class="est-val">Estimated Value:$0.00</div>
+          <div class="est-val">Estimated Value:{{yourTotal()}}</div>
         </div>
-        <div class="done">Done</div>
+        <div class="done"  :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="doneClose()">Done</div>
       </div>
-      <div v-if="getYourTradeItems.length > ITEM_COUNT_0">
-        <div  v-for="(item,index) in getYourTradeItems" :id="'your-card-'+index" :key="index" class="item-inventory mb-4">
+      <div v-if="getYourTradeItems.length > ITEM_COUNT_0" class="d-flex justify-content-center">
+        <div  v-for="(item,index) in getYourTradeItems" :id="'your-card-'+index" :key="index" class="item-inventory mt-2 mb-4 ml-3">
           <div class="position-relative">
-          <div class="remove-item" @click="decrementOrRemoveItem(item)">
+          <div class="remove-item mt-2" @click="decrementOrRemoveItem(item)">
             <div class="minus"></div>
           </div>
           </div>
-          <div class="image-wrapper">
+          <div class="image-wrapper position-relative d-flex justify-content-center align-items-center">
             <img class="pro-image" :src="item.product.image" alt="image" />
-            <div class="overlay"></div>
+            <div class="overlay-image position-absolute"></div>
           </div>
           <div class="item-caption">
-            <span class="item-name">{{  (item.product && item.product.name) ? item.product.name : item.name  }}</span>
-            <!--                      <span class="item-box-condition">{{$t('trades.trade_arena.box_condition')}}: {{  (item.box_condition && item.box_condition.name) ? item.box_condition.name :item.box_condition }}</span>-->
-            <!--                      <span class="item-caption-description">{{  (item.product  && item.product.colorway) ? item.product.colorway : item.colorway }}</span>-->
-            <!--                      <span class="item-size">{{$t('trades.trade_arena.size')}} {{ item.size && item.size.size }}</span>-->
+            <div class="item-name">{{  (item.product && item.product.name) ? item.product.name : item.name  }}</div>
+            <div class="item-caption-description">{{  (item.product  && item.product.colorway) ? item.product.colorway : item.colorway }},{{$t('trades.trade_arena.size')}} {{ item.size && item.size.size }}</div>
+            <div class="item-box-condition">{{$t('trades.trade_arena.box_condition')}}: {{  (item.box_condition && item.box_condition.name) ? item.box_condition.name :item.box_condition }}</div>
           </div>
         </div>
       </div>
@@ -33,7 +34,30 @@
         <img :src="require('~/assets/img/trades/select-inventory.svg')">
       </div>
     </div>
-    <div class="inventory-items d-flex flex-wrap ml-3 mr-3">
+    <div class="your-inventory">
+    <div class="d-block pt-4 pl-4">
+      <div class="invent-heading">
+        {{$t('trades.trade_arena.your_inventory',[inventoryItems.length])}}
+      </div>
+      <div class="invent-subheading mt-1">
+        {{$t('trades.trade_arena.trade_upto_items', [MAX_ITEMS_ALLOWED])}}
+      </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+    <SearchInput
+        :value="searchText"
+        variant="primary"
+        :placeholder="$t('trades.trade_arena.search_inventory')"
+        :clearSearch="true"
+        bordered
+        class="mt-3 pl-4 input-search"
+        @change="onSearchInput"
+      />
+    <div class="pt-3 pr-4">
+      <img role="button" :src="require('~/assets/img/trades/filter-icon.svg')" @click="showFilters()">
+    </div>
+    </div>
+    <div class="inventory-items d-flex flex-wrap pt-3 pl-4">
       <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item">
         <div>
           <div class="position-relative">
@@ -65,6 +89,8 @@
         />
       </b-row>
     </div>
+    </div>
+    </div>
   </vue-bottom-sheet>
   </client-only>
 </template>
@@ -73,13 +99,17 @@
 import debounce from 'lodash.debounce';
 import {mapGetters} from 'vuex';
 import {
-  ITEM_COUNT_0
+  ITEM_COUNT_0,
 } from '~/static/constants/trades'
 import {DEFAULT_PER_PAGE_ITEMS, MAX_ITEMS_ALLOWED, PER_PAGE_ITEMS} from '~/static/constants';
 import {Pagination} from '~/components/common'
+import SearchInput from '~/components/common/SearchInput';
+import MobileFilters from '~/components/trade/MobileFilters';
 export default {
   name: 'InventoryBottomSheet',
   components:{
+    MobileFilters,
+    SearchInput,
     Pagination
   },
   data(){
@@ -93,6 +123,10 @@ export default {
       inventoryItems: [],
       totalCount: 0,
       perPageOptions: PER_PAGE_ITEMS,
+      optional_cash: '0.00',
+      MAX_ITEMS_ALLOWED,
+      searchText: '',
+      filterScreen: false,
 
     }
   },
@@ -114,7 +148,7 @@ export default {
       this.$axios
         .get('/vendor/inventory', {
           params: {
-            search: '', // search query param for api call
+            search: this.searchText, // search query param for api call
             page: this.page, // Current page No
             per_page: this.perPage, // Per page no of records
             ...filters // filters to be applied
@@ -144,6 +178,13 @@ export default {
       }
       this.updateActiveTrade()
       this.$nextTick(() => this.$forceUpdate())
+    },
+    updateActiveTrade(){
+      this.$store.commit('trade/updateActiveTrade', {
+        yourItems: this.getYourTradeItems,
+        cashAdded: parseInt(parseFloat(this.optional_cash)*100),
+        tradeCondition: this.tradeCondition
+      })
     },
     /**
      * This function is used to change pagination page no
@@ -216,6 +257,20 @@ export default {
       this.$nextTick(() => this.$forceUpdate())
     },
     /**
+     * This function is used to get total amount of wants items
+     * offered by you for trade by default it return string 0
+     * @returns {string|*}
+     */
+    yourTotal(formattedPrice = true){
+      const price = this.getYourTradeItems.map((item) => item.sale_price)
+      const cashAdded = !isNaN(parseFloat(this.optional_cash)) ? this.optional_cash : 0
+      if(price.length) {
+        return (formattedPrice) ?
+          '$' + ((price.reduce((a, b) => a + b, 0)/100) + parseFloat(cashAdded)).toFixed(2) : price.reduce((a, b) => a + b, 0) + (cashAdded * 100)
+      }
+      return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(cashAdded)) : cashAdded * 100
+    },
+    /**
      * This function is used to check item can be added for trade
      * or limit exceeds
      * @returns {boolean}
@@ -228,6 +283,32 @@ export default {
         this.$toasted.error(this.$t('trades.trade_arena.your_items_length', [MAX_ITEMS_ALLOWED]))
         return false
       }
+    },
+    /**
+     * This function is used to show result on the basis of search
+     * it passes a param term which consist of search query then it will
+     * call api to get records
+     * @param term
+     */
+    onSearchInput(term) {
+      this.searchText = term
+      this.getInventory()
+    },
+    doneClose(){
+      this.$refs.myBottomSheet.close();
+    },
+    clearItems(){
+      this.$store.commit('trade/setTradeItemsEmpty',[])
+    },
+    applyFilters(data){
+      this.orderFilter = data.orderFilter ? data.orderFilter : null
+      this.categoryFilter = data.category ? data.category : null
+      this.sizeTypesFilter = data.sizeType ? data.sizeType : null
+      this.sizeFilter = data.sizes ? data.sizes: null
+      this.getInventory()
+    },
+    showFilters(){
+      this.filterScreen = true;
     }
   }
 }
@@ -256,8 +337,7 @@ export default {
   color: $color-gray-25
 
 .pro-image
-  width: 117px
-  height: 100%
+  width: 81px
 .remove-item
   height: 13px
   width: 13px
@@ -275,6 +355,10 @@ export default {
   width: 85px
   font-size: 11px
   color: $color-gray-69
+.item-box-condition,.item-caption-description
+  width: 85px
+  font-size: 11px
+  color: $color-gray-5
 .invent-item
   width: 164px
   height: 265px
@@ -288,6 +372,9 @@ export default {
   right: 5px
   top: 7px
   z-index: 1000
+.your-inventory
+  background: $color-white-1
+
 .inventory-items
   @media (max-width: 380px)
     width: 375px
@@ -324,5 +411,35 @@ export default {
   overflow: hidden
   white-space: nowrap
   max-width: 160px
-
+.overlay-image
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: $color-grey-70
+.image-wrapper
+  width: 99px
+  height: 112.4px
+.item-caption
+  background: $color-white-1
+  padding-left: unset
+.color-blue
+  color: $color-blue-20
+.bottom-sheet::v-deep
+  .bottom-sheet__card
+    background: $color-gray-1
+.invent-heading
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-17-bold
+  letter-spacing: -0.02em
+  color: #000000
+.invent-subheading
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-5-regular
+  letter-spacing: -0.02em
+  color: $color-gray-25
+.input-search
+  width: 306px
 </style>
