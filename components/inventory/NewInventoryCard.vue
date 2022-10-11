@@ -29,7 +29,8 @@
         {{ $t('common.list') }}
       </Button>
 
-      <b-dropdown id="mobile-down-icon" class="border-0 ml-auto drop-menu" no-caret variant="outlined">
+      <b-dropdown v-if="isScreenXS" id="mobile-down-icon" class="border-0 ml-auto drop-menu" no-caret
+                  variant="outlined">
         <template #button-content>
           <img :src="require('~/assets/img/icons/dot-circle-gray.svg')" height="19" width="19">
         </template>
