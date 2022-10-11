@@ -8,7 +8,7 @@
                        :label-off="$t('features.2fa_security.2fa_disabled').toString()"
                        @change="change"/>
       </div>
-      <div class="mt-2">
+      <div v-if="enable2fa" class="mt-2">
         <text-verification-component></text-verification-component>
       </div>
       <div class="mt-5">
@@ -56,6 +56,7 @@ export default {
       this.$axios.post('set-2fa-status', {'is_2fa_enabled': value})
         .then(resp => {
           if (resp.status === 200) {
+            this.enable2fa = value
             const msg = value ? this.$t('features.2fa_security.msg_enable_success').toString() : this.$t('features.2fa_security.msg_disable_success').toString();
             this.$toasted.success(msg).toString();
           }
