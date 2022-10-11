@@ -309,7 +309,8 @@ import {
   OFFER_TYPE_YOURS,
   OFFER_TYPE_THEIR,
   OFFER_TYPE,
-  TAKE_SEARCHED_PRODUCTS
+  TAKE_SEARCHED_PRODUCTS,
+  OFFER_SENT
 } from '~/static/constants/trades'
 
 export default {
@@ -420,21 +421,19 @@ export default {
       this.searchText =  null
       this.searchedItems =  []
     })
+    this.$store.commit('trade/removeYourTradeItems')
     this.$store.commit('trade/addTrade',null) // commit is used to set state empty
     this.fetchFilters()
     this.fetchVendorTradeSummary()
     this.getInventory()
-
-    if(this.getSubmittedOffer && this.$route.params.id !== this.getSubmittedOffer.trade_id){
-      this.$store.commit('trade/setSubmittedOffer', null)
-    }
-
-    this.trade_completed = this.getSubmittedOffer
+    this.fetchSubmittedOffer({ trade_id: this.$route.params.id, type: OFFER_SENT }).then(() => {
+      this.trade_completed = !!this.getSubmittedOffer
+    })
 
   },
   methods: {
     ...mapActions('browse', ['fetchFilters']), // Action to call api request to get filter
-    ...mapActions('trade', ['fetchVendorTradeSummary']), // Action to call api request to get vendor trade summary
+    ...mapActions('trade', ['fetchVendorTradeSummary', 'fetchSubmittedOffer']), // Action to call api request to get vendor trade summary
     ...mapActions('trades', ['checkIfItemIsInListingItem', 'searchProductsList']),
     ...mapGetters('auth', ['isVendor']),
 

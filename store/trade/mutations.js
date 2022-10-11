@@ -160,6 +160,14 @@ export function resetAllFilters(state) {
 }
 
 /**
+ * This mutation is used to remove your trade items in state
+ * @param state
+ */
+export function removeYourTradeItems(state, val) {
+    state.yourTradeItems = []
+}
+
+/**
  * This mutation is used to add your trade items in state
  * @param state
  * @param val

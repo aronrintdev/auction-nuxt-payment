@@ -300,12 +300,12 @@ export default {
     getItems: (vm) => {
       const items = []
 
-      items.push({ label: vm.$t('shopping_cart.cash_added'), value: vm.getCashAdded })
-      items.push({ label: vm.$t('shopping_cart.subtotal'), value: vm.getSubtotal })
-      items.push({ label: vm.$t('shopping_cart.trade_fee'), value: vm.getTradeFee })
-      items.push({ label: vm.$t('shopping_cart.shipping_fee'), value: vm.getShippingFee })
-      items.push({ label: vm.$t('shopping_cart.processing_fee'), value: vm.getProcessingFee })
-      items.push({ label: vm.$t('shopping_cart.tax'), value: vm.getTax })
+      items.push({ label: vm.$t('shopping_cart.cash_added'), key: vm.$t('shopping_cart.cash_added'), value: vm.getCashAdded })
+      items.push({ label: vm.$t('shopping_cart.subtotal'), key: vm.$t('shopping_cart.subtotal'), value: vm.getSubtotal })
+      items.push({ label: vm.$t('shopping_cart.trade_fee'), key: vm.$t('shopping_cart.trade_fee'), value: vm.getTradeFee })
+      items.push({ label: vm.$t('shopping_cart.shipping_fee'), key: vm.$t('shopping_cart.shipping_fee'), value: vm.getShippingFee })
+      items.push({ label: vm.$t('shopping_cart.processing_fee'), key: vm.$t('shopping_cart.processing_fee'), value: vm.getProcessingFee })
+      items.push({ label: vm.$t('shopping_cart.tax'), key: vm.$t('shopping_cart.tax'), value: vm.getTax })
 
       return items
     }
