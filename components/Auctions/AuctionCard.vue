@@ -190,9 +190,6 @@ export default {
       this.watchlist = newV.watchlist_item?.watchlist
     }
   },
-  created() {
-    dayjs.extend(relativeTime)
-  },
   mounted() {
     this.watchlist = this.auction.watchlist_item?.watchlist
   },
