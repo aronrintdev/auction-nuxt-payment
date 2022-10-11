@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid promotions">
     <div class="row">
-      <PromotionsBanner :title="$t('deadstock_exchange.title')"></PromotionsBanner>
+      <DeadstockBanner :title="$t('deadstock_exchange.title')"></DeadstockBanner>
       <div class="col-12 py-5 text-center">
         <NavGroup
             :data="categoryItems"
@@ -23,13 +23,13 @@
 </template>
 <script>
 import {mapActions} from 'vuex';
-import PromotionsBanner from '~/components/deadstock-exchange/Banner'
+import DeadstockBanner from '~/components/deadstock-exchange/Banner'
 import NavGroup from '~/components/common/NavGroup.vue'
 import TopProductsList from '~/components/deadstock-exchange/TopProductsList'
 
 export default {
   components: {
-    PromotionsBanner,
+    DeadstockBanner,
     NavGroup,
     TopProductsList,
   },
