@@ -1,6 +1,6 @@
 <template>
   <div class="transparent-modal">
-    <b-modal id="transparent-modal" v-model="modalShow" size="sm" hide-backdrop>
+    <b-modal id="transparent-modal" v-model="modalShow" hide-backdrop>
       <template #modal-header>
         <span></span>
       </template>
