@@ -61,12 +61,6 @@ export default {
             this.$toasted.success(msg).toString();
           }
         })
-    },
-    test() {
-      const desc = this.description.toString()
-      const firstBreakPosition = desc.search('<br')
-      const small = desc.substring(0, firstBreakPosition)
-      console.debug(small)
     }
   }
 }
