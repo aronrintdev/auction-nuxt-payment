@@ -7,14 +7,10 @@
       <div>
         <SearchInput
           :value="searchedText"
-          variant="primary"
           :placeholder="$t('trades.create_listing.vendor.wants.search_by_options')"
-          :clearSearch="true"
-          bordered
-          inputHeight="60px"
+          size="lg"
           @change="onSearchInput"
         />
-        <SearchedProductsBelowSearchTextBox  productsFor="tradeItem" width="700px" class="position-absolute"/>
       </div>
     </div>
     <!-- Filters Section -->
