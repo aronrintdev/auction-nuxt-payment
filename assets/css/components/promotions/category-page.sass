@@ -1,11 +1,111 @@
 .promotions-category-page
-  font-family: $font-montserrat
+  .main-image
+    &.mobile
+      height: 150px
+
+  .image-wrapper
+    background-color: $color-gray-1
+    font-family: $font-montserrat
+
+  .text-remaining
+    @include body-8
+    font-family: $font-montserrat
+    font-style: normal
+    font-weight: $medium
+    color: $color-black-1
+
+    &.single
+      color: $color-orange-11
+      background: $color-gray-1
+      border-radius: 5px
+      padding: 4px 17px
+      width: 170px
+
+  .types-wrapper
+    background: $color-white-1
+    box-shadow: 0 1px 4px rgba($color-black-1, 0.25)
+    border-radius: 8px
+
+  .promo-type-header
+    &.mobile
+      text-align: center
+      @include body-17
+      font-family: $font-montserrat
+      font-style: normal
+      font-weight: $medium
+      color: $color-black-1
+
+  .divider
+    border-top: 1px solid $color-gray-16f
+
+  .copy-text
+    text-align: center
+    @include body-1224
+    font-family: $font-family-sf-pro-display
+    font-style: normal
+    font-weight: $medium
+    color: $color-gray-5
+
+  .copied-text
+    text-align: center
+    @include body-10
+    font-family: $font-family-sf-pro-display
+    font-style: normal
+    font-weight: $medium
+    letter-spacing: 0.005em
+    color: $color-green-15
+
+  .howto-card
+    box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
+    border-radius: 8px
+
+    .title
+      @include body-2
+      font-family: $font-montserrat
+      font-style: normal
+      font-weight: $bold
+      color: $color-black-1
+
+      &.dark-blue
+        color: $color-blue-22f
+
+
+    .desc
+      @include body-10
+      font-family: $font-montserrat
+      font-style: normal
+      font-weight: $normal
+      color: $color-black-1
+
+    .type-title
+      @include body-10
+      font-family: $font-montserrat
+      font-style: normal
+      font-weight: $bold
+      color: $color-blue-2
+
+    .list
+      @include body-10
+      font-family: $font-montserrat
+      font-style: normal
+      font-weight: $normal
+      color: $color-black-1
+
+      .index
+        height: 25px
+        width: 25px
+        margin-right: 10px
+        background: $color-blue-th-14
+        border-radius: 100%
+        text-align: center
+
   &-title
     &-content
       font-weight: $bold
       @include body-19
       color: $black
       max-width: 450px
+
     &-before,
     &-after
       flex: 1
@@ -101,3 +201,4 @@
 
 .h-500
   height: 500px
+
