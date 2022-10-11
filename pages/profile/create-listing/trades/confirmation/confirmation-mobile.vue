@@ -2,36 +2,18 @@
 <div>
   <create-trade-search-item v-if="search_item" :product="search_item" :itemId="trade_want_id" productFor="wantOfferConfirm"/>
   <div v-else>
-    <b-row class="pt-3">
-      <b-col cols="6" class="create-trade-heading">
-        <div>
-          {{ $t('trades.create_listing.vendor.wants.trade_confirmation') }}
-        </div>
-      </b-col>
-      <b-col cols="6">
-        <div class="row">
-          <div class="col-md-12 ">
-            <FormStepProgressBar :steps="steps" variant="transparent"/>
-          </div>
-        </div>
-      </b-col>
-    </b-row>
-    <b-row class="offered-item-confirm-trade">
+    <div class="offered-item-confirm-trade mt-2">
       {{ $t('trades.create_listing.vendor.wants.offered_items') }}
-    </b-row>
-    <b-row class="confirm-trade-detail-section mb-3">
-      <b-col cols="8">{{ $t('trades.create_listing.vendor.wants.details') }}</b-col>
-      <b-col cols="2">{{ $t('trades.create_listing.vendor.wants.quantity') }}</b-col>
-      <b-col cols="2">{{ $t('trades.create_listing.vendor.wants.actions') }}</b-col>
-    </b-row>
-    <b-row v-for="(item, index) in getTradeItems" :key="'offer-'+index+item.id" class="confirm-trade-item">
-      <b-col cols="8" class="d-flex">
-        <div class="pt-3">
-          <img class="confirm-trade-item-image"
+    </div>
+    <div v-for="(item, index) in getTradeItems" :key="'offer-'+index+item.id" class="confirm-trade-item">
+      <div class="d-flex">
+        <div class="ml-2">
+          <img class="confirm-trade-item-image mt-3"
                :src="`${IMAGE_PATH}/${item.product && item.product.category.name ? item.product.category.name :item.category.name }/${item.sku ? item.sku : item.product.sku}/800xAUTO/IMG01.jpg`"
                :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
+          <div class="quantity-heading ml-2">Quantity : <span class="sub-quantity">{{ item.quantity }}</span></div>
         </div>
-        <div class="d-block pt-4 pl-4">
+        <div class="pl-4 pt-3">
           <div class="confirm-trade-item-name">{{ item.name ? item.name : item.product.name }}</div>
           <div class="confirm-trade-item-detail">{{
               $t('trades.create_listing.vendor.wants.sku')
@@ -44,11 +26,8 @@
             {{ item.packaging_condition.name }}
           </div>
         </div>
-      </b-col>
-      <b-col cols="2">
-        <div class="confirm-trade-item-quantity">{{ item.quantity }}</div>
-      </b-col>
-      <b-col cols="2" class="confirm-trade-icons d-flex">
+      </div>
+      <div cols="2" class="confirm-trade-icons d-flex">
         <div>
           <NuxtLink class="font-weight-bolder text-gray" to="/profile/create-listing/trades/create">
             <img :src="require('~/assets/img/box-pencil.svg')" :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
@@ -58,8 +37,8 @@
           <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"
                :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="removeOfferItem(item.id)"/>
         </div>
-      </b-col>
-    </b-row>
+      </div>
+    </div>
     <b-row v-if="!getTradeItems.length">
       <b-col cols="12" class="d-flex mt-3 pl-5 ml-2">
         <NuxtLink class="font-weight-bolder text-gray" to="/profile/create-listing/trades/create">
@@ -71,18 +50,15 @@
     <b-row class="offered-item-confirm-trade">
       {{ $t('trades.create_listing.vendor.wants.wanted_items') }}
     </b-row>
-    <b-row class="confirm-trade-detail-section mb-3">
-      <b-col cols="8">{{ $t('trades.create_listing.vendor.wants.details') }}</b-col>
-      <b-col cols="2">{{ $t('trades.create_listing.vendor.wants.quantity') }}</b-col>
-      <b-col cols="2">{{ $t('trades.create_listing.vendor.wants.actions') }}</b-col>
-    </b-row>
-    <b-row v-for="(wantItem, index) in getTradeItemsWants" :key="'want-'+index+wantItem.id" class="confirm-trade-item">
-      <b-col cols="8" class="d-flex">
-        <div class="pt-3">
-          <img class="confirm-trade-item-image" :src="wantItem.image"
+
+    <div v-for="(wantItem, index) in getTradeItemsWants" :key="'want-'+index+wantItem.id" class="confirm-trade-item">
+      <div class="d-flex">
+        <div class="ml-2">
+          <img class="confirm-trade-item-image mt-3" :src="wantItem.image"
                :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
+          <div class="quantity-heading ml-2">Quantity : <span class="sub-quantity">{{ wantItem.selected_quantity }}</span></div>
         </div>
-        <div class="d-block pt-4 pl-4">
+        <div class="pt-3 pl-4">
           <div class="confirm-trade-item-name">{{ wantItem.name }} ({{ wantItem.product.release_year }})</div>
           <div class="confirm-trade-item-detail">{{
               $t('trades.create_listing.vendor.wants.sku')
@@ -95,10 +71,7 @@
             {{ wantItem.selected_box_condition_name }}
           </div>
         </div>
-      </b-col>
-      <b-col cols="2">
-        <div class="confirm-trade-item-quantity">{{ wantItem.selected_quantity }}</div>
-      </b-col>
+      </div>
       <b-col cols="2" class="confirm-trade-icons d-flex">
         <div>
           <img class="cursor-pointer" :src="require('~/assets/img/box-copy.svg')"
@@ -112,7 +85,7 @@
                :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="removeWantItem(wantItem.id)"/>
         </div>
       </b-col>
-    </b-row>
+    </div>
     <b-row v-if="!getTradeItemsWants.length">
       <b-col cols="12" class="d-flex mt-3 pl-5 ml-2 mb-4">
         <NuxtLink class="font-weight-bolder text-gray" to="/profile/create-listing/trades/wants">
@@ -350,4 +323,44 @@ export default {
   font-family: Montserrat
   font-weight: 600
   font-size: 13px
+.offered-item-confirm-trade
+  font-size: 14px
+  font-weight: 700
+  font-family: Montserrat
+  color: #000000
+.confirm-trade-item
+  width: 343px
+  height: 133px
+  border-radius: 10px
+  background: #FFFFFF
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+.confirm-trade-item-image
+  width: 86px
+  height: 53px
+.quantity-heading
+  font-family: 'Montserrat'
+  font-weight: 600
+  font-size: 12px
+  color: #000000
+.confirm-trade-item-quantity
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 500
+  font-size: 12px
+  color: #6F6F6F
+.sub-quantity
+  font-size: 12px
+  font-weight: 500
+  font-family: Montserrat
+  color: #6F6F6F
+.confirm-trade-item-name
+  font-family: 'SF Pro Display'
+  font-style: normal
+  font-weight: 600
+  font-size: 14px
+.confirm-trade-item-detail
+  font-family: 'SF Pro Display'
+  font-style: normal
+  font-weight: 500
+  font-size: 11px
 </style>
