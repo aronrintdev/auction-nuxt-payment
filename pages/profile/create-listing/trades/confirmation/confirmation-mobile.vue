@@ -121,7 +121,7 @@
       </b-col>
     </b-row>
 
-    <div class="mt-2 d-flex">
+    <div class="mt-2 d-flex ml-4">
       <div class="mt-2" @click="$bvModal.show('offer-item-modal')">
         <b-img
           :src="require('~/assets/img/icons/clarity_eye-line.svg')"
@@ -132,7 +132,12 @@
         <FormStepProgressBar :steps="steps" variant="transparent"/>
       </div>
     </div>
-    <div class="d-flex mt-2">
+    <div class="press-content mt-2 ml-3">
+      *By pressing on Post Listing(s),
+      I accept the seller fee of 9.5% + a 2.9% transaction fee.
+      No authentication fees will be charged to sellers.
+    </div>
+    <div class="d-flex mt-2 mb-4">
       <b-btn class="confirm-trade-draft-btn ml-3"
              @click="saveVendorTrade(STATUS_DRAFT)">
         {{  $t('trades.create_listing.vendor.wants.save_as_draft')  }}
@@ -392,4 +397,13 @@ export default {
   font-size: 11px
 .confirm-trade-item
   margin: 5px 17px 11px
+.press-content
+  width: 340px
+  height: 63px
+  font-size: 12px
+  font-weight: 500
+  font-family: Montserrat
+  color: #000000
+  background-color: #F7F7F7
+  padding: 5px
 </style>
