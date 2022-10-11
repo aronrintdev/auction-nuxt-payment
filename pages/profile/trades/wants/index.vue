@@ -152,7 +152,7 @@
         
       </b-col> -->
     </div>
-    <div class="wanted-items-container" :class="{'wanted-items-container-border': wantedItems.length}">
+    <div class="wanted-items-container bg-white" :class="{'wanted-items-container-border': wantedItems.length}">
       <div v-if="!wantedItems.length" class="mt-3">
         <div>
           <span class="wanted-items-heading">{{ $t('trades.wants_listing.wanted_items', {0: wantedItems.length}) }}</span>
@@ -191,10 +191,10 @@
     </div>
     <div class="combination-items-container mt-4">
       <div v-if="!combinationItems.length && wantedItems.length" class="mt-2 pb-5">
-        <div>
+        <!-- <div>
           <span class="wanted-items-heading">{{ $t('trades.wants_listing.combinations', {0: combinationItems.length}) }}</span>
-        </div>
-        <div class="no-items pb-5">
+        </div> -->
+        <div class="no-items pb-5 text-center">
           {{$t('trades.wants_listing.have_no_combinations')}} <span class="add-new-item" role="button" @click="createCombination">{{$t('trades.wants_listing.create_combination', {count: ''})}}</span>
         </div>
       </div>
@@ -754,6 +754,9 @@ export default {
 
 .wanted-items-container
   padding-bottom: 34px
+  padding-top: 36px
+  padding-left: 10px
+  border-radius: 3px
 
 .wanted-items-container-border
   border-bottom: 0.5px solid $color-gray-5

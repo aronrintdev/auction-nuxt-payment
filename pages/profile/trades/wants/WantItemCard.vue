@@ -1,20 +1,19 @@
 <template>
     <div  class="invent-item mr-45">
       <div class="position-absolute size-cont">
-        <b-row class="justify-content-between">
-          <div class="size text-center ml-3 mt-2">
-            {{$t('trades.size')}} {{ wantItem.size && wantItem.size.size }}
-          </div>
+        <b-row class="justify-content-center">
           <b-form-checkbox
             v-if="editRemove"
             :checked="selected"
             class="pr-2 pt-2"
             @change="toggleSelect"
           ></b-form-checkbox>
-          <div v-else class="d-flex pr-3 pt-2">
-            <img :src="require('~/assets/img/trades/edit-icon.svg')" height="24" width="24" role="button" @click="editWant">
-            <img :src="require('~/assets/img/trades/minus-icon.svg')" height="24" width="24" class="ml-2" role="button" @click="deleteWant">
-          </div>
+            <div>
+              <img :src="require('~/assets/img/icons/pencil-gray.svg')" height="15" width="15" role="button" @click="editWant">
+              <span class="edit-label">Edit</span>
+              <img :src="require('~/assets/img/icons/Delete.svg')" height="15" width="15" class="ml-2" role="button" @click="deleteWant">
+              <span class="delete-label">Delete</span>
+            </div>
         </b-row>
       </div>
       <div class="inventory-image d-flex justify-content-center mx-auto align-items-center">
@@ -24,8 +23,10 @@
       </div>
       <div class="card-text-item pt-3 pl-2">
         <div class="invent-item-name">{{wantItem.product && wantItem.product.name}}</div>   <!-- to do just frontend .....  -->
-        <div class="invent-item-color">{{ wantItem.product && wantItem.product.colorway }}</div>
-        <div class="invent-item-color">{{$t('trades.box_condition')}}:{{
+        <div class="invent-item-color">
+          {{ wantItem.product && wantItem.product.colorway }}, Size {{ wantItem.size && wantItem.size.size }}
+        </div>
+        <div class="invent-item-color">Box: {{
             wantItem.packaging_condition && wantItem.packaging_condition.name
           }}</div>
       </div>
@@ -85,8 +86,6 @@ export default {
 @import '~/assets/css/_variables'
 
 .invent-item
-  background: $color-white-1
-  border: 1px solid $light-gray-2
   height: 281px
   width: 213px
 
@@ -111,7 +110,6 @@ export default {
 
 .card-text-item
   height: 78px
-  background: $color-gray-1
 
 .size-cont
   z-index: 1000
@@ -139,6 +137,25 @@ export default {
 
 .mr-45
   margin-right: 40px
+
+.edit-label
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 500
+  font-size: 15px
+  line-height: 18px
+  margin-left: 6px
+  color: $color-blue-20
+  margin-right: 43px
+
+.delete-label
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 500
+  font-size: 15px
+  line-height: 18px
+  color: $color-red-24
+  margin-left: 6px
 
 </style>
 
