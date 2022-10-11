@@ -137,7 +137,7 @@
               </b-col>
               <b-col md="5">
                 <div class="body-5-regular pull-right">
-                  &dollar;{{ getSubtotalAfterDiscount | formatPrice }}
+                  &dollar;{{ getSubtotal | formatPrice }}
                 </div>
               </b-col>
             </b-row>
@@ -391,7 +391,7 @@ export default {
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTax: (vm) => {
-      return Math.trunc(vm.taxRate * vm.getSubtotal)
+      return Math.trunc(vm.taxRate * vm.getSubtotalAfterDiscount)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTotal: (vm) => {

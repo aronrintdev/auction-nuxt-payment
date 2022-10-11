@@ -157,8 +157,10 @@ import {
   FILTER_RECENT_TO_OLDEST,
   FILTER_OLDEST_TO_RECENT,
   ALL_OFFER_TYPE,
-  FILTER_STATUS_LIVE,
-  FILTER_STATUS_EXPIRED,
+  FILTER_OFFER_STATUS_OPEN,
+  FILTER_OFFER_STATUS_DECLINED,
+  FILTER_OFFER_STATUS_ACCEPTED,
+  FILTER_OFFER_STATUS_DELETED,
   FILTER_CONDITION_POOR,
   FILTER_CONDITION_FAIR,
   FILTER_CONDITION_EXCELLENT,
@@ -186,8 +188,6 @@ export default {
   data (){
     return {
       ALL_OFFER_TYPE,
-      FILTER_STATUS_LIVE,
-      FILTER_STATUS_EXPIRED,
       FILTER_CONDITION_POOR,
       FILTER_CONDITION_FAIR,
       FILTER_CONDITION_EXCELLENT,
@@ -209,8 +209,10 @@ export default {
       statusFilterLabel: this.$t('trades.status'),
       statusFilter: [],
       statusFilterItems: [
-        { text: this.$t('trades.live'), value: FILTER_STATUS_LIVE },
-        { text: this.$t('trades.expired'), value: FILTER_STATUS_EXPIRED },
+        { text: this.$t('trades.offer_status.open'), value: FILTER_OFFER_STATUS_OPEN },
+        { text: this.$t('trades.offer_status.declined'), value: FILTER_OFFER_STATUS_DECLINED },
+        { text: this.$t('trades.offer_status.accepted'), value: FILTER_OFFER_STATUS_ACCEPTED },
+        { text: this.$t('trades.offer_status.deleted'), value: FILTER_OFFER_STATUS_DELETED },
       ],
       conditionFilterLabel: this.$t('trades.trade_condition'),
       conditionFilter: [],
@@ -244,7 +246,7 @@ export default {
       } else {
         this.conditionFilter = this.conditionFilter.filter(item => item !== selectedConditions)
       }
-      this.conditionFilterLabel = this.joinAndCapitalizeFirstLetters(this.conditionFilter, 2) || this.$t('trades.trade_condition') // 2 is max number of labels show in filter
+      this.conditionFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.conditionFilter, 2) || this.$t('trades.trade_condition') // 2 is max number of labels show in filter
     },
     /**
      * This function is used to change status filter
@@ -256,20 +258,7 @@ export default {
       } else {
         this.statusFilter = this.statusFilter.filter(item => item !== selectedStatuses)
       }
-      this.statusFilterLabel = this.joinAndCapitalizeFirstLetters(this.statusFilter, 2) || this.$t('trades.status') // 2 is max number of labels show in filter
-    },
-    /**
-     * This function is used to show selected items by joining them
-     * in string format separated by commas
-     * @param selectedOptionsArray
-     * @param maxLabelsAllowed
-     * @returns {string|*}
-     */
-    joinAndCapitalizeFirstLetters(selectedOptionsArray, maxLabelsAllowed) {
-      selectedOptionsArray = selectedOptionsArray.map(o => o[0].toUpperCase() + o.slice(1))
-      return (selectedOptionsArray.length > maxLabelsAllowed)
-        ? selectedOptionsArray.slice(0, maxLabelsAllowed).join(', ') + '...' // append dots if labels exceed limits of showing characters
-        : selectedOptionsArray.join(', ')
+      this.statusFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.statusFilter, 2) || this.$t('trades.status') // 2 is max number of labels show in filter
     },
     fetchOffersListing(){
       this.$axios
@@ -333,20 +322,8 @@ export default {
     changeOrderFilter(selectedOrder) {
       this.orderFilter = selectedOrder
       const orderFilteredKey = this.orderFilterItems.find(item => item.value === this.orderFilter)
-      this.orderFilterLabel = this.capitalizeFirstLetter(orderFilteredKey.text)
+      this.orderFilterLabel = this.$options.filters.capitalizeFirstLetter(orderFilteredKey.text)
       this.fetchOffersListing()
-    },
-
-    /**
-     * This function do first letter of word capital
-     * @param string
-     * @returns {string}
-     */
-    capitalizeFirstLetter(string) {
-      if (typeof string === 'string')
-        return string[0].toUpperCase() + string.slice(1)
-      else if (typeof string === 'object' && string.size && typeof string.size === 'string')
-        return string.size[0].toUpperCase() + string.size.slice(1);
     },
 
     /**

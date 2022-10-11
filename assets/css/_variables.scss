@@ -1,6 +1,6 @@
 @import 'typography';
 
-$font-montserrat-serif: 'Montserrat','sans-serif';
+$font-montserrat-serif: 'Montserrat', 'sans-serif';
 $font-family-base: 'Montserrat', 'San Francisco', sans-serif;
 $font-sp-pro: 'SF Pro Display';
 $font-sf-pro-text: 'SF Pro Text';
@@ -31,6 +31,7 @@ $color-black-14: #00000026;
 $color-black-rgb1: rgb(0 0 0 / 25%);
 $color-black-rgb2: rgba(0, 0, 0, 0.25);
 $color-black-rgb3: rgba(0, 0, 0, 0.5);
+$color-black-15: #979797;
 
 $color-gray-1: #f5f5f5;
 $color-gray-2: #f0efef;
@@ -48,6 +49,7 @@ $color-gray-13: #ddd;
 $color-gray-14: #414141;
 $color-gray-15: #808080;
 $color-gray-16: #eee;
+$color-gray-16f: #efefef;
 $color-gray-17: #c9c9c9;
 $color-gray-17b: #cbcbcb;
 $color-gray-18: #ced4da;
@@ -109,8 +111,21 @@ $color-gray-68: #f3f3f380;
 $color-gray-69: #8136bd14;
 $color-gray-70: #71717130;
 $color-gray-68: #5e5757;
-$color-gray-69: #50555C;
-$color-grey-70: rgba(153, 153, 153, 0.1);
+$color-gray-69: #4A4A4A;
+$color-gray-71: #d2d2d2;
+$color-grey-72: rgba(120, 120, 128, 0.16);
+$color-gray-73: #50555c;
+$color-gray-74: #BBB3B3;
+$color-gray-75: #f4f4f4;
+$color-gray-76: #2F323C;
+$color-gray-77: #8e8e8e;
+$color-gray-78: #666;
+$color-gray-79: #333333;
+$color-gray-80: #454545;
+$color-gray-81: #f7f7f7e8;
+$color-gray-82: #71717114;
+$color-gray-83: #7E7E7E;
+$color-grey-84: rgba(153, 153, 153, 0.1);
 
 
 $color-white-rgb1: rgba(255, 255, 255, 0.73);
@@ -130,9 +145,12 @@ $color-white-12: #e5e5e5;
 $color-white-13: #e6e6e6c2;
 $color-white-14: #fcfcfc;
 $color-white-15: #e3e9ff;
-$color-white-16: #FCFEFF;
-$color-white-17: #AFAFAF;
-$color-white-18: #E3E3E3;
+$color-white-16: #fcfeff;
+$color-white-17: #afafaf;
+$color-white-18: rgb(255 255 255 / 7%);
+$color-white-19: #f4f4f4;
+$color-white-20: #E3E3E3;
+
 
 $color-blue-1: #295ff6;
 $color-blue-2: #6f88ea;
@@ -148,7 +166,7 @@ $color-blue-11: #214977;
 $color-blue-12: #0000d8;
 $color-blue-13: #0000d845;
 $color-blue-14: #86b7fe;
-$color-blue-th-14: #E6F1FF;
+$color-blue-th-14: #e6f1ff;
 $color-blue-15: rgba(13, 110, 253, 0.25);
 $color-blue-16: #435499;
 $color-blue-17: #544cf1;
@@ -157,14 +175,15 @@ $color-blue-19: #7196b1;
 $color-blue-20: #667799;
 $color-blue-21: #66779914;
 $color-blue-22: #5e7197;
+$color-blue-22f: #4E5466;
 $color-blue-23: #798cb1;
 $color-blue-24: #6f88ea14;
 $color-blue-25: #8bbafe;
 $color-blue-26: #0d6efd40;
-$color-blue-27: #F2F4FF;
-$color-blue-28: #EDF5FF;
-$color-blue-29: #1874EC;
-
+$color-blue-27: #f2f4ff;
+$color-blue-28: #edf5ff;
+$color-blue-29: #1874ec;
+$color-blue-30: #3A71EA;
 
 $color-green-1: #008000;
 $color-green-2: #5db454;
@@ -182,6 +201,7 @@ $color-green-13: #28a745;
 $color-green-14: #15e31512;
 $color-green-15: #32bd40db;
 $color-green-16: #34c759;
+$color-green-16b: #80D795;
 $color-green-17: #0fff00;
 $color-green-18: #1dff00;
 $color-green-19: #638421;
@@ -208,12 +228,14 @@ $color-red-15: #da3b51db;
 $color-red-rgb1: rgba(222, 1, 0, 0.6);
 $color-red-16: #ff8181;
 $color-red-17: #e00303;
-$color-red-18: #E90000;
-$color-red-19: #FF8181;
-$color-red-20: #D34C00;
+$color-red-18: #e90000;
+$color-red-19: #ff8181;
+$color-red-20: #d34c00;
 $color-red-23: #de010014;
-$color-red-24: #FF9696;
-
+$color-red-24: #dd5e5e;
+$color-red-25: #C4585D;
+$color-red-26: #909090;
+$color-red-27: #FF9696;
 
 $color-orange-1: #d77400;
 $color-orange-2: #f19932;
@@ -297,9 +319,10 @@ $dark-gray-1: $color-gray-7;
 $dark-gray-2: $color-gray-9;
 $dark-gray-3: $color-gray-8;
 $dark-gray-4: $color-gray-6;
-$dark-gray-5: #4A5DA814;
-$dark-gray-6: #544CF10C;
+$dark-gray-5: #4a5da814;
+$dark-gray-6: #544cf10c;
 $dark-gray-7: #62626214;
+$dark-gray-8: #e2e2e2;
 
 $gray: $color-gray-4;
 $gray-1: $color-gray-10;
@@ -315,7 +338,7 @@ $white-5: #e8e8e8;
 $white-6: $color-white-7;
 $white-7: #eee;
 $white-8: #dfdfdf;
-$white-9: #F6F4F5;
+$white-9: #f6f4f5;
 
 $primary: $color-blue-1;
 $secondary: #36a60e;
@@ -329,7 +352,7 @@ $red: #f00;
 $red-1: #eb0000;
 $blue: #00f;
 $color-green-3: #32bd40;
-$color-green-20: #32BD6D14;
+$color-green-20: #32bd6d14;
 
 $hr-opacity: 0.25 !default;
 $light-opacity: rgb(153, 153, 153, 0.1);
@@ -337,9 +360,9 @@ $zindex-search-overlay: 9999;
 $drop-shadow: rgba(0, 0, 0, 0.15);
 $color-transparent: transparent;
 $drop-shadow1: rgba(0, 0, 0, 0.25);
-
-$red-rgba: rgba(255, 0, 0, 0.48);  //for linear gradient
+$drop-shadow2: rgba(0, 0, 0, 0.05);
+$red-rgba: rgba(255, 0, 0, 0.48); //for linear gradient
 $yellow-rgba: rgba(239, 219, 37, 0.48);
 $light-blue-rgba: rgba(111, 136, 234, 0.08);
 
-$input-mobile-border-color: #E8E8E8;
+$input-mobile-border-color: #e8e8e8;

@@ -83,20 +83,20 @@
      :active="selected.length>0"
      :selected="selected"
      :unit-label="$tc('common.product', selected.length)"
-     action-label="Delete Selected"
+     :action-label="$t('trades.delete_selected')"
      class="mt-3"
      @close="selected = []"
      @selectAll="handleSelectAll()"
      @deselectAll="selected = []"
+     @submit="deleteMySelectedTrades"
     />
     </b-row>
     <b-row v-if="delete_expired" class="pt-2 pl-4">
       <b-form-checkbox
         id="checkbox-1"
-        v-model="status"
+        v-model="selectAllExpired"
         name="checkbox-1"
-        value="accepted"
-        unchecked-value="not_accepted"
+        @change="toggleAllExpired()"
       >
         {{$t('trades.select_all_expired_trades')}}
       </b-form-checkbox>
@@ -105,6 +105,7 @@
         v-if="totalCount"
         :tradesList="tradeListing"
         :selectable="delete_expired"
+        :selected="selected"
         @click="selectItems"
     ></trade-listing-items>
     <div v-else>{{$t('trades.no_trade_list_have_been_found')}}</div>
@@ -124,6 +125,7 @@
 </template>
 
 <script>
+  import {mapActions} from 'vuex'
 import SearchInput from '~/components/common/SearchInput';
 import CustomDropdown from '~/components/common/CustomDropdown';
 import CalendarInput from '~/components/common/form/CalendarInput';
@@ -180,14 +182,34 @@ export default {
       totalCount: 0,
       perPageOptions: PER_PAGE_OPTIONS,
       delete_expired: false,
-        selected: [],
-      TAKE_SEARCHED_PRODUCTS
+      selected: [],
+      TAKE_SEARCHED_PRODUCTS,
+      selectAllExpired: false
     }
   },
   mounted() {
     this.fetchTradesListing()
   },
   methods:{
+    ...mapActions('trades', ['deleteSelectedTrades']),
+
+    toggleAllExpired(){
+      const expiredTradesNotSelected = this.tradeListing.filter(trade => (trade.is_expired && ! this.selected.includes(trade.id))).map((trade) => {
+            return trade.id
+          })
+      const expiredTradesSelected = this.tradeListing.filter(trade => (trade.is_expired && this.selected.includes(trade.id))).map((trade) => {
+            return trade.id
+          })
+      if(this.selectAllExpired){
+        if(expiredTradesNotSelected.length){
+          this.selected = this.selected.concat(expiredTradesNotSelected)
+        }
+      }else{
+        this.selected = this.selected.filter((selectedTradeId) => {
+          return ! expiredTradesSelected.includes(selectedTradeId)
+        })
+      }
+    },
       selectItems(id){
           if(!this.selected.includes(id)){
               this.selected.push(id);
@@ -205,9 +227,11 @@ export default {
       } else {
         this.statusFilter = this.statusFilter.filter(item => item !== selectedStatuses)
       }
-      this.statusFilterLabel = this.joinAndCapitalizeFirstLetters(this.statusFilter, 2) || this.$t('trades.status') // 2 is max number of labels show in filter
+      this.statusFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.statusFilter, 2) || this.$t('trades.status') // 2 is max number of labels show in filter
     },
     fetchTradesListing(){
+      this.selected = []
+      this.selectAllExpired = false
       this.$axios
         .get('trades', {
           params: {
@@ -229,20 +253,6 @@ export default {
           this.tradeListing =  []
           this.totalCount = 0
         })
-    },
-
-    /**
-     * This function is used to show selected items by joining them
-     * in string format seperated by commas
-     * @param selectedOptionsArray
-     * @param maxLabelsAllowed
-     * @returns {string|*}
-     */
-    joinAndCapitalizeFirstLetters(selectedOptionsArray, maxLabelsAllowed) {
-      selectedOptionsArray = selectedOptionsArray.map(o => o[0].toUpperCase() + o.slice(1))
-      return (selectedOptionsArray.length > maxLabelsAllowed)
-        ? selectedOptionsArray.slice(0, maxLabelsAllowed).join(', ') + '...' // append dots if labels exceed limits of showing characters
-        : selectedOptionsArray.join(', ')
     },
     /**
      * This function is used to get product and show in
@@ -281,20 +291,8 @@ export default {
     changeOrderFilter(selectedOrder) {
       this.orderFilter = selectedOrder
       const orderFilteredKey = this.orderFilterItems.find(item => item.value === this.orderFilter)
-      this.orderFilterLabel = this.capitalizeFirstLetter(orderFilteredKey.text)
+      this.orderFilterLabel = this.$options.filters.capitalizeFirstLetter(orderFilteredKey.text)
       this.fetchTradesListing()
-    },
-
-    /**
-     * This function do first letter of word capital
-     * @param string
-     * @returns {string}
-     */
-    capitalizeFirstLetter(string) {
-      if (typeof string === 'string')
-        return string[0].toUpperCase() + string.slice(1)
-      else if (typeof string === 'object' && string.size && typeof string.size === 'string')
-        return string.size[0].toUpperCase() + string.size.slice(1);
     },
 
     /**
@@ -327,12 +325,31 @@ export default {
     },
 
     handleSelectAll() {
-      this.selected = ''
+      this.selected = this.tradeListing.map((trade) => {
+        return trade.id
+      })
     },
 
     removeExpired(){
       this.delete_expired = !this.delete_expired
     },
+
+    deleteMySelectedTrades(){
+      this.deleteSelectedTrades({
+        trade_ids: this.selected.join(',')
+      })
+      .then(() => {
+        this.$toasted.success(this.$t('trades.trades_deleted_successfully'))
+        this.selected = []
+        this.selectAllExpired = false
+        this.delete_expired = false
+        this.page = 1
+        this.fetchTradesListing()
+      })
+      .catch((error) => {
+        this.$toasted.error(this.$t(error.response.data.error))
+      })
+    }
 
   }
 

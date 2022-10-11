@@ -65,7 +65,7 @@
             <div class="item-head" :class="{'heading-left': trade.offers.length > ITEM_COUNT_ONE}">{{$t('trades.trade_arena.theirs')}}</div>
             <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'item-'+index : ''" :key="index" class="item mb-4" :class="[((trade.offers.length > ITEM_COUNT_ONE )|| (getYourTradeItems.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
               <div class="image-wrapper">
-              <img class="item-image" :src="getProductImageUrl(item.inventory.product)" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
+              <img class="item-image" :src="item.inventory.product | getProductImageUrl" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
               </div>
               <div class="item-caption">
                 <span class="item-name">{{ item.inventory.product.name}}</span>
@@ -93,7 +93,8 @@
                   <div class="minus"></div>
                 </div>
                 <div class="image-wrapper">
-                <img class="item-image" :src="getProductImageUrl(item.product ? item.product : item )" alt="image" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
+                <img v-if="item.product" class="item-image" :src="item.product | getProductImageUrl" alt="image" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
+                <img v-else class="item-image" :src="item | getProductImageUrl" alt="image" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
                 </div>
                 <div class="item-caption">
                   <span class="item-name">{{  (item.product && item.product.name) ? item.product.name : item.name  }}</span>
@@ -231,7 +232,7 @@
                         <img alt="No Image" class="plus-icon-add-trade" role="button" :src="require('~/assets/img/icons/addPlus.svg')"
                             @click="addYourItem(item)"/>
                       </div>
-                      <img class="item-image-trade" :src="getProductImageUrl(item.product)" alt="image" />
+                      <img class="item-image-trade" :src="item.product | getProductImageUrl" alt="image" />
                       <div class="item-caption">
                         <span class="item-name">{{item.product && item.product.name}}</span>
                         <span class="item-box-condition">{{$t('common.box_condition')}}: {{item.packaging_condition && item.packaging_condition.name}}</span>
@@ -435,6 +436,7 @@ export default {
   methods: {
     ...mapActions('browse', ['fetchFilters']), // Action to call api request to get filter
     ...mapActions('trade', ['fetchVendorTradeSummary']), // Action to call api request to get vendor trade summary
+    ...mapActions('trades', ['checkIfItemIsInListingItem', 'searchProductsList']),
 
     screenWidth(){
       const self = this;
@@ -494,13 +496,6 @@ export default {
           '$' + ((price.reduce((a, b) => a + b, 0)/100) + parseFloat(cashAdded)).toFixed(2) : price.reduce((a, b) => a + b, 0) + (cashAdded * 100)
       }
       return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(cashAdded)) : cashAdded * 100
-    },
-    /**
-     * Load Product Image URL
-     * @param item
-     */
-    getProductImageUrl(product){
-      return API_PROD_URL + '/' + product?.category?.name + '/' + product?.sku + '/image?width=' + PRODUCT_IMG_WIDTH
     },
     /**
      * This function is used to drag item and store data of dragged item in its
@@ -575,18 +570,7 @@ export default {
     changeCategory(selectedCategory) {
       this.categoryFilter = selectedCategory
       const categoryFilteredKey = this.categoryItems.find(item => item.value === this.categoryFilter)
-      this.categoryFilterLabel = this.capitalizeFirstLetter(categoryFilteredKey.text)
-    },
-    /**
-     * This function do first letter of word capital
-     * @param string
-     * @returns {string}
-     */
-    capitalizeFirstLetter(string) {
-      if(typeof string === 'string')
-        return string[0].toUpperCase() + string.slice(1)
-      else if(typeof string === 'object' && string.size && typeof string.size === 'string')
-        return string.size[0].toUpperCase() + string.size.slice(1)
+      this.categoryFilterLabel = this.$options.filters.capitalizeFirstLetter(categoryFilteredKey.text)
     },
     /**
      * This function is used to change product size filter
@@ -598,7 +582,7 @@ export default {
       } else {
         this.sizeTypesFilter = this.sizeTypesFilter.filter(item => item !== selectedSizeType)
       }
-      this.sizeTypesFilterLabel = this.joinAndCapitalizeFirstLetters(this.sizeTypesFilter, 1) || this.$t('trades.create_listing.vendor.wants.size_type') // 1 is max number of labels show in filter
+      this.sizeTypesFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeTypesFilter, 1) || this.$t('trades.create_listing.vendor.wants.size_type') // 1 is max number of labels show in filter
     },
     /**
      * This function is used to change size filter
@@ -611,20 +595,7 @@ export default {
       } else {
         this.sizeFilter = this.sizeFilter.filter(item => item !== selectedSize.size)
       }
-      this.sizeFilterLabel = this.joinAndCapitalizeFirstLetters(this.sizeFilter, 2) || this.$t('trades.create_listing.vendor.wants.size') // 2 is a max labels show in filter
-    },
-    /**
-     * This function is used to show selected items by joining them
-     * in string format separated by commas
-     * @param selectedOptionsArray
-     * @param maxLabelsAllowed
-     * @returns {string|*}
-     */
-    joinAndCapitalizeFirstLetters(selectedOptionsArray, maxLabelsAllowed) {
-      selectedOptionsArray = selectedOptionsArray.map(o => o[0].toUpperCase() + o.slice(1))
-      return (selectedOptionsArray.length > maxLabelsAllowed)
-        ? selectedOptionsArray.slice(0, maxLabelsAllowed).join(', ') + '...' // append dots if labels exceed limits of showing characters
-        : selectedOptionsArray.join(', ')
+      this.sizeFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeFilter, 2) || this.$t('trades.create_listing.vendor.wants.size') // 2 is a max labels show in filter
     },
     /**
      * This function is used to get expired time by calculating time
@@ -693,10 +664,9 @@ export default {
     checkIfItemAlreadyListed(item) {
       const existingItem = this.getYourTradeItems.find(val => val.id === item.id)
       if(existingItem) return true;
-      this.$axios
-        .post('check/product/in/listing', {
-          inventory_id: item.id
-        })
+        this.checkIfItemIsInListingItem({
+        inventory_id: item.id
+      })
         .then((response) => { // return product information that exits in already listing
           if (response.data.is_listing_item) {
             this.itemListingId = response.data.listingId
@@ -771,14 +741,10 @@ export default {
     onSearchInput(term) {
       this.searchText = term
       if (term) {
-        this.$axios
-          .post('/search/products', {
-            filters: {
-              search: term.toLowerCase(), // search query param
-              take: TAKE_SEARCHED_PRODUCTS, // No of record to take
-            },
-            page: 1
-          })
+        this.searchProductsList({
+          search: term.toLowerCase(),
+          take: TAKE_SEARCHED_PRODUCTS
+        })
           .then((response) => { // response will get us list of search query
             this.searchedItems = response.data.results.data
           })

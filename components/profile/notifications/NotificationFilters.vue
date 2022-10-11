@@ -3,8 +3,8 @@
     <div class="my-4 d-flex searchbox">
       <div class="form-group rounded-search-input d-flex align-items-center ma-0 border-0">
         <img :src="searchIcon" alt="search" class="icon-search"/>
-        <input id="product-search-input" :placeholder="$t('notifications.search')" :value="filters.search" type="text"
-               class="text-capitalize border-0 w-100" @input="emitFilter">
+        <input id="product-search-input" v-model="filters.search" :placeholder="$t('notifications.search')" class="text-capitalize border-0 w-100"
+               type="text" @input="emitFilter">
       </div>
     </div>
     <div class="my-4">
@@ -14,11 +14,20 @@
           class="mr-4"
       >
         <div class="px-4">
+          <div class="type-checkboxes">
+            <b-form-checkbox
+                :checked="isAllSelected"
+                class="d-flex flex-column"
+                @change="selectAllWhenOptions"
+            >
+              {{ $t('notifications.all') }}
+            </b-form-checkbox>
+          </div>
           <b-form-checkbox-group
               v-model="filters.types"
               :options="types"
               class="type-checkboxes d-flex flex-column"
-              @change="emitFilter"
+              @change="typeChange"
           ></b-form-checkbox-group>
         </div>
       </WhiteDropDown>
@@ -40,7 +49,6 @@
               :toLabel="$t('filter_sidebar.year_items.to')"
               @input="emitFilter"
           >
-
           </SliderInput>
         </div>
       </WhiteDropDown>
@@ -49,6 +57,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import WhiteDropDown from '~/components/profile/notifications/WhiteDropDown';
 import searchIcon from '~/assets/img/icons/search.svg';
 import SliderInput from '~/components/common/SliderInput';
@@ -63,6 +72,7 @@ export default {
   components: {SliderInput, WhiteDropDown},
   data() {
     return {
+      isAllSelected: false,
       NOTIFICATION_MIN_YEAR_RANGE_WINDOW,
       NOTIFICATION_MIN_YEAR,
       NOTIFICATION_MAX_YEAR,
@@ -81,9 +91,17 @@ export default {
     }
   },
   methods: {
-    emitFilter() {
+    selectAllWhenOptions(e) {
+      this.filters.types = e ? this.types.map(a => a.value) : []
+      this.emitFilter()
+    },
+    typeChange(e) {
+      this.isAllSelected = this.filters.types.length === this.types.length
+      this.emitFilter()
+    },
+    emitFilter: _.debounce(function () {
       this.$emit('filter', this.filters)
-    }
+    }, 500)
   }
 }
 </script>

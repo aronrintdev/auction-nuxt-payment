@@ -9,7 +9,7 @@
                 <div class="heading pt-21">{{$t('trades.trade_arena.trade_completed.theirs')}}</div>
                 <div :class="{'single-image-their' : theirItems.length === ITEM_COUNT_ONE,
                      'do-image-their': theirItems.length === ITEM_COUNT_TWO,'th-image-their': theirItems.length === ITEM_COUNT_THREE}">
-                  <img v-for="(theirItem) in theirItems" :key="'their-prod-image' + theirItem.id" class="multi-image" :src="getProductImageUrl(theirItem.inventory.product)" alt="image" :class="{'image-their': theirItems.length === ITEM_COUNT_THREE}"/>
+                  <img v-for="(theirItem) in theirItems" :key="'their-prod-image' + theirItem.id" class="multi-image" :src="theirItem.inventory.product | getProductImageUrl" alt="image" :class="{'image-their': theirItems.length === ITEM_COUNT_THREE}"/>
                 </div>
               </b-col>
               <b-col md="2">
@@ -19,7 +19,7 @@
                 <div class="heading pt-21">{{$t('trades.trade_arena.trade_completed.yours')}}</div>
                 <div :class="{'single-image-your' : yourItems.length === ITEM_COUNT_ONE,
                      'do-image-your': yourItems.length === ITEM_COUNT_TWO,'th-image-your': yourItems.length === ITEM_COUNT_THREE}">
-                  <img v-for="(yourItem) in yourItems" :key="'your-prod-image' + yourItem.id" class="multi-image" :src="getProductImageUrl(yourItem.inventory.product)" alt="image" :class="{'image-your': yourItems.length === ITEM_COUNT_THREE}"/>
+                  <img v-for="(yourItem) in yourItems" :key="'your-prod-image' + yourItem.id" class="multi-image" :src="yourItem.inventory.product | getProductImageUrl" alt="image" :class="{'image-your': yourItems.length === ITEM_COUNT_THREE}"/>
                 </div>
               </b-col>
             </div>
@@ -31,12 +31,12 @@
           </div>
           <div v-else>
             <div class="heading pt-21">{{$t('trades.trade_arena.trade_completed.theirs')}}</div>
-            <img class="image-width left-27" :src="getProductImageUrl(theirItems[ITEM_COUNT_0].inventory.product)" alt="image"/>
+            <img class="image-width left-27" :src="theirItems[ITEM_COUNT_0].inventory.product | getProductImageUrl" alt="image"/>
             <b-row class="justify-content-center">
               <img :src="require('~/assets/img/trade.svg')" class="icon-trade">
             </b-row>
             <div class="heading mt-25">{{$t('trades.trade_arena.trade_completed.yours')}}</div>
-            <img class="image-width left-27" :src="getProductImageUrl(yourItems[ITEM_COUNT_0].inventory.product)" alt="image"/>
+            <img class="image-width left-27" :src="yourItems[ITEM_COUNT_0].inventory.product | getProductImageUrl" alt="image"/>
             <b-row class="justify-content-center">
               <b-row class="col-md-12 justify-content-center offer-text">{{$t('trades.trade_arena.trade_completed.offer_sent')}}</b-row>
               <img :src="require('~/assets/img/logo.svg')">
@@ -169,8 +169,6 @@
 
 <script>
 import {
-  API_PROD_URL,
-  PRODUCT_IMG_WIDTH,
   HELP_MAIL,
   CONTACTNUMBER
 } from '~/static/constants'
@@ -195,7 +193,6 @@ export default {
       ITEM_COUNT_ONE,
       ITEM_COUNT_TWO,
       ITEM_COUNT_THREE,
-      API_PROD_URL,
       HELP_MAIL,
       CONTACTNUMBER,
       detail:false,
@@ -204,13 +201,6 @@ export default {
     }
   },
   methods:{
-    /**
-     * Load Product Image URL
-     * @param item
-     */
-    getProductImageUrl(product){
-      return API_PROD_URL + '/' + product.category.name + '/' + product.sku + '/image?width=' + PRODUCT_IMG_WIDTH
-    },
     viewDetail(){
       this.detail = true
     },

@@ -1,59 +1,65 @@
 <template>
   <b-row class="mt-2">
     <b-col md="12">
-      <b-card class="custom-card giftcard-payment-options">
+      <b-card class="custom-card">
         <b-row>
-          <b-col md="12" class="d-flex align-items-center">
+          <b-col md="2" class="d-flex align-items-center">
             <b-form-radio
               v-model="paymentOption"
               name="payment-option"
               :value="payment.id"
-              @change="$emit('savedPayment', { type: savedPaymentType, id: payment })"
-            >
-              <img
-                class="img-fluid"
-                width="50"
-                :src="
-                  require(`~/assets/img/shopping-cart/${payment.card_brand}-logo.png`)
-                "
-                alt="card-img"
-              />
-            </b-form-radio>
-            <div class="ending-in m-4">
+              @change="
+                $emit('savedPayment', { type: savedPaymentType, id: payment })
+              "
+            ></b-form-radio>
+            <img
+              class="img-fluid"
+              width="50"
+              :src="getCardBrandLogo"
+              alt="card-img"
+            />
+          </b-col>
+          <b-col
+            :md="showDefaultStatus && payment.is_default ? '3' : '5'"
+            class="d-flex align-items-center"
+          >
+            <div class="body-5-normal">
               {{ $t('shopping_cart.ending_in') }} {{ payment.card_last_digits }}
             </div>
-            <div class="exp-date m-4">
+          </b-col>
+          <b-col md="4" class="d-flex align-items-center">
+            <div class="body-5-normal">
               {{ $t('shopping_cart.exp_date') }}&colon;
               {{ payment.card_expiry_date }}
             </div>
-
-            <div v-if="showDefaultStatus && payment.is_default" class="default-status">
+          </b-col>
+          <b-col
+            v-if="showDefaultStatus && payment.is_default"
+            md="2"
+            class="d-flex align-items-center"
+          >
+            <div class="default-status">
               {{ $t('preferences.common.default') }}
             </div>
-            <button
+          </b-col>
+          <b-col md="1" class="d-flex flex-column">
+            <PencilSquaredBlueSvg
               v-if="showEdit"
-              class="btn btn-edit shadow-none"
-              type="button"
+              class="btn-action"
+              role="button"
               @click="
-                $emit('savePaymentOnEdit', { type: savedPaymentType, id: payment.id })
+                $emit('savePaymentOnEdit', {
+                  type: savedPaymentType,
+                  id: payment.id,
+                })
               "
-            >
-              <img
-                :src="require('~/assets/img/icons/Edit-icon.png')"
-                alt="Edit"
-              />
-            </button>
-            <button
+            />
+            <CloseSquaredRed
               v-if="showDelete"
-              class="btn btn-trash"
-              type="button"
+              class="btn-action mt-1"
+              role="button"
               @click="$emit('removePayment', { id: payment.id })"
-            >
-              <img
-                :src="require('~/assets/img/icons/close-icon.svg')"
-                alt="Trash"
-              />
-            </button>
+            />
           </b-col>
         </b-row>
       </b-card>
@@ -63,8 +69,13 @@
 
 <script>
 import { SAVED, NEWPAYMENT } from '~/static/constants'
+import PencilSquaredBlueSvg from '~/assets/img/icons/pencil_squared_blue.svg?inline'
+import CloseSquaredRed from '~/assets/img/icons/close_squared_red.svg?inline'
+
 export default {
   name: 'SavedPaymentOptions',
+
+  components: { PencilSquaredBlueSvg, CloseSquaredRed },
 
   props: {
     payment: {
@@ -74,25 +85,35 @@ export default {
 
     showEdit: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     showDelete: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     showDefaultStatus: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data() {
     return {
       paymentOption: '',
       savedPaymentType: SAVED,
-      newPaymentType: NEWPAYMENT
+      newPaymentType: NEWPAYMENT,
+    }
+  },
+
+  computed: {
+    getCardBrandLogo(vm) {
+      try {
+        return require(`~/assets/img/shopping-cart/${vm.payment.card_brand}-logo.png`)
+      } catch (error) {
+        return require('~/assets/img/shopping-cart/visa-logo.png')
+      }
     }
   },
 }
@@ -124,8 +145,11 @@ export default {
   width: 30px
 div.custom-card.card > .card-body
   padding: 0 1.25rem 0
+  background: $color-white-10
+  border-radius: 4px
+  margin-bottom: 0
 .payment-options-col
-  .custom-card  
+  .custom-card
     background: $color-white-10
     border-radius: 4px
     margin-bottom: 0
@@ -135,4 +159,12 @@ div.custom-card.card > .card-body
   display: flex
   align-items: center
   color: $color-green-2
+div.custom-card.card > .card-body
+  flex: 1 1 auto
+  min-height: 1px
+  padding: 0.5rem 1.25rem 0.5rem 1.25rem
+.custom-card
+  background: $color-white-10
+  border-radius: 4px
+  margin-bottom: 0
 </style>

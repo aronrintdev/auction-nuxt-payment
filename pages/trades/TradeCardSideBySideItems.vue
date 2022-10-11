@@ -7,7 +7,7 @@
         <div class="d-flex">
           <div v-for="(item,key) in trade.theirs[0].offers" :key="'trade-their-' + key" class="item-hub mr-2">
               <div class="image-wrapper">
-                <img class="item-image-hub" :src="item.inventory.product.image" alt="image"/>
+                <img class="item-image-hub" :src="item.inventory.product | getProductImageUrl" alt="image"/>
               </div>
               <div class="item-caption">
                 <span class="item-name-hub d-block">{{item.inventory.product.name}}</span>
@@ -26,7 +26,7 @@
         <div class="d-flex">
           <div v-for="(item,key) in trade.yours[0].offers" :key="'trade-yours-' + key" class="item-hub mr-2">
             <div class="image-wrapper">
-            <img class="item-image-hub" :src="item.inventory.product.image" alt="image"/>
+            <img class="item-image-hub" :src="item.inventory.product | getProductImageUrl" alt="image"/>
             </div>
               <div class="item-caption">
                 <span class="item-name-hub d-block">{{item.inventory.product.name}}</span>

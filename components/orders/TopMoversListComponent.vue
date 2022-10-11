@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="d-flex justify-content-between py-20">
-      <div class="nav-align">
-        <NavGroup :value="activeNav" :data="categories" @change="navItem"/>
+    <div class="row justify-content-between py-20">
+      <div class="text-center flex-md-grow-1">
+        <NavGroup :value="activeNav" :data="visibleCategories" @change="navItem"/>
       </div>
-      <div>
-        <button class="btn-export" @click="handleExportBtnClick">{{ $t('orders.export_to_csv') }}</button>
+      <div class="d-none d-md-block">
+        <button class="btn-export text-center border-0" @click="handleExportBtnClick">{{ $t('orders.export_to_csv') }}</button>
       </div>
     </div>
 
@@ -22,79 +22,78 @@
         @deselectAll="handleDeselectAll()"
         @submit="exportToCSV"
       />
-      <b-table-simple responsive borderless class="collapsible-table top-movers-table">
-        <b-thead>
-          <b-tr>
-            <b-th class="d-flex">
-              <div v-if="action !== 'none'" class="mr-auto">
-                <b-form-checkbox
-                  v-model="chkSelectAll"
-                  name="select"
-                  value="select_all"
-                  unchecked-value="not_accepted"
-                />
-              </div>
-              <div class="d-flex justify-content-center align-items-center pointer" @click="handleSort('order_id')">
-                <div>{{ $t('orders.order_id') }}</div>
-                <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                      :class="(descSort === 'order_id')?'ml-1 desc':'ml-1'"/>
-              </div>
-            </b-th>
-            <b-th>
-              <div class="d-flex justify-content-center pointer" @click="handleSort('products.name')">
-                <div>{{ $t('orders.product') }}</div>
-                <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                      :class="(descSort === 'products.name')?'ml-1 desc':'ml-1'"/>
-              </div>
-            </b-th>
-            <b-th>
-              <div class="d-flex justify-content-center pointer" @click="handleSort('created_at')">
-                <div>{{ $t('orders.date_ordered') }}</div>
-                <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                      :class="(descSort === 'created_at')?'ml-1 desc':'ml-1'"/>
-              </div>
-            </b-th>
-            <b-th>
-              <div class="d-flex justify-content-center pointer" @click="handleSort('order_type')">
-                <div>{{ $t('orders.type') }}</div>
-                <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                      :class="(descSort === 'order_type')?'ml-1 desc':'ml-1'"/>
-              </div>
-            </b-th>
-            <b-th>
-              <div class="d-flex justify-content-center pointer" @click="handleSort('total')">
-                <div>{{ $t('orders.vendor_payout') }}</div>
-                <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                      :class="(descSort === 'total')?'ml-1 desc':'ml-1'"/>
-              </div>
-            </b-th>
-            <b-th>
-              <div class="d-flex justify-content-center pointer" @click="handleSort('listing_item_order.status')">
-                <div>{{ $t('orders.status') }}</div>
-                <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                      :class="(descSort === 'listing_item_order.status')?'ml-1 desc':'ml-1'"/>
-              </div>
-            </b-th>
-            <b-th>{{ $t('orders.action') }}</b-th>
-          </b-tr>
-        </b-thead>
-        <b-tbody v-if="isLoading">
-          <b-tr>
-            <b-td colspan="7">
-              <loader :loading="isLoading"></loader>
-            </b-td>
-          </b-tr>
-        </b-tbody>
-        <template v-if="!isLoading">
-          <top-mover-component
-            v-for="order in orders" :key="order.key"
-            :order="order"
-            :is-selectable="action !== 'none'"
-            :value="isSelected(order.order_id)?order.order_id:0"
-            @labelCreated="reload"
-            @checked="handleChecked"/>
-        </template>
-      </b-table-simple>
+
+      <div class="row table-heading text-center">
+        <div class="col d-none d-md-block">
+          <div class="d-flex">
+            <div v-if="action !== 'none'" class="mr-auto">
+              <b-form-checkbox
+                v-model="chkSelectAll"
+                name="select"
+                value="select_all"
+                unchecked-value="not_accepted"
+              />
+            </div>
+            <div class="d-flex justify-content-center align-items-center pointer"
+                 @click="handleSort('order_id')">
+              <div>{{ $t('orders.order_id') }}</div>
+              <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
+                    :class="(descSort === 'order_id')?'ml-1 desc':'ml-1'"/>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 d-none d-md-block">
+          <div class="d-flex justify-content-center pointer" @click="handleSort('products.name')">
+            <div>{{ $t('orders.product') }}</div>
+            <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
+                  :class="(descSort === 'products.name')?'ml-1 desc':'ml-1'"/>
+          </div>
+        </div>
+        <div class="col d-none d-md-block">
+          <div class="d-flex justify-content-center pointer" @click="handleSort('created_at')">
+            <div>{{ $t('orders.date_ordered') }}</div>
+            <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
+                  :class="(descSort === 'created_at')?'ml-1 desc':'ml-1'"/>
+          </div>
+        </div>
+        <div class="col d-none d-md-block">
+          <div class="d-flex justify-content-center pointer" @click="handleSort('order_type')">
+            <div>{{ $t('orders.type') }}</div>
+            <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
+                  :class="(descSort === 'order_type')?'ml-1 desc':'ml-1'"/>
+          </div>
+        </div>
+        <div class="col d-none d-md-block">
+          <div class="d-flex justify-content-center pointer" @click="handleSort('total')">
+            <div>{{ $t('orders.vendor_payout') }}</div>
+            <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
+                  :class="(descSort === 'total')?'ml-1 desc':'ml-1'"/>
+          </div>
+        </div>
+        <div class="col d-none d-md-block">
+          <div class="d-flex justify-content-center pointer"
+               @click="handleSort('listing_item_order.status')">
+            <div>{{ $t('orders.status') }}</div>
+            <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
+                  :class="(descSort === 'listing_item_order.status')?'ml-1 desc':'ml-1'"/>
+          </div>
+        </div>
+        <div class="col-md-2 d-none d-md-block">{{ $t('orders.action') }}</div>
+      </div>
+      <div v-if="isLoading">
+        <loader :loading="isLoading"></loader>
+      </div>
+      <div v-if="!isLoading">
+        <top-mover-component-new
+          v-for="order in orders" :key="order.key"
+          :order="order"
+          :is-selectable="action !== 'none'"
+          :value="isSelected(order.order_id)?order.order_id:0"
+          @labelCreated="reload"
+          @checked="handleChecked"
+        >
+        </top-mover-component-new>
+      </div>
     </div>
     <div v-if="!isLoading">
       <Pagination
@@ -120,14 +119,14 @@
 <script>
 import {mapGetters} from 'vuex';
 import {BulkSelectToolbar, Icon, Loader, NavGroup, Pagination} from '~/components/common';
-import TopMoverComponent from '~/components/orders/TopMoverComponent';
 import {AlertModal} from '~/components/modal';
+import TopMoverComponentNew from '~/components/orders/TopMoverComponentNew';
 
 export default {
   name: 'TopMoversListComponent',
   components: {
     NavGroup,
-    TopMoverComponent,
+    TopMoverComponentNew,
     Pagination,
     BulkSelectToolbar,
     Icon,
@@ -154,6 +153,9 @@ export default {
       'categories': 'vendors/categories',
       'isLoading': 'vendors/isLoading'
     }),
+    visibleCategories() {
+      return this.categories.filter(x => ['all', 'apparel', 'footwear', 'accessories'].includes(x.value))
+    }
   },
   watch: {
     descSort(val) {
@@ -175,7 +177,7 @@ export default {
   methods: {
     navItem(val) {
       this.activeNav = val
-      const categoryId = this.categories.filter(x => x.value === val)[0]?.id
+      const categoryId = this.categories.find(x => x.value === val)?.id
       this.$store.commit('vendors/setCategoryId', {category_id: categoryId})
       this.reload()
     },
@@ -318,15 +320,17 @@ export default {
   font-family: $font-family-sf-pro-display
   font-weight: $normal
   @include body-8
-  text-align: center
   color: $white
   padding: 10px 25px
-  border: none
 
 ::v-deep .collapsible-table .table
   border-collapse: separate
   border-spacing: 0 10px
   text-align: center
+
+.table-heading
+  font-family: $font-family-montserrat
+  @include body-4-bold
 
 .collapsible-table thead th
   font-family: $font-family-montserrat
@@ -394,7 +398,13 @@ export default {
 ::v-deep .nav-align button.btn.btn-secondary
   text-transform: capitalize
 
+::v-deep .nav-group .btn-group .btn.btn-secondary
+  text-transform: capitalize
+
 .desc
   transform: rotate(180deg)
 
+@media (min-width: 993px)
+  .d-md-header-group
+    display: table-header-group !important
 </style>

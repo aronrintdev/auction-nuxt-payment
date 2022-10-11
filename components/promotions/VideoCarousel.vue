@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="text-center pt-5 my-4 heading-4-bold">{{ $t('promotions.what_it_feels_like_to_win') }}</div>
+    <div class="text-center pt-2 my-3 heading-4-bold">
+      <span v-if="!isScreenXS">{{ $t('promotions.what_it_feels_like_to_win') }}</span>
+      <span v-else class="header-text">{{ $t('promotions.past_winner') }}</span>
+    </div>
     <carousel
         ref="carousel"
         :center="true"
@@ -44,7 +47,20 @@
   </div>
 </template>
 <script>
+import screenSize from '~/plugins/mixins/screenSize';
+
 export default {
   name: 'PromotionsVideoCarousel',
+  mixins: [screenSize]
 };
 </script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+.header-text
+  @include body-17
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $medium
+  color: $color-black-1
+</style>

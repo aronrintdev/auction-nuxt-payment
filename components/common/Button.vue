@@ -400,15 +400,22 @@ export default {
     padding: 0;
   }
 
+  &.btn-link-blue {
+    @include body-4-regular;
+    color: $color-ui-info;
+    height: auto;
+    padding: 0;
+  }
+
   &.btn-dark {
     @include button-colors(
-      $background: $color-ui-dark,
-      $foreground: $color-white-1,
-      $border: $color-ui-dark,
-      $background-hover: $color-ui-dark-hover,
-      $foreground-hover: $color-white-1,
-      $border-hover: $color-ui-dark,
-      $background-active: $color-ui-dark-dark,
+        $background: $color-ui-dark,
+        $foreground: $color-white-1,
+        $border: $color-ui-dark,
+        $background-hover: $color-ui-dark-hover,
+        $foreground-hover: $color-white-1,
+        $border-hover: $color-ui-dark,
+        $background-active: $color-ui-dark-dark,
       $foreground-active: $color-white-1,
       $border-active: $color-ui-dark-dark,
       $background-disabled: $color-ui-dark-disabled,
