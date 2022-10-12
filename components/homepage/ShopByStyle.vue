@@ -55,8 +55,6 @@ export default {
         })
         .then((res) => {
           this.styles = res.data.data
-          console.clear()
-          console.log(res.data.data)
         })
         .catch((error) => {
           this.$toasted.error(error)
