@@ -38,7 +38,7 @@ export const enquireScreenSizeHandler = (callback) => {
 
   const matchXL = {
     match: () => {
-      if (callback) callback(SCREEN_SIZE.LG)
+      if (callback) callback(SCREEN_SIZE.XL)
     },
   }
 
