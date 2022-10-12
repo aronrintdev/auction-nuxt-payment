@@ -5329,5 +5329,13 @@
       "send_to_deadstock": "Send to Deadstock",
       "view_order": "View Order"
     }
+  },
+  "error_layout": {
+    "go_back":"Go Back",
+    "oops_something_went_wrong": "Oops Something went wrong!",
+    "something_missing": "Something's Missing",
+    "the_page_is_missing": "The page is missing \n or the link’s sole is coming off",
+    "home": "Home",
+    "shop": "Shop"
   }
 }
