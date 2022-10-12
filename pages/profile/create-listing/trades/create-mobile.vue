@@ -47,7 +47,7 @@
                 :data="`${IMAGE_PATH}/${item.product && item.product.category && item.product.category.name}/${item.product && item.product.sku}/800xAUTO/IMG01.jpg`"
                 class="create-trade-item-image-mobile justify-content-center"
                 type="image/png">
-                <img class="create-trade-item-image-mobile justify-content-center mb-2" :src="fallbackImgUrl" alt="image"/>
+                <img class="create-trade-item-image-mobile-no justify-content-center mb-2" :src="fallbackImgUrl" alt="image"/>
               </object>
               <div class="create-trade-item-caption-mobile">
                 <span :id="`name${item.id}`"
@@ -657,7 +657,7 @@ export default {
     @include body-13
 .create-trade-item-mobile
   width: 164px
-  height: 190px
+  height: 212px
   border: 1px solid #C4C4C4
   @media (min-width: 300px)  and (max-width: 349px)
     width: 140px
@@ -677,14 +677,12 @@ export default {
   @media (min-width: 400px)  and (max-width: 500px)
     margin-left: 6.5rem
 .create-trade-item-image-mobile
-  height: 65px
   width: 109px
   margin-left: 20px
-  @media (min-width: 300px)  and (max-width: 349px)
-    width: 80px
+.create-trade-item-image-mobile-no
+  width: 109px
 .create-trade-item-caption-mobile
   width: 162px
-  height: 71px
   background-color: #F7F7F7
   margin-top: 16px
   padding: 5px
