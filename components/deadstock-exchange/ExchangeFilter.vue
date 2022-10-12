@@ -22,7 +22,7 @@
                   $t('deadstock_exchange.filters.details_placeholder')
                 "
                 autocomplete="on"
-                @input="searchPurchase"
+                @input="searchProduct"
               />
             </div>
           </div>
@@ -163,6 +163,11 @@ export default {
     }
   },
   methods: {
+    // On filter by change.
+    searchProduct(value) {
+      this.searchFilters.search =  value
+      this.$emit('filterList',this.searchFilters)
+    },
     // On filter by change.
     handleSortByChange(value) {
       this.searchFilters.filterBy = value === DEFAULT ? '' : value
