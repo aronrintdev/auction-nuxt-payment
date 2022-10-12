@@ -153,10 +153,12 @@ export default {
       filterBy: '',
       showSuccessMessage: null,
       searchFilters: {
+        filterBy: '',
         search: '',
         category: '',
         brand: '',
         size: '',
+        priceRange: '',
       },
     }
   },
@@ -164,26 +166,32 @@ export default {
     // On filter by change.
     handleSortByChange(value) {
       this.searchFilters.filterBy = value === DEFAULT ? '' : value
+      this.$emit('filterList',this.searchFilters)
     },
     // On filter by change.
     handleFilterByCategories(value) {
       this.searchFilters.category = value === DEFAULT ? '' : value
+      this.$emit('filterList',this.searchFilters)
     },
     // On filter by change.
     handleFilterBySizeType(value) {
       this.searchFilters.size = value === DEFAULT ? '' : value
+      this.$emit('filterList',this.searchFilters)
     },
     // On filter by change.
     handleFilterByPriceRange(value) {
       this.searchFilters.priceRange = value === DEFAULT ? '' : value
+      this.$emit('filterList',this.searchFilters)
     },
     // On filter by brands.
     handleFilterByBrands(value) {
       this.searchFilters.brand = value === DEFAULT ? '' : value
+      this.$emit('filterList',this.searchFilters)
     },
     // On filter by years.
     handleFilterByYears(value) {
       this.searchFilters.years = value === DEFAULT ? '' : value
+      this.$emit('filterList',this.searchFilters)
     },
   },
 }

@@ -13,7 +13,7 @@
 
     <!-- Filters -->
     <div v-if="!loading">
-      <ExchangeFilter />
+      <ExchangeFilter @filterList="filterList" />
     </div>
 
     <!-- Top Products Table -->
@@ -166,6 +166,7 @@ export default {
       currentPage: 1,
       perPage: process.env.INVENTORY_ITEMS_PER_PAGE,
       deadstockExchanges: [],
+      filter: null,
     }
   },
   computed: {
@@ -191,6 +192,10 @@ export default {
     searchPurchase() {
       this.loadData()
     },
+    // Search Data
+    filterList(value) {
+      this.filter =value
+    },
     // Pagination "Change" event listener
     paginationChanged(page) {
       this.currentPage = page
@@ -204,7 +209,7 @@ export default {
             type: this.type,
             page: this.currentPage,
             take: this.perPage,
-            search: this.keyword,
+            ...this.filter
           },
         })
         .then((response) => {
