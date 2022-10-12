@@ -47,7 +47,7 @@
         </div>
       </div>
       <div class="row filter-row-bottom">
-        <!-- Filter By -->
+        <!-- Filter By Category-->
         <div class="col filter-by-col">
           <CustomSelect
             :default="filterBy"
@@ -62,8 +62,9 @@
             @input="handleFilterByCategories"
           />
         </div>
-        <!-- ./Filter By -->
-        <!-- Filter By -->
+        <!-- Filter By Category-->
+
+        <!-- Filter By SizeType-->
         <div class="col filter-by-col">
           <CustomSelect
             :default="filterBy"
@@ -78,8 +79,9 @@
             @input="handleFilterBySizeType"
           />
         </div>
-        <!-- ./Filter By -->
-        <!-- Filter By -->
+        <!-- Filter By SizeType-->
+
+        <!-- Filter By Price Range-->
         <div class="col filter-by-col">
           <CustomSelect
             :default="filterBy"
@@ -94,8 +96,9 @@
             @input="handleFilterByPriceRange"
           />
         </div>
-        <!-- ./Filter By -->
-        <!-- Filter By -->
+        <!-- Filter By Price Range-->
+
+        <!-- Filter By Brands-->
         <div class="col filter-by-col">
           <CustomSelect
             :default="filterBy"
@@ -110,8 +113,9 @@
             @input="handleFilterByBrands"
           />
         </div>
-        <!-- ./Filter By -->
-        <!-- Filter By -->
+        <!-- Filter By Brands-->
+
+        <!-- Filter By Years-->
         <div class="col filter-by-col">
           <CustomSelect
             :default="filterBy"
@@ -126,7 +130,7 @@
             @input="handleFilterByYears"
           />
         </div>
-        <!-- ./Filter By -->
+        <!-- Filter By Years-->
       </div>
     </div>
   </div>
