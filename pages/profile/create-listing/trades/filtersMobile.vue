@@ -289,7 +289,7 @@ export default {
    @media (min-width: 300px)  and (max-width: 349px)
     width: 290px
 .filter-heading
-  font-size: 18px
+  @include body-12
   font-weight: 700
   font-family: $font-sp-pro
 .cross-image
@@ -300,12 +300,12 @@ export default {
   margin-top: 7px
   margin-left: 7px
 .filtersHeading
-  font-size: 16px
+  @include body-13
   font-weight: 700
   font-family: $font-sp-pro
   color: #667799
 .radios
-  font-size: 14px
+  @include body-5
   font-weight: $normal
   color: #424242
   display: grid
@@ -318,7 +318,7 @@ export default {
   border-radius: 3px
   background: #FFFFFF
   border: 1px solid #999999
-  font-size: 14px
+  @include body-5
   font-weight: $normal
   font-family: $font-sp-pro
   color: #999999
@@ -331,7 +331,7 @@ export default {
   border-radius: 3px
   background: #FFFFFF
   border: 1px solid #999999
-  font-size: 14px
+  @include body-5
   font-weight: $normal
   font-family: $font-sp-pro
   color: #999999
@@ -344,7 +344,7 @@ export default {
   border-radius: 3px
   background: #FFFFFF
   border: 1px solid #999999
-  font-size: 14px
+  @include body-5
   font-weight: $normal
   font-family: $font-sp-pro
   color: #999999
@@ -357,7 +357,7 @@ export default {
   border-radius: 3px
   background: #FFFFFF
   border: 1px solid #999999
-  font-size: 14px
+  @include body-5
   font-weight: $normal
   font-family: $font-sp-pro
   color: #999999
@@ -373,7 +373,7 @@ export default {
   border-radius: 20px
   border: 1px solid #000000
   color: #000000
-  font-size: 16px
+  @include body-13
   font-family: $font-sp-pro
   font-weight: $medium
   cursor: pointer
@@ -386,14 +386,14 @@ export default {
    border-radius: 20px
    font-family: $font-sp-pro
    font-weight: $medium
-   font-size: 16px
+   @include body-13
    line-height: 19px
    text-align: center
    color: #FFFFFF
    cursor: pointer
    margin-left: 3rem
 .selected-catgory
-  font-size: 16px
+  @include body-13
   font-weight: $normal
   font-family: $font-sp-pro
   color: #000000
@@ -403,7 +403,7 @@ export default {
   height: 45px
   border-radius: 3px
   border: 1px solid #000
-  font-size: 14px
+  @include body-5
   font-weight: $medium
   font-family: $font-sp-pro
   color: #999999
@@ -416,7 +416,7 @@ export default {
   height: 42px
   border-radius: 3px
   border: 1px solid #000
-  font-size: 14px
+  @include body-5
   font-weight: $medium
   font-family: $font-sp-pro
   color: #999999
@@ -430,7 +430,7 @@ export default {
   border-radius: 3px
   background: #FFFFFF
   border: 1px solid #999999
-  font-size: 14px
+  @include body-5
   font-weight: $normal
   font-family: $font-sp-pro
   color: #999999

@@ -378,7 +378,7 @@ export default {
   right: 5px
   margin-top: 8%
 .heading-draft
-  font-size: 14px
+  @include body-5
   font-weight: 700
   font-family: $font-montserrat
   color: #000000
@@ -387,7 +387,7 @@ export default {
   height: 22px
 
 .del-text
-  font-size: 12px
+  @include body-9
   font-weight: $normal
   font-family: $font-sp-pro
   color: #999999
@@ -416,7 +416,7 @@ export default {
 .create-trade-item-name-sm
   width: 62px
   height: 20px
-  font-size: 11px
+  @include body-6
   font-weight: $medium
   font-family: $font-sp-pro
   color: #000000
@@ -431,19 +431,19 @@ export default {
   font-family: $font-sp-pro
   font-style: normal
   font-weight: $normal
-  font-size: 10px
+  @include body-18
 .wants-text
   font-family: $font-montserrat
   font-style: normal
   font-weight: $medium
-  font-size: 12px
+  @include body-9
   color: #667799
 
 .offer-text
   font-family: $font-montserrat
   font-style: normal
   font-weight: $medium
-  font-size: 12px
+  @include body-9
   color: #667799
 .margin-set
   margin-left: 11rem
@@ -452,7 +452,7 @@ export default {
   @media (min-width: 400px)  and (max-width: 500px)
     margin-left: 14rem
 .edit-view-btn
-  font-size: 13px
+  @include body-10
   font-family: $font-montserrat
   font-weight: $medium
   color: #FFFFFF

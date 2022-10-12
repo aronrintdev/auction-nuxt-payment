@@ -908,16 +908,16 @@ export default {
   font-family: $font-sp-pro
   font-style: normal
   font-weight: $regular
-  font-size: 16px
+  @include body-13
   line-height: 19px
   letter-spacing: 0.06em
   color: $color-black-1
   @media (min-width: 300px)  and (max-width: 349px)
-    font-size: 12px
+    @include body-9
   @media (min-width: 350px)  and (max-width: 399px)
-      font-size: 12px
+    @include body-9
   @media (min-width: 400px)  and (max-width: 500px)
-    font-size: 12px
+    @include body-9
 .back-image
   margin-right: 0.5rem
   @media (min-width: 300px)  and (max-width: 349px)
@@ -933,7 +933,7 @@ export default {
   font-family: $font-sp-pro
   font-style: normal
   font-weight: $bold
-  font-size: 18px
+  @include body-12
   line-height: 21px
   color: $color-gray-5
 
@@ -952,7 +952,7 @@ export default {
   width: 162px
   font-family: $font-montserrat
   font-weight: $medium
-  font-size: 13px
+  @include body-10
 .create-trade-item-mobile
   width: 164px
   height: 190px
@@ -962,7 +962,7 @@ export default {
   @media (min-width: 400px)  and (max-width: 500px)
     width: 190px
 .size
-  font-size: 12px
+  @include body-9
 
 .plus-icon-add
   width: 19px
@@ -991,7 +991,7 @@ export default {
   @media (min-width: 400px)  and (max-width: 500px)
     width: 188px
 .create-trade-item-name
-  font-size: 11px
+  @include body-6
   font-weight: $medium
   width: 147px
   font-family: $font-sp-pro
@@ -1000,7 +1000,7 @@ export default {
   @media (min-width: 400px)  and (max-width: 500px)
     width: 180px
 .create-trade-item-caption-description
-  font-size: 11px
+  @include body-6
   font-weight: $normal
   font-family: $font-sp-pro
   width: 71px
@@ -1020,12 +1020,12 @@ export default {
 .create-trade-drag-drop-heading
   font-family: $font-sp-pro
   font-weight: $medium
-  font-size: 14px
+  @include body-5
   padding: 0px
 .create-trade-drag-drop-sub-heading
   font-family: $font-sp-pro
   font-weight: $normal
-  font-size: 12px
+  @include body-9
   padding: 0px
 .plus-image
   padding-top: 10px
@@ -1046,12 +1046,12 @@ export default {
   border: 1px solid #F7F7F7
 .create-trade-item-name-sm
   width: 62px
-  font-size: 11px
+  @include body-6
   font-weight: $medium
   font-family: $font-sp-pro
 .create-trade-item-caption-description-sm
   width: 81px
-  font-size: 10px
+  @include body-18
   font-weight: $normal
   font-family: $font-sp-pro
 .create-trade-minus-icon-sm
@@ -1072,13 +1072,13 @@ export default {
   width: 100px
   height: 100px
 .combination-title
-  font-size: 14px
+  @include body-5
   font-weight: $medium
   font-family: $font-sp-pro
   margin-left: 8px
 .combination-info
   margin-left: 25px
-  font-size: 10px
+  @include body-18
   font-weight: $normal
   font-family: $font-sp-pro
   margin-top: 3px
@@ -1092,7 +1092,7 @@ export default {
   height: 70px
   width: 70px
 .estimate-amount
-  font-size: 12px
+  @include body-9
   font-weight: $medium
   font-family: $font-montserrat
 .un-selected-circle

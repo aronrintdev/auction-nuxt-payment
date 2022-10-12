@@ -638,23 +638,23 @@ export default {
 .main-container
   background-color: #fff
 .inventory-heading
-  font-size: 14px
+  @include body-5
   font-weight: $bold
   font-family: $font-montserrat
   @media (min-width: 300px)  and (max-width: 349px)
-    font-size: 11px
+    @include body-6
   @media (min-width: 400px)  and (max-width: 500px)
-    font-size: 16px
+    @include body-13
 .create-inventory-btn
-  font-size: 14px
+  @include body-5
   font-weight: 400
   line-height: 16.71px
   font-family: $font-sp-pro
   cursor: pointer
   @media (min-width: 300px)  and (max-width: 349px)
-    font-size: 12px
+    @include body-9
   @media (min-width: 400px)  and (max-width: 500px)
-    font-size: 16px
+    @include body-13
 .create-trade-item-mobile
   width: 164px
   height: 190px
@@ -664,7 +664,7 @@ export default {
   @media (min-width: 400px)  and (max-width: 500px)
     width: 190px
 .size
-  font-size: 12px
+  @include body-9
 
 .plus-icon-add
   width: 19px
@@ -693,7 +693,7 @@ export default {
   @media (min-width: 400px)  and (max-width: 500px)
     width: 188px
 .create-trade-item-name
-  font-size: 11px
+  @include body-6
   font-weight: $medium
   width: 147px
   font-family: $font-sp-pro
@@ -702,7 +702,7 @@ export default {
   @media (min-width: 400px)  and (max-width: 500px)
     width: 180px
 .create-trade-item-caption-description
-  font-size: 11px
+  @include body-6
   font-weight: $normal
   font-family: $font-sp-pro
   width: 71px
@@ -723,12 +723,12 @@ export default {
 .create-trade-drag-drop-heading
   font-family: $font-sp-pro
   font-weight: $medium
-  font-size: 14px
+  @include body-5
   padding: 0px
 .create-trade-drag-drop-sub-heading
   font-family: $font-sp-pro
   font-weight: $normal
-  font-size: 12px
+  @include body-9
   padding: 0px
 .plus-image
   padding-top: 10px
@@ -749,12 +749,12 @@ export default {
   border: 1px solid #F7F7F7
 .create-trade-item-name-sm
   width: 62px
-  font-size: 11px
+  @include body-6
   font-weight: $medium
   font-family: $font-sp-pro
 .create-trade-item-caption-description-sm
   width: 81px
-  font-size: 10px
+  @include body-18
   font-weight: $normal
   font-family: $font-sp-pro
 .create-trade-minus-icon-sm
@@ -765,7 +765,7 @@ export default {
   padding: 2px
 
 .no-found
-  font-size: 14px
+  @include body-5
   font-weight: $medium
   font-family: $font-montserrat
   padding: 50px
@@ -778,5 +778,5 @@ export default {
   width: 162px
   font-family: $font-montserrat
   font-weight: $medium
-  font-size: 13px
+  @include body-10
 </style>
