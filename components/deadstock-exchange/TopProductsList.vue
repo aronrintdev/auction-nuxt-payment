@@ -1,6 +1,6 @@
 <template>
-  <div class="promotions-category-page">
-    <div class="d-flex promotions-category-page-title">
+  <div class="deadstock-exchange-page">
+    <div class="d-flex heading-garamond">
         <h1>{{title}}</h1>
     </div>
     <!-- Loaders -->
