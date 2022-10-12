@@ -677,7 +677,7 @@ export default {
   @media (min-width: 400px)  and (max-width: 500px)
     margin-left: 6.5rem
 .create-trade-item-image-mobile
-  height: 70px
+  height: 65px
   width: 109px
   margin-left: 20px
   @media (min-width: 300px)  and (max-width: 349px)

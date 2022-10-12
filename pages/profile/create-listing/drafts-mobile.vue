@@ -197,7 +197,6 @@ export default {
   },
   methods: {
     changeTotalTradeItems(listingItems) {
-      console.log('tradeTotalItems',listingItems)
       this.selectedItems = listingItems
     },
     closeFiltersSection() {
