@@ -41,7 +41,6 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .nav-group
   .btn-group
     background-color: $color-gray-3
@@ -56,10 +55,16 @@ export default {
       color: $color-black-1 !important
       padding: 6px 35px
       height: auto
-
+      @media (min-width: 300px)  and (max-width: 500px)
+        padding: 0px
       &.active
         background-color: $color-white-1
         font-weight: $medium
+        @media (min-width: 300px)  and (max-width: 500px)
+          width: 102px
+          height: 24px
+          border-radius: 14.5px !important
+          font-size: 11px
 
       &::before
         display: block
@@ -68,15 +73,17 @@ export default {
         height: 0
         overflow: hidden
         visibility: hidden
-
-  @media (max-width: 576px)
-    padding: 0 30px
+  @media (min-width: 300px)  and (max-width: 500px)
+    padding: 0px
+    font-size: 11px
 
     .btn-group
-      flex-direction: column
-      border-radius: 3px
-      width: 100%
-
+      flex-direction: row
+      border-radius: 20px
+      width: 343px
+      height: 32px
+      @media (min-width: 300px)  and (max-width: 330px)
+        width: 280px
       .btn
         border-radius: 3px !important
 </style>
