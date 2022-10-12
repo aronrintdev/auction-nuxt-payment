@@ -397,12 +397,17 @@ export default {
   background: #FBFAFA
   box-sizing: border-box
   border: 1px solid #999999
-
+  @media (min-width: 300px)  and (max-width: 349px)
+    width: 300px
+  @media (min-width: 400px)  and (max-width: 500px)
+    width: 390px
 .draft-list-item
   width: 100px
   height: 143px
   border: 1px solid #D8D8D8
   background: #FFFFFF
+  @media (min-width: 400px)  and (max-width: 500px)
+    width: 115px
 .create-trade-item-image
   width: 83px
   height: 80px
@@ -442,6 +447,10 @@ export default {
   color: #667799
 .margin-set
   margin-left: 11rem
+  @media (min-width: 300px)  and (max-width: 349px)
+    margin-left: 8rem
+  @media (min-width: 400px)  and (max-width: 500px)
+    margin-left: 14rem
 .edit-view-btn
   font-size: 13px
   font-family: Montserrat
