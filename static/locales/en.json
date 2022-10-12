@@ -2255,7 +2255,34 @@
   },
   "rewards": {
     "earn_points": "Earn Points",
+    "ds_points": "DS Points",
+    "hi_name": "Hi {0}!",
+    "till_next_reward": "{0} till next Reward",
+    "expire_on": "{points} DS Points will expire on {date}",
+    "redeem_points": "REDEEM POINTS",
     "earn_more": "Earn More",
+    "your_history": "YOUR HISTORY",
+    "tier": "Tier",
+    "navs": {
+      "redeem": {
+        "label": "Redeem",
+        "title": "Redeem | Points",
+        "subtitle": "My Rewards",
+        "desc": "Redeem your points and use them towards rewards such as free shipping, raffle entrys, discounts and more. Choose your rewards below."
+      },
+      "earn": {
+        "label": "Earn",
+        "title": "Earn | Points",
+        "subtitle": "Deadstock <br> Rewards Program",
+        "desc": "Join our rewards program today and start earning points!  You can earn reward points, exclusive deals, gifts, discounts and more with each transaction. Redeem your points toward purchases, trades, auctions and more. Invite your friends and receive more points. "
+      },
+      "history": {
+        "label": "History",
+        "title": "Your | History",
+        "subtitle": "My History",
+        "desc": "History"
+      }
+    },
     "sign_up": "Sign Up",
     "earn_200_points": "Earn 200 Points just for signing up. Get a special gift on your birthday.",
     "participate_in_buying": "Participate in Buying, Trading and Auctions to earn points to get discount and gift cards.",

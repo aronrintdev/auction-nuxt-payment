@@ -15,3 +15,12 @@ export function addRewardThresholds(state, rewardThresholds) {
 export function addRedeemableRewardsStages(state, redeemableRewardsStages) {
   state.redeemableRewardsStages = redeemableRewardsStages
 }
+
+/**
+ * Set reward history
+ * @param state
+ * @param {Object[]} rewardsHistory
+ */
+export function setRewardHistory(state, rewardsHistory) {
+  state.rewardHistory = rewardsHistory
+}
