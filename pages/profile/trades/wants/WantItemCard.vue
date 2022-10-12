@@ -1,19 +1,22 @@
 <template>
-    <div  class="invent-item mr-45">
+    <div class="invent-item">
       <div class="position-absolute size-cont">
-        <b-row class="justify-content-center">
-          <b-form-checkbox
-            v-if="editRemove"
-            :checked="selected"
-            class="pr-2 pt-2"
-            @change="toggleSelect"
-          ></b-form-checkbox>
+        <b-row class="justify-content-end justify-content-sm-center">
+          <img class="mr-3 d-sm-none" :src="require('assets/img/icons/More.svg')" />
+          <div class="d-none d-sm-block">
+            <b-form-checkbox
+              v-if="editRemove"
+              :checked="selected"
+              class="pr-2 pt-2"
+              @change="toggleSelect"
+            ></b-form-checkbox>
             <div>
               <img :src="require('~/assets/img/icons/pencil-gray.svg')" height="15" width="15" role="button" @click="editWant">
               <span class="edit-label">Edit</span>
               <img :src="require('~/assets/img/icons/Delete.svg')" height="15" width="15" class="ml-2" role="button" @click="deleteWant">
               <span class="delete-label">Delete</span>
             </div>
+          </div>
         </b-row>
       </div>
       <div class="inventory-image d-flex justify-content-center mx-auto align-items-center">
@@ -88,6 +91,8 @@ export default {
 .invent-item
   height: 281px
   width: 213px
+  @media (min-width: 576px)
+    margin-right: 50px
 
 .size
   border: 1px solid $light-gray-2

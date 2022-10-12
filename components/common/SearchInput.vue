@@ -6,6 +6,7 @@
     } search-${size} search-${variant} ${bordered && 'bordered'} ${
       searchResultShow && $slots.default && 'opened'
     }`"
+    :style="containerStyle"
   >
     <div class="position-relative w-100 d-flex align-items-center">
       <img
@@ -116,6 +117,10 @@ export default {
       default: ''
     },
     iconStyle: {
+      type: String,
+      default: ''
+    },
+    containerStyle: {
       type: String,
       default: ''
     }
