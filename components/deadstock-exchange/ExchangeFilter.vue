@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class="p-5" >
+  <div class="" >
       <div class="row filter-row-top">
         <!-- Input search -->
         <div class="col search-input-col vtpc-search p-lg-3 pt-3">

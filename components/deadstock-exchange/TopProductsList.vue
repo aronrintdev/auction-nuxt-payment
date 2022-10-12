@@ -1,5 +1,8 @@
 <template>
   <div class="promotions-category-page">
+    <div class="d-flex promotions-category-page-title">
+        <h1>{{title}}</h1>
+    </div>
     <!-- Loaders -->
     <div v-if="loading" class="d-flex align-items-center justify-content-center h-500">
       <Loader :loading="loading"></Loader>
@@ -70,6 +73,11 @@ export default {
     loading: {
       type: Boolean,
       required: true
+    },
+    title: {
+      type: String,
+      required: true,
+      defualt: 'Top Products'
     }
   },
   data(){
