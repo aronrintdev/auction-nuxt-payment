@@ -640,7 +640,7 @@ export default {
 .inventory-heading
   font-size: 14px
   font-weight: 700
-  font-family: Montserrat
+  font-family: $font-montserrat
   @media (min-width: 300px)  and (max-width: 349px)
     font-size: 11px
   @media (min-width: 400px)  and (max-width: 500px)
@@ -649,7 +649,7 @@ export default {
   font-size: 14px
   font-weight: 400
   line-height: 16.71px
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   cursor: pointer
   @media (min-width: 300px)  and (max-width: 349px)
     font-size: 12px
@@ -684,7 +684,7 @@ export default {
     width: 80px
 .create-trade-item-caption-mobile
   width: 162px
-  height: 66px
+  height: 71px
   background-color: #F7F7F7
   margin-top: 16px
   padding: 5px
@@ -696,7 +696,7 @@ export default {
   font-size: 11px
   font-weight: 600
   width: 147px
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   @media (min-width: 300px)  and (max-width: 349px)
     width: 120px
   @media (min-width: 400px)  and (max-width: 500px)
@@ -704,7 +704,7 @@ export default {
 .create-trade-item-caption-description
   font-size: 11px
   font-weight: 500
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   width: 71px
   @media (min-width: 400px)  and (max-width: 500px)
     width: 160px
@@ -721,12 +721,12 @@ export default {
     width: 400px
 
 .create-trade-drag-drop-heading
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   font-weight: 600
   font-size: 14px
   padding: 0px
 .create-trade-drag-drop-sub-heading
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   font-weight: 500
   font-size: 12px
   padding: 0px
@@ -751,12 +751,12 @@ export default {
   width: 62px
   font-size: 11px
   font-weight: 600
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
 .create-trade-item-caption-description-sm
   width: 81px
   font-size: 10px
   font-weight: 500
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
 .create-trade-minus-icon-sm
   background-color: #FF9696
 .create-trade-item-image-sm-dummy
@@ -767,7 +767,7 @@ export default {
 .no-found
   font-size: 14px
   font-weight: 600
-  font-family: Montserrat
+  font-family: $font-montserrat
   padding: 50px
 .create-trade-next-btn
   background-color: #667799
@@ -776,7 +776,7 @@ export default {
   margin-bottom: 7px
   cursor: pointer
   width: 162px
-  font-family: Montserrat
+  font-family: $font-montserrat
   font-weight: 600
   font-size: 13px
 </style>

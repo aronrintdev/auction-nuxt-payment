@@ -950,7 +950,7 @@ export default {
   margin-bottom: 7px
   cursor: pointer
   width: 162px
-  font-family: Montserrat
+  font-family: $font-montserrat
   font-weight: 600
   font-size: 13px
 .create-trade-item-mobile
@@ -994,7 +994,7 @@ export default {
   font-size: 11px
   font-weight: 600
   width: 147px
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   @media (min-width: 300px)  and (max-width: 349px)
     width: 120px
   @media (min-width: 400px)  and (max-width: 500px)
@@ -1002,7 +1002,7 @@ export default {
 .create-trade-item-caption-description
   font-size: 11px
   font-weight: 500
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   width: 71px
   @media (min-width: 400px)  and (max-width: 500px)
     width: 160px
@@ -1018,12 +1018,12 @@ export default {
     width: 400px
 
 .create-trade-drag-drop-heading
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   font-weight: 600
   font-size: 14px
   padding: 0px
 .create-trade-drag-drop-sub-heading
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   font-weight: 500
   font-size: 12px
   padding: 0px
@@ -1048,12 +1048,12 @@ export default {
   width: 62px
   font-size: 11px
   font-weight: 600
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
 .create-trade-item-caption-description-sm
   width: 81px
   font-size: 10px
   font-weight: 500
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
 .create-trade-minus-icon-sm
   background-color: #FF9696
 .create-trade-item-image-sm-dummy
@@ -1074,13 +1074,13 @@ export default {
 .combination-title
   font-size: 14px
   font-weight: 600
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   margin-left: 8px
 .combination-info
   margin-left: 25px
   font-size: 10px
   font-weight: 500
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   margin-top: 3px
 .plus-icon
   height: 18px
@@ -1094,7 +1094,7 @@ export default {
 .estimate-amount
   font-size: 12px
   font-weight: 600
-  font-family: Montserrat
+  font-family: $font-montserrat
 .un-selected-circle
   height: 5px
   width: 5px

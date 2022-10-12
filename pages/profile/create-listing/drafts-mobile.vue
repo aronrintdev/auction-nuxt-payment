@@ -380,7 +380,7 @@ export default {
 .heading-draft
   font-size: 14px
   font-weight: 700
-  font-family: Montserrat
+  font-family: $font-montserrat
   color: #000000
 .del-img
   width: 22px
@@ -389,7 +389,7 @@ export default {
 .del-text
   font-size: 12px
   font-weight: 500
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   color: #999999
 .sub-main-container
   width: 343px
@@ -418,29 +418,29 @@ export default {
   height: 20px
   font-size: 11px
   font-weight: 600
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   color: #000000
 .create-trade-item-captions
   background: #f5f5f5
-  font-family: "SF Pro Display", serif
+  font-family: $font-sp-pro, serif
   font-style: normal
   height: 60px
 .create-trade-item-caption-description-sm
   width: 81px
   height: 12px
-  font-family: 'SF Pro Display'
+  font-family: $font-sp-pro
   font-style: normal
   font-weight: 500
   font-size: 10px
 .wants-text
-  font-family: 'Montserrat'
+  font-family: $font-montserrat
   font-style: normal
   font-weight: 600
   font-size: 12px
   color: #667799
 
 .offer-text
-  font-family: 'Montserrat'
+  font-family: $font-montserrat
   font-style: normal
   font-weight: 600
   font-size: 12px
@@ -453,7 +453,7 @@ export default {
     margin-left: 14rem
 .edit-view-btn
   font-size: 13px
-  font-family: Montserrat
+  font-family: $font-montserrat
   font-weight: 600
   color: #FFFFFF
   width: 155px

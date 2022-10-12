@@ -291,7 +291,7 @@ export default {
 .filter-heading
   font-size: 18px
   font-weight: 700
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
 .cross-image
   margin-left: 14rem
 .arrow-image
@@ -302,7 +302,7 @@ export default {
 .filtersHeading
   font-size: 16px
   font-weight: 700
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   color: #667799
 .radios
   font-size: 14px
@@ -320,7 +320,7 @@ export default {
   border: 1px solid #999999
   font-size: 14px
   font-weight: 500
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   color: #999999
   padding-top: 10px
   padding-left: 14px
@@ -333,7 +333,7 @@ export default {
   border: 1px solid #999999
   font-size: 14px
   font-weight: 500
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   color: #999999
   padding-top: 10px
   padding-left: 20px
@@ -346,7 +346,7 @@ export default {
   border: 1px solid #999999
   font-size: 14px
   font-weight: 500
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   color: #999999
   padding-top: 10px
   padding-left: 25px
@@ -359,7 +359,7 @@ export default {
   border: 1px solid #999999
   font-size: 14px
   font-weight: 500
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   color: #999999
   padding-top: 10px
   padding-left: 10px
@@ -374,7 +374,7 @@ export default {
   border: 1px solid #000000
   color: #000000
   font-size: 16px
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   font-weight: 600
   cursor: pointer
   @media (min-width: 300px)  and (max-width: 349px)
@@ -384,7 +384,7 @@ export default {
    height: 40px
    background: #667799
    border-radius: 20px
-   font-family: 'SF Pro Display'
+   font-family: $font-sp-pro
    font-weight: 600
    font-size: 16px
    line-height: 19px
@@ -395,7 +395,7 @@ export default {
 .selected-catgory
   font-size: 16px
   font-weight: 500
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   color: #000000
   //margin-left: 10rem
 .selected-item
@@ -405,7 +405,7 @@ export default {
   border: 1px solid #000
   font-size: 14px
   font-weight: 600
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   color: #999999
   padding-top: 10px
   padding-left: 20px
@@ -418,7 +418,7 @@ export default {
   border: 1px solid #000
   font-size: 14px
   font-weight: 600
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   color: #999999
   padding: 5px
   cursor: pointer
@@ -432,7 +432,7 @@ export default {
   border: 1px solid #999999
   font-size: 14px
   font-weight: 500
-  font-family: SF Pro Display
+  font-family: $font-sp-pro
   color: #999999
   padding: 5px
 </style>

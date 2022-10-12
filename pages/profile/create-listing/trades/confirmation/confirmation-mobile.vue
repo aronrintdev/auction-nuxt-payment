@@ -344,7 +344,7 @@ export default {
   border-radius: 20px
   border: 1px solid #7196B1
   font-size: 13px
-  font-family: Montserrat
+  font-family: $font-montserrat
   color: #7196B1
   @media (min-width: 300px)  and (max-width: 349px)
     width: 130px
@@ -355,7 +355,7 @@ export default {
   border-radius: 20px
   background-color: #667799
   color: #FFFFFF
-  font-family: Montserrat
+  font-family: $font-montserrat
   font-weight: 600
   font-size: 13px
   @media (min-width: 300px)  and (max-width: 349px)
@@ -364,7 +364,7 @@ export default {
 .offered-item-confirm-trade
   font-size: 14px
   font-weight: 700
-  font-family: Montserrat
+  font-family: $font-montserrat
   color: #000000
 .confirm-trade-item
   width: 343px
@@ -379,12 +379,12 @@ export default {
 .confirm-trade-item-image
   width: 86px
 .quantity-heading
-  font-family: 'Montserrat'
+  font-family: $font-montserrat
   font-weight: 600
   font-size: 12px
   color: #000000
 .confirm-trade-item-quantity
-  font-family: 'Montserrat'
+  font-family: $font-montserrat
   font-style: normal
   font-weight: 500
   font-size: 12px
@@ -392,17 +392,17 @@ export default {
 .sub-quantity
   font-size: 12px
   font-weight: 500
-  font-family: Montserrat
+  font-family: $font-montserrat
   color: #6F6F6F
 .confirm-trade-item-name
-  font-family: 'SF Pro Display'
+  font-family: $font-sp-pro
   font-style: normal
   font-weight: 600
   font-size: 14px
   @media (min-width: 300px)  and (max-width: 349px)
     font-size: 11px
 .confirm-trade-item-detail
-  font-family: 'SF Pro Display'
+  font-family: $font-sp-pro
   font-style: normal
   font-weight: 500
   font-size: 11px
@@ -415,7 +415,7 @@ export default {
   height: 63px
   font-size: 12px
   font-weight: 500
-  font-family: Montserrat
+  font-family: $font-montserrat
   color: #000000
   background-color: #F7F7F7
   padding: 5px
