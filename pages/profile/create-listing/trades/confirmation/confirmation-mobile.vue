@@ -8,7 +8,7 @@
     <div v-for="(item, index) in getTradeItems" :key="'offer-'+index+item.id" class="confirm-trade-item">
       <div class="d-flex">
         <div class="ml-2">
-          <img class="confirm-trade-item-image mt-3"
+          <img class="confirm-trade-item-image"
                :src="`${IMAGE_PATH}/${item.product && item.product.category.name ? item.product.category.name :item.category.name }/${item.sku ? item.sku : item.product.sku}/800xAUTO/IMG01.jpg`"
                :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
           <div class="quantity-heading ml-2">Quantity : <span class="sub-quantity">{{ item.quantity }}</span></div>
@@ -59,7 +59,7 @@
     <div v-for="(wantItem, index) in getTradeItemsWants" :key="'want-'+index+wantItem.id" class="confirm-trade-item">
       <div class="d-flex">
         <div class="ml-2">
-          <img class="confirm-trade-item-image mt-3" :src="wantItem.image"
+          <img class="confirm-trade-item-image" :src="wantItem.image"
                :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
           <div class="quantity-heading ml-2">Quantity : <span class="sub-quantity">{{ wantItem.selected_quantity }}</span></div>
         </div>
@@ -346,6 +346,9 @@ export default {
   font-size: 13px
   font-family: Montserrat
   color: #7196B1
+  @media (min-width: 300px)  and (max-width: 349px)
+    width: 130px
+    font-size: 10px
 .confirm-trade-post-btn
   width: 162px
   height: 40px
@@ -355,6 +358,9 @@ export default {
   font-family: Montserrat
   font-weight: 600
   font-size: 13px
+  @media (min-width: 300px)  and (max-width: 349px)
+    width: 130px
+    font-size: 10px
 .offered-item-confirm-trade
   font-size: 14px
   font-weight: 700
@@ -366,9 +372,10 @@ export default {
   border-radius: 10px
   background: #FFFFFF
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+  @media (min-width: 300px)  and (max-width: 349px)
+    width: 290px
 .confirm-trade-item-image
   width: 86px
-  height: 53px
 .quantity-heading
   font-family: 'Montserrat'
   font-weight: 600
@@ -390,11 +397,15 @@ export default {
   font-style: normal
   font-weight: 600
   font-size: 14px
+  @media (min-width: 300px)  and (max-width: 349px)
+    font-size: 11px
 .confirm-trade-item-detail
   font-family: 'SF Pro Display'
   font-style: normal
   font-weight: 500
   font-size: 11px
+  @media (min-width: 300px)  and (max-width: 349px)
+    font-size: 9px
 .confirm-trade-item
   margin: 5px 17px 11px
 .press-content
@@ -406,4 +417,6 @@ export default {
   color: #000000
   background-color: #F7F7F7
   padding: 5px
+  @media (min-width: 300px)  and (max-width: 349px)
+    width: 290px
 </style>

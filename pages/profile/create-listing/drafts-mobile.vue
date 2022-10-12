@@ -397,6 +397,7 @@ export default {
   background: #FBFAFA
   box-sizing: border-box
   border: 1px solid #999999
+
 .draft-list-item
   width: 100px
   height: 143px
