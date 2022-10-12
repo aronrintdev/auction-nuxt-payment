@@ -12,141 +12,139 @@
           @change="onSearchInput"
         />
       </div>
+      <div>
+        <img class="ml-3 mt-1" :src="require('~/assets/img/filters.svg')" />
+      </div>
     </div>
     <!-- Filters Section -->
     <div v-if="filterSection">
       <mobileFilters @click="applyFilters"/>
     </div>
 
-
     <div class="d-flex justify-content-center mt-3 align-items-center">
-
       <NavGroup
-        :value="LISTING_TYPES.TRADE"
-        nav-key="list-type"
-        :data="translateNavigationTypesLabels"
-        @change="handleTypeChange"
+        :data="listingItems"
+        :value="selectedItems"
+        nav-key="trade-type"
+        class="section-nav pb-4"
+        @change="changeTotalTradeItems"
       />
     </div>
-
-    <Loader v-if="loading" />
-    <div v-else-if="type === LISTING_TYPES.SELLING"> <!-- show drafts for selling -->
-    </div>
-    <div v-else-if="type === LISTING_TYPES.AUCTION"> <!-- show drafts for auction -->
-    </div>
-    <div v-else class="mt-2" v-for="(trade, index) in tradeDrafts" :key="trade.id">
-      <div class="d-flex mb-2">
-        <div class="heading-draft ml-2">{{$t('trades.create_listing.vendor.wants.draft')}} # {{(index+1)}} </div>
-        <div class="margin-set">
-          <img :src="require('~/assets/img/Delete.svg')" class="ml-1 del-img mr-2" role="button"
-               :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="deleteTrade(trade.id)"
-          /><span class="del-text">{{$t('trades.create_listing.vendor.wants.delete_draft')}}</span>
+    <div v-if="selectedItems === 'trade'">
+      <div class="mt-2" v-for="(trade, index) in tradeDrafts" :key="trade.id">
+        <div class="d-flex mb-2">
+          <div class="heading-draft ml-2">{{$t('trades.create_listing.vendor.wants.draft')}} # {{(index+1)}} </div>
+          <div class="margin-set">
+            <img :src="require('~/assets/img/Delete.svg')" class="ml-1 del-img mr-2" role="button"
+                 :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="deleteTrade(trade.id)"
+            /><span class="del-text">{{$t('trades.create_listing.vendor.wants.delete_draft')}}</span>
+          </div>
+        </div>
+        <div class="sub-main-container ml-2">
+          <div>
+            <div v-if="trade.offers.length">
+              <div class="offer-text ml-3 mt-2">{{$t('trades.create_listing.vendor.wants.offering_items')}}</div>
+              <div class="d-flex">
+                <div v-for="offerItem in trade.offers" :key="offerItem.id" class="draft-list-item ml-2 mr-1 mt-4">
+                  <div class="d-flex justify-content-between mt-2 mx-2">
+                    <div v-if="offerItem.quantity > 1" class="create-trade-quantity-car-sm">x{{ offerItem.quantity || 1 }}</div>
+                  </div>
+                  <object
+                    :data="`${IMAGE_PATH}/${offerItem.inventory.product && offerItem.inventory.product.category && offerItem.inventory.product.category.name}/${offerItem.inventory.product && offerItem.inventory.product.sku}/800xAUTO/IMG01.jpg`"
+                    class="create-trade-item-image" type="image/png">
+                    <img class="create-trade-item-image mb-2" :src="fallbackImgUrl" alt="image"/>
+                  </object>
+                  <div class="create-trade-item-caption">
+                    <span :id="`name${offerItem.id}`" class="create-trade-item-name-sm">{{ offerItem.inventory.product && offerItem.inventory.product.name }}</span>
+                    <span :id="`colorway${offerItem.id}`" class="create-trade-item-caption-description-sm">
+                   {{ offerItem.inventory.product && offerItem.inventory.product.colorway }}</span>
+                    <span
+                      class="create-trade-item-caption-description-sm">{{$t('trades.create_listing.vendor.wants.box')}}: {{
+                        offerItem.inventory.packaging_condition && offerItem.inventory.packaging_condition.name
+                      }}</span>
+                    <span :id="`size${offerItem.id}`" class="create-trade-item-caption-description-sm"> {{$t('trades.create_listing.vendor.wants.size')}}:
+                   {{ offerItem.inventory.product && offerItem.inventory.size.size }}</span>
+                  </div>
+                  <!-- tooltip for name -->
+                  <b-tooltip :target="`name${offerItem.id}`" triggers="hover">
+                    {{ offerItem.inventory.product.name }}
+                  </b-tooltip>
+                  <!-- tooltip for colorway -->
+                  <b-tooltip :target="`colorway${offerItem.id}`" triggers="hover">
+                    {{ offerItem.inventory.product && offerItem.inventory.product.colorway }}
+                  </b-tooltip>
+                </div>
+              </div>
+            </div>
+            <div v-else>
+              <div class="text-center">({{$t('trades.create_listing.vendor.wants.no_offers_specified')}})</div>
+            </div>
+          </div>
+          <hr/>
+          <div>
+            <div v-if="trade.wants.length">
+              <div class="wants-text ml-3">{{$t('trades.create_listing.vendor.wants.want_items-sm')}}</div>
+              <div class="d-flex">
+                <div v-for="wantItem in trade.wants" :key="wantItem.id"  class="draft-list-item mr-1 ml-2 mt-4">
+                  <div class="d-flex justify-content-between mt-2 mx-2">
+                    <div v-if="wantItem.quantity > 1" class="create-trade-quantity-car-sm">x{{ wantItem.quantity || 1 }}</div>
+                  </div>
+                  <img class="create-trade-item-image" :src="wantItem.product.image" alt="image"/>
+                  <div class="create-trade-item-caption">
+                    <span :id="`want-name${wantItem.id}`" class="create-trade-item-name-sm">{{wantItem.product.name}}</span>
+                    <span :id="`want-colorway${wantItem.id}`" class="create-trade-item-caption-description-sm">{{wantItem.product.colorway}}</span>
+                    <span class="create-trade-item-caption-description-sm">{{ $t('trades.create_listing.vendor.wants.box') }}: {{wantItem.packaging_condition.name}}</span>
+                    <span :id="`want-size${wantItem.id}`" class="create-trade-item-caption-description-sm">{{$t('trades.create_listing.vendor.wants.size')}}: {{wantItem.size.size}}</span>
+                  </div>
+                  <!-- tooltip for name -->
+                  <b-tooltip :target="`want-name${wantItem.id}`" triggers="hover">
+                    {{ wantItem.product.name }}
+                  </b-tooltip>
+                  <!-- tooltip for colorway -->
+                  <b-tooltip :target="`want-colorway${wantItem.id}`" triggers="hover">
+                    {{ wantItem.product.colorway }}
+                  </b-tooltip>
+                </div>
+              </div>
+            </div>
+            <div v-else>
+              <div class="text-center">({{$t('trades.create_listing.vendor.wants.want_items')}})</div>
+            </div>
+          </div>
+          <hr/>
+          <div class="mt-2 d-flex justify-content-center align-center">
+            <b-btn class="edit-view-btn"
+                   @click="setTradeId(trade.id)">
+              {{  $t('trades.create_listing.vendor.wants.view_edit_btn')  }}
+            </b-btn>
+          </div>
         </div>
       </div>
-     <div class="sub-main-container ml-2">
-       <div>
-         <div v-if="trade.offers.length">
-           <div class="offer-text ml-3 mt-2">{{$t('trades.create_listing.vendor.wants.offering_items')}}</div>
-           <div class="d-flex">
-             <div v-for="offerItem in trade.offers" :key="offerItem.id" class="draft-list-item ml-2 mr-1 mt-4">
-               <div class="d-flex justify-content-between mt-2 mx-2">
-                 <div v-if="offerItem.quantity > 1" class="create-trade-quantity-car-sm">x{{ offerItem.quantity || 1 }}</div>
-               </div>
-               <object
-                 :data="`${IMAGE_PATH}/${offerItem.inventory.product && offerItem.inventory.product.category && offerItem.inventory.product.category.name}/${offerItem.inventory.product && offerItem.inventory.product.sku}/800xAUTO/IMG01.jpg`"
-                 class="create-trade-item-image" type="image/png">
-                 <img class="create-trade-item-image mb-2" :src="fallbackImgUrl" alt="image"/>
-               </object>
-               <div class="create-trade-item-caption">
-                 <span :id="`name${offerItem.id}`" class="create-trade-item-name-sm">{{ offerItem.inventory.product && offerItem.inventory.product.name }}</span>
-                 <span :id="`colorway${offerItem.id}`" class="create-trade-item-caption-description-sm">
-                   {{ offerItem.inventory.product && offerItem.inventory.product.colorway }}</span>
-                 <span
-                   class="create-trade-item-caption-description-sm">{{$t('trades.create_listing.vendor.wants.box')}}: {{
-                     offerItem.inventory.packaging_condition && offerItem.inventory.packaging_condition.name
-                   }}</span>
-                 <span :id="`size${offerItem.id}`" class="create-trade-item-caption-description-sm"> {{$t('trades.create_listing.vendor.wants.size')}}:
-                   {{ offerItem.inventory.product && offerItem.inventory.size.size }}</span>
-               </div>
-               <!-- tooltip for name -->
-               <b-tooltip :target="`name${offerItem.id}`" triggers="hover">
-                 {{ offerItem.inventory.product.name }}
-               </b-tooltip>
-               <!-- tooltip for colorway -->
-               <b-tooltip :target="`colorway${offerItem.id}`" triggers="hover">
-                 {{ offerItem.inventory.product && offerItem.inventory.product.colorway }}
-               </b-tooltip>
-             </div>
-           </div>
-         </div>
-         <div v-else>
-           <div class="text-center">({{$t('trades.create_listing.vendor.wants.no_offers_specified')}})</div>
-         </div>
-       </div>
-       <hr/>
-       <div>
-       <div v-if="trade.wants.length">
-         <div class="wants-text ml-3">{{$t('trades.create_listing.vendor.wants.want_items-sm')}}</div>
-         <div class="d-flex">
-           <div v-for="wantItem in trade.wants" :key="wantItem.id"  class="draft-list-item mr-1 ml-2 mt-4">
-             <div class="d-flex justify-content-between mt-2 mx-2">
-               <div v-if="wantItem.quantity > 1" class="create-trade-quantity-car-sm">x{{ wantItem.quantity || 1 }}</div>
-             </div>
-             <img class="create-trade-item-image" :src="wantItem.product.image" alt="image"/>
-             <div class="create-trade-item-caption">
-               <span :id="`want-name${wantItem.id}`" class="create-trade-item-name-sm">{{wantItem.product.name}}</span>
-               <span :id="`want-colorway${wantItem.id}`" class="create-trade-item-caption-description-sm">{{wantItem.product.colorway}}</span>
-               <span class="create-trade-item-caption-description-sm">{{ $t('trades.create_listing.vendor.wants.box') }}: {{wantItem.packaging_condition.name}}</span>
-               <span :id="`want-size${wantItem.id}`" class="create-trade-item-caption-description-sm">{{$t('trades.create_listing.vendor.wants.size')}}: {{wantItem.size.size}}</span>
-             </div>
-             <!-- tooltip for name -->
-             <b-tooltip :target="`want-name${wantItem.id}`" triggers="hover">
-               {{ wantItem.product.name }}
-             </b-tooltip>
-             <!-- tooltip for colorway -->
-             <b-tooltip :target="`want-colorway${wantItem.id}`" triggers="hover">
-               {{ wantItem.product.colorway }}
-             </b-tooltip>
-           </div>
-         </div>
-       </div>
-       <div v-else>
-         <div class="text-center">({{$t('trades.create_listing.vendor.wants.want_items')}})</div>
-       </div>
-     </div>
-       <hr/>
-       <div class="mt-2 d-flex justify-content-center align-center">
-         <b-btn class="edit-view-btn"
-                @click="setTradeId(trade.id)">
-           {{  $t('trades.create_listing.vendor.wants.view_edit_btn')  }}
-         </b-btn>
-       </div>
-     </div>
+      <div>
+        <b-row class="col-md-12 justify-content-center" >
+          <Pagination
+            v-if="tradeDrafts && tradeDrafts.length > 0"
+            v-model="tradePage"
+            :total="tradeTotalCount"
+            :per-page="tradePerPage"
+            :per-page-options="COMBINATIONS_PER_PAGE_ITEMS"
+            class="mt-2"
+            @page-click="handleTradePageClick"
+            @per-page-change="handleTradePerPageChange"
+          />
+        </b-row>
+      </div>
     </div>
-    <div>
-      <b-row class="col-md-12 justify-content-center" >
-        <Pagination
-          v-if="tradeDrafts && tradeDrafts.length > 0"
-          v-model="tradePage"
-          :total="tradeTotalCount"
-          :per-page="tradePerPage"
-          :per-page-options="COMBINATIONS_PER_PAGE_ITEMS"
-          class="mt-2"
-          @page-click="handleTradePageClick"
-          @per-page-change="handleTradePerPageChange"
-        />
-      </b-row>
-    </div>
+
   </b-container>
 </template>
 <script>
 import {
   NavGroup,
   SearchInput,
-  Loader,
   Pagination
 } from '~/components/common'
-import {IMAGE_PATH,NAV_TYPES,COMBINATIONS_PER_PAGE_ITEMS,LISTING_TYPES} from '~/static/constants/create-listing'
+import {IMAGE_PATH,NAV_TYPES,COMBINATIONS_PER_PAGE_ITEMS} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import mobileFilters from '~/pages/profile/create-listing/trades/filtersMobile'
 
@@ -157,7 +155,6 @@ export default {
 
     NavGroup,  // Component to show multiple Navigation tabs
     SearchInput, // Component for search and selection of a product
-    Loader, // Loader for waiting screen
     Pagination, // The pagination component to be used, by default showing 4 items
     mobileFilters,
   },
@@ -178,9 +175,15 @@ export default {
       searchedText: null,
       NAV_TYPES,
       COMBINATIONS_PER_PAGE_ITEMS,
-      LISTING_TYPES,
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
-      show: null
+      show: null,
+      listingItems: [
+        { label: this.$t('trades.index.browse.selling'), value: 'selling' },
+        { label: this.$t('trades.index.browse.auction'), value: 'auction' },
+        { label: this.$t('trades.index.browse.trade'), value: 'trade' },
+      ],
+      selectedItems: 'trade',
+      sectionTypes: []
     }
   },
   computed:{
@@ -189,9 +192,14 @@ export default {
     }
   },
   mounted() {
+    // this.selectedItems = this.getTotalItemTrades
     this.getTradeDrafts()
   },
   methods: {
+    changeTotalTradeItems(listingItems) {
+      console.log('tradeTotalItems',listingItems)
+      this.selectedItems = listingItems
+    },
     closeFiltersSection() {
       this.filterSection = false
     },

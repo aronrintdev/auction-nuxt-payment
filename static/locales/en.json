@@ -3976,6 +3976,9 @@
         "one_item": "One Item",
         "two_items": "Two Items",
         "three_items": "Three Items",
+        "selling": "Selling",
+        "auction": "Auction",
+        "trade": "Trade",
         "trade_with_us": "Trade With Us",
         "explore_trading_opportunities": "Explore our trading opportunities and list your items today!"
       }
