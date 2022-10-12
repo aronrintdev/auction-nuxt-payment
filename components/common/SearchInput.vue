@@ -1,13 +1,14 @@
 <template>
   <div
     :id="`search-input-${id}`"
+    class="h-100"
     :class="`search-input-wrapper ${
       pill && 'search-pill'
     } search-${size} search-${variant} ${bordered && 'bordered'} ${
       searchResultShow && $slots.default && 'opened'
     }`"
   >
-    <div class="position-relative w-100 d-flex align-items-center">
+    <div class="position-relative w-100 h-100 d-flex align-items-center">
       <img
         :src="require('~/assets/img/icons/search.svg')"
         class="icon-search"
@@ -22,7 +23,7 @@
         :debounce="debounce"
         autocomplete="off"
         class="search-input"
-        :style="{'height': inputHeight}"
+        :style="{ height: inputHeight }"
         :autofocus="autofocus"
         @input="handleTextInput"
         @keydown.enter="handleEnterKeyDown"

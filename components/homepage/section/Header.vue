@@ -39,6 +39,5 @@ export default {
   justify-content: space-between
   flex-direction: row
 
-  @media (max-width: 830px)
-    flex-direction: column
+
 </style>

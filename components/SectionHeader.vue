@@ -1,5 +1,8 @@
 <template>
-  <div class="d-flex align-items-center mx-md-5 section-header">
+  <div
+    class="d-flex align-items-center section-header"
+    :class="{ 'mx-md-5': !fullWidth }"
+  >
     <div class="d-flex mr-0 mr-sm-3">
       <h1 class="heading-garamond pre-line">
         <span>{{ title }}</span>
@@ -35,6 +38,10 @@ export default {
     to: {
       type: String,
       default: '',
+    },
+    fullWidth: {
+      type: Boolean,
+      default: false,
     },
   },
 }
