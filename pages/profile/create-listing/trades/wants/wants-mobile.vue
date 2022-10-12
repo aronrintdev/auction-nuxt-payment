@@ -57,7 +57,7 @@
                 class="create-trade-item-image-mobile justify-content-center"
                 :data="`${IMAGE_PATH}/${item.product && item.product.category && item.product.category.name}/${item.product && item.product.sku}/800xAUTO/IMG01.jpg`"
                 type="image/png">
-                <img class="create-trade-item-image-mobile justify-content-center mb-2" :src="fallbackImgUrl" alt="image"/>
+                <img class="create-trade-item-image-mobile-no justify-content-center mb-2" :src="fallbackImgUrl" alt="image"/>
               </object>
               <div class="create-trade-item-caption-mobile">
           <span :id="`name${item.id}`" class="create-trade-item-name">{{
@@ -107,7 +107,7 @@
                 <div>
                   <object v-if="combination.combination_items[combination.selectedItemIndex].product.image"
                           :data="combination.combination_items[combination.selectedItemIndex].product.image"
-                          class="com-img pointer ma-2"
+                          class="com-img pointer ma-2 mt-4"
                           type="image/png">
                     <img class="com-img pointer" :src="fallbackImgUrl" alt="image"/>
                   </object>
@@ -189,7 +189,7 @@
     <section v-else class="content">
       <b-container fluid class="px-3">
         <div class="selection-section">
-          <div class="row create-trade-drag-drop-item-mobile justify-content-center text-center py-2"
+          <div class="row create-trade-drag-drop-item-mobile justify-content-center text-center py-2 mt-2"
                @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
             <div v-if="getTradeItemsWants.length < 1">
               <div class="create-trade-drag-drop-heading">
@@ -955,7 +955,7 @@ export default {
   @include body-10
 .create-trade-item-mobile
   width: 164px
-  height: 190px
+  height: 212px
   border: 1px solid #C4C4C4
   @media (min-width: 300px)  and (max-width: 349px)
     width: 140px
@@ -975,14 +975,12 @@ export default {
   @media (min-width: 400px)  and (max-width: 500px)
     margin-left: 6.5rem
 .create-trade-item-image-mobile
-  height: 70px
   width: 109px
   margin-left: 20px
-  @media (min-width: 300px)  and (max-width: 349px)
-    width: 80px
+.create-trade-item-image-mobile-no
+  width: 109px
 .create-trade-item-caption-mobile
   width: 162px
-  height: 66px
   background-color: #F7F7F7
   margin-top: 16px
   padding: 5px
@@ -1063,19 +1061,22 @@ export default {
 .main-container
   background: #fff
 .combination-div-mobile
-  width: 315px
+  width: 340px
   background: #FFFFFF
-  height: 200px
+  height: 165px
   border-radius: 10px
   box-shadow: 0px 1px 4px rgb(0 0 0 / 25%)
+  @media (min-width: 300px)  and (max-width: 349px)
+    width: 290px
 .com-img
   width: 100px
-  height: 100px
 .combination-title
   @include body-5
   font-weight: $medium
   font-family: $font-sp-pro
   margin-left: 8px
+  @media (min-width: 300px)  and (max-width: 349px)
+    @include body-18
 .combination-info
   margin-left: 25px
   @include body-18
