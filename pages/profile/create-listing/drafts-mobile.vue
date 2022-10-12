@@ -388,7 +388,7 @@ export default {
 
 .del-text
   font-size: 12px
-  font-weight: 500
+  font-weight: $normal
   font-family: $font-sp-pro
   color: #999999
 .sub-main-container
@@ -417,7 +417,7 @@ export default {
   width: 62px
   height: 20px
   font-size: 11px
-  font-weight: 600
+  font-weight: $medium
   font-family: $font-sp-pro
   color: #000000
 .create-trade-item-captions
@@ -430,19 +430,19 @@ export default {
   height: 12px
   font-family: $font-sp-pro
   font-style: normal
-  font-weight: 500
+  font-weight: $normal
   font-size: 10px
 .wants-text
   font-family: $font-montserrat
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   font-size: 12px
   color: #667799
 
 .offer-text
   font-family: $font-montserrat
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   font-size: 12px
   color: #667799
 .margin-set
@@ -454,7 +454,7 @@ export default {
 .edit-view-btn
   font-size: 13px
   font-family: $font-montserrat
-  font-weight: 600
+  font-weight: $medium
   color: #FFFFFF
   width: 155px
   height: 32px

@@ -356,14 +356,14 @@ export default {
   background-color: #667799
   color: #FFFFFF
   font-family: $font-montserrat
-  font-weight: 600
+  font-weight: $medium
   font-size: 13px
   @media (min-width: 300px)  and (max-width: 349px)
     width: 130px
     font-size: 10px
 .offered-item-confirm-trade
   font-size: 14px
-  font-weight: 700
+  font-weight: $bold
   font-family: $font-montserrat
   color: #000000
 .confirm-trade-item
@@ -380,31 +380,31 @@ export default {
   width: 86px
 .quantity-heading
   font-family: $font-montserrat
-  font-weight: 600
+  font-weight: $medium
   font-size: 12px
   color: #000000
 .confirm-trade-item-quantity
   font-family: $font-montserrat
   font-style: normal
-  font-weight: 500
+  font-weight: $normal
   font-size: 12px
   color: #6F6F6F
 .sub-quantity
   font-size: 12px
-  font-weight: 500
+  font-weight: $normal
   font-family: $font-montserrat
   color: #6F6F6F
 .confirm-trade-item-name
   font-family: $font-sp-pro
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   font-size: 14px
   @media (min-width: 300px)  and (max-width: 349px)
     font-size: 11px
 .confirm-trade-item-detail
   font-family: $font-sp-pro
   font-style: normal
-  font-weight: 500
+  font-weight: $normal
   font-size: 11px
   @media (min-width: 300px)  and (max-width: 349px)
     font-size: 9px
@@ -414,7 +414,7 @@ export default {
   width: 340px
   height: 63px
   font-size: 12px
-  font-weight: 500
+  font-weight: $normal
   font-family: $font-montserrat
   color: #000000
   background-color: #F7F7F7

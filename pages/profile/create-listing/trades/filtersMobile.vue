@@ -306,7 +306,7 @@ export default {
   color: #667799
 .radios
   font-size: 14px
-  font-weight: 500
+  font-weight: $normal
   color: #424242
   display: grid
 .hr
@@ -319,7 +319,7 @@ export default {
   background: #FFFFFF
   border: 1px solid #999999
   font-size: 14px
-  font-weight: 500
+  font-weight: $normal
   font-family: $font-sp-pro
   color: #999999
   padding-top: 10px
@@ -332,7 +332,7 @@ export default {
   background: #FFFFFF
   border: 1px solid #999999
   font-size: 14px
-  font-weight: 500
+  font-weight: $normal
   font-family: $font-sp-pro
   color: #999999
   padding-top: 10px
@@ -345,7 +345,7 @@ export default {
   background: #FFFFFF
   border: 1px solid #999999
   font-size: 14px
-  font-weight: 500
+  font-weight: $normal
   font-family: $font-sp-pro
   color: #999999
   padding-top: 10px
@@ -358,7 +358,7 @@ export default {
   background: #FFFFFF
   border: 1px solid #999999
   font-size: 14px
-  font-weight: 500
+  font-weight: $normal
   font-family: $font-sp-pro
   color: #999999
   padding-top: 10px
@@ -375,7 +375,7 @@ export default {
   color: #000000
   font-size: 16px
   font-family: $font-sp-pro
-  font-weight: 600
+  font-weight: $medium
   cursor: pointer
   @media (min-width: 300px)  and (max-width: 349px)
     padding-left: 25px
@@ -385,7 +385,7 @@ export default {
    background: #667799
    border-radius: 20px
    font-family: $font-sp-pro
-   font-weight: 600
+   font-weight: $medium
    font-size: 16px
    line-height: 19px
    text-align: center
@@ -394,7 +394,7 @@ export default {
    margin-left: 3rem
 .selected-catgory
   font-size: 16px
-  font-weight: 500
+  font-weight: $normal
   font-family: $font-sp-pro
   color: #000000
   //margin-left: 10rem
@@ -404,7 +404,7 @@ export default {
   border-radius: 3px
   border: 1px solid #000
   font-size: 14px
-  font-weight: 600
+  font-weight: $medium
   font-family: $font-sp-pro
   color: #999999
   padding-top: 10px
@@ -417,7 +417,7 @@ export default {
   border-radius: 3px
   border: 1px solid #000
   font-size: 14px
-  font-weight: 600
+  font-weight: $medium
   font-family: $font-sp-pro
   color: #999999
   padding: 5px
@@ -431,7 +431,7 @@ export default {
   background: #FFFFFF
   border: 1px solid #999999
   font-size: 14px
-  font-weight: 500
+  font-weight: $normal
   font-family: $font-sp-pro
   color: #999999
   padding: 5px

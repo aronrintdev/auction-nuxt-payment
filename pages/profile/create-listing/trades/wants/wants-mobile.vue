@@ -951,7 +951,7 @@ export default {
   cursor: pointer
   width: 162px
   font-family: $font-montserrat
-  font-weight: 600
+  font-weight: $medium
   font-size: 13px
 .create-trade-item-mobile
   width: 164px
@@ -992,7 +992,7 @@ export default {
     width: 188px
 .create-trade-item-name
   font-size: 11px
-  font-weight: 600
+  font-weight: $medium
   width: 147px
   font-family: $font-sp-pro
   @media (min-width: 300px)  and (max-width: 349px)
@@ -1001,7 +1001,7 @@ export default {
     width: 180px
 .create-trade-item-caption-description
   font-size: 11px
-  font-weight: 500
+  font-weight: $normal
   font-family: $font-sp-pro
   width: 71px
   @media (min-width: 400px)  and (max-width: 500px)
@@ -1019,12 +1019,12 @@ export default {
 
 .create-trade-drag-drop-heading
   font-family: $font-sp-pro
-  font-weight: 600
+  font-weight: $medium
   font-size: 14px
   padding: 0px
 .create-trade-drag-drop-sub-heading
   font-family: $font-sp-pro
-  font-weight: 500
+  font-weight: $normal
   font-size: 12px
   padding: 0px
 .plus-image
@@ -1047,12 +1047,12 @@ export default {
 .create-trade-item-name-sm
   width: 62px
   font-size: 11px
-  font-weight: 600
+  font-weight: $medium
   font-family: $font-sp-pro
 .create-trade-item-caption-description-sm
   width: 81px
   font-size: 10px
-  font-weight: 500
+  font-weight: $normal
   font-family: $font-sp-pro
 .create-trade-minus-icon-sm
   background-color: #FF9696
@@ -1073,13 +1073,13 @@ export default {
   height: 100px
 .combination-title
   font-size: 14px
-  font-weight: 600
+  font-weight: $medium
   font-family: $font-sp-pro
   margin-left: 8px
 .combination-info
   margin-left: 25px
   font-size: 10px
-  font-weight: 500
+  font-weight: $normal
   font-family: $font-sp-pro
   margin-top: 3px
 .plus-icon
@@ -1093,7 +1093,7 @@ export default {
   width: 70px
 .estimate-amount
   font-size: 12px
-  font-weight: 600
+  font-weight: $medium
   font-family: $font-montserrat
 .un-selected-circle
   height: 5px

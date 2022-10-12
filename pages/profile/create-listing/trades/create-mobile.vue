@@ -639,7 +639,7 @@ export default {
   background-color: #fff
 .inventory-heading
   font-size: 14px
-  font-weight: 700
+  font-weight: $bold
   font-family: $font-montserrat
   @media (min-width: 300px)  and (max-width: 349px)
     font-size: 11px
@@ -694,7 +694,7 @@ export default {
     width: 188px
 .create-trade-item-name
   font-size: 11px
-  font-weight: 600
+  font-weight: $medium
   width: 147px
   font-family: $font-sp-pro
   @media (min-width: 300px)  and (max-width: 349px)
@@ -703,7 +703,7 @@ export default {
     width: 180px
 .create-trade-item-caption-description
   font-size: 11px
-  font-weight: 500
+  font-weight: $normal
   font-family: $font-sp-pro
   width: 71px
   @media (min-width: 400px)  and (max-width: 500px)
@@ -722,12 +722,12 @@ export default {
 
 .create-trade-drag-drop-heading
   font-family: $font-sp-pro
-  font-weight: 600
+  font-weight: $medium
   font-size: 14px
   padding: 0px
 .create-trade-drag-drop-sub-heading
   font-family: $font-sp-pro
-  font-weight: 500
+  font-weight: $normal
   font-size: 12px
   padding: 0px
 .plus-image
@@ -750,12 +750,12 @@ export default {
 .create-trade-item-name-sm
   width: 62px
   font-size: 11px
-  font-weight: 600
+  font-weight: $medium
   font-family: $font-sp-pro
 .create-trade-item-caption-description-sm
   width: 81px
   font-size: 10px
-  font-weight: 500
+  font-weight: $normal
   font-family: $font-sp-pro
 .create-trade-minus-icon-sm
   background-color: #FF9696
@@ -766,7 +766,7 @@ export default {
 
 .no-found
   font-size: 14px
-  font-weight: 600
+  font-weight: $medium
   font-family: $font-montserrat
   padding: 50px
 .create-trade-next-btn
@@ -777,6 +777,6 @@ export default {
   cursor: pointer
   width: 162px
   font-family: $font-montserrat
-  font-weight: 600
+  font-weight: $medium
   font-size: 13px
 </style>
