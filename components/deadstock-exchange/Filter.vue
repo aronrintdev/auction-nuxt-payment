@@ -125,13 +125,6 @@
         </div>
       </div>
       <!-- ./ -->
-      <div class="row vd-purchase-history mt-md-4 mt-4">
-        <div class="col-12 purchase-history-heading">
-          {{ $t('vendor_purchase.purchase_history') }} &#40;{{
-          }}&#41;
-        </div>
-      </div>
-      <!-- No products -->
 
 
     </div>
