@@ -6,161 +6,65 @@
     <div v-if="loading" class="d-flex align-items-center justify-content-center h-500">
       <Loader :loading="loading"></Loader>
     </div>
-    <div v-if="!loading && !currentSweepStake" class="p-5" >
-      <div class="row filter-row-top">
-        <!-- Input search -->
-        <div class="col search-input-col vtpc-search p-lg-3 pt-3">
-          <div class="form trade-search">
-            <div
-              class="
-                form-group
-                selling-search-input
-                border
-                d-flex
-                align-items-center
-                m-0
-              "
-            >
-              <img
-                :src="require('~/assets/img/icons/search.svg')"
-                class="icon-search"
-                alt="Search"
-              />
-              <input
-                id="search-result"
-                v-model="searchValue"
-                type="text"
-                class="
-                  form-control form-input
-                  vd-purchases-browse-input
-                  bg-white
-                "
-                :placeholder="$t('selling_page.filter_details_placeholder')"
-                autocomplete="on"
-                @input="searchPurchase"
-              />
-            </div>
-          </div>
-        </div>
-        <!-- ./Input search -->
 
-        <!-- Sort By -->
-        <div class="col sortby-col p-lg-3 pt-3">
-          <CustomSelect
-            id="category-types"
-            :default="categorySelected"
-            :threelineIcon="false"
-            :options="{
-              default: $t('vendor_purchase.sort_by'),
-              priceAsc: $t('placed_offers.sort_by.price_low_high'),
-              priceDesc: $t('placed_offers.sort_by.price_high_low'),
-              dateAsc: $t('placed_offers.sort_by.date_listed_new_old'),
-              dateDesc: $t('placed_offers.sort_by.date_listed_old_new'),
-            }"
-            @input="handleSortByChange"
-          />
-        </div>
-      </div>
-
-      <div class="row filter-row-bottom">
-        <!-- Filter By -->
-        <div class="col filter-by-col">
-          <CustomSelect
-            :default="filterBy"
-            :threelineIcon="false"
-            :options="{
-              default: $t('deadstock_exchange.filters.categories'),
-              accepted: $t('placed_offers.filter_by.accepted'),
-              rejeced: $t('placed_offers.filter_by.rejected'),
-              pending: $t('placed_offers.filter_by.awaiting_approval'),
-            }"
-            :title="filterByTitle"
-            @input="handleFilterByChange"
-          />
-        </div>
-        <!-- ./Filter By -->
-        <!-- Filter By -->
-        <div class="col filter-by-col">
-          <CustomSelect
-            :default="filterBy"
-            :threelineIcon="false"
-            :options="{
-              default: $t('deadstock_exchange.filters.size_types'),
-              accepted: $t('placed_offers.filter_by.accepted'),
-              rejeced: $t('placed_offers.filter_by.rejected'),
-              pending: $t('placed_offers.filter_by.awaiting_approval'),
-            }"
-            :title="filterByTitle"
-            @input="handleFilterByChange"
-          />
-        </div>
-        <!-- ./Filter By -->
-        <!-- Filter By -->
-        <div class="col filter-by-col">
-          <CustomSelect
-            :default="filterBy"
-            :threelineIcon="false"
-            :options="{
-              default: $t('deadstock_exchange.filters.price_range'),
-              accepted: $t('placed_offers.filter_by.accepted'),
-              rejeced: $t('placed_offers.filter_by.rejected'),
-              pending: $t('placed_offers.filter_by.awaiting_approval'),
-            }"
-            :title="filterByTitle"
-            @input="handleFilterByChange"
-          />
-        </div>
-        <!-- ./Filter By -->
-        <!-- Filter By -->
-        <div class="col filter-by-col">
-          <CustomSelect
-            :default="filterBy"
-            :threelineIcon="false"
-            :options="{
-              default: $t('deadstock_exchange.filters.brands'),
-              accepted: $t('placed_offers.filter_by.accepted'),
-              rejeced: $t('placed_offers.filter_by.rejected'),
-              pending: $t('placed_offers.filter_by.awaiting_approval'),
-            }"
-            :title="filterByTitle"
-            @input="handleFilterByChange"
-          />
-        </div>
-        <!-- ./Filter By -->
-        <!-- Filter By -->
-        <div class="col filter-by-col">
-          <CustomSelect
-            :default="filterBy"
-            :threelineIcon="false"
-            :options="{
-              default: $t('deadstock_exchange.filters.years'),
-              accepted: $t('placed_offers.filter_by.accepted'),
-              rejeced: $t('placed_offers.filter_by.rejected'),
-              pending: $t('placed_offers.filter_by.awaiting_approval'),
-            }"
-            :title="filterByTitle"
-            @input="handleFilterByChange"
-          />
-        </div>
-        <!-- ./Filter By -->
-
-
-      </div>
+    <div class="">
+      <ExchangeFilter />
     </div>
 
+    <!-- Top Products Table -->
+    <b-table
+      :busy="loading"
+      class="mt-3 auctions-table"
+      :items="deadstockExchanges"
+      :fields="type === 'single' ? tableColumns : tableColumnsForCollection"
+    >
+      <template #table-busy>
+        <div class="text-center text-dark my-2">
+          <b-spinner class="align-middle"></b-spinner>
+        </div>
+      </template>
+      <template #cell(details)="row">
+        <div
+          v-if="row.item.details"
+          class="d-flex align-items-center text-left"
+        >
+          <ProductThumb :product="row.item.details.inventory.product" />
+          <div class="ml-4">
+            <span class="product-name">{{ row.item.details.inventory.product.name }}</span>
+            <br />
+            <span class="product-sku"
+              >{{ $t('sell.inventory.sku') }}: {{ row.item.details.inventory.product.sku }}</span
+            >
+            <br />
+            <span class="item-number">{{ `#${row.item.id}` }}</span>
+          </div>
+        </div>
+      </template>
+      <template #cell(retail_price)="row">
+        <span class="cell-wrapper quantity">$ {{ row.item.retail_price }}</span>
+      </template>
+    </b-table>
+    <b-pagination
+      v-if="totalRows"
+      v-model="currentPage"
+      :total-rows="totalRows"
+      :per-page="perPage"
+      class="auctions-pagination"
+      @change="paginationChanged"
+    ></b-pagination>
   </div>
 </template>
 <script>
 import {mapGetters} from 'vuex';
 import {Loader} from '~/components/common';
-import CustomSelect from '~/components/common/CustomSelect.vue'
+import ExchangeFilter from '~/components/deadstock-exchange/ExchangeFilter.vue';
 
 
 export default {
   name: 'TopProductsList',
   components: {
     Loader,
-    CustomSelect
+    ExchangeFilter
   },
   props: {
     loading: {
@@ -183,6 +87,72 @@ export default {
         perPage: 8,
         page: 1,
       },
+      tableColumns: [
+        {
+          key: 'id',
+          label: this.$t('deadstock_exchange.list.table_columns.ranking'),
+          class: 'text-left',
+        },
+        {
+          key: 'name',
+          label: this.$t('deadstock_exchange.list.table_columns.name'),
+        },
+        {
+          key: 'retail_price',
+          label: this.$t('deadstock_exchange.list.table_columns.last_price'),
+        },
+        {
+          key: '24h',
+          label: this.$t('deadstock_exchange.list.table_columns.24h'),
+        },
+        {
+          key: '7d',
+          label: this.$t('deadstock_exchange.list.table_columns.7d'),
+        },
+        {
+          key: '30d',
+          label: this.$t('deadstock_exchange.list.table_columns.30d'),
+        },
+        {
+          key: 'last_7d',
+          label: this.$t('deadstock_exchange.list.table_columns.last_7d'),
+        },
+      ],
+      tableColumnsForCollection: [
+      {
+          key: 'id',
+          label: this.$t('deadstock_exchange.list.table_columns.ranking'),
+          class: 'text-left',
+        },
+        {
+          key: 'name',
+          label: this.$t('deadstock_exchange.list.table_columns.name'),
+        },
+        {
+          key: 'retail_price',
+          label: this.$t('deadstock_exchange.list.table_columns.last_price'),
+        },
+        {
+          key: '24h',
+          label: this.$t('deadstock_exchange.list.table_columns.24h'),
+        },
+        {
+          key: '7d',
+          label: this.$t('deadstock_exchange.list.table_columns.7d'),
+        },
+        {
+          key: '30d',
+          label: this.$t('deadstock_exchange.list.table_columns.30d'),
+        },
+        {
+          key: 'last_7d',
+          label: this.$t('deadstock_exchange.list.table_columns.last_7d'),
+        },
+      ],
+      totalRows: null,
+      currentPage: 1,
+      perPage: process.env.INVENTORY_ITEMS_PER_PAGE,
+      deadstockExchanges:[]
     }
   },
   computed: {
@@ -196,15 +166,40 @@ export default {
       return this.currentSweepStake && this.$auth.user ? this.currentSweepStake.promotion_entries.filter(entry => entry.user_id === this.$auth.user.id).length : 0
     },
   },
+  created(){
+    this.loadPage()
+  },
   methods: {
-    learnMore() {
-      this.$router.push({
-        path: `/promotions/${this.currentSweepStake.id}`
-      })
-    },
         // Search Data
-        searchPurchase() {
+    searchPurchase() {
       this.loadData()
+    },
+      // Pagination "Change" event listener
+    paginationChanged(page) {
+      this.currentPage = page
+      this.loadPage()
+    },
+    // Get auctions list from API
+    loadPage() {
+      this.$axios
+        .get('/products', {
+          params: {
+            type: this.type,
+            page: this.currentPage,
+            take: this.perPage,
+            search: this.keyword,
+          },
+        })
+        .then((response) => {
+          if (response.data) {
+            console.log(response.data)
+            this.deadstockExchanges = response.data.data
+            this.totalRows = response.data.total
+          }
+        })
+        .catch((error) => {
+          this.$toasted.error(error.message)
+        })
     },
   }
 };

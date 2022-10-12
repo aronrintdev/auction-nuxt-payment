@@ -5289,8 +5289,19 @@
       "size_types":"Size Types",
       "price_range":"Price Range",
       "brands":"Brands",
-      "years":"Years"
-
+      "years":"Years",
+      "details_placeholder":"Search Product By Name"
+    },
+    "list":{
+      "table_columns":{
+        "ranking":"Ranking#",
+        "last_price":"Last Price",
+        "name":"Name",
+        "24h":"24h",
+        "7d":"7d",
+        "30d":"30d",
+        "last_7d":"Last 7Days"
+      }
     }
   }
 }

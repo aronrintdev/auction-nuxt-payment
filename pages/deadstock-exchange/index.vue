@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      getPromotions: 'promotions/getPromotions'
+      getExchanges: 'deadstock-exchange/getDeadstockExchanges'
     }),
     handleCategoryChange(category) {
       if (this.currentCategory !== category) {
@@ -63,7 +63,7 @@ export default {
     },
     fetchPromotion() {
       this.loading = true
-      this.getPromotions({
+      this.getExchanges({
         type: this.currentCategory,
         status: 'active'
       }).catch(err => {
