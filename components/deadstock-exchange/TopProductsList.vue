@@ -1,16 +1,19 @@
 <template>
   <div class="deadstock-exchange-page">
     <div class="d-flex heading-garamond">
-        <h1>{{title}}</h1>
+      <h1>{{ title }}</h1>
     </div>
     <!-- Loaders -->
-    <div v-if="loading" class="d-flex align-items-center justify-content-center h-500">
+    <div
+      v-if="loading"
+      class="d-flex align-items-center justify-content-center h-500"
+    >
       <Loader :loading="loading"></Loader>
     </div>
 
     <!-- Filters -->
     <div v-if="!loading">
-      <ExchangeFilter  />
+      <ExchangeFilter />
     </div>
 
     <!-- Top Products Table -->
@@ -19,7 +22,7 @@
       :busy="loading"
       class="mt-3 auctions-table"
       :items="deadstockExchanges"
-      :fields="tableColumns "
+      :fields="tableColumns"
     >
       <template #table-busy>
         <div class="text-center text-dark my-2">
@@ -33,10 +36,13 @@
         >
           <ProductThumb :product="row.item.details.inventory.product" />
           <div class="ml-4">
-            <span class="product-name">{{ row.item.details.inventory.product.name }}</span>
+            <span class="product-name">{{
+              row.item.details.inventory.product.name
+            }}</span>
             <br />
             <span class="product-sku"
-              >{{ $t('sell.inventory.sku') }}: {{ row.item.details.inventory.product.sku }}</span
+              >{{ $t('sell.inventory.sku') }}:
+              {{ row.item.details.inventory.product.sku }}</span
             >
             <br />
             <span class="item-number">{{ `#${row.item.id}` }}</span>
@@ -58,31 +64,30 @@
   </div>
 </template>
 <script>
-import {mapGetters} from 'vuex';
-import {Loader} from '~/components/common';
-import ExchangeFilter from '~/components/deadstock-exchange/ExchangeFilter.vue';
-
+import { mapGetters } from 'vuex'
+import { Loader } from '~/components/common'
+import ExchangeFilter from '~/components/deadstock-exchange/ExchangeFilter.vue'
 
 export default {
   name: 'TopProductsList',
   components: {
     Loader,
-    ExchangeFilter
+    ExchangeFilter,
   },
   props: {
     loading: {
       type: Boolean,
-      required: true
+      required: true,
     },
     title: {
       type: String,
       required: true,
-      defualt: 'Top Products'
-    }
+      defualt: 'Top Products',
+    },
   },
-  data(){
+  data() {
     return {
-      searchValue:'',
+      searchValue: '',
       categorySelected: '', // For Sort by filter
       filterBy: '',
       showSuccessMessage: null,
@@ -127,7 +132,7 @@ export default {
         },
       ],
       tableColumnsForCollection: [
-      {
+        {
           key: 'id',
           label: this.$t('deadstock_exchange.list.table_columns.ranking'),
           class: 'text-left',
@@ -160,7 +165,7 @@ export default {
       totalRows: null,
       currentPage: 1,
       perPage: process.env.INVENTORY_ITEMS_PER_PAGE,
-      deadstockExchanges:[]
+      deadstockExchanges: [],
     }
   },
   computed: {
@@ -171,18 +176,22 @@ export default {
       return this.promotions.length ? this.promotions[0] : null
     },
     entries() {
-      return this.currentSweepStake && this.$auth.user ? this.currentSweepStake.promotion_entries.filter(entry => entry.user_id === this.$auth.user.id).length : 0
+      return this.currentSweepStake && this.$auth.user
+        ? this.currentSweepStake.promotion_entries.filter(
+            (entry) => entry.user_id === this.$auth.user.id
+          ).length
+        : 0
     },
   },
-  created(){
+  created() {
     this.loadPage()
   },
   methods: {
-        // Search Data
+    // Search Data
     searchPurchase() {
       this.loadData()
     },
-      // Pagination "Change" event listener
+    // Pagination "Change" event listener
     paginationChanged(page) {
       this.currentPage = page
       this.loadPage()
@@ -209,6 +218,6 @@ export default {
           this.$toasted.error(error.message)
         })
     },
-  }
-};
+  },
+}
 </script>
