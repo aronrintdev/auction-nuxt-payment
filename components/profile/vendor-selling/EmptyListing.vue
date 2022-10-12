@@ -16,8 +16,8 @@
         />
       </b-col>
 
-      <b-col v-if="userRole" md="12" sm="12" class="vd-selling-Inventory mt-5">
-        <h5 class="text-bold text-capitalize">
+      <b-col v-if="userRole" md="12" sm="12" class="vd-selling-Inventory head-col">
+        <h5 class="text-bold text-capitalize listing-heading">
           {{ $t('selling_page.listings') }} &#40;{{ emptyListing }}&#41;
         </h5>
       </b-col>
@@ -35,7 +35,8 @@
       <b-col md="12" class="text-center">
         <p class="vd-purchase-browse-now">
           {{ $t('selling_page.no_active_listing_found') }}
-          <br />
+        </p>
+        <p class="vd-purchase-browse-now">
           {{ $t('selling_page.list_a_product_today_on_ds') }}
         </p>
         <Button variant="apply" pill @click="moveToCreateListing">
@@ -87,3 +88,48 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
+// Media query
+@media (min-width: 576px)
+  .section-nav
+    display: block
+  .vd-selling-Inventory
+    margin-top: 3rem
+    .listing-heading
+      font-family: $font-sp-pro
+      font-style: normal
+      @include body-1-bold
+      display: flex
+      align-items: center
+      color: $color-black-1
+  .vd-purchase-empty
+    .btn-apply
+      height: 38px
+      left: 770px
+      top: 512.66px
+      background: $color-blue-20
+      border-radius: 21px
+      
+//On responsive screen media query
+@media (max-width: 576px)
+  .section-nav
+    display: none
+  .vd-selling-Inventory
+    margin-top: 1rem
+    .listing-heading
+      font-family: $font-montserrat
+      font-style: normal
+      @include body-4-medium
+      color: $color-black-1
+  .vd-purchase-empty
+    .btn-apply
+      width: 309px
+      height: 40px
+      left: calc(50% - 309px/2)
+      bottom: 376px
+      background: $color-blue-20
+      border-radius: 21px
+</style>
