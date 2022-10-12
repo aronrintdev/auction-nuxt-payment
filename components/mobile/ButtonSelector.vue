@@ -30,8 +30,8 @@ export default {
   name: 'ButtonSelector',
   props: {
     values: {
-      type: [Array, String],
-      required: true
+      type: [Array, String, null],
+      default: null
     },
     options: {
       type: Array,
