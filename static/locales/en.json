@@ -4166,6 +4166,8 @@
           "wants": "Wants",
           "box": "Box",
           "size": "Size",
+          "wants_inventory": "Wants Inventory",
+          "wants_combinations": "Wants Combinations",
           "no_offers_specified": "No Offered Items Specified",
           "no_wants_specified": "No Wanted Items Specified",
           "want_items": "Want Items",

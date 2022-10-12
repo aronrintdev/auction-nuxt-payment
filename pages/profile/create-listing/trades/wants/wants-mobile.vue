@@ -32,9 +32,17 @@
       </NuxtLink>
     </div>
     <div class="mt-2">
-      <b-tabs pills id="nav-wants" class="mytabs">
-        <b-tab title="Wants Inventory"  active><b-card-text class="set-margin">
-          <b-row>
+      <div class="d-flex justify-content-center mt-3 align-items-center">
+        <NavGroup
+          :data="listingItems"
+          :value="selectedItems"
+          nav-key="trade-type"
+          class="section-nav pb-4"
+          @change="changeTotalTradeItems"
+        />
+      </div>
+      <div v-if="selectedItems === 'wants_inventory'">
+        <b-row>
           <b-col v-for="item in generalListItems" :key="item.id"  cols="6 mb-4">
             <div  class="create-trade-item-mobile" :draggable="true"
                   @dragstart="startDrag($event, item)">
@@ -73,107 +81,106 @@
               </b-tooltip>
             </div>
           </b-col>
-          </b-row>
-          <b-row v-if="!generalListItems || generalListItems.length === 0" class="col-md-12 justify-content-center">
-            {{$t('create_listing.trade.no_item_found')}}
-          </b-row>
-          <b-row class="col-md-12 justify-content-center mt-4 mb-3">
-            <Pagination
-              v-if="generalListItems && generalListItems.length > 0"
-              v-model="page"
-              :total="totalCount"
-              :per-page="perPage"
-              :per-page-options="perPageOptions"
-              class="mt-2"
-              @page-click="handlePageClick"
-              @per-page-change="handlePerPageChange"
-            />
-          </b-row>
-        </b-card-text></b-tab>
-        <b-tab title="Wants Combinations"><b-card-text class="set-margin">
-          <b-row class="d-inline">
-            <b-col v-for="(combination, combinationIndex) in combinationItems" :key="combination.combination_id" cols="6" class="mb-4">
-              <div class="combination-div-mobile" :draggable="true"
-                   @dragstart="startDragCombination($event, combination)">
-                <div class="d-flex">
-                  <div>
-                    <object v-if="combination.combination_items[combination.selectedItemIndex].product.image"
-                            :data="combination.combination_items[combination.selectedItemIndex].product.image"
-                            class="com-img pointer ma-2"
-                            type="image/png">
-                      <img class="com-img pointer" :src="fallbackImgUrl" alt="image"/>
-                    </object>
-                    <img v-else class="com-img pointer" :src="fallbackImgUrl" alt="image"/>
-                  </div>
-                  <div>
-                    <div class="d-flex mt-2">
-                      <div>
-                        <img :src="require('~/assets/img/combination.svg')">
-                        <span class="combination-title">
+        </b-row>
+        <b-row v-if="!generalListItems || generalListItems.length === 0" class="col-md-12 justify-content-center">
+          {{$t('create_listing.trade.no_item_found')}}
+        </b-row>
+        <b-row class="col-md-12 justify-content-center mt-4 mb-3">
+          <Pagination
+            v-if="generalListItems && generalListItems.length > 0"
+            v-model="page"
+            :total="totalCount"
+            :per-page="perPage"
+            :per-page-options="perPageOptions"
+            class="mt-2"
+            @page-click="handlePageClick"
+            @per-page-change="handlePerPageChange"
+          />
+        </b-row>
+      </div>
+      <div v-if="selectedItems === 'wants_combinations'">
+        <b-row class="d-inline">
+          <b-col v-for="(combination, combinationIndex) in combinationItems" :key="combination.combination_id" cols="6" class="mb-4">
+            <div class="combination-div-mobile" :draggable="true"
+                 @dragstart="startDragCombination($event, combination)">
+              <div class="d-flex">
+                <div>
+                  <object v-if="combination.combination_items[combination.selectedItemIndex].product.image"
+                          :data="combination.combination_items[combination.selectedItemIndex].product.image"
+                          class="com-img pointer ma-2"
+                          type="image/png">
+                    <img class="com-img pointer" :src="fallbackImgUrl" alt="image"/>
+                  </object>
+                  <img v-else class="com-img pointer" :src="fallbackImgUrl" alt="image"/>
+                </div>
+                <div>
+                  <div class="d-flex mt-2">
+                    <div>
+                      <img :src="require('~/assets/img/combination.svg')">
+                      <span class="combination-title">
                           {{ $t('trades.create_listing.vendor.wants.combination_no') }} {{ combinationIndex + 1 }}
                         </span>
-                      </div>
-                      <div>
-                        <img role="button" :alt="$t('trades.create_listing.vendor.wants.on_image')"
-                             class="plus-icon"
-                             :src="require('~/assets/img/icons/addPlus.svg')"
-                             @click="addWantCombinationItem(combination)"/>
-                      </div>
                     </div>
-                    <div class="combination-info">
-                      {{ combination.combination_items[combination.selectedItemIndex].product.name }}
-                    </div>
-                    <div class="combination-info">
-                      {{ $t('trades.create_listing.vendor.wants.sku') }}:
-                      {{ combination.combination_items[combination.selectedItemIndex].product.sku }}
-                    </div>
-                    <div class="combination-info">
-                      {{ $t('trades.create_listing.vendor.wants.color') }}:
-                      {{ combination.combination_items[combination.selectedItemIndex].product.colorway }}
-                    </div>
-                    <div class="combination-info">
-                      {{ $t('trades.create_listing.vendor.wants.box_condition') }}:
-                      {{ combination.combination_items[combination.selectedItemIndex].packaging_condition.name }}
-                    </div>
-                    <div class="combination-info">{{ $t('trades.create_listing.vendor.wants.lowest_ask') }}:
-                      {{ combination.combination_items[combination.selectedItemIndex].product.estimated_market_value }}</div>
-                  </div>
-                  </div>
-
-                  <div class="d-flex justify-content-center align-items-center mt-1">
-                    <div v-for="(item, index) in combination.combination_items"
-                         :key="item.id"  class="ml-2">
-                      <div  :class="combination.selectedItemIndex === index ? 'selected-circle' : 'un-selected-circle'"  @click="setCombinationSelectedItem(combinationIndex, index)"></div>
+                    <div>
+                      <img role="button" :alt="$t('trades.create_listing.vendor.wants.on_image')"
+                           class="plus-icon"
+                           :src="require('~/assets/img/icons/addPlus.svg')"
+                           @click="addWantCombinationItem(combination)"/>
                     </div>
                   </div>
-
-
-                <div class="d-flex justify-content-center align-center mt-2">
-                  <div class="estimate-amount ml-5">{{
-                      $t('trades.create_listing.vendor.wants.total_est_value')
-                    }}:   ${{ estValue(combination.combination_items) }}
+                  <div class="combination-info">
+                    {{ combination.combination_items[combination.selectedItemIndex].product.name }}
                   </div>
+                  <div class="combination-info">
+                    {{ $t('trades.create_listing.vendor.wants.sku') }}:
+                    {{ combination.combination_items[combination.selectedItemIndex].product.sku }}
+                  </div>
+                  <div class="combination-info">
+                    {{ $t('trades.create_listing.vendor.wants.color') }}:
+                    {{ combination.combination_items[combination.selectedItemIndex].product.colorway }}
+                  </div>
+                  <div class="combination-info">
+                    {{ $t('trades.create_listing.vendor.wants.box_condition') }}:
+                    {{ combination.combination_items[combination.selectedItemIndex].packaging_condition.name }}
+                  </div>
+                  <div class="combination-info">{{ $t('trades.create_listing.vendor.wants.lowest_ask') }}:
+                    {{ combination.combination_items[combination.selectedItemIndex].product.estimated_market_value }}</div>
                 </div>
               </div>
-            </b-col>
-          </b-row>
-          <b-row v-if="!combinationItems || combinationItems.length === 0" class="col-md-12 justify-content-center">
-            {{$t('trades.create_listing.no_combination_found')}}
-          </b-row>
-          <b-row class="col-md-12 justify-content-center">
-            <Pagination
-              v-if="combinationItems && combinationItems.length > 0"
-              v-model="pageCombination"
-              :total="totalCountCombination"
-              :per-page="perPageCombination"
-              :per-page-options="perPageOptionsCombinations"
-              class="mt-2"
-              @page-click="handlePageClickCombination"
-              @per-page-change="handlePerPageChangeCombination"
-            />
-          </b-row>
-        </b-card-text></b-tab>
-      </b-tabs>
+
+              <div class="d-flex justify-content-center align-items-center mt-1">
+                <div v-for="(item, index) in combination.combination_items"
+                     :key="item.id"  class="ml-2">
+                  <div  :class="combination.selectedItemIndex === index ? 'selected-circle' : 'un-selected-circle'"  @click="setCombinationSelectedItem(combinationIndex, index)"></div>
+                </div>
+              </div>
+
+
+              <div class="d-flex justify-content-center align-center mt-2">
+                <div class="estimate-amount ml-5">{{
+                    $t('trades.create_listing.vendor.wants.total_est_value')
+                  }}:   ${{ estValue(combination.combination_items) }}
+                </div>
+              </div>
+            </div>
+          </b-col>
+        </b-row>
+        <b-row v-if="!combinationItems || combinationItems.length === 0" class="col-md-12 justify-content-center">
+          {{$t('trades.create_listing.no_combination_found')}}
+        </b-row>
+        <b-row class="col-md-12 justify-content-center">
+          <Pagination
+            v-if="combinationItems && combinationItems.length > 0"
+            v-model="pageCombination"
+            :total="totalCountCombination"
+            :per-page="perPageCombination"
+            :per-page-options="perPageOptionsCombinations"
+            class="mt-2"
+            @page-click="handlePageClickCombination"
+            @per-page-change="handlePerPageChangeCombination"
+          />
+        </b-row>
+      </div>
     </div>
 
     <!-- Main content -->
@@ -280,6 +287,7 @@ import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
 import mobileFilters from '~/pages/profile/create-listing/trades/filtersMobile'
+import { NavGroup } from '~/components/common'
 
 /*
   Trade Wants Page
@@ -288,6 +296,7 @@ export default {
   name: 'TradeWants',
   components: {
     mobileFilters,
+    NavGroup,
     FormStepProgressBar, // Stepper component
     // Button, // Button component
     SearchInput, // search input
@@ -352,7 +361,12 @@ export default {
       combination_checkbox: [],
       search_item:  null,
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
-      total_item_count: 3
+      total_item_count: 3,
+      listingItems: [
+        { label: this.$t('trades.create_listing.vendor.wants.wants_inventory'), value: 'wants_inventory' },
+        { label: this.$t('trades.create_listing.vendor.wants.wants_combinations'), value: 'wants_combinations' },
+      ],
+      selectedItems: 'wants_inventory',
     }
   },
   // get current language
@@ -401,6 +415,9 @@ export default {
   },
 
   methods: {
+    changeTotalTradeItems(listingItems) {
+      this.selectedItems = listingItems
+    },
     closeFiltersSection() {
       this.filterSection = false
     },
@@ -1096,14 +1113,8 @@ export default {
   padding-top: 5px !important
   padding-left: 15px !important
   border-radius: 20px !important
-.selection-section
-  margin-top: 35rem
+//.selection-section
+//  margin-top: 35rem
 </style>
-<style>
-.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
-  color: #000;
-  background-color: #FFFFFF;
-  border-radius: 20px;
-}
-</style>
+
 
