@@ -94,10 +94,18 @@
       </span>
     </b-row>
     <div class="mt-3 d-flex d-sm-none row navigation-container">
-      <div class="navigation-item">
+      <div 
+        class="navigation-item" 
+        v-on:click="currentTab = 'inventory'"
+        :class="{'navigation-item-active': currentTab === 'inventory'}"
+      >
         <span class="navigation-text">Wants Inventory</span>
       </div>
-      <div class="w-50 d-flex justify-content-center">
+      <div 
+        class="navigation-item" 
+        v-on:click="currentTab = 'combinations'"
+        :class="{'navigation-item-active': currentTab === 'combinations'}"
+      >
         <span class="navigation-text font-weight-normal">Wants Combinations</span>
       </div>
     </div>
@@ -790,8 +798,7 @@ export default {
 
 .navigation-item
   height: 25.5px
-  background-color: #FFF
-  border-radius: 14.5px
+  
   width: 50%
   display: flex
   align-items: center
@@ -801,6 +808,10 @@ export default {
   font-family: 'Montserrat'
   font-weight: 600
   font-size: 11px
+
+.navigation-item-active
+  background-color: #FFF
+  border-radius: 14.5px
 
 </style>
 

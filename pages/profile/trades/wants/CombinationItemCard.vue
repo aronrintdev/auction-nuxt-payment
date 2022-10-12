@@ -195,7 +195,8 @@ export default {
   font-weight: 600
   font-size: 12px
   margin-top: 20px
-
+  color: #000
+  
 .name
   font-family: 'SF Pro Display'
   font-weight: 500
