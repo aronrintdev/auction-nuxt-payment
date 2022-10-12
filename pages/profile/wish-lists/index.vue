@@ -190,7 +190,11 @@
                   :variant="BUTTON_VARIANTS[index % 4]"
                   @click="moveSelected(list)"
                 >
+                <div
+                  class="text-truncate mw-300px"
+                >
                   {{ $t('wish_lists.move_to_list', { list: list.name }) }}
+                </div>
                 </Button>
               </div>
 

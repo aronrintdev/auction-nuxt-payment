@@ -64,9 +64,16 @@ Vue.filter('formatDate', (value, type) => {
   if (type === 'MM-DD-YYYY') {
     return `${mm}-${dd}-${yyyy}`
   }
+  if(type === 'YYYY-MM-DD'){
+    return `${yyyy}-${mm}-${dd}`
+  }
   // Date in DD/MM/YYYY format
   if(type === 'DD/MM/YYYY'){
     return `${dd}/${mm}/${yyyy}`
+  }
+
+  if(type === 'MM/DD/YYYY') {
+    return `${mm}/${dd}/${yyyy}`
   }
   return `${mm}/${dd}/${yyyy}`
 })
@@ -121,8 +128,14 @@ Vue.filter('formatTime', (value, divider = '-') => {
   )
 })
 
-Vue.filter('formatDateTimeString', (value) => {
+Vue.filter('formatDateTimeString', (value, format) => {
   const date = new Date(value)
+
+  // Date
+  const dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate()
+  const mm = date.getMonth() > 8 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)
+  const yyyy = date.getFullYear()
+
   // Time
   let hours = date.getHours()
   let minutes = date.getMinutes()
@@ -142,7 +155,13 @@ Vue.filter('formatDateTimeString', (value) => {
     .slice(4)
 
   const monthName = MONTHS[date.getMonth()].text
+  if(format === 'dd-mm-yyyy|hh:mm ampm timezone'){
+    return `${dd}-${mm}-${yyyy}|${hours}:${minutes} ${ampm} ${timezone}`
+  }
 
+  if(format === 'dd/mm/yyyy hh:mm ampm timezone'){
+    return `${dd}/${mm}/${yyyy} ${hours}:${minutes} ${ampm} ${timezone}`
+  }
   return `${
     monthName.charAt(0).toUpperCase() + monthName.slice(1)
   } ${date.getDate()}, ${date.getFullYear()} ${strTime} ${timezone}`

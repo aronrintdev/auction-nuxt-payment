@@ -49,7 +49,8 @@ import { mapActions } from 'vuex'
 import NavGroup from '~/components/common/NavGroup.vue'
 import PreferenceComponent from '~/components/profile/preferences/PreferenceComponent.vue'
 import logoutMixin from '~/plugins/mixins/logout'
-import { GOOGLE_MAPS_BASE_URL } from '~/static/constants'
+import {GOOGLE_MAPS_BASE_URL} from '~/static/constants'
+import realtime from '~/plugins/mixins/realtime';
 export default {
   name: 'ProfilePreferencesIndexPage',
 
@@ -57,7 +58,7 @@ export default {
     NavGroup, // Tabs Component
     PreferenceComponent,
   },
-  mixins: [logoutMixin],
+  mixins: [logoutMixin, realtime],
   layout: 'Profile',
 
   middleware: 'auth',
@@ -93,6 +94,7 @@ export default {
       this.loggingOut = true
       // Logout a user
       await this.$auth.logout({ handleError: false }).then(() => {
+        this.disconnectSocket()
         this.postLogout()
       })
 

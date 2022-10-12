@@ -42,7 +42,10 @@
             {{ $t('common.total') }}&colon; &dollar;{{ getAmount }}
           </span>
         </b-col>
-        <b-col cols class="mt-4">
+        <b-col v-if="buttonSpinnerLoading" md="12" class="text-center float-right">
+          <b-spinner variant="color-blue-2"></b-spinner>
+        </b-col>
+        <b-col v-else cols class="mt-4">
           <b-button
             id="add-button"
             class="float-right px-3 text-white"
@@ -116,6 +119,13 @@ export default {
 
   mixins: [emitEvent],
 
+  props: {
+    refresh: {
+      type: Boolean,
+      default: false
+    }
+  },
+
   data() {
     return {
       disabled: true,
@@ -125,7 +135,8 @@ export default {
       selectedCard: '',
       isDefault: 0,
       savedPaymentType: SAVED,
-      newPaymentType: NEWPAYMENT
+      newPaymentType: NEWPAYMENT,
+      buttonSpinnerLoading: false
     }
   },
 
@@ -150,6 +161,13 @@ export default {
         this.selectedOption = option
       }
     },
+
+    refresh(val) {
+      if(val){
+        this.$nuxt.refresh()
+        this.buttonSpinnerLoading = false
+      }
+    }
   },
 
   methods: {
@@ -165,6 +183,7 @@ export default {
 
     // On payment radio click
     addPayment() {
+      this.buttonSpinnerLoading = true 
       if (
         typeof this.selectedOption === 'string' &&
         this.selectedOption === this.newPaymentType

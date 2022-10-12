@@ -6,24 +6,29 @@
         <span class="header-title">&nbsp;</span>
         <b-row>
           <b-col md="12" lg="12" class="mt-2">
-            <SearchInput
-              :value="filters.search"
-              :placeholder="$t('orders.search_placeholder')"
-              class="flex-grow-1 mw-734 search"
-              :debounce="1000"
-              @change="handleSearch"
-            />
+            <div class="d-flex align-items-center">
+              <SearchInput
+                :value="filters.search"
+                :placeholder="$t('orders.search_placeholder').toString()"
+                class="flex-grow-1 mw-734 search"
+                :debounce="1000"
+                @change="handleSearch"
+              />
+              <div class="p-1 cursor-pointer d-block d-md-none" @click="open">
+                <img :src="require('assets/img/icons/filter.svg')"/>
+              </div>
+            </div>
           </b-col>
         </b-row>
       </b-col>
-      <b-col md="12" lg="5">
+      <b-col md="12" lg="5" class="d-none d-md-block">
         <span class="header-title">{{ $t('orders.date_ordered') }}</span>
         <b-row>
           <b-col sm="12" md="4" class="mt-2">
             <CalendarInput
               class="mr-4"
               :value="filters.start_date"
-              :placeholder="$t('bids.start_date')"
+              :placeholder="$t('bids.start_date').toString()"
               @context="(context) => filters.start_date = context.selectedYMD"
             ></CalendarInput>
           </b-col>
@@ -31,7 +36,7 @@
             <CalendarInput
               class="mr-4"
               :value="filters.end_date"
-              :placeholder="$t('bids.end_date')"
+              :placeholder="$t('bids.end_date').toString()"
               @context="(context) => filters.end_date = context.selectedYMD"
             ></CalendarInput>
           </b-col>
@@ -50,7 +55,7 @@
         </b-row>
       </b-col>
     </b-row>
-    <b-row class="mt-2">
+    <b-row class="mt-2 d-none d-md-block">
       <b-col sm="8">
         <span class="header-title">{{ $t('orders.filter_by') }}</span>
         <b-row>
@@ -71,29 +76,121 @@
               class="mr-4 dropdown-filters"
               :value="filters.statusType"
               :options="orderStatuses"
-              :title="$t('bids.status')"
+              :title="$t('bids.status').toString()"
               :updateFilters="filters.activeStatusFilters"
             />
           </b-col>
         </b-row>
       </b-col>
     </b-row>
+
+    <vue-bottom-sheet ref="ordersFilter" max-height="90%" :is-full-screen="true">
+      <div class="d-flex flex-column justify-content-between h-100">
+        <div>
+          <div class="filter-title text-center pb-1">{{ $t('orders.filter_by') }}</div>
+          <div class="p-3 bottom-sheet-content">
+            <div>
+              <b-form-group v-slot="{ ariaDescribedby }" :label="$t('orders.sort')">
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="A">
+                  {{ $t('orders.date_ordered') }}: {{ $t('orders.recent_to_oldest') }}
+                </b-form-radio>
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
+                  {{ $t('orders.date_ordered') }}: {{ $t('orders.oldest_to_recent') }}
+                </b-form-radio>
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
+                  {{ $t('orders.product_name') }}: {{ $t('orders.a_to_z') }}
+                </b-form-radio>
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
+                  {{ $t('orders.product_name') }}: {{ $t('orders.z_to_a') }}
+                </b-form-radio>
+                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
+                  {{ $t('orders.vendor_payout') }}: {{ $t('orders.lowest_to_highest') }}
+                </b-form-radio>
+              </b-form-group>
+            </div>
+            <div class="border-top py-1">
+              <collapsible-box :title="$t('orders.type').toString()" :second-title="selectedTypesString">
+                <div class="row my-2">
+                  <div v-for="type in orderTypes" :key="type.key" class="col-4 my-1 filter-boxes">
+                    <div
+                      :class="`border p-1 cursor-pointer h-100 d-flex align-items-center ${selectedFilterStyle(type, filters.activeTypeFilters)}`"
+                      @click="selectFilter(type, filters.activeTypeFilters, 'activeTypeFilters')">
+                      <div class="text-center w-100 filter-text">{{ type.text }}</div>
+                    </div>
+                  </div>
+                </div>
+              </collapsible-box>
+            </div>
+            <div class="border-top py-1">
+              <collapsible-box :title="$t('orders.status').toString()" :second-title="selectedStatusString">
+                <div class="row my-2">
+                  <div v-for="status in orderStatuses" :key="status.key" class="col-4 my-1 filter-boxes">
+                    <div
+                      :class="`border p-1 cursor-pointer h-100 d-flex align-items-center ${selectedFilterStyle(status, filters.activeStatusFilters)}`"
+                      @click="selectFilter(status, filters.activeStatusFilters, 'activeStatusFilters')">
+                      <div class="text-center w-100 filter-text">{{ status.text }}</div>
+                    </div>
+                  </div>
+                </div>
+              </collapsible-box>
+            </div>
+            <div class="border-top py-1">
+              <collapsible-box :title="$t('orders.date_ordered').toString()" :second-title="selectedDateString">
+                <div class="row">
+                  <div class="col mt-2">
+                    <CalendarInput
+                      class="mr-4"
+                      :value="filters.start_date"
+                      :placeholder="$t('bids.start_date').toString()"
+                      @context="(context) => filters.start_date = context.selectedYMD"
+                    ></CalendarInput>
+                  </div>
+                  <div class="col mt-2">
+                    <CalendarInput
+                      class="mr-4"
+                      :value="filters.end_date"
+                      :placeholder="$t('bids.end_date').toString()"
+                      @context="(context) => filters.end_date = context.selectedYMD"
+                    ></CalendarInput>
+                  </div>
+                </div>
+              </collapsible-box>
+            </div>
+          </div>
+        </div>
+        <div class="p-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <button class="btn-bottom-sheet reset" @click="clearFilters">{{ $t('orders.reset') }}</button>
+            <button class="btn btn-bottom-sheet apply-filter" @click="applyFilter">{{
+                $t('orders.apply_filter')
+              }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </vue-bottom-sheet>
   </div>
 </template>
 
 <script>
-import {SearchInput, CustomSelectwithCheckbox, Button} from '~/components/common';
+import {Button, CustomSelectwithCheckbox, SearchInput} from '~/components/common';
 import DownArrow from '~/assets/img/icons/down-arrow.svg';
 import CalendarImg from '~/assets/img/icons/calendar-gray.svg';
 import CalendarInput from '~/components/common/form/CalendarInput';
+import CollapsibleBox from '~/components/common/CollapsibleBox';
 
 export default {
   name: 'TopMoversFilter',
   components: {
-    CalendarInput, SearchInput, CustomSelectwithCheckbox, Button
+    CalendarInput,
+    SearchInput,
+    CustomSelectwithCheckbox,
+    Button,
+    CollapsibleBox
   },
   data() {
     return {
+      bottomSheetShow: false,
       DownArrow,
       CalendarImg,
       orderTypes: Object.keys(this.$t('orders.order_types')).map(a => {
@@ -128,6 +225,18 @@ export default {
         this.filters.end_date ||
         this.filters.activeStatusFilters.length > 0
     },
+    selectedStatusString() {
+      return this.filters.activeStatusFilters.map(x => x.text).join(', ')
+    },
+    selectedTypesString() {
+      return this.filters.activeTypeFilters.map(x => x.text).join(', ')
+    },
+    selectedDateString() {
+      if (this.filters.start_date || this.filters.end_date) {
+        return this.filters.start_date + ' to ' + this.filters.end_date
+      }
+      return ''
+    }
   },
   methods: {
     /**
@@ -152,6 +261,27 @@ export default {
     applyFilter() {
       this.$store.commit('vendors/setFilters', this.filters)
       this.$store.dispatch('vendors/getVendorOrders', 1)
+      this.close()
+    },
+    open() {
+      this.$refs.ordersFilter.open();
+    },
+    close() {
+      this.$refs.ordersFilter.close();
+    },
+    selectFilter(type, activeFilters, filterName) {
+      const tempActiveFilters = activeFilters
+      const found = tempActiveFilters.findIndex(x => x.value === type.value)
+
+      if (found >= 0) {
+        tempActiveFilters.splice(found, 1)
+      } else {
+        tempActiveFilters.push({'text': type.text, 'value': type.value})
+        this.$set(activeFilters, filterName, tempActiveFilters)
+      }
+    },
+    selectedFilterStyle(type, activeFilters) {
+      return activeFilters.find(x => x.value === type.value) ? 'active-filter' : ''
     }
   }
 }
@@ -159,6 +289,24 @@ export default {
 
 <style scoped lang="sass">
 @import '/assets/css/variables'
+
+.filter-boxes
+  border-color: $color-gray-28
+
+  .border
+    border-radius: 3px
+
+  .filter-text
+    color: $color-gray-28
+
+.filter-boxes
+  .active-filter
+    border-color: $color-black-1 !important
+    background: $color-white-7
+
+    .filter-text
+      color: $color-black-1
+
 
 .header-title
   @include body-4
@@ -231,4 +379,39 @@ export default {
 
 .mw-734
   max-width: 734px
+
+.filter-title
+  @include body-17-bold
+
+.btn-bottom-sheet
+  border-radius: 20px
+  padding: 5px 30px
+  font-size: 16px
+
+.btn-bottom-sheet.reset
+  background: $color-white-1
+  border: 1px solid $color-black-1
+
+.btn-bottom-sheet.apply-filter
+  background: $color-blue-20
+  border: 1px solid $color-blue-20
+  color: $color-white-1
+
+::v-deep .col-form-label
+  font-weight: bold
+  color: $color-blue-20
+  @include body-14
+
+::v-deep label.custom-control-label
+  font-weight: normal
+  color: $color-black-9
+
+::v-deep .custom-control.custom-radio
+  padding-top: 5px
+  padding-bottom: 5px
+
+::v-deep .search .search-input.form-control
+  font-family: $font-montserrat
+  @include body-9
+
 </style>

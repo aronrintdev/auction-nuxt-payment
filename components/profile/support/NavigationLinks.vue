@@ -95,7 +95,7 @@
       </div>
       <nuxt-link
         v-if="$route.name === 'profile-support'"
-        to="/profile/support/faqs"
+        to="/faqs/support"
       >
         <div
           class="d-flex justify-content-between p-5 border br-10 align-items-center mt-5"
