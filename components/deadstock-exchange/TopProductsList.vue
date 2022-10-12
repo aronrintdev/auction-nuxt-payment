@@ -1,18 +1,18 @@
 <template>
   <div class="promotions-category-page">
-    <div class="d-flex promotions-category-page-title">
-
-    </div>
+    <!-- Loaders -->
     <div v-if="loading" class="d-flex align-items-center justify-content-center h-500">
       <Loader :loading="loading"></Loader>
     </div>
 
-    <div class="">
-      <ExchangeFilter />
+    <!-- Filters -->
+    <div v-if="!loading">
+      <ExchangeFilter  />
     </div>
 
     <!-- Top Products Table -->
     <b-table
+      v-if="!loading"
       :busy="loading"
       class="mt-3 auctions-table"
       :items="deadstockExchanges"
