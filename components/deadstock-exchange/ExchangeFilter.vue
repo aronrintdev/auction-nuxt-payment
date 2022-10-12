@@ -68,7 +68,7 @@
               pending: $t('placed_offers.filter_by.awaiting_approval'),
             }"
             :title="filterByTitle"
-            @input="handleFilterByChange"
+            @input="handleFilterByCategories"
           />
         </div>
         <!-- ./Filter By -->
@@ -84,7 +84,7 @@
               pending: $t('placed_offers.filter_by.awaiting_approval'),
             }"
             :title="filterByTitle"
-            @input="handleFilterByChange"
+            @input="handleFilterBySizeType"
           />
         </div>
         <!-- ./Filter By -->
@@ -100,7 +100,7 @@
               pending: $t('placed_offers.filter_by.awaiting_approval'),
             }"
             :title="filterByTitle"
-            @input="handleFilterByChange"
+            @input="handleFilterByPriceRange"
           />
         </div>
         <!-- ./Filter By -->
@@ -116,7 +116,7 @@
               pending: $t('placed_offers.filter_by.awaiting_approval'),
             }"
             :title="filterByTitle"
-            @input="handleFilterByChange"
+            @input="handleFilterByBrands"
           />
         </div>
         <!-- ./Filter By -->
@@ -132,7 +132,7 @@
               pending: $t('placed_offers.filter_by.awaiting_approval'),
             }"
             :title="filterByTitle"
-            @input="handleFilterByChange"
+            @input="handleFilterByYears"
           />
         </div>
         <!-- ./Filter By -->
@@ -153,6 +153,8 @@ export default {
   },
   data(){
     return {
+      // TODO Dummy Data
+      filterByTitle: this.$t('selling_page.status'),
       searchValue:'',
       categorySelected: '', // For Sort by filter
       filterBy: '',
@@ -355,33 +357,29 @@ export default {
         this.loadData()
       }
     },
-
-    // Remove the filter from respective arrays
-    removeTypeFilter(option) {
-      if (option.type === 'Type') {
-        const activeTypeFilter = this.activeTypeFilters
-        const typeFilter = this.typeFilter
-        if (activeTypeFilter.includes(option)) {
-          activeTypeFilter.splice(activeTypeFilter.indexOf(option), 1)
-        }
-        if (typeFilter.includes(option.value)) {
-          typeFilter.splice(typeFilter.indexOf(option.value), 1)
-        }
-      } else {
-        const activeStatusFilter = this.activeStatusFilters
-        const statusFilter = this.statusFilter
-        if (activeStatusFilter.includes(option)) {
-          activeStatusFilter.splice(activeStatusFilter.indexOf(option), 1)
-        }
-        if (statusFilter.includes(option.value)) {
-          statusFilter.splice(statusFilter.indexOf(option.value), 1)
-        }
-      }
-      this.loadData()
+     // On filter by change.
+    handleSortByChange(value) {
+      this.searchFilters.filterBy = value === DEFAULT ? '' : value
     },
      // On filter by change.
-        handleFilterByChange(value) {
-      this.searchFilters.filterBy = value === DEFAULT ? '' : value
+    handleFilterByCategories(value) {
+      this.searchFilters.categories = value === DEFAULT ? '' : value
+    },
+     // On filter by change.
+    handleFilterBySizeType(value) {
+      this.searchFilters.size = value === DEFAULT ? '' : value
+    },
+     // On filter by change.
+    handleFilterByPriceRange(value) {
+      this.searchFilters.priceRange = value === DEFAULT ? '' : value
+    },
+     // On filter by brands.
+    handleFilterByBrands(value) {
+      this.searchFilters.brands = value === DEFAULT ? '' : value
+    },
+     // On filter by years.
+    handleFilterByYears(value) {
+      this.searchFilters.years = value === DEFAULT ? '' : value
     },
   },
 }

@@ -16,7 +16,7 @@
       :busy="loading"
       class="mt-3 auctions-table"
       :items="deadstockExchanges"
-      :fields="type === 'single' ? tableColumns : tableColumnsForCollection"
+      :fields="tableColumns "
     >
       <template #table-busy>
         <div class="text-center text-dark my-2">
