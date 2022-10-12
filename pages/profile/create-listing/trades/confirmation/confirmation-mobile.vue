@@ -374,6 +374,8 @@ export default {
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
   @media (min-width: 300px)  and (max-width: 349px)
     width: 290px
+  @media (min-width: 400px)  and (max-width: 500px)
+      width: 390px
 .confirm-trade-item-image
   width: 86px
 .quantity-heading
@@ -419,4 +421,6 @@ export default {
   padding: 5px
   @media (min-width: 300px)  and (max-width: 349px)
     width: 290px
+  @media (min-width: 400px)  and (max-width: 500px)
+      width: 390px
 </style>
