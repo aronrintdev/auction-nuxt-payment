@@ -25,13 +25,13 @@ export default {
   },
   computed: {
     ...mapGetters('vendors', [
-      'totalSales',
       'totalCommissionPending',
+      'totalCommissionPaid',
       'inventoryCount',
       'totalOffers'
     ]),
     totalSalesStr(){
-      return '$'+(this.totalSales / 100).toFixed(2)
+      return '$'+(this.totalCommissionPaid / 100).toFixed(2)
     },
     commissionPendingStr(){
       return '$'+(this.totalCommissionPending / 100).toFixed(2)

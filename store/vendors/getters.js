@@ -53,3 +53,11 @@ export function categories(state) {
 export function isLoading(state) {
   return state.isLoading
 }
+
+export function totalCommission(state) {
+  return state.totalCommission
+}
+
+export function totalCommissionPaid(state){
+  return state.totalCommissionPaid
+}
