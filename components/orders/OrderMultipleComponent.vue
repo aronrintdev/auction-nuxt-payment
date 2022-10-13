@@ -274,7 +274,7 @@ export default {
         return false
       }
       const status = item.status_markable[len - 1]
-      const url = `/order-items/${this.order.id}/status?status=${status.key}`;
+      const url = `/order-items/${this.item.id}/status?status=${status.key}`;
 
       const resp = await this.$axios.put(url)
       if (resp.status === 200) {
