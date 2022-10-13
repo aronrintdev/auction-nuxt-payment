@@ -26,13 +26,19 @@
       </div>
     </div>
 
-    <TierTabs :current="currentTier" :tiers="tiers" class="tabs" @change="handleTierChange"/>
+    <TierTabs v-if="isRedeemTab" :current="currentTier" :tiers="tiers" class="tabs" @change="handleTierChange"/>
 
     <div class="rewards d-flex flex-column">
-      <div v-for="reward in filteredRewards" :key="reward.id" class="single-reward">
-        <MobileReward :reward="reward"/>
+      <div v-if="isRedeemTab">
+        <div v-for="reward in filteredRewards" :key="reward.id" class="single-reward">
+          <MobileReward :reward="reward"/>
+        </div>
       </div>
+
+      <MobileEarnTab v-if="isEarnTab" class=""/>
+      <HistoryList v-if="!isEarnTab && !isRedeemTab"/>
     </div>
+
   </div>
 
 </template>
@@ -43,10 +49,12 @@ import NavGroup from '~/components/common/NavGroup';
 import TierTabs from '~/components/profile/rewards/TierTabs';
 import MobileReward from '~/components/profile/rewards/MobileReward';
 import MobileRewardGauge from '~/components/profile/rewards/MobileRewardGauge';
+import MobileEarnTab from '~/components/profile/rewards/MobileEarnTab';
+import HistoryList from '~/components/profile/rewards/HistoryList';
 
 export default {
   name: 'MobileUserReward',
-  components: {MobileRewardGauge, MobileReward, TierTabs, NavGroup},
+  components: {HistoryList, MobileEarnTab, MobileRewardGauge, MobileReward, TierTabs, NavGroup},
   data() {
     return {
       currentTier: 1,
@@ -72,6 +80,12 @@ export default {
     filteredRewards() {
       return this.thresholds.filter(threshold => threshold.redemption_points > this.selectedTier.lowestValue && threshold.redemption_points <= this.selectedTier.highestValue)
           .sort((a, b) => a.redemption_points - b.redemption_points)
+    },
+    isRedeemTab() {
+      return this.currentPage === 'redeem'
+    },
+    isEarnTab() {
+      return this.currentPage === 'earn'
     }
   },
   methods: {

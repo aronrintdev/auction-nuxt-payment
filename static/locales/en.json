@@ -2262,6 +2262,10 @@
     "redeem_points": "REDEEM POINTS",
     "earn_more": "Earn More",
     "your_history": "YOUR HISTORY",
+    "sign_up_to_earn": "Sign up to earn",
+    "reward_history_item_desc": "Reward points {rg} from transaction {order_id}",
+    "redeemed": "redeemed",
+    "gained": "gained",
     "tier": "Tier",
     "navs": {
       "redeem": {

@@ -1,14 +1,18 @@
 <template>
   <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
-    <b-form class="custom-form mt-5" @submit.stop.prevent="handleSubmit(onSubmit)">
+    <b-form class="custom-form" @submit.stop.prevent="handleSubmit(onSubmit)">
       <b-row>
         <b-col md="12" class="text-center">
           <b-card class="bg-gray-3 shadow-none">
             <b-row>
               <b-col md="12">
                 <span class="body-7-bold d-block">{{ $t('rewards.invite_your_friends') }}</span>
-                <span class="body-1-bold text-color-blue-2 mt-1 d-block">{{ $t('rewards.everybody_gets_points') }}</span>
-                <span class="body-6-normal mt-2 d-block">{{ $t('rewards.you_will_receive_points', { points: points}) }}</span>
+                <span class="body-1-bold text-color-blue-2 mt-1 d-block">{{
+                    $t('rewards.everybody_gets_points')
+                  }}</span>
+                <span class="body-6-normal mt-2 d-block">{{
+                    $t('rewards.you_will_receive_points', {points: points})
+                  }}</span>
               </b-col>
             </b-row>
             <b-row class="mt-3">
