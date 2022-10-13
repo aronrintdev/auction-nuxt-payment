@@ -38,3 +38,21 @@ export async function fetchVendorTradeSummary({ commit }) {
             commit('setVendorTradeSummary', res.data.data)
         })
 }
+
+/**
+ * Dismiss Trade for not being shown in future
+ * @param payload
+ * @returns {Promise<void>}
+ */
+ export function dismissTrade({ commit }, payload){
+  return new Promise((resolve, reject) => {
+    this.$axios
+          .post('/trades/dismiss', payload)
+      .then((response) => {
+        resolve(response)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
