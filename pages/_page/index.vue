@@ -11,7 +11,7 @@
 </template>
 <script>
 export default {
-  name: 'page',
+  name: 'Page',
   layout: 'IndexLayout',
   data() {
     return {
