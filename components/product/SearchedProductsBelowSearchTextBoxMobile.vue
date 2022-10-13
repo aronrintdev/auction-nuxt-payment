@@ -19,10 +19,14 @@
         </b-list-group-item>
       </b-list-group>
     </div>
-    <div  align-self="center">
-      <b-list-group class="text-md">
-        <b-list-group-item class="p-4"><i>{{$t('common.dont_see_your_product')}} <a href="#">{{$t('common.suggest_a_new_product')}}</a></i></b-list-group-item>
-      </b-list-group>
+    <div class="d-flex white-bg see-product">
+      <div class="dont-see-your-product-mobile">
+        {{$t('common.dont_see_your_product_mobile')}}
+      </div>
+      <div class="suggest-a-new-product-mob">
+        <a href="#" style="color: #000000">{{$t('common.suggest_a_new_product_mobile')}}</a>
+      </div>
+
     </div>
   </div>
 </template>
@@ -118,10 +122,10 @@ export default {
 .searched-product-image
   width: 78px
 .searched-product-name
- @include body-9
+ @include body-6
  font-family: $font-montserrat
  color: #979797
- margin-top: 2rem
+ margin-top: 29px
  width: 149px
  height: 16px
 
@@ -138,4 +142,26 @@ export default {
   margin-left: 20px
 .white-bg
   background-color: #FFFFFF
+.see-product
+  height: 130px
+.dont-see-your-product-mobile
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $normal
+  @include body-6
+  line-height: 13px
+  letter-spacing: 0.06em
+  text-transform: capitalize
+  color: #000000
+  margin-left: 5px
+.suggest-a-new-product-mob
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $normal
+  @include body-6
+  line-height: 13px
+  letter-spacing: 0.06em
+  text-decoration: none
+  color: #000000
+  margin-left: 6.5rem
 </style>
