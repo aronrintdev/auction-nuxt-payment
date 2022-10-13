@@ -75,7 +75,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { Loader } from '~/components/common'
-import ExchangeFilter from '~/components/deadstock-exchange/ExchangeFilter.vue'
+import ExchangeFilter from '~/components/stockExchange/ExchangeFilter.vue'
 
 export default {
   name: 'TopProductsList',

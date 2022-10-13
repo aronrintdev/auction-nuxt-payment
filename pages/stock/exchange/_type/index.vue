@@ -23,9 +23,9 @@
 </template>
 <script>
 import {mapActions} from 'vuex';
-import ExchangeBanner from '~/components/deadstock-exchange/Banner'
+import ExchangeBanner from '~/components/stockExchange/Banner'
 import NavGroup from '~/components/common/NavGroup.vue'
-import TopProductsList from '~/components/deadstock-exchange/TopProductsList'
+import TopProductsList from '~/components/stockExchange/TopProductsList'
 
 export default {
   components: {
