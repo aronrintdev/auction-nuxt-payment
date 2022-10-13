@@ -1,24 +1,30 @@
 <template>
-  <b-row v-show="productItems.length" id="products" cols="1" class="text-xs w-100 searched-item-row" :style="{'max-width': width}">
-    <b-col align-self="center">
-      <b-list-group v-for="(product, index) in productItems" :key="`searched-product-${index}`">
-        <b-list-group-item class="text-xs">
-          <span class="searched-product-image mr-2 col-md-2"><img :src="product.image" width="40px" height="40px" /></span>
-          <span class="searched-product-name align-self-center mt-5 col-md-7">{{product.name}}</span>
-          <span class="searched-product-add-to-wants pull-right mt-2 col-md-3 text-right">
-            <span v-if="productsFor === tradeItem || productsFor === counterOffer" class="cursor-pointer" @click="addProductTrade(product)">{{$t('common.add_product')}} <img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" /></span>
-            <span v-else-if="productsFor === arenaItem" class="cursor-pointer" @click="addProductArena(product)"><img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" /></span>
-            <a v-else href="#" @click="addProductWant(product)">{{$t('common.add_to_wants')}} <img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" /></a>
-          </span>
+  <div v-show="productItems.length" id="products"  class="text-xs w-100 searched-item-row" :style="{'max-width': width}">
+    <div class="white-bg mt-2" align-self="center">
+      <b-list-group v-for="(product, index) in productItems" :key="`searched-product-${index}`" class="list-group">
+        <b-list-group-item class="sub-con d-flex mb-2">
+          <div><img class="searched-product-image ml-1 mr-3" :src="product.image"/></div>
+          <div class="searched-product-name ml-1">{{product.name}}</div>
+          <div class="searched-product-add-to-wants">
+            <b-btn v-if="productsFor === tradeItem || productsFor === counterOffer" class="cursor-pointer btn-add" @click="addProductTrade(product)">
+              {{$t('common.add_product_mobile')}}
+            </b-btn>
+            <b-btn v-else-if="productsFor === arenaItem"  class="cursor-pointer btn-add" @click="addProductArena(product)">
+              {{$t('common.add_product_mobile')}}
+            </b-btn>
+            <b-btn v-else  class="cursor-pointer btn-add" @click="addProductWant(product)">
+              {{$t('common.add_product_mobile')}}
+            </b-btn>
+          </div>
         </b-list-group-item>
       </b-list-group>
-    </b-col>
-    <b-col  align-self="center">
+    </div>
+    <div  align-self="center">
       <b-list-group class="text-md">
         <b-list-group-item class="p-4"><i>{{$t('common.dont_see_your_product')}} <a href="#">{{$t('common.suggest_a_new_product')}}</a></i></b-list-group-item>
       </b-list-group>
-    </b-col>
-  </b-row>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -101,7 +107,35 @@ export default {
 </script>
 <style scoped lang="sass">
 @import '~/assets/css/_typography'
+@import '~/assets/css/_variables'
 .searched-item-row
   font-weight: $normal
   z-index: 100000
+.sub-con
+  width: 343px
+  height: 80px
+  padding: 0px
+.searched-product-image
+  width: 78px
+.searched-product-name
+ @include body-9
+ font-family: $font-montserrat
+ color: #979797
+ margin-top: 2rem
+ width: 149px
+ height: 16px
+
+.btn-add
+  width: 54px
+  border-radius: 5px
+  background: #667799
+  border: 1px solid #667799
+  @include body-9
+  color: #FFFFFF
+  font-family: $font-sp-pro
+  font-weight: $medium
+  margin-top: 2rem
+  margin-left: 20px
+.white-bg
+  background-color: #FFFFFF
 </style>
