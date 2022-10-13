@@ -134,7 +134,7 @@
     </div>
 
     <div class="col d-none d-md-block">
-      <div class="text-center">${{ order.total | formatPrice }}</div>
+      <div class="text-center">${{ order.vendor_commission | formatPrice }}</div>
     </div>
     <div class="col"></div>
     <div class="col-2 text-center d-none d-md-block"> -</div>
