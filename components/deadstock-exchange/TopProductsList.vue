@@ -204,6 +204,7 @@ export default {
     // Search Data
     filterList(value) {
       this.filter =value
+      this.loadPage()
     },
     // Pagination "Change" event listener
     paginationChanged(page) {

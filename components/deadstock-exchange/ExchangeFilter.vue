@@ -37,10 +37,12 @@
             :threelineIcon="false"
             :options="{
               default: $t('vendor_purchase.sort_by'),
-              priceAsc: $t('placed_offers.sort_by.price_low_high'),
-              priceDesc: $t('placed_offers.sort_by.price_high_low'),
-              dateAsc: $t('placed_offers.sort_by.date_listed_new_old'),
-              dateDesc: $t('placed_offers.sort_by.date_listed_old_new'),
+              highestChange: $t('deadstock_exchange.sort_by.highest_change'),
+              lowestChange: $t('deadstock_exchange.sort_by.lowest_change'),
+              releaseDateAsc: $t('deadstock_exchange.sort_by.release_date_asc'),
+              releaseDateDesc: $t('deadstock_exchange.sort_by.release_date_desc'),
+              lastPriceLh: $t('deadstock_exchange.sort_by.last_price_lh'),
+              lastPriceHl: $t('deadstock_exchange.sort_by.last_price_hl'),
             }"
             @input="handleSortByChange"
           />

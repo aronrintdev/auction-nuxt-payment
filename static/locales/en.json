@@ -5302,6 +5302,14 @@
         "30d":"30d",
         "last_7d":"Last 7Days"
       }
+    },
+    "sort_by":{
+      "highest_change":"Highest Change %",
+      "lowest_change":"Lowest Change %",
+      "release_date_asc":"Release Date - Ascending",
+      "release_date_desc":"Release Date - Descending",
+      "last_price_lh":"Last Price (low-high)",
+      "last_price_hl":"Last Price (high-low)"
     }
   }
 }
