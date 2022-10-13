@@ -2266,6 +2266,13 @@
     "reward_history_item_desc": "Reward points {rg} from transaction {order_id}",
     "redeemed": "redeemed",
     "gained": "gained",
+    "redeemed_page": {
+      "congratulations": "Congratulations",
+      "subtitle": "You’ve Unlocked a {reward} with {points} pts",
+      "browse": "Browse",
+      "desc": "{reward} will automatically be applied to checkout"
+    },
+    "confirm_redeem_body": "Are you sure you would like to redeem {points} points for {reward}?",
     "tier": "Tier",
     "navs": {
       "redeem": {
@@ -2292,13 +2299,14 @@
     "participate_in_buying": "Participate in Buying, Trading and Auctions to earn points to get discount and gift cards.",
     "get_rewards": "Get Rewards",
     "redeem_points_for_exclusive": "Redeem points for exclusive deals and gifts. Refer a friend and get $5 (equal to 500 points).",
-    "start_earning_points": "Start Earning Points Now",
-    "invite_your_friends": "Invite your Friends, and",
+    "start_earning_points": "Start Earning Points",
+    "invite_your_friends": "Invite your Friends, And",
     "everybody_gets_points": "Everybody Gets Points",
-    "you_will_receive_points": "You Will Receive {points} Points Every Time Someone You Refer Signs Up",
+    "you_will_receive_points": "Earn {points} points After each sign up ",
     "email": "Email",
-    "enter_your_friend_email": "Enter Your Friend Email Address",
+    "enter_your_friend_email": "Enter Email Address",
     "send_invite": "Send Invite",
+    "invite": "Invite",
     "an_invitation_has_been_sent": "An Invitation has been sent to {email}",
     "rewards_program": "Rewards Program",
     "join_our_rewards_program": "Join our rewards program today and start earning points! You can earn reward points, exclusive deals, gifts, discounts and more with each transaction. Redeem your points toward purchases, trades, auctions and more. Invite your friends and receive more points.",

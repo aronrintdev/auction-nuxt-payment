@@ -24,3 +24,13 @@ export function addRedeemableRewardsStages(state, redeemableRewardsStages) {
 export function setRewardHistory(state, rewardsHistory) {
   state.rewardHistory = rewardsHistory
 }
+
+/**
+ * set redeemed reward
+ * @param state
+ * @param {Object} reward
+ * @returns Array
+ */
+export function setRedeemed(state, reward) {
+  state.redeemed = reward
+}

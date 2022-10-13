@@ -2,6 +2,7 @@ export default function () {
   return {
     rewardThresholds: [],
     redeemableRewardsStages: [],
-    rewardHistory: []
+    rewardHistory: [],
+    redeemed: null
   }
 }

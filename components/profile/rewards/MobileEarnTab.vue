@@ -27,6 +27,7 @@
         {{ $auth.user ? $t('rewards.start_earning_points') : $t('rewards.sign_up_to_earn') }}
       </Button>
     </div>
+    <InviteFriendsCard class="m-t-30"/>
 
     <span class="body-3-medium rewards-title">{{ $t('rewards.rewards') }}</span>
     <b-table
@@ -47,7 +48,6 @@
       </template>
     </b-table>
 
-    <InviteFriendsCard class="m-t-30"/>
 
     <div class="text-center m-t-50">
       <div class="text-line-middle body-5-normal">

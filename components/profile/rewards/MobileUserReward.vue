@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-column mobile-rewards">
     <div class="title">
-      {{ $t('rewards.hi_name', {0: user.first_name}) }}
+      {{ $t('rewards.hi_name', {0: user ? user.first_name : ''}) }}
     </div>
     <div class="point-gauge">
       <MobileRewardGauge :current-points="rewardPoints"/>
@@ -31,7 +31,7 @@
     <div class="rewards d-flex flex-column">
       <div v-if="isRedeemTab">
         <div v-for="reward in filteredRewards" :key="reward.id" class="single-reward">
-          <MobileReward :reward="reward"/>
+          <MobileReward :reward="reward" @redeem="redeemReward"/>
         </div>
       </div>
 
@@ -39,6 +39,42 @@
       <HistoryList v-if="!isEarnTab && !isRedeemTab"/>
     </div>
 
+    <MobileBottomSheet
+        :has-header-divider="false"
+        :height="'27%'"
+        :open="modalOpen"
+        :title="''"
+        @closed="modalOpen = false"
+        @opened="modalOpen = true"
+    >
+      <template #default>
+        <div v-if="selectedReward" class="d-flex flex-column align-items-center h-88 w-100 px-5 ">
+          <i18n class="redeem-title text-center mb-22" path="rewards.confirm_redeem_body" tag="div">
+            <template #reward>
+              <span class="font-weight-bold">{{ selectedReward.reward_type }}</span>
+            </template>
+            <template #points>
+              {{ selectedReward.redemption_points }}
+            </template>
+          </i18n>
+          <Button
+              class="mb-22"
+              pill
+              variant="dark-blue"
+              @click="$router.push('/profile/rewards/redeemed')"
+          >
+            {{ $t('rewards.redeem') }}
+          </Button>
+
+          <Button
+              variant="link-blue"
+              @click="modalOpen = false"
+          >
+            {{ $t('common.cancel') }}
+          </Button>
+        </div>
+      </template>
+    </MobileBottomSheet>
   </div>
 
 </template>
@@ -51,12 +87,18 @@ import MobileReward from '~/components/profile/rewards/MobileReward';
 import MobileRewardGauge from '~/components/profile/rewards/MobileRewardGauge';
 import MobileEarnTab from '~/components/profile/rewards/MobileEarnTab';
 import HistoryList from '~/components/profile/rewards/HistoryList';
+import MobileBottomSheet from '~/components/mobile/MobileBottomSheet';
+import Button from '~/components/common/Button';
 
 export default {
   name: 'MobileUserReward',
-  components: {HistoryList, MobileEarnTab, MobileRewardGauge, MobileReward, TierTabs, NavGroup},
+  components: {
+    Button,
+    MobileBottomSheet, HistoryList, MobileEarnTab, MobileRewardGauge, MobileReward, TierTabs, NavGroup
+  },
   data() {
     return {
+      modalOpen: false,
       currentTier: 1,
       currentPage: 'redeem',
       navs: Object.keys(this.$t('rewards.navs')).map(key => {
@@ -72,6 +114,7 @@ export default {
       rewardPoints: 'auth/getRewardPoints',
       user: 'auth/user',
       tiers: 'rewards/getRedeemableRewardsStages',
+      selectedReward: 'rewards/getRedeemed',
       thresholds: 'rewards/getRewardThresholds',
     }),
     selectedTier() {
@@ -89,6 +132,12 @@ export default {
     }
   },
   methods: {
+    redeemReward(reward) {
+      this.$store.commit('rewards/setRedeemed', reward)
+      this.$nextTick(() => {
+        this.modalOpen = true
+      })
+    },
     handleTierChange(tier) {
       this.currentTier = tier
     },
@@ -169,5 +218,16 @@ export default {
     height: 1px
     background-color: $color-black-1
 
+.h-88
+  height: 88%
 
+.redeem-title
+  @include body-17
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $regular
+  color: $color-black-1
+
+.mb-22
+  margin-bottom: 22px
 </style>

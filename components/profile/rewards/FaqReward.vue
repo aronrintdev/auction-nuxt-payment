@@ -26,7 +26,7 @@ export default {
     font-family: $font-montserrat
     font-style: normal
     font-weight: $medium
-    color: $color-blue-20 !important
+    color: $color-blue-2 !important
 
 .faq
   max-width: 800px

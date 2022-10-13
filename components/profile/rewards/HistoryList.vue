@@ -13,7 +13,7 @@
           </div>
           <span class="item-desc ">
             <i18n path="rewards.reward_history_item_desc" tag="div">
-              <template v-slot:rg>
+              <template #rg>
                <span :class="isGreater(item.points)? 'gain' : 'redeem'"
                      class="font-weight-bold">{{ redeemedGainedText(item.points) }}</span>
               </template>

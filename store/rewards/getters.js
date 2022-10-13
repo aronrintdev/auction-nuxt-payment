@@ -26,6 +26,15 @@ export function getRewardHistory(state) {
 }
 
 /**
+ * get redeemed reward
+ * @param state
+ * @returns Array
+ */
+export function getRedeemed(state) {
+  return state.redeemed
+}
+
+/**
  * get last positive reward history
  * @param state
  * @returns Array

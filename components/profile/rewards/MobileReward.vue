@@ -17,6 +17,7 @@
           :disabled="isRedeemDisabled"
           pill
           variant="dark-blue"
+          @click="$emit('redeem', reward)"
       >
         {{ $t('rewards.redeem') }}
       </Button>
