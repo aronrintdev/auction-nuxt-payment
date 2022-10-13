@@ -2247,7 +2247,7 @@
     "security": "Security",
     "security_settings": "Security Settings",
     "support": "Support",
-    "deadstock_exchange": "Dead Stock Exchange"
+    "stock_exchange": "Stock Exchange"
   },
   "rewards": {
     "earn_points": "Earn Points",

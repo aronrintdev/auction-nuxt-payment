@@ -264,11 +264,11 @@ export default {
           menu: MENU_CATEGORY_MISC,
         },
         {
-          label: this.$t('profile_menu.deadstock_exchange'),
+          label: this.$t('profile_menu.stock_exchange'),
           icon: require('~/assets/img/icons/side-menu/promotions.svg'),
           iconActive: require('~/assets/img/icons/side-menu/promotions-active.svg'),
-          href: '/deadstock-exchange',
-          route: 'deadstock-exchange',
+          href: '/stockExchange',
+          route: 'stockExchange',
           menu: MENU_CATEGORY_MISC,
         },
         {

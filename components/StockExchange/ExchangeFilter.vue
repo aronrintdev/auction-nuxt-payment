@@ -54,10 +54,7 @@
           <CustomSelect
             :default="filterBy"
             :threelineIcon="false"
-            :options="{
-              default: $t('deadstock_exchange.filters.categories.title'),
-              ...categories
-            }"
+            :options="categories"
             :title="filterByTitle"
             @input="handleFilterByCategories"
           />
@@ -174,8 +171,14 @@ export default {
       .get('/products/filters-list')
       .then((response) => {
         this.brands = response.data.brands.map(el =>el.name)
-        this.categories = response.data.categories.map(el => el.name)
 
+        const categoriesList ={
+              default: this.$t('deadstock_exchange.filters.categories.title'),
+            }
+        this.categories = response.data.categories.forEach((el) => {
+          const modifyElement =el.name
+          categoriesList.modifyElement = modifyElement
+        })
       })
       .catch((error) => {
         // Show unauthorized message on error
