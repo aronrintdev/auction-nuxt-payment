@@ -267,8 +267,8 @@ export default {
           label: this.$t('profile_menu.stock_exchange'),
           icon: require('~/assets/img/icons/side-menu/promotions.svg'),
           iconActive: require('~/assets/img/icons/side-menu/promotions-active.svg'),
-          href: '/stockExchange',
-          route: 'stockExchange',
+          href: '/stock/exchange/trending',
+          route: 'stock-exchange',
           menu: MENU_CATEGORY_MISC,
         },
         {

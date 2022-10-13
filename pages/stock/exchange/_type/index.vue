@@ -22,7 +22,6 @@
   </div>
 </template>
 <script>
-import {mapActions} from 'vuex';
 import ExchangeBanner from '~/components/stockExchange/Banner'
 import NavGroup from '~/components/common/NavGroup.vue'
 import TopProductsList from '~/components/stockExchange/TopProductsList'
@@ -48,29 +47,12 @@ export default {
       loading: false
     }
   },
-  mounted() {
-    this.fetchPromotion()
-  },
   methods: {
-    ...mapActions({
-      getExchanges: 'deadstock-exchange/getDeadstockExchanges'
-    }),
     handleCategoryChange(category) {
       if (this.currentCategory !== category) {
         this.currentCategory = category
-        this.fetchPromotion()
+
       }
-    },
-    fetchPromotion() {
-      this.loading = true
-      this.getExchanges({
-        type: this.currentCategory,
-        status: 'active'
-      }).catch(err => {
-        this.$toasted.error(this.$t(err.response.data.message).toString())
-      }).finally(() => {
-        this.loading = false
-      })
     }
   },
 }
