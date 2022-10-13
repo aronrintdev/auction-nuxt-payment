@@ -55,10 +55,8 @@
             :default="filterBy"
             :threelineIcon="false"
             :options="{
-              default: $t('deadstock_exchange.filters.categories'),
-              accepted: $t('placed_offers.filter_by.accepted'),
-              rejeced: $t('placed_offers.filter_by.rejected'),
-              pending: $t('placed_offers.filter_by.awaiting_approval'),
+              default: $t('deadstock_exchange.filters.categories.title'),
+              ...categories
             }"
             :title="filterByTitle"
             @input="handleFilterByCategories"
@@ -153,6 +151,8 @@ export default {
       searchValue: '',
       categorySelected: '', // For Sort by filter
       filterBy: '',
+      brands: [],
+      categories: [],
       showSuccessMessage: null,
       searchFilters: {
         filterBy: '',
@@ -164,7 +164,24 @@ export default {
       },
     }
   },
+  mounted(){
+    this.loadFilters()
+  },
   methods: {
+    // Get All Product Filters List
+    loadFilters() {
+      this.$axios
+      .get('/products/filters-list')
+      .then((response) => {
+        this.brands = response.data.brands.map(el =>el.name)
+        this.categories = response.data.categories.map(el => el.name)
+
+      })
+      .catch((error) => {
+        // Show unauthorized message on error
+        this.$toasted.error(error)
+      })
+    },
     // On filter by change.
     searchProduct() {
       this.searchFilters.search =  this.searchValue
