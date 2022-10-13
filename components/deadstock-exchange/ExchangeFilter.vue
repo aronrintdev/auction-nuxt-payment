@@ -166,8 +166,8 @@ export default {
   },
   methods: {
     // On filter by change.
-    searchProduct(value) {
-      this.searchFilters.search =  value
+    searchProduct() {
+      this.searchFilters.search =  this.searchValue
       this.$emit('filterList',this.searchFilters)
     },
     // On filter by change.
