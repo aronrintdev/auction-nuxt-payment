@@ -39,7 +39,10 @@
         />
       </b-collapse>
     </div>
-    <b-row v-if="type === 'look'" class="mt-5">
+    <div class="d-block d-sm-none">
+      <ResponsivenessFilter />
+    </div>
+    <b-row v-if="type === 'look'" class="mt-5 ml-0 mr-0">
       <b-col v-for="(style, index) in styles" :key="index" md="3" sm="6">
         <ShopByStyleCard
           :style-id="style.id"
@@ -48,7 +51,7 @@
         ></ShopByStyleCard>
       </b-col>
     </b-row>
-    <b-row v-else class="mt-5">
+    <b-row v-else class="mt-5 ml-0 mr-0">
       <template v-for="(style, index) in styles">
         <b-col v-if="index == 1" :key="index" lg="6" md="8">
           <ShopByStyleCard
@@ -75,9 +78,10 @@ import { NavGroup, Button } from '~/components/common'
 import ShopByStyleFilter from '~/components/shop-by-style/Filter'
 import ShopByStyleCard from '~/components/shop-by-style/Card'
 import { TYPE } from '~/static/constants/shop-by-style'
+import ResponsivenessFilter from '~/components/shop-by-style/ResponsivenessFilter'
 
 export default {
-  components: { NavGroup, Button, ShopByStyleFilter, ShopByStyleCard },
+  components: { NavGroup, Button, ShopByStyleFilter, ShopByStyleCard, ResponsivenessFilter },
 
   layout: 'IndexLayout',
 
@@ -176,13 +180,7 @@ export default {
     margin-top: -5px
 
   .row
-    margin-left: -27px
-    margin-right: -27px
-
     > div
-      padding-left: 27px
-      padding-right: 27px
-
       .style-card
         margin-bottom: 70px
 
@@ -194,5 +192,5 @@ export default {
 
 @media (max-width: 576px)
   .container-shop-by-style
-    padding: 30px
+    padding: 0
 </style>
