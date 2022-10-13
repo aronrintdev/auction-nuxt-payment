@@ -166,7 +166,7 @@ import {mapActions, mapGetters} from 'vuex'
 import debounce from 'lodash.debounce';
 import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
 import SearchInput from '~/components/common/SearchInput';
-import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox.vue'
+import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBoxMobile.vue'
 import mobileFilters from '~/pages/profile/create-listing/trades/filtersMobile'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED, PRODUCT_FALLBACK_URL} from '~/static/constants';
 import {TAKE_SEARCHED_PRODUCTS} from '~/static/constants/trades';

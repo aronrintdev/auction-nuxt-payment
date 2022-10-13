@@ -278,7 +278,7 @@ import debounce from 'lodash.debounce'
 import FormStepProgressBar from '~/components/common/FormStepProgressBar'
 // import Button from '~/components/common/Button'
 import SearchInput from '~/components/common/SearchInput'
-import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox'
+import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBoxMobile'
 // import CustomDropdown from '~/components/common/CustomDropdown'
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
 import ViewOfferItemsModal from '~/pages/profile/create-listing/trades/wants/ViewOfferItemsModal';
