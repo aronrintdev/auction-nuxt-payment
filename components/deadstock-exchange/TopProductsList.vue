@@ -52,6 +52,15 @@
       <template #cell(retail_price)="row">
         <span class="cell-wrapper quantity">$ {{ row.item.retail_price }}</span>
       </template>
+      <template #cell(day_sales_percentage)="row">
+        <span class="cell-wrapper quantity"> {{ row.item.day_sales_percentage }}%</span>
+      </template>
+      <template #cell(week_sales_percentage)="row">
+        <span class="cell-wrapper quantity"> {{ row.item.week_sales_percentage }}%</span>
+      </template>
+      <template #cell(current_month_sale_percentage)="row">
+        <span class="cell-wrapper quantity"> {{ row.item.current_month_sale_percentage }}%</span>
+      </template>
     </b-table>
     <b-pagination
       v-if="totalRows"
@@ -115,19 +124,19 @@ export default {
           label: this.$t('deadstock_exchange.list.table_columns.last_price'),
         },
         {
-          key: '24h',
+          key: 'day_sales_percentage',
           label: this.$t('deadstock_exchange.list.table_columns.24h'),
         },
         {
-          key: '7d',
+          key: 'week_sales_percentage',
           label: this.$t('deadstock_exchange.list.table_columns.7d'),
         },
         {
-          key: '30d',
+          key: 'current_month_sale_percentage',
           label: this.$t('deadstock_exchange.list.table_columns.30d'),
         },
         {
-          key: 'last_7d',
+          key: 'week_sales_percentage',
           label: this.$t('deadstock_exchange.list.table_columns.last_7d'),
         },
       ],
@@ -146,19 +155,19 @@ export default {
           label: this.$t('deadstock_exchange.list.table_columns.last_price'),
         },
         {
-          key: '24h',
+          key: 'day_sales_percentage',
           label: this.$t('deadstock_exchange.list.table_columns.24h'),
         },
         {
-          key: '7d',
+          key: 'week_sales_percentage',
           label: this.$t('deadstock_exchange.list.table_columns.7d'),
         },
         {
-          key: '30d',
+          key: 'current_month_sale_percentage',
           label: this.$t('deadstock_exchange.list.table_columns.30d'),
         },
         {
-          key: 'last_7d',
+          key: 'week_sales_percentage',
           label: this.$t('deadstock_exchange.list.table_columns.last_7d'),
         },
       ],

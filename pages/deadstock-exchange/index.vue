@@ -11,9 +11,9 @@
             @change="handleCategoryChange"
         />
       </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
+      <div class="container container-auction-details">
+        <div class="row ">
+          <div class="col-12 col-md-11 col-sm-11 mx-auto">
             <TopProductsList  :loading="loading" :title="currentCategory"></TopProductsList>
           </div>
         </div>
