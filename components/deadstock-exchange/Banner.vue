@@ -5,10 +5,15 @@
           :src="bannerImageUrl"
           class="banner-image"
       />
-      <div class="position-absolute w-100 promotions-banner-overlay">
+      <div class="position-absolute w-100 promotions-banner-overlay col-8">
         <div class="container">
           <div class="row">
-            <div class="col-12 text-left promotions-banner-title">{{ title }}</div>
+            <div class="col-6 exchange-heading ml-4 text-left">
+              <p class="promotions-banner-title">{{ title || $t('deadstock_exchange.title') }}</p>
+              <p>
+               {{ $t('deadstock_exchange.heading_detail')}}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -17,7 +22,7 @@
 </template>
 <script>
 export default {
-  name: 'PromotionsBanner',
+  name: 'DeadstockExchangeBanner',
   props: {
     title: {
       type: [String, null],
@@ -30,7 +35,7 @@ export default {
   },
   computed: {
     bannerImageUrl() {
-      return this.bannerImage || require('~/assets/img/exchange/exchange-banner.png')
+      return this.bannerImage || require('~/assets/img/exchanges/exchange-banner.png')
     }
   }
 };

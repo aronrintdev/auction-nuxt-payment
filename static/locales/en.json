@@ -5280,8 +5280,36 @@
   },
   "deadstock_exchange":{
     "title": "Deadstock Exchange",
-    "trending":"Trending",
-    "biggest_gainers":"Biggest Gainers",
-    "biggest_losers":"Biggest Losers"
+    "biggest_lossers": "Biggest losers",
+    "biggest_winners": "Biggest Winners",
+    "trendings": "Trendings",
+    "heading_detail": "Search for the top trending streetwear ranked by price backed by data",
+    "filters":{
+      "categories":"Categories",
+      "size_types":"Size Types",
+      "price_range":"Price Range",
+      "brands":"Brands",
+      "years":"Years",
+      "details_placeholder":"Search Product By Name"
+    },
+    "list":{
+      "table_columns":{
+        "ranking":"Ranking#",
+        "last_price":"Last Price",
+        "name":"Name",
+        "24h":"24h",
+        "7d":"7d",
+        "30d":"30d",
+        "last_7d":"Last 7Days"
+      }
+    },
+    "sort_by":{
+      "highest_change":"Highest Change %",
+      "lowest_change":"Lowest Change %",
+      "release_date_asc":"Release Date - Ascending",
+      "release_date_desc":"Release Date - Descending",
+      "last_price_lh":"Last Price (low-high)",
+      "last_price_hl":"Last Price (high-low)"
+    }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid promotions">
     <div class="row">
-      <Banner></Banner>
+      <ExchangeBanner :title="$t('deadstock_exchange.title')"></ExchangeBanner>
       <div class="col-12 py-5 text-center">
         <NavGroup
             :data="categoryItems"
@@ -11,10 +11,10 @@
             @change="handleCategoryChange"
         />
       </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <TopProductsList  v-if="currentCategory === $t('deadstock_exchange.trending')" :loading="loading"></TopProductsList>
+      <div class="container container-auction-details">
+        <div class="row ">
+          <div class="col-12 col-md-11 col-sm-11 mx-auto">
+            <TopProductsList  :loading="loading" :title="currentCategory"></TopProductsList>
           </div>
         </div>
       </div>
@@ -22,14 +22,14 @@
   </div>
 </template>
 <script>
-import {mapActions} from 'vuex'
-import Banner from '~/components/Exchange/Banner'
+import {mapActions} from 'vuex';
+import ExchangeBanner from '~/components/deadstock-exchange/Banner'
 import NavGroup from '~/components/common/NavGroup.vue'
-import TopProductsList from '~/components/Exchange/TopProductsList'
+import TopProductsList from '~/components/deadstock-exchange/TopProductsList'
 
 export default {
   components: {
-    Banner,
+    ExchangeBanner,
     NavGroup,
     TopProductsList,
   },
@@ -40,27 +40,30 @@ export default {
     return {
       fetching: false,
       categoryItems: [
-        {label: this.$t('deadstock_exchange.trending'), value: 'trending'},
-        {label: this.$t('deadstock_exchange.biggest_gainers'), value: 'biggest_gainers'},
-        {label: this.$t('deadstock_exchange.biggest_losers'), value: 'biggest_losers'},
+        {label: this.$t('deadstock_exchange.trendings'), value: 'Top Products'},
+        {label: this.$t('deadstock_exchange.biggest_winners'), value: 'Biggest Winners'},
+        {label: this.$t('deadstock_exchange.biggest_lossers'), value: 'Biggest Lossers'},
       ],
-      currentCategory: this.$route.params.type,
+      currentCategory: 'Top Products',
       loading: false
     }
   },
+  mounted() {
+    this.fetchPromotion()
+  },
   methods: {
     ...mapActions({
-      getStockExchange: 'stockExchange/getPromotions'
+      getExchanges: 'deadstock-exchange/getDeadstockExchanges'
     }),
     handleCategoryChange(category) {
       if (this.currentCategory !== category) {
         this.currentCategory = category
-        this.$router.push('/stock/exchange/'+ this.currentCategory)
+        this.fetchPromotion()
       }
     },
-    fetchStockExchange() {
+    fetchPromotion() {
       this.loading = true
-      this.getStockExchange({
+      this.getExchanges({
         type: this.currentCategory,
         status: 'active'
       }).catch(err => {
