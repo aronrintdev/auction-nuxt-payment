@@ -8,7 +8,7 @@
         <!-- TODO: It will remove after getting confirmation for the new menu design -->
         <div v-if="false" class="col-md-12 col-lg-2">
 
-          <button v-if="isScreenXS || isScreenSM || isScreenMD"
+          <button v-if="screenIsSmallThanLG"
                   v-b-toggle.sidebar
                   class="w3-button w3-xlarge w3-hide-large float-left">
             <span class="text-bold">{{ $t('navbar.profile') }}</span>
@@ -17,9 +17,10 @@
           <!-- BootstrapVue Sidebar: in small devices -->
           <b-sidebar id="sidebar" ref="mySidebar"
                      shadow
+                     v-click-outside="onClickOutside"
                      @shown="sidebarIsVisible = true"
                      @hidden="sidebarIsVisible = false">
-            <NewSideMenu id="sidemenu" ref="sidemenu" v-click-outside="onClickOutside"  />
+            <NewSideMenu id="sidemenu" ref="sidemenu" />
           </b-sidebar>
           <!-- ./BootstrapVue Sidebar -->
 
@@ -71,7 +72,8 @@ import NewSideMenu from '~/components/profile/NewSideMenu'
 import ScrollToTop from '~/components/common/ScrollToTop.vue'
 import screenSize from '~/plugins/mixins/screenSize'
 import {SCROLLY} from '~/static/constants'
-import realtime from '~/plugins/mixins/realtime';
+import realtime from '~/plugins/mixins/realtime'
+import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 
 export default {
   name: 'Default',
@@ -102,6 +104,14 @@ export default {
       'pushActive': 'notifications/getPushNotificationsActive'
     })
   },
+  watch: {
+    screenIsSmallThanLG(newVal) {
+      const { mySidebar } = this.$refs
+      if (!newVal && mySidebar) {
+        mySidebar.hide()
+      }
+    },
+  },
   beforeMount() {
     window.addEventListener('scroll', this.handleScroll)
   },
@@ -110,20 +120,24 @@ export default {
     if (!this.$store.state.auth.loggedIn) {
       this.$router.push('/login')
     }
-    this.onResize()
+    // this.onResize()
     this.$store.dispatch('notifications/getNotifications')
     this.$store.dispatch('notifications/getUnreadCount')
-    window.addEventListener('resize', this.onResize);
-    this.notificationSubscriptions()
+    // window.addEventListener('resize', this.onResize);
+    enquireScreenSizeHandler((type) => {
+      this.$store.commit('size/setScreenType', type)
+    });
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.onResize)
+    // window.removeEventListener('resize', this.onResize)
     window.removeEventListener('scroll', this.handleScroll)
   },
   methods: {
+    /*
     onResize() {
       this.$store.commit('size/setWindowWidth', window.innerWidth)
     },
+     */
     handleScroll() {
       // Your scroll handling here
       this.showScroll = window.scrollY > this.scrollY

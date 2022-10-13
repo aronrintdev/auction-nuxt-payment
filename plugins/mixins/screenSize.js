@@ -1,5 +1,5 @@
 import {mapGetters} from 'vuex';
-import {SCREEN_SIZE} from '~/utils/screenSizeHandler';
+import { SCREEN_SIZE } from '~/utils/screenSizeHandler';
 
 export default {
   computed: {
@@ -41,6 +41,9 @@ export default {
     },
     mobileClass() {
       return this.isScreenXS ? ' mobile ' : ''
+    },
+    screenIsSmallThanLG() {
+      return this.isScreenXS || this.isScreenSM || this.isScreenMD
     }
   },
 }
