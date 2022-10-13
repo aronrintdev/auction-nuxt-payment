@@ -409,7 +409,21 @@ export default {
       }, 0)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    getSubtotalAfterInstantShip: (vm) => {
+      return vm.shoppingCart.reduce((sum, product) => {
+        if (product.instantShipPrice) {
+          return sum + product.instantShipPrice * product.quantity
+        }
+
+        return sum + product.price * product.quantity
+      }, 0)
+    },
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getSubtotalAfterDiscount: (vm) => {
+      if (vm.getSubtotalAfterInstantShip) {
+        return Math.max(vm.getSubtotalAfterInstantShip - vm.getDiscount, 0)
+      }
+
       return Math.max(vm.getSubtotal - vm.getDiscount, 0)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
@@ -460,7 +474,11 @@ export default {
             break;
           }
           case PERCENT: {
-            discount += vm.getSubtotal * (vm.promoCode.amount / PERCENT_OFFSET)
+            if (vm.getSubtotalAfterInstantShip) {
+              discount += vm.getSubtotalAfterInstantShip * (vm.promoCode.amount / PERCENT_OFFSET)
+            } else {
+              discount += vm.getSubtotal * (vm.promoCode.amount / PERCENT_OFFSET)
+            }
 
             break;
           }
@@ -489,7 +507,12 @@ export default {
     getItems: (vm) => {
       const items = []
       // DVQ-24 items should be calculated if there is product in cart
-      items.push({ key: 'sub_total', label: vm.$t('shopping_cart.subtotal'), value: vm.getTotalQuantity > 0 ? vm.getSubtotal : 0 })
+      if (vm.getSubtotalAfterInstantShip) {
+        items.push({ key: 'sub_total', label: vm.$t('shopping_cart.subtotal'), value: vm.getTotalQuantity > 0 ? vm.getSubtotalAfterInstantShip : 0 })
+      } else {
+        items.push({ key: 'sub_total', label: vm.$t('shopping_cart.subtotal'), value: vm.getTotalQuantity > 0 ? vm.getSubtotal : 0 })
+      }
+
       items.push({ key: 'sub_total_after_discount', label: '', value: vm.getTotalQuantity > 0 ? vm.getSubtotalAfterDiscount : 0 })
       items.push({ key: 'shipping_fee', label: vm.$t('shopping_cart.shipping_fee'), value: vm.getTotalQuantity > 0 ? vm.getShippingFee : 0 })
       items.push({ key: 'processing_fee', label: vm.$t('shopping_cart.processing_fee'), value: vm.getTotalQuantity > 0 ? vm.getProcessingFee : 0 })
@@ -553,7 +576,7 @@ export default {
         processingFee: this.getProcessingFee,
         shippingFee: this.getShippingFee,
         tax: this.getTax,
-        subTotal: this.getSubtotalAfterDiscount,
+        subTotal: this.getSubtotalAfterInstantShip,
         total: this.getTotal,
         promoCode: this.promoCode ? this.promoCode.code : '',
         giftCardNumber: this.giftCard ? this.giftCard.number : '',
@@ -602,7 +625,7 @@ export default {
         processingFee: this.getProcessingFee,
         shippingFee: this.getShippingFee,
         tax: this.getTax,
-        subTotal: this.getSubtotalAfterDiscount,
+        subTotal: this.getSubtotalAfterInstantShip,
         total: Math.ceil(this.$options.filters.formatPrice(this.getTotal)),
         promoCode: this.promoCode ? this.promoCode.code : '',
         giftCardNumber: this.giftCard ? this.giftCard.number : '',
@@ -652,7 +675,7 @@ export default {
         processingFee: this.getProcessingFee,
         shippingFee: this.getShippingFee,
         tax: this.getTax,
-        subTotal: this.getSubtotalAfterDiscount,
+        subTotal: this.getSubtotalAfterInstantShip,
         total: this.getTotal,
         promoCode: this.promoCode ? this.promoCode.code : '',
         giftCardNumber: this.giftCard ? this.giftCard.number : '',
