@@ -73,9 +73,8 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
 import { Loader } from '~/components/common'
-import ExchangeFilter from '~/components/stockExchange/ExchangeFilter.vue'
+import ExchangeFilter from '~/components/stockExchange/ExchangeFilter'
 
 export default {
   name: 'TopProductsList',
@@ -179,9 +178,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      promotions: 'promotions/getPromotions',
-    }),
     currentSweepStake() {
       return this.promotions.length ? this.promotions[0] : null
     },
@@ -197,10 +193,6 @@ export default {
     this.loadPage()
   },
   methods: {
-    // Search Data
-    searchPurchase() {
-      this.loadData()
-    },
     // Search Data
     filterList(value) {
       this.filter =value
