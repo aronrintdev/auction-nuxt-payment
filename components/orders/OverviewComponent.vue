@@ -2,9 +2,9 @@
   <div>
     <h1 class="overview-heading">{{ $t('orders.overview') }}</h1>
     <div class="row justify-content-between">
-      <overview-box :label="$t('orders.total_sales').toString()" :value="(totalSales/100)"
+      <overview-box :label="$t('orders.total_sales').toString()" :value="totalSalesStr"
                     :icon="require('~/assets/img/orders/total-sales.svg')"></overview-box>
-      <overview-box :label="$t('orders.commission_pending').toString()" :value="(totalCommissionPending/100)"
+      <overview-box :label="$t('orders.commission_pending').toString()" :value="commissionPendingStr"
                     :icon="require('~/assets/img/orders/commission-pending.svg')"></overview-box>
       <overview-box :label="$t('orders.inventory').toString()" :value="inventoryCount"
                     :icon="require('~/assets/img/orders/inventory.svg')"></overview-box>
@@ -29,7 +29,13 @@ export default {
       'totalCommissionPending',
       'inventoryCount',
       'totalOffers'
-    ])
+    ]),
+    totalSalesStr(){
+      return '$'+(this.totalSales / 100).toFixed(2)
+    },
+    commissionPendingStr(){
+      return '$'+(this.totalCommissionPending / 100).toFixed(2)
+    }
   },
 }
 </script>
