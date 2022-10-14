@@ -184,9 +184,6 @@ export default {
           categoriesList[`${name}`]= name;
         })
         this.categories = categoriesList
-
-        console.log('categoriesList',categoriesList)
-
       })
       .catch((error) => {
         // Show unauthorized message on error
