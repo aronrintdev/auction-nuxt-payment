@@ -27,45 +27,39 @@
           <!-- Heading -->
 
           <!-- Search Filter -->
-          <div
-            v-if="userRole"
-            class="col-md-8 col-10 col-sm-6 mt-md-4 vd-selling-search"
-          >
+          <div v-if="userRole" class="flex-grow-1 col-sm-12 col-md-8 col-lg-8 mt-sm-4 vd-selling-search">
+            <!--
             <VendorSellingSearchFilter
               class="search-filter"
               @search="getProducts"
             />
-            <div class="search-filter-responsive">
+            -->
+            <SearchInput v-if="!isScreenXS"
+                         :placeholder="$t('selling_page.filter_details_placeholder').toString()"
+                         class="flex-grow-1 mw-734 search"
+                         :debounce="1000"
+                         @search="getProducts" />
+
+            <div v-else class="search-filter-responsive d-flex align-items-center" >
               <SearchInput
                 id="selling-search"
+                class="flex-grow-1 mr-2"
                 :placeholder="$t('navbar.search')"
                 :value="searchFilters.searchKeyword"
                 @change="getProducts"
               />
+              <span class="filter-wrapper" role="button" @click="showFilter">
+                <img
+                  class="mobile-filter"
+                  :src="require('~/assets/img/icons/filter-icon.svg')"
+                  alt="filter-icon"
+                />
+            </span>
             </div>
           </div>
-          <!-- Search Filter -->
-
-          <!-- Filter Image for Responsive -->
-          <div
-            v-show="mobileClass"
-            :class="mobileClass ? 'col-2 filter-icon-col' : ''"
-          >
-            <span class="filter-wrapper" role="button" @click="showFilter">
-              <img
-                class="mobile-filter"
-                :src="require('~/assets/img/icons/filter-icon.svg')"
-                alt="filter-icon"
-              />
-            </span>
-          </div>
-          <!-- Filter Image for Responsive ends -->
 
           <!-- Sort By -->
-          <div
-            v-if="userRole"
-            class="col-12 col-md-4 mt-md-4 col-sm-6 browse-dropdown"
-          >
+          <div v-if="userRole" class="flex-grow-1 col-sm-12 col-md-4 col-lg-4 mt-sm-4 col-sm-6 browse-dropdown">
             <VendorSellingSortBy
               :default="purchaseFilter"
               :options="{
@@ -73,6 +67,7 @@
                 'date-new-old': $t('selling_page.listing_recent_to_old'),
                 'date-old-new': $t('selling_page.listing_oldest_to_recent'),
               }"
+              class="vendor-selling-sort"
               @input="handleFilterChanged"
             ></VendorSellingSortBy>
           </div>
@@ -82,7 +77,7 @@
         <!-- Row -->
         <div v-if="searchResults.data" class="row filter-data">
           <!-- Tabs Filter -->
-          <div class="col-md-3 col-sm-12 filter-by mt-md-4 mt-2">
+          <div class="col-12 col-md-4 mt-sm-4 col-sm-12 filter-by mt-2 mt-md-4">
             <label class="filter-text">{{
               $t('selling_page.filter_by')
             }}</label>
@@ -97,13 +92,14 @@
           <!-- ./Tabs Filter -->
 
           <!-- Start Date -->
-          <div class="col-md-2 col-sm-12 start-date mt-md-4 mt-2">
-            <label class="filter-text">{{
+          <div class="col-md-2 col-sm-12 start-date mt-5 pt-3 mt-md-4 pt-md-0">
+            <label class="filter-text mb-0">{{
               $t('selling_page.listed_date')
             }}</label>
             <b-form-datepicker
               id="example-datepicker-start"
               v-model="searchFilters.startDate"
+              class="form-item"
               placeholder="Start Date"
               :dateFormatOptions="{
                 year: 'numeric',
@@ -115,89 +111,94 @@
           <!-- ./Start Date -->
 
           <!-- End Date -->
-          <div class="col-md-2 col-sm-12 end-date mt-md-4 mt-2">
-            <br />
+          <div class="col-md-2 col-sm-12 end-date mt-4 mt-md-4 pt-0 pt-md-3">
             <b-form-datepicker
               id="example-datepicker-end"
               v-model="searchFilters.endDate"
+              class="mt-2 form-item"
               placeholder="End date"
               :dateFormatOptions="{
                 year: 'numeric',
                 month: 'numeric',
                 day: 'numeric',
               }"
-              class="mt-2"
             ></b-form-datepicker>
           </div>
           <!-- ./End Date -->
 
           <!-- Apply Button -->
-          <div class="col-md-1 col-sm-12 col-xs-6 mt-md-4 mt-2">
+          <div class="col-md-1 col-sm-12 col-xs-6 mt-4 mt-md-4">
             <br />
-            <Button variant="apply text-center" class="mt-2" @click="loadData">
+            <Button variant="apply text-cente form-item"
+                    class="px-3"
+                    :class="{'w-100' : isScreenXS || isScreenSM }"
+                    @click="loadData">
               {{ $t('selling_page.apply') }}
             </Button>
           </div>
           <!-- Apply Button -->
-
-          <!-- Delist Multiple Button -->
-          <div class="col-md-4 col-sm-12 col-xs-6 mt-md-4 mt-2">
-            <br />
-            <Button
-              variant="delist"
-              class="float-right mt-2 text-center"
-              @click="delistMultiple()"
-            >
-              {{ $t('selling_page.delist_multiple') }}
-            </Button>
-          </div>
-          <!-- ./Delist Multiple Button -->
         </div>
-        <!-- ./Row -->
 
-        <!-- Row -->
-        <div v-if="searchResults.data" class="row filter-data">
-          <div class="col-md-10 filter-list mt-md-4 mt-2">
-            <template v-if="activeFilters.length">
-              <b-badge
-                v-for="(options, typeIndex) in activeFilters"
-                :key="`type-${typeIndex}`"
-                class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
-              >
-                {{ options.type }}&colon; {{ options.text }}
-                <i
-                  class="fa fa-times"
+        <div v-if="searchResults.data" class="row mt-5 px-3 d-flex flex-column flex-sm-row justify-content-between">
+          <!-- Delist Multiple Button -->
+          <Button
+            variant="delist"
+            class="float-right mt-2 text-center"
+            @click="delistMultiple()"
+          >
+            {{ $t('selling_page.delist_multiple') }}
+          </Button>
+          <!-- ./Delist Multiple Button -->
+
+          <!-- vacation mode -->
+          <div class="d-flex align-items-center mt-3 mt-sm-0">
+            <div>
+              <template v-if="activeFilters.length">
+                <b-badge
+                  v-for="(options, typeIndex) in activeFilters"
+                  :key="`type-${typeIndex}`"
+                  class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
+                >
+                  {{ options.type }}&colon; {{ options.text }}
+                  <i
+                    class="fa fa-times"
+                    role="button"
+                    aria-hidden="true"
+                    @click="removeTypeFilter(options)"
+                  ></i>
+                </b-badge>
+                <span
                   role="button"
-                  aria-hidden="true"
-                  @click="removeTypeFilter(options)"
-                ></i>
-              </b-badge>
-              <span
-                role="button"
-                class="text-decoration-underline text-primary"
-                @click="clearFilters()"
-              >
+                  class="text-decoration-underline text-primary"
+                  @click="clearFilters()"
+                >
                 {{ $t('vendor_purchase.clear_all_filters') }}
               </span>
-            </template>
+              </template>
+            </div>
+            <div class="vacationMode d-flex align-items-center">
+              <!-- TODO: Vacation Mode -->
+              <b-form-checkbox
+                id="checkbox"
+                v-model="vacationMode"
+                name="checkbox-1"
+                :value="true"
+                :unchecked-value="false"
+                @change="enableDisableVacationMode"
+              >
+                {{ $t('selling_page.enable_vacation_mode') }}
+                <img
+                  :src="require('~/assets/img/icons/info-blue.svg')"
+                  alt="ToolTip"
+                />
+              </b-form-checkbox>
+            </div>
           </div>
-          <div class="col-md-2 justify-content-end vacationMode mt-md-4 mt-2">
-            <!-- TODO: Vacation Mode -->
-            <b-form-checkbox
-              id="checkbox"
-              v-model="vacationMode"
-              name="checkbox-1"
-              :value="true"
-              :unchecked-value="false"
-              @change="enableDisableVacationMode"
-            >
-              {{ $t('selling_page.enable_vacation_mode') }}
-              <img
-                :src="require('~/assets/img/icons/info-blue.svg')"
-                alt="ToolTip"
-              />
-            </b-form-checkbox>
-          </div>
+          <!-- vacation mode -->
+        </div>
+
+        <div v-if="searchResults.data" class="row filter-data">
+
         </div>
         <!-- ./Row -->
         <!-- FILTERS ENDS HERE -->
@@ -451,7 +452,7 @@
 
 <script>
 import EmptyListing from '~/components/profile/vendor-selling/EmptyListing.vue'
-import VendorSellingSearchFilter from '~/components/profile/vendor-selling/SearchFilter'
+// import VendorSellingSearchFilter from '~/components/profile/vendor-selling/SearchFilter'
 import VendorSellingListItem from '~/components/profile/vendor-selling/VendorSellingListItem'
 import SellingModal from '~/components/profile/vendor-selling/SellingModal.vue'
 import {
@@ -477,7 +478,7 @@ export default {
 
   components: {
     VendorSellingSortBy,
-    VendorSellingSearchFilter,
+    // VendorSellingSearchFilter,
     VendorSellingFilterBy,
     Button,
     VendorSellingListItem,
@@ -993,7 +994,9 @@ export default {
   @include body-8-normal
   color: $color-white-1
 .vacationMode::v-deep
-  .custom-checkbox,
+  .custom-checkbox
+    display: flex
+    justify-items: center
   label
     font-family: $font-sp-pro
     font-style: normal
@@ -1160,4 +1163,13 @@ export default {
 #delistConfirmation::v-deep
   .bottom-sheet__content
     overflow-y: hidden
+.search
+  border: 1px solid $white-2
+  border-radius: 5px
+  height: 45px
+.vendor-selling-sort
+  border: 1px solid $white-2
+.form-item
+  border: 1px solid $white-2
+  height: 44px
 </style>
