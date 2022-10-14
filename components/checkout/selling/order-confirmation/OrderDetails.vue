@@ -137,7 +137,7 @@
               </b-col>
               <b-col md="5">
                 <div class="body-5-regular pull-right">
-                  &dollar;{{ getSubtotal | formatPrice }}
+                  &dollar;{{ getSubtotalAfterInstantShip | formatPrice }}
                 </div>
               </b-col>
             </b-row>
@@ -370,7 +370,21 @@ export default {
       }, 0)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    getSubtotalAfterInstantShip: (vm) => {
+      return vm.products.reduce((sum, product) => {
+        if (product.instantShipPrice) {
+          return sum + product.instantShipPrice * product.quantity
+        }
+
+        return sum + product.price * product.quantity
+      }, 0)
+    },
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getSubtotalAfterDiscount: (vm) => {
+      if (vm.getSubtotalAfterInstantShip) {
+        return Math.max(vm.getSubtotalAfterInstantShip - vm.getDiscount, 0)
+      }
+
       return Math.max(vm.getSubtotal - vm.getDiscount, 0)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
@@ -419,7 +433,11 @@ export default {
             break;
           }
           case PERCENT: {
-            discount += vm.getSubtotal * (vm.promoCode.amount / PERCENT_OFFSET)
+            if (vm.getSubtotalAfterInstantShip) {
+              discount += vm.getSubtotalAfterInstantShip * (vm.promoCode.amount / PERCENT_OFFSET)
+            } else {
+              discount += vm.getSubtotal * (vm.promoCode.amount / PERCENT_OFFSET)
+            }
 
             break;
           }
