@@ -83,8 +83,8 @@
     <!-- Sidebar menu begin -->
     <b-sidebar
       id="top-menu-sidebar" ref="topSidebar"
-      shadow
       v-click-outside="onClickOutside"
+      shadow
       @shown="sidebarIsVisible = true"
       @hidden="sidebarIsVisible = false"
     >
