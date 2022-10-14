@@ -19,7 +19,7 @@
                 type="text"
                 class="form-control form-input vd-purchases-browse-input bg-white"
                 :placeholder="
-                  $t('deadstock_exchange.filters.details_placeholder')
+                  $t('deadstock_exchange.filter_by.details_placeholder')
                 "
                 autocomplete="on"
                 @input="searchProduct"
@@ -55,8 +55,8 @@
             :default="filterBy"
             :threelineIcon="false"
             :options="{
-              default: $t('deadstock_exchange.filters.categories.title'),
-              categories
+              default: $t('deadstock_exchange.filter_by.categories.title'),
+              ...categories
             }"
             :title="filterByTitle"
             @input="handleFilterByCategories"
@@ -70,10 +70,10 @@
             :default="filterBy"
             :threelineIcon="false"
             :options="{
-              default: $t('deadstock_exchange.filters.size_types'),
-              accepted: $t('placed_offers.filter_by.accepted'),
-              rejeced: $t('placed_offers.filter_by.rejected'),
-              pending: $t('placed_offers.filter_by.awaiting_approval'),
+              default: $t('deadstock_exchange.filter_by.size_types'),
+              men: $t('deadstock_exchange.filter_by.size_type.men'),
+              women: $t('deadstock_exchange.filter_by.size_type.women'),
+              kids: $t('deadstock_exchange.filter_by.size_type.kids'),
             }"
             :title="filterByTitle"
             @input="handleFilterBySizeType"
@@ -87,7 +87,7 @@
             :default="filterBy"
             :threelineIcon="false"
             :options="{
-              default: $t('deadstock_exchange.filters.price_range'),
+              default: $t('deadstock_exchange.filter_by.price_range'),
               accepted: $t('placed_offers.filter_by.accepted'),
               rejeced: $t('placed_offers.filter_by.rejected'),
               pending: $t('placed_offers.filter_by.awaiting_approval'),
@@ -104,10 +104,8 @@
             :default="filterBy"
             :threelineIcon="false"
             :options="{
-              default: $t('deadstock_exchange.filters.brands'),
-              accepted: $t('placed_offers.filter_by.accepted'),
-              rejeced: $t('placed_offers.filter_by.rejected'),
-              pending: $t('placed_offers.filter_by.awaiting_approval'),
+              default: $t('deadstock_exchange.filter_by.brands'),
+              ...brands
             }"
             :title="filterByTitle"
             @input="handleFilterByBrands"
@@ -121,10 +119,8 @@
             :default="filterBy"
             :threelineIcon="false"
             :options="{
-              default: $t('deadstock_exchange.filters.years'),
-              accepted: $t('placed_offers.filter_by.accepted'),
-              rejeced: $t('placed_offers.filter_by.rejected'),
-              pending: $t('placed_offers.filter_by.awaiting_approval'),
+              default: $t('deadstock_exchange.filter_by.years'),
+              ...Years
             }"
             :title="filterByTitle"
             @input="handleFilterByYears"
@@ -139,6 +135,7 @@
 <script>
 import CustomSelect from '~/components/common/CustomSelect.vue'
 import { DEFAULT } from '~/static/constants'
+import { Years } from '~/static/constants/stock-exchange'
 export default {
   name: 'ExchangeFilter',
   components: {
@@ -148,6 +145,7 @@ export default {
     return {
       // TODO Dummy Data
       filterByTitle: this.$t('selling_page.status'),
+      Years,
       searchValue: '',
       categorySelected: '', // For Sort by filter
       filterBy: '',
@@ -173,14 +171,24 @@ export default {
       this.$axios
       .get('/products/filters-list')
       .then((response) => {
-        this.brands = response.data.brands.map(el =>el.name)
+        const brandsList = {}
+        response.data.brands.forEach((elem,index) =>{
+          console.log('brandsList',elem.name)
+          const name =elem.name;
+          brandsList[`${name}`]= name;
+        })
+        this.brands = brandsList
 
-        // const categoriesList =
-        this.categories =response.data.categories
-        // .forEach((el) => {
-        //   const modifyElement =el.name
-        //   categoriesList.modifyElement = modifyElement
-        // })
+        const categoriesList = {}
+        response.data.categories.forEach((elem,index) =>{
+          console.log('categoriesList',elem.name)
+          const name =elem.name;
+          categoriesList[`${name}`]= name;
+        })
+        this.categories = categoriesList
+
+        console.log('categoriesList',categoriesList)
+
       })
       .catch((error) => {
         // Show unauthorized message on error

@@ -5284,9 +5284,12 @@
     "biggest_winners": "Biggest Winners",
     "trendings": "Trendings",
     "heading_detail": "Search for the top trending streetwear ranked by price backed by data",
-    "filters":{
+    "filter_by":{
       "categories":{
-        "title":"Category",
+        "title":"Category"
+      },
+      "size_type":{
+        "title":"Size Type",
         "men":"Men",
         "kids":"Kids",
         "women":"Women"
