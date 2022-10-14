@@ -36,7 +36,6 @@
       </div>
       <div class="mt-2" :class="!selected_size && 'error'">
         <div id="size" ref="list" class="d-flex search-trade-size-list mr-2">
-          {{selected_size}}
           <ProductSizePicker
             :value="selected_size"
             :v-model="selected_size"
@@ -46,9 +45,16 @@
             @input="select_size"
           />
         </div>
-        <div class="error-text mt-1 text-xs">
-          {{ $t('trades.create_listing.vendor.wants.select_size') }}
-        </div>
+      </div>
+
+        <div class="d-flex mt-4 justify-content-end align-end mr-5">
+          <div>
+            <img class="d-flex  eye-img" :src="require('~/assets/img/file.svg')" />
+          </div>
+          <div class="size-eye ml-1">
+            {{ $t('trades.create_listing.vendor.wants.sales_data') }}
+          </div>
+
       </div>
     </div>
 
