@@ -34,3 +34,14 @@ export function setRewardHistory(state, rewardsHistory) {
 export function setRedeemed(state, reward) {
   state.redeemed = reward
 }
+
+
+/**
+ * set redeemed reward
+ * @param state
+ * @param {Object} sneaker
+ * @returns Array
+ */
+export function setSelectedSneaker(state, sneaker) {
+  state.selectedSneaker = sneaker
+}

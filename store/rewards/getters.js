@@ -35,6 +35,15 @@ export function getRedeemed(state) {
 }
 
 /**
+ * get selected sneaker
+ * @param state
+ * @returns Array
+ */
+export function getSelectedSneaker(state) {
+  return state.selectedSneaker
+}
+
+/**
  * get last positive reward history
  * @param state
  * @returns Array

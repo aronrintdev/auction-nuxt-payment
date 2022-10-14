@@ -2259,6 +2259,7 @@
   "rewards": {
     "earn_points": "Earn Points",
     "ds_points": "DS Points",
+    "point_pts": "{points} PTS",
     "hi_name": "Hi {0}!",
     "till_next_reward": "{0} till next Reward",
     "expire_on": "{points} DS Points will expire on {date}",
@@ -2275,9 +2276,13 @@
       "browse": "Browse",
       "desc": "{reward} will automatically be applied to checkout"
     },
+    "product_page": {
+      "select_size": "Select Size"
+    },
     "sneaker_page": {
       "claim": "Claim your free prize",
       "filter_by": "Filter By",
+      "sort": "Sort",
       "select": "Select your prize below "
     },
     "confirm_redeem_body": "Are you sure you would like to redeem {points} points for {reward}?",

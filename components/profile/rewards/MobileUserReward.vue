@@ -141,7 +141,7 @@ export default {
         if (this.selectedReward.reward_type === 'Free Shipping') {
           this.modalOpen = true
         } else if (this.selectedReward.reward_type === 'Free Sneakers') {
-          // TODO
+          this.$router.push('/profile/rewards/sneaker-reward')
         }
       })
     },
