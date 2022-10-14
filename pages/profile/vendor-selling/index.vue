@@ -32,10 +32,11 @@
             class="col-md-8 col-10 col-sm-6 mt-md-4 vd-selling-search"
           >
             <VendorSellingSearchFilter
+              v-if="!isScreenXS"
               class="search-filter"
               @search="getProducts"
             />
-            <div class="search-filter-responsive">
+            <div v-if="isScreenXS" class="search-filter-responsive">
               <SearchInput
                 id="selling-search"
                 :placeholder="$t('navbar.search')"
@@ -67,6 +68,7 @@
             class="col-12 col-md-4 mt-md-4 col-sm-6 browse-dropdown"
           >
             <VendorSellingSortBy
+              v-if="!isScreenXS"
               :default="purchaseFilter"
               :options="{
                 '': $t('selling_page.sortby'),
@@ -80,7 +82,7 @@
         </div>
 
         <!-- Row -->
-        <div v-if="searchResults.data" class="row filter-data mt-3">
+        <div v-if="searchResults.data && !isScreenXS" class="row filter-data mt-3">
           <!-- Tabs Filter -->
           <div class="col-md-3 col-sm-12 filter-by ">
             <label class="filter-text">{{
@@ -231,6 +233,7 @@
 
           <!-- DATA -->
           <VendorSellingListItem
+            v-if="!isScreenXS"
             class="list-item"
             :searchResults="searchResults.data"
             :loading="loading"
@@ -1033,7 +1036,7 @@ export default {
   background-color: $color-white-1
   padding: 2%
 
-@media (min-width: 577px)
+@media (min-width: 576px)
   .empty-listing-responsive,
   .pagination-responsive,
   .listing-count
@@ -1042,12 +1045,11 @@ export default {
     display: none
   .pagination
     display: flex
-@media (max-width: 576px)
+@media (max-width: 575px)
   .browse-dropdown,
   .filter-data,
   .result-data,
   .empty-listing,
-  .list-item,
   .pagination,
   .search-filter
     display: none
