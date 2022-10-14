@@ -1,5 +1,5 @@
 <template>
-    <div class="product-info mt-3 d-flex flex-column justify-content-around p-4">
+    <div class="product-info mt-md-3 d-flex flex-column justify-content-around p-2 p-md-4">
       <div class="">
         <div class="rectangle2 position-absolute mt-n3 ml-n2"></div>
       </div>
@@ -8,16 +8,16 @@
           {{$t('create_listing.collection.select_inventory')}}
         </span>
       </div>
-      <div class="d-flex justify-content-around sltext2">
+      <div class="d-none d-md-flex justify-content-around sltext2">
         {{$t('create_listing.collection.up_to_ten')}}
       </div>
       <div class="d-flex justify-content-around">
-        <img :src="plusIcon" class="scale-2 mt-4 py-2 mb-2"/>
+        <img :src="plusIcon" class="scale-2 mt-2 mt-md-4 py-2 mb-2"/>
       </div>
-      <div class="d-flex justify-content-around text-center sltext2">
+      <div class="d-none d-md-flex justify-content-around text-center sltext2">
         {{$t('create_listing.collection.select_items')}}
       </div>
-      <div class="d-flex justify-content-around">
+      <div class="d-none d-md-flex justify-content-around">
         <div class="rectangle"></div>
       </div>
     </div>
@@ -75,4 +75,25 @@ export default {
   margin-left: auto
   margin-right: auto
   min-height: 284px
+
+.product-info
+  @media (max-width: 576px)
+    border: none
+    min-height: 0
+    background-size: 100%
+    margin-top: 15px
+    .rectangle2
+      width: 50px
+      height: 14px
+    .rectangle
+      display: none
+    .sltext
+      font-size: 11px
+      line-height: 13px
+      margin-top: 10px
+    .sltext2
+      font-size: 11px
+      line-height: 13px
+    img
+      width: 12px
 </style>

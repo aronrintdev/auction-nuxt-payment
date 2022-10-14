@@ -46,6 +46,7 @@
     "category": "Category | Categories",
     "best_seller": "Best Seller | Best Sellers",
     "name": "Name",
+    "collection_name": "Collection Name",
     "last_price": "Last Price",
     "last_xdays": "Last {day} Days",
     "payment": "Payment | Payments",
@@ -138,7 +139,14 @@
     "prev"  : "Prev",
     "start_date"  : "Start Date",
     "done"  : "Done",
-    "end_date"  : "End Date"
+    "end_date"  : "End Date",
+    "categories": {
+      "sneakers": "Sneakers",
+      "footwear": "Footwear",
+      "apparel": "Apparel",
+      "accessories": "Accessories"
+    },
+    "n/a": "N/A"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -2589,7 +2597,7 @@
   "create_listing": {
     "drafts": "Drafts ({0})",
     "search": {
-      "title": "Search for sneakers",
+      "title": "Search",
       "add_product": "Add Product"
     },
     "index": {
@@ -2597,18 +2605,27 @@
       "selling": "Selling",
       "selling_desc": "Sell sneakers, a pieace of apparel, or an accessory.",
       "auction": "Auction",
-      "auction_desc": "Post a Single Item Auction or a Collection Auction.",
+      "auction_desc": "Post a Single Item Auction or put a whole Collection up for Auction.",
       "trade": "Trade",
-      "trade_desc": "Trade items with other Deadstock Sellers. Add compensation to spice up the deal.",
+      "trade_desc": "Trade up to three items at a time with other Deadstock Sellers. If no offer is accepted, the listing will be active for 14 days.",
       "select": "Select",
       "type": "Type",
       "auction_single": "Single Item Auction",
       "auction_single_desc": "For auctions that are a single item only.",
-      "auction_collection": "Collection Auctions",
-      "auction_collection_desc": "Multiple product auction listings where buyers bid on the entire collection as a whole."
+      "auction_collection": "Collection Auction",
+      "auction_collection_desc": "Multiple product auction listings where buyers bid on the entire collection as a whole. Add up to 10 products."
     },
     "back_btn": "Back to Trades",
     "title": "Create Listing",
+    "no_items_found": "0 items have been found in your inventory",
+    "add": "Add",
+    "filterbar": {
+      "filter_by": "Filter By",
+      "sort": "Sort",
+      "reset": "Reset",
+      "apply_filters": "Apply Filters"
+    },
+    "continue": "Continue",
     "select_from_inventory": "Select from Inventory",
     "no_result": "There is no matched product.",
     "amount": "Amount",
@@ -2692,7 +2709,7 @@
       "up_to_ten": "Up to ten items",
       "select_inventory": "Select from Inventory",
       "or_searcn": "or search at the top",
-      "proceed_details": "Proceed to Enter Details",
+      "proceed_details": "Next",
       "actions": "Actions",
       "progress": {
         "add": "Add Products",
@@ -2707,7 +2724,7 @@
       "subtitle": "Each auction has a quantity of one item",
       "add_auction": "Add Another Auction",
       "add_another_product": "Add Another Product",
-      "save_draft": "Save All as Draft(s)",
+      "save_draft": "Save as Draft(s)",
       "post_auction": "Post Auction(s)",
       "create_auction": "Create Auction",
       "auction_number": "Auction #",
@@ -2737,6 +2754,9 @@
       },
       "status": "Status",
       "no_item_found": "No auction item found.",
+      "post_listings": "Post Listing(s)",
+      "save_as_draft": "Save as Draft",
+      "quantity": "Quantity",
       "can_not_add_more": "Collection Auctions can add up to 10 items.",
       "bottom_text": "*By clicking Post Auction(s), I accept the seller fee of {0}% + a {1}% transaction | fee. No authentication fees will be charged to sellers."
     },
@@ -2764,6 +2784,8 @@
       "terms_and_conditions_paragraph": "I agree to the {0}, By placing this order*",
       "terms_and_conditions": "Terms and Conditions",
       "thankyou": "Thank You",
+      "days": "Days",
+      "reserve_fee": "Reserve fee ( 7.99% of reserve price)",
       "go_to_auctions": "Go to Auction Dashboard",
       "contact_details": "If you have any questions about your order, you can email us at {0} or call us at {1}",
       "reference_number": "Reference Number",
@@ -2775,7 +2797,7 @@
       "live_status": "LIVE",
       "schedule_status": "SCHEDULE",
       "min_start_bid": "min $50.00",
-      "add_auction": "Add Auction",
+      "add_auction": "Add Listing",
       "suggested_value_displayed": "Suggested value displayed",
       "next": "Next",
       "cancel": "Cancel",
@@ -2789,6 +2811,7 @@
       "discard_confirm_msg": "Are you sure you would like to discard your changes? The changes will be lost.",
       "lowest_price": "Lowest Price",
       "last_sold": "Last Sold",
+      "last_sale": "Last Sale",
       "highest_sold": "Highest Sold",
       "add_product": "Add Product",
       "confirm_collection_title": "Confirm Collection Auction",
@@ -2810,7 +2833,14 @@
         "post_btn": "Post",
         "cancel_btn": "Cancel",
         "success_msg": "This auction has been posted! You will be redirected to the Auction page"
-      }
+      },
+      "product_details": "Product Details",
+      "retail_price": "Retail Price",
+      "release_date": "Release Date",
+      "excellent": "Excellent",
+      "description": "Description",
+      "description_details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Velit nulla et consectetur lorem ut. Semper facilisis nulla sit pharetra sed eu enim.",
+      "latest_sales":"Latest Sales"
     },
     "auction": {
       "to_be_listed": "To Be Listed",

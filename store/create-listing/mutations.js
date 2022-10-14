@@ -218,3 +218,16 @@ export function setAuctionType(state, val) {
     items,
   }
 }
+/**
+ * Change item quantity
+ * @param state
+ * @param val
+ */
+ export function setNonInventoryCollectionAuctionQuantity(state, val) {
+  state.nonInventoryCollectionAuction.items = state.nonInventoryCollectionAuction.items.map((a) => {
+    if (a.id === val.id){
+      a.quantity = val.quantity
+    }
+    return a
+  })
+}

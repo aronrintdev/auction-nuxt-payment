@@ -1,5 +1,5 @@
 <template>
-  <div class="position-relative w-auto container">
+  <div class="position-relative w-100 w-md-auto container">
     <div
       v-if="viewMode == 'carousel'"
       class="position-relative mx-auto carousel-wrapper"
@@ -12,7 +12,7 @@
           :center="true"
           :margin="10"
           :responsive="{
-            0: { items: 2, nav: false, center: false },
+            0: { items: 5, nav: false, center: true, mouseDrag: true },
             600: { items: 3, nav: false },
             1268: { items: 5, nav: false },
           }"
