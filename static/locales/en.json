@@ -134,19 +134,24 @@
     "sneakers_sizes": "Sneaker Sizes",
     "apparel_sizes": "Apparel Sizes",
     "accessories_sizes": "Accessories Sizes",
+    "categories": {
+      "sneakers": "Sneakers",
+      "apparel": "Apparel",
+      "footwear": "Footwear",
+      "accessories": "Accessories"
+    },
     "filter_by" : "Filter By",
     "next"  : "Next",
     "prev"  : "Prev",
     "start_date"  : "Start Date",
     "done"  : "Done",
     "end_date"  : "End Date",
-    "categories": {
-      "sneakers": "Sneakers",
-      "footwear": "Footwear",
-      "apparel": "Apparel",
-      "accessories": "Accessories"
-    },
-    "n/a": "N/A"
+    "n/a": "N/A",
+    "sort_by" : "Sort By",
+    "options" : "Options",
+    "reset" : "Reset",
+    "apply_filters" :"Apply Filters",
+    "view"  :"View"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -554,6 +559,9 @@
     "inventory": {
       "bulk_delete": "Bulk Delete",
       "sku": "SKU",
+      "package": "Package",
+      "box": "Box",
+      "size": "Size",
       "view_offers": "View Offers",
       "delete_modal": {
         "title": "Confirm Delete",
@@ -1777,10 +1785,11 @@
         "title": "Auction Types",
         "title_tooltip": "Tooltip for Auction Types",
         "types": {
-          "single": "Single Items",
+          "single": "Single Item",
           "collections": "Collections"
         },
         "searchbox": "Search for your favorite streetwear",
+        "search_auctions": "Search Auctions",
         "sortby": {
           "placeholder": "Sort By",
           "relevance": "Relevance",
@@ -1804,14 +1813,17 @@
         "women": "Women",
         "unisex": "Unisex",
         "child": "Child",
-        "toddler": "Toddler"
+        "toddler": "Toddler",
+        "sort": "Sort",
+        "reset": "Reset",
+        "filter_by": "Filter By"
       },
       "sell_with_us": {
         "title": "Sell With Us",
         "description": "Become a seller and list an auction",
         "cta_label": "List"
       },
-      "recently_viewed": "Recently Viewed Items",
+      "recently_viewed": "Recently Viewed",
       "ending_soon": "Auctions Ending Soon",
       "no_reserve": "No-Reserve",
       "reserve": "Reserve",
@@ -1821,6 +1833,7 @@
         "thresholds_bid_increment": "Bid Increment",
         "thresholds_current_bid": "Current Bid"
       },
+      "size": "Size",
       "auction_number": "AUCTION NUMBER",
       "have_piece_to_sell": "Have a piece to sell?",
       "create_listing": "Create a listing!",
@@ -1879,7 +1892,9 @@
       "true_to_size": "'True to Size'",
       "of": "of",
       "insert_amount": "Insert Amount",
-      "payment_method": "Payment Method"
+      "payment_method": "Payment Method",
+      "no_results_found": "No results found",
+      "cant_find_anything": "We couldn’t find anything that matches this search"
     },
     "errors": {
       "missing_box_images": "Missing box images",
@@ -1919,7 +1934,15 @@
       "infant": "Infant",
       "toddler": "Toddler"
     },
-    "apply_filters": "Apply Filters"
+    "apply_filters": "Apply Filters",
+    "status": "Status",
+    "status_options": {
+      "live": "Live",
+      "upcoming": "Upcoming",
+      "expiring": "Expiring",
+      "expired": "Expired",
+      "sold": "Sold"
+    }
   },
   "shop": {
     "banner": {
@@ -3003,6 +3026,7 @@
     "days": "Days",
     "delist_multiple": "Delist Multiple",
     "delist_success": "Your selected item have been delisted.",
+    "last_sold" : "Last Sold",
     "sort_by": {
       "filter": "Filter",
       "date_listed_old_new": "Date Listed: Old to New",
@@ -3114,7 +3138,26 @@
     "list_a_product_today_on_ds": "List a product today on Deadstock!",
     "edit_listing_heading": "Are you sure you would like to edit this listing?",
     "edit_listing_text": "All the active offers associated with this trade listing will be lost after the edit is completed.",
-    "update_listing_success": "Listing updated successfully"
+    "update_listing_success": "Listing updated successfully",
+    "filter"  : {
+      "sort"  : "Sort",
+      "recent_old"  : "Selling: Recent to Oldest",
+      "old_recent"  : "Selling: Oldest to Recent",
+      "date_send" : "Date Sent",
+      "start_date"  : "Start Date",
+      "end_date"  : "End Date",
+      "status"  : "Status"
+    },
+    "view"  : "View",
+    "listid"  : "List ID",
+    "placed_on" : "Placed on",
+    "offer_action_confirmation" : "Are you sure you want to {action} the  offer?",
+    "confirmation"  : {
+      "delist_the_listing"  : "Are you sure you would like to\ndelist this listing?",
+      "all_offers_will_be_lost" : "All the active offers associated with this listing will be lost after the edit is completed.",
+      "relist_text" : "Are you sure you would like to relist this item?"
+    },
+    "delisted_selected_listing"  : "Your selected listings have been delisted."
   },
   "preferences": {
     "common": {
@@ -4948,6 +4991,28 @@
     "hours": "Hours",
     "mins": "Mins",
     "secs": "Secs",
+    "copied": "Copied",
+    "shop_to_enter": "Shop To Enter",
+    "share": "Share",
+    "socials": {
+      "twitter": "Twitter",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "copy_link": "Copy Link"
+    },
+    "sign_up": "Sign Up",
+    "participate": "Participate in More Rewards and Promotions",
+    "trips": "Trips",
+    "share_hashtag": "Share a post with @DeadstockAPP using #hashtag  ",
+    "visit_social": "To win visit us on [enter socials].",
+    "cash": "Cash",
+    "prizes": "Prizes:",
+    "apparel": "Apparel:",
+    "sneakers": "Sneakers:",
+    "sweepstake_prizes": "Sweepstake Prizes",
+    "giveaway_prizes": "Giveaway Prizes",
+    "cars": "Cars",
+    "lorem": "Lorem ipsum dolor sit amet, consectetur  ",
     "want_to_know_more": "Want to know more? See our full",
     "terms_and_conditions": "Terms and Conditions",
     "how_to_enter": "How to Enter",
@@ -4955,6 +5020,7 @@
     "show_now": "Shop Now",
     "not_found": "There are no active ",
     "types_of_promos": "Types of Promos",
+    "types_of_promotions": "Types of Promotions",
     "car_sweepstakes": "Car Sweepstakes",
     "car_sweepstakes_desc": "Buy products on Deadstock to enter to win a Brand new car",
     "sneaker_giveaways": "Sneaker Giveaways",
@@ -4981,6 +5047,8 @@
     "minutes": "Minutes",
     "view_instagram": "View Instagram",
     "seconds": "Seconds",
+    "time_remaining": "Time Remaining",
+    "past_winner": "Past Winners",
     "how_to_enter_content_sweepstakes": "Purchase Items on Deadstock to automatically enter the into current Sweepstake. Every dollar spent counts as one entry unless otherwise specified. Sweepstakes are available to participants in the United States only.",
     "what_it_feels_like_to_be_winner": "What it feels like to be a winner",
     "what_it_feels_like_to_be_winner_content": "Enter our sweepstakes and give yourself the opprotunity to be overwhelmed with joy and excitment as you win a new car! Winners of sweepstakes experience a level of happiness that you deserve to feel, click this video and witness the experience of this life changing event.",
@@ -5285,5 +5353,13 @@
       "send_to_deadstock": "Send to Deadstock",
       "view_order": "View Order"
     }
+  },
+  "error_layout": {
+    "go_back":"Go Back",
+    "oops_something_went_wrong": "Oops Something went wrong!",
+    "something_missing": "Something's Missing",
+    "the_page_is_missing": "The page is missing \n or the link’s sole is coming off",
+    "home": "Home",
+    "shop": "Shop"
   }
 }

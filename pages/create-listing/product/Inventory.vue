@@ -531,7 +531,7 @@ export default {
     color: $black
     .button
       font-weight: $medium
-      color: $color-white-30
+      color: $color-blue-30
       img
         width: 20px
   @media (max-width: 576px)

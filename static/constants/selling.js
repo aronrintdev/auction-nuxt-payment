@@ -3,3 +3,7 @@ export const AWAITING_APPROVAL = 'Awaiting Approval'
 export const DELISTED = 'delisted'
 export const ACCEPT = 'accept'
 export const DECLINE = 'decline'
+export const LISTED = 'listed'
+export const DELIST = 'delist'
+export const RELIST = 'relist'
+export const EMPTY_OFFER = 0
