@@ -81,12 +81,13 @@
       </b-navbar-nav>
     </b-collapse>
     <!-- Sidebar menu begin -->
-    <b-sidebar id="top-menu-sidebar"
-               ref="topSidebar"
-               shadow
-               v-click-outside="onClickOutside"
-               @shown="sidebarIsVisible = true"
-               @hidden="sidebarIsVisible = false">
+    <b-sidebar
+      id="top-menu-sidebar" ref="topSidebar"
+      shadow
+      v-click-outside="onClickOutside"
+      @shown="sidebarIsVisible = true"
+      @hidden="sidebarIsVisible = false"
+    >
       <div class="top-menu-container">
         <b-nav-form class="search-box-collapse">
           <SearchInput
@@ -101,26 +102,32 @@
           />
         </b-nav-form>
         <b-navbar-nav class="nav-menu-wrapper sidebar-nav mt-4">
-          <b-nav-item class="w-100"
-                      to="/shop"
-                      :link-attrs="{ title: $t('navbar.shop') }">
+          <b-nav-item
+            class="w-100"
+            to="/shop"
+            :link-attrs="{ title: $t('navbar.shop') }"
+          >
             <img src="~/assets/img/icons/profile/purchases.svg" />
             <span>{{$t('navbar.shop')}}</span>
           </b-nav-item>
-          <b-nav-item class="w-100"
-                      to="/sell"
-                      :link-attrs="{ title: $t('navbar.sell') }">
+          <b-nav-item
+            class="w-100"
+            to="/sell"
+            :link-attrs="{ title: $t('navbar.sell') }"
+          >
             <img src="~/assets/img/icons/profile/selling.svg" /><span>{{ $t('navbar.sell') }}</span>
           </b-nav-item>
-          <b-nav-item class="w-100"
-                      to="/trades"
-                      :link-attrs="{ title: $t('navbar.trade') }"
+          <b-nav-item
+            class="w-100"
+            to="/trades"
+            :link-attrs="{ title: $t('navbar.trade') }"
           >
             <img src="~/assets/img/icons/profile/trades.svg" /><span>{{ $t('navbar.trade') }}</span>
           </b-nav-item>
-          <b-nav-item class="w-100"
-                      to="/auction"
-                      :link-attrs="{ title: $t('navbar.auction') }"
+          <b-nav-item
+            class="w-100"
+            to="/auction"
+            :link-attrs="{ title: $t('navbar.auction') }"
           >
             <img src="~/assets/img/icons/profile/auctions.svg" /><span>{{ $t('navbar.auction') }}</span>
           </b-nav-item>
