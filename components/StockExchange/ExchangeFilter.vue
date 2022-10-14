@@ -173,7 +173,6 @@ export default {
       .then((response) => {
         const brandsList = {}
         response.data.brands.forEach((elem,index) =>{
-          console.log('brandsList',elem.name)
           const name =elem.name;
           brandsList[`${name}`]= name;
         })
@@ -181,7 +180,6 @@ export default {
 
         const categoriesList = {}
         response.data.categories.forEach((elem,index) =>{
-          console.log('categoriesList',elem.name)
           const name =elem.name;
           categoriesList[`${name}`]= name;
         })

@@ -16,70 +16,21 @@
       <ExchangeFilter @filterList="filterList" />
     </div>
 
-    <!-- Top Products Table -->
-    <b-table
-      v-if="!loading"
-      :busy="loading"
-      class="mt-3 auctions-table"
-      :items="deadstockExchanges"
-      :fields="tableColumns"
-    >
-      <template #table-busy>
-        <div class="text-center text-dark my-2">
-          <b-spinner class="align-middle"></b-spinner>
-        </div>
-      </template>
-      <template #cell(details)="row">
-        <div
-          v-if="row.item.details"
-          class="d-flex align-items-center text-left"
-        >
-          <ProductThumb :product="row.item.details.inventory.product" />
-          <div class="ml-4">
-            <span class="product-name">{{
-              row.item.details.inventory.product.name
-            }}</span>
-            <br />
-            <span class="product-sku"
-              >{{ $t('sell.inventory.sku') }}:
-              {{ row.item.details.inventory.product.sku }}</span
-            >
-            <br />
-            <span class="item-number">{{ `#${row.item.id}` }}</span>
-          </div>
-        </div>
-      </template>
-      <template #cell(retail_price)="row">
-        <span class="cell-wrapper quantity">$ {{ row.item.retail_price }}</span>
-      </template>
-      <template #cell(day_sales_percentage)="row">
-        <span class="cell-wrapper quantity"> {{ row.item.day_sales_percentage }}%</span>
-      </template>
-      <template #cell(week_sales_percentage)="row">
-        <span class="cell-wrapper quantity"> {{ row.item.week_sales_percentage }}%</span>
-      </template>
-      <template #cell(current_month_sale_percentage)="row">
-        <span class="cell-wrapper quantity"> {{ row.item.current_month_sale_percentage }}%</span>
-      </template>
-    </b-table>
-    <b-pagination
-      v-if="totalRows"
-      v-model="currentPage"
-      :total-rows="totalRows"
-      :per-page="perPage"
-      class="auctions-pagination"
-      @change="paginationChanged"
-    ></b-pagination>
+    <!-- ProductTrendListCard Table -->
+    <ProductTrendListCard :products="products" />
+
   </div>
 </template>
 <script>
 import { Loader } from '~/components/common'
 import ExchangeFilter from '~/components/stockExchange/ExchangeFilter'
+import ProductTrendListCard from '~/components/product/TrendTable'
 
 export default {
   name: 'TopProductsList',
   components: {
     Loader,
+    ProductTrendListCard,
     ExchangeFilter,
   },
   props: {
@@ -108,72 +59,10 @@ export default {
         perPage: 8,
         page: 1,
       },
-      tableColumns: [
-        {
-          key: 'id',
-          label: this.$t('deadstock_exchange.list.table_columns.ranking'),
-          class: 'text-left',
-        },
-        {
-          key: 'name',
-          label: this.$t('deadstock_exchange.list.table_columns.name'),
-        },
-        {
-          key: 'retail_price',
-          label: this.$t('deadstock_exchange.list.table_columns.last_price'),
-        },
-        {
-          key: 'day_sales_percentage',
-          label: this.$t('deadstock_exchange.list.table_columns.24h'),
-        },
-        {
-          key: 'week_sales_percentage',
-          label: this.$t('deadstock_exchange.list.table_columns.7d'),
-        },
-        {
-          key: 'current_month_sale_percentage',
-          label: this.$t('deadstock_exchange.list.table_columns.30d'),
-        },
-        {
-          key: 'week_sales_percentage',
-          label: this.$t('deadstock_exchange.list.table_columns.last_7d'),
-        },
-      ],
-      tableColumnsForCollection: [
-        {
-          key: 'id',
-          label: this.$t('deadstock_exchange.list.table_columns.ranking'),
-          class: 'text-left',
-        },
-        {
-          key: 'name',
-          label: this.$t('deadstock_exchange.list.table_columns.name'),
-        },
-        {
-          key: 'retail_price',
-          label: this.$t('deadstock_exchange.list.table_columns.last_price'),
-        },
-        {
-          key: 'day_sales_percentage',
-          label: this.$t('deadstock_exchange.list.table_columns.24h'),
-        },
-        {
-          key: 'week_sales_percentage',
-          label: this.$t('deadstock_exchange.list.table_columns.7d'),
-        },
-        {
-          key: 'current_month_sale_percentage',
-          label: this.$t('deadstock_exchange.list.table_columns.30d'),
-        },
-        {
-          key: 'week_sales_percentage',
-          label: this.$t('deadstock_exchange.list.table_columns.last_7d'),
-        },
-      ],
       totalRows: null,
       currentPage: 1,
       perPage: process.env.INVENTORY_ITEMS_PER_PAGE,
-      deadstockExchanges: [],
+      products: [],
       filter: null,
     }
   },
@@ -217,7 +106,7 @@ export default {
         .then((response) => {
           if (response.data) {
             console.log(response.data)
-            this.deadstockExchanges = response.data.data
+            this.products = response.data.data
             this.totalRows = response.data.total
           }
         })
