@@ -54,8 +54,24 @@
           <div class="size-eye ml-1">
             {{ $t('trades.create_listing.vendor.wants.sales_data') }}
           </div>
+        </div>
+         <div class="d-flex mt-2">
+           <div class="d-inline"  v-if="productFor !== 'wantsList'" :class="(!isValidQuantity(quantity)) && 'error'">
+             <div>
+               <label class="quantity-label mt-2 ml-3">{{ $t('trades.create_listing.vendor.wants.quantity') }}<sup>*</sup></label>
+             </div>
+             <div>
+               <b-form-input  v-model="quantity" type="number" :placeholder="$t('trades.create_listing.vendor.wants.enter_quantity')" class="create-trade-quantity-box quantity-num ml-3 mb-1"></b-form-input>
+               <div class="error-text mt-1 text-xs">
+                 {{((productFor === tradeOffer) || (productFor === tradeArena)) ? $t('create_listing.trade.offer_items.offer_items_limit'): $t('trades.create_listing.vendor.wants.want_items_quantity_should_not_exceed', [MAX_ITEMS_ALLOWED]) }}
+               </div>
+             </div>
+           </div>
+           <div>
 
-      </div>
+           </div>
+         </div>
+
     </div>
 
 
@@ -109,13 +125,13 @@
 <!--    </b-row>-->
     <b-row class="justify-content-center mt-5">
       <div class="row wd-724 justify-start">
-        <div v-if="productFor !== 'wantsList'" class="d-block" :class="(!isValidQuantity(quantity)) && 'error'">
-          <label>{{ $t('trades.create_listing.vendor.wants.quantity') }}<sup>*</sup></label>
-          <b-form-input v-model="quantity" type="number" :placeholder="$t('trades.create_listing.vendor.wants.enter_quantity')" class="create-trade-quantity-box"></b-form-input>
-          <div class="error-text mt-1 text-xs">
-            {{((productFor === tradeOffer) || (productFor === tradeArena)) ? $t('create_listing.trade.offer_items.offer_items_limit'): $t('trades.create_listing.vendor.wants.want_items_quantity_should_not_exceed', [MAX_ITEMS_ALLOWED]) }}
-          </div>
-        </div>
+<!--        <div v-if="productFor !== 'wantsList'" class="d-block" :class="(!isValidQuantity(quantity)) && 'error'">-->
+<!--          <label>{{ $t('trades.create_listing.vendor.wants.quantity') }}<sup>*</sup></label>-->
+<!--          <b-form-input v-model="quantity" type="number" :placeholder="$t('trades.create_listing.vendor.wants.enter_quantity')" class="create-trade-quantity-box"></b-form-input>-->
+<!--          <div class="error-text mt-1 text-xs">-->
+<!--            {{((productFor === tradeOffer) || (productFor === tradeArena)) ? $t('create_listing.trade.offer_items.offer_items_limit'): $t('trades.create_listing.vendor.wants.want_items_quantity_should_not_exceed', [MAX_ITEMS_ALLOWED]) }}-->
+<!--          </div>-->
+<!--        </div>-->
         <div v-if="product.category.name !== 'sneakers'" class="d-block ml-4" :class="!isValidYear(year) && 'error'">
             <label>{{ $t('trades.create_listing.vendor.wants.year') }}<sup>*</sup></label>
             <b-form-input v-model="year" type="number" :placeholder="$t('trades.create_listing.vendor.wants.enter_year')" class="create-trade-quantity-box"></b-form-input>
@@ -584,4 +600,16 @@ export default {
   font-weight: $regular
   @include body-10
   line-height: 16px
+.quantity-label
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $medium
+  @include body-9
+  line-height: 15px
+.quantity-num
+  box-sizing: border-box
+  width: 150px
+  height: 49px
+  border: 1px solid #E8E8E8
+  border-radius: 10px
 </style>
