@@ -61,7 +61,7 @@
               class="mb-22"
               pill
               variant="dark-blue"
-              @click="$router.push('/profile/rewards/redeemed')"
+              @click="redeemOk"
           >
             {{ $t('rewards.redeem') }}
           </Button>
@@ -132,10 +132,17 @@ export default {
     }
   },
   methods: {
+    redeemOk() {
+      this.$router.push('/profile/rewards/redeemed')
+    },
     redeemReward(reward) {
       this.$store.commit('rewards/setRedeemed', reward)
       this.$nextTick(() => {
-        this.modalOpen = true
+        if (this.selectedReward.reward_type === 'Free Shipping') {
+          this.modalOpen = true
+        } else if (this.selectedReward.reward_type === 'Free Sneakers') {
+
+        }
       })
     },
     handleTierChange(tier) {
