@@ -173,7 +173,7 @@ import {IMAGE_PATH, MAX_ITEMS_ALLOWED, PRODUCT_FALLBACK_URL} from '~/static/cons
 import {TAKE_SEARCHED_PRODUCTS} from '~/static/constants/trades';
 
 // import CustomDropdown from '~/components/common/CustomDropdown';
-import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
+import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItemMobile';
 // import AlreadyListedModal from '~/pages/profile/create-listing/trades/AlreadyListedModal';
 import {Pagination} from '~/components/common'
 // import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'

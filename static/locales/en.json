@@ -4109,6 +4109,8 @@
           "filter_by": "Filter By",
           "clear_all_filters": "Clear All Filters",
           "size": "Size",
+          "size_mobile": "Size* (Suggested Value Displayed)",
+          "size_eye": "All Sizes",
           "box_condition": "Box Condition",
           "condition": "Condition",
           "color": "Color",
