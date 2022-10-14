@@ -46,8 +46,7 @@
           />
         </div>
       </div>
-
-        <div class="d-flex mt-4 justify-content-end align-end mr-5">
+      <div class="d-flex mt-4 justify-content-end align-end mr-5">
           <div>
             <img class="d-flex  eye-img" :src="require('~/assets/img/file.svg')" />
           </div>
@@ -55,7 +54,7 @@
             {{ $t('trades.create_listing.vendor.wants.sales_data') }}
           </div>
         </div>
-         <div class="d-flex mt-2">
+      <div class="d-flex mt-2">
            <div class="d-inline"  v-if="productFor !== 'wantsList'" :class="(!isValidQuantity(quantity)) && 'error'">
              <div>
                <label class="quantity-label mt-2 ml-3">{{ $t('trades.create_listing.vendor.wants.quantity') }}<sup>*</sup></label>
@@ -71,6 +70,11 @@
 
            </div>
          </div>
+      <div class="mt-2"  v-if="!isTradeEditForm" >
+        <div  v-if="productFor !== 'wantsList'">
+          <FormStepProgressBar v-if="progressBar" :steps="steps"  variant="transparent"/>
+        </div>
+      </div>
 
     </div>
 
@@ -97,32 +101,7 @@
         </div>
       </b-col>
     </b-row>
-<!--    <div  class="create-trade-product-color">-->
-<!--      <div>{{ $t('trades.create_listing.vendor.wants.sku') }}: {{product.sku}}</div>-->
-<!--      <div>{{ $t('trades.create_listing.vendor.wants.colorway') }}: {{product.colorway}}</div>-->
-<!--    </div>-->
-<!--    <b-row class="justify-content-center">-->
-<!--      <div class="thumb-wrapper">-->
-<!--        <img :src="product.image" alt="No Image" class="trade-search-item-image"/>-->
-<!--      </div>-->
-<!--    </b-row>-->
-<!--    <b-row class="justify-content-center" :class="!selected_size && 'error'">-->
-<!--      <div id="size" ref="list" class="d-flex search-trade-size-list">-->
-<!--        <div class="search-trade-size-heading">{{ $t('trades.create_listing.vendor.wants.size') }}<sup>*</sup></div>-->
-<!--        <div class="error-text mt-1 text-xs">-->
-<!--          {{ $t('trades.create_listing.vendor.wants.select_size') }}-->
-<!--        </div>-->
-<!--        {{selected_size}}-->
-<!--          <ProductSizePicker-->
-<!--          :value="selected_size"-->
-<!--          :v-model="selected_size"-->
-<!--          :sizes="product.sizes"-->
-<!--          single-mode-->
-<!--          class="size-picker"-->
-<!--          @input="select_size"-->
-<!--        />-->
-<!--      </div>-->
-<!--    </b-row>-->
+
     <b-row class="justify-content-center mt-5">
       <div class="row wd-724 justify-start">
 <!--        <div v-if="productFor !== 'wantsList'" class="d-block" :class="(!isValidQuantity(quantity)) && 'error'">-->
