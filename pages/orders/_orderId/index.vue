@@ -26,15 +26,17 @@
                 </b-col>
                 <b-col cols="2">
                   <div class="text-center w-200 align-self-end">
-                    <div v-if="item.status!=='processing'" class="my-2">
-                      <a class="btn-print-shipping px-3 py-2 align-items-center text-center" :href="printLabel()"
-                         :download="`${order.order_id}.pdf`">
-                        {{ $t('orders.print_shipping_label') }}
-                      </a>
-                    </div>
-                    <div class="print-invoice">
-                      <a href="#print-invoice" @click="exportPDF(order.order_id)">{{ $t('orders.print_invoice') }}</a>
-                    </div>
+                    <template v-if="item.status!=='processing'">
+                      <div class="my-2">
+                        <a class="btn-print-shipping px-3 py-2 align-items-center text-center" :href="printLabel()"
+                           :download="`${order.order_id}.pdf`">
+                          {{ $t('orders.print_shipping_label') }}
+                        </a>
+                      </div>
+                      <div class="print-invoice">
+                        <a href="#print-invoice" @click="exportPDF(order.order_id)">{{ $t('orders.print_invoice') }}</a>
+                      </div>
+                    </template>
                   </div>
                 </b-col>
               </b-row>
@@ -71,10 +73,12 @@
           <div class="border round-box">
             <div class="px-5 py-4 border-bottom order-status">
               <div class="order-status-header mb-3">{{ $t('orders.order_status') }}: {{ item.status_label }}</div>
-              <div>{{ $t('orders.shipping_carrier') }}: {{ shippingMethod }}</div>
-              <div>{{ $t('orders.tracking_number') }}: <a target="_blank" :href="trackingUrl">{{
-                  trackingNo
-                }}</a></div>
+              <template v-if="item.status!=='processing'">
+                <div>{{ $t('orders.shipping_carrier') }}: {{ shippingMethod }}</div>
+                <div>{{ $t('orders.tracking_number') }}: <a target="_blank" :href="trackingUrl">{{
+                    trackingNo
+                  }}</a></div>
+              </template>
             </div>
             <div class="px-5 py-3">
               <!--  Timeline -->
@@ -92,18 +96,17 @@
               <div class="pl-4 details-box-header">{{ $t('orders.order_details') }}:</div>
               <div class="pl-5 pt-3">
                 <div class="text-capitalize">{{ $t('orders.order_type') }}: {{ order.type.label }}</div>
-                <div>{{ $t('orders.total_earnings') }}: ${{ (order.total / 100).toFixed(2) }}</div>
+                <div>{{ $t('orders.total_earnings') }}: ${{ order.vendor_commission | formatPrice }}</div>
               </div>
             </div>
           </div>
 
           <div class="border round-box mb-3">
             <div class="px-5 py-4 details-box">
-              <div class="pl-4 details-box-header">{{ $t('commission_payout') }}:</div>
+              <div class="pl-4 details-box-header">{{ $t('orders.commission_payout') }}:</div>
               <div class="pl-5 pt-3">
-                <!--todo need to confirm if this status is vendor_status -->
-                <div>{{ $t('orders.status') }}: {{ order.vendors.vendor_status }}</div>
-                <div>{{ $t('orders.total_earnings') }}: ${{ (order.vendor_commission / 100).toFixed(2) }}</div>
+                <div>{{ $t('orders.status') }}: {{ order.status }}</div>
+                <div>{{ $t('orders.total_earnings') }}: ${{ order.vendor_commission | formatPrice }}</div>
               </div>
             </div>
           </div>
@@ -125,11 +128,11 @@
       <h5 class="my-4">{{ $t('orders.more_from_order_id') }} #{{ order.order_id }}</h5>
       <div class="product-card">
         <b-card-group deck>
-          <div v-for="single in order.items" :key="single.key">
+          <div v-for="(single, index) in order.items" :key="single.key">
             <div v-if="single.id!==item.id">
               <div class="px-2">
-                <NuxtLink :to="`/orders/${order.order_id}-${single.id}`">
-                  {{ order.order_id }}-{{ single.id }}
+                <NuxtLink :to="`/orders/${order.order_id}-${index + 1}`">
+                  {{ order.order_id }}-{{ index + 1 }}
                 </NuxtLink>
               </div>
               <b-card
@@ -140,7 +143,7 @@
                 <b-card-text>
                   <div>{{ product(single).name }} ({{ product(single).release_year }})</div>
                   <div class="color-gray">{{ product(single).colorway }}</div>
-                  <div>${{ (product(single).retail_price / 100).toFixed(2) }}</div>
+                  <div>${{ product(single).retail_price | formatPrice }}</div>
                 </b-card-text>
               </b-card>
             </div>
@@ -234,10 +237,10 @@ export default {
   mounted() {
     const ids = this.$route.params.orderId.trim().split('-')
     const orderId = parseInt(ids[0])
-    const itemId = parseInt(ids[1])
+    const itemIndex = parseInt(ids[1]) - 1
 
     this.order = this.orders.filter(x => x.order_id === orderId)[0]
-    this.item = this.order.items.filter(x => x.id === itemId)[0]
+    this.item = this.order.items[itemIndex]
   },
   methods: {
     product(item) {

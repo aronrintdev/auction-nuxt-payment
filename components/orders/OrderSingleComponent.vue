@@ -12,8 +12,8 @@
         </div>
         <div class="text-center m-auto">
           <div class="pb-2"><img :src="product(single).image" height="70" alt=""></div>
-          <NuxtLink :to="`/orders/${order.order_id}-${single.id}`" class="d-none d-md-block">
-            <span>#{{ order.order_id }}-{{ single.id }}</span>
+          <NuxtLink :to="`/orders/${order.order_id}-1`" class="d-none d-md-block">
+            <span>#{{ order.order_id }}-1</span>
           </NuxtLink>
         </div>
       </div>
@@ -34,8 +34,8 @@
           <tr>
             <td>{{ $t('orders.order_id') }}</td>
             <td class="text-right">
-              <NuxtLink :to="`/orders/${order.order_id}-${single.id}`">
-                <span>#{{ order.order_id }}-{{ single.id }}</span>
+              <NuxtLink :to="`/orders/${order.order_id}-1`">
+                <span>#{{ order.order_id }}-1</span>
               </NuxtLink>
             </td>
           </tr>
@@ -186,7 +186,7 @@ export default {
         return false
       }
       const status = item.status_markable[len - 1]
-      const url = `/order-items/${this.item.id}/status?status=${status.key}`;
+      const url = `/order-items/${item.id}/status?status=${status.key}`;
 
       const resp = await this.$axios.put(url)
       if (resp.status === 200) {

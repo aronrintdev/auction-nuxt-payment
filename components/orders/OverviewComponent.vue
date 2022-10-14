@@ -6,9 +6,9 @@
                     :icon="require('~/assets/img/orders/total-sales.svg')"></overview-box>
       <overview-box :label="$t('orders.commission_pending').toString()" :value="commissionPendingStr"
                     :icon="require('~/assets/img/orders/commission-pending.svg')"></overview-box>
-      <overview-box :label="$t('orders.inventory').toString()" :value="inventoryCount"
+      <overview-box :label="$t('orders.inventory').toString()" :value="inventoryCount.toString()"
                     :icon="require('~/assets/img/orders/inventory.svg')"></overview-box>
-      <overview-box :label="$t('orders.offers').toString()" :value="totalOffers"
+      <overview-box :label="$t('orders.offers').toString()" :value="totalOffers.toString()"
                     :icon="require('~/assets/img/orders/offers.svg')"></overview-box>
     </div>
   </div>
