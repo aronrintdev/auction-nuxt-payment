@@ -2275,6 +2275,11 @@
       "browse": "Browse",
       "desc": "{reward} will automatically be applied to checkout"
     },
+    "sneaker_page": {
+      "claim": "Claim your free prize",
+      "filter_by": "Filter By",
+      "select": "Select your prize below "
+    },
     "confirm_redeem_body": "Are you sure you would like to redeem {points} points for {reward}?",
     "tier": "Tier",
     "navs": {
