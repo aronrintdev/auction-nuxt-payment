@@ -118,7 +118,6 @@
 
           <!-- End Date -->
           <div class="col-md-2 col-sm-12 end-date mt-auto">
-            <!-- <br /> -->
             <b-form-datepicker
               id="example-datepicker-end"
               v-model="searchFilters.endDate"
@@ -135,7 +134,6 @@
 
           <!-- Apply Button -->
           <div class="col-md-1 col-sm-12 col-xs-6 mt-auto">
-            <!-- <br /> -->
             <Button variant="apply-selling text-center" class="mt-2" @click="loadData">
               {{ $t('selling_page.apply') }}
             </Button>
@@ -144,7 +142,6 @@
 
           <!-- Delist Multiple Button -->
           <div class="col-md-4 col-sm-12 col-xs-6 mt-auto">
-            <!-- <br /> -->
             <Button
               variant="delist"
               class="float-right mt-2 text-center"
@@ -184,7 +181,7 @@
             </template>
           </div>
           <div class="col-md-2 justify-content-end vacationMode mt-md-4 mt-2">
-            <!-- TODO: Vacation Mode -->
+            <!-- Vacation Mode -->
             <b-form-checkbox
               id="checkbox"
               v-model="vacationMode"
