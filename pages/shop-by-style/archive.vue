@@ -1,42 +1,46 @@
 <template>
   <div class="container-shop-by-style mx-auto">
-    <div class="d-flex justify-content-between align-items-center">
-        <Button to="/shop-by-style"
-            variant="link"
-        >{{ $t('shop_by_style.back_to_featured_style') }}</Button>
-    </div>
-    <div class="d-flex justify-content-between align-items-center mt-3">
-      <h2 class="title">{{ $t('shop_by_style.title_archive') }}</h2>
-    </div>
+    <div class="d-none d-sm-block">
+      <div class="d-flex justify-content-between align-items-center">
+          <Button to="/shop-by-style"
+              variant="link"
+          >{{ $t('shop_by_style.back_to_featured_style') }}</Button>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <h2 class="title">{{ $t('shop_by_style.title_archive') }}</h2>
+      </div>
 
-    <div class="text-center mt-1 position-relative pt-2">
-      <NavGroup
-        v-model="type"
-        :data="typeOptions"
-        nav-key="shop-by-style-type"
-        @change="handleTypeChange"
-      />
+      <div class="text-center mt-1 position-relative pt-2">
+        <NavGroup
+          v-model="type"
+          :data="typeOptions"
+          nav-key="shop-by-style-type"
+          @change="handleTypeChange"
+        />
 
-      <Button
-        ref="btnFilter"
-        v-b-toggle.collapse-filters
-        variant="light"
-        size="lg"
-        class="btn-filters position-absolute"
-      >
-        {{ $tc('common.filter', 1) }}
-      </Button>
+        <Button
+          ref="btnFilter"
+          v-b-toggle.collapse-filters
+          variant="light"
+          size="lg"
+          class="btn-filters position-absolute"
+        >
+          {{ $tc('common.filter', 1) }}
+        </Button>
+      </div>
+
+      <b-collapse  v-if="filters" id="collapse-filters">
+        <ArchiveFilter
+          class="mt-3"
+          @close="closeFilter()"
+          @apply="applyFilter"
+        />
+      </b-collapse>
     </div>
-
-    <b-collapse  v-if="filters" id="collapse-filters">
-      <ArchiveFilter
-        class="mt-3"
-        @close="closeFilter()"
-        @apply="applyFilter"
-      />
-    </b-collapse>
-    
-    <b-row v-if="type === TYPE" class="mt-5">
+    <div class="d-block d-sm-none">
+      <ResponsivenessFilter />
+    </div>
+    <b-row v-if="type === TYPEq" class="mt-5">
       <b-col v-for="(style, index) in styles" :key="index" md="3" sm="6">
         <ShopByStyleCard
           :style-id="style.id"
@@ -74,9 +78,10 @@ import { NavGroup, Button } from '~/components/common'
 import ArchiveFilter from '~/components/shop-by-style/ArchiveFilter'
 import ShopByStyleCard from '~/components/shop-by-style/Card'
 import { ARCHIVED, TYPE } from '~/static/constants/shop-by-style'
+import ResponsivenessFilter from '~/components/shop-by-style/ResponsivenessFilter'
 
 export default {
-  components: { NavGroup, Button, ArchiveFilter, ShopByStyleCard },
+  components: { NavGroup, Button, ArchiveFilter, ShopByStyleCard, ResponsivenessFilter },
 
   layout: 'IndexLayout',
 

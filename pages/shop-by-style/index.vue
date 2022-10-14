@@ -19,7 +19,6 @@
           nav-key="shop-by-style-type"
           @change="handleTypeChange"
         />
-
         <Button
           ref="btnFilter"
           v-b-toggle.collapse-filters
