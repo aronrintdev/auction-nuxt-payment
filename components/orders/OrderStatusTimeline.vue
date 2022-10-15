@@ -1,32 +1,35 @@
 <template>
-  <div class="border round-box">
-    <div class="px-5 py-4 border-bottom order-status">
+  <div class="border round-box order-status-timeline">
+    <div class="d-block d-sm-none py-3 pad-x">
+      <order-summary :item="item" :order="order"/>
+    </div>
+    <div class="border-bottom border-top order-status pad-x">
       <div class="order-status-header mb-3">{{ $t('orders.order_status') }}: {{ item.status_label }}</div>
-      <template v-if="item.status!=='processing'">
-        <div>{{ $t('orders.shipping_carrier') }}: {{ shippingMethod }}</div>
-        <div>{{ $t('orders.tracking_number') }}: <a target="_blank" :href="trackingUrl">{{
+      <div v-if="item.status!=='processing'" class="tracking">
+        <div><span>{{ $t('orders.shipping_carrier') }}:</span> <span>{{ shippingMethod }}</span></div>
+        <div><span>{{ $t('orders.tracking_number') }}:</span> <a target="_blank" :href="trackingUrl">{{
             trackingNo
           }}</a></div>
-      </template>
+      </div>
     </div>
-    <div class="px-5 py-3">
-      <!--  Timeline -->
+    <div class="pad pad-x">
       <OrderTimeline
         :timeline="timelineData"
         :active-frames="currentActiveTimeline"
       />
-      <!-- Timeline -->
     </div>
   </div>
 </template>
 
 <script>
 import OrderTimeline from '~/components/orders/OrderTimeline';
+import OrderSummary from '~/components/orders/OrderSummary';
 
 export default {
   name: 'OrderStatusTimeline',
   components: {
-    OrderTimeline
+    OrderTimeline,
+    OrderSummary
   },
   props: {
     order: {
@@ -103,8 +106,18 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+.order-status-timeline
+  font-family: $font-family-sf-pro-display
+
+  .pad
+    padding: 1.5rem 3rem
+
+.border-top
+  border-top: none !important
+
 .order-status
   line-height: 30px
+  padding: 1.5rem 3rem
 
   a
     color: $color-blue-1
@@ -116,15 +129,46 @@ export default {
   border-radius: 10px
 
 .order-status-header
-  font-family: $font-family-sf-pro-display
   font-weight: $bold
   @include body-2
   color: $color-black-1
 
   span
-    font-family: $font-montserrat
     font-weight: $normal
     @include body-4
     color: $color-blue-1
+
+@media (max-width: 992px)
+  .order-status-timeline
+    font-family: $font-family-sf-pro-display
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+    border-radius: 10px
+    margin: 10px 0
+
+    .pad
+      padding: 15px 0
+
+    .pad-x
+      padding: 10px 20px
+    &.border
+      border: none !important
+
+
+  .order-status
+    padding: 15px 0
+    @include body-5-regular
+
+    .tracking
+      div
+        display: flex
+        justify-content: space-between
+
+  .order-status-header
+    @include body-5-medium
+
+  .border-bottom
+    border-bottom: 1px solid rgba(196, 196, 196, 0.17) !important
+  .border-top
+    border-top: 1px solid rgba(196, 196, 196, 0.17) !important
 
 </style>

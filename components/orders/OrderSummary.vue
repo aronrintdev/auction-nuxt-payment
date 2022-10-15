@@ -9,6 +9,9 @@
           <div class="order-date d-none d-sm-block">{{ $t('orders.ordered_on') }} {{ new Date(order.created_at) }}</div>
         </b-col>
         <b-col cols="2">
+          <div class="text-right cursor-pointer d-block d-sm-none" @click="openBottomSheet" v-if="item.status!=='processing'">
+            <img :src="require('/assets/img/icons/three-dots.svg')" alt="" />
+          </div>
           <div class="text-center w-200 align-self-end d-none d-sm-block">
             <template v-if="item.status!=='processing'">
               <div class="my-2">
@@ -58,6 +61,27 @@
         </b-col>
       </b-row>
     </div>
+    <vue-bottom-sheet ref="printLabel" :is-full-screen="true" max-height="30%">
+      <div>
+        <div class="text-bold px-3 py-2">Options</div>
+        <div class="cursor-pointer border-top d-flex justify-content-between align-items-center p-2">
+          <div>
+            <a class="btn" :href="printLabel()"
+               :download="`${order.order_id}.pdf`">
+              {{ $t('orders.print_shipping_label') }}
+            </a>
+          </div>
+          <div><img :src="require('/assets/img/icons/arrow-right-black.svg')" alt="" /></div>
+        </div>
+        <div class="cursor-pointer border-top d-flex justify-content-between p-2 align-items-center" @click="exportPDF(order.order_id)">
+          <div><span class="btn">{{ $t('orders.print_invoice') }}</span></div>
+          <div><img :src="require('/assets/img/icons/arrow-right-black.svg')" alt="" /></div>
+        </div>
+        <div class="border-top cursor-pointer p-2" @click="close()">
+          <div class="btn">Cancel</div>
+        </div>
+      </div>
+    </vue-bottom-sheet>
   </div>
 </template>
 
@@ -103,6 +127,14 @@ export default {
       }).catch((err) => {
         this.$logger.logToServer(err.response)
       })
+    },
+    openBottomSheet(e){
+      e.preventDefault()
+      this.$refs.printLabel.open()
+    },
+    close(e){
+      e.preventDefault()
+      this.$refs.printLabel.close()
     }
   }
 }
@@ -200,6 +232,7 @@ export default {
     .order-id
       @include body-5-medium
       color: $color-black-1
+      padding-bottom: 15px
 
       span
         @include body-9-normal

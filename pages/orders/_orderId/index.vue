@@ -13,16 +13,16 @@
           </div>
         </div>
       </div>
-      <b-row class="p-4">
+      <b-row class="p-4 d-none d-sm-block">
         <b-col>
           <order-summary :item="item" :order="order" />
         </b-col>
       </b-row>
-      <b-row class="px-4">
-        <b-col class="">
+      <b-row class="px-2 px-sm-4">
+        <b-col class="order-1 order-sm-0" sm="6" cols="12">
           <order-status-timeline :item="item" :order="order" />
         </b-col>
-        <b-col class="">
+        <b-col class="order-0 order-sm-1" sm="6" cols="12">
           <order-commission :order="order" />
         </b-col>
       </b-row>
