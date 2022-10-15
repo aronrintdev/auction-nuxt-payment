@@ -1,5 +1,6 @@
 export default function () {
   return {
-    deadstockExchanges: []
+    deadstockExchanges: [],
+    currentType: '',
   }
 }
