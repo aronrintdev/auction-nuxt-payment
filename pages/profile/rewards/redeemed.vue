@@ -16,9 +16,13 @@
           })
         }}</span>
       <LineBlue class="line-divider"/>
-      <span class="desc body-4-bold">{{ $t('rewards.redeemed_page.desc', {reward: selectedReward.reward_type}) }}</span>
+      <i18n class="desc text-center mb-22" path="rewards.redeemed_page.desc" tag="span">
+        <template #reward>
+          <span class="font-weight-bold">{{ selectedReward.reward_type }}</span>
+        </template>
+      </i18n>
       <Button
-          class="browse"
+          class="browse redeem-button"
           pill
           variant="dark-blue"
       >
@@ -92,8 +96,11 @@ export default {
 
   .browse
     margin-top: 38px
+    width: 216px
 
   .line-divider
     margin-top: 33px
 
+.redeem-button
+  width: 216px
 </style>

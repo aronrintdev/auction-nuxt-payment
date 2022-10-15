@@ -58,7 +58,7 @@
             </template>
           </i18n>
           <Button
-              class="mb-22"
+              class="mb-22 redeem-button button-font"
               pill
               variant="dark-blue"
               @click="redeemOk"
@@ -68,6 +68,7 @@
 
           <Button
               variant="link-blue"
+              class="button-font"
               @click="modalOpen = false"
           >
             {{ $t('common.cancel') }}
@@ -237,4 +238,14 @@ export default {
 
 .mb-22
   margin-bottom: 22px
+
+.redeem-button
+  width: 216px
+
+.button-font
+  @include body-13
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $medium
+
 </style>

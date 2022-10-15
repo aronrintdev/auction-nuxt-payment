@@ -43,11 +43,54 @@
           class="next"
           pill
           variant="dark-blue"
+          @click="modalOpen = true"
       >
         {{ $t('common.next') }}
       </Button>
     </div>
 
+    <MobileBottomSheet
+        :has-header-divider="false"
+        :height="'60%'"
+        :open="modalOpen"
+        :title="''"
+        @closed="modalOpen = false"
+        @opened="modalOpen = true"
+    >
+      <template #default>
+        <div v-if="selectedReward"
+             class="redeem-body d-flex flex-column align-items-center justify-content-around h-88 w-100 px-5 ">
+          <i18n class="redeem-title text-center mb-22" path="rewards.sneaker_page.confirm" tag="div">
+            <template #sneaker>
+              <span class="font-weight-bold">{{ $t('rewards.sneaker_page.this_sneaker') }}</span>
+            </template>
+          </i18n>
+          <ProductThumb :product="selectedSneaker" :src="selectedSneaker.image"
+                        class="product-thumb-modal d-flex align-items-center justify-content-center"/>
+          <div class="text-center body-5-regular">
+            <div class="body-8-medium">{{ selectedSneaker.name }}</div>
+            <div class="mt-1">{{ selectedSneaker.colorway }}</div>
+            <div class="mt-1">{{ $tc('common.size', 1) }}: {{ currentSize }}</div>
+          </div>
+          <Button
+              class="mb-22 redeem-button"
+              pill
+              variant="dark-blue"
+              @click="redeemOk"
+          >
+            {{ $t('rewards.redeem') }}
+          </Button>
+
+          <Button
+              variant="link-blue"
+              @click="modalOpen = false"
+          >
+            {{ $t('common.cancel') }}
+          </Button>
+
+        </div>
+      </template>
+    </MobileBottomSheet>
   </div>
 </template>
 
@@ -58,13 +101,15 @@ import ProductSizePicker from '~/components/product/SizePicker';
 import FilterAccordion from '~/components/mobile/FilterAccordion';
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360';
 import Button from '~/components/common/Button';
+import MobileBottomSheet from '~/components/mobile/MobileBottomSheet';
 
 export default {
   name: 'SneakerRewardSize',
-  components: {Button, ProductImageViewerMagic360, FilterAccordion, ProductSizePicker, ProductThumb},
+  components: {MobileBottomSheet, Button, ProductImageViewerMagic360, FilterAccordion, ProductSizePicker, ProductThumb},
   layout: 'Profile',
   data() {
     return {
+      modalOpen: false,
       sizeViewMode: 'carousel',
       currentSize: null
     }
@@ -92,6 +137,9 @@ export default {
     }
   },
   methods: {
+    redeemOk() {
+
+    },
     handleSizeViewModeChange(mode) {
       this.sizeViewMode = mode
     },
@@ -112,6 +160,9 @@ export default {
   padding: 28px 38px
   font-family: $font-montserrat
   font-style: normal
+
+  .h-88
+    height: 95%
 
   .select-size
     @include body-17-bold
@@ -184,4 +235,17 @@ export default {
       font-style: normal
       font-weight: $medium
       color: $color-black-4
+
+::v-deep.product-thumb-modal
+  img
+    width: 155px
+
+.redeem-title
+  @include body-17-regular
+
+.redeem-button
+  width: 216px
+
+.redeem-body
+  font-family: $font-family-sf-pro-display
 </style>

@@ -2283,7 +2283,9 @@
       "claim": "Claim your free prize",
       "filter_by": "Filter By",
       "sort": "Sort",
-      "select": "Select your prize below "
+      "select": "Select your prize below ",
+      "this_sneaker": "This Sneaker",
+      "confirm": "Are you sure you would like to redeem points for {sneaker}?"
     },
     "confirm_redeem_body": "Are you sure you would like to redeem {points} points for {reward}?",
     "tier": "Tier",
