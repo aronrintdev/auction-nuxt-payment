@@ -37,6 +37,8 @@
       <Loader :loading="loading"></Loader>
     </div>
 
+
+    <!--    Filters mobile -->
     <MobileBottomSheet
         :height="'90%'"
         :open="mobileFiltersOpen"
@@ -46,32 +48,67 @@
     >
       <template #default>
         <div class="d-flex flex-column align-items-center justify-content-between h-88 w-100 filters">
-          <div class="d-flex flex-column w-100">
+          <div class="d-flex flex-column w-100 ">
             <FilterAccordion :open="true" :title="$t('rewards.sneaker_page.sort')">
+              <b-form-radio-group
+                  v-model="sortBy"
+                  :options="sortOptions"
+                  class="d-flex flex-column  mt-2 sort-filters"
+              >
 
+              </b-form-radio-group>
             </FilterAccordion>
             <ItemDivider/>
-            <FilterAccordion :title="$tc('common.size_type', 1)">
 
+            <FilterAccordion :title="$tc('common.size_type', 1)">
+              <ButtonSelector :options="sizeTypeOptions" :values="sizeTypes" @change="sizeTypeChange"/>
             </FilterAccordion>
+
             <ItemDivider/>
             <FilterAccordion :title="$t('filter_sidebar.sizes')">
-
+              <ButtonSelector :options="sizeOptions" :values="sizes" @change="sizeChange"/>
             </FilterAccordion>
+
             <ItemDivider/>
             <FilterAccordion :title="$t('filter_sidebar.price')">
-
+              <SliderInput
+                  v-model="prices"
+                  :fromLabel="$t('filter_sidebar.price_items.from')"
+                  :maxLabel="$t('filter_sidebar.price_items.max')"
+                  :maxValue="maxPrice"
+                  :minLabel="$t('filter_sidebar.price_items.min')"
+                  :minRange="MIN_PRICE_RANGE_WINDOW"
+                  :minValue="minPrice"
+                  :multiplier="100"
+                  :title="''"
+                  :toLabel="$t('filter_sidebar.price_items.to')"
+                  class=""
+              />
             </FilterAccordion>
+
             <ItemDivider/>
             <FilterAccordion :title="$t('filter_sidebar.brands')">
-
+              <ButtonSelector :options="brandOptions" :values="brands" @change="brandChange"/>
             </FilterAccordion>
             <ItemDivider/>
             <FilterAccordion :title="$t('filter_sidebar.year')">
-
+              <div class="sliders">
+                <SliderInput
+                    v-model="years"
+                    :fromLabel="$t('filter_sidebar.year_items.from')"
+                    :maxLabel="$t('filter_sidebar.year_items.end')"
+                    :maxValue="maxYear"
+                    :minLabel="$t('filter_sidebar.year_items.start')"
+                    :minRange="MIN_YEAR_RANGE_WINDOW"
+                    :minValue="minYear"
+                    :title="''"
+                    :toLabel="$t('filter_sidebar.year_items.to')"
+                    class=""
+                />
+              </div>
             </FilterAccordion>
           </div>
-          <div class="w-100 d-flex justify-content-between">
+          <div class="w-100 d-flex justify-content-between buttons">
             <Button
                 class="filter-button"
                 pill
@@ -99,6 +136,7 @@
 
 <script>
 import debounce from 'lodash.debounce';
+import {mapActions, mapGetters} from 'vuex';
 import MobileSearchInput from '~/components/mobile/MobileSearchInput';
 import filterSvg from '~/assets/img/profile/notifications/filters.svg?inline'
 import MobileBottomSheet from '~/components/mobile/MobileBottomSheet';
@@ -107,19 +145,36 @@ import ProductThumb from '~/components/product/Thumb';
 import Loader from '~/components/common/Loader';
 import FilterAccordion from '~/components/mobile/FilterAccordion';
 import ItemDivider from '~/components/profile/notifications/ItemDivider';
+import SliderInput from '~/components/common/SliderInput';
+import {
+  MIN_PRICE_RANGE_WINDOW,
+  MIN_YEAR_RANGE_WINDOW,
+  MIN_YEAR,
+  MAX_YEAR,
+  MIN_PRICE,
+  MAX_PRICE,
+} from '~/static/constants'
+import ButtonSelector from '~/components/mobile/ButtonSelector';
 
 export default {
   name: 'SneakerReward',
   components: {
+    ButtonSelector,
+    SliderInput,
     ItemDivider,
     FilterAccordion, Loader, ProductThumb, Button, MobileBottomSheet, MobileSearchInput, filterSvg
   },
   layout: 'Profile',
   data() {
     return {
+      MIN_PRICE_RANGE_WINDOW,
+      MIN_YEAR_RANGE_WINDOW,
+      MIN_YEAR,
+      MAX_YEAR,
+      MIN_PRICE,
+      MAX_PRICE,
       loading: false,
       mobileFiltersOpen: false,
-      search: '',
       SORT_OPTIONS: [
         {
           label: this.$t('shop.sort_by.featured'),
@@ -142,24 +197,127 @@ export default {
           value: 'best_sellers',
         },
       ],
-      sortBy: null,
       CATEGORIES: [
         {label: this.$t('common.all'), value: null},
         {label: this.$t('common.footwear'), value: 'sneakers'},
         {label: this.$t('common.apparel'), value: 'apparel'},
         {label: this.$tc('common.accessory', 2), value: 'accessories'},
       ],
+      sortBy: 'trending',
+      search: '',
       category: null,
       products: [],
+      years: null,
+      prices: null,
+      brands: null,
+      sizes: null,
+      sizeTypes: null,
       loadingFilter: true,
       page: 1,
       perPage: 6,
     }
   },
+  computed: {
+    ...mapGetters('browse', [
+      'filters',
+      'selectedPrices',
+      'selectedYears',
+      'selectedBrands',
+      'selectedSizes',
+      'selectedSizeTypes',
+    ]),
+    minYear() {
+      if (this.filters?.year_range?.min == null) {
+        return MIN_YEAR
+      } else {
+        return Number(this.filters?.year_range?.min)
+      }
+    },
+
+    maxYear() {
+      if (this.filters?.year_range?.max == null) {
+        return MAX_YEAR
+      } else {
+        return Number(this.filters?.year_range?.max)
+      }
+    },
+
+    minPrice() {
+      if (this.filters?.price_range?.min == null) {
+        return MIN_PRICE
+      } else {
+        return Number(this.filters?.price_range?.min)
+      }
+    },
+
+    maxPrice() {
+      if (this.filters?.price_range?.max == null) {
+        return MAX_PRICE
+      } else {
+        return Number(this.filters?.price_range?.max)
+      }
+    },
+    sizeOptions() {
+      let options = this.filters?.sizes
+      if (options && this.sizeTypes && this.sizeTypes.length > 0) {
+        options = options.filter(({type}) => this.sizeTypes.includes(type))
+      }
+      return (
+          options?.map(({id, size, type}) => {
+            return {
+              text: `${type} - ${size}`,
+              value: id,
+            }
+          }) || []
+      )
+    },
+
+    brandOptions() {
+      return this.filters?.brands?.map(({name}) => {
+        return {text: name, value: name}
+      })
+    },
+
+    sortOptions() {
+      return Object.keys(this.$t('rewards.sneaker_page.sort_options')).map(key => {
+        return {
+          text: this.$t(`rewards.sneaker_page.sort_options.${key}`),
+          value: key
+        }
+      })
+    },
+
+    sizeTypeOptions() {
+      return this.filters?.size_types?.map((type) => {
+        return {text: type, value: type}
+      })
+    }
+  },
   mounted() {
+    this.fetchFilters()
+    this.loadOptions()
     this.fetchProducts()
   },
   methods: {
+    ...mapActions('browse', ['fetchFilters']),
+    loadOptions() {
+      this.prices = this.selectedPrices
+      this.years = this.selectedYears
+      this.brands = this.selectedBrands
+      this.sizes = this.selectedSizes
+      this.sizeTypes = this.selectedSizesTypes
+      console.log(this.$data);
+      console.log(this.filters);
+    },
+    sizeTypeChange(data) {
+      this.sizeTypes = data
+    },
+    sizeChange(data) {
+      this.sizes = data
+    },
+    brandChange(data) {
+      this.brands = data
+    },
     itemClick(product) {
       this.$store.commit('rewards/setSelectedSneaker', product)
       this.$nextTick(() => {
@@ -262,8 +420,35 @@ export default {
 .h-88
   height: 92%
 
+.buttons
+  margin-top: 10px
+
 ::v-deep.divider
   border-top: 1px solid $color-gray-62
   margin-inline: 0
   margin-block: 20px
+
+::v-deep.sort-filters
+  .custom-control
+    display: flex
+    align-items: center
+
+    label
+      @include body-5-normal
+      padding-top: 3px
+      font-family: $font-family-sf-pro-display
+      font-style: normal
+      color: $color-black-9
+
+      &:before
+        color: $color-black-1
+        border-color: $color-black-1
+        background-color: $color-white-1
+        box-shadow: none
+
+::v-deep.sort-filters
+  .custom-control-input
+    &:checked ~ .custom-control-label::after
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='4' fill='%23000'/%3E%3C/svg%3E")
+
 </style>

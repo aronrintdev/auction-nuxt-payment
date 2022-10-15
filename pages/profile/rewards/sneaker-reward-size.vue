@@ -138,7 +138,7 @@ export default {
   },
   methods: {
     redeemOk() {
-
+    //  TODO continue to checkout when ready
     },
     handleSizeViewModeChange(mode) {
       this.sizeViewMode = mode

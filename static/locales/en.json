@@ -2285,6 +2285,10 @@
       "sort": "Sort",
       "select": "Select your prize below ",
       "this_sneaker": "This Sneaker",
+      "sort_options": {
+        "trending": "Trending",
+        "newest": "Newest"
+      },
       "confirm": "Are you sure you would like to redeem points for {sneaker}?"
     },
     "confirm_redeem_body": "Are you sure you would like to redeem {points} points for {reward}?",
