@@ -1,7 +1,7 @@
 <template>
   <div class="deadstock-exchange-page">
     <div class="d-flex heading-garamond">
-      <h1>{{ title }}</h1>
+      <h1>{{ title[0].label }}</h1>
     </div>
     <!-- Loaders -->
     <div
@@ -39,9 +39,9 @@ export default {
       required: true,
     },
     title: {
-      type: String,
+      type: Array,
       required: true,
-      defualt: 'Top Products',
+      defualt: [],
     },
   },
   data() {
@@ -96,6 +96,7 @@ export default {
     loadPage() {
       this.$axios
         .get('/products', {
+        // .get('/stock-exchange', {
           params: {
             type: this.type,
             page: this.currentPage,
