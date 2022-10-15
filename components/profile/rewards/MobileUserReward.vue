@@ -58,6 +58,7 @@
             </template>
           </i18n>
           <Button
+              :disabled="loading"
               class="mb-22 redeem-button button-font"
               pill
               variant="dark-blue"
@@ -67,6 +68,7 @@
           </Button>
 
           <Button
+              :disabled="loading"
               variant="link-blue"
               class="button-font"
               @click="modalOpen = false"
@@ -81,7 +83,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
 import NavGroup from '~/components/common/NavGroup';
 import TierTabs from '~/components/profile/rewards/TierTabs';
 import MobileReward from '~/components/profile/rewards/MobileReward';
@@ -99,6 +101,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       modalOpen: false,
       currentTier: 1,
       currentPage: 'redeem',
@@ -133,8 +136,22 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      redeemUserReward: 'redeemed-reward/redeemUserReward',
+    }),
     redeemOk() {
-      this.$router.push('/profile/rewards/redeemed')
+      this.loading = true
+      this.redeemUserReward({
+        selectedRewardId: this.selectedReward.id
+      }).then(res => {
+        this.$router.push('/profile/rewards/redeemed')
+        this.$auth.fetchUser()
+      }).catch((error) => {
+        this.$toasted.error(error)
+      }).finally(() => {
+        this.loading = false
+        this.modalOpen = false
+      })
     },
     redeemReward(reward) {
       this.$store.commit('rewards/setRedeemed', reward)

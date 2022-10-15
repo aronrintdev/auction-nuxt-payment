@@ -25,6 +25,7 @@
           class="browse redeem-button"
           pill
           variant="dark-blue"
+          @click="$router.push('/shop')"
       >
         {{ $t('rewards.redeemed_page.browse') }}
       </Button>

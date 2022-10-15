@@ -73,6 +73,7 @@
             <div class="mt-1">{{ $tc('common.size', 1) }}: {{ currentSize }}</div>
           </div>
           <Button
+              :disabled="loading"
               class="mb-22 redeem-button"
               pill
               variant="dark-blue"
@@ -82,6 +83,7 @@
           </Button>
 
           <Button
+              :disabled="loading"
               variant="link-blue"
               @click="modalOpen = false"
           >
@@ -95,7 +97,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
 import ProductThumb from '~/components/product/Thumb';
 import ProductSizePicker from '~/components/product/SizePicker';
 import FilterAccordion from '~/components/mobile/FilterAccordion';
@@ -111,7 +113,8 @@ export default {
     return {
       modalOpen: false,
       sizeViewMode: 'carousel',
-      currentSize: null
+      currentSize: null,
+      loading: false
     }
   },
   computed: {
@@ -137,8 +140,21 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      redeemUserReward: 'redeemed-reward/redeemUserReward',
+    }),
     redeemOk() {
-    //  TODO continue to checkout when ready
+      this.loading = true
+      this.redeemUserReward({
+        selectedRewardId: this.selectedReward.id
+      }).then(res => {
+        this.$auth.fetchUser()
+      }).catch((error) => {
+        this.$toasted.error(error)
+      }).finally(() => {
+        this.loading = false
+        this.modalOpen = false
+      })
     },
     handleSizeViewModeChange(mode) {
       this.sizeViewMode = mode
