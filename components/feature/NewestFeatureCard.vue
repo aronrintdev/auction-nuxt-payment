@@ -30,8 +30,6 @@
 </template>
 <script>
 export default {
-  name: 'FeatureCard',
-
   props: {
     title: {
       type: String,

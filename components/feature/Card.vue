@@ -11,6 +11,15 @@
     <div class="feature-description fs-18 fw-4 font-primary">
       {{ description }}
     </div>
+
+    <h6 class="feature-title text-black font-primary fs-24 fw-5 mt-2 mb-0">
+      {{ title }}
+    </h6>
+    <p
+      class="feature-description text-black font-primary fs-14 fw-5 mt-1 mb-0 d-none d-sm-block"
+    >
+      {{ description }}
+    </p>
   </div>
 </template>
 <script>
@@ -27,6 +36,10 @@ export default {
       default: '',
     },
     imageUrl: {
+      type: String,
+      default: null,
+    },
+    responsiveImage: {
       type: String,
       default: null,
     },
