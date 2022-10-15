@@ -60,40 +60,48 @@
       <Loader :loading="fetchLoading"/>
     </div>
     <div v-if="bidsCount>0 && !fetchLoading">
-      <b-row class="mt-5 text-center px-5 font-weight-bold">
-        <b-col sm="12" md="5" class="text-left">{{ $t('bids.headers.product') }}</b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }} <span role="button"><img :src="FilterDown"
-                                                                                             alt="donw"></span></b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.auto_bid') }} <span role="button"><img :src="FilterDown"
-                                                                                         alt="donw"></span></b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.bid_amt') }} <span role="button"><img :src="FilterDown"
-                                                                                        alt="donw"></span></b-col>
-        <b-col sm="12" md="2">{{ $t('bids.headers.time_remaining') }} <span role="button"><img :src="FilterDown"
-                                                                                               alt="donw"></span>
+      <b-row class="mt-5 text-center p-0 font-weight-bold">
+        <b-col sm="12" md="2" class="text-center">{{ $t('bids.headers.auction_id') }}</b-col>
+        <b-col sm="12" md="3" class="text-left px-0">{{ $t('bids.headers.product') }}</b-col>
+        <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }}
+          <span role="button"><img :src="FilterDown" alt="donw"></span>
         </b-col>
-        <b-col sm="12" md="2">{{ $t('bids.headers.action') }}</b-col>
+        <b-col sm="12" md="1">{{ $t('bids.headers.auto_bid') }}
+          <span role="button"><img :src="FilterDown" alt="donw"></span>
+        </b-col>
+        <b-col sm="12" md="1">{{ $t('bids.headers.bid_amt') }}
+          <span role="button"><img :src="FilterDown" alt="donw"></span>
+        </b-col>
+        <b-col sm="12" md="2">{{ $t('bids.headers.time_remaining') }}
+          <span role="button"><img :src="FilterDown" alt="donw"></span>
+        </b-col>
+        <b-col sm="12" md="2" class="pr-5">{{ $t('bids.headers.action') }}</b-col>
       </b-row>
 
       <client-only>
         <div v-if="bidsCount>0" class="w-100">
           <div v-for="bid in bids" :key="bid.id" class="p-0">
-            <BidSingleItem v-if="bid.auction.type===BID_AUCTION_TYPE_SINGLE"
-                           :bid-type="bidType"
-                           :selected="selected.includes(bid.id)"
-                           :bid="bid" :selectable="isSelectable(bid)"
-                           :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
-                           @selected="selectBidAction"
-                           @accept="acceptBid"
-                           @edit="handleEdit"/>
-            <BidCollectionItem v-else
-                               :selected="selected.includes(bid.id)"
-                               :bid-type="bidType"
-                               :bid="bid"
-                               :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
-                               :selectable="isSelectable(bid)"
-                               @selected="selectBidAction"
-                               @accept="acceptBid"
-                               @edit="handleEdit"/>
+            <BidSingleItem
+              v-if="bid.auction.type===BID_AUCTION_TYPE_SINGLE"
+              :bid-type="bidType"
+              :selected="selected.includes(bid.id)"
+              :bid="bid" :selectable="isSelectable(bid)"
+              :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
+              @selected="selectBidAction"
+              @accept="acceptBid"
+              @edit="handleEdit"
+            />
+            <BidCollectionItem
+              v-else
+              :selected="selected.includes(bid.id)"
+              :bid-type="bidType"
+              :bid="bid"
+              :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
+              :selectable="isSelectable(bid)"
+              @selected="selectBidAction"
+              @accept="acceptBid"
+              @edit="handleEdit"
+            />
           </div>
         </div>
       </client-only>

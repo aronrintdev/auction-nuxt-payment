@@ -1,7 +1,7 @@
 <template>
   <b-row
     v-if="inventory.product"
-    class="position-relative mt-3 text-center px-5 ml-n1 font-weight-bold w-100 bg-white single-item"
+    class="position-relative mt-3 text-center ml-n1 font-weight-bold w-100 bg-white single-item"
   >
     <div
       class="position-absolute tag-bid d-flex align-items-center justify-content-center text-white"
@@ -11,7 +11,7 @@
     </div>
     <b-col sm="12" md="5" class="text-left">
       <b-row>
-        <b-col md="2">
+        <b-col md="4">
           <div @click.stop>
             <b-form-checkbox
               v-if="selectable"
@@ -22,41 +22,40 @@
             </b-form-checkbox>
           </div>
           <ProductThumb :product="inventory.product" />
+          <div class="auction-id">{{ $t('bids.auction_id') }}: {{ auction.id }}</div>
         </b-col>
-        <b-col md="10" class="pl-4">
+        <b-col md="8" class="pl-4 d-flex align-items-center">
           <b-row class="mb-2 d-block">
-            <div class="body-4-bold mb-2">{{ inventory.product.name }}</div>
-            <div class="body-4-normal mb-2 text-gray-6 text-uppercase">
+            <div class="body-5-medium mb-2">{{ inventory.product.name }}</div>
+            <div class="body-5-medium mb-2 text-gray-6 text-uppercase">
               {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{
                 inventory.product.sku
               }}
             </div>
-            <div class="body-4-normal mb-2 text-gray-6">
+            <div class="body-5-medium mb-2 text-gray-6">
               {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
                 inventory.product.colorway
               }}, {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
                 inventory.size.size
               }}
             </div>
-            <div class="body-4-normal mb-2 text-gray-6">
-              {{ $t('products.box_condition') }}&colon;&nbsp;{{
-                inventory.packaging_condition.name
-              }}
+            <div class="body-5-medium mb-2 text-gray-6">
+              {{ $t('products.box_condition') }}&colon;&nbsp;{{ inventory.packaging_condition.name }}
             </div>
           </b-row>
         </b-col>
       </b-row>
     </b-col>
-    <b-col sm="12" md="1" class="d-flex justify-content-around flex-column">
+    <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-medium">
       {{ $t('bids.auction_types.' + auction.type) }}
     </b-col>
-    <b-col sm="12" md="1" class="d-flex justify-content-around flex-column">
+    <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-medium">
       {{ $t('bids.outbid_types.' + (haveAutoBidOn ? 'on' : 'off')) }}
     </b-col>
-    <b-col sm="12" md="1" class="d-flex justify-content-around flex-column">
-      {{ bid.price / 100 }}
+    <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-medium">
+     {{ bid.price / 100 }}
     </b-col>
-    <b-col sm="12" md="2" class="d-flex justify-content-around flex-column">
+    <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-medium">
       {{ !isExpiredOrDelisted ? bid.auction.remaining_time : 'Expired' }}
     </b-col>
     <b-col
@@ -86,8 +85,8 @@
       md="2"
       class="d-flex justify-content-center align-items-center flex-column"
     >
-      <Button variant="success" pill @click="$emit('accept', bid)">
-        <span class="px-4"> {{ $t('bids.accept') }}</span>
+      <Button variant="success" pill @click="$emit('accept', bid)" class="w-100">
+        <div class="px-0 px-md-1 px-lg-2 px-xl-3 body-4-medium"> {{ $t('bids.accept') }}</div>
       </Button>
     </b-col>
   </b-row>
@@ -188,7 +187,7 @@ export default {
   left: 0
   top: 0
   z-index: 10
-  border-top-left-radius: 10px
+  border-top-left-radius: 0px
   border-bottom-right-radius: 10px
 
 .view-similar
@@ -204,7 +203,12 @@ export default {
   margin-top: 35px
 
 .single-item
-  border-radius: 10px
-  border: 1px solid $color-gray-60
+  #border: 1px solid $color-gray-60
   padding: 15px 10px
+
+.auction-id
+  color: $color-blue-31
+  text-decoration: underline
+  text-align: center
+  font-size: 14px
 </style>
