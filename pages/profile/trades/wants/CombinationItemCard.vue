@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="d-none d-sm-block">
+    <div class="d-none d-sm-block col-6">
       <div class="combination-div py-4 mx-1">
-        <div class="d-flex justify-content-between ml-5">
+        <div class="d-flex justify-content-between ml-5 mr-2">
           <div class="text-left title-combination">
             {{ $t('trades.create_listing.vendor.wants.combination_no') }} {{ combinationIndex }}
           </div>
@@ -12,9 +12,24 @@
             class="pr-2 pt-2"
             @change="toggleSelect"
           ></b-form-checkbox>
-          <div v-else class="d-flex pr-3 pt-2">
-            <img :src="require('~/assets/img/trades/edit-icon.svg')" height="24" width="24" role="button" @click="editWant">
-            <img :src="require('~/assets/img/trades/minus-icon.svg')" height="24" width="24" class="ml-2" role="button" @click="deleteWant">
+          <div v-else class="d-flex align-items-center pr-3 pt-2">
+            <img 
+              :src="require('~/assets/img/icons/pencil-gray.svg')" 
+              height="15" 
+              width="15" 
+              role="button" 
+              @click="editWant"
+            >
+            <span class="edit-label ml-2">Edit</span>
+            <img 
+              :src="require('~/assets/img/icons/Delete.svg')" 
+              height="15" 
+              width="15" 
+              class="ml-5" 
+              role="button" 
+              @click="deleteWant"
+            >
+            <span class="delete-label ml-2">Delete</span>
           </div>
         </div>
         <div v-if="combinationItems[selectedItemIndex]" class="col-md-12 d-flex">
@@ -31,24 +46,26 @@
             <div class="text-bold">
               {{ combinationItems[selectedItemIndex].product.name }}
             </div>
-            <div class="">
-              {{ $t('trades.create_listing.vendor.wants.sku') }}:
+            <div class="name-desktop">
+              <span class="text-uppercase">{{ $t('trades.create_listing.vendor.wants.sku') }}:</span>
               {{ combinationItems[selectedItemIndex].product.sku }}
             </div>
-            <div>
-              {{ $t('trades.create_listing.vendor.wants.color') }}:
+            <div class="name-desktop">
+              {{ $t('sell.confirm_listing.table_columns.colorway') }}:
               {{ combinationItems[selectedItemIndex].product.colorway }}
             </div>
-            <div>
-              {{ $t('trades.create_listing.vendor.wants.box_condition') }}:
+            <div class="name-desktop">
+              {{ $t('trades.create_listing.vendor.wants.box') }}:
               {{ combinationItems[selectedItemIndex].packaging_condition.name }}
             </div>
-            <div class="text-bold">{{ $t('trades.create_listing.vendor.wants.lowest_ask') }}: {{ combinationItems[selectedItemIndex].product.estimated_market_value }}</div>
+            <div class="text-bold">{{ $t('trades.create_listing.vendor.wants.lowest_ask') }}: 
+              ${{ combinationItems[selectedItemIndex].product.estimated_market_value }}
+            </div>
           </div>
         </div>
-        <div class="col-md-12 d-flex justify-content-center">
+        <div class="col-md-12 d-flex combination-item">
           <b-col v-for="(item, index) in combinationItems"
-                :key="item.id" class="d-flex justify-content-center flex-column align-items-center">
+                :key="item.id" class="d-flex flex-column align-items-center">
             <object v-if="item.product.image" :data="item.product.image"
                     class="item-image-combination pointer"
                     type="image/png"
@@ -190,6 +207,9 @@ export default {
   right: 3px
   top: 7px
 
+.combination-item
+  margin-top: -25px
+
 .value
   font-family: 'Montserrat'
   font-weight: 600
@@ -197,14 +217,18 @@ export default {
   margin-top: 20px
   color: #000
   
-.name
-  font-family: 'SF Pro Display'
+.name, .name-desktop
+  font-family: $font-sp-pro
   font-weight: 500
   font-size: 11px
   color: $color-gray-6
 
+.name-desktop
+  font-size: 13px
+  line-height: 20px
+
 .combination-mobile
-  font-family: 'SF Pro Display'
+  font-family: $font-sp-pro
   font-weight: 600
   font-size: 14px
   color: #000

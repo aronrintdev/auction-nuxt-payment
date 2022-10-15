@@ -10,10 +10,23 @@
               class="pr-2 pt-2"
               @change="toggleSelect"
             ></b-form-checkbox>
-            <div>
-              <img :src="require('~/assets/img/icons/pencil-gray.svg')" height="15" width="15" role="button" @click="editWant">
+            <div class="flex align-items-center">
+              <img 
+                :src="require('~/assets/img/icons/pencil-gray.svg')" 
+                height="15" 
+                width="15" 
+                role="button" 
+                @click="editWant"
+              >
               <span class="edit-label">Edit</span>
-              <img :src="require('~/assets/img/icons/Delete.svg')" height="15" width="15" class="ml-2" role="button" @click="deleteWant">
+              <img 
+                :src="require('~/assets/img/icons/Delete.svg')" 
+                height="15" 
+                width="15" 
+                class="ml-4" 
+                role="button" 
+                @click="deleteWant"
+              >
               <span class="delete-label">Delete</span>
             </div>
           </div>
@@ -143,24 +156,6 @@ export default {
 .mr-45
   margin-right: 40px
 
-.edit-label
-  font-family: 'Montserrat'
-  font-style: normal
-  font-weight: 500
-  font-size: 15px
-  line-height: 18px
-  margin-left: 6px
-  color: $color-blue-20
-  margin-right: 43px
-
-.delete-label
-  font-family: 'Montserrat'
-  font-style: normal
-  font-weight: 500
-  font-size: 15px
-  line-height: 18px
-  color: $color-red-24
-  margin-left: 6px
 
 </style>
 

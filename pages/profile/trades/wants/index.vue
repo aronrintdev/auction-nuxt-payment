@@ -82,16 +82,18 @@
         class="listing-heading" 
         v-on:click="currentTab = 'inventory'"
         :style="{'color': currentTab === 'inventory' ? '#000' : '#999'}"
+        role="button"
       >
         {{ $t('trades.wants_listing.general_list_items', {0: wantedItems.length}) }}
       </div>
-      <span 
+      <div 
         class="wanted-items-heading" 
         v-on:click="currentTab = 'combinations'"
         :style="{'color': currentTab === 'combinations' ? '#000' : '#999'}"
+        role="button"
       >
         {{ $t('trades.wants_listing.combinations', {0: combinationItems.length}) }}
-      </span>
+      </div>
     </b-row>
     <div class="mt-3 d-flex d-sm-none row navigation-container">
       <div 
@@ -199,20 +201,34 @@
         </div>
       </div>
       <div v-else>
-        <b-col
-          v-for="(combination, combinationIndex) in combinationItems"
-          :key="combination.combination_id"
-          class="mb-4 px-0"
-        >
-          <CombinationItemCard
-            :combination="combination"
-            :combination-index="combinationIndex + 1"
-            :selected="!!selected.find((id) => id === combination.combination_id)"
-            :editRemove="removeCombination"
-            @select="selectItemCombination"
-            @click="editDeleteCombination"
-          />
-        </b-col>
+        <div v-if="combinationItems.length">
+          <b-col
+            v-for="(combination, combinationIndex) in combinationItems"
+            :key="combination.combination_id"
+            class="mb-4 px-0"
+          >
+            <CombinationItemCard
+              :combination="combination"
+              :combination-index="combinationIndex + 1"
+              :selected="!!selected.find((id) => id === combination.combination_id)"
+              :editRemove="removeCombination"
+              @select="selectItemCombination"
+              @click="editDeleteCombination"
+            />
+          </b-col>
+        </div>
+        <div v-else>
+          <div class="text-center create-combination">
+            <span>{{ $t('trades.wants_listing.have_no_combinations') }}</span>
+            <span
+              role="button"
+              class="create-combination-link"
+              @click="createCombination"
+            >
+              {{ $t('trades.wants_listing.create_combination_label') }}
+            </span>
+          </div>
+        </div>
       </div>
       <b-row class="col-md-12 justify-content-center">
         <Pagination
@@ -747,7 +763,7 @@ export default {
   color: $color-gray-5
 
 .no-items
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-13-regular
   color: $color-gray-5
@@ -764,7 +780,7 @@ export default {
   border-radius: 3px
 
 .filter-label
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: 500
   font-size: 15px
@@ -812,6 +828,17 @@ export default {
 .navigation-item-active
   background-color: #FFF
   border-radius: 14.5px
+
+.create-combination
+  font-family: $font-family-sf-pro-display
+  font-weight: 500
+  font-size: 16
+  color: $color-gray-5
+
+.create-combination-link
+  color: $color-blue-1
+  padding-bottom: 2px
+  border-bottom: 2px solid $color-blue-1
 
 </style>
 

@@ -4477,6 +4477,7 @@
     "wants_listing": {
       "general_wants": "General Wants",
       "create_combination": "Create Combination {count}",
+      "create_combination_label": "Create Combination",
       "add_to": "Add To",
       "trading_wants_list": "Trading Wants List",
       "wants_list_contains_items": "Wants List contains items saved from you listings to help you find trade matches suitable for you. Search, add and edit your recently added wants.",
