@@ -39,7 +39,7 @@
       </b-collapse>
     </div>
     <div class="d-block d-sm-none">
-      <ResponsivenessFilter />
+      <ResponsivenessFilter :currentType="type" @renderStyles="getStyles"/>
     </div>
     <b-row v-if="type === 'look'" class="mt-5 ml-0 mr-0">
       <b-col v-for="(style, index) in styles" :key="index" md="3" sm="6">
@@ -117,6 +117,9 @@ export default {
   },
 
   methods: {
+    getStyles(stylesList) {
+      this.styles = stylesList
+    },
     // fetch styles as per selected category
     async fetchStyles() {
       await this.$axios

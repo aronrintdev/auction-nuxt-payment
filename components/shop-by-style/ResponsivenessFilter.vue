@@ -9,7 +9,7 @@
       </div>
       <div class="setting-filter d-flex justify-content-start px-0 ml-2">
         <Icon 
-          src="heart.svg"
+          src="heart-style.svg"
           width="40"
           height="40"
           class="btn-close"
@@ -17,7 +17,7 @@
       </div>
     </div>
     <BottomSheet id="filters_sheet">
-      <ShopFiltersMobile ref="shopFilters" />
+      <ShopFiltersMobile ref="shopFilters" :defaultType="currentType" :dateFilter="date" @getStyles="stylesList" />
       <template #footer>
         <div
           class="bottom-sheet-footers d-flex justify-content-between align-items-center w-100 px-3"
@@ -25,13 +25,13 @@
           <button
             class="btn fs-16 fw-6 font-secondary rounded-pill btn-outline-dark"
           >
-            Reset
+            {{ $t('common.reset') }}
           </button>
           <button
             class="btn text-white fs-16 fw-6 font-secondary rounded-pill apply-btn"
             @click="apply"
           >
-            Apply Filters
+            {{ $t('common.apply_filters') }}
           </button>
         </div>
       </template>
@@ -45,6 +45,17 @@ import ShopFiltersMobile from '~/components/shop-by-style/MobileFilters'
 export default {
   name: 'SearchAndFilter',
   components: { FilterIcon, ShopFiltersMobile, Icon },
+  props: {
+    date: {
+      type: String,
+      default: ''
+    },
+    currentType: {
+      type: String,
+      default: ''
+    }
+  },
+
   data() {
     return {
       scrollPosition: null,
@@ -58,6 +69,9 @@ export default {
     window.addEventListener('scroll', this.updateScroll)
   },
   methods: {
+    stylesList(styles) {
+      this.$emit('renderStyles', styles)
+    },  
     apply() {
       this.$refs.shopFilters.applyFilters()
     },
@@ -78,7 +92,7 @@ export default {
       margin: 0 16px
   .searchbar-filter
     input[type="search"]
-      background: rgba(247, 247, 247, 0.5)
+      background: $light-mobile-bg-color
       padding-left: 39px
       height: 33px
       border-radius: 8px

@@ -19,7 +19,7 @@
             collapseKey="brands"
             :title="$t('filter_sidebar.brands')"
             :options="brandOptions"
-            class="p-2 mb-1  border border-success rounded filters-heading"
+            class="p-2 mb-1  border border-success rounded"
           />
         </div>
         <div class="col-sm-6">

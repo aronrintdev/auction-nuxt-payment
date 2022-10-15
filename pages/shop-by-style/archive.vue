@@ -38,9 +38,11 @@
       </b-collapse>
     </div>
     <div class="d-block d-sm-none">
-      <ResponsivenessFilter />
+      <ResponsivenessFilter 
+        :date="showDate"
+      />
     </div>
-    <b-row v-if="type === TYPEq" class="mt-5">
+    <b-row v-if="type === TYPE" class="mt-5 ml-0 mr-0">
       <b-col v-for="(style, index) in styles" :key="index" md="3" sm="6">
         <ShopByStyleCard
           :style-id="style.id"
@@ -49,7 +51,7 @@
         ></ShopByStyleCard> 
       </b-col>
     </b-row>
-    <b-row  v-else class="mt-5">
+    <b-row  v-else class="mt-5 ml-0 mr-0">
       <template v-for="(style, index) in styles">
         <b-col v-if="index == 1" :key="index" lg="6" md="8">
           <ShopByStyleCard
@@ -103,7 +105,8 @@ export default {
       page: 1,
       perPage: null,
       styles: null,
-      filters: null
+      filters: null,
+      showDate: true
     }
   },
 
@@ -182,5 +185,5 @@ export default {
 
 @media (max-width: 576px)
   .container-shop-by-style
-    padding: 30px
+    padding: 0
 </style>

@@ -162,7 +162,7 @@ export default {
 
 #brands-search
   input
-    font-size: 12px
+    font-size: $font-size-12
 .search-input-wrapper
   position: relative
 

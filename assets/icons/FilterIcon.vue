@@ -47,7 +47,7 @@
   <style lang="sass" scoped>
   @import '~/assets/css/_variables'
   .circleColor
-    fill: $color-white-20
+    fill: $color-gray-47
   .lineColor
-    stroke: $color-white-1
+    stroke: $color-gray-47
   </style>

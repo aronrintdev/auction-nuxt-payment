@@ -91,7 +91,7 @@
   <style lang="sass" scoped>
   @import '~/assets/css/_variables'
   .bottom-sheet-backdrop-popover
-    background: rgba(0, 0, 0, 0.25)
+    background: $color-black-rgb2
     height: 100vh !important
     transform: translate(0, 0) !important
     z-index: 1098 !important

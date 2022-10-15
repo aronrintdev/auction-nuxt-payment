@@ -1,7 +1,7 @@
 <template>
-    <div class="ShopFiltersMobile">
+    <div class="shopFiltersMobile">
       <div class="border-bottom pb-3">
-        <h5 class="fs-16 fw-7 text-base-blue font-secondary">Sort</h5>
+        <h5 class="fs-16 fw-7 text-base-blue font-secondary">{{ $t('common.sort_by') }}</h5>
         <Radio
           v-for="(option, index) in SORT_OPTIONS"
           :key="index"
@@ -10,10 +10,11 @@
           :label="option.label"
           :val="option.value"
           name="sortFilter"
+          @click="applyFilters"
         />
       </div>
       <div class="border-bottom pb-3 mt-2">
-        <Collapse title="Size Type" :selectedValue="selectedSizeType">
+        <Collapse :title="$tc('common.size_type', 1)" :selectedValue="selectedSizeType">
           <div class="row">
             <div
               v-for="(sizeType, index) in sizeTypeOptions"
@@ -33,7 +34,7 @@
       </div>  
       
       <div class="border-bottom pb-3 mt-2">
-        <Collapse title="Brands" :selectedValue="selectedBrand">
+        <Collapse :title="$t('filter_sidebar.brands')" :selectedValue="selectedBrand">
           <div class="row">
             <div
               v-for="(brandCategory, index) in brandOptions"
@@ -51,28 +52,65 @@
           </div>
         </Collapse>
       </div>
+
+      <div v-if="dateFilter" class="border-bottom pb-3 mt-2">
+        <Collapse :title="$t('filter_sidebar.year')" :selectedValue="selectedYearRange">
+          <b-row>
+            <b-col sm="2" class="w-50">
+                <b-form-datepicker
+                    size="sm"
+                    locale="en"
+                    :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                    class="mr-2  bg-transparent border border-secondary rounded-5"
+                    :placeholder="$t('shop_by_style.filter.start_date')"
+                ></b-form-datepicker>
+            </b-col>
+            <b-col sm="2" class="w-50">
+                <b-form-datepicker
+                    size="sm"
+                    locale="en"
+                    :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                    class="mr-2 bg-transparent border border-secondary rounded-5"
+                    :placeholder="$t('shop_by_style.filter.end_date')"
+                ></b-form-datepicker>
+            </b-col>
+          </b-row>
+        </Collapse>
+      </div>
     </div>
   </template>
   <script>
   import { mapGetters } from 'vuex'
-  // import debounce from 'lodash.debounce'
   import _ from 'lodash'
   import Collapse from '~/components/common/Collapse'
   import Radio from '~/components/common/form/Radio'
   import { TYPE } from '~/static/constants/shop-by-style'
   import {
+    MIN_YEAR,
+    MAX_YEAR,
     MIN_PRICE_RANGE_WINDOW,
     MIN_YEAR_RANGE_WINDOW,
   } from '~/static/constants'
   export default {
     name: 'ShopFiltersMobile',
     components: { Collapse, Radio },
+    props: {
+      dateFilter: {
+        type: String,
+        default: ''
+      },
+      defaultType: {
+        type: String,
+        default: ''
+      }
+    },
+
     data() {
       return {
         SORT_OPTIONS: [
           {
             label: this.$tc('common.all', 2),
-            value: 'all',
+            value: TYPE,
           },
           {
             label: this.$tc('home.trending', 2),
@@ -80,11 +118,11 @@
           },
           {
             label: this.$tc('common.best_seller', 2),
-            value: 'best_seller',
+            value: 'best_sellers',
           },
           {
             label: this.$t('shop_by_style.archive'),
-            value: 'archive',
+            value: 'Archive',
           },
         ],
         sortBy: TYPE,
@@ -94,6 +132,7 @@
         brands: [],
         selectedBrand: '',
         selectedSizeType: '',
+        years: ['2001', '2022'],
       }
     },
     computed: {
@@ -101,6 +140,7 @@
         'filters',
         'selectedBrands',
         'selectedSizeTypes',
+        'selectedYears'
       ]),
   
       selectedSizes() {
@@ -118,6 +158,25 @@
           return { label: type, value: type }
         })
       },
+
+      selectedYearRange() {
+        return `${this.years[0]}-${this.years[1]}`
+      },
+
+      minYear() {
+        if (this.filters?.year_range?.min == null) {
+          return MIN_YEAR
+        } else {
+          return Number(this.filters?.year_range?.min)
+        }
+      },
+      maxYear() {
+        if (this.filters?.year_range?.max == null) {
+          return MAX_YEAR
+        } else {
+          return Number(this.filters?.year_range?.max)
+        }
+      },
   
       filtersUpdated() {
         return (
@@ -129,6 +188,7 @@
       filtersCleared() {
         return (
           !this.brands &&
+          !this.years &&
           !this.sizeTypes
         )
       },
@@ -137,8 +197,36 @@
       this.MIN_PRICE_RANGE_WINDOW = MIN_PRICE_RANGE_WINDOW
       this.MIN_YEAR_RANGE_WINDOW = MIN_YEAR_RANGE_WINDOW
     },
+    
+    mounted() {
+      this.loadFilter()
+    },
+
     methods: {
+      loadFilter() {
+        if(this.dateFilter !== '') {
+          this.sortBy = this.$t('shop_by_style.archive')
+        } else {
+          this.sortBy = this.defaultType
+        }
+      },
+      
+      loadPage() {
+        this.$axios
+          .get('shop-by-style', {
+            params: {
+              selectedType: this.sortBy
+            }
+          })
+          .then((res) => {
+            this.$emit('getStyles', res.data.data)
+          })
+          .catch(error => {
+            this.$toasted.error(error)
+          }) 
+      },  
       applyFilters() {
+        this.$store.commit('browse/setSelectedYears', this.years)
         this.$store.commit('browse/setSelectedBrands', this.brands)
         this.$store.commit('browse/setSelectedSizeTypes', this.sizeTypes)
         if (this.sizeTypes && this.sizeTypes.length > 0 && this.sizes) {
@@ -157,6 +245,6 @@
   }
   </script>
   <style lang="sass" scoped>
-  .ShopFiltersMobile
+  .shopFiltersMobile
     margin: 0 19px
   </style>
