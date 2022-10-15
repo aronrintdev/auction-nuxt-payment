@@ -2,7 +2,7 @@
   <b-container fluid>
     <div v-if="!order">{{ $t('orders.loading') }}...</div>
     <div v-if="order">
-      <div class="d-flex justify-content-between align-items-center">
+      <div class="d-none d-sm-flex justify-content-between align-items-center">
         <div>
           <div class="p-4 page-title text-capitalize">{{ $t('orders.order_id') }} #{{ order.order_id }}</div>
           <div class="px-4 page-subtitle">{{ $t('orders.product_summary') }}</div>

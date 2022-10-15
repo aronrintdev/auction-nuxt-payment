@@ -1,15 +1,15 @@
 <template>
-  <div class="border round-box">
-    <div class="px-5 py-4">
+  <div class="border round-box order-summary">
+    <div class="pad">
       <b-row align-h="between">
         <b-col cols="8">
           <div class="order-id">{{ $t('orders.order_id') }} #{{ order.order_id }} <span
             class="pl-3">{{ $t('orders.sold') }}</span>
           </div>
-          <div class="order-date">{{ $t('orders.ordered_on') }} {{ new Date(order.created_at) }}</div>
+          <div class="order-date d-none d-sm-block">{{ $t('orders.ordered_on') }} {{ new Date(order.created_at) }}</div>
         </b-col>
         <b-col cols="2">
-          <div class="text-center w-200 align-self-end">
+          <div class="text-center w-200 align-self-end d-none d-sm-block">
             <template v-if="item.status!=='processing'">
               <div class="my-2">
                 <a class="btn-print-shipping px-3 py-2 align-items-center text-center" :href="printLabel()"
@@ -24,16 +24,16 @@
           </div>
         </b-col>
       </b-row>
-      <div class="sold-items">{{ $t('orders.sold_items') }}: {{ order.items.length }}</div>
+      <div class="sold-items d-none d-sm-block">{{ $t('orders.sold_items') }}: {{ order.items.length }}</div>
       <b-row class="product-details" align-v="center">
-        <b-col cols="2">
-          <div>
+        <b-col cols="4" sm="2">
+          <div class="text-center">
             <img :src="product(item).image" height="100"/>
           </div>
         </b-col>
-        <b-col cols="10">
-          <div class="box-header pb-2">{{ $t('orders.product_details') }}</div>
-          <b-row>
+        <b-col cols="8" sm="10">
+          <div class="box-header pb-2 d-none d-sm-block">{{ $t('orders.product_details') }}</div>
+          <b-row class="d-none d-sm-flex">
             <b-col cols="3">
               <div>{{ product(item).name }} ({{ product(item).release_year }})</div>
               <div>{{ $t('orders.colorway') }}: {{ product(item).colorway }}</div>
@@ -46,6 +46,15 @@
               <div>{{ $t('orders.sku') }}: {{ product(item).sku }}</div>
             </b-col>
           </b-row>
+          <div class="d-block d-sm-none product-info">
+            <div class="text-bold">{{ product(item).name }} ({{ product(item).release_year }})</div>
+            <div><span>{{ $t('orders.sku') }}:</span> {{ product(item).sku }}</div>
+            <div><span>{{ $t('orders.colorway') }}:</span> {{ product(item).colorway }}</div>
+            <div><span>{{ $t('orders.size') }}:</span> {{ item.listing_item.inventory.size.size }}</div>
+            <div><span>{{ $t('orders.box_condition') }}:</span>
+              {{ item.listing_item.inventory.packaging_condition.name }}
+            </div>
+          </div>
         </b-col>
       </b-row>
     </div>
@@ -101,6 +110,10 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+.order-summary
+  .pad
+    padding: 1.5rem 3rem
+
 .round-box
   background: $color-white-1
   border: 1px solid $color-gray-60
@@ -175,5 +188,29 @@ export default {
     font-weight: $medium
     font-size: 18px
     color: $color-gray-5
+
+@media (max-width: 992px)
+  .order-summary
+    &.border
+      border: none !important
+
+    .pad
+      padding: 0
+
+    .order-id
+      @include body-5-medium
+      color: $color-black-1
+
+      span
+        @include body-9-normal
+        color: $color-blue-1
+
+    .product-details
+      @include body-10-regular
+      line-height: 18px
+
+    .product-info
+      span
+        color: $color-gray-5
 
 </style>
