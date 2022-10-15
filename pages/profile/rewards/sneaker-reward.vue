@@ -357,7 +357,6 @@ export default {
           })
           .then((res) => {
             this.products = res.data.data
-            console.log(this.products);
           })
           .finally(() => {
             this.loading = false
