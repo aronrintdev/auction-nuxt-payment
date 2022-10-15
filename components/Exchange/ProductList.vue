@@ -23,7 +23,7 @@
 </template>
 <script>
 import { Loader } from '~/components/common'
-import ExchangeFilter from '~/components/stockExchange/ExchangeFilter'
+import ExchangeFilter from '~/components/Exchange/Filters'
 import ProductTrendListCard from '~/components/product/TrendTable'
 
 export default {

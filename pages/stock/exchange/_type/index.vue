@@ -14,8 +14,7 @@
       <div class="container container-auction-details">
         <div class="row ">
           <div class="col-12 col-md-11 col-sm-11 mx-auto">
-            <TopProductsList  :loading="loading" :title="currentCategory"></TopProductsList>
-           
+            <ProductList  :loading="loading" :title="currentCategory"></ProductList>
           </div>
         </div>
       </div>
@@ -23,15 +22,15 @@
   </div>
 </template>
 <script>
-import ExchangeBanner from '~/components/stockExchange/Banner'
+import ExchangeBanner from '~/components/Exchange/Banner'
 import NavGroup from '~/components/common/NavGroup.vue'
-import TopProductsList from '~/components/stockExchange/TopProductsList'
+import ProductList from '~/components/Exchange/ProductList'
 
 export default {
   components: {
     ExchangeBanner,
     NavGroup,
-    TopProductsList,
+    ProductList,
   },
   layout(context) {
     return context.$auth.user ? 'Profile' : 'IndexLayout'

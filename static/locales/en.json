@@ -5318,6 +5318,10 @@
       "release_date_desc":"Release Date - Descending",
       "last_price_lh":"Last Price (low-high)",
       "last_price_hl":"Last Price (high-low)"
+    },
+    "detail":{
+      "buy":"Buy",
+      "sell":"Sell"
     }
   }
 }
