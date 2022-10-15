@@ -1,5 +1,5 @@
 <template>
-    <div class="shopFiltersMobile">
+    <div class="shop-filters-mobile">
       <div class="border-bottom pb-3">
         <h5 class="fs-16 fw-7 text-base-blue font-secondary">{{ $t('common.sort_by') }}</h5>
         <Radio
@@ -245,6 +245,6 @@
   }
   </script>
   <style lang="sass" scoped>
-  .shopFiltersMobile
+  .shop-filters-mobile
     margin: 0 19px
   </style>
