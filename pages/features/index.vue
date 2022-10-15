@@ -21,7 +21,7 @@
           <div
             class="d-flex align-items-center justify-content-around justify-content-sm-between flex-wrap"
           >
-            <FeatureCard
+            <NewestFeatureCard
               v-for="(feature, index) in newestFeatures"
               :key="`feature-${index}`"
               :to="feature.to"
@@ -39,10 +39,10 @@
 </template>
 <script>
 import FeatureBanner from '~/components/feature/Banner'
-import FeatureCard from '~/components/feature/Card'
+import NewestFeatureCard from '~/components/feature/NewestFeatureCard'
 
 export default {
-  components: { FeatureBanner, FeatureCard },
+  components: { FeatureBanner, NewestFeatureCard },
 
   layout: 'IndexLayout',
 
