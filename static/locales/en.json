@@ -5326,5 +5326,99 @@
       "send_to_deadstock": "Send to Deadstock",
       "view_order": "View Order"
     }
+  },
+  "newest_features": {
+    "title": "Newest<br>Features",
+    "desc": "Latest Deadstock features found on the website and mobile application",
+    "previous": "Previous",
+    "next": "Next",
+    "buy": {
+      "title": "Buy",
+      "desc": "Enhanced buying experience with 100% product authentication, live 24 hour customer service and NFC blockchain photos."
+    },
+    "sell": {
+      "title": "Sell",
+      "desc": "Sell your items quicker with our increased marketing visiblity. New analytics help you determine pricing, also receieve immediate payouts and low fees."
+    },
+    "trade": {
+      "title": "Trade",
+      "desc": "Use sneakers, apparel and accesories to complete your trade. Our Fair Trade Meter helps create the most compatible trades."
+    },
+    "auctions": {
+      "title": "Auctions",
+      "desc": "Place bids on auctions and receive live updates. Auction off your items and use our analytics to determine what to sell at what price."
+    },
+    "streetwear": {
+      "title": "Streetwear",
+      "desc": "Have access to the worlds best streetwear and buy, sell, trade or auction these items."
+    },
+    "crypto_payments": {
+      "title": "Crypto Payments",
+      "desc": "You can now use Crypto as a form of payment to complete your purchases."
+    },
+    "live_customer_service": {
+      "title": "Live Customer Service",
+      "desc": "We now offer 24 hour live customer service, speak directly with a customer service rep for any questions."
+    },
+    "rewards_program": {
+      "title": "Rewards Program",
+      "desc": "Gain rewards for each transaction and use these points toward your future purchases."
+    },
+    "virtual_giftcards": {
+      "title": "Virtual Giftcards",
+      "desc": "Send and receive virtual gift cards of any custom amount; use these giftcards toward your purchases."
+    },
+    "int_buying_and_selling": {
+      "title": "Intl' Buying and Selling",
+      "desc": "Buy and sell items from across the globe with our international users. Receive access to exlcusive international drops."
+    },
+    "payments_plans": {
+      "title": "Payments Plans",
+      "desc": "Split your purchases into more affordable payments with our new installment plans."
+    },
+    "int_languages": {
+      "title": "Intl' Languages",
+      "desc": "Our updated app now offers languages from across the globe. Giving access to international users."
+    },
+    "csv_bulk_uploading": {
+      "title": "CSV Bulk Uploading",
+      "desc": "Upload multiple items at once including photos, descriptions and more using our CSV bulk uploading."
+    },
+    "promotions": {
+      "title": "Promotions",
+      "desc": "Receive exclusive Deadstock promotions updated daily, weekly and monthly."
+    },
+    "damaged_box_items": {
+      "title": "Damaged Box Items",
+      "desc": "Our new box condition feature informs you of the exact condition you can expect your shoeboxes to be in."
+    },
+    "twofa_security": {
+      "title": "2FA Security",
+      "desc": "Enchanced security login to protect your account."
+    },
+    "deadstock_exchange": {
+      "title": "Deadstock Exchange",
+      "desc": "Our new exchance feature gives you analytics to help determine what to sell and at what price based on the current market."
+    },
+    "blockchain_authentication_ledger": {
+      "title": "Blockchain Authentication Ledger",
+      "desc": "Our new blockchain helps you receive authentication of your items by giving you exact photo templates."
+    },
+    "in_app_notifications": {
+      "title": "In-App Notifications",
+      "desc": "Receive in-app notifications on new items, promotions and more. Also receive notificaitons on your current auctions, trades and sells."
+    },
+    "social_signin": {
+      "title": "Social Sign In",
+      "desc": "Sign in our app from any social media by linking your Deadstock account to your social media accounts."
+    },
+    "instant_ship": {
+      "title": "Instant Ship",
+      "desc": "Guranteed instant shipping, as items are shipped immediately after authentication."
+    },
+    "shareable_wishlists_and_watchlists": {
+      "title": "Shareable Wishlists and Watchlists",
+      "desc": "You can share your lists on social media or send it to friends with a shareable link."
+    }
   }
 }
