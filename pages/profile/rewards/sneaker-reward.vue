@@ -61,18 +61,18 @@
             <ItemDivider/>
 
             <FilterAccordion :title="$tc('common.size_type', 1)">
-              <ButtonSelector :options="sizeTypeOptions" :values="sizeTypes" @change="sizeTypeChange"/>
+              <ButtonSelector :options="sizeTypeOptions" :values="searchFilters.sizeTypes" @change="sizeTypeChange"/>
             </FilterAccordion>
 
             <ItemDivider/>
             <FilterAccordion :title="$t('filter_sidebar.sizes')">
-              <ButtonSelector :options="sizeOptions" :values="sizes" @change="sizeChange"/>
+              <ButtonSelector :options="sizeOptions" :values="searchFilters.sizes" @change="sizeChange"/>
             </FilterAccordion>
 
             <ItemDivider/>
             <FilterAccordion :title="$t('filter_sidebar.price')">
               <SliderInput
-                  v-model="prices"
+                  v-model="searchFilters.prices"
                   :fromLabel="$t('filter_sidebar.price_items.from')"
                   :maxLabel="$t('filter_sidebar.price_items.max')"
                   :maxValue="maxPrice"
@@ -88,13 +88,13 @@
 
             <ItemDivider/>
             <FilterAccordion :title="$t('filter_sidebar.brands')">
-              <ButtonSelector :options="brandOptions" :values="brands" @change="brandChange"/>
+              <ButtonSelector :options="brandOptions" :values="searchFilters.brands" @change="brandChange"/>
             </FilterAccordion>
             <ItemDivider/>
             <FilterAccordion :title="$t('filter_sidebar.year')">
               <div class="sliders">
                 <SliderInput
-                    v-model="years"
+                    v-model="searchFilters.years"
                     :fromLabel="$t('filter_sidebar.year_items.from')"
                     :maxLabel="$t('filter_sidebar.year_items.end')"
                     :maxValue="maxYear"
@@ -110,10 +110,11 @@
           </div>
           <div class="w-100 d-flex justify-content-between buttons">
             <Button
+                :disabled="loading"
                 class="filter-button"
                 pill
                 variant="outline-dark"
-                @click="mobileFiltersOpen = false"
+                @click="reset"
             >
               {{ $t('notifications.reset') }}
             </Button>
@@ -205,13 +206,14 @@ export default {
       ],
       sortBy: 'trending',
       search: '',
-      category: null,
+      searchFilters: {
+        years: null,
+        prices: null,
+        brands: null,
+        sizes: null,
+        sizeTypes: null,
+      },
       products: [],
-      years: null,
-      prices: null,
-      brands: null,
-      sizes: null,
-      sizeTypes: null,
       loadingFilter: true,
       page: 1,
       perPage: 6,
@@ -219,12 +221,7 @@ export default {
   },
   computed: {
     ...mapGetters('browse', [
-      'filters',
-      'selectedPrices',
-      'selectedYears',
-      'selectedBrands',
-      'selectedSizes',
-      'selectedSizeTypes',
+      'filters'
     ]),
     minYear() {
       if (this.filters?.year_range?.min == null) {
@@ -295,28 +292,29 @@ export default {
   },
   mounted() {
     this.fetchFilters()
-    this.loadOptions()
     this.fetchProducts()
   },
   methods: {
     ...mapActions('browse', ['fetchFilters']),
-    loadOptions() {
-      this.prices = this.selectedPrices
-      this.years = this.selectedYears
-      this.brands = this.selectedBrands
-      this.sizes = this.selectedSizes
-      this.sizeTypes = this.selectedSizesTypes
-      console.log(this.$data);
-      console.log(this.filters);
+    reset() {
+      this.sortBy = 'trending'
+      this.searchFilters = {
+        years: null,
+        prices: null,
+        brands: null,
+        sizes: null,
+        sizeTypes: null,
+      }
+      this.fetchProducts()
     },
     sizeTypeChange(data) {
-      this.sizeTypes = data
+      this.searchFilters.sizeTypes = data
     },
     sizeChange(data) {
-      this.sizes = data
+      this.searchFilters.sizes = data
     },
     brandChange(data) {
-      this.brands = data
+      this.searchFilters.brands = data
     },
     itemClick(product) {
       this.$store.commit('rewards/setSelectedSneaker', product)
@@ -331,32 +329,28 @@ export default {
       if (!this.perPage || !this.page) return
 
       this.loading = true
-      const filters = {}
+      const filters = {...this.searchFilters}
       if (this.sortBy) {
         filters.sort_by = this.sortBy
       }
       if (this.search) {
         filters.search = this.search
       }
-      if (this.category) {
-        filters.category = this.category
+      if (this.searchFilters.prices) {
+        filters.prices = this.searchFilters.prices.join('-')
       }
-      if (this.selectedPrices) {
-        filters.prices = this.selectedPrices.join('-')
+      if (this.searchFilters.brands) {
+        filters.brands = this.searchFilters.brands.join(',')
       }
-      if (this.selectedBrands) {
-        filters.brands = this.selectedBrands.join(',')
+      if (this.searchFilters.sizes) {
+        filters.sizes = this.searchFilters.sizes.join(',')
       }
-      if (this.selectedSizes) {
-        filters.sizes = this.selectedSizes.join(',')
+      if (this.searchFilters.sizeTypes) {
+        filters.size_types = this.searchFilters.sizeTypes.join(',')
       }
-      if (this.selectedSizeTypes) {
-        filters.size_types = this.selectedSizeTypes.join(',')
+      if (this.searchFilters.years) {
+        filters.years = this.searchFilters.years.join('-')
       }
-      if (this.selectedYears) {
-        filters.years = this.selectedYears.join('-')
-      }
-
       this.$axios
           .get('/list-all-products', {
             params: {filters, page: this.page, per_page: this.perPage},
