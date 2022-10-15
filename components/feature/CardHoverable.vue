@@ -3,9 +3,16 @@
     class="feature-card-hoverable d-flex align-items-center flex-column justify-content-center"
     :class="`feature-card-hoverable-${variant}`"
   >
-    <img :src="icon" />
-    <div class="feature-title">{{ title }}</div>
-    <div v-if="description" class="feature-description text-center">
+    <img
+      :src="
+        icon || require(`~/assets/img/features/newest-feature/buying/auth.png`)
+      "
+    />
+    <div class="feature-title fs-24 fw-6 font-primary">{{ title }}</div>
+    <div
+      v-if="description"
+      class="feature-description text-center fs-16 fw-6 font-primary"
+    >
       {{ description }}
     </div>
   </div>
@@ -27,6 +34,11 @@ export default {
       type: String,
       required: true,
     },
+    iconWidth: {
+      type: String,
+      required: true,
+    },
+
     variant: {
       type: String,
       default: 'normal', // 'normal', 'round'
@@ -43,9 +55,9 @@ export default {
   padding: 22px
   color: $color-black-1
   transition: transform .2s
-  min-height: 404px
-  max-width: 404px
-  flex: 1 1 0px
+  height: 376px !important
+  width: 376px !important
+
   cursor: help
 
   &.feature-card-hoverable-round
@@ -59,17 +71,33 @@ export default {
   &:hover
     transform: scale(1.1)
 
-  &:not(:last-of-type)
-    margin-right: 40px
 
   .feature-title
     @include heading-1
     font-weight: $medium
     color: $color-black-5
-    margin-top: 30px
+    margin-top: 38px
 
   .feature-description
     @include body-4-regular
     line-height: 26px
     margin-top: 22px
+
+@media (max-width: 768px)
+  .feature-card-hoverable
+    min-width: 163px !important
+    padding: 10px !important
+    height: auto !important
+    img
+      width: 56px
+      height: 47px
+
+
+    .feature-title
+      font-size: 12px
+      margin-top: 9px
+    .feature-description
+      font-size: 12px
+      line-height: 20px
+      margin-top: 7px
 </style>

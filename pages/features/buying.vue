@@ -7,83 +7,71 @@
     />
 
     <div class="content mx-auto">
-      <FeatureBackButton class="mb-2" />
+      <FeatureBackButton class="mb-2 d-lg-inline-flex d-none" />
 
-      <h3 class="title">{{ $tc('common.benefit', 2) }}</h3>
-
-      <FeatureBenefitItem
-        :icon="require(`~/assets/img/features/buying/certified-authentic.svg`)"
-        :heading="$t('features.buying.certified_authentic_products')"
-        :description="$t('features.buying.certified_authentic_products_desc')"
-        class="feature-item"
-      />
-
-      <FeatureBenefitItem
-        :icon="require(`~/assets/img/features/buying/live-service.svg`)"
-        :heading="$t('features.buying.live_customer_service')"
-        :description="$t('features.buying.live_customer_service_desc')"
-        class="feature-item"
-      />
-
-      <FeatureBenefitItem
-        :icon="require(`~/assets/img/features/buying/blockchain-backed.svg`)"
-        :heading="$t('features.buying.blockchain_backed_photo')"
-        :description="$t('features.buying.blockchain_backed_photo_desc')"
-        class="feature-item"
-      />
-
-      <h3 class="title">{{ $t('features.buying.purchase_methods') }}</h3>
-
-      <div class="d-flex cards-wrapper">
-        <FeatureCardHoverable
-          :icon="require('~/assets/img/features/buying/buy-now.svg')"
-          :title="$t('products.buy_now')"
-          :description="$t('features.buying.buy_now_desc')"
-          class="pt-5"
+      <h3 class="benefit-title text-center text-lg-left font-primary">
+        {{ $tc('common.benefit', 2) }}
+      </h3>
+      <div class="vertical-cards d-flex flex-column">
+        <FeatureBenefitItem
+          :icon="
+            require(`~/assets/img/features/newest-feature/buying/auth.png`)
+          "
+          :heading="$t('features.buying.certified_authentic_products')"
+          :description="$t('features.buying.certified_authentic_products_desc')"
+          class="feature-item"
         />
 
-        <FeatureCardHoverable
-          :icon="require('~/assets/img/features/buying/bag.svg')"
-          :title="$t('features.buying.add_to_bag')"
-          :description="$t('features.buying.add_to_bag_desc')"
+        <FeatureBenefitItem
+          :icon="
+            require(`~/assets/img/features/newest-feature/buying/blockchainauth.png`)
+          "
+          :heading="$t('features.buying.live_customer_service')"
+          :description="$t('features.buying.live_customer_service_desc')"
+          class="feature-item"
         />
 
-        <FeatureCardHoverable
-          :icon="require('~/assets/img/features/buying/offer.svg')"
-          :title="$t('features.buying.make_an_offer')"
-          :description="$t('features.buying.make_an_offer_desc')"
+        <FeatureBenefitItem
+          :icon="
+            require(`~/assets/img/features/newest-feature/buying/customerser.png`)
+          "
+          :heading="$t('features.buying.blockchain_backed_photo')"
+          :description="$t('features.buying.blockchain_backed_photo_desc')"
+          class="feature-item"
         />
       </div>
-
-      <h3 class="title title-shop">{{ $t('common.shop') }}</h3>
-
-      <div class="d-flex align-items-center shop-section">
-        <div class="d-flex flex-grow-1">
-          <img
-            :src="require('~/assets/img/icons/shopping-cart.svg')"
-            class="cart-img"
-          />
-          <div class="flex-grow-1">
-            {{ $t('features.buying.shop_desc') }}
-            <nuxt-link to="/features/payment-plans">{{
-              $t('home.payment_plans').toLowerCase()
-            }}</nuxt-link>
-            {{ $t('common.and') }}
-            <!-- todo: add link to crypto payments feature page after its done -->
-            <nuxt-link to="#">{{
-              $t('success.crypto').toLowerCase()
-            }}</nuxt-link>
-          </div>
-        </div>
-        <Button to="/shop" variant="info" pill class="flex-shrink-0">{{
-          $t('vendor_purchase.browse')
-        }}</Button>
-      </div>
+      <h3 class="title text-center text-lg-left font-primary">
+        {{ $t('features.buying.purchase_methods') }}
+      </h3>
+      <b-row class="cards-wrapper">
+        <b-col
+          md="4"
+          class="d-flex justify-content-md-start col-6 offset-3 offset-md-0"
+          ><FeatureCardHoverable
+            :icon="require('~/assets/img/features/buying/buy-now.svg')"
+            :title="$t('products.buy_now')"
+            :description="$t('features.buying.buy_now_desc')"
+            class="pt-5 first-img"
+        /></b-col>
+        <b-col md="4" cols="6" class="d-flex justify-content-md-center"
+          ><FeatureCardHoverable
+            :icon="
+              require('~/assets/img/features/buying/shopping-cart-icon.svg')
+            "
+            :title="$t('features.buying.add_to_bag')"
+            :description="$t('features.buying.add_to_bag_desc')"
+        /></b-col>
+        <b-col md="4" cols="6" class="d-flex justify-content-md-end"
+          ><FeatureCardHoverable
+            :icon="require('~/assets/img/features/buying/offer.svg')"
+            :title="$t('features.buying.make_an_offer')"
+            :description="$t('features.buying.make_an_offer_desc')"
+        /></b-col>
+      </b-row>
     </div>
   </div>
 </template>
 <script>
-import { Button } from '~/components/common'
 import FeatureBanner from '~/components/feature/Banner'
 import FeatureBenefitItem from '~/components/feature/BenefitItem'
 import FeatureBackButton from '~/components/feature/BackButton'
@@ -93,7 +81,7 @@ export default {
   components: {
     FeatureBanner,
     FeatureBenefitItem,
-    Button,
+
     FeatureBackButton,
     FeatureCardHoverable,
   },
@@ -121,71 +109,50 @@ export default {
 
 .features-container
   .content
-    padding: 80px 200px
+    padding: 46px 111px
     max-width: 1440px
+    .cards-wrapper
+      margin-bottom: 100px !important
 
-    h3.title
+    h3.title, .benefit-title
       @include heading-7
       color: $color-black-5
       text-transform: uppercase
-      margin-bottom: 68px
+      margin: 68px 0px
+    .benefit-title
+      margin: 9px 0px 38px 0px !important
 
       &.title-shop
         margin: 137px 0 49px 0
+    .vertical-cards
+      gap: 48px
 
-    .feature-item
-      margin-bottom: 115px
-
-    .shop-section
-      > div
-        @include body-3-regular
-        line-height: 29px
-        padding: 0 80px 0 0
-        color: $color-black-1
-
-        > div
-          min-width: 200px
-
-          a
-            color: $color-black-1
-            text-decoration: underline
-
-        img.cart-img
-          margin-right: 86px
-
-      button
-        width: 190px
-
-@media (max-width: 1200px)
-  .features-container
-    .content
-      .shop-section
-        flex-direction: column
-        align-items: center
-
-        > div
-          align-items: center
-          padding: 0
-
-        button
-          margin-top: 20px
-
-      .cards-wrapper
-        flex-direction: column
-        align-items: center
-
-        > div:not(:last-child)
-          margin: 0 0 40px 0
 
 @media (max-width: 1000px)
   .features-container
     .content
       padding: 80px 40px
 
-@media (max-width: 576px)
+@media (max-width: 768px)
   .features-container
     .content
-      padding: 40px 30px
+      padding: 37px 15px
+
+      .cards-wrapper::v-deep
+        margin-bottom: 50px !important
+        .feature-card-hoverable
+          margin-bottom: 24px
+          .first-img
+            img
+              width: 88px !important
+              height: 33px
+      .benefit-title, .title
+        font-size: 16px !important
+        font-weight: 600 !important
+        font-size: 16px !important
+        margin: 0px 0px 20px 0px !important
+      .title
+        margin: 40px 0px 24px 0px !important
 
       .feature-item::v-deep
         flex-direction: column
@@ -197,16 +164,6 @@ export default {
 
         .text-wrapper
           text-align: center
-
-      .shop-section
-        > div
-          flex-direction: column
-          align-items: center
-          padding: 0
-
-          img.cart-img
-            margin: 0 0 20px 0
-
-          > div
-            text-align: center
+      .vertical-cards
+        gap: 40px
 </style>

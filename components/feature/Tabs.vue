@@ -4,7 +4,7 @@
       <button
         v-for="(option, index) in options"
         :key="`feature-tab-${index}`"
-        class="btn-feature-tab d-flex align-items-center justify-content-center flex-shrink-0"
+        class="btn-feature-tab d-flex align-items-center justify-content-center flex-shrink-0 font-primary"
         :class="{ active: option.id === currentTab }"
         @click="handleTabClick(option)"
       >

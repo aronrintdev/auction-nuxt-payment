@@ -7,53 +7,44 @@
     />
 
     <div class="content mx-auto">
-      <FeatureBackButton class="mb-2" />
+      <FeatureBackButton class="mb-2 d-lg-inline-flex d-none" />
 
-      <h3 class="title">{{ $tc('common.benefit', 2) }}</h3>
+      <h3 class="benefit-title text-center text-lg-left font-primary">
+        {{ $tc('common.benefit', 2) }}
+      </h3>
 
-      <FeatureBenefitItem
-        :icon="
-          require(`~/assets/img/features/payment-plans/increased-affordability.svg`)
-        "
-        :heading="$t('features.payment_plans.increased_affordability')"
-        :description="$t('features.payment_plans.increased_affordability_desc')"
-        class="feature-item"
-      />
-
-      <FeatureBenefitItem
-        :icon="
-          require(`~/assets/img/features/payment-plans/quick-approval.svg`)
-        "
-        :heading="$t('features.payment_plans.quick_approval')"
-        :description="$t('features.payment_plans.quick_approval_desc')"
-        class="feature-item"
-      />
-
-      <FeatureBenefitItem
-        :icon="require(`~/assets/img/features/payment-plans/custom-plans.svg`)"
-        :heading="$t('features.payment_plans.custom_plans')"
-        :description="$t('features.payment_plans.custom_plans_desc')"
-        class="feature-item"
-      />
-
-      <h3 class="title">{{ $tc('common.option', 2) }}</h3>
+      <b-row class="justify-content-between h-card-main">
+        <b-col
+          v-for="(item, index) in cardData"
+          :key="index"
+          lg="3"
+          class="d-flex justify-content-center d-lg-block"
+        >
+          <FeatureCard
+            :title="item.title"
+            :description="item.description"
+            :imageUrl="item.image"
+          />
+        </b-col>
+      </b-row>
+      <h3 class="title d-lg-block d-none">{{ $tc('common.option', 2) }}</h3>
 
       <FeatureTabs :options="options" class="feature-tabs">
         <template #affirm>
           <div class="affirm-container tab-container">
-            <h4 class="heading">
+            <h4 class="heading font-primary">
               {{ $t('features.payment_plans.how_affirm_work') }}
             </h4>
             <div class="description">
               {{ $t('features.payment_plans.how_affirm_work_desc') }}
             </div>
-            <h4 class="heading">
+            <h4 class="heading font-primary">
               {{ $t('features.payment_plans.apr_and_fees') }}
             </h4>
             <div class="description">
               {{ $t('features.payment_plans.apr_and_fees_desc') }}
             </div>
-            <h4 class="heading">
+            <h4 class="heading font-primary">
               {{ $t('features.payment_plans.returns') }}
             </h4>
             <div class="description mb-0">
@@ -63,19 +54,19 @@
         </template>
         <template #afterpay>
           <div class="afterpay-container tab-container">
-            <h4 class="heading">
+            <h4 class="heading font-primary">
               {{ $t('features.payment_plans.how_afterpay_work') }}
             </h4>
             <div class="description">
               {{ $t('features.payment_plans.how_afterpay_work_desc') }}
             </div>
-            <h4 class="heading">
+            <h4 class="heading font-primary">
               {{ $t('features.payment_plans.apr_and_fees') }}
             </h4>
             <div class="description">
               {{ $t('features.payment_plans.afterpay_apr_and_fees_desc') }}
             </div>
-            <h4 class="heading">
+            <h4 class="heading font-primary">
               {{ $t('features.payment_plans.returns') }}
             </h4>
             <div class="description mb-0">
@@ -84,49 +75,20 @@
           </div>
         </template>
       </FeatureTabs>
-
-      <h3 class="title title-shop">{{ $t('common.shop') }}</h3>
-
-      <div class="d-flex align-items-center shop-section">
-        <div class="d-flex flex-grow-1">
-          <img
-            :src="require('~/assets/img/icons/shopping-cart.svg')"
-            class="cart-img"
-          />
-          <div class="flex-grow-1">
-            {{ $t('features.payment_plans.shop_desc1') }}
-            <img
-              :src="require('~/assets/img/icons/affirm2.svg')"
-              class="affirm-img"
-            />
-            {{ $t('common.or') }}
-            <img
-              :src="require('~/assets/img/icons/afterpay.svg')"
-              class="afterpay-img"
-            />
-            {{ $t('features.payment_plans.shop_desc2') }}
-          </div>
-        </div>
-        <Button to="/shop" variant="info" pill class="flex-shrink-0">{{
-          $t('vendor_purchase.browse')
-        }}</Button>
-      </div>
     </div>
   </div>
 </template>
 <script>
-import { Button } from '~/components/common'
 import FeatureBanner from '~/components/feature/Banner'
-import FeatureBenefitItem from '~/components/feature/BenefitItem'
 import FeatureTabs from '~/components/feature/Tabs'
 import FeatureBackButton from '~/components/feature/BackButton'
+import FeatureCard from '~/components/feature/Card'
 
 export default {
   components: {
     FeatureBanner,
-    FeatureBenefitItem,
+    FeatureCard,
     FeatureTabs,
-    Button,
     FeatureBackButton,
   },
 
@@ -144,6 +106,27 @@ export default {
           icon: require('~/assets/img/icons/afterpay.svg'),
         },
       ],
+
+      cardData: [
+        {
+          title: 'Increased Affordability',
+          description:
+            'Use installment plans to divide your purchase into more affordable payments.',
+          image: require('~/assets/img/features/newest-feature/payment-plans/newest-money.png'),
+        },
+        {
+          title: 'Quick Approval',
+          description:
+            'Receive approval of your installment payment plan immeditely during your checkout. ',
+          image: require('~/assets/img/features/newest-feature/payment-plans/timer.png'),
+        },
+        {
+          title: 'Custom Plans',
+          description:
+            'Divide your plan into four seperate payments, or pay off your purchase whenever you’re ready.',
+          image: require('~/assets/img/features/newest-feature/payment-plans/using-phone.png'),
+        },
+      ],
     }
   },
 }
@@ -152,15 +135,20 @@ export default {
 @import '~/assets/css/_variables'
 
 .features-container
-  .content
-    padding: 80px 200px
-    max-width: 1440px
 
-    h3.title
+  .content
+    padding: 56px 116px
+    max-width: 1440px
+    .h-card-main // card section main desktop
+      .feature-card
+        width: 286px
+    h3.title, .benefit-title
       @include heading-7
       color: $color-black-5
       text-transform: uppercase
-      margin-bottom: 68px
+      margin: 68px 0px
+    .benefit-title
+      margin: 9px 0px 38px 0px !important
 
       &.title-shop
         margin: 137px 0 49px 0
@@ -168,7 +156,7 @@ export default {
     .feature-item
       margin-bottom: 115px
 
-    .feature-tabs::v-deep
+    .feature-tabs::v-deep // Tabs section main desktop
       .btn-feature-tab
         &:first-child
           img
@@ -178,68 +166,33 @@ export default {
           img
             height: 34px
 
-    .affirm-container
-      background-image: url('~/assets/img/features/payment-plans/3-lines.svg'), url('~/assets/img/icons/affirm2.svg')
-      background-position: top right 50px, bottom 54px right 50px
-      background-repeat: no-repeat, no-repeat
+      .affirm-container
+        background-image: url('~/assets/img/features/payment-plans/3-lines.svg')
+        background-position: top right 50px, bottom 54px right 50px
+        background-repeat: no-repeat, no-repeat
 
-    .afterpay-container
-      background-image: url('~/assets/img/icons/afterpay-logo.svg'), url('~/assets/img/icons/afterpay.svg')
-      background-position: top 19px right 26px, bottom 36px right 43px
-      background-repeat: no-repeat, no-repeat
-      background-size: auto, 170px auto
+      .afterpay-container
+        background-image: url('~/assets/img/icons/afterpay-logo.svg'), url('~/assets/img/icons/afterpay.svg')
+        background-position: top 19px right 26px, bottom 36px right 43px
+        background-repeat: no-repeat, no-repeat
+        background-size: auto, 170px auto
 
-    .tab-container
-      color: $color-black-1
-      padding: 43px
+      .tab-container
+        color: $color-black-1
+        padding: 43px
 
       h4.heading
         @include body-7-bold
         margin-bottom: 9px
 
+
       .description
         @include body-4-regular
         margin-bottom: 67px
-        max-width: 642px
+        max-width: 797px
         margin-right: 175px
+        line-height: 26px !important
 
-    .shop-section
-      > div
-        @include body-3-regular
-        line-height: 29px
-        padding: 0 80px 0 0
-        color: $color-black-1
-
-        > div
-          min-width: 200px
-
-        img.cart-img
-          margin-right: 86px
-
-        img.affirm-img
-          height: 25px
-          margin: -13px 3px 0 3px
-
-        img.afterpay-img
-          height: 19px
-          margin: 0 3px
-
-      button
-        width: 190px
-
-@media (max-width: 1200px)
-  .features-container
-    .content
-      .shop-section
-        flex-direction: column
-        align-items: center
-
-        > div
-          align-items: center
-          padding: 0
-
-        button
-          margin-top: 20px
 
 
 @media (max-width: 1000px)
@@ -247,12 +200,31 @@ export default {
     .content
       padding: 80px 40px
 
-@media (max-width: 576px)
-  .features-container
-    .content
-      padding: 40px 30px
+@media (max-width: 768px)
+  .features-container::v-deep
 
-      .feature-item::v-deep
+    .content
+      padding: 40px 16px
+
+      .benefit-title
+        font-size: 16px !important
+        font-weight: 600 !important
+        font-size: 16px !important
+        margin: 0px 0px 20px 0px !important
+
+
+    .feature-tabs // Tabs section main Mobile
+      margin-top: 40px
+      .btns-wrapper
+        gap: 24px !important
+        margin-bottom: 14px !important
+      .tab-panel
+        border-radius: 12px !important
+      .btn-feature-tab
+        width: 74px
+        height: 35px
+
+      .feature-item
         flex-direction: column
         align-items: center
 
@@ -262,28 +234,38 @@ export default {
 
         .text-wrapper
           text-align: center
-
-      .feature-tabs::v-deep
-        .btns-wrapper
-          flex-direction: column
-
+      .btn-feature-tab
+        border-radius: 12px !important
+        margin: 0px !important
+        &:active
+          box-shadow: 0px 4px 4px rgb(0 0 0 / 25%) !important
+        img
+          width: 44px
+          height: 17px
+        &:first-child
+          img
+            margin-top: -4px !important
+        &:last-child
+          img
+            height: 34px
+            width: 60px !important
       .tab-container
+        .heading
+          font-size: 12px !important
+          margin: 0px
+          line-height: 19px !important
+          width: 100%
+          height: auto !important
+          font-family: 'Montserrat'
         .description
           margin-right: 0
-
+          font-size: 11px
+          font-weight: 400
+          font-family: 'Montserrat'
+          line-height: 18px !important
+          margin-bottom: 12px
       .affirm-container, .afterpay-container
-        padding-top: 120px
-        padding-bottom: 120px
-
-      .shop-section
-        > div
-          flex-direction: column
-          align-items: center
-          padding: 0
-
-          img.cart-img
-            margin: 0 0 20px 0
-
-          > div
-            text-align: center
+            padding: 22px 46px 10px 14px  !important
+            background-image: none !important
+            border-radius: 12px !important
 </style>

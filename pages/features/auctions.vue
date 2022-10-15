@@ -7,106 +7,97 @@
     />
 
     <div class="content mx-auto">
-      <FeatureBackButton class="mb-2" />
+      <FeatureBackButton class="mb-2 d-lg-inline-flex d-none" />
 
-      <h3 class="title text-uppercase">{{ $tc('common.benefit', 2) }}</h3>
+      <h3 class="benefit-title text-center text-lg-left font-primary">
+        {{ $tc('common.benefit', 2) }}
+      </h3>
 
-      <FeatureBenefitItem
-        :icon="require(`~/assets/img/features/payment-plans/custom-plans.svg`)"
-        :heading="$t('features.auctions.flexibility')"
-        :description="$t('features.auctions.flexibility_desc')"
-        class="feature-item"
-      />
+      <div class="vertical-cards d-flex flex-column">
+        <FeatureBenefitItem
+          :icon="
+            require(`~/assets/img/features/newest-feature/auctions/rupixen.png`)
+          "
+          :heading="$t('features.auctions.flexibility')"
+          :description="$t('features.auctions.flexibility_desc')"
+          class="feature-item"
+        />
 
-      <FeatureBenefitItem
-        :icon="require(`~/assets/img/features/selling/sell-items.svg`)"
-        :heading="$t('features.auctions.higher_revenues')"
-        :description="$t('features.auctions.higher_revenues_desc')"
-        class="feature-item higher-revenues"
-      />
+        <FeatureBenefitItem
+          :icon="
+            require(`~/assets/img/features/newest-feature/auctions/deadstockexchange.png`)
+          "
+          :heading="$t('features.auctions.higher_revenues')"
+          :description="$t('features.auctions.higher_revenues_desc')"
+          class="feature-item"
+        />
 
-      <FeatureBenefitItem
-        :icon="require(`~/assets/img/features/buying/certified-authentic.svg`)"
-        :heading="$t('features.auctions.certified_authentic_products')"
-        :description="$t('features.auctions.certified_authentic_products_desc')"
-        class="feature-item"
-      />
+        <FeatureBenefitItem
+          :icon="
+            require(`~/assets/img/features/newest-feature/auctions/auctionsondeadstock.png`)
+          "
+          :heading="$t('features.auctions.certified_authentic_products')"
+          :description="
+            $t('features.auctions.certified_authentic_products_desc')
+          "
+          class="feature-item"
+        />
+      </div>
 
-      <h3 class="title text-uppercase">{{ $tc('common.type', 2) }}</h3>
+      <h3 class="title text-uppercase d-lg-block d-none">
+        {{ $tc('common.type', 2) }}
+      </h3>
 
       <FeatureTabs :options="options" class="feature-tabs">
         <template #bidding>
           <div class="bidding-container tab-container">
-            <h4 class="heading">
+            <h4 class="heading font-primary">
               {{ $t('features.auctions.low_costs') }}
             </h4>
-            <div class="description">
+            <div class="description font-primary">
               {{ $t('features.auctions.low_costs_desc') }}
             </div>
-            <h4 class="heading">
+            <h4 class="heading font-primary">
               {{ $t('features.auctions.authenticated_products') }}
             </h4>
-            <div class="description">
+            <div class="description font-primary">
               {{ $t('features.auctions.authenticated_products_desc') }}
             </div>
-            <h4 class="heading">
+            <h4 class="heading font-primary">
               {{ $t('features.auctions.auto_bidding') }}
             </h4>
-            <div class="description mb-0">
+            <div class="description font-primary mb-0">
               {{ $t('features.auctions.auto_bidding_desc') }}
             </div>
           </div>
         </template>
         <template #selling>
           <div class="selling-container tab-container">
-            <h4 class="heading">
+            <h4 class="heading font-primary">
               {{ $t('features.auctions.increased_visibility') }}
             </h4>
-            <div class="description">
+            <div class="description font-primary">
               {{ $t('features.auctions.increased_visibility_desc') }}
             </div>
-            <h4 class="heading">
+            <h4 class="heading font-primary">
               {{ $t('features.auctions.starting_bid') }}
             </h4>
-            <div class="description">
+            <div class="description font-primary">
               {{ $t('features.auctions.starting_bid_desc') }}
             </div>
-            <h4 class="heading">
+            <h4 class="heading font-primary">
               {{ $t('features.auctions.flexibility') }}
             </h4>
-            <div class="description mb-0">
+            <div class="description font-primary mb-0">
               {{ $t('features.auctions.flexibility_desc2') }}
             </div>
           </div>
         </template>
       </FeatureTabs>
-
-      <h3 class="title title-shop text-uppercase">
-        {{ $t('features.auctions.explore') }}
-      </h3>
-
-      <div class="d-flex align-items-center shop-section">
-        <img
-          :src="require('~/assets/img/features/auctions/auction.svg')"
-          class="cart-img"
-        />
-
-        <div class="flex-grow-1">
-          <div>
-            {{ $t('features.auctions.explore_desc') }}
-          </div>
-
-          <!-- todo: add link to auction browse page -->
-          <Button to="#" variant="info" pill class="flex-shrink-0">{{
-            $t('vendor_purchase.browse')
-          }}</Button>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 <script>
-import { Button } from '~/components/common'
 import FeatureBanner from '~/components/feature/Banner'
 import FeatureBenefitItem from '~/components/feature/BenefitItem'
 import FeatureTabs from '~/components/feature/Tabs'
@@ -117,7 +108,7 @@ export default {
     FeatureBanner,
     FeatureBenefitItem,
     FeatureTabs,
-    Button,
+
     FeatureBackButton,
   },
 
@@ -141,22 +132,25 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.features-container::v-deep
 
-.features-container
   .content
-    padding: 80px 200px
+    padding: 46px 111px
     max-width: 1440px
-
-    h3.title
+    .feature-tabs
+      padding: 0px 100px
+    .vertical-cards
+      gap: 48px
+    h3.title, .benefit-title
       @include heading-7
       color: $color-black-5
-      margin-bottom: 68px
+      text-transform: uppercase
+      margin: 68px 0px
+    .benefit-title
+      margin: 9px 0px 38px 0px !important
 
       &.title-shop
         margin: 137px 0 49px 0
-
-    .feature-item
-      margin-bottom: 115px
 
       &.higher-revenues::v-deep
         img
@@ -187,19 +181,6 @@ export default {
         max-width: 642px
         margin-right: 175px
 
-    .shop-section
-      img.cart-img
-        margin-right: 86px
-
-      > div
-        @include body-3-regular
-        line-height: 29px
-        padding: 0 80px 0 0
-        color: $color-black-1
-
-      button
-        width: 190px
-        margin-top: 20px
 
 @media (max-width: 1200px)
   .features-container
@@ -213,8 +194,6 @@ export default {
           padding: 0
           text-align: center
 
-        button
-          margin-top: 20px
 
 
 @media (max-width: 1000px)
@@ -222,12 +201,41 @@ export default {
     .content
       padding: 80px 40px
 
-@media (max-width: 576px)
-  .features-container
+@media (max-width: 768px)
+  .features-container::v-deep
     .content
-      padding: 40px 30px
+      padding: 37px 15px
+      .benefit-title
+        font-size: 16px !important
+        font-weight: 600 !important
+        font-size: 16px !important
+        margin: 0px 0px 20px 0px !important
+      .feature-tabs
+        padding: 0px 0px
+      .feature-item
+        flex-direction: column
+        align-items: center
+      .vertical-cards
+        gap: 40px !important
+        .img-wrapper
+          margin: 0
+          margin-bottom: 20px
 
-      .feature-item::v-deep
+        .text-wrapper
+          text-align: center
+
+    .feature-tabs // Tabs section main Mobile
+      margin-top: 40px
+      .btns-wrapper
+        gap: 24px !important
+        margin-bottom: 14px !important
+      .tab-panel
+        border-radius: 12px !important
+      .btn-feature-tab
+        width: 74px !important
+        height: 35px !important
+        font-size: 12px !important
+      .feature-item
         flex-direction: column
         align-items: center
 
@@ -237,19 +245,38 @@ export default {
 
         .text-wrapper
           text-align: center
-
-      .feature-tabs::v-deep
-        .btns-wrapper
-          flex-direction: column
-
+      .btn-feature-tab
+        border-radius: 12px !important
+        margin: 0px !important
+        &:active
+          box-shadow: 0px 4px 4px rgb(0 0 0 / 25%) !important
+        img
+          width: 44px
+          height: 17px
+        &:first-child
+          img
+            margin-top: -4px !important
+        &:last-child
+          img
+            height: 34px
+            width: 60px !important
       .tab-container
+        .heading
+          font-size: 12px !important
+          margin: 0px
+          line-height: 19px !important
+          width: 100%
+          height: auto !important
+          font-family: 'Montserrat'
         .description
           margin-right: 0
-
-      .selling-container, .bidding-container
-        padding-bottom: 180px
-
-      .shop-section
-        img.cart-img
-          margin: 0 0 20px 0
+          font-size: 11px
+          font-weight: 400
+          font-family: 'Montserrat'
+          line-height: 18px !important
+          margin-bottom: 12px
+      .bidding-container, .selling-container
+            padding: 22px 46px 10px 14px  !important
+            background-image: none !important
+            border-radius: 12px !important
 </style>

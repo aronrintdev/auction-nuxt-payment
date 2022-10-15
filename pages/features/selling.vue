@@ -1,40 +1,38 @@
 <template>
   <!-- todo: refactor code. refer to virtual-giftcards -->
-  <div class="features-container">
+  <div class="features-container selling-main">
     <FeatureBanner
       :title="$t('features.selling.title')"
       :description="$t('features.selling.desc')"
     />
 
     <div class="content mx-auto">
-      <FeatureBackButton class="mb-2" />
+      <FeatureBackButton class="mb-2 d-lg-inline-flex d-none" />
 
-      <h3 class="title">{{ $tc('common.benefit', 2) }}</h3>
+      <h3 class="benefit-title text-center text-lg-left font-primary">
+        {{ $tc('common.benefit', 2) }}
+      </h3>
 
-      <FeatureBenefitItem
-        :icon="require(`~/assets/img/features/selling/payout.svg`)"
-        :heading="$t('features.selling.immediate_payout')"
-        :description="$t('features.selling.immediate_payout_desc')"
-        class="feature-item"
-      />
+      <b-row class="justify-content-between h-card-main">
+        <b-col
+          v-for="(item, index) in sellingCard"
+          :key="index"
+          lg="3"
+          class="d-flex justify-content-center d-lg-block"
+        >
+          <FeatureCard
+            :title="item.title"
+            :description="item.description"
+            :imageUrl="item.image"
+          />
+        </b-col>
+      </b-row>
 
-      <FeatureBenefitItem
-        :icon="require(`~/assets/img/features/selling/low-fees.svg`)"
-        :heading="$t('features.selling.low_fees')"
-        :description="$t('features.selling.low_fees_desc')"
-        class="feature-item"
-      />
+      <h3 class="title pl-lg-5 text-center text-lg-left font-primary">
+        {{ $t('footer.process') }}
+      </h3>
 
-      <FeatureBenefitItem
-        :icon="require(`~/assets/img/features/selling/shipping.svg`)"
-        :heading="$t('features.selling.fast_shipping')"
-        :description="$t('features.selling.fast_shipping_desc')"
-        class="feature-item"
-      />
-
-      <h3 class="title">{{ $t('footer.process') }}</h3>
-
-      <div class="d-flex justify-content-around cards-wrapper mb-5">
+      <div class="d-flex justify-content-center cards-wrapper mb-3 mb-md-5">
         <FeatureCardHoverable
           :icon="require('~/assets/img/features/selling/create-listing.svg')"
           :title="$t('features.selling.create_listing')"
@@ -48,7 +46,7 @@
         />
       </div>
 
-      <div class="d-flex justify-content-around cards-wrapper">
+      <div class="d-flex justify-content-center cards-wrapper">
         <FeatureCardHoverable
           :icon="require('~/assets/img/features/selling/ship-items.svg')"
           :title="$t('features.selling.ship_items')"
@@ -61,39 +59,20 @@
           :description="$t('features.selling.earn_commission_desc')"
         />
       </div>
-
-      <h3 class="title title-shop">{{ $t('vendor_purchase.sell') }}</h3>
-
-      <div class="d-flex align-items-center shop-section">
-        <img
-          :src="require('~/assets/img/features/selling/dollar.svg')"
-          class="cart-img"
-        />
-        <div class="flex-grow-1">
-          <div>
-            {{ $t('features.selling.sell_desc') }}
-          </div>
-
-          <Button to="/shop" variant="info" pill class="flex-shrink-0">{{
-            $t('vendor_purchase.browse')
-          }}</Button>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 <script>
-import { Button } from '~/components/common'
 import FeatureBanner from '~/components/feature/Banner'
-import FeatureBenefitItem from '~/components/feature/BenefitItem'
 import FeatureBackButton from '~/components/feature/BackButton'
 import FeatureCardHoverable from '~/components/feature/CardHoverable'
+import FeatureCard from '~/components/feature/Card'
 
 export default {
   components: {
     FeatureBanner,
-    FeatureBenefitItem,
-    Button,
+    FeatureCard,
+
     FeatureBackButton,
     FeatureCardHoverable,
   },
@@ -112,6 +91,26 @@ export default {
           icon: require('~/assets/img/icons/afterpay.svg'),
         },
       ],
+      sellingCard: [
+        {
+          title: 'Immediate Payout',
+          description:
+            'Receive your payout immediately after the transaction is completed. ',
+          image: require('~/assets/img/features/newest-feature/payment-plans/newest-money.png'),
+        },
+        {
+          title: 'Low Fees',
+          description:
+            'The lowest seller fees in the marketplace, keep more of your revenue. ',
+          image: require('~/assets/img/features/newest-feature/selling/low-fee.png'),
+        },
+        {
+          title: 'Fast Shipping ',
+          description:
+            'Detailed instructions on how to quickly and efficiently ship your items.',
+          image: require('~/assets/img/features/newest-feature/selling/free-shipping.png'),
+        },
+      ],
     }
   },
 }
@@ -121,14 +120,20 @@ export default {
 
 .features-container
   .content
-    padding: 80px 200px
+    padding: 56px 116px
     max-width: 1440px
 
-    h3.title
+    .process-box
+      width: 360px !important
+      height: 320px !important
+
+    h3.title, .benefit-title
       @include heading-7
       color: $color-black-5
       text-transform: uppercase
-      margin-bottom: 68px
+      margin: 68px 0px
+    .benefit-title
+      margin: 9px 0px 38px 0px !important
 
       &.title-shop
         margin: 137px 0 49px 0
@@ -137,23 +142,12 @@ export default {
       margin-bottom: 115px
 
     .cards-wrapper
+      gap: 180px
       > div
         max-width: 361px
-        min-height: 320px
+        min-height: 168px
+        max-height: 320px
 
-    .shop-section
-      img.cart-img
-        margin-right: 86px
-
-      > div
-        @include body-3-regular
-        line-height: 29px
-        padding: 0 80px 0 0
-        color: $color-black-1
-
-      button
-        width: 190px
-        margin-top: 20px
 
 @media (max-width: 1200px)
   .features-container
@@ -175,11 +169,23 @@ export default {
     .content
       padding: 80px 40px
 
-@media (max-width: 576px)
+@media (max-width: 768px)
   .features-container
+  .selling-main
     .content
-      padding: 40px 30px
-
+      .cards-wrapper
+        gap: 16px
+      > div
+        min-width: 168px !important
+        min-height: 164px !important
+      padding: 36px 16px
+      .benefit-title, .title
+        font-size: 16px !important
+        font-weight: 600 !important
+        font-size: 16px !important
+        margin: 0px 0px 20px 0px !important
+      .title
+        margin: 40px 0px 24px 0px !important
       .feature-item::v-deep
         flex-direction: column
         align-items: center
@@ -190,21 +196,4 @@ export default {
 
         .text-wrapper
           text-align: center
-
-      .shop-section
-        img.cart-img
-          margin: 0 0 20px 0
-
-        > div
-          flex-direction: column
-          align-items: center
-          padding: 0
-          text-align: center
-
-      .cards-wrapper
-        flex-direction: column
-        align-items: center
-
-        > div:not(:last-child)
-          margin: 0 0 40px 0
 </style>
