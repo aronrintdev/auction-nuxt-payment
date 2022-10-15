@@ -3,9 +3,16 @@
     <div class="center-container" :class="{'center-cont-height':(trade.theirs.offers.length > ITEM_COUNT_ONE || trade.yours.offers.length > ITEM_COUNT_0) }">
       <div class="left-item" :class="{'left-item-margin':trade.theirs.offers.length === ITEM_COUNT_ONE && trade.yours.offers.length > ITEM_COUNT_0}">
         <div class="item-head-trade-hub">{{$t('trades.trade_arena.theirs')}}:</div>
-        <div v-for="(item,index) in trade.theirs.offers" :id="trade.theirs.offers.length === ITEM_COUNT_THREE ?'trade-item-'+index : ''" :key="index" class="item mb-4" :class="[((trade.theirs.offers.length > ITEM_COUNT_ONE )|| (trade.yours.offers.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
-          <div class="image-wrapper">
-          <img class="item-image-trade" :src="item.inventory.product | getProductImageUrl" alt="image" :class="{'item-image-cond':(trade.theirs.offers.length > ITEM_COUNT_ONE || trade.yours.offers.length > ITEM_COUNT_0) }"/>
+        <div
+          v-for="(item,index) in trade.theirs.offers"
+          :id="trade.theirs.offers.length === ITEM_COUNT_THREE ?'trade-item-'+index : ''"
+          :key="index" class="item mb-4"
+          :class="[((trade.theirs.offers.length > ITEM_COUNT_ONE )|| (trade.yours.offers.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
+            <div class="image-wrapper">
+            <img class="item-image-trade"
+              :src="item.inventory.product | getProductImageUrl"
+              alt="image"
+              :class="{'item-image-cond':(trade.theirs.offers.length > ITEM_COUNT_ONE || trade.yours.offers.length > ITEM_COUNT_0) }"/>
           </div>
           <div class="item-caption">
             <span class="item-name">{{item.inventory.product.name}}</span>
@@ -22,12 +29,22 @@
         <div class="long-line" :class="{'long-line-length' : trade.yours.offers.length === ITEM_COUNT_ONE }"></div>
         <div v-if="trade.yours.offers.length > ITEM_COUNT_ONE" class="pointer-right"></div>
       </div>
-      <div class="right-item" :class="{'right-item-margin':trade.theirs.offers.length > ITEM_COUNT_ONE && trade.yours.offers.length === ITEM_COUNT_0,'mt-10p': trade.theirs.offers.length > ITEM_COUNT_ONE && trade.yours.offers.length === ITEM_COUNT_ONE,'mt-8p': trade.theirs.offers.length === ITEM_COUNT_ONE && trade.yours.offers.length === ITEM_COUNT_ONE}">
+      <div class="right-item" :class="{
+            'right-item-margin':trade.theirs.offers.length > ITEM_COUNT_ONE && trade.yours.offers.length === ITEM_COUNT_0,
+            'mt-10p': trade.theirs.offers.length > ITEM_COUNT_ONE && trade.yours.offers.length === ITEM_COUNT_ONE,
+            'mt-8p': trade.theirs.offers.length === ITEM_COUNT_ONE && trade.yours.offers.length === ITEM_COUNT_ONE}">
         <div class="item-head-trade-hub">{{$t('trades.trade_arena.yours')}}:</div>
-        <div  v-if="trade.yours.offers.length" class="">
-          <div  v-for="(item,index) in trade.yours.offers" :id="trade.yours.offers.length > ITEM_COUNT_TWO ?'your-trade-item-'+index : 'your-item'" :key="index"  class="preview item-length mb-4">
-            <div class="image-wrapper">
-            <img class="item-image-trade" :src="item.inventory.product | getProductImageUrl" alt="image" :class="{'item-image-cond':(trade.theirs.offers.length > ITEM_COUNT_ONE || trade.yours.offers.length > ITEM_COUNT_0) }"/>
+        <div v-if="trade.yours.offers.length" class="">
+          <div
+            v-for="(item,index) in trade.yours.offers"
+            :id="trade.yours.offers.length > ITEM_COUNT_TWO ?'your-trade-item-'+index : 'your-item'"
+            :key="index"
+            class="preview item-length mb-4">
+              <div class="image-wrapper">
+              <img class="item-image-trade"
+                :src="item.inventory.product | getProductImageUrl"
+                alt="image"
+                :class="{'item-image-cond':(trade.theirs.offers.length > ITEM_COUNT_ONE || trade.yours.offers.length > ITEM_COUNT_0) }"/>
             </div>
             <div class="item-caption">
               <span class="item-name">{{item.inventory.product.name}}</span>
