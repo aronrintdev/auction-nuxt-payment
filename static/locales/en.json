@@ -3672,7 +3672,8 @@
       "auto_bid": "Autobid",
       "bid_amt": "Bid Amt.",
       "time_remaining": "Time Remaining",
-      "action": "Action"
+      "action": "Action",
+      "highest_bid_amt": "Highest Bid Amount"
     },
     "clear_filters": "Clear All Filters",
     "auction_types": {

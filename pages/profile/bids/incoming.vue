@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="container-profile-bids h-100">
+  <b-container fluid class="h-100 p-3 p-md-5 container-profile-bids">
     <!--    Bids Filters    -->
     <BidsFilters @update="FetchBids"/>
 
@@ -60,7 +60,7 @@
       <Loader :loading="fetchLoading"/>
     </div>
     <div v-if="bidsCount>0 && !fetchLoading">
-      <b-row class="mt-5 text-center p-0 font-weight-bold">
+      <b-row class="mt-5 text-center p-0 font-weight-bold d-none d-md-flex">
         <b-col sm="12" md="2" class="text-center">{{ $t('bids.headers.auction_id') }}</b-col>
         <b-col sm="12" md="3" class="text-left px-0">{{ $t('bids.headers.product') }}</b-col>
         <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }}
@@ -203,6 +203,8 @@ import BidSingleItem from '~/components/profile/bids/BidSingleItem';
 import BidCollectionItem from '~/components/profile/bids/BidCollectionItem';
 import whiteCheck from '~/assets/img/icons/white-check.svg'
 import BidsFilters from '~/components/profile/bids/BidsFilters';
+import screenSize from '~/plugins/mixins/screenSize'
+
 import {
   DELISTED_STATUS, EXPIRED_STATUS,
   BID_ACCEPTED, BID_AUCTION_TYPE_SINGLE, BID_TYPE_INCOMING,
@@ -213,6 +215,7 @@ import {
 
 export default {
   name: 'ProfileIncomingBids',
+  mixins: [screenSize],
   components: {
     BidsFilters,
     BidCollectionItem,
@@ -279,6 +282,9 @@ export default {
     haveExpired() {
       return this.bids.filter(a => a.auction.status === EXPIRED_STATUS || a.auction.status === DELISTED_STATUS).length > 0
     },
+    isMobileSize() {
+      return this.isScreenXS || this.isScreenSM
+    }
   },
   mounted() {
     this.FetchBids()
@@ -535,7 +541,6 @@ export default {
 
 
 .container-profile-bids
-  padding: 47px 54px
   background-color: $color-white-5
 
   h2.title
