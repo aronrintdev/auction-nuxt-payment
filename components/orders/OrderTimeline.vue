@@ -94,4 +94,7 @@ export default {
   .timeframe
     @include body-5
 
+  .timeframe-content
+    min-height: 3rem
+
 </style>
