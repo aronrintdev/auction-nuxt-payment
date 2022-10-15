@@ -12,7 +12,11 @@
       </label>
       <i class="pull-right m-0 pr-1 fa fa-2x" :style="arrowStyle" :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"></i>
     </div>
-    <ul v-if="isOpen"  class="custom-dropdown-options" :class="`${optionsWidth}-color ${bordered && 'bordered'}`" :style="{'min-width': width,'border-radius': isOpen ? borderRadiusOptions: ''}"
+    <ul 
+      v-if="isOpen" 
+      class="custom-dropdown-options" 
+      :class="`${optionsWidth}-color ${bordered && 'bordered'}`" 
+      :style="{'min-width': width,'border-radius': isOpen ? borderRadiusOptions: '', ...dropdownStyle}"
     >
       <li
         v-for="(option, key) of options" :key="key"
@@ -110,6 +114,10 @@ export default {
     arrowStyle: {
       type: String,
       default: ''
+    },
+    dropdownStyle: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
@@ -164,7 +172,7 @@ export default {
 @import '~/assets/css/_variables'
 
 ul.custom-dropdown-options
-  position: absolute
+  position: relative
   z-index: 100000
   padding: 0
   list-style: none
@@ -175,7 +183,7 @@ ul.custom-dropdown-options
 
 ul.custom-dropdown-options li
   padding: 5px 5px
-  border-top: 1px solid $color-gray-17b
+  border-bottom: 1px solid $color-gray-17b
   cursor: pointer
 
 ul.custom-dropdown-options li:last-of-type

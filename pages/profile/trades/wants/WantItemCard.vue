@@ -104,7 +104,7 @@ export default {
 .invent-item
   height: 281px
   width: 213px
-  @media (min-width: 576px)
+  @media (min-width: 992px)
     margin-right: 50px
 
 .size

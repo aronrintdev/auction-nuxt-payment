@@ -9,8 +9,8 @@
     <div class="wants-sub-heading col-md-6 pl-0 pt-1 mb-4">
       {{$t('trades.wants_listing.wants_list_contains_items')}}
     </div>
-    <b-row class="mt-2 pt-2">
-      <b-col md="7" sm="=12" class="mt-2">
+    <b-row class="mt-2 pt-2 d-flex justify-content-between">
+      <b-col sm="=12" md="7" xl="8"  class="mt-2">
         <div class="d-flex d-sm-none row">
           <SearchInput
             class="searchInput"
@@ -39,7 +39,7 @@
         </div>
         
       </b-col>
-      <b-col md="5 pl-3" sm="12" class="dropdown-container mt-2">
+      <b-col sm="12" md="4" xl="3" class="dropdown-container mt-2">
         <CustomDropdown
           v-model="orderFilter"
           :labelLeftImage="require('~/assets/img/icons/feature.png')"
@@ -50,14 +50,13 @@
           optionsWidth="custom"
           labelStyle='font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 16px; color: #000'
           paddingX="23px"
-          maxWidth="328px"
           variant="white"
           dropDownHeight="46px"
           borderRadius="8px"
           borderRadiusClose="8px 8px 0 0"
           borderRadiusOptions="0 0 8px 8px"
           :bordered="false"
-          width="328px"
+          :dropdownStyle="{ border: '1px solid #cbcbcb', borderRadius: 0 }"
           @change="changeOrderFilter"
         />
       </b-col>
@@ -76,7 +75,7 @@
       @deselectAll="handleDeselectAll()"
       @submit="handleBulkAction()"
     />
-    <b-row class="d-none d-sm-flex">
+    <b-row class="d-none d-sm-flex justify-content-between justify-content-md-start px-2">
       <div 
         v-if="wantedItems.length" 
         class="listing-heading" 
@@ -116,63 +115,72 @@
       <span class="filter-label">Filter by</span>
     </div>
 
-    <div v-if="wantedItems.length" class="row mb-4 d-none d-sm-flex">
-      <b-col md="2" ms="12">
+    <div v-if="wantedItems.length" class="row mb-4 d-none d-sm-flex row justify-content-lg-between pr-2 ml-0 align-items-center">
+      <b-col class="pl-0 pr-lg-0" sm="6" lg="2">
         <CustomDropdown 
           v-model="category"
           :options="categoryItems"
           type="single-select"
           :label="categoryFilterLabel"
-          class="width-156"
+          class="mb-sm-2 mb-lg-0"
           optionsWidth="custom"
-          width="150px"
           dropDownHeight="38px"
           variant="white"
           borderRadius="4px"
           @change="changeCategory"
           paddingX="10px"
+          :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
           labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
           arrowStyle='color: #000'
         />
       </b-col>
-      <b-col md="2" sm="12">
+      <b-col class="pr-0 pl-lg-0" sm="6" lg="2">
         <CustomDropdown 
           v-model="sizeTypesFilter"
           :options="filters.size_types"
           type="multi-select-checkbox"
           :label="sizeTypesFilterLabel"
-          class="width-156"
+          class="mb-sm-2 mb-lg-0"
           optionsWidth="custom"
           dropDownHeight="38px"
           variant="white"
           borderRadius="4px"
           @change="changeSizeTypeFilter"
           paddingX="10px"
+          :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
           labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
           arrowStyle='color: #000'
         />
       </b-col>
-      <b-col md="2" sm="12">
+      <b-col class="px-0" lg="2" >
         <CustomDropdown 
           v-model="sizeFilter"
           :options="filters.sizes"
           type="multi-select-checkbox"
           :label="sizeFilterLabel"
-          class="width-156"
+          class="mb-sm-2 mb-lg-0"
           optionsWidth="custom"
           dropDownHeight="38px"
           variant="white"
           borderRadius="4px"
           @change="changeSizeFilter"
           paddingX="10px"
+          :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
           labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
           arrowStyle='color: #000'
         />
       </b-col>
-      <b-col md="2" sm="12">
-        <Button class="mr-3" variant="primary" @click="getWantItems">
+      <b-col sm="6" lg="2" class="pl-0">
+        <div class="button-filter" @click="getWantItems">
           {{ $t('create_listing.trade.offer_items.filter_btn') }}
-        </Button>
+        </div>
+      </b-col>
+      <!-- <b-col class="d-none d-xl-block" lg="1"></b-col> -->
+      <b-col sm="6" lg="3" class="pr-0 d-lg-flex justify-content-lg-end" @click="getWantItems">
+        <div class="button-delete-multiple">
+        <!-- {{ $t('create_listing.trade.offer_items.delete_multiple') }} -->
+          Delete Multiple
+        </div>
       </b-col>
     </div>
     <div class="wanted-items-container bg-white">
@@ -186,7 +194,7 @@
         </div>
       </div>
       <div v-if="currentTab === 'inventory'">
-        <div class="d-flex flex-wrap">
+        <div class="d-flex flex-wrap justify-content-center justify-content-sm-around">
           <div class="mx-auto mx-sm-0" v-for="item in wantedItems" :key="`want-item-${item.id}`">
             <want-item-card
               :wantItem="item"
@@ -201,7 +209,7 @@
         </div>
       </div>
       <div v-else>
-        <div v-if="combinationItems.length">
+        <div class="d-flex flex-column flex-xl-row" v-if="combinationItems.length">
           <b-col
             v-for="(combination, combinationIndex) in combinationItems"
             :key="combination.combination_id"
@@ -265,7 +273,6 @@ import {
 } from '~/static/constants/trades'
 // import NavGroup from '~/components/common/NavGroup'
 // import FormDropdown from '~/components/common/form/Dropdown'
-import Button from '~/components/common/Button'
 import {Pagination} from '~/components/common'
 import CombinationItemCard from '~/pages/profile/trades/wants/CombinationItemCard';
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar';
@@ -281,7 +288,7 @@ export default {
     WantItemCard,
     BulkSelectToolbar,
     CombinationItemCard,
-    Pagination, Button, 
+    Pagination, 
     // FormDropdown,
     CustomDropdown, SearchInput
   },
@@ -708,7 +715,6 @@ export default {
   font-style: normal
   @include body-1-bold
   margin-top: 56px
-  margin-left: 7px
   margin-right: 54px
 
 .dropdown-actions::v-deep
@@ -775,8 +781,9 @@ export default {
 .wanted-items-container
   padding-bottom: 34px
   padding-top: 36px
-  @media (min-width: 576px)
+  @media (min-width: 992px)
     padding-left: 10px
+    padding-right: 10px
   border-radius: 3px
 
 .filter-label
@@ -786,7 +793,7 @@ export default {
   font-size: 15px
   line-height: 18px
   margin-top: 32px
-  margin-bottom: 5px
+  margin-bottom: 7px
 
 .delete-button
   border-color: $color-blue-20
@@ -814,7 +821,6 @@ export default {
 
 .navigation-item
   height: 25.5px
-  
   width: 50%
   display: flex
   align-items: center
@@ -839,6 +845,37 @@ export default {
   color: $color-blue-1
   padding-bottom: 2px
   border-bottom: 2px solid $color-blue-1
+
+.button-delete-multiple
+  border: 1px solid $color-blue-20
+  background: #FDFDFD
+  color: $color-gray-5
+  font-family: $font-family-montserrat
+  font-size: 14px
+  display: flex
+  justify-content: center
+  align-items: center
+  border-radius: 4px
+  height: 46px
+  @media (min-width: 992px)
+    width: 156px
+
+
+.button-filter
+  background: $color-blue-20
+  border-radius: 5px
+  font-family: $font-family-sf-pro-display
+  font-weight: 500
+  font-size: 16
+  color: #FFF
+  display: flex
+  justify-content: center
+  align-items: center
+  height: 46px
+  @media (min-width: 992px)
+    height: 38px
+    width: 86px
+
 
 </style>
 
