@@ -32,10 +32,11 @@
             class="col-md-8 col-10 col-sm-6 mt-md-4 vd-selling-search"
           >
             <VendorSellingSearchFilter
+              v-if="!isScreenXS"
               class="search-filter"
               @search="getProducts"
             />
-            <div class="search-filter-responsive">
+            <div v-if="isScreenXS" class="search-filter-responsive">
               <SearchInput
                 id="selling-search"
                 :placeholder="$t('navbar.search')"
@@ -67,6 +68,7 @@
             class="col-12 col-md-4 mt-md-4 col-sm-6 browse-dropdown"
           >
             <VendorSellingSortBy
+              v-if="!isScreenXS"
               :default="purchaseFilter"
               :options="{
                 '': $t('selling_page.sortby'),
@@ -80,9 +82,9 @@
         </div>
 
         <!-- Row -->
-        <div v-if="searchResults.data" class="row filter-data">
+        <div v-if="searchResults.data && !isScreenXS" class="row filter-data mt-3">
           <!-- Tabs Filter -->
-          <div class="col-md-3 col-sm-12 filter-by mt-md-4 mt-2">
+          <div class="col-md-3 col-sm-12 filter-by ">
             <label class="filter-text">{{
               $t('selling_page.filter_by')
             }}</label>
@@ -97,7 +99,7 @@
           <!-- ./Tabs Filter -->
 
           <!-- Start Date -->
-          <div class="col-md-2 col-sm-12 start-date mt-md-4 mt-2">
+          <div class="col-md-2 col-sm-12 start-date">
             <label class="filter-text">{{
               $t('selling_page.listed_date')
             }}</label>
@@ -115,8 +117,7 @@
           <!-- ./Start Date -->
 
           <!-- End Date -->
-          <div class="col-md-2 col-sm-12 end-date mt-md-4 mt-2">
-            <br />
+          <div class="col-md-2 col-sm-12 end-date mt-auto">
             <b-form-datepicker
               id="example-datepicker-end"
               v-model="searchFilters.endDate"
@@ -132,17 +133,15 @@
           <!-- ./End Date -->
 
           <!-- Apply Button -->
-          <div class="col-md-1 col-sm-12 col-xs-6 mt-md-4 mt-2">
-            <br />
-            <Button variant="apply text-center" class="mt-2" @click="loadData">
+          <div class="col-md-1 col-sm-12 col-xs-6 mt-auto">
+            <Button variant="apply-selling text-center" class="mt-2" @click="loadData">
               {{ $t('selling_page.apply') }}
             </Button>
           </div>
           <!-- Apply Button -->
 
           <!-- Delist Multiple Button -->
-          <div class="col-md-4 col-sm-12 col-xs-6 mt-md-4 mt-2">
-            <br />
+          <div class="col-md-4 col-sm-12 col-xs-6 mt-auto">
             <Button
               variant="delist"
               class="float-right mt-2 text-center"
@@ -182,7 +181,7 @@
             </template>
           </div>
           <div class="col-md-2 justify-content-end vacationMode mt-md-4 mt-2">
-            <!-- TODO: Vacation Mode -->
+            <!-- Vacation Mode -->
             <b-form-checkbox
               id="checkbox"
               v-model="vacationMode"
@@ -231,6 +230,7 @@
 
           <!-- DATA -->
           <VendorSellingListItem
+            v-if="!isScreenXS"
             class="list-item"
             :searchResults="searchResults.data"
             :loading="loading"
@@ -261,7 +261,7 @@
           <!-- ./Empty Content -->
         </template>
         <template v-else>
-          <div class="listing-count py-4">
+          <div v-if="isScreenXS" class="listing-count py-4">
             <div class="row">
               <div class="col listing-heading-col">
                 <span class="float-left">
@@ -296,15 +296,17 @@
               </div>
             </div>
           </div>
-
-          <ListItemResult
-            v-for="(result, index) in searchData"
-            :key="index"
-            :result="result"
-            :selected="selected"
-            :delistMultiple="showCheckBox"
-            @select="selectedListItem"
-          />
+          
+          <template v-if="isScreenXS">
+            <ListItemResult
+              v-for="(result, index) in searchData"
+              :key="index"
+              :result="result"
+              :selected="selected"
+              :delistMultiple="showCheckBox"
+              @select="selectedListItem"
+            />
+          </template>
 
           <Pagination
             v-model="page"
@@ -384,6 +386,7 @@
     <!-- For entering vacation mode ends -->
 
     <vue-bottom-sheet
+      v-if="isScreenXS"
       id="delistConfirmation"
       ref="delistConfirmation"
       max-width="100vw"
@@ -985,7 +988,7 @@ export default {
   font-style: normal
   @include body-16-bold
   letter-spacing: -0.02em
-.btn-apply
+.btn-apply-selling
   background: $color-blue-20
   border-radius: 5px
   font-family: $font-sp-pro
@@ -1030,22 +1033,20 @@ export default {
   background-color: $color-white-1
   padding: 2%
 
-@media (min-width: 577px)
+@media (min-width: 576px)
   .empty-listing-responsive,
   .pagination-responsive,
   .listing-count
     display: none
   .search-filter-responsive
     display: none
-  .search-filter,
   .pagination
     display: flex
-@media (max-width: 576px)
+@media (max-width: 575px)
   .browse-dropdown,
   .filter-data,
   .result-data,
   .empty-listing,
-  .list-item,
   .pagination,
   .search-filter
     display: none
@@ -1160,4 +1161,8 @@ export default {
 #delistConfirmation::v-deep
   .bottom-sheet__content
     overflow-y: hidden
+@media (max-width: 768px)
+  .filter-data
+    .start-date
+      margin-top: 3rem
 </style>
