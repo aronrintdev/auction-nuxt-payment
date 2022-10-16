@@ -302,7 +302,6 @@ export default {
         color: $color-gray-5
         padding: 5px 23px
         margin: 0
-        // text-align: center
         @media (max-width: 1256px)
           padding: 5px 13px
       &:not(.nav-item-icons)
