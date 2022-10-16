@@ -61,20 +61,7 @@
         />
       </b-col>
     </b-row>
-    <BulkSelectToolbar
-      ref="bulkSelectToolbar"
-      :active="!!action"
-      :selected="selected"
-      :unit-label="$tc('common.item', selected.length)"
-      :action-label="`${$tc(`trades.${action}_selected`)} ${action === 'create_combination' ? `#${combinationNum}` : ''}`"
-      :total="action === 'delete_combination' ? combinationItems.length :wantedItems.length"
-      :error="errorSelection"
-      class="mt-3"
-      @close="cancelAction()"
-      @selectAll="handleSelectAll()"
-      @deselectAll="handleDeselectAll()"
-      @submit="handleBulkAction()"
-    />
+    
     <b-row class="d-none d-sm-flex justify-content-between justify-content-md-start px-2">
       <div 
         class="listing-heading" 
@@ -82,7 +69,7 @@
         :style="{'color': currentTab === 'inventory' ? '#000' : '#999'}"
         role="button"
       >
-        {{ $t('trades.wants_listing.general_list_items', { 0: wantedItems.length }) }}
+        {{ $t('trades.wants_listing.general_list_items', { 0: totalCount }) }}
       </div>
       <div 
         class="wanted-items-heading" 
@@ -170,51 +157,64 @@
         />
       </b-col>
       <b-col sm="6" lg="2" class="pl-0">
-        <div class="button-filter" @click="getWantItems">
+        <div class="button-filter" @click="getWantItems" role="button">
           {{ $t('create_listing.trade.offer_items.filter_btn') }}
         </div>
       </b-col>
       <!-- <b-col class="d-none d-xl-block" lg="1"></b-col> -->
-      <b-col sm="6" lg="3" class="pr-0 d-lg-flex justify-content-lg-end" @click="getWantItems">
-        <div class="button-delete-multiple">
+      <b-col sm="6" lg="3" class="pr-0 d-lg-flex justify-content-lg-end">
+        <div role="button" class="button-delete-multiple" @click="deleteMultiple">
         <!-- {{ $t('create_listing.trade.offer_items.delete_multiple') }} -->
           Delete Multiple
         </div>
       </b-col>
     </div>
+
+    <div v-if="currentTab === 'inventory'" class="bulk-wrapper px-3">
+      <BulkSelectToolbar
+        ref="bulkSelectToolbar"
+        :active="!!action"
+        :selected="selected"
+        :unit-label="$tc('common.item', selected.length)"
+        :action-label="`${$tc(`trades.${action}_selected`)} ${action === 'create_combination' ? `#${combinationNum}` : ''}`"
+        :total="action === 'delete_combination' ? combinationItems.length : wantedItems.length"
+        :error="errorSelection"
+        class=""
+        @close="cancelAction()"
+        @selectAll="handleSelectAll()"
+        @deselectAll="handleDeselectAll()"
+        @submit="handleBulkAction()"
+      />
+    </div>
+
     <div class="">
       <div 
         v-if="currentTab === 'inventory'" 
-        class="d-flex flex-wrap justify-content-center justify-content-sm-around"
+        class=""
       >
-        <div v-if="!wantedItems.length" class="mt-3">
-          <div class="no-items">
-            {{ $t('trades.wants_listing.you_have_no_items_in') }}
-            <span class="add-new-item" role="button" @click="$router.push('/profile/trades/wants/addwantitem')">
-              {{ $t('common.add_new_item') }}
-            </span>
+        <div class="no-items text-center mt-5" v-if="!wantedItems.length">
+          {{ $t('trades.wants_listing.you_have_no_items_in') }}
+          <span class="add-new-item" role="button" @click="$router.push('/profile/trades/wants/addwantitem')">
+            {{ $t('common.add_new_item') }}
+          </span>
+        </div>
+        <div class="d-flex flex-column bg-white content-container pb-3" v-else>
+          <div class="d-flex flex-wrap justify-content-around">
+            <div 
+              v-for="item in wantedItems" 
+              :key="`want-item-${item.id}`"
+            >
+              <want-item-card
+                :wantItem="item"
+                :selected="!!selected.find((id) => id === item.id)"
+                :editRemove="removeWantItems"
+                :actionType="action"
+                :selectedItems="selected"
+                @select="selectItem"
+                @click="editDelete"
+              />
+            </div>
           </div>
-        </div>
-        <div v-else 
-          class="mx-auto mx-sm-0 content-container bg-white" 
-          v-for="item in wantedItems" 
-          :key="`want-item-${item.id}`"
-        >
-          <want-item-card
-            :wantItem="item"
-            :selected="!!selected.find((id) => id === item.id)"
-            :editRemove="removeWantItems"
-            :actionType="action"
-            :selectedItems="selected"
-            @select="selectItem"
-            @click="editDelete"
-          />
-        </div>
-
-        <b-row 
-          v-if="wantedItems.length" 
-          class="col-md-12 justify-content-center mx-0 pb-3"
-        >
           <Pagination
             v-model="page"
             :total="totalCount"
@@ -224,7 +224,7 @@
             @page-click="handlePageClick"
             @per-page-change="handlePerPageChange"
           />
-        </b-row>
+        </div>
       </div>
       <div v-else>
         <div class="d-flex flex-column flex-xl-row justify-content-center" v-if="!combinationItems.length">
@@ -240,11 +240,11 @@
           </div>
         </div>
 
-        <div v-else>
-          <b-col
+        <div class="d-flex flex-wrap px-1 pt-5 bg-white border-3" v-else>
+          <div
             v-for="(combination, combinationIndex) in combinationItems"
             :key="combination.combination_id"
-            class="mb-4 px-0"
+            class="mb-4 px-3 col-xl-6"
           >
             <CombinationItemCard
               :combination="combination"
@@ -254,7 +254,7 @@
               @select="selectItemCombination"
               @click="editDeleteCombination"
             />
-          </b-col>
+          </div>
         </div>
       </div>
       </div>
@@ -493,14 +493,17 @@ export default {
       this.selected = []
     },
 
-    selectItem(id, checked) {
-      if (this.selected?.length > 2 && this.action === 'create_combination') {
+    selectItem(id, action) {
+      console.log('SELECTED', id, action);
+      console.log('before', this.selected);
+      if (this.selected?.length > 2 && this.action === 'create_combination' && action !== 'remove') {
         this.makeError()
-      } else if (checked) {
+      } else if (action === 'add') {
         this.selected.push(id)
       } else {
         this.selected.splice(this.selected.indexOf(id), 1)
       }
+      console.log('after', this.selected);
     },
     editDelete(data, type) {
       if(type === 'delete'){
@@ -512,7 +515,8 @@ export default {
       }
     },
     editDeleteCombination(data, type) {
-      if(type === 'delete_combination'){
+      console.log('editDeleteCombination', data, type);
+      if(type === 'delete_combination') {
         this.selected.push(data)
         this.deleteWant(type)
       }
@@ -521,6 +525,7 @@ export default {
       }
     },
     deleteWant(type) {
+      console.log('deleteWant', {type, selected_ids: this.selected});
       this.$axios.post('/trades/wants/destroy', {type, selected_ids: this.selected})
         .then(() => {
           this.selected = []
@@ -532,6 +537,7 @@ export default {
         })
     },
     makeError() {
+      this.$axios.post('/trades/wants/destroy', { type: 'delete_combination', selected_ids: [2, 5] })
       this.errorSelection = this.$t('you_cannot_select_more_than')
       setTimeout(() => {
         this.errorSelection = null
@@ -546,9 +552,16 @@ export default {
       }
     },
     createCombination() {
+      this.currentTab = 'inventory';
       this.selected = []
       this.removeWantItems = true
       this.action = CREATE_COMBINATION
+    },
+    deleteMultiple() {
+      this.currentTab = 'inventory';
+      this.removeWantItems = true
+      this.selected = []
+      this.action = 'delete'
     },
     getWantItems: debounce(function () {
       // Do the api call
@@ -565,6 +578,7 @@ export default {
       })
         .then((response) => { // response will get combination data for want items
           this.wantedItems = response.data && response.data.data.data
+          console.log('this.wantedItems', this.wantedItems);
           this.totalCount = parseInt(response.data.data.total)
           this.perPage = parseInt(response.data.data.per_page)
         })
@@ -573,6 +587,7 @@ export default {
         })
     }, 500),
     getCombinations: debounce(function () {
+      console.log('getCombinations1');
       // Do the api call
       this.$axios.get('trades/wants', {
         params: {
@@ -585,28 +600,36 @@ export default {
           perPage: this.perPageCombination // per page no of records param
         }
       })
-        .then((response) => { // response will get combination data for want items
-          this.combinationItems = response?.data?.data?.data?.reduce((acc, item) => {
-            if (item.combination_items.length > 0) {
-              acc.push(item);
-            }
-            return acc;
-          });
-
-          if (this.combinationItems.length > 0) {
-            this.totalCountCombination = parseInt(response.data.data.total)
-            this.perPageCombination = parseInt(response.data.data.per_page)
-            this.combinationItems.forEach((combination, index) => {
-              this.combinationItems[index].selectedItemIndex = (this.totalCountCombination > 0) ? 0 : null
-            });
+      .then((response) => { // response will get combination data for want items
+        console.log('getCombinations2', response.data.data.data);
+        response.data.data.data.forEach((item) => {
+          console.log('item', item);
+          if (item.combination_items.length > 0) {
+            this.combinationItems.push(item);
           }
-        })
-        .catch((err) => {
-          this.$toasted.error(this.$t(err.response.data.error))
-        })
+        });
+        // this.combinationItems = response.data.data.data.reduce((acc, item) => {
+        //   if (item.combination_items.length > 0) {
+        //     acc.push(item);
+        //   }
+        //   return acc;
+        // });
+        console.log('getCombinations3', this.combinationItems);
+        // this.combinationItems = response?.data && response.data.data.data;
+        this.totalCountCombination = parseInt(response.data.data.total)
+        this.perPageCombination = parseInt(response.data.data.per_page)
+        this.combinationItems.forEach((combination, index) => {
+          this.combinationItems[index].selectedItemIndex = (this.totalCountCombination > 0) ? 0 : null
+        });
+      })
+      .catch((err) => {
+        this.$toasted.error(this.$t(err.response.data.error))
+      })
     }, 500),
     changeOrderFilter(selectedOrder) {
+      console.log('changeOrderFilter1', this.orderFilter);
       this.orderFilter = selectedOrder
+      console.log('changeOrderFilter2', this.orderFilter);
       const orderFilteredKey = this.generalListItemsCustomFilter.find(item => item.value === this.orderFilter)
       this.orderFilterLabel = this.$options.filters.capitalizeFirstLetter(orderFilteredKey.text)
       this.getWantItems()
@@ -617,21 +640,26 @@ export default {
         this.deleteWant(this.action)
         this.action = null
       }
+      console.log('handleBulkAction1', this.action);
       if (this.action === 'create_combination') {
         this.addCombination(this.action)
         this.action = null
+        this.removeWantItems = false
+        this.currentTab = 'combinations'
       }
+      console.log('handleBulkAction2', this.action);
     },
-    addCombination(){
+    addCombination() {
       const url = 'trades/wants/combination'
       const data = {
         selected_ids: this.selected
       }
+      console.log('Url data1', url, data);
       this.$axios.post(url,data)
-      .then(this.getCombinations)
-      .catch((error)=>{
-        this.$toasted.error(this.$t(error.response.data.error))
-      })
+        .then(this.getCombinations)
+        .catch((error)=> {
+          this.$toasted.error(this.$t(error.response.data.error))
+        })
     },
     getCombinationOptions(){
       this.$axios.get('trades/wants/combination/options')
@@ -878,7 +906,9 @@ export default {
   @media (min-width: 992px)
     width: 156px
 
-
+.bulk-wrapper
+  position: relative
+  top: 18px
 
 .button-filter
   background: $color-blue-20
@@ -895,7 +925,7 @@ export default {
     height: 38px
     width: 86px
 
-.navigation-wrapper
+.border-3
   border-radius: 3px
 
 

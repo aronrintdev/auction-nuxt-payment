@@ -1,36 +1,46 @@
 <template>
     <div class="invent-item">
       <div class="position-absolute size-cont">
-        <b-row class="justify-content-end justify-content-sm-center">
-          <img class="mr-3 d-sm-none" :src="require('assets/img/icons/More.svg')" />
-          <div class="d-none d-sm-block">
-            <b-form-checkbox
-              v-if="editRemove"
-              :checked="selected"
-              class="pr-2 pt-2"
-              @change="toggleSelect"
-            ></b-form-checkbox>
-            <div class="d-flex align-items-center">
-              <div role="button" @click="editWant">
-                <img 
-                  :src="require('~/assets/img/icons/pencil-gray.svg')" 
-                  height="15" 
-                  width="15" 
-                >
-                <span class="edit-label">Edit</span>
-              </div>
-              <div role="button" @click="deleteWant">
-                <img 
-                  :src="require('~/assets/img/icons/Delete.svg')" 
-                  height="15" 
-                  width="15" 
-                  class="ml-4" 
-                >
-                <span class="delete-label">Delete</span>
-              </div>
+        <img class="mr-3 d-sm-none" :src="require('assets/img/icons/More.svg')" />
+        <div class="d-none d-sm-block">
+          <div v-if="editRemove" class="d-flex justify-content-end">
+            <img
+              v-if="selected"
+              @click="$emit('select', wantItem.id, 'remove')"
+              role="button"
+              :src="require('~/assets/img/icons/red-minus.svg')" 
+              height="22" 
+              width="22" 
+            >
+            <img
+              v-else
+              @click="$emit('select', wantItem.id, 'add')"
+              role="button"
+              :src="require('~/assets/img/icons/gray-plus.svg')" 
+              height="22" 
+              width="22" 
+            >
+          </div>
+          <div v-else class="d-flex justify-content-center align-items-center">
+            <div role="button" @click="editWant">
+              <img 
+                :src="require('~/assets/img/icons/pencil-gray.svg')" 
+                height="15" 
+                width="15" 
+              >
+              <span class="edit-label">Edit</span>
+            </div>
+            <div role="button" @click="deleteWant">
+              <img 
+                :src="require('~/assets/img/icons/Delete.svg')" 
+                height="15" 
+                width="15" 
+                class="ml-4"
+              >
+              <span class="delete-label">Delete</span>
             </div>
           </div>
-        </b-row>
+        </div>
       </div>
       <div class="inventory-image d-flex justify-content-center mx-auto align-items-center">
         <div class="thumb-wrapper">
@@ -79,15 +89,21 @@ export default {
       default: ()=> [],
     },
   },
-  data(){
+  mounted() {
+    console.log('MOUNT', this.editRemove);
+    console.log('items', this.items);
+    console.log('selected', this.selected);
+  },
+  data() {
     return {
       IMAGE_PATH
     }
   },
   methods:{
-    toggleSelect(checked) {
-      this.$emit('select', this.wantItem.id, checked)
-    },
+    // toggleSelect(checked) {
+    //   console.log('toggleSelect', checked, this.wantItem);
+    //   this.$emit('select', this.wantItem.id, checked)
+    // },
     deleteWant() {
       this.$emit('click', this.wantItem.id, 'delete')
     },
@@ -156,6 +172,4 @@ export default {
 .mr-45
   margin-right: 40px
 
-
 </style>
-

@@ -11,10 +11,10 @@
               <object 
                 v-if="combinationItems[selectedItemIndex].product.image"
                 :data="combinationItems[selectedItemIndex].product.image"
-                class="large-image-combination pointer"
+                class="img-fluid pointer"
                 type="image/png"
               >
-                <img class="large-image-combination pointer" :src="fallbackImgUrl" alt="image"/>
+                <img class="img-fluid pointer" :src="fallbackImgUrl" alt="image"/>
               </object>
               <img v-else class="large-image-combination pointer" :src="fallbackImgUrl" alt="image"/>
             </div>
@@ -28,23 +28,29 @@
             ></b-form-checkbox>
             <div v-else class="d-flex flex-column pr-3">
               <div class="d-flex justify-content-end mb-5">
-                <img 
-                  :src="require('~/assets/img/icons/pencil-gray.svg')" 
-                  height="15" 
-                  width="15" 
+                <div 
                   role="button" 
                   @click="editWant"
                 >
-                <span class="edit-label ml-2">Edit</span>
-                <img 
-                  :src="require('~/assets/img/icons/Delete.svg')" 
-                  height="15" 
-                  width="15" 
-                  class="ml-5" 
+                  <img 
+                    :src="require('~/assets/img/icons/pencil-gray.svg')" 
+                    height="15" 
+                    width="15" 
+                  >
+                  <span class="edit-label ml-2">Edit</span>
+                </div>
+                <div
                   role="button" 
                   @click="deleteWant"
                 >
-                <span class="delete-label ml-2">Delete</span>
+                  <img 
+                    :src="require('~/assets/img/icons/Delete.svg')" 
+                    height="15" 
+                    width="15" 
+                    class="ml-5" 
+                  >
+                  <span class="delete-label ml-2">Delete</span>
+                </div>
               </div>
               <div class="mt-2 text-bold">
                 {{ combinationItems[selectedItemIndex].product.name }}
