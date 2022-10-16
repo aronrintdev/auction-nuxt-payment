@@ -8,19 +8,22 @@
         v-if="haveExpired"
         variant="link"
         size="sm"
-        class="delete-expired px-3 py-2 mr-4"
+        class="delete-expired px-4 py-3"
         @click="deleteAction = true"
       >{{ $t('bids.delete_expired') }}
       </Button>
     </div>
 
     <div class="d-flex justify-content-between align-items-center mt-4 ">
-      <h3 class="title">{{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})</h3>
+      <div class="d-flex align-items-center mt-0 mt-md-5">
+        <h3 class="title">{{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})</h3>
+        <span class="mx-4 d-none d-md-inline-flex">{{ $t('bids.highest_bid_info') }}</span>
+      </div>
       <Button
-        v-if="haveExpired && !isVendor"
+        v-if="true || haveExpired && !isVendor"
         variant="link"
         size="sm"
-        class=" delete-expired px-3 py-2 mr-4"
+        class="delete-expired px-4 py-3 mt-0 mt-mb-5"
         @click="deleteAction = true"
       >{{ $t('bids.delete_expired') }}
       </Button>
@@ -535,7 +538,7 @@ export default {
         background-color: $white-2
 
 .delete-expired.btn
-  @include body-8-medium
+  @include body-5-regular
   background-color: $white
   color: $black
 
