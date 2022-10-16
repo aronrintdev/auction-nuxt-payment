@@ -16,7 +16,11 @@
 
     <div class="d-flex justify-content-between align-items-center mt-4 ">
       <div class="d-flex align-items-center mt-0 mt-md-5">
-        <h3 class="title">{{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})</h3>
+        <h3 class="title">
+          <span :class="{ 'body-4-medium' : isMobileSize }">
+            {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
+          </span>
+        </h3>
         <span class="mx-4 d-none d-md-inline-flex">{{ $t('bids.highest_bid_info') }}</span>
       </div>
       <Button
@@ -189,6 +193,20 @@
 
       </template>
     </Modal>
+
+    <!-- Mobile filter begin -->
+    <!-- For mobile filters -->
+    <vue-bottom-sheet
+      ref="filter"
+      class="responsive-filter"
+      max-width="auto"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <MobileFilter />
+    </vue-bottom-sheet>
+    <!-- For mobile filters end -->
+    <!-- Mobile filter begin -->
   </b-container>
 </template>
 
@@ -207,6 +225,7 @@ import BidCollectionItem from '~/components/profile/bids/BidCollectionItem';
 import whiteCheck from '~/assets/img/icons/white-check.svg'
 import BidsFilters from '~/components/profile/bids/BidsFilters';
 import screenSize from '~/plugins/mixins/screenSize'
+import MobileFilter from '~/components/profile/vendor-selling/filters/MobileFilter.vue'
 
 import {
   DELISTED_STATUS, EXPIRED_STATUS,
@@ -227,7 +246,8 @@ export default {
     Pagination,
     BulkSelectToolbar,
     Loader,
-    Modal
+    Modal,
+    MobileFilter
   },
   layout: 'Profile',
   data() {
@@ -475,6 +495,10 @@ export default {
       }).finally(() => {
         this.deleteLoading = false
       })
+    },
+    // Show the filter
+    showFilter() {
+      this.$refs.filter.open()
     },
   }
 }
