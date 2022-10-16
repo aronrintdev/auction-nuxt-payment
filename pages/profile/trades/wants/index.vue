@@ -77,13 +77,12 @@
     />
     <b-row class="d-none d-sm-flex justify-content-between justify-content-md-start px-2">
       <div 
-        v-if="wantedItems.length" 
         class="listing-heading" 
         v-on:click="currentTab = 'inventory'"
         :style="{'color': currentTab === 'inventory' ? '#000' : '#999'}"
         role="button"
       >
-        {{ $t('trades.wants_listing.general_list_items', {0: wantedItems.length}) }}
+        {{ $t('trades.wants_listing.general_list_items', { 0: wantedItems.length }) }}
       </div>
       <div 
         class="wanted-items-heading" 
@@ -91,7 +90,7 @@
         :style="{'color': currentTab === 'combinations' ? '#000' : '#999'}"
         role="button"
       >
-        {{ $t('trades.wants_listing.combinations', {0: combinationItems.length}) }}
+        {{ $t('trades.wants_listing.combinations', { 0: combinationItems.length }) }}
       </div>
     </b-row>
     <div class="mt-3 d-flex d-sm-none row navigation-container">
@@ -115,7 +114,7 @@
       <span class="filter-label">Filter by</span>
     </div>
 
-    <div v-if="wantedItems.length" class="row mb-4 d-none d-sm-flex row justify-content-lg-between pr-2 ml-0 align-items-center">
+    <div class="row mb-4 d-none d-sm-flex row justify-content-lg-between pr-2 ml-0 align-items-center">
       <b-col class="pl-0 pr-lg-0" sm="6" lg="2">
         <CustomDropdown 
           v-model="category"
@@ -183,33 +182,65 @@
         </div>
       </b-col>
     </div>
-    <div class="wanted-items-container bg-white">
-      <div v-if="!wantedItems.length" class="mt-3">
-        <div>
-          <span class="wanted-items-heading">{{ $t('trades.wants_listing.wanted_items', {0: wantedItems.length}) }}</span>
-          <span class="list-text pl-3">{{ $t('trades.wants_listing.general_list') }}</span>
-        </div>
-        <div class="no-items">
-          {{ $t('trades.wants_listing.you_have_no_items_in') }} <span class="add-new-item" role="button" @click="$router.push('/profile/trades/wants/addwantitem')">{{ $t('common.add_new_item') }}</span>
-        </div>
-      </div>
-      <div v-if="currentTab === 'inventory'">
-        <div class="d-flex flex-wrap justify-content-center justify-content-sm-around">
-          <div class="mx-auto mx-sm-0" v-for="item in wantedItems" :key="`want-item-${item.id}`">
-            <want-item-card
-              :wantItem="item"
-              :selected="!!selected.find((id) => id === item.id)"
-              :editRemove="removeWantItems"
-              :actionType="action"
-              :selectedItems="selected"
-              @select="selectItem"
-              @click="editDelete"
-            />
+    <div class="">
+      <div 
+        v-if="currentTab === 'inventory'" 
+        class="d-flex flex-wrap justify-content-center justify-content-sm-around"
+      >
+        <div v-if="!wantedItems.length" class="mt-3">
+          <div class="no-items">
+            {{ $t('trades.wants_listing.you_have_no_items_in') }}
+            <span class="add-new-item" role="button" @click="$router.push('/profile/trades/wants/addwantitem')">
+              {{ $t('common.add_new_item') }}
+            </span>
           </div>
         </div>
+        <div v-else 
+          class="mx-auto mx-sm-0 content-container bg-white" 
+          v-for="item in wantedItems" 
+          :key="`want-item-${item.id}`"
+        >
+          <want-item-card
+            :wantItem="item"
+            :selected="!!selected.find((id) => id === item.id)"
+            :editRemove="removeWantItems"
+            :actionType="action"
+            :selectedItems="selected"
+            @select="selectItem"
+            @click="editDelete"
+          />
+        </div>
+
+        <b-row 
+          v-if="wantedItems.length" 
+          class="col-md-12 justify-content-center mx-0 pb-3"
+        >
+          <Pagination
+            v-model="page"
+            :total="totalCount"
+            :per-page="perPage"
+            :per-page-options="perPageOptions"
+            class="mt-4"
+            @page-click="handlePageClick"
+            @per-page-change="handlePerPageChange"
+          />
+        </b-row>
       </div>
       <div v-else>
-        <div class="d-flex flex-column flex-xl-row" v-if="combinationItems.length">
+        <div class="d-flex flex-column flex-xl-row justify-content-center" v-if="!combinationItems.length">
+          <div class="mt-3 create-combination">
+            <span>{{ $t('trades.wants_listing.have_no_combinations') }}</span>
+            <span
+              role="button"
+              class="add-new-item"
+              @click="createCombination"
+            >
+              {{ $t('trades.wants_listing.create_combination_label') }}
+            </span>
+          </div>
+        </div>
+
+        <div v-else>
           <b-col
             v-for="(combination, combinationIndex) in combinationItems"
             :key="combination.combination_id"
@@ -225,36 +256,14 @@
             />
           </b-col>
         </div>
-        <div v-else>
-          <div class="text-center create-combination">
-            <span>{{ $t('trades.wants_listing.have_no_combinations') }}</span>
-            <span
-              role="button"
-              class="create-combination-link"
-              @click="createCombination"
-            >
-              {{ $t('trades.wants_listing.create_combination_label') }}
-            </span>
-          </div>
-        </div>
       </div>
-      <b-row class="col-md-12 justify-content-center">
-        <Pagination
-          v-model="page"
-          :total="totalCount"
-          :per-page="perPage"
-          :per-page-options="perPageOptions"
-          class="mt-4"
-          @page-click="handlePageClick"
-          @per-page-change="handlePerPageChange"
-        />
-      </b-row>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable vue/no-unused-components */
 import {mapActions, mapGetters} from 'vuex'
 import debounce from 'lodash.debounce';
 import SearchInput from '~/components/common/SearchInput'
@@ -577,12 +586,20 @@ export default {
         }
       })
         .then((response) => { // response will get combination data for want items
-          this.combinationItems = response.data && response.data.data.data
-          this.totalCountCombination = parseInt(response.data.data.total)
-          this.perPageCombination = parseInt(response.data.data.per_page)
-          this.combinationItems.forEach((combination, index) => {
-            this.combinationItems[index].selectedItemIndex = (this.totalCountCombination > 0) ? 0 : null
+          this.combinationItems = response?.data?.data?.data?.reduce((acc, item) => {
+            if (item.combination_items.length > 0) {
+              acc.push(item);
+            }
+            return acc;
           });
+
+          if (this.combinationItems.length > 0) {
+            this.totalCountCombination = parseInt(response.data.data.total)
+            this.perPageCombination = parseInt(response.data.data.per_page)
+            this.combinationItems.forEach((combination, index) => {
+              this.combinationItems[index].selectedItemIndex = (this.totalCountCombination > 0) ? 0 : null
+            });
+          }
         })
         .catch((err) => {
           this.$toasted.error(this.$t(err.response.data.error))
@@ -772,11 +789,8 @@ export default {
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-13-regular
+  font-weight: 500
   color: $color-gray-5
-  padding-top: 30px
-
-.add-new-item
-  color: $color-blue-1
 
 .wanted-items-container
   padding-bottom: 34px
@@ -785,6 +799,10 @@ export default {
     padding-left: 10px
     padding-right: 10px
   border-radius: 3px
+
+.content-container
+  border-radius: 3px
+  padding-top: 40px
 
 .filter-label
   font-family: $font-family-sf-pro-display
@@ -841,7 +859,7 @@ export default {
   font-size: 16
   color: $color-gray-5
 
-.create-combination-link
+.add-new-item
   color: $color-blue-1
   padding-bottom: 2px
   border-bottom: 2px solid $color-blue-1
@@ -861,6 +879,7 @@ export default {
     width: 156px
 
 
+
 .button-filter
   background: $color-blue-20
   border-radius: 5px
@@ -875,6 +894,9 @@ export default {
   @media (min-width: 992px)
     height: 38px
     width: 86px
+
+.navigation-wrapper
+  border-radius: 3px
 
 
 </style>

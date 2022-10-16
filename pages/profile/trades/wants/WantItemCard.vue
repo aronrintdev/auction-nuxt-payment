@@ -10,24 +10,24 @@
               class="pr-2 pt-2"
               @change="toggleSelect"
             ></b-form-checkbox>
-            <div class="flex align-items-center">
-              <img 
-                :src="require('~/assets/img/icons/pencil-gray.svg')" 
-                height="15" 
-                width="15" 
-                role="button" 
-                @click="editWant"
-              >
-              <span class="edit-label">Edit</span>
-              <img 
-                :src="require('~/assets/img/icons/Delete.svg')" 
-                height="15" 
-                width="15" 
-                class="ml-4" 
-                role="button" 
-                @click="deleteWant"
-              >
-              <span class="delete-label">Delete</span>
+            <div class="d-flex align-items-center">
+              <div role="button" @click="editWant">
+                <img 
+                  :src="require('~/assets/img/icons/pencil-gray.svg')" 
+                  height="15" 
+                  width="15" 
+                >
+                <span class="edit-label">Edit</span>
+              </div>
+              <div role="button" @click="deleteWant">
+                <img 
+                  :src="require('~/assets/img/icons/Delete.svg')" 
+                  height="15" 
+                  width="15" 
+                  class="ml-4" 
+                >
+                <span class="delete-label">Delete</span>
+              </div>
             </div>
           </div>
         </b-row>

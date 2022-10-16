@@ -105,7 +105,7 @@ export default {
 
     .main-wrapper
       width: 100%
-      background-color: $color-white-4
+      background-color: $color-white-19
 .w3-xlarge
   @include body-1
   float: right
