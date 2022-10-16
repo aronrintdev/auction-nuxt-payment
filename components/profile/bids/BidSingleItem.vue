@@ -31,7 +31,7 @@
               <span :class="isMobileSize ? 'body-5-medium': 'body-8-medium'">{{ inventory.product.name }}</span>
               <!-- MOBILE ACCEPT BUTTON BEGIN -->
               <div v-if="acceptable && isMobileSize">
-                <Button size="sm" variant="blue" class="px-2 mr-1" @click="$emit('accept', bid)">
+                <Button size="sm" variant="primary" class="btn-dark-blue px-2 mr-1" @click="$emit('accept', bid)">
                   <div class="body-9-medium"> {{ $t('bids.accept') }}</div>
                 </Button>
               </div>
@@ -254,7 +254,7 @@ export default {
   color: $color-blue-30
   text-decoration: underline
 
-btn.btn-blue
+.btn-dark-blue.btn.btn-primary
   background: $color-blue-20
   border-color: $color-blue-20
   font-weight: $normal

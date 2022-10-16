@@ -26,6 +26,7 @@
         </h3>
         <span class="mx-4 d-none d-md-inline-flex">{{ $t('bids.highest_bid_info') }}</span>
       </div>
+      <a @click="showFilter">Open Filter</a>
       <Button
         v-if="haveExpired && !isVendor"
         variant="link"
@@ -132,7 +133,8 @@
       @per-page-change="handlePerPageChange"
     />
 
-    <!--    Bid accept confrimation modal -->
+    <!--    Bid accept confirmation modal -->
+    <!-- desktop version --->
     <Modal
       id="accept-item-modal"
       centered
@@ -169,6 +171,43 @@
 
       </template>
     </Modal>
+    <!-- desktop version --->
+    <vue-bottom-sheet
+      ref="mobileBidAcceptConfirm"
+      class="responsive-filter"
+      max-width="auto"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <div class="px-4">
+        <b-row class="my-3">
+          <b-col md="12" class="text-center">
+            <span v-if="acceptedBid">
+              {{ $tc('bids.accept_body', 1).replace(':amount:', acceptedBid.price / 100) }}
+            </span>
+          </b-col>
+        </b-row>
+        <b-row class="d-flex flex-column">
+          <Button
+            variant="primary"
+            class="bg-dark-blue my-3 mx-5"
+            pill
+            :disabled="modalActionLoading"
+            @click="acceptBidModalOk"
+          >{{ $t('bids.accept') }}
+          </Button>
+          <Button
+            variant="outline"
+            class="mt-2 mb-3 text-dark-blue"
+            pill
+            :disabled="modalActionLoading"
+            @click="$refs.mobileBidAcceptConfirm.close()"
+          >{{ $t('common.cancel') }}
+          </Button
+          >
+        </b-row>
+      </div>
+    </vue-bottom-sheet>
 
     <!--    Bid accepted success modal-->
     <Modal
@@ -189,7 +228,7 @@
           <b-row class="d-flex justify-content-around">
             <Button
               iconOnly
-              variant="primary"
+              variant="success"
               pill
             >
               <img :src="whiteCheck"/>
@@ -325,14 +364,27 @@ export default {
       editBids: 'profile-bids/editBids',
       acceptAuctionBid: 'profile-bids/acceptAuctionBid',
     }),
+    closeBidModals() {
+      const { mobileBidAcceptConfirm } = this.$refs
+      if (mobileBidAcceptConfirm) {
+        mobileBidAcceptConfirm.close() // mobile
+      }
+      this.$bvModal.hide('accept-item-modal') // desktop
+    },
     acceptBidModalOk() {
       this.modalActionLoading = true
       const payload = {
         id: this.acceptedBid.auction.id,
         bid_id: this.acceptedBid.id
       }
+
+      // Test
+      this.closeBidModals()
+      this.$bvModal.show('bid-accepted-modal')
+
+
       this.acceptAuctionBid(payload).then(res => {
-        this.$bvModal.hide('accept-item-modal')
+        this.closeBidModals()
         this.$bvModal.show('bid-accepted-modal')
         this.$router.push({
           path: '/orders',
@@ -340,7 +392,7 @@ export default {
         this.$toasted.success(res.data.message)
       }).catch(() => {
         this.modalActionLoading = false
-        this.$bvModal.hide('accept-item-modal')
+        this.closeBidModals()
       })
     },
     /**
@@ -349,7 +401,17 @@ export default {
      */
     acceptBid(bid) {
       this.acceptedBid = bid
-      this.$bvModal.show('accept-item-modal')
+      if (this.isMobileSize) {
+        this.$nextTick(() => {
+          const { mobileBidAcceptConfirm } = this.$refs
+          if (mobileBidAcceptConfirm) {
+            mobileBidAcceptConfirm.open() // mobile
+          }
+        })
+      } else {
+        this.$bvModal.show('accept-item-modal')
+      }
+
     },
     /**
      * Committing the selected bid to the store and then pushing the router to the edit page.
@@ -532,6 +594,14 @@ export default {
 .bg-blue-2.btn.btn-primary
   background-color: $color-blue-2
   border: none
+
+.bg-dark-blue.btn.btn-primary
+  background: $color-blue-20
+  border-color: $color-blue-20
+  font-weight: $normal
+
+.text-dark-blue
+  color: $color-blue-20
 
 :deep()
   .custom-control-input:checked
