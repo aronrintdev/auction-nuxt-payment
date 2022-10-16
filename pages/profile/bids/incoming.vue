@@ -1,7 +1,11 @@
 <template>
   <b-container fluid class="h-100 p-3 p-md-5" :class="{'container-profile-bids': !isMobileSize}">
     <!--    Bids Filters and mobile search    -->
-    <MobileSearchInput v-if="isMobileSize" :value="filters.search" @input="mobileSearch" />
+    <div v-if="isMobileSize" class="d-flex align-items-center">
+      <MobileSearchInput :value="filters.search" @input="mobileSearch" class="flex-grow-1" />
+      <span @click="showMobileFilter" class="ml-3"><img src="~/assets/img/icons/filter-icon.png" /></span>
+    </div>
+
     <BidsFilters v-else @update="FetchBids"/>
 
 
@@ -28,7 +32,6 @@
         </h3>
         <span class="mx-4 d-none d-md-inline-flex">{{ $t('bids.highest_bid_info') }}</span>
       </div>
-      <a @click="showFilter">Open Filter</a>
       <Button
         v-if="haveExpired && !isVendor"
         variant="link"
@@ -244,13 +247,13 @@
     <!-- Mobile filter begin -->
     <!-- For mobile filters -->
     <vue-bottom-sheet
-      ref="filter"
+      ref="mobileFilter"
       class="responsive-filter"
       max-width="auto"
       max-height="90vh"
       :rounded="true"
     >
-      <MobileFilter />
+      <MobileFilter @filter="onMobileFilter" />
     </vue-bottom-sheet>
     <!-- For mobile filters end -->
     <!-- Mobile filter begin -->
@@ -273,7 +276,7 @@ import BidCollectionItem from '~/components/profile/bids/BidCollectionItem';
 import whiteCheck from '~/assets/img/icons/white-check.svg'
 import BidsFilters from '~/components/profile/bids/BidsFilters';
 import screenSize from '~/plugins/mixins/screenSize'
-import MobileFilter from '~/components/profile/vendor-selling/filters/MobileFilter.vue'
+import MobileFilter from '~/components/profile/bids/filters/MobileFilter.vue'
 import MobileSearchInput from '~/components/mobile/MobileSearchInput'
 
 import {
@@ -582,9 +585,20 @@ export default {
       })
     },
     // Show the filter
-    showFilter() {
-      this.$refs.filter.open()
+    showMobileFilter() {
+      const { mobileFilter } = this.$refs
+      if (mobileFilter) {
+        mobileFilter.open()
+      }
     },
+    async onMobileFilter(mobileFilters) {
+      const filterData = {
+        ...this.filters,
+        ...mobileFilters
+      }
+      await this.$store.commit('profile-bids/setFilters', filterData)
+      this.FetchBids()
+    }
   }
 }
 </script>
