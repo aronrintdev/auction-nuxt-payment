@@ -1,7 +1,9 @@
 <template>
-  <b-container fluid class="h-100 p-3 p-md-5 container-profile-bids">
-    <!--    Bids Filters    -->
-    <BidsFilters @update="FetchBids"/>
+  <b-container fluid class="h-100 p-3 p-md-5" :class="{'container-profile-bids': !isMobileSize}">
+    <!--    Bids Filters and mobile search    -->
+    <MobileSearchInput v-if="isMobileSize" :value="filters.search" @input="mobileSearch" />
+    <BidsFilters v-else @update="FetchBids"/>
+
 
     <div v-if="isVendor" class="d-flex justify-content-between align-items-center mt-5">
       <Button
@@ -12,7 +14,7 @@
         :class="isMobileSize ? 'delete-expired-mobile' : 'delete-expired'"
         @click="deleteAction = true"
       >
-        <img src="~/assets/img/profile/mobile/mobile-delete.svg" v-if="isMobileSize" class="mx-1" />
+        <img v-if="isMobileSize" src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
         {{ $t('bids.delete_expired') }}
       </Button>
     </div>
@@ -35,7 +37,7 @@
         :class="isMobileSize ? 'delete-expired-mobile' : 'delete-expired'"
         @click="deleteAction = true"
       >
-        <img src="~/assets/img/profile/mobile/mobile-delete.svg" v-if="isMobileSize" class="mx-1" />
+        <img v-if="isMobileSize" src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
         {{ $t('bids.delete_expired') }}
       </Button>
     </div>
@@ -256,7 +258,8 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex';
+import {mapActions, mapGetters} from 'vuex'
+import debounce from 'lodash.debounce'
 import {
   Button,
   Pagination,
@@ -271,6 +274,7 @@ import whiteCheck from '~/assets/img/icons/white-check.svg'
 import BidsFilters from '~/components/profile/bids/BidsFilters';
 import screenSize from '~/plugins/mixins/screenSize'
 import MobileFilter from '~/components/profile/vendor-selling/filters/MobileFilter.vue'
+import MobileSearchInput from '~/components/mobile/MobileSearchInput'
 
 import {
   DELISTED_STATUS, EXPIRED_STATUS,
@@ -280,10 +284,12 @@ import {
   WINNING_BID_STATUS,
 } from '~/static/constants';
 
+
+
 export default {
   name: 'ProfileIncomingBids',
-  mixins: [screenSize],
   components: {
+    MobileSearchInput,
     BidsFilters,
     BidCollectionItem,
     BidSingleItem,
@@ -294,6 +300,7 @@ export default {
     Modal,
     MobileFilter
   },
+  mixins: [screenSize],
   layout: 'Profile',
   data() {
     return {
@@ -523,6 +530,16 @@ export default {
         this.fetchLoading = false
       })
     },
+    mobileSearch: debounce(function (e) {
+      if (this.filters.search === e) return
+      const filter = {
+        ...this.filters,
+        search: e // override by mobile input
+      }
+      this.$store.commit('profile-bids/setFilters', filter)
+      this.FetchBids()
+    }, 300),
+
     cancelAction() {
       this.deleteAction = false
       this.handleDeselectAll()

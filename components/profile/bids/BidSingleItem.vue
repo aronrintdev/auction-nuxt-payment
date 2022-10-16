@@ -23,7 +23,7 @@
             </b-form-checkbox>
           </div>
           <ProductThumb :product="inventory.product" />
-          <div class="auction-id" v-if="!isMobileSize">{{ $t('bids.auction_id') }}: {{ auction.id }}</div>
+          <div v-if="!isMobileSize" class="auction-id">{{ $t('bids.auction_id') }}: {{ auction.id }}</div>
         </b-col>
         <b-col cols="8" md="8" class="pl-4 d-flex align-items-center">
           <b-row class="mb-2 d-block" :class="{ 'flex-grow-1' : isMobileSize }">
@@ -114,7 +114,7 @@
       md="2"
       class="d-flex justify-content-center align-items-center flex-column"
     >
-      <Button variant="success" pill @click="$emit('accept', bid)" class="w-100">
+      <Button variant="success" pill class="w-100" @click="$emit('accept', bid)">
         <div class="px-0 px-md-1 px-lg-2 px-xl-3 body-4-medium"> {{ $t('bids.accept') }}</div>
       </Button>
     </b-col>
@@ -135,8 +135,8 @@ import screenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'BidSingleItem',
-  mixins: [screenSize],
   components: { ProductThumb, Button },
+  mixins: [screenSize],
   props: {
     bid: {
       type: Object,
