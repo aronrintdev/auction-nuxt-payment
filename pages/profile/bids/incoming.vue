@@ -8,9 +8,12 @@
         v-if="haveExpired"
         variant="link"
         size="sm"
-        class="delete-expired px-4 py-3"
+        class="mobile px-4 py-3 mt-0 mt-mb-5"
+        :class="isMobileSize ? 'delete-expired-mobile' : 'delete-expired'"
         @click="deleteAction = true"
-      >{{ $t('bids.delete_expired') }}
+      >
+        <img src="~/assets/img/profile/mobile/mobile-delete.svg" v-if="isMobileSize" class="mx-1" />
+        {{ $t('bids.delete_expired') }}
       </Button>
     </div>
 
@@ -24,12 +27,15 @@
         <span class="mx-4 d-none d-md-inline-flex">{{ $t('bids.highest_bid_info') }}</span>
       </div>
       <Button
-        v-if="true || haveExpired && !isVendor"
+        v-if="haveExpired && !isVendor"
         variant="link"
         size="sm"
-        class="delete-expired px-4 py-3 mt-0 mt-mb-5"
+        class="mobile px-4 py-3 mt-0 mb-md-5"
+        :class="isMobileSize ? 'delete-expired-mobile' : 'delete-expired'"
         @click="deleteAction = true"
-      >{{ $t('bids.delete_expired') }}
+      >
+        <img src="~/assets/img/profile/mobile/mobile-delete.svg" v-if="isMobileSize" class="mx-1" />
+        {{ $t('bids.delete_expired') }}
       </Button>
     </div>
 
@@ -565,6 +571,10 @@ export default {
   @include body-5-regular
   background-color: $white
   color: $black
+
+.delete-expired-mobile.btn
+  @include body-5-regular
+  color: $color-gray-30
 
 
 .container-profile-bids
