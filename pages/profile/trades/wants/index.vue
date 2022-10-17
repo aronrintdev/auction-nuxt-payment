@@ -407,6 +407,7 @@ export default {
 
     handleCategoryChange(value) {
       this.category = value
+      console.log('category1', this.category);
       this.getWantItems()
       this.getCombinations()
     },
@@ -504,8 +505,6 @@ export default {
     },
 
     selectItem(id, action) {
-      console.log('SELECTED', id, action);
-      console.log('before', this.selected);
       if (this.selected?.length > 2 && this.action === 'create_combination' && action !== 'remove') {
         this.makeError()
       } else if (action === 'add') {
@@ -525,7 +524,6 @@ export default {
       }
     },
     editDeleteCombination(data, type) {
-      console.log('editDeleteCombination', data, type);
       if(type === 'delete_combination') {
         this.selected.push(data)
         this.deleteWant(type)
@@ -535,7 +533,6 @@ export default {
       }
     },
     deleteWant(type) {
-      console.log('deleteWant', {type, selected_ids: this.selected});
       this.$axios.post('/trades/wants/destroy', {type, selected_ids: this.selected})
         .then(() => {
           this.selected = []
@@ -637,9 +634,7 @@ export default {
       })
     }, 500),
     changeOrderFilter(selectedOrder) {
-      console.log('changeOrderFilter1', this.orderFilter);
       this.orderFilter = selectedOrder
-      console.log('changeOrderFilter2', this.orderFilter);
       const orderFilteredKey = this.generalListItemsCustomFilter.find(item => item.value === this.orderFilter)
       this.orderFilterLabel = this.$options.filters.capitalizeFirstLetter(orderFilteredKey.text)
       this.getWantItems()
@@ -687,6 +682,7 @@ export default {
      */
     changeCategory(selectedCategory) {
       this.category = selectedCategory
+      console.log('CAT', this.category);
       const categoryFilteredKey = this.categoryItems.find(item => item.value === this.category)
       this.categoryFilterLabel = this.$options.filters.capitalizeFirstLetter(categoryFilteredKey.text)
     },

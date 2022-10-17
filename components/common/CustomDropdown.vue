@@ -1,8 +1,27 @@
 <template>
   <div 
     class="custom-dropdown text-gray" 
-    :style="{'min-width': width, 'height': dropDownHeight, 'width': maxWidth,'border-radius': !isOpen ? borderRadius : borderRadiusClose}">
-    <div class="label-wrapper" :style="{'padding-left': paddingX, 'padding-right': paddingX, 'min-width': width, 'height': dropDownHeight, 'width': maxWidth, 'border-radius': !isOpen ? borderRadius : borderRadiusClose}" :class="`background-${variant} ${bordered && 'bordered'}`" @click="isOpen = !isOpen">
+    :style="{
+        'min-width': width, 
+        'height': dropDownHeight, 
+        'width': maxWidth,
+        'border-radius': !isOpen ? borderRadius : borderRadiusClose,
+      }"
+    >
+    <div 
+      class="label-wrapper" 
+      :style="{
+        'padding-left': paddingX, 
+        'padding-right': paddingX, 
+        'min-width': width, 
+        'height': dropDownHeight, 
+        'width': maxWidth, 
+        'border-radius': !isOpen ? borderRadius : borderRadiusClose,
+        ...inputStyle
+      }" 
+      :class="`background-${variant} ${bordered && 'bordered'}`" 
+      @click="isOpen = !isOpen"
+    >
       <label 
         class="font-weight-light m-0 p-0"
         :style="labelStyle"
@@ -21,9 +40,15 @@
       <li
         v-for="(option, key) of options" :key="key"
         :class="`${optionsWidth}-color`"
-        @click="selectOption((option.value ? option.value : option))">
-        <input v-if="type.includes('multi')" class="mr-2" :checked="value && value.includes(option.size ? option.size : option)"
-         type="checkbox"  />
+        @click="selectOption((option.value ? option.value : option))"
+        :style="optionStyle"
+      >
+        <input 
+          v-if="type.includes('multi')" 
+          class="mr-2" 
+          :checked="value && value.includes(option.size ? option.size : option)"
+          type="checkbox"  
+        />
         <span>{{ (option.value) ? option.text : capitalizeFirstLetter(option) }}</span>
       </li>
       <li v-if="type.includes('multi') && showFilterBtn" class="fixed">
@@ -116,6 +141,14 @@ export default {
       default: ''
     },
     dropdownStyle: {
+      type: Object,
+      default: () => {}
+    },
+    inputStyle: {
+      type: Object,
+      default: () => {}
+    },
+    optionStyle: {
       type: Object,
       default: () => {}
     }

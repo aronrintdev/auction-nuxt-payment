@@ -1,5 +1,125 @@
 <template>
-  <div :class="{'p-5':padding}">
+  <div class="font-monserrat px-3">
+    <div class="pt-3 d-flex justify-content-center">
+      <div class="d-flex flex-column separator col-6 justify-content-center align-items-center">
+        <span class="label">{{ $t('common.sku') }}</span>
+        <span class="value">{{ product.product.sku }}</span>
+      </div>
+      <div class="d-flex flex-column col-6 justify-content-center align-items-center">
+        <span class="label">{{ $t('common.colorway') }}</span>
+        <span class="value">{{ product.product.colorway }}</span>
+      </div>
+    </div>
+    <div class="d-flex flex-column justify-content-center">
+      <img 
+        :src="product.product | getProductImageUrl" 
+        alt="No Image" 
+        width="150"
+        class="h-auto mx-auto" 
+      />
+
+      <p class="mt-3 mb-0 title">{{product.product.name}}</p>
+      <p>
+        <span class="last-sale">{{ $t('product_page.last_sale') }}: $250.00</span>
+        <span class="last-sale-value">+0.64 (+0.36%)</span>
+      </p>
+      <div class="d-flex justify-content-between mb-2">
+        <div class="size">{{ $t('product_page.select_size') }}:</div>
+        <div class="size">
+          <img
+            class="mr-1"
+            :src="require('~/assets/img/icons/eye2.svg')"
+          />
+          {{ $t('products.all_sizes') }}
+        </div>
+      </div>
+      <div class="d-flex horizontal-scroll justify-content-center">
+        <div class="d-flex flex-column align-items-center mr-3">
+          <div class="size-item">
+            6.5
+          </div>
+          <div class="mt-1 size-price">$505</div>
+        </div>
+        <div class="d-flex flex-column align-items-center mr-3">
+          <div class="size-item">
+            7.0
+          </div>
+          <div class="mt-1 size-price">$505</div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center mr-3">
+          <div class="size-item">
+            7.5
+          </div>
+          <div class="mt-1 size-price">$520</div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center mr-3">
+          <div class="size-item size-item-active">
+            8.0
+          </div>
+          
+          <div class="blue-separator"></div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center mr-3">
+          <div class="size-item">
+            8.5
+          </div>
+          <div class="mt-1 size-price">$530</div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center mr-3">
+          <div class="size-item">
+            9.0
+          </div>
+          <div class="mt-1 size-price">$530</div>
+        </div>
+
+        <div class="d-flex flex-column align-items-center">
+          <div class="size-item">
+            9.5
+          </div>
+          <div class="mt-1 size-price">$530</div>
+        </div>
+
+      </div>
+
+      <div class="mt-3 d-flex flex-column pb-5">
+        <div class="d-flex align-items-center justify-content-center mb-2">
+          <div class="box mr-1">{{ $t('products.box_condition')}}</div>
+          <img
+            width="12"
+            height="12"
+            :src="require('~/assets/img/icons/info-dark-blue.svg')"
+            :title="$t('products.message.box_condition_info')"
+          />
+        </div>
+
+        <div class="px-3 mb-5 pb-5">
+          <CustomDropdown 
+            v-model="condition"
+            :label="conditionLabel"
+            :options="conditionsOptions"
+            type="single-select"
+            optionsWidth="custom"
+            dropDownHeight="38px"
+            variant="white"
+            paddingX="10px"
+            @change="changeCondition"
+            :inputStyle="{ display: 'flex', justifyContent: 'center', border: '1px solid black !important' }"
+            :dropdownStyle="{ border: '1px solid #000', borderTop: 0, borderBottom: 0, zIndex: 9999 }"
+            :optionStyle="'font-weight: 500 !important; font-size: 14px; color: #667799; borderBottom: 1px solid black'"
+            labelStyle="font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 14px; color: #667799;"
+            arrowStyle='color: #667799; width: 16px; height: 18px; position: absolute; right: 50px; margin-bottom: 11px !important;'
+          />
+        </div>
+      </div>
+
+    </div>
+      
+  </div>
+  <!-- <div :class="{'p-5':padding}">
     <div  class="create-trade-back-to-search" @click="backSearch()">
       <b-icon icon="chevron-left" aria-hidden="true"></b-icon>
       {{ (productFor === 'wantOfferConfirm') ? $t('trades.create_listing.vendor.wants.back_to_confirm_trade_listing') : $t('trades.create_listing.vendor.wants.back_to_search') }}
@@ -121,10 +241,11 @@
       </div>
     </b-row>
     </ValidationObserver>
-  </div>
+  </div> -->
 </template>
 
 <script>
+/* eslint-disable vue/no-unused-components */
 import {mapGetters, mapActions} from 'vuex'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import ProductSizePicker from '~/components/product/SizePicker'
@@ -132,11 +253,13 @@ import {MAX_ITEMS_ALLOWED, DIGITS_IN_YEAR} from '~/static/constants/create-listi
 import {WANTS_SELECT_LIST_OPTIONS} from '~/static/constants/trades'
 import SelectListDropDown from '~/pages/profile/trades/wants/SelectListDropDown'
 import Button from '~/components/common/Button'
+import CustomDropdown from '~/components/common/CustomDropdown'
 
 export default {
   name: 'EditItem',
-  components:{
+  components: {
     Button,
+    CustomDropdown,
     SelectListDropDown,
     ProductSizePicker,
     ValidationObserver,
@@ -187,6 +310,11 @@ export default {
       selectList: [],
       selectListOptions: WANTS_SELECT_LIST_OPTIONS.map(item => ({text: this.$t(item.text), value: item.value})),
       selectListLabel: this.$t('trades.wants_listing.add_to'),
+      conditionsOptions: this.product.product.packaging_conditions.map((item) => ({ text: item.name, value: item.id })),
+      condition: { text: this.product.packaging_condition.name, value: this.product.packaging_condition.id },
+      conditionLabel: this.product.packaging_condition.name
+      // condition: this.product.packaging_condition.name,
+
     }
   },
   computed: {
@@ -198,11 +326,29 @@ export default {
       this.box_condition = this.product.packaging_condition_id
       this.selected_size = this.product.size_id
     }
+    console.log('THIS', this);
+    console.log('def', { text: this.product.packaging_condition.name, value: this.product.packaging_condition.id });
   },
   methods: {
     ...mapActions({
       createInventories: 'inventory/createInventories',
     }),
+
+    changeCondition(selectedCondition) {
+      console.log('this.product.product.packaging_conditions', this.product.product.packaging_conditions);
+      console.log('selectedCondition', selectedCondition);
+
+      // this.category = selectedCategory
+      // console.log('CAT', this.category);
+      // const categoryFilteredKey = this.categoryItems.find(item => item.value === this.category)
+      // this.categoryFilterLabel = this.$options.filters.capitalizeFirstLetter(categoryFilteredKey.text)
+
+      this.condition = this.product.product.packaging_conditions.find(
+        (item) => item.id === selectedCondition
+      );
+      this.conditionLabel = this.condition.name
+      console.log('this.condition', this.condition);
+    },
 
     /**
      * This function is used to select size and
@@ -354,6 +500,79 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.horizontal-scroll 
+  overflow-x: scroll
+  -ms-overflow-style: none
+  scrollbar-width: none
+
+.horizontal-scroll::-webkit-scrollbar 
+  display: none
+
+.blue-separator
+  height: 2px
+  width: 36px
+  background: $color-blue-20
+  margin-top: 13px
+
+.font-monserrat
+  font-family: $font-family-montserrat
+
+.separator
+  border-right: 0.5px solid #99999950
+
+.size-item, .size-item-active
+  width: 49px
+  height: 49px
+  border-radius: 4px
+  display: flex
+  align-items: center
+  justify-content: center
+
+.size-item
+  border: 1px solid $color-gray-3
+  font-weight: 600
+  font-size: 12px
+
+.size-item-active
+  border-color: #000
+  font-weight: 600
+  font-size: 17px
+
+.size-price
+  font-weight: 700
+  font-size: 10px
+  color: $color-gray-20
+
+.size
+  font-size: 13px
+
+.title 
+  font-size: 18px
+  font-weight: 600
+
+.last-sale
+  font-family: 500
+  font-size: 14px
+  color: #6F6F6F
+
+.last-sale-value
+  font-weight: 500
+  font-size: 12px
+  color: #36A60F
+
+.label
+  font-size: 13px
+  font-weight: 600
+
+.box
+  font-size: 14px
+  font-weight: 600
+
+.value
+  font-weight: 500
+  font-size: 14px
+  color: $color-blue-20
+
 .wd-724
   width: 724px
 
@@ -374,21 +593,19 @@ export default {
     background: $light-opacity
 
 .create-trade-select-box
-  background: $color-white-1
-  border: 0.5px solid $color-gray-43
-  box-sizing: border-box
-  border-radius: 20px
-  width: 203px
-  height: 32px
-  padding: 0 0.75rem
+  border-radius: 0
+  margin-top: 15px
+  background-color: $color-white-1
+  border: 1px solid #000
+  font-weight: 500
+  font-size: 14px
 
 .create-trade-quantity-box
+  margin-top: 15px
   background-color: $color-white-1
-  border: 0.5px solid $color-gray-43
-  box-sizing: border-box
-  border-radius: 20px
-  width: 203px
-  height: 32px
+  border: 1px solid #000
+  font-weight: 500
+  font-size: 14px
 
 .btn-width
   width: 203px
