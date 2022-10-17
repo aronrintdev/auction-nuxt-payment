@@ -26,7 +26,7 @@
             <div class="my-0 my-md-3"><img :src="CollectionSvg" alt="collection image my-2" /></div>
             <div v-if="!isMobileSize" class="auction-id">{{ $t('bids.auction_id') }}: {{ auction.id }}</div>
           </b-col>
-          <b-col cols="8" md="8" class="pl-4 d-flex justify-content-sm-between align-items-center justify-content-md-around flex-md-column"
+          <b-col cols="8" md="8" class="pl-4 d-flex justify-content-between align-items-center justify-content-md-around flex-md-column"
                  :class="isMobileSize ? 'body-5-medium': 'body-4-bold'">
             <span>Bla bla bla bla {{ auction.name }} ( {{ auction.auction_items.length }}
             {{ $t('bids.items') }} )
