@@ -72,7 +72,7 @@
                  <label class="quantity-label mt-2 ml-3">{{ $t('trades.create_listing.vendor.wants.box_condition') }}<sup>*</sup></label>
                </div>
                <div>
-                 <b-form-select v-model="box_condition" class="create-trade-select-box ml-3">
+                 <b-form-select v-model="box_condition" class="create-trade-select-box ml-2">
                    <b-form-select-option :value="null">{{ $t('trades.create_listing.vendor.wants.select') }} </b-form-select-option>
                    <b-form-select-option
                      v-for="condition in product.packaging_conditions"
@@ -91,15 +91,17 @@
          </div>
 
       </div>
-
-
-
       <div class="mt-2"  v-if="!isTradeEditForm" >
         <div  v-if="productFor !== 'wantsList'">
           <FormStepProgressBar v-if="progressBar" :steps="steps"  variant="transparent"/>
         </div>
       </div>
-
+      <div class="mt-2">
+        <b-btn :disabled = !disabledBtn  @click="addToOffer(product)" class="create-trade-next-btn">
+          {{ ((productFor === tradeOffer) || (productFor === tradeArena)) ?
+          $t('trades.create_listing.vendor.wants.add_to_offers') : $t('trades.create_listing.vendor.wants.add_to_wants') }}
+        </b-btn>
+      </div>
     </div>
 
 
@@ -107,34 +109,8 @@
 
 
 
-<!--    <div  class="create-trade-back-to-search" @click="backSearch()">-->
-<!--      <b-icon icon="chevron-left" aria-hidden="true"></b-icon>-->
-<!--      {{ (productFor === PRODUCT_FOR_COUNTER_OFFER) ? $t('trades.back_to_counter_offer') : ((productFor === 'wantOfferConfirm' && !isTradeEditForm) ?-->
-<!--        $t('trades.create_listing.vendor.wants.back_to_confirm_trade_listing') :-->
-<!--        (!isTradeEditForm ? $t('trades.create_listing.vendor.wants.back_to_search') : (!itemId ? $t('trades.back_to_trade_search') : $t('trades.back_to_trade_editing')))) }}-->
-<!--    </div>-->
-<!--    <b-row>-->
-<!--      <b-col md="6" class="create-trade-heading pt-50" >-->
-<!--        <div>{{product.name}}</div>-->
-<!--      </b-col>-->
-<!--      <b-col v-if="!isTradeEditForm" md="6">-->
-<!--        <div v-if="productFor !== 'wantsList'" class="row">-->
-<!--          <div class="col-md-12 ">-->
-<!--            <FormStepProgressBar v-if="progressBar" :steps="steps" variant="transparent"/>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </b-col>-->
-<!--    </b-row>-->
-
     <b-row class="justify-content-center mt-5">
       <div class="row wd-724 justify-start">
-<!--        <div v-if="productFor !== 'wantsList'" class="d-block" :class="(!isValidQuantity(quantity)) && 'error'">-->
-<!--          <label>{{ $t('trades.create_listing.vendor.wants.quantity') }}<sup>*</sup></label>-->
-<!--          <b-form-input v-model="quantity" type="number" :placeholder="$t('trades.create_listing.vendor.wants.enter_quantity')" class="create-trade-quantity-box"></b-form-input>-->
-<!--          <div class="error-text mt-1 text-xs">-->
-<!--            {{((productFor === tradeOffer) || (productFor === tradeArena)) ? $t('create_listing.trade.offer_items.offer_items_limit'): $t('trades.create_listing.vendor.wants.want_items_quantity_should_not_exceed', [MAX_ITEMS_ALLOWED]) }}-->
-<!--          </div>-->
-<!--        </div>-->
         <div v-if="product.category.name !== 'sneakers'" class="d-block ml-4" :class="!isValidYear(year) && 'error'">
             <label>{{ $t('trades.create_listing.vendor.wants.year') }}<sup>*</sup></label>
             <b-form-input v-model="year" type="number" :placeholder="$t('trades.create_listing.vendor.wants.enter_year')" class="create-trade-quantity-box"></b-form-input>
@@ -142,21 +118,6 @@
               {{ $t('trades.create_listing.vendor.wants.enter_year') }}
             </div>
           </div>
-<!--        <div v-if="product.packaging_conditions" class="d-block ml-4" :class="!box_condition && 'error'">-->
-<!--          <label>{{ $t('trades.create_listing.vendor.wants.box_condition') }}<sup>*</sup></label>-->
-<!--          <b-form-select v-model="box_condition" class="create-trade-select-box">-->
-<!--            <b-form-select-option :value="null">{{ $t('trades.create_listing.vendor.wants.select') }} </b-form-select-option>-->
-<!--            <b-form-select-option-->
-<!--              v-for="condition in product.packaging_conditions"-->
-<!--              :key="condition.id"-->
-<!--              :value="condition.id">-->
-<!--                {{condition.name}}-->
-<!--            </b-form-select-option>-->
-<!--          </b-form-select>-->
-<!--          <div class="error-text mt-1 text-xs">-->
-<!--            {{ $t('trades.create_listing.vendor.wants.select_box_condition') }}-->
-<!--          </div>-->
-<!--        </div>-->
         <div v-if="productFor === 'wantsList'" class="d-block ml-4" >
           <label>Select List<sup>*</sup></label>
           <SelectListDropDown
@@ -173,10 +134,6 @@
             @change="listType"
           />
         </div>
-        <b-btn class="search-trade-add-btn ml-4" :disabled = !disabledBtn  @click="addToOffer(product)">
-          {{ ((productFor === tradeOffer) || (productFor === tradeArena)) ?
-            $t('trades.create_listing.vendor.wants.add_to_offers') : $t('trades.create_listing.vendor.wants.add_to_wants') }}
-        </b-btn>
       </div>
     </b-row>
   </div>
@@ -590,7 +547,6 @@ export default {
   text-overflow: ellipsis
 .main-container
   width: 360px
-  border: 1px solid #667799
 .search-size
   font-family: $font-montserrat
   font-style: normal
@@ -615,4 +571,14 @@ export default {
   height: 49px
   border: 1px solid #E8E8E8
   border-radius: 10px
+.create-trade-next-btn
+  background-color: #667799
+  border-radius: 20px
+  float: right
+  margin-bottom: 7px
+  cursor: pointer
+  width: 162px
+  font-family: $font-montserrat
+  font-weight: $medium
+  @include body-10
 </style>
