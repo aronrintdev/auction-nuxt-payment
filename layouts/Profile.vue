@@ -141,4 +141,10 @@ export default {
     display: none
   #sidemenu-expanded
     display: none
+
+@media (max-width: 992px)
+  .wrapper
+    .custom-wrapper
+      background-color: $color-white-19
+
 </style>

@@ -148,10 +148,19 @@
           {{ combinationItems[selectedItemIndex].packaging_condition.name }}
         </div>
 
-        <div class="mt-2 d-flex justify-content-center">
-          <div role="button" class="slider-item slider-active"></div>
-          <div role="button" class="slider-item"></div>
-          <div role="button" class="slider-item"></div>
+        <div v-if="combinationItems.length > 1" class="mt-2 d-flex justify-content-center">
+          <div
+            v-for="(item, idx) in combinationItems"
+            :key="idx"
+          >
+            <div 
+              role="button"
+              @click="selectedItemIndex = idx"
+              :class="{ 'slider-active': idx === selectedItemIndex }" 
+              class="slider-item"
+            >
+            </div>
+          </div>
         </div>
 
         <div class="value">{{
@@ -190,6 +199,8 @@ export default {
   },
   data (){
     console.log('this.combination.combination_items', this.combination.combination_items);
+    console.log('selectedItemIndex', this.combination);
+    // this.combination.selectedItemIndex
     return {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
       combinationItems: this.combination.combination_items,
@@ -232,7 +243,7 @@ export default {
 
 .more
   position: absolute
-  right: 3px
+  right: 15px
   top: 7px
 
 .value
