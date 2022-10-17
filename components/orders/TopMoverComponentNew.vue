@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div>
     <div class="bg-white my-2 top-movers-row py-2">
       <div v-if="multiple">
         <order-multiple-component :order="order" :is-selectable="isSelectable" :value="value"
