@@ -10,7 +10,6 @@
           :label="option.label"
           :val="option.value"
           name="sortFilter"
-          @click="applyFilters"
         />
       </div>
       <div class="border-bottom pb-3 mt-2">
@@ -132,7 +131,9 @@
         brands: [],
         selectedBrand: '',
         selectedSizeType: '',
-        years: ['2001', '2022'],
+        years: '',
+        allFilters: {},
+        status: ''
       }
     },
     computed: {
@@ -205,7 +206,7 @@
     methods: {
       loadFilter() {
         if(this.dateFilter !== '') {
-          this.sortBy = this.$t('shop_by_style.archive')
+          this.sortBy = this.status = this.$t('shop_by_style.archive')
         } else {
           this.sortBy = this.defaultType
         }
@@ -215,7 +216,8 @@
         this.$axios
           .get('shop-by-style', {
             params: {
-              selectedType: this.sortBy
+              selectedType: this.sortBy,
+              filters: JSON.stringify(this.allFilters)
             }
           })
           .then((res) => {
@@ -226,19 +228,14 @@
           }) 
       },  
       applyFilters() {
-        this.$store.commit('browse/setSelectedYears', this.years)
-        this.$store.commit('browse/setSelectedBrands', this.brands)
-        this.$store.commit('browse/setSelectedSizeTypes', this.sizeTypes)
-        if (this.sizeTypes && this.sizeTypes.length > 0 && this.sizes) {
-          const newSizes = this.sizes.filter((size) =>
-            this.filters?.sizes?.find(
-              (s) => s.id === size && this.sizeTypes.includes(s.type)
-            )
-          )
-          this.$store.commit('browse/setSelectedSizes', newSizes)
-        } else {
-          this.$store.commit('browse/setSelectedSizes', this.sizes)
+        
+        this.allFilters = {
+          status: this.status,
+          year: this.years,
+          brand: this.selectedBrand,
+          sizeType: this.selectedSizeType
         }
+        this.loadPage()
         this.$emit('apply')
       },
     },

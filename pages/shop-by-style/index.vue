@@ -121,11 +121,12 @@ export default {
       this.styles = stylesList
     },
     // fetch styles as per selected category
-    async fetchStyles() {
+    async fetchStyles(filters = '') {
       await this.$axios
         .get('shop-by-style', {
           params: {
             selectedType: this.type,
+            filters
           },
         })
         .then((res) => {
@@ -154,6 +155,10 @@ export default {
       this.type = value
       this.page = 1
       this.fetchStyles()
+    },
+
+    applyFilter(filters) {
+      this.fetchStyles(filters)
     },
 
     closeFilter() {
