@@ -42,8 +42,8 @@ export default {
     return {
       activeNav: 'password',
       navigations: [
-        {label: 'Password', value: 'password'},
-        {label: '2FA Security', value: '2fa_security'}
+        {label: this.$t('change_password.password'), value: 'password'},
+        {label: this.$t('features.2fa_security.title'), value: '2fa_security'}
       ]
     }
   },

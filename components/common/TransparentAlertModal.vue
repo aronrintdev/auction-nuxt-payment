@@ -6,8 +6,8 @@
       </template>
       <template #default>
         <div class="alert-wrapper">
-          <div class="background"></div>
-          <div class="content d-flex align-items-center justify-content-center">
+          <div class="background h-100 w-100"></div>
+          <div class="content h-100 w-100 d-flex align-items-center justify-content-center">
             <div class="p-3">
               <div><img :src="require('~/assets/img/icons/green-tik.svg')" alt=""/></div>
               <div class="mt-4">{{ text }}</div>
@@ -90,8 +90,6 @@ export default {
 
   .background
     position: absolute
-    width: 100%
-    height: 100%
     background: $color-white-5
     backdrop-filter: blur(2px)
     opacity: .92
@@ -101,8 +99,6 @@ export default {
   .content
     position: absolute
     z-index: 9
-    width: 100%
-    height: 100%
     font-family: $font-montserrat
     @include body-13-regular
 

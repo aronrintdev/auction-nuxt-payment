@@ -76,7 +76,7 @@ export default {
     vertical-align: bottom
 
   .link
-    color: #3A71EA
+    color: $color-blue-30
     text-decoration: underline
 
   .note
