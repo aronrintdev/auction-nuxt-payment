@@ -114,7 +114,9 @@ export default {
     dismissThisTrade(tradeId){
       this.dismissTrade({trade_id: tradeId}).then(() => {
         this.$store.commit('trade/removeTradeFromBestMatches', tradeId)
-      })
+      }).catch((error) => {
+          this.$toasted.error(this.$t(error.response.data.error))
+        })
     },
     /**
      * Move vendor to trade offer page
