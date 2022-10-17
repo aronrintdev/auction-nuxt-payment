@@ -122,8 +122,6 @@
 <script>
 import { mapActions } from 'vuex'
 import dayjs from 'dayjs'
-// import relativeTime from 'dayjs/plugin/relativeTime'
-
 import {AUCTION_TYPE_COLLECTION, AUCTION_TYPE_SINGLE, WATCHLIST_TYPE_AUCTION} from '~/static/constants';
 import WatchlistPopover from '~/components/watchlist/Popover'
 import ShareButton from '~/components/common/ShareButton'

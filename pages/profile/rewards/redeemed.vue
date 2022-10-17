@@ -93,7 +93,7 @@ export default {
     margin-top: 33px
     font-family: $font-montserrat
     font-style: normal
-    color: #626262
+    color: $color-gray-5
 
   .browse
     margin-top: 38px
