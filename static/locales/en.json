@@ -5321,7 +5321,15 @@
     },
     "detail":{
       "buy":"Buy",
-      "sell":"Sell"
+      "sell":"Sell",
+      "24h":"24H",
+      "7d":"24D",
+      "30d":"30D",
+      "6m":"6M",
+      "1y":"1Y",
+      "all":"All",
+      "similar_products":"Similar Products",
+      "similar_search_placeholder":"Search For Your favorite Streetwear"
     }
   }
 }

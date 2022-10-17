@@ -52,8 +52,8 @@ export default {
       @include body-6-regular
       background-color: $color-white-19
       border: 0 !important
-      border-radius: 20px !important
-      color: $color-black-1 !important
+      border-radius: 20px 
+      color: $color-black-1 
       padding: 6px 35px
       height: auto
       &.active
