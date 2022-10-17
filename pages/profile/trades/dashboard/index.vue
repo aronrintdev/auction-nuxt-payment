@@ -11,6 +11,7 @@
           :placeholder="$t('trades.search_trades')"
           :clearSearch="true"
           @change="onSearchInput"
+          @clear="onSearchInput"
         />
         <SearchBarProductsList v-if="searchedProducts.length > 0" :productItems="searchedProducts" width="700px" class="position-absolute" @productClick="searchTrades"/>
       </b-col>
@@ -165,6 +166,16 @@ export default {
     this.fetchTradesListing()
     this.fetchOffersListing(DEFAULT_OFFER_TYPE)
     this.fetchTotalOffers()
+
+    // To filter trades
+    this.$root.$on('productClick', (product) => {
+      this.searchTrades(product)
+    })
+
+    // To filter trades
+    this.$root.$on('click_outside', () => {
+      this.searchedProducts = []
+    })
   },
   methods:{
     fetchTotalOffers(){
@@ -187,7 +198,8 @@ export default {
         .get('trades/submitted-offers', {
           params: {
             type: offerType,
-            per_page: PROFILE_DASHBOARD_MAX_OFFERS
+            per_page: PROFILE_DASHBOARD_MAX_OFFERS,
+            searchText: this.searchText,
           }
         })
         .then((response) => {
@@ -197,6 +209,12 @@ export default {
           this.$toasted.error(this.$t(error.response.data.error))
           this.tradeOffers =  []
         })
+    },
+    searchTrades(product){
+      this.searchText = (product) ? product.name : ''
+      this.searchedProducts = []
+      this.fetchTradesListing()
+      this.fetchOffersListing()
     },
     fetchTradesListing(){
       this.$axios
@@ -243,6 +261,8 @@ export default {
         this.searchText =  null
         this.searchedProducts =  []
       }
+      this.fetchTradesListing()
+      this.fetchOffersListing()
     },
 
     handleMethodNavClick(type) {

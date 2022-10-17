@@ -12,8 +12,9 @@
           :clearSearch="true"
           bordered
           @change="onSearchInput"
+          @clear="onSearchInput"
         />
-        <SearchBarProductsList v-if="searchedProducts.length > 0" :productItems="searchedProducts" width="700px" class="position-absolute" @productClick="searchTrades"/>
+        <SearchBarProductsList v-if="searchedProducts.length > 0" :productItems="searchedProducts" width="700px" class="position-absolute"/>
       </b-col>
       <b-col lg="4" sm="12" class="d-flex justify-content-end pr-4">
         <CustomDropdown
@@ -35,11 +36,13 @@
           <b-col md="5 p-0" sm="12">
             <CustomDropdown
               v-model="conditionFilter"
-              type="multi-select"
-              :options="conditionFilterItems"
+              type="multi-select-checkbox"
+              :options="getConditionFilterItems"
               :label="conditionFilterLabel"
               variant="white"
               dropDownHeight="38px"
+              optionsWidth="custom"
+              width="275px"
               @getResults="fetchOffersListing"
               @change="changeConditionFilter"
             />
@@ -47,11 +50,13 @@
           <b-col md="7 pl-3" sm="12">
             <CustomDropdown
               v-model="statusFilter"
-              type="multi-select"
-              :options="statusFilterItems"
+              type="multi-select-checkbox"
+              :options="getStatusFilterItems"
               :label="statusFilterLabel"
               variant="white"
               dropDownHeight="38px"
+              optionsWidth="custom"
+              width="361px"
               @getResults="fetchOffersListing"
               @change="changeStatusFilter"
             />
@@ -232,8 +237,25 @@ export default {
       selected: [],
     }
   },
+  computed: {
+    getConditionFilterItems(){
+      return this.conditionFilterItems.map(condition => condition.value)
+    },
+    getStatusFilterItems(){
+      return this.statusFilterItems.map(status => status.value)
+    }
+  },
   mounted() {
     this.fetchOffersListing()
+    // To filter trade offers
+    this.$root.$on('productClick', (product) => {
+      this.searchOffers(product)
+    })
+
+    // To reset search filter trade offers
+    this.$root.$on('click_outside', () => {
+      this.searchedProducts = []
+    })
   },
   methods:{
     /**
@@ -259,6 +281,11 @@ export default {
         this.statusFilter = this.statusFilter.filter(item => item !== selectedStatuses)
       }
       this.statusFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.statusFilter, 2) || this.$t('trades.status') // 2 is max number of labels show in filter
+    },
+    searchOffers(product){
+      this.searchText = (product) ? product.name : ''
+      this.searchedProducts = []
+      this.fetchOffersListing()
     },
     fetchOffersListing(){
       this.$axios
@@ -312,6 +339,7 @@ export default {
         this.searchText =  null
         this.searchedProducts =  []
       }
+      this.fetchOffersListing()
     },
 
     /***

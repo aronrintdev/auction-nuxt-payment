@@ -69,7 +69,7 @@ export default {
     backWants() {
       this.searchedItems = []
       if(this.combinationId){
-        this.$root.$emit('back_to_edit')
+        this.$root.$emit('back_to_edit_combination')
       }
       else {
         this.$router.push('/profile/trades/wants')

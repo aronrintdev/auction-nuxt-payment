@@ -12,8 +12,9 @@
           :clearSearch="true"
           bordered
           @change="onSearchInput"
+          @clear="onSearchInput"
         />
-        <SearchBarProductsList v-if="searchedProducts.length > 0" :productItems="searchedProducts" width="700px" class="position-absolute" @productClick="searchTrades"/>
+        <SearchBarProductsList v-if="searchedProducts.length > 0" :productItems="searchedProducts" width="700px" class="position-absolute"/>
       </b-col>
       <b-col lg="4" sm="12" class="d-flex justify-content-end pr-4">
       <CustomDropdown
@@ -36,12 +37,13 @@
         <b-col md="12 p-0" sm="12">
           <CustomDropdown
             v-model="statusFilter"
-            type="multi-select"
-            :options="statusFilterItems"
+            type="multi-select-checkbox"
+            :options="getStatusFilterItems"
             :label="statusFilterLabel"
+            optionsWidth="custom"
             variant="white"
             dropDownHeight="38px"
-            width="270px"
+            width="390px"
             @getResults="fetchTradesListing"
             @change="changeStatusFilter"
           />
@@ -187,8 +189,23 @@ export default {
       selectAllExpired: false
     }
   },
+  computed: {
+    getStatusFilterItems(){
+      return this.statusFilterItems.map(status => status.value)
+    }
+  },
   mounted() {
     this.fetchTradesListing()
+
+    // To filter trades
+    this.$root.$on('productClick', (product) => {
+      this.searchTrades(product)
+    })
+
+    // To reset search filter trades
+    this.$root.$on('click_outside', () => {
+      this.searchedProducts = []
+    })
   },
   methods:{
     ...mapActions('trades', ['deleteSelectedTrades']),
@@ -228,6 +245,11 @@ export default {
         this.statusFilter = this.statusFilter.filter(item => item !== selectedStatuses)
       }
       this.statusFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.statusFilter, 2) || this.$t('trades.status') // 2 is max number of labels show in filter
+    },
+    searchTrades(product){
+      this.searchText = (product) ? product.name : ''
+      this.searchedProducts = []
+      this.fetchTradesListing()
     },
     fetchTradesListing(){
       this.selected = []
@@ -281,6 +303,7 @@ export default {
         this.searchText =  null
         this.searchedProducts =  []
       }
+      this.fetchTradesListing()
     },
 
     /***

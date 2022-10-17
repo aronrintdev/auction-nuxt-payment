@@ -408,7 +408,7 @@ export default {
       }
       this.$axios.post('trades/wants/combination/items', data)
         .then(()=>{
-            this.$root.$emit('back_to_edit')
+            this.$root.$emit('back_to_edit_combination')
         })
         .catch((error) => {
           this.$toasted.error(this.$t('error.something_went_wrong'))
