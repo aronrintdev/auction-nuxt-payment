@@ -59,14 +59,9 @@
     <b-col sm="12" md="1" class="d-flex justify-content-around flex-column py-1 py-md-0">
       <div class="d-flex justify-content-between d-md-block">
         <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.auction_id') }}:</span>
-        <span :class="isMobileSize ? 'body-9-regular text-underline text-blue-30' : 'body-4-medium'">{{ auction.id }}</span>
-      </div>
-    </b-col>
-    <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0"
-           :class="{'bg-lightgrey': isMobileSize}">
-      <div class="d-flex justify-content-between d-md-block">
-        <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.auction_type') }}:</span>
-        <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-medium'">{{ $t('bids.auction_types.' + auction.type) }}</span>
+        <span :class="isMobileSize ? 'body-9-regular text-underline text-blue-30' : 'body-4-medium'">
+          {{ $t('bids.auction_types.' + auction.type) }}
+        </span>
       </div>
     </b-col>
     <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0">
@@ -78,11 +73,11 @@
     <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0"
            :class="{'bg-lightgrey': isMobileSize}">
       <div class="d-flex justify-content-between d-md-block">
-        <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.highest_bid_amt') }}:</span>
+        <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.auction_type') }}:</span>
         <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-medium'">{{ bid.price / 100 }}</span>
       </div>
     </b-col>
-    <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0">
+    <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0">
       <div class="d-flex justify-content-between d-md-block">
         <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.time_remaining') }}:</span>
         <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-medium'">{{ !isExpiredOrDelisted ? bid.auction.remaining_time : 'Expired' }}</span>
