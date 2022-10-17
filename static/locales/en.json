@@ -145,6 +145,7 @@
     "start_date"  : "Start Date",
     "done"  : "Done",
     "end_date"  : "End Date",
+    "search_brands": "Search Brands",
     "sort_by" : "Sort By",
     "options" : "Options",
     "reset" : "Reset",
