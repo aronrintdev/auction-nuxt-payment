@@ -190,8 +190,8 @@
 
         <template v-if="purchaseDatas.data">
           <div
-            v-if="purchaseDatas.data.length === 0"
-            class="row vd-purchase-empty mb-5 mt-md-4"
+              v-if="purchaseDatas.data.length === 0 && !isScreenXS"
+              class="row vd-purchase-empty mb-5 mt-md-4"
           >
             <div class="col-12 text-center">
               <p class="vd-purchase-browse-now">
@@ -200,24 +200,33 @@
                 {{ $t('vendor_purchase.no_data_text_browsenow') }}
               </p>
               <nuxt-link to="/shop" class="btn vd-purchase-browse-btn">{{
-                $t('vendor_purchase.browse')
-              }}</nuxt-link>
+                  $t('vendor_purchase.browse')
+                }}
+              </nuxt-link>
             </div>
           </div>
 
           <!-- ./No products -->
-          <template v-else>
-            <VendorPurchaseHistory :purchaseDatas="purchaseDatas.data" />
+          <template v-if="purchaseDatas.data.length !== 0 && !isScreenXS">
+            <VendorPurchaseHistory :purchaseDatas="purchaseDatas.data"/>
           </template>
+
+          <div v-if="purchaseDatas.data.length !== 0 && isScreenXS" class="purchase-list">
+            <div v-for="purchase in purchaseDatas.data" :key="purchase.id">
+              <MobilePurchaseHistoryCard
+                  :purchase="purchase"
+              />
+            </div>
+          </div>
           <div class="row justify-content-center purchase-paginator">
             <Pagination
-              v-model="currentPage"
-              :total="total"
-              :per-page="perPage"
-              :per-page-options="perPageOption"
-              class="mt-2"
-              @page-click="handlePageClick"
-              @per-page-change="handlePerPageChange"
+                v-model="currentPage"
+                :total="total"
+                :per-page="perPage"
+                :per-page-options="perPageOption"
+                class="mt-2"
+                @page-click="handlePageClick"
+                @per-page-change="handlePerPageChange"
             />
           </div>
         </template>
@@ -235,11 +244,13 @@ import {PER_PAGE_OPTIONS, PERPAGE} from '~/static/constants'
 import screenSize from '~/plugins/mixins/screenSize';
 import MobileSearchInput from '~/components/mobile/MobileSearchInput';
 import filterSvg from '~/assets/img/profile/notifications/filters.svg?inline'
+import MobilePurchaseHistoryCard from '~/components/profile/purchases/MobilePurchaseHistoryCard';
 
 export default {
   name: 'ProfilePreferencesPurchasesIndexPage',
 
   components: {
+    MobilePurchaseHistoryCard,
     filterSvg,
     MobileSearchInput,
     VendorPurchaseCustomSelect,
@@ -574,6 +585,9 @@ export default {
 .vendor-dashboard-body
   &.mobile
     padding: 16px 20px
+
+.purchase-list
+  margin-top: 5px
 
 .vd-purchase-history
   &.mobile
