@@ -17,10 +17,24 @@
         :placeholder="$t('create_listing.trade.offer_items.search_by')"
         :clearSearch="true"
         inputHeight="60px"
+        :inputStyle="{ 
+          borderColor: '#99999950', 
+          paddingLeft: '74px',
+          fontFamily: 'Montserrat', 
+          color: '#626262',
+          fontSize: '16px'
+        }"
+        iconStyle='position: relative; left: 12px;'
         bordered
         @change="onSearchInput"
       />
-      <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" inputType="wantsList" />
+      <SearchedProductsBelowSearchTextBox 
+        v-if="searchedItems.length > 0" 
+        :productItems="searchedItems" 
+        inputType="wantsList"
+        :wrapperStyle="{ margin: 0 }"
+        :itemStyle="{ padding: 0 }"
+      />
     </div>
   </div>
   </div>

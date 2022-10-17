@@ -15,7 +15,7 @@
           <SearchInput
             class="searchInput"
             :value="searchText"
-            :inputClass="inputClass + 'padding-left: 45px; width: 95%; font-size: 12px;'"
+            :inputStyle="{ paddingLeft: '45px', width: '95%', fontSize: '12px', ...inputClass }"
             placeholder="Search for Wants"
             variant="primary"
             :clearSearch="true"
@@ -29,7 +29,7 @@
           <SearchInput
             class="searchInput"
             :value="searchText"
-            :inputClass="inputClass + 'background-color: #FFF;'"
+            :inputStyle="{ backgroundColor: '#FFF', ...inputClass }"
             iconStyle='position: relative; left: 12px;'
             variant="primary"
             :clearSearch="true"
@@ -363,7 +363,17 @@ export default {
   computed: {
     ...mapGetters('browse', ['filters']),
     inputClass() {
-      return 'background-color: #F7F7F7; font-family: Montserrat; padding-left: 74px !important; font-weight: 400; font-size: 16px; line-height: 20px; letter-spacing: 0.06em; text-transform: capitalize; color: #626262;';
+      return {
+        backgroundColor: '#FFF',
+        fontFamily: 'Montserrat', 
+        paddingLeft: '74px !important', 
+        fontWeight: 400,
+        fontSize: '16px', 
+        lineHeight: '20px', 
+        letterSpacing: '0.06em', 
+        textTransform: 'capitalize',
+        color: '#626262'
+      }
     }
   },
   mounted() {

@@ -1,21 +1,50 @@
 <template>
-  <b-row v-show="productItems.length" id="products" cols="1" class="text-xs w-100 searched-item-row" :style="{'max-width': width}">
-    <b-col align-self="center">
+  <b-row v-show="productItems.length" id="products" cols="1" class="text-xs w-100 searched-item-row" 
+  :style="{'max-width': width, ...wrapperStyle}">
+    <b-col :style="itemStyle" align-self="center">
       <b-list-group v-for="(product, index) in productItems" :key="`searched-product-${index}`">
-        <b-list-group-item class="text-xs">
-          <span class="searched-product-image mr-2 col-md-2"><img :src="product.image" width="40px" height="40px" /></span>
-          <span class="searched-product-name align-self-center mt-5 col-md-7">{{product.name}}</span>
-          <span class="searched-product-add-to-wants pull-right mt-2 col-md-3 text-right">
-            <span v-if="productsFor === tradeItem || productsFor === counterOffer" class="cursor-pointer" @click="addProductTrade(product)">{{$t('common.add_product')}} <img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" /></span>
+        <div 
+          :style="{ height: '60px' }" 
+          class="rounded-0 border-top-0 list-group-item text-xs d-flex align-items-center justify-content-between"
+        >
+          <div class="d-flex">
+            <span class="searched-product-image mr-2 col-md-1">
+              <img class="img-fluid" :src="product.image" />
+            </span>
+            <span class="searched-product-name align-self-center col-md-7">{{product.name}}</span>
+          </div>
+          <span class="mt-2 col-md-3">
+            <span 
+              v-if="productsFor === tradeItem || productsFor === counterOffer" 
+              class="cursor-pointer" 
+              @click="addProductTrade(product)"
+            >
+              {{ $t('common.add_product') }} 
+              <img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
+            </span>
             <span v-else-if="productsFor === arenaItem" class="cursor-pointer" @click="addProductArena(product)"><img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" /></span>
-            <a v-else href="#" @click="addProductWant(product)">{{$t('common.add_to_wants')}} <img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" /></a>
+            <a 
+              v-else 
+              class="d-flex justify-content-end searched-product-add-to-wants" 
+              href="#" 
+              @click="addProductWant(product)"
+
+            >
+              {{ $t('trades.create_listing.vendor.wants.add_want') }} 
+              <img class="ml-3" :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
+            </a>
           </span>
-        </b-list-group-item>
+        </div>
       </b-list-group>
     </b-col>
-    <b-col  align-self="center">
+    <b-col :style="itemStyle" align-self="center">
       <b-list-group class="text-md">
-        <b-list-group-item class="p-4"><i>{{$t('common.dont_see_your_product')}} <a href="#">{{$t('common.suggest_a_new_product')}}</a></i></b-list-group-item>
+        <b-list-group-item class="p-4 border-top-0 no-product d-flex align-items-center">
+          <i>
+            {{$t('common.dont_see_your_product')}} 
+            <a class="suggest-new" href="#">{{$t('common.suggest_a_new_product')}}</a>
+          </i>
+          </b-list-group-item>
       </b-list-group>
     </b-col>
   </b-row>
@@ -44,6 +73,14 @@ export default {
       type: String,
       default: '',
     },
+    wrapperStyle: {
+      type: Object,
+      default: () => {}
+    },
+    itemStyle: {
+      type: Object,
+      default: () => {}
+    }
   },
   data(){
     return {
@@ -101,7 +138,34 @@ export default {
 </script>
 <style scoped lang="sass">
 @import '~/assets/css/_typography'
+@import '~/assets/css/_variables'
+
 .searched-item-row
   font-weight: $normal
   z-index: 100000
+
+.searched-product-name
+  font-family: $font-family-montserrat
+  font-weight: 500
+  font-size: 16px
+
+.searched-product-add-to-wants
+  color: $color-gray-5 !important
+  font-family: $font-family-montserrat
+  font-weight: 500
+  font-size: 16px
+
+.no-product
+  font-family: $font-family-montserrat
+  font-size: 16px
+  font-weight: 400
+  color: #000
+  border-bottom-left-radius: 8px
+  border-bottom-right-radius: 8px
+  height: 60px
+
+.suggest-new
+  color: #000
+  text-decoration: underline
+
 </style>

@@ -4150,6 +4150,7 @@
         "wants": {
           "back_to_offers_item": "Back to Offer Items",
           "add_wants": "Add Wants",
+          "add_want": "Add Want",
           "optional": "Optional",
           "search_information": "Search for what you're looking for with a minimum of 1 item, maximum {0} items or add your items or combinations from the Trade Wants List",
           "search_by_options": "Search by SKU, Keyword, or Brand",

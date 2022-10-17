@@ -23,8 +23,8 @@
         :placeholder="placeholder || $t('common.search')"
         :debounce="debounce"
         autocomplete="off"
-        :class="`search-input ${inputClass}`"
-        :style="inputStyle"
+        :class="'search-input'"
+        :style="{ height: this.inputHeight, ...this.inputStyle }"
         :autofocus="autofocus"
         @input="handleTextInput"
         @keydown.enter="handleEnterKeyDown"
@@ -112,9 +112,9 @@ export default {
       type: String,
       default: 'unset',
     },
-    inputClass: {
-      type: String,
-      default: ''
+    inputStyle: {
+      type: Object,
+      default: () => {}
     },
     iconStyle: {
       type: String,
@@ -138,11 +138,6 @@ export default {
         this.$emit('update:resultShow', newVal)
       }
     },
-  },
-  computed: {
-    inputStyle() {
-      return this.inputClass + 'height: ' + this.inputHeight + ';'
-    }
   },
   methods: {
     handleTextInput(value) {
@@ -234,7 +229,7 @@ export default {
   .btn-clear
     position: absolute
     z-index: 1
-    right: 12px
+    right: 20px
 
   input.search-input
     width: 100%
