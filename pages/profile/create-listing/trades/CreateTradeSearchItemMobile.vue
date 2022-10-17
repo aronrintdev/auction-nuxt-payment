@@ -55,7 +55,7 @@
           </div>
         </div>
       <div class="d-flex mt-2">
-           <div class="d-inline"  v-if="productFor !== 'wantsList'" :class="(!isValidQuantity(quantity)) && 'error'">
+           <div class="d-inline"  v-if="productFor !== 'wantsList'">
              <div>
                <label class="quantity-label mt-2 ml-3">{{ $t('trades.create_listing.vendor.wants.quantity') }}<sup>*</sup></label>
              </div>
@@ -67,9 +67,33 @@
              </div>
            </div>
            <div>
-
+             <div class="d-inline"  v-if="product.packaging_conditions">
+               <div>
+                 <label class="quantity-label mt-2 ml-3">{{ $t('trades.create_listing.vendor.wants.box_condition') }}<sup>*</sup></label>
+               </div>
+               <div>
+                 <b-form-select v-model="box_condition" class="create-trade-select-box ml-3">
+                   <b-form-select-option :value="null">{{ $t('trades.create_listing.vendor.wants.select') }} </b-form-select-option>
+                   <b-form-select-option
+                     v-for="condition in product.packaging_conditions"
+                     :key="condition.id"
+                     :value="condition.id">
+                     {{condition.name}}
+                   </b-form-select-option>
+                 </b-form-select>
+                 <div class="error-text mt-1 text-xs">
+                   {{ $t('trades.create_listing.vendor.wants.select_box_condition') }}
+                 </div>
+               </div>
+             </div>
+             <div>
            </div>
          </div>
+
+      </div>
+
+
+
       <div class="mt-2"  v-if="!isTradeEditForm" >
         <div  v-if="productFor !== 'wantsList'">
           <FormStepProgressBar v-if="progressBar" :steps="steps"  variant="transparent"/>
@@ -83,24 +107,24 @@
 
 
 
-    <div  class="create-trade-back-to-search" @click="backSearch()">
-      <b-icon icon="chevron-left" aria-hidden="true"></b-icon>
-      {{ (productFor === PRODUCT_FOR_COUNTER_OFFER) ? $t('trades.back_to_counter_offer') : ((productFor === 'wantOfferConfirm' && !isTradeEditForm) ?
-        $t('trades.create_listing.vendor.wants.back_to_confirm_trade_listing') :
-        (!isTradeEditForm ? $t('trades.create_listing.vendor.wants.back_to_search') : (!itemId ? $t('trades.back_to_trade_search') : $t('trades.back_to_trade_editing')))) }}
-    </div>
-    <b-row>
-      <b-col md="6" class="create-trade-heading pt-50" >
-        <div>{{product.name}}</div>
-      </b-col>
-      <b-col v-if="!isTradeEditForm" md="6">
-        <div v-if="productFor !== 'wantsList'" class="row">
-          <div class="col-md-12 ">
-            <FormStepProgressBar v-if="progressBar" :steps="steps" variant="transparent"/>
-          </div>
-        </div>
-      </b-col>
-    </b-row>
+<!--    <div  class="create-trade-back-to-search" @click="backSearch()">-->
+<!--      <b-icon icon="chevron-left" aria-hidden="true"></b-icon>-->
+<!--      {{ (productFor === PRODUCT_FOR_COUNTER_OFFER) ? $t('trades.back_to_counter_offer') : ((productFor === 'wantOfferConfirm' && !isTradeEditForm) ?-->
+<!--        $t('trades.create_listing.vendor.wants.back_to_confirm_trade_listing') :-->
+<!--        (!isTradeEditForm ? $t('trades.create_listing.vendor.wants.back_to_search') : (!itemId ? $t('trades.back_to_trade_search') : $t('trades.back_to_trade_editing')))) }}-->
+<!--    </div>-->
+<!--    <b-row>-->
+<!--      <b-col md="6" class="create-trade-heading pt-50" >-->
+<!--        <div>{{product.name}}</div>-->
+<!--      </b-col>-->
+<!--      <b-col v-if="!isTradeEditForm" md="6">-->
+<!--        <div v-if="productFor !== 'wantsList'" class="row">-->
+<!--          <div class="col-md-12 ">-->
+<!--            <FormStepProgressBar v-if="progressBar" :steps="steps" variant="transparent"/>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </b-col>-->
+<!--    </b-row>-->
 
     <b-row class="justify-content-center mt-5">
       <div class="row wd-724 justify-start">
@@ -118,21 +142,21 @@
               {{ $t('trades.create_listing.vendor.wants.enter_year') }}
             </div>
           </div>
-        <div v-if="product.packaging_conditions" class="d-block ml-4" :class="!box_condition && 'error'">
-          <label>{{ $t('trades.create_listing.vendor.wants.box_condition') }}<sup>*</sup></label>
-          <b-form-select v-model="box_condition" class="create-trade-select-box">
-            <b-form-select-option :value="null">{{ $t('trades.create_listing.vendor.wants.select') }} </b-form-select-option>
-            <b-form-select-option
-              v-for="condition in product.packaging_conditions"
-              :key="condition.id"
-              :value="condition.id">
-                {{condition.name}}
-            </b-form-select-option>
-          </b-form-select>
-          <div class="error-text mt-1 text-xs">
-            {{ $t('trades.create_listing.vendor.wants.select_box_condition') }}
-          </div>
-        </div>
+<!--        <div v-if="product.packaging_conditions" class="d-block ml-4" :class="!box_condition && 'error'">-->
+<!--          <label>{{ $t('trades.create_listing.vendor.wants.box_condition') }}<sup>*</sup></label>-->
+<!--          <b-form-select v-model="box_condition" class="create-trade-select-box">-->
+<!--            <b-form-select-option :value="null">{{ $t('trades.create_listing.vendor.wants.select') }} </b-form-select-option>-->
+<!--            <b-form-select-option-->
+<!--              v-for="condition in product.packaging_conditions"-->
+<!--              :key="condition.id"-->
+<!--              :value="condition.id">-->
+<!--                {{condition.name}}-->
+<!--            </b-form-select-option>-->
+<!--          </b-form-select>-->
+<!--          <div class="error-text mt-1 text-xs">-->
+<!--            {{ $t('trades.create_listing.vendor.wants.select_box_condition') }}-->
+<!--          </div>-->
+<!--        </div>-->
         <div v-if="productFor === 'wantsList'" class="d-block ml-4" >
           <label>Select List<sup>*</sup></label>
           <SelectListDropDown
@@ -516,11 +540,11 @@ export default {
 
 .create-trade-select-box
   background: $color-white-1
-  border: 0.5px solid $color-gray-43
+  border: 1px solid #E8E8E8
   box-sizing: border-box
-  border-radius: 20px
-  width: 203px
-  height: 32px
+  border-radius: 10px
+  width: 150px
+  height: 49px
   padding: 0 0.75rem
 
 .create-trade-quantity-box
