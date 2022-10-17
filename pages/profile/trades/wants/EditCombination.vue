@@ -126,7 +126,6 @@ export default {
             this.addWantItem = false
             this.editItem = null
             this.getCombination()
-            this.$nextTick(() => this.$forceUpdate())
         })
         this.getCombination()
     },

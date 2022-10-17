@@ -262,6 +262,7 @@ export default {
           if (offerItemsList.length > 0) {
             offerItemsList.forEach(function(offerItem) {
               const item = offerItem.inventory
+              item.offer_id = offerItem.id
               item.quantity = offerItem.quantity
               item.selected_box_condition = offerItem.inventory.packaging_condition_id
               item.selected_box_condition_name = offerItem.inventory.packaging_condition.name
@@ -276,6 +277,7 @@ export default {
             wantItemsList.forEach(function(wantItem) {
               const selectedProductWithAttributes = {
                 id: wantItem.id,
+                want_id: wantItem.id,
                 product_id: wantItem.product_id,
                 name: wantItem.product.name,
                 colorway: wantItem.product.colorway,
@@ -332,6 +334,7 @@ export default {
     prepareOfferItems() {
       return this.getTradeItems.map(item =>
         ({
+          offer_id: item.offer_id ? item.offer_id : null,
           inventory_id: item.id,
           quantity: item.quantity,
           packaging_condition_id: item.packaging_condition.id,
@@ -351,6 +354,8 @@ export default {
     prepareWantItems() {
       return this.getTradeItemsWants.map(item =>
         ({
+            id: item.id,
+            want_id: item.want_id ? item.want_id : null,
             product_id: item.product_id,
             quantity: item.selected_quantity,
             size_id: item.selected_size,
