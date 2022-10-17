@@ -11,17 +11,16 @@
               bordered
               :default="filterBy"
               :threelineIcon="false"
-              :options="{
-                default: $t('vendor_dashboard.week_to_date'),
-              }"
+              :options="chartFilterOptions"
               :title="filterByTitle"
-              @input="handleFilterByChange"
+              @input="handleFilterByChangeTotalSale"
             />
           </div>
         </div>
         <div class="positoin-relative mt-5 mb-4">
           <LineChart
-            :chart-data="lineDatasets"
+            :data="dataGraph"
+            :labels='labels'
             :options="lineChartOptions"
             class="line-chart"
             chart-id="vendor-dashboard-line-chart"
@@ -47,18 +46,18 @@
               bordered
               :default="filterBy"
               :threelineIcon="false"
-              :options="{
-                default: $t('vendor_dashboard.week_to_date'),
-              }"
+              :options="chartFilterOptions"
               :title="filterByTitle"
-              @input="handleFilterByChange"
+              @input="handleFilterByChangeTotalSaleChart"
             />
           </div>
         </div>
         <div class="positoin-relative mt-5 mb-4">
           <DoughnutChart
-            :chart-data="chartData"
+            :data="dataChart"
+            :labels='chartLabels'
             :options="chartOptions"
+            :bgColors= "dataBgColors"
             class="doughnut-chart"
             chart-id="vendor-dashboard-doughnut-chart"
           />
@@ -94,6 +93,12 @@ export default {
         perPage: 8,
         page: 1,
       },
+      dataChart: [60, 30, 10],
+      chartLabels: [
+        this.$t('vendor_dashboard.footwear'),
+        this.$t('vendor_dashboard.apparel'),
+        this.$t('vendor_dashboard.accessories'),
+      ],
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
@@ -112,17 +117,10 @@ export default {
         },
       },
       chartData: {
-        labels: [
-          this.$t('vendor_dashboard.footwear'),
-          this.$t('vendor_dashboard.apparel'),
-          this.$t('vendor_dashboard.accessories'),
-        ],
-        datasets: [
-          {
-            backgroundColor: ['#667799', '#CE745F', '#7196B1'],
-            data: [60, 30, 10],
-          },
-        ],
+        labels: this.chartLabels,
+        datasets: [{
+          data: this.dataChart,
+        }],
       },
       // line chart data
       lineChartOptions: {
@@ -168,22 +166,88 @@ export default {
           },
         },
       },
+      dataGraph: [0, 90, 80, 5, 47, 50, 40, 80, 5, 47, 50, 40, 76],
+      dataBgColors: ['#667799', '#CE745F', '#7196B1'],
+      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Friday', 'Saturday'],
       lineDatasets: {
-        labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Fri', 'Sat'],
+        labels: this.labels,
         datasets: [
           {
             borderColor: '#18A0FB',
             backgroundColor: 'rgba(24, 160, 251, 0.15)',
-            data: [0, 90, 80, 5, 47, 50, 40],
+            data : this.dataGraph,
             fill: true,
             borderWidth: 4,
           },
         ],
       },
+      chartFilterOptions: {
+        week: 'Week',
+        month: 'Month',
+        year: 'Year',
+      }
     }
   },
+  mounted(){
+    this.handleFilterByChangeTotalSale('week')
+    this.handleFilterByChangeByType('week')
+  },
   methods: {
-    handleFilterByChange(value) {
+    handleFilterByChangeTotalSale(value) {
+      this.$axios
+        .get('/dashboard/vendor/sales-graph?group_by='+value)
+        .then((res) => {
+          const labels = []
+          const dataSet = []
+          for (const property in res.data.data) {
+            labels.push(property)
+            dataSet.push(res.data.data[property])
+          }
+          this.dataGraph = dataSet
+          this.labels = labels
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
+    },
+    random_bg_color() {
+      const randomColor = Math.floor(Math.random()*16777215).toString(16);
+      return '#' + randomColor; 
+    },
+    handleFilterByChangeByType(value) {
+      this.$axios
+        .get('/dashboard/vendor/sales-chart?group_by='+value)
+        .then((res) => {
+          const labels = []
+          const dataSet = []
+          const bgColors = []
+          for (const property in res.data.data) {
+            labels.push(property)
+            dataSet.push(res.data.data[property])
+            bgColors.push(this.random_bg_color())
+          }
+          this.dataChart = dataSet
+          this.chartLabels = labels
+          this.dataBgColors = bgColors
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
+      this.searchFilters.filterBy = value === DEFAULT ? '' : value
+    },
+    handleFilterByChangeTotalSaleChart(value) {
+      if(value === 'week')
+        {
+          this.chartData.datasets[0].data = [90, 10, 40, 23]
+        }
+      else if(value === 'month')
+        {
+          this.chartData.datasets[0].data = [40, 23, 43, 78]
+        }
+      else
+        {
+          this.chartData.datasets[0].data = [12, 43, 10, 50]
+        }
       this.searchFilters.filterBy = value === DEFAULT ? '' : value
     },
   },

@@ -83,7 +83,7 @@ export default {
 .thumb-wrapper
   position: relative
   background-color: $color-white-4
-  width: 100%
+  width: 39px
   img
     width: 100%
     aspect-ratio: 1

@@ -52,11 +52,13 @@ export default {
     return {
       products: [],
       categoryItems: [
+        { label: this.$t('home_page.all'), value: '' },
         { label: this.$t('home_page.footwear'), value: 'footwear' },
         { label: this.$t('home_page.apparel'), value: 'apparel' },
         { label: this.$t('home_page.accessories'), value: 'accessories' },
       ],
       currentCategory: 'footwear',
+      currentCategory: '',
     }
   },
   async fetch() {

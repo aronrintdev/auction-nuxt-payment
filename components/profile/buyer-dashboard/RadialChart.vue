@@ -10,14 +10,14 @@
       ></circle>
     </svg>
     <div class="progress_stats">
-      <h3 class="fs-30 fw-7 mb-0 font-primary">{{ points }}</h3>
+      <h3 class="fs-30 fw-7 mb-0 font-primary">{{ rewards.current_points }}</h3>
       <h6 class="fs-12 fw-7 mb-0 font-primary text-black-50">{{ title }}</h6>
     </div>
     <div
       class="progress_value d-flex align-items-center justify-content-center"
     >
-      <h6 class="fs-12 fw-7 font-primary mb-0 text-black-50">
-        {{ totalPoints }}
+      <h6 v-if='rewards.next_reward' class="fs-12 fw-7 font-primary mb-0 text-black-50">
+        {{ rewards.next_reward.redemption_points }}
       </h6>
     </div>
   </div>
@@ -25,11 +25,36 @@
 <script>
 export default {
   name: 'RadialChart',
-  props: {
-    points: { type: Number, default: 1250 },
-    totalPoints: { type: Number, default: 2000 },
-    title: { type: String, default: 'DS Points' },
-    progress: { type: Number, default: 80 },
+  data() {
+    return {
+      progress: 25,
+      title: 'DS Points',
+      totalPoints: 2000,
+      points: 1250,
+      rewards: {'next_reward':''}
+    }
+  },
+  mounted(){
+    this.getRewards()
+  },
+  methods: {
+    // On Tab Change (All/ Footwear/ Apparel/ Accessories)
+    navItem(val) {
+      this.activeNav = val
+    },
+    getRewards() {
+      this.$axios
+        .get('/dashboard/buyer/rewards')
+        .then((res) => {
+          this.rewards = res.data.data;
+          if(res.data.data.current_points > 0){
+            this.progress = parseInt((res.data.data.current_points/res.data.data.next_reward.redemption_points) * 100) + 25;
+          }
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
+    },
   },
 }
 </script>

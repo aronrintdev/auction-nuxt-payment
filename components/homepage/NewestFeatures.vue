@@ -115,7 +115,7 @@
             <h1
               class="feature-title position-absolute text-center fs-24 fw-4 font-primary text-white mb-0"
             >
-              {{ $t('home_page.intl_shipping') }}
+              {{ $t('home_page.instant_shipping') }}
             </h1>
           </div>
         </div>
