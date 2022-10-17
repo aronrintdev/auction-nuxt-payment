@@ -32,7 +32,7 @@
             {{ $t('bids.items') }} )
             </span>
             <div v-if="acceptable && isMobileSize">
-              <Button size="sm" variant="primary" class="btn-dark-blue px-2 mr-1" @click="$emit('accept', bid)">
+              <Button size="sm" variant="primary" class="btn-dark-blue px-2" @click="$emit('accept', bid)">
                 <div class="body-9-medium"> {{ $t('bids.accept') }}</div>
               </Button>
             </div>
