@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-2 mb-sm-5">
     <div class="main-image-section mx-auto">
       <div
         class="image-container d-flex justify-content-start align-items-start w-100 h-100"
@@ -21,7 +21,10 @@
     </div>
     <div class="previous-and-next-links">
       <div class="d-flex align-items-center justify-content-between pt-4 pb-4">
-        <NuxtLink :to="previousPageLink">
+        <NuxtLink
+          v-if="previousPage && previousPageLink"
+          :to="previousPageLink"
+        >
           <div class="d-flex align-items-center">
             <img
               src="@/assets/img/features/previous-arrow.png"
@@ -49,7 +52,7 @@
             </div>
           </div>
         </NuxtLink>
-        <NuxtLink :to="nextPageLink">
+        <NuxtLink v-if="nextPage && nextPageLink" :to="nextPageLink">
           <div class="d-flex align-items-center">
             <div class="d-block mr-2 mr-sm-4">
               <p
@@ -86,19 +89,19 @@ export default {
   props: {
     previousPage: {
       type: String,
-      required: true,
+      default: '',
     },
     previousPageLink: {
       type: String,
-      required: true,
+      default: '',
     },
     nextPage: {
       type: String,
-      required: true,
+      default: '',
     },
     nextPageLink: {
       type: String,
-      required: true,
+      default: '',
     },
   },
 }
@@ -107,8 +110,8 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .main-image-section
-    width: 1209px
-    height: 370px
+    width: 1196px
+    height: 366px
     .image-container
         background-image: url('@/assets/img/features/browse-banner.png')
         background-repeat: no-repeat
@@ -123,7 +126,7 @@ export default {
                 width: 194px
                 height: 44px
 .previous-and-next-links
-    width: 1140px
+    width: 1029px
     margin: 0 auto
     p.previous-link
         color: $color-gray-25

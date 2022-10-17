@@ -5330,6 +5330,7 @@
   "newest_features": {
     "title": "Newest<br>Features",
     "desc": "Latest Deadstock features found on the website and mobile application",
+    "we_accept": "We Accept",
     "previous": "Previous",
     "next": "Next",
     "buy": {
@@ -5354,7 +5355,19 @@
     },
     "crypto_payments": {
       "title": "Crypto Payments",
-      "desc": "You can now use Crypto as a form of payment to complete your purchases."
+      "desc": "You can now use Crypto as a form of payment to complete your purchases.",
+      "benefits": {
+        "first_benefit_title": "Safe and secure transactions",
+        "first_benefit_desc": "100% safety and satisfaction guranteed with all Crypto transactions.",
+        "second_benefit_title": "Enables International Buying",
+        "second_benefit_desc": "Crypto enables easier transactions for international users and trades with global buyers.",
+        "third_benefit_title": "Transactional Freedom",
+        "third_benefit_desc": "Cryptocurrency is not tied to any bank or centralized agency, so you can experience true transactional freedom."
+      },
+      "bitcoin": "Bitcoin",
+      "etherium": "Etherium",
+      "binance": "Binance",
+      "vechain": "Vechain"
     },
     "live_customer_service": {
       "title": "Live Customer Service",

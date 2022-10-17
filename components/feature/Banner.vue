@@ -1,13 +1,14 @@
 <template>
   <div
     class="banner-wrapper w-100 d-flex align-items-center justify-content-center justify-content-sm-start align-items-sm-start"
+    :style="{ 'background-image': `url(${backgroundImage})` }"
   >
     <div class="feature-title-container mt-5 ml-5 d-none d-sm-block">
       <h1
         class="font-primary fs-40 fw-7 text-capitalize text-black"
-        v-html="title"
+        v-html="$t(title)"
       ></h1>
-      <p class="font-primary fs-16 fw-4 text-black">{{ description }}</p>
+      <p class="font-primary fs-16 fw-4 text-black">{{ $t(description) }}</p>
     </div>
   </div>
 </template>
@@ -24,6 +25,10 @@ export default {
       type: String,
       default: '',
     },
+    backgroundImage: {
+      type: String,
+      required: true,
+    },
   },
 }
 </script>
@@ -33,7 +38,6 @@ export default {
 
 .banner-wrapper
   height: 440px
-  background-image: url('~/assets/img/features/feature-banner.png')
   background-position: center
   background-size: cover
   background-repeat: no-repeat

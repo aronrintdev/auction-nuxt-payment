@@ -1,31 +1,33 @@
 <template>
-  <div
-    class="feature-card d-flex align-items-start flex-column mb-0 mb-sm-5"
-    @click="handleCardClick"
-  >
-    <div class="feature-image">
-      <img
-        :src="imageUrl || require('~/assets/img/features/default.png')"
-        width="100%"
-        height="auto"
-        class="d-none d-sm-block large-devices-image"
-      />
-      <img
-        :src="responsiveImage || require('~/assets/img/features/default.png')"
-        width="100%"
-        height="auto"
-        class="d-block d-sm-none mobile-devices-image"
-      />
-    </div>
-
-    <h6 class="feature-title text-black font-primary fs-24 fw-5 mt-2 mb-0">
-      {{ title }}
-    </h6>
-    <p
-      class="feature-description text-black font-primary fs-14 fw-5 mt-1 mb-0 d-none d-sm-block"
+  <div>
+    <div
+      class="feature-card d-flex align-items-start flex-column mb-0 mb-sm-5 cursor-pointer"
+      @click="handleCardClick"
     >
-      {{ description }}
-    </p>
+      <div class="feature-image">
+        <img
+          :src="imageUrl || require('~/assets/img/features/default.png')"
+          width="100%"
+          height="auto"
+          class="d-none d-sm-block large-devices-image"
+        />
+        <img
+          :src="responsiveImage || require('~/assets/img/features/default.png')"
+          width="100%"
+          height="auto"
+          class="d-block d-sm-none mobile-devices-image"
+        />
+      </div>
+
+      <h6 class="feature-title text-black font-primary fs-24 fw-5 mt-2 mb-0">
+        {{ $t(title) }}
+      </h6>
+      <p
+        class="feature-description text-black font-primary fs-14 fw-5 mt-1 mb-0 d-none d-sm-block"
+      >
+        {{ $t(description) }}
+      </p>
+    </div>
   </div>
 </template>
 <script>
