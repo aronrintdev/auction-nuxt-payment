@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import debounce from 'lodash.debounce'
 import { Icon } from '~/components/common'
 
 export default {
@@ -134,6 +135,7 @@ export default {
       this.$emit('change', value)
       this.$emit('input', value)
       this.searchResultShow = !!value
+      this.showSearchResult(value)
     },
 
     handleEnterKeyDown(event) {
@@ -154,6 +156,10 @@ export default {
     handleBlur(e) {
       this.$emit('blur', e)
     },
+
+    showSearchResult: debounce(function (value) {
+      this.$emit('search', value)
+    }, 300),
   },
 }
 </script>

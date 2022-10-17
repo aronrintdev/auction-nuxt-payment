@@ -25,6 +25,7 @@ import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'PromotionHeader',
+  mixins: [screenSize],
   props: {
     entries: {
       type: [Number, null],
@@ -43,7 +44,6 @@ export default {
       default: false
     },
   },
-  mixins: [screenSize],
   computed: {
     formattedDate() {
       return new Date(this.deadline).toLocaleString('default', {month: 'long', day: '2-digit', year: 'numeric'})
