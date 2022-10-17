@@ -139,17 +139,17 @@
       "footwear": "Footwear",
       "accessories": "Accessories"
     },
-    "filter_by" : "Filter By",
-    "next"  : "Next",
-    "prev"  : "Prev",
-    "start_date"  : "Start Date",
-    "done"  : "Done",
-    "end_date"  : "End Date",
-    "sort_by" : "Sort By",
-    "options" : "Options",
-    "reset" : "Reset",
-    "apply_filters" :"Apply Filters",
-    "view"  :"View"
+    "filter_by": "Filter By",
+    "next": "Next",
+    "prev": "Prev",
+    "start_date": "Start Date",
+    "done": "Done",
+    "end_date": "End Date",
+    "sort_by": "Sort By",
+    "options": "Options",
+    "reset": "Reset",
+    "apply_filters": "Apply Filters",
+    "view": "View"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -2999,7 +2999,7 @@
     "days": "Days",
     "delist_multiple": "Delist Multiple",
     "delist_success": "Your selected item have been delisted.",
-    "last_sold" : "Last Sold",
+    "last_sold": "Last Sold",
     "sort_by": {
       "filter": "Filter",
       "date_listed_old_new": "Date Listed: Old to New",
@@ -3112,25 +3112,25 @@
     "edit_listing_heading": "Are you sure you would like to edit this listing?",
     "edit_listing_text": "All the active offers associated with this trade listing will be lost after the edit is completed.",
     "update_listing_success": "Listing updated successfully",
-    "filter"  : {
-      "sort"  : "Sort",
-      "recent_old"  : "Selling: Recent to Oldest",
-      "old_recent"  : "Selling: Oldest to Recent",
-      "date_send" : "Date Sent",
-      "start_date"  : "Start Date",
-      "end_date"  : "End Date",
-      "status"  : "Status"
+    "filter": {
+      "sort": "Sort",
+      "recent_old": "Selling: Recent to Oldest",
+      "old_recent": "Selling: Oldest to Recent",
+      "date_send": "Date Sent",
+      "start_date": "Start Date",
+      "end_date": "End Date",
+      "status": "Status"
     },
-    "view"  : "View",
-    "listid"  : "List ID",
-    "placed_on" : "Placed on",
-    "offer_action_confirmation" : "Are you sure you want to {action} the  offer?",
-    "confirmation"  : {
-      "delist_the_listing"  : "Are you sure you would like to\ndelist this listing?",
-      "all_offers_will_be_lost" : "All the active offers associated with this listing will be lost after the edit is completed.",
-      "relist_text" : "Are you sure you would like to relist this item?"
+    "view": "View",
+    "listid": "List ID",
+    "placed_on": "Placed on",
+    "offer_action_confirmation": "Are you sure you want to {action} the  offer?",
+    "confirmation": {
+      "delist_the_listing": "Are you sure you would like to\ndelist this listing?",
+      "all_offers_will_be_lost": "All the active offers associated with this listing will be lost after the edit is completed.",
+      "relist_text": "Are you sure you would like to relist this item?"
     },
-    "delisted_selected_listing"  : "Your selected listings have been delisted."
+    "delisted_selected_listing": "Your selected listings have been delisted."
   },
   "preferences": {
     "common": {
@@ -3797,8 +3797,8 @@
       "first_of_its_kind_desc": "The first platform that enables you to trade sneakers, apparel, streetwear and accessories.",
       "value_meter": "Value Meter",
       "value_meter_desc": "Our fair trade meter uses live analytics to help create the most compatible trades and assure equal transactions.",
-      "certified_authentic_products": "Certified Authentic Products",
-      "certified_authentic_products_desc": "Trade with confidence as all of our traded items are placed in our authentication process and authenticated by our experts.",
+      "authenticity_guaranteed_products": "Authenticity Guaranteed Products",
+      "authenticity_guaranteed_products_desc": "Trade with confidence as all of our traded items are placed in our authentication process and authenticated by our experts.",
       "new_features": "New Features",
       "trade_desc": "Explore our trade arena, utilize our fair trade meter and start trading items today."
     },
@@ -5257,28 +5257,28 @@
     "start_date": "Start Date",
     "end_date": "End Date",
     "remove_multiple": "Remove Multiple",
-    "delete_offers"  : "Delete Offers",
-    "confirmation_text" : "Are you sure you want to {actiontype} this offer?",
-    "accepted"  : "Accepted",
-    "declined"  : "Declined",
-    "delete_selected" : "Delete Selected",
-    "delete_selected_confirm"  : "Are you sure you want to delete the selected offers?",
-    "tap_on_offers_to_delete" : "Tap on the Offers you would like to delete",
-    "selected_offer_deleted"  : "Your selected offers have been deleted",
-    "sort"  : "Sort",
-    "offers_recent_old" : "Offers: Recent to Oldest",
-    "offers_old_recent" : "Offers: Oldest to Recent",
-    "reset" : "Reset",
-    "apply_filters" : "Apply Filters",
-    "offer_date"  : "Offer Date",
-    "empty" : {
-      "no_incoming_offers"  : "No Incoming Offers Have Been Found",
-      "list_a_product"  : "List a product today on Deadstock!"
+    "delete_offers": "Delete Offers",
+    "confirmation_text": "Are you sure you want to {actiontype} this offer?",
+    "accepted": "Accepted",
+    "declined": "Declined",
+    "delete_selected": "Delete Selected",
+    "delete_selected_confirm": "Are you sure you want to delete the selected offers?",
+    "tap_on_offers_to_delete": "Tap on the Offers you would like to delete",
+    "selected_offer_deleted": "Your selected offers have been deleted",
+    "sort": "Sort",
+    "offers_recent_old": "Offers: Recent to Oldest",
+    "offers_old_recent": "Offers: Oldest to Recent",
+    "reset": "Reset",
+    "apply_filters": "Apply Filters",
+    "offer_date": "Offer Date",
+    "empty": {
+      "no_incoming_offers": "No Incoming Offers Have Been Found",
+      "list_a_product": "List a product today on Deadstock!"
     },
-    "filter_by" : {
-      "accepted"  : "Accepted",
-      "rejected"  : "Rejected",
-      "awaiting_approval" : "Awaiting approval"
+    "filter_by": {
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "awaiting_approval": "Awaiting approval"
     },
     "sort_by": {
       "price_low_high": "Price: Low to High",
@@ -5286,7 +5286,7 @@
       "size_low_high": "Size: Low to High",
       "size_high_low": "Size: High to Low"
     },
-    "awaiting_response" : "Awaiting Response"
+    "awaiting_response": "Awaiting Response"
   },
   "terms": {
     "title": "Terms and Conditions",

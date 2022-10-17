@@ -7,9 +7,9 @@
     />
 
     <div class="content mx-auto">
-      <FeatureBackButton class="mb-2 d-lg-inline-flex d-none" />
+      <FeatureBackButton class="mb-2 d-md-inline-flex d-none" />
 
-      <h3 class="benefit-title text-center text-lg-left font-primary">
+      <h3 class="benefit-title text-center text-md-left font-primary">
         {{ $tc('common.benefit', 2) }}
       </h3>
 
@@ -95,6 +95,14 @@
         </template>
       </FeatureTabs>
     </div>
+    <div class="shopnow-banner">
+      <ShopNowBanner
+        :previousPage="$t('newest_features.sell.title')"
+        :previousPageLink="'/features/trading'"
+        :nextPage="$t('newest_features.buy.title')"
+        :nextPageLink="'/features/streetwear'"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -102,13 +110,14 @@ import FeatureBanner from '~/components/feature/Banner'
 import FeatureBenefitItem from '~/components/feature/BenefitItem'
 import FeatureTabs from '~/components/feature/Tabs'
 import FeatureBackButton from '~/components/feature/BackButton'
+import ShopNowBanner from '~/components/feature/ShopNowBanner'
 
 export default {
   components: {
     FeatureBanner,
     FeatureBenefitItem,
     FeatureTabs,
-
+    ShopNowBanner,
     FeatureBackButton,
   },
 

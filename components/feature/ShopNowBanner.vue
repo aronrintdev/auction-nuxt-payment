@@ -93,6 +93,7 @@ export default {
     },
     previousPageLink: {
       type: String,
+      // required: true,
       default: '',
     },
     nextPage: {

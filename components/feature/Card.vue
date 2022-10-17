@@ -11,15 +11,6 @@
     <div class="feature-description fs-18 fw-4 font-primary">
       {{ description }}
     </div>
-
-    <h6 class="feature-title text-black font-primary fs-24 fw-5 mt-2 mb-0">
-      {{ title }}
-    </h6>
-    <p
-      class="feature-description text-black font-primary fs-14 fw-5 mt-1 mb-0 d-none d-sm-block"
-    >
-      {{ description }}
-    </p>
   </div>
 </template>
 <script>
@@ -39,10 +30,7 @@ export default {
       type: String,
       default: null,
     },
-    responsiveImage: {
-      type: String,
-      default: null,
-    },
+
     to: {
       type: String,
       default: null,
@@ -79,11 +67,12 @@ export default {
       font-weight: 600
       font-family: 'Montserrat'
       margin-top: 22px
+      max-width: 272px
     .feature-description
       font-size: 14px
       font-weight: 400
       font-family: 'Montserrat'
       line-height: 22px
-      &:not(:last-of-type)
-        margin: 8px 0px 40px 0px
+      margin: 8px 0px 40px 0px !important
+      max-width: 272px
 </style>

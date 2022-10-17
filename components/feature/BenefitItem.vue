@@ -6,7 +6,7 @@
           <img :src="icon" class="h-auto w-100" />
         </div>
       </b-col>
-      <b-col md="7" lg="8">
+      <b-col md="8" lg="8">
         <div
           class="text-wrapper d-flex flex-column align-items-center align-items-md-start"
         >
@@ -86,9 +86,11 @@ export default {
         font-weight: 600 !important
         line-height: 19px
         height: auto
+        max-width: 272px
       .helper-text
         font-size: 14px
         line-height: 22px
         margin-top: 8px
         width: 290px !important
+        max-width: 272px
 </style>
