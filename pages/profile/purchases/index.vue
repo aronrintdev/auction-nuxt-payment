@@ -1,9 +1,13 @@
 <template>
   <div class="container-fluid vd-purchases-section p-0">
     <div class="row h-100">
-      <div class="col-md-12 col-lg-12 vendor-dashboard-body px-5 py-5">
+      <div :class="{
+        'px-5 py-5': !isScreenXS,
+        'mobile': isScreenXS,
+      }"
+           class="col-md-12 col-lg-12 vendor-dashboard-body ">
         <!-- Row (Heading/ Search Fields/ Tabs) -->
-        <div class="row vd-purchase-css">
+        <div v-if="!isScreenXS" class="row vd-purchase-css">
           <!-- Heading -->
           <div class="col-12 purchase-heading">
             {{ $t('vendor_purchase.purchases') }}
@@ -49,14 +53,14 @@
         </div>
         <!-- ./Row -->
         <!-- ./Row -->
-        <div class="row filter-second-row">
+        <div v-if="!isScreenXS" class="row filter-second-row">
           <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2">
             <VendorPurchaseSelectWithCheckbox
-              :default="purchaseFilter"
-              :options="typeOptions"
-              :title="typeTitle"
-              :updateFilters="activeTypeFilters"
-              @filters="typeFilters"
+                :default="purchaseFilter"
+                :options="typeOptions"
+                :title="typeTitle"
+                :updateFilters="activeTypeFilters"
+                @filters="typeFilters"
             />
           </div>
           <div class="col-md-3 col-12 col-sm-12 mt-md-4 mt-2">
@@ -114,9 +118,9 @@
           </div>
           <div class="col-md-2 mt-md-4 mt-2 clearall-filter">
             <span
-              role="button"
-              class="justify-content-center d-flex text-primary"
-              @click="clearFilters()"
+                role="button"
+                class="justify-content-center d-flex text-primary"
+                @click="clearFilters()"
             >
               <u>{{ $t('vendor_purchase.clear_all_filters') }}</u>
             </span>
@@ -124,17 +128,19 @@
         </div>
         <!-- ./Row -->
         <!-- Filters -->
-        <div class="row filter-row">
+        <div
+            v-if="!isScreenXS"
+            class="row filter-row">
           <div class="col-md-12 col-sm-12 mt-md-4 mt-4">
             <!-- Type Filters -->
             <b-badge
-              v-for="(options, typeIndex) in activeTypeFilters"
-              :key="`type-${typeIndex}`"
-              class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
+                v-for="(options, typeIndex) in activeTypeFilters"
+                :key="`type-${typeIndex}`"
+                class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
             >
               {{ options.type }}&colon; {{ options.text }}
               <i
-                class="fa fa-times"
+                  class="fa fa-times"
                 role="button"
                 aria-hidden="true"
                 @click="removeTypeFilter(options)"
@@ -149,17 +155,31 @@
             >
               {{ status.type }}&colon; {{ status.text }}
               <i
-                class="fa fa-times"
-                role="button"
-                aria-hidden="true"
-                @click="removeTypeFilter(status)"
+                  class="fa fa-times"
+                  role="button"
+                  aria-hidden="true"
+                  @click="removeTypeFilter(status)"
               ></i>
             </b-badge>
             <!-- Status Filters -->
           </div>
         </div>
         <!-- ./ -->
-        <div class="row vd-purchase-history mt-md-4 mt-4">
+
+        <div v-if="isScreenXS" class="d-flex align-items-center justify-content-between">
+          <MobileSearchInput
+              class="w-100"
+              @input="handleSearch"
+          />
+          <filter-svg class="ml-3" role="button"
+                      @click="mobileFiltersOpen = !mobileFiltersOpen"></filter-svg>
+        </div>
+
+        <div :class="{
+          'mt-md-4 mt-4': !isScreenXS,
+          'mobile': isScreenXS
+        }"
+             class="row vd-purchase-history ">
           <div class="col-12 purchase-history-heading">
             {{ $t('vendor_purchase.purchase_history') }} &#40;{{
               purchaseDataCount
@@ -210,22 +230,29 @@
 import VendorPurchaseCustomSelect from '~/components/common/CustomSelect.vue'
 import VendorPurchaseHistory from '~/components/profile/purchases/PurchaseHistory.vue'
 import VendorPurchaseSelectWithCheckbox from '~/components/common/CustomSelectwithCheckbox.vue'
-import { Pagination } from '~/components/common'
-import { PER_PAGE_OPTIONS, PERPAGE } from '~/static/constants'
+import {Pagination} from '~/components/common'
+import {PER_PAGE_OPTIONS, PERPAGE} from '~/static/constants'
+import screenSize from '~/plugins/mixins/screenSize';
+import MobileSearchInput from '~/components/mobile/MobileSearchInput';
+import filterSvg from '~/assets/img/profile/notifications/filters.svg?inline'
+
 export default {
   name: 'ProfilePreferencesPurchasesIndexPage',
 
   components: {
+    filterSvg,
+    MobileSearchInput,
     VendorPurchaseCustomSelect,
     VendorPurchaseHistory,
     VendorPurchaseSelectWithCheckbox,
     Pagination,
   },
-
+  mixins: [screenSize],
   layout: 'Profile',
 
   data() {
     return {
+      mobileFiltersOpen: false,
       rows: 10,
       currentPage: 1,
       refresh: false,
@@ -403,6 +430,10 @@ export default {
     this.loadData()
   },
   methods: {
+    handleSearch(value) {
+      this.searchValue = value
+      this.loadData()
+    },
     // Search Data
     searchPurchase() {
       this.loadData()
@@ -539,12 +570,25 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import "~/assets/css/variables"
+.vendor-dashboard-body
+  &.mobile
+    padding: 16px 20px
+
+.vd-purchase-history
+  &.mobile
+    margin-top: 30px
+    @include body-4-medium
+    font-family: $font-montserrat
+
 @media (min-width: 768px) and (max-width: 1299px)
   .datepicker
     flex: 0 0 26.666667%
     max-width: 26.666667%
+
     :deep(.b-form-btn-label-control.form-control > .form-control)
       height: 38px
+
 @media (min-width: 768px) and (max-width: 1100px)
   :deep(.clearall-filter)
     flex: 0 0 22.666667%

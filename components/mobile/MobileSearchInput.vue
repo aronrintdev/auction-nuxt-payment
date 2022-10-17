@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-input-group class="search-box mt-2 d-flex align-items-center px-3">
+    <b-input-group class="search-box d-flex align-items-center ">
       <b-input-group-prepend>
         <search-icon class="search-icon"/>
       </b-input-group-prepend>
@@ -42,6 +42,10 @@ export default {
   background-color: $color-white-5
   border-radius: 8px
   height: 33px
+
+  .search-icon
+    margin-left: 8px
+    margin-right: 2px
 
 .text-input
   @include body-9
