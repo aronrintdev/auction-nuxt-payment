@@ -164,7 +164,7 @@
             </b-badge>
             <!-- Status Filters -->
             <div
-              v-if="searchFilters.brand !='' && searchFilters.size!='' && searchFilters.category!=''"
+              v-if="searchFilters.brand !='' || searchFilters.size!='' || searchFilters.category!=''"
               class="col-md-2 mt-md-4 mt-2 clearall-filter">
               <span
                 role="button"
@@ -295,6 +295,10 @@ export default {
           statusFilter.splice(statusFilter.indexOf(option), 1)
           this.$store.commit('stock-exchange/setActiveFilters',this.searchFilters)
           this.$emit('filterList',this.searchFilters)
+      }
+      if (statusFilter.lenght ===0)
+      {
+        this.clearFilters()
       }
     },
     // Clear the values
