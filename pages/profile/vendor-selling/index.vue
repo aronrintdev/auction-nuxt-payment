@@ -30,6 +30,7 @@
           <div v-if="userRole" class="flex-grow-1 col-sm-12 col-md-8 col-lg-8 mt-sm-4 vd-selling-search">
             <!--
             <VendorSellingSearchFilter
+              v-if="!isScreenXS"
               class="search-filter"
               @search="getProducts"
             />
@@ -232,6 +233,7 @@
 
           <!-- DATA -->
           <VendorSellingListItem
+            v-if="!isScreenXS"
             class="list-item"
             :searchResults="searchResults.data"
             :loading="loading"
@@ -262,7 +264,7 @@
           <!-- ./Empty Content -->
         </template>
         <template v-else>
-          <div class="listing-count py-4">
+          <div v-if="isScreenXS" class="listing-count py-4">
             <div class="row">
               <div class="col listing-heading-col">
                 <span class="float-left">
@@ -298,14 +300,16 @@
             </div>
           </div>
 
-          <ListItemResult
-            v-for="(result, index) in searchData"
-            :key="index"
-            :result="result"
-            :selected="selected"
-            :delistMultiple="showCheckBox"
-            @select="selectedListItem"
-          />
+          <template v-if="isScreenXS">
+            <ListItemResult
+              v-for="(result, index) in searchData"
+              :key="index"
+              :result="result"
+              :selected="selected"
+              :delistMultiple="showCheckBox"
+              @select="selectedListItem"
+            />
+          </template>
 
           <Pagination
             v-model="page"
@@ -451,6 +455,7 @@
 </template>
 
 <script>
+import debounce from 'lodash.debounce'
 import EmptyListing from '~/components/profile/vendor-selling/EmptyListing.vue'
 // import VendorSellingSearchFilter from '~/components/profile/vendor-selling/SearchFilter'
 import VendorSellingListItem from '~/components/profile/vendor-selling/VendorSellingListItem'
@@ -464,7 +469,6 @@ import {
   SearchInput,
 } from '~/components/common'
 import { ConfirmModal, AlertModal } from '~/components/modal'
-//
 import screenSize from '~/plugins/mixins/screenSize'
 import ListItemResult from '~/components/profile/vendor-selling/ListItemResult.vue'
 import MoreOptions from '~/components/profile/vendor-selling/MoreOptions.vue'
@@ -598,10 +602,10 @@ export default {
         })
     },
     // Search keyword
-    getProducts(val) {
+    getProducts: debounce(function (val) {
       this.searchFilters.searchKeyword = val
       this.loadData()
-    },
+    }, 300),
 
     // On sort by change
     handleFilterChanged(sortByVal) {
@@ -1033,22 +1037,20 @@ export default {
   background-color: $color-white-1
   padding: 2%
 
-@media (min-width: 577px)
+@media (min-width: 576px)
   .empty-listing-responsive,
   .pagination-responsive,
   .listing-count
     display: none
   .search-filter-responsive
     display: none
-  .search-filter,
   .pagination
     display: flex
-@media (max-width: 576px)
+@media (max-width: 575px)
   .browse-dropdown,
   .filter-data,
   .result-data,
   .empty-listing,
-  .list-item,
   .pagination,
   .search-filter
     display: none
