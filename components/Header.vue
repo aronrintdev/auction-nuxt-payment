@@ -1,6 +1,5 @@
 <template>
   <b-navbar toggleable="lg" class="navbar-wrapper border-bottom px-2 px-md-4">
-    <!--<b-navbar-toggle target="nav-collapse"> -->
     <b-navbar-toggle target="top-menu-sidebar">
       <template #default>
         <img width="25px" :src="require('~/assets/img/icons/menu.svg')" />
