@@ -91,6 +91,54 @@
          </div>
 
       </div>
+
+
+
+
+      <div class="d-flex mt-2">
+        <div class="d-inline"  >
+          <div>
+            <label class="quantity-label mt-2 ml-3">{{ $t('trades.create_listing.vendor.wants.year') }}<sup>*</sup></label>
+          </div>
+          <div>
+            <b-form-input
+              v-model="year" type="number"
+              :placeholder="$t('trades.create_listing.vendor.wants.enter_year')"
+              class="create-trade-quantity-box quantity-num ml-3 mb-1">
+            </b-form-input>
+          </div>
+        </div>
+        <div>
+          <div class="d-inline"   >
+            <div>
+              <label class="quantity-label mt-2 ml-3">Select List<sup>*</sup></label>
+            </div>
+            <div>
+              <SelectListDropDown
+                v-model="selectList"
+                :options="selectListOptions" type="multi-select-checkbox"
+                :label="selectListLabel" optionsWidth="custom"
+                :combinationId="combinationId"
+                maxWidth="203px" variant="white"
+                dropDownHeight="33px"
+                borderRadius="20px"
+                borderRadiusClose="20px 20px 0 0"
+                borderRadiusOptions="0 0 8px 8px"
+                width="203px"
+                @change="listType"
+                class="bg-white"
+              />
+            </div>
+          </div>
+          <div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
       <div class="mt-2"  v-if="!isTradeEditForm" >
         <div  v-if="productFor !== 'wantsList'">
           <FormStepProgressBar v-if="progressBar" :steps="steps"  variant="transparent"/>
@@ -109,33 +157,34 @@
 
 
 
-    <b-row class="justify-content-center mt-5">
-      <div class="row wd-724 justify-start">
-        <div v-if="product.category.name !== 'sneakers'" class="d-block ml-4" :class="!isValidYear(year) && 'error'">
-            <label>{{ $t('trades.create_listing.vendor.wants.year') }}<sup>*</sup></label>
-            <b-form-input v-model="year" type="number" :placeholder="$t('trades.create_listing.vendor.wants.enter_year')" class="create-trade-quantity-box"></b-form-input>
-            <div class="error-text mt-1 text-xs">
-              {{ $t('trades.create_listing.vendor.wants.enter_year') }}
-            </div>
-          </div>
-        <div v-if="productFor === 'wantsList'" class="d-block ml-4" >
-          <label>Select List<sup>*</sup></label>
-          <SelectListDropDown
-            v-model="selectList"
-            :options="selectListOptions" type="multi-select-checkbox"
-            :label="selectListLabel" class="bg-white" optionsWidth="custom"
-            :combinationId="combinationId"
-            maxWidth="203px" variant="white"
-            dropDownHeight="33px"
-            borderRadius="20px"
-            borderRadiusClose="20px 20px 0 0"
-            borderRadiusOptions="0 0 8px 8px"
-            width="203px"
-            @change="listType"
-          />
-        </div>
-      </div>
-    </b-row>
+<!--    <b-row class="justify-content-center mt-5">-->
+<!--      <div class="row wd-724 justify-start">-->
+<!--        <div v-if="product.category.name !== 'sneakers'" class="d-block ml-4" :class="!isValidYear(year) && 'error'">-->
+<!--            <label>{{ $t('trades.create_listing.vendor.wants.year') }}<sup>*</sup></label>-->
+<!--            <b-form-input v-model="year" type="number" :placeholder="$t('trades.create_listing.vendor.wants.enter_year')"-->
+<!--                          class="create-trade-quantity-box"></b-form-input>-->
+<!--            <div class="error-text mt-1 text-xs">-->
+<!--              {{ $t('trades.create_listing.vendor.wants.enter_year') }}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        <div v-if="productFor === 'wantsList'" class="d-block ml-4" >-->
+<!--          <label>Select List<sup>*</sup></label>-->
+<!--          <SelectListDropDown-->
+<!--            v-model="selectList"-->
+<!--            :options="selectListOptions" type="multi-select-checkbox"-->
+<!--            :label="selectListLabel" class="bg-white" optionsWidth="custom"-->
+<!--            :combinationId="combinationId"-->
+<!--            maxWidth="203px" variant="white"-->
+<!--            dropDownHeight="33px"-->
+<!--            borderRadius="20px"-->
+<!--            borderRadiusClose="20px 20px 0 0"-->
+<!--            borderRadiusOptions="0 0 8px 8px"-->
+<!--            width="203px"-->
+<!--            @change="listType"-->
+<!--          />-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </b-row>-->
   </div>
 </template>
 
