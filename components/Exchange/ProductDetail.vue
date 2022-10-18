@@ -105,7 +105,7 @@
           </div>
           <div class="col-lg-4"></div>
           <div class="row">
-            <div  id="tb-product" class="col-ld-12">
+            <div  id="tb-product" class="col-ld-12 overflow-auto h-50" >
               <!-- ProducListCard Table -->
               <SimilarProductTable :products="products" />
             </div>
@@ -252,7 +252,7 @@ export default {
     // On filter by change.
     handleSortBySelect(value) {
       this.sortBy=value.value
-      this.loadPage()
+      // this.loadPage()
     },
     // On filter by change.
     searchProduct(value) {
