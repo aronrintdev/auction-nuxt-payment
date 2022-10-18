@@ -146,13 +146,13 @@
 
     <div v-if="!fetchLoading">
       <b-row class="mt-5 text-center font-weight-bold">
-        <b-col sm="12" md="2" class="text-left">{{ $t('auction.auction_id') }}</b-col>
-        <b-col sm="12" md="3" class="text-left pl-0">{{ $t('auction.product') }}</b-col>
-        <b-col sm="12" md="1">{{ $t('auction.type') }} <span v-html="downArrow"></span></b-col>
-        <b-col sm="12" md="2">{{ $t('auction.highest_bid') }} <span v-html="downArrow"></span></b-col>
-        <b-col sm="12" md="1">{{ $t('auction.bids') }} <span v-html="downArrow"></span></b-col>
-        <b-col sm="12" md="2">{{ $t('auction.time_remaining') }} <span v-html="downArrow"></span></b-col>
-        <b-col sm="12" md="1">{{ $t('auction.status') }} <span v-html="downArrow"></span></b-col>
+        <b-col sm="12" md="2" class="text-left">{{ $t('auction.auction_id') }} <span v-html="downArrow" /></b-col>
+        <b-col sm="12" md="3" class="text-left pl-0">{{ $t('auction.product') }} <span v-html="downArrow" /></b-col>
+        <b-col sm="12" md="1">{{ $t('auction.type') }} <span v-html="downArrow" /></b-col>
+        <b-col sm="12" md="2">{{ $t('auction.highest_bid') }} <span v-html="downArrow" /></b-col>
+        <b-col sm="12" md="1">{{ $t('auction.bids') }} <span v-html="downArrow" /></b-col>
+        <b-col sm="12" md="2">{{ $t('auction.time_remaining') }} <span v-html="downArrow" /></b-col>
+        <b-col sm="12" md="1">{{ $t('auction.status') }} <span v-html="downArrow" /></b-col>
       </b-row>
 
       <client-only>
