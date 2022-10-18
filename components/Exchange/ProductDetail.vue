@@ -78,7 +78,7 @@
           {{ $t('deadstock_exchange.detail.similar_products') }}
         </div>
         <div class="row">
-          <div class="col-lg-8">
+          <div class="col-lg-8 d-flex">
             <!-- Input search -->
             <SearchInput
               :value="searchValue"
@@ -87,6 +87,19 @@
               class="flex-grow-1 mr-4 search-input"
               :debounce="1000"
               @change="searchProduct"
+            />
+            <FormDropdown
+              id="sort-by"
+              :value="sortBy"
+              :placeholder="$t('selling_page.sortby')"
+              :items="SORT_OPTIONS"
+              :icon="require('~/assets/img/icons/three-lines.svg')"
+              :icon-arrow-down="
+                require('~/assets/img/icons/arrow-down-gray2.svg')
+              "
+              class="dropdown-sort flex-shrink-1"
+              can-clear
+              @select="handleSortBySelect"
             />
             <!-- ./Input search -->
           </div>
@@ -106,7 +119,7 @@
 <script>
 import dayjs from 'dayjs'
 import SimilarProductTable from './SimilarProductTable.vue'
-import { Button, Loader ,SearchInput} from '~/components/common'
+import { Button, Loader ,SearchInput,FormDropdown} from '~/components/common'
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import ShareIcon from '~/assets/img/icons/share.svg?inline'
@@ -120,7 +133,8 @@ export default {
     NavGroup,
     ShareIcon,
     SimilarProductTable,
-    SearchInput
+    SearchInput,
+    FormDropdown
   },
   data() {
     return {
@@ -154,6 +168,14 @@ export default {
         },
       ],
       searchValue: '',
+      SORT_OPTIONS: [
+        {
+          label: this.$t('vendor_purchase.sort_by'),
+          value: 'default',
+        },
+
+      ],
+      sortBy: null,
       current: '24',
       // line chart data
       lineChartOptions: {
