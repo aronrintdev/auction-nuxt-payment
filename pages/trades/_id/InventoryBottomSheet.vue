@@ -394,8 +394,7 @@ export default {
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $medium
-  font-size: 13px
-  line-height: 130%
+  @include body-30
   color: $color-black-1
   text-overflow: ellipsis
   overflow: hidden
@@ -406,8 +405,7 @@ export default {
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $regular
-  font-size: 13px
-  line-height: 130%
+  @include body-30
   color: $color-gray-5
   text-overflow: ellipsis
   overflow: hidden
@@ -435,7 +433,7 @@ export default {
   font-style: normal
   @include body-17-bold
   letter-spacing: -0.02em
-  color: #000000
+  color: $color-black-1
 .invent-subheading
   font-family: $font-family-sf-pro-display
   font-style: normal

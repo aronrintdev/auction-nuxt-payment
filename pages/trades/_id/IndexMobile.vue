@@ -35,7 +35,7 @@
                 <div v-if="trade.offers.length > ITEM_COUNT_ONE" class="pointer-left" :class="{'pointer-right-two-items':trade.offers.length === ITEM_COUNT_TWO}"></div>
                 <div class="position-relative center-img d-flex justify-content-between">
                 <div class="line-bar" v-if="trade.offers.length === ITEM_COUNT_THREE || trade.offers.length === ITEM_COUNT_ONE"></div>
-                <div class="fair-text position-absolute">Fair</div>
+                <div class="fair-text position-absolute">{{$t('trades.fair')}}</div>
                 <img class="trade-img position-absolute" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
                 <div v-if="getYourTradeItems.length === ITEM_COUNT_THREE || getYourTradeItems.length === ITEM_COUNT_ONE" class="line-bar"></div>
                 </div>
@@ -62,18 +62,18 @@
             <Button variant="outline-secondary-blue" class="add-cash">{{$t('trades.add_cash')}}</Button>
             <div class="authenticity d-flex justify-content-center align-items-center">
               <img :src="require('~/assets/img/trades/authenticity.svg')">
-              <div class="pl-1">Authenticity Guaranteed</div>
+              <div class="pl-1">{{$t('products.authenticity_guaranteed')}}</div>
             </div>
             <div class="authenticity-text d-flex justify-content-center text-center">
-              Every item is authenticated by our experts through our authentication process. 100% verification guranteed.
+              {{$t('features.auctions.certified_authentic_products_desc')}}
             </div>
             <div>
             <div class="detail-heading">
-              Details
+              {{$t('trades.create_listing.table_columns.details')}}
             </div>
             <div class="details pb-4">
               <b-row class="justify-content-between pb-2">
-                <div>Trade ID</div>
+                <div>{{$t('trades.trade_id')}}</div>
                 <div>{{trade.id}}</div>
               </b-row>
               <b-row class="justify-content-between pb-2">
@@ -89,11 +89,11 @@
                 </div>
               </b-row>
               <b-row class="justify-content-between pb-2">
-                <div>Offers</div>
+                <div>{{$t('products.offers')}}</div>
                 <div>{{totalOffersReceived}}</div>
               </b-row>
               <b-row class="justify-content-between">
-                <div>Estimated trade Value</div>
+                <div>{{$t('trades.estimated_value_trade')}}</div>
                 <div>{{theirTotal()}}</div>
               </b-row>
             </div>
@@ -101,7 +101,7 @@
             <!-- Wants section -->
             <div>
             <div class="wants-heading">
-              Trader’s Wants
+              {{$t('trades.trader_wants')}}
             </div>
             <div class="d-flex wants-container">
               <div class="trader-wants" v-for="(item,index) in wants" :key="index">
