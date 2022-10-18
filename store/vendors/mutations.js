@@ -46,7 +46,7 @@ export function setFilters(state, val) {
   state.filters.search = val.search
 }
 
-export function setCategoryId(state, val){
+export function setCategoryId(state, val) {
   state.filters.category_id = val.category_id
 }
 
@@ -62,4 +62,12 @@ export function setCategories(state, val) {
 
 export function setIsLoading(state, val) {
   state.isLoading = val
+}
+
+export function setTotalCommission(state, val) {
+  state.totalCommission = val
+}
+
+export function setTotalCommissionPaid(state, val) {
+  state.totalCommissionPaid = val
 }

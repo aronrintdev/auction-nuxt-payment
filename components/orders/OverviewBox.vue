@@ -4,7 +4,7 @@
             <div class="box-icon d-none d-md-block"><img :src="icon" alt=""></div>
             <div class="text-md-left text-center d-flex d-md-block flex-column justify-content-between h-100">
                 <div class="box-title">{{ label }}</div>
-                <div class="box-value">${{ value.toFixed(2) }}</div>
+                <div class="box-value">{{ value }}</div>
             </div>
         </div>
     </div>
@@ -15,8 +15,8 @@ export default {
     name: 'OverviewBox',
     props: {
         value: {
-            type: Number,
-            default: 0
+            type: String,
+            default: ''
         },
         label: {
             type: String,

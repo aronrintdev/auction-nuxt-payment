@@ -50,6 +50,8 @@ export default {
 
   img
     width: 100%
+    height: 372px
+    object-fit: contain
 
   .overlay
     top: 0px

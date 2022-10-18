@@ -145,6 +145,7 @@
     "start_date"  : "Start Date",
     "done"  : "Done",
     "end_date"  : "End Date",
+    "search_brands": "Search Brands",
     "sort_by" : "Sort By",
     "options" : "Options",
     "reset" : "Reset",
@@ -557,6 +558,9 @@
     "inventory": {
       "bulk_delete": "Bulk Delete",
       "sku": "SKU",
+      "package": "Package",
+      "box": "Box",
+      "size": "Size",
       "view_offers": "View Offers",
       "delete_modal": {
         "title": "Confirm Delete",
@@ -5330,5 +5334,13 @@
       "send_to_deadstock": "Send to Deadstock",
       "view_order": "View Order"
     }
+  },
+  "error_layout": {
+    "go_back":"Go Back",
+    "oops_something_went_wrong": "Oops Something went wrong!",
+    "something_missing": "Something's Missing",
+    "the_page_is_missing": "The page is missing \n or the link’s sole is coming off",
+    "home": "Home",
+    "shop": "Shop"
   }
 }

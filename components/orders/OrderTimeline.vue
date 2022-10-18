@@ -1,11 +1,11 @@
 <template>
   <div class="timeframe">
     <div v-for="(frame, index) in timeline" :key="index" class="row">
-      <div class="col-3 text-right">
+      <div class="col-3 text-right order-1 order-sm-0">
         <span v-if="frame.date">{{ frame.date | formatDate }}</span>
         <span v-if="!frame.date" class="next-step d-none">{{ $t('orders.next_step') }}</span>
       </div>
-      <div class="col-9">
+      <div class="col-9 order-0 order-sm-1">
         <div class="timeframe-content d-flex align-items-baseline">
           <div class="timeframe-icon">
             <TimelineIcon :status="getStyle(frame)"/>
@@ -89,5 +89,12 @@ export default {
   position: relative
   left: -0.65rem
   width: 1.1rem
+
+@media (max-width: 992px)
+  .timeframe
+    @include body-5
+
+  .timeframe-content
+    min-height: 3rem
 
 </style>

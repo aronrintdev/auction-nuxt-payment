@@ -192,7 +192,7 @@
                     <SearchInput
                       :value="searchText"
                       variant="primary"
-                      :placeholder="$t('trades.trade_arena.search_inventory')"
+                      :placeholder="$t('create_listing.trade.offer_items.search_by')"
                       :clearSearch="true"
                       @change="onSearchInput"
                     />

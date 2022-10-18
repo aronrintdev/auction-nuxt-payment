@@ -67,8 +67,8 @@
           </div>
 
           <div class="vd-condition">{{ $t('common.box_condition') }}&colon;
-            <span v-if="row.item.inventory.product.sku">
-              {{ row.item.inventory.product.sku }}</span>
+            <span v-if="row.item.inventory.packaging_condition">
+              {{ row.item.inventory.packaging_condition.name }}</span>
             <span v-else>&#8211;</span>
           </div>
         </template>
