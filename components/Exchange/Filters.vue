@@ -272,7 +272,8 @@ export default {
     },
     // On filter by change.
     handleSortBySelect(value) {
-      this.searchFilters.filterBy = value === '' ? '' : value
+      this.sortBy=value.value
+      this.searchFilters.filterBy = value === '' ? '' : value.label
        this.setActiveFilter()
       this.$emit('filterList',this.searchFilters)
     },
