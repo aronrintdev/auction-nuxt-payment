@@ -2,11 +2,10 @@
     <table class="table trend-table-wrapper">
       <tbody>
         <tr
-          v-for="(product, index) in products"
+          v-for="product in products"
           :key="`product-${product.id}-trend`"
+          class="border-top-0"
         >
-          <td></td>
-          <td class="col-no font-primary">{{ index + 1 }}</td>
           <td class="col-thumb">
             <div><ProductThumb :product="product" /></div>
           </td>
