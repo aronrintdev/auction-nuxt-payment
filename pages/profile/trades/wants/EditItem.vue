@@ -1,6 +1,6 @@
 <template>
-  <div class="font-monserrat px-3">
-    <div class="pt-3 d-flex justify-content-center">
+  <div class="page-content font-monserrat px-3">
+    <div class="pt-3 d-flex d-lg-none justify-content-center">
       <div class="d-flex flex-column separator col-6 justify-content-center align-items-center">
         <span class="label">{{ $t('common.sku') }}</span>
         <span class="value">{{ product.product.sku }}</span>
@@ -10,347 +10,270 @@
         <span class="value">{{ product.product.colorway }}</span>
       </div>
     </div>
+
     <div class="d-flex flex-column justify-content-center">
-      <ProductImageViewer v-if="!product.product.has360Images" :product="product.product" />
-      <ProductImageViewerMagic360 v-if="product.product.has360Images" :product="product.product" />
-
-      <p class="mt-3 mb-0 title">{{ product.product.name }}</p>
-      <p>
-        <span class="last-sale">{{ $t('product_page.last_sale') }}: $250.00</span>
-        <span class="last-sale-value">+0.64 (+0.36%)</span>
-      </p>
-      <div class="d-flex justify-content-between mb-2">
-        <div class="size">{{ $t('product_page.select_size') }}:</div>
-        <div class="size">
-          <img
-            class="mr-1"
-            :src="require('~/assets/img/icons/eye2.svg')"
-          />
-          {{ $t('products.all_sizes') }}
+      <div class="d-flex flex-column flex-md-row">
+        <div class="col-md-4 col-xl-5">
+          <ProductImageViewer v-if="!product.product.has360Images" :product="product.product" />
+          <ProductImageViewerMagic360 v-if="product.product.has360Images" :product="product.product" />
         </div>
-      </div>
-      <div class="d-flex horizontal-scroll justify-content-center">
-        <div class="d-flex flex-column align-items-center mr-3">
-          <div class="size-item">
-            6.5
+        <div class="col-md-8 col-xl-7">
+          <p class="mt-3 mb-0 title">{{ product.product.name }}</p>
+          <p class="custom-border">
+            <span class="last-sale">{{ $t('product_page.last_sale') }}: $250.00</span>
+            <span class="last-sale-value">+0.64 (+0.36%)</span>
+          </p>
+          <div class="d-flex justify-content-between mb-2">
+            <div class="size">{{ $t('product_page.select_size') }}:</div>
+            <div class="size">
+              <img
+                class="mr-1"
+                :src="require('~/assets/img/icons/eye2.svg')"
+              />
+              {{ $t('products.all_sizes') }}
+            </div>
           </div>
-          <div class="mt-1 size-price">$505</div>
-        </div>
-        <div class="d-flex flex-column align-items-center mr-3">
-          <div class="size-item">
-            7.0
+          <div class="d-flex horizontal-scroll justify-content-center">
+            <div class="d-flex flex-column align-items-center mr-3">
+              <div class="size-item">
+                6.5
+              </div>
+              <div class="mt-1 size-price">$505</div>
+            </div>
+            <div class="d-flex flex-column align-items-center mr-3">
+              <div class="size-item">
+                7.0
+              </div>
+              <div class="mt-1 size-price">$505</div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center mr-3">
+              <div class="size-item">
+                7.5
+              </div>
+              <div class="mt-1 size-price">$520</div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center mr-3">
+              <div class="size-item size-item-active">
+                8.0
+              </div>
+              
+              <div class="blue-separator"></div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center mr-3">
+              <div class="size-item">
+                8.5
+              </div>
+              <div class="mt-1 size-price">$530</div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center mr-3">
+              <div class="size-item">
+                9.0
+              </div>
+              <div class="mt-1 size-price">$530</div>
+            </div>
+
+            <div class="d-flex flex-column align-items-center">
+              <div class="size-item">
+                9.5
+              </div>
+              <div class="mt-1 size-price">$530</div>
+            </div>
+
           </div>
-          <div class="mt-1 size-price">$505</div>
-        </div>
 
-        <div class="d-flex flex-column align-items-center mr-3">
-          <div class="size-item">
-            7.5
-          </div>
-          <div class="mt-1 size-price">$520</div>
-        </div>
+          <div class="mt-3 d-flex flex-column pb-5">
+            <div class="d-flex align-items-center justify-content-center mb-2">
+              <div class="box mr-1">{{ $t('products.box_condition')}}</div>
+              <img
+                width="12"
+                height="12"
+                :src="require('~/assets/img/icons/info-dark-blue.svg')"
+                :title="$t('products.message.box_condition_info')"
+              />
+            </div>
 
-        <div class="d-flex flex-column align-items-center mr-3">
-          <div class="size-item size-item-active">
-            8.0
-          </div>
-          
-          <div class="blue-separator"></div>
-        </div>
+            <div class="px-3 mb-4">
+              <div class="d-block d-sm-none">
+                <CustomDropdown 
+                  v-model="condition"
+                  :label="conditionLabel"
+                  :options="conditionsOptions"
+                  type="single-select"
+                  optionsWidth="custom"
+                  dropDownHeight="38px"
+                  variant="white"
+                  paddingX="10px"
+                  @change="changeCondition"
+                  :inputStyle="{ display: 'flex', justifyContent: 'center', border: '1px solid black !important' }"
+                  :dropdownStyle="{ border: '1px solid #000', borderTop: 0, borderBottom: 0, zIndex: 9999 }"
+                  :optionStyle="'font-weight: 500 !important; font-size: 14px; color: #667799; borderBottom: 1px solid black'"
+                  labelStyle="font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 14px; color: #667799;"
+                  arrowStyle='color: #667799; width: 16px; height: 18px; position: absolute; right: 50px; margin-bottom: 11px !important;'
+                />
+              </div>
+              <div class="d-none d-sm-flex justify-content-between">
+                <div
+                  v-for="box in conditionsOptions"
+                  :key="box.value"
+                  class="box-item"
+                >
+                  <span>{{ box.text }}</span>
+                </div>
+              </div>
+            </div>
 
-        <div class="d-flex flex-column align-items-center mr-3">
-          <div class="size-item">
-            8.5
-          </div>
-          <div class="mt-1 size-price">$530</div>
-        </div>
+            <div></div>
 
-        <div class="d-flex flex-column align-items-center mr-3">
-          <div class="size-item">
-            9.0
-          </div>
-          <div class="mt-1 size-price">$530</div>
-        </div>
+            <b-form>
+              <b-form-group
+                id="group-current-password"
+                class="form-label"
+              >
+                <label
+                  class="form-label"
+                >
+                  {{ $t('common.quantity') }} <sup>*</sup>
+                </label>
+                <b-form-input
+                  type="number"
+                  :placeholder="'1'"
+                  required
+                  class="bg-white form-label"
+                  :style="{
+                    border: '1px solid #E8E8E8',
+                    borderRadius: '10px',
+                    height: '49px'
+                  }"
+                ></b-form-input>
+              </b-form-group>
+            </b-form>
 
-        <div class="d-flex flex-column align-items-center">
-          <div class="size-item">
-            9.5
-          </div>
-          <div class="mt-1 size-price">$530</div>
-        </div>
-
-      </div>
-
-      <div class="mt-3 d-flex flex-column pb-5">
-        <div class="d-flex align-items-center justify-content-center mb-2">
-          <div class="box mr-1">{{ $t('products.box_condition')}}</div>
-          <img
-            width="12"
-            height="12"
-            :src="require('~/assets/img/icons/info-dark-blue.svg')"
-            :title="$t('products.message.box_condition_info')"
-          />
-        </div>
-
-        <div class="px-3 mb-4">
-          <CustomDropdown 
-            v-model="condition"
-            :label="conditionLabel"
-            :options="conditionsOptions"
-            type="single-select"
-            optionsWidth="custom"
-            dropDownHeight="38px"
-            variant="white"
-            paddingX="10px"
-            @change="changeCondition"
-            :inputStyle="{ display: 'flex', justifyContent: 'center', border: '1px solid black !important' }"
-            :dropdownStyle="{ border: '1px solid #000', borderTop: 0, borderBottom: 0, zIndex: 9999 }"
-            :optionStyle="'font-weight: 500 !important; font-size: 14px; color: #667799; borderBottom: 1px solid black'"
-            labelStyle="font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 14px; color: #667799;"
-            arrowStyle='color: #667799; width: 16px; height: 18px; position: absolute; right: 50px; margin-bottom: 11px !important;'
-          />
-        </div>
-
-        <b-form>
-          <b-form-group
-            id="group-current-password"
-            class="form-label"
-          >
-            <label
-              class="form-label"
-            >
-              {{ $t('common.quantity') }} <sup>*</sup>
+            <label class="form-label">
+              {{ $t('common.select_list') }}<sup>*</sup>
             </label>
-            <b-form-input
-              type="number"
-              :placeholder="'1'"
-              required
-              class="bg-white form-label"
-              :style="{
-                border: '1px solid #E8E8E8',
+            <SelectListDropDown
+              v-model="selectList"
+              :options="selectListOptions" type="multi-select-checkbox"
+              :label="selectListLabel" class="bg-white" optionsWidth="custom"
+              :itemId="itemId"
+              :combinationId="combinationId"
+              variant="white"
+              dropDownHeight="33px"
+              borderRadius="10px"
+              borderRadiusClose="10px 10px 0 0"
+              borderRadiusOptions="0 0 8px 8px"
+              @change="listType"
+              :inputStyle="{
+                borderColor: '#E8E8E8',
+                height: '49px',
                 borderRadius: '10px',
-                height: '49px'
+                paddingLeft: '15px',
+                paddingRight: '15px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
               }"
-            ></b-form-input>
-          </b-form-group>
-        </b-form>
+              :labelStyle="{
+                padding: 0,
+                margin: 0,
+                fontWeight: '600 !important',
+                fontSize: '12px',
+                color: '#000'
+              }"
+              :iconStyle="{
+                color: '#7196B1',
+                width: '16px',
+                height: '18px',
+                display: 'flex',
+                alignItems: 'center'
+              }"
+              :dropdownStyle="{
+                borderColor: '#E8E8E8',
+              }"
+              :dropdownItemStyle="{
+                borderColor: '#E8E8E8',
+              }"
+            />
+          </div>
 
-        <label class="form-label">
-          {{ $t('common.select_list') }}<sup>*</sup>
-        </label>
-        <SelectListDropDown
-          v-model="selectList"
-          :options="selectListOptions" type="multi-select-checkbox"
-          :label="selectListLabel" class="bg-white" optionsWidth="custom"
-          :itemId="itemId"
-          :combinationId="combinationId"
-          variant="white"
-          dropDownHeight="33px"
-          borderRadius="10px"
-          borderRadiusClose="10px 10px 0 0"
-          borderRadiusOptions="0 0 8px 8px"
-          @change="listType"
-          :inputStyle="{
-            borderColor: '#E8E8E8',
-            height: '49px',
-            borderRadius: '10px',
-            paddingLeft: '15px',
-            paddingRight: '15px',
+          <div class="add-want-button">
+            {{ $t('trades.create_listing.vendor.wants.add_want') }}
+          </div>
+
+        </div>
+      </div>
+
+      <div class="d-none d-sm-block">
+        <div class="product-details">{{ $t('orders.product_details') }}</div>
+        <div class="mt-3 d-flex justify-content-between">
+          <div class="col-3">
+            <div class="product-details-label">{{ $t('common.sku') }}:</div>
+            <div class="product-details-label">{{ $t('common.colorway') }}:</div>
+            <div class="product-details-label">{{ $t('common.retail_price') }}:</div>
+            <div class="product-details-label">{{ $t('common.release_date') }}:</div>
+          </div>
+          <div class="col-3">
+            <div class="product-details-value">{{ product.product.sku }}</div>
+            <div class="product-details-value">{{ product.product.colorway }}</div>
+            <div class="product-details-value">{{ product.product.retail_price }}</div>
+            <div class="product-details-value">
+              {{ product.product.release_date || $t('products.box_conditions.none') }}
+            </div>
+          </div>
+          <div class="col-5">
+            <div class="product-details-label">{{ $t('rewards.description') }}:</div>
+            <div>Lorem ipsum dolor dit amet</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-shadow px-2 mt-5">
+        <ProductLatestSales
+          :style="{ marginTop: '0 !important', padding: 0}"
+          :value="product.latest_sales"
+          :sku="product.sku"
+          class="responsive-chart"
+          :headerStyle="{
+            fontFamily: 'Montserrat',
+            fontWeight: 600,
+            fontSize: '14px',
+            color: '#000',
+            height: '30px'
+          }"
+          :labelsStyle="{
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
+            flexDirection: 'row !important',
+            justifyContent: 'space-between',
+            fontFamily: 'SF Pro Display',
+            fontWeight: 500,
+            fontSize: '13px',
           }"
           :labelStyle="{
-            padding: 0,
-            margin: 0,
-            fontWeight: '600 !important',
-            fontSize: '12px',
-            color: '#000'
-          }"
-          :iconStyle="{
-            color: '#7196B1',
-            width: '16px',
-            height: '18px',
-            display: 'flex',
-            alignItems: 'center'
-          }"
-          :dropdownStyle="{
-            borderColor: '#E8E8E8',
-          }"
-          :dropdownItemStyle="{
-            borderColor: '#E8E8E8',
+            color: '#999'
           }"
         />
-        
-        <div class="custom-shadow px-2 mt-5">
-          <ProductLatestSales
-            :style="{ marginTop: '0 !important'}"
-            :value="product.latest_sales"
-            :sku="product.sku"
-            :headerStyle="{
-              fontFamily: 'Montserrat',
-              fontWeight: 600,
-              fontSize: '14px',
-              color: '#000',
-              height: '30px'
-            }"
-            :labelsStyle="{
-              display: 'flex',
-              flexDirection: 'row !important',
-              justifyContent: 'space-between',
-              fontFamily: 'SF Pro Display',
-              fontWeight: 500,
-              fontSize: '13px',
-            }"
-            :labelStyle="{
-              color: '#999'
-            }"
-          />
 
-          <div class="d-flex justify-content-between pb-3 mt-3">
-            <div class="chart-button col-3">
-              {{ $t('products.asks') }}
-            </div>
-            <div class="chart-button col-3">
-              {{ $t('products.offers') }}
-            </div>
-            <div class="chart-button col-3">
-              {{ $t('products.sales') }}
-            </div>
+        <div class="d-flex justify-content-between pb-3 mt-3">
+          <div class="chart-button col-3">
+            {{ $t('products.asks') }}
+          </div>
+          <div class="chart-button col-3">
+            {{ $t('products.offers') }}
+          </div>
+          <div class="chart-button col-3">
+            {{ $t('products.sales') }}
           </div>
         </div>
-
-        <div class="add-want-button">
-          {{ $t('trades.create_listing.vendor.wants.add_want') }}
-        </div>
-
       </div>
+
     </div>
       
   </div>
-  <!-- <div :class="{'p-5':padding}">
-    <div  class="create-trade-back-to-search" @click="backSearch()">
-      <b-icon icon="chevron-left" aria-hidden="true"></b-icon>
-      {{ (productFor === 'wantOfferConfirm') ? $t('trades.create_listing.vendor.wants.back_to_confirm_trade_listing') : $t('trades.create_listing.vendor.wants.back_to_search') }}
-    </div>
-    <b-row>
-      <b-col md="6" class="create-trade-heading pt-50" >
-        <div>{{product.product.name}}</div>
-      </b-col>
-    </b-row>
-    <div  class="create-trade-product-color">
-      <div>{{ $t('trades.create_listing.vendor.wants.sku') }}: {{product.product.sku}}</div>
-      <div>{{ $t('trades.create_listing.vendor.wants.colorway') }}: {{product.product.colorway}}</div>
-    </div>
-    <b-row class="justify-content-center">
-      <div class="thumb-wrapper">
-        <img :src="product.product | getProductImageUrl" alt="No Image" class="trade-search-item-image"/>
-      </div>
-    </b-row>
-    <b-row class="justify-content-center" :class="!selected_size && 'error'">
-      <div id="size" ref="list" class="d-flex search-trade-size-list">
-        <div class="search-trade-size-heading">{{ $t('trades.create_listing.vendor.wants.size') }}<sup>*</sup></div>
-        <div class="error-text d-none mt-1 text-xs">
-          {{ $t('trades.create_listing.vendor.wants.select_size') }}
-        </div>
-        <ProductSizePicker
-          :value="selected_size"
-          :v-model="selected_size"
-          :sizes="product.product.sizes"
-          single-mode
-          class="size-picker"
-          @input="select_size"
-        />
-      </div>
-    </b-row>
-    <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
-    <b-row class="justify-content-center mt-5 mb-5">
-      <div class="row wd-724 justify-content-center">
-        <div v-if="productFor !== 'wantsList'" class="d-block" :class="(!isValidQuantity(quantity)) && 'error'">
-          <ValidationProvider
-            v-slot="validationContext"
-            :name="$t('trades.create_listing.vendor.wants.quantity')"
-            :rules="{ required: true }"
-          >
-          <label>{{ $t('trades.create_listing.vendor.wants.quantity') }}<sup>*</sup></label>
-          <b-form-input v-model="quantity" type="number" :placeholder="$t('trades.create_listing.vendor.wants.enter_quantity')" class="create-trade-quantity-box" :state="getValidationState(validationContext)"></b-form-input>
-          <b-form-invalid-feedback>{{
-                validationContext.errors[0]
-          }}</b-form-invalid-feedback>
-          </ValidationProvider>
-        </div>
-        <div v-if="product.product.category.name !== 'sneakers'" class="d-block ml-4" :class="!isValidYear(year) && 'error'">
-          <ValidationProvider
-            v-slot="validationContext"
-            :name="$t('trades.create_listing.vendor.wants.year')"
-            :rules="{ required: true }"
-          >
-          <label>{{ $t('trades.create_listing.vendor.wants.year') }}<sup>*</sup></label>
-          <b-form-input v-model="year" type="number" :placeholder="$t('trades.create_listing.vendor.wants.enter_year')" class="create-trade-quantity-box"></b-form-input>
-            <b-form-invalid-feedback>{{
-                validationContext.errors[0]
-              }}</b-form-invalid-feedback>
-          </ValidationProvider>
-        </div>
-        <div v-if="product.product.packaging_conditions" class="d-block ml-4" :class="!box_condition && 'error'">
-          <ValidationProvider
-            v-slot="validationContext"
-            :name="$t('trades.create_listing.vendor.wants.select')"
-            :rules="{ required: true }"
-          >
-          <label>{{ $t('trades.create_listing.vendor.wants.select') }}<sup>*</sup></label>
-          <b-form-select v-model="box_condition" class="create-trade-select-box">
-            <b-form-select-option :value="null">{{ $t('trades.create_listing.vendor.wants.select') }} </b-form-select-option>
-            <b-form-select-option
-              v-for="condition in product.product.packaging_conditions"
-              :key="condition.id"
-              :value="condition.id">
-              {{condition.name}}
-            </b-form-select-option>
-          </b-form-select>
-          <b-form-invalid-feedback>{{
-                validationContext.errors[0]
-              }}</b-form-invalid-feedback>
-          </ValidationProvider>
-        </div>
-        <div v-if="productFor === 'wantsList'" class="d-block ml-4" >
-          <ValidationProvider
-            v-slot="validationContext"
-            :name="$t('trades.create_listing.vendor.wants.select')"
-            :rules="{ required: true }"
-          >
-          <label>Select List<sup>*</sup></label>
-          <SelectListDropDown
-            v-model="selectList"
-            :options="selectListOptions" type="multi-select-checkbox"
-            :label="selectListLabel" class="bg-white" optionsWidth="custom"
-            :itemId="itemId"
-            :combinationId="combinationId"
-            maxWidth="203px" variant="white"
-            dropDownHeight="33px"
-            borderRadius="20px"
-            borderRadiusClose="20px 20px 0 0"
-            borderRadiusOptions="0 0 8px 8px"
-            width="203px"
-            @change="listType"
-          />
-          <b-form-invalid-feedback>{{
-                validationContext.errors[0]
-              }}</b-form-invalid-feedback>
-          </ValidationProvider>
-        </div>
-      </div>
-      <div class="row wd-724 justify-content-center mt-3">
-        <Button pill variant="primary" class="btn-width ml-4 mr-4" @click="handleSubmit(addToOffer(product))">
-          {{$t('trades.preferences.save_changes')}}
-        </Button>
-        <Button pill variant="outline-dark" class="btn-width" @click="discardChanges()">
-          {{$t('trades.discard_changes')}}
-        </Button>
-      </div>
-    </b-row>
-    </ValidationObserver>
-  </div> -->
+
 </template>
 
 <script>
@@ -615,6 +538,14 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.product-details
+  font-family: $font-family-sf-pro-display
+  font-weight: 700
+  font-size: 20px
+  padding-bottom: 17px
+  margin-top: 55px
+  border-bottom: 1px solid $color-gray-23
+
 .custom-shadow
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25)
   border-radius: 8px
@@ -686,6 +617,11 @@ export default {
 .box
   font-size: 14px
   font-weight: 600
+  color: #000
+  @media (min-width: 576px)
+    font-weight: 500
+    font-size: 15px
+    text-transform: uppercase
 
 .value
   font-weight: 500
@@ -756,5 +692,31 @@ export default {
   color: #FFF
   border-radius: 25px
   margin-top: 40px
+
+.product-details-label, .product-details-value
+  line-height: 30px
+  font-family: $font-family-sf-pro-display
+  font-weight: 500
+  font-size: 18px
+
+.product-details-label
+  color: #000
+
+.product-details-value
+  color: $color-gray-5
+
+.page-content
+  @media (min-width: 992px) and (max-width: 1200px) 
+    width: 100%
+  
+.custom-border
+  @media (max-width: 576px)
+    padding-bottom: 15px
+    border-bottom: 1px solid $color-gray-16f
+
+.box-item
+  font-weight: 500
+  font-size: 15px
+  color: $color-gray-23
 
 </style>

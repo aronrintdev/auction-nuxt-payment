@@ -286,6 +286,13 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.responsive-chart
+  margin-left: auto
+  margin-right: auto
+  @media (min-width: 993px)
+    width: 85%
+  
+
 .child-container
   margin-top: 18px
   padding: 0 56px
