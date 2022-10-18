@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="container-profile-auctions h-100">
+  <b-container fluid class="container-profile-auctions h-100 p-4 p-md-5">
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="title">{{ $tc('profile_menu.auctions', 1) }}</h2>
     </div>
@@ -145,8 +145,9 @@
     </div>
 
     <div v-if="!fetchLoading">
-      <b-row class="mt-5 text-center px-5 font-weight-bold">
-        <b-col sm="12" md="5" class="text-left">{{ $t('auction.product') }}</b-col>
+      <b-row class="mt-5 text-center font-weight-bold">
+        <b-col sm="12" md="2" class="text-left">{{ $t('auction.product') }}</b-col>
+        <b-col sm="12" md="3" class="text-left pl-0">{{ $t('auction.product') }}</b-col>
         <b-col sm="12" md="1">{{ $t('auction.type') }} <span v-html="downArrow"></span></b-col>
         <b-col sm="12" md="2">{{ $t('auction.highest_bid') }} <span v-html="downArrow"></span></b-col>
         <b-col sm="12" md="1">{{ $t('auction.bids') }} <span v-html="downArrow"></span></b-col>
@@ -188,7 +189,7 @@
       <Loader :loading="fetchLoading"/>
     </div>
     <!--    no item text and action    -->
-    
+
 
     <Pagination
       v-if="haveAuction && !fetchLoading"
@@ -612,7 +613,7 @@ export default {
 
 
 .container-profile-auctions
-  padding: 47px 54px
+  // padding: 47px 54px
   background-color: $color-white-5
 
   h2.title
