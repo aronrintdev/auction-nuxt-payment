@@ -232,6 +232,91 @@
         </template>
       </div>
     </div>
+
+    <MobileBottomSheet
+        :height="'90%'"
+        :open="mobileFiltersOpen"
+        :title="$t('common.filter_by').toString()"
+        @closed="mobileFiltersOpen = false"
+        @opened="mobileFiltersOpen = true"
+    >
+      <template #default>
+        <div class="d-flex flex-column align-items-center justify-content-between h-88 w-100 filters">
+          <div class="d-flex flex-column w-100 ">
+            <FilterAccordion :open="true" :title="$t('vendor_purchase.sort_by').toString()">
+              <b-form-radio-group
+                  v-model="sortbySelected"
+                  :options="sortOptions"
+                  class="d-flex flex-column  mt-2 sort-filters"
+              >
+
+              </b-form-radio-group>
+            </FilterAccordion>
+            <ItemDivider/>
+
+            <FilterAccordion :title="$t('purchases.purchase_type').toString()">
+              <ButtonSelector :options="typeOptions" :values="activeTypeFilters" @change="typeChange"/>
+            </FilterAccordion>
+            <ItemDivider/>
+
+            <FilterAccordion :title="statusTitle">
+              <div class="d-flex flex-column">
+                <div class="filter-divider">{{ $t('purchases.products') }}</div>
+                <ButtonSelector :options="productsOptions.filter(a => a.type === 'products' && a.value)"
+                                :values="typeFilter" @change="productFilterChange"/>
+                <div class="filter-divider">{{ $t('purchases.gift_cards') }}</div>
+                <ButtonSelector :options="productsOptions.filter(a => a.type === 'giftcard' && a.value)"
+                                :values="typeFilter" @change="productFilterChange"/>
+              </div>
+            </FilterAccordion>
+            <ItemDivider/>
+
+
+            <FilterAccordion :title="$t('orders.date_ordered').toString()">
+              <div class="mt-2 d-flex align-items-center justify-content-between">
+                <input
+                    v-model="startdate"
+                    :placeholder="$t('notifications.start_date')"
+                    class="date-input"
+                    onblur="(this.type='text')"
+                    onfocus="(this.type='date')"
+                    type="text"
+                />
+                <input
+                    v-model="enddate"
+                    :placeholder="$t('notifications.end_date')"
+                    class="date-input"
+                    onblur="(this.type='text')"
+                    onfocus="(this.type='date')"
+                    type="text"
+                />
+              </div>
+            </FilterAccordion>
+          </div>
+          <div class="w-100 d-flex justify-content-between buttons">
+            <Button
+                :disabled="loading"
+                class="filter-button"
+                pill
+                variant="outline-dark"
+                @click="clearFilters"
+            >
+              {{ $t('notifications.reset') }}
+            </Button>
+
+            <Button
+                :disabled="loading"
+                class="filter-button apply-filters"
+                pill
+                variant="dark-blue"
+                @click="loadData"
+            >
+              {{ $t('notifications.apply_filters') + (filterChangeCount ? ` (${filterChangeCount})` : '') }}
+            </Button>
+          </div>
+        </div>
+      </template>
+    </MobileBottomSheet>
   </div>
 </template>
 
@@ -245,11 +330,21 @@ import screenSize from '~/plugins/mixins/screenSize';
 import MobileSearchInput from '~/components/mobile/MobileSearchInput';
 import filterSvg from '~/assets/img/profile/notifications/filters.svg?inline'
 import MobilePurchaseHistoryCard from '~/components/profile/purchases/MobilePurchaseHistoryCard';
+import MobileBottomSheet from '~/components/mobile/MobileBottomSheet';
+import Button from '~/components/common/Button';
+import ItemDivider from '~/components/profile/notifications/ItemDivider';
+import FilterAccordion from '~/components/mobile/FilterAccordion';
+import ButtonSelector from '~/components/mobile/ButtonSelector';
 
 export default {
   name: 'ProfilePreferencesPurchasesIndexPage',
 
   components: {
+    ButtonSelector,
+    FilterAccordion,
+    ItemDivider,
+    Button,
+    MobileBottomSheet,
     MobilePurchaseHistoryCard,
     filterSvg,
     MobileSearchInput,
@@ -263,18 +358,29 @@ export default {
 
   data() {
     return {
+      loading: false,
       mobileFiltersOpen: false,
       rows: 10,
       currentPage: 1,
       refresh: false,
-      purchaseFilter: '',
+      purchaseFilter: [],
       activeFilterValue: 'all',
-      productsFilter: '',
+      productsFilter: [],
       searchValue: '', // Keyword search value
       purchaseDatas: [],
-      sortbySelected: null,
+      sortbySelected: 'recent_to_old',
       startdate: '', // StartDate filter value
       enddate: '', // EndDate Filter Value
+      sortOptions: [
+        {
+          value: 'recent_to_old',
+          text: this.$t('vendor_purchase.purchase_recent_to_old')
+        },
+        {
+          value: 'old_to_recent',
+          text: this.$t('vendor_purchase.purchase_oldest_to_recent')
+        }
+      ],
       typeTitle: this.$t('vendor_purchase.type'),
       typeOptions: [
         {
@@ -435,12 +541,23 @@ export default {
         return 0
       }
     },
+    filterChangeCount() {
+      return (+!!this.startdate) + (+!!this.enddate) +
+          +(this.activeTypeFilters.length > 0) +
+          +(this.typeFilter.length > 0)
+    }
   },
 
   mounted() {
     this.loadData()
   },
   methods: {
+    typeChange(types) {
+      this.activeTypeFilters = types
+    },
+    productFilterChange(filter) {
+      this.typeFilter = filter
+    },
     handleSearch(value) {
       this.searchValue = value
       this.loadData()
@@ -451,13 +568,8 @@ export default {
     },
     // On filter change
     handleFilterChanged(filter) {
-      this.productsFilter = filter
+      this.sortbySelected = filter
       this.loadData()
-    },
-
-    // Active tab value on change
-    activeVal(value) {
-      this.activeFilterValue = value
     },
     // Filters onchange
     typeFilters({ array, value }) {
@@ -492,8 +604,9 @@ export default {
 
     // Get the purchase data
     loadData() {
+      this.loading = true
       this.filters.keyword = this.searchValue
-      this.filters.sortBy = this.productsFilter
+      this.filters.sortBy = this.sortbySelected
       this.filters.startDate = this.startdate
       this.filters.endDate = this.enddate
       this.filters.status = this.statusFilter.toString()
@@ -512,19 +625,23 @@ export default {
           this.rows = res.data.result.last_page
           this.purchaseDatas = res.data.result
         })
-        .catch((err) => {
-          this.$logger.logToServer(
-            'Vendor purchase section - get Purchase Data error: ',
-            err.response.data
-          )
-          this.$toasted.error(this.$t(err.response.data.message))
-        })
+          .catch((err) => {
+            this.$logger.logToServer(
+                'Vendor purchase section - get Purchase Data error: ',
+                err.response.data
+            )
+            this.$toasted.error(this.$t(err.response.data.message))
+          }).finally(() => {
+        this.loading = false;
+        this.mobileFiltersOpen = false
+      })
     },
 
     // Clear the values
     clearFilters() {
+      this.mobileFiltersOpen = false
       this.searchValue = ''
-      this.productsFilter = ''
+      this.productsFilter = []
       this.startdate = ''
       this.enddate = ''
       this.statusFilter = []
@@ -582,6 +699,65 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+
+input.date-input
+  @include body-9
+  height: 49px
+  width: 154px
+  border-radius: 10px
+  border: 1px solid $color-black-1
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $medium
+  color: $color-black-4
+  padding: 15px 17px
+
+.filter-divider
+  @include body-5-normal
+  background-color: $color-white-5
+  padding: 4px 14px
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  margin-bottom: 10px
+  margin-top: 20px
+
+.filters
+  padding: 28px 21px
+
+.h-88
+  height: 92%
+
+.buttons
+  margin-top: 10px
+
+::v-deep.divider
+  border-top: 1px solid $color-gray-62
+  margin-inline: 0
+  margin-block: 20px
+
+::v-deep.sort-filters
+  .custom-control
+    display: flex
+    align-items: center
+
+    label
+      @include body-5-normal
+      padding-top: 3px
+      font-family: $font-family-sf-pro-display
+      font-style: normal
+      color: $color-black-9
+
+      &:before
+        color: $color-black-1
+        border-color: $color-black-1
+        background-color: $color-white-1
+        box-shadow: none
+
+::v-deep.sort-filters
+  .custom-control-input
+    &:checked ~ .custom-control-label::after
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='4' fill='%23000'/%3E%3C/svg%3E")
+
 .vendor-dashboard-body
   &.mobile
     padding: 16px 20px

@@ -44,6 +44,34 @@
         </div>
       </template>
     </Carousel>
+    <div class="d-flex flex-column info-table">
+      <div class="d-flex align-items-center justify-content-between info-row">
+        <span class="text-left text-nowrap label-class">{{ $t('purchases.info_table.id') }}</span>
+        <span
+            class="text-right text-capitalize value-class order-link text-decoration-underline">{{ purchase.id }}</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-between info-row">
+        <span class="text-left text-nowrap label-class">{{ $t('purchases.info_table.created_at') }}</span>
+        <span
+            class="text-right text-capitalize value-class">{{ new Date(this.purchase.created_at).toLocaleDateString() }}</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-between info-row">
+        <span class="text-left text-nowrap label-class">{{ $t('purchases.info_table.order_status') }}</span>
+        <span class="text-right text-capitalize value-class">{{ purchase.order_status }}</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-between info-row">
+        <span class="text-left text-nowrap label-class">{{ $t('purchases.info_table.type') }}</span>
+        <span class="text-right text-capitalize value-class">{{ purchase.type.label }}</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-between info-row">
+        <span class="text-left text-nowrap label-class">{{ $t('purchases.info_table.quantity') }}</span>
+        <span class="text-right text-capitalize value-class">{{ purchase.quantity }}</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-between info-row">
+        <span class="text-left text-nowrap label-class">{{ $t('purchases.info_table.total') }}</span>
+        <span class="text-right text-capitalize value-class">{{ purchase.total | toCurrency('usd') }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -59,6 +87,24 @@ export default {
       default: () => {
       },
     },
+  },
+  computed: {
+    tableData() {
+      return Object.keys(this.$t('purchases.info_table')).map(key => {
+        let value = null
+        if (key === 'type')
+          value = this.purchase.type.label
+        else if (key === 'created_at')
+          value = new Date(this.purchase[key]).toLocaleDateString()
+        else
+          value = this.purchase[key]
+
+        return {
+          label: this.$t(`purchases.info_table.${key}`),
+          value
+        }
+      })
+    }
   }
 }
 </script>
@@ -71,7 +117,26 @@ export default {
   padding: 22px 12px
   margin-top: 15px
   font-style: normal
+  background-color: $color-white-1
 
+  span.order-link
+    color: $color-blue-30
+
+  .info-table
+    div:nth-child(even)
+      background: $color-white-5
+
+  .info-row
+    padding-block: 3px
+
+  .label-class
+    @include body-9-medium
+    font-family: $font-montserrat
+
+  .value-class
+    @include body-9-normal
+    font-family: $font-montserrat
+    color: $color-gray-6
 
   .item-desc
     @include body-6-normal
@@ -82,5 +147,24 @@ export default {
     @include body-5-medium
     font-family: $font-family-sf-pro-display
 
+  ::v-deep.owl-theme
+    .owl-nav.disabled + .owl-dots
+      height: 10px
+      margin-top: 5px
+      margin-bottom: 22px
+
+      .owl-dot
+        margin-inline: 4px
+        margin-block: 0
+
+      .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span
+        background-color: $color-black-1
+
+      button
+        span
+          margin: 0
+          height: 4px
+          width: 4px
+          background-color: $color-gray-4
 
 </style>

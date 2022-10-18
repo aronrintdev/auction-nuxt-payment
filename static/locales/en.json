@@ -5331,8 +5331,21 @@
       "view_order": "View Order"
     }
   },
+  "purchases": {
+    "purchase_type": "Purchase Type",
+    "products": "Products",
+    "gift_cards": "Gift Cards",
+    "info_table": {
+      "id": "Order ID:",
+      "created_at": "Order Date:",
+      "order_status": "Status:",
+      "type": "Type:",
+      "quantity": "Quantity:",
+      "total": "Order Total:"
+    }
+  },
   "error_layout": {
-    "go_back":"Go Back",
+    "go_back": "Go Back",
     "oops_something_went_wrong": "Oops Something went wrong!",
     "something_missing": "Something's Missing",
     "the_page_is_missing": "The page is missing \n or the link’s sole is coming off",
