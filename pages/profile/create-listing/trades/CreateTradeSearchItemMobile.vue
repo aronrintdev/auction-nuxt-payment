@@ -69,18 +69,14 @@
            <div>
              <div class="d-inline"  v-if="product.packaging_conditions">
                <div>
-                 <label class="quantity-label mt-2 ml-3">{{ $t('trades.create_listing.vendor.wants.box_condition') }}<sup>*</sup></label>
+                 <label class="quantity-label mt-2 ml-3">{{ $t('trades.create_listing.vendor.wants.select') }}</label>
                </div>
                <div @click="openBottomFilter()">
-                 <b-form-select v-model="box_condition" class="create-trade-select-box ml-2">
-                   <b-form-select-option :value="null">{{ $t('trades.create_listing.vendor.wants.select') }} </b-form-select-option>
-                   <b-form-select-option
-                     v-for="condition in product.packaging_conditions"
-                     :key="condition.id"
-                     :value="condition.id">
-                     {{condition.name}}
-                   </b-form-select-option>
-                 </b-form-select>
+                 <b-form-input
+                   v-model="box_condition"
+                   :placeholder="$t('trades.create_listing.vendor.wants.enter_quantity')"
+                   class="create-trade-select-box ml-2">
+                 </b-form-input>
                  <div class="error-text mt-1 text-xs">
                    {{ $t('trades.create_listing.vendor.wants.select_box_condition') }}
                  </div>
@@ -89,14 +85,9 @@
              <div>
            </div>
          </div>
-
       </div>
-
-
-
-
       <div class="d-flex mt-2">
-        <div class="d-inline"  >
+        <div class="d-inline" v-if="product.category.name !== 'sneakers'">
           <div>
             <label class="quantity-label mt-2 ml-3">{{ $t('trades.create_listing.vendor.wants.year') }}<sup>*</sup></label>
           </div>
@@ -109,7 +100,7 @@
           </div>
         </div>
         <div>
-          <div class="d-inline"   >
+          <div class="d-inline" v-if="productFor === 'wantsList'">
             <div>
               <label class="quantity-label mt-2 ml-3">Select List<sup>*</sup></label>
             </div>
@@ -119,26 +110,21 @@
                 :options="selectListOptions" type="multi-select-checkbox"
                 :label="selectListLabel" optionsWidth="custom"
                 :combinationId="combinationId"
-                maxWidth="203px" variant="white"
-                dropDownHeight="33px"
-                borderRadius="20px"
+                maxWidth="160px" variant="white"
+                dropDownHeight="46px"
+                borderRadius="10px"
                 borderRadiusClose="20px 20px 0 0"
                 borderRadiusOptions="0 0 8px 8px"
-                width="203px"
+                width="160px"
                 @change="listType"
-                class="bg-white"
+                class="bg-white ml-2"
               />
             </div>
           </div>
           <div>
           </div>
         </div>
-
       </div>
-
-
-
-
       <div class="mt-2"  v-if="!isTradeEditForm" >
         <div  v-if="productFor !== 'wantsList'">
           <FormStepProgressBar v-if="progressBar" :steps="steps"  variant="transparent"/>
@@ -151,8 +137,6 @@
         </b-btn>
       </div>
     </div>
-
-
     <!-- For more options -->
     <vue-bottom-sheet
       ref="myBottomSheet"
@@ -161,45 +145,11 @@
       max-height="90vh"
       :rounded="true"
     >
-      <p>welcome</p>
-<!--      <MoreOptions-->
-<!--        @delistMultiple="delistMultipleConfirmation"-->
-<!--        @enterVacationModeConfirmation="enterVacationModeConfirmation"-->
-<!--        @exitVacationModeConfirmation="exitVacationModeConfirmation"-->
-<!--        @close="closeMoreOption"-->
-<!--      />-->
+      <div class="pakage-box d-flex justify-content-center align-content-center inner-box pb-1">Package Condition</div>
+     <div  v-for="condition in product.packaging_conditions" :key="condition.id"  class="inner-box p-3">
+       <div @click="setBox(condition.name)"> {{condition.name}}</div>
+     </div>
     </vue-bottom-sheet>
-
-
-
-<!--    <b-row class="justify-content-center mt-5">-->
-<!--      <div class="row wd-724 justify-start">-->
-<!--        <div v-if="product.category.name !== 'sneakers'" class="d-block ml-4" :class="!isValidYear(year) && 'error'">-->
-<!--            <label>{{ $t('trades.create_listing.vendor.wants.year') }}<sup>*</sup></label>-->
-<!--            <b-form-input v-model="year" type="number" :placeholder="$t('trades.create_listing.vendor.wants.enter_year')"-->
-<!--                          class="create-trade-quantity-box"></b-form-input>-->
-<!--            <div class="error-text mt-1 text-xs">-->
-<!--              {{ $t('trades.create_listing.vendor.wants.enter_year') }}-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        <div v-if="productFor === 'wantsList'" class="d-block ml-4" >-->
-<!--          <label>Select List<sup>*</sup></label>-->
-<!--          <SelectListDropDown-->
-<!--            v-model="selectList"-->
-<!--            :options="selectListOptions" type="multi-select-checkbox"-->
-<!--            :label="selectListLabel" class="bg-white" optionsWidth="custom"-->
-<!--            :combinationId="combinationId"-->
-<!--            maxWidth="203px" variant="white"-->
-<!--            dropDownHeight="33px"-->
-<!--            borderRadius="20px"-->
-<!--            borderRadiusClose="20px 20px 0 0"-->
-<!--            borderRadiusOptions="0 0 8px 8px"-->
-<!--            width="203px"-->
-<!--            @change="listType"-->
-<!--          />-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </b-row>-->
   </div>
 </template>
 
@@ -296,6 +246,10 @@ export default {
     ...mapActions({
       createInventories: 'inventory/createInventories',
     }),
+    setBox(name){
+      this.box_condition = name
+      this.$refs.myBottomSheet.close();
+    },
     openBottomFilter() {
       console.log('come')
       this.$refs.myBottomSheet.open();
@@ -648,4 +602,12 @@ export default {
   font-family: $font-montserrat
   font-weight: $medium
   @include body-10
+.pakage-box
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $medium
+  @include body-14
+  line-height: 20px
+.inner-box
+  border-bottom: 1px solid #E8E8E8
 </style>
