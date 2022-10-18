@@ -3,50 +3,38 @@
     <div class="">
       <div class="row filter-row-top">
         <!-- Input search -->
-        <div class="col search-input-col vtpc-search p-lg-3 pt-3">
-          <div class="form trade-search">
-            <div
-              class="form-group selling-search-input d-flex align-items-center m-0"
-            >
-              <img
-                :src="require('~/assets/img/icons/search.svg')"
-                class="icon-search"
-                alt="Search"
-              />
-              <input
-                id="search-result"
-                v-model="searchValue"
-                type="text"
-                class="form-control form-input vd-purchases-browse-input bg-white"
-                :placeholder="
-                  $t('deadstock_exchange.filter_by.details_placeholder')
-                "
-                autocomplete="on"
-                @input="searchProduct"
-              />
-            </div>
+        <div class="col search-input-col vtpc-search p-lg-3 pt-3 d-flex">
+          <div class="col-6">
+            <SearchInput
+              :value="searchValue"
+              :placeholder="$t('deadstock_exchange.filter_by.details_placeholder')"
+              variant="light"
+              class="flex-grow-1 mr-4 search-input"
+              :debounce="1000"
+              @change="searchProduct"
+            />
           </div>
+
+          <div class="col-4">
+            <FormDropdown
+              id="sort-by"
+              :value="sortBy"
+              :placeholder="$t('selling_page.sortby')"
+              :items="SORT_OPTIONS"
+              :icon="require('~/assets/img/icons/three-lines.svg')"
+              :icon-arrow-down="
+                require('~/assets/img/icons/arrow-down-gray2.svg')
+              "
+              class="dropdown-sort flex-shrink-1"
+              can-clear
+              @select="handleSortBySelect"
+            />
+          </div>
+
         </div>
         <!-- ./Input search -->
 
-        <!-- Sort By -->
-        <div class="col sortby-col p-lg-3 pt-3">
-          <CustomSelect
-            id="category-types"
-            :default="categorySelected"
-            :threelineIcon="false"
-            :options="{
-              default: $t('vendor_purchase.sort_by'),
-              highestChange: $t('deadstock_exchange.sort_by.highest_change'),
-              lowestChange: $t('deadstock_exchange.sort_by.lowest_change'),
-              releaseDateAsc: $t('deadstock_exchange.sort_by.release_date_asc'),
-              releaseDateDesc: $t('deadstock_exchange.sort_by.release_date_desc'),
-              lastPriceLh: $t('deadstock_exchange.sort_by.last_price_lh'),
-              lastPriceHl: $t('deadstock_exchange.sort_by.last_price_hl'),
-            }"
-            @input="handleSortByChange"
-          />
-        </div>
+        <button class="btn btn-sm my-bid-update-btn">Filter</button>
       </div>
       <div  class="row filter-row-bottom" >
         <!-- Filter By Category-->
@@ -183,11 +171,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import CustomSelect from '~/components/common/CustomSelect.vue'
+import { SearchInput, FormDropdown } from '~/components/common'
+
 import { Years } from '~/static/constants/stock-exchange'
 export default {
   name: 'ExchangeFilter',
   components: {
     CustomSelect,
+    SearchInput,
+    FormDropdown
   },
   data() {
     return {
@@ -210,6 +202,33 @@ export default {
       },
       activeTypeFilters: [],
       activeStatusFilters: [],
+      SORT_OPTIONS: [
+        {
+          label: this.$t('vendor_purchase.sort_by'),
+          value: 'default',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.highest_change'),
+          value: 'highestChange',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.lowest_change'),
+          value: 'lowestChange',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.releaseDateAsc'),
+          value: 'releaseDateAsc',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.last_price_lh'),
+          value: 'lastPriceLh',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.last_price_hl'),
+          value: 'lastPriceHl',
+        }
+      ],
+      sortBy: null,
     }
   },
   computed:{
@@ -252,7 +271,7 @@ export default {
       this.$emit('filterList',this.searchFilters)
     },
     // On filter by change.
-    handleSortByChange(value) {
+    handleSortBySelect(value) {
       this.searchFilters.filterBy = value === '' ? '' : value
        this.setActiveFilter()
       this.$emit('filterList',this.searchFilters)
