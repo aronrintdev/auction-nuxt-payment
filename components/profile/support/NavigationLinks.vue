@@ -3,9 +3,26 @@
     <!-- Start of new design-->
     <div class="nav-wrapper m-auto">
       <div class="row h-100 flex-wrap align-content-stretch">
-        <div class="col-md-4 col-6">
+        <div v-if="$route.name!=='profile-support' && $route.name!=='profile-support-faqs'" class="col-md-4 col-6">
           <nuxt-link
-            v-if="$route.name !== 'profile-support-about-us'"
+            to="/profile/support/faqs"
+          >
+            <div
+              class="border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
+            >
+              <img class="fs-50" :src="require('assets/img/icons/faq.svg')"/>
+              <h2 class="text-base-blue fw-6 mt-3 fs-24 font-primary">
+                {{ $t('preferences.profile.support.faq.title_short') }}
+              </h2>
+              <h6 class="text-dark mb-0 fw-5 fs-14 text-black font-primary">
+                Get your questions answered
+              </h6>
+            </div>
+          </nuxt-link>
+        </div>
+
+        <div v-if="$route.name !== 'profile-support-about-us'" class="col-md-4 col-6">
+          <nuxt-link
             to="/profile/support/about-us"
             class="navigation-link"
           >
@@ -27,9 +44,8 @@
             </div>
           </nuxt-link>
         </div>
-        <div class="col-md-4 col-6">
+        <div v-if="$route.name !== 'profile-support-live-chat'" class="col-md-4 col-6">
           <div
-            v-if="$route.name !== 'profile-support-live-chat'"
             class="navigation-link live-chat h-100"
             @click="openChat"
           >
@@ -53,9 +69,8 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 col-6">
+        <div v-if="$route.name !== 'profile-support-contact-us'" class="col-md-4 col-6">
           <nuxt-link
-            v-if="$route.name !== 'profile-support-contact-us'"
             to="/profile/support/contact-us"
             class="navigation-link"
           >
@@ -77,10 +92,9 @@
             </div>
           </nuxt-link>
         </div>
-        <div class="col-md-12 col-6">
+        <div v-if="$route.name === 'profile-support'" class="col-md-12 col-6">
           <nuxt-link
-            v-if="$route.name === 'profile-support'"
-            to="/faqs/support"
+            to="/profile/support/faqs"
           >
             <div
               class="d-flex p-4 h-100 border br-10 align-items-center mt-lg-5 navigation-card"
@@ -217,6 +231,9 @@ export default {
   name: 'NavigationsLinks',
   props: {
     centered: Boolean,
+  },
+  mounted() {
+    console.debug(this.$route.name)
   },
   methods: {
     openChat() {
