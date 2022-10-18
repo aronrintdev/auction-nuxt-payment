@@ -251,7 +251,6 @@ export default {
       this.$refs.myBottomSheet.close();
     },
     openBottomFilter() {
-      console.log('come')
       this.$refs.myBottomSheet.open();
     },
     /**
