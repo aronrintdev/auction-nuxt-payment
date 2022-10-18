@@ -35,7 +35,7 @@
         />
 
         <SelectWithCheckbox
-          id="auction-type-selector"
+          id="auction-status-selector"
           class="mr-4 dropdown-filters"
           :default="auctionStatus"
           :options="STATUS_TYPES"
