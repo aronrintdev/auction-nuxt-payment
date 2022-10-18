@@ -2,18 +2,36 @@
 <div>
   <create-trade-search-item v-if="search_item" :product="search_item" :itemId="trade_want_id" productFor="wantOfferConfirm"/>
   <div v-else>
-    <div class="offered-item-confirm-trade mt-2">
+    <b-row class="pt-3">
+      <b-col cols="6" class="create-trade-heading">
+        <div>
+          {{ $t('trades.create_listing.vendor.wants.trade_confirmation') }}
+        </div>
+      </b-col>
+      <b-col cols="6">
+        <div class="row">
+          <div class="col-md-12 ">
+            <FormStepProgressBar :steps="steps" variant="transparent"/>
+          </div>
+        </div>
+      </b-col>
+    </b-row>
+    <b-row class="offered-item-confirm-trade">
       {{ $t('trades.create_listing.vendor.wants.offered_items') }}
-    </div>
-    <div v-for="(item, index) in getTradeItems" :key="'offer-'+index+item.id" class="confirm-trade-item">
-      <div class="d-flex">
-        <div class="ml-2">
+    </b-row>
+    <b-row class="confirm-trade-detail-section mb-3">
+      <b-col cols="8">{{ $t('trades.create_listing.vendor.wants.details') }}</b-col>
+      <b-col cols="2">{{ $t('trades.create_listing.vendor.wants.quantity') }}</b-col>
+      <b-col cols="2">{{ $t('trades.create_listing.vendor.wants.actions') }}</b-col>
+    </b-row>
+    <b-row v-for="(item, index) in getTradeItems" :key="'offer-'+index+item.id" class="confirm-trade-item">
+      <b-col cols="8" class="d-flex">
+        <div class="pt-3">
           <img class="confirm-trade-item-image"
                :src="`${IMAGE_PATH}/${item.product && item.product.category.name ? item.product.category.name :item.category.name }/${item.sku ? item.sku : item.product.sku}/800xAUTO/IMG01.jpg`"
                :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
-          <div class="quantity-heading ml-2">Quantity : <span class="sub-quantity">{{ item.quantity }}</span></div>
         </div>
-        <div class="pl-4 pt-3">
+        <div class="d-block pt-4 pl-4">
           <div class="confirm-trade-item-name">{{ item.name ? item.name : item.product.name }}</div>
           <div class="confirm-trade-item-detail">{{
               $t('trades.create_listing.vendor.wants.sku')
@@ -26,24 +44,22 @@
             {{ item.packaging_condition.name }}
           </div>
         </div>
-        <div class="mt-3">
-          <b-dropdown size="sm"  variant="link" toggle-class="text-decoration-none" no-caret>
-            <template #button-content>
-              <b-icon icon='three-dots-vertical' color="#999999"/>
-            </template>
-            <b-dropdown-item>
-              <NuxtLink class="font-weight-bolder text-gray" to="/profile/create-listing/trades/create">
-                <img :src="require('~/assets/img/box-pencil.svg')" :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
-              </NuxtLink>
-            </b-dropdown-item>
-            <b-dropdown-item>
-              <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"
-                   :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="removeOfferItem(item.id)"/>
-            </b-dropdown-item>
-          </b-dropdown>
+      </b-col>
+      <b-col cols="2">
+        <div class="confirm-trade-item-quantity">{{ item.quantity }}</div>
+      </b-col>
+      <b-col cols="2" class="confirm-trade-icons d-flex">
+        <div>
+          <NuxtLink class="font-weight-bolder text-gray" to="/profile/create-listing/trades/create">
+            <img :src="require('~/assets/img/box-pencil.svg')" :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
+          </NuxtLink>
         </div>
-      </div>
-    </div>
+        <div class="pl-3">
+          <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"
+               :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="removeOfferItem(item.id)"/>
+        </div>
+      </b-col>
+    </b-row>
     <b-row v-if="!getTradeItems.length">
       <b-col cols="12" class="d-flex mt-3 pl-5 ml-2">
         <NuxtLink class="font-weight-bolder text-gray" to="/profile/create-listing/trades/create">
@@ -55,15 +71,18 @@
     <b-row class="offered-item-confirm-trade">
       {{ $t('trades.create_listing.vendor.wants.wanted_items') }}
     </b-row>
-
-    <div v-for="(wantItem, index) in getTradeItemsWants" :key="'want-'+index+wantItem.id" class="confirm-trade-item">
-      <div class="d-flex">
-        <div class="ml-2">
+    <b-row class="confirm-trade-detail-section mb-3">
+      <b-col cols="8">{{ $t('trades.create_listing.vendor.wants.details') }}</b-col>
+      <b-col cols="2">{{ $t('trades.create_listing.vendor.wants.quantity') }}</b-col>
+      <b-col cols="2">{{ $t('trades.create_listing.vendor.wants.actions') }}</b-col>
+    </b-row>
+    <b-row v-for="(wantItem, index) in getTradeItemsWants" :key="'want-'+index+wantItem.id" class="confirm-trade-item">
+      <b-col cols="8" class="d-flex">
+        <div class="pt-3">
           <img class="confirm-trade-item-image" :src="wantItem.image"
                :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
-          <div class="quantity-heading ml-2">Quantity : <span class="sub-quantity">{{ wantItem.selected_quantity }}</span></div>
         </div>
-        <div class="pt-3 pl-4">
+        <div class="d-block pt-4 pl-4">
           <div class="confirm-trade-item-name">{{ wantItem.name }} ({{ wantItem.product.release_year }})</div>
           <div class="confirm-trade-item-detail">{{
               $t('trades.create_listing.vendor.wants.sku')
@@ -76,43 +95,24 @@
             {{ wantItem.selected_box_condition_name }}
           </div>
         </div>
-
-        <div class="mt-3">
-          <b-dropdown size="sm"  variant="link" toggle-class="text-decoration-none" no-caret>
-            <template #button-content>
-              <b-icon icon='three-dots-vertical' color="#999999"/>
-            </template>
-            <b-dropdown-item>
-              <img class="cursor-pointer" :src="require('~/assets/img/box-copy.svg')"
-                   :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, 0, getTradeItemsWants.map(i => parseInt(i.selected_quantity)).reduce((a, b) => a + b, 0))" />
-            </b-dropdown-item>
-            <b-dropdown-item>
-              <img :src="require('~/assets/img/box-pencil.svg')"
-                   class="cursor-pointer" :alt="$t('trades.create_listing.vendor.wants.no_image')"
-                   @click="addProductWant(wantItem.product, wantItem, 0)"/>
-            </b-dropdown-item>
-            <b-dropdown-item>
-              <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"
-                   :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="removeWantItem(wantItem.id)"/>
-            </b-dropdown-item>
-          </b-dropdown>
+      </b-col>
+      <b-col cols="2">
+        <div class="confirm-trade-item-quantity">{{ wantItem.selected_quantity }}</div>
+      </b-col>
+      <b-col cols="2" class="confirm-trade-icons d-flex">
+        <div>
+          <img class="cursor-pointer" :src="require('~/assets/img/box-copy.svg')"
+               :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, 0, getTradeItemsWants.map(i => parseInt(i.selected_quantity)).reduce((a, b) => a + b, 0))" />
         </div>
-      </div>
-
-<!--      <b-col cols="2" class="confirm-trade-icons d-flex">-->
-<!--        <div>-->
-<!--          <img class="cursor-pointer" :src="require('~/assets/img/box-copy.svg')"-->
-<!--               :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, 0, getTradeItemsWants.map(i => parseInt(i.selected_quantity)).reduce((a, b) => a + b, 0))" />-->
-<!--        </div>-->
-<!--        <div class="pl-3">-->
-<!--            <img :src="require('~/assets/img/box-pencil.svg')" class="cursor-pointer" :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, wantItem, 0)"/>-->
-<!--        </div>-->
-<!--        <div class="pl-3">-->
-<!--          <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"-->
-<!--               :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="removeWantItem(wantItem.id)"/>-->
-<!--        </div>-->
-<!--      </b-col>-->
-    </div>
+        <div class="pl-3">
+            <img :src="require('~/assets/img/box-pencil.svg')" class="cursor-pointer" :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, wantItem, 0)"/>
+        </div>
+        <div class="pl-3">
+          <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"
+               :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="removeWantItem(wantItem.id)"/>
+        </div>
+      </b-col>
+    </b-row>
     <b-row v-if="!getTradeItemsWants.length">
       <b-col cols="12" class="d-flex mt-3 pl-5 ml-2 mb-4">
         <NuxtLink class="font-weight-bolder text-gray" to="/profile/create-listing/trades/wants">
@@ -121,34 +121,11 @@
       </b-col>
     </b-row>
 
-    <div class="mt-2 d-flex ml-4">
-      <div class="mt-2" @click="$bvModal.show('offer-item-modal')">
-        <b-img
-          :src="require('~/assets/img/icons/clarity_eye-line.svg')"
-          :alt="$t('trades.create_listing.vendor.wants.view_offer_items')"
-        />
-      </div>
-      <div>
-        <FormStepProgressBar :steps="steps" variant="transparent"/>
-      </div>
-    </div>
-    <div class="press-content mt-2 ml-3">
-      *By pressing on Post Listing(s),
-      I accept the seller fee of 9.5% + a 2.9% transaction fee.
-      No authentication fees will be charged to sellers.
-    </div>
-    <div class="d-flex mt-2 mb-4">
-      <b-btn class="confirm-trade-draft-btn ml-3"
-             @click="saveVendorTrade(STATUS_DRAFT)">
-        {{  $t('trades.create_listing.vendor.wants.save_as_draft')  }}
-      </b-btn>
-      <b-btn class="confirm-trade-post-btn ml-3" :disabled="!getTradeItemsWants.length || !getTradeItems.length"
-             @click="saveVendorTrade(STATUS_LIVE)">
-        {{  $t('trades.create_listing.vendor.wants.post_trade_listing')  }}
-      </b-btn>
-    </div>
+    <b-row class="justify-content-center mt-4 mb-4">
+      <Button class="confirm-trade-draft-btn" variant="listing" @click="saveVendorTrade(STATUS_DRAFT)">{{ $t('trades.create_listing.vendor.wants.save_as_draft') }}</Button>
+      <Button class="confirm-trade-post-btn ml-5" :disabled="!getTradeItemsWants.length || !getTradeItems.length" variant="listing" @click="saveVendorTrade(STATUS_LIVE)">{{ $t('trades.create_listing.vendor.wants.post_trade_listing') }}</Button>
+    </b-row>
   </div>
-  <ViewOfferItemsModal />
 </div>
 </template>
 
@@ -157,20 +134,18 @@
 import { mapGetters } from 'vuex'
 import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem'
-import ViewOfferItemsModal from '~/pages/profile/create-listing/trades/wants/ViewOfferItemsModal';
 import {
   IMAGE_PATH,
   MAX_ITEMS_ALLOWED,
   STATUS_DRAFT,
   STATUS_LIVE
 } from '~/static/constants/create-listing'
-// import Button from '~/components/common/Button';
+import Button from '~/components/common/Button';
 
 export default {
   name: 'Index',
   components: {
-    // Button,
-    ViewOfferItemsModal,
+    Button,
     FormStepProgressBar,
     CreateTradeSearchItem
   },
@@ -243,7 +218,7 @@ export default {
 
     redirectTo(status){
       if(status === STATUS_DRAFT){
-        this.$router.push('/profile/create-listing/drafts-mobile')
+        this.$router.push('/profile/create-listing/drafts')
       }else{
         this.$router.push('/profile/trades/dashboard')
       }
@@ -336,91 +311,3 @@ export default {
   }
 }
 </script>
-<style scoped lang="sass">
-@import '~/assets/css/_variables'
-.confirm-trade-draft-btn
-  width: 162px
-  height: 40px
-  border-radius: 20px
-  border: 1px solid #7196B1
-  @include body-10
-  font-family: $font-montserrat
-  color: #7196B1
-  @media (min-width: 300px)  and (max-width: 349px)
-    width: 130px
-    font-size: 10px
-.confirm-trade-post-btn
-  width: 162px
-  height: 40px
-  border-radius: 20px
-  background-color: #667799
-  color: #FFFFFF
-  font-family: $font-montserrat
-  font-weight: $medium
-  @include body-10
-  @media (min-width: 300px)  and (max-width: 349px)
-    width: 130px
-    font-size: 10px
-.offered-item-confirm-trade
-  @include body-5
-  font-weight: $bold
-  font-family: $font-montserrat
-  color: #000000
-.confirm-trade-item
-  width: 343px
-  height: 133px
-  border-radius: 10px
-  background: #FFFFFF
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
-  @media (min-width: 300px)  and (max-width: 349px)
-    width: 290px
-  @media (min-width: 400px)  and (max-width: 500px)
-      width: 390px
-.confirm-trade-item-image
-  width: 86px
-.quantity-heading
-  font-family: $font-montserrat
-  font-weight: $medium
-  @include body-9
-  color: #000000
-.confirm-trade-item-quantity
-  font-family: $font-montserrat
-  font-style: normal
-  font-weight: $normal
-  @include body-9
-  color: #6F6F6F
-.sub-quantity
-  @include body-9
-  font-weight: $normal
-  font-family: $font-montserrat
-  color: #6F6F6F
-.confirm-trade-item-name
-  font-family: $font-sp-pro
-  font-style: normal
-  font-weight: $medium
-  @include body-5
-  @media (min-width: 300px)  and (max-width: 349px)
-    @include body-6
-.confirm-trade-item-detail
-  font-family: $font-sp-pro
-  font-style: normal
-  font-weight: $normal
-  @include body-6
-  @media (min-width: 300px)  and (max-width: 349px)
-    font-size: 9px
-.confirm-trade-item
-  margin: 5px 17px 11px
-.press-content
-  @include body-9
-  width: 340px
-  height: 63px
-  font-weight: $normal
-  font-family: $font-montserrat
-  color: #000000
-  background-color: #F7F7F7
-  padding: 5px
-  @media (min-width: 300px)  and (max-width: 349px)
-    width: 290px
-  @media (min-width: 400px)  and (max-width: 500px)
-      width: 390px
-</style>

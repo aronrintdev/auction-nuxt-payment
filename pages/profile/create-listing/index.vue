@@ -121,11 +121,12 @@ export default {
           this.$store.commit('trades/removeAllWantItems')
           this.$store.commit('trades/clearTradeItems')
           this.$store.commit('trades/setTradeForEditing',null)
-          if(window.innerWidth <= 500) {
-            this.$router.push('/profile/create-listing/trades/create-mobile')
-          }else {
-            this.$router.push('/profile/create-listing/trades/create')
-          }
+          this.$router.push('/profile/create-listing/trades/create')
+          // if(window.innerWidth <= 500) {
+          //   this.$router.push('/profile/create-listing/trades/create-mobile')
+          // }else {
+          //   this.$router.push('/profile/create-listing/trades/create')
+          // }
 
       } else if (type === LISTING_TYPES.AUCTION) { // If the type is auction
           this.$router.push({
