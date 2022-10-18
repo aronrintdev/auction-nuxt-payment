@@ -71,7 +71,7 @@
                <div>
                  <label class="quantity-label mt-2 ml-3">{{ $t('trades.create_listing.vendor.wants.box_condition') }}<sup>*</sup></label>
                </div>
-               <div>
+               <div @click="openBottomFilter()">
                  <b-form-select v-model="box_condition" class="create-trade-select-box ml-2">
                    <b-form-select-option :value="null">{{ $t('trades.create_listing.vendor.wants.select') }} </b-form-select-option>
                    <b-form-select-option
@@ -296,7 +296,10 @@ export default {
     ...mapActions({
       createInventories: 'inventory/createInventories',
     }),
-
+    openBottomFilter() {
+      console.log('come')
+      this.$refs.myBottomSheet.open();
+    },
     /**
      * This function is used to select size and
      * add active class for selected border inside selected once size
