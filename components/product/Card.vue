@@ -160,6 +160,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    pageName: {
+      type: String,
+      default: 'shop'
+    }
   },
 
   data() {
@@ -204,7 +208,11 @@ export default {
     }),
 
     goToDetailPage() {
-      this.$router.push(`/shop/${this.product.sku}`)
+      if(this.pageName === 'trades') {
+        this.$router.push(`/${this.pageName}/${this.product.id}`)
+      } else {
+        this.$router.push(`/${this.pageName}/${this.product.sku}`)
+      }
     },
 
     toggleSelect(checked) {
