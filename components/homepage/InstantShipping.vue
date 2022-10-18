@@ -57,7 +57,6 @@ export default {
         { label: this.$t('home_page.apparel'), value: 'apparel' },
         { label: this.$t('home_page.accessories'), value: 'accessories' },
       ],
-      currentCategory: 'footwear',
       currentCategory: '',
     }
   },
