@@ -69,10 +69,11 @@
     <div v-else class="container">
       <p class="d-flex justify-content-center h-30 align-items-center">{{$t('trades.trade_hub.no_interested_listing_found')}}</p>
     </div>
-    <b-row v-if="getInterestedListings.length" class="justify-content-center">
-      <span class="pointer" @click="loadMoreInterestedListings()">{{$t('trades.trade_hub.view_more')}} <b-icon class="ml-3" icon="chevron-down" aria-hidden="true"></b-icon>
+    <!-- TODO after custom queries are converted to laravel eloquent query -->
+    <!-- <b-row v-if="false" class="justify-content-center">
+      <span class="pointer">{{$t('trades.trade_hub.view_more')}} <b-icon class="ml-3" icon="chevron-down" aria-hidden="true"></b-icon>
       </span>
-    </b-row>
+    </b-row> -->
   </b-container>
 </template>
 

@@ -18,6 +18,7 @@
           :clearSearch="true"
           inputHeight="46px"
           @change="filterData"
+          @clear="filterData('')"
         />
       </b-col>
       <b-col md="5 pl-3" sm="12">
@@ -626,7 +627,11 @@ export default {
     },
     filterData(text){
       this.searchText = text
-      this.wantedItems = this.wantedItems.filter(o => o.product.name.toLowerCase().includes(this.searchText.toLowerCase()) || o.product.sku.toLowerCase().includes(this.searchText.toLowerCase()))
+      if(text !== ''){
+        this.wantedItems = this.wantedItems.filter(o => o.product.name.toLowerCase().includes(this.searchText.toLowerCase()) || o.product.sku.toLowerCase().includes(this.searchText.toLowerCase()));
+      }else{
+        this.getWantItems()
+      }
     }
   }
 }

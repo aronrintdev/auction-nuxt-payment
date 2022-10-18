@@ -34,15 +34,15 @@
           img-width="1024"
           img-height="250"
         >
-          <b-carousel-slide v-for="single in order.items" :key="single.key">
+          <b-carousel-slide v-for="(single, index) in order.items" :key="single.key">
             <template #img>
               <div class="w-100">
                 <div class="row">
                   <div class="col">
                     <div class="text-center">
                       <div class="pb-2"><img :src="product(single).image" height="70" alt=""></div>
-                      <NuxtLink :to="`/orders/${order.order_id}-${single.id}`" class="d-none d-md-block">
-                        <span>#{{ order.order_id }}-{{ single.id }}</span>
+                      <NuxtLink :to="`/orders/${order.order_id}-${index + 1}`" class="d-none d-md-block">
+                        <span>#{{ order.order_id }}-{{ index + 1 }}</span>
                       </NuxtLink>
                     </div>
                   </div>
@@ -62,8 +62,8 @@
                     <tr>
                       <td>{{ $t('orders.order_id') }}</td>
                       <td class="text-right">
-                        <NuxtLink :to="`/orders/${order.order_id}-${single.id}`">
-                          <span>#{{ order.order_id }}-{{ single.id }}</span>
+                        <NuxtLink :to="`/orders/${order.order_id}-${index + 1}`">
+                          <span>#{{ order.order_id }}-{{ index + 1 }}</span>
                         </NuxtLink>
                       </td>
                     </tr>
@@ -134,7 +134,7 @@
     </div>
 
     <div class="col d-none d-md-block">
-      <div class="text-center">${{ order.total | formatPrice }}</div>
+      <div class="text-center">${{ order.vendor_commission | formatPrice }}</div>
     </div>
     <div class="col"></div>
     <div class="col-2 text-center d-none d-md-block"> -</div>
@@ -142,10 +142,10 @@
     <template v-if="!isCollapsed">
       <div class="w-100"></div>
       <div class="col-12 d-none d-md-block">
-        <div v-for="item in order.items" :key="item.key" class="row mt-3">
+        <div v-for="(item, index) in order.items" :key="item.key" class="row mt-3">
           <div class="col d-flex align-items-center justify-content-center">
-            <NuxtLink :to="`/orders/${order.order_id}-${item.id}`">
-              <span>#{{ order.order_id }}-{{ item.id }}</span>
+            <NuxtLink :to="`/orders/${order.order_id}-${index + 1}`">
+              <span>#{{ order.order_id }}-{{ index + 1 }}</span>
             </NuxtLink>
           </div>
 
@@ -235,9 +235,6 @@ export default {
     }
   },
   computed: {
-    single() {
-      return this.order.items[0]
-    },
     iconSvg() {
       return this.isCollapsed
         ? require('~/assets/img/icons/arrow-down-gray.svg')
@@ -274,7 +271,7 @@ export default {
         return false
       }
       const status = item.status_markable[len - 1]
-      const url = `/order-items/${this.order.id}/status?status=${status.key}`;
+      const url = `/order-items/${item.id}/status?status=${status.key}`;
 
       const resp = await this.$axios.put(url)
       if (resp.status === 200) {

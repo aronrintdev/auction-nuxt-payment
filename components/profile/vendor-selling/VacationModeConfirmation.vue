@@ -94,4 +94,7 @@ export default {
   font-style: normal
   @include body-17-medium
   color: $color-blue-20
+@media (min-width: 576px)
+  .sidebar-wrapper
+    display: none
 </style>

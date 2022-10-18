@@ -235,7 +235,6 @@ export default {
      * @returns {false|any|boolean}
      */
     isFormValid() {
-        console.log('check', this.selected_size)
       return ((parseInt(this.itemsCount()) + parseInt(this.quantity)) <= MAX_ITEMS_ALLOWED &&
         (this.product.packaging_conditions && this.box_condition !== null) &&
         this.isValidQuantity(parseInt(this.quantity)) &&
