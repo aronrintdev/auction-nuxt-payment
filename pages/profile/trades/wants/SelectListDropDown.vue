@@ -1,19 +1,49 @@
 <template>
-  <div class="custom-dropdown text-gray" :style="{'min-width': width, 'height': dropDownHeight, 'width': maxWidth,'border-radius': !isOpen ? borderRadius : borderRadiusClose}">
-    <div class="label-wrapper" :style="{'min-width': width, 'height': dropDownHeight, 'width': maxWidth, 'border-radius': !isOpen ? borderRadius : borderRadiusClose}" :class="`background-${variant} ${bordered && 'bordered'}`" @click="isOpen = !isOpen">
-      <label class="font-weight-light">
+  <div 
+    class="custom-dropdown text-gray" 
+    :style="{
+      'min-width': width, 
+      'height': dropDownHeight, 
+      'width': maxWidth,
+      'border-radius': !isOpen ? borderRadius : borderRadiusClose,
+      ...wrapperStyle
+    }"
+  >
+    <div 
+      class="label-wrapper" 
+      :style="{
+        'min-width': width, 
+        'height': dropDownHeight, 
+        'width': maxWidth, 
+        'border-radius': !isOpen ? borderRadius : borderRadiusClose,
+        ...inputStyle
+      }" 
+      :class="`background-${variant} ${bordered && 'bordered'}`" 
+      @click="isOpen = !isOpen"
+    >
+      <label :style="labelStyle" class="font-weight-light">
         <img v-if="labelLeftImage !== null" :src="labelLeftImage" class="mr-2">
         {{label}}
       </label>
-      <i class="pull-right  pr-1 fa fa-2x" :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"></i>
+      <i :style="iconStyle"  class="pull-right  pr-1 fa fa-2x" :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"></i>
     </div>
-    <ul v-if="isOpen"  class="custom-dropdown-options position-absolute pa-0 overflow-auto" :class="`${optionsWidth}-color ${bordered && 'bordered'}`" :style="{'min-width': width,'border-radius': isOpen ? borderRadiusOptions: ''}"
+    <ul 
+      v-if="isOpen" 
+      class="custom-dropdown-options position-relative pa-0 overflow-auto border-top-0" 
+      :class="`${optionsWidth}-color ${bordered && 'bordered'}`" 
+      :style="{
+        'min-width': width,
+        'border-radius': isOpen ? borderRadiusOptions: '',
+        zIndex: 100000,
+        ...dropdownStyle
+      }"
     >
       <li
         v-for="(option, key) of listOptions" :key="key"
         :class="`${optionsWidth}-color ${combinationId && 'pointer-event-none'}`"
         class="d-flex justify-content-between"
         @click="selectOption((option.value ? option.value : option))"
+        :style="dropdownItemStyle"
       >
         <span>{{ (option.value) ? option.text : option }}</span>
         <input class="mr-2" :checked="value.includes(option.value)" type="checkbox"  />
@@ -101,6 +131,30 @@ export default {
       type: Number,
       default: () => null,
     },
+    inputStyle: {
+      type: Object,
+      default: () => {}
+    },
+    labelStyle: {
+      type: Object,
+      default: () => {}
+    },
+    iconStyle: {
+      type: Object,
+      default: () => {}
+    },
+    wrapperStyle: {
+      type: Object,
+      default: () => {}
+    },
+    dropdownStyle: {
+      type: Object,
+      default: () => {}
+    },
+    dropdownItemStyle: {
+      type: Object,
+      default: () => {}
+    }
   },
   data() {
     return {
@@ -123,6 +177,8 @@ export default {
     })
     this.combinationOptions();
     this.setOptions()
+    console.log('borderRadius', this.borderRadius);
+    console.log('borderRadiusClose', this.borderRadiusClose);
   },
   methods: {
     setOptions(){

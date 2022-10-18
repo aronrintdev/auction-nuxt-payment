@@ -114,8 +114,81 @@
             arrowStyle='color: #667799; width: 16px; height: 18px; position: absolute; right: 50px; margin-bottom: 11px !important;'
           />
         </div>
-      </div>
 
+        <b-form>
+          <b-form-group
+            id="group-current-password"
+            class="form-label"
+          >
+            <label
+              class="form-label"
+            >
+              {{ $t('common.quantity') }} <sup>*</sup>
+            </label>
+            <b-form-input
+              type="text"
+              :placeholder="'1'"
+              required
+              class="bg-white form-label"
+              :style="{
+                border: '1px solid #E8E8E8',
+                borderRadius: '10px',
+                height: '49px'
+              }"
+            ></b-form-input>
+          </b-form-group>
+        </b-form>
+
+
+        <label class="form-label">
+          {{ $t('common.select_list') }}<sup>*</sup>
+        </label>
+        <SelectListDropDown
+          v-model="selectList"
+          :options="selectListOptions" type="multi-select-checkbox"
+          :label="selectListLabel" class="bg-white" optionsWidth="custom"
+          :itemId="itemId"
+          :combinationId="combinationId"
+          variant="white"
+          dropDownHeight="33px"
+          borderRadius="10px"
+          borderRadiusClose="10px 10px 0 0"
+          borderRadiusOptions="0 0 8px 8px"
+          @change="listType"
+          :inputStyle="{
+            borderColor: '#E8E8E8',
+            height: '49px',
+            borderRadius: '10px',
+            paddingLeft: '15px',
+            paddingRight: '15px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }"
+          :labelStyle="{
+            padding: 0,
+            margin: 0,
+            fontWeight: '600 !important',
+            fontSize: '12px',
+            color: '#000'
+          }"
+          :iconStyle="{
+            color: '#7196B1',
+            width: '16px',
+            height: '18px',
+            display: 'flex',
+            alignItems: 'center'
+          }"
+          :dropdownStyle="{
+            borderColor: '#E8E8E8',
+          }"
+          :dropdownItemStyle="{
+            borderColor: '#E8E8E8',
+          }"
+        />
+
+      </div>
+      <br><br><br><br><br><br></br>
     </div>
       
   </div>
@@ -609,4 +682,10 @@ export default {
 
 .btn-width
   width: 203px
+
+.form-label
+  font-size: 12px
+  font-weight: 600 !important
+  color: #000
+
 </style>
