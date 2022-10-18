@@ -1,6 +1,6 @@
 <template>
   <div class="support-search-box" :class="{ 'mx-auto': centered }">
-    <div class="border d-flex align-items-center br-8 bg-white">
+    <div class="border d-flex align-items-center br-8 bg-white p-md-2">
       <img
         :src="require('~/assets/img/icons/search.svg')"
         class="search-icon fs-20"
