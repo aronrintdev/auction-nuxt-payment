@@ -1,34 +1,39 @@
 <template>
   <div class="child-container">
-    <h2 class="m-0">{{ $t('products.latest_sales') }}</h2>
-    <div class="text-right period-block">
+    <h2 :style="headerStyle" class="m-0">{{ $t('products.latest_sales') }}</h2>
+    <div :style="labelsStyle" class="text-right period-block">
       <Button
         variant="link"
         :class="{ active: currentFormat === 'day' }"
+        :style="labelStyle"
         @click="setFormat('day')"
         >{{ $tc('common.day', 1) }}</Button
       >
       <Button
         variant="link"
         :class="{ active: currentFormat === 'month' }"
+        :style="labelStyle"
         @click="setFormat('month')"
         >{{ $t('common.month') }}</Button
       >
       <Button
         variant="link"
         :class="{ active: currentFormat === 'quarter' }"
+        :style="labelStyle"
         @click="setFormat('quarter')"
         >{{ $t('common.quarter') }}</Button
       >
       <Button
         variant="link"
         :class="{ active: currentFormat === 'year' }"
+        :style="labelStyle"
         @click="setFormat('year')"
         >{{ $t('common.year') }}</Button
       >
       <Button
         variant="link"
         :class="{ active: currentFormat === 'all' }"
+        :style="labelStyle"
         @click="setFormat('all')"
         >{{ $t('common.all') }}</Button
       >
@@ -74,6 +79,18 @@ export default {
       type: String,
       default: null,
     },
+    headerStyle: {
+      type: Object,
+      default: () => {}
+    },
+    labelsStyle: {
+      type: Object,
+      default: () => {}
+    },
+    labelStyle: {
+      type: Object,
+      default: () => {}
+    }
   },
 
   data() {
@@ -287,6 +304,7 @@ export default {
       margin: 0 40px
 
       &.active
+        color: #000 !important
         text-decoration: underline
 
   .current-trend

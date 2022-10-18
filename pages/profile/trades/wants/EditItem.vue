@@ -11,14 +11,10 @@
       </div>
     </div>
     <div class="d-flex flex-column justify-content-center">
-      <img 
-        :src="product.product | getProductImageUrl" 
-        alt="No Image" 
-        width="150"
-        class="h-auto mx-auto" 
-      />
+      <ProductImageViewer v-if="!product.product.has360Images" :product="product.product" />
+      <ProductImageViewerMagic360 v-if="product.product.has360Images" :product="product.product" />
 
-      <p class="mt-3 mb-0 title">{{product.product.name}}</p>
+      <p class="mt-3 mb-0 title">{{ product.product.name }}</p>
       <p>
         <span class="last-sale">{{ $t('product_page.last_sale') }}: $250.00</span>
         <span class="last-sale-value">+0.64 (+0.36%)</span>
@@ -96,7 +92,7 @@
           />
         </div>
 
-        <div class="px-3 mb-5 pb-5">
+        <div class="px-3 mb-4">
           <CustomDropdown 
             v-model="condition"
             :label="conditionLabel"
@@ -126,7 +122,7 @@
               {{ $t('common.quantity') }} <sup>*</sup>
             </label>
             <b-form-input
-              type="text"
+              type="number"
               :placeholder="'1'"
               required
               class="bg-white form-label"
@@ -138,7 +134,6 @@
             ></b-form-input>
           </b-form-group>
         </b-form>
-
 
         <label class="form-label">
           {{ $t('common.select_list') }}<sup>*</sup>
@@ -186,9 +181,50 @@
             borderColor: '#E8E8E8',
           }"
         />
+        
+        <div class="custom-shadow px-2 mt-5">
+          <ProductLatestSales
+            :style="{ marginTop: '0 !important'}"
+            :value="product.latest_sales"
+            :sku="product.sku"
+            :headerStyle="{
+              fontFamily: 'Montserrat',
+              fontWeight: 600,
+              fontSize: '14px',
+              color: '#000',
+              height: '30px'
+            }"
+            :labelsStyle="{
+              display: 'flex',
+              flexDirection: 'row !important',
+              justifyContent: 'space-between',
+              fontFamily: 'SF Pro Display',
+              fontWeight: 500,
+              fontSize: '13px',
+            }"
+            :labelStyle="{
+              color: '#999'
+            }"
+          />
+
+          <div class="d-flex justify-content-between pb-3 mt-3">
+            <div class="chart-button col-3">
+              {{ $t('products.asks') }}
+            </div>
+            <div class="chart-button col-3">
+              {{ $t('products.offers') }}
+            </div>
+            <div class="chart-button col-3">
+              {{ $t('products.sales') }}
+            </div>
+          </div>
+        </div>
+
+        <div class="add-want-button">
+          {{ $t('trades.create_listing.vendor.wants.add_want') }}
+        </div>
 
       </div>
-      <br><br><br><br><br><br></br>
     </div>
       
   </div>
@@ -327,6 +363,10 @@ import {WANTS_SELECT_LIST_OPTIONS} from '~/static/constants/trades'
 import SelectListDropDown from '~/pages/profile/trades/wants/SelectListDropDown'
 import Button from '~/components/common/Button'
 import CustomDropdown from '~/components/common/CustomDropdown'
+import ProductImageViewer from '~/components/product/ImageViewerV2'
+import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
+import ProductLatestSales from '~/components/product/LatestSales'
+
 
 export default {
   name: 'EditItem',
@@ -337,6 +377,9 @@ export default {
     ProductSizePicker,
     ValidationObserver,
     ValidationProvider,
+    ProductImageViewer,
+    ProductImageViewerMagic360,
+    ProductLatestSales
   },
   props:{
     product: {
@@ -399,8 +442,7 @@ export default {
       this.box_condition = this.product.packaging_condition_id
       this.selected_size = this.product.size_id
     }
-    console.log('THIS', this);
-    console.log('def', { text: this.product.packaging_condition.name, value: this.product.packaging_condition.id });
+    console.log('THIS', this.product);
   },
   methods: {
     ...mapActions({
@@ -573,6 +615,10 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.custom-shadow
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25)
+  border-radius: 8px
+
 .horizontal-scroll 
   overflow-x: scroll
   -ms-overflow-style: none
@@ -687,5 +733,28 @@ export default {
   font-size: 12px
   font-weight: 600 !important
   color: #000
+
+.chart-button
+  height: 34px
+  border: 1px solid #C4C4C4
+  border-radius: 4px
+  font-weight: 600
+  font-size: 14px
+  color: #000
+  display: flex
+  align-items: center
+  justify-content: center
+
+.add-want-button
+  height: 40px
+  background: #000
+  display: flex
+  align-items: center
+  justify-content: center
+  font-weight: 600
+  font-size: 16px
+  color: #FFF
+  border-radius: 25px
+  margin-top: 40px
 
 </style>
