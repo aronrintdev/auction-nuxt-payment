@@ -48,7 +48,7 @@
           />
         </div>
       </div>
-      <div class="row filter-row-bottom">
+      <div  class="row filter-row-bottom" >
         <!-- Filter By Category-->
         <div class="col filter-by-col">
           <CustomSelect
@@ -129,53 +129,52 @@
         <!-- Filter By Years-->
       </div>
     </div>
-          <!-- Filters -->
-          <div class="row filter-row">
-          <div class="col-md-12 col-sm-12 mt-md-4 mt-4">
-            <!-- Type Filters -->
-            <b-badge
-              v-for="(options, typeIndex) in activeTypeFilters"
-              :key="`type-${typeIndex}`"
-              class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
-            >
-              {{ options }}&colon;
-              <!-- {{ options.type }}&colon; {{ options.text }} -->
-              <i
-                class="fa fa-times"
-                role="button"
-                aria-hidden="true"
-                @click="removeTypeFilter(options)"
-              ></i>
-            </b-badge>
-            <!-- ./Type Filters -->
-            <!-- Status Filters -->
-            <b-badge
-              v-for="(status, statusIndex) in activeStatusFilters"
-              :key="`status-${statusIndex}`"
-              class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
-            >
-              {{ status.type }}&colon; {{ status.text }}
-              <i
-                class="fa fa-times"
-                role="button"
-                aria-hidden="true"
-                @click="removeTypeFilter(status)"
-              ></i>
-            </b-badge>
-            <!-- Status Filters -->
-            <div
-              v-if="searchFilters.brand !='' || searchFilters.size!='' || searchFilters.category!=''"
-              class="col-md-2 mt-md-4 mt-2 clearall-filter">
-              <span
-                role="button"
-                class="justify-content-center d-flex text-primary"
-                @click="clearFilters()"
-              >
-                <u>{{ $t('vendor_purchase.clear_all_filters') }}</u>
-              </span>
-          </div>
-          </div>
-        </div>
+    <!-- Filters -->
+    <div class="row filter-row">
+    <div class="col-md-12 col-sm-12 mt-md-4 mt-4">
+      <!-- Type Filters -->
+      <b-badge
+        v-for="(options, typeIndex) in activeTypeFilters"
+        :key="`type-${typeIndex}`"
+        class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize float-right"
+      >
+        {{ options }}&colon;
+        <i
+          class="fa fa-times"
+          role="button"
+          aria-hidden="true"
+          @click="removeTypeFilter(options)"
+        ></i>
+      </b-badge>
+      <!-- ./Type Filters -->
+      <!-- Status Filters -->
+      <b-badge
+        v-for="(status, statusIndex) in activeStatusFilters"
+        :key="`status-${statusIndex}`"
+        class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
+      >
+        {{ status.type }}&colon; {{ status.text }}
+        <i
+          class="fa fa-times"
+          role="button"
+          aria-hidden="true"
+          @click="removeTypeFilter(status)"
+        ></i>
+      </b-badge>
+      <!-- Status Filters -->
+      <div
+        v-if="searchFilters.brand !='' || searchFilters.size!='' || searchFilters.category!=''"
+        class="col-md-2 clearall-filter float-right">
+        <span
+          role="button"
+          class="justify-content-center d-flex text-primary"
+          @click="clearFilters()"
+        >
+          <u>{{ $t('vendor_purchase.clear_all_filters') }}</u>
+        </span>
+    </div>
+    </div>
+  </div>
 
         <!-- ./ -->
   </div>
@@ -318,6 +317,7 @@ export default {
     },
     setActiveFilter(){
       const val =this.searchFilters
+      this.activeTypeFilters=[]
       for (const value of Object.values(val)) {
         if(value !==''){
           if (!this.activeTypeFilters.includes(value)) {
