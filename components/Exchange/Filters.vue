@@ -216,7 +216,7 @@ export default {
           value: 'lowestChange',
         },
         {
-          label: this.$t('deadstock_exchange.sort_by.releaseDateAsc'),
+          label: this.$t('deadstock_exchange.sort_by.release_date_asc'),
           value: 'releaseDateAsc',
         },
         {
