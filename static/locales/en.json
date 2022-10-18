@@ -2614,7 +2614,15 @@
     },
     "delist_body": "Are you sure you would like to delist these items? | By delisting an item you will be charged based on the amount of highest bid.",
     "accept_body": "Are you sure you would like to accept the $:amount: and end this auction early?",
-    "sold_body": "This auction has been sold! | You will be re-directed to your orders page. "
+    "sold_body": "This auction has been sold! | You will be re-directed to your orders page. ",
+    "status_types": {
+      "all": "All",
+      "live": "Live",
+      "upcoming": "Upcoming",
+      "expired": "Expiring",
+      "sold": "Sold"
+    },
+    "status_type": "Status"
   },
   "create_listing": {
     "drafts": "Drafts ({0})",

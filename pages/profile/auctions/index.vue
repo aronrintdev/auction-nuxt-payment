@@ -33,6 +33,17 @@
           :updateFilters="activeTypeFilters"
           @filters="typeFilters"
         />
+
+        <SelectWithCheckbox
+          id="auction-type-selector"
+          class="mr-4 dropdown-filters"
+          :default="auctionStatus"
+          :options="STATUS_TYPES"
+          :title="$t('auction.status_type')"
+          :updateFilters="activeStatusFilters"
+          @filters="typeFilters"
+        />
+
         <b-input-group class="date-input-group mr-4">
           <b-form-input class="date-input" :placeholder="$t('auction.start_date')" :value="start_date"></b-form-input>
           <b-input-group-append class="date-input-icon">
@@ -145,7 +156,7 @@
     </div>
 
     <div v-if="!fetchLoading">
-      <b-row class="mt-5 text-center font-weight-bold">
+      <b-row class="mt-5 text-center font-weight-bold" v-if="!isMobileSize">
         <b-col sm="12" md="2" class="text-left">{{ $t('auction.auction_id') }} <span v-html="downArrow" /></b-col>
         <b-col sm="12" md="3" class="text-left pl-0">{{ $t('auction.product') }} <span v-html="downArrow" /></b-col>
         <b-col sm="12" md="1">{{ $t('auction.type') }} <span v-html="downArrow" /></b-col>
@@ -216,6 +227,7 @@ import SingleItemAuction from '~/components/profile/auctions/SingleItemAuction';
 import CollectionAuction from '~/components/profile/auctions/CollectionAuction';
 import Loader from '~/components/common/Loader';
 import {DELISTED_STATUS, EXPIRED_STATUS, AUCTION_TYPE_SINGLE, AUCTION_TYPE_COLLECTION} from '~/static/constants';
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'ProfileAuction',
@@ -231,6 +243,7 @@ export default {
     SelectWithCheckbox,
     BulkSelectToolbar
   },
+  mixins: [screenSize],
   layout: 'Profile',
   middleware: ['vendor'],
   data() {
@@ -240,6 +253,7 @@ export default {
       start_date: null,
       end_date: null,
       activeTypeFilters: [],
+      activeStatusFilters: [],
       fetchLoading: false,
       selected: [],
       page: 1,
@@ -253,6 +267,7 @@ export default {
       status: 'all',
       search: '',
       auctionType: null,
+      auctionStatus: null,
       deleteAction: false,
       undoAction: false,
       selectedAll: false,
@@ -276,6 +291,12 @@ export default {
           text: this.$t('auction.auction_types.' + key),
           value: key
         }
+      }),
+      STATUS_TYPES: Object.keys(this.$t('auction.status_types')).map(key => {
+        return {
+          text: this.$t('auction.status_types.' + key),
+          value: key
+        }
       })
     }
   },
@@ -291,7 +312,7 @@ export default {
      * @return {boolean}
      */
     haveFilters() {
-      return this.activeTypeFilters.length > 0 || !!this.start_date || !!this.end_date
+      return this.activeTypeFilters.length > 0 || this.activeStatusFilters.length > 0 || !!this.start_date || !!this.end_date
     },
     /**
      * Checking if there are any auctions that have expired.
@@ -302,6 +323,9 @@ export default {
     },
     isSelectable() {
       return (item) => this.isExpiredOrDelisted(item)
+    },
+    isMobileSize() {
+      return this.isScreenXS || this.isScreenSM
     }
   },
   mounted() {
@@ -411,6 +435,7 @@ export default {
      */
     clearFilters() {
       this.activeTypeFilters = []
+      this.activeStatusFilters = []
       this.start_date = null
       this.end_date = null
       this.FetchAuctions()
@@ -429,6 +454,14 @@ export default {
         start_date: this.start_date,
         end_date: this.end_date,
         status: this.status === 'all' ? null : this.status,
+      }
+      if(this.activeStatusFilters.length) {
+        const hasAll = this.activeStatusFilters.filter((f) => f.value === 'all')
+        if (hasAll.length) {
+          payload.status = null
+        } else {
+          payload.status = this.activeStatusFilters.map((s) => s.value)
+        }
       }
       this.fetchAuctions(payload).then(res => {
         this.$store.commit('profile-auction/setAuctions', res.data.data)
