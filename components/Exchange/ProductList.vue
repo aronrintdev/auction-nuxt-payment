@@ -13,7 +13,7 @@
 
     <!-- Filters -->
     <div v-if="!loading">
-      <ExchangeFilter @filterList="filterList" />
+      <ExchangeFilter  @filterList="filterList" />
     </div>
 
     <!-- ProductTrendListCard Table -->
@@ -69,13 +69,6 @@ export default {
   computed: {
     currentSweepStake() {
       return this.promotions.length ? this.promotions[0] : null
-    },
-    entries() {
-      return this.currentSweepStake && this.$auth.user
-        ? this.currentSweepStake.promotion_entries.filter(
-            (entry) => entry.user_id === this.$auth.user.id
-          ).length
-        : 0
     },
   },
   created() {

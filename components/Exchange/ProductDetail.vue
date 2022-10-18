@@ -80,24 +80,14 @@
         <div class="row">
           <div class="col-lg-8">
             <!-- Input search -->
-            <div class="form-group d-flex align-items-center m-0">
-              <img
-                :src="require('~/assets/img/icons/search.svg')"
-                class="icon-search"
-                alt="Search"
-              />
-              <input
-                id="search-result"
-                v-model="searchValue"
-                type="text"
-                class="form-control form-input vd-purchases-browse-input"
-                :placeholder="
-                  $t('deadstock_exchange.detail.similar_search_placeholder')
-                "
-                autocomplete="on"
-                @input="searchProduct"
-              />
-            </div>
+            <SearchInput
+              :value="searchValue"
+              :placeholder="$t('deadstock_exchange.filter_by.details_placeholder')"
+              variant="light"
+              class="flex-grow-1 mr-4 search-input"
+              :debounce="1000"
+              @change="searchProduct"
+            />
             <!-- ./Input search -->
           </div>
           <div class="col-lg-4"></div>
@@ -116,7 +106,7 @@
 <script>
 import dayjs from 'dayjs'
 import SimilarProductTable from './SimilarProductTable.vue'
-import { Button, Loader } from '~/components/common'
+import { Button, Loader ,SearchInput} from '~/components/common'
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import ShareIcon from '~/assets/img/icons/share.svg?inline'
@@ -130,6 +120,7 @@ export default {
     NavGroup,
     ShareIcon,
     SimilarProductTable,
+    SearchInput
   },
   data() {
     return {
@@ -162,6 +153,7 @@ export default {
           value: 'all',
         },
       ],
+      searchValue: '',
       current: '24',
       // line chart data
       lineChartOptions: {
@@ -234,6 +226,11 @@ export default {
     handleTabChange(category) {
       this.current = category
     },
+    // On filter by change.
+    searchProduct(value) {
+      this.search =  value
+      this.loadPage()
+    },
     handleBuyClick() {},
     handleSellClick() {},
     loadPage() {
@@ -244,7 +241,7 @@ export default {
             type: this.type,
             page: this.currentPage,
             take: this.perPage,
-            ...this.filter,
+            search: this.search,
           },
         })
         .then((response) => {
