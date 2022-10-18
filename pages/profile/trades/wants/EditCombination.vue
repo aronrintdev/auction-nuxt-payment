@@ -129,6 +129,13 @@ export default {
         })
         this.getCombination()
     },
+    beforeDestroy() {
+        this.$root.$off('back_to_edit_combination', () => {
+            this.addWantItem = false
+            this.editItem = null
+            this.getCombination()
+        })
+    },
     methods: {
         getCombination() {
             const url = 'trades/wants/combination/item'
