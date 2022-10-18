@@ -1,5 +1,5 @@
 <template>
-  <div class="trade-arena">
+  <div ref="tradeArena" class="trade-arena">
     <index-mobile v-if="mobileView"/>
     <div v-else>
     <trade-completed v-if="trade_completed" :trade="getSubmittedOffer"></trade-completed>
@@ -446,7 +446,7 @@ export default {
           self.mobileView = entry.contentRect.width <= 450;
         });
       });
-      const tradeDiv = document.querySelector('.trade-arena');
+      const tradeDiv = this.$refs.tradeArena
       myObserver.observe(tradeDiv);
     },
     /**
