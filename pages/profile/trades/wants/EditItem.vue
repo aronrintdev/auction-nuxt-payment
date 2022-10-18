@@ -17,15 +17,15 @@
           <ProductImageViewer v-if="!product.product.has360Images" :product="product.product" />
           <ProductImageViewerMagic360 v-if="product.product.has360Images" :product="product.product" />
         </div>
-        <div class="col-md-8 col-xl-7">
+        <div class="col-md-8 col-xl-6">
           <p class="mt-3 mb-0 title">{{ product.product.name }}</p>
           <p class="custom-border">
             <span class="last-sale">{{ $t('product_page.last_sale') }}: $250.00</span>
             <span class="last-sale-value">+0.64 (+0.36%)</span>
           </p>
           <div class="d-flex justify-content-between mb-2">
-            <div class="size">{{ $t('product_page.select_size') }}:</div>
-            <div class="size">
+            <div class="select-size">{{ $t('product_page.select_size') }}:</div>
+            <div class="all-sizes">
               <img
                 class="mr-1"
                 :src="require('~/assets/img/icons/eye2.svg')"
@@ -85,7 +85,7 @@
 
           </div>
 
-          <div class="mt-3 d-flex flex-column pb-5">
+          <div class="mt-3 d-flex flex-column pb-5 pb-sm-2">
             <div class="d-flex align-items-center justify-content-center mb-2">
               <div class="box mr-1">{{ $t('products.box_condition')}}</div>
               <img
@@ -126,78 +126,68 @@
               </div>
             </div>
 
-            <div></div>
-
-            <b-form>
-              <b-form-group
-                id="group-current-password"
-                class="form-label"
-              >
-                <label
-                  class="form-label"
-                >
+            <div class="d-flex flex-column flex-sm-row justify-content-between">
+              <div class="col-sm-6 d-flex flex-column pl-xl-0">
+                <div class="form-label">
                   {{ $t('common.quantity') }} <sup>*</sup>
-                </label>
-                <b-form-input
+                </div>
+                <input
                   type="number"
                   :placeholder="'1'"
                   required
-                  class="bg-white form-label"
-                  :style="{
-                    border: '1px solid #E8E8E8',
+                  class="bg-white form-label form-input"                 
+                />
+              </div>
+              <div class="col-sm-6 pr-xl-0">
+                <div class="form-label">
+                  {{ $t('common.select_list') }} <sup>*</sup>
+                </div>
+                <SelectListDropDown
+                  v-model="selectList"
+                  :options="selectListOptions" type="multi-select-checkbox"
+                  :label="selectListLabel" class="bg-white" optionsWidth="custom"
+                  :itemId="itemId"
+                  inputClass="form-input"
+                  :combinationId="combinationId"
+                  variant="white"
+                  dropDownHeight="33px"
+                  borderRadius="10px"
+                  borderRadiusClose="10px 10px 0 0"
+                  borderRadiusOptions="0 0 8px 8px"
+                  @change="listType"
+                  :inputStyle="{
+                    borderColor: '#E8E8E8',
+                    height: '49px',
                     borderRadius: '10px',
-                    height: '49px'
+                    paddingLeft: '15px',
+                    paddingRight: '15px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
                   }"
-                ></b-form-input>
-              </b-form-group>
-            </b-form>
-
-            <label class="form-label">
-              {{ $t('common.select_list') }}<sup>*</sup>
-            </label>
-            <SelectListDropDown
-              v-model="selectList"
-              :options="selectListOptions" type="multi-select-checkbox"
-              :label="selectListLabel" class="bg-white" optionsWidth="custom"
-              :itemId="itemId"
-              :combinationId="combinationId"
-              variant="white"
-              dropDownHeight="33px"
-              borderRadius="10px"
-              borderRadiusClose="10px 10px 0 0"
-              borderRadiusOptions="0 0 8px 8px"
-              @change="listType"
-              :inputStyle="{
-                borderColor: '#E8E8E8',
-                height: '49px',
-                borderRadius: '10px',
-                paddingLeft: '15px',
-                paddingRight: '15px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-              }"
-              :labelStyle="{
-                padding: 0,
-                margin: 0,
-                fontWeight: '600 !important',
-                fontSize: '12px',
-                color: '#000'
-              }"
-              :iconStyle="{
-                color: '#7196B1',
-                width: '16px',
-                height: '18px',
-                display: 'flex',
-                alignItems: 'center'
-              }"
-              :dropdownStyle="{
-                borderColor: '#E8E8E8',
-              }"
-              :dropdownItemStyle="{
-                borderColor: '#E8E8E8',
-              }"
-            />
+                  :labelStyle="{
+                    padding: 0,
+                    margin: 0,
+                    fontWeight: '600 !important',
+                    fontSize: '12px',
+                    color: '#000'
+                  }"
+                  :iconStyle="{
+                    color: '#7196B1',
+                    width: '16px',
+                    height: '18px',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }"
+                  :dropdownStyle="{
+                    borderColor: '#E8E8E8',
+                  }"
+                  :dropdownItemStyle="{
+                    borderColor: '#E8E8E8',
+                  }"
+                />
+              </div>
+            </div>
           </div>
 
           <div class="add-want-button">
@@ -205,6 +195,7 @@
           </div>
 
         </div>
+        <div class="col-xl-1"></div>
       </div>
 
       <div class="d-none d-sm-block">
@@ -593,22 +584,43 @@ export default {
   font-size: 10px
   color: $color-gray-20
 
-.size
+.select-size, .all-sizes
   font-size: 13px
+
+.select-size
+  @media (min-width: 576px)
+    font-weight: 500
+    font-size: 15px
+    text-transform: uppercase
+    color: #000
+
+.all-sizes
+  @media (min-width: 576px)
+    color: $color-blue-30
+    font-weight: 600
+    font-size: 15px
 
 .title 
   font-size: 18px
   font-weight: 600
+  @media (min-width: 576px)
+    font-weight: 700
+    font-size: 24px
 
 .last-sale
   font-family: 500
   font-size: 14px
-  color: #6F6F6F
+  color: $color-gray-6
+  @media (min-width: 576px)
+    font-weight: 600
 
 .last-sale-value
   font-weight: 500
   font-size: 12px
   color: #36A60F
+  @media (min-width: 576px)
+    font-weight: 600
+    font-size: 14px
 
 .label
   font-size: 13px
@@ -666,9 +678,14 @@ export default {
   width: 203px
 
 .form-label
+  margin-bottom: 9px
   font-size: 12px
   font-weight: 600 !important
   color: #000
+  @media (min-width: 576px)
+    font-weight: 500 !important
+    font-size: 15px
+    text-transform: uppercase
 
 .chart-button
   height: 34px
@@ -692,6 +709,9 @@ export default {
   color: #FFF
   border-radius: 25px
   margin-top: 40px
+  @media (min-width: 576px)
+    border-radius: 4px
+    margin-top: 0
 
 .product-details-label, .product-details-value
   line-height: 30px
@@ -718,5 +738,15 @@ export default {
   font-weight: 500
   font-size: 15px
   color: $color-gray-23
+
+.form-input
+  border: 1px solid $color-gray-3
+  border-radius: 10px
+  height: 49px
+  padding-left: 16px
+  @media (min-width: 576px)
+    border-color: $color-blue-20
+    border-radius: 4px
+    height: 40px
 
 </style>

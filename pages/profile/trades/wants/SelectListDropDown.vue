@@ -18,7 +18,7 @@
         'border-radius': !isOpen ? borderRadius : borderRadiusClose,
         ...inputStyle
       }" 
-      :class="`background-${variant} ${bordered && 'bordered'}`" 
+      :class="`background-${variant} ${bordered && 'bordered'} ${inputClass}`" 
       @click="isOpen = !isOpen"
     >
       <label :style="labelStyle" class="font-weight-light">
@@ -154,6 +154,10 @@ export default {
     dropdownItemStyle: {
       type: Object,
       default: () => {}
+    },
+    inputClass: {
+      type: String,
+      default: () => {}
     }
   },
   data() {
@@ -266,4 +270,15 @@ div.label-wrapper label
 
 .pointer-event-none
   pointer-events: none
+
+.form-input
+  border: 1px solid $color-gray-3
+  border-radius: 10px
+  height: 49px
+  paddingLeft: 16px
+  @media (min-width: 576px)
+    border-color: $color-blue-20 !important
+    border-radius: 4px !important
+    height: 40px !important
+
 </style>
