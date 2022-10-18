@@ -28,8 +28,15 @@
           </div>
         </div>
       </div>
-      <div v-else class="d-flex justify-content-center mb-3 mt-3">
-        <img :src="require('~/assets/img/trades/select-inventory.svg')">
+      <div v-else class="d-flex justify-content-center mb-3">
+        <div class="add-item-invent text-center">
+          <div class="select-invent">
+            {{$t('trades.trade_arena.select_from_inventory')}}
+          </div>
+          <div class="upto-three">
+            {{$t('trades.trade_arena.up_to_three_items')}}
+          </div>
+        </div>
       </div>
     </div>
     <div class="your-inventory">
@@ -437,4 +444,22 @@ export default {
   color: $color-gray-25
 .input-search
   width: 306px
+.add-item-invent
+  background: url('~/assets/img/trades/select-inventory.svg')
+  width: 100px
+  height: 143px
+.select-invent
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-29-normal
+  letter-spacing: 0.005em
+  color: $color-black-1
+  padding-top: 43px
+.upto-three
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-29-bold
+  letter-spacing: 0.005em
+  color: $color-gray-5
+  padding-top: 13px
 </style>
