@@ -153,7 +153,22 @@
     </div>
 
 
-
+    <!-- For more options -->
+    <vue-bottom-sheet
+      ref="myBottomSheet"
+      class="more-options"
+      max-width="auto"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <p>welcome</p>
+<!--      <MoreOptions-->
+<!--        @delistMultiple="delistMultipleConfirmation"-->
+<!--        @enterVacationModeConfirmation="enterVacationModeConfirmation"-->
+<!--        @exitVacationModeConfirmation="exitVacationModeConfirmation"-->
+<!--        @close="closeMoreOption"-->
+<!--      />-->
+    </vue-bottom-sheet>
 
 
 
