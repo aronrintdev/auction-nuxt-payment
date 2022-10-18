@@ -4575,7 +4575,9 @@
       "deleted": "Deleted",
       "accepted": "Accepted"
     },
-    "trades_deleted_successfully": "Trades Deleted Successfully"
+    "trades_deleted_successfully": "Trades Deleted Successfully",
+    "your_offer": "Your Offer",
+    "estimated_value": "Estimated Value"
   },
   "change_password": {
     "password": "Password",

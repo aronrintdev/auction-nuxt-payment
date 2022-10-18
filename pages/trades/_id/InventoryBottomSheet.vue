@@ -5,8 +5,8 @@
       <div class="d-flex justify-content-between pl-3 pr-3">
         <div class="clear" :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="clearItems()">Clear</div>
         <div class="d-block text-center">
-          <div class="offer-heading">Your Offer</div>
-          <div class="est-val">Estimated Value:{{yourTotal()}}</div>
+          <div class="offer-heading">{{$t('trades.your_offer')}}</div>
+          <div class="est-val">{{$t('trades.estimated_value')}}:{{yourTotal()}}</div>
         </div>
         <div class="done"  :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="doneClose()">Done</div>
       </div>
