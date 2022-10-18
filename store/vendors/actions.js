@@ -18,7 +18,9 @@ export async function getVendorOrders({commit, state}, page = 1) {
 
       commit('setTotalOrders', data.orders.data.length)
       commit('setTotalSales', data.total_sales)
-      commit('setTotalCommissionPending', data.total_commission)
+      commit('setTotalCommission', data.total_commission)
+      commit('setTotalCommissionPending', data.pending_commission)
+      commit('setTotalCommissionPaid', data.paid_commission)
       commit('setInventoryCount', data.total_inventory)
       commit('setTotalOffers', data.total_offers)
       commit('setProducts', data.products)

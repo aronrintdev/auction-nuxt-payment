@@ -66,8 +66,14 @@ export default {
         height: 0
         overflow: hidden
         visibility: hidden
-      @media (max-width: 500px)
-        padding: 6px 20px
-    @media (max-width: 500px)
-      width: calc( 100% - 20px )
+
+  @media (max-width: 576px)
+    .btn-group
+      width: 100%
+
+      .btn
+        padding: 6px 10px
+        white-space: nowrap
+
+
 </style>

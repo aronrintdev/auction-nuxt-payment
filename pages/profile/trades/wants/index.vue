@@ -716,7 +716,11 @@ export default {
     },
     filterData(text){
       this.searchText = text
-      this.wantedItems = this.wantedItems.filter(o => o.product.name.toLowerCase().includes(this.searchText.toLowerCase()) || o.product.sku.toLowerCase().includes(this.searchText.toLowerCase()));
+      if(text !== ''){
+        this.wantedItems = this.wantedItems.filter(o => o.product.name.toLowerCase().includes(this.searchText.toLowerCase()) || o.product.sku.toLowerCase().includes(this.searchText.toLowerCase()));
+      }else{
+        this.getWantItems()
+      }
     }
   }
 }
@@ -934,6 +938,4 @@ export default {
 .border-3
   border-radius: 3px
 
-
 </style>
-

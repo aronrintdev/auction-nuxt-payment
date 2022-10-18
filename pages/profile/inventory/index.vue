@@ -1,49 +1,59 @@
 <template>
-  <b-container fluid class="container-profile-inventory h-100">
-    <div class="d-flex justify-content-between align-items-center">
+  <b-container :class="mobileClass" class="container-profile-inventory h-100" fluid>
+    <div v-if="!isScreenXS" class="d-flex justify-content-between align-items-center">
       <h2 class="title">{{ $tc('common.inventory', 1) }}</h2>
       <Button
-        to="/profile/inventory/csv-drafts"
-        variant="link"
-        class="btn-draft"
-        underlinedText
-        :disabled="!csvDrafts.length"
-        >{{ $t('inventory.csv_drafts') }} ({{ csvDrafts.length }})</Button
+          to="/profile/inventory/csv-drafts"
+          variant="link"
+          class="btn-draft"
+          underlinedText
+          :disabled="!csvDrafts.length"
+      >{{ $t('inventory.csv_drafts') }} ({{ csvDrafts.length }})
+      </Button
       >
     </div>
 
-    <div class="d-flex justify-content-between mt-3 align-items-center">
-      <div class="products-count">
+    <div v-if="isScreenXS" class="d-flex align-items-center justify-content-between">
+      <MobileSearchInput
+          class="w-100"
+          @input="handleSearch"
+      />
+      <filter-svg class="ml-3" role="button"
+                  @click="mobileFiltersOpen = !mobileFiltersOpen"></filter-svg>
+    </div>
+    <div :class="`d-flex justify-content-${!isScreenXS? 'between mt-3': 'center mt-4'}  align-items-center`">
+      <div v-if="!isScreenXS" class="products-count">
         {{ $tc('common.product', totalCount) }}({{ totalCount }})
       </div>
 
       <NavGroup
-        :value="type"
-        nav-key="list-type"
-        :data="TYPES"
-        @change="handleTypeChange"
+          :value="type"
+          nav-key="list-type"
+          :data="TYPES"
+          :class="`${isScreenXS && 'w-100'}`"
+          @change="handleTypeChange"
       />
 
       <Button
-        variant="primary"
-        pill
-        class="btn-add"
-        @click="moveToCreateInventory"
+          v-if="!isScreenXS"
+          variant="dark"
+          class="btn-add"
+          @click="moveToCreateInventory"
         >{{ $t('inventory.add_inventory') }}</Button
       >
     </div>
 
-    <div class="d-flex justify-content-between align-items-center mt-4">
+    <div v-if="!isScreenXS" class="d-flex justify-content-between align-items-center mt-4">
       <SearchInput
-        :value="search"
-        :placeholder="$t('inventory.search_placeholder')"
-        class="flex-grow-1 mr-4"
-        :debounce="1000"
-        @change="handleSearch"
+          :value="search"
+          :placeholder="$t('inventory.search_placeholder')"
+          class="flex-grow-1 mr-4"
+          :debounce="1000"
+          @change="handleSearch"
       />
 
       <FormDropdown
-        id="inventory-filters"
+          id="inventory-filters"
         :value="category"
         :placeholder="$tc('common.filter', 1)"
         :items="FILTERS"
@@ -55,45 +65,60 @@
       />
 
       <FormDropdown
-        id="inventory-actions"
-        :placeholder="$tc('common.action', 2)"
-        :items="ACTIONS"
-        class="dropdown-actions"
-        :icon-arrow-up="require('~/assets/img/icons/arrow-up-blue.svg')"
-        :icon-arrow-down="require('~/assets/img/icons/arrow-down-blue.svg')"
-        @select="handleActionSelect"
+          id="inventory-actions"
+          :placeholder="$tc('common.action', 2)"
+          :items="ACTIONS"
+          class="dropdown-actions"
+          :icon-arrow-up="require('~/assets/img/icons/arrow-up-blue.svg')"
+          :icon-arrow-down="require('~/assets/img/icons/arrow-down-blue.svg')"
+          @select="handleActionSelect"
       />
     </div>
 
+    <div v-if="isScreenXS" class="d-flex align-items-center justify-content-between mt-4">
+      <div class="products-count">
+        {{ $tc('common.inventory', totalCount) }}({{ totalCount }})
+      </div>
+      <div class="d-flex align-items-center" @click="moveToCreateInventory">
+        <add-svg class="add-svg mr-2" height="13" width="13"/>
+        <span class="add-text">
+          {{ $t('createlisting.create_new_inventory') }}
+        </span>
+      </div>
+    </div>
+
     <BulkSelectToolbar
-      ref="bulkSelectToolbar"
-      :active="!!action"
-      :selected="selected"
-      :unit-label="$tc('common.product', selected.length)"
-      :total="inventories.length"
-      :action-label="$tc(`inventory.${action}_selected`)"
-      class="mt-3"
-      @close="cancelAction()"
+        ref="bulkSelectToolbar"
+        :active="!!action"
+        :selected="selected"
+        :unit-label="$tc('common.product', selected.length)"
+        :total="inventories.length"
+        :action-label="$tc(`inventory.${action}_selected`)"
+        class="mt-3"
+        @close="cancelAction()"
       @selectAll="handleSelectAll()"
       @deselectAll="handleDeselectAll()"
       @submit="handleBulkAction()"
     />
 
-    <Loader v-if="loading" />
+    <Loader v-if="loading" :loading="loading"/>
     <div v-else>
-      <b-row v-if="inventories.length > 0" :class="!action && 'mt-3'">
+      <b-row v-if="inventories.length > 0" :class="(!action && !isScreenXS && 'mt-3 ') + mobileClass"
+             class=" items-wrapper ">
         <b-col
-          v-for="inventory in inventories"
-          :key="`inventory-${inventory.id}`"
-          class="inventory-card"
+            v-for="inventory in inventories"
+            :key="`inventory-${inventory.id}`"
+            :class="`${isScreenXS && 'col-xs-6'}`"
+            class="inventory-card col-sm-3"
         >
-          <InventoryCard
-            :inventory="inventory"
-            :selectable="!!action"
-            :selected="!!selected.find((id) => id == inventory.id)"
-            class="my-3"
-            @select="selectItem"
-            @list="selectList"
+          <NewInventoryCard
+              :inventory="inventory"
+              :selectable="!!action"
+              :selected="!!selected.find((id) => id == inventory.id)"
+
+              class="my-3"
+              @select="selectItem"
+              @list="selectList"
           />
         </b-col>
       </b-row>
@@ -118,20 +143,60 @@
     />
 
     <AlertModal
-      id="deleted-message-modal"
-      :message="$t('inventory.message.deleted')"
-      icon="trash"
-      auto-hide
-      @hidden="onDeletedModalHidden"
+        id="deleted-message-modal"
+        :message="$t('inventory.message.deleted')"
+        icon="trash"
+        auto-hide
+        @hidden="onDeletedModalHidden"
     />
 
     <AlertModal
-      id="exported-message-modal"
-      :message="$t('inventory.message.exported')"
-      icon="tick"
-      auto-hide
-      @hidden="onExportedModalHidden"
+        id="exported-message-modal"
+        :message="$t('inventory.message.exported')"
+        icon="tick"
+        auto-hide
+        @hidden="onExportedModalHidden"
     />
+
+
+    <MobileBottomSheet
+        :max-height="'50%'"
+        :open="mobileFiltersOpen"
+        :title="$t('notifications.filter_by')"
+        @closed="mobileFiltersOpen = false"
+        @opened="mobileFiltersOpen = true">
+
+      <div class="filter-content py-2 px-4 d-flex flex-column justify-content-between">
+        <div class="my-2 flex-grow-1">
+          <FilterAccordion :open="true" :title="$tc('common.category', 1)">
+            <div class="mt-2">
+              <ButtonSelector :options="mobileFilters" :single="true" :values="category"
+                              @change="handeMobileFilterSelect"/>
+            </div>
+          </FilterAccordion>
+        </div>
+        <div class="d-flex align-items-center justify-content-between">
+          <Button
+              class="filter-button"
+              pill
+              variant="outline-dark"
+              @click="category = null; mobileFiltersOpen = false"
+          >
+            {{ $t('notifications.reset') }}
+          </Button>
+
+          <Button
+              :disabled="loading"
+              class="filter-button apply-filters"
+              pill
+              variant="dark-blue"
+              @click="getInventories"
+          >
+            {{ $t('notifications.apply_filters') }}
+          </Button>
+        </div>
+      </div>
+    </MobileBottomSheet>
   </b-container>
 </template>
 <script>
@@ -145,25 +210,41 @@ import {
   Loader,
   BulkSelectToolbar,
 } from '~/components/common'
-import InventoryCard from '~/components/inventory/Card'
-import { AlertModal, ConfirmModal } from '~/components/modal'
+import {AlertModal, ConfirmModal} from '~/components/modal'
+import screenSize from '~/plugins/mixins/screenSize';
+import MobileSearchInput from '~/components/mobile/MobileSearchInput';
+import filterSvg from '~/assets/img/profile/notifications/filters.svg?inline'
+import addSvg from '~/assets/img/icons/plus_blue.svg?inline'
+import MobileBottomSheet from '~/components/mobile/MobileBottomSheet';
+import FilterAccordion from '~/components/mobile/FilterAccordion';
+import ButtonSelector from '~/components/mobile/ButtonSelector';
+import NewInventoryCard from '~/components/inventory/NewInventoryCard';
+// import InventoryCard from '~/components/inventory/Card';
 
 export default {
   name: 'ProfileInventory',
 
   components: {
+    // InventoryCard,
+    NewInventoryCard,
+    addSvg,
+    ButtonSelector,
+    FilterAccordion,
+    MobileBottomSheet,
+    filterSvg,
+    MobileSearchInput,
     Button,
     NavGroup,
     SearchInput,
     FormDropdown,
     Pagination,
-    InventoryCard,
     Loader,
     BulkSelectToolbar,
     AlertModal,
     ConfirmModal,
   },
 
+  mixins: [screenSize],
   layout: 'Profile',
 
   fetchOnServer: false,
@@ -171,6 +252,7 @@ export default {
   data() {
     console.log('INVENTORY');
     return {
+      mobileFiltersOpen: false,
       action: null,
       selected: [],
       type: 'available',
@@ -244,6 +326,11 @@ export default {
     ...mapGetters({
       csvDrafts: 'inventory/getCsvDrafts',
     }),
+    mobileFilters() {
+      return this.FILTERS.map(item => {
+        return {...item, text: item.label}
+      })
+    }
   },
 
   beforeMount() {
@@ -320,7 +407,9 @@ export default {
         this.getInventories()
       }
     },
-
+    handeMobileFilterSelect(item) {
+      this.category = item.value
+    },
     handleFilterSelect(item) {
       if (item && item.value !== this.category) {
         this.category = item.value
@@ -508,6 +597,21 @@ export default {
   padding: 47px 54px
   background-color: $color-white-5
 
+  &.mobile
+    background-color: $color-white-1
+    padding: 11px 1rem 1rem
+
+  .add-text
+    @include body-5
+    font-family: $font-family-sf-pro-display
+    font-style: normal
+    font-weight: $regular
+    color: $color-gray-5
+
+  .add-svg
+    path, rect
+      fill: $color-blue-20
+
   h2.title
     @include heading-3
     color: $color-black-1
@@ -607,8 +711,8 @@ export default {
             border-bottom: none
 
   .inventory-card
-    flex: 0 0 100%
-    max-width: 100%
+    flex: 0 0 50%
+    max-width: 50%
 
     @media (min-width: 1030px)
       flex: 0 0 50%
@@ -625,4 +729,17 @@ export default {
     @media (min-width: 1800px)
       flex: 0 0 20%
       max-width: 20%
+
+::v-deep.mobile-bottom-sheet
+  .bottom-sheet__card.stripe
+    padding-bottom: 0
+
+
+.filter-content
+  height: 88%
+
+.items-wrapper
+  &.mobile
+    margin-top: 20px
+
 </style>

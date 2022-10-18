@@ -136,6 +136,7 @@ export default {
           max-width: 261px
           img
             border-radius: 4px
+            object-fit: contain
     .owl-nav
       width: auto
       cursor: pointer

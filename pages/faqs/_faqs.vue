@@ -20,7 +20,7 @@
 import SecurityFaqComponent from '~/components/profile/security/SecurityFaqComponent';
 
 export default {
-  name: 'faqs',
+  name: 'Faqs',
   components: {
     SecurityFaqComponent
   },

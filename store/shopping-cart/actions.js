@@ -13,6 +13,24 @@ export function addProduct({ commit, state }, product) {
 
   if (!found) {
     commit('addProduct', product)
+  }
+}
+
+/**
+ * Add product to shopping cart or increment its quantity if exists.
+ * @param commit
+ * @param state
+ * @param product
+ */
+export function addOrIncrementQuantityProduct({ commit, state }, product) {
+  const found = state.shoppingCart.find((p) => {
+    return p.listing_item_id === product.listing_item_id
+      && p.price === product.price
+      && p.size.id === product.size.id
+  })
+
+  if (!found) {
+    commit('addProduct', product)
   } else {
     commit('incrementQuantity', found)
   }

@@ -1,16 +1,23 @@
 import Echo from 'laravel-echo';
-import {PUSHER} from '~/static/constants/environments';
-
 
 window.Pusher = require('pusher-js');
+export default function ({app, $auth}) {
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: process.env.MIX_PUSHER_APP_KEY,
+        encrypted: true,
+        forceTLS: false,
+        cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+        wsHost: process.env.WS_HOST,
+        authEndpoint: process.env.AUTH_ENDPOINT + '/broadcasting/auth',
+        wsPort: 6001,
+        disableStats: true,
+        auth: {
+            headers: {
+                Authorization: $auth.strategy.token.get(),
+            },
+        },
+    });
 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: PUSHER.APP_KEY,
-    encrypted: false,
-    forceTLS: false,
-    wsHost: 'localhost',
-    authEndpoint: process.env.AUTH_ENDPOINT + '/broadcasting/auth',
-    wsPort: 6001,
-    disableStats: true
-});
+}
+

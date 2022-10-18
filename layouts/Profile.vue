@@ -1,48 +1,52 @@
 <template>
   <div class="wrapper">
-    <Header />
+    <Header/>
 
     <div class="custom-wrapper">
       <div class="row mb-bb">
         <div class="col-md-12 col-lg-2">
           <button
-            v-b-toggle.sidebar
-            class="w3-button w3-xlarge w3-hide-large float-left"
+              v-if="!isScreenXS"
+              v-b-toggle.sidebar
+              class="w3-button w3-xlarge w3-hide-large float-left"
           >
             <span class="text-bold">{{ $t('navbar.profile') }}</span>
             <i class="fa fa-bars"></i>
           </button>
           <!-- BootstrapVue Sidebar: in small devices -->
           <b-sidebar id="sidebar" ref="mySidebar" shadow>
-            <SideMenu id="sidemenu" />
+            <SideMenu id="sidemenu"/>
           </b-sidebar>
           <!-- ./BootstrapVue Sidebar -->
 
           <!-- Collapsable SideMenu for large devices -->
-          <NewSideMenu />
+          <NewSideMenu v-if="!isScreenXS"/>
           <!-- Collapsable SideMenu for large devices -->
         </div>
       </div>
 
       <div class="main-wrapper">
-        <Nuxt />
+        <Nuxt/>
       </div>
     </div>
 
     <!-- ScollTo Top Button -->
-    <ScrollToTop v-show="mobileClass && showScroll" />
+    <ScrollToTop v-show="mobileClass && showScroll"/>
     <!-- ./ScrollTo Top Button Ends -->
-    <Footer />
+    <Footer/>
   </div>
 </template>
 <script>
+import {mapGetters} from 'vuex';
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
 import SideMenu from '~/components/profile/SideMenu.vue'
 import NewSideMenu from '~/components/profile/NewSideMenu'
 import ScrollToTop from '~/components/common/ScrollToTop.vue'
 import screenSize from '~/plugins/mixins/screenSize'
-import { SCROLLY } from '~/static/constants'
+import {SCROLLY} from '~/static/constants'
+import realtime from '~/plugins/mixins/realtime';
+
 export default {
   name: 'Default',
 
@@ -53,7 +57,7 @@ export default {
     SideMenu,
     ScrollToTop,
   },
-  mixins: [screenSize],
+  mixins: [screenSize, realtime],
   data() {
     return {
       showScroll: false,
@@ -67,6 +71,11 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapGetters({
+      'pushActive': 'notifications/getPushNotificationsActive'
+    })
+  },
   beforeMount() {
     window.addEventListener('scroll', this.handleScroll)
   },
@@ -76,14 +85,15 @@ export default {
       this.$router.push('/login')
     }
     this.onResize()
-    window.addEventListener('resize', this.onResize)
+    this.$store.dispatch('notifications/getNotifications')
+    this.$store.dispatch('notifications/getUnreadCount')
+    window.addEventListener('resize', this.onResize);
+    this.notificationSubscriptions()
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize)
-
     window.removeEventListener('scroll', this.handleScroll)
   },
-
   methods: {
     onResize() {
       this.$store.commit('size/setWindowWidth', window.innerWidth)
@@ -91,7 +101,7 @@ export default {
     handleScroll() {
       // Your scroll handling here
       this.showScroll = window.scrollY > this.scrollY
-    },
+    }
   },
 }
 </script>
@@ -105,7 +115,8 @@ export default {
 
     .main-wrapper
       width: 100%
-      background-color: $color-white-19
+      background-color: $color-white-4
+
 .w3-xlarge
   @include body-1
   float: right
@@ -131,6 +142,7 @@ export default {
     display: none
   .sidebar
     display: block
+
 @media (max-width: 992px)
   .wrapper
     .custom-wrapper

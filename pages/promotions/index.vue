@@ -1,8 +1,8 @@
 <template>
-  <div class="container-fluid promotions">
+  <div :class="mobileClass" class="container-fluid promotions">
     <div class="row">
       <PromotionsBanner :title="$t('promotions.promotions')"></PromotionsBanner>
-      <div class="col-12 py-5 text-center">
+      <div class="col-12 py-4 text-center">
         <NavGroup
             :data="categoryItems"
             :value="currentCategory"
@@ -30,6 +30,7 @@ import NavGroup from '~/components/common/NavGroup.vue'
 import CurrentSweepstakesTab from '~/components/promotions/CurrentSweepstakesTab'
 import GiveawaysTab from '~/components/promotions/GiveawaysTab'
 import PromotionsTab from '~/components/promotions/PromotionsTab'
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   components: {
@@ -39,6 +40,7 @@ export default {
     GiveawaysTab,
     PromotionsTab,
   },
+  mixins: [screenSize],
   layout(context) {
     return context.$auth.user ? 'Profile' : 'IndexLayout'
   },
@@ -81,3 +83,9 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+@import "~/assets/css/variables"
+.promotions
+  &.mobile
+    background-color: $color-white-1
+</style>

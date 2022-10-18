@@ -6,6 +6,7 @@
 @import url('https://fonts.cdnfonts.com/css/sf-pro-display')
 @import url('https://fonts.cdnfonts.com/css/futura-md-bt')
 @import url('https://use.typekit.net/hrv7zep.css') // import adobe-garamond-pro font
+@import 'vue-360/dist/css/style.css'
 
 // CSS Document
 @import './font-awesome.min'
@@ -126,6 +127,9 @@
   font-weight: 400
   src: url('./fonts/SFProText-Regular.ttf')
 
+html
+  scroll-behavior: smooth
+
 html,
 body
   font-family: $font-family-base
@@ -239,6 +243,9 @@ body
   opacity: 1 !important
   padding-top: 8px
 
+.navbar-toggler
+  border: 0
+
 @media only screen and (max-width: 600px)
   .topmenu li
     border-bottom: solid 1px $black
@@ -256,9 +263,6 @@ body
 
   .navbar-nav .dropdown-menu
     position: absolute
-
-  .navbar-toggler
-    border: 0
 
   .h-logo
     float: left
@@ -690,6 +694,12 @@ svg[disabled]
 .text-gray-light
   color: $color-gray-30
 
+.text-gray-simple
+  color: $color-gray-5
+
+.text-gray-47
+  color: $color-gray-47
+
 .font-primary
   font-family: $font-family-base
 
@@ -794,3 +804,7 @@ $radii: 3, 5, 8, 10, 15, 20, 25
   background: $color-gray-73
 .bg-red-24
   background: $color-red-24
+
+@media (min-width: 1336px)
+  .container
+    max-width: 1320px
