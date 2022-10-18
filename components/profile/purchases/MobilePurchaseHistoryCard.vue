@@ -57,7 +57,9 @@
       </div>
       <div class="d-flex align-items-center justify-content-between info-row">
         <span class="text-left text-nowrap label-class">{{ $t('purchases.info_table.order_status') }}</span>
-        <span class="text-right text-capitalize value-class">{{ purchase.order_status }}</span>
+        <span :class="statusColors[purchase.order_status]" class="text-right text-capitalize value-class">{{
+            $t(`vendor_purchase.orderstatus.${purchase.order_status}`)
+          }}</span>
       </div>
       <div class="d-flex align-items-center justify-content-between info-row">
         <span class="text-left text-nowrap label-class">{{ $t('purchases.info_table.type') }}</span>
@@ -87,6 +89,22 @@ export default {
       default: () => {
       },
     },
+  },
+  data() {
+    return {
+      statusColors: {
+        'pending': 'orange',
+        'processing': 'orange',
+        'arrived_to_ds': 'green',
+        'send_to_ds': 'purple',
+        'processing_payment': '',
+        'authenticated_and_shipped': '',
+        'delivered': 'black',
+        'cancelled': 'red',
+        'shipped_and_auth': '',
+        'multiple': ''
+      }
+    }
   },
   computed: {
     tableData() {
@@ -118,6 +136,21 @@ export default {
   margin-top: 15px
   font-style: normal
   background-color: $color-white-1
+
+  span.orange
+    color: $color-orange-20
+
+  span.green
+    color: $color-green-3
+
+  span.purple
+    color: $color-purple-7
+
+  span.red
+    color: $color-red-3
+
+  span.black
+    color: $color-black-1
 
   span.order-link
     color: $color-blue-30
