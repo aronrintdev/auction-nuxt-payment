@@ -14,6 +14,7 @@
               </b-form-checkbox>
             </div>
             <ProductThumb :product="inventory.product" />
+            <div v-if="!isMobileSize" class="auction-id mt-1">{{ $t('bids.auction_id') }}: {{ auction.id }}</div>
           </b-col>
           <b-col cols="8" md="8" class="pl-4 d-flex align-items-center">
             <b-row class="mb-2 d-block" :class="{ 'flex-grow-1' : isMobileSize }">
@@ -33,14 +34,20 @@
           </b-col>
         </b-row>
       </b-col>
-      <b-col sm="12" md="1" class="d-flex justify-content-around flex-column py-1 py-md-0">
+      <b-col v-if="isMobileSize" class="d-flex justify-content-around flex-column py-1 py-md-0">
+        <div class="d-flex justify-content-between d-md-block">
+          <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.auction_id') }}:</span>
+          <span :class="isMobileSize ? 'body-9-regular text-blue-30' : 'body-4-medium'">{{auction.id}}</span>
+        </div>
+      </b-col>
+      <b-col sm="12" md="1" class="d-flex justify-content-around flex-column py-1 py-md-0 py-1 py-md-0"
+             :class="{'bg-lightgrey': isMobileSize}">
         <div class="d-flex justify-content-between d-md-block">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.type') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-medium'">{{$t('auction.auction_types.'+auction.type)}}</span>
         </div>
       </b-col>
-      <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0"
-             :class="{'bg-lightgrey': isMobileSize}">
+      <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0">
         <div class="d-flex justify-content-between d-md-block">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.highest_bid') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-medium'">
@@ -49,7 +56,8 @@
           </span>
         </div>
       </b-col>
-      <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0">
+      <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0"
+             :class="{'bg-lightgrey': isMobileSize}">
         <div class="d-flex justify-content-between d-md-block">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.bids') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-medium'">
@@ -57,8 +65,7 @@
           </span>
         </div>
       </b-col>
-      <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0"
-             :class="{'bg-lightgrey': isMobileSize}">
+      <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0">
         <div class="d-flex justify-content-between d-md-block">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.time_remaining') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-medium'">
@@ -66,7 +73,8 @@
           </span>
         </div>
       </b-col>
-      <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0">
+      <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0"
+             :class="{'bg-lightgrey': isMobileSize}">
 
         <div class="d-flex justify-content-between d-md-block">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.status') }}:</span>
@@ -125,8 +133,15 @@ export default {
   margin-top: 35px
 
 .single-item
-  //border-radius: 10px
-  //border: 1px solid $color-gray-58
-  //padding: 15px 10px
   padding: 15px 10px
+
+.auction-id
+  color: $color-blue-31
+  text-decoration: underline
+  text-align: center
+  font-size: 14px
+
+.text-blue-30
+  color: $color-blue-30
+  text-decoration: underline
 </style>
