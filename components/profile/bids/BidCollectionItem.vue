@@ -28,7 +28,7 @@
           </b-col>
           <b-col cols="8" md="8" class="pl-4 d-flex justify-content-between align-items-center justify-content-md-around flex-md-column"
                  :class="isMobileSize ? 'body-5-medium': 'body-4-bold'">
-            <span>Bla bla bla bla {{ auction.name }} ( {{ auction.auction_items.length }}
+            <span>{{ auction.name }} ( {{ auction.auction_items.length }}
             {{ $t('bids.items') }} )
             </span>
             <div v-if="acceptable && isMobileSize">
