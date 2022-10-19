@@ -12,6 +12,7 @@
       <div
         v-for="(category, index) in categories"
         :key="index"
+        :to="category.to"
         class="col-6 category col-lg-3 col p-0"
       >
         <div class="overflow-wrapper">
@@ -57,34 +58,42 @@ export default {
         {
           title: this.$t('home_page.tops'),
           image: require('~/assets/img/home/categories/tops.png'),
+          to: './shop/1',
         },
         {
           title: this.$t('home_page.t-shirts'),
           image: require('~/assets/img/home/categories/t-shirts.png'),
+          to: './shop/2',
         },
         {
           title: this.$t('home_page.sweatshirts'),
           image: require('~/assets/img/home/categories/sweat-shirts.png'),
+          to: './shop/3',
         },
         {
           title: this.$t('home_page.footwear'),
           image: require('~/assets/img/home/categories/footwear.png'),
+          to: './shop/4',
         },
         {
           title: this.$t('home_page.bottoms'),
           image: require('~/assets/img/home/categories/bottoms.png'),
+          to: './shop/5',
         },
         {
           title: this.$t('home_page.shirts'),
           image: require('~/assets/img/home/categories/shirts.png'),
+          to: './shop/6',
         },
         {
           title: this.$t('home_page.jackets'),
           image: require('~/assets/img/home/categories/jackets.png'),
+          to: './shop/7',
         },
         {
           title: this.$t('home_page.accessories'),
           image: require('~/assets/img/home/categories/accessories.png'),
+          to: './shop/8',
         },
       ],
       categoriesSm: [

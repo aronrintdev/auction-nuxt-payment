@@ -17,28 +17,12 @@
       />
     </div>
     <div class="row promos-wrapper d-none d-md-flex">
-      <div class="col-6 col-md-4">
+      <div v-if="'1' === '1'" class="col-6 col-md-4 d-flex">
         <img
-          width="100%"
-          :src="require('~/assets/img/home/promotions/promotion1.png')"
-        />
-      </div>
-      <div class="col-6 col-md-4">
-        <img
-          width="100%"
-          :src="require('~/assets/img/home/promotions/promotion2.png')"
-        />
-      </div>
-      <div class="d-none d-md-flex col-md-4 mt-3 mt-md-0">
-        <img
-          width="100%"
-          :src="require('~/assets/img/home/promotions/promotion3.png')"
-        />
-      </div>
-      <div class="d-flex d-md-none col-12 mt-3 mt-md-0">
-        <img
-          width="100%"
-          :src="require('~/assets/img/home/promotions/promotion3-sm.png')"
+          v-for="(feature, index) in features"
+          :key="`feature-${index}`"
+          :src="feature.imageUrl"
+          class="promotions-images pl-3"
         />
       </div>
     </div>
@@ -67,6 +51,21 @@
 <script>
 export default {
   name: 'CurrentPromotions',
+  data() {
+    return {
+      features: [
+        {
+          imageUrl: require('~/assets/img/home/promotions/promotion1.png'),
+        },
+        {
+          imageUrl: require('~/assets/img/home/promotions/promotion2.png'),
+        },
+        {
+          imageUrl: require('~/assets/img/home/promotions/promotion3.png'),
+        }
+      ]
+    }
+  }
 }
 </script>
 <style lang="sass" scoped>
