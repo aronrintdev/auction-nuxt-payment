@@ -267,6 +267,23 @@ export default {
     );
     border: 1px solid $color-ui-secondary;
   }
+  &.btn-outline-secondary-blue {
+    @include button-colors(
+      $background: $color-transparent,
+      $foreground: $color-blue-19,
+      $border: $color-ui-secondary,
+      $background-hover: $color-transparent,
+      $foreground-hover: $color-blue-19,
+      $border-hover: $color-ui-secondary-hover,
+      $background-active: $color-transparent,
+      $foreground-active: $color-blue-19,
+      $border-active: $color-ui-secondary-dark,
+      $background-disabled: $color-transparent,
+      $foreground-disabled: $color-ui-secondary-disabled,
+      $border-disabled: $color-ui-secondary-disabled
+    );
+    border: 1px solid $color-ui-secondary;
+  }
 
   &.btn-danger {
     @include button-colors(

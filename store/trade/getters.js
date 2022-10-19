@@ -153,9 +153,11 @@ export function getActiveTrade(state) {
 export function getSubmittedOffer(state) {
   return state.submittedOffer
 }
+
 export function getCombinationsId(state) {
   return state.combinations
 }
+
 export function getUpdateCombinations(state) {
     return state.updateCombinations
 }
