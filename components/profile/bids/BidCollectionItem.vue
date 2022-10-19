@@ -304,13 +304,11 @@ export default {
   text-align: left
 
 .collection-item
-  // border-radius: 10px
-  // border: 1px solid $color-gray-60
   padding: 10px
 
 .border
   border: 1px solid $color-gray-60
-  border-radius: 12px !important
+  border-radius: 12px
   overflow: hidden
 
 .auction-id
