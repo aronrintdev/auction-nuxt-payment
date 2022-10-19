@@ -25,7 +25,7 @@
         <img v-if="labelLeftImage !== null" :src="labelLeftImage" class="mr-2">
         {{label}}
       </label>
-      <i :style="iconStyle"  class="pull-right  pr-1 fa fa-2x" :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"></i>
+      <i :style="iconStyle" class="pull-right  pr-1 fa fa-2x" :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"></i>
     </div>
     <ul 
       v-if="isOpen" 
@@ -158,7 +158,7 @@ export default {
     inputClass: {
       type: String,
       default: () => {}
-    }
+    },
   },
   data() {
     return {

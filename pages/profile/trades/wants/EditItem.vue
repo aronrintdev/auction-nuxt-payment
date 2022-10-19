@@ -17,7 +17,7 @@
           <ProductImageViewer v-if="!product.product.has360Images" :product="product.product" />
           <ProductImageViewerMagic360 v-if="product.product.has360Images" :product="product.product" />
         </div>
-        <div class="col-md-8 col-xl-6">
+        <div class="col-md-8 col-xl-5">
           <p class="mt-3 mb-0 title">{{ product.product.name }}</p>
           <p class="custom-border">
             <span class="last-sale">{{ $t('product_page.last_sale') }}: $250.00</span>
@@ -110,53 +110,63 @@
                 />
               </div>
               <div class="col-sm-6 pr-sm-0">
-                <div class="form-label">
+                <div class="form-label" >
                   {{ $t('common.select_list') }} <sup>*</sup>
                 </div>
-                <SelectListDropDown
-                  v-model="selectList"
-                  :options="selectListOptions" type="multi-select-checkbox"
-                  :label="selectListLabel" class="bg-white" optionsWidth="custom"
-                  :itemId="itemId"
-                  inputClass="form-input"
-                  :combinationId="combinationId"
-                  variant="white"
-                  dropDownHeight="33px"
-                  borderRadius="10px"
-                  borderRadiusClose="10px 10px 0 0"
-                  borderRadiusOptions="0 0 8px 8px"
-                  @change="listType"
-                  :inputStyle="{
-                    borderColor: '#E8E8E8',
-                    height: '49px',
-                    borderRadius: '10px',
-                    paddingLeft: '15px',
-                    paddingRight: '15px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }"
-                  :labelStyle="{
-                    padding: 0,
-                    margin: 0,
-                    fontWeight: '600 !important',
-                    fontSize: '12px',
-                    color: '#000'
-                  }"
-                  :iconStyle="{
-                    color: '#7196B1',
-                    width: '16px',
-                    height: '18px',
-                    display: 'flex',
-                    alignItems: 'center'
-                  }"
-                  :dropdownStyle="{
-                    borderColor: '#E8E8E8',
-                  }"
-                  :dropdownItemStyle="{
-                    borderColor: '#E8E8E8',
-                  }"
-                />
+                <div class="d-none d-sm-block">
+                  <SelectListDropDown
+                    v-model="selectList"
+                    :options="selectListOptions" type="multi-select-checkbox"
+                    :label="selectListLabel" class="bg-white" optionsWidth="custom"
+                    :itemId="itemId"
+                    inputClass="form-input"
+                    :combinationId="combinationId"
+                    variant="white"
+                    dropDownHeight="33px"
+                    borderRadius="10px"
+                    borderRadiusClose="10px 10px 0 0"
+                    borderRadiusOptions="0 0 8px 8px"
+                    @change="listType"
+                    :inputStyle="{
+                      borderColor: '#E8E8E8',
+                      height: '49px',
+                      borderRadius: '10px',
+                      paddingLeft: '15px',
+                      paddingRight: '15px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }"
+                    :labelStyle="{
+                      padding: 0,
+                      margin: 0,
+                      fontWeight: '600 !important',
+                      fontSize: '12px',
+                      color: '#000'
+                    }"
+                    :iconStyle="{
+                      color: '#7196B1',
+                      width: '16px',
+                      height: '18px',
+                      display: 'flex',
+                      alignItems: 'center'
+                    }"
+                    :dropdownStyle="{
+                      borderColor: '#E8E8E8',
+                    }"
+                    :dropdownItemStyle="{
+                      borderColor: '#E8E8E8',
+                    }"
+                  />
+                </div>
+                <div class="d-sm-none mobile-input" @click="listModalOpen = !listModalOpen">
+                  <div>{{ $t('trades.wants_listing.add_to') }}</div>
+                  <i 
+                    :style="{ color: '#7196B1'}" 
+                    class="fa fa-2x" 
+                    :class="listModalOpen ? 'fa-angle-up' : 'fa-angle-down'">
+                  </i>
+                </div>
               </div>
             </div>
           </div>
@@ -237,7 +247,12 @@
       </div>
 
     </div>
-      
+
+    <SelectListModal
+      :isOpen="listModalOpen"
+      @closed="listModalOpen = false"
+      @opened="listModalOpen = true"
+    />
   </div>
 
 </template>
@@ -250,6 +265,7 @@ import ProductSizePicker from '~/components/product/SizePicker'
 import {MAX_ITEMS_ALLOWED, DIGITS_IN_YEAR} from '~/static/constants/create-listing'
 import {WANTS_SELECT_LIST_OPTIONS} from '~/static/constants/trades'
 import SelectListDropDown from '~/pages/profile/trades/wants/SelectListDropDown'
+import SelectListModal from '~/pages/profile/trades/wants/SelectListModal'
 import Button from '~/components/common/Button'
 import CustomDropdown from '~/components/common/CustomDropdown'
 import ProductImageViewer from '~/components/product/ImageViewerV2'
@@ -268,7 +284,8 @@ export default {
     ValidationProvider,
     ProductImageViewer,
     ProductImageViewerMagic360,
-    ProductLatestSales
+    ProductLatestSales,
+    SelectListModal
   },
   props:{
     product: {
@@ -298,6 +315,7 @@ export default {
   },
   data() {
     return {
+      listModalOpen: false,
       MAX_ITEMS_ALLOWED,
       box_condition: null,
       quantity: 1,
@@ -331,7 +349,6 @@ export default {
       this.box_condition = this.product.packaging_condition_id
       this.selected_size = this.product.size_id
     }
-    console.log('THIS', this.product);
   },
   methods: {
     ...mapActions({
@@ -709,7 +726,7 @@ export default {
     width: 100%
   
 .custom-border
-  @media (max-width: 576px)
+  @media (min-width: 576px)
     padding-bottom: 15px
     border-bottom: 1px solid $color-gray-16f
 
@@ -727,5 +744,17 @@ export default {
     border-color: $color-blue-20
     border-radius: 4px
     height: 40px
+
+.mobile-input
+  height: 49px
+  padding-left: 15px
+  padding-right: 15px
+  border: 1px solid $color-gray-3
+  border-radius: 10px
+  display: flex
+  align-items: center
+  justify-content: space-between
+  font-weight: 600
+  font-size: 12px
 
 </style>
