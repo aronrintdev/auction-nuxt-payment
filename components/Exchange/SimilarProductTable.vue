@@ -1,11 +1,25 @@
 <template>
     <table class="table trend-table-wrapper">
+      <thead v-if="activeHeaders" >
+        <tr class="d-none d-sm-table-row">
+          <td></td>
+          <td colspan="2">{{ $t('common.ranking') }} #</td>
+          <td>{{ $t('common.name') }}</td>
+          <td>{{ $t('common.last_price') }}</td>
+          <td>24h</td>
+          <td>7d</td>
+          <td>30d</td>
+          <td>{{ $t('common.last_xdays', { day: 7 }) }}</td>
+        </tr>
+    </thead>
       <tbody>
         <tr
-          v-for="product in products"
+          v-for="(product, index) in products"
           :key="`product-${product.id}-trend`"
           class="border-top-0"
         >
+          <td v-if="activeHeaders"></td>
+          <td v-if="activeHeaders" class="col-no font-primary" ><NuxtLink :to="'/stock/'+product.id"> {{ index + 1 }}</NuxtLink></td>
           <td class="col-thumb">
             <div><ProductThumb :product="product" /></div>
           </td>
@@ -14,23 +28,23 @@
             <div class="text-color font-primary">{{ product.colorway }}</div>
           </td>
           <td class="col-price d-none d-sm-table-cell">
-            {{ product.last_price | toCurrency }}
+            {{ product.retailPrice | toCurrency }}
           </td>
           <td
             :class="`col-trend-${
-              product.trend_24h >= 0 ? 'positive' : 'negative'
+              product.day_sales_percentage >= 0 ? 'positive' : 'negative'
             }`"
             class="d-none d-sm-table-cell"
           >
-            {{ product.trend_24h | toPercentage }}
+            {{ product.day_sales_percentage | toPercentage }}
           </td>
           <td
             :class="`col-trend-${
-              product.trend_7d >= 0 ? 'positive' : 'negative'
+              product.week_sales_percentage >= 0 ? 'positive' : 'negative'
             }`"
             class="d-none d-sm-table-cell"
           >
-            {{ product.trend_7d | toPercentage }}
+            {{ product.week_sales_percentage | toPercentage }}
           </td>
           <td
             :class="`col-trend-${
@@ -232,6 +246,10 @@
           ]
         },
       },
+      activeHeaders:{
+        type:Boolean,
+        default:false
+      }
     },
     data() {
       return {
@@ -290,7 +308,7 @@
   <style lang="sass" scoped>
   @import '~/assets/css/_variables'
   @import '~/assets/css/_typography'
-  
+
   .trend-table-wrapper
     width: calc( 100% - 16px )
     margin: 0 auto
@@ -307,11 +325,11 @@
         vertical-align: middle
         padding: 20px 3px
         border: none
-  
+
       .col-no
         @include body-8-medium
         color: $color-black-1
-  
+
       .col-thumb
         display: flex
         justify-content: center
@@ -347,13 +365,13 @@
             font-weight: $normal
       .col-price
         color: $color-black-1
-  
+
       .col-trend-positive
         color: $color-green-4
-  
+
       .col-trend-negative
         color: $color-red-5
-  
+
       .col-graph
         .trend-graph
           width: 96px
@@ -363,4 +381,3 @@
         font-size: 11px
         font-weight: $medium
   </style>
-  

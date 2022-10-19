@@ -7,7 +7,7 @@
     >
       <Loader :loading="loading"></Loader>
     </div>
-    <div class="row">
+    <div v-if="!loading" class="row">
       <div class="col-lg-6 col-md-12 col-sm-12">
         <div class="row">
           <div class="col-lg-2">
@@ -111,7 +111,7 @@
           </div>
         </div>
           <div class="row">
-            <div class="col-ld-12">
+            <div  id="tb-product" class="col-ld-12 overflow-auto h-50" >
               <!-- ProducListCard Table -->
               <SimilarProductTable :products="products" />
             </div>
@@ -202,6 +202,7 @@ export default {
         },
       ],
       sortBy: null,
+      showScroll: null,
       current: '24',
       // line chart data
       lineChartOptions: {
@@ -275,6 +276,11 @@ export default {
       this.current = category
     },
     // On filter by change.
+    handleSortBySelect(value) {
+      this.sortBy=value.value
+      // this.loadPage()
+    },
+    // On filter by change.
     searchProduct(value) {
       this.search = value
       this.loadPage()
@@ -282,6 +288,7 @@ export default {
     handleBuyClick() {},
     handleSellClick() {},
     loadPage() {
+      this.loading= true
       this.$axios
         .get('/products', {
           // .get('/stock-exchange', {
@@ -290,16 +297,19 @@ export default {
             page: this.currentPage,
             take: this.perPage,
             search: this.search,
+            sortBy: this.sortBy,
           },
         })
         .then((response) => {
           if (response.data) {
             console.log(response.data)
             this.products = response.data.data
+            this.loading= false
             // this.totalRows = response.data.total
           }
         })
         .catch((error) => {
+            this.loading= false
           this.$toasted.error(error.message)
         })
     },
