@@ -5,7 +5,7 @@
   >
     <div class="d-flex align-items-center sf-wrapper">
       <div class="searchbar-filter position-relative w-100">
-        <FilterIcon id="filters_sheet" class="filter_icon" />
+        <FilterIcon id="filters_sheet" class="filter_icon cursor-pointer" />
       </div>
       <div class="setting-filter d-flex justify-content-start px-0 ml-2">
         <Icon 

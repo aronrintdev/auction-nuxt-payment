@@ -34,8 +34,8 @@
         default: null,
       },
       modelValue: {
-        type: String,
-        default: '',
+        type: Array,
+        default: () => [],
       },
       val: {
         type: String,
@@ -57,6 +57,7 @@
     data() {
       return {
         uniqueKey: null,
+        selectedTypes: []
       }
     },
     computed: {
@@ -69,7 +70,8 @@
     },
     methods: {
       handleInput(value) {
-        this.$emit('change', value.target.value)
+        value = value.target.value
+        this.$emit('change', value)
       },
     },
   }

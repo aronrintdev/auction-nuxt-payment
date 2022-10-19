@@ -26,6 +26,7 @@
                 :label="sizeType.label"
                 :val="sizeType.value"
                 name="sizeType"
+                @change="getSizeType"
               />
             </div>
           </div>
@@ -46,6 +47,7 @@
                 :label="brandCategory.label"
                 :val="brandCategory.value"
                 name="brandCategory"
+                @change="getBrands"
               />
             </div>
           </div>
@@ -133,7 +135,9 @@
         selectedSizeType: '',
         years: '',
         allFilters: {},
-        status: ACTIVE
+        status: ACTIVE,
+        checkedTypes: [],
+        checkedBrands: []
       }
     },
     computed: {
@@ -204,6 +208,24 @@
     },
 
     methods: {
+      getSizeType(value) {
+        this.selectedSizeType = this.checkedTypes;
+        if(this.selectedSizeType.includes(value)){
+          this.selectedSizeType.splice(this.selectedSizeType.indexOf(value), 1);
+            return;
+        }
+        this.selectedSizeType.push(value);
+      },
+
+      getBrands(value) {
+        this.selectedBrand = this.checkedBrands;
+        if(this.selectedBrand.includes(value)){
+          this.selectedBrand.splice(this.selectedBrand.indexOf(value), 1);
+            return;
+        }
+        this.selectedBrand.push(value);
+      },
+
       loadFilter() {
         if(this.dateFilter !== '') {
           this.sortBy = this.status = this.$t('shop_by_style.archive')
