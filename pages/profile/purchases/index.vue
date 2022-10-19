@@ -243,7 +243,7 @@
       <template #default>
         <div class="d-flex flex-column align-items-center justify-content-between h-88 w-100 filters">
           <div class="d-flex flex-column w-100 ">
-            <FilterAccordion :open="true" :title="$t('vendor_purchase.sort_by').toString()">
+            <FilterAccordion :open="true" :title="$t('orders.sort').toString()">
               <b-form-radio-group
                   v-model="sortbySelected"
                   :options="sortOptions"
@@ -761,6 +761,7 @@ input.date-input
 .vendor-dashboard-body
   &.mobile
     padding: 16px 20px
+    background-color: $color-white-1
 
 .purchase-list
   margin-top: 5px

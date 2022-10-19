@@ -48,7 +48,8 @@
       <div class="d-flex align-items-center justify-content-between info-row">
         <span class="text-left text-nowrap label-class">{{ $t('purchases.info_table.id') }}</span>
         <span
-            class="text-right text-capitalize value-class order-link text-decoration-underline">{{ purchase.id }}</span>
+            class="text-right text-capitalize value-class order-link text-decoration-underline"
+            @click="viewOrder">{{ purchase.id }}</span>
       </div>
       <div class="d-flex align-items-center justify-content-between info-row">
         <span class="text-left text-nowrap label-class">{{ $t('purchases.info_table.created_at') }}</span>
@@ -106,23 +107,10 @@ export default {
       }
     }
   },
-  computed: {
-    tableData() {
-      return Object.keys(this.$t('purchases.info_table')).map(key => {
-        let value = null
-        if (key === 'type')
-          value = this.purchase.type.label
-        else if (key === 'created_at')
-          value = new Date(this.purchase[key]).toLocaleDateString()
-        else
-          value = this.purchase[key]
-
-        return {
-          label: this.$t(`purchases.info_table.${key}`),
-          value
-        }
-      })
-    }
+  methods: {
+    viewOrder() {
+      this.$router.push(`/profile/purchases/summary/${this.purchase.id}`)
+    },
   }
 }
 </script>
