@@ -3,13 +3,14 @@
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="title">{{ $tc('profile_menu.auctions', 1) }}</h2>
     </div>
-    <div class="d-flex justify-content-between align-items-center mt-4">
+    <template v-if="!isMobileSize">
+      <div class="d-flex justify-content-between align-items-center mt-4">
       <SearchInput
         :value="search"
         :placeholder="$t('auction.search_placeholder')"
         class="flex-grow-1 mr-5 mw-734"
         :debounce="1000"
-        @change="handleSearch"
+        @input="handleSearch"
       />
       <div class="flex-grow-0">
         <FormDropdown
@@ -22,7 +23,7 @@
         ></FormDropdown>
       </div>
     </div>
-    <div class="d-flex justify-content-between align-items-center mt-5">
+      <div class="d-flex justify-content-between align-items-center mt-5">
       <div class="d-flex align-items-center justify-content-start">
         <SelectWithCheckbox
           id="auction-type-selector"
@@ -103,6 +104,11 @@
         >{{ $t('auction.delete_expired') }}
         </b-button>
       </div>
+    </div>
+    </template>
+    <div v-if="isMobileSize" class="d-flex align-items-center">
+      <MobileSearchInput :value="search" @input="handleSearch" class="flex-grow-1" />
+      <span @click="showMobileFilter" class="ml-3"><img src="~/assets/img/icons/filter-icon.png" /></span>
     </div>
 
     <div class="d-flex justify-content-start align-items-center mt-4">
@@ -216,7 +222,7 @@
 </template>
 
 <script>
-
+import debounce from 'lodash.debounce'
 import {mapActions, mapGetters} from 'vuex';
 import {SearchInput, FormDropdown, BulkSelectToolbar, Button} from '~/components/common';
 import SelectWithCheckbox from '~/components/common/CustomSelectwithCheckbox.vue'
@@ -547,9 +553,13 @@ export default {
      * types in and sets it to the search variable. Then it calls the FetchAuctions method.
      * @param text
      */
-    handleSearch(text) {
+    handleSearch: debounce(function (text) {
       this.search = text
       this.FetchAuctions()
+    }, 300),
+
+    showMobileFilter() {
+
     }
   }
 }
