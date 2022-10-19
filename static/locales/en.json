@@ -723,7 +723,6 @@
       "tax": "Tax",
       "promo_code": "Promo Code",
       "promo_code_applied": "Promo code applied!",
-      "gift_card_applied": "Gift card applied!",
       "enter_your_code": "Enter your code",
       "apply": "Apply",
       "billing_address": "Billing Address",
@@ -4589,7 +4588,7 @@
     },
     "trades_deleted_successfully": "Trades Deleted Successfully",
     "are_you_sure_to_relist_trade": "Are you sure you would like to relist this trade listing?",
-    "relist": "Relist"
+    "relist": "Relist",
     "your_offer": "Your Offer",
     "estimated_value": "Estimated Value",
     "estimated_value_trade": "Estimated Trade Value",
