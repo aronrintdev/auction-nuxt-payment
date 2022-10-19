@@ -23,67 +23,38 @@
             <span class="last-sale">{{ $t('product_page.last_sale') }}: $250.00</span>
             <span class="last-sale-value">+0.64 (+0.36%)</span>
           </p>
-          <div class="d-flex justify-content-between mb-2">
-            <div class="select-size">{{ $t('product_page.select_size') }}:</div>
-            <div class="all-sizes">
-              <img
-                class="mr-1"
-                :src="require('~/assets/img/icons/eye2.svg')"
-              />
-              {{ $t('products.all_sizes') }}
-            </div>
-          </div>
-          <div class="d-flex horizontal-scroll justify-content-center">
-            <div class="d-flex flex-column align-items-center mr-3">
-              <div class="size-item">
-                6.5
-              </div>
-              <div class="mt-1 size-price">$505</div>
-            </div>
-            <div class="d-flex flex-column align-items-center mr-3">
-              <div class="size-item">
-                7.0
-              </div>
-              <div class="mt-1 size-price">$505</div>
-            </div>
 
-            <div class="d-flex flex-column align-items-center mr-3">
-              <div class="size-item">
-                7.5
-              </div>
-              <div class="mt-1 size-price">$520</div>
-            </div>
-
-            <div class="d-flex flex-column align-items-center mr-3">
-              <div class="size-item size-item-active">
-                8.0
-              </div>
-              
-              <div class="blue-separator"></div>
-            </div>
-
-            <div class="d-flex flex-column align-items-center mr-3">
-              <div class="size-item">
-                8.5
-              </div>
-              <div class="mt-1 size-price">$530</div>
-            </div>
-
-            <div class="d-flex flex-column align-items-center mr-3">
-              <div class="size-item">
-                9.0
-              </div>
-              <div class="mt-1 size-price">$530</div>
-            </div>
-
-            <div class="d-flex flex-column align-items-center">
-              <div class="size-item">
-                9.5
-              </div>
-              <div class="mt-1 size-price">$530</div>
-            </div>
-
-          </div>
+          <ProductSizePicker
+            :value="currentSizeId"
+            :sizes="product.product.sizes"
+            :prices="[]"
+            :viewMode="sizeViewMode"
+            class="size-picker px-0"
+            :style="{
+              maxWidth: 'unset'
+            }"
+            @update="handleSizeChange"
+            @changeViewMode="handleSizeViewModeChange"
+            :cardStyle="{
+              width: '64px',
+              height: '64px',
+              borderWidth: '1px'
+            }"
+            :selectSizeLabelClass="'size-label-responsive'"
+            :iconClass="'d-inline d-sm-none'"
+            :iconTextClass="'icon-text-responsive'"
+            :arrowStyle="{
+              display: 'none !important'
+            }"
+            :carouselContainerStyle="{
+              width: '100%',
+              padding: 0
+            }"
+            :wrapperStyle="{
+              margin: '0 !important',
+              width: '100%'
+            }"
+          />
 
           <div class="mt-3 d-flex flex-column pb-5 pb-sm-2">
             <div class="d-flex align-items-center justify-content-center mb-2">
@@ -127,7 +98,7 @@
             </div>
 
             <div class="d-flex flex-column flex-sm-row justify-content-between">
-              <div class="col-sm-6 d-flex flex-column pl-xl-0">
+              <div class="col-sm-6 d-flex flex-column pl-sm-0">
                 <div class="form-label">
                   {{ $t('common.quantity') }} <sup>*</sup>
                 </div>
@@ -138,7 +109,7 @@
                   class="bg-white form-label form-input"                 
                 />
               </div>
-              <div class="col-sm-6 pr-xl-0">
+              <div class="col-sm-6 pr-sm-0">
                 <div class="form-label">
                   {{ $t('common.select_list') }} <sup>*</sup>
                 </div>
@@ -190,7 +161,7 @@
             </div>
           </div>
 
-          <div class="add-want-button">
+          <div class="add-want-button d-none d-sm-flex">
             {{ $t('trades.create_listing.vendor.wants.add_want') }}
           </div>
 
@@ -259,6 +230,10 @@
             {{ $t('products.sales') }}
           </div>
         </div>
+      </div>
+
+      <div class="add-want-button d-sm-none mb-3">
+        {{ $t('trades.create_listing.vendor.wants.add_want') }}
       </div>
 
     </div>
@@ -342,9 +317,9 @@ export default {
       selectListLabel: this.$t('trades.wants_listing.add_to'),
       conditionsOptions: this.product.product.packaging_conditions.map((item) => ({ text: item.name, value: item.id })),
       condition: { text: this.product.packaging_condition.name, value: this.product.packaging_condition.id },
-      conditionLabel: this.product.packaging_condition.name
-      // condition: this.product.packaging_condition.name,
-
+      conditionLabel: this.product.packaging_condition.name,
+      sizeViewMode: 'carousel',
+      currentSizeId: this.product.size.id
     }
   },
   computed: {
@@ -362,6 +337,10 @@ export default {
     ...mapActions({
       createInventories: 'inventory/createInventories',
     }),
+
+    handleSizeViewModeChange(mode) {
+      this.sizeViewMode = mode
+    },
 
     changeCondition(selectedCondition) {
       console.log('this.product.product.packaging_conditions', this.product.product.packaging_conditions);
@@ -491,8 +470,8 @@ export default {
      * @param value
      */
     handleSizeChange(value) {
-      if (value !== null)
-        this.$emit('input', { ...this.value, sizeId: value })
+      console.log('VALAUE', value);
+      this.currentSizeId = value
     },
 
     /**

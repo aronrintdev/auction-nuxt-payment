@@ -3,6 +3,7 @@
     <div
       v-if="viewMode == 'carousel'"
       class="position-relative mx-auto carousel-wrapper"
+      :style="wrapperStyle"
     >
       <client-only>
         <Carousel
@@ -19,7 +20,9 @@
           :mouse-drag="false"
           :nav-text="['', '']"
           :dots="false"
+          :autoWidth="true"
           class="carousel slide-fade text-center position-relative size-carousel"
+          :style="carouselContainerStyle"
         >
           <template #default>
             <div
@@ -33,6 +36,7 @@
             >
               <div
                 class="d-flex align-items-center justify-content-center mx-auto card"
+                :style="cardStyle"
               >
                 {{ size.size }}
               </div>
@@ -43,7 +47,7 @@
           </template>
 
           <template #prev>
-            <div class="owl-nav owl-prev">
+            <div class="owl-nav owl-prev" :style="arrowStyle">
               <img
                 :src="require('~/assets/img/icons/product/arrow-left.svg')"
               />
@@ -51,7 +55,7 @@
           </template>
 
           <template #next>
-            <div class="owl-nav owl-next">
+            <div class="owl-nav owl-next" :style="arrowStyle">
               <img
                 :src="require('~/assets/img/icons/product/arrow-right.svg')"
               />
@@ -60,16 +64,36 @@
         </Carousel>
       </client-only>
 
-      <Button
-        v-if="!singleMode"
-        variant="link"
-        class="position-absolute view-all-btn"
-        icon="eye2.svg"
-        size="sm"
-        @click="handleViewAllClick"
-      >
-        {{ $t('products.all_sizes') }}
-      </Button>
+      <div class="d-flex justify-content-between">
+        <div 
+          :class="'select-size position-absolute d-none ' + selectSizeLabelClass"
+        >
+          {{ $t('product_page.select_size') }}
+        </div>
+
+        <div 
+          v-if="!singleMode"
+          @click="handleViewAllClick"
+          class="position-absolute view-all-btn"
+        >
+          <img
+            width="18"
+            height="18"
+            :src="require('~/assets/img/icons/eye2.svg')"
+            :class="iconClass"
+          />
+          <span 
+            :style="{
+              fontSize: '14px',
+              fontWeight: 600,
+              color: '#000',
+            }"
+            :class="iconTextClass"
+          >
+            {{ $t('products.all_sizes') }}
+          </span>
+        </div>
+      </div>
     </div>
 
     <div v-if="viewMode == 'all'" class="mx-auto position-relative all-sizes">
@@ -105,14 +129,12 @@
     </div>
   </div>
 </template>
+
 <script>
-import { Button } from '~/components/common'
 import {API_PROD_URL} from '~/static/constants/environments'
 
 export default {
   name: 'ProductSizePicker',
-
-  components: { Button },
 
   props: {
     sizes: {
@@ -135,6 +157,38 @@ export default {
       type: Boolean,
       default: false,
     },
+    selectSizeLabelClass: {
+      type: String,
+      default: ''
+    },
+    iconTextClass: {
+      type: String,
+      default: ''
+    },
+    iconClass: {
+      type: String,
+      default: ''
+    },
+    cardStyle: {
+      type: Object,
+      default: () => {}
+    },
+    cardWrapperStyle: {
+      type: Object,
+      default: () => {}
+    },
+    arrowStyle: {
+      type: Object,
+      default: () => {}
+    },
+    carouselContainerStyle: {
+      type: Object,
+      default: () => {}
+    },
+    wrapperStyle: {
+      type: Object,
+      default: () => {}
+    }
   },
 
   data() {
@@ -218,6 +272,29 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.size-label-responsive
+  display: block !important
+  font-size: 13px
+  color: #000
+  left: 0
+  top: 0
+  @media (min-width: 576px)
+    font-size: 15px
+    font-weight: 500
+    text-transform: uppercase
+
+.icon-text-responsive
+  font-size: 13px !important
+  font-weight: 400 !important
+  color: #000 !important
+  @media (min-width: 576px)
+    color: $color-blue-30 !important
+    font-weight: 600 !important
+
+.owl-carousel 
+  .owl-item
+    width: 70px !important
+
 .container
   .carousel-wrapper
     width: 567px
@@ -237,6 +314,7 @@ export default {
       display: block !important
 
     .owl-carousel
+
       .item
         cursor: pointer
 
