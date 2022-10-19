@@ -213,6 +213,15 @@ export function setBestMatches(state, bestMatches) {
 }
 
 /**
+ * This mutation is used to remove trade from best matches
+ * @param state
+ * @param tradeId
+ */
+export function removeTradeFromBestMatches(state, tradeId) {
+  state.bestMatches = state.bestMatches.filter(trade => trade.theirs.id !== tradeId)
+}
+
+/**
  * This mutation is used to set interested listings for vendor
  * @param state
  * @param interestedListings
