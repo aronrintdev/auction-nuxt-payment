@@ -13,12 +13,11 @@
 
     <!-- Filters -->
     <div v-if="!loading">
-      <ExchangeFilter  @filterList="filterList" />
+      <ExchangeFilter @filterList="filterList" />
     </div>
 
     <!-- ProductTrendListCard Table -->
     <ProductTrendListCard :products="products" />
-
   </div>
 </template>
 <script>
@@ -63,6 +62,10 @@ export default {
       currentPage: 1,
       perPage: process.env.INVENTORY_ITEMS_PER_PAGE,
       products: [],
+      trending: [],
+      gainers: [],
+      losers: [],
+      top_products: [],
       filter: null,
     }
   },
@@ -77,7 +80,7 @@ export default {
   methods: {
     // Search Data
     filterList(value) {
-      this.filter =value
+      this.filter = value
       this.loadPage()
     },
     // Pagination "Change" event listener
@@ -88,25 +91,52 @@ export default {
     // Get auctions list from API
     loadPage() {
       this.$axios
-        .get('/products', {
-        // .get('/stock-exchange', {
+        // .get('/products', {
+        .get('/stock-exchange', {
           params: {
-            type: this.type,
-            page: this.currentPage,
-            take: this.perPage,
-            ...this.filter
+            // loser_products_count:10,
+            // gainer_products_count:10,
+            // trending_products_count:10,
+            // top_products_count:10,
+            // losers: 10,
+            // type: this.type,
+            // page: this.currentPage,
+            // take: this.perPage,
+            // ...this.filter
           },
         })
         .then((response) => {
           if (response.data) {
             console.log(response.data)
-            this.products = response.data.data
+            this.trending = response.data.data.trending
+            this.gainers = response.data.data.gainers
+            this.losers = response.data.data.losers
+            this.top_products = response.data.data
             this.totalRows = response.data.total
+            this.setListData()
           }
         })
         .catch((error) => {
           this.$toasted.error(error.message)
         })
+    },
+    setListData() {
+      switch (this.$route.params.type) {
+        case 'trending': {
+          this.products = this.trending
+          break
+        }
+        case 'biggestWinners': {
+          this.products = this.gainers
+          break
+        }
+        case 'biggestLossers': {
+          this.products = this.losers
+          break
+        }
+        default:
+          this.products = []
+      }
     },
   },
 }
