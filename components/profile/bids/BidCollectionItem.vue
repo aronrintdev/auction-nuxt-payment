@@ -24,7 +24,9 @@
               </b-form-checkbox>
             </div>
             <div class="my-0 my-md-3"><img :src="CollectionSvg" alt="collection image my-2" /></div>
-            <div v-if="!isMobileSize" class="auction-id">{{ $t('bids.auction_id') }}: {{ auction.id }}</div>
+            <div v-if="!isMobileSize" class="auction-id text-decoration-underline text-center">
+              {{ $t('bids.auction_id') }}: {{ auction.id }}
+            </div>
           </b-col>
           <b-col cols="8" md="8" class="pl-4 d-flex justify-content-between align-items-center justify-content-md-around flex-md-column"
                  :class="isMobileSize ? 'body-5-medium': 'body-4-bold'">
@@ -119,7 +121,7 @@
       <b-col class="py-1">
         <div class="d-flex justify-content-between d-md-block">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.auction_id') }}:</span>
-          <span class="body-9-regular text-underline text-blue-30">{{ auction.id }}</span>
+          <span class="body-9-regular text-decoration-underline text-blue-30">{{ auction.id }}</span>
         </div>
       </b-col>
       <b-col class="py-1 bg-lightgrey">
@@ -307,21 +309,19 @@ export default {
 
 .auction-id
   color: $color-blue-31
-  text-decoration: underline
-  text-align: center
-  font-size: 14px
+  @include body-5-bold
 
 .text-blue-30
   color: $color-blue-30
-  text-decoration: underline
 </style>
 <style lang="sass">
+@import '~/assets/css/_variables'
 .collection-items
   .carousel-indicators
     position: relative
     margin: 0
   .carousel-indicators li
-    background-color: gray
+    background-color: $color-gray-25
     width: 12px
     height: 12px
     border-radius: 50%
