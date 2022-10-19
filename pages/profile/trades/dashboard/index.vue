@@ -13,7 +13,7 @@
           @change="onSearchInput"
           @clear="onSearchInput"
         />
-        <SearchBarProductsList v-if="searchedProducts.length > 0" :productItems="searchedProducts" width="700px" class="position-absolute" @productClick="searchTrades"/>
+        <SearchBarProductsList v-if="searchedProducts.length > 0" :productItems="searchedProducts" width="700px" class="position-absolute"/>
       </b-col>
     </b-row>
 
@@ -116,6 +116,7 @@
 </template>
 
 <script>
+import debounce from 'lodash.debounce'
 import SearchInput from '~/components/common/SearchInput';
 import Button from '~/components/common/Button';
 import TradeListingItems from '~/pages/profile/trades/dashboard/TradeListingItems';
@@ -199,7 +200,7 @@ export default {
           params: {
             type: offerType,
             per_page: PROFILE_DASHBOARD_MAX_OFFERS,
-            searchText: this.searchText,
+            search: this.searchText,
           }
         })
         .then((response) => {
@@ -239,7 +240,7 @@ export default {
      * listing below input search field
      * @param term
      */
-    onSearchInput(term) {
+    onSearchInput: debounce(function (term) {
       if (term) {
         this.searchText = term
         this.$axios
@@ -263,7 +264,7 @@ export default {
       }
       this.fetchTradesListing()
       this.fetchOffersListing()
-    },
+    }, 500),
 
     handleMethodNavClick(type) {
       if (type) {

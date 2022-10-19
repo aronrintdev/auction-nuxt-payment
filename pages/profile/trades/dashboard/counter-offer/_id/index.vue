@@ -718,7 +718,7 @@ export default {
      * listing below input search field
      * @param term
      */
-    onSearchInput(term) {
+    onSearchInput: debounce(function (term) {
       this.searchText = term
       if (term) {
         this.searchProductsList({
@@ -736,7 +736,7 @@ export default {
         this.searchText = null
         this.searchedItems = []
       }
-    },
+    }, 500),
 
     /**
      * This function is used to change pagination page no

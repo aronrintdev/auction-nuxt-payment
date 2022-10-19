@@ -127,7 +127,8 @@
 </template>
 
 <script>
-  import {mapActions} from 'vuex'
+import {mapActions} from 'vuex'
+import debounce from 'lodash.debounce'
 import SearchInput from '~/components/common/SearchInput';
 import CustomDropdown from '~/components/common/CustomDropdown';
 import CalendarInput from '~/components/common/form/CalendarInput';
@@ -281,7 +282,7 @@ export default {
      * listing below input search field
      * @param term
      */
-    onSearchInput(term) {
+    onSearchInput: debounce(function (term) {
       if (term) {
         this.searchText = term
         this.$axios
@@ -304,7 +305,7 @@ export default {
         this.searchedProducts =  []
       }
       this.fetchTradesListing()
-    },
+    }, 500),
 
     /***
      * This function is used to change order listing of

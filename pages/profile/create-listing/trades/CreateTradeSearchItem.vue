@@ -177,7 +177,7 @@ export default {
     ...mapGetters('trades', ['getTradeItems', 'getTradeItemsWants']),
     ...mapGetters('trade', ['getYourTradeItems']),
       disabledBtn(){
-        return this.selected_size !== null &&  this.box_condition !== null
+        return this.isFormValid()
       }
   },
   mounted() {
@@ -222,10 +222,13 @@ export default {
       if(this.productFor === this.tradeArena)
         return this.getYourTradeItems.length
       if (this.productFor === this.tradeOffer)
-        return this.getTradeItems.map(i => parseInt(i.quantity)).reduce((a, b) => a + b, 0)
+        return this.getTradeItems.filter(offerItem => offerItem.id !== this.itemId).map(i => parseInt(i.quantity)).reduce((a, b) => a + b, 0)
       if (this.productFor === this.wantOfferConfirm)
         return this.getTradeItemsWants.map(i => parseInt(i.selected_quantity))
           .reduce((a, b) => a + b, 0) - (this.product.selected_quantity ? this.product.selected_quantity : 0)
+      if (this.productFor === this.wantOffer)
+        return this.getTradeItemsWants.filter(wantItem => wantItem.id !== this.itemId).map(i => parseInt(i.selected_quantity))
+          .reduce((a, b) => a + b, 0) - (this.selected_quantity ? this.selected_quantity : 0)
 
       return this.getTradeItemsWants.map(i => parseInt(i.selected_quantity))
         .reduce((a, b) => a + b, 0)
@@ -309,19 +312,21 @@ export default {
       if (this.productFor === this.tradeArena){
         for (let i = 0; i < _self.quantity; i++){
           selectedProduct = this.setSelectedItem(selectedProduct)
-
-        this.$store.commit('trade/setYourTradeItems', selectedProduct)
-        this.$root.$emit('back_to_search_offer')
+          this.$store.commit('trade/setYourTradeItems', selectedProduct)
         }
+        this.$root.$emit('back_to_search_offer')
       }
       else if (this.productFor === PRODUCT_FOR_COUNTER_OFFER) {
-        selectedProduct = this.setSelectedItem(selectedProduct)
+        for (let i = 0; i < _self.quantity; i++){
+          selectedProduct = this.setSelectedItem(selectedProduct)
+        }
         this.$root.$emit('add_new_product', selectedProduct)
       }
       else if (this.productFor === this.tradeOffer) {
-        selectedProduct = this.setSelectedItem(selectedProduct)
-
-        this.$store.commit('trades/setTradeItems', selectedProduct)
+        for (let i = 0; i < _self.quantity; i++){
+          selectedProduct = this.setSelectedItem(selectedProduct)
+          this.$store.commit('trades/setTradeItems', selectedProduct)
+        }
         this.$root.$emit('add_trade_item', false)
       }
       else if (this.productFor === this.wantOffer || this.productFor === this.wantOfferConfirm) {
@@ -341,7 +346,7 @@ export default {
               return (condition.id === _self.box_condition) ?
                 condition.name : null
             })[0].name,
-            selected_quantity: parseInt(this.quantity),
+            selected_quantity: 1,
             selected_year: this.year,
             selected_size: this.selected_size,
             selected_size_name: 'Size ' + selectedProduct.sizes.filter(function(size) {
@@ -352,12 +357,15 @@ export default {
             product: selectedProduct
           }
 
-          if (this.itemId) {
-            selectedProductWithAttributes.id = this.itemId
-            this.$store.commit('trades/updateWantsItemsTrade', selectedProductWithAttributes)
-          } else{
-            this.$store.commit('trades/setWantsItemsTrade', selectedProductWithAttributes)
+          for (let i = 0; i < _self.quantity; i++){
+            if (this.itemId) {
+              selectedProductWithAttributes.id = this.itemId
+              this.$store.commit('trades/updateWantsItemsTrade', selectedProductWithAttributes)
+            } else{
+              this.$store.commit('trades/setWantsItemsTrade', selectedProductWithAttributes)
+            }
           }
+
 
           if (this.productFor === this.wantOfferConfirm) {
             this.$root.$emit('back_to_search_wants')

@@ -467,6 +467,7 @@ export default {
 
     // Emit listener to emtpy search items
     this.$root.$on('click_outside', () => {
+      this.searchText =  null
       this.searchedItems = []
     })
   },

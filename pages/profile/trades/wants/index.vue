@@ -501,6 +501,7 @@ export default {
       this.action = CREATE_COMBINATION
     },
     getWantItems: debounce(function () {
+      this.searchText = ''
       // Do the api call
       this.$axios.get('trades/wants', {
         params: {

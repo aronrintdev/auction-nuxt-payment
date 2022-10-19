@@ -132,7 +132,7 @@
 </template>
 
 <script>
-
+import debounce from 'lodash.debounce'
 import { mapGetters } from 'vuex'
 import DeleteOfferItemModal from '~/pages/profile/trades/dashboard/_id/edit/DeleteOfferItemModal'
 import DeleteWantItemModal from '~/pages/profile/trades/dashboard/_id/edit/DeleteWantItemModal'
@@ -315,12 +315,16 @@ export default {
       this.searchedItems = []
     },
     addMoreWantItems(){
+      this.editableProduct = null
+      this.editableProductId = 0
       this.searchForProductsType = SEARCH_FOR_WANT_ITEMS
     },
     canAddMoreWantItems(){
       return this.getTradeItemsWants.length < MAX_ITEMS_ALLOWED
     },
     addMoreOfferItems(){
+      this.editableProduct = null
+      this.editableProductId = 0
       this.searchForProductsType = SEARCH_FOR_OFFER_ITEMS
     },
     canAddMoreOfferItems(){
@@ -378,20 +382,20 @@ export default {
         offer_items: this.prepareOfferItems(), // offer items for create listing
         want_items: this.prepareWantItems(), //
       }
-      let request  = this.$axios.post('trades', data)
+
       if(tradeId)
       {
-          request  = this.$axios.put('trades/' + tradeId, data)
+          this.$axios.put('trades/' + tradeId, data).then(() => { // on response clear states and move to listing page
+            this.$store.commit('trades/clearTradeItems')
+            this.$store.commit('trades/clearWantsItemsTrade')
+            this.$store.commit('trades/setTradeForEditing', null)
+            this.moveBackToTradeOffers(tradeId)
+          })
+          .catch((error) => {
+            this.$toasted.error(this.$t(error.response.data.message))
+          })
       }
-      request.then(() => { // on response clear states and move to listing page
-        this.$store.commit('trades/clearTradeItems')
-        this.$store.commit('trades/clearWantsItemsTrade')
-        this.$store.commit('trades/setTradeForEditing', null)
-        this.moveBackToTradeOffers(tradeId)
-      })
-      .catch((error) => {
-        this.$toasted.error(this.$t(error.response.data.message))
-      })
+
     },
 
     /**
@@ -480,34 +484,34 @@ export default {
       this.$nextTick(() => this.$forceUpdate())
     },
 
-/**
- * This function is used to get product and show in
- * listing below input search field
- * @param term
- */
-onSearchInput(term) {
-  if (term) {
-    this.searchText = term
-    this.$axios
-      .post('search/products', {
-        filters: {
-          search: term.toLowerCase(),  // search query param
-          take: SEARCH_BAR_PRODUCTS // get no of record
-        },
-        page: 1 // page no
-      })
-      .then((response) => {
-        this.searchedItems = response.data && response.data.results && response.data.results.data // items for search list
-      })
-      .catch((error) => {
-        this.$toasted.error(this.$t(error.response.data.error))
+    /**
+     * This function is used to get product and show in
+     * listing below input search field
+     * @param term
+     */
+    onSearchInput: debounce(function (term) {
+      if (term) {
+        this.searchText = term
+        this.$axios
+          .post('search/products', {
+            filters: {
+              search: term.toLowerCase(),  // search query param
+              take: SEARCH_BAR_PRODUCTS // get no of record
+            },
+            page: 1 // page no
+          })
+          .then((response) => {
+            this.searchedItems = response.data && response.data.results && response.data.results.data // items for search list
+          })
+          .catch((error) => {
+            this.$toasted.error(this.$t(error.response.data.error))
+            this.searchedItems =  []
+          })
+      } else{
+        this.searchText =  null
         this.searchedItems =  []
-      })
-  } else{
-    this.searchText =  null
-    this.searchedItems =  []
-  }
-},
+      }
+    }, 500),
   }
 }
 </script>

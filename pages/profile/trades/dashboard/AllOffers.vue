@@ -146,7 +146,7 @@
 </template>
 
 <script>
-
+import debounce from 'lodash.debounce'
 import SearchInput from '~/components/common/SearchInput';
 import CustomDropdown from '~/components/common/CustomDropdown';
 import CalendarInput from '~/components/common/form/CalendarInput';
@@ -296,7 +296,7 @@ export default {
             page: this.page,
             from_date: this.start_date,
             to_date: this.end_date,
-            searchText: this.searchText,
+            search: this.searchText,
             order_by: this.orderFilter,
             condition: this.conditionFilter.join(','),
             status: this.statusFilter.join(',')
@@ -317,7 +317,7 @@ export default {
      * listing below input search field
      * @param term
      */
-    onSearchInput(term) {
+    onSearchInput: debounce(function (term) {
       if (term) {
         this.searchText = term
         this.$axios
@@ -340,7 +340,7 @@ export default {
         this.searchedProducts =  []
       }
       this.fetchOffersListing()
-    },
+    }, 500),
 
     /***
      * This function is used to change order listing of
