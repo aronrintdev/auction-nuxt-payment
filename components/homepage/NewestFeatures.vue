@@ -4,7 +4,7 @@
       :title="$t('home_page.newest_features')"
       :desc="$t('home_page.trade_desc')"
       :label="$t('home_page.view_more_features')"
-      to="#"
+      to="/features"
     />
 
     <div class="newest-features-grid row no-gutters">
