@@ -2,7 +2,8 @@
   <div>
     <div>
     <!-- Display all filter options -->
-    <BrowserTradeFilters @applyFilters="applyTradeFilters" @clearFilters="resetTradeFilters" @applySorting="filterTrades"/>
+    <BrowserTradeFilters @applyFilters="applyTradeFilters"
+                         @clearFilters="resetTradeFilters" @applySorting="filterTrades"/>
     <div class="d-flex align-content-center justify-content-center mt-3">
         <NavGroup
           :data="tradeTotalItems"

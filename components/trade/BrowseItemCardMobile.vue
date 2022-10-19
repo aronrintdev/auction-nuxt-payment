@@ -15,7 +15,20 @@
     <div class="detail-wrapper">
       <div class="product-name">{{ product.name }}</div>
       <div class="product-color">{{ product.colorway }}</div>
-      <div class="product-size">{{ product.size }}</div>
+      <div class="d-flex">
+       <div class="product-size">{{ product.size ? product.size :'Size 10' }}</div>
+        <div class="ml-2">
+          <b-btn class="trade-btn">
+            <div class="d-flex">
+<!--              <div>-->
+<!--                <img class="clock-image" :src="require('~/assets/img/tradearrow.svg')" />-->
+<!--              </div>-->
+              <div>Trade</div>
+            </div>
+          </b-btn>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -91,8 +104,10 @@ export default {
   white-space: nowrap
 
 .product-size
-  @include body-5-normal
-  color: $color-gray-5
+  font-family: 'SF Pro Display'
+  font-style: normal
+  font-weight: 600
+  font-size: 12px
   margin-top: 3px
 .clock-image
   height: 13px
@@ -103,4 +118,11 @@ export default {
   font-weight: $medium
   @include body-18
   line-height: 12px
+.trade-btn
+  height: 21px
+  width: 62px
+  border-radius: 4px
+  font-size: 10px
+  font-weight: 600
+
 </style>
