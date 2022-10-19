@@ -22,6 +22,7 @@
       <FeatureTitle>
         {{ $t('newest_features.crypto_payments.we_accept') }}
       </FeatureTitle>
+      <div class="my-check-class"></div>
     </FeatureContentWrapper>
   </div>
 </template>

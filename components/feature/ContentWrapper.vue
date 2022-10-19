@@ -20,6 +20,7 @@
         :nextPageLink="nextPageLink"
       />
     </div>
+    <div class="my-check-class"></div>
   </div>
 </template>
 <script>

@@ -5374,9 +5374,27 @@
         "button_text": "Browse"
       }
     },
+    "heat_check": {
+      "title": "Heat Check",
+      "desc": "Heat check description here."
+    },
     "live_customer_service": {
       "title": "Live Customer Service",
-      "desc": "We now offer 24 hour live customer service, speak directly with a customer service rep for any questions."
+      "desc": "We now offer 24 hour live customer service, speak directly with a customer service rep for any questions.",
+      "feature_banner_desc": "Live 24/7 customer service",
+      "benefits": {
+        "first_benefit_title": "24 hour live customer service",
+        "first_benefit_desc": "We offer 24 hour live customer service for our users.",
+        "second_benefit_title": "Talk to a real persont",
+        "second_benefit_desc": "Talk to a real person via phone or email anytime to resolve your issue.",
+        "third_benefit_title": "Immediate Problem Solving",
+        "third_benefit_desc": "Our customer service representivies will help solve your issue immediately. "
+      },
+      "options": "Options",
+      "shop_now_banner": {
+        "desc": "Have any questions or concerns resolved immediately with our 24/7 live customer service.",
+        "button_text": "FAQ"
+      }
     },
     "rewards_program": {
       "title": "Rewards Program",
