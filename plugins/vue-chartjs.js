@@ -28,7 +28,6 @@ Vue.component('LineChart', {
   },
   watch: {
     data() {
-      // this._chart.destroy();
       this.renderLineChart();
     }
   },

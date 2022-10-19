@@ -22,10 +22,6 @@ export default {
         return {}
       },
     }
-  },
-  mounted(){
-    console.log(this.lineChartOptions)
-    console.log(this.lineChartOptions)
   }
 }
 </script>

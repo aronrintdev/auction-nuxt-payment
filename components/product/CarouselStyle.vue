@@ -1,5 +1,5 @@
 <template>
-  <div class="product-carousel-wrapper">
+  <div class="product-carousel-wrapper pa-0">
     <client-only>
       <Carousel
         v-if="products.length"
@@ -45,7 +45,7 @@
         </template>
       </Carousel>
 
-      <div v-else class="no-text py-5">
+      <div v-else class="no-text py-5 text-center">
         {{ $t('message.no_products_found') }}
       </div>
     </client-only>
@@ -103,7 +103,6 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .product-carousel-wrapper
-  padding: 0
   .no-text
     @include body-4-medium
     text-align: center

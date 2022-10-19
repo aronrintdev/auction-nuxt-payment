@@ -136,7 +136,7 @@ export default {
           },
         },
       },
-      dataChart: [0, 90, 80, 5, 47, 50, 40, 80, 5, 47, 50, 40, 76],
+      dataChart: [],
       labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Friday', 'Saturday'],
       lineDatasets: {
         labels: this.labels,

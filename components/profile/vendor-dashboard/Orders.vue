@@ -43,10 +43,7 @@
           <div
             class="d-flex align-items-baseline justify-content-center flex-column tdHeight"
           >
-            <h4
-              class="font-secondary fw-6 fs-15 text-primary border-bottom border-primary mb-1"
-            >
-              <!-- TODO  -->
+            <h4 class="font-secondary fw-6 fs-15 text-primary border-bottom border-primary mb-1">
               {{data.item.listing_item.inventory.product.name}}
             </h4>
             <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
@@ -285,7 +282,6 @@ export default {
         })
         .catch((err) => {
           this.logger.logToServer(err.response)
-          console.log('err', err);
         })
     },
   }

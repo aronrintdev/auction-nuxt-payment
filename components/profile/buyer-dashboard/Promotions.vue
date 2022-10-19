@@ -50,7 +50,7 @@ export default {
   data(){
     return {
       promotions: [],
-      countDownToTime: new Date('Sep 26, 2022 00:00:00').getTime()
+      countDownToTime: ''
     }
   },
   mounted(){
@@ -63,8 +63,6 @@ export default {
         .then((res) => {
           this.promotions = res.data.data[0]
           this.countDownToTime = new Date(Date.parse( this.promotions.end_at+' 00:00:00' ));
-          console.log(this.promotions)
-          console.log(this.countDownToTime);
         })
         .catch((err) => {
           this.logger.logToServer(err.response)

@@ -93,7 +93,7 @@ export default {
         perPage: 8,
         page: 1,
       },
-      dataChart: [60, 30, 10],
+      dataChart: [],
       chartLabels: [
         this.$t('vendor_dashboard.footwear'),
         this.$t('vendor_dashboard.apparel'),
@@ -166,8 +166,8 @@ export default {
           },
         },
       },
-      dataGraph: [0, 90, 80, 5, 47, 50, 40, 80, 5, 47, 50, 40, 76],
-      dataBgColors: ['#667799', '#CE745F', '#7196B1'],
+      dataGraph: [],
+      dataBgColors: [],
       labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Friday', 'Saturday'],
       lineDatasets: {
         labels: this.labels,
@@ -190,7 +190,7 @@ export default {
   },
   mounted(){
     this.handleFilterByChangeTotalSale('week')
-    this.handleFilterByChangeByType('week')
+    this.handleFilterByChangeTotalSaleChart('week')
   },
   methods: {
     handleFilterByChangeTotalSale(value) {
@@ -214,7 +214,7 @@ export default {
       const randomColor = Math.floor(Math.random()*16777215).toString(16);
       return '#' + randomColor; 
     },
-    handleFilterByChangeByType(value) {
+    handleFilterByChangeTotalSaleChart(value) {
       this.$axios
         .get('/dashboard/vendor/sales-chart?group_by='+value)
         .then((res) => {
@@ -234,22 +234,7 @@ export default {
           this.logger.logToServer(err.response)
         })
       this.searchFilters.filterBy = value === DEFAULT ? '' : value
-    },
-    handleFilterByChangeTotalSaleChart(value) {
-      if(value === 'week')
-        {
-          this.chartData.datasets[0].data = [90, 10, 40, 23]
-        }
-      else if(value === 'month')
-        {
-          this.chartData.datasets[0].data = [40, 23, 43, 78]
-        }
-      else
-        {
-          this.chartData.datasets[0].data = [12, 43, 10, 50]
-        }
-      this.searchFilters.filterBy = value === DEFAULT ? '' : value
-    },
+    }
   },
 }
 </script>

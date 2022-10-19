@@ -27,10 +27,10 @@ export default {
   name: 'RadialChart',
   data() {
     return {
-      progress: 25,
-      title: 'DS Points',
-      totalPoints: 2000,
-      points: 1250,
+      progress: 0,
+      title: this.$t('buyer_dashboard.dashobard_buyer.ds_points'),
+      totalPoints: 0,
+      points: 0,
       rewards: {'next_reward':''}
     }
   },
@@ -48,7 +48,7 @@ export default {
         .then((res) => {
           this.rewards = res.data.data;
           if(res.data.data.current_points > 0){
-            this.progress = parseInt((res.data.data.current_points/res.data.data.next_reward.redemption_points) * 100) + 25;
+            this.progress = parseInt((res.data.data.current_points/res.data.data.next_reward.redemption_points) * 100) + 25; // +25 is to set the graph to 0 as graph without it having issues
           }
         })
         .catch((err) => {
