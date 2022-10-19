@@ -1,27 +1,33 @@
 <template>
-  <div>
-    <browserTrade></browserTrade>
-  </div>
-</template>
+    <div>
+      <div v-if="width<= 500">
+        <browseTradeMobile></browseTradeMobile>
+      </div>
+      <div v-else>
+        <browseTradeWeb></browseTradeWeb>
+      </div>
+    </div>
+  </template>
 
 <script>
 
 export default {
   name: 'BrowseTrade',
   components: {
-    browserTrade:()=>{
-    return import('')
-    }
+    browseTradeMobile:()=> import('././BrowseTradeMobile'),
+    browseTradeWeb:()=>import('././BrowseTradeWeb'),
   },
   layout: 'IndexLayout',
   data() {
     return {
-
+        width:'',
       }
   },
 
   computed: {},
-  mounted() {},
+  mounted() {
+    this.width = window.innerWidth
+  },
   methods: {}
 }
 </script>

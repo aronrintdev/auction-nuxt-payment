@@ -3,9 +3,7 @@
     <div>
     <!-- Display all filter options -->
     <BrowserTradeFilters @applyFilters="applyTradeFilters" @clearFilters="resetTradeFilters" @applySorting="filterTrades"/>
-    <b-row class="w-100">
-      <b-col md="12" class="text-center">
-        <!-- Display total items filter selection one, two or three items -->
+    <div class="d-flex align-content-center justify-content-center mt-3">
         <NavGroup
           :data="tradeTotalItems"
           :value="selectedTradeTotalItems"
@@ -13,8 +11,7 @@
           class="section-nav pb-4"
           @change="changeTotalTradeItems"
         />
-      </b-col>
-    </b-row>
+    </div>
     </div>
     <div class="bg-white">
     <!-- Display all sections -->
@@ -33,26 +30,24 @@
             </b-col>
           </b-row>
         </div>
-        <div class="p-5">
-          <b-row class="d-flex justify-content-center col-md-12">
-            <b-col :md="selectedTradeTotalItems === 'one'? 10 : 11" class="d-flex justify-content-between carousel-heading mb-5">
-              <h2 v-html="prettyLabel(key)"></h2>
-              <label v-if="trades.length" @click="showTradeTypeDetails(key)">{{$t('common.view_more')}}<img :src="require('~/assets/img/icons/arrow-right-gray.svg')" class="ml-3 mr-2" /></label>
-            </b-col>
-
-            <!-- Display trade with single items -->
-            <b-col v-if="selectedTradeTotalItems === 'one'" md="11">
-              <BrowseCarousel v-if="trades.length"
-                :trades="trades" />
-              <p v-else class="text-center">{{$t('trades.trade_hub.no_trade_listing_found')}}</p>
-            </b-col>
-
-            <!-- Display trade with multiple items -->
-            <b-col v-else md="12">
-              <CarouselMultipleItems v-if="trades.length" :trades="trades" />
-              <p v-else class="text-center">{{$t('trades.trade_hub.no_trade_listing_found')}}</p>
-            </b-col>
-          </b-row>
+        <div>
+          <div class="d-flex justify-content-center align-content-center mb-2">
+            <div class="mr-5">
+              <div class="pretty-label ml-4" v-html="prettyLabel(key)"></div>
+            </div>
+           <div class="mr-2">
+               <img :src="require('~/assets/img/moreicon.svg')"/>
+           </div>
+          </div>
+          <div v-if="selectedTradeTotalItems === 'one'" class="p-0">
+            <BrowseCarousel v-if="trades.length"
+                            :trades="trades" />
+            <p v-else class="text-center">{{$t('trades.trade_hub.no_trade_listing_found')}}</p>
+          </div>
+          <div v-else>
+            <CarouselMultipleItems v-if="trades.length" :trades="trades" />
+            <p v-else class="text-center">{{$t('trades.trade_hub.no_trade_listing_found')}}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -99,11 +94,11 @@
 // import component
 import { mapGetters } from 'vuex'
 import debounce from 'lodash.debounce'
-import BrowserTradeFilters from '~/pages/trades/BrowseTradeFilters'
-import BrowseCarousel from '~/components/trade/BrowseCarousel.vue'
+import BrowserTradeFilters from '~/pages/trades/BrowseTradeFiltersMobile'
+import BrowseCarousel from '~/components/trade/BrowseCarouselMobile.vue'
 import CarouselMultipleItems from '~/components/trade/CarouselMultipleItems.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
-import BrowseItemCard from '~/components/trade/BrowseItemCard.vue'
+import BrowseItemCard from '~/components/trade/BrowseItemCardMobile.vue'
 import TradeCardWithMultipleItems from '~/components/trade/TradeCardWithMultipleItems.vue'
 export default {
   name: 'BrowseTrade',
@@ -269,4 +264,13 @@ export default {
   line-height: 20px
   color: $color-white-1
 
+.pretty-label
+  width: 190px
+  height: 22px
+  font-family: $font-family-garamond
+  font-style: normal
+  font-weight: $bold
+  font-size: 22px
+  line-height: 100%
+  color: $color-black-1
 </style>
