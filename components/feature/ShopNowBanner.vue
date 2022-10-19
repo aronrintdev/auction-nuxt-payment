@@ -2,19 +2,16 @@
   <div class="mb-2 mb-sm-5">
     <div class="main-image-section mx-auto">
       <div
-        class="image-container d-flex justify-content-start align-items-start w-100 h-100"
+        class="image-container d-flex justify-content-start align-items-start align-items-sm-center w-100 h-100"
       >
         <div class="ml-3 ml-sm-5 text-section">
-          <p class="font-primary text-white fs-18 fw-6">
-            Check out various ways of shopping today. We also offer robust
-            payment options , such as
-            <span class="text-decoration-underline">payment plans</span> and
-            <span class="text-decoration-underline">crypto payments</span>.
+          <p class="font-primary text-white fs-18 fw-6 mb-0 mb-sm-2">
+            {{ $t(shopNowDescription) }}
           </p>
           <NuxtLink
-            class="btn btn-outline-light rounded-0 text-decoration-none font-primary fs-20 fw-6 mt-1 mt-sm-4"
+            class="btn btn-outline-light rounded-0 text-decoration-none font-primary fs-20 fw-6 mt-2 mt-sm-4"
             to="/shop"
-            >Shop Now</NuxtLink
+            >{{ $t(shopNowButtonText) }}</NuxtLink
           >
         </div>
       </div>
@@ -87,13 +84,20 @@
 <script>
 export default {
   props: {
+    shopNowDescription: {
+      type: String,
+      required: true,
+    },
+    shopNowButtonText: {
+      type: String,
+      required: true,
+    },
     previousPage: {
       type: String,
       default: '',
     },
     previousPageLink: {
       type: String,
-      // required: true,
       default: '',
     },
     nextPage: {
@@ -119,8 +123,8 @@ export default {
         background-position: center
         background-size: cover
         .text-section
-            width: 434px
-            padding-top: 5rem
+            width: 476px
+            // padding-top: 2.75rem
             p
                 line-height: 184.4%
             a
@@ -133,18 +137,20 @@ export default {
         color: $color-gray-25
     p.next-link
         color: $color-gray-25
+@media screen and (max-width: 1280px)
+    .main-image-section
+        width: 1024px
+    .previous-and-next-links
+        width: 95%
 @media screen and (max-width: 1210px)
     .main-image-section
         width: 100%
-    .previous-and-next-links
-        width: 95%
+    // .previous-and-next-links
+    //     width: 95%
 @media screen and (max-width: 770px)
     .main-image-section
         height: 300px
-        .image-container
-            .text-section
-                padding-top: 3rem
-@media screen and (max-width: 426px)
+@media screen and (max-width: 577px)
     .main-image-section
         height: 208px
         .image-container
@@ -154,7 +160,7 @@ export default {
                 padding-top: 1rem
                 p
                     font-size: 14px
-                    font-weight: 700
+                    font-weight: 600
                 a
                     font-size: 16px
                     width: 151px

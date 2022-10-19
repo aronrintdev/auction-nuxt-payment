@@ -5330,7 +5330,6 @@
   "newest_features": {
     "title": "Newest<br>Features",
     "desc": "Latest Deadstock features found on the website and mobile application",
-    "we_accept": "We Accept",
     "previous": "Previous",
     "next": "Next",
     "buy": {
@@ -5356,6 +5355,7 @@
     "crypto_payments": {
       "title": "Crypto Payments",
       "desc": "You can now use Crypto as a form of payment to complete your purchases.",
+      "feature_banner_desc": "Use Crypto as a form of payment",
       "benefits": {
         "first_benefit_title": "Safe and secure transactions",
         "first_benefit_desc": "100% safety and satisfaction guranteed with all Crypto transactions.",
@@ -5364,10 +5364,15 @@
         "third_benefit_title": "Transactional Freedom",
         "third_benefit_desc": "Cryptocurrency is not tied to any bank or centralized agency, so you can experience true transactional freedom."
       },
+      "we_accept": "We Accept",
       "bitcoin": "Bitcoin",
       "etherium": "Etherium",
       "binance": "Binance",
-      "vechain": "Vechain"
+      "vechain": "Vechain",
+      "shop_now_banner": {
+        "desc": "Shop our latest streetware and check out with your crypto wallet. Our transactions are fast, reliable, and safe. You can also purchase internationally without international banking fees.",
+        "button_text": "Browse"
+      }
     },
     "live_customer_service": {
       "title": "Live Customer Service",
@@ -5379,7 +5384,21 @@
     },
     "virtual_giftcards": {
       "title": "Virtual Giftcards",
-      "desc": "Send and receive virtual gift cards of any custom amount; use these giftcards toward your purchases."
+      "desc": "Send and receive virtual gift cards of any custom amount; use these giftcards toward your purchases.",
+      "feature_banner_desc": "Send and receive money",
+      "benefits": {
+        "first_benefit_title": "No expiration",
+        "first_benefit_desc": "Your virtual gift cards never expire, use them at anytime with no worry.",
+        "second_benefit_title": "Never Lose your Card - Stored on Account",
+        "second_benefit_desc": "Your virtual gift card is stored to your account, giving you the safety of never losing your card.",
+        "third_benefit_title": "Pay in Partial Increments",
+        "third_benefit_desc": "Combine your gift card with other forms of payment for your convenience."
+      },
+      "options": "Options",
+      "shop_now_banner": {
+        "desc": "Send a custom virtual gift card to your friends, in which they can use in-store or online.",
+        "button_text": "Purchase"
+      }
     },
     "int_buying_and_selling": {
       "title": "Intl' Buying and Selling",

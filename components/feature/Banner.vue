@@ -1,7 +1,7 @@
 <template>
   <div
-    class="banner-wrapper w-100 d-flex align-items-center justify-content-center justify-content-sm-start align-items-sm-start"
-    :style="{ 'background-image': `url(${backgroundImage})` }"
+    class="banner-wrapper w-100 d-flex justify-content-sm-start align-items-sm-start"
+    :style="`--image: url(${backgroundImage}); --imageSm: url(${backgroundImageSm})`"
   >
     <div class="feature-title-container mt-5 ml-5 d-none d-sm-block">
       <h1
@@ -9,6 +9,12 @@
         v-html="$t(title)"
       ></h1>
       <p class="font-primary fs-16 fw-4 text-black">{{ $t(description) }}</p>
+    </div>
+    <div
+      v-if="$route.path != '/features'"
+      class="feature-title-mobile d-flex align-items-center justify-content-center d-sm-none font-ternary fs-22 fw-7 text-center text-uppercase mb-0"
+    >
+      {{ $t(title) }}
     </div>
   </div>
 </template>
@@ -29,6 +35,10 @@ export default {
       type: String,
       required: true,
     },
+    backgroundImageSm: {
+      type: String,
+      default: null,
+    },
   },
 }
 </script>
@@ -41,19 +51,35 @@ export default {
   background-position: center
   background-size: cover
   background-repeat: no-repeat
+  background-image: var(--image)
+  @media (max-width: 577px)
+    background-image: var(--imageSm)
+
   .feature-title-container
     background-color: rgba($color-white-1, 0.56)
     padding: 24px 40px
     width: 399px
     height: 212px
-    backdrop-filter: blur(24px)
-    -webkit-backdrop-filter: blur(24px)
+    backdrop-filter: blur(12px)
+    --webkit-backdrop-filter: blur(12px)
+    --moz-backdrop-filter: blur(12px)
     h1
       letter-spacing: -0.02em
     p
       letter-spacing: -0.02em
 
-@media screen and (max-width: 426px)
+@media screen and (max-width: 577px)
   .banner-wrapper
     height: 208px
+    .feature-title-mobile
+      background-color: rgba(171, 171, 171, 0.6)
+      margin-top: 115px
+      margin-left: 25px
+      width: 219px
+      max-width: 270px
+      height: 45px
+      max-height: 103px
+      line-height: 29px
+      letter-spacing: -0.08em
+      color: $color-white-1
 </style>

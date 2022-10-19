@@ -1,107 +1,86 @@
 <template>
-  <FeatureContentWrapper
-    :title="$t('features.virtual_giftcards.title')"
-    :description="$t('features.virtual_giftcards.desc')"
-  >
-    <FeatureBenefits :items="benefitItems" />
-
-    <FeatureTitle class="mb-6">{{ $tc('common.option', 2) }}</FeatureTitle>
-
-    <div class="d-flex justify-content-between cards-wrapper">
-      <FeatureStepCard
-        :icon="require('~/assets/img/features/virtual-giftcards/computer.svg')"
-        :description="$t('features.virtual_giftcards.online_desc')"
-        variant="large"
-        :step="`1. ${$t('features.virtual_giftcards.online')}`"
-      />
-
-      <FeatureStepCard
-        :icon="require('~/assets/img/features/virtual-giftcards/store.svg')"
-        :description="$t('features.virtual_giftcards.in_store_desc')"
-        variant="large"
-        :step="`2. ${$t('features.virtual_giftcards.in_store')}`"
-      />
-    </div>
-
-    <!-- todo: add card purchase url -->
-    <FeatureBrowseSection
-      :title="$t('features.virtual_giftcards.send_gift')"
-      :icon="require('~/assets/img/features/virtual-giftcards/gift.svg')"
-      to="#"
-      :button-label="$t('common.purchase')"
+  <div>
+    <FeatureContentWrapper
+      :title="banner.title"
+      :description="banner.description"
+      :backgroundImage="banner.backgroundImage"
+      :backgroundImageSm="banner.backgroundImageSm"
+      :shopNowDescription="shopNowBanner.shopNowDescription"
+      :shopNowButtonText="shopNowBanner.shopNowButtonText"
+      :previousPage="shopNowBanner.previousPage"
+      :previousPageLink="shopNowBanner.previousPageLink"
+      :nextPage="shopNowBanner.nextPage"
+      :nextPageLink="shopNowBanner.nextPageLink"
     >
-      {{ $t('features.virtual_giftcards.send_gift_desc') }}
-    </FeatureBrowseSection>
-  </FeatureContentWrapper>
+      <HorizontalBenefitBox
+        v-for="(benefit, index) in benefits"
+        :key="index"
+        :benefitImage="benefit.benefitImage"
+        :benefitTitle="benefit.benefitTitle"
+        :benefitDescription="benefit.benefitDescription"
+      />
+      <FeatureTitle>
+        {{ $t('newest_features.virtual_giftcards.options') }}
+      </FeatureTitle>
+    </FeatureContentWrapper>
+  </div>
 </template>
 <script>
-import {
-  FeatureBenefits,
-  FeatureStepCard,
-  FeatureContentWrapper,
-  FeatureTitle,
-  FeatureBrowseSection,
-} from '~/components/feature'
+import FeatureContentWrapper from '~/components/feature/ContentWrapper'
+import HorizontalBenefitBox from '~/components/feature/HorizontalBenefitBox'
+import FeatureTitle from '~/components/feature/Title'
 
 export default {
   components: {
-    FeatureBenefits,
-    FeatureStepCard,
     FeatureContentWrapper,
+    HorizontalBenefitBox,
     FeatureTitle,
-    FeatureBrowseSection,
   },
 
   layout: 'IndexLayout',
 
   data() {
     return {
-      benefitItems: [
+      banner: {
+        title: 'newest_features.virtual_giftcards.title',
+        description: 'newest_features.virtual_giftcards.feature_banner_desc',
+        backgroundImage: require('@/assets/img/features/newest-feature/virtual-giftcards/virtual-giftcards-banner.png'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/virtual-giftcards/virtual-giftcards-banner-sm.png'),
+      },
+      benefits: [
         {
-          icon: require('~/assets/img/features/virtual-giftcards/clock.svg'),
-          heading: this.$t('features.virtual_giftcards.no_expiration'),
-          description: this.$t('features.virtual_giftcards.no_expiration_desc'),
+          benefitImage: require('@/assets/img/features/newest-feature/virtual-giftcards/no-expiration.png'),
+          benefitTitle:
+            'newest_features.virtual_giftcards.benefits.first_benefit_title',
+          benefitDescription:
+            'newest_features.virtual_giftcards.benefits.first_benefit_desc',
         },
         {
-          icon: require('~/assets/img/features/virtual-giftcards/cloud-lock.svg'),
-          heading: this.$t('features.virtual_giftcards.never_lose_card'),
-          description: this.$t(
-            'features.virtual_giftcards.never_lose_card_desc'
-          ),
+          benefitImage: require('@/assets/img/features/newest-feature/virtual-giftcards/never-lose-your-card.png'),
+          benefitTitle:
+            'newest_features.virtual_giftcards.benefits.second_benefit_title',
+          benefitDescription:
+            'newest_features.virtual_giftcards.benefits.second_benefit_desc',
         },
         {
-          icon: require('~/assets/img/features/virtual-giftcards/card.svg'),
-          heading: this.$t('features.virtual_giftcards.partial_increments'),
-          description: this.$t(
-            'features.virtual_giftcards.partial_increments_desc'
-          ),
+          benefitImage: require('@/assets/img/features/newest-feature/virtual-giftcards/pay-in-partial-increments.png'),
+          benefitTitle:
+            'newest_features.virtual_giftcards.benefits.third_benefit_title',
+          benefitDescription:
+            'newest_features.virtual_giftcards.benefits.third_benefit_desc',
         },
       ],
+      shopNowBanner: {
+        shopNowDescription:
+          'newest_features.virtual_giftcards.shop_now_banner.desc',
+        shopNowButtonText:
+          'newest_features.virtual_giftcards.shop_now_banner.button_text',
+        previousPage: 'newest_features.rewards_program.title',
+        previousPageLink: '/features/rewards-program',
+        nextPage: 'newest_features.int_buying_and_selling.title',
+        nextPageLink: '/features/int-buying-and-selling',
+      },
     }
   },
 }
 </script>
-<style lang="sass" scoped>
-.features-container
-  .cards-wrapper
-    > div
-      margin: 18px 9px
-
-@media (max-width: 900px)
-  .features-container
-    .cards-wrapper
-      flex-direction: column
-      align-items: center
-
-      > div
-        width: 100%
-
-@media (max-width: 576px)
-  .features-container
-    .cards-wrapper::v-deep
-      > div
-        flex: none
-
-        div
-          text-align: center
-</style>

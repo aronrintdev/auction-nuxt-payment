@@ -1,17 +1,40 @@
 <template>
   <div class="features-container">
-    <FeatureBanner :title="title" :description="description" />
+    <FeatureBanner
+      :title="title"
+      :description="description"
+      :backgroundImage="backgroundImage"
+      :backgroundImageSm="backgroundImageSm"
+    />
 
     <div class="feature-content mx-auto">
       <FeatureBackButton class="mb-2 d-md-inline-flex d-none" />
-
-      <slot />
+      <FeatureTitle>{{ $tc('common.benefit', 2) }}</FeatureTitle>
+      <slot></slot>
+      <ShopNowBanner
+        :shopNowDescription="shopNowDescription"
+        :shopNowButtonText="shopNowButtonText"
+        :previousPage="previousPage"
+        :previousPageLink="previousPageLink"
+        :nextPage="nextPage"
+        :nextPageLink="nextPageLink"
+      />
     </div>
   </div>
 </template>
 <script>
+import FeatureBanner from '~/components/feature/Banner'
+import FeatureBackButton from '~/components/feature/BackButton'
+import FeatureTitle from '~/components/feature/Title'
+import ShopNowBanner from '~/components/feature/ShopNowBanner'
 export default {
   name: 'FeatureContentWrapper',
+  components: {
+    FeatureBanner,
+    FeatureBackButton,
+    FeatureTitle,
+    ShopNowBanner,
+  },
 
   props: {
     title: {
@@ -22,22 +45,64 @@ export default {
       type: String,
       default: '',
     },
+    backgroundImage: {
+      type: String,
+      required: true,
+    },
+    backgroundImageSm: {
+      type: String,
+      required: true,
+    },
+    shopNowDescription: {
+      type: String,
+      required: true,
+    },
+    shopNowButtonText: {
+      type: String,
+      required: true,
+    },
+    previousPage: {
+      type: String,
+      default: '',
+    },
+    previousPageLink: {
+      type: String,
+      default: '',
+    },
+    nextPage: {
+      type: String,
+      default: '',
+    },
+    nextPageLink: {
+      type: String,
+      default: '',
+    },
   },
 }
 </script>
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
 .features-container
   .feature-content
-    padding: 56px 116px
-    max-width: 1440px
-
-@media (max-width: 1200px)
+    width: 1196px
+    padding: 3rem 0px
+    h3.benefit-title
+      color: #1d1d1d
+@media screen and (max-width: 1280px)
   .features-container
     .feature-content
-      padding: 80px 40px
-
-@media (max-width: 576px)
+      width: 1024px
+@media screen and (max-width: 1211px)
   .features-container
     .feature-content
-      padding: 40px 16px
+      width: 1024px
+@media screen and (max-width: 1025px)
+  .features-container
+    .feature-content
+      width: 100%
+      padding: 3rem 2rem
+@media screen and (max-width: 577px)
+  .features-container
+    .feature-content
+      padding: 0px
 </style>

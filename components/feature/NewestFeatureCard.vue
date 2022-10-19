@@ -12,7 +12,7 @@
           class="d-none d-sm-block large-devices-image"
         />
         <img
-          :src="responsiveImage || require('~/assets/img/features/default.png')"
+          :src="imgSmUrl || require('~/assets/img/features/default.png')"
           width="100%"
           height="auto"
           class="d-block d-sm-none mobile-devices-image"
@@ -45,7 +45,7 @@ export default {
       type: String,
       default: null,
     },
-    responsiveImage: {
+    imgSmUrl: {
       type: String,
       default: null,
     },
@@ -73,7 +73,7 @@ export default {
   .feature-image
     width: 294px
     height: 294px
-@media screen and (max-width: 426px)
+@media screen and (max-width: 577px)
   .feature-card
     width: 163px
     height: 270px

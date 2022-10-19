@@ -1,17 +1,17 @@
 <template>
-  <!-- todo: refactor code. refer to virtual-giftcards -->
   <div>
-    <FeatureBanner
+    <FeatureContentWrapper
       :title="banner.title"
       :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-    />
-
-    <div class="main-content-section mx-auto">
-      <FeatureBackButton class="mb-2" />
-
-      <h3 class="title text-uppercase">{{ $tc('common.benefit', 2) }}</h3>
-
+      :backgroundImageSm="banner.backgroundImageSm"
+      :shopNowDescription="shopNowBanner.shopNowDescription"
+      :shopNowButtonText="shopNowBanner.shopNowButtonText"
+      :previousPage="shopNowBanner.previousPage"
+      :previousPageLink="shopNowBanner.previousPageLink"
+      :nextPage="shopNowBanner.nextPage"
+      :nextPageLink="shopNowBanner.nextPageLink"
+    >
       <HorizontalBenefitBox
         v-for="(benefit, index) in benefits"
         :key="index"
@@ -19,53 +19,33 @@
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
-
-      <h3
-        class="we-accept font-primary fs-32 fw-6 text-black text-uppercase text-center text-sm-left mb-0"
-      >
-        {{ $t(weAccept) }}
-      </h3>
-    </div>
-    <ShopNowBanner
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
-    />
+      <FeatureTitle>
+        {{ $t('newest_features.crypto_payments.we_accept') }}
+      </FeatureTitle>
+    </FeatureContentWrapper>
   </div>
 </template>
 <script>
-import FeatureBanner from '~/components/feature/Banner'
-import FeatureBackButton from '~/components/feature/BackButton'
+import FeatureContentWrapper from '~/components/feature/ContentWrapper'
 import HorizontalBenefitBox from '~/components/feature/HorizontalBenefitBox'
-import ShopNowBanner from '~/components/feature/ShopNowBanner'
+import FeatureTitle from '~/components/feature/Title'
 
 export default {
   components: {
-    FeatureBanner,
-    FeatureBackButton,
+    FeatureContentWrapper,
     HorizontalBenefitBox,
-    ShopNowBanner,
+    FeatureTitle,
   },
 
   layout: 'IndexLayout',
 
   data() {
     return {
-      options: [
-        {
-          id: 'affirm',
-          icon: require('~/assets/img/icons/affirm-black.svg'),
-        },
-        {
-          id: 'afterpay',
-          icon: require('~/assets/img/icons/afterpay.svg'),
-        },
-      ],
       banner: {
-        title: 'features.crypto_payments.title',
-        description: 'features.crypto_payments.desc',
+        title: 'newest_features.crypto_payments.title',
+        description: 'newest_features.crypto_payments.feature_banner_desc',
         backgroundImage: require('@/assets/img/features/newest-feature/crypto-payments/crypto-payments-banner.png'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/crypto-payments/crypto-payments-banner-sm.png'),
       },
       benefits: [
         {
@@ -90,23 +70,22 @@ export default {
             'newest_features.crypto_payments.benefits.third_benefit_desc',
         },
       ],
-      weAccept: 'newest_features.we_accept',
+      // weAccept: 'newest_features.we_accept',
       bitcoin: 'newest_features.crypto_payments.bitcoin',
       etherium: 'newest_features.crypto_payments.etherium',
       binance: 'newest_features.crypto_payments.binance',
       vechain: 'newest_features.crypto_payments.vechain',
       shopNowBanner: {
+        shopNowDescription:
+          'newest_features.crypto_payments.shop_now_banner.desc',
+        shopNowButtonText:
+          'newest_features.crypto_payments.shop_now_banner.button_text',
         previousPage: 'newest_features.streetwear.title',
-        previousPageLink: '/streetwear',
+        previousPageLink: '/features/streetwear',
         nextPage: 'newest_features.live_customer_service.title',
-        nextPageLink: '/live-customer-service',
+        nextPageLink: '/features/live-customer-service',
       },
     }
   },
 }
 </script>
-<style lang="sass" scoped>
-@import '~/assets/css/_variables'
-.main-content-section
-  width: 1207px
-</style>

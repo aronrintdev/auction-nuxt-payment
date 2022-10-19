@@ -19,7 +19,7 @@
             {{ $t(benefitTitle) }}
           </h2>
           <p
-            class="benefit-description mt-2 mb-0 px-2 px-sm-0 mt-sm-4 font-primary fs-18 fw-4 text-center text-sm-left"
+            class="benefit-description mt-2 mb-0 mt-sm-4 mx-auto mx-sm-0 font-primary fs-18 fw-4 text-center text-sm-left"
           >
             {{ $t(benefitDescription) }}
           </p>
@@ -61,6 +61,8 @@ export default {
         .benefit-image
             min-width: 220px
             height: auto
+            img
+              width: 220px
         div
             h2.benefit-heading
                 font-size: 28px
@@ -72,6 +74,8 @@ export default {
         column-gap: 40px
         .benefit-image
             min-width: 180px
+            img
+              width: 180px
         div
             h2.benefit-heading
                 font-size: 24px
@@ -82,8 +86,13 @@ export default {
         .benefit-image
             min-width: 272px
             height: 191px
+            img
+              width: 272px
+              height: 191px
         div
             h2.benefit-heading
                 font-size: 16px
                 font-weight: 600
+            p.benefit-description
+              width: 272px
 </style>
