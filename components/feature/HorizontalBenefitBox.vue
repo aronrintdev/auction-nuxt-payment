@@ -12,7 +12,7 @@
             height="auto"
           />
         </div>
-        <div class="d-block mt-3">
+        <div class="d-block mt-3 benefit-data">
           <h2
             class="benefit-heading font-primary fs-32 fw-7 text-black text-center text-sm-left"
           >
@@ -50,49 +50,42 @@ export default {
 
 <style lang="sass" scoped>
 .benefit-item-main-wrapper
-    .benefit-image
-        min-width: 272px
-        height: 191px
-    div
-        h2.benefit-heading
-            letter-spacing: -0.02em
+  .benefit-image
+    min-width: 272px
+    height: 191px
+  div
+    h2.benefit-heading
+      letter-spacing: -0.02em
 @media screen and (max-width: 993px)
-    .benefit-item-main-wrapper
-        .benefit-image
-            min-width: 220px
-            height: auto
-            img
-              width: 220px
-        div
-            h2.benefit-heading
-                font-size: 28px
-            p.benefit-description
-                font-size: 14px
+  .benefit-item-main-wrapper
+    .benefit-image
+      min-width: 272px
+      height: auto
+      div
+        h2.benefit-heading
+          font-size: 28px
+        p.benefit-description
+          font-size: 14px
 @media screen and (max-width: 770px)
-    .benefit-item-main-wrapper
-        row-gap: 40px
-        column-gap: 40px
-        .benefit-image
-            min-width: 180px
-            img
-              width: 180px
-        div
-            h2.benefit-heading
-                font-size: 24px
+  .benefit-item-main-wrapper
+    row-gap: 40px
+    column-gap: 40px
+    .benefit-image
+      min-width: 180px
+    div
+      h2.benefit-heading
+        font-size: 24px
 @media screen and (max-width: 577px)
-    .benefit-item-main-wrapper
-        row-gap: 0px
-        column-gap: 0px
-        .benefit-image
-            min-width: 272px
-            height: 191px
-            img
-              width: 272px
-              height: 191px
-        div
-            h2.benefit-heading
-                font-size: 16px
-                font-weight: 600
-            p.benefit-description
-              width: 272px
+  .benefit-item-main-wrapper
+    row-gap: 0px
+    column-gap: 0px
+    .benefit-image
+      min-width: 272px
+      height: 191px
+    .benefit-data
+      max-width: 272px
+    div
+      h2.benefit-heading
+        font-size: 16px
+        font-weight: 600
 </style>

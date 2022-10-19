@@ -4,7 +4,6 @@
       :title="title"
       :description="description"
       :backgroundImage="backgroundImage"
-      :backgroundImageSm="backgroundImageSm"
     />
 
     <div class="feature-content mx-auto">
@@ -48,34 +47,6 @@ export default {
     backgroundImage: {
       type: String,
       required: true,
-    },
-    backgroundImageSm: {
-      type: String,
-      required: true,
-    },
-    shopNowDescription: {
-      type: String,
-      required: true,
-    },
-    shopNowButtonText: {
-      type: String,
-      required: true,
-    },
-    previousPage: {
-      type: String,
-      default: '',
-    },
-    previousPageLink: {
-      type: String,
-      default: '',
-    },
-    nextPage: {
-      type: String,
-      default: '',
-    },
-    nextPageLink: {
-      type: String,
-      default: '',
     },
   },
 }

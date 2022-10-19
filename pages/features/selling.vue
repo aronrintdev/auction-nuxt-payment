@@ -1,13 +1,14 @@
 <template>
   <FeatureContentWrapper
-    :title="$t('features.selling.title')"
-    :description="$t('features.selling.desc')"
+    :title="banner.title"
+    :description="banner.description"
+    :backgroundImage="banner.backgroundImage"
   >
     <FeatureTitle class="mb-6 text-center text-md-left">{{
       $tc('common.benefit', 2)
     }}</FeatureTitle>
 
-    <b-row class="justify-content-between h-card-main">
+    <b-row class="justify-content-between h-card-main mb-md-5">
       <b-col
         v-for="(item, index) in sellingCard"
         :key="index"
@@ -116,6 +117,11 @@ export default {
           image: require('~/assets/img/features/newest-feature/selling/free-shipping.png'),
         },
       ],
+      banner: {
+        title: 'features.selling.title',
+        description: 'features.selling.desc',
+        backgroundImage: require('@/assets/img/features/newest-feature/selling/sellingbanner.png'),
+      },
     }
   },
 }

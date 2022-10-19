@@ -1,7 +1,7 @@
 <template>
   <div
-    class="feature-card-hoverable d-flex align-items-center flex-column justify-content-center"
-    :class="`feature-card-hoverable-${variant}`"
+    class="feature-card-hoverableV2 d-flex align-items-center flex-column justify-content-center"
+    :class="`feature-card-hoverableV2-${variant}`"
   >
     <img
       :src="
@@ -19,7 +19,7 @@
 </template>
 <script>
 export default {
-  name: 'FeatureCardHoverable',
+  name: 'FeatureCardHoverableV2',
 
   props: {
     title: {
@@ -49,27 +49,27 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
-.feature-card-hoverable
+.feature-card-hoverableV2
   border-radius: 24px
   box-shadow: 0 1px 4px 0 rgba($color-black-1, 0.25)
   padding: 22px
   color: $color-black-1
   transition: transform .2s
-  height: 376px !important
-  width: 376px !important
+  height: 361px !important
+  width: 361px !important
 
   cursor: help
 
-  &.feature-card-hoverable-round
+  &.feature-card-hoverableV2-round
     border-radius: 50%
     max-width: 280px
     min-height: 280px
-    width: 280px !important
-    height: 280px !important
+    width: 280px
+    height: 280px
     padding: 0
 
   &:hover
-    transform: scale(1.1)
+    transform: scale(1.2)
 
 
   .feature-title
@@ -84,18 +84,26 @@ export default {
     margin-top: 22px
 
 @media (max-width: 768px)
-  .feature-card-hoverable
+  .feature-card-hoverableV2
     min-width: 163px !important
-    padding: 10px !important
+    padding: 15px !important
     height: auto !important
+    background: transparent !important
+    box-shadow: none !important
+    max-width: 240px
+    &:hover
+        transform: scale(1)
     img
       width: 56px
       height: 47px
 
 
     .feature-title
-      font-size: 12px
-      margin-top: 9px
+        counter-increment: css-counter 1
+        font-size: 16px
+        margin-top: 9px
+        &::before
+            content: counter(css-counter) ". "
     .feature-description
       font-size: 12px
       line-height: 20px

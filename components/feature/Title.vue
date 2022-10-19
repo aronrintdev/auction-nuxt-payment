@@ -1,5 +1,7 @@
 <template>
-  <h3 class="title text-uppercase"><slot /></h3>
+  <h3 class="title text-uppercase text-center text-md-left mt-5 mt-sm-0 mb-6">
+    <slot></slot>
+  </h3>
 </template>
 <script>
 export default {

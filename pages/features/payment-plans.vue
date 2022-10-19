@@ -3,9 +3,7 @@
     :title="$t('home.payment_plans')"
     :description="$t('features.payment_plans.desc')"
   >
-    <FeatureTitle class="mb-6 text-center text-md-left">{{
-      $tc('common.benefit', 2)
-    }}</FeatureTitle>
+    <FeatureTitle>{{ $tc('common.benefit', 2) }}</FeatureTitle>
 
     <b-row class="justify-content-between h-card-main">
       <b-col

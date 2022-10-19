@@ -5401,8 +5401,14 @@
       }
     },
     "int_buying_and_selling": {
-      "title": "Intl' Buying and Selling",
-      "desc": "Buy and sell items from across the globe with our international users. Receive access to exlcusive international drops."
+      "title": "International Buying/Selling",
+      "desc": "Buy and sell items internationally.",
+      "access_to_items": "Access to Items not available in your area.",
+      "access_to_items_desc": "Get access to international items that are not available in your region.",
+      "access_to_items_sold": "Access to items sold out in your area",
+      "access_to_items_sold_desc": "Get access to items that have sold out in your area and are no longer available.    ",
+      "more_customers": "More Customers viewing your items",
+      "more_customers_desc": "New international buyers now have access to your listed items. "
     },
     "payments_plans": {
       "title": "Payments Plans",
@@ -5430,7 +5436,13 @@
     },
     "deadstock_exchange": {
       "title": "Deadstock Exchange",
-      "desc": "Our new exchance feature gives you analytics to help determine what to sell and at what price based on the current market."
+      "desc": "Our new exchance feature gives you analytics to help determine what to sell and at what price based on the current market.",
+      "analytics_on_current": "Analytics on Current Trends ",
+      "analytics_on_current_desc": "Receive your payout immediately after the transaction is completed. ",
+      "analytics_on_how": "Analytics on how to Price When Selling",
+      "analytics_on_how_desc": "The lowest seller fees in the marketplace, keep more of your revenue. ",
+      "insights_on_value": "Insights on Value of Specific Sizes of Items",
+      "insights_on_value_desc": "Detailed instructions on how to quickly and efficiently ship your items."
     },
     "blockchain_authentication_ledger": {
       "title": "Blockchain Authentication Ledger",
@@ -5450,7 +5462,13 @@
     },
     "shareable_wishlists_and_watchlists": {
       "title": "Shareable Wishlists and Watchlists",
-      "desc": "You can share your lists on social media or send it to friends with a shareable link."
+      "desc": "You can share your lists on social media or send it to friends with a shareable link.",
+      "save_to_wishlist": "Save To Wishlist",
+      "save_to_wishlist_desc": "Save any item of your choice to your wishlists to purchase later or send to others.",
+      "save_to_watchlist": "Save To Watchlist",
+      "save_to_watchlist_desc": "Save items to your watchlist to keep track of your favorite items.",
+      "name_organize_list": "Name & Organize Lists",
+      "name_organize_list_desc": "Customize and organize your lists to your liking."
     }
   }
 }

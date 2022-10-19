@@ -1,14 +1,15 @@
 <template>
   <!-- todo: refactor code. refer to virtual-giftcards -->
   <FeatureContentWrapper
-    :title="$t('features.trading.title')"
-    :description="$t('features.trading.desc')"
+    :title="banner.title"
+    :description="banner.description"
+    :backgroundImage="banner.backgroundImage"
   >
     <FeatureTitle class="mb-6 text-center text-md-left">{{
       $tc('common.benefit', 2)
     }}</FeatureTitle>
 
-    <b-row class="justify-content-between h-card-main">
+    <b-row class="justify-content-between h-card-main mb-md-5">
       <b-col
         v-for="(item, index) in tradingCard"
         :key="index"
@@ -88,6 +89,11 @@ export default {
           image: require('~/assets/img/features/newest-feature/trading/heatcheck.png'),
         },
       ],
+      banner: {
+        title: 'features.trading.title',
+        description: 'features.trading.desc',
+        backgroundImage: require('@/assets/img/features/newest-feature/trading/tradebanner.png'),
+      },
     }
   },
 }

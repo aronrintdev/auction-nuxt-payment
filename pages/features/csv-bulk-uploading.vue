@@ -1,12 +1,13 @@
 <template>
   <FeatureContentWrapper
-    :title="$t('features.csv_bulk_uploading.title')"
-    :description="$t('features.csv_bulk_uploading.desc')"
+    :title="banner.title"
+    :description="banner.description"
+    :backgroundImage="banner.backgroundImage"
   >
     <FeatureTitle class="mb-6 text-center text-md-left">{{
       $tc('common.benefit', 2)
     }}</FeatureTitle>
-    <b-row class="justify-content-between h-card-main">
+    <b-row class="justify-content-between h-card-main mb-md-5">
       <b-col
         v-for="(item, index) in csvBulkUplaod"
         :key="index"
@@ -108,6 +109,11 @@ export default {
           icon: require('~/assets/img/icons/afterpay.svg'),
         },
       ],
+      banner: {
+        title: 'features.csv_bulk_uploading.title',
+        description: 'features.csv_bulk_uploading.desc',
+        backgroundImage: require('@/assets/img/features/newest-feature/csv-bulk-uploading/csvbulkuploadingbanner.png'),
+      },
     }
   },
 }

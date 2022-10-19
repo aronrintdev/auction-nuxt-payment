@@ -2,6 +2,7 @@
   <FeatureContentWrapper
     :title="$t('features.blockchain_authentication_ledger.title')"
     :description="$t('features.blockchain_authentication_ledger.desc')"
+    class="shareable-wish-watch"
   >
     <FeatureBenefits :items="benefitItems" />
 
@@ -72,22 +73,28 @@ export default {
       ],
       processes: [
         {
-          icon: require('~/assets/img/features/blockchain-authentication-ledger/qr-code.svg'),
-          title: this.$t('common.scan'),
+          icon: require('~/assets/img/features/newest-feature/shareable-wish-watchlist/heartplus.svg'),
+          title: this.$t(
+            'newest_features.shareable_wishlists_and_watchlists.save_to_wishlist'
+          ),
           description: this.$t(
             'features.blockchain_authentication_ledger.scan_desc'
           ),
         },
         {
-          icon: require('~/assets/img/features/blockchain-authentication-ledger/detail-page.svg'),
-          title: this.$t('vendor_purchase.view_details'),
+          icon: require('~/assets/img/features/newest-feature/shareable-wish-watchlist/eyeplus.svg'),
+          title: this.$t(
+            'newest_features.shareable_wishlists_and_watchlists.save_to_watchlist'
+          ),
           description: this.$t(
             'features.blockchain_authentication_ledger.view_details_desc'
           ),
         },
         {
-          icon: require('~/assets/img/features/blockchain-authentication-ledger/share.svg'),
-          title: this.$t('common.share'),
+          icon: require('~/assets/img/features/newest-feature/shareable-wish-watchlist/prefrences.svg'),
+          title: this.$t(
+            'newest_features.shareable_wishlists_and_watchlists.name_organize_list'
+          ),
           description: this.$t(
             'features.blockchain_authentication_ledger.share_desc'
           ),
@@ -98,6 +105,8 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
 .features-container
   .cards-wrapper
     margin-bottom: 148px
@@ -107,9 +116,13 @@ export default {
       counter-reset: css-counter 0
       flex-direction: column
       align-items: center
-      gap: 0px !important
+      gap: 16px !important
       margin-bottom: 40px
 
-      > div:not(:last-child)
-        margin: 0 0 40px 0
+    > div:not(:last-child)
+      margin: 0 0 40px 0
+  .shareable-wish-watch
+    .feature-card-hoverableV2
+      box-shadow: 0 1px 4px 0 rgba($color-black-1, 0.25) !important
+      max-width: 100%
 </style>

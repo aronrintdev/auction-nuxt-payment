@@ -1,14 +1,15 @@
 <template>
   <FeatureContentWrapper
-    :title="$t('features.csv_bulk_uploading.title')"
-    :description="$t('features.csv_bulk_uploading.desc')"
+    :title="banner.title"
+    :description="banner.description"
+    :backgroundImage="banner.backgroundImage"
   >
     <FeatureTitle class="mb-6 text-center text-md-left">{{
       $tc('common.benefit', 2)
     }}</FeatureTitle>
-    <b-row class="justify-content-between h-card-main">
+    <b-row class="justify-content-between h-card-main mb-md-5">
       <b-col
-        v-for="(item, index) in csvBulkUplaod"
+        v-for="(item, index) in intBuySelling"
         :key="index"
         lg="3"
         class="d-flex justify-content-center d-lg-block"
@@ -77,25 +78,33 @@ export default {
 
   data() {
     return {
-      csvBulkUplaod: [
+      intBuySelling: [
         {
-          title: this.$t('features.csv_bulk_uploading.multiple_items'),
-          description: this.$t(
-            'features.csv_bulk_uploading.multiple_items_desc'
+          title: this.$t(
+            'newest_features.int_buying_and_selling.access_to_items'
           ),
-          image: require('~/assets/img/features/newest-feature/csv-bulk-uploading/csveasilyeditable.png'),
+          description: this.$t(
+            'newest_features.int_buying_and_selling.access_to_items_desc'
+          ),
+          image: require('~/assets/img/features/newest-feature/int-buy-and-sel/internlbuysellaccitems.png'),
         },
         {
-          title: this.$t('features.csv_bulk_uploading.user_friendly'),
-          description: this.$t(
-            'features.csv_bulk_uploading.user_friendly_desc'
+          title: this.$t(
+            'newest_features.int_buying_and_selling.access_to_items_sold'
           ),
-          image: require('~/assets/img/features/newest-feature/csv-bulk-uploading/csvmultipleitems.png'),
+          description: this.$t(
+            'newest_features.int_buying_and_selling.access_to_items_sold_desc'
+          ),
+          image: require('~/assets/img/features/newest-feature/int-buy-and-sel/interbuysellaccess.png'),
         },
         {
-          title: this.$t('features.csv_bulk_uploading.efficient'),
-          description: this.$t('features.csv_bulk_uploading.efficient_desc'),
-          image: require('~/assets/img/features/newest-feature/csv-bulk-uploading/csvsavetime.png'),
+          title: this.$t(
+            'newest_features.int_buying_and_selling.more_customers'
+          ),
+          description: this.$t(
+            'newest_features.int_buying_and_selling.more_customers_desc'
+          ),
+          image: require('~/assets/img/features/newest-feature/int-buy-and-sel/interbuysellmorepeoplelooking.png'),
         },
       ],
       options: [
@@ -108,6 +117,11 @@ export default {
           icon: require('~/assets/img/icons/afterpay.svg'),
         },
       ],
+      banner: {
+        title: 'newest_features.int_buying_and_selling.title',
+        description: 'newest_features.int_buying_and_selling.desc',
+        backgroundImage: require('@/assets/img/features/newest-feature/int-buy-and-sel/inter-buy-banner.png'),
+      },
     }
   },
 }

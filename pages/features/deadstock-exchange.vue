@@ -1,15 +1,32 @@
 <template>
   <FeatureContentWrapper
-    :title="$t('features.deadstock_exchange.title')"
-    :description="$t('features.deadstock_exchange.desc')"
+    :title="banner.title"
+    :description="banner.description"
+    :backgroundImage="banner.backgroundImage"
   >
-    <FeatureBenefits :items="benefitItems" />
+    <FeatureTitle class="mb-6 text-center text-md-left">{{
+      $tc('common.benefit', 2)
+    }}</FeatureTitle>
+    <b-row class="justify-content-between h-card-main mb-md-5">
+      <b-col
+        v-for="(item, index) in deadExchange"
+        :key="index"
+        lg="3"
+        class="d-flex justify-content-center d-lg-block"
+      >
+        <FeatureCard
+          :title="item.title"
+          :description="item.description"
+          :imageUrl="item.image"
+        />
+      </b-col>
+    </b-row>
 
     <FeatureTitle class="mb-6">{{
       $t('features.deadstock_exchange.check_it_out')
     }}</FeatureTitle>
 
-    <div class="graph-wrapper mx-auto w-100">
+    <div class="graph-wrapper mx-auto w-100 mb-md-5">
       <img
         :src="
           require('~/assets/img/features/deadstock-exchange/sneaker-graph.png')
@@ -17,34 +34,24 @@
         class="w-100"
       />
     </div>
-
-    <!-- todo: add faq url -->
-    <FeatureBrowseSection
-      :title="$t('common.view_more')"
-      :icon="
-        require('~/assets/img/features/deadstock-exchange/stack-dollar.svg')
-      "
-      to="#"
-      :button-label="$t('features.deadstock_exchange.title')"
-      variant="secondary"
-    >
-      {{ $t('features.deadstock_exchange.view_more_desc') }}
-    </FeatureBrowseSection>
+    <div class="shopnow-banner">
+      <ShopNowBanner
+        :previousPage="$t('newest_features.sell.title')"
+        :nextPage="$t('newest_features.buy.title')"
+        :nextPageLink="'/features/bloclchain-authentication-ledger'"
+        :previousPageLink="'/features/2fa-security'"
+      />
+    </div>
   </FeatureContentWrapper>
 </template>
 <script>
-import {
-  FeatureBenefits,
-  FeatureContentWrapper,
-  FeatureTitle,
-  FeatureBrowseSection,
-} from '~/components/feature'
+import { FeatureContentWrapper, FeatureTitle } from '~/components/feature'
+import ShopNowBanner from '~/components/feature/ShopNowBanner'
 
 export default {
   components: {
-    FeatureBenefits,
     FeatureContentWrapper,
-    FeatureBrowseSection,
+    ShopNowBanner,
     FeatureTitle,
   },
 
@@ -52,25 +59,38 @@ export default {
 
   data() {
     return {
-      benefitItems: [
+      deadExchange: [
         {
-          icon: require('~/assets/img/features/deadstock-exchange/graph.svg'),
-          heading: this.$t('features.deadstock_exchange.analytics'),
-          description: this.$t('features.deadstock_exchange.analytics_desc'),
-        },
-        {
-          icon: require('~/assets/img/features/deadstock-exchange/tag.svg'),
-          heading: this.$t('features.deadstock_exchange.analytics_price'),
-          description: this.$t(
-            'features.deadstock_exchange.analytics_price_desc'
+          title: this.$t(
+            'newest_features.deadstock_exchange.analytics_on_current'
           ),
+          description: this.$t(
+            'newest_features.deadstock_exchange.analytics_on_current_desc'
+          ),
+          image: require('~/assets/img/features/newest-feature/deadstock-exchange/deadstockexchang.png'),
         },
         {
-          icon: require('~/assets/img/features/deadstock-exchange/shoe-size.svg'),
-          heading: this.$t('features.deadstock_exchange.insights'),
-          description: this.$t('features.deadstock_exchange.insights_desc'),
+          title: this.$t('newest_features.deadstock_exchange.analytics_on_how'),
+          description: this.$t(
+            'newest_features.deadstock_exchange.analytics_on_how_desc'
+          ),
+          image: require('~/assets/img/features/newest-feature/deadstock-exchange/alyticshowtopri.png'),
+        },
+        {
+          title: this.$t(
+            'newest_features.deadstock_exchange.insights_on_value'
+          ),
+          description: this.$t(
+            'newest_features.deadstock_exchange.insights_on_value_desc'
+          ),
+          image: require('~/assets/img/features/newest-feature/deadstock-exchange/deadstockexchanaly.png'),
         },
       ],
+      banner: {
+        title: 'features.deadstock_exchange.title',
+        description: 'features.deadstock_exchange.desc',
+        backgroundImage: require('@/assets/img/features/newest-feature/deadstock-exchange/deadstockexchangebbanner.png'),
+      },
     }
   },
 }

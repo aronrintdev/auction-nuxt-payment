@@ -1,39 +1,90 @@
 <template>
-  <div>
-    <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
-      :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
+  <!-- todo: refactor code. refer to virtual-giftcards -->
+  <FeatureContentWrapper
+    :title="banner.title"
+    :description="banner.description"
+    :backgroundImage="banner.backgroundImage"
+  >
+    <FeatureTitle class="mb-6 text-center text-md-left">{{
+      $tc('common.benefit', 2)
+    }}</FeatureTitle>
+
+    <HorizontalBenefitBox
+      v-for="(benefit, index) in benefits"
+      :key="index"
+      :benefitImage="benefit.benefitImage"
+      :benefitTitle="benefit.benefitTitle"
+      :benefitDescription="benefit.benefitDescription"
+    />
+    <FeatureTitle class="mb-6 text-center text-md-left">{{
+      $tc('newest_features.we_accept', 2)
+    }}</FeatureTitle>
+    <div class="coins-section my-5">
+      <div class="coin bit-coin d-flex flex-column align-items-center gap-2">
+        <img
+          src="~/assets/img/features/newest-feature/crypto-payments/bit-coin.png"
+          alt=""
+          class="img-fluid"
+        />
+        <p class="fw-4">
+          {{ $t('newest_features.crypto_payments.bitcoin') }}
+        </p>
+      </div>
+      <div
+        class="coin ethrium-coin d-flex flex-column align-items-center gap-2"
+      >
+        <img
+          src="~/assets/img/features/newest-feature/crypto-payments/ethrium-coin.png"
+          alt=""
+          class="img-fluid"
+        />
+        <p class="fw-4">
+          {{ $t('newest_features.crypto_payments.etherium') }}
+        </p>
+      </div>
+      <div
+        class="coin binance-coin d-flex flex-column align-items-center gap-2"
+      >
+        <img
+          src="~/assets/img/features/newest-feature/crypto-payments/binance-coin.png"
+          alt=""
+          class="img-fluid"
+        />
+        <p class="fw-4">
+          {{ $t('newest_features.crypto_payments.binance') }}
+        </p>
+      </div>
+      <div
+        class="coin vechain-coin d-flex flex-column align-items-center gap-2"
+      >
+        <img
+          src="~/assets/img/features/newest-feature/crypto-payments/vechain-coin.png"
+          alt=""
+          class="img-fluid"
+        />
+        <p class="fw-4">
+          {{ $t('newest_features.crypto_payments.vechain') }}
+        </p>
+      </div>
+    </div>
+    <ShopNowBanner
       :previousPage="shopNowBanner.previousPage"
       :previousPageLink="shopNowBanner.previousPageLink"
       :nextPage="shopNowBanner.nextPage"
       :nextPageLink="shopNowBanner.nextPageLink"
-    >
-      <HorizontalBenefitBox
-        v-for="(benefit, index) in benefits"
-        :key="index"
-        :benefitImage="benefit.benefitImage"
-        :benefitTitle="benefit.benefitTitle"
-        :benefitDescription="benefit.benefitDescription"
-      />
-      <FeatureTitle>
-        {{ $t('newest_features.crypto_payments.we_accept') }}
-      </FeatureTitle>
-    </FeatureContentWrapper>
-  </div>
+    />
+  </FeatureContentWrapper>
 </template>
 <script>
-import FeatureContentWrapper from '~/components/feature/ContentWrapper'
+import { FeatureContentWrapper, ShopNowBanner } from '~/components/feature'
 import HorizontalBenefitBox from '~/components/feature/HorizontalBenefitBox'
 import FeatureTitle from '~/components/feature/Title'
 
 export default {
   components: {
-    FeatureContentWrapper,
     HorizontalBenefitBox,
+    ShopNowBanner,
+    FeatureContentWrapper,
     FeatureTitle,
   },
 
@@ -89,3 +140,29 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+.coins-section
+  display: grid
+  width: 100%
+  justify-content: center !important
+  grid-template-columns: minmax(52px,140px)minmax(52px,140px)minmax(52px,140px)minmax(52px,140px)
+  gap: 114px
+  .coin
+    img
+      width: 150px
+      height: auto
+    p
+    font-size: 28px
+    line-height: 32px
+
+
+@media (max-width: 768px)
+  .coins-section
+    width: 272px
+    margin: 0 auto
+    gap: 30px
+    p
+      font-size: 12px
+      font-weight: 400
+</style>
