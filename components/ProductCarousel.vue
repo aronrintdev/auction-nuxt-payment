@@ -122,6 +122,7 @@ export default {
         &.photo-item
           img
             border-radius: 5px
+            object-fit: contain
             @media (max-width: 500px)
               height: 300px
     .owl-nav
