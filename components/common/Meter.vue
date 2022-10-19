@@ -1,20 +1,8 @@
 <template>
-  <div class="meter-wrapper">
-    <div v-if="heading" class="text-fair">{{ $t('common.fair').toUpperCase() }}</div>
+  <div class="meter-wrapper d-flex flex-column justify-content-center align-items-center">
+    <div class="text-fair">{{$t(heading).toUpperCase()}} <sup><img :src="require('~/assets/img/trades/info-icon.svg')"></sup></div>
     <div class="meter mx-auto mt-1 user-select-none">
-      <img
-        :src="require('~/assets/img/product/meter-bg-overlay.png')"
-        class="overlay-meter"
-      />
-      <img
-        v-if="value !== null"
-        ref="pointer"
-        :src="require('~/assets/img/product/meter-pointer.png')"
-        class="pointer"
-        :style="{ left: pointerPos + 'px' }"
-      />
-      <div class="label-poor">{{ $t('common.poor') }}</div>
-      <div class="label-excellent">{{ $t('common.excellent') }}</div>
+      <div class="label-excellent d-flex justify-content-center align-items-center">{{ $t('common.excellent') }}</div>
     </div>
   </div>
 </template>
@@ -43,8 +31,8 @@ export default {
       default: null,
     },
     heading: {
-      type: Boolean,
-      default: true,
+      type: String,
+      default:  'common.fair',
     },
   },
 
@@ -86,42 +74,31 @@ export default {
 
 .meter-wrapper
   text-align: center
-
+  width: 336px
+  height: 92px
+  background: $color-white-4
   .text-fair
-    @include body-3-bold
+    @include body-8-normal
+    font-family: $font-family-montserrat
+    font-style: normal
+    color: $color-black-1
 
   .meter
-    background-image: url('~/assets/img/product/meter-bg.png')
-    background-size: 100% 100%
-    background-repeat: no-repeat
-    width: 233px
+    background: linear-gradient(90deg, $color-yellow-8 0%, $color-green-24 63.02%)
+    border: 0.5px solid $color-gray-23
+    box-shadow: inset 0 2px 3px $color-gray-84
+    width: 249px
     height: 24px
     position: relative
 
-    .overlay-meter
-      position: absolute
-      left: 0
-      top: 0
-      height: 24px
-      width: 116px
-
-    .pointer
-      position: absolute
-      top: 18px
-      left: 110px
-
     .label-poor, .label-excellent
-      @include body-9-bold
+      font-family: $font-family-sf-pro-display
+      font-style: normal
+      @include body-8-bold
+      letter-spacing: 0.02em
       color: $color-white-1
-      position: absolute
+      height: 24px
 
-    .label-poor
-      left: 6px
-      top: 4px
-
-    .label-excellent
-      right: 6px
-      top: 4px
 @media (max-width: 320px)
   .meter-wrapper
     .meter
