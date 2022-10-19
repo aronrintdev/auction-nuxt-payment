@@ -18,8 +18,9 @@
             v-model="brandsSelected"
             collapseKey="brands"
             :title="$t('filter_sidebar.brands')"
-            :options="brandOptions"
+            :options="brands ? brands : brandOptions"
             class="p-2 mb-1  border border-success rounded"
+            @searchBrands="handleSearchChange"
           />
         </div>
         <div class="col-sm-6">
@@ -118,7 +119,7 @@ export default {
         brandsSelected: []
       },
       brandsSelected: [],
-      search: ''
+      brands: null,
     }
   },
 
@@ -177,7 +178,16 @@ export default {
       this.brandsSelected.splice(index, 1)
     },
     handleSearchChange(value) {
-      this.search = value
+      if(value) {
+        this.brands = this.brandOptions
+        const result = [];
+        this.brands.forEach((element,index) => {
+            if (element.label.toLowerCase().includes(value.toLowerCase())) {
+                  result.push(element);
+            }
+        });
+        this.brands = result.length ? result : this.brandOptions
+      }
     },
   },
 }

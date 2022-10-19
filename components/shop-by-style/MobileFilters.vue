@@ -254,8 +254,8 @@
         
         this.allFilters = {
           year: this.years,
-          brandsSelected: this.selectedBrand ? [this.selectedBrand] : [],
-          sizeTypes: this.selectedSizeType ? [this.selectedSizeType] : []
+          brandsSelected: this.selectedBrand ? this.selectedBrand : [],
+          sizeTypes: this.selectedSizeType ? this.selectedSizeType : []
         }
         this.loadPage()
         this.$emit('apply')
