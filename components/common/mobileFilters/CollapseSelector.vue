@@ -1,6 +1,6 @@
 <template>
   <div v-if="options && options.length" class="accordion-filter-item bg-transparent border-0 w-100">
-    <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header mb-0">
+    <h2 id="panelsStayOpen-headingOne" class="accordion-filter-header mb-0">
       <button
         v-b-toggle="`collapse-${collapseKey}`"
         aria-controls="panelsStayOpen-collapseOne"
