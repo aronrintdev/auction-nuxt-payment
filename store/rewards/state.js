@@ -1,6 +1,9 @@
 export default function () {
   return {
     rewardThresholds: [],
-    redeemableRewardsStages: []
+    redeemableRewardsStages: [],
+    rewardHistory: [],
+    redeemed: null,
+    selectedSneaker: null,
   }
 }

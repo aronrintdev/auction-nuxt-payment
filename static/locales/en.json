@@ -2261,19 +2261,74 @@
   },
   "rewards": {
     "earn_points": "Earn Points",
+    "ds_points": "DS Points",
+    "point_pts": "{points} PTS",
+    "hi_name": "Hi {0}!",
+    "till_next_reward": "{0} till next Reward",
+    "expire_on": "{points} DS Points will expire on {date}",
+    "redeem_points": "REDEEM POINTS",
     "earn_more": "Earn More",
+    "your_history": "YOUR HISTORY",
+    "sign_up_to_earn": "Sign up to earn",
+    "reward_history_item_desc": "Reward points {rg} from transaction {order_id}",
+    "redeemed": "redeemed",
+    "gained": "gained",
+    "redeemed_page": {
+      "congratulations": "Congratulations",
+      "subtitle": "You’ve Unlocked a {reward} with {points} pts",
+      "browse": "Browse",
+      "desc": "{reward} will automatically be applied to checkout"
+    },
+    "product_page": {
+      "select_size": "Select Size"
+    },
+    "sneaker_page": {
+      "claim": "Claim your free prize",
+      "filter_by": "Filter By",
+      "sort": "Sort",
+      "select": "Select your prize below ",
+      "this_sneaker": "This Sneaker",
+      "sort_options": {
+        "trending": "Trending",
+        "newest": "Newest"
+      },
+      "confirm": "Are you sure you would like to redeem points for {sneaker}?"
+    },
+    "confirm_redeem_body": "Are you sure you would like to redeem {points} points for {reward}?",
+    "tier": "Tier",
+    "navs": {
+      "redeem": {
+        "label": "Redeem",
+        "title": "Redeem | Points",
+        "subtitle": "My Rewards",
+        "desc": "Redeem your points and use them towards rewards such as free shipping, raffle entrys, discounts and more. Choose your rewards below."
+      },
+      "earn": {
+        "label": "Earn",
+        "title": "Earn | Points",
+        "subtitle": "Deadstock <br> Rewards Program",
+        "desc": "Join our rewards program today and start earning points!  You can earn reward points, exclusive deals, gifts, discounts and more with each transaction. Redeem your points toward purchases, trades, auctions and more. Invite your friends and receive more points. "
+      },
+      "history": {
+        "label": "History",
+        "title": "Your | History",
+        "subtitle": "My History",
+        "desc": "History"
+      }
+    },
     "sign_up": "Sign Up",
     "earn_200_points": "Earn 200 Points just for signing up. Get a special gift on your birthday.",
     "participate_in_buying": "Participate in Buying, Trading and Auctions to earn points to get discount and gift cards.",
     "get_rewards": "Get Rewards",
     "redeem_points_for_exclusive": "Redeem points for exclusive deals and gifts. Refer a friend and get $5 (equal to 500 points).",
-    "start_earning_points": "Start Earning Points Now",
-    "invite_your_friends": "Invite your Friends, and",
+    "start_earning_points": "Start Earning Points",
+    "invite_your_friends": "Invite your Friends, And",
     "everybody_gets_points": "Everybody Gets Points",
-    "you_will_receive_points": "You Will Receive {points} Points Every Time Someone You Refer Signs Up",
+    "you_will_receive_points": "Earn {points} points After each sign up ",
     "email": "Email",
-    "enter_your_friend_email": "Enter Your Friend Email Address",
+    "enter_your_friend_email": "Enter Email Address",
     "send_invite": "Send Invite",
+    "invite": "Invite",
     "an_invitation_has_been_sent": "An Invitation has been sent to {email}",
     "rewards_program": "Rewards Program",
     "join_our_rewards_program": "Join our rewards program today and start earning points! You can earn reward points, exclusive deals, gifts, discounts and more with each transaction. Redeem your points toward purchases, trades, auctions and more. Invite your friends and receive more points.",

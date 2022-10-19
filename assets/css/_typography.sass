@@ -185,6 +185,18 @@ $exbolder: 900
   font-size: 13px
   line-height: 130%
 
+@mixin body-3543
+  font-size: 35px
+  line-height: 43px
+
+@mixin body-2530
+  font-size: 25px
+  line-height: 30px
+
+@mixin body-1424
+  font-size: 14px
+  line-height: 24px
+
 @mixin body-1-regular
   @include body-1
   font-weight: $regular
@@ -511,6 +523,11 @@ $exbolder: 900
   font-weight: $bold
 
 
+@mixin body-21-bold
+  @include body-21
+  font-weight: $bold
+
+
 @mixin body-13-light
   @include body-13
   font-weight: $light
@@ -660,5 +677,8 @@ $exbolder: 900
 
 .body-10-bold
   @include body-10-bold
+
+.body-21-bold
+  @include body-21-bold
 
 $font-size-12: 12px
