@@ -77,39 +77,44 @@
         <div class="body-2-bold mb-2">
           {{ $t('deadstock_exchange.detail.similar_products') }}
         </div>
+
         <div class="row">
-          <div class="col-lg-8 d-flex">
+          <div class="col-lg-8">
+               <!-- <ProductDetailFilter/> -->
             <!-- Input search -->
             <SearchInput
               :value="searchValue"
-              :placeholder="$t('deadstock_exchange.filter_by.details_placeholder')"
+              :placeholder="
+                $t('deadstock_exchange.filter_by.details_placeholder')
+              "
               variant="light"
               class="flex-grow-1 mr-4 search-input"
               :debounce="1000"
               @change="searchProduct"
             />
+            <!-- ./Input search -->
+          </div>
+          <div class="col-lg-4">
             <FormDropdown
               id="sort-by"
               :value="sortBy"
-              :placeholder="$t('selling_page.sortby')"
+              :placeholder="$t('deadstock_exchange.detail.filter')"
               :items="SORT_OPTIONS"
               :icon="require('~/assets/img/icons/three-lines.svg')"
               :icon-arrow-down="
                 require('~/assets/img/icons/arrow-down-gray2.svg')
               "
-              class="dropdown-sort flex-shrink-1"
+              class="bg-gray"
               can-clear
               @select="handleSortBySelect"
             />
-            <!-- ./Input search -->
           </div>
-          <div class="col-lg-4"></div>
+        </div>
           <div class="row">
             <div class="col-ld-12">
               <!-- ProducListCard Table -->
               <SimilarProductTable :products="products" />
             </div>
-          </div>
         </div>
       </div>
     </div>
@@ -119,7 +124,8 @@
 <script>
 import dayjs from 'dayjs'
 import SimilarProductTable from './SimilarProductTable.vue'
-import { Button, Loader ,SearchInput,FormDropdown} from '~/components/common'
+// import ProductDetailFilter from './ProductDetailFilter.vue'
+import { Button, Loader,FormDropdown,SearchInput} from '~/components/common'
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import ShareIcon from '~/assets/img/icons/share.svg?inline'
@@ -133,8 +139,9 @@ export default {
     NavGroup,
     ShareIcon,
     SimilarProductTable,
+    // ProductDetailFilter
     SearchInput,
-    FormDropdown
+    FormDropdown,
   },
   data() {
     return {
@@ -173,7 +180,26 @@ export default {
           label: this.$t('vendor_purchase.sort_by'),
           value: 'default',
         },
-
+        {
+          label: this.$t('deadstock_exchange.sort_by.highest_change'),
+          value: 'highestChange',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.lowest_change'),
+          value: 'lowestChange',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.release_date_asc'),
+          value: 'releaseDateAsc',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.last_price_lh'),
+          value: 'lastPriceLh',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.last_price_hl'),
+          value: 'lastPriceHl',
+        },
       ],
       sortBy: null,
       current: '24',
@@ -250,7 +276,7 @@ export default {
     },
     // On filter by change.
     searchProduct(value) {
-      this.search =  value
+      this.search = value
       this.loadPage()
     },
     handleBuyClick() {},
@@ -280,3 +306,68 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
+.dropdown-sort::v-deep
+  .btn-dropdown
+    @include body-4-normal
+    color: $color-black-1
+    border: 1px solid transparent
+    background-color: $color-white-4
+    border-radius: 8px
+    height: 48px
+    width: 327px
+    padding: 0 13px 0 23px
+
+    .icon-main
+      margin-right: 20px !important
+
+    .icon-clear
+      right: 23px
+
+    &.opened
+      border-bottom-left-radius: 0
+      border-bottom-right-radius: 0
+      border: 1px solid transparent
+
+  .search-results
+    .popover-body
+      >div
+        @include body-4-normal
+        font-family: $font-family-base
+        color: $color-black-1
+        background-color: $color-white-4
+        height: 46px
+        border: none
+        border-bottom: 0.2px solid $light-gray-2
+        padding: 0 23px
+        &:hover
+          color: $color-gray-5
+
+        &:last-child
+          border-bottom-left-radius: 8px
+          border-bottom-right-radius: 8px
+          border: none
+.more-filters-btn
+  @include body-13-regular
+  font-family: $font-sp-pro
+  color: $color-blue-20
+  img
+    width: 8px
+    &.before
+      transform: rotate(-180deg)
+.overflow-x-hidden
+  overflow-x: hidden
+::v-deep .nav-group
+  .btn-group
+    background-color: $white-3
+    .btn
+      background-color: $white-3
+.overlay
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: rgba($gray, 0.05)
+</style>
