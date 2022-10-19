@@ -17,13 +17,13 @@
     </div>
 
     <!-- ProductTrendListCard Table -->
-    <ProductTrendListCard :products="products" />
+    <ProductTrendListCard :products="products" :activeHeaders="activeHeaders" />
   </div>
 </template>
 <script>
 import { Loader } from '~/components/common'
 import ExchangeFilter from '~/components/Exchange/Filters'
-import ProductTrendListCard from '~/components/product/TrendTable'
+import ProductTrendListCard from '~/components/Exchange/SimilarProductTable'
 
 export default {
   name: 'TopProductsList',
@@ -67,6 +67,7 @@ export default {
       losers: [],
       top_products: [],
       filter: null,
+      activeHeaders: true,
     }
   },
   computed: {
