@@ -150,7 +150,10 @@
     "options" : "Options",
     "reset" : "Reset",
     "apply_filters" :"Apply Filters",
-    "view"  :"View"
+    "view"  :"View",
+    "read_less": "Read Less",
+    "read_more": "Read More",
+    "go_back": "Go Back"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -3926,11 +3929,15 @@
       "2fa_enabled": "Two-factor authentication is enabled",
       "2fa_disabled": "Two-factor authentication is disabled",
       "as_part_of_our_mission": "As part of our mission to build the world’s most trustworthy, secure, and technologically advanced marketplace for sneakerheads and streetwear fanatics. Deadstock further ensures protection from security breaches on our platform by using two-factor authentication.<br /><br /> With two-factor authentication, we take identity verification to the next level by requiring a second method of verification for users to access their account. By providing an ultra-secure online marketplace, Deadstock’s aim is to create the optimal user experience.",
-      "recovery_codes": "Recovery Codes",
-      "2fa_faq": "Frequently Asked Questions about Two-Factor Authentication",
+      "2fa_faq_full": "Frequently Asked Questions about Two-Factor Authentication",
+      "2fa_faq_small": "Frequently Asked Questions",
       "msg_enable_success": "2FA enabled successfully",
       "msg_disable_success": "2FA disabled successfully",
-      "back_to_security": "Back to Security"
+      "back_to_security": "Back to Security",
+      "label_when_you_login": "When you login we’ll send a message to your mobile device to verify your account",
+      "action_required": "Action Required",
+      "manage": "Manage",
+      "text_message": "Text Message"
     },
     "deadstock_exchange": {
       "title": "Deadstock Exchange",
@@ -5338,5 +5345,19 @@
     "the_page_is_missing": "The page is missing \n or the link’s sole is coming off",
     "home": "Home",
     "shop": "Shop"
+  },
+  "manage_text_message": {
+    "page_title": "Manage Text Message",
+    "manage_text_message_verification":"Manage Text Message Verification",
+    "label_we_will_send_a_message": "We’ll send a message to your mobile device to verify your account when you log into Deadstock.",
+    "go_back": "Go Back",
+    "update": "Update",
+    "alert_text": "Your Phone Number Has Been Successfully Updated!",
+    "resend_a_new_code": "Resend a new code.",
+    "havent_received_it": "Haven’t received it?",
+    "label_a_verification_code_will": "A verification code will be sent to your mobile phone, please input the code below to confirm",
+    "resend_code": "Resend Code",
+    "action_required": "Action Required",
+    "update_phone_number": "Update Phone Number"
   }
 }
