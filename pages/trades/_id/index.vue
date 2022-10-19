@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div ref="tradeArena" class="trade-arena">
+    <index-mobile v-if="mobileView"/>
+    <div v-else>
     <trade-completed v-if="trade_completed" :trade="getSubmittedOffer"></trade-completed>
     <div v-else>
     <create-trade-search-item v-if="search_item" :product="search_item" productFor="tradeArena" :progressBar="false" :padding="true" />
@@ -264,6 +266,7 @@
     <CheckoutSidebar  v-if="isPayment" class="order-summary" />
     </b-row>
     </div>
+    </div>
   </div>
 </template>
 
@@ -312,10 +315,12 @@ import {
   TAKE_SEARCHED_PRODUCTS,
   OFFER_SENT
 } from '~/static/constants/trades'
+import IndexMobile from '~/pages/trades/_id/IndexMobile';
 
 export default {
   name: 'Index',
   components: {
+    IndexMobile,
     CreateTradeSearchItem,
     SearchedProductsBelowSearchTextBox,
     TraderWants,
@@ -379,7 +384,8 @@ export default {
       cashType: CASH_TYPE_ADDED,
       OFFER_TYPE_YOURS,
       OFFER_TYPE_THEIR,
-      OFFER_TYPE
+      OFFER_TYPE,
+      mobileView: false
     }
   },
   head() {
@@ -408,7 +414,7 @@ export default {
     this.getTrade()
   },
   mounted(){
-
+    this.screenWidth();
     this.$root.$on('trade_done',(val)=>{ // this emit is used to complete trade and show result
       this.trade_completed = val
     })
@@ -437,6 +443,17 @@ export default {
     ...mapActions('trades', ['checkIfItemIsInListingItem', 'searchProductsList']),
     ...mapGetters('auth', ['isVendor']),
 
+    screenWidth(){
+      const self = this;
+      const myObserver = new ResizeObserver(entries => {
+        // this will get called whenever div dimension changes
+        entries.forEach(entry => {
+          self.mobileView = entry.contentRect.width <= 450;
+        });
+      });
+      const tradeDiv = this.$refs.tradeArena
+      myObserver.observe(tradeDiv);
+    },
     /**
      * check if trade is poor/fair
      */
