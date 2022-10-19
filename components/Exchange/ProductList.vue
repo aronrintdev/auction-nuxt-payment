@@ -1,7 +1,7 @@
 <template>
   <div class="deadstock-exchange-page">
     <div class="d-flex heading-garamond">
-      <h1>{{ title[0].label }}</h1>
+      <h1>{{ title[0].label}}</h1>
     </div>
     <!-- Loaders -->
     <div
