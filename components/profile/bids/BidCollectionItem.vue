@@ -60,7 +60,7 @@
         md="2"
         class="d-flex justify-content-start align-items-center flex-column"
       >
-        <Button class="bg-blue-2 mt-4" pill @click="$emit('edit', bid)">
+        <Button class="bg-blue-2 mt-4 border-0" pill @click="$emit('edit', bid)">
           <span>
             {{
               isExpiredOrDelisted ? $t('bids.view') : $t('bids.edit_bid')
@@ -166,7 +166,9 @@
                 md="9"
                 class="pl-2 pr-3 d-flex align-items-center"
               >
-                <div class="body-5-medium long-and-truncated">{{ item.inventory.product.name }}</div>
+                <div class="body-5-medium flex-grow-1 text-nowrap overflow-hidden text-truncate">
+                  {{ item.inventory.product.name }}
+                </div>
               </b-col>
             </b-row>
           </b-col>
@@ -294,14 +296,6 @@ export default {
 
 .bg-blue-2.btn.btn-primary
   background-color: $color-blue-2
-  border: none
-
-.long-and-truncated
-  flex: 1
-  white-space: nowrap
-  overflow: hidden
-  text-overflow: ellipsis
-  text-align: left
 
 .collection-item
   padding: 10px
