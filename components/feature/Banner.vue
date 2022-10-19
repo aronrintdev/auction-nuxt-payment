@@ -12,9 +12,13 @@
     </div>
     <div
       v-if="$route.path != '/features'"
-      class="feature-title-mobile d-flex align-items-center justify-content-center d-sm-none font-ternary fs-22 fw-7 text-center text-uppercase mb-0"
+      class="d-flex align-items-end justify-content-start ml-3 custom-margin-bottom"
     >
-      {{ $t(title) }}
+      <div
+        class="feature-title-mobile d-flex align-items-center justify-content-center d-sm-none font-ternary fs-22 fw-7 text-center text-uppercase w-100"
+      >
+        {{ $t(title) }}
+      </div>
     </div>
   </div>
 </template>
@@ -54,6 +58,8 @@ export default {
   background-image: var(--image)
   @media (max-width: 577px)
     background-image: var(--imageSm)
+    width: 375px
+    height: 180px
 
   .feature-title-container
     background-color: rgba($color-white-1, 0.56)
@@ -70,16 +76,15 @@ export default {
 
 @media screen and (max-width: 577px)
   .banner-wrapper
-    height: 208px
-    .feature-title-mobile
-      background-color: rgba(171, 171, 171, 0.6)
-      margin-top: 115px
-      margin-left: 25px
-      width: 219px
-      max-width: 270px
-      height: 45px
-      max-height: 103px
-      line-height: 29px
-      letter-spacing: -0.08em
-      color: $color-white-1
+    .custom-margin-bottom
+      margin-bottom: 2.2rem
+      .feature-title-mobile
+        background-color: rgba(171, 171, 171, 0.6)
+        padding: 0px 9px
+        max-width: 270px
+        height: 45px
+        max-height: 103px
+        line-height: 29px
+        letter-spacing: -0.08em
+        color: $color-white-1
 </style>
