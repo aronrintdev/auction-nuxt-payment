@@ -80,7 +80,6 @@
 
         <div class="row">
           <div class="col-lg-8">
-               <!-- <ProductDetailFilter/> -->
             <!-- Input search -->
             <SearchInput
               :value="searchValue"
@@ -112,7 +111,6 @@
         </div>
           <div class="row">
             <div  id="tb-product" class="col-ld-12 overflow-auto h-50" >
-              <!-- ProducListCard Table -->
               <SimilarProductTable :products="products" />
             </div>
         </div>
@@ -124,7 +122,6 @@
 <script>
 import dayjs from 'dayjs'
 import SimilarProductTable from './SimilarProductTable.vue'
-// import ProductDetailFilter from './ProductDetailFilter.vue'
 import { Button, Loader,FormDropdown,SearchInput} from '~/components/common'
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
@@ -139,7 +136,6 @@ export default {
     NavGroup,
     ShareIcon,
     SimilarProductTable,
-    // ProductDetailFilter
     SearchInput,
     FormDropdown,
   },
