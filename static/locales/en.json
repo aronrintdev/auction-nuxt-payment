@@ -4431,6 +4431,7 @@
     "draft": "Draft",
     "expired": "Expired",
     "de-listed": "Delisted",
+    "delisted": "Delisted",
     "trade_dashboard": "Trade Dashboard",
     "my_trade_listing": "My Trade Listing ({0})",
     "create_a_new_listing": "Create a new listing",
@@ -4587,6 +4588,8 @@
       "accepted": "Accepted"
     },
     "trades_deleted_successfully": "Trades Deleted Successfully",
+    "are_you_sure_to_relist_trade": "Are you sure you would like to relist this trade listing?",
+    "relist": "Relist"
     "your_offer": "Your Offer",
     "estimated_value": "Estimated Value",
     "estimated_value_trade": "Estimated Trade Value",
@@ -4873,7 +4876,8 @@
       "payout_updated": "Payout method updated successfully",
       "payout_deleted": "Payout method deleted successfully",
       "user_already_registered": "User already registered!",
-      "user_not_registered_as_approved_vendor": "User was not registered as approved vendor"
+      "user_not_registered_as_approved_vendor": "User was not registered as approved vendor",
+      "user_not_registered_as_vendor": "User not registered as approved vendor"
     }
   },
   "orders": {

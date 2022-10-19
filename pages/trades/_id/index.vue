@@ -294,7 +294,8 @@ import {
   MAX_ITEMS_ALLOWED,
   PER_PAGE_ITEMS,
   DEFAULT_PER_PAGE_ITEMS,
-  DEFAULT_CATEGORY
+  DEFAULT_CATEGORY,
+  UNAUTHORIZED
 } from '~/static/constants'
 import { fromNow } from '~/utils/string'
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem'
@@ -311,7 +312,8 @@ import {
   OFFER_TYPE_YOURS,
   OFFER_TYPE_THEIR,
   OFFER_TYPE,
-  TAKE_SEARCHED_PRODUCTS
+  TAKE_SEARCHED_PRODUCTS,
+  OFFER_SENT
 } from '~/static/constants/trades'
 import IndexMobile from '~/pages/trades/_id/IndexMobile';
 
@@ -425,18 +427,21 @@ export default {
       this.searchText =  null
       this.searchedItems =  []
     })
+    this.$store.commit('trade/removeYourTradeItems')
     this.$store.commit('trade/addTrade',null) // commit is used to set state empty
     this.fetchFilters()
     this.fetchVendorTradeSummary()
     this.getInventory()
-
-    this.trade_completed = this.getSubmittedOffer
+    this.fetchSubmittedOffer({ trade_id: this.$route.params.id, type: OFFER_SENT }).then(() => {
+      this.trade_completed = !!this.getSubmittedOffer
+    })
 
   },
   methods: {
     ...mapActions('browse', ['fetchFilters']), // Action to call api request to get filter
-    ...mapActions('trade', ['fetchVendorTradeSummary']), // Action to call api request to get vendor trade summary
+    ...mapActions('trade', ['fetchVendorTradeSummary', 'fetchSubmittedOffer']), // Action to call api request to get vendor trade summary
     ...mapActions('trades', ['checkIfItemIsInListingItem', 'searchProductsList']),
+    ...mapGetters('auth', ['isVendor']),
 
     screenWidth(){
       const self = this;
@@ -534,33 +539,40 @@ export default {
      * get trade ID from route parameter
      */
     getTrade() {
-      this.$axios.get(`trades/${this.$route.params.id}`)
-        .then(result => {
-          this.trade = result.data.data
-          this.wants = result.data.data.wants
-          this.totalOffersReceived = result.data.data.submitted_offers.length
-          this.checkForPoorTrade()
-          this.$store.commit('trade/setActiveTrade', {
-            trade: this.trade,
-            theirItems: this.trade.offers,
-            yourItems: this.getYourTradeItems,
-            cashAdded: parseInt(parseFloat(this.optional_cash)*100),
-            cashType: this.cashType,
-            tradeCondition: this.tradeCondition,
-            submittedItemType: OFFER_TYPE_YOURS,
-            offerType: OFFER_TYPE,
-            theirVendorId: this.trade.vendor_id,
-            tradeId: parseInt(parseFloat(this.$route.params.id)),
-            offerParentId: null
+      if(this.$auth.user.id && !this.isVendor()){
+        this.$router.push('/profile/vendor-hub/apply')
+      }else{
+        this.$axios.get(`trades/${this.$route.params.id}`)
+          .then(result => {
+            this.trade = result.data.data
+            this.wants = result.data.data.wants
+            this.totalOffersReceived = result.data.data.submitted_offers.length
+            this.checkForPoorTrade()
+            this.$store.commit('trade/setActiveTrade', {
+              trade: this.trade,
+              theirItems: this.trade.offers,
+              yourItems: this.getYourTradeItems,
+              cashAdded: parseInt(parseFloat(this.optional_cash)*100),
+              cashType: this.cashType,
+              tradeCondition: this.tradeCondition,
+              submittedItemType: OFFER_TYPE_YOURS,
+              offerType: OFFER_TYPE,
+              theirVendorId: this.trade.vendor_id,
+              tradeId: parseInt(parseFloat(this.$route.params.id)),
+              offerParentId: null
+            })
+            // if vendor is owner of this trade then redirect to dashboard
+            if(this.trade.vendor_id === this.$auth.user.vendor.id){
+              this.$router.push(`/profile/trades/dashboard/${this.trade.id}/offers`)
+            }
           })
-          // if vendor is owner of this trade then redirect to dashboard
-          if(this.trade.vendor_id === this.$auth.user.vendor.id){
-            this.$router.push(`/profile/trades/dashboard/${this.trade.id}/offers`)
-          }
-        })
-        .catch((error) => { // error will return us error
-          this.$toasted.error(this.$t(error.response.data.error))
-        })
+          .catch((error) => { // error will return us error
+            if(error.response.status === UNAUTHORIZED){
+              this.$store.commit('auth/setLoginRedirectUrl', `/trades/${this.$route.params.id}`)
+            }
+            this.$toasted.error(this.$t(error.response.data.error))
+          })
+        }
     },
     /****
      * This function is used to change selected
@@ -763,6 +775,7 @@ export default {
      * from api
      */
     getInventory: debounce(function (filters = {}) {
+
       filters.category = this.categoryFilter
       filters.sizes = this.sizeFilter.join(',')
       filters.size_types = this.sizeTypesFilter.join(',')
