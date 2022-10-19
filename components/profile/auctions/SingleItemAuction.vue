@@ -1,6 +1,11 @@
 <template>
-    <b-row v-if="inventory.product"
-           class="mt-3 text-center ml-n1 font-weight-bold w-100 bg-white single-item" role="button" @click="$emit('click')">
+    <b-row
+      v-if="inventory.product"
+      :class="{'border shadow-sm' : isMobileSize}"
+      class="mt-3 text-center ml-n1 font-weight-bold w-100 bg-white single-item"
+      role="button"
+      @click="$emit('click')"
+    >
       <b-col sm="12" md="5" class="text-left">
         <b-row>
           <b-col cols="4" md="4">
@@ -14,7 +19,9 @@
               </b-form-checkbox>
             </div>
             <ProductThumb :product="inventory.product" />
-            <div v-if="!isMobileSize" class="auction-id mt-1">{{ $t('bids.auction_id') }}: {{ auction.id }}</div>
+            <div v-if="!isMobileSize" class="auction-id text-decoration-underline text-center mt-1 body-5-medium">
+              {{ $t('bids.auction_id') }}: {{ auction.id }}
+            </div>
           </b-col>
           <b-col cols="8" md="8" class="pl-4 d-flex align-items-center">
             <b-row class="mb-2 d-block" :class="{ 'flex-grow-1' : isMobileSize }">
@@ -37,7 +44,9 @@
       <b-col v-if="isMobileSize" class="d-flex justify-content-around flex-column py-1 py-md-0">
         <div class="d-flex justify-content-between d-md-block">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.auction_id') }}:</span>
-          <span :class="isMobileSize ? 'body-9-regular text-blue-30' : 'body-4-medium'">{{auction.id}}</span>
+          <span :class="isMobileSize ? 'body-9-regular text-decoration-underline text-blue-30' : 'body-4-medium'">
+            {{auction.id}}
+          </span>
         </div>
       </b-col>
       <b-col sm="12" md="1" class="d-flex justify-content-around flex-column py-1 py-md-0 py-1 py-md-0"
@@ -137,11 +146,12 @@ export default {
 
 .auction-id
   color: $color-blue-31
-  text-decoration: underline
-  text-align: center
-  font-size: 14px
 
 .text-blue-30
   color: $color-blue-30
-  text-decoration: underline
+
+.border
+  border: 1px solid $color-gray-60
+  border-radius: 12px
+  overflow: hidden
 </style>

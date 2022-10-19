@@ -1,6 +1,7 @@
 <template>
     <b-row
       v-if="auction.auction_items"
+      :class="{'border shadow-sm' : isMobileSize}"
       class="mt-3 text-center ml-n1 font-weight-bold w-100 bg-white collection-item"
       role="button"
       @click="$emit('click')"
@@ -80,7 +81,7 @@
         <b-col class="py-1">
           <div class="d-flex justify-content-between d-md-block">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.auction_id') }}:</span>
-            <span class="body-9-regular text-underline text-blue-30">{{ auction.id }}</span>
+            <span class="body-9-regular text-decoration-underline text-blue-30">{{ auction.id }}</span>
           </div>
         </b-col>
         <b-col class="py-1 bg-lightgrey">
@@ -192,4 +193,24 @@ export default {
 
 .collection-item
   padding: 15px 10px
+
+.border
+  border: 1px solid $color-gray-60
+  border-radius: 12px
+  overflow: hidden
+
+.text-blue-30
+  color: $color-blue-30
+</style>
+<style lang="sass">
+@import '~/assets/css/_variables'
+.collection-items
+  .carousel-indicators
+    position: relative
+    margin: 0
+  .carousel-indicators li
+    background-color: $color-gray-25
+    width: 12px
+    height: 12px
+    border-radius: 50%
 </style>
