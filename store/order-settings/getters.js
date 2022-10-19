@@ -2,7 +2,9 @@ import {
   SHIPPING_FEE,
   PROCESSING_FEE,
   FALLBACK_SHIPPING_FEE_AMOUNT,
-  FALLBACK_PROCESSING_FEE_AMOUNT
+  FALLBACK_PROCESSING_FEE_AMOUNT,
+  FALLBACK_TRADING_FEE_AMOUNT,
+  TRADING_FEE
 } from '~/static/constants'
 
 /**
@@ -37,4 +39,21 @@ export function getProcessingFee(state) {
   }
 
   return FALLBACK_PROCESSING_FEE_AMOUNT
+}
+
+/**
+ * Retrieve the order setting for trading fee.
+ * @param state
+ * @returns {object}
+ */
+export function getTradingFee(state) {
+  const tradingFee = state.orderSettings.find((setting) => {
+    return setting.key === TRADING_FEE
+  })
+
+  if (tradingFee) {
+    return tradingFee.value / 100
+  }
+
+  return FALLBACK_TRADING_FEE_AMOUNT
 }
