@@ -94,6 +94,16 @@ export default {
       active: [],
     }
   },
+  watch: {
+    value(n) {
+      if (!n.length  && this.active.length > 0) {
+        this.active = []
+      }
+    }
+  },
+  mounted() {
+    this.active = this.value
+  },
   methods: {
     // Update the selected status
     activeStatus(value) {
@@ -108,16 +118,6 @@ export default {
       this.$emit('input', this.active)
       this.$emit('selected', this.active)
     },
-  },
-  mounted() {
-    this.active = this.value
-  },
-  watch: {
-    value(n) {
-      if (!n.length  && this.active.length > 0) {
-        this.active = []
-      }
-    }
   }
 }
 </script>
