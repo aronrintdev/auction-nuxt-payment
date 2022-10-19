@@ -61,3 +61,6 @@ export function getTradeDraftCount(state) {
 export function getEditTradePageReferrer(state) {
     return state.editTradePageReferrer
 }
+export function getTradesFilter(state) {
+  return state.filterTrade
+}

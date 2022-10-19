@@ -280,3 +280,7 @@ export function setVendorTradeSummary(state, val){
         total_trades: val.trades
     }
 }
+
+export function setTradeItemsEmpty(state,val){
+  state.yourTradeItems = val
+}
