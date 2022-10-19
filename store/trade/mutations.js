@@ -160,6 +160,14 @@ export function resetAllFilters(state) {
 }
 
 /**
+ * This mutation is used to remove your trade items in state
+ * @param state
+ */
+export function removeYourTradeItems(state, val) {
+    state.yourTradeItems = []
+}
+
+/**
  * This mutation is used to add your trade items in state
  * @param state
  * @param val
@@ -210,6 +218,15 @@ export function removeYourTradeItem(state, val) {
  */
 export function setBestMatches(state, bestMatches) {
     state.bestMatches = bestMatches
+}
+
+/**
+ * This mutation is used to remove trade from best matches
+ * @param state
+ * @param tradeId
+ */
+export function removeTradeFromBestMatches(state, tradeId) {
+  state.bestMatches = state.bestMatches.filter(trade => trade.theirs.id !== tradeId)
 }
 
 /**
@@ -270,4 +287,8 @@ export function setVendorTradeSummary(state, val){
         trader_ranking: val.ranking,
         total_trades: val.trades
     }
+}
+
+export function setTradeItemsEmpty(state,val){
+  state.yourTradeItems = val
 }

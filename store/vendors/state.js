@@ -4,6 +4,8 @@ export default function () {
     totalOrders: 0,
     totalSales: 0,
     totalCommissionPending: 0,
+    totalCommissionPaid: 0,
+    totalCommission: 0,
     inventoryCount: 0,
     totalOffers: 0,
     products: [],

@@ -8,7 +8,7 @@
             <h2 class="page-title">{{$t('trades.index.trades')}}</h2>
           </b-col>
         </b-row>
-        <b-row>
+        <b-row v-if="isVendor()">
           <b-col md="6" class="col-sm-6 col-xs-6 text-right pr-6" :class="{'active-nav' : navTab === 'trade_hub', 'inactive-nav': navTab !== 'trade_hub'}">
             <h3 class="d-inline-block pointer" @click="navTab = 'trade_hub'">{{$t('trades.index.trade_hub')}}</h3>
           </b-col>
@@ -17,13 +17,14 @@
           </b-col>
         </b-row>
       </div>
-      <TradeHub v-if="navTab === 'trade_hub'"/>
+      <TradeHub v-if="navTab === 'trade_hub' && isVendor()"/>
       <BrowseTrade v-if="navTab === 'browse_trade'" />
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import TradeBanner from '~/pages/trades/TradeBanner'
 import BrowseTrade from '~/pages/trades/BrowseTrade'
 import TradeHub from '~/pages/trades/TradeHub'
@@ -40,6 +41,11 @@ export default {
     return {
       navTab: 'browse_trade'
     }
+  },
+  methods: {
+    ...mapGetters({
+      isVendor: 'auth/isVendor'
+    }),
   }
 }
 </script>
