@@ -137,7 +137,9 @@
                   <ProductThumb :product="item.inventory.product" />
                 </b-col>
                 <b-col md="9" class="pl-2 pr-3 d-flex align-items-center">
-                  <div class="body-5-medium long-and-truncated">{{ item.inventory.product.name }}</div>
+                  <div class="body-5-medium flex-grow-1 text-nowrap overflow-hidden text-truncate">
+                    {{ item.inventory.product.name }}
+                  </div>
                 </b-col>
               </b-row>
             </b-col>
@@ -189,14 +191,5 @@ export default {
 @import '~/assets/css/_variables'
 
 .collection-item
-  // border-radius: 10px
-  // border: 1px solid $color-gray-58
   padding: 15px 10px
-
-.long-and-truncated
-  flex: 1
-  white-space: nowrap
-  overflow: hidden
-  text-overflow: ellipsis
-  text-align: left
 </style>
