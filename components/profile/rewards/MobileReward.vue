@@ -58,7 +58,7 @@ export default {
   .image
     width: 100%
     height: 267px
-    background: $color-white-20
+    background: $color-white-22
 
     .active-image
       height: 25px

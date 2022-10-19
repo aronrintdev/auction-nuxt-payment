@@ -161,7 +161,7 @@ export default {
 #email
   &.mobile
     background: $color-white-1
-    box-shadow: 0 1px 4px $color-white-21, inset 0 2px 4px $color-white-21 !important
+    box-shadow: 0 1px 4px $color-white-23, inset 0 2px 4px $color-white-23 !important
     border-radius: 23px 0 0 23px
     width: auto
     border-right: none !important
