@@ -1,7 +1,13 @@
 <template>
-  <b-container fluid class="container-profile-bids h-100">
+  <b-container fluid class="h-100 p-3 p-md-5" :class="{'container-profile-bids': !isMobileSize}">
+
+    <!--    Bids Filters and mobile search    -->
+    <div v-if="isMobileSize" class="d-flex align-items-center">
+      <MobileSearchInput :value="filters.search" @input="mobileSearch" class="flex-grow-1" />
+      <span @click="showMobileFilter" class="ml-3"><img src="~/assets/img/icons/filter-icon.png" /></span>
+    </div>
     <!--    Bids Filters    -->
-    <BidsFilters @update="FetchBids"/>
+    <BidsFilters v-else @update="FetchBids"/>
 
     <div v-if="isVendor" class="d-flex justify-content-between align-items-center mt-5">
       <Button
@@ -183,11 +189,23 @@
 
       </template>
     </Modal>
+    <!-- For mobile filters -->
+    <vue-bottom-sheet
+      ref="mobileFilter"
+      class="responsive-filter"
+      max-width="auto"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <MobileFilter @filter="onMobileFilter" />
+    </vue-bottom-sheet>
+    <!-- For mobile filters end -->
   </b-container>
 </template>
 
 <script>
 import {mapActions, mapGetters} from 'vuex';
+import debounce from 'lodash.debounce'
 import {
   Button,
   Pagination,
@@ -208,6 +226,9 @@ import {
   OUTBID_BID_STATUS,
   WINNING_BID_STATUS, BID_TYPE_OUTGOING
 } from '~/static/constants';
+import MobileFilter from '~/components/profile/bids/filters/MobileFilter'
+import MobileSearchInput from '~/components/mobile/MobileSearchInput'
+
 
 export default {
   name: 'ProfileBidsOutgoing',
@@ -219,7 +240,9 @@ export default {
     Pagination,
     BulkSelectToolbar,
     Loader,
-    Modal
+    Modal,
+    MobileFilter,
+    MobileSearchInput
   },
   mixins: [screenSize],
   layout: 'Profile',
@@ -470,6 +493,32 @@ export default {
         this.deleteLoading = false
       })
     },
+
+    mobileSearch: debounce(function (e) {
+      if (this.filters.search === e) return
+      const filter = {
+        ...this.filters,
+        search: e // override by mobile input
+      }
+      this.$store.commit('profile-bids/setFilters', filter)
+      this.FetchBids()
+    }, 300),
+
+    // Show the filter
+    showMobileFilter() {
+      const { mobileFilter } = this.$refs
+      if (mobileFilter) {
+        mobileFilter.open()
+      }
+    },
+    async onMobileFilter(mobileFilters) {
+      const filterData = {
+        ...this.filters,
+        ...mobileFilters
+      }
+      await this.$store.commit('profile-bids/setFilters', filterData)
+      this.FetchBids()
+    }
   }
 }
 </script>
@@ -538,7 +587,6 @@ export default {
 
 
 .container-profile-bids
-  padding: 47px 54px
   background-color: $color-white-5
 
   h2.title
