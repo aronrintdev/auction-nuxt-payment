@@ -241,6 +241,32 @@ export default {
     handlePriceSizeTabChange(value) {
       this.priceSizeTabCurrentValue = value
     },
+    changeGraphLabel(category) {
+      switch (category) {
+        case '24': {
+          this.label = this.trending
+          break
+        }
+        case '7': {
+          this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
+          break
+        }
+        case '6': {
+          this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
+          break
+        }
+        case '1': {
+          this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
+          break
+        }
+        case 'all': {
+          this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
+          break
+        }
+        default:
+          this.lineDatasets.labels = []
+      }
+    },
     // On filter by change.
     handleSortBySelect(value) {
       this.similarProductSearchValue = value.value
