@@ -75,6 +75,14 @@ export default {
     currentSweepStake() {
       return this.promotions.length ? this.promotions[0] : null
     },
+    isMobile() {
+      if( screen.width <= 760 ) {
+          return true;
+      }
+      else {
+          return false;
+      }
+    }
   },
   created() {
     this.loadPage()
@@ -144,14 +152,7 @@ export default {
           this.products = []
       }
     },
-    isMobile() {
-      if( screen.width <= 760 ) {
-          return true;
-      }
-      else {
-          return false;
-      }
-    }
+
   },
 }
 </script>
