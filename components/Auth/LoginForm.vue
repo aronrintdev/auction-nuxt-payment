@@ -118,6 +118,9 @@ export default {
       getUserDetails: 'auth/getUserDetails',
       getUserRedeemedReward: 'redeemed-reward/getUserRedeemedReward'
     }),
+    ...mapGetters({
+      getLoginRedirectUrl: 'auth/getLoginRedirectUrl',
+    }),
     getValidationState({ dirty, validated, valid = null }) {
       // Returns the contextual state (validation style) of the element being validated (false for invalid, true for valid, or null for no validation state)
       return dirty || validated ? valid : null
@@ -137,7 +140,19 @@ export default {
             this.$store.dispatch('notifications/getNotifications')
             this.$store.dispatch('notifications/getUnreadCount')
             this.$toasted.success(this.$t('login.success_message.login_successfull').toString())
-            if (this.isVendor) {
+
+            // redirect if redirect url is set in state
+            const redirectUrl = this.getLoginRedirectUrl()
+            if (redirectUrl) {
+              if (redirectUrl.includes('trades') && !this.isVendor) {
+                this.$router.push({
+                  path: '/profile/vendor-hub/apply'
+                })
+              } else {
+                this.$store.commit('auth/setLoginRedirectUrl', null)
+                this.$router.push(redirectUrl)
+              }
+            } else if (this.isVendor) {
               this.$router.push({
                 path: '/profile/vendor-dashboard'
               })

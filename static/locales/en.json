@@ -150,7 +150,10 @@
     "options" : "Options",
     "reset" : "Reset",
     "apply_filters" :"Apply Filters",
-    "view"  :"View"
+    "view"  :"View",
+    "read_less": "Read Less",
+    "read_more": "Read More",
+    "go_back": "Go Back"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -720,7 +723,6 @@
       "tax": "Tax",
       "promo_code": "Promo Code",
       "promo_code_applied": "Promo code applied!",
-      "gift_card_applied": "Gift card applied!",
       "enter_your_code": "Enter your code",
       "apply": "Apply",
       "billing_address": "Billing Address",
@@ -2259,19 +2261,74 @@
   },
   "rewards": {
     "earn_points": "Earn Points",
+    "ds_points": "DS Points",
+    "point_pts": "{points} PTS",
+    "hi_name": "Hi {0}!",
+    "till_next_reward": "{0} till next Reward",
+    "expire_on": "{points} DS Points will expire on {date}",
+    "redeem_points": "REDEEM POINTS",
     "earn_more": "Earn More",
+    "your_history": "YOUR HISTORY",
+    "sign_up_to_earn": "Sign up to earn",
+    "reward_history_item_desc": "Reward points {rg} from transaction {order_id}",
+    "redeemed": "redeemed",
+    "gained": "gained",
+    "redeemed_page": {
+      "congratulations": "Congratulations",
+      "subtitle": "You’ve Unlocked a {reward} with {points} pts",
+      "browse": "Browse",
+      "desc": "{reward} will automatically be applied to checkout"
+    },
+    "product_page": {
+      "select_size": "Select Size"
+    },
+    "sneaker_page": {
+      "claim": "Claim your free prize",
+      "filter_by": "Filter By",
+      "sort": "Sort",
+      "select": "Select your prize below ",
+      "this_sneaker": "This Sneaker",
+      "sort_options": {
+        "trending": "Trending",
+        "newest": "Newest"
+      },
+      "confirm": "Are you sure you would like to redeem points for {sneaker}?"
+    },
+    "confirm_redeem_body": "Are you sure you would like to redeem {points} points for {reward}?",
+    "tier": "Tier",
+    "navs": {
+      "redeem": {
+        "label": "Redeem",
+        "title": "Redeem | Points",
+        "subtitle": "My Rewards",
+        "desc": "Redeem your points and use them towards rewards such as free shipping, raffle entrys, discounts and more. Choose your rewards below."
+      },
+      "earn": {
+        "label": "Earn",
+        "title": "Earn | Points",
+        "subtitle": "Deadstock <br> Rewards Program",
+        "desc": "Join our rewards program today and start earning points!  You can earn reward points, exclusive deals, gifts, discounts and more with each transaction. Redeem your points toward purchases, trades, auctions and more. Invite your friends and receive more points. "
+      },
+      "history": {
+        "label": "History",
+        "title": "Your | History",
+        "subtitle": "My History",
+        "desc": "History"
+      }
+    },
     "sign_up": "Sign Up",
     "earn_200_points": "Earn 200 Points just for signing up. Get a special gift on your birthday.",
     "participate_in_buying": "Participate in Buying, Trading and Auctions to earn points to get discount and gift cards.",
     "get_rewards": "Get Rewards",
     "redeem_points_for_exclusive": "Redeem points for exclusive deals and gifts. Refer a friend and get $5 (equal to 500 points).",
-    "start_earning_points": "Start Earning Points Now",
-    "invite_your_friends": "Invite your Friends, and",
+    "start_earning_points": "Start Earning Points",
+    "invite_your_friends": "Invite your Friends, And",
     "everybody_gets_points": "Everybody Gets Points",
-    "you_will_receive_points": "You Will Receive {points} Points Every Time Someone You Refer Signs Up",
+    "you_will_receive_points": "Earn {points} points After each sign up ",
     "email": "Email",
-    "enter_your_friend_email": "Enter Your Friend Email Address",
+    "enter_your_friend_email": "Enter Email Address",
     "send_invite": "Send Invite",
+    "invite": "Invite",
     "an_invitation_has_been_sent": "An Invitation has been sent to {email}",
     "rewards_program": "Rewards Program",
     "join_our_rewards_program": "Join our rewards program today and start earning points! You can earn reward points, exclusive deals, gifts, discounts and more with each transaction. Redeem your points toward purchases, trades, auctions and more. Invite your friends and receive more points.",
@@ -3926,11 +3983,15 @@
       "2fa_enabled": "Two-factor authentication is enabled",
       "2fa_disabled": "Two-factor authentication is disabled",
       "as_part_of_our_mission": "As part of our mission to build the world’s most trustworthy, secure, and technologically advanced marketplace for sneakerheads and streetwear fanatics. Deadstock further ensures protection from security breaches on our platform by using two-factor authentication.<br /><br /> With two-factor authentication, we take identity verification to the next level by requiring a second method of verification for users to access their account. By providing an ultra-secure online marketplace, Deadstock’s aim is to create the optimal user experience.",
-      "recovery_codes": "Recovery Codes",
-      "2fa_faq": "Frequently Asked Questions about Two-Factor Authentication",
+      "2fa_faq_full": "Frequently Asked Questions about Two-Factor Authentication",
+      "2fa_faq_small": "Frequently Asked Questions",
       "msg_enable_success": "2FA enabled successfully",
       "msg_disable_success": "2FA disabled successfully",
-      "back_to_security": "Back to Security"
+      "back_to_security": "Back to Security",
+      "label_when_you_login": "When you login we’ll send a message to your mobile device to verify your account",
+      "action_required": "Action Required",
+      "manage": "Manage",
+      "text_message": "Text Message"
     },
     "deadstock_exchange": {
       "title": "Deadstock Exchange",
@@ -4424,6 +4485,7 @@
     "draft": "Draft",
     "expired": "Expired",
     "de-listed": "Delisted",
+    "delisted": "Delisted",
     "trade_dashboard": "Trade Dashboard",
     "my_trade_listing": "My Trade Listing ({0})",
     "create_a_new_listing": "Create a new listing",
@@ -4579,7 +4641,13 @@
       "deleted": "Deleted",
       "accepted": "Accepted"
     },
-    "trades_deleted_successfully": "Trades Deleted Successfully"
+    "trades_deleted_successfully": "Trades Deleted Successfully",
+    "are_you_sure_to_relist_trade": "Are you sure you would like to relist this trade listing?",
+    "relist": "Relist",
+    "your_offer": "Your Offer",
+    "estimated_value": "Estimated Value",
+    "estimated_value_trade": "Estimated Trade Value",
+    "trader_wants": "Trader’s Wants"
   },
   "change_password": {
     "password": "Password",
@@ -4862,7 +4930,8 @@
       "payout_updated": "Payout method updated successfully",
       "payout_deleted": "Payout method deleted successfully",
       "user_already_registered": "User already registered!",
-      "user_not_registered_as_approved_vendor": "User was not registered as approved vendor"
+      "user_not_registered_as_approved_vendor": "User was not registered as approved vendor",
+      "user_not_registered_as_vendor": "User not registered as approved vendor"
     }
   },
   "orders": {
@@ -5338,5 +5407,19 @@
     "the_page_is_missing": "The page is missing \n or the link’s sole is coming off",
     "home": "Home",
     "shop": "Shop"
+  },
+  "manage_text_message": {
+    "page_title": "Manage Text Message",
+    "manage_text_message_verification":"Manage Text Message Verification",
+    "label_we_will_send_a_message": "We’ll send a message to your mobile device to verify your account when you log into Deadstock.",
+    "go_back": "Go Back",
+    "update": "Update",
+    "alert_text": "Your Phone Number Has Been Successfully Updated!",
+    "resend_a_new_code": "Resend a new code.",
+    "havent_received_it": "Haven’t received it?",
+    "label_a_verification_code_will": "A verification code will be sent to your mobile phone, please input the code below to confirm",
+    "resend_code": "Resend Code",
+    "action_required": "Action Required",
+    "update_phone_number": "Update Phone Number"
   }
 }

@@ -86,7 +86,7 @@ export default {
   .meter
     background: linear-gradient(90deg, $color-yellow-8 0%, $color-green-24 63.02%)
     border: 0.5px solid $color-gray-23
-    box-shadow: inset 0 2px 3px $color-gray-84
+    box-shadow: inset 0 2px 3px $color-gray-85
     width: 249px
     height: 24px
     position: relative
