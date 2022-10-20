@@ -1,25 +1,18 @@
 <template>
   <vue-bottom-sheet
-    ref="myBottomSheet"
-    :is-full-screen="true"
-    class="mobile-bottom-sheet"
-    max-height="60%"
-    @closed="$emit('closed')"
-    @opened="$emit('opened')"
-  >
-    <div class="header-title w-100 d-flex flex-column align-items-center justify-content-center">
-      <span v-if="!showCancel">{{ title }}</span>
-
-      <div v-if="showCancel" class="w-100 d-flex justify-content-between">
-        <span class="ml-3">{{ title }}</span>
-        <span
-          class="header-title-bottom-sheet-cancel mr-3"
-          role="button"
-          @click="$emit('closed')"
-        >{{ $t('common.cancel') }}</span>
-      </div>
+      ref="myBottomSheet"
+      :is-full-screen="true"
+      :max-height="height"
+      class="mobile-bottom-sheet"
+      @closed="$emit('closed')"
+      @opened="$emit('opened')">
+    <div :class="hasHeaderDivider && 'divider'"
+         class="header-title w-100 d-flex flex-column align-items-center justify-content-center">
+      <span>{{ title }}</span>
     </div>
-    <slot></slot>
+    <slot>
+
+    </slot>
   </vue-bottom-sheet>
 </template>
 
@@ -39,6 +32,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    height: {
+      type: String,
+      default: '60%'
+    },
+    hasHeaderDivider: {
+      type: Boolean,
+      default: true
+    }
   },
 
   watch: {
@@ -80,4 +81,8 @@ export default {
     font-style: normal
     @include body-17-medium
     color: $color-blue-20
+
+  &.divider
+    border-bottom: 0.5px solid $color-gray-4
+
 </style>

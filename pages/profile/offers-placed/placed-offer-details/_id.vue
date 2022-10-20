@@ -625,7 +625,7 @@ export default {
   color: $color-black-1
 
 .trade-inv-heading-mobile
-  border-bottom: 1px solid $color-gray-84
+  border-bottom: 1px solid $color-gray-86
 
 .return-button
   width: 20px

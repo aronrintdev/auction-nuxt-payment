@@ -964,7 +964,7 @@ export default {
       height: 23px
       left: 16px
       top: 215px
-      background: $color-red-27
+      background: $color-red-28
       border-radius: 10px 0px 5px
       font-family: $font-sp-pro
       font-style: normal
@@ -988,7 +988,7 @@ export default {
       height: 23px
       left: 16px
       top: 215px
-      background: $color-gray-86
+      background: $color-gray-87
       border-radius: 10px 0px 5px
       font-family: $font-sp-pro
       font-style: normal
