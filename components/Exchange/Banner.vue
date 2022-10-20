@@ -9,7 +9,7 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-6 col-sm-12 exchange-heading ml-4 text-left">
-              <p class="promotions-banner-title">{{ title || $t('deadstock_exchange.title') }}</p>
+              <p class="stock-banner-title">{{ title || $t('deadstock_exchange.title') }}</p>
               <p>
                {{ $t('deadstock_exchange.heading_detail')}}
               </p>
