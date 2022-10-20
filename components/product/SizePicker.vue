@@ -13,7 +13,7 @@
           :center="true"
           :margin="10"
           :responsive="{
-            0: { items: 2, nav: false, center: false },
+            0: { items: xsCount, nav: false, center: xsCenter },
             600: { items: 3, nav: false },
             1268: { items: 5, nav: false },
           }"
@@ -47,18 +47,22 @@
           </template>
 
           <template #prev>
-            <div class="owl-nav owl-prev" :style="arrowStyle">
-              <img
-                :src="require('~/assets/img/icons/product/arrow-left.svg')"
-              />
+            <div 
+              v-if="arrowsVisible" 
+              class="owl-nav owl-prev" 
+              :style="arrowStyle"
+            >
+              <img :src="require('~/assets/img/icons/product/arrow-left.svg')" />
             </div>
           </template>
 
           <template #next>
-            <div class="owl-nav owl-next" :style="arrowStyle">
-              <img
-                :src="require('~/assets/img/icons/product/arrow-right.svg')"
-              />
+            <div
+              v-if="arrowsVisible"
+              class="owl-nav owl-next" 
+              :style="arrowStyle"
+            >
+              <img :src="require('~/assets/img/icons/product/arrow-right.svg')" />
             </div>
           </template>
         </Carousel>
@@ -188,7 +192,18 @@ export default {
     wrapperStyle: {
       type: Object,
       default: () => {}
-    }
+    },
+    arrowsVisible: {
+      type: Boolean,
+      default: true,
+    },
+    xsCenter: {
+      type: Boolean,
+      default: false,
+    },
+    xsCount: {
+      type: Number,
+      default: 2,
   },
 
   data() {

@@ -9,6 +9,7 @@
   >
     <div
       :style="headerStyle"
+      :class="hasHeaderDivider && 'divider'"
       class="header-title w-100 d-flex flex-column align-items-center justify-content-center"
     >
       <span>{{ title }}</span>
@@ -38,6 +39,10 @@ export default {
     headerStyle: {
       type: Object,
       default: () => {}
+    },
+    hasHeaderDivider: {
+      type: Boolean,
+      default: true
     }
   },
   watch: {
@@ -71,6 +76,8 @@ export default {
   letter-spacing: -0.02em
   color: $color-black-1
   padding-bottom: 17px
-  border-bottom: 0.5px solid $color-gray-4
+
+  &.divider
+    border-bottom: 0.5px solid $color-gray-4
 
 </style>

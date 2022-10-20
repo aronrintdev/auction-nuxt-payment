@@ -71,6 +71,11 @@ export default {
       default: '',
     }
   },
+  mounted() {
+    if(this.checked){
+      this.$emit('change', this.value)
+    }
+  },
   methods: {
     getImageUrl(imageUrl) {
       try {

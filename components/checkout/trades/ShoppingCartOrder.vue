@@ -11,9 +11,6 @@ import ShippingForm from '~/components/checkout/trades/ShippingForm'
 import PaymentOption from '~/components/checkout/trades/payment/PaymentOption'
 import PaymentCard from '~/components/checkout/trades/payment/PaymentCard'
 import PaymentOptionError from '~/components/checkout/trades/payment/PaymentOptionError'
-import PaymentGiftCard from '~/components/checkout/trades/payment/PaymentGiftCard'
-import PaymentAffirm from '~/components/checkout/trades/payment/PaymentAffirm'
-import PaymentCrypto from '~/components/checkout/trades/payment/PaymentCrypto'
 import LoginForm from '~/components/checkout/common/LoginForm'
 import ForgotPassword from '~/components/checkout/common/ForgotPassword'
 
@@ -26,9 +23,6 @@ export default {
     PaymentOption,
     PaymentCard,
     PaymentOptionError,
-    PaymentGiftCard,
-    PaymentAffirm,
-    PaymentCrypto,
     LoginForm,
     ForgotPassword,
   },
