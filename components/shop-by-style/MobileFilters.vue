@@ -10,6 +10,7 @@
           :label="option.label"
           :val="option.value"
           name="sortFilter"
+          @change="selectedStatus"
         />
       </div>
       <div class="border-bottom pb-3 mt-2">
@@ -54,11 +55,12 @@
         </Collapse>
       </div>
 
-      <div v-if="dateFilter" class="border-bottom pb-3 mt-2">
+      <div v-if="isArchive" class="border-bottom pb-3 mt-2">
         <Collapse :title="$t('filter_sidebar.year')" :selectedValue="selectedYearRange">
           <b-row>
             <b-col sm="2" class="w-50">
                 <b-form-datepicker
+                    v-model="years.start"
                     size="sm"
                     locale="en"
                     :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
@@ -68,6 +70,7 @@
             </b-col>
             <b-col sm="2" class="w-50">
                 <b-form-datepicker
+                    v-model="years.end"
                     size="sm"
                     locale="en"
                     :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
@@ -133,11 +136,15 @@
         brands: [],
         selectedBrand: '',
         selectedSizeType: '',
-        years: '',
+        years: {
+          start: '',
+          end: ''
+        },
         allFilters: {},
         status: ACTIVE,
         checkedTypes: [],
-        checkedBrands: []
+        checkedBrands: [],
+        isArchive: this.dateFilter
       }
     },
     computed: {
@@ -165,7 +172,7 @@
       },
 
       selectedYearRange() {
-        return `${this.years[0]}-${this.years[1]}`
+        return this.years.start ? `${this.years.start}-${this.years.end}` : ''
       },
 
       minYear() {
@@ -208,6 +215,15 @@
     },
 
     methods: {
+      selectedStatus(value) {
+        if(value === this.$t('shop_by_style.archive')) {
+          this.status = 'archived'
+          this.isArchive = true
+        } else {
+          this.status = ACTIVE
+          this.isArchive = false
+        }
+      },
       getSizeType(value) {
         this.selectedSizeType = this.checkedTypes;
         if(this.selectedSizeType.includes(value)){
@@ -238,7 +254,7 @@
         this.$axios
           .get('shop-by-style', {
             params: {
-              selectedType: (this.sortBy === this.$t('shop_by_style.archive')) ? TYPE : this.sortBy,
+              selectedType: (this.sortBy === this.$t('shop_by_style.archive')) ? 'look' : this.sortBy,
               status: this.status,
               filters: JSON.stringify(this.allFilters)
             }

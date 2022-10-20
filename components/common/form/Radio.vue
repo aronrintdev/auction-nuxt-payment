@@ -34,8 +34,8 @@
         default: null,
       },
       modelValue: {
-        type: Array,
-        default: () => [],
+        type: [String, Array],
+        default: '',
       },
       val: {
         type: String,

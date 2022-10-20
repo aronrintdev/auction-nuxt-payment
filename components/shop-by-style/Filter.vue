@@ -144,7 +144,7 @@ export default {
 
     filtersUpdated() {
       return (
-        _.xor(this.sizeTypeSelected, this.filtersApplied.sizeTypeSelected, this.brandsSelected)
+        _.xor(this.sizeTypeSelected, this.filtersApplied.sizeTypeSelected, this.brandsSelected, this.filtersApplied.brandsSelected)
           .length > 0
       )
     },

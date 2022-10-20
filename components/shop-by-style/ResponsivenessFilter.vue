@@ -17,7 +17,7 @@
       </div>
     </div>
     <BottomSheet id="filters_sheet">
-      <ShopFiltersMobile ref="shopFilters" :defaultType="currentType" :dateFilter="date" @getStyles="stylesList" />
+      <ShopFiltersMobile ref="shopFilters" :defaultType="currentType" :dateFilter="date" @getStyles="stylesList" @selectedFilters="totalFilters" />
       <template #footer>
         <div
           class="bottom-sheet-footers d-flex justify-content-between align-items-center w-100 px-3"
@@ -31,7 +31,7 @@
             class="btn text-white fs-16 fw-6 font-secondary rounded-pill apply-btn"
             @click="apply"
           >
-            {{ $t('common.apply_filters') }}
+            {{ $t('common.apply_filters') }} {{ total ? '('+total+')' : '' }}
           </button>
         </div>
       </template>
@@ -60,6 +60,7 @@ export default {
     return {
       scrollPosition: null,
       search: null,
+      total: 0
     }
   },
   destroyed() {
@@ -81,6 +82,9 @@ export default {
     handleSearchChange(value) {
       this.search = value
     },
+    totalFilters(value) {
+      this.total = value
+    }
   },
 }
 </script>
