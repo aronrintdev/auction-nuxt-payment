@@ -39,13 +39,6 @@
       padding: 8px 0px 10px 20px;
       background: $color-ui-light-disabled;
     }
-
-    .filter-row {
-      .filter-badge {
-        background: $color-blue-24;
-        color: $color-blue-2;
-      }
-    }
   }
   #tb-product {
     max-height: 350px;
@@ -93,4 +86,14 @@
       border: none !important;
     }
   }
+}
+.filter-row {
+  .filter-badge {
+    background: $color-blue-24;
+    color: $color-blue-2;
+  }
+}
+.filter-btn{
+  height: 48px;
+  background-color: $color-gray-81;
 }

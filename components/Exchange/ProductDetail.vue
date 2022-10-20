@@ -75,12 +75,12 @@
         <div class="row">
           <div class="col-lg-12">
             <NavGroup
-                :data="priceSizeTabData"
-                :value="priceSizeTabCurrentValue"
-                class="section-nav"
-                nav-key="line_chart"
-                @change="handleTabChange"
-              />
+              :data="priceSizeTabData"
+              :value="priceSizeTabCurrentValue"
+              class="section-nav"
+              nav-key="line_chart"
+              @change="handleTabChange"
+            />
           </div>
         </div>
       </div>
@@ -137,12 +137,6 @@ import { Button, Loader, FormDropdown, SearchInput } from '~/components/common'
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import ShareIcon from '~/assets/img/icons/share.svg?inline'
-import {
-  CHART_FILTER_TABS,
-  PRICE_SIZE_TABS,
-  SIMILAR_FILTER_SORT_OPTIONS,
-} from '~/static/constants/stock-exchange'
-
 export default {
   name: 'ProductDetail',
   components: {
@@ -157,16 +151,75 @@ export default {
   },
   data() {
     return {
-      CHART_FILTER_TABS,
-      PRICE_SIZE_TABS,
-      SIMILAR_FILTER_SORT_OPTIONS,
       dayjs,
       loading: false,
       products: [],
       similarProductSearchValue: '',
       sortBy: null,
       chartTabCurrentValue: '24',
-      priceSizeTabCurrentValue:'average_size',
+      priceSizeTabCurrentValue: 'average_size',
+      SIMILAR_FILTER_SORT_OPTIONS: [
+        {
+          label: this.$t('vendor_purchase.sort_by'),
+          value: 'default',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.highest_change'),
+          value: 'highestChange',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.lowest_change'),
+          value: 'lowestChange',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.release_date_asc'),
+          value: 'releaseDateAsc',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.last_price_lh'),
+          value: 'lastPriceLh',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.last_price_hl'),
+          value: 'lastPriceHl',
+        },
+      ],
+      PRICE_SIZE_TABS: [
+        {
+          label: this.$t('deadstock_exchange.detail.avg_price'),
+          value: 'average_price',
+        },
+        {
+          label: this.$t('deadstock_exchange.detail.size_specific'),
+          value: 'size_specific',
+        },
+      ],
+      CHART_FILTER_TABS: [
+        {
+          label: this.$t('deadstock_exchange.detail.24h'),
+          value: '24',
+        },
+        {
+          label: this.$t('deadstock_exchange.detail.7d'),
+          value: '7',
+        },
+        {
+          label: this.$t('deadstock_exchange.detail.30d'),
+          value: '30',
+        },
+        {
+          label: this.$t('deadstock_exchange.detail.6m'),
+          value: '6',
+        },
+        {
+          label: this.$t('deadstock_exchange.detail.1y'),
+          value: '1',
+        },
+        {
+          label: this.$t('deadstock_exchange.detail.all'),
+          value: 'all',
+        },
+      ],
       // line chart data
       lineChartOptions: {
         responsive: true,
@@ -248,19 +301,51 @@ export default {
           break
         }
         case '7': {
-          this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
+          this.lineDatasets.labels = [
+            '2 pm',
+            '6 pm',
+            '10 pm',
+            '2 am',
+            '6 am',
+            '10 am',
+            '2 pm',
+          ]
           break
         }
         case '6': {
-          this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
+          this.lineDatasets.labels = [
+            '2 pm',
+            '6 pm',
+            '10 pm',
+            '2 am',
+            '6 am',
+            '10 am',
+            '2 pm',
+          ]
           break
         }
         case '1': {
-          this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
+          this.lineDatasets.labels = [
+            '2 pm',
+            '6 pm',
+            '10 pm',
+            '2 am',
+            '6 am',
+            '10 am',
+            '2 pm',
+          ]
           break
         }
         case 'all': {
-          this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
+          this.lineDatasets.labels = [
+            '2 pm',
+            '6 pm',
+            '10 pm',
+            '2 am',
+            '6 am',
+            '10 am',
+            '2 pm',
+          ]
           break
         }
         default:
