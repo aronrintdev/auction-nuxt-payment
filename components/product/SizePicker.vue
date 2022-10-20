@@ -1,9 +1,27 @@
 <template>
-  <div class="position-relative w-auto container">
+  <div class="position-relative w-100 container">
     <div
-      v-if="viewMode == 'carousel'"
+      v-if="viewMode === 'carousel'"
       class="position-relative mx-auto carousel-wrapper"
     >
+      <b-row>
+        <b-col md="12">
+          <span class="body-8-normal text-uppercase">{{ $t('products.select_size') }}</span>
+
+          <Button
+            v-if="!singleMode"
+            variant="link"
+            class="position-absolute view-all-btn ml-auto body-8-medium"
+            size="sm"
+            @click="handleViewAllClick"
+          >
+            <template #default>
+              <span class="text-color-blue-30">{{ $t('products.all_sizes') }}</span>
+            </template>
+          </Button>
+        </b-col>
+      </b-row>
+
       <client-only>
         <Carousel
           ref="sizeCarousel"
@@ -45,7 +63,7 @@
           <template #prev>
             <div class="owl-nav owl-prev">
               <img
-                :src="require('~/assets/img/icons/product/arrow-left.svg')"
+                :src="require('~/assets/img/icons/arrow-left-gray.svg')"
               />
             </div>
           </template>
@@ -53,26 +71,15 @@
           <template #next>
             <div class="owl-nav owl-next">
               <img
-                :src="require('~/assets/img/icons/product/arrow-right.svg')"
+                :src="require('~/assets/img/icons/arrow-right-gray.svg')"
               />
             </div>
           </template>
         </Carousel>
       </client-only>
-
-      <Button
-        v-if="!singleMode"
-        variant="link"
-        class="position-absolute view-all-btn"
-        icon="eye2.svg"
-        size="sm"
-        @click="handleViewAllClick"
-      >
-        {{ $t('products.all_sizes') }}
-      </Button>
     </div>
 
-    <div v-if="viewMode == 'all'" class="mx-auto position-relative all-sizes">
+    <div v-if="viewMode === 'all'" class="mx-auto position-relative all-sizes">
       <div class="items-wrapper">
         <div
           v-for="size in sizes"
@@ -218,14 +225,15 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.text-color-blue-30
+  color: $color-blue-30
+
 .container
   .carousel-wrapper
-    width: 567px
     max-width: 100%
     padding-top: 24px
 
   .size-carousel::v-deep
-    width: 567px
     max-width: 100%
     padding: 0 20px
     margin-top: 8px
@@ -242,7 +250,8 @@ export default {
 
         &.active
           .card
-            border-color: $color-black-4
+            border: 1px solid $color-black-4
+            border-radius: 4px
 
           .price
             display: none
@@ -250,7 +259,7 @@ export default {
           &::after
             content: " "
             width: 63px
-            border-bottom: 3px solid $color-blue-5
+            border-bottom: 2px solid $color-blue-5
             margin-top: 11px
             display: block
             margin-left: auto
@@ -277,7 +286,7 @@ export default {
 
     .card
       @include body-2-medium
-      border: 3px solid $color-gray-21
+      border: 1px solid $color-gray-21
       border-radius: 10px
       width: 80px
       height: 80px
@@ -286,8 +295,8 @@ export default {
       box-shadow: none
 
     .price
-      @include body-2-bold
-      margin-top: 15px
+      @include body-13-normal
+      margin-top: 8px
       color: $color-gray-20
 
   .view-all-btn
@@ -296,7 +305,6 @@ export default {
 
   .all-sizes
     padding-top: 24px
-    width: 486px
     max-width: 100%
 
     .items-wrapper
@@ -320,7 +328,7 @@ export default {
         &::after
           content: " "
           width: 53px
-          border-bottom: 3px solid $color-blue-5
+          border-bottom: 2px solid $color-blue-5
           margin-top: 11px
           display: block
           margin-left: auto
@@ -330,15 +338,15 @@ export default {
         @include body-2-medium
         width: 70px
         height: 70px
-        border: 3px solid $color-gray-21
+        border: 1px solid $color-gray-21
         color: $color-black-4
         box-shadow: none
         background-color: $color-white-1
         border-radius: 10px
 
       .price
-        @include body-2-bold
-        margin-top: 2px
+        @include body-13-normal
+        margin-top: 12px
         color: $color-gray-20
 
     .close-btn
