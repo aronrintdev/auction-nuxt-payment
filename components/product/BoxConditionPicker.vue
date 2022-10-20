@@ -62,27 +62,28 @@ export default {
   .box-condition-text
     @include body-8-normal
     color: $color-black-1
-    text-decoration: underline
+    text-transform: uppercase
     padding: 0
-    margin: 0
-    margin-top: 24px
-    text-align: center
+    margin: 24px 0 0
     position: relative
 
     img
-      width: 10px
-      height: 10px
-      margin-top: -15px
+      width: 13px
+      height: 13px
+      margin-top: -5px
       cursor: help
 
   .box-condition-btns
     margin-top: 8px
-    text-align: center
 
     .btn
-      @include body-8-medium
+      @include body-8-normal
       color: $color-gray-23
       margin-right: 6px
+
+      &:first-child
+        padding-left: 0
+        margin-left: 0
 
       &.active
         color: $color-black-1
