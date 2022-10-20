@@ -687,7 +687,6 @@ export default {
 
 
 .container-profile-auctions
-  // padding: 47px 54px
   background-color: $color-white-5
 
   h2.title
