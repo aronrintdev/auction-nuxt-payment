@@ -45,9 +45,9 @@
           </nuxt-link>
         </div>
         <div v-if="$route.name !== 'profile-support-live-chat'" class="col-md-4 col-6">
-          <div
-            class="navigation-link live-chat h-100"
-            @click="openChat"
+          <nuxt-link
+            to="/profile/support/live-chat"
+            class="navigation-link"
           >
             <div
               class="border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
@@ -67,7 +67,7 @@
                 }}
               </h6>
             </div>
-          </div>
+          </nuxt-link>
         </div>
         <div v-if="$route.name !== 'profile-support-contact-us'" class="col-md-4 col-6">
           <nuxt-link
@@ -236,6 +236,7 @@ export default {
     console.debug(this.$route.name)
   },
   methods: {
+    // todo remove this
     openChat() {
       this.$tawkMessenger.toggle()
     },
