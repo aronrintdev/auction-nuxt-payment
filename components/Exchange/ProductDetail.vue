@@ -21,7 +21,7 @@
             <div class="body-4-normal mb-2 text-gray-6">Black & White</div>
           </div>
           <div class="col-lg-5 text-right">
-            <Button variant="dark-blue" class="mx-3" @click="handleBuyClick">
+            <Button variant="dark-blue" @click="handleBuyClick">
               <div class="d-flex justify-content-between">
                 <div>{{ $t('deadstock_exchange.detail.buy') }}</div>
               </div>
