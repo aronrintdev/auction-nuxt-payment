@@ -1,31 +1,53 @@
 <template>
-  <div class="table-wrapper">
-    <b-table
-      responsive
-      :items="items"
-      :fields="fields"
-      thead-class="d-none"
-      borderless
-      class="size-guide-table"
-    >
-    </b-table>
-  </div>
+  <b-row class="w-100">
+    <b-col md="12">
+      <b-row>
+        <b-col md="12">
+          <b-table
+            responsive
+            :items="items"
+            striped
+            :fields="fields"
+            thead-class="d-none"
+            borderless
+          >
+            <template #cell(type)="data">
+              <span class="body-4-medium">{{ data.item.type }}</span>
+            </template>
+            <template #cell()="data">
+              <span v-if="data.field.key === `s${selectedSize - 1}`" class="body-4-medium">{{ data.value }}</span>
+              <span v-else class="body-4-regular">{{ data.value }}</span>
+            </template>
+          </b-table>
+        </b-col>
+      </b-row>
+      <b-row class="mt-3">
+        <b-col md="12" class="text-center">
+          <OverallFitSVG />
+        </b-col>
+      </b-row>
+    </b-col>
+  </b-row>
 </template>
 <script>
+import OverallFitSVG from '~/assets/img/product/overall-fit.svg?inline'
+
 export default {
   name: 'ProductSizeGuideShoe',
-
-  components: {},
-
-  props: {},
-
+  components: { OverallFitSVG },
+  props: {
+    selectedSize: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+  },
   data() {
     return {
       fields: [
         {
           key: 'type',
           stickyColumn: true,
-          variant: 'primary',
         },
         's1',
         's2',
@@ -169,38 +191,5 @@ export default {
       ],
     }
   },
-
-  methods: {
-    setTab(tab) {
-      this.currentTab = tab
-    },
-  },
 }
 </script>
-<style lang="sass" scoped>
-@import '~/assets/css/_variables'
-
-.table-wrapper
-  padding: 20px
-
-  .size-guide-table::v-deep
-    @include body-5-regular
-    color: $color-black-1
-
-    .table-primary
-      background-color: $color-blue-6
-      @include body-5-medium
-      text-transform: uppercase
-      padding: 5px 7px
-
-    td
-      white-space: nowrap
-      padding: 5px 24px
-
-@media (max-width: 576px)
-  .table-wrapper
-    padding: 20px 0 0 0
-
-    .size-guide-table::v-deep
-      margin: 0
-</style>
