@@ -3687,6 +3687,7 @@
     "delete_expired": "Delete Expired Bids",
     "items": "Items",
     "auto_bid_to": "Autobid to ",
+    "highest_bid_info": "The highest bid for each auction is displayed",
     "messages": {
       "saved": "Your changes have been saved!"
     },
@@ -3724,12 +3725,14 @@
     },
     "success_deleted": "Your selected items have been deleted",
     "headers": {
+      "auction_id": "Auction ID",
       "product": "Product",
       "auction_type": "Type",
       "auto_bid": "Autobid",
       "bid_amt": "Bid Amt.",
       "time_remaining": "Time Remaining",
-      "action": "Action"
+      "action": "Action",
+      "highest_bid_amt": "Highest Bid Amount"
     },
     "clear_filters": "Clear All Filters",
     "auction_types": {
