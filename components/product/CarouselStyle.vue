@@ -105,7 +105,6 @@ export default {
 .product-carousel-wrapper
   .no-text
     @include body-4-medium
-    text-align: center
     color: $color-gray-5
   .owl-stage::v-deep
       width: 100%
