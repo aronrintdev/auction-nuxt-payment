@@ -77,21 +77,27 @@
         <div class="body-2-bold mb-2">
           {{ $t('deadstock_exchange.detail.similar_products') }}
         </div>
+
         <div class="row">
-          <div class="col-lg-8 d-flex">
+          <div class="col-lg-8">
             <!-- Input search -->
             <SearchInput
               :value="searchValue"
-              :placeholder="$t('deadstock_exchange.filter_by.details_placeholder')"
+              :placeholder="
+                $t('deadstock_exchange.filter_by.details_placeholder')
+              "
               variant="light"
               class="flex-grow-1 mr-4 search-input"
               :debounce="1000"
               @change="searchProduct"
             />
+            <!-- ./Input search -->
+          </div>
+          <div class="col-lg-4">
             <FormDropdown
               id="sort-by"
               :value="sortBy"
-              :placeholder="$t('selling_page.sortby')"
+              :placeholder="$t('deadstock_exchange.detail.filter')"
               :items="SORT_OPTIONS"
               :icon="require('~/assets/img/icons/three-lines.svg')"
               :icon-arrow-down="
@@ -101,15 +107,12 @@
               can-clear
               @select="handleSortBySelect"
             />
-            <!-- ./Input search -->
           </div>
-          <div class="col-lg-4"></div>
+        </div>
           <div class="row">
             <div  id="tb-product" class="col-ld-12 overflow-auto h-50" >
-              <!-- ProducListCard Table -->
               <SimilarProductTable :products="products" />
             </div>
-          </div>
         </div>
       </div>
     </div>
@@ -119,7 +122,7 @@
 <script>
 import dayjs from 'dayjs'
 import SimilarProductTable from './SimilarProductTable.vue'
-import { Button, Loader ,SearchInput,FormDropdown} from '~/components/common'
+import { Button, Loader,FormDropdown,SearchInput} from '~/components/common'
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import ShareIcon from '~/assets/img/icons/share.svg?inline'
@@ -134,7 +137,7 @@ export default {
     ShareIcon,
     SimilarProductTable,
     SearchInput,
-    FormDropdown
+    FormDropdown,
   },
   data() {
     return {
@@ -173,7 +176,26 @@ export default {
           label: this.$t('vendor_purchase.sort_by'),
           value: 'default',
         },
-
+        {
+          label: this.$t('deadstock_exchange.sort_by.highest_change'),
+          value: 'highestChange',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.lowest_change'),
+          value: 'lowestChange',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.release_date_asc'),
+          value: 'releaseDateAsc',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.last_price_lh'),
+          value: 'lastPriceLh',
+        },
+        {
+          label: this.$t('deadstock_exchange.sort_by.last_price_hl'),
+          value: 'lastPriceHl',
+        },
       ],
       sortBy: null,
       showScroll: null,
@@ -282,7 +304,7 @@ export default {
     },
     // On filter by change.
     searchProduct(value) {
-      this.search =  value
+      this.search = value
       this.loadPage()
     },
     handleBuyClick() {},
@@ -316,3 +338,5 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+</style>

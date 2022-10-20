@@ -8,8 +8,9 @@
 import ProductDetail from '~/components/Exchange/ProductDetail.vue'
 export default {
   components: { ProductDetail },
-  layout(context) {
-    return context.$auth.user ? 'Profile' : 'IndexLayout'
-  },
+  layout: 'IndexLayout',
+  // layout(context) {
+  //   return context.$auth.user ? 'Profile' : 'IndexLayout'
+  // },
 }
 </script>
