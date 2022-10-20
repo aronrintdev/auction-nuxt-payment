@@ -1,6 +1,6 @@
 <template>
   <MobileBottomSheet
-    :max-height="'50%'"
+    :max-height="'80%'"
     :open="isOpen"
     @closed="$emit('closed')"
     @opened="$emit('opened')"
@@ -26,10 +26,12 @@
             v-for="sort in sortOptions"
             :key="sort.value"
             class="mt-1 d-flex align-items-center"
+            @click="filters.sortBy = sort.value"
           >
             <input 
               type="radio" 
-              class="radio-button" 
+              class="radio-button"
+              :checked="sort.value === filters.sortBy"
             />
             <span class="sort-option">{{ sort.text }}</span>
           </div>
@@ -37,7 +39,10 @@
 
         <div class="separator"></div>
 
-        <FilterAccordion :title="$tc('common.size_type', 1)">
+        <FilterAccordion 
+          :title="$tc('common.size_type', 1)" 
+          :data="filters.size_type.text"
+        >
           <ButtonSelector 
             :options="sizeTypesOptions" 
             :contentStyle="{
@@ -46,13 +51,14 @@
               rowGap: '15px',
               marginTop: '20px'
             }"
+            :single="true"
             @change="sizeTypeChange"
           />
         </FilterAccordion>
 
         <div class="separator"></div>
 
-        <FilterAccordion :title="$tc('home_page.categories', 1)">
+        <FilterAccordion :title="$tc('home_page.categories', 1)" :data="filters.category.text">
           <ButtonSelector 
             :options="categoriesOptions" 
             :contentStyle="{
@@ -62,14 +68,18 @@
               marginTop: '15px',
               marginLeft: '-7.5px'
             }"
+            :single="true"
             @change="categoryChange"
           />
         </FilterAccordion>
 
         <div class="separator"></div>
 
-        <FilterAccordion :title="$tc('trades.index.browse.product_type', 1)">
-          <ButtonSelector 
+        <FilterAccordion 
+          :title="$tc('trades.index.browse.product_type', 1)" 
+          :data="filters.product_type.join(', ')"
+        >
+          <ButtonSelector
             :options="productTypeOptions"
             :contentStyle="{
               display: 'flex',
@@ -78,13 +88,14 @@
               marginTop: '15px',
               marginLeft: '-7.5px'
             }"
+            :single="false"
             @change="productTypeChange"
           />
         </FilterAccordion>
 
         <div class="separator"></div>
 
-        <FilterAccordion :title="$tc('product_page.sizes', 1)">
+        <FilterAccordion :title="$tc('product_page.sizes', 1)" :data="filters.sizes.text?.toString()">
           <ButtonSelector 
             :options="sizesOptions"
             :contentStyle="{
@@ -94,28 +105,33 @@
               marginTop: '15px',
               marginLeft: '-7.5px'
             }"
+            :single="true"
+            itemClass="size-42"
             @change="sizesChange"
           />
         </FilterAccordion>
 
         <div class="separator"></div>
 
-        <FilterAccordion :title="$tc('home_page.size', 1)">
+        <FilterAccordion :title="$tc('home_page.size', 1)" :data="filters.size.text?.toString()">
           <ButtonSelector 
             :options="sizeOptions"
             :contentStyle="{
               display: 'flex',
               justifyContent: 'space-between',
               rowGap: '15px',
+              marginTop: '15px',
               marginLeft: '-7.5px'
             }"
+            itemClass="size-45"
+            :single="true"
             @change="sizeChange"
           />
         </FilterAccordion>
 
         <div class="separator"></div>
 
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between mb-3">
           <Button
             class="filter-button"
             pill
@@ -144,7 +160,7 @@ import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
 import FilterAccordion from '~/components/mobile/FilterAccordion';
 import Button from '~/components/common/Button';
 import ButtonSelector from '~/components/mobile/ButtonSelector';
-import { SORT_BY, SIZE_TYPES, PRODUCT_TYPES } from '~/static/constants/trades'
+import { SIZE_TYPES, PRODUCT_TYPES, WANTS_SORT_OPTIONS } from '~/static/constants/trades'
 import { SNEAKER_SIZES, APPAREL_SIZES } from '~/static/constants/sizes'
 
 
@@ -166,25 +182,24 @@ export default {
   },
 
   data() {
-    console.log('SNEAKER_SIZES', SNEAKER_SIZES);
-    console.log('APPAREL_SIZES', APPAREL_SIZES);
     return {
-      sortBy: 'trending',
       sizeTypesOptions: SIZE_TYPES.map(item => ({ text: this.$t(item.text), value: item.value })),
       categoriesOptions: [
         { text: this.$t('common.footwear'), value: 'sneakers' },
         { text: this.$t('common.apparel'), value: 'apparel' },
         { text: this.$t('common.categories.accessories'), value: 'accessories' },
       ],
-      sortOptions: SORT_BY.map(item => ({ text: this.$t(item.text), value: item.value })),
+      sortOptions: WANTS_SORT_OPTIONS.map(item => ({ text: this.$t(item.text), value: item.value })),
       productTypeOptions: PRODUCT_TYPES.map(item => ({ text: this.$t(item.text), value: item.value })),
       sizesOptions: SNEAKER_SIZES.map(item => ({ text: item, value: item })),
       sizeOptions: APPAREL_SIZES.map(item => ({ text: item, value: item })),
       filters: {
-        types: [],
-        years: null,
-        search: null,
-        status: ''
+        sortBy: 'price_asc',
+        size_type: { text: '', value: '' },
+        category: { text: '', value: '' },
+        product_type: [],
+        sizes: { text: '', value: '' },
+        size: { text: '', value: '' }
       },
     };
   },
@@ -196,11 +211,10 @@ export default {
     },
     filterChangeCount() {
       return Object.values(this.filters).filter(a => a && a.length !== 0).length
-    }
+    },
   },
 
   mounted() {
-    console.log('MOUNS OP', this.isOpen);
   },
 
   methods: {
@@ -214,24 +228,24 @@ export default {
       this.$emit('filter', this.filters)
     },
 
-    sizeTypeChange() {
-
+    sizeTypeChange(value) {
+      this.filters.size_type = this.sizeTypesOptions.find(v => v.value === value);
     },
 
-    categoryChange() {
-
+    categoryChange(value) {
+      this.filters.category = this.categoriesOptions.find(v => v.value === value);
     },
 
-    productTypeChange() {
-
+    productTypeChange(value) {
+      this.filters.product_type = value
     },
 
-    sizeChange() {
-
+    sizeChange(value) {
+      this.filters.size = this.sizeOptions.find(v => v.value === value);
     },
 
-    sizesChange() {
-
+    sizesChange(value) {
+      this.filters.sizes = this.sizesOptions.find(v => v.value === value);
     }
 
   }

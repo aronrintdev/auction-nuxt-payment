@@ -52,6 +52,13 @@ export const SORT_BY = [
   { text: 'trades.create_listing.vendor.wants.price_high_to_low', value: 'price_desc' },
 ]
 
+export const WANTS_SORT_OPTIONS = [
+  { text: 'trades.create_listing.vendor.wants.price_low_to_high', value: 'price_asc' },
+  { text: 'trades.create_listing.vendor.wants.price_high_to_low', value: 'price_desc' },
+  { text: 'createlisting.size_small_large', value: 'size_asc' },
+  { text: 'createlisting.size_large_small', value: 'size_desc' },
+]
+
 export const PRODUCT_TYPES = [
   { text: 'trades.index.browse.product_types.backpack', value: 'backpack' },
   { text: 'trades.index.browse.product_types.bag', value: 'bag' },

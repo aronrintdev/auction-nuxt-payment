@@ -4,7 +4,7 @@
       :is="single? 'b-form-radio-group': 'b-form-checkbox-group'"
       v-model="selected"
       :options="options"
-      :button-variant="`d-custom col col-4 d-flex justify-content-center align-items-center ml-2 mt-1`"
+      :button-variant="`d-custom d-flex justify-content-center align-items-center ml-2 mt-1 ${itemClass}`"
       buttons
       class="custom-button-multi w-100 row text-capitalize"
       :style="contentStyle"
@@ -16,7 +16,7 @@
           v-if="all"
           v-model="selected"
           :value="'all'"
-          button-variant="'d-custom col col-4 d-flex justify-content-center align-items-center ml-2 mt-1"
+          :button-variant="`d-custom d-flex justify-content-center align-items-center ml-2 mt-1 ${itemClass}`"
           buttons
           @change="allChanged"
         >
@@ -86,7 +86,16 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+
+
+
+
 ::v-deep.custom-button-multi
+  .active
+    border: 1px solid $color-black-1 !important
+    color: $color-black-1 !important
+    background-color: $color-gray-21 !important
+
   .btn-d-custom
     @include body-5
     height: 45px !important
@@ -100,9 +109,11 @@ export default {
     color: $color-gray-4
     border-radius: 3px !important
 
-    &.active
-      border: 1px solid $color-black-1
-      color: $color-black-1
-      background-color: $color-gray-21
+  .size-45
+    min-width: 45px !important
+    max-width: 45px !important
+  .size-42
+    min-width: 42px !important
+    max-width: 42px !important
 
 </style>
