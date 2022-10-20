@@ -3472,6 +3472,7 @@
     "promotion": "Promotion",
     "paymentvia": "Payment via ",
     "view_details": "View Details",
+    "view_shipping_details": "View Shipping Details",
     "shipping_carrier": "Shipping Carrier",
     "transactionid": "Transaction ID: #{transactionid}",
     "purchased_on": "Purchased On",

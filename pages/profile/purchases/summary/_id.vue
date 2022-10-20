@@ -1,79 +1,84 @@
 <template>
   <div class="container-fluid vd-purchases-section">
-    <div v-if="!viewShippingDetails" class="row mb-bb">
-      <div class="col-md-12 col-lg-12 vendor-dashboard-body px-5 py-5">
-        <!-- Row (Heading/ Search Fields/ Tabs) -->
-        <div class="row mt-md-4 mt-4 vd-purchase-css">
-          <!-- Heading -->
-          <div class="col-12 purchase-heading">
-            {{ $t('vendor_purchase.purchases') }}
-            <Button
-              to="/profile/purchases"
-              variant="link"
-              class="btn-back float-right"
-            >
-              <img
-                :src="require('~/assets/img/icons/arrow-back.svg')"
-                :alt="$t('common.back')"
-                class="mr-2"
-              />
-              {{ $t('vendor_purchase.back_to_purchases') }}
-            </Button>
-          </div>
-          <!-- ./Heading -->
-          <!-- TODO: Search Input -->
-          <div class="col-md-8 col-12 col-sm-6 mt-md-4 mt-2">
-            <div class="form browse-search border rounded">
-              <div class="form-group selling-search-input">
+    <div v-if="!isScreenXS">
+      <div v-if="!viewShippingDetails" class="row mb-bb">
+        <div class="col-md-12 col-lg-12 vendor-dashboard-body px-5 py-5">
+          <!-- Row (Heading/ Search Fields/ Tabs) -->
+          <div class="row mt-md-4 mt-4 vd-purchase-css">
+            <!-- Heading -->
+            <div class="col-12 purchase-heading">
+              {{ $t('vendor_purchase.purchases') }}
+              <Button
+                  class="btn-back float-right"
+                  to="/profile/purchases"
+                  variant="link"
+              >
                 <img
-                  :src="require('~/assets/img/icons/search.svg')"
-                  class="icon-search"
-                  alt="Search"
+                    :alt="$t('common.back')"
+                    :src="require('~/assets/img/icons/arrow-back.svg')"
+                    class="mr-2"
                 />
-                <input
-                  id="search-result"
-                  class="form-control form-input vd-purchases-browse-input"
-                  :placeholder="$t('vendor_purchase.search_purchases_summary')"
-                  autocomplete="on"
-                />
+                {{ $t('vendor_purchase.back_to_purchases') }}
+              </Button>
+            </div>
+            <!-- ./Heading -->
+            <!-- TODO: Search Input -->
+            <div class="col-md-8 col-12 col-sm-6 mt-md-4 mt-2">
+              <div class="form browse-search border rounded">
+                <div class="form-group selling-search-input">
+                  <img
+                      :src="require('~/assets/img/icons/search.svg')"
+                      alt="Search"
+                      class="icon-search"
+                  />
+                  <input
+                      id="search-result"
+                      :placeholder="$t('vendor_purchase.search_purchases_summary')"
+                      autocomplete="on"
+                      class="form-control form-input vd-purchases-browse-input"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- ./Row -->
-        <template v-if="dataloaded">
-          <!-- Purchase Summary Details -->
-          <PurchaseSummary
-            :orderDetails="orderDetails"
-            @exportPDF="exportPDF"
-          />
-          <!-- ./Purchase Summary Details -->
+          <!-- ./Row -->
+          <template v-if="dataloaded">
+            <!-- Purchase Summary Details -->
+            <PurchaseSummary
+                :orderDetails="orderDetails"
+                @exportPDF="exportPDF"
+            />
+            <!-- ./Purchase Summary Details -->
 
-          <!-- Payment Summary Details -->
-          <PurchaseUpdatePaymentInfo
-            v-if="status === processingPayment &&
+            <!-- Payment Summary Details -->
+            <PurchaseUpdatePaymentInfo
+                v-if="status === processingPayment &&
               !paymentInfoIsUpdated
             "
-            :orderDetails="orderDetails"
-          />
-          <PaymentSummary
-            v-else
-            class="payment-summary"
-            :orderDetails="orderDetails"
-            :paymentInfoIsUpdated="paymentInfoIsUpdated"
-          />
-          <!-- ./Payment Summary Details -->
-          <!-- Refund Summary -->
-          <RefundSummary
-            v-if="orderDetails.status === cancelled"
-            :orderDetails="orderDetails"
-          />
-          <!-- Refund Summary -->
-        </template>
+                :orderDetails="orderDetails"
+            />
+            <PaymentSummary
+                v-else
+                :orderDetails="orderDetails"
+                :paymentInfoIsUpdated="paymentInfoIsUpdated"
+                class="payment-summary"
+            />
+            <!-- ./Payment Summary Details -->
+            <!-- Refund Summary -->
+            <RefundSummary
+                v-if="orderDetails.status === cancelled"
+                :orderDetails="orderDetails"
+            />
+            <!-- Refund Summary -->
+          </template>
+        </div>
+      </div>
+      <div v-else>
+        <VendorPurchaseShippingDetails :orderDetails="orderDetails"/>
       </div>
     </div>
     <div v-else>
-      <VendorPurchaseShippingDetails :orderDetails="orderDetails" />
+      <ViewSummary/>
     </div>
   </div>
 </template>
@@ -84,7 +89,7 @@ import PaymentSummary from '~/components/profile/purchases/summary/PaymentSummar
 import PurchaseUpdatePaymentInfo from '~/components/profile/purchases/summary/UpdatePaymentInfo.vue'
 import RefundSummary from '~/components/profile/purchases/summary/RefundSummary.vue'
 import VendorPurchaseShippingDetails from '~/components/profile/purchases/summary/shipping/ShippingDetails.vue'
-import { Button } from '~/components/common'
+import {Button} from '~/components/common'
 import {
   PROCESSING_PAYMENT,
   CANCELLED,
@@ -93,10 +98,14 @@ import {
   PRODUCT_FALLBACK_URL,
   GOOGLE_MAPS_BASE_URL
 } from '~/static/constants'
+import screenSize from '~/plugins/mixins/screenSize';
+import ViewSummary from '~/components/profile/purchases/ViewSummary';
+
 export default {
   name: 'PurchaseSummaryIndexPage',
 
   components: {
+    ViewSummary,
     PurchaseSummary,
     PaymentSummary,
     PurchaseUpdatePaymentInfo,
@@ -104,7 +113,7 @@ export default {
     VendorPurchaseShippingDetails,
     Button,
   },
-
+  mixins: [screenSize],
   layout: 'Profile',
 
   data() {
