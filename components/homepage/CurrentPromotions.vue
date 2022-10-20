@@ -87,7 +87,7 @@ export default {
           let i = 0;
           for (const property in promotions) {
             i++
-            if(i<=2){
+            if(i<=3){
               const row = {'imageUrl': promotions[property].promotion_image};
               this.promotions.push(row)
             }
