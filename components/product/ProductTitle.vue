@@ -38,7 +38,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .text-color-green-24
-  color: $color-green-24
+  color: $color-green-26
 
 .text-color-grey-6
   color: $color-gray-6
