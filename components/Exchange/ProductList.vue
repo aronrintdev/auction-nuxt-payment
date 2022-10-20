@@ -1,7 +1,7 @@
 <template>
   <div class="deadstock-exchange-page">
     <div class="d-flex heading-garamond">
-      <h1>{{ title[0].label}}</h1>
+      <h1>{{title[0].label}}</h1>
     </div>
     <!-- Loaders -->
     <div
@@ -12,7 +12,7 @@
     </div>
 
     <!-- Filters -->
-    <div v-if="!loading">
+    <div v-if="!loading && !isMobile">
       <ExchangeFilter @filterList="filterList" />
     </div>
 
@@ -45,6 +45,7 @@ export default {
   },
   data() {
     return {
+      screenWidth: 0,
       searchValue: '',
       categorySelected: '', // For Sort by filter
       filterBy: '',
@@ -77,6 +78,10 @@ export default {
   },
   created() {
     this.loadPage()
+  },
+  mounted()
+  {
+    this.screenWidth = screen.width
   },
   methods: {
     // Search Data
@@ -139,6 +144,14 @@ export default {
           this.products = []
       }
     },
+    isMobile() {
+      if( screen.width <= 760 ) {
+          return true;
+      }
+      else {
+          return false;
+      }
+    }
   },
 }
 </script>
