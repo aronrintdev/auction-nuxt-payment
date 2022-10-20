@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="">
-      <div class="row filter-row-top">
+      <div  class="row filter-row-top">
         <!-- Input search -->
         <div class="col search-input-col vtpc-search p-lg-3 pt-3 d-flex">
           <div class="col-6">
@@ -34,9 +34,14 @@
         </div>
         <!-- ./Input search -->
 
-        <button class="btn btn-sm my-bid-update-btn">Filter</button>
+        <button
+           v-if="searchFilters.brand !=='' && searchFilters.size !=='' && searchFilters.category!==''"
+          class="btn btn-sm text-black filter-btn col-2"
+        >
+        Filter
+        </button>
       </div>
-      <div  class="row filter-row-bottom" >
+      <div  v-if="searchFilters.brand ==='' || searchFilters.size ==='' || searchFilters.category===''" class="row filter-row-bottom" >
         <!-- Filter By Category-->
         <div class="col filter-by-col">
           <CustomSelect
@@ -152,7 +157,7 @@
       <!-- Status Filters -->
       <div
         v-if="searchFilters.brand !='' || searchFilters.size!='' || searchFilters.category!=''"
-        class="col-md-2 clearall-filter float-right">
+        class="col-md-2 clearall-filter float-right ">
         <span
           role="button"
           class="justify-content-center d-flex text-primary"
@@ -272,15 +277,19 @@ export default {
     },
     // On filter by change.
     handleSortBySelect(value) {
-      this.sortBy=value.value
-      this.searchFilters.filterBy = value === '' ? '' : value.label
-       this.setActiveFilter()
-      this.$emit('filterList',this.searchFilters)
+      if (value)
+      {
+        this.sortBy=value.value
+        this.searchFilters.filterBy = value === '' ? '' : value.label
+        this.setActiveFilter()
+        this.$emit('filterList',this.searchFilters)
+      }
+
     },
     // On filter by change.
     handleFilterByCategories(value) {
       this.searchFilters.category = value === '' ? '' : value
-       this.setActiveFilter()
+      this.setActiveFilter()
       this.$emit('filterList',this.searchFilters)
     },
     // On filter by change.
@@ -341,12 +350,10 @@ export default {
       for (const value of Object.values(val)) {
         if(value !==''){
           if (!this.activeTypeFilters.includes(value)) {
-            this.activeTypeFilters.push(value)
-
+              this.activeTypeFilters.push(value)
           }
         }
       }
-      // this.$store.commit('stock-exchange/setActiveFilters',val)
     }
 
   },

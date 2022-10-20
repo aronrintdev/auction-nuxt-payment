@@ -1,7 +1,7 @@
 <template>
   <div class="deadstock-exchange-page">
     <div class="d-flex heading-garamond">
-      <h1>{{ title[0].label}}</h1>
+      <h1>{{title[0].label}}</h1>
     </div>
     <!-- Loaders -->
     <div
@@ -12,7 +12,7 @@
     </div>
 
     <!-- Filters -->
-    <div v-if="!loading">
+    <div v-if="!loading && !isMobile">
       <ExchangeFilter @filterList="filterList" />
     </div>
 
@@ -45,6 +45,7 @@ export default {
   },
   data() {
     return {
+      screenWidth: 0,
       searchValue: '',
       categorySelected: '', // For Sort by filter
       filterBy: '',
@@ -74,9 +75,21 @@ export default {
     currentSweepStake() {
       return this.promotions.length ? this.promotions[0] : null
     },
+    isMobile() {
+      if( screen.width <= 760 ) {
+          return true;
+      }
+      else {
+          return false;
+      }
+    }
   },
   created() {
     this.loadPage()
+  },
+  mounted()
+  {
+    this.screenWidth = screen.width
   },
   methods: {
     // Search Data
@@ -139,6 +152,7 @@ export default {
           this.products = []
       }
     },
+
   },
 }
 </script>

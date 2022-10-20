@@ -8,7 +8,7 @@
       <div class="position-absolute w-100 promotions-banner-overlay col-8">
         <div class="container">
           <div class="row">
-            <div class="col-6 exchange-heading ml-4 text-left">
+            <div class="col-lg-6 col-sm-12 exchange-heading ml-4 text-left">
               <p class="promotions-banner-title">{{ title || $t('deadstock_exchange.title') }}</p>
               <p>
                {{ $t('deadstock_exchange.heading_detail')}}
