@@ -18,7 +18,7 @@
         :src="require('~/assets/img/icons/product/trash.svg')"
       />
     </div>
-    
+
     <div v-if="mobileClass" class="message-modal-content">
       <img
         v-if="icon && icon === 'tick'"
@@ -30,7 +30,18 @@
         :src="require('~/assets/img/icons/trash-mobile.svg')"
         @click="$emit('hidden')"
       />
-      <div :class="`message ${mobileClass} ${mobileClass ? 'd-flex align-items-center text-center' : ''}`" v-html="message"></div>
+      <img
+        v-if="icon && icon === 'success-tick'"
+        :src="require('~/assets/img/icons/product/success-tick.svg')"
+        @click="$emit('hidden')"
+      />
+      <div
+        :class="`message ${mobileClass} ${
+          mobileClass
+            && 'd-flex align-items-center text-center justify-content-center'
+          }`"
+        v-html="message"
+      ></div>
     </div>
   </Modal>
 </template>
@@ -68,8 +79,8 @@ export default {
     },
     hideHeader: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   methods: {

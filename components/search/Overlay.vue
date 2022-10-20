@@ -27,16 +27,12 @@
           >
             <ProductThumb
               :product="product"
-              width="39"
-              height="39"
               class="mr-3 flex-shrink-0 product-img"
               overlay
             />
             <div class="flex-grow-1 flex-shrink-1 product-name text-truncate">
               <ProductThumb
                 :product="product"
-                width="39"
-                height="39"
                 class="mr-3 flex-shrink-0 product-img"
                 overlay
               />
@@ -322,4 +318,7 @@ export default {
 
           button
             margin: 15px 20px 0 0
+.product-img
+  width: 39px 
+  height: 39px 
 </style>

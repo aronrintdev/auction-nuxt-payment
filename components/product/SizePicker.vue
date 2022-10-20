@@ -1,4 +1,4 @@
-<template>
+s<template>
   <div class="position-relative w-100 w-md-auto container">
     <div
       v-if="viewMode == 'carousel'"
@@ -12,7 +12,7 @@
           :center="true"
           :margin="10"
           :responsive="{
-            0: { items: 5, nav: false, center: true, mouseDrag: true },
+            0: { items: xsCount, nav: false, center: xsCenter },
             600: { items: 3, nav: false },
             1268: { items: 5, nav: false },
           }"
@@ -43,17 +43,17 @@
           </template>
 
           <template #prev>
-            <div class="owl-nav owl-prev">
+            <div v-if="arrowsVisible" class="owl-nav owl-prev">
               <img
-                :src="require('~/assets/img/icons/product/arrow-left.svg')"
+                  :src="require('~/assets/img/icons/product/arrow-left.svg')"
               />
             </div>
           </template>
 
           <template #next>
-            <div class="owl-nav owl-next">
+            <div v-if="arrowsVisible" class="owl-nav owl-next">
               <img
-                :src="require('~/assets/img/icons/product/arrow-right.svg')"
+                  :src="require('~/assets/img/icons/product/arrow-right.svg')"
               />
             </div>
           </template>
@@ -134,6 +134,18 @@ export default {
     singleMode: {
       type: Boolean,
       default: false,
+    },
+    arrowsVisible: {
+      type: Boolean,
+      default: true,
+    },
+    xsCenter: {
+      type: Boolean,
+      default: false,
+    },
+    xsCount: {
+      type: Number,
+      default: 2,
     },
   },
 

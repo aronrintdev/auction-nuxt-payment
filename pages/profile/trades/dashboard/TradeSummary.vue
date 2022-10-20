@@ -8,8 +8,9 @@
           <b-col class="offer-time d-flex align-items-center">{{$t('trades.expires_on')}} {{ trade.expiry_date | formatDateTimeString }}</b-col>
         </b-col>
         <b-col class="d-flex flex-column pr-4 pt-4">
-          <Button v-if="!blockTrade(trade)" variant="blue" class="expired-btn ml-auto mr-4" @click="$bvModal.show('edit-trade')">{{$t('trades.edit_listing')}}</Button>
-          <Button v-if="!blockTrade(trade)" class="mt-3 expired-btn ml-auto mr-4" variant="outline-primary" @click="$bvModal.show('delist-offer')">{{$t('trades.delist')}}</Button>
+          <Button v-if="!isDelistedTrade(trade) && !blockTrade(trade)" variant="blue" class="expired-btn ml-auto mr-4" @click="$bvModal.show('edit-trade')">{{$t('trades.edit_listing')}}</Button>
+          <Button v-if="!isDelistedTrade(trade) && !blockTrade(trade)" class="mt-3 expired-btn ml-auto mr-4" variant="outline-primary" @click="$bvModal.show('delist-offer')">{{$t('trades.delist')}}</Button>
+          <Button v-if="isDelistedTrade(trade)" class="mt-3 expired-btn ml-auto mr-4" variant="outline-primary" @click="$bvModal.show('relist-trade')">{{$t('trades.relist')}}</Button>
         </b-col>
       </b-row>
       <b-row class="justify-content-center mt-3">
@@ -17,14 +18,17 @@
       </b-row>
     </div>
     <delist-modal :tradeId="trade.id" @delist="delistTrade"></delist-modal>
+    <relist-modal :tradeId="trade.id" @relist="relistMyTrade"></relist-modal>
     <edit-trade-confirmation-modal :tradeId="trade.id" @edit="editTradeConfirmed"></edit-trade-confirmation-modal>
   </div>
 </template>
 
 <script>
-import Button from '~/components/common/Button';
-import OfferItems from '~/pages/profile/trades/dashboard/OfferItems';
+  import {mapActions} from 'vuex'
+import Button from '~/components/common/Button'
+import OfferItems from '~/pages/profile/trades/dashboard/OfferItems'
 import DelistModal from '~/pages/profile/trades/dashboard/_id/offers/DelistModal'
+import RelistModal from '~/pages/profile/trades/dashboard/_id/offers/RelistModal'
 import EditTradeConfirmationModal from '~/pages/profile/trades/dashboard/_id/offers/EditTradeConfirmationModal'
 import {
   DELIST_STATUS,
@@ -36,6 +40,7 @@ export default {
     OfferItems,
     Button,
     DelistModal,
+    RelistModal,
     EditTradeConfirmationModal
   },
   props: {
@@ -54,8 +59,12 @@ export default {
       this.$store.commit('trades/setTradeForEditing', null)
   },
   methods: {
+    ...mapActions('trades', ['relistTrade']),
     blockTrade(trade){
       return (trade.status === COMPLETED_STATUS)
+    },
+    isDelistedTrade(trade){
+      return (trade.status === DELIST_STATUS)
     },
     delistTrade(tradeId){
       this.$axios.put(`/trades/${tradeId}/status`, {
@@ -63,6 +72,15 @@ export default {
         })
         .then(() => {
           this.$router.push('/profile/trades/dashboard/alltradelistings')
+        })
+        .catch((error) => {
+          this.$toasted.error(this.$t(error.response.data.error))
+        })
+    },
+    relistMyTrade(tradeId){
+      this.relistTrade(tradeId)
+        .then((response) => {
+          this.$router.push('/profile/trades/dashboard/' + response.data.data.trade_id + '/offers')
         })
         .catch((error) => {
           this.$toasted.error(this.$t(error.response.data.error))

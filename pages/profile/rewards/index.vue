@@ -1,26 +1,29 @@
 <template>
   <b-container fluid class="bg-white-4 h-100">
     <!-- Top Banner -->
-    <b-row>
+    <b-row v-if="!isScreenXS">
       <b-col md="12" class="px-0">
         <b-img fluid-grow class="w-100" :src="require('~/assets/img/rewards/jumbotron.png')"></b-img>
       </b-col>
     </b-row><!-- End of Top Banner -->
 
-    <UserRewards v-if="rewardPoints" />
-
-    <EarnPoints v-else />
+    <MobileUserReward v-if="rewardPoints && isScreenXS"/>
+    <UserRewards v-if="rewardPoints && !isScreenXS"/>
+    <EarnPoints v-if="!rewardPoints"/>
   </b-container>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import EarnPoints from '~/components/profile/rewards/EarnPoints'
 import UserRewards from '~/components/profile/rewards/UserRewards'
+import screenSize from '~/plugins/mixins/screenSize';
+import MobileUserReward from '~/components/profile/rewards/MobileUserReward';
 
 export default {
   name: 'Index',
-  components: { EarnPoints, UserRewards },
+  components: {MobileUserReward, EarnPoints, UserRewards},
+  mixins: [screenSize],
   layout: 'Profile',
   computed: {
     ...mapGetters({
@@ -28,12 +31,16 @@ export default {
     })
   },
   mounted() {
+    this.getStages()
+    this.getRewardHistory()
     this.getRewardThresholds()
     this.getUserRedeemedReward()
   },
   methods: {
     ...mapActions({
       getRewardThresholds: 'rewards/getRewardThresholds',
+      getStages: 'rewards/getStages',
+      getRewardHistory: 'rewards/fetchRewardHistory',
       getUserRedeemedReward: 'redeemed-reward/getUserRedeemedReward',
     }),
   }

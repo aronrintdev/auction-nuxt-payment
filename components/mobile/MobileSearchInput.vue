@@ -21,6 +21,12 @@ import clearIcon from '~/assets/img/profile/notifications/clear.svg?inline';
 export default {
   name: 'MobileSearchInput',
   components: {searchIcon, clearIcon},
+  props: {
+    value: {
+      type: String,
+      required: true,
+    }
+  },
   data() {
     return {
       text: '',
@@ -32,6 +38,9 @@ export default {
       this.$emit('input', val)
       this.clearActive = !!val
     }
+  },
+  mounted() {
+    this.text = this.value
   }
 }
 </script>

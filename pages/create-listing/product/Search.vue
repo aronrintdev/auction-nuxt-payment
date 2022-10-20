@@ -162,7 +162,7 @@ export default {
       padding: 20px 0
       position: static
       .product-item
-        border: 0.5px solid $color-white-20
+        border: 0.5px solid $color-white-24
         border-radius: 8px
         padding: 0px 12px
         .thumb-wrapper
