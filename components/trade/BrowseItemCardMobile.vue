@@ -16,16 +16,9 @@
       <div class="product-name">{{ product.name }}</div>
       <div class="product-color">{{ product.colorway }}</div>
       <div class="d-flex">
-       <div class="product-size">{{ product.size ? product.size :'Size 10' }}</div>
-        <div class="ml-2">
-          <b-btn class="trade-btn">
-            <div class="d-flex">
-<!--              <div>-->
-<!--                <img class="clock-image" :src="require('~/assets/img/tradearrow.svg')" />-->
-<!--              </div>-->
-              <div>Trade</div>
-            </div>
-          </b-btn>
+       <div class="product-size d-flex justify-content-start align-content-start">{{ product.size }}</div>
+        <div class=" d-flex justify-content-end align-content-end mt-1 ml-5">
+           <img class="trade-btn" :src="require('~/assets/img/tradebtn.svg')" />
         </div>
       </div>
 
@@ -69,12 +62,8 @@ export default {
 .trade-card-wrapper
   background: #FAFAFA
   position: relative
-  border: 1px solid $light-gray-2
   margin-left: 3px
   margin-right: 3px
-//.expire-wrapper
-//    padding: 0 19px
-//    padding-top: 14px
 .btn-expire
   width: 95px
   height: 25px
@@ -121,8 +110,5 @@ export default {
 .trade-btn
   height: 21px
   width: 62px
-  border-radius: 4px
-  font-size: 10px
-  font-weight: 600
 
 </style>

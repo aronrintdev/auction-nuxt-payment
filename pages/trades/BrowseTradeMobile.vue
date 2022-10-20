@@ -32,7 +32,7 @@
           </b-row>
         </div>
         <div>
-          <div class="d-flex justify-content-center align-content-center mb-2">
+          <div class="d-flex justify-content-center align-content-center mb-2 mt-3">
             <div class="mr-5">
               <div class="pretty-label ml-4" v-html="prettyLabel(key)"></div>
             </div>
