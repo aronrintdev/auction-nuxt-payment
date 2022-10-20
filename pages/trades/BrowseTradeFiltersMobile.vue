@@ -1,18 +1,7 @@
 <template>
   <div>
-    <b-row class="d-flex justify-content-center m-5">
-<!--      <b-col md="6">-->
-<!--        <SearchInput  :placeholder="$t('trades.index.browse.search_for_your_favorite_street_wear')" :value="searchedText" @input="setSearchedText" />-->
-<!--        <SearchedOfferItems :searchedOfferItems="searchedItems" />-->
-<!--      </b-col>-->
-<!--      <b-col md="3">-->
-<!--        <CustomSelect :options="sortOptions" :default="selectedSortOrder" @input="setSortOrder" />-->
-<!--      </b-col>-->
-      <b-col md="2">
-        <button class="p-2 filter-btn" @click="showFilters = !showFilters">{{$tc('common.filter', 1)}}</button>
-      </b-col>
-    </b-row>
-
+        <img class="float-right image-filter"
+             :src="require('~/assets/img/filterIcon.svg')"  @click="showFilters = !showFilters">
     <div class="col-md-12 d-flex justify-content-center">
     <div v-if="showFilters" class="filter-options col-md-10 ">
       <b-row class="d-flex justify-content-start m-5">
@@ -116,20 +105,16 @@
 // import component
 import { mapActions, mapGetters } from 'vuex'
 import { capitalizeFirstLetter } from '~/utils/string'
-// import SearchInput from '~/components/common/SearchInput'
 import SliderInput from '~/components/common/SliderInput'
 // import CustomSelect from '~/components/common/CustomSelect'
 import Button from '~/components/common/Button.vue'
-// import SearchedOfferItems from '~/components/trade/SearchedOfferItems.vue'
 
 export default {
   name: 'BrowseTradeFilters',
   components: {
-    // SearchInput, // Search input component
     // CustomSelect, // custom select component
     Button, // Button component
     SliderInput, // Input component slider
-    // SearchedOfferItems // Search offer items
   },
   data() {
     return {
@@ -262,7 +247,10 @@ export default {
 @import '~/assets/css/_variables'
 .filter-options
   background-color: $color-white-1
-
+.image-filter
+  position: relative
+  margin-top: -11rem
+  margin-right: 2rem
 .filter-btn
   background-color: $color-white-1
   border: none
