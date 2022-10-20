@@ -24,6 +24,7 @@ import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'PromotionCard',
+  mixins: [screenSize],
   props: {
     data: {
       type: Object,
@@ -34,8 +35,7 @@ export default {
       type: String,
       default: 'left',
     }
-  },
-  mixins: [screenSize]
+  }
 };
 </script>
 <style lang="sass" scoped>

@@ -181,6 +181,25 @@ $exbolder: 900
   font-size: 12px
   line-height: 24px
 
+@mixin body-29
+  font-size: 8px
+  line-height: 10px
+
+@mixin body-30
+  font-size: 13px
+  line-height: 130%
+
+@mixin body-3543
+  font-size: 35px
+  line-height: 43px
+
+@mixin body-2530
+  font-size: 25px
+  line-height: 30px
+
+@mixin body-1424
+  font-size: 14px
+  line-height: 24px
 
 @mixin body-1-regular
   @include body-1
@@ -248,6 +267,10 @@ $exbolder: 900
 
 @mixin body-17-regular
   @include body-17
+  font-weight: $regular
+
+@mixin body-29-regular
+  @include body-29
   font-weight: $regular
 
 @mixin heading-4-normal
@@ -329,6 +352,9 @@ $exbolder: 900
 
 @mixin body-24-normal
   @include body-24
+
+@mixin body-29-normal
+  @include body-29
   font-weight: $normal
 
 @mixin heading-1-medium
@@ -409,6 +435,10 @@ $exbolder: 900
 
 @mixin body-17-medium
   @include body-17
+  font-weight: $medium
+
+@mixin body-29-medium
+  @include body-29
   font-weight: $medium
 
 @mixin heading-1-bold
@@ -493,6 +523,15 @@ $exbolder: 900
 
 @mixin body-17-bold
   @include body-17
+  font-weight: $bold
+
+@mixin body-29-bold
+  @include body-29
+  font-weight: $bold
+
+
+@mixin body-21-bold
+  @include body-21
   font-weight: $bold
 
 
@@ -648,3 +687,8 @@ $exbolder: 900
 
 .body-10-bold
   @include body-10-bold
+
+.body-21-bold
+  @include body-21-bold
+
+$font-size-12: 12px
