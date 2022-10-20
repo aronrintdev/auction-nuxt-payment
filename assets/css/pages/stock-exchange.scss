@@ -1,0 +1,91 @@
+.exchange-heading {
+  width: 399px;
+  height: 169px;
+  background-color: #d3d3d3;
+}
+
+.exchange-product-detail {
+  .share-icon {
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+    line-height: 1.2;
+  }
+
+  .product-thumbnail {
+    margin-top: -35px;
+  }
+
+  .btn-group {
+    border-radius: 5px !important;
+  }
+
+  .nav-group {
+    .btn-group {
+      .btn {
+        color: $color-black-1 !important;
+        padding: 6px 10px !important;
+        border-radius: 5px !important;
+        font-weight: 700 !important;
+
+        &.active {
+          background-color: $color-black-1 !important;
+          color: $color-white-1 !important;
+        }
+      }
+    }
+
+    .icon-search {
+      padding: 8px 0px 10px 20px;
+      background: $color-ui-light-disabled;
+    }
+
+    .filter-row {
+      .filter-badge {
+        background: $color-blue-24;
+        color: $color-blue-2;
+      }
+    }
+  }
+}
+.dropdown-sort {
+  .btn-dropdown {
+    color: $color-black-1 !important;
+    border: 1px solid transparent !important;
+    background-color: $color-white-4 !important;
+    border-radius: 8px !important;
+    height: 48px !important;
+    padding: 0 13px 0 23px !important;
+
+    &.opened {
+      border-bottom-left-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+      border: 1px solid transparent !important;
+      @include body-4-normal;
+    }
+    .icon-clear {
+      right: 23px;
+    }
+    .icon-main {
+      margin-right: 20px !important;
+    }
+  }
+  .search-results .popover-body > div {
+    @include body-4-normal;
+    font-family: $font-family-base!important;
+    color: $color-black-1!important;
+    background-color: $color-white-4!important;
+    height: 46px!important;
+    border: none!important;
+    border-bottom: 0.2px solid $light-gray-2!important;
+    padding: 0 23px!important;
+    &:hover {
+      color: $color-gray-5!important;
+    }
+    &:last-child {
+      border-bottom-left-radius: 8px!important;
+      border-bottom-right-radius: 8px!important;
+      border: none!important;
+    }
+  }
+}

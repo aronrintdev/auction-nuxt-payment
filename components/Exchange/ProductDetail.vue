@@ -103,7 +103,7 @@
               :icon-arrow-down="
                 require('~/assets/img/icons/arrow-down-gray2.svg')
               "
-              class="bg-gray"
+              class="dropdown-sort flex-shrink-1"
               can-clear
               @select="handleSortBySelect"
             />
@@ -313,67 +313,4 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-@import '~/assets/css/_variables'
-
-.dropdown-sort::v-deep
-  .btn-dropdown
-    @include body-4-normal
-    color: $color-black-1
-    border: 1px solid transparent
-    background-color: $color-white-4
-    border-radius: 8px
-    height: 48px
-    width: 327px
-    padding: 0 13px 0 23px
-
-    .icon-main
-      margin-right: 20px !important
-
-    .icon-clear
-      right: 23px
-
-    &.opened
-      border-bottom-left-radius: 0
-      border-bottom-right-radius: 0
-      border: 1px solid transparent
-
-  .search-results
-    .popover-body
-      >div
-        @include body-4-normal
-        font-family: $font-family-base
-        color: $color-black-1
-        background-color: $color-white-4
-        height: 46px
-        border: none
-        border-bottom: 0.2px solid $light-gray-2
-        padding: 0 23px
-        &:hover
-          color: $color-gray-5
-
-        &:last-child
-          border-bottom-left-radius: 8px
-          border-bottom-right-radius: 8px
-          border: none
-.more-filters-btn
-  @include body-13-regular
-  font-family: $font-sp-pro
-  color: $color-blue-20
-  img
-    width: 8px
-    &.before
-      transform: rotate(-180deg)
-.overflow-x-hidden
-  overflow-x: hidden
-::v-deep .nav-group
-  .btn-group
-    background-color: $white-3
-    .btn
-      background-color: $white-3
-.overlay
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
-  background: rgba($gray, 0.05)
 </style>

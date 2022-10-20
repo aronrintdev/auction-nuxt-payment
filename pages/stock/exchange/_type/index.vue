@@ -32,9 +32,7 @@ export default {
     NavGroup,
     ProductList,
   },
-  layout(context) {
-    return context.$auth.user ? 'Profile' : 'IndexLayout'
-  },
+  layout: 'IndexLayout',
   data() {
     return {
       fetching: false,
