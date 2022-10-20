@@ -3,10 +3,15 @@
     <div class="col-md-8 mb-2 mb-md-0">
       <div class="bg-white br-10 p-4 shadow-sm">
         <div class="d-flex align-items-center justify-content-between">
-          <h1 class="fs-20 fw-7 font-primary mb-0">
-            {{ $t('buyer_dashboard.dashobard_buyer.total_purchases_main') }}
+          <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
+            {{ $t('buyer_dashboard.buyer_dashboard.total_purchases_main') }}
           </h1>
-          <div class="dropdownSelect">
+          <h1
+            class="fs-14 fw-7 font-primary text-grey-69 mb-0 d-block d-sm-none text-center w-100"
+          >
+            {{ $t('buyer_dashboard.buyer_dashboard.total_purchases_main') }}
+          </h1>
+          <div class="dropdownSelect d-none d-sm-block">
             <CustomSelect
               bordered
               :default="filterBy"
@@ -19,21 +24,35 @@
             />
           </div>
         </div>
-        <div class="positoin-relative mt-5 mb-4">
+        <div class="position-relative mt-3 mt-sm-5 mb-3 mb-sm-4">
           <LineChart
             :chart-data="lineDatasets"
             :options="lineChartOptions"
-            class="line-chart"
+            class="line-chart d-none d-sm-block"
+            chart-id="vendor-dashboard-line-chart"
+          />
+          <LineChart
+            :chart-data="lineDatasets"
+            :options="lineChartOptions"
+            class="line-chart d-block d-sm-none"
+            :height="204"
             chart-id="vendor-dashboard-line-chart"
           />
         </div>
-        <div class="text-right">
+        <div class="text-right d-none d-sm-block">
           <a
             href="#"
             class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0"
             >{{ $t('vendor_dashboard.view_breakdown') }}</a
           >
         </div>
+      </div>
+      <div class="text-right d-block d-sm-none mt-2">
+        <a
+          href="#"
+          class="font-primary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
+          >{{ $t('vendor_dashboard.view_breakdown') }}</a
+        >
       </div>
     </div>
     <!-- TODO -->
@@ -147,7 +166,7 @@ export default {
             fill: true,
             borderWidth: 4,
           },
-        ],
+        ], 
       },
     }
   },
@@ -159,9 +178,14 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
 .line-chart
   #vendor-dashboard-line-chart
     height: 280px
 .progressbar_wrapper
   width: 240px
+@media (max-width: 576px)
+  .view-more-link
+    font-size: 10px
+    font-weight: $medium
 </style>
