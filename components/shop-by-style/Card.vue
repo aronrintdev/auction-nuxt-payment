@@ -13,7 +13,6 @@
       <img :src="require('~/assets/img/icons/view.svg')" />
     </div>
   </div>
-    <button>check</button>
 
   </div>
 </template>
