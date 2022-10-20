@@ -1,17 +1,25 @@
 <template>
   <vue-bottom-sheet
-      ref="myBottomSheet"
-      :is-full-screen="true"
-      :max-height="height"
-      class="mobile-bottom-sheet"
-      @closed="$emit('closed')"
-      @opened="$emit('opened')">
+    ref="myBottomSheet"
+    :is-full-screen="true"
+    class="mobile-bottom-sheet"
+    max-height="60%"
+    @closed="$emit('closed')"
+    @opened="$emit('opened')"
+  >
     <div class="header-title w-100 d-flex flex-column align-items-center justify-content-center">
-      <span>{{ title }}</span>
-    </div>
-    <slot>
+      <span v-if="!showCancel">{{ title }}</span>
 
-    </slot>
+      <div v-if="showCancel" class="w-100 d-flex justify-content-between">
+        <span class="ml-3">{{ title }}</span>
+        <span
+          class="header-title-bottom-sheet-cancel mr-3"
+          role="button"
+          @click="$emit('closed')"
+        >{{ $t('common.cancel') }}</span>
+      </div>
+    </div>
+    <slot></slot>
   </vue-bottom-sheet>
 </template>
 
@@ -21,17 +29,18 @@ export default {
   props: {
     open: {
       type: Boolean,
-      default: false
+      default: false,
     },
     title: {
       type: String,
-      required: true
+      required: true,
     },
-    height: {
-      type: String,
-      default: '60%'
-    }
+    showCancel: {
+      type: Boolean,
+      default: false,
+    },
   },
+
   watch: {
     open(val) {
       if (val)
@@ -40,7 +49,6 @@ export default {
         this.$refs.myBottomSheet.close();
     }
   },
-  methods: {}
 }
 </script>
 
@@ -64,5 +72,12 @@ export default {
   color: $color-black-1
   padding-bottom: 17px
   border-bottom: 0.5px solid $color-gray-4
-
+.mobile-bottom-sheet::v-deep
+  .header-title-bottom-sheet-cancel
+    height: 20px
+    top: 573px
+    font-family: $font-sp-pro
+    font-style: normal
+    @include body-17-medium
+    color: $color-blue-20
 </style>
