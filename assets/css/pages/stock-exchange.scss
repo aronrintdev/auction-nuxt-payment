@@ -20,7 +20,7 @@
     border-radius: 5px !important;
   }
 
-  .nav-group {
+  .chart-section-nav {
     .btn-group {
       .btn {
         color: $color-black-1 !important;
@@ -47,6 +47,11 @@
       }
     }
   }
+  #tb-product {
+    max-height: 350px;
+    overflow: auto;
+    scroll-behavior: smooth;
+  }
 }
 .dropdown-sort {
   .btn-dropdown {
@@ -72,20 +77,20 @@
   }
   .search-results .popover-body > div {
     @include body-4-normal;
-    font-family: $font-family-base!important;
-    color: $color-black-1!important;
-    background-color: $color-white-4!important;
-    height: 46px!important;
-    border: none!important;
-    border-bottom: 0.2px solid $light-gray-2!important;
-    padding: 0 23px!important;
+    font-family: $font-family-base !important;
+    color: $color-black-1 !important;
+    background-color: $color-white-4 !important;
+    height: 46px !important;
+    border: none !important;
+    border-bottom: 0.2px solid $light-gray-2 !important;
+    padding: 0 23px !important;
     &:hover {
-      color: $color-gray-5!important;
+      color: $color-gray-5 !important;
     }
     &:last-child {
-      border-bottom-left-radius: 8px!important;
-      border-bottom-right-radius: 8px!important;
-      border: none!important;
+      border-bottom-left-radius: 8px !important;
+      border-bottom-right-radius: 8px !important;
+      border: none !important;
     }
   }
 }

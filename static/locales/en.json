@@ -5330,7 +5330,10 @@
       "all":"All",
       "similar_products":"Similar Products",
       "similar_search_placeholder":"Search For Your favorite Streetwear",
-      "filter":"Filter"
+      "filter":"Filter",
+      "avg_price":"Avg.Price",
+      "size_specific":"Size Specific"
+
     }
   }
 }

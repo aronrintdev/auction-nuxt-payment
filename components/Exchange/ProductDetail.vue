@@ -1,5 +1,5 @@
 <template>
-  <div class="exchange-product-detail">
+  <div class="exchange-product-detail mb-5">
     <!-- Loaders -->
     <div
       v-if="loading"
@@ -48,11 +48,11 @@
           <div class="col-lg-6">
             <div class="body-4-normal mb-2 text-gray-6">
               <NavGroup
-                :data="categoryItems"
-                :value="current"
-                class="section-nav"
+                :data="CHART_FILTER_TABS"
+                :value="chartTabCurrentValue"
+                class="chart-section-nav"
                 nav-key="line_chart"
-                @change="handleTabChange"
+                @change="handleChartTabChange"
               />
             </div>
           </div>
@@ -72,6 +72,17 @@
             />
           </div>
         </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <NavGroup
+                :data="priceSizeTabData"
+                :value="priceSizeTabCurrentValue"
+                class="section-nav"
+                nav-key="line_chart"
+                @change="handleTabChange"
+              />
+          </div>
+        </div>
       </div>
       <div class="col-lg-6 col-md-12 col-sm-12">
         <div class="body-2-bold mb-2">
@@ -82,7 +93,7 @@
           <div class="col-lg-8">
             <!-- Input search -->
             <SearchInput
-              :value="searchValue"
+              :value="similarProductSearchValue"
               :placeholder="
                 $t('deadstock_exchange.filter_by.details_placeholder')
               "
@@ -98,7 +109,7 @@
               id="sort-by"
               :value="sortBy"
               :placeholder="$t('deadstock_exchange.detail.filter')"
-              :items="SORT_OPTIONS"
+              :items="SIMILAR_FILTER_SORT_OPTIONS"
               :icon="require('~/assets/img/icons/three-lines.svg')"
               :icon-arrow-down="
                 require('~/assets/img/icons/arrow-down-gray2.svg')
@@ -109,10 +120,10 @@
             />
           </div>
         </div>
-          <div class="row">
-            <div  id="tb-product" class="col-ld-12 overflow-auto h-50" >
-              <SimilarProductTable :products="products" />
-            </div>
+        <div class="row">
+          <div id="tb-product" class="col-ld-12">
+            <SimilarProductTable :products="products" />
+          </div>
         </div>
       </div>
     </div>
@@ -122,10 +133,15 @@
 <script>
 import dayjs from 'dayjs'
 import SimilarProductTable from './SimilarProductTable.vue'
-import { Button, Loader,FormDropdown,SearchInput} from '~/components/common'
+import { Button, Loader, FormDropdown, SearchInput } from '~/components/common'
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import ShareIcon from '~/assets/img/icons/share.svg?inline'
+import {
+  CHART_FILTER_TABS,
+  PRICE_SIZE_TABS,
+  SIMILAR_FILTER_SORT_OPTIONS,
+} from '~/static/constants/stock-exchange'
 
 export default {
   name: 'ProductDetail',
@@ -141,65 +157,16 @@ export default {
   },
   data() {
     return {
+      CHART_FILTER_TABS,
+      PRICE_SIZE_TABS,
+      SIMILAR_FILTER_SORT_OPTIONS,
       dayjs,
       loading: false,
       products: [],
-      categoryItems: [
-        {
-          label: this.$t('deadstock_exchange.detail.24h'),
-          value: '24',
-        },
-        {
-          label: this.$t('deadstock_exchange.detail.7d'),
-          value: '7',
-        },
-        {
-          label: this.$t('deadstock_exchange.detail.30d'),
-          value: '30',
-        },
-        {
-          label: this.$t('deadstock_exchange.detail.6m'),
-          value: '6',
-        },
-        {
-          label: this.$t('deadstock_exchange.detail.1y'),
-          value: '1',
-        },
-        {
-          label: this.$t('deadstock_exchange.detail.all'),
-          value: 'all',
-        },
-      ],
-      searchValue: '',
-      SORT_OPTIONS: [
-        {
-          label: this.$t('vendor_purchase.sort_by'),
-          value: 'default',
-        },
-        {
-          label: this.$t('deadstock_exchange.sort_by.highest_change'),
-          value: 'highestChange',
-        },
-        {
-          label: this.$t('deadstock_exchange.sort_by.lowest_change'),
-          value: 'lowestChange',
-        },
-        {
-          label: this.$t('deadstock_exchange.sort_by.release_date_asc'),
-          value: 'releaseDateAsc',
-        },
-        {
-          label: this.$t('deadstock_exchange.sort_by.last_price_lh'),
-          value: 'lastPriceLh',
-        },
-        {
-          label: this.$t('deadstock_exchange.sort_by.last_price_hl'),
-          value: 'lastPriceHl',
-        },
-      ],
+      similarProductSearchValue: '',
       sortBy: null,
-      showScroll: null,
-      current: '24',
+      chartTabCurrentValue: '24',
+      priceSizeTabCurrentValue:'average_size',
       // line chart data
       lineChartOptions: {
         responsive: true,
@@ -268,12 +235,15 @@ export default {
     this.loadPage()
   },
   methods: {
-    handleTabChange(category) {
-      this.current = category
+    handleChartTabChange(value) {
+      this.chartTabCurrentValue = value
+    },
+    handlePriceSizeTabChange(value) {
+      this.priceSizeTabCurrentValue = value
     },
     // On filter by change.
     handleSortBySelect(value) {
-      this.sortBy=value.value
+      this.similarProductSearchValue = value.value
       // this.loadPage()
     },
     // On filter by change.
@@ -284,7 +254,7 @@ export default {
     handleBuyClick() {},
     handleSellClick() {},
     loadPage() {
-      this.loading= true
+      this.loading = true
       this.$axios
         .get('/products', {
           // .get('/stock-exchange', {
@@ -300,17 +270,16 @@ export default {
           if (response.data) {
             console.log(response.data)
             this.products = response.data.data
-            this.loading= false
+            this.loading = false
             // this.totalRows = response.data.total
           }
         })
         .catch((error) => {
-            this.loading= false
+          this.loading = false
           this.$toasted.error(error.message)
         })
     },
   },
 }
 </script>
-<style lang="sass" scoped>
-</style>
+<style lang="sass" scoped></style>

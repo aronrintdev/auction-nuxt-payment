@@ -34,3 +34,66 @@ export const Years = {
   2001:'2001',
   200:'2000',
 }
+
+export const  CHART_FILTER_TABS = [
+  {
+    label: this.$t('deadstock_exchange.detail.24h'),
+    value: '24',
+  },
+  {
+    label: this.$t('deadstock_exchange.detail.7d'),
+    value: '7',
+  },
+  {
+    label: this.$t('deadstock_exchange.detail.30d'),
+    value: '30',
+  },
+  {
+    label: this.$t('deadstock_exchange.detail.6m'),
+    value: '6',
+  },
+  {
+    label: this.$t('deadstock_exchange.detail.1y'),
+    value: '1',
+  },
+  {
+    label: this.$t('deadstock_exchange.detail.all'),
+    value: 'all',
+  },
+]
+export const PRICE_SIZE_TABS= [
+  {
+    label: this.$t('deadstock_exchange.detail.avg_price'),
+    value: 'average_price',
+  },
+  {
+    label: this.$t('deadstock_exchange.detail.size_specific'),
+    value: 'size_specific',
+  }
+]
+export const SIMILAR_FILTER_SORT_OPTIONS = [
+  {
+    label: this.$t('vendor_purchase.sort_by'),
+    value: 'default',
+  },
+  {
+    label: this.$t('deadstock_exchange.sort_by.highest_change'),
+    value: 'highestChange',
+  },
+  {
+    label: this.$t('deadstock_exchange.sort_by.lowest_change'),
+    value: 'lowestChange',
+  },
+  {
+    label: this.$t('deadstock_exchange.sort_by.release_date_asc'),
+    value: 'releaseDateAsc',
+  },
+  {
+    label: this.$t('deadstock_exchange.sort_by.last_price_lh'),
+    value: 'lastPriceLh',
+  },
+  {
+    label: this.$t('deadstock_exchange.sort_by.last_price_hl'),
+    value: 'lastPriceHl',
+  },
+]
