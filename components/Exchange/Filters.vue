@@ -30,16 +30,16 @@
               @select="handleSortBySelect"
             />
           </div>
-
+            <button
+            v-if="searchFilters.brand !=='' && searchFilters.size !=='' && searchFilters.category!==''"
+            class="btn btn-sm text-black filter-btn col-2"
+          >
+          Filter
+          </button>
         </div>
         <!-- ./Input search -->
 
-        <button
-           v-if="searchFilters.brand !=='' && searchFilters.size !=='' && searchFilters.category!==''"
-          class="btn btn-sm text-black filter-btn col-2"
-        >
-        Filter
-        </button>
+
       </div>
       <div  v-if="searchFilters.brand ==='' || searchFilters.size ==='' || searchFilters.category===''" class="row filter-row-bottom" >
         <!-- Filter By Category-->
