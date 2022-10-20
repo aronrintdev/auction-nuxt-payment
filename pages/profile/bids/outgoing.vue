@@ -15,7 +15,11 @@
     </div>
 
     <div class="d-flex justify-content-between align-items-center mt-4 ">
-      <h3 class="title">{{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})</h3>
+      <h3 class="title">
+        <span :class="{ 'body-4-medium' : isMobileSize }">
+        {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
+        </span>
+      </h3>
       <Button
         v-if="haveExpired && !isVendor"
         variant="link"
@@ -60,8 +64,9 @@
       <Loader :loading="fetchLoading"/>
     </div>
     <div v-if="bidsCount>0 && !fetchLoading">
-      <b-row class="mt-5 text-center px-5 font-weight-bold">
-        <b-col sm="12" md="5" class="text-left">{{ $t('bids.headers.product') }}</b-col>
+      <b-row class="mt-5 text-center p-0 font-weight-bold d-none d-md-flex">
+        <b-col sm="12" md="2" class="text-center">{{ $t('bids.headers.auction_id') }}</b-col>
+        <b-col sm="12" md="3" class="text-left">{{ $t('bids.headers.product') }}</b-col>
         <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }} <span role="button"><img :src="FilterDown"
                                                                                              alt="donw"></span></b-col>
         <b-col sm="12" md="1">{{ $t('bids.headers.auto_bid') }} <span role="button"><img :src="FilterDown"
@@ -191,10 +196,11 @@ import {
   Modal
 } from '~/components/common';
 import FilterDown from '~/assets/img/icons/filter-down.svg'
-import BidSingleItem from '~/components/profile/bids/BidSingleItem';
-import BidCollectionItem from '~/components/profile/bids/BidCollectionItem';
+import BidSingleItem from '~/components/profile/bids/BidSingleItem'
+import BidCollectionItem from '~/components/profile/bids/BidCollectionItem'
 import whiteCheck from '~/assets/img/icons/white-check.svg'
-import BidsFilters from '~/components/profile/bids/BidsFilters';
+import BidsFilters from '~/components/profile/bids/BidsFilters'
+import screenSize from '~/plugins/mixins/screenSize'
 import {
   DELISTED_STATUS, EXPIRED_STATUS,
   BID_ACCEPTED, BID_AUCTION_TYPE_SINGLE, BID_TYPE_INCOMING,
@@ -215,6 +221,7 @@ export default {
     Loader,
     Modal
   },
+  mixins: [screenSize],
   layout: 'Profile',
   data() {
     return {
@@ -271,6 +278,9 @@ export default {
     haveExpired() {
       return this.bids.filter(a => a.auction.status === EXPIRED_STATUS || a.auction.status === DELISTED_STATUS).length > 0
     },
+    isMobileSize() {
+      return this.isScreenXS || this.isScreenSM
+    }
   },
   mounted() {
     this.FetchBids()
