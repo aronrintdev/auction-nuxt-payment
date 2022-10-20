@@ -1,7 +1,9 @@
 <template>
-  <b-container fluid class="container-profile-auctions h-100 p-4 p-md-5">
-    <div class="d-flex justify-content-between align-items-center">
-      <h2 class="title">{{ $tc('profile_menu.auctions', 1) }}</h2>
+  <b-container fluid class="h-100 p-4 p-md-5" :class="{'container-profile-auctions' : !isMobileSize}">
+    <div
+      :class="{'border-bottom border-dark' : isMobileSize}"
+      class="d-flex justify-content-center justify-content-md-between align-items-center">
+      <h2 class="title" :class="{'body-4-medium' : isMobileSize}">{{ $tc('profile_menu.auctions', 1) }}</h2>
     </div>
     <template v-if="!isMobileSize">
       <div class="d-flex justify-content-between align-items-center mt-4">
@@ -107,13 +109,15 @@
     </div>
     </template>
     <div v-if="isMobileSize" class="d-flex align-items-center">
-      <MobileSearchInput :value="search" @input="handleSearch" class="flex-grow-1" />
-      <span @click="showMobileFilter" class="ml-3"><img src="~/assets/img/icons/filter-icon.png" /></span>
+      <MobileSearchInput :value="search" class="flex-grow-1" @input="handleSearch" />
+      <span class="ml-3 mt-1" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
     </div>
 
     <div class="d-flex justify-content-start align-items-center mt-4">
       <div class="d-flex justify-content-between align-items-center">
-        <h4 class="title">{{ $tc('auction.auctions_listings', 1) }} ({{ totalCount }})</h4>
+        <h4 class="title" :class="{'body-4-medium' : isMobileSize}">
+          {{ $tc('auction.auctions_listings', 1) }} ({{ totalCount }})
+        </h4>
       </div>
     </div>
 
@@ -162,7 +166,7 @@
     </div>
 
     <div v-if="!fetchLoading">
-      <b-row class="mt-5 text-center font-weight-bold" v-if="!isMobileSize">
+      <b-row v-if="!isMobileSize" class="mt-5 text-center font-weight-bold">
         <b-col sm="12" md="2" class="text-left">{{ $t('auction.auction_id') }} <span v-html="downArrow" /></b-col>
         <b-col sm="12" md="3" class="text-left pl-0">{{ $t('auction.product') }} <span v-html="downArrow" /></b-col>
         <b-col sm="12" md="1">{{ $t('auction.type') }} <span v-html="downArrow" /></b-col>
@@ -218,6 +222,19 @@
       @page-click="handlePageClick"
       @per-page-change="handlePerPageChange"
     />
+
+
+    <!-- For mobile filters begin -->
+    <vue-bottom-sheet
+      ref="mobileFilter"
+      class="responsive-filter"
+      max-width="auto"
+      max-height="100vh"
+      :rounded="true"
+    >
+      <MobileFilter @filter="onMobileFilter" />
+    </vue-bottom-sheet>
+    <!-- For mobile filters end -->
   </b-container>
 </template>
 
@@ -234,6 +251,7 @@ import CollectionAuction from '~/components/profile/auctions/CollectionAuction';
 import Loader from '~/components/common/Loader';
 import {DELISTED_STATUS, EXPIRED_STATUS, AUCTION_TYPE_SINGLE, AUCTION_TYPE_COLLECTION} from '~/static/constants';
 import screenSize from '~/plugins/mixins/screenSize';
+import MobileFilter from '~/components/profile/auctions/filters/MobileFilter.vue';
 
 export default {
   name: 'ProfileAuction',
@@ -247,7 +265,8 @@ export default {
     SearchInput,
     FormDropdown,
     SelectWithCheckbox,
-    BulkSelectToolbar
+    BulkSelectToolbar,
+    MobileFilter
   },
   mixins: [screenSize],
   layout: 'Profile',
@@ -559,7 +578,19 @@ export default {
     }, 300),
 
     showMobileFilter() {
+      const { mobileFilter } = this.$refs
+      if (mobileFilter) {
+        mobileFilter.open()
+      }
+    },
 
+    onMobileFilter(filters) {
+      this.activeStatusFilters = filters.activeStatusFilters;
+      this.activeTypeFilters = filters.activeTypeFilters;
+      this.sortBy = filters.sortBy;
+      this.start_date = filters.start_date;
+      this.end_date = filters.end_date;
+      this.FetchAuctions()
     }
   }
 }
