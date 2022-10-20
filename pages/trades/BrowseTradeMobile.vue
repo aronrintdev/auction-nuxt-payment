@@ -19,17 +19,23 @@
     <div v-if="Object.keys(sectionTypes).length > 1">
       <div v-for="(trades, key, index) in sectionTypes" :key="key">
         <!-- show banner in between sections -->
-        <div v-if="index === 2" class="m-5 pt-5">
-          <b-row>
-            <b-col class="d-flex justify-content-center carousel-heading mb-5">
-              <img :src="require('~/assets/img/home/shoe-2.png')" />
-              <div class="mid-page-banner ml-5">
-                <h2>{{$t('trades.index.browse.trade_with_us')}}</h2>
-                <p>{{$t('trades.index.browse.explore_trading_opportunities')}}</p>
-                <button class="banner-btn">{{$t('common.list')}}</button>
+        <div v-if="index === 2">
+          <div class="trade-us-box">
+            <div class="d-flex">
+              <div class="d-inline ml-3">
+                <div class="trade-text mt-3">{{$t('trades.index.browse.trade_with_us')}}</div>
+                <div class="trade-subtext mt-2">{{$t('trades.index.browse.explore_trading_opportunities_mobile')}}</div>
+                <div>
+                  <b-btn class="create-btn mt-4 ml-3">
+                    Create a Listing
+                  </b-btn>
+                </div>
               </div>
-            </b-col>
-          </b-row>
+              <div>
+                <img class="trad-image ml-3" :src="require('~/assets/img/trade_us_box.svg')" />
+              </div>
+            </div>
+          </div>
         </div>
         <div>
           <div class="d-flex justify-content-center align-content-center mb-2 mt-3">
@@ -203,12 +209,40 @@ export default {
 }
 </script><style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
+.trad-image
+  width: 162px
+  height: 162px
+.trade-us-box
+  width: 375px
+  height: 181px
+  background: #F7F7F7
 .trade-card
   width: 255px
   background: $color-white-1
   border: 1px solid $light-gray-2
   box-sizing: border-box
+.create-btn
+  width: 160px
+  height: 35px
+  background-color: #667799
+  color: #FFFFFF
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 500
+  font-size: 16px
+  border-radius: 30px
+.trade-text
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 500
+  font-size: 20px
+  color: #272727
+.trade-subtext
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 500
+  font-size: 15px
+  color: #AFAFAF
 .carousel-heading
   & h2
     font-weight: $bold
