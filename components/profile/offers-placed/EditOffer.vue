@@ -4,9 +4,9 @@
       id="popup-filter"
       ref="MobileBottomSheet"
       class="mobile-bottom-sheet"
+      :hasHeaderDivider="false"
       :open="open"
-      :title="$t('placed_offers.edit_offer')"
-      showCancel
+      :title="``"
       @closed="$emit('closed')"
       @opened="$emit('opened')"
     >
@@ -146,7 +146,7 @@ export default {
 // TODO: Rearrange height without !important if possible.
 #popup-filter::v-deep
   .bottom-sheet__card
-    max-height: 33% !important
+    max-height: 36% !important
 
 
 ::v-deep.filter-button

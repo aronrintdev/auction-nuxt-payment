@@ -423,12 +423,6 @@
         </div>
       </div>
 
-      <!-- Delete confirm message mobile view -->
-      <!-- <div class="responsive-offer-placed-mobile">
-
-      </div> -->
-      <!-- Delete confirm message mobile view -->
-
       <!-- Delete confirmation bottom sheet mobile -->
       <vue-bottom-sheet
         v-if="isScreenXS"
@@ -721,7 +715,6 @@ export default {
           this.totalCount = parseInt(res.data.meta.total)
           this.searchFilters.perPage = parseInt(res.data.meta.per_page)
           this.offers = res.data.data
-          // this.offers = []
           this.isTableBusy = false
         })
         .catch((err) => {

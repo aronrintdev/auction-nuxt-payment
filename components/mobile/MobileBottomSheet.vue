@@ -28,10 +28,6 @@ export default {
       type: String,
       required: true,
     },
-    showCancel: {
-      type: Boolean,
-      default: false,
-    },
     height: {
       type: String,
       default: '60%'
@@ -72,15 +68,6 @@ export default {
   letter-spacing: -0.02em
   color: $color-black-1
   padding-bottom: 17px
-  border-bottom: 0.5px solid $color-gray-4
-.mobile-bottom-sheet::v-deep
-  .header-title-bottom-sheet-cancel
-    height: 20px
-    top: 573px
-    font-family: $font-sp-pro
-    font-style: normal
-    @include body-17-medium
-    color: $color-blue-20
 
   &.divider
     border-bottom: 0.5px solid $color-gray-4

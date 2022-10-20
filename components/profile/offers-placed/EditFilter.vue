@@ -1,5 +1,14 @@
 <template>
   <div class="edit-filter-wrapper" @closed="inputAmount = ''">
+    <div class="w-100 d-flex justify-content-between ">
+        <span class="ml-3 edit-offer-title d-flex align-items-center text-center">{{ $t('placed_offers.edit_offer') }}</span>
+        <span
+          class="header-cancel mr-3 d-flex align-items-center text-center"
+          role="button"
+          @click="$emit('closed')"
+        >{{ $t('common.cancel') }}</span>
+    </div>
+    <hr class="title-underline" />
     <div
       class="
         edit-amount-bottom-sheet
@@ -125,6 +134,8 @@ export default {
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
 .edit-filter-wrapper
+  .title-underline
+    border: 0.5px solid $color-gray-47
   .btn-save-edit-offer
     background: $color-blue-20
     border-radius: 21px
@@ -167,4 +178,15 @@ export default {
       @include body-5-bold
       letter-spacing: 0.045em
       color: $color-black-1
+  .edit-offer-title
+    font-family: $font-sp-pro
+    font-style: normal
+    @include body-17-bold
+    letter-spacing: -0.02em
+    color: $color-black-1
+  .header-cancel
+    font-family: $font-sp-pro
+    font-style: normal
+    @include body-17-bold
+    color: $color-blue-20
 </style>
