@@ -92,8 +92,6 @@ export default {
               this.promotions.push(row)
             }
           }
-
-          console.log(this.promotions)
         })
         .catch((error) => {
           this.$toasted.error(error)
