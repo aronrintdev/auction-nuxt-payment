@@ -8,7 +8,7 @@
       class="position-absolute tag-bid d-flex align-items-center justify-content-center text-white"
       :class="bid.place"
     >
-      {{ $t('bids.bid_status.' + bid.place) }}
+     {{ $t('bids.bid_status.' + bid.place) }}
     </div>
     <b-col sm="12" md="5"  class="text-left">
       <b-row>
@@ -89,7 +89,9 @@
       md="2"
       class="d-flex justify-content-start align-items-center flex-column"
     >
-      <Button class="bg-blue-2 mt-4" pill @click="$emit('edit', bid)">
+      <Button class="bg-blue-2 mt-4"
+              :class="isMobileSize ? 'body-9-medium px-2 py-0 rounded' : ''"
+              pill @click="$emit('edit', bid)">
         <span>
           {{
             isExpiredOrDelisted ? $t('bids.view') : $t('bids.edit_bid')
@@ -99,6 +101,7 @@
       <span
         role="button"
         class="view-similar mt-2"
+        :class="isMobileSize ? 'body-9-medium' : 'body-4-normal'"
         @click="viewSimilarAuction"
         >{{ $t('bids.view_similar') }}</span
       >
@@ -220,10 +223,7 @@ export default {
   border-bottom-right-radius: 10px
 
 .view-similar
-  @include body-4
   color: $color-blue-2
-  width: 200px
-  font-weight: $normal
 
 .bg-blue-2.btn.btn-primary
   background-color: $color-blue-2
