@@ -264,21 +264,34 @@ export default {
       },
     }
   },
+  watch: {
+    lineDatasets () {
+        this.$nextTick(() => {
+            this.renderLineChart();
+        })
+    }
+  },
   mounted() {
     this.loadPage()
   },
+
   methods: {
     handleTabChange(category) {
       this.current = category
+      this.changeGraphLabel(category)
     },
     changeGraphLabel(category) {
       switch (category) {
         case '24': {
-          this.label = this.trending
+           this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
           break
         }
         case '7': {
-          this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
+          this.lineDatasets.labels = ['7 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
+          break
+        }
+        case '30': {
+          this.lineDatasets.labels = ['3 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
           break
         }
         case '6': {
@@ -294,7 +307,7 @@ export default {
           break
         }
         default:
-          this.lineDatasets.labels = []
+        this.lineDatasets.labels = ['7 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
       }
     },
     // On filter by change.
