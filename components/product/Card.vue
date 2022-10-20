@@ -49,7 +49,7 @@
     <div class="mt-2 row">
       <div :class="[showActionBtn ? 'col-7' : 'col-12']">
         <div class="fs-15 fw-6 font-secondary product-title text-truncate">
-          {{ getTruncateName }}
+          {{ getTruncateName }}test
         </div>
         <div
           class="fs-14 fw-5 font-secondary text-gray-light text-truncate product-title-2"
@@ -57,7 +57,7 @@
           {{ getRemainingName }}
         </div>
         <div v-if="showSize" class="fs-15 fw-6 font-secondary product-price">
-          {{ $t('home_page.size') }} {{ product.size }}
+          {{ $t('home_page.size') }} {{ product.inventory[0].size.size }}
         </div>
         <div v-if="showPrice" class="fs-15 fw-6 font-secondary product-price">
           {{ product.sale_price | toCurrency }}
@@ -68,7 +68,7 @@
         >
           {{ product.sale_price | toCurrency }}
           <span class="fw-5 text-black-50">
-            ( {{ $t('home_page.size') }} {{ product.size }})</span
+            ( {{ $t('home_page.size') }} {{ product.inventory[0].size.size }})</span
           >
         </div>
       </div>
