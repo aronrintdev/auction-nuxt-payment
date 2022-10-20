@@ -22,11 +22,11 @@ export default {
   props: {
     open: {
       type: Boolean,
-      default: false
+      default: false,
     },
     title: {
       type: String,
-      required: true
+      required: true,
     },
     height: {
       type: String,
@@ -37,6 +37,7 @@ export default {
       default: true
     }
   },
+
   watch: {
     open(val) {
       if (val)
@@ -45,7 +46,6 @@ export default {
         this.$refs.myBottomSheet.close();
     }
   },
-  methods: {}
 }
 </script>
 
