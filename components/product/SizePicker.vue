@@ -204,6 +204,7 @@ export default {
     xsCount: {
       type: Number,
       default: 2,
+    }
   },
 
   data() {

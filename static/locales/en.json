@@ -1816,6 +1816,7 @@
         "men": "Men",
         "women": "Women",
         "unisex": "Unisex",
+        "kids": "Kids",
         "child": "Child",
         "toddler": "Toddler",
         "sort": "Sort",
@@ -4142,6 +4143,17 @@
           "footwear": "Footwear",
           "apparel": "Apparel",
           "accessories": "Accessories"
+        },
+        "product_type": "Product Type",
+        "product_types": {
+          "backpack": "Backpack",
+          "bag": "Bag",
+          "bandana": "Bandana",
+          "cap": "Cap",
+          "hand_bag": "Hand Bag",
+          "hat": "Hat",
+          "home": "Home",
+          "sunglasses": "Sunglasses"
         },
         "one_item": "One Item",
         "two_items": "Two Items",

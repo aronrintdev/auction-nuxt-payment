@@ -23,7 +23,7 @@
             @change="filterData"
             containerStyle="width: 92.5%"
           />
-          <img :src="require('assets/img/icons/filter.svg')" />
+          <img @click="filtersModalOpen = true" :src="require('assets/img/icons/filter.svg')" />
         </div>
         <div class="show-desktop">
           <SearchInput
@@ -259,6 +259,11 @@
       </div>
       </div>
     </div>
+    <FiltersModal
+      :isOpen="filtersModalOpen"
+      @closed="filtersModalOpen = false"
+      @opened="filtersModalOpen = true"
+    />
   </div>
 </template>
 
@@ -288,6 +293,7 @@ import BulkSelectToolbar from '~/components/common/BulkSelectToolbar';
 import WantItemCard from '~/pages/profile/trades/wants/WantItemCard';
 import EditItem from '~/pages/profile/trades/wants/EditItem';
 import EditCombination from '~/pages/profile/trades/wants/EditCombination';
+import FiltersModal from '~/pages/profile/trades/wants/FiltersModal'
 
 export default {
   name: 'Index',
@@ -298,8 +304,9 @@ export default {
     BulkSelectToolbar,
     CombinationItemCard,
     Pagination, 
-    // FormDropdown,
-    CustomDropdown, SearchInput
+    FiltersModal,
+    CustomDropdown, 
+    SearchInput
   },
   layout: 'Profile',
   data() {
@@ -358,6 +365,7 @@ export default {
       editItem: null,
       editCombination: null,
       TAKE_SEARCHED_PRODUCTS,
+      filtersModalOpen: false
     }
   },
   computed: {

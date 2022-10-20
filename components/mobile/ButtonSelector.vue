@@ -1,22 +1,24 @@
 <template>
   <div>
-    <object :is="single? 'b-form-radio-group': 'b-form-checkbox-group'"
-            v-model="selected"
-            :options="options"
-            button-variant="d-custom col col-4 d-flex justify-content-center align-items-center ml-2 mt-1"
-            buttons
-            class="custom-button-multi w-100 row text-capitalize"
-            @change="emitChanges"
+    <object 
+      :is="single? 'b-form-radio-group': 'b-form-checkbox-group'"
+      v-model="selected"
+      :options="options"
+      :button-variant="`d-custom col col-4 d-flex justify-content-center align-items-center ml-2 mt-1`"
+      buttons
+      class="custom-button-multi w-100 row text-capitalize"
+      :style="contentStyle"
+      @change="emitChanges"
     >
       <template #first>
         <object
-            :is="single? 'b-form-radio': 'b-form-checkbox'"
-            v-if="all"
-            v-model="selected"
-            :value="'all'"
-            button-variant="d-custom col col-4 d-flex justify-content-center align-items-center ml-2 mt-1"
-            buttons
-            @change="allChanged"
+          :is="single? 'b-form-radio': 'b-form-checkbox'"
+          v-if="all"
+          v-model="selected"
+          :value="'all'"
+          button-variant="'d-custom col col-4 d-flex justify-content-center align-items-center ml-2 mt-1"
+          buttons
+          @change="allChanged"
         >
           {{ $t('notifications.all') }}
         </object>
@@ -44,6 +46,14 @@ export default {
     single: {
       type: Boolean,
       required: false
+    },
+    contentStyle: {
+      type: Object,
+      default: () => {}
+    },
+    itemClass: {
+      type: String,
+      default: ''
     }
   },
   data() {

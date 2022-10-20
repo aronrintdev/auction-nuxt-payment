@@ -43,13 +43,30 @@ export const WANTS_NAV_ITEMS = [
   {label: 'common.all', value: null },
   {label: 'common.footwear', value: 'sneakers'},
   {label: 'common.apparel',  value: 'apparel'},
-  {label: 'common.accessories', value: 'accessories'},
+  {label: 'wish_lists.categories.accessories', value: 'accessories'},
 ]
 export const SORT_BY = [
   { text: 'trades.wants_listing.date_low_to_high', value: 'date_asc' },
   { text: 'trades.wants_listing.date_high_to_low', value: 'date_desc' },
   { text: 'trades.create_listing.vendor.wants.price_low_to_high', value: 'price_asc' },
   { text: 'trades.create_listing.vendor.wants.price_high_to_low', value: 'price_desc' },
+]
+
+export const PRODUCT_TYPES = [
+  { text: 'trades.index.browse.product_types.backpack', value: 'backpack' },
+  { text: 'trades.index.browse.product_types.bag', value: 'bag' },
+  { text: 'trades.index.browse.product_types.bandana', value: 'bandana' },
+  { text: 'trades.index.browse.product_types.cap', value: 'cap' },
+  { text: 'trades.index.browse.product_types.hand_bag', value: 'hand_bag' },
+  { text: 'trades.index.browse.product_types.hat', value: 'hat' },
+  { text: 'trades.index.browse.product_types.home', value: 'home' },
+  { text: 'trades.index.browse.product_types.sunglasses', value: 'sunglasses' },
+]
+export const SIZE_TYPES = [
+  { text: 'auctions.frontpage.filterbar.men', value: 'men' },
+  { text: 'auctions.frontpage.filterbar.women', value: 'women' },
+  { text: 'auctions.frontpage.filterbar.unisex', value: 'unisex' },
+  { text: 'auctions.frontpage.filterbar.kids', value: 'kids' },
 ]
 export const WANTS_SELECT_LIST_OPTIONS = [
   { text: 'trades.wants_listing.general_wants', value: 'general_wants' },

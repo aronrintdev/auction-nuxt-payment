@@ -22,22 +22,30 @@
             >
           </div>
           <div v-else class="d-flex justify-content-center align-items-center">
-            <div role="button" @click="editWant">
+            <div 
+              role="button" 
+              @click="editWant"
+              class="pr-1 d-flex align-items-center"
+            >
               <img 
                 :src="require('~/assets/img/icons/pencil-gray.svg')" 
                 height="15" 
                 width="15" 
               >
-              <span class="edit-label">Edit</span>
+              <span class="edit-label ml-1">Edit</span>
             </div>
-            <div role="button" @click="deleteWant">
+            <div 
+              role="button" 
+              @click="deleteWant"
+              class="pl-1 d-flex align-items-center"
+            >
               <img 
                 :src="require('~/assets/img/icons/Delete.svg')" 
                 height="15" 
                 width="15" 
                 class="ml-4"
               >
-              <span class="delete-label">Delete</span>
+              <span class="delete-label ml-1">Delete</span>
             </div>
           </div>
         </div>
