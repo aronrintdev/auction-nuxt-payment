@@ -1,14 +1,20 @@
 <template>
+  <div>
+
   <div
+
     class="style-card-wrapper position-relative user-select-none"
     @click="handleClick"
   >
-    <img :src="imageUrl" />
+    <img :src="imageUrl" class=""/>
     <div class="overlay position-absolute w-100 h-100"></div>
     <div class="view-style position-absolute text-right">
       {{ $t('shop_by_style.view_style') }}
       <img :src="require('~/assets/img/icons/view.svg')" />
     </div>
+  </div>
+    <button>check</button>
+
   </div>
 </template>
 <script>

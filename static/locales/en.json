@@ -833,7 +833,8 @@
       "we_do_not_have_enough_in_stock": "We do not have enough in stock. \nGet Notified when there are more in stock!",
       "get_notified": "Get Notified",
       "stock_from_different_vendors": "The item you're looking to checkout has insufficient quantity. The following items from different vendors can be added to your bag in order to match the requested quantity.",
-      "add_to_bag": "Add to Bag"
+      "add_to_bag": "Add to Bag",
+      "add_style_to_card": "Add Style to Card"
     },
     "validations": {
       "alpha": "The {_field_} field may only contain alphabetic characters",
