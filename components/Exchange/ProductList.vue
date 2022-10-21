@@ -1,7 +1,7 @@
 <template>
   <div class="deadstock-exchange-page">
     <div class="d-flex heading-garamond">
-      <h1>{{title[0].label}}</h1>
+      <h1>{{ title[0].label }}</h1>
     </div>
     <!-- Loaders -->
     <div
@@ -17,7 +17,7 @@
     </div>
 
     <!-- ProductTrendListCard Table -->
-    <ProductTrendListCard :products="products" :activeHeaders="activeHeaders" />
+    <ProductTrendListCard :products="products" :activeHeaders="activeHeaders" :type="type" />
   </div>
 </template>
 <script>
@@ -69,6 +69,7 @@ export default {
       top_products: [],
       filter: null,
       activeHeaders: true,
+      type: this.$route.params.type,
     }
   },
   computed: {
@@ -76,19 +77,17 @@ export default {
       return this.promotions.length ? this.promotions[0] : null
     },
     isMobile() {
-      if( screen.width <= 760 ) {
-          return true;
+      if (screen.width <= 760) {
+        return true
+      } else {
+        return false
       }
-      else {
-          return false;
-      }
-    }
+    },
   },
   created() {
     this.loadPage()
   },
-  mounted()
-  {
+  mounted() {
     this.screenWidth = screen.width
   },
   methods: {
@@ -152,7 +151,6 @@ export default {
           this.products = []
       }
     },
-
   },
 }
 </script>

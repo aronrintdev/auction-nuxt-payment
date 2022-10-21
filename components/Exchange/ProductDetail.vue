@@ -23,7 +23,7 @@
           <div class="col-lg-5 text-right">
             <Button variant="dark-blue" @click="handleBuyClick">
               <div class="d-flex justify-content-between">
-                <div>{{ $t('deadstock_exchange.detail.buy') }}</div>
+                <div>{{ $t('deadstock_exchange.detail.buy')}}</div>
               </div>
             </Button>
             <Button variant="dark" @click="handleSellClick">
@@ -52,7 +52,7 @@
                 :value="chartTabCurrentValue"
                 class="chart-section-nav"
                 nav-key="line_chart"
-                @change="handleChartTabChange"
+                @change="handleTabChange"
               />
             </div>
           </div>
@@ -65,6 +65,7 @@
         <div class="row">
           <div class="col-lg-12">
             <LineChart
+              v-if="!loadingChart"
               :chart-data="lineDatasets"
               :options="lineChartOptions"
               class="line-chart"
@@ -75,7 +76,7 @@
         <div class="row">
           <div class="col-lg-12">
             <NavGroup
-              :data="priceSizeTabData"
+              :data="PRICE_SIZE_TABS"
               :value="priceSizeTabCurrentValue"
               class="section-nav"
               nav-key="line_chart"
@@ -121,7 +122,7 @@
           </div>
         </div>
         <div class="row">
-          <div id="tb-product" class="col-ld-12">
+          <div id="tb-product" class="col-ld-12 overflow-auto scroll-smooth">
             <SimilarProductTable :products="products" />
           </div>
         </div>
@@ -153,6 +154,7 @@ export default {
     return {
       dayjs,
       loading: false,
+      loadingChart: false,
       products: [],
       similarProductSearchValue: '',
       sortBy: null,
@@ -282,6 +284,7 @@ export default {
           },
         ],
       },
+
     }
   },
   watch: {
@@ -297,22 +300,25 @@ export default {
 
   methods: {
     handleTabChange(category) {
-      this.current = category
+      this.chartTabCurrentValue = category
       this.changeGraphLabel(category)
     },
     changeGraphLabel(category) {
+      this.loading =true;
       switch (category) {
         case '24': {
-           this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
+          this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
+          this.loading =false;
           break
         }
         case '7': {
-
-          this.lineDatasets.labels = ['7 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
+          this.lineDatasets.labels = ['7 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
+          this.loading =false;
           break
         }
         case '30': {
-          this.lineDatasets.labels = ['3 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
+          this.lineDatasets.labels = ['3 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
+          this.loading =false;
           break
         }
         case '1': {
@@ -325,6 +331,7 @@ export default {
             '10 am',
             '2 pm',
           ]
+          this.loadingChart =false;
           break
         }
         case 'all': {
@@ -337,10 +344,12 @@ export default {
             '10 am',
             '2 pm',
           ]
+          this.loading =false;
           break
         }
         default:
-        this.lineDatasets.labels = ['7 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm']
+        this.lineDatasets.labels = ['7 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
+        this.loading =false;
       }
     },
     // On filter by change.
