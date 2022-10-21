@@ -27,7 +27,7 @@
               :product="inventory.product"
               width="63"
               height="63"
-              class="mr-4"
+              class="mr-4 product-img"
             />
             <div>
               <div class="title mb-1">{{ inventory.product.name }}</div>
@@ -226,4 +226,12 @@ export default {
         background-image: url('~/assets/img/product/actions.png')
         background-position: right
         border: none
+
+.thumb-wrapper
+  background: none
+  width: 83px
+  height: 53px
+.product-img
+  width: 83px 
+  height: 53px
 </style>
