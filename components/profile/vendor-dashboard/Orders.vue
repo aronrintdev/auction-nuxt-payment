@@ -23,52 +23,74 @@
     </template>
     <template #cell(product)>
       <div
-        class="d-flex align-items-baseline justify-content-center flex-column tdHeight"
+        class="d-flex align-items-center align-items-sm-baseline justify-content-center flex-sm-column gap-2 tdHeightSm mb-2 mb-sm-0"
       >
-        <h4
-          class="font-secondary fw-6 fs-15 text-primary border-bottom border-primary mb-1"
-        >
-          <!-- TODO  -->
-          Jordan 4 Retro (2021)
-        </h4>
-        <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
-          {{ $t('vendor_dashboard.sku') }}: J-123456789
-        </h4>
-        <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
-          {{ $t('vendor_dashboard.colorway') }}: University Blue
-        </h4>
-        <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
-          {{ $t('vendor_dashboard.box_condition') }}: Excellent
-        </h4>
+        <div class="col-thumb d-flex d-sm-none">
+          <ProductThumb />
+        </div>
+        <div>
+          <h4
+            class="font-secondary fw-6 fs-15 text-primary border-bottom border-primary mb-1 w-fit-content"
+          >
+            <!-- TODO  -->
+            Jordan 4 Retro (2021)
+          </h4>
+          <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
+            {{ $t('vendor_dashboard.sku') }}: J-123456789
+          </h4>
+          <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
+            {{ $t('vendor_dashboard.colorway') }}: University Blue
+          </h4>
+          <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
+            {{ $t('vendor_dashboard.box_condition') }}: Excellent
+          </h4>
+        </div>
       </div>
     </template>
     <template #cell(date_ordered)="data">
-      <div class="d-flex align-items-center justify-content-center tdHeight">
+      <div
+        class="d-flex align-items-center justify-content-center tdHeight"
+        :aria-label="$t('vendor_dashboard.date_ordered')"
+      >
         <h4 class="font-secondary fw-5 fs-16 mb-0">
           {{ data.value }}
         </h4>
       </div>
     </template>
     <template #cell(type)="data">
-      <div class="d-flex align-items-center justify-content-center tdHeight">
+      <div
+        class="d-flex align-items-center justify-content-center tdHeight"
+        :aria-label="$t('vendor_dashboard.type')"
+      >
         <h4 class="font-secondary fw-5 fs-16 mb-0">{{ data.value }}</h4>
       </div>
     </template>
     <template #cell(vendor_payout)="data">
-      <div class="d-flex align-items-center justify-content-center tdHeight">
+      <div
+        class="d-flex align-items-center justify-content-center tdHeight"
+        :aria-label="$t('vendor_dashboard.vendor_payout')"
+      >
         <h4 class="font-secondary fw-5 fs-16 mb-0">{{ data.value }}</h4>
       </div>
     </template>
     <template #cell(status)>
-      <div class="d-flex align-items-center justify-content-center tdHeight">
-        <h4 class="status-badge-warning">
+      <div
+        class="d-flex align-items-center justify-content-center tdHeight"
+        :aria-label="$t('vendor_dashboard.status')"
+      >
+        <h4 class="status-badge status-badge-warning">
           {{ $t('vendor_dashboard.awaiting_shipment') }}
         </h4>
       </div>
     </template>
     <template #cell(actions)="data">
-      <div class="d-flex align-items-center justify-content-center tdHeight">
-        <h4 class="font-secondary fw-5 fs-16 mb-0 text-primary text-center">
+      <div
+        class="d-flex align-items-center justify-content-center tdHeight"
+        :aria-label="$t('vendor_dashboard.actions')"
+      >
+        <h4
+          class="font-secondary fw-5 fs-16 mb-0 text-primary text-center actions"
+        >
           {{ $t('vendor_dashboard.fedex') }} <br />
           <span class="border-bottom border-primary"> {{ data.value }}</span>
         </h4>
@@ -89,11 +111,13 @@ export default {
           key: 'order_id',
           label: this.$t('vendor_dashboard.order_id'),
           sortable: true,
+          tdClass: 'product-img-cell d-none d-sm-flex',
         },
         {
           key: 'product',
           label: this.$t('vendor_dashboard.product'),
           sortable: true,
+          tdClass: 'product-info-cell',
         },
         {
           key: 'date_ordered',
@@ -239,21 +263,70 @@ export default {
 <style lang="sass">
 @import '~/assets/css/_variables'
 .ordersTable
-    &.table.b-table.b-table-no-border-collapse
-        border-spacing: 0 10px
-    thead th div
+  &.table.b-table.b-table-no-border-collapse
+    border-spacing: 0 10px
+  thead th div
+    font-family: $font-family-base
+    font-size: 16px
+    font-weight: 700
+  tbody td
+    height: 120px
+    @media (max-width: 576px)
+      display: flex
+      height: fit-content
+      padding: 2px 0.75rem
+      &:nth-child(odd)
+        background-color:  $color-white-5
+      &:first-child
+        background-color:  transparent
+  .tdHeight
+    height: inherit
+  .tdHeightSm
+    @media (min-width: 576px)
+      height: inherit
+  .col-thumb
+    display: flex
+    justify-content: center
+    width: 100px
+  .stats-graph
+    width: 100px
+    height: 40px
+  @media (max-width: 576px)
+    thead
+      display: none
+    tr[role="row"]
+      box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+      border-radius: 8px
+      outline: 1px solid $color-gray-3
+      display: block
+      margin: 12px 0
+      padding: 15px 0
+      h4.font-secondary
+        white-space: nowrap
+        font-size: 12px
+        color: $color-gray-6
+        font-weight: $normal
         font-family: $font-family-base
-        font-size: 16px
-        font-weight: 700
-    tbody td
-        height: 110px
     .tdHeight
-        height: inherit
-    .col-thumb
-        display: flex
-        justify-content: center
-        width: 90px
-    .stats-graph
-        width: 100px
-        height: 40px
+      font-size: 12px
+      color: $color-black-1
+      font-weight: $bold
+      width: 100%
+      .status-badge
+        background: none
+        padding: 0
+      h4
+        white-space: nowrap
+        font-size: 12px
+        font-weight: $normal
+        font-family: $font-family-base
+        &:not(.status-badge)
+          color: $color-gray-6
+        &.actions
+          display: flex
+          column-gap: 6px
+      &::before
+        content: attr(aria-label)
+        margin-right: auto
+        width: 100%
 </style>

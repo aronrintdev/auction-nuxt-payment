@@ -1,52 +1,53 @@
 <template>
   <div class="wrapper">
-    <Header/>
+    <Header />
 
     <div class="custom-wrapper">
       <div class="row mb-bb">
         <div class="col-md-12 col-lg-2">
           <button
-              v-if="!isScreenXS"
-              v-b-toggle.sidebar
-              class="w3-button w3-xlarge w3-hide-large float-left"
+            v-if="!isScreenXS"
+            v-b-toggle.sidebar
+            class="w3-button w3-xlarge w3-hide-large float-left"
           >
             <span class="text-bold">{{ $t('navbar.profile') }}</span>
             <i class="fa fa-bars"></i>
           </button>
           <!-- BootstrapVue Sidebar: in small devices -->
           <b-sidebar id="sidebar" ref="mySidebar" shadow>
-            <SideMenu id="sidemenu"/>
+            <SideMenu id="sidemenu" />
           </b-sidebar>
           <!-- ./BootstrapVue Sidebar -->
 
           <!-- Collapsable SideMenu for large devices -->
-          <NewSideMenu v-if="!isScreenXS"/>
+          <NewSideMenu v-if="!isScreenXS" />
           <!-- Collapsable SideMenu for large devices -->
         </div>
       </div>
 
       <div class="main-wrapper">
-        <Nuxt/>
+        <Nuxt />
       </div>
     </div>
 
     <!-- ScollTo Top Button -->
-    <ScrollToTop v-show="mobileClass && showScroll"/>
+    <ScrollToTop v-show="mobileClass && showScroll" />
     <!-- ./ScrollTo Top Button Ends -->
-    <Footer/>
+    <BottomNavigation class="d-flex d-md-none mt-4" />
+    <Footer class="d-none d-md-flex" />
   </div>
 </template>
 <script>
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex'
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
 import SideMenu from '~/components/profile/SideMenu.vue'
 import NewSideMenu from '~/components/profile/NewSideMenu'
 import ScrollToTop from '~/components/common/ScrollToTop.vue'
 import screenSize from '~/plugins/mixins/screenSize'
-import {SCROLLY} from '~/static/constants'
-import realtime from '~/plugins/mixins/realtime';
-
+import { SCROLLY } from '~/static/constants'
+import realtime from '~/plugins/mixins/realtime'
+import BottomNavigation from '~/components/homepage/BottomNavigation.vue'
 export default {
   name: 'Default',
 
@@ -56,12 +57,13 @@ export default {
     Footer,
     SideMenu,
     ScrollToTop,
+    BottomNavigation,
   },
   mixins: [screenSize, realtime],
   data() {
     return {
       showScroll: false,
-      scrollY: SCROLLY
+      scrollY: SCROLLY,
     }
   },
   head() {
@@ -73,8 +75,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      'pushActive': 'notifications/getPushNotificationsActive'
-    })
+      pushActive: 'notifications/getPushNotificationsActive',
+    }),
   },
   beforeMount() {
     window.addEventListener('scroll', this.handleScroll)
@@ -87,7 +89,7 @@ export default {
     this.onResize()
     this.$store.dispatch('notifications/getNotifications')
     this.$store.dispatch('notifications/getUnreadCount')
-    window.addEventListener('resize', this.onResize);
+    window.addEventListener('resize', this.onResize)
     this.notificationSubscriptions()
   },
   beforeDestroy() {
@@ -101,7 +103,7 @@ export default {
     handleScroll() {
       // Your scroll handling here
       this.showScroll = window.scrollY > this.scrollY
-    }
+    },
   },
 }
 </script>

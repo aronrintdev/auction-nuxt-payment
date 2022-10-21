@@ -712,7 +712,7 @@ svg[disabled]
   .fw-#{$i}
     font-weight: $i * 100
 
-$font-sizes: 12, 14, 15, 16, 18, 20, 22, 24, 26, 30, 32, 36, 40, 48, 50, 52, 60
+$font-sizes: 10, 11, 12, 14, 15, 16, 18, 20, 22, 24, 26, 30, 32, 36, 40, 48, 50, 52, 60
 @each $font-size in $font-sizes
   .fs-#{$font-size}
     font-size: #{$font-size}px
@@ -807,3 +807,7 @@ $radii: 3, 5, 8, 10, 15, 20, 25
 @media (min-width: 1336px)
   .container
     max-width: 1320px
+
+.full-width-sm
+  @media (max-width: 576px)
+    width: 100%
