@@ -40,24 +40,22 @@ export function clearWantsItemsTrade(state, val) {
 }
 
 /**
- * THis mutation is used to remove offer item from state by matching id
+ * THis mutation is used to remove offer item from state by item index
  * @param state
- * @param val
+ * @param index
  */
-export function removeTradeItem(state, val) {
-    const index = state.trade_items.findIndex(prod => prod.id === val)
+export function removeTradeItem(state, index) {
     if (index > -1) {
         state.trade_items.splice(index, 1)
     }
 }
 
 /**
- * This mutation is used to remove want item from state by matching id
+ * This mutation is used to remove want item from state by item index
  * @param state
- * @param val
+ * @param index
  */
-export function removeWantsItemsTrade(state, val) {
-    const index = state.wants_items_trade.findIndex(prod => prod.id === val)
+export function removeWantsItemsTrade(state, index) {
     if (index > -1) {
         state.wants_items_trade.splice(index, 1)
     }

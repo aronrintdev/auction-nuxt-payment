@@ -112,6 +112,7 @@ export default {
             editItem: null,
             itemId: null,
             addWantItem: false,
+            backToEdit: null
         }
     },
     computed: {
@@ -121,13 +122,18 @@ export default {
         }
     },
     mounted() {
-        // Emit to take user back from search page to confirmation
-        this.$root.$on('back_to_edit_combination', () => {
+        this.backToEdit = () => {
             this.addWantItem = false
             this.editItem = null
             this.getCombination()
-        })
+        }
+
+        // Emit to take user back from search page to confirmation
+        this.$root.$on('back_to_edit_combination', this.backToEdit)
         this.getCombination()
+    },
+    beforeDestroy() {
+      this.$root.$off('back_to_edit_combination', this.backToEdit)
     },
     methods: {
         getCombination() {

@@ -261,8 +261,9 @@ export default {
 
     emitParentChangePublicInventories(itemId){
       if(this.publicItems.includes(itemId)){
-        const index = this.publicItems.findIndex(item => item.id === itemId)
-        this.publicItems.splice(index, 1)
+        const index = this.publicItems.findIndex(item => item === itemId)
+        if(index > -1)
+          this.publicItems.splice(index, 1)
       }else{
         this.publicItems.push(itemId)
       }

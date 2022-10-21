@@ -49,7 +49,7 @@
           </div>
           <div class="pl-3">
             <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"
-                :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="setOfferItemForDelete(item)"/>
+                :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="setOfferItemForDelete(item, index)"/>
           </div>
         </b-col>
       </b-row>
@@ -98,7 +98,7 @@
           </div>
           <div class="pl-3">
             <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"
-                :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="setWantItemForDelete(wantItem)"/>
+                :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="setWantItemForDelete(wantItem, index)"/>
           </div>
         </b-col>
       </b-row>
@@ -106,8 +106,8 @@
         <Button class="confirm-trade-draft-btn" variant="listing" @click="saveVendorTrade('live')">{{ $t('trades.save_changes') }}</Button>
         <Button class="confirm-trade-post-btn ml-5" :disabled="!getTradeItemsWants.length || !getTradeItems.length" variant="listing" @click="$bvModal.show('discardModel')">{{ $t('trades.discard_changes') }}</Button>
       </b-row>
-      <delete-offer-item-modal :product="deleteOfferProduct" @delete="removeOfferItem"></delete-offer-item-modal>
-      <delete-want-item-modal :product="deleteWantProduct" @delete="removeWantItem"></delete-want-item-modal>
+      <delete-offer-item-modal :product="deleteOfferProduct" :productIndex="deleteOfferProductIndex" @delete="removeOfferItem"></delete-offer-item-modal>
+      <delete-want-item-modal :product="deleteWantProduct" :productIndex="deleteWantProductIndex" @delete="removeWantItem"></delete-want-item-modal>
       <discard-model @discard="moveBackToTradeOffers(getTradeId)"></discard-model>
     </div>
     <b-row v-else-if="searchForProductsType" class="pr-md-5 pr-lg-5 pr-sm-0 mb-2">
@@ -178,6 +178,8 @@ export default {
       editableProduct: null,
       deleteOfferProduct: {},
       deleteWantProduct: {},
+      deleteOfferProductIndex: 0,
+      deleteWantProductIndex: 0,
       MAX_ITEMS_ALLOWED,
       trade_want_id: null,
       trade: null,
@@ -451,40 +453,44 @@ export default {
     /**
      * set offer item for delete
      */
-    setOfferItemForDelete(offerItem) {
+    setOfferItemForDelete(offerItem, productIndex) {
       this.deleteOfferProduct = offerItem
+      this.deleteOfferProductIndex = productIndex
       this.$bvModal.show('delete-offer-item')
     },
 
     /**
      * This function is used to remove offer item from list
-     * on the basis of product id which is pass as param
-     * @param id
+     * on the basis of product index which is pass as param
+     * @param index
      */
-    removeOfferItem(id) {
-      this.$store.commit('trades/removeTradeItem', id)
+    removeOfferItem(index) {
+      this.$store.commit('trades/removeTradeItem', index)
       this.$bvModal.hide('delete-offer-item')
       this.deleteOfferProduct = {}
+      this.deleteOfferProductIndex = 0
       this.$nextTick(() => this.$forceUpdate())
     },
 
     /**
      * set want item for delete
      */
-    setWantItemForDelete(wantItem) {
+    setWantItemForDelete(wantItem, productIndex) {
       this.deleteWantProduct = wantItem
+      this.deleteWantProductIndex = productIndex
       this.$bvModal.show('delete-want-item')
     },
 
     /**
      * This function is used to remove want item from list
-     * on the basis of product id which is pass as param
-     * @param id
+     * on the basis of product index which is pass as param
+     * @param index
      */
-    removeWantItem(id) {
-      this.$store.commit('trades/removeWantsItemsTrade', id)
+    removeWantItem(index) {
+      this.$store.commit('trades/removeWantsItemsTrade', index)
       this.$bvModal.hide('delete-want-item')
       this.deleteWantProduct = {}
+      this.deleteWantProductIndex = 0
       this.$nextTick(() => this.$forceUpdate())
     },
 

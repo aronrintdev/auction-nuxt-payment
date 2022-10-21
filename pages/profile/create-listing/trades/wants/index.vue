@@ -110,7 +110,7 @@
 
             <div class="bg-white inventory-area mb-0">
               <b-row class="p-4">
-                <b-col v-for="item in generalListItems" :key="item.id" cols="3" class="mb-5">
+                <b-col v-for="(item, index) in generalListItems" :key="'general-item-' + item.id + '-' + index" cols="3" class="mb-5">
                   <div class="create-trade-item position-relative" :draggable="true"
                        @dragstart="startDrag($event, item)">
                     <div>
@@ -185,7 +185,7 @@
                                 @change="changeOrderFilterCombination" @getResults="getCombinations"/>
               </b-row>
               <b-row class="px-5">
-                <b-col v-for="(combination, combinationIndex) in combinationItems" :key="combination.combination_id" cols="6" class="mb-4">
+                <b-col v-for="(combination, combinationIndex) in combinationItems" :key="'combination-item-' + combination.combination_id + '-' + combinationIndex" cols="6" class="mb-4">
                   <div class="combination-div py-4 mx-1" :draggable="true"
                        @dragstart="startDragCombination($event, combination)">
                     <div class="d-flex justify-content-between ml-5">
@@ -229,7 +229,7 @@
                     </div>
                     <div class="col-md-12 d-flex justify-content-center">
                       <b-col v-for="(item, index) in combination.combination_items"
-                             :key="item.id" class="d-flex justify-content-center flex-column align-items-center">
+                             :key="'combination-item-' + '-' + index" class="d-flex justify-content-center flex-column align-items-center">
                         <object v-if="item.product.image" :data="item.product.image"
                                 class="item-image-combination pointer"
                                 type="image/png"
@@ -285,7 +285,7 @@
             </b-row>
           </div>
           <b-row v-else class="justify-content-center">
-            <div v-for="item in getTradeItemsWants" :key="item.id" class="create-trade-item-sm d-flex justify-content-between flex-column mr-4">
+            <div v-for="(item, index) in getTradeItemsWants" :key="'want-item-' + item.id + '-' + index" class="create-trade-item-sm d-flex justify-content-between flex-column mr-4">
               <div class="d-flex justify-content-between mt-2 mx-2">
                 <div class="create-trade-size-car-sm">{{ item.selected_size_name }}</div>
                 <div v-if="item.selected_quantity > 1" class="create-trade-quantity-car-sm">
@@ -515,13 +515,8 @@ export default {
       if (evt.dataTransfer.getData('item').length > 0) {
         const items = evt.dataTransfer.getData('item')
         const data = JSON.parse(items)
-        const item = this.getTradeItemsWants.find(item => item.id === (data.product_id + data.size_id + data.packaging_condition_id))
         if (this.checkSelectedWantItems()) {
-          if (!item && item === undefined) {
             this.addWantItemToState(data)
-          } else{
-            this.$store.commit('trades/incrementTradeWantItemQuantity', item.id) // quantity increase of item on base of id
-          }
         } else{
           this.$toasted.error(this.$t('trades.create_listing.vendor.wants.want_items_quantity_should_not_exceed', [MAX_ITEMS_ALLOWED])) // error of quantity increase
         }
@@ -532,12 +527,7 @@ export default {
         const _self = this
         Array.from(data.combination_items).forEach(function(combinationItem) {
           if (_self.checkSelectedWantItems()) {
-            const item = _self.getTradeItemsWants.find(item => item.id === (combinationItem.product_id + combinationItem.size_id + combinationItem.packaging_condition_id))
-            if (!item && item === undefined) {
               _self.addWantItemToState(combinationItem)
-            } else{
-              _self.$store.commit('trades/incrementTradeWantItemQuantity', item.id) // quantity increase of item on base of id
-            }
           } else{
             _self.$toasted.error(_self.$t('trades.create_listing.vendor.wants.want_items_quantity_should_not_exceed', [MAX_ITEMS_ALLOWED])) // error of quantity increase
           }
@@ -616,13 +606,8 @@ export default {
      */
     addOrIncrementWantedItem(item) {
       const itemsCount = this.getTradeItemsWants.map(i => i.selected_quantity).reduce((a, b) => a + b, 0)
-      const existingItem = this.getTradeItemsWants.find(val => val.id === (item.product_id + item.size_id + item.packaging_condition_id))
       if (itemsCount < MAX_ITEMS_ALLOWED) {
-        if (existingItem) {
-          this.$store.commit('trades/incrementTradeWantItemQuantity', existingItem.id)
-        } else {
-          this.addWantItemToState(item)
-        }
+        this.addWantItemToState(item)
         this.$nextTick(() => this.$forceUpdate())
       } else {
         this.$toasted.error(this.$t('trades.create_listing.vendor.wants.want_items_quantity_should_not_exceed', [MAX_ITEMS_ALLOWED]))
@@ -841,12 +826,8 @@ export default {
      * @param id
      */
     removeOrDecrementWantItem(id) {
-      const existingItem = this.getTradeItemsWants.find(val => val.id === id)
-      if (existingItem.selected_quantity > 1) {
-        this.$store.commit('trades/decrementTradeWantItemQuantity', id)
-      } else {
-        this.$store.commit('trades/removeWantsItemsTrade', id)
-      }
+      const index = this.getTradeItemsWants.findIndex(val => val.id === id)
+      this.$store.commit('trades/removeWantsItemsTrade', index)
       this.$nextTick(() => this.$forceUpdate())
     },
 

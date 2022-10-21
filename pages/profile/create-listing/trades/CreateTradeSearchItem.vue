@@ -221,12 +221,14 @@ export default {
         return this.yourItems.length
       if(this.productFor === this.tradeArena)
         return this.getYourTradeItems.length
-      if (this.productFor === this.tradeOffer)
+      if (this.productFor === this.tradeOffer && this.itemId)
         return this.getTradeItems.filter(offerItem => offerItem.id !== this.itemId).map(i => parseInt(i.quantity)).reduce((a, b) => a + b, 0)
+      else if (this.productFor === this.tradeOffer)
+        return this.getTradeItems.map(i => parseInt(i.quantity)).reduce((a, b) => a + b, 0)
       if (this.productFor === this.wantOfferConfirm)
         return this.getTradeItemsWants.map(i => parseInt(i.selected_quantity))
           .reduce((a, b) => a + b, 0) - (this.product.selected_quantity ? this.product.selected_quantity : 0)
-      if (this.productFor === this.wantOffer)
+      if (this.productFor === this.wantOffer && this.itemId)
         return this.getTradeItemsWants.filter(wantItem => wantItem.id !== this.itemId).map(i => parseInt(i.selected_quantity))
           .reduce((a, b) => a + b, 0) - (this.selected_quantity ? this.selected_quantity : 0)
 
@@ -238,7 +240,9 @@ export default {
      * @returns {false|any|boolean}
      */
     isFormValid() {
-      return ((parseInt(this.itemsCount()) + parseInt(this.quantity)) <= MAX_ITEMS_ALLOWED &&
+      return (this.productFor === 'wantsList') ? ((this.product.packaging_conditions && this.box_condition !== null) &&
+          this.selected_size !== null && this.isValidYear(this.year))
+        : ((parseInt(this.itemsCount()) + parseInt(this.quantity)) <= MAX_ITEMS_ALLOWED &&
         (this.product.packaging_conditions && this.box_condition !== null) &&
         this.isValidQuantity(parseInt(this.quantity)) &&
         this.isValidYear(this.year) &&
@@ -319,8 +323,8 @@ export default {
       else if (this.productFor === PRODUCT_FOR_COUNTER_OFFER) {
         for (let i = 0; i < this.quantity; i++){
           selectedProduct = this.setSelectedItem(selectedProduct)
+          this.$root.$emit('add_new_product', selectedProduct)
         }
-        this.$root.$emit('add_new_product', selectedProduct)
       }
       else if (this.productFor === this.tradeOffer) {
         for (let i = 0; i < this.quantity; i++){

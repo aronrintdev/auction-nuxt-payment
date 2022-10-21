@@ -488,11 +488,10 @@ export default {
       }, 3000)
     },
     selectItemCombination(data, checked) {
-      this.selectedActionType = data.type
       if (checked) {
-        this.selected.push(data.id)
+        this.selected.push(data)
       } else {
-        this.selected.splice(this.selected.indexOf(data.id), 1)
+        this.selected.splice(this.selected.indexOf(data), 1)
       }
     },
     createCombination() {
