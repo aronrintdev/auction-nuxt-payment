@@ -1,18 +1,18 @@
 <template>
   <div>
     <div class="row my-5">
-      <div class="col-md-3">
-        <h1 class="font-secondary fs-24 fw-7 mb-0">
+      <div class="col-6 col-md-3">
+        <h1 class="font-secondary fs-24 fw-7 mb-0 heading">
           {{ $t('vendor_dashboard.orders') }}
         </h1>
       </div>
-      <div class="col-md-6 d-flex justify-content-center">
+      <div class="col-md-6 d-none d-sm-flex justify-content-center">
         <NavGroup :value="activeNav" :data="menus" @change="navItem" />
       </div>
-      <div class="col-md-3 d-flex justify-content-end align-items-center">
+      <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
         <nuxt-link
           to="/orders"
-          class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0"
+          class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
           >{{ $t('vendor_dashboard.view_all') }}</nuxt-link
         >
       </div>
@@ -354,6 +354,13 @@ export default {
     width: 100px
     height: 40px
   @media (max-width: 576px)
+    .view-more-link
+      font-size: 10px
+      font-weight: $medium
+    .heading
+      font-size: 14px
+      font-family: $font-family-base
+      font-weight: $medium      
     thead
       display: none
     tr[role="row"]
@@ -364,7 +371,6 @@ export default {
       margin: 12px 0
       padding: 15px 0
       h4.font-secondary
-        white-space: nowrap
         font-size: 12px
         color: $color-gray-6
         font-weight: $normal
@@ -378,7 +384,6 @@ export default {
         background: none
         padding: 0
       h4
-        white-space: nowrap
         font-size: 12px
         font-weight: $normal
         font-family: $font-family-base

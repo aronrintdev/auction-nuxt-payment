@@ -19,7 +19,7 @@
     <b-nav-form class="search-box-wrapper">
       <SearchInput
         :placeholder="$t('navbar.search')"
-        :value="searchKeyword" 
+        :value="searchKeyword"
         pill
         size="sm"
         variant="secondary"
@@ -59,19 +59,29 @@
         />
       </b-nav-form>
       <b-navbar-nav class="nav-menu-wrapper">
-        <b-nav-item class="w-100" to="/shop" :link-attrs="{ title: $t('navbar.shop') }">
+        <b-nav-item
+          class="w-100"
+          to="/shop"
+          :link-attrs="{ title: $t('navbar.shop') }"
+        >
           {{ $t('navbar.shop') }}
         </b-nav-item>
-        <b-nav-item class="w-100" to="/sell" :link-attrs="{ title: $t('navbar.sell') }">
+        <b-nav-item
+          class="w-100"
+          to="/sell"
+          :link-attrs="{ title: $t('navbar.sell') }"
+        >
           {{ $t('navbar.sell') }}
         </b-nav-item>
-        <b-nav-item class="w-100"
+        <b-nav-item
+          class="w-100"
           to="/trades"
           :link-attrs="{ title: $t('navbar.trade') }"
         >
           {{ $t('navbar.trade') }}
         </b-nav-item>
-        <b-nav-item class="w-100"
+        <b-nav-item
+          class="w-100"
           to="/auction"
           :link-attrs="{ title: $t('navbar.auction') }"
         >
@@ -83,13 +93,14 @@
           to="/profile/preferences"
           :link-attrs="{ title: $t('navbar.profile') }"
         >
-         {{ $t('navbar.profile') }}
+          {{ $t('navbar.profile') }}
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
     <!-- Sidebar menu begin -->
     <b-sidebar
-      id="top-menu-sidebar" ref="topSidebar"
+      id="top-menu-sidebar"
+      ref="topSidebar"
       v-click-outside="onClickOutside"
       shadow
       @shown="sidebarIsVisible = true"
@@ -115,28 +126,34 @@
             :link-attrs="{ title: $t('navbar.shop') }"
           >
             <img src="~/assets/img/icons/profile/purchases.svg" />
-            <span>{{$t('navbar.shop')}}</span>
+            <span>{{ $t('navbar.shop') }}</span>
           </b-nav-item>
           <b-nav-item
             class="w-100"
             to="/sell"
             :link-attrs="{ title: $t('navbar.sell') }"
           >
-            <img src="~/assets/img/icons/profile/selling.svg" /><span>{{ $t('navbar.sell') }}</span>
+            <img src="~/assets/img/icons/profile/selling.svg" /><span>{{
+              $t('navbar.sell')
+            }}</span>
           </b-nav-item>
           <b-nav-item
             class="w-100"
             to="/trades"
             :link-attrs="{ title: $t('navbar.trade') }"
           >
-            <img src="~/assets/img/icons/profile/trades.svg" /><span>{{ $t('navbar.trade') }}</span>
+            <img src="~/assets/img/icons/profile/trades.svg" /><span>{{
+              $t('navbar.trade')
+            }}</span>
           </b-nav-item>
           <b-nav-item
             class="w-100"
             to="/auction"
             :link-attrs="{ title: $t('navbar.auction') }"
           >
-            <img src="~/assets/img/icons/profile/auctions.svg" /><span>{{ $t('navbar.auction') }}</span>
+            <img src="~/assets/img/icons/profile/auctions.svg" /><span>{{
+              $t('navbar.auction')
+            }}</span>
           </b-nav-item>
           <b-nav-item
             v-if="authenticated"
@@ -144,7 +161,9 @@
             to="/profile/preferences"
             :link-attrs="{ title: $t('navbar.profile') }"
           >
-            <img src="~/assets/img/icons/side-menu/preferences.svg" /><span>{{ $t('navbar.profile') }}</span>
+            <img src="~/assets/img/icons/side-menu/preferences.svg" /><span>{{
+              $t('navbar.profile')
+            }}</span>
           </b-nav-item>
         </b-navbar-nav>
       </div>
@@ -248,7 +267,7 @@ export default {
       if (topSidebar && this.sidebarIsVisible) {
         topSidebar.hide()
       }
-    }
+    },
   },
 }
 </script>

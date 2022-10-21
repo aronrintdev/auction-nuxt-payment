@@ -23,7 +23,7 @@
           <div
             class="divider bg-dark w-25 my-4 mx-auto mx-sm-0 d-none d-sm-block"
           ></div>
-          <div>
+          <div class="d-none d-sm-block">
             <CountdownTimer :countDownToTime="countDownToTime" />
           </div>
           <div

@@ -59,7 +59,7 @@
           <div>
             <nuxt-link
               to='/profile/rewards'
-              class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0"
+              class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 d-none d-sm-inline"
               >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}</nuxt-link>
           </div>
         </div>

@@ -2,7 +2,7 @@
   <div>
     <div class="row mt-2 mb-2 my-sm-5">
       <div class="col-6 col-md-3">
-        <h1 class="font-secondary fs-24 fw-7 mb-0 purchases">
+        <h1 class="font-secondary fs-24 fw-7 mb-0 title">
           {{ $t('buyer_dashboard.purchases.title') }}
         </h1>
       </div>
@@ -12,7 +12,7 @@
       <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
         <nuxt-link
           to="/profile/purchases"
-          class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0"
+          class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
           >{{ $t('vendor_dashboard.view_all') }}</nuxt-link
         >
       </div>
@@ -74,7 +74,7 @@
       </div>
     </div>
     <div class="row d-flex d-sm-none">
-      <div v-for="x in 4" :key="x" class="col-12 my-2">
+      <div v-for="row in purchases" :key="row.id" class="col-12 my-2">
         <div class="bg-white py-2 border shadow-sm br-10">
           <div
             class="px-2 product-info d-flex align-items-center align-items-sm-baseline flex-sm-column gap-2 mb-2 mb-sm-0 position-relative"
@@ -92,20 +92,25 @@
               autoWidth
             >
               <div
-                v-for="y in 4"
-                :key="y"
+                v-for="item in row.items"
+                :key="item.id"
                 class="col-thumb d-flex justify-content-center"
               >
-                <ProductThumb />
+                <ProductThumb
+                  :src="item.product.image"
+                  :product="item.product"
+                />
               </div>
             </Carousel>
             <div>
               <h4 class="font-primary fw-6 fs-14 text-black mb-2">
                 <!-- TODO  -->
-                Jordan 4 Retro (2021)
+                {{ item.products.name }}
               </h4>
               <h4 class="font-primary fs-11 fw-5 mb-0 text-secondary">
-                {{ $t('vendor_dashboard.colorway') }}: University Blue
+                {{ $t('vendor_dashboard.colorway') }}:{{
+                  item.products.colorway
+                }}
               </h4>
               <h4 class="font-primary fs-11 fw-5 mb-0 text-secondary">
                 {{ $t('vendor_dashboard.box_condition') }}: Opened with No Tag
@@ -122,7 +127,7 @@
               <h6
                 class="mb-0 fs-12 fw-5 font-primary text-primary w-fit-content border-bottom border-primary"
               >
-                2125845121
+                #{{ row.order_id }}
               </h6>
             </div>
             <div class="d-flex info-row px-3 py-1 justify-content-between">
@@ -132,19 +137,23 @@
               <h6
                 class="mb-0 fs-12 fw-5 font-primary text-black w-fit-content text-secondary"
               >
-                12/12/2020
+                {{ row.created_at | moment('MMMM D, YYYY') }}
               </h6>
             </div>
             <div class="d-flex info-row px-3 py-1 justify-content-between">
-              <h6 class="mb-0 fs-12 fw-7 font-primary text-black">Status:</h6>
+              <h6 class="mb-0 fs-12 fw-7 font-primary text-black">
+                {{ $t('vendor_dashboard.status') }}:
+              </h6>
               <h6
                 class="mb-0 fs-12 fw-5 font-primary text-warning w-fit-content"
               >
-                Pending
+                {{ row.order_status }}
               </h6>
             </div>
             <div class="d-flex info-row px-3 py-1 justify-content-between">
-              <h6 class="mb-0 fs-12 fw-7 font-primary text-black">Type:</h6>
+              <h6 class="mb-0 fs-12 fw-7 font-primary text-black">
+                {{ $t('vendor_dashboard.type') }}:
+              </h6>
               <h6
                 class="mb-0 fs-12 fw-5 font-primary text-black w-fit-content text-secondary"
               >
@@ -158,7 +167,7 @@
               <h6
                 class="mb-0 fs-12 fw-5 font-primary text-black w-fit-content text-secondary"
               >
-                3
+                {{ row.quantity }}
               </h6>
             </div>
             <div class="d-flex info-row px-3 py-1 justify-content-between">
@@ -168,7 +177,7 @@
               <h6
                 class="mb-0 fs-12 fw-5 font-primary text-black w-fit-content text-secondary"
               >
-                $4.99
+                ${{ row.total | formatPrice }}
               </h6>
             </div>
           </div>
@@ -249,4 +258,12 @@ export default {
       &.active
         span
           background: $color-black-1
+@media (max-width: 576px)
+  .view-more-link
+    font-size: 10px
+    font-weight: $medium
+  .heading
+    font-size: 14px
+    font-family: $font-family-base
+    font-weight: $medium
 </style>
