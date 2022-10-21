@@ -1,62 +1,72 @@
 <template>
-  <FeatureContentWrapper
-    :title="banner.title"
-    :description="banner.description"
-    :backgroundImage="banner.backgroundImage"
-  >
-    <FeatureTitle class="mb-6 text-center text-md-left">{{
-      $tc('common.benefit', 2)
-    }}</FeatureTitle>
-    <b-row class="justify-content-between h-card-main mb-md-5">
-      <b-col
-        v-for="(item, index) in csvBulkUplaod"
-        :key="index"
-        lg="3"
-        class="d-flex justify-content-center d-lg-block"
+  <div>
+    <FeatureContentWrapper
+      :title="banner.title"
+      :description="banner.description"
+      :backgroundImage="banner.backgroundImage"
+      :backgroundImageSm="banner.backgroundImageSm"
+      :shopNowDescription="shopNowBanner.shopNowDescription"
+      :shopNowButtonText="shopNowBanner.shopNowButtonText"
+      :previousPage="shopNowBanner.previousPage"
+      :previousPageLink="shopNowBanner.previousPageLink"
+      :nextPage="shopNowBanner.nextPage"
+      :nextPageLink="shopNowBanner.nextPageLink"
+    >
+      <b-row
+        class="justify-content-md-between justify-content-center h-card-main mb-md-5 w-100 mx-0"
       >
-        <FeatureCard
-          :title="item.title"
-          :description="item.description"
-          :imageUrl="item.image"
+        <b-col
+          v-for="(item, index) in csvBulkUplaod"
+          :key="index"
+          md="3"
+          class="d-flex justify-content-center d-lg-block px-0"
+        >
+          <FeatureCard
+            :title="item.title"
+            :description="item.description"
+            :imageUrl="item.image"
+          />
+        </b-col>
+      </b-row>
+
+      <FeatureTitle>{{
+        $t('features.csv_bulk_uploading.the_process')
+      }}</FeatureTitle>
+
+      <div class="d-flex cards-wrapper justify-content-center">
+        <FeatureStepCard
+          :icon="
+            require('~/assets/img/features/csv-bulk-uploading/keyboard.svg')
+          "
+          :title="$t('features.csv_bulk_uploading.enter_data')"
+          :description="$t('features.csv_bulk_uploading.enter_data_desc')"
+          step="1"
         />
-      </b-col>
-    </b-row>
 
-    <FeatureTitle class="mb-6 text-center text-md-left">{{
-      $t('features.csv_bulk_uploading.the_process')
-    }}</FeatureTitle>
+        <FeatureStepCard
+          :icon="require('~/assets/img/features/csv-bulk-uploading/edit.svg')"
+          :title="$t('features.csv_bulk_uploading.confirm')"
+          :description="$t('features.csv_bulk_uploading.confirm_desc')"
+          step="2"
+        />
+      </div>
 
-    <div class="d-flex cards-wrapper">
-      <FeatureStepCard
-        :icon="require('~/assets/img/features/csv-bulk-uploading/keyboard.svg')"
-        :title="$t('features.csv_bulk_uploading.enter_data')"
-        :description="$t('features.csv_bulk_uploading.enter_data_desc')"
-        step="1"
-      />
-
-      <FeatureStepCard
-        :icon="require('~/assets/img/features/csv-bulk-uploading/edit.svg')"
-        :title="$t('features.csv_bulk_uploading.confirm')"
-        :description="$t('features.csv_bulk_uploading.confirm_desc')"
-        step="2"
-      />
-    </div>
-
-    <div class="d-flex cards-wrapper">
-      <FeatureStepCard
-        :icon="require('~/assets/img/features/csv-bulk-uploading/upload.svg')"
-        :title="$t('features.csv_bulk_uploading.upload')"
-        :description="$t('features.csv_bulk_uploading.upload_desc')"
-        step="3"
-      />
-      <FeatureStepCard
-        :icon="require('~/assets/img/features/csv-bulk-uploading/create.svg')"
-        :title="$t('features.csv_bulk_uploading.create')"
-        :description="$t('features.csv_bulk_uploading.create_desc')"
-        step="4"
-      />
-    </div>
-  </FeatureContentWrapper>
+      <div class="d-flex cards-wrapper justify-content-center csv-bulk">
+        <FeatureStepCard
+          :icon="require('~/assets/img/features/csv-bulk-uploading/upload.svg')"
+          :title="$t('features.csv_bulk_uploading.upload')"
+          :description="$t('features.csv_bulk_uploading.upload_desc')"
+          step="3"
+        />
+        <FeatureStepCard
+          :icon="require('~/assets/img/features/csv-bulk-uploading/create.svg')"
+          :title="$t('features.csv_bulk_uploading.create')"
+          :description="$t('features.csv_bulk_uploading.create_desc')"
+          step="4"
+        />
+      </div>
+    </FeatureContentWrapper>
+  </div>
 </template>
 <script>
 import {
@@ -80,39 +90,46 @@ export default {
     return {
       csvBulkUplaod: [
         {
-          title: this.$t('features.csv_bulk_uploading.multiple_items'),
+          title: this.$t(
+            'newest_features.csv_bulk_uploading.upload_multiple_items_at_once'
+          ),
           description: this.$t(
-            'features.csv_bulk_uploading.multiple_items_desc'
+            'newest_features.csv_bulk_uploading.upload_multiple_items_at_once_desc'
           ),
           image: require('~/assets/img/features/newest-feature/csv-bulk-uploading/csveasilyeditable.png'),
         },
         {
-          title: this.$t('features.csv_bulk_uploading.user_friendly'),
+          title: this.$t(
+            'newest_features.csv_bulk_uploading.easily_editable_&_user-friendly'
+          ),
           description: this.$t(
-            'features.csv_bulk_uploading.user_friendly_desc'
+            'newest_features.csv_bulk_uploading.easily_editable_&_user-friendly_desc'
           ),
           image: require('~/assets/img/features/newest-feature/csv-bulk-uploading/csvmultipleitems.png'),
         },
         {
-          title: this.$t('features.csv_bulk_uploading.efficient'),
-          description: this.$t('features.csv_bulk_uploading.efficient_desc'),
+          title: this.$t(
+            'newest_features.csv_bulk_uploading.time_saving_&_efficient'
+          ),
+          description: this.$t(
+            'newest_features.csv_bulk_uploading.time_saving_&_efficient_desc'
+          ),
           image: require('~/assets/img/features/newest-feature/csv-bulk-uploading/csvsavetime.png'),
         },
       ],
-      options: [
-        {
-          id: 'affirm',
-          icon: require('~/assets/img/icons/affirm-black.svg'),
-        },
-        {
-          id: 'afterpay',
-          icon: require('~/assets/img/icons/afterpay.svg'),
-        },
-      ],
       banner: {
-        title: 'features.csv_bulk_uploading.title',
-        description: 'features.csv_bulk_uploading.desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/csv-bulk-uploading/csvbulkuploadingbanner.png'),
+        title: 'newest_features.csv_bulk_uploading.title',
+        description: 'newest_features.csv_bulk_uploading.desc',
+        backgroundImage: require('@/assets/img/features/newest-feature/csv-bulk-uploading/csvbanner.png'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/csv-bulk-uploading/csvbannermobile.png'),
+      },
+      shopNowBanner: {
+        shopNowDescription: 'newest_features.csv_bulk_uploading.shop_now_desc',
+        shopNowButtonText: 'newest_features.csv_bulk_uploading.shop_now_btn',
+        previousPage: 'newest_features.csv_bulk_uploading.previous_page_name',
+        previousPageLink: '/features/selling-on-deadstock',
+        nextPage: 'newest_features.csv_bulk_uploading.next_page_name',
+        nextPageLink: '/features/auctions',
       },
     }
   },
@@ -122,6 +139,8 @@ export default {
 @import '~/assets/css/_variables'
 
 .features-container
+  .csv-bulk
+    margin-bottom: 100px
   .cards-wrapper
     > div
       margin: 18px 9px
@@ -135,13 +154,16 @@ export default {
     .cards-wrapper
       flex-direction: column
       align-items: center
-
       > div
         width: 100%
+        margin: 12px 0px
 
 @media (max-width: 576px)
   .features-container
+    .csv-bulk
+      margin-bottom: 50px
     .cards-wrapper::v-deep
+      padding: 0px 16px
       > div
         flex: none
         width: 100%

@@ -5345,7 +5345,18 @@
     "trading": {
       "title": "Trade",
       "desc": "Use sneakers, apparel and accesories to complete your trade. Our Fair Trade Meter helps create the most compatible trades.",
-      "feature_banner_title": "Trading on Deadstock"
+      "feature_banner_title": "Trading on Deadstock",
+      "first_of_its_kind": "First of its Kind",
+      "first_of_its_kind_desc": "The first platform that enables you to trade sneakers, apparel, streetwear and accessories.",
+      "value_meter": "Value Meter",
+      "value_meter_desc": "Our fair trade meter uses live analytics to help create the most compatible trades and assure equal transactions.",
+      "authenticity_guaranteed_products": "Authenticity Guaranteed Products",
+      "authenticity_guaranteed_products_desc": "Trade with confidence as all of our traded items are placed in our authentication process and authenticated by our experts.",
+      "new-features": "NEW FEATURES",
+      "shop_now_desc": "Explore our trade arena, utilize our fair trade meter and start trading items today.",
+      "shop_now_btn": "Browse",
+      "previous_page_name": "Selling",
+      "next_page_name": "Auction"
     },
     "auctions": {
       "title": "Auctions",
@@ -5418,6 +5429,9 @@
       "desc": "We now offer 24 hour live customer service, speak directly with a customer service rep for any questions.",
       "feature_banner_title": "Live Customer Service",
       "feature_banner_desc": "Live 24/7 customer service",
+      "chat": "Chat",
+      "phone": "Phone",
+      "email": "Email",
       "benefits": {
         "first_benefit_title": "24 hour live customer service",
         "first_benefit_desc": "We offer 24 hour live customer service for our users.",
@@ -5456,6 +5470,8 @@
       "desc": "Send and receive virtual gift cards of any custom amount; use these giftcards toward your purchases.",
       "feature_banner_title": "Virtual Giftcards",
       "feature_banner_desc": "Send and receive money",
+      "online": " Online",
+      "in_store": " In Store",
       "benefits": {
         "first_benefit_title": "No expiration",
         "first_benefit_desc": "Your virtual gift cards never expire, use them at anytime with no worry.",
@@ -5479,7 +5495,12 @@
       "access_to_items_sold": "Access to items sold out in your area",
       "access_to_items_sold_desc": "Get access to items that have sold out in your area and are no longer available.    ",
       "more_customers": "More Customers viewing your items",
-      "more_customers_desc": "New international buyers now have access to your listed items. "
+      "more_customers_desc": "New international buyers now have access to your listed items. ",
+      "refer_a_friend": "REFER A FRIEND TO DEADSTOCK",
+      "shop_now_desc": "Check out offerings for apparel, streetwear, sneakers and accessories from around the world.",
+      "shop_now_btn": "Browse",
+      "previous_page_name": "Virtual Giftcards",
+      "next_page_name": "Payment Plans"
     },
     "payments_plans": {
       "title": "Payments Plans",
@@ -5571,7 +5592,12 @@
       "analytics_on_how": "Analytics on how to Price When Selling",
       "analytics_on_how_desc": "The lowest seller fees in the marketplace, keep more of your revenue.",
       "insights_on_value": "Insights on Value of Specific Sizes of Items",
-      "insights_on_value_desc": "Detailed instructions on how to quickly and efficiently ship your items."
+      "insights_on_value_desc": "Detailed instructions on how to quickly and efficiently ship your items.",
+      "check_it_out": "CHECK IT OUT",
+      "shop_now_desc": "Deadstock Exchange enhances users selling and trading ability by giving analytics and insights.",
+      "shop_now_btn": "Deadstock Exchange",
+      "previous_page_name": "2FA Security",
+      "next_page_name": "Blockchain Authentication Ledger"
     },
     "blockchain_authentication_ledger": {
       "title": "Blockchain Authentication Ledger",

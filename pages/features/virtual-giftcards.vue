@@ -22,6 +22,27 @@
       <FeatureTitle>
         {{ $t('newest_features.virtual_giftcards.options') }}
       </FeatureTitle>
+      <div
+        class="d-flex justify-content-center cards-wrapper-virtual mb-3 mb-md-5"
+      >
+        <FeatureCardHoverable
+          :icon="
+            require('~/assets/img/features/newest-feature/virtual-giftcards/computer.svg')
+          "
+          :description="$t('features.selling.create_listing')"
+          :title2="$t('newest_features.virtual_giftcards.online')"
+          step="1. In Store"
+        />
+
+        <FeatureCardHoverable
+          :icon="
+            require('~/assets/img/features/newest-feature/virtual-giftcards/shop.svg')
+          "
+          :title2="$t('newest_features.virtual_giftcards.in_store')"
+          :description="$t('features.selling.sell_items')"
+          step="2. Online"
+        />
+      </div>
     </FeatureContentWrapper>
   </div>
 </template>
@@ -29,12 +50,14 @@
 import FeatureContentWrapper from '~/components/feature/ContentWrapper'
 import HorizontalBenefitBox from '~/components/feature/HorizontalBenefitBox'
 import FeatureTitle from '~/components/feature/Title'
+import FeatureCardHoverable from '~/components/feature/CardHoverable'
 
 export default {
   components: {
     FeatureContentWrapper,
     HorizontalBenefitBox,
     FeatureTitle,
+    FeatureCardHoverable,
   },
 
   layout: 'IndexLayout',
@@ -84,3 +107,40 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+.features-container::v-deep
+  .feature-content
+    .cards-wrapper-virtual
+      gap: 128px !important
+      counter-reset: css-counter 0
+      .feature-card-hoverable
+        img
+          width: 172px !important
+          margin-top: 52px
+        .feature-description
+          margin: 0px !important
+        &:nth-child(2) img
+          width: 132px !important
+      > div
+        max-width: 361px
+        min-height: 168px
+        max-height: 320px
+
+
+@media (max-width: 768px)
+  .features-container::v-deep
+    .feature-content
+      .cards-wrapper-virtual
+        gap: 26px !important
+        padding: 40px 16px
+      > div
+        min-width: 168px !important
+        min-height: 164px !important
+        .feature-item::v-deep
+          flex-direction: column
+          align-items: center
+        .feature-card-hoverable
+          img
+            margin-top: 0px !important
+</style>

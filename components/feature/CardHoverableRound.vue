@@ -54,6 +54,10 @@ export default {
   padding: 0
   box-shadow: 0 1px 4px 0 rgba($color-black-1, 0.25)
 
+.feature-card-hoverable-round
+  img
+   width: 94px
+
   &:hover
     transform: scale(1.1)
 

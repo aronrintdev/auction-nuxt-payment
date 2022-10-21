@@ -1,57 +1,63 @@
 <template>
-  <FeatureContentWrapper
-    :title="banner.title"
-    :description="banner.description"
-    :backgroundImage="banner.backgroundImage"
-  >
-    <FeatureTitle class="mb-6 text-center text-md-left">{{
-      $tc('common.benefit', 2)
-    }}</FeatureTitle>
-    <b-row class="justify-content-between h-card-main mb-md-5">
-      <b-col
-        v-for="(item, index) in deadExchange"
-        :key="index"
-        lg="3"
-        class="d-flex justify-content-center d-lg-block"
+  <div>
+    <FeatureContentWrapper
+      :title="banner.title"
+      :description="banner.description"
+      :backgroundImage="banner.backgroundImage"
+      :backgroundImageSm="banner.backgroundImageSm"
+      :shopNowDescription="shopNowBanner.shopNowDescription"
+      :shopNowButtonText="shopNowBanner.shopNowButtonText"
+      :previousPage="shopNowBanner.previousPage"
+      :previousPageLink="shopNowBanner.previousPageLink"
+      :nextPage="shopNowBanner.nextPage"
+      :nextPageLink="shopNowBanner.nextPageLink"
+    >
+      <b-row
+        class="justify-content-md-between justify-content-center h-card-main mb-md-5 w-100 mx-0"
       >
-        <FeatureCard
-          :title="item.title"
-          :description="item.description"
-          :imageUrl="item.image"
+        <b-col
+          v-for="(item, index) in csvBulkUplaod"
+          :key="index"
+          md="3"
+          class="d-flex justify-content-center d-lg-block px-0"
+        >
+          <FeatureCard
+            :title="item.title"
+            :description="item.description"
+            :imageUrl="item.image"
+          />
+        </b-col>
+      </b-row>
+
+      <FeatureTitle>{{
+        $t('newest-feature.deadstock_exchange.check_it_out')
+      }}</FeatureTitle>
+
+      <div class="text-center new-features mb-5">
+        <img
+          :src="
+            require('~/assets/img/features/newest-feature/deadstock-exchange/statics.png')
+          "
+          class="img-fluid d-md-inline d-none"
         />
-      </b-col>
-    </b-row>
-
-    <FeatureTitle class="mb-6">{{
-      $t('features.deadstock_exchange.check_it_out')
-    }}</FeatureTitle>
-
-    <div class="graph-wrapper mx-auto w-100 mb-md-5">
-      <img
-        :src="
-          require('~/assets/img/features/deadstock-exchange/sneaker-graph.png')
-        "
-        class="w-100"
-      />
-    </div>
-    <div class="shopnow-banner">
-      <ShopNowBanner
-        :previousPage="$t('newest_features.sell.title')"
-        :nextPage="$t('newest_features.buy.title')"
-        :nextPageLink="'/features/bloclchain-authentication-ledger'"
-        :previousPageLink="'/features/2fa-security'"
-      />
-    </div>
-  </FeatureContentWrapper>
+        <img
+          :src="
+            require('~/assets/img/features/newest-feature/deadstock-exchange/staticsmobile.png')
+          "
+          class="img-fluid d-md-none d-inline"
+        />
+      </div>
+    </FeatureContentWrapper>
+  </div>
 </template>
 <script>
 import { FeatureContentWrapper, FeatureTitle } from '~/components/feature'
-import ShopNowBanner from '~/components/feature/ShopNowBanner'
+import FeatureCard from '~/components/feature/Card'
 
 export default {
   components: {
     FeatureContentWrapper,
-    ShopNowBanner,
+    FeatureCard,
     FeatureTitle,
   },
 
@@ -59,7 +65,7 @@ export default {
 
   data() {
     return {
-      deadExchange: [
+      csvBulkUplaod: [
         {
           title: this.$t(
             'newest_features.deadstock_exchange.analytics_on_current'
@@ -86,10 +92,29 @@ export default {
           image: require('~/assets/img/features/newest-feature/deadstock-exchange/deadstockexchanaly.png'),
         },
       ],
+      options: [
+        {
+          id: 'affirm',
+          icon: require('~/assets/img/icons/affirm-black.svg'),
+        },
+        {
+          id: 'afterpay',
+          icon: require('~/assets/img/icons/afterpay.svg'),
+        },
+      ],
       banner: {
-        title: 'features.deadstock_exchange.title',
-        description: 'features.deadstock_exchange.desc',
+        title: 'newest_features.deadstock_exchange.title',
+        description: 'newest_features.deadstock_exchange.desc',
         backgroundImage: require('@/assets/img/features/newest-feature/deadstock-exchange/deadstockexchangebbanner.png'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/deadstock-exchange/deadstockexchangemobile.png'),
+      },
+      shopNowBanner: {
+        shopNowDescription: 'newest_features.deadstock_exchange.shop_now_desc',
+        shopNowButtonText: 'newest_features.deadstock_exchange.shop_now_btn',
+        previousPage: 'newest_features.deadstock_exchange.previous_page_name',
+        previousPageLink: '/features/selling-on-deadstock',
+        nextPage: 'newest_features.deadstock_exchange.next_page_name',
+        nextPageLink: '/features/auctions',
       },
     }
   },
@@ -99,15 +124,11 @@ export default {
 @import '~/assets/css/_variables'
 
 .features-container
-  .graph-wrapper
-    background: $color-white-1
-    box-shadow: 0 1px 4px 0 rgba($color-black-1, 0.25)
-    border-radius: 36px
-    padding: 62px 99px
-    max-width: 896px
-
-@media (max-width: 576px)
+  .new-features img
+    max-width: 837px !important
+    width: 100% !important
+@media (max-width: 768px)
   .features-container
-    .graph-wrapper
-      padding: 20px
+    .new-features img
+      padding: 0px 16px
 </style>

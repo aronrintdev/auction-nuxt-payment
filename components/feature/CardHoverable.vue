@@ -1,20 +1,27 @@
 <template>
   <div
-    class="feature-card-hoverable d-flex align-items-center flex-column justify-content-center"
+    class="feature-card-hoverable d-flex align-items-center flex-column justify-content-center position-relative"
     :class="`feature-card-hoverable-${variant}`"
   >
-    <img
-      :src="
-        icon || require(`~/assets/img/features/newest-feature/buying/auth.png`)
-      "
-    />
-    <div class="feature-title fs-24 fw-6 font-primary">{{ title }}</div>
-    <div
-      v-if="description"
-      class="feature-description text-center fs-16 fw-6 font-primary"
+    <slot>
+      <img
+        :src="
+          icon ||
+          require(`~/assets/img/features/newest-feature/buying/auth.png`)
+        "
+      />
+      <div class="feature-title fs-24 fw-6 font-primary">{{ title }}</div>
+      <div
+        v-if="description"
+        class="feature-description text-center fs-16 fw-6 font-primary"
+      >
+        {{ description
+        }}<span class="feature-title d-md-none d-block">{{ title2 }}</span>
+      </div>
+      <div v-if="step" class="position-absolute step-text d-md-block d-none">
+        {{ step }}
+      </div></slot
     >
-      {{ description }}
-    </div>
   </div>
 </template>
 <script>
@@ -23,6 +30,10 @@ export default {
 
   props: {
     title: {
+      type: String,
+      required: true,
+    },
+    title2: {
       type: String,
       required: true,
     },
@@ -38,7 +49,10 @@ export default {
       type: String,
       required: true,
     },
-
+    step: {
+      type: String,
+      default: null,
+    },
     variant: {
       type: String,
       default: 'normal', // 'normal', 'round'
@@ -48,7 +62,6 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .feature-card-hoverable
   border-radius: 24px
   box-shadow: 0 1px 4px 0 rgba($color-black-1, 0.25)
@@ -57,19 +70,15 @@ export default {
   transition: transform .2s
   height: 376px !important
   width: 376px !important
-
   cursor: help
-
-  &.feature-card-hoverable-round
-    border-radius: 50%
-    max-width: 280px
-    min-height: 280px
-    width: 280px !important
-    height: 280px !important
-    padding: 0
-
   &:hover
     transform: scale(1.1)
+  .step-text
+    @include heading-1
+    font-weight: $medium
+    color: $color-black-1
+    left: 40px
+    top: 39px
 
 
   .feature-title
@@ -91,6 +100,8 @@ export default {
     img
       width: 56px
       height: 47px
+    &:hover
+      transform: scale(1)
 
 
     .feature-title

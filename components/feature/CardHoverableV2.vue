@@ -10,7 +10,7 @@
     />
     <div class="feature-title fs-24 fw-6 font-primary">{{ title }}</div>
     <div
-      v-if="description"
+      v-if="description || title2"
       class="feature-description text-center fs-16 fw-6 font-primary"
     >
       {{ description }}

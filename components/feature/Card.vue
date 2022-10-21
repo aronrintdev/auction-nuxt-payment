@@ -1,6 +1,6 @@
 <template>
   <div
-    class="feature-card d-flex flex-column text-lg-left text-center align-items-center"
+    class="feature-card d-flex flex-column text-md-left text-center align-items-md-baseline align-items-center"
     @click="handleCardClick"
   >
     <img

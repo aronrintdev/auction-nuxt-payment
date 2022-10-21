@@ -71,6 +71,9 @@ export default {
       top: 39px
       left: 40px
       color: $color-black-1
+      counter-increment: css-counter 1
+      &:before
+        content: counter(css-counter) ". "
 
     .desc, .title
       margin-top: 15px

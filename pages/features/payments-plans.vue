@@ -1,102 +1,116 @@
 <template>
-  <FeatureContentWrapper
-    :title="$t('home.payment_plans')"
-    :description="$t('features.payment_plans.desc')"
-  >
-    <FeatureTitle>{{ $tc('common.benefit', 2) }}</FeatureTitle>
-
-    <b-row class="justify-content-between h-card-main">
-      <b-col
-        v-for="(item, index) in cardData"
-        :key="index"
-        lg="3"
-        class="d-flex justify-content-center d-lg-block"
+  <div>
+    <FeatureContentWrapper
+      :title="banner.title"
+      :description="banner.description"
+      :backgroundImage="banner.backgroundImage"
+      :backgroundImageSm="banner.backgroundImageSm"
+      :shopNowDescription="shopNowBanner.shopNowDescription"
+      :shopNowButtonText="shopNowBanner.shopNowButtonText"
+      :previousPage="shopNowBanner.previousPage"
+      :previousPageLink="shopNowBanner.previousPageLink"
+      :nextPage="shopNowBanner.nextPage"
+      :nextPageLink="shopNowBanner.nextPageLink"
+    >
+      <b-row
+        class="justify-content-md-between justify-content-center h-card-main mb-md-5 w-100 mx-0"
       >
-        <FeatureCard
-          :title="item.title"
-          :description="item.description"
-          :imageUrl="item.image"
-        />
-      </b-col>
-    </b-row>
-    <FeatureTitle class="mb-6 text-center text-md-left">{{
-      $tc('common.option', 2)
-    }}</FeatureTitle>
+        <b-col
+          v-for="(item, index) in cardData"
+          :key="index"
+          md="3"
+          class="d-flex justify-content-center d-lg-block px-0"
+        >
+          <FeatureCard
+            :title="item.title"
+            :description="item.description"
+            :imageUrl="item.image"
+          />
+        </b-col>
+      </b-row>
+      <FeatureTitle>
+        {{ $t('newest_features.payments_plans.options') }}
+      </FeatureTitle>
 
-    <FeatureTabs :options="options" class="feature-tabs">
-      <template #affirm>
-        <div class="affirm-container tab-container">
-          <h4 class="heading font-primary">
-            {{ $t('features.payment_plans.how_affirm_work') }}
-          </h4>
-          <div class="description">
-            {{ $t('features.payment_plans.how_affirm_work_desc') }}
+      <FeatureTabs :options="options" class="feature-tabs">
+        <template #affirm>
+          <div class="affirm-container tab-container">
+            <h4 class="heading font-primary">
+              {{ $t('features.payment_plans.how_affirm_work') }}
+            </h4>
+            <div class="description">
+              {{ $t('features.payment_plans.how_affirm_work_desc') }}
+            </div>
+            <h4 class="heading font-primary">
+              {{ $t('features.payment_plans.apr_and_fees') }}
+            </h4>
+            <div class="description">
+              {{ $t('features.payment_plans.apr_and_fees_desc') }}
+            </div>
+            <h4 class="heading font-primary">
+              {{ $t('features.payment_plans.returns') }}
+            </h4>
+            <div class="description mb-0">
+              {{ $t('features.payment_plans.returns_desc') }}
+            </div>
           </div>
-          <h4 class="heading font-primary">
-            {{ $t('features.payment_plans.apr_and_fees') }}
-          </h4>
-          <div class="description">
-            {{ $t('features.payment_plans.apr_and_fees_desc') }}
+        </template>
+        <template #afterpay>
+          <div class="afterpay-container tab-container">
+            <h4 class="heading font-primary">
+              {{ $t('features.payment_plans.how_afterpay_work') }}
+            </h4>
+            <div class="description">
+              {{ $t('features.payment_plans.how_afterpay_work_desc') }}
+            </div>
+            <h4 class="heading font-primary">
+              {{ $t('features.payment_plans.apr_and_fees') }}
+            </h4>
+            <div class="description">
+              {{ $t('features.payment_plans.afterpay_apr_and_fees_desc') }}
+            </div>
+            <h4 class="heading font-primary">
+              {{ $t('features.payment_plans.returns') }}
+            </h4>
+            <div class="description mb-0">
+              {{ $t('features.payment_plans.afterpay_returns_desc') }}
+            </div>
           </div>
-          <h4 class="heading font-primary">
-            {{ $t('features.payment_plans.returns') }}
-          </h4>
-          <div class="description mb-0">
-            {{ $t('features.payment_plans.returns_desc') }}
-          </div>
-        </div>
-      </template>
-      <template #afterpay>
-        <div class="afterpay-container tab-container">
-          <h4 class="heading font-primary">
-            {{ $t('features.payment_plans.how_afterpay_work') }}
-          </h4>
-          <div class="description">
-            {{ $t('features.payment_plans.how_afterpay_work_desc') }}
-          </div>
-          <h4 class="heading font-primary">
-            {{ $t('features.payment_plans.apr_and_fees') }}
-          </h4>
-          <div class="description">
-            {{ $t('features.payment_plans.afterpay_apr_and_fees_desc') }}
-          </div>
-          <h4 class="heading font-primary">
-            {{ $t('features.payment_plans.returns') }}
-          </h4>
-          <div class="description mb-0">
-            {{ $t('features.payment_plans.afterpay_returns_desc') }}
-          </div>
-        </div>
-      </template>
-    </FeatureTabs>
-    <div class="shopnow-banner">
-      <ShopNowBanner
-        :previousPage="$t('newest_features.sell.title')"
-        :previousPageLink="'/features/selling'"
-        :nextPage="$t('newest_features.buy.title')"
-        :nextPageLink="'/features/buying'"
-      />
-    </div>
-  </FeatureContentWrapper>
+        </template>
+      </FeatureTabs>
+    </FeatureContentWrapper>
+  </div>
 </template>
 <script>
 import FeatureTabs from '~/components/feature/Tabs'
 import FeatureCard from '~/components/feature/Card'
 import FeatureTitle from '~/components/feature/Title'
-import ShopNowBanner from '~/components/feature/ShopNowBanner'
 
 export default {
   components: {
     FeatureCard,
     FeatureTitle,
     FeatureTabs,
-    ShopNowBanner,
   },
 
   layout: 'IndexLayout',
 
   data() {
     return {
+      banner: {
+        title: 'newest_features.payments_plans.title',
+        description: 'newest_features.payments_plans.desc',
+        backgroundImage: require('@/assets/img/features/newest-feature/payment-plans/payment-plan-banner.png'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/payment-plans/paymentplansbannermobile.png'),
+      },
+      shopNowBanner: {
+        shopNowDescription: 'newest_features.payments_plans.shopnowdesc',
+        shopNowButtonText: 'newest_features.payments_plans.shop_now_btn',
+        previousPage: 'newest_features.payments_plans.previous_page_name',
+        previousPageLink: '/features/international-buying-and-selling',
+        nextPage: 'newest_features.payments_plans.next_page_name',
+        nextPageLink: '/features/live-customer-service',
+      },
       options: [
         {
           id: 'affirm',
@@ -133,7 +147,6 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .features-container
     .h-card-main // card section main desktop
       .feature-card
@@ -184,6 +197,7 @@ export default {
   .features-container::v-deep
     .feature-tabs // Tabs section main Mobile
       margin: 40px 0px !important
+      padding: 0px 16px
       .btns-wrapper
         gap: 24px !important
         margin-bottom: 14px !important
