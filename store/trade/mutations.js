@@ -73,6 +73,15 @@ export function setSizeTypeFilterSelection(state, selectedSizeType) {
         }
     }
 }
+export function setSizeTypeFilterSelectionMobile(state, selectedSizeType) {
+  console.log('selectedSizeTypeAdd',selectedSizeType)
+  state.selectedFilters.selectedFilters.push(selectedSizeType)
+}
+export function setSizeTypeFilterSelectionRemoveMobile(state, selectedSizeType) {
+  console.log('selectedSizeTypeRemove',selectedSizeType)
+  state.selectedFilters.selectedFilters.indexOf(selectedSizeType)
+  state.selectedFilters.selectedFilters.splice(selectedSizeType,1)
+}
 
 /**
  * This mutation is used to set sizes for trades filtering

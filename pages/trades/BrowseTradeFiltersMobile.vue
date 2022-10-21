@@ -11,7 +11,7 @@
     >
       <div class="filtersSection">
         <div class="mt-1 ml-2">
-          <span class="filtersHeading">Sort</span> {{getSortOrder}}
+          <span class="filtersHeading">Sort</span>
           <b-form-radio-group
             class="radios mt-1 mb-1 sorted"
             v-model="sortFilters"
@@ -26,16 +26,15 @@
               Category
             </div>
             <div class="d-flex">
-              <!--          <span class="selected-catgory pull-left">{{categoryFilter}}</span>-->
-<!--              <img  v-if="isVisible" class="arrow-image pull-right" :src="require('~/assets/img/upArrow.svg')"/>-->
-<!--              <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/downArrow.svg')"/>-->
+              <img  v-if="isVisible" class="arrow-image pull-right" :src="require('~/assets/img/chev-up.svg')"/>
+              <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/chev-down.svg')"/>
             </div>
           </div>
           <b-collapse id="collapse-1" v-model="isVisible">
             <div class="d-flex mt-3">
-              <div :class="[getCategoryFilterSelection.category == 'footwear' ? 'selected-item' : 'footwear-box']" @click="category('footwear')">Footwear</div>
-              <div :class="[getCategoryFilterSelection.category == 'apparel' ? 'selected-item' : 'apparel-box']" class="ml-2" @click="category('apparel')">Apparel</div>
-              <div :class="[getCategoryFilterSelection.category == 'accessories' ? 'selected-item' : 'accessories-box']" class="ml-2"  @click="category('accessories')">Accessories</div>
+              <div :class="[selectedCategories == 'footwear' ? 'selected-item' : 'footwear-box']" @click="category('footwear')">Footwear</div>
+              <div :class="[selectedCategories == 'apparel' ? 'selected-item' : 'apparel-box']" class="ml-2" @click="category('apparel')">Apparel</div>
+              <div :class="[selectedCategories == 'accessories' ? 'selected-item' : 'accessories-box']" class="ml-2"  @click="category('accessories')">Accessories</div>
             </div>
           </b-collapse>
         </div>
@@ -46,26 +45,25 @@
               Size Type
             </div>
             <div class="d-flex">
-              <!--          <span class="selected-catgory pull-left">{{sizeTypesFilter}}</span>-->
-<!--              <img  v-if="isVisibleSizeType" class="arrow-image pull-right" :src="require('~/assets/img/upArrow.svg')"/>-->
-<!--              <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/downArrow.svg')"/>-->
+              <img  v-if="isVisibleSizeType" class="arrow-image pull-right" :src="require('~/assets/img/chev-up.svg')"/>
+              <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/chev-down.svg')"/>
             </div>
           </div>
           <b-collapse id="collapse-sizeType" v-model="isVisibleSizeType">
             <div class="d-flex mt-3">
-              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('men')) ? 'selected-item' : 'footwear-box']" id="men-box" @click="onSelect('men')">Men</div>
-              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('women')) ? 'selected-item' : 'footwear-box']"  class="ml-2" id="women-box" @click="onSelect('women')">Women</div>
-              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('unisex')) ? 'selected-item' : 'footwear-box']" class="ml-2"  id="unisex-box" @click="onSelect('unisex')">Unisex</div>
+              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('men')) || (getSizeTypeFilterSelection!== undefined && getSizeTypeFilterSelection !== null && getSizeTypeFilterSelection.includes('men')) ? 'selected-item' : 'footwear-box']" id="men-box" @click="onSelect('men')">Men</div>
+              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('women')) || (getSizeTypeFilterSelection!== undefined && getSizeTypeFilterSelection !== null && getSizeTypeFilterSelection.includes('women')) ? 'selected-item' : 'footwear-box']"  class="ml-2" id="women-box" @click="onSelect('women')">Women</div>
+              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('unisex')) || (getSizeTypeFilterSelection!== undefined && getSizeTypeFilterSelection !== null && getSizeTypeFilterSelection.includes('unisex')) ? 'selected-item' : 'footwear-box']" class="ml-2"  id="unisex-box" @click="onSelect('unisex')">Unisex</div>
             </div>
             <div class="d-flex mt-3">
-              <div :class="[(this.selectedSizeTypes !== null  && selectedSizeTypes.includes('child')) ? 'selected-item' : 'footwear-box']" @click="onSelect('child')">Child</div>
-              <div :class="[(this.selectedSizeTypes !== null  && selectedSizeTypes.includes('youth'))? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('youth')">Youth</div>
-              <div  :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('toddler')) ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('toddler')">Toddler</div>
+              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('child')) || (getSizeTypeFilterSelection!== undefined && getSizeTypeFilterSelection !== null && getSizeTypeFilterSelection.includes('child')) ? 'selected-item' : 'footwear-box']" @click="onSelect('child')">Child</div>
+              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('youth')) || (getSizeTypeFilterSelection!== undefined && getSizeTypeFilterSelection !== null && getSizeTypeFilterSelection.includes('youth')) ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('youth')">Youth</div>
+              <div  :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('toddler')) || (getSizeTypeFilterSelection!== undefined && getSizeTypeFilterSelection !== null && getSizeTypeFilterSelection.includes('toddler')) ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('toddler')">Toddler</div>
             </div>
             <div class="d-flex mt-3">
-              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('infant')) ? 'selected-item' : 'footwear-box']" @click="onSelect('infant')">Infant</div>
-              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('preschool')) ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('preschool')">Preschool</div>
-              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('streetwear')) ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('streetwear')">Streetwear</div>
+              <div  :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('infant')) || (getSizeTypeFilterSelection!== undefined && getSizeTypeFilterSelection !== null && getSizeTypeFilterSelection.includes('infant')) ? 'selected-item' : 'footwear-box']" @click="onSelect('infant')">Infant</div>
+              <div  :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('preschool')) || (getSizeTypeFilterSelection!== undefined && getSizeTypeFilterSelection !== null && getSizeTypeFilterSelection.includes('preschool')) ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('preschool')">Preschool</div>
+              <div  :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('streetwear')) || (getSizeTypeFilterSelection!== undefined && getSizeTypeFilterSelection !== null && getSizeTypeFilterSelection.includes('streetwear')) ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('streetwear')">Streetwear</div>
             </div>
           </b-collapse>
         </div>
@@ -77,31 +75,31 @@
       <div class="col-md-12 d-flex justify-content-center">
         <div  class="filter-options col-md-10 ">
           <b-row class="d-flex justify-content-start m-5">
-            <b-col md="12" class="text-center filter-details mb-5">
-              <h3>{{$tc('common.filter', 2)}}</h3>
-            </b-col>
-            <b-col md="1">
-            </b-col>
-            <b-col md="2" class="mr-2">
-              <h4>{{$tc('common.size_type', 1)}}</h4>
-              <b-list-group>
+<!--            <b-col md="12" class="text-center filter-details mb-5">-->
+<!--              <h3>{{$tc('common.filter', 2)}}</h3>-->
+<!--            </b-col>-->
+<!--            <b-col md="1">-->
+<!--            </b-col>-->
+<!--            <b-col md="2" class="mr-2">-->
+<!--              <h4>{{$tc('common.size_type', 1)}}</h4>-->
+<!--              <b-list-group>-->
 
                 <!-- Display all size types for selection -->
-                <b-list-group-item v-for="(sizeType, index) in sizeTypeOptions" :key="'sizetype-' + index" class="border-transparent px-0">
-                  <b-form-checkbox v-model="selectedSizeTypes" :value="sizeType" class="filter-item" @change="toggleSizeTypeSelection(sizeType)">{{prettySizeTypeName(sizeType)}}</b-form-checkbox>
-                </b-list-group-item>
-              </b-list-group>
-            </b-col>
-            <b-col md="2" class="mr-2">
-              <h4>{{$tc('common.category', 2)}}</h4>
-              <b-list-group>
+<!--                <b-list-group-item v-for="(sizeType, index) in sizeTypeOptions" :key="'sizetype-' + index" class="border-transparent px-0">-->
+<!--                  <b-form-checkbox v-model="selectedSizeTypes" :value="sizeType" class="filter-item" @change="toggleSizeTypeSelection(sizeType)">{{prettySizeTypeName(sizeType)}}</b-form-checkbox>-->
+<!--                </b-list-group-item>-->
+<!--              </b-list-group>-->
+<!--            </b-col>-->
+<!--            <b-col md="2" class="mr-2">-->
+<!--              <h4>{{$tc('common.category', 2)}}</h4>-->
+<!--              <b-list-group>-->
 
-                <!-- Display all categories for selection -->
-                <b-list-group-item v-for="(category, key) in categories" :key="'cat-' + key" class="border-transparent px-0">
-                  <b-form-checkbox v-model="selectedCategories" :value="category.value" class="filter-item" @change="toggleCategorySelection(category.value)">{{category.text}}</b-form-checkbox>
-                </b-list-group-item>
-              </b-list-group>
-            </b-col>
+<!--                &lt;!&ndash; Display all categories for selection &ndash;&gt;-->
+<!--                <b-list-group-item v-for="(category, key) in categories" :key="'cat-' + key" class="border-transparent px-0">-->
+<!--                  <b-form-checkbox v-model="selectedCategories" :value="category.value" class="filter-item" @change="toggleCategorySelection(category.value)">{{category.text}}</b-form-checkbox>-->
+<!--                </b-list-group-item>-->
+<!--              </b-list-group>-->
+<!--            </b-col>-->
             <b-col md="2">
               <h4>{{$t('common.trade_value')}}</h4>
 
@@ -238,6 +236,10 @@ export default {
       'getSearchedText' //  searched text from trade store
       ]),
   },
+  created() {
+    this.sortFilters = this.getSortOrder
+    this.selectedCategories = this.getCategoryFilterSelection
+  },
   mounted() {
     // Get trade browse page filters
     this.fetchTradeBrowseFilters()
@@ -258,27 +260,25 @@ export default {
     ...mapActions('trade', ['fetchTradeBrowseFilters']), // get filters from api call by calling action from store
 
     openBottomFilter() {
-      console.log('bottomsheet')
       this.$refs.browseFiltersSheet.open();
     },
     category(cat) {
-      console.log('cat',cat)
       this.selectedCategories = cat
     },
 
     onSelect(item) {
-      if(this.sizeTypesFilter !== null && this.sizeTypesFilter.includes(item)) {
-        const checkArray = this.sizeTypesFilter.indexOf(item)
-        this.sizeTypesFilter.splice(checkArray,1)
-      } else if(this.getTradesFilter.sizeType !== undefined && this.getTradesFilter.sizeType !== null && this.getTradesFilter.sizeType.length > 0)  {
-        if(this.getTradesFilter.sizeType.includes(item)) {
-          this.$store.commit('trades/setTradeFiltersRemove', item)
+      if(this.selectedSizeTypes !== null && this.selectedSizeTypes.includes(item)) {
+        const checkArray = this.selectedSizeTypes.indexOf(item)
+        this.selectedSizeTypes.splice(checkArray,1)
+      } else if(this.getSizeTypeFilterSelection !== undefined && this.getSizeTypeFilterSelection !== null && this.getSizeTypeFilterSelection.length > 0)  {
+        if(this.getSizeTypeFilterSelection.includes(item)) {
+          this.$store.commit('trades/setSizeTypeFilterSelectionRemoveMobile', item)
         } else {
-          this.$store.commit('trades/setTradeFiltersUpdated', item)
+          this.$store.commit('trade/setSizeTypeFilterSelectionMobile', item)
         }
       }
       else {
-        this.sizeTypesFilter.push(item)
+        this.selectedSizeTypes.push(item)
       }
     },
 
@@ -333,6 +333,7 @@ export default {
       this.searchedText = ''
       this.$store.commit('trade/resetAllFilters')
       this.$emit('clearFilters')
+      this.$refs.browseFiltersSheet.close();
     },
 
     // find selected category name from local
@@ -343,7 +344,9 @@ export default {
     // apply all selected filters
     applyFilters(){
       this.showFilters = false
+      this.$refs.browseFiltersSheet.close();
       this.$emit('applyFilters')
+
     },
 
     // apply sorting filter
@@ -429,7 +432,7 @@ export default {
   position: relative
   margin-top: -11rem
   margin-right: 2rem
-  .reset
+.reset
   margin-left: 11px
   padding-top: 0.5rem
   padding-left: 3rem
