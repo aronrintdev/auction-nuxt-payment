@@ -25,9 +25,9 @@
           <td class="d-flex align-items-center p-3">
             <ProductThumb
               :product="inventory.product"
-              width="63"
-              height="63"
-              class="mr-4 product-img"
+              :width='83'
+              :height='53'
+              class="mr-2 flex-shrink-0 product-img"
             />
             <div>
               <div class="title mb-1">{{ inventory.product.name }}</div>
@@ -227,11 +227,7 @@ export default {
         background-position: right
         border: none
 
-.thumb-wrapper
-  background: none
-  width: 83px
-  height: 53px
 .product-img
-  width: 83px 
+  width: 83px
   height: 53px
 </style>
