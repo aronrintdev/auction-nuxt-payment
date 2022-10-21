@@ -1,100 +1,109 @@
 <template>
   <div>
         <img class="float-right image-filter"
-             :src="require('~/assets/img/filterIcon.svg')"  @click="showFilters = !showFilters">
-    <div class="col-md-12 d-flex justify-content-center">
-    <div v-if="showFilters" class="filter-options col-md-10 ">
-      <b-row class="d-flex justify-content-start m-5">
-        <b-col md="12" class="text-center filter-details mb-5">
-          <h3>{{$tc('common.filter', 2)}}</h3>
-        </b-col>
-        <b-col md="1">
-        </b-col>
-        <b-col md="2" class="mr-2">
-          <h4>{{$tc('common.size_type', 1)}}</h4>
-          <b-list-group>
+             :src="require('~/assets/img/filterIcon.svg')"  @click="openBottomFilter()"/>
+    <vue-bottom-sheet
+      ref="browseFiltersSheet"
+      class="more-options"
+      max-width="auto"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <div class="col-md-12 d-flex justify-content-center">
+        <div  class="filter-options col-md-10 ">
+          <b-row class="d-flex justify-content-start m-5">
+            <b-col md="12" class="text-center filter-details mb-5">
+              <h3>{{$tc('common.filter', 2)}}</h3>
+            </b-col>
+            <b-col md="1">
+            </b-col>
+            <b-col md="2" class="mr-2">
+              <h4>{{$tc('common.size_type', 1)}}</h4>
+              <b-list-group>
 
-            <!-- Display all size types for selection -->
-            <b-list-group-item v-for="(sizeType, index) in sizeTypeOptions" :key="'sizetype-' + index" class="border-transparent px-0">
-              <b-form-checkbox v-model="selectedSizeTypes" :value="sizeType" class="filter-item" @change="toggleSizeTypeSelection(sizeType)">{{prettySizeTypeName(sizeType)}}</b-form-checkbox>
-            </b-list-group-item>
-          </b-list-group>
-        </b-col>
-        <b-col md="2" class="mr-2">
-          <h4>{{$tc('common.category', 2)}}</h4>
-          <b-list-group>
+                <!-- Display all size types for selection -->
+                <b-list-group-item v-for="(sizeType, index) in sizeTypeOptions" :key="'sizetype-' + index" class="border-transparent px-0">
+                  <b-form-checkbox v-model="selectedSizeTypes" :value="sizeType" class="filter-item" @change="toggleSizeTypeSelection(sizeType)">{{prettySizeTypeName(sizeType)}}</b-form-checkbox>
+                </b-list-group-item>
+              </b-list-group>
+            </b-col>
+            <b-col md="2" class="mr-2">
+              <h4>{{$tc('common.category', 2)}}</h4>
+              <b-list-group>
 
-            <!-- Display all categories for selection -->
-            <b-list-group-item v-for="(category, key) in categories" :key="'cat-' + key" class="border-transparent px-0">
-              <b-form-checkbox v-model="selectedCategories" :value="category.value" class="filter-item" @change="toggleCategorySelection(category.value)">{{category.text}}</b-form-checkbox>
-            </b-list-group-item>
-          </b-list-group>
-        </b-col>
-        <b-col md="2">
-          <h4>{{$t('common.trade_value')}}</h4>
+                <!-- Display all categories for selection -->
+                <b-list-group-item v-for="(category, key) in categories" :key="'cat-' + key" class="border-transparent px-0">
+                  <b-form-checkbox v-model="selectedCategories" :value="category.value" class="filter-item" @change="toggleCategorySelection(category.value)">{{category.text}}</b-form-checkbox>
+                </b-list-group-item>
+              </b-list-group>
+            </b-col>
+            <b-col md="2">
+              <h4>{{$t('common.trade_value')}}</h4>
 
-          <!-- Display price range selection filter -->
-          <SliderInput
-            v-model="selectedPriceRange"
-            :title="$t('filter_sidebar.price')"
-            :minLabel="$t('filter_sidebar.price_items.min')"
-            :maxLabel="$t('filter_sidebar.price_items.max')"
-            :fromLabel="$t('filter_sidebar.price_items.from')"
-            :toLabel="$t('filter_sidebar.price_items.to')"
-            :minValue="priceRangeOptions[0]"
-            :maxValue="priceRangeOptions[1]"
-            :minRange="priceRangeOptions[0]"
-            :multiplier="100"
-            class="mt-4"
-          />
-        </b-col>
-      </b-row>
+              <!-- Display price range selection filter -->
+              <SliderInput
+                v-model="selectedPriceRange"
+                :title="$t('filter_sidebar.price')"
+                :minLabel="$t('filter_sidebar.price_items.min')"
+                :maxLabel="$t('filter_sidebar.price_items.max')"
+                :fromLabel="$t('filter_sidebar.price_items.from')"
+                :toLabel="$t('filter_sidebar.price_items.to')"
+                :minValue="priceRangeOptions[0]"
+                :maxValue="priceRangeOptions[1]"
+                :minRange="priceRangeOptions[0]"
+                :multiplier="100"
+                class="mt-4"
+              />
+            </b-col>
+          </b-row>
 
-      <!-- Display all sizes with respect to categories selection -->
-      <div v-if="Object.keys(sizeOptions).length > 0">
-        <b-row v-for="(categorySizes, key) in sizeOptions" :key="'sizecat-' + key" class="d-flex justify-content-start m-5">
-          <b-col md="1">
-          </b-col>
-          <b-col v-if="Object.keys(categorySizes).length > 0" md="9">
-            <h4>{{$t('common.'+key+'_sizes')}}</h4>
-            <b-list-group horizontal="md" class="d-inline-block">
-              <b-list-group-item v-for="(size, sizeKey) in categorySizes" :key="'size-' + sizeKey" class="border-transparent d-inline-block">
-                <b-form-checkbox v-model="selectedSizes[key]" :value="size.id" class="filter-item" @change="toggleSizeSelection(key, size.id)">{{size.size}}</b-form-checkbox>
-              </b-list-group-item>
-            </b-list-group>
-          </b-col>
-        </b-row>
-      </div>
+          <!-- Display all sizes with respect to categories selection -->
+          <div v-if="Object.keys(sizeOptions).length > 0">
+            <b-row v-for="(categorySizes, key) in sizeOptions" :key="'sizecat-' + key" class="d-flex justify-content-start m-5">
+              <b-col md="1">
+              </b-col>
+              <b-col v-if="Object.keys(categorySizes).length > 0" md="9">
+                <h4>{{$t('common.'+key+'_sizes')}}</h4>
+                <b-list-group horizontal="md" class="d-inline-block">
+                  <b-list-group-item v-for="(size, sizeKey) in categorySizes" :key="'size-' + sizeKey" class="border-transparent d-inline-block">
+                    <b-form-checkbox v-model="selectedSizes[key]" :value="size.id" class="filter-item" @change="toggleSizeSelection(key, size.id)">{{size.size}}</b-form-checkbox>
+                  </b-list-group-item>
+                </b-list-group>
+              </b-col>
+            </b-row>
+          </div>
 
-      <!-- Display all selected filters -->
-      <b-row class="d-flex justify-content-start m-5">
-        <b-col md="1">
-        </b-col>
-        <b-col v-if="selectedSizeTypes.length > 0 || selectedCategories.length > 0 || selectedSizes.length > 0" md="8" class="selected-filters">
-          <label><u @click="clearAllFilters">{{$t('common.clear_all_filters')}}</u></label>
-          <div class="d-inline-block">
+          <!-- Display all selected filters -->
+          <b-row class="d-flex justify-content-start m-5">
+            <b-col md="1">
+            </b-col>
+            <b-col v-if="selectedSizeTypes.length > 0 || selectedCategories.length > 0 || selectedSizes.length > 0" md="8" class="selected-filters">
+              <label><u @click="clearAllFilters">{{$t('common.clear_all_filters')}}</u></label>
+              <div class="d-inline-block">
 
-            <!-- Display all selected size types -->
-            <span v-for="(selectedSizeType, key) in selectedSizeTypes" :key="'sizetype-selected-' + key">{{prettySizeTypeName(selectedSizeType)}}<a class="cross-icon cursor-pointer" @click="toggleSizeTypeSelection(selectedSizeType)">x</a></span>
+                <!-- Display all selected size types -->
+                <span v-for="(selectedSizeType, key) in selectedSizeTypes" :key="'sizetype-selected-' + key">{{prettySizeTypeName(selectedSizeType)}}<a class="cross-icon cursor-pointer" @click="toggleSizeTypeSelection(selectedSizeType)">x</a></span>
 
-            <!-- Display all selected categories -->
-            <span v-for="(selectedCategory, key) in selectedCategories" :key="'category-selected-' + key">{{findCategoryName(selectedCategory)}}<a class="cross-icon cursor-pointer" @click="toggleCategorySelection(selectedCategory)">x</a></span>
+                <!-- Display all selected categories -->
+                <span v-for="(selectedCategory, key) in selectedCategories" :key="'category-selected-' + key">{{findCategoryName(selectedCategory)}}<a class="cross-icon cursor-pointer" @click="toggleCategorySelection(selectedCategory)">x</a></span>
 
-            <!-- Display all selected category sizes -->
-            <span v-for="(categorySizes, key) in selectedSizes" :key="'selectedcategory-' + key">
+                <!-- Display all selected category sizes -->
+                <span v-for="(categorySizes, key) in selectedSizes" :key="'selectedcategory-' + key">
               <span v-for="(size, sizeKey) in categorySizes" :key="'selectedcategorysizes-' + sizeKey">{{size}}<a class="cross-icon cursor-pointer" @click="toggleSizeSelection(key, size)">x</a></span>
             </span>
-          </div>
-        </b-col>
-        <b-col v-else md="8">
+              </div>
+            </b-col>
+            <b-col v-else md="8">
 
-        </b-col>
-        <b-col md="2">
-          <Button :whiteText="true" variant="primary-color-disabled" @click="applyFilters">{{$tc('common.apply_filter', 2)}}</Button>
-        </b-col>
-      </b-row>
-    </div>
-    </div>
+            </b-col>
+            <b-col md="2">
+              <Button :whiteText="true" variant="primary-color-disabled" @click="applyFilters">{{$tc('common.apply_filter', 2)}}</Button>
+            </b-col>
+          </b-row>
+        </div>
+      </div>
+    </vue-bottom-sheet>
+
     <b-row v-if="showFilters" class="d-flex justify-content-center m-3" @click="showFilters = !showFilters">
       <img :src="require('~/assets/img/icons/arrow-up-dark-gray.svg')" />
     </b-row>
@@ -171,6 +180,10 @@ export default {
   methods: {
     ...mapActions('trade', ['fetchTradeBrowseFilters']), // get filters from api call by calling action from store
 
+    openBottomFilter() {
+      console.log('clci')
+      this.$refs.browseFiltersSheet.open();
+    },
     // capitalize size type firs letters
     prettySizeTypeName(sizeType){
       return capitalizeFirstLetter(sizeType)
