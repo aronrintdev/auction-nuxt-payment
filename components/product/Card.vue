@@ -57,7 +57,7 @@
           {{ getRemainingName }}
         </div>
         <div v-if="showSize" class="fs-15 fw-6 font-secondary product-price">
-          {{ $t('home_page.size') }} {{ product.size }}
+          {{ $t('home_page.size') }} {{ product.inventory[0].size.size }}
         </div>
         <div v-if="showPrice" class="fs-15 fw-6 font-secondary product-price">
           {{ product.sale_price | toCurrency }}
@@ -68,7 +68,7 @@
         >
           {{ product.sale_price | toCurrency }}
           <span class="fw-5 text-black-50">
-            ( {{ $t('home_page.size') }} {{ product.size }})</span
+            ( {{ $t('home_page.size') }} {{ product.inventory[0].size.size }})</span
           >
         </div>
       </div>
@@ -160,6 +160,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    pageName: {
+      type: String,
+      default: 'shop'
+    }
   },
 
   data() {
@@ -204,7 +208,11 @@ export default {
     }),
 
     goToDetailPage() {
-      this.$router.push(`/shop/${this.product.sku}`)
+      if(this.pageName === 'trades') {
+        this.$router.push(`/${this.pageName}/${this.product.id}`)
+      } else {
+        this.$router.push(`/${this.pageName}/${this.product.sku}`)
+      }
     },
 
     toggleSelect(checked) {

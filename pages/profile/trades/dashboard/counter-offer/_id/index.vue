@@ -513,6 +513,7 @@ export default {
       {
           optionalCash = (this.getLastSubmittedOffer.cash_added/100)
       }
+      optionalCash += this.optionalCash
       const totalPrice = this.getYourItems.map((inventoryItem) => (inventoryItem.inventory ? inventoryItem.inventory.sale_price : inventoryItem.sale_price))
       if(totalPrice.length) {
         return (formattedPrice) ?

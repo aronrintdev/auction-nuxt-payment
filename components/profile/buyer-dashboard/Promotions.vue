@@ -4,10 +4,10 @@
       <h2 class="fs-20 fw-7 font-primary mb-0 title">
         {{ $t('buyer_dashboard.promotions.title') }}
       </h2>
-      <a
-        href="#"
+      <nuxt-link
+        to="/promotions"
         class="font-secondary fs-16 fw-4 border-bottom border-primary mb-0 d-none d-sm-block"
-        >{{ $t('buyer_dashboard.promotions.view_promotions') }}</a
+        >{{ $t('buyer_dashboard.promotions.view_promotions') }}</nuxt-link
       >
     </div>
     <div class="container">
@@ -18,13 +18,13 @@
           <h2
             class="fs-30 fw-7 font-primary mb-0 text-left promotion-title mr-2 mr-sm-0"
           >
-            Nissan GTR 2021
+            {{ promotions.name }}
           </h2>
           <div
             class="divider bg-dark w-25 my-4 mx-auto mx-sm-0 d-none d-sm-block"
           ></div>
-          <div class="d-none d-sm-block">
-            <CountdownTimer />
+          <div>
+            <CountdownTimer :countDownToTime="countDownToTime" />
           </div>
           <div
             class="your-entries d-flex gap-2 align-items-center justify-content-center justify-content-sm-start"
@@ -33,15 +33,14 @@
             <h4 class="fs-18 fw-7 font-primary mb-0 mt-1 description">
               {{ $t('buyer_dashboard.promotions.your_entries') }}
             </h4>
-            <h4 class="text-orange fs-18 fw-7 font-primary mb-0 mt-1">20</h4>
+            <h4 class="text-orange fs-18 fw-7 font-primary mb-0 mt-1">
+              {{ promotions.entries_count }}
+            </h4>
           </div>
         </div>
         <div class="col-md-6 d-flex justify-content-center order-1 order-sm-2">
           <div class="car-main justify-content-center d-flex">
-            <img
-              src="~/assets/img/icons/profile/carandbackground.svg"
-              class="img-fluid"
-            />
+            <img :src="promotions.promotion_image" class="img-fluid" />
           </div>
         </div>
         <div class="d-sm-none d-inline-block order-3 w-100 text-center mb-3">
@@ -61,6 +60,30 @@ import CountdownTimer from './CountdownTimer'
 export default {
   name: 'Promotions',
   components: { CountdownTimer },
+  data() {
+    return {
+      promotions: [],
+      countDownToTime: '',
+    }
+  },
+  mounted() {
+    this.getPromotion()
+  },
+  methods: {
+    getPromotion() {
+      this.$axios
+        .get('/dashboard/buyer/promotions')
+        .then((res) => {
+          this.promotions = res.data.data[0]
+          this.countDownToTime = new Date(
+            Date.parse(this.promotions.end_at + ' 00:00:00')
+          )
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
+    },
+  },
 }
 </script>
 <style lang="sass" scoped>

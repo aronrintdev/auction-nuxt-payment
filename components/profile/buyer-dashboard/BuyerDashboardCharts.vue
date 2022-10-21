@@ -16,24 +16,24 @@
               bordered
               :default="filterBy"
               :threelineIcon="false"
-              :options="{
-                default: $t('vendor_dashboard.week_to_date'),
-              }"
+              :options="chartFilterOptions"
               :title="filterByTitle"
-              @input="handleFilterByChange"
+              @input="handleFilterByChangeTotalSale"
             />
           </div>
         </div>
         <div class="position-relative mt-3 mt-sm-5 mb-3 mb-sm-4">
           <LineChart
-            :chart-data="lineDatasets"
+            :data="dataChart"
+            :labels='labels'
             :options="lineChartOptions"
             :height="260"
             class="line-chart d-none d-sm-block"
             chart-id="vendor-dashboard-line-chart"
           />
           <LineChart
-            :chart-data="lineDatasets"
+            :data="dataChart"
+            :labels='labels'
             :options="lineChartOptions"
             class="line-chart d-block d-sm-none"
             :height="204"
@@ -56,19 +56,18 @@
           <h1 class="fs-20 fw-7 font-primary mb-0 rewards-title">
             {{ $t('buyer_dashboard.dashobard_buyer.rewards') }}
           </h1>
-          <div class="d-none d-sm-block">
-            <a
-              href="#"
+          <div>
+            <nuxt-link
+              to='/profile/rewards'
               class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0"
-              >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}</a
-            >
+              >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}</nuxt-link>
           </div>
         </div>
         <div class="mt-3 mb-0 my-sm-4 text-center progressbar_wrapper mx-auto">
           <RadialChart />
           <!-- TODO -->
-          <h6 class="fs-12 mb-0 fw-7 font-primary mt-3">
-            {{ $t('buyer_dashboard.dashobard_buyer.your_next_reward') }}: $50
+          <h6 v-if='rewards.next_reward' class="fs-12 mb-0 fw-7 font-primary mt-3">
+            {{ $t('buyer_dashboard.dashobard_buyer.your_next_reward') }}: {{rewards.next_reward.name}}
           </h6>
           <b-button
             class="mt-3 bg-blue-primary py-2 w-100 font-primary fw-5 d-none d-sm-inline-block"
@@ -105,6 +104,7 @@ export default {
       // TODO Dummy Data
       filterByTitle: this.$t('selling_page.status'),
       filterBy: '',
+      rewards: '',
       searchFilters: {
         startDate: '',
         endDate: '',
@@ -158,21 +158,48 @@ export default {
           },
         },
       },
+      dataChart: [],
+      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Friday', 'Saturday'],
       lineDatasets: {
-        labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Fri', 'Sat'],
+        labels: this.labels,
         datasets: [
           {
             borderColor: '#18A0FB',
             backgroundColor: 'rgba(24, 160, 251, 0.15)',
-            data: [0, 90, 80, 5, 47, 50, 40],
+            data : this.dataChart,
             fill: true,
             borderWidth: 4,
           },
         ],
       },
+      chartFilterOptions: {
+        week: 'Week',
+        month: 'Month',
+        year: 'Year',
+      }
     }
   },
+  mounted(){
+    this.handleFilterByChangeTotalSale('week')
+  },
   methods: {
+    handleFilterByChangeTotalSale(value) {
+      this.$axios
+        .get('/dashboard/buyer/purchases-graph?group_by='+value)
+        .then((res) => {
+          const labels = []
+          const dataSet = []
+          for (const property in res.data.data) {
+            labels.push(property)
+            dataSet.push(res.data.data[property])
+          }
+          this.dataChart = dataSet
+          this.labels = labels
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
+    },
     handleFilterByChange(value) {
       this.searchFilters.filterBy = value === DEFAULT ? '' : value
     },
