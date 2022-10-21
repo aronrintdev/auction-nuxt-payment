@@ -22,9 +22,9 @@
             <nuxt-link :to="'/trades/' + trade.id">
               <div class="btn-expire d-flex">
                 <div>
-                  <img class="clock-image pl-1 pr-1" :src="require('~/assets/img/black_clock.svg')" />
+                  <img class="clock-image p-1" :src="require('~/assets/img/black_clock.svg')" />
                 </div>
-                <div class="text-created">{{prettifyExpiryDate(trade.created_at)}}</div>
+                <div class="text-created pt-1">{{prettifyExpiryDate(trade.created_at)}}</div>
               </div>
               <div class="row d-flex justify-content-center pt-3 pb-2">
               <div v-for="(product, key) in trade.offers" :key="'trade-item-'+key" class="products d-flex justify-content-center mx-1">
@@ -126,6 +126,7 @@ export default {
   box-shadow: 0px 1px 4px $color-black-rgb2
   border-radius: 10px
   margin: 2px 2px 2px 2px
+  height: 210px
 
 .trade-info
   background: $color-gray-1
@@ -167,10 +168,14 @@ export default {
   height: 25px
   background-color: #E2E2E2
   color: #000000
+  position: relative
+  top: 10px
+  left: 5px
 .clock-image
   height: 20px
   width: 20px
 .trade-btn
   height: 21px
-  width: 62px
+  width: 100px !important
+  float: right
 </style>
