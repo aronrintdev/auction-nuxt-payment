@@ -10,8 +10,8 @@
     >
       {{ $t('bids.bid_status.' + bid.place) }}
     </div>
-    <b-row class="w-100 pr-0">
-      <b-col sm="12" md="5" class="text-left mt-4">
+    <b-row class="w-100 pr-0 mr-0">
+      <b-col sm="12" md="5" class="text-left mt-1 mt-md-4">
         <b-row>
           <b-col cols="4" md="4" :class="isMobileSize ? 'text-right' : 'text-center'">
             <div @click.stop>
@@ -28,16 +28,25 @@
               {{ $t('bids.auction_id') }}: {{ auction.id }}
             </div>
           </b-col>
-          <b-col cols="8" md="8" class="pl-4 d-flex justify-content-between align-items-center justify-content-md-around flex-md-column"
+          <b-col cols="8" md="8" class="pr-0 pl-4 d-flex justify-content-between align-items-center justify-content-md-around flex-md-column"
                  :class="isMobileSize ? 'body-5-medium': 'body-4-bold'">
             <span>{{ auction.name }} ( {{ auction.auction_items.length }}
             {{ $t('bids.items') }} )
             </span>
-            <div v-if="acceptable && isMobileSize">
-              <Button size="sm" variant="primary" class="btn-dark-blue px-2" @click="$emit('accept', bid)">
-                <div class="body-9-medium"> {{ $t('bids.accept') }}</div>
-              </Button>
-            </div>
+            <template v-if="isMobileSize">
+              <!-- MOBILE BID MENU BEGIN -->
+              <div v-if="bidType === BID_TYPE_OUTGOING" class="px-2" @click="showMobileMenu">
+                <img src="~/assets/img/icons/mobile-3-dot-menu.svg">
+              </div>
+              <!-- MOBILE BID MENU END -->
+              <!-- MOBILE ACCEPT BUTTON BEGIN -->
+              <div v-if="acceptable && isMobileSize">
+                <Button size="sm" variant="primary" class="btn-dark-blue px-2" @click="$emit('accept', bid)">
+                  <div class="body-9-medium"> {{ $t('bids.accept') }}</div>
+                </Button>
+              </div>
+              <!-- MOBILE ACCEPT BUTTON END -->
+            </template>
           </b-col>
         </b-row>
       </b-col>
@@ -57,7 +66,7 @@
         </span>
       </b-col>
       <b-col
-        v-if="bidType === BID_TYPE_OUTGOING"
+        v-if="bidType === BID_TYPE_OUTGOING && !isMobileSize"
         sm="12"
         md="2"
         class="d-flex justify-content-start align-items-center flex-column"
@@ -263,7 +272,19 @@ export default {
       const product = this.bid.auction.auction_items[0].inventory.product
       this.setProductFilter({ sku: product.sku, name: product.name })
       this.$router.push('/auction')
-    }
+    },
+    showMobileMenu() {
+      const { mobileMenu } = this.$refs
+      if (mobileMenu) {
+        mobileMenu.open()
+      }
+    },
+    hideMobileMenu() {
+      const { mobileMenu } = this.$refs
+      if (mobileMenu) {
+        mobileMenu.close()
+      }
+    },
   }
 }
 </script>
