@@ -89,9 +89,9 @@
           <div class="confirm-trade-item-quantity">{{ wantItem.selected_quantity }}</div>
         </b-col>
         <b-col cols="2" class="confirm-trade-icons d-flex">
-          <div>
+          <div v-if="getTradeItemsWantCount < MAX_ITEMS_ALLOWED">
             <img class="cursor-pointer" :src="require('~/assets/img/box-copy.svg')"
-                :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="addProductWant(wantItem.product, 0, getTradeItemsWants.map(i => parseInt(i.selected_quantity)).reduce((a, b) => a + b, 0))" />
+                :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="addProductWant(wantItem.product, 0, getTradeItemsWantCount)" />
           </div>
           <div class="pl-3">
               <img :src="require('~/assets/img/box-pencil.svg')" class="cursor-pointer" :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="addProductWant(wantItem.product, wantItem, 0)"/>
@@ -189,6 +189,10 @@ export default {
   },
   computed:{
     ...mapGetters('trades',['getTradeItems', 'getTradeId', 'getTradeItemsWants', 'getEditTradePageReferrer']),  // Getter for getting listing of trade offer item and want item
+
+    getTradeItemsWantCount(){
+      return this.getTradeItemsWants.map(i => parseInt(i.selected_quantity)).reduce((a, b) => a + b, 0)
+    },
   },
   mounted() {
     this.$root.$on('back_to_trade_editing', () => {

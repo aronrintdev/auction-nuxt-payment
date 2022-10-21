@@ -74,6 +74,16 @@ export function updateWantsItemsTrade(state, val) {
 }
 
 /**
+ * This mutation is used to update trade offer item data in state by using id
+ * @param state
+ * @param val
+ */
+export function updateTradeItems(state, val) {
+    const index = state.trade_items.findIndex(prod => prod.id === val.id)
+    state.trade_items[index] = val
+}
+
+/**
  * This mutation is used to increment offer item quantity in state
  * @param state
  * @param val

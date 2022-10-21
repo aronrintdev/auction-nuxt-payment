@@ -289,8 +289,8 @@ export default {
         }
       }
       selectedProduct.product = productDetails
-      selectedProduct.product_id = selectedProduct.id
-      selectedProduct.quantity = parseInt(this.quantity)
+      selectedProduct.product_id = productDetails.id
+      selectedProduct.quantity = 1 // quantity would be always 1
       selectedProduct.year = parseInt(this.year)
       selectedProduct.size_id = parseInt(this.selected_size)
       selectedProduct.size = selectedProduct?.sizes.find( i => i.id === this.selected_size)
@@ -310,22 +310,30 @@ export default {
     addToOffer(selectedProduct) {
       const _self = this;
       if (this.productFor === this.tradeArena){
-        for (let i = 0; i < _self.quantity; i++){
+        for (let i = 0; i < this.quantity; i++){
           selectedProduct = this.setSelectedItem(selectedProduct)
           this.$store.commit('trade/setYourTradeItems', selectedProduct)
         }
         this.$root.$emit('back_to_search_offer')
       }
       else if (this.productFor === PRODUCT_FOR_COUNTER_OFFER) {
-        for (let i = 0; i < _self.quantity; i++){
+        for (let i = 0; i < this.quantity; i++){
           selectedProduct = this.setSelectedItem(selectedProduct)
         }
         this.$root.$emit('add_new_product', selectedProduct)
       }
       else if (this.productFor === this.tradeOffer) {
-        for (let i = 0; i < _self.quantity; i++){
+        for (let i = 0; i < this.quantity; i++){
           selectedProduct = this.setSelectedItem(selectedProduct)
-          this.$store.commit('trades/setTradeItems', selectedProduct)
+          if (this.itemId && i <= 0) {
+            selectedProduct.id = this.itemId
+              setTimeout(function() {
+                _self.$store.commit('trades/updateTradeItems', selectedProduct)
+              }, 100);
+          } else{
+            selectedProduct.id = null
+            this.$store.commit('trades/setTradeItems', selectedProduct)
+          }
         }
         this.$root.$emit('add_trade_item', false)
       }
@@ -357,11 +365,14 @@ export default {
             product: selectedProduct
           }
 
-          for (let i = 0; i < _self.quantity; i++){
-            if (this.itemId) {
+          for (let i = 0; i < this.quantity; i++){
+            if (this.itemId && i <= 0) {
               selectedProductWithAttributes.id = this.itemId
-              this.$store.commit('trades/updateWantsItemsTrade', selectedProductWithAttributes)
+              setTimeout(function() {
+                _self.$store.commit('trades/updateWantsItemsTrade', selectedProductWithAttributes)
+              }, 100);
             } else{
+              selectedProductWithAttributes.id = null
               this.$store.commit('trades/setWantsItemsTrade', selectedProductWithAttributes)
             }
           }
