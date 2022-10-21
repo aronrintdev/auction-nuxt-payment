@@ -15,7 +15,7 @@
       class="d-flex align-items-end justify-content-start ml-3 custom-margin-bottom"
     >
       <div
-        class="feature-title-mobile d-flex align-items-center justify-content-center d-sm-none font-ternary fs-22 fw-7 text-center text-uppercase w-100"
+        class="feature-title-mobile d-flex align-items-center justify-content-center d-sm-none font-ternary fs-22 fw-7 text-uppercase w-100 h-auto"
       >
         {{ $t(title) }}
       </div>
@@ -81,8 +81,9 @@ export default {
       .feature-title-mobile
         background-color: rgba(171, 171, 171, 0.6)
         padding: 0px 9px
+        min-width: 219px
         max-width: 270px
-        height: 45px
+        min-height: 45px
         max-height: 103px
         line-height: 29px
         letter-spacing: -0.08em

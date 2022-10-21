@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       banner: {
-        title: 'newest_features.crypto_payments.title',
+        title: 'newest_features.crypto_payments.feature_banner_title',
         description: 'newest_features.crypto_payments.feature_banner_desc',
         backgroundImage: require('@/assets/img/features/newest-feature/crypto-payments/crypto-payments-banner.png'),
         backgroundImageSm: require('@/assets/img/features/newest-feature/crypto-payments/crypto-payments-banner-sm.png'),

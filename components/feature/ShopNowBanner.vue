@@ -1,6 +1,12 @@
 <template>
   <div class="mb-2 mb-sm-5">
-    <div class="main-image-section mx-auto">
+    <div
+      v-if="
+        $route.path != '/features/social-signin' &&
+        $route.path != '/features/international-languages'
+      "
+      class="main-image-section mx-auto"
+    >
       <div
         class="image-container d-flex justify-content-start align-items-start align-items-sm-center w-100 h-100"
       >
@@ -86,11 +92,13 @@ export default {
   props: {
     shopNowDescription: {
       type: String,
-      required: true,
+      // required: true,
+      default: '',
     },
     shopNowButtonText: {
       type: String,
-      required: true,
+      // required: true,
+      default: '',
     },
     previousPage: {
       type: String,
@@ -173,4 +181,10 @@ export default {
             font-size: 12px
             font-weight: 500
             color: $color-gray-5
+@media screen and (max-width: 426px)
+  .previous-and-next-links
+      p.previous-link
+          font-size: 10px
+      p.next-link
+          font-size: 10px
 </style>

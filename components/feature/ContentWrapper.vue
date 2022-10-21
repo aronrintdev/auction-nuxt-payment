@@ -20,7 +20,6 @@
         :nextPageLink="nextPageLink"
       />
     </div>
-    <div class="my-check-class"></div>
   </div>
 </template>
 <script>
@@ -56,11 +55,11 @@ export default {
     },
     shopNowDescription: {
       type: String,
-      required: true,
+      default: '',
     },
     shopNowButtonText: {
       type: String,
-      required: true,
+      default: '',
     },
     previousPage: {
       type: String,
@@ -84,6 +83,7 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .features-container
+  background-color: $color-gray-1
   .feature-content
     width: 1196px
     padding: 3rem 0px
@@ -104,6 +104,7 @@ export default {
       padding: 3rem 2rem
 @media screen and (max-width: 577px)
   .features-container
+    background-color: $color-white-1
     .feature-content
       padding: 0px
 </style>

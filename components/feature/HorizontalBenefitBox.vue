@@ -12,9 +12,9 @@
             height="auto"
           />
         </div>
-        <div class="d-block mt-3 benefit-data">
+        <div class="d-block mt-3 benefit-text-section">
           <h2
-            class="benefit-heading font-primary fs-32 fw-7 text-black text-center text-sm-left"
+            class="benefit-heading font-primary fs-32 fw-7 text-black text-center text-capitalize text-sm-left"
           >
             {{ $t(benefitTitle) }}
           </h2>
@@ -53,7 +53,7 @@ export default {
   .benefit-image
     min-width: 272px
     height: 191px
-  div
+  .benefit-text-section
     h2.benefit-heading
       letter-spacing: -0.02em
 @media screen and (max-width: 993px)
@@ -61,7 +61,7 @@ export default {
     .benefit-image
       min-width: 272px
       height: auto
-      div
+      .benefit-text-section
         h2.benefit-heading
           font-size: 28px
         p.benefit-description
@@ -72,7 +72,9 @@ export default {
     column-gap: 40px
     .benefit-image
       min-width: 180px
-    div
+      img
+        width: 180px
+    .benefit-text-section
       h2.benefit-heading
         font-size: 24px
 @media screen and (max-width: 577px)
@@ -81,11 +83,18 @@ export default {
     column-gap: 0px
     .benefit-image
       min-width: 272px
-      height: 191px
-    .benefit-data
       max-width: 272px
-    div
+      height: 191px
+      img
+        width: 272px
+    .benefit-text-section
+      width: 282px
       h2.benefit-heading
-        font-size: 16px
         font-weight: 600
+        font-size: 16px
+        line-height: 20px
+      p.benefit-description
+        font-weight: 400
+        font-size: 14px
+        line-height: 163.4%
 </style>

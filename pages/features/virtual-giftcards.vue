@@ -42,7 +42,7 @@ export default {
   data() {
     return {
       banner: {
-        title: 'newest_features.virtual_giftcards.title',
+        title: 'newest_features.virtual_giftcards.feature_banner_title',
         description: 'newest_features.virtual_giftcards.feature_banner_desc',
         backgroundImage: require('@/assets/img/features/newest-feature/virtual-giftcards/virtual-giftcards-banner.png'),
         backgroundImageSm: require('@/assets/img/features/newest-feature/virtual-giftcards/virtual-giftcards-banner-sm.png'),
@@ -78,7 +78,7 @@ export default {
         previousPage: 'newest_features.rewards_program.title',
         previousPageLink: '/features/rewards-program',
         nextPage: 'newest_features.int_buying_and_selling.title',
-        nextPageLink: '/features/int-buying-and-selling',
+        nextPageLink: '/features/international-buying-and-selling',
       },
     }
   },
