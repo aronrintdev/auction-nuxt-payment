@@ -93,21 +93,33 @@
 
         <ItemDivider/>
 
-        <div v-if="selectedItem && selectedItem.status!=='processing'" class="tracking">
+        <div v-if="selectedItem" class="d-flex">
+          <TimelineIcon :status="'active'" class="mr-20"/>
+          <div class="d-flex flex-column text-capitalize">
+            <span class="body-5-medium ">{{ selectedItem.status }}</span>
+            <span class="body-21-regular color-gray">{{ selectedItem.status_label }}</span>
+          </div>
+        </div>
+
+        <div v-if="selectedItem && selectedItem.status!=='processing' " class="tracking mt-20 body-21-normal">
           <div><span>{{ $t('orders.shipping_carrier') }}:</span> <span>{{ shippingMethod }}</span></div>
           <div><span>{{ $t('orders.tracking_number') }}:</span> <a :href="trackingUrl" target="_blank">{{
               trackingNo
             }}</a></div>
         </div>
 
-        <div>
-          <TimelineIcon :status="'active'"/>
-        </div>
-        <div class="view-details d-flex align-items-center justify-content-between">
+        <div class="view-details d-flex align-items-center justify-content-between ">
           <span class="title body-5-medium">
             {{ $t('vendor_purchase.view_shipping_details') }}
           </span>
           <arrow-down-black/>
+        </div>
+      </div>
+
+      <div class="mt-20 payment-wrapper">
+        <div class="body-17-medium payment-title">{{ $t('vendor_purchase.payment_summary') }}</div>
+        <div class="info-card">
+          <MobilePaymentSummary :order-details="orderDetails"/>
         </div>
       </div>
     </div>
@@ -121,10 +133,11 @@ import {GOOGLE_MAPS_BASE_URL} from '~/static/constants';
 import ItemDivider from '~/components/profile/notifications/ItemDivider';
 import arrowDownBlack from '~/assets/img/icons/arrow-down-blue.svg?inline'
 import TimelineIcon from '~/components/orders/TimelineIcon';
+import MobilePaymentSummary from '~/components/profile/purchases/summary/MobilePaymentSummary';
 
 export default {
   name: 'ViewSummary',
-  components: {TimelineIcon, ItemDivider, ProductThumb, Loader, arrowDownBlack},
+  components: {MobilePaymentSummary, TimelineIcon, ItemDivider, ProductThumb, Loader, arrowDownBlack},
   data() {
     return {
       orderDetails: null,
@@ -196,11 +209,11 @@ export default {
     },
     insertMap(order) {
       const options = {
-        center: new window.google.maps.LatLng(
-            order.shipping_address.latitude || 45.508,
-            order.shipping_address.longitude || -73.587
-        ),
+        center: {lat: order.shipping_address.latitude || 45.508, lng: order.shipping_address.longitude || -73.587},
+        zoom: 8,
+        disableDefaultUI: true
       }
+      console.log(options);
       this.$nextTick(() => {
         this.map = new window.google.maps.Map(this.$refs.map, options)
       })
@@ -217,6 +230,16 @@ export default {
   font-style: normal
   font-family: $font-family-sf-pro-display
 
+  .payment-wrapper
+    background: $color-gray-75
+    border-radius: 8px 8px 0 0
+    padding: 16px 29px
+    margin-inline: -29px
+    margin-bottom: -16px
+
+    .payment-title
+      margin-bottom: 13px
+
   .info-card
     background: $color-white-1
     box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
@@ -228,6 +251,7 @@ export default {
       border: 1px solid $color-gray-84
       border-radius: 8px
       padding: 16px 20px
+      margin-top: 14px
 
     .ship-info
       margin-top: 14px
@@ -247,6 +271,9 @@ export default {
 
   .mt-20
     margin-top: 20px
+
+  .mr-20
+    margin-right: 20px
 
   .color-gray
     color: $color-gray-5
