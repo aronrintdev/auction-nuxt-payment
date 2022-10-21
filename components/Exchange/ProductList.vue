@@ -77,7 +77,7 @@ export default {
       return this.promotions.length ? this.promotions[0] : null
     },
     isMobile() {
-      if (screen.width <= 760) {
+      if (this.screenWidth<= 760) {
         return true
       } else {
         return false
@@ -85,12 +85,19 @@ export default {
     },
   },
   created() {
-    this.loadPage()
+    this.loadPage();
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.myEventHandler);
   },
   mounted() {
-    this.screenWidth = screen.width
+    window.addEventListener('resize', this.myEventHandler);
   },
   methods: {
+    // Search Data
+    myEventHandler(e) {
+      this.screenWidth = screen.width
+    },
     // Search Data
     filterList(value) {
       this.filter = value
