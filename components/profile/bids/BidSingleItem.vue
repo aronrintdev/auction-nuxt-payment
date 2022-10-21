@@ -32,7 +32,7 @@
                 <span :class="isMobileSize ? 'body-5-medium': 'body-8-medium'">{{ inventory.product.name }}</span>
                 <template v-if="isMobileSize">
                   <!-- MOBILE BID MENU BEGIN -->
-                  <div v-if="bidType === BID_TYPE_OUTGOING" @click="showMobileMenu" class="px-2">
+                  <div v-if="bidType === BID_TYPE_OUTGOING" @click="showMobileMenu" class="pl-2 pr-3">
                     <img src="~/assets/img/icons/mobile-3-dot-menu.svg">
                   </div>
                   <!-- MOBILE BID MENU END -->
