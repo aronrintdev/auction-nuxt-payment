@@ -72,16 +72,25 @@
             />
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-12">
+        <div class="row mt-5">
+          <div class="col-lg-12 text-center">
             <NavGroup
-              :data="priceSizeTabData"
+              :data="PRICE_SIZE_TABS"
               :value="priceSizeTabCurrentValue"
               class="section-nav"
               nav-key="line_chart"
-              @change="handleTabChange"
+              @change="handlePriceSizeTabChange"
             />
           </div>
+          {{ sizes }}
+          <ProductSizePicker
+            :sizes="sizes"
+            :value="currentSize"
+            :viewMode="sizeViewMode"
+            class="size-picker"
+            @update="handleSizeChange"
+            @changeViewMode="handleSizeViewModeChange"
+          />
         </div>
       </div>
       <div class="col-lg-6 col-md-12 col-sm-12">
@@ -137,6 +146,7 @@ import { Button, Loader, FormDropdown, SearchInput } from '~/components/common'
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import ShareIcon from '~/assets/img/icons/share.svg?inline'
+import ProductSizePicker from '~/components/product/SizePicker'
 export default {
   name: 'ProductDetail',
   components: {
@@ -148,6 +158,7 @@ export default {
     SimilarProductTable,
     SearchInput,
     FormDropdown,
+    ProductSizePicker
   },
   data() {
     return {
@@ -157,7 +168,11 @@ export default {
       similarProductSearchValue: '',
       sortBy: null,
       chartTabCurrentValue: '24',
-      priceSizeTabCurrentValue: 'average_size',
+      currentSize: null,
+      currentCondition: null,
+      method: 'buy',
+      sizeViewMode: 'all',
+      priceSizeTabCurrentValue: 'average_price',
       SIMILAR_FILTER_SORT_OPTIONS: [
         {
           label: this.$t('vendor_purchase.sort_by'),
@@ -284,6 +299,11 @@ export default {
       },
     }
   },
+  computed:{
+    sizes() {
+      return this.products?.sizes || []
+    },
+  },
   mounted() {
     this.loadPage()
   },
@@ -293,6 +313,26 @@ export default {
     },
     handlePriceSizeTabChange(value) {
       this.priceSizeTabCurrentValue = value
+    },
+    handleSizeViewModeChange(mode) {
+      this.sizeViewMode = mode
+    },
+    handleSizeChange(sizeId) {
+      if (sizeId) {
+        this.currentSize = sizeId
+      }
+    },
+    pricesBySize() {   
+        if (this.method === 'buy') {
+          return this.products?.lowest_prices?.filter(
+            (i) => i.packaging_condition_id === this.currentCondition
+          )
+        } else {
+          return this.products?.highest_offers?.filter(
+            (i) => i.packaging_condition_id === this.currentCondition
+          )
+        }
+       
     },
     changeGraphLabel(category) {
       switch (category) {
