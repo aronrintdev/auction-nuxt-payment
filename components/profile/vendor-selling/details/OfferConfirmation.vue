@@ -1,5 +1,5 @@
 <template>
-  <div class="bottom-pop-confirmation text-center">
+  <div class="bottom-pop-confirmation text-center w-100">
     <div class="delete-confirmation-text text-center">
       {{ $t('selling_page.offer_action_confirmation', { action: action }) }}
     </div>

@@ -140,7 +140,7 @@
           <!-- Apply Button -->
         </div>
 
-        <div v-if="searchResults.data" class="row mt-5 px-3 d-flex flex-column flex-sm-row justify-content-between">
+        <div v-if="searchResults.data && !isScreenXS" class="row mt-5 px-3 d-flex flex-column flex-sm-row justify-content-between">
           <!-- Delist Multiple Button -->
           <Button
             variant="delist"

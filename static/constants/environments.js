@@ -6,6 +6,7 @@ export const PUSHER = {
 }
 export const API_PROD_URL = 'https://api.deadstock.co/prod/api';
 export const GOOGLE_MAPS_BASE_URL = 'https://maps.googleapis.com/maps/api/js?libraries=places&key='+process.env.GOOGLE_MAPS_API_KEY;
+export const GOOGLE_ADDRESS_MAPS_BASE_URL = 'https://maps.googleapis.com/maps/api/js?key='+process.env.GOOGLE_MAPS_API_KEY;
 export const MAX_PAYOUT_METHODS = 4;
 export const NMI_COLLECTJS_URL = 'https://secure.networkmerchants.com/token/Collect.js';
 export const RISKIFIED_SHOP_DOMAIN = 'deadstock.co';
