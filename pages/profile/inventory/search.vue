@@ -4,10 +4,8 @@
       <img :src="require('~/assets/img/icons/back.svg')" alt="back" />
       {{ $t('common.back') }}
     </Button>
-
     <div class="d-flex justify-content-between align-items-center mt-3 content-header">
       <h2 class="title">{{ $t('common.search') }}</h2>
-
       <Button
         variant="link"
         class="btn-draft"
