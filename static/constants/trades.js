@@ -57,6 +57,7 @@ export const WANTS_SELECT_LIST_OPTIONS = [
 export const CREATE_COMBINATION = 'create_combination'
 export const FILTER_STATUS_LIVE = 'live'
 export const FILTER_STATUS_EXPIRED = 'expired'
+export const FILTER_STATUS_DELISTED = 'de-listed'
 export const FILTER_CONDITION_POOR = 'poor'
 export const FILTER_CONDITION_FAIR = 'fair'
 export const FILTER_CONDITION_EXCELLENT = 'excellent'

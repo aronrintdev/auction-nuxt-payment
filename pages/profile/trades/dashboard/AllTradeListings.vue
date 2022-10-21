@@ -145,7 +145,8 @@ import {
   FILTER_OLDEST_TO_RECENT,
   FILTER_STATUS_LIVE,
   FILTER_STATUS_EXPIRED,
-  TAKE_SEARCHED_PRODUCTS
+  TAKE_SEARCHED_PRODUCTS,
+  FILTER_STATUS_DELISTED
 } from '~/static/constants/trades'
 
 export default {
@@ -175,6 +176,7 @@ export default {
       statusFilterItems: [
         { text: this.$t('trades.live'), value: FILTER_STATUS_LIVE },
         { text: this.$t('trades.expired'), value: FILTER_STATUS_EXPIRED },
+        { text: this.$t('trades.delisted'), value: FILTER_STATUS_DELISTED },
       ],
       start_date: null,
       end_date: null,

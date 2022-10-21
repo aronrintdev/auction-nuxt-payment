@@ -68,5 +68,5 @@ export default {
     color: $color-blue-19
 
   ::v-deep .overview-box:nth-child(4) .box-value
-    color: $color-red-24
+    color: $color-red-26
 </style>

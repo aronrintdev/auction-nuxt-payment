@@ -79,13 +79,13 @@
             :variant="purchaseStatus"
             class="m-auto text-capitalize text-center status-button d-flex"
           >
-            {{ $t(`vendor_purchase.orderstatus.${purchaseStatus}`) }}
+            {{$t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) }}
           </Button>
           <div
             v-if="orderType === giftCard"
             :class="`${purchaseStatus}-status text-uppercase d-flex giftcard-status`"
           >
-            {{ $t(`vendor_purchase.orderstatus.${purchaseStatus}`) }}
+            {{ $t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) }}
           </div>
         </b-col>
       </b-row>
