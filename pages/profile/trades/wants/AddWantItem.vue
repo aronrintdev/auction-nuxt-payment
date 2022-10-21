@@ -6,9 +6,9 @@
       <b-icon icon="chevron-left" aria-hidden="true"></b-icon>
       {{$t('trades.wants_listing.back_to_want_list')}}
     </div>
-    <div class="d-flex align-items-center pt-4">
+    <div class="d-flex flex-column text-center text-sm-left flex-sm-row align-items-center pt-4">
       <div class="wants-heading">{{$t('trades.wants_listing.search_for_want')}}</div>
-      <div class="wants-sub-heading pl-4 pt-1">{{$t('trades.wants_listing.start_by_searching')}}</div>
+      <div class="wants-sub-heading pl-sm-4 pt-1">{{$t('trades.wants_listing.start_by_searching')}}</div>
     </div>
     <div class="col-sm-12 col-xl-8 py-4 px-0">
       <SearchInput
@@ -72,7 +72,7 @@
           </div>
         </div>
 
-        <div class="d-flex justify-content-between px-4 no-product">
+        <div class="mt-2 d-flex justify-content-between px-4 no-product">
           <div class="">{{ $t('common.dont_see_your_product') }}</div>
           <u @click="$router.push('/profile/trades/wants/addwantitem')">
             {{ $t('common.suggest_a_new_product') }}
