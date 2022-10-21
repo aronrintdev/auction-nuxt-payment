@@ -30,16 +30,16 @@
               @select="handleSortBySelect"
             />
           </div>
-
+            <button
+            v-if="searchFilters.brand !=='' && searchFilters.size !=='' && searchFilters.category!==''"
+            class="btn btn-sm text-black filter-btn col-2"
+          >
+          Filter
+          </button>
         </div>
         <!-- ./Input search -->
 
-        <button
-           v-if="searchFilters.brand !=='' && searchFilters.size !=='' && searchFilters.category!==''"
-          class="btn btn-sm text-black filter-btn col-2"
-        >
-        Filter
-        </button>
+
       </div>
       <div  v-if="searchFilters.brand ==='' || searchFilters.size ==='' || searchFilters.category===''" class="row filter-row-bottom" >
         <!-- Filter By Category-->
@@ -126,6 +126,19 @@
     <div class="row filter-row">
     <div class="col-md-12 col-sm-12 mt-md-4 mt-4">
       <!-- Type Filters -->
+      <!-- Status Filters -->
+      <div
+        v-if="searchFilters.brand !='' || searchFilters.size!='' || searchFilters.category!=''"
+        class="col-md-2 clearall-filter float-right ">
+        <span
+          role="button"
+          class="justify-content-center d-flex text-primary"
+          @click="clearFilters()"
+        >
+          <u>{{ $t('vendor_purchase.clear_all_filters') }}</u>
+        </span>
+      </div>
+
       <b-badge
         v-for="(options, typeIndex) in activeTypeFilters"
         :key="`type-${typeIndex}`"
@@ -154,18 +167,7 @@
           @click="removeTypeFilter(status)"
         ></i>
       </b-badge>
-      <!-- Status Filters -->
-      <div
-        v-if="searchFilters.brand !='' || searchFilters.size!='' || searchFilters.category!=''"
-        class="col-md-2 clearall-filter float-right ">
-        <span
-          role="button"
-          class="justify-content-center d-flex text-primary"
-          @click="clearFilters()"
-        >
-          <u>{{ $t('vendor_purchase.clear_all_filters') }}</u>
-        </span>
-    </div>
+
     </div>
   </div>
 
