@@ -4,47 +4,62 @@
     <b-col :style="itemStyle" align-self="center">
       <b-list-group v-for="(product, index) in productItems" :key="`searched-product-${index}`">
         <div 
-          :style="{ height: '60px' }" 
+          :style="{ minHeight: '60px' }" 
           class="rounded-0 border-top-0 list-group-item text-xs d-flex align-items-center justify-content-between"
         >
-          <div class="d-flex">
-            <span class="searched-product-image mr-2 col-md-1">
-              <img class="img-fluid" :src="product.image" />
+          <div class="d-flex col-sm-8 pl-0 align-items-center">
+            <img 
+              :style="{ maxHeight: '50px', width: 'auto' }" 
+              class="mr-3" 
+              :src="product.image" 
+            />
+            <span class="searched-product-name align-self-center">
+              {{ product.name }}
             </span>
-            <span class="searched-product-name align-self-center col-md-7">{{product.name}}</span>
           </div>
-          <span class="mt-2 col-md-3">
+          <div class="col-sm-4 px-0">
             <span 
               v-if="productsFor === tradeItem || productsFor === counterOffer" 
               class="cursor-pointer" 
               @click="addProductTrade(product)"
             >
-              {{ $t('common.add_product') }} 
+              {{ $t('common.add_product') }}
               <img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
             </span>
-            <span v-else-if="productsFor === arenaItem" class="cursor-pointer" @click="addProductArena(product)"><img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" /></span>
+            <span 
+              v-else-if="productsFor === arenaItem" 
+              class="cursor-pointer" 
+              @click="addProductArena(product)"
+            >
+              <img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
+            </span>
             <a 
               v-else 
               class="d-flex justify-content-end searched-product-add-to-wants" 
               href="#" 
               @click="addProductWant(product)"
-
             >
-              {{ $t('trades.create_listing.vendor.wants.add_want') }} 
+              {{ $t('trades.create_listing.vendor.wants.add_want') }}
               <img class="ml-3" :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
             </a>
-          </span>
+          </div>
         </div>
       </b-list-group>
     </b-col>
     <b-col :style="itemStyle" align-self="center">
-      <b-list-group class="text-md">
+      <b-list-group class="text-md" :style="suggestNewStyle">
         <b-list-group-item class="p-4 border-top-0 no-product d-flex align-items-center">
           <i>
             {{$t('common.dont_see_your_product')}} 
-            <a class="suggest-new" href="#">{{$t('common.suggest_a_new_product')}}</a>
+            <a 
+              class="suggest-new" 
+              href="#"
+              @click="$router.push('/profile/trades/wants/addwantitem')"
+            >
+              {{$t('common.suggest_a_new_product')}}
+            </a>
           </i>
-          </b-list-group-item>
+        </b-list-group-item>
       </b-list-group>
     </b-col>
   </b-row>
@@ -78,6 +93,10 @@ export default {
       default: () => {}
     },
     itemStyle: {
+      type: Object,
+      default: () => {}
+    },
+    suggestNewStyle: {
       type: Object,
       default: () => {}
     }
@@ -119,6 +138,7 @@ export default {
       }
     },
     addProductWant(product){
+      console.log('this.inputType', this.inputType);
       if(this.inputType === 'wantsList'){
         this.addProductWantList(product)
       }
@@ -147,7 +167,11 @@ export default {
 .searched-product-name
   font-family: $font-family-montserrat
   font-weight: 500
-  font-size: 16px
+  font-size: 12px
+  color: $color-black-15
+  @media (min-width: 576px)
+    font-size: 16px
+    color: #000
 
 .searched-product-add-to-wants
   color: $color-gray-5 !important

@@ -10,19 +10,26 @@
       {{$t('trades.wants_listing.wants_list_contains_items')}}
     </div>
     <b-row class="mt-2 pt-2 d-flex justify-content-between">
-      <b-col sm="=12" md="7" xl="8"  class="mt-2">
-        <div class="d-flex d-sm-none row">
-          <SearchInput
-            class="searchInput"
-            :value="searchText"
-            :inputStyle="{ paddingLeft: '45px', width: '95%', fontSize: '12px', ...inputClass }"
-            placeholder="Search for Wants"
-            variant="primary"
-            :clearSearch="true"
-            inputHeight="46px"
-            @change="filterData"
-            containerStyle="width: 92.5%"
-          />
+      <b-col sm="12" md="7" xl="8" class="mt-2">
+        <div class="d-flex d-sm-none row justify-content-between pr-2">
+          <div class="col-11">
+            <SearchInput
+              class="searchInput"
+              :value="searchText"
+              :inputStyle="{
+                ...inputClass,
+                paddingLeft: '45px', 
+                fontSize: '12px',
+                background: '#F7F7F7',
+                height: '33px',
+              }"
+              iconStyle='color: #979797; width: 14px; height: 14px;'
+              :placeholder="$t('common.search_wants')"
+              variant="primary"
+              :clearSearch="true"
+              @change="filterData"
+            />
+          </div>
           <img @click="filtersModalOpen = true" :src="require('assets/img/icons/filter.svg')" />
         </div>
         <div class="show-desktop">
@@ -192,7 +199,7 @@
         v-if="currentTab === 'inventory'" 
         class=""
       >
-        <div class="no-items text-center mt-5" v-if="!wantedItems.length">
+        <div :style="{ height: '100vh' }" class="no-items text-center mt-5" v-if="!wantedItems.length">
           {{ $t('trades.wants_listing.you_have_no_items_in') }}
           <span class="add-new-item" role="button" @click="$router.push('/profile/trades/wants/addwantitem')">
             {{ $t('common.add_new_item') }}
@@ -240,11 +247,11 @@
           </div>
         </div>
 
-        <div class="d-flex flex-wrap px-1 pt-5 bg-white border-3" v-else>
+        <div class="d-flex flex-wrap px-1 pt-4 bg-white border-3" v-else>
           <div
             v-for="(combination, combinationIndex) in combinationItems"
             :key="combination.combination_id"
-            class="mb-4 px-3 col-xl-6"
+            class="mb-4 px-0 px-xl-3 col-xl-6"
           >
             <CombinationItemCard
               :combination="combination"

@@ -2,7 +2,7 @@
   <div>
   <create-trade-search-item v-if="searchItem" :product="searchItem" productFor="wantsList" :combinationId="combinationId"/>
   <div v-else class="add-item-container">
-    <div  class="back-to-wants" role="button" @click="backWants">
+    <div class="back-to-wants" role="button" @click="backWants">
       <b-icon icon="chevron-left" aria-hidden="true"></b-icon>
       {{$t('trades.wants_listing.back_to_want_list')}}
     </div>
@@ -10,7 +10,7 @@
       <div class="wants-heading">{{$t('trades.wants_listing.search_for_want')}}</div>
       <div class="wants-sub-heading pl-4 pt-1">{{$t('trades.wants_listing.start_by_searching')}}</div>
     </div>
-    <div class="col-md-8 col-sm-12 pt-4 pl-0">
+    <div class="col-sm-12 col-xl-8 py-4 px-0">
       <SearchInput
         :value="searchText"
         variant="primary"
@@ -21,11 +21,16 @@
           borderColor: '#99999950', 
           paddingLeft: '74px',
           fontFamily: 'Montserrat', 
-          color: '#626262',
+          color: '#000',
+          fontWeight: 500,
           fontSize: '16px',
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0
         }"
+        :isOpen="searchedItems.length > 0"
+        :onOpenStyle="{
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+        }"
+        inputClass="search-mobile"
         iconStyle='position: relative; left: 12px;'
         bordered
         @change="onSearchInput"
@@ -33,10 +38,48 @@
       <SearchedProductsBelowSearchTextBox 
         v-if="searchedItems.length > 0" 
         :productItems="searchedItems" 
+        class="d-none d-sm-flex"
         inputType="wantsList"
         :wrapperStyle="{ margin: 0 }"
         :itemStyle="{ padding: 0 }"
+        :suggestNewStyle="{
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0
+        }"
       />
+      <div class="mt-3 d-sm-none">
+        <div
+          v-for="item in searchedItems"
+          :key="item.id"
+          class="d-flex search-item justify-content-between align-items-center"
+        >
+          <div class="d-flex align-items-center">
+            <img 
+              :style="{ maxHeight: '70px', width: 'auto' }" 
+              class="mr-1" 
+              :src="item.image" 
+            />
+            <span class="searched-product-name col-7 align-self-center mx-3">
+              {{ item.name }}
+            </span>
+          </div>
+
+          <div 
+            class="add-item-button col-2"
+            @click="$root.$emit('add_product_want_list', item)"
+          >
+            {{ $t('common.add') }}
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between px-4 no-product">
+          <div class="">{{ $t('common.dont_see_your_product') }}</div>
+          <u @click="$router.push('/profile/trades/wants/addwantitem')">
+            {{ $t('common.suggest_a_new_product') }}
+          </u>
+        </div>
+      </div>
+      
     </div>
   </div>
   </div>
@@ -125,7 +168,9 @@ export default {
 @import '~/assets/css/_variables'
 
 .add-item-container
-  padding: 25px
+  padding: 15px 12px 0 12px
+  @media (min-width: 576px)
+    padding: 25px
 
 .back-to-wants
   font-family: $font-family-sf-pro-display
@@ -145,5 +190,35 @@ export default {
   font-style: normal
   @include body-4-normal
   color: $color-gray-5
+
+.search-item
+  border: 0.5px solid #CECECE
+  margin-top: 11px
+  border-radius: 4px
+  padding: 10px
+
+.add-item-button
+  background: $color-blue-20
+  border-radius: 5px
+  display: flex
+  align-items: center
+  justify-content: center
+  font-family: $font-family-sf-pro-display
+  font-weight: 600
+  font-size: 12px
+  color: #FFF
+  height: 22px
+
+.searched-product-name
+  font-weight: 500
+  font-size: 13px
+  color: $color-black-15
+
+.no-product
+  font-weight: 500
+  font-size: 11px
+  font-style: italic
+  color: #000
+  letter-spacing: 1px
 
 </style>

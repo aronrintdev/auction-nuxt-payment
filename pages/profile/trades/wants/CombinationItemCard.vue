@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="d-none d-sm-block">
-      <div class="combination-div d-flex flex-column py-4 mx-1">
+    <div class="d-none d-md-block combination-div">
+      <div class="d-flex flex-column py-4">
         <div class="d-flex">
           <div class="col-md-6 d-flex flex-column pl-3 justify-content-between">
             <div class="title-combination ml-4">
@@ -79,7 +79,7 @@
           <b-col 
             v-for="(item, index) in combinationItems"
             :key="item.id" 
-            class="d-flex flex-column"
+            class="d-flex flex-column align-items-center"
           >
             <object 
               v-if="item.product.image" 
@@ -90,11 +90,15 @@
             >
               <img class="item-image-combination mb-2 pointer" :src="fallbackImgUrl" alt="image"/>
             </object>
-            <img v-else alt="image"
-                class="item-image-combination mb-2 pointer" :src="fallbackImgUrl"
-                @click="setCombinationSelectedItem(index)"/>
-            <div class="position-relative">
-              <div v-if="selectedItemIndex === index" class="bar-combination ml-4"></div>
+            <img 
+              v-else 
+              alt="image"
+              class="item-image-combination mb-2 pointer" 
+              :src="fallbackImgUrl"
+              @click="setCombinationSelectedItem(index)"
+            />
+            <div class="">
+              <div v-if="selectedItemIndex === index" class="bar-combination"></div>
             </div>
           </b-col>
         </div>
@@ -106,7 +110,7 @@
         </div>
       </div>
     </div>
-    <div class="d-flex row d-sm-none custom-shadow rounded">
+    <div class="d-flex row d-md-none custom-shadow rounded mx-sm-2">
       <div 
         class="col-4 d-flex flex-column align-items-end pb-3"
         :style="{'padding-top': '20px'}"
@@ -168,13 +172,13 @@
           }}:   ${{ estValue(combinationItems) }}
         </div>
       </div>
-      <img class="more d-sm-none" :src="require('assets/img/icons/More.svg')" />
+      <img class="more d-md-none" :src="require('assets/img/icons/More.svg')" />
     </div>
   </div>
 </template>
 
 <script>
-import {PRODUCT_FALLBACK_URL} from '~/static/constants';
+import { PRODUCT_FALLBACK_URL } from '~/static/constants';
 
 export default {
   name: 'CombinationItemCard',
@@ -281,5 +285,9 @@ export default {
 
 .custom-shadow
   box-shadow: 0px 1px 4px rgb(0 0 0 / 25%)
+
+.combination-div
+  margin-left: 24px
+  margin-right: 24px
 
 </style>

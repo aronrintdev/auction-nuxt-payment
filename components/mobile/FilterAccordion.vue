@@ -9,7 +9,7 @@
         {{ title }}
       </span>
 
-      <div class="col-4 d-flex justify-content-between align-items-center">
+      <div class="col-5 d-flex justify-content-between align-items-center">
         <span class="value text-truncate">{{ data }}</span>
         <arrow-down-black :class="{'reverse': shown}" />
       </div>

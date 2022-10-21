@@ -77,7 +77,7 @@
 
         <FilterAccordion 
           :title="$tc('trades.index.browse.product_type', 1)" 
-          :data="filters.product_type.join(', ')"
+          :data="productTypesLabel"
         >
           <ButtonSelector
             :options="productTypeOptions"
@@ -95,7 +95,7 @@
 
         <div class="separator"></div>
 
-        <FilterAccordion :title="$tc('product_page.sizes', 1)" :data="filters.sizes.text?.toString()">
+        <FilterAccordion :title="$tc('product_page.sizes', 1)" :data="filters.sizes.text.toString()">
           <ButtonSelector 
             :options="sizesOptions"
             :contentStyle="{
@@ -113,7 +113,7 @@
 
         <div class="separator"></div>
 
-        <FilterAccordion :title="$tc('home_page.size', 1)" :data="filters.size.text?.toString()">
+        <FilterAccordion :title="$t('home_page.size', 1)" :data="filters.size.text.toString()">
           <ButtonSelector 
             :options="sizeOptions"
             :contentStyle="{
@@ -156,6 +156,7 @@
 </template>
 
 <script>
+/* eslint-disable vue/no-unused-components */
 import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
 import FilterAccordion from '~/components/mobile/FilterAccordion';
 import Button from '~/components/common/Button';
@@ -212,6 +213,18 @@ export default {
     filterChangeCount() {
       return Object.values(this.filters).filter(a => a && a.length !== 0).length
     },
+    productTypesLabel() {
+      const result = this.filters.product_type.reduce((acc, item, index) => {
+        const found = this.productTypeOptions.find(v => v.value === item);
+        if (index === 0) {
+          return found.text
+        } else {
+          return `${acc}, ${found.text}`;
+        }
+      }, '')
+
+      return result;
+    }
   },
 
   mounted() {

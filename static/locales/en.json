@@ -107,6 +107,7 @@
     "nil": "Nil",
     "pin": "Pin",
     "chat": "Chat",
+    "add": "Add",
     "purchase": "Purchase",
     "update": "Update",
     "add_product": "Add Product",
@@ -156,7 +157,8 @@
     "view"  :"View",
     "read_less": "Read Less",
     "read_more": "Read More",
-    "go_back": "Go Back"
+    "go_back": "Go Back",
+    "search_wants": "Search for Wants"
   },
   "message": {
     "no_products_found": "No Products Found",

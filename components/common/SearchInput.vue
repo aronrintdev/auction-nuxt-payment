@@ -23,8 +23,8 @@
         :placeholder="placeholder || $t('common.search')"
         :debounce="debounce"
         autocomplete="off"
-        :class="'search-input'"
-        :style="{ height: this.inputHeight, ...this.inputStyle }"
+        :class="`search-input ${inputClass}`"
+        :style="inputStyleComputed"
         :autofocus="autofocus"
         @input="handleTextInput"
         @keydown.enter="handleEnterKeyDown"
@@ -73,6 +73,14 @@ export default {
   components: { Icon },
 
   props: {
+    isOpen: {
+      type: Boolean,
+      default: false
+    },
+    onOpenStyle: {
+      type: Object,
+      default: () => {}
+    },
     id: {
       type: String,
       default: '',
@@ -128,6 +136,10 @@ export default {
     styles: {
       type: String,
       default: ''
+    },
+    inputClass: {
+      type: String,
+      default: ''
     }
   },
 
@@ -136,6 +148,17 @@ export default {
       searchResultShow: false,
     }
   },
+
+  computed: {
+    inputStyleComputed() {
+      let result = { height: this.inputHeight, ...this.inputStyle }
+      if (this.isOpen) {
+        result = { ...result, ...this.onOpenStyle }
+      }
+      return result;
+    }
+  },
+
   watch: {
     searchResultShow(newVal, oldVal) {
       if (newVal !== oldVal) {
@@ -180,11 +203,25 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.search-mobile
+  @media (max-width: 575px)
+    height: 33px !important
+    color: $color-black-4 !important
+    font-size: 12px !important
+    background: $color-white-5 !important
+    border: none !important
+    border-radius: 8px !important
+    padding-left: 39px !important
+    width: 102% !important
+
 #brands-search
   input
     font-size: $font-size-12
 .search-input-wrapper
   position: relative
+
+  @media (max-width: 575px)
+    margin-left: 7px
 
   &.search-pill
     input.search-input
@@ -238,6 +275,10 @@ export default {
   img.icon-search
     z-index: 1
     margin-left: 12px
+    @media (max-width: 575px)
+      left: -5px !important
+      width: 14px
+      height: 14px
 
   .btn-clear
     position: absolute
