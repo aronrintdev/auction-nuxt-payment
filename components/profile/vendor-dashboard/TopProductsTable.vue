@@ -1,70 +1,95 @@
 <template>
-  <b-table
-    class="productTable"
-    borderless
-    no-border-collapse
-    :fields="fields"
-    :items="items"
-    tbody-tr-class="bg-white"
-  >
-    <template #cell(product)>
-      <div class="d-flex align-items-center gap-2">
-        <div class="col-thumb">
-          <ProductThumb />
-        </div>
-        <div>
-          <h4
-            class="font-secondary fw-6 fs-15 text-primary border-bottom border-primary mb-1"
-          >
-            <!-- TODO  -->
-            Jordan 4 Retro (2021)
-          </h4>
-          <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
-            {{ $t('vendor_dashboard.sku') }}: J-123456789
-          </h4>
-          <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
-            {{ $t('vendor_dashboard.colorway') }}: University Blue
-          </h4>
-        </div>
+  <div>
+    <div class="row my-5">
+      <div class="col-md-3">
+        <h1 class="font-secondary fs-24 fw-7 mb-0">
+          {{ $t('vendor_dashboard.top_products') }}
+        </h1>
       </div>
-    </template>
-    <template #cell(average_sale_price)="data">
-      <div class="d-flex align-items-center justify-content-center tdHeight">
-        <h4 class="font-secondary fw-5 fs-16 mb-0">{{ data.value }}</h4>
+      <div class="col-md-6 d-flex justify-content-center">
+        <NavGroup :value="activeNav" :data="menus" @change="navItem" />
       </div>
-    </template>
-    <template #cell(sales_this_month)="data">
-      <div class="d-flex align-items-center justify-content-center tdHeight">
-        <h4 class="font-secondary fw-5 fs-16 mb-0">
-          {{ data.value }} <span class="text-success text-sm">(+12.55%)</span>
-        </h4>
+      <div class="col-md-3 d-flex justify-content-end align-items-center">
+        <a href="#" class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0">{{
+        $t('vendor_dashboard.view_all') }}</a>
       </div>
-    </template>
-    <template #cell(total_sales)="data">
-      <div class="d-flex align-items-center justify-content-center tdHeight">
-        <h4 class="font-secondary fw-5 fs-16 mb-0">{{ data.value }}</h4>
-      </div>
-    </template>
-    <template #cell(chart)>
-      <div
-        class="d-flex align-items-center justify-content-center tdHeight position-relative"
+    </div>
+    <div class="my-5">
+      <b-table
+        class="productTable"
+        borderless
+        no-border-collapse
+        :fields="fields"
+        :items="topProducts"
+        tbody-tr-class="bg-white"
       >
-        <LineChart
-          :chart-data="datasets"
-          :options="chartOptions"
-          class="stats-graph"
-        ></LineChart>
-      </div>
-    </template>
-  </b-table>
+        <template #cell(product)='row'>
+          <div class="d-flex align-items-center gap-2">
+            <div class="col-thumb">
+              <ProductThumb
+                :src="row.item.image"
+                :product="row.item" />
+            </div>
+            <div>
+              <h4
+                class="font-secondary fw-6 fs-15 text-primary border-bottom border-primary mb-1"
+              >
+              {{row.item.name}}
+              </h4>
+              <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
+                {{ $t('vendor_dashboard.sku') }}: {{row.item.sku}}
+              </h4>
+              <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
+                {{ $t('vendor_dashboard.colorway') }}: {{row.item.colorway}}
+              </h4>
+            </div>
+          </div>
+        </template>
+        <template #cell(average_sale_price)="row">
+          <div class="d-flex align-items-center justify-content-center tdHeight">
+            <h4 class="font-secondary fw-5 fs-16 mb-0">{{ row.item.avg_sales_price }}</h4>
+          </div>
+        </template>
+        <template #cell(sales_this_month)="row">
+          <div class="d-flex align-items-center justify-content-center tdHeight">
+            <h4 class="font-secondary fw-5 fs-16 mb-0">
+              {{ row.item.sales_amount_this_month }} 
+              <span v-if='row.item.sales_percentage > 0' class="text-success text-sm">(+{{row.item.sales_percentage}}%)</span>
+              <span v-if='row.item.sales_percentage < 0' class="text-danger text-sm">(-{{row.item.sales_percentage}}%)</span>
+            </h4>
+          </div>
+        </template>
+        <template #cell(total_sales)="row">
+          <div class="d-flex align-items-center justify-content-center tdHeight">
+            <h4 class="font-secondary fw-5 fs-16 mb-0">{{ row.item.total_sales_amount }}</h4>
+          </div>
+        </template>
+        <template #cell(chart)>
+          <div
+            class="d-flex align-items-center justify-content-center tdHeight position-relative"
+          >
+            <LineChart
+              :chart-data="datasets"
+              :options="chartOptions"
+              class="stats-graph"
+            ></LineChart>
+          </div>
+        </template>
+      </b-table>
+    </div>
+  </div>
 </template>
 <script>
 import ProductThumb from '~/components/product/Thumb.vue'
+import NavGroup from '~/components/common/NavGroup.vue'
 export default {
   name: 'TopProductsTable',
-  components: { ProductThumb },
+  components: { NavGroup, ProductThumb },
   data() {
     return {
+      // Active Nav for the Toggle Button
+      activeNav: '',
+      topProducts:[],
       // TODO dummy data
       fields: [
         {
@@ -190,7 +215,36 @@ export default {
           },
         ],
       },
+      /** Todo need to make dynamic onces we have way of main categories in DB */
+      menus: [
+        { label: this.$t('vendor_dashboard.all'), value: '' },
+        { label: this.$t('vendor_dashboard.footwear'), value: '1' },
+        { label: this.$t('vendor_dashboard.apparel'), value: '2' },
+        {
+          label: this.$t('vendor_dashboard.accessories'),
+          value: '3',
+        },
+      ],
     }
+  },
+  mounted() {
+    this.getTopProducts()
+  },
+  methods: {
+    navItem(val) {
+      this.activeNav = val
+      this.getTopProducts();
+    },
+    getTopProducts() {
+      this.$axios
+        .get('/dashboard/vendor/top-products?category_id='+this.activeNav)
+        .then((res) => {
+          this.topProducts = res.data.data
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
+    },
   },
 }
 </script>

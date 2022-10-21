@@ -1,12 +1,57 @@
 <template>
-  <div class="offer-received-item-wrapper">
-
+  <div class="offer-received-item-wrapper" :class="section">
     <div class="row product-details">
-      <div v-if="showCheckBox" class="check-box position-absolute round position-relative">
-        <input :id="`checkbox-${offer.id}`" class="check-box invisible" type="checkbox" :value="offer.id" :checked="offerChecked.includes(offer.id) ? true : false" @change="toggleSelect" />
-        <label :for="`checkbox-${offer.id}`" class="position-absolute"></label>
+      <div class="col-12">
+        <div
+          v-if="hideButtons"
+          class="
+            tag-status
+            d-flex
+            align-items-center
+            justify-content-center
+            text-capitalize
+            text-center
+          "
+          :class="offerStatus"
+        >
+          {{ offerStatus }}
+        </div>
       </div>
-      <div class="col-xs-4">
+
+      <div class="check-box position-absolute round position-relative">
+        <div v-if="showCheckBox">
+          <input
+            :id="`checkbox-${offer.id}`"
+            class="check-box invisible"
+            type="checkbox"
+            :value="offer.id"
+            :checked="offerChecked.includes(offer.id) ? true : false"
+            @change="toggleSelect"
+          />
+          <label
+            :for="`checkbox-${offer.id}`"
+            class="position-absolute"
+          ></label>
+        </div>
+
+        <div
+          v-if="hideButtons"
+          class="check-box col-xs-1 d-flex justify-content-end"
+        >
+          <span
+            class="view-more-option text-center"
+            @click="$emit('showEdit', offer)"
+          >
+            <img
+              :src="require('~/assets/img/icons/extra_dot.png')"
+              alt="view more"
+            />
+          </span>
+        </div>
+        <!-- popup for edit offer -->
+      </div>
+
+      <div v-if="!hideButtons" class="col-xs-4 m-auto">
         <img
           class="product-mobile-img"
           :src="productImg || fallBackImg"
@@ -14,9 +59,25 @@
           @error="imageLoadError"
         />
       </div>
+
+      <div v-if="hideButtons" class="col-xs-4" @click="showDetailPage">
+        <img
+          class="product-mobile-img"
+          :src="productImg || fallBackImg"
+          alt="product-img"
+          @error="imageLoadError"
+        />
+      </div>
+
       <div class="col-xs-8 product-mobile-details">
-        <div class="product-name">{{ productName }}</div>
-        <div class="product-sku">
+        <div v-if="!hideButtons" class="product-name">{{ productName }}</div>
+        <div v-if="hideButtons" class="product-name" @click="showDetailPage">
+          {{ productName }}
+        </div>
+        <div v-if="hideButtons" class="product-sku mt-2">
+          {{ $t('common.sku') }}&colon; {{ productSku }}
+        </div>
+        <div v-if="!hideButtons" class="product-sku">
           {{ $t('common.sku') }}&colon; {{ productSku }}
         </div>
         <div class="product-colorway-size">
@@ -41,24 +102,33 @@
         <span class="offer-details-key">
           {{ $t('selling_page.offer_date') }}&colon;
         </span>
-        <span class="offer-details-value text-right">{{ offerDate | formatDate }}</span>
+        <span class="offer-details-value text-right">{{
+          offerDate | formatDate
+        }}</span>
       </div>
     </div>
-    <div class="row product-details justify-content-center">
+    <div v-if="!hideButtons" class="row product-details justify-content-center">
       <!-- Show accept and declined button based on status -->
       <div
         v-if="showAcceptDeclineButton && !hideOnConfirm"
         class="col-xs-12 d-flex justify-content-around"
       >
-        <b-button variant="outline" class="decline-btn align-items-center text-center" @click="onDecline">
+        <b-button
+          variant="outline"
+          class="decline-btn align-items-center text-center"
+          @click="onDecline"
+        >
           {{ $t('common.decline') }}
         </b-button>
-        <b-button variant="outline" class="accept-btn align-items-center text-center" @click="onAccept">
+        <b-button
+          variant="outline"
+          class="accept-btn align-items-center text-center"
+          @click="onAccept"
+        >
           {{ $t('common.accept') }}
         </b-button>
       </div>
       <!-- Show accept and declined button based on status ends -->
-
       <div v-if="hideOnConfirm" class="col-xs-12 text-center">
         <b-spinner variant="color-blue-2"></b-spinner>
       </div>
@@ -119,13 +189,23 @@ export default {
 
     selectedAll: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     offerChecked: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
+
+    hideButtons: {
+      type: Boolean,
+      default: false,
+    },
+
+    section: {
+      type: String,
+      default: '',
+    },
   },
 
   data() {
@@ -202,15 +282,21 @@ export default {
     },
 
     selectedAll(value) {
-      if(value){
+      if (value) {
         this.selected = true
-      }else{
+      } else {
         this.selected = false
       }
-    }
+    },
   },
 
   methods: {
+    // Open the detailed page of selected offer
+    showDetailPage() {
+      this.$router.push(
+        `/profile/offers-placed/placed-offer-details/${this.offer.id}`
+      )
+    },
     // Image on load error
     imageLoadError(event) {
       event.target.src = this.fallBackImg
@@ -219,7 +305,10 @@ export default {
     // Checkbox on select
     toggleSelect(event) {
       this.selected = !this.selected
-      this.$emit('selectedItem', { id: event.target.value, checked: this.selected })
+      this.$emit('selectedItem', {
+        id: event.target.value,
+        checked: this.selected,
+      })
     },
 
     // On accept button click
@@ -251,6 +340,13 @@ export default {
         .catch((err) => {
           this.$logger.logToServer('Offer accept decline', err.response)
         })
+    },
+
+    // Guide to product detail page for profile offer placed
+    viewDetails() {
+      this.$router.push(
+        `/profile/offers-placed/PlacedOfferDetails/${this.offer.id}`
+      )
     },
   },
 }
@@ -378,7 +474,6 @@ export default {
     top: 5px
     transform: rotate(-45deg)
     width: 12px
-
 
   & input[type="checkbox"]:checked + label
     background-color: $color-blue-20

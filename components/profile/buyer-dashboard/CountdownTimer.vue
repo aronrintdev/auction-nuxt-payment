@@ -33,10 +33,15 @@
 </template>
 <script>
 export default {
+  props: {
+    countDownToTime: {
+      type: Number,
+      default: new Date('Sep 26, 2022 00:00:00').getTime()
+    }
+  },
   data() {
     return {
       // TODO Dummy data
-      countDownToTime: new Date('Sep 26, 2022 00:00:00').getTime(),
       days: null,
       hours: null,
       minutes: null,

@@ -133,6 +133,7 @@
     "sneakers_sizes": "Sneaker Sizes",
     "apparel_sizes": "Apparel Sizes",
     "accessories_sizes": "Accessories Sizes",
+    "browse": "Browse",
     "categories": {
       "sneakers": "Sneakers",
       "apparel": "Apparel",
@@ -3614,7 +3615,8 @@
       "declined": "Declined",
       "confirmed": "Confirmed",
       "success": "Success",
-      "complete": "Complete"
+      "complete": "Complete",
+      "voided": "Voided"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
@@ -3695,6 +3697,7 @@
     "delete_expired": "Delete Expired Bids",
     "items": "Items",
     "auto_bid_to": "Autobid to ",
+    "highest_bid_info": "The highest bid for each auction is displayed",
     "messages": {
       "saved": "Your changes have been saved!"
     },
@@ -3732,12 +3735,14 @@
     },
     "success_deleted": "Your selected items have been deleted",
     "headers": {
+      "auction_id": "Auction ID",
       "product": "Product",
       "auction_type": "Type",
       "auto_bid": "Autobid",
       "bid_amt": "Bid Amt.",
       "time_remaining": "Time Remaining",
-      "action": "Action"
+      "action": "Action",
+      "highest_bid_amt": "Highest Bid Amount"
     },
     "clear_filters": "Clear All Filters",
     "auction_types": {
@@ -4750,6 +4755,22 @@
   },
   "placed_offers": {
     "heading": "Placed Offers",
+    "status": "Status",
+    "size": "Size",
+    "list_id": "List ID",
+    "listed_on": "Listed On",
+    "expires_on": "Expires On",
+    "priced_at": "Priced at",
+    "min_offer": "Min Offer.",
+    "edit_offer": "Edit Offer",
+    "edit_offer_cancel": "Cancel",
+    "edit_offer_amount": "Edit offer amount",
+    "edit_offer_delete": "Delete Offer",
+    "placed_offers_product_summary": "Product Summary",
+    "placed_offers_your_placed_offers": "Your Placed Offers",
+    "responsive_heading": "Offers",
+    "responsive_detailed_heading": "Offer",
+    "highest_offer": "Highest Offer",
     "your_placed_offers": "Your Placed Offers ({count})",
     "table": {
       "products": "Products",
@@ -4781,7 +4802,11 @@
     "remove_from_list_message": "Are you sure you would like to remove from list?",
     "delete_selected": "Delete Selected",
     "multiple_delete": "Items Deleted Successfully",
-    "no_result": "No Data Found"
+    "no_result": "No Data Found",
+    "no_outgoing_offers": "No outgoing offers have been found.",
+    "place_an_offer": "Place an offer today!",
+    "offer_delete_message": "Your selected offers have been deleted",
+    "offer_save_edit": "Offer edited successfully!"
   },
   "vendor_hub": {
     "tabs": {
@@ -5143,6 +5168,7 @@
   "vendor_dashboard": {
     "title": "Dashbaord",
     "bronze_seller": "Bronze Seller",
+    "seller": "Seller",
     "view_details": "View Details",
     "view_all": "View All",
     "total_sales": "Total Sales",
@@ -5216,7 +5242,8 @@
     "types": {
       "buying": "Buying",
       "selling": "Selling",
-      "communication": "Deadstock Comms"
+      "communication": "Deadstock Comms",
+      "comms": "Deadstock Comms"
     },
     "start": "Start",
     "end": "End",

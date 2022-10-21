@@ -203,11 +203,11 @@ export default {
       @include body-5-normal
       color: $color-black-1
 @media (min-width: 320px) and (max-width:330px)
-.add-amount-item
-  width: 82px
-.accordian-filter-collapse
-  width: fit-content
-  block-size: fit-content
+  .add-amount-item
+    width: 82px
+  .accordian-filter-collapse
+    width: fit-content
+    block-size: fit-content
 @media (max-width: 320px)
   .add-amount-item
     width: 82px
