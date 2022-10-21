@@ -9,6 +9,71 @@
       max-height="90vh"
       :rounded="true"
     >
+      <div class="filtersSection">
+        <div class="mt-1 ml-2">
+          <span class="filtersHeading">Sort</span> {{getSortOrder}}
+          <b-form-radio-group
+            class="radios mt-1 mb-1 sorted"
+            v-model="sortFilters"
+            :options="sortOptions"
+            :checked="getSortOrder"
+          />
+        </div>
+        <hr class="hr" />
+        <div class="mt-1 ml-2">
+          <div class="d-flex" v-b-toggle="'collapse-1'">
+            <div class="filtersHeading">
+              Category
+            </div>
+            <div class="d-flex">
+              <!--          <span class="selected-catgory pull-left">{{categoryFilter}}</span>-->
+<!--              <img  v-if="isVisible" class="arrow-image pull-right" :src="require('~/assets/img/upArrow.svg')"/>-->
+<!--              <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/downArrow.svg')"/>-->
+            </div>
+          </div>
+          <b-collapse id="collapse-1" v-model="isVisible">
+            <div class="d-flex mt-3">
+              <div :class="[getCategoryFilterSelection.category == 'footwear' ? 'selected-item' : 'footwear-box']" @click="category('footwear')">Footwear</div>
+              <div :class="[getCategoryFilterSelection.category == 'apparel' ? 'selected-item' : 'apparel-box']" class="ml-2" @click="category('apparel')">Apparel</div>
+              <div :class="[getCategoryFilterSelection.category == 'accessories' ? 'selected-item' : 'accessories-box']" class="ml-2"  @click="category('accessories')">Accessories</div>
+            </div>
+          </b-collapse>
+        </div>
+        <hr class="hr" />
+        <div class="mt-1 ml-2">
+          <div class="d-flex" v-b-toggle="'collapse-sizeType'">
+            <div class="filtersHeading">
+              Size Type
+            </div>
+            <div class="d-flex">
+              <!--          <span class="selected-catgory pull-left">{{sizeTypesFilter}}</span>-->
+<!--              <img  v-if="isVisibleSizeType" class="arrow-image pull-right" :src="require('~/assets/img/upArrow.svg')"/>-->
+<!--              <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/downArrow.svg')"/>-->
+            </div>
+          </div>
+          <b-collapse id="collapse-sizeType" v-model="isVisibleSizeType">
+            <div class="d-flex mt-3">
+              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('men')) ? 'selected-item' : 'footwear-box']" id="men-box" @click="onSelect('men')">Men</div>
+              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('women')) ? 'selected-item' : 'footwear-box']"  class="ml-2" id="women-box" @click="onSelect('women')">Women</div>
+              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('unisex')) ? 'selected-item' : 'footwear-box']" class="ml-2"  id="unisex-box" @click="onSelect('unisex')">Unisex</div>
+            </div>
+            <div class="d-flex mt-3">
+              <div :class="[(this.selectedSizeTypes !== null  && selectedSizeTypes.includes('child')) ? 'selected-item' : 'footwear-box']" @click="onSelect('child')">Child</div>
+              <div :class="[(this.selectedSizeTypes !== null  && selectedSizeTypes.includes('youth'))? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('youth')">Youth</div>
+              <div  :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('toddler')) ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('toddler')">Toddler</div>
+            </div>
+            <div class="d-flex mt-3">
+              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('infant')) ? 'selected-item' : 'footwear-box']" @click="onSelect('infant')">Infant</div>
+              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('preschool')) ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('preschool')">Preschool</div>
+              <div :class="[(this.selectedSizeTypes !== null && selectedSizeTypes.includes('streetwear')) ? 'selected-item' : 'footwear-box']" class="ml-2" @click="onSelect('streetwear')">Streetwear</div>
+            </div>
+          </b-collapse>
+        </div>
+        <hr class="hr" />
+      </div>
+
+
+
       <div class="col-md-12 d-flex justify-content-center">
         <div  class="filter-options col-md-10 ">
           <b-row class="d-flex justify-content-start m-5">
@@ -127,13 +192,19 @@ export default {
   },
   data() {
     return {
+      isVisible: false,
+      isVisibleSizeType:false,
+      isVisibleSizes:false,
+      filterSection:false,
       showFilters: false,
-      sortOptions: {
-        relevance: this.$t('trades.index.browse.relevance'),
-        end_date_ascending: this.$t('trades.index.browse.end_date_ascending'),
-        end_date_descending: this.$t('trades.index.browse.end_date_descending'),
-        most_viewed: this.$t('trades.index.browse.most_viewed')
-      },
+      sortFilters: null,
+      sortOptions: [
+        { text: this.$t('trades.index.browse.relevance'), value: 'relevance' },
+        { text: this.$t('trades.index.browse.end_date_ascending'), value: 'end_date_ascending' },
+        { text: this.$t('trades.index.browse.end_date_descending'), value: 'end_date_descending' },
+        { text: this.$t('trades.index.browse.most_viewed'), value: 'most_viewed' },
+
+      ],
       categories: [
         {text: this.$t('trades.index.browse.categories.footwear'), value: 'sneakers'},
         {text: this.$t('trades.index.browse.categories.apparel'), value: 'apparel'},
@@ -147,6 +218,12 @@ export default {
       searchedText: '',
       searchedItems: []
     }
+  },
+  watch:{
+    sortFilters(sort) {
+      console.log('sort',sort)
+      this.sortFilters = sort
+    },
   },
   computed: {
     ...mapGetters('trade', [
@@ -181,9 +258,30 @@ export default {
     ...mapActions('trade', ['fetchTradeBrowseFilters']), // get filters from api call by calling action from store
 
     openBottomFilter() {
-      console.log('clci')
+      console.log('bottomsheet')
       this.$refs.browseFiltersSheet.open();
     },
+    category(cat) {
+      console.log('cat',cat)
+      this.selectedCategories = cat
+    },
+
+    onSelect(item) {
+      if(this.sizeTypesFilter !== null && this.sizeTypesFilter.includes(item)) {
+        const checkArray = this.sizeTypesFilter.indexOf(item)
+        this.sizeTypesFilter.splice(checkArray,1)
+      } else if(this.getTradesFilter.sizeType !== undefined && this.getTradesFilter.sizeType !== null && this.getTradesFilter.sizeType.length > 0)  {
+        if(this.getTradesFilter.sizeType.includes(item)) {
+          this.$store.commit('trades/setTradeFiltersRemove', item)
+        } else {
+          this.$store.commit('trades/setTradeFiltersUpdated', item)
+        }
+      }
+      else {
+        this.sizeTypesFilter.push(item)
+      }
+    },
+
     // capitalize size type firs letters
     prettySizeTypeName(sizeType){
       return capitalizeFirstLetter(sizeType)
@@ -258,12 +356,150 @@ export default {
 </script>
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+.filtersHeading
+  @include body-13
+  font-weight: 700
+  font-family: $font-sp-pro
+  color: #667799
+.radios
+  @include body-5
+  font-weight: $normal
+  color: #424242
+  display: grid
+.hr
+  border-top: 1px solid #E1E1E1
+  width: 318px
+.cat-box
+  width: 99px
+  height: 45px
+  border-radius: 3px
+  background: #FFFFFF
+  border: 1px solid #999999
+  @include body-5
+  font-weight: $normal
+  font-family: $font-sp-pro
+  color: #999999
+  padding-top: 10px
+  padding-left: 14px
+  cursor: pointer
+.footwear-box
+  width: 99px
+  height: 45px
+  border-radius: 3px
+  background: #FFFFFF
+  border: 1px solid #999999
+  @include body-5
+  font-weight: $normal
+  font-family: $font-sp-pro
+  color: #999999
+  padding-top: 10px
+  padding-left: 20px
+  cursor: pointer
+.apparel-box
+  width: 99px
+  height: 45px
+  border-radius: 3px
+  background: #FFFFFF
+  border: 1px solid #999999
+  @include body-5
+  font-weight: $normal
+  font-family: $font-sp-pro
+  color: #999999
+  padding-top: 10px
+  padding-left: 25px
+  cursor: pointer
+.accessories-box
+  width: 99px
+  height: 45px
+  border-radius: 3px
+  background: #FFFFFF
+  border: 1px solid #999999
+  @include body-5
+  font-weight: $normal
+  font-family: $font-sp-pro
+  color: #999999
+  padding-top: 10px
+  padding-left: 10px
+  cursor: pointer
+.sorted
+  display: grid !important
 .filter-options
   background-color: $color-white-1
 .image-filter
   position: relative
   margin-top: -11rem
   margin-right: 2rem
+  .reset
+  margin-left: 11px
+  padding-top: 0.5rem
+  padding-left: 3rem
+  width: 135px
+  height: 40px
+  border-radius: 20px
+  border: 1px solid #000000
+  color: #000000
+  @include body-13
+  font-family: $font-sp-pro
+  font-weight: $medium
+  cursor: pointer
+  @media (min-width: 300px)  and (max-width: 349px)
+    padding-left: 25px
+.filter-btn
+  width: 135px
+  height: 40px
+  background: #667799
+  border-radius: 20px
+  font-family: $font-sp-pro
+  font-weight: $medium
+  @include body-13
+  line-height: 19px
+  text-align: center
+  color: #FFFFFF
+  cursor: pointer
+  margin-left: 3rem
+.selected-catgory
+  @include body-13
+  font-weight: $normal
+  font-family: $font-sp-pro
+  color: #000000
+//margin-left: 10rem
+.selected-item
+  width: 99px
+  height: 45px
+  border-radius: 3px
+  border: 1px solid #000
+  @include body-5
+  font-weight: $medium
+  font-family: $font-sp-pro
+  color: #999999
+  padding-top: 10px
+  padding-left: 20px
+  cursor: pointer
+  background: #F2F2F2
+.selected-size
+  width: 42px
+  height: 42px
+  border-radius: 3px
+  border: 1px solid #000
+  @include body-5
+  font-weight: $medium
+  font-family: $font-sp-pro
+  color: #999999
+  padding: 5px
+  cursor: pointer
+  background: #F2F2F2
+  margin: 2px
+.size-box
+  width: 42px
+  height: 42px
+  border-radius: 3px
+  background: #FFFFFF
+  border: 1px solid #999999
+  @include body-5
+  font-weight: $normal
+  font-family: $font-sp-pro
+  color: #999999
+  padding: 5px
 .filter-btn
   background-color: $color-white-1
   border: none
