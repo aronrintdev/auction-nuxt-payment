@@ -61,6 +61,7 @@
             <td>{{ $t('orders.vendor_payout') }}</td>
             <td class="text-right">
               ${{ order.total | formatPrice }}
+              <!-- order.commission.amount -->
             </td>
           </tr>
           <tr>
