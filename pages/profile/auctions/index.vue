@@ -121,12 +121,15 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-around align-items-center mt-4">
+    <div
+      class="d-flex justify-content-around align-items-center mt-4"
+    >
       <NavGroup
         v-model="status"
         :data="DURATIONS.filter(a => a.value !== 'delisted')"
         nav-key="duration"
         class="duration-nav"
+        :class="{'flex-1 w-100 text-center' : isMobileSize}"
         @change="handleMethodNavClick"
       />
     </div>
