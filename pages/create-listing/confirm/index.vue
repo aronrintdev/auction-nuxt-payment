@@ -283,8 +283,7 @@ export default {
     padding: 20px 16px
     background: transparent
     h2.title
-      font-size: 18px
-      line-height: 22px
+      @include body-3
       margin-bottom: 12px
     .auction-items
       height: auto
@@ -292,8 +291,7 @@ export default {
       .auction-item
         padding: 0
         &-title
-          font-size: 14px
-          line-height: 17px
+          @include body-5
           margin-bottom: 12px
           font-weight: $medium
         .w-90
@@ -302,7 +300,6 @@ export default {
       width: 42px
       height: 42px
     .mobile-btns
+      @include body-21
       font-weight: $medium
-      font-size: 13px
-      line-height: 16px
 </style>

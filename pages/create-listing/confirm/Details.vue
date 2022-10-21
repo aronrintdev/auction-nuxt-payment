@@ -248,22 +248,19 @@ export default {
     padding: 20px 16px
     background: transparent
     .font-weight-bold
-      font-size: 12px
-      line-height: 15px
+      @include body-9
     .form-dropdown-wrapper::v-deep
       .btn-dropdown
+        @include body-9
         border: 1px solid $white-5
         border-radius: 10px
-        font-size: 12px
-        line-height: 15px
         padding: 17px 14px
         font-weight: $normal
         height: auto
     .form-input-wrapper::v-deep
       .form-input
+        @include body-9
         font-weight: $medium
-        font-size: 12px
-        line-height: 15px
         padding: 17px 14px
         height: auto
         border-radius: 10px
@@ -304,10 +301,8 @@ export default {
         padding: 0
         visibility: hidden
       & > span
-        flex: 1
+        @include body-8
         font-weight: $normal
-        font-size: 15px
-        line-height: 18px
         color: $white
         flex: 1
         padding: 4px
@@ -318,10 +313,9 @@ export default {
           box-shadow: 0px 2px 4px rgba($black, 0.15), 0px 3px 8px rgba($black, 0.15)
           border-radius: 2px
     .next-button.btn
+      @include body-21
       background-color: $color-blue-20
       border-color: $color-blue-20
-      font-size: 13px
-      line-height: 16px
       padding: 12px 40px
       height: auto
 .reserve-info

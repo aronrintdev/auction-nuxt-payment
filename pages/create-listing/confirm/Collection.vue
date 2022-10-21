@@ -461,12 +461,12 @@ export default {
       .gray
         background: $color-white-5
       &-label
-        font-weight: 600
+        font-weight: $medium
         font-size: 12px
         line-height: 15px
         color: $black
       &-value
-        font-weight: 500
+        font-weight: $normal
         font-size: 12px
         line-height: 15px
         color: $color-gray-6

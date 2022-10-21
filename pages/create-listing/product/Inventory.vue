@@ -525,9 +525,8 @@ export default {
 
 .container-product-auction
   .size-bar
+    @include body-8
     font-weight: $normal
-    font-size: 15px
-    line-height: 18px
     color: $black
     .button
       font-weight: $medium
@@ -548,15 +547,13 @@ export default {
           width: 100%
           padding: 0
           .card
+            @include body-9
             width: 50px
             height: 50px
-            font-size: 12px
-            line-height: 15px
             border-width: 1px
             margin: 4px 0 0
           .price
-            font-size: 10px
-            line-height: 12px
+            @include body-18
             letter-spacing: 0.005em
             margin-top: 10px
 
@@ -565,27 +562,23 @@ export default {
     .size-selector-box
       width: 100%
     .size-bar
+      @include body-21
       font-weight: $normal
-      font-size: 13px
-      line-height: 16px
       .button
         font-weight: $normal
         color: $black
     .last-sale-price
+      @include body-5
       font-weight: $normal
-      font-size: 14px
-      line-height: 17px
       color: $color-gray-6
     .font-weight-bold
-      font-size: 12px
-      line-height: 15px
+      @include body-9
     .duration-section
       .form-dropdown-wrapper::v-deep
         .btn-dropdown
+          @include body-9
           border: 1px solid $white-5
           border-radius: 10px
-          font-size: 12px
-          line-height: 15px
           padding: 17px 14px
           font-weight: $normal
           height: auto
@@ -596,22 +589,19 @@ export default {
         height: 30px
         background: $color-gray-4
       .label
+        @include body-21
         font-weight: $medium
-        font-size: 13px
-        line-height: 16px
         color: $black
       .value
+        @include body-5
         font-weight: $normal
-        font-size: 14px
-        line-height: 17px
         color: $color-blue-20
     .reserve-section,
     .bid-section
       .form-input-wrapper::v-deep
         .form-input
+          @include body-9
           font-weight: $medium
-          font-size: 12px
-          line-height: 15px
           padding: 17px 14px
           height: auto
           border-radius: 10px
@@ -653,18 +643,15 @@ export default {
       border-radius: 8px
       padding: 20px
       .title
+        @include body-5
         font-weight: $medium
-        font-size: 14px
-        line-height: 17px
         color: $black
     .product-details
       &-title
-        font-size: 13px
-        line-height: 18px
+        @include body-30
         font-weight: $medium
       &-value
-        font-size: 13px
-        line-height: 18px
+        @include body-30
         color: $color-gray-5
         font-weight: $normal
     .latest-sales-graph
@@ -674,18 +661,16 @@ export default {
       .child-container::v-deep
         margin-top: 0
         h2
+          @include body-5
           font-family: $font-montserrat
           font-weight: $medium
-          font-size: 14px
-          line-height: 17px
           color: $black
         .period-block
           flex-direction: row
           justify-content: flex-end
           .btn
+            @include body-21
             font-weight: $medium
-            font-size: 13px
-            line-height: 16px
             color: $color-gray-47
             margin: 0 8px
             &.active

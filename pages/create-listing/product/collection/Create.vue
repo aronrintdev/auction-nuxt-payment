@@ -331,15 +331,13 @@ export default {
     background: transparent
     .no_item_found
       h3
-        font-size: 15px
-        margin-bottom: 20px
+        @include body-8
           
     .auction-item
       padding-top: 20px
       &-title
+        @include body-5
         font-weight: $medium
-        font-size: 14px
-        line-height: 17px
         color: $black
         margin-bottom: 12px
       .item
@@ -361,38 +359,34 @@ export default {
             padding-right: 1em
             .product
               &-name
-                font-size: 14px
+                @include body-5
                 font-weight: $medium
               &-sku,
               &-size,
               &-color,
               &-condition
+                @include body-21
                 font-weight: $regular
-                font-size: 13px
-                line-height: 16px
                 color: $color-gray-6
         .background-gray
           background: $color-white-5
         .label
+          @include body-9
           font-weight: $medium
-          font-size: 12px
-          line-height: 15px
           color: $black
         .value
+          @include body-9
           font-weight: $normal
-          font-size: 12px
-          line-height: 15px
           color: $color-gray-6
           text-transform: capitalize
         .quantity-form
           input
+            @include body-9
             margin-top: 4px
             border: 1px solid $white-5
             border-radius: 10px
             background: transparent
             font-weight: $medium
-            font-size: 12px
-            line-height: 15px
             padding: 20px
             height: auto
     .save-draft.btn
@@ -411,23 +405,20 @@ export default {
       .gray
         background: $color-white-5
       &-label
-        font-weight: 600
-        font-size: 12px
-        line-height: 15px
+        @include body-9
+        font-weight: $medium
         color: $black
       &-value
-        font-weight: 500
-        font-size: 12px
-        line-height: 15px
+        @include body-9
+        font-weight: $normal
         color: $color-gray-6
         text-transform: capitalize
       .btn
+        @include body-21
         background: $color-blue-20
         border-color: $color-blue-20
         font-weight: $medium
         letter-spacing: -0.04em
-        font-size: 13px
-        line-height: 16px
         padding: 12px 40px
         height: auto
 </style>

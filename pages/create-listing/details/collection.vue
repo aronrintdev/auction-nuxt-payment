@@ -274,18 +274,15 @@ export default {
       .custom-card .card-body
         padding: 12px
       .heading-1-medium
-        font-size: 16px
-        line-height: 19px
+        @include body-4
       .body-4-medium
-        font-size: 12px
-        line-height: 16px
+        @include body-9
       
     .auction-item
       padding-top: 20px
       &-title
+        @include body-5
         font-weight: $medium
-        font-size: 14px
-        line-height: 17px
         color: $black
         margin-bottom: 12px
       .item
@@ -307,27 +304,24 @@ export default {
             padding-right: 1em
             .product
               &-name
-                font-size: 14px
+                @include body-5
                 font-weight: $medium
               &-sku,
               &-size,
               &-color,
               &-condition
+                @include body-21
                 font-weight: $regular
-                font-size: 13px
-                line-height: 16px
                 color: $color-gray-6
         .background-gray
           background: $color-white-5
         .label
+          @include body-9
           font-weight: $medium
-          font-size: 12px
-          line-height: 15px
           color: $black
         .value
+          @include body-9
           font-weight: $normal
-          font-size: 12px
-          line-height: 15px
           color: $color-gray-6
           text-transform: capitalize
     .collection-details-info
@@ -339,14 +333,12 @@ export default {
       .gray
         background: $color-white-5
       &-label
-        font-weight: 600
-        font-size: 12px
-        line-height: 15px
+        @include body-9
+        font-weight: $meidum
         color: $black
       &-value
-        font-weight: 500
-        font-size: 12px
-        line-height: 15px
+        @include body-9
+        font-weight: $normal
         color: $color-gray-6
         text-transform: capitalize
 </style>
