@@ -44,9 +44,7 @@
         >
           <ProductThumb
             :product="product"
-            width="39"
-            height="39"
-            class="mr-2 flex-shrink-0"
+            class="mr-2 flex-shrink-0 product-img"
           />
           <div class="flex-grow-1 text-truncate">{{ product.name }}</div>
           <Button
@@ -268,4 +266,7 @@ export default {
 
   .btn-add-to-inventory
     @include body-4-normal
+.product-img
+  width: 39px 
+  height: 39px   
 </style>
