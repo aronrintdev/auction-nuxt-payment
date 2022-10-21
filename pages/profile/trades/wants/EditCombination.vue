@@ -4,16 +4,44 @@
                    :combinationId="getUpdateCombinations.combination_id" productFor="wantsList"/>
         <add-want-item v-else-if="addWantItem" :combinationId="getUpdateCombinations.combination_id"/>
         <div :style="{ background: '#F4F4F4' }" v-else>
-            <div class="back-to-search pl-4 pt-4" role="button" @click="backWants()">
+            <div class="header-section pt-4">
+                <div 
+                    class="back-to-search text-center text-sm-left" 
+                    role="button" 
+                    @click="backWants()"
+                >
+                    <b-icon icon="chevron-left" aria-hidden="true" class="mr-1"></b-icon>
+                    {{ $t('trades.wants_listing.back_to_wants') }}
+                </div>
+                <div class="d-flex flex-column flex-sm-row align-items-center 
+                            justify-content-sm-between justify-content-lg-start"
+                >
+                    <div class="create-trade-heading pt-3">
+                        {{ $t('trades.wants_listing.edit_combination', { 0: getUpdateCombinations.combination_id }) }}
+                    </div>
+                    <div 
+                        v-if="getUpdateCombinations.combination_items.length < THREE_ITEMS" 
+                        class="add-item pl-sm-3"
+                        role="button" 
+                        @click="addNewItem"
+                    >
+                        {{ $t('trades.wants_listing.add_another_item') }}
+                    </div>
+                </div>
+                <div class="create-trade-sub-heading text-center text-sm-left mt-2 mb-4">
+                    {{ $t('trades.wants_listing.edit_or_add_new_items_to_your_combination') }}
+                </div>
+            </div>
+            <!-- <div class="back-to-search pt-4" role="button" @click="backWants()">
                 <b-icon icon="chevron-left" aria-hidden="true" class="mr-1"></b-icon>
                 {{ $t('trades.wants_listing.back_to_wants') }}
             </div>
             <b-row class="pt-3">
-                <div class="col-xl-6 px-2">
+                <div class="heading col-xl-6 px-2">
                     <div class="px-4 d-flex flex-column flex-sm-row 
                                 align-items-center justify-content-sm-between justify-content-lg-start"
                     >
-                        <div class="create-trade-heading pl-0">
+                        <div class="create-trade-heading pt-2">
                             {{ $t('trades.wants_listing.edit_combination', {0: getUpdateCombinations.combination_id}) }}
                         </div>
                         <div 
@@ -29,7 +57,7 @@
                         {{ $t('trades.wants_listing.edit_or_add_new_items_to_your_combination') }}
                     </div>
                 </div>
-            </b-row>
+            </b-row> -->
             <div 
                 :style="{ marginBottom: '20px' }"
                 v-for="(item, index) in getUpdateCombinations.combination_items" 
@@ -52,8 +80,8 @@
                                 {{ item.name ? item.name : item.product.name }}
                             </div>
                             <div class="confirm-trade-item-detail mt-1">{{
-                                    $t('trades.create_listing.vendor.wants.sku')
-                                }}:{{ item.sku ? item.sku : item.product.sku }}
+                                    $t('common.sku')
+                                }}: {{ item.sku ? item.sku : item.product.sku }}
                             </div>
                             <div class="confirm-trade-item-detail mt-1">{{
                                     $t('trades.create_listing.vendor.wants.colorway')
@@ -334,5 +362,14 @@ export default {
 
 .line-height-17
     line-height: 17px
+
+.heading
+    @media (min-width: 576px)
+        margin-left: 30px
+
+.header-section
+    @media (min-width: 576px)
+        padding-left: 53px
+        padding-right: 28px
 
 </style>

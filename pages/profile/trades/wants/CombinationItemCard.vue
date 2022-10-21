@@ -31,6 +31,7 @@
                 <div 
                   role="button" 
                   @click="editWant"
+                  class="d-flex align-items-center"
                 >
                   <img 
                     :src="require('~/assets/img/icons/pencil-gray.svg')" 
@@ -42,6 +43,7 @@
                 <div
                   role="button" 
                   @click="deleteWant"
+                  class="d-flex align-items-center"
                 >
                   <img 
                     :src="require('~/assets/img/icons/Delete.svg')" 

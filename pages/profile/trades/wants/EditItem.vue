@@ -7,17 +7,21 @@
       </div>
       <div class="d-flex flex-column col-6 justify-content-center align-items-center">
         <span class="label">{{ $t('common.colorway') }}</span>
-        <span class="value">{{ product.product.colorway }}</span>
+        <span 
+          class="value text-truncate"
+        >
+          {{ product.product.colorway }}
+        </span>
       </div>
     </div>
 
     <div class="d-flex flex-column justify-content-center">
-      <div class="d-flex flex-column flex-md-row">
-        <div class="col-md-4 col-xl-5">
+      <div class="d-flex flex-column flex-xl-row">
+        <div class="col-xl-5">
           <ProductImageViewer v-if="!product.product.has360Images" :product="product.product" />
           <ProductImageViewerMagic360 v-if="product.product.has360Images" :product="product.product" />
         </div>
-        <div class="col-md-8 col-xl-5">
+        <div class="col-xl-5">
           <p class="mt-3 mb-0 title">{{ product.product.name }}</p>
           <p class="custom-border">
             <span class="last-sale">{{ $t('product_page.last_sale') }}: $250.00</span>
@@ -176,13 +180,12 @@
           </div>
 
         </div>
-        <div class="col-xl-1"></div>
       </div>
 
       <div class="d-none d-sm-block">
-        <div class="product-details">{{ $t('orders.product_details') }}</div>
-        <div class="mt-3 d-flex justify-content-between">
-          <div class="col-3">
+        <div class="product-details mx-2">{{ $t('orders.product_details') }}</div>
+        <div class="mt-3 d-flex">
+          <div class="col-2 mr-2">
             <div class="product-details-label">{{ $t('common.sku') }}:</div>
             <div class="product-details-label">{{ $t('common.colorway') }}:</div>
             <div class="product-details-label">{{ $t('common.retail_price') }}:</div>
@@ -196,26 +199,20 @@
               {{ product.product.release_date || $t('products.box_conditions.none') }}
             </div>
           </div>
-          <div class="col-5">
+          <!-- <div class="col-5">
             <div class="product-details-label">{{ $t('rewards.description') }}:</div>
             <div>Lorem ipsum dolor dit amet</div>
-          </div>
+          </div> -->
         </div>
       </div>
 
-      <div class="custom-shadow px-2 mt-5">
+      <div class="custom-shadow px-2 mt-5 mb-3">
         <ProductLatestSales
-          :style="{ marginTop: '0 !important', padding: 0}"
+          :style="{ marginTop: '0 !important', padding: 0, marginBottom: '20px' }"
           :value="product.latest_sales"
           :sku="product.sku"
           class="responsive-chart"
-          :headerStyle="{
-            fontFamily: 'Montserrat',
-            fontWeight: 600,
-            fontSize: '14px',
-            color: '#000',
-            height: '30px'
-          }"
+          headerClass="responsive-header"
           :labelsStyle="{
             display: 'flex',
             flexDirection: 'row !important',
@@ -229,7 +226,7 @@
           }"
         />
 
-        <div class="d-flex justify-content-between pb-3 mt-3">
+        <div class="d-flex d-md-none justify-content-between pb-3 mt-3">
           <div class="chart-button col-3">
             {{ $t('products.asks') }}
           </div>

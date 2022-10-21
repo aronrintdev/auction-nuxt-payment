@@ -1,6 +1,6 @@
 <template>
   <div class="child-container">
-    <h2 :style="headerStyle" class="m-0">{{ $t('products.latest_sales') }}</h2>
+    <h2 :class="headerClass" class="m-0">{{ $t('products.latest_sales') }}</h2>
     <div :style="labelsStyle" class="text-right period-block">
       <Button
         variant="link"
@@ -79,9 +79,9 @@ export default {
       type: String,
       default: null,
     },
-    headerStyle: {
-      type: Object,
-      default: () => {}
+    headerClass: {
+      type: String,
+      default: ''
     },
     labelsStyle: {
       type: Object,
@@ -289,9 +289,22 @@ export default {
 .responsive-chart
   margin-left: auto
   margin-right: auto
+  padding-left: 10px !important
+  padding-right: 10px !important
   @media (min-width: 993px)
     width: 85%
-  
+    margin-left: 10px !important
+    margin-right: 10px !important
+    
+.responsive-header
+  color: #000 !important
+  font-size: 14px !important
+  font-weight: 600 !important
+  @media (min-width: 576px)
+    font-family: $font-family-sf-pro-display !important
+    font-weight: 700 !important
+    font-size: 20px !important
+
 
 .child-container
   margin-top: 18px

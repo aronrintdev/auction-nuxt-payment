@@ -93,6 +93,7 @@
               color: '#000',
             }"
             :class="iconTextClass"
+            role="button"
           >
             {{ $t('products.all_sizes') }}
           </span>

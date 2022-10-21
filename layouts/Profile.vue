@@ -124,6 +124,10 @@ export default {
     enquireScreenSizeHandler((type) => {
       this.$store.commit('size/setScreenType', type)
     });
+    const wrapper = document.querySelector('.main-wrapper')
+    if (wrapper.querySelector('.wants-container')) {
+      wrapper.style.backgroundColor = '#f7f7f7'
+    }
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll)
@@ -144,6 +148,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
 .wrapper
   .custom-wrapper
     overflow: hidden

@@ -247,11 +247,11 @@
           </div>
         </div>
 
-        <div class="d-flex flex-wrap px-1 pt-4 bg-white border-3" v-else>
+        <div class="d-flex flex-wrap px-1 pt-5 bg-white border-3" v-else>
           <div
             v-for="(combination, combinationIndex) in combinationItems"
             :key="combination.combination_id"
-            class="mb-4 px-0 px-xl-3 col-xl-6"
+            class="mb-4 px-0 px-xl-1 col-xl-6"
           >
             <CombinationItemCard
               :combination="combination"
@@ -743,6 +743,9 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.wants-container
+  background: #FDFDFD
 
 .wants-main-container
   padding-left: 15px
