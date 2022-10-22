@@ -7,35 +7,39 @@
           <div class="text-capitalize"><span>{{ $t('orders.order_type') }}: </span><span>{{ order.type.label }}</span>
           </div>
           <!-- order.commission.amount -->
-          <div><span>{{ $t('orders.total_earnings') }}:</span> <span>${{ order.vendor_commission | formatPrice }}</span>
+          <div><span>{{ $t('orders.total_earnings') }}:</span> <span>${{ commissionAmount | formatPrice }}</span>
           </div>
-          <div class="d-flex d-sm-none"><span>{{ $t('orders.sold_items') }}:</span> <span>{{ order.items.length }}</span></div>
-          <div class="d-flex d-sm-none"><span>{{ $t('orders.ordered_on') }}:</span> <span>{{ new Date(order.created_at) | formatDateTimeString }}</span></div>
+          <div class="d-flex d-sm-none"><span>{{ $t('orders.sold_items') }}:</span> <span>{{
+              order.items.length
+            }}</span></div>
+          <div class="d-flex d-sm-none"><span>{{ $t('orders.ordered_on') }}:</span>
+            <span>{{ new Date(order.created_at) | formatDateTimeString }}</span></div>
         </div>
       </div>
     </div>
 
-    <div class="border round-box mb-3">
+    <div v-if="isBuy" class="border round-box mb-3">
       <div class="details-box">
         <div class="details-box-header">{{ $t('orders.commission_payout') }}:</div>
         <div class="details-box-body">
           <div><span>{{ $t('orders.status') }}:</span> <span>{{ order.status }}</span></div>
           <!-- order.commission.amount -->
-          <div><span>{{ $t('orders.total_earnings') }}:</span> <span>${{ order.vendor_commission | formatPrice }}</span>
+          <div><span>{{ $t('orders.total_earnings') }}:</span> <span>${{ commissionAmount | formatPrice }}</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="border round-box">
+    <div v-if="isBuy" class="border round-box">
       <div class="details-box">
         <div class="details-box-header">{{ $t('orders.commission_details') }}:</div>
         <div class="details-box-body">
           <!--todo values are static for now need to update after the API updated-->
           <!-- order.items[*].listing_items.inventory.vendor_current_points -->
-          <div><span>{{ $t('orders.vendor_ranking') }}:</span> <span> 87%</span></div>
+          <div><span>{{ $t('orders.vendor_ranking') }}:</span> <span> {{ vendorRanking }}%</span></div>
           <!-- order.commission.commission_type_string -->
-          <div><span>{{ $t('orders.commission_amount') }}:</span> <span> 90% {{ $t('orders.and') }} $5.00</span></div>
+          <!-- 90% {{ $t('orders.and') }} $5.00 -->
+          <div><span>{{ $t('orders.commission_amount') }}:</span> <span>{{commissionType}}</span></div>
         </div>
       </div>
     </div>
@@ -49,6 +53,27 @@ export default {
     order: {
       type: Object,
       default: null
+    },
+    item: {
+      type: Object,
+      default: null
+    }
+  },
+  computed: {
+    isTrade() {
+      return this.order.type.label === 'trade'
+    },
+    isBuy() {
+      return this.order.type.label === 'buy'
+    },
+    commissionAmount() {
+      return this.order.commission?.amount || 0
+    },
+    vendorRanking() {
+      return this.listing_items?.inventory?.vendor_current_points || 0
+    },
+    commissionType(){
+      return this.order.commission?.commission_type_string
     }
   }
 }
@@ -114,6 +139,7 @@ export default {
 
           span:first-child
             font-weight: $normal
+
           span:last-child
             font-weight: $regular
 
