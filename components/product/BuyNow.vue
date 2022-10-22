@@ -1,7 +1,14 @@
 <template>
   <b-row>
     <b-col md="12">
-      <AlternativePaymentTitle :product-price="lowestPrice" />
+      <ShippingOptions
+        v-if="instantShip"
+        :normal-ship-price="lowestPrice"
+        :instant-ship-price="instantShip"
+        @shipping-option-selected="(shippingOption) => $emit('shipping-option-selected', shippingOption)"
+      />
+
+      <AlternativePaymentTitle :product-price="lowestPrice" class="mt-3" />
 
       <!-- Buy Now and Add to Wishlist Button Group -->
       <b-row class="mt-3">
@@ -40,7 +47,7 @@
         @hidden="wishListShow = false"
       />
 
-      <Button class="my-3" block variant="dark" @click="$emit('add-to-cart')">{{ $t('products.add_to_cart') }}</Button>
+      <Button class="mt-3" block variant="dark" @click="$emit('add-to-cart')">{{ $t('products.add_to_cart') }}</Button>
     </b-col>
   </b-row>
 </template>
@@ -50,10 +57,11 @@ import { mapActions } from 'vuex'
 import Button from '~/components/common/Button'
 import AlternativePaymentTitle from '~/components/product/AlternativePaymentTitle'
 import WishListPopover from '~/components/wish-list/Popover.vue'
+import ShippingOptions from '~/components/product/ShippingOptions'
 
 export default {
   name: 'BuyNowSection',
-  components: { Button, AlternativePaymentTitle, WishListPopover },
+  components: { Button, AlternativePaymentTitle, WishListPopover, ShippingOptions },
   props: {
     product: {
       type: Object,
@@ -73,6 +81,11 @@ export default {
           ? this.product.wish_lists[0]
           : null
     }
+  },
+  computed: {
+    instantShip(vm) {
+      return vm.product?.instant_ship ? vm.product?.instant_ship : null
+    },
   },
   methods: {
     ...mapActions({
