@@ -4,10 +4,10 @@
       <img :src="require('~/assets/img/trades/cross-icon.svg')" role="button">
     </div>
     <div class="d-flex justify-content-between pt-3">
-      <div class="add-cash">Add Cash</div>
-      <div class="request-cash d-flex align-items-end" role="button">Request Cash</div>
+      <div class="add-cash">{{heading}}</div>
+      <div class="request-cash d-flex align-items-end" role="button" @click="addOrReq(addCash = !addCash)">{{headingReq}}</div>
     </div>
-    <div class="balance-deal">Balance this deal by adding cash</div>
+    <div class="balance-deal">{{subHeading}}</div>
     <div class="d-flex flex-column align-items-center">
     <div class="d-flex justify-content-center">
       <Meter :fair="70" heading="trades.trade_arena.fair_trade_meter" :highest="100" :lowest="0" :value="60"/>
@@ -18,16 +18,76 @@
         <div class="yours-total d-flex justify-content-center align-items-center">{{$t('trades.trade_arena.yours')}}: <span class="total-value"> $200.00</span></div>
       </div>
     </div>
+    <div>
+      <div class="d-flex justify-content-between align-items-center amount-cont mt-2">
+      <div class="amount-headings">
+        {{$t('trades.insert_amount')}}
+      </div>
+      <b-form-input
+        id="amount"
+        ref="amount"
+        v-model="amount"
+        placeholder="0"
+        type="number"
+        class="add-cash-mob"
+        autofocus
+      ></b-form-input>
+    </div>
+      <div class="d-flex justify-content-between align-items-center amount-cont mt-2">
+      <div class="amount-headings">
+        {{$t('trades.your_item_value')}}
+      </div>
+      <span class="amount-val">$200</span>
+      </div>
+      <div class="d-flex justify-content-between align-items-center amount-cont mt-2">
+      <div class="amount-headings">
+        {{$t('trades.total_value')}}
+      </div>
+      <span class="amount-val">$200</span>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <Button pill variant="dark-blue" class="confirm-btn">
+        {{$t('common.confirm')}}
+      </Button>
+    </div>
     </div>
   </div>
 </template>
 
 <script>
 import Meter from '~/components/common/Meter'
+import Button from '~/components/common/Button';
 export default {
   name: 'AddCash',
   components:{
+    Button,
     Meter
+  },
+  data(){
+    return {
+      amount: null,
+      addCash: true
+    }
+  },
+  computed:{
+    heading(){
+      if(this.addCash) return this.$t('trades.add_cash')
+      else return this.$t('trades.request_cash')
+    },
+    headingReq(){
+      if(!this.addCash) return this.$t('trades.add_cash')
+      else return this.$t('trades.request_cash')
+    },
+    subHeading(){
+      if(this.addCash) return this.$t('trades.balance_the_deal')
+      else return this.$t('trades.balance_the_deal_request')
+    },
+  },
+  methods:{
+    addOrReq(val){
+      this.addCash = val
+    }
   }
 }
 </script>
@@ -68,5 +128,40 @@ export default {
   @include body-5-normal
 .total-container
   width: 335px
+.amount-cont
+  width: 375px
+  height: 57px
+  padding: 0 24px
+  border-bottom: 0.5px solid $color-gray-86
+.amount-headings
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-17-regular
+  letter-spacing: 0.045em
+  color: $color-black-1
+.add-cash-mob
+  border: none
+  background: unset
+  width: 52px
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-5-bold
+  letter-spacing: 0.045em
+  color: $color-black-1
+  padding-right: 0
+.amount-val
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-5-bold
+  letter-spacing: 0.045em
+  color: $color-black-1
+.confirm-btn
+  width: 327px
+  height: 45px
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-13-medium
+  margin-top: 32px
+  margin-bottom: 50px
 
 </style>
