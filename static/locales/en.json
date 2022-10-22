@@ -1442,6 +1442,8 @@
     "sell_for": "Sell for {amount}",
     "read_more": "Read More",
     "read_less": "Read Less",
+    "pre_authenticated_ships_instantly": "Pre - authenticated, ships instantly",
+    "normal_authentication_and_shipping": "Normal authentication & shipping",
     "enter_offer_amount": "Enter Offer Amount",
     "highest_offer": "Highest Offer",
     "all_sizes": "All Sizes",
@@ -1493,7 +1495,8 @@
       "select_size_to_offer": "Please select a size above to make an offer",
       "out_of_stock": "Unfortunately, this item and size is currently out of stock!",
       "enter_valid_amount": "Please enter valid offer amount",
-      "not_found": "Product is not found"
+      "not_found": "Product is not found",
+      "select_shipping_type": "Please select a shipping type above"
     },
     "message": {
       "send_item_email": "We will send you an email when this item is back in stock!",
