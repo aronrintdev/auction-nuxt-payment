@@ -129,7 +129,7 @@
           </div>
         </div>
         <div class="row">
-          <div id="tb-product" class="col-ld-12">
+          <div id="tb-product" class="col-ld-12 overflow-auto">
             <SimilarProductTable :products="products" />
           </div>
         </div>

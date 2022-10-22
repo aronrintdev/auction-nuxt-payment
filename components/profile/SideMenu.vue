@@ -181,6 +181,13 @@ export default {
           href: '#',
         },
         {
+          label: this.$t('profile_menu.stock_exchange'),
+          icon: require('~/assets/img/icons/side-menu/promotions.svg'),
+          iconActive: require('~/assets/img/icons/side-menu/promotions-active.svg'),
+          href: '/stock/exchange/trending',
+          route: 'stock-exchange',
+        },
+        {
           label: this.$t('profile_menu.security'),
           icon: require('~/assets/img/icons/profile/security.svg'),
           iconActive: require('~/assets/img/icons/profile/security-active.svg'),
