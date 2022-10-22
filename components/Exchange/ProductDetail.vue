@@ -23,7 +23,7 @@
           <div class="col-lg-5 text-right">
             <Button variant="dark-blue" @click="handleBuyClick">
               <div class="d-flex justify-content-between">
-                <div>{{ $t('deadstock_exchange.detail.buy')}}</div>
+                <div>{{ $t('deadstock_exchange.detail.buy') }}</div>
               </div>
             </Button>
             <Button variant="dark" @click="handleSellClick">
@@ -52,7 +52,7 @@
                 :value="chartTabCurrentValue"
                 class="chart-section-nav"
                 nav-key="line_chart"
-                @change="handleTabChange"
+                @change="handleChartTabChange"
               />
             </div>
           </div>
@@ -65,7 +65,6 @@
         <div class="row">
           <div class="col-lg-12">
             <LineChart
-              v-if="!loadingChart"
               :chart-data="lineDatasets"
               :options="lineChartOptions"
               class="line-chart"
@@ -73,16 +72,24 @@
             />
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-12">
+        <div class="row mt-5">
+          <div class="col-lg-12 text-center">
             <NavGroup
               :data="PRICE_SIZE_TABS"
               :value="priceSizeTabCurrentValue"
               class="section-nav"
               nav-key="line_chart"
-              @change="handleTabChange"
+              @change="handlePriceSizeTabChange"
             />
           </div>
+          <ProductSizePicker
+            :sizes="sizes"
+            :value="currentSize"
+            :viewMode="sizeViewMode"
+            class="size-picker"
+            @update="handleSizeChange"
+            @changeViewMode="handleSizeViewAll"
+          />
         </div>
       </div>
       <div class="col-lg-6 col-md-12 col-sm-12">
@@ -122,22 +129,73 @@
           </div>
         </div>
         <div class="row">
-          <div id="tb-product" class="col-ld-12 overflow-auto scroll-smooth">
+          <div id="tb-product" class="col-ld-12">
             <SimilarProductTable :products="products" />
           </div>
         </div>
       </div>
     </div>
+    <Modal
+      id="size-all-modal"
+      centered
+      no-header-border
+      no-footer-border
+      hide-footer
+    >
+      <template #default>
+        <div class="mx-auto position-relative all-sizes">
+          <div class="items-wrapper">
+            <div
+              v-for="size in sizes"
+              :key="`size-${size.type}-${size.id}`"
+              :class="`d-inline-block item ${
+                value === size.id ? 'active' : ''
+              }`"
+            >
+              <div
+                class="d-flex align-items-center justify-content-center mx-auto card"
+                @click="handleSizeSelect(size.id)"
+              >
+                {{ size.size }}
+              </div>
+              <div class="text-center price">
+                <!-- {{ getPriceBySize(size.id) | toCurrency }} -->
+              </div>
+            </div>
+          </div>
+
+          <b-button
+            v-if="!singleMode"
+            variant="link"
+            class="position-absolute p-0 close-btn"
+            @click="handleCloseClick"
+          >
+            <img
+              :src="require('~/assets/img/icons/close.svg')"
+              :alt="$t('common.close')"
+            />
+          </b-button>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
 <script>
 import dayjs from 'dayjs'
 import SimilarProductTable from './SimilarProductTable.vue'
-import { Button, Loader, FormDropdown, SearchInput } from '~/components/common'
+import ProductSizePicker from '~/components/product/SizePicker'
+import {
+  Button,
+  Loader,
+  FormDropdown,
+  SearchInput,
+  Modal,
+} from '~/components/common'
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import ShareIcon from '~/assets/img/icons/share.svg?inline'
+
 export default {
   name: 'ProductDetail',
   components: {
@@ -149,17 +207,22 @@ export default {
     SimilarProductTable,
     SearchInput,
     FormDropdown,
+    ProductSizePicker,
+    Modal,
   },
   data() {
     return {
       dayjs,
       loading: false,
-      loadingChart: false,
       products: [],
       similarProductSearchValue: '',
       sortBy: null,
       chartTabCurrentValue: '24',
-      priceSizeTabCurrentValue: 'average_size',
+      currentSize: null,
+      currentCondition: null,
+      method: 'buy',
+      sizeViewMode: 'carousel',
+      priceSizeTabCurrentValue: 'average_price',
       SIMILAR_FILTER_SORT_OPTIONS: [
         {
           label: this.$t('vendor_purchase.sort_by'),
@@ -284,8 +347,51 @@ export default {
           },
         ],
       },
-
     }
+  },
+
+  computed: {
+    sizes() {
+      // return this.products?.sizes || []
+      return [
+        {
+          created_at: '2022-08-19T18:53:52.000000Z',
+          enabled: true,
+          id: 35,
+          size: '5',
+          size_type_id: null,
+          type: 'women',
+          updated_at: '2022-08-19T18:53:52.000000Z',
+        },
+        {
+          created_at: '2022-08-19T18:53:52.000000Z',
+          enabled: true,
+          id: 36,
+          size: '6',
+          size_type_id: null,
+          type: 'women',
+          updated_at: '2022-08-19T18:53:52.000000Z',
+        },
+        {
+          created_at: '2022-08-19T18:53:52.000000Z',
+          enabled: true,
+          id: 37,
+          size: '7',
+          size_type_id: null,
+          type: 'women',
+          updated_at: '2022-08-19T18:53:52.000000Z',
+        },
+        {
+          created_at: '2022-08-19T18:53:52.000000Z',
+          enabled: true,
+          id: 38,
+          size: '9',
+          size_type_id: null,
+          type: 'women',
+          updated_at: '2022-08-19T18:53:52.000000Z',
+        },
+      ]
+    },
   },
   watch: {
     lineDatasets () {
@@ -300,11 +406,33 @@ export default {
   mounted() {
     this.loadPage()
   },
-
   methods: {
-    handleTabChange(category) {
-      this.chartTabCurrentValue = category
-      this.changeGraphLabel(category)
+    handleChartTabChange(value) {
+      this.chartTabCurrentValue = value
+      this.changeGraphLabel(value)
+    },
+
+    handlePriceSizeTabChange(value) {
+      this.priceSizeTabCurrentValue = value
+    },
+    handleSizeViewAll() {
+      this.$bvModal.show('size-all-modal')
+    },
+    handleSizeChange(sizeId) {
+      if (sizeId) {
+        this.currentSize = sizeId
+      }
+    },
+    pricesBySize() {
+      if (this.method === 'buy') {
+        return this.products?.lowest_prices?.filter(
+          (i) => i.packaging_condition_id === this.currentCondition
+        )
+      } else {
+        return this.products?.highest_offers?.filter(
+          (i) => i.packaging_condition_id === this.currentCondition
+        )
+      }
     },
     changeGraphLabel(category) {
       switch (category) {
