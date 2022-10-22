@@ -68,7 +68,7 @@
         <div class="d-flex justify-content-between d-md-block">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.auction_id') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-underline text-blue-30' : 'body-4-medium'">
-          {{ $t('bids.auction_types.' + auction.type) }}
+          {{ auction.id }}
         </span>
         </div>
       </b-col>
