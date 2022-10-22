@@ -9,30 +9,22 @@
     <!--    Bids Filters    -->
     <BidsFilters v-else @update="FetchBids"/>
 
-    <div v-if="isVendor" class="d-flex justify-content-between align-items-center mt-5">
-      <Button
-        v-if="haveExpired"
-        variant="link"
-        size="sm"
-        class="delete-expired px-3 py-2 mr-4"
-        @click="deleteAction = true"
-      >{{ $t('bids.delete_expired') }}
-      </Button>
-    </div>
-
-    <div class="d-flex justify-content-between align-items-center mt-4 ">
+    <div class="d-flex justify-content-between align-items-center mt-4">
       <h3 class="title">
         <span :class="{ 'body-4-medium' : isMobileSize }">
         {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
         </span>
       </h3>
       <Button
-        v-if="haveExpired && !isVendor"
+        v-if="haveExpired && isVendor"
         variant="link"
         size="sm"
-        class=" delete-expired px-3 py-2 mr-4"
+        class="px-3 py-2 mr-4"
+        :class="isMobileSize ? 'delete-expired-mobile' : 'delete-expired'"
         @click="deleteAction = true"
-      >{{ $t('bids.delete_expired') }}
+      >
+        <img v-if="isMobileSize" src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
+        {{ $t('bids.delete_expired') }}
       </Button>
     </div>
 
@@ -603,6 +595,16 @@ export default {
 .custom-selectbox
   border: 1px solid $color-gray-60
   height: 38px
+
+.delete-expired.btn
+  @include body-5-regular
+  background-color: $white
+  color: $black
+
+.delete-expired-mobile.btn
+  @include body-5-regular
+  color: $color-gray-30
+
 
 </style>
 
