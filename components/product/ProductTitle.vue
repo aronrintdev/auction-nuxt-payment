@@ -10,7 +10,12 @@
       <b-row>
         <b-col md="12">
           <span class="body-5-medium text-color-grey-6">{{ $t('product_page.last_sale') }}&colon;&nbsp;&dollar;{{ productLastSalePrice | formatPrice }}</span>
-          <span class="body-5-medium text-color-green-24">+0.64 (+0.36%)</span>
+          <span v-if="lastSalePriceProjectionValue >= 0" class="body-5-medium text-color-green-24">
+            &plus;{{ lastSalePriceProjectionValue | formatPrice }}&nbsp;&lpar;&plus;{{ lastSalePriceProjectionPercentage }}&percnt;&rpar;
+          </span>
+          <span v-else class="body-5-medium text-color-red-3">
+            {{ lastSalePriceProjectionValue | formatPrice }}&nbsp;&lpar;{{ lastSalePriceProjectionPercentage }}&percnt;&rpar;
+          </span>
         </b-col>
       </b-row>
     </b-col>
@@ -27,11 +32,31 @@ export default {
       type: String,
       required: true,
     },
+    lowestPrice: {
+      type: Number,
+      default: 0,
+    },
     productLastSalePrice: {
       type: Number,
       required: true,
     },
   },
+  computed: {
+    lastSalePriceProjectionValue(vm) {
+      if (vm.productLastSalePrice === 0) {
+        return 0.00
+      }
+
+      return vm.lowestPrice - vm.productLastSalePrice
+    },
+    lastSalePriceProjectionPercentage(vm) {
+      if (vm.productLastSalePrice === 0) {
+        return 0.00
+      }
+
+      return (((vm.lowestPrice - vm.productLastSalePrice) / vm.productLastSalePrice) * 100).toFixed(2)
+    },
+  }
 }
 </script>
 <style lang="sass" scoped>
@@ -39,6 +64,9 @@ export default {
 
 .text-color-green-24
   color: $color-green-26
+
+.text-color-red-3
+  color: $color-red-3
 
 .text-color-grey-6
   color: $color-gray-6
