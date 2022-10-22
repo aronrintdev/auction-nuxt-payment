@@ -23,7 +23,6 @@
       <div class="title">{{ product(single).name }} ({{ product(single).release_year }})</div>
       <div class="sku">{{ $t('orders.sku') }}: {{ product(single).sku }}</div>
       <div class="attribute">{{ $t('orders.colorway') }}: {{ product(single).colorway }}, {{ $t('orders.size') }}:
-        <!-- {{ single.listing_item.inventory.size_id }} -->
         {{ sizeId(single) }}
       </div>
     </div>
@@ -62,7 +61,6 @@
             <td>{{ $t('orders.vendor_payout') }}</td>
             <td v-if="isBuy" class="text-right">
               ${{ commissionAmount | formatPrice }}
-              <!-- order.commission.amount -->
             </td>
           </tr>
           <tr>

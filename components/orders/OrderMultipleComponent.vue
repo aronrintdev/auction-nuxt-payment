@@ -52,7 +52,6 @@
                     <div class="sku">{{ $t('orders.sku') }}: {{ product(single).sku }}</div>
                     <div class="attribute">{{ $t('orders.colorway') }}: {{ product(single).colorway }},
                       {{ $t('orders.size') }}:
-                      <!-- {{ single.listing_item.inventory.size_id }} -->
                       {{ sizeId(single) }}
                     </div>
                   </div>

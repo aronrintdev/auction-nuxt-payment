@@ -6,7 +6,6 @@
         <div class="details-box-body">
           <div class="text-capitalize"><span>{{ $t('orders.order_type') }}: </span><span>{{ order.type.label }}</span>
           </div>
-          <!-- order.commission.amount -->
           <div><span>{{ $t('orders.total_earnings') }}:</span> <span>${{ commissionAmount | formatPrice }}</span>
           </div>
           <div class="d-flex d-sm-none"><span>{{ $t('orders.sold_items') }}:</span> <span>{{
@@ -23,7 +22,6 @@
         <div class="details-box-header">{{ $t('orders.commission_payout') }}:</div>
         <div class="details-box-body">
           <div><span>{{ $t('orders.status') }}:</span> <span>{{ order.status }}</span></div>
-          <!-- order.commission.amount -->
           <div><span>{{ $t('orders.total_earnings') }}:</span> <span>${{ commissionAmount | formatPrice }}</span>
           </div>
         </div>
@@ -34,11 +32,7 @@
       <div class="details-box">
         <div class="details-box-header">{{ $t('orders.commission_details') }}:</div>
         <div class="details-box-body">
-          <!--todo values are static for now need to update after the API updated-->
-          <!-- order.items[*].listing_items.inventory.vendor_current_points -->
           <div><span>{{ $t('orders.vendor_ranking') }}:</span> <span> {{ vendorRanking }}%</span></div>
-          <!-- order.commission.commission_type_string -->
-          <!-- 90% {{ $t('orders.and') }} $5.00 -->
           <div><span>{{ $t('orders.commission_amount') }}:</span> <span>{{commissionType}}</span></div>
         </div>
       </div>
