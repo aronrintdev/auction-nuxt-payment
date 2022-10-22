@@ -23,7 +23,7 @@
           <div class="col-lg-5 text-right">
             <Button variant="dark-blue" @click="handleBuyClick">
               <div class="d-flex justify-content-between">
-                <div>{{ $t('deadstock_exchange.detail.buy')}}</div>
+                <div>{{ $t('deadstock_exchange.detail.buy') }}</div>
               </div>
             </Button>
             <Button variant="dark" @click="handleSellClick">
@@ -52,7 +52,7 @@
                 :value="chartTabCurrentValue"
                 class="chart-section-nav"
                 nav-key="line_chart"
-                @change="handleTabChange"
+                @change="handleChartTabChange"
               />
             </div>
           </div>
@@ -65,7 +65,6 @@
         <div class="row">
           <div class="col-lg-12">
             <LineChart
-              v-if="!loadingChart"
               :chart-data="lineDatasets"
               :options="lineChartOptions"
               class="line-chart"
@@ -83,14 +82,13 @@
               @change="handlePriceSizeTabChange"
             />
           </div>
-          {{ sizes }}
           <ProductSizePicker
             :sizes="sizes"
             :value="currentSize"
             :viewMode="sizeViewMode"
             class="size-picker"
             @update="handleSizeChange"
-            @changeViewMode="handleSizeViewModeChange"
+            @changeViewMode="handleSizeViewAll"
           />
         </div>
       </div>
@@ -131,23 +129,73 @@
           </div>
         </div>
         <div class="row">
-          <div id="tb-product" class="col-ld-12 overflow-auto scroll-smooth">
+          <div id="tb-product" class="col-ld-12">
             <SimilarProductTable :products="products" />
           </div>
         </div>
       </div>
     </div>
+    <Modal
+      id="size-all-modal"
+      centered
+      no-header-border
+      no-footer-border
+      hide-footer
+    >
+      <template #default>
+        <div class="mx-auto position-relative all-sizes">
+          <div class="items-wrapper">
+            <div
+              v-for="size in sizes"
+              :key="`size-${size.type}-${size.id}`"
+              :class="`d-inline-block item ${
+                value === size.id ? 'active' : ''
+              }`"
+            >
+              <div
+                class="d-flex align-items-center justify-content-center mx-auto card"
+                @click="handleSizeSelect(size.id)"
+              >
+                {{ size.size }}
+              </div>
+              <div class="text-center price">
+                <!-- {{ getPriceBySize(size.id) | toCurrency }} -->
+              </div>
+            </div>
+          </div>
+
+          <b-button
+            v-if="!singleMode"
+            variant="link"
+            class="position-absolute p-0 close-btn"
+            @click="handleCloseClick"
+          >
+            <img
+              :src="require('~/assets/img/icons/close.svg')"
+              :alt="$t('common.close')"
+            />
+          </b-button>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
 <script>
 import dayjs from 'dayjs'
 import SimilarProductTable from './SimilarProductTable.vue'
-import { Button, Loader, FormDropdown, SearchInput } from '~/components/common'
+import ProductSizePicker from '~/components/product/SizePicker'
+import {
+  Button,
+  Loader,
+  FormDropdown,
+  SearchInput,
+  Modal,
+} from '~/components/common'
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import ShareIcon from '~/assets/img/icons/share.svg?inline'
-import ProductSizePicker from '~/components/product/SizePicker'
+
 export default {
   name: 'ProductDetail',
   components: {
@@ -159,13 +207,13 @@ export default {
     SimilarProductTable,
     SearchInput,
     FormDropdown,
-    ProductSizePicker
+    ProductSizePicker,
+    Modal,
   },
   data() {
     return {
       dayjs,
       loading: false,
-      loadingChart: false,
       products: [],
       similarProductSearchValue: '',
       sortBy: null,
@@ -173,7 +221,7 @@ export default {
       currentSize: null,
       currentCondition: null,
       method: 'buy',
-      sizeViewMode: 'all',
+      sizeViewMode: 'carousel',
       priceSizeTabCurrentValue: 'average_price',
       SIMILAR_FILTER_SORT_OPTIONS: [
         {
@@ -299,66 +347,130 @@ export default {
           },
         ],
       },
-
     }
+  },
+
+  computed: {
+    sizes() {
+      // return this.products?.sizes || []
+      return [
+        {
+          created_at: '2022-08-19T18:53:52.000000Z',
+          enabled: true,
+          id: 35,
+          size: '5',
+          size_type_id: null,
+          type: 'women',
+          updated_at: '2022-08-19T18:53:52.000000Z',
+        },
+        {
+          created_at: '2022-08-19T18:53:52.000000Z',
+          enabled: true,
+          id: 36,
+          size: '6',
+          size_type_id: null,
+          type: 'women',
+          updated_at: '2022-08-19T18:53:52.000000Z',
+        },
+        {
+          created_at: '2022-08-19T18:53:52.000000Z',
+          enabled: true,
+          id: 37,
+          size: '7',
+          size_type_id: null,
+          type: 'women',
+          updated_at: '2022-08-19T18:53:52.000000Z',
+        },
+        {
+          created_at: '2022-08-19T18:53:52.000000Z',
+          enabled: true,
+          id: 38,
+          size: '9',
+          size_type_id: null,
+          type: 'women',
+          updated_at: '2022-08-19T18:53:52.000000Z',
+        },
+      ]
+    },
   },
   watch: {
-    lineDatasets () {
-        this.$nextTick(() => {
-            this.renderLineChart();
-        })
-    }
-  },
-  computed:{
-    sizes() {
-      return this.products?.sizes || []
+    lineDatasets() {
+      this.$nextTick(() => {
+        this.renderLineChart()
+      })
     },
   },
   mounted() {
     this.loadPage()
   },
-
   methods: {
-    handleTabChange(category) {
-      this.chartTabCurrentValue = category
-      this.changeGraphLabel(category)
+    handleChartTabChange(value) {
+      this.chartTabCurrentValue = value
+      this.changeGraphLabel(value)
     },
-    handleSizeViewModeChange(mode) {
-      this.sizeViewMode = mode
+
+    handlePriceSizeTabChange(value) {
+      this.priceSizeTabCurrentValue = value
+    },
+    handleSizeViewAll() {
+      this.$bvModal.show('size-all-modal')
     },
     handleSizeChange(sizeId) {
       if (sizeId) {
         this.currentSize = sizeId
       }
     },
-    pricesBySize() {   
-        if (this.method === 'buy') {
-          return this.products?.lowest_prices?.filter(
-            (i) => i.packaging_condition_id === this.currentCondition
-          )
-        } else {
-          return this.products?.highest_offers?.filter(
-            (i) => i.packaging_condition_id === this.currentCondition
-          )
-        }
-       
+    pricesBySize() {
+      if (this.method === 'buy') {
+        return this.products?.lowest_prices?.filter(
+          (i) => i.packaging_condition_id === this.currentCondition
+        )
+      } else {
+        return this.products?.highest_offers?.filter(
+          (i) => i.packaging_condition_id === this.currentCondition
+        )
+      }
     },
     changeGraphLabel(category) {
-      this.loading =true;
+      this.loading = true
       switch (category) {
         case '24': {
-          this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
-          this.loading =false;
+          this.lineDatasets.labels = [
+            '2 pm',
+            '6 pm',
+            '10 pm',
+            '2 am',
+            '6 am',
+            '10 am',
+            '2 pm',
+          ]
+          this.loading = false
           break
         }
         case '7': {
-          this.lineDatasets.labels = ['7 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
-          this.loading =false;
+          this.lineDatasets.labels = [
+            '7 pm',
+            '6 pm',
+            '10 pm',
+            '2 am',
+            '6 am',
+            '10 am',
+            '2 pm',
+          ]
+          this.loading = false
           break
         }
         case '30': {
-          this.lineDatasets.labels = ['3 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
-          this.loading =false;
+          this.lineDatasets.labels = [
+            '3 pm',
+            '6 pm',
+            '10 pm',
+            '2 am',
+            '6 am',
+            '10 am',
+            '2 pm',
+          ]
+          this.loading = false
           break
         }
         case '1': {
@@ -371,7 +483,7 @@ export default {
             '10 am',
             '2 pm',
           ]
-          this.loadingChart =false;
+          this.loadingChart = false
           break
         }
         case 'all': {
@@ -384,12 +496,20 @@ export default {
             '10 am',
             '2 pm',
           ]
-          this.loading =false;
+          this.loading = false
           break
         }
         default:
-        this.lineDatasets.labels = ['7 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
-        this.loading =false;
+          this.lineDatasets.labels = [
+            '7 pm',
+            '6 pm',
+            '10 pm',
+            '2 am',
+            '6 am',
+            '10 am',
+            '2 pm',
+          ]
+          this.loading = false
       }
     },
     // On filter by change.
