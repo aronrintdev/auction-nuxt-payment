@@ -116,12 +116,13 @@ export default {
 
   methods: {
     // fetch styles as per selected category
-    async fetchStyles() {
+    async fetchStyles(filters = '') {
       await this.$axios
         .get('/shop-by-style', {
           params: {
             selectedType: this.type,
-            status: ARCHIVED
+            status: ARCHIVED,
+            filters
           }
         })
         .then((res) => {
@@ -142,7 +143,11 @@ export default {
 
     closeFilter() {
       this.$refs.btnFilter.$el.click()
-    }
+    },
+
+    applyFilter(filters) {
+      this.fetchStyles(filters)
+    },
   }
 }
 </script>

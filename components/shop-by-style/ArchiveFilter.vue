@@ -18,8 +18,9 @@
               v-model="brandsSelected"
               collapseKey="brands"
               :title="$t('filter_sidebar.brands')"
-              :options="brandOptions"
+              :options="brands ? brands : brandOptions"
               class="p-2 mb-1  border border-success rounded filters-heading"
+              @searchBrands="handleSearchChange"
             />
           </div>
           <div class="col-sm-6">
@@ -62,6 +63,7 @@
         <b-row>
             <b-col sm="2">
                 <b-form-datepicker
+                    v-model="year.start"
                     size="sm"
                     locale="en"
                     :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
@@ -71,6 +73,7 @@
             </b-col>
             <b-col sm="2">
                 <b-form-datepicker
+                    v-model="year.end"
                     size="sm"
                     locale="en"
                     :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
@@ -135,10 +138,18 @@
         sizeTypeSelected: [],
         filtersApplied: {
           sizeTypeSelected: [],
-          brandsSelected: []
+          brandsSelected: [],
+          year: {
+            start: '',
+            end: ''
+          }
         },
         brandsSelected: [],
-        search: ''
+        brands: null,
+        year: {
+          start: '',
+          end: ''
+        }
       }
     },
   
@@ -163,7 +174,7 @@
   
       filtersUpdated() {
         return (
-          _.xor(this.sizeTypeSelected, this.filtersApplied.sizeTypeSelected, this.brandsSelected)
+          _.xor(this.sizeTypeSelected, this.filtersApplied.sizeTypeSelected, this.brandsSelected, this.filtersApplied.brandsSelected)
             .length > 0
         )
       },
@@ -181,12 +192,13 @@
         if ((this.sizeTypeSelected && this.sizeTypeSelected.length > 0) || (this.brandsSelected && this.brandsSelected.length > 0)) {
           filters.sizeTypes = this.sizeTypeSelected
           filters.brandsSelected = this.brandsSelected
+          filters.year = this.year
         }
         this.$emit('apply', filters)
         this.filtersApplied = _.cloneDeep({
           sizeTypeSelected: this.sizeTypeSelected,
           brandsSelected: this.brandsSelected,
-  
+          year: this.year
         })
       },
   
@@ -197,7 +209,16 @@
         this.brandsSelected.splice(index, 1)
       },
       handleSearchChange(value) {
-        this.search = value
+        if(value) {
+          this.brands = this.brandOptions
+          const result = [];
+          this.brands.forEach((element,index) => {
+              if (element.label.toLowerCase().includes(value.toLowerCase())) {
+                    result.push(element);
+              }
+          });
+          this.brands = result.length ? result : this.brandOptions
+        }
       },
     },
   }
