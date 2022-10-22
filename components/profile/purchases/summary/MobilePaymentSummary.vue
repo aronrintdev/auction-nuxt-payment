@@ -29,6 +29,11 @@
         <span class="text-capitalize">{{ $t('shopping_cart.tax') }}</span>
         <span>{{ orderDetails.transaction.tax | toCurrency }}</span>
       </div>
+      <div v-if="orderDetails.transaction.promotion"
+           class="d-flex align-items-center justify-content-between body-5-regular mt-7">
+        <span class="text-capitalize">{{ $t('vendor_purchase.promotion') }}</span>
+        <span>{{ orderDetails.transaction.promotion | toCurrency }}</span>
+      </div>
       <div v-if="orderDetails.transaction.total"
            class="d-flex align-items-center justify-content-between body-5-regular mt-7 body-5-regular text-black">
         <span class="text-capitalize">{{ $t('shopping_cart.total') }}</span>
