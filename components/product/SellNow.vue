@@ -29,6 +29,7 @@
       <Button
         class="mt-3"
         variant="dark"
+        :disabled="!highestOffer"
         block
         @click="$emit('sell-now')"
       >
