@@ -53,6 +53,7 @@ export default {
   height: 280px
   padding: 0
   box-shadow: 0 1px 4px 0 rgba($color-black-1, 0.25)
+  background-color: white
 
 .feature-card-hoverable-round
   img
@@ -82,6 +83,7 @@ export default {
     width: 94px
     height: 94px
     padding: 10px !important
+
     img
       width: 40px
       height: 40px

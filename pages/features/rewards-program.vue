@@ -22,6 +22,38 @@
       <FeatureTitle>
         {{ $t('newest_features.rewards_program.ways_to_earn') }}
       </FeatureTitle>
+      <div
+        class="cards-wrapper-main d-flex flex-md-row flex-column justify-content-center"
+      >
+        <div class="d-flex cards-wrapper">
+          <FeatureFourCards
+            :icon="require('~/assets/img/features/rewards-program/bag.svg')"
+            :title="$t('features.rewards_program.buying')"
+            :description="$t('features.rewards_program.buying_desc')"
+          />
+
+          <FeatureFourCards
+            :icon="require('~/assets/img/features/rewards-program/trading.svg')"
+            :title="$t('features.rewards_program.trading')"
+            :description="$t('features.rewards_program.trading_desc')"
+          />
+        </div>
+        <div class="d-flex cards-wrapper">
+          <FeatureFourCards
+            :icon="
+              require('~/assets/img/features/rewards-program/auctions.svg')
+            "
+            :title="$t('features.rewards_program.auctions')"
+            :description="$t('features.rewards_program.auctions_desc')"
+          />
+
+          <FeatureFourCards
+            :icon="require('~/assets/img/features/rewards-program/dollar.svg')"
+            :title="$t('features.rewards_program.selling')"
+            :description="$t('features.rewards_program.selling_desc')"
+          />
+        </div>
+      </div>
     </FeatureContentWrapper>
   </div>
 </template>
@@ -29,12 +61,14 @@
 import FeatureContentWrapper from '~/components/feature/ContentWrapper'
 import HorizontalBenefitBox from '~/components/feature/HorizontalBenefitBox'
 import FeatureTitle from '~/components/feature/Title'
+import FeatureFourCards from '~/components/feature/FourCards'
 
 export default {
   components: {
     FeatureContentWrapper,
     HorizontalBenefitBox,
     FeatureTitle,
+    FeatureFourCards,
   },
 
   layout: 'IndexLayout',
@@ -84,3 +118,38 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+.features-container::v-deep
+  .feature-content
+    .cards-wrapper-main
+      padding: 0px 0px 100px 0px !important
+      gap: 32px
+      .cards-wrapper
+        gap: 32px
+        > div::v-deep
+          min-height: 300px
+          img
+            min-height: 100px
+
+
+@media (max-width: 1000px)
+  .features-container
+    .feature-content
+      .cards-wrapper-main
+        padding: 0px 0px 100px 0px !important
+        gap: 18px
+        .cards-wrapper
+          gap: 18px
+
+@media (max-width: 768px)
+  .features-container
+    .feature-content
+      .cards-wrapper-main
+        padding: 0px 16px 40px 16px !important
+        gap: 9px
+        .cards-wrapper
+          gap: 9px
+          justify-content: center
+</style>

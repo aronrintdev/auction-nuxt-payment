@@ -153,8 +153,8 @@ export default {
       width: 150px
       height: auto
     p
-    font-size: 28px
-    line-height: 32px
+      font-size: 28px
+      line-height: 32px
 
 
 @media (max-width: 768px)
@@ -163,6 +163,6 @@ export default {
     margin: 0 auto
     gap: 30px
     p
-      font-size: 12px
+      font-size: 12px !important
       font-weight: 400
 </style>

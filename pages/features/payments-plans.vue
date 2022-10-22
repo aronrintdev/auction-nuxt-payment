@@ -104,12 +104,12 @@ export default {
         backgroundImageSm: require('@/assets/img/features/newest-feature/payment-plans/paymentplansbannermobile.png'),
       },
       shopNowBanner: {
-        shopNowDescription: 'newest_features.payments_plans.shopnowdesc',
+        shopNowDescription: 'newest_features.payments_plans.shop_now_desc',
         shopNowButtonText: 'newest_features.payments_plans.shop_now_btn',
         previousPage: 'newest_features.payments_plans.previous_page_name',
         previousPageLink: '/features/international-buying-and-selling',
         nextPage: 'newest_features.payments_plans.next_page_name',
-        nextPageLink: '/features/live-customer-service',
+        nextPageLink: '/features/international-languages',
       },
       options: [
         {
@@ -148,6 +148,7 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .features-container
+  .feature-content
     .h-card-main // card section main desktop
       .feature-card
         width: 286px

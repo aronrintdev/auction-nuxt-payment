@@ -140,6 +140,7 @@ export default {
         z-index: 1
         background-color: $color-white-1
         padding: 0 20px
+        background-color: #F5F5F5
 
 @media (max-width: 1200px)
   .features-container
@@ -156,7 +157,7 @@ export default {
           padding: 20px 0
           margin: 20px 0
 
-@media (max-width: 768px)
+@media (max-width: 578px)
   .features-container
     .feature-content
       .feature-item::v-deep
@@ -171,4 +172,5 @@ export default {
       .options-section
         .card-wrapper
           padding: 0 10px
+          background-color: white
 </style>

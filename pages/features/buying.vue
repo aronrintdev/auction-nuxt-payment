@@ -1,48 +1,26 @@
 <template>
-  <!-- todo: refactor code. refer to virtual-giftcards -->
-  <div class="features-container">
-    <FeatureBanner
-      :title="$t('features.buying.title')"
-      :description="$t('features.buying.desc')"
-    />
+  <div>
+    <FeatureContentWrapper
+      :title="banner.title"
+      :description="banner.description"
+      :backgroundImage="banner.backgroundImage"
+      :backgroundImageSm="banner.backgroundImageSm"
+      :shopNowDescription="shopNowBanner.shopNowDescription"
+      :shopNowButtonText="shopNowBanner.shopNowButtonText"
+      :nextPage="shopNowBanner.nextPage"
+      :nextPageLink="shopNowBanner.nextPageLink"
+    >
+      <HorizontalBenefitBox
+        v-for="(benefit, index) in benefits"
+        :key="index"
+        :benefitImage="benefit.benefitImage"
+        :benefitTitle="benefit.benefitTitle"
+        :benefitDescription="benefit.benefitDescription"
+      />
 
-    <div class="content mx-auto">
-      <FeatureBackButton class="mb-2 d-md-inline-flex d-none" />
-
-      <h3 class="benefit-title text-center text-md-left font-primary">
-        {{ $tc('common.benefit', 2) }}
-      </h3>
-      <div class="vertical-cards d-flex flex-column">
-        <FeatureBenefitItem
-          :icon="
-            require(`~/assets/img/features/newest-feature/buying/auth.png`)
-          "
-          :heading="$t('features.buying.certified_authentic_products')"
-          :description="$t('features.buying.certified_authentic_products_desc')"
-          class="feature-item"
-        />
-
-        <FeatureBenefitItem
-          :icon="
-            require(`~/assets/img/features/newest-feature/buying/blockchainauth.png`)
-          "
-          :heading="$t('features.buying.live_customer_service')"
-          :description="$t('features.buying.live_customer_service_desc')"
-          class="feature-item"
-        />
-
-        <FeatureBenefitItem
-          :icon="
-            require(`~/assets/img/features/newest-feature/buying/customerser.png`)
-          "
-          :heading="$t('features.buying.blockchain_backed_photo')"
-          :description="$t('features.buying.blockchain_backed_photo_desc')"
-          class="feature-item"
-        />
-      </div>
-      <h3 class="title text-center text-lg-left font-primary">
+      <FeatureTitle>
         {{ $t('features.buying.purchase_methods') }}
-      </h3>
+      </FeatureTitle>
       <b-row class="cards-wrapper">
         <b-col
           md="4"
@@ -68,37 +46,39 @@
             :description="$t('features.buying.make_an_offer_desc')"
         /></b-col>
       </b-row>
-    </div>
-    <div class="shopnow-banner">
-      <ShopNowBanner
-        :previousPage="$t('newest_features.sell.title')"
-        :previousPageLink="'/features/selling'"
-        :nextPage="$t('newest_features.buy.title')"
-        :nextPageLink="'/features/buying'"
-      />
-    </div>
+    </FeatureContentWrapper>
   </div>
 </template>
 <script>
-import FeatureBanner from '~/components/feature/Banner'
-import FeatureBenefitItem from '~/components/feature/BenefitItem'
-import FeatureBackButton from '~/components/feature/BackButton'
 import FeatureCardHoverable from '~/components/feature/CardHoverable'
-import ShopNowBanner from '~/components/feature/ShopNowBanner'
+import FeatureContentWrapper from '~/components/feature/ContentWrapper'
+import FeatureTitle from '~/components/feature/Title'
+import HorizontalBenefitBox from '~/components/feature/HorizontalBenefitBox'
 
 export default {
   components: {
-    FeatureBanner,
-    FeatureBenefitItem,
-    ShopNowBanner,
-    FeatureBackButton,
     FeatureCardHoverable,
+    FeatureContentWrapper,
+    FeatureTitle,
+    HorizontalBenefitBox,
   },
 
   layout: 'IndexLayout',
 
   data() {
     return {
+      banner: {
+        title: 'newest_features.buying.title',
+        description: 'newest_features.buying.desc',
+        backgroundImage: require('@/assets/img/features/newest-feature/buying/buyingbanner.png'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/buying/auctionsbannermobile.png'),
+      },
+      shopNowBanner: {
+        shopNowDescription: 'newest_features.buying.shop_now_desc',
+        shopNowButtonText: 'newest_features.buying.shop_now_btn',
+        nextPage: 'newest_features.buying.next_page_name',
+        nextPageLink: '/features/selling',
+      },
       options: [
         {
           id: 'affirm',
@@ -109,6 +89,26 @@ export default {
           icon: require('~/assets/img/icons/afterpay.svg'),
         },
       ],
+      benefits: [
+        {
+          benefitImage: require('@/assets/img/features/newest-feature/buying/auth.png'),
+          benefitTitle: 'newest_features.buying.certified_authentic_products',
+          benefitDescription:
+            'newest_features.buying.certified_authentic_products_desc',
+        },
+        {
+          benefitImage: require('@/assets/img/features/newest-feature/buying/blockchainauth.png'),
+          benefitTitle: 'newest_features.buying.hour_live_customer_service',
+          benefitDescription:
+            'newest_features.buying.hour_live_customer_service_desc',
+        },
+        {
+          benefitImage: require('@/assets/img/features/newest-feature/buying/customerser.png'),
+          benefitTitle: 'newest_features.buying.lockchain_packed_photo_ledger',
+          benefitDescription:
+            'newest_features.buying.lockchain_packed_photo_ledger_desc',
+        },
+      ],
     }
   },
 }
@@ -117,7 +117,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .features-container
-  .content
+  .feature-content
     padding: 46px 111px
     max-width: 1440px
     .cards-wrapper
@@ -144,11 +144,10 @@ export default {
 
 @media (max-width: 768px)
   .features-container
-    .content
-      padding: 37px 15px
-
+    .feature-content
       .cards-wrapper::v-deep
         margin-bottom: 50px !important
+        padding: 0px 16px
         .feature-card-hoverable
           margin-bottom: 24px
           .first-img

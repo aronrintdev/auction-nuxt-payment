@@ -5358,6 +5358,35 @@
       "previous_page_name": "Selling",
       "next_page_name": "Auction"
     },
+    "buying": {
+      "title": "Shopping on Deadstock",
+      "desc": "A new enhanced buying experience.",
+      "certified_authentic_products": "Certified Authentic Products  ",
+      "certified_authentic_products_desc": "All of our products are placed in our authentication process and authenticated by our experts. Feel safe with your purchases as we guarantee 100% authentication and satisfaction.",
+      "hour_live_customer_service": "24 hour live Customer Service",
+      "hour_live_customer_service_desc": "We offer 24 hour live customer service where you can speak with an actual person to help you resolve any issues, questions or concerns.",
+      "lockchain_packed_photo_ledger": "NFC blockchain backed photo ledger",
+      "lockchain_packed_photo_ledger_desc": "With our new NFC Blockchain feature exclusive to Deadstock, scan the NFC on each sneaker and be directed to a page with the shoe details and proof of authentication.      ",
+      "purchase_methods": "PURCHASE METHODS",
+      "shop_now_desc": "Check out various ways of shopping today. We also offer robust payment options, such as payment plans and crypto payments.",
+      "shop_now_btn": "Shop Now",
+      "next_page_name": "Selling"
+    },
+    "international_buying_and_selling": {
+      "title": "International Buying/Selling",
+      "desc": "Buy and sell items internationally.",
+      "access_to_items": "Access to Items not available in your area",
+      "access_to_items_desc": "Get access to international items that are not available in your region.",
+      "access_to_items_sold": "Access to items sold out in your area",
+      "access_to_items_sold_desc": "Get access to items that have sold out in your area and are no longer available.    ",
+      "more_customers": "More Customers viewing your items",
+      "more_customers_desc": "New international buyers now have access to your listed items.",
+      "refer_a_friend": "REFER A FRIEND TO DEADSTOCK",
+      "shop_now_desc": "Check out offerings for apparel, streetwear, sneakers and accessories from around the world.",
+      "shop_now_btn": "Browse",
+      "previous_page_name": "Virtual Giftcards",
+      "next_page_name": "Payment Plans"
+    },
     "auctions": {
       "title": "Auctions",
       "desc": "Place bids on auctions and receive live updates. Auction off your items and use our analytics to determine what to sell at what price.",
@@ -5505,7 +5534,12 @@
     "payments_plans": {
       "title": "Payments Plans",
       "desc": "Split your purchases into more affordable payments with our new installment plans.",
-      "feature_banner_title": "Payments Plans"
+      "feature_banner_title": "Payments Plans",
+      "options": "OPTIONS",
+      "shop_now_desc": "Check out various ways of shopping today. We also offer robust payment options, such as payment plans and crypto payments. ",
+      "shop_now_btn": "Shop Now",
+      "previous_page_name": "Int’l Buying and Selling",
+      "next_page_name": "Int’l Languages"
     },
     "int_languages": {
       "title": "Intl’ Languages",
@@ -5598,6 +5632,36 @@
       "shop_now_btn": "Deadstock Exchange",
       "previous_page_name": "2FA Security",
       "next_page_name": "Blockchain Authentication Ledger"
+    },
+    "selling_on_deadstock": {
+      "title": "Selling on Deadstock",
+      "desc": "Start selling your items today",
+      "immediate_payout": "Immediate Payout",
+      "immediate_payout_desc": "Receive your payout immediately after the transaction is completed. ",
+      "low_fees": "Low Fees",
+      "low_fees_desc": "The lowest seller fees in the marketplace, keep more of your revenue.",
+      "fast_shipping": "Fast Shipping ",
+      "fast_shipping_desc": "Detailed instructions on how to quickly and efficiently ship your items.",
+      "process": "PROCESS",
+      "shop_now_desc": "Apply to become a vendor and earn  commission on selling Footware, Apparel, and Accessories today",
+      "shop_now_btn": "Apply",
+      "previous_page_name": "Buying",
+      "next_page_name": "Trading"
+    },
+    "csv_bulk_uploading": {
+      "title": "CSV Bulk Uploading",
+      "desc": "Quick Item Upload for Selling",
+      "upload_multiple": "Upload Multiple Items At Once",
+      "upload_multiple_desc": "Receive your payout immediately after the transaction is completed.",
+      "easily_editable": "Easily editable & user-friendly",
+      "easily_editable_desc": "The lowest seller fees in the marketplace, keep more of your revenue.",
+      "time_savings": "Time Saving & Efficient",
+      "time_savings_desc": "Detailed instructions on how to quickly and efficiently ship your items.",
+      "process": "THE PROCESS",
+      "shop_now_desc": "Apply to become a Vendor at Deadstock and upload your inventory via .CSV. Use our helpful template as assistance.",
+      "shop_now_btn": "Become a Vendor",
+      "previous_page_name": "Int’l Languages",
+      "next_page_name": "Promotions"
     },
     "blockchain_authentication_ledger": {
       "title": "Blockchain Authentication Ledger",

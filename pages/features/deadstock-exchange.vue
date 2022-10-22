@@ -30,7 +30,7 @@
       </b-row>
 
       <FeatureTitle>{{
-        $t('newest-feature.deadstock_exchange.check_it_out')
+        $t('newest_features.deadstock_exchange.check_it_out')
       }}</FeatureTitle>
 
       <div class="text-center new-features mb-5">

@@ -71,6 +71,7 @@ export default {
   height: 376px !important
   width: 376px !important
   cursor: help
+  background-color: white
   &:hover
     transform: scale(1.1)
   .step-text

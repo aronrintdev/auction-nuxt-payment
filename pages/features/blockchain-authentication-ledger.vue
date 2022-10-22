@@ -22,6 +22,15 @@
       <FeatureTitle>
         {{ $t('newest_features.blockchain_authentication_ledger.process') }}
       </FeatureTitle>
+      <div class="d-flex cards-wrapper justify-content-center gap-6">
+        <FeatureCardHoverableV2
+          v-for="(item, index) in processes"
+          :key="`process-${index}`"
+          :icon="item.icon"
+          :title="item.title"
+          :description="item.description"
+        />
+      </div>
     </FeatureContentWrapper>
   </div>
 </template>
@@ -82,7 +91,47 @@ export default {
         nextPage: 'newest_features.in_app_notifications.title',
         nextPageLink: '/features/in-app-notifications',
       },
+      processes: [
+        {
+          icon: require('~/assets/img/features/blockchain-authentication-ledger/qr-code.svg'),
+          title: this.$t('common.scan'),
+          description: this.$t(
+            'features.blockchain_authentication_ledger.scan_desc'
+          ),
+        },
+        {
+          icon: require('~/assets/img/features/blockchain-authentication-ledger/detail-page.svg'),
+          title: this.$t('vendor_purchase.view_details'),
+          description: this.$t(
+            'features.blockchain_authentication_ledger.view_details_desc'
+          ),
+        },
+        {
+          icon: require('~/assets/img/features/blockchain-authentication-ledger/share.svg'),
+          title: this.$t('common.share'),
+          description: this.$t(
+            'features.blockchain_authentication_ledger.share_desc'
+          ),
+        },
+      ],
     }
   },
 }
 </script>
+
+<style lang="sass" scoped>
+.features-container
+  .cards-wrapper
+    margin-bottom: 148px
+@media (max-width: 768px)
+  .features-container
+    .cards-wrapper
+      counter-reset: css-counter 0
+      flex-direction: column
+      align-items: center
+      gap: 0px !important
+      margin-bottom: 40px
+
+      > div:not(:last-child)
+        margin: 0 0 40px 0
+</style>

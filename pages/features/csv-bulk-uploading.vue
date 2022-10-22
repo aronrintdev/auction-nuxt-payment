@@ -90,29 +90,23 @@ export default {
     return {
       csvBulkUplaod: [
         {
-          title: this.$t(
-            'newest_features.csv_bulk_uploading.upload_multiple_items_at_once'
-          ),
+          title: this.$t('newest_features.csv_bulk_uploading.upload_multiple'),
           description: this.$t(
-            'newest_features.csv_bulk_uploading.upload_multiple_items_at_once_desc'
+            'newest_features.csv_bulk_uploading.upload_multiple_desc'
           ),
           image: require('~/assets/img/features/newest-feature/csv-bulk-uploading/csveasilyeditable.png'),
         },
         {
-          title: this.$t(
-            'newest_features.csv_bulk_uploading.easily_editable_&_user-friendly'
-          ),
+          title: this.$t('newest_features.csv_bulk_uploading.easily_editable'),
           description: this.$t(
-            'newest_features.csv_bulk_uploading.easily_editable_&_user-friendly_desc'
+            'newest_features.csv_bulk_uploading.easily_editable_desc'
           ),
           image: require('~/assets/img/features/newest-feature/csv-bulk-uploading/csvmultipleitems.png'),
         },
         {
-          title: this.$t(
-            'newest_features.csv_bulk_uploading.time_saving_&_efficient'
-          ),
+          title: this.$t('newest_features.csv_bulk_uploading.time_savings'),
           description: this.$t(
-            'newest_features.csv_bulk_uploading.time_saving_&_efficient_desc'
+            'newest_features.csv_bulk_uploading.time_savings_desc'
           ),
           image: require('~/assets/img/features/newest-feature/csv-bulk-uploading/csvsavetime.png'),
         },
@@ -127,9 +121,9 @@ export default {
         shopNowDescription: 'newest_features.csv_bulk_uploading.shop_now_desc',
         shopNowButtonText: 'newest_features.csv_bulk_uploading.shop_now_btn',
         previousPage: 'newest_features.csv_bulk_uploading.previous_page_name',
-        previousPageLink: '/features/selling-on-deadstock',
+        previousPageLink: '/features/international-languages',
         nextPage: 'newest_features.csv_bulk_uploading.next_page_name',
-        nextPageLink: '/features/auctions',
+        nextPageLink: '/features/promotions',
       },
     }
   },

@@ -58,6 +58,7 @@ export default {
     width: 228px !important
     cursor: help
     min-height: 300px
+    background-color: white
 
     &:hover
         transform: scale(1.1)

@@ -20,5 +20,5 @@ h3.title
     font-size: 16px !important
     font-weight: 600 !important
     font-size: 16px !important
-    margin: 0px 0px 20px 0px !important
+    margin: 20px 0px 20px 0px !important
 </style>
