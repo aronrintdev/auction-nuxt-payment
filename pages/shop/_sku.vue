@@ -215,9 +215,7 @@ export default {
       },
       sizeViewMode: 'carousel',
       addingToCart: false,
-      similiarProducts: [],
       message: null,
-      tableType: null,
       amountOffset: AMOUNT_OFFSET
     }
   },
