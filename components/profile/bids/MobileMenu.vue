@@ -1,19 +1,47 @@
 <template>
   <ul class="list-group">
     <li class="d-flex align-items-center px-3 pb-3 border-bottom">
-      <ProductThumb :product="inventory.product" class="w-25" />
-      <div class="flex-1 d-flex flex-column px-3">
-        <div class="text-black body-3-medium">
+      <div v-if="auctionItems" class="collection-items">
+        <b-carousel controls indicators>
+          <b-carousel-slide v-for="(item, i) in auctionItems" :key="i" class="h-auto">
+            <template #img>
+              <b-row>
+                <b-col cols="4">
+                  <ProductThumb :product="item.inventory.product" />
+                </b-col>
+                <b-col class="d-flex flex-column justify-content-center pl-3">
+                  <div class="text-black body-5-medium">
+                    {{ item.inventory.product.name }}
+                  </div>
+                  <div class="text-gray-6 body-6-medium mt-1">
+                    {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
+                      item.inventory.product.colorway
+                    }} | {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
+                      item.inventory.size.size
+                    }} |  {{ $t('products.box_condition') }}&colon;&nbsp;{{ item.inventory.packaging_condition.name }}
+                  </div>
+                </b-col>
+
+              </b-row>
+            </template>
+          </b-carousel-slide>
+        </b-carousel>
+      </div>
+      <template v-else>
+        <ProductThumb :product="inventory.product" class="w-25" />
+        <div class="flex-1 d-flex flex-column px-3">
+        <div class="text-black body-5-medium">
           {{ inventory.product.name }}
         </div>
         <div class="text-gray-6 body-6-medium mt-1">
           {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
             inventory.product.colorway
-          }}, {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
+          }} | {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
             inventory.size.size
           }} | {{ $t('products.box_condition') }}&colon;&nbsp;{{ inventory.packaging_condition.name }}
         </div>
       </div>
+      </template>
     </li>
     <li class="border-bottom">
       <a @click="$emit('edit')"
@@ -40,9 +68,13 @@
 export default {
   name: 'MobileMenu',
   props: {
+    auctionItems: {
+      type: Array,
+      default: () => null
+    },
     inventory: {
       type: Object,
-      required: true
+      default: () => null
     },
     isExpiredOrDelisted: {
       type: Boolean,

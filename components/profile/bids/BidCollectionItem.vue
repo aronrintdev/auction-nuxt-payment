@@ -1,4 +1,5 @@
 <template>
+  <div>
   <b-row
     v-if="auction.auction_items"
     :class="{'border shadow-sm' : isMobileSize}"
@@ -108,19 +109,19 @@
                 <ProductThumb :product="item.inventory.product" />
               </b-col>
               <b-col class="d-flex flex-column justify-content-center pl-3">
-              <div class="text-gray-6 body-6-medium text-uppercase text-left mb-2">
-                {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ item.inventory.product.sku }}
-              </div>
-               <div class="text-gray-6 body-6-medium text-uppercase text-left mb-2">
+                <div class="text-gray-6 body-6-medium text-uppercase text-left mb-2">
+                  {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ item.inventory.product.sku }}
+                </div>
+                <div class="text-gray-6 body-6-medium text-left mb-2">
                  {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
                    item.inventory.product.colorway
                  }}, {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
                    item.inventory.size.size
                  }}
-              </div>
-               <div class="text-gray-6 body-6-medium text-uppercase text-left mb-2">
-                 {{ $t('products.box_condition') }}&colon;&nbsp;{{ item.inventory.packaging_condition.name }}
-              </div>
+                </div>
+                <div class="text-gray-6 body-6-medium text-left mb-2">
+                   {{ $t('products.box_condition') }}&colon;&nbsp;{{ item.inventory.packaging_condition.name }}
+                </div>
              </b-col>
 
             </b-row>
@@ -187,6 +188,20 @@
       </b-col>
     </b-row>
   </b-row>
+    <vue-bottom-sheet
+      ref="mobileMenu"
+      max-width="auto"
+      :rounded="true"
+    >
+      <MobileMenu
+        :auctionItems="auction.auction_items"
+        :is-expired-or-delisted="isExpiredOrDelisted"
+        @viewSimilar="viewSimilarAuction"
+        @edit="$emit('edit', bid)"
+        @close="hideMobileMenu"
+      />
+    </vue-bottom-sheet>
+  </div>
 </template>
 
 <script>
@@ -195,6 +210,8 @@ import CollectionSvg from '~/assets/img/icons/collection.svg'
 import ProductThumb from '~/components/product/Thumb'
 import { Button } from '~/components/common'
 import screenSize from '~/plugins/mixins/screenSize'
+import MobileMenu from '~/components/profile/bids/MobileMenu'
+
 import {
   BID_TYPE_INCOMING,
   BID_TYPE_OUTGOING,
@@ -204,7 +221,7 @@ import {
 } from '~/static/constants'
 export default {
   name: 'BidCollectionItem',
-  components: { ProductThumb, Button },
+  components: { ProductThumb, Button, MobileMenu },
   mixins: [screenSize],
   props: {
     bid: {
