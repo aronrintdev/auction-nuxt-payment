@@ -22,7 +22,10 @@
             </b-col>
             <b-col md="6">
               <div class="body-24-normal text-black border-0">{{ $t('products.description') }}&colon;</div>
-              <span class="mt-2 body-24-normal text-color-gray-5">{{ productDescription }}</span>
+              <span class="mt-2 body-24-normal text-color-gray-5">{{ productDescriptionText }}</span>
+              <Button variant="link" @click="isFullTextShown = !isFullTextShown">
+                <span class="body-24-normal">{{ isFullTextShown ? $t('products.read_less') : $t('products.read_more') }}</span>
+              </Button>
             </b-col>
           </b-row>
         </b-tab>
@@ -38,11 +41,13 @@
 </template>
 <script>
 import ProductSizeGuideShoe from '~/components/product/size-guide/Shoe'
+import Button from '~/components/common/Button'
 
 export default {
   name: 'ProductDetailsTab',
   components: {
     ProductSizeGuideShoe,
+    Button
   },
   props: {
     product: {
@@ -71,8 +76,18 @@ export default {
       productDescription: 'Lorem ipsum dolor sit amet, ' +
         'consectetur adipisicing elit. Amet, distinctio dolorem dolores dolorum ipsam iste iusto laboriosam minus non ' +
         'officia perferendis, praesentium, rerum unde vel veniam? Deserunt eligendi fuga voluptatem!',
+      isFullTextShown: false,
     }
   },
+  computed: {
+    productDescriptionText(vm) {
+      if (vm.isFullTextShown) {
+        return this.productDescription
+      }
+
+      return this.productDescription.slice(0, 128) + '...'
+    }
+  }
 }
 </script>
 <style lang="sass" scoped>
@@ -80,8 +95,4 @@ export default {
 
 .text-color-gray-5
   color: $color-gray-5
-
-a
-  &:hover
-    color: inherit !important
 </style>
