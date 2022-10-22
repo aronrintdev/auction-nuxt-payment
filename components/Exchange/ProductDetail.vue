@@ -143,38 +143,52 @@
       hide-footer
     >
       <template #default>
-        <div class="mx-auto position-relative all-sizes">
-          <div class="items-wrapper">
-            <div
-              v-for="size in sizes"
-              :key="`size-${size.type}-${size.id}`"
-              :class="`d-inline-block item ${
-                value === size.id ? 'active' : ''
-              }`"
-            >
-              <div
-                class="d-flex align-items-center justify-content-center mx-auto card"
-                @click="handleSizeSelect(size.id)"
-              >
-                {{ size.size }}
-              </div>
-              <div class="text-center price">
-                <!-- {{ getPriceBySize(size.id) | toCurrency }} -->
+        <div class="row text-left">
+          <div class="col-12">
+            <div class="body-4-bold">All Sizes</div>
+          </div>
+        </div>
+        <hr class="my-2"/>
+        <div class="row">
+          <div class="col-6 text-left">
+            <div class="body-6-bold mb-2">Average price</div>
+            <div class="body-4-bold">$ 234.00</div>
+          </div>
+          <div class="col-6 text-right">
+            <div class="body-6-bold mb-2">Day gain</div>
+            <div class="body-6-normal text-success">$90.00</div>
+          </div>
+        </div>
+        <hr class="my-2"/>
+        <div class="row">
+          <div class="col-12">
+            <div class="all-sizes">
+              <div class="row items-wrapper">
+                <div
+                  v-for="size in sizes"
+                  :key="`size-${size.type}-${size.id}`"
+                  :class="`col-3 item ${
+                    currentSize === size.id ? 'active' : ''
+                  }`"
+                >
+                  <div
+                    class="card text-left pl-2"
+                    @click="handleSizeSelect(size.id)"
+                  >
+                    {{ size.size }}
+                    <div class="price">
+                      $ 234.00
+                      <!-- {{ getPriceBySize(size.id) | toCurrency }} -->
+                    </div>
+                    <div class="price-ratio text-success">
+                      +0.64(+0.36%)
+                      <!-- {{ getPriceBySize(size.id) | toCurrency }} -->
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
-          <b-button
-            v-if="!singleMode"
-            variant="link"
-            class="position-absolute p-0 close-btn"
-            @click="handleCloseClick"
-          >
-            <img
-              :src="require('~/assets/img/icons/close.svg')"
-              :alt="$t('common.close')"
-            />
-          </b-button>
         </div>
       </template>
     </Modal>
@@ -215,6 +229,7 @@ export default {
       dayjs,
       loading: false,
       products: [],
+      prices: [],
       similarProductSearchValue: '',
       sortBy: null,
       chartTabCurrentValue: '24',
@@ -394,14 +409,17 @@ export default {
     },
   },
   watch: {
-    lineDatasets () {
+    lineDatasets() {
       this.$nextTick(() => {
-      this.renderLineChart({
-      labels: this.lineDatasets.labels,
-      datasets: this.lineDatasets
-        }, this.lineChartOptions)
+        this.renderLineChart(
+          {
+            labels: this.lineDatasets.labels,
+            datasets: this.lineDatasets,
+          },
+          this.lineChartOptions
+        )
       })
-    }
+    },
   },
   mounted() {
     this.loadPage()
@@ -423,29 +441,60 @@ export default {
         this.currentSize = sizeId
       }
     },
-    pricesBySize() {
-      if (this.method === 'buy') {
-        return this.products?.lowest_prices?.filter(
-          (i) => i.packaging_condition_id === this.currentCondition
-        )
-      } else {
-        return this.products?.highest_offers?.filter(
-          (i) => i.packaging_condition_id === this.currentCondition
-        )
-      }
+    // Event handler when user select size in `view all` mode
+    handleSizeSelect(sizeId) {},
+    // Get min price for a given size among listing items
+    getPriceBySize(sizeId) {
+      return this.prices.find((i) => String(i.size_id) === String(sizeId))
+        ?.price
     },
+    // pricesBySize() {
+    //   if (this.method === 'buy') {
+    //     return this.products?.lowest_prices?.filter(
+    //       (i) => i.packaging_condition_id === this.currentCondition
+    //     )
+    //   } else {
+    //     return this.products?.highest_offers?.filter(
+    //       (i) => i.packaging_condition_id === this.currentCondition
+    //     )
+    //   }
+    // },
     changeGraphLabel(category) {
       switch (category) {
         case '24': {
-          this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
+          this.lineDatasets.labels = [
+            '2 pm',
+            '6 pm',
+            '10 pm',
+            '2 am',
+            '6 am',
+            '10 am',
+            '2 pm',
+          ]
           break
         }
         case '7': {
-          this.lineDatasets.labels = ['7 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
+          this.lineDatasets.labels = [
+            '7 pm',
+            '6 pm',
+            '10 pm',
+            '2 am',
+            '6 am',
+            '10 am',
+            '2 pm',
+          ]
           break
         }
         case '30': {
-          this.lineDatasets.labels = ['3 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
+          this.lineDatasets.labels = [
+            '3 pm',
+            '6 pm',
+            '10 pm',
+            '2 am',
+            '6 am',
+            '10 am',
+            '2 pm',
+          ]
           break
         }
         case '1': {
@@ -473,7 +522,15 @@ export default {
           break
         }
         default:
-        this.lineDatasets.labels = ['7 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
+          this.lineDatasets.labels = [
+            '7 pm',
+            '6 pm',
+            '10 pm',
+            '2 am',
+            '6 am',
+            '10 am',
+            '2 pm',
+          ]
       }
     },
     // On filter by change.
