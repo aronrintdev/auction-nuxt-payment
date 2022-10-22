@@ -1,337 +1,193 @@
 <template>
-  <b-container fluid class="wrapper">
-    <Loader v-if="loading" class="min-vh-100" />
-    <div v-else-if="product">
-      <b-row>
-        <b-col lg="6">
+  <b-row class="px-5">
+    <b-col md="12">
+      <Loader v-if="loading" class="min-vh-100" />
+
+      <b-row v-if="product">
+        <b-col md="6">
           <ProductBreadcrumb
             :category="category"
             :brand="product.brand"
-            :name="product.colorway"
-          ></ProductBreadcrumb>
-
-          <ProductTitle
-            :product-name="product.name"
-            :product-color="product.colorway"
-            :product-price="lowestPrice"
-            :category="category"
-            :sku="sku"
+            :name="product.name"
             class="mt-3"
-          ></ProductTitle>
+          ></ProductBreadcrumb>
 
           <ProductImageViewer v-if="!has360Images" :product="product" />
 
           <ProductImageViewerMagic360 v-if="has360Images" :product="product" />
-
-          <div class="create-listing-text mt-5 mb-4">
-            {{ $t('products.have_pair_to_sell') }}
-            <!-- todo: add link -->
-            <span class="link" role="button" @click="redirectToCreateListing">
-              {{ $t('products.create_a_listing') }}
-            </span>
-          </div>
         </b-col>
-        <b-col lg="6">
-          <div class="d-flex flex-column align-items-center position-relative">
-            <div class="icon-btns">
-              <Button
-                :id="`popover-wishlist-${product.id}`"
-                variant="white"
-                :icon="wishList ? `heart-red.svg` : 'heart2.svg'"
-                icon-only
-                class="mr-3"
-                tabindex="0"
-                :tooltip-text="wishList ? wishList.name : ''"
-                pill
-                @click="removeFromWishList"
-              >
-              </Button>
-              <Button variant="white" icon="share.svg" icon-only pill />
-            </div>
 
-            <div class="last-sold-text">
-              {{ $t('products.last_sold_for') }}:
-              {{ product.last_sold_for | toCurrency }}
-            </div>
+        <b-col md="6" class="mt-5">
+          <ProductTitle
+            :product-name="product.name"
+            :lowest-price="lowestPrice"
+            :product-last-sale-price="isNaN(product.last_sold_for) ? 0 : product.last_sold_for"
+            class="mt-5"
+          />
 
-            <NavGroup
-              v-model="method"
-              :data="methods"
-              nav-key="method"
-              class="method-nav"
-              @change="handleMethodNavClick"
-            />
+          <!-- Lowest Price & Highest Offer Nav Group -->
+          <NavGroup
+            v-model="method"
+            :data="methods"
+            nav-key="method"
+            class="text-center mt-3 body-8-normal"
+            @change="handleMethodNavClick"
+          />
 
-            <div class="price-section">
-              <div :class="method == 'buy' && 'active'">
-                {{ lowestPrice | toCurrency }}
-              </div>
-              <div :class="method == 'offer' && 'active'">
-                {{ highestOffer | toCurrency }}
-              </div>
-            </div>
+          <b-row class="mt-2">
+            <b-col md="3" offset-md="3" class="text-center">
+              <span class="body-1-medium" :class="method === 'buy' && 'active'">{{ lowestPrice | toCurrency }}</span>
+            </b-col>
+            <b-col md="3" class="text-center">
+              <span class="body-1-medium" :class="method === 'offer' && 'active'">{{ highestOffer | toCurrency }}</span>
+            </b-col>
+          </b-row>
+          <!-- End of Lowest Price & Highest Offer Nav Group -->
 
-            <div v-if="!tableType" class="w-100">
-              <ProductSizePicker
-                :sizes="sizes"
-                :prices="pricesBySize"
-                :value="currentSize"
-                :viewMode="sizeViewMode"
-                class="size-picker"
-                @update="handleSizeChange"
-                @changeViewMode="handleSizeViewModeChange"
-              />
+          <ProductSizePicker
+            :sizes="sizes"
+            :prices="pricesBySize"
+            :value="currentSize"
+            :viewMode="sizeViewMode"
+            class="size-picker"
+            @update="handleSizeChange"
+            @changeViewMode="handleSizeViewModeChange"
+          />
 
-              <ProductBoxConditionPicker
-                :value="currentCondition"
-                :conditions="packagingConditions"
-                class="box-conditions"
-                @change="handleConditionChange"
-              />
+          <ProductBoxConditionPicker
+            :value="currentCondition"
+            :conditions="packagingConditions"
+            class="box-conditions"
+            @change="handleConditionChange"
+          />
 
-              <div
-                v-if="method === 'buy' && isOutOfStock"
-                class="out-of-stock-btns"
-              >
-                <div class="warn-text">
-                  {{ $t('products.error.out_of_stock') }}
-                </div>
+          <!-- User Conditional Actions -->
+          <OutOfStock
+            v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
+            class="mt-3"
+            @notify-me="handleNotifyMeClick"
+            @place-offer="handleOfferSubmit"
+          />
 
-                <Button
-                  variant="outline-dark-blue"
-                  block
-                  black-text
-                  border="thick"
-                  @click="handleNotifyMeClick"
-                >
-                  {{ $t('products.notify_me') }}
-                </Button>
-              </div>
+          <BuyNow
+            v-else-if="method === 'buy' && sizeViewMode === 'carousel'"
+            class="mt-3"
+            :product="product"
+            :lowest-price="lowestPrice"
+            @buy-now="handleBuyNowClick"
+            @add-to-cart="handleAddToCartClick"
+          />
 
-              <div
-                v-else-if="
-                  method === 'buy' &&
-                  sizeViewMode === 'carousel' &&
-                  !isOutOfStock
-                "
-                class="action-btns"
-              >
-                <div>
-                  <Button
-                    variant="warning"
-                    block
-                    border="thick"
-                    :disabled="addingToCart"
-                    @click="handleAddToCartClick"
-                  >
-                    <div class="d-flex justify-content-center">
-                      <div>{{ $t('products.add_to_bag') }}</div>
-                      <div
-                        class="ml-1"
-                        :class="
-                          addingToCart ? 'add-to-cart-animation' : 'invisible'
-                        "
-                      >
-                        +1
-                      </div>
-                    </div>
-                  </Button>
-                  <div class="error-text">
-                    {{ error.addToCart }}
-                  </div>
-                </div>
-                <div>
-                  <Button
-                    variant="dark-blue"
-                    block
-                    class="mt1"
-                    border="thick"
-                    @click="handleBuyNowClick"
-                  >
-                    <div class="mr-3">
-                      {{ $t('products.buy_now') }}
-                    </div>
-                  </Button>
-                  <div v-if="error.buyNow" class="error-text">
-                    {{ error.buyNow }}
-                  </div>
-                </div>
-              </div>
+          <SellNow
+            v-else-if="sizeViewMode === 'carousel'"
+            class="mt-3"
+            :highest-offer="highestOffer"
+            @place-offer="handleOfferSubmit"
+            @sell-now="handleSellNowClick"
+          />
+          <!-- End of User Conditional Actions -->
 
-              <div
-                v-else-if="method === 'offer' && sizeViewMode === 'carousel'"
-                class="action-btns"
-              >
-                <!-- Make an Offer  -->
-                <div>
-                  <ProductOfferInput
-                    :min-amount="
-                      currentListingItem ? currentListingItem.min_bid_price : 0
-                    "
-                    @submit="handleOfferSubmit"
-                  />
-                  <div v-if="error.makeOffer" class="error-text">
-                    {{ error.makeOffer }}
-                  </div>
-                </div>
-                <!-- ./Make an Offer -->
-
-                <!-- Sell Now Button -->
-                <Button
-                  variant="outline-dark-blue"
-                  block
-                  black-text
-                  border="thick"
-                  class="mt2"
-                  @click="handleSellNowClick"
-                >
-                  <div class="d-flex justify-content-between">
-                    <div>{{ $t('products.sell_now') }}</div>
-                    <div>{{ highestOffer | toCurrency }}</div>
-                  </div>
-                </Button>
-                <!-- ./Sell Now Button -->
-              </div>
-            </div>
-
-            <div v-else-if="tableType === 'asks'" class="table-wrapper">
-              <ProductRecentAsks :sku="product.sku" @close="setTableType()" />
-            </div>
-
-            <div v-else-if="tableType === 'offers'" class="table-wrapper">
-              <ProductRecentOffers :sku="product.sku" @close="setTableType()" />
-            </div>
-
-            <div v-else-if="tableType === 'sales'" class="table-wrapper">
-              <ProductRecentSales :sku="product.sku" @close="setTableType()" />
-            </div>
-
-            <div v-if="sizeViewMode === 'carousel'" class="mt-4">
-              <Button
-                variant="light-gray"
-                class="btn-asks"
-                :pressed="tableType === 'asks'"
-                @click="setTableType('asks')"
-                >{{ $t('products.asks') }}</Button
-              ><Button
-                variant="light-gray"
-                class="btn-asks"
-                :pressed="tableType === 'offers'"
-                @click="setTableType('offers')"
-                >{{ $t('products.offers') }}</Button
-              ><Button
-                variant="light-gray"
-                class="btn-asks"
-                :pressed="tableType === 'sales'"
-                @click="setTableType('sales')"
-                >{{ $t('products.sales') }}</Button
-              >
-            </div>
-
-            <ProductAcceptedPayments
-              v-if="sizeViewMode === 'carousel'"
-              class="mt-4"
-            />
-          </div>
-        </b-col>
-      </b-row>
-
-      <b-row
-        v-if="product.similar_products && product.similar_products.length > 0"
-      >
-        <b-col>
-          <ProductSimilarItems
-            :products="product.similar_products"
+          <ProductAcceptedPaymentsV2
+            v-if="sizeViewMode === 'carousel'"
             class="mt-4"
           />
         </b-col>
       </b-row>
 
-      <b-row class="mt-4">
-        <b-col md="6">
-          <ProductDetailsTab :product="product" />
-        </b-col>
-        <b-col md="6">
-          <ProductPromo :product="product" />
+      <!-- Similar Items Section -->
+      <b-row v-if="product" class="mt-4">
+        <b-col md="12">
+          <ProductSimilarItems :products="product.similar_products" />
         </b-col>
       </b-row>
+      <!-- End of Similar Items Section -->
 
-      <b-row>
-        <b-col>
-          <ProductLatestSales
-            :value="product.latest_sales"
-            :sku="product.sku"
-          />
+      <!-- Product Details & Size Guide Section -->
+      <b-row v-if="product">
+        <b-col md="12">
+          <ProductDetailsTab :product="product" :selected-size="currentSize" />
         </b-col>
       </b-row>
+      <!-- End of Product Details & Size Guide Section -->
+
+      <!-- Sales Graph and Sales Data Section -->
+      <b-row v-if="product" class="my-5">
+        <b-col md="12">
+          <SalesSection :product="product" />
+        </b-col>
+      </b-row>
+      <!-- End of Sales Graph and Sales Data Section -->
 
       <AlertModal id="message-modal" :message="message" icon="tick" />
 
-      <WishListPopover
-        v-if="!wishList"
-        :product="product"
-        :wish-list="wishList"
-        :target="`popover-wishlist-${product.id}`"
-        @show="wishListShow = true"
-        @hidden="wishListShow = false"
-        @wishlisted="onWishListed"
-      />
-    </div>
-  </b-container>
+<!--        TODO: NP - Keeping this for now in order to have a reference on the create listing flow.-->
+<!--      <div>-->
+<!--        <b-row>-->
+<!--          <b-col lg="12">-->
+<!--            <div class="create-listing-text mt-5 mb-4">-->
+<!--              {{ $t('products.have_pair_to_sell') }}-->
+<!--              <span class="link" role="button" @click="redirectToCreateListing">-->
+<!--              {{ $t('products.create_a_listing') }}-->
+<!--            </span>-->
+<!--            </div>-->
+<!--          </b-col>-->
+<!--        </b-row>-->
+<!--        TODO: NP - Keeping this for now in order to have a reference on the product promo flow.-->
+<!--        <b-row class="mt-4">-->
+<!--          <b-col md="6">-->
+<!--            <ProductDetailsTab :product="product" />-->
+<!--          </b-col>-->
+<!--          <b-col md="6">-->
+<!--            <ProductPromo :product="product" />-->
+<!--          </b-col>-->
+<!--        </b-row>-->
+<!--      </div>-->
+    </b-col>
+  </b-row>
 </template>
 
 <script>
 import _ from 'lodash'
 import { mapActions, mapGetters } from 'vuex'
-import { NavGroup, Button, Loader } from '~/components/common'
+import { NavGroup, Loader } from '~/components/common'
 import ProductBreadcrumb from '~/components/product/Breadcrumb'
 import ProductTitle from '~/components/product/ProductTitle'
 import ProductImageViewer from '~/components/product/ImageViewerV2'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
 import ProductSizePicker from '~/components/product/SizePicker'
-import ProductAcceptedPayments from '~/components/product/AcceptedPaymentsV2'
-import ProductOfferInput from '~/components/product/OfferInput'
+import ProductAcceptedPaymentsV2 from '~/components/product/AcceptedPaymentsV2'
 import ProductBoxConditionPicker from '~/components/product/BoxConditionPicker'
 import ProductSimilarItems from '~/components/product/SimilarItems'
 import ProductDetailsTab from '~/components/product/DetailsTab'
-import ProductPromo from '~/components/product/Promo'
-import ProductLatestSales from '~/components/product/LatestSales'
-import WishListPopover from '~/components/wish-list/Popover.vue'
 import AlertModal from '~/components/modal/Alert'
-import ProductRecentAsks from '~/components/product/RecentAsks'
-import ProductRecentOffers from '~/components/product/RecentOffers'
-import ProductRecentSales from '~/components/product/RecentSales'
 import { API_PROD_URL } from '~/static/constants/environments'
 import { AMOUNT_OFFSET } from '~/static/constants'
+import SalesSection from '~/components/product/SalesSection'
+import BuyNow from '~/components/product/BuyNow'
+import OutOfStock from '~/components/product/OutOfStock'
+import SellNow from '~/components/product/SellNow'
 
 export default {
   components: {
+    OutOfStock,
+    BuyNow,
+    SellNow,
+    SalesSection,
+    ProductAcceptedPaymentsV2,
     ProductBreadcrumb,
     ProductTitle,
     ProductImageViewer,
     ProductImageViewerMagic360,
     NavGroup,
-    Button,
     ProductSizePicker,
-    ProductAcceptedPayments,
-    ProductOfferInput,
     ProductBoxConditionPicker,
     ProductSimilarItems,
     ProductDetailsTab,
-    ProductPromo,
-    ProductLatestSales,
-    WishListPopover,
     Loader,
     AlertModal,
-    ProductRecentAsks,
-    ProductRecentOffers,
-    ProductRecentSales,
   },
-
   layout: 'IndexLayout',
-
   fetchOnServer: false,
-
   data() {
     return {
       API_PROD_URL,
@@ -361,15 +217,12 @@ export default {
       addingToCart: false,
       similiarProducts: [],
       message: null,
-      wishListShow: false,
       tableType: null,
       amountOffset: AMOUNT_OFFSET
     }
   },
-
   async fetch() {
     const { sku } = this.$route.params
-
     this.loading = true
     this.product = await this.$axios
       .get(`/products/${sku}/details`)
@@ -386,7 +239,6 @@ export default {
     }
     this.loading = false
   },
-
   computed: {
     ...mapGetters({
       isVendor: 'auth/isVendor',
@@ -396,15 +248,12 @@ export default {
     category() {
       return this.product?.category?.name
     },
-
     sku() {
       return this.product?.sku
     },
-
     has360Images() {
       return this.product?.has360Images
     },
-
     lowestPrice() {
       return this.product?.lowest_prices?.find(
         (i) =>
@@ -412,7 +261,6 @@ export default {
           i.packaging_condition_id === this.currentCondition
       )?.price
     },
-
     highestOffer() {
       return this.product?.highest_offers?.find(
         (i) =>
@@ -420,19 +268,15 @@ export default {
           i.packaging_condition_id === this.currentCondition
       )?.price
     },
-
     sizes() {
       return this.product?.sizes || []
     },
-
     packagingConditions() {
       return this.product?.packaging_conditions || []
     },
-
     isOutOfStock() {
       return this.currentSize && !this.currentListingItem
     },
-
     pricesBySize() {
       if (this.method === 'buy') {
         return this.product?.lowest_prices?.filter(
@@ -444,21 +288,12 @@ export default {
         )
       }
     },
-
-    wishList() {
-      return this.product.wish_lists && this.product.wish_lists.length > 0
-        ? this.product.wish_lists[0]
-        : null
-    },
   },
-
   methods: {
     ...mapActions({
-      removeProductsFromWishList: 'wish-list/removeProductsFromWishList',
       checkItemExistforVendor: 'sell-now/checkItemExistforVendor',
       storeOfferDetails: 'offer/storeOfferDetails'
     }),
-
     resetError() {
       this.error = {
         addToCart: null,
@@ -466,13 +301,11 @@ export default {
         makeOffer: null,
       }
     },
-
     handleMethodNavClick(method) {
       if (method) {
         this.method = method
       }
     },
-
     async findListingItem() {
       if (!this.currentSize || !this.currentCondition) return
       const params = {
@@ -502,7 +335,6 @@ export default {
         })
       }
     },
-
     handleSizeChange(sizeId) {
       if (sizeId) {
         this.currentSize = sizeId
@@ -510,15 +342,14 @@ export default {
         this.findListingItem()
       }
     },
-
     handleConditionChange(condition) {
       if (condition?.id !== this.currentCondition) {
         this.currentCondition = condition.id
         this.findListingItem()
       }
     },
-
-    showMessageModal(message, callback = () => {}) {
+    showMessageModal(message, callback = () => {
+    }) {
       this.message = message
       this.$bvModal.show('message-modal')
       setTimeout(() => {
@@ -526,7 +357,6 @@ export default {
         callback()
       }, this.MODAL_FADE_TIMEOUT)
     },
-
     getCartProduct() {
       return {
         id: this.product.id,
@@ -543,13 +373,11 @@ export default {
         listing_item_id: this.currentListingItem?.id,
       }
     },
-
     handleAddToCartClick() {
       this.resetError()
       if (!this.currentSize) {
         return (this.error.addToCart = this.$t('products.error.select_size'))
       }
-
       this.addingToCart = true
       this.$store.dispatch('shopping-cart/addOrIncrementQuantityProduct', this.getCartProduct())
       this.showMessageModal(
@@ -559,22 +387,18 @@ export default {
         () => (this.addingToCart = false)
       )
     },
-
     handleBuyNowClick() {
       this.resetError()
       if (!this.currentSize) {
         this.error.buyNow = this.$t('products.error.select_size')
         return
       }
-
       this.$store.dispatch('shopping-cart/addProduct', this.getCartProduct())
       this.$router.push('/checkout/selling')
     },
-
     handleSizeViewModeChange(mode) {
       this.sizeViewMode = mode
     },
-
     handleNotifyMeClick() {
       if (!this.$auth.loggedIn) {
         return this.$router.push('/login')
@@ -589,7 +413,6 @@ export default {
           this.showMessageModal(this.$t('products.message.send_item_email'))
         })
     },
-
     handleOfferSubmit(amount) {
       this.resetError()
       // If no size is selected.
@@ -610,7 +433,7 @@ export default {
       }
       // Do the place offer.
       this.storeOfferDetails({
-        bid_price : amount * this.amountOffset,
+        bid_price: amount * this.amountOffset,
         packaging_condition_id: this.currentCondition,
         size_id: this.currentSize,
         product: this.product,
@@ -627,28 +450,24 @@ export default {
       if (!this.authenticated) {
         this.$router.push('/login')
       }
-
       // If the user is not a vendor then we will redirect user to vendor hub apply page
       if (this.authenticated && !this.isVendor) {
         this.$router.push('/profile/vendor-hub')
         return
       }
-
       // If no highest offer is placed.
       if (!this.highestOffer) {
         this.$toasted.error(this.$t('sell_now.no_offer'))
         return false
       }
-
       // If no listing or
       // If the currently listing inventory's vendor id doesnot matches the logged in vendor id,
       // then create listing with inventory.
-
       this.checkItemExistforVendor({
         productID: this.getCartProduct().id,
         sizeId: this.currentSize,
         packagingConditionId:
-          this.packagingConditions[this.currentCondition - 1].id,
+        this.packagingConditions[this.currentCondition - 1].id,
         offerAmount: this.highestOffer,
       })
         .then((res) => {
@@ -666,7 +485,6 @@ export default {
           this.$nuxt.refresh()
         })
     },
-
     moveToSellNow() {
       // after becoming a vendor or logging in as a vendor, the user will see
       // the above screen for the sell now based on commission percentage like if
@@ -691,11 +509,11 @@ export default {
           quantity: 1,
           packaging_condition:
             this.packagingConditions[
-              this.getSelectedItemforVendor.packaging_condition_id - 1
-            ],
+            this.getSelectedItemforVendor.packaging_condition_id - 1
+              ],
           packaging_condition_id:
-            this.packagingConditions[
-              this.getSelectedItemforVendor.packaging_condition_id - 1
+          this.packagingConditions[
+          this.getSelectedItemforVendor.packaging_condition_id - 1
             ].id,
           price: this.getSelectedItemforVendor.sale_price,
           listing_item_id: this.getSelectedItemforVendor.listing_items[0].id,
@@ -706,214 +524,20 @@ export default {
         this.$router.push('/checkout/sell-now')
       }
     },
-
-    onWishListed(wishList) {
-      if (wishList) {
-        this.product.wish_lists = [wishList]
-        this.wishListShow = false
-      }
-    },
-
-    removeFromWishList() {
-      if (this.wishList) {
-        // We need to blur button in order to make popover work again.
-        document.activeElement.blur()
-        this.removeProductsFromWishList({
-          wishList: this.wishList,
-          ids: [this.product.id],
-        })
-        this.product.wish_lists = []
-      }
-    },
-
-    setTableType(type) {
-      this.tableType = type
-    },
-
+    // TODO: NP - Keeping this temporary for feature reference on the listing creation flow.
     // On create listing click, redirect to list creation page.
-    redirectToCreateListing(){
-      // If not authenticated redirect to login
-      if(!this.authenticated){
-        return this.$router.push('/login')
-      }
-      // If authenticated, but the user is not a vendor, redirect to vendor hub.
-      if (this.authenticated && !this.isVendor) {
-        return this.$router.push('/profile/vendor-hub')
-      }
-      // Redirect to listing page.
-      this.$router.push('/profile/create-listing')
-    }
+  //   redirectToCreateListing(){
+  //     // If not authenticated redirect to login
+  //     if(!this.authenticated){
+  //       return this.$router.push('/login')
+  //     }
+  //     // If authenticated, but the user is not a vendor, redirect to vendor hub.
+  //     if (this.authenticated && !this.isVendor) {
+  //       return this.$router.push('/profile/vendor-hub')
+  //     }
+  //     // Redirect to listing page.
+  //     this.$router.push('/profile/create-listing')
+  //   }
   },
 }
 </script>
-<style lang="sass" scoped>
-@import '~/assets/css/_variables'
-
-.wrapper
-  padding: 20px 40px
-  position: relative
-  max-width: 1440px
-  margin-left: auto
-  margin-right: auto
-
-  .create-listing-text
-    @include body-8-medium
-    margin-top: 40px
-    color: $color-black-1
-
-    >span.link
-      color: $color-blue-20
-      font-weight: $normal
-
-  .last-sold-text
-    @include body-4-medium
-    color: $color-gray-6
-    border-bottom: 1px solid $color-gray-6
-    margin-top: 13px
-
-  .icon-btns
-    position: absolute
-    right: 0
-    top: 0
-    display: flex
-    align-items: center
-
-  .method-nav::v-deep
-    margin-top: 13px
-
-    .btn-group
-      padding: 6px 7px
-
-      .btn
-        @include body-8-bold
-        padding: 6px 35px
-        height: auto
-        width: 198px
-
-  .price-section
-    display: flex
-    margin-top: 12px
-
-    >div
-      @include heading-3
-      width: 198px
-      padding: 14px 0
-      text-align: center
-      color: $color-gray-20
-
-      &.active
-        color: $color-black-1
-
-  .action-btns
-    margin-top: 20px
-
-    >div, .btn
-      width: 408px
-      max-width: 100%
-      margin-left: auto
-      margin-right: auto
-
-    .mt1
-      margin-top: 10px
-
-    .mt2
-      margin-top: 10px
-
-    .error-text
-      @include body-5-normal
-      color: $color-red-3
-      margin-top: 3px
-      height: 17px
-      padding-left: 20px
-
-    .add-to-cart-animation::v-deep
-      animation: 0.5s anim-lineUp ease-out
-      opacity: 0
-    @keyframes anim-lineUp
-      0%
-        opacity: 1
-        transform: translateY(30%)
-      20%
-        opacity: 1
-      50%
-        opacity: 0.5
-        transform: translateY(-30%)
-      100%
-        opacity: 0
-        transform: translateY(-50%)
-
-  .out-of-stock-btns
-    .warn-text
-      @include body-8-medium
-      color: $color-black-1
-      width: 300px
-      margin-left: auto
-      margin-right: auto
-      text-align: center
-      margin-top: 25px
-
-    .btn
-      width: 408px
-      max-width: 100%
-      margin-top: 16px
-      margin-left: auto
-      margin-right: auto
-
-  .btn-asks
-    width: 120px
-    margin: 0 12px
-
-    &.active
-      background-color: $color-gray-4
-
-  .size-picker::v-deep
-    .size-carousel
-      margin-left: auto
-      margin-right: auto
-
-      .owl-carousel
-        .item
-          &.active
-            &::after
-              border-color: $color-blue-20
-
-    .all-sizes
-      .item
-        &.active
-          &::after
-            border-color: $color-blue-20
-
-  .table-wrapper
-    width: 475px
-    max-width: 100%
-
-@media (max-width: 620px)
-  .wrapper
-    .btn-asks
-      width: 100%
-      margin: 8px 0
-
-@media (max-width: 576px)
-  .wrapper
-    .size-picker::v-deep
-      width: 100%
-
-      .all-sizes
-        .item
-          width: 33%
-
-    .icon-btns
-      position: relative
-
-    .last-sold-text
-      margin: 20px 0
-
-    .box-conditions::v-deep
-      .box-condition-btns
-        display: flex
-        flex-direction: column
-    .action-btns
-      width: 100%
-    .out-of-stock-btns
-      width: 100%
-</style>
