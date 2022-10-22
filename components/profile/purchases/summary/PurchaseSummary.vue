@@ -44,11 +44,7 @@
               class="success-status d-flex align-items-center float-right"
             >
               <div class="p-3 text-uppercase">
-                {{
-                  $t(
-                    `vendor_purchase.orderstatus.${orderDetails.orderable.status.toLowerCase()}`
-                  )
-                }}
+                {{$t(`vendor_purchase.orderstatus.${orderDetails.orderable.status.toLowerCase().split(' ').join('_')}`)}}
               </div>
             </div>
           </div>
@@ -103,6 +99,7 @@
         <SingleOrderVue
           v-if="orderDetails.quantity === 1 && orderType === buy || orderType === sell"
           :orderDetails="orderDetails.listing_item_order"
+          :fullOrderDetails='orderDetails'
           :fields="fields"
           :orderType="orderType"
           :itemCount="orderDetails.quantity"
@@ -114,6 +111,7 @@
         <SingleOrderVue
           v-if="orderType === giftCard"
           :orderDetails="orderDetails.orderable"
+          :fullOrderDetails='orderDetails'
           :fields="fields"
           :orderType="orderType"
           :itemCount="orderDetails.quantity"

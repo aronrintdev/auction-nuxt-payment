@@ -40,12 +40,13 @@
             <b-col cols="3">
               <div>{{ product(item).name }} ({{ product(item).release_year }})</div>
               <div>{{ $t('orders.colorway') }}: {{ product(item).colorway }}</div>
-              <div>{{ $t('orders.box_condition') }}:
+              <div v-if="isBuy">
+                {{ $t('orders.box_condition') }}:
                 {{ item.listing_item.inventory.packaging_condition.name }}
               </div>
             </b-col>
             <b-col cols="3">
-              <div>{{ $t('orders.size') }}: {{ item.listing_item.inventory.size.size }}</div>
+              <div v-if="isBuy">{{ $t('orders.size') }}: {{ item.listing_item.inventory.size.size }}</div>
               <div>{{ $t('orders.sku') }}: {{ product(item).sku }}</div>
             </b-col>
           </b-row>
@@ -53,8 +54,8 @@
             <div class="text-bold">{{ product(item).name }} ({{ product(item).release_year }})</div>
             <div><span>{{ $t('orders.sku') }}:</span> {{ product(item).sku }}</div>
             <div><span>{{ $t('orders.colorway') }}:</span> {{ product(item).colorway }}</div>
-            <div><span>{{ $t('orders.size') }}:</span> {{ item.listing_item.inventory.size.size }}</div>
-            <div><span>{{ $t('orders.box_condition') }}:</span>
+            <div v-if="isBuy"><span>{{ $t('orders.size') }}:</span> {{ item.listing_item.inventory.size.size }}</div>
+            <div v-if="isBuy"><span>{{ $t('orders.box_condition') }}:</span>
               {{ item.listing_item.inventory.packaging_condition.name }}
             </div>
           </div>
@@ -98,9 +99,20 @@ export default {
       default: null
     },
   },
+  computed:{
+    isTrade() {
+      return this.order.type.label === 'trade'
+    },
+    isBuy() {
+      return this.order.type.label === 'buy'
+    }
+  },
   methods:{
     product(item) {
-      return item.listing_item.inventory.product
+      if(this.isTrade){
+        return item.product
+      }
+      return item.listing_item?.inventory?.product
     },
     printLabel() {
       return `data:application/pdf;base64,${this.item.vendor_shipment?.meta.labelData}`

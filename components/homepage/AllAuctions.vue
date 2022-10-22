@@ -17,14 +17,14 @@
       </div>
     </div>
     <div>
-      <ProductCarousel :products="products">
+      <ProductCarousel :products="products" :pageName='pageName'>
         <template #product>
           <div
             v-for="(product, index) in products"
             :key="`product-carousel-${index}`"
             class="item"
           >
-            <ProductCard :product="product" showPriceAndSize :showPrice="false">
+            <ProductCard :product="product" showPriceAndSize :showPrice="false" :pageName='pageName'>
               <template #badge>
                 <!-- TODO -->
                 <Badge
@@ -57,6 +57,7 @@ export default {
   data() {
     return {
       products: [],
+      pageName: 'trades'
     }
   },
   async fetch() {

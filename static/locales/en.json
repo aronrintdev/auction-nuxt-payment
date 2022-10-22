@@ -3625,7 +3625,8 @@
       "declined": "Declined",
       "confirmed": "Confirmed",
       "success": "Success",
-      "complete": "Complete"
+      "complete": "Complete",
+      "voided": "Voided"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
@@ -5177,6 +5178,7 @@
   "vendor_dashboard": {
     "title": "Dashbaord",
     "bronze_seller": "Bronze Seller",
+    "seller": "Seller",
     "view_details": "View Details",
     "view_all": "View All",
     "total_sales": "Total Sales",
@@ -5250,7 +5252,8 @@
     "types": {
       "buying": "Buying",
       "selling": "Selling",
-      "communication": "Deadstock Comms"
+      "communication": "Deadstock Comms",
+      "comms": "Deadstock Comms"
     },
     "start": "Start",
     "end": "End",

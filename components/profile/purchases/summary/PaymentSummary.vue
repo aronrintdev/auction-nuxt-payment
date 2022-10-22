@@ -225,15 +225,15 @@
                 </div>
               </b-col>
             </b-row>
-            <b-row>
+            <b-row v-if="orderDetails.transaction.discount && orderDetails.promo_code!==null">
               <b-col md="6">
                 <div class="text-gray-25">
-                  {{ $t('vendor_purchase.promotion') }}
+                 {{ $t('vendor_purchase.promotion') }} 
+                  <span v-if="orderDetails.promo_code">({{orderDetails.promo_code}})</span>
                 </div>
               </b-col>
               <b-col md="3">
-                <div class="text-gray-25 pull-right">&dollar;0.00</div>
-                <!-- TODO: Harcoded for now -->
+                <div class="text-gray-25 pull-right">&dollar;{{orderDetails.transaction.discount}}</div>
               </b-col>
             </b-row>
             <b-row v-if="orderDetails.transaction.total">
