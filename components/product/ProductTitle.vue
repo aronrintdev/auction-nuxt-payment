@@ -1,5 +1,5 @@
 <template>
-  <b-row>
+  <b-row class="border-bottom pb-3">
     <b-col md="12">
       <b-row>
         <b-col md="12" class="d-flex align-items-center">
