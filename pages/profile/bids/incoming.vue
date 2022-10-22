@@ -652,7 +652,6 @@ export default {
       border-radius: 2px
       border: 2px solid $color-gray-47
 
-
 :deep()
   .bg-light
     position: relative
@@ -663,8 +662,6 @@ export default {
     .btn-secondary
       background-color: $white
       border: none
-
-
       &:hover
         background-color: $white-2
 
@@ -676,7 +673,6 @@ export default {
 .delete-expired-mobile.btn
   @include body-5-regular
   color: $color-gray-30
-
 
 .container-profile-bids
   background-color: $color-white-5
@@ -691,10 +687,8 @@ export default {
     color: $color-black-1
     font-weight: $bold
 
-
 .custom-selectbox
   border: 1px solid $color-gray-60
   height: 38px
-
 </style>
 
