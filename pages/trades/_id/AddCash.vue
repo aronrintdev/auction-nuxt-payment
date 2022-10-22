@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="cross pl-3 pt-3">
-      <img :src="require('~/assets/img/trades/cross-icon.svg')" role="button">
+      <img :src="require('~/assets/img/trades/cross-icon.svg')" role="button" @click="cancelAction">
     </div>
     <div class="d-flex justify-content-between pt-3">
       <div class="add-cash">{{heading}}</div>
@@ -14,8 +14,8 @@
     </div>
     <div>
       <div class="d-flex justify-content-between pt-2 total-container" >
-        <div class="theirs-total d-flex justify-content-center align-items-center">{{$t('trades.trade_arena.theirs')}}: <span class="total-value"> $200.00</span></div>
-        <div class="yours-total d-flex justify-content-center align-items-center">{{$t('trades.trade_arena.yours')}}: <span class="total-value"> $200.00</span></div>
+        <div class="theirs-total d-flex justify-content-center align-items-center">{{$t('trades.trade_arena.theirs')}}: <span class="total-value"> {{theirAmount}}</span></div>
+        <div class="yours-total d-flex justify-content-center align-items-center">{{$t('trades.trade_arena.yours')}}: <span class="total-value"> {{yourAmount}}</span></div>
       </div>
     </div>
     <div>
@@ -37,17 +37,17 @@
       <div class="amount-headings">
         {{$t('trades.your_item_value')}}
       </div>
-      <span class="amount-val">$200</span>
+      <span class="amount-val">{{yourAmount}}</span>
       </div>
       <div class="d-flex justify-content-between align-items-center amount-cont mt-2">
       <div class="amount-headings">
         {{$t('trades.total_value')}}
       </div>
-      <span class="amount-val">$200</span>
+      <span class="amount-val">${{totalAmount()}}</span>
       </div>
     </div>
     <div class="d-flex justify-content-center">
-      <Button pill variant="dark-blue" class="confirm-btn">
+      <Button pill variant="dark-blue" class="confirm-btn" @click="confirmAmount()">
         {{$t('common.confirm')}}
       </Button>
     </div>
@@ -64,10 +64,19 @@ export default {
     Button,
     Meter
   },
+  props:{
+    yourAmount:{
+      required:true
+    },
+    theirAmount:{
+      required:true
+    }
+  },
   data(){
     return {
-      amount: null,
-      addCash: true
+      amount: 0,
+      addCash: true,
+      yourTotal:this.yourAmount
     }
   },
   computed:{
@@ -87,6 +96,19 @@ export default {
   methods:{
     addOrReq(val){
       this.addCash = val
+    },
+    cancelAction(){
+      this.$emit('click',false)
+    },
+    totalAmount(){
+      return parseInt(this.yourTotal.replace('$',''))+parseInt(this.amount?this.amount:0)
+    },
+    confirmAmount(){
+      const data = {
+        add_cash: this.addCash,
+        amount:this.amount
+      }
+      this.$emit('change',data)
     }
   }
 }
