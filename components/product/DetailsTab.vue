@@ -1,8 +1,8 @@
 <template>
   <b-row class="h-100">
     <b-col md="12">
-      <b-tabs content-class="mt-3" active-nav-item-class="border-0 text-black" nav-class="pb-2">
-        <b-tab title-link-class="body-2-bold text-gray-47 border-0 pl-0" :title="$t('products.product_details')">
+      <b-tabs content-class="mt-3" nav-class="pb-2">
+        <b-tab title-link-class="body-2-bold border-0 pl-0" :title="$t('products.product_details')">
           <b-row>
             <b-col md="6">
               <b-row>
@@ -29,7 +29,7 @@
             </b-col>
           </b-row>
         </b-tab>
-        <b-tab title-link-class="body-2-bold text-gray-47 border-0 pl-5" :title="$t('products.size_guide')">
+        <b-tab title-link-class="body-2-bold border-0 pl-5" :title="$t('products.size_guide')">
           <ProductSizeGuideShoe
             v-if="product.size_type && SHOE_CATEGORIES.indexOf(product.size_type) > -1"
             :selected-size="selectedSize"
@@ -92,6 +92,17 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+/* Overriding admin-lite theme styles */
+::v-deep
+  .nav-link
+    color: $color-gray-5
+    &:hover
+      color: $color-gray-5
+    &.active
+      color: $black-1
+      &:hover
+        color: $black-1
 
 .text-color-gray-5
   color: $color-gray-5
