@@ -394,11 +394,14 @@ export default {
     },
   },
   watch: {
-    lineDatasets() {
+    lineDatasets () {
       this.$nextTick(() => {
-        this.renderLineChart()
+      this.renderLineChart({
+      labels: this.lineDatasets.labels,
+      datasets: this.lineDatasets
+        }, this.lineChartOptions)
       })
-    },
+    }
   },
   mounted() {
     this.loadPage()
@@ -432,45 +435,17 @@ export default {
       }
     },
     changeGraphLabel(category) {
-      this.loading = true
       switch (category) {
         case '24': {
-          this.lineDatasets.labels = [
-            '2 pm',
-            '6 pm',
-            '10 pm',
-            '2 am',
-            '6 am',
-            '10 am',
-            '2 pm',
-          ]
-          this.loading = false
+          this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
           break
         }
         case '7': {
-          this.lineDatasets.labels = [
-            '7 pm',
-            '6 pm',
-            '10 pm',
-            '2 am',
-            '6 am',
-            '10 am',
-            '2 pm',
-          ]
-          this.loading = false
+          this.lineDatasets.labels = ['7 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
           break
         }
         case '30': {
-          this.lineDatasets.labels = [
-            '3 pm',
-            '6 pm',
-            '10 pm',
-            '2 am',
-            '6 am',
-            '10 am',
-            '2 pm',
-          ]
-          this.loading = false
+          this.lineDatasets.labels = ['3 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
           break
         }
         case '1': {
@@ -483,7 +458,6 @@ export default {
             '10 am',
             '2 pm',
           ]
-          this.loadingChart = false
           break
         }
         case 'all': {
@@ -496,20 +470,10 @@ export default {
             '10 am',
             '2 pm',
           ]
-          this.loading = false
           break
         }
         default:
-          this.lineDatasets.labels = [
-            '7 pm',
-            '6 pm',
-            '10 pm',
-            '2 am',
-            '6 am',
-            '10 am',
-            '2 pm',
-          ]
-          this.loading = false
+        this.lineDatasets.labels = ['7 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
       }
     },
     // On filter by change.
@@ -553,4 +517,3 @@ export default {
   },
 }
 </script>
-<style lang="sass" scoped></style>
