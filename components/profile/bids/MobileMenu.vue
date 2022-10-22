@@ -44,20 +44,28 @@
       </template>
     </li>
     <li class="border-bottom">
-      <a @click="$emit('edit')"
-         class="p-3 d-inline-block text-black body-3-normal d-flex justify-content-between">
+      <a
+        class="p-3 d-inline-block text-black body-3-normal d-flex justify-content-between"
+        @click="$emit('edit')"
+      >
         <span>{{ isExpiredOrDelisted ? $t('bids.view') : $t('bids.edit_bid') }}</span>
         <img src="~/assets/img/icons/arrow-right-black.svg" class="pl-3"/>
       </a>
     </li>
     <li class="border-bottom">
-      <a @click="$emit('viewSimilar')" class="p-3 d-inline-block text-black body-3-normal d-flex justify-content-between">
+      <a
+        class="p-3 d-inline-block text-black body-3-normal d-flex justify-content-between"
+        @click="$emit('viewSimilar')"
+      >
         <span>{{ $t('bids.view_similar') }}</span>
         <img src="~/assets/img/icons/arrow-right-black.svg" class="pl-3"/>
       </a>
     </li>
     <li>
-      <a @click="$emit('close')" class="p-3 d-inline-block text-black body-3-normal d-flex justify-content-between">
+      <a
+        class="p-3 d-inline-block text-black body-3-normal d-flex justify-content-between"
+        @click="$emit('close')"
+      >
         <span>{{ $t('create_listing.confirm.cancel') }}</span>
       </a>
     </li>

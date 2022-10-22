@@ -3,8 +3,8 @@
 
     <!--    Bids Filters and mobile search    -->
     <div v-if="isMobileSize" class="d-flex align-items-center">
-      <MobileSearchInput :value="filters.search" @input="mobileSearch" class="flex-grow-1" />
-      <span @click="showMobileFilter" class="ml-3"><img src="~/assets/img/icons/filter-icon.png" /></span>
+      <MobileSearchInput :value="filters.search" class="flex-grow-1" @input="mobileSearch" />
+      <span class="ml-3" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
     </div>
     <!--    Bids Filters    -->
     <BidsFilters v-else @update="FetchBids"/>
