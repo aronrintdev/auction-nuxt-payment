@@ -76,6 +76,7 @@
             :lowest-price="lowestPrice"
             @buy-now="handleBuyNowClick"
             @add-to-cart="handleAddToCartClick"
+            @shipping-option-selected="handleShippingOptionSelected"
           />
 
           <SellNow
@@ -86,6 +87,14 @@
             @sell-now="handleSellNowClick"
           />
           <!-- End of User Conditional Actions -->
+
+          <!-- Error message text -->
+          <b-row v-if="errorText" class="mt-2">
+            <b-col md="12">
+              <div class="body-5-normal text-color-red-3">{{ errorText }}</div>
+            </b-col>
+          </b-row>
+          <!-- End of Error message text -->
 
           <ProductAcceptedPaymentsV2
             v-if="sizeViewMode === 'carousel'"
@@ -161,7 +170,7 @@ import ProductSimilarItems from '~/components/product/SimilarItems'
 import ProductDetailsTab from '~/components/product/DetailsTab'
 import AlertModal from '~/components/modal/Alert'
 import { API_PROD_URL } from '~/static/constants/environments'
-import { AMOUNT_OFFSET } from '~/static/constants'
+import { AMOUNT_OFFSET, INSTANT_SHIPPING } from '~/static/constants'
 import SalesSection from '~/components/product/SalesSection'
 import BuyNow from '~/components/product/BuyNow'
 import OutOfStock from '~/components/product/OutOfStock'
@@ -216,7 +225,8 @@ export default {
       sizeViewMode: 'carousel',
       addingToCart: false,
       message: null,
-      amountOffset: AMOUNT_OFFSET
+      amountOffset: AMOUNT_OFFSET,
+      shippingOption: '',
     }
   },
   async fetch() {
@@ -275,6 +285,9 @@ export default {
     isOutOfStock() {
       return this.currentSize && !this.currentListingItem
     },
+    instantShip(vm) {
+      return vm.product?.instant_ship ? vm.product?.instant_ship : null
+    },
     pricesBySize() {
       if (this.method === 'buy') {
         return this.product?.lowest_prices?.filter(
@@ -286,17 +299,30 @@ export default {
         )
       }
     },
+    errorText() {
+      for (const errorKey in this.error) {
+        if (this.error[`${errorKey}`]) {
+          return this.error[`${errorKey}`]
+        }
+      }
+
+      return false
+    }
   },
   methods: {
     ...mapActions({
       checkItemExistforVendor: 'sell-now/checkItemExistforVendor',
       storeOfferDetails: 'offer/storeOfferDetails'
     }),
+    handleShippingOptionSelected(shippingOption) {
+      this.shippingOption = shippingOption
+    },
     resetError() {
       this.error = {
         addToCart: null,
         buyNow: null,
         makeOffer: null,
+        shipping: null,
       }
     },
     handleMethodNavClick(method) {
@@ -366,16 +392,22 @@ export default {
         quantity: 1,
         inventory_stock: this.currentListingItem?.inventory_stock,
         price: this.currentListingItem?.inventory?.sale_price,
-        instantShipPrice: this.currentListingItem?.inventory?.instant_ship_price,
+        instantShipPrice: this.shippingOption === INSTANT_SHIPPING ? this.currentListingItem?.inventory?.instant_ship_price : 0,
         image: `${this.API_PROD_URL}/${this.category}/${this.sku}/image`,
         listing_item_id: this.currentListingItem?.id,
       }
     },
     handleAddToCartClick() {
       this.resetError()
+
       if (!this.currentSize) {
         return (this.error.addToCart = this.$t('products.error.select_size'))
       }
+
+      if (this.instantShip && !this.shippingOption) {
+        return (this.error.shipping = this.$t('products.error.select_shipping_type'))
+      }
+
       this.addingToCart = true
       this.$store.dispatch('shopping-cart/addOrIncrementQuantityProduct', this.getCartProduct())
       this.showMessageModal(
@@ -387,10 +419,16 @@ export default {
     },
     handleBuyNowClick() {
       this.resetError()
+
       if (!this.currentSize) {
         this.error.buyNow = this.$t('products.error.select_size')
         return
       }
+
+      if (this.instantShip && !this.shippingOption) {
+        return (this.error.shipping = this.$t('products.error.select_shipping_type'))
+      }
+
       this.$store.dispatch('shopping-cart/addProduct', this.getCartProduct())
       this.$router.push('/checkout/selling')
     },
@@ -420,7 +458,7 @@ export default {
         ))
       }
       // If no amount.
-      if (!amount) {
+      if (!amount || amount <= 0) {
         return (this.error.makeOffer = this.$t(
           'products.error.enter_valid_amount'
         ))
@@ -539,3 +577,10 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
+.text-color-red-3
+  color: $color-red-3
+</style>
