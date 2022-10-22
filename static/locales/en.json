@@ -3460,6 +3460,8 @@
     "tracking_no": "Tracking Number",
     "tracking": "Tracking",
     "shipping_address": "Shipping Address",
+    "shipping_method": "Shipping Method",
+    "shipping_status": "Shipping Status",
     "shipping_details": "Shipping Details",
     "payment_summary": "Payment Summary",
     "billing_address": "Billing Address",

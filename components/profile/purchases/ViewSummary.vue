@@ -93,7 +93,7 @@
 
         <ItemDivider/>
 
-        <div v-if="selectedItem" class="d-flex">
+        <div v-if="selectedItem" class="d-flex mt-2">
           <TimelineIcon :status="'active'" class="mr-20"/>
           <div class="d-flex flex-column text-capitalize">
             <span class="body-5-medium ">{{ selectedItem.status }}</span>
@@ -108,12 +108,13 @@
             }}</a></div>
         </div>
 
-        <div class="view-details d-flex align-items-center justify-content-between ">
+        <div class="view-details d-flex align-items-center justify-content-between " @click="openSummary = true">
           <span class="title body-5-medium">
             {{ $t('vendor_purchase.view_shipping_details') }}
           </span>
           <arrow-down-black/>
         </div>
+
       </div>
 
       <div class="mt-20 payment-wrapper">
@@ -123,6 +124,48 @@
         </div>
       </div>
     </div>
+
+    <MobileBottomSheet
+        v-if="orderDetails"
+        :border-bottom="false"
+        :max-height="'50%'"
+        :open="openSummary"
+        :title="$t('vendor_purchase.shipping_details').toString()"
+        @closed="openSummary = false"
+        @opened="openSummary = true">
+      <template #subtitle>
+        <div class="body-5-regular summary-subtitle">
+          {{ $t('vendor_purchase.updated_on') }} {{ new Date(orderDetails.updated_at).toLocaleDateString() }}
+        </div>
+      </template>
+      <ItemDivider/>
+      <div class="body-17-normal px-4">
+        {{ $t('shipping.info') }}
+      </div>
+      <ItemDivider/>
+      <div v-if="selectedItem" class="filter-content py-2 px-4 d-flex flex-column justify-content-between color-gray">
+        <b-row class="mt-10">
+          <b-col class="section-label body-5-medium text-nowrap" cols="6">{{
+              $t('vendor_purchase.shipping_method')
+            }}
+          </b-col>
+          <b-col class="body-21-regular" cols="6">{{ shippingMethod }}</b-col>
+        </b-row>
+        <b-row class="mt-10">
+          <b-col class="section-label body-5-medium text-nowrap" cols="6">{{ $t('shopping_cart.shipping_address') }}
+          </b-col>
+          <b-col class="body-21-regular" cols="6">{{ orderDetails.shipping_address.address_line_1 }}</b-col>
+        </b-row>
+      </div>
+      <ItemDivider/>
+      <div class="body-17-normal px-4">
+        {{ $t('vendor_purchase.shipping_status') }}
+      </div>
+      <ItemDivider/>
+      <div v-if="selectedItem" class="px-4">
+        <MobileTimeLine :order-status="selectedItem.status"/>
+      </div>
+    </MobileBottomSheet>
   </div>
 </template>`
 
@@ -134,12 +177,24 @@ import ItemDivider from '~/components/profile/notifications/ItemDivider';
 import arrowDownBlack from '~/assets/img/icons/arrow-down-blue.svg?inline'
 import TimelineIcon from '~/components/orders/TimelineIcon';
 import MobilePaymentSummary from '~/components/profile/purchases/summary/MobilePaymentSummary';
+import MobileBottomSheet from '~/components/mobile/MobileBottomSheet';
+import MobileTimeLine from '~/components/profile/purchases/summary/MobileTimeLine';
 
 export default {
   name: 'ViewSummary',
-  components: {MobilePaymentSummary, TimelineIcon, ItemDivider, ProductThumb, Loader, arrowDownBlack},
+  components: {
+    MobileTimeLine,
+    MobileBottomSheet,
+    MobilePaymentSummary,
+    TimelineIcon,
+    ItemDivider,
+    ProductThumb,
+    Loader,
+    arrowDownBlack
+  },
   data() {
     return {
+      openSummary: false,
       orderDetails: null,
       loading: false,
       map: null,
@@ -272,11 +327,18 @@ export default {
   .mt-20
     margin-top: 20px
 
+  .mt-10
+    margin-top: 10px
+
   .mr-20
     margin-right: 20px
 
   .color-gray
     color: $color-gray-5
+
+  .summary-subtitle
+    margin-top: 7px
+    color: $color-gray-77e9
 
   .color-primary
     color: $color-blue-20
@@ -287,8 +349,7 @@ export default {
   ::v-deep.divider
     border-top: 1px solid rgba($color-gray-23, 0.17)
     margin-inline: -17px
-    margin-top: 8px
-    margin-bottom: 18px
+    margin-block: 8px
 
   ::v-deep.owl-theme
     .owl-nav.disabled + .owl-dots
