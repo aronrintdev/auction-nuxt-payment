@@ -91,7 +91,7 @@
     color: $color-blue-2;
   }
 }
-.filter-btn{
+.filter-btn {
   height: 48px;
   background-color: $color-gray-81;
 }
@@ -99,5 +99,73 @@
 .stock-banner-title {
   font-size: 40px;
   line-height: 37px;
-  font-weight: $bold
+  font-weight: $bold;
+}
+#size-all-modal {
+  .all-sizes {
+    padding-top: 24px;
+    width: 486px;
+    max-width: 100%;
+    .items-wrapper {
+      max-height: 450px;
+      overflow-y: scroll;
+    }
+    .item {
+      cursor: pointer;
+      &.active {
+        vertical-align: top;
+        &::after {
+          content: ' ';
+          width: 53px;
+          border-bottom: 3px solid $color-black-1;
+          margin-top: 11px;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+    }
+    .card {
+      @include body-2-medium;
+      width: 90px;
+      height: 85px;
+      border: 3px solid $color-gray-21;
+      color: $color-black-4;
+      box-shadow: none;
+      background-color: $color-white-1;
+      border-radius: 10px;
+    }
+
+    .price {
+      @include body-2-bold;
+      margin-top: 2px;
+      color: $color-black-1;
+      font-size: 12px;
+    }
+    .price-ratio {
+      margin-top: 2px;
+      color: $color-black-1;
+      font-size: 9px;
+    }
+    .close-btn {
+      right: 0;
+      top: 0;
+    }
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    .all-sizes {
+      .item {
+        width: 25%;
+      }
+    }
+  }
+}
+@media (max-width: 450px) {
+  .container .all-sizes {
+    .item {
+      width: 50%;
+    }
+  }
 }
