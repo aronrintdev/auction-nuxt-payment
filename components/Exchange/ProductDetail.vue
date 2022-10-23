@@ -394,13 +394,14 @@ export default {
     },
   },
   watch: {
-    lineDatasets () {
-      this.$nextTick(() => {
-      this.renderLineChart({
-      labels: this.lineDatasets.labels,
-      datasets: this.lineDatasets
-        }, this.lineChartOptions)
-      })
+    lineDatasets: {
+      handler(newValue, oldValue) {
+        // Note: `newValue` will be equal to `oldValue` here
+        // on nested mutations as long as the object itself
+        // hasn't been replaced.
+        // this.render()
+      },
+      deep: true
     }
   },
   mounted() {
@@ -417,6 +418,21 @@ export default {
     },
     handleSizeViewAll() {
       this.$bvModal.show('size-all-modal')
+    },
+    render() {
+
+      // this.renderChart({
+      //   // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      //   datasets: [
+      //     {
+      //       label: 'Data One',
+      //       backgroundColor: '#f87979',
+      //       data: [0, 50.0, 150.0, 250.0, 400.0] // [40, 39, 10, 40, 39, 80, 40]
+      //     }
+      //   ]
+      // }, {responsive: true, maintainAspectRatio: false})
+
     },
     handleSizeChange(sizeId) {
       if (sizeId) {
@@ -435,6 +451,7 @@ export default {
       }
     },
     changeGraphLabel(category) {
+
       switch (category) {
         case '24': {
           this.lineDatasets.labels = ['2 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
@@ -475,6 +492,10 @@ export default {
         default:
         this.lineDatasets.labels = ['7 pm', '6 pm', '10 pm', '2 am', '6 am', '10 am', '2 pm'];
       }
+      this.$set(this.lineDatasets, 0, {
+        data: [0, 50.0, 150.0, 250.0, 400.0],
+        label: ['January', 'February', 'March', 'April', 'May', 'June', 'July']
+      });
     },
     // On filter by change.
     handleSortBySelect(value) {
@@ -492,7 +513,7 @@ export default {
       this.loading = true
       this.$axios
         .get('/products', {
-          // .get('/stock-exchange', {
+          // .get('/stock-exchange/', {
           params: {
             type: this.type,
             page: this.currentPage,
