@@ -28,7 +28,7 @@
       >
         <template #cell(product)="row">
           <div class="d-flex align-items-center gap-2 mb-2 mb-sm-0">
-            <div class="col-thumb">
+            <div class="col-thumb d-flex justify-content-center">
               <ProductThumb :src="row.item.image" :product="row.item" />
             </div>
             <div>
@@ -282,8 +282,7 @@ export default {
     border-spacing: 0 10px
   thead th div
     font-family: $font-family-base
-    font-size: 16px
-    font-weight: 700
+    @include body-13-bold
   tbody td
     height: 100px
     @media (max-width: 576px)
@@ -297,8 +296,6 @@ export default {
   .tdHeight
     height: inherit
   .col-thumb
-    display: flex
-    justify-content: center
     width: 100px
   .stats-graph
     width: 100px
@@ -308,9 +305,8 @@ export default {
       font-size: 10px
       font-weight: $medium
     .heading
-      font-size: 14px
       font-family: $font-family-base
-      font-weight: $medium      
+      @include body-5-medium
     thead
       display: none
     tr[role="row"]

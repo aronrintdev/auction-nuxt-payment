@@ -329,8 +329,7 @@ export default {
     border-spacing: 0 10px
   thead th div
     font-family: $font-family-base
-    font-size: 16px
-    font-weight: 700
+    @include body-13-bold
   tbody td
     height: 120px
     @media (max-width: 576px)
@@ -360,7 +359,7 @@ export default {
     .heading
       font-size: 14px
       font-family: $font-family-base
-      font-weight: $medium      
+      font-weight: $medium
     thead
       display: none
     tr[role="row"]
