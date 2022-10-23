@@ -59,15 +59,15 @@ export default {
       newestFeatures: [
         {
           to: '/features/buying',
-          title: 'newest_features.buy.title',
-          description: 'newest_features.buy.desc',
+          title: 'newest_features.buying.title',
+          description: 'newest_features.buying.desc',
           imageUrl: require('@/assets/img/features/all-features/buy.png'),
           imgSmUrl: require('@/assets/img/features/all-features/buy-sm.png'),
         },
         {
-          to: '/features/selling',
-          title: 'newest_features.sell.title',
-          description: 'newest_features.sell.desc',
+          to: '/features/selling-on-deadstock',
+          title: 'newest_features.selling_on_deadstock.title',
+          description: 'newest_features.selling_on_deadstock.desc',
           imageUrl: require('@/assets/img/features/all-features/sell.png'),
           imgSmUrl: require('@/assets/img/features/all-features/sell-sm.png'),
         },
@@ -122,8 +122,8 @@ export default {
         },
         {
           to: '/features/international-buying-and-selling',
-          title: 'newest_features.int_buying_and_selling.title',
-          description: 'newest_features.int_buying_and_selling.desc',
+          title: 'newest_features.international_buying_and_selling.title',
+          description: 'newest_features.international_buying_and_selling.desc',
           imageUrl: require('@/assets/img/features/all-features/int-buying-and-selling.png'),
           imgSmUrl: require('@/assets/img/features/all-features/int-buying-and-selling-sm.png'),
         },
@@ -136,8 +136,8 @@ export default {
         },
         {
           to: '/features/international-languages',
-          title: 'newest_features.int_languages.title',
-          description: 'newest_features.int_languages.desc',
+          title: 'newest_features.international_languages.title',
+          description: 'newest_features.international_languages.desc',
           imageUrl: require('@/assets/img/features/all-features/int-languages.png'),
           imgSmUrl: require('@/assets/img/features/all-features/int-languages-sm.png'),
         },

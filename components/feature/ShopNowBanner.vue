@@ -136,7 +136,8 @@ export default {
             p
                 line-height: 184.4%
             a
-                width: 194px
+                min-width: 194px
+                max-width: 252px
                 height: 44px
 .previous-and-next-links
     width: 1029px

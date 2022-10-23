@@ -5332,16 +5332,6 @@
     "desc": "Latest Deadstock features found on the website and mobile application",
     "previous": "Previous",
     "next": "Next",
-    "buy": {
-      "title": "Buy",
-      "desc": "Enhanced buying experience with 100% product authentication, live 24 hour customer service and NFC blockchain photos.",
-      "feature_banner_title": "Shopping on Deadstock"
-    },
-    "sell": {
-      "title": "Sell",
-      "desc": "Sell your items quicker with our increased marketing visiblity. New analytics help you determine pricing, also receieve immediate payouts and low fees.",
-      "feature_banner_title": "Selling on Deadstock"
-    },
     "trading": {
       "title": "Trade",
       "desc": "Use sneakers, apparel and accesories to complete your trade. Our Fair Trade Meter helps create the most compatible trades.",
@@ -5358,25 +5348,6 @@
       "new-features": "NEW FEATURES",
       "shop_now_banner": {
         "desc": "Explore our trade arena, utilize our fair trade meter and start trading items today.",
-        "button_text": "Browse"
-      }
-    },
-    "auctionss": {
-      "title": "Auctions",
-      "desc": "Place bids on auctions and receive live updates. Auction off your items and use our analytics to determine what to sell at what price.",
-      "feature_banner_title": "Auctions On  Deadstock",
-      "feature_banner_desc": "Place bids or sell items through our auctions",
-      "benefits": {
-        "first_benefit_title": "Flexibility",
-        "first_benefit_desc": "Deadstock offers bidding on single item auctions or entire collections, paired with a variety of bidding methods.",
-        "second_benefit_title": "Higher Revenues for Sellers",
-        "second_benefit_desc": "Auctions tend to allow Sellers to sell more items in a quicker time frame.",
-        "third_benefit_title": "Certified Authentic Products   ",
-        "third_benefit_desc": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed."
-      },
-      "types": "Types",
-      "shop_now_banner": {
-        "desc": "Explore the excitment now by checking out our Single-Item and Collection Auctions for Footware, Apparel and Accessories.",
         "button_text": "Browse"
       }
     },
@@ -5546,22 +5517,6 @@
         "button_text": "Purchase"
       }
     },
-    "int_buying_and_selling": {
-      "title": "Intl’ Buying and Selling",
-      "desc": "Buy and sell items from across the globe with our international users. Receive access to exlcusive international drops.",
-      "feature_banner_title": "International Buying/Selling",
-      "access_to_items": "Access to Items not available in your area.",
-      "access_to_items_desc": "Get access to international items that are not available in your region.",
-      "access_to_items_sold": "Access to items sold out in your area",
-      "access_to_items_sold_desc": "Get access to items that have sold out in your area and are no longer available.    ",
-      "more_customers": "More Customers viewing your items",
-      "more_customers_desc": "New international buyers now have access to your listed items. ",
-      "refer_a_friend": "REFER A FRIEND TO DEADSTOCK",
-      "shop_now_desc": "Check out offerings for apparel, streetwear, sneakers and accessories from around the world.",
-      "shop_now_btn": "Browse",
-      "previous_page_name": "Virtual Giftcards",
-      "next_page_name": "Payment Plans"
-    },
     "payments_plans": {
       "title": "Payments Plans",
       "desc": "Split your purchases into more affordable payments with our new installment plans.",
@@ -5581,7 +5536,7 @@
         "button_text": "Shop Now"
       }
     },
-    "int_languages": {
+    "international_languages": {
       "title": "Intl’ Languages",
       "desc": "Our updated app now offers languages from across the globe. Giving access to international users.",
       "feature_banner_title": "International Languages",

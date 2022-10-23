@@ -18,7 +18,7 @@
         :benefitDescription="benefit.benefitDescription"
       />
       <FeatureTitle>
-        {{ $t('newest_features.int_languages.refer_a_friend') }}
+        {{ $t('newest_features.international_languages.refer_a_friend') }}
       </FeatureTitle>
       <InviteFriend />
     </FeatureContentWrapper>
@@ -43,8 +43,9 @@ export default {
   data() {
     return {
       banner: {
-        title: 'newest_features.int_languages.feature_banner_title',
-        description: 'newest_features.int_languages.feature_banner_desc',
+        title: 'newest_features.international_languages.feature_banner_title',
+        description:
+          'newest_features.international_languages.feature_banner_desc',
         backgroundImage: require('@/assets/img/features/newest-feature/international-languages/int-languages-banner.png'),
         backgroundImageSm: require('@/assets/img/features/newest-feature/international-languages/int-languages-banner-sm.png'),
       },
@@ -52,23 +53,23 @@ export default {
         {
           benefitImage: require('@/assets/img/features/newest-feature/international-languages/better-access.png'),
           benefitTitle:
-            'newest_features.int_languages.benefits.first_benefit_title',
+            'newest_features.international_languages.benefits.first_benefit_title',
           benefitDescription:
-            'newest_features.int_languages.benefits.first_benefit_desc',
+            'newest_features.international_languages.benefits.first_benefit_desc',
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/international-languages/as-a-seller.png'),
           benefitTitle:
-            'newest_features.int_languages.benefits.second_benefit_title',
+            'newest_features.international_languages.benefits.second_benefit_title',
           benefitDescription:
-            'newest_features.int_languages.benefits.second_benefit_desc',
+            'newest_features.international_languages.benefits.second_benefit_desc',
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/international-languages/join-an-international-community.png'),
           benefitTitle:
-            'newest_features.int_languages.benefits.third_benefit_title',
+            'newest_features.international_languages.benefits.third_benefit_title',
           benefitDescription:
-            'newest_features.int_languages.benefits.third_benefit_desc',
+            'newest_features.international_languages.benefits.third_benefit_desc',
         },
       ],
       shopNowBanner: {

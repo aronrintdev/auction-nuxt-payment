@@ -30,20 +30,23 @@
       </b-row>
 
       <FeatureTitle>{{
-        $t('features.csv_bulk_uploading.the_process')
+        $t('newest_features.international_buying_and_selling.refer_a_friend')
       }}</FeatureTitle>
+      <InviteFriend />
     </FeatureContentWrapper>
   </div>
 </template>
 <script>
 import { FeatureContentWrapper, FeatureTitle } from '~/components/feature'
 import FeatureCard from '~/components/feature/Card'
+import InviteFriend from '~/components/feature/InviteFriend'
 
 export default {
   components: {
     FeatureContentWrapper,
     FeatureCard,
     FeatureTitle,
+    InviteFriend,
   },
 
   layout: 'IndexLayout',
