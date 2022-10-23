@@ -90,39 +90,47 @@ export default {
     return {
       csvBulkUplaod: [
         {
-          title: this.$t('newest_features.csv_bulk_uploading.upload_multiple'),
+          title: this.$t(
+            'newest_features.csv_bulk_uploading.benefits.first_benefit_title'
+          ),
           description: this.$t(
-            'newest_features.csv_bulk_uploading.upload_multiple_desc'
+            'newest_features.csv_bulk_uploading.benefits.first_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/csv-bulk-uploading/csveasilyeditable.png'),
         },
         {
-          title: this.$t('newest_features.csv_bulk_uploading.easily_editable'),
+          title: this.$t(
+            'newest_features.csv_bulk_uploading.benefits.second_benefit_title'
+          ),
           description: this.$t(
-            'newest_features.csv_bulk_uploading.easily_editable_desc'
+            'newest_features.csv_bulk_uploading.benefits.second_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/csv-bulk-uploading/csvmultipleitems.png'),
         },
         {
-          title: this.$t('newest_features.csv_bulk_uploading.time_savings'),
+          title: this.$t(
+            'newest_features.csv_bulk_uploading.benefits.third_benefit_title'
+          ),
           description: this.$t(
-            'newest_features.csv_bulk_uploading.time_savings_desc'
+            'newest_features.csv_bulk_uploading.benefits.third_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/csv-bulk-uploading/csvsavetime.png'),
         },
       ],
       banner: {
-        title: 'newest_features.csv_bulk_uploading.title',
-        description: 'newest_features.csv_bulk_uploading.desc',
+        title: 'newest_features.csv_bulk_uploading.feature_banner_title',
+        description: 'newest_features.csv_bulk_uploading.feature_banner_desc',
         backgroundImage: require('@/assets/img/features/newest-feature/csv-bulk-uploading/csvbanner.png'),
         backgroundImageSm: require('@/assets/img/features/newest-feature/csv-bulk-uploading/csvbannermobile.png'),
       },
       shopNowBanner: {
-        shopNowDescription: 'newest_features.csv_bulk_uploading.shop_now_desc',
-        shopNowButtonText: 'newest_features.csv_bulk_uploading.shop_now_btn',
-        previousPage: 'newest_features.csv_bulk_uploading.previous_page_name',
+        shopNowDescription:
+          'newest_features.csv_bulk_uploading.shop_now_banner.desc',
+        shopNowButtonText:
+          'newest_features.csv_bulk_uploading.shop_now_banner.button_text',
+        previousPage: 'newest_features.international_languages.title',
         previousPageLink: '/features/international-languages',
-        nextPage: 'newest_features.csv_bulk_uploading.next_page_name',
+        nextPage: 'newest_features.promotions.title',
         nextPageLink: '/features/promotions',
       },
     }

@@ -57,7 +57,7 @@ export default {
   transition: transform .2s
   height: 361px !important
   width: 361px !important
-  background-color: white
+  background-color: $color-white-1
 
   cursor: help
 

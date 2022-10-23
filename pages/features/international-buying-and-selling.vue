@@ -53,48 +53,48 @@ export default {
       intBuySelling: [
         {
           title: this.$t(
-            'newest_features.international_buying_and_selling.access_to_items'
+            'newest_features.international_buying_and_selling.benefits.first_benefit_title'
           ),
           description: this.$t(
-            'newest_features.international_buying_and_selling.access_to_items_desc'
+            'newest_features.international_buying_and_selling.benefits.first_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/international-buying-and-selling/internlbuysellaccitems.png'),
         },
         {
           title: this.$t(
-            'newest_features.international_buying_and_selling.access_to_items_sold'
+            'newest_features.international_buying_and_selling.benefits.second_benefit_title'
           ),
           description: this.$t(
-            'newest_features.international_buying_and_selling.access_to_items_sold_desc'
+            'newest_features.international_buying_and_selling.benefits.second_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/international-buying-and-selling/interbuysellaccess.png'),
         },
         {
           title: this.$t(
-            'newest_features.international_buying_and_selling.more_customers'
+            'newest_features.international_buying_and_selling.benefits.third_benefit_title'
           ),
           description: this.$t(
-            'newest_features.international_buying_and_selling.more_customers_desc'
+            'newest_features.international_buying_and_selling.benefits.third_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/international-buying-and-selling/interbuysellmorepeoplelooking.png'),
         },
       ],
       banner: {
-        title: 'newest_features.international_buying_and_selling.title',
-        description: 'newest_features.international_buying_and_selling.desc',
+        title:
+          'newest_features.international_buying_and_selling.feature_banner_title',
+        description:
+          'newest_features.international_buying_and_selling.feature_banner_desc',
         backgroundImage: require('@/assets/img/features/newest-feature/international-buying-and-selling/inter-buy-banner.png'),
         backgroundImageSm: require('@/assets/img/features/newest-feature/international-buying-and-selling/inter-buy-banner.png'),
       },
       shopNowBanner: {
         shopNowDescription:
-          'newest_features.international_buying_and_selling.shop_now_desc',
+          'newest_features.international_buying_and_selling.shop_now_banner.desc',
         shopNowButtonText:
-          'newest_features.international_buying_and_selling.shop_now_btn',
-        previousPage:
-          'newest_features.international_buying_and_selling.previous_page_name',
+          'newest_features.international_buying_and_selling.shop_now_banner.button_text',
+        previousPage: 'newest_features.virtual_giftcards.title',
         previousPageLink: '/features/virtual-giftcards',
-        nextPage:
-          'newest_features.international_buying_and_selling.next_page_name',
+        nextPage: 'newest_features.payments_plans.title',
         nextPageLink: '/features/payment-plans',
       },
     }

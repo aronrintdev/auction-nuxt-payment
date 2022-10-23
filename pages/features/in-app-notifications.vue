@@ -151,7 +151,7 @@ export default {
         align-items: center
         padding: 30px 50px
         gap: 20px
-        background-color: white
+        background-color: $color-white-1
 
         .feature-title
           font-size: 24px !important

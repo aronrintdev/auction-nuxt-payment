@@ -68,16 +68,16 @@ export default {
   data() {
     return {
       banner: {
-        title: 'newest_features.buying.title',
-        description: 'newest_features.buying.desc',
+        title: 'newest_features.buying.feature_banner_title',
+        description: 'newest_features.buying.feature_banner_desc',
         backgroundImage: require('@/assets/img/features/newest-feature/buying/buyingbanner.png'),
         backgroundImageSm: require('@/assets/img/features/newest-feature/buying/auctionsbannermobile.png'),
       },
       shopNowBanner: {
-        shopNowDescription: 'newest_features.buying.shop_now_desc',
-        shopNowButtonText: 'newest_features.buying.shop_now_btn',
-        nextPage: 'newest_features.buying.next_page_name',
-        nextPageLink: '/features/selling',
+        shopNowDescription: 'newest_features.buying.shop_now_banner.desc',
+        shopNowButtonText: 'newest_features.buying.shop_now_banner.button_text',
+        nextPage: 'newest_features.selling_on_deadstock.title',
+        nextPageLink: '/features/selling-on-deadstock',
       },
       options: [
         {
@@ -92,21 +92,21 @@ export default {
       benefits: [
         {
           benefitImage: require('@/assets/img/features/newest-feature/buying/auth.png'),
-          benefitTitle: 'newest_features.buying.certified_authentic_products',
+          benefitTitle: 'newest_features.buying.benefits.first_benefit_title',
           benefitDescription:
-            'newest_features.buying.certified_authentic_products_desc',
+            'newest_features.buying.benefits.first_benefit_desc',
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/buying/blockchainauth.png'),
-          benefitTitle: 'newest_features.buying.hour_live_customer_service',
+          benefitTitle: 'newest_features.buying.benefits.second_benefit_title',
           benefitDescription:
-            'newest_features.buying.hour_live_customer_service_desc',
+            'newest_features.buying.benefits.second_benefit_desc',
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/buying/customerser.png'),
-          benefitTitle: 'newest_features.buying.lockchain_packed_photo_ledger',
+          benefitTitle: 'newest_features.buying.benefits.third_benefit_title',
           benefitDescription:
-            'newest_features.buying.lockchain_packed_photo_ledger_desc',
+            'newest_features.buying.benefits.third_benefit_desc',
         },
       ],
     }

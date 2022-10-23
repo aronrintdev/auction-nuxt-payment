@@ -68,26 +68,28 @@ export default {
       csvBulkUplaod: [
         {
           title: this.$t(
-            'newest_features.deadstock_exchange.analytics_on_current'
+            'newest_features.deadstock_exchange.benefits.first_benefit_title'
           ),
           description: this.$t(
-            'newest_features.deadstock_exchange.analytics_on_current_desc'
+            'newest_features.deadstock_exchange.benefits.first_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/deadstock-exchange/deadstockexchang.png'),
         },
         {
-          title: this.$t('newest_features.deadstock_exchange.analytics_on_how'),
+          title: this.$t(
+            'newest_features.deadstock_exchange.benefits.second_benefit_title'
+          ),
           description: this.$t(
-            'newest_features.deadstock_exchange.analytics_on_how_desc'
+            'newest_features.deadstock_exchange.benefits.second_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/deadstock-exchange/alyticshowtopri.png'),
         },
         {
           title: this.$t(
-            'newest_features.deadstock_exchange.insights_on_value'
+            'newest_features.deadstock_exchange.benefits.third_benefit_title'
           ),
           description: this.$t(
-            'newest_features.deadstock_exchange.insights_on_value_desc'
+            'newest_features.deadstock_exchange.benefits.third_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/deadstock-exchange/deadstockexchanaly.png'),
         },
@@ -103,18 +105,20 @@ export default {
         },
       ],
       banner: {
-        title: 'newest_features.deadstock_exchange.title',
-        description: 'newest_features.deadstock_exchange.desc',
+        title: 'newest_features.deadstock_exchange.feature_banner_title',
+        description: 'newest_features.deadstock_exchange.feature_banner_desc',
         backgroundImage: require('@/assets/img/features/newest-feature/deadstock-exchange/deadstockexchangebbanner.png'),
         backgroundImageSm: require('@/assets/img/features/newest-feature/deadstock-exchange/deadstockexchangemobile.png'),
       },
       shopNowBanner: {
-        shopNowDescription: 'newest_features.deadstock_exchange.shop_now_desc',
-        shopNowButtonText: 'newest_features.deadstock_exchange.shop_now_btn',
-        previousPage: 'newest_features.deadstock_exchange.previous_page_name',
-        previousPageLink: '/features/selling-on-deadstock',
-        nextPage: 'newest_features.deadstock_exchange.next_page_name',
-        nextPageLink: '/features/auctions',
+        shopNowDescription:
+          'newest_features.deadstock_exchange.shop_now_banner.desc',
+        shopNowButtonText:
+          'newest_features.deadstock_exchange.shop_now_banner.button_text',
+        previousPage: 'newest_features.2fa_security.title',
+        previousPageLink: '/features/2fa-security',
+        nextPage: 'newest_features.blockchain_authentication_ledger.title',
+        nextPageLink: '/features/blockchain-authentication-ledger',
       },
     }
   },

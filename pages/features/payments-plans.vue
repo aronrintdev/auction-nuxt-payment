@@ -98,17 +98,19 @@ export default {
   data() {
     return {
       banner: {
-        title: 'newest_features.payments_plans.title',
-        description: 'newest_features.payments_plans.desc',
+        title: 'newest_features.payments_plans.feature_banner_title',
+        description: 'newest_features.payments_plans.feature_banner_desc',
         backgroundImage: require('@/assets/img/features/newest-feature/payment-plans/payment-plan-banner.png'),
         backgroundImageSm: require('@/assets/img/features/newest-feature/payment-plans/paymentplansbannermobile.png'),
       },
       shopNowBanner: {
-        shopNowDescription: 'newest_features.payments_plans.shop_now_desc',
-        shopNowButtonText: 'newest_features.payments_plans.shop_now_btn',
-        previousPage: 'newest_features.payments_plans.previous_page_name',
+        shopNowDescription:
+          'newest_features.payments_plans.shop_now_banner.desc',
+        shopNowButtonText:
+          'newest_features.payments_plans.shop_now_banner.button_text',
+        previousPage: 'newest_features.international_buying_and_selling.title',
         previousPageLink: '/features/international-buying-and-selling',
-        nextPage: 'newest_features.payments_plans.next_page_name',
+        nextPage: 'newest_features.international_languages.title',
         nextPageLink: '/features/international-languages',
       },
       options: [
@@ -124,20 +126,30 @@ export default {
 
       cardData: [
         {
-          title: this.$t('features.payment_plans.increased_affordability'),
+          title: this.$t(
+            'newest_features.payments_plans.benefits.first_benefit_title'
+          ),
           description: this.$t(
-            'features.payment_plans.increased_affordability_desc'
+            'newest_features.payments_plans.benefits.first_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/payment-plans/newest-money.png'),
         },
         {
-          title: this.$t('features.payment_plans.quick_approval'),
-          description: this.$t('features.payment_plans.quick_approval_desc'),
+          title: this.$t(
+            'newest_features.payments_plans.benefits.second_benefit_title'
+          ),
+          description: this.$t(
+            'newest_features.payments_plans.second_benefit_desc'
+          ),
           image: require('~/assets/img/features/newest-feature/payment-plans/timer.png'),
         },
         {
-          title: this.$t('features.payment_plans.custom_plans'),
-          description: this.$t('features.payment_plans.custom_plans_desc'),
+          title: this.$t(
+            'newest_features.payments_plans.benefits.third_benefit_title'
+          ),
+          description: this.$t(
+            'newest_features.payments_plans.benethird_benefit_desc'
+          ),
           image: require('~/assets/img/features/newest-feature/payment-plans/using-phone.png'),
         },
       ],

@@ -70,8 +70,6 @@
           </p>
         </div>
       </div>
-
-      <div class="my-check-class"></div>
     </FeatureContentWrapper>
   </div>
 </template>

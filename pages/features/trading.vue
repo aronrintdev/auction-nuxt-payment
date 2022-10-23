@@ -56,35 +56,46 @@ export default {
     return {
       tradingCard: [
         {
-          title: this.$t('features.trading.first_of_its_kind'),
-          description: this.$t('features.trading.first_of_its_kind_desc'),
+          title: this.$t(
+            'newest_features.trading.benefits.first_benefit_title'
+          ),
+          description: this.$t(
+            'newest_features.trading.benefits.first_benefit_desc'
+          ),
           image: require('~/assets/img/features/newest-feature/trading/tradingondead.png'),
         },
         {
-          title: this.$t('features.trading.value_meter'),
-          description: this.$t('features.trading.value_meter_desc'),
+          title: this.$t(
+            'newest_features.trading.benefits.second_benefit_title'
+          ),
+          description: this.$t(
+            'newest_features.trading.benefits.second_benefit_desc'
+          ),
           image: require('~/assets/img/features/newest-feature/trading/fairtrademeter.png'),
         },
         {
-          title: this.$t('features.trading.authenticity_guaranteed_products'),
+          title: this.$t(
+            'newest_features.trading.benefits.third_benefit_title'
+          ),
           description: this.$t(
-            'features.trading.authenticity_guaranteed_products_desc'
+            'newest_features.trading.benefits.third_benefit_title_desc'
           ),
           image: require('~/assets/img/features/newest-feature/trading/heatcheck.png'),
         },
       ],
       banner: {
-        title: 'newest_features.trading.title',
-        description: 'newest_features.trading.desc',
+        title: 'newest_features.trading.feature_banner_title',
+        description: 'newest_features.trading.feature_banner_desc',
         backgroundImage: require('@/assets/img/features/newest-feature/trading/tradebanner.png'),
         backgroundImageSm: require('@/assets/img/features/newest-feature/trading/tradebannermobile.png'),
       },
       shopNowBanner: {
-        shopNowDescription: 'newest_features.trading.shop_now_desc',
-        shopNowButtonText: 'newest_features.trading.shop_now_btn',
-        previousPage: 'newest_features.trading.previous_page_name',
+        shopNowDescription: 'newest_features.trading.shop_now_banner.desc',
+        shopNowButtonText:
+          'newest_features.trading.shop_now_banner.button_text',
+        previousPage: 'newest_features.selling_on_deadstock.title',
         previousPageLink: '/features/selling-on-deadstock',
-        nextPage: 'newest_features.trading.next_page_name',
+        nextPage: 'newest_features.auctions.title',
         nextPageLink: '/features/auctions',
       },
     }

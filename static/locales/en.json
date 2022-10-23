@@ -5346,46 +5346,77 @@
       "title": "Trade",
       "desc": "Use sneakers, apparel and accesories to complete your trade. Our Fair Trade Meter helps create the most compatible trades.",
       "feature_banner_title": "Trading on Deadstock",
-      "first_of_its_kind": "First of its Kind",
-      "first_of_its_kind_desc": "The first platform that enables you to trade sneakers, apparel, streetwear and accessories.",
-      "value_meter": "Value Meter",
-      "value_meter_desc": "Our fair trade meter uses live analytics to help create the most compatible trades and assure equal transactions.",
-      "authenticity_guaranteed_products": "Authenticity Guaranteed Products",
-      "authenticity_guaranteed_products_desc": "Trade with confidence as all of our traded items are placed in our authentication process and authenticated by our experts.",
+      "feature_banner_desc": "Start trading your items today",
+      "benefits": {
+        "first_benefit_title": "First of its Kind",
+        "first_benefit_desc": "The first platform that enables you to trade sneakers, apparel, streetwear and accessories.",
+        "second_benefit_title": "Value Meter",
+        "second_benefit_desc": "Our fair trade meter uses live analytics to help create the most compatible trades and assure equal transactions.",
+        "third_benefit_title": "Authenticity Guaranteed Products",
+        "third_benefit_desc": "Trade with confidence as all of our traded items are placed in our authentication process and authenticated by our experts."
+      },
       "new-features": "NEW FEATURES",
-      "shop_now_desc": "Explore our trade arena, utilize our fair trade meter and start trading items today.",
-      "shop_now_btn": "Browse",
-      "previous_page_name": "Selling",
-      "next_page_name": "Auction"
+      "shop_now_banner": {
+        "desc": "Explore our trade arena, utilize our fair trade meter and start trading items today.",
+        "button_text": "Browse"
+      }
+    },
+    "auctionss": {
+      "title": "Auctions",
+      "desc": "Place bids on auctions and receive live updates. Auction off your items and use our analytics to determine what to sell at what price.",
+      "feature_banner_title": "Auctions On  Deadstock",
+      "feature_banner_desc": "Place bids or sell items through our auctions",
+      "benefits": {
+        "first_benefit_title": "Flexibility",
+        "first_benefit_desc": "Deadstock offers bidding on single item auctions or entire collections, paired with a variety of bidding methods.",
+        "second_benefit_title": "Higher Revenues for Sellers",
+        "second_benefit_desc": "Auctions tend to allow Sellers to sell more items in a quicker time frame.",
+        "third_benefit_title": "Certified Authentic Products   ",
+        "third_benefit_desc": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed."
+      },
+      "types": "Types",
+      "shop_now_banner": {
+        "desc": "Explore the excitment now by checking out our Single-Item and Collection Auctions for Footware, Apparel and Accessories.",
+        "button_text": "Browse"
+      }
     },
     "buying": {
-      "title": "Shopping on Deadstock",
-      "desc": "A new enhanced buying experience.",
-      "certified_authentic_products": "Certified Authentic Products  ",
-      "certified_authentic_products_desc": "All of our products are placed in our authentication process and authenticated by our experts. Feel safe with your purchases as we guarantee 100% authentication and satisfaction.",
-      "hour_live_customer_service": "24 hour live Customer Service",
-      "hour_live_customer_service_desc": "We offer 24 hour live customer service where you can speak with an actual person to help you resolve any issues, questions or concerns.",
-      "lockchain_packed_photo_ledger": "NFC blockchain backed photo ledger",
-      "lockchain_packed_photo_ledger_desc": "With our new NFC Blockchain feature exclusive to Deadstock, scan the NFC on each sneaker and be directed to a page with the shoe details and proof of authentication.      ",
+      "title": "Buy",
+      "desc": "Enhanced buying experience with 100% product authentication, live 24 hour customer service and NFC blockchain photos.",
+      "feature_banner_title": "Shopping on Deadstock",
+      "feature_banner_desc": "A new enhanced buying experience",
+      "benefits": {
+        "first_benefit_title": "Certified Authentic Products",
+        "first_benefit_desc": "All of our products are placed in our authentication process and authenticated by our experts. Feel safe with your purchases as we guarantee 100% authentication and satisfaction.",
+        "second_benefit_title": "24 hour live Customer Service",
+        "second_benefit_desc": "We offer 24 hour live customer service where you can speak with an actual person to help you resolve any issues, questions or concerns.",
+        "third_benefit_title": "NFC blockchain backed photo ledger",
+        "third_benefit_desc": "With our new NFC Blockchain feature exclusive to Deadstock, scan the NFC on each sneaker and be directed to a page with the shoe details and proof of authentication."
+      },
       "purchase_methods": "PURCHASE METHODS",
-      "shop_now_desc": "Check out various ways of shopping today. We also offer robust payment options, such as payment plans and crypto payments.",
-      "shop_now_btn": "Shop Now",
-      "next_page_name": "Selling"
+      "shop_now_banner": {
+        "desc": "Check out various ways of shopping today. We also offer robust payment options, such as payment plans and crypto payments.",
+        "button_text": "Shop Now"
+      }
     },
     "international_buying_and_selling": {
-      "title": "International Buying/Selling",
-      "desc": "Buy and sell items internationally.",
-      "access_to_items": "Access to Items not available in your area",
-      "access_to_items_desc": "Get access to international items that are not available in your region.",
-      "access_to_items_sold": "Access to items sold out in your area",
-      "access_to_items_sold_desc": "Get access to items that have sold out in your area and are no longer available.    ",
-      "more_customers": "More Customers viewing your items",
-      "more_customers_desc": "New international buyers now have access to your listed items.",
+      "title": "Intl’ Buying and Selling ",
+      "desc": "Buy and sell items from across the globe with our international users. Receive access to exlcusive international drops.",
+      "feature_banner_title": "International Buying/Selling",
+      "feature_banner_desc": "Buy and sell items internationally.",
+      "benefits": {
+        "first_benefit_title": "Access to Items not available in your area",
+        "first_benefit_desc": "Get access to international items that are not available in your region.",
+        "second_benefit_title": "Access to items sold out in your area",
+        "second_benefit_desc": "Get access to items that have sold out in your area and are no longer available.",
+        "third_benefit_title": "More Customers viewing your items",
+        "third_benefit_desc": "New international buyers now have access to your listed items."
+      },
       "refer_a_friend": "REFER A FRIEND TO DEADSTOCK",
-      "shop_now_desc": "Check out offerings for apparel, streetwear, sneakers and accessories from around the world.",
-      "shop_now_btn": "Browse",
-      "previous_page_name": "Virtual Giftcards",
-      "next_page_name": "Payment Plans"
+      "shop_now_banner": {
+        "desc": "Check out offerings for apparel, streetwear, sneakers and accessories from around the world.",
+        "button_text": "Browse"
+      }
     },
     "auctions": {
       "title": "Auctions",
@@ -5535,11 +5566,20 @@
       "title": "Payments Plans",
       "desc": "Split your purchases into more affordable payments with our new installment plans.",
       "feature_banner_title": "Payments Plans",
+      "feature_banner_desc": "Complete your purchase using installment payment plans",
       "options": "OPTIONS",
-      "shop_now_desc": "Check out various ways of shopping today. We also offer robust payment options, such as payment plans and crypto payments. ",
-      "shop_now_btn": "Shop Now",
-      "previous_page_name": "Int’l Buying and Selling",
-      "next_page_name": "Int’l Languages"
+      "benefits": {
+        "first_benefit_title": "Increased Affordability",
+        "first_benefit_desc": "Use installment plans to divide your purchase into more affordable payments.",
+        "second_benefit_title": "Quick Approval",
+        "second_benefit_desc": "Receive approval of your installment payment plan immeditely during your checkout. ",
+        "third_benefit_title": "Custom Plans",
+        "third_benefit_desc": "Divide your plan into four seperate payments, or pay off your purchase whenever you’re ready."
+      },
+      "shop_now_banner": {
+        "desc": "Check out various ways of shopping today. We also offer robust payment options, such as payment plans and crypto payments.",
+        "button_text": "Shop Now"
+      }
     },
     "int_languages": {
       "title": "Intl’ Languages",
@@ -5556,11 +5596,7 @@
       },
       "refer_a_friend": "Refer a friend to deadstock"
     },
-    "csv_bulk_uploading": {
-      "title": "CSV Bulk Uploading",
-      "desc": "Upload multiple items at once including photos, descriptions and more using our CSV bulk uploading.",
-      "feature_banner_title": "CSV Bulk Uploading"
-    },
+
     "promotions": {
       "title": "Promotions",
       "desc": "Receive exclusive Deadstock promotions updated daily, weekly and monthly.",
@@ -5621,47 +5657,59 @@
       "title": "Deadstock Exchange",
       "desc": "Our new exchance feature gives you analytics to help determine what to sell and at what price based on the current market.",
       "feature_banner_title": "Deadstock Exchange",
-      "analytics_on_current": "Analytics on Current Trends ",
-      "analytics_on_current_desc": "Receive your payout immediately after the transaction is completed.",
-      "analytics_on_how": "Analytics on how to Price When Selling",
-      "analytics_on_how_desc": "The lowest seller fees in the marketplace, keep more of your revenue.",
-      "insights_on_value": "Insights on Value of Specific Sizes of Items",
-      "insights_on_value_desc": "Detailed instructions on how to quickly and efficiently ship your items.",
+      "feature_banner_desc": "Stay updated on the current market",
+      "benefits": {
+        "first_benefit_title": "Analytics on Current Trends ",
+        "first_benefit_desc": "Receive your payout immediately after the transaction is completed.",
+        "second_benefit_title": "Analytics on how to Price When Selling",
+        "second_benefit_desc": "The lowest seller fees in the marketplace, keep more of your revenue.",
+        "third_benefit_title": "Insights on Value of Specific Sizes of Items",
+        "third_benefit_desc": "Detailed instructions on how to quickly and efficiently ship your items."
+      },
       "check_it_out": "CHECK IT OUT",
-      "shop_now_desc": "Deadstock Exchange enhances users selling and trading ability by giving analytics and insights.",
-      "shop_now_btn": "Deadstock Exchange",
-      "previous_page_name": "2FA Security",
-      "next_page_name": "Blockchain Authentication Ledger"
+      "shop_now_banner": {
+        "desc": "Deadstock Exchange enhances users selling and trading ability by giving analytics and insights.",
+        "button_text": "Deadstock Exchange"
+      }
     },
     "selling_on_deadstock": {
-      "title": "Selling on Deadstock",
-      "desc": "Start selling your items today",
-      "immediate_payout": "Immediate Payout",
-      "immediate_payout_desc": "Receive your payout immediately after the transaction is completed. ",
-      "low_fees": "Low Fees",
-      "low_fees_desc": "The lowest seller fees in the marketplace, keep more of your revenue.",
-      "fast_shipping": "Fast Shipping ",
-      "fast_shipping_desc": "Detailed instructions on how to quickly and efficiently ship your items.",
+      "title": "Sell",
+      "desc": "Sell your items quicker with our increased marketing visiblity. New analytics help you determine pricing, also receieve immediate payouts and low fees.",
+      "feature_banner_title": "Selling on Deadstock",
+      "feature_banner_desc": "Start selling your items today",
+      "benefits": {
+        "first_benefit_title": "Immediate Payout",
+        "first_benefit_desc": "Receive your payout immediately after the transaction is completed. ",
+        "second_benefit_title": "Low Fees",
+        "second_benefit_desc": "The lowest seller fees in the marketplace, keep more of your revenue.",
+        "third_benefit_title": "Fast Shipping",
+        "third_benefit_desc": "Detailed instructions on how to quickly and efficiently ship your items."
+      },
       "process": "PROCESS",
-      "shop_now_desc": "Apply to become a vendor and earn  commission on selling Footware, Apparel, and Accessories today",
-      "shop_now_btn": "Apply",
-      "previous_page_name": "Buying",
-      "next_page_name": "Trading"
+      "shop_now_banner": {
+        "desc": "Apply to become a vendor and earn  commission on selling Footware, Apparel, and Accessories today",
+        "button_text": "Apply"
+      }
     },
+
     "csv_bulk_uploading": {
       "title": "CSV Bulk Uploading",
       "desc": "Quick Item Upload for Selling",
-      "upload_multiple": "Upload Multiple Items At Once",
-      "upload_multiple_desc": "Receive your payout immediately after the transaction is completed.",
-      "easily_editable": "Easily editable & user-friendly",
-      "easily_editable_desc": "The lowest seller fees in the marketplace, keep more of your revenue.",
-      "time_savings": "Time Saving & Efficient",
-      "time_savings_desc": "Detailed instructions on how to quickly and efficiently ship your items.",
+      "feature_banner_title": "Blockchain authentication Ledger",
+      "feature_banner_desc": "Convenient authentication.",
+      "benefits": {
+        "first_benefit_title": "Upload Multiple Items At Once",
+        "first_benefit_desc": "Receive your payout immediately after the transaction is completed.",
+        "second_benefit_title": "Easily editable & user-friendly",
+        "second_benefit_desc": "The lowest seller fees in the marketplace, keep more of your revenue.",
+        "third_benefit_title": "Time Saving & Efficient",
+        "third_benefit_desc": "Detailed instructions on how to quickly and efficiently ship your items."
+      },
       "process": "THE PROCESS",
-      "shop_now_desc": "Apply to become a Vendor at Deadstock and upload your inventory via .CSV. Use our helpful template as assistance.",
-      "shop_now_btn": "Become a Vendor",
-      "previous_page_name": "Int’l Languages",
-      "next_page_name": "Promotions"
+      "shop_now_banner": {
+        "desc": "Apply to become a Vendor at Deadstock and upload your inventory via .CSV. Use our helpful template as assistance.",
+        "button_text": "Become a Vendor"
+      }
     },
     "blockchain_authentication_ledger": {
       "title": "Blockchain Authentication Ledger",

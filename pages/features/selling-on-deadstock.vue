@@ -84,41 +84,46 @@ export default {
       sellingCard: [
         {
           title: this.$t(
-            'newest_features.selling_on_deadstock.immediate_payout'
+            'newest_features.selling_on_deadstock.benefits.first_benefit_title'
           ),
           description: this.$t(
-            'newest_features.selling_on_deadstock.immediate_payout_desc'
+            'newest_features.selling_on_deadstock.benefits.first_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/selling-on-deadstock/newest-money.png'),
         },
         {
-          title: this.$t('newest_features.selling_on_deadstock.low_fees'),
+          title: this.$t(
+            'newest_features.selling_on_deadstock.benefits.second_benefit_title'
+          ),
           description: this.$t(
-            'newest_features.selling_on_deadstock.low_fees_desc'
+            'newest_features.selling_on_deadstock.benefits.second_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/selling-on-deadstock/low-fee.png'),
         },
         {
-          title: this.$t('newest_features.selling_on_deadstock.fast_shipping'),
+          title: this.$t(
+            'newest_features.selling_on_deadstock.benefits.third_benefit_title'
+          ),
           description: this.$t(
-            'newest_features.selling_on_deadstock.fast_shipping_desc'
+            'newest_features.selling_on_deadstock.benefits.third_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/selling-on-deadstock/free-shipping.png'),
         },
       ],
       banner: {
-        title: 'newest_features.selling_on_deadstock.title',
-        description: 'newest_features.selling_on_deadstock.desc',
+        title: 'newest_features.selling_on_deadstock.feature_banner_title',
+        description: 'newest_features.selling_on_deadstock.feature_banner_desc',
         backgroundImage: require('@/assets/img/features/newest-feature/selling-on-deadstock/sellingbanner.png'),
         backgroundImageSm: require('@/assets/img/features/newest-feature/selling-on-deadstock/sellingbannermobile.png'),
       },
       shopNowBanner: {
         shopNowDescription:
-          'newest_features.selling_on_deadstock.shop_now_desc',
-        shopNowButtonText: 'newest_features.selling_on_deadstock.shop_now_btn',
-        previousPage: 'newest_features.selling_on_deadstock.previous_page_name',
+          'newest_features.selling_on_deadstock.shop_now_banner.desc',
+        shopNowButtonText:
+          'newest_features.selling_on_deadstock.shop_now_banner.button_text',
+        previousPage: 'newest_features.buying.title',
         previousPageLink: '/features/buying',
-        nextPage: 'newest_features.selling_on_deadstock.next_page_name',
+        nextPage: 'newest_features.trading.title',
         nextPageLink: '/features/trading',
       },
     }

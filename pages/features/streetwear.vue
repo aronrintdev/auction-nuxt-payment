@@ -131,7 +131,7 @@ export default {
         z-index: 1
         background-color: $color-white-1
         padding: 0 20px
-        background-color: #F5F5F5
+        background-color: $color-gray-1
 
 @media (max-width: 1200px)
   .features-container
@@ -166,5 +166,5 @@ export default {
         margin: 0px 0px
         .card-wrapper
           padding: 0 10px
-          background-color: white
+          background-color: $color-white-1
 </style>
