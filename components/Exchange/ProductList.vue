@@ -86,9 +86,11 @@ export default {
   },
   created() {
     this.loadPage();
+    this.myEventHandler()
   },
   destroyed() {
     window.removeEventListener('resize', this.myEventHandler);
+
   },
   mounted() {
     window.addEventListener('resize', this.myEventHandler);
