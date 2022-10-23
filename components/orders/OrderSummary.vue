@@ -9,7 +9,7 @@
           <div class="order-date d-none d-sm-block">{{ $t('orders.ordered_on') }} {{ new Date(order.created_at) }}</div>
         </b-col>
         <b-col cols="2">
-          <div class="text-right cursor-pointer d-block d-sm-none" @click="openBottomSheet" v-if="item.status!=='processing'">
+          <div v-if="item.status!=='processing'" class="text-right cursor-pointer d-block d-sm-none" @click="openBottomSheet">
             <img :src="require('/assets/img/icons/three-dots.svg')" alt="" />
           </div>
           <div class="text-center w-200 align-self-end d-none d-sm-block">
