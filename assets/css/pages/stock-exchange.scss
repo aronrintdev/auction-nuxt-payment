@@ -8,7 +8,7 @@
   .share-icon {
     height: 30px;
     width: 30px;
-    padding: 5px;
+    padding: 7px;
     line-height: 1.2;
   }
 
@@ -43,6 +43,10 @@
   #tb-product {
     max-height: 350px;
   }
+  // .thumb-wrapper{
+  //   background-color: #ffffff!important;
+  //   width: 21%!important;
+  // }
 }
 .dropdown-sort {
   .btn-dropdown {
@@ -152,6 +156,13 @@
       top: 0;
     }
   }
+}
+@media (max-width: 1024px) {
+  .exchange-product-detail {
+      .thumb-wrapper {
+        width: 28%!important
+      }
+    }
 }
 @media (max-width: 768px) {
   .container {
