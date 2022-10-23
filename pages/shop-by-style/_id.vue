@@ -11,7 +11,7 @@
           <b-col lg="6">
             <nuxt-link
               :to="`/shop-by-style`">
-              <p class="mt-2 backto-css">{{ $t('shop_by_style.general.back_to_style') }}</p>
+              <p class="mt-2 backto-css fw-normal">{{ $t('shop_by_style.general.back_to_style') }}</p>
             </nuxt-link>
           </b-col>
           <b-col lg="6">
@@ -106,14 +106,14 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-  .backto-css
-    //font-family: 'SF Pro Text'
-    font-style: normal
-    font-weight: 400
-    font-size: 18px
-    line-height: 21px
-    letter-spacing: -0.02em
-    color: #6F6F6F
+@import '~/assets/css/_variables'
+@import '~/assets/css/_typography'
+.backto-css
+  font-weight: $regular
+  font-size: 18px
+  line-height: 21px
+  letter-spacing: -0.02em
+  color: $color-gray-6
 .container-style-detail
   max-width: 1440px
   padding: 30px 47px
