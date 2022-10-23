@@ -43,11 +43,11 @@ export default {
         },
         {
           label: this.$t('deadstock_exchange.biggest_winners'),
-          value: 'biggestWinners',
+          value: 'top-gainers',
         },
         {
           label: this.$t('deadstock_exchange.biggest_lossers'),
-          value: 'biggestLossers',
+          value: 'top-losers',
         },
       ],
       currentCategory: [],

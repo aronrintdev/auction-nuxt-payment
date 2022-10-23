@@ -1,4 +1,5 @@
 <template>
+    <b-overlay :opacity="0.85" blur="2px" :show="loading" rounded="sm">
     <table class="table trend-table-wrapper">
       <thead v-if="activeHeaders" >
         <tr class="d-none d-sm-table-row">
@@ -77,6 +78,7 @@
         </tr>
       </tbody>
     </table>
+    </b-overlay>
   </template>
   <script>
   import ProductThumb from '~/components/product/Thumb.vue'
@@ -247,6 +249,10 @@
         },
       },
       activeHeaders:{
+        type:Boolean,
+        default:false
+      },
+      loading:{
         type:Boolean,
         default:false
       },

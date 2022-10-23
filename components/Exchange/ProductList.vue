@@ -17,7 +17,7 @@
     </div>
 
     <!-- ProductTrendListCard Table -->
-    <ProductTrendListCard :products="products" :activeHeaders="activeHeaders" :type="type" />
+      <ProductTrendListCard :products="products" :activeHeaders="activeHeaders" :type="type" />
   </div>
 </template>
 <script>
@@ -86,9 +86,11 @@ export default {
   },
   created() {
     this.loadPage();
+    this.myEventHandler()
   },
   destroyed() {
     window.removeEventListener('resize', this.myEventHandler);
+
   },
   mounted() {
     window.addEventListener('resize', this.myEventHandler);
@@ -112,51 +114,25 @@ export default {
     loadPage() {
       this.$axios
         // .get('/products', {
-        .get('/stock-exchange', {
+        .get('/stock-exchange/'+this.$route.params.type, {
           params: {
-            // loser_products_count:10,
-            // gainer_products_count:10,
-            // trending_products_count:10,
-            // top_products_count:10,
-            // losers: 10,
-            // type: this.type,
-            // page: this.currentPage,
-            // take: this.perPage,
-            // ...this.filter
+            type: this.type,
+            page: this.currentPage,
+            take: this.perPage,
+            paginate:1,
+            ...this.filter
           },
         })
         .then((response) => {
           if (response.data) {
-            console.log(response.data)
-            this.trending = response.data.data.trending
-            this.gainers = response.data.data.gainers
-            this.losers = response.data.data.losers
-            this.top_products = response.data.data
+            console.log(response.data.data)
+            this.trending = response.data.data.data
             this.totalRows = response.data.total
-            this.setListData()
           }
         })
         .catch((error) => {
           this.$toasted.error(error.message)
         })
-    },
-    setListData() {
-      switch (this.$route.params.type) {
-        case 'trending': {
-          this.products = this.trending
-          break
-        }
-        case 'biggestWinners': {
-          this.products = this.gainers
-          break
-        }
-        case 'biggestLossers': {
-          this.products = this.losers
-          break
-        }
-        default:
-          this.products = []
-      }
     },
   },
 }
