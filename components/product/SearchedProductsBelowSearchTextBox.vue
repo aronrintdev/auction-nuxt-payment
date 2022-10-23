@@ -40,7 +40,7 @@
               @click="addProductWant(product)"
             >
               {{ $t('trades.create_listing.vendor.wants.add_want') }}
-              <img class="ml-3" :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
+              <img class="ml-2" :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
             </a>
           </div>
         </div>
@@ -146,9 +146,9 @@ export default {
         this.$root.$emit('add_product_want', product)
       }
     },
-    addProductWantList(product){
-
-      this.$root.$emit('add_product_want_list',product)
+    addProductWantList(product) {
+      console.log('addProductWantList', product);
+      this.$emit('add_product_want_list', product)
     },
     addProductArena(product){
       this.$root.$emit('add_product_trade_arena',product)

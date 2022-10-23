@@ -83,9 +83,23 @@
                   variant="white"
                   paddingX="10px"
                   @change="changeCondition"
-                  :inputStyle="{ display: 'flex', justifyContent: 'center', border: '1px solid black !important' }"
-                  :dropdownStyle="{ border: '1px solid #000', borderTop: 0, borderBottom: 0, zIndex: 9999 }"
-                  :optionStyle="'font-weight: 500 !important; font-size: 14px; color: #667799; borderBottom: 1px solid black'"
+                  :inputStyle="{ 
+                    display: 'flex', 
+                    justifyContent: 'center',
+                    border: '1px solid black !important' 
+                  }"
+                  :dropdownStyle="{ 
+                    border: '1px solid #000', 
+                    borderTop: 0, 
+                    borderBottom: 0, 
+                    zIndex: 9999 
+                  }"
+                  :optionsStyle="{
+                    fontWeight: '500 !important',
+                    fontSize: '14px',
+                    color: '#667799',
+                    borderBottom: '1px solid #000',
+                  }"
                   labelStyle="font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 14px; color: #667799;"
                   arrowStyle='color: #667799; width: 16px; height: 18px; position: absolute; right: 50px; margin-bottom: 11px !important;'
                 />

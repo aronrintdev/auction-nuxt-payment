@@ -36,13 +36,36 @@
           <SearchInput
             class="searchInput"
             :value="searchText"
-            :inputStyle="{ backgroundColor: '#FFF', ...inputClass }"
+            :inputStyle="{ 
+              backgroundColor: '#FFF', 
+              ...inputClass,
+              border: searchedItems.length > 0 ? '1px solid rgba(0,0,0,.125)' : '0',
+              borderBottom: '0 !important',
+              borderBottomLeftRadius: searchedItems.length > 0 ? 0 : '8px',
+              borderBottomRightRadius: searchedItems.length > 0 ? 0 : '8px',
+            }"
             iconStyle='position: relative; left: 12px;'
             variant="primary"
             :clearSearch="true"
             inputHeight="46px"
             @change="filterData"
           />
+          <div class="position-relative">
+            <SearchedProductsBelowSearchTextBox 
+              v-if="searchedItems.length > 0 && searchText.length > 0" 
+              :productItems="searchedItems" 
+              class="d-none d-sm-flex position-absolute"
+              inputType="wantsList"
+              :wrapperStyle="{ margin: 0 }"
+              :itemStyle="{ padding: 0 }"
+              :suggestNewStyle="{
+                borderTopLeftRadius: 0,
+                borderTopRightRadius: 0,
+                height: '74px'
+              }"
+              @add_product_want_list="redirectToAddWant"
+            />
+          </div>
         </div>
         
       </b-col>
@@ -234,7 +257,11 @@
         </div>
       </div>
       <div v-else>
-        <div class="d-flex flex-column flex-xl-row justify-content-center" v-if="!combinationItems.length">
+        <div 
+          :style="{ height: '100vh' }" 
+          class="d-flex flex-column flex-xl-row justify-content-center" 
+          v-if="!combinationItems.length"
+        >
           <div class="mt-3 create-combination">
             <span>{{ $t('trades.wants_listing.have_no_combinations') }}</span>
             <span
@@ -316,7 +343,7 @@ import {
   PER_PAGE_OPTIONS_COMBINATION,
   SORT_BY, TAKE_SEARCHED_PRODUCTS,
   TOTAL_COUNT,
-  WANTS_NAV_ITEMS
+  WANTS_NAV_ITEMS,
 } from '~/static/constants/trades'
 import {Pagination} from '~/components/common'
 import CombinationItemCard from '~/pages/profile/trades/wants/CombinationItemCard';
@@ -326,6 +353,8 @@ import EditItem from '~/pages/profile/trades/wants/EditItem';
 import EditCombination from '~/pages/profile/trades/wants/EditCombination';
 import FiltersModal from '~/pages/profile/trades/wants/FiltersModal'
 import { ConfirmModal, AlertModal } from '~/components/modal'
+import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox';
+
 
 export default {
   name: 'Index',
@@ -340,7 +369,8 @@ export default {
     CustomDropdown, 
     SearchInput,
     ConfirmModal,
-    AlertModal
+    AlertModal,
+    SearchedProductsBelowSearchTextBox
   },
   layout: 'Profile',
   data() {
@@ -399,7 +429,8 @@ export default {
       editItem: null,
       editCombination: null,
       TAKE_SEARCHED_PRODUCTS,
-      filtersModalOpen: false
+      filtersModalOpen: false,
+      searchedItems: []
     }
   },
   computed: {
@@ -440,7 +471,7 @@ export default {
     this.getCombinationOptions();
   },
   methods: {
-
+    ...mapActions('trades', ['searchProductsList']),
     ...mapActions('browse', ['fetchFilters']), // getter to get filter listing from store
 
     submitBulk() {
@@ -449,6 +480,10 @@ export default {
       } else {
         this.handleBulkAction();
       }
+    },
+
+    redirectToAddWant(product) {
+      console.log('TEST 11', product);
     },
 
     handleCategoryChange(value) {
@@ -658,21 +693,12 @@ export default {
         console.log('getCombinations coming', response.data.data.data);
         console.log('this.combinationItems store', this.combinationItems);
         response.data.data.data.forEach((item) => {
-          console.log('item', item);
           const found = this.combinationItems.find(c => c.combination_id === item.combination_id)
           if (item.combination_items.length > 0 && !found) {
             this.combinationItems.push(item);
           }
         });
         console.log('this.combinationItems after', this.combinationItems);
-        // this.combinationItems = response.data.data.data.reduce((acc, item) => {
-        //   if (item.combination_items.length > 0) {
-        //     acc.push(item);
-        //   }
-        //   return acc;
-        // });
-        console.log('getCombinations3', this.combinationItems);
-        // this.combinationItems = response?.data && response.data.data.data;
         this.totalCountCombination = parseInt(response.data.data.total)
         this.perPageCombination = parseInt(response.data.data.per_page)
         this.combinationItems.forEach((combination, index) => {
@@ -714,7 +740,7 @@ export default {
         selected_ids: this.selected
       }
       console.log('Url data1', url, data);
-      this.$axios.post(url,data)
+      this.$axios.post(url, data)
         .then(this.getCombinations)
         .catch((error)=> {
           this.$toasted.error(this.$t(error.response.data.error))
@@ -770,10 +796,32 @@ export default {
     },
     filterData(text){
       this.searchText = text
-      if(text !== ''){
-        this.wantedItems = this.wantedItems.filter(o => o.product.name.toLowerCase().includes(this.searchText.toLowerCase()) || o.product.sku.toLowerCase().includes(this.searchText.toLowerCase()));
-      }else{
+      if(text !== '') {
+        this.searchProductsList({
+          search: this.searchText.toLowerCase(),
+          take: TAKE_SEARCHED_PRODUCTS
+        })
+        .then((response) => {
+          this.searchedItems = response.data && response.data.results && response.data.results.data
+          console.log('this.searchedItems', this.searchedItems);
+        })
+        .catch((error) => {
+          this.$toasted.error(this.$t(error.response.data.error))
+          this.searchedItems = []
+        })
+        this.wantedItems = this.wantedItems
+          .filter(o => 
+            o.product.name
+              .toLowerCase()
+              .includes(this.searchText.toLowerCase())
+              || 
+            o.product.sku
+              .toLowerCase()
+              .includes(this.searchText.toLowerCase())
+          );
+      } else {
         this.getWantItems()
+        this.searchedItems = []
       }
     }
   }
