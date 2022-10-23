@@ -4652,7 +4652,11 @@
     "balance_the_deal_request": "Balance this deal by requesting cash",
     "insert_amount": "Insert Amount",
     "your_item_value": "Your items’ value",
-    "total_value": "Total Value"
+    "total_value": "Total Value",
+    "cash_added": "${0} Cash Added",
+    "cash_requested": "${0} Cash Requested",
+    "edit_added_cash": "Edit Added Cash",
+    "edit_requested_cash": "Edit Requested Cash"
   },
   "change_password": {
     "password": "Password",

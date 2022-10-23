@@ -43,7 +43,7 @@
       <div class="amount-headings">
         {{$t('trades.total_value')}}
       </div>
-      <span class="amount-val">${{totalAmount()}}</span>
+      <span class="amount-val">{{yourTotal()}}</span>
       </div>
     </div>
     <div class="d-flex justify-content-center">
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
 import Meter from '~/components/common/Meter'
 import Button from '~/components/common/Button';
 export default {
@@ -66,22 +67,36 @@ export default {
   },
   props:{
     yourAmount:{
+      type: String,
       required:true
     },
     theirAmount:{
+      type: String,
       required:true
-    }
+    },
+    addedAmount:{
+      type: String,
+      default: '0'
+    },
+    selectedType:{
+      type: String,
+      default: null
+    },
   },
   data(){
     return {
       amount: 0,
       addCash: true,
-      yourTotal:this.yourAmount
     }
   },
   computed:{
+    ...mapGetters('trade', ['getYourTradeItems']),// List of your trade items from store
     heading(){
-      if(this.addCash) return this.$t('trades.add_cash')
+      if(parseInt(this.addedAmount)>0 && this.selectedType === 'add_cash')
+      return this.$t('trades.edit_added_cash')
+      else if(parseInt(this.addedAmount)>0 && this.selectedType === 'request_cash')
+      return this.$t('trades.edit_requested_cash')
+      else if(this.addCash) return this.$t('trades.add_cash')
       else return this.$t('trades.request_cash')
     },
     headingReq(){
@@ -93,6 +108,9 @@ export default {
       else return this.$t('trades.balance_the_deal_request')
     },
   },
+  mounted() {
+    this.amount = parseInt(this.addedAmount)
+  },
   methods:{
     addOrReq(val){
       this.addCash = val
@@ -102,6 +120,20 @@ export default {
     },
     totalAmount(){
       return parseInt(this.yourTotal.replace('$',''))+parseInt(this.amount?this.amount:0)
+    },
+    /**
+     * This function is used to get total amount of wants items
+     * offered by you for trade by default it return string 0
+     * @returns {string|*}
+     */
+    yourTotal(formattedPrice = true){
+      const price = this.getYourTradeItems.map((item) => item.sale_price)
+      const cashAdded = !isNaN(parseFloat(this.amount)) ? this.amount : 0
+      if(price.length) {
+        return (formattedPrice) ?
+          '$' + ((price.reduce((a, b) => a + b, 0)/100) + parseFloat(cashAdded)).toFixed(2) : price.reduce((a, b) => a + b, 0) + (cashAdded * 100)
+      }
+      return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(cashAdded)) : cashAdded * 100
     },
     confirmAmount(){
       const data = {
