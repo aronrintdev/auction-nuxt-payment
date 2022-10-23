@@ -8,14 +8,14 @@
     @hidden="$emit('hidden')"
   >
     <div v-if="!mobileClass" class="message-modal-content">
-      <div class="message" v-html="message"></div>
+      <div :style="messageStyle" class="message" v-html="message"></div>
       <img
         v-if="icon && icon === 'tick'"
         :src="require('~/assets/img/icons/product/confirm-tick.svg')"
       />
       <img
         v-if="icon && icon === 'trash'"
-        :src="require('~/assets/img/icons/product/trash.svg')"
+        :src="require('~/assets/img/icons/trash-mobile.svg')"
       />
     </div>
 
@@ -41,6 +41,7 @@
             && 'd-flex align-items-center text-center justify-content-center'
           }`"
         v-html="message"
+        :style="messageStyle" 
       ></div>
     </div>
   </Modal>
@@ -81,6 +82,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    messageStyle: {
+      type: Object,
+      default: () => {}
+    }
   },
 
   methods: {

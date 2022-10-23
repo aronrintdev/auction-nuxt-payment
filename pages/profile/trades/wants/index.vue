@@ -190,7 +190,7 @@
         @close="cancelAction()"
         @selectAll="handleSelectAll()"
         @deselectAll="handleDeselectAll()"
-        @submit="handleBulkAction()"
+        @submit="submitBulk()"
       />
     </div>
 
@@ -271,6 +271,32 @@
       @closed="filtersModalOpen = false"
       @opened="filtersModalOpen = true"
     />
+    <ConfirmModal
+      id="confirm-bulk-delete"
+      :confirmLabel="$t('common.delete')"
+      :message="$t('common.bulk_delete_warning')"
+      :messageStyle="{
+        fontFamily: 'SF Pro Display',
+        fontWeight: 400,
+        fontSize: '18px',
+        color: '#000',
+        marginTop: '-30px'
+      }"
+      @confirm="handleBulkAction"
+    />
+    <AlertModal
+      id="items-deleted"
+      :message="$t('common.items_deleted')"
+      icon="trash"
+      :messageStyle="{
+        fontFamily: 'SF Pro Display',
+        fontWeight: 400,
+        fontSize: '18px',
+        color: '#000',
+        marginTop: '-30px',
+        marginBottom: '20px'
+      }"
+    />
   </div>
 </template>
 
@@ -292,8 +318,6 @@ import {
   TOTAL_COUNT,
   WANTS_NAV_ITEMS
 } from '~/static/constants/trades'
-// import NavGroup from '~/components/common/NavGroup'
-// import FormDropdown from '~/components/common/form/Dropdown'
 import {Pagination} from '~/components/common'
 import CombinationItemCard from '~/pages/profile/trades/wants/CombinationItemCard';
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar';
@@ -301,6 +325,7 @@ import WantItemCard from '~/pages/profile/trades/wants/WantItemCard';
 import EditItem from '~/pages/profile/trades/wants/EditItem';
 import EditCombination from '~/pages/profile/trades/wants/EditCombination';
 import FiltersModal from '~/pages/profile/trades/wants/FiltersModal'
+import { ConfirmModal, AlertModal } from '~/components/modal'
 
 export default {
   name: 'Index',
@@ -313,7 +338,9 @@ export default {
     Pagination, 
     FiltersModal,
     CustomDropdown, 
-    SearchInput
+    SearchInput,
+    ConfirmModal,
+    AlertModal
   },
   layout: 'Profile',
   data() {
@@ -416,13 +443,16 @@ export default {
 
     ...mapActions('browse', ['fetchFilters']), // getter to get filter listing from store
 
-    // changeTab(tab) {
-    //   this.currentTab = tab;
-    // },
+    submitBulk() {
+      if (this.action === 'delete' || this.action === 'delete_combination') {
+        this.$bvModal.show('confirm-bulk-delete')
+      } else {
+        this.handleBulkAction();
+      }
+    },
 
     handleCategoryChange(value) {
       this.category = value
-      console.log('category1', this.category);
       this.getWantItems()
       this.getCombinations()
     },
@@ -530,11 +560,13 @@ export default {
       console.log('after', this.selected);
     },
     editDelete(data, type) {
-      if(type === 'delete'){
+      console.log('editDelete1', data, type);
+      console.log('selected', this.selected);
+      if(type === 'delete') {
         this.selected.push(data)
         this.deleteWant(type)
       }
-      else{
+      else {
         this.editItem = data
       }
     },
@@ -548,7 +580,7 @@ export default {
       }
     },
     deleteWant(type) {
-      this.$axios.post('/trades/wants/destroy', {type, selected_ids: this.selected})
+      this.$axios.post('/trades/wants/destroy', { type, selected_ids: this.selected })
         .then(() => {
           this.selected = []
           this.getWantItems()
@@ -623,13 +655,16 @@ export default {
         }
       })
       .then((response) => { // response will get combination data for want items
-        console.log('getCombinations2', response.data.data.data);
+        console.log('getCombinations coming', response.data.data.data);
+        console.log('this.combinationItems store', this.combinationItems);
         response.data.data.data.forEach((item) => {
           console.log('item', item);
-          if (item.combination_items.length > 0) {
+          const found = this.combinationItems.find(c => c.combination_id === item.combination_id)
+          if (item.combination_items.length > 0 && !found) {
             this.combinationItems.push(item);
           }
         });
+        console.log('this.combinationItems after', this.combinationItems);
         // this.combinationItems = response.data.data.data.reduce((acc, item) => {
         //   if (item.combination_items.length > 0) {
         //     acc.push(item);
@@ -656,7 +691,8 @@ export default {
       this.getCombinations()
     },
     handleBulkAction() {
-      if (this.action === 'delete' || this.action === 'delete_combination') {
+      const isDeleteAction = this.action === 'delete' || this.action === 'delete_combination'
+      if (isDeleteAction) {
         this.deleteWant(this.action)
         this.action = null
       }
@@ -668,6 +704,9 @@ export default {
         this.currentTab = 'combinations'
       }
       console.log('handleBulkAction2', this.action);
+      if (isDeleteAction) {
+        this.$bvModal.show('items-deleted')
+      }
     },
     addCombination() {
       const url = 'trades/wants/combination'

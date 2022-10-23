@@ -137,6 +137,8 @@
     "select_list": "Select List",
     "add_to_general": "Add to general wants or a combination",
     "browse": "Browse",
+    "bulk_delete_warning": "Are you sure you would like to delete selected?",
+    "items_deleted": "Your items have been deleted!",
     "categories": {
       "sneakers": "Sneakers",
       "apparel": "Apparel",

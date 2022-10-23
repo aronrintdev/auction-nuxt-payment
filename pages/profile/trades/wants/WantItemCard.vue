@@ -1,52 +1,49 @@
 <template>
     <div class="invent-item">
       <div class="position-absolute size-cont">
-        <img class="mr-3 d-sm-none" :src="require('assets/img/icons/More.svg')" />
-        <div class="d-none d-sm-block">
-          <div v-if="editRemove" class="d-flex justify-content-end">
-            <img
-              v-if="selected"
-              @click="$emit('select', wantItem.id, 'remove')"
-              role="button"
-              :src="require('~/assets/img/icons/red-minus.svg')" 
-              height="22" 
-              width="22" 
+        <div v-if="editRemove" class="d-flex justify-content-end">
+          <img
+            v-if="selected"
+            @click="$emit('select', wantItem.id, 'remove')"
+            role="button"
+            :src="require('~/assets/img/icons/red-minus.svg')" 
+            height="22" 
+            width="22" 
+          >
+          <img
+            v-else
+            @click="$emit('select', wantItem.id, 'add')"
+            role="button"
+            :src="require('~/assets/img/icons/gray-plus.svg')" 
+            height="22" 
+            width="22" 
+          >
+        </div>
+        <div v-else class="d-flex justify-content-center align-items-center">
+          <div 
+            role="button" 
+            @click="editWant"
+            class="pr-1 d-flex align-items-center"
+          >
+            <img 
+              :src="require('~/assets/img/icons/pencil-gray.svg')" 
+              height="15" 
+              width="15" 
             >
-            <img
-              v-else
-              @click="$emit('select', wantItem.id, 'add')"
-              role="button"
-              :src="require('~/assets/img/icons/gray-plus.svg')" 
-              height="22" 
-              width="22" 
-            >
+            <span class="edit-label ml-1">Edit</span>
           </div>
-          <div v-else class="d-flex justify-content-center align-items-center">
-            <div 
-              role="button" 
-              @click="editWant"
-              class="pr-1 d-flex align-items-center"
+          <div 
+            role="button" 
+            @click="deleteWant"
+            class="pl-1 d-flex align-items-center"
+          >
+            <img 
+              :src="require('~/assets/img/icons/Delete.svg')" 
+              height="15" 
+              width="15" 
+              class="ml-4"
             >
-              <img 
-                :src="require('~/assets/img/icons/pencil-gray.svg')" 
-                height="15" 
-                width="15" 
-              >
-              <span class="edit-label ml-1">Edit</span>
-            </div>
-            <div 
-              role="button" 
-              @click="deleteWant"
-              class="pl-1 d-flex align-items-center"
-            >
-              <img 
-                :src="require('~/assets/img/icons/Delete.svg')" 
-                height="15" 
-                width="15" 
-                class="ml-4"
-              >
-              <span class="delete-label ml-1">Delete</span>
-            </div>
+            <span class="delete-label ml-1">Delete</span>
           </div>
         </div>
       </div>
