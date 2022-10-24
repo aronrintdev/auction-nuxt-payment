@@ -23,7 +23,7 @@
     >
       <h2 class="title">{{ product.name }}</h2>
     </div>
-
+    
     <div v-if="!isScreenXS" class="section-product-details">
       <div class="mt-2">{{ $t('common.sku') }}: {{ product.sku }}</div>
       <div class="mt-2">{{ $t('common.color') }}: {{ product.colorway }}</div>
@@ -92,10 +92,8 @@
           <span class="last-sale-title"
             >{{ $t('product_page.last_sale') }}&colon;</span
           >
-          <!-- TODO: Harcoded for now. -->
-          <span v-if="lastAmount" class="last-sale-amount">{{ lastAmount }}</span
+          <span v-if="lastSold" class="last-sale-amount">{{ lastSold.sale_price | toCurrency('USD', 'N/A') }}</span
           >
-          <!-- TODO: Harcoded for now. -->
           <span v-if="avgAmount && avgType" class="last-sale-indicators" :class="avgType === 'down' ? 'text-danger' : 'text-sucess'">
             {{ avgAmount | toCurrency('USD', 'N/A') }}
           </span>
@@ -734,7 +732,7 @@ export default {
       apiProdUrl: API_PROD_URL,
       sizeViewMode: 'carousel',
       showLastSalePrice: '',
-      lastAmount: '',// TODO: Last amount
+      lastAmount: '',
       avgAmount: '',
       avgType: '',
       buy: TYPE_BUY,
@@ -820,6 +818,21 @@ export default {
         this.value.price > this.priceMinVal &&
         this.value.minOfferAmount > this.minOfferMinVal
       )
+    },
+
+    listingItemOrder: (vm) => {
+      return vm.product.listing_item_order
+    },
+
+   lastSold: (vm) => {
+      const items = vm.listingItemOrder && vm.listingItemOrder.reverse()
+      
+      const sold = items.find(
+        (i) =>  i.inventory.size_id === vm.value.currentSize && i.inventory.packaging_condition_id === vm.value.boxCondition
+      )
+      return sold && sold.inventory
+      
+
     },
 
     has360Images() {
