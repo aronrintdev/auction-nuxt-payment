@@ -21,47 +21,54 @@
           <ProductImageViewer v-if="!product.product.has360Images" :product="product.product" />
           <ProductImageViewerMagic360 v-if="product.product.has360Images" :product="product.product" />
         </div>
-        <div class="col-xl-5">
+        <div class="col-xl-6 px-2">
           <p class="mt-3 mb-0 title">{{ product.product.name }}</p>
           <p class="custom-border">
             <span class="last-sale">{{ $t('product_page.last_sale') }}: $250.00</span>
             <span class="last-sale-value">+0.64 (+0.36%)</span>
           </p>
+          <div class="position-relative flex-grow-1">
+            <ProductSizePicker
+              :value="currentSizeId"
+              :sizes="product.product.sizes"
+              :prices="[]"
+              :viewMode="sizeViewMode"
+              class="size-picker px-0"
+              :style="{
+                maxWidth: 'unset'
+              }"
+              @update="handleSizeChange"
+              @changeViewMode="handleSizeViewModeChange"
+              :cardStyle="{
+                width: '64px',
+                height: '64px',
+                borderWidth: '1px'
+              }"
+              :selectSizeLabelClass="'size-label-responsive'"
+              :iconClass="'d-inline d-sm-none'"
+              :iconTextClass="'icon-text-responsive'"
+              :arrowStyle="{
+                display: 'none !important'
+              }"
+              :carouselContainerStyle="{
+                width: '100%',
+                padding: 0,
+                position: 'absolute !important'
+              }"
+              :wrapperStyle="{
+                margin: '0 !important',
+                width: '100%'
+              }"
+            />
+          </div>
 
-          <ProductSizePicker
-            :value="currentSizeId"
-            :sizes="product.product.sizes"
-            :prices="[]"
-            :viewMode="sizeViewMode"
-            class="size-picker px-0"
+          <div 
             :style="{
-              maxWidth: 'unset'
-            }"
-            @update="handleSizeChange"
-            @changeViewMode="handleSizeViewModeChange"
-            :cardStyle="{
-              width: '64px',
-              height: '64px',
-              borderWidth: '1px'
-            }"
-            :selectSizeLabelClass="'size-label-responsive'"
-            :iconClass="'d-inline d-sm-none'"
-            :iconTextClass="'icon-text-responsive'"
-            :arrowStyle="{
-              display: 'none !important'
-            }"
-            :carouselContainerStyle="{
-              width: '100%',
-              padding: 0
-            }"
-            :wrapperStyle="{
-              margin: '0 !important',
-              width: '100%'
-            }"
-          />
-
-          <div class="mt-3 d-flex flex-column pb-5 pb-sm-2">
-            <div class="d-flex align-items-center justify-content-center mb-2">
+              marginTop: '130px'
+            }" 
+            class="d-flex flex-column pb-5 pb-sm-2"
+          >
+            <div class="d-flex align-items-center mb-2">
               <div class="box mr-1">{{ $t('products.box_condition')}}</div>
               <img
                 width="12"
@@ -71,8 +78,8 @@
               />
             </div>
 
-            <div class="px-3 mb-4">
-              <div class="d-block d-sm-none">
+            <div class="mb-4">
+              <div class="px-3 d-block d-sm-none">
                 <CustomDropdown 
                   v-model="condition"
                   :label="conditionLabel"
@@ -194,6 +201,7 @@
           </div>
 
         </div>
+        <div class="col-xl-1"></div>
       </div>
 
       <div class="d-none d-sm-block">
@@ -224,8 +232,8 @@
         <ProductLatestSales
           :style="{ marginTop: '0 !important', padding: 0, marginBottom: '20px' }"
           :value="product.latest_sales"
-          :sku="product.sku"
-          class="responsive-chart"
+          :sku="product.product.sku"
+          class="col-11 pl-4"
           headerClass="responsive-header"
           :labelsStyle="{
             display: 'flex',
@@ -545,8 +553,9 @@ export default {
   border-bottom: 1px solid $color-gray-23
 
 .custom-shadow
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25)
-  border-radius: 8px
+  @media (max-width: 576px)
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25)
+    border-radius: 8px
 
 .horizontal-scroll 
   overflow-x: scroll

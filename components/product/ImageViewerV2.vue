@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" class="container">
+  <div :style="{ width: '95%' }" ref="container" class="container">
     <PinchScrollZoom
       v-if="shouldMount"
       ref="zoomer"
@@ -75,6 +75,7 @@ export default {
 
   mounted() {
     this.containerWidth = this.$refs.container.clientWidth
+    console.log('this.$refs.container.clientWidth', this.$refs.container.clientWidth);
     this.shouldMount = true
   },
 

@@ -483,7 +483,18 @@ export default {
     },
 
     redirectToAddWant(product) {
-      console.log('TEST 11', product);
+      this.editItem = {
+        product,
+        packaging_condition: {
+          id: '',
+          name: ''
+        },
+        packaging_condition_id: '',
+        size: {
+          id: ''
+        },
+        latestSales: null
+      }
     },
 
     handleCategoryChange(value) {

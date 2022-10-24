@@ -8,8 +8,8 @@
       <b-row>
         <b-col md="12">
           <span class="body-8-normal text-uppercase">{{ $t('products.select_size') }}</span>
-
-          <Button
+          
+          <!-- <Button
             v-if="!singleMode"
             variant="link"
             class="position-absolute view-all-btn ml-auto body-8-medium"
@@ -17,9 +17,32 @@
             @click="handleViewAllClick"
           >
             <template #default>
-              <span class="text-color-blue-30">{{ $t('products.all_sizes') }}</span>
+              <span class="text-color-blue-30">1231</span>
             </template>
-          </Button>
+          </Button> -->
+          <div 
+            v-if="!singleMode"
+            @click="handleViewAllClick"
+            class="position-absolute view-all-btn"
+          >
+            <img
+              width="18"
+              height="18"
+              :src="require('~/assets/img/icons/eye2.svg')"
+              :class="iconClass"
+            />
+            <span 
+              :style="{
+                fontSize: '14px',
+                fontWeight: 600,
+                color: '#000',
+              }"
+              :class="iconTextClass"
+              role="button"
+            >
+              {{ $t('products.all_sizes') }}
+            </span>
+          </div>
         </b-col>
       </b-row>
 
@@ -85,38 +108,6 @@
           </template>
         </Carousel>
       </client-only>
-
-      <div class="d-flex justify-content-between">
-        <div 
-          :class="'select-size position-absolute d-none ' + selectSizeLabelClass"
-        >
-          {{ $t('product_page.select_size') }}
-        </div>
-
-        <div 
-          v-if="!singleMode"
-          @click="handleViewAllClick"
-          class="position-absolute view-all-btn"
-        >
-          <img
-            width="18"
-            height="18"
-            :src="require('~/assets/img/icons/eye2.svg')"
-            :class="iconClass"
-          />
-          <span 
-            :style="{
-              fontSize: '14px',
-              fontWeight: 600,
-              color: '#000',
-            }"
-            :class="iconTextClass"
-            role="button"
-          >
-            {{ $t('products.all_sizes') }}
-          </span>
-        </div>
-      </div>
     </div>
 
     <div v-if="viewMode === 'all'" class="mx-auto position-relative all-sizes">
