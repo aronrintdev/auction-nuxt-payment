@@ -3615,6 +3615,8 @@
     "receipt_of_purchase": "Receipt of Purchase",
     "receipt_id": "Receipt ID: 23423566543",
     "from": "From",
+    "request_amount": "Requested Amount",
+    "wallet_address": "Wallet Address",
     "receipt_date": "Receipt Date: 04/06/2022",
     "to": "To",
     "transaction_id": "Transaction ID:",

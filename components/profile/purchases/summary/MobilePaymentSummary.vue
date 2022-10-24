@@ -56,6 +56,19 @@
         <b-col cols="6"> {{ paymentDetail }}</b-col>
       </b-row>
       <ItemDivider/>
+      <div v-if="isCrypto" class="mb-3">
+        <div class="body-5-regular crypto-header">{{ $t('vendor_purchase.request_amount') }}</div>
+        <CopyAbleField :text="cryptoData.currency_to" width="156px">
+          <template #after>
+            <div class="body-5-medium text-black">
+              BTC
+            </div>
+          </template>
+        </CopyAbleField>
+        <div class="body-5-regular crypto-header">{{ $t('vendor_purchase.wallet_address') }}</div>
+        <!--        TODO change it through API or ENV  -->
+        <CopyAbleField :text="'196DgadfadifvDFGDGHJcvdsafjnd3Bd'"/>
+      </div>
       <div class="body-4-medium text-black">{{ $t('vendor_purchase.billing') }}</div>
       <b-row class="mt-16">
         <b-col class="section-label body-5-mendium text-nowrap" cols="6">{{ $t('payments.cardholder_name') }}</b-col>
@@ -71,12 +84,14 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex';
 import {CARD_STATUS, PAYMENT_METHOD_TYPE_CARD, PAYMENT_METHOD_TYPE_CRYPTO} from '~/static/constants';
 import ItemDivider from '~/components/profile/notifications/ItemDivider';
+import CopyAbleField from '~/components/profile/purchases/summary/CopyAbleField';
 
 export default {
   name: 'MobilePaymentSummary',
-  components: {ItemDivider},
+  components: {CopyAbleField, ItemDivider},
   props: {
     orderDetails: {
       type: [Object, null],
@@ -87,13 +102,40 @@ export default {
     return {
       cardStatus: CARD_STATUS,
       paymentMethodTypeCard: PAYMENT_METHOD_TYPE_CARD,
-      paymentMethodTypeCrypto: PAYMENT_METHOD_TYPE_CRYPTO
+      cryptoData: {
+        currency_from: null,
+        amount_from: null,
+        currency_to: 'btc',
+        estimated_amount: null
+      }
     }
   },
   computed: {
     paymentDetail() {
       const method = this.orderDetails.payment_method
       return method && (`${method.card_brand} - ${method.card_last_digits}, Exp. ${method.card_expiry_date}`)
+    },
+    isCrypto() {
+      const method = this.orderDetails.payment_method
+      return method && method.payment_type === PAYMENT_METHOD_TYPE_CRYPTO
+    }
+  },
+  mounted() {
+    if (this.isCrypto) {
+      this.convertCrypto()
+    }
+  },
+  methods: {
+    ...mapActions({
+      getEstimatedCryptoPrice: 'order-details/getEstimatedCryptoPrice'
+    }),
+    convertCrypto() {
+      this.getEstimatedCryptoPrice({
+        cryptoCurrency: 'btc',
+        total: this.orderDetails.total
+      }).then((res) => {
+        console.log(res);
+      })
     }
   }
 }
@@ -103,6 +145,10 @@ export default {
 @import "~/assets/css/variables"
 .details
   font-family: $font-family-sf-pro-display
+
+  .crypto-header
+    margin-top: 16px
+    margin-bottom: 8px
 
   .date-text
     letter-spacing: -0.005em
