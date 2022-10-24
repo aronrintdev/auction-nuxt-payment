@@ -309,7 +309,7 @@ export default {
     // get category
     getCategory() {
       this.$axios
-        .get('category', {
+        .get('categories', {
           handleError: false,
         })
         .then((res) => {
