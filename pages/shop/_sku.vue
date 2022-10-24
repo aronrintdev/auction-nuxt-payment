@@ -516,7 +516,7 @@ export default {
         .catch((err) => {
           this.$logger.logToServer(
             'Sell now create inventory and listing error',
-            err.response.data.message
+            err.response
           )
           this.$nuxt.refresh()
         })

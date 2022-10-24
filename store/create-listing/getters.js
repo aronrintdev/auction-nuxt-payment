@@ -105,3 +105,8 @@ export function getAuctionType(state) {
  export function getNonInventoryCollectionAuction(state) {
   return state.nonInventoryCollectionAuction
  }
+
+// Stire similar products
+export function getSimilarProducts(state){
+  return state.similarProduct
+}
