@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="password-component">
     <div id="password-component-title">{{ $t('change_password.password') }}</div>
     <div id="change-password-form-title" class="mb-4 mt-4 text-bold">{{ $t('change_password.change_password') }}</div>
 
@@ -102,7 +102,6 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-@import '~/assets/css/_typography'
 
 #password-component-title
   font-family: $font-family-montserrat
@@ -127,4 +126,21 @@ export default {
 
   &:hover
     box-shadow: 0 0.15rem 0.25rem $color-black-rgb3
+
+@media (max-width: 767px)
+  .password-component
+    font-family: $font-family-sf-pro-display
+    padding: 20px
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+    border-radius: 10px
+    @include body-10-medium
+
+  #password-component-title
+    font-family: $font-family-sf-pro-display
+    @include body-13-medium
+
+  #change-password-form-title
+    font-family: $font-family-sf-pro-display
+    @include body-10-medium
+
 </style>

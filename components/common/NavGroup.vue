@@ -71,5 +71,6 @@ export default {
     .btn-group
       width: 100%
       .btn
-        padding: 6px 0
+        padding: 6px 10px
+        white-space: nowrap
 </style>

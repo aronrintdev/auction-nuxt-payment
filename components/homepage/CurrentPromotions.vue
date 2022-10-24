@@ -16,49 +16,37 @@
         to="/shop"
       />
     </div>
-    <div class="row promos-wrapper d-none d-md-flex">
-      <div class="col-6 col-md-4">
+    <div v-if="promotions.length === 3" class="row promos-wrapper d-none d-md-flex">
+      <div class="col-6 col-md-4 d-flex">
         <img
-          width="100%"
-          :src="require('~/assets/img/home/promotions/promotion1.png')"
-        />
-      </div>
-      <div class="col-6 col-md-4">
-        <img
-          width="100%"
-          :src="require('~/assets/img/home/promotions/promotion2.png')"
-        />
-      </div>
-      <div class="d-none d-md-flex col-md-4 mt-3 mt-md-0">
-        <img
-          width="100%"
-          :src="require('~/assets/img/home/promotions/promotion3.png')"
-        />
-      </div>
-      <div class="d-flex d-md-none col-12 mt-3 mt-md-0">
-        <img
-          width="100%"
-          :src="require('~/assets/img/home/promotions/promotion3-sm.png')"
+          v-for="(row, index) in promotions"
+          :key="`feature-${index}`"
+          :src="row.imageUrl"
+          class="promotions-images pl-3"
+          width='100%'
         />
       </div>
     </div>
-    <div class="row promos-wrapper d-flex d-md-none overflow-hidden mx-1">
-      <div class="col-6 col-md-4">
+    <div  class="row promos-wrapper d-flex overflow-hidden mx-1">
+      <div v-if='promotions.length === 2' class="col-6 col-md-6">
         <img
           width="100%"
-          :src="require('~/assets/img/home/promotions/promo1-sm.png')"
+          height='575px'
+          :src="promotions[0].imageUrl"
         />
       </div>
-      <div class="col-6 col-md-4 border-left">
+      <div v-if='promotions.length === 2' class="col-6 col-md-6 border-left">
         <img
           width="100%"
-          :src="require('~/assets/img/home/promotions/promo2-sm.png')"
+          height='575px'
+          :src="promotions[1].imageUrl"
         />
       </div>
-      <div class="d-flex border-top col-12 pt-2 mt-2 mt-md-0">
+      <div v-if='promotions.length === 1' class="d-flex border-top col-12 pt-2 mt-2 mt-md-0">
         <img
           width="100%"
-          :src="require('~/assets/img/home/promotions/promotion3-sm.png')"
+          height='575px'
+          :src="promotions[0].imageUrl"
         />
       </div>
     </div>
@@ -67,6 +55,49 @@
 <script>
 export default {
   name: 'CurrentPromotions',
+  data() {
+    return {
+      promotions: [],
+      features: [
+        {
+          imageUrl: require('~/assets/img/home/promotions/promotion1.png'),
+        },
+        {
+          imageUrl: require('~/assets/img/home/promotions/promotion2.png'),
+        },
+        {
+          imageUrl: require('~/assets/img/home/promotions/promotion3.png'),
+        }
+      ]
+    }
+  },
+  mounted(){
+    this.getPromotions()
+  },
+  methods:{
+    getPromotions(){
+      const date = new Date();
+	    const toDayDate = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+ date.getDate();
+      this.$axios
+        .get('/promotions', {
+          start_at: toDayDate,
+        })
+        .then((res) => {
+          const promotions = res.data.data.data
+          let i = 0;
+          for (const property in promotions) {
+            i++
+            if(i<=3){
+              const row = {'imageUrl': promotions[property].promotion_image};
+              this.promotions.push(row)
+            }
+          }
+        })
+        .catch((error) => {
+          this.$toasted.error(error)
+        })
+    }
+  }
 }
 </script>
 <style lang="sass" scoped>

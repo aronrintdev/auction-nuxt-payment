@@ -124,5 +124,5 @@ export default {
     color: $color-gray-5
 
 .product-name
-    width: 60%
+    width: 90%
 </style>

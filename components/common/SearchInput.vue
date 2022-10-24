@@ -8,7 +8,7 @@
       searchResultShow && $slots.default && 'opened'
     }`"
   >
-    <div class="position-relative w-100 h-100 d-flex align-items-center">
+    <div :id="styles" class="position-relative w-100 d-flex align-items-center">
       <img
         :src="require('~/assets/img/icons/search.svg')"
         class="icon-search"
@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import debounce from 'lodash.debounce'
 import { Icon } from '~/components/common'
 
 export default {
@@ -111,6 +112,10 @@ export default {
       type: String,
       default: 'unset',
     },
+    styles: {
+      type: String,
+      default: ''
+    }
   },
 
   data() {
@@ -131,6 +136,7 @@ export default {
       this.$emit('change', value)
       this.$emit('input', value)
       this.searchResultShow = !!value
+      this.showSearchResult(value)
     },
 
     handleEnterKeyDown(event) {
@@ -151,12 +157,19 @@ export default {
     handleBlur(e) {
       this.$emit('blur', e)
     },
+
+    showSearchResult: debounce(function (value) {
+      this.$emit('search', value)
+    }, 300),
   },
 }
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+#brands-search
+  input
+    font-size: $font-size-12
 .search-input-wrapper
   position: relative
 
