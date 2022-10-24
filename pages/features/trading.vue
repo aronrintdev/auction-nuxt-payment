@@ -78,7 +78,7 @@ export default {
             'newest_features.trading.benefits.third_benefit_title'
           ),
           description: this.$t(
-            'newest_features.trading.benefits.third_benefit_title_desc'
+            'newest_features.trading.benefits.third_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/trading/heatcheck.png'),
         },

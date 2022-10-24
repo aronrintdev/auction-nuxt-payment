@@ -138,7 +138,7 @@ export default {
             a
                 min-width: 194px
                 max-width: 252px
-                height: 44px
+                min-height: 44px
 .previous-and-next-links
     width: 1029px
     margin: 0 auto
@@ -172,7 +172,7 @@ export default {
                     font-weight: 600
                 a
                     font-size: 16px
-                    width: 151px
+                    min-width: 151px
     .previous-and-next-links
         p.previous-link
             font-size: 12px

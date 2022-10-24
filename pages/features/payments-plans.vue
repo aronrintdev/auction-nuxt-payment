@@ -139,7 +139,7 @@ export default {
             'newest_features.payments_plans.benefits.second_benefit_title'
           ),
           description: this.$t(
-            'newest_features.payments_plans.second_benefit_desc'
+            'newest_features.payments_plans.benefits.second_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/payment-plans/timer.png'),
         },
@@ -148,7 +148,7 @@ export default {
             'newest_features.payments_plans.benefits.third_benefit_title'
           ),
           description: this.$t(
-            'newest_features.payments_plans.benethird_benefit_desc'
+            'newest_features.payments_plans.benefits.third_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/payment-plans/using-phone.png'),
         },

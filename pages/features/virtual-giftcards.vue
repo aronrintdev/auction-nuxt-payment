@@ -100,7 +100,7 @@ export default {
           'newest_features.virtual_giftcards.shop_now_banner.button_text',
         previousPage: 'newest_features.rewards_program.title',
         previousPageLink: '/features/rewards-program',
-        nextPage: 'newest_features.int_buying_and_selling.title',
+        nextPage: 'newest_features.international_buying_and_selling.title',
         nextPageLink: '/features/international-buying-and-selling',
       },
     }
