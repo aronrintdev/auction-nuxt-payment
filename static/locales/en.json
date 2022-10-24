@@ -4815,6 +4815,9 @@
       "commission": "Commission",
       "documents": "Documents"
     },
+    "camera": "Camera",
+    "gallery": "Gallery",
+    "browse": "Browse",
     "vendor_hub": "Vendor Hub",
     "store_address": "Store Address",
     "documents": "Documents",

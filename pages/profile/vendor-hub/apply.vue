@@ -303,8 +303,11 @@
       </div>
 
       <!-- Modal Area For Certified Reseller Document Upload -->
-      <SellerDocumentUploadModal :form="fileForm" :requirement="fileRequirement" :show="showDocModal"
+      <SellerDocumentUploadModal :form="fileForm" :requirement="fileRequirement" :show="showDocModal2"
                                  @closed="modalClosed" @uploaded="fileUploaded"/>
+
+      <SellerDocumentUploadMobile :form="fileForm" :requirement="fileRequirement" :show="showDocModal"
+      @closed="modalClosed" @uploaded="fileUploaded"/>
 
     </div>
   </div>
@@ -317,6 +320,7 @@ import VueCountdown from '@chenfengyuan/vue-countdown'
 import {Button} from '~/components/common';
 import {countries} from '~/static/location'
 import SellerDocumentUploadModal from '~/components/profile/vendor-hub/SellerDocumentUploadModal';
+import SellerDocumentUploadMobile from '~/components/profile/vendor-hub/SellerDocumentUploadMobile';
 import SelectedFile from '~/components/profile/vendor-hub/SelectedFile';
 import screenSize from '~/plugins/mixins/screenSize';
 import {
@@ -332,7 +336,7 @@ export default {
   name: 'Apply',
   components: {
     ValidationProvider, VueCountdown,
-    ValidationObserver, SelectedFile, SellerDocumentUploadModal, Button
+    ValidationObserver, SelectedFile, SellerDocumentUploadModal, Button, SellerDocumentUploadMobile
   },
   mixins: [screenSize],
   layout: 'Profile',
@@ -362,6 +366,7 @@ export default {
         date: ''
       },
       showDocModal: false,
+      showDocModal2: false,
       codeTry: 3,
       showCodeFailError: null,
       timerStarted: false,
