@@ -356,7 +356,7 @@ export default {
 
     .view-details
       background: $color-white-1
-      border: 1px solid $color-gray-84
+      border: 1px solid $color-gray-92
       border-radius: 8px
       padding: 16px 20px
       margin-top: 14px
@@ -424,11 +424,11 @@ export default {
           background-color: $color-gray-4
 
 .alert-payment-warning
-  background-color: $color-orange-20
+  background-color: $color-orange-21
   color: $color-black-1
   margin-inline: -27px
 
   &.success
-    background-color: $color-green-24
+    background-color: $color-green-27
 
 </style>
