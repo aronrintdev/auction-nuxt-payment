@@ -429,7 +429,6 @@ export default {
       page: 1,
       perPage: null,
       category: null,
-      // type: '',
       inventories: [],
       action: null,
       selected: [],
