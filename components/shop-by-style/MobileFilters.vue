@@ -83,7 +83,7 @@
   import _ from 'lodash'
   import Collapse from '~/components/common/Collapse'
   import Radio from '~/components/common/form/Radio'
-  import { TYPE } from '~/static/constants/shop-by-style'
+  import { TYPE, ACTIVE } from '~/static/constants/shop-by-style'
   import {
     MIN_YEAR,
     MAX_YEAR,
@@ -133,7 +133,7 @@
         selectedSizeType: '',
         years: '',
         allFilters: {},
-        status: ''
+        status: ACTIVE
       }
     },
     computed: {
@@ -216,7 +216,8 @@
         this.$axios
           .get('shop-by-style', {
             params: {
-              selectedType: this.sortBy,
+              selectedType: (this.sortBy === this.$t('shop_by_style.archive')) ? TYPE : this.sortBy,
+              status: this.status,
               filters: JSON.stringify(this.allFilters)
             }
           })
@@ -230,10 +231,9 @@
       applyFilters() {
         
         this.allFilters = {
-          status: this.status,
           year: this.years,
-          brand: this.selectedBrand,
-          sizeType: this.selectedSizeType
+          brandsSelected: this.selectedBrand ? [this.selectedBrand] : [],
+          sizeTypes: this.selectedSizeType ? [this.selectedSizeType] : []
         }
         this.loadPage()
         this.$emit('apply')
