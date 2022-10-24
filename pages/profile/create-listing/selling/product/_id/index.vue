@@ -43,7 +43,7 @@ export default {
     this.$axios
       .get(`/product/${id}/details`)
       .then((res) => {
-        this.product = res.data
+        this.product = res.data.data
       })
       .catch((err) => {
         this.$logger.logToServer(err.response)
