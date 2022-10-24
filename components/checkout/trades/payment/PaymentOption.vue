@@ -14,6 +14,7 @@
       :value="cardOption.value"
       :image-urls="cardOption.imageUrls"
       :text="cardOption.text"
+      :checked="cardOption.value"
       @change="handleChange"
     />
     <!-- Card Payment Radio Option -->

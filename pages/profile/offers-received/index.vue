@@ -52,7 +52,9 @@
         </div>
         <div
           v-show="mobileClass"
-          :class="mobileClass ? 'col-xs-2 filter-icon-col text-center m-auto' : ''"
+          :class="
+            mobileClass ? 'col-xs-2 filter-icon-col text-center m-auto' : ''
+          "
         >
           <span class="filter-wrapper" role="button" @click="showFilter">
             <img
@@ -207,7 +209,9 @@
           <!-- Delete offers -->
           <span
             v-if="!showCheckBox"
-            :class="`delete-offer ${mobileClass} && ${mobileClass  ? 'float-right' : ''}`"
+            :class="`delete-offer ${mobileClass} && ${
+              mobileClass ? 'float-right' : ''
+            }`"
             role="button"
             @click="onDeleteClick"
           >
@@ -241,7 +245,11 @@
           v-if="mobileClass && !offers.length"
           :class="`empty-data ${mobileClass}`"
         >
-          <div :class="`row vd-purchase-empty ${mobileClass} ${mobileClass ? 'd-flex align-items-center text-center' : ''}`">
+          <div
+            :class="`row vd-purchase-empty ${mobileClass} ${
+              mobileClass ? 'd-flex align-items-center text-center' : ''
+            }`"
+          >
             <div class="col-12 text-center">
               <p class="vd-purchase-browse-now">
                 {{ $t('offers_received.empty.no_incoming_offers') }}
@@ -250,7 +258,11 @@
               </p>
               <a
                 href="/shop"
-                :class="`btn vd-purchase-browse-btn ${mobileClass} ${mobileClass ? 'flex-row align-items-center justify-center flex-grow-0' : ''}`"
+                :class="`btn vd-purchase-browse-btn ${mobileClass} ${
+                  mobileClass
+                    ? 'flex-row align-items-center justify-center flex-grow-0'
+                    : ''
+                }`"
               >
                 {{ $t('home.create_listing') }}
               </a>
@@ -323,7 +335,7 @@
       </div>
 
       <div
-        v-show="mobileClass && showCheckBox && !hideSelectConfirm"
+        v-show="mobileClass && showCheckBox"
         class="row"
       >
         <div class="col-xs-12">
@@ -619,17 +631,13 @@ export default {
 
     // On toggle checkbox mobile view.
     toggleSelect({ id, checked }) {
-      if (checked) {
-        this.selected.push(id)
+       if (checked) {
+        this.selected.push(Number(id))
       } else {
-        this.selected.splice(this.selected.indexOf(id), 1)
+        this.selected.splice(this.selected.indexOf(Number(id)), 1)
       }
     },
 
-    deleteSelected() {
-      this.hideSelectConfirm = !this.hideSelectConfirm
-      this.showConfirmation = !this.showConfirmation
-    },
 
     onCancel() {
       this.showCheckBox = false
@@ -700,7 +708,8 @@ export default {
       }
 
       this.searchFilters.sortBy = val.sortby ? val.sortby : ''
-      this.searchFilters.filterBy = val.status && val.status.value ?  val.status.value : ''  
+      this.searchFilters.filterBy =
+        val.status && val.status.value ? val.status.value : ''
 
       this.getOffers()
       this.hideFilter()

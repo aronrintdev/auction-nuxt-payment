@@ -52,7 +52,7 @@
     </b-row>
     <b-row v-else class="mt-5 ml-0 mr-0">
       <template v-for="(style, index) in styles">
-        <b-col v-if="index == 1" :key="index" lg="6" md="8">
+        <b-col v-if="index == 1" :key="index" lg="3" md="3" sm="6">
           <ShopByStyleCard
             :style-id="style.id"
             :image-url="style.image"
@@ -61,7 +61,7 @@
         </b-col>
       </template>
       <template v-for="(style, index) in styles">
-        <b-col v-if="index != 1" :key="index" lg="3" md="6">
+        <b-col v-if="index != 1" :key="index" lg="3" md="3" sm="6">
           <ShopByStyleCard
             :style-id="style.id"
             :image-url="style.image"

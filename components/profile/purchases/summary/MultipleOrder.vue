@@ -49,7 +49,7 @@
         <div class="col status-col">
           <div :id="orderItems.status">
             <div class="p-3">
-              {{ $t(`vendor_purchase.orderstatus.${orderItems.status}`) }}
+              {{ $t(`vendor_purchase.orderstatus.${orderItems.status.split(' ').join('_')}`) }}
             </div>
           </div>
         </div>

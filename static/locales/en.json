@@ -133,6 +133,7 @@
     "sneakers_sizes": "Sneaker Sizes",
     "apparel_sizes": "Apparel Sizes",
     "accessories_sizes": "Accessories Sizes",
+    "browse": "Browse",
     "categories": {
       "sneakers": "Sneakers",
       "apparel": "Apparel",
@@ -150,7 +151,15 @@
     "options" : "Options",
     "reset" : "Reset",
     "apply_filters" :"Apply Filters",
-    "view"  :"View"
+    "view"  :"View",
+    "read_less": "Read Less",
+    "read_more": "Read More",
+    "go_back": "Go Back",
+    "add" : "Add",
+    "product_type"  : "Product Type",
+    "continue"  : "Continue",
+    "of"  : "of",
+    "week"  : "Week"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -720,7 +729,6 @@
       "tax": "Tax",
       "promo_code": "Promo Code",
       "promo_code_applied": "Promo code applied!",
-      "gift_card_applied": "Gift card applied!",
       "enter_your_code": "Enter your code",
       "apply": "Apply",
       "billing_address": "Billing Address",
@@ -836,7 +844,8 @@
       "we_do_not_have_enough_in_stock": "We do not have enough in stock. \nGet Notified when there are more in stock!",
       "get_notified": "Get Notified",
       "stock_from_different_vendors": "The item you're looking to checkout has insufficient quantity. The following items from different vendors can be added to your bag in order to match the requested quantity.",
-      "add_to_bag": "Add to Bag"
+      "add_to_bag": "Add to Bag",
+      "add_style_to_card": "Add Style to Card"
     },
     "validations": {
       "alpha": "The {_field_} field may only contain alphabetic characters",
@@ -1425,11 +1434,23 @@
     "image": {
       "not_found": "Product image is not found"
     },
-    "certified_authentic": "Certified Authentic",
+    "certified_authentic": "CertifiedAuthentic",
+    "payment_plans": "Payment\nPlans",
+    "description": "Description",
+    "crypto_payments": "Crypto\nPayments",
+    "date_time": "Date/Time",
     "have_pair_to_sell": "Have a pair to sell?",
     "create_a_listing": "Create a listing!",
     "last_sold_for": "Last Sold For",
     "lowest_price": "Lowest Price",
+    "place_offer": "Place Offer",
+    "or_sell_now": "or Sell Now",
+    "sell_for": "Sell for {amount}",
+    "read_more": "Read More",
+    "read_less": "Read Less",
+    "pre_authenticated_ships_instantly": "Pre - authenticated, ships instantly",
+    "normal_authentication_and_shipping": "Normal authentication & shipping",
+    "enter_offer_amount": "Enter Offer Amount",
     "highest_offer": "Highest Offer",
     "all_sizes": "All Sizes",
     "box_condition": "Box Condition",
@@ -1443,10 +1464,16 @@
       "none": "None"
     },
     "add_to_bag": "Add To Bag",
+    "add_to_cart": "Add to Cart",
     "buy_now": "Buy Now",
     "asks": "Asks",
     "offers": "Offers",
     "sales": "Sales",
+    "sales_graph": "Sales Graph",
+    "sales_data": "Sales Data",
+    "recent_sales": "Recent Sales",
+    "recent_offers": "Recent Offers",
+    "recent_asks": "Recent Asks",
     "we_accept": "We accept",
     "and_more": "And More",
     "pay_over_time": "Pay over time in interest-free installments with",
@@ -1465,14 +1492,17 @@
     "latest_sales": "Latest Sales",
     "list_what_you_have_with_us": "List what you have with us!",
     "4_payments": "4 payments of {price}",
-    "authenticity_guaranteed": "Authenticity Guaranteed",
+    "or_4_installments": "or 4 installments",
+    "of_price": "of {price}",
+    "authenticity_guaranteed": "Authenticity\nGuaranteed",
     "select_size": "Select Size",
     "error": {
       "select_size": "Please select a size above to add to cart",
       "select_size_to_offer": "Please select a size above to make an offer",
       "out_of_stock": "Unfortunately, this item and size is currently out of stock!",
       "enter_valid_amount": "Please enter valid offer amount",
-      "not_found": "Product is not found"
+      "not_found": "Product is not found",
+      "select_shipping_type": "Please select a shipping type above"
     },
     "message": {
       "send_item_email": "We will send you an email when this item is back in stock!",
@@ -2259,19 +2289,74 @@
   },
   "rewards": {
     "earn_points": "Earn Points",
+    "ds_points": "DS Points",
+    "point_pts": "{points} PTS",
+    "hi_name": "Hi {0}!",
+    "till_next_reward": "{0} till next Reward",
+    "expire_on": "{points} DS Points will expire on {date}",
+    "redeem_points": "REDEEM POINTS",
     "earn_more": "Earn More",
+    "your_history": "YOUR HISTORY",
+    "sign_up_to_earn": "Sign up to earn",
+    "reward_history_item_desc": "Reward points {rg} from transaction {order_id}",
+    "redeemed": "redeemed",
+    "gained": "gained",
+    "redeemed_page": {
+      "congratulations": "Congratulations",
+      "subtitle": "You’ve Unlocked a {reward} with {points} pts",
+      "browse": "Browse",
+      "desc": "{reward} will automatically be applied to checkout"
+    },
+    "product_page": {
+      "select_size": "Select Size"
+    },
+    "sneaker_page": {
+      "claim": "Claim your free prize",
+      "filter_by": "Filter By",
+      "sort": "Sort",
+      "select": "Select your prize below ",
+      "this_sneaker": "This Sneaker",
+      "sort_options": {
+        "trending": "Trending",
+        "newest": "Newest"
+      },
+      "confirm": "Are you sure you would like to redeem points for {sneaker}?"
+    },
+    "confirm_redeem_body": "Are you sure you would like to redeem {points} points for {reward}?",
+    "tier": "Tier",
+    "navs": {
+      "redeem": {
+        "label": "Redeem",
+        "title": "Redeem | Points",
+        "subtitle": "My Rewards",
+        "desc": "Redeem your points and use them towards rewards such as free shipping, raffle entrys, discounts and more. Choose your rewards below."
+      },
+      "earn": {
+        "label": "Earn",
+        "title": "Earn | Points",
+        "subtitle": "Deadstock <br> Rewards Program",
+        "desc": "Join our rewards program today and start earning points!  You can earn reward points, exclusive deals, gifts, discounts and more with each transaction. Redeem your points toward purchases, trades, auctions and more. Invite your friends and receive more points. "
+      },
+      "history": {
+        "label": "History",
+        "title": "Your | History",
+        "subtitle": "My History",
+        "desc": "History"
+      }
+    },
     "sign_up": "Sign Up",
     "earn_200_points": "Earn 200 Points just for signing up. Get a special gift on your birthday.",
     "participate_in_buying": "Participate in Buying, Trading and Auctions to earn points to get discount and gift cards.",
     "get_rewards": "Get Rewards",
     "redeem_points_for_exclusive": "Redeem points for exclusive deals and gifts. Refer a friend and get $5 (equal to 500 points).",
-    "start_earning_points": "Start Earning Points Now",
-    "invite_your_friends": "Invite your Friends, and",
+    "start_earning_points": "Start Earning Points",
+    "invite_your_friends": "Invite your Friends, And",
     "everybody_gets_points": "Everybody Gets Points",
-    "you_will_receive_points": "You Will Receive {points} Points Every Time Someone You Refer Signs Up",
+    "you_will_receive_points": "Earn {points} points After each sign up ",
     "email": "Email",
-    "enter_your_friend_email": "Enter Your Friend Email Address",
+    "enter_your_friend_email": "Enter Email Address",
     "send_invite": "Send Invite",
+    "invite": "Invite",
     "an_invitation_has_been_sent": "An Invitation has been sent to {email}",
     "rewards_program": "Rewards Program",
     "join_our_rewards_program": "Join our rewards program today and start earning points! You can earn reward points, exclusive deals, gifts, discounts and more with each transaction. Redeem your points toward purchases, trades, auctions and more. Invite your friends and receive more points.",
@@ -2614,7 +2699,15 @@
     },
     "delist_body": "Are you sure you would like to delist these items? | By delisting an item you will be charged based on the amount of highest bid.",
     "accept_body": "Are you sure you would like to accept the $:amount: and end this auction early?",
-    "sold_body": "This auction has been sold! | You will be re-directed to your orders page. "
+    "sold_body": "This auction has been sold! | You will be re-directed to your orders page. ",
+    "status_types": {
+      "all": "All",
+      "live": "Live",
+      "upcoming": "Upcoming",
+      "expired": "Expiring",
+      "sold": "Sold"
+    },
+    "status_type": "Status"
   },
   "create_listing": {
     "drafts": "Drafts ({0})",
@@ -2635,7 +2728,10 @@
       "auction_single": "Single Item Auction",
       "auction_single_desc": "For auctions that are a single item only.",
       "auction_collection": "Collection Auctions",
-      "auction_collection_desc": "Multiple product auction listings where buyers bid on the entire collection as a whole."
+      "auction_collection_desc": "Multiple product auction listings where buyers bid on the entire collection as a whole.",
+      "selling_text"  : "Sell sneakers, a pieace of apparel, or an accessory.",
+      "auction_text"  : "Post a Single Item Auction or put a whole Collection up for Auction.",
+      "trade_text"  : "Trade up to three items at a time. If no offer is accepted in 14 days the trade will expire."
     },
     "back_btn": "Back to Trades",
     "title": "Create Listing",
@@ -3559,7 +3655,8 @@
       "declined": "Declined",
       "confirmed": "Confirmed",
       "success": "Success",
-      "complete": "Complete"
+      "complete": "Complete",
+      "voided": "Voided"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
@@ -3640,6 +3737,7 @@
     "delete_expired": "Delete Expired Bids",
     "items": "Items",
     "auto_bid_to": "Autobid to ",
+    "highest_bid_info": "The highest bid for each auction is displayed",
     "messages": {
       "saved": "Your changes have been saved!"
     },
@@ -3677,12 +3775,14 @@
     },
     "success_deleted": "Your selected items have been deleted",
     "headers": {
+      "auction_id": "Auction ID",
       "product": "Product",
       "auction_type": "Type",
       "auto_bid": "Autobid",
       "bid_amt": "Bid Amt.",
       "time_remaining": "Time Remaining",
-      "action": "Action"
+      "action": "Action",
+      "highest_bid_amt": "Highest Bid Amount"
     },
     "clear_filters": "Clear All Filters",
     "auction_types": {
@@ -3936,11 +4036,15 @@
       "2fa_enabled": "Two-factor authentication is enabled",
       "2fa_disabled": "Two-factor authentication is disabled",
       "as_part_of_our_mission": "As part of our mission to build the world’s most trustworthy, secure, and technologically advanced marketplace for sneakerheads and streetwear fanatics. Deadstock further ensures protection from security breaches on our platform by using two-factor authentication.<br /><br /> With two-factor authentication, we take identity verification to the next level by requiring a second method of verification for users to access their account. By providing an ultra-secure online marketplace, Deadstock’s aim is to create the optimal user experience.",
-      "recovery_codes": "Recovery Codes",
-      "2fa_faq": "Frequently Asked Questions about Two-Factor Authentication",
+      "2fa_faq_full": "Frequently Asked Questions about Two-Factor Authentication",
+      "2fa_faq_small": "Frequently Asked Questions",
       "msg_enable_success": "2FA enabled successfully",
       "msg_disable_success": "2FA disabled successfully",
-      "back_to_security": "Back to Security"
+      "back_to_security": "Back to Security",
+      "label_when_you_login": "When you login we’ll send a message to your mobile device to verify your account",
+      "action_required": "Action Required",
+      "manage": "Manage",
+      "text_message": "Text Message"
     },
     "deadstock_exchange": {
       "title": "Deadstock Exchange",
@@ -3970,6 +4074,7 @@
     }
   },
   "createlisting": {
+    "sort"  : "Sort",
     "create_new_inventory": "Create New Inventory",
     "search_placeholder": "Search by SKU, Keyword, or Brand",
     "inventory": "Inventory",
@@ -3979,12 +4084,14 @@
     "min_offer_amount": "Minimum Offer Amount",
     "enter_min_offer_amount": "Enter Min. Offer Amount",
     "add_listing": "Add Listing",
+    "add_listings"  : "Add Listings(s)",
     "confirm_listing": "Confirm Listing",
     "add_another_listing": "Add Another Listing",
     "save_as_draft": "Save as Draft",
     "post_listing": "Post Listing(s)",
     "on_post_listing_click": "*By clicking Post Listing(s), I accept the seller fee of 9.5% + a 2.9% transaction fee.",
     "no_auth_fee": "No authentication fee will be charged to sellers.",
+    "on_post_pressing"  : "*By pressing on Post Listing(s), I accept the seller fee of 9.5% + a 2.9% transaction fee.",
     "saved_as_draft": "Saved as Draft",
     "delete_message": "Are you sure you would like to delete? Deleting a listing is non reversible.",
     "no_saved_listing": "You have no saved listings, go back to",
@@ -4013,7 +4120,7 @@
     "enter_sku": "Enter SKU",
     "enter_product_name": "Enter Product Name",
     "please_select_a_size": "*Please select a size",
-    "minOfferAmount": "Min Offer Amount",
+    "minOfferAmount": "Min. Offer Amount",
     "error": {
       "field": "*Please Enter a {field}"
     },
@@ -4028,7 +4135,16 @@
     "last_updated": "Last Updated",
     "user_not_valid": "Unauthorized Access. You are not a vendor to do this.",
     "discard_changes": "Are you sure you would like to discard your changes? The changes will be lost.",
-    "out_of_stock": "Out of Stock"
+    "out_of_stock": "Out of Stock",
+    "your_price"  : "Your Price*",
+    "hello" : "Hello",
+    "new_user_no_payout"  : "We noticed that you do not have a valid payout method connected.",
+    "connect_to_payout" : "Please connect a valid payout method prior to creating a listing, to get paid for your sales.",
+    "sell_listing_modify_discard" : "Are you sure you would like to discard your changes? The changes will be lost.",
+    "confirm_discard_text"  : "Your changes have been discarded",
+    "change_listing"  : "Are you sure you would like to change this listing?",
+    "all_active_offers_will_be_lost"  : "All the active offers associated with these listing could be lost.",
+    "editsuccess" : "Your changes have been saved and your listing has been modified"
   },
   "color": {
     "white": "White",
@@ -4434,6 +4550,7 @@
     "draft": "Draft",
     "expired": "Expired",
     "de-listed": "Delisted",
+    "delisted": "Delisted",
     "trade_dashboard": "Trade Dashboard",
     "my_trade_listing": "My Trade Listing ({0})",
     "create_a_new_listing": "Create a new listing",
@@ -4589,7 +4706,13 @@
       "deleted": "Deleted",
       "accepted": "Accepted"
     },
-    "trades_deleted_successfully": "Trades Deleted Successfully"
+    "trades_deleted_successfully": "Trades Deleted Successfully",
+    "are_you_sure_to_relist_trade": "Are you sure you would like to relist this trade listing?",
+    "relist": "Relist",
+    "your_offer": "Your Offer",
+    "estimated_value": "Estimated Value",
+    "estimated_value_trade": "Estimated Trade Value",
+    "trader_wants": "Trader’s Wants"
   },
   "change_password": {
     "password": "Password",
@@ -4658,7 +4781,9 @@
   },
   "shop_by_style": {
     "general": {
-      "add_to_bag": "Add {type} to Bag"
+      "add_to_bag": "Add {type} to Bag",
+      "add_style_to_bag": "Add Style to Card",
+      "back_to_style": "< Back to All Style"
     },
     "title": "Shop by Style",
     "title_archive": "Shop by Style (Archive)",
@@ -4684,6 +4809,22 @@
   },
   "placed_offers": {
     "heading": "Placed Offers",
+    "status": "Status",
+    "size": "Size",
+    "list_id": "List ID",
+    "listed_on": "Listed On",
+    "expires_on": "Expires On",
+    "priced_at": "Priced at",
+    "min_offer": "Min Offer.",
+    "edit_offer": "Edit Offer",
+    "edit_offer_cancel": "Cancel",
+    "edit_offer_amount": "Edit offer amount",
+    "edit_offer_delete": "Delete Offer",
+    "placed_offers_product_summary": "Product Summary",
+    "placed_offers_your_placed_offers": "Your Placed Offers",
+    "responsive_heading": "Offers",
+    "responsive_detailed_heading": "Offer",
+    "highest_offer": "Highest Offer",
     "your_placed_offers": "Your Placed Offers ({count})",
     "table": {
       "products": "Products",
@@ -4715,7 +4856,11 @@
     "remove_from_list_message": "Are you sure you would like to remove from list?",
     "delete_selected": "Delete Selected",
     "multiple_delete": "Items Deleted Successfully",
-    "no_result": "No Data Found"
+    "no_result": "No Data Found",
+    "no_outgoing_offers": "No outgoing offers have been found.",
+    "place_an_offer": "Place an offer today!",
+    "offer_delete_message": "Your selected offers have been deleted",
+    "offer_save_edit": "Offer edited successfully!"
   },
   "vendor_hub": {
     "tabs": {
@@ -4872,7 +5017,8 @@
       "payout_updated": "Payout method updated successfully",
       "payout_deleted": "Payout method deleted successfully",
       "user_already_registered": "User already registered!",
-      "user_not_registered_as_approved_vendor": "User was not registered as approved vendor"
+      "user_not_registered_as_approved_vendor": "User was not registered as approved vendor",
+      "user_not_registered_as_vendor": "User not registered as approved vendor"
     }
   },
   "orders": {
@@ -5076,6 +5222,7 @@
   "vendor_dashboard": {
     "title": "Dashbaord",
     "bronze_seller": "Bronze Seller",
+    "seller": "Seller",
     "view_details": "View Details",
     "view_all": "View All",
     "total_sales": "Total Sales",
@@ -5149,7 +5296,8 @@
     "types": {
       "buying": "Buying",
       "selling": "Selling",
-      "communication": "Deadstock Comms"
+      "communication": "Deadstock Comms",
+      "comms": "Deadstock Comms"
     },
     "start": "Start",
     "end": "End",
@@ -5361,5 +5509,19 @@
     "the_page_is_missing": "The page is missing \n or the link’s sole is coming off",
     "home": "Home",
     "shop": "Shop"
+  },
+  "manage_text_message": {
+    "page_title": "Manage Text Message",
+    "manage_text_message_verification":"Manage Text Message Verification",
+    "label_we_will_send_a_message": "We’ll send a message to your mobile device to verify your account when you log into Deadstock.",
+    "go_back": "Go Back",
+    "update": "Update",
+    "alert_text": "Your Phone Number Has Been Successfully Updated!",
+    "resend_a_new_code": "Resend a new code.",
+    "havent_received_it": "Haven’t received it?",
+    "label_a_verification_code_will": "A verification code will be sent to your mobile phone, please input the code below to confirm",
+    "resend_code": "Resend Code",
+    "action_required": "Action Required",
+    "update_phone_number": "Update Phone Number"
   }
 }

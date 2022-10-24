@@ -21,7 +21,7 @@
               :class="{ item: true, 'photo-item': variant === 'photo' }"
             >
               <div>
-                <ProductCard v-if="variant === 'detail'" :product="product" />
+                <ProductCard v-if="variant === 'detail'" :product="product" :pageName='pageName' />
               </div>
               <nuxt-link
                 v-if="variant === 'photo'"
@@ -63,6 +63,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    pageName: {
+      type: String,
+      default: 'shop'
+    }
   },
   computed: {
     responsiveAttr() {
@@ -81,14 +85,13 @@ export default {
       }
     },
   },
-
   watch: {
     products() {
       // Destroy and recreate carousel when products change
       this.$refs.carousel?.destroy()
       this.$nextTick(() => this.$refs.carousel?.create())
     },
-  },
+  }
 }
 </script>
 <style lang="sass" scoped>

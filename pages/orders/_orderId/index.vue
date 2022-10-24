@@ -87,6 +87,12 @@ export default {
       return this.order.items
         ? this.order.items.length > 1
         : false
+    },
+    isTrade() {
+      return this.order.type.label === 'trade'
+    },
+    isBuy() {
+      return this.order.type.label === 'buy'
     }
   },
   mounted() {
@@ -99,7 +105,10 @@ export default {
   },
   methods: {
     product(item) {
-      return item.listing_item.inventory.product
+      if(this.isTrade){
+        return item.product
+      }
+      return item.listing_item?.inventory?.product
     }
   }
 }

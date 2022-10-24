@@ -272,7 +272,7 @@ export default {
       el.setAttribute('src', NMI_COLLECTJS_URL)
       el.setAttribute(
         'data-tokenization-key',
-        process.env.NMI_PUBLIC_SECURITY_KEY
+        process.env.NMI_PUBLIC_KEY
       )
       el.async = true
       el.addEventListener('load', () => {

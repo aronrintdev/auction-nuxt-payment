@@ -17,7 +17,7 @@
             <h6
               class="col-4 mb-0 text-black fs-16 fw-5 font-secondary text-capitalize text-truncate"
             >
-              {{ localSelectedValue }}
+              <span v-for="(item, index) in  localSelectedValue" :key="index">{{ item }},</span>
             </h6>
           </div>
         </div>

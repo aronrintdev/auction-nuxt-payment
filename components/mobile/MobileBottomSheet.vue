@@ -6,7 +6,7 @@
       class="mobile-bottom-sheet"
       @closed="$emit('closed')"
       @opened="$emit('opened')">
-    <div :class="borderBottom && 'border-bottom'"
+    <div :class="hasHeaderDivider && 'divider'"
          class="header-title w-100 d-flex flex-column align-items-center justify-content-center">
       <span>{{ title }}</span>
       <slot name="subtitle"></slot>
@@ -23,21 +23,22 @@ export default {
   props: {
     open: {
       type: Boolean,
-      default: false
-    },
-    borderBottom: {
-      type: Boolean,
-      default: true
+      default: false,
     },
     title: {
       type: String,
-      required: true
+      required: true,
     },
     height: {
       type: String,
       default: '60%'
+    },
+    hasHeaderDivider: {
+      type: Boolean,
+      default: true
     }
   },
+
   watch: {
     open(val) {
       if (val)
@@ -46,7 +47,6 @@ export default {
         this.$refs.myBottomSheet.close();
     }
   },
-  methods: {}
 }
 </script>
 
@@ -70,7 +70,7 @@ export default {
   color: $color-black-1
   padding-bottom: 17px
 
-  &.border-bottom
+  &.divider
     border-bottom: 0.5px solid $color-gray-4
 
 </style>

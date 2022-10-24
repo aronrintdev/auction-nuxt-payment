@@ -218,3 +218,8 @@ export function setAuctionType(state, val) {
     items,
   }
 }
+
+// Store similar products
+export function storeSimilarProduct(state, val){
+  state.similarProduct = val
+}

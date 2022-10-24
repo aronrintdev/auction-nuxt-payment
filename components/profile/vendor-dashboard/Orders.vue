@@ -1,88 +1,109 @@
 <template>
-  <b-table
-    class="ordersTable"
-    borderless
-    no-border-collapse
-    :fields="fields"
-    :items="items"
-    tbody-tr-class="bg-white"
-  >
-    <template #cell(order_id)="data">
-      <div class="d-flex align-items-center flex-column w-fit-content">
-        <div class="col-thumb mb-1">
-          <ProductThumb />
-        </div>
-        <div class="w-fit-content">
-          <h4
-            class="fw-7 fs-14 font-secondary border-bottom border-primary text-primary mb-0 mx-auto"
-          >
-            {{ data.value }}
-          </h4>
-        </div>
+  <div>
+    <div class="row my-5">
+      <div class="col-md-3">
+        <h1 class="font-secondary fs-24 fw-7 mb-0">
+          {{ $t('vendor_dashboard.orders') }}
+        </h1>
       </div>
-    </template>
-    <template #cell(product)>
-      <div
-        class="d-flex align-items-baseline justify-content-center flex-column tdHeight"
+      <div class="col-md-6 d-flex justify-content-center">
+        <NavGroup :value="activeNav" :data="menus" @change="navItem" />
+      </div>
+      <div class="col-md-3 d-flex justify-content-end align-items-center">
+        <nuxt-link to='/orders' class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0">{{
+        $t('vendor_dashboard.view_all') }}</nuxt-link>
+      </div>
+    </div>
+    <div class="my-5">
+      <b-table
+        class="ordersTable"
+        borderless
+        no-border-collapse
+        :fields="fields"
+        :items="topOrders"
+        tbody-tr-class="bg-white"
       >
-        <h4
-          class="font-secondary fw-6 fs-15 text-primary border-bottom border-primary mb-1"
-        >
-          <!-- TODO  -->
-          Jordan 4 Retro (2021)
-        </h4>
-        <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
-          {{ $t('vendor_dashboard.sku') }}: J-123456789
-        </h4>
-        <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
-          {{ $t('vendor_dashboard.colorway') }}: University Blue
-        </h4>
-        <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
-          {{ $t('vendor_dashboard.box_condition') }}: Excellent
-        </h4>
-      </div>
-    </template>
-    <template #cell(date_ordered)="data">
-      <div class="d-flex align-items-center justify-content-center tdHeight">
-        <h4 class="font-secondary fw-5 fs-16 mb-0">
-          {{ data.value }}
-        </h4>
-      </div>
-    </template>
-    <template #cell(type)="data">
-      <div class="d-flex align-items-center justify-content-center tdHeight">
-        <h4 class="font-secondary fw-5 fs-16 mb-0">{{ data.value }}</h4>
-      </div>
-    </template>
-    <template #cell(vendor_payout)="data">
-      <div class="d-flex align-items-center justify-content-center tdHeight">
-        <h4 class="font-secondary fw-5 fs-16 mb-0">{{ data.value }}</h4>
-      </div>
-    </template>
-    <template #cell(status)>
-      <div class="d-flex align-items-center justify-content-center tdHeight">
-        <h4 class="status-badge-warning">
-          {{ $t('vendor_dashboard.awaiting_shipment') }}
-        </h4>
-      </div>
-    </template>
-    <template #cell(actions)="data">
-      <div class="d-flex align-items-center justify-content-center tdHeight">
-        <h4 class="font-secondary fw-5 fs-16 mb-0 text-primary text-center">
-          {{ $t('vendor_dashboard.fedex') }} <br />
-          <span class="border-bottom border-primary"> {{ data.value }}</span>
-        </h4>
-      </div>
-    </template>
-  </b-table>
+        <template #cell(order_id)="data">
+          <div class="d-flex align-items-center flex-column w-fit-content">
+            <div class="col-thumb mb-1">
+              <ProductThumb
+                :src="data.item.listing_item.inventory.product.image"
+                :product="data.item.listing_item.inventory.product" />
+            </div>
+            <div class="w-fit-content">
+              <h4
+                class="fw-7 fs-14 font-secondary border-bottom border-primary text-primary mb-0 mx-auto"
+              >
+                #{{ data.item.order_id }}
+              </h4>
+            </div>
+          </div>
+        </template>
+        <template #cell(product)='data'>
+          <div
+            class="d-flex align-items-baseline justify-content-center flex-column tdHeight"
+          >
+            <h4 class="font-secondary fw-6 fs-15 text-primary border-bottom border-primary mb-1">
+              {{data.item.listing_item.inventory.product.name}}
+            </h4>
+            <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
+              {{ $t('vendor_dashboard.sku') }}: {{data.item.listing_item.inventory.product.sku}}
+            </h4>
+            <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
+              {{ $t('vendor_dashboard.colorway') }}: {{data.item.listing_item.inventory.product.colorway}}
+            </h4>
+            <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
+              {{ $t('vendor_dashboard.box_condition') }}: {{ data.item.listing_item.inventory.packaging_condition.name}}
+            </h4>
+          </div>
+        </template>
+        <template #cell(date_ordered)="data">
+          <div class="d-flex align-items-center justify-content-center tdHeight">
+            <h4 class="font-secondary fw-5 fs-16 mb-0">
+              {{ data.item.created_at }}
+            </h4>
+          </div>
+        </template>
+        <template #cell(type)="data">
+          <div class="d-flex align-items-center justify-content-center tdHeight">
+            <h4 class="font-secondary fw-5 fs-16 mb-0">{{ data.value }}</h4>
+          </div>
+        </template>
+        <template #cell(vendor_payout)="data">
+          <div class="d-flex align-items-center justify-content-center tdHeight">
+            <h4 class="font-secondary fw-5 fs-16 mb-0">{{ data.value }}</h4>
+          </div>
+        </template>
+        <template #cell(status)='data'>
+          <div class="d-flex align-items-center justify-content-center tdHeight">
+            <h4 class="status-badge-warning">
+              {{ data.item.status}}
+            </h4>
+          </div>
+        </template>
+        <template #cell(actions)="data">
+          <div class="d-flex align-items-center justify-content-center tdHeight">
+            <h4 class="font-secondary fw-5 fs-16 mb-0 text-primary text-center">
+              {{ $t('vendor_dashboard.fedex') }} <br />
+              <span class="border-bottom border-primary"> {{ data.value }}</span>
+            </h4>
+          </div>
+        </template>
+      </b-table>
+    </div>
+  </div>
 </template>
 <script>
 import ProductThumb from '~/components/product/Thumb.vue'
+import NavGroup from '~/components/common/NavGroup.vue'
 export default {
-  name: 'TopProductsTable',
-  components: { ProductThumb },
+  name: 'TopOrdersTable',
+  components: { NavGroup, ProductThumb },
   data() {
     return {
+      // Active Nav for the Toggle Button
+      activeNav: '',
+      topOrders: [],
       // TODO Dummy data
       fields: [
         {
@@ -232,8 +253,38 @@ export default {
           },
         ],
       },
+      /** Todo need to make dynamic onces we have way of main categories in DB */
+      menus: [
+        { label: this.$t('vendor_dashboard.all'), value: '' },
+        { label: this.$t('vendor_dashboard.footwear'), value: '1' },
+        { label: this.$t('vendor_dashboard.apparel'), value: '2' },
+        {
+          label: this.$t('vendor_dashboard.accessories'),
+          value: '3',
+        },
+      ],
     }
   },
+  mounted(){
+    this.getTopOrders();
+  },
+  methods:{
+    // On Tab Change (All/ Footwear/ Apparel/ Accessories)
+    navItem(val) {
+      this.activeNav = val
+      this.getTopOrders()
+    },
+    getTopOrders() {
+      this.$axios
+        .get('/dashboard/vendor/orders?category_id='+this.activeNav)
+        .then((res) => {
+          this.topOrders = res.data.data.data
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
+    },
+  }
 }
 </script>
 <style lang="sass">

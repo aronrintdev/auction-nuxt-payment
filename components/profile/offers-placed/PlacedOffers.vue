@@ -446,7 +446,7 @@ export default {
   .text-capitalize
     font-style: normal
     @include body-4-normal
-    color: $color-green-3
+    color: $color-white-1
 
 .offer-amount
   font-style: normal

@@ -3,7 +3,7 @@
     <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
     <b-row class="justify-content-between" >
       <b-col v-for="(item) in offerItems" :key="'offer-item-list-' + item.id" class="offer-item text-center p-0" :class="`${marginItems}`">
-        <b-col class="item-heading pt-2 pb-2 d-flex justify-content-center align-items-center">
+        <b-col class="item-heading pt-2 pb-2 align-items-center">
           {{item.inventory ? item.inventory.product.name : item.product.name}}
         </b-col>
         <b-col>
@@ -52,6 +52,7 @@ export default {
     background: $color-gray-1
     border-radius: 9px 9px 0 0
     height: 55px
+    overflow: hidden
 .offer-item-image
     width: 100px
     height: auto
