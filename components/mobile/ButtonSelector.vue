@@ -78,6 +78,7 @@ export default {
       }
     },
     emitChanges(e) {
+      console.log('emitChanges', e)
       this.$emit('change', e)
     }
   }

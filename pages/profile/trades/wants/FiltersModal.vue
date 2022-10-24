@@ -39,6 +39,23 @@
 
         <div class="separator"></div>
 
+        <FilterAccordion :title="$tc('home_page.categories', 1)" :data="filters.category.text">
+          <ButtonSelector 
+            :options="categoriesOptions" 
+            :contentStyle="{
+              display: 'flex',
+              justifyContent: 'space-between',
+              rowGap: '15px',
+              marginTop: '15px',
+              marginLeft: '-7.5px'
+            }"
+            :single="true"
+            @change="categoryChange"
+          />
+        </FilterAccordion>
+
+        <div class="separator"></div>
+
         <FilterAccordion 
           :title="$tc('common.size_type', 1)" 
           :data="filters.size_type.text"
@@ -58,24 +75,7 @@
 
         <div class="separator"></div>
 
-        <FilterAccordion :title="$tc('home_page.categories', 1)" :data="filters.category.text">
-          <ButtonSelector 
-            :options="categoriesOptions" 
-            :contentStyle="{
-              display: 'flex',
-              justifyContent: 'space-between',
-              rowGap: '15px',
-              marginTop: '15px',
-              marginLeft: '-7.5px'
-            }"
-            :single="true"
-            @change="categoryChange"
-          />
-        </FilterAccordion>
-
-        <div class="separator"></div>
-
-        <FilterAccordion 
+        <!-- <FilterAccordion 
           :title="$tc('trades.index.browse.product_type', 1)" 
           :data="productTypesLabel"
         >
@@ -93,9 +93,9 @@
           />
         </FilterAccordion>
 
-        <div class="separator"></div>
+        <div class="separator"></div> -->
 
-        <FilterAccordion :title="$tc('product_page.sizes', 1)" :data="filters.sizes.text.toString()">
+        <!-- <FilterAccordion :title="$tc('product_page.sizes', 1)" :data="filters.sizes.text.toString()">
           <ButtonSelector 
             :options="sizesOptions"
             :contentStyle="{
@@ -111,7 +111,7 @@
           />
         </FilterAccordion>
 
-        <div class="separator"></div>
+        <div class="separator"></div> -->
 
         <FilterAccordion :title="$t('home_page.size', 1)" :data="filters.size.text.toString()">
           <ButtonSelector 
@@ -142,10 +142,10 @@
           </Button>
 
           <Button
-            :disabled="filterChangeCount === 0"
             class="filter-button apply-filters"
             pill
             variant="blue"
+            @click="$emit('submit', filters)"
           >
             {{ applyLabel }}
           </Button>
@@ -198,7 +198,6 @@ export default {
         sortBy: 'price_asc',
         size_type: { text: '', value: '' },
         category: { text: '', value: '' },
-        product_type: [],
         sizes: { text: '', value: '' },
         size: { text: '', value: '' }
       },
@@ -211,7 +210,15 @@ export default {
       return this.$t('notifications.apply_filters') + (count > 0 ? ` (${count})` : '')
     },
     filterChangeCount() {
-      return Object.values(this.filters).filter(a => a && a.length !== 0).length
+      let count = 0
+      for (const [key, value] of Object.entries(this.filters)) {
+        const isSelected = (key === 'sortBy' && value !== 'price_asc')
+                            || (value.value && value.value.length > 0)
+        if (isSelected) {
+          count++
+        }
+      }
+      return count
     },
     productTypesLabel() {
       const result = this.filters.product_type.reduce((acc, item, index) => {
@@ -233,10 +240,10 @@ export default {
   methods: {
     resetForm() {
       this.filters = {
-        types: [],
-        years: null,
-        search: null,
-        status: ''
+        sortBy: 'price_asc',
+        size_type: { text: '', value: '' },
+        category: { text: '', value: '' },
+        size: { text: '', value: '' }
       }
       this.$emit('filter', this.filters)
     },
@@ -246,6 +253,7 @@ export default {
     },
 
     categoryChange(value) {
+      console.log('categoryChange', value);
       this.filters.category = this.categoriesOptions.find(v => v.value === value);
     },
 

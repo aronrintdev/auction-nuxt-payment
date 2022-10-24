@@ -153,7 +153,7 @@
       <b-col class="pr-0 pl-lg-0" sm="6" lg="2">
         <CustomDropdown 
           v-model="sizeTypesFilter"
-          :options="filters.size_types"
+          :options="sizeTypesOptions"
           type="multi-select-checkbox"
           :label="sizeTypesFilterLabel"
           class="mb-sm-2 mb-lg-0"
@@ -171,7 +171,7 @@
       <b-col class="px-0" lg="2" >
         <CustomDropdown 
           v-model="sizeFilter"
-          :options="filters.sizes"
+          :options="sizeOptions"
           type="multi-select-checkbox"
           :label="sizeFilterLabel"
           class="mb-sm-2 mb-lg-0"
@@ -200,7 +200,7 @@
       </b-col>
     </div>
 
-    <div v-if="currentTab === 'inventory'" class="bulk-wrapper px-3">
+    <div v-if="currentTab === 'inventory'" class="bulk-wrapper">
       <BulkSelectToolbar
         ref="bulkSelectToolbar"
         :active="!!action"
@@ -257,7 +257,48 @@
         </div>
       </div>
       <div v-else>
-        <div 
+        <div class="vh-100" v-if="!combinationItems.length">
+          <div 
+            class="d-sm-none text-center mb-4"
+            :style="{
+              fontWeight: 600,
+              fontSize: '14px',
+              color: '#626262',
+              marginTop: '42px'
+            }"
+          >
+            {{ $t('product_page.no_combinations_found') }}
+          </div>
+          <div 
+            class="position-fixed d-sm-none bg-black rounded-circle d-flex align-items-center justify-content-center"
+            :style="{
+              width: '42px',
+              height: '42px',
+              right: '20px',
+              bottom: '20px',
+              background: '#63769d'
+            }"
+            @click="createCombination"
+          >
+            <img
+              :src="require('~/assets/img/icons/product/Plus.svg')"
+              alt="Add"
+            />
+          </div>
+          <div 
+            class="d-none d-sm-flex flex-column flex-sm-row justify-content-center mt-3 create-combination"
+          >
+            <span>{{ $t('trades.wants_listing.have_no_combinations') }}</span>
+            <span
+              role="button"
+              class="add-new-item ml-1"
+              @click="createCombination"
+            >
+              {{ $t('trades.wants_listing.create_combination_label') }}
+            </span>
+          </div>
+        </div>
+        <!-- <div 
           :style="{ height: '100vh' }" 
           class="d-flex flex-column flex-xl-row justify-content-center" 
           v-if="!combinationItems.length"
@@ -272,7 +313,7 @@
               {{ $t('trades.wants_listing.create_combination_label') }}
             </span>
           </div>
-        </div>
+        </div> -->
 
         <div class="d-flex flex-wrap px-1 pt-5 bg-white border-3" v-else>
           <div
@@ -297,6 +338,7 @@
       :isOpen="filtersModalOpen"
       @closed="filtersModalOpen = false"
       @opened="filtersModalOpen = true"
+      @submit="setFilters"
     />
     <ConfirmModal
       id="confirm-bulk-delete"
@@ -341,9 +383,11 @@ import {
   PER_PAGE_COMBINATION,
   PER_PAGE_OPTIONS,
   PER_PAGE_OPTIONS_COMBINATION,
-  SORT_BY, TAKE_SEARCHED_PRODUCTS,
+  TAKE_SEARCHED_PRODUCTS,
   TOTAL_COUNT,
   WANTS_NAV_ITEMS,
+  WANTS_SORT_OPTIONS,
+  SIZE_TYPES
 } from '~/static/constants/trades'
 import {Pagination} from '~/components/common'
 import CombinationItemCard from '~/pages/profile/trades/wants/CombinationItemCard';
@@ -354,6 +398,7 @@ import EditCombination from '~/pages/profile/trades/wants/EditCombination';
 import FiltersModal from '~/pages/profile/trades/wants/FiltersModal'
 import { ConfirmModal, AlertModal } from '~/components/modal'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox';
+import { APPAREL_SIZES } from '~/static/constants/sizes'
 
 
 export default {
@@ -377,10 +422,11 @@ export default {
     return {
       searchText: null,
       orderFilter: null,
-      generalListItemsCustomFilter: SORT_BY.map(item => ({text: this.$t(item.text), value: item.value})),
+      generalListItemsCustomFilter: WANTS_SORT_OPTIONS.map(item => ({ text: this.$t(item.text), value: item.value })),
       orderFilterLabel: this.$t('trades.create_listing.vendor.wants.sort_by'),
       category: null,
-      categories: WANTS_NAV_ITEMS.map(item => ({label: this.$t(item.label), value: item.value})),
+      categories: WANTS_NAV_ITEMS.map(item => ({ label: this.$t(item.label), value: item.value })),
+      sizeTypesOptions: SIZE_TYPES.map(item => ({ text: this.$t(item.text), value: item.value })),
       ACTIONS: [
         {
           label: this.$t('common.add_new_item'),
@@ -430,7 +476,8 @@ export default {
       editCombination: null,
       TAKE_SEARCHED_PRODUCTS,
       filtersModalOpen: false,
-      searchedItems: []
+      searchedItems: [],
+      sizeOptions: APPAREL_SIZES.map(item => ({ text: item, value: item })),
     }
   },
   computed: {
@@ -662,6 +709,14 @@ export default {
       this.selected = []
       this.action = 'delete'
     },
+    setFilters(filters) {
+      this.category = filters.category.value
+      this.orderFilter = filters.sortBy
+      this.sizeTypesFilter = [filters.size_type.value]
+      this.sizeFilter = [filters.size.value]
+      this.getWantItems();
+      this.filtersModalOpen = false
+    },
     getWantItems: debounce(function () {
       this.searchText = ''
       // Do the api call
@@ -776,7 +831,6 @@ export default {
      */
     changeCategory(selectedCategory) {
       this.category = selectedCategory
-      console.log('CAT', this.category);
       const categoryFilteredKey = this.categoryItems.find(item => item.value === this.category)
       this.categoryFilterLabel = this.$options.filters.capitalizeFirstLetter(categoryFilteredKey.text)
     },
@@ -1019,7 +1073,8 @@ export default {
 .add-new-item
   color: $color-blue-1
   padding-bottom: 2px
-  border-bottom: 2px solid $color-blue-1
+  @media (min-width: 576px)
+    border-bottom: 2px solid $color-blue-1
 
 .button-delete-multiple
   border: 1px solid $color-blue-20
