@@ -9,6 +9,9 @@ export const DELETE = 'delete'
 
 export const START_DATE = 'Start Date'
 export const END_DATE = 'End Date'
+export const PER_PAGE = 5
+export const VERIFICATION_CODE_TRY_COUNT = 3
+export const PAGE_OPTIONS = [8, 16, 32, 48]
 export const Years = {
   2022:'2022',
   2021:'2021',
