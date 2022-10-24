@@ -16,7 +16,6 @@
           border-0
           p-0
           bg-none
-
         "
         data-bs-target="#panelsStayOpen-collapseOne"
         data-bs-toggle="collapse"
@@ -114,7 +113,6 @@ export default {
       } else {
         this.active.push(value)
       }
-
       this.$emit('input', this.active)
       this.$emit('selected', this.active)
     },
