@@ -23,7 +23,7 @@
           <order-status-timeline :item="item" :order="order"/>
         </b-col>
         <b-col class="order-0 order-sm-1" sm="6" cols="12">
-          <order-commission :order="order"/>
+          <order-commission :item="item" :order="order"/>
         </b-col>
       </b-row>
     </div>

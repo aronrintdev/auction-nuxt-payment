@@ -167,7 +167,11 @@ export default {
       return this.order.type.label === 'buy'
     },
     commissionAmount() {
-      return this.order.commission?.amount | 0
+      let total = 0
+      this.order.items.forEach(x => {
+        total = total + (x.commission?.commission || 0)
+      })
+      return total
     }
   },
   watch: {
