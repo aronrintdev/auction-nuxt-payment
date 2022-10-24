@@ -142,6 +142,13 @@
         <div v-if="!isPaymentUpdateEnabled" class="info-card">
           <MobilePaymentSummary :order-details="orderDetails"/>
         </div>
+        <div v-if="orderDetails.status === CANCELLED">
+          <div class="body-17-medium payment-title">{{ $t('vendor_purchase.refund_summary') }}</div>
+          <div v-if="!isPaymentUpdateEnabled" class="info-card">
+            <MobilePaymentSummary :order-details="orderDetails"/>
+          </div>
+        </div>
+
         <MobilePurchaseUpdatePayment v-if="isPaymentUpdateEnabled" :order-details="orderDetails" @update="updateData"/>
 
       </div>
@@ -194,7 +201,7 @@
 <script>
 import Loader from '~/components/common/Loader';
 import ProductThumb from '~/components/product/Thumb';
-import {GOOGLE_MAPS_BASE_URL} from '~/static/constants';
+import {CANCELLED, GOOGLE_MAPS_BASE_URL} from '~/static/constants';
 import ItemDivider from '~/components/profile/notifications/ItemDivider';
 import arrowDownBlack from '~/assets/img/icons/arrow-down-blue.svg?inline'
 import TimelineIcon from '~/components/orders/TimelineIcon';
@@ -218,6 +225,7 @@ export default {
   },
   data() {
     return {
+      CANCELLED,
       successPayment: false,
       openSummary: false,
       orderDetails: null,
