@@ -592,21 +592,33 @@ export default {
     applyFilter(val){
       if(val.sortby){
         this.sortBySelected = val.sortby
+      }else{
+        this.sortBySelected = ''
       }
       if(val.sizeType){
         this.sizeTypeFilters = val.sizeType
+      }else{
+        this.sizeTypeFilters = []
       }
       if(val.sizes){
         this.sizeFilters = val.sizes
+      }else{
+        this.sizeFilters = []
       }
       if(val.category){
         this.categorySelected = val.category
+      }else{
+        this.categorySelected = ''
       }
       if(val.gender) {
         this.selectedGender = val.gender
+      }else{
+        this.selectedGender = ''
       }
       if(val.productType){
         this.selectedProducttype = val.productType
+      }else{
+        this.selectedProducttype = ''
       }
       this.getInventories()
 

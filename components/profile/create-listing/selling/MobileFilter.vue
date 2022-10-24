@@ -227,7 +227,7 @@ export default {
   data() {
     return {
       // For storing the values.
-      category: [],
+      category: '',
       productType: [],
       gender: [],
       filter: {
@@ -461,13 +461,13 @@ export default {
     },
 
     resetFilter() {
-      this.filter.category = []
       this.filter.sizeType = []
       this.filter.sizes = []
       this.filter.productType = ''
       this.filter.keyword = ''
       this.filter.sortby = ''
       this.filter.gender = ''
+      this.filter.category = ''
       this.applyFilter()
     },
   },
