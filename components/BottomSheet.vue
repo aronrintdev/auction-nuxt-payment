@@ -32,7 +32,7 @@
             @click="bottomSheetShow = false"
           ></div>
           <div class="font-secondary fs-18 fw-7 text-center mt-2">
-            Filter By
+            {{$t('common.filter_by')}}
           </div>
         </div>
         <div class="bottom_sheet_body" :class="{ 'no-footer': hideFooter }">
@@ -130,7 +130,7 @@ export default {
     position: absolute
     width: 36px
     height: 4px
-    background: #C4C4C4
+    background: $color-gray-23
     left: 50%
     border-radius: 5px
     transform: translate(-50%)

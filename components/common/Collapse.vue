@@ -1,11 +1,11 @@
 <template>
-  <div class="accordion-filter-item w-100">
+  <div class="accordion-filter-item border-0 background-transparent w-100">
     <div id="panelsStayOpen-headingOne" class="accordion-filter-header mb-0">
       <div
         v-b-toggle="`collapse-${uniqueKey}`"
         aria-controls="panelsStayOpen-collapseOne"
         aria-expanded="false"
-        class="accordion-filter-button collapsed position-relative d-flex align-items-center w-100 p-0"
+        class="accordion-filter-button border-0 background-transparent collapsed position-relative d-flex align-items-center w-100 p-0"
         data-bs-target="#panelsStayOpen-collapseOne"
         data-bs-toggle="collapse"
         type="button"
@@ -74,14 +74,10 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 .accordion-filter-item
-  background: none
-  border: none
   .accordion-filter-button
     color: $color-blue-20
     overflow-anchor: none
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease
-    background: none
-    border: none
     @media (prefers-reduced-motion: reduce)
       transition: none
     &::after
@@ -109,7 +105,6 @@ export default {
       &::after
         transform: rotate(-180deg)
   .accordion-filter-body
-    // max-height: 150px
     overflow-y: auto
     overflow-x: hidden
     scroll-behavior: smooth

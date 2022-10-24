@@ -7,35 +7,28 @@
       <div class="searchbar-filter position-relative w-100">
         <input
           type="search"
-          placeholder="Search"
+          :placeholder="$t('common.search')"
           class="border-0 w-100 font-primary fs-12 fw-4"
         />
         <SearchIcon class="search_icon position-absolute" />
       </div>
-      <div class="setting-filter d-flex justify-content-start px-0 ml-2">
-        <FilterIcon id="filters_sheet" class="filter_icon" />
+      <div
+        class="setting-filter d-flex justify-content-start px-0 ml-2"
+        @click="open"
+      >
+        <FilterIcon class="filter_icon" />
       </div>
     </div>
-    <BottomSheet id="filters_sheet">
+
+    <vue-bottom-sheet
+      ref="myBottomSheet"
+      max-width="auto"
+      max-height="95vh"
+      :rounded="true"
+      :is-full-screen="true"
+    >
       <ShopFiltersMobile ref="shopFilters" />
-      <template #footer>
-        <div
-          class="bottom-sheet-footers d-flex justify-content-between align-items-center w-100 px-3"
-        >
-          <button
-            class="btn fs-16 fw-6 font-secondary rounded-pill btn-outline-dark"
-          >
-            Reset
-          </button>
-          <button
-            class="btn text-white fs-16 fw-6 font-secondary rounded-pill apply-btn"
-            @click="apply"
-          >
-            Apply Filters
-          </button>
-        </div>
-      </template>
-    </BottomSheet>
+    </vue-bottom-sheet>
   </div>
 </template>
 <script>
@@ -58,6 +51,12 @@ export default {
     window.addEventListener('scroll', this.updateScroll)
   },
   methods: {
+    open() {
+      this.$refs.myBottomSheet.open()
+    },
+    close() {
+      this.$refs.myBottomSheet.close()
+    },
     apply() {
       this.$refs.shopFilters.applyFilters()
     },
@@ -78,7 +77,7 @@ export default {
       margin: 0 16px
   .searchbar-filter
     input[type="search"]
-      background: rgba(247, 247, 247, 0.5)
+      background: $light-grey-rgba
       padding-left: 39px
       height: 33px
       border-radius: 8px
@@ -95,22 +94,19 @@ export default {
     top: 0
     background: $color-white-1
     z-index: 1020
-    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)
+    box-shadow: 0 .125rem .25rem $extralight-grey-rgba
     input[type="search"]
       &::placeholder
-        color:  #6F6F6F
+        color:  $color-gray-6
         letter-spacing: 0.06em
     .search_icon::v-deep
       .strokeColor
-        stroke: #6F6F6F
+        stroke: $color-gray-6
     .filter_icon::v-deep
       .lineColor
-        stroke: #999999
+        stroke: $color-gray-47
       .circleColor
-        fill: #C4C4C4
-  .bottom-sheet-footers
-    .btn
-      width: 134px
-    .apply-btn
-        background-color: $color-blue-20
+        fill: $color-gray-23
+  .bottom-sheet__content::v-deep
+    margin-right: -8px !important
 </style>

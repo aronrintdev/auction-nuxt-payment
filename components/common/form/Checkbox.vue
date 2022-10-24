@@ -13,7 +13,7 @@
         :value="val"
         :style="`--accent-color: ${color}`"
       />
-      <div class="checkbox-title text-capitalize">
+      <div class="checkbox-title text-center w-100 text-capitalize">
         {{ label }}
       </div>
     </label>
@@ -55,7 +55,7 @@ export default {
     model: {
       get() {
         return this.value
-      },
+      }, 
       set(value) {
         this.$emit('input', value)
       },
@@ -67,24 +67,23 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
 input[type="checkbox"]
   width: 15px
   height: 15px
   accent-color: var(--accent-color)
 .checkboxButton
   .checkbox-title
-    border: 1px solid #999
+    border: 1px solid $color-gray-4
     padding: 12px 0
     border-radius: 3px
-    color: #999
+    color: $color-gray-4
     font-size: 14px
     font-weight: 500
-    text-align: center
-    width: 100%
   input
     display: none
     &:checked~.checkbox-title
-      background: #F2F2F2
-      border: 1px solid #000
-      color: #000
+      background: $color-gray-21
+      border: 1px solid $color-black-1
+      color: $color-black-1
 </style>

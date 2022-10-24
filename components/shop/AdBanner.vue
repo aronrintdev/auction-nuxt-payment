@@ -2,12 +2,12 @@
   <div class="shop-ad-banner">
     <div class="d-flex justify-content-between align-items-center">
       <div class="ad-content">
-        <h1 class="font-primary fw-5 fs-20 text-black">SELL WITH US</h1>
+        <h1 class="font-primary fw-5 fs-20 text-black">{{$t('auctions.frontpage.sell_with_us.title')}}</h1>
         <h1 class="font-primary fw-5 fs-15 helping-text">
-          Have a Pair to Sell?
+          {{$t('products.have_pair_to_sell')}}
         </h1>
         <b-button class="fs-16 fw-5 font-primary text-white rounded-pill">
-          Create a Listing
+        {{$t('home.create_listing')}}
         </b-button>
       </div>
       <div>

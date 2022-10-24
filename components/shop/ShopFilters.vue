@@ -5,7 +5,7 @@
         <div class="col-9">
           <SearchInput
             :value="search"
-            placeholder="Search"
+            :placeholder="$t('common.search')"
             variant="light"
             class="search-input"
             :debounce="1000"
@@ -33,7 +33,7 @@
           <FormDropdown
             id="size-type"
             :value="sortBy"
-            placeholder="Size Type"
+            :placeholder="$t('trade_arena.size_type')"
             :icon-arrow-down="
               require('~/assets/img/icons/arrow-down-gray2.svg')
             "
@@ -70,7 +70,7 @@
           <FormDropdown
             id="sizes"
             :value="sortBy"
-            placeholder="Sizes"
+            :placeholder="$t('product_page.sizes')"
             :items="SORT_OPTIONS"
             :icon-arrow-down="
               require('~/assets/img/icons/arrow-down-gray2.svg')
@@ -108,7 +108,7 @@
           <FormDropdown
             id="Price"
             :value="sortBy"
-            placeholder="Price"
+            :placeholder="$t('comon.price')"
             :items="SORT_OPTIONS"
             :icon-arrow-down="
               require('~/assets/img/icons/arrow-down-gray2.svg')
@@ -139,7 +139,7 @@
           <FormDropdown
             id="brands"
             :value="sortBy"
-            placeholder="Brands"
+            :placeholder="$t('filter_sidebar.brands')"
             :items="SORT_OPTIONS"
             :icon-arrow-down="
               require('~/assets/img/icons/arrow-down-gray2.svg')
@@ -185,7 +185,7 @@
           <FormDropdown
             id="years"
             :value="sortBy"
-            placeholder="Years"
+            :placeholder="$t('banner.years')"
             :items="SORT_OPTIONS"
             :icon-arrow-down="
               require('~/assets/img/icons/arrow-down-gray2.svg')
@@ -309,11 +309,11 @@ export default {
     return {
       SORT_OPTIONS: [
         {
-          label: 'Trending',
+          label: this.$t('home.trending'),
           value: 'trending',
         },
         {
-          label: 'Newest',
+          label: this.$t('home_page.newest'),
           value: 'newest',
         },
         {
@@ -335,10 +335,6 @@ export default {
       sizeTypes: [],
     }
   },
-  // async fetch() {
-  //   await this.fetchFilters()
-  //   this.loadOptions()
-  // },
   computed: {
     ...mapGetters('browse', [
       'filters',

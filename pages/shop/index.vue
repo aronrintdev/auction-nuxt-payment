@@ -22,8 +22,8 @@
       <div class="container mt-5">
         <section class="recently-viewed">
           <SectionHeader
-            title="Recently Viewed"
-            label="View More Products"
+            :title="$t('auctions.frontpage.recently_viewed')"
+            :label="$t('home.view_more_products')"
             to="/auctions"
             full-width
           />
@@ -36,8 +36,8 @@
         </section>
         <section class="new-release">
           <SectionHeader
-            title="New Release"
-            label="View More Releases"
+            :title="$t('banner.new_release')"
+            :label="$t('banner.view_more_release')"
             to="/auctions"
             full-width
           />
@@ -45,8 +45,8 @@
         </section>
         <section class="trending">
           <SectionHeader
-            title="Trending"
-            label="View More Trending"
+            :title="$t('home.trending')"
+            :label="$t('banner.view_more_trending')"
             to="/auctions"
             full-width
           />
@@ -57,8 +57,8 @@
         </section>
         <section class="instant-shipping">
           <SectionHeader
-            title="Instant Shipping"
-            label="View More Products"
+            :title="$t('home_page.instant_shipping')"
+            :label="$t('home_page.view_more_products')"
             to="/auctions"
             full-width
           />

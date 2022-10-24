@@ -133,6 +133,7 @@
     "sneakers_sizes": "Sneaker Sizes",
     "apparel_sizes": "Apparel Sizes",
     "accessories_sizes": "Accessories Sizes",
+    "price_range":"Price Range",
     "categories": {
       "sneakers": "Sneakers",
       "apparel": "Apparel",
@@ -5326,5 +5327,14 @@
       "send_to_deadstock": "Send to Deadstock",
       "view_order": "View Order"
     }
+  },
+  "banner":{
+    "shop_with": "Shop With",
+    "deadstock": "deadstock",
+    "years": "Years",
+    "new_release": "New Release",
+    "view_more_release": "View More Releases",
+    "view_more_trending": "View More Trending"
+
   }
 }

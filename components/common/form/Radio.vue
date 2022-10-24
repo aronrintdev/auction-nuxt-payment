@@ -75,16 +75,17 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
 input[type="radio"]
   width: 15px
   height: 15px
   accent-color: var(--accent-color)
 .radioButton
   .radio-title
-    border: 1px solid #999
+    border: 1px solid $color-gray-4
     padding: 14px 0
     border-radius: 3px
-    color: #999
+    color: $color-gray-4
     font-size: 14px
     font-weight: 500
     text-align: center
@@ -92,7 +93,7 @@ input[type="radio"]
   input
     display: none
     &:checked~.radio-title
-      background: #F2F2F2
-      border: 1px solid #000
-      color: #000
+      background: $color-gray-21
+      border: 1px solid $color-black-1
+      color: $color-black-1
 </style>

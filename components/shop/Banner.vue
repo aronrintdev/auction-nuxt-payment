@@ -6,8 +6,8 @@
     <h1
       class="font-primary fw-7 fs-40 text-white banner-heading position-absolute text-capitalize d-none d-sm-block"
     >
-      Shop with <br />
-      deadstock
+      {{$t('banner.shop_with')}} <br />
+      {{$t('banner.deadstock')}}
     </h1>
   </section>
 </template>

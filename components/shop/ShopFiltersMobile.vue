@@ -1,128 +1,163 @@
 <template>
   <div class="ShopFiltersMobile">
-    <div class="border-bottom pb-3">
-      <h5 class="fs-16 fw-7 text-base-blue font-secondary">Sort</h5>
-      <Radio
-        v-for="(option, index) in SORT_OPTIONS"
-        :key="index"
-        v-model="sortBy"
-        class="mb-2"
-        :label="option.label"
-        :val="option.value"
-        name="sortFilter"
-      />
+    <div class="border-bottom mb-3 pb-2 bottom_sheet_header">
+      <h3 class="font-secondary fs-16 fw-7 text-black text-center">
+        {{ $t('common.filter_by') }}
+      </h3>
     </div>
-    <div class="border-bottom pb-3">
-      <Collapse title="Category" :selectedValue="selectedCategory">
-        <div class="row">
-          <div
-            v-for="(category, index) in categories"
-            :key="index"
-            class="col-4"
-          >
-            <Radio
-              v-model="selectedCategory"
-              button
-              :label="category.label"
-              :val="category.value"
-              name="category"
+    <div class="bottom_sheet_body">
+      <div class="border-bottom pb-3">
+        <h5 class="fs-16 fw-7 text-base-blue font-secondary">
+          {{ $t('selling_page.filter.sort') }}
+        </h5>
+        <Radio
+          v-for="(option, index) in SORT_OPTIONS"
+          :key="index"
+          v-model="sortBy"
+          class="mb-2"
+          :label="option.label"
+          :val="option.value"
+          name="sortFilter"
+        />
+      </div>
+      <div class="border-bottom pb-3">
+        <Collapse
+          :title="$t('createlisting.category')"
+          :selectedValue="selectedCategory"
+        >
+          <div class="row">
+            <div
+              v-for="(category, index) in categories"
+              :key="index"
+              class="col-4"
+            >
+              <Radio
+                v-model="selectedCategory"
+                button
+                :label="category.label"
+                :val="category.value"
+                name="category"
+              />
+            </div>
+          </div>
+        </Collapse>
+      </div>
+      <div class="border-bottom pb-3">
+        <Collapse
+          :title="$t('common.sizetype')"
+          :selectedValue="selectedSizeType"
+        >
+          <div class="row">
+            <div
+              v-for="(sizeType, index) in sizeTypeOptions"
+              :key="index"
+              class="col-4 mb-3"
+            >
+              <Radio
+                v-model="selectedSizeType"
+                button
+                :label="sizeType.label"
+                :val="sizeType.value"
+                name="sizeType"
+              />
+            </div>
+          </div>
+        </Collapse>
+      </div>
+      <div class="border-bottom pb-3">
+        <Collapse :title="$t('home_page.size')" :selectedValue="selectedSizes">
+          <div class="sizes-option">
+            <div
+              v-for="(size, index) in sizeOptions"
+              :key="index"
+              class="size-option"
+              :class="`size-option-${index}`"
+            >
+              <Checkbox
+                v-model="sizes"
+                button
+                :label="size.value"
+                :val="size.value"
+                name="size"
+              />
+            </div>
+          </div>
+        </Collapse>
+      </div>
+      <div class="border-bottom pb-3">
+        <Collapse
+          :title="$t('common.price_range')"
+          :selectedValue="selectedPriceRange"
+        >
+          <div>
+            <SliderInput
+              v-model="prices"
+              :minLabel="$t('filter_sidebar.price_items.min')"
+              :maxLabel="$t('filter_sidebar.price_items.max')"
+              :fromLabel="$t('filter_sidebar.price_items.from')"
+              :toLabel="$t('filter_sidebar.price_items.to')"
+              :minValue="100"
+              :maxValue="800"
+              :minRange="MIN_PRICE_RANGE_WINDOW"
+              :multiplier="1"
+              class="mt-4"
             />
           </div>
-        </div>
-      </Collapse>
-    </div>
-    <div class="border-bottom pb-3">
-      <Collapse title="Size Type" :selectedValue="selectedSizeType">
-        <div class="row">
-          <div
-            v-for="(sizeType, index) in sizeTypeOptions"
-            :key="index"
-            class="col-4 mb-3"
-          >
-            <Radio
-              v-model="selectedSizeType"
-              button
-              :label="sizeType.label"
-              :val="sizeType.value"
-              name="sizeType"
+        </Collapse>
+      </div>
+      <div class="border-bottom pb-3">
+        <Collapse
+          :title="$t('filter_sidebar.brands')"
+          :selectedValue="selectedBrand"
+        >
+          <div class="row">
+            <div
+              v-for="(brandCategory, index) in brandOptions"
+              :key="index"
+              class="col-4 mb-3"
+            >
+              <Radio
+                v-model="selectedBrand"
+                button
+                :label="brandCategory.label"
+                :val="brandCategory.value"
+                name="brandCategory"
+              />
+            </div>
+          </div>
+        </Collapse>
+      </div>
+      <div class="border-bottom pb-3">
+        <Collapse :title="$t('common.year')" :selectedValue="selectedYearRange">
+          <div>
+            <SliderInput
+              v-model="years"
+              :minLabel="$t('filter_sidebar.year_items.start')"
+              :maxLabel="$t('filter_sidebar.year_items.end')"
+              :fromLabel="$t('filter_sidebar.year_items.from')"
+              :toLabel="$t('filter_sidebar.year_items.to')"
+              :minValue="minYear"
+              :maxValue="maxYear"
+              :minRange="MIN_YEAR_RANGE_WINDOW"
+              class="mt-4"
             />
           </div>
-        </div>
-      </Collapse>
+        </Collapse>
+      </div>
     </div>
-    <div class="border-bottom pb-3">
-      <Collapse title="Size" :selectedValue="selectedSizes">
-        <div class="sizes-option">
-          <div
-            v-for="(size, index) in sizeOptions"
-            :key="index"
-            class="size-option"
-            :class="`size-option-${index}`"
-          >
-            <Checkbox
-              v-model="sizes"
-              button
-              :label="size.value"
-              :val="size.value"
-              name="size"
-            />
-          </div>
-        </div>
-      </Collapse>
-    </div>
-    <div class="border-bottom pb-3">
-      <Collapse title="Price Range" :selectedValue="selectedPriceRange">
-        <div>
-          <SliderInput
-            v-model="prices"
-            :minLabel="$t('filter_sidebar.price_items.min')"
-            :maxLabel="$t('filter_sidebar.price_items.max')"
-            :fromLabel="$t('filter_sidebar.price_items.from')"
-            :toLabel="$t('filter_sidebar.price_items.to')"
-            :minValue="100"
-            :maxValue="800"
-            :minRange="MIN_PRICE_RANGE_WINDOW"
-            :multiplier="1"
-            class="mt-4"
-          />
-        </div>
-      </Collapse>
-    </div>
-    <div class="border-bottom pb-3">
-      <Collapse title="Brands" :selectedValue="selectedBrand">
-        <div class="row">
-          <div
-            v-for="(brandCategory, index) in brandOptions"
-            :key="index"
-            class="col-4 mb-3"
-          >
-            <Radio
-              v-model="selectedBrand"
-              button
-              :label="brandCategory.label"
-              :val="brandCategory.value"
-              name="brandCategory"
-            />
-          </div>
-        </div>
-      </Collapse>
-    </div>
-    <div class="border-bottom pb-3">
-      <Collapse title="Year" :selectedValue="selectedYearRange">
-        <div>
-          <SliderInput
-            v-model="years"
-            :minLabel="$t('filter_sidebar.year_items.start')"
-            :maxLabel="$t('filter_sidebar.year_items.end')"
-            :fromLabel="$t('filter_sidebar.year_items.from')"
-            :toLabel="$t('filter_sidebar.year_items.to')"
-            :minValue="minYear"
-            :maxValue="maxYear"
-            :minRange="MIN_YEAR_RANGE_WINDOW"
-            class="mt-4"
-          />
-        </div>
-      </Collapse>
+    <div
+      class="bottom-sheet-footers position-absolute d-flex justify-content-between align-items-center w-100 p-3 bg-white"
+    >
+      <button
+        class="btn fs-16 fw-6 font-secondary rounded-pill btn-outline-dark"
+      >
+        {{ $t('common.reset') }}
+      </button>
+      <button
+        class="btn text-white fs-16 fw-6 font-secondary rounded-pill apply-btn"
+      >
+        {{ $t('orders.apply_filter') }}
+      </button>
     </div>
   </div>
 </template>
@@ -149,11 +184,11 @@ export default {
     return {
       SORT_OPTIONS: [
         {
-          label: 'Trending',
+          label: this.$t('home.trending'),
           value: 'trending',
         },
         {
-          label: 'Newest',
+          label: this.$t('home_page.newest'),
           value: 'newest',
         },
         {
@@ -307,10 +342,19 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
 .ShopFiltersMobile
-  margin: 0 19px
+  .bottom_sheet_body
+    margin: 0 19px
   .sizes-option
     display: grid
     grid-template-columns: repeat(5 , 1fr)
     gap: 14px
+  .bottom-sheet-footers
+    bottom: 0
+    z-index: 9
+    .btn
+      width: 134px
+    .apply-btn
+        background-color: $color-blue-20
 </style>
