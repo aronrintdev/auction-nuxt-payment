@@ -6,3 +6,7 @@
 export function setWindowWidth(state, val) {
   state.windowWidth = val
 }
+export function setScreenType(state, type) {
+  state.screenType = type
+}
+

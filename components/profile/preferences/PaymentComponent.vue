@@ -219,6 +219,10 @@ export default {
   created() {
     // Get the user giftcards
     this.getUserGiftCards()
+
+    this.$nuxt.$on('reloadPaymentMethods', () => {
+      this.$fetch()
+    })
   },
 
   methods: {

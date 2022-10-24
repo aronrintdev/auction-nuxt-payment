@@ -2,11 +2,12 @@
   <Modal
     :id="id"
     hide-footer
+    :hide-header="hideHeader"
     no-border
     @shown="onShown"
     @hidden="$emit('hidden')"
   >
-    <div class="message-modal-content">
+    <div v-if="!mobileClass" class="message-modal-content">
       <div class="message" v-html="message"></div>
       <img
         v-if="icon && icon === 'tick'"
@@ -17,15 +18,43 @@
         :src="require('~/assets/img/icons/product/trash.svg')"
       />
     </div>
+
+    <div v-if="mobileClass" class="message-modal-content">
+      <img
+        v-if="icon && icon === 'tick'"
+        :src="require('~/assets/img/icons/product/confirm-tick.svg')"
+        @click="$emit('hidden')"
+      />
+      <img
+        v-if="icon && icon === 'trash'"
+        :src="require('~/assets/img/icons/trash-mobile.svg')"
+        @click="$emit('hidden')"
+      />
+      <img
+        v-if="icon && icon === 'success-tick'"
+        :src="require('~/assets/img/icons/product/success-tick.svg')"
+        @click="$emit('hidden')"
+      />
+      <div
+        :class="`message ${mobileClass} ${
+          mobileClass
+            && 'd-flex align-items-center text-center justify-content-center'
+          }`"
+        v-html="message"
+      ></div>
+    </div>
   </Modal>
 </template>
 <script>
 import Modal from '~/components/common/Modal.vue'
+import screenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'AlertModal',
 
   components: { Modal },
+
+  mixins: [screenSize],
 
   props: {
     id: {
@@ -47,6 +76,10 @@ export default {
     autoHideTimeout: {
       type: Number,
       default: 2000,
+    },
+    hideHeader: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -74,6 +107,12 @@ export default {
     width: 300px
     margin-left: auto
     margin-right: auto
+    &.mobile
+      margin-top: 25px
+      font-family: $font-montserrat
+      font-style: normal
+      @include body-4-normal
+      color: $color-black-1
 
   img
     margin-top: 13px

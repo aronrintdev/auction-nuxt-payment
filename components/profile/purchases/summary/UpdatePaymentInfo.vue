@@ -300,7 +300,7 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import { countries } from '~/static/location'
 import { CARD_LAST_DIGITS_OFFSET } from '~/static/constants'
 import { Button } from '~/components/common'
-import {GOOGLE_MAPS_BASE_URL} from '~/static/constants/environments'
+import { GOOGLE_MAPS_BASE_URL, GOOGLE_ADDRESS_MAPS_BASE_URL } from '~/static/constants/environments'
 import { countryRestriction } from '~/static/constants/address'
 
 export default {
@@ -462,6 +462,10 @@ export default {
       scriptTag.src = GOOGLE_MAPS_BASE_URL
 
       this.insertScript(scriptTag)
+
+      const addressScriptTag = this.createScriptTag()
+      scriptTag.src = GOOGLE_ADDRESS_MAPS_BASE_URL
+      this.insertScript(addressScriptTag)
     },
     // Create a new script tag without the src attribute.
     createScriptTag() {

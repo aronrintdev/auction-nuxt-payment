@@ -4,9 +4,9 @@
       <b-overlay :opacity="0.85" blur="2px" :show="loading" rounded="sm">
         <table class="table-recent-sales">
           <tr>
-            <th>{{ $t('common.time_date') }}</th>
+            <th>{{ $t('products.date_time') }}</th>
             <th>{{ $tc('common.size', 1) }}</th>
-            <th>{{ $t('common.price') }}</th>
+            <th>{{ $t('products.sales') }}&nbsp;&dollar;</th>
           </tr>
           <tr v-for="(row, index) in sales" :key="`recent-sale-${index}`">
             <td>
@@ -19,26 +19,17 @@
         </table>
       </b-overlay>
     </div>
-
-    <b-button variant="link" class="close-btn" @click="$emit('close')">
-      <img
-        :src="require('~/assets/img/icons/close.svg')"
-        :alt="$t('common.close')"
-      />
-    </b-button>
   </div>
 </template>
 <script>
 export default {
   name: 'ProductRecentSales',
-
   props: {
     sku: {
       type: String,
       default: null,
     },
   },
-
   data() {
     return {
       loading: true,
@@ -76,20 +67,12 @@ export default {
       color: $color-black-1
       text-align: center
       padding: 12px 9px
-      border-bottom: 1px solid $color-gray-47
 
     td
       @include body-8-normal
       text-align: center
       padding: 15px 3px
-      border-bottom: 1px solid $color-gray-47
 
       .time
         color: $color-gray-4
-
-  .close-btn
-    position: absolute
-    right: 0
-    top: 0
-    padding: 0
 </style>

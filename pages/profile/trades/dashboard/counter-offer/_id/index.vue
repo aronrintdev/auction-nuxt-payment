@@ -17,7 +17,7 @@
                   :key="'their-trade-item-key-'+index" class="item mb-4"
                   :class="[((getTheirItems.length > ONE_ITEM )|| (getYourItems.length)) ? 'item-length' : 'item-normal']">
                 <div v-if="!editYours" class="position-relative">
-                  <div class="position-absolute remove-item-icon" role="button" @click="removeItem(index)">
+                  <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
                     <img :src="require('~/assets/img/trades/minus-icon.svg')">
                   </div>
                 </div>
@@ -49,27 +49,19 @@
                     :id="getYourItems.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="'your-trade-item-key-'+index"
                     class="preview item-length mb-4">
                   <div v-if="editYours" class="position-relative">
-                    <div class="position-absolute remove-item-icon" role="button" @click.stop="removeItem(index)">
+                    <div class="position-absolute remove-item-icon" role="button" @click.stop="removeItem(item.inventory.product.id)">
                       <img :src="require('~/assets/img/trades/minus-icon.svg')">
                     </div>
                   </div>
-                  <img v-if="item.inventory.product" class="item-image" :src="item.inventory.product.image" alt="image"
-                      :class="{'item-image-cond':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
-                  <img v-else class="item-image" :src="item.inventory.image" alt="image"
+                  <img class="item-image" :src="item.inventory.product | getProductImageUrl" alt="image"
                       :class="{'item-image-cond':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
                   <div class="item-caption">
-                    <span v-if="item.inventory.product" class="item-name">{{ item.inventory.product.name }}</span>
-                    <span v-else class="item-name">{{ item.inventory.name }}</span>
-                    <span v-if="item.inventory.product" class="item-box-condition">
+                    <span class="item-name">{{ item.inventory.product.name }}</span>
+                    <span class="item-box-condition">
                       {{ $t('trades.trade_arena.box_condition') }}: {{ item.inventory.packaging_condition.name }}
                     </span>
-                    <span v-else class="item-box-condition">
-                      {{ $t('trades.trade_arena.box_condition') }}: {{ item.inventory.packaging_condition.name }}
-                    </span>
-                    <span v-if="item.inventory.product" class="item-caption-description">{{ item.inventory.product.colorway }}</span>
-                    <span v-else class="item-caption-description">{{ item.inventory.colorway }}</span>
-                    <span v-if="item.inventory.product" class="item-size">{{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</span>
-                    <span v-else class="item-size">{{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</span>
+                    <span class="item-caption-description">{{ item.inventory.product.colorway }}</span>
+                    <span class="item-size">{{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</span>
                   </div>
                 </div>
               </div>
@@ -86,7 +78,6 @@
             </div>
             <div>
               <div class="amounts-input">
-                <!-- TODO -->
                 <input type="text" class="theirs" disabled :value="$t('trades.trade_arena.theirs') + `: ${getTheirTotal()}`">
                 <input type="text" class="yours" disabled :value="$t('trades.trade_arena.yours') + `: ${getYourTotal()}`">
               </div>
@@ -368,6 +359,7 @@ export default {
   methods: {
     ...mapActions('counter-offer', ['fetchOfferDetails']), // get filters from api call by calling action from store
     ...mapActions('browse', ['fetchFilters']), // getter to get filter listing from store
+    ...mapActions('trades', ['checkIfItemIsInListingItem', 'searchProductsList']),
 
     /**
      * check if trade is poor/fair
@@ -419,11 +411,11 @@ export default {
       this.cashAdded = value
       this.updateActiveTrade()
     },
-    removeItem(itemIndex){
+    removeItem(productId){
       if(this.editYours){
-        this.$store.commit('counter-offer/removeYourItem', itemIndex)
+        this.$store.commit('counter-offer/removeCounterOfferYourItem', productId)
       }else{
-        this.$store.commit('counter-offer/removeTheirItem', itemIndex)
+        this.$store.commit('counter-offer/removeCounterOfferTheirItem', productId)
       }
       this.$nextTick(() => this.$forceUpdate())
       this.updateActiveTrade()
@@ -459,7 +451,7 @@ export default {
     },
     loadData(){
       const offerId = parseInt(this.$route.params.id)
-      this.fetchOfferDetails({ offerId })
+      this.fetchOfferDetails(offerId)
       this.getInventory()
     },
     redirectToOfferPage(){
@@ -475,10 +467,9 @@ export default {
     checkIfItemAlreadyListed(item) {
       const existingItem = this.getYourItems.find(val => val.id === item.id)
       if(existingItem) return true;
-      this.$axios
-        .post('check/product/in/listing', {
-          inventory_id: item.id
-        })
+        this.checkIfItemIsInListingItem({
+        inventory_id: item.id
+      })
         .then((response) => { // return product information that exits in already listing
           if (response.data.is_listing_item) {
             this.itemListingId = response.data.listingId
@@ -496,7 +487,15 @@ export default {
         })
     },
     getTheirTotal(formattedPrice = true){
-      const optionalCash = (!this.editYours) ? this.optionalCash : 0
+      let optionalCash = 0
+      if(this.getLastSubmittedOffer.cash_added &&
+        (((this.isOfferMine() &&
+        this.isCashTypeRequested())) ||
+        (!this.isOfferMine() &&
+        this.isCashTypeAdded())))
+      {
+        optionalCash = (this.getLastSubmittedOffer.cash_added/100)
+      }
       const totalPrice = this.getTheirItems.map((inventoryItem) => (inventoryItem.inventory ? inventoryItem.inventory.sale_price : inventoryItem.sale_price))
       if(totalPrice.length) {
         return (formattedPrice) ?
@@ -505,13 +504,31 @@ export default {
       return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(optionalCash)) : optionalCash * 100
     },
     getYourTotal(formattedPrice = true){
-      const optionalCash = (this.editYours) ? this.optionalCash : 0
+      let optionalCash = 0
+      if(this.getLastSubmittedOffer.cash_added &&
+        (((!this.isOfferMine() &&
+        this.isCashTypeRequested())) ||
+        ((this.isOfferMine() &&
+        this.isCashTypeAdded()))))
+      {
+          optionalCash = (this.getLastSubmittedOffer.cash_added/100)
+      }
+      optionalCash += this.optionalCash
       const totalPrice = this.getYourItems.map((inventoryItem) => (inventoryItem.inventory ? inventoryItem.inventory.sale_price : inventoryItem.sale_price))
       if(totalPrice.length) {
         return (formattedPrice) ?
           '$' + ((totalPrice.reduce((a, b) => a + b, 0)/100) + parseFloat(optionalCash)).toFixed(2) : totalPrice.reduce((a, b) => a + b, 0) + (optionalCash * 100)
       }
       return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(optionalCash)) : optionalCash * 100
+    },
+    isCashTypeRequested(){
+        return this.getLastSubmittedOffer.cash_type === CASH_TYPE_REQUESTED
+    },
+    isCashTypeAdded(){
+        return this.getLastSubmittedOffer.cash_type === CASH_TYPE_ADDED
+    },
+    isOfferMine() {
+      return this.getLastSubmittedOffer.sent_by_id === this.$auth.user.vendor.id
     },
     /**
      * This function is used to check item can be added for trade
@@ -623,7 +640,7 @@ export default {
     changeOrderFilter(selectedOrder) {
       this.orderFilter = selectedOrder
       const orderFilteredKey = this.generalListItemsCustomFilter.find(item => item.value === this.orderFilter)
-      this.orderFilterLabel = this.capitalizeFirstLetter(orderFilteredKey.text)
+      this.orderFilterLabel = this.$options.filters.capitalizeFirstLetter(orderFilteredKey.text)
       this.getInventory()
     },
 
@@ -635,7 +652,7 @@ export default {
     changeCategory(selectedCategory) {
       this.categoryFilter = selectedCategory
       const categoryFilteredKey = this.categoryItems.find(item => item.value === this.categoryFilter)
-      this.categoryFilterLabel = this.capitalizeFirstLetter(categoryFilteredKey.text)
+      this.categoryFilterLabel = this.$options.filters.capitalizeFirstLetter(categoryFilteredKey.text)
     },
     /**
      * This function is used to change product size filter
@@ -648,7 +665,7 @@ export default {
       } else {
         this.sizeTypesFilter = this.sizeTypesFilter.filter(item => item !== selectedSizeType)
       }
-      this.sizeTypesFilterLabel = this.joinAndCapitalizeFirstLetters(this.sizeTypesFilter, 2) || this.$t('trades.create_listing.vendor.wants.size_type') // 2 is max number of labels show in filter
+      this.sizeTypesFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeTypesFilter, 2) || this.$t('trades.create_listing.vendor.wants.size_type') // 2 is max number of labels show in filter
     },
 
     /**
@@ -663,34 +680,8 @@ export default {
         this.sizeFilter = this.sizeFilter.filter(item => item !== selectedSize.size)
       }
 
-      this.sizeFilterLabel = this.joinAndCapitalizeFirstLetters(this.sizeFilter, MAX_LABELS_IN_CUSTOM_DROP_DOWN)
+      this.sizeFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeFilter, MAX_LABELS_IN_CUSTOM_DROP_DOWN)
         || this.$t('trades.create_listing.vendor.wants.size')
-    },
-
-    /**
-     * This function do first letter of word capital
-     * @param string
-     * @returns {string}
-     */
-    capitalizeFirstLetter(string) {
-      if (typeof string === 'string')
-        return string[0].toUpperCase() + string.slice(1)
-      else if (typeof string === 'object' && string.size && typeof string.size === 'string')
-        return string.size[0].toUpperCase() + string.size.slice(1)
-    },
-
-    /**
-     * This function is used to show selected items by joining them
-     * in string format seperated by commas
-     * @param selectedOptionsArray
-     * @param maxLabelsAllowed
-     * @returns {string|*}
-     */
-    joinAndCapitalizeFirstLetters(selectedOptionsArray, maxLabelsAllowed) {
-      selectedOptionsArray = selectedOptionsArray.map(o => o[0].toUpperCase() + o.slice(1))
-      return (selectedOptionsArray.length > maxLabelsAllowed)
-        ? selectedOptionsArray.slice(0, maxLabelsAllowed).join(', ') + '...' // append dots if labels exceed limits of showing characters
-        : selectedOptionsArray.join(', ')
     },
 
     /**
@@ -728,17 +719,13 @@ export default {
      * listing below input search field
      * @param term
      */
-    onSearchInput(term) {
+    onSearchInput: debounce(function (term) {
       this.searchText = term
       if (term) {
-        this.$axios
-          .post('/search/products', {
-            filters: {
-              search: term.toLowerCase(), // search query param
-              take: TAKE_SEARCHED_PRODUCTS,      // get 5 record
-            },
-            page: 1 // no of page
-          })
+        this.searchProductsList({
+          search: term.toLowerCase(),
+          take: TAKE_SEARCHED_PRODUCTS
+        })
           .then((response) => {
             this.searchedItems = response.data && response.data.results && response.data.results.data // items for search list
           })
@@ -750,7 +737,7 @@ export default {
         this.searchText = null
         this.searchedItems = []
       }
-    },
+    }, 500),
 
     /**
      * This function is used to change pagination page no

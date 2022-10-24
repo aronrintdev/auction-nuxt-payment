@@ -23,7 +23,7 @@
         <b-col cols="8" class="d-flex">
           <div class="pt-3">
             <img class="confirm-trade-item-image"
-                :src="item.product.image | getProductImageUrl"
+                :src="item.product | getProductImageUrl"
                 :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
           </div>
           <div class="d-block pt-4 pl-4">
@@ -45,11 +45,11 @@
         </b-col>
         <b-col cols="2" class="confirm-trade-icons d-flex">
           <div>
-            <img :src="require('~/assets/img/box-pencil.svg')" :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addOfferProduct(item.product, item, 0)" />
+            <img :src="require('~/assets/img/box-pencil.svg')" :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="addOfferProduct(item.product, item, 0)" />
           </div>
           <div class="pl-3">
             <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"
-                :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="setOfferItemForDelete(item)"/>
+                :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="setOfferItemForDelete(item, index)"/>
           </div>
         </b-col>
       </b-row>
@@ -68,7 +68,7 @@
       <b-row v-for="(wantItem, index) in getTradeItemsWants" :key="'want-'+index+wantItem.id" class="confirm-trade-item">
         <b-col cols="8" class="d-flex">
           <div class="pt-3">
-            <img class="confirm-trade-item-image" :src="wantItem.image"
+            <img class="confirm-trade-item-image" :src="wantItem.product | getProductImageUrl"
                 :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
           </div>
           <div class="d-block pt-4 pl-4">
@@ -89,16 +89,16 @@
           <div class="confirm-trade-item-quantity">{{ wantItem.selected_quantity }}</div>
         </b-col>
         <b-col cols="2" class="confirm-trade-icons d-flex">
-          <div>
+          <div v-if="getTradeItemsWantCount < MAX_ITEMS_ALLOWED">
             <img class="cursor-pointer" :src="require('~/assets/img/box-copy.svg')"
-                :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, 0, getTradeItemsWants.map(i => parseInt(i.selected_quantity)).reduce((a, b) => a + b, 0))" />
+                :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="addProductWant(wantItem.product, 0, getTradeItemsWantCount)" />
           </div>
           <div class="pl-3">
-              <img :src="require('~/assets/img/box-pencil.svg')" class="cursor-pointer" :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, wantItem, 0)"/>
+              <img :src="require('~/assets/img/box-pencil.svg')" class="cursor-pointer" :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="addProductWant(wantItem.product, wantItem, 0)"/>
           </div>
           <div class="pl-3">
             <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"
-                :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="setWantItemForDelete(wantItem)"/>
+                :alt="$t('trades.create_listing.vendor.wants.no_image')" role="button" @click="setWantItemForDelete(wantItem, index)"/>
           </div>
         </b-col>
       </b-row>
@@ -106,9 +106,9 @@
         <Button class="confirm-trade-draft-btn" variant="listing" @click="saveVendorTrade('live')">{{ $t('trades.save_changes') }}</Button>
         <Button class="confirm-trade-post-btn ml-5" :disabled="!getTradeItemsWants.length || !getTradeItems.length" variant="listing" @click="$bvModal.show('discardModel')">{{ $t('trades.discard_changes') }}</Button>
       </b-row>
-      <delete-offer-item-modal :tradeId="getTradeId" :product="deleteOfferProduct" @delete="removeOfferItem"></delete-offer-item-modal>
-      <delete-want-item-modal :tradeId="getTradeId" :product="deleteWantProduct" @delete="removeWantItem"></delete-want-item-modal>
-      <discard-model @discard="moveBackToTradeOffers()"></discard-model>
+      <delete-offer-item-modal :product="deleteOfferProduct" :productIndex="deleteOfferProductIndex" @delete="removeOfferItem"></delete-offer-item-modal>
+      <delete-want-item-modal :product="deleteWantProduct" :productIndex="deleteWantProductIndex" @delete="removeWantItem"></delete-want-item-modal>
+      <discard-model @discard="moveBackToTradeOffers(getTradeId)"></discard-model>
     </div>
     <b-row v-else-if="searchForProductsType" class="pr-md-5 pr-lg-5 pr-sm-0 mb-2">
       <div class="create-trade-back-to-search" @click="backToTradeEditing()">
@@ -132,7 +132,7 @@
 </template>
 
 <script>
-
+import debounce from 'lodash.debounce'
 import { mapGetters } from 'vuex'
 import DeleteOfferItemModal from '~/pages/profile/trades/dashboard/_id/edit/DeleteOfferItemModal'
 import DeleteWantItemModal from '~/pages/profile/trades/dashboard/_id/edit/DeleteWantItemModal'
@@ -178,6 +178,8 @@ export default {
       editableProduct: null,
       deleteOfferProduct: {},
       deleteWantProduct: {},
+      deleteOfferProductIndex: 0,
+      deleteWantProductIndex: 0,
       MAX_ITEMS_ALLOWED,
       trade_want_id: null,
       trade: null,
@@ -189,6 +191,10 @@ export default {
   },
   computed:{
     ...mapGetters('trades',['getTradeItems', 'getTradeId', 'getTradeItemsWants', 'getEditTradePageReferrer']),  // Getter for getting listing of trade offer item and want item
+
+    getTradeItemsWantCount(){
+      return this.getTradeItemsWants.map(i => parseInt(i.selected_quantity)).reduce((a, b) => a + b, 0)
+    },
   },
   mounted() {
     this.$root.$on('back_to_trade_editing', () => {
@@ -262,7 +268,10 @@ export default {
           if (offerItemsList.length > 0) {
             offerItemsList.forEach(function(offerItem) {
               const item = offerItem.inventory
+              item.offer_id = offerItem.id
               item.quantity = offerItem.quantity
+              item.selected_box_condition = offerItem.inventory.packaging_condition_id
+              item.selected_box_condition_name = offerItem.inventory.packaging_condition.name
               item.id = offerItem.inventory_id
               _self.$store.commit('trades/setTradeItems', item)
               _self.$nextTick(() => _self.$forceUpdate())
@@ -274,6 +283,7 @@ export default {
             wantItemsList.forEach(function(wantItem) {
               const selectedProductWithAttributes = {
                 id: wantItem.id,
+                want_id: wantItem.id,
                 product_id: wantItem.product_id,
                 name: wantItem.product.name,
                 colorway: wantItem.product.colorway,
@@ -301,8 +311,8 @@ export default {
 
   },
   methods: {
-    moveBackToTradeOffers(){
-      this.$router.push(`/profile/trades/dashboard/${this.getTradeId}/offers`)
+    moveBackToTradeOffers(tradeId){
+      this.$router.push(`/profile/trades/dashboard/${tradeId}/offers`)
     },
     backToTradeEditing(){
       this.searchForProductsType = null
@@ -311,12 +321,16 @@ export default {
       this.searchedItems = []
     },
     addMoreWantItems(){
+      this.editableProduct = null
+      this.editableProductId = 0
       this.searchForProductsType = SEARCH_FOR_WANT_ITEMS
     },
     canAddMoreWantItems(){
       return this.getTradeItemsWants.length < MAX_ITEMS_ALLOWED
     },
     addMoreOfferItems(){
+      this.editableProduct = null
+      this.editableProductId = 0
       this.searchForProductsType = SEARCH_FOR_OFFER_ITEMS
     },
     canAddMoreOfferItems(){
@@ -330,6 +344,7 @@ export default {
     prepareOfferItems() {
       return this.getTradeItems.map(item =>
         ({
+          offer_id: item.offer_id ? item.offer_id : null,
           inventory_id: item.id,
           quantity: item.quantity,
           packaging_condition_id: item.packaging_condition.id,
@@ -349,6 +364,8 @@ export default {
     prepareWantItems() {
       return this.getTradeItemsWants.map(item =>
         ({
+            id: item.id,
+            want_id: item.want_id ? item.want_id : null,
             product_id: item.product_id,
             quantity: item.selected_quantity,
             size_id: item.selected_size,
@@ -371,20 +388,20 @@ export default {
         offer_items: this.prepareOfferItems(), // offer items for create listing
         want_items: this.prepareWantItems(), //
       }
-      let request  = this.$axios.post('trades', data)
+
       if(tradeId)
       {
-          request  = this.$axios.put('trades/' + tradeId, data)
+          this.$axios.put('trades/' + tradeId, data).then(() => { // on response clear states and move to listing page
+            this.$store.commit('trades/clearTradeItems')
+            this.$store.commit('trades/clearWantsItemsTrade')
+            this.$store.commit('trades/setTradeForEditing', null)
+            this.moveBackToTradeOffers(tradeId)
+          })
+          .catch((error) => {
+            this.$toasted.error(this.$t(error.response.data.message))
+          })
       }
-      request.then(() => { // on response clear states and move to listing page
-        this.$store.commit('trades/clearTradeItems')
-        this.$store.commit('trades/clearWantsItemsTrade')
-        this.$store.commit('trades/setTradeForEditing', null)
-        this.moveBackToTradeOffers()
-      })
-      .catch((error) => {
-        this.$toasted.error(this.$t(error.response.data.message))
-      })
+
     },
 
     /**
@@ -422,7 +439,7 @@ export default {
     }
     else {
       const product = JSON.parse(JSON.stringify(offerProduct));
-      product.selected_box_condition = offer?.packaging_condition.name
+      product.selected_box_condition = offer?.packaging_condition.id
       product.selected_quantity = offer?.quantity
       product.selected_year = product?.release_year
       product.selected_size = offer?.size.id
@@ -436,71 +453,75 @@ export default {
     /**
      * set offer item for delete
      */
-    setOfferItemForDelete(offerItem) {
+    setOfferItemForDelete(offerItem, productIndex) {
       this.deleteOfferProduct = offerItem
+      this.deleteOfferProductIndex = productIndex
       this.$bvModal.show('delete-offer-item')
     },
 
     /**
      * This function is used to remove offer item from list
-     * on the basis of product id which is pass as param
-     * @param id
+     * on the basis of product index which is pass as param
+     * @param index
      */
-    removeOfferItem(id) {
-      this.$store.commit('trades/removeTradeItem', id)
+    removeOfferItem(index) {
+      this.$store.commit('trades/removeTradeItem', index)
       this.$bvModal.hide('delete-offer-item')
       this.deleteOfferProduct = {}
+      this.deleteOfferProductIndex = 0
       this.$nextTick(() => this.$forceUpdate())
     },
 
     /**
      * set want item for delete
      */
-    setWantItemForDelete(wantItem) {
+    setWantItemForDelete(wantItem, productIndex) {
       this.deleteWantProduct = wantItem
+      this.deleteWantProductIndex = productIndex
       this.$bvModal.show('delete-want-item')
     },
 
     /**
      * This function is used to remove want item from list
-     * on the basis of product id which is pass as param
-     * @param id
+     * on the basis of product index which is pass as param
+     * @param index
      */
-    removeWantItem(id) {
-      this.$store.commit('trades/removeWantsItemsTrade', id)
+    removeWantItem(index) {
+      this.$store.commit('trades/removeWantsItemsTrade', index)
       this.$bvModal.hide('delete-want-item')
       this.deleteWantProduct = {}
+      this.deleteWantProductIndex = 0
       this.$nextTick(() => this.$forceUpdate())
     },
 
-/**
- * This function is used to get product and show in
- * listing below input search field
- * @param term
- */
-onSearchInput(term) {
-  if (term) {
-    this.searchText = term
-    this.$axios
-      .post('search/products', {
-        filters: {
-          search: term.toLowerCase(),  // search query param
-          take: SEARCH_BAR_PRODUCTS // get no of record
-        },
-        page: 1 // page no
-      })
-      .then((response) => {
-        this.searchedItems = response.data && response.data.results && response.data.results.data // items for search list
-      })
-      .catch((error) => {
-        this.$toasted.error(this.$t(error.response.data.error))
+    /**
+     * This function is used to get product and show in
+     * listing below input search field
+     * @param term
+     */
+    onSearchInput: debounce(function (term) {
+      if (term) {
+        this.searchText = term
+        this.$axios
+          .post('search/products', {
+            filters: {
+              search: term.toLowerCase(),  // search query param
+              take: SEARCH_BAR_PRODUCTS // get no of record
+            },
+            page: 1 // page no
+          })
+          .then((response) => {
+            this.searchedItems = response.data && response.data.results && response.data.results.data // items for search list
+          })
+          .catch((error) => {
+            this.$toasted.error(this.$t(error.response.data.error))
+            this.searchedItems =  []
+          })
+      } else{
+        this.searchText =  null
         this.searchedItems =  []
-      })
-  } else{
-    this.searchText =  null
-    this.searchedItems =  []
-  }
-},
+      }
+    }, 500),
   }
 }
 </script>

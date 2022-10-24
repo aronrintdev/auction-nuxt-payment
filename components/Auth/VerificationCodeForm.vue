@@ -112,7 +112,7 @@ export default {
     },
     sendVerificationCode() {
       this.$axios.post('/send-code', {
-        email: this.credentials.email
+        login: this.credentials.login
       }, { handleError: false}).then(() => {
         this.resetTimer()
         this.$toasted.success(this.$t('auth.verification_code_has_been_sent').toString())
@@ -125,7 +125,7 @@ export default {
       this.$auth
         .login({
           data: {
-            email: this.credentials.email,
+            login: this.credentials.login,
             password: this.credentials.password,
             rememberMe: this.credentials.rememberMe,
             verification_code: this.verificationCode,

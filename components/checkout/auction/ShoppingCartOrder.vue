@@ -11,8 +11,8 @@ import ShippingForm from '~/components/checkout/auction/ShippingForm'
 import PaymentOption from '~/components/checkout/auction/payment/PaymentOption'
 import PaymentCard from '~/components/checkout/auction/payment/PaymentCard'
 import PaymentOptionError from '~/components/checkout/auction/payment/PaymentOptionError'
-import LoginForm from '~/components/checkout/auction/LoginForm'
-import ForgotPassword from '~/components/checkout/auction/ForgotPassword'
+import LoginForm from '~/components/checkout/common/LoginForm'
+import ForgotPassword from '~/components/checkout/common/ForgotPassword'
 import ThankYou from '~/components/checkout/auction/order-confirmation/ThankYou'
 
 export default {

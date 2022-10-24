@@ -5,15 +5,15 @@
         <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
           <ValidationProvider
             v-slot="validationContext"
-            :name="$t('auth.email_address')"
-            :rules="{ required: true, email: true, min: 3, max: 128 }"
+            :name="$t('auth.login')"
+            :rules="{ required: true, min: 3, max: 128 }"
           >
             <b-form-group>
               <b-form-input
-                id="email-address"
-                v-model="form.email"
+                id="login"
+                v-model="form.login"
                 class="rounded-pill input-login"
-                :placeholder="$t('auth.email_address')"
+                :placeholder="$t('auth.email_address_or_username')"
                 :state="getValidationState(validationContext)"
               ></b-form-input>
               <b-form-invalid-feedback>{{
@@ -83,8 +83,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import {mapActions, mapGetters} from 'vuex'
+import {ValidationProvider, ValidationObserver} from 'vee-validate'
 import Button from '~/components/common/Button'
 import { NO_CONTENT } from '~/static/constants'
 
@@ -95,7 +95,7 @@ export default {
     return {
       isPasswordShown: false,
       form: {
-        email: '',
+        login: '',
         password: '',
         rememberMe: false,
         verification_code: '',
@@ -103,17 +103,23 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      isVendor: 'auth/isVendor',
+    }),
     passwordFieldType(vm) {
       return vm.isPasswordShown ? 'text' : 'password'
     },
     isFormFilled(vm) {
-      return !!(vm.form.email && vm.form.password)
+      return !!(vm.form.login && vm.form.password)
     },
   },
   methods: {
     ...mapActions({
       getUserDetails: 'auth/getUserDetails',
       getUserRedeemedReward: 'redeemed-reward/getUserRedeemedReward'
+    }),
+    ...mapGetters({
+      getLoginRedirectUrl: 'auth/getLoginRedirectUrl',
     }),
     getValidationState({ dirty, validated, valid = null }) {
       // Returns the contextual state (validation style) of the element being validated (false for invalid, true for valid, or null for no validation state)
@@ -131,8 +137,30 @@ export default {
             this.getUserDetails(this.$store.state.auth.user.id)
             this.getUserRedeemedReward()
             this.$auth.$storage.removeCookie('rememberExpires')
+            this.$store.dispatch('notifications/getNotifications')
+            this.$store.dispatch('notifications/getUnreadCount')
             this.$toasted.success(this.$t('login.success_message.login_successfull').toString())
-            this.$router.push('/?lang=' + this.getLang.locale)
+
+            // redirect if redirect url is set in state
+            const redirectUrl = this.getLoginRedirectUrl()
+            if (redirectUrl) {
+              if (redirectUrl.includes('trades') && !this.isVendor) {
+                this.$router.push({
+                  path: '/profile/vendor-hub/apply'
+                })
+              } else {
+                this.$store.commit('auth/setLoginRedirectUrl', null)
+                this.$router.push(redirectUrl)
+              }
+            } else if (this.isVendor) {
+              this.$router.push({
+                path: '/profile/vendor-dashboard'
+              })
+            } else {
+              this.$router.push({
+                path: '/profile/buyer-dashboard'
+              })
+            }
           }
         })
         .catch((error) => {

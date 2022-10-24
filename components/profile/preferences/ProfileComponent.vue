@@ -100,6 +100,7 @@
                           v-model="selectedYear"
                           class="profile-input year-select shadow-none"
                           required
+                          :disabled="profileReadOnly"
                           @change="updateDays()"
                         >
                           <b-form-select-option
@@ -124,6 +125,7 @@
                           v-model="selectedMonth"
                           class="profile-input month-select shadow-none"
                           required
+                          :disabled="profileReadOnly"
                           @change="updateDays()"
                         >
                           <b-form-select-option
@@ -148,6 +150,7 @@
                           v-model="selectedDate"
                           class="profile-input date-select shadow-none"
                           required
+                          :disabled="profileReadOnly"
                         >
                           <b-form-select-option
                             v-for="day in days"
@@ -668,6 +671,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
 @media (max-width: 425px)
   .shipping-address,
   .billing-address,
@@ -678,4 +682,6 @@ export default {
   #shipping-modal,
   #billing-modal
     float: right
+.custom-select:disabled
+  color: $color-black-1
 </style>

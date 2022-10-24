@@ -1,11 +1,8 @@
 .auction-filters
-  background: $color-white-4
-  padding: 60px 0 20px
+  padding: 70px 60px
   &-content
-    max-width: 1240px
-    margin: auto
     text-align: center
-    padding: 0 30px
+    padding: 0
   &-title
     position: relative
     display: inline-block
@@ -17,6 +14,8 @@
       right: -16px
       width: 16px
       height: 16px
+  &-type-selector
+    margin-top: 54px
   .auction-type-btn
     font-weight: $medium
     font-size: 26px
@@ -44,12 +43,12 @@
         border: 1px solid $gray
     .rounded-search-input
       border-radius: 8px
-      background: $white
+      background: $color-white-4
       padding: 13px 21px
       display: flex
       align-items: center
       margin: 0
-      border: 1px solid transaprent
+      border: 1px solid transparent
       .icon-search
         width: 18px
         height: 18px
@@ -64,15 +63,17 @@
         width: 100%
         border: none
         outline: none
+        background: transparent
     .dropdown-options
       width: 100%
-      background: $white
-      border: thin solid $gray
+      background: $color-white-4
+      border: 0.2px solid $gray
       border-top-left-radius: 0
       border-top-right-radius: 0
       top: 100%
       border-top: none
       margin: 0
+      padding: 8px 0
       .dropdown-option
         text-align: left
         font-size: 16px
@@ -80,12 +81,17 @@
         letter-spacing: 0.06em
         text-transform: capitalize
         color: $black
+        border-bottom: 0.2px solid $light-gray-2
         font-weight: $normal
+        border-radius: 0
+        padding: 5px 1em
         &:hover
           background-color: $color-white-5
         img
-          height: 36px
-          width: 36px
+          height: 40px
+          width: 40px
+        &:last-child
+          border-bottom: none
 
   .status-select-box
     min-width: 320px
@@ -204,3 +210,11 @@
       border-radius: 50%
       line
         stroke: $color-white-1
+
+@media (max-width: 1024px)
+  .auction-filters
+    padding: 70px 30px
+
+@media (max-width: 576px)
+  .auction-filters
+    display: none

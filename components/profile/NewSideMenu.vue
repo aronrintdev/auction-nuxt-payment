@@ -1,14 +1,11 @@
 <template>
-  <div
-    class="new-side-bar d-flex flex-column"
-    :class="collapsed ? 'new-side-bar-collapsed' : 'new-side-bar-full'"
+  <div class="new-side-bar d-flex flex-column"
+      :class="collapsed ? 'new-side-bar-collapsed' : 'new-side-bar-full'"
   >
-    <div
-      class="sidebar-header d-flex align-items-center justify-content-between mb-2"
-    >
-      <span v-if="!collapsed" class="sidebar-title">{{
-        $t('profile_menu.profile')
-      }}</span>
+    <div v-if="showTitle" class="sidebar-header d-flex align-items-center justify-content-between mb-2">
+      <span v-if="!collapsed" class="sidebar-title">
+        {{ $t('profile_menu.profile') }}
+      </span>
       <Button
         variant="link"
         class="shadow-none"
@@ -103,10 +100,18 @@ import {
   MENU_CATEGORY_SELLING,
 } from '~/static/constants'
 import SideMenuItem from '~/components/side-menu/SideMenuItem'
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'NewSideMenu',
-  components: { SideMenuItem, Button },
+  components: {SideMenuItem, Button},
+  mixins: [screenSize],
+  props: {
+    showTitle: {
+      type: Boolean,
+      default: true,
+    }
+  },
   data() {
     return {
       collapsed: false,

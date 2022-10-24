@@ -50,3 +50,15 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+#selling-search-input::v-deep
+  &::placeholder
+    font-family: $font-montserrat
+    font-style: normal
+    @include body-5-regular
+    letter-spacing: 0.06em
+    text-transform: capitalize
+    color: $color-gray-5
+</style>

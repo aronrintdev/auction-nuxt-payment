@@ -1,51 +1,95 @@
 <template>
   <div class="wrapper">
-    <Header />
+    <Header/>
 
     <div class="custom-wrapper">
       <div class="row mb-bb">
-        <div class="col-md-12 col-lg-2">
-          <button
-            v-b-toggle.sidebar
-            class="w3-button w3-xlarge w3-hide-large float-left"
-          >
+
+        <!-- TODO: It will remove after getting confirmation for the new menu design -->
+        <div v-if="false" class="col-md-12 col-lg-2">
+
+          <button v-if="screenIsSmallThanLG"
+                  v-b-toggle.sidebar
+                  class="w3-button w3-xlarge w3-hide-large float-left">
             <span class="text-bold">{{ $t('navbar.profile') }}</span>
             <i class="fa fa-bars"></i>
           </button>
           <!-- BootstrapVue Sidebar: in small devices -->
-          <b-sidebar id="sidebar" ref="mySidebar" shadow>
-            <SideMenu id="sidemenu" />
+          <b-sidebar id="sidebar" ref="mySidebar"
+                     v-click-outside="onClickOutside"
+                     shadow
+                     @shown="sidebarIsVisible = true"
+                     @hidden="sidebarIsVisible = false">
+            <NewSideMenu id="sidemenu" ref="sidemenu" />
           </b-sidebar>
           <!-- ./BootstrapVue Sidebar -->
 
           <!-- Collapsable SideMenu for large devices -->
-          <NewSideMenu />
+          <NewSideMenu v-if="!isScreenXS"/>
           <!-- Collapsable SideMenu for large devices -->
         </div>
+
+        <!-- New menu design begin -->
+        <div class="col">
+          <button
+            v-if="isScreenXS || isScreenSM || isScreenMD"
+            v-b-toggle.sidebar
+            class="w3-button w3-xlarge w3-hide-large float-left">
+            <span class="text-bold">{{ $t('navbar.profile') }}</span>
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- new menu area -->
+          <b-sidebar id="sidebar"
+                     ref="mySidebar"
+                     shadow
+                     @shown="sidebarIsVisible = true"
+                     @hidden="sidebarIsVisible = false">
+            <NewSideMenu id="sidemenu" ref="sidemenu" v-click-outside="onClickOutside" :show-title="false"  />
+          </b-sidebar>
+          <NewSideMenu v-if="!isScreenXS && !isScreenSM && !isScreenMD" />
+          <!-- new menu area end -->
+        </div>
+        <!-- New menu design end -->
       </div>
 
       <div class="main-wrapper">
-        <Nuxt />
+        <Nuxt/>
       </div>
     </div>
 
-    <Footer />
+    <!-- ScollTo Top Button -->
+    <ScrollToTop v-show="mobileClass && showScroll"/>
+    <!-- ./ScrollTo Top Button Ends -->
+    <Footer/>
   </div>
 </template>
 <script>
+import {mapGetters} from 'vuex';
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
-import SideMenu from '~/components/profile/SideMenu.vue'
 import NewSideMenu from '~/components/profile/NewSideMenu'
+import ScrollToTop from '~/components/common/ScrollToTop.vue'
+import screenSize from '~/plugins/mixins/screenSize'
+import {SCROLLY} from '~/static/constants'
+import realtime from '~/plugins/mixins/realtime'
+import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 
 export default {
   name: 'Default',
-
   components: {
     NewSideMenu,
     Header,
     Footer,
-    SideMenu,
+    ScrollToTop,
+  },
+  mixins: [screenSize, realtime],
+  data() {
+    return {
+      showScroll: false,
+      scrollY: SCROLLY,
+      sidebarIsVisible: false,
+    }
   },
   head() {
     return {
@@ -54,22 +98,48 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapGetters({
+      'pushActive': 'notifications/getPushNotificationsActive'
+    })
+  },
+  watch: {
+    screenIsSmallThanLG(newVal) {
+      const { mySidebar } = this.$refs
+      if (!newVal && mySidebar) {
+        mySidebar.hide()
+      }
+    },
+  },
+  beforeMount() {
+    window.addEventListener('scroll', this.handleScroll)
+  },
   mounted() {
     // disable guests to access this layout and pages that uses this layout
     if (!this.$store.state.auth.loggedIn) {
       this.$router.push('/login')
     }
-    this.onResize()
-    window.addEventListener('resize', this.onResize);
+    this.$store.dispatch('notifications/getNotifications')
+    this.$store.dispatch('notifications/getUnreadCount')
+    enquireScreenSizeHandler((type) => {
+      this.$store.commit('size/setScreenType', type)
+    });
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('scroll', this.handleScroll)
   },
-  methods:{
-    onResize() {
-      this.$store.commit('size/setWindowWidth', window.innerWidth)
+  methods: {
+    handleScroll() {
+      // Your scroll handling here
+      this.showScroll = window.scrollY > this.scrollY
+    },
+    onClickOutside() {
+      const { mySidebar } = this.$refs
+      if (mySidebar && this.sidebarIsVisible) {
+        mySidebar.hide()
+      }
     }
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>
@@ -83,6 +153,7 @@ export default {
     .main-wrapper
       width: 100%
       background-color: $color-white-4
+
 .w3-xlarge
   @include body-1
   float: right
@@ -108,7 +179,13 @@ export default {
     display: none
   .sidebar
     display: block
+
 @media (max-width: 992px)
+  .wrapper
+    .custom-wrapper
+      .main-wrapper
+        background-color: $color-white-1
+
   .sidebar
     display: none
   #sidemenu-expanded

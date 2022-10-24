@@ -40,24 +40,22 @@ export function clearWantsItemsTrade(state, val) {
 }
 
 /**
- * THis mutation is used to remove offer item from state by matching id
+ * THis mutation is used to remove offer item from state by item index
  * @param state
- * @param val
+ * @param index
  */
-export function removeTradeItem(state, val) {
-    const index = state.trade_items.findIndex(prod => prod.id === val)
+export function removeTradeItem(state, index) {
     if (index > -1) {
         state.trade_items.splice(index, 1)
     }
 }
 
 /**
- * This mutation is used to remove want item from state by matching id
+ * This mutation is used to remove want item from state by item index
  * @param state
- * @param val
+ * @param index
  */
-export function removeWantsItemsTrade(state, val) {
-    const index = state.wants_items_trade.findIndex(prod => prod.id === val)
+export function removeWantsItemsTrade(state, index) {
     if (index > -1) {
         state.wants_items_trade.splice(index, 1)
     }
@@ -71,6 +69,16 @@ export function removeWantsItemsTrade(state, val) {
 export function updateWantsItemsTrade(state, val) {
     const index = state.wants_items_trade.findIndex(prod => prod.id === val.id)
     state.wants_items_trade[index] = val
+}
+
+/**
+ * This mutation is used to update trade offer item data in state by using id
+ * @param state
+ * @param val
+ */
+export function updateTradeItems(state, val) {
+    const index = state.trade_items.findIndex(prod => prod.id === val.id)
+    state.trade_items[index] = val
 }
 
 /**
@@ -165,7 +173,6 @@ export function setTradeDraftCount(state,val) {
 export function setEditTradePageReferrer(state, referrer) {
     state.editTradePageReferrer = referrer
 }
-
 export function setTradeFilters(state, data) {
   state.filterTrade = data
 }

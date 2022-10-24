@@ -3,10 +3,12 @@
     class="feature-card d-flex align-items-start flex-column"
     @click="handleCardClick"
   >
+  <div style="height: 294px;margin: 0 auto;display: flex;justify-content: center;align-items: center;">
     <img
-      :src="imageUrl || require('~/assets/img/features/default.png')"
+      :src="imageUrl"
       class="w-100"
     />
+  </div>
     <div class="feature-title">{{ title }}</div>
     <div class="feature-description">
       {{ description }}
@@ -28,7 +30,7 @@ export default {
     },
     imageUrl: {
       type: String,
-      default: null,
+      required: true,
     },
     to: {
       type: String,

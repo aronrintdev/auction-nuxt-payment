@@ -397,7 +397,7 @@ export default {
       } else {
         this.sizeType = this.sizeType.filter(item => item !== selectedSizeType)
       }
-      this.sizeTypeLabel = this.joinAndCapitalizeFirstLetters(this.sizeType, 2) || this.$t('trades.create_listing.vendor.wants.size_type') // 2 is max number of labels show in filter
+      this.sizeTypeLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeType, 2) || this.$t('trades.create_listing.vendor.wants.size_type') // 2 is max number of labels show in filter
     },
 
     /**
@@ -412,7 +412,7 @@ export default {
         this.apparelSize = this.apparelSize.filter(item => item !== selectedApparelSize.size)
       }
 
-      this.apparelSizesLabel = this.joinAndCapitalizeFirstLetters(this.apparelSize, 5)
+      this.apparelSizesLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.apparelSize, 5)
         || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
     },
 
@@ -428,22 +428,8 @@ export default {
         this.sizes = this.sizes.filter(item => item !== selectedSize.size)
       }
 
-      this.sizesLabel = this.joinAndCapitalizeFirstLetters(this.sizes, 5)
+      this.sizesLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizes, 5)
         || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
-    },
-
-    /**
-     * This function is used to show selected items by joining them
-     * in string format seperated by commas
-     * @param selectedOptionsArray
-     * @param maxLabelsAllowed
-     * @returns {string|*}
-     */
-    joinAndCapitalizeFirstLetters(selectedOptionsArray, maxLabelsAllowed) {
-      selectedOptionsArray = selectedOptionsArray.map(o => o[0].toUpperCase() + o.slice(1))
-      return (selectedOptionsArray.length > maxLabelsAllowed)
-        ? selectedOptionsArray.slice(0, maxLabelsAllowed).join(', ') + '...' // append dots if labels exceed limits of showing characters
-        : selectedOptionsArray.join(', ')
     },
 
     /****
@@ -454,32 +440,24 @@ export default {
     changeStatus(selectedStatus) {
       this.inventoryStatus = selectedStatus
       const FilteredKey = this.inventoryStatusOptions.find(item => item.value === this.inventoryStatus)
-      this.inventoryStatusLabel = this.capitalizeFirstLetter(FilteredKey.text)
-    },
-    /***
-     * This function is used to convert string first
-     * letter to upper case it takes parameter string in which string
-     * value is received
-     * @param string
-     * @returns {string}
-     */
-    capitalizeFirstLetter(string) {
-      if(typeof string === 'string')
-        return string[0].toUpperCase() + string.slice(1);
-      else if(typeof string === 'object' && string.size && typeof string.size === 'string')
-        return string.size[0].toUpperCase() + string.size.slice(1);
+      this.inventoryStatusLabel = this.$options.filters.capitalizeFirstLetter(FilteredKey.text)
     },
 
     removeSizeType(index){
       this.sizeType.splice(index, 1)
+      this.sizeTypeLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeType, 2) || this.$t('trades.create_listing.vendor.wants.size_type') // 2 is max number of labels show in filter
     },
 
     removeSize(index){
       this.sizes.splice(index, 1)
+      this.sizesLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizes, 5)
+        || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
     },
 
     removeApparelSize(index){
       this.apparelSize.splice(index, 1)
+      this.apparelSizesLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.apparelSize, 5)
+        || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
     },
 
     resetToDefaultPreferences(){

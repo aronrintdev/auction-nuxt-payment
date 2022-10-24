@@ -16,6 +16,34 @@ Vue.filter('getProductImageUrl', (product) => {
   return API_PROD_URL + '/' + product?.category?.name + '/' + product?.sku + '/image?width=' + PRODUCT_IMG_WIDTH
 })
 
+
+/**
+ * This function is used to show selected items by joining them
+ * in string format seperated by commas
+ * @param selectedOptionsArray
+ * @param maxLabelsAllowed
+ * @returns {string|*}
+ */
+Vue.filter('joinAndCapitalizeFirstLetters', (selectedOptionsArray, maxLabelsAllowed) => {
+  selectedOptionsArray = selectedOptionsArray.map(o => o[0].toUpperCase() + o.slice(1))
+  return (selectedOptionsArray.length > maxLabelsAllowed)
+    ? selectedOptionsArray.slice(0, maxLabelsAllowed).join(', ') + '...' // append dots if labels exceed limits of showing characters
+    : selectedOptionsArray.join(', ')
+})
+
+
+/**
+ * This function do first letter of word capital
+ * @param string
+ * @returns {string}
+ */
+Vue.filter('capitalizeFirstLetter', (string) => {
+  if (typeof string === 'string')
+    return string[0].toUpperCase() + string.slice(1);
+  else if (typeof string === 'object' && string.size && typeof string.size === 'string')
+    return string.size[0].toUpperCase() + string.size.slice(1);
+})
+
 Vue.filter('toCurrency', (value, currency = 'USD', alt = '-') => {
     if (typeof value !== 'number') {
         return alt
@@ -36,9 +64,16 @@ Vue.filter('formatDate', (value, type) => {
   if (type === 'MM-DD-YYYY') {
     return `${mm}-${dd}-${yyyy}`
   }
+  if(type === 'YYYY-MM-DD'){
+    return `${yyyy}-${mm}-${dd}`
+  }
   // Date in DD/MM/YYYY format
   if(type === 'DD/MM/YYYY'){
     return `${dd}/${mm}/${yyyy}`
+  }
+
+  if(type === 'MM/DD/YYYY') {
+    return `${mm}/${dd}/${yyyy}`
   }
   return `${mm}/${dd}/${yyyy}`
 })
@@ -93,8 +128,14 @@ Vue.filter('formatTime', (value, divider = '-') => {
   )
 })
 
-Vue.filter('formatDateTimeString', (value) => {
+Vue.filter('formatDateTimeString', (value, format) => {
   const date = new Date(value)
+
+  // Date
+  const dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate()
+  const mm = date.getMonth() > 8 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)
+  const yyyy = date.getFullYear()
+
   // Time
   let hours = date.getHours()
   let minutes = date.getMinutes()
@@ -114,7 +155,13 @@ Vue.filter('formatDateTimeString', (value) => {
     .slice(4)
 
   const monthName = MONTHS[date.getMonth()].text
+  if(format === 'dd-mm-yyyy|hh:mm ampm timezone'){
+    return `${dd}-${mm}-${yyyy}|${hours}:${minutes} ${ampm} ${timezone}`
+  }
 
+  if(format === 'dd/mm/yyyy hh:mm ampm timezone'){
+    return `${dd}/${mm}/${yyyy} ${hours}:${minutes} ${ampm} ${timezone}`
+  }
   return `${
     monthName.charAt(0).toUpperCase() + monthName.slice(1)
   } ${date.getDate()}, ${date.getFullYear()} ${strTime} ${timezone}`

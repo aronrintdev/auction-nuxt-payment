@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div ref="tradeArena" class="trade-arena">
+    <index-mobile v-if="mobileView"/>
+    <div v-else>
     <trade-completed v-if="trade_completed" :trade="getSubmittedOffer"></trade-completed>
     <div v-else>
     <create-trade-search-item v-if="search_item" :product="search_item" productFor="tradeArena" :progressBar="false" :padding="true" />
@@ -50,10 +52,11 @@
             <div class="d-flex align-items-start flex-column justify-content-center h-90">
               <span class="font-weight-bold ml-4 mb-3">{{$t('trades.trade_arena.share')}}</span>
               <div class="social-icons">
-                <div class="twitter"><b-icon icon="twitter" class="twt-icon"></b-icon></div>
-                <b-icon icon="facebook" class="facebook"></b-icon>
-                <img :src="require('~/assets/img/instagram.png')" alt="" class="instagram">
-                <b-icon icon="link45deg" class="link-icon"></b-icon>
+                <div class="twitter">
+                  <b-icon icon="twitter" class="twt-icon" role="button"></b-icon></div>
+                  <b-icon icon="facebook" class="facebook" role="button"></b-icon>
+                  <img :src="require('~/assets/img/instagram.png')" class="instagram" role="button">
+                  <b-icon icon="link45deg" class="link-icon" role="button"></b-icon>
               </div>
             </div>
           </b-popover>
@@ -63,7 +66,7 @@
             <div class="item-head" :class="{'heading-left': trade.offers.length > ITEM_COUNT_ONE}">{{$t('trades.trade_arena.theirs')}}</div>
             <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'item-'+index : ''" :key="index" class="item mb-4" :class="[((trade.offers.length > ITEM_COUNT_ONE )|| (getYourTradeItems.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
               <div class="image-wrapper">
-              <img class="item-image" :src="getProductImageUrl(item.inventory.product)" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
+              <img class="item-image" :src="item.inventory.product | getProductImageUrl" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
               </div>
               <div class="item-caption">
                 <span class="item-name">{{ item.inventory.product.name}}</span>
@@ -91,7 +94,8 @@
                   <div class="minus"></div>
                 </div>
                 <div class="image-wrapper">
-                <img class="item-image" :src="getProductImageUrl(item.product ? item.product : item )" alt="image" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
+                <img v-if="item.product" class="item-image" :src="item.product | getProductImageUrl" alt="image" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
+                <img v-else class="item-image" :src="item | getProductImageUrl" alt="image" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
                 </div>
                 <div class="item-caption">
                   <span class="item-name">{{  (item.product && item.product.name) ? item.product.name : item.name  }}</span>
@@ -191,7 +195,7 @@
                     <SearchInput
                       :value="searchText"
                       variant="primary"
-                      :placeholder="$t('trades.trade_arena.search_inventory')"
+                      :placeholder="$t('create_listing.trade.offer_items.search_by')"
                       :clearSearch="true"
                       @change="onSearchInput"
                     />
@@ -229,7 +233,7 @@
                         <img alt="No Image" class="plus-icon-add-trade" role="button" :src="require('~/assets/img/icons/addPlus.svg')"
                             @click="addYourItem(item)"/>
                       </div>
-                      <img class="item-image-trade" :src="getProductImageUrl(item.product)" alt="image" />
+                      <img class="item-image-trade" :src="item.product | getProductImageUrl" alt="image" />
                       <div class="item-caption">
                         <span class="item-name">{{item.product && item.product.name}}</span>
                         <span class="item-box-condition">{{$t('common.box_condition')}}: {{item.packaging_condition && item.packaging_condition.name}}</span>
@@ -263,6 +267,7 @@
     <CheckoutSidebar  v-if="isPayment" class="order-summary" />
     </b-row>
     </div>
+    </div>
   </div>
 </template>
 
@@ -290,7 +295,8 @@ import {
   MAX_ITEMS_ALLOWED,
   PER_PAGE_ITEMS,
   DEFAULT_PER_PAGE_ITEMS,
-  DEFAULT_CATEGORY
+  DEFAULT_CATEGORY,
+  UNAUTHORIZED
 } from '~/static/constants'
 import { fromNow } from '~/utils/string'
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem'
@@ -307,12 +313,15 @@ import {
   OFFER_TYPE_YOURS,
   OFFER_TYPE_THEIR,
   OFFER_TYPE,
-  TAKE_SEARCHED_PRODUCTS
+  TAKE_SEARCHED_PRODUCTS,
+  OFFER_SENT
 } from '~/static/constants/trades'
+import IndexMobile from '~/pages/trades/_id/IndexMobile';
 
 export default {
   name: 'Index',
   components: {
+    IndexMobile,
     CreateTradeSearchItem,
     SearchedProductsBelowSearchTextBox,
     TraderWants,
@@ -376,7 +385,8 @@ export default {
       cashType: CASH_TYPE_ADDED,
       OFFER_TYPE_YOURS,
       OFFER_TYPE_THEIR,
-      OFFER_TYPE
+      OFFER_TYPE,
+      mobileView: false
     }
   },
   head() {
@@ -405,7 +415,7 @@ export default {
     this.getTrade()
   },
   mounted(){
-
+    this.screenWidth();
     this.$root.$on('trade_done',(val)=>{ // this emit is used to complete trade and show result
       this.trade_completed = val
     })
@@ -418,18 +428,33 @@ export default {
       this.searchText =  null
       this.searchedItems =  []
     })
+    this.$store.commit('trade/removeYourTradeItems')
     this.$store.commit('trade/addTrade',null) // commit is used to set state empty
     this.fetchFilters()
     this.fetchVendorTradeSummary()
     this.getInventory()
-
-    this.trade_completed = this.getSubmittedOffer
+    this.fetchSubmittedOffer({ trade_id: this.$route.params.id, type: OFFER_SENT }).then(() => {
+      this.trade_completed = !!this.getSubmittedOffer
+    })
 
   },
   methods: {
     ...mapActions('browse', ['fetchFilters']), // Action to call api request to get filter
-    ...mapActions('trade', ['fetchVendorTradeSummary']), // Action to call api request to get vendor trade summary
+    ...mapActions('trade', ['fetchVendorTradeSummary', 'fetchSubmittedOffer']), // Action to call api request to get vendor trade summary
+    ...mapActions('trades', ['checkIfItemIsInListingItem', 'searchProductsList']),
+    ...mapGetters('auth', ['isVendor']),
 
+    screenWidth(){
+      const self = this;
+      const myObserver = new ResizeObserver(entries => {
+        // this will get called whenever div dimension changes
+        entries.forEach(entry => {
+          self.mobileView = entry.contentRect.width <= 450;
+        });
+      });
+      const tradeDiv = this.$refs.tradeArena
+      myObserver.observe(tradeDiv);
+    },
     /**
      * check if trade is poor/fair
      */
@@ -479,13 +504,6 @@ export default {
       return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(cashAdded)) : cashAdded * 100
     },
     /**
-     * Load Product Image URL
-     * @param item
-     */
-    getProductImageUrl(product){
-      return API_PROD_URL + '/' + product?.category?.name + '/' + product?.sku + '/image?width=' + PRODUCT_IMG_WIDTH
-    },
-    /**
      * This function is used to drag item and store data of dragged item in its
      * event
      * @param evt
@@ -522,33 +540,40 @@ export default {
      * get trade ID from route parameter
      */
     getTrade() {
-      this.$axios.get(`trades/${this.$route.params.id}`)
-        .then(result => {
-          this.trade = result.data.data
-          this.wants = result.data.data.wants
-          this.totalOffersReceived = result.data.data.submitted_offers.length
-          this.checkForPoorTrade()
-          this.$store.commit('trade/setActiveTrade', {
-            trade: this.trade,
-            theirItems: this.trade.offers,
-            yourItems: this.getYourTradeItems,
-            cashAdded: parseInt(parseFloat(this.optional_cash)*100),
-            cashType: this.cashType,
-            tradeCondition: this.tradeCondition,
-            submittedItemType: OFFER_TYPE_YOURS,
-            offerType: OFFER_TYPE,
-            theirVendorId: this.trade.vendor_id,
-            tradeId: parseInt(parseFloat(this.$route.params.id)),
-            offerParentId: null
+      if(this.$auth.user.id && !this.isVendor()){
+        this.$router.push('/profile/vendor-hub/apply')
+      }else{
+        this.$axios.get(`trades/${this.$route.params.id}`)
+          .then(result => {
+            this.trade = result.data.data
+            this.wants = result.data.data.wants
+            this.totalOffersReceived = result.data.data.submitted_offers.length
+            this.checkForPoorTrade()
+            this.$store.commit('trade/setActiveTrade', {
+              trade: this.trade,
+              theirItems: this.trade.offers,
+              yourItems: this.getYourTradeItems,
+              cashAdded: parseInt(parseFloat(this.optional_cash)*100),
+              cashType: this.cashType,
+              tradeCondition: this.tradeCondition,
+              submittedItemType: OFFER_TYPE_YOURS,
+              offerType: OFFER_TYPE,
+              theirVendorId: this.trade.vendor_id,
+              tradeId: parseInt(parseFloat(this.$route.params.id)),
+              offerParentId: null
+            })
+            // if vendor is owner of this trade then redirect to dashboard
+            if(this.trade.vendor_id === this.$auth.user.vendor.id){
+              this.$router.push(`/profile/trades/dashboard/${this.trade.id}/offers`)
+            }
           })
-          // if vendor is owner of this trade then redirect to dashboard
-          if(this.trade.vendor_id === this.$auth.user.vendor.id){
-            this.$router.push(`/profile/trades/dashboard/${this.trade.id}/offers`)
-          }
-        })
-        .catch((error) => { // error will return us error
-          this.$toasted.error(this.$t(error.response.data.error))
-        })
+          .catch((error) => { // error will return us error
+            if(error.response.status === UNAUTHORIZED){
+              this.$store.commit('auth/setLoginRedirectUrl', `/trades/${this.$route.params.id}`)
+            }
+            this.$toasted.error(this.$t(error.response.data.error))
+          })
+        }
     },
     /****
      * This function is used to change selected
@@ -558,18 +583,7 @@ export default {
     changeCategory(selectedCategory) {
       this.categoryFilter = selectedCategory
       const categoryFilteredKey = this.categoryItems.find(item => item.value === this.categoryFilter)
-      this.categoryFilterLabel = this.capitalizeFirstLetter(categoryFilteredKey.text)
-    },
-    /**
-     * This function do first letter of word capital
-     * @param string
-     * @returns {string}
-     */
-    capitalizeFirstLetter(string) {
-      if(typeof string === 'string')
-        return string[0].toUpperCase() + string.slice(1)
-      else if(typeof string === 'object' && string.size && typeof string.size === 'string')
-        return string.size[0].toUpperCase() + string.size.slice(1)
+      this.categoryFilterLabel = this.$options.filters.capitalizeFirstLetter(categoryFilteredKey.text)
     },
     /**
      * This function is used to change product size filter
@@ -581,7 +595,7 @@ export default {
       } else {
         this.sizeTypesFilter = this.sizeTypesFilter.filter(item => item !== selectedSizeType)
       }
-      this.sizeTypesFilterLabel = this.joinAndCapitalizeFirstLetters(this.sizeTypesFilter, 1) || this.$t('trades.create_listing.vendor.wants.size_type') // 1 is max number of labels show in filter
+      this.sizeTypesFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeTypesFilter, 1) || this.$t('trades.create_listing.vendor.wants.size_type') // 1 is max number of labels show in filter
     },
     /**
      * This function is used to change size filter
@@ -594,20 +608,7 @@ export default {
       } else {
         this.sizeFilter = this.sizeFilter.filter(item => item !== selectedSize.size)
       }
-      this.sizeFilterLabel = this.joinAndCapitalizeFirstLetters(this.sizeFilter, 2) || this.$t('trades.create_listing.vendor.wants.size') // 2 is a max labels show in filter
-    },
-    /**
-     * This function is used to show selected items by joining them
-     * in string format separated by commas
-     * @param selectedOptionsArray
-     * @param maxLabelsAllowed
-     * @returns {string|*}
-     */
-    joinAndCapitalizeFirstLetters(selectedOptionsArray, maxLabelsAllowed) {
-      selectedOptionsArray = selectedOptionsArray.map(o => o[0].toUpperCase() + o.slice(1))
-      return (selectedOptionsArray.length > maxLabelsAllowed)
-        ? selectedOptionsArray.slice(0, maxLabelsAllowed).join(', ') + '...' // append dots if labels exceed limits of showing characters
-        : selectedOptionsArray.join(', ')
+      this.sizeFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeFilter, 2) || this.$t('trades.create_listing.vendor.wants.size') // 2 is a max labels show in filter
     },
     /**
      * This function is used to get expired time by calculating time
@@ -676,10 +677,9 @@ export default {
     checkIfItemAlreadyListed(item) {
       const existingItem = this.getYourTradeItems.find(val => val.id === item.id)
       if(existingItem) return true;
-      this.$axios
-        .post('check/product/in/listing', {
-          inventory_id: item.id
-        })
+        this.checkIfItemIsInListingItem({
+        inventory_id: item.id
+      })
         .then((response) => { // return product information that exits in already listing
           if (response.data.is_listing_item) {
             this.itemListingId = response.data.listingId
@@ -754,14 +754,10 @@ export default {
     onSearchInput(term) {
       this.searchText = term
       if (term) {
-        this.$axios
-          .post('/search/products', {
-            filters: {
-              search: term.toLowerCase(), // search query param
-              take: TAKE_SEARCHED_PRODUCTS, // No of record to take
-            },
-            page: 1
-          })
+        this.searchProductsList({
+          search: term.toLowerCase(),
+          take: TAKE_SEARCHED_PRODUCTS
+        })
           .then((response) => { // response will get us list of search query
             this.searchedItems = response.data.results.data
           })
@@ -780,6 +776,7 @@ export default {
      * from api
      */
     getInventory: debounce(function (filters = {}) {
+
       filters.category = this.categoryFilter
       filters.sizes = this.sizeFilter.join(',')
       filters.size_types = this.sizeTypesFilter.join(',')

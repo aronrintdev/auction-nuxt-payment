@@ -6,6 +6,7 @@
         :key="`nav-group-${navKey}-${index}`"
         :class="{ active: item.value === value }"
         :title="item.label"
+        class="font-primary"
         @click="onClick(item.value)"
         >{{ item.label }}</b-button
       >
@@ -41,15 +42,15 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+@import '~/assets/css/_typography'
 .nav-group
   .btn-group
-    background-color: $color-gray-3
+    background-color: $color-white-19
     border-radius: 20px
     padding: 4px 6px
-
     .btn
       @include body-6-regular
-      background-color: $color-gray-3
+      background-color: $color-white-19
       border: 0 !important
       border-radius: 20px !important
       color: $color-black-1 !important
@@ -65,11 +66,10 @@ export default {
           height: 24px
           border-radius: 14.5px !important
           font-size: 11px
-
       &::before
         display: block
         content: attr(title)
-        font-weight: $medium
+        font-weight: $normal
         height: 0
         overflow: hidden
         visibility: hidden
@@ -85,5 +85,6 @@ export default {
       @media (min-width: 300px)  and (max-width: 330px)
         width: 280px
       .btn
-        border-radius: 3px !important
+        padding: 6px 10px
+        white-space: nowrap
 </style>

@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import debounce from 'lodash.debounce'
 import TradeSummary from '~/pages/profile/trades/dashboard/TradeSummary';
 import SearchInput from '~/components/common/SearchInput';
 import NavGroup from '~/components/common/NavGroup';
@@ -147,20 +148,7 @@ export default {
       } else {
         this.conditionFilter = this.conditionFilter.filter(item => item !== selectedConditions)
       }
-      this.conditionFilterLabel = this.joinAndCapitalizeFirstLetters(this.conditionFilter, 2) || this.$t('trades.trade_condition') // 2 is max number of labels show in filter
-    },
-    /**
-     * This function is used to show selected items by joining them
-     * in string format separated by commas
-     * @param selectedOptionsArray
-     * @param maxLabelsAllowed
-     * @returns {string|*}
-     */
-    joinAndCapitalizeFirstLetters(selectedOptionsArray, maxLabelsAllowed) {
-      selectedOptionsArray = selectedOptionsArray.map(o => o[0].toUpperCase() + o.slice(1))
-      return (selectedOptionsArray.length > maxLabelsAllowed)
-        ? selectedOptionsArray.slice(0, maxLabelsAllowed).join(', ') + '...' // append dots if labels exceed limits of showing characters
-        : selectedOptionsArray.join(', ')
+      this.conditionFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.conditionFilter, 2) || this.$t('trades.trade_condition') // 2 is max number of labels show in filter
     },
     fetchTradeDetails(){
       this.tradeId = parseInt(this.$route.params.id)
@@ -209,13 +197,13 @@ export default {
      * listing below input search field
      * @param term
      */
-    onSearchInput(term) {
+    onSearchInput: debounce(function (term) {
       if (term) {
         this.searchText = term
       } else{
         this.searchText =  null
       }
-    },
+    }, 500),
 
     handleMethodNavClick(type) {
       if (type) {
@@ -232,20 +220,8 @@ export default {
     changeOrderFilter(selectedOrder) {
       this.orderFilter = selectedOrder
       const orderFilteredKey = this.orderFilterItems.find(item => item.value === this.orderFilter)
-      this.orderFilterLabel = this.capitalizeFirstLetter(orderFilteredKey.text)
+      this.orderFilterLabel = this.$options.filters.capitalizeFirstLetter(orderFilteredKey.text)
       this.fetchOffersListing()
-    },
-
-    /**
-     * This function do first letter of word capital
-     * @param string
-     * @returns {string}
-     */
-    capitalizeFirstLetter(string) {
-      if (typeof string === 'string')
-        return string[0].toUpperCase() + string.slice(1)
-      else if (typeof string === 'object' && string.size && typeof string.size === 'string')
-        return string.size[0].toUpperCase() + string.size.slice(1);
     },
 
   }

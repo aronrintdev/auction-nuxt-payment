@@ -3320,7 +3320,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 	min-height: 1.5rem;
 	padding-left: 1.5rem;
 	-webkit-print-color-adjust: exact;
-	color-adjust: exact
+	print-color-adjust: exact
 }
 .custom-control-inline {
 	display: -webkit-inline-flex;
@@ -4047,7 +4047,6 @@ background-color:#adb5bd
 	-ms-flex-preferred-size: auto;
 	flex-basis: auto;
 	padding-left: 50px;
-	border-right: solid 1px #000;
 	padding-right: 15px;
 }
 .navbar-expand-lg .navbar-toggler {

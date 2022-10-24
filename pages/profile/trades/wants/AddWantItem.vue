@@ -27,9 +27,14 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
+import debounce from 'lodash.debounce'
 import SearchInput from '~/components/common/SearchInput'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox';
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
+import {
+    TAKE_SEARCHED_PRODUCTS
+  } from '~/static/constants/trades'
 
 export default {
   name: 'AddWantItem',
@@ -46,8 +51,6 @@ export default {
       searchText: null,
       searchedItems: [],
       searchItem: null,
-      perPage: 5,
-      currentPage: 1,
     }
   },
   mounted() {
@@ -63,10 +66,11 @@ export default {
     })
   },
   methods: {
+    ...mapActions('trades', ['searchProductsList']),
     backWants() {
       this.searchedItems = []
       if(this.combinationId){
-        this.$root.$emit('back_to_edit')
+        this.$root.$emit('back_to_edit_combination')
       }
       else {
         this.$router.push('/profile/trades/wants')
@@ -77,17 +81,13 @@ export default {
      * listing below input search field
      * @param term
      */
-    onSearchInput(term) {
+    onSearchInput: debounce(function (term) {
       this.searchText = term
       if (term) {
-        this.$axios
-          .post('/search/products', {
-            filters: {
-              search: term.toLowerCase(), // search query param
-              take: this.perPage,      // get no of records
-            },
-            page: this.currentPage // no of page
-          })
+        this.searchProductsList({
+          search: term.toLowerCase(),
+          take: TAKE_SEARCHED_PRODUCTS
+        })
           .then((response) => {
             this.searchedItems = response.data && response.data.results && response.data.results.data // items for search list
           })
@@ -99,7 +99,7 @@ export default {
         this.searchText = null
         this.searchedItems = []
       }
-    },
+    }, 500)
   }
 
 

@@ -148,15 +148,18 @@
         </b-row>
         <b-row :class="`d-flex ${isInlineMode ? 'justify-content-center' : 'justify-content-end'}`">
           <!-- Card Number -->
+          <b-spinner v-if="isSaving" variant="color-blue-2" class="mr-2" small></b-spinner>
           <b-button
+            v-else
             id="saveCards"
             ref="saveCards"
             variant="light"
             :disabled="loading"
             pill
             class="d-flex align-items-center save-cards-button px-5"
+            @click="isSaving = true"
           >
-            <b-spinner v-show="isSaving" class="mr-2" small></b-spinner>
+            
             {{ ctaLabel ? ctaLabel : $t('preferences.payments.save_card') }}
           </b-button>
           <!-- Card Number -->
@@ -306,7 +309,7 @@ export default {
               this.paymentToken = response.token
               this.savePaymentDetails()
             } else {
-              this.buttonSpinnerLoading = false
+              this.isSaving = false
               this.$toasted.error(this.$t('payments.please_enter_valid_info').toString())
             }
           },
@@ -410,6 +413,7 @@ export default {
                   this.$nuxt.refresh()
                 })
                 .catch((err) => {
+                  this.isSaving = false
                   this.$refs.saveCards.disabled = false
                   this.$logger.logToServer(
                     'Card Payments update in preferences',

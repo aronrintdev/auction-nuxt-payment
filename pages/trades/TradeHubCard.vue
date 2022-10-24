@@ -1,11 +1,18 @@
 <template>
   <div class="pb-5">
-    <div class="center-container" :class="{'center-cont-height':(trade.theirs[0].offers.length > ITEM_COUNT_ONE || trade.yours[0].offers.length > ITEM_COUNT_0) }">
-      <div class="left-item" :class="{'left-item-margin':trade.theirs[0].offers.length === ITEM_COUNT_ONE && trade.yours[0].offers.length > ITEM_COUNT_0}">
+    <div class="center-container" :class="{'center-cont-height':(trade.theirs.offers.length > ITEM_COUNT_ONE || trade.yours.offers.length > ITEM_COUNT_0) }">
+      <div class="left-item" :class="{'left-item-margin':trade.theirs.offers.length === ITEM_COUNT_ONE && trade.yours.offers.length > ITEM_COUNT_0}">
         <div class="item-head-trade-hub">{{$t('trades.trade_arena.theirs')}}:</div>
-        <div v-for="(item,index) in trade.theirs[0].offers" :id="trade.theirs[0].offers.length === ITEM_COUNT_THREE ?'trade-item-'+index : ''" :key="index" class="item mb-4" :class="[((trade.theirs[0].offers.length > ITEM_COUNT_ONE )|| (trade.yours[0].offers.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
-          <div class="image-wrapper">
-          <img class="item-image-trade" :src="item.inventory.product.image" alt="image" :class="{'item-image-cond':(trade.theirs[0].offers.length > ITEM_COUNT_ONE || trade.yours[0].offers.length > ITEM_COUNT_0) }"/>
+        <div
+          v-for="(item,index) in trade.theirs.offers"
+          :id="trade.theirs.offers.length === ITEM_COUNT_THREE ?'trade-item-'+index : ''"
+          :key="index" class="item mb-4"
+          :class="[((trade.theirs.offers.length > ITEM_COUNT_ONE )|| (trade.yours.offers.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
+            <div class="image-wrapper">
+            <img class="item-image-trade"
+              :src="item.inventory.product | getProductImageUrl"
+              alt="image"
+              :class="{'item-image-cond':(trade.theirs.offers.length > ITEM_COUNT_ONE || trade.yours.offers.length > ITEM_COUNT_0) }"/>
           </div>
           <div class="item-caption">
             <span class="item-name">{{item.inventory.product.name}}</span>
@@ -16,18 +23,28 @@
         </div>
       </div>
       <div class="center-item">
-        <div v-if="trade.theirs[0].offers.length > ITEM_COUNT_ONE" class="pointer-left"></div>
-        <div class="long-line" :class="{'long-line-length' : trade.theirs[0].offers.length === ITEM_COUNT_ONE }"></div>
+        <div v-if="trade.theirs.offers.length > ITEM_COUNT_ONE" class="pointer-left"></div>
+        <div class="long-line" :class="{'long-line-length' : trade.theirs.offers.length === ITEM_COUNT_ONE }"></div>
         <img :src="require('~/assets/img/trades/border.svg')" height="59" width="59"/>
-        <div class="long-line" :class="{'long-line-length' : trade.yours[0].offers.length === ITEM_COUNT_ONE }"></div>
-        <div v-if="trade.yours[0].offers.length > ITEM_COUNT_ONE" class="pointer-right"></div>
+        <div class="long-line" :class="{'long-line-length' : trade.yours.offers.length === ITEM_COUNT_ONE }"></div>
+        <div v-if="trade.yours.offers.length > ITEM_COUNT_ONE" class="pointer-right"></div>
       </div>
-      <div class="right-item" :class="{'right-item-margin':trade.theirs[0].offers.length > ITEM_COUNT_ONE && trade.yours[0].offers.length === ITEM_COUNT_0,'mt-10p': trade.theirs[0].offers.length > ITEM_COUNT_ONE && trade.yours[0].offers.length === ITEM_COUNT_ONE,'mt-8p': trade.theirs[0].offers.length === ITEM_COUNT_ONE && trade.yours[0].offers.length === ITEM_COUNT_ONE}">
+      <div class="right-item" :class="{
+            'right-item-margin':trade.theirs.offers.length > ITEM_COUNT_ONE && trade.yours.offers.length === ITEM_COUNT_0,
+            'mt-10p': trade.theirs.offers.length > ITEM_COUNT_ONE && trade.yours.offers.length === ITEM_COUNT_ONE,
+            'mt-8p': trade.theirs.offers.length === ITEM_COUNT_ONE && trade.yours.offers.length === ITEM_COUNT_ONE}">
         <div class="item-head-trade-hub">{{$t('trades.trade_arena.yours')}}:</div>
-        <div  v-if="trade.yours[0].offers.length" class="">
-          <div  v-for="(item,index) in trade.yours[0].offers" :id="trade.yours[0].offers.length > ITEM_COUNT_TWO ?'your-trade-item-'+index : 'your-item'" :key="index"  class="preview item-length mb-4">
-            <div class="image-wrapper">
-            <img class="item-image-trade" :src="item.inventory.product.image" alt="image" :class="{'item-image-cond':(trade.theirs[0].offers.length > ITEM_COUNT_ONE || trade.yours[0].offers.length > ITEM_COUNT_0) }"/>
+        <div v-if="trade.yours.offers.length" class="">
+          <div
+            v-for="(item,index) in trade.yours.offers"
+            :id="trade.yours.offers.length > ITEM_COUNT_TWO ?'your-trade-item-'+index : 'your-item'"
+            :key="index"
+            class="preview item-length mb-4">
+              <div class="image-wrapper">
+              <img class="item-image-trade"
+                :src="item.inventory.product | getProductImageUrl"
+                alt="image"
+                :class="{'item-image-cond':(trade.theirs.offers.length > ITEM_COUNT_ONE || trade.yours.offers.length > ITEM_COUNT_0) }"/>
             </div>
             <div class="item-caption">
               <span class="item-name">{{item.inventory.product.name}}</span>
@@ -57,8 +74,8 @@
         </div>
       </div>
       <div class="trade-hub-buttons mt-4">
-        <button class="view-trade-btn mr-3" @click="viewTrade(trade.theirs[0].id)">{{$t('trades.trade_hub.view_trade')}} <b-icon icon="check-lg" aria-hidden="true"></b-icon></button>
-        <button class="dismiss-btn ml-3">{{$t('trades.trade_hub.dismiss')}} <b-icon icon="x-lg" aria-hidden="true"></b-icon></button>
+        <button class="view-trade-btn mr-3" @click="viewTrade(trade.theirs.id)">{{$t('trades.trade_hub.view_trade')}} <b-icon icon="check-lg" aria-hidden="true"></b-icon></button>
+        <button class="dismiss-btn ml-3" @click="dismissThisTrade(trade.theirs.id)">{{$t('trades.trade_hub.dismiss')}} <b-icon icon="x-lg" aria-hidden="true"></b-icon></button>
       </div>
     </div>
   </div>
@@ -66,6 +83,7 @@
 
 <script>
 
+import { mapActions } from 'vuex'
 import Meter from '~/components/common/Meter';
 import {ITEM_COUNT_0,ITEM_COUNT_ONE,ITEM_COUNT_TWO,ITEM_COUNT_THREE} from '~/static/constants/trades';
 export default {
@@ -88,6 +106,18 @@ export default {
     }
   },
   methods: {
+    ...mapActions('trade', ['dismissTrade']), // dismiss trade for not being shown in future
+    /**
+    * Dismiss trade for not to be shown in future
+    * @param {*} tradeId
+    */
+    dismissThisTrade(tradeId){
+      this.dismissTrade({trade_id: tradeId}).then(() => {
+        this.$store.commit('trade/removeTradeFromBestMatches', tradeId)
+      }).catch((error) => {
+          this.$toasted.error(this.$t(error.response.data.error))
+        })
+    },
     /**
      * Move vendor to trade offer page
      * @param {number} theirTradeId
@@ -101,7 +131,7 @@ export default {
      * @returns {string}
      */
     theirTotal(){
-      const price = this.trade.theirs[0].offers.map((value) => value.inventory.sale_price)
+      const price = this.trade.theirs.offers.map((value) => value.inventory.sale_price)
       if(price.length) {
         return '$' + (price.reduce((a, b) => a + b, 0)/100).toFixed(2)
       }
@@ -114,7 +144,7 @@ export default {
      * @returns {string|*}
      */
     yourTotal(){
-      const price = this.trade.yours[0].offers.map((item) => item.inventory.sale_price)
+      const price = this.trade.yours.offers.map((item) => item.inventory.sale_price)
       if(price.length) {
         return '$' + (price.reduce((a, b) => a + b, 0)/100).toFixed(2)
       }

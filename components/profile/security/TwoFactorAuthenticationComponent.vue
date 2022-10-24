@@ -1,22 +1,25 @@
 <template>
   <div>
-    <div id="two-factor-auth-component-title">{{ $t('home.2fa') }}</div>
-    <p class="mt-2">{{ $t('features.2fa_security.add_additional_security') }}</p>
-    <div>
-      <toggle-switch :value="enable2fa" :label-on="$t('features.2fa_security.2fa_enabled').toString()"
-                     :label-off="$t('features.2fa_security.2fa_disabled').toString()"
-                     @change="change"/>
-    </div>
-    <div class="mt-5">
-      <p v-html="$t('features.2fa_security.as_part_of_our_mission')"></p>
-    </div>
-    <div class="text-right">
-      <b-button type="submit" class="btn-recovery-codes">{{ $t('features.2fa_security.recovery_codes') }}</b-button>
+    <div class="two-fa-component">
+      <div id="two-factor-auth-component-title">{{ $t('home.2fa') }}</div>
+      <p class="mt-2 gray">{{ $t('features.2fa_security.add_additional_security') }}</p>
+      <div>
+        <toggle-switch :value="enable2fa" :label-on="$t('features.2fa_security.2fa_enabled').toString()"
+                       :label-off="$t('features.2fa_security.2fa_disabled').toString()"
+                       @change="change"/>
+      </div>
+      <div v-if="enable2fa" class="mt-2">
+        <text-verification-component></text-verification-component>
+      </div>
+      <div class="mt-5">
+        <read-more :content="$t('features.2fa_security.as_part_of_our_mission')"/>
+      </div>
     </div>
 
-    <NuxtLink to="/profile/security/faq">
+    <NuxtLink to="/faqs/security">
       <div class="btn-faq-wrapper">
-        <span>{{ $t('features.2fa_security.2fa_faq') }}</span>
+        <span class="d-none d-md-block">{{ $t('features.2fa_security.2fa_faq_full') }}</span>
+        <span class="d-block d-md-none">{{ $t('features.2fa_security.2fa_faq_small') }}</span>
       </div>
     </NuxtLink>
   </div>
@@ -24,15 +27,20 @@
 
 <script>
 import ToggleSwitch from '~/components/common/ToggleSwitch';
+import TextVerificationComponent from '~/components/profile/security/TextVerificationComponent';
+import ReadMore from '~/components/common/ReadMore';
 
 export default {
   name: 'TwoFactorAuthenticationComponent',
   components: {
-    ToggleSwitch
+    ToggleSwitch,
+    TextVerificationComponent,
+    ReadMore
   },
   data() {
     return {
-      enable2fa: false
+      enable2fa: false,
+      description: this.$t('features.2fa_security.as_part_of_our_mission')
     }
   },
   created() {
@@ -48,6 +56,7 @@ export default {
       this.$axios.post('set-2fa-status', {'is_2fa_enabled': value})
         .then(resp => {
           if (resp.status === 200) {
+            this.enable2fa = value
             const msg = value ? this.$t('features.2fa_security.msg_enable_success').toString() : this.$t('features.2fa_security.msg_disable_success').toString();
             this.$toasted.success(msg).toString();
           }
@@ -59,20 +68,16 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-@import '~/assets/css/_typography'
 
 #two-factor-auth-component-title
   font-family: $font-family-montserrat
-  font-style: normal
-  font-weight: $medium
-  font-size: 30px
-  line-height: 37px
+  @include body-16-medium
   color: $color-blue-20
 
 .btn-recovery-codes
-  background: $color-blue-20
+  background: $color-blue-2
   border-radius: 20px
-  border-color: $color-blue-20
+  border-color: $color-blue-2
   padding: 5px 50px
 
   &:hover
@@ -99,5 +104,27 @@ export default {
     font-size: 20px
     line-height: 24px
     color: $color-blue-20
+
+@media (max-width: 767px)
+  .two-fa-component
+    font-family: $font-family-sf-pro-display
+    padding: 20px
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+    border-radius: 10px
+    @include body-10-regular
+
+  #two-factor-auth-component-title
+    font-family: $font-family-sf-pro-display
+    @include body-13-medium
+
+  .btn-faq-wrapper
+    span
+      @include body-5-medium
+
+  .gray
+    color: $color-gray-5
+
+  ::v-deep .checkbox-switch span
+    @include body-10-bold
 
 </style>
