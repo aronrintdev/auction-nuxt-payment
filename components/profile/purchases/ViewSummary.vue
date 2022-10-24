@@ -112,6 +112,7 @@
         </div>
 
         <ItemDivider/>
+        <!--      TODO add recipient location section here whenever backend is ready   -->
 
         <div v-if="selectedItem" class="d-flex mt-2">
           <TimelineIcon :status="'active'" class="mr-20"/>
@@ -134,8 +135,9 @@
           </span>
           <arrow-down-black/>
         </div>
-
       </div>
+
+      <!--      TODO add recipient message section here whenever backend is ready-->
 
       <div class="mt-20 payment-wrapper">
         <div class="body-17-medium payment-title">{{ paymentTitle }}</div>
@@ -180,6 +182,8 @@
           </b-col>
           <b-col class="body-21-regular" cols="6">{{ shippingMethod }}</b-col>
         </b-row>
+        <!--      TODO hide address info from purchaser when backend is ready  -->
+
         <b-row class="mt-10">
           <b-col class="section-label body-5-medium text-nowrap" cols="6">{{ $t('shopping_cart.shipping_address') }}
           </b-col>
