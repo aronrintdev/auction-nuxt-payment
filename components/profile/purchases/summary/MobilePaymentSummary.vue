@@ -58,10 +58,10 @@
       <ItemDivider/>
       <div v-if="isCrypto" class="mb-3">
         <div class="body-5-regular crypto-header">{{ $t('vendor_purchase.request_amount') }}</div>
-        <CopyAbleField :text="cryptoData.currency_to" width="156px">
+        <CopyAbleField :text="cryptoData.estimated_amount" width="156px">
           <template #after>
-            <div class="body-5-medium text-black">
-              BTC
+            <div class="body-5-medium text-black text-uppercase">
+              {{ cryptoData.currency_to }}
             </div>
           </template>
         </CopyAbleField>
@@ -106,7 +106,7 @@ export default {
         currency_from: null,
         amount_from: null,
         currency_to: 'btc',
-        estimated_amount: null
+        estimated_amount: ''
       }
     }
   },
@@ -133,8 +133,12 @@ export default {
       this.getEstimatedCryptoPrice({
         cryptoCurrency: 'btc',
         total: this.orderDetails.total
-      }).then((res) => {
+      }).then(res => {
         console.log(res);
+        this.cryptoData.currency_to = res.currency_to
+        this.cryptoData.currency_from = res.currency_from
+        this.cryptoData.amount_from = res.amount_from
+        this.cryptoData.estimated_amount = res.estimated_amount
       })
     }
   }
