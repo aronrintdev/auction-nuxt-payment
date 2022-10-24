@@ -87,7 +87,7 @@
           </div>
           <div>
             <span class="stat-name">{{ $t('auctions.frontpage.starting_bid') }}</span>
-            <div class="stat-value">${{ activeAuction.highest_bid | formatPrice }}</div>
+            <div class="stat-value">${{ activeAuction.start_bid_price | formatPrice }}</div>
           </div>
           <div>
             <span class="stat-name">{{ $t('auctions.frontpage.number_of_bids') }}</span>
@@ -108,7 +108,8 @@
           </div>
         </div>
         <div class="mb-4 text-center bid-details">
-          <strong class="bid-details-price">{{ $t('auctions.frontpage.current_bid') }}: ${{ activeAuction.highest_bid | formatPrice }}</strong>
+          <strong v-if="activeAuction.highest_bid" class="bid-details-price">{{ $t('auctions.frontpage.current_bid') }}: ${{ activeAuction.highest_bid | formatPrice }}</strong>
+          <strong v-else class="bid-details-price">{{ $t('auctions.frontpage.current_bid') }}: &nbsp;&nbsp;-&nbsp;&nbsp;</strong>
           <div class="mt-4 place-bid-form">
             <div class="place-bid-form-title">{{ $t('auctions.frontpage.place_bid') }}</div>
             <input v-model="placeBidPrice" :placeholder="$t('auctions.frontpage.insert_amount')" />
@@ -463,7 +464,7 @@ export default {
           thumb: DEADSTOCK_PRODUCT_FALLBACK_IMAGE,
         }
       })
-      const mainPrice = Math.floor(newV.highest_bid / 5000) + 1;
+      const mainPrice = newV.highest_bid ? Math.floor(newV.highest_bid / 5000) + 1 : Math.floor(newV.start_bid_price / 5000) + 1;
       this.quickBidPrices = [mainPrice * 5000, (mainPrice + 1) *5000, (mainPrice + 2) * 5000, (mainPrice + 3) * 5000]
       if (this.$options.filters.remainingTime(newV) === EXPIRED_STATUS || newV.status === EXPIRED_STATUS) {
         this.isExpired = true
