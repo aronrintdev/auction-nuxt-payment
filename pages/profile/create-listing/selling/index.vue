@@ -37,9 +37,7 @@
               >
                 <ProductThumb
                   :product="product"
-                  width="39"
-                  height="39"
-                  class="mr-2 flex-shrink-0"
+                  class="mr-2 flex-shrink-0 product-img"
                 />
                 <div class="flex-grow-1 text-truncate">{{ product.name }}</div>
                 <Button
@@ -716,4 +714,7 @@ export default {
 @media (max-width: 475px)
   .back-to-createlisting
     font-size: 15px
+.product-img
+  width: 39px
+  height: 39px
 </style>

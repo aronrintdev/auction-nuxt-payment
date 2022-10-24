@@ -5,7 +5,7 @@
             :options="options"
             button-variant="d-custom col col-4 d-flex justify-content-center align-items-center ml-2 mt-1"
             buttons
-            class="custom-button-multi w-100 row "
+            class="custom-button-multi w-100 row text-capitalize"
             @change="emitChanges"
     >
       <template #first>
@@ -30,8 +30,8 @@ export default {
   name: 'ButtonSelector',
   props: {
     values: {
-      type: [Array, String],
-      required: true
+      type: [Array, String, null],
+      default: null
     },
     options: {
       type: Array,

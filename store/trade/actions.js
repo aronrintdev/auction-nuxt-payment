@@ -38,3 +38,40 @@ export async function fetchVendorTradeSummary({ commit }) {
             commit('setVendorTradeSummary', res.data.data)
         })
 }
+
+/**
+ * Get Submitted Offer by User
+ * @param commit
+ */
+export function fetchSubmittedOffer({ commit }, $payload) {
+  return new Promise((resolve, reject) => {
+    this.$axios.get('/trades/submitted-offers', {
+      params: $payload
+    })
+    .then(res => {
+      commit('setSubmittedOffer', res.data.data.data[0])
+      resolve(res)
+    }).catch((error) => {
+      commit('setSubmittedOffer', null)
+      reject(error)
+    })
+  })
+}
+
+/**
+ * Dismiss Trade for not being shown in future
+ * @param payload
+ * @returns {Promise<void>}
+ */
+ export function dismissTrade({ commit }, payload){
+  return new Promise((resolve, reject) => {
+    this.$axios
+          .post('/trades/dismiss', payload)
+      .then((response) => {
+        resolve(response)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}

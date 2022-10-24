@@ -2,13 +2,13 @@
   <div>
     <h1 class="overview-heading">{{ $t('orders.overview') }}</h1>
     <div class="row justify-content-between">
-      <overview-box :label="$t('orders.total_sales').toString()" :value="(totalSales/100)"
+      <overview-box :label="$t('orders.total_sales').toString()" :value="totalSalesStr"
                     :icon="require('~/assets/img/orders/total-sales.svg')"></overview-box>
-      <overview-box :label="$t('orders.commission_pending').toString()" :value="(totalCommissionPending/100)"
+      <overview-box :label="$t('orders.commission_pending').toString()" :value="commissionPendingStr"
                     :icon="require('~/assets/img/orders/commission-pending.svg')"></overview-box>
-      <overview-box :label="$t('orders.inventory').toString()" :value="inventoryCount"
+      <overview-box :label="$t('orders.inventory').toString()" :value="inventoryCount.toString()"
                     :icon="require('~/assets/img/orders/inventory.svg')"></overview-box>
-      <overview-box :label="$t('orders.offers').toString()" :value="totalOffers"
+      <overview-box :label="$t('orders.offers').toString()" :value="totalOffers.toString()"
                     :icon="require('~/assets/img/orders/offers.svg')"></overview-box>
     </div>
   </div>
@@ -25,11 +25,17 @@ export default {
   },
   computed: {
     ...mapGetters('vendors', [
-      'totalSales',
       'totalCommissionPending',
+      'totalCommissionPaid',
       'inventoryCount',
       'totalOffers'
-    ])
+    ]),
+    totalSalesStr(){
+      return '$'+(this.totalCommissionPaid / 100).toFixed(2)
+    },
+    commissionPendingStr(){
+      return '$'+(this.totalCommissionPending / 100).toFixed(2)
+    }
   },
 }
 </script>
@@ -62,5 +68,5 @@ export default {
     color: $color-blue-19
 
   ::v-deep .overview-box:nth-child(4) .box-value
-    color: $color-red-24
+    color: $color-red-26
 </style>

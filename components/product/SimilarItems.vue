@@ -1,7 +1,6 @@
 <template>
   <div class="similar-items-wrapper">
-    <h3>{{ $t('products.similar_items') }}</h3>
-
+    <h3 class="border-bottom pb-3">{{ $t('products.similar_items') }}</h3>
     <div>
       <ProductCarousel
         :products="products"
@@ -40,14 +39,9 @@ export default {
 @import '~/assets/css/_variables'
 
 .similar-items-wrapper
-  padding: 0 20px
-
   h3
     @include body-2-bold
     color: $color-black-1
-    padding: 16px 0
-    border-bottom: 1px solid $color-gray-5
-    text-transform: uppercase
 
   .similar-products-carousel::v-deep
     width: 100%

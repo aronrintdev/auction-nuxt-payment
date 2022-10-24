@@ -3,13 +3,20 @@
     class="feature-card d-flex flex-column text-md-left text-center align-items-md-baseline align-items-center"
     @click="handleCardClick"
   >
-    <img
-      :src="imageUrl || require('~/assets/img/features/default.png')"
-      class="w-100"
-    />
-    <div class="feature-title fs-24 fw-5 font-primary">{{ title }}</div>
-    <div class="feature-description fs-18 fw-4 font-primary">
-      {{ description }}
+    <div
+      style="
+        height: 294px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <img :src="imageUrl" class="w-100" />
+      <div class="feature-title fs-24 fw-5 font-primary">{{ title }}</div>
+      <div class="feature-description fs-18 fw-4 font-primary">
+        {{ description }}
+      </div>
     </div>
   </div>
 </template>
@@ -28,7 +35,7 @@ export default {
     },
     imageUrl: {
       type: String,
-      default: null,
+      required: true,
     },
 
     to: {

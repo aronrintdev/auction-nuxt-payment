@@ -362,4 +362,7 @@ export default {
   opacity: 0.6
   backdrop-filter: blur(2px)
   background: $white-4
+@media (min-width: 576px)
+  .single-live-reserve-section-box-collections
+    display: none
 </style>

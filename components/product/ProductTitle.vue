@@ -1,134 +1,73 @@
 <template>
-  <div class="container">
-    <div class="d-flex align-items-start">
-      <div>
-        <b-img
-          :src="`${API_PROD_URL}/${category}/${sku}/brand`"
-          width="60"
-          height="60"
-          :alt="productName"
-          class="brand-image"
-        />
-      </div>
-      <div class="flex-grow-1">
-        <h2 class="title">{{ productName }}</h2>
-
-        <!-- Keep below code for revert change -->
-        <!-- <p class="color">{{ productColor }}</p> -->
-
-        <div v-if="productPrice" class="price">
-          <div class="total">{{ productPrice | toCurrency }}&nbsp;</div>
-          <div class="affirm-payment">
-            {{ $t('common.or') }}
-            {{
-              $t('products.4_payments', {
-                price: $root.$options.filters.toCurrency(
-                  Math.ceil(productPrice / 4)
-                ),
-              })
-            }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Keep below code for revert change -->
-    <!-- <div>
-      <p v-if="authentic" class="certificate">
-        <b-img
-          :src="require('~/assets/img/icons/authentic.svg')"
-          width="16"
-          height="16"
-          :alt="$t('products.certified_authentic')"
-        />
-        {{ $t('products.certified_authentic') }}
-      </p>
-    </div> -->
-  </div>
+  <b-row class="border-bottom pb-3">
+    <b-col md="12">
+      <b-row>
+        <b-col md="12" class="d-flex align-items-center">
+          <span class="body-1-medium">{{ productName }}</span>
+          <ShareSVG class="ml-auto" role="button" />
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="12">
+          <span class="body-5-medium text-color-grey-6">{{ $t('product_page.last_sale') }}&colon;&nbsp;&dollar;{{ productLastSalePrice | formatPrice }}</span>
+          <span v-if="lastSalePriceProjectionValue >= 0" class="body-5-medium text-color-green-24">
+            &plus;{{ lastSalePriceProjectionValue | formatPrice }}&nbsp;&lpar;&plus;{{ lastSalePriceProjectionPercentage }}&percnt;&rpar;
+          </span>
+          <span v-else class="body-5-medium text-color-red-3">
+            {{ lastSalePriceProjectionValue | formatPrice }}&nbsp;&lpar;{{ lastSalePriceProjectionPercentage }}&percnt;&rpar;
+          </span>
+        </b-col>
+      </b-row>
+    </b-col>
+  </b-row>
 </template>
 <script>
-import { API_PROD_URL } from '~/static/constants/environments'
+import ShareSVG from '~/assets/img/icons/share.svg?inline'
+
 export default {
   name: 'ProductBreadcrumb',
-
+  components: { ShareSVG },
   props: {
-    category: {
-      type: String,
-      required: true,
-    },
-    sku: {
-      type: String,
-      required: true,
-    },
     productName: {
       type: String,
       required: true,
     },
-    productColor: {
-      type: String,
+    lowestPrice: {
+      type: Number,
+      default: 0,
+    },
+    productLastSalePrice: {
+      type: Number,
       required: true,
     },
-    productPrice: {
-      type: Number,
-      default: null,
-    },
-    authentic: {
-      type: Boolean,
-      default: true,
-    },
   },
+  computed: {
+    lastSalePriceProjectionValue(vm) {
+      if (vm.productLastSalePrice === 0) {
+        return 0.00
+      }
 
-  data() {
-    return {
-      API_PROD_URL,
-    }
-  },
+      return vm.lowestPrice - vm.productLastSalePrice
+    },
+    lastSalePriceProjectionPercentage(vm) {
+      if (vm.productLastSalePrice === 0) {
+        return 0.00
+      }
 
-  methods: {},
+      return (((vm.lowestPrice - vm.productLastSalePrice) / vm.productLastSalePrice) * 100).toFixed(2)
+    },
+  }
 }
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
-.container
-  .brand-image
-    margin-right: 4px
-    margin-left: 13px
+.text-color-green-24
+  color: $color-green-26
 
-  .title
-    @include heading-2
-    color: $color-black-1
-    margin: 0
-    word-break: break-all
+.text-color-red-3
+  color: $color-red-3
 
-  .color
-    @include body-7-normal
-    color: $color-gray-5
-    margin: 0
-
-  .price
-    display: flex
-    align-items: baseline
-
-    .total
-      @include body-1-medium
-      color: $color-blue-20
-
-    .affirm-payment
-      @include body-2-regular
-      color: $color-orange-11
-
-  .certificate
-    @include body-8-medium
-    color: $color-black-1
-    display: flex
-    align-items: center
-    margin: 5px 0 0 72px
-
-    >img
-      margin-right: 5px
-
-@media (max-width: 520px)
-  .container
-    .price
-      flex-direction: column
+.text-color-grey-6
+  color: $color-gray-6
 </style>

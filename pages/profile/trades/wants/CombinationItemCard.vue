@@ -3,7 +3,7 @@
     <div class="combination-div py-4 mx-1">
       <div class="d-flex justify-content-between ml-5">
         <div class="text-left title-combination">
-          {{ $t('trades.create_listing.vendor.wants.combination_no') }} {{ combinationIndex }}
+          {{ $t('trades.create_listing.vendor.wants.combination_no') }} {{ combination.combination_id }}
         </div>
         <b-form-checkbox
           v-if="editRemove"
@@ -16,10 +16,10 @@
           <img :src="require('~/assets/img/trades/minus-icon.svg')" height="24" width="24" class="ml-2" role="button" @click="deleteWant">
         </div>
       </div>
-      <div v-if="combinationItems[selectedItemIndex]" class="col-md-12 d-flex">
+      <div v-if="selectedCombination" class="col-md-12 d-flex">
         <div class="col-md-6 d-flex justify-content-center">
-          <object v-if="combinationItems[selectedItemIndex].product.image"
-                  :data="combinationItems[selectedItemIndex].product.image"
+          <object v-if="selectedCombination.product.image"
+                  :data="selectedCombination.product.image"
                   class="large-image-combination pointer"
                   type="image/png">
             <img class="large-image-combination pointer" :src="fallbackImgUrl" alt="image"/>
@@ -28,25 +28,25 @@
         </div>
         <div class="col-md-6 d-block text-left text-div-combination d-flex flex-column justify-content-center">
           <div class="text-bold">
-            {{ combinationItems[selectedItemIndex].product.name }}
+            {{ selectedCombination.product.name }}
           </div>
           <div class="">
             {{ $t('trades.create_listing.vendor.wants.sku') }}:
-            {{ combinationItems[selectedItemIndex].product.sku }}
+            {{ selectedCombination.product.sku }}
           </div>
           <div>
             {{ $t('trades.create_listing.vendor.wants.color') }}:
-            {{ combinationItems[selectedItemIndex].product.colorway }}
+            {{ selectedCombination.product.colorway }}
           </div>
           <div>
             {{ $t('trades.create_listing.vendor.wants.box_condition') }}:
-            {{ combinationItems[selectedItemIndex].packaging_condition.name }}
+            {{ selectedCombination.packaging_condition.name }}
           </div>
-          <div class="text-bold">{{ $t('trades.create_listing.vendor.wants.lowest_ask') }}: {{ combinationItems[selectedItemIndex].product.estimated_market_value }}</div>
+          <div class="text-bold">{{ $t('trades.create_listing.vendor.wants.lowest_ask') }}: ${{ selectedCombination.product.estimated_market_value }}</div>
         </div>
       </div>
       <div class="col-md-12 d-flex justify-content-center">
-        <b-col v-for="(item, index) in combinationItems"
+        <b-col v-for="(item, index) in combination.combination_items"
                :key="item.id" class="d-flex justify-content-center flex-column align-items-center">
           <object v-if="item.product.image" :data="item.product.image"
                   class="item-image-combination pointer"
@@ -66,7 +66,7 @@
       <div class="col-md-12 d-flex">
         <div class="text-bold ml-auto mr-auto mt-3">{{
             $t('trades.create_listing.vendor.wants.total_est_value')
-          }}:   ${{ estValue(combinationItems) }}
+          }}:   ${{ estValue(combination.combination_items) }}
         </div>
       </div>
     </div>
@@ -100,8 +100,8 @@ export default {
   data (){
     return {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
-      combinationItems: this.combination.combination_items,
-      selectedItemIndex: this.combination.selectedItemIndex
+      selectedCombination: this.combination.combination_items[0],
+      selectedItemIndex: 0
     }
   },
   methods:{
@@ -129,7 +129,7 @@ export default {
      * @param itemIndex
      */
     setCombinationSelectedItem(combinationIndex) {
-      this.selectedItemIndex = combinationIndex
+      this.selectedCombination = this.combination.combination_items[combinationIndex]
     },
   }
 }

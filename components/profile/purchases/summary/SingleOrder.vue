@@ -6,8 +6,7 @@
         <b-table v-if="orderType === buy || orderType === sell" borderless :items="orderDetails" :fields="fields" class="vendor-purchase-details-table" responsive="sm">
           <template #cell(products)="row">
             <div class="img-col w-100">
-              <img   :src="row.item.listing_item.inventory.product.image || fallbackImage" alt="product-image" class="product-image img-fluid" @error="imageLoadError"/>
-              
+              <img :src="row.item.listing_item.inventory.product.image || fallbackImage" alt="product-image" class="product-image img-fluid" @error="imageLoadError"/>
             </div>
           </template>
           <template #cell(details)="row">
@@ -16,24 +15,16 @@
                 {{ row.item.listing_item.inventory.product.name }}
               </p>
               <p class="f-w-500 mb-0 colorway">
-                {{ $t('vendor_purchase.colorway') }}&colon;{{
-                  row.item.listing_item.inventory.product.colorway
-                }}
+                {{ $t('vendor_purchase.colorway') }}&colon; {{row.item.listing_item.inventory.product.colorway}}
               </p>
               <p class="f-w-500 mb-0 size">
-                {{ $t('vendor_purchase.size') }}&colon;{{
-                  row.item.listing_item.inventory.size.size
-                }}
+                {{ $t('vendor_purchase.size') }}&colon; {{row.item.listing_item.inventory.size.size}}
               </p>
               <p class="f-w-500 mb-0 box-condition">
-                {{ $t('vendor_purchase.box_condition') }}&colon;{{
-                  row.item.listing_item.inventory.packaging_condition.name
-                }}
+                {{ $t('vendor_purchase.box_condition') }}&colon; {{row.item.listing_item.inventory.packaging_condition.name}}
               </p>
               <p class="f-w-500 mb-0 sku">
-                {{ $t('vendor_purchase.sku') }}&colon;{{
-                  row.item.listing_item.inventory.product.sku
-                }}
+                {{ $t('vendor_purchase.sku') }}&colon; {{row.item.listing_item.inventory.product.sku}}
               </p>
             </span>
           </template>
@@ -115,8 +106,7 @@
             <span class="text-bold">
               {{ $t('vendor_purchase.tracking_no') }}&colon;
             </span>
-            <span class="text-decoration-underline text-primary">
-              {{ trackingNumber }}</span>
+            <span class="text-decoration-underline text-primary"> {{fullOrderDetails.items[0].shipment.tracking_no}}</span>
           </p>
           <!-- TODO: Harcoded for now -->
           <!--  Timeline -->
@@ -124,7 +114,6 @@
             <PurchaseTimeline
               :timeline="authTimelineStatus"
               :orderStatus="itemStatus.toLowerCase()"
-              :updatedAt="updatedAt"
             />
           </div>
           <!-- Timeline -->
@@ -148,7 +137,7 @@
             >{{ updatedAt | formatDateTimeString }}
           </p>
           <!-- location marker -->
-          <div class="location-tracking-wrapper">
+          <div v-if='loadMap===true' class="location-tracking-wrapper">
             <!-- TODO: Harcoded latitude and longitude for now -->
             <GoogleMap
               :latitude="latitude"
@@ -226,81 +215,58 @@ import {
   GIFTCARD,
   SELL
 } from '~/static/constants'
-
 export default {
   name: 'SingleOrder',
-
   components: {
     PurchaseTimeline,
     GoogleMap,
   },
-
   props: {
     orderDetails: {
       type: [Object, Array],
       default: () => {},
     },
-
+    fullOrderDetails: {
+      type: [Object, Array],
+      default: () => {},
+    },
     fields: {
       type: Array,
       required: true,
     },
-
     timelineStatus: {
       type: Array,
       required: true,
     },
-
     itemCount: {
       type: Number,
       default: 0,
     },
-
     itemStatus: {
       type: String,
       required: true,
     },
-
     updatedAt: {
       type: String,
       required: true,
     },
-
     orderType: {
       type: String,
       required: true
     }
   },
-
   data() {
     return {
       productImageWidth: PRODUCT_IMG_WIDTH,
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
       shippingCarrier: 'Fed Ex', // Harcoded for now
-      trackingNumber: 'Z1234567890', // Harcoded for now,
+      trackingNumber: '', // Harcoded for now,
       transactionCancelled: 1234567890, // Harcoded for now: Single item transction id,
       refundedOn: 'Febrary 9, 2022 10:00AM PST', // Harcoded for now since no single item refund currently
       demoCardNumber: 'Visa *1122',
       latitude: 38.8951, // TODO: Hardcoded for now - latitude for google map location marker
       longitude: -77.0364, // TODO: Hardcoded for now - longitude for google map location marker
-      authTimelineStatus: [
-        {
-          id: 4,
-          status: this.$t(
-            'vendor_purchase.orderstatus.authenticated_and_shipped'
-          ),
-          description: this.$t('vendor_purchase.package_arrived'),
-          value: AUTHENTICATED_AND_SHIPPED,
-          class: 'status',
-        },
-        {
-          id: 5,
-          status: this.$t('vendor_purchase.orderstatus.delivered'),
-          description: this.$t('vendor_purchase.delivered_desc'),
-          value: DELIVERED,
-          class: 'tracking-end',
-        },
-      ],
+      authTimelineStatus: [],
       pending: PENDING,
       sendToDeadstock: SEND_TO_DEADSTOCK,
       arrivedToDeadstock: ARRIVED_TO_DEADSTOCK,
@@ -311,7 +277,10 @@ export default {
       cancelled: CANCELLED,
       buy: BUY,
       sell: SELL,
-      giftCard: GIFTCARD
+      giftCard: GIFTCARD,
+      trackingDetails : [],
+      lastUpdate: '',
+      loadMap: false
     }
   },
   
@@ -320,17 +289,57 @@ export default {
       return vm.fallbackImgUrl + '' + vm.productImageWidth
     },
   },
-
+  mounted(){
+    this.getShippingDetails(this.fullOrderDetails.items[0].shipment.tracking_no)
+  },
   methods: {
     // Image on load error
     imageLoadError(event) {
       event.target.src = this.fallbackImgUrl + '' + this.productImageWidth
     },
-
     // View the shipping details page
     viewShippingDetails() {
       this.$root.$emit('viewShippingDetails', true)
     },
+    getShippingDetails(trackingNo) {
+      this.$axios
+        .get(`tracking/${trackingNo}`)
+        .then((res) => {
+          this.trackingDetails = res.data.data
+          this.trackingDetails.forEach((item,index) => {
+            if(index === 0){
+              this.lastUpdate = (item.GMTDate+' '+item.GMTTime).toString()
+              this.getLatitudeAndLongitude(item.ActivityLocation.Address)
+            }
+            const row = {
+                          id: index,
+                          status: item.Status.StatusType.Description,
+                          description: item.ActivityLocation.Description,
+                          value: item.Status.StatusType.Description,
+                          class: 'status',
+                          date: item.GMTDate+' '+item.GMTTime
+                        }
+            this.authTimelineStatus.push(row)
+          })
+        })
+        .catch((err) => {
+          this.$toasted.error(this.$t(err.response.data.message))
+        })
+    },
+    getLatitudeAndLongitude(row){
+      const geocoder = new window.google.maps.Geocoder()
+      const that = this
+      geocoder.geocode(
+      { 
+        componentRestrictions: { 
+            country: row.CountryCode
+        } 
+      }, function (results) {
+        that.latitude = results[0].geometry.location.lat();
+        that.longitude = results[0].geometry.location.lng();
+        that.loadMap = true
+      });
+    }
   },
 }
 </script>
@@ -342,7 +351,6 @@ export default {
     .name, .sku, .colorway, .size, .box-condition
       margin-top: 0.5rem
       @include body-9
-
 :deep(.vd-giftcardimg)
   width: 20%
 </style>
