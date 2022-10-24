@@ -161,7 +161,7 @@
                 @click="handleAddToCartClick"
               >
                 <div class="d-flex justify-content-center">
-                  <div>{{ $t('products.add_style_to_card') }}: ${{ currentListingItem ? currentListingItem.inventory.sale_price / 100 : 0 }}</div>
+                  <div>{{ $t('products.add_to_bag') }}: ${{ currentListingItem ? currentListingItem.inventory.sale_price / 100 : 0 }}</div>
                   <div
                     class="ml-1"
                     :class="
