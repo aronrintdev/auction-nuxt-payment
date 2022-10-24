@@ -357,7 +357,6 @@ export default {
       for (const value of Object.values(val)) {
         if(value !==''){
           const category = this.allCategories.filter((el) =>el.id ===value);
-          console.log('ss',category[0])
           if (!this.activeTypeFilters.includes(value) && category[0] ===undefined) {
             this.activeTypeFilters.push(value)
           }
