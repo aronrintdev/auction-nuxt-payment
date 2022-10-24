@@ -272,8 +272,8 @@ export default {
       })
     },
     // On filter by change.
-    searchProduct() {
-      this.searchFilters.search =  this.searchValue
+    searchProduct(val) {
+      this.searchFilters.search =  val
        this.setActiveFilter()
       this.$emit('filterList',this.searchFilters)
     },
