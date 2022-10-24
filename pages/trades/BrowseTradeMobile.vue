@@ -175,12 +175,14 @@ export default {
 
     // load trade items when filters are applied
     applyTradeFilters(){
+      console.log('come inside')
       this.$store.commit('trade/setTradeType', 'search_results')
       this.filterTrades()
     },
 
     // reset all filters
     resetTradeFilters(){
+      console.log('reset')
       this.selectedTradeTotalItems = 'one'
       this.$store.commit('trade/setTradeType', 'All')
       this.filterTrades()

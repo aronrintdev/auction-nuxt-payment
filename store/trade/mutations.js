@@ -59,6 +59,7 @@ export function setCategoryFilterSelection(state, selectedCategory) {
  * @param selectedSizeType
  */
 export function setSizeTypeFilterSelection(state, selectedSizeType) {
+  console.log('testing')
     if (typeof selectedSizeType !== 'undefined' && selectedSizeType) {
 
         // check if size type is already in selected list
@@ -75,12 +76,12 @@ export function setSizeTypeFilterSelection(state, selectedSizeType) {
 }
 export function setSizeTypeFilterSelectionMobile(state, selectedSizeType) {
   console.log('selectedSizeTypeAdd',selectedSizeType)
-  state.selectedFilters.selectedFilters.push(selectedSizeType)
+  state.selectedFilters.sizeTypes.push(selectedSizeType)
 }
 export function setSizeTypeFilterSelectionRemoveMobile(state, selectedSizeType) {
   console.log('selectedSizeTypeRemove',selectedSizeType)
-  state.selectedFilters.selectedFilters.indexOf(selectedSizeType)
-  state.selectedFilters.selectedFilters.splice(selectedSizeType,1)
+  state.selectedFilters.sizeTypes.indexOf(selectedSizeType)
+  state.selectedFilters.sizeTypes.splice(selectedSizeType,1)
 }
 
 /**

@@ -309,6 +309,7 @@ export default {
     },
 
     applyFilters(){
+      console.log('all tradlistings')
       this.fetchTradesListing()
     },
 
