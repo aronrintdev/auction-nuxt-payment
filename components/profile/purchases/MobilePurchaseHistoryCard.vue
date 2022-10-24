@@ -54,7 +54,9 @@
       <div class="d-flex align-items-center justify-content-between info-row">
         <span class="text-left text-nowrap label-class">{{ $t('purchases.info_table.created_at') }}</span>
         <span
-            class="text-right text-capitalize value-class">{{ new Date(this.purchase.created_at).toLocaleDateString() }}</span>
+            class="text-right text-capitalize value-class">{{
+            new Date(purchase.created_at).toLocaleDateString()
+          }}</span>
       </div>
       <div class="d-flex align-items-center justify-content-between info-row">
         <span class="text-left text-nowrap label-class">{{ $t('purchases.info_table.order_status') }}</span>

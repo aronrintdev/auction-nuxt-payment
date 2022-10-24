@@ -65,13 +65,13 @@ export default {
           value: PROCESSING_PAYMENT,
         },
         {
-          id: 5,
+          id: 6,
           status: this.$t('vendor_purchase.authenticated_and_shipped'),
           description: this.$t('vendor_purchase.package_send_to_deadstock'),
           value: AUTHENTICATED_AND_SHIPPED,
         },
         {
-          id: 5,
+          id: 7,
           status: this.$t('vendor_purchase.delivered'),
           description: this.$t('vendor_purchase.package_send_to_deadstock'),
           value: DELIVERED,

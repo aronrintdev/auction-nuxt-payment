@@ -4,6 +4,26 @@
       <Loader :loading="loading"/>
     </div>
     <div v-if="orderDetails">
+      <div>
+        <b-alert v-if="isPaymentUpdateEnabled" ref="alert" :class="successPayment && 'success'"
+                 class="d-flex align-items-start" show variant="payment-warning">
+          <img
+              v-if="!successPayment"
+              :src="require('~/assets/img/purchases/warning.svg')"
+              alt="payment-error"
+              class="mr-2"
+          />
+          <img
+              v-else
+              :src="require('~/assets/img/shopping-cart/order-confirmation/checkmark.svg')"
+              class="mr-2"
+              height="21"
+              width="21"
+          />
+          <span v-if="!successPayment" class="body-5-normal">{{ $t('vendor_purchase.payment_error') }}</span>
+          <span v-else class="body-5-normal">{{ $t('vendor_purchase.payment_processed') }}</span>
+        </b-alert>
+      </div>
       <div class="info-card d-flex flex-column">
         <div class="body-8-medium text-capitalize">
           {{ $t('vendor_purchase.order', {orderNo: orderDetails.id}) }} ({{ orderDetails.type.label }})
@@ -101,7 +121,7 @@
           </div>
         </div>
 
-        <div v-if="selectedItem && selectedItem.status!=='processing' " class="tracking mt-20 body-21-normal">
+        <div v-if="selectedItem && selectedItem.status !== 'processing' " class="tracking mt-20 body-21-normal">
           <div><span>{{ $t('orders.shipping_carrier') }}:</span> <span>{{ shippingMethod }}</span></div>
           <div><span>{{ $t('orders.tracking_number') }}:</span> <a :href="trackingUrl" target="_blank">{{
               trackingNo
@@ -118,10 +138,12 @@
       </div>
 
       <div class="mt-20 payment-wrapper">
-        <div class="body-17-medium payment-title">{{ $t('vendor_purchase.payment_summary') }}</div>
-        <div class="info-card">
+        <div class="body-17-medium payment-title">{{ paymentTitle }}</div>
+        <div v-if="!isPaymentUpdateEnabled" class="info-card">
           <MobilePaymentSummary :order-details="orderDetails"/>
         </div>
+        <MobilePurchaseUpdatePayment v-if="isPaymentUpdateEnabled" :order-details="orderDetails" @update="updateData"/>
+
       </div>
     </div>
 
@@ -179,10 +201,12 @@ import TimelineIcon from '~/components/orders/TimelineIcon';
 import MobilePaymentSummary from '~/components/profile/purchases/summary/MobilePaymentSummary';
 import MobileBottomSheet from '~/components/mobile/MobileBottomSheet';
 import MobileTimeLine from '~/components/profile/purchases/summary/MobileTimeLine';
+import MobilePurchaseUpdatePayment from '~/components/profile/purchases/summary/MobilePurchaseUpdatePayment';
 
 export default {
   name: 'ViewSummary',
   components: {
+    MobilePurchaseUpdatePayment,
     MobileTimeLine,
     MobileBottomSheet,
     MobilePaymentSummary,
@@ -194,6 +218,7 @@ export default {
   },
   data() {
     return {
+      successPayment: false,
       openSummary: false,
       orderDetails: null,
       loading: false,
@@ -215,14 +240,33 @@ export default {
     shippingMethod() {
       return this.selectedItem.vendor_shipment?.shipping_method_text
     },
+    isPaymentUpdateEnabled() {
+      return this.status === 'processing'
+    },
+    status() {
+      if (this.orderDetails && this.orderDetails.quantity === 1) {
+        return this.orderDetails.status;
+      } else {
+        return this.selectedItem && this.selectedItem.status;
+      }
+    },
+    paymentTitle() {
+      return this.isPaymentUpdateEnabled ? this.$t('vendor_purchase.update_payment_info') : this.$t('vendor_purchase.payment_summary')
+    }
   },
   mounted() {
     this.loadDetails()
     this.injectGoogleMapsApi()
   },
   methods: {
+    updateData() {
+      this.successPayment = true
+      window.scrollTo({top: 0, behavior: 'smooth'});
+      this.loadDetails()
+    },
     changeItem(item) {
       this.selectedItem = this.orderDetails.items[item.item.index]
+      console.log(this.status);
     },
     loadDetails() {
       this.loading = true
@@ -232,6 +276,7 @@ export default {
             console.log(res);
             this.orderDetails = res.data
             this.insertMap(this.orderDetails)
+            console.log(this.$refs);
           })
           .catch((err) => {
             this.$toasted.error(this.$t(err.response.data.message).toString())
@@ -369,5 +414,13 @@ export default {
           height: 4px
           width: 4px
           background-color: $color-gray-4
+
+.alert-payment-warning
+  background-color: $color-orange-20
+  color: $color-black-1
+  margin-inline: -27px
+
+  &.success
+    background-color: $color-green-24
 
 </style>
