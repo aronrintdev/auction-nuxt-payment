@@ -166,7 +166,7 @@
                  :key="'selected-'+index+prod.id" class="create-trade-item-sm d-flex justify-content-between flex-column mr-4">
               <div class="d-flex justify-content-between mt-2 mx-2">
                 <div class="create-trade-size-car-sm">{{$t('trades.create_listing.vendor.wants.size')}} {{ prod.size && prod.size.size }}</div>
-                <div v-if="prod.quantity > 1" class="create-trade-quantity-car-sm">x{{ prod.quantity || 1 }}</div>
+                <div v-if="prod.quantity > 1" class="create-trade-quantity-car-sm">x{{ prod.quantity }}</div>
                 <div class="create-trade-minus-icon-sm" @click="decrementOrRemoveItem(prod.id)">
                   <div class="create-trade-minus-line-sm"></div>
                 </div>
@@ -325,6 +325,7 @@ export default {
 
     // Emit listener to emtpy search items
     this.$root.$on('click_outside', () => {
+      this.searchText =  null
       this.searchedItems = []
     })
   },
@@ -343,8 +344,7 @@ export default {
         inventory_id: item.id
       })
         .then((response) => { // return product information that exits in already listing
-            const existingItem = this.getTradeItems.find(val => val.id === item.id)
-            if (response.data.is_listing_item && !existingItem) {
+            if (response.data.is_listing_item) {
               this.itemListingId = response.data.listingId
               this.alreadyListedItemDetails = item
               this.$bvModal.show('alreadyListed')
@@ -518,12 +518,7 @@ export default {
      * @param item
      */
     addOrIncrementOfferItem(item) {
-      const existingItem = this.getTradeItems.find(val => val.id === item.id)
-      if (existingItem) {
-        this.$store.commit('trades/incrementTradeItemQuantity', item)
-      } else {
-        this.$store.commit('trades/setTradeItems', item)
-      }
+      this.$store.commit('trades/setTradeItems', item)
       this.$nextTick(() => this.$forceUpdate())
     },
 
@@ -586,12 +581,8 @@ export default {
      * @param id
      */
     decrementOrRemoveItem(id) {
-      const existingItem = this.getTradeItems.find(val => val.id === id)
-      if (existingItem.quantity > 1) {
-        this.$store.commit('trades/decrementTradeItemQuantity', id)
-      } else {
-        this.$store.commit('trades/removeTradeItem', id)
-      }
+      const index = this.getTradeItems.findIndex(item => item.id === id)
+      this.$store.commit('trades/removeTradeItem', index)
       this.$nextTick(() => this.$forceUpdate())
     },
 

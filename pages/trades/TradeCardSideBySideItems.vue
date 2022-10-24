@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="(trade,index) in tradesListings" :key="'listing-' + index" class="row d-flex col-md-12 listing-hub mb-5" role="button" @click="viewTrade(trade.theirs.id)">
-      <div class="row col-md-12 text-center trade-id-list">{{$t('trades.trade_hub.trade_id')}} #{{trade.theirs.id}}</div>
+      <div class="row col-md-12 text-center trade-id-list">{{$t('trades.trade_hub.trade_id')}} #{{trade.id}}</div>
       <b-col class="d-block sub-listing-hub">
         <div class="flex col-md-12 text-center mb-2 sub-hub-heading">{{$t('trades.trade_hub.theirs')}}</div>
         <div class="d-flex">

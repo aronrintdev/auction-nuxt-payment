@@ -4,7 +4,7 @@
       <b-overlay :opacity="0.85" blur="2px" :show="loading" rounded="sm">
         <table class="w-100 table-recent-asks">
           <tr>
-            <th class="text-center">{{ $t('common.time_date') }}</th>
+            <th class="text-center">{{ $t('products.date_time') }}</th>
             <th class="text-center">{{ $tc('common.size', 1) }}</th>
           </tr>
           <tr v-for="(row, index) in asks" :key="`recent-ask-${index}`">
@@ -17,17 +17,6 @@
         </table>
       </b-overlay>
     </div>
-
-    <b-button
-      variant="link"
-      class="position-absolute p-0 close-btn"
-      @click="$emit('close')"
-    >
-      <img
-        :src="require('~/assets/img/icons/close.svg')"
-        :alt="$t('common.close')"
-      />
-    </b-button>
   </div>
 </template>
 <script>
@@ -74,17 +63,11 @@ export default {
       @include body-8-bold
       color: $color-black-1
       padding: 12px 9px
-      border-bottom: 1px solid $color-gray-47
 
     td
       @include body-8-normal
       padding: 15px 3px
-      border-bottom: 1px solid $color-gray-47
 
       .time
         color: $color-gray-4
-
-  .close-btn
-    right: 0
-    top: 0
 </style>

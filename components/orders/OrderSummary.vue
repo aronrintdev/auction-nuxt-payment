@@ -9,7 +9,7 @@
           <div class="order-date d-none d-sm-block">{{ $t('orders.ordered_on') }} {{ new Date(order.created_at) }}</div>
         </b-col>
         <b-col cols="2">
-          <div class="text-right cursor-pointer d-block d-sm-none" @click="openBottomSheet" v-if="item.status!=='processing'">
+          <div v-if="item.status!=='processing'" class="text-right cursor-pointer d-block d-sm-none" @click="openBottomSheet">
             <img :src="require('/assets/img/icons/three-dots.svg')" alt="" />
           </div>
           <div class="text-center w-200 align-self-end d-none d-sm-block">
@@ -40,12 +40,13 @@
             <b-col cols="3">
               <div>{{ product(item).name }} ({{ product(item).release_year }})</div>
               <div>{{ $t('orders.colorway') }}: {{ product(item).colorway }}</div>
-              <div>{{ $t('orders.box_condition') }}:
+              <div v-if="isBuy">
+                {{ $t('orders.box_condition') }}:
                 {{ item.listing_item.inventory.packaging_condition.name }}
               </div>
             </b-col>
             <b-col cols="3">
-              <div>{{ $t('orders.size') }}: {{ item.listing_item.inventory.size.size }}</div>
+              <div v-if="isBuy">{{ $t('orders.size') }}: {{ item.listing_item.inventory.size.size }}</div>
               <div>{{ $t('orders.sku') }}: {{ product(item).sku }}</div>
             </b-col>
           </b-row>
@@ -53,8 +54,8 @@
             <div class="text-bold">{{ product(item).name }} ({{ product(item).release_year }})</div>
             <div><span>{{ $t('orders.sku') }}:</span> {{ product(item).sku }}</div>
             <div><span>{{ $t('orders.colorway') }}:</span> {{ product(item).colorway }}</div>
-            <div><span>{{ $t('orders.size') }}:</span> {{ item.listing_item.inventory.size.size }}</div>
-            <div><span>{{ $t('orders.box_condition') }}:</span>
+            <div v-if="isBuy"><span>{{ $t('orders.size') }}:</span> {{ item.listing_item.inventory.size.size }}</div>
+            <div v-if="isBuy"><span>{{ $t('orders.box_condition') }}:</span>
               {{ item.listing_item.inventory.packaging_condition.name }}
             </div>
           </div>
@@ -98,9 +99,20 @@ export default {
       default: null
     },
   },
+  computed:{
+    isTrade() {
+      return this.order.type.label === 'trade'
+    },
+    isBuy() {
+      return this.order.type.label === 'buy'
+    }
+  },
   methods:{
     product(item) {
-      return item.listing_item.inventory.product
+      if(this.isTrade){
+        return item.product
+      }
+      return item.listing_item?.inventory?.product
     },
     printLabel() {
       return `data:application/pdf;base64,${this.item.vendor_shipment?.meta.labelData}`

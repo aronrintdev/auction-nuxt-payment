@@ -133,6 +133,7 @@
     "sneakers_sizes": "Sneaker Sizes",
     "apparel_sizes": "Apparel Sizes",
     "accessories_sizes": "Accessories Sizes",
+    "browse": "Browse",
     "categories": {
       "sneakers": "Sneakers",
       "apparel": "Apparel",
@@ -1427,11 +1428,23 @@
     "image": {
       "not_found": "Product image is not found"
     },
-    "certified_authentic": "Certified Authentic",
+    "certified_authentic": "CertifiedAuthentic",
+    "payment_plans": "Payment\nPlans",
+    "description": "Description",
+    "crypto_payments": "Crypto\nPayments",
+    "date_time": "Date/Time",
     "have_pair_to_sell": "Have a pair to sell?",
     "create_a_listing": "Create a listing!",
     "last_sold_for": "Last Sold For",
     "lowest_price": "Lowest Price",
+    "place_offer": "Place Offer",
+    "or_sell_now": "or Sell Now",
+    "sell_for": "Sell for {amount}",
+    "read_more": "Read More",
+    "read_less": "Read Less",
+    "pre_authenticated_ships_instantly": "Pre - authenticated, ships instantly",
+    "normal_authentication_and_shipping": "Normal authentication & shipping",
+    "enter_offer_amount": "Enter Offer Amount",
     "highest_offer": "Highest Offer",
     "all_sizes": "All Sizes",
     "box_condition": "Box Condition",
@@ -1445,10 +1458,16 @@
       "none": "None"
     },
     "add_to_bag": "Add To Bag",
+    "add_to_cart": "Add to Cart",
     "buy_now": "Buy Now",
     "asks": "Asks",
     "offers": "Offers",
     "sales": "Sales",
+    "sales_graph": "Sales Graph",
+    "sales_data": "Sales Data",
+    "recent_sales": "Recent Sales",
+    "recent_offers": "Recent Offers",
+    "recent_asks": "Recent Asks",
     "we_accept": "We accept",
     "and_more": "And More",
     "pay_over_time": "Pay over time in interest-free installments with",
@@ -1467,14 +1486,17 @@
     "latest_sales": "Latest Sales",
     "list_what_you_have_with_us": "List what you have with us!",
     "4_payments": "4 payments of {price}",
-    "authenticity_guaranteed": "Authenticity Guaranteed",
+    "or_4_installments": "or 4 installments",
+    "of_price": "of {price}",
+    "authenticity_guaranteed": "Authenticity\nGuaranteed",
     "select_size": "Select Size",
     "error": {
       "select_size": "Please select a size above to add to cart",
       "select_size_to_offer": "Please select a size above to make an offer",
       "out_of_stock": "Unfortunately, this item and size is currently out of stock!",
       "enter_valid_amount": "Please enter valid offer amount",
-      "not_found": "Product is not found"
+      "not_found": "Product is not found",
+      "select_shipping_type": "Please select a shipping type above"
     },
     "message": {
       "send_item_email": "We will send you an email when this item is back in stock!",
@@ -2671,7 +2693,15 @@
     },
     "delist_body": "Are you sure you would like to delist these items? | By delisting an item you will be charged based on the amount of highest bid.",
     "accept_body": "Are you sure you would like to accept the $:amount: and end this auction early?",
-    "sold_body": "This auction has been sold! | You will be re-directed to your orders page. "
+    "sold_body": "This auction has been sold! | You will be re-directed to your orders page. ",
+    "status_types": {
+      "all": "All",
+      "live": "Live",
+      "upcoming": "Upcoming",
+      "expired": "Expiring",
+      "sold": "Sold"
+    },
+    "status_type": "Status"
   },
   "create_listing": {
     "drafts": "Drafts ({0})",
@@ -3606,7 +3636,8 @@
       "declined": "Declined",
       "confirmed": "Confirmed",
       "success": "Success",
-      "complete": "Complete"
+      "complete": "Complete",
+      "voided": "Voided"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
@@ -3687,6 +3718,7 @@
     "delete_expired": "Delete Expired Bids",
     "items": "Items",
     "auto_bid_to": "Autobid to ",
+    "highest_bid_info": "The highest bid for each auction is displayed",
     "messages": {
       "saved": "Your changes have been saved!"
     },
@@ -3724,12 +3756,14 @@
     },
     "success_deleted": "Your selected items have been deleted",
     "headers": {
+      "auction_id": "Auction ID",
       "product": "Product",
       "auction_type": "Type",
       "auto_bid": "Autobid",
       "bid_amt": "Bid Amt.",
       "time_remaining": "Time Remaining",
-      "action": "Action"
+      "action": "Action",
+      "highest_bid_amt": "Highest Bid Amount"
     },
     "clear_filters": "Clear All Filters",
     "auction_types": {
@@ -4751,6 +4785,22 @@
   },
   "placed_offers": {
     "heading": "Placed Offers",
+    "status": "Status",
+    "size": "Size",
+    "list_id": "List ID",
+    "listed_on": "Listed On",
+    "expires_on": "Expires On",
+    "priced_at": "Priced at",
+    "min_offer": "Min Offer.",
+    "edit_offer": "Edit Offer",
+    "edit_offer_cancel": "Cancel",
+    "edit_offer_amount": "Edit offer amount",
+    "edit_offer_delete": "Delete Offer",
+    "placed_offers_product_summary": "Product Summary",
+    "placed_offers_your_placed_offers": "Your Placed Offers",
+    "responsive_heading": "Offers",
+    "responsive_detailed_heading": "Offer",
+    "highest_offer": "Highest Offer",
     "your_placed_offers": "Your Placed Offers ({count})",
     "table": {
       "products": "Products",
@@ -4782,7 +4832,11 @@
     "remove_from_list_message": "Are you sure you would like to remove from list?",
     "delete_selected": "Delete Selected",
     "multiple_delete": "Items Deleted Successfully",
-    "no_result": "No Data Found"
+    "no_result": "No Data Found",
+    "no_outgoing_offers": "No outgoing offers have been found.",
+    "place_an_offer": "Place an offer today!",
+    "offer_delete_message": "Your selected offers have been deleted",
+    "offer_save_edit": "Offer edited successfully!"
   },
   "vendor_hub": {
     "tabs": {
@@ -5144,6 +5198,7 @@
   "vendor_dashboard": {
     "title": "Dashbaord",
     "bronze_seller": "Bronze Seller",
+    "seller": "Seller",
     "view_details": "View Details",
     "view_all": "View All",
     "total_sales": "Total Sales",
@@ -5217,7 +5272,8 @@
     "types": {
       "buying": "Buying",
       "selling": "Selling",
-      "communication": "Deadstock Comms"
+      "communication": "Deadstock Comms",
+      "comms": "Deadstock Comms"
     },
     "start": "Start",
     "end": "End",

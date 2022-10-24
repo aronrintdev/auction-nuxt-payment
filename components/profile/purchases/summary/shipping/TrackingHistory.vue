@@ -59,7 +59,7 @@
               </b-td>
               <b-td>
                 <p class="text-bold mb-0">
-                  {{ $t(`vendor_purchase.orderstatus.${status}`) }}
+                  {{ $t(`vendor_purchase.orderstatus.${status.split(' ').join('_')}`) }}
                 </p>
                 <span>{{ demoDescription }}</span>
               </b-td>

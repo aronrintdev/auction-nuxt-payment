@@ -100,11 +100,13 @@
 </template>
 
 <script>
-import {SearchInput, FormDropdown, CustomSelectwithCheckbox, Button} from '~/components/common';
-import profileBidsMixin from '~/plugins/mixins/profile-bid';
-import DownArrow from '~/assets/img/icons/down-arrow.svg';
-import CalendarImg from '~/assets/img/icons/calendar-gray.svg';
-import CalendarInput from '~/components/common/form/CalendarInput';
+import debounce from 'lodash.debounce'
+import {SearchInput, FormDropdown, CustomSelectwithCheckbox, Button} from '~/components/common'
+import profileBidsMixin from '~/plugins/mixins/profile-bid'
+import DownArrow from '~/assets/img/icons/down-arrow.svg'
+import CalendarImg from '~/assets/img/icons/calendar-gray.svg'
+import CalendarInput from '~/components/common/form/CalendarInput'
+
 
 export default {
   name: 'BidsFilters',
@@ -142,15 +144,18 @@ export default {
         this.filters.activeOnOffBidFilters.length > 0
     },
   },
+  mounted() {
+    this.filters.search = this.$store.getters['profile-bids/getFilters'].search
+  },
   methods: {
     /**
      * user typed in the search input
      * @param text
      */
-    handleSearch(text) {
+    handleSearch: debounce( function (text) {
       this.filters.search = text
       this.GetBids()
-    },
+    }, 300),
     clearFilters() {
       this.filters = {
         activeTypeFilters: [],
@@ -300,7 +305,7 @@ export default {
     button
       border-radius: 4px !important
 
-::v-deep 
+::v-deep
   .search-input-wrapper input.search-input
     border: 1px solid $white-2
   .form-dropdown-wrapper .btn-dropdown

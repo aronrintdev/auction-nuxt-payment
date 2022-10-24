@@ -52,10 +52,11 @@
             <div class="d-flex align-items-start flex-column justify-content-center h-90">
               <span class="font-weight-bold ml-4 mb-3">{{$t('trades.trade_arena.share')}}</span>
               <div class="social-icons">
-                <div class="twitter"><b-icon icon="twitter" class="twt-icon"></b-icon></div>
-                <b-icon icon="facebook" class="facebook"></b-icon>
-                <img :src="require('~/assets/img/instagram.png')" alt="" class="instagram">
-                <b-icon icon="link45deg" class="link-icon"></b-icon>
+                <div class="twitter">
+                  <b-icon icon="twitter" class="twt-icon" role="button"></b-icon></div>
+                  <b-icon icon="facebook" class="facebook" role="button"></b-icon>
+                  <img :src="require('~/assets/img/instagram.png')" class="instagram" role="button">
+                  <b-icon icon="link45deg" class="link-icon" role="button"></b-icon>
               </div>
             </div>
           </b-popover>

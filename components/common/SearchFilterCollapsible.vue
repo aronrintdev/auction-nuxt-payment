@@ -107,6 +107,10 @@
       removeItem(arr, value) {
         return arr?.filter((i) => i !== value)
       },
+
+      handleSearchChange(value) {
+        this.$emit('searchBrands', value)
+      }
     },
   }
   </script>
