@@ -197,12 +197,14 @@ export default {
       categorySelected: '', // For Sort by filter
       filterBy: '',
       brands: [],
+      allCategories: [],
       categories: [],
       showSuccessMessage: null,
       searchFilters: {
         filterBy: '',
         search: '',
         category: '',
+        category_id: '',
         brand: '',
         size: '',
         priceRange: '',
@@ -260,7 +262,8 @@ export default {
         this.brands = brandsList
 
         const categoriesList = {}
-        response.data.categories.forEach((elem,index) =>{
+        this.allCategories=response.data.categories;
+        this.allCategories.forEach((elem,index) =>{
           const name =elem.name;
           categoriesList[`${name}`]= name;
         })
@@ -290,6 +293,8 @@ export default {
     },
     // On filter by change.
     handleFilterByCategories(value) {
+      const category = this.allCategories.filter((el) =>el.name ===value);
+      this.searchFilters.category_id = value === '' ? '' : category[0].id
       this.searchFilters.category = value === '' ? '' : value
       this.setActiveFilter()
       this.$emit('filterList',this.searchFilters)
@@ -351,8 +356,10 @@ export default {
       this.activeTypeFilters=[]
       for (const value of Object.values(val)) {
         if(value !==''){
-          if (!this.activeTypeFilters.includes(value)) {
-              this.activeTypeFilters.push(value)
+          const category = this.allCategories.filter((el) =>el.id ===value);
+          console.log('ss',category[0])
+          if (!this.activeTypeFilters.includes(value) && category[0] ===undefined) {
+            this.activeTypeFilters.push(value)
           }
         }
       }
