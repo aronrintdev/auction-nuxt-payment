@@ -2,18 +2,22 @@
   <div :class="(isScreenXS? 'm-3': '') + mobileClass" class="apply-vendor-page">
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-md-6">
-          <h1 class="mt-5 text-bold text-center">
-            {{ $t('vendor_hub.apply_title') }}
-          </h1>
-
-          <h3 class="text-center mt-5">
-            {{ $t('vendor_hub.store_details') }}
-          </h3>
-
+        <div class="col-md-6 p-0">
           <div class="mt-3">
             <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
               <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
+                <div :class="{'bg-white pt-3 px-3 mb-4 rounded-lg mobile-form-box' : mobileClass }">
+
+                  <component :is="mobileClass ? 'div' : 'h1'"
+                             class="mt-sm-5 text-bold text-sm-center"
+                             :class="{'body-14-medium text-color-blue' : mobileClass}">
+                    {{ $t('vendor_hub.apply_title') }}
+                  </component>
+
+                  <component :is="mobileClass ? 'div' : 'h3'" class="text-sm-center mt-sm-5 mb-3 mb-sm-0">
+                    {{ $t('vendor_hub.store_details') }}
+                  </component>
+
                 <ValidationProvider
                     v-slot="validationContext"
                     :name="$t('vendor_hub.form.store_name')"
@@ -21,6 +25,7 @@
                 >
                   <b-form-group>
                     <b-input-group>
+                      <label v-if="mobileClass" class="body-8-medium">{{  $t('vendor_hub.form.store_name') }}</label>
                       <b-form-input
                           id="storeField"
                           v-model="applyForm.store_name"
@@ -43,6 +48,7 @@
                 >
                   <b-form-group>
                     <b-input-group>
+                      <label v-if="mobileClass" class="body-8-medium">{{  $t('vendor_hub.form.store_address') }}</label>
                       <b-form-input
                           id="addressField"
                           v-model="applyForm.store_address"
@@ -58,7 +64,6 @@
                     </b-input-group>
                   </b-form-group>
                 </ValidationProvider>
-
                 <div>
                   <div class="form-row">
                     <div class="col">
@@ -69,6 +74,7 @@
                       >
                         <b-form-group>
                           <b-input-group>
+                            <label v-if="mobileClass" class="body-8-medium">{{  $t('vendor_hub.form.city') }}</label>
                             <b-form-input
                                 id="cityField"
                                 v-model="applyForm.city"
@@ -93,6 +99,7 @@
                       >
                         <b-form-group>
                           <b-input-group>
+                            <label v-if="mobileClass" class="body-8-medium">{{  $t('vendor_hub.form.state') }}</label>
                             <b-form-input
                                 id="stateField"
                                 v-model="applyForm.state"
@@ -121,6 +128,7 @@
                       >
                         <b-form-group>
                           <b-input-group>
+                            <label v-if="mobileClass" class="body-8-medium">{{  $t('vendor_hub.form.apt_suite') }}</label>
                             <b-form-input
                                 id="suitenoField"
                                 v-model="applyForm.apt_number"
@@ -145,6 +153,7 @@
                       >
                         <b-form-group>
                           <b-input-group>
+                            <label v-if="mobileClass" class="body-8-medium">{{  $t('vendor_hub.form.zip_code') }}</label>
                             <b-form-input
                                 id="zipcodeField"
                                 v-model="applyForm.zip_code"
@@ -164,6 +173,7 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label v-if="mobileClass" class="body-8-medium">{{  $t('vendor_hub.form.country') }}</label>
                   <b-form-select id="countryField" v-model="applyForm.country"
                                  :class="mobileClass"
                                  :options="COUNTRIES" class="apply_form_input"
@@ -185,7 +195,7 @@
                                      @change="checkReseller">
                       <div class="consent-label position-relative">
                         <div v-b-popover.hover.top="$t('vendor_hub.form.info_popover')"
-                             class="position-absolute mt-n2 mr-n3 info-icon" role="button">
+                             class="position-absolute mt-n2 mr-n3 pt-2 info-icon" role="button">
                           <img :src="require('~/assets/img/icons/info-blue.svg')" alt="">
                         </div>
                         {{ $t('vendor_hub.consent') }}
@@ -206,6 +216,7 @@
                   >
                     <b-form-group>
                       <b-input-group>
+                        <label v-if="mobileClass" class="body-8-medium">{{  $t('vendor_hub.form.phone_number') }}</label>
                         <b-form-input
                             id="phoneField"
                             :class="mobileClass"
@@ -224,6 +235,7 @@
                     </b-form-group>
                   </ValidationProvider>
                 </div>
+                </div>
                 <div v-if="!apply" class="text-center">
                   <Button :block="isScreenXS" :disabled="isSendCodeDisabled" class="submit-button" pill type="submit"
                           variant="primary">
@@ -231,7 +243,7 @@
                   </Button>
                 </div>
 
-                <!--                Code sent form-->
+                <!--Code sent form-->
                 <div v-if="apply">
                   <p class=" text-center mt-2 mb-2">{{ $t('vendor_hub.form.code_sent') }}</p>
                   <div class="d-flex justify-content-center align-items-start ml-5">
@@ -618,12 +630,15 @@ input.code-field
 
 .apply-vendor-page
   background-color: $color-gray-1
-  height: 100vh
+  height: 100%
 
   &.mobile
     background: $color-white-1
+
+  .mobile-form-box
     box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
     border-radius: 10px
+    padding-bottom: 3px
 
 .apply_form_input
   @include body-5
@@ -655,6 +670,8 @@ input.code-field
     border: 1px solid $input-mobile-border-color
     border-radius: 10px !important
 
+.text-color-blue
+  color: $color-blue-20
 
 :deep()
   .custom-control-input:checked
