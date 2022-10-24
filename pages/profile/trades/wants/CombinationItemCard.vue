@@ -147,7 +147,7 @@
           {{ combinationItems[selectedItemIndex].product.colorway }}
         </div>
         <div class="name">
-          Size: {{ combinationItems[selectedItemIndex].size.size }}
+          {{ $t('home_page.size') }}: {{ combinationItems[selectedItemIndex].size.size }}
         </div>
         <div class="name">
           {{ $t('trades.create_listing.vendor.wants.box') }}:
@@ -171,7 +171,7 @@
 
         <div class="value">{{
             $t('trades.create_listing.vendor.wants.total_est_value')
-          }}:   ${{ estValue(combinationItems) }}
+          }}:   ${{ estValue(combination.combination_items) }}
         </div>
       </div>
       <img class="more d-md-none" :src="require('assets/img/icons/More.svg')" />
@@ -209,8 +209,8 @@ export default {
     // this.combination.selectedItemIndex
     return {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
-      combinationItems: this.combination.combination_items,
-      selectedItemIndex: this.combination.selectedItemIndex
+      selectedCombination: this.combination.combination_items[0],
+      selectedItemIndex: 0
     }
   },
   methods:{
@@ -238,7 +238,7 @@ export default {
      * @param itemIndex
      */
     setCombinationSelectedItem(combinationIndex) {
-      this.selectedItemIndex = combinationIndex
+      this.selectedCombination = this.combination.combination_items[combinationIndex]
     },
   }
 }

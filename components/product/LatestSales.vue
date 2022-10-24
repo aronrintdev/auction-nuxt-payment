@@ -331,14 +331,12 @@ export default {
     @include body-2-regular
     color: $color-black-1
     margin-left: 70px
-    margin-top: 10px
 
     img
       margin-left: 20px
 
   .sales-chart
     width: 100%
-    margin-top: 10px
 
     >div
       height: 380px

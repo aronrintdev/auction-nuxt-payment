@@ -330,7 +330,7 @@
 <script>
 /* eslint-disable vue/no-unused-components */
 import {mapActions, mapGetters} from 'vuex'
-import debounce from 'lodash.debounce';
+import debounce from 'lodash.debounce'
 import SearchInput from '~/components/common/SearchInput'
 import CustomDropdown from '~/components/common/CustomDropdown'
 import {
@@ -451,24 +451,24 @@ export default {
   },
   mounted() {
     this.$root.$on('discard_changes', () => {
-      this.getWantItems();
-      this.getCombinations();
+      this.getWantItems()
+      this.getCombinations()
       this.editItem = null
     })
     this.$root.$on('back_to_combination', () => {
-      this.getWantItems();
-      this.getCombinations();
+      this.getWantItems()
+      this.getCombinations()
       this.editCombination = null
     })
     this.$root.$on('back_to_list', () => {
-      this.getWantItems();
-      this.getCombinations();
+      this.getWantItems()
+      this.getCombinations()
       this.editCombination = null
       this.editItem = null
     })
-    this.getWantItems();
-    this.getCombinations();
-    this.getCombinationOptions();
+    this.getWantItems()
+    this.getCombinations()
+    this.getCombinationOptions()
   },
   methods: {
     ...mapActions('trades', ['searchProductsList']),
@@ -555,7 +555,7 @@ export default {
     handleSelect(item) {
       this.selected = []
       if (item?.value === 'create_combination') {
-        this.removeCombination = false;
+        this.removeCombination = false
         this.removeWantItems = true
         this.action = item?.value
       } else {
@@ -567,8 +567,8 @@ export default {
 
     cancelAction() {
       this.action = null
-      this.removeWantItems = false;
-      this.removeCombination = false;
+      this.removeWantItems = false
+      this.removeCombination = false
       this.selected = []
     },
 
@@ -633,11 +633,10 @@ export default {
       }, 3000)
     },
     selectItemCombination(data, checked) {
-      this.selectedActionType = data.type
       if (checked) {
-        this.selected.push(data.id)
+        this.selected.push(data)
       } else {
-        this.selected.splice(this.selected.indexOf(data.id), 1)
+        this.selected.splice(this.selected.indexOf(data), 1)
       }
     },
     createCombination() {
@@ -653,6 +652,7 @@ export default {
       this.action = 'delete'
     },
     getWantItems: debounce(function () {
+      this.searchText = ''
       // Do the api call
       this.$axios.get('trades/wants', {
         params: {
@@ -670,6 +670,7 @@ export default {
           console.log('this.wantedItems', this.wantedItems);
           this.totalCount = parseInt(response.data.data.total)
           this.perPage = parseInt(response.data.data.per_page)
+          this.$nextTick(() => this.$forceUpdate())
         })
         .catch((err) => {
           this.$toasted.error(this.$t(err.response.data.error))
@@ -704,6 +705,8 @@ export default {
         this.combinationItems.forEach((combination, index) => {
           this.combinationItems[index].selectedItemIndex = (this.totalCountCombination > 0) ? 0 : null
         });
+        this.combinationNum = this.combinationItems.length + 1
+        this.$nextTick(() => this.$forceUpdate())
       })
       .catch((err) => {
         this.$toasted.error(this.$t(err.response.data.error))

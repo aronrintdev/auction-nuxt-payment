@@ -1435,11 +1435,23 @@
     "image": {
       "not_found": "Product image is not found"
     },
-    "certified_authentic": "Certified Authentic",
+    "certified_authentic": "CertifiedAuthentic",
+    "payment_plans": "Payment\nPlans",
+    "description": "Description",
+    "crypto_payments": "Crypto\nPayments",
+    "date_time": "Date/Time",
     "have_pair_to_sell": "Have a pair to sell?",
     "create_a_listing": "Create a listing!",
     "last_sold_for": "Last Sold For",
     "lowest_price": "Lowest Price",
+    "place_offer": "Place Offer",
+    "or_sell_now": "or Sell Now",
+    "sell_for": "Sell for {amount}",
+    "read_more": "Read More",
+    "read_less": "Read Less",
+    "pre_authenticated_ships_instantly": "Pre - authenticated, ships instantly",
+    "normal_authentication_and_shipping": "Normal authentication & shipping",
+    "enter_offer_amount": "Enter Offer Amount",
     "highest_offer": "Highest Offer",
     "all_sizes": "All Sizes",
     "box_condition": "Box Condition",
@@ -1453,10 +1465,16 @@
       "none": "None"
     },
     "add_to_bag": "Add To Bag",
+    "add_to_cart": "Add to Cart",
     "buy_now": "Buy Now",
     "asks": "Asks",
     "offers": "Offers",
     "sales": "Sales",
+    "sales_graph": "Sales Graph",
+    "sales_data": "Sales Data",
+    "recent_sales": "Recent Sales",
+    "recent_offers": "Recent Offers",
+    "recent_asks": "Recent Asks",
     "we_accept": "We accept",
     "and_more": "And More",
     "pay_over_time": "Pay over time in interest-free installments with",
@@ -1475,14 +1493,17 @@
     "latest_sales": "Latest Sales",
     "list_what_you_have_with_us": "List what you have with us!",
     "4_payments": "4 payments of {price}",
-    "authenticity_guaranteed": "Authenticity Guaranteed",
+    "or_4_installments": "or 4 installments",
+    "of_price": "of {price}",
+    "authenticity_guaranteed": "Authenticity\nGuaranteed",
     "select_size": "Select Size",
     "error": {
       "select_size": "Please select a size above to add to cart",
       "select_size_to_offer": "Please select a size above to make an offer",
       "out_of_stock": "Unfortunately, this item and size is currently out of stock!",
       "enter_valid_amount": "Please enter valid offer amount",
-      "not_found": "Product is not found"
+      "not_found": "Product is not found",
+      "select_shipping_type": "Please select a shipping type above"
     },
     "message": {
       "send_item_email": "We will send you an email when this item is back in stock!",
@@ -2681,7 +2702,15 @@
     },
     "delist_body": "Are you sure you would like to delist these items? | By delisting an item you will be charged based on the amount of highest bid.",
     "accept_body": "Are you sure you would like to accept the $:amount: and end this auction early?",
-    "sold_body": "This auction has been sold! | You will be re-directed to your orders page. "
+    "sold_body": "This auction has been sold! | You will be re-directed to your orders page. ",
+    "status_types": {
+      "all": "All",
+      "live": "Live",
+      "upcoming": "Upcoming",
+      "expired": "Expiring",
+      "sold": "Sold"
+    },
+    "status_type": "Status"
   },
   "create_listing": {
     "drafts": "Drafts ({0})",

@@ -150,7 +150,6 @@ export default {
       }
       this.$emit('endDate', this.endDate)
     },
-
     // on start date input
     inputStartDate(event) {
       if(event){

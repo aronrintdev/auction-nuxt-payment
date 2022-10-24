@@ -86,7 +86,8 @@
 </template>
 
 <script>
-  import {mapActions} from 'vuex'
+import {mapActions} from 'vuex'
+import debounce from 'lodash.debounce'
 import SearchInput from '~/components/common/SearchInput'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox';
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
@@ -128,7 +129,7 @@ export default {
     backWants() {
       this.searchedItems = []
       if(this.combinationId){
-        this.$root.$emit('back_to_edit')
+        this.$root.$emit('back_to_edit_combination')
       }
       else {
         this.$router.push('/profile/trades/wants')
@@ -139,7 +140,7 @@ export default {
      * listing below input search field
      * @param term
      */
-    onSearchInput(term) {
+    onSearchInput: debounce(function (term) {
       this.searchText = term
       if (term) {
         this.searchProductsList({
@@ -157,7 +158,7 @@ export default {
         this.searchText = null
         this.searchedItems = []
       }
-    },
+    }, 500)
   }
 
 
