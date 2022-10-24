@@ -383,6 +383,9 @@ export default {
       applyVendor: 'vendor-hub/applyVendor',
       verifyCode: 'vendor-hub/verifyCode'
     }),
+    countryChanged(c) {
+     this.applyForm.country = c
+    },
     phoneChanged(p) {
       if (!p.startsWith(this.selectedCountryDialCode)) {
         this.applyForm.phone = this.selectedCountryDialCode + p
@@ -539,6 +542,8 @@ export default {
       this.showDocModal = true
     },
     routeUser() {
+      return USER_STATUS_PENDING + USER_STATUS_APPROVED
+      /*
       switch (this.user.vendor_status) {
         case USER_STATUS_PENDING:
           this.$router.push({
@@ -553,6 +558,7 @@ export default {
         default:
           break;
       }
+       */
     }
   }
 }
