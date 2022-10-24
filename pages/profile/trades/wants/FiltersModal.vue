@@ -58,7 +58,7 @@
 
         <FilterAccordion 
           :title="$tc('common.size_type', 1)" 
-          :data="filters.size_type.text"
+          :data="sizeTypesLabel"
         >
           <ButtonSelector 
             :options="sizeTypesOptions" 
@@ -68,14 +68,16 @@
               rowGap: '15px',
               marginTop: '20px'
             }"
-            :single="true"
             @change="sizeTypeChange"
           />
         </FilterAccordion>
 
         <div class="separator"></div>
 
-        <FilterAccordion :title="$t('home_page.size', 1)" :data="filters.size.text.toString()">
+        <FilterAccordion 
+          :title="$t('home_page.size', 1)" 
+          :data="sizeLabel"
+        >
           <ButtonSelector 
             :options="sizeOptions"
             :contentStyle="{
@@ -86,7 +88,6 @@
               marginLeft: '-7.5px'
             }"
             itemClass="size-45"
-            :single="true"
             @change="sizeChange"
           />
         </FilterAccordion>
@@ -123,8 +124,8 @@ import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
 import FilterAccordion from '~/components/mobile/FilterAccordion';
 import Button from '~/components/common/Button';
 import ButtonSelector from '~/components/mobile/ButtonSelector';
-import { SIZE_TYPES, PRODUCT_TYPES, WANTS_SORT_OPTIONS } from '~/static/constants/trades'
-import { SNEAKER_SIZES, APPAREL_SIZES } from '~/static/constants/sizes'
+import { SIZE_TYPES, WANTS_SORT_OPTIONS } from '~/static/constants/trades'
+import { APPAREL_SIZES } from '~/static/constants/sizes'
 
 
 export default {
@@ -153,15 +154,12 @@ export default {
         { text: this.$t('common.categories.accessories'), value: 'accessories' },
       ],
       sortOptions: WANTS_SORT_OPTIONS.map(item => ({ text: this.$t(item.text), value: item.value })),
-      productTypeOptions: PRODUCT_TYPES.map(item => ({ text: this.$t(item.text), value: item.value })),
-      sizesOptions: SNEAKER_SIZES.map(item => ({ text: item, value: item })),
       sizeOptions: APPAREL_SIZES.map(item => ({ text: item, value: item })),
       filters: {
         sortBy: 'price_asc',
-        size_type: { text: '', value: '' },
+        size_type: [],
         category: { text: '', value: '' },
-        sizes: { text: '', value: '' },
-        size: { text: '', value: '' }
+        size: []
       },
     };
   },
@@ -173,18 +171,35 @@ export default {
     },
     filterChangeCount() {
       let count = 0
-      for (const [key, value] of Object.entries(this.filters)) {
-        const isSelected = (key === 'sortBy' && value !== 'price_asc')
-                            || (value.value && value.value.length > 0)
-        if (isSelected) {
-          count++
-        }
+      if (this.filters.sortBy !== 'price_asc') {
+        count++
+      }
+      if (this.filters.category.value.length > 0) {
+        count++
+      }
+      if (this.filters.size_type.length > 0) {
+        count++
+      }
+      if (this.filters.size.length > 0) {
+        count++
       }
       return count
     },
-    productTypesLabel() {
-      const result = this.filters.product_type.reduce((acc, item, index) => {
-        const found = this.productTypeOptions.find(v => v.value === item);
+    sizeTypesLabel() {
+      const result = this.filters.size_type.reduce((acc, item, index) => {
+        const found = this.sizeTypesOptions.find(v => v.value === item);
+        if (index === 0) {
+          return found.text
+        } else {
+          return `${acc}, ${found.text}`;
+        }
+      }, '')
+
+      return result;
+    },
+    sizeLabel() {
+      const result = this.filters.size.reduce((acc, item, index) => {
+        const found = this.sizeOptions.find(v => v.value === item);
         if (index === 0) {
           return found.text
         } else {
@@ -203,34 +218,25 @@ export default {
     resetForm() {
       this.filters = {
         sortBy: 'price_asc',
-        size_type: { text: '', value: '' },
+        size_type: [],
         category: { text: '', value: '' },
-        size: { text: '', value: '' }
+        size: []
       }
       this.$emit('filter', this.filters)
     },
 
     sizeTypeChange(value) {
-      this.filters.size_type = this.sizeTypesOptions.find(v => v.value === value);
+      this.filters.size_type = value;
     },
 
     categoryChange(value) {
-      console.log('categoryChange', value);
       this.filters.category = this.categoriesOptions.find(v => v.value === value);
     },
 
-    productTypeChange(value) {
-      this.filters.product_type = value
-    },
-
     sizeChange(value) {
-      this.filters.size = this.sizeOptions.find(v => v.value === value);
+      this.filters.size = value;
     },
-
-    sizesChange(value) {
-      this.filters.sizes = this.sizesOptions.find(v => v.value === value);
-    }
-
+    
   }
 }
 </script>

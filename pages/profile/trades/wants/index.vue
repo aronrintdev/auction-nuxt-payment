@@ -763,8 +763,8 @@ export default {
     setFilters(filters) {
       this.category = filters.category.value
       this.orderFilter = filters.sortBy
-      this.sizeTypesFilter = [filters.size_type.value]
-      this.sizeFilter = [filters.size.value]
+      this.sizeTypesFilter = filters.size_type
+      this.sizeFilter = filters.size
       this.getWantItems();
       this.filtersModalOpen = false
     },
