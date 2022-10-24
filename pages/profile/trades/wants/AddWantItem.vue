@@ -38,7 +38,6 @@
       <SearchedProductsBelowSearchTextBox 
         v-if="searchedItems.length > 0" 
         :productItems="searchedItems" 
-        class="d-none d-sm-flex"
         inputType="wantsList"
         :wrapperStyle="{ margin: 0 }"
         :itemStyle="{ padding: 0 }"
@@ -46,39 +45,8 @@
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0
         }"
+        @add_product_want_list="redirectToAddWant"
       />
-      <div class="mt-3 d-sm-none">
-        <div
-          v-for="item in searchedItems"
-          :key="item.id"
-          class="d-flex search-item justify-content-between align-items-center"
-        >
-          <div class="d-flex align-items-center">
-            <img 
-              :style="{ maxHeight: '70px', width: 'auto' }" 
-              class="mr-1" 
-              :src="item.image" 
-            />
-            <span class="searched-product-name col-7 align-self-center mx-3">
-              {{ item.name }}
-            </span>
-          </div>
-
-          <div 
-            class="add-item-button col-2"
-            @click="$root.$emit('add_product_want_list', item)"
-          >
-            {{ $t('common.add') }}
-          </div>
-        </div>
-
-        <div class="mt-2 d-flex justify-content-between px-4 no-product">
-          <div class="">{{ $t('common.dont_see_your_product') }}</div>
-          <u @click="$router.push('/profile/trades/wants/addwantitem')">
-            {{ $t('common.suggest_a_new_product') }}
-          </u>
-        </div>
-      </div>
       
     </div>
   </div>
@@ -119,6 +87,7 @@ export default {
     })
     // emit listener use to take user back from search selection
     this.$root.$on('back_to_search_wants', () => {
+      console.log('back_to_search_wants event111');
       this.searchItem = null
       this.searchText = null
       this.searchedItems = []
@@ -133,6 +102,20 @@ export default {
       }
       else {
         this.$router.push('/profile/trades/wants')
+      }
+    },
+    redirectToAddWant(product) {
+      this.editItem = {
+        product,
+        packaging_condition: {
+          id: '',
+          name: ''
+        },
+        packaging_condition_id: '',
+        size: {
+          id: ''
+        },
+        latestSales: null
       }
     },
     /**
@@ -170,7 +153,9 @@ export default {
 
 .add-item-container
   padding: 15px 12px 0 12px
+  background: #FFF
   @media (min-width: 576px)
+    background: $color-white-5
     padding: 25px
 
 .back-to-wants

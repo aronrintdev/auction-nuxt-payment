@@ -127,6 +127,29 @@
       </div>
     </div>
 
+    <div class="d-sm-none d-flex justify-content-end mt-3">
+      <div 
+        class="d-flex align-items-center"
+        @click="removeWantItems = true"
+      >
+        <img
+          :src="require('~/assets/img/icons/delete-rounded.svg')"
+          :alt="$t('product_page.delete_multiple')"
+        />
+        <div 
+          :style="{
+            fontFamily: 'SF Pro Display',
+            fontSize: '12px',
+            color: '#999',
+            fontWeight: 500,
+            marginLeft: '4px'
+          }"
+        >
+          {{ $t('product_page.delete_multiple') }}
+        </div>
+      </div>
+    </div>
+
     <div class="mt-4 d-none d-sm-block">
       <span class="filter-label">Filter by</span>
     </div>
@@ -194,8 +217,7 @@
       <!-- <b-col class="d-none d-xl-block" lg="1"></b-col> -->
       <b-col sm="6" lg="3" class="pr-0 d-lg-flex justify-content-lg-end">
         <div role="button" class="button-delete-multiple" @click="deleteMultiple">
-        <!-- {{ $t('create_listing.trade.offer_items.delete_multiple') }} -->
-          Delete Multiple
+          {{ $t('product_page.delete_multiple') }}
         </div>
       </b-col>
     </div>
@@ -334,6 +356,28 @@
       </div>
       </div>
     </div>
+    <div
+      class="d-flex flex-column d-sm-none px-3 pb-3"
+      v-if="removeWantItems === true"
+    >
+      <div class="col-12 tap-to-delete">{{ $t('common.tap_to_delete') }}</div>
+      <div class="d-flex justify-content-between">
+        <div 
+          class="col-5 d-flex align-items-center justify-content-center cancel-button"
+          @click="removeWantItems = false; selected = []"
+        >
+          {{ $t('common.cancel') }}
+        </div>
+        <input 
+          type="button"
+          :disabled="selected.length < 1"
+          :value="deleteButtonText"
+          class="col-5 d-flex align-items-center justify-content-center delete-button-mobile border-0"
+          @click="$bvModal.show('confirm-bulk-delete'); action = 'delete'"
+        />
+      </div>
+    </div>
+
     <FiltersModal
       :isOpen="filtersModalOpen"
       @closed="filtersModalOpen = false"
@@ -349,7 +393,8 @@
         fontWeight: 400,
         fontSize: '18px',
         color: '#000',
-        marginTop: '-30px'
+        marginTop: '-30px',
+        width: '100%'
       }"
       @confirm="handleBulkAction"
     />
@@ -362,8 +407,7 @@
         fontWeight: 400,
         fontSize: '18px',
         color: '#000',
-        marginTop: '-30px',
-        marginBottom: '20px'
+        width: '100%'
       }"
     />
   </div>
@@ -399,6 +443,7 @@ import FiltersModal from '~/pages/profile/trades/wants/FiltersModal'
 import { ConfirmModal, AlertModal } from '~/components/modal'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox';
 import { APPAREL_SIZES } from '~/static/constants/sizes'
+import { Button } from '~/components/common';
 
 
 export default {
@@ -415,7 +460,8 @@ export default {
     SearchInput,
     ConfirmModal,
     AlertModal,
-    SearchedProductsBelowSearchTextBox
+    SearchedProductsBelowSearchTextBox,
+    Button
   },
   layout: 'Profile',
   data() {
@@ -494,6 +540,10 @@ export default {
         textTransform: 'capitalize',
         color: '#626262'
       }
+    },
+    deleteButtonText() {
+      const count = this.selected.length > 0 ? `(${this.selected.length})` : ''
+      return `${this.$t('common.delete')} ${count}`
     }
   },
   mounted() {
@@ -510,6 +560,7 @@ export default {
     this.$root.$on('back_to_list', () => {
       this.getWantItems()
       this.getCombinations()
+      this.searchedItems = []
       this.editCombination = null
       this.editItem = null
     })
@@ -801,6 +852,7 @@ export default {
       console.log('handleBulkAction2', this.action);
       if (isDeleteAction) {
         this.$bvModal.show('items-deleted')
+        this.removeWantItems = false
       }
     },
     addCombination() {
@@ -898,6 +950,29 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.tap-to-delete
+  text-align: center
+  font-weight: 500
+  font-size: 12px
+  color: $color-gray-77
+  margin-bottom: 23px
+
+.cancel-button
+  border: 1px solid $color-gray-76
+  border-radius: 20px
+  font-weight: 600
+  font-size: 13px
+  color: $color-gray-76
+  height: 35px
+
+.delete-button-mobile
+  border-radius: 20px
+  background: $color-blue-20
+  color: #fff
+  font-weight: 600
+  font-size: 13px
+  height: 35px
 
 .wants-container
   background: #FDFDFD

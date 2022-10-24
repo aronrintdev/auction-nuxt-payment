@@ -160,7 +160,8 @@
     "read_less": "Read Less",
     "read_more": "Read More",
     "go_back": "Go Back",
-    "search_wants": "Search for Wants"
+    "search_wants": "Search for Wants",
+    "tap_to_delete": "Tap on the Wants you would like to delete"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -524,6 +525,7 @@
     "size": "Size",
     "sell": "Sell",
     "or_ask": "or Ask",
+    "delete_multiple": "Delete Multiple",
     "no_combinations_found": "0 combinations have been found in your wants combinations",
     "looking_to_join_the_affiliate’s_program": "Looking to join the Affiliate’s Program?",
     "list_what_you_have_with_us": "List what you have with us!",

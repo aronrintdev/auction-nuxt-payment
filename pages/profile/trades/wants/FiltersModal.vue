@@ -75,44 +75,6 @@
 
         <div class="separator"></div>
 
-        <!-- <FilterAccordion 
-          :title="$tc('trades.index.browse.product_type', 1)" 
-          :data="productTypesLabel"
-        >
-          <ButtonSelector
-            :options="productTypeOptions"
-            :contentStyle="{
-              display: 'flex',
-              justifyContent: 'space-between',
-              rowGap: '15px',
-              marginTop: '15px',
-              marginLeft: '-7.5px'
-            }"
-            :single="false"
-            @change="productTypeChange"
-          />
-        </FilterAccordion>
-
-        <div class="separator"></div> -->
-
-        <!-- <FilterAccordion :title="$tc('product_page.sizes', 1)" :data="filters.sizes.text.toString()">
-          <ButtonSelector 
-            :options="sizesOptions"
-            :contentStyle="{
-              display: 'flex',
-              justifyContent: 'space-between',
-              rowGap: '15px',
-              marginTop: '15px',
-              marginLeft: '-7.5px'
-            }"
-            :single="true"
-            itemClass="size-42"
-            @change="sizesChange"
-          />
-        </FilterAccordion>
-
-        <div class="separator"></div> -->
-
         <FilterAccordion :title="$t('home_page.size', 1)" :data="filters.size.text.toString()">
           <ButtonSelector 
             :options="sizeOptions"

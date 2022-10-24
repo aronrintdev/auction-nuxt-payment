@@ -30,7 +30,7 @@
               height="15" 
               width="15" 
             >
-            <span class="edit-label ml-1">Edit</span>
+            <span class="edit-label ml-1">{{ $t('common.edit') }}</span>
           </div>
           <div 
             role="button" 
@@ -43,7 +43,7 @@
               width="15" 
               class="ml-4"
             >
-            <span class="delete-label ml-1">Delete</span>
+            <span class="delete-label ml-1">{{ $t('common.delete') }}</span>
           </div>
         </div>
       </div>
@@ -55,9 +55,9 @@
       <div class="card-text-item pt-3 pl-2">
         <div class="invent-item-name">{{wantItem.product && wantItem.product.name}}</div>   <!-- to do just frontend .....  -->
         <div class="invent-item-color">
-          {{ wantItem.product && wantItem.product.colorway }}, Size {{ wantItem.size && wantItem.size.size }}
+          {{ wantItem.product && wantItem.product.colorway }}, {{ $t('home_page.size') }} {{ wantItem.size && wantItem.size.size }}
         </div>
-        <div class="invent-item-color">Box: {{
+        <div class="invent-item-color">{{ $t('sell.inventory.box') }}: {{
             wantItem.packaging_condition && wantItem.packaging_condition.name
           }}</div>
       </div>

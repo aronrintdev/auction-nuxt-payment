@@ -23,7 +23,7 @@
           <div 
             v-if="!singleMode"
             @click="handleViewAllClick"
-            class="position-absolute view-all-btn"
+            class="position-absolute view-all-btn mr-2"
           >
             <img
               width="18"

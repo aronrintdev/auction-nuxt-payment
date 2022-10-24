@@ -18,16 +18,24 @@
     <div class="d-flex flex-column justify-content-center">
       <div class="d-flex flex-column flex-xl-row">
         <div class="col-xl-5">
+          <div 
+            class="back-to-wants" 
+            role="button" 
+            @click="backSearch()"
+          >
+            <b-icon icon="chevron-left" aria-hidden="true"></b-icon>
+            {{$t('trades.wants_listing.back_to_want_list')}}
+          </div>
           <ProductImageViewer v-if="!product.product.has360Images" :product="product.product" />
           <ProductImageViewerMagic360 v-if="product.product.has360Images" :product="product.product" />
         </div>
-        <div class="col-xl-6 px-2">
+        <div class="col-xl-6 px-0 px-sm-2">
           <p class="mt-3 mb-0 title">{{ product.product.name }}</p>
-          <p class="custom-border">
+          <!-- <p class="custom-border">
             <span class="last-sale">{{ $t('product_page.last_sale') }}: $250.00</span>
             <span class="last-sale-value">+0.64 (+0.36%)</span>
-          </p>
-          <div class="position-relative flex-grow-1">
+          </p> -->
+          <div class="position-relative">
             <ProductSizePicker
               :value="currentSizeId"
               :sizes="product.product.sizes"
@@ -66,7 +74,7 @@
             :style="{
               marginTop: '130px'
             }" 
-            class="d-flex flex-column pb-5 pb-sm-2"
+            class="d-flex flex-column pb-sm-2"
           >
             <div class="d-flex align-items-center mb-2">
               <div class="box mr-1">{{ $t('products.box_condition')}}</div>
@@ -116,25 +124,29 @@
                   v-for="box in conditionsOptions"
                   :key="box.value"
                   class="box-item"
+                  role="button"
+                  @click="box_condition = box.value"
                 >
-                  <span>{{ box.text }}</span>
+                  <span :class="{ 'text-black': box_condition === box.value }">
+                    {{ box.text }}
+                  </span>
                 </div>
               </div>
             </div>
 
             <div class="d-flex flex-column flex-sm-row justify-content-between">
-              <div class="col-sm-6 d-flex flex-column pl-sm-0">
+              <div class="col-sm-6 d-flex flex-column px-0 pr-sm-2 pl-sm-0">
                 <div class="form-label">
                   {{ $t('common.quantity') }} <sup>*</sup>
                 </div>
                 <input
                   type="number"
-                  :placeholder="'1'"
+                  v-model="quantity"
                   required
-                  class="bg-white form-label form-input"                 
+                  class="bg-white form-label form-input pr-2"                 
                 />
               </div>
-              <div class="col-sm-6 pr-sm-0">
+              <div class="col-sm-6 px-0 pl-sm-2 pr-sm-0">
                 <div class="form-label" >
                   {{ $t('common.select_list') }} <sup>*</sup>
                 </div>
@@ -196,7 +208,11 @@
             </div>
           </div>
 
-          <div class="add-want-button d-none d-sm-flex">
+          <div 
+            role="button" 
+            class="add-want-button d-none d-sm-flex"
+            @click="addWantItem(product)"
+          >
             {{ $t('trades.create_listing.vendor.wants.add_want') }}
           </div>
 
@@ -248,7 +264,7 @@
           }"
         />
 
-        <div class="d-flex d-md-none justify-content-between pb-3 mt-3">
+        <!-- <div class="d-flex d-md-none justify-content-between pb-3 mt-3">
           <div class="chart-button col-3">
             {{ $t('products.asks') }}
           </div>
@@ -258,10 +274,14 @@
           <div class="chart-button col-3">
             {{ $t('products.sales') }}
           </div>
-        </div>
+        </div> -->
       </div>
 
-      <div class="add-want-button d-sm-none mb-3">
+      <div
+        class="add-want-button d-sm-none mt-1 mb-3"
+        role="button"
+        @click="addWantItem(product)"
+      >
         {{ $t('trades.create_listing.vendor.wants.add_want') }}
       </div>
 
@@ -368,6 +388,7 @@ export default {
       this.box_condition = this.product.packaging_condition_id
       this.selected_size = this.product.size_id
     }
+    console.log('this prodict', this.product);
   },
   methods: {
     ...mapActions({
@@ -464,15 +485,24 @@ export default {
      * THis function is used to add wants item in wants list
      */
     addWantItem(selectedProduct) {
-      const _self = this;
       const data = {
-        product_id: selectedProduct.id,
-        quantity: parseInt(_self.quantity),
-        size_id: _self.selected_size,
-        packaging_condition_id: _self.box_condition,
-        year: _self.year,
-        wants_list_type: _self.selectList
+        product_id: selectedProduct.product.id,
+        quantity: parseInt(this.quantity),
+        size_id: this.currentSizeId,
+        packaging_condition_id: this.box_condition,
+        year: selectedProduct.product.release_year,
+        wants_list_type: this.selectList
       }
+      console.log('addWantItem DATA', data);
+      // const _self = this;
+      // const data = {
+      //   product_id: selectedProduct.id,
+      //   quantity: parseInt(_self.quantity),
+      //   size_id: _self.selected_size,
+      //   packaging_condition_id: _self.box_condition,
+      //   year: _self.year,
+      //   wants_list_type: _self.selectList
+      // }
       this.$axios.post('/trades/wants', data)
         .then(this.backSearch)
         .catch((error) => {
@@ -515,7 +545,7 @@ export default {
      */
     backSearch() {
       if (this.productFor === 'wantsList' && !this.combinationId && !this.itemId) {
-        this.$root.$emit('back_to_search_wants')
+        this.$root.$emit('back_to_list')
       }
       else if(this.combinationId){
         this.$root.$emit('back_to_edit')
@@ -650,6 +680,14 @@ export default {
     font-weight: 500
     font-size: 15px
     text-transform: uppercase
+
+.back-to-wants
+  margin-top: 26px
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-13-regular
+  letter-spacing: 0.06em
+  color: $color-black-1
 
 .value
   font-weight: 500
