@@ -171,6 +171,11 @@ export default {
             this.getCombination()
         }
 
+        const wrapper = document.querySelector('.main-wrapper')
+        if (document.querySelector('.main-wrapper').querySelector('.wants-container')) {
+            wrapper.style.backgroundColor = '#f7f7f7'
+        }
+
         // Emit to take user back from search page to confirmation
         this.$root.$on('back_to_edit_combination', this.backToEdit)
         this.getCombination()

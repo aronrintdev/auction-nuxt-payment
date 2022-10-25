@@ -106,7 +106,6 @@
                   :dropdownStyle="{ 
                     border: '1px solid #000', 
                     borderTop: 0, 
-                    borderBottom: 0, 
                     zIndex: 9999 
                   }"
                   :optionsStyle="{
@@ -116,7 +115,7 @@
                     borderBottom: '1px solid #000',
                   }"
                   labelStyle="font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 14px; color: #667799;"
-                  arrowStyle='color: #667799; width: 16px; height: 18px; position: absolute; right: 50px; margin-bottom: 12px !important;'
+                  arrowStyle='color: #667799; width: 16px; height: 18px; position: absolute; right: 50px; margin-bottom: 12.5px !important;'
                 />
               </div>
               <div class="d-none d-sm-flex justify-content-between">
@@ -302,7 +301,6 @@ import {mapGetters, mapActions} from 'vuex'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import ProductSizePicker from '~/components/product/SizePicker'
 import {MAX_ITEMS_ALLOWED, DIGITS_IN_YEAR} from '~/static/constants/create-listing'
-import {WANTS_SELECT_LIST_OPTIONS} from '~/static/constants/trades'
 import SelectListDropDown from '~/pages/profile/trades/wants/SelectListDropDown'
 import SelectListModal from '~/pages/profile/trades/wants/SelectListModal'
 import Button from '~/components/common/Button'
@@ -330,6 +328,10 @@ export default {
     product: {
       type: Object,
       default: () => null,
+    },
+    combinations: {
+      type: Array,
+      default: () => []
     },
     productFor: {
       type: String,
@@ -370,7 +372,10 @@ export default {
         {name: this.$t('trades.create_listing.vendor.wants.confirm_trade'), active: false}
       ],
       selectList: [],
-      selectListOptions: WANTS_SELECT_LIST_OPTIONS.map(item => ({text: this.$t(item.text), value: item.value})),
+      selectListOptions: [{ text: this.$t('trades.wants_listing.general_wants'), value: 'general_wants' }],
+      // selectListOptions: [
+      //   { text: this.$('trades.wants_listing.general_wants'), value: 'general_wants' },        
+      // ],
       selectListLabel: this.$t('trades.wants_listing.add_to'),
       conditionsOptions: this.product.product.packaging_conditions.map((item) => ({ text: item.name, value: item.id })),
       condition: { text: this.product.packaging_condition.name, value: this.product.packaging_condition.id },
@@ -488,6 +493,14 @@ export default {
      * THis function is used to add wants item in wants list
      */
     addWantItem(selectedProduct) {
+      // trades/wants/combination/items
+      // packaging_condition_id: 1
+      // product_id: 552
+      // quantity: 1
+      // size_id: 30
+      // want_combination_id: 11
+      // wants_list_type: ["combination_item 11"]
+      // year: null
       const data = {
         product_id: selectedProduct.product.id,
         quantity: parseInt(this.quantity),
@@ -496,16 +509,6 @@ export default {
         year: selectedProduct.product.release_year,
         wants_list_type: this.selectList
       }
-      console.log('addWantItem DATA', data);
-      // const _self = this;
-      // const data = {
-      //   product_id: selectedProduct.id,
-      //   quantity: parseInt(_self.quantity),
-      //   size_id: _self.selected_size,
-      //   packaging_condition_id: _self.box_condition,
-      //   year: _self.year,
-      //   wants_list_type: _self.selectList
-      // }
       this.$axios.post('/trades/wants', data)
         .then(this.backSearch)
         .catch((error) => {

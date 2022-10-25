@@ -5,7 +5,7 @@
         <div class="d-flex">
           <div class="col-md-6 d-flex flex-column pl-3 justify-content-between">
             <div class="title-combination ml-4">
-              {{ $t('trades.create_listing.vendor.wants.combination_no') }} {{ combinationIndex }}
+              {{ $t('trades.create_listing.vendor.wants.combination_no') }} {{ combination.combination_id }}
             </div>
             <div>
               <object 
@@ -145,7 +145,7 @@
       </div>
       <div class="col-7 py-3">
         <div class="combination-mobile">
-          {{ $t('trades.create_listing.vendor.wants.combination_no') }} {{ combinationIndex }}
+          {{ $t('trades.create_listing.vendor.wants.combination_no') }}{{ combination.combination_id }}
         </div>
         <div class="name">
           {{ selectedCombination.product.name }}
@@ -186,17 +186,55 @@
           }}:   ${{ estValue(combination.combination_items) }}
         </div>
       </div>
-      <img class="more d-md-none" :src="require('assets/img/icons/More.svg')" />
+      <div class="d-md-none">
+        <img 
+          v-if="!editRemove" 
+          class="more" 
+          :src="require('assets/img/icons/More.svg')" 
+          @click="isModalOpen = true"
+        />
+        <div v-else class="d-flex justify-content-end mb-5">
+          <img
+            v-if="selected"
+            @click="$emit('select', combination.combination_id, 'remove')"
+            class="more"
+            role="button"
+            :src="require('~/assets/img/icons/red-minus.svg')" 
+            height="19" 
+            width="19" 
+          >
+          <img
+            v-else
+            @click="$emit('select', combination.combination_id, 'add')"
+            role="button"
+            class="more"
+            :src="require('~/assets/img/icons/gray-plus.svg')" 
+            height="19" 
+            width="19" 
+          >
+        </div>
+      </div>
     </div>
+    <ActionsModal
+      :isOpen="isModalOpen"
+      :product="selectedCombination"
+      :combinationId="combination.combination_id"
+      @closed="isModalOpen = false"
+      @opened="isModalOpen = true"
+    />
   </div>
 </template>
 
 <script>
 import { PRODUCT_FALLBACK_URL } from '~/static/constants';
+import ActionsModal from '~/components/modal/ActionsModal'
 
 export default {
   name: 'CombinationItemCard',
-  props:{
+  components: {
+    ActionsModal
+  },
+  props: {
     combination: {
       type: Object,
       default: () => {},
@@ -209,11 +247,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    combinationIndex: {
-      type: Number,
-      required: true,
-      default: 1
-    }
   },
   data () {
     console.log('selectedCombination', this.combination);
@@ -221,6 +254,7 @@ export default {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
       selectedCombination: this.combination.combination_items[0],
       combinationItems: this.combination.combination_items,
+      isModalOpen: false,
       selectedItemIndex: 0
     }
   },
@@ -261,8 +295,10 @@ export default {
 
 .more
   position: absolute
-  right: 15px
+  right: 5px
   top: 7px
+  @media (min-width: 576px)
+    right: 15px
 
 .value
   font-family: 'Montserrat'

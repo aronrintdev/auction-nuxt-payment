@@ -96,7 +96,7 @@
 
         <div class="d-flex justify-content-between mb-3">
           <Button
-            class="filter-button"
+            class="col-5 filter-button"
             pill
             variant="outline-dark"
             @click="resetForm"
@@ -105,7 +105,7 @@
           </Button>
 
           <Button
-            class="filter-button apply-filters"
+            class="col-5 filter-button apply-filters"
             pill
             variant="blue"
             @click="$emit('submit', filters)"

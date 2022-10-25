@@ -1,7 +1,13 @@
 <template>
   <div class="wants-container">
    <edit-combination v-if="editCombination" :combination="editCombination"/>
-   <edit-item v-else-if="editItem" :product="editItem" productFor="wantsList" :itemId="editItem.id"/>
+   <edit-item 
+    v-else-if="editItem" 
+    :product="editItem" 
+    productFor="wantsList" 
+    :itemId="editItem.id"
+    :combinations="combinationItems"
+  />
    <div v-else class="wants-main-container">
     <div class="wants-heading">
       {{$t('trades.wants_listing.trading_wants_list')}}
@@ -11,26 +17,41 @@
     </div>
     <b-row class="mt-2 pt-2 d-flex justify-content-between">
       <b-col sm="12" md="7" xl="8" class="mt-2">
-        <div class="d-flex d-sm-none row justify-content-between pr-2">
-          <div class="col-11">
-            <SearchInput
-              class="searchInput"
-              :value="searchText"
-              :inputStyle="{
-                ...inputClass,
-                paddingLeft: '45px', 
-                fontSize: '12px',
-                background: '#F7F7F7',
-                height: '33px',
-              }"
-              iconStyle='color: #979797; width: 14px; height: 14px;'
-              :placeholder="$t('common.search_wants')"
-              variant="primary"
-              :clearSearch="true"
-              @change="filterData"
-            />
+        <div class="d-flex flex-column d-sm-none">
+          <div class="d-flex justify-content-between">
+            <div class="col-11 px-0">
+              <SearchInput
+                class="searchInput"
+                :value="searchText"
+                :inputStyle="{
+                  ...inputClass,
+                  paddingLeft: '45px', 
+                  fontSize: '12px',
+                  background: '#F7F7F7',
+                  height: '33px',
+                }"
+                iconStyle='color: #979797; width: 14px; height: 14px;'
+                :placeholder="$t('common.search_wants')"
+                variant="primary"
+                :clearSearch="true"
+                @change="filterData"
+              />
+            </div>
+            <img @click="filtersModalOpen = true" :src="require('assets/img/icons/filter.svg')" />
           </div>
-          <img @click="filtersModalOpen = true" :src="require('assets/img/icons/filter.svg')" />
+          <SearchedProductsBelowSearchTextBox 
+            v-if="searchedItems.length > 0 && searchText.length > 0" 
+            :productItems="searchedItems" 
+            inputType="wantsList"
+            :wrapperStyle="{ margin: 0 }"
+            :itemStyle="{ padding: 0 }"
+            :suggestNewStyle="{
+              borderTopLeftRadius: 0,
+              borderTopRightRadius: 0,
+              height: '74px'
+            }"
+            @add_product_want_list="redirectToAddWant"
+          />
         </div>
         <div class="show-desktop">
           <SearchInput
@@ -231,7 +252,7 @@
         :active="!!action"
         :selected="selected"
         :unit-label="$tc('common.item', selected.length)"
-        :action-label="`${$tc(`trades.${action}_selected`)} ${action === 'create_combination' ? `#${combinationNum}` : ''}`"
+        :action-label="`${$tc(`trades.${action}_selected`)}`"
         :total="action === 'delete_combination' ? combinationItems.length : wantedItems.length"
         :error="errorSelection"
         class=""
@@ -340,7 +361,7 @@
           </div>
         </div> -->
 
-        <div class="d-flex flex-wrap px-1 pt-5 bg-white border-3" v-else>
+        <div class="d-flex flex-wrap px-1 pt-3 pt-sm-5 bg-white border-3" v-else>
           <div
             v-for="(combination, combinationIndex) in combinationItems"
             :key="combination.combination_id"
@@ -550,6 +571,17 @@ export default {
     }
   },
   mounted() {
+    this.$root.$on('edit', (product) => {
+      this.editItem = product
+    })
+    this.$root.$on('delete', (productId, combinationId) => {
+      this.$axios.post('/trades/wants/destroy', {
+          type: 'combination_item',
+          want_item_id: productId,
+          combination_id: combinationId
+      })
+      .then(this.getCombinations())
+    })
     this.$root.$on('discard_changes', () => {
       this.getWantItems()
       this.getCombinations()
@@ -574,6 +606,10 @@ export default {
   methods: {
     ...mapActions('trades', ['searchProductsList']),
     ...mapActions('browse', ['fetchFilters']), // getter to get filter listing from store
+
+    test() {
+      console.log('1111111');
+    },
 
     submitBulk() {
       if (this.action === 'delete' || this.action === 'delete_combination') {
@@ -789,8 +825,6 @@ export default {
         })
     }, 500),
     getCombinations: debounce(function () {
-      console.log('getCombinations1');
-      // Do the api call
       this.$axios.get('trades/wants', {
         params: {
           type: 'combinations',
@@ -803,14 +837,12 @@ export default {
         }
       })
       .then((response) => { // response will get combination data for want items
-        console.log('getCombinations coming', response.data.data.data);
         this.combinationItems = []
         response.data.data.data.forEach((item) => {
           if (item.combination_items.length > 0) {
             this.combinationItems.push(item);
           }
         });
-        console.log('this.combinationItems after', this.combinationItems);
         this.totalCountCombination = parseInt(response.data.data.total)
         this.perPageCombination = parseInt(response.data.data.per_page)
         this.combinationItems.forEach((combination, index) => {

@@ -32,7 +32,7 @@
           {{ list.text }}
         </div>
         <div class="item justify-content-between" @click="addCombination()">
-          {{ $t('trades.wants_listing.create_combination', { count: '' }) }} #{{ listOptions.length }}
+          {{ $t('trades.wants_listing.create_combination', { count: '' }) }}
           <img 
             @click="addCombination()" 
             :src="require('~/assets/img/icons/product/Add.svg')"
@@ -83,12 +83,43 @@ export default {
 
   methods: {
     combinationOptions() {
-      this.getCombinationsId.forEach((item) => {
-        this.listOptions.push({
-          text: this.$t('trades.wants_listing.create_combination', { count: item }),
-          value: 'combination_item ' + item
-        })
+      console.log('this.getCombinationsId', this.getCombinationsId);
+      // type: combinations
+      // page: 1
+      // size_types: 
+      // sizes: 
+      // perPage: 200
+      this.$axios.get('trades/wants', {
+        params: {
+          type: 'combinations',
+          page: 1,
+          category: '',
+          size_types: '',
+          sizes: '',
+          perPage: 200
+        }
       })
+      .then((response) => { 
+        response.data.data.data.forEach((item) => {
+          if (item.combination_items.length > 0) {
+            this.listOptions.push({
+              text: this.$t('trades.wants_listing.create_combination', { count: item.combination_id }),
+              value: 'combination_item ' + item.combination_id
+            })
+          }
+        });
+        console.log('this.listOptions', this.listOptions);
+      })
+      .catch((err) => {
+        this.$toasted.error(this.$t(err.response.data.error))
+      })
+
+      // this.getCombinationsId.forEach((item) => {
+      //   this.listOptions.push({
+      //     text: this.$t('trades.wants_listing.create_combination', { count: item }),
+      //     value: 'combination_item ' + item
+      //   })
+      // })
     },
 
     addCombination() {

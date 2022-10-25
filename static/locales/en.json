@@ -168,7 +168,8 @@
     "week"  : "Week",
     "search_wants": "Search for Wants",
     "tap_to_delete": "Tap on the Wants you would like to delete",
-    "tap_to_include": "tap on the Wants you would like to include in combination"
+    "tap_to_include": "tap on the Wants you would like to include in combination",
+    "edit_product": "Edit Product"
   },
   "message": {
     "no_products_found": "No Products Found",
