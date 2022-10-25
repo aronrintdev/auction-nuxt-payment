@@ -79,7 +79,7 @@
       </Modal>
     </b-row>
 
-    <div class="mt-3 d-sm-none">
+    <div class="position-absolute mt-3 d-sm-none">
       <div
         v-for="item in productItems"
         :key="item.id"

@@ -54,7 +54,10 @@
             <SearchedProductsBelowSearchTextBox 
               v-if="searchedItems.length > 0 && searchText.length > 0" 
               :productItems="searchedItems" 
-              class="d-none d-sm-flex position-absolute"
+              class="position-absolute"
+              :style="{
+                zIndex: 100
+              }"
               inputType="wantsList"
               :wrapperStyle="{ margin: 0 }"
               :itemStyle="{ padding: 0 }"
