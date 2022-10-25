@@ -113,20 +113,22 @@
             </ValidationProvider>
             <ValidationProvider
               v-slot="validationContext"
-              :name="$t('bounty.form.email')"
+              :name="$t('bounty.form.proof_of_concept')"
               :rules="{ required: true }"
             >
               <b-form-group
-              :label="$t('bounty.form.email')"
+              :label="$t('bounty.form.proof_of_concept')"
               >
                 <b-input-group>
-                  <b-form-input
-                    id="password"
-                    v-model="form.email"
-                    class="rounded-pill input-login input-append"
-                    :placeholder="$t('bounty.form.email_placeholder')"
+                  <b-form-textarea
+                    id="textarea"
+                    v-model="form.description"
+                    rows="3"
+                    size="sm"
+                    class="input-login input-append"
+                    :placeholder="$t('bounty.form.poc_placeholder')"
                     :state="getValidationState(validationContext)"
-                  ></b-form-input>
+                  ></b-form-textarea>
                   <b-form-invalid-feedback>{{
                       validationContext.errors[0]
                     }}</b-form-invalid-feedback>
