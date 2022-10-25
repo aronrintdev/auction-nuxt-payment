@@ -412,7 +412,8 @@ export default {
         if(this.getOfferType === ACCEPT_OFFER){
           params = {
             ...params,
-            trade: this.shoppingCart.trade
+            trade: this.shoppingCart.trade,
+            latest_offer: this.shoppingCart.lastOffer,
           }
           apiUrl = `trades/${this.getTradeId}/accept-offer`
         }
