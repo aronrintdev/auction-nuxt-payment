@@ -353,6 +353,8 @@ export default {
   position: relative
   margin-top: -12rem
   margin-right: 3rem
+  @media (max-width: 350px) and  (min-width: 300px)
+    margin-top: -10rem
 .resetBtn
   width: 130px
   height: 40px

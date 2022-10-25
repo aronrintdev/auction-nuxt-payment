@@ -213,10 +213,14 @@ export default {
 .trad-image
   width: 162px
   height: 162px
+  @media (max-width: 350px) and  (min-width: 300px)
+    width: 120px
 .trade-us-box
   width: 375px
   height: 181px
   background: #F7F7F7
+  @media (max-width: 350px) and  (min-width: 300px)
+    width: 310px
 .trade-card
   width: 255px
   background: $color-white-1
@@ -232,6 +236,10 @@ export default {
   font-weight: 500
   font-size: 16px
   border-radius: 30px
+  @media (max-width: 350px) and  (min-width: 300px)
+    width: 100px
+    font-size: 10px
+    height: auto
 .trade-text
   font-family: 'Montserrat'
   font-style: normal
