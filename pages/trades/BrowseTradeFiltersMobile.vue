@@ -118,10 +118,7 @@
           </b-collapse>
         </div>
         <hr class="hr" />
-
-
-
-        <div class="d-flex">
+        <div class="d-flex mb-3">
           <div class="ml-2">
             <b-btn class="resetBtn" @click="clearAllFilters">Reset</b-btn>
           </div>
@@ -130,27 +127,7 @@
           </div>
         </div>
       </div>
-<!--      <div class="col-md-12 d-flex justify-content-center">-->
-<!--        <div  class="filter-options col-md-10 ">-->
-<!--          &lt;!&ndash; Display all sizes with respect to categories selection &ndash;&gt;-->
-<!--          <div v-if="Object.keys(sizeOptions).length > 0">-->
-<!--            <b-row v-for="(categorySizes, key) in sizeOptions" :key="'sizecat-' + key" class="d-flex justify-content-start m-5">-->
-<!--              <b-col md="1">-->
-<!--              </b-col>-->
-<!--              <b-col v-if="Object.keys(categorySizes).length > 0" md="9">-->
-<!--                <h4>{{$t('common.'+key+'_sizes')}}</h4>-->
-<!--                <b-list-group horizontal="md" class="d-inline-block">-->
-<!--                  <b-list-group-item v-for="(size, sizeKey) in categorySizes" :key="'size-' + sizeKey" class="border-transparent d-inline-block">-->
-<!--                    <b-form-checkbox v-model="selectedSizes[key]" :value="size.id" class="filter-item" @change="toggleSizeSelection(key, size.id)">{{size.size}}</b-form-checkbox>-->
-<!--                  </b-list-group-item>-->
-<!--                </b-list-group>-->
-<!--              </b-col>-->
-<!--            </b-row>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
     </vue-bottom-sheet>
-
     <b-row v-if="showFilters" class="d-flex justify-content-center m-3" @click="showFilters = !showFilters">
       <img :src="require('~/assets/img/icons/arrow-up-dark-gray.svg')" />
     </b-row>
@@ -359,8 +336,8 @@ export default {
   background-color: $color-white-1
 .image-filter
   position: relative
-  margin-top: -11rem
-  margin-right: 2rem
+  margin-top: -12rem
+  margin-right: 3rem
 .resetBtn
   width: 130px
   height: 40px

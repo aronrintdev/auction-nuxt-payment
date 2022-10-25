@@ -182,7 +182,6 @@ export default {
 
     // reset all filters
     resetTradeFilters(){
-      console.log('reset')
       this.selectedTradeTotalItems = 'one'
       this.$store.commit('trade/setTradeType', 'All')
       this.filterTrades()
