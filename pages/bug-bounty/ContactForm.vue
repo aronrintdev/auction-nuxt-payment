@@ -47,17 +47,17 @@
             </ValidationProvider>
             <ValidationProvider
               v-slot="validationContext"
-              :name="$t('bounty.form.name')"
+              :name="$t('bounty.form.title_of_issue')"
               :rules="{ required: true, min: 3, max: 128 }"
             >
               <b-form-group
-              :label="$t('bounty.form.name')"
+              :label="$t('bounty.form.title_of_issue')"
               >
                 <b-form-input
                   id="login"
-                  v-model="form.name"
+                  v-model="form.title"
                   class="rounded-pill input-login"
-                  :placeholder="$t('bounty.form.name_placeholder')"
+                  :placeholder="$t('bounty.form.toi_placeholder')"
                   :state="getValidationState(validationContext)"
                 ></b-form-input>
                 <b-form-invalid-feedback>{{
@@ -65,21 +65,44 @@
                   }}</b-form-invalid-feedback>
               </b-form-group>
             </ValidationProvider>
-            
             <ValidationProvider
               v-slot="validationContext"
-              :name="$t('bounty.form.email')"
+              :name="$t('bounty.form.description_of_issue')"
               :rules="{ required: true }"
             >
               <b-form-group
-              :label="$t('bounty.form.email')"
+              :label="$t('bounty.form.description_of_issue')"
+              >
+                <b-input-group>
+                  <b-form-textarea
+                    id="textarea"
+                    v-model="form.description"
+                    rows="5"
+                    size="sm"
+                    class="input-login input-append"
+                    :placeholder="$t('bounty.form.description_placeholder')"
+                    :state="getValidationState(validationContext)"
+                  ></b-form-textarea>
+                  <b-form-invalid-feedback>{{
+                      validationContext.errors[0]
+                    }}</b-form-invalid-feedback>
+                </b-input-group>
+              </b-form-group>
+            </ValidationProvider>
+            <ValidationProvider
+              v-slot="validationContext"
+              :name="$t('bounty.form.link_of_issue')"
+              :rules="{ required: true }"
+            >
+              <b-form-group
+              :label="$t('bounty.form.link_of_issue')"
               >
                 <b-input-group>
                   <b-form-input
                     id="password"
                     v-model="form.email"
                     class="rounded-pill input-login input-append"
-                    :placeholder="$t('bounty.form.email_placeholder')"
+                    :placeholder="$t('bounty.form.loi_placeholder')"
                     :state="getValidationState(validationContext)"
                   ></b-form-input>
                   <b-form-invalid-feedback>{{
