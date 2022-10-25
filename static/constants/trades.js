@@ -1,7 +1,7 @@
 export const OFFER_TYPE_THEIR = 'their'
 export const OFFER_TYPE_YOURS = 'yours'
 export const PER_PAGE = 4
-export const PER_PAGE_COMBINATION = 2
+export const PER_PAGE_COMBINATION = 200
 export const PAGE = 1
 export const PER_PAGE_OPTIONS = [4,8,16,24]
 export const PER_PAGE_OPTIONS_COMBINATION = [2,4,6,8]

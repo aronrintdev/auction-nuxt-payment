@@ -9,8 +9,8 @@
             </div>
             <div>
               <object 
-                v-if="combinationItems[selectedItemIndex].product.image"
-                :data="combinationItems[selectedItemIndex].product.image"
+                v-if="selectedCombination.product.image"
+                :data="selectedCombination.product.image"
                 class="img-fluid pointer"
                 type="image/png"
               >
@@ -38,7 +38,7 @@
                     height="15" 
                     width="15" 
                   >
-                  <span class="edit-label ml-2">Edit</span>
+                  <span class="edit-label ml-2">{{ $t('common.edit') }}</span>
                 </div>
                 <div
                   role="button" 
@@ -51,26 +51,26 @@
                     width="15" 
                     class="ml-5" 
                   >
-                  <span class="delete-label ml-2">Delete</span>
+                  <span class="delete-label ml-2">{{ $t('common.delete') }}</span>
                 </div>
               </div>
               <div class="mt-2 text-bold">
-                {{ combinationItems[selectedItemIndex].product.name }}
+                {{ selectedCombination.product.name }}
               </div>
               <div class="name-desktop">
                 <span class="text-uppercase">{{ $t('trades.create_listing.vendor.wants.sku') }}:</span>
-                {{ combinationItems[selectedItemIndex].product.sku }}
+                {{ selectedCombination.product.sku }}
               </div>
               <div class="name-desktop">
                 {{ $t('sell.confirm_listing.table_columns.colorway') }}:
-                {{ combinationItems[selectedItemIndex].product.colorway }}
+                {{ selectedCombination.product.colorway }}
               </div>
               <div class="name-desktop">
                 {{ $t('trades.create_listing.vendor.wants.box') }}:
-                {{ combinationItems[selectedItemIndex].packaging_condition.name }}
+                {{ selectedCombination.packaging_condition.name }}
               </div>
               <div class="text-bold">{{ $t('trades.create_listing.vendor.wants.lowest_ask') }}: 
-                ${{ combinationItems[selectedItemIndex].product.estimated_market_value }}
+                ${{ selectedCombination.product.estimated_market_value }}
               </div>
 
             </div>
@@ -123,8 +123,8 @@
           :src="require('assets/img/icons/draft-list-image.svg')"
         />
         <object 
-          v-if="combinationItems[selectedItemIndex].product.image"
-          :data="combinationItems[selectedItemIndex].product.image"
+          v-if="selectedCombination.product.image"
+          :data="selectedCombination.product.image"
           class="img-fluid pointer"
           type="image/png"
         >
@@ -136,22 +136,22 @@
           {{ $t('trades.create_listing.vendor.wants.combination_no') }} {{ combinationIndex }}
         </div>
         <div class="name">
-          {{ combinationItems[selectedItemIndex].product.name }}
+          {{ selectedCombination.product.name }}
         </div>
         <div class="name">
           <span class="text-uppercase">{{ $t('trades.create_listing.vendor.wants.sku') }}:</span>
-          {{ combinationItems[selectedItemIndex].product.sku }}
+          {{ selectedCombination.product.sku }}
         </div>
         <div class="name">
           {{ $t('sell.confirm_listing.table_columns.colorway') }}:
-          {{ combinationItems[selectedItemIndex].product.colorway }}
+          {{ selectedCombination.product.colorway }}
         </div>
         <div class="name">
-          {{ $t('home_page.size') }}: {{ combinationItems[selectedItemIndex].size.size }}
+          {{ $t('home_page.size') }}: {{ selectedCombination.size.size }}
         </div>
         <div class="name">
           {{ $t('trades.create_listing.vendor.wants.box') }}:
-          {{ combinationItems[selectedItemIndex].packaging_condition.name }}
+          {{ selectedCombination.packaging_condition.name }}
         </div>
 
         <div v-if="combinationItems.length > 1" class="mt-2 d-flex justify-content-center">
@@ -161,7 +161,7 @@
           >
             <div 
               role="button"
-              @click="selectedItemIndex = idx"
+              @click="setCombinationSelectedItem(idx)"
               :class="{ 'slider-active': idx === selectedItemIndex }" 
               class="slider-item"
             >
@@ -204,12 +204,10 @@ export default {
     }
   },
   data (){
-    console.log('this.combination.combination_items', this.combination.combination_items);
-    console.log('selectedItemIndex', this.combination);
-    // this.combination.selectedItemIndex
     return {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
       selectedCombination: this.combination.combination_items[0],
+      combinationItems: this.combination.combination_items,
       selectedItemIndex: 0
     }
   },
@@ -238,7 +236,9 @@ export default {
      * @param itemIndex
      */
     setCombinationSelectedItem(combinationIndex) {
+      console.log('setCombinationSelectedItem', this.combination.combination_items[combinationIndex]);
       this.selectedCombination = this.combination.combination_items[combinationIndex]
+      this.selectedItemIndex = combinationIndex
     },
   }
 }

@@ -56,7 +56,7 @@
               :productItems="searchedItems" 
               class="position-absolute"
               :style="{
-                zIndex: 100
+                zIndex: 9999
               }"
               inputType="wantsList"
               :wrapperStyle="{ margin: 0 }"
@@ -718,6 +718,7 @@ export default {
       }
     },
     editDeleteCombination(data, type) {
+      console.log('editDeleteCombination', data, type);
       if(type === 'delete_combination') {
         this.selected.push(data)
         this.deleteWant(type)
@@ -812,12 +813,9 @@ export default {
       })
       .then((response) => { // response will get combination data for want items
         console.log('getCombinations coming', response.data.data.data);
-        console.log('this.combinationItems store', this.combinationItems);
+        this.combinationItems = []
         response.data.data.data.forEach((item) => {
-          const found = this.combinationItems.find(c => c.combination_id === item.combination_id)
-          if (item.combination_items.length > 0 && !found) {
-            this.combinationItems.push(item);
-          }
+          this.combinationItems.push(item);
         });
         console.log('this.combinationItems after', this.combinationItems);
         this.totalCountCombination = parseInt(response.data.data.total)
