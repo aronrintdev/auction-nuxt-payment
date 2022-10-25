@@ -96,7 +96,7 @@
               {{ $t('auctions.frontpage.cant_find_anything') }}
             </div>
           </div>
-        </div>
+        </div> 
       </div>
     </div>
   </b-overlay>

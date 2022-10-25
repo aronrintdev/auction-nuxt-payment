@@ -3,10 +3,7 @@
     <div class="filters-wrapper">
       <div class="row">
         <div class="col-9">
-          <Searchbar
-            :searchKeyword="productFilter ? productFilter.name : null"
-            @change="handleFilterChange"
-          />
+          <Searchbar @change="handleFilterChange" />
         </div>
         <div class="col-3">
           <FormDropdown

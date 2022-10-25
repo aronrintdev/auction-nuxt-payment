@@ -4,7 +4,10 @@
     :class="{ scrolled: scrollPosition > 150 }"
   >
     <div class="d-flex align-items-center sf-wrapper">
-      <div class="searchbar-filter position-relative w-100">
+      <div
+        class="searchbar-filter position-relative w-100"
+        @click="openSearchbar"
+      >
         <input
           type="search"
           :placeholder="$t('common.search')"
@@ -19,9 +22,21 @@
         <FilterIcon class="filter_icon" />
       </div>
     </div>
-
     <vue-bottom-sheet
-      ref="myBottomSheet"
+      ref="searchBottomSheet"
+      max-width="auto"
+      max-height="100%"
+      :rounded="false"
+      :is-full-screen="true"
+    >
+      <SearchbarMobile
+        ref="searchbar"
+        @showFilters="open"
+        @close="closeSearchbar"
+      />
+    </vue-bottom-sheet>
+    <vue-bottom-sheet
+      ref="filtersBottomSheet"
       max-width="auto"
       max-height="95vh"
       :rounded="true"
@@ -35,9 +50,10 @@
 import FilterIcon from '~/assets/icons/FilterIcon'
 import SearchIcon from '~/assets/icons/SearchIcon'
 import ShopFiltersMobile from '~/components/shop/ShopFiltersMobile'
+import SearchbarMobile from '~/components/shop/SearchbarMobile'
 export default {
   name: 'SearchAndFilter',
-  components: { FilterIcon, SearchIcon, ShopFiltersMobile },
+  components: { FilterIcon, SearchIcon, ShopFiltersMobile, SearchbarMobile },
   data() {
     return {
       scrollPosition: null,
@@ -52,10 +68,17 @@ export default {
   },
   methods: {
     open() {
-      this.$refs.myBottomSheet.open()
+      this.$refs.filtersBottomSheet.open()
     },
     close() {
-      this.$refs.myBottomSheet.close()
+      this.$refs.filtersBottomSheet.close()
+    },
+    openSearchbar() {
+      this.$refs.searchBottomSheet.open()
+      this.$refs.searchbar.focusInput()
+    },
+    closeSearchbar() {
+      this.$refs.searchBottomSheet.close()
     },
     apply() {
       this.$emit('apply')
@@ -107,6 +130,6 @@ export default {
         stroke: $color-gray-47
       .circleColor
         fill: $color-gray-23
-  .bottom-sheet__content::v-deep
-    margin-right: -8px !important
+::v-deep .bottom-sheet__content
+  margin-right: -8px
 </style>
