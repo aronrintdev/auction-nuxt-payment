@@ -16,15 +16,17 @@
         </span>
       </h3>
       <Button
-        v-if="haveExpired && isVendor"
+        v-if="!haveExpired && isVendor"
         variant="link"
         size="sm"
-        class="px-3 py-2 mr-4"
-        :class="isMobileSize ? 'delete-expired-mobile' : 'delete-expired'"
+        class="px-3 py-2"
+        :class="isMobileSize ? 'body-5-regular' : 'bg-white'"
         @click="deleteAction = true"
       >
         <img v-if="isMobileSize" src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
-        {{ $t('bids.delete_expired') }}
+        <span class="body-5-regular" :class="isMobileSize ? 'expire-button-gray' : 'text-black'">
+          {{ $t('bids.delete_expired') }}
+        </span>
       </Button>
     </div>
 
@@ -572,12 +574,6 @@ export default {
       &:hover
         background-color: $white-2
 
-.delete-expired.btn
-  @include body-8-medium
-  background-color: $white
-  color: $black
-
-
 .container-profile-bids
   background-color: $color-white-5
 
@@ -596,15 +592,9 @@ export default {
   border: 1px solid $color-gray-60
   height: 38px
 
-.delete-expired.btn
-  @include body-5-regular
-  background-color: $white
-  color: $black
 
-.delete-expired-mobile.btn
-  @include body-5-regular
+.expire-button-gray
   color: $color-gray-30
-
 
 </style>
 
