@@ -4,7 +4,7 @@
       <div class="main-section pt-5">
         <div class="trade-selections">
           <b-row>
-            <b-col class="col-sm-5 offset-sm-2">
+            <b-col class="col-sm-8 offset-sm-2">
               <h3 class="d-inline-block text-left text-heading">{{$t('bounty.report_an_issue')}}</h3>
               <div class="detail-content">
                   <p class="mt-5">
@@ -15,9 +15,12 @@
                   </p>
               </div>
             </b-col>
-            <b-col class="col-sm-4 text-left ">
+          </b-row>
+          <b-row>
+            <b-col class="col-sm-8 text-left offset-sm-2 mt-5">
               <h3 class="d-inline-block text-heading">{{$t('bounty.levels')}}</h3>
-              <b-row  class="mt-5">
+              <Cards />
+              <b-row>
                 <b-col sm="3">
                     <div class="stages">
                         <ul class="list-unstyled pl-0">
@@ -91,29 +94,55 @@
           <b-row>
             <b-col class="col-sm-6 offset-sm-1">
               <h3 class="d-inline-block text-left text-heading">{{$t('bounty.contact_us')}}</h3>
-              <ContactForm @verify="handleVerify"/>
+              <ContactForm class="mt-5" @verify="handleVerify"/>
+            </b-col>
+            <b-col class="col-sm-8 offset-sm-1 mt-5">
+              <div class="disclosure">
+                <div class="sub-detail">
+                  <h3 class="d-inline-block text-left text-heading">{{$t('bounty.disclosure.title')}}</h3>
+                  <p v-html="$t('bounty.disclosure.description')"></p>
+                  <h4>{{ $t('bounty.disclosure.eligibility') }}</h4>
+                  <p>{{ $t('bounty.disclosure.eligibility_detail') }}</p>
+                  <h4>{{ $t('bounty.disclosure.scope') }}</h4>
+                  <ul class="list-unstyled">
+                    <li>{{ $t('bounty.disclosure.backend') }}</li>
+                    <li>{{ $t('bounty.disclosure.admin') }}</li>
+                    <li>{{ $t('bounty.disclosure.frontend') }}</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="notice sub-detail">
+                <h4>Notice</h4>
+                <ul class="list-unstyled">
+                  <li>(i) Automated testing is prohibited</li>
+                  <li>(ii) Deadstock is not obligated to respond to, nor reward every submission</li>
+                  <li>(iii) Any requests for monetary or other compensation will be deemed in violation of this Disclosure</li>
+                  <li>(iv) You must be the first to report the issue to us, if this issue has been reported before, you will not receive a reward</li>
+                  <li>(v) Please do not publicly disclose any Screenshots nor Videos, inlucluding posting material on Youtube or Vimeo</li>
+                  <li>(vi) Failure to respond within 7 days to inquiries seeking more information, may disqualify you from the program</li>
+                  <p>Failure to comply with the foregoing rules above may disqualify you from this program.</p>
+                </ul>
+                <h4>Conclusion</h4>
+                <p>We want to thank you for going out of your way to protect the identity of our customers. If you need any help or have any questions on submitting or this disclosure, please email help@deadstock.co.</p>
+              </div>
             </b-col>
           </b-row>
         </div>
-        <TradeHub v-if="navTab === 'trade_hub'"/>
-        <BrowseTrade v-if="navTab === 'browse_trade'" />
       </div>
     </div>
   </template>
   
   <script>
   import BountyBanner from '~/pages/bug-bounty/Banner'
-  import BrowseTrade from '~/pages/trades/BrowseTrade'
-  import TradeHub from '~/pages/trades/TradeHub'
   import ContactForm from '~/pages/bug-bounty/ContactForm'
+  import Cards from '~/pages/bug-bounty/Cards'
   
   export default {
     name: 'BugBounty',
     components: {
       BountyBanner,
-      BrowseTrade,
-      TradeHub,
-      ContactForm
+      ContactForm,
+      Cards
     },
     layout: 'IndexLayout',
     data(){
@@ -132,14 +161,21 @@
   @import '~/assets/css/_variables'
   @import '~/assets/css/_typography'
 
+  .card
+    width: 242px
+    height: 242px
+
+    background: #FFFFFF
+    box-shadow: 10px 10px 50px rgba(183, 183, 183, 0.25)
+    border-radius: 17px
+
   .text-heading
     color: $color-blue-20
     font-size: 30px
   .detail-content
     font-size: 18px
     font-weight: $normal
-    width: 477px
-    height: 425px
+    height: 242px
   .stages
     & ul
         & li
@@ -158,10 +194,21 @@
             font-size: 16px
             line-height: 121.4%
             width: 196px
-            &:h6
+            h6
             font-weight: $medium
-            &:p
+            p
             font-weight: $regular
+  .sub-detail
+    font-size: 18px
+    p ul
+      font-weight: $normal
+    h4
+      font-weight: $medium
+  .disclosure
+    width: 904px
+  .notice
+    width: 1060px
+      
   .main-section
     background: linear-gradient(269.74deg, $color-blue-th-14 -77.58%, $color-gray-th-45 118.1%)
   .f-montserrat
