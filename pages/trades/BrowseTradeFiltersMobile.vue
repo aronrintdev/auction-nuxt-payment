@@ -23,16 +23,19 @@
         <hr class="hr" />
         <div class="mt-1 ml-2">
           <div class="d-flex" v-b-toggle="'collapse-1'">
-            <div class="filtersHeading ml-2">
-              Category
-            </div>
-            <div class="d-flex ml-2">
-              <img  v-if="isVisible" class="arrow-image pull-right" :src="require('~/assets/img/chev-up.svg')"/>
-              <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/chev-down.svg')"/>
-            </div>
+            <b-row class="filtersHeading ml-2">
+              <b-col class="col-sm-6">Category</b-col>
+              <b-col class="col-sm-6">
+                <div class="d-flex justify-content-end mr-3">
+                  <span class="mr-2 selected-content">{{getCategoryFilterSelection ? removeArray(getCategoryFilterSelection) : ''}}</span>
+                  <img  v-if="isVisible" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
+                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
+                </div>
+              </b-col>
+            </b-row>
           </div>
           <b-collapse id="collapse-1" v-model="isVisible">
-            <b-row class="row">
+            <b-row class="row mt-1">
               <b-col v-for="(category, key) in categories" :key="'cat-' + key">
                 <div :class="getCategoryFilterSelection.includes(category.value) ?'selected-item':'unselected-item' " :value="category.value" class="m-1 d-flex justify-content-center align-content-center"
                      @click="toggleCategorySelection(category.value)">
@@ -45,13 +48,16 @@
         <hr class="hr" />
         <div class="mt-1 ml-2">
           <div class="d-flex" v-b-toggle="'collapse-sizeType'">
-            <div class="filtersHeading ml-2">
-              Size Type
-            </div>
-            <div class="d-flex ml-2">
-              <img  v-if="isVisibleSizeType" class="arrow-image pull-right" :src="require('~/assets/img/chev-up.svg')"/>
-              <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/chev-down.svg')"/>
-            </div>
+            <b-row class="filtersHeading ml-2">
+              <b-col class="col-sm-6">Size Type</b-col>
+              <b-col class="col-sm-6">
+                <div class="d-flex justify-content-end mr-3">
+                  <span class="mr-2 selected-content">{{getSizeTypeFilterSelection ? removeArray(getSizeTypeFilterSelection) : ''}}</span>
+                  <img  v-if="isVisibleSizeType" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
+                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
+                </div>
+              </b-col>
+            </b-row>
           </div>
           <b-collapse id="collapse-sizeType" v-model="isVisibleSizeType">
             <b-row class="row">
@@ -67,13 +73,15 @@
 
         <div class="mt-1 ml-2">
           <div class="d-flex" v-b-toggle="'collapse-slight'">
-            <div class="filtersHeading ml-2">
-             {{$t('common.trade_value')}}
-            </div>
-            <div class="d-flex ml-2">
-              <img  v-if="isVisibleSlight" class="arrow-image pull-right" :src="require('~/assets/img/chev-up.svg')"/>
-              <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/chev-down.svg')"/>
-            </div>
+            <b-row class="filtersHeading ml-2">
+              <b-col class="col-sm-6"> {{$t('common.trade_value')}}</b-col>
+              <b-col class="col-sm-6">
+                <div class="d-flex justify-content-end mr-3">
+                  <img  v-if="isVisibleSlight" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
+                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
+                </div>
+              </b-col>
+            </b-row>
           </div>
           <b-collapse id="collapse-slight" v-model="isVisibleSlight">
             <div class="d-flex mt-3 ml-2">
@@ -97,13 +105,16 @@
 
         <div class="mt-1 ml-2">
           <div class="d-flex" v-b-toggle="'collapse-sizes'">
-            <div class="filtersHeading ml-2">
-              Sizes
-            </div>
-            <div class="d-flex ml-2">
-              <img  v-if="isVisibleSize" class="arrow-image pull-right" :src="require('~/assets/img/chev-up.svg')"/>
-              <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/chev-down.svg')"/>
-            </div>
+            <b-row class="filtersHeading ml-2">
+              <b-col class="col-sm-6">Sizes</b-col>
+              <b-col class="col-sm-6">
+                <div class="d-flex justify-content-end mr-3">
+                  <span class="mr-2 selected-content">{{getSizeFilterSelection ? removeArray(getSizeFilterSelection) : ''}}</span>
+                  <img  v-if="isVisibleSize" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
+                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
+                </div>
+              </b-col>
+            </b-row>
           </div>
           <b-collapse id="collapse-sizes" v-model="isVisibleSize">
             <b-row class="row" v-for="(categorySizes, key) in sizeOptions" :key="'sizecat-' + key">
@@ -232,7 +243,10 @@ export default {
     prettySizeTypeName(sizeType){
       return capitalizeFirstLetter(sizeType)
     },
-
+    removeArray(data){
+      const selectedData = data.toString()
+      return selectedData
+    },
     // // handle when size type is changed
     toggleSizeTypeSelection(sizeType){
       this.$store.commit('trade/setSizeTypeFilterSelection', sizeType)
@@ -308,6 +322,7 @@ export default {
   font-weight: 700
   font-family: $font-sp-pro
   color: #667799
+  width: 100%
 .radios
   @include body-9
   font-weight: $normal
@@ -402,8 +417,13 @@ export default {
   font-family: $font-sp-pro
   color: #999999
   padding: 5px
-
-
+.selected-content
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $regular
+  @include body-13
+  color: #000000
+  text-transform: capitalize
 .filter-details
   font-family: $font-montserrat
   & h3
