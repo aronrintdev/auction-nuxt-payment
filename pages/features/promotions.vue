@@ -30,7 +30,7 @@
             :icon="
               require('~/assets/img/features/newest-feature/promotions/car.svg')
             "
-            :title="$t('common.apparel')"
+            :title="$t('newest_features.promotions.cars')"
             variant="round"
           />
         </div>
@@ -40,7 +40,7 @@
             :icon="
               require('~/assets/img/features/newest-feature/promotions/shoes.svg')
             "
-            :title="$tc('common.hat', 2)"
+            :title="$t('newest_features.promotions.sneakers')"
             variant="round"
           />
         </div>
@@ -50,7 +50,7 @@
             :icon="
               require('~/assets/img/features/newest-feature/promotions/cash.svg')
             "
-            :title="$tc('common.accessory', 2)"
+            :title="$t('newest_features.promotions.cash')"
             variant="round"
           />
         </div>

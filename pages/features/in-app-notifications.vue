@@ -28,19 +28,19 @@
             :icon="
               require('~/assets/img/features/newest-feature/in-app-notification/envelope.svg')
             "
-            :title="$t('features.rewards_program.buying')"
+            :title="$t('newest_features.in_app_notifications.email')"
           />
           <FeatureFourCards
             :icon="
               require('~/assets/img/features/newest-feature/in-app-notification/mobile.svg')
             "
-            :title="$t('features.rewards_program.buying')"
+            :title="$t('newest_features.in_app_notifications.in_app')"
           />
           <FeatureFourCards
             :icon="
               require('~/assets/img/features/newest-feature/in-app-notification/sms.svg')
             "
-            :title="$t('features.rewards_program.buying')"
+            :title="$t('newest_features.in_app_notifications.text')"
           />
         </div>
         <div class="prefrence-card d-flex flex-column align-items-baseline">

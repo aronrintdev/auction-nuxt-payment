@@ -5695,6 +5695,9 @@
         "third_benefit_desc": "Our promotions, raffles and giveaways are exclusive to Deadstock users."
       },
       "prizes": "Prizes",
+      "cars": "Cars",
+      "sneakers": "Sneakers",
+      "cash": "Cash",
       "shop_now_banner": {
         "desc": "Check out daily exclusive promotions for apparel, streetwear, sneakers and accessories.",
         "button_text": "Browse"
@@ -5828,6 +5831,9 @@
         "third_benefit_desc": "Stay updated on the status of your transactions with live updates and notifications."
       },
       "methods": "Methods",
+      "email": "Email",
+      "in_app": "In-App",
+      "text": "Text",
       "shop_now_banner": {
         "desc": "Enable notifications and stay updated with promotions, transactions and more. Choose which type of notification you prefer.",
         "button_text": "Notification"
