@@ -1,10 +1,6 @@
 <template>
-  <Modal id="cert-reseller-doc-upload" :hide-footer="true" @hidden="$emit('closed')">
-    <h4 class="modal-title text-left mt-n4 mb-4">
-      {{ $t('vendor_hub.documents') }}
-    </h4>
-    <hr class="header-divider position-absolute w-100"/>
-    <div class="mt-4 mb-3">
+  <div>
+    <div class="mb-3">
       <div class="text-center">
         <h4 class="document-name">{{ requirement ? requirement.name : $t('vendor_hub.retailer_certification') }}</h4>
         <div class="mt-2 body-9-normal">{{ $t('vendor_hub.accepted_document_types') }}</div>
@@ -28,7 +24,7 @@
                         v-model="fileForm.permitNumber"
                         type="text"
                         :state="getValidationState(validationContext)"
-                        class="modal-form-input"
+                        class="form-input rounded border bg-white"
                         :placeholder="$t('vendor_hub.enter_permit_number')"></b-form-input>
                       <b-form-invalid-feedback>{{
                           validationContext.errors[0]
@@ -53,6 +49,7 @@
                           :value="fileForm.date"
                           :input-disabled="true"
                           :min-date="tomorrowDate"
+                          groupClass="mr-0"
                           @context="calendarContextChange"
                         />
                         <b-form-invalid-feedback>{{
@@ -67,7 +64,7 @@
             </div>
           </div>
 
-          <div class="mt-3 text-left">
+          <div class="mt-3 text-left px-5 mx-1">
             <SelectedFile v-if="fileForm.file" :file="fileForm.file" :disabled="false"
                           @delete="fileForm.file = null "></SelectedFile>
             <ValidationProvider
@@ -114,27 +111,30 @@
             </ValidationProvider>
           </div>
 
-          <div class="mx-5">
-          <Button variant="secondary" class="upload-btn rounded-pill" block :disabled="invalid || uploading || disabled" type="submit">
-            {{ $t('vendor_hub.upload') }}
-          </Button>
+          <div class="mx-5 px-3">
+            <Button variant="secondary" class="upload-btn rounded-pill" block :disabled="invalid || uploading || disabled" type="submit">
+              {{ $t('vendor_hub.upload') }}
+            </Button>
           </div>
         </b-form>
       </ValidationObserver>
+      <a class="px-5 text-center" @click="$emit('close')">
+        <div class="text-blue-20 body-8-medium cursor-pointer">{{ $t('vendor_hub.cancel') }}</div>
+      </a>
     </div>
-  </Modal>
+  </div>
 </template>
 
 <script>
 import {mapActions} from 'vuex';
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
 import CalendarInput from '~/components/common/form/CalendarInput';
-import {Modal, Button} from '~/components/common';
+import {Button} from '~/components/common';
 import SelectedFile from '~/components/profile/vendor-hub/SelectedFile';
 
 export default {
   name: 'SellerDocumentUploadModal',
-  components: {SelectedFile, CalendarInput, Modal, Button, ValidationObserver, ValidationProvider},
+  components: {SelectedFile, CalendarInput, Button, ValidationObserver, ValidationProvider},
   props: {
     show: {
       type: Boolean,
@@ -175,21 +175,6 @@ export default {
       const tomorrow = new Date(today)
       tomorrow.setDate(tomorrow.getDate() + 1)
       return tomorrow
-    }
-  },
-  watch: {
-    show(val) {
-      if (val) {
-        this.$bvModal.show('cert-reseller-doc-upload');
-        this.$nextTick(() => {
-          this.fileForm = {
-            file: this.form.file,
-            permitNumber: this.form.permitNumber,
-            date: this.form.date
-          }
-        })
-
-      }
     }
   },
   methods: {
@@ -235,7 +220,7 @@ export default {
 
       this.createVendorDocument(formData).then(res => {
         this.$emit('uploaded', this.fileForm)
-        this.$bvModal.hide('cert-reseller-doc-upload');
+        this.$emit('close');
       }).catch(err => {
         this.$toasted.error(err.response.message)
       }).finally(() => {
@@ -251,9 +236,6 @@ export default {
 
 input.file-input
   display: none
-
-#cert-reseller-doc-upload
-  padding: 20px
 
 .upload-btn.btn
   background-color: $color-blue-2
@@ -316,17 +298,10 @@ label.input-label
   font-style: normal
   font-weight: $regular
 
-.modal-form-input
-  @include body-5
-  font-family: $font-family-montserrat
-  font-style: normal
-  font-weight: $normal
-  background-color: $color-white-1
-  border-radius: 6px
+.form-input
   border: 1px solid $color-gray-60
-  padding: 10px 20px
-  height: 38px
 
-  &:focus
-    outline: none
+.text-blue-20
+  color: $color-blue-20
+
 </style>

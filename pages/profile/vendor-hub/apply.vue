@@ -23,7 +23,7 @@
                     :name="$t('vendor_hub.form.store_name')"
                     :rules="{ required: true}"
                 >
-                  <b-form-group>
+                  <b-form-group class="mt-3">
                     <b-input-group>
                       <label v-if="mobileClass" class="body-8-medium">{{  $t('vendor_hub.form.store_name') }}</label>
                       <b-form-input
@@ -236,7 +236,7 @@
                   </ValidationProvider>
                 </div>
                 </div>
-                <div v-if="!apply" class="text-center">
+                <div v-if="apply" class="text-center">
                   <Button :block="isScreenXS" :disabled="isSendCodeDisabled" class="submit-button" pill type="submit"
                           variant="primary">
                     {{ $t('vendor_hub.send_code') }}
@@ -303,11 +303,20 @@
       </div>
 
       <!-- Modal Area For Certified Reseller Document Upload -->
-      <SellerDocumentUploadModal :form="fileForm" :requirement="fileRequirement" :show="showDocModal2"
+      <SellerDocumentUploadModal :form="fileForm" :requirement="fileRequirement" :show="showDocModal"
                                  @closed="modalClosed" @uploaded="fileUploaded"/>
 
-      <SellerDocumentUploadMobile :form="fileForm" :requirement="fileRequirement" :show="showDocModal"
-      @closed="modalClosed" @uploaded="fileUploaded"/>
+      <vue-bottom-sheet
+        ref="mobileUploader"
+        class="responsive-filter"
+        max-width="auto"
+        max-height="90vh"
+        :rounded="true"
+      >
+        <SellerDocumentUploadMobile :form="fileForm" :requirement="fileRequirement"
+                                    @close="modalClosed"
+                                    @uploaded="fileUploaded"/>
+      </vue-bottom-sheet>
 
     </div>
   </div>
@@ -366,7 +375,6 @@ export default {
         date: ''
       },
       showDocModal: false,
-      showDocModal2: false,
       codeTry: 3,
       showCodeFailError: null,
       timerStarted: false,
@@ -500,6 +508,16 @@ export default {
       return dirty || validated ? valid : null
     },
     checkReseller(val) {
+      if (this.mobileClass.length > 0) {
+        const { mobileUploader } = this.$refs
+        if (mobileUploader) {
+          mobileUploader.open()
+          this.$nextTick(() => {
+            this.applyForm.certified_reseller = false
+          })
+          return
+        }
+      }
       this.showDocModal = true
       this.$nextTick(() => {
         this.applyForm.certified_reseller = false
@@ -510,6 +528,11 @@ export default {
      */
     modalClosed() {
       this.showDocModal = false
+      // mobile
+      const { mobileUploader } = this.$refs
+      if (mobileUploader) {
+        mobileUploader.close()
+      }
     },
     fileUploaded(form) {
       this.fileForm = form
@@ -559,8 +582,6 @@ export default {
       this.showDocModal = true
     },
     routeUser() {
-      return USER_STATUS_PENDING + USER_STATUS_APPROVED
-      /*
       switch (this.user.vendor_status) {
         case USER_STATUS_PENDING:
           this.$router.push({
@@ -575,7 +596,6 @@ export default {
         default:
           break;
       }
-       */
     }
   }
 }
