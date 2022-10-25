@@ -372,8 +372,9 @@
     "shop_all_streetwear_desc": "Shop the latest<br>sneakers, apparel and<br>accessories",
     "from_our_socials": "From<br>Our Socials",
     "from_our_socials_desc": "Follow our socials to stay<br>updated with streetwear<br>news and daily content!",
-    "bug_bounty_program": "Bug Bounty Program<br>Up to $1000",
-    "for_reporting": "For Reporting A Vulnerability",
+    "bug_bounty_program": "Bug Bounty Program<br>Up to <span class=\"text-success\">$ 10,000</span>",
+    "bug_number": "$ 10,000",
+    "for_reporting": "For Reporting Bugs or Vulnerabilities",
     "heatcheck": "Heat Check"
   },
   "navbar": {
@@ -5477,5 +5478,9 @@
     "resend_code": "Resend Code",
     "action_required": "Action Required",
     "update_phone_number": "Update Phone Number"
+  },
+  "bounty": {
+    "report_an_issue": "Report an Issue",
+    "levels": "Levels"
   }
 }
