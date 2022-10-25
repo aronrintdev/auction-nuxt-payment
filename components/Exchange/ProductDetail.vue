@@ -26,7 +26,7 @@
         </div>
     </div>
     <div v-if="!loading" class="row">
-      
+
       <div class="col-lg-6 col-md-12 col-sm-12 desktop-design">
         <div class="row">
           <div class="col-lg-2">
@@ -138,7 +138,7 @@
           </div>
         </div>
         <!-- mobile responsive product detail Section   -->
-        
+
         <div class="row mt-5 desktop-average-tab">
           <div class="col-lg-12 text-center">
             <NavGroup
@@ -160,6 +160,29 @@
               @update="handleSizeChange"
               @changeViewMode="handleSizeViewAll"
             />
+          </div>
+        </div>
+      </div>
+      <div v-if="isMobile" class="col-lg-6 col-md-12 col-sm-12">
+        <div class="body-2-bold mb-2">
+          {{ $t('deadstock_exchange.detail.product_detail') }}
+        </div>
+        <div class="row bg-gray-light p-1 mb-2">
+          <div class="col-md-12 d-flex">
+            <div class="col-md-6 col-sm-6">Sku</div>
+            <div class="col-md-6 col-sm-6 text-right">2132</div>
+          </div>
+          <div class="col-md-12 d-flex">
+            <div class="col-md-6 col-sm-6">Colorways</div>
+            <div class="col-md-6 col-sm-6 text-right">2132</div>
+          </div>
+          <div class="col-md-12 d-flex">
+            <div class="col-md-6 col-sm-6">Retails Price</div>
+            <div class="col-md-6 col-sm-6 text-right">2132</div>
+          </div>
+          <div class="col-md-12 d-flex">
+            <div class="col-md-6 col-sm-6">Retails Details</div>
+            <div class="col-md-6 col-sm-6 text-right">2132</div>
           </div>
         </div>
       </div>
@@ -272,7 +295,7 @@
         @hidden="wishListShow = false"
         @wishlisted="onWishListed"
       /> -->
-      
+
   </div>
 </template>
 
@@ -289,7 +312,7 @@ import {
   FormDropdown,
   SearchInput,
   Modal,
-  
+
 } from '~/components/common'
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
@@ -313,6 +336,7 @@ export default {
     return {
       dayjs,
       loading: false,
+      screenWidth: null,
       products: [],
       prices: [],
       similarProductSearchValue: '',
@@ -450,7 +474,6 @@ export default {
       },
     }
   },
-
   computed: {
     sizes() {
       // return this.products?.sizes || []
@@ -498,8 +521,17 @@ export default {
       // return this.product.wish_lists && this.product.wish_lists.length > 0
       //   ? this.product.wish_lists[0]
       //   : null
-    }
+    },
+    isMobile() {
+      if (this.screenWidth <= 760) {
+        return true
+      } else {
+        return false
+      }
+    },
+
   },
+
   watch: {
     lineDatasets: {
       handler(newValue, oldValue) {
@@ -511,13 +543,25 @@ export default {
       deep: true,
     },
   },
+  created(){
+    this.myEventHandler()
+  },
   mounted() {
     this.loadPage()
+    window.addEventListener('resize', this.myEventHandler)
+
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.myEventHandler)
   },
   methods: {
     ...mapActions({
       removeProductsFromWishList: 'wish-list/removeProductsFromWishList',
     }),
+    // Set the screen Size
+    myEventHandler(e) {
+     this.screenWidth = screen.width
+    },
     handleChartTabChange(value) {
       this.chartTabCurrentValue = value
       this.changeGraphLabel(value)
@@ -609,7 +653,7 @@ export default {
           this.$store.dispatch('sell-now/selectedItem', res.data.data).then(() => {
             this.moveToSellNow()
           })
-          
+
           return true
         })
         .catch((err) => {
@@ -714,6 +758,14 @@ export default {
             '10 am',
             '2 pm',
           ]
+          // this.$set(this.lineDatasets, 0, {
+          //     data: [0, 50.0, 150.0, 250.0, 900.0],
+          //     label: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+          // })
+           this.$set(this.lineDatasets, 0,
+
+           this.lineDatasets.labels= ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+          )
           break
         }
         case '1': {
@@ -726,6 +778,18 @@ export default {
             '10 am',
             '2 pm',
           ]
+          this.$set(this.lineDatasets, 0,
+
+          this.lineDatasets.labels= [
+            '1 pm',
+            '6 pm',
+            '10 pm',
+            '2 am',
+            '6 am',
+            '10 am',
+            '2 pm',
+          ],true
+          )
           break
         }
         case 'all': {
@@ -751,10 +815,7 @@ export default {
             '2 pm',
           ]
       }
-      this.$set(this.lineDatasets, 0, {
-        data: [0, 50.0, 150.0, 250.0, 400.0],
-        label: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      })
+
     },
     // On filter by change.
     handleSortBySelect(value) {

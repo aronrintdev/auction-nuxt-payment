@@ -5332,8 +5332,8 @@
       "similar_search_placeholder":"Search For Your favorite Streetwear",
       "filter":"Filter",
       "avg_price":"Avg.Price",
-      "size_specific":"Size Specific"
-
+      "size_specific":"Size Specific",
+      "product_detail": "Product Detail"
     }
   }
 }

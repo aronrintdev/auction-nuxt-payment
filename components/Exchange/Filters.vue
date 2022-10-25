@@ -1,13 +1,15 @@
 <template>
   <div>
     <div class="">
-      <div  class="row filter-row-top">
+      <div class="row filter-row-top">
         <!-- Input search -->
         <div class="col search-input-col vtpc-search p-lg-3 pt-3 d-flex">
           <div class="col-6">
             <SearchInput
               :value="searchValue"
-              :placeholder="$t('deadstock_exchange.filter_by.details_placeholder')"
+              :placeholder="
+                $t('deadstock_exchange.filter_by.details_placeholder')
+              "
               variant="light"
               class="flex-grow-1 mr-4 search-input"
               :debounce="1000"
@@ -30,18 +32,27 @@
               @select="handleSortBySelect"
             />
           </div>
-            <button
-            v-if="searchFilters.brand !=='' && searchFilters.size !=='' && searchFilters.category!==''"
+          <button
+            v-if="
+              searchFilters.brand !== '' &&
+              searchFilters.size !== '' &&
+              searchFilters.category !== ''
+            "
             class="btn btn-sm text-black filter-btn col-2"
           >
-          Filter
+            Filter
           </button>
         </div>
         <!-- ./Input search -->
-
-
       </div>
-      <div  v-if="searchFilters.brand ==='' || searchFilters.size ==='' || searchFilters.category===''" class="row filter-row-bottom" >
+      <div
+        v-if="
+          searchFilters.brand === '' ||
+          searchFilters.size === '' ||
+          searchFilters.category === ''
+        "
+        class="row filter-row-bottom"
+      >
         <!-- Filter By Category-->
         <div class="col filter-by-col">
           <CustomSelect
@@ -49,7 +60,7 @@
             :threelineIcon="false"
             :options="{
               default: $t('deadstock_exchange.filter_by.categories.title'),
-              ...categories
+              ...categories,
             }"
             :title="filterByTitle"
             @input="handleFilterByCategories"
@@ -76,7 +87,7 @@
 
         <!-- Filter By Price Range-->
         <div class="col filter-by-col">
-          <CustomSelect
+          <!-- <CustomSelect
             :default="filterBy"
             :threelineIcon="false"
             :options="{
@@ -87,6 +98,19 @@
             }"
             :title="filterByTitle"
             @input="handleFilterByPriceRange"
+          /> -->
+          <SliderDropdown
+            :start-label="$t('filter_sidebar.price_items.min')"
+            :end-label="$t('filter_sidebar.price_items.max')"
+            :start-placeholder="$t('filter_sidebar.price_items.from')"
+            :end-placeholder="$t('filter_sidebar.price_items.to')"
+            :minValue="MIN_PRICE"
+            :maxValue="MAX_PRICE / 100"
+            :step="50"
+            :title="$t('deadstock_exchange.filter_by.price_range')"
+            :value="selectedPrices"
+            class="mr-3 mr-xl-4 flex-grow-1"
+            @change="handleFilterByPriceRange"
           />
         </div>
         <!-- Filter By Price Range-->
@@ -98,7 +122,7 @@
             :threelineIcon="false"
             :options="{
               default: $t('deadstock_exchange.filter_by.brands'),
-              ...brands
+              ...brands,
             }"
             :title="filterByTitle"
             @input="handleFilterByBrands"
@@ -108,7 +132,7 @@
 
         <!-- Filter By Years-->
         <div class="col filter-by-col">
-          <CustomSelect
+          <!-- <CustomSelect
             :default="filterBy"
             :threelineIcon="false"
             :options="{
@@ -117,6 +141,21 @@
             }"
             :title="filterByTitle"
             @input="handleFilterByYears"
+          /> -->
+          <!-- Years -->
+          <SliderDropdown
+            :start-label="$t('filter_sidebar.price_items.min')"
+            :end-label="$t('filter_sidebar.price_items.max')"
+            :start-placeholder="$t('filter_sidebar.price_items.from')"
+            :end-placeholder="$t('filter_sidebar.price_items.to')"
+            :minValue="MIN_YEAR"
+            :maxValue="MAX_YEAR"
+            :step="1"
+            :title="$t('auctions.frontpage.filterbar.year')"
+            :value="selectedYears"
+            class="mr-3 mr-xl-4"
+            :width="250"
+            @change="handleFilterByYears"
           />
         </div>
         <!-- Filter By Years-->
@@ -124,77 +163,95 @@
     </div>
     <!-- Filters -->
     <div class="row filter-row">
-    <div class="col-md-12 col-sm-12 mt-md-4 mt-4">
-      <!-- Type Filters -->
-      <!-- Status Filters -->
-      <div
-        v-if="searchFilters.brand !='' || searchFilters.size!='' || searchFilters.category!=''"
-        class="col-md-2 clearall-filter float-right ">
-        <span
-          role="button"
-          class="justify-content-center d-flex text-primary"
-          @click="clearFilters()"
+      <div class="col-md-12 col-sm-12 mt-md-4 mt-4">
+        <!-- Type Filters -->
+        <!-- Status Filters -->
+        <div
+          v-if="
+            searchFilters.brand != '' ||
+            searchFilters.size != '' ||
+            searchFilters.category != ''
+          "
+          class="col-md-2 clearall-filter float-right"
         >
-          <u>{{ $t('vendor_purchase.clear_all_filters') }}</u>
-        </span>
+          <span
+            role="button"
+            class="justify-content-center d-flex text-primary"
+            @click="clearFilters()"
+          >
+            <u>{{ $t('vendor_purchase.clear_all_filters') }}</u>
+          </span>
+        </div>
+
+        <b-badge
+          v-for="(options, typeIndex) in activeTypeFilters"
+          :key="`type-${typeIndex}`"
+          class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize float-right"
+        >
+          {{ options }}&colon;
+          <i
+            class="fa fa-times"
+            role="button"
+            aria-hidden="true"
+            @click="removeTypeFilter(options)"
+          ></i>
+        </b-badge>
+        <!-- ./Type Filters -->
+        <!-- Status Filters -->
+        <b-badge
+          v-for="(status, statusIndex) in activeStatusFilters"
+          :key="`status-${statusIndex}`"
+          class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
+        >
+          {{ status.type }}&colon; {{ status.text }}
+          <i
+            class="fa fa-times"
+            role="button"
+            aria-hidden="true"
+            @click="removeTypeFilter(status)"
+          ></i>
+        </b-badge>
       </div>
-
-      <b-badge
-        v-for="(options, typeIndex) in activeTypeFilters"
-        :key="`type-${typeIndex}`"
-        class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize float-right"
-      >
-        {{ options }}&colon;
-        <i
-          class="fa fa-times"
-          role="button"
-          aria-hidden="true"
-          @click="removeTypeFilter(options)"
-        ></i>
-      </b-badge>
-      <!-- ./Type Filters -->
-      <!-- Status Filters -->
-      <b-badge
-        v-for="(status, statusIndex) in activeStatusFilters"
-        :key="`status-${statusIndex}`"
-        class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
-      >
-        {{ status.type }}&colon; {{ status.text }}
-        <i
-          class="fa fa-times"
-          role="button"
-          aria-hidden="true"
-          @click="removeTypeFilter(status)"
-        ></i>
-      </b-badge>
-
     </div>
-  </div>
 
-        <!-- ./ -->
+    <!-- ./ -->
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import CustomSelect from '~/components/common/CustomSelect.vue'
-import { SearchInput, FormDropdown } from '~/components/common'
+import { SearchInput, FormDropdown, SliderDropdown } from '~/components/common'
 
-import { Years } from '~/static/constants/stock-exchange'
+import {
+  Years,
+  MIN_PRICE,
+  MAX_PRICE,
+  MAX_YEAR,
+  MIN_YEAR,
+  MIN_PRICE_RANGE_WINDOW,
+} from '~/static/constants/stock-exchange'
 export default {
   name: 'ExchangeFilter',
   components: {
     CustomSelect,
     SearchInput,
-    FormDropdown
+    FormDropdown,
+    SliderDropdown,
   },
   data() {
     return {
-      // TODO Dummy Data
+      MAX_PRICE,
+      MIN_PRICE,
+      MAX_YEAR,
+      MIN_YEAR,
+      MIN_PRICE_RANGE_WINDOW,
       filterByTitle: this.$t('selling_page.status'),
       Years,
       searchValue: '',
       categorySelected: '', // For Sort by filter
+      selectedPrices: [MIN_PRICE, MAX_PRICE / 100],
+      selectedYears: [MIN_YEAR, MAX_YEAR],
       filterBy: '',
       brands: [],
       allCategories: [],
@@ -235,15 +292,15 @@ export default {
         {
           label: this.$t('deadstock_exchange.sort_by.last_price_hl'),
           value: 'lastPriceHl',
-        }
+        },
       ],
       sortBy: null,
     }
   },
-  computed:{
-    ...mapGetters({activeFilters:'stock-exchange/getActiveFilters'}),
+  computed: {
+    ...mapGetters({ activeFilters: 'stock-exchange/getActiveFilters' }),
   },
-  mounted(){
+  mounted() {
     this.loadFilters()
     // this.searchFilters = this.activeFilters
   },
@@ -252,95 +309,106 @@ export default {
     // Get All Product Filters List
     loadFilters() {
       this.$axios
-      .get('/products/filters-list')
-      .then((response) => {
-        const brandsList = {}
-        response.data.brands.forEach((elem,index) =>{
-          const name =elem.name;
-          brandsList[`${name}`]= name;
-        })
-        this.brands = brandsList
+        .get('/products/filters-list')
+        .then((response) => {
+          const brandsList = {}
+          response.data.brands.forEach((elem, index) => {
+            const name = elem.name
+            brandsList[`${name}`] = name
+          })
+          this.brands = brandsList
 
-        const categoriesList = {}
-        this.allCategories=response.data.categories;
-        this.allCategories.forEach((elem,index) =>{
-          const name =elem.name;
-          categoriesList[`${name}`]= name;
+          const categoriesList = {}
+          this.allCategories = response.data.categories
+          this.allCategories.forEach((elem, index) => {
+            const name = elem.name
+            categoriesList[`${name}`] = name
+          })
+          this.categories = categoriesList
         })
-        this.categories = categoriesList
-      })
-      .catch((error) => {
-        // Show unauthorized message on error
-        this.$toasted.error(error)
-      })
+        .catch((error) => {
+          // Show unauthorized message on error
+          this.$toasted.error(error)
+        })
     },
     // On filter by change.
     searchProduct(val) {
-      this.searchFilters.search =  val
-       this.setActiveFilter()
-      this.$emit('filterList',this.searchFilters)
+      this.searchFilters.search = val
+      this.setActiveFilter()
+      this.$emit('filterList', this.searchFilters)
     },
     // On filter by change.
     handleSortBySelect(value) {
-      if (value)
-      {
-        this.sortBy=value.value
+      if (value) {
+        this.sortBy = value.value
         this.searchFilters.filterBy = value === '' ? '' : value.label
         this.setActiveFilter()
-        this.$emit('filterList',this.searchFilters)
+        this.$emit('filterList', this.searchFilters)
       }
-
     },
     // On filter by change.
     handleFilterByCategories(value) {
-      const category = this.allCategories.filter((el) =>el.name ===value);
+      const category = this.allCategories.filter((el) => el.name === value)
       this.searchFilters.category_id = value === '' ? '' : category[0].id
       this.searchFilters.category = value === '' ? '' : value
       this.setActiveFilter()
-      this.$emit('filterList',this.searchFilters)
+      this.$emit('filterList', this.searchFilters)
     },
-    // On filter by change.
+    // Update selected size and pass to parent component
     handleFilterBySizeType(value) {
       this.searchFilters.size = value === '' ? '' : value
-       this.setActiveFilter()
-      this.$emit('filterList',this.searchFilters)
+      this.setActiveFilter()
+      this.$emit('filterList', this.searchFilters)
     },
-    // On filter by change.
+    // Update selected prices and pass to parent component
     handleFilterByPriceRange(value) {
-      this.searchFilters.priceRange = value === '' ? '' : value
-       this.setActiveFilter()
-      this.$emit('filterList',this.searchFilters)
+      this.selectedPrices = value
+      this.searchFilters = {
+        ...this.searchFilters,
+        minPrice: value[0] === MIN_PRICE ? undefined : value[0] * 100,
+        maxPrice: value[1] === MAX_PRICE ? undefined : value[1] * 100,
+      }
+      this.setActiveFilter()
+      this.$emit('filterList', this.searchFilters)
     },
     // On filter by brands.
     handleFilterByBrands(value) {
       this.searchFilters.brand = value === '' ? '' : value
-       this.setActiveFilter()
-      this.$emit('filterList',this.searchFilters)
+      this.setActiveFilter()
+      this.$emit('filterList', this.searchFilters)
     },
-    // On filter by years.
+    // Update selected years and pass to parent component
     handleFilterByYears(value) {
-      this.searchFilters.years = value === '' ? '' : value
-       this.setActiveFilter()
-      this.$emit('filterList',this.searchFilters)
+      this.selectedYears = value
+      this.setActiveFilter()
+      this.searchFilters = {
+        ...this.searchFilters,
+        minYear: value[0] === MIN_YEAR ? undefined : value[0],
+        maxYear: value[1] === MAX_YEAR ? undefined : value[1],
+      }
+      this.$emit('filterList', this.searchFilters)
     },
+
     // Remove the filter from respective arrays
     removeTypeFilter(option) {
       const statusFilter = this.activeTypeFilters
       if (statusFilter.includes(option)) {
-          statusFilter.splice(statusFilter.indexOf(option), 1)
-          this.$store.commit('stock-exchange/setActiveFilters',this.searchFilters)
-          this.$emit('filterList',this.searchFilters)
+        statusFilter.splice(statusFilter.indexOf(option), 1)
+        this.$store.commit(
+          'stock-exchange/setActiveFilters',
+          this.searchFilters
+        )
+        this.$emit('filterList', this.searchFilters)
       }
-      if (statusFilter.lenght ===0)
-      {
+      if (statusFilter.lenght === 0) {
         this.clearFilters()
       }
     },
     // Clear the values
     clearFilters() {
-      this.activeTypeFilters =[]
-      this.activeStatusFilters =[]
-      this.searchFilters= {
+      this.activeTypeFilters = []
+      this.activeStatusFilters = []
+      this.searchFilters = {
         filterBy: '',
         search: '',
         category: '',
@@ -349,20 +417,23 @@ export default {
         priceRange: '',
       }
       this.$store.commit('stock-exchange/removeActiveFilters')
-      this.$emit('filterList',this.searchFilters)
+      this.$emit('filterList', this.searchFilters)
     },
-    setActiveFilter(){
-      const val =this.searchFilters
-      this.activeTypeFilters=[]
+    setActiveFilter() {
+      const val = this.searchFilters
+      this.activeTypeFilters = []
       for (const value of Object.values(val)) {
-        if(value !==''){
-          const category = this.allCategories.filter((el) =>el.id ===value);
-          if (!this.activeTypeFilters.includes(value) && category[0] ===undefined) {
+        if (value !== '') {
+          const category = this.allCategories.filter((el) => el.id === value)
+          if (
+            !this.activeTypeFilters.includes(value) &&
+            category[0] === undefined
+          ) {
             this.activeTypeFilters.push(value)
           }
         }
       }
-    }
+    },
   },
 }
 </script>

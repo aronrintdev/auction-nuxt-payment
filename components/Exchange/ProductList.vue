@@ -47,7 +47,7 @@
           class="btn-view-more font-primary text-gray-lightm mb-2 mr-3 d-lg-flex"
           @click="loadMore"
         >
-        View More
+          View More
         </span>
         <img
           class="pointer"
@@ -135,7 +135,7 @@ export default {
     window.addEventListener('resize', this.myEventHandler)
   },
   methods: {
-    // Search Data
+    // Set the screen Size
     myEventHandler(e) {
       this.screenWidth = screen.width
     },
