@@ -20,7 +20,7 @@
       :data="categoryItems"
       :value="currentCategory"
       nav-key="new_releases"
-      class="text-center nav-group my-md-4"
+      class="text-center"
       @change="handleCategoryChange"
     />
     <ProductTrendTable />

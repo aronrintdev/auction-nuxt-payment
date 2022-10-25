@@ -43,7 +43,7 @@ export default {
 .section-header
   margin: 40px 0 0 32px
   @media (min-width: 576px)
-    margin: 70px 74px 74px 50px
+    margin: 70px 74px 50px 74px
 .title-wrapper
   margin-right: 0
   @media (min-width: 576px)
