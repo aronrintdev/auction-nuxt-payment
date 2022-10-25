@@ -23,7 +23,7 @@
       <div class="title">{{ product(single).name }} ({{ product(single).release_year }})</div>
       <div class="sku">{{ $t('orders.sku') }}: {{ product(single).sku }}</div>
       <div class="attribute">{{ $t('orders.colorway') }}: {{ product(single).colorway }}, {{ $t('orders.size') }}:
-        {{ single.listing_item.inventory.size_id }}
+        {{ sizeId(single) }}
       </div>
     </div>
 
@@ -59,8 +59,8 @@
           </tr>
           <tr>
             <td>{{ $t('orders.vendor_payout') }}</td>
-            <td class="text-right">
-              ${{ order.total | formatPrice }}
+            <td v-if="isBuy" class="text-right">
+              ${{ commissionAmount | formatPrice }}
             </td>
           </tr>
           <tr>
@@ -99,7 +99,9 @@
     </div>
 
     <div class="col d-none d-md-block">
-      <div class="text-center">${{ order.vendor_commission | formatPrice }}</div>
+      <div v-if="isBuy" class="text-center">
+        ${{ commissionAmount | formatPrice }}
+      </div>
     </div>
 
     <div class="col d-none d-md-block">
@@ -157,6 +159,22 @@ export default {
   computed: {
     single() {
       return this.order.items[0]
+    },
+    isTrade() {
+      return this.order.type.label === 'trade'
+    },
+    isBuy() {
+      return this.order.type.label === 'buy'
+    },
+    isAuction() {
+      return this.order.type.label === 'auction'
+    },
+    commissionAmount() {
+      let total = 0
+      this.order.items.forEach(x => {
+        total = total + (x.commission?.commission || 0)
+      })
+      return total
     }
   },
   watch: {
@@ -174,7 +192,13 @@ export default {
   },
   methods: {
     product(item) {
-      return item.listing_item.inventory.product
+      if (this.isBuy) {
+        return item.listing_item?.inventory?.product
+      }
+      return item.product
+    },
+    sizeId(item) {
+      return item.listing_item?.inventory?.size_id
     },
     // formatting date to US format mm/dd/yyyy
     dateFormat(strDate) {

@@ -1,8 +1,6 @@
 .vd-create-listing-section
   
   .vendor-dashboard-body
-    padding: 47px 54px
-    min-height: 130vh
     .vd-create-listing-css
       @include heading-3
       border-bottom: 0px
@@ -44,8 +42,12 @@
         @include body-4-medium
         font-style: normal
         letter-spacing: 0em
-        text-align: center
         color: $color-gray-5
+        &.mobile
+          font-family: $font-montserrat
+          font-style: normal
+          @include body-5-medium
+          color: $color-gray-5
     .dropdown-results
       .add-product-arrow
         width: 35px

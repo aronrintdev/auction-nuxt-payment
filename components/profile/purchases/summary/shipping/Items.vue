@@ -27,7 +27,7 @@
         <!-- TODO: item location. Harcoded for now. -->
 
         <p class="mb-0">
-          {{ $t(`vendor_purchase.orderstatus.${status}`) }}
+          {{ $t(`vendor_purchase.orderstatus.${status.split(' ').join('_')}`) }}
         </p>
       </div>
       <!-- Item Details -->

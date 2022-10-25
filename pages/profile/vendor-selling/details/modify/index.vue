@@ -1,5 +1,9 @@
 <template>
-  <b-container fluid class="container-profile-create-listing h-100 p-5">
+  <b-container
+    fluid
+    class="container-profile-create-listing h-100"
+    :class="isScreenXS ? 'p-4' : 'p-5'"
+  >
     <div v-if="modifyData">
       <ModifyListing
         v-model="form"
@@ -15,12 +19,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import ModifyListing from '~/components/profile/vendor-selling/ModifyListing.vue'
+import screenSize from '~/plugins/mixins/screenSize'
 export default {
   name: 'Modify',
 
   components: {
     ModifyListing,
   },
+
+  mixins: [screenSize],
 
   layout: 'Profile',
 

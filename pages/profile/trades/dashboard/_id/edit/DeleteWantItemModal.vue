@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import Button from '~/components/common/Button';
+import Button from '~/components/common/Button'
 export default {
   name: 'DeleteWantItemModal',
   components: {
@@ -41,13 +41,18 @@ export default {
   props: {
     product: {
       type: Object,
-      required: false,
-      default: null
+      required: true,
+      default: () => {}
+    },
+    productIndex: {
+      type: Number,
+      required: true,
+      default: 0
     }
   },
   methods: {
     delistClick(){
-      this.$emit('delete', Object.keys(this.product).length > 0 && this.product.id)
+      this.$emit('delete', this.productIndex)
     }
   }
 }

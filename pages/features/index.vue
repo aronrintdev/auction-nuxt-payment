@@ -48,6 +48,7 @@
           :to="feature.to"
           :title="feature.title"
           :description="feature.description"
+          :imageUrl="feature.imageUrl"
           class="feature-item"
         />
       </div>
@@ -69,22 +70,26 @@ export default {
     return {
       features: [
         {
-          to: '/features/payment-plans',
+          imageUrl: require('~/assets/img/features/index/Affirm.png'),
+          to: './profile/preferences',
           title: this.$t('home.payment_plans'),
           description: this.$t('features.payment_plans.desc'),
         },
         {
-          to: '/features/buying',
+          imageUrl: require('~/assets/img/features/index/buy.png'),
+          to: './',
           title: this.$t('features.buying.title'),
           description: this.$t('features.buying.desc'),
         },
         {
-          to: '/features/selling',
+          imageUrl: require('~/assets/img/features/index/selling.png'),
+          to: './sell',
           title: this.$t('features.selling.title'),
           description: this.$t('features.selling.desc'),
         },
         {
-          to: '/features/auctions',
+          imageUrl: require('~/assets/img/features/index/auctions.png'),
+          to: './auction',
           title: this.$t('features.auctions.title'),
           description: this.$t('features.auctions.desc'),
         },
@@ -95,52 +100,62 @@ export default {
         //   description: this.$t('features.heat_check.desc'),
         // },
         {
-          to: '/features/trading',
+          imageUrl: require('~/assets/img/features/index/trade.png'),
+          to: './trades',
           title: this.$t('features.trading.title'),
           description: this.$t('features.trading.desc'),
         },
         {
-          to: '/features/crypto-payments',
+          imageUrl: require('~/assets/img/features/index/Bitcoin.png'),
+          to: './sell',
           title: this.$t('features.crypto_payments.title'),
           description: this.$t('features.crypto_payments.desc'),
         },
         {
-          to: '/features/live-customer-service',
+          imageUrl: require('~/assets/img/features/index/customerservice.png'),
+          to: './sell',
           title: this.$t('features.live_customer_service.title'),
           description: this.$t('features.live_customer_service.desc'),
         },
         {
-          to: '/features/rewards-program',
+          imageUrl: require('~/assets/img/features/index/shopearnredeem.png'),
+          to: './sell',
           title: this.$t('features.rewards_program.title'),
           description: this.$t('features.rewards_program.desc'),
         },
         {
-          to: '/features/streetwear',
+          imageUrl: require('~/assets/img/features/index/streetwear.png'),
+          to: './sell',
           title: this.$t('features.streetwear.title'),
           description: this.$t('features.streetwear.desc'),
         },
         {
-          to: '/features/virtual-giftcards',
+          imageUrl: require('~/assets/img/features/index/virtualgiftcard.png'),
+          to: './profile/preferences',
           title: this.$t('features.virtual_giftcards.title'),
           description: this.$t('features.virtual_giftcards.desc'),
         },
         {
-          to: '/features/in-app-game',
+          imageUrl: require('~/assets/img/features/default.png'),
+          to: './sell',
           title: this.$t('features.inapp_game.title'),
           description: this.$t('features.inapp_game.desc'),
         },
         {
-          to: '/features/csv-bulk-uploading',
+          imageUrl: require('~/assets/img/features//index/csvbulkuploadinglaptopwithshadow.png'),
+          to: './profile/create-listing',
           title: this.$t('features.csv_bulk_uploading.title'),
           description: this.$t('features.csv_bulk_uploading.desc'),
         },
         {
-          to: '/features/2fa-security',
+          imageUrl: require('~/assets/img/features/index/2fasecurity.png'),
+          to: './profile/security',
           title: this.$t('features.2fa_security.title'),
           description: this.$t('features.2fa_security.desc'),
         },
         {
-          to: '/features/deadstock-exchange',
+          imageUrl: require('~/assets/img/features/index/deadstockexchange.png'),
+          to: './',
           title: this.$t('features.deadstock_exchange.title'),
           description: this.$t('features.deadstock_exchange.desc'),
         },

@@ -1,7 +1,10 @@
 <template>
   <div class="vd-create-listing-section">
     <b-container fluid class="vendor-dashboard-body">
+      
+      <!-- Header -->
       <b-row class="mb-bb h-100">
+        <!-- Back to create listing -->
         <b-col md="12" class="back-to-createlisting">
           <span role="button" @click="backToCreateListing">
             <img
@@ -11,12 +14,32 @@
             {{ $t('createlisting.back_to_createlisting') }}
           </span>
         </b-col>
+        <!-- Back to create listing -->
+        <!-- Search heading -->
         <b-col md="12" class="vd-create-listing-css">
           <div class="purchase-heading">{{ $t('common.search') }}</div>
         </b-col>
+        <!-- Search heading -->
       </b-row>
+      <!-- Header ends -->
 
-      <div class="row">
+      <!-- Mobile Header -->
+      <div class="row border-bottom border-dark  mobile-header-selling">
+        <div
+          class="col-12"
+          :class="'d-flex justify-content-center'"
+        >
+          <h1
+            class="heading-mobile d-flex align-items-center"
+          >
+            {{ $t('home.create_listing') }}
+          </h1>
+        </div>
+      </div>
+      <!-- Mobile Header ends -->
+
+      <!-- Filters -->
+      <div class="row filters">
         <!-- Search Input Field -->
         <b-col md="8" sm="6" class="mt-md-4 mt-2 text-center">
           <SearchInput
@@ -37,16 +60,14 @@
               >
                 <ProductThumb
                   :product="product"
-                  width="39"
-                  height="39"
-                  class="mr-2 flex-shrink-0"
+                  class="mr-2 flex-shrink-0 product-img"
                 />
                 <div class="flex-grow-1 text-truncate">{{ product.name }}</div>
                 <Button
                   variant="link"
                   class="flex-shrink-0 ml-3 btn-add-to-inventory"
                   @click="
-                    showProductDetails({ sku: product.sku, id: product.id })
+                    showDetails({ sku: product.sku, id: product.id })
                   "
                 >
                   {{ $t('createlisting.add_product') }}
@@ -73,17 +94,24 @@
             </div>
           </SearchInput>
         </b-col>
+        <!-- Search Input Field ends -->
 
-        <!-- ./Search Input Field -->
-
+        <!-- Create new Inventory button -->
         <b-col md="4" sm="6" class="mt-md-4 mt-2 text-center">
           <Button variant="info" pill @click="moveToInventory">{{
             $t('createlisting.create_new_inventory')
           }}</Button>
         </b-col>
+        <!-- Create new inventory button ends. -->
       </div>
+      <!-- Filters ends -->
 
-      <b-row id="filters" class="text-center mt-md-4 mt-4">
+      <!-- Mobile Filters -->
+      <MobileFilter class="mobileFilter" :searchResult="searchedProducts" @onSearchInput="handleSearchChange" @applyFilters="applyFilter" />
+      <!-- Mobile Filters ends -->
+
+      <!-- Filters -->
+      <b-row id="filters" class="text-center mt-md-4 mt-4 active-filters">
         <b-col>
           <span class="d-flex justify-content-start text-bold">{{
             $t('selling_page.filter_by')
@@ -150,6 +178,7 @@
           </b-row>
         </b-col>
       </b-row>
+      <!-- Filters ends -->
 
       <!-- For Active Filter -->
       <b-row
@@ -160,7 +189,7 @@
         "
         class="mt-4"
       >
-        <b-col md="12" sm="12">
+        <b-col v-if="!isScreenXS" md="12" sm="12">
           <b-badge
             v-if="categorySelected"
             class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
@@ -209,40 +238,48 @@
       </b-row>
       <!-- ./For Active Filter -->
 
-      <b-row class="mt-4">
-        <div class="vd-selling-Inventory col-sm-12 col-md-12">
-          <h5 class="text-bold text-capitalize">
-            {{ $t('createlisting.inventory') }}
-            <span v-if="inventories || inventories.length"
-              >&#040;{{ inventories.length }}<span v-show="showResult"> {{ $t('common.results') }}</span>&#041;</span
-            >
-          </h5>
-        </div>
-      </b-row>
+      <!-- Inventory heading/ inventory count -->
+      <InventoryCount :inventory="inventoryLength" showResult />
+      <!-- Inventory heading/ inventory count ends -->
 
+      <!-- If result show th inventory card -->
       <template
         v-if="inventories && inventories.length > 0"
         :class="!action && 'mt-3'"
       >
+       
         <b-row
           v-if="inventories && inventories.length > 0"
-          class="mt-4"
+          class="mt-4 inventory-result-row"
         >
+           <!-- Inventory result web -->
           <b-col
             v-for="(inventory, index) in inventories"
             :key="`inventory-${index}`"
-            class="inventory-card"
+            class="inventory-card  inventory-result-web"
           >
             <InventoryCard
               :inventory="inventory"
               :selected="!!selectedItems.find((id) => id == inventory.id)"
               class="my-3"
-              @select="selectItem"
+            @select="selectItem"
             />
           </b-col>
+          <!-- Inventory result web ends -->
+          <mobile-result
+            v-for="(inventory, val) in inventories"
+            :key="val"
+            :inventory="inventory"
+            :selectedItems="selectedItems"
+            class="inventory-result-responsive"
+            @select="selectItem"
+          />
         </b-row>
+        
       </template>
+      <!-- If result show inventory card ends -->
 
+      <!-- Pagination component -->
       <b-row
         v-if="inventories && inventories.length"
         class="d-flex justify-content-center"
@@ -258,11 +295,12 @@
           @per-page-change="handlePerPageChange"
         />
       </b-row>
+      <!-- Pagination component ends -->
 
       <template v-else>
         <b-row class="vd-purchase-empty">
           <b-col cols="12" class="text-center">
-            <p class="vd-purchase-browse-now">
+            <p :class="`vd-purchase-browse-now text-center ${mobileClass}`">
               {{ $t('createlisting.no_item_in_inventory') }}
               <br />
               {{ $t('createlisting.add_a_product_to_list') }}
@@ -271,7 +309,8 @@
         </b-row>
       </template>
 
-      <div class="row p-md-4 p-2 continue-to-list-bulk-select">
+      <!-- Bulk select toolbar -->
+      <div class="row p-md-4 p-2 continue-to-list-bulk-select d-flex justify-content-center">
         <BulkSelectToolbar
           ref="bulkSelectToolbar"
           :active="!!action"
@@ -285,8 +324,19 @@
           @deselectAll="handleDeselectAll()"
           @submit="handleBulkAction()"
         />
+
+        <Button v-if="isScreenXS && selectedItems.length" variant="selected-continue" class="border-0 continue-with-selected d-flex align-items-center text-align-center"
+        @click="handleBulkAction">
+          <span class="continue-text">
+            {{ $t('common.continue') }}
+            <span v-if="selectedItems">&#40;{{ selectedItems.length }}&#41;</span>
+          </span>
+        </Button>
       </div>
-      <!-- ./Clarification Screen -->
+      <!-- Bulk select toolbar ends -->
+
+      <!-- Modal Popup for full screen view -->
+      <!-- Clarification Screen -->
       <!-- Suggestion Modal -->
       <ListingItemProductSuggestion
         :id="`suggest_a_new_product`"
@@ -310,6 +360,9 @@
         @showDetailPage="showDetailPage"
       />
       <!-- ./Clarification Screen -->
+      <!-- Modal Popup for full screen view ends -->
+
+
     </b-container>
   </div>
 </template>
@@ -318,6 +371,7 @@
 import { mapActions } from 'vuex'
 import { capitalizeFirstLetter } from '~/utils/string'
 import InventoryCard from '~/components/profile/create-listing/selling/InventoryCard.vue'
+import MobileFilter from '~/components/profile/create-listing/selling/MobileFilter.vue'
 import {
   ListingItemProductSuggestion,
   ClarificationScreen,
@@ -329,9 +383,13 @@ import {
   Button,
   BulkSelectToolbar,
   Pagination,
-  Modal,
+  Modal
 } from '~/components/common'
+import ProductThumb from '~/components/product/Thumb'
 
+import InventoryCount from '~/components/profile/create-listing/selling/InventoryCount.vue'
+import MobileResult from '~/components/profile/create-listing/selling/MobileResult.vue'
+import screenSize from '~/plugins/mixins/screenSize'
 export default {
   name: 'CreateListing',
 
@@ -346,7 +404,13 @@ export default {
     Pagination,
     ListingItemProductSuggestion,
     Modal,
+    MobileFilter,
+    InventoryCount,
+    MobileResult,
+    ProductThumb,
   },
+
+  mixins: [screenSize],
 
   layout: 'Profile',
 
@@ -365,7 +429,6 @@ export default {
       page: 1,
       perPage: null,
       category: null,
-      type: '',
       inventories: [],
       action: null,
       selected: [],
@@ -373,6 +436,8 @@ export default {
       sortBySelected: '',
       sizeTypes: [],
       sizes: [],
+      selectedProducttype: '',
+      selectedGender: '',
       // For filters
       sizeTypeFilters: [],
       sizeFilters: [],
@@ -383,6 +448,13 @@ export default {
       showResult: false
     }
   },
+
+  computed: {
+    inventoryLength: (vm) => {
+      return vm.inventories && vm.inventories.length
+    }
+  },
+
   created() {
     this.getInventories()
     this.getSizeFilters()
@@ -398,7 +470,8 @@ export default {
       addListingToDraft: 'listingItems/addListingToDraft',
       checkIfProductWithSameSKU: 'product/checkIfProductWithSameSKU',
       removeDraftListing: 'listingItems/removeDraftListing',
-      addReferrer: 'inventory/addReferrer'
+      addReferrer: 'inventory/addReferrer',
+      showProductDetails: 'create-listing/showProductDetails'
     }),
     backToCreateListing() {
       this.$router.push({
@@ -449,24 +522,21 @@ export default {
 
     // On item click
     // Note: For Jordans the kids SKU is the same as Men’s so we are adding a clarifcation screen here
-    showProductDetails({ sku, id }) {
-      // Check if there is more than one product with same sku.
-      this.$axios
-        .get(`/product/${sku}/same-sku`)
-        .then((res) => {
-          // If more than one item exist show clarification screen.
-          if (res && res.data.length > 1) {
-            this.showClarificationScreen(res.data)
-          } else {
-            // else show the details page
+    showDetails({ sku,id }){
+      this.showProductDetails({ sku ,id })
+        .then((result) => {
+          if(result.data && result.data.length > 1){
+            this.showClarificationScreen(result.data)
+          }else{
             this.showDetailPage(id)
           }
         })
         .catch((err) => {
           this.$toasted.error(err.response.data.message)
-          this.$logger.logToServer(err.response.data?.message)
+          this.$logger.logToServer(err.response)
         })
     },
+
 
     // Show the clarification screen.
     showClarificationScreen(res) {
@@ -502,23 +572,66 @@ export default {
         page: this.page,
         per_page: this.perPage,
         category: this.categorySelected,
-        type: this.type,
+        type: '',
         size: this.sizeFilters,
         sizeType: this.sizeTypeFilters,
         sortBy: this.sortBySelected,
+        gender: this.selectedGender,
+        productType: this.selectedProducttype
       }).then((res) => {
         this.inventories = res.data
+        // this.inventories = []
         this.totalCount = parseInt(res.total)
         this.perPage = parseInt(res.per_page)
         this.loading = false
       })
     },
 
+    // On apply filter
+    applyFilter(val){
+      if(val.sortby){
+        this.sortBySelected = val.sortby
+      }else{
+        this.sortBySelected = ''
+      }
+      if(val.sizeType){
+        this.sizeTypeFilters = val.sizeType
+      }else{
+        this.sizeTypeFilters = []
+      }
+      if(val.sizes){
+        this.sizeFilters = val.sizes
+      }else{
+        this.sizeFilters = []
+      }
+      if(val.category){
+        this.categorySelected = val.category
+      }else{
+        this.categorySelected = ''
+      }
+      if(val.gender) {
+        this.selectedGender = val.gender
+      }else{
+        this.selectedGender = ''
+      }
+      if(val.productType){
+        this.selectedProducttype = val.productType
+      }else{
+        this.selectedProducttype = ''
+      }
+      this.getInventories()
+
+    },
+
     // On inventory card checkbox action.
     selectItem(id, checked) {
+
       if (checked) {
         this.selectedItems.push(id)
-        this.action = 'continue-to-list'
+        if(!this.isScreenXS){
+          this.action = 'continue-to-list'
+        }
+        
       } else {
         this.selectedItems.splice(this.selectedItems.indexOf(id), 1)
       }
@@ -692,6 +805,13 @@ export default {
       @media (min-width: 1800px)
         flex: 0 0 20%
         max-width: 20%
+  .btn-selected-continue
+    background: $color-black-1
+    border-radius: 20px
+    font-family: $font-montserrat
+    font-style: normal
+    @include body-10-medium
+    color: $color-white-1
   .btn-apply-filter
     background: $color-blue-2
     border-radius: 5px
@@ -716,4 +836,51 @@ export default {
 @media (max-width: 475px)
   .back-to-createlisting
     font-size: 15px
+.product-img
+  width: 39px
+  height: 39px
+
+// Media query
+@media (max-width: 576px)
+  .vd-create-listing-section
+    .vendor-dashboard-body
+      background-color: $color-white-1
+      .back-to-createlisting,
+      .vd-create-listing-css,
+      .filters,
+      .active-filters
+        display: none
+      .heading-mobile
+        font-family: $font-montserrat
+        font-style: normal
+        @include body-3-medium
+        display: flex
+        align-items: center
+        color: $color-black-1
+      
+      .mobile-header-selling
+        display: block
+      .inventory-result-row
+        justify-content: space-evenly
+        margin-bottom: 1.5rem
+      .inventory-result-responsive,
+      .mobileFilter
+        display: block
+      .inventory-result-web
+        display: none
+
+@media (min-width:576px)
+  .vd-create-listing-section
+    .vendor-dashboard-body
+      padding: 47px 54px
+      min-height: 130vh
+      background-color: $color-white-4,
+    
+    .inventory-result-web
+      display: block
+    .inventory-result-responsive,
+    .mobile-header-selling,
+    .mobileFilter,
+    .continue-with-selected
+      display: none
 </style>

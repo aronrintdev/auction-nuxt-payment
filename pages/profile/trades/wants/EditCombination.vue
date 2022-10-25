@@ -91,6 +91,12 @@ export default {
     },
     layout: 'Profile',
     middleware: 'auth',
+    props:{
+      combination: {
+        type: Object,
+        default: () => null,
+      },
+    },
     data() {
         return {
             THREE_ITEMS,
@@ -106,6 +112,7 @@ export default {
             editItem: null,
             itemId: null,
             addWantItem: false,
+            backToEdit: null
         }
     },
     computed: {
@@ -115,21 +122,25 @@ export default {
         }
     },
     mounted() {
-        // Emit to take user back from search page to confirmation
-        this.$root.$on('back_to_edit', () => {
+        this.backToEdit = () => {
             this.addWantItem = false
             this.editItem = null
             this.getCombination()
-            this.$nextTick(() => this.$forceUpdate())
-        })
+        }
+
+        // Emit to take user back from search page to confirmation
+        this.$root.$on('back_to_edit_combination', this.backToEdit)
         this.getCombination()
+    },
+    beforeDestroy() {
+      this.$root.$off('back_to_edit_combination', this.backToEdit)
     },
     methods: {
         getCombination() {
             const url = 'trades/wants/combination/item'
             this.$axios.get(url, {
                 params: {
-                    combination_id: this.getUpdateCombinations.combination_id
+                    combination_id: this.combination.combination_id
                 }
             })
                 .then((res) => {

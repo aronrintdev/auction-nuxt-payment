@@ -1,77 +1,67 @@
 <template>
-  <div class="details-wrapper">
-    <div class="tab-menu">
-      <Button
-        variant="link"
-        :class="{ active: currentTab === 'detail' }"
-        @click="setTab('detail')"
-        >{{ $t('products.product_details') }}</Button
-      >
-      <Button
-        variant="link"
-        :class="{ active: currentTab === 'size' }"
-        @click="setTab('size')"
-        >{{ $t('products.size_guide') }}</Button
-      >
-    </div>
-
-    <div v-if="currentTab === 'detail'" class="tab-content mt-40">
-      <div class="content-row">
-        <div>{{ $t('common.sku') }}</div>
-        <div>{{ product.sku }}</div>
-      </div>
-
-      <div class="content-row">
-        <div>{{ $t('common.colorway') }}</div>
-        <div>{{ product.colorway }}</div>
-      </div>
-
-      <div class="content-row">
-        <div>{{ $t('common.retail_price') }}</div>
-        <div>{{ product.retail_price | toCurrency }}</div>
-      </div>
-
-      <div class="content-row">
-        <div>{{ $t('common.release_date') }}</div>
-        <div>{{ product.release_year }}</div>
-      </div>
-    </div>
-
-    <div v-if="currentTab === 'size'" class="tab-content">
-      <div class="helper-text">
-        {{ $t('products.scroll_to_view_more_sizes') }}
-      </div>
-
-      <ProductSizeGuideShoe
-        v-if="
-          product.size_type && SHOE_CATEGORIES.indexOf(product.size_type) > -1
-        "
-      />
-    </div>
-  </div>
+  <b-row class="h-100">
+    <b-col md="12">
+      <b-tabs content-class="mt-3" nav-class="pb-2">
+        <b-tab title-link-class="body-2-bold border-0 pl-0" :title="$t('products.product_details')">
+          <b-row>
+            <b-col md="6">
+              <b-row>
+                <b-col md="4" class="body-24-normal text-black">
+                  <div>{{ $t('common.sku') }}&colon;</div>
+                  <div>{{ $t('common.colorway') }}&colon;</div>
+                  <div>{{ $t('common.retail_price') }}&colon;</div>
+                  <div>{{ $t('common.release_date') }}&colon;</div>
+                </b-col>
+                <b-col md="8" class="body-24-normal text-color-gray-5">
+                  <div>{{ product.sku }}</div>
+                  <div>{{ product.colorway }}</div>
+                  <div>{{ product.retail_price | toCurrency }}</div>
+                  <div>{{ product.release_year }}</div>
+                </b-col>
+              </b-row>
+            </b-col>
+            <b-col md="6">
+              <div class="body-24-normal text-black border-0">{{ $t('products.description') }}&colon;</div>
+              <span class="mt-2 body-24-normal text-color-gray-5">{{ productDescriptionText }}</span>
+              <Button variant="link" @click="isFullTextShown = !isFullTextShown">
+                <span class="body-24-normal">{{ isFullTextShown ? $t('products.read_less') : $t('products.read_more') }}</span>
+              </Button>
+            </b-col>
+          </b-row>
+        </b-tab>
+        <b-tab title-link-class="body-2-bold border-0 pl-5" :title="$t('products.size_guide')">
+          <ProductSizeGuideShoe
+            v-if="product.size_type && SHOE_CATEGORIES.indexOf(product.size_type) > -1"
+            :selected-size="selectedSize"
+          />
+        </b-tab>
+      </b-tabs>
+    </b-col>
+  </b-row>
 </template>
 <script>
-import Button from '~/components/common/Button'
 import ProductSizeGuideShoe from '~/components/product/size-guide/Shoe'
+import Button from '~/components/common/Button'
 
 export default {
   name: 'ProductDetailsTab',
-
   components: {
-    Button,
     ProductSizeGuideShoe,
+    Button
   },
-
   props: {
     product: {
       type: Object,
       required: true,
     },
+    selectedSize: {
+      type: Number,
+      required: false,
+      default: 0
+    }
   },
-
   data() {
     return {
-      currentTab: 'detail',
       SHOE_CATEGORIES: [
         'men',
         'women',
@@ -82,63 +72,38 @@ export default {
         'unisex',
         'youth',
       ],
+      // TODO: NP - Product description dummy content
+      productDescription: 'Lorem ipsum dolor sit amet, ' +
+        'consectetur adipisicing elit. Amet, distinctio dolorem dolores dolorum ipsam iste iusto laboriosam minus non ' +
+        'officia perferendis, praesentium, rerum unde vel veniam? Deserunt eligendi fuga voluptatem!',
+      isFullTextShown: false,
     }
   },
+  computed: {
+    productDescriptionText(vm) {
+      if (vm.isFullTextShown) {
+        return this.productDescription
+      }
 
-  methods: {
-    setTab(tab) {
-      this.currentTab = tab
-    },
-  },
+      return this.productDescription.slice(0, 128) + '...'
+    }
+  }
 }
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
-.details-wrapper
-  background-color: $color-blue-6
-  padding: 20px 37px
-  height: 100%
+/* Overriding admin-lite theme styles */
+::v-deep
+  .nav-link
+    color: $color-gray-5
+    &:hover
+      color: $color-gray-5
+    &.active
+      color: $black-1
+      &:hover
+        color: $black-1
 
-  .tab-menu
-    .btn
-      @include body-1-medium
-      margin-right: 26px
-      color: $color-gray-4
-
-      &.active
-        color: $color-black-1
-
-  .tab-content
-    margin-top: 9px
-
-    &.mt-40
-      margin-top: 40px
-
-    .helper-text
-      @include body-5-bold
-      color: $color-gray-6
-      margin-top: 20px
-
-    .content-row
-      padding: 17px 0
-      display: flex
-      justify-content: space-between
-
-      &:not(:last-child)
-        border-bottom: 1px solid $color-gray-5
-
-      >div:first-child
-        @include body-3-medium
-        color: $color-gray-5
-        margin-right: 20px
-
-      >div:last-child
-        @include body-3-regular
-        color: $color-black-1
-        word-break: break-word
-
-@media (max-width: 576px)
-  .details-wrapper
-    padding: 20px
+.text-color-gray-5
+  color: $color-gray-5
 </style>

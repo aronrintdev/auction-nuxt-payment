@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import debounce from 'lodash.debounce'
 import TradeSummary from '~/pages/profile/trades/dashboard/TradeSummary';
 import SearchInput from '~/components/common/SearchInput';
 import NavGroup from '~/components/common/NavGroup';
@@ -196,13 +197,13 @@ export default {
      * listing below input search field
      * @param term
      */
-    onSearchInput(term) {
+    onSearchInput: debounce(function (term) {
       if (term) {
         this.searchText = term
       } else{
         this.searchText =  null
       }
-    },
+    }, 500),
 
     handleMethodNavClick(type) {
       if (type) {

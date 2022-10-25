@@ -1,32 +1,60 @@
 import Vue from 'vue'
-import { Doughnut, mixins } from 'vue-chartjs'
-const { reactiveProp } = mixins
+import { Doughnut } from 'vue-chartjs'
+
+
 Vue.component('DoughnutChart', {
   extends: Doughnut,
-  mixins: [reactiveProp],
   props: {
     options: {
       type: Object,
       default: null,
     },
+    data: {
+      type: Array,
+      default: null
+    },
+    labels: {
+      type: Array,
+      default: null
+    },
+    bgColors: {
+      type: Array,
+      default: null
+    }
+  },
+  computed: {
+    chartData() {
+      return this.data;
+    },
+    chartLabels(){
+      return this.labels
+    },
+    colors(){
+      return this.bgColors
+    }
   },
   watch: {
-    options: {
-      handler() {
-        this.$data._chart.destroy()
-        this.renderChart(this.chartData, this.options)
-      },
-      deep: true,
-    },
+    data() {
+      this.renderLineChart();
+    }
   },
   mounted() {
-    this.renderChart(this.chartData, this.options)
-    this.$emit('mounted')
+    this.renderLineChart();
   },
+
   methods: {
-    redraw() {
-      this.$data._chart.destroy()
-      this.renderChart(this.chartData, this.options)
-    },
+    renderLineChart() {
+    this.renderChart(
+      {
+        labels: this.chartLabels,
+        datasets: [{
+            backgroundColor: this.colors,
+            data: this.chartData,
+          }
+        ]
+      },
+      this.options
+    );
+    }
   },
-})
+});

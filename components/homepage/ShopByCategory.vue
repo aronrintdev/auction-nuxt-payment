@@ -12,7 +12,11 @@
       <div
         v-for="(category, index) in categories"
         :key="index"
+        :to="category.to"
         class="col-6 category col-lg-3 col p-0"
+      >
+      <nuxt-link
+        :to="`/shop/${category.id}`"
       >
         <div class="overflow-wrapper">
           <div
@@ -24,6 +28,7 @@
             </h1>
           </div>
         </div>
+        </nuxt-link>
       </div>
     </div>
     <div
@@ -57,34 +62,42 @@ export default {
         {
           title: this.$t('home_page.tops'),
           image: require('~/assets/img/home/categories/tops.png'),
+          to: './shop',
         },
         {
           title: this.$t('home_page.t-shirts'),
           image: require('~/assets/img/home/categories/t-shirts.png'),
+          to: './shop',
         },
         {
           title: this.$t('home_page.sweatshirts'),
           image: require('~/assets/img/home/categories/sweat-shirts.png'),
+          to: './shop',
         },
         {
           title: this.$t('home_page.footwear'),
           image: require('~/assets/img/home/categories/footwear.png'),
+          to: './shop',
         },
         {
           title: this.$t('home_page.bottoms'),
           image: require('~/assets/img/home/categories/bottoms.png'),
+          to: './shop',
         },
         {
           title: this.$t('home_page.shirts'),
           image: require('~/assets/img/home/categories/shirts.png'),
+          to: './shop',
         },
         {
           title: this.$t('home_page.jackets'),
           image: require('~/assets/img/home/categories/jackets.png'),
+          to: './shop',
         },
         {
           title: this.$t('home_page.accessories'),
           image: require('~/assets/img/home/categories/accessories.png'),
+          to: './shop',
         },
       ],
       categoriesSm: [
