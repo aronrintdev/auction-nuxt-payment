@@ -258,7 +258,7 @@ export default {
       categories: [],
       showSuccessMessage: null,
       searchFilters: {
-        filterBy: '',
+        sort_by_column: 'id',
         search: '',
         category: '',
         category_id: '',
@@ -302,9 +302,11 @@ export default {
   },
   mounted() {
     this.loadFilters()
-    // this.searchFilters = this.activeFilters
   },
-
+  created()
+  {
+    this.$emit('filterList', this.searchFilters)
+  },
   methods: {
     // Get All Product Filters List
     loadFilters() {
@@ -341,7 +343,7 @@ export default {
     handleSortBySelect(value) {
       if (value) {
         this.sortBy = value.value
-        this.searchFilters.filterBy = value === '' ? '' : value.label
+        this.searchFilters.sort_by_column = value === '' ? '' : value.label
         this.setActiveFilter()
         this.$emit('filterList', this.searchFilters)
       }
