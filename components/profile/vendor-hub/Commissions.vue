@@ -114,13 +114,19 @@
               >
               </b-form-checkbox>
 
-              <span class="link-text" role="button">{{ data.value }}</span>
+              <span class="link-text" role="button">{{ data.item.order_id }}</span>
             </div>
           </template>
 
           <template #cell(product)="data">
-            <span>
+            <div class="text-left">
               {{ data.item.product.name }}
+            </div>
+          </template>
+
+          <template #cell(commission)="data">
+            <span>
+              {{ data.value | toCurrency }}
             </span>
           </template>
 
@@ -353,13 +359,13 @@ export default {
           {
             image: require('~/assets/img/profile/vendor-hub/singe-dollar.svg'),
             description: this.$t('vendor_hub.commission.total_commission'),
-            amount: '$' + stats.commission.paid,
+            amount: this.$options.filters.toCurrency(stats.commission.paid),
             color: 'blue'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/comission-due.svg'),
             description: this.$t('vendor_hub.commission.total_commission_due'),
-            amount: '$' + stats.commission.due,
+            amount: this.$options.filters.toCurrency(stats.commission.due),
             color: 'orange'
           },
           {
