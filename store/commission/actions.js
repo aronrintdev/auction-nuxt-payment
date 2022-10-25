@@ -22,7 +22,7 @@ export function getVendorCommission({ commit }, payload) {
  */
 export function getGlobalCommission({ commit }) {
   return this.$axios
-    .get('/commissions/config/global', { handleError: false })
+    .get('/commissions/global/active', { handleError: false })
     .then((response) => {
       commit('setGlobalCommission', response.data)
       return Promise.resolve(response.data.data)

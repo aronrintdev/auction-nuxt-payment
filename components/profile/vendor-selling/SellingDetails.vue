@@ -147,7 +147,11 @@ export default {
 
     // Move to index page
     moveBack() {
-      this.$router.push(this.$nuxt.context.from || '/profile/vendor-selling')
+      if(this.$nuxt.context.from.name === 'profile-vendor-selling-details-modify'){
+        this.$router.push('/profile/vendor-selling')
+      }else{
+        this.$router.push(this.$nuxt.context.from || '/profile/vendor-selling')
+      }
     },
 
     // View options vue bottom sheet popup

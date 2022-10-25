@@ -335,7 +335,7 @@
       </div>
 
       <div
-        v-show="mobileClass && showCheckBox && !hideSelectConfirm"
+        v-show="mobileClass && showCheckBox"
         class="row"
       >
         <div class="col-xs-12">
@@ -638,10 +638,6 @@ export default {
       }
     },
 
-    deleteSelected() {
-      this.hideSelectConfirm = !this.hideSelectConfirm
-      this.showConfirmation = !this.showConfirmation
-    },
 
     onCancel() {
       this.showCheckBox = false
