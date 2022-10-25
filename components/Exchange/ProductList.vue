@@ -91,15 +91,6 @@ export default {
       categorySelected: '', // For Sort by filter
       filterBy: '',
       showSuccessMessage: null,
-      searchFilters: {
-        startDate: '',
-        endDate: '',
-        keyWord: '',
-        sortBy: '',
-        filterBy: '',
-        perPage: 8,
-        page: 1,
-      },
       totalRows: null,
       currentPage: 1,
       page: 1,
@@ -125,7 +116,6 @@ export default {
     },
   },
   created() {
-    this.loadPage()
     this.myEventHandler()
   },
   destroyed() {
@@ -183,7 +173,8 @@ export default {
         })
         .then((response) => {
           if (response.data) {
-            this.products = response.data.data.data.data
+            console.log(response.data.data)
+            this.products = response.data.data.data
             this.totalRows = response.data.data.total
           }
         })
