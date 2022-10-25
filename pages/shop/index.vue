@@ -8,8 +8,8 @@
       >
         <img src="~/assets/img/icons/scroll-to-top.svg" />
       </div>
-      <ShopBanner />
-      <div v-if="!loadingFilter" class="section-filters">
+      <ShopBanner @apply="fetchProducts" />
+      <div class="section-filters">
         <ShopFilters ref="filterSidebar" @apply="fetchProducts" />
       </div>
       <NavGroup
@@ -90,7 +90,7 @@
 </template>
 <script>
 import debounce from 'lodash.debounce'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import ShopBanner from '~/components/shop/Banner.vue'
 import ShopFilters from '~/components/shop/ShopFilters.vue'
 import AdBanner from '~/components/shop/AdBanner.vue'
@@ -111,7 +111,7 @@ export default {
   data() {
     return {
       scrollPosition: null,
-      // todo 
+      // todo
       products: [
         {
           id: 1,
@@ -505,18 +505,30 @@ export default {
     await this.fetchFilters()
     this.fetchProducts()
   },
+  computed: {
+    ...mapGetters('browse', [
+      'filters',
+      'selectedPrices',
+      'selectedYears',
+      'selectedBrands',
+      'selectedSizes',
+      'selectedSizeTypes',
+    ]),
+  },
   destroyed() {
     // eslint-disable-next-line nuxt/no-env-in-hooks
     if (process.client) {
       window.removeEventListener('scroll', this.updateScroll)
     }
   },
+
   mounted() {
     // eslint-disable-next-line nuxt/no-env-in-hooks
     if (process.client) {
       window.addEventListener('scroll', this.updateScroll)
     }
   },
+
   methods: {
     ...mapActions('browse', ['fetchFilters']),
     scrollToTop() {

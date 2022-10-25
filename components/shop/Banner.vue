@@ -1,13 +1,13 @@
 <template>
   <section class="shop-hero-banner position-relative">
     <div class="searchbar d-block d-sm-none">
-      <SearchAndFilter />
+      <SearchAndFilter @apply="apply" />
     </div>
     <h1
       class="font-primary fw-7 fs-40 text-white banner-heading position-absolute text-capitalize d-none d-sm-block"
     >
-      {{$t('banner.shop_with')}} <br />
-      {{$t('banner.deadstock')}}
+      {{ $t('banner.shop_with') }} <br />
+      {{ $t('banner.deadstock') }}
     </h1>
   </section>
 </template>
@@ -17,6 +17,11 @@ export default {
   name: 'ShopBanner',
   components: {
     SearchAndFilter,
+  },
+  methods: {
+    apply() {
+      this.$emit('apply')
+    },
   },
 }
 </script>
@@ -35,6 +40,6 @@ export default {
     .banner-heading
       bottom: 160px
   .banner-heading
-    bottom: 120px 
+    bottom: 120px
     left: 90px
 </style>

@@ -33,7 +33,7 @@
           <FormDropdown
             id="size-type"
             :value="sortBy"
-            :placeholder="$t('trade_arena.size_type')"
+            :placeholder="$t('trades.trade_arena.size_type')" 
             :icon-arrow-down="
               require('~/assets/img/icons/arrow-down-gray2.svg')
             "

@@ -27,7 +27,7 @@
       :rounded="true"
       :is-full-screen="true"
     >
-      <ShopFiltersMobile ref="shopFilters" />
+      <ShopFiltersMobile ref="shopFilters" @apply="apply" />
     </vue-bottom-sheet>
   </div>
 </template>
@@ -58,7 +58,7 @@ export default {
       this.$refs.myBottomSheet.close()
     },
     apply() {
-      this.$refs.shopFilters.applyFilters()
+      this.$emit('apply')
     },
     updateScroll() {
       this.scrollPosition = window.scrollY

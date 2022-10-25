@@ -6,7 +6,7 @@
       </h3>
     </div>
     <div class="bottom_sheet_body">
-      <div class="border-bottom pb-3">
+      <div class="border-bottom py-3">
         <h5 class="fs-16 fw-7 text-base-blue font-secondary">
           {{ $t('selling_page.filter.sort') }}
         </h5>
@@ -20,7 +20,7 @@
           name="sortFilter"
         />
       </div>
-      <div class="border-bottom pb-3">
+      <div class="border-bottom py-3">
         <Collapse
           :title="$t('createlisting.category')"
           :selectedValue="selectedCategory"
@@ -42,7 +42,7 @@
           </div>
         </Collapse>
       </div>
-      <div class="border-bottom pb-3">
+      <div class="border-bottom py-3">
         <Collapse
           :title="$t('common.sizetype')"
           :selectedValue="selectedSizeType"
@@ -64,7 +64,7 @@
           </div>
         </Collapse>
       </div>
-      <div class="border-bottom pb-3">
+      <div class="border-bottom py-3">
         <Collapse :title="$t('home_page.size')" :selectedValue="selectedSizes">
           <div class="sizes-option">
             <div
@@ -84,7 +84,7 @@
           </div>
         </Collapse>
       </div>
-      <div class="border-bottom pb-3">
+      <div class="border-bottom py-3">
         <Collapse
           :title="$t('common.price_range')"
           :selectedValue="selectedPriceRange"
@@ -105,7 +105,7 @@
           </div>
         </Collapse>
       </div>
-      <div class="border-bottom pb-3">
+      <div class="border-bottom py-3">
         <Collapse
           :title="$t('filter_sidebar.brands')"
           :selectedValue="selectedBrand"
@@ -127,7 +127,7 @@
           </div>
         </Collapse>
       </div>
-      <div class="border-bottom pb-3">
+      <div class="border-bottom py-3">
         <Collapse :title="$t('common.year')" :selectedValue="selectedYearRange">
           <div>
             <SliderInput
@@ -150,11 +150,13 @@
     >
       <button
         class="btn fs-16 fw-6 font-secondary rounded-pill btn-outline-dark"
+        @click="resetFilters"
       >
         {{ $t('common.reset') }}
       </button>
       <button
         class="btn text-white fs-16 fw-6 font-secondary rounded-pill apply-btn"
+        @click="applyFilters"
       >
         {{ $t('orders.apply_filter') }}
       </button>
@@ -162,8 +164,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
-// import debounce from 'lodash.debounce'
+import { mapActions, mapGetters } from 'vuex'
 import _ from 'lodash'
 import Collapse from '~/components/common/Collapse'
 import Radio from '~/components/common/form/Radio'
@@ -321,6 +322,7 @@ export default {
     this.MIN_YEAR_RANGE_WINDOW = MIN_YEAR_RANGE_WINDOW
   },
   methods: {
+    ...mapActions('browse', ['resetFilters']),
     applyFilters() {
       this.$store.commit('browse/setSelectedYears', this.years)
       this.$store.commit('browse/setSelectedPrices', this.prices)
