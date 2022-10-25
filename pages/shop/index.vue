@@ -19,7 +19,7 @@
         class="section-nav text-center mt-5"
         @change="handleCategoryChange"
       />
-      <div class="container mt-5">
+      <div v-if="!noSearchResult" class="container mt-5">
         <section class="recently-viewed">
           <SectionHeader
             :title="$t('auctions.frontpage.recently_viewed')"
@@ -85,6 +85,19 @@
           </ProductCarousel>
         </section>
       </div>
+      <div v-else>
+        <div class="text-center no-items-found">
+          <img src="~/assets/img/no-items-found.png" class="mr-3" />
+          <div>
+            <div class="no-items-found-title">
+              {{ $t('auctions.frontpage.no_results_found') }}
+            </div>
+            <div class="no-items-found-subtitle">
+              {{ $t('auctions.frontpage.cant_find_anything') }}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </b-overlay>
 </template>
@@ -111,6 +124,7 @@ export default {
   data() {
     return {
       scrollPosition: null,
+      noSearchResult: false,
       // todo
       products: [
         {
@@ -540,7 +554,11 @@ export default {
       this.scrollPosition = window.scrollY
     },
     handleCategoryChange(category) {
+      this.noSearchResult = false
       this.category = category
+    },
+    noSearchResultFound() {
+      this.noSearchResult = true
     },
     fetchProducts: debounce(function () {
       if (!this.perPage || !this.page) return
@@ -599,4 +617,15 @@ export default {
       transition: 0.5s all ease-in-out
       &.scrolled
         bottom: 40px
+  .no-items-found
+    img
+      width: 130px
+    &-title
+      @include heading-7
+      color: $color-gray-5
+      font-family: $font-sp-pro
+    &-subtitle
+      @include body-1-regular
+      font-family: $font-sp-pro
+      color: $black
 </style>

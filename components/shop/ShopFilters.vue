@@ -3,13 +3,9 @@
     <div class="filters-wrapper">
       <div class="row">
         <div class="col-9">
-          <SearchInput
-            :value="search"
-            :placeholder="$t('common.search')"
-            variant="light"
-            class="search-input"
-            :debounce="1000"
-            @change="handleSearchChange"
+          <Searchbar
+            :searchKeyword="productFilter ? productFilter.name : null"
+            @change="handleFilterChange"
           />
         </div>
         <div class="col-3">
@@ -33,7 +29,7 @@
           <FormDropdown
             id="size-type"
             :value="sortBy"
-            :placeholder="$t('trades.trade_arena.size_type')" 
+            :placeholder="$t('trades.trade_arena.size_type')"
             :icon-arrow-down="
               require('~/assets/img/icons/arrow-down-gray2.svg')
             "
@@ -108,7 +104,7 @@
           <FormDropdown
             id="Price"
             :value="sortBy"
-            :placeholder="$t('comon.price')"
+            :placeholder="$t('common.price')"
             :items="SORT_OPTIONS"
             :icon-arrow-down="
               require('~/assets/img/icons/arrow-down-gray2.svg')
@@ -295,12 +291,13 @@ import {
   MIN_PRICE_RANGE_WINDOW,
   MIN_YEAR_RANGE_WINDOW,
 } from '~/static/constants'
-import { SearchInput, FormDropdown } from '~/components/common'
+import { FormDropdown } from '~/components/common'
 import SliderInput from '~/components/common/SliderInput'
+import Searchbar from '~/components/shop/Searchbar'
 export default {
   name: 'ShopFilters',
   components: {
-    SearchInput,
+    Searchbar,
     FormDropdown,
     SliderInput,
   },
@@ -336,14 +333,19 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('browse', [
-      'filters',
-      'selectedPrices',
-      'selectedYears',
-      'selectedBrands',
-      'selectedSizes',
-      'selectedSizeTypes',
-    ]),
+    ...mapGetters(
+      'browse',
+      [
+        'filters',
+        'selectedPrices',
+        'selectedYears',
+        'selectedBrands',
+        'selectedSizes',
+        'selectedSizeTypes',
+      ],
+      'auction',
+      ['getProductFilter']
+    ),
     minYear() {
       if (this.filters?.year_range?.min == null) {
         return MIN_YEAR
@@ -421,6 +423,18 @@ export default {
         !this.sizes &&
         !this.sizeTypes
       )
+    },
+  },
+  watch: {
+    productFilter(newV) {
+      if (this.productFilter) {
+        this.isViewAll = 'search_results'
+        this.filterOptions.product = newV.sku
+      } else {
+        this.isViewAll = null
+        this.filterOptions.product = undefined
+      }
+      this.loadAuctions()
     },
   },
   created() {
@@ -525,6 +539,11 @@ export default {
           this.loading = false
         })
     }, 500),
+    handleFilterChange(filters) {
+      this.isViewAll = 'search_results'
+      this.filterOptions = filters
+      this.fetchProducts()
+    },
   },
 }
 </script>
