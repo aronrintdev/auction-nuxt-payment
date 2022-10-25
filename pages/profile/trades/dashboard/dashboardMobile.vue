@@ -1,8 +1,8 @@
 <template>
   <div class="container-dashboard d-flex justify-content-center align-content-center mt-5 mb-5">
     <div>
-     <div class="list-box">
-       <div class="heading-trade-listing mt-2 ml-2">My Trade Listing</div>
+     <div class="list-box ml-2 p-1">
+       <div class="heading-trade-listing mt-2 ml-2 ">My Trade Listing</div>
        <div class="mt-2 d-flex justify-content-center align-content-center">
          <img src="~/assets/img/tradeIcon.svg" />
        </div>
@@ -10,7 +10,7 @@
          The Listings you have created
        </div>
      </div>
-      <div class="list-box">
+      <div class="list-box ml-2 p-1">
         <div class="heading-trade-listing mt-2 ml-2">My Trade Offers</div>
         <div class="mt-2 d-flex justify-content-center align-content-center">
           <img src="~/assets/img/tradeOfferIcon.svg" />
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div>
-      <div class="list-box">
+      <div class="list-box p-1">
         <div class="heading-trade-listing mt-2 ml-2">Wants List</div>
         <div class="mt-2 d-flex justify-content-center align-content-center">
           <img src="~/assets/img/heart.svg" />
@@ -30,7 +30,7 @@
           Wants List contains items saved from your listings
         </div>
       </div>
-      <div class="list-box">
+      <div class="list-box p-1">
         <div class="heading-trade-listing mt-2 ml-2">Trade Preferences</div>
         <div class="mt-2 d-flex justify-content-center align-content-center">
           <img src="~/assets/img/preference.svg" />
@@ -67,9 +67,9 @@ export default {
 .container-dashboard
   width: 350px
   height: auto
-  border: 1px solid grey
 .list-box
   width: 160px
+  height: 150px
   border: 2px solid #F4F4F4
 .heading-trade-listing
   font-family: 'Montserrat'
