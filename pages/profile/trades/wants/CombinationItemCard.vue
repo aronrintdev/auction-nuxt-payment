@@ -125,95 +125,120 @@
       </div>
     </div>
     <div class="d-flex row d-md-none custom-shadow rounded mx-sm-2">
-      <div 
-        class="col-4 d-flex flex-column align-items-end pb-3"
-        :style="{'padding-top': '20px'}"
-      >
-        <img 
-          width="16"
-          height="16"
-          :src="require('assets/img/icons/draft-list-image.svg')"
-        />
-        <object 
-          v-if="selectedCombination.product.image"
-          :data="selectedCombination.product.image"
-          class="img-fluid pointer"
-          type="image/png"
+      <client-only>
+        <Carousel
+          :loop="true"
+          :mouse-drag="false"
+          :nav="false"
+          :dots="false"
+          :responsive="{
+            0: { items: 1, nav: false, center: true },
+          }"
         >
-          <img class="img-fluid pointer" :src="fallbackImgUrl" alt="image"/>
-        </object>
-      </div>
-      <div class="col-7 py-3">
-        <div class="combination-mobile">
-          {{ $t('trades.create_listing.vendor.wants.combination_no') }}{{ combination.combination_id }}
-        </div>
-        <div class="name">
-          {{ selectedCombination.product.name }}
-        </div>
-        <div class="name">
-          <span class="text-uppercase">{{ $t('trades.create_listing.vendor.wants.sku') }}:</span>
-          {{ selectedCombination.product.sku }}
-        </div>
-        <div class="name">
-          {{ $t('sell.confirm_listing.table_columns.colorway') }}:
-          {{ selectedCombination.product.colorway }}
-        </div>
-        <div class="name">
-          {{ $t('home_page.size') }}: {{ selectedCombination.size.size }}
-        </div>
-        <div class="name">
-          {{ $t('trades.create_listing.vendor.wants.box') }}:
-          {{ selectedCombination.packaging_condition.name }}
-        </div>
-
-        <div v-if="combinationItems.length > 1" class="mt-2 d-flex justify-content-center">
-          <div
-            v-for="(item, idx) in combinationItems"
-            :key="idx"
-          >
-            <div 
-              role="button"
-              @click="setCombinationSelectedItem(idx)"
-              :class="{ 'slider-active': idx === selectedItemIndex }" 
-              class="slider-item"
+          <template #default>
+            <div
+              v-for="(product, index) in combination.combination_items"
+              :key="`trade-carousel-${index}`"
+              class="d-flex"
             >
-            </div>
-          </div>
-        </div>
+              <div 
+                class="col-4 d-flex flex-column align-items-end pb-3"
+                :style="{'padding-top': '20px'}"
+              >
+                <img
+                  class="w-auto"
+                  width="16"
+                  height="16"
+                  :src="require('assets/img/icons/draft-list-image.svg')"
+                />
+                <object 
+                  v-if="product.product.image"
+                  :data="product.product.image"
+                  class="img-fluid pointer"
+                  type="image/png"
+                >
+                  <img class="img-fluid pointer" :src="fallbackImgUrl" alt="image"/>
+                </object>
+              </div>
+              <div class="col-7 py-3">
+                <div class="combination-mobile">
+                  {{ $t('trades.create_listing.vendor.wants.combination_no') }}{{ combination.combination_id }}
+                </div>
+                <div class="name">
+                  {{ product.product.name }}
+                </div>
+                <div class="name">
+                  <span class="text-uppercase">{{ $t('trades.create_listing.vendor.wants.sku') }}:</span>
+                  {{ product.product.sku }}
+                </div>
+                <div class="name">
+                  {{ $t('sell.confirm_listing.table_columns.colorway') }}:
+                  {{ product.product.colorway }}
+                </div>
+                <div class="name">
+                  {{ $t('home_page.size') }}: {{ product.size.size }}
+                </div>
+                <div class="name">
+                  {{ $t('trades.create_listing.vendor.wants.box') }}:
+                  {{ product.packaging_condition.name }}
+                </div>
 
-        <div class="value">{{
-            $t('trades.create_listing.vendor.wants.total_est_value')
-          }}:   ${{ estValue(combination.combination_items) }}
-        </div>
-      </div>
-      <div class="d-md-none">
-        <img 
-          v-if="!editRemove" 
-          class="more" 
-          :src="require('assets/img/icons/More.svg')" 
-          @click="isModalOpen = true"
-        />
-        <div v-else class="d-flex justify-content-end mb-5">
-          <img
-            v-if="selected"
-            @click="$emit('select', combination.combination_id, 'remove')"
-            class="more"
-            role="button"
-            :src="require('~/assets/img/icons/red-minus.svg')" 
-            height="19" 
-            width="19" 
-          >
-          <img
-            v-else
-            @click="$emit('select', combination.combination_id, 'add')"
-            role="button"
-            class="more"
-            :src="require('~/assets/img/icons/gray-plus.svg')" 
-            height="19" 
-            width="19" 
-          >
-        </div>
-      </div>
+                <!-- <div v-if="combinationItems.length > 1" class="mt-2 d-flex justify-content-center">
+                  <div
+                    v-for="(item, idx) in combinationItems"
+                    :key="idx"
+                  >
+                    <div 
+                      role="button"
+                      @click="setCombinationSelectedItem(idx)"
+                      :class="{ 'slider-active': idx === selectedItemIndex }" 
+                      class="owl-dot slider-item"
+                    >
+                    </div>
+                  </div>
+                </div> -->
+
+                <div class="value">{{
+                    $t('trades.create_listing.vendor.wants.total_est_value')
+                  }}:   ${{ estValue(combination.combination_items) }}
+                </div>
+              </div>
+              <div class="d-md-none">
+                <img 
+                  v-if="!editRemove" 
+                  class="more"
+                  width="19"
+                  height="19"
+                  :src="require('assets/img/icons/More.svg')" 
+                  @click="isModalOpen = true"
+                />
+                <div v-else class="d-flex justify-content-end mb-5">
+                  <img
+                    v-if="selected"
+                    @click="$emit('select', combination.combination_id, 'remove')"
+                    class="more"
+                    role="button"
+                    :src="require('~/assets/img/icons/red-minus.svg')" 
+                    height="19" 
+                    width="19" 
+                  >
+                  <img
+                    v-else
+                    @click="$emit('select', combination.combination_id, 'add')"
+                    role="button"
+                    class="more"
+                    :src="require('~/assets/img/icons/gray-plus.svg')" 
+                    height="19" 
+                    width="19" 
+                  >
+                </div>
+              </div>
+            </div>
+          </template>
+        </Carousel>
+      </client-only>
+      
+      
     </div>
     <ActionsModal
       :isOpen="isModalOpen"
@@ -297,6 +322,7 @@ export default {
   position: absolute
   right: 5px
   top: 7px
+  width: auto !important
   @media (min-width: 576px)
     right: 15px
 
