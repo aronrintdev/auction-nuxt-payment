@@ -20,7 +20,7 @@
           class="border-top-0"
         >
           <td v-if="activeHeaders"></td>
-          <td v-if="activeHeaders" class="col-no font-primary" ><NuxtLink :to="'/stock/exchange/'+type+'/'+product._id"> {{ index + 1 }}</NuxtLink></td>
+          <td v-if="activeHeaders" class="col-no font-primary" ><NuxtLink :to="'/stock/exchange/'+type+'/'+product.id"> {{ index + 1 }}</NuxtLink></td>
           <td class="col-thumb">
             <div><ProductThumb :product="product" /></div>
           </td>
