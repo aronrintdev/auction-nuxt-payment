@@ -119,21 +119,21 @@
         v-on:click="currentTab = 'inventory'"
         :class="{'navigation-item-active': currentTab === 'inventory'}"
       >
-        <span class="navigation-text">Wants Inventory</span>
+        <span class="navigation-text">{{ $t('wants_inventory') }}</span>
       </div>
       <div 
         class="navigation-item" 
         v-on:click="currentTab = 'combinations'"
         :class="{'navigation-item-active': currentTab === 'combinations'}"
       >
-        <span class="navigation-text font-weight-normal">Wants Combinations</span>
+        <span class="navigation-text font-weight-normal">{{ $t('wants_combinations') }}</span>
       </div>
     </div>
 
     <div class="d-sm-none d-flex justify-content-end mt-3">
       <div 
         class="d-flex align-items-center"
-        @click="removeWantItems = true"
+        @click="deleteMultiple()"
       >
         <img
           :src="require('~/assets/img/icons/delete-rounded.svg')"
@@ -225,7 +225,7 @@
       </b-col>
     </div>
 
-    <div v-if="currentTab === 'inventory'" class="bulk-wrapper">
+    <div class="bulk-wrapper">
       <BulkSelectToolbar
         ref="bulkSelectToolbar"
         :active="!!action"
@@ -262,7 +262,7 @@
               <want-item-card
                 :wantItem="item"
                 :selected="!!selected.find((id) => id === item.id)"
-                :editRemove="removeWantItems"
+                :editRemove="action === 'delete'"
                 :actionType="action"
                 :selectedItems="selected"
                 @select="selectItem"
@@ -361,13 +361,13 @@
     </div>
     <div
       class="d-flex flex-column d-sm-none px-3 pb-3"
-      v-if="removeWantItems === true"
+      v-if="action === 'delete_combination' || action === 'delete'"
     >
       <div class="col-12 tap-to-delete">{{ $t('common.tap_to_delete') }}</div>
       <div class="d-flex justify-content-between">
         <div 
           class="col-5 d-flex align-items-center justify-content-center cancel-button"
-          @click="removeWantItems = false; selected = []"
+          @click="cancelAction()"
         >
           {{ $t('common.cancel') }}
         </div>
@@ -376,7 +376,7 @@
           :disabled="selected.length < 1"
           :value="deleteButtonText"
           class="col-5 d-flex align-items-center justify-content-center delete-button-mobile border-0"
-          @click="$bvModal.show('confirm-bulk-delete'); action = 'delete'"
+          @click="$bvModal.show('confirm-bulk-delete')"
         />
       </div>
     </div>
@@ -424,7 +424,6 @@ import SearchInput from '~/components/common/SearchInput'
 import CustomDropdown from '~/components/common/CustomDropdown'
 import {
   CATEGORY_ITEMS,
-  CREATE_COMBINATION,
   PAGE,
   PER_PAGE,
   PER_PAGE_COMBINATION,
@@ -512,9 +511,7 @@ export default {
       combinationItems: [],
       action: null,
       selected: [],
-      removeWantItems: false,
       combinationNum: 1,
-      removeCombination: false,
       errorSelection: null,
       pageCombination: PAGE,
       perPageCombination: PER_PAGE_COMBINATION,
@@ -659,28 +656,20 @@ export default {
       if (item?.value === 'add_new_item') {
         this.$router.push('/profile/trades/wants/addwantitem')
       } else {
-        this.removeCombination = false
-        this.removeWantItems = true
         this.action = item?.value
       }
     },
     handleSelect(item) {
       this.selected = []
       if (item?.value === 'create_combination') {
-        this.removeCombination = false
-        this.removeWantItems = true
         this.action = item?.value
       } else {
-        this.removeWantItems = false
-        this.removeCombination = true
         this.action = item?.value
       }
     },
 
     cancelAction() {
       this.action = null
-      this.removeWantItems = false
-      this.removeCombination = false
       this.selected = []
     },
 
@@ -753,16 +742,13 @@ export default {
       }
     },
     createCombination() {
-      this.currentTab = 'inventory';
       this.selected = []
-      this.removeWantItems = true
-      this.action = CREATE_COMBINATION
+      this.currentTab = 'inventory'
+      this.action = 'create_combination'
     },
     deleteMultiple() {
-      this.currentTab = 'inventory';
-      this.removeWantItems = true
       this.selected = []
-      this.action = 'delete'
+      this.action = this.currentTab === 'inventory' ? 'delete' : 'delete_combination'
     },
     setFilters(filters) {
       this.category = filters.category.value
@@ -815,7 +801,9 @@ export default {
         console.log('getCombinations coming', response.data.data.data);
         this.combinationItems = []
         response.data.data.data.forEach((item) => {
-          this.combinationItems.push(item);
+          if (item.combination_items.length > 0) {
+            this.combinationItems.push(item);
+          }
         });
         console.log('this.combinationItems after', this.combinationItems);
         this.totalCountCombination = parseInt(response.data.data.total)
@@ -843,17 +831,13 @@ export default {
         this.deleteWant(this.action)
         this.action = null
       }
-      console.log('handleBulkAction1', this.action);
       if (this.action === 'create_combination') {
         this.addCombination(this.action)
         this.action = null
-        this.removeWantItems = false
         this.currentTab = 'combinations'
       }
-      console.log('handleBulkAction2', this.action);
       if (isDeleteAction) {
         this.$bvModal.show('items-deleted')
-        this.removeWantItems = false
       }
     },
     addCombination() {

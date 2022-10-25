@@ -326,7 +326,7 @@ export default {
     ProductLatestSales,
     SelectListModal
   },
-  props:{
+  props: {
     product: {
       type: Object,
       default: () => null,

@@ -139,6 +139,8 @@
     "browse": "Browse",
     "bulk_delete_warning": "Are you sure you would like to delete selected?",
     "items_deleted": "Your items have been deleted!",
+    "wants_inventory": "Wants Inventory",
+    "wants_combinations": "Wants Combinations",
     "categories": {
       "sneakers": "Sneakers",
       "apparel": "Apparel",

@@ -78,7 +78,7 @@ export const SIZE_TYPES = [
 export const WANTS_SELECT_LIST_OPTIONS = [
   { text: 'trades.wants_listing.general_wants', value: 'general_wants' },
 ]
-export const CREATE_COMBINATION = 'create_combination'
+
 export const FILTER_STATUS_LIVE = 'live'
 export const FILTER_STATUS_EXPIRED = 'expired'
 export const FILTER_STATUS_DELISTED = 'de-listed'

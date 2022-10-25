@@ -203,7 +203,7 @@ export default {
       default: 1
     }
   },
-  data (){
+  data () {
     return {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
       selectedCombination: this.combination.combination_items[0],
@@ -236,7 +236,6 @@ export default {
      * @param itemIndex
      */
     setCombinationSelectedItem(combinationIndex) {
-      console.log('setCombinationSelectedItem', this.combination.combination_items[combinationIndex]);
       this.selectedCombination = this.combination.combination_items[combinationIndex]
       this.selectedItemIndex = combinationIndex
     },
