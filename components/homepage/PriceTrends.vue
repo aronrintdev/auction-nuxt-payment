@@ -74,8 +74,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.section-wrapper
-  margin-bottom: 48px
 .nav-group
   margin-bottom: 25px
 .banner-wrapper

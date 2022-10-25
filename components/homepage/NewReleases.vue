@@ -68,9 +68,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.section-wrapper
-  padding-top: 40px
-  padding-bottom: 48px
 @media (max-width:550px)
   .nav-group
     margin-top: 36px

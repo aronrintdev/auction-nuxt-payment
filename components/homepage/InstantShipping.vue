@@ -90,8 +90,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.section-wrapper
-  margin-bottom: 60px
 .nav-group
   margin-top: 33px
   margin-bottom: 25px
