@@ -72,6 +72,7 @@ export default {
     ProductTrendListCard,
     ExchangeFilter,
     Pagination,
+
   },
   props: {
     loading: {
@@ -116,6 +117,10 @@ export default {
     },
   },
   created() {
+    if (this.isMobile === true)
+    {
+      this.loadPage()
+    }
     this.myEventHandler()
   },
   destroyed() {
@@ -168,6 +173,7 @@ export default {
             page: this.currentPage,
             take: this.perPage,
             paginate: 1,
+            'sort_by_column':'id',
             ...this.filter,
           },
         })

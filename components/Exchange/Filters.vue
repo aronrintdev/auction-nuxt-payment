@@ -281,10 +281,6 @@ export default {
   mounted() {
     this.loadFilters()
   },
-  created()
-  {
-    this.$emit('filterList', this.searchFilters)
-  },
   methods: {
     // Get All Product Filters List
     loadFilters() {
