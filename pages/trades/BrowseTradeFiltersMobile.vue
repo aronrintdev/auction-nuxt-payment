@@ -32,11 +32,14 @@
             </div>
           </div>
           <b-collapse id="collapse-1" v-model="isVisible">
-            <div class="d-flex mt-3 ml-2">
-              <div :class="[selectedCategories == 'footwear' ? 'selected-item' : 'footwear-box']" @click="category('footwear')">Footwear</div>
-              <div :class="[selectedCategories == 'apparel' ? 'selected-item' : 'apparel-box']" class="ml-2" @click="category('apparel')">Apparel</div>
-              <div :class="[selectedCategories == 'accessories' ? 'selected-item' : 'accessories-box']" class="ml-2"  @click="category('accessories')">Accessories</div>
-            </div>
+            <b-row class="row">
+              <b-col v-for="(category, key) in categories" :key="'cat-' + key">
+                <div :class="getCategoryFilterSelection.includes(category.value) ?'selected-item':'unselected-item' " :value="category.value" class="m-1 d-flex justify-content-center align-content-center"
+                     @click="toggleCategorySelection(category.value)">
+                  {{category.text}}
+                </div>
+              </b-col>
+            </b-row>
           </b-collapse>
         </div>
         <hr class="hr" />
@@ -53,7 +56,7 @@
           <b-collapse id="collapse-sizeType" v-model="isVisibleSizeType">
             <b-row class="row">
               <b-col v-for="(sizeType, index) in sizeTypeOptions" :key="'sizetype-' + index">
-                <div :class="getSizeTypeFilterSelection.includes(sizeType) ?'selected-item':'footwear-box' " :value="sizeType" class="m-1" @click="toggleSizeTypeSelection(sizeType)">
+                <div :class="getSizeTypeFilterSelection.includes(sizeType) ?'selected-item':'unselected-item' " :value="sizeType" class="m-1 d-flex justify-content-center align-content-center" @click="toggleSizeTypeSelection(sizeType)">
                   {{sizeType}}
                 </div>
               </b-col>
@@ -92,7 +95,29 @@
         </div>
         <hr class="hr" />
 
-
+        <div class="mt-1 ml-2">
+          <div class="d-flex" v-b-toggle="'collapse-sizes'">
+            <div class="filtersHeading ml-2">
+              Sizes
+            </div>
+            <div class="d-flex ml-2">
+              <img  v-if="isVisibleSize" class="arrow-image pull-right" :src="require('~/assets/img/chev-up.svg')"/>
+              <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/chev-down.svg')"/>
+            </div>
+          </div>
+          <b-collapse id="collapse-sizes" v-model="isVisibleSize">
+            <b-row class="row" v-for="(categorySizes, key) in sizeOptions" :key="'sizecat-' + key">
+              <b-col v-for="(size, sizeKey) in categorySizes" :key="'size-' + sizeKey" >
+                <div :class="getSizeFilterSelection.includes(size.id) ? 'selected-item':'unselected-item' "
+                     :value="size.id" class="m-1 d-flex justify-content-center align-content-center"
+                     @click="toggleSizeSelection(size.id)">
+                  {{size.size}}
+                </div>
+              </b-col>
+            </b-row>
+          </b-collapse>
+        </div>
+        <hr class="hr" />
 
 
 
@@ -105,25 +130,25 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12 d-flex justify-content-center">
-        <div  class="filter-options col-md-10 ">
-          <!-- Display all sizes with respect to categories selection -->
-          <div v-if="Object.keys(sizeOptions).length > 0">
-            <b-row v-for="(categorySizes, key) in sizeOptions" :key="'sizecat-' + key" class="d-flex justify-content-start m-5">
-              <b-col md="1">
-              </b-col>
-              <b-col v-if="Object.keys(categorySizes).length > 0" md="9">
-                <h4>{{$t('common.'+key+'_sizes')}}</h4>
-                <b-list-group horizontal="md" class="d-inline-block">
-                  <b-list-group-item v-for="(size, sizeKey) in categorySizes" :key="'size-' + sizeKey" class="border-transparent d-inline-block">
-                    <b-form-checkbox v-model="selectedSizes[key]" :value="size.id" class="filter-item" @change="toggleSizeSelection(key, size.id)">{{size.size}}</b-form-checkbox>
-                  </b-list-group-item>
-                </b-list-group>
-              </b-col>
-            </b-row>
-          </div>
-        </div>
-      </div>
+<!--      <div class="col-md-12 d-flex justify-content-center">-->
+<!--        <div  class="filter-options col-md-10 ">-->
+<!--          &lt;!&ndash; Display all sizes with respect to categories selection &ndash;&gt;-->
+<!--          <div v-if="Object.keys(sizeOptions).length > 0">-->
+<!--            <b-row v-for="(categorySizes, key) in sizeOptions" :key="'sizecat-' + key" class="d-flex justify-content-start m-5">-->
+<!--              <b-col md="1">-->
+<!--              </b-col>-->
+<!--              <b-col v-if="Object.keys(categorySizes).length > 0" md="9">-->
+<!--                <h4>{{$t('common.'+key+'_sizes')}}</h4>-->
+<!--                <b-list-group horizontal="md" class="d-inline-block">-->
+<!--                  <b-list-group-item v-for="(size, sizeKey) in categorySizes" :key="'size-' + sizeKey" class="border-transparent d-inline-block">-->
+<!--                    <b-form-checkbox v-model="selectedSizes[key]" :value="size.id" class="filter-item" @change="toggleSizeSelection(key, size.id)">{{size.size}}</b-form-checkbox>-->
+<!--                  </b-list-group-item>-->
+<!--                </b-list-group>-->
+<!--              </b-col>-->
+<!--            </b-row>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
     </vue-bottom-sheet>
 
     <b-row v-if="showFilters" class="d-flex justify-content-center m-3" @click="showFilters = !showFilters">
@@ -152,6 +177,7 @@ export default {
       isVisible: false,
       isVisibleSizeType:false,
       isVisibleSizes:false,
+      isVisibleSize:false,
       isVisibleSlight:false,
       filterSection:false,
       showFilters: false,
@@ -179,7 +205,6 @@ export default {
   },
   watch:{
     sortFilters(sort) {
-      console.log('sort',sort)
       this.sortFilters = sort
     },
   },
@@ -221,32 +246,11 @@ export default {
     openBottomFilter() {
       this.$refs.browseFiltersSheet.open();
     },
-    category(cat) {
-      this.selectedCategories = cat
+    // handle when category is changed
+    toggleCategorySelection(category){
+      this.$store.commit('trade/setCategoryFilterSelection', category)
+      this.fetchTradeBrowseFilters()
     },
-
-    // onSelect(item) {
-    //   console.log ('getSizeTypeFilterSelection',this.getSizeTypeFilterSelection)
-    //   if(this.selectedSizeTypes !== null && this.selectedSizeTypes.includes(item)) {
-    //     console.log('if')
-    //     const checkArray = this.selectedSizeTypes.indexOf(item)
-    //     this.selectedSizeTypes.splice(checkArray,1)
-    //   } else if(this.getSizeTypeFilterSelection.length > 0)  {
-    //     console.log('come in else if ')
-    //     if(this.getSizeTypeFilterSelection.includes(item)) {
-    //       console.log('check item for remove',item)
-    //       this.$store.commit('trades/setSizeTypeFilterSelectionRemoveMobile', item)
-    //     } else {
-    //       console.log('check item for add',item)
-    //       this.$store.commit('trade/setSizeTypeFilterSelectionMobile', item)
-    //     }
-    //   }
-    //   else {
-    //     console.log('come in else')
-    //     this.selectedSizeTypes.push(item)
-    //   }
-    // },
-
     // capitalize size type firs letters
     prettySizeTypeName(sizeType){
       return capitalizeFirstLetter(sizeType)
@@ -254,20 +258,12 @@ export default {
 
     // // handle when size type is changed
     toggleSizeTypeSelection(sizeType){
-      console.log('sizeType',sizeType)
       this.$store.commit('trade/setSizeTypeFilterSelection', sizeType)
     },
-    //
-    // // handle when category is changed
-    // toggleCategorySelection(category){
-    //   this.$store.commit('trade/setCategoryFilterSelection', category)
-    //   this.fetchTradeBrowseFilters()
-    // },
-    //
-    // // handle when size is changed
-    // toggleSizeSelection(key, sizeId){
-    //   this.$store.commit('trade/setSizeFilterSelection', key, sizeId)
-    // },
+    // handle when size is changed
+    toggleSizeSelection(sizeId){
+      this.$store.commit('trade/setSizeTypeFilterSelectionMobile', sizeId)
+    },
 
     // handle when price range is changed
     setPriceRangeSelection(priceRange){
@@ -293,9 +289,7 @@ export default {
     clearAllFilters(){
       this.showFilters = false
       this.selectedCategories = []
-      console.log('before selectedSizeTypes',this.selectedSizeTypes)
       this.selectedSizeTypes = []
-      console.log('after selectedSizeTypes',this.selectedSizeTypes)
       this.selectedSizes = []
       this.selectedPriceRange = [0, 100]
       this.selectedSortOrder = 'relevance'
@@ -303,20 +297,10 @@ export default {
       this.$store.commit('trade/resetAllFilters')
       this.$emit('clearFilters')
       this.$refs.browseFiltersSheet.close();
-      // this.showFilters = false
-      // this.selectedCategories = []
-      // this.selectedSizeTypes = []
-      // this.selectedSizes = []
-      // this.selectedPriceRange = [0, 100]
-      // this.selectedSortOrder = 'relevance'
-      // this.searchedText = ''
-      // this.$store.commit('trade/resetAllFilters')
-      // this.$emit('clearFilters')
-      // this.$refs.browseFiltersSheet.close();
-      // this.isVisible = false
-      // this.isVisibleSizeType = false
-      // this.isVisibleSizes= false
-      // this.isVisibleSlight=false
+      this.isVisible = false
+      this.isVisibleSizeType = false
+      this.isVisibleSizes= false
+      this.isVisibleSlight=false
     },
 
     // find selected category name from local
@@ -356,7 +340,7 @@ export default {
 .hr
   border-top: 1px solid #E1E1E1
   width: 318px
-.cat-box
+.unselected-item
   width: 99px
   height: 45px
   border-radius: 3px
@@ -367,46 +351,7 @@ export default {
   font-family: $font-sp-pro
   color: #999999
   padding-top: 10px
-  padding-left: 14px
-  cursor: pointer
-.footwear-box
-  width: 99px
-  height: 45px
-  border-radius: 3px
-  background: #FFFFFF
-  border: 1px solid #999999
-  @include body-5
-  font-weight: $normal
-  font-family: $font-sp-pro
-  color: #999999
-  padding-top: 10px
-  padding-left: 20px
-  cursor: pointer
-.apparel-box
-  width: 99px
-  height: 45px
-  border-radius: 3px
-  background: #FFFFFF
-  border: 1px solid #999999
-  @include body-5
-  font-weight: $normal
-  font-family: $font-sp-pro
-  color: #999999
-  padding-top: 10px
-  padding-left: 25px
-  cursor: pointer
-.accessories-box
-  width: 99px
-  height: 45px
-  border-radius: 3px
-  background: #FFFFFF
-  border: 1px solid #999999
-  @include body-5
-  font-weight: $normal
-  font-family: $font-sp-pro
-  color: #999999
-  padding-top: 10px
-  padding-left: 10px
+  //padding-left: 20px
   cursor: pointer
 .sorted
   display: grid !important
@@ -453,7 +398,7 @@ export default {
   font-family: $font-sp-pro
   color: #999999
   padding-top: 10px
-  padding-left: 20px
+  //padding-left: 20px
   cursor: pointer
   background: #F2F2F2
 .selected-size

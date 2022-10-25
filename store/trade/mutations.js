@@ -59,7 +59,6 @@ export function setCategoryFilterSelection(state, selectedCategory) {
  * @param selectedSizeType
  */
 export function setSizeTypeFilterSelection(state, selectedSizeType) {
-  console.log('testing')
     if (typeof selectedSizeType !== 'undefined' && selectedSizeType) {
 
         // check if size type is already in selected list
@@ -73,15 +72,6 @@ export function setSizeTypeFilterSelection(state, selectedSizeType) {
             state.selectedFilters.sizeTypes.push(selectedSizeType)
         }
     }
-}
-export function setSizeTypeFilterSelectionMobile(state, selectedSizeType) {
-  console.log('selectedSizeTypeAdd',selectedSizeType)
-  state.selectedFilters.sizeTypes.push(selectedSizeType)
-}
-export function setSizeTypeFilterSelectionRemoveMobile(state, selectedSizeType) {
-  console.log('selectedSizeTypeRemove',selectedSizeType)
-  state.selectedFilters.sizeTypes.indexOf(selectedSizeType)
-  state.selectedFilters.sizeTypes.splice(selectedSizeType,1)
 }
 
 /**
@@ -106,6 +96,24 @@ export function setSizeFilterSelection(state, key, selectedSize) {
         }
     }
 }
+
+export function setSizeTypeFilterSelectionMobile(state, selectedSize) {
+  if (typeof selectedSize !== 'undefined' && selectedSize) {
+
+    // check if size type is already in selected list
+    const index = state.selectedFilters.sizes.findIndex(sizes => sizes === selectedSize)
+
+    // remove selected size type if it is already selected
+    if (index > -1) {
+      state.selectedFilters.sizes.splice(index, 1)
+    } else {
+      // push size type in selected list
+      state.selectedFilters.sizes.push(selectedSize)
+    }
+  }
+}
+
+
 
 /**
  * This mutation is used to set price range for trades filtering
