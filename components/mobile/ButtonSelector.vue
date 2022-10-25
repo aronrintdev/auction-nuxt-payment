@@ -4,9 +4,9 @@
       :is="single? 'b-form-radio-group': 'b-form-checkbox-group'"
       v-model="selected"
       :options="options"
-      :button-variant="`d-custom d-flex justify-content-center align-items-center ml-2 mt-1 ${itemClass}`"
+      button-variant="d-custom col col-4 d-flex justify-content-center align-items-center ml-2 mt-1"
       buttons
-      class="custom-button-multi w-100 row text-capitalize"
+      class="custom-button-multi w-100 row text-capitalize d-flex justify-content-between"
       :style="contentStyle"
       @change="emitChanges"
     >

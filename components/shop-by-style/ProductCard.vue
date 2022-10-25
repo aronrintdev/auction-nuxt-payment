@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div class="d-flex">
       <!-- Product name, colorway and thumbnail -->
       <ProductThumb
@@ -27,7 +28,6 @@
     </div>
     <!-- Product Detail -->
     <div v-show="show === product.id" class="info-section position-relative flex-grow-1">
-      
       <div>
         <ShopByStyleImageCarousel :images="productImages" class="mt-4" />
         <div  class="w-100">
@@ -41,7 +41,7 @@
             @changeViewMode="handleSizeViewModeChange"
           />
         </div>
-        
+
         <ProductBoxConditionPicker
           :value="currentCondition"
           :conditions="packagingConditions"
@@ -176,7 +176,7 @@
                 {{ error.addToCart }}
               </div>
             </div>
-            
+
           </div>
         </div>
       </div>
@@ -301,7 +301,7 @@ export default {
       return this.currentSize && !this.currentListingItem
     },
 
-    pricesBySize() {   
+    pricesBySize() {
         if (this.method === 'buy') {
           return this.products?.lowest_prices?.filter(
             (i) => i.packaging_condition_id === this.currentCondition
@@ -311,7 +311,7 @@ export default {
             (i) => i.packaging_condition_id === this.currentCondition
           )
         }
-       
+
     },
 
     wishList() {

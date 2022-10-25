@@ -39,12 +39,17 @@
           :src="require('~/assets/img/icons/product/success-tick.svg')"
           @click="$emit('hidden')"
         />
+        <img
+          v-if="icon && icon === 'trash-red-bg'"
+          :src="require('~/assets/img/icons/trash-mobile.svg')"
+          @click="$emit('hidden')"
+        />
       </div>
       <div
         :class="`message ${mobileClass} ${
-          mobileClass
-            && 'd-flex align-items-center text-center justify-content-center'
-          }`"
+          mobileClass &&
+          'd-flex align-items-center text-center justify-content-center'
+        }`"
         v-html="message"
         :style="messageStyle" 
       ></div>

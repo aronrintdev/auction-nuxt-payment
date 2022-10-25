@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="container-profile-create-listing h-100 py-5">
+  <b-container fluid class="container-profile-create-listing h-100">
     <div v-if="product">
       <DetailsListing
         v-model="form"
@@ -32,7 +32,7 @@ export default {
         price: null,
         boxCondition: null,
         minOfferAmount: null,
-        color: null
+        color: null,
       },
     }
   },
@@ -41,12 +41,12 @@ export default {
     // Get the product details
     const { id } = this.$route.params
     this.$axios
-      .get(`/product/${id}`)
+      .get(`/product/${id}/details`)
       .then((res) => {
-        this.product = res.data
+        this.product = res.data.data
       })
       .catch((err) => {
-        this.$logger.logToServer(err.response.data?.error)
+        this.$logger.logToServer(err.response)
         this.$router.push('/profile/create-listing/selling')
       })
   },
@@ -65,7 +65,7 @@ export default {
         price: Number(this.form.price) * 100,
         packagingConditionId: Number(this.form.boxCondition),
         minOfferAmount: Number(this.form.minOfferAmount) * 100,
-        color: this.form.color
+        color: this.form.color,
       })
       this.$router.push('/profile/create-listing/selling/confirm')
     },
@@ -77,8 +77,6 @@ export default {
 @import '~/assets/css/_variables'
 
 .container-profile-create-listing
-  padding: 47px 54px
-  background-color: $color-white-5
   .back-to-search
     @include body-4-regular
     position: absolute
@@ -88,4 +86,12 @@ export default {
     font-style: normal
     letter-spacing: 0.06em
     color: $color-black-1
+@media (min-width: 576px)
+  .container-profile-create-listing
+    padding: 47px 54px
+    background-color: $color-white-5
+@media (max-width: 576px)
+  .container-profile-create-listing
+    padding: 1.5rem
+    background-color: $color-white-1
 </style>
