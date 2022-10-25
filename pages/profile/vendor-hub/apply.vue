@@ -245,7 +245,7 @@
 
                 <!--Code sent form-->
                 <div v-if="apply">
-                  <p class=" text-center mt-2 mb-2">{{ $t('vendor_hub.form.code_sent') }}</p>
+                  <div class=" text-center mt-4 mb-4 body-5-regular">{{ $t('vendor_hub.form.code_sent') }}</div>
                   <div class="d-flex justify-content-center align-items-start ml-5">
                     <b-form-group>
                       <b-input-group class="d-flex flex-column">
