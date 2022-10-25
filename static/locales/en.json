@@ -156,7 +156,12 @@
     "view"  :"View",
     "read_less": "Read Less",
     "read_more": "Read More",
-    "go_back": "Go Back"
+    "go_back": "Go Back",
+    "add" : "Add",
+    "product_type"  : "Product Type",
+    "continue"  : "Continue",
+    "of"  : "of",
+    "week"  : "Week"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -841,7 +846,8 @@
       "we_do_not_have_enough_in_stock": "We do not have enough in stock. \nGet Notified when there are more in stock!",
       "get_notified": "Get Notified",
       "stock_from_different_vendors": "The item you're looking to checkout has insufficient quantity. The following items from different vendors can be added to your bag in order to match the requested quantity.",
-      "add_to_bag": "Add to Bag"
+      "add_to_bag": "Add to Bag",
+      "add_style_to_card": "Add Style to Card"
     },
     "validations": {
       "alpha": "The {_field_} field may only contain alphabetic characters",
@@ -2723,8 +2729,11 @@
       "type": "Type",
       "auction_single": "Single Item Auction",
       "auction_single_desc": "For auctions that are a single item only.",
-      "auction_collection": "Collection Auction",
-      "auction_collection_desc": "Multiple product auction listings where buyers bid on the entire collection as a whole. Add up to 10 products."
+      "auction_collection": "Collection Auctions",
+      "auction_collection_desc": "Multiple product auction listings where buyers bid on the entire collection as a whole.",
+      "selling_text"  : "Sell sneakers, a pieace of apparel, or an accessory.",
+      "auction_text"  : "Post a Single Item Auction or put a whole Collection up for Auction.",
+      "trade_text"  : "Trade up to three items at a time. If no offer is accepted in 14 days the trade will expire."
     },
     "back_btn": "Back to Trades",
     "title": "Create Listing",
@@ -4079,6 +4088,7 @@
     }
   },
   "createlisting": {
+    "sort"  : "Sort",
     "create_new_inventory": "Create New Inventory",
     "search_placeholder": "Search by SKU, Keyword, or Brand",
     "inventory": "Inventory",
@@ -4088,12 +4098,14 @@
     "min_offer_amount": "Minimum Offer Amount",
     "enter_min_offer_amount": "Enter Min. Offer Amount",
     "add_listing": "Add Listing",
+    "add_listings"  : "Add Listings(s)",
     "confirm_listing": "Confirm Listing",
     "add_another_listing": "Add Another Listing",
     "save_as_draft": "Save as Draft",
     "post_listing": "Post Listing(s)",
     "on_post_listing_click": "*By clicking Post Listing(s), I accept the seller fee of 9.5% + a 2.9% transaction fee.",
     "no_auth_fee": "No authentication fee will be charged to sellers.",
+    "on_post_pressing"  : "*By pressing on Post Listing(s), I accept the seller fee of 9.5% + a 2.9% transaction fee.",
     "saved_as_draft": "Saved as Draft",
     "delete_message": "Are you sure you would like to delete? Deleting a listing is non reversible.",
     "no_saved_listing": "You have no saved listings, go back to",
@@ -4122,7 +4134,7 @@
     "enter_sku": "Enter SKU",
     "enter_product_name": "Enter Product Name",
     "please_select_a_size": "*Please select a size",
-    "minOfferAmount": "Min Offer Amount",
+    "minOfferAmount": "Min. Offer Amount",
     "error": {
       "field": "*Please Enter a {field}"
     },
@@ -4137,7 +4149,16 @@
     "last_updated": "Last Updated",
     "user_not_valid": "Unauthorized Access. You are not a vendor to do this.",
     "discard_changes": "Are you sure you would like to discard your changes? The changes will be lost.",
-    "out_of_stock": "Out of Stock"
+    "out_of_stock": "Out of Stock",
+    "your_price"  : "Your Price*",
+    "hello" : "Hello",
+    "new_user_no_payout"  : "We noticed that you do not have a valid payout method connected.",
+    "connect_to_payout" : "Please connect a valid payout method prior to creating a listing, to get paid for your sales.",
+    "sell_listing_modify_discard" : "Are you sure you would like to discard your changes? The changes will be lost.",
+    "confirm_discard_text"  : "Your changes have been discarded",
+    "change_listing"  : "Are you sure you would like to change this listing?",
+    "all_active_offers_will_be_lost"  : "All the active offers associated with these listing could be lost.",
+    "editsuccess" : "Your changes have been saved and your listing has been modified"
   },
   "color": {
     "white": "White",
@@ -4774,7 +4795,9 @@
   },
   "shop_by_style": {
     "general": {
-      "add_to_bag": "Add {type} to Bag"
+      "add_to_bag": "Add {type} to Bag",
+      "add_style_to_bag": "Add Style to Card",
+      "back_to_style": "< Back to All Style"
     },
     "title": "Shop by Style",
     "title_archive": "Shop by Style (Archive)",

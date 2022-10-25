@@ -225,3 +225,21 @@ export function setNonInventoryCollectionAuctionAction({ commit }, payload) {
   commit('setNonInventoryCollectionAuction', payload)
 }
 
+// Get product details
+export function showProductDetails({ commit }, payload){
+  return new Promise((resolve, reject) => {
+    this.$axios
+      .get(process.env.API_URL + `/product/${payload.sku}/same-sku`)
+      .then((res) => {
+        resolve(res)
+      }).catch((err) => {
+        this.$logger.logToServer('Product with same sku', err.response.data.message)
+        reject(err)
+      })
+  })
+}
+
+// Store similar product
+export function addSimilarProducts({ commit }, payload){
+  commit('storeSimilarProduct', payload)
+}

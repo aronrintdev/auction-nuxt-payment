@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-input-group class="search-box mt-2 d-flex align-items-center px-3">
+    <b-input-group class="search-box mt-2 d-flex align-items-center px-2">
       <b-input-group-prepend>
         <search-icon class="search-icon"/>
       </b-input-group-prepend>
@@ -9,6 +9,7 @@
 
       <b-input-group-append>
         <clearIcon v-if="clearActive" @click="text = ''"/>
+        <scannerIcon v-if="!clearActive && hasScanner" @click="$emit('showScanner')" />
       </b-input-group-append>
     </b-input-group>
   </div>
@@ -17,14 +18,19 @@
 <script>
 import searchIcon from '~/assets/img/profile/notifications/mobile-search.svg?inline';
 import clearIcon from '~/assets/img/profile/notifications/clear.svg?inline';
+import scannerIcon from '~/assets/img/icons/barcode_scan.svg?inline'
 
 export default {
   name: 'MobileSearchInput',
-  components: {searchIcon, clearIcon},
+  components: {searchIcon, clearIcon, scannerIcon},
   props: {
     value: {
       type: String,
       required: true,
+    },
+    hasScanner: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
