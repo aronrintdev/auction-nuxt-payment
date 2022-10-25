@@ -221,6 +221,7 @@
       no-header-border
       no-footer-border
       hide-footer
+      @hidden="$router.push({ path: '/orders' })"
     >
       <template #default>
         <div class="px-5">
@@ -388,17 +389,9 @@ export default {
         bid_id: this.acceptedBid.id
       }
 
-      // Test
-      this.closeBidModals()
-      this.$bvModal.show('bid-accepted-modal')
-
-
       this.acceptAuctionBid(payload).then(res => {
         this.closeBidModals()
         this.$bvModal.show('bid-accepted-modal')
-        this.$router.push({
-          path: '/orders',
-        })
         this.$toasted.success(res.data.message)
       }).catch(() => {
         this.modalActionLoading = false
