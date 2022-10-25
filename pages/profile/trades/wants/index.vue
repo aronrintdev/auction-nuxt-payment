@@ -119,14 +119,14 @@
         v-on:click="currentTab = 'inventory'"
         :class="{'navigation-item-active': currentTab === 'inventory'}"
       >
-        <span class="navigation-text">{{ $t('wants_inventory') }}</span>
+        <span class="navigation-text">{{ $t('common.wants_inventory') }}</span>
       </div>
       <div 
         class="navigation-item" 
         v-on:click="currentTab = 'combinations'"
         :class="{'navigation-item-active': currentTab === 'combinations'}"
       >
-        <span class="navigation-text font-weight-normal">{{ $t('wants_combinations') }}</span>
+        <span class="navigation-text font-weight-normal">{{ $t('common.wants_combinations') }}</span>
       </div>
     </div>
 
@@ -225,7 +225,7 @@
       </b-col>
     </div>
 
-    <div class="bulk-wrapper">
+    <div class="d-none d-sm-block bulk-wrapper">
       <BulkSelectToolbar
         ref="bulkSelectToolbar"
         :active="!!action"
@@ -262,7 +262,7 @@
               <want-item-card
                 :wantItem="item"
                 :selected="!!selected.find((id) => id === item.id)"
-                :editRemove="action === 'delete'"
+                :editRemove="action === 'delete' || action === 'create_combination'"
                 :actionType="action"
                 :selectedItems="selected"
                 @select="selectItem"
@@ -361,9 +361,11 @@
     </div>
     <div
       class="d-flex flex-column d-sm-none px-3 pb-3"
-      v-if="action === 'delete_combination' || action === 'delete'"
+      v-if="action === 'delete_combination' || action === 'delete' || action === 'create_combination'"
     >
-      <div class="col-12 tap-to-delete">{{ $t('common.tap_to_delete') }}</div>
+      <div class="col-12 tap-to-delete">
+        {{ action === 'create_combination' ? $t('common.tap_to_include') : $t('common.tap_to_delete') }}
+      </div>
       <div class="d-flex justify-content-between">
         <div 
           class="col-5 d-flex align-items-center justify-content-center cancel-button"
@@ -374,9 +376,9 @@
         <input 
           type="button"
           :disabled="selected.length < 1"
-          :value="deleteButtonText"
+          :value="actionButtonText"
           class="col-5 d-flex align-items-center justify-content-center delete-button-mobile border-0"
-          @click="$bvModal.show('confirm-bulk-delete')"
+          @click="submitBulk()"
         />
       </div>
     </div>
@@ -541,9 +543,10 @@ export default {
         color: '#626262'
       }
     },
-    deleteButtonText() {
+    actionButtonText() {
       const count = this.selected.length > 0 ? `(${this.selected.length})` : ''
-      return `${this.$t('common.delete')} ${count}`
+      const text = this.action === 'create_combination' ? this.$t('common.add') : this.$t('common.delete')
+      return `${text} ${count}`
     }
   },
   mounted() {

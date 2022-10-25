@@ -7,8 +7,8 @@
       </div>
       <div class="d-flex flex-column col-6 justify-content-center align-items-center">
         <span class="label">{{ $t('common.colorway') }}</span>
-        <span 
-          class="value text-truncate"
+        <span
+          class="value text-truncate max-w-120"
         >
           {{ product.product.colorway }}
         </span>
@@ -69,7 +69,7 @@
               }"
             />
           </div>
-
+          
           <div 
             :style="{
               marginTop: '130px'
@@ -116,7 +116,7 @@
                     borderBottom: '1px solid #000',
                   }"
                   labelStyle="font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 14px; color: #667799;"
-                  arrowStyle='color: #667799; width: 16px; height: 18px; position: absolute; right: 50px; margin-bottom: 11px !important;'
+                  arrowStyle='color: #667799; width: 16px; height: 18px; position: absolute; right: 50px; margin-bottom: 12px !important;'
                 />
               </div>
               <div class="d-none d-sm-flex justify-content-between">
@@ -289,7 +289,7 @@
 
     <SelectListModal
       :isOpen="listModalOpen"
-      @closed="listModalOpen = false"
+      @closed="closeSelectListModal"
       @opened="listModalOpen = true"
     />
   </div>
@@ -374,7 +374,7 @@ export default {
       selectListLabel: this.$t('trades.wants_listing.add_to'),
       conditionsOptions: this.product.product.packaging_conditions.map((item) => ({ text: item.name, value: item.id })),
       condition: { text: this.product.packaging_condition.name, value: this.product.packaging_condition.id },
-      conditionLabel: this.product.packaging_condition.name,
+      conditionLabel: this.product.packaging_condition.name || this.$t('products.box_conditions.none'),
       sizeViewMode: 'carousel',
       currentSizeId: this.product.size.id
     }
@@ -394,7 +394,10 @@ export default {
     ...mapActions({
       createInventories: 'inventory/createInventories',
     }),
-
+    closeSelectListModal(list) {
+      this.listModalOpen = false
+      this.selectList = list
+    },
     handleSizeViewModeChange(mode) {
       this.sizeViewMode = mode
     },
@@ -573,6 +576,10 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.max-w-120 
+  @media (max-width: 576px)
+    max-width: 120px
 
 .product-details
   font-family: $font-family-sf-pro-display

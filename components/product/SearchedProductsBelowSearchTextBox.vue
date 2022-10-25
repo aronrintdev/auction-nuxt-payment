@@ -79,7 +79,7 @@
       </Modal>
     </b-row>
 
-    <div class="position-absolute mt-3 d-sm-none">
+    <div class="mt-3 d-sm-none">
       <div
         v-for="item in productItems"
         :key="item.id"
@@ -98,7 +98,7 @@
 
         <div 
           class="add-item-button col-2"
-          @click="addProductWant(product)"
+          @click="addProductWant(item)"
         >
           {{ $t('common.add') }}
         </div>

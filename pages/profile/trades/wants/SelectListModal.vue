@@ -2,7 +2,7 @@
   <MobileBottomSheet
     :max-height="'50%'"
     :open="isOpen"
-    @closed="$emit('closed')"
+    @closed="$emit('closed', selectedItems)"
     @opened="$emit('opened')"
     :headerStyle="{
       display: 'none !important'
