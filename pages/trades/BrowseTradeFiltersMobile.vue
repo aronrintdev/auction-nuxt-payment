@@ -51,11 +51,13 @@
             </div>
           </div>
           <b-collapse id="collapse-sizeType" v-model="isVisibleSizeType">
-            <div v-for="(sizeType, index) in sizeTypeOptions" :key="'sizetype-' + index">
-              <div :class="getSizeTypeFilterSelection.includes(sizeType) ?'selected-item':'footwear-box' " :value="sizeType" class="filter-item" @click="toggleSizeTypeSelection(sizeType)">
-                 {{sizeType}}
-              </div>
-            </div>
+            <b-row class="row">
+              <b-col v-for="(sizeType, index) in sizeTypeOptions" :key="'sizetype-' + index">
+                <div :class="getSizeTypeFilterSelection.includes(sizeType) ?'selected-item':'footwear-box' " :value="sizeType" class="m-1" @click="toggleSizeTypeSelection(sizeType)">
+                  {{sizeType}}
+                </div>
+              </b-col>
+            </b-row>
           </b-collapse>
         </div>
         <hr class="hr" />

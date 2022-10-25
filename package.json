@@ -23,6 +23,7 @@
     "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/html-validator": "^0.6.0",
     "@nuxt/bridge": "npm:@nuxt/bridge-edge@3.0.0-27272804.ca557e7",
+    "@nuxt/bridge-edge": "3.0.0-27272804.ca557e7",
     "@nuxtjs/recaptcha": "^1.1.1",
     "@nuxtjs/svg": "^0.3.0",
     "@tawk.to/tawk-messenger-vue-2": "^1.0.3",
