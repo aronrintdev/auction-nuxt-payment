@@ -87,18 +87,6 @@
 
         <!-- Filter By Price Range-->
         <div class="col filter-by-col">
-          <!-- <CustomSelect
-            :default="filterBy"
-            :threelineIcon="false"
-            :options="{
-              default: $t('deadstock_exchange.filter_by.price_range'),
-              accepted: $t('placed_offers.filter_by.accepted'),
-              rejeced: $t('placed_offers.filter_by.rejected'),
-              pending: $t('placed_offers.filter_by.awaiting_approval'),
-            }"
-            :title="filterByTitle"
-            @input="handleFilterByPriceRange"
-          /> -->
           <SliderDropdown
             :start-label="$t('filter_sidebar.price_items.min')"
             :end-label="$t('filter_sidebar.price_items.max')"
@@ -132,16 +120,7 @@
 
         <!-- Filter By Years-->
         <div class="col filter-by-col">
-          <!-- <CustomSelect
-            :default="filterBy"
-            :threelineIcon="false"
-            :options="{
-              default: $t('deadstock_exchange.filter_by.years'),
-              ...Years
-            }"
-            :title="filterByTitle"
-            @input="handleFilterByYears"
-          /> -->
+
           <!-- Years -->
           <SliderDropdown
             :start-label="$t('filter_sidebar.price_items.min')"
@@ -213,7 +192,6 @@
         </b-badge>
       </div>
     </div>
-
     <!-- ./ -->
   </div>
 </template>
