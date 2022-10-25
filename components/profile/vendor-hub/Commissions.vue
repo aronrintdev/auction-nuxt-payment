@@ -335,19 +335,19 @@ export default {
           {
             image: require('~/assets/img/icons/profile/orders.svg'),
             description: this.$t('vendor_hub.commission.orders_fulfilled'),
-            amount: stats.orders.fulfilled.toString(),
+            amount: String(stats.orders.fulfilled),
             color: 'blue'
           },
           {
             image: require('~/assets/img/icons/purchase.svg'),
             description: this.$t('vendor_hub.commission.orders_pending'),
-            amount: stats.orders.pending.toString(),
+            amount: String(stats.orders.pending),
             color: 'orange'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/infor-orders.svg'),
             description: this.$t('vendor_hub.commission.orders_taken_over'),
-            amount: stats.orders.taken_over.toString(),
+            amount: String(stats.orders.taken_over),
             color: 'orange'
           },
           {
@@ -365,7 +365,7 @@ export default {
           {
             image: require('~/assets/img/profile/vendor-hub/tri-star.svg'),
             description: this.$t('vendor_hub.commission.vendor_rating'),
-            amount: stats.vendor_rating.toString(),
+            amount: String(stats.vendor_data[0].rank),
             color: 'blue'
           }
         ]

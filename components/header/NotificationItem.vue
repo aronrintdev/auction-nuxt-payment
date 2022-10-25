@@ -27,7 +27,7 @@
             </p>
 
             <b-link
-                v-if="notification.link && !fromDown && !isScreenXS"
+                v-if="notification.link && notification.link_text && !fromDown && !isScreenXS"
                 :href="notification.link"
                 class="underline ml-2"
             >- {{ notification.link_text }}
