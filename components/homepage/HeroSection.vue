@@ -1,15 +1,15 @@
 <template>
   <Carousel
     ref="carousel"
-    :nav="false"
     :center="true"
     :margin="0"
+    :responsive="responsiveAttr"
     loop
     autoplay
-    :responsive="responsiveAttr"
-    :mouse-drag="true"
-    :dots="false"
-    class="carousel"
+    mouse-drag
+    nav
+    dots
+    class="hero-carousel position-relative"
   >
     <div
       v-for="(slide, x) in slider"
@@ -21,9 +21,7 @@
       }"
     >
       <div class="hero-content container px-md-0">
-        <h1
-          class="fs-32 fw-5 font-secondary text-white mb-4 mb-md-5 hero-heading pre-line"
-        >
+        <h1 class="fs-32 fw-5 font-secondary text-white hero-heading pre-line">
           <span>{{ slide.heading }}</span>
         </h1>
         <b-button
@@ -85,7 +83,8 @@ export default {
   computed: {
     responsiveAttr() {
       return {
-        0: { items: 1, nav: false, center: true },
+        0: { items: 1, nav: false, center: true, dots: false },
+        576: { items: 1, nav: false, center: true, dots: true },
       }
     },
   },
@@ -99,10 +98,14 @@ export default {
   background-size: cover
   background-blend-mode: darken
   background-color: $color-black-12
-  background-position: center
+  background-position: top center
   height: 600px
   .hero-content
     margin-bottom: 130px
+    .hero-heading
+      margin-bottom: 22px
+      @media (min-width: 576px)
+        margin-bottom: 40px
   @media (max-width: 500px)
     background-image: var(--background-sm)
     background-color: transparent
@@ -120,4 +123,9 @@ export default {
       padding-left: 0 !important
       padding-right: 0 !important
       height: 40px
+::v-deep .owl-dots
+  bottom: 32px
+  position: absolute
+  left: 50%
+  transform: translate(-50%, 50%)
 </style>
