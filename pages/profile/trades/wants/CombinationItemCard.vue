@@ -20,14 +20,8 @@
             </div>
           </div>
           <div class="col-md-6">
-            <b-form-checkbox
-              v-if="editRemove"
-              :checked="selected"
-              class="pr-2 pt-2"
-              @change="toggleSelect"
-            ></b-form-checkbox>
-            <div v-else class="d-flex flex-column pr-3">
-              <div class="d-flex justify-content-end mb-5">
+            <div class="d-flex flex-column pr-3">
+              <div v-if="!editRemove" class="d-flex justify-content-end mb-5">
                 <div 
                   role="button" 
                   @click="editWant"
@@ -53,6 +47,24 @@
                   >
                   <span class="delete-label ml-2">{{ $t('common.delete') }}</span>
                 </div>
+              </div>
+              <div v-else class="d-flex justify-content-end mb-5">
+                <img
+                  v-if="selected"
+                  @click="$emit('select', combination.combination_id, 'remove')"
+                  role="button"
+                  :src="require('~/assets/img/icons/red-minus.svg')" 
+                  height="22" 
+                  width="22" 
+                >
+                <img
+                  v-else
+                  @click="$emit('select', combination.combination_id, 'add')"
+                  role="button"
+                  :src="require('~/assets/img/icons/gray-plus.svg')" 
+                  height="22" 
+                  width="22" 
+                >
               </div>
               <div class="mt-2 text-bold">
                 {{ selectedCombination.product.name }}
@@ -204,6 +216,7 @@ export default {
     }
   },
   data () {
+    console.log('selectedCombination', this.combination);
     return {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
       selectedCombination: this.combination.combination_items[0],

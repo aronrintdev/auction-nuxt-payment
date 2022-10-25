@@ -350,7 +350,7 @@
               :combination="combination"
               :combination-index="combinationIndex + 1"
               :selected="!!selected.find((id) => id === combination.combination_id)"
-              :editRemove="removeCombination"
+              :editRemove="action === 'delete_combination'"
               @select="selectItemCombination"
               @click="editDeleteCombination"
             />
@@ -737,12 +737,14 @@ export default {
         this.errorSelection = null
       }, 3000)
     },
-    selectItemCombination(data, checked) {
-      if (checked) {
+    selectItemCombination(data, type) {
+      console.log('selectItemCombination', data, type);
+      if (type === 'add') {
         this.selected.push(data)
       } else {
         this.selected.splice(this.selected.indexOf(data), 1)
       }
+      console.log('this.selected', this.selected);
     },
     createCombination() {
       this.selected = []
