@@ -320,7 +320,7 @@ export default {
           item.scheduled_date = new Date(item.scheduled_date).toISOString().slice(0, 19).replace('T', ' ');
           return this.saveDraft(item)
         })).then(res => {
-          this.$router.push({path: '/create-listing'})
+          this.$router.push({path: '/profile/create-listing'})
           this.$toasted.success(this.$t('create_listing.confirm.draft_saved'))
           this.processing = false
         }).catch(err=> {

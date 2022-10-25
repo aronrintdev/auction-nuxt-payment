@@ -42,7 +42,7 @@
                 <b-col sm="3" md="2">
                   <Thumb :product="item.item.product" />
                 </b-col>
-                <b-col sm="9" md="10" class="pl-2">
+                <b-col sm="9" md="10" class="pl-2 pr-4">
                   <b-row class="mb-2 d-block">
                     <div class="body-4-bold mb-2 product-name">{{ item.item.product.name }}</div>
                     <div class="body-4-normal mb-2 text-gray-6 text-uppercase product-sku">
@@ -149,6 +149,39 @@
 
       </template>
     </Modal>
+    <vue-bottom-sheet
+      ref="deleteItemBottomSheet"
+      max-width="auto"
+      max-height="100vh"
+      :rounded="true"
+    >
+      <div class="d-flex flex-column h-100 filters-sheet">
+        <div class="filters-sheet-title text-center">{{ $t('auctions.frontpage.filterbar.filter_by') }}</div>
+        <div class="flex-shrink-1 overflow-auto filters-sheet-content">
+          <b-row class="mb-4">
+            <b-col md="12" >
+              {{ $t('create_listing.confirm.delete_text') }}
+            </b-col>
+          </b-row>
+          <b-row class="d-flex justify-content-around">
+            <Button
+              variant="primary"
+              pill
+              @click="deleteSingeItemModalOk"
+            >
+              {{ $t('create_listing.confirm.delete') }}
+            </Button>
+            <Button
+              variant="outline-dark"
+              pill
+              @click="$bvModal.hide('delete-auction-item-modal')"
+            >
+              {{ $t('create_listing.confirm.cancel') }}
+            </Button>
+          </b-row>
+        </div>
+      </div>
+    </vue-bottom-sheet>
   </b-container>
 </template>
 
@@ -334,7 +367,7 @@ export default {
         background: $color-white-5
       &-label
         @include body-9
-        font-weight: $meidum
+        font-weight: $medium
         color: $black
       &-value
         @include body-9
