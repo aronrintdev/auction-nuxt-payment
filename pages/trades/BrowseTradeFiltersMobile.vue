@@ -366,6 +366,10 @@ export default {
   color:  #000000
   background-color: #FFFFFF
   margin-left: 10px
+  @media (max-width: 350px) and  (min-width: 300px)
+    width: 100px
+    height: auto
+    font-size: 12px
 .filter-btn
   width: 130px
   height: 40px
@@ -376,6 +380,10 @@ export default {
   color: #FFFFFF
   background-color: #667799
   border-radius: 30px
+  @media (max-width: 350px) and  (min-width: 300px)
+    width: 100px
+    height: auto
+    font-size: 12px
 .selected-catgory
   @include body-13
   font-weight: $normal
