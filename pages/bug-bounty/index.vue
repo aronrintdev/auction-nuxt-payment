@@ -4,7 +4,7 @@
       <div class="main-section pt-5">
         <div class="trade-selections">
           <b-row>
-            <b-col class="col-sm-4 offset-sm-2">
+            <b-col class="col-sm-5 offset-sm-2">
               <h3 class="d-inline-block text-left text-heading">{{$t('bounty.report_an_issue')}}</h3>
               <div class="detail-content">
                   <p class="mt-5">
@@ -22,16 +22,16 @@
                     <div class="stages">
                         <ul class="list-unstyled pl-0">
                             <li>
-                                Low
+                              {{ $t('bounty.stages.low') }}
                             </li>
                             <li>
-                                Medium
+                              {{ $t('bounty.stages.medium') }}
                             </li>
                             <li>
-                                High
+                              {{ $t('bounty.stages.high') }}
                             </li>
                             <li>
-                                Critical
+                              {{ $t('bounty.stages.critical') }}
                             </li>
                         </ul>
                     </div>
@@ -65,27 +65,33 @@
                 </b-col>
                 <b-col sm="3">
                     <div class="stages-detail">
-                        <ul class="list-unstyled text-center pl-0">
-                            <li>
-                                <p>Configuration issues and other vulnerabilities with limited impact</p>
+                        <ul class="list-unstyled text-left pl-0">
+                            <li class="mb-4">
+                                <p class="mb-0">Configuration issues and other vulnerabilities with limited impact</p>
                                 <h6>$100-$300</h6>
                             </li>
-                            <li>
-                                <p>Limited access to other user’s private data</p>
+                            <li class="mb-4">
+                                <p class="mb-0">Limited access to other user’s private data</p>
                                 <h6>$300-$800</h6>
                             </li>
-                            <li>
-                                <p>Full Access to other user’s private data</p>
+                            <li class="mb-4">
+                                <p class="mb-0">Full Access to other user’s private data</p>
                                 <h6>$800-$1,000</h6>
                             </li>
-                            <li>
-                                <p>Systemic Compromise</p>
+                            <li class="mb-4">
+                                <p class="mb-0 mt-5">Systemic Compromise</p>
                                 <h6>$1,000-$10,000</h6>
                             </li>
                         </ul>
                     </div>
                 </b-col>
               </b-row>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col class="col-sm-6 offset-sm-1">
+              <h3 class="d-inline-block text-left text-heading">{{$t('bounty.contact_us')}}</h3>
+              <ContactForm @verify="handleVerify"/>
             </b-col>
           </b-row>
         </div>
@@ -99,13 +105,15 @@
   import BountyBanner from '~/pages/bug-bounty/Banner'
   import BrowseTrade from '~/pages/trades/BrowseTrade'
   import TradeHub from '~/pages/trades/TradeHub'
+  import ContactForm from '~/pages/bug-bounty/ContactForm'
   
   export default {
     name: 'BugBounty',
     components: {
       BountyBanner,
       BrowseTrade,
-      TradeHub
+      TradeHub,
+      ContactForm
     },
     layout: 'IndexLayout',
     data(){
@@ -114,6 +122,9 @@
       }
     },
     methods: {
+      handleVerify(payload) {
+        this.credentials = payload
+      },
     }
   }
   </script>
@@ -147,10 +158,10 @@
             font-size: 16px
             line-height: 121.4%
             width: 196px
-            & p
-            font-weight: $regular
-            & h6
+            &:h6
             font-weight: $medium
+            &:p
+            font-weight: $regular
   .main-section
     background: linear-gradient(269.74deg, $color-blue-th-14 -77.58%, $color-gray-th-45 118.1%)
   .f-montserrat
