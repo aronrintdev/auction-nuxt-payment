@@ -128,6 +128,7 @@ export default {
     if (wrapper.querySelector('.wants-container')) {
       wrapper.style.backgroundColor = '#f7f7f7'
     }
+    this.notificationSubscriptions()
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll)

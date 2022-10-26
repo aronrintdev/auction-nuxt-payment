@@ -497,7 +497,7 @@ export default {
     },
     // Click place bid button
     placeBid() {
-      if (this.placeBidPrice * 100 <= this.activeAuction.highest_bid) {
+      if (this.placeBidPrice * 100 <= this.activeAuction.highest_bid || this.placeBidPrice * 100 <= this.activeAuction.start_bid_price) {
         this.showLowBidError = true
       } else {
         this.modalData = {
