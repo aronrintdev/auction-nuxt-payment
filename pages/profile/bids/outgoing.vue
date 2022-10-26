@@ -1,28 +1,32 @@
 <template>
-  <b-container fluid class="container-profile-bids h-100">
-    <!--    Bids Filters    -->
-    <BidsFilters @update="FetchBids"/>
+  <b-container fluid class="h-100 p-3 p-md-5" :class="{'container-profile-bids': !isMobileSize}">
 
-    <div v-if="isVendor" class="d-flex justify-content-between align-items-center mt-5">
-      <Button
-        v-if="haveExpired"
-        variant="link"
-        size="sm"
-        class="delete-expired px-3 py-2 mr-4"
-        @click="deleteAction = true"
-      >{{ $t('bids.delete_expired') }}
-      </Button>
+    <!--    Bids Filters and mobile search    -->
+    <div v-if="isMobileSize" class="d-flex align-items-center">
+      <MobileSearchInput :value="filters.search" class="flex-grow-1" @input="mobileSearch" />
+      <span class="ml-3" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
     </div>
+    <!--    Bids Filters    -->
+    <BidsFilters v-else @update="FetchBids"/>
 
-    <div class="d-flex justify-content-between align-items-center mt-4 ">
-      <h3 class="title">{{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})</h3>
+    <div class="d-flex justify-content-between align-items-center mt-4">
+      <h3 class="title">
+        <span :class="{ 'body-4-medium' : isMobileSize }">
+        {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
+        </span>
+      </h3>
       <Button
-        v-if="haveExpired && !isVendor"
+        v-if="!haveExpired && isVendor"
         variant="link"
         size="sm"
-        class=" delete-expired px-3 py-2 mr-4"
+        class="px-3 py-2"
+        :class="isMobileSize ? 'body-5-regular' : 'bg-white'"
         @click="deleteAction = true"
-      >{{ $t('bids.delete_expired') }}
+      >
+        <img v-if="isMobileSize" src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
+        <span class="body-5-regular" :class="isMobileSize ? 'expire-button-gray' : 'text-black'">
+          {{ $t('bids.delete_expired') }}
+        </span>
       </Button>
     </div>
 
@@ -60,8 +64,9 @@
       <Loader :loading="fetchLoading"/>
     </div>
     <div v-if="bidsCount>0 && !fetchLoading">
-      <b-row class="mt-5 text-center px-5 font-weight-bold">
-        <b-col sm="12" md="5" class="text-left">{{ $t('bids.headers.product') }}</b-col>
+      <b-row class="mt-5 text-center p-0 font-weight-bold d-none d-md-flex">
+        <b-col sm="12" md="2" class="text-center">{{ $t('bids.headers.auction_id') }}</b-col>
+        <b-col sm="12" md="3" class="text-left">{{ $t('bids.headers.product') }}</b-col>
         <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }} <span role="button"><img :src="FilterDown"
                                                                                              alt="donw"></span></b-col>
         <b-col sm="12" md="1">{{ $t('bids.headers.auto_bid') }} <span role="button"><img :src="FilterDown"
@@ -178,11 +183,23 @@
 
       </template>
     </Modal>
+    <!-- For mobile filters -->
+    <vue-bottom-sheet
+      ref="mobileFilter"
+      class="responsive-filter"
+      max-width="auto"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <MobileFilter @filter="onMobileFilter" />
+    </vue-bottom-sheet>
+    <!-- For mobile filters end -->
   </b-container>
 </template>
 
 <script>
 import {mapActions, mapGetters} from 'vuex';
+import debounce from 'lodash.debounce'
 import {
   Button,
   Pagination,
@@ -191,10 +208,11 @@ import {
   Modal
 } from '~/components/common';
 import FilterDown from '~/assets/img/icons/filter-down.svg'
-import BidSingleItem from '~/components/profile/bids/BidSingleItem';
-import BidCollectionItem from '~/components/profile/bids/BidCollectionItem';
+import BidSingleItem from '~/components/profile/bids/BidSingleItem'
+import BidCollectionItem from '~/components/profile/bids/BidCollectionItem'
 import whiteCheck from '~/assets/img/icons/white-check.svg'
-import BidsFilters from '~/components/profile/bids/BidsFilters';
+import BidsFilters from '~/components/profile/bids/BidsFilters'
+import screenSize from '~/plugins/mixins/screenSize'
 import {
   DELISTED_STATUS, EXPIRED_STATUS,
   BID_ACCEPTED, BID_AUCTION_TYPE_SINGLE, BID_TYPE_INCOMING,
@@ -202,6 +220,9 @@ import {
   OUTBID_BID_STATUS,
   WINNING_BID_STATUS, BID_TYPE_OUTGOING
 } from '~/static/constants';
+import MobileFilter from '~/components/profile/bids/filters/MobileFilter'
+import MobileSearchInput from '~/components/mobile/MobileSearchInput'
+
 
 export default {
   name: 'ProfileBidsOutgoing',
@@ -213,8 +234,11 @@ export default {
     Pagination,
     BulkSelectToolbar,
     Loader,
-    Modal
+    Modal,
+    MobileFilter,
+    MobileSearchInput
   },
+  mixins: [screenSize],
   layout: 'Profile',
   data() {
     return {
@@ -271,6 +295,9 @@ export default {
     haveExpired() {
       return this.bids.filter(a => a.auction.status === EXPIRED_STATUS || a.auction.status === DELISTED_STATUS).length > 0
     },
+    isMobileSize() {
+      return this.isScreenXS || this.isScreenSM
+    }
   },
   mounted() {
     this.FetchBids()
@@ -460,6 +487,32 @@ export default {
         this.deleteLoading = false
       })
     },
+
+    mobileSearch: debounce(function (e) {
+      if (this.filters.search === e) return
+      const filter = {
+        ...this.filters,
+        search: e // override by mobile input
+      }
+      this.$store.commit('profile-bids/setFilters', filter)
+      this.FetchBids()
+    }, 300),
+
+    // Show the filter
+    showMobileFilter() {
+      const { mobileFilter } = this.$refs
+      if (mobileFilter) {
+        mobileFilter.open()
+      }
+    },
+    async onMobileFilter(mobileFilters) {
+      const filterData = {
+        ...this.filters,
+        ...mobileFilters
+      }
+      await this.$store.commit('profile-bids/setFilters', filterData)
+      this.FetchBids()
+    }
   }
 }
 </script>
@@ -521,14 +574,7 @@ export default {
       &:hover
         background-color: $white-2
 
-.delete-expired.btn
-  @include body-8-medium
-  background-color: $white
-  color: $black
-
-
 .container-profile-bids
-  padding: 47px 54px
   background-color: $color-white-5
 
   h2.title
@@ -545,6 +591,10 @@ export default {
 .custom-selectbox
   border: 1px solid $color-gray-60
   height: 38px
+
+
+.expire-button-gray
+  color: $color-gray-30
 
 </style>
 

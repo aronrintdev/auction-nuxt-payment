@@ -114,13 +114,19 @@
               >
               </b-form-checkbox>
 
-              <span class="link-text" role="button">{{ data.value }}</span>
+              <span class="link-text" role="button">{{ data.item.order_id }}</span>
             </div>
           </template>
 
           <template #cell(product)="data">
-            <span>
+            <div class="text-left">
               {{ data.item.product.name }}
+            </div>
+          </template>
+
+          <template #cell(commission)="data">
+            <span>
+              {{ data.value | toCurrency }}
             </span>
           </template>
 
@@ -335,37 +341,37 @@ export default {
           {
             image: require('~/assets/img/icons/profile/orders.svg'),
             description: this.$t('vendor_hub.commission.orders_fulfilled'),
-            amount: stats.orders.fulfilled.toString(),
+            amount: String(stats.orders.fulfilled),
             color: 'blue'
           },
           {
             image: require('~/assets/img/icons/purchase.svg'),
             description: this.$t('vendor_hub.commission.orders_pending'),
-            amount: stats.orders.pending.toString(),
+            amount: String(stats.orders.pending),
             color: 'orange'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/infor-orders.svg'),
             description: this.$t('vendor_hub.commission.orders_taken_over'),
-            amount: stats.orders.taken_over.toString(),
+            amount: String(stats.orders.taken_over),
             color: 'orange'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/singe-dollar.svg'),
             description: this.$t('vendor_hub.commission.total_commission'),
-            amount: '$' + stats.commission.paid,
+            amount: this.$options.filters.toCurrency(stats.commission.paid),
             color: 'blue'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/comission-due.svg'),
             description: this.$t('vendor_hub.commission.total_commission_due'),
-            amount: '$' + stats.commission.due,
+            amount: this.$options.filters.toCurrency(stats.commission.due),
             color: 'orange'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/tri-star.svg'),
             description: this.$t('vendor_hub.commission.vendor_rating'),
-            amount: stats.vendor_rating.toString(),
+            amount: String(stats.vendor_data[0].rank),
             color: 'blue'
           }
         ]
