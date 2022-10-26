@@ -57,11 +57,6 @@ export default {
     AuctionMobileFilter,
   },
   layout: 'IndexLayout',
-  async fetch() {
-    this.loadingFilter = true
-    await this.fetchFilters()
-    this.loadingFilter = false
-  },
   data() {
     return {
       sortBy: null,
@@ -77,6 +72,11 @@ export default {
       slidesCount: 8,
       loading: false,
     }
+  },
+  async fetch() {
+    this.loadingFilter = true
+    await this.fetchFilters()
+    this.loadingFilter = false
   },
   computed: {
     ...mapGetters({
