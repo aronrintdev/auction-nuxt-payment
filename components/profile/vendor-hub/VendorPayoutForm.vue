@@ -1,13 +1,13 @@
 <template>
   <div>
       <b-form class="d-flex flex-column" >
-        <div class="d-flex align-items-start mt-4">
+        <div class="d-flex flex-column flex-sm-row align-items-start mt-4">
             <b-form-group
               label-for="accountName"
-              class="input-payout"
+              class="w-100 mr-0 mr-sm-4"
             >
               <template #label>
-                {{ $t('vendor_hub.payout_method.name_of_account') }}
+                <span class="px-2">{{ $t('vendor_hub.payout_method.name_of_account') }}</span>
               </template>
               <b-input-group>
                 <div id="accountName"></div>
@@ -17,10 +17,12 @@
               </b-input-group>
             </b-form-group>
             <b-form-group
-              :label="$t('vendor_hub.payout_method.account_number')"
               label-for="accountNumber"
-              class="m-40 input-payout"
+              class="w-100"
             >
+              <template #label>
+                <span class="px-2">{{ $t('vendor_hub.payout_method.account_number') }}</span>
+              </template>
               <b-input-group>
                 <div id="accountNumber"></div>
                 <div v-if="frameLoading" class="d-flex">
@@ -29,10 +31,12 @@
               </b-input-group>
             </b-form-group>
             <b-form-group
-              :label="$t('vendor_hub.payout_method.routing_number')"
               label-for="routingNumber"
-              class="m-40 input-payout"
+              class="w-100 ml-0 ml-sm-4"
             >
+              <template #label>
+                <span class="px-2">{{ $t('vendor_hub.payout_method.routing_number') }}</span>
+              </template>
               <b-input-group>
                 <div id="routingNumber"></div>
                 <div v-if="frameLoading" class="d-flex">
@@ -44,22 +48,22 @@
         <b-form-radio v-model="form.is_default" name="is_default" :value="true" class="mt-4">
           {{ $t('vendor_hub.payout_method.set_default') }}
         </b-form-radio>
-        <div class="mt-4 d-flex align-items-center justify-content-center">
-          <b-button :disabled="modalActionLoading"   pill class="bg-blue-2" @click="saveChanges">
+        <div class="mt-4 d-flex flex-column flex-sm-row justify-content-center">
+          <b-button :disabled="modalActionLoading"   pill class="bg-blue-2 mx-sm-3" @click="saveChanges">
             {{ $t('vendor_hub.payout_method.save_changes') }}
           </b-button>
-          <b-button id="btnSave" ref="btnSave" pill class="bg-blue-2 d-none" >
+          <b-button id="btnSave" ref="btnSave" pill class="bg-blue-2 d-none mx-sm-3">
             {{ $t('vendor_hub.payout_method.save_changes') }}
           </b-button>
 
-          <b-button pill variant="outline-dark" class="ml-4" @click="discardData">
+          <b-button pill variant="outline-dark" class="mx-sm-3 mt-3 mt-sm-0" @click="discardData">
             {{ $t('vendor_hub.payout_method.discard_changes') }}
           </b-button>
         </div>
       </b-form>
 
 
-    <div class="d-flex align-items-center justify-content-center mt-5 tos-text">
+    <div class="mt-5 tos-text text-center">
       {{ $tc('vendor_hub.payout_method.tos', 0) }}
       <span class="px-1 tos" role="button">{{ $tc('vendor_hub.payout_method.tos', 1) }}</span>
       {{ $tc('vendor_hub.payout_method.tos', 2) }}
@@ -293,13 +297,6 @@ export default {
   background: $color-blue-2
   border: 1px solid $color-blue-2
 
-.m-40
-  margin-left: 40px
-
-.input-payout
-  width: 100%
-  max-width: 250px
-
 .tos-text
   @include body-4
   font-family: $font-family-sf-pro-display
@@ -318,18 +315,5 @@ div.input-group
 
 div.invalid-feedback
   width: auto
-
-:deep() label.d-block
-  @include body-5
-  font-family: $font-family-montserrat
-  font-style: normal
-  font-weight: $normal
-
-:deep() label.custom-control-label
-  @include body-5
-  padding-top: 5px
-  font-family: $font-family-montserrat
-  font-style: normal
-  font-weight: $normal
 
 </style>

@@ -1,11 +1,13 @@
 <template>
   <div class="payment-method p-4">
-    <div class="d-flex justify-content-between align-items-center">
-      <h3 class="title">{{ $t('vendor_hub.payout_method.title') }}</h3>
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
+      <div class="title" :class="mobileClass.length ? 'body-13-bold font-weight-bold' : 'heading-3-normal'">
+        {{ $t('vendor_hub.payout_method.title') }}
+      </div>
 
       <Button
         pill
-        variant="outline-primary"
+        variant="outline-primary mt-3 mt-md-0"
         class="add-payout"
         :hidden="isPaymentAddition || isPaymentEditActive"
         @click="isPaymentAddition = true"
@@ -13,7 +15,9 @@
         {{ $t('vendor_hub.payout_method.add_payment_method') }}
       </Button>
     </div>
-    <div v-if="!hasPayoutMethod && !isPaymentAddition && !isPaymentEditActive && !loading" class="no-payout mt-5">
+    <div v-if="!hasPayoutMethod && !isPaymentAddition && !isPaymentEditActive && !loading"
+         :class="mobileClass ? 'body-5-normal' : 'body-3-normal'"
+         class="no-payout mt-3 mt-sm-5">
       {{ $t('vendor_hub.payout_method.no_method') }}
     </div>
     <div v-if="loading" class="mt-4 d-flex align-items-center justify-content-center">
@@ -58,10 +62,12 @@ import VendorPayoutForm from '~/components/profile/vendor-hub/VendorPayoutForm';
 import VendorPayoutItem from '~/components/profile/vendor-hub/VendorPayoutItem';
 import SuccessModal from '~/components/profile/vendor-hub/SuccessModal';
 import ConfirmModal from '~/components/profile/vendor-hub/ConfirmModal';
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'VendorPaymentMethod',
   components: { VendorPayoutItem, VendorPayoutForm, Button, SuccessModal, ConfirmModal, Loader},
+  mixins: [screenSize],
   data() {
     return {
       payoutMethods: [],
@@ -133,16 +139,10 @@ export default {
 
 
 .no-payout
-  @include body-3
   font-family: $font-family-montserrat
-  font-style: normal
-  font-weight: $normal
 
 .title
-  @include heading-3
   font-family: $font-family-montserrat
-  font-style: normal
-  font-weight: $medium
 
 .payment-method
   border: 1px solid $color-gray-29
