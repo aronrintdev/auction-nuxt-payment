@@ -1,9 +1,9 @@
 <template>
   <div v-if="user.vendor_status" class="vendor-page h-100 d-flex flex-column">
-    <div class="title-area">
-      <h1 class="title">
+    <div :class="mobileClass ? 'p-3' : 'title-area'">
+      <span class="title" :class="mobileClass ? 'body-13-medium' : 'heading-4-bold'">
         {{ $t('vendor_hub.vendor_hub') }}
-      </h1>
+      </span>
     </div>
 
     <div class="flex-grow-1 bg-white d-flex flex-column">
@@ -33,10 +33,12 @@ import Documents from '~/components/profile/vendor-hub/Documents';
 import StoreDetails from '~/components/profile/vendor-hub/StoreDetails';
 import Commissions from '~/components/profile/vendor-hub/Commissions';
 import {USER_STATUS_PENDING, USER_STATUS_REJECTED} from '~/static/constants';
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'VendorHub',
   components: {Commissions, StoreDetails, Documents, VendorPaymentMethod, NavGroup},
+  mixins: [screenSize],
   layout: 'Profile',
   data() {
     return {
@@ -105,7 +107,6 @@ export default {
   padding: 80px 120px
 
 .title
-  @include heading-4
   font-family: $font-family-montserrat
   font-style: normal
   font-weight: $bold
