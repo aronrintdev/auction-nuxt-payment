@@ -80,15 +80,13 @@ export default {
   border-bottom: 1px solid $color-gray-62
   &-title
     font-weight: $medium
-    font-size: 16px
-    line-height: 19px
+    @include body-13
     color: $color-blue-20
     font-family: $font-sp-pro
   &-values
     margin-right: 20px
     font-weight: $normal
-    font-size: 16px
-    line-height: 19px
+    @include body-13
     font-family: $font-sp-pro
     color: $black
   &-main
@@ -105,8 +103,7 @@ export default {
     .btn
       font-family: $font-sp-pro
       font-weight: $normal
-      font-size: 14px
-      line-height: 17px
+      @include body-5
       color: $color-gray-4
       border: 1px solid $color-gray-4
       border-radius: 3px

@@ -97,6 +97,15 @@
       </b-row>
     </div>
     </div>
+    <div v-if="!inventoryItems.length" class="w-100 py-5 text-center">
+        <div class="d-inline-flex align-items-center no-items-found">
+          <img src="~/assets/img/no-items-found.png" class="mr-3" />
+          <div class="text-left">
+            <div class="no-items-found-title">{{ $t('auctions.frontpage.no_results_found') }}</div>
+            <div class="no-items-found-subtitle">{{ $t('auctions.frontpage.cant_find_anything') }}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </vue-bottom-sheet>
   </client-only>
@@ -150,8 +159,8 @@ export default {
      */
     getInventory: debounce(function (filters = {}) {
       filters.category = this.categoryFilter
-      filters.sizes = this.sizeFilter.join(',')
-      filters.size_types = this.sizeTypesFilter.join(',')
+      filters.sizes = this.sizeFilter?.join(',')
+      filters.size_types = this.sizeTypesFilter?.join(',')
       this.$axios
         .get('/vendor/inventory', {
           params: {
@@ -182,6 +191,7 @@ export default {
       this.sizeTypesFilter = filters?.sizeTypes
       this.filterScreen = false
       this.getInventory()
+      this.$forceUpdate()
 
     },
     decrementOrRemoveItem(item) {
@@ -473,4 +483,13 @@ export default {
   letter-spacing: 0.005em
   color: $color-gray-5
   padding-top: 13px
+.no-items-found
+   img
+    width: 60px
+   &-title
+    font-size: 16px
+    line-height: 22px
+   &-subtitle
+    font-size: 14px
+    line-height: 19px
 </style>

@@ -138,7 +138,6 @@ export default {
   &-content
     padding: 20px 25px 0
   &-footer
-    background: $white
     padding: 26px 25px
     .btn
       font-family: $font-sp-pro
@@ -158,8 +157,7 @@ export default {
   border-bottom: 1px solid $color-gray-62
   &-title
     font-weight: $medium
-    font-size: 16px
-    line-height: 19px
+    @include body-13
     color: $color-blue-20
     font-family: $font-sp-pro
   &-main
@@ -188,8 +186,7 @@ export default {
     height: 100vh
     overflow: auto
     .product
-      font-size: 13px
-      line-height: 16px
+      @include body-21
       letter-spacing: -0.02em
       color: $color-black-15
       border: 0.2px solid $color-gray-23
@@ -235,8 +232,7 @@ export default {
         height: 18px
         margin-right: 10px
       input
-        font-size: 12px
-        line-height: 15px
+        @include body-9
         font-weight: $regular
         color: $black
         letter-spacing: 0.06em
