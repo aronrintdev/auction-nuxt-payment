@@ -558,6 +558,9 @@ export default {
     ...mapActions({
       removeProductsFromWishList: 'wish-list/removeProductsFromWishList',
     }),
+    handleFilterChange() {
+      // this.loadPage()
+    },
     // Set the screen Size
     myEventHandler(e) {
      this.screenWidth = screen.width

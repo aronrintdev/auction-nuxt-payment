@@ -34,9 +34,9 @@
           </div>
           <button
             v-if="
-              searchFilters.brand !== '' &&
-              searchFilters.size !== '' &&
-              searchFilters.category !== ''
+              selectedFilters.brand !== '' &&
+              selectedFilters.size_type !== '' &&
+              selectedFilters.category !== ''
             "
             class="btn btn-sm text-black filter-btn col-2"
           >
@@ -47,15 +47,15 @@
       </div>
       <div
         v-if="
-          searchFilters.brand === '' ||
-          searchFilters.size === '' ||
-          searchFilters.category === ''
+          selectedFilters.brand === '' ||
+          selectedFilters.size_type === '' ||
+          selectedFilters.category === ''
         "
         class="row filter-row-bottom"
       >
         <!-- Filter By Category-->
         <div class="col filter-by-col">
-          <CustomSelect
+          <!-- <CustomSelect
             :default="filterBy"
             :threelineIcon="false"
             :options="{
@@ -64,13 +64,23 @@
             }"
             :title="filterByTitle"
             @input="handleFilterByCategories"
-          />
+          /> -->
+                <!-- Categories -->
+      <MultiSelectDropdown
+        v-model="selectedFilters.categories"
+        collapseKey="categories"
+        :title="$t('home_page.categories')"
+        :options="categoryOptions"
+        class="mr-3 mr-xl-4"
+        width="160"
+      />
+
         </div>
         <!-- Filter By Category-->
 
         <!-- Filter By SizeType-->
         <div class="col filter-by-col">
-          <CustomSelect
+          <!-- <CustomSelect
             :default="filterBy"
             :threelineIcon="false"
             :options="{
@@ -81,6 +91,16 @@
             }"
             :title="filterByTitle"
             @input="handleFilterBySizeType"
+          /> -->
+
+          <!-- Size Types -->
+          <MultiSelectDropdown
+            v-model="selectedFilters.sizeTypes"
+            collapseKey="size-types"
+            :title="$t('filter_sidebar.size_types')"
+            :options="sizeTypeOptions"
+            class="mr-3 mr-xl-4"
+            width="180"
           />
         </div>
         <!-- Filter By SizeType-->
@@ -147,9 +167,9 @@
         <!-- Status Filters -->
         <div
           v-if="
-            searchFilters.brand != '' ||
-            searchFilters.size != '' ||
-            searchFilters.category != ''
+            selectedFilters.brand != '' ||
+            selectedFilters.size_type != '' ||
+            selectedFilters.category != ''
           "
           class="col-md-2 clearall-filter float-right"
         >
@@ -199,7 +219,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import CustomSelect from '~/components/common/CustomSelect.vue'
-import { SearchInput, FormDropdown, SliderDropdown } from '~/components/common'
+import { SearchInput, FormDropdown,MultiSelectDropdown, SliderDropdown } from '~/components/common'
 
 import {
   Years,
@@ -216,6 +236,7 @@ export default {
     SearchInput,
     FormDropdown,
     SliderDropdown,
+    MultiSelectDropdown
   },
   data() {
     return {
@@ -233,15 +254,15 @@ export default {
       filterBy: '',
       brands: [],
       allCategories: [],
-      categories: [],
+      categoryOptions: [],
       showSuccessMessage: null,
-      searchFilters: {
+      selectedFilters: {
         sort_by_column: 'id',
         search: '',
         category: '',
         category_id: '',
         brand: '',
-        size: '',
+        size_type: '',
         priceRange: '',
       },
       activeTypeFilters: [],
@@ -280,6 +301,7 @@ export default {
   },
   mounted() {
     this.loadFilters()
+    this.getCategory()
   },
   methods: {
     // Get All Product Filters List
@@ -300,69 +322,86 @@ export default {
             const name = elem.name
             categoriesList[`${name}`] = name
           })
-          this.categories = categoriesList
+          // this.categoryOptions = categoriesList
         })
         .catch((error) => {
           // Show unauthorized message on error
           this.$toasted.error(error)
         })
     },
+    getCategory()
+    {
+      this.$axios.get('/categories', {
+        params: {
+          take: 3,
+        }
+      })
+      .then(res => {
+        this.categoryOptions = res.data.map(cat => ({
+          label: this.$t(`common.categories.${cat.name}`),
+          value: cat.id,
+        }))
+      })
+      .catch(() => {
+        this.categoryOptions = []
+      })
+    },
     // On filter by change.
     searchProduct(val) {
-      this.searchFilters.search = val
+      this.selectedFilters.search = val
       this.setActiveFilter()
-      this.$emit('filterList', this.searchFilters)
+      this.$emit('filterList', this.selectedFilters)
     },
     // On filter by change.
     handleSortBySelect(value) {
       if (value) {
         this.sortBy = value.value
-        this.searchFilters.sort_by_column = value === '' ? '' : value.label
+        this.selectedFilters.sort_by_column = value === '' ? '' : value.label
         this.setActiveFilter()
-        this.$emit('filterList', this.searchFilters)
+        this.$emit('filterList', this.selectedFilters)
       }
     },
     // On filter by change.
     handleFilterByCategories(value) {
       const category = this.allCategories.filter((el) => el.name === value)
-      this.searchFilters.category_id = value === '' ? '' : category[0].id
-      this.searchFilters.category = value === '' ? '' : value
+      this.selectedFilters.category_id = value === '' ? '' : category[0].id
+      this.selectedFilters.category = value === '' ? '' : value
       this.setActiveFilter()
-      this.$emit('filterList', this.searchFilters)
+      this.$emit('filterList', this.selectedFilters)
     },
     // Update selected size and pass to parent component
     handleFilterBySizeType(value) {
-      this.searchFilters.size = value === '' ? '' : value
+      this.selectedFilters.size_type = value === '' ? '' : value
       this.setActiveFilter()
-      this.$emit('filterList', this.searchFilters)
+      this.$emit('filterList', this.selectedFilters)
     },
     // Update selected prices and pass to parent component
     handleFilterByPriceRange(value) {
       this.selectedPrices = value
-      this.searchFilters = {
-        ...this.searchFilters,
-        minPrice: value[0] === MIN_PRICE ? undefined : value[0] * 100,
-        maxPrice: value[1] === MAX_PRICE ? undefined : value[1] * 100,
+      this.selectedFilters = {
+        ...this.selectedFilters,
+        price_from: value[0] === MIN_PRICE ? undefined : value[0] * 100,
+        price_to: value[1] === MAX_PRICE ? undefined : value[1] * 100,
       }
       this.setActiveFilter()
-      this.$emit('filterList', this.searchFilters)
+      this.$emit('filterList', this.selectedFilters)
     },
     // On filter by brands.
     handleFilterByBrands(value) {
-      this.searchFilters.brand = value === '' ? '' : value
+      this.selectedFilters.brand = value === '' ? '' : value
       this.setActiveFilter()
-      this.$emit('filterList', this.searchFilters)
+      this.$emit('filterList', this.selectedFilters)
     },
     // Update selected years and pass to parent component
     handleFilterByYears(value) {
       this.selectedYears = value
       this.setActiveFilter()
-      this.searchFilters = {
-        ...this.searchFilters,
+      this.selectedFilters = {
+        ...this.selectedFilters,
         minYear: value[0] === MIN_YEAR ? undefined : value[0],
         maxYear: value[1] === MAX_YEAR ? undefined : value[1],
       }
-      this.$emit('filterList', this.searchFilters)
+      this.$emit('filterList', this.selectedFilters)
     },
 
     // Remove the filter from respective arrays
@@ -372,9 +411,9 @@ export default {
         statusFilter.splice(statusFilter.indexOf(option), 1)
         this.$store.commit(
           'stock-exchange/setActiveFilters',
-          this.searchFilters
+          this.selectedFilters
         )
-        this.$emit('filterList', this.searchFilters)
+        this.$emit('filterList', this.selectedFilters)
       }
       if (statusFilter.lenght === 0) {
         this.clearFilters()
@@ -384,19 +423,19 @@ export default {
     clearFilters() {
       this.activeTypeFilters = []
       this.activeStatusFilters = []
-      this.searchFilters = {
+      this.selectedFilters = {
         filterBy: '',
         search: '',
         category: '',
         brand: '',
-        size: '',
+        size_type: '',
         priceRange: '',
       }
       this.$store.commit('stock-exchange/removeActiveFilters')
-      this.$emit('filterList', this.searchFilters)
+      this.$emit('filterList', this.selectedFilters)
     },
     setActiveFilter() {
-      const val = this.searchFilters
+      const val = this.selectedFilters
       this.activeTypeFilters = []
       for (const value of Object.values(val)) {
         if (value !== '') {
