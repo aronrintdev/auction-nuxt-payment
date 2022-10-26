@@ -110,7 +110,8 @@
           </div>
         </div>
         <div class="mb-4 text-center bid-details">
-          <strong class="bid-details-price">{{ $t('auctions.frontpage.current_bid') }}: ${{ (activeAuction.highest_bid || 0) | formatPrice }}</strong>
+          <strong v-if="activeAuction.highest_bid" class="bid-details-price">{{ $t('auctions.frontpage.current_bid') }}: ${{ activeAuction.highest_bid | formatPrice }}</strong>
+          <strong v-else class="bid-details-price">{{ $t('auctions.frontpage.current_bid') }}: &nbsp;&nbsp;-&nbsp;&nbsp;</strong>
           <div class="mt-4 place-bid-form">
             <div class="place-bid-form-title">{{ $t('auctions.frontpage.place_bid') }}</div>
             <input v-model="placeBidPrice" :placeholder="$t('auctions.frontpage.insert_amount')" />
@@ -808,7 +809,7 @@ export default {
     // Click place bid button
     placeBid(type) {
       this.$bvModal.hide('placebid-modal')
-      if (this.placeBidPrice * 100 <= this.activeAuction.highest_bid) {
+      if (this.placeBidPrice * 100 <= this.activeAuction.highest_bid || this.placeBidPrice * 100 <= this.activeAuction.start_bid_price) {
         this.showLowBidError = true
       } else {
         this.modalData = {

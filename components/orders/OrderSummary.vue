@@ -109,10 +109,10 @@ export default {
   },
   methods:{
     product(item) {
-      if(this.isTrade){
-        return item.product
+      if(this.isBuy){
+        return item.listing_item?.inventory?.product
       }
-      return item.listing_item?.inventory?.product
+      return item.product
     },
     printLabel() {
       return `data:application/pdf;base64,${this.item.vendor_shipment?.meta.labelData}`

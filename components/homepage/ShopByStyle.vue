@@ -10,7 +10,7 @@
       :data="categoryItems"
       :value="currentCategory"
       nav-key="new_releases"
-      class="text-center nav-group my-md-4"
+      class="text-center"
       @change="handleCategoryChange"
     />
     <div>
@@ -70,8 +70,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.section-wrapper
-  padding-bottom: 48px
   .nav-group
     margin-top: 33px
     margin-bottom: 25px
