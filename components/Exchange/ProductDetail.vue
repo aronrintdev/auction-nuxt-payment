@@ -533,7 +533,8 @@ export default {
       deep: true,
     },
   },
-  created(){
+  mounted(){
+    this.getProductDetail()
   },
   methods: {
     ...mapActions({
@@ -797,19 +798,19 @@ export default {
     // On filter by change.
     handleSortBySelect(value) {
       this.similarProductSearchValue = value.value
-      // this.loadPage()
+      this.getProductDetail()
     },
     // On filter by change.
     searchProduct(value) {
       this.search = value
-      this.loadPage()
+      this.getProductDetail()
     },
     handleBuyClick() {},
     handleSellClick() {},
-    loadPage() {
+    getProductDetail() {
       this.loading = true
       this.$axios
-        .get('/products', {
+        .get(`/products/${this.$route.params.sku}/details`, {
           // .get('/stock-exchange/', {
           params: {
             type: this.type,
