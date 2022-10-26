@@ -1,6 +1,8 @@
 <template>
   <client-only>
   <vue-bottom-sheet ref="myBottomSheet" max-height="90%" :is-full-screen="true" class="bottom-sheet">
+    <trade-arena-filters v-if="filterScreen" @change="handleFilterChange" />
+    <div v-else>
     <div class="offer-items">
       <div class="d-flex justify-content-between pl-3 pr-3">
         <div class="clear" :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="clearItems()">Clear</div>
@@ -95,6 +97,7 @@
       </b-row>
     </div>
     </div>
+    </div>
   </vue-bottom-sheet>
   </client-only>
 </template>
@@ -108,9 +111,11 @@ import {
 import {DEFAULT_PER_PAGE_ITEMS, MAX_ITEMS_ALLOWED, PER_PAGE_ITEMS} from '~/static/constants';
 import {Pagination} from '~/components/common'
 import SearchInput from '~/components/common/SearchInput';
+import TradeArenaFilters from '~/components/trade/TradeArenaFilters';
 export default {
   name: 'InventoryBottomSheet',
   components:{
+    TradeArenaFilters,
     SearchInput,
     Pagination
   },
@@ -171,6 +176,14 @@ export default {
      * quantity from listing
      * @param id
      */
+    handleFilterChange(filters) {
+      this.categoryFilter = filters?.categories?.join(',')
+      this.sizeFilter = filters?.sizes
+      this.sizeTypesFilter = filters?.sizeTypes
+      this.filterScreen = false
+      this.getInventory()
+
+    },
     decrementOrRemoveItem(item) {
       const existingItem = this.getYourTradeItems.find(val => val.id === item.id)
       if (existingItem.quantity > 1) {
