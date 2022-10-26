@@ -16,7 +16,7 @@
         </template>
         <template #expanded-content>
           <div v-if="onNotifications" class="d-flex flex-column">
-            <MobileSearchInput :value="filters.search" @input="searchChanged"/>
+            <MobileSearchInput @input="searchChanged"/>
             <div class="d-flex align-items-center justify-content-end">
               <NotificationMarkAllAsRead/>
             </div>
@@ -37,7 +37,7 @@
             @change="handlePageChange"
         />
       </div>
-      <NotificationsTab v-if="onNotifications"/>
+      <NotificationsTab v-if="onNotifications" @infinite="infiniteScroll"/>
       <NotificationSettings v-if="onSettings"/>
       <MobileNotificationSettingsTab v-if="onSettingsItemTab"/>
     </div>
@@ -59,6 +59,7 @@ import NotificationMarkAllAsRead from '~/components/profile/notifications/Notifi
 import MobileSearchInput from '~/components/mobile/MobileSearchInput';
 import NotificationMobileFilters from '~/components/profile/notifications/NotificationMobileFilters';
 import MobileNotificationSettingsTab from '~/components/profile/notifications/MobileNotificationSettingsTab';
+import {NOTIFICATION_PER_PAGE} from '~/static/constants';
 
 export default {
   name: 'Notifications',
@@ -84,12 +85,14 @@ export default {
           value: 'Settings',
         },
       ],
-      NotificationTab: null
+      NotificationTab: null,
+      perPage: NOTIFICATION_PER_PAGE,
     }
   },
   computed: {
     ...mapGetters({
-      'currentTab': 'notifications/getTab'
+      'currentTab': 'notifications/getTab',
+      'total': 'notifications/getTotal',
     }),
     tabTitle() {
       return this.onNotifications ? this.$t('notifications.title') : (this.isScreenXS ? this.$t('notifications.push_notifications') : this.$t('notifications.notification_settings'))
@@ -111,12 +114,19 @@ export default {
     searchChanged(e) {
       this.filtersChanged({search: e})
     },
+    infiniteScroll() {
+      if (this.total > this.perPage) {
+        this.perPage += NOTIFICATION_PER_PAGE
+        this.filtersChanged({})
+      }
+    },
     filtersChanged(filters) {
       const allFilters = {
         from_year: filters.years ? filters.years[0] : null,
         to_year: filters.years ? filters.years[1] : null,
         search: filters.search || null,
-        categories: filters.types || null
+        categories: filters.types || null,
+        perPage: this.perPage
       }
       this.$store.commit('notifications/setSelectedStatus', filters.status || 'all')
       this.$store.dispatch('notifications/filterChange', allFilters)
