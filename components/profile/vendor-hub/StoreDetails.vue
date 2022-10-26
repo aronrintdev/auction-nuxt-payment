@@ -24,8 +24,7 @@
           >
             <b-form-group
                 label-for="storeName"
-                class="w-100"
-                :class="{'mr-5': !mobileClass }"
+                class="w-100 mr-sm-5"
             >
               <template #label><span class="px-3">{{ $t('vendor_hub.form.store_name') }}</span></template>
               <b-input-group>
@@ -49,8 +48,7 @@
 
           <b-form-group
               label-for="phoneNumber"
-              class="w-100"
-              :class="{'ml-5': !mobileClass}"
+              class="w-100 ml-sm-5"
           >
             <template #label><span class="px-3">{{ $t('vendor_hub.form.phone_number') }}</span></template>
             <b-input-group>
@@ -70,9 +68,8 @@
 
           <b-form-group
               v-if="codeSent"
-              class="d-flex flex-column w-100"
+              class="d-flex flex-column w-100 ml-sm-5"
               label-for="verificationCode"
-              :class="{'ml-5': !mobileClass}"
           >
             <template #label>
               <div class="d-flex justify-content-between px-3">
@@ -140,8 +137,7 @@
               v-slot="validationContext"
               :name="$t('vendor_hub.store_details_tab.shipping_address')"
               :rules="{ required: true }"
-              class="w-100"
-              :class="{'mr-5': !mobileClass }"
+              class="w-100 mr-sm-5"
           >
             <b-form-group
                 label-for="shippingAddress"
@@ -189,11 +185,9 @@
               v-slot="validationContext"
               :name="$t('vendor_hub.form.city')"
               :rules="{ required: true }"
-              class="w-100"
-              :class="{'ml-5': !mobileClass }"
+              class="w-100 ml-sm-5"
           >
             <b-form-group
-                class="ml-110 store-details-input"
                 label-for="city"
             >
               <template #label><span class="px-3">{{ $t('vendor_hub.form.city') }}</span></template>
@@ -222,8 +216,7 @@
               v-slot="validationContext"
               :name="$t('vendor_hub.form.state')"
               :rules="{ required: true }"
-              class="w-100"
-              :class="{'mr-5': !mobileClass }"
+              class="w-100 mr-sm-5"
           >
             <b-form-group
                 label-for="state"
@@ -276,9 +269,8 @@
             </b-form-group>
           </ValidationProvider>
           <b-form-group
-              class="w-100"
+              class="w-100 ml-sm-5"
               label-for="phoneNumber"
-              :class="{'ml-5': !mobileClass }"
           >
             <template #label><span class="px-3">{{ $t('vendor_hub.form.country') }}</span></template>
             <b-input-group>
