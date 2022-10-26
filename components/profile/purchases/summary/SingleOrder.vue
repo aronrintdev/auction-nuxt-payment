@@ -3,10 +3,12 @@
     <div class="row w-100">
       <div class="col-md-8 col-sm-12">
         <!-- Table -->
-        <b-table v-if="orderType === buy || orderType === sell" borderless :items="orderDetails" :fields="fields" class="vendor-purchase-details-table" responsive="sm">
+        <b-table v-if="ORDERS_HAS_ITEMS.includes(orderType)" :fields="fields" :items="orderDetails" borderless
+                 class="vendor-purchase-details-table" responsive="sm">
           <template #cell(products)="row">
             <div class="img-col w-100">
-              <img :src="row.item.listing_item.inventory.product.image || fallbackImage" alt="product-image" class="product-image img-fluid" @error="imageLoadError"/>
+              <img :src="row.item.listing_item.inventory.product.image || fallbackImage" alt="product-image"
+                   class="product-image img-fluid" @error="imageLoadError"/>
             </div>
           </template>
           <template #cell(details)="row">
@@ -93,8 +95,9 @@
       <!-- Timeline -->
     </div>
     <!-- Status is authenticated and shipped/ delivered -->
-    <template v-if="orderType === buy || orderType === sell && itemStatus === authenticatedAndShipped || itemStatus === delivered">
-      <hr />
+    <template
+        v-if="ORDERS_HAS_ITEMS.includes(orderType) && itemStatus === authenticatedAndShipped || itemStatus === delivered">
+      <hr/>
       <div class="row shipping-details-wrapper">
         <div class="col-md-6 col-sm-12">
           <p class="text-bold shipping-carrier">
@@ -213,7 +216,7 @@ import {
   PRODUCT_FALLBACK_URL,
   BUY,
   GIFTCARD,
-  SELL
+  SELL, ORDERS_HAS_ITEMS
 } from '~/static/constants'
 export default {
   name: 'SingleOrder',
@@ -257,6 +260,7 @@ export default {
   },
   data() {
     return {
+      ORDERS_HAS_ITEMS,
       productImageWidth: PRODUCT_IMG_WIDTH,
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
       shippingCarrier: 'Fed Ex', // Harcoded for now
@@ -283,14 +287,16 @@ export default {
       loadMap: false
     }
   },
-  
+
   computed: {
     fallbackImage: (vm) => {
       return vm.fallbackImgUrl + '' + vm.productImageWidth
     },
   },
-  mounted(){
-    this.getShippingDetails(this.fullOrderDetails.items[0].shipment.tracking_no)
+  mounted() {
+    if (this.fullOrderDetails.items[0].shipment) {
+      this.getShippingDetails(this.fullOrderDetails.items[0].shipment.tracking_no)
+    }
   },
   methods: {
     // Image on load error
@@ -330,15 +336,15 @@ export default {
       const geocoder = new window.google.maps.Geocoder()
       const that = this
       geocoder.geocode(
-      { 
-        componentRestrictions: { 
-            country: row.CountryCode
-        } 
-      }, function (results) {
-        that.latitude = results[0].geometry.location.lat();
-        that.longitude = results[0].geometry.location.lng();
-        that.loadMap = true
-      });
+          {
+            componentRestrictions: {
+              country: row.CountryCode
+            }
+          }, function (results) {
+            that.latitude = results[0].geometry.location.lat();
+            that.longitude = results[0].geometry.location.lng();
+            that.loadMap = true
+          });
     }
   },
 }

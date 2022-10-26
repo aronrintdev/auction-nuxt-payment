@@ -267,7 +267,7 @@ export default {
     getItems: (vm) => {
       const items = []
 
-      items.push({ key: vm.$t('shopping_cart.reserve_fee'), value: vm.getSubtotal })
+      items.push({ label: vm.$t('shopping_cart.reserve_fee'), value: vm.getSubtotal })
 
       return items
     }
