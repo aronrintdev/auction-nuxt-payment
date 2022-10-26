@@ -73,7 +73,6 @@ export default {
   },
 
   data() {
-    console.log('PRODUCT', this.product, this.combinationId);
     return {
       
     };

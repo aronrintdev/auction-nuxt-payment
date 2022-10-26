@@ -38,7 +38,16 @@
         hover-src="close.svg"
         width="15"
         height="15"
-        class="btn-clear"
+        class="btn-clear d-none d-sm-block"
+        @click="handleClearClick"
+      />
+      <Icon
+        v-if="value"
+        src="close3.svg"
+        hover-src="close.svg"
+        width="15"
+        height="15"
+        class="btn-clear d-sm-none"
         @click="handleClearClick"
       />
     </div>

@@ -250,7 +250,6 @@ export default {
   fetchOnServer: false,
   middleware: ['vendor'],
   data() {
-    console.log('INVENTORY');
     return {
       mobileFiltersOpen: false,
       action: null,
@@ -347,7 +346,6 @@ export default {
   },
 
   mounted() {
-    console.log('MOUNT INVENTORY');
   },
 
   methods: {

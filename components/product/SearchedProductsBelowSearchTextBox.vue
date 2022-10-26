@@ -209,7 +209,6 @@ export default {
     },
 
     addProductWant(product) {
-      console.log('this.inputType', this.inputType, product);
       if(this.inputType === 'wantsList'){
         this.addProductWantList(product)
       }
@@ -218,7 +217,6 @@ export default {
       }
     },
     addProductWantList(product) {
-      console.log('addProductWantList', product);
       this.$emit('add_product_want_list', product)
     },
     addProductArena(product){

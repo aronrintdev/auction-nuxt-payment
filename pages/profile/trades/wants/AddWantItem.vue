@@ -107,7 +107,6 @@ export default {
     })
 
     this.$root.$on('back_to_list', () => {
-      console.log('TEST back_to_list');
       this.addItem = null
     })
 
@@ -128,7 +127,6 @@ export default {
       }
     },
     redirectToAddWant(product) {
-      console.log('product', product);
       this.addItem = {
         product,
         packaging_condition: {
@@ -141,7 +139,6 @@ export default {
         },
         latestSales: null
       }
-      console.log('EDIT', this.addItem);
     },
     /**
      * This function is used to get product and show in

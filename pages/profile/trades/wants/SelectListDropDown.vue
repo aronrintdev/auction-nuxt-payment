@@ -181,8 +181,6 @@ export default {
     })
     this.combinationOptions();
     this.setOptions()
-    console.log('borderRadius', this.borderRadius);
-    console.log('borderRadiusClose', this.borderRadiusClose);
   },
   methods: {
     setOptions(){

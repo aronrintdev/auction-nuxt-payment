@@ -95,9 +95,6 @@ export default {
     },
   },
   mounted() {
-    console.log('MOUNT', this.editRemove);
-    console.log('items', this.items);
-    console.log('selected', this.selected);
   },
   data() {
     return {
@@ -105,10 +102,6 @@ export default {
     }
   },
   methods:{
-    // toggleSelect(checked) {
-    //   console.log('toggleSelect', checked, this.wantItem);
-    //   this.$emit('select', this.wantItem.id, checked)
-    // },
     deleteWant() {
       this.$emit('click', this.wantItem.id, 'delete')
     },

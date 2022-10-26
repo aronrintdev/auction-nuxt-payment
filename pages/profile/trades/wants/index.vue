@@ -606,24 +606,6 @@ export default {
   methods: {
     ...mapActions('trades', ['searchProductsList']),
     ...mapActions('browse', ['fetchFilters']), // getter to get filter listing from store
-
-    test() {
-      console.log('1111111');
-      // api/trades/wants POST
-      // packaging_condition_id: 1
-      // product_id: 566
-      // quantity: 1
-      // size_id: 33
-      // wants_list_type: ["combination_item 12"]
-      // year: null
-
-      // packaging_condition_id: 2
-      // product_id: 564
-      // quantity: 1
-      // size_id: 1
-      // wants_list_type: ["combination_item 30"]
-      // year: "2021"
-
     },
 
     submitBulk() {
@@ -747,11 +729,8 @@ export default {
       } else {
         this.selected.splice(this.selected.indexOf(id), 1)
       }
-      console.log('after', this.selected);
     },
     editDelete(data, type) {
-      console.log('editDelete1', data, type);
-      console.log('selected', this.selected);
       if(type === 'delete') {
         this.selected.push(data)
         this.deleteWant(type)
@@ -761,7 +740,6 @@ export default {
       }
     },
     editDeleteCombination(data, type) {
-      console.log('editDeleteCombination', data, type);
       if(type === 'delete_combination') {
         this.selected.push(data)
         this.deleteWant(type)
@@ -789,13 +767,11 @@ export default {
       }, 3000)
     },
     selectItemCombination(data, type) {
-      console.log('selectItemCombination', data, type);
       if (type === 'add') {
         this.selected.push(data)
       } else {
         this.selected.splice(this.selected.indexOf(data), 1)
       }
-      console.log('this.selected', this.selected);
     },
     createCombination() {
       this.selected = []
@@ -830,7 +806,6 @@ export default {
       })
         .then((response) => { // response will get combination data for want items
           this.wantedItems = response.data && response.data.data.data
-          console.log('this.wantedItems', this.wantedItems);
           this.totalCount = parseInt(response.data.data.total)
           this.perPage = parseInt(response.data.data.per_page)
           this.$nextTick(() => this.$forceUpdate())
@@ -897,7 +872,6 @@ export default {
       const data = {
         selected_ids: this.selected
       }
-      console.log('Url data1', url, data);
       this.$axios.post(url, data)
         .then(this.getCombinations)
         .catch((error)=> {
@@ -960,7 +934,6 @@ export default {
         })
         .then((response) => {
           this.searchedItems = response.data && response.data.results && response.data.results.data
-          console.log('this.searchedItems', this.searchedItems);
         })
         .catch((error) => {
           this.$toasted.error(this.$t(error.response.data.error))

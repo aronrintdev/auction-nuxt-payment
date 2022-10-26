@@ -75,7 +75,6 @@ export default {
 
   mounted() {
     this.containerWidth = this.$refs.container.clientWidth
-    console.log('this.$refs.container.clientWidth', this.$refs.container.clientWidth);
     this.shouldMount = true
   },
 

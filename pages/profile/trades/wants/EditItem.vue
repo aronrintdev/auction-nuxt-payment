@@ -410,7 +410,6 @@ export default {
       this.box_condition = this.product.packaging_condition_id
       this.selected_size = this.product.size_id
     }
-    console.log('this prodict', this.product);
   },
   methods: {
     ...mapActions({
@@ -568,7 +567,6 @@ export default {
      * @param value
      */
     handleSizeChange(value) {
-      console.log('VALAUE', value);
       this.currentSizeId = value
     },
 

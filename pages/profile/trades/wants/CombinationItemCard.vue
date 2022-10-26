@@ -275,7 +275,6 @@ export default {
     },
   },
   data () {
-    console.log('selectedCombination', this.combination);
     return {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
       selectedCombination: this.combination.combination_items[0],

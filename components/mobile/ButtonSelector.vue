@@ -4,7 +4,7 @@
       :is="single? 'b-form-radio-group': 'b-form-checkbox-group'"
       v-model="selected"
       :options="options"
-      button-variant="d-custom col col-4 d-flex justify-content-center align-items-center ml-2 mt-1"
+      :button-variant="`d-custom col col-4 d-flex justify-content-center align-items-center ml-2 mt-1 ${itemClass}`"
       buttons
       class="custom-button-multi w-100 row text-capitalize d-flex justify-content-between"
       :style="contentStyle"
@@ -78,7 +78,6 @@ export default {
       }
     },
     emitChanges(e) {
-      console.log('emitChanges', e)
       this.$emit('change', e)
     }
   }
@@ -87,8 +86,6 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
-
-
 
 
 ::v-deep.custom-button-multi

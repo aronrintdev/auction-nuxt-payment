@@ -83,12 +83,6 @@ export default {
 
   methods: {
     combinationOptions() {
-      console.log('this.getCombinationsId', this.getCombinationsId);
-      // type: combinations
-      // page: 1
-      // size_types: 
-      // sizes: 
-      // perPage: 200
       this.$axios.get('trades/wants', {
         params: {
           type: 'combinations',
@@ -108,18 +102,10 @@ export default {
             })
           }
         });
-        console.log('this.listOptions', this.listOptions);
       })
       .catch((err) => {
         this.$toasted.error(this.$t(err.response.data.error))
       })
-
-      // this.getCombinationsId.forEach((item) => {
-      //   this.listOptions.push({
-      //     text: this.$t('trades.wants_listing.create_combination', { count: item }),
-      //     value: 'combination_item ' + item
-      //   })
-      // })
     },
 
     addCombination() {
