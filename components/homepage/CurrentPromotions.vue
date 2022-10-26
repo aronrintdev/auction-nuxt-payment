@@ -103,6 +103,4 @@ export default {
 <style lang="sass" scoped>
 .promos-wrapper
   margin-top: 18px
-.section-wrapper
-  margin-bottom: 48px
 </style>

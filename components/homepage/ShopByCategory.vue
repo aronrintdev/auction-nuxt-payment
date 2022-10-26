@@ -133,8 +133,6 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-.section-wrapper
-  margin-bottom: 32px
 .products-category
   margin-top: 33px
 .category

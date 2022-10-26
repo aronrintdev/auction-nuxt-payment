@@ -20,7 +20,7 @@
             <img v-if="!fromDown && notification.icon_link"
                  :src="notification.icon_link" class="mr-2 icon-image">
             <p class="mb-0">
-              <span :class="{'mobile-subject': isScreenXS}">{{ notification.subject }}</span>
+              <span :class="{'mobile-subject': isScreenXS}">{{ notification.body }}</span>
               <span v-if="isScreenXS" class="ml-1 remaining-time">
                 {{ notificationDate }}
               </span>

@@ -1,5 +1,5 @@
 <template>
-  <div class="position-relative w-100 container">
+  <div class="position-relative w-100 w-md-auto container">
     <div
       v-if="viewMode === 'carousel'"
       class="position-relative mx-auto carousel-wrapper"

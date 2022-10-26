@@ -57,6 +57,11 @@ export default {
     AuctionMobileFilter,
   },
   layout: 'IndexLayout',
+  async fetch() {
+    this.loadingFilter = true
+    await this.fetchFilters()
+    this.loadingFilter = false
+  },
   data() {
     return {
       sortBy: null,
@@ -105,6 +110,7 @@ export default {
     ...mapActions({
       fetchWatchlists: 'watchlist/fetchWatchlists',
       setProductFilter: 'auction/setProductFilter',
+      fetchFilters: 'browse/fetchFilters',
     }),
     handleSortByChanged(opt) {
       this.sortBy = opt

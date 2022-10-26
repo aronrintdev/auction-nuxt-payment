@@ -7,7 +7,7 @@
             <div class="body-5-normal mb-2">{{ fullName }}</div>
             <div class="body-5-regular">{{ fullAddress }}</div>
           </b-col>
-          <b-col md="1" class="d-flex flex-column">
+          <b-col md="1" class="d-flex flex-column mt-2">
             <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
           </b-col>
         </b-row>

@@ -17,6 +17,7 @@
       class="mt-2"
       :items="getItems"
       :promo-code="promoCode"
+      :promoCodeDiscount="getDiscount"
       @clear-promo="clearPromoCode"
     />
     <!-- End of Shopping Cart Order Summary Card -->
@@ -185,7 +186,7 @@
     </b-row><!-- End of Shopping Cart Total Price Heading -->
 
     <!-- Shopping Cart Place Order Button -->
-    <b-row class="mt-4">
+    <b-row class="pt-5 mt-5">
       <b-col v-if="loading" md="12" class="text-center">
         <b-spinner variant="color-blue-2"></b-spinner>
       </b-col>
@@ -228,7 +229,14 @@ import AddressCard from '~/components/checkout/common/AddressCard'
 import PaymentCardDetailsCard from '~/components/checkout/common/PaymentCardDetailsCard'
 import CryptoDetailsCard from '~/components/checkout/common/CryptoDetailsCard'
 import GiftCardDetailsCard from '~/components/checkout/common/GiftCardDetailsCard'
-import { PAYMENT_METHOD_TYPE_CARD, PAYMENT_METHOD_TYPE_INSTALLMENT } from '~/static/constants'
+import {
+  PAYMENT_METHOD_TYPE_CARD,
+  PAYMENT_METHOD_TYPE_INSTALLMENT,
+  BAD_REQUEST,
+  NOT_FOUND,
+  FIXED_PRODUCT,
+  PERCENT,
+} from '~/static/constants'
 import CheckmarkIcon from '~/assets/img/icons/checkmark.svg?inline'
 import CloseIcon from '~/assets/img/icons/close.svg?inline'
 
@@ -250,9 +258,6 @@ export default {
     return {
       loading: false,
       inputPromoCode: '',
-      shippingFee: 1000, // TODO: Temporary dummy data
-      processingFee: 900, // TODO: Temporary dummy data
-      tax: 100, // TODO: Temporary dummy data
       isInstallment: PAYMENT_METHOD_TYPE_INSTALLMENT,
       isCard: PAYMENT_METHOD_TYPE_CARD,
       form: {
@@ -274,7 +279,10 @@ export default {
       promoCode: 'order-details/getPromoCode',
       paymentToken: 'order-details/getPaymentToken',
       installmentPlans: 'order-details/getInstallmentDetails',
-      cryptoDetails: 'order-details/getCryptoDetails'
+      cryptoDetails: 'order-details/getCryptoDetails',
+      shippingFee: 'order-settings/getShippingFee',
+      processingFee: 'order-settings/getProcessingFee',
+      taxRate: 'tax-rate/getTaxRate',
     }),
     shoppingCart: (vm) => {
       return vm.auction ? [vm.auction] : []
@@ -299,45 +307,59 @@ export default {
     getSubtotal: (vm) => {
       return vm.shoppingCart[0].bid_price || 0
     },
+    getPromoDiscount: (vm) => {
+      let discount = 0
+
+      if (vm.promoCode.code) {
+        switch (vm.promoCode.type) {
+          case FIXED_PRODUCT: {
+            const items = vm.auction.auction_items.filter((item) => {
+              return item.inventory.product.sku === vm.promoCode.sku
+            })
+
+            if (items) {
+              const totalQuantity = items.length
+
+              discount += totalQuantity * vm.promoCode.amount * 100
+            }
+
+            break;
+          }
+          case PERCENT: {
+            discount += vm.getSubtotal * (vm.promoCode.amount / 100)
+
+            break;
+          }
+          default:
+            discount += vm.promoCode.amount * 100
+        }
+      }
+
+      return discount
+    },
+    getTotalQuantity: (vm) => {
+      return vm.auction.auction_items ? vm.auction.auction_items.length : 0
+    },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getShippingFee: (vm) => {
-      return vm.shippingFee
+      return vm.shippingFee * vm.getTotalQuantity
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getProcessingFee: (vm) => {
-      return vm.processingFee
+      return Math.trunc(vm.processingFee * vm.getSubtotal)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTax: (vm) => {
-      return vm.tax
+      return Math.trunc(vm.taxRate * (vm.getSubtotal - vm.getDiscount))
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTotal: (vm) => {
-      // TODO: Handle coupons as well
-      let total = vm.shippingFee + vm.processingFee + vm.tax + vm.getSubtotal
-
-      if (vm.promoCode) {
-        total -= vm.promoCode.amount
-      }
-
-      if (vm.giftCard) {
-        total -= vm.giftCard.amount
-      }
-
+      const total = vm.getShippingFee + vm.getProcessingFee + vm.getTax + vm.getSubtotal - vm.getDiscount
       return total
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getDiscount: (vm) => {
-      let discount = 0
-
-      if (vm.promoCode) {
-        discount += vm.promoCode.amount
-      }
-
-      if (vm.giftCard) {
-        discount += vm.giftCard.amount
-      }
-      return discount
+      return vm.getPromoDiscount
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getItems: (vm) => {
@@ -351,20 +373,37 @@ export default {
       return items
     }
   },
+  mounted() {
+    this.getTaxRateByZip({ zip: this.billingAddress.zipCode })
+  },
   methods: {
     ...mapActions({
       addPromoCode: 'order-details/addPromoCode',
       removePromoCode: 'order-details/removePromoCode',
       removePaymentToken: 'order-details/removePaymentToken',
       removePaymentMethod: 'auth/removePaymentMethod',
+      getTaxRateByZip: 'tax-rate/getTaxRateByZip',
     }),
     clearPromoCode() {
       this.removePromoCode()
       this.inputPromoCode = ''
     },
     applyPromoCode(promoCode) {
-      this.addPromoCode({
-        promoCode,
+      this.$axios.post('coupons/check', {
+        promo_code: promoCode,
+        listing_items: this.auction.auction_items.map(item => item.inventory.product),
+      }, { handleError: false }).then((response) => {
+        this.addPromoCode({
+          promoCode: response.data.data,
+        })
+      }).catch((error) => {
+        if (error.response.status === BAD_REQUEST || error.response.status === NOT_FOUND) {
+          this.$toasted.error(this.$t(error.response.data.message).toString())
+
+          return
+        }
+
+        this.$toasted.error(error)
       })
     },
     // Place new bid for current auction
