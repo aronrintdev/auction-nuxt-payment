@@ -78,8 +78,7 @@ export default {
           `${new Date(this.notification.created_at).toDateString()} ${this.$t('notifications.at')} ${new Date(this.notification.created_at).toLocaleTimeString()}`
           : fromNow(this.notification.created_at)
     }
-  },
-
+  }
 }
 </script>
 
