@@ -32,7 +32,7 @@
       <div class="details-box">
         <div class="details-box-header">{{ $t('orders.commission_details') }}:</div>
         <div class="details-box-body">
-          <div><span>{{ $t('orders.vendor_ranking') }}:</span> <span> {{ vendorRanking }}%</span></div>
+          <div><span>{{ $t('orders.vendor_ranking') }}:</span> <span> {{ vendorRanking }}</span></div>
           <div><span>{{ $t('orders.commission_amount') }}:</span> <span>{{commissionType}}</span></div>
         </div>
       </div>
@@ -61,13 +61,13 @@ export default {
       return this.order.type.label === 'buy'
     },
     commissionAmount() {
-      return this.order.commission?.amount || 0
+      return this.item.commission?.commission || 0
     },
     vendorRanking() {
-      return this.listing_items?.inventory?.vendor_current_points || 0
+      return this.item?.commission?.vendor?.rank || 0
     },
     commissionType(){
-      return this.order.commission?.commission_type_string
+      return this.item.commission?.commission_type_string
     }
   }
 }

@@ -124,6 +124,7 @@ export default {
     enquireScreenSizeHandler((type) => {
       this.$store.commit('size/setScreenType', type)
     });
+    this.notificationSubscriptions()
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll)
