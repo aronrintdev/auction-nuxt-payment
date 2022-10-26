@@ -2,77 +2,91 @@
   <div>
     <div class="commission p-4 ">
       <div class="d-flex justify-content-between align-items-center">
-        <h3 class="title">{{ $t('vendor_hub.commission.overview') }}</h3>
+        <div class="title" :class="mobileClass.length ? 'body-13-bold font-weight-bold' : 'heading-3-normal'">
+          {{ $t('vendor_hub.commission.overview') }}
+        </div>
       </div>
-      <b-row class="mt-5">
+      <b-row class="mt-3 mt-sm-5">
         <b-col v-for="(item, ind) in commissionItems" :key="ind">
-          <CommissionItem :item="item"></CommissionItem>
+          <CommissionItem :item="item" />
         </b-col>
       </b-row>
     </div>
 
-    <div class="commission p-4 mt-5">
-      <div class="d-flex justify-content-between align-items-center">
-        <h3 class="title">{{ $t('vendor_hub.commission.commission_details') }}</h3>
+    <div class="commission p-4 mt-3">
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
+        <div class="d-flex justify-content-between w-100 mb-4 mb-sm-0">
+          <div class="title" :class="mobileClass.length ? 'body-13-bold font-weight-bold' : 'heading-3-normal'">
+          {{ $t('vendor_hub.commission.commission_details') }}
+          </div>
+          <div v-if="mobileClass" @click="showMobileFilter" role="button">
+            <img
+              class="mobile-filter"
+              :src="require('~/assets/img/icons/filter-icon.svg')"
+              alt="filter-icon"
+            />
+          </div>
+        </div>
         <download-csv
             :data="exportableData"
             :fields="fields.map(({ key }) => key)"
             :labels="fields.map(({label}) => label)"
             :name="'Commissions.csv'"
         >
-          <Button
-              ref="exportButton"
-              class="d-none"
-          >
-          </Button>
+          <Button ref="exportButton" class="d-none" />
         </download-csv>
 
         <Button
             variant="dark"
             @click="toggleExport"
+            :class="{'w-100': mobileClass }"
         >
-          {{ $t('vendor_hub.commission.export_to_csv') }}
+            {{ $t('vendor_hub.commission.export_to_csv') }}
         </Button>
 
       </div>
 
-      <div class="d-flex align-items-center justify-content-between mt-3">
-        <span class="label-text">({{ itemsTotal }} {{ $t('vendor_hub.commission.entries') }})</span>
-
-        <div class="d-flex flex-column">
-          <span class="label-text thin">{{ $t('vendor_hub.commission.date_ordered') }}</span>
-          <div class="d-flex align-items-center mt-1">
-            <CalendarInput
-                :placeholder="$t('vendor_hub.commission.start_date')"
-                :value="filterForm.startDate"
-                @context="(ctx) => calendarContextChange(ctx, true)"
-            />
-            <CalendarInput
-                :placeholder="$t('vendor_hub.commission.end_date')"
-                :value="filterForm.endDate"
-                @context="(ctx) => calendarContextChange(ctx, false)"
-            />
-            <Button class="apply-button" variant="primary" @click="applyFilter">
-              {{ $t('vendor_hub.form.apply') }}
-            </Button>
-          </div>
-        </div>
-
-        <div class="d-flex flex-column">
-          <span class="label-text thin">{{ $t('vendor_hub.commission.filter_by') }}</span>
-          <div class="mt-1">
-            <CustomSelectwithCheckbox
-                :options="STATUSES"
-                :title="$t('bids.status')"
-                :updateFilters="filterForm.activeStatusFilters"
-                :value="filterForm.statusType"
-                class="mr-4 dropdown-filters"
-            />
-          </div>
-        </div>
+      <div v-if="!mobileClass" class="mt-5 d-flex align-items-center flex-column flex-md-row">
+         <div class="w-100 px-2">
+           <span class="label-text">({{ itemsTotal }} {{ $t('vendor_hub.commission.entries') }})</span>
+         </div>
+         <div class="w-100 px-2">
+           <div class="label-text thin">{{ $t('vendor_hub.commission.date_ordered') }}</div>
+           <CalendarInput
+             class="w-100"
+             :placeholder="$t('vendor_hub.commission.start_date')"
+             :value="filterForm.startDate"
+             @context="(ctx) => calendarContextChange(ctx, true)"
+           />
+         </div>
+         <div class="w-100 px-2">
+           <div class="label-text thin">&nbsp;</div>
+           <CalendarInput
+             :placeholder="$t('vendor_hub.commission.end_date')"
+             :value="filterForm.endDate"
+             @context="(ctx) => calendarContextChange(ctx, false)"
+           />
+         </div>
+         <div class="w-100 px-2 mt-2 mt-md-0">
+           <span class="label-text thin">{{ $t('vendor_hub.commission.filter_by') }}</span>
+           <div>
+             <CustomSelectwithCheckbox
+               :options="STATUSES"
+               :title="$t('bids.status')"
+               :updateFilters="filterForm.activeStatusFilters"
+               :value="filterForm.statusType"
+               class="mr-4 dropdown-filters"
+             />
+           </div>
+         </div>
+         <div class="w-100 px-2 text-center">
+           <Button class="apply-button mt-4" variant="primary" @click="applyFilter">
+             {{ $t('vendor_hub.form.apply') }}
+           </Button>
+         </div>
       </div>
 
-      <div class="mt-3">
+      <div class="mt-3 flex-wrap overflow-auto">
         <b-table
             :borderless="true"
             :busy="dataLoading"
@@ -169,6 +183,16 @@
           @per-page-change="handlePerPageChange"
       />
     </div>
+
+    <vue-bottom-sheet
+      id="mobile-filter"
+      ref="mobileFilter"
+      max-width="100vw"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <CommissionMobileFilter @filter="applyMobileFilter" />
+    </vue-bottom-sheet>
   </div>
 </template>
 
@@ -181,11 +205,14 @@ import {BulkSelectToolbar, Button, CustomSelectwithCheckbox, Pagination} from '~
 import CalendarInput from '~/components/common/form/CalendarInput';
 import Loader from '~/components/common/Loader';
 import {COMMISSIONS_PAGE_OPTIONS, COMMISSIONS_PER_PAGE} from '~/static/constants';
+import screenSize from '~/plugins/mixins/screenSize'
+import CommissionMobileFilter from '~/components/profile/vendor-hub/CommissionMobileFilter';
 
 Vue.component('DownloadCsv', JsonCSV)
 export default {
   name: 'Commissions',
-  components: {Loader, CommissionItem, Button, CalendarInput, CustomSelectwithCheckbox, Pagination, BulkSelectToolbar},
+  components: {Loader, CommissionItem, Button, CalendarInput, CustomSelectwithCheckbox, Pagination, BulkSelectToolbar, CommissionMobileFilter},
+  mixins: [screenSize],
   data() {
     return {
       isExportActive: false,
@@ -301,6 +328,12 @@ export default {
     applyFilter() {
       this.getCommissions()
     },
+    applyMobileFilter(filters) {
+      this.filterForm.activeStatusFilters = filters?.activeStatusFilters ?? []
+      this.filterForm.startDate = filters?.startDate ?? null
+      this.filterForm.endDate = filters?.endDate ?? null
+      this.getCommissions()
+    },
     allSelected(val) {
       this.isAllSelected = val
       if (this.isAllSelected) {
@@ -407,6 +440,13 @@ export default {
         this.getCommissions()
       }
     },
+    // Show the filter
+    showMobileFilter() {
+      const { mobileFilter } = this.$refs
+      if (mobileFilter) {
+        mobileFilter.open()
+      }
+    },
   }
 }
 </script>
@@ -445,10 +485,7 @@ export default {
   border-radius: 4px
 
 .title
-  @include heading-3
   font-family: $font-family-montserrat
-  font-style: normal
-  font-weight: $medium
 
 ::v-deep.bg-light
   position: initial !important
