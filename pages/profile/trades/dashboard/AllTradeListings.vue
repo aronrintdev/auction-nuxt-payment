@@ -17,59 +17,59 @@
         <SearchBarProductsList v-if="searchedProducts.length > 0" :productItems="searchedProducts" width="700px" class="position-absolute"/>
       </b-col>
       <b-col lg="4" sm="12" class="d-flex justify-content-end pr-4">
-      <CustomDropdown
-        v-model="orderFilter"
-        type="single-select"
-        :options="orderFilterItems"
-        :label="orderFilterLabel"
-        variant="white"
-        width="250px"
-        maxWidth="245px"
-        dropDownHeight="38px"
-        @change="changeOrderFilter"
-      />
+        <CustomDropdown
+          v-model="orderFilter"
+          type="single-select"
+          :options="orderFilterItems"
+          :label="orderFilterLabel"
+          variant="white"
+          width="250px"
+          maxWidth="245px"
+          dropDownHeight="38px"
+          @change="changeOrderFilter"
+        />
       </b-col>
     </b-row>
     <b-row class="d-flex mt-4">
       <b-col lg="3" sm="12" class="pl-0 pr-3">
         <label>{{$t('trades.filter_by')}}</label>
         <b-row class="pl-2">
-        <b-col md="12 p-0" sm="12">
-          <CustomDropdown
-            v-model="statusFilter"
-            type="multi-select-checkbox"
-            :options="getStatusFilterItems"
-            :label="statusFilterLabel"
-            optionsWidth="custom"
-            variant="white"
-            dropDownHeight="38px"
-            width="390px"
-            @getResults="fetchTradesListing"
-            @change="changeStatusFilter"
-          />
-        </b-col>
+          <b-col md="12 p-0" sm="12">
+            <CustomDropdown
+              v-model="statusFilter"
+              type="multi-select-checkbox"
+              :options="getStatusFilterItems"
+              :label="statusFilterLabel"
+              optionsWidth="custom"
+              variant="white"
+              dropDownHeight="38px"
+              width="390px"
+              @getResults="fetchTradesListing"
+              @change="changeStatusFilter"
+            />
+          </b-col>
         </b-row>
       </b-col>
       <b-col lg="6" sm="12" class="pl-0">
         <label>{{$t('trades.listed_date')}}</label>
         <b-row class="pl-2">
-        <b-col md="4 p-0" sm="12" class="mr-3">
-          <CalendarInput
-            :value="start_date"
-            :placeholder="$t('trades.start_date')"
-            @context="(context) => start_date = context.selectedYMD"
-          />
-        </b-col>
-        <b-col md="4 p-0" sm="12" class="mr-3">
-          <CalendarInput
-            :value="end_date"
-            :placeholder="$t('trades.end_date')"
-            @context="(context) => end_date = context.selectedYMD"
-          />
-        </b-col>
-        <b-col md="2 p-0" sm="12" class="mr-3">
-          <Button variant="blue" @click="applyFilters">{{$t('trades.apply')}}</Button>
-        </b-col>
+          <b-col md="4 p-0" sm="12" class="mr-3">
+            <CalendarInput
+              :value="start_date"
+              :placeholder="$t('trades.start_date')"
+              @context="(context) => start_date = context.selectedYMD"
+            />
+          </b-col>
+          <b-col md="4 p-0" sm="12" class="mr-3">
+            <CalendarInput
+              :value="end_date"
+              :placeholder="$t('trades.end_date')"
+              @context="(context) => end_date = context.selectedYMD"
+            />
+          </b-col>
+          <b-col md="2 p-0" sm="12" class="mr-3">
+            <Button variant="blue" @click="applyFilters">{{$t('trades.apply')}}</Button>
+          </b-col>
         </b-row>
       </b-col>
       <b-col md="3" class="mt-custom d-flex justify-content-end pr-4">
@@ -80,18 +80,18 @@
       {{$t('trades.listings',{'0': totalCount})}}
     </b-row>
     <b-row v-if="delete_expired">
-    <BulkSelectToolbar
-     ref="bulkSelectToolbar"
-     :active="selected.length>0"
-     :selected="selected"
-     :unit-label="$tc('common.product', selected.length)"
-     :action-label="$t('trades.delete_selected')"
-     class="mt-3"
-     @close="selected = []"
-     @selectAll="handleSelectAll()"
-     @deselectAll="selected = []"
-     @submit="deleteMySelectedTrades"
-    />
+      <BulkSelectToolbar
+        ref="bulkSelectToolbar"
+        :active="selected.length>0"
+        :selected="selected"
+        :unit-label="$tc('common.product', selected.length)"
+        :action-label="$t('trades.delete_selected')"
+        class="mt-3"
+        @close="selected = []"
+        @selectAll="handleSelectAll()"
+        @deselectAll="selected = []"
+        @submit="deleteMySelectedTrades"
+      />
     </b-row>
     <b-row v-if="delete_expired" class="pt-2 pl-4">
       <b-form-checkbox
@@ -103,14 +103,34 @@
         {{$t('trades.select_all_expired_trades')}}
       </b-form-checkbox>
     </b-row>
-    <trade-listing-items
+    <div v-if="width<= 500">
+      <trade-listing-items-mobile
         v-if="totalCount"
         :tradesList="tradeListing"
         :selectable="delete_expired"
         :selected="selected"
         @click="selectItems"
-    ></trade-listing-items>
-    <div v-else>{{$t('trades.no_trade_list_have_been_found')}}</div>
+      ></trade-listing-items-mobile>
+      <div v-else>{{$t('trades.no_trade_list_have_been_found')}}</div>
+    </div>
+    <div v-else>
+      <trade-listing-items-web
+        v-if="totalCount"
+        :tradesList="tradeListing"
+        :selectable="delete_expired"
+        :selected="selected"
+        @click="selectItems"
+      ></trade-listing-items-web>
+      <div v-else>{{$t('trades.no_trade_list_have_been_found')}}</div>
+    </div>
+<!--    <trade-listing-items-->
+<!--      v-if="totalCount"-->
+<!--      :tradesList="tradeListing"-->
+<!--      :selectable="delete_expired"-->
+<!--      :selected="selected"-->
+<!--      @click="selectItems"-->
+<!--    ></trade-listing-items>-->
+
     <b-row class="justify-content-center mt-4 mb-5">
       <Pagination
         v-if="totalCount"
@@ -133,7 +153,7 @@ import SearchInput from '~/components/common/SearchInput';
 import CustomDropdown from '~/components/common/CustomDropdown';
 import CalendarInput from '~/components/common/form/CalendarInput';
 import Button from '~/components/common/Button';
-import TradeListingItems from '~/pages/profile/trades/dashboard/TradeListingItems';
+// import TradeListingItems from '~/pages/profile/trades/dashboard/TradeListingItems';
 import Pagination from '~/components/common/Pagination';
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar';
 import SearchBarProductsList from '~/components/product/SearchBarProductsList'
@@ -154,16 +174,19 @@ export default {
   components:{
     BulkSelectToolbar,
     Pagination,
-    TradeListingItems,
+    // TradeListingItems,
     Button,
     CalendarInput,
     CustomDropdown,
     SearchInput,
-    SearchBarProductsList
+    SearchBarProductsList,
+    tradeListingItemsMobile:()=> import('./TradeListingItemsMobile'),
+    tradeListingItemsWeb:()=>import('./TradeListingItemsWeb'),
   },
   layout: 'Profile',
   data (){
     return {
+      width:'',
       searchText: null,
       orderFilterLabel: this.$t('trades.create_listing.vendor.wants.sort_by'),
       orderFilter: null,
@@ -209,17 +232,18 @@ export default {
     this.$root.$on('click_outside', () => {
       this.searchedProducts = []
     })
+    this.width = window.innerWidth
   },
   methods:{
     ...mapActions('trades', ['deleteSelectedTrades']),
 
     toggleAllExpired(){
       const expiredTradesNotSelected = this.tradeListing.filter(trade => (trade.is_expired && ! this.selected.includes(trade.id))).map((trade) => {
-            return trade.id
-          })
+        return trade.id
+      })
       const expiredTradesSelected = this.tradeListing.filter(trade => (trade.is_expired && this.selected.includes(trade.id))).map((trade) => {
-            return trade.id
-          })
+        return trade.id
+      })
       if(this.selectAllExpired){
         if(expiredTradesNotSelected.length){
           this.selected = this.selected.concat(expiredTradesNotSelected)
@@ -230,18 +254,18 @@ export default {
         })
       }
     },
-      selectItems(id){
-          if(!this.selected.includes(id)){
-              this.selected.push(id);
-          }else{
-              this.selected.splice(this.selected.indexOf(id), 1);
-          }
-      },
+    selectItems(id){
+      if(!this.selected.includes(id)){
+        this.selected.push(id);
+      }else{
+        this.selected.splice(this.selected.indexOf(id), 1);
+      }
+    },
     /**
      * This function is used to change status filter
      * @param selectedStatuses
      */
-     changeStatusFilter(selectedStatuses) {
+    changeStatusFilter(selectedStatuses) {
       if (!this.statusFilter.includes(selectedStatuses)) {
         this.statusFilter.push(selectedStatuses)
       } else {
@@ -364,17 +388,17 @@ export default {
       this.deleteSelectedTrades({
         trade_ids: this.selected.join(',')
       })
-      .then(() => {
-        this.$toasted.success(this.$t('trades.trades_deleted_successfully'))
-        this.selected = []
-        this.selectAllExpired = false
-        this.delete_expired = false
-        this.page = 1
-        this.fetchTradesListing()
-      })
-      .catch((error) => {
-        this.$toasted.error(this.$t(error.response.data.error))
-      })
+        .then(() => {
+          this.$toasted.success(this.$t('trades.trades_deleted_successfully'))
+          this.selected = []
+          this.selectAllExpired = false
+          this.delete_expired = false
+          this.page = 1
+          this.fetchTradesListing()
+        })
+        .catch((error) => {
+          this.$toasted.error(this.$t(error.response.data.error))
+        })
     }
 
   }
@@ -395,27 +419,28 @@ export default {
 
 .container-trade-dashboard
   padding-left: 54px
-
+  @media(min-width: 300px) and (max-width : 500px)
+   padding-left: 15px
 ::v-deep .date-input-icon
-    background-color: $color-white-1
-    border: 1px solid $color-gray-60
-    border-left: none
-    border-radius: 0 6px 6px 0
-    height: 38px
+  background-color: $color-white-1
+  border: 1px solid $color-gray-60
+  border-left: none
+  border-radius: 0 6px 6px 0
+  height: 38px
 
 ::v-deep .date-input-group
-    width: 170px
+  width: 170px
 
 ::v-deep .date-dp
-    .btn-secondary
-      background-color: $white
-      border: none
+  .btn-secondary
+    background-color: $white
+    border: none
 
-      &:hover
-        background-color: $white-2
+    &:hover
+      background-color: $white-2
 
 ::v-deep .label-wrapper
-    border-radius: 5px
+  border-radius: 5px
 
 .listings
   font-family: $font-family-sf-pro-display

@@ -1,7 +1,7 @@
 <template>
   <div class="container-dashboard d-flex justify-content-center align-content-center mt-5 mb-5">
     <div>
-     <div class="list-box ml-2 p-1">
+     <div class="list-box ml-2 p-1" @click="$router.push('/profile/trades/dashboard/alltradelistings')">
        <div class="heading-trade-listing mt-2 ml-2 ">My Trade Listing</div>
        <div class="mt-2 d-flex justify-content-center align-content-center">
          <img src="~/assets/img/tradeIcon.svg" />
@@ -10,7 +10,7 @@
          The Listings you have created
        </div>
      </div>
-      <div class="list-box ml-2 p-1">
+      <div class="list-box ml-2 p-1"  @click="$router.push('/trades')">
         <div class="heading-trade-listing mt-2 ml-2">My Trade Offers</div>
         <div class="mt-2 d-flex justify-content-center align-content-center">
           <img src="~/assets/img/tradeOfferIcon.svg" />
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div>
-      <div class="list-box p-1">
+      <div class="list-box p-1" @click="$router.push('/profile/trades/wants')">
         <div class="heading-trade-listing mt-2 ml-2">Wants List</div>
         <div class="mt-2 d-flex justify-content-center align-content-center">
           <img src="~/assets/img/heart.svg" />
@@ -30,7 +30,7 @@
           Wants List contains items saved from your listings
         </div>
       </div>
-      <div class="list-box p-1">
+      <div class="list-box p-1" @click="$router.push('/profile/trades/preferences')">
         <div class="heading-trade-listing mt-2 ml-2">Trade Preferences</div>
         <div class="mt-2 d-flex justify-content-center align-content-center">
           <img src="~/assets/img/preference.svg" />
