@@ -5,7 +5,7 @@
         <b-row
           v-for="(item, index) in getItems"
           :key="item.key"
-          :class="{'mt-3': index }"
+          :class="{'mt-3': index, 'd-none': item.hideWith0Value && item.value <= 0 }"
         >
           <b-col md="6">
             <div class="body-5-regular text-gray-25">
@@ -15,6 +15,9 @@
           <b-col md="6">
             <div class="body-5-regular text-gray-25 pull-right">
               &dollar;{{ item.value | formatPrice }}
+            </div>
+            <div v-if="item.paymentDetails" class="col-12 text-gray-25 pull-right text-sm text-right pr-0">
+              <small>({{item.paymentDetails}})</small>
             </div>
           </b-col>
         </b-row>
