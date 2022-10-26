@@ -1,62 +1,45 @@
 <template>
-  <section class="shop-banner">
-    <img
-      class="shop-banner-img"
-      :src="require('~/assets/img/shop/banner.jpg')"
-    />
-    <div class="shop-banner-content">
-      <div class="leading" v-html="$t('shop.banner.leading')"></div>
-      <div class="subleading mb-5">{{ $t('shop.banner.subleading') }}</div>
-      <Button pill>
-        {{ $t('shop.banner.learn_more') }}
-      </Button>
+  <section class="shop-hero-banner position-relative">
+    <div class="searchbar d-block d-sm-none">
+      <SearchAndFilter @apply="apply" />
     </div>
+    <h1
+      class="font-primary fw-7 fs-40 text-white banner-heading position-absolute text-capitalize d-none d-sm-block"
+    >
+      {{ $t('banner.shop_with') }} <br />
+      {{ $t('banner.deadstock') }}
+    </h1>
   </section>
 </template>
 <script>
-import Button from '~/components/common/Button'
-
+import SearchAndFilter from '~/components/shop/SearchAndFilter'
 export default {
   name: 'ShopBanner',
-
   components: {
-    Button,
+    SearchAndFilter,
+  },
+  methods: {
+    apply() {
+      this.$emit('apply')
+    },
   },
 }
 </script>
 <style lang="sass" scoped>
-
-.shop-banner
-  position: relative
-
-  .shop-banner-img
-    height: 440px
-    width: 100%
-    object-fit: cover
-
-  .shop-banner-content
-    position: absolute
-    background-color: rgba(255, 255, 255, 0.56)
-    top: 50%
-    transform: translateY(-50%)
-    left: 60px
-    max-width: 399px
-    width: calc(100% - 120px)
-    padding: 24px 40px 30px
-
-    .leading
-      font-size: 40px
-      font-weight: 700
-      line-height: 1.2
-      word-break: break-word
-
-    .subleading
-      font-size: 16px
-      font-weight: 400
-
-@media (max-width: 576px)
-.shop-banner
-  .shop-banner-content
-    left: 30px
-    width: calc(100% - 60px)
+@import '~/assets/css/_variables'
+.shop-hero-banner
+  background-image: url('~assets/img/shop/banner.jpg')
+  background-repeat: no-repeat
+  background-size: cover
+  min-height: 440px
+  @media (max-width: 450px)
+    background-image: url('~assets/img/shop/banner-sm.png')
+    min-height: 208px
+  @media (min-width: 1441px )
+    min-height: 600px
+    .banner-heading
+      bottom: 160px
+  .banner-heading
+    bottom: 120px
+    left: 90px
 </style>
