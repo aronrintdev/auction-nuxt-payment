@@ -172,7 +172,7 @@ import {
  * Stock Exchange Filter Bar Component
  */
 export default {
-  name: 'AuctionFilterBar',
+  name: 'ExchangeFilterBar',
   components: {
     SearchBox,
     FormDropdown,
