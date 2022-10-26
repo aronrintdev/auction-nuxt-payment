@@ -157,7 +157,14 @@
         />
       </div>
       <div class="reserve-section d-flex flex-column">
-        <span class="font-weight-bold">{{ $t('create_listing.confirm.reserve') }} <img :src="infoIcon" class="icon-info position-absolute mt-n2 mr-n5 scale-2" alt="Info icon" /></span>
+        <span class="font-weight-bold">{{ $t('create_listing.confirm.reserve') }}&nbsp;
+          <img
+            v-b-tooltip.hover
+            :src="infoIcon"
+            :title="$tc('create_listing.confirm.reserve_tooltip_info')"
+            class="icon-info position-absolute mt-n2 mr-n5 scale-2"
+          />
+        </span>
         <b-row class="mt-2 ">
           <b-col cols="2">
             <CheckboxSwitch

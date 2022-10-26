@@ -43,7 +43,14 @@
       </b-row>
       <b-row>
         <b-col cols="12" sm="12" md="2">
-          <span class="font-weight-bold">{{ $t('create_listing.confirm.reserve') }} <img :src="infoIcon" class="icon-info mt-n1 ml-1" alt="Info icon" /></span>
+          <span class="font-weight-bold">{{ $t('create_listing.confirm.reserve') }}&nbsp;
+            <img
+              v-b-tooltip.hover
+              :src="infoIcon"
+              :title="$tc('create_listing.confirm.reserve_tooltip_info')"
+              class="icon-info position-absolute mt-n2 mr-n5 scale-2"
+            />
+          </span>
         </b-col>
         <b-col cols="12" sm="12" md="10">
           <div class="d-flex align-items-center reserve-switch">

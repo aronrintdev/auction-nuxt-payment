@@ -2865,6 +2865,7 @@
       "no_reserve": "No Reserve",
       "reserve_price": "Reserve Price",
       "reserve_text_info": "A non-refundable fee of | will be charged at the time of listing whether the item sells or not.",
+      "reserve_tooltip_info": "Reserve fee will be charged at the time of listing whether the item sells or not.",
       "starting_bid": "Starting Bid*",
       "date_text": "__/__/____",
       "enter_starting_bid": "Enter Starting Bid",
