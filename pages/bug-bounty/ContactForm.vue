@@ -135,7 +135,7 @@
                 </b-input-group>
               </b-form-group>
             </ValidationProvider>
-  
+
             <b-row class="mt-5 w-100">
               <b-col md="4" offset-md="4" class="text-center">
                 <Button
@@ -146,7 +146,7 @@
                   type="submit"
                   :class="{ 'btn-disabled': !isFormFilled }"
                 >
-                  <span>{{ $t('auth.login') }}</span>
+                  <span>{{ $t('bounty.submit') }}</span>
                 </Button
                 >
               </b-col>
@@ -156,13 +156,13 @@
       </b-col>
     </b-row>
   </template>
-  
+
   <script>
   import {mapActions, mapGetters} from 'vuex'
   import {ValidationProvider, ValidationObserver} from 'vee-validate'
   import Button from '~/components/common/Button'
   import { NO_CONTENT } from '~/static/constants'
-  
+
   export default {
     name: 'LoginForm',
     components: { ValidationProvider, ValidationObserver, Button },
@@ -215,7 +215,7 @@
               this.$store.dispatch('notifications/getNotifications')
               this.$store.dispatch('notifications/getUnreadCount')
               this.$toasted.success(this.$t('login.success_message.login_successfull').toString())
-  
+
               // redirect if redirect url is set in state
               const redirectUrl = this.getLoginRedirectUrl()
               if (redirectUrl) {
@@ -245,10 +245,10 @@
     }
   }
   </script>
-  
+
   <style lang="sass" scoped>
   @import '~/assets/css/_variables'
-  
+
   /* Override bootstrap-vue 'b-form-input' styles */
   .input-login
     @include body-5-normal
@@ -277,7 +277,7 @@
     &:focus
       background-color: $color-white-5
       border: 0
-  
+
   /* Override bootstrap-vue 'b-form-input' styles for prepending icons */
   .input-append
     border-bottom-right-radius: 0 !important
@@ -291,12 +291,12 @@
       + .append-icon
         border: $color-red-1 1px solid !important
         border-left: none !important
-  
+
   .append-icon
     background: $color-white-5
     border-bottom-right-radius: 3rem !important
     border-top-right-radius: 3rem !important
-  
+
   .btn
     &.btn-confirm
       &.btn-disabled
@@ -306,4 +306,3 @@
         &:hover
           box-shadow: none
   </style>
-  
