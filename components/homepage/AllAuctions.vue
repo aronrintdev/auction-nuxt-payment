@@ -84,8 +84,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.section-wrapper
-  margin-bottom: 48px
 .banner-wrapper
   margin-top: 33px
   margin-bottom: 28px
