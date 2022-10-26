@@ -1,7 +1,9 @@
 <template>
   <div class="store-details p-4 ">
     <div class="d-flex justify-content-between align-items-center">
-      <h3 class="title">{{ $t('vendor_hub.store_details') }}</h3>
+      <div class="title" :class="mobileClass.length ? 'body-13-bold font-weight-bold' : 'heading-3-normal'">
+        {{ $t('vendor_hub.store_details') }}
+      </div>
       <Button
           v-if="!isEditModeActive"
           :tooltip-text="$t('common.edit')"
@@ -13,17 +15,19 @@
 
     <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
       <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-        <div class="d-flex align-items-start mt-4">
+        <div class="d-flex flex-column flex-sm-row align-items-start mt-4">
           <ValidationProvider
               v-slot="validationContext"
               :name="$t('vendor_hub.form.store_name')"
               :rules="{ required: true }"
+              class="w-100"
           >
             <b-form-group
-                :label="$t('vendor_hub.form.store_name')"
-                class="store-details-input"
                 label-for="storeName"
+                class="w-100"
+                :class="{'mr-5': !mobileClass }"
             >
+              <template #label><span class="px-3">{{ $t('vendor_hub.form.store_name') }}</span></template>
               <b-input-group>
                 <b-form-input
                     id="storeName"
@@ -32,7 +36,8 @@
                     :placeholder="$t('vendor_hub.form.store_name')"
                     :state="getValidationState(validationContext)"
                     class="rounded-pill field-input"
-                    type="text"></b-form-input>
+                    type="text">
+                </b-form-input>
 
                 <b-form-invalid-feedback>{{
                     validationContext.errors[0]
@@ -43,10 +48,11 @@
           </ValidationProvider>
 
           <b-form-group
-              :label="$t('vendor_hub.form.phone_number')"
-              class="ml-110 store-details-input"
               label-for="phoneNumber"
+              class="w-100"
+              :class="{'ml-5': !mobileClass}"
           >
+            <template #label><span class="px-3">{{ $t('vendor_hub.form.phone_number') }}</span></template>
             <b-input-group>
               <b-form-input
                   id="phoneNumber"
@@ -64,14 +70,15 @@
 
           <b-form-group
               v-if="codeSent"
-              class="ml-110 store-details-input d-flex flex-column"
+              class="d-flex flex-column w-100"
               label-for="verificationCode"
+              :class="{'ml-5': !mobileClass}"
           >
             <template #label>
-              <div class="d-flex justify-content-between ">
-                {{ $t('vendor_hub.store_details_tab.verification_code') }}
+              <div class="d-flex justify-content-between px-3">
+                <span>{{ $t('vendor_hub.store_details_tab.verification_code') }}</span>
                 <span v-if="!isVerified" class="d-flex align-items-center">
-                <ClockIcon :stroke-color="secondsLeft<=60? '#de0100' : '#32BD40'"></ClockIcon>
+                <ClockIcon :stroke-color="secondsLeft<=60? '#de0100' : '#32BD40'" style="height: 14px"></ClockIcon>
                 <vue-countdown
                     v-if="codeSent"
                     v-slot="{minutes, seconds, totalSeconds}"
@@ -119,23 +126,28 @@
 
         <hr class="mt-4 mb-2"/>
 
-        <div class="d-flex justify-content-start align-items-center">
-          <h3 class="title">{{ $t('vendor_hub.store_address') }}</h3>
+        <div class="d-flex flex-column flex-sm-row justify-content-between">
+          <div class="title" :class="mobileClass.length ? 'body-13-bold font-weight-bold' : 'heading-3-normal'">
+            {{ $t('vendor_hub.store_address') }}
+          </div>
           <span v-if="isAddressValid === false"
                 class="invalid-header ml-3">{{ $t('vendor_hub.error_messages.enter_valid_address') }}</span>
         </div>
 
-        <div class="d-flex align-items-start mt-4">
+        <div class="d-flex flex-column flex-sm-row align-items-start mt-4">
+
           <ValidationProvider
               v-slot="validationContext"
               :name="$t('vendor_hub.store_details_tab.shipping_address')"
               :rules="{ required: true }"
+              class="w-100"
+              :class="{'mr-5': !mobileClass }"
           >
             <b-form-group
-                :label="$t('vendor_hub.store_details_tab.shipping_address')"
-                class="store-details-input"
                 label-for="shippingAddress"
+                class="w-100"
             >
+              <template #label><span class="px-3">{{ $t('vendor_hub.store_details_tab.shipping_address') }}</span></template>
               <b-input-group>
                 <b-form-input
                     id="shippingAddress"
@@ -155,12 +167,11 @@
           </ValidationProvider>
 
           <b-form-group
-              :label="$t('vendor_hub.store_details_tab.apt_suite')"
-              class="ml-110 store-details-input"
+              class="w-100"
               label-for="aptSuite"
           >
             <template #label>
-              <span id="aptSuiteLabel">{{ $t('vendor_hub.store_details_tab.apt_suite') }}</span>
+              <span class="px-3 text-nowrap">{{ $t('vendor_hub.store_details_tab.apt_suite') }}</span>
             </template>
             <b-input-group>
               <b-form-input
@@ -178,12 +189,14 @@
               v-slot="validationContext"
               :name="$t('vendor_hub.form.city')"
               :rules="{ required: true }"
+              class="w-100"
+              :class="{'ml-5': !mobileClass }"
           >
             <b-form-group
-                :label="$t('vendor_hub.form.city')"
                 class="ml-110 store-details-input"
                 label-for="city"
             >
+              <template #label><span class="px-3">{{ $t('vendor_hub.form.city') }}</span></template>
               <b-input-group>
                 <b-form-input
                     id="city"
@@ -203,18 +216,20 @@
 
         </div>
 
-        <div class="d-flex align-items-start mt-4">
+        <div class="d-flex flex-column flex-sm-row align-items-start mt-4">
 
           <ValidationProvider
               v-slot="validationContext"
               :name="$t('vendor_hub.form.state')"
               :rules="{ required: true }"
+              class="w-100"
+              :class="{'mr-5': !mobileClass }"
           >
             <b-form-group
-                :label="$t('vendor_hub.form.state')"
-                class="store-details-input"
                 label-for="state"
+                class="w-100"
             >
+              <template #label><span class="px-3">{{ $t('vendor_hub.form.state') }}</span></template>
               <b-input-group>
                 <b-form-input
                     id="state"
@@ -237,12 +252,13 @@
               v-slot="validationContext"
               :name="$t('vendor_hub.form.zip_code')"
               :rules="{ required: true }"
+              class="w-100"
           >
             <b-form-group
-                :label="$t('vendor_hub.form.zip_code')"
-                class="ml-110 store-details-input"
+                class="w-100"
                 label-for="zipCode"
             >
+              <template #label><span class="px-3">{{ $t('vendor_hub.form.zip_code') }}</span></template>
               <b-input-group>
                 <b-form-input
                     id="zipCode"
@@ -260,10 +276,11 @@
             </b-form-group>
           </ValidationProvider>
           <b-form-group
-              :label="$t('vendor_hub.form.country')"
-              class="ml-110 store-details-input"
+              class="w-100"
               label-for="phoneNumber"
+              :class="{'ml-5': !mobileClass }"
           >
+            <template #label><span class="px-3">{{ $t('vendor_hub.form.country') }}</span></template>
             <b-input-group>
               <b-form-select id="countryField"
                              v-model="applyForm.country"
@@ -281,19 +298,20 @@
           </b-form-group>
         </div>
 
-        <div v-if="isEditModeActive" class="mt-4 d-flex align-items-center justify-content-center">
-          <Button :disabled="codeTry<=0 || isAddressValid || updateLoading" class="bg-blue-2" pill type="submit">
+        <div v-if="isEditModeActive" class="d-flex flex-column flex-sm-row justify-content-center">
+          <Button :disabled="codeTry<=0 || isAddressValid || updateLoading" class="bg-blue-2 mt-4 mt-md-0 mx-sm-3"
+                  pill type="submit">
             {{ $t('vendor_hub.payout_method.save_changes') }}
           </Button>
 
-          <Button class="ml-4" pill type="button" variant="outline-dark" @click="discardClick">
+          <Button pill type="button" variant="outline-dark" @click="discardClick" class="mt-4 mt-md-0 mx-sm-3">
             {{ $t('vendor_hub.payout_method.discard_changes') }}
           </Button>
         </div>
       </b-form>
     </ValidationObserver>
 
-    <div v-if="!isEditModeActive" class="d-flex align-items-center justify-content-between faq-card mt-4 mx-auto"
+    <div v-if="!isEditModeActive" class="d-flex flex-md-column align-items-center justify-content-between faq-card mt-4 mx-auto"
          role="button"
          @click="$router.push({path: '/faqs/vendor-hub'})">
       <span class="faq-title">
@@ -335,10 +353,12 @@ import {GOOGLE_MAPS_BASE_URL} from '~/static/constants/environments';
 import ClockIcon from '~/components/profile/vendor-hub/ClockIcon';
 import SuccessModal from '~/components/profile/vendor-hub/SuccessModal';
 import ConfirmModal from '~/components/profile/vendor-hub/ConfirmModal';
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'StoreDetails',
   components: {ClockIcon, Button, VueCountdown, SuccessModal, ConfirmModal, ValidationObserver, ValidationProvider},
+  mixins:[screenSize],
   data() {
     return {
       VERIFICATION_TIMER,
@@ -728,9 +748,6 @@ export default {
   font-weight: $regular
   color: $color-red-3
 
-#aptSuiteLabel
-  white-space: nowrap
-
 .form-control.verified-input
   border-radius: 50rem 0 0 50rem
   border: 1px solid $color-green-15
@@ -778,19 +795,9 @@ export default {
     outline: none
     background-color: $color-gray-1
 
-
-.store-details-input
-  width: 260px
-
-
-.ml-110
-  margin-left: 110px
-
 .title
-  @include heading-3
   font-family: $font-family-montserrat
   font-style: normal
-  font-weight: $medium
 
 .store-details
   border: 1px solid $color-gray-29
