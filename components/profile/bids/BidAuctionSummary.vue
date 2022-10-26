@@ -271,7 +271,8 @@ export default {
    */
   methods: {
     ...mapActions({
-      cancelBid: 'profile-bids/cancelBid'
+      cancelBid: 'profile-bids/cancelBid',
+      setActiveAuction: 'auction/setActiveAuction',
     }),
     /**
      * A function that returns a string based on the status of the bid.
@@ -331,6 +332,7 @@ export default {
           this.$bvModal.show('no-less-amount-modal')
           return
         }
+        this.setActiveAuction(this.selectedBid.auction)
         this.$router.push({
           path: '/checkout/auction'
         })
