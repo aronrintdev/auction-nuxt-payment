@@ -137,8 +137,6 @@
             />
           </div>
         </div>
-        <!-- mobile responsive product detail Section   -->
-
         <div class="row mt-5 desktop-average-tab">
           <div class="col-lg-12 text-center">
             <NavGroup
@@ -163,25 +161,26 @@
           </div>
         </div>
       </div>
-      <div v-if="isMobile" class="col-lg-6 col-md-12 col-sm-12">
+      <!-- mobile responsive product detail Section -->
+      <div class="col-lg-6 col-md-12 col-sm-12 mobile-product-detail-section">
         <div class="body-2-bold mb-2">
           {{ $t('deadstock_exchange.detail.product_detail') }}
         </div>
         <div class="row bg-gray-light p-1 mb-2">
-          <div class="col-md-12 d-flex">
-            <div class="col-md-6 col-sm-6">Sku</div>
+          <div class="col-md-12">
+            <div class="col-md-6 col-sm-6 body-6-bold">Sku</div>
             <div class="col-md-6 col-sm-6 text-right">2132</div>
           </div>
-          <div class="col-md-12 d-flex">
-            <div class="col-md-6 col-sm-6">Colorways</div>
+          <div class="col-md-12">
+            <div class="col-md-6 col-sm-6 body-6-bold">Colorways</div>
             <div class="col-md-6 col-sm-6 text-right">2132</div>
           </div>
-          <div class="col-md-12 d-flex">
-            <div class="col-md-6 col-sm-6">Retails Price</div>
+          <div class="col-md-12">
+            <div class="col-md-6 col-sm-6 body-6-bold">Retails Price</div>
             <div class="col-md-6 col-sm-6 text-right">2132</div>
           </div>
-          <div class="col-md-12 d-flex">
-            <div class="col-md-6 col-sm-6">Retails Details</div>
+          <div class="col-md-12">
+            <div class="col-md-6 col-sm-6 body-6-bold">Retails Details</div>
             <div class="col-md-6 col-sm-6 text-right">2132</div>
           </div>
         </div>
@@ -336,7 +335,6 @@ export default {
     return {
       dayjs,
       loading: false,
-      screenWidth: null,
       products: [],
       prices: [],
       similarProductSearchValue: '',
@@ -521,15 +519,7 @@ export default {
       // return this.product.wish_lists && this.product.wish_lists.length > 0
       //   ? this.product.wish_lists[0]
       //   : null
-    },
-    isMobile() {
-      if (this.screenWidth <= 760) {
-        return true
-      } else {
-        return false
-      }
-    },
-
+    }
   },
 
   watch: {
@@ -543,28 +533,13 @@ export default {
       deep: true,
     },
   },
-  created(){
-    this.myEventHandler()
-  },
-  mounted() {
-    this.loadPage()
-    window.addEventListener('resize', this.myEventHandler)
-
-  },
-  destroyed() {
-    window.removeEventListener('resize', this.myEventHandler)
+  mounted(){
+    this.getProductDetail()
   },
   methods: {
     ...mapActions({
       removeProductsFromWishList: 'wish-list/removeProductsFromWishList',
     }),
-    handleFilterChange() {
-      // this.loadPage()
-    },
-    // Set the screen Size
-    myEventHandler(e) {
-     this.screenWidth = screen.width
-    },
     handleChartTabChange(value) {
       this.chartTabCurrentValue = value
       this.changeGraphLabel(value)
@@ -823,19 +798,19 @@ export default {
     // On filter by change.
     handleSortBySelect(value) {
       this.similarProductSearchValue = value.value
-      // this.loadPage()
+      this.getProductDetail()
     },
     // On filter by change.
     searchProduct(value) {
       this.search = value
-      this.loadPage()
+      this.getProductDetail()
     },
     handleBuyClick() {},
     handleSellClick() {},
-    loadPage() {
+    getProductDetail() {
       this.loading = true
       this.$axios
-        .get('/products', {
+        .get(`/products/${this.$route.params.sku}/details`, {
           // .get('/stock-exchange/', {
           params: {
             type: this.type,

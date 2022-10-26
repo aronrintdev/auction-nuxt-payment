@@ -1,10 +1,9 @@
 <template>
   <div class="px-3 mt-5">
-     <ProductDetail/>
+    <ProductDetail />
   </div>
 </template>
 <script>
-
 import ProductDetail from '~/components/Exchange/ProductDetail.vue'
 export default {
   components: { ProductDetail },
