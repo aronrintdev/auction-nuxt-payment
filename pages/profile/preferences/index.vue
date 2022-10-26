@@ -49,20 +49,16 @@ import { mapActions } from 'vuex'
 import NavGroup from '~/components/common/NavGroup.vue'
 import PreferenceComponent from '~/components/profile/preferences/PreferenceComponent.vue'
 import logoutMixin from '~/plugins/mixins/logout'
-import {GOOGLE_MAPS_BASE_URL} from '~/static/constants'
-import realtime from '~/plugins/mixins/realtime';
+import { GOOGLE_MAPS_BASE_URL } from '~/static/constants'
 export default {
   name: 'ProfilePreferencesIndexPage',
-
   components: {
     NavGroup, // Tabs Component
     PreferenceComponent,
   },
-  mixins: [logoutMixin, realtime],
+  mixins: [logoutMixin],
   layout: 'Profile',
-
   middleware: 'auth',
-
   data() {
     return {
       // Active Nav for the Toggle Button
@@ -74,13 +70,11 @@ export default {
       ],
     }
   },
-
   mounted() {
     // inject google maps on mount.
     this.injectGoogleMapsApi()
     this.getUserPaymentMethods()
   },
-
   methods: {
     ...mapActions({
       savePaymentMethods: 'preferences/savePaymentMethods'
@@ -94,16 +88,13 @@ export default {
       this.loggingOut = true
       // Logout a user
       await this.$auth.logout({ handleError: false }).then(() => {
-        this.disconnectSocket()
         this.postLogout()
       })
-
       if (!this.$store.state.auth.loggedIn) {
         this.$router.push('/?lang=' + this.$store.state.locale)
         this.$toasted.success(this.$t('home.logout_successful'))
       }
     },
-
     // Inject Google Maps Api (if it doesn't exist)
     injectGoogleMapsApi() {
       if (!window.google) {
@@ -113,7 +104,6 @@ export default {
       }
       return false
     },
-
     // Create a new script tag without the src attribute.
     createScriptTag() {
       const scriptTag = document.createElement('script')

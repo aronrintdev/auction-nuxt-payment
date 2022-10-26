@@ -1,7 +1,12 @@
 <template>
-  <div v-show="mobileClass" :class="`sidebar-wrapper ${mobileClass} d-flex w-100 flex-column align-items-start`">
+  <div
+    v-show="mobileClass"
+    :class="`sidebar-wrapper ${mobileClass} d-flex w-100 flex-column align-items-start`"
+  >
     <div :class="`header ${mobileClass} w-100 px-5 py-3 border-bottom`">
-      <div :class="`filter-by w-100 ${mobileClass} d-flex aling-items-center justify-content-center`">
+      <div
+        :class="`filter-by w-100 ${mobileClass} d-flex aling-items-center justify-content-center`"
+      >
         <span>{{ $t('common.filter_by') }}</span>
       </div>
     </div>
@@ -36,7 +41,11 @@
         <CollapseStatus
           :value="filter.status || {}"
           collapseKey="status"
-          :title="$t('filter_sidebar.brands')"
+          :title="
+            !showStatusOfferPlaced
+              ? $t('filter_sidebar.brands')
+              : $t('placed_offers.status')
+          "
           :options="status"
           @selected="statusSelected"
         />
@@ -52,10 +61,17 @@
         />
       </div>
 
-      <div v-show="filterVisibility" :class="`section-actions ${mobileClass} d-flex align-items-center w-100 justify-content-between`">
-        <Button v-if="filterVisibility" pill class="btn-reset btn-light" @click="resetFilter">{{
-          $t('offers_received.reset')
-        }}</Button>
+      <div
+        v-show="filterVisibility"
+        :class="`section-actions ${mobileClass} d-flex align-items-center w-100 justify-content-between`"
+      >
+        <Button
+          v-if="filterVisibility"
+          pill
+          class="btn-reset btn-light"
+          @click="resetFilter"
+          >{{ $t('offers_received.reset') }}</Button
+        >
 
         <Button
           v-if="filterVisibility"
@@ -87,6 +103,13 @@ export default {
   },
 
   mixins: [screenSize],
+
+  props: {
+    showStatusOfferPlaced: {
+      type: Boolean,
+      default: false,
+    },
+  },
 
   data() {
     return {
@@ -128,10 +151,10 @@ export default {
     sortbyStatus: {
       deep: true,
       handler(newValue, oldValue) {
-        if(!oldValue){
+        if (!oldValue) {
           this.count = this.count + 1
         }
-      }
+      },
     },
   },
 

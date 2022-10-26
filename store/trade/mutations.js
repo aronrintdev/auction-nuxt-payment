@@ -178,6 +178,14 @@ export function resetAllFilters(state) {
 }
 
 /**
+ * This mutation is used to remove your trade items in state
+ * @param state
+ */
+export function removeYourTradeItems(state, val) {
+    state.yourTradeItems = []
+}
+
+/**
  * This mutation is used to add your trade items in state
  * @param state
  * @param val
@@ -297,4 +305,8 @@ export function setVendorTradeSummary(state, val){
         trader_ranking: val.ranking,
         total_trades: val.trades
     }
+}
+
+export function setTradeItemsEmpty(state,val){
+  state.yourTradeItems = val
 }

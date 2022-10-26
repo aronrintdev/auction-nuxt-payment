@@ -18,7 +18,7 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <ProductCarousel :products="products">
+        <ProductCarousel :products="products" :pageName='pageName'>
           <template #product>
             <div
               v-for="(product, index) in products"
@@ -30,6 +30,7 @@
                 showActionBtn
                 showSize
                 :showPrice="false"
+                :pageName='pageName'
               >
                 <template #badge>
                   <!-- TODO -->
@@ -68,6 +69,7 @@ export default {
   data() {
     return {
       products: [],
+      pageName: 'trades'
     }
   },
   async fetch() {
@@ -94,8 +96,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.section-wrapper
-  margin-bottom: 48px
 .banner-wrapper
   margin-top: 33px
   margin-bottom: 28px

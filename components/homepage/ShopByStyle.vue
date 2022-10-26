@@ -10,21 +10,22 @@
       :data="categoryItems"
       :value="currentCategory"
       nav-key="new_releases"
-      class="text-center nav-group my-md-4"
+      class="text-center"
       @change="handleCategoryChange"
     />
     <div>
-      <ProductCarousel :products="styles" variant="photo" />
+      <ProductStyleCarousel :products="styles" variant="photo" />
       <Carousel :products="styles" variant="photo" />
     </div>
   </div>
 </template>
 <script>
 import NavGroup from '~/components/common/NavGroup.vue'
+import ProductStyleCarousel from '~/components/product/CarouselStyle.vue'
 import Carousel from '~/components/shop-by-style/Carousel.vue'
 export default {
   name: 'HomeShopByStyle',
-  components: { NavGroup, Carousel },
+  components: { NavGroup, Carousel, ProductStyleCarousel },
   fetchOnServer: false,
   data() {
     return {
@@ -69,8 +70,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.section-wrapper
-  padding-bottom: 48px
   .nav-group
     margin-top: 33px
     margin-bottom: 25px

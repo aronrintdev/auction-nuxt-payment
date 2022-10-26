@@ -23,7 +23,7 @@
           <order-status-timeline :item="item" :order="order"/>
         </b-col>
         <b-col class="order-0 order-sm-1" sm="6" cols="12">
-          <order-commission :order="order"/>
+          <order-commission :item="item" :order="order"/>
         </b-col>
       </b-row>
     </div>
@@ -87,6 +87,15 @@ export default {
       return this.order.items
         ? this.order.items.length > 1
         : false
+    },
+    isTrade() {
+      return this.order.type.label === 'trade'
+    },
+    isBuy() {
+      return this.order.type.label === 'buy'
+    },
+    isAuction() {
+      return this.order.type.label === 'auction'
     }
   },
   mounted() {
@@ -99,7 +108,10 @@ export default {
   },
   methods: {
     product(item) {
-      return item.listing_item.inventory.product
+      if(this.isBuy){
+        return item.listing_item?.inventory?.product
+      }
+      return item.product
     }
   }
 }

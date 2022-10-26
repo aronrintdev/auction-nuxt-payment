@@ -10,7 +10,7 @@
       :data="categoryItems"
       :value="currentCategory"
       nav-key="new_releases"
-      class="text-center nav-group my-md-4"
+      class="text-center"
       @change="handleCategoryChange"
     />
     <div class="row">
@@ -52,11 +52,12 @@ export default {
     return {
       products: [],
       categoryItems: [
+        { label: this.$t('home_page.all'), value: '' },
         { label: this.$t('home_page.footwear'), value: 'footwear' },
         { label: this.$t('home_page.apparel'), value: 'apparel' },
         { label: this.$t('home_page.accessories'), value: 'accessories' },
       ],
-      currentCategory: 'footwear',
+      currentCategory: '',
     }
   },
   async fetch() {
@@ -89,8 +90,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.section-wrapper
-  margin-bottom: 60px
 .nav-group
   margin-top: 33px
   margin-bottom: 25px

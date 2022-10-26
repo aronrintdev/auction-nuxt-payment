@@ -1,15 +1,18 @@
 <template>
-  <b-container fluid class="container-profile-auctions h-100">
-    <div class="d-flex justify-content-between align-items-center">
-      <h2 class="title">{{ $tc('profile_menu.auctions', 1) }}</h2>
+  <b-container fluid class="h-100 p-4 p-md-5" :class="{'container-profile-auctions' : !isMobileSize}">
+    <div
+      :class="{'border-bottom border-dark' : isMobileSize}"
+      class="d-flex justify-content-center justify-content-md-between align-items-center">
+      <h2 class="title" :class="{'body-4-medium' : isMobileSize}">{{ $tc('profile_menu.auctions', 1) }}</h2>
     </div>
-    <div class="d-flex justify-content-between align-items-center mt-4">
+    <template v-if="!isMobileSize">
+      <div class="d-flex justify-content-between align-items-center mt-4">
       <SearchInput
         :value="search"
         :placeholder="$t('auction.search_placeholder')"
         class="flex-grow-1 mr-5 mw-734"
         :debounce="1000"
-        @change="handleSearch"
+        @input="handleSearch"
       />
       <div class="flex-grow-0">
         <FormDropdown
@@ -22,7 +25,7 @@
         ></FormDropdown>
       </div>
     </div>
-    <div class="d-flex justify-content-between align-items-center mt-5">
+      <div class="d-flex justify-content-between align-items-center mt-5">
       <div class="d-flex align-items-center justify-content-start">
         <SelectWithCheckbox
           id="auction-type-selector"
@@ -33,6 +36,17 @@
           :updateFilters="activeTypeFilters"
           @filters="typeFilters"
         />
+
+        <SelectWithCheckbox
+          id="auction-status-selector"
+          class="mr-4 dropdown-filters"
+          :default="auctionStatus"
+          :options="STATUS_TYPES"
+          :title="$t('auction.status_type')"
+          :updateFilters="activeStatusFilters"
+          @filters="typeFilters"
+        />
+
         <b-input-group class="date-input-group mr-4">
           <b-form-input class="date-input" :placeholder="$t('auction.start_date')" :value="start_date"></b-form-input>
           <b-input-group-append class="date-input-icon">
@@ -93,19 +107,29 @@
         </b-button>
       </div>
     </div>
+    </template>
+    <div v-if="isMobileSize" class="d-flex align-items-center">
+      <MobileSearchInput :value="search" class="flex-grow-1" @input="handleSearch" />
+      <span class="ml-3 mt-1" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
+    </div>
 
     <div class="d-flex justify-content-start align-items-center mt-4">
       <div class="d-flex justify-content-between align-items-center">
-        <h4 class="title">{{ $tc('auction.auctions_listings', 1) }} ({{ totalCount }})</h4>
+        <h4 class="title" :class="{'body-4-medium' : isMobileSize}">
+          {{ $tc('auction.auctions_listings', 1) }} ({{ totalCount }})
+        </h4>
       </div>
     </div>
 
-    <div class="d-flex justify-content-around align-items-center mt-4">
+    <div
+      class="d-flex justify-content-around align-items-center mt-4"
+    >
       <NavGroup
         v-model="status"
         :data="DURATIONS.filter(a => a.value !== 'delisted')"
         nav-key="duration"
         class="duration-nav"
+        :class="{'flex-1 w-100 text-center' : isMobileSize}"
         @change="handleMethodNavClick"
       />
     </div>
@@ -145,13 +169,14 @@
     </div>
 
     <div v-if="!fetchLoading">
-      <b-row class="mt-5 text-center px-5 font-weight-bold">
-        <b-col sm="12" md="5" class="text-left">{{ $t('auction.product') }}</b-col>
-        <b-col sm="12" md="1">{{ $t('auction.type') }} <span v-html="downArrow"></span></b-col>
-        <b-col sm="12" md="2">{{ $t('auction.highest_bid') }} <span v-html="downArrow"></span></b-col>
-        <b-col sm="12" md="1">{{ $t('auction.bids') }} <span v-html="downArrow"></span></b-col>
-        <b-col sm="12" md="2">{{ $t('auction.time_remaining') }} <span v-html="downArrow"></span></b-col>
-        <b-col sm="12" md="1">{{ $t('auction.status') }} <span v-html="downArrow"></span></b-col>
+      <b-row v-if="!isMobileSize" class="mt-5 text-center font-weight-bold">
+        <b-col sm="12" md="2" class="text-left">{{ $t('auction.auction_id') }} <span v-html="downArrow" /></b-col>
+        <b-col sm="12" md="3" class="text-left pl-0">{{ $t('auction.product') }} <span v-html="downArrow" /></b-col>
+        <b-col sm="12" md="1">{{ $t('auction.type') }} <span v-html="downArrow" /></b-col>
+        <b-col sm="12" md="2">{{ $t('auction.highest_bid') }} <span v-html="downArrow" /></b-col>
+        <b-col sm="12" md="1">{{ $t('auction.bids') }} <span v-html="downArrow" /></b-col>
+        <b-col sm="12" md="2">{{ $t('auction.time_remaining') }} <span v-html="downArrow" /></b-col>
+        <b-col sm="12" md="1">{{ $t('auction.status') }} <span v-html="downArrow" /></b-col>
       </b-row>
 
       <client-only>
@@ -188,7 +213,7 @@
       <Loader :loading="fetchLoading"/>
     </div>
     <!--    no item text and action    -->
-    
+
 
     <Pagination
       v-if="haveAuction && !fetchLoading"
@@ -200,11 +225,24 @@
       @page-click="handlePageClick"
       @per-page-change="handlePerPageChange"
     />
+
+
+    <!-- For mobile filters begin -->
+    <vue-bottom-sheet
+      ref="mobileFilter"
+      class="responsive-filter"
+      max-width="auto"
+      max-height="100vh"
+      :rounded="true"
+    >
+      <MobileFilter @filter="onMobileFilter" />
+    </vue-bottom-sheet>
+    <!-- For mobile filters end -->
   </b-container>
 </template>
 
 <script>
-
+import debounce from 'lodash.debounce'
 import {mapActions, mapGetters} from 'vuex';
 import {SearchInput, FormDropdown, BulkSelectToolbar, Button} from '~/components/common';
 import SelectWithCheckbox from '~/components/common/CustomSelectwithCheckbox.vue'
@@ -215,6 +253,8 @@ import SingleItemAuction from '~/components/profile/auctions/SingleItemAuction';
 import CollectionAuction from '~/components/profile/auctions/CollectionAuction';
 import Loader from '~/components/common/Loader';
 import {DELISTED_STATUS, EXPIRED_STATUS, AUCTION_TYPE_SINGLE, AUCTION_TYPE_COLLECTION} from '~/static/constants';
+import screenSize from '~/plugins/mixins/screenSize';
+import MobileFilter from '~/components/profile/auctions/filters/MobileFilter.vue';
 
 export default {
   name: 'ProfileAuction',
@@ -228,8 +268,10 @@ export default {
     SearchInput,
     FormDropdown,
     SelectWithCheckbox,
-    BulkSelectToolbar
+    BulkSelectToolbar,
+    MobileFilter
   },
+  mixins: [screenSize],
   layout: 'Profile',
   middleware: ['vendor'],
   data() {
@@ -239,6 +281,7 @@ export default {
       start_date: null,
       end_date: null,
       activeTypeFilters: [],
+      activeStatusFilters: [],
       fetchLoading: false,
       selected: [],
       page: 1,
@@ -252,6 +295,7 @@ export default {
       status: 'all',
       search: '',
       auctionType: null,
+      auctionStatus: null,
       deleteAction: false,
       undoAction: false,
       selectedAll: false,
@@ -275,6 +319,12 @@ export default {
           text: this.$t('auction.auction_types.' + key),
           value: key
         }
+      }),
+      STATUS_TYPES: Object.keys(this.$t('auction.status_types')).map(key => {
+        return {
+          text: this.$t('auction.status_types.' + key),
+          value: key
+        }
       })
     }
   },
@@ -290,7 +340,7 @@ export default {
      * @return {boolean}
      */
     haveFilters() {
-      return this.activeTypeFilters.length > 0 || !!this.start_date || !!this.end_date
+      return this.activeTypeFilters.length > 0 || this.activeStatusFilters.length > 0 || !!this.start_date || !!this.end_date
     },
     /**
      * Checking if there are any auctions that have expired.
@@ -301,6 +351,9 @@ export default {
     },
     isSelectable() {
       return (item) => this.isExpiredOrDelisted(item)
+    },
+    isMobileSize() {
+      return this.isScreenXS || this.isScreenSM
     }
   },
   mounted() {
@@ -410,6 +463,7 @@ export default {
      */
     clearFilters() {
       this.activeTypeFilters = []
+      this.activeStatusFilters = []
       this.start_date = null
       this.end_date = null
       this.FetchAuctions()
@@ -428,6 +482,14 @@ export default {
         start_date: this.start_date,
         end_date: this.end_date,
         status: this.status === 'all' ? null : this.status,
+      }
+      if(this.activeStatusFilters.length) {
+        const hasAll = this.activeStatusFilters.filter((f) => f.value === 'all')
+        if (hasAll.length) {
+          payload.status = null
+        } else {
+          payload.status = this.activeStatusFilters.map((s) => s.value)
+        }
       }
       this.fetchAuctions(payload).then(res => {
         this.$store.commit('profile-auction/setAuctions', res.data.data)
@@ -513,8 +575,24 @@ export default {
      * types in and sets it to the search variable. Then it calls the FetchAuctions method.
      * @param text
      */
-    handleSearch(text) {
+    handleSearch: debounce(function (text) {
       this.search = text
+      this.FetchAuctions()
+    }, 300),
+
+    showMobileFilter() {
+      const { mobileFilter } = this.$refs
+      if (mobileFilter) {
+        mobileFilter.open()
+      }
+    },
+
+    onMobileFilter(filters) {
+      this.activeStatusFilters = filters.activeStatusFilters;
+      this.activeTypeFilters = filters.activeTypeFilters;
+      this.sortBy = filters.sortBy;
+      this.start_date = filters.start_date;
+      this.end_date = filters.end_date;
       this.FetchAuctions()
     }
   }
@@ -612,7 +690,6 @@ export default {
 
 
 .container-profile-auctions
-  padding: 47px 54px
   background-color: $color-white-5
 
   h2.title

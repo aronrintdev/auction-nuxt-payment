@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex align-items-center mx-md-5 section-header">
-    <div class="d-flex mr-0 mr-sm-3">
+  <div class="d-flex align-items-center section-header">
+    <div class="d-flex title-wrapper">
       <h1 class="heading-garamond pre-line">
         <span>{{ title }}</span>
       </h1>
@@ -40,6 +40,14 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+.section-header
+  margin: 40px 0 0 32px
+  @media (min-width: 576px)
+    margin: 70px 74px 50px 74px
+.title-wrapper
+  margin-right: 0
+  @media (min-width: 576px)
+    margin-right: 89px
 @media (max-width: 500px)
   .section-header
     margin-left: calc(20px - 7.5px)

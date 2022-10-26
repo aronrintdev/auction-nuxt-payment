@@ -1,4 +1,7 @@
 <template>
+
+  <div>
+
   <div
     v-b-tooltip.hover
     :class="`icon-wrapper ${hoverSrc ? 'pointer-cursor' : ''} ${
@@ -22,6 +25,7 @@
       class="icon-default"
     />
   </div>
+</div>
 </template>
 <script>
 export default {
@@ -99,3 +103,4 @@ export default {
   .icon-hovered
     display: none
 </style>
+
