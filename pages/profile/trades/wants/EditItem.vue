@@ -67,6 +67,7 @@
                 margin: '0 !important',
                 width: '100%'
               }"
+              :errorText="errors.size"
             />
           </div>
           
@@ -77,13 +78,14 @@
             class="d-flex flex-column pb-sm-2"
           >
             <div class="d-flex align-items-center mb-2">
-              <div class="box mr-1">{{ $t('products.box_condition')}}</div>
+              <div class="box mr-1">{{ $t('products.box_condition') }}</div>
               <img
                 width="12"
                 height="12"
                 :src="require('~/assets/img/icons/info-dark-blue.svg')"
                 :title="$t('products.message.box_condition_info')"
               />
+              <div v-if="errors.box" class="ml-2 body-8-normal text-red">{{ errors.box }}</div>
             </div>
 
             <div class="mb-4">
@@ -135,8 +137,13 @@
 
             <div class="d-flex flex-column flex-sm-row justify-content-between">
               <div class="col-sm-6 d-flex flex-column px-0 pr-sm-2 pl-sm-0">
-                <div class="form-label">
-                  {{ $t('common.quantity') }} <sup>*</sup>
+                <div class="d-flex align-items-center">
+                  <div class="form-label">
+                    {{ $t('common.quantity') }} <sup>*</sup>
+                  </div>
+                  <div v-if="errors.quantity" class="ml-2 mb-2 body-8-normal text-red">
+                    {{ errors.quantity }}
+                  </div>
                 </div>
                 <input
                   type="number"
@@ -146,8 +153,13 @@
                 />
               </div>
               <div class="col-sm-6 px-0 pl-sm-2 pr-sm-0">
-                <div class="form-label" >
-                  {{ $t('common.select_list') }} <sup>*</sup>
+                <div class="d-flex align-items-center">
+                  <div class="form-label">
+                    {{ $t('common.select_list') }} <sup>*</sup>
+                  </div>
+                  <div v-if="errors.list" class="ml-2 mb-2 body-8-normal text-red">
+                    {{ errors.list }}
+                  </div>
                 </div>
                 <div class="d-none d-sm-block">
                   <SelectListDropDown
@@ -188,10 +200,10 @@
                       alignItems: 'center'
                     }"
                     :dropdownStyle="{
-                      borderColor: '#E8E8E8',
+                      borderColor: '#667799',
                     }"
                     :dropdownItemStyle="{
-                      borderColor: '#E8E8E8',
+                      borderColor: '#667799',
                     }"
                   />
                 </div>
@@ -207,13 +219,12 @@
             </div>
           </div>
 
-          <div 
-            role="button" 
-            class="add-want-button d-none d-sm-flex"
-            @click="addWantItem(product)"
+          <button 
+            class="add-want-button d-none d-sm-flex w-100"
+            @click="addToOffer(product)"
           >
             {{ $t('trades.create_listing.vendor.wants.add_want') }}
-          </div>
+          </button>
 
         </div>
         <div class="col-xl-1"></div>
@@ -279,7 +290,7 @@
       <div
         class="add-want-button d-sm-none mt-1 mb-3"
         role="button"
-        @click="addWantItem(product)"
+        @click="addToOffer(product)"
       >
         {{ $t('trades.create_listing.vendor.wants.add_want') }}
       </div>
@@ -376,17 +387,26 @@ export default {
       // selectListOptions: [
       //   { text: this.$('trades.wants_listing.general_wants'), value: 'general_wants' },        
       // ],
-      selectListLabel: this.$t('trades.wants_listing.add_to'),
       conditionsOptions: this.product.product.packaging_conditions.map((item) => ({ text: item.name, value: item.id })),
       condition: { text: this.product.packaging_condition.name, value: this.product.packaging_condition.id },
       conditionLabel: this.product.packaging_condition.name || this.$t('products.box_conditions.none'),
       sizeViewMode: 'carousel',
-      currentSizeId: this.product.size.id
+      currentSizeId: this.product.size.id,
+      errors: {
+        size: '',
+        box: '',
+        quantity: '',
+        list: ''
+      }
     }
   },
   computed: {
     ...mapGetters('trades', ['getTradeItems', 'getTradeItemsWants']),
     ...mapGetters('trade', ['getYourTradeItems']),
+
+    selectListLabel() {
+      return this.$t('trades.wants_listing.add_to')
+    }
   },
   mounted() {
     if (this.itemId) {
@@ -482,25 +502,20 @@ export default {
      * @param selectedProduct
      */
     addToOffer(selectedProduct) {
-     if (this.productFor === 'wantsList' && !this.itemId) {
-        this.addWantItem(selectedProduct)
-      }
-     else if (this.productFor === 'wantsList' && this.itemId) {
-        this.updateWant(selectedProduct)
-      }
+      this.validate()
+      if (!Object.values(this.errors).every(x => x === null || x === '')) return
+
+      if (!this.itemId) {
+          this.addWantItem(selectedProduct)
+        } else {
+          this.updateWant(selectedProduct)
+        }
     },
+
     /**
      * THis function is used to add wants item in wants list
      */
     addWantItem(selectedProduct) {
-      // trades/wants/combination/items
-      // packaging_condition_id: 1
-      // product_id: 552
-      // quantity: 1
-      // size_id: 30
-      // want_combination_id: 11
-      // wants_list_type: ["combination_item 11"]
-      // year: null
       const data = {
         product_id: selectedProduct.product.id,
         quantity: parseInt(this.quantity),
@@ -517,18 +532,40 @@ export default {
         })
     },
 
+    validate() {
+      if (!this.currentSizeId) {
+        this.errors.size = 'Incorrect size'
+      } else {
+        this.errors.size = ''
+      }
+      if (!this.quantity || this.quantity < 1) {
+        this.errors.quantity = 'Incorrect quantity'
+      } else {
+        this.errors.quantity = ''
+      }
+      if (!this.box_condition) {
+        this.errors.box = 'Select Box Condition'
+      } else {
+        this.errors.box = ''
+      }
+      if (this.selectList.length < 1) {
+        this.errors.list = 'Choose list'
+      } else {
+        this.errors.list = ''
+      }
+    },
+
     /**
      * THis function is used to add wants item in wants list
      */
     updateWant(selectedProduct) {
-      const _self = this;
       const data = {
-        product_id: selectedProduct.id,
-        quantity: parseInt(_self.quantity),
-        size_id: _self.selected_size,
-        packaging_condition_id: _self.box_condition,
-        year: _self.year,
-        wants_list_type: _self.selectList
+        product_id: selectedProduct.product.id,
+        quantity: parseInt(this.quantity),
+        size_id: this.currentSizeId,
+        packaging_condition_id: this.box_condition,
+        year: selectedProduct.product.release_year,
+        wants_list_type: this.selectList
       }
       this.$axios.put('/trades/wants/' + this.itemId, data)
         .then(this.backToList)

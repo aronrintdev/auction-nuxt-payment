@@ -132,8 +132,9 @@
           :nav="false"
           :dots="false"
           :responsive="{
-            0: { items: 1, nav: false, center: true },
+            0: { items: 1, dots: false, center: true },
           }"
+          class="position-relative"
         >
           <template #default>
             <div
@@ -168,7 +169,7 @@
                   {{ product.product.name }}
                 </div>
                 <div class="name">
-                  <span class="text-uppercase">{{ $t('trades.create_listing.vendor.wants.sku') }}:</span>
+                  <div class="text-uppercase">{{ $t('trades.create_listing.vendor.wants.sku') }}:</div>
                   {{ product.product.sku }}
                 </div>
                 <div class="name">
@@ -198,7 +199,7 @@
                   </div>
                 </div> -->
 
-                <div class="value">{{
+                <div class="mt-4 value">{{
                     $t('trades.create_listing.vendor.wants.total_est_value')
                   }}:   ${{ estValue(combination.combination_items) }}
                 </div>
@@ -317,6 +318,22 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+::v-deep .owl-dots
+  position: absolute
+  bottom: 37px
+  left: 190px
+
+::v-deep .owl-dot span
+  width: 4px !important
+  height: 4px !important
+  background: $color-gray-4 !important
+
+::v-deep .owl-dot
+  width: 9px
+
+::v-deep .active span
+  background: #000 !important
 
 .more
   position: absolute

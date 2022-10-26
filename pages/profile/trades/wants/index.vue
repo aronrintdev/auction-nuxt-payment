@@ -609,6 +609,21 @@ export default {
 
     test() {
       console.log('1111111');
+      // api/trades/wants POST
+      // packaging_condition_id: 1
+      // product_id: 566
+      // quantity: 1
+      // size_id: 33
+      // wants_list_type: ["combination_item 12"]
+      // year: null
+
+      // packaging_condition_id: 2
+      // product_id: 564
+      // quantity: 1
+      // size_id: 1
+      // wants_list_type: ["combination_item 30"]
+      // year: "2021"
+
     },
 
     submitBulk() {

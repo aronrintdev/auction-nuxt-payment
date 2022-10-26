@@ -7,7 +7,10 @@
     >
       <b-row>
         <b-col md="12">
-          <span class="body-8-normal text-uppercase">{{ $t('products.select_size') }}</span>
+          <div>
+            <span class="body-8-normal text-uppercase">{{ $t('products.select_size') }}</span>
+            <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
+          </div>
           
           <!-- <Button
             v-if="!singleMode"
@@ -214,6 +217,10 @@ export default {
     xsCount: {
       type: Number,
       default: 2,
+    },
+    errorText: {
+      type: String,
+      default: null
     }
   },
 
