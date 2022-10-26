@@ -1,12 +1,12 @@
 <template>
-  <b-container fluid class="container-auction-search h-100 px-5" >
-    <div class="d-flex justify-content-between align-items-center">
+  <b-container fluid class="position-relative container-auction-search h-100" >
+    <div class="d-none d-md-flex justify-content-between align-items-center">
       <h2 class="title">{{ selectedAuctionTypeTitle }}</h2>
       <div v-if="selectedAuctionType === AUCTION_TYPE_COLLECTION">
         <FormStepper :steps="steps" :selected="getCollectionState"/>
       </div>
     </div>
-    <div class="d-flex justify-content-between mt-3 align-items-start">
+    <div class="d-none d-md-flex justify-content-between mt-3 align-items-start">
       <div class="position-relative w-100">
         <SearchInput
           :value="searchText"
@@ -42,9 +42,10 @@
         class="btn-add"
       >{{ $t('inventory.add_inventory') }}
       </Button>
-
     </div>
-    <div class="d-flex justify-content-between mt-3 align-items-center">
+    <!-- Mobile search box -->
+    <inventory-listing-filters :isCollection="selectedAuctionType === AUCTION_TYPE_COLLECTION"></inventory-listing-filters>
+    <div class="d-none d-md-flex justify-content-between mt-3 align-items-center">
       <div class="d-flex justify-content-between align-items-center">
         <FormDropdown
           id="categorySelector"
@@ -149,9 +150,10 @@
             </span>
     </div>
 
-    <div class="d-flex flex-column justify-content-between align-items-start mt-2">
+    <div class="d-flex flex-row flex-md-column justify-content-between align-items-center align-items-md-start mt-2">
       <h2 class="title">{{ $t('selling_page.inventory') }} ({{ totalCount }} {{$t('common.results')}})</h2>
-      <h6 v-if="selectedAuctionType===AUCTION_TYPE_COLLECTION" class="title">{{ $t('create_listing.collection.subtitle') }}</h6>
+      <h6 v-if="selectedAuctionType===AUCTION_TYPE_COLLECTION" class="title d-none d-md-block">{{ $t('create_listing.collection.subtitle') }}</h6>
+      <span class="d-md-none add-inventory-btn" role="button" @click="$router.push('/profile/inventory/search')">+ Create New Inventory</span>
     </div>
 
 
@@ -164,12 +166,10 @@
     </div>
 
     <div v-else>
-      <b-row v-if="inventories.length === 0 && !loading"
-             class="d-flex justify-content-center align-items-center h-50 font-weight-bold text-gray-25"
-             :class="'mt-3'">
-        {{ $t('sell.create_listing.no_items') }}
+      <b-row v-if="inventories.length === 0 && !loading" class="d-flex justify-content-center align-items-center mx-auto w-50 text-center no-items-found">
+        {{ $t('create_listing.no_items_found') }}
       </b-row>
-      <b-row v-if="inventories.length > 0" class="mt-3 mx-auto" style="max-width: 1200px">
+      <b-row v-else class="mt-3 mx-auto">
           <b-col
             v-for="inventory in inventories"
             :key="`inventory-${inventory.id}`"
@@ -202,7 +202,7 @@
         @per-page-change="handlePerPageChange"
       />
     </div>
-    <div v-if="selectedAuctionType === AUCTION_TYPE_COLLECTION" class="mt-4 mx-5 px-2">
+    <div v-if="selectedAuctionType === AUCTION_TYPE_COLLECTION" class="mt-md-4 mx-md-5 px-2 collection-items-preview">
       <PreviewDragAndDrop :inventories="selectedInventoryItems" :hide-info="onPreview"
                           @next="handleBulkAction()" @removed="(index) => selected.splice(index, 1)" @dragged="addItem"/>
     </div>
@@ -214,12 +214,17 @@
       :unit-label="$tc('common.product', selected.length)"
       :total="inventories.length"
       :action-label="$tc('sell.create_listing.continue_listing')"
-      class="mt-3"
+      class="d-none d-md-flex mt-3"
       @close="selected = []"
       @selectAll="handleSelectAll()"
       @deselectAll="selected = []"
       @submit="handleBulkAction()"
     />
+    <div v-if="selectedAuctionType === AUCTION_TYPE_SINGLE && selected.length" class="d-md-none position-fixed continue-btn-container p-4">
+      <button class='btn text-white d-flex align-items-center justify-content-center text-white m-auto' @click="handleBulkAction">
+        {{ $t('create_listing.continue') }} ({{ selected.length }})
+      </button>
+    </div>
   </b-container>
 </template>
 <script>
@@ -238,14 +243,21 @@ import threeLinesIcon from '~/assets/img/icons/three-lines.svg'
 import arrowUpIcon from '~/assets/img/icons/arrow-up-blue.svg'
 import arrowDownIcon from '~/assets/img/icons/arrow-down-blue.svg'
 import longArrowRightIcon from '~/assets/img/icons/long-arrow-right.svg'
+import InventoryListingFilters from '~/components/createListing/InventoryListingFilters'
 
 export default {
   name: 'SearchForCategoryPage',
   components: {
     FormStepper,
     PreviewDragAndDrop,
-    SearchInput, InventoryCard,
-    Button, FormDropdown, SelectWithCheckbox, Pagination, BulkSelectToolbar
+    SearchInput,
+    InventoryCard,
+    Button,
+    FormDropdown,
+    SelectWithCheckbox,
+    Pagination,
+    BulkSelectToolbar,
+    InventoryListingFilters,
   },
   mixins: [createListingAuction],
   layout: 'Profile',
@@ -655,6 +667,12 @@ export default {
   h2.title
     @include heading-3
     color: $color-black-1
+    font-weight: $bold
+
+    @media (max-width: 576px)
+      font-size: 14px
+      line-height: 17px
+      margin-bottom: 0
 
   .btn-draft::v-deep
     @include body-5-bold
@@ -713,7 +731,20 @@ export default {
             border-bottom-left-radius: 10px
             border-bottom-right-radius: 10px
             border-bottom: 1px solid $color-blue-1
-
+  .no-items-found
+    font-weight: $medium
+    font-size: 16px
+    line-height: 20px
+    color: $color-gray-5
+  @media (max-width: 576px)
+    padding: 20px 16px
+    background: transparent
+    min-height: calc(100vh - 130px)
+    .no-items-found
+      margin-top: 90px
+      margin-bottom: 120px
+      font-size: 14px
+      line-height: 24px
   .dropdown-filters::v-deep
     .btn-dropdown
       @include body-4-normal
@@ -751,13 +782,18 @@ export default {
 
   .size-select-box
     min-width: 180px
-  .inventory-card
-    flex: 0 0 100%
-    max-width: 100%
 
-    @media (min-width: 1030px)
-      flex: 0 0 50%
-      max-width: 50%
+  .add-inventory-btn
+    font-family: $font-family-sf-pro-display
+    font-weight: $regular
+    font-size: 14px
+    line-height: 17px
+    color: $color-gray-5
+
+  .inventory-card
+    flex: 0 0 50%
+    max-width: 50%
+    padding: 0
 
     @media (min-width: 1280px)
       flex: 0 0 33.33%
@@ -770,4 +806,65 @@ export default {
     @media (min-width: 1800px)
       flex: 0 0 25%
       max-width: 25%
+  .continue-btn-container 
+    bottom: 0
+    left: 0
+    width: 100%
+    background: $white
+    z-index: 100
+    button
+      border-radius: 30px
+      background: $color-blue-20
+      width: 215px
+      font-family: $font-montserrat-serif
+      font-weight: $medium
+      font-size: 13px
+      line-height: 16px
+      padding-top: 12px
+      padding-bottom: 12px
+  .collection-items-preview::v-deep
+    @media (max-width: 576px)
+      position: fixed
+      bottom: 0
+      left: 0
+      width: 100%
+      background: $white
+      z-index: 100
+      .preview-drag
+        background: $white
+        border: 0.5px solid rgba($light-gray-2, 0.5)
+        margin: 0
+        border-radius: 5px
+        padding: 10px 2.5px
+        &.no-items
+          border: none
+          padding: 0
+        .inventory-card-wrapper
+          .product-info
+            padding: 0
+            .product-image
+              padding: 0
+              height: auto
+              .thumb-wrapper
+                height: 0
+                padding-top: 100%
+                img
+                  position: absolute
+                  top: 0
+                  left: 0
+                  width: 100%
+                  height: 100%
+              .check-box
+                width: 10px
+                height: 10px
+                top: 0
+                img
+                  width: 100%
+            .product-detail
+              padding: 5px 0
+              .product-title,
+              .product-color,
+              .product-price
+                font-size: 11px
+
 </style>

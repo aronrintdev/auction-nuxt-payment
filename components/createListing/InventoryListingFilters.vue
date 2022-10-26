@@ -1,44 +1,30 @@
 <template>
-  <section class="position-relative auction-mobile-filter">
-    <img src="~/assets/img/auctions/auctionbannermobilebrowse2.png" class="w-100 auction-mobile-filter-bg" />
-    <div class="d-flex align-items-center auction-mobile-filter-content searchbox" :class="{ 'active' : searchEnabled }">
-      <img v-if="searchEnabled" src="~/assets/img/icons/back.svg" class="mr-2 back-btn" @click="searchEnabled = false" />
-      <search-box :searchText="searchText" :placeholder="$t('auctions.frontpage.filterbar.search_auctions')" @search="search" @focus="enableSearch" />
+  <section class="position-relative inventory-listing-filters">
+    <div class="d-flex align-items-center inventory-listing-filters-content searchbox">
+      <search-box :searchText="searchText" :placeholder="$t('common.search')" @search="search"/>
       <img src="~/assets/img/icons/more-filter-icon.svg" role="button" class="ml-3 more-btn" @click="openBottomFilter" />
     </div>
-    <div v-if="searchEnabled" class="position-fixed search-results">
-      <div v-if="hasSearchResult" class="products">
-        <div
-          v-for="prod in searchedProducts"
-          :key="`${prod.sku}-${prod.category.name}`"
-          class="text-left text-capitalize product d-flex align-items-center"
-          @click="selectProduct(prod)"
-        >
-          <div class="position-relative d-inline-flex">
-            <b-img
-              :src="`${prod.image  || 'https://images.deadstock.co/404.png'}?width=150}`"
-              class="mx-auto"
-              alt="..."
-            />
-          </div>
-          <span class="flex-grow-1">&nbsp; {{ prod.name }}</span>
-          <img src="~/assets/img/icons/long-arrow-right.svg" class="long-arrow" />
+    <div v-if="hasSearchResult" class="products">
+      <div v-for="prod in searchedProducts" :key="prod.id" class="text-left text-capitalize product d-flex align-items-center">
+        <div class="position-relative d-inline-flex">
+          <b-img
+            :src="`${prod.image  || 'https://images.deadstock.co/404.png'}?width=150}`"
+            class="mx-auto"
+            alt="..."
+          />
         </div>
-        <div v-if="!searchedProducts.length" class="dropdown-option text-center">
-          {{ $t('sell.create_listing.no_result') }}
-        </div>
+        <div class="product-name flex-grow-1">{{ prod.name }}</div>
+        <button class="btn btn-primary" @click="addAuctionFromProduct(prod)">{{ $t('create_listing.add') }}</button>
       </div>
     </div>
-    <div class="text-center auction-filters-type-selector">
-      <NavGroup :value="selectedFilters.type" :data="auctionTypes" @change="auctionTypeChanged"/>
-    </div>
+    <!-- Bottom Sheet -->
     <vue-bottom-sheet ref="auctionFiltersSheet">
       <div class="d-flex flex-column h-100 filters-sheet">
-        <div class="filters-sheet-title text-center">{{ $t('auctions.frontpage.filterbar.filter_by') }}</div>
+        <div class="filters-sheet-title text-center">{{ $t('create_listing.filterbar.filter_by') }}</div>
         <div class="flex-shrink-1 overflow-auto filters-sheet-content">
           <!-- Sort -->
           <div class="filter-group">
-            <div class="filter-group-title mb-3">{{ $t('auctions.frontpage.filterbar.sort') }}</div>
+            <div class="filter-group-title mb-3">{{ $t('create_listing.filterbar.sort') }}</div>
             <div class="flex-wrap justify-content-between filter-group-body">
               <label v-for="(option, idx) in SORT_OPTIONS" :key="idx" class="d-flex align-items-center">
                 <input v-model="selectedFilters.sortby" :value="option.value" type="radio" name="sortby"/>
@@ -46,21 +32,21 @@
               </label>
             </div>
           </div>
-          <MobileFilterGroup
+          <FilterGroup
             :title="$t('home_page.categories')"
             :options="categoryOptions"
             :selectedValues="selectedFilters.categories"
             name="category"
             @change="(value) => filterGroupChanged(value, 'categories')"
           />
-          <MobileFilterGroup
+          <FilterGroup
             :title="$t('filter_sidebar.size_types')"
             :options="sizeTypeOptions"
             :selectedValues="selectedFilters.sizeTypes"
             name="sizeTypes"
             @change="(value) => filterGroupChanged(value, 'sizeTypes')"
           />
-          <MobileFilterGroup
+          <FilterGroup
             :title="$t('filter_sidebar.sizes')"
             :options="sizeOptions"
             :selectedValues="selectedFilters.sizes"
@@ -68,33 +54,10 @@
             multiple
             @change="(value) => filterGroupChanged(value, 'sizes')"
           />
-          <!-- current bid -->
-          <MobileSliderFilterGroup
-            :title="$t('home_page.current_bid')"
-            :minValue="MIN_PRICE"
-            :maxValue="MAX_PRICE / 100"
-            :step="MIN_PRICE_RANGE_WINDOW"
-            name="prices"
-            @change="updatePriceFilters"
-          />
-          <MobileFilterGroup
-            :title="$t('filter_sidebar.brands')"
-            :options="brandOptions"
-            :selectedValues="selectedFilters.brands"
-            name="brands"
-            @change="(value) => filterGroupChanged(value, 'brands')"
-          />
-          <MobileFilterGroup
-            :title="$t('filter_sidebar.status')"
-            :options="statusOptions"
-            :selectedValues="selectedFilters.status"
-            name="status"
-            @change="(value) => filterGroupChanged(value, 'status')"
-          />
         </div>
         <div class="d-flex align-items-center justify-content-between filters-sheet-footer">
-          <button class="btn btn-pills" @click="resetFilters">{{ $t('auctions.frontpage.filterbar.reset') }}</button>
-          <button class="btn btn-pills apply-btn" @click="applyFilters">{{ $t('auctions.frontpage.filterbar.apply_filters') }}</button>
+          <button class="btn btn-pills" @click="resetFilters">{{ $t('create_listing.filterbar.reset') }}</button>
+          <button class="btn btn-pills apply-btn" @click="applyFilters">{{ $t('create_listing.filterbar.apply_filters') }}</button>
         </div>
       </div>
     </vue-bottom-sheet>
@@ -105,17 +68,7 @@
 import { mapGetters } from 'vuex'
 
 import SearchBox from '../RoundSearchBox'
-import MobileFilterGroup from './MobileFilterGroup'
-import MobileSliderFilterGroup from './MobileSliderFilterGroup'
-
-import { NavGroup } from '~/components/common'
-import {
-  MAX_PRICE,
-  MIN_PRICE,
-  MIN_YEAR,
-  MAX_YEAR,
-  MIN_PRICE_RANGE_WINDOW,
-} from '~/static/constants'
+import FilterGroup from './FilterGroup'
 
 /*
  * Auction Mobile FilterBar
@@ -124,26 +77,20 @@ export default {
   name: 'AuctionMobileFilter',
   components: {
     SearchBox,
-    NavGroup,
-    MobileFilterGroup,
-    MobileSliderFilterGroup,
-},
+    FilterGroup,
+  },
+  props: {
+    isCollection: {
+      type: Boolean,
+      default: false,
+    }
+  },
   data() {
     return {
       searchText: null,
       hasSearchResult: false,
       searchedProducts: [],
       searchEnabled: false,
-      auctionTypes: [
-        {
-          label: this.$t('auctions.frontpage.filterbar.types.single'),
-          value: 'single'
-        },
-        {
-          label: this.$t('auctions.frontpage.filterbar.types.collections'),
-          value: 'collection'
-        },
-      ],
       selectedFilters: {
         type: 'single',
         sizeTypes: [],
@@ -153,61 +100,24 @@ export default {
         status: [],
         sortby: null,
       },
-      MAX_PRICE,
-      MIN_PRICE,
-      MAX_YEAR,
-      MIN_YEAR,
-      MIN_PRICE_RANGE_WINDOW,
-      selectedPrices: [MIN_PRICE, MAX_PRICE / 100],
-      selectedYears: [MIN_YEAR, MAX_YEAR],
+      categoryOptions: [],
       SORT_OPTIONS: [
         {
-          value: 'relevance',
-          label: this.$t('auctions.frontpage.filterbar.sortby.relevance'),
-        },
-        {
-          value: 'end_date_asc',
-          label: this.$t('auctions.frontpage.filterbar.sortby.end_date_asc'),
-        },
-        {
-          value: 'end_date_desc',
-          label: this.$t('auctions.frontpage.filterbar.sortby.end_date_desc'),
-        },
-        {
+          label: this.$t('create_listing.auction.sort_by.price_low_high'),
           value: 'price_asc',
-          label: this.$t('auctions.frontpage.filterbar.sortby.price_asc'),
         },
         {
+          label: this.$t('create_listing.auction.sort_by.price_high_low'),
           value: 'price_desc',
-          label: this.$t('auctions.frontpage.filterbar.sortby.price_desc'),
         },
         {
-          value: 'most_viewed',
-          label: this.$t('auctions.frontpage.filterbar.sortby.most_viewed'),
-        },
-      ],
-      categoryOptions: [],
-      statusOptions: [
-        {
-          label: this.$t('filter_sidebar.status_options.live'),
-          value: 'live'
+          label: this.$t('create_listing.auction.sort_by.size_low_high'),
+          value: 'size_asc',
         },
         {
-          label: this.$t('filter_sidebar.status_options.upcoming'),
-          value: 'upcoming'
-        },
-        {
-          label: this.$t('filter_sidebar.status_options.expiring'),
-          value: 'ending_soon'
-        },
-        {
-          label: this.$t('filter_sidebar.status_options.expired'),
-          value: 'expired'
-        },
-        {
-          label: this.$t('filter_sidebar.status_options.sold'),
-          value: 'sold'
-        },
+          label: this.$t('create_listing.auction.sort_by.size_high_low'),
+          value: 'size_desc',
+        }
       ],
     }
   },
@@ -220,8 +130,8 @@ export default {
     ]),
     sizeOptions() {
       let options = this.filters?.sizes
-      if (options && this.selectedFilters.sizeTypes && this.selectedFilters.sizeTypes.length > 0) {
-        options = options.filter(({ type }) => this.selectedFilters.sizeTypes.includes(type))
+      if (options && this.sizeTypes && this.sizeTypes.length > 0) {
+        options = options.filter(({ type }) => this.sizeTypes.includes(type))
       }
       return (
         options?.map(({ id, size, type }) => {
@@ -280,18 +190,12 @@ export default {
           ...this.selectedFilters,
           product: null,
         }
+        this.searchedProducts = []
+        this.hasSearchResult = false
       }
     },
     enableSearch() {
       this.searchEnabled = true
-    },
-    selectProduct(product) {
-      this.searchText = product.name
-      this.searchEnabled = false
-      this.selectedFilters = {
-        ...this.selectedFilters,
-        product: product.sku,
-      }
     },
     auctionTypeChanged(type) {
       if (this.selectedFilters.type !== type) {
@@ -314,21 +218,13 @@ export default {
     closeBottomFilter() {
       this.$refs.auctionFiltersSheet.close();
     },
-    updatePriceFilters(value) {
-      this.selectedPrices = value
-      this.selectedFilters = {
-        ...this.selectedFilters,
-        minPrice: value[0] === MIN_PRICE ? undefined : value[0] * 100,
-        maxPrice: value[1] === MAX_PRICE ? undefined : value[1] * 100,
-      }
-    },
-    // Update selected years and pass to parent component
-    updateYearFilters(value) {
-      this.selectedYears = value
-      this.selectedFilters = {
-        ...this.selectedFilters,
-        minYear: value[0] === MIN_YEAR ? undefined : value[0],
-        maxYear: value[1] === MAX_YEAR ? undefined : value[1],
+    // Add new auction from product
+    addAuctionFromProduct(product) {
+      this.$store.commit('create-listing/setActiveInventoryProduct', product)
+      if (this.isCollection) {
+        this.$router.push('/create-listing/product/collection/inventory')
+      } else {
+        this.$router.push('/create-listing/product/inventory')
       }
     },
     resetFilters() {
@@ -344,7 +240,36 @@ export default {
 
 <style lang="sass" scoped>
   @import '~/assets/css/_variables'
-  
+
+  .products
+    margin: 20px 0
+    .product
+      background: $white
+      box-shadow: 0px -0.1px 2px rgba($black, 0.25), 0px 1px 2px rgba($black, 0.25)
+      border-radius: 8px
+      margin-bottom: 10px
+      padding: 8px
+      img
+        width: 80px
+        height: 50px
+        object-fit: cover
+      &-name
+        font-weight: $normal
+        font-size: 13px
+        line-height: 130%
+        letter-spacing: -0.02em
+        color: $color-black-15
+        margin: 0 10px
+      .btn
+        font-family: $font-family-sf-pro-display
+        font-weight: $medium
+        font-size: 12px
+        line-height: 20px
+        color: $white
+        background: $color-blue-20
+        border-color: $color-blue-20
+        padding: 0px 15px
+        height: auto
   .filters-sheet
     label
       font-family: $font-sp-pro
@@ -395,7 +320,7 @@ export default {
       padding: 20px 0
     &-body
       padding-bottom: 20px
-  .auction-mobile-filter
+  .inventory-listing-filters
     &-bg
       height: 56vw
     .more-btn
@@ -404,7 +329,7 @@ export default {
     &-content
       top: 0
       left: 0
-      padding: 15px
+      padding: 0
       width: 100%
     .search-results
       top: 0
@@ -437,14 +362,12 @@ export default {
   ::v-deep
     @media (max-width: 576px)
       .auction-filters-type-selector
-        margin: 26px 10px
+        margin: 26px 0
         .nav-group
           .btn-group
             flex-direction: row
             border-radius: 20px
     .searchbox
-      margin-right: 25px
-      position: absolute
       &.open
         .rounded-search-input
           border-bottom-left-radius: 0

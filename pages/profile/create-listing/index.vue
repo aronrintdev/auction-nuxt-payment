@@ -46,7 +46,7 @@
             >
               <div class="position-relative listing-type-img">
                 <img
-                  src="~/assets/img/create-listing/selling.svg"
+                  src="~/assets/img/create-listing/selling1.png"
                   class="position-absolute w-100"
                 />
               </div>
@@ -73,7 +73,7 @@
             >
               <div class="position-relative listing-type-img">
                 <img
-                  src="~/assets/img/create-listing/auctions.svg"
+                  src="~/assets/img/create-listing/auctions1.png"
                   class="position-absolute w-100"
                 />
               </div>
@@ -100,7 +100,7 @@
             >
               <div class="position-relative listing-type-img">
                 <img
-                  src="~/assets/img/create-listing/trade.svg"
+                  src="~/assets/img/create-listing/trade1.png"
                   class="position-absolute w-100"
                 />
               </div>
@@ -203,7 +203,7 @@ export default {
     ...mapGetters('trades', ['getTradeDraftCount']),
 
     vendorPayoutMethod: (vm) => {
-      return vm.getVendorPayoutMethod
+      return !vm.getVendorPayoutMethod
     },
   },
   created() {
@@ -247,6 +247,23 @@ export default {
 @import '~/assets/css/_variables'
 .create-listing-page
   background: $color-white-4
+  .content-header
+    border: none
+    &-title
+      @media (max-width: 576px)
+        font-size: 14px
+        line-height: 17px
+    span
+      @media (max-width: 576px)
+        font-size: 14px
+        line-height: 17px
+    @media (max-width: 576px)
+      margin-bottom: 0
+  .listing-type
+    border: none
+    margin-right: 100px
+    margin-bottom: 36px
+    padding: 0
   .content-main-new-user
     .web-row
       padding: 4rem
@@ -337,11 +354,14 @@ export default {
       font-family: $font-family-sf-pro-text
       font-weight: $normal
     &-img
+      width: 100%
       height: 0
       padding-top: 100%
       img
         top: 0
         left: 0
+        width: 100%
+        height: 100%
     @media (max-width: 576px)
       margin-right: 15px
       align-items: flex-end
