@@ -384,9 +384,6 @@ export default {
       ],
       selectList: [],
       selectListOptions: [{ text: this.$t('trades.wants_listing.general_wants'), value: 'general_wants' }],
-      // selectListOptions: [
-      //   { text: this.$('trades.wants_listing.general_wants'), value: 'general_wants' },        
-      // ],
       conditionsOptions: this.product.product.packaging_conditions.map((item) => ({ text: item.name, value: item.id })),
       condition: { text: this.product.packaging_condition.name, value: this.product.packaging_condition.id },
       conditionLabel: this.product.packaging_condition.name || this.$t('products.box_conditions.none'),
@@ -428,19 +425,11 @@ export default {
     },
 
     changeCondition(selectedCondition) {
-      console.log('this.product.product.packaging_conditions', this.product.product.packaging_conditions);
-      console.log('selectedCondition', selectedCondition);
-
-      // this.category = selectedCategory
-      // console.log('CAT', this.category);
-      // const categoryFilteredKey = this.categoryItems.find(item => item.value === this.category)
-      // this.categoryFilterLabel = this.$options.filters.capitalizeFirstLetter(categoryFilteredKey.text)
-
-      this.condition = this.product.product.packaging_conditions.find(
+      const condition = this.product.product.packaging_conditions.find(
         (item) => item.id === selectedCondition
-      );
-      this.conditionLabel = this.condition.name
-      console.log('this.condition', this.condition);
+      )
+      this.box_condition = condition.id;
+      this.conditionLabel = condition.name
     },
 
     /**
