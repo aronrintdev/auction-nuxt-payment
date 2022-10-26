@@ -3,7 +3,7 @@
     <div class="mb-3">
       <div class="text-center">
         <h4 class="document-name">{{ requirement ? requirement.name : $t('vendor_hub.retailer_certification') }}</h4>
-        <div class="mt-2 body-9-normal">{{ $t('vendor_hub.accepted_document_types') }}</div>
+        <div class="mt-2 body-9-normal px-3">{{ $t('vendor_hub.accepted_document_types') }}</div>
       </div>
 
       <ValidationObserver ref="observer" v-slot="{ handleSubmit, invalid }">
