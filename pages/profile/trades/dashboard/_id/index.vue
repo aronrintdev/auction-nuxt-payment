@@ -184,6 +184,7 @@ export default {
         yourItems: this.lastSubmittedOffer.yours_items,
         cashAdded: parseInt(parseFloat(cashAdded)),
         cashType: this.lastSubmittedOffer.cash_type,
+        lastOffer: this.lastSubmittedOffer,
         tradeCondition: this.lastSubmittedOffer.condition,
         submittedItemType: OFFER_TYPE_YOURS,
         offerType: ACCEPT_OFFER,

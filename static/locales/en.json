@@ -168,7 +168,9 @@
     "enter_valid_amount": "Kindly input a valid amount."
   },
   "error": {
-    "something_went_wrong": "Something went wrong. Please try again later!"
+    "something_went_wrong": "Something went wrong. Please try again later!",
+    "combination_already_has_maximum_items": "Combination already has maximum items",
+    "invalid_combination_selected": "Invalid combination selected"
   },
   "index": {
     "sign_up": "Sign Up",
