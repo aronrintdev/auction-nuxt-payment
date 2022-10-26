@@ -5483,6 +5483,9 @@
     "report_an_issue": "Report an Issue",
     "levels": "Levels",
     "contact_us": "Contact Us",
+    "report_bug": "Submit a Bug",
+    "detail_content_description1": "Deadstock is committed to protecting our customers; therefore, we have formulated the “Bug Bounty” security program for users to report issues associated with our website. If you think you have found a vulnerability or issue with our site and would like to report a problem, please fill out the form below and be as thorough as possible.",
+    "detail_content_description2": "Aftert the completion of your form, our team will respond to you promptly. We thank you for helping our community and we may be rewarding effective reports with compensation. Reports are subject to the terms and conditions of our Program, set forth below, and with the Terms and Conditions available on our site.",
     "disclosure": {
       "title": "Deadstock Disclosure",
       "description": "Deadstock is committed to protecting our customers; therefore, we have formulated the “Bug Bounty” program for users to report issues associated with our website. If you think you have found a vulnerability or issue with our site and would like to report a problem, please fill out the form below and be as thorough as possible.<br>Aftert the completion of your form, our team will respond to you promptly. We thank you for helping our community and we may be rewarding effective reports with compensation. Reports are subject to the “Disclosure” of our Program, set forth below, and with the Terms and Conditions available on our site.",
@@ -5497,7 +5500,13 @@
       "low": "Low",
       "medium": "Medium",
       "high": "High",
-      "critical": "Critical"
+      "critical": "Critical",
+      "low_range": "$20 - 50",
+      "mid_range": "$51 - 100",
+      "high_range": "$101 - 25,000",
+      "low_content": "Visual/Content",
+      "mid_content": "Functional",
+      "high_content": "System Vulnerability"
     },
     "form": {
       "name": "Name",
@@ -5511,7 +5520,25 @@
       "link_of_issue": "Link/URL to the Issue (optional)",
       "loi_placeholder": "Add a link to the issue",
       "proof_of_concept": "Proof of Concept (optional)",
-      "poc_placeholder": "Add a proof of concept"
+      "poc_placeholder": "Add a proof of concept",
+      "attachment": {
+        "title": "Attachments (add up to 20 attachments such as screen shots and/or videos)",
+        "terms": "I agree to Deadstock’s terms & conditions as well as any additional rules and instructions provided by the organization hosting this program"
+      }
+    },
+    "notice": {
+      "title": "Notice",
+      "i": "(i) Automated testing is prohibited",
+      "ii": "(ii) Deadstock is not obligated to respond to, nor reward every submission",
+      "iii": "(iii) Any requests for monetary or other compensation will be deemed in violation of this Disclosure",
+      "iv": "(iv) You must be the first to report the issue to us, if this issue has been reported before, you will not receive a reward",
+      "v": "(v) Please do not publicly disclose any Screenshots nor Videos, inlucluding posting material on Youtube or Vimeo",
+      "vi": "",
+      "detail": "Failure to comply with the foregoing rules above may disqualify you from this program."
+    },
+    "conclusion": {
+      "title": "Conclusion",
+      "detail": "We want to thank you for going out of your way to enhance the experience of our website. If you need any help or have any questions on submitting or this disclosure, please email <u>bug@deadstock.co</u>."
     }
   }
 }

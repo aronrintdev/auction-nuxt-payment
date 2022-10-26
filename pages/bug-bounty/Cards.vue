@@ -1,9 +1,9 @@
 <template>
     <section class="navigation-links mb-5">
       <div class="custom-container p-0" :class="{ 'mx-auto': centered }">
-        <div class="d-flex justify-content-center gap-3" style="flex-flow: wrap">
+        <div class="row justify-content-center gap-3" style="flex-flow: wrap">
             <div
-                class="border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
+                class="col-sm-3 border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
             >
                 <img
                     src="~/assets/img/bug-bounty/log-icon.png"
@@ -13,12 +13,12 @@
                     {{ $t('bounty.stages.low') }}
                 </h2>
                 <h6 class="text-gray mb-0 fw-6 fs-16 font-primary">
-                    $20 - 50
+                    {{ $t('bounty.stages.low_range') }}
                 </h6>
-                <a href="#" class="fs-14 fw-5 text-underline"><u>Visual/Content</u></a>
+                <a href="#" class="fs-14 fw-5 mt-2"><u>{{ $t('bounty.stages.low_content') }}</u></a>
             </div>
             <div
-              class="border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
+              class="col-sm-3 offset-sm-1 border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
             >
               <img
                 src="~/assets/img/bug-bounty/high.png"
@@ -28,12 +28,12 @@
                 {{ $t('bounty.stages.medium') }}
               </h2>
               <h6 class="text-gray mb-0 fw-6 fs-16 font-primary">
-                $51 - 100
+                {{ $t('bounty.stages.mid_range') }}
               </h6>
-              <a href="#" class="fs-14 fw-5 text-underline"><u>Functional</u></a>
+              <a href="#" class="fs-14 fw-5 mt-2"><u>{{ $t('bounty.stages.mid_content') }}</u></a>
             </div>
             <div
-              class="border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
+              class="offset-sm-1 col-sm-3 border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
             >
               <img
                 src="~/assets/img/bug-bounty/high1.png"
@@ -43,9 +43,9 @@
                 {{ $t('bounty.stages.high') }}
               </h2>
               <h6 class="text-gray mb-0 fw-6 fs-16 font-primary">
-                $101 - 25000
+                {{ $t('bounty.stages.high_range') }}
               </h6>
-              <a href="#" class="fs-14 fw-5 text-underline"><u>System Vulnerability</u></a>
+              <a href="#" class="fs-14 fw-5 mt-2"><u>{{ $t('bounty.stages.high_content') }}</u></a>
             </div>
         </div>
       </div>

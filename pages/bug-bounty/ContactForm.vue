@@ -10,6 +10,7 @@
             >
               <b-form-group
               :label="$t('bounty.form.name')"
+              class="text-black fw-5"
               >
                 <b-form-input
                   id="login"
@@ -30,6 +31,7 @@
             >
               <b-form-group
               :label="$t('bounty.form.email')"
+              class="text-black fw-5"
               >
                 <b-input-group>
                   <b-form-input
@@ -52,6 +54,7 @@
             >
               <b-form-group
               :label="$t('bounty.form.title_of_issue')"
+              class="text-black fw-5"
               >
                 <b-form-input
                   id="login"
@@ -72,6 +75,7 @@
             >
               <b-form-group
               :label="$t('bounty.form.description_of_issue')"
+              class="text-black fw-5"
               >
                 <b-input-group>
                   <b-form-textarea
@@ -96,6 +100,7 @@
             >
               <b-form-group
               :label="$t('bounty.form.link_of_issue')"
+              class="text-black fw-5"
               >
                 <b-input-group>
                   <b-form-input
@@ -118,6 +123,7 @@
             >
               <b-form-group
               :label="$t('bounty.form.proof_of_concept')"
+              class="text-black fw-5"
               >
                 <b-input-group>
                   <b-form-textarea
@@ -135,6 +141,35 @@
                 </b-input-group>
               </b-form-group>
             </ValidationProvider>
+            <div class="d-flex">
+              <img class="attachment cursor-pointer" src="~/assets/img/attachment.png" @click="showModal">
+              <p class="ml-2 text-black fs-14 fw-5">{{ $t('bounty.form.attachment.title') }}</p>
+            </div>
+            <UploadModal :form="fileForm" :show="showDocModal" @closed="modalClosed" :requirement="fileRequirement" @uploaded="fileUploaded"/>
+            
+            <div class="d-flex">
+              <ValidationProvider
+              v-slot="validationContext"
+              :name="$t('bounty.form.attachment.terms_condition')"
+              :rules="{ required: true }"
+            >
+              <b-form-group
+              >
+                <b-input-group>
+                  <b-form-checkbox
+                    id="checkbox"
+                    v-model="form.terms"
+                    class="input-login input-append"
+                    :state="getValidationState(validationContext)"
+                  ></b-form-checkbox>
+                  <b-form-invalid-feedback>{{
+                      validationContext.errors[0]
+                    }}</b-form-invalid-feedback>
+                </b-input-group>
+              </b-form-group>
+            </ValidationProvider>
+              <p class="text-black fs-14 fw-5">{{ $t('bounty.form.attachment.terms') }}</p>
+            </div>
   
             <b-row class="mt-5 w-100">
               <b-col md="4" offset-md="4" class="text-center">
@@ -160,12 +195,13 @@
   <script>
   import {mapActions, mapGetters} from 'vuex'
   import {ValidationProvider, ValidationObserver} from 'vee-validate'
-  import Button from '~/components/common/Button'
+  import {Button} from '~/components/common';
   import { NO_CONTENT } from '~/static/constants'
+  import UploadModal from '~/pages/bug-bounty/UploadModal'
   
   export default {
     name: 'LoginForm',
-    components: { ValidationProvider, ValidationObserver, Button },
+    components: { ValidationProvider, ValidationObserver, Button, UploadModal },
     data() {
       return {
         isPasswordShown: false,
@@ -175,18 +211,32 @@
           rememberMe: false,
           verification_code: '',
         },
+        showDocModal: false,
+          
+        fileForm: {
+          file: null,
+          permitNumber: '',
+          date: ''
+        },
+        applyForm: {
+          certified_reseller: false
+        }
       }
     },
     computed: {
       ...mapGetters({
         isVendor: 'auth/isVendor',
+        vendorDocRequirements: 'vendor-hub/vendorDocRequirements',
       }),
+      fileRequirement() {
+        return this.vendorDocRequirements.filter(req => req.name === 'Retail Certification')[0]
+      },
       passwordFieldType(vm) {
         return vm.isPasswordShown ? 'text' : 'password'
       },
       isFormFilled(vm) {
         return !!(vm.form.login && vm.form.password)
-      },
+      }
     },
     methods: {
       ...mapActions({
@@ -199,6 +249,10 @@
       getValidationState({ dirty, validated, valid = null }) {
         // Returns the contextual state (validation style) of the element being validated (false for invalid, true for valid, or null for no validation state)
         return dirty || validated ? valid : null
+      },
+      fileUploaded(form) {
+        this.fileForm = form
+        this.applyForm.certified_reseller = true
       },
       onSubmit() {
         // Do the login process
@@ -242,12 +296,22 @@
             this.$toasted.error(this.$t(error.response.data.message).toString())
           })
       },
+      showModal() {
+        this.showDocModal = !this.showDocModal
+      },
+      modalClosed() {
+        this.showDocModal = false
+      },
     }
   }
   </script>
   
   <style lang="sass" scoped>
   @import '~/assets/css/_variables'
+
+  .attachment
+    width: 20px
+    height: 20px
   
   /* Override bootstrap-vue 'b-form-input' styles */
   .input-login

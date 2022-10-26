@@ -8,10 +8,10 @@
               <h3 class="d-inline-block text-left text-heading">{{$t('bounty.report_an_issue')}}</h3>
               <div class="detail-content">
                   <p class="mt-5">
-                      Deadstock is committed to protecting our customers; therefore, we have formulated the “Bug Bounty” security program for users to report issues associated with our website. If you think you have found a vulnerability or issue with our site and would like to report a problem, please fill out the form below and be as thorough as possible.
+                      {{ $t('bounty.detail_content_description1') }}
                   </p>
                   <p class="mt-4">
-                      Aftert the completion of your form, our team will respond to you promptly. We thank you for helping our community and we may be rewarding effective reports with compensation. Reports are subject to the terms and conditions of our Program, set forth below, and with the Terms and Conditions available on our site.  
+                      {{ $t('bounty.detail_content_description2') }}
                   </p>
               </div>
             </b-col>
@@ -19,42 +19,42 @@
           <b-row>
             <b-col class="col-sm-8 text-left offset-sm-2 mt-5">
               <h3 class="d-inline-block text-heading">{{$t('bounty.levels')}}</h3>
-              <Cards />
+              <Cards class="mt-5" />
             </b-col>
           </b-row>
           <b-row>
-            <b-col class="col-sm-6 offset-sm-1">
-              <h3 class="d-inline-block text-left text-heading">{{$t('bounty.contact_us')}}</h3>
+            <b-col class="col-sm-7 offset-sm-2 mt-3">
+              <h3 class="d-inline-block text-left text-heading">{{$t('bounty.report_bug')}}</h3>
               <ContactForm class="mt-5" @verify="handleVerify"/>
             </b-col>
             <b-col class="col-sm-8 offset-sm-1 mt-5">
               <div class="disclosure">
                 <div class="sub-detail">
-                  <h3 class="d-inline-block text-left text-heading">{{$t('bounty.disclosure.title')}}</h3>
-                  <p v-html="$t('bounty.disclosure.description')"></p>
+                  <h3 class="d-inline-block text-left text-heading mt-5">{{$t('bounty.disclosure.title')}}</h3>
+                  <p class="mt-2 fw-5" v-html="$t('bounty.disclosure.description')"></p>
                   <h4>{{ $t('bounty.disclosure.eligibility') }}</h4>
-                  <p>{{ $t('bounty.disclosure.eligibility_detail') }}</p>
+                  <p class="fw-5">{{ $t('bounty.disclosure.eligibility_detail') }}</p>
                   <h4>{{ $t('bounty.disclosure.scope') }}</h4>
-                  <ul class="list-unstyled">
+                  <ul class="list-unstyled fw-5">
                     <li>{{ $t('bounty.disclosure.backend') }}</li>
                     <li>{{ $t('bounty.disclosure.admin') }}</li>
                     <li>{{ $t('bounty.disclosure.frontend') }}</li>
                   </ul>
                 </div>
               </div>
-              <div class="notice sub-detail">
-                <h4>Notice</h4>
-                <ul class="list-unstyled">
-                  <li>(i) Automated testing is prohibited</li>
-                  <li>(ii) Deadstock is not obligated to respond to, nor reward every submission</li>
-                  <li>(iii) Any requests for monetary or other compensation will be deemed in violation of this Disclosure</li>
-                  <li>(iv) You must be the first to report the issue to us, if this issue has been reported before, you will not receive a reward</li>
-                  <li>(v) Please do not publicly disclose any Screenshots nor Videos, inlucluding posting material on Youtube or Vimeo</li>
-                  <li>(vi) Failure to respond within 7 days to inquiries seeking more information, may disqualify you from the program</li>
-                  <p>Failure to comply with the foregoing rules above may disqualify you from this program.</p>
+              <div class="notice sub-detail ">
+                <h4>{{ $t('bounty.notice.title') }}</h4>
+                <ul class="list-unstyled fw-5">
+                  <li>{{ $t('bounty.notice.i') }}</li>
+                  <li>{{ $t('bounty.notice.ii') }}</li>
+                  <li>{{ $t('bounty.notice.iii') }}</li>
+                  <li>{{ $t('bounty.notice.iv') }}</li>
+                  <li>{{ $t('bounty.notice.v') }}</li>
+                  <li>{{ $t('bounty.notice.vi') }}</li>
+                  <p>{{ $t('bounty.notice.detail') }}</p>
                 </ul>
-                <h4>Conclusion</h4>
-                <p>We want to thank you for going out of your way to protect the identity of our customers. If you need any help or have any questions on submitting or this disclosure, please email help@deadstock.co.</p>
+                <h4>{{ $t('bounty.conclusion.title') }}</h4>
+                <p class="fw-5" v-html="$t('bounty.conclusion.detail')"></p>
               </div>
             </b-col>
           </b-row>
@@ -103,10 +103,12 @@
   .text-heading
     color: $color-blue-20
     font-size: 30px
+    font-weight: $medium
   .detail-content
     font-size: 18px
     font-weight: $normal
     height: 242px
+    width: 904px
   .stages
     & ul
         & li
@@ -119,16 +121,6 @@
     & ul
         & li
             font-size: 30px
-  .stages-detail
-    & ul
-        & li
-            font-size: 16px
-            line-height: 121.4%
-            width: 196px
-            h6
-            font-weight: $medium
-            p
-            font-weight: $regular
   .sub-detail
     font-size: 18px
     p ul
