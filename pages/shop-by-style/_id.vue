@@ -39,9 +39,6 @@
           </b-col>
         </b-row>
         <ShopByStyleImageCarousel v-if="!has360Images" :images="style.images" class="mt-4" />
-
-        <!-- <ProductImageViewer v-if="!has360Images" :product='style.images' class="mt-4" />-->
-
         <ProductImageViewerMagic360 v-if="has360Images" :product='style.style' class="mt-4" /> 
         <b-col cols="12" class="d-flex justify-content-center">
           <Button
@@ -70,7 +67,6 @@ import { Button } from '~/components/common'
 import ShopByStyleImageCarousel from '~/components/shop-by-style/ImageCarousel'
 import ShopByStyleProductCard from '~/components/shop-by-style/ProductCard'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
-// import ProductImageViewer from '~/components/product/ImageViewerV2'
 
 export default {
   components: { Button, ShopByStyleProductCard, ShopByStyleImageCarousel, ProductImageViewerMagic360 },
