@@ -1,45 +1,47 @@
 <template>
-  <div :class="{
+  <client-only>
+    <div :class="{
         'p-5': !isScreenXS,
         'mobile': isScreenXS,
       }"
-       class="profile-notification mb-2">
-    <MobileHeader v-if="isScreenXS && !onSettingsItemTab" :title="tabTitle">
-      <template #actions>
-        <div class="d-flex align-items-center">
-          <filter-svg v-if="onNotifications" class="mr-3" role="button"
-                      @click="mobileFiltersOpen = !mobileFiltersOpen"></filter-svg>
-          <setting-svg v-if="onNotifications" role="button" @click="handlePageChange('Settings')"></setting-svg>
-          <close-svg v-if="onSettings" role="button" @click="handlePageChange('Notifications')"></close-svg>
-        </div>
-      </template>
-      <template #expanded-content>
-        <div v-if="onNotifications" class="d-flex flex-column">
-          <MobileSearchInput @input="searchChanged"/>
-          <div class="d-flex align-items-center justify-content-end">
-            <NotificationMarkAllAsRead/>
+         class="profile-notification mb-2">
+      <MobileHeader v-if="isScreenXS && !onSettingsItemTab" :title="tabTitle">
+        <template #actions>
+          <div class="d-flex align-items-center">
+            <filter-svg v-if="onNotifications" class="mr-3" role="button"
+                        @click="mobileFiltersOpen = !mobileFiltersOpen"></filter-svg>
+            <setting-svg v-if="onNotifications" role="button" @click="handlePageChange('Settings')"></setting-svg>
+            <close-svg v-if="onSettings" role="button" @click="handlePageChange('Notifications')"></close-svg>
           </div>
-        </div>
-      </template>
-    </MobileHeader>
-    <div v-if="onSettings && !isScreenXS" class="title">
-      {{ tabTitle }}
+        </template>
+        <template #expanded-content>
+          <div v-if="onNotifications" class="d-flex flex-column">
+            <MobileSearchInput :value="filters.search" @input="searchChanged"/>
+            <div class="d-flex align-items-center justify-content-end">
+              <NotificationMarkAllAsRead/>
+            </div>
+          </div>
+        </template>
+      </MobileHeader>
+      <div v-if="onSettings && !isScreenXS" class="title">
+        {{ tabTitle }}
+      </div>
+      <NotificationFilters v-if="onNotifications && !isScreenXS" @filter="filtersChanged"/>
+      <NotificationMobileFilters v-if="onNotifications && isScreenXS" :open="mobileFiltersOpen"
+                                 @closed="mobileFiltersOpen = false" @filter="filtersChanged"/>
+      <div v-if="!isScreenXS && !onSettingsItemTab" class="text-center mt-4">
+        <NavGroup
+            :data="tabs"
+            :value="currentTab"
+            nav-key="notification-tabs"
+            @change="handlePageChange"
+        />
+      </div>
+      <NotificationsTab v-if="onNotifications"/>
+      <NotificationSettings v-if="onSettings"/>
+      <MobileNotificationSettingsTab v-if="onSettingsItemTab"/>
     </div>
-    <NotificationFilters v-if="onNotifications && !isScreenXS" @filter="filtersChanged"/>
-    <NotificationMobileFilters v-if="onNotifications && isScreenXS" :open="mobileFiltersOpen"
-                               @closed="mobileFiltersOpen = false" @filter="filtersChanged"/>
-    <div v-if="!isScreenXS && !onSettingsItemTab" class="text-center mt-4">
-      <NavGroup
-          :data="tabs"
-          :value="currentTab"
-          nav-key="notification-tabs"
-          @change="handlePageChange"
-      />
-    </div>
-    <NotificationsTab v-if="onNotifications"/>
-    <NotificationSettings v-if="onSettings"/>
-    <MobileNotificationSettingsTab v-if="onSettingsItemTab"/>
-  </div>
+  </client-only>
 </template>
 
 <script>
