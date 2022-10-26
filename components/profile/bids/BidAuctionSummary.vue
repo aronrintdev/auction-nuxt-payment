@@ -272,7 +272,7 @@ export default {
   methods: {
     ...mapActions({
       cancelBid: 'profile-bids/cancelBid',
-      setActiveAuction: 'auction/setActiveAuction',
+      increaseBidPrice: 'profile-bids/increaseBidPrice',
     }),
     /**
      * A function that returns a string based on the status of the bid.
@@ -332,10 +332,14 @@ export default {
           this.$bvModal.show('no-less-amount-modal')
           return
         }
-        this.setActiveAuction(this.selectedBid.auction)
-        this.$router.push({
-          path: '/checkout/auction'
-        })
+        this.increaseBidPrice({ id: this.selectedBid.id, price: this.newBidValue * 100 })
+          .then(() => {
+            this.$toasted.success(this.$t('bids.increased_bid_price_message'))
+            this.editReserve = false
+          })
+          .catch((error) => {
+            this.$toasted.error(error.message)
+          })
       }
     },
     /**

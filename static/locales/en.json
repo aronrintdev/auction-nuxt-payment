@@ -3732,6 +3732,7 @@
     "auto_bid": "Auto Bid",
     "your_bids": "Your Bids",
     "increase_bid": "Increase Bid:",
+    "increased_bid_price_message": "Bid price has been updated successfully.",
     "auction_id": "Auction ID",
     "view_more": "View More",
     "bid_date": "Bid Date",
