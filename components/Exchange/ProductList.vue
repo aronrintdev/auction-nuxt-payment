@@ -61,7 +61,7 @@
 </template>
 <script>
 import { Loader, Pagination } from '~/components/common'
-import ExchangeFilter from '~/components/Exchange/Filters'
+import ExchangeFilter from '~/components/Exchange/NewFilters'
 import ProductTrendListCard from '~/components/Exchange/SimilarProductTable'
 import { PAGE_OPTIONS, PER_PAGE } from '~/static/constants/stock-exchange'
 
@@ -72,6 +72,7 @@ export default {
     ProductTrendListCard,
     ExchangeFilter,
     Pagination,
+
   },
   props: {
     loading: {
@@ -116,6 +117,10 @@ export default {
     },
   },
   created() {
+    if (this.isMobile === true)
+    {
+      this.loadPage()
+    }
     this.myEventHandler()
   },
   destroyed() {
@@ -168,6 +173,7 @@ export default {
             page: this.currentPage,
             take: this.perPage,
             paginate: 1,
+            'sort_by_column':'id',
             ...this.filter,
           },
         })
