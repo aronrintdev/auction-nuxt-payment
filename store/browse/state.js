@@ -1,10 +1,10 @@
 export default function () {
   return {
     filters: {},
-    selectedPrices: null,
-    selectedYears: null,
-    selectedBrands: null,
-    selectedSizes: null,
+    selectedPrices: [],
+    selectedYears: [],
+    selectedBrands: [],
+    selectedSizes: [],
     selectedSizeTypes: null,
   }
 }

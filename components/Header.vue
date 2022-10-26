@@ -274,6 +274,7 @@ export default {
 <style lang="sass">
 @import '~/assets/css/_variables'
 .navbar-wrapper.navbar
+  font-family: $font-family-base
   padding: 31px 16px
   background-color: $color-white-1
   @media (min-width: 576px)
