@@ -120,8 +120,8 @@
             </div>
             <!-- Buttons Section -->
             <div v-if="!isExpire && !isPayment"  class="d-flex justify-content-between mt-3 mb-4  ml-1 mr-1">
-              <Button variant="outline-info" pill class="invent-btn" @click="showInventory">Inventory</Button>
-              <Button variant="info" pill class="next-btns" @click="showPoorTradeConfirmationModal">Next</Button>
+              <Button variant="outline-info" pill class="invent-btn" @click="showInventory">{{$t('orders.inventory')}}</Button>
+              <Button variant="info" pill class="next-btns" @click="showPoorTradeConfirmationModal">{{$t('trades.trade_arena.next')}}</Button>
             </div>
           </div>
           <inventory-bottom-sheet ref="inventory"/>
