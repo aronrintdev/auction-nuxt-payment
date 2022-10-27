@@ -138,7 +138,7 @@
           <b-col md="9 text-right">{{$t('trades.trade_arena.trade_completed.shipping_fee')}}</b-col>
           <b-col md="3 text-right pr-50">${{(trade.shipping_fee/100).toFixed(2)}}</b-col>
           </div>
-          <div class="d-flex billing mb-2">
+          <div v-if="trade.cash_added > 0" class="d-flex billing mb-2">
           <b-col md="9 text-right">{{$t('trades.trade_arena.trade_completed.processing_fee')}}</b-col>
           <b-col md="3 text-right pr-50">${{(trade.processing_fee/100).toFixed(2)}}</b-col>
           </div>

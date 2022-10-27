@@ -53,9 +53,10 @@ export function searchProductsList({ commit }, payload){
  * @returns {Promise<void>}
  */
 export function deleteSelectedTrades({ commit }, payload){
+  console.log(payload)
   return new Promise((resolve, reject) => {
     this.$axios
-      .delete('/trades/multiple', payload)
+      .delete('/trades/multiple', {data: {...payload}})
     .then((response) => {
       resolve(response)
     })

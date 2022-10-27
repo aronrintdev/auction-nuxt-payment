@@ -1,6 +1,7 @@
 export const NOTIFICATION_MIN_YEAR_RANGE_WINDOW = 1
 export const NOTIFICATION_MIN_YEAR = 2000
 export const NOTIFICATION_MAX_YEAR = 2099
+export const NOTIFICATION_PER_PAGE = 10
 export const NOTIFICATION_CHANNEL_APP = 'app'
 export const NOTIFICATION_CHANNEL_EMAIL = 'email'
 export const NOTIFICATION_CHANNEL_TEXT = 'text'

@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex align-items-center checkbox-switch" :class="customClass">
-    <span :class="{ active: !value }">{{ labelOff }}</span>
+    <span role="button" :class="{ active: !value }" @click="onChange(false)">{{ labelOff }}</span>
     <b-form-checkbox
       :checked="value"
       name="check-button"
@@ -9,7 +9,7 @@
       @input="toggle"
       @change="onChange"
     />
-    <span :class="{ active: value }">{{ labelOn }}</span>
+    <span role="button" :class="{ active: value }" @click="onChange(true)">{{ labelOn }}</span>
   </div>
 </template>
 <script>

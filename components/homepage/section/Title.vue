@@ -2,7 +2,7 @@
 <template>
   <div class="section-title-wrapper">
     <div class="text-title" v-html="title"></div>
-    <div class="text-description" v-html="description"></div>
+    <div class="text-description d-none d-sm-block" v-html="description"></div>
   </div>
 </template>
 <script>
