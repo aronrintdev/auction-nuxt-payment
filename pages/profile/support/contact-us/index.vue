@@ -103,7 +103,7 @@ export default {
 
   .box, .form-box
     background: $color-white-14
-    border: 1px solid $color-white-21
+    border: 1px solid $color-white-25
     border-radius: 10px
 
 @media (max-width: 767px)
