@@ -1,12 +1,20 @@
 <template>
-  <b-navbar toggleable="lg" class="navbar-wrapper border-bottom px-2 px-md-4">
+  <b-navbar toggleable="lg" class="navbar-wrapper border-bottom">
     <b-navbar-toggle target="top-menu-sidebar">
       <template #default>
         <img width="25px" :src="require('~/assets/img/icons/menu.svg')" />
       </template>
     </b-navbar-toggle>
     <b-navbar-brand to="/" class="navbar-brand ml-auto m-lg-0">
-      <Logo :width="171" />
+      <div class="d-none d-sm-inline-block">
+        <Logo :width="171" />
+      </div>
+      <div class="d-inline-block d-sm-none">
+        <Logo v-if="!$nuxt.context.route.meta[0].pageTitle" :width="171" />
+        <h2 v-else class="meta-info font-primary fs-18 fw-7 mb-0 text-black">
+          {{ $nuxt.context.route.meta[0].pageTitle }}
+        </h2>
+      </div>
     </b-navbar-brand>
     <b-nav-form class="search-box-wrapper">
       <SearchInput
@@ -51,19 +59,29 @@
         />
       </b-nav-form>
       <b-navbar-nav class="nav-menu-wrapper">
-        <b-nav-item class="w-100" to="/shop" :link-attrs="{ title: $t('navbar.shop') }">
+        <b-nav-item
+          class="w-100"
+          to="/shop"
+          :link-attrs="{ title: $t('navbar.shop') }"
+        >
           {{ $t('navbar.shop') }}
         </b-nav-item>
-        <b-nav-item class="w-100" to="/sell" :link-attrs="{ title: $t('navbar.sell') }">
+        <b-nav-item
+          class="w-100"
+          to="/sell"
+          :link-attrs="{ title: $t('navbar.sell') }"
+        >
           {{ $t('navbar.sell') }}
         </b-nav-item>
-        <b-nav-item class="w-100"
+        <b-nav-item
+          class="w-100"
           to="/trades"
           :link-attrs="{ title: $t('navbar.trade') }"
         >
           {{ $t('navbar.trade') }}
         </b-nav-item>
-        <b-nav-item class="w-100"
+        <b-nav-item
+          class="w-100"
           to="/auction"
           :link-attrs="{ title: $t('navbar.auction') }"
         >
@@ -75,13 +93,14 @@
           to="/profile/preferences"
           :link-attrs="{ title: $t('navbar.profile') }"
         >
-         {{ $t('navbar.profile') }}
+          {{ $t('navbar.profile') }}
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
     <!-- Sidebar menu begin -->
     <b-sidebar
-      id="top-menu-sidebar" ref="topSidebar"
+      id="top-menu-sidebar"
+      ref="topSidebar"
       v-click-outside="onClickOutside"
       shadow
       @shown="sidebarIsVisible = true"
@@ -107,28 +126,34 @@
             :link-attrs="{ title: $t('navbar.shop') }"
           >
             <img src="~/assets/img/icons/profile/purchases.svg" />
-            <span>{{$t('navbar.shop')}}</span>
+            <span>{{ $t('navbar.shop') }}</span>
           </b-nav-item>
           <b-nav-item
             class="w-100"
             to="/sell"
             :link-attrs="{ title: $t('navbar.sell') }"
           >
-            <img src="~/assets/img/icons/profile/selling.svg" /><span>{{ $t('navbar.sell') }}</span>
+            <img src="~/assets/img/icons/profile/selling.svg" /><span>{{
+              $t('navbar.sell')
+            }}</span>
           </b-nav-item>
           <b-nav-item
             class="w-100"
             to="/trades"
             :link-attrs="{ title: $t('navbar.trade') }"
           >
-            <img src="~/assets/img/icons/profile/trades.svg" /><span>{{ $t('navbar.trade') }}</span>
+            <img src="~/assets/img/icons/profile/trades.svg" /><span>{{
+              $t('navbar.trade')
+            }}</span>
           </b-nav-item>
           <b-nav-item
             class="w-100"
             to="/auction"
             :link-attrs="{ title: $t('navbar.auction') }"
           >
-            <img src="~/assets/img/icons/profile/auctions.svg" /><span>{{ $t('navbar.auction') }}</span>
+            <img src="~/assets/img/icons/profile/auctions.svg" /><span>{{
+              $t('navbar.auction')
+            }}</span>
           </b-nav-item>
           <b-nav-item
             v-if="authenticated"
@@ -136,7 +161,9 @@
             to="/profile/preferences"
             :link-attrs="{ title: $t('navbar.profile') }"
           >
-            <img src="~/assets/img/icons/side-menu/preferences.svg" /><span>{{ $t('navbar.profile') }}</span>
+            <img src="~/assets/img/icons/side-menu/preferences.svg" /><span>{{
+              $t('navbar.profile')
+            }}</span>
           </b-nav-item>
         </b-navbar-nav>
       </div>
@@ -240,15 +267,19 @@ export default {
       if (topSidebar && this.sidebarIsVisible) {
         topSidebar.hide()
       }
-    }
+    },
   },
 }
 </script>
 <style lang="sass">
 @import '~/assets/css/_variables'
-.navbar-wrapper
-  padding: 23px 30px 23px 30px
+.navbar-wrapper.navbar
+  font-family: $font-family-base
+  padding: 31px 16px
   background-color: $color-white-1
+  @media (min-width: 576px)
+    padding: 25px 43px
+    padding-right: 19px
   .navbar-brand
     margin: 0
     padding: 0

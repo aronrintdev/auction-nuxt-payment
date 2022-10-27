@@ -78,16 +78,19 @@
         </div>
       </div>
     </b-container>
-    <Footer />
+    <BottomNavigation class="d-flex d-md-none" />
+    <Footer class="d-none d-md-flex" />
   </div>
 </template>
 <script>
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
+import BottomNavigation from '~/components/homepage/BottomNavigation.vue'
 export default {
   components: {
     Header,
     Footer,
+    BottomNavigation,
   },
   props: {
     error: {
