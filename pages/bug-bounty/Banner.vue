@@ -1,8 +1,6 @@
 <template>
     <div class="banner-wrapper">
       <div>
-        <h1 v-html="$t('home.bug_bounty_program')"></h1>
-        <p>{{ $t('home.for_reporting') }}</p>
       </div>
     </div>
   </template>
@@ -17,7 +15,7 @@
   @import '~/assets/css/_variables'
   
   .banner-wrapper
-    background-image: url('~/assets/img/home/banner.png')
+    background-image: url('~/assets/img/bug-bounty/bounty-banner.png')
     width: 100%
     height: 443px
     background-color: purple
