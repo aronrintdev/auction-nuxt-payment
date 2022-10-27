@@ -1,0 +1,81 @@
+<template>
+    <section class="navigation-links mb-5">
+      <div class="custom-container p-0" :class="{ 'mx-auto': centered }">
+        <div class="d-flex justify-content-center gap-3" style="flex-flow: wrap">
+            <div
+                class="border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
+            >
+                <img
+                    src="~/assets/img/bug-bounty/log-icon.png"
+                    class="fs-50"
+                />
+                <h2 class="text-black fw-7 mt-3 fs-24 font-primary">
+                    {{ $t('bounty.stages.low') }}
+                </h2>
+                <h6 class="text-gray mb-0 fw-6 fs-16 font-primary">
+                    $20 - 50
+                </h6>
+                <a href="#" class="fs-14 fw-5 text-underline"><u>Visual/Content</u></a>
+            </div>
+            <div
+              class="border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
+            >
+              <img
+                src="~/assets/img/bug-bounty/high.png"
+                class="fs-50"
+              />
+              <h2 class="text-black fw-7 mt-3 fs-24 font-primary">
+                {{ $t('bounty.stages.medium') }}
+              </h2>
+              <h6 class="text-gray mb-0 fw-6 fs-16 font-primary">
+                $51 - 100
+              </h6>
+              <a href="#" class="fs-14 fw-5 text-underline"><u>Functional</u></a>
+            </div>
+            <div
+              class="border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
+            >
+              <img
+                src="~/assets/img/bug-bounty/high1.png"
+                class="fs-50"
+              />
+              <h2 class="text-black fw-7 mt-3 fs-24 font-primary">
+                {{ $t('bounty.stages.high') }}
+              </h2>
+              <h6 class="text-gray mb-0 fw-6 fs-16 font-primary">
+                $101 - 25000
+              </h6>
+              <a href="#" class="fs-14 fw-5 text-underline"><u>System Vulnerability</u></a>
+            </div>
+        </div>
+      </div>
+    </section>
+  </template>
+  
+  <script>
+  export default {
+    name: 'NavigationsLinks',
+    props: {
+      centered: Boolean,
+    },
+    methods: {
+      openChat() {
+        this.$tawkMessenger.toggle()
+      },
+    },
+  }
+  </script>
+  
+  <style lang="sass">
+  .navigation-links
+    .custom-container
+      width: 904px
+    .navigation-card
+      width: 260px
+      height: 242px !important
+      img
+        width: 86px
+  .live-chat
+    cursor: pointer
+  </style>
+  
