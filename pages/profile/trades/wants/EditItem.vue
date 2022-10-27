@@ -1,5 +1,5 @@
 <template>
-  <div class="page-content font-monserrat px-3">
+  <div id="edit-item" class="page-content font-monserrat px-3">
     <div class="pt-3 d-flex d-lg-none justify-content-center">
       <div class="d-flex flex-column separator col-6 justify-content-center align-items-center">
         <span class="label">{{ $t('common.sku') }}</span>
@@ -231,7 +231,7 @@
       </div>
 
       <div class="d-none d-sm-block">
-        <div class="product-details mx-2">{{ $t('orders.product_details') }}</div>
+        <div class="product-details px-2">{{ $t('orders.product_details') }}</div>
         <div class="mt-3 d-flex">
           <div class="col-2 mr-2">
             <div class="product-details-label">{{ $t('common.sku') }}:</div>
@@ -254,14 +254,12 @@
         </div>
       </div>
 
-      <div class="custom-shadow px-2 mt-5 mb-3">
-        <ProductLatestSales
-          :style="{ marginTop: '0 !important', padding: 0, marginBottom: '20px' }"
-          :value="product.latest_sales"
+      <div class="mt-4 px-3 px-sm-0 mb-3 pb-3 custom-shadow">
+        <SalesSection
+          :product="product"
           :sku="product.product.sku"
-          class="col-11 pl-4"
-          headerClass="responsive-header"
-          :labelsStyle="{
+          chartHeaderClass="d-none"
+          :chartLabelsStyle="{
             display: 'flex',
             flexDirection: 'row !important',
             justifyContent: 'space-between',
@@ -269,24 +267,8 @@
             fontWeight: 500,
             fontSize: '13px',
           }"
-          :labelStyle="{
-            color: '#999'
-          }"
         />
-
-        <!-- <div class="d-flex d-md-none justify-content-between pb-3 mt-3">
-          <div class="chart-button col-3">
-            {{ $t('products.asks') }}
-          </div>
-          <div class="chart-button col-3">
-            {{ $t('products.offers') }}
-          </div>
-          <div class="chart-button col-3">
-            {{ $t('products.sales') }}
-          </div>
-        </div> -->
       </div>
-
       <div
         class="add-want-button d-sm-none mt-1 mb-3"
         role="button"
@@ -319,6 +301,8 @@ import CustomDropdown from '~/components/common/CustomDropdown'
 import ProductImageViewer from '~/components/product/ImageViewerV2'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
 import ProductLatestSales from '~/components/product/LatestSales'
+import SalesSection from '~/components/product/SalesSection'
+import { Icon } from '~/components/common'
 
 
 export default {
@@ -333,7 +317,9 @@ export default {
     ProductImageViewer,
     ProductImageViewerMagic360,
     ProductLatestSales,
-    SelectListModal
+    SelectListModal,
+    SalesSection,
+    Icon
   },
   props: {
     product: {
@@ -389,6 +375,8 @@ export default {
       conditionLabel: this.product.packaging_condition.name || this.$t('products.box_conditions.none'),
       sizeViewMode: 'carousel',
       currentSizeId: this.product.size.id,
+      currentTab: 'graph',
+      currentDataTab: '',
       errors: {
         size: '',
         box: '',
@@ -410,11 +398,17 @@ export default {
       this.box_condition = this.product.packaging_condition_id
       this.selected_size = this.product.size_id
     }
+
+    const wrapper = document.querySelector('.main-wrapper')
+    if (wrapper.querySelector('#edit-item')) {
+      wrapper.style.backgroundColor = '#fafafa'
+    }
   },
   methods: {
     ...mapActions({
       createInventories: 'inventory/createInventories',
     }),
+
     closeSelectListModal(list) {
       this.listModalOpen = false
       this.selectList = list
@@ -614,7 +608,7 @@ export default {
   font-size: 20px
   padding-bottom: 17px
   margin-top: 55px
-  border-bottom: 1px solid $color-gray-23
+  border-bottom: 0.5px solid $color-gray-23
 
 .custom-shadow
   @media (max-width: 576px)
@@ -775,17 +769,6 @@ export default {
     font-size: 15px
     text-transform: uppercase
 
-.chart-button
-  height: 34px
-  border: 1px solid #C4C4C4
-  border-radius: 4px
-  font-weight: 600
-  font-size: 14px
-  color: #000
-  display: flex
-  align-items: center
-  justify-content: center
-
 .add-want-button
   height: 40px
   background: #000
@@ -848,5 +831,12 @@ export default {
   justify-content: space-between
   font-weight: 600
   font-size: 12px
+
+.close-table
+  position: relative
+  display: flex
+  justify-content: flex-end
+  top: 33px
+  z-index: 100
 
 </style>

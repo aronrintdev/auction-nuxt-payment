@@ -308,7 +308,8 @@ export default {
 
 .child-container
   margin-top: 18px
-  padding: 0 56px
+  @media (min-width: 576px)
+    padding: 0 56px
 
   h2
     @include heading-4

@@ -606,7 +606,6 @@ export default {
   methods: {
     ...mapActions('trades', ['searchProductsList']),
     ...mapActions('browse', ['fetchFilters']), // getter to get filter listing from store
-    },
 
     submitBulk() {
       if (this.action === 'delete' || this.action === 'delete_combination') {
@@ -619,6 +618,7 @@ export default {
     redirectToAddWant(product) {
       this.editItem = {
         product,
+        sku: product.product && product.product.sku,
         packaging_condition: {
           id: '',
           name: ''
