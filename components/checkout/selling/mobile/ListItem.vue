@@ -3,7 +3,7 @@
   <b-row class="product-wrapper mx-0">
     <b-col cols="12" sm="12">
       <b-row class="product-card">
-        <b-col cols="6" sm="6" class="bg-color-white-4 d-flex align-items-center justify-content-center">
+        <b-col cols="6" sm="6" class="bg-white-4 d-flex align-items-center justify-content-center">
           <b-img
             class="custom-thumbnail"
             :src="product.image"
@@ -15,17 +15,17 @@
             <ThreeDotMenuSVG class="float-right" @click="$emit('item-options-clicked')" />
             <span>{{ name }}</span>
           </div>
-          <div class="body-9-normal text-color-gray-5 text-uppercase">
+          <div class="body-9-normal text-gray-5 text-uppercase">
             <span>{{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ product.sku }}</span>
           </div>
-          <div class="body-9-normal text-color-gray-5">
+          <div class="body-9-normal text-gray-5">
             <span>{{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ colorWay }}&comma;</span>
             <span>{{ $tc('common.size', 1) }}&colon;&nbsp;{{ product.size.size }}</span>
           </div>
-          <div class="body-9-normal text-color-gray-5">
+          <div class="body-9-normal text-gray-5">
             <span>{{ $t('shopping_cart.box_condition') }}&colon;&nbsp;{{ boxCondition }}</span>
           </div>
-          <div class="body-9-normal text-color-gray-5">
+          <div class="body-9-normal text-gray-5">
             <span>{{ $t('shopping_cart.price') }}&colon;&nbsp;{{ total | toCurrency }}</span>
           </div>
 
