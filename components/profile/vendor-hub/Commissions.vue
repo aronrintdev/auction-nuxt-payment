@@ -120,7 +120,7 @@
 
           <template #cell(product)="data">
             <div class="text-left">
-              {{ data.item.product?.name }}
+              {{ data.item.product && data.item.product.name ? data.item.product.name : '-' }}
             </div>
           </template>
 
