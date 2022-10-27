@@ -411,6 +411,7 @@ export default {
       this.loading = true
       // Place bid API
       this.$axios.post(`auctions/${this.auction.id}/bids`, {
+          discount: this.getDiscount,
           price: this.getSubtotal,
           shipping_fee: this.getShippingFee,
           processing_fee: this.getProcessingFee,
