@@ -75,6 +75,11 @@ Vue.filter('formatDate', (value, type) => {
   if(type === 'MM/DD/YYYY') {
     return `${mm}/${dd}/${yyyy}`
   }
+
+  if(type === 'DD-MM-YYYY') {
+    return `${dd}-${mm}-${yyyy}`
+  }
+  
   return `${mm}/${dd}/${yyyy}`
 })
 

@@ -74,54 +74,54 @@ export function updateGiftCardDetails({ commit }, payload) {
 export function giftCardCheckoutWithCard({ commit }, payload) {
   return new Promise((resolve, reject) => {
     this.$axios
-    .post(process.env.API_URL + '/purchase-giftcard/card', {
-      billing: {
-        first_name: payload.data.billingInfo.inputFirstName,
-        last_name: payload.data.billingInfo.inputLastName,
-        address_line_1: payload.data.billingInfo.billingAddress,
-        city: payload.data.billingInfo.city,
-        state: payload.data.billingInfo.state,
-        address_line_2: payload.data.billingInfo.aptSuite,
-        country: payload.data.billingInfo.country,
-        zip: payload.data.billingInfo.zip,
-        type: ADDRESS_TYPE_BILLING,
-        email: payload.data.billingInfo.email,
-        is_default: payload.payment.saveforNextTime
-      },
-      giftcard_details: {
-        selected_cardID: payload.data.cardDetails.selectedCardID,
-        delivery_date: payload.data.cardDetails.deliveryDate,
-        to: payload.data.cardDetails.to,
-        from: payload.data.cardDetails.from,
-        message: payload.data.cardDetails.message,
-        giftCardAmount: payload.data.cardDetails.giftCardAmount
-      },
-      payment_method: {
-        card_holder_name: payload.payment.cardholderName,
-        card_last_digits: payload.payment.cardNumber,
-        card_expiry_date: payload.payment.cardExp,
-        card_brand: payload.payment.cardBrand,
-        payment_type: PAYMENT_METHOD_TYPE_CARD,
-        is_default: payload.payment.saveforNextTime,
-        customer_vault_id: payload.customerVaultId
-      },
-      order: {
-        payment_token: payload.payment.paymentToken,
-        sub_total: payload.data.cardDetails.giftCardAmount,
-        total: payload.total,
-        shipping_fee: payload.shippingFee,
-        processing_fee: payload.processingFee,
-        tax: payload.tax,
-        payment_type: PAYMENT_METHOD_TYPE_CARD
-      }
-    })
-    .then((res) => {
-      return resolve(res.data)
-    })
-    .catch((error) => {
-      this.$logger.logToServer('Purchase GiftCard Error', error.response)
-      return reject(error)
-    })
+      .post(process.env.API_URL + '/purchase-giftcard/card', {
+        billing: {
+          first_name: payload.data.billingInfo.inputFirstName,
+          last_name: payload.data.billingInfo.inputLastName,
+          address_line_1: payload.data.billingInfo.billingAddress,
+          city: payload.data.billingInfo.city,
+          state: payload.data.billingInfo.state,
+          address_line_2: payload.data.billingInfo.aptSuite,
+          country: payload.data.billingInfo.country,
+          zip: payload.data.billingInfo.zip,
+          type: ADDRESS_TYPE_BILLING,
+          email: payload.data.billingInfo.email,
+          is_default: payload.payment.saveforNextTime
+        },
+        giftcard_details: {
+          selected_cardID: payload.data.cardDetails.selectedCardID,
+          delivery_date: payload.data.cardDetails.deliveryDate,
+          to: payload.data.cardDetails.to,
+          from: payload.data.cardDetails.from,
+          message: payload.data.cardDetails.message,
+          giftCardAmount: payload.data.cardDetails.giftCardAmount
+        },
+        payment_method: {
+          card_holder_name: payload.payment.cardholderName,
+          card_last_digits: payload.payment.cardNumber,
+          card_expiry_date: payload.payment.cardExp,
+          card_brand: payload.payment.cardBrand,
+          payment_type: PAYMENT_METHOD_TYPE_CARD,
+          is_default: payload.payment.saveforNextTime,
+          customer_vault_id: payload.customerVaultId
+        },
+        order: {
+          payment_token: payload.payment.paymentToken,
+          sub_total: payload.data.cardDetails.giftCardAmount,
+          total: payload.total,
+          shipping_fee: payload.shippingFee,
+          processing_fee: payload.processingFee,
+          tax: payload.tax,
+          payment_type: PAYMENT_METHOD_TYPE_CARD
+        }
+      })
+      .then((res) => {
+        return resolve(res.data)
+      })
+      .catch((error) => {
+        this.$logger.logToServer('Purchase GiftCard Error', error.response)
+        return reject(error)
+      })
   })
 }
 
@@ -258,24 +258,24 @@ export function addPaymentDetails({ commit }, payload) {
 export function addFundsToGiftCard({ commit, state }, payload) {
   return new Promise((resolve, reject) => {
     this.$axios
-    .post(process.env.API_URL + '/preferences/giftcard/reload', {
-      paymentType: SAVED,
-      paymentMethodId: payload.paymentId.selectedId,
-      userGiftCardId: state.giftCardSelected.id,
-      order: {
-        total: payload.total,
-        shipping_fee: payload.shippingFee,
-        processing_fee: payload.processingFee,
-        tax: payload.tax,
-        sub_total: payload.subTotal
-      }
-    })
-    .then((res) => {
-      resolve(res.data)
-    })
-    .catch((error) => {
-      reject(error)
-    })
+      .post(process.env.API_URL + '/preferences/giftcard/reload', {
+        paymentType: SAVED,
+        paymentMethodId: payload.paymentId.selectedId,
+        userGiftCardId: state.giftCardSelected.id,
+        order: {
+          total: payload.total,
+          shipping_fee: payload.shippingFee,
+          processing_fee: payload.processingFee,
+          tax: payload.tax,
+          sub_total: payload.subTotal
+        }
+      })
+      .then((res) => {
+        resolve(res.data)
+      })
+      .catch((error) => {
+        reject(error)
+      })
   })
 }
 
@@ -288,44 +288,44 @@ export function addFundsToGiftCard({ commit, state }, payload) {
  */
 export function addFundsToGiftCardWithNewPayment({ commit, state }, payload) {
   return new Promise((resolve, reject) => {
-  this.$axios
-    .post(process.env.API_URL + '/preferences/giftcard/reload/new-payment', {
-      paymentType: NEW,
-      order: {
-        total: payload.total,
-        shipping_fee: payload.shippingFee,
-        processing_fee: payload.processingFee,
-        tax: payload.tax,
-        sub_total: payload.subTotal,
-        payment_token: payload.payment.paymentToken
-      },
-      userGiftCardId: state.giftCardSelected.id,
-      billing: {
-        first_name: payload.billing.inputFirstName,
-        last_name: payload.billing.inputLastName,
-        email: payload.email,
-        address_line_1: payload.billing.inputAddressLine,
-        city: payload.billing.inputCity,
-        state: payload.billing.inputState,
-        zip: payload.billing.inputZipCode,
-        country: payload.billing.inputCountry,
-        is_default: payload.payment.saveforNextTime,
-        type: ADDRESS_TYPE_BILLING
-      },
-      payment_method: {
-        card_holder_name: payload.payment.cardholderName,
-        card_last_digits: payload.payment.cardNumber,
-        card_expiry_date: payload.payment.cardExp,
-        card_brand: payload.payment.cardBrand,
-        is_default: payload.payment.saveforNextTime
-      }
-    })
-    .then((res) => {
-      resolve(res.data)
-    })
-    .catch((error) => {
-      reject(error)
-    })
+    this.$axios
+      .post(process.env.API_URL + '/preferences/giftcard/reload/new-payment', {
+        paymentType: NEW,
+        order: {
+          total: payload.total,
+          shipping_fee: payload.shippingFee,
+          processing_fee: payload.processingFee,
+          tax: payload.tax,
+          sub_total: payload.subTotal,
+          payment_token: payload.payment.paymentToken
+        },
+        userGiftCardId: state.giftCardSelected.id,
+        billing: {
+          first_name: payload.billing.inputFirstName,
+          last_name: payload.billing.inputLastName,
+          email: payload.email,
+          address_line_1: payload.billing.inputAddressLine,
+          city: payload.billing.inputCity,
+          state: payload.billing.inputState,
+          zip: payload.billing.inputZipCode,
+          country: payload.billing.inputCountry,
+          is_default: payload.payment.saveforNextTime,
+          type: ADDRESS_TYPE_BILLING
+        },
+        payment_method: {
+          card_holder_name: payload.payment.cardholderName,
+          card_last_digits: payload.payment.cardNumber,
+          card_expiry_date: payload.payment.cardExp,
+          card_brand: payload.payment.cardBrand,
+          is_default: payload.payment.saveforNextTime
+        }
+      })
+      .then((res) => {
+        resolve(res.data)
+      })
+      .catch((error) => {
+        reject(error)
+      })
   })
 }
 
@@ -334,4 +334,53 @@ export function addFundsToGiftCardWithNewPayment({ commit, state }, payload) {
  */
 export function viewPageTitle({ commit }, payload) {
   commit('updatePageTitle', payload)
+}
+
+
+export function saveSelectedAddressType({ commit }, payload) {
+  commit('storeSelectedAddressType', payload)
+}
+
+export function actionType({ commit }, payload) {
+  commit('updateActionType', payload)
+}
+export function editAddressID({ commit }, payload) {
+  commit('editAddressID', payload)
+}
+
+export function updateDefaultAddress({ commit }, payload) {
+  return new Promise((resolve, reject) => {
+    this.$axios
+    .put(
+      `preferences/profile/update-address-status/${payload.id}`,
+      {
+        type: payload.type,
+      }
+    )
+      .then((res) => {
+        resolve(res.data)
+      })
+      .catch((err) => {
+        this.$logger.logToServer('Update address error', err.response)
+        reject(err)
+      })
+  })
+}
+
+export function updateDefaultConfirmed({ commit }, payload){
+  commit('storeDefaultConfirmed', payload)
+}
+
+export function addressDelete({ commit }, payload) {
+  return new Promise((resolve, reject) => {
+    this.$axios
+    .delete(`preferences/profile/delete-address/${payload}`)
+    .then((res) => {
+      resolve(res)
+    })
+    .catch((err) => {
+      this.$logger.logToServer('Delete address error:', err.response)
+      reject(err)
+    })
+  })
 }
