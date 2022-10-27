@@ -155,7 +155,9 @@ export default {
         this.dropdownShow = false
       }
     },
-
+    hideDropdown() {
+      this.dropdownShow = false
+    },
     handleClearClick(event) {
       event.preventDefault()
       this.$emit('select', null)

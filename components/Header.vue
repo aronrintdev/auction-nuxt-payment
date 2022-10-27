@@ -169,7 +169,10 @@
       </div>
     </b-sidebar>
     <!-- Sidebar menu end -->
-    <b-navbar-nav class="nav-menu-wrapper flex-row d-none d-lg-flex">
+    <b-navbar-nav
+      class="nav-menu-wrapper flex-row d-none d-lg-flex"
+      :class="{ 'divider-left pl-4': authenticated }"
+    >
       <b-nav-item
         v-if="!authenticated"
         class="nav-item-signup"
@@ -180,16 +183,12 @@
       </b-nav-item>
       <b-nav-item
         v-if="!authenticated"
-        class="nav-item-login"
+        class="nav-item-login divider-left"
         to="/login"
         :link-attrs="{ title: $t('navbar.login') }"
       >
         {{ $t('navbar.login') }}
       </b-nav-item>
-      <!--        For now heatcheck is disabled-->
-      <!--        <b-nav-item class="nav-item-icons" to="/heat-check">-->
-      <!--          <b-img :src="require('~/assets/img/home/heat-check.svg')" />-->
-      <!--        </b-nav-item>-->
       <NotificationDropdown v-if="authenticated" />
       <b-nav-item
         v-if="authenticated"
@@ -201,17 +200,41 @@
       <b-nav-item class="nav-item-icons" to="/checkout/selling">
         <BagIcon />
       </b-nav-item>
+      <b-nav-item id="locale-dropdown" class="langDropdown">
+        <Dropdown
+          id="locale-dropdown"
+          ref="locale"
+          class="locale-dropdown"
+          :placeholder="locale"
+          :icon-arrow-down="require('~/assets/img/icons/arrow-down-gray2.svg')"
+        >
+          <template #body>
+            <div
+              v-for="(lang, index) in locales"
+              :key="index"
+              class="text-uppercase lang-option"
+              href="#"
+              @click="setLocale(lang)"
+            >
+              <div class="font-secondary fs-14 py-1">
+                {{ lang }}
+              </div>
+            </div>
+          </template>
+        </Dropdown>
+      </b-nav-item>
     </b-navbar-nav>
   </b-navbar>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import Logo from '~/components/header/Logo'
 import SearchInput from '~/components/common/SearchInput'
 import BagIcon from '~/components/checkout/icons/BagIcon'
 import SearchOverlay from '~/components/search/Overlay'
 import NotificationDropdown from '~/components/header/NotificationDropdown'
 import ScreenSize from '~/plugins/mixins/screenSize'
+import Dropdown from '~/components/common/form/Dropdown'
 export default {
   name: 'Header',
   components: {
@@ -220,6 +243,7 @@ export default {
     Logo,
     SearchInput,
     SearchOverlay,
+    Dropdown, 
   },
   mixins: [ScreenSize],
   data() {
@@ -229,6 +253,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(['locale', 'locales']),
     ...mapGetters({
       authenticated: 'auth/authenticated',
     }),
@@ -250,6 +275,10 @@ export default {
     },
   },
   methods: {
+    setLocale(lang) {
+      this.$refs.locale.hideDropdown()
+      this.$store.commit('SET_LANG', lang)
+    },
     handleSearchFocus() {
       this.showSearchOverlay = true
     },
@@ -271,9 +300,23 @@ export default {
   },
 }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
 @import '~/assets/css/_variables'
-.navbar-wrapper.navbar
+.locale-popover.popover
+  background-color: red
+  width: 100%
+  max-width: 100%
+  margin: 0
+  margin-left: 1px
+  border: none
+  box-shadow: none
+  .arrow
+    display: none
+  .popover-body
+    padding: 0
+    border-radius: 5px
+    overflow: hidden
+.navbar-wrapper.navbar::v-deep
   font-family: $font-family-base
   padding: 31px 16px
   background-color: $color-white-1
@@ -334,6 +377,10 @@ export default {
         margin: 0
         @media (max-width: 1256px)
           padding: 5px 13px
+      &.langDropdown
+         .nav-link
+          padding: 0
+          margin-left: 0
       &:not(.nav-item-icons)
         .nav-link
           &:hover
@@ -348,9 +395,7 @@ export default {
             visibility: hidden
     .nav-item-profile
       .nav-link
-        margin-right: 15px
         padding-right: 14px
-        border-right: 1px solid $color-gray-5
         @media (min-width: 991px)
           margin-left: 12px !important
     .nav-item-icons
@@ -364,7 +409,6 @@ export default {
     .nav-item-signup
       .nav-link
         padding-right: 7px
-        border-right: 1px solid $color-black-1
         color: $color-black-1
     .nav-item-login
       .nav-link
@@ -388,4 +432,43 @@ export default {
             padding-left: 24px
             font-size: 14px
             line-height: 17px
+  .divider-left
+    position: relative
+    &::before
+      content: ''
+      position: absolute
+      top: 50%
+      left: 0
+      width: 1px
+      height: 22px
+      background-color: $color-black-1
+      transform: translate(0, -50%)
+.locale-dropdown::v-deep
+  .dropdown_wrapper
+    padding: 0 !important
+    text-align: left
+  .lang-option
+    padding: 0 10px
+    transition: 0.1s all ease-in-out
+    &:not(:last-child)
+      border-bottom: 1px solid $color-gray-3
+    &:hover
+      background-color: $color-gray-3
+  .btn-dropdown
+    color: $color-black-1
+    border-width: 0
+    background-color: $color-white-1
+    border-radius: 8px
+    height: 30px
+    width: 100%
+    padding: 0 10px
+    text-transform: uppercase
+    .icon-main
+      margin-right: 20px !important
+    .icon-clear
+      right: 23px
+    &.opened
+      border-bottom-left-radius: 0
+      border-bottom-right-radius: 0
+      background-color: $color-white-4
 </style>
