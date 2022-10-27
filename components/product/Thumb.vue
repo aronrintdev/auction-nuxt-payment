@@ -1,5 +1,5 @@
 <template>
-  <div class="thumb-wrapper overflow-hidden" @click="handleClick">
+  <div class="thumb-wrapper w-auto overflow-hidden" @click="handleClick">
     <b-img :src="imageUrl" :width="width" :height="height" :alt="altText" />
     <div v-if="overlay" class="overlay"></div>
   </div>
@@ -83,7 +83,6 @@ export default {
 .thumb-wrapper
   position: relative
   background-color: $color-white-4
-  width: 100%
   img
     width: 100%
     aspect-ratio: 1

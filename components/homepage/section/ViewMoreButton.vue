@@ -1,6 +1,6 @@
 <template>
   <div class="view-more-wrapper">
-    <b-button variant="link" class="btn-view-more" @click="handleClick">
+    <b-button variant="link" class="btn-view-more d-none d-sm-block" @click="handleClick">
       {{ label }}
     </b-button>
     <img :src="require('assets/img/home/view-more.png')" @click="handleClick" />
@@ -51,4 +51,5 @@ export default {
   @media (max-width: 830px)
     margin: 20px 0 0 0
     justify-content: flex-end
+ 
 </style>

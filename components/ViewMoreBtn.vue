@@ -9,7 +9,6 @@
     </b-button>
     <img
       class="pointer"
-      width="44px"
       :src="require('assets/img/icons/view-more-arrow.png')"
       @click="handleClick"
     />
@@ -44,7 +43,8 @@ export default {
       color: $color-black-1
     @media (max-width: 768px)
       font-size: 12px
-  img
+  img.pointer
+    width: 70px
     @media (max-width: 768px)
       width: 44px
 </style>

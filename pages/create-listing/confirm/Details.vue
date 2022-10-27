@@ -1,29 +1,30 @@
 <template>
   <b-container fluid class="container-auction-confirm-details h-100">
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-none d-md-flex justify-content-between align-items-center">
       <h2 class="title">{{ $t('create_listing.collection.collection_details') }}</h2>
       <FormStepper :steps="steps" :selected="getCollectionState"/>
 
     </div>
     <div class="d-flex flex-column justify-content-around h-50">
-      <b-row >
+      <b-row class="mt-md-0">
         <b-col cols="12" sm="12" md="2">
-          <span class="font-weight-bold mb-2">{{ $t('common.name') }}*</span>
+          <span class="font-weight-bold">{{ $t('common.collection_name') }}*</span>
         </b-col>
         <b-col cols="12" sm="12" md="3">
           <FormInput
-            :placeholder="$t('common.name')"
+            :placeholder="$t('common.collection_name')"
             class=""
             :class="{'is-invalid': errorArray.includes('name')}"
             required
+            :pill="false"
             :value="form.name"
             @input="(e) => form.name = e"
           />
         </b-col>
       </b-row>
-      <b-row >
+      <b-row class="mt-4 mt-md-0">
         <b-col cols="12" sm="12" md="2">
-          <span class="font-weight-bold mb-2">{{ $t('create_listing.confirm.duration') }}</span>
+          <span class="font-weight-bold">{{ $t('create_listing.confirm.duration') }}</span>
         </b-col>
         <b-col cols="12" sm="12" md="3">
           <FormDropdown
@@ -33,7 +34,7 @@
             :items="DURATIONS"
             :icon-arrow-up="arrowUpIcon"
             :icon-arrow-down="arrowDownIcon"
-            class="mb-3 mw-40 mt-2"
+            class="mb-3 mw-40"
             :class="{'is-invalid': errorArray.includes('time_limit')}"
             no-arrow
             @select="handleDurationSelect"
@@ -41,35 +42,34 @@
         </b-col>
       </b-row>
       <b-row>
-        <div v-if="form.is_reserved" class="p-2 mt-5 ml-2 rounded reserve-info position-absolute d-flex align-items-center" >
-          <img :src="infoIcon" class="icon-info scale-2 mr-2" alt="Info icon" />
+        <b-col cols="12" sm="12" md="2">
+          <span class="font-weight-bold">{{ $t('create_listing.confirm.reserve') }} <img :src="infoIcon" class="icon-info mt-n1 ml-1" alt="Info icon" /></span>
+        </b-col>
+        <b-col cols="12" sm="12" md="10">
+          <div class="d-flex align-items-center reserve-switch">
+            <CheckboxSwitch
+              class="mr-2"
+              :value="form.is_reserved"
+              @change="form.is_reserved = !form.is_reserved; form.reserve_price = null"
+            />
+            <FormInput
+              :placeholder="$t('create_listing.confirm.reserve_price')"
+              class="flex-grow-1"
+              :class="{'is-invalid': errorArray.includes('reserve_price')}"
+              :disabled="!form.is_reserved"
+              required
+              :pill="false"
+              number
+              type="number"
+              :value="form.reserve_price"
+              @input="(e) => form.reserve_price = e"
+            />
+          </div>
+        </b-col>
+        <div v-if="form.is_reserved" class="p-2 mt-3 mt-md-5 ml-2 rounded reserve-info d-flex align-items-start" >
+          <img :src="infoIcon" class="icon-info scale-2 mt-1 mr-2" alt="Info icon" />
           {{ $tc('create_listing.confirm.reserve_text_info', 1) }} ${{calculateFee(form.reserve_price).toFixed(2)}} {{ $tc('create_listing.confirm.reserve_text_info', 2) }}
         </div>
-        <b-col cols="12" sm="12" md="2">
-          <span class="font-weight-bold">{{ $t('create_listing.confirm.reserve') }} <img :src="infoIcon" class="icon-info position-absolute mt-n2 mr-n5 scale-2" alt="Info icon" /></span>
-        </b-col>
-        <b-col cols="12" sm="12" md="3">
-          <CheckboxSwitch
-            class=""
-            :value="form.is_reserved"
-            :label-off="$t('create_listing.confirm.no_reserve')"
-            :label-on="$t('create_listing.confirm.reserve')"
-            @change="form.is_reserved = !form.is_reserved; form.reserve_price = null"
-          />
-        </b-col>
-        <b-col cols="12" sm="12" md="3">
-          <FormInput
-            :placeholder="$t('create_listing.confirm.reserve_price')"
-            class=""
-            :class="{'is-invalid': errorArray.includes('reserve_price')}"
-            :disabled="!form.is_reserved"
-            required
-            number
-            type="number"
-            :value="form.reserve_price"
-            @input="(e) => form.reserve_price = e"
-          />
-        </b-col>
       </b-row>
       <b-row class="mt-4">
         <b-col cols="12" sm="12" md="2">
@@ -82,25 +82,26 @@
             :class="{'is-invalid': errorArray.includes('start_bid_price')}"
             required
             number
+            :pill="false"
             :value="form.start_bid_price"
             @input="(e) => form.start_bid_price = e"
           />
         </b-col>
       </b-row>
-      <b-row>
+      <b-row class="mt-4">
         <b-col cols="12" sm="12" md="2">
           <span class="font-weight-bold">{{ $t('create_listing.confirm.status') }}</span>
         </b-col>
         <b-col cols="12" sm="12" md="2">
           <CheckboxSwitch
-            class=""
+            class="full-width-switch"
             :value="form.isLive"
             :label-off="$t('create_listing.confirm.status_select.scheduled')"
             :label-on="$t('create_listing.confirm.status_select.live')"
             @change="liveStatusChange"
           />
         </b-col>
-        <b-col v-if="!form.isLive">
+        <b-col v-if="!form.isLive"  class="mt-4">
           <span
             class="ml-2"
             :class="{'is-invalid': errorArray.includes('scheduled_date')}"
@@ -117,13 +118,13 @@
           </b-form-datepicker>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row class="justify-content-center pt-5 pb-4">
         <Button
           variant="primary"
           pill
+          class="next-button"
           @click="validateAndNext"
-        >{{ $t('create_listing.collection.save_next') }}</Button
-        >
+        >{{ $t('create_listing.collection.save_next') }}</Button>
       </b-row>
     </div>
 
@@ -232,6 +233,8 @@ export default {
 .is-invalid
   border: $color-red-1 2px solid
   border-radius: 100px
+  @media (max-width: 576px)
+    border-radius: 10px
 
 .container-auction-confirm-details
   padding: 47px 54px
@@ -241,54 +244,80 @@ export default {
     @include heading-3
     color: $color-black-1
 
-
-.scale-2
-  transform: scale(1.5)
-
-::v-deep
-    .custom-switch
-      transform: scale(1.5)
-      margin-left: 15px
-      margin-right: 10px
-
-::v-deep
-  .custom-switch
-    .custom-control-input
-      &:checked
-        & ~ .custom-control-label
-          &::before
-            color: $white
-            border-color: $color-green-18
-            background-color: $color-green-17
-            box-shadow: none
-::v-deep
-  .custom-switch
-    .custom-control-input
-      & ~ .custom-control-label
-        &::before
-          color: $white
-          border-color: rgba($color-gray-61, 0.16)
-          background-color: rgba($color-gray-61, 0.16)
-          box-shadow: none
-::v-deep
-  .custom-switch
-    .custom-control-input
-      &:checked
-        & ~ .custom-control-label
-          &::after
-            background-color: $white
-
-::v-deep
-  .custom-switch
-    .custom-control-input
-      & ~ .custom-control-label
-        &::after
-          background-color: $white
-
-.custom-control-label
-  &::after
-    background-color: $white
-
+  @media (max-width: 576px)
+    padding: 20px 16px
+    background: transparent
+    .font-weight-bold
+      @include body-9
+    .form-dropdown-wrapper::v-deep
+      .btn-dropdown
+        @include body-9
+        border: 1px solid $white-5
+        border-radius: 10px
+        padding: 17px 14px
+        font-weight: $normal
+        height: auto
+    .form-input-wrapper::v-deep
+      .form-input
+        @include body-9
+        font-weight: $medium
+        padding: 17px 14px
+        height: auto
+        border-radius: 10px
+        border: 1px solid $white-5
+    .reserve-switch
+      .checkbox-switch::v-deep
+        .custom-switch
+          margin: 0
+          padding-left: 55px
+          height: 30px
+          .custom-control-input ~ .custom-control-label::before
+            background: $white-5
+            border-radius: 2px
+            height: 30px
+            width: 55px
+            border: none
+            top: 0
+            left: -55px
+          .custom-control-input ~ .custom-control-label::after
+            width: 24px
+            height: 24px
+            background: $white
+            box-shadow: 0px 2px 4px rgba($black, 0.15), 0px 3px 8px rgba($black, 0.15)
+            border-radius: 2px
+            top: 3px
+            left: -51px
+          .custom-control-input:checked ~ .custom-control-label::before
+            background: $color-green-16
+          .custom-control-input:checked ~ .custom-control-label::after
+            transform: translateX(24px)
+    .full-width-switch::v-deep
+      background: $color-blue-20
+      border-radius: 2px
+      padding: 6px 12px
+      display: flex
+      .custom-control
+        width: 0
+        padding: 0
+        visibility: hidden
+      & > span
+        @include body-8
+        font-weight: $normal
+        color: $white
+        flex: 1
+        padding: 4px
+        text-align: center
+        &.active
+          background: $white
+          color: $black
+          box-shadow: 0px 2px 4px rgba($black, 0.15), 0px 3px 8px rgba($black, 0.15)
+          border-radius: 2px
+    .next-button.btn
+      @include body-21
+      background-color: $color-blue-20
+      border-color: $color-blue-20
+      padding: 12px 40px
+      height: auto
 .reserve-info
   @include body-5-bold
   background-color: $color-blue-10
