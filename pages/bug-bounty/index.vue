@@ -11,6 +11,7 @@
                       {{ $t('bounty.detail_content_description1') }}
                   </p>
                   <p class="mt-4">
+                      Aftert the completion of your form, our team will respond to you promptly. We thank you for helping our community and we may be rewarding effective reports with compensation. Reports are subject to the terms and conditions of our Program, set forth below, and with the Terms and Conditions available on our site.
                       {{ $t('bounty.detail_content_description2') }}
                   </p>
               </div>
@@ -62,12 +63,12 @@
       </div>
     </div>
   </template>
-  
+
   <script>
   import BountyBanner from '~/pages/bug-bounty/Banner'
   import ContactForm from '~/pages/bug-bounty/ContactForm'
   import Cards from '~/pages/bug-bounty/Cards'
-  
+
   export default {
     name: 'BugBounty',
     components: {
@@ -130,26 +131,26 @@
     background: linear-gradient(269.74deg, $color-blue-th-14 -77.58%, $color-gray-th-45 118.1%)
   .f-montserrat
     font-family: $font-montserrat
-  
+
   .active-nav
     font-size: 26px
     & h3
       color: $color-black-1
       border-bottom: 3px $color-black-1 solid
-  
+
   .inactive-nav
     font-size: 26px
     h3
       color: $color-gray-4
       &:hover
         color: $color-black-1
-  
+
   .pl-6
     padding-left: 6rem
-  
+
   .pr-6
     padding-right: 6rem
-  
+
   .page-title
     @include heading-5
 
@@ -168,4 +169,3 @@
     padding: 15px
   
   </style>
-  
