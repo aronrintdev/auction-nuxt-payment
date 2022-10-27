@@ -3646,7 +3646,9 @@
       "confirmed": "Confirmed",
       "success": "Success",
       "complete": "Complete",
-      "voided": "Voided"
+      "voided": "Voided",
+      "refunded": "Refunded",
+      "ship_to_deadstock": "Send to Deadstock"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
