@@ -203,7 +203,7 @@ export default {
     ...mapGetters('trades', ['getTradeDraftCount']),
 
     vendorPayoutMethod: (vm) => {
-      return !vm.getVendorPayoutMethod
+      return vm.getVendorPayoutMethod
     },
   },
   created() {
