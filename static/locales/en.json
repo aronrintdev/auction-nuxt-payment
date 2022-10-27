@@ -3636,6 +3636,8 @@
       "pending": "Pending",
       "processing_payment": "Processing Payment",
       "cancelled": "Cancelled",
+      "cancel": "Cancelled",
+      "": "",
       "received_at_ds": "Received at DS",
       "passed": "Passed",
       "inconclusive": "Inconclusive",
@@ -3648,7 +3650,8 @@
       "complete": "Complete",
       "voided": "Voided",
       "refunded": "Refunded",
-      "ship_to_deadstock": "Send to Deadstock"
+      "ship_to_deadstock": "Send to Deadstock",
+      "authentication_complete": "Authentication Complete"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
