@@ -9,28 +9,28 @@
         <StatsCard
           :icon="require('~/assets/img/icons/profile/total-sales.svg')"
           :title="$t('buyer_dashboard.dashobard_buyer.total_purchases')"
-          :value="'$'+analytics.total_purchases"
+          :value="''+analytics.total_purchases !== 'undefined' ? '$'+analytics.total_purchases : '...'"
         />
       </div>
       <div class="col-md-3">
         <StatsCard
           :icon="require('~/assets/img/icons/profile/commision-pending.svg')"
           :title="$t('buyer_dashboard.dashobard_buyer.rewards_points')"
-          :value="''+analytics.reward_points"
+          :value="''+analytics.reward_points !=='undefined'?analytics.reward_points : '...'"
         />
       </div>
       <div class="col-md-3">
         <StatsCard
           :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
           :title="$t('buyer_dashboard.dashobard_buyer.items_bought')"
-          :value="''+analytics.items_bought"
+          :value="''+analytics.items_bought !=='undefined'?analytics.items_bought : '...'"
         />
       </div>
       <div class="col-md-3">
         <StatsCard
           :icon="require('~/assets/img/icons/profile/item-sold.svg')"
           :title="$t('buyer_dashboard.dashobard_buyer.offers_placed')"
-          :value="''+analytics.offers_placed"
+          :value="''+analytics.offers_placed !=='undefined'?analytics.offers_placed : '...'"
         />
       </div>
     </section>
