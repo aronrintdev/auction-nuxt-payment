@@ -575,7 +575,7 @@ export default {
       }
       this.$axios.post(url,data)
       .then(() => {
-        this.getCombinations
+        this.getCombinations()
         this.selected = []
       })
       .catch((error)=>{

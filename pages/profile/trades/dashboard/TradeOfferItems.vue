@@ -255,5 +255,5 @@ export default {
   @include body-12-normal
   color: $color-gray-5
 .product-name
-    width: 72%
+    width: 280px
 </style>
