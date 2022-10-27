@@ -4463,6 +4463,7 @@
       "view_trader_wants": "View Trader’s Wants",
       "your_items_length": "Your Items quantity should not exceed {0}",
       "you_added_cash": "You added ${0} on top",
+      "you_requested_cash": "You requested ${0} on top",
       "balance_the_deal": "Balance the deal by Adding Cash",
       "edit_cash": "Edit Cash",
       "box_condition": "Box Condition",
