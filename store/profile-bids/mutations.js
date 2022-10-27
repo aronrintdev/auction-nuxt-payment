@@ -36,3 +36,22 @@ export function setSelectedAuctionBids(state, val) {
 export function setFilters(state, data) {
   state.filters = _.cloneDeep(data)
 }
+
+/**
+ * Set selected bid price
+ * @param state
+ * @param val bid
+ */
+ export function increaseSelectedBidPrice(state, val) {
+  state.selectedBid.price = val
+  state.selectedBid.auction.highest_bid = val
+}
+
+export function updateSelectedBidAuctionBids(state, { id, price }) {
+  state.selectedBid.auction.bids = state.selectedBid.auction.bids.map(bid => {
+    if (bid.id === id) {
+      bid.price = price
+    }
+    return bid
+  })
+}

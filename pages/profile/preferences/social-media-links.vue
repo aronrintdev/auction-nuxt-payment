@@ -316,7 +316,7 @@ export default {
   color: $color-black-17
 
 .border-underline
-  border-bottom: 2px solid $color-white-24
+  border-bottom: 2px solid $color-white-25
 
 .responsive-social-connect
   height: 900px

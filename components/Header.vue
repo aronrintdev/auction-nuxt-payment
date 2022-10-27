@@ -6,7 +6,15 @@
       </template>
     </b-navbar-toggle>
     <b-navbar-brand to="/" class="navbar-brand ml-auto m-lg-0">
-      <Logo :width="171" />
+      <div class="d-none d-sm-inline-block">
+        <Logo :width="171" />
+      </div>
+      <div class="d-inline-block d-sm-none">
+        <Logo v-if="!$nuxt.context.route.meta[0].pageTitle" :width="171" />
+        <h2 v-else class="meta-info font-primary fs-18 fw-7 mb-0 text-black">
+          {{ $nuxt.context.route.meta[0].pageTitle }}
+        </h2>
+      </div>
     </b-navbar-brand>
     <b-nav-form class="search-box-wrapper">
       <SearchInput
@@ -266,6 +274,7 @@ export default {
 <style lang="sass">
 @import '~/assets/css/_variables'
 .navbar-wrapper.navbar
+  font-family: $font-family-base
   padding: 31px 16px
   background-color: $color-white-1
   @media (min-width: 576px)
