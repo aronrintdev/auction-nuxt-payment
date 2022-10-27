@@ -5509,6 +5509,7 @@
       "high_content": "System Vulnerability"
     },
     "form": {
+      "bug_type": "Bug Type",
       "name": "Name",
       "name_placeholder": "Your name",
       "email": "Email",

@@ -5,6 +5,54 @@
           <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
             <ValidationProvider
               v-slot="validationContext"
+              :name="$t('bounty.form.bug_type')"
+              :rules="{ required: true, min: 3, max: 128 }"
+            >
+              <b-form-group
+              :label="$t('bounty.form.bug_type')"
+              class="text-black fw-5"
+              >
+                <div class="row">
+                  <div class="d-flex">
+                    <b-form-checkbox
+                      id="login"
+                      v-model="form.name"
+                      class="rounded-pill input-login"
+                      :placeholder="$t('bounty.form.name_placeholder')"
+                      :state="getValidationState(validationContext)"
+                    ></b-form-checkbox>
+                    <p>{{ $t('bounty.stages.low_content') }}</p>  
+                  </div>
+                  <div class="d-flex ml-3">
+                    <b-form-checkbox
+                      id="login"
+                      v-model="form.name"
+                      class="rounded-pill input-login"
+                      :placeholder="$t('bounty.form.name_placeholder')"
+                      :state="getValidationState(validationContext)"
+                    ></b-form-checkbox>
+                    <p>{{ $t('bounty.stages.mid_content') }}</p>  
+                  </div>
+                  <div class="d-flex ml-3">
+                    <b-form-checkbox
+                      id="login"
+                      v-model="form.name"
+                      class="rounded-pill input-login"
+                      :placeholder="$t('bounty.form.name_placeholder')"
+                      :state="getValidationState(validationContext)"
+                    ></b-form-checkbox>
+                    <p>{{ $t('bounty.stages.high_content') }}</p>  
+                  </div>
+                  
+                </div>
+                
+                <b-form-invalid-feedback>{{
+                    validationContext.errors[0]
+                  }}</b-form-invalid-feedback>
+              </b-form-group>
+            </ValidationProvider>
+            <ValidationProvider
+              v-slot="validationContext"
               :name="$t('bounty.form.name')"
               :rules="{ required: true, min: 3, max: 128 }"
             >

@@ -27,7 +27,7 @@
               <h3 class="d-inline-block text-left text-heading">{{$t('bounty.report_bug')}}</h3>
               <ContactForm class="mt-5" @verify="handleVerify"/>
             </b-col>
-            <b-col class="col-sm-8 offset-sm-1 mt-5">
+            <b-col class="col-sm-8 offset-sm-2 mt-5">
               <div class="disclosure">
                 <div class="sub-detail">
                   <h3 class="d-inline-block text-left text-heading mt-5">{{$t('bounty.disclosure.title')}}</h3>
