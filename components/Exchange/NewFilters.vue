@@ -308,9 +308,6 @@ export default {
       deep: true
     }
   },
-  created() {
-
-  },
   mounted() {
     const auctionFilters = document.querySelector('.auction-filters');
     console.log(auctionFilters)
