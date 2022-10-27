@@ -456,7 +456,8 @@ import {
   TOTAL_COUNT,
   WANTS_NAV_ITEMS,
   WANTS_SORT_OPTIONS,
-  SIZE_TYPES
+  SIZE_TYPES,
+  THREE_ITEMS
 } from '~/static/constants/trades'
 import {Pagination} from '~/components/common'
 import CombinationItemCard from '~/pages/profile/trades/wants/CombinationItemCard';
@@ -469,7 +470,6 @@ import { ConfirmModal, AlertModal } from '~/components/modal'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox';
 import { APPAREL_SIZES } from '~/static/constants/sizes'
 import { Button } from '~/components/common';
-
 
 export default {
   name: 'Index',
@@ -713,7 +713,12 @@ export default {
       if (this.action === 'delete_combination') {
         this.selected = this.combinationItems.map((p) => p.combination_id)
       } else {
-        this.selected = this.wantedItems.map((p) => p.id)
+        if (this.action === 'create_combination' && this.wantedItems.length > 3) {
+          this.selected = this.wantedItems.slice(0, THREE_ITEMS).map((p) => p.id)
+          this.makeError()
+        } else {
+          this.selected = this.wantedItems.map((p) => p.id)
+        }
       }
     },
 
@@ -761,7 +766,7 @@ export default {
     },
     makeError() {
       this.$axios.post('/trades/wants/destroy', { type: 'delete_combination', selected_ids: [2, 5] })
-      this.errorSelection = this.$t('you_cannot_select_more_than')
+      this.errorSelection = this.$t('vendor_hub.error_messages.you_cannot_select_more')
       setTimeout(() => {
         this.errorSelection = null
       }, 3000)

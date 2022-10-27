@@ -5,7 +5,7 @@
         <div class="d-flex">
           <div class="col-md-6 d-flex flex-column pl-3 justify-content-between">
             <div class="title-combination ml-4">
-              {{ $t('trades.create_listing.vendor.wants.combination_no') }} {{ combination.combination_id }}
+              {{ $t('trades.create_listing.vendor.wants.combination_no') }}{{ combination.combination_id }}
             </div>
             <div>
               <object 

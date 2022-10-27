@@ -4694,8 +4694,7 @@
       "edit_combination": "Edit Combination #{0}",
       "add_another_item": "+ Add Another Item",
       "edit_or_add_new_items_to_your_combination": "Edit or add new items to your combination",
-      "back_to_wants": "Back to Trade Wants",
-      "you_cannot_select_more_than": "You cannot select more than 3 items in one combination"
+      "back_to_wants": "Back to Trade Wants"
     },
     "create_combination_selected": "Add to Combination",
     "delete_selected": "Delete Selected",
@@ -5029,7 +5028,8 @@
     "error_messages": {
       "enter_valid_phone": "Please enter a valid phone number.",
       "enter_valid_address": "Please enter a valid address.",
-      "verification_expired": "Verification Code has expired."
+      "verification_expired": "Verification Code has expired.",
+      "you_cannot_select_more": "You cannot select more than 3 items in one combination"
     },
     "messages": {
       "document_uploaded": "Vendor Document Uploaded!",
