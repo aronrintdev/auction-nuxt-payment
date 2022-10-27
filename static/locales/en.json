@@ -5520,6 +5520,8 @@
       "description_of_issue": "Description of Issue (please be as thorough as possible)",
       "description_placeholder": "Add a detailed explanation of the bug or vulnerability and the security risk and impact",
       "link_of_issue": "Link/URL to the Issue (optional)",
+      "device_used": "Device Used",
+      "bug_created": "Bug Created Sucessfully",
       "loi_placeholder": "Add a link to the issue",
       "proof_of_concept": "Proof of Concept (optional)",
       "poc_placeholder": "Add a proof of concept",

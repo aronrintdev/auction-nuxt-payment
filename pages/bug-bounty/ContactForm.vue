@@ -2,7 +2,7 @@
     <b-row>
       <b-col md="12">
         <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
-          <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
+          <b-form @submit.stop.prevent="handleSubmit(createBug)">
             <ValidationProvider
               v-slot="validationContext"
               :name="$t('bounty.form.bug_type')"
@@ -14,38 +14,41 @@
               >
                 <div class="row">
                   <div class="d-flex">
-                    <b-form-checkbox
+                    <b-form-radio
                       id="login"
-                      v-model="form.name"
+                      v-model="form.bug_type"
+                      value="visual"
                       class="rounded-pill input-login"
                       :placeholder="$t('bounty.form.name_placeholder')"
                       :state="getValidationState(validationContext)"
-                    ></b-form-checkbox>
-                    <p>{{ $t('bounty.stages.low_content') }}</p>  
+                    ></b-form-radio>
+                    <p>{{ $t('bounty.stages.low_content') }}</p>
                   </div>
                   <div class="d-flex ml-3">
-                    <b-form-checkbox
+                    <b-form-radio
                       id="login"
-                      v-model="form.name"
+                      v-model="form.bug_type"
+                      value="functional"
                       class="rounded-pill input-login"
                       :placeholder="$t('bounty.form.name_placeholder')"
                       :state="getValidationState(validationContext)"
-                    ></b-form-checkbox>
-                    <p>{{ $t('bounty.stages.mid_content') }}</p>  
+                    ></b-form-radio>
+                    <p>{{ $t('bounty.stages.mid_content') }}</p>
                   </div>
                   <div class="d-flex ml-3">
-                    <b-form-checkbox
+                    <b-form-radio
                       id="login"
-                      v-model="form.name"
+                      v-model="form.bug_type"
+                      value="system"
                       class="rounded-pill input-login"
                       :placeholder="$t('bounty.form.name_placeholder')"
                       :state="getValidationState(validationContext)"
-                    ></b-form-checkbox>
-                    <p>{{ $t('bounty.stages.high_content') }}</p>  
+                    ></b-form-radio>
+                    <p>{{ $t('bounty.stages.high_content') }}</p>
                   </div>
-                  
+
                 </div>
-                
+
                 <b-form-invalid-feedback>{{
                     validationContext.errors[0]
                   }}</b-form-invalid-feedback>
@@ -153,9 +156,32 @@
                 <b-input-group>
                   <b-form-input
                     id="password"
-                    v-model="form.email"
+                    v-model="form.url"
                     class="rounded-pill input-login input-append"
                     :placeholder="$t('bounty.form.loi_placeholder')"
+                    :state="getValidationState(validationContext)"
+                  ></b-form-input>
+                  <b-form-invalid-feedback>{{
+                      validationContext.errors[0]
+                    }}</b-form-invalid-feedback>
+                </b-input-group>
+              </b-form-group>
+            </ValidationProvider>
+            <ValidationProvider
+              v-slot="validationContext"
+              :name="$t('bounty.form.device_used')"
+              :rules="{ required: true }"
+            >
+              <b-form-group
+              :label="$t('bounty.form.device_used')"
+              class="text-black fw-5"
+              >
+                <b-input-group>
+                  <b-form-input
+                    id="password"
+                    v-model="form.device_name"
+                    class="rounded-pill input-login input-append"
+                    :placeholder="$t('bounty.form.device_used')"
                     :state="getValidationState(validationContext)"
                   ></b-form-input>
                   <b-form-invalid-feedback>{{
@@ -176,7 +202,7 @@
                 <b-input-group>
                   <b-form-textarea
                     id="textarea"
-                    v-model="form.description"
+                    v-model="form.proof"
                     rows="3"
                     size="sm"
                     class="input-login input-append"
@@ -207,7 +233,7 @@
                 <b-input-group>
                   <b-form-checkbox
                     id="checkbox"
-                    v-model="form.terms"
+                    v-model="form.is_agree"
                     class="input-login input-append"
                     :state="getValidationState(validationContext)"
                   ></b-form-checkbox>
@@ -223,7 +249,6 @@
             <b-row class="mt-5 w-100">
               <b-col md="4" offset-md="4" class="text-center">
                 <Button
-                  :disabled="!isFormFilled"
                   block
                   pill
                   variant="confirm"
@@ -245,7 +270,6 @@
   import {mapActions, mapGetters} from 'vuex'
   import {ValidationProvider, ValidationObserver} from 'vee-validate'
   import {Button} from '~/components/common';
-  import { NO_CONTENT } from '~/static/constants'
   import UploadModal from '~/pages/bug-bounty/UploadModal'
 
   export default {
@@ -253,23 +277,20 @@
     components: { ValidationProvider, ValidationObserver, Button, UploadModal },
     data() {
       return {
-        isPasswordShown: false,
         form: {
-          login: '',
-          password: '',
-          rememberMe: false,
-          verification_code: '',
-        },
-        showDocModal: false,
+          bug_type: '',
+          name: '',
+          email: '',
+          title: '',
+          description: '',
+          url: '',
+          device_name: '',
+          proof: '',
+          is_agree: '',
+          images: [],
+          imagesList: [],
 
-        fileForm: {
-          file: null,
-          permitNumber: '',
-          date: ''
         },
-        applyForm: {
-          certified_reseller: false
-        }
       }
     },
     computed: {
@@ -280,12 +301,7 @@
       fileRequirement() {
         return this.vendorDocRequirements.filter(req => req.name === 'Retail Certification')[0]
       },
-      passwordFieldType(vm) {
-        return vm.isPasswordShown ? 'text' : 'password'
-      },
-      isFormFilled(vm) {
-        return !!(vm.form.login && vm.form.password)
-      }
+
     },
     methods: {
       ...mapActions({
@@ -303,54 +319,41 @@
         this.fileForm = form
         this.applyForm.certified_reseller = true
       },
-      onSubmit() {
-        // Do the login process
-        this.$auth
-          .login({ data: this.form, handleError: false })
-          .then((response) => {
-            if (response.status === NO_CONTENT) {
-              this.$emit('verify', this.form)
-            } else {
-              this.$auth.strategy.token.set(response.data.access_token)
-              this.getUserDetails(this.$store.state.auth.user.id)
-              this.getUserRedeemedReward()
-              this.$auth.$storage.removeCookie('rememberExpires')
-              this.$store.dispatch('notifications/getNotifications')
-              this.$store.dispatch('notifications/getUnreadCount')
-              this.$toasted.success(this.$t('login.success_message.login_successfull').toString())
-
-              // redirect if redirect url is set in state
-              const redirectUrl = this.getLoginRedirectUrl()
-              if (redirectUrl) {
-                if (redirectUrl.includes('trades') && !this.isVendor) {
-                  this.$router.push({
-                    path: '/profile/vendor-hub/apply'
-                  })
-                } else {
-                  this.$store.commit('auth/setLoginRedirectUrl', null)
-                  this.$router.push(redirectUrl)
-                }
-              } else if (this.isVendor) {
-                this.$router.push({
-                  path: '/profile/vendor-dashboard'
-                })
-              } else {
-                this.$router.push({
-                  path: '/profile/buyer-dashboard'
-                })
-              }
-            }
-          })
-          .catch((error) => {
-            this.$toasted.error(this.$t(error.response.data.message).toString())
-          })
-      },
       showModal() {
         this.showDocModal = !this.showDocModal
       },
       modalClosed() {
         this.showDocModal = false
       },
+      createBug() {
+          const config = {
+            headers: { 'content-type': 'multipart/form-data' }
+          }
+          const formData = new FormData();
+          formData.append('images[]', this.form.images);
+          formData.append('bug_type', this.form.bug_type);
+          formData.append('name', this.form.name);
+          formData.append('email', this.form.email);
+          formData.append('title', this.form.title);
+          formData.append('description', this.form.description);
+          formData.append('url', this.form.url);
+          formData.append('device_name', this.form.device_name);
+          formData.append('proof', this.form.proof);
+          formData.append('is_agree', this.form.is_agree);
+          this.$axios
+            .post('contact-us', formData, config)
+            .then((response) => {
+              if(response.data.success) {
+                this.$toasted.success(this.$t('bounty.form.bug_created'))
+                this.$router.push('/bug-bounty')
+              }
+            })
+            .catch((error) => {
+              this.$toasted.error(error)
+            })
+
+      },
+
     }
   }
   </script>
