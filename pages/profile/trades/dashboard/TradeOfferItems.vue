@@ -27,7 +27,7 @@
             <div v-for="(theirItems) in offer.latest_offer.theirs_items" :key="'offer-item-'+ theirItems.id" class="d-flex align-items-center ml-4">
               <img :src="theirItems.inventory.product | getProductImageUrl" class="inner-item-image">
               <ul class="inner-item-text">
-                <li class="pt-3 text-truncate product-name">{{theirItems.inventory.product.name}}</li>
+                <li class="pt-3 text-truncate product-name">{{theirItems.inventory.product.name | truncate(30, '...')}}</li>
               </ul>
             </div>
           </div>
@@ -35,7 +35,7 @@
             <div v-for="(theirItems) in offer.theirs_items" :key="'offer-item-'+ theirItems.id" class="d-flex align-items-center ml-4">
               <img :src="theirItems.inventory.product | getProductImageUrl" class="inner-item-image">
               <ul class="inner-item-text text-truncate product-name">
-                <li class="pt-3">{{theirItems.inventory.product.name}}</li>
+                <li class="pt-3">{{theirItems.inventory.product.name | truncate(30, '...')}}</li>
               </ul>
             </div>
           </div>
@@ -49,7 +49,7 @@
             <div v-for="(yourItems) in offer.latest_offer.yours_items" :key="'trade-offer-item-'+ yourItems.id" class="d-flex align-items-center ml-4">
               <img :src="yourItems.inventory.product | getProductImageUrl" class="inner-item-image">
               <ul class="inner-item-text">
-                <li class="pt-3 text-truncate product-name">{{yourItems.inventory.product.name}}</li>
+                <li class="pt-3 text-truncate product-name">{{yourItems.inventory.product.name | truncate(30, '...')}}</li>
               </ul>
             </div>
           </div>
@@ -57,7 +57,7 @@
             <div v-for="(yourItems) in offer.yours_items" :key="'trade-offer-item-'+ yourItems.id" class="d-flex align-items-center ml-4">
               <img :src="yourItems.inventory.product | getProductImageUrl" class="inner-item-image">
               <ul class="inner-item-text">
-                <li class="pt-3 text-truncate product-name">{{yourItems.inventory.product.name}}</li>
+                <li class="pt-3 text-truncate product-name">{{ yourItems.inventory.product.name | truncate(30, '...')}}</li>
               </ul>
             </div>
           </div>
@@ -254,6 +254,4 @@ export default {
   font-style: normal
   @include body-12-normal
   color: $color-gray-5
-.product-name
-    width: 280px
 </style>
