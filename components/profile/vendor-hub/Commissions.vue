@@ -43,11 +43,13 @@
           <span class="label-text thin">{{ $t('vendor_hub.commission.date_ordered') }}</span>
           <div class="d-flex align-items-center mt-1">
             <CalendarInput
+                :date-reset-button="true"
                 :placeholder="$t('vendor_hub.commission.start_date')"
                 :value="filterForm.startDate"
                 @context="(ctx) => calendarContextChange(ctx, true)"
             />
             <CalendarInput
+                :date-reset-button="true"
                 :placeholder="$t('vendor_hub.commission.end_date')"
                 :value="filterForm.endDate"
                 @context="(ctx) => calendarContextChange(ctx, false)"
@@ -67,6 +69,7 @@
                 :updateFilters="filterForm.activeStatusFilters"
                 :value="filterForm.statusType"
                 class="mr-4 dropdown-filters"
+                @filters="getCommissions"
             />
           </div>
         </div>
@@ -114,12 +117,12 @@
               >
               </b-form-checkbox>
 
-              <span class="link-text" role="button">{{ data.item.order_id }}</span>
+              <span class="link-text" role="button">{{ data.item.order.order_id }}</span>
             </div>
           </template>
 
           <template #cell(product)="data">
-            <div class="text-left">
+            <div :class="data.item.product? 'text-left' : 'text-center'">
               {{ data.item.product && data.item.product.name ? data.item.product.name : '-' }}
             </div>
           </template>
@@ -132,7 +135,7 @@
 
           <template #cell(shipped_to_ds)="data">
             <span>
-              {{ data.value === 'accepted' ? 'Yes' : 'No' }}
+              {{ data.item.status === 'paid' ? 'Yes' : 'No' }}
             </span>
           </template>
 
@@ -270,7 +273,7 @@ export default {
       return this.items.filter(item => this.selected.includes(item.id)).map(item => {
         return {
           order_id: item.order.id,
-          product: item.product.name,
+          product: item.product ? item.product.name : '-',
           commission: item.commission,
           status: item.status,
           shipped_to_ds: item.shipped_to_ds,
@@ -359,19 +362,19 @@ export default {
           {
             image: require('~/assets/img/profile/vendor-hub/singe-dollar.svg'),
             description: this.$t('vendor_hub.commission.total_commission'),
-            amount: this.$options.filters.toCurrency(stats.commission.paid),
+            amount: this.$options.filters.toCurrency(parseFloat(stats.commission.paid)),
             color: 'blue'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/comission-due.svg'),
             description: this.$t('vendor_hub.commission.total_commission_due'),
-            amount: this.$options.filters.toCurrency(stats.commission.due),
+            amount: this.$options.filters.toCurrency(parseFloat(stats.commission.due)),
             color: 'orange'
           },
           {
             image: require('~/assets/img/profile/vendor-hub/tri-star.svg'),
             description: this.$t('vendor_hub.commission.vendor_rating'),
-            amount: String(stats.vendor_data[0].rank),
+            amount: String(stats.vendor_data[0].current_points),
             color: 'blue'
           }
         ]
@@ -399,6 +402,10 @@ export default {
           this.filterForm.startDate = ctx.selectedYMD
         else
           this.filterForm.endDate = ctx.selectedYMD
+      else if (from)
+        this.filterForm.startDate = null
+      else
+        this.filterForm.endDate = null
     },
     handlePageClick(bvEvent, page) {
       if (this.page !== page) {
