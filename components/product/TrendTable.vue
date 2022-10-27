@@ -305,7 +305,7 @@ export default {
 @import '~/assets/css/_typography'
 
 .trend-table-wrapper
-  width: calc( 100% - 16px )
+  width: calc( 100% - 86px )
   margin: 0 auto
   tr
     border-top: 1px solid $color-gray-63
