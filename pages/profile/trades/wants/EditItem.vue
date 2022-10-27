@@ -523,7 +523,7 @@ export default {
       } else {
         this.errors.size = ''
       }
-      if (!this.quantity || this.quantity < 1) {
+      if (!this.quantity || this.quantity < 1 || this.quantity > MAX_ITEMS_ALLOWED) {
         this.errors.quantity = this.$t('error.incorrect_quantity')
       } else {
         this.errors.quantity = ''
