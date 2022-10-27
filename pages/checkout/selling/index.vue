@@ -6,7 +6,7 @@
     <!-- End of Checkout selling normal version (md, lg & xl) -->
 
     <!-- Checkout selling mobile version (xs & sm) -->
-    <ShoppingBag />
+    <ShoppingBag v-else />
     <!-- End of Checkout selling mobile version (xs & sm) -->
   </b-row>
 </template>
