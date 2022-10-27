@@ -352,6 +352,7 @@ export default {
     },
   },
   data() {
+    // console.log('DEFAULT LIST', this.cmbinationId ? [this.combinationId] : []);
     return {
       listModalOpen: false,
       MAX_ITEMS_ALLOWED,
@@ -484,6 +485,7 @@ export default {
      * @param selectedProduct
      */
     addToOffer(selectedProduct) {
+      console.log('addToOffer1');
       this.validate()
       if (!Object.values(this.errors).every(x => x === null || x === '')) return
 
@@ -498,6 +500,7 @@ export default {
      * THis function is used to add wants item in wants list
      */
     addWantItem(selectedProduct) {
+      console.log('addWantItem2');
       const data = {
         product_id: selectedProduct.product.id,
         quantity: parseInt(this.quantity),
@@ -516,22 +519,22 @@ export default {
 
     validate() {
       if (!this.currentSizeId) {
-        this.errors.size = 'Incorrect size'
+        this.errors.size = this.$t('error.incorrect_size')
       } else {
         this.errors.size = ''
       }
       if (!this.quantity || this.quantity < 1) {
-        this.errors.quantity = 'Incorrect quantity'
+        this.errors.quantity = this.$t('error.incorrect_quantity')
       } else {
         this.errors.quantity = ''
       }
       if (!this.box_condition) {
-        this.errors.box = 'Select Box Condition'
+        this.errors.box = this.$t('error.box')
       } else {
         this.errors.box = ''
       }
       if (this.selectList.length < 1) {
-        this.errors.list = 'Choose list'
+        this.errors.list = this.$t('error.list')
       } else {
         this.errors.list = ''
       }
@@ -568,17 +571,20 @@ export default {
      * THis function is used to take back on previous page
      */
     backSearch() {
+      console.log('backSearch3', this.productFor, this.combinationId, this.itemId);
       if (this.productFor === 'wantsList' && !this.combinationId && !this.itemId) {
         this.$root.$emit('back_to_list')
       }
-      else if(this.combinationId){
-        this.$root.$emit('back_to_edit')
+      else if(this.combinationId) {
+        console.log('backSearch4');
+        this.$root.$emit('back_to_edit_combination')
       }
       else if(this.itemId){
         this.discardChanges()
       }
     },
-    listType(checked){
+    listType(checked) {
+      console.log('listType1', checked);
       if (!this.selectList.includes(checked)) {
         this.selectList.push(checked)
       } else {

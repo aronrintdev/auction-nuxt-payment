@@ -568,7 +568,7 @@ export default {
       const count = this.selected.length > 0 ? `(${this.selected.length})` : ''
       const text = this.action === 'create_combination' ? this.$t('common.add') : this.$t('common.delete')
       return `${text} ${count}`
-    }
+    },
   },
   mounted() {
     this.$root.$on('edit', (product) => {
@@ -827,12 +827,21 @@ export default {
         }
       })
       .then((response) => { // response will get combination data for want items
-        this.combinationItems = []
-        response.data.data.data.forEach((item) => {
+        // this.combinationItems = []
+        console.log('response.data.data.data', response.data.data.data);
+        // response.data.data.data.forEach((item) => {
+        //   if (item.combination_items.length > 0) {
+        //     console.log('item', item);
+        //     this.combinationItems.push(item);
+        //   }
+        // });
+        this.combinationItems = response.data.data.data.reduce((acc, item) => {
           if (item.combination_items.length > 0) {
-            this.combinationItems.push(item);
+            acc.push(item)
           }
-        });
+          return acc;
+        }, [])
+        console.log('AFTEER', this.combinationItems);
         this.totalCountCombination = parseInt(response.data.data.total)
         this.perPageCombination = parseInt(response.data.data.per_page)
         this.combinationItems.forEach((combination, index) => {

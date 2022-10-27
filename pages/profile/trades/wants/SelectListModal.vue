@@ -98,7 +98,7 @@ export default {
           if (item.combination_items.length > 0) {
             this.listOptions.push({
               text: this.$t('trades.wants_listing.create_combination', { count: item.combination_id }),
-              value: 'combination_item ' + item.combination_id
+              value: item.combination_id
             })
           }
         });
@@ -110,8 +110,8 @@ export default {
 
     addCombination() {
       this.listOptions.push({
-        text: this.$t('trades.wants_listing.create_combination', {count: this.listOptions.length}),
-        value: 'combination_item ' + this.listOptions.length
+        text: this.$t('trades.wants_listing.create_combination', { count: this.listOptions.length }),
+        value: this.listOptions.length
       })
     },
 

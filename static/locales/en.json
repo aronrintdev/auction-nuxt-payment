@@ -176,7 +176,11 @@
     "enter_valid_amount": "Kindly input a valid amount."
   },
   "error": {
-    "something_went_wrong": "Something went wrong. Please try again later!"
+    "something_went_wrong": "Something went wrong. Please try again later!",
+    "incorrect_size": "Incorrect Size",
+    "incorrect_quantity": "Incorrect quantity",
+    "box": "Select Box Condition",
+    "list": "Choose List"
   },
   "index": {
     "sign_up": "Sign Up",

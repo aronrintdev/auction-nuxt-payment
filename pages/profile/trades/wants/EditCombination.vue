@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-5">
+    <div id="edit-combination" class="mb-5">
         <edit-item v-if="editItem" :product="editItem" :itemId="itemId"
                    :combinationId="getUpdateCombinations.combination_id" productFor="wantsList"/>
         <add-want-item v-else-if="addWantItem" :combinationId="getUpdateCombinations.combination_id"/>
@@ -32,32 +32,6 @@
                     {{ $t('trades.wants_listing.edit_or_add_new_items_to_your_combination') }}
                 </div>
             </div>
-            <!-- <div class="back-to-search pt-4" role="button" @click="backWants()">
-                <b-icon icon="chevron-left" aria-hidden="true" class="mr-1"></b-icon>
-                {{ $t('trades.wants_listing.back_to_wants') }}
-            </div>
-            <b-row class="pt-3">
-                <div class="heading col-xl-6 px-2">
-                    <div class="px-4 d-flex flex-column flex-sm-row 
-                                align-items-center justify-content-sm-between justify-content-lg-start"
-                    >
-                        <div class="create-trade-heading pt-2">
-                            {{ $t('trades.wants_listing.edit_combination', {0: getUpdateCombinations.combination_id}) }}
-                        </div>
-                        <div 
-                            v-if="getUpdateCombinations.combination_items.length < THREE_ITEMS" 
-                            class="add-item pl-sm-3"
-                            role="button" 
-                            @click="addNewItem"
-                        >
-                            {{ $t('trades.wants_listing.add_another_item') }}
-                        </div>
-                    </div>
-                    <div class="create-trade-sub-heading text-center text-sm-left px-4 mt-2 mb-4">
-                        {{ $t('trades.wants_listing.edit_or_add_new_items_to_your_combination') }}
-                    </div>
-                </div>
-            </b-row> -->
             <div 
                 :style="{ marginBottom: '20px' }"
                 v-for="(item, index) in getUpdateCombinations.combination_items" 
@@ -166,13 +140,14 @@ export default {
     },
     mounted() {
         this.backToEdit = () => {
+            console.log('backToEdit5');
             this.addWantItem = false
             this.editItem = null
             this.getCombination()
         }
 
         const wrapper = document.querySelector('.main-wrapper')
-        if (document.querySelector('.main-wrapper').querySelector('.wants-container')) {
+        if (document.querySelector('.main-wrapper').querySelector('#edit-combination')) {
             wrapper.style.backgroundColor = '#f7f7f7'
         }
 

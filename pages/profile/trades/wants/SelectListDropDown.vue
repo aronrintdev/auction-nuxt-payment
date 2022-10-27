@@ -18,7 +18,7 @@
         'border-radius': !isOpen ? borderRadius : borderRadiusClose,
         ...inputStyle
       }" 
-      :class="`background-${variant} ${bordered && 'bordered'} ${inputClass}`" 
+      :class="`background-${variant} ${bordered && 'bordered'} ${inputClass} ${isOpen && 'list-opened'}`" 
       @click="isOpen = !isOpen"
     >
       <label :style="labelStyle" class="font-weight-light">
@@ -41,7 +41,7 @@
       <li
         v-for="(option, key) of listOptions" :key="key"
         :class="`${optionsWidth}-color ${combinationId && 'pointer-event-none'}`"
-        class="d-flex justify-content-between"
+        class="d-flex justify-content-between align-items-center"
         @click="selectOption((option.value ? option.value : option))"
         :style="dropdownItemStyle"
       >
@@ -183,22 +183,38 @@ export default {
     this.setOptions()
   },
   methods: {
-    setOptions(){
+    setOptions() {
       if(this.itemId && !this.combinationId){
         // eslint-disable-next-line vue/no-mutating-props
         this.value.push('general_wants')
       }
       else if(this.combinationId){
         // eslint-disable-next-line vue/no-mutating-props
-        this.value.push(`combination_item ${this.combinationId}`)
+        this.value.push(this.combinationId)
       }
     },
     combinationOptions(){
-      this.getCombinationsId.forEach((item)=>{
-        this.listOptions.push({
-          text: this.$t('trades.wants_listing.create_combination', {count: item}),
-          value: 'combination_item ' + item
-        })
+      this.$axios.get('trades/wants', {
+        params: {
+          type: 'combinations',
+          page: 1,
+          category: '',
+          size_types: '',
+          sizes: '',
+        }
+      })
+      .then((response) => { 
+        response.data.data.data.forEach((item) => {
+          if (item.combination_items.length > 0) {
+            this.listOptions.push({
+              text: this.$t('trades.wants_listing.create_combination', { count: item.combination_id }),
+              value: item.combination_id
+            })
+          }
+        });
+      })
+      .catch((err) => {
+        this.$toasted.error(this.$t(err.response.data.error))
       })
     },
     filterResults() {
@@ -211,8 +227,8 @@ export default {
     },
     addCombination() {
       this.listOptions.push({
-        text: this.$t('trades.wants_listing.create_combination', {count: this.listOptions.length}),
-        value: 'combination_item ' + this.listOptions.length
+        text: this.$t('trades.wants_listing.create_combination', { count: this.listOptions.length }),
+        value: this.listOptions.length
       })
     }
   }
@@ -221,6 +237,8 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+
 
 ul.custom-dropdown-options
   position: absolute
@@ -278,5 +296,10 @@ div.label-wrapper label
     border-color: $color-blue-20 !important
     border-radius: 4px !important
     height: 40px !important
+
+.list-opened
+  border-bottom: 0 !important
+  border-bottom-left-radius: 0 !important
+  border-bottom-right-radius: 0 !important
 
 </style>
