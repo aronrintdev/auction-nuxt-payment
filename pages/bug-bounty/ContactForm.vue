@@ -12,8 +12,8 @@
               :label="$t('bounty.form.bug_type')"
               class="text-black fw-5"
               >
-                <div class="row">
-                  <div class="d-flex">
+                <div class="row bug-type">
+                  <div class="d-flex col-sm-12 col-md-3">
                     <b-form-radio
                       id="login"
                       v-model="form.bug_type"
@@ -22,9 +22,9 @@
                       :placeholder="$t('bounty.form.name_placeholder')"
                       :state="getValidationState(validationContext)"
                     ></b-form-radio>
-                    <p>{{ $t('bounty.stages.low_content') }}</p>
+                    <p>{{ $t('bounty.stages.low_content') }}</p>  
                   </div>
-                  <div class="d-flex ml-3">
+                  <div class="d-flex col-sm-12 col-md-3">
                     <b-form-radio
                       id="login"
                       v-model="form.bug_type"
@@ -33,9 +33,9 @@
                       :placeholder="$t('bounty.form.name_placeholder')"
                       :state="getValidationState(validationContext)"
                     ></b-form-radio>
-                    <p>{{ $t('bounty.stages.mid_content') }}</p>
+                    <p>{{ $t('bounty.stages.mid_content') }}</p>  
                   </div>
-                  <div class="d-flex ml-3">
+                  <div class="d-flex col-sm-12 col-md-3">
                     <b-form-radio
                       id="login"
                       v-model="form.bug_type"
@@ -44,7 +44,7 @@
                       :placeholder="$t('bounty.form.name_placeholder')"
                       :state="getValidationState(validationContext)"
                     ></b-form-radio>
-                    <p>{{ $t('bounty.stages.high_content') }}</p>
+                    <p>{{ $t('bounty.stages.high_content') }}</p>  
                   </div>
 
                 </div>
@@ -422,4 +422,10 @@
         cursor: not-allowed
         &:hover
           box-shadow: none
+  @media(max-width: 575px)
+    .bug-type
+      border: 1px solid $color-gray-3
+      border-radius: 10px
+      div
+        border-bottom: 1px solid $color-gray-3
   </style>

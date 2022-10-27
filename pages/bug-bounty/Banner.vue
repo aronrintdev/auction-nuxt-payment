@@ -1,7 +1,5 @@
 <template>
     <div class="banner-wrapper">
-      <div>
-      </div>
     </div>
   </template>
   <script>
@@ -20,12 +18,8 @@
     height: 443px
     background-color: purple
     background-position: center
-    background-size: 100% 443px
-    position: relative
-    padding: 65px 90px
-    display: flex
-    flex-direction: column
-    justify-content: space-between
+    background-size: cover
+    background-repeat: no-repeat
   
     @media (max-width: 552px)
       padding: 40px 35px

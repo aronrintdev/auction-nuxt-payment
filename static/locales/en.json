@@ -5528,7 +5528,8 @@
       "attachment": {
         "title": "Attachments (add up to 20 attachments such as screen shots and/or videos)",
         "terms": "I agree to Deadstock’s terms & conditions as well as any additional rules and instructions provided by the organization hosting this program"
-      }
+      },
+      "submit": "Submit"
     },
     "notice": {
       "title": "Notice",

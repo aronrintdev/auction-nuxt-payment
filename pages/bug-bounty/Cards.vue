@@ -68,8 +68,6 @@
   
   <style lang="sass">
   .navigation-links
-    .custom-container
-      width: 904px
     .navigation-card
       width: 260px
       height: 242px !important
@@ -77,5 +75,9 @@
         width: 86px
   .live-chat
     cursor: pointer
+  @media (max-width:575px)
+    .navigation-links
+      .custom-container
+        width: 348px
   </style>
   
