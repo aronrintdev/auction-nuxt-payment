@@ -1,10 +1,10 @@
 <template>
     <div class="f-montserrat">
       <BountyBanner />
-      <div class="main-section pt-5">
+      <div class="pt-5 p-3 bg-white">
         <div class="trade-selections">
           <b-row>
-            <b-col class="col-sm-8 offset-sm-2">
+            <b-col class="col-sm-8 col-md-8 offset-md-2">
               <h3 class="d-inline-block text-left text-heading">{{$t('bounty.report_an_issue')}}</h3>
               <div class="detail-content">
                   <p class="mt-5">
@@ -23,11 +23,11 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col class="col-sm-7 offset-sm-2 mt-3">
+            <b-col sm="12" md="7" offset-md="2" class="mt-3 mobile-form">
               <h3 class="d-inline-block text-left text-heading">{{$t('bounty.report_bug')}}</h3>
               <ContactForm class="mt-5" @verify="handleVerify"/>
             </b-col>
-            <b-col class="col-sm-8 offset-sm-2 mt-5">
+            <b-col sm="12" md="8" offset-md="2" class="mt-5">
               <div class="disclosure">
                 <div class="sub-detail">
                   <h3 class="d-inline-block text-left text-heading mt-5">{{$t('bounty.disclosure.title')}}</h3>
@@ -107,8 +107,6 @@
   .detail-content
     font-size: 18px
     font-weight: $normal
-    height: 242px
-    width: 904px
   .stages
     & ul
         & li
@@ -127,10 +125,6 @@
       font-weight: $normal
     h4
       font-weight: $medium
-  .disclosure
-    width: 904px
-  .notice
-    width: 1060px
       
   .main-section
     background: linear-gradient(269.74deg, $color-blue-th-14 -77.58%, $color-gray-th-45 118.1%)
@@ -158,6 +152,20 @@
   
   .page-title
     @include heading-5
+
+@media (min-width:575px)
+  .disclosure
+    width: 904px
+  .notice
+    width: 1060px
+  .detail-content
+    width: 904px
+    
+@media (max-width: 575px)
+  .mobile-form
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+    border-radius: 24px
+    padding: 15px
   
   </style>
   
