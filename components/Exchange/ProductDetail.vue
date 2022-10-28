@@ -13,7 +13,7 @@
         <div class="body-4-normal mb-1 text-gray-6">
           {{ dayjs(product && product.created_at).format('DD, MMM, h:mm A') }}
         </div>
-        <div class="body-4-bold mb-2">$ 250.00 (Avg.price)</div>
+        <div class="body-4-bold mb-2">{{product && product.avg_sales_price | toCurrency}} (Avg.price)</div>
         <div class="body-4-normal mb-2 text-success">+0.64 (+0.36%)</div>
       </div>
       <div class="col-4 text-right">
@@ -54,7 +54,7 @@
               <div class="col-10">
                 <div class="body-4-bold mb-2">{{ product && product.name }}</div>
                 <div class="body-5-normal mb-2 text-gray-6 product-variant">
-                  Last Sale: $250.00
+                 {{ $t('products.last_sold_for') }}: {{ product && product.last_sold_for | toCurrency  }}
                   <span class="text-success">+0.64 (+0.36%)</span>
                 </div>
               </div>
@@ -92,7 +92,7 @@
             <div class="body-4-normal mb-2 text-gray-6">
               {{ dayjs(product && product.created_at).format('DD, MMM, h:mm A') }}
             </div>
-            <div class="body-4-bold mb-2">$ 250.00</div>
+            <div class="body-4-bold mb-2">{{product && product.retail_price | toCurrency}}</div>
           </div>
         </div>
         <!-- mobile Responsive TabBar Section  -->
@@ -189,19 +189,19 @@
         <div class="row bg-gray-light p-1 mb-2">
           <div class="col-md-12">
             <div class="col-md-6 col-sm-6 body-6-bold">Sku</div>
-            <div class="col-md-6 col-sm-6 text-right">2132</div>
+            <div class="col-md-6 col-sm-6 text-right">{{ product && product.sku }}</div>
           </div>
           <div class="col-md-12">
             <div class="col-md-6 col-sm-6 body-6-bold">Colorways</div>
-            <div class="col-md-6 col-sm-6 text-right">2132</div>
+            <div class="col-md-6 col-sm-6 text-right">{{ product && product.colorway }}</div>
           </div>
           <div class="col-md-12">
             <div class="col-md-6 col-sm-6 body-6-bold">Retails Price</div>
-            <div class="col-md-6 col-sm-6 text-right">2132</div>
+            <div class="col-md-6 col-sm-6 text-right">{{ product && product.retail_price }}</div>
           </div>
           <div class="col-md-12">
-            <div class="col-md-6 col-sm-6 body-6-bold">Retails Details</div>
-            <div class="col-md-6 col-sm-6 text-right">2132</div>
+            <div class="col-md-6 col-sm-6 body-6-bold">Release Date</div>
+            <div class="col-md-6 col-sm-6 text-right">{{ product && product.release_year }}</div>
           </div>
         </div>
       </div>
