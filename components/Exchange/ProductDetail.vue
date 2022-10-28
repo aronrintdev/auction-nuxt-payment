@@ -13,8 +13,8 @@
         <div class="body-4-normal mb-1 text-gray-6">
           {{ dayjs(product && product.created_at).format('DD, MMM, h:mm A') }}
         </div>
-        <div class="body-4-bold mb-2">{{product && product.avg_sales_price | toCurrency}} (Avg.price)</div>
-        <div class="body-4-normal mb-2 text-success">+0.64 (+0.36%)</div>
+        <div class="body-4-bold mb-2">{{product && product.avg_sales_price | toCurrency}} ({{$t('deadstock_exchange.detail.avg_price')}})</div>
+        <div class="body-4-normal mb-2 " :class="product && product.day_sales_percentage >= 0 ? 'text-success' : 'text-danger'">+0.64 (+0.36%)</div>
       </div>
       <div class="col-4 text-right">
         <Button
@@ -54,7 +54,7 @@
               <div class="col-10">
                 <div class="body-4-bold mb-2">{{ product && product.name }}</div>
                 <div class="body-5-normal mb-2 text-gray-6 product-variant">
-                 {{ $t('products.last_sold_for') }}: {{ product && product.last_sold_for | toCurrency  }}
+                 {{ $t('products.last_sale') }}: {{ product && product.last_price | toCurrency }}
                   <span class="text-success">+0.64 (+0.36%)</span>
                 </div>
               </div>
@@ -112,6 +112,7 @@
           <div class="col-12">
             <ProductSizePicker
               :sizes="sizes"
+              :prices="pricesBySize"
               :value="currentSize"
               :viewMode="sizeViewMode"
               class="size-picker"
@@ -175,6 +176,7 @@
           <div class="col-lg-12 ml-3">
             <ProductSizePicker
               :sizes="sizes"
+              :prices="pricesBySize"
               :value="currentSize"
               :viewMode="sizeViewMode"
               class="size-picker"
@@ -301,7 +303,7 @@
         <div class="row">
           <div class="col-6 text-left">
             <div class="body-6-bold mb-2">Average price</div>
-            <div class="body-4-bold">$ 234.00</div>
+            <div class="body-4-bold">{{ product && product.avg_sales_price | toCurrency }}</div>
           </div>
           <div class="col-6 text-right">
             <div class="body-6-bold mb-2">Day gain</div>
@@ -326,7 +328,7 @@
                   >
                     {{ size.size }}
                     <div class="price">
-                      $ 234.00
+                      <!-- $ 234.00 -->
                       <!-- {{ getPriceBySize(size.id) | toCurrency }} -->
                     </div>
                     <div class="price-ratio text-success">
@@ -350,6 +352,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { mapActions } from 'vuex'
 import dayjs from 'dayjs'
 import ClickOutside from 'vue-click-outside'
@@ -399,6 +402,7 @@ export default {
       chartTabCurrentValue: '24',
       currentSize: null,
       currentCondition: null,
+      currentListingItem: null,
       method: 'buy',
       sizeViewMode: 'carousel',
       priceSizeTabCurrentValue: 'average_price',
@@ -543,6 +547,25 @@ export default {
       },
     }
   },
+  async fetch() {
+    const { sku } = this.$route.params
+
+    this.loading = true
+    this.product = await this.$axios
+      .get(`/products/${sku}/details`)
+      .then((res) => res.data)
+    if (this.product) {
+      const lowestPrice = _.minBy(this.product.lowest_prices, 'price')
+      if (lowestPrice) {
+        this.currentSize = lowestPrice.size_id
+        this.currentCondition = lowestPrice.packaging_condition_id
+        await this.findListingItem() // 'add to chart' button needs listing of item
+      } else {
+        this.currentCondition = this.product.packaging_conditions[0]?.id
+      }
+    }
+    this.loading = false
+  },
   computed: {
     sizes() {
       return this.product?.sizes || []
@@ -572,34 +595,59 @@ export default {
     handleSizeViewAll() {
       this.$bvModal.show('size-all-modal')
     },
+    // Event handler when user select size in `view all` mode
     handleSizeChange(sizeId) {
       if (sizeId) {
         this.currentSize = sizeId
+        // this.resetError()
+        this.findListingItem()
       }
     },
-    // Event handler when user select size in `view all` mode
-    handleSizeSelect(sizeId) {},
-    // Get min price for a given size among listing items
-    getPriceBySize(sizeId) {
-      return this.prices.find((i) => String(i.size_id) === String(sizeId))
-        ?.price
+    pricesBySize() {
+      if (this.method === 'buy') {
+        return this.product?.lowest_prices?.filter(
+          (i) => i.packaging_condition_id === this.currentCondition
+        )
+      } else {
+        return this.product?.highest_offers?.filter(
+          (i) => i.packaging_condition_id === this.currentCondition
+        )
+      }
     },
-    // pricesBySize() {
-    //   if (this.method === 'buy') {
-    //     return this.products?.lowest_prices?.filter(
-    //       (i) => i.packaging_condition_id === this.currentCondition
-    //     )
-    //   } else {
-    //     return this.products?.highest_offers?.filter(
-    //       (i) => i.packaging_condition_id === this.currentCondition
-    //     )
-    //   }
-    // },
+    async findListingItem() {
+      if (!this.currentSize || !this.currentCondition) return
+      const params = {
+        size_id: this.currentSize,
+        packaging_condition_id: this.currentCondition,
+      }
+      this.currentListingItem = await this.$axios
+        .get(`/products/${this.product.id}/selling-item`, {
+          params,
+          handleError: false,
+        })
+        .then((res) => res.data)
+        .catch(() => null)
+      if (
+        this.currentListingItem &&
+        this.currentListingItem.inventory &&
+        this.currentListingItem.inventory.sale_price < this.lowestPrice
+      ) {
+        this.product.lowest_prices = this.product.lowest_prices.map((i) => {
+          if (
+            i.size_id === this.currentSize &&
+            i.packaging_condition_id === this.currentCondition
+          ) {
+            i.price = this.currentListingItem.inventory.sale_price
+          }
+          return i
+        })
+      }
+    },
+
     getCartProduct() {
       return {
         id: this.product.id,
         name: this.product.name,
-        brand: this.product.brand,
         sku: this.product.sku,
         colorWay: this.product.colorway,
         size: this.sizes[this.currentSize - 1],
