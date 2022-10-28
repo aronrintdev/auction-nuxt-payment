@@ -13,7 +13,7 @@
               class="text-black fw-5"
               >
                 <div class="row bug-type">
-                  <div class="d-flex col-sm-12 col-md-3">
+                  <div class="d-flex col-sm-12 col-md-4 type-option">
                     <b-form-radio
                       id="login"
                       v-model="form.bug_type"
@@ -24,7 +24,7 @@
                     ></b-form-radio>
                     <p>{{ $t('bounty.stages.low_content') }}</p>  
                   </div>
-                  <div class="d-flex col-sm-12 col-md-3">
+                  <div class="d-flex col-sm-12 col-md-4 type-option">
                     <b-form-radio
                       id="login"
                       v-model="form.bug_type"
@@ -35,7 +35,7 @@
                     ></b-form-radio>
                     <p>{{ $t('bounty.stages.mid_content') }}</p>  
                   </div>
-                  <div class="d-flex col-sm-12 col-md-3">
+                  <div class="d-flex col-sm-12 col-md-4 type-option">
                     <b-form-radio
                       id="login"
                       v-model="form.bug_type"
@@ -360,8 +360,6 @@
 
   <style lang="sass" scoped>
   @import '~/assets/css/_variables'
-
-
   .attachment
     width: 20px
     height: 20px
@@ -422,6 +420,13 @@
         cursor: not-allowed
         &:hover
           box-shadow: none
+  @media(min-width: 575px)
+    .type-option
+      background: $color-white-4
+      border-radius: 20px
+      padding: 10px
+      height: 45px
+      justify-content: center
   @media(max-width: 575px)
     .bug-type
       border: 1px solid $color-gray-3
