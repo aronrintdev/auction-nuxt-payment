@@ -5956,7 +5956,8 @@
       "save_to_watchlist_desc": "Save items to your watchlist to keep track of your favorite items.",
       "name_organize_list": "Name & Organize Lists",
       "name_organize_list_desc": "Customize and organize your lists to your liking."
-    },
+    }
+  },
   "banner": {
     "shop_with": "Shop With",
     "deadstock": "deadstock",
