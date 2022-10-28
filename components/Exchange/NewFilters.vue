@@ -44,7 +44,7 @@
     <div  class="mt-4 d-flex align-items-center">
       <!-- Categories -->
       <MultiSelectDropdown
-        v-model="selectedFilters.categories"
+        v-model="selectedFilters.category_id"
         collapseKey="categories"
         :title="$t('home_page.categories')"
         :options="categoryOptions"
@@ -118,7 +118,7 @@
           v-if="
             selectedFilters.brands != [] ||
             selectedFilters.sizeTypes != [] ||
-            selectedFilters.category != []
+            selectedFilters.category_id != []
           "
           class="col-md-2 clearall-filter float-right"
         >
@@ -258,7 +258,7 @@ export default {
         sizeTypes: [],
         sizes: [],
         brands: [],
-        categories: [],
+        category_id: [],
         status: [],
         sortby: null,
         product: null,
@@ -420,7 +420,7 @@ export default {
         sizeTypes: [],
         sizes: [],
         brands: [],
-        categories: [],
+        category_id: [],
         status: [],
         sortby: null,
         product: null,
