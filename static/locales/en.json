@@ -5311,6 +5311,15 @@
         "last_7d":"Last 7Days"
       }
     },
+    "sortby": {
+      "placeholder": "Sort By",
+      "relevance": "Relevance",
+      "end_date_asc": "End Date - Ascending",
+      "end_date_desc": "End Date - Descending",
+      "price_asc": "Price: Low to High",
+      "price_desc": "Price: High to Low",
+      "most_viewed": "Most Viewed"
+    },
     "sort_by":{
       "highest_change":"Highest Change %",
       "lowest_change":"Lowest Change %",

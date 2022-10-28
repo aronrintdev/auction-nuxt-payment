@@ -174,6 +174,7 @@ export default {
             take: this.perPage,
             paginate: 1,
             'sort_by_column':'id',
+            'sort_by_direction':'asc',
             ...this.filter,
           },
         })

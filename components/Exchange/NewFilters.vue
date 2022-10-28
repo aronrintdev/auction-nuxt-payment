@@ -44,7 +44,7 @@
     <div  class="mt-4 d-flex align-items-center">
       <!-- Categories -->
       <MultiSelectDropdown
-        v-model="selectedFilters.categories"
+        v-model="selectedFilters.category_id"
         collapseKey="categories"
         :title="$t('home_page.categories')"
         :options="categoryOptions"
@@ -103,7 +103,7 @@
         :minValue="MIN_YEAR"
         :maxValue="MAX_YEAR"
         :step="1"
-        :title="$t('auctions.frontpage.filterbar.year')"
+        :title="$t('deadstock_exchange.filter_by.years')"
         :value="selectedYears"
         class="mr-3 mr-xl-4"
         :width="250"
@@ -118,7 +118,7 @@
           v-if="
             selectedFilters.brands != [] ||
             selectedFilters.sizeTypes != [] ||
-            selectedFilters.category != []
+            selectedFilters.category_id != []
           "
           class="col-md-2 clearall-filter float-right"
         >
@@ -171,7 +171,7 @@ import {
  * Stock Exchange Filter Bar Component
  */
 export default {
-  name: 'AuctionFilterBar',
+  name: 'ExchangeFilterBar',
   components: {
     SearchBox,
     FormDropdown,
@@ -196,27 +196,27 @@ export default {
       SORT_OPTIONS: [
         {
           value: 'relevance',
-          label: this.$t('auctions.frontpage.filterbar.sortby.relevance'),
+          label: this.$t('deadstock_exchange.sortby.relevance'),
         },
         {
           value: 'end_date_asc',
-          label: this.$t('auctions.frontpage.filterbar.sortby.end_date_asc'),
+          label: this.$t('deadstock_exchange.sortby.end_date_asc'),
         },
         {
           value: 'end_date_desc',
-          label: this.$t('auctions.frontpage.filterbar.sortby.end_date_desc'),
+          label: this.$t('deadstock_exchange.sortby.end_date_desc'),
         },
         {
           value: 'price_asc',
-          label: this.$t('auctions.frontpage.filterbar.sortby.price_asc'),
+          label: this.$t('deadstock_exchange.sortby.price_asc'),
         },
         {
           value: 'price_desc',
-          label: this.$t('auctions.frontpage.filterbar.sortby.price_desc'),
+          label: this.$t('deadstock_exchange.sortby.price_desc'),
         },
         {
           value: 'most_viewed',
-          label: this.$t('auctions.frontpage.filterbar.sortby.most_viewed'),
+          label: this.$t('deadstock_exchange.sortby.most_viewed'),
         },
       ],
       MAX_PRICE,
@@ -227,16 +227,6 @@ export default {
       moreFiltersVisible: false,
       SNEAKER_SIZES,
       APPAREL_SIZES,
-      auctionTypes: [
-        {
-          label: this.$t('auctions.frontpage.filterbar.types.single'),
-          value: 'single'
-        },
-        {
-          label: this.$t('auctions.frontpage.filterbar.types.collections'),
-          value: 'collection'
-        },
-      ],
       categoryOptions: [],
       statusOptions: [
         {
@@ -267,7 +257,7 @@ export default {
         sizeTypes: [],
         sizes: [],
         brands: [],
-        categories: [],
+        category_id: [],
         status: [],
         sortby: null,
         product: null,
@@ -318,6 +308,10 @@ export default {
     }
   },
   mounted() {
+    const auctionFilters = document.querySelector('.auction-filters');
+    console.log(auctionFilters)
+    if (auctionFilters)
+    auctionFilters.style.padding='70px 10px';
     this.searchText = this.searchKeyword
     // Get categories list
     this.$axios.get('/categories', {
@@ -325,15 +319,16 @@ export default {
         take: 3,
       }
     })
-      .then(res => {
-        this.categoryOptions = res.data.map(cat => ({
-          label: this.$t(`common.categories.${cat.name}`),
-          value: cat.id,
-        }))
-      })
-      .catch(() => {
-        this.categoryOptions = []
-      })
+    .then(res => {
+      this.categoryOptions = res.data.map(cat => ({
+        label: this.$t(`common.categories.${cat.name}`),
+        value: cat.id,
+      }))
+    })
+    .catch(() => {
+      this.categoryOptions = []
+    })
+
   },
   methods: {
     // Search event listener
@@ -387,8 +382,8 @@ export default {
       this.selectedPrices = value
       this.selectedFilters = {
         ...this.selectedFilters,
-        minPrice: value[0] === MIN_PRICE ? undefined : value[0] * 100,
-        maxPrice: value[1] === MAX_PRICE ? undefined : value[1] * 100,
+        price_from: value[0] === MIN_PRICE ? undefined : value[0] * 100,
+        price_to: value[1] === MAX_PRICE ? undefined : value[1] * 100,
       }
     },
     // Update selected years and pass to parent component
@@ -424,7 +419,7 @@ export default {
         sizeTypes: [],
         sizes: [],
         brands: [],
-        categories: [],
+        category_id: [],
         status: [],
         sortby: null,
         product: null,
