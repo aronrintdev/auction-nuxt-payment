@@ -1,5 +1,5 @@
 <template>
-  <div class="container px-0">
+  <div class="container px-sm-0 mt-4">
     <div class="box-condition-text">
       {{ $t('products.box_condition') }}
 
@@ -11,7 +11,7 @@
       />
     </div>
 
-    <div class="box-condition-btns">
+    <div class="box-condition-btns d-none d-sm-flex">
       <b-button
         v-for="(condition, index) in conditions"
         :key="`box-condition-${index}`"
@@ -64,12 +64,16 @@ export default {
   margin-right: -7.5px
 
   .box-condition-text
-    @include body-8-normal
-    color: $color-black-1
-    text-transform: uppercase
-    padding: 0
-    margin: 24px 0 0
-    position: relative
+    font-weight: 600
+    font-size: 14px
+    text-align: center
+    @media (min-width: 576px)
+      @include body-8-normal
+      color: $color-black-1
+      text-transform: uppercase
+      padding: 0
+      margin: 24px 0 0
+      position: relative
 
     img
       width: 13px

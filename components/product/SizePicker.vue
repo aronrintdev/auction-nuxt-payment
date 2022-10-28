@@ -384,14 +384,19 @@ export default {
           margin-right: auto
 
       .card
-        @include body-2-medium
-        width: 70px
-        height: 70px
+        font-weight: 600
+        font-size: 12px
+        width: 49px
+        height: 49px
         border: 1px solid $color-gray-21
         color: $color-black-4
         box-shadow: none
         background-color: $color-white-1
         border-radius: 10px
+        @media (min-width: 576px)
+          @include body-2-medium
+          width: 64px
+          height: 64px
 
       .price
         @include body-13-normal
@@ -407,9 +412,9 @@ export default {
     .all-sizes
       .item
         width: 25%
-@media (max-width: 450px)
-  .container
-    .all-sizes
-      .item
-        width: 50%
+// @media (max-width: 450px)
+//   .container
+//     .all-sizes
+//       .item
+//         width: 50%
 </style>
