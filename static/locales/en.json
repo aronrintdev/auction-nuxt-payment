@@ -5507,7 +5507,10 @@
       "high_range": "$101 - 25,000",
       "low_content": "Visual/Content",
       "mid_content": "Functional",
-      "high_content": "System Vulnerability"
+      "high_content": "System Vulnerability",
+      "low_detail": "Graphical UI issues and other content issues",
+      "mid_detail": "Relating to the function of the app",
+      "high_detail": "Relating to the function of the app"
     },
     "form": {
       "bug_type": "Bug Type",

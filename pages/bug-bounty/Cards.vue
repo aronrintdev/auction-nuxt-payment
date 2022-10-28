@@ -15,7 +15,10 @@
                 <h6 class="text-gray mb-0 fw-6 fs-16 font-primary">
                     {{ $t('bounty.stages.low_range') }}
                 </h6>
-                <a href="#" class="fs-14 fw-5 mt-2"><u>{{ $t('bounty.stages.low_content') }}</u></a>
+                <p>
+                  {{ $t('bounty.stages.low_detail') }}
+                </p>
+                <a href="#" class="fs-14 fw-5"><u>{{ $t('bounty.stages.low_content') }}</u></a>
             </div>
             <div
               class="col-sm-3 offset-sm-1 border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
@@ -30,7 +33,10 @@
               <h6 class="text-gray mb-0 fw-6 fs-16 font-primary">
                 {{ $t('bounty.stages.mid_range') }}
               </h6>
-              <a href="#" class="fs-14 fw-5 mt-2"><u>{{ $t('bounty.stages.mid_content') }}</u></a>
+              <p>
+                {{ $t('bounty.stages.mid_detail') }}
+              </p>
+              <a href="#" class="fs-14 fw-5"><u>{{ $t('bounty.stages.mid_content') }}</u></a>
             </div>
             <div
               class="offset-sm-1 col-sm-3 border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
@@ -45,7 +51,10 @@
               <h6 class="text-gray mb-0 fw-6 fs-16 font-primary">
                 {{ $t('bounty.stages.high_range') }}
               </h6>
-              <a href="#" class="fs-14 fw-5 mt-2"><u>{{ $t('bounty.stages.high_content') }}</u></a>
+              <p>
+                {{ $t('bounty.stages.high_detail') }}
+              </p>
+              <a href="#" class="fs-14 fw-5"><u>{{ $t('bounty.stages.high_content') }}</u></a>
             </div>
         </div>
       </div>
@@ -70,7 +79,7 @@
   .navigation-links
     .navigation-card
       width: 260px
-      height: 242px !important
+      height: 300px !important
       img
         width: 86px
   .live-chat

@@ -1,6 +1,7 @@
 <template>
     <div class="f-montserrat">
-      <BountyBanner />
+      <BountyBanner class="d-none d-sm-block" />
+      <img class="d-block d-sm-none w-100" src="~/assets/img/bug-bounty/bugbountymobile1.png" alt="">
       <div class="pt-5 p-3 bg-white">
         <div class="trade-selections">
           <b-row>
@@ -18,7 +19,7 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col class="col-sm-8 text-left offset-sm-2 mt-5">
+            <b-col class="col-sm-8 text-left offset-sm-2 mt-5 text-center">
               <h3 class="d-inline-block text-heading">{{$t('bounty.levels')}}</h3>
               <Cards class="mt-5" />
             </b-col>
