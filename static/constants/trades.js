@@ -1,7 +1,7 @@
 export const OFFER_TYPE_THEIR = 'their'
 export const OFFER_TYPE_YOURS = 'yours'
 export const PER_PAGE = 4
-export const PER_PAGE_COMBINATION = 2
+export const PER_PAGE_COMBINATION = 200
 export const PAGE = 1
 export const PER_PAGE_OPTIONS = [4,8,16,24]
 export const PER_PAGE_OPTIONS_COMBINATION = [2,4,6,8]
@@ -43,7 +43,7 @@ export const WANTS_NAV_ITEMS = [
   {label: 'common.all', value: null },
   {label: 'common.footwear', value: 'sneakers'},
   {label: 'common.apparel',  value: 'apparel'},
-  {label: 'common.accessories', value: 'accessories'},
+  {label: 'wish_lists.categories.accessories', value: 'accessories'},
 ]
 export const SORT_BY = [
   { text: 'trades.wants_listing.date_low_to_high', value: 'date_asc' },
@@ -51,10 +51,34 @@ export const SORT_BY = [
   { text: 'trades.create_listing.vendor.wants.price_low_to_high', value: 'price_asc' },
   { text: 'trades.create_listing.vendor.wants.price_high_to_low', value: 'price_desc' },
 ]
+
+export const WANTS_SORT_OPTIONS = [
+  { text: 'trades.create_listing.vendor.wants.price_low_to_high', value: 'price_asc' },
+  { text: 'trades.create_listing.vendor.wants.price_high_to_low', value: 'price_desc' },
+  { text: 'createlisting.size_small_large', value: 'size_asc' },
+  { text: 'createlisting.size_large_small', value: 'size_desc' },
+]
+
+export const PRODUCT_TYPES = [
+  { text: 'trades.index.browse.product_types.backpack', value: 'backpack' },
+  { text: 'trades.index.browse.product_types.bag', value: 'bag' },
+  { text: 'trades.index.browse.product_types.bandana', value: 'bandana' },
+  { text: 'trades.index.browse.product_types.cap', value: 'cap' },
+  { text: 'trades.index.browse.product_types.hand_bag', value: 'hand_bag' },
+  { text: 'trades.index.browse.product_types.hat', value: 'hat' },
+  { text: 'trades.index.browse.product_types.home', value: 'home' },
+  { text: 'trades.index.browse.product_types.sunglasses', value: 'sunglasses' },
+]
+export const SIZE_TYPES = [
+  { text: 'auctions.frontpage.filterbar.men', value: 'men' },
+  { text: 'auctions.frontpage.filterbar.women', value: 'women' },
+  { text: 'auctions.frontpage.filterbar.unisex', value: 'unisex' },
+  { text: 'auctions.frontpage.filterbar.kids', value: 'kids' },
+]
 export const WANTS_SELECT_LIST_OPTIONS = [
   { text: 'trades.wants_listing.general_wants', value: 'general_wants' },
 ]
-export const CREATE_COMBINATION = 'create_combination'
+
 export const FILTER_STATUS_LIVE = 'live'
 export const FILTER_STATUS_EXPIRED = 'expired'
 export const FILTER_STATUS_DELISTED = 'de-listed'

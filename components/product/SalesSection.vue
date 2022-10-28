@@ -1,19 +1,78 @@
 <template>
   <b-row class="h-100">
     <b-col md="12">
-      <b-tabs content-class="mt-3" nav-class="pb-2">
-        <b-tab title-link-class="body-2-bold border-0 pl-3" :title="$t('products.sales_graph')">
-          <b-row>
+      <b-tabs content-class="mt-0 mt-sm-3" nav-class="pb-2">
+        <b-tab 
+          title-link-class="body-2-bold border-0 pl-2 d-none d-sm-block" 
+          :title="$t('products.sales_graph')"
+        >
+          <b-row class="d-none d-sm-block">
             <b-col md="12">
               <LatestSales
                 :value="product.latest_sales"
-                :sku="product.sku"
+                :sku="sku || product.sku"
+                :headerClass="chartHeaderClass"
+                :labelsStyle="chartLabelsStyle"
               />
             </b-col>
           </b-row>
         </b-tab>
-        <b-tab title-link-class="body-2-bold border-0 pl-5" :title="$t('products.sales_data')">
-          <b-row class="mt-3">
+        <div class="d-flex pt-2 flex-column d-sm-none">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="body-5-medium text-black">{{ $t('products.latest_sales') }}</div>
+            <Icon
+              v-show="currentDataTab"
+              src="close.svg"
+              width="12"
+              height="12"
+              @click="currentDataTab = ''"
+              class="btn-close mt-1"
+            />
+          </div>
+          <div v-if="currentDataTab === 'sales'">
+            <ProductRecentSales :sku="sku || product.sku" />
+          </div>
+          <div v-else-if="currentDataTab === 'asks'">
+            <ProductRecentAsks :sku="sku || product.sku" />
+          </div>
+          <div v-else-if="currentDataTab === 'offers'">
+            <ProductRecentOffers :sku="sku || product.sku" />
+          </div>
+          <div v-else>
+            <LatestSales
+              :value="product.latest_sales"
+              :sku="sku || product.sku"
+              :headerClass="chartHeaderClass"
+              :labelsStyle="chartLabelsStyle"
+            />
+          </div>
+
+          <div class="d-flex d-sm-none justify-content-between mt-2 h-auto">
+            <div 
+              class="chart-button col-3"
+              @click="$root.$emit('bv::collapse::state', 'recent-asks-collapse', true)"
+            >
+              {{ $t('products.asks') }}
+            </div>
+            <div 
+              class="chart-button col-3"
+              @click="$root.$emit('bv::collapse::state', 'recent-offers-collapse', true)"
+            >
+              {{ $t('products.offers') }}
+            </div>
+            <div 
+              class="chart-button col-3"
+              @click="$root.$emit('bv::collapse::state', 'recent-sales-collapse', true)"
+            >
+              {{ $t('products.sales') }}
+            </div>
+          </div>
+        </div>
+        <b-tab 
+          title-link-class="body-2-bold border-0 pl-5 d-none d-sm-block" 
+          :title="$t('products.sales_data')"
+        >
+          <b-row>
             <b-col md="4">
               <Button v-b-toggle.recent-sales-collapse block variant="outline-dark">
                 <template #default>
@@ -26,11 +85,11 @@
               </Button>
               <b-collapse id="recent-sales-collapse" class="border-dark">
                 <b-card>
-                  <ProductRecentSales :sku="product.sku" />
+                  <ProductRecentSales :sku="sku || product.sku" />
                 </b-card>
               </b-collapse>
             </b-col>
-            <b-col md="4">
+            <b-col class="mt-2 mt-md-0" md="4">
               <Button v-b-toggle.recent-offers-collapse block variant="outline-dark" class="text-left">
                 <template #default>
                   <div class="d-flex align-items-center">
@@ -42,11 +101,11 @@
               </Button>
               <b-collapse id="recent-offers-collapse" class="border-dark">
                 <b-card>
-                  <ProductRecentOffers :sku="product.sku" />
+                  <ProductRecentOffers :sku="sku || product.sku" />
                 </b-card>
               </b-collapse>
             </b-col>
-            <b-col md="4">
+            <b-col class="mt-2 mt-md-0" md="4">
               <Button v-b-toggle.recent-asks-collapse block variant="outline-dark" class="text-left">
                 <template #default>
                   <div class="d-flex align-items-center">
@@ -58,7 +117,7 @@
               </Button>
               <b-collapse id="recent-asks-collapse" class="border-dark">
                 <b-card>
-                  <ProductRecentAsks :sku="product.sku" />
+                  <ProductRecentAsks :sku="sku || product.sku" />
                 </b-card>
               </b-collapse>
             </b-col>
@@ -75,10 +134,12 @@ import Button from '~/components/common/Button'
 import ProductRecentSales from '~/components/product/RecentSales'
 import ProductRecentOffers from '~/components/product/RecentOffers'
 import ProductRecentAsks from '~/components/product/RecentAsks'
+import { Icon } from '~/components/common'
+
 
 export default {
   name: 'SalesSection',
-  components: {ProductRecentSales, ProductRecentOffers, ProductRecentAsks, Button, LatestSales },
+  components: { ProductRecentSales, ProductRecentOffers, ProductRecentAsks, Button, LatestSales, Icon },
   props: {
     product: {
       type: Object,
@@ -87,12 +148,25 @@ export default {
         return {}
       }
     },
+    sku: {
+      type: String,
+      default: null
+    },
+    chartHeaderClass: {
+      type: String,
+      default: ''
+    },
+    chartLabelsStyle: {
+      type: Object,
+      default: () => {}
+    }
   },
   data() {
     return {
       isRecentSalesShown: false,
       isRecentOffersShown: false,
       isRecentAsksShown: false,
+      currentDataTab: ''
     }
   },
   mounted() {
@@ -100,16 +174,17 @@ export default {
       switch (id) {
         case 'recent-sales-collapse': {
           this.isRecentSalesShown = state
-
+          this.currentDataTab = 'sales'
           break
         }
         case 'recent-offers-collapse': {
           this.isRecentOffersShown = state
-
+          this.currentDataTab = 'offers'
           break
         }
         default: {
           this.isRecentAsksShown = state
+          this.currentDataTab = 'asks'
         }
       }
     })
@@ -125,6 +200,27 @@ export default {
   font-size: 16px
   font-family: $font-family-sf-pro-display
   color: #000
+.chart-button
+  height: 34px
+  border: 1px solid $color-gray-23
+  border-radius: 4px
+  font-weight: 600
+  font-size: 14px
+  color: #000
+  display: flex
+  align-items: center
+  justify-content: center
+
+.chart-header
+  font-family: $font-family-sf-pro-display
+  font-size: 20px
+  font-weight: 700
+
+::v-deep
+  .nav-tabs
+    border: 0 !important
+    @media (min-width: 574px)
+      border-bottom: 0.5px solid $color-gray-23 !important
 
 .text-color-gray-5
   color: $color-gray-5
@@ -141,11 +237,11 @@ export default {
     font-weight: 700
     font-size: 20px
     &:hover
-      color: $color-gray-5
+      color: $color-gray-4
     &.active
-      color: $black-1
+      color: #000
       &:hover
-        color: $black-1
+        color: #000
 
 /* Collapse card content styles */
 .card

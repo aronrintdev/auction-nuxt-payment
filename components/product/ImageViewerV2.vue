@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" class="container">
+  <div :style="{ width: '95%' }" ref="container" class="container">
     <PinchScrollZoom
       v-if="shouldMount"
       ref="zoomer"

@@ -1,33 +1,39 @@
 <template>
   <div class="child-container">
-    <div class="period-block">
+    <h2 :class="headerClass" class="m-0">{{ $t('products.latest_sales') }}</h2>
+    <div :style="labelsStyle" class="text-right period-block">
       <Button
         variant="link"
         :class="{ active: currentFormat === 'day' }"
+        :style="labelStyle"
         @click="setFormat('day')"
         >{{ $tc('common.day', 1) }}</Button
       >
       <Button
         variant="link"
         :class="{ active: currentFormat === 'month' }"
+        :style="labelStyle"
         @click="setFormat('month')"
         >{{ $t('common.month') }}</Button
       >
       <Button
         variant="link"
         :class="{ active: currentFormat === 'quarter' }"
+        :style="labelStyle"
         @click="setFormat('quarter')"
         >{{ $t('common.quarter') }}</Button
       >
       <Button
         variant="link"
         :class="{ active: currentFormat === 'year' }"
+        :style="labelStyle"
         @click="setFormat('year')"
         >{{ $t('common.year') }}</Button
       >
       <Button
         variant="link"
         :class="{ active: currentFormat === 'all' }"
+        :style="labelStyle"
         @click="setFormat('all')"
         >{{ $t('common.all') }}</Button
       >
@@ -73,6 +79,18 @@ export default {
       type: String,
       default: null,
     },
+    headerClass: {
+      type: String,
+      default: ''
+    },
+    labelsStyle: {
+      type: Object,
+      default: () => {}
+    },
+    labelStyle: {
+      type: Object,
+      default: () => {}
+    }
   },
 
   data() {
@@ -268,9 +286,30 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.responsive-chart
+  margin-left: auto
+  margin-right: auto
+  padding-left: 10px !important
+  padding-right: 10px !important
+  @media (min-width: 993px)
+    width: 85%
+    margin-left: 10px !important
+    margin-right: 10px !important
+    
+.responsive-header
+  color: #000 !important
+  font-size: 14px !important
+  font-weight: 600 !important
+  @media (min-width: 576px)
+    font-family: $font-family-sf-pro-display !important
+    font-weight: 700 !important
+    font-size: 20px !important
+
+
 .child-container
   margin-top: 18px
-  padding: 0 56px
+  @media (min-width: 576px)
+    padding: 0 56px
 
   h2
     @include heading-4
@@ -286,6 +325,7 @@ export default {
       margin: 0 40px
 
       &.active
+        color: #000 !important
         text-decoration: underline
 
   .current-trend

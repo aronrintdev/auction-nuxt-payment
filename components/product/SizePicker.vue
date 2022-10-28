@@ -3,11 +3,13 @@
     <div
       v-if="viewMode === 'carousel'"
       class="position-relative mx-auto carousel-wrapper"
+      :style="wrapperStyle"
     >
       <b-row>
         <b-col md="12" class="d-flex justify-content-between align-items-center px-0">
           <span class="select-size">
             {{ $t('products.select_size') }}<span class="d-sm-none">:</span>
+            <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
           </span>
 
           <Button
@@ -29,7 +31,30 @@
                 </span>
               </div>
             </template>
-          </Button>
+          </Button> -->
+          <div 
+            v-if="!singleMode"
+            @click="handleViewAllClick"
+            class="position-absolute view-all-btn mr-2"
+          >
+            <img
+              width="18"
+              height="18"
+              :src="require('~/assets/img/icons/eye2.svg')"
+              :class="iconClass"
+            />
+            <span 
+              :style="{
+                fontSize: '14px',
+                fontWeight: 600,
+                color: '#000',
+              }"
+              :class="iconTextClass"
+              role="button"
+            >
+              {{ $t('products.all_sizes') }}
+            </span>
+          </div>
         </b-col>
       </b-row>
 
@@ -48,7 +73,9 @@
           :mouse-drag="false"
           :nav-text="['', '']"
           :dots="false"
+          :autoWidth="true"
           class="carousel slide-fade text-center position-relative size-carousel"
+          :style="carouselContainerStyle"
         >
           <template #default>
             <div
@@ -62,6 +89,7 @@
             >
               <div
                 class="d-flex align-items-center justify-content-center mx-auto card"
+                :style="cardStyle"
               >
                 {{ size.size }}
               </div>
@@ -72,18 +100,22 @@
           </template>
 
           <template #prev>
-            <div v-if="arrowsVisible" class="owl-nav owl-prev">
-              <img
-                :src="require('~/assets/img/icons/arrow-left-gray.svg')"
-              />
+            <div 
+              v-if="arrowsVisible" 
+              class="owl-nav owl-prev" 
+              :style="arrowStyle"
+            >
+              <img :src="require('~/assets/img/icons/arrow-left-gray.svg')" />
             </div>
           </template>
 
           <template #next>
-            <div v-if="arrowsVisible" class="owl-nav owl-next">
-              <img
-                :src="require('~/assets/img/icons/arrow-right-gray.svg')"
-              />
+            <div
+              v-if="arrowsVisible"
+              class="owl-nav owl-next" 
+              :style="arrowStyle"
+            >
+              <img :src="require('~/assets/img/icons/arrow-right-gray.svg')" />
             </div>
           </template>
         </Carousel>
@@ -123,14 +155,12 @@
     </div>
   </div>
 </template>
+
 <script>
-import { Button } from '~/components/common'
 import {API_PROD_URL} from '~/static/constants/environments'
 
 export default {
   name: 'ProductSizePicker',
-
-  components: { Button },
 
   props: {
     sizes: {
@@ -153,6 +183,38 @@ export default {
       type: Boolean,
       default: false,
     },
+    selectSizeLabelClass: {
+      type: String,
+      default: ''
+    },
+    iconTextClass: {
+      type: String,
+      default: ''
+    },
+    iconClass: {
+      type: String,
+      default: ''
+    },
+    cardStyle: {
+      type: Object,
+      default: () => {}
+    },
+    cardWrapperStyle: {
+      type: Object,
+      default: () => {}
+    },
+    arrowStyle: {
+      type: Object,
+      default: () => {}
+    },
+    carouselContainerStyle: {
+      type: Object,
+      default: () => {}
+    },
+    wrapperStyle: {
+      type: Object,
+      default: () => {}
+    },
     arrowsVisible: {
       type: Boolean,
       default: true,
@@ -165,6 +227,10 @@ export default {
       type: Number,
       default: 2,
     },
+    errorText: {
+      type: String,
+      default: null
+    }
   },
 
   data() {
@@ -265,6 +331,29 @@ export default {
     color: $color-blue-30
     font-size: 15px
 
+.size-label-responsive
+  display: block !important
+  font-size: 13px
+  color: #000
+  left: 0
+  top: 0
+  @media (min-width: 576px)
+    font-size: 15px
+    font-weight: 500
+    text-transform: uppercase
+
+.icon-text-responsive
+  font-size: 13px !important
+  font-weight: 400 !important
+  color: #000 !important
+  @media (min-width: 576px)
+    color: $color-blue-30 !important
+    font-weight: 600 !important
+
+.owl-carousel 
+  .owl-item
+    width: 70px !important
+
 .container
   .carousel-wrapper
     max-width: 100%
@@ -283,6 +372,7 @@ export default {
       display: block !important
 
     .owl-carousel
+
       .item
         cursor: pointer
         margin: 0 !important

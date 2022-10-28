@@ -1,59 +1,76 @@
 <template>
-    <div class="mb-5">
+    <div id="edit-combination" class="mb-5">
         <edit-item v-if="editItem" :product="editItem" :itemId="itemId"
                    :combinationId="getUpdateCombinations.combination_id" productFor="wantsList"/>
         <add-want-item v-else-if="addWantItem" :combinationId="getUpdateCombinations.combination_id"/>
-        <div v-else>
-            <div class="back-to-search pt-4" role="button" @click="backWants()">
-                <b-icon icon="chevron-left" aria-hidden="true"></b-icon>
-                {{ $t('trades.wants_listing.back_to_wants') }}
+        <div :style="{ background: '#F4F4F4' }" v-else>
+            <div class="header-section pt-4">
+                <div 
+                    class="back-to-search text-center text-sm-left" 
+                    role="button" 
+                    @click="backWants()"
+                >
+                    <b-icon icon="chevron-left" aria-hidden="true" class="mr-1"></b-icon>
+                    {{ $t('trades.wants_listing.back_to_wants') }}
+                </div>
+                <div class="d-flex flex-column flex-sm-row align-items-center 
+                            justify-content-sm-between justify-content-lg-start"
+                >
+                    <div class="create-trade-heading pt-3">
+                        {{ $t('trades.wants_listing.edit_combination', { 0: getUpdateCombinations.combination_id }) }}
+                    </div>
+                    <div 
+                        v-if="getUpdateCombinations.combination_items.length < THREE_ITEMS" 
+                        class="add-item pl-sm-3"
+                        role="button" 
+                        @click="addNewItem"
+                    >
+                        {{ $t('trades.wants_listing.add_another_item') }}
+                    </div>
+                </div>
+                <div class="create-trade-sub-heading text-center text-sm-left mt-2 mb-4">
+                    {{ $t('trades.wants_listing.edit_or_add_new_items_to_your_combination') }}
+                </div>
             </div>
-            <b-row class="pt-3">
-                <b-col cols="6">
-                    <div class="d-flex align-items-center">
-                        <div class="create-trade-heading">
-                            {{ $t('trades.wants_listing.edit_combination', {0: getUpdateCombinations.combination_id}) }}
-                        </div>
-                        <div v-if="getUpdateCombinations.combination_items.length < THREE_ITEMS" class="add-item"
-                             role="button" @click="addNewItem">
-                            {{ $t('trades.wants_listing.add_another_item') }}
-                        </div>
-                    </div>
-                    <div class="create-trade-sub-heading mb-4">
-                        {{ $t('trades.wants_listing.edit_or_add_new_items_to_your_combination') }}
-                    </div>
-                </b-col>
-            </b-row>
-            <div v-for="(item, index) in getUpdateCombinations.combination_items" :key="'offer-'+index+item.id">
+            <div 
+                :style="{ marginBottom: '20px' }"
+                v-for="(item, index) in getUpdateCombinations.combination_items" 
+                :key="'offer-'+index+item.id"
+            >
                 <div class="product-num">
                     {{ $tc('common.product') }} {{ index + 1 }}
                 </div>
-                <b-row class="confirm-trade-item">
-                    <b-col cols="8" class="d-flex">
-                        <div class="pt-3">
-                            <img class="confirm-trade-item-image"
-                                 :src="item.product.image"
-                                 :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
-                        </div>
-                        <div class="d-block pt-4 pl-4">
-                            <div class="confirm-trade-item-name">{{ item.name ? item.name : item.product.name }}</div>
-                            <div class="confirm-trade-item-detail">{{
-                                    $t('trades.create_listing.vendor.wants.sku')
-                                }}:{{ item.sku ? item.sku : item.product.sku }}
+                <div class="confirm-trade-item d-flex flex-column flex-sm-row 
+                            justify-content-between align-items-center pl-1 pr-2">
+                    <div class="d-flex col-sm-8 flex-column flex-sm-row align-items-center">
+                        <img 
+                            class="w-auto"
+                            height="70"
+                            :src="item.product.image"
+                            :alt="$t('trades.create_listing.vendor.wants.no_image')"
+                        />
+                        <div class="d-block pl-4">
+                            <div class="confirm-trade-item-name">
+                                {{ item.name ? item.name : item.product.name }}
                             </div>
-                            <div class="confirm-trade-item-detail">{{
+                            <div class="confirm-trade-item-detail mt-1">{{
+                                    $t('common.sku')
+                                }}: {{ item.sku ? item.sku : item.product.sku }}
+                            </div>
+                            <div class="confirm-trade-item-detail mt-1">{{
                                     $t('trades.create_listing.vendor.wants.colorway')
                                 }}:
-                                {{ item.colorway ? item.colorway : item.product.colorway }}
+                                {{ item.colorway ? item.colorway : item.product.colorway }},
+                                Size {{ item.size.size }}
                             </div>
-                            <div class="confirm-trade-item-detail">
+                            <div class="confirm-trade-item-detail mt-1">
                                 {{ $t('trades.create_listing.vendor.wants.box_condition') }}:
                                 {{ item.packaging_condition.name }}
                             </div>
                         </div>
-                    </b-col>
+                    </div>
 
-                    <b-col cols="2" class="confirm-trade-icons d-flex">
+                    <div class="col-sm-2 mt-2 mt-sm-0 confirm-trade-icons justify-content-center justify-content-sm-end d-flex">
                         <div>
                             <img :src="require('~/assets/img/box-pencil.svg')"
                                  :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="editWant(item)"/>
@@ -63,8 +80,8 @@
                                  :alt="$t('trades.create_listing.vendor.wants.no_image')"
                                  @click="removeWantItem(item.id)"/>
                         </div>
-                    </b-col>
-                </b-row>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -123,9 +140,15 @@ export default {
     },
     mounted() {
         this.backToEdit = () => {
+            console.log('backToEdit5');
             this.addWantItem = false
             this.editItem = null
             this.getCombination()
+        }
+
+        const wrapper = document.querySelector('.main-wrapper')
+        if (document.querySelector('.main-wrapper').querySelector('#edit-combination')) {
+            wrapper.style.backgroundColor = '#f7f7f7'
         }
 
         // Emit to take user back from search page to confirmation
@@ -304,10 +327,6 @@ export default {
     font-style: normal
     @include body-4-medium
     color: $color-gray-5
-    padding-left: 54px
-
-.create-trade-heading
-    padding-left: 54px
 
 .product-num
     font-family: $font-family-sf-pro-text
@@ -322,15 +341,26 @@ export default {
     font-style: normal
     @include body-13-medium
     color: $color-blue-2
-    padding-left: 77px
     padding-top: 22px
 
 .back-to-search
-    padding-left: 54px
     padding-bottom: 8px
     font-family: $font-family-sf-pro-display
     font-style: normal
     @include body-13-regular
+    letter-spacing: 0.06em
     color: $color-black-1
+
+.line-height-17
+    line-height: 17px
+
+.heading
+    @media (min-width: 576px)
+        margin-left: 30px
+
+.header-section
+    @media (min-width: 576px)
+        padding-left: 53px
+        padding-right: 28px
 
 </style>

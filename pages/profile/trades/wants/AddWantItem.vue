@@ -1,44 +1,85 @@
 <template>
   <div>
-  <create-trade-search-item v-if="searchItem" :product="searchItem" productFor="wantsList" :combinationId="combinationId"/>
-  <div v-else class="add-item-container">
-    <div  class="back-to-wants" role="button" @click="backWants">
-      <b-icon icon="chevron-left" aria-hidden="true"></b-icon>
-      {{$t('trades.wants_listing.back_to_want_list')}}
+    <edit-item 
+      v-if="addItem" 
+      :style="{
+        background: '#FAFAFA'
+      }"
+      :product="addItem" 
+      productFor="wantsList" 
+      :itemId="addItem.id"
+      :combinationId="combinationId"
+    />
+    <div v-else class="add-item-container">
+      <div class="back-to-wants" role="button" @click="backWants">
+        <b-icon icon="chevron-left" aria-hidden="true"></b-icon>
+        {{$t('trades.wants_listing.back_to_want_list')}}
+      </div>
+      <div class="d-flex flex-column text-center text-sm-left flex-sm-row align-items-center pt-4">
+        <div class="wants-heading">{{$t('trades.wants_listing.search_for_want')}}</div>
+        <div class="wants-sub-heading pl-sm-4 pt-1">{{$t('trades.wants_listing.start_by_searching')}}</div>
+      </div>
+      <div class="col-sm-12 col-xl-8 py-4 px-0">
+        <SearchInput
+          :value="searchText"
+          variant="primary"
+          :placeholder="$t('create_listing.trade.offer_items.search_by')"
+          :clearSearch="true"
+          inputHeight="60px"
+          :inputStyle="{ 
+            borderColor: '#99999950', 
+            paddingLeft: '74px',
+            fontFamily: 'Montserrat', 
+            color: '#000',
+            fontWeight: 500,
+            fontSize: '16px',
+          }"
+          :isOpen="searchedItems.length > 0"
+          :onOpenStyle="{
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
+          }"
+          inputClass="search-mobile"
+          iconStyle='position: relative; left: 12px;'
+          bordered
+          @change="onSearchInput"
+        />
+        <SearchedProductsBelowSearchTextBox 
+          v-if="searchedItems.length > 0" 
+          :productItems="searchedItems" 
+          inputType="wantsList"
+          :wrapperStyle="{ margin: 0 }"
+          :itemStyle="{ padding: 0 }"
+          :suggestNewStyle="{
+            borderTopLeftRadius: 0,
+            borderTopRightRadius: 0
+          }"
+          @add_product_want_list="redirectToAddWant"
+        />
+        
+      </div>
     </div>
-    <div class="d-flex align-items-center pt-4">
-      <div class="wants-heading">{{$t('trades.wants_listing.search_for_want')}}</div>
-      <div class="wants-sub-heading pl-4 pt-1">{{$t('trades.wants_listing.start_by_searching')}}</div>
-    </div>
-    <div class="col-md-8 col-sm-12 pt-4">
-      <SearchInput
-        :value="searchText"
-        variant="primary"
-        :placeholder="$t('create_listing.trade.offer_items.search_by')"
-        :clearSearch="true"
-        inputHeight="60px"
-        bordered
-        @change="onSearchInput"
-      />
-      <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" inputType="wantsList" />
-    </div>
-  </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable vue/no-unused-components */
 import {mapActions} from 'vuex'
 import debounce from 'lodash.debounce'
 import SearchInput from '~/components/common/SearchInput'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox';
-import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
+import EditItem from '~/pages/profile/trades/wants/EditItem';
 import {
     TAKE_SEARCHED_PRODUCTS
   } from '~/static/constants/trades'
 
 export default {
   name: 'AddWantItem',
-  components: {CreateTradeSearchItem, SearchedProductsBelowSearchTextBox, SearchInput},
+  components: {
+    SearchedProductsBelowSearchTextBox, 
+    SearchInput,
+    EditItem
+  },
   layout: 'Profile',
   props:{
     combinationId: {
@@ -51,11 +92,13 @@ export default {
       searchText: null,
       searchedItems: [],
       searchItem: null,
+      addItem: null
     }
   },
   mounted() {
     // emit listener use to add want item
     this.$root.$on('add_product_want_list', (val) => {
+      console.log('ON ADD CLICK', this.combinationId);
       this.searchItem = val
     })
     // emit listener use to take user back from search selection
@@ -64,6 +107,15 @@ export default {
       this.searchText = null
       this.searchedItems = []
     })
+
+    this.$root.$on('back_to_list', () => {
+      this.addItem = null
+    })
+
+    const wrapper = document.querySelector('.main-wrapper')
+    if (wrapper.querySelector('.add-item-container')) {
+      wrapper.style.backgroundColor = '#f7f7f7'
+    }
   },
   methods: {
     ...mapActions('trades', ['searchProductsList']),
@@ -74,6 +126,21 @@ export default {
       }
       else {
         this.$router.push('/profile/trades/wants')
+      }
+    },
+    redirectToAddWant(product) {
+      console.log('1111111111111111');
+      this.addItem = {
+        product,
+        packaging_condition: {
+          id: '',
+          name: ''
+        },
+        packaging_condition_id: '',
+        size: {
+          id: ''
+        },
+        latestSales: null
       }
     },
     /**
@@ -110,7 +177,11 @@ export default {
 @import '~/assets/css/_variables'
 
 .add-item-container
-  padding: 25px
+  padding: 15px 12px 0 12px
+  background: #FFF
+  @media (min-width: 576px)
+    background: $color-white-5
+    padding: 25px
 
 .back-to-wants
   font-family: $font-family-sf-pro-display
@@ -130,5 +201,35 @@ export default {
   font-style: normal
   @include body-4-normal
   color: $color-gray-5
+
+.search-item
+  border: 0.5px solid #CECECE
+  margin-top: 11px
+  border-radius: 4px
+  padding: 10px
+
+.add-item-button
+  background: $color-blue-20
+  border-radius: 5px
+  display: flex
+  align-items: center
+  justify-content: center
+  font-family: $font-family-sf-pro-display
+  font-weight: 600
+  font-size: 12px
+  color: #FFF
+  height: 22px
+
+.searched-product-name
+  font-weight: 500
+  font-size: 13px
+  color: $color-black-15
+
+.no-product
+  font-weight: 500
+  font-size: 11px
+  font-style: italic
+  color: #000
+  letter-spacing: 1px
 
 </style>

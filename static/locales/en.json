@@ -109,6 +109,7 @@
     "nil": "Nil",
     "pin": "Pin",
     "chat": "Chat",
+    "add": "Add",
     "purchase": "Purchase",
     "update": "Update",
     "add_product": "Add Product",
@@ -137,7 +138,13 @@
     "apparel_sizes": "Apparel Sizes",
     "accessories_sizes": "Accessories Sizes",
     "price_range": "Price Range",
+    "select_list": "Select List",
+    "add_to_general": "Add to general wants or a combination",
     "browse": "Browse",
+    "bulk_delete_warning": "Are you sure you would like to delete selected?",
+    "items_deleted": "Your items have been deleted!",
+    "wants_inventory": "Wants Inventory",
+    "wants_combinations": "Wants Combinations",
     "categories": {
       "sneakers": "Sneakers",
       "apparel": "Apparel",
@@ -160,11 +167,14 @@
     "read_less": "Read Less",
     "read_more": "Read More",
     "go_back": "Go Back",
-    "add": "Add",
-    "product_type": "Product Type",
-    "continue": "Continue",
-    "of": "of",
-    "week": "Week"
+    "product_type"  : "Product Type",
+    "continue"  : "Continue",
+    "of"  : "of",
+    "week"  : "Week",
+    "search_wants": "Search for Wants",
+    "tap_to_delete": "Tap on the Wants you would like to delete",
+    "tap_to_include": "tap on the Wants you would like to include in combination",
+    "edit_product": "Edit Product"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -173,7 +183,11 @@
   "error": {
     "something_went_wrong": "Something went wrong. Please try again later!",
     "combination_already_has_maximum_items": "Combination already has maximum items",
-    "invalid_combination_selected": "Invalid combination selected"
+    "invalid_combination_selected": "Invalid combination selected",
+    "incorrect_size": "Incorrect Size",
+    "incorrect_quantity": "Incorrect quantity",
+    "box": "Select Box Condition",
+    "list": "Choose List"
   },
   "index": {
     "sign_up": "Sign Up",
@@ -530,6 +544,8 @@
     "size": "Size",
     "sell": "Sell",
     "or_ask": "or Ask",
+    "delete_multiple": "Delete Multiple",
+    "no_combinations_found": "0 combinations have been found in your wants combinations",
     "looking_to_join_the_affiliate’s_program": "Looking to join the Affiliate’s Program?",
     "list_what_you_have_with_us": "List what you have with us!",
     "list": "List",
@@ -1094,6 +1110,7 @@
           "select_items": "Select items you would like to list, trades can contain upto a minimum of 1 item, maximum 3 items",
           "filter_by": "Filter By",
           "filter_btn": "Filter",
+          "delete_multiple": "Delete Multiple",
           "drag_drop": "Select or Drag Drop Inventory",
           "search_at": "or search at the top",
           "next": "Next",
@@ -1848,6 +1865,7 @@
         "men": "Men",
         "women": "Women",
         "unisex": "Unisex",
+        "kids": "Kids",
         "child": "Child",
         "toddler": "Toddler",
         "sort": "Sort",
@@ -2277,6 +2295,7 @@
     "dashboard": "Dashboard",
     "vendor_dashboard": "Vendor Dashboard",
     "offers_placed": "Offers Placed",
+    "inventory": "Inventory",
     "bids_placed": "Bids Placed",
     "bids_received": "Bids Received",
     "orders": "Orders",
@@ -4231,6 +4250,17 @@
           "apparel": "Apparel",
           "accessories": "Accessories"
         },
+        "product_type": "Product Type",
+        "product_types": {
+          "backpack": "Backpack",
+          "bag": "Bag",
+          "bandana": "Bandana",
+          "cap": "Cap",
+          "hand_bag": "Hand Bag",
+          "hat": "Hat",
+          "home": "Home",
+          "sunglasses": "Sunglasses"
+        },
         "one_item": "One Item",
         "two_items": "Two Items",
         "three_items": "Three Items",
@@ -4353,6 +4383,7 @@
         "wants": {
           "back_to_offers_item": "Back to Offer Items",
           "add_wants": "Add Wants",
+          "add_want": "Add Want",
           "optional": "Optional",
           "search_information": "Search for what you're looking for with a minimum of 1 item, maximum {0} items or add your items or combinations from the Trade Wants List",
           "search_by_options": "Search by SKU, Keyword, or Brand",
@@ -4682,6 +4713,7 @@
     "wants_listing": {
       "general_wants": "General Wants",
       "create_combination": "Create Combination {count}",
+      "create_combination_label": "Create Combination",
       "add_to": "Add To",
       "trading_wants_list": "Trading Wants List",
       "wants_list_contains_items": "Wants List contains items saved from you listings to help you find trade matches suitable for you. Search, add and edit your recently added wants.",
@@ -4700,8 +4732,7 @@
       "edit_combination": "Edit Combination #{0}",
       "add_another_item": "+ Add Another Item",
       "edit_or_add_new_items_to_your_combination": "Edit or add new items to your combination",
-      "back_to_wants": "Back to Trade Wants",
-      "you_cannot_select_more_than": "You cannot select more than 3 items in one combination"
+      "back_to_wants": "Back to Trade Wants"
     },
     "create_combination_selected": "Add to Combination",
     "delete_selected": "Delete Selected",
@@ -5035,7 +5066,8 @@
     "error_messages": {
       "enter_valid_phone": "Please enter a valid phone number.",
       "enter_valid_address": "Please enter a valid address.",
-      "verification_expired": "Verification Code has expired."
+      "verification_expired": "Verification Code has expired.",
+      "you_cannot_select_more": "You cannot select more than 3 items in one combination"
     },
     "messages": {
       "document_uploaded": "Vendor Document Uploaded!",
