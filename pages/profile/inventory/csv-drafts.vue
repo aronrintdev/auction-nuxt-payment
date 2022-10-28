@@ -84,9 +84,7 @@
           <td class="d-flex align-items-center p-3">
             <ProductThumb
               :product="item.product"
-              width="63"
-              height="63"
-              class="mr-4 flex-shrink-0"
+              class="mr-4 product-img"
             />
             <div class="text-left">
               <div class="title mb-1">{{ item.product.name }}</div>
@@ -683,4 +681,7 @@ export default {
 
       .btn-suggest
         width: 220px
+.product-img
+  height: 64px
+  width: 64px
 </style>

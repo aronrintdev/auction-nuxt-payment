@@ -65,10 +65,19 @@
           :link-attrs="{ title: $t('navbar.shop') }"
         >
           {{ $t('navbar.shop') }}
-        </b-nav-item>
+        </b-nav-item>        
         <b-nav-item
+          v-if="authenticated"
           class="w-100"
           to="/sell"
+          :link-attrs="{ title: $t('navbar.sell') }"
+        >
+          {{ $t('navbar.sell') }}
+        </b-nav-item>
+        <b-nav-item
+          v-if="!authenticated"
+          class="w-100"
+          to="/login"
           :link-attrs="{ title: $t('navbar.sell') }"
         >
           {{ $t('navbar.sell') }}
