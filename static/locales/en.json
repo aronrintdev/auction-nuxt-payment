@@ -1930,7 +1930,14 @@
       "insert_amount": "Insert Amount",
       "payment_method": "Payment Method",
       "no_results_found": "No results found",
-      "cant_find_anything": "We couldn’t find anything that matches this search"
+      "cant_find_anything": "We couldn’t find anything that matches this search",
+      "product_details": "Product Details",
+      "description": "Description",
+      "size_guide": "Size Guide",
+      "bidding_history": "Bidding History",
+      "verification_guranteed": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed.",
+      "collection_items": "Collection Items",
+      "review": "Review"
     },
     "errors": {
       "missing_box_images": "Missing box images",
