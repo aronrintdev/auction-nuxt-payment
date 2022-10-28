@@ -13,9 +13,17 @@
           <td>{{ $t('common.last_xdays', { day: 7 }) }}</td>
         </tr>
     </thead>
-      <tbody>
+      <tbody v-if="products.length == 0">
+        <tr>
+          <td class="text-center">
+            {{ noFoundTitle }}
+          </td>
+        </tr>
+      </tbody>
+      <tbody v-else>
         <tr
-          v-for="(product, index) in products"
+        v-for="(product, index) in products"
+         
           :key="`product-${product.id}-trend`"
           class="border-top-0"
         >
@@ -259,6 +267,10 @@
       type:{
         type:String,
         default:''
+      },
+      noFoundTitle:{
+        type:String,
+        default:'No product found'
       }
     },
     data() {

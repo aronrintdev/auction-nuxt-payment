@@ -9,56 +9,68 @@
     </div>
     <!-- mobile responsive Pricing Section   -->
     <div v-if="!loading" class="row mobile-design mb-5">
-        <div class="col-8">
-          <div class="body-4-normal mb-1 text-gray-6">
-            {{ dayjs().format('DD, MMM, h:mm A') }}
-          </div>
-          <div class="body-4-bold mb-2">$ 250.00 (Avg.price)</div>
-          <div class="body-4-normal mb-2 text-success">+0.64 (+0.36%)</div>
+      <div class="col-8">
+        <div class="body-4-normal mb-1 text-gray-6">
+          {{ dayjs(product && product.created_at).format('DD, MMM, h:mm A') }}
         </div>
-        <div class="col-4 text-right">
-          <Button variant="dark-blue" class="px-4 mb-1 btn-block" @click="handleBuyClick">
-              <div>{{ $t('deadstock_exchange.detail.buy') }}</div>
-          </Button>
-          <Button variant="dark" class="px-4 mb-3 btn-block" @click="handleSellClick">
-              <div>{{ $t('deadstock_exchange.detail.sell') }}</div>
-          </Button>
-        </div>
+        <div class="body-4-bold mb-2">$ 250.00 (Avg.price)</div>
+        <div class="body-4-normal mb-2 text-success">+0.64 (+0.36%)</div>
+      </div>
+      <div class="col-4 text-right">
+        <Button
+          variant="dark-blue"
+          class="px-4 mb-1 btn-block"
+          @click="handleBuyNowClick"
+        >
+          <div>{{ $t('deadstock_exchange.detail.buy') }}</div>
+        </Button>
+        <Button
+          variant="dark"
+          class="px-4 mb-3 btn-block"
+          @click="handleSellNowClick"
+        >
+          <div>{{ $t('deadstock_exchange.detail.sell') }}</div>
+        </Button>
+      </div>
     </div>
     <div v-if="!loading" class="row">
-
       <div class="col-lg-6 col-md-12 col-sm-12 desktop-design">
         <div class="row">
           <div class="col-lg-2">
             <ProductThumb
-              src="https://api.deadstock.co/prod/api/sneakers/CV7562-401/image"
+              :src="product && product.image"
               class="product-thumbnail"
             />
           </div>
           <div class="col-lg-5 desktop-product-name-section">
-            <div class="body-4-bold mb-2">Nike Lebron 18 Low (2021)</div>
-            <div class="body-4-normal mb-2 text-gray-6 product-variant">Black & White</div>
+            <div class="body-4-bold mb-2">{{ product && product.name }}</div>
+            <div class="body-4-normal mb-2 text-gray-6 product-variant">
+             {{product && product.colorway}}
+            </div>
           </div>
           <!-- mobile responsive product average Section   -->
           <div class="col-lg-5 mobile-product-name-section">
             <div class="row">
               <div class="col-10">
-                <div class="body-4-bold mb-2">Nike Lebron 18 Low (2021)</div>
-                <div class="body-5-normal mb-2 text-gray-6 product-variant">Last Sale: $250.00    <span class="text-success">+0.64 (+0.36%)</span></div>
+                <div class="body-4-bold mb-2">{{ product && product.name }}</div>
+                <div class="body-5-normal mb-2 text-gray-6 product-variant">
+                  Last Sale: $250.00
+                  <span class="text-success">+0.64 (+0.36%)</span>
+                </div>
               </div>
               <div class="col-2 text-right">
                 <Button
-                :id="`popover-wishlist-`"
-                variant="link"
-                :icon="wishList ? `heart-red.svg` : 'heart2.svg'"
-                icon-only
-                class="mr-3 shadow-none"
-                tabindex="0"
-                :tooltip-text="wishList ? wishList.name : ''"
-                pill
-                @click="removeFromWishList"
-              >
-              </Button>
+                  :id="`popover-wishlist-`"
+                  variant="link"
+                  :icon="wishList ? `heart-red.svg` : 'heart2.svg'"
+                  icon-only
+                  class="mr-3 shadow-none"
+                  tabindex="0"
+                  :tooltip-text="wishList ? wishList.name : ''"
+                  pill
+                  @click="removeFromWishList"
+                >
+                </Button>
               </div>
             </div>
           </div>
@@ -78,7 +90,7 @@
         <div class="row desktop-product-price-section">
           <div class="col-lg-12">
             <div class="body-4-normal mb-2 text-gray-6">
-              {{ dayjs().format('DD, MMM, h:mm A') }}
+              {{ dayjs(product && product.created_at).format('DD, MMM, h:mm A') }}
             </div>
             <div class="body-4-bold mb-2">$ 250.00</div>
           </div>
@@ -110,9 +122,11 @@
         </div>
         <div class="row desktop-chart-header-section">
           <div class="col-lg-3 col-md-3">
-            <div class="body-4-normal mb-2 text-success sale-average">+0.64 (+0.36%)</div>
+            <div class="body-4-normal mb-2 text-success sale-average">
+              +0.64 (+0.36%)
+            </div>
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-6 ">
+          <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="body-4-normal mb-2 text-gray-6">
               <NavGroup
                 :data="CHART_FILTER_TABS"
@@ -124,7 +138,13 @@
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-3">
-            <Button variant="white" class="share-icon" icon="share.svg" icon-only pill />
+            <Button
+              variant="white"
+              class="share-icon"
+              icon="share.svg"
+              icon-only
+              pill
+            />
           </div>
         </div>
         <div class="row mb-4">
@@ -191,22 +211,51 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <StockExchangeMobileFilter @change="handleFilterChange"/>
+            <StockExchangeMobileFilter @change="handleSortBySelect" />
           </div>
         </div>
         <div class="row desktop-similar-filter-section">
           <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10">
             <!-- Input search -->
-            <SearchInput
-              :value="similarProductSearchValue"
-              :placeholder="
-                $t('deadstock_exchange.filter_by.details_placeholder')
-              "
-              variant="light"
-              class="flex-grow-1 mr-4 search-input"
-              :debounce="1000"
-              @change="searchProduct"
-            />
+            <div
+              v-click-outside="hideDropdown"
+              class="searchbox"
+              :class="{ open: hasSearchResult }"
+            >
+              <search-box
+                :searchText="searchText"
+                :placeholder="
+                  $t('deadstock_exchange.filter_by.details_placeholder')
+                "
+                @search="searchProduct"
+              />
+              <div v-if="hasSearchResult" class="dropdown-options">
+                <div
+                  v-for="prod in searchedProducts"
+                  :key="`${prod.sku}-${prod.category.name}`"
+                  class="dropdown-option d-flex align-items-center"
+                  @click="selectProduct(prod)"
+                >
+                  <div class="position-relative d-inline-flex">
+                    <b-img
+                      :src="`${
+                        prod.image || 'https://images.deadstock.co/404.png'
+                      }?width=150}`"
+                      class="mx-auto"
+                      alt="..."
+                    />
+                    <div class="position-absolute overlay"></div>
+                  </div>
+                  &nbsp; {{ prod.name }}
+                </div>
+                <div
+                  v-if="!searchedProducts.length"
+                  class="dropdown-option text-center"
+                >
+                  {{ $t('sell.create_listing.no_result') }}
+                </div>
+              </div>
+            </div>
             <!-- ./Input search -->
           </div>
           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
@@ -227,7 +276,7 @@
         </div>
         <div class="row">
           <div id="tb-product" class="col-lg-12 overflow-auto">
-            <SimilarProductTable :products="products" />
+            <SimilarProductTable :products="similarProducts" notDataTitle="No similar products found" />
           </div>
         </div>
       </div>
@@ -294,13 +343,15 @@
         @hidden="wishListShow = false"
         @wishlisted="onWishListed"
       /> -->
-
   </div>
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 import dayjs from 'dayjs'
+import ClickOutside from 'vue-click-outside'
+import debounce from 'lodash.debounce'
+import SearchBox from '../RoundSearchBox'
 import SimilarProductTable from './SimilarProductTable.vue'
 import ProductSizePicker from '~/components/product/SizePicker'
 import StockExchangeMobileFilter from '~/components/Exchange/MobileFilter'
@@ -309,9 +360,7 @@ import {
   Button,
   Loader,
   FormDropdown,
-  SearchInput,
   Modal,
-
 } from '~/components/common'
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
@@ -324,20 +373,23 @@ export default {
     Loader,
     NavGroup,
     SimilarProductTable,
-    SearchInput,
+    SearchBox,
     FormDropdown,
     ProductSizePicker,
     Modal,
-    StockExchangeMobileFilter
+    StockExchangeMobileFilter,
     // WishListPopover
+  },
+  directives: {
+    ClickOutside
   },
   data() {
     return {
       dayjs,
       loading: false,
-      products: [],
+      product: null,
+      similarProducts:[],
       prices: [],
-      similarProductSearchValue: '',
       sortBy: null,
       chartTabCurrentValue: '24',
       currentSize: null,
@@ -346,6 +398,19 @@ export default {
       sizeViewMode: 'carousel',
       priceSizeTabCurrentValue: 'average_price',
       wishListShow: false,
+      searchedProducts: [],
+      searchText: null,
+      hasSearchResult: false,
+      selectedFilters: {
+        type: 'trending',
+        sizeTypes: [],
+        sizes: [],
+        brands: [],
+        categories: [],
+        status: [],
+        sortby: null,
+        product: null,
+      },
       SIMILAR_FILTER_SORT_OPTIONS: [
         {
           label: this.$t('vendor_purchase.sort_by'),
@@ -474,52 +539,14 @@ export default {
   },
   computed: {
     sizes() {
-      // return this.products?.sizes || []
-      return [
-        {
-          created_at: '2022-08-19T18:53:52.000000Z',
-          enabled: true,
-          id: 35,
-          size: '5',
-          size_type_id: null,
-          type: 'women',
-          updated_at: '2022-08-19T18:53:52.000000Z',
-        },
-        {
-          created_at: '2022-08-19T18:53:52.000000Z',
-          enabled: true,
-          id: 36,
-          size: '6',
-          size_type_id: null,
-          type: 'women',
-          updated_at: '2022-08-19T18:53:52.000000Z',
-        },
-        {
-          created_at: '2022-08-19T18:53:52.000000Z',
-          enabled: true,
-          id: 37,
-          size: '7',
-          size_type_id: null,
-          type: 'women',
-          updated_at: '2022-08-19T18:53:52.000000Z',
-        },
-        {
-          created_at: '2022-08-19T18:53:52.000000Z',
-          enabled: true,
-          id: 38,
-          size: '9',
-          size_type_id: null,
-          type: 'women',
-          updated_at: '2022-08-19T18:53:52.000000Z',
-        },
-      ]
+      return this.product?.sizes || []
     },
     wishList() {
       return null
       // return this.product.wish_lists && this.product.wish_lists.length > 0
       //   ? this.product.wish_lists[0]
       //   : null
-    }
+    },
   },
 
   watch: {
@@ -533,7 +560,7 @@ export default {
       deep: true,
     },
   },
-  mounted(){
+  mounted() {
     this.getProductDetail()
   },
   methods: {
@@ -544,7 +571,6 @@ export default {
       this.chartTabCurrentValue = value
       this.changeGraphLabel(value)
     },
-
     handlePriceSizeTabChange(value) {
       this.priceSizeTabCurrentValue = value
     },
@@ -587,8 +613,22 @@ export default {
     //     )
     //   }
     // },
+    getCartProduct() {
+      return {
+        id: this.product.id,
+        name: this.product.name,
+        brand: this.product.brand,
+        sku: this.product.sku,
+        colorWay: this.product.colorway,
+        size: this.sizes[this.currentSize - 1],
+        quantity: 1,
+        inventory_stock: this.currentListingItem?.inventory_stock,
+        price: this.currentListingItem?.inventory?.sale_price,
+        image: `${this.API_PROD_URL}/${this.category}/${this.sku}/image`,
+        listing_item_id: this.currentListingItem?.id,
+      }
+    },
     handleBuyNowClick() {
-      this.resetError()
       if (!this.currentSize) {
         this.error.buyNow = this.$t('products.error.select_size')
         return
@@ -597,8 +637,8 @@ export default {
       this.$store.dispatch('shopping-cart/addProduct', this.getCartProduct())
       this.$router.push('/checkout/selling')
     },
-       // On sell now click
-       handleSellNowClick() {
+    // On sell now click
+    handleSellNowClick() {
       // When user clicks on sell now, if not logged in, the user will go to login screen or to sign up,
       if (!this.authenticated) {
         this.$router.push('/login')
@@ -628,9 +668,11 @@ export default {
         offerAmount: this.highestOffer,
       })
         .then((res) => {
-          this.$store.dispatch('sell-now/selectedItem', res.data.data).then(() => {
-            this.moveToSellNow()
-          })
+          this.$store
+            .dispatch('sell-now/selectedItem', res.data.data)
+            .then(() => {
+              this.moveToSellNow()
+            })
 
           return true
         })
@@ -740,9 +782,19 @@ export default {
           //     data: [0, 50.0, 150.0, 250.0, 900.0],
           //     label: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
           // })
-           this.$set(this.lineDatasets, 0,
+          this.$set(
+            this.lineDatasets,
+            0,
 
-           this.lineDatasets.labels= ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            (this.lineDatasets.labels = [
+              'January',
+              'February',
+              'March',
+              'April',
+              'May',
+              'June',
+              'July',
+            ])
           )
           break
         }
@@ -756,17 +808,20 @@ export default {
             '10 am',
             '2 pm',
           ]
-          this.$set(this.lineDatasets, 0,
+          this.$set(
+            this.lineDatasets,
+            0,
 
-          this.lineDatasets.labels= [
-            '1 pm',
-            '6 pm',
-            '10 pm',
-            '2 am',
-            '6 am',
-            '10 am',
-            '2 pm',
-          ],true
+            (this.lineDatasets.labels = [
+              '1 pm',
+              '6 pm',
+              '10 pm',
+              '2 am',
+              '6 am',
+              '10 am',
+              '2 pm',
+            ]),
+            true
           )
           break
         }
@@ -793,37 +848,27 @@ export default {
             '2 pm',
           ]
       }
-
     },
-    // On filter by change.
-    handleSortBySelect(value) {
-      this.similarProductSearchValue = value.value
-      this.getProductDetail()
+    // On filter sort by change.
+    handleSortBySelect(option) {
+      this.selectedFilters = {
+        ...this.selectedFilters,
+        sortby: option?.value
+      }
     },
-    // On filter by change.
-    searchProduct(value) {
-      this.search = value
-      this.getProductDetail()
-    },
-    handleBuyClick() {},
-    handleSellClick() {},
+      // Submit updated filters
+    emitChange: debounce(function(filters) {
+      this.$emit('filterList', filters)
+    }, 300),
     getProductDetail() {
       this.loading = true
       this.$axios
-        .get(`/products/${this.$route.params.sku}/details`, {
-          // .get('/stock-exchange/', {
-          params: {
-            type: this.type,
-            page: this.currentPage,
-            take: this.perPage,
-            search: this.search,
-            sortBy: this.sortBy,
-          },
-        })
+        .get(`/products/${this.$route.params.sku}/details`)
         .then((response) => {
+          console.log(response.data)
           if (response.data) {
-            console.log(response.data)
-            this.products = response.data.data
+            this.product = response.data
+            this.similarProducts = response.data.similar_products
             this.loading = false
             // this.totalRows = response.data.total
           }
@@ -833,6 +878,47 @@ export default {
           this.$toasted.error(error.message)
         })
     },
-  },
+    // Search event listener
+    searchProduct(value) {
+      this.searchText = value
+      if (value) {
+        this.$axios
+          .get('/products', {
+            params: {
+            type: this.type,
+            page: this.currentPage,
+            take: this.perPage,
+            search: this.searchText.toLowerCase(),
+            sortBy: this.sortBy,
+          }
+          })
+          .then((response) => {
+            this.hasSearchResult = true
+            this.similarProducts = response.data.data || []
+          })
+          .catch((error) => {
+            this.hasSearchResult = false
+            this.$toasted.error(error)
+          })
+      } else {
+        this.selectedProduct = null
+        this.emitChange()
+      }
+    },
+    // Select product
+    selectProduct(product) {
+      this.selectedProduct = product.sku
+      this.searchText = product.name
+      this.selectedFilters = {
+        ...this.selectedFilters,
+        product: this.selectedProduct,
+      }
+      this.hideDropdown()
+    },
+    hideDropdown() {
+      this.hasSearchResult = false
+      this.searchedProducts = []
+    },
+  }
 }
 </script>

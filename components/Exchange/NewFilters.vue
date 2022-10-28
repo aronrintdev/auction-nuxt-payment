@@ -155,7 +155,6 @@
 import { mapGetters } from 'vuex'
 import ClickOutside from 'vue-click-outside'
 import debounce from 'lodash.debounce'
-
 import SearchBox from '../RoundSearchBox'
 import { FormDropdown, MultiSelectDropdown, SliderDropdown } from '~/components/common'
 import {
@@ -476,24 +475,24 @@ export default {
       border-bottom-right-radius: 0
       border: 1px solid transparent
 
-  .search-results
-    .popover-body
-      >div
-        @include body-4-normal
-        font-family: $font-family-base
-        color: $color-black-1
-        background-color: $color-white-4
-        height: 46px
-        border: none
-        border-bottom: 0.2px solid $light-gray-2
-        padding: 0 23px
-        &:hover
-          color: $color-gray-5
+  // .search-results
+  //   .popover-body
+  //     >div
+  //       @include body-4-normal
+  //       font-family: $font-family-base
+  //       color: $color-black-1
+  //       background-color: $color-white-4
+  //       height: 46px
+  //       border: none
+  //       border-bottom: 0.2px solid $light-gray-2
+  //       padding: 0 23px
+  //       &:hover
+  //         color: $color-gray-5
 
-        &:last-child
-          border-bottom-left-radius: 8px
-          border-bottom-right-radius: 8px
-          border: none
+  //       &:last-child
+  //         border-bottom-left-radius: 8px
+  //         border-bottom-right-radius: 8px
+  //         border: none
 .more-filters-btn
   @include body-13-regular
   font-family: $font-sp-pro
