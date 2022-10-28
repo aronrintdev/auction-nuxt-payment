@@ -1,5 +1,5 @@
 <template>
-  <b-card class="purchase-card-wrapper card p-2">
+  <b-card class="purchase-card-wrapper card p-0.1">
     <b-card-title>
       <!-- Order Number -->
       <span class="order-no text-capitalize">
@@ -8,7 +8,7 @@
       </span>
       <!-- ./Order Number -->
       <!-- View Order -->
-      <span role="button" class="view-order d-flex align-items-center" @click="viewOrder">{{
+      <span role="button" class="view-order" @click="viewOrder">{{
         $t('vendor_purchase.view_order')
       }}</span>
       <!-- ./View Order -->
@@ -24,7 +24,7 @@
 
     <!-- Images -->
     <b-card-text class="order-images">
-      <div class="row py-3">
+      <div class="row">
         <!-- Order Type - Buy -->
         <template v-if="ORDERS_HAS_ITEMS.includes(orderType) && purchase.items">
           <div
@@ -78,8 +78,15 @@
               v-if="ORDERS_HAS_ITEMS.includes(orderType)"
               :variant="purchaseStatus"
               class="m-auto text-capitalize text-center status-button d-flex"
+              :class="[
+                ($t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) === 'Cancelled' ? 'btn-cancelled' : ''),
+                ($t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) === 'Refunded' ? 'btn-refunded' : ''),
+                ($t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) === 'Send to Deadstock' ? 'btn-send' : ''),
+                ($t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) === 'Authentication Complete' ? 'btn-authentication' : ''),
+                ($t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) === 'Multiple' ? 'btn-multiple' : ''),
+              ]"
           >
-            {{$t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) }}
+            {{ $t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) }}
           </Button>
           <div
             v-if="orderType === giftCard"
@@ -175,9 +182,10 @@ export default {
   },
 
   methods: {
-    // On click view order
     viewOrder() {
       this.$router.push(`/profile/purchases/summary/${this.purchase.id}`)
+      console.log('order data is',this.$router);
+      console.log('order data is');
     },
   },
 }
@@ -452,4 +460,21 @@ export default {
   .purchase-card-wrapper
     width: 459.5px
 /* media query ends */
+.btn-cancelled
+  color: #e00f0e
+  background: #fdebeb
+.btn-refunded
+  color: #F4B53F
+  background: #fff9f0
+.btn-send
+  color: #8136bd
+  background: #f5effa
+  padding: 10px
+.btn-authentication
+  color: #4ac557
+  background: #effaf4
+  padding: 20px 4px
+.btn-multiple
+  color: #fff
+  background: #000
 </style>

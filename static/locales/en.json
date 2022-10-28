@@ -3666,6 +3666,8 @@
       "shipped_to_buyer": "Shipped to Buyer",
       "delivered": "Delivered",
       "ordered": "Ordered",
+      "cancel": "Cancelled",
+      "": "",
       "multiple": "Multiple",
       "arrived_to_ds": "Arrived at DS",
       "authenticated_and_shipped": "Authenticated and Shipped",
@@ -3682,7 +3684,10 @@
       "confirmed": "Confirmed",
       "success": "Success",
       "complete": "Complete",
-      "voided": "Voided"
+      "voided": "Voided",
+      "refunded": "Refunded",
+      "ship_to_deadstock": "Send to Deadstock",
+      "authentication_complete": "Authentication Complete"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
