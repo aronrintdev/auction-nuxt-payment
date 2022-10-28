@@ -346,7 +346,7 @@
           <div v-else class="d-flex flex-wrap px-1 pt-3 pt-sm-5 bg-white border-3">
             <div
               v-for="(combination, combinationIndex) in combinationItems"
-              :key="combination.combination_id"
+              :key="`${combination.combination_id}_${combination.combinationItems && combination.combinationItems.length}`"
               class="mb-4 px-0 px-xl-1 col-xl-6"
             >
               <CombinationItemCard
@@ -532,6 +532,12 @@ export default {
       sizeOptions: APPAREL_SIZES.map(item => ({ text: item, value: item })),
     }
   },
+  watch: {
+    combinationItems(newData, old) {
+      console.log('combinationItems OLD', old);
+      console.log('combinationItems NEW', newData);
+    }
+  },
   computed: {
     ...mapGetters('browse', ['filters']),
     inputClass() {
@@ -571,6 +577,7 @@ export default {
       this.editItem = null
     })
     this.$root.$on('back_to_combination', () => {
+      console.log('ON back_to_combination');
       this.getWantItems()
       this.getCombinations()
       this.editCombination = null
