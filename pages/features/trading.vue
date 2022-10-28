@@ -1,95 +1,103 @@
 <template>
   <!-- todo: refactor code. refer to virtual-giftcards -->
-  <div class="features-container">
-    <FeatureBanner
-      :title="$t('features.trading.title')"
-      :description="$t('features.trading.desc')"
-    />
+  <div>
+    <FeatureContentWrapper
+      :title="banner.title"
+      :description="banner.description"
+      :backgroundImage="banner.backgroundImage"
+      :backgroundImageSm="banner.backgroundImageSm"
+      :shopNowDescription="shopNowBanner.shopNowDescription"
+      :shopNowButtonText="shopNowBanner.shopNowButtonText"
+      :previousPage="shopNowBanner.previousPage"
+      :previousPageLink="shopNowBanner.previousPageLink"
+      :nextPage="shopNowBanner.nextPage"
+      :nextPageLink="shopNowBanner.nextPageLink"
+    >
+      <b-row
+        class="justify-content-md-between justify-content-center h-card-main mb-md-5 w-100 mx-0"
+      >
+        <b-col
+          v-for="(item, index) in tradingCard"
+          :key="index"
+          md="3"
+          class="d-flex justify-content-center d-lg-block px-0"
+        >
+          <FeatureCard
+            :title="item.title"
+            :description="item.description"
+            :imageUrl="item.image"
+          />
+        </b-col>
+      </b-row>
+      <FeatureTitle>{{ $t('features.trading.new_features') }}</FeatureTitle>
 
-    <div class="content mx-auto">
-      <FeatureBackButton class="mb-2" />
-
-      <h3 class="title text-uppercase">{{ $tc('common.benefit', 2) }}</h3>
-
-      <FeatureBenefitItem
-        :icon="require(`~/assets/img/features/trading/trophy.png`)"
-        :heading="$t('features.trading.first_of_its_kind')"
-        :description="$t('features.trading.first_of_its_kind_desc')"
-        class="feature-item"
-      />
-
-      <FeatureBenefitItem
-        :icon="require(`~/assets/img/features/trading/meter.svg`)"
-        :heading="$t('features.trading.value_meter')"
-        :description="$t('features.trading.value_meter_desc')"
-        class="feature-item"
-      />
-
-      <FeatureBenefitItem
-        :icon="require(`~/assets/img/features/buying/certified-authentic.svg`)"
-        :heading="$t('features.trading.certified_authentic_products')"
-        :description="$t('features.trading.certified_authentic_products_desc')"
-        class="feature-item"
-      />
-
-      <h3 class="title text-uppercase">
-        {{ $t('features.trading.new_features') }}
-      </h3>
-
-      <div class="text-center new-features">
-        <img :src="require('~/assets/img/features/trading/new-features.svg')" />
-      </div>
-
-      <h3 class="title title-shop text-uppercase">{{ $t('common.trade') }}</h3>
-
-      <div class="d-flex align-items-center shop-section">
+      <div class="text-center new-features mb-5">
         <img
-          :src="require('~/assets/img/features/trading/trade.svg')"
-          class="cart-img"
+          :src="require('~/assets/img/features/trading/new-features.svg')"
+          class="img-fluid"
         />
-
-        <div class="flex-grow-1">
-          <div>
-            {{ $t('features.trading.trade_desc') }}
-          </div>
-
-          <!-- todo: add link to trade browse page -->
-          <Button to="#" variant="info" pill class="flex-shrink-0">{{
-            $t('vendor_purchase.browse')
-          }}</Button>
-        </div>
       </div>
-    </div>
+    </FeatureContentWrapper>
   </div>
 </template>
 <script>
-import { Button } from '~/components/common'
-import FeatureBanner from '~/components/feature/Banner'
-import FeatureBenefitItem from '~/components/feature/BenefitItem'
-import FeatureBackButton from '~/components/feature/BackButton'
+import FeatureCard from '~/components/feature/Card'
+import FeatureTitle from '~/components/feature/Title'
 
 export default {
   components: {
-    FeatureBanner,
-    FeatureBenefitItem,
-    Button,
-    FeatureBackButton,
+    FeatureCard,
+    FeatureTitle,
   },
 
   layout: 'IndexLayout',
 
   data() {
     return {
-      options: [
+      tradingCard: [
         {
-          id: 'affirm',
-          icon: require('~/assets/img/icons/affirm-black.svg'),
+          title: this.$t(
+            'newest_features.trading.benefits.first_benefit_title'
+          ),
+          description: this.$t(
+            'newest_features.trading.benefits.first_benefit_desc'
+          ),
+          image: require('~/assets/img/features/newest-feature/trading/tradingondead.png'),
         },
         {
-          id: 'afterpay',
-          icon: require('~/assets/img/icons/afterpay.svg'),
+          title: this.$t(
+            'newest_features.trading.benefits.second_benefit_title'
+          ),
+          description: this.$t(
+            'newest_features.trading.benefits.second_benefit_desc'
+          ),
+          image: require('~/assets/img/features/newest-feature/trading/fairtrademeter.png'),
+        },
+        {
+          title: this.$t(
+            'newest_features.trading.benefits.third_benefit_title'
+          ),
+          description: this.$t(
+            'newest_features.trading.benefits.third_benefit_desc'
+          ),
+          image: require('~/assets/img/features/newest-feature/trading/heatcheck.png'),
         },
       ],
+      banner: {
+        title: 'newest_features.trading.feature_banner_title',
+        description: 'newest_features.trading.feature_banner_desc',
+        backgroundImage: require('@/assets/img/features/newest-feature/trading/tradebanner.png'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/trading/tradebannermobile.png'),
+      },
+      shopNowBanner: {
+        shopNowDescription: 'newest_features.trading.shop_now_banner.desc',
+        shopNowButtonText:
+          'newest_features.trading.shop_now_banner.button_text',
+        previousPage: 'newest_features.selling_on_deadstock.title',
+        previousPageLink: '/features/selling-on-deadstock',
+        nextPage: 'newest_features.auctions.title',
+        nextPageLink: '/features/auctions',
+      },
     }
   },
 }
@@ -98,78 +106,11 @@ export default {
 @import '~/assets/css/_variables'
 
 .features-container
-  .content
-    padding: 80px 200px
-    max-width: 1440px
-
-    h3.title
-      @include heading-7
-      color: $color-black-5
-      margin-bottom: 68px
-
-      &.title-shop
-        margin: 137px 0 49px 0
-
-    .feature-item
-      margin-bottom: 115px
-
-    .new-features
-      img
-        max-width: 100%
-
-    .shop-section
-      img.cart-img
-        margin-right: 86px
-
-      > div
-        @include body-3-regular
-        line-height: 29px
-        padding: 0 80px 0 0
-        color: $color-black-1
-
-      button
-        width: 190px
-        margin-top: 20px
-
-@media (max-width: 1200px)
+  .new-features img
+    max-width: 837px !important
+    width: 100% !important
+@media (max-width: 768px)
   .features-container
-    .content
-      .shop-section
-        > div
-          padding: 0
-
-@media (max-width: 1000px)
-  .features-container
-    .content
-      padding: 80px 40px
-
-@media (max-width: 576px)
-  .features-container
-    .content
-      padding: 40px 30px
-
-      .feature-item::v-deep
-        flex-direction: column
-        align-items: center
-
-        .img-wrapper
-          margin: 0
-          margin-bottom: 20px
-
-        .text-wrapper
-          text-align: center
-
-      .shop-section
-        flex-direction: column
-        align-items: center
-
-        img.cart-img
-          margin: 0 0 20px 0
-
-        > div
-          margin-top: 20px
-          text-align: center
-
-        button
-          margin-top: 20px
+    .new-features img
+      padding: 0px 16px
 </style>
