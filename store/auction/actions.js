@@ -28,3 +28,7 @@ export function getAuctionDetails({ commit }, auctionId) {
 export function setProductFilter({ commit }, productId) {
   commit('setProductFilter', productId)
 }
+
+export function setActiveAuction({ commit }, payload) {
+  commit('setActiveAuction', payload)
+}

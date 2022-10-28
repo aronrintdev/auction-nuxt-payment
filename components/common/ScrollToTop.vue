@@ -26,6 +26,8 @@ export default {
 .back-to-top
   bottom: 25px
   right: 25px
+  @media (max-width: 576px) 
+    bottom: 100px
   img
     width: 41px
     height: 41px

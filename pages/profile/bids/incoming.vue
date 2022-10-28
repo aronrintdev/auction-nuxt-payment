@@ -2,8 +2,8 @@
   <b-container fluid class="h-100 p-3 p-md-5" :class="{'container-profile-bids': !isMobileSize}">
     <!--    Bids Filters and mobile search    -->
     <div v-if="isMobileSize" class="d-flex align-items-center">
-      <MobileSearchInput :value="filters.search" @input="mobileSearch" class="flex-grow-1" />
-      <span @click="showMobileFilter" class="ml-3"><img src="~/assets/img/icons/filter-icon.png" /></span>
+      <MobileSearchInput :value="filters.search" class="flex-grow-1" @input="mobileSearch" />
+      <span class="ml-3" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
     </div>
 
     <BidsFilters v-else @update="FetchBids"/>
@@ -221,6 +221,7 @@
       no-header-border
       no-footer-border
       hide-footer
+      @hidden="$router.push({ path: '/orders' })"
     >
       <template #default>
         <div class="px-5">
@@ -388,17 +389,9 @@ export default {
         bid_id: this.acceptedBid.id
       }
 
-      // Test
-      this.closeBidModals()
-      this.$bvModal.show('bid-accepted-modal')
-
-
       this.acceptAuctionBid(payload).then(res => {
         this.closeBidModals()
         this.$bvModal.show('bid-accepted-modal')
-        this.$router.push({
-          path: '/orders',
-        })
         this.$toasted.success(res.data.message)
       }).catch(() => {
         this.modalActionLoading = false
@@ -652,7 +645,6 @@ export default {
       border-radius: 2px
       border: 2px solid $color-gray-47
 
-
 :deep()
   .bg-light
     position: relative
@@ -663,8 +655,6 @@ export default {
     .btn-secondary
       background-color: $white
       border: none
-
-
       &:hover
         background-color: $white-2
 
@@ -676,7 +666,6 @@ export default {
 .delete-expired-mobile.btn
   @include body-5-regular
   color: $color-gray-30
-
 
 .container-profile-bids
   background-color: $color-white-5
@@ -691,10 +680,8 @@ export default {
     color: $color-black-1
     font-weight: $bold
 
-
 .custom-selectbox
   border: 1px solid $color-gray-60
   height: 38px
-
 </style>
 

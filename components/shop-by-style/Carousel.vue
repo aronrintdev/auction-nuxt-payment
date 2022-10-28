@@ -19,7 +19,6 @@
             :key="`product-carousel-${index}`"
             :class="{ item: true, 'photo-item': variant === 'photo' }"
           >
-            <h2>Tesst</h2>
             <nuxt-link
               v-if="variant === 'photo'"
               :to="`/shop-by-style/${style.id}`"

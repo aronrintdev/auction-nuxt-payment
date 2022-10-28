@@ -74,10 +74,10 @@
 
     <!-- Terms & Conditions Paragraph -->
     <b-row v-if="billingAddress && paymentMethod" class="mt-4">
-      <b-col md="3" class="text-center">
+      <b-col md="2" class="col-2 text-center">
         <b-form-checkbox v-model="form.agreedToTerms"></b-form-checkbox>
       </b-col>
-      <b-col md="9">
+      <b-col md="10" class="col-10">
         <i18n
           path="create_listing.details.terms_and_conditions_paragraph"
           tag="p"
@@ -92,10 +92,10 @@
 
     <!-- Shopping Cart Total Price Heading -->
     <b-row class="mt-4 mx-4">
-      <b-col md="6" class="text-left">
+      <b-col class="text-left">
         <div class="body-4-medium">{{ $t('common.total') }}&colon;</div>
       </b-col>
-      <b-col md="6" class="text-right">
+      <b-col class="text-right">
         <div class="body-4-medium">&dollar;{{ getTotal | formatPrice }}</div>
       </b-col>
     </b-row><!-- End of Shopping Cart Total Price Heading -->
@@ -267,7 +267,7 @@ export default {
     getItems: (vm) => {
       const items = []
 
-      items.push({ key: vm.$t('shopping_cart.reserve_fee'), value: vm.getSubtotal })
+      items.push({ label: vm.$t('create_listing.details.reserve_fee'), value: vm.getSubtotal })
 
       return items
     }

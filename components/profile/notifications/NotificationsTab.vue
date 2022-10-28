@@ -1,7 +1,7 @@
 <template>
   <div>
     <div :class="{'mt-4': !isScreenXS}" class="d-flex justify-content-between align-items-center">
-      <h3 :class="{'px-4': isScreenXS}"
+      <h3 v-if="newNotifications.length" :class="{'px-4': isScreenXS}"
           class="fs-18 fw-6 text-black mb-0"
       >
         {{ $t('notifications.new') }}
@@ -10,7 +10,7 @@
       <ul v-if="!isScreenXS" class="formatted_ul d-inline-flex mt-2">
         <li v-for="item in notificationFilters" :key="item.value"
             class="formatted_li mr-2" @click="onStatusSelect(item.value)">
-          <a class="nav-link" :class="{ active: selectedStatus === item.value }"><span>{{
+          <a :class="{ active: selectedStatus === item.value }" class="nav-link"><span>{{
               item.text
             }} ({{ notificationCounts[item.value] }})</span></a>
         </li>
@@ -23,14 +23,14 @@
         <NotificationItem
             v-for="(notification, x) in newNotifications"
             :key="x"
+            :class="{'mt-2': !isScreenXS}"
             :notification="notification"
             action
-            :class="{'mt-2': !isScreenXS}"
         />
       </div>
       <div :class="{'px-4': isScreenXS, 'mt-4': !isScreenXS}"
            class="d-flex justify-content-between align-items-center">
-        <h3 class="fs-18 fw-6 text-black mb-0">
+        <h3 v-if="earlyNotifications.length" class="fs-18 fw-6 text-black mb-0">
           {{ $t('notifications.this_week') }}
           <span v-if="!isScreenXS" class="text-primary ml-2">{{ earlyNotifications.length }}</span>
         </h3>
@@ -40,15 +40,19 @@
         <NotificationItem
             v-for="(notification, x) in earlyNotifications"
             :key="x"
+            :class="{'mt-2': !isScreenXS}"
             :notification="notification"
             action
-            :class="{'mt-2': !isScreenXS}"
         />
+      </div>
+      <div ref="last" class="last-elem">
+        <!--        this div represents end of notification elements-->
       </div>
     </div>
   </div>
 </template>
 <script>
+import _ from 'lodash'
 import {mapActions, mapGetters} from 'vuex';
 import dayjs from 'dayjs'
 import NotificationItem from '~/components/header/NotificationItem';
@@ -80,6 +84,7 @@ export default {
     ...mapGetters({
       'notifications': 'notifications/getNotifications',
       'unread': 'notifications/getUnreadCount',
+      'total': 'notifications/getTotal',
       'selectedStatus': 'notifications/getSelectedStatus'
     }),
     newNotifications() {
@@ -111,27 +116,41 @@ export default {
       }
     }
   },
-  watch:{
-    notifications(val){
+  watch: {
+    notifications(val) {
       this.updateCounts()
     }
   },
   mounted() {
+    window.addEventListener('scroll', e => this.checkLastVisible(e));
     this.updateCounts()
+  },
+  destroyed() {
+    window.removeEventListener('scroll', e => this.checkLastVisible(e));
   },
   methods: {
     ...mapActions({
       'readAll': 'notifications/readAllNotification'
     }),
+    checkLastVisible: _.debounce(function () {
+      const elm = this.$refs.last
+      if (elm) {
+        const rect = elm.getBoundingClientRect();
+        const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+        if (!(rect.bottom < 0 || rect.top - viewHeight >= 0)) {
+          this.$emit('infinite')
+        }
+      }
+    }, 500),
     readUnreadNotifications(read = true) {
       return this.notifications.filter(notification => read ? notification.read : !notification.read)
     },
     updateCounts() {
       const currentUnread = this.readUnreadNotifications(false).length
       this.notificationCounts = {
-        'all': this.notifications.length,
+        'all': this.total,
         'unread': currentUnread,
-        'read': this.notifications.length - currentUnread,
+        'read': this.total - currentUnread,
         'important': this.important.length
       }
     },
@@ -145,6 +164,9 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+
+.last-elem
+  height: 10px
 
 .formatted_ul
   list-style: none
@@ -179,4 +201,5 @@ export default {
     &:first-child
       a
         padding-left: 0
+
 </style>

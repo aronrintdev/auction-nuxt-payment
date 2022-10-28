@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="title">{{ $t('create_listing.confirm.title') }}</h2>
     </div>
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-none d-md-flex justify-content-between align-items-center">
       <span class="title text-gray-25">{{ $t('create_listing.confirm.subtitle') }}</span>
     </div>
 
@@ -17,18 +17,49 @@
           >{{ $t('create_listing.confirm.create_auction') }}</Button
           >
       </div>
-      <b-row v-else class="w-100 h-100 p-5">
-        <b-col v-for="(item, index) in selectedAuctionItems" :key="index" class="d-flex justify-content-around mt-5" cols="12" sm="12"  lg="6">
-          <div class="w-90 h-100">
-            <span class="font-weight-bold ">{{$t('create_listing.confirm.auction_number')}}{{index+1}}</span>
+      <b-row v-else class="w-100 h-100 p-0 p-md-5 m-0">
+        <b-col v-for="(item, index) in selectedAuctionItems" :key="index" class="auction-item d-flex justify-content-around mt-3 mt-md-5" cols="12" sm="12"  lg="6">
+          <div class="w-90 h-auto h-md-100">
+            <div class="auction-item-title">{{$t('create_listing.confirm.auction_number')}}{{index+1}}</div>
             <AuctionItem :item="item" :itemError="itemError(item)" @clone="cloneItem(item)" @delete="deleteSingleItem(item, index)" @edit="editItem(item)" @formChange="formChanged"/>
           </div>
         </b-col>
       </b-row>
     </div>
-    <div class="d-flex align-items-center justify-content-between mt-4">
+    <!-- Add Button -->
+    <div class="d-md-none text-right mt-3">
+      <img
+        src="~/assets/img/icons/plus-icon-gray.svg"
+        class="add-more-mobile-btn"
+        role="button"
+        :disabled="processing"
+        @click="addMore"
+      />
+    </div>
+    <div class="d-flex d-md-none py-4">
+      <Button
+        variant="primary"
+        pill
+        :disabled="processing"
+        class="flex-grow-1 mr-4 text-nowrap mobile-btns"
+        @click="saveAsDraft"
+      >
+        {{ $t('create_listing.confirm.save_as_draft') }}
+      </Button>
+      <Button
+        variant="dark"
+        class="flex-grow-1 text-nowrap mobile-btns"
+        :disabled="processing || postDisabled"
+        pill
+        @click="postAuctions"
+      >
+        {{ $t('create_listing.confirm.post_listings') }}
+      </Button>
+    </div>
+    <div class="d-none d-md-flex align-items-center justify-content-between mt-4">
       <div></div>
       <Button
+        class="d-none d-md-block"
         variant="outline-primary"
         pill
         :disabled="processing"
@@ -51,7 +82,7 @@
       >
       <div></div>
     </div>
-    <div class="d-flex flex-column align-items-center mt-4">
+    <div class="d-none d-md-flex flex-column align-items-center mt-4">
       <span class="title text-black font-weight-normal small">{{ $t('create_listing.confirm.bottom_text', [SELLER_FEE, TRANSACTION_FEE]) }}</span>
     </div>
 
@@ -236,6 +267,9 @@ export default {
 .auction-items
   height: 75vh
   overflow: auto
+  .auction-item
+    &-title
+      font-weight: $bold
 
 .container-auction-confirm
   padding: 47px 54px
@@ -245,4 +279,27 @@ export default {
     @include heading-3
     color: $color-black-1
 
+  @media (max-width: 576px)
+    padding: 20px 16px
+    background: transparent
+    h2.title
+      @include body-3
+      margin-bottom: 12px
+    .auction-items
+      height: auto
+      overflow: visible
+      .auction-item
+        padding: 0
+        &-title
+          @include body-5
+          margin-bottom: 12px
+          font-weight: $medium
+        .w-90
+          width: 100%
+    .add-more-mobile-btn.btn
+      width: 42px
+      height: 42px
+    .mobile-btns
+      @include body-21
+      font-weight: $medium
 </style>

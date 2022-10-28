@@ -3,7 +3,7 @@
     <b-row v-if="activeAuction" >
       <AuctionCart :auction="activeAuction" />
 
-      <CheckoutSidebar class="order-summary" />
+      <CheckoutSidebar class="order-summary auction-checkout" />
 
       <!-- Quick Bid Modal -->
       <b-modal id="quick-bid-modal" hide-footer hide-header size="md">
@@ -106,3 +106,9 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.auction-checkout
+  min-height: calc(100vh - 224px)
+
+</style>

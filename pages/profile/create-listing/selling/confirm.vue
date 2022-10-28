@@ -1,6 +1,8 @@
 <template>
   <b-container fluid class="container-profile-inventory-confirm h-100">
-    <h2 class="title mt-5">{{ $t('createlisting.confirm_listing') }}</h2>
+    <h2 v-if="!isScreenXS" class="title mt-5">
+      {{ $t('createlisting.confirm_listing') }}
+    </h2>
     <!-- No Listing -->
     <template v-if="showEmpty">
       <EmptyListing />
@@ -9,6 +11,7 @@
     <!-- Show Listing -->
     <template v-else>
       <b-table-simple
+        v-if="!isScreenXS"
         class="mt-5 w-100 table-inventory"
         responsive="sm"
         borderless
@@ -102,7 +105,9 @@
                   @input="handleQuantityChange($event, index)"
                 />
                 <template #description>
-                  {{ $t('createlisting.out_of_', { count : listingItem.stock }) }}
+                  {{
+                    $t('createlisting.out_of_', { count: listingItem.stock })
+                  }}
                 </template>
               </b-form-group>
             </b-td>
@@ -187,7 +192,7 @@
         </b-tbody>
       </b-table-simple>
 
-      <div class="mt-4 d-flex row px-5">
+      <div v-if="!isScreenXS" class="mt-4 d-flex row px-5 action-row">
         <b-col
           sm="12"
           lg="4"
@@ -224,7 +229,10 @@
         </b-col>
       </div>
 
-      <div class="mt-4 d-flex justify-content-center">
+      <div
+        v-if="!isScreenXS"
+        class="mt-4 d-flex justify-content-center confirm-text"
+      >
         <span v-if="showPostListing" class="text-center"
           ><span class="text-bold">{{
             $t('createlisting.on_post_listing_click')
@@ -235,6 +243,95 @@
           }}</span></span
         >
       </div>
+
+      <!-- For mobile screen -->
+      <div v-if="isScreenXS" class="row responsive product-confirm-page">
+        <div class="col-12 listing-data-responsive-col">
+          <template v-if="confirmData && confirmData.length">
+            <template v-for="(listData, index) in confirmData">
+              <div v-if="showInputs" :key="`count-${index}`" class="row product-off-row p-2">
+                <div class="product-off d-flex align-items-center text-center">
+                  {{ $tc('common.product', 1) }}
+                  <span class="product-count ml-1">
+                    {{
+                      `${index + 1} ${$t('common.of')} ${confirmData.length}`
+                    }}
+                  </span>
+                </div>
+              </div>
+              <details-card
+                id="selling-details-card"
+                :key="`data-${index}`"
+                :totalCount="confirmData.length"
+                :product="listData.product"
+                :item="listData"
+                @edit="handleEdit(listData)"
+              />
+              
+              <details-input
+                v-if="showInputs"
+                :key="`input-${index}`"
+                :index="index"
+                :quantity="listData.quantity"
+                :min-offer="listData.minOfferAmount"
+                :stock="listData.stock"
+                @minOffer="handleMinOfferPriceChange"
+                @quantity="handleQuantityChange"
+              />
+            </template>
+          </template>
+        </div>
+
+        <div
+          v-if="isScreenXS && !showInputs"
+          class="col-12 listing-data-add-icon-col mt-3"
+        >
+          <span
+            class="add-icon-responsive float-right"
+            @click="$router.push('/profile/create-listing/selling')"
+          >
+            <img
+              :src="require('~/assets/img/icons/plus-bg-dark-blue.svg')"
+              alt="add-more-listing"
+            />
+          </span>
+        </div>
+
+        <div
+          v-if="isScreenXS && !showInputs"
+          class="col-12 confirm-text-responsive mx-auto mt-5"
+        >
+          <div class="confirm-text-box w-100">
+            <div class="on-pressing-text">
+              {{ $t('createlisting.on_post_pressing')
+              }}{{ $t('createlisting.no_auth_fee') }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        v-if="isScreenXS"
+        class="col-12 mt-5 action-buttons d-flex justify-content-between"
+      >
+        <Button variant="save-as-draft-resp" @click="saveasDraft">
+          {{ $t('createlisting.save_as_draft') }}
+        </Button>
+        <Button v-if="!showInputs" variant="post-listing" @click="postListings">
+          {{ $t('createlisting.post_listing') }}
+        </Button>
+        <Button
+          v-if="showInputs"
+          variant="add-listing"
+          :class="!showPostListing && 'disabled'"
+          :disabled="!showPostListing"
+          @click="postListings"
+        >
+          {{ $t('createlisting.add_listings') }}
+        </Button>
+      </div>
+
+      <!-- For mobile screen ends -->
 
       <!-- Delete Confirm Modal -->
       <ConfirmModal
@@ -269,6 +366,10 @@ import {
   QUANTITY_MAX_VAL,
   MINOFFER_MIN_VAL,
 } from '~/static/constants'
+import DetailsInput from '~/components/profile/create-listing/selling/DetailsInput.vue'
+import screenSize from '~/plugins/mixins/screenSize'
+import DetailsCard from '~/components/profile/create-listing/product/DetailsCard.vue'
+
 export default {
   name: 'CreateListingConfirm',
 
@@ -278,7 +379,12 @@ export default {
     EmptyListing,
     AlertModal,
     FormInput,
+    DetailsCard,
+    DetailsInput,
   },
+
+  mixins: [screenSize],
+
   layout: 'Profile',
 
   data() {
@@ -351,6 +457,10 @@ export default {
       } else {
         return true
       }
+    },
+
+    showInputs: (vm) => {
+      return vm.$route.query.path === 'from-inventory'
     },
   },
 
@@ -506,8 +616,14 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .container-profile-inventory-confirm
-  padding: 47px 54px
-  background-color: $color-white-5
+  .product-off-row
+    .product-off
+      font-family: $font-montserrat
+      font-style: normal
+      @include body-5-medium
+      color: $color-black-1
+      .product-count
+        color: $color-gray-5
 
   .btn-back
     @include body-5-regular
@@ -573,4 +689,60 @@ export default {
   .input-error
     :deep(.form-input)
       border: 1px solid $color-red-3
+
+@media (min-width: 576px)
+  .container-profile-inventory-confirm
+    padding: 47px 54px
+    background-color: $color-white-5
+
+@media (max-width: 576px)
+  .container-profile-inventory-confirm
+    padding: 1.5rem
+    background-color: $color-white-1
+    .title,
+    .action-row,
+    .confirm-text
+      display: none
+    .confirm-text-responsive
+      .confirm-text-box
+        width: 340px
+        height: 63px
+        background: $color-white-5
+        font-family: $font-montserrat
+        font-style: normal
+        @include body-9-normal
+        text-align: center
+        color: $color-black-1
+    .on-pressing-text
+      padding: 10px
+    .btn-save-as-draft-resp
+      border: 1px solid $color-blue-19
+      border-radius: 20px
+      font-family: $font-montserrat
+      font-style: normal
+      @include body-21-medium
+      display: flex
+      align-items: center
+      text-align: center
+      color: $color-blue-19
+    .btn-post-listing
+      background: $color-blue-20
+      border-radius: 20px
+      font-family: $font-montserrat
+      font-style: normal
+      @include body-21-medium
+      display: flex
+      align-items: center
+      text-align: center
+      color: $color-white-1
+    .btn-add-listing
+      background: $color-black-1
+      border-radius: 20px
+      font-family: $font-montserrat
+      font-style: normal
+      @include body-21-medium
+      display: flex
+      align-items: center
+      text-align: center
+      color: $color-white-1
 </style>

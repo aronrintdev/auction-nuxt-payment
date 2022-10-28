@@ -34,7 +34,7 @@
               <div class="center-item">
                 <div v-if="trade.offers.length > ITEM_COUNT_ONE" class="pointer-left" :class="{'pointer-right-two-items':trade.offers.length === ITEM_COUNT_TWO}"></div>
                 <div class="position-relative center-img d-flex justify-content-between">
-                <div class="line-bar" v-if="trade.offers.length === ITEM_COUNT_THREE || trade.offers.length === ITEM_COUNT_ONE"></div>
+                <div v-if="trade.offers.length === ITEM_COUNT_THREE || trade.offers.length === ITEM_COUNT_ONE" class="line-bar"></div>
                 <div class="fair-text position-absolute">{{$t('trades.fair')}}</div>
                 <img class="trade-img position-absolute" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
                 <div v-if="getYourTradeItems.length === ITEM_COUNT_THREE || getYourTradeItems.length === ITEM_COUNT_ONE" class="line-bar"></div>
@@ -104,7 +104,7 @@
               {{$t('trades.trader_wants')}}
             </div>
             <div class="d-flex wants-container">
-              <div class="trader-wants" v-for="(item,index) in wants" :key="index">
+              <div v-for="(item,index) in wants" :key="index" class="trader-wants">
                 <div class="wants-wrapper">
                   <img :src="item.product.image" >
                   <div class="overlay"></div>

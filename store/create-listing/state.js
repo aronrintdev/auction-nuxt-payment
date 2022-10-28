@@ -12,5 +12,6 @@ export default function () {
     editProductInventory: {}, // Inventory product which is in the edit mode
     nonInventoryAuctionItems: [], // Single auctions with no inventories
     nonInventoryCollectionAuction: {}, // Collection auctions with no inventories
+    similarProduct: []
   }
 }

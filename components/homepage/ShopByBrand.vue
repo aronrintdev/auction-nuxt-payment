@@ -129,8 +129,6 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-.section-wrapper
-  margin-bottom: 68px
 .brand-list-wrapper
   margin-top: 33px
 .brands-list

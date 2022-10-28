@@ -1,6 +1,6 @@
 <template>
   <div class="d-block">
-    <div v-for="(offer) in offers" :key="'offer-' + offer.id" class="offer-item-trade-container mb-4" role="button" @click="showOffer(offer)">
+    <div v-for="(offer) in offers" :key="'offer-' + offer.id" class="offer-item-trade-container mb-4" :role="(offer.deleted_at === null ? 'button' : '')" @click="showOffer(offer)">
       <div class="d-flex justify-content-between">
         <div :id="`flyer-${offer.condition}`">
           {{$t(offer.condition_translation)}}
@@ -27,15 +27,15 @@
             <div v-for="(theirItems) in offer.latest_offer.theirs_items" :key="'offer-item-'+ theirItems.id" class="d-flex align-items-center ml-4">
               <img :src="theirItems.inventory.product | getProductImageUrl" class="inner-item-image">
               <ul class="inner-item-text">
-                <li class="pt-3">{{theirItems.inventory.product.name}}</li>
+                <li class="pt-3 text-truncate product-name">{{theirItems.inventory.product.name | truncate(30, '...')}}</li>
               </ul>
             </div>
           </div>
           <div v-else>
             <div v-for="(theirItems) in offer.theirs_items" :key="'offer-item-'+ theirItems.id" class="d-flex align-items-center ml-4">
               <img :src="theirItems.inventory.product | getProductImageUrl" class="inner-item-image">
-              <ul class="inner-item-text">
-                <li class="pt-3">{{theirItems.inventory.product.name}}</li>
+              <ul class="inner-item-text text-truncate product-name">
+                <li class="pt-3">{{theirItems.inventory.product.name | truncate(30, '...')}}</li>
               </ul>
             </div>
           </div>
@@ -49,7 +49,7 @@
             <div v-for="(yourItems) in offer.latest_offer.yours_items" :key="'trade-offer-item-'+ yourItems.id" class="d-flex align-items-center ml-4">
               <img :src="yourItems.inventory.product | getProductImageUrl" class="inner-item-image">
               <ul class="inner-item-text">
-                <li class="pt-3">{{yourItems.inventory.product.name}}</li>
+                <li class="pt-3 text-truncate product-name">{{yourItems.inventory.product.name | truncate(30, '...')}}</li>
               </ul>
             </div>
           </div>
@@ -57,7 +57,7 @@
             <div v-for="(yourItems) in offer.yours_items" :key="'trade-offer-item-'+ yourItems.id" class="d-flex align-items-center ml-4">
               <img :src="yourItems.inventory.product | getProductImageUrl" class="inner-item-image">
               <ul class="inner-item-text">
-                <li class="pt-3">{{yourItems.inventory.product.name}}</li>
+                <li class="pt-3 text-truncate product-name">{{ yourItems.inventory.product.name | truncate(30, '...')}}</li>
               </ul>
             </div>
           </div>
