@@ -1,16 +1,11 @@
 <template>
   <div
-    class="feature-card d-flex align-items-start flex-column"
+    class="feature-card d-flex flex-column text-md-left text-center align-items-md-baseline align-items-center"
     @click="handleCardClick"
   >
-  <div style="height: 294px;margin: 0 auto;display: flex;justify-content: center;align-items: center;">
-    <img
-      :src="imageUrl"
-      class="w-100"
-    />
-  </div>
-    <div class="feature-title">{{ title }}</div>
-    <div class="feature-description">
+    <img :src="imageUrl" class="w-100" />
+    <div class="feature-title fs-24 fw-5 font-primary">{{ title }}</div>
+    <div class="feature-description fs-18 fw-4 font-primary">
       {{ description }}
     </div>
   </div>
@@ -32,6 +27,7 @@ export default {
       type: String,
       required: true,
     },
+
     to: {
       type: String,
       default: null,
@@ -55,12 +51,25 @@ export default {
   cursor: pointer
 
   .feature-title
-    @include body-1-regular
-    margin-top: 12px
-    padding: 0 7px
+    margin-top: 38px
 
   .feature-description
-    @include body-5-normal
-    margin-top: 6px
-    padding: 0 7px
+    margin-top: 13px
+    line-height: 29px
+
+@media (max-width: 768px)
+  .feature-card ::v-deep
+    .feature-title
+      font-size: 16px
+      font-weight: 600
+      font-family: 'Montserrat'
+      margin-top: 22px
+      max-width: 272px
+    .feature-description
+      font-size: 14px
+      font-weight: 400
+      font-family: 'Montserrat'
+      line-height: 22px
+      margin: 8px 0px 40px 0px !important
+      max-width: 272px
 </style>

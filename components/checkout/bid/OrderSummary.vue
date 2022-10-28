@@ -159,10 +159,10 @@
 
     <!-- Terms & Conditions Paragraph -->
     <b-row v-if="billingAddress && shippingAddress && (paymentMethod || cryptoDetails.amount)" class="mt-4">
-      <b-col md="3" class="text-center">
+      <b-col cols="1" md="3" class="text-center">
         <b-form-checkbox v-model="form.agreedToTerms"></b-form-checkbox>
       </b-col>
-      <b-col md="9">
+      <b-col cols="11" md="9">
         <i18n
           path="shopping_cart.terms_and_conditions_paragraph"
           tag="p"
@@ -177,10 +177,10 @@
 
     <!-- Shopping Cart Total Price Heading -->
     <b-row class="mt-4">
-      <b-col md="6" class="text-center">
+      <b-col cols="6" md="6" class="text-center">
         <div class="body-4-medium">{{ $t('shopping_cart.total') }}&colon;</div>
       </b-col>
-      <b-col md="6" class="text-center">
+      <b-col cols="6" md="6" class="text-center">
         <div class="body-4-medium">&dollar;{{ getTotal | formatPrice }}</div>
       </b-col>
     </b-row><!-- End of Shopping Cart Total Price Heading -->
@@ -479,4 +479,12 @@ export default {
 
 #promo-input
   border-radius: 0.25rem
+
+.order-summary::v-deep
+  .heading-1-medium
+    @include body-2
+  .body-4-medium
+    @include body-10
+  .btn.btn-link.custom-link
+    @include body-10
 </style>

@@ -95,9 +95,14 @@
               </div>
               <div v-else-if="cashAdded">
                 <div class="d-flex cash-added justify-content-center mt-4">
-                  <div>
+                  <div v-if="cashType === CASH_TYPE_ADDED">
                     <img :src="require('~/assets/img/icons/dollar.svg')" class="ml-4 mr-2">
                     {{$t('trades.trade_arena.you_added_cash',{'0': optionalCash })}}
+                    <sup class="ml-1 mr-4" role="button"><img  id="cashPopover" :src="infoIcon"/></sup>
+                  </div>
+                  <div v-else>
+                    <img :src="require('~/assets/img/icons/dollar.svg')" class="ml-4 mr-2">
+                    {{$t('trades.trade_arena.you_requested_cash',{'0': optionalCash })}}
                     <sup class="ml-1 mr-4" role="button"><img  id="cashPopover" :src="infoIcon"/></sup>
                   </div>
                   <b-popover target="cashPopover" triggers="hover" placement="top" >
@@ -556,8 +561,6 @@ export default {
       this.updateActiveTrade()
       if(!this.editYours && this.checkForPoorTradeTheirItemsEdited()) {
         this.$root.$emit('bv::show::modal', 'poor_trade_confirmation', '#btnShow')
-      }else if(!this.editYours){
-        this.submitCounterOffer()
       } else if(this.checkForPoorTrade()){
         this.$root.$emit('bv::show::modal', 'poor_trade_confirmation', '#btnShow')
       }else {

@@ -34,7 +34,7 @@
              class="d-flex align-items-center ml-4">
           <img :src="offer.inventory.product | getProductImageUrl" class="inner-item-image h-auto">
           <ul class="inner-item-text">
-            <li class="pt-3 text-truncate product-name">{{ offer.inventory.product.name }}</li>
+            <li class="pt-3 text-truncate product-name">{{ offer.inventory.product.name | truncate(32, '...') }}</li>
           </ul>
         </div>
       </div>

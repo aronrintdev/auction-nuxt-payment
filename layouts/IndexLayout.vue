@@ -4,7 +4,7 @@
     <div class="container-fluid p-0">
       <Nuxt />
     </div>
-    <ScrollToTop v-show="mobileClass && showScroll" />
+    <ScrollToTop v-show="showScroll" />
     <BottomNavigation class="d-flex d-md-none mt-4" />
     <Footer class="d-none d-md-flex" />
   </div>
