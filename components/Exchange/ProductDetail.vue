@@ -149,15 +149,16 @@
         </div>
         <div class="row mb-4">
           <div class="col-lg-12">
-             <LineChart
-              ref="lineChart"
-              :chart-data="lineDatasets"
-              :options="lineChartOptions"
-              class="line-chart"
-              chart-id="vendor-dashboard-line-chart"
+            <client-only>
+              <LineChart
+                ref="lineChart"
+                :chart-data="lineDatasets"
+                :options="lineChartOptions"
+                class="line-chart"
+                chart-id="vendor-dashboard-line-chart"
 
-            />
-
+              />
+          </client-only>
           </div>
         </div>
         <div class="row mt-5 desktop-average-tab">
@@ -760,6 +761,8 @@ export default {
             '10 am',
             '2 pm',
           ]
+
+          this.$refs.lineChart.redraw()
           //   this.renderChart({
           //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
           //   datasets: [
