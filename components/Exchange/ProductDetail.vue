@@ -112,7 +112,6 @@
           <div class="col-12">
             <ProductSizePicker
               :sizes="sizes"
-              :prices="pricesBySize"
               :value="currentSize"
               :viewMode="sizeViewMode"
               class="size-picker"
@@ -177,7 +176,6 @@
           <div class="col-lg-12 ml-3">
             <ProductSizePicker
               :sizes="sizes"
-              :prices="pricesBySize"
               :value="currentSize"
               :viewMode="sizeViewMode"
               class="size-picker"
