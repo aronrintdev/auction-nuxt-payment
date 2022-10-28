@@ -52,6 +52,7 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 @import '~/assets/css/_typography'
+
 .nav-group
   @media (min-width: 576px)
     margin: 14px 0
@@ -67,7 +68,10 @@ export default {
       border-radius: 20px !important
       color: $color-black-1 !important
       height: auto
-      font-size: 15px
+      font-size: 13px
+      @media (min-width: 576px)
+        font-size: 15px
+        
       &.active
         background-color: $color-white-1
         font-weight: 600

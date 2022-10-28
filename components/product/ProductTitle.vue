@@ -1,16 +1,30 @@
 <template>
   <b-row class="title-wrapper pb-3">
-    <b-col md="12">
+    <b-col md="12" class="px-4 px-sm-0">
       <b-row>
-        <b-col md="12" class="d-flex align-items-center px-0">
-          <span class="body-1-medium mr-2">{{ productName }}</span>
-          <ShareSVG class="ml-auto" role="button" />
+        <b-col md="12" class="d-flex align-items-center px-sm-0">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="title body-1-medium mr-sm-2 col-10 px-0 mr-2">{{ productName }}</div>
+            <b-img 
+              width="18" 
+              :src="require('~/assets/img/product/heart-outline.svg')"
+              class="d-sm-none"
+            >
+            </b-img>
+          </div>
+          <ShareSVG class="d-none d-sm-block ml-auto" role="button" />
         </b-col>
       </b-row>
       <b-row>
-        <b-col md="12" class="px-0">
-          <span class="body-5-medium text-color-grey-6">{{ $t('product_page.last_sale') }}&colon;&nbsp;&dollar;{{ productLastSalePrice | formatPrice }}</span>
-          <span v-if="lastSalePriceProjectionValue >= 0" class="body-5-medium text-color-green-24">
+        <b-col md="12" class="px-sm-0 mt-1">
+          <span class="last-sale">
+            {{ $t('product_page.last_sale') }}&colon;&nbsp;
+            &dollar;{{ productLastSalePrice | formatPrice }}
+          </span>
+          <span 
+            v-if="lastSalePriceProjectionValue >= 0" 
+            class="last-sale-diff"
+          >
             &plus;{{ lastSalePriceProjectionValue | formatPrice }}&nbsp;&lpar;&plus;{{ lastSalePriceProjectionPercentage }}&percnt;&rpar;
           </span>
           <span v-else class="body-5-medium text-color-red-3">
@@ -62,8 +76,17 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.title
+  font-size: 18px
+  line-height: 20px
+  font-weight: 600
+  color: #000
+  @media (min-width: 576px)
+    @include body-1-medium
+
 .title-wrapper
-  border-bottom: 1px solid $color-gray-16f
+  @media (min-width: 576px)
+    border-bottom: 1px solid $color-gray-16f
 
 .text-color-green-24
   color: $color-green-26
@@ -73,4 +96,19 @@ export default {
 
 .text-color-grey-6
   color: $color-gray-6
+
+.last-sale
+  font-weight: 500
+  font-size: 14px
+  color: $color-gray-6
+  @media (min-width: 576px)
+    @include body-5-medium 
+
+.last-sale-diff
+  font-weight: 500
+  font-size: 12px
+  color: $color-green-26
+  @media (min-width: 576px)
+    @include body-5-medium
+
 </style>

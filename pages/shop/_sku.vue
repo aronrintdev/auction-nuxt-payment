@@ -1,23 +1,53 @@
 <template>
-  <b-row class="px-5">
+  <b-row class="px-sm-5">
     <b-col md="12">
       <Loader v-if="loading" class="min-vh-100" />
 
       <b-row v-if="product">
-        <b-col md="6">
+        <b-col md="6" class="px-4 px-sm-0">
           <ProductBreadcrumb
             :category="category"
             :brand="product.brand"
             :name="product.name"
-            class="mt-3"
-          ></ProductBreadcrumb>
+            class="mt-3 d-none d-sm-block"
+          />
+
+          <NavGroup
+            v-model="method"
+            :data="methods"
+            nav-key="method"
+            class="text-center mt-4 body-8-normal d-sm-none"
+            :btnGroupStyle="{
+              minHeight: '40px'
+            }"
+            @change="handleMethodNavClick"
+          />
+
+          <b-row class="mt-2 d-sm-none mx-2">
+            <b-col class="text-center">
+              <span 
+                class="body-17-medium" 
+                :class="method === 'buy' && 'active'"
+              >
+                {{ lowestPrice | toCurrency }}
+              </span>
+            </b-col>
+            <b-col class="text-center">
+              <span 
+                class="body-17-medium" 
+                :class="method === 'offer' && 'active'"
+              >
+                {{ highestOffer | toCurrency }}
+              </span>
+            </b-col>
+          </b-row>
 
           <ProductImageViewer v-if="!has360Images" :product="product" />
-
           <ProductImageViewerMagic360 v-if="has360Images" :product="product" />
         </b-col>
 
-        <b-col md="6" xl="5" class="mt-5">
+        <b-col md="6" xl="5" class="mt-sm-5">
+
           <ProductTitle
             :product-name="product.name"
             :lowest-price="lowestPrice"
@@ -30,20 +60,28 @@
             v-model="method"
             :data="methods"
             nav-key="method"
-            class="text-center mt-4 body-8-normal"
+            class="text-center mt-4 body-8-normal d-none d-sm-block"
             :btnGroupStyle="{
               minHeight: '40px'
             }"
             @change="handleMethodNavClick"
           />
 
-          <b-row class="mt-2">
-            <b-col md="3" offset-md="3" class="text-center">
-              <span class="body-1-medium" :class="method === 'buy' && 'active'">{{ lowestPrice | toCurrency }}</span>
-            </b-col>
-            <b-col md="3" class="text-center">
-              <span class="body-1-medium" :class="method === 'offer' && 'active'">{{ highestOffer | toCurrency }}</span>
-            </b-col>
+          <b-row class="mt-2 d-none d-sm-flex col-lg-8 mx-auto w-100">
+            <div class="d-flex w-100">
+              <div 
+                class="body-1-medium col-6 text-center" 
+                :class="method === 'buy' && 'active'"
+              >
+                {{ lowestPrice | toCurrency }}
+              </div>
+              <div 
+                class="body-1-medium col-6 text-center" 
+                :class="method === 'offer' && 'active'"
+              >
+                {{ highestOffer | toCurrency }}
+              </div>
+            </div>
           </b-row>
           <!-- End of Lowest Price & Highest Offer Nav Group -->
 
@@ -53,6 +91,7 @@
             :value="currentSize"
             :viewMode="sizeViewMode"
             class="size-picker"
+            :xsCount="4"
             @update="handleSizeChange"
             @changeViewMode="handleSizeViewModeChange"
           />
@@ -586,4 +625,8 @@ export default {
 
 .text-color-red-3
   color: $color-red-3
+
+.body-17-medium
+  @include body-17-medium
+
 </style>

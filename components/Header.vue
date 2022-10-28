@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" class="navbar-wrapper border-bottom">
+  <b-navbar toggleable="lg" class="navbar-wrapper border-bottom-gray">
     <b-navbar-toggle target="top-menu-sidebar">
       <template #default>
         <img width="25px" :src="require('~/assets/img/icons/menu.svg')" />

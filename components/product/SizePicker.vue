@@ -1,12 +1,14 @@
 <template>
-  <div class="position-relative w-100 w-md-auto container px-0">
+  <div class="position-relative w-100 w-md-auto container px-4 px-sm-0">
     <div
       v-if="viewMode === 'carousel'"
       class="position-relative mx-auto carousel-wrapper"
     >
       <b-row>
         <b-col md="12" class="d-flex justify-content-between align-items-center px-0">
-          <span class="select-size text-uppercase">{{ $t('products.select_size') }}</span>
+          <span class="select-size">
+            {{ $t('products.select_size') }}<span class="d-sm-none">:</span>
+          </span>
 
           <Button
             v-if="!singleMode"
@@ -16,7 +18,16 @@
             @click="handleViewAllClick"
           >
             <template #default>
-              <span class="all-sizes">{{ $t('products.all_sizes') }}</span>
+              <div class="d-flex align-items-center">
+                <img 
+                  :src="require('~/assets/img/icons/eye2.svg')" 
+                  alt="view-details"
+                  class="d-sm-none mr-1"
+                />
+                <span class="all-sizes">
+                  {{ $t('products.all_sizes') }}
+                </span>
+              </div>
             </template>
           </Button>
         </b-col>
@@ -238,18 +249,27 @@ export default {
 @import '~/assets/css/_variables'
 
 .select-size
-  font-weight: 500
-  font-size: 15px
   color: #000
+  font-weight: 400
+  font-size: 13px
+  @media (min-width: 576px)
+    font-weight: 500
+    font-size: 15px
+    text-transform: uppercase
 
 .all-sizes
-  color: $color-blue-30
-  font-size: 15px
+  color: #000
+  font-weight: 400
+  font-size: 13px
+  @media (min-width: 576px)
+    color: $color-blue-30
+    font-size: 15px
 
 .container
   .carousel-wrapper
     max-width: 100%
-    padding-top: 24px
+    @media (min-width: 576px)
+      padding-top: 24px
 
   .size-carousel::v-deep
     max-width: 100%
@@ -276,12 +296,14 @@ export default {
 
           &::after
             content: " "
-            width: 63px
             border-bottom: 2px solid $color-blue-5
             margin-top: 11px
             display: block
             margin-left: auto
             margin-right: auto
+            width: 49px
+            @media (min-width: 576px)
+              width: 63px
 
     .owl-nav
       margin-bottom: 0px
@@ -294,24 +316,34 @@ export default {
         float: right
         width: auto
         margin-right: -30px !important
-        margin-top: -80px !important
+        margin-top: -71px !important
+        @media (min-width: 576px)
+          margin-right: -30px !important
+          margin-top: -80px !important
 
       &.owl-prev
-        margin-left: -30px !important
-        margin-top: 18px !important
         float: left
         width: auto
+        margin-top: 13px !important
+        margin-left: -30px !important
+        @media (min-width: 576px)
+          margin-top: 18px !important
+          margin-left: -30px !important
 
     .card
-      @include body-2-medium
+      font-weight: 600
+      font-size: 12px
       border: 1px solid $color-gray-21
       border-radius: 10px
-      width: 64px
-      height: 64px
+      width: 49px
+      height: 49px
       color: $color-black-4
       background-color: $color-white-1
       box-shadow: none
-
+      @media (min-width: 576px)
+        @include body-2-medium
+        width: 64px
+        height: 64px
     .price
       @include body-13-normal
       margin-top: 8px
