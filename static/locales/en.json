@@ -3687,7 +3687,8 @@
       "voided": "Voided",
       "refunded": "Refunded",
       "ship_to_deadstock": "Send to Deadstock",
-      "authentication_complete": "Authentication Complete"
+      "authentication_complete": "Authentication Complete",
+      "awaiting_drop_off_with_shipping_carrier": "Awaiting drop off with Shipping Carrier"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
