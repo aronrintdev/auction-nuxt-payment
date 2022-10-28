@@ -800,7 +800,7 @@ export default {
             '10 am',
             '2 pm',
           ]
-          app.router.app.redraw()
+          // app.router.app.redraw()
           // this.$set(
           //   this.lineDatasets,
           //   0,
