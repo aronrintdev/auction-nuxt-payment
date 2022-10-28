@@ -130,9 +130,9 @@
           :loop="true"
           :mouse-drag="false"
           :nav="false"
-          :dots="false"
+          :dots="true"
           :responsive="{
-            0: { items: 1, dots: false, center: true },
+            0: { items: 1, dots: true, center: true },
           }"
           class="position-relative"
         >
@@ -140,7 +140,7 @@
             <div
               v-for="(product, index) in combination.combination_items"
               :key="`trade-carousel-${index}`"
-              class="d-flex"
+              class="d-flex justify-content-around"
             >
               <div 
                 class="col-4 d-flex flex-column align-items-end pb-3"
@@ -152,57 +152,48 @@
                   height="16"
                   :src="require('assets/img/icons/draft-list-image.svg')"
                 />
-                <object 
-                  v-if="product.product.image"
-                  :data="product.product.image"
-                  class="img-fluid pointer"
-                  type="image/png"
-                >
-                  <img class="img-fluid pointer" :src="fallbackImgUrl" alt="image"/>
-                </object>
+                <div :style="{
+                }">
+                  <object 
+                    v-if="product.product.image"
+                    :data="product.product.image"
+                    class="img-fluid pointer"
+                    type="image/png"
+                  >
+                    <img class="img-fluid pointer" :src="fallbackImgUrl" alt="image"/>
+                  </object>
+                </div>
               </div>
               <div class="col-7 py-3">
-                <div class="combination-mobile">
-                  {{ $t('trades.create_listing.vendor.wants.combination_no') }}{{ combination.combination_id }}
-                </div>
-                <div class="name">
-                  {{ product.product.name }}
-                </div>
-                <div class="name">
-                  <div class="text-uppercase">{{ $t('trades.create_listing.vendor.wants.sku') }}:</div>
-                  {{ product.product.sku }}
-                </div>
-                <div class="name">
-                  {{ $t('sell.confirm_listing.table_columns.colorway') }}:
-                  {{ product.product.colorway }}
-                </div>
-                <div class="name">
-                  {{ $t('home_page.size') }}: {{ product.size.size }}
-                </div>
-                <div class="name">
-                  {{ $t('trades.create_listing.vendor.wants.box') }}:
-                  {{ product.packaging_condition.name }}
-                </div>
-
-                <!-- <div v-if="combinationItems.length > 1" class="mt-2 d-flex justify-content-center">
-                  <div
-                    v-for="(item, idx) in combinationItems"
-                    :key="idx"
-                  >
-                    <div 
-                      role="button"
-                      @click="setCombinationSelectedItem(idx)"
-                      :class="{ 'slider-active': idx === selectedItemIndex }" 
-                      class="owl-dot slider-item"
-                    >
-                    </div>
+                <div class="d-flex flex-column details-container">
+                  <div class="combination-mobile">
+                    {{ $t('trades.create_listing.vendor.wants.combination_no') }}{{ combination.combination_id }}
                   </div>
-                </div> -->
-
+                  <div class="name">
+                    {{ product.product.name }}
+                  </div>
+                  <div class="name d-flex">
+                    <div class="text-uppercase">{{ $t('trades.create_listing.vendor.wants.sku') }}: </div>
+                    {{ product.product.sku }}
+                  </div>
+                  <div class="name">
+                    {{ $t('sell.confirm_listing.table_columns.colorway') }}:
+                    {{ product.product.colorway }}
+                  </div>
+                  <div class="name">
+                    {{ $t('home_page.size') }}: {{ product.size.size }}
+                  </div>
+                  <div class="name">
+                    {{ $t('trades.create_listing.vendor.wants.box') }}:
+                    {{ product.packaging_condition.name }}
+                  </div>
+                </div>
                 <div class="mt-4 value">{{
                     $t('trades.create_listing.vendor.wants.total_est_value')
                   }}:   ${{ estValue(combination.combination_items) }}
                 </div>
+
+                <div class="dots-placeholder"></div>
               </div>
               <div class="d-md-none">
                 <img 
@@ -318,10 +309,13 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.details-container
+  height: 120px
+
 ::v-deep .owl-dots
   position: absolute
-  bottom: 37px
-  left: 190px
+  left: 8%
+  bottom: 35px
 
 ::v-deep .owl-dot span
   width: 4px !important
@@ -364,6 +358,7 @@ export default {
   font-weight: 600
   font-size: 14px
   color: #000
+  flex: 1
 
 .slider-item
   width: 4px

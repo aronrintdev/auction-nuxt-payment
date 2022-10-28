@@ -1,84 +1,47 @@
 <template>
   <div class="wants-container">
-   <edit-combination v-if="editCombination" :combination="editCombination"/>
-   <edit-item 
-    v-else-if="editItem" 
-    :product="editItem" 
-    productFor="wantsList" 
-    :itemId="editItem.id"
-    :combinations="combinationItems"
-  />
-   <div v-else class="wants-main-container">
-    <div class="wants-heading">
-      {{$t('trades.wants_listing.trading_wants_list')}}
-    </div>
-    <div class="wants-sub-heading col-md-6 pl-0 pt-1 mb-4">
-      {{$t('trades.wants_listing.wants_list_contains_items')}}
-    </div>
-    <b-row class="mt-2 pt-2 d-flex justify-content-between">
-      <b-col sm="12" md="7" xl="8" class="mt-2">
-        <div class="d-flex flex-column d-sm-none">
-          <div class="d-flex justify-content-between">
-            <div class="col-11 px-0">
-              <SearchInput
-                class="searchInput"
-                :value="searchText"
-                :inputStyle="{
-                  ...inputClass,
-                  paddingLeft: '45px', 
-                  fontSize: '12px',
-                  background: '#F7F7F7',
-                  height: '33px',
-                }"
-                iconStyle='color: #979797; width: 14px; height: 14px;'
-                :placeholder="$t('common.search_wants')"
-                variant="primary"
-                :clearSearch="true"
-                @change="filterData"
-              />
+    <edit-combination v-if="editCombination" :combination="editCombination"/>
+    <edit-item 
+      v-else-if="editItem" 
+      :product="editItem" 
+      productFor="wantsList" 
+      :itemId="editItem.id"
+      :combinations="combinationItems"
+    />
+    <div v-else class="wants-main-container">
+      <div class="wants-heading">
+        {{$t('trades.wants_listing.trading_wants_list')}}
+      </div>
+      <div class="wants-sub-heading col-md-6 pl-0 pt-1 mb-4">
+        {{$t('trades.wants_listing.wants_list_contains_items')}}
+      </div>
+      <b-row class="mt-2 pt-2 d-flex justify-content-between">
+        <b-col sm="12" md="7" xl="8" class="mt-2 px-0">
+          <div class="d-flex flex-column d-sm-none">
+            <div class="d-flex justify-content-between">
+              <div class="col-11 px-0">
+                <SearchInput
+                  class="searchInput"
+                  :value="searchText"
+                  :inputStyle="{
+                    ...inputClass,
+                    paddingLeft: '45px', 
+                    fontSize: '12px',
+                    background: '#F7F7F7',
+                    height: '33px',
+                  }"
+                  iconStyle='color: #979797; width: 14px; height: 14px;'
+                  :placeholder="$t('common.search_wants')"
+                  variant="primary"
+                  :clearSearch="true"
+                  @change="filterData"
+                />
+              </div>
+              <img @click="filtersModalOpen = true" :src="require('assets/img/icons/filter.svg')" />
             </div>
-            <img @click="filtersModalOpen = true" :src="require('assets/img/icons/filter.svg')" />
-          </div>
-          <SearchedProductsBelowSearchTextBox 
-            v-if="searchedItems.length > 0 && searchText.length > 0" 
-            :productItems="searchedItems" 
-            inputType="wantsList"
-            :wrapperStyle="{ margin: 0 }"
-            :itemStyle="{ padding: 0 }"
-            :suggestNewStyle="{
-              borderTopLeftRadius: 0,
-              borderTopRightRadius: 0,
-              height: '74px'
-            }"
-            @add_product_want_list="redirectToAddWant"
-          />
-        </div>
-        <div class="show-desktop">
-          <SearchInput
-            class="searchInput"
-            :value="searchText"
-            :inputStyle="{ 
-              backgroundColor: '#FFF', 
-              ...inputClass,
-              border: searchedItems.length > 0 ? '1px solid rgba(0,0,0,.125)' : '0',
-              borderBottom: '0 !important',
-              borderBottomLeftRadius: searchedItems.length > 0 ? 0 : '8px',
-              borderBottomRightRadius: searchedItems.length > 0 ? 0 : '8px',
-            }"
-            iconStyle='position: relative; left: 12px;'
-            variant="primary"
-            :clearSearch="true"
-            inputHeight="46px"
-            @change="filterData"
-          />
-          <div class="position-relative">
             <SearchedProductsBelowSearchTextBox 
               v-if="searchedItems.length > 0 && searchText.length > 0" 
               :productItems="searchedItems" 
-              class="position-absolute"
-              :style="{
-                zIndex: 9999
-              }"
               inputType="wantsList"
               :wrapperStyle="{ margin: 0 }"
               :itemStyle="{ padding: 0 }"
@@ -90,296 +53,316 @@
               @add_product_want_list="redirectToAddWant"
             />
           </div>
-        </div>
-        
-      </b-col>
-      <b-col sm="12" md="4" xl="3" class="dropdown-container mt-2">
-        <CustomDropdown
-          v-model="orderFilter"
-          :labelLeftImage="require('~/assets/img/icons/feature.png')"
-          :options="generalListItemsCustomFilter"
-          type="single-select"
-          :label="orderFilterLabel"
-          class="bg-white"
-          optionsWidth="custom"
-          labelStyle='font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 16px; color: #000'
-          paddingX="23px"
-          variant="white"
-          dropDownHeight="46px"
-          borderRadius="8px"
-          borderRadiusClose="8px 8px 0 0"
-          borderRadiusOptions="0 0 8px 8px"
-          :bordered="false"
-          :dropdownStyle="{ border: '1px solid #cbcbcb', borderRadius: 0 }"
-          @change="changeOrderFilter"
-        />
-      </b-col>
-    </b-row>
-    
-    <b-row class="d-none d-sm-flex justify-content-between justify-content-md-start px-2">
-      <div 
-        class="listing-heading" 
-        v-on:click="currentTab = 'inventory'"
-        :style="{'color': currentTab === 'inventory' ? '#000' : '#999'}"
-        role="button"
-      >
-        {{ $t('trades.wants_listing.general_list_items', { 0: totalCount }) }}
-      </div>
-      <div 
-        class="wanted-items-heading" 
-        v-on:click="currentTab = 'combinations'"
-        :style="{'color': currentTab === 'combinations' ? '#000' : '#999'}"
-        role="button"
-      >
-        {{ $t('trades.wants_listing.combinations', { 0: combinationItems.length }) }}
-      </div>
-    </b-row>
-    <div class="mt-3 d-flex d-sm-none row navigation-container">
-      <div 
-        class="navigation-item" 
-        v-on:click="currentTab = 'inventory'"
-        :class="{'navigation-item-active': currentTab === 'inventory'}"
-      >
-        <span class="navigation-text">{{ $t('common.wants_inventory') }}</span>
-      </div>
-      <div 
-        class="navigation-item" 
-        v-on:click="currentTab = 'combinations'"
-        :class="{'navigation-item-active': currentTab === 'combinations'}"
-      >
-        <span class="navigation-text font-weight-normal">{{ $t('common.wants_combinations') }}</span>
-      </div>
-    </div>
-
-    <div class="d-sm-none d-flex justify-content-end mt-3">
-      <div 
-        class="d-flex align-items-center"
-        @click="deleteMultiple()"
-      >
-        <img
-          :src="require('~/assets/img/icons/delete-rounded.svg')"
-          :alt="$t('product_page.delete_multiple')"
-        />
-        <div 
-          :style="{
-            fontFamily: 'SF Pro Display',
-            fontSize: '12px',
-            color: '#999',
-            fontWeight: 500,
-            marginLeft: '4px'
-          }"
-        >
-          {{ $t('product_page.delete_multiple') }}
-        </div>
-      </div>
-    </div>
-
-    <div class="mt-4 d-none d-sm-block">
-      <span class="filter-label">Filter by</span>
-    </div>
-
-    <div class="row mb-4 d-none d-sm-flex row justify-content-lg-between pr-2 ml-0 align-items-center">
-      <b-col class="pl-0 pr-lg-0" sm="6" lg="2">
-        <CustomDropdown 
-          v-model="category"
-          :options="categoryItems"
-          type="single-select"
-          :label="categoryFilterLabel"
-          class="mb-sm-2 mb-lg-0"
-          optionsWidth="custom"
-          dropDownHeight="38px"
-          variant="white"
-          borderRadius="4px"
-          @change="changeCategory"
-          paddingX="10px"
-          :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
-          labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
-          arrowStyle='color: #000'
-        />
-      </b-col>
-      <b-col class="pr-0 pl-lg-0" sm="6" lg="2">
-        <CustomDropdown 
-          v-model="sizeTypesFilter"
-          :options="sizeTypesOptions"
-          type="multi-select-checkbox"
-          :label="sizeTypesFilterLabel"
-          class="mb-sm-2 mb-lg-0"
-          optionsWidth="custom"
-          dropDownHeight="38px"
-          variant="white"
-          borderRadius="4px"
-          @change="changeSizeTypeFilter"
-          paddingX="10px"
-          :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
-          labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
-          arrowStyle='color: #000'
-        />
-      </b-col>
-      <b-col class="px-0" lg="2" >
-        <CustomDropdown 
-          v-model="sizeFilter"
-          :options="sizeOptions"
-          type="multi-select-checkbox"
-          :label="sizeFilterLabel"
-          class="mb-sm-2 mb-lg-0"
-          optionsWidth="custom"
-          dropDownHeight="38px"
-          variant="white"
-          borderRadius="4px"
-          @change="changeSizeFilter"
-          paddingX="10px"
-          :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
-          labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
-          arrowStyle='color: #000'
-        />
-      </b-col>
-      <b-col sm="6" lg="2" class="pl-0">
-        <div class="button-filter" @click="getWantItems" role="button">
-          {{ $t('create_listing.trade.offer_items.filter_btn') }}
-        </div>
-      </b-col>
-      <!-- <b-col class="d-none d-xl-block" lg="1"></b-col> -->
-      <b-col sm="6" lg="3" class="pr-0 d-lg-flex justify-content-lg-end">
-        <div role="button" class="button-delete-multiple" @click="deleteMultiple">
-          {{ $t('product_page.delete_multiple') }}
-        </div>
-      </b-col>
-    </div>
-
-    <div class="d-none d-sm-block bulk-wrapper">
-      <BulkSelectToolbar
-        ref="bulkSelectToolbar"
-        :active="!!action"
-        :selected="selected"
-        :unit-label="$tc('common.item', selected.length)"
-        :action-label="`${$tc(`trades.${action}_selected`)}`"
-        :total="action === 'delete_combination' ? combinationItems.length : wantedItems.length"
-        :error="errorSelection"
-        class=""
-        @close="cancelAction()"
-        @selectAll="handleSelectAll()"
-        @deselectAll="handleDeselectAll()"
-        @submit="submitBulk()"
-      />
-    </div>
-
-    <div class="">
-      <div 
-        v-if="currentTab === 'inventory'" 
-        class=""
-      >
-        <div :style="{ height: '100vh' }" class="no-items text-center mt-5" v-if="!wantedItems.length">
-          {{ $t('trades.wants_listing.you_have_no_items_in') }}
-          <span class="add-new-item" role="button" @click="$router.push('/profile/trades/wants/addwantitem')">
-            {{ $t('common.add_new_item') }}
-          </span>
-        </div>
-        <div class="d-flex flex-column bg-white content-container pb-3" v-else>
-          <div class="d-flex flex-wrap justify-content-around">
-            <div 
-              v-for="item in wantedItems" 
-              :key="`want-item-${item.id}`"
-            >
-              <want-item-card
-                :wantItem="item"
-                :selected="!!selected.find((id) => id === item.id)"
-                :editRemove="action === 'delete' || action === 'create_combination'"
-                :actionType="action"
-                :selectedItems="selected"
-                @select="selectItem"
-                @click="editDelete"
+          <div class="show-desktop">
+            <SearchInput
+              class="searchInput"
+              :value="searchText"
+              :inputStyle="{ 
+                backgroundColor: '#FFF', 
+                ...inputClass,
+                border: searchedItems.length > 0 ? '1px solid rgba(0,0,0,.125)' : '0',
+                borderBottom: '0 !important',
+                borderBottomLeftRadius: searchedItems.length > 0 ? 0 : '8px',
+                borderBottomRightRadius: searchedItems.length > 0 ? 0 : '8px',
+              }"
+              iconStyle='position: relative; left: 12px;'
+              variant="primary"
+              :clearSearch="true"
+              inputHeight="46px"
+              @change="filterData"
+            />
+            <div class="position-relative">
+              <SearchedProductsBelowSearchTextBox 
+                v-if="searchedItems.length > 0 && searchText.length > 0" 
+                :productItems="searchedItems" 
+                class="position-absolute"
+                :style="{
+                  zIndex: 9999
+                }"
+                inputType="wantsList"
+                :wrapperStyle="{ margin: 0 }"
+                :itemStyle="{ padding: 0 }"
+                :suggestNewStyle="{
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
+                  height: '74px'
+                }"
+                @add_product_want_list="redirectToAddWant"
               />
             </div>
           </div>
-          <Pagination
-            v-model="page"
-            :total="totalCount"
-            :per-page="perPage"
-            :per-page-options="perPageOptions"
-            class="mt-4"
-            @page-click="handlePageClick"
-            @per-page-change="handlePerPageChange"
-          />
-        </div>
-      </div>
-      <div v-else>
-        <div class="vh-100" v-if="!combinationItems.length">
-          <div 
-            class="d-sm-none text-center mb-4"
-            :style="{
-              fontWeight: 600,
-              fontSize: '14px',
-              color: '#626262',
-              marginTop: '42px'
-            }"
-          >
-            {{ $t('product_page.no_combinations_found') }}
-          </div>
-          <div 
-            class="position-fixed d-sm-none bg-black rounded-circle d-flex align-items-center justify-content-center"
-            :style="{
-              width: '42px',
-              height: '42px',
-              right: '20px',
-              bottom: '20px',
-              background: '#63769d'
-            }"
-            @click="createCombination"
-          >
-            <img
-              :src="require('~/assets/img/icons/product/Plus.svg')"
-              alt="Add"
-            />
-          </div>
-          <div 
-            class="d-none d-sm-flex flex-column flex-sm-row justify-content-center mt-3 create-combination"
-          >
-            <span>{{ $t('trades.wants_listing.have_no_combinations') }}</span>
-            <span
-              role="button"
-              class="add-new-item ml-1"
-              @click="createCombination"
-            >
-              {{ $t('trades.wants_listing.create_combination_label') }}
-            </span>
-          </div>
-        </div>
-        <!-- <div 
-          :style="{ height: '100vh' }" 
-          class="d-flex flex-column flex-xl-row justify-content-center" 
-          v-if="!combinationItems.length"
-        >
-          <div class="mt-3 create-combination">
-            <span>{{ $t('trades.wants_listing.have_no_combinations') }}</span>
-            <span
-              role="button"
-              class="add-new-item"
-              @click="createCombination"
-            >
-              {{ $t('trades.wants_listing.create_combination_label') }}
-            </span>
-          </div>
-        </div> -->
+        </b-col>
 
-        <div class="d-flex flex-wrap px-1 pt-3 pt-sm-5 bg-white border-3" v-else>
-          <div
-            v-for="(combination, combinationIndex) in combinationItems"
-            :key="combination.combination_id"
-            class="mb-4 px-0 px-xl-1 col-xl-6"
+        <b-col sm="12" md="4" xl="3" class="dropdown-container mt-2">
+          <CustomDropdown
+            v-model="orderFilter"
+            :labelLeftImage="require('~/assets/img/icons/feature.png')"
+            :options="generalListItemsCustomFilter"
+            type="single-select"
+            :label="orderFilterLabel"
+            class="bg-white"
+            optionsWidth="custom"
+            labelStyle='font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 16px; color: #000'
+            paddingX="23px"
+            variant="white"
+            dropDownHeight="46px"
+            borderRadius="8px"
+            borderRadiusClose="8px 8px 0 0"
+            borderRadiusOptions="0 0 8px 8px"
+            :bordered="false"
+            :dropdownStyle="{ border: '1px solid #cbcbcb', borderRadius: 0 }"
+            @change="changeOrderFilter"
+          />
+        </b-col>
+      </b-row>
+      <b-row class="d-none d-sm-flex justify-content-between justify-content-md-start px-2">
+        <div 
+          class="listing-heading" 
+          v-on:click="currentTab = 'inventory'"
+          :style="{'color': currentTab === 'inventory' ? '#000' : '#999'}"
+          role="button"
+        >
+          {{ $t('trades.wants_listing.general_list_items', { 0: totalCount }) }}
+        </div>
+        <div 
+          class="wanted-items-heading" 
+          v-on:click="currentTab = 'combinations'"
+          :style="{'color': currentTab === 'combinations' ? '#000' : '#999'}"
+          role="button"
+        >
+          {{ $t('trades.wants_listing.combinations', { 0: combinationItems.length }) }}
+        </div>
+      </b-row>
+      <div class="mt-3 d-flex d-sm-none row navigation-container">
+        <div 
+          class="navigation-item" 
+          v-on:click="currentTab = 'inventory'"
+          :class="{'navigation-item-active': currentTab === 'inventory'}"
+        >
+          <span class="navigation-text">{{ $t('common.wants_inventory') }}</span>
+        </div>
+        <div 
+          class="navigation-item" 
+          v-on:click="currentTab = 'combinations'"
+          :class="{'navigation-item-active': currentTab === 'combinations'}"
+        >
+          <span class="navigation-text font-weight-normal">{{ $t('common.wants_combinations') }}</span>
+        </div>
+      </div>
+
+      <div class="d-sm-none d-flex justify-content-end mt-3">
+        <div 
+          class="d-flex align-items-center"
+          @click="deleteMultiple()"
+        >
+          <img
+            :src="require('~/assets/img/icons/delete-rounded.svg')"
+            :alt="$t('product_page.delete_multiple')"
+          />
+          <div 
+            :style="{
+              fontFamily: 'SF Pro Display',
+              fontSize: '12px',
+              color: '#999',
+              fontWeight: 500,
+              marginLeft: '4px'
+            }"
           >
-            <CombinationItemCard
-              :combination="combination"
-              :combination-index="combinationIndex + 1"
-              :selected="!!selected.find((id) => id === combination.combination_id)"
-              :editRemove="action === 'delete_combination'"
-              @select="selectItemCombination"
-              @click="editDeleteCombination"
-            />
+            {{ $t('product_page.delete_multiple') }}
           </div>
         </div>
       </div>
+
+      <div class="mt-4 d-none d-sm-block">
+        <span class="filter-label">{{ $t('common.filter_by') }}</span>
+      </div>
+
+      <div class="row mb-4 d-none d-sm-flex row justify-content-lg-between pr-2 ml-0 align-items-center">
+        <b-col class="pl-0 pr-lg-0" sm="6" lg="2">
+          <CustomDropdown 
+            v-model="category"
+            :options="categoryItems"
+            type="single-select"
+            :label="categoryFilterLabel"
+            class="mb-sm-2 mb-lg-0"
+            optionsWidth="custom"
+            dropDownHeight="38px"
+            variant="white"
+            borderRadius="4px"
+            @change="changeCategory"
+            paddingX="10px"
+            :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
+            labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
+            arrowStyle='color: #000'
+          />
+        </b-col>
+        <b-col class="pr-0 pl-lg-0" sm="6" lg="2">
+          <CustomDropdown 
+            v-model="sizeTypesFilter"
+            :options="sizeTypesOptions"
+            type="multi-select-checkbox"
+            :label="sizeTypesFilterLabel"
+            class="mb-sm-2 mb-lg-0"
+            optionsWidth="custom"
+            dropDownHeight="38px"
+            variant="white"
+            borderRadius="4px"
+            @change="changeSizeTypeFilter"
+            paddingX="10px"
+            :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
+            labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
+            arrowStyle='color: #000'
+          />
+        </b-col>
+        <b-col class="px-0" lg="2" >
+          <CustomDropdown 
+            v-model="sizeFilter"
+            :options="sizeOptions"
+            type="multi-select-checkbox"
+            :label="sizeFilterLabel"
+            class="mb-sm-2 mb-lg-0"
+            optionsWidth="custom"
+            dropDownHeight="38px"
+            variant="white"
+            borderRadius="4px"
+            @change="changeSizeFilter"
+            paddingX="10px"
+            :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
+            labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
+            arrowStyle='color: #000'
+          />
+        </b-col>
+        <b-col sm="6" lg="2" class="pl-0">
+          <div class="button-filter" @click="getWantItems" role="button">
+            {{ $t('create_listing.trade.offer_items.filter_btn') }}
+          </div>
+        </b-col>
+
+        <b-col sm="6" lg="3" class="pr-0 d-lg-flex justify-content-lg-end">
+          <div role="button" class="button-delete-multiple" @click="deleteMultiple">
+            {{ $t('product_page.delete_multiple') }}
+          </div>
+        </b-col>
+      </div>
+
+      <div class="d-none d-sm-block bulk-wrapper">
+        <BulkSelectToolbar
+          ref="bulkSelectToolbar"
+          :active="!!action"
+          :selected="selected"
+          :unit-label="$tc('common.item', selected.length)"
+          :action-label="`${$tc(`trades.${action}_selected`)}`"
+          :total="action === 'delete_combination' ? combinationItems.length : wantedItems.length"
+          :error="errorSelection"
+          class=""
+          @close="cancelAction()"
+          @selectAll="handleSelectAll()"
+          @deselectAll="handleDeselectAll()"
+          @submit="submitBulk()"
+        />
+      </div>
+
+      <div class="">
+        <div 
+          v-if="currentTab === 'inventory'" 
+          class=""
+        >
+          <div :style="{ height: '100vh' }" class="no-items text-center mt-5" v-if="!wantedItems.length">
+            {{ $t('trades.wants_listing.you_have_no_items_in') }}
+            <span class="add-new-item" role="button" @click="$router.push('/profile/trades/wants/addwantitem')">
+              {{ $t('common.add_new_item') }}
+            </span>
+          </div>
+          <div class="d-flex flex-column bg-white content-container pb-3" v-else>
+            <div class="d-flex flex-wrap justify-content-around">
+              <div 
+                v-for="item in wantedItems" 
+                :key="`want-item-${item.id}`"
+              >
+                <want-item-card
+                  :wantItem="item"
+                  :selected="!!selected.find((id) => id === item.id)"
+                  :editRemove="action === 'delete' || action === 'create_combination'"
+                  :actionType="action"
+                  :selectedItems="selected"
+                  @select="selectItem"
+                  @click="editDelete"
+                />
+              </div>
+            </div>
+            <Pagination
+              v-model="page"
+              :total="totalCount"
+              :per-page="perPage"
+              :per-page-options="perPageOptions"
+              class="mt-4"
+              @page-click="handlePageClick"
+              @per-page-change="handlePerPageChange"
+            />
+          </div>
+        </div>
+        <div v-else>
+          <div v-if="!combinationItems.length" class="vh-100">
+            <div 
+              class="d-sm-none text-center mb-4"
+              :style="{
+                fontWeight: 600,
+                fontSize: '14px',
+                color: '#626262',
+                marginTop: '42px'
+              }"
+            >
+              {{ $t('product_page.no_combinations_found') }}
+            </div>
+            <div 
+              class="position-fixed d-sm-none bg-black rounded-circle d-flex align-items-center justify-content-center"
+              :style="{
+                width: '42px',
+                height: '42px',
+                right: '20px',
+                bottom: '20px',
+                background: '#63769d'
+              }"
+              @click="createCombination"
+            >
+              <img
+                :src="require('~/assets/img/icons/product/Plus.svg')"
+                alt="Add"
+              />
+            </div>
+            <div 
+              class="d-none d-sm-flex flex-column flex-sm-row justify-content-center mt-3 create-combination"
+            >
+              <span>{{ $t('trades.wants_listing.have_no_combinations') }}</span>
+              <span
+                role="button"
+                class="add-new-item ml-1"
+                @click="createCombination"
+              >
+                {{ $t('trades.wants_listing.create_combination_label') }}
+              </span>
+            </div>
+          </div>
+          <div v-else class="d-flex flex-wrap px-1 pt-3 pt-sm-5 bg-white border-3">
+            <div
+              v-for="(combination, combinationIndex) in combinationItems"
+              :key="combination.combination_id"
+              class="mb-4 px-0 px-xl-1 col-xl-6"
+            >
+              <CombinationItemCard
+                :combination="combination"
+                :combination-index="combinationIndex + 1"
+                :selected="!!selected.find((id) => id === combination.combination_id)"
+                :editRemove="action === 'delete_combination'"
+                @select="selectItemCombination"
+                @click="editDeleteCombination"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+    
     <div
       class="d-flex flex-column d-sm-none px-3 pb-3"
       v-if="action === 'delete_combination' || action === 'delete' || action === 'create_combination'"
@@ -712,13 +695,11 @@ export default {
     handleSelectAll() {
       if (this.action === 'delete_combination') {
         this.selected = this.combinationItems.map((p) => p.combination_id)
+      } else if (this.action === 'create_combination' && this.wantedItems.length > 3) {
+        this.selected = this.wantedItems.slice(0, THREE_ITEMS).map((p) => p.id)
+        this.makeError()
       } else {
-        if (this.action === 'create_combination' && this.wantedItems.length > 3) {
-          this.selected = this.wantedItems.slice(0, THREE_ITEMS).map((p) => p.id)
-          this.makeError()
-        } else {
-          this.selected = this.wantedItems.map((p) => p.id)
-        }
+        this.selected = this.wantedItems.map((p) => p.id)
       }
     },
 
