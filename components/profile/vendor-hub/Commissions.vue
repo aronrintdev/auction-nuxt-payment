@@ -1,22 +1,34 @@
 <template>
   <div>
-    <div class="commission p-4 ">
+    <div v-if="mobileClass" class="d-flex justify-content-between">
+      <SearchInput
+        id="selling-search"
+        class="flex-grow-1 mr-2"
+        :placeholder="$t('navbar.search')"
+      />
+      <img
+        class="mobile-filter"
+        :src="require('~/assets/img/icons/filter-icon.svg')"
+        alt="filter-icon"
+      />
+    </div>
+    <div :class="mobileClass ? '' : 'commission p-4'">
       <div class="d-flex justify-content-between align-items-center">
-        <div class="title" :class="mobileClass.length ? 'body-13-bold font-weight-bold' : 'heading-3-normal'">
+        <div class="title" :class="mobileClass.length ? 'body-10-medium color-blue-20' : 'heading-3-normal'">
           {{ $t('vendor_hub.commission.overview') }}
         </div>
       </div>
       <b-row class="mt-3 mt-sm-5">
-        <b-col v-for="(item, ind) in commissionItems" :key="ind">
+        <div :class="mobileClass.length ? 'commission-item-box' : 'col'" v-for="(item, ind) in commissionItems" :key="ind">
           <CommissionItem :item="item" />
-        </b-col>
+        </div>
       </b-row>
     </div>
 
-    <div class="commission p-4 mt-3">
+    <div :class="mobileClass ? '' : 'commission p-4'" class="mt-3">
       <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
         <div class="d-flex justify-content-between w-100 mb-4 mb-sm-0">
-          <div class="title" :class="mobileClass.length ? 'body-13-bold font-weight-bold' : 'heading-3-normal'">
+          <div class="title" :class="mobileClass.length ? 'body-10-medium color-blue-20' : 'heading-3-normal'">
           {{ $t('vendor_hub.commission.commission_details') }}
           </div>
           <div v-if="mobileClass" @click="showMobileFilter" role="button">
@@ -207,11 +219,14 @@ import Loader from '~/components/common/Loader';
 import {COMMISSIONS_PAGE_OPTIONS, COMMISSIONS_PER_PAGE} from '~/static/constants';
 import screenSize from '~/plugins/mixins/screenSize'
 import CommissionMobileFilter from '~/components/profile/vendor-hub/CommissionMobileFilter';
+import { SearchInput } from '~/components/common';
 
 Vue.component('DownloadCsv', JsonCSV)
 export default {
   name: 'Commissions',
-  components: {Loader, CommissionItem, Button, CalendarInput, CustomSelectwithCheckbox, Pagination, BulkSelectToolbar, CommissionMobileFilter},
+  components: {
+    Loader, CommissionItem, SearchInput,
+    Button, CalendarInput, CustomSelectwithCheckbox, Pagination, BulkSelectToolbar, CommissionMobileFilter},
   mixins: [screenSize],
   data() {
     return {
@@ -516,4 +531,9 @@ export default {
 
 .divider
   border: 2px solid $color-gray-3
+
+.color-blue-20
+  color: $color-blue-20
+.commission-item-box
+  flex: 50%
 </style>
