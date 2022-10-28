@@ -36,8 +36,8 @@
             />
           </div>
           <div class="col-lg-5 desktop-product-name-section">
-            <div class="body-4-bold mb-2">Nike Lebron 18 Low (2021)</div>
-            <div class="body-4-normal mb-2 text-gray-6 product-variant">Black & White</div>
+            <div class="body-4-bold mb-2">{{product.name}}</div>
+            <div class="body-4-normal mb-2 text-gray-6 product-variant">{{product.colorway}}</div>
           </div>
           <!-- mobile responsive product average Section   -->
           <div class="col-lg-5 mobile-product-name-section">
@@ -335,7 +335,7 @@ export default {
     return {
       dayjs,
       loading: false,
-      products: [],
+      product: [],
       prices: [],
       similarProductSearchValue: '',
       sortBy: null,
@@ -810,7 +810,7 @@ export default {
     getProductDetail() {
       this.loading = true
       this.$axios
-        .get(`/products/${this.$route.params.sku}/details`, {
+        .get(`/products/${this.$route.params.id}/details`, {
           // .get('/stock-exchange/', {
           params: {
             type: this.type,
@@ -823,7 +823,7 @@ export default {
         .then((response) => {
           if (response.data) {
             console.log(response.data)
-            this.products = response.data.data
+            this.product = response.data
             this.loading = false
             // this.totalRows = response.data.total
           }
