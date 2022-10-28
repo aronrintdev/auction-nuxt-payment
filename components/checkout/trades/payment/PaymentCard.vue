@@ -5,7 +5,7 @@
       back-link
       :title="$t('shopping_cart.payment_information')"
       @click="
-        emitRenderComponentEvent($parent.$options.components.PaymentOption.name)
+        emitRenderComponentEvent($parent.$options.components.OrderSummary.name)
       "
     /><!-- End of Order Title -->
 

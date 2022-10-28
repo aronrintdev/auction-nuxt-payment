@@ -41,11 +41,7 @@
         <CollapseStatus
           :value="filter.status || {}"
           collapseKey="status"
-          :title="
-            !showStatusOfferPlaced
-              ? $t('filter_sidebar.brands')
-              : $t('placed_offers.status')
-          "
+          :title="$t('placed_offers.status')"
           :options="status"
           @selected="statusSelected"
         />

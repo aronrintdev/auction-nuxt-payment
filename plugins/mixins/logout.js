@@ -1,4 +1,5 @@
 import {mapActions} from 'vuex';
+import realtime from '~/plugins/mixins/realtime';
 
 /**
  * Copies the provided value to clipboard.
@@ -6,6 +7,7 @@ import {mapActions} from 'vuex';
  * @type {{methods: {postLogout(): void}}}
  */
 const logoutMixin = {
+  mixins: [realtime],
   methods: {
     ...mapActions({
       removeUserDetails: 'auth/removeUserDetails',
@@ -16,6 +18,7 @@ const logoutMixin = {
       removeGiftCardValuesAndDetails: 'preferences/clearGiftCardValues'
     }),
     postLogout() {
+      this.disconnectSocket() // disconnect realtime notification channels
       this.$auth.strategy.token.reset()
       this.removeUserDetails()
       this.removeCryptoDetails()

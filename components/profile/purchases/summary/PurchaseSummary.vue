@@ -31,8 +31,8 @@
           <!-- Order Status -->
           <div class="order-bar">
             <div
-              v-if="orderType === buy || orderType === sell && orderDetails.status !== multiple"
-              :id="orderDetails.status.toLowerCase()"
+                v-if="ORDERS_HAS_ITEMS.includes(orderType) && orderDetails.status !== multiple"
+                :id="orderDetails.status.toLowerCase()"
             >
               <div>
                 {{ orderDetails.status_label }}
@@ -80,32 +80,32 @@
           <!-- ./Shipping Label -->
         </b-card-text>
         <!-- Shipping Address -->
-        <b-card-text v-if="orderType === buy || orderType === sell" class="shipping-address">
+        <b-card-text v-if="ORDERS_HAS_ITEMS.includes(orderType)" class="shipping-address">
           <span class="shipping-address-description">
             {{ $t('vendor_purchase.shipping_address') }}&colon;
             {{ shippingAddress }}
           </span>
           <span
-            v-if="orderType !== giftCard && orderDetails.quantity === 1 && orderDetails.items.length>=1 && orderDetails.items[0].shipment"
-            class="d-flex tracking-number"
+              v-if="orderType !== giftCard && orderDetails.quantity === 1 && orderDetails.items.length>=1 && orderDetails.items[0].shipment"
+              class="d-flex tracking-number"
           >
             {{ $t('vendor_purchase.tracking_no') }}&colon;
-            <a :href="orderDetails.items[0].shipment.tracking_url"
+            <a v-if="orderDetails.items[0].shipment" :href="orderDetails.items[0].shipment.tracking_url"
                target="_blank" class="text-decoration-underline">{{ orderDetails.items[0].shipment.tracking_no }}</a>
           </span>
         </b-card-text>
         <!-- ./Shipping Address -->
         <!-- Details: Single Order-->
         <SingleOrderVue
-          v-if="orderDetails.quantity === 1 && orderType === buy || orderType === sell"
-          :orderDetails="orderDetails.listing_item_order"
-          :fullOrderDetails='orderDetails'
-          :fields="fields"
-          :orderType="orderType"
-          :itemCount="orderDetails.quantity"
-          :timelineStatus="timelineStatus"
-          :itemStatus="orderDetails.status.toLowerCase()"
-          :updatedAt="orderDetails.updated_at"
+            v-if=" ORDERS_HAS_ITEMS.includes(orderType)"
+            :orderDetails="orderDetails.listing_item_order"
+            :fullOrderDetails='orderDetails'
+            :fields="fields"
+            :orderType="orderType"
+            :itemCount="orderDetails.quantity"
+            :timelineStatus="timelineStatus"
+            :itemStatus="orderDetails.status.toLowerCase()"
+            :updatedAt="orderDetails.updated_at"
         />
 
         <SingleOrderVue
@@ -171,7 +171,7 @@ import {
   DELIVERED,
   GIFTCARD,
   MONTHS,
-  MULTIPLE,
+  MULTIPLE, ORDERS_HAS_ITEMS,
   PENDING,
   PROCESSING,
   SELL,
@@ -201,6 +201,7 @@ export default {
 
   data() {
     return {
+      ORDERS_HAS_ITEMS,
       months: MONTHS,
       fields: [
         {

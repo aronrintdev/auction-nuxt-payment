@@ -13,6 +13,7 @@ export function getNotifications({commit}, payload) {
         params: payload
     }).then(res => {
         commit('setNotification', res.data.data.data)
+        commit('setTotal', res.data.data.total)
         Promise.resolve(res)
     }).catch(err => {
         Promise.reject(err)

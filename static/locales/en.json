@@ -46,6 +46,7 @@
     "category": "Category | Categories",
     "best_seller": "Best Seller | Best Sellers",
     "name": "Name",
+    "collection_name": "Collection Name",
     "last_price": "Last Price",
     "last_xdays": "Last {day} Days",
     "payment": "Payment | Payments",
@@ -95,6 +96,7 @@
     "benefit": "Benefit | Benefits",
     "option": "Option | Options",
     "back_to_search": "Back To Search",
+    "recent_searches": "Recent Searches",
     "min_offer": "Min. Offer",
     "accessories": "Accessories",
     "sizetype": "Size Type",
@@ -120,6 +122,7 @@
     "expires": "Expires",
     "trade_value": "Trade Value",
     "apply_filter": "Apply Filter | Apply Filters",
+    "clear_all": "Clear All",
     "clear_all_filters": "Clear All Filters",
     "recently": "Recently",
     "viewed": "Viewed",
@@ -133,6 +136,7 @@
     "sneakers_sizes": "Sneaker Sizes",
     "apparel_sizes": "Apparel Sizes",
     "accessories_sizes": "Accessories Sizes",
+    "price_range": "Price Range",
     "browse": "Browse",
     "categories": {
       "sneakers": "Sneakers",
@@ -154,14 +158,21 @@
     "view": "View",
     "read_less": "Read Less",
     "read_more": "Read More",
-    "go_back": "Go Back"
+    "go_back": "Go Back",
+    "add": "Add",
+    "product_type": "Product Type",
+    "continue": "Continue",
+    "of": "of",
+    "week": "Week"
   },
   "message": {
     "no_products_found": "No Products Found",
     "enter_valid_amount": "Kindly input a valid amount."
   },
   "error": {
-    "something_went_wrong": "Something went wrong. Please try again later!"
+    "something_went_wrong": "Something went wrong. Please try again later!",
+    "combination_already_has_maximum_items": "Combination already has maximum items",
+    "invalid_combination_selected": "Invalid combination selected"
   },
   "index": {
     "sign_up": "Sign Up",
@@ -839,7 +850,8 @@
       "we_do_not_have_enough_in_stock": "We do not have enough in stock. \nGet Notified when there are more in stock!",
       "get_notified": "Get Notified",
       "stock_from_different_vendors": "The item you're looking to checkout has insufficient quantity. The following items from different vendors can be added to your bag in order to match the requested quantity.",
-      "add_to_bag": "Add to Bag"
+      "add_to_bag": "Add to Bag",
+      "add_style_to_card": "Add Style to Card"
     },
     "validations": {
       "alpha": "The {_field_} field may only contain alphabetic characters",
@@ -1917,7 +1929,14 @@
       "insert_amount": "Insert Amount",
       "payment_method": "Payment Method",
       "no_results_found": "No results found",
-      "cant_find_anything": "We couldn’t find anything that matches this search"
+      "cant_find_anything": "We couldn’t find anything that matches this search",
+      "product_details": "Product Details",
+      "description": "Description",
+      "size_guide": "Size Guide",
+      "bidding_history": "Bidding History",
+      "verification_guranteed": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed.",
+      "collection_items": "Collection Items",
+      "review": "Review"
     },
     "errors": {
       "missing_box_images": "Missing box images",
@@ -2706,7 +2725,7 @@
   "create_listing": {
     "drafts": "Drafts ({0})",
     "search": {
-      "title": "Search for sneakers",
+      "title": "Search",
       "add_product": "Add Product"
     },
     "index": {
@@ -2714,18 +2733,30 @@
       "selling": "Selling",
       "selling_desc": "Sell sneakers, a pieace of apparel, or an accessory.",
       "auction": "Auction",
-      "auction_desc": "Post a Single Item Auction or a Collection Auction.",
+      "auction_desc": "Post a Single Item Auction or put a whole Collection up for Auction.",
       "trade": "Trade",
-      "trade_desc": "Trade items with other Deadstock Sellers. Add compensation to spice up the deal.",
+      "trade_desc": "Trade up to three items at a time with other Deadstock Sellers. If no offer is accepted, the listing will be active for 14 days.",
       "select": "Select",
       "type": "Type",
       "auction_single": "Single Item Auction",
       "auction_single_desc": "For auctions that are a single item only.",
       "auction_collection": "Collection Auctions",
-      "auction_collection_desc": "Multiple product auction listings where buyers bid on the entire collection as a whole."
+      "auction_collection_desc": "Multiple product auction listings where buyers bid on the entire collection as a whole.",
+      "selling_text": "Sell sneakers, a pieace of apparel, or an accessory.",
+      "auction_text": "Post a Single Item Auction or put a whole Collection up for Auction.",
+      "trade_text": "Trade up to three items at a time. If no offer is accepted in 14 days the trade will expire."
     },
     "back_btn": "Back to Trades",
     "title": "Create Listing",
+    "no_items_found": "0 items have been found in your inventory",
+    "add": "Add",
+    "filterbar": {
+      "filter_by": "Filter By",
+      "sort": "Sort",
+      "reset": "Reset",
+      "apply_filters": "Apply Filters"
+    },
+    "continue": "Continue",
     "select_from_inventory": "Select from Inventory",
     "no_result": "There is no matched product.",
     "amount": "Amount",
@@ -2809,7 +2840,7 @@
       "up_to_ten": "Up to ten items",
       "select_inventory": "Select from Inventory",
       "or_searcn": "or search at the top",
-      "proceed_details": "Proceed to Enter Details",
+      "proceed_details": "Next",
       "actions": "Actions",
       "progress": {
         "add": "Add Products",
@@ -2824,7 +2855,7 @@
       "subtitle": "Each auction has a quantity of one item",
       "add_auction": "Add Another Auction",
       "add_another_product": "Add Another Product",
-      "save_draft": "Save All as Draft(s)",
+      "save_draft": "Save as Draft(s)",
       "post_auction": "Post Auction(s)",
       "create_auction": "Create Auction",
       "auction_number": "Auction #",
@@ -2854,6 +2885,9 @@
       },
       "status": "Status",
       "no_item_found": "No auction item found.",
+      "post_listings": "Post Listing(s)",
+      "save_as_draft": "Save as Draft",
+      "quantity": "Quantity",
       "can_not_add_more": "Collection Auctions can add up to 10 items.",
       "bottom_text": "*By clicking Post Auction(s), I accept the seller fee of {0}% + a {1}% transaction | fee. No authentication fees will be charged to sellers."
     },
@@ -2881,6 +2915,8 @@
       "terms_and_conditions_paragraph": "I agree to the {0}, By placing this order*",
       "terms_and_conditions": "Terms and Conditions",
       "thankyou": "Thank You",
+      "days": "Days",
+      "reserve_fee": "Reserve fee ( 7.99% of reserve price)",
       "go_to_auctions": "Go to Auction Dashboard",
       "contact_details": "If you have any questions about your order, you can email us at {0} or call us at {1}",
       "reference_number": "Reference Number",
@@ -2892,7 +2928,7 @@
       "live_status": "LIVE",
       "schedule_status": "SCHEDULE",
       "min_start_bid": "min $50.00",
-      "add_auction": "Add Auction",
+      "add_auction": "Add Listing",
       "suggested_value_displayed": "Suggested value displayed",
       "next": "Next",
       "cancel": "Cancel",
@@ -2906,6 +2942,7 @@
       "discard_confirm_msg": "Are you sure you would like to discard your changes? The changes will be lost.",
       "lowest_price": "Lowest Price",
       "last_sold": "Last Sold",
+      "last_sale": "Last Sale",
       "highest_sold": "Highest Sold",
       "add_product": "Add Product",
       "confirm_collection_title": "Confirm Collection Auction",
@@ -2927,7 +2964,14 @@
         "post_btn": "Post",
         "cancel_btn": "Cancel",
         "success_msg": "This auction has been posted! You will be redirected to the Auction page"
-      }
+      },
+      "product_details": "Product Details",
+      "retail_price": "Retail Price",
+      "release_date": "Release Date",
+      "excellent": "Excellent",
+      "description": "Description",
+      "description_details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Velit nulla et consectetur lorem ut. Semper facilisis nulla sit pharetra sed eu enim.",
+      "latest_sales":"Latest Sales"
     },
     "auction": {
       "to_be_listed": "To Be Listed",
@@ -3697,6 +3741,7 @@
     "auto_bid": "Auto Bid",
     "your_bids": "Your Bids",
     "increase_bid": "Increase Bid:",
+    "increased_bid_price_message": "Bid price has been updated successfully.",
     "auction_id": "Auction ID",
     "view_more": "View More",
     "bid_date": "Bid Date",
@@ -4055,6 +4100,7 @@
     }
   },
   "createlisting": {
+    "sort": "Sort",
     "create_new_inventory": "Create New Inventory",
     "search_placeholder": "Search by SKU, Keyword, or Brand",
     "inventory": "Inventory",
@@ -4064,12 +4110,14 @@
     "min_offer_amount": "Minimum Offer Amount",
     "enter_min_offer_amount": "Enter Min. Offer Amount",
     "add_listing": "Add Listing",
+    "add_listings": "Add Listings(s)",
     "confirm_listing": "Confirm Listing",
     "add_another_listing": "Add Another Listing",
     "save_as_draft": "Save as Draft",
     "post_listing": "Post Listing(s)",
     "on_post_listing_click": "*By clicking Post Listing(s), I accept the seller fee of 9.5% + a 2.9% transaction fee.",
     "no_auth_fee": "No authentication fee will be charged to sellers.",
+    "on_post_pressing": "*By pressing on Post Listing(s), I accept the seller fee of 9.5% + a 2.9% transaction fee.",
     "saved_as_draft": "Saved as Draft",
     "delete_message": "Are you sure you would like to delete? Deleting a listing is non reversible.",
     "no_saved_listing": "You have no saved listings, go back to",
@@ -4098,7 +4146,7 @@
     "enter_sku": "Enter SKU",
     "enter_product_name": "Enter Product Name",
     "please_select_a_size": "*Please select a size",
-    "minOfferAmount": "Min Offer Amount",
+    "minOfferAmount": "Min. Offer Amount",
     "error": {
       "field": "*Please Enter a {field}"
     },
@@ -4113,7 +4161,16 @@
     "last_updated": "Last Updated",
     "user_not_valid": "Unauthorized Access. You are not a vendor to do this.",
     "discard_changes": "Are you sure you would like to discard your changes? The changes will be lost.",
-    "out_of_stock": "Out of Stock"
+    "out_of_stock": "Out of Stock",
+    "your_price": "Your Price*",
+    "hello": "Hello",
+    "new_user_no_payout": "We noticed that you do not have a valid payout method connected.",
+    "connect_to_payout": "Please connect a valid payout method prior to creating a listing, to get paid for your sales.",
+    "sell_listing_modify_discard": "Are you sure you would like to discard your changes? The changes will be lost.",
+    "confirm_discard_text": "Your changes have been discarded",
+    "change_listing": "Are you sure you would like to change this listing?",
+    "all_active_offers_will_be_lost": "All the active offers associated with these listing could be lost.",
+    "editsuccess": "Your changes have been saved and your listing has been modified"
   },
   "color": {
     "white": "White",
@@ -4412,6 +4469,7 @@
       "view_trader_wants": "View Trader’s Wants",
       "your_items_length": "Your Items quantity should not exceed {0}",
       "you_added_cash": "You added ${0} on top",
+      "you_requested_cash": "You requested ${0} on top",
       "balance_the_deal": "Balance the deal by Adding Cash",
       "edit_cash": "Edit Cash",
       "box_condition": "Box Condition",
@@ -4750,7 +4808,9 @@
   },
   "shop_by_style": {
     "general": {
-      "add_to_bag": "Add {type} to Bag"
+      "add_to_bag": "Add {type} to Bag",
+      "add_style_to_bag": "Add Style to Card",
+      "back_to_style": "< Back to All Style"
     },
     "title": "Shop by Style",
     "title_archive": "Shop by Style (Archive)",
@@ -5192,13 +5252,13 @@
     "seller": "Seller",
     "view_details": "View Details",
     "view_all": "View All",
-    "total_sales": "Total Sales",
+    "total_sales": "Total Sales | Sales Activity",
     "commision_pending": "Commision Pending",
     "inventory": "Inventory",
     "items_sold": "Items Sold",
     "totall_sales": "Total Sales",
     "week_to_date": "Week to Date",
-    "by_type": "By Type",
+    "by_type": "By Type | Best selling products by type",
     "view_breakdown": "View Breakdown",
     "top_products": "Top Products",
     "all": "All",
@@ -5896,7 +5956,14 @@
       "save_to_watchlist_desc": "Save items to your watchlist to keep track of your favorite items.",
       "name_organize_list": "Name & Organize Lists",
       "name_organize_list_desc": "Customize and organize your lists to your liking."
-    }
+    },
+  "banner": {
+    "shop_with": "Shop With",
+    "deadstock": "deadstock",
+    "years": "Years",
+    "new_release": "New Release",
+    "view_more_release": "View More Releases",
+    "view_more_trending": "View More Trending"
   },
   "error_layout": {
     "go_back": "Go Back",
