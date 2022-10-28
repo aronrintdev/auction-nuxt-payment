@@ -590,19 +590,19 @@ export default {
     },
 
     updateActiveTrade(){
-      // this.$store.commit('trade/updateActiveTrade', {
-      //   trade: this.getOffer,
-      //   theirItems: this.getTheirItems,
-      //   yourItems: this.getYourItems,
-      //   cashAdded: parseInt(parseFloat(this.optionalCash)*100),
-      //   cashType: this.cashType,
-      //   tradeCondition: this.tradeCondition,
-      //   submittedItemType: this.submittedItemType,
-      //   offerType: COUNTER_OFFER_TYPE,
-      //   theirVendorId: this.getTheirVendorId,
-      //   tradeId: this.getOffer.trade_id,
-      //   offerParentId: (this.getOffer.parent_id ? this.getOffer.parent_id : this.getOffer.id)
-      // })
+      this.$store.commit('trade/updateActiveTrade', {
+        trade: this.getOffer,
+        theirItems: this.getTheirItems,
+        yourItems: this.getYourItems,
+        cashAdded: parseInt(parseFloat(this.optionalCash)*100),
+        cashType: this.cashType,
+        tradeCondition: this.tradeCondition,
+        submittedItemType: this.submittedItemType,
+        offerType: COUNTER_OFFER_TYPE,
+        theirVendorId: this.getTheirVendorId,
+        tradeId: this.getOffer.trade_id,
+        offerParentId: (this.getOffer.parent_id ? this.getOffer.parent_id : this.getOffer.id)
+      })
     },
     submitCounterOffer(){
       if(this.getActiveTrade.trade){
