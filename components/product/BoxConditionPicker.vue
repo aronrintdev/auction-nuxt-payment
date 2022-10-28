@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container px-0">
     <div class="box-condition-text">
       {{ $t('products.box_condition') }}
 
@@ -7,6 +7,7 @@
         v-b-tooltip.hover
         :src="require('~/assets/img/icons/info-dark-blue.svg')"
         :title="$t('products.message.box_condition_info')"
+        class="ml-1"
       />
     </div>
 
@@ -16,6 +17,7 @@
         :key="`box-condition-${index}`"
         variant="link"
         :class="{ active: value === condition.id }"
+        class="m-0 condition"
         @click="handleConditionSelect(condition)"
       >
         {{
@@ -58,6 +60,8 @@ export default {
 
 .container
   width: auto
+  margin-left: -7.5px
+  margin-right: -7.5px
 
   .box-condition-text
     @include body-8-normal
@@ -75,9 +79,12 @@ export default {
 
   .box-condition-btns
     margin-top: 8px
+    display: flex
+    justify-content: space-between
 
     .btn
-      @include body-8-normal
+      font-size: 15px
+      font-weight: 500
       color: $color-gray-23
       margin-right: 6px
 

@@ -1,14 +1,14 @@
 <template>
-  <b-row class="border-bottom pb-3">
+  <b-row class="title-wrapper pb-3">
     <b-col md="12">
       <b-row>
-        <b-col md="12" class="d-flex align-items-center">
-          <span class="body-1-medium">{{ productName }}</span>
+        <b-col md="12" class="d-flex align-items-center px-0">
+          <span class="body-1-medium mr-2">{{ productName }}</span>
           <ShareSVG class="ml-auto" role="button" />
         </b-col>
       </b-row>
       <b-row>
-        <b-col md="12">
+        <b-col md="12" class="px-0">
           <span class="body-5-medium text-color-grey-6">{{ $t('product_page.last_sale') }}&colon;&nbsp;&dollar;{{ productLastSalePrice | formatPrice }}</span>
           <span v-if="lastSalePriceProjectionValue >= 0" class="body-5-medium text-color-green-24">
             &plus;{{ lastSalePriceProjectionValue | formatPrice }}&nbsp;&lpar;&plus;{{ lastSalePriceProjectionPercentage }}&percnt;&rpar;
@@ -61,6 +61,9 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.title-wrapper
+  border-bottom: 1px solid $color-gray-16f
 
 .text-color-green-24
   color: $color-green-26

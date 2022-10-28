@@ -2,7 +2,7 @@
   <b-row class="h-100">
     <b-col md="12">
       <b-tabs content-class="mt-3" nav-class="pb-2">
-        <b-tab title-link-class="body-2-bold border-0 pl-0" :title="$t('products.sales_graph')">
+        <b-tab title-link-class="body-2-bold border-0 pl-3" :title="$t('products.sales_graph')">
           <b-row>
             <b-col md="12">
               <LatestSales
@@ -13,12 +13,12 @@
           </b-row>
         </b-tab>
         <b-tab title-link-class="body-2-bold border-0 pl-5" :title="$t('products.sales_data')">
-          <b-row>
+          <b-row class="mt-3">
             <b-col md="4">
               <Button v-b-toggle.recent-sales-collapse block variant="outline-dark">
                 <template #default>
                   <div class="d-flex align-items-center">
-                    <span class="pull-left">{{ $t('products.recent_sales') }}</span>
+                    <span class="pull-left dropdown-label">{{ $t('products.recent_sales') }}</span>
                     <b-img v-if="isRecentSalesShown" :src="require('~/assets/img/icons/arrow-up-gray.svg')" class="ml-auto" />
                     <b-img v-else :src="require('~/assets/img/icons/arrow-down-gray.svg')" class="ml-auto" />
                   </div>
@@ -34,7 +34,7 @@
               <Button v-b-toggle.recent-offers-collapse block variant="outline-dark" class="text-left">
                 <template #default>
                   <div class="d-flex align-items-center">
-                    <span class="pull-left">{{ $t('products.recent_offers') }}</span>
+                    <span class="pull-left dropdown-label">{{ $t('products.recent_offers') }}</span>
                     <b-img v-if="isRecentOffersShown" :src="require('~/assets/img/icons/arrow-up-gray.svg')" class="ml-auto" />
                     <b-img v-else :src="require('~/assets/img/icons/arrow-down-gray.svg')" class="ml-auto" />
                   </div>
@@ -50,7 +50,7 @@
               <Button v-b-toggle.recent-asks-collapse block variant="outline-dark" class="text-left">
                 <template #default>
                   <div class="d-flex align-items-center">
-                    <span class="pull-left">{{ $t('products.recent_asks') }}</span>
+                    <span class="pull-left dropdown-label">{{ $t('products.recent_asks') }}</span>
                     <b-img v-if="isRecentAsksShown" :src="require('~/assets/img/icons/arrow-up-gray.svg')" class="ml-auto" />
                     <b-img v-else :src="require('~/assets/img/icons/arrow-down-gray.svg')" class="ml-auto" />
                   </div>
@@ -120,13 +120,26 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.dropdown-label
+  font-weight: 600
+  font-size: 16px
+  font-family: $font-family-sf-pro-display
+  color: #000
+
 .text-color-gray-5
   color: $color-gray-5
+
+::v-deep
+  .nav-tabs
+    border-bottom: 0.5px solid $color-gray-23 !important
 
 /* Overriding admin-lite theme styles */
 ::v-deep
   .nav-link
-    color: $color-gray-5
+    color: $color-gray-47
+    font-family: $font-family-sf-pro-display
+    font-weight: 700
+    font-size: 20px
     &:hover
       color: $color-gray-5
     &.active
@@ -146,8 +159,10 @@ export default {
 
 /* Collapse buttons custom styles */
 .btn
+  padding: 0 14px
   &.btn-block
     &.btn-outline-dark
+      height: 59px
       border: 1px solid $color-gray-47
 
       &:hover

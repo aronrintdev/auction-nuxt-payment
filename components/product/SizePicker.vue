@@ -1,22 +1,22 @@
 <template>
-  <div class="position-relative w-100 w-md-auto container">
+  <div class="position-relative w-100 w-md-auto container px-0">
     <div
       v-if="viewMode === 'carousel'"
       class="position-relative mx-auto carousel-wrapper"
     >
       <b-row>
-        <b-col md="12">
-          <span class="body-8-normal text-uppercase">{{ $t('products.select_size') }}</span>
+        <b-col md="12" class="d-flex justify-content-between align-items-center px-0">
+          <span class="select-size text-uppercase">{{ $t('products.select_size') }}</span>
 
           <Button
             v-if="!singleMode"
             variant="link"
-            class="position-absolute view-all-btn ml-auto body-8-medium"
+            class="view-all-btn body-8-medium"
             size="sm"
             @click="handleViewAllClick"
           >
             <template #default>
-              <span class="text-color-blue-30">{{ $t('products.all_sizes') }}</span>
+              <span class="all-sizes">{{ $t('products.all_sizes') }}</span>
             </template>
           </Button>
         </b-col>
@@ -237,8 +237,14 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
-.text-color-blue-30
+.select-size
+  font-weight: 500
+  font-size: 15px
+  color: #000
+
+.all-sizes
   color: $color-blue-30
+  font-size: 15px
 
 .container
   .carousel-wrapper
@@ -259,7 +265,7 @@ export default {
     .owl-carousel
       .item
         cursor: pointer
-
+        margin: 0 !important
         &.active
           .card
             border: 1px solid $color-black-4
@@ -288,11 +294,11 @@ export default {
         float: right
         width: auto
         margin-right: -30px !important
-        margin-top: -92px !important
+        margin-top: -80px !important
 
       &.owl-prev
         margin-left: -30px !important
-        margin-top: 28px !important
+        margin-top: 18px !important
         float: left
         width: auto
 
@@ -300,8 +306,8 @@ export default {
       @include body-2-medium
       border: 1px solid $color-gray-21
       border-radius: 10px
-      width: 80px
-      height: 80px
+      width: 64px
+      height: 64px
       color: $color-black-4
       background-color: $color-white-1
       box-shadow: none
@@ -316,7 +322,6 @@ export default {
     top: 0
 
   .all-sizes
-    padding-top: 24px
     max-width: 100%
 
     .items-wrapper

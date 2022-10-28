@@ -1,6 +1,6 @@
 <template>
   <b-row>
-    <b-col md="12">
+    <b-col md="12" class="px-0">
       <ShippingOptions
         v-if="instantShip"
         :normal-ship-price="lowestPrice"
@@ -14,18 +14,21 @@
       <b-row class="mt-3">
         <b-col md="12" class="d-flex">
           <Button
-            class="border-radius-right-0"
+            class="border-radius-right-0 h-46"
             variant="dark-blue"
             block
             @click="$emit('buy-now')"
-          >{{ $t('products.buy_now') }}
+          >
+            <span :style="{ marginLeft: '66px' }"> 
+              {{ $t('products.buy_now') }}
+            </span>
           </Button>
           <Button
             :id="`popover-wishlist-${product.id}`"
             :tooltip-text="wishList ? wishList.name : ''"
             tabindex="0"
             variant="light"
-            class="px-4 border-0 border-radius-left-0"
+            class="px-4 border-0 border-radius-left-0 h-46"
             @click="removeFromWishList"
           >
             <template #default>
@@ -47,7 +50,9 @@
         @hidden="wishListShow = false"
       />
 
-      <Button class="mt-3" block variant="dark" @click="$emit('add-to-cart')">{{ $t('products.add_to_cart') }}</Button>
+      <Button class="mt-3 color-gray h-46" block variant="dark" @click="$emit('add-to-cart')">
+        {{ $t('products.add_to_cart') }}
+      </Button>
     </b-col>
   </b-row>
 </template>
@@ -113,6 +118,13 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+
+.h-46 
+  height: 46px !important
+
+.color-gray
+  color: #E6E6E6 !important
+
 .border-radius-left-0
   border-top-left-radius: 0
   border-bottom-left-radius: 0

@@ -17,7 +17,7 @@
           <ProductImageViewerMagic360 v-if="has360Images" :product="product" />
         </b-col>
 
-        <b-col md="6" class="mt-5">
+        <b-col md="6" xl="5" class="mt-5">
           <ProductTitle
             :product-name="product.name"
             :lowest-price="lowestPrice"
@@ -30,7 +30,10 @@
             v-model="method"
             :data="methods"
             nav-key="method"
-            class="text-center mt-3 body-8-normal"
+            class="text-center mt-4 body-8-normal"
+            :btnGroupStyle="{
+              minHeight: '40px'
+            }"
             @change="handleMethodNavClick"
           />
 
@@ -98,7 +101,7 @@
 
           <ProductAcceptedPaymentsV2
             v-if="sizeViewMode === 'carousel'"
-            class="mt-4"
+            class="mt-5"
           />
         </b-col>
       </b-row>
