@@ -149,12 +149,15 @@
         </div>
         <div class="row mb-4">
           <div class="col-lg-12">
-            <LineChart
+             <LineChart
+              ref="lineChart"
               :chart-data="lineDatasets"
               :options="lineChartOptions"
               class="line-chart"
               chart-id="vendor-dashboard-line-chart"
+
             />
+
           </div>
         </div>
         <div class="row mt-5 desktop-average-tab">
@@ -361,6 +364,7 @@ import {
   Loader,
   FormDropdown,
   Modal,
+
 } from '~/components/common'
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
@@ -388,6 +392,7 @@ export default {
       dayjs,
       loading: false,
       product: null,
+      graphData: null,
       similarProducts:[],
       prices: [],
       sortBy: null,
@@ -482,6 +487,7 @@ export default {
             {
               gridLines: {
                 drawOnChartArea: false,
+
               },
               ticks: {
                 fontFamily: 'Montserrat',
@@ -548,20 +554,9 @@ export default {
       //   : null
     },
   },
-
-  watch: {
-    lineDatasets: {
-      handler(newValue, oldValue) {
-        // Note: `newValue` will be equal to `oldValue` here
-        // on nested mutations as long as the object itself
-        // hasn't been replaced.
-        // this.render()
-      },
-      deep: true,
-    },
-  },
   mounted() {
     this.getProductDetail()
+    this.getProductChartData()
   },
   methods: {
     ...mapActions({
@@ -576,19 +571,6 @@ export default {
     },
     handleSizeViewAll() {
       this.$bvModal.show('size-all-modal')
-    },
-    render() {
-      // this.renderChart({
-      //   // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      //   datasets: [
-      //     {
-      //       label: 'Data One',
-      //       backgroundColor: '#f87979',
-      //       data: [0, 50.0, 150.0, 250.0, 400.0] // [40, 39, 10, 40, 39, 80, 40]
-      //     }
-      //   ]
-      // }, {responsive: true, maintainAspectRatio: false})
     },
     handleSizeChange(sizeId) {
       if (sizeId) {
@@ -778,6 +760,16 @@ export default {
             '10 am',
             '2 pm',
           ]
+          //   this.renderChart({
+          //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+          //   datasets: [
+          //     {
+          //       label: 'Data One',
+          //       backgroundColor: '#f87979',
+          //       data: [40, 39, 10, 40, 39, 80, 40]
+          //     }
+          //   ]
+          // }, {responsive: true, maintainAspectRatio: false})
           // this.$set(this.lineDatasets, 0, {
           //     data: [0, 50.0, 150.0, 250.0, 900.0],
           //     label: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -808,21 +800,22 @@ export default {
             '10 am',
             '2 pm',
           ]
-          this.$set(
-            this.lineDatasets,
-            0,
+          // app.router.app.redraw()
+          // this.$set(
+          //   this.lineDatasets,
+          //   0,
 
-            (this.lineDatasets.labels = [
-              '1 pm',
-              '6 pm',
-              '10 pm',
-              '2 am',
-              '6 am',
-              '10 am',
-              '2 pm',
-            ]),
-            true
-          )
+          //   (this.lineDatasets.labels = [
+          //     '1 pm',
+          //     '6 pm',
+          //     '10 pm',
+          //     '2 am',
+          //     '6 am',
+          //     '10 am',
+          //     '2 pm',
+          //   ]),
+          //   true
+          // )
           break
         }
         case 'all': {
@@ -871,6 +864,22 @@ export default {
             this.similarProducts = response.data.similar_products
             this.loading = false
             // this.totalRows = response.data.total
+          }
+        })
+        .catch((error) => {
+          this.loading = false
+          this.$toasted.error(error.message)
+        })
+    },
+    getProductChartData() {
+      this.loading = true
+      this.$axios
+        .get(`/stock-exchange/${this.$route.params.sku}/graph`)
+        .then((response) => {
+          console.log(response.data)
+          if (response.data) {
+            this.graphData = response.data.data
+            this.loading = false
           }
         })
         .catch((error) => {
