@@ -25,13 +25,52 @@
         }}
       </b-button>
     </div>
+
+    <div class="dropdown-wrapper d-sm-none">
+      <CustomDropdown 
+        v-model="condition"
+        :label="conditions.find(c => c.id === condition).name"
+        :options="conditionsOptions"
+        type="single-select"
+        optionsWidth="custom"
+        dropDownHeight="38px"
+        variant="white"
+        paddingX="14px"
+        @change="handleConditionSelect(condition)"
+        :inputStyle="{ 
+          display: 'flex', 
+          justifyContent: 'center',
+          border: '1px solid black !important' 
+        }"
+        :dropdownStyle="{ 
+          border: '1px solid #000', 
+          borderTop: 0, 
+          zIndex: 9999 
+        }"
+        :optionsStyle="{
+          fontWeight: '500 !important',
+          fontSize: '14px',
+          color: '#667799',
+          borderBottom: '1px solid #000',
+        }"
+        labelStyle="font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 14px; color: #667799;"
+        arrowStyle='color: #667799; width: 14px; height: 16px; position: absolute; right: 55px; margin-bottom: 13.5px !important;'
+      />
+    </div>
+
   </div>
 </template>
 <script>
 import { convertToUnderscoreCase } from '~/utils/string'
+import CustomDropdown from '~/components/common/CustomDropdown'
+
 
 export default {
   name: 'ProductBoxConditionPicker',
+
+  components: {
+    CustomDropdown
+  },
 
   props: {
     value: {
@@ -42,6 +81,18 @@ export default {
       type: Array,
       default: () => [],
     },
+  },
+
+  data() {
+    return {
+      condition: this.value,
+      conditionsOptions: this.conditions.map((item) => ({ text: item.name, value: item.id })),
+    }
+  },
+
+  mounted() {
+    console.log('VAL', this.value)
+    console.log('conditions', this.conditions)
   },
 
   methods: {
@@ -98,4 +149,8 @@ export default {
 
       &.active
         color: $color-black-1
+
+.dropdown-wrapper
+  padding: 15px 30px 0 30px
+
 </style>

@@ -113,7 +113,7 @@
 
           <BuyNow
             v-else-if="method === 'buy' && sizeViewMode === 'carousel'"
-            class="mt-3"
+            class="mt-3 d-none d-sm-block"
             :product="product"
             :lowest-price="lowestPrice"
             @buy-now="handleBuyNowClick"
@@ -164,7 +164,7 @@
       <!-- Sales Graph and Sales Data Section -->
       <b-row v-if="product" class="my-5">
         <b-col md="12">
-          <SalesSection :product="product" />
+          <SalesSection chartHeaderClass="d-none" :product="product" />
         </b-col>
       </b-row>
       <!-- End of Sales Graph and Sales Data Section -->

@@ -12,7 +12,7 @@
             <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
           </span>
 
-          <Button
+          <!-- <Button
             v-if="!singleMode"
             variant="link"
             class="view-all-btn body-8-medium"
