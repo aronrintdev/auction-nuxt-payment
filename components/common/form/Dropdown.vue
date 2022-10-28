@@ -16,7 +16,11 @@
         block
       >
         <img v-if="icon && !value" :src="icon" class="mr-2 icon-main" />
-        <div :class="`${!noArrow && 'mr-2'} flex-grow-1 text-${labelAlignmet}`">
+        <div
+          :class="`${
+            !noArrow && 'mr-2'
+          } flex-grow-1 fw-5 font-secondary text-${labelAlignmet}`"
+        >
           {{ buttonLabel }}
         </div>
         <Icon
@@ -41,15 +45,19 @@
         :delay="0"
         :boundary-padding="0"
       >
-        <div
-          v-for="item in filteredItems"
-          :key="`dropdown-item-${item.value}`"
-          :class="`d-flex align-items-center ${
-            item.value === value && 'active'
-          }`"
-          @click="onSelect(item)"
-        >
-          {{ item.label }}
+        <div class="dropdown_wrapper">
+          <slot name="body">
+            <div
+              v-for="item in filteredItems"
+              :key="`dropdown-item-${item.value}`"
+              :class="`dropdownItem d-flex align-items-center ${
+                item.value === value && 'active'
+              }`"
+              @click="onSelect(item)"
+            >
+              {{ item.label }}
+            </div>
+          </slot>
         </div>
       </b-popover>
     </div>
@@ -57,12 +65,9 @@
 </template>
 <script>
 import { Button, Icon } from '~/components/common'
-
 export default {
   name: 'FormDropdown',
-
   components: { Button, Icon },
-
   props: {
     id: {
       type: String,
@@ -120,7 +125,6 @@ export default {
       type: String,
       default: 'left',
     },
-
   },
 
   data() {
@@ -137,9 +141,11 @@ export default {
         return this.items.find((i) => i.value === this.value)?.label
       }
     },
-    filteredItems(){
-      return this.valueFiltered? this.items.filter(a => a.value !== this.value ): this.items
-    }
+    filteredItems() {
+      return this.valueFiltered
+        ? this.items.filter((a) => a.value !== this.value)
+        : this.items
+    },
   },
   methods: {
     onSelect(item) {
@@ -149,7 +155,9 @@ export default {
         this.dropdownShow = false
       }
     },
-
+    hideDropdown() {
+      this.dropdownShow = false
+    },
     handleClearClick(event) {
       event.preventDefault()
       this.$emit('select', null)
@@ -160,12 +168,10 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .form-dropdown-wrapper
   .input-label
     @include body-3-regular
     color: $color-black-1
-
   .btn-dropdown
     @include body-4-regular
     background-color: $color-white-1
@@ -174,20 +180,15 @@ export default {
     color: $color-gray-4
     padding: 0 14px
     height: 32px
-
     .icon-arrow
       transition: transform 0.2s ease-in-out
-
     &.opened
       border-bottom-left-radius: 0
       border-bottom-right-radius: 0
-
       .icon-arrow
         transform: rotate(-180deg)
-
     &.active
       color: $color-black-1
-
   .icon-clear
     position: absolute
     right: 10px
@@ -200,31 +201,33 @@ export default {
   margin-left: 1px
   border: none
   box-shadow: none
-
   .arrow
     display: none
-
   .popover-body
     padding: 0
-
-    >div
-      @include body-4-regular
-      color: $color-gray-4
+    border-radius: 5px
+    overflow: hidden
+    .dropdown_wrapper
+      max-height: 272px
+      overflow: clip
+      padding: 0 20px
+      background-color: $color-white-4
+    .dropdownItem
+      font-weight: $regular
+      font-size: 16px
+      font-family: $font-sp-pro
+      color: $color-gray-5
       border-radius: 0
       padding: 0 14px
       height: 32px
-      border-bottom: 1px solid $color-gray-4
-      border-left: 1px solid $color-gray-4
-      border-right: 1px solid $color-gray-4
+      border-top: 1px solid $color-gray-23
       background-color: $color-white-1
       cursor: pointer
-
+      margin: 0 -20px
       &.active
         color: $color-black-1
-
       &:hover
         color: $color-black-1
-
       &:last-child
         border-bottom-left-radius: 20px
         border-bottom-right-radius: 20px

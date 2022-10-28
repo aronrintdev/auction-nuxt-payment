@@ -10,17 +10,17 @@
               width="50"
             />
           </b-col>
-          <b-col md="5" class="d-flex align-items-center">
+          <b-col md="5" class="d-flex align-items-center mt-2">
             <div class="body-5-normal">
               {{ $t('shopping_cart.ending_in') }}&colon;&nbsp;{{ cardLastDigits }}
             </div>
           </b-col>
-          <b-col md="4" class="d-flex align-items-center">
+          <b-col md="4" class="d-flex align-items-center mt-1">
             <div class="body-5-normal">
               {{ $t('shopping_cart.exp') }}&colon;&nbsp;{{ cardExpiryDate }}
             </div>
           </b-col>
-          <b-col md="1" class="d-flex flex-column">
+          <b-col md="1" class="d-flex flex-column mt-2">
             <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
             <CloseSquaredRed v-if="clearable" class="btn-action mt-1" role="button" @click="$emit('clear')" />
           </b-col>

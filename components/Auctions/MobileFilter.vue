@@ -220,8 +220,8 @@ export default {
     ]),
     sizeOptions() {
       let options = this.filters?.sizes
-      if (options && this.sizeTypes && this.sizeTypes.length > 0) {
-        options = options.filter(({ type }) => this.sizeTypes.includes(type))
+      if (options && this.selectedFilters.sizeTypes && this.selectedFilters.sizeTypes.length > 0) {
+        options = options.filter(({ type }) => this.selectedFilters.sizeTypes.includes(type))
       }
       return (
         options?.map(({ id, size, type }) => {
@@ -437,7 +437,7 @@ export default {
   ::v-deep
     @media (max-width: 576px)
       .auction-filters-type-selector
-        margin: 26px 0
+        margin: 26px 10px
         .nav-group
           .btn-group
             flex-direction: row
