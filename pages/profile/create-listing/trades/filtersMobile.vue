@@ -85,35 +85,35 @@
           <div :class="[filterByCategory('5.0') ? 'selected-size' : 'size-box']"  @click="onSelectSizes('5.0')">5.0</div>
         </div>
         <div class="d-flex">
-          <div  :class="[filterByCategory('5.5') ? 'selected-size' : 'size-box']" @click="onSelectSizes('5.5')">5.5</div>
+          <div :class="[filterByCategory('5.5') ? 'selected-size' : 'size-box']" @click="onSelectSizes('5.5')">5.5</div>
           <div :class="[filterByCategory('6.0') ? 'selected-size' : 'size-box']" @click="onSelectSizes('6.0')">6.0</div>
           <div :class="[filterByCategory('6.5') ? 'selected-size' : 'size-box']" @click="onSelectSizes('6.5')">6.5</div>
           <div :class="[filterByCategory('7.0') ? 'selected-size' : 'size-box']" @click="onSelectSizes('7.0')">7.0</div>
           <div :class="[filterByCategory('7.5') ? 'selected-size' : 'size-box']" @click="onSelectSizes('7.5')">7.5</div>
         </div>
         <div class="d-flex">
-          <div  :class="[filterByCategory('8.0') ? 'selected-size' : 'size-box']"  @click="onSelectSizes('8.0')">8.0</div>
+          <div :class="[filterByCategory('8.0') ? 'selected-size' : 'size-box']"  @click="onSelectSizes('8.0')">8.0</div>
           <div :class="[filterByCategory('8.5') ? 'selected-size' : 'size-box']" @click="onSelectSizes('8.5')">8.5</div>
           <div :class="[filterByCategory('9.0') ? 'selected-size' : 'size-box']" @click="onSelectSizes('9.0')">9.0</div>
           <div :class="[filterByCategory('9.5') ? 'selected-size' : 'size-box']" @click="onSelectSizes('9.5')">9.5</div>
           <div :class="[filterByCategory('10.0') ? 'selected-size' : 'size-box']" @click="onSelectSizes('10.0')">10.0</div>
         </div>
         <div class="d-flex">
-          <div  :class="[filterByCategory('10.5') ? 'selected-size' : 'size-box']"  @click="onSelectSizes('10.5')">10.5</div>
+          <div :class="[filterByCategory('10.5') ? 'selected-size' : 'size-box']"  @click="onSelectSizes('10.5')">10.5</div>
           <div :class="[filterByCategory('11.0') ? 'selected-size' : 'size-box']" @click="onSelectSizes('11.0')">11.0</div>
           <div :class="[filterByCategory('11.5') ? 'selected-size' : 'size-box']" @click="onSelectSizes('11.5')">11.5</div>
           <div :class="[filterByCategory('12.0') ? 'selected-size' : 'size-box']" @click="onSelectSizes('12.0')">12.0</div>
           <div :class="[filterByCategory('12.5') ? 'selected-size' : 'size-box']" @click="onSelectSizes('12.5')">12.5</div>
         </div>
         <div class="d-flex">
-          <div  :class="[filterByCategory('13.0') ? 'selected-size' : 'size-box']" @click="onSelectSizes('13.0')">13.0</div>
+          <div :class="[filterByCategory('13.0') ? 'selected-size' : 'size-box']" @click="onSelectSizes('13.0')">13.0</div>
           <div :class="[filterByCategory('13.5') ? 'selected-size' : 'size-box']" @click="onSelectSizes('13.5')">13.5</div>
           <div :class="[filterByCategory('14.0') ? 'selected-size' : 'size-box']" @click="onSelectSizes('14.0')">14.0</div>
           <div :class="[filterByCategory('14.5') ? 'selected-size' : 'size-box']" @click="onSelectSizes('14.5')">14.5</div>
           <div :class="[filterByCategory('15.0') ? 'selected-size' : 'size-box']" @click="onSelectSizes('15.0')">15.0</div>
         </div>
         <div class="d-flex">
-          <div  :class="[filterByCategory('15.5') ? 'selected-size' : 'size-box']" @click="onSelectSizes('15.5')">15.5</div>
+          <div :class="[filterByCategory('15.5') ? 'selected-size' : 'size-box']" @click="onSelectSizes('15.5')">15.5</div>
           <div :class="[filterByCategory('16.0') ? 'selected-size' : 'size-box']" @click="onSelectSizes('16.0')">16.0</div>
           <div :class="[filterByCategory('16.5') ? 'selected-size' : 'size-box']" @click="onSelectSizes('16.5')">16.5</div>
           <div :class="[filterByCategory('17.0') ? 'selected-size' : 'size-box']" @click="onSelectSizes('17.0')">17.0</div>
