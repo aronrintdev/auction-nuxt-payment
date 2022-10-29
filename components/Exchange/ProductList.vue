@@ -61,7 +61,7 @@
 </template>
 <script>
 import { Loader, Pagination } from '~/components/common'
-import ExchangeFilter from '~/components/Exchange/NewFilters'
+import ExchangeFilter from '~/components/Exchange/Filters'
 import ProductTrendListCard from '~/components/Exchange/SimilarProductTable'
 import { PAGE_OPTIONS, PER_PAGE } from '~/static/constants/stock-exchange'
 
