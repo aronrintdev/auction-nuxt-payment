@@ -28,7 +28,7 @@
               <div class="mid-page-banner ml-5">
                 <h2>{{$t('trades.index.browse.trade_with_us')}}</h2>
                 <p>{{$t('trades.index.browse.explore_trading_opportunities')}}</p>
-                <button class="banner-btn">{{$t('common.list')}}</button>
+                <button class="banner-btn" @click="$router.push({ path: '/features' })">{{$t('common.list')}}</button>
               </div>
             </b-col>
           </b-row>

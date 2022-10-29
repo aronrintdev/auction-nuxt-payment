@@ -116,9 +116,11 @@
             float-right
             auction-id-digit-num-live-single
             text-decoration-underline
+            text-primary
           "
-          
-          ><a href="#">{{ result.id }}</a></span
+          role="button"
+          @click="viewMore"
+          >{{ result.id }}</span
         >
       </div>
       <div class="single-live-auctions-listed-on-heading-mbl">
@@ -139,7 +141,7 @@
         <!-- TODO Last Sold -->
       <div class="single-live-auctions-id-informtion">
         {{ $t('place_offer.offer') }}&colon; 
-        <span v-if="result.status === listed " class="float-right">{{ getOffers(inventory) }}</span>
+        <span v-if="result.status === listed" class="float-right">{{ getOffers(inventory) }}</span>
         <span v-else class="float-right">{{ emptyOffer }}</span>
 
       </div>

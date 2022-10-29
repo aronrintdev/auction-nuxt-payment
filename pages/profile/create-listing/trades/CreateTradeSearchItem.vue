@@ -74,7 +74,7 @@
             {{ $t('trades.create_listing.vendor.wants.select_box_condition') }}
           </div>
         </div>
-        <div v-if="productFor === 'wantsList'" class="d-block ml-4" >
+        <div v-if="productFor === 'wantsList' && combinationId === null" class="d-block ml-4" >
           <label>Select List<sup>*</sup></label>
           <SelectListDropDown
             v-model="selectList"
@@ -433,7 +433,6 @@ export default {
             this.$root.$emit('back_to_edit_combination')
         })
         .catch((error) => {
-          this.$toasted.error(this.$t('error.something_went_wrong'))
           this.$logger.logToServer('Add want item combination', error.response.data)
         })
     },

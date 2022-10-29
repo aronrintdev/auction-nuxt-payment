@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <Header/>
+    <Header />
 
     <div class="custom-wrapper">
       <div class="row mb-bb">
@@ -25,7 +25,7 @@
           <!-- ./BootstrapVue Sidebar -->
 
           <!-- Collapsable SideMenu for large devices -->
-          <NewSideMenu v-if="!isScreenXS"/>
+          <NewSideMenu v-if="!isScreenXS" />
           <!-- Collapsable SideMenu for large devices -->
         </div>
 
@@ -54,18 +54,19 @@
       </div>
 
       <div class="main-wrapper">
-        <Nuxt/>
+        <Nuxt />
       </div>
     </div>
 
     <!-- ScollTo Top Button -->
-    <ScrollToTop v-show="mobileClass && showScroll"/>
+    <ScrollToTop v-show="mobileClass && showScroll" />
     <!-- ./ScrollTo Top Button Ends -->
-    <Footer/>
+    <BottomNavigation class="d-flex d-md-none mt-4" />
+    <Footer class="d-none d-md-flex" />
   </div>
 </template>
 <script>
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex'
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
 import NewSideMenu from '~/components/profile/NewSideMenu'
@@ -74,7 +75,7 @@ import screenSize from '~/plugins/mixins/screenSize'
 import {SCROLLY} from '~/static/constants'
 import realtime from '~/plugins/mixins/realtime'
 import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
-
+import BottomNavigation from '~/components/homepage/BottomNavigation.vue'
 export default {
   name: 'Default',
   components: {
@@ -82,6 +83,7 @@ export default {
     Header,
     Footer,
     ScrollToTop,
+    BottomNavigation,
   },
   mixins: [screenSize, realtime],
   data() {
@@ -100,8 +102,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      'pushActive': 'notifications/getPushNotificationsActive'
-    })
+      pushActive: 'notifications/getPushNotificationsActive',
+    }),
   },
   watch: {
     screenIsSmallThanLG(newVal) {

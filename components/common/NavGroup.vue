@@ -58,16 +58,9 @@ export default {
       color: $color-black-1 !important
       padding: 6px 35px
       height: auto
-      @media (min-width: 300px)  and (max-width: 500px)
-        padding: 0px
       &.active
         background-color: $color-white-1
-        font-weight: $medium
-        @media (min-width: 300px)  and (max-width: 500px)
-          width: 102px
-          height: 24px
-          border-radius: 14.5px !important
-          font-size: 11px
+        font-weight: $bold
       &::before
         display: block
         content: attr(title)
@@ -75,17 +68,10 @@ export default {
         height: 0
         overflow: hidden
         visibility: hidden
-  @media (min-width: 300px)  and (max-width: 500px)
-    padding: 0px
-    font-size: 11px
 
+  @media (max-width: 576px)
     .btn-group
-      flex-direction: row
-      border-radius: 20px
-      width: 343px
-      height: 32px
-      @media (min-width: 300px)  and (max-width: 330px)
-        width: 280px
+      width: 100%
       .btn
         padding: 6px 10px
         white-space: nowrap

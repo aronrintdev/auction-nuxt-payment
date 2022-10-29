@@ -179,3 +179,19 @@ export function storeCardPaymentDetails(state, payload){
 export function updatePageTitle(state, payload){
   state.pageTitle = payload
 }
+
+export function storeSelectedAddressType(state, payload){
+  state.selectedAddress = payload
+}
+
+export function updateActionType(state, payload){
+  state.actionType = payload
+}
+
+export function editAddressID(state, payload){
+  state.editID = payload
+}
+
+export function storeDefaultConfirmed(state, payload){
+  state.updateDefaultConfirmed = payload
+}
