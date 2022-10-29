@@ -116,8 +116,8 @@
         <!-- Selected Filters -->
         <div
           v-if="
-            selectedFilters.brands != [] ||
-            selectedFilters.sizeTypes != [] ||
+            selectedFilters.brands != [] &&
+            selectedFilters.sizeTypes != [] &&
             selectedFilters.category_id != []
           "
           class="col-md-2 clearall-filter float-right"
@@ -385,6 +385,7 @@ export default {
         price_from: value[0] === MIN_PRICE ? undefined : value[0] * 100,
         price_to: value[1] === MAX_PRICE ? undefined : value[1] * 100,
       }
+      this.setActiveFilter()
     },
     // Update selected years and pass to parent component
     updateYearFilters(value) {
@@ -394,6 +395,7 @@ export default {
         minYear: value[0] === MIN_YEAR ? undefined : value[0],
         maxYear: value[1] === MAX_YEAR ? undefined : value[1],
       }
+      this.setActiveFilter()
     },
     setActiveFilter() {
       const val = this.selectedFilters
@@ -401,6 +403,7 @@ export default {
       for (const value of Object.values(val)) {
         if (value !== '') {
           const category = this.allCategories.filter((el) => el.id === value)
+          console.log(category )
           if (
             !this.activeTypeFilters.includes(value) &&
             category[0] === undefined
@@ -470,24 +473,6 @@ export default {
       border-bottom-right-radius: 0
       border: 1px solid transparent
 
-  // .search-results
-  //   .popover-body
-  //     >div
-  //       @include body-4-normal
-  //       font-family: $font-family-base
-  //       color: $color-black-1
-  //       background-color: $color-white-4
-  //       height: 46px
-  //       border: none
-  //       border-bottom: 0.2px solid $light-gray-2
-  //       padding: 0 23px
-  //       &:hover
-  //         color: $color-gray-5
-
-  //       &:last-child
-  //         border-bottom-left-radius: 8px
-  //         border-bottom-right-radius: 8px
-  //         border: none
 .more-filters-btn
   @include body-13-regular
   font-family: $font-sp-pro
