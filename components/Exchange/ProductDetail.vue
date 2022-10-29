@@ -728,109 +728,46 @@ export default {
     changeGraphLabel(category) {
       switch (category) {
         case '24': {
-          this.lineDatasets.labels = [
-            '2 pm',
-            '6 pm',
-            '10 pm',
-            '2 am',
-            '6 am',
-            '10 am',
-            '2 pm',
-          ]
+          this.lineDatasets.labels = this.graphData.oneDay.labels
+          this.$refs.lineChart.redraw()
           break
         }
         case '7': {
-          this.lineDatasets.labels = [
-            '7 pm',
-            '6 pm',
-            '10 pm',
-            '2 am',
-            '6 am',
-            '10 am',
-            '2 pm',
-          ]
+          this.lineDatasets.labels = this.graphData.week.labels
+          this.$refs.lineChart.redraw()
           break
         }
         case '30': {
-          this.lineDatasets.labels = [
-            '3 pm',
-            '6 pm',
-            '10 pm',
-            '2 am',
-            '6 am',
-            '10 am',
-            '2 pm',
-          ]
-
+          this.lineDatasets.labels = this.graphData.oneMonth.labels
           this.$refs.lineChart.redraw()
-          //   this.renderChart({
-          //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-          //   datasets: [
-          //     {
-          //       label: 'Data One',
-          //       backgroundColor: '#f87979',
-          //       data: [40, 39, 10, 40, 39, 80, 40]
-          //     }
-          //   ]
-          // }, {responsive: true, maintainAspectRatio: false})
-          // this.$set(this.lineDatasets, 0, {
-          //     data: [0, 50.0, 150.0, 250.0, 900.0],
-          //     label: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-          // })
-          this.$set(
-            this.lineDatasets,
-            0,
-
-            (this.lineDatasets.labels = [
-              'January',
-              'February',
-              'March',
-              'April',
-              'May',
-              'June',
-              'July',
-            ])
-          )
+          break
+        }
+        case '6': {
+          this.lineDatasets.labels = this.graphData.sixMonths.labels
+          this.$refs.lineChart.redraw()
           break
         }
         case '1': {
-          this.lineDatasets.labels = [
-            '2 pm',
-            '6 pm',
-            '10 pm',
-            '2 am',
-            '6 am',
-            '10 am',
-            '2 pm',
-          ]
-          // app.router.app.redraw()
-          // this.$set(
-          //   this.lineDatasets,
-          //   0,
 
-          //   (this.lineDatasets.labels = [
-          //     '1 pm',
-          //     '6 pm',
-          //     '10 pm',
-          //     '2 am',
-          //     '6 am',
-          //     '10 am',
-          //     '2 pm',
-          //   ]),
-          //   true
-          // )
+        //  this.lineDatasets =  {
+        //     labels:  this.graphData.oneYear.labels,
+        //     datasets: [
+        //       {
+        //         borderColor: '#0bb63f',
+        //         backgroundColor: null,
+        //         data: [0, 50.0, 150.0, 250.0, 400.0],
+        //         fill: false,
+        //         borderWidth: 2,
+        //       },
+        //     ],
+        //   }
+          this.lineDatasets.labels = this.graphData.oneMonth.labels
+          this.$refs.lineChart.redraw()
           break
         }
         case 'all': {
-          this.lineDatasets.labels = [
-            '2 pm',
-            '6 pm',
-            '10 pm',
-            '2 am',
-            '6 am',
-            '10 am',
-            '2 pm',
-          ]
+          this.lineDatasets.labels = this.graphData.oneMonth.labels
+          this.$refs.lineChart.redraw()
           break
         }
         default:
@@ -859,14 +796,13 @@ export default {
     getProductDetail() {
       this.loading = true
       this.$axios
-        .get(`/products/${this.$route.params.sku}/details`)
+        .get(`/stock-exchange/${this.$route.params.sku}`)
         .then((response) => {
           console.log(response.data)
           if (response.data) {
             this.product = response.data
             this.similarProducts = response.data.similar_products
             this.loading = false
-            // this.totalRows = response.data.total
           }
         })
         .catch((error) => {
