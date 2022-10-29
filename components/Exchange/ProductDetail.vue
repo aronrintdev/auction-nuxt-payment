@@ -775,44 +775,37 @@ export default {
       switch (category) {
         case '24': {
           this.lineDatasets.labels = this.graphData.oneDay.labels
+          // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
           this.$refs.lineChart.redraw()
           break
         }
         case '7': {
           this.lineDatasets.labels = this.graphData.week.labels
+          // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
           this.$refs.lineChart.redraw()
           break
         }
         case '30': {
           this.lineDatasets.labels = this.graphData.oneMonth.labels
+          // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
           this.$refs.lineChart.redraw()
           break
         }
         case '6': {
           this.lineDatasets.labels = this.graphData.sixMonths.labels
+          // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
           this.$refs.lineChart.redraw()
           break
         }
         case '1': {
-
-        //  this.lineDatasets =  {
-        //     labels:  this.graphData.oneYear.labels,
-        //     datasets: [
-        //       {
-        //         borderColor: '#0bb63f',
-        //         backgroundColor: null,
-        //         data: [0, 50.0, 150.0, 250.0, 400.0],
-        //         fill: false,
-        //         borderWidth: 2,
-        //       },
-        //     ],
-        //   }
-          this.lineDatasets.labels = this.graphData.oneMonth.labels
+          this.lineDatasets.labels = this.graphData.oneYear.labels
+          // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
           this.$refs.lineChart.redraw()
           break
         }
         case 'all': {
-          this.lineDatasets.labels = this.graphData.oneMonth.labels
+          this.lineDatasets.labels = this.graphData.oneYear.labels
+          // this.lineDatasets.data = this.graphData.oneYear.data
           this.$refs.lineChart.redraw()
           break
         }
