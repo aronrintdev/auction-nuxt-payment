@@ -167,7 +167,8 @@
     "continue"  : "Continue",
     "of"  : "of",
     "week"  : "Week",
-    "dismiss" : "Dismiss"
+    "dismiss" : "Dismiss",
+    "n/a": "N/A"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -2436,7 +2437,13 @@
   },
   "shopping_cart": {
     "checkout_selling": "Checkout Selling",
+    "checkout": "Checkout",
+    "options": "Options",
+    "change_size": "Change size",
+    "move_to_wishilist": "Move to wishlist",
+    "remove_from_bag": "Remove from bag",
     "shopping_cart": "Shopping Cart",
+    "shopping_bag": "Shopping Bag",
     "item": "Item | Items",
     "my_products": "My Products",
     "quantity": "Quantity",
@@ -2448,6 +2455,7 @@
     "sku": "sku",
     "size": "Size",
     "color_way": "Colorway",
+    "box_condition": "Box Condition",
     "remove": "Remove",
     "save_for_later": "Save for later",
     "navigation_modal_text": "Are you sure you would like to leave this page?",
@@ -2467,11 +2475,15 @@
     "apply": "Apply",
     "billing_address": "Billing Address",
     "shipping_address": "Shipping Address",
+    "shipping": "Shipping",
+    "add_shipping": "Add Shipping",
     "payment": "Payment",
+    "add_payment": "Add Payment",
     "ending_in": "Ending In",
     "exp": "Exp",
     "terms_and_conditions": "Terms and Conditions",
     "terms_and_conditions_paragraph": "I agree to the {0}, By placing this order I agree and accept the processing fee of 3.0%*",
+    "terms_and_conditions_paragraph_mobile": "By ordering, I agree to the {0}.",
     "place_order": "Place Order",
     "billing_information": "Billing Information",
     "first_name": "First Name",
@@ -2846,6 +2858,7 @@
       "subtitle": "Select items you would like to list, Collection Auctions can add up to 10 items.",
       "max_count": "Max. allowed count: ",
       "select_drag": "Select or Drag and Drop Inventory",
+      "items_selected": "items selected",
       "select_items": "Select or drag & drop items",
       "up_to_ten": "Up to ten items",
       "select_inventory": "Select from Inventory",
@@ -2886,8 +2899,10 @@
       "no_reserve": "No Reserve",
       "reserve_price": "Reserve Price",
       "reserve_text_info": "A non-refundable fee of | will be charged at the time of listing whether the item sells or not.",
+      "reserve_info_short": "A non-refundable fee will be charged at the time of listing whether the item sells or not.",
       "starting_bid": "Starting Bid*",
       "date_text": "__/__/____",
+      "schedule_date_required": "Schedule date is required.",
       "enter_starting_bid": "Enter Starting Bid",
       "status_select": {
         "live": "Live",
@@ -2926,7 +2941,7 @@
       "terms_and_conditions": "Terms and Conditions",
       "thankyou": "Thank You",
       "days": "Days",
-      "reserve_fee": "Reserve fee ( 7.99% of reserve price)",
+      "reserve_fee": "Reserve fee",
       "go_to_auctions": "Go to Auction Dashboard",
       "contact_details": "If you have any questions about your order, you can email us at {0} or call us at {1}",
       "reference_number": "Reference Number",
@@ -2981,7 +2996,8 @@
       "excellent": "Excellent",
       "description": "Description",
       "description_details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Velit nulla et consectetur lorem ut. Semper facilisis nulla sit pharetra sed eu enim.",
-      "latest_sales":"Latest Sales"
+      "latest_sales":"Latest Sales",
+      "select_box_condition": "Select Box Condition" 
     },
     "auction": {
       "to_be_listed": "To Be Listed",
@@ -4807,7 +4823,16 @@
     "estimated_value": "Estimated Value",
     "estimated_value_trade": "Estimated Trade Value",
     "trader_wants": "Trader’s Wants",
-    "by_pressing_post_listing": "*By pressing on Post Listing(s),I accept the seller fee of 9.5% + a 2.9% transaction fee. No authentication fees will be charged to sellers."
+    "by_pressing_post_listing": "*By pressing on Post Listing(s),I accept the seller fee of 9.5% + a 2.9% transaction fee. No authentication fees will be charged to sellers.",
+    "balance_the_deal": "Balance this deal by adding cash",
+    "balance_the_deal_request": "Balance this deal by requesting cash",
+    "insert_amount": "Insert Amount",
+    "your_item_value": "Your items’ value",
+    "total_value": "Total Value",
+    "cash_added": "${0} Cash Added",
+    "cash_requested": "${0} Cash Requested",
+    "edit_added_cash": "Edit Added Cash",
+    "edit_requested_cash": "Edit Requested Cash"
   },
   "change_password": {
     "password": "Password",

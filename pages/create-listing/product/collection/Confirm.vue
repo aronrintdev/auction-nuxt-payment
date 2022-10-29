@@ -39,7 +39,7 @@
               <b-col sm="3" md="2">
                 <Thumb :product="item.item.product" />
               </b-col>
-              <b-col sm="9" md="10" class="pl-2">
+              <b-col sm="9" md="10" class="pl-2 pr-4">
                 <b-row class="mb-2 d-block">
                   <div class="body-4-bold mb-2 product-name">{{ item.item.product.name }}</div>
                   <div class="body-4-normal mb-2 text-gray-6 text-uppercase product-sku">
@@ -110,18 +110,10 @@
       >{{ $t('create_listing.confirm.add_another_product') }}</Button
       >
       <Button
-        variant="primary"
-        pill
-        class="w-50 w-md-auto mr-2 px-0 save-draft"
-        :disabled="uploading"
-        @click="saveAsDraft"
-      >{{ $t('create_listing.confirm.save_draft') }}</Button
-      >
-      <Button
         variant="dark"
         :disabled="uploading || selectedAuctionItems.length < 2"
         pill
-        class="w-50 w-md-auto ml-2 px-0 next-post-btn"
+        class="w-50 w-md-auto mx-auto ml-md-2 px-0 next-post-btn"
         @click="moveToCollectionDetails"
       >
         {{ $t('create_listing.collection.proceed_details') }}
