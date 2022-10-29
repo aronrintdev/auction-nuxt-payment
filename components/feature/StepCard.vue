@@ -1,6 +1,6 @@
 <template>
   <div
-    class="feature-step-card d-flex align-items-center position-relative"
+    class="feature-step-card d-flex flex-row align-items-center position-relative font-primary"
     :class="`feature-step-card-${variant}`"
   >
     <div class="img-wrapper">
@@ -8,8 +8,10 @@
     </div>
 
     <div>
-      <div v-if="title" class="title">{{ title }}</div>
-      <div v-if="description" class="mt-3 desc">{{ description }}</div>
+      <div v-if="title" class="title text-left">{{ title }}</div>
+      <div v-if="description" class="mt-2 desc text-left">
+        {{ description }}
+      </div>
     </div>
 
     <div v-if="step" class="position-absolute step-text">
@@ -69,6 +71,9 @@ export default {
       top: 39px
       left: 40px
       color: $color-black-1
+      counter-increment: css-counter 1
+      &:before
+        content: counter(css-counter) ". "
 
     .desc, .title
       margin-top: 15px
@@ -89,4 +94,22 @@ export default {
   .img-wrapper
     min-width: 180px
     text-align: center
+@media (max-width: 768px)
+  .feature-step-card
+    min-height: 138px
+    padding: 22px 15px
+    gap: 25px
+    .img-wrapper
+      min-width: 120px
+      text-align: right !important
+      img
+        width: 60px
+    .title
+      font-size: 18px
+      font-weight: 600
+      line-height: 22px
+    .desc
+      font-size: 14px
+      font-weight: 400
+      line-height: 23px
 </style>

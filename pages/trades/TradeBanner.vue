@@ -5,15 +5,36 @@
       <div class="banner-content p-5 position-absolute">
         <h1>{{$t('trades.index.banner_heading')}}</h1>
         <p class="banner-information">{{$t('trades.index.banner_information')}}</p>
-        <button class="banner-btn">{{$t('common.learn_more')}}</button>
+        <button class="banner-btn" @click="loadNextPage()">{{$t('common.learn_more')}}</button>
       </div>
     </b-col>
   </b-row>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
-  name: 'TradeBanner'
+  name: 'TradeBanner',
+  methods: {
+    ...mapGetters({
+      isVendor: 'auth/isVendor',
+    }),
+    loadNextPage(){
+      if(this.$auth.user.id && !this.isVendor){
+        this.$router.push({
+          path: '/profile/vendor-hub/apply'
+        })
+      }else if(!this.$auth.user?.id){
+        this.$router.push({
+          path: '/login'
+        })
+      }else{
+        this.$router.push({
+          path: '/profile/create-listing'
+        })
+      }
+    },
+  }
 }
 </script>
 <style lang="sass" scoped>

@@ -17,6 +17,14 @@ Vue.filter('getProductImageUrl', (product) => {
 })
 
 
+Vue.filter('truncate', function (text, length, suffix) {
+  if (text.length > length) {
+      return text.substring(0, length) + suffix;
+  } else {
+      return text;
+  }
+});
+
 /**
  * This function is used to show selected items by joining them
  * in string format seperated by commas
