@@ -44,6 +44,9 @@
         >
           <div>{{ $t('deadstock_exchange.detail.sell') }}</div>
         </Button>
+        <div v-if="error.buyNow" class="error-text">
+              {{ error.buyNow }}
+        </div>
       </div>
     </div>
     <div v-if="!loading" class="row">
@@ -110,6 +113,9 @@
                 <div>{{ $t('deadstock_exchange.detail.sell') }}</div>
               </div>
             </Button>
+            <div v-if="error.buyNow" class="error-text">
+              {{ error.buyNow }}
+             </div>
           </div>
         </div>
         <div class="row desktop-product-price-section">
@@ -479,6 +485,10 @@ export default {
       searchedProducts: [],
       searchText: null,
       hasSearchResult: false,
+      error: {
+        addToCart: null,
+        buyNow: null
+      },
       selectedFilters: {
         type: 'trending',
         sizeTypes: [],
@@ -622,16 +632,12 @@ export default {
     this.product = await this.$axios
       .get(`/stock-exchange/${sku}`)
       .then((res) => res.data)
-    if (this.product) {
+      this.similarProducts = this.product.similar_products
       const lowestPrice = _.minBy(this.product.lowest_prices, 'price')
       if (lowestPrice) {
         this.currentSize = lowestPrice.size_id
-        this.currentCondition = lowestPrice.packaging_condition_id
-        this.similarProducts = this.product.similar_products
         await this.findListingItem() // 'add to chart' button needs listing of item
-      } else {
-        this.currentCondition = this.product.packaging_conditions[0]?.id
-      }
+
     }
     this.loading = false
   },
@@ -651,7 +657,6 @@ export default {
     },
   },
   mounted() {
-    // this.getProductDetail()
     this.getProductChartData()
   },
   methods: {
@@ -679,7 +684,6 @@ export default {
     handleSizeChange(sizeId) {
       if (sizeId) {
         this.currentSize = sizeId
-        // this.resetError()
         this.findListingItem()
       }
     },
@@ -754,7 +758,6 @@ export default {
     },
     handleBuyNowClick() {
       if (!this.currentSize) {
-        alert()
         this.error.buyNow = this.$t('products.error.select_size')
         return
       }

@@ -33,21 +33,18 @@
       background: $color-ui-light-disabled;
     }
   }
-  .searchbox
-  {
+  .searchbox {
     flex: 1;
     margin-right: 25px;
     position: relative;
-    &.open{
-      .rounded-search-input
-      {
+    &.open {
+      .rounded-search-input {
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         border: 1px solid $gray;
       }
     }
-    .rounded-search-input
-    {
+    .rounded-search-input {
       border-radius: 8px;
       background: $color-white-4;
       padding: 13px 21px;
@@ -55,14 +52,12 @@
       align-items: center;
       margin: 0;
       border: 1px solid transparent;
-      .icon-search
-      {
+      .icon-search {
         width: 18px;
         height: 18px;
         margin-right: 20px;
       }
-      input
-      {
+      input {
         font-size: 16px;
         line-height: 20px;
         font-weight: $normal;
@@ -75,8 +70,7 @@
         background: transparent;
       }
     }
-    .dropdown-options
-    {
+    .dropdown-options {
       width: 100%;
       background: $color-white-4;
       border: 0.2px solid $gray;
@@ -86,8 +80,7 @@
       border-top: none;
       margin: 0;
       padding: 8px 0;
-      .dropdown-option
-      {
+      .dropdown-option {
         text-align: left;
         font-size: 16px;
         line-height: 20px;
@@ -98,22 +91,19 @@
         font-weight: $normal;
         border-radius: 0;
         padding: 5px 1em;
-        &:hover
-        {
+        &:hover {
           background-color: $color-white-5;
         }
-        img
-        {
+        img {
           height: 40px;
           width: 40px;
         }
-        &:last-child
-        {
+        &:last-child {
           border-bottom: none;
         }
       }
     }
-    .overlay{
+    .overlay {
       top: 0;
       left: 0;
       width: 100%;
@@ -130,6 +120,13 @@
         right: 30px !important;
       }
     }
+  }
+  .error-text {
+    @include body-5-normal;
+    color: $color-red-3;
+    margin-top: 3px;
+    height: 17px;
+    padding-left: 20px;
   }
 }
 .dropdown-sort {
@@ -259,7 +256,7 @@
   .mobile-average-tab {
     display: none;
   }
-  .mobile-product-detail-section{
+  .mobile-product-detail-section {
     display: none;
   }
 }
@@ -292,7 +289,7 @@
   .desktop-product-size-picker {
     display: none;
   }
-  .desktop-similar-filter-section{
+  .desktop-similar-filter-section {
     display: none;
   }
 }
