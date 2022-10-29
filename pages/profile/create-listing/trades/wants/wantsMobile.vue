@@ -1,6 +1,6 @@
 <template>
   <div class="main-container p-2">
-      <div class="d-flex mt-2" v-if="!filterSection">
+      <div v-if="!filterSection" class="d-flex mt-2">
         <div>
           <SearchInput
             :value="searchText"
@@ -276,18 +276,15 @@
 import { mapActions, mapGetters } from 'vuex'
 import debounce from 'lodash.debounce'
 import FormStepProgressBar from '~/components/common/FormStepProgressBar'
-// import Button from '~/components/common/Button'
 import SearchInput from '~/components/common/SearchInput'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBoxMobile'
-// import CustomDropdown from '~/components/common/CustomDropdown'
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
 import ViewOfferItemsModal from '~/pages/profile/create-listing/trades/wants/ViewOfferItemsModal';
-import { Pagination } from '~/components/common'
+import { Pagination , NavGroup } from '~/components/common'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
 import mobileFilters from '~/pages/profile/create-listing/trades/filtersMobile'
-import { NavGroup } from '~/components/common'
 
 /*
   Trade Wants Page
@@ -298,10 +295,8 @@ export default {
     mobileFilters,
     NavGroup,
     FormStepProgressBar, // Stepper component
-    // Button, // Button component
     SearchInput, // search input
     SearchedProductsBelowSearchTextBox, //  component for items show below search as search results
-    // CustomDropdown, // custom dropdown component used for filters
     CreateTradeSearchItem, // component used for item via search selection
     Pagination, // Pagination component
     ViewOfferItemsModal // model to show offers items
@@ -1041,7 +1036,7 @@ export default {
 .create-trade-item-caption-sm
   width: 98px
   height: 57px
-  border: 1px solid #F7F7F7
+  border: 1px solid $color-white-5
 .create-trade-item-name-sm
   width: 62px
   @include body-6

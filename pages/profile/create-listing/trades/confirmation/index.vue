@@ -12,14 +12,14 @@
 <script>
 export default {
   name: 'Create',
+  components: {
+    confirmationMobile:()=> import('./confirmationMobile'),
+    confirmationWeb:()=>import('./confirmationWeb'),
+  },
   data(){
     return {
       width:'',
     }
-  },
-  components: {
-    confirmationMobile:()=> import('./confirmationMobile'),
-    confirmationWeb:()=>import('./confirmationWeb'),
   },
   mounted() {
     this.width = window.innerWidth

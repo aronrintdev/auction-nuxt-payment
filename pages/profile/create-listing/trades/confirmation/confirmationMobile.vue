@@ -98,20 +98,6 @@
           </b-dropdown>
         </div>
       </div>
-
-<!--      <b-col cols="2" class="confirm-trade-icons d-flex">-->
-<!--        <div>-->
-<!--          <img class="cursor-pointer" :src="require('~/assets/img/box-copy.svg')"-->
-<!--               :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, 0, getTradeItemsWants.map(i => parseInt(i.selected_quantity)).reduce((a, b) => a + b, 0))" />-->
-<!--        </div>-->
-<!--        <div class="pl-3">-->
-<!--            <img :src="require('~/assets/img/box-pencil.svg')" class="cursor-pointer" :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, wantItem, 0)"/>-->
-<!--        </div>-->
-<!--        <div class="pl-3">-->
-<!--          <img :src="require('~/assets/img/box-delete.svg')" class="cursor-pointer"-->
-<!--               :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="removeWantItem(wantItem.id)"/>-->
-<!--        </div>-->
-<!--      </b-col>-->
     </div>
     <b-row v-if="!getTradeItemsWants.length">
       <b-col cols="12" class="d-flex mt-3 pl-5 ml-2 mb-4">
@@ -133,9 +119,7 @@
       </div>
     </div>
     <div class="press-content mt-2 ml-3">
-      *By pressing on Post Listing(s),
-      I accept the seller fee of 9.5% + a 2.9% transaction fee.
-      No authentication fees will be charged to sellers.
+      {{$t('trades.by_pressing_post_listing')}}
     </div>
     <div class="d-flex mt-2 mb-4">
       <b-btn class="confirm-trade-draft-btn ml-3"
@@ -164,12 +148,10 @@ import {
   STATUS_DRAFT,
   STATUS_LIVE
 } from '~/static/constants/create-listing'
-// import Button from '~/components/common/Button';
 
 export default {
   name: 'Index',
   components: {
-    // Button,
     ViewOfferItemsModal,
     FormStepProgressBar,
     CreateTradeSearchItem
@@ -342,10 +324,10 @@ export default {
   width: 162px
   height: 40px
   border-radius: 20px
-  border: 1px solid #7196B1
+  border: 1px solid $color-blue-19
   @include body-10
   font-family: $font-montserrat
-  color: #7196B1
+  color: $color-blue-19
   @media (min-width: 300px)  and (max-width: 349px)
     width: 130px
     font-size: 10px
@@ -353,8 +335,8 @@ export default {
   width: 162px
   height: 40px
   border-radius: 20px
-  background-color: #667799
-  color: #FFFFFF
+  background-color: $color-blue-20
+  color: $color-white-1
   font-family: $font-montserrat
   font-weight: $medium
   @include body-10
@@ -365,12 +347,12 @@ export default {
   @include body-5
   font-weight: $bold
   font-family: $font-montserrat
-  color: #000000
+  color: $color-black-1
 .confirm-trade-item
   width: 343px
   height: 133px
   border-radius: 10px
-  background: #FFFFFF
+  background: $color-white-1
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
   @media (min-width: 300px)  and (max-width: 349px)
     width: 290px
@@ -382,18 +364,18 @@ export default {
   font-family: $font-montserrat
   font-weight: $medium
   @include body-9
-  color: #000000
+  color: $color-black-1
 .confirm-trade-item-quantity
   font-family: $font-montserrat
   font-style: normal
   font-weight: $normal
   @include body-9
-  color: #6F6F6F
+  color: $color-gray-6
 .sub-quantity
   @include body-9
   font-weight: $normal
   font-family: $font-montserrat
-  color: #6F6F6F
+  color: $color-gray-6
 .confirm-trade-item-name
   font-family: $font-sp-pro
   font-style: normal
@@ -416,8 +398,8 @@ export default {
   height: 63px
   font-weight: $normal
   font-family: $font-montserrat
-  color: #000000
-  background-color: #F7F7F7
+  color: $color-black-1
+  background-color: $color-white-5
   padding: 5px
   @media (min-width: 300px)  and (max-width: 349px)
     width: 290px

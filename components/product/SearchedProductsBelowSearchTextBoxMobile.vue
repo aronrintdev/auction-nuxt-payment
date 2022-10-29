@@ -124,7 +124,7 @@ export default {
 .searched-product-name
  @include body-6
  font-family: $font-montserrat
- color: #979797
+ color: $color-black-15
  margin-top: 29px
  width: 149px
  height: 16px
@@ -132,16 +132,16 @@ export default {
 .btn-add
   width: 54px
   border-radius: 5px
-  background: #667799
-  border: 1px solid #667799
+  background: $color-blue-20
+  border: 1px solid $color-blue-20
   @include body-9
-  color: #FFFFFF
+  color: $color-white-1
   font-family: $font-sp-pro
   font-weight: $medium
   margin-top: 2rem
   margin-left: 20px
 .white-bg
-  background-color: #FFFFFF
+  background-color: $color-white-1
 .see-product
   height: 130px
 .dont-see-your-product-mobile
@@ -149,10 +149,9 @@ export default {
   font-style: normal
   font-weight: $normal
   @include body-6
-  line-height: 13px
   letter-spacing: 0.06em
   text-transform: capitalize
-  color: #000000
+  color: $color-black-1
   margin-left: 5px
 .suggest-a-new-product-mob
   font-family: $font-montserrat
@@ -162,6 +161,6 @@ export default {
   line-height: 13px
   letter-spacing: 0.06em
   text-decoration: none
-  color: #000000
+  color: $color-black-1
   margin-left: 6.5rem
 </style>

@@ -4725,7 +4725,8 @@
     "your_offer": "Your Offer",
     "estimated_value": "Estimated Value",
     "estimated_value_trade": "Estimated Trade Value",
-    "trader_wants": "Trader’s Wants"
+    "trader_wants": "Trader’s Wants",
+    "by_pressing_post_listing": "*By pressing on Post Listing(s),I accept the seller fee of 9.5% + a 2.9% transaction fee. No authentication fees will be charged to sellers."
   },
   "change_password": {
     "password": "Password",

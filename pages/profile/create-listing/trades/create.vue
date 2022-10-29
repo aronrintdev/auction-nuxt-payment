@@ -12,14 +12,14 @@
 <script>
 export default {
   name: 'Create',
+  components: {
+    createMobile:()=> import('./createMobile'),
+    createWeb:()=>import('./createWeb'),
+  },
   data(){
     return {
       width:'',
     }
-  },
-  components: {
-    createMobile:()=> import('./createMobile'),
-    createWeb:()=>import('./createWeb'),
   },
   mounted() {
     this.width = window.innerWidth

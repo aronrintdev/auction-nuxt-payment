@@ -12,14 +12,14 @@
 <script>
 export default {
   name: 'Draft',
+  components: {
+    draftMobile:()=> import('./draftsMobile'),
+    draftWeb:()=>import('./draftsWeb'),
+  },
   data(){
     return {
       width:'',
     }
-  },
-  components: {
-    draftMobile:()=> import('./draftsMobile'),
-    draftWeb:()=>import('./draftsWeb'),
   },
   mounted() {
     this.width = window.innerWidth

@@ -3,23 +3,23 @@
     <div class="main-container">
       <div class="d-flex mt-1">
         <div class="d-inline ml-5">
-          <div class="sku-text mb-1">{{ $t('trades.create_listing.vendor.wants.sku') }} </div>
-          <div class="sku-subtext"> {{product.sku}}</div>
+          <div class="sku-text mb-1">{{ $t('trades.create_listing.vendor.wants.sku') }}</div>
+          <div class="sku-subtext"> {{ product.sku }}</div>
         </div>
-         <div class="d-flex justify-content-center align-center vertical ml-3 mt-2"> </div>
+        <div class="d-flex justify-content-center align-center vertical ml-3 mt-2"></div>
         <div class="d-inline ml-5">
           <div class="sku-text mb-1"> {{ $t('trades.create_listing.vendor.wants.colorway') }}</div>
-          <div class="sku-subtext">{{product.colorway}}</div>
+          <div class="sku-subtext">{{ product.colorway }}</div>
         </div>
       </div>
       <div class="d-flex justify-content-center align-center">
         <img :src="product.image" alt="No Image" class="item-image-search"/>
       </div>
       <div class="d-flex justify-content-end align-content-end mr-3">
-        <img class="degree-img" :src="require('~/assets/img/degree.svg')" />
+        <img class="degree-img" :src="require('~/assets/img/degree.svg')"/>
       </div>
       <div class="mt-2 d-flex justify-content-center align-center">
-        <div class="product-name">{{product.name}}</div>
+        <div class="product-name">{{ product.name }}</div>
       </div>
       <div class="d-flex mt-4">
         <div class="d-flex justify-content-start align-start search-size ml-3">
@@ -27,7 +27,7 @@
         </div>
         <div class="d-flex ml-5">
           <div>
-            <img class="d-flex justify-content-end align-end eye-img" :src="require('~/assets/img/eye.svg')" />
+            <img class="d-flex justify-content-end align-end eye-img" :src="require('~/assets/img/eye.svg')"/>
           </div>
           <div class="size-eye ml-1">
             {{ $t('trades.create_listing.vendor.wants.size_eye') }}
@@ -47,49 +47,55 @@
         </div>
       </div>
       <div class="d-flex mt-4 justify-content-end align-end mr-5">
-          <div>
-            <img class="d-flex  eye-img" :src="require('~/assets/img/file.svg')" />
-          </div>
-          <div class="size-eye ml-1">
-            {{ $t('trades.create_listing.vendor.wants.sales_data') }}
-          </div>
+        <div>
+          <img class="d-flex  eye-img" :src="require('~/assets/img/file.svg')"/>
         </div>
-      <div class="d-flex mt-2">
-           <div class="d-inline"  v-if="productFor !== 'wantsList'">
-             <div>
-               <label class="quantity-label mt-2 ml-3">{{ $t('trades.create_listing.vendor.wants.quantity') }}<sup>*</sup></label>
-             </div>
-             <div>
-               <b-form-input  v-model="quantity" type="number" :placeholder="$t('trades.create_listing.vendor.wants.enter_quantity')" class="create-trade-quantity-box quantity-num ml-3 mb-1"></b-form-input>
-               <div class="error-text mt-1 text-xs">
-                 {{((productFor === tradeOffer) || (productFor === tradeArena)) ? $t('create_listing.trade.offer_items.offer_items_limit'): $t('trades.create_listing.vendor.wants.want_items_quantity_should_not_exceed', [MAX_ITEMS_ALLOWED]) }}
-               </div>
-             </div>
-           </div>
-           <div>
-             <div class="d-inline"  v-if="product.packaging_conditions">
-               <div>
-                 <label class="quantity-label mt-2 ml-3">{{ $t('trades.create_listing.vendor.wants.select') }}</label>
-               </div>
-               <div @click="openBottomFilter()">
-                 <b-form-input
-                   v-model="box_condition"
-                   :placeholder="$t('trades.create_listing.vendor.wants.enter_quantity')"
-                   class="create-trade-select-box ml-2">
-                 </b-form-input>
-                 <div class="error-text mt-1 text-xs">
-                   {{ $t('trades.create_listing.vendor.wants.select_box_condition') }}
-                 </div>
-               </div>
-             </div>
-             <div>
-           </div>
-         </div>
+        <div class="size-eye ml-1">
+          {{ $t('trades.create_listing.vendor.wants.sales_data') }}
+        </div>
       </div>
       <div class="d-flex mt-2">
-        <div class="d-inline" v-if="product.category.name !== 'sneakers'">
+        <div v-if="productFor !== 'wantsList'" class="d-inline">
           <div>
-            <label class="quantity-label mt-2 ml-3">{{ $t('trades.create_listing.vendor.wants.year') }}<sup>*</sup></label>
+            <label class="quantity-label mt-2 ml-3">{{ $t('trades.create_listing.vendor.wants.quantity') }}<sup>*</sup></label>
+          </div>
+          <div>
+            <b-form-input v-model="quantity" type="number"
+                          :placeholder="$t('trades.create_listing.vendor.wants.enter_quantity')"
+                          class="create-trade-quantity-box quantity-num ml-3 mb-1"></b-form-input>
+            <div class="error-text mt-1 text-xs">
+              {{
+                ((productFor === tradeOffer) || (productFor === tradeArena)) ? $t('create_listing.trade.offer_items.offer_items_limit') : $t('trades.create_listing.vendor.wants.want_items_quantity_should_not_exceed', [MAX_ITEMS_ALLOWED])
+              }}
+            </div>
+          </div>
+        </div>
+        <div>
+          <div v-if="product.packaging_conditions" class="d-inline">
+            <div>
+              <label class="quantity-label mt-2 ml-3">{{ $t('trades.create_listing.vendor.wants.select') }}</label>
+            </div>
+            <div @click="openBottomFilter()">
+              <b-form-input
+                v-model="box_condition"
+                :placeholder="$t('trades.create_listing.vendor.wants.enter_quantity')"
+                class="create-trade-select-box ml-2">
+              </b-form-input>
+              <div class="error-text mt-1 text-xs">
+                {{ $t('trades.create_listing.vendor.wants.select_box_condition') }}
+              </div>
+            </div>
+          </div>
+          <div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex mt-2">
+        <div v-if="product.category.name !== 'sneakers'" class="d-inline">
+          <div>
+            <label class="quantity-label mt-2 ml-3">{{
+                $t('trades.create_listing.vendor.wants.year')
+              }}<sup>*</sup></label>
           </div>
           <div>
             <b-form-input
@@ -100,7 +106,7 @@
           </div>
         </div>
         <div>
-          <div class="d-inline" v-if="productFor === 'wantsList'">
+          <div v-if="productFor === 'wantsList'" class="d-inline">
             <div>
               <label class="quantity-label mt-2 ml-3">Select List<sup>*</sup></label>
             </div>
@@ -116,8 +122,8 @@
                 borderRadiusClose="20px 20px 0 0"
                 borderRadiusOptions="0 0 8px 8px"
                 width="160px"
-                @change="listType"
                 class="bg-white ml-2"
+                @change="listType"
               />
             </div>
           </div>
@@ -125,15 +131,17 @@
           </div>
         </div>
       </div>
-      <div class="mt-2"  v-if="!isTradeEditForm" >
-        <div  v-if="productFor !== 'wantsList'">
-          <FormStepProgressBar v-if="progressBar" :steps="steps"  variant="transparent"/>
+      <div v-if="!isTradeEditForm" class="mt-2">
+        <div v-if="productFor !== 'wantsList'">
+          <FormStepProgressBar v-if="progressBar" :steps="steps" variant="transparent"/>
         </div>
       </div>
       <div class="mt-2">
-        <b-btn :disabled = !disabledBtn  @click="addToOffer(product)" class="create-trade-next-btn">
-          {{ ((productFor === tradeOffer) || (productFor === tradeArena)) ?
-          $t('trades.create_listing.vendor.wants.add_to_offers') : $t('trades.create_listing.vendor.wants.add_to_wants') }}
+        <b-btn :disabled=!disabledBtn class="create-trade-next-btn" @click="addToOffer(product)">
+          {{
+            ((productFor === tradeOffer) || (productFor === tradeArena)) ?
+              $t('trades.create_listing.vendor.wants.add_to_offers') : $t('trades.create_listing.vendor.wants.add_to_wants')
+          }}
         </b-btn>
       </div>
     </div>
@@ -146,9 +154,9 @@
       :rounded="true"
     >
       <div class="pakage-box d-flex justify-content-center align-content-center inner-box pb-1">Package Condition</div>
-     <div  v-for="condition in product.packaging_conditions" :key="condition.id"  class="inner-box p-3">
-       <div @click="setBox(condition.name)"> {{condition.name}}</div>
-     </div>
+      <div v-for="condition in product.packaging_conditions" :key="condition.id" class="inner-box p-3">
+        <div @click="setBox(condition.name)"> {{ condition.name }}</div>
+      </div>
     </vue-bottom-sheet>
   </div>
 </template>
@@ -159,18 +167,18 @@ import {mapGetters, mapActions} from 'vuex'
 import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
 import ProductSizePicker from '~/components/product/SizePickerMobile'
 import {MAX_ITEMS_ALLOWED, DIGITS_IN_YEAR} from '~/static/constants/create-listing'
-import {WANTS_SELECT_LIST_OPTIONS,PRODUCT_FOR_COUNTER_OFFER} from '~/static/constants/trades'
+import {WANTS_SELECT_LIST_OPTIONS, PRODUCT_FOR_COUNTER_OFFER} from '~/static/constants/trades'
 import SelectListDropDown from '~/pages/profile/trades/wants/SelectListDropDown'
 
 
 export default {
   name: 'CreateTradeSearchItem',
-  components:{
+  components: {
     SelectListDropDown,
     FormStepProgressBar,
     ProductSizePicker
   },
-  props:{
+  props: {
     product: {
       type: Object,
       default: () => null,
@@ -206,7 +214,7 @@ export default {
   },
   data() {
     return {
-        disabled:false,
+      disabled: false,
       PRODUCT_FOR_COUNTER_OFFER,
       MAX_ITEMS_ALLOWED,
       box_condition: null,
@@ -230,9 +238,9 @@ export default {
   computed: {
     ...mapGetters('trades', ['getTradeItems', 'getTradeItemsWants']),
     ...mapGetters('trade', ['getYourTradeItems']),
-      disabledBtn(){
-        return this.selected_size !== null &&  this.box_condition !== null
-      }
+    disabledBtn() {
+      return this.selected_size !== null && this.box_condition !== null
+    }
   },
   mounted() {
     if (this.itemId) {
@@ -246,7 +254,7 @@ export default {
     ...mapActions({
       createInventories: 'inventory/createInventories',
     }),
-    setBox(name){
+    setBox(name) {
       this.box_condition = name
       this.$refs.myBottomSheet.close();
     },
@@ -277,9 +285,9 @@ export default {
      * @returns {number|*}
      */
     itemsCount() {
-      if(this.productFor === PRODUCT_FOR_COUNTER_OFFER)
+      if (this.productFor === PRODUCT_FOR_COUNTER_OFFER)
         return this.yourItems.length
-      if(this.productFor === this.tradeArena)
+      if (this.productFor === this.tradeArena)
         return this.getYourTradeItems.length
       if (this.productFor === this.tradeOffer)
         return this.getTradeItems.map(i => parseInt(i.quantity)).reduce((a, b) => a + b, 0)
@@ -319,13 +327,13 @@ export default {
       return quantity > 0 && quantity <= MAX_ITEMS_ALLOWED
         && (parseInt(this.itemsCount()) + parseInt(quantity)) <= MAX_ITEMS_ALLOWED
     },
-    setSelectedItem(selectedProduct){
+    setSelectedItem(selectedProduct) {
       const _self = this;
       selectedProduct.product_id = selectedProduct.id
       selectedProduct.quantity = parseInt(this.quantity)
       selectedProduct.year = parseInt(this.year)
       selectedProduct.size_id = parseInt(this.selected_size)
-      selectedProduct.size = selectedProduct?.sizes.find( i => i.id === this.selected_size)
+      selectedProduct.size = selectedProduct?.sizes.find(i => i.id === this.selected_size)
       selectedProduct.packaging_condition = selectedProduct.packaging_conditions
         .filter(condition => condition.id === _self.box_condition)[0]
       selectedProduct.box_condition = selectedProduct.packaging_conditions
@@ -341,25 +349,22 @@ export default {
      */
     addToOffer(selectedProduct) {
       const _self = this;
-      if (this.productFor === this.tradeArena){
-        for (let i = 0; i < _self.quantity; i++){
+      if (this.productFor === this.tradeArena) {
+        for (let i = 0; i < _self.quantity; i++) {
           selectedProduct = this.setSelectedItem(selectedProduct)
 
-        this.$store.commit('trade/setYourTradeItems', selectedProduct)
-        this.$root.$emit('back_to_search_offer')
+          this.$store.commit('trade/setYourTradeItems', selectedProduct)
+          this.$root.$emit('back_to_search_offer')
         }
-      }
-      else if (this.productFor === PRODUCT_FOR_COUNTER_OFFER) {
+      } else if (this.productFor === PRODUCT_FOR_COUNTER_OFFER) {
         selectedProduct = this.setSelectedItem(selectedProduct)
         this.$root.$emit('add_new_product', selectedProduct)
-      }
-      else if (this.productFor === this.tradeOffer) {
+      } else if (this.productFor === this.tradeOffer) {
         selectedProduct = this.setSelectedItem(selectedProduct)
 
         this.$store.commit('trades/setTradeItems', selectedProduct)
         this.$root.$emit('add_trade_item', false)
-      }
-      else if (this.productFor === this.wantOffer || this.productFor === this.wantOfferConfirm) {
+      } else if (this.productFor === this.wantOffer || this.productFor === this.wantOfferConfirm) {
         let selectedProductWithAttributes
 
         if (this.isFormValid()) {
@@ -372,14 +377,14 @@ export default {
             category: selectedProduct.category.name,
             image: selectedProduct.image,
             selected_box_condition: this.box_condition,
-            selected_box_condition_name: selectedProduct.packaging_conditions.filter(function(condition) {
+            selected_box_condition_name: selectedProduct.packaging_conditions.filter(function (condition) {
               return (condition.id === _self.box_condition) ?
                 condition.name : null
             })[0].name,
             selected_quantity: parseInt(this.quantity),
             selected_year: this.year,
             selected_size: this.selected_size,
-            selected_size_name: 'Size ' + selectedProduct.sizes.filter(function(size) {
+            selected_size_name: 'Size ' + selectedProduct.sizes.filter(function (size) {
               return (size.id === _self.selected_size) ?
                 'Size ' + size.size : null
 
@@ -390,21 +395,20 @@ export default {
           if (this.itemId) {
             selectedProductWithAttributes.id = this.itemId
             this.$store.commit('trades/updateWantsItemsTrade', selectedProductWithAttributes)
-          } else{
+          } else {
             this.$store.commit('trades/setWantsItemsTrade', selectedProductWithAttributes)
           }
 
           if (this.productFor === this.wantOfferConfirm) {
             this.$root.$emit('back_to_search_wants')
-          } else{
-            this.$root.$emit('add_trade_item_want',false)
+          } else {
+            this.$root.$emit('add_trade_item_want', false)
           }
         }
       } else if (this.productFor === 'wantsList') {
-        if(this.combinationId){
+        if (this.combinationId) {
           this.addWantItemCombination(selectedProduct)
-        }
-        else {
+        } else {
           this.addWantItem(selectedProduct)
         }
       }
@@ -432,17 +436,17 @@ export default {
     addWantItemCombination(selectedProduct) {
       const _self = this;
       const data = {
-              want_combination_id: this.combinationId,
-              product_id: selectedProduct.id,
-              quantity: parseInt(_self.quantity),
-              size_id: _self.selected_size,
-              packaging_condition_id: _self.box_condition,
-              year: _self.year,
-              wants_list_type: _self.selectList
+        want_combination_id: this.combinationId,
+        product_id: selectedProduct.id,
+        quantity: parseInt(_self.quantity),
+        size_id: _self.selected_size,
+        packaging_condition_id: _self.box_condition,
+        year: _self.year,
+        wants_list_type: _self.selectList
       }
       this.$axios.post('trades/wants/combination/items', data)
-        .then(()=>{
-            this.$root.$emit('back_to_edit')
+        .then(() => {
+          this.$root.$emit('back_to_edit')
         })
         .catch((error) => {
           this.$toasted.error(this.$t('error.something_went_wrong'))
@@ -455,31 +459,29 @@ export default {
      */
     handleSizeChange(value) {
       if (value !== null)
-        this.$emit('input', { ...this.value, sizeId: value })
+        this.$emit('input', {...this.value, sizeId: value})
     },
 
     /**
      * THis function is used to take back on previous page
      */
     backSearch() {
-      if(this.itemId){
+      if (this.itemId) {
         this.$root.$emit('back_to_trade_editing')
-      }else if(this.productFor === PRODUCT_FOR_COUNTER_OFFER){
+      } else if (this.productFor === PRODUCT_FOR_COUNTER_OFFER) {
         this.$root.$emit('back_to_counter_offer')
-      }else if (this.isTradeEditForm) {
+      } else if (this.isTradeEditForm) {
         this.$root.$emit('back_to_trade_search')
-      }
-      else if (this.productFor === this.tradeOffer) {
+      } else if (this.productFor === this.tradeOffer) {
         this.$root.$emit('back_to_search_offer')
-      }
-      else if (this.productFor === this.wantOffer || this.productFor === this.wantOfferConfirm || this.productFor === 'wantsList') {
+      } else if (this.productFor === this.wantOffer || this.productFor === this.wantOfferConfirm || this.productFor === 'wantsList') {
         this.$root.$emit('back_to_search_wants')
       }
     },
-    backToList(){
+    backToList() {
       this.$root.$emit('back_to_list')
     },
-    listType(checked){
+    listType(checked) {
       if (!this.selectList.includes(checked)) {
         this.selectList.push(checked)
       } else {
@@ -517,7 +519,7 @@ export default {
 
 .create-trade-select-box
   background: $color-white-1
-  border: 1px solid #E8E8E8
+  border: 1px solid $color-gray-3
   box-sizing: border-box
   border-radius: 10px
   width: 150px
@@ -531,9 +533,11 @@ export default {
   border-radius: 20px
   width: 203px
   height: 32px
+
 .vertical
-  border-left: 1px solid #999999
+  border-left: 1px solid $color-gray-47
   height: 40px
+
 .sku-text
   font-family: $font-montserrat
   font-weight: $medium
@@ -541,6 +545,7 @@ export default {
   @include body-10
   color: $color-black-1
   width: 63px
+
 .sku-subtext
   font-family: $font-montserrat
   font-style: normal
@@ -551,11 +556,14 @@ export default {
   text-overflow: ellipsis
   @include body-5
   line-height: 17px
-  color: #667799
+  color: $color-blue-20
+
 .item-image-search
   width: 240px
+
 .degree-img
   width: 28px
+
 .product-name
   font-family: $font-montserrat
   font-weight: $medium
@@ -565,34 +573,40 @@ export default {
   overflow: hidden
   white-space: nowrap
   text-overflow: ellipsis
+
 .main-container
   width: 360px
+
 .search-size
   font-family: $font-montserrat
   font-style: normal
   font-weight: $regular
   @include body-9
   line-height: 15px
+
 .size-eye
   font-family: $font-montserrat
   font-style: normal
   font-weight: $regular
   @include body-10
   line-height: 16px
+
 .quantity-label
   font-family: $font-montserrat
   font-style: normal
   font-weight: $medium
   @include body-9
   line-height: 15px
+
 .quantity-num
   box-sizing: border-box
   width: 150px
   height: 49px
-  border: 1px solid #E8E8E8
+  border: 1px solid $color-gray-3
   border-radius: 10px
+
 .create-trade-next-btn
-  background-color: #667799
+  background-color: $color-blue-20
   border-radius: 20px
   float: right
   margin-bottom: 7px
@@ -601,12 +615,14 @@ export default {
   font-family: $font-montserrat
   font-weight: $medium
   @include body-10
+
 .pakage-box
   font-family: $font-sp-pro
   font-style: normal
   font-weight: $medium
   @include body-14
   line-height: 20px
+
 .inner-box
-  border-bottom: 1px solid #E8E8E8
+  border-bottom: 1px solid $color-gray-3
 </style>

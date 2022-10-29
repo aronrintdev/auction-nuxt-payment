@@ -3,7 +3,7 @@
     <div class="mb-4 d-flex" @click="$router.push('/profile/create-listing')"><b-icon icon="arrow-left" class="font-26"></b-icon>&nbsp;
     <div class="back-listing" role="button">{{$t('trades.create_listing.back_to_create_listing')}}</div>
     </div>
-    <div class="d-flex mt-2"  v-if="!filterSection">
+    <div v-if="!filterSection"  class="d-flex mt-2">
       <div>
         <SearchInput
           :value="searchedText"
@@ -31,7 +31,7 @@
       />
     </div>
     <div v-if="selectedItems === 'trade'">
-      <div class="mt-2" v-for="(trade, index) in tradeDrafts" :key="trade.id">
+      <div v-for="(trade, index) in tradeDrafts" :key="trade.id" class="mt-2">
         <div class="d-flex mb-2">
           <div class="heading-draft ml-2">{{$t('trades.create_listing.vendor.wants.draft')}} # {{(index+1)}} </div>
           <div class="margin-set">
@@ -187,7 +187,6 @@ export default {
     }
   },
   mounted() {
-    // this.selectedItems = this.getTotalItemTrades
     this.getTradeDrafts()
   },
   methods: {
@@ -367,9 +366,6 @@ export default {
   width: 136px!important
   font-weight: $medium
 
-//.draft-list-item
-//  border: 1px solid $color-gray-23
-
 .icon-size
   height: 40px
 
@@ -378,10 +374,9 @@ export default {
   right: 5px
   margin-top: 8%
 .heading-draft
-  @include body-5
-  font-weight: 700
+  @include body-5-bold
   font-family: $font-montserrat
-  color: #000000
+  color: $color-black-1
 .del-img
   width: 22px
   height: 22px
@@ -390,13 +385,13 @@ export default {
   @include body-9
   font-weight: $normal
   font-family: $font-sp-pro
-  color: #999999
+  color: $color-gray-4
 .sub-main-container
   width: 343px
   height: 450px
-  background: #FBFAFA
+  background: $color-white-4
   box-sizing: border-box
-  border: 1px solid #999999
+  border: 1px solid $color-gray-4
   @media (min-width: 300px)  and (max-width: 349px)
     width: 300px
   @media (min-width: 400px)  and (max-width: 500px)
@@ -404,8 +399,8 @@ export default {
 .draft-list-item
   width: 100px
   height: 143px
-  border: 1px solid #D8D8D8
-  background: #FFFFFF
+  border: 1px solid $color-gray-57
+  background: $color-white-1
   @media (min-width: 400px)  and (max-width: 500px)
     width: 115px
 .create-trade-item-image
@@ -419,9 +414,9 @@ export default {
   @include body-6
   font-weight: $medium
   font-family: $font-sp-pro
-  color: #000000
+  color: $color-black-1
 .create-trade-item-captions
-  background: #f5f5f5
+  background: $color-gray-1
   font-family: $font-sp-pro, serif
   font-style: normal
   height: 60px
@@ -437,14 +432,14 @@ export default {
   font-style: normal
   font-weight: $medium
   @include body-9
-  color: #667799
+  color: $color-blue-20
 
 .offer-text
   font-family: $font-montserrat
   font-style: normal
   font-weight: $medium
   @include body-9
-  color: #667799
+  color: $color-blue-20
 .margin-set
   margin-left: 11rem
   @media (min-width: 300px)  and (max-width: 349px)
@@ -455,10 +450,10 @@ export default {
   @include body-10
   font-family: $font-montserrat
   font-weight: $medium
-  color: #FFFFFF
+  color: $color-white-1
   width: 155px
   height: 32px
   border-radius: 20px
-  background: #667799
+  background: $color-blue-20
 </style>
 

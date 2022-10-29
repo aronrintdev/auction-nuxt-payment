@@ -2,7 +2,7 @@
   <div class="main-container p-2">
     <create-trade-search-item v-if="search_item" :product="search_item" productFor="tradeOffer"/>
     <div v-else>
-      <div class="d-flex mt-2" v-if="!filterSection">
+      <div v-if="!filterSection" class="d-flex mt-2">
         <div>
           <SearchInput
             :value="searchText"
@@ -89,7 +89,7 @@
             </b-row>
           </b-row>
         </div>
-        <div class="mt-2" v-if="inventory_items.length">
+        <div v-if="inventory_items.length" class="mt-2">
           <div class="row create-trade-drag-drop-item-mobile justify-content-center text-center py-2"
                @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
             <div v-if="getTradeItems.length < 1">
@@ -172,25 +172,18 @@ import mobileFilters from '~/pages/profile/create-listing/trades/filtersMobile'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED, PRODUCT_FALLBACK_URL} from '~/static/constants';
 import {TAKE_SEARCHED_PRODUCTS} from '~/static/constants/trades';
 
-// import CustomDropdown from '~/components/common/CustomDropdown';
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItemMobile';
-// import AlreadyListedModal from '~/pages/profile/create-listing/trades/AlreadyListedModal';
 import {Pagination} from '~/components/common'
-// import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
-// import { PRODUCT_FALLBACK_URL } from '~/static/constants'
-// import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
 
 export default {
-  name: 'create-mobile',
+  name: 'CreateMobile',
   components: {
     SearchInput,
     SearchedProductsBelowSearchTextBox,
     FormStepProgressBar,
     CreateTradeSearchItem,
-    // CustomDropdown,
     Pagination,
     mobileFilters,
-    // AlreadyListedModal
   },
   layout: 'Profile', // Layout
   middleware: 'auth',

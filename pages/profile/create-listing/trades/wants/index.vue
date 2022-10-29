@@ -11,15 +11,15 @@
 
 <script>
 export default {
-  name: 'wants',
+  name: 'Wants',
+  components: {
+    wantsMobile:()=> import('./wantsMobile'),
+    wantsWeb:()=>import('./wantsWeb'),
+  },
   data(){
     return {
       width:'',
     }
-  },
-  components: {
-    wantsMobile:()=> import('./wantsMobile'),
-    wantsWeb:()=>import('./wantsWeb'),
   },
   mounted() {
     this.width = window.innerWidth
