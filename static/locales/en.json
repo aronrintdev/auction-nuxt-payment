@@ -4794,7 +4794,16 @@
     "your_offer": "Your Offer",
     "estimated_value": "Estimated Value",
     "estimated_value_trade": "Estimated Trade Value",
-    "trader_wants": "Trader’s Wants"
+    "trader_wants": "Trader’s Wants",
+    "balance_the_deal": "Balance this deal by adding cash",
+    "balance_the_deal_request": "Balance this deal by requesting cash",
+    "insert_amount": "Insert Amount",
+    "your_item_value": "Your items’ value",
+    "total_value": "Total Value",
+    "cash_added": "${0} Cash Added",
+    "cash_requested": "${0} Cash Requested",
+    "edit_added_cash": "Edit Added Cash",
+    "edit_requested_cash": "Edit Requested Cash"
   },
   "change_password": {
     "password": "Password",

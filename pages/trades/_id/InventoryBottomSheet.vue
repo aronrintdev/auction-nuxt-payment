@@ -1,6 +1,8 @@
 <template>
   <client-only>
   <vue-bottom-sheet ref="myBottomSheet" max-height="90%" :is-full-screen="true" class="bottom-sheet">
+    <trade-arena-filters v-if="filterScreen" @change="handleFilterChange" />
+    <div v-else>
     <div class="offer-items">
       <div class="d-flex justify-content-between pl-3 pr-3">
         <div class="clear" :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="clearItems()">Clear</div>
@@ -95,6 +97,16 @@
       </b-row>
     </div>
     </div>
+    <div v-if="!inventoryItems.length" class="w-100 py-5 text-center">
+        <div class="d-inline-flex align-items-center no-items-found">
+          <img src="~/assets/img/no-items-found.png" class="mr-3" />
+          <div class="text-left">
+            <div class="no-items-found-title">{{ $t('auctions.frontpage.no_results_found') }}</div>
+            <div class="no-items-found-subtitle">{{ $t('auctions.frontpage.cant_find_anything') }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </vue-bottom-sheet>
   </client-only>
 </template>
@@ -108,9 +120,11 @@ import {
 import {DEFAULT_PER_PAGE_ITEMS, MAX_ITEMS_ALLOWED, PER_PAGE_ITEMS} from '~/static/constants';
 import {Pagination} from '~/components/common'
 import SearchInput from '~/components/common/SearchInput';
+import TradeArenaFilters from '~/components/trade/TradeArenaFilters';
 export default {
   name: 'InventoryBottomSheet',
   components:{
+    TradeArenaFilters,
     SearchInput,
     Pagination
   },
@@ -145,8 +159,8 @@ export default {
      */
     getInventory: debounce(function (filters = {}) {
       filters.category = this.categoryFilter
-      filters.sizes = this.sizeFilter.join(',')
-      filters.size_types = this.sizeTypesFilter.join(',')
+      filters.sizes = this.sizeFilter?.join(',')
+      filters.size_types = this.sizeTypesFilter?.join(',')
       this.$axios
         .get('/vendor/inventory', {
           params: {
@@ -171,6 +185,15 @@ export default {
      * quantity from listing
      * @param id
      */
+    handleFilterChange(filters) {
+      this.categoryFilter = filters?.categories?.join(',')
+      this.sizeFilter = filters?.sizes
+      this.sizeTypesFilter = filters?.sizeTypes
+      this.filterScreen = false
+      this.getInventory()
+      this.$forceUpdate()
+
+    },
     decrementOrRemoveItem(item) {
       const existingItem = this.getYourTradeItems.find(val => val.id === item.id)
       if (existingItem.quantity > 1) {
@@ -460,4 +483,13 @@ export default {
   letter-spacing: 0.005em
   color: $color-gray-5
   padding-top: 13px
+.no-items-found
+   img
+    width: 60px
+   &-title
+    font-size: 16px
+    line-height: 22px
+   &-subtitle
+    font-size: 14px
+    line-height: 19px
 </style>
