@@ -4576,6 +4576,7 @@
     "offer_sent": "Offer Sent",
     "counter_offer_received": "Counter Offer Received",
     "counter_offer_sent": "Counter Offer Sent",
+    "counter_offer_declined": "Counter Offer Declined",
     "offer_id": "Offer ID",
     "placed_on": "Placed on",
     "my_trade_listings": "My Trade Listings",
