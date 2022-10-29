@@ -13,8 +13,21 @@
         <div class="body-4-normal mb-1 text-gray-6">
           {{ dayjs(product && product.created_at).format('DD, MMM, h:mm A') }}
         </div>
-        <div class="body-4-bold mb-2">{{product && product.avg_sales_price | toCurrency}} ({{$t('deadstock_exchange.detail.avg_price')}})</div>
-        <div class="body-4-normal mb-2 " :class="product && product.day_sales_percentage >= 0 ? 'text-success' : 'text-danger'">+0.64 (+0.36%)</div>
+        <div class="body-4-bold mb-2">
+          {{ product && product.avg_sales_price | toCurrency }} ({{
+            $t('deadstock_exchange.detail.avg_price')
+          }})
+        </div>
+        <div
+          class="body-4-normal mb-2"
+          :class="
+            product && product.sales_percentage >= 0
+              ? 'text-success'
+              : 'text-danger'
+          "
+        >
+          {{ product && product.sales_percentage | toPercentage }}
+        </div>
       </div>
       <div class="col-4 text-right">
         <Button
@@ -45,22 +58,34 @@
           <div class="col-lg-5 desktop-product-name-section">
             <div class="body-4-bold mb-2">{{ product && product.name }}</div>
             <div class="body-4-normal mb-2 text-gray-6 product-variant">
-             {{product && product.colorway}}
+              {{ product && product.colorway }}
             </div>
           </div>
           <!-- mobile responsive product average Section   -->
           <div class="col-lg-5 mobile-product-name-section">
             <div class="row">
               <div class="col-10">
-                <div class="body-4-bold mb-2">{{ product && product.name }}</div>
+                <div class="body-4-bold mb-2">
+                  {{ product && product.name }}
+                </div>
                 <div class="body-5-normal mb-2 text-gray-6 product-variant">
-                 {{ $t('products.last_sale') }}: {{ product && product.last_price | toCurrency }}
-                  <span class="text-success">+0.64 (+0.36%)</span>
+                  {{ $t('deadstock_exchange.detail.last_sale') }}:
+                  {{ product && product.last_price | toCurrency }}
+                  <span
+                    :class="
+                      product && product.sales_percentage > 0
+                        ? 'text-success'
+                        : 'text-danger'
+                    "
+                    >{{
+                      product && product.sales_percentage | toPercentage
+                    }}</span
+                  >
                 </div>
               </div>
               <div class="col-2 text-right">
                 <Button
-                  :id="`popover-wishlist-`"
+                  :id="`popover-wishlist-${product && product.id}`"
                   variant="link"
                   :icon="wishList ? `heart-red.svg` : 'heart2.svg'"
                   icon-only
@@ -90,9 +115,13 @@
         <div class="row desktop-product-price-section">
           <div class="col-lg-12">
             <div class="body-4-normal mb-2 text-gray-6">
-              {{ dayjs(product && product.created_at).format('DD, MMM, h:mm A') }}
+              {{
+                dayjs(product && product.created_at).format('DD, MMM, h:mm A')
+              }}
             </div>
-            <div class="body-4-bold mb-2">{{product && product.retail_price | toCurrency}}</div>
+            <div class="body-4-bold mb-2">
+              {{ product && product.retail_price | toCurrency }}
+            </div>
           </div>
         </div>
         <!-- mobile Responsive TabBar Section  -->
@@ -122,8 +151,15 @@
         </div>
         <div class="row desktop-chart-header-section">
           <div class="col-lg-3 col-md-3">
-            <div class="body-4-normal mb-2 text-success sale-average">
-              +0.64 (+0.36%)
+            <div
+              class="body-4-normal mb-2 sale-average"
+              :class="
+                product && product.sales_percentage > 0
+                  ? 'text-success'
+                  : 'text-danger'
+              "
+            >
+              {{ product && product.sales_percentage | toPercentage }}
             </div>
           </div>
           <div class="col-lg-6 col-md-6 col-sm-6">
@@ -156,9 +192,8 @@
                 :options="lineChartOptions"
                 class="line-chart"
                 chart-id="vendor-dashboard-line-chart"
-
               />
-          </client-only>
+            </client-only>
           </div>
         </div>
         <div class="row mt-5 desktop-average-tab">
@@ -190,22 +225,40 @@
         <div class="body-2-bold mb-2">
           {{ $t('deadstock_exchange.detail.product_detail') }}
         </div>
-        <div class="row bg-gray-light p-1 mb-2">
+        <div class="row bg-gray-light p-2 mb-2">
           <div class="col-md-12">
-            <div class="col-md-6 col-sm-6 body-6-bold">Sku</div>
-            <div class="col-md-6 col-sm-6 text-right">{{ product && product.sku }}</div>
-          </div>
-          <div class="col-md-12">
-            <div class="col-md-6 col-sm-6 body-6-bold">Colorways</div>
-            <div class="col-md-6 col-sm-6 text-right">{{ product && product.colorway }}</div>
-          </div>
-          <div class="col-md-12">
-            <div class="col-md-6 col-sm-6 body-6-bold">Retails Price</div>
-            <div class="col-md-6 col-sm-6 text-right">{{ product && product.retail_price }}</div>
-          </div>
-          <div class="col-md-12">
-            <div class="col-md-6 col-sm-6 body-6-bold">Release Date</div>
-            <div class="col-md-6 col-sm-6 text-right">{{ product && product.release_year }}</div>
+            <div class="row">
+              <div class="col-6 body-6-bold">
+                {{ $t('deadstock_exchange.detail.sku') }}
+              </div>
+              <div class="col-6 text-right">
+                {{ product && product.sku }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6 body-6-bold">
+                {{ $t('deadstock_exchange.detail.colorway') }}
+              </div>
+              <div class="col-6 text-right">
+                {{ product && product.colorway }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6 body-6-bold">
+                {{ $t('deadstock_exchange.detail.retail_price') }}
+              </div>
+              <div class="col-6 text-right">
+                {{ product && product.retail_price }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6 body-6-bold">
+                {{ $t('deadstock_exchange.detail.release_date') }}
+              </div>
+              <div class="col-6 text-right">
+                {{ product && product.release_year }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -265,7 +318,7 @@
           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
             <FormDropdown
               id="sort-by"
-              :value="sortBy"
+              :value="selectedFilters.sortBy"
               :placeholder="$t('deadstock_exchange.detail.filter')"
               :items="SIMILAR_FILTER_SORT_OPTIONS"
               :icon="require('~/assets/img/icons/three-lines.svg')"
@@ -280,7 +333,10 @@
         </div>
         <div class="row">
           <div id="tb-product" class="col-lg-12 overflow-auto">
-            <SimilarProductTable :products="similarProducts" notDataTitle="No similar products found" />
+            <SimilarProductTable
+              :products="similarProducts"
+              notDataTitle="No similar products found"
+            />
           </div>
         </div>
       </div>
@@ -295,18 +351,32 @@
       <template #default>
         <div class="row text-left">
           <div class="col-12">
-            <div class="body-4-bold">All Sizes</div>
+            <div class="body-4-bold">
+              {{ $t('deadstock_exchange.detail.all_sizes') }}
+            </div>
           </div>
         </div>
         <hr class="my-2" />
         <div class="row">
           <div class="col-6 text-left">
-            <div class="body-6-bold mb-2">Average price</div>
-            <div class="body-4-bold">{{ product && product.avg_sales_price | toCurrency }}</div>
+            <div class="body-6-bold mb-2">
+              {{ $t('deadstock_exchange.detail.average_price') }}
+            </div>
+            <div class="body-4-bold">
+              {{ product && product.avg_sales_price | toCurrency }}
+            </div>
           </div>
           <div class="col-6 text-right">
-            <div class="body-6-bold mb-2">Day gain</div>
-            <div class="body-6-normal text-success">$90.00</div>
+            <div class="body-6-bold mb-2">
+              {{ $t('deadstock_exchange.detail.day_gain') }}
+            </div>
+            <div class="body-6-normal" :class="
+                product && product.gainRatio > 0
+                  ? 'text-success'
+                  : 'text-danger'
+              ">
+              {{ product && product.gainRatio | toCurrency }}
+            </div>
           </div>
         </div>
         <hr class="my-2" />
@@ -327,12 +397,14 @@
                   >
                     {{ size.size }}
                     <div class="price">
-                      <!-- $ 234.00 -->
-                      <!-- {{ getPriceBySize(size.id) | toCurrency }} -->
+                    {{ size.price | toCurrency }}
                     </div>
-                    <div class="price-ratio text-success">
-                      +0.64(+0.36%)
-                      <!-- {{ getPriceBySize(size.id) | toCurrency }} -->
+                    <div class="price-ratio" :class="
+                product && product.size_to_price_percentage > 0
+                  ? 'text-success'
+                  : 'text-danger'
+              ">
+                     {{size.size_to_price_percentage |toPercentage}}
                     </div>
                   </div>
                 </div>
@@ -342,11 +414,15 @@
         </div>
       </template>
     </Modal>
-    <!-- <WishListPopover
-        @show="wishListShow = true"
-        @hidden="wishListShow = false"
-        @wishlisted="onWishListed"
-      /> -->
+    <WishListPopover
+      v-if="!wishList"
+      :product="productDetail"
+      :wish-list="wishList"
+      :target="`popover-wishlist-${product && product.id}`"
+      @show="wishListShow = true"
+      @hidden="wishListShow = false"
+      @wishlisted="onWishListed"
+    />
   </div>
 </template>
 
@@ -360,14 +436,8 @@ import SearchBox from '../RoundSearchBox'
 import SimilarProductTable from './SimilarProductTable.vue'
 import ProductSizePicker from '~/components/product/SizePicker'
 import StockExchangeMobileFilter from '~/components/Exchange/MobileFilter'
-// import WishListPopover from '~/components/wish-list/Popover.vue'
-import {
-  Button,
-  Loader,
-  FormDropdown,
-  Modal,
-
-} from '~/components/common'
+import WishListPopover from '~/components/wish-list/Popover.vue'
+import { Button, Loader, FormDropdown, Modal } from '~/components/common'
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 
@@ -384,10 +454,10 @@ export default {
     ProductSizePicker,
     Modal,
     StockExchangeMobileFilter,
-    // WishListPopover
+    WishListPopover,
   },
   directives: {
-    ClickOutside
+    ClickOutside,
   },
   data() {
     return {
@@ -395,7 +465,7 @@ export default {
       loading: false,
       product: null,
       graphData: null,
-      similarProducts:[],
+      similarProducts: [],
       prices: [],
       sortBy: null,
       chartTabCurrentValue: '24',
@@ -490,7 +560,6 @@ export default {
             {
               gridLines: {
                 drawOnChartArea: false,
-
               },
               ticks: {
                 fontFamily: 'Montserrat',
@@ -551,13 +620,14 @@ export default {
 
     this.loading = true
     this.product = await this.$axios
-      .get(`/products/${sku}/details`)
+      .get(`/stock-exchange/${sku}`)
       .then((res) => res.data)
     if (this.product) {
       const lowestPrice = _.minBy(this.product.lowest_prices, 'price')
       if (lowestPrice) {
         this.currentSize = lowestPrice.size_id
         this.currentCondition = lowestPrice.packaging_condition_id
+        this.similarProducts = this.product.similar_products
         await this.findListingItem() // 'add to chart' button needs listing of item
       } else {
         this.currentCondition = this.product.packaging_conditions[0]?.id
@@ -567,22 +637,28 @@ export default {
   },
   computed: {
     sizes() {
-      return this.product?.sizes || []
+      return this.product?.allSizes || []
     },
     wishList() {
-      return null
-      // return this.product.wish_lists && this.product.wish_lists.length > 0
-      //   ? this.product.wish_lists[0]
-      //   : null
+      return this.product &&
+        this.product.wish_lists &&
+        this.product.wish_lists.length > 0
+        ? this.product.wish_lists[0]
+        : null
+    },
+    productDetail() {
+      return this.product || {}
     },
   },
   mounted() {
-    this.getProductDetail()
+    // this.getProductDetail()
     this.getProductChartData()
   },
   methods: {
     ...mapActions({
       removeProductsFromWishList: 'wish-list/removeProductsFromWishList',
+      checkItemExistforVendor: 'sell-now/checkItemExistforVendor',
+      storeOfferDetails: 'offer/storeOfferDetails',
     }),
     handleChartTabChange(value) {
       this.chartTabCurrentValue = value
@@ -595,12 +671,31 @@ export default {
       this.$bvModal.show('size-all-modal')
     },
     // Event handler when user select size in `view all` mode
+    handleSizeSelect(sizeId) {
+      this.$bvModal.hide('size-all-modal')
+      this.updateSize(sizeId)
+    },
+    // Event handler when user select size in `view all` mode
     handleSizeChange(sizeId) {
       if (sizeId) {
         this.currentSize = sizeId
         // this.resetError()
         this.findListingItem()
       }
+    },
+    // Emit update event to parent component when user select size
+    updateSize(sizeId) {
+      this.$emit('update', sizeId)
+      this.$emit('input', sizeId)
+      this.$nextTick(() => {
+        const position = $(
+          '.size-carousel .item[data-size="' + sizeId + '"]'
+        ).data('position')
+
+        // Update carousel position to center selected size box and refresh carousel
+        this.$refs.sizeCarousel?.goTo(position)
+        this.$refs.sizeCarousel?.refresh()
+      })
     },
     pricesBySize() {
       if (this.method === 'buy') {
@@ -659,6 +754,7 @@ export default {
     },
     handleBuyNowClick() {
       if (!this.currentSize) {
+        alert()
         this.error.buyNow = this.$t('products.error.select_size')
         return
       }
@@ -759,7 +855,6 @@ export default {
         this.wishListShow = false
       }
     },
-
     removeFromWishList() {
       if (this.wishList) {
         // We need to blur button in order to make popover work again.
@@ -825,30 +920,13 @@ export default {
     handleSortBySelect(option) {
       this.selectedFilters = {
         ...this.selectedFilters,
-        sortby: option?.value
+        sortby: option?.value,
       }
     },
-      // Submit updated filters
-    emitChange: debounce(function(filters) {
+    // Submit updated filters
+    emitChange: debounce(function (filters) {
       this.$emit('filterList', filters)
     }, 300),
-    getProductDetail() {
-      this.loading = true
-      this.$axios
-        .get(`/stock-exchange/${this.$route.params.sku}`)
-        .then((response) => {
-          console.log(response.data)
-          if (response.data) {
-            this.product = response.data
-            this.similarProducts = response.data.similar_products
-            this.loading = false
-          }
-        })
-        .catch((error) => {
-          this.loading = false
-          this.$toasted.error(error.message)
-        })
-    },
     getProductChartData() {
       this.loading = true
       this.$axios
@@ -872,12 +950,12 @@ export default {
         this.$axios
           .get('/products', {
             params: {
-            type: this.type,
-            page: this.currentPage,
-            take: this.perPage,
-            search: this.searchText.toLowerCase(),
-            sortBy: this.sortBy,
-          }
+              type: this.type,
+              page: this.currentPage,
+              take: this.perPage,
+              search: this.searchText.toLowerCase(),
+              sortBy: this.sortBy,
+            },
           })
           .then((response) => {
             this.hasSearchResult = true
@@ -906,6 +984,6 @@ export default {
       this.hasSearchResult = false
       this.searchedProducts = []
     },
-  }
+  },
 }
 </script>

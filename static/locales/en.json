@@ -5342,7 +5342,15 @@
       "filter":"Filter",
       "avg_price":"Avg.Price",
       "size_specific":"Size Specific",
-      "product_detail": "Product Detail"
+      "product_detail": "Product Detail",
+      "last_sale": "Last Sale",
+      "sku": "Sku",
+      "colorway": "Colorway",
+      "retail_price": "Retail Price",
+      "release_date": "Release Date",
+      "all_sizes":"All Sizes",
+      "average_price":"Average price",
+      "day_gain":"Day gain"
     }
   }
 }
