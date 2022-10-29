@@ -49,10 +49,14 @@ export default {
     },
 
     onScreenChange(){
-      if(!this.isScreenSize){
+      if(!this.isScreenXS){
         this.$router.push('/profile/preferences')
       }
     }
   },
 }
 </script>
+<style lang="sass" scoped>
+.your-address-page
+  min-height: 37rem
+</style>

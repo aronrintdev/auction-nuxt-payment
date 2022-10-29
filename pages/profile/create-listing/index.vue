@@ -340,8 +340,6 @@ export default {
     margin-right: 100px
     margin-bottom: 36px
     background: transparent
-    &:last-child
-      margin-right: 0
     &-title
       font-family: $font-family-sf-pro-text
       &.selling
