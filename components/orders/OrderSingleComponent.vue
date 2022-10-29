@@ -166,8 +166,15 @@ export default {
     isBuy() {
       return this.order.type.label === 'buy'
     },
+    isAuction() {
+      return this.order.type.label === 'auction'
+    },
     commissionAmount() {
-      return this.order.commission?.amount | 0
+      let total = 0
+      this.order.items.forEach(x => {
+        total = total + (x.commission?.commission || 0)
+      })
+      return total
     }
   },
   watch: {
@@ -185,11 +192,10 @@ export default {
   },
   methods: {
     product(item) {
-      if (this.isTrade) {
-        return item.product
+      if (this.isBuy) {
+        return item.listing_item?.inventory?.product
       }
-
-      return item.listing_item?.inventory?.product
+      return item.product
     },
     sizeId(item) {
       return item.listing_item?.inventory?.size_id

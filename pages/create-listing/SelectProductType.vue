@@ -1,48 +1,58 @@
 <template>
-  <b-container fluid class="create-listing-page h-100 px-5">
+  <b-container fluid class="create-listing-page h-100 p-3 p-md-4">
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="title">
         {{
-          `${$t('create_listing.index.select')} auction ${$t(
+          `${$t('create_listing.index.select')} ${$t('common.auction')} ${$t(
             'create_listing.index.type'
           )}`
         }}
       </h2>
     </div>
-    <div class="mt-4 d-flex listing-types">
-      <ListingType
-        :title="$t('create_listing.index.auction_single')"
-        :description="$t('create_listing.index.auction_single_desc')"
-        :image="Single"
-        :title-class="'selling'"
-        class="mr-3"
-        @click="selectAuctionType('single')"
-      />
-      <ListingType
-        :title="$t('create_listing.index.auction_collection')"
-        :description="$t('create_listing.index.auction_collection_desc')"
-        :image="Collection"
-        :title-class="'trade'"
-        class="mr-3"
-        @click="selectAuctionType('collection')"
-      />
+    <div class="py-3 m-0 py-md-5 d-flex flex-column flex-md-row justify-content-around listing-types">
+      <div class="d-flex flex-row flex-md-column mx-auto listing-type" @click="selectAuctionType('single')">
+        <div class="position-relative listing-type-img">
+          <img src="~/assets/img/create-listing/auction-single-type.png" class="position-absolute" />
+        </div>
+        <div class="listing-type-content">
+          <div class="mt-0 mt-md-4 listing-type-title single">
+            {{ $t('create_listing.index.auction_single') }}
+          </div>
+          <div class="listing-type-desc">
+            {{ $t('create_listing.index.auction_single_desc') }}
+          </div>
+          <div class="d-block d-md-none mt-1 ml-auto arrow-icon">
+            <img class="w-100" src="~/assets/img/icons/arrow-right-in-circle.svg" />
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-row flex-md-column mx-auto listing-type" @click="selectAuctionType('collection')">
+        <div class="position-relative listing-type-img">
+          <img src="~/assets/img/create-listing/auctionhousedoubled 2.png" class="position-absolute" />
+        </div>
+        <div class="listing-type-content">
+          <div class="mt-0 mt-md-4 listing-type-title collection">
+            {{ $t('create_listing.index.auction_collection') }}
+          </div>
+          <div class="listing-type-desc">
+            {{ $t('create_listing.index.auction_collection_desc') }}
+          </div>
+          <div class="d-block d-md-none mt-1 ml-auto arrow-icon">
+            <img class="w-100" src="~/assets/img/icons/arrow-right-in-circle.svg" />
+          </div>
+        </div>
+      </div>
     </div>
   </b-container>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ListingType from '~/components/createListing/ListingType';
-import Single from '~/assets/img/icons/single-auction.svg'
-import Collection from '~/assets/img/icons/collection-auction.svg'
 export default {
   name: 'SelectProductType',
-  components: {ListingType},
   layout: 'Profile',
   middleware: 'auth',
   data() {
     return {
-      Single,
-      Collection,
       listingType: null,
     }
   },
@@ -85,4 +95,57 @@ export default {
   h2.title
     @include heading-3
     color: $color-black-1
+  @media (max-width: 576px)
+    h2.title
+      font-size: 14px
+      line-height: 17px
+  .listing-type
+    border: none
+    margin-right: 100px
+    margin-bottom: 36px
+    padding: 0
+    max-width: 460px
+    background: transparent
+    &:last-child
+      margin-right: 0
+    &-title
+      font-family: $font-family-sf-pro-text
+      &.single
+        color: $color-orange-4
+      &.collection
+        color: $color-blue-1
+    &-desc
+      font-family: $font-family-sf-pro-text
+      font-weight: $normal
+    &-img
+      width: 100%
+      height: 0
+      padding-top: 100%
+      img
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+    @media (max-width: 576px)
+      margin-right: 15px
+      align-items: flex-end
+      &-img
+        width: 190px
+        padding-top: 190px
+        margin-right: 15px
+      &-content
+        flex: 1
+      &-title
+        font-size: 15px
+        line-height: 18px
+        margin-bottom: 8px
+        &.single
+          color: $black
+        &.collection
+          color: $black
+      &-desc
+        font-size: 12px
+        line-height: 15px
+      .arrow-icon
+        width: 44px
 </style>

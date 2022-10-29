@@ -1,8 +1,24 @@
 <template>
-  <div class="banner-wrapper">
-    <div class="title-container">
-      <h1 v-html="title"></h1>
-      <p>{{ description }}</p>
+  <div
+    class="banner-wrapper w-100 d-flex justify-content-sm-start align-items-sm-start"
+    :style="`--image: url(${backgroundImage}); --imageSm: url(${backgroundImageSm})`"
+  >
+    <div class="feature-title-container mt-5 ml-5 d-none d-sm-block">
+      <h1
+        class="font-primary fs-40 fw-7 text-capitalize text-black"
+        v-html="$t(title)"
+      ></h1>
+      <p class="font-primary fs-16 fw-4 text-black">{{ $t(description) }}</p>
+    </div>
+    <div
+      v-if="$route.path != '/features'"
+      class="d-flex align-items-end justify-content-start ml-3 custom-margin-bottom"
+    >
+      <div
+        class="feature-title-mobile d-flex align-items-center justify-content-center d-sm-none font-ternary fs-22 fw-7 text-uppercase w-100 h-auto"
+      >
+        {{ $t(title) }}
+      </div>
     </div>
   </div>
 </template>
@@ -19,6 +35,14 @@ export default {
       type: String,
       default: '',
     },
+    backgroundImage: {
+      type: String,
+      required: true,
+    },
+    backgroundImageSm: {
+      type: String,
+      default: null,
+    },
   },
 }
 </script>
@@ -27,32 +51,41 @@ export default {
 @import '~/assets/css/_variables'
 
 .banner-wrapper
-  background-image: url('~/assets/img/features/banner.png')
-  width: 100%
-  height: 407px
-  background-color: $color-purple-7
+  height: 440px
   background-position: center
   background-size: cover
-  position: relative
-  padding: 46px 59px
+  background-repeat: no-repeat
+  background-image: var(--image)
+  @media (max-width: 577px)
+    background-image: var(--imageSm)
+    width: 375px
+    height: 180px
 
-  @media (max-width: 552px)
-    padding: 40px 35px
-
-  .title-container
+  .feature-title-container
     background-color: rgba($color-white-1, 0.56)
     padding: 24px 40px
-    max-width: 399px
-    min-height: 212px
-    backdrop-filter: blur(24px)
-
+    width: 399px
+    height: 212px
+    backdrop-filter: blur(12px)
+    --webkit-backdrop-filter: blur(12px)
+    --moz-backdrop-filter: blur(12px)
     h1
-      @include heading-5
-      color: $color-black-1
-      font-weight: $bold
-      line-height: 120%
-
+      letter-spacing: -0.02em
     p
-      @include body-4-regular
-      color: $color-black-1
+      letter-spacing: -0.02em
+
+@media screen and (max-width: 577px)
+  .banner-wrapper
+    .custom-margin-bottom
+      margin-bottom: 2.2rem
+      .feature-title-mobile
+        background-color: rgba(171, 171, 171, 0.6)
+        padding: 0px 9px
+        min-width: 219px
+        max-width: 270px
+        min-height: 45px
+        max-height: 103px
+        line-height: 29px
+        letter-spacing: -0.08em
+        color: $color-white-1
 </style>

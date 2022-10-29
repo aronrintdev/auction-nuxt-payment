@@ -8,13 +8,13 @@
       <b-col cols="6">
         <label class="form-label">{{ minLabel }}</label>
         <div class="input-group input-group-sm">
-          <span class="input-group-text from-to">{{ fromLabel }}</span>
+          <span class="input-group-text from-to bg-white text-gray-24">{{ fromLabel }}</span>
           <input
             :min="minValue"
             :max="maxValue"
             :value="from"
             :placeholder="minValue / multiplier"
-            class="form-control"
+            class="form-control bg-white"
             name="min"
             type="text"
             @input="handleInputChange"
@@ -26,13 +26,13 @@
       <b-col cols="6">
         <label class="form-label">{{ maxLabel }}</label>
         <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text from-to">{{ toLabel }}</span>
+          <span class="input-group-text from-to  bg-white text-gray-24">{{ toLabel }}</span>
           <input
             :min="minValue"
             :max="maxValue"
             :value="to"
             :placeholder="maxValue / multiplier"
-            class="form-control"
+            class="form-control  bg-white"
             name="max"
             type="text"
             @input="handleInputChange"

@@ -133,8 +133,6 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-.section-wrapper
-  margin-bottom: 32px
 .products-category
   margin-top: 33px
 .category
@@ -150,6 +148,7 @@ export default {
       aspect-ratio: 1 / 1
       @media (max-width: 500px)
         width: 162px
+        margin: 0 auto
         background-size: contain
         h1
           font-size: 14px
