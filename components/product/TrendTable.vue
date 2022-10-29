@@ -305,8 +305,10 @@ export default {
 @import '~/assets/css/_typography'
 
 .trend-table-wrapper
-  width: calc( 100% - 86px )
   margin: 0 auto
+  width: calc( 100% - 10px )
+  @media (max-width: 576px)
+    width: calc( 100% - 86px )
   tr
     border-top: 1px solid $color-gray-63
   thead tr td

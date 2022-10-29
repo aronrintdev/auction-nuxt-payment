@@ -1,5 +1,5 @@
 <template>
-  <section class="container shop-filters d-none d-sm-block">
+  <section class="container shop-filters">
     <div class="filters-wrapper">
       <div class="row">
         <div class="col-9">
@@ -144,7 +144,11 @@
               <!-- brands -->
               <div class="filter-body">
                 <div class="search-bar position-relative mb-2">
-                  <input type="search" placeholder="Search for Brands" />
+                  <input
+                    v-model="brandName"
+                    type="search"
+                    placeholder="Search for Brands"
+                  />
                   <img
                     class="searchbarIcon"
                     width="11px"
@@ -152,7 +156,7 @@
                   />
                 </div>
                 <div
-                  v-for="(item, index) in brandOptions"
+                  v-for="(item, index) in filterBrands"
                   :key="index"
                   class="form-check"
                 >
@@ -327,6 +331,7 @@ export default {
       prices: [],
       brands: [],
       sizeTypes: [],
+      brandName: '',
     }
   },
   computed: {
@@ -343,6 +348,15 @@ export default {
       'auction',
       ['getProductFilter']
     ),
+    filterBrands() {
+      if (this.brandName.trim() === '') {
+        return this.brandOptions
+      }
+      return this.brandOptions.filter(
+        (brand) =>
+          brand.label?.toLowerCase().indexOf(this.brandName.toLowerCase()) > -1
+      )
+    },
     minYear() {
       if (this.filters?.year_range?.min == null) {
         return MIN_YEAR
@@ -552,8 +566,8 @@ export default {
     .remove-filter
       color: $color-blue-20
       cursor: pointer
-  .filters-wrapper
-    margin-top: 70px
+  ::v-deep .searchbox
+    margin-right: 0
   .dropdown-sort::v-deep
     .btn-dropdown
       color: $color-black-1
