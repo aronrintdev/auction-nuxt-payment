@@ -19,7 +19,7 @@
             <!-- ./Heading -->
             <!-- Drafts -->
             <span
-              class="text-bold text-decoration-underline"
+              class="text-decoration-underline drafts-btn"
               role="button"
               @click="showDraft"
               >{{ $t('common.drafts') }} &#040;{{
@@ -245,6 +245,7 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+@import '~/assets/css/_typography'
 .create-listing-page
   background: $color-white-4
   .content-header
@@ -264,6 +265,8 @@ export default {
     margin-right: 100px
     margin-bottom: 36px
     padding: 0
+  .drafts-btn
+    font-weight: $medium
   .content-main-new-user
     .web-row
       padding: 4rem

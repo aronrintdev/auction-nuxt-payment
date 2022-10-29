@@ -164,7 +164,8 @@
     "continue"  : "Continue",
     "of"  : "of",
     "week"  : "Week",
-    "dismiss" : "Dismiss"
+    "dismiss" : "Dismiss",
+    "n/a": "N/A"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -2848,6 +2849,7 @@
       "subtitle": "Select items you would like to list, Collection Auctions can add up to 10 items.",
       "max_count": "Max. allowed count: ",
       "select_drag": "Select or Drag and Drop Inventory",
+      "items_selected": "items selected",
       "select_items": "Select or drag & drop items",
       "up_to_ten": "Up to ten items",
       "select_inventory": "Select from Inventory",
@@ -2888,9 +2890,10 @@
       "no_reserve": "No Reserve",
       "reserve_price": "Reserve Price",
       "reserve_text_info": "A non-refundable fee of | will be charged at the time of listing whether the item sells or not.",
-      "reserve_tooltip_info": "Reserve fee will be charged at the time of listing whether the item sells or not.",
+      "reserve_info_short": "A non-refundable fee will be charged at the time of listing whether the item sells or not.",
       "starting_bid": "Starting Bid*",
       "date_text": "__/__/____",
+      "schedule_date_required": "Schedule date is required.",
       "enter_starting_bid": "Enter Starting Bid",
       "status_select": {
         "live": "Live",
@@ -2929,7 +2932,7 @@
       "terms_and_conditions": "Terms and Conditions",
       "thankyou": "Thank You",
       "days": "Days",
-      "reserve_fee": "Reserve fee ( 7.99% of reserve price)",
+      "reserve_fee": "Reserve fee",
       "go_to_auctions": "Go to Auction Dashboard",
       "contact_details": "If you have any questions about your order, you can email us at {0} or call us at {1}",
       "reference_number": "Reference Number",
@@ -2984,7 +2987,8 @@
       "excellent": "Excellent",
       "description": "Description",
       "description_details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Velit nulla et consectetur lorem ut. Semper facilisis nulla sit pharetra sed eu enim.",
-      "latest_sales":"Latest Sales"
+      "latest_sales":"Latest Sales",
+      "select_box_condition": "Select Box Condition" 
     },
     "auction": {
       "to_be_listed": "To Be Listed",
