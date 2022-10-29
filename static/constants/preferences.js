@@ -20,3 +20,8 @@ export const NEWPAYMENT = 'new-payment';
 export const NEW = 'new';
 export const EXPIRED_CARD = 'expired';
 export const ACTIVE_CARD = 'active';
+
+export const ADD = 'add'
+export const EDIT = 'edit'
+export const SHIPPING = 'shipping'
+export const BILLING = 'billing'
