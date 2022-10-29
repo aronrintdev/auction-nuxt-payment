@@ -137,9 +137,7 @@ export default {
 .expire-text
   font-family: $font-montserrat
   font-style: normal
-  font-weight: $normal
-  font-size: 16px
-  line-height: 20px
+  @include body-4-normal
   display: flex
   align-items: center
   color: $color-red-3
@@ -147,9 +145,7 @@ export default {
 .listing-text
   font-family: $font-sp-pro
   font-style: normal
-  font-weight: $bold
-  font-size: 18px
-  line-height: 21px
+  @include body-12-bold
   color: $color-black-1
 
 .listing-id-color
@@ -158,7 +154,7 @@ export default {
 .item
   border: 0.5px solid $light-gray-2
 .text-created
-  font-family: 'Montserrat'
+  font-family: $font-family-montserrat
   font-style: normal
   font-weight: $medium
   @include body-18
@@ -166,8 +162,8 @@ export default {
 .btn-expire
   width: 95px
   height: 25px
-  background-color: #E2E2E2
-  color: #000000
+  background-color: $dark-gray-8
+  color: $color-black-1
   position: relative
   top: 10px
   left: 5px

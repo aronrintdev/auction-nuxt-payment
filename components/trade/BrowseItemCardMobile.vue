@@ -60,21 +60,21 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .trade-card-wrapper
-  background: #FAFAFA
+  background: $color-white-4
   position: relative
   margin-left: 3px
   margin-right: 3px
 .btn-expire
   width: 95px
   height: 25px
-  background-color: #DD5E5E
-  color: #FFFFFF
+  background-color: $color-red-24
+  color: $color-white-1
 .product-image
     position: relative
     padding: 0 10px
 
 .detail-wrapper
-  background-color: #FFFFFF
+  background-color: $color-white-1
   padding: 8px
 
 .product-name
@@ -93,16 +93,16 @@ export default {
   white-space: nowrap
 
 .product-size
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   font-size: 12px
   margin-top: 3px
 .clock-image
   height: 13px
   width: 13px
 .text-created
-  font-family: 'Montserrat'
+  font-family: $font-family-montserrat
   font-style: normal
   font-weight: $medium
   @include body-18

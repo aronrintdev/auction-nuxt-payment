@@ -11,7 +11,7 @@
     >
       <div class="filtersSection">
         <div class="mt-1 ml-2">
-          <span class="filtersHeading ml-2">Sort</span>
+          <span class="filtersHeading ml-2">{{$t('create_listing.filterbar.sort')}}</span>
           <b-form-radio-group
             class="radios mt-1 mb-1 sorted ml-3"
             v-model="sortFilters"
@@ -24,7 +24,7 @@
         <div class="mt-1 ml-2">
           <div class="d-flex" v-b-toggle="'collapse-1'">
             <b-row class="filtersHeading ml-2">
-              <b-col class="col-sm-6">Category</b-col>
+              <b-col class="col-sm-6">{{$tc('common.category')}}</b-col>
               <b-col class="col-sm-6">
                 <div class="d-flex justify-content-end mr-3">
                   <span class="mr-2 selected-content">{{getCategoryFilterSelection ? removeArray(getCategoryFilterSelection) : ''}}</span>
@@ -49,7 +49,7 @@
         <div class="mt-1 ml-2">
           <div class="d-flex" v-b-toggle="'collapse-sizeType'">
             <b-row class="filtersHeading ml-2">
-              <b-col class="col-sm-6">Size Type</b-col>
+              <b-col class="col-sm-6">{{$t('common.sizetype')}}</b-col>
               <b-col class="col-sm-6">
                 <div class="d-flex justify-content-end mr-3">
                   <span class="mr-2 selected-content">{{getSizeTypeFilterSelection ? removeArray(getSizeTypeFilterSelection) : ''}}</span>
@@ -106,7 +106,7 @@
         <div class="mt-1 ml-2">
           <div class="d-flex" v-b-toggle="'collapse-sizes'">
             <b-row class="filtersHeading ml-2">
-              <b-col class="col-sm-6">Sizes</b-col>
+              <b-col class="col-sm-6">{{$tc('common.size')}}</b-col>
               <b-col class="col-sm-6">
                 <div class="d-flex justify-content-end mr-3">
                   <span class="mr-2 selected-content">{{getSizeFilterSelection ? removeArray(getSizeFilterSelection) : ''}}</span>
@@ -131,10 +131,10 @@
         <hr class="hr" />
         <div class="d-flex mb-3">
           <div class="ml-2">
-            <b-btn class="resetBtn" @click="clearAllFilters">Reset</b-btn>
+            <b-btn class="resetBtn" @click="clearAllFilters">{{$t('common.reset')}}</b-btn>
           </div>
           <div class="ml-5">
-            <b-btn class="filter-btn" @click="applyFilters">Apply Filter</b-btn>
+            <b-btn class="filter-btn" @click="applyFilters">{{$t('common.apply_filters')}}</b-btn>
           </div>
         </div>
       </div>
@@ -146,18 +146,13 @@
 </template>
 
 <script>
-// import component
 import { mapActions, mapGetters } from 'vuex'
 import { capitalizeFirstLetter } from '~/utils/string'
 import SliderInput from '~/components/common/SliderInput'
-// import CustomSelect from '~/components/common/CustomSelect'
-// import Button from '~/components/common/Button.vue'
 
 export default {
   name: 'BrowseTradeFilters',
   components: {
-    // CustomSelect, // custom select component
-    // Button, // Button component
     SliderInput, // Input component slider
   },
   data() {
@@ -319,29 +314,29 @@ export default {
 @import '~/assets/css/_variables'
 .filtersHeading
   @include body-13
-  font-weight: 700
+  font-weight: $bold
   font-family: $font-sp-pro
-  color: #667799
+  color: $color-blue-20
   width: 100%
 .radios
   @include body-9
   font-weight: $normal
-  color: #424242
+  color: $color-black-9
   display: grid
 
 .hr
-  border-top: 1px solid #E1E1E1
+  border-top: 1px solid $color-gray-62
   width: 318px
 .unselected-item
   width: 99px
   height: 45px
   border-radius: 3px
-  background: #FFFFFF
-  border: 1px solid #999999
+  background: $color-white-1
+  border: 1px solid $color-gray-4
   @include body-5
   font-weight: $normal
   font-family: $font-sp-pro
-  color: #999999
+  color: $color-gray-4
   padding-top: 10px
   //padding-left: 20px
   cursor: pointer
@@ -363,8 +358,8 @@ export default {
   font-weight: $medium
   font-style: normal
   font-size: 16px
-  color:  #000000
-  background-color: #FFFFFF
+  color:  $color-black-1
+  background-color: $color-white-1
   margin-left: 10px
   @media (max-width: 350px) and  (min-width: 300px)
     width: 100px
@@ -373,12 +368,12 @@ export default {
 .filter-btn
   width: 130px
   height: 40px
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   font-size: 16px
-  color: #FFFFFF
-  background-color: #667799
+  color: $color-white-1
+  background-color: $color-blue-20
   border-radius: 30px
   @media (max-width: 350px) and  (min-width: 300px)
     width: 100px
@@ -388,51 +383,51 @@ export default {
   @include body-13
   font-weight: $normal
   font-family: $font-sp-pro
-  color: #000000
+  color: $color-black-1
 //margin-left: 10rem
 .selected-item
   width: 99px
   height: 45px
   border-radius: 3px
-  border: 1px solid #000
+  border: 1px solid $color-black-1
   @include body-5
   font-weight: $medium
   font-family: $font-sp-pro
-  color: #999999
+  color: $color-gray-4
   padding-top: 10px
   //padding-left: 20px
   cursor: pointer
-  background: #F2F2F2
+  background: $color-gray-21
 .selected-size
   width: 42px
   height: 42px
   border-radius: 3px
-  border: 1px solid #000
+  border: 1px solid $color-black-1
   @include body-5
   font-weight: $medium
   font-family: $font-sp-pro
-  color: #999999
+  color: $color-gray-4
   padding: 5px
   cursor: pointer
-  background: #F2F2F2
+  background: $color-gray-21
   margin: 2px
 .size-box
   width: 42px
   height: 42px
   border-radius: 3px
-  background: #FFFFFF
-  border: 1px solid #999999
+  background: $color-white-1
+  border: 1px solid $color-gray-4
   @include body-5
   font-weight: $normal
   font-family: $font-sp-pro
-  color: #999999
+  color: $color-gray-4
   padding: 5px
 .selected-content
   font-family: $font-sp-pro
   font-style: normal
   font-weight: $regular
   @include body-13
-  color: #000000
+  color: $color-black-1
   text-transform: capitalize
 .filter-details
   font-family: $font-montserrat

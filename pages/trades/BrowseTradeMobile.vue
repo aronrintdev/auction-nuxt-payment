@@ -27,7 +27,7 @@
                 <div class="trade-subtext mt-2">{{$t('trades.index.browse.explore_trading_opportunities_mobile')}}</div>
                 <div>
                   <b-btn class="create-btn mt-4 ml-3">
-                    Create a Listing
+                    {{$t('home.create_listing')}}
                   </b-btn>
                 </div>
               </div>
