@@ -5034,6 +5034,10 @@
       "enter_valid_address": "Please enter a valid address.",
       "verification_expired": "Verification Code has expired."
     },
+    "mobile": {
+      "verification_message_sent": "A verification code has been sent to your mobile phone.",
+      "verification_details_message": "Please input the code below to confirm within the next 5 minutes."
+    },
     "messages": {
       "document_uploaded": "Vendor Document Uploaded!",
       "server_error": "Something went wrong!",

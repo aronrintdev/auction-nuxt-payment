@@ -1,89 +1,92 @@
 <template>
-  <div class="store-details p-4 ">
-    <div class="d-flex justify-content-between align-items-center">
-      <div class="title" :class="mobileClass.length ? 'body-13-bold font-weight-bold' : 'heading-3-normal'">
-        {{ $t('vendor_hub.store_details') }}
-      </div>
-      <Button
-          v-if="!isEditModeActive"
-          :tooltip-text="$t('common.edit')"
-          class="btn-edit-inventory ml-5 mr-2"
-          variant="link"
-          @click="editActivation"
-      ></Button>
-    </div>
+  <div :class="{'store-details p-4' : !mobileClass}">
 
     <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
       <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-        <div class="d-flex flex-column flex-sm-row align-items-start mt-4">
-          <ValidationProvider
+        <div :class="{'mobile-form-box px-3 py-2 mb-4' : mobileClass}">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="title"
+                 :class="mobileClass.length ? 'body-10-bold font-weight-bold text-blue-20' : 'heading-3-normal'">
+              {{ $t('vendor_hub.store_details') }}
+            </div>
+            <Button
+              v-if="!isEditModeActive"
+              :tooltip-text="$t('common.edit')"
+              class="btn-edit-inventory ml-5 mr-2"
+              variant="link"
+              @click="editActivation"
+            ></Button>
+          </div>
+          <b-row class="mt-4 flex justify-content-between">
+            <b-col sm="12" md="3">
+            <ValidationProvider
               v-slot="validationContext"
               :name="$t('vendor_hub.form.store_name')"
               :rules="{ required: true }"
               class="w-100"
-          >
-            <b-form-group
+            >
+              <b-form-group
                 label-for="storeName"
                 class="w-100 mr-sm-5"
-            >
-              <template #label><span class="px-3">{{ $t('vendor_hub.form.store_name') }}</span></template>
-              <b-input-group>
-                <b-form-input
+                :label="$t('vendor_hub.form.store_name')"
+              >
+                <b-input-group>
+                  <b-form-input
                     id="storeName"
                     v-model="applyForm.store"
                     :disabled="!isEditModeActive"
                     :placeholder="$t('vendor_hub.form.store_name')"
                     :state="getValidationState(validationContext)"
                     class="rounded-pill field-input"
+                    :class="mobileClass"
                     type="text">
-                </b-form-input>
+                  </b-form-input>
 
-                <b-form-invalid-feedback>{{
-                    validationContext.errors[0]
-                  }}
-                </b-form-invalid-feedback>
-              </b-input-group>
-            </b-form-group>
-          </ValidationProvider>
-
-          <b-form-group
-              label-for="phoneNumber"
-              class="w-100 ml-sm-5"
-          >
-            <template #label><span class="px-3">{{ $t('vendor_hub.form.phone_number') }}</span></template>
-            <b-input-group>
-              <b-form-input
+                  <b-form-invalid-feedback>{{
+                      validationContext.errors[0]
+                    }}
+                  </b-form-invalid-feedback>
+                </b-input-group>
+              </b-form-group>
+            </ValidationProvider>
+          </b-col>
+            <b-col sm="12" md="3">
+            <b-form-group label-for="phoneNumber" class="w-100" :label="$t('vendor_hub.form.phone_number')">
+              <b-input-group>
+                <b-form-input
                   id="phoneNumber"
                   :disabled="!isEditModeActive"
                   :placeholder="$t('vendor_hub.form.phone_number')"
                   :value="applyForm.phone"
                   class="rounded-pill field-input"
+                  :class="mobileClass"
                   type="text"
                   @input="phoneChanged"></b-form-input>
-              <span v-if="isEditModeActive && !isVerified && codeSent && codeTry===0"
-                    class="verify-button text-right ml-auto my-1 mr-1"
-                    role="button" @click="resendCode">{{ $t('vendor_hub.form.resend_code') }}</span>
-            </b-input-group>
-          </b-form-group>
-
-          <b-form-group
-              v-if="codeSent"
-              class="d-flex flex-column w-100 ml-sm-5"
-              label-for="verificationCode"
+                <span v-if="isEditModeActive && !isVerified && codeSent && codeTry===0"
+                      class="verify-button text-right ml-auto my-1 mr-1"
+                      role="button" @click="resendCode">{{ $t('vendor_hub.form.resend_code') }}</span>
+              </b-input-group>
+            </b-form-group>
+          </b-col>
+            <b-col sm="12" md="3">
+            <b-form-group
+            v-if="codeSent && !mobileClass"
+            class="d-flex flex-column w-100"
+            label-for="verificationCode"
           >
             <template #label>
-              <div class="d-flex justify-content-between px-3">
+              <div class="d-flex justify-content-between">
                 <span>{{ $t('vendor_hub.store_details_tab.verification_code') }}</span>
                 <span v-if="!isVerified" class="d-flex align-items-center">
                 <ClockIcon :stroke-color="secondsLeft<=60? '#de0100' : '#32BD40'" style="height: 14px"></ClockIcon>
                 <vue-countdown
-                    v-if="codeSent"
-                    v-slot="{minutes, seconds, totalSeconds}"
-                    :auto-start="true"
-                    :time="VERIFICATION_TIMER"
-                    :transform="transformSlotProps"
-                    @end="onCountdownEnd"
-                    @progress="onTimerProgress">
+                  v-if="codeSent"
+                  v-slot="{minutes, seconds, totalSeconds}"
+                  :auto-start="true"
+                  :time="VERIFICATION_TIMER"
+                  :transform="transformSlotProps"
+                  @end="onCountdownEnd"
+                  @progress="onTimerProgress">
                    <span :class="totalSeconds<=60? 'less-minute' : ''" class="ml-2 countdown-text">
                     {{ minutes }}: {{ seconds }}
                   </span>
@@ -94,12 +97,13 @@
             </template>
             <b-input-group>
               <b-form-input
-                  id="verificationCode"
-                  v-model="applyForm.code"
-                  :class="isVerified? 'verified-input border-right-0' : 'rounded-pill field-input'"
-                  :placeholder="$t('vendor_hub.form.enter_code')"
-                  :state="showCodeFailError"
-                  type="text">
+                id="verificationCode"
+                v-model="applyForm.code"
+                :class="[isVerified? 'verified-input border-right-0' : 'rounded-pill field-input', mobileClass]"
+                :placeholder="$t('vendor_hub.form.enter_code')"
+                :state="showCodeFailError"
+
+                type="text">
               </b-form-input>
               <b-form-invalid-feedback>
                 {{ $tc('vendor_hub.invalid_code', codeTry) }}
@@ -107,7 +111,7 @@
               <b-input-group-append v-if="isVerified"
                                     class="verified-input border-left-0 d-flex align-items-center px-2">
                 <span class="mr-1">{{ $t('vendor_hub.verified') }}</span> <img
-                  :src="require('~/assets/img/profile/vendor-hub/check-outline.svg')">
+                :src="require('~/assets/img/profile/vendor-hub/check-outline.svg')">
               </b-input-group-append>
             </b-input-group>
 
@@ -118,199 +122,229 @@
             </div>
 
           </b-form-group>
+          </b-col>
+          </b-row>
 
         </div>
 
-        <hr class="mt-4 mb-2"/>
+        <hr v-if="!mobileClass" class="mt-4 mb-4" />
 
-        <div class="d-flex flex-column flex-sm-row justify-content-between">
-          <div class="title" :class="mobileClass.length ? 'body-13-bold font-weight-bold' : 'heading-3-normal'">
+        <div :class="{'mobile-form-box px-3 py-2' : mobileClass}">
+          <div class="d-flex flex-column flex-sm-row justify-content-between">
+          <div class="title"
+               :class="mobileClass.length ? 'body-10-bold font-weight-bold text-blue-20 pt-2' : 'heading-3-normal'">
             {{ $t('vendor_hub.store_address') }}
           </div>
           <span v-if="isAddressValid === false"
                 class="invalid-header ml-3">{{ $t('vendor_hub.error_messages.enter_valid_address') }}</span>
         </div>
 
-        <div class="d-flex flex-column flex-sm-row align-items-start mt-4">
-
-          <ValidationProvider
-              v-slot="validationContext"
-              :name="$t('vendor_hub.store_details_tab.shipping_address')"
-              :rules="{ required: true }"
-              class="w-100 mr-sm-5"
-          >
-            <b-form-group
-                label-for="shippingAddress"
+          <b-row class="mt-4 flex justify-content-between">
+            <b-col sm="12" md="3">
+              <ValidationProvider
+                v-slot="validationContext"
+                :name="$t('vendor_hub.store_details_tab.shipping_address')"
+                :rules="{ required: true }"
                 class="w-100"
-            >
-              <template #label><span class="px-3">{{ $t('vendor_hub.store_details_tab.shipping_address') }}</span></template>
-              <b-input-group>
-                <b-form-input
-                    id="shippingAddress"
-                    v-model="applyForm.address"
+              >
+                <b-form-group
+                  label-for="shippingAddress"
+                  class="w-100"
+                  :label="$t('vendor_hub.store_details_tab.shipping_address')"
+                >
+                  <b-input-group>
+                    <b-form-input
+                      id="shippingAddress"
+                      v-model="applyForm.address"
+                      :disabled="!isEditModeActive"
+                      :placeholder="$t('vendor_hub.store_details_tab.shipping_address')"
+                      :state="getValidationState(validationContext)"
+                      class="rounded-pill field-input"
+                      :class="mobileClass"
+                      type="text"
+                      @input="isAddressValid=false"></b-form-input>
+                    <b-form-invalid-feedback>{{
+                        validationContext.errors[0]
+                      }}
+                    </b-form-invalid-feedback>
+                  </b-input-group>
+                </b-form-group>
+              </ValidationProvider>
+            </b-col>
+            <b-col sm="12" md="3">
+              <b-form-group
+                class="w-100"
+                label-for="aptSuite"
+                :label="$t('vendor_hub.store_details_tab.apt_suite')"
+              >
+                <b-input-group>
+                  <b-form-input
+                    id="aptSuite"
+                    v-model="applyForm.suiteno"
                     :disabled="!isEditModeActive"
-                    :placeholder="$t('vendor_hub.store_details_tab.shipping_address')"
-                    :state="getValidationState(validationContext)"
+                    :placeholder="$t('vendor_hub.store_details_tab.apt_suite')"
                     class="rounded-pill field-input"
-                    type="text"
-                    @input="isAddressValid=false"></b-form-input>
-                <b-form-invalid-feedback>{{
-                    validationContext.errors[0]
-                  }}
-                </b-form-invalid-feedback>
-              </b-input-group>
-            </b-form-group>
-          </ValidationProvider>
-
-          <b-form-group
-              class="w-100"
-              label-for="aptSuite"
-          >
-            <template #label>
-              <span class="px-3 text-nowrap">{{ $t('vendor_hub.store_details_tab.apt_suite') }}</span>
-            </template>
-            <b-input-group>
-              <b-form-input
-                  id="aptSuite"
-                  v-model="applyForm.suiteno"
-                  :disabled="!isEditModeActive"
-                  :placeholder="$t('vendor_hub.store_details_tab.apt_suite')"
-                  class="rounded-pill field-input"
-                  type="text"></b-form-input>
-            </b-input-group>
-          </b-form-group>
-
-
-          <ValidationProvider
-              v-slot="validationContext"
-              :name="$t('vendor_hub.form.city')"
-              :rules="{ required: true }"
-              class="w-100 ml-sm-5"
-          >
-            <b-form-group
-                label-for="city"
-            >
-              <template #label><span class="px-3">{{ $t('vendor_hub.form.city') }}</span></template>
-              <b-input-group>
-                <b-form-input
-                    id="city"
-                    v-model="applyForm.city"
-                    :disabled="!isEditModeActive"
-                    :placeholder="$t('vendor_hub.form.city')"
-                    :state="getValidationState(validationContext)"
-                    class="rounded-pill field-input"
+                    :class="mobileClass"
                     type="text"></b-form-input>
-                <b-form-invalid-feedback>{{
-                    validationContext.errors[0]
-                  }}
-                </b-form-invalid-feedback>
-              </b-input-group>
-            </b-form-group>
-          </ValidationProvider>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+            <b-col sm="12" md="3">
+              <ValidationProvider
+                v-slot="validationContext"
+                :name="$t('vendor_hub.form.city')"
+                :rules="{ required: true }"
+                class="w-100"
+              >
+                <b-form-group
+                  label-for="city"
+                  :label="$t('vendor_hub.form.city')"
+                >
+                  <b-input-group>
+                    <b-form-input
+                      id="city"
+                      v-model="applyForm.city"
+                      :disabled="!isEditModeActive"
+                      :placeholder="$t('vendor_hub.form.city')"
+                      :state="getValidationState(validationContext)"
+                      class="rounded-pill field-input"
+                      :class="mobileClass"
+                      type="text"></b-form-input>
+                    <b-form-invalid-feedback>{{
+                        validationContext.errors[0]
+                      }}
+                    </b-form-invalid-feedback>
+                  </b-input-group>
+                </b-form-group>
+              </ValidationProvider>
+            </b-col>
+          </b-row>
 
+          <b-row class="mt-4 flex justify-content-between">
+            <b-col sm="12" md="3">
+              <ValidationProvider
+                v-slot="validationContext"
+                :name="$t('vendor_hub.form.state')"
+                :rules="{ required: true }"
+                class="w-100"
+              >
+                <b-form-group
+                  label-for="state"
+                  class="w-100"
+                  :label="$t('vendor_hub.form.state')"
+                >
+                  <b-input-group>
+                    <b-form-input
+                      id="state"
+                      v-model="applyForm.state"
+                      :disabled="!isEditModeActive"
+                      :placeholder="$t('vendor_hub.form.state')"
+                      :state="getValidationState(validationContext)"
+                      class="rounded-pill field-input"
+                      :class="mobileClass"
+                      type="text"></b-form-input>
+                    <b-form-invalid-feedback>{{
+                        validationContext.errors[0]
+                      }}
+                    </b-form-invalid-feedback>
+                  </b-input-group>
+                </b-form-group>
+              </ValidationProvider>
+            </b-col>
+            <b-col sm="12" md="3">
+              <ValidationProvider
+                v-slot="validationContext"
+                :name="$t('vendor_hub.form.zip_code')"
+                :rules="{ required: true }"
+                class="w-100"
+              >
+                <b-form-group
+                  class="w-100"
+                  label-for="zipCode"
+                  :label="$t('vendor_hub.form.zip_code')"
+                >
+                  <b-input-group>
+                    <b-form-input
+                      id="zipCode"
+                      v-model="applyForm.zipcode"
+                      :disabled="!isEditModeActive"
+                      :placeholder="$t('vendor_hub.form.zip_code')"
+                      :state="getValidationState(validationContext)"
+                      class="rounded-pill field-input"
+                      :class="mobileClass"
+                      type="text"></b-form-input>
+                    <b-form-invalid-feedback>{{
+                        validationContext.errors[0]
+                      }}
+                    </b-form-invalid-feedback>
+                  </b-input-group>
+                </b-form-group>
+              </ValidationProvider>
+            </b-col>
+            <b-col sm="12" md="3">
+              <b-form-group
+                class="w-100"
+                label-for="phoneNumber"
+                :label="$t('vendor_hub.form.country')"
+              >
+                <b-input-group id="countryField">
+                  <b-form-select
+                                 v-model="applyForm.country"
+                                 :disabled="!isEditModeActive" :options="countries"
+                                 class="rounded-pill field-input form-control"
+                                 :class="mobileClass"
+                                 size="sm">
+                    <template #first>
+                      <b-form-select-option :value="null" disabled>{{
+                          $t('vendor_hub.form.country')
+                        }}
+                      </b-form-select-option>
+                    </template>
+                  </b-form-select>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+          </b-row>
         </div>
 
-        <div class="d-flex flex-column flex-sm-row align-items-start mt-4">
-
-          <ValidationProvider
-              v-slot="validationContext"
-              :name="$t('vendor_hub.form.state')"
-              :rules="{ required: true }"
-              class="w-100 mr-sm-5"
-          >
-            <b-form-group
-                label-for="state"
-                class="w-100"
-            >
-              <template #label><span class="px-3">{{ $t('vendor_hub.form.state') }}</span></template>
-              <b-input-group>
-                <b-form-input
-                    id="state"
-                    v-model="applyForm.state"
-                    :disabled="!isEditModeActive"
-                    :placeholder="$t('vendor_hub.form.state')"
-                    :state="getValidationState(validationContext)"
-                    class="rounded-pill field-input"
-                    type="text"></b-form-input>
-                <b-form-invalid-feedback>{{
-                    validationContext.errors[0]
-                  }}
-                </b-form-invalid-feedback>
-              </b-input-group>
-            </b-form-group>
-          </ValidationProvider>
-
-
-          <ValidationProvider
-              v-slot="validationContext"
-              :name="$t('vendor_hub.form.zip_code')"
-              :rules="{ required: true }"
-              class="w-100"
-          >
-            <b-form-group
-                class="w-100"
-                label-for="zipCode"
-            >
-              <template #label><span class="px-3">{{ $t('vendor_hub.form.zip_code') }}</span></template>
-              <b-input-group>
-                <b-form-input
-                    id="zipCode"
-                    v-model="applyForm.zipcode"
-                    :disabled="!isEditModeActive"
-                    :placeholder="$t('vendor_hub.form.zip_code')"
-                    :state="getValidationState(validationContext)"
-                    class="rounded-pill field-input"
-                    type="text"></b-form-input>
-                <b-form-invalid-feedback>{{
-                    validationContext.errors[0]
-                  }}
-                </b-form-invalid-feedback>
-              </b-input-group>
-            </b-form-group>
-          </ValidationProvider>
-          <b-form-group
-              class="w-100 ml-sm-5"
-              label-for="phoneNumber"
-          >
-            <template #label><span class="px-3">{{ $t('vendor_hub.form.country') }}</span></template>
-            <b-input-group>
-              <b-form-select id="countryField"
-                             v-model="applyForm.country"
-                             :disabled="!isEditModeActive" :options="countries"
-                             class="rounded-pill field-input form-control"
-                             size="sm">
-                <template #first>
-                  <b-form-select-option :value="null" disabled>{{
-                      $t('vendor_hub.form.country')
-                    }}
-                  </b-form-select-option>
-                </template>
-              </b-form-select>
-            </b-input-group>
-          </b-form-group>
-        </div>
-
-        <div v-if="isEditModeActive" class="d-flex flex-column flex-sm-row justify-content-center">
-          <Button :disabled="codeTry<=0 || isAddressValid || updateLoading" class="bg-blue-2 mt-4 mt-md-0 mx-sm-3"
-                  pill type="submit">
-            {{ $t('vendor_hub.payout_method.save_changes') }}
+        <div v-if="isEditModeActive" class="d-flex justify-content-center flex-sm-row-reverse">
+          <Button pill type="button" variant="outline-dark" class="mt-4 mt-md-0 mx-3" @click="discardClick">
+           {{ $t('vendor_hub.payout_method.discard_changes') }}
           </Button>
-
-          <Button pill type="button" variant="outline-dark" @click="discardClick" class="mt-4 mt-md-0 mx-sm-3">
-            {{ $t('vendor_hub.payout_method.discard_changes') }}
+          <Button :disabled="codeTry<=0 || isAddressValid || updateLoading" class="bg-blue-2 mt-4 mt-md-0 mx-3"
+                  pill type="submit">
+           {{ $t('vendor_hub.payout_method.save_changes') }}
           </Button>
         </div>
       </b-form>
     </ValidationObserver>
 
-    <div v-if="!isEditModeActive" class="d-flex flex-md-column align-items-center justify-content-between faq-card mt-4 mx-auto"
+    <div v-if="!isEditModeActive"
+         class="d-flex align-items-center justify-content-between faq-card mt-4 mx-auto"
+         :class="mobileClass ? 'body-5-medium' : ''"
          role="button"
          @click="$router.push({path: '/faqs/vendor-hub'})">
-      <span class="faq-title">
+      <span class="faq-title" :class="mobileClass ? 'body-5' : 'body-7'">
         {{ $t('vendor_hub.faq') }}
       </span>
       <img :src="require('~/assets/img/profile/vendor-hub/arrow-circle-right.svg')">
     </div>
+
+    <vue-bottom-sheet
+      ref="mobileVerification"
+      class="responsive-filter"
+      max-width="auto"
+      max-height="100vh"
+    >
+      <MobileVerificationCode :codeSent="codeSent"
+                              :isVerified="isVerified"
+                              :codeTry="codeTry"
+                              :showCodeFailError="showCodeFailError"
+                              @resendCode="resendCode"
+                              @ended="onCountdownEnd"
+                              @submit="verifySentCode"
+                              @close="closeMobileVerificationPopup" />
+    </vue-bottom-sheet>
 
     <ConfirmModal
         :confirm-text="confirmButtonText"
@@ -346,10 +380,13 @@ import ClockIcon from '~/components/profile/vendor-hub/ClockIcon';
 import SuccessModal from '~/components/profile/vendor-hub/SuccessModal';
 import ConfirmModal from '~/components/profile/vendor-hub/ConfirmModal';
 import screenSize from '~/plugins/mixins/screenSize';
+import MobileVerificationCode from '~/components/profile/vendor-hub/MobileVerificationCode';
 
 export default {
   name: 'StoreDetails',
-  components: {ClockIcon, Button, VueCountdown, SuccessModal, ConfirmModal, ValidationObserver, ValidationProvider},
+  components: {
+    MobileVerificationCode,
+    ClockIcon, Button, VueCountdown, SuccessModal, ConfirmModal, ValidationObserver, ValidationProvider},
   mixins:[screenSize],
   data() {
     return {
@@ -403,6 +440,14 @@ export default {
     selectedCountryDialCode() {
       const country = COUNTRIES.filter(country => country.code === this.applyForm.country)
       return country.length > 0 ? country[0].dial_code : '+1'
+    }
+  },
+  watch: {
+    codeSent(v) {
+      if (v && this.mobileClass) {
+        const { mobileVerification } = this.$refs
+        mobileVerification.open()
+      }
     }
   },
   mounted() {
@@ -550,11 +595,11 @@ export default {
      * A method that is called when the user clicks the confirm button in the modal. It is verifying the code that the user
      * has entered.
      */
-    verifySentCode() {
+    verifySentCode(mobileFormCode = null) {
       this.codeTry--;
       if (this.codeTry > 0) {
         this.verifyCode({
-          code: this.applyForm.code,
+          code:  mobileFormCode !== null ? mobileFormCode : this.applyForm.code,
           phone: this.applyForm.phone,
         }).then(res => {
           this.isVerified = true
@@ -700,6 +745,13 @@ export default {
           this.applyForm.address = place.formatted_address
         }
       })
+    },
+    closeMobileVerificationPopup() {
+      const { mobileVerification } = this.$refs
+      if (mobileVerification) {
+        mobileVerification.close()
+        this.codeSent = false
+      }
     }
   }
 }
@@ -709,11 +761,10 @@ export default {
 @import '~/assets/css/_variables'
 
 .faq-title
-  @include body-7
   font-family: $font-family-montserrat
   font-style: normal
   font-weight: $medium
-  color: $color-blue-2
+  color: $color-blue-20
 
 .faq-card
   max-width: 800px
@@ -787,6 +838,18 @@ export default {
     outline: none
     background-color: $color-gray-1
 
+  &.mobile
+    @include body-5
+    font-family: $font-family-montserrat
+    font-style: normal
+    font-weight: $normal
+    background-color: $color-white-1 !important
+    padding: 10px 20px
+    width: 100%
+    height: 59px
+    border: 1px solid $input-mobile-border-color
+    border-radius: 10px !important
+
 .title
   font-family: $font-family-montserrat
   font-style: normal
@@ -823,4 +886,12 @@ export default {
 
 .m-40
   margin-left: 40px
+
+.mobile-form-box
+  box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
+  border-radius: 10px
+  padding-bottom: 3px
+
+.text-blue-20
+  color: $color-blue-20
 </style>
