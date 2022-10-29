@@ -124,8 +124,8 @@
         </div>
         <div class="d-flex flex-column align-items-center mb-4">
           <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
-            <span class="fair-trade-label">{{$t('trades.trade_arena.fair_trade_meter')}}</span>
-            <Meter :fair="getFairTradeValue()" :heading="false" :highest="theirTotal(false)" :lowest="0" :value="yourTotal(false)"/>
+            <span class="fair-trade-label"></span>
+            <Meter :fair="getFairTradeValue()" heading="trades.trade_arena.fair_trade_meter" :highest="theirTotal(false)" :lowest="0" :value="yourTotal(false)"/>
           </div>
           <div>
             <div class="amounts-input">
