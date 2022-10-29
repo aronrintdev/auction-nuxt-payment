@@ -1,13 +1,27 @@
 <template>
   <div
-    class="feature-card-hoverable d-flex align-items-center flex-column justify-content-center"
+    class="feature-card-hoverable d-flex align-items-center flex-column justify-content-center position-relative"
     :class="`feature-card-hoverable-${variant}`"
   >
-    <img :src="icon" />
-    <div class="feature-title">{{ title }}</div>
-    <div v-if="description" class="feature-description text-center">
-      {{ description }}
-    </div>
+    <slot>
+      <img
+        :src="
+          icon ||
+          require(`~/assets/img/features/newest-feature/buying/auth.png`)
+        "
+      />
+      <div class="feature-title fs-24 fw-6 font-primary">{{ title }}</div>
+      <div
+        v-if="description"
+        class="feature-description text-center fs-16 fw-6 font-primary"
+      >
+        {{ description
+        }}<span class="feature-title d-md-none d-block">{{ title2 }}</span>
+      </div>
+      <div v-if="step" class="position-absolute step-text d-md-block d-none">
+        {{ step }}
+      </div></slot
+    >
   </div>
 </template>
 <script>
@@ -19,6 +33,10 @@ export default {
       type: String,
       required: true,
     },
+    title2: {
+      type: String,
+      required: true,
+    },
     description: {
       type: String,
       default: '',
@@ -26,6 +44,14 @@ export default {
     icon: {
       type: String,
       required: true,
+    },
+    iconWidth: {
+      type: String,
+      required: true,
+    },
+    step: {
+      type: String,
+      default: null,
     },
     variant: {
       type: String,
@@ -36,40 +62,54 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .feature-card-hoverable
   border-radius: 24px
   box-shadow: 0 1px 4px 0 rgba($color-black-1, 0.25)
   padding: 22px
   color: $color-black-1
   transition: transform .2s
-  min-height: 404px
-  max-width: 404px
-  flex: 1 1 0px
+  height: 376px !important
+  width: 376px !important
   cursor: help
-
-  &.feature-card-hoverable-round
-    border-radius: 50%
-    max-width: 280px
-    min-height: 280px
-    width: 280px
-    height: 280px
-    padding: 0
-
+  background-color: $color-white-1
   &:hover
     transform: scale(1.1)
+  .step-text
+    @include heading-1
+    font-weight: $medium
+    color: $color-black-1
+    left: 40px
+    top: 39px
 
-  &:not(:last-of-type)
-    margin-right: 40px
 
   .feature-title
     @include heading-1
     font-weight: $medium
     color: $color-black-5
-    margin-top: 30px
+    margin-top: 38px
 
   .feature-description
     @include body-4-regular
     line-height: 26px
     margin-top: 22px
+
+@media (max-width: 768px)
+  .feature-card-hoverable
+    min-width: 163px !important
+    padding: 10px !important
+    height: auto !important
+    img
+      width: 56px
+      height: 47px
+    &:hover
+      transform: scale(1)
+
+
+    .feature-title
+      font-size: 12px
+      margin-top: 9px
+    .feature-description
+      font-size: 12px
+      line-height: 20px
+      margin-top: 7px
 </style>

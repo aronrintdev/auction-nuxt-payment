@@ -1,6 +1,7 @@
 <template>
   <div>
     <trade-completed v-if="trade_completed" :trade="getSubmittedOffer"></trade-completed>
+    <add-cash v-else-if="addCash" :yourAmount="yourTotal()" :theirAmount="theirTotal()" :addedAmount="optional_cash" :selectedType="optional_cash_type" @click="cancelCash" @change="addAmount" />
     <div v-else>
       <create-trade-search-item v-if="search_item" :product="search_item" productFor="tradeArena" :progressBar="false" :padding="true" />
       <div v-else>
@@ -58,8 +59,12 @@
                 </div>
               </div>
             </div>
+          <div class="d-flex justify-content-center">
+            <!-- Meter -->
+            <Meter :fair="70" heading="trades.trade_arena.fair_trade_meter" :highest="100" :lowest="0" :value="60"/>
+          </div>
           <div>
-            <Button variant="outline-secondary-blue" class="add-cash">{{$t('trades.add_cash')}}</Button>
+            <Button variant="outline-secondary-blue" class="add-cash" @click="cashAdd">{{buttonText}}</Button>
             <div v-if="!isExpire && !isPayment" >
             <div class="authenticity d-flex justify-content-center align-items-center">
               <img :src="require('~/assets/img/trades/authenticity.svg')">
@@ -175,10 +180,14 @@ import {
 } from '~/static/constants/trades'
 import Button from '~/components/common/Button';
 import InventoryBottomSheet from '~/pages/trades/_id/InventoryBottomSheet';
+import Meter from '~/components/common/Meter';
+import AddCash from '~/pages/trades/_id/AddCash';
 
 export default {
   name: 'IndexMobile',
   components: {
+    AddCash,
+    Meter,
     InventoryBottomSheet,
     Button,
     CreateTradeSearchItem,
@@ -221,6 +230,7 @@ export default {
       totalOffersReceived: 0,
       MAX_ITEMS_ALLOWED,
       optional_cash: '0.00',
+      optional_cash_type:null,
       cash_added: 0,
       searchedItems: [],
       itemListingId: 0,
@@ -240,6 +250,7 @@ export default {
       OFFER_TYPE_YOURS,
       OFFER_TYPE_THEIR,
       OFFER_TYPE,
+      addCash: false,
     }
   },
   head() {
@@ -262,6 +273,13 @@ export default {
       // add expiry days to date
       const expiryDate = date.setDate(date.getDate() + TRADE_EXPIRY_DAYS)
       return new Date(expiryDate) < new Date()
+    },
+    buttonText(){
+      if (this.optional_cash > 0 && this.optional_cash_type === 'add_cash')
+        return this.$t('trades.cash_added',{0:this.optional_cash})
+      else if (this.optional_cash > 0 && this.optional_cash_type === 'request_cash')
+        return this.$t('trades.cash_requested',{0:this.optional_cash})
+      else return this.$t('trades.add_cash')
     }
   },
   created() {
@@ -714,6 +732,18 @@ export default {
     showInventory(){
       this.$refs.inventory.open();
       this.$refs.inventory.getInventory();
+    },
+    cashAdd(){
+      this.addCash = true;
+    },
+    cancelCash(){
+      this.addCash = false;
+    },
+    addAmount(value){
+      this.optional_cash = value.amount
+      this.optional_cash_type = value.add_cash ? 'add_cash':'request_cash'
+      this.addCash = false
+      this.yourTotal(false)
     }
   }
 }
@@ -874,7 +904,7 @@ export default {
   height: 30px
   width: 50px
   text-align: center
-  z-index: 500
+  z-index: 98
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-12-bold
@@ -910,6 +940,7 @@ export default {
   width: 315px
   margin-left: 20px
   border-radius: unset
+  margin-top: 19px
 .authenticity
   font-family: $font-family-montserrat
   font-style: normal

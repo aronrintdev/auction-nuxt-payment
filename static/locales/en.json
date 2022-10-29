@@ -144,13 +144,12 @@
       "footwear": "Footwear",
       "accessories": "Accessories"
     },
-    "filter_by" : "Filter By",
-    "next"  : "Next",
-    "prev"  : "Prev",
-    "start_date"  : "Start Date",
-    "done"  : "Done",
-    "end_date"  : "End Date",
-    "n/a": "N/A",
+    "filter_by": "Filter By",
+    "next": "Next",
+    "prev": "Prev",
+    "start_date": "Start Date",
+    "done": "Done",
+    "end_date": "End Date",
     "search_brands": "Search Brands",
     "sort_by": "Sort By",
     "options": "Options",
@@ -160,11 +159,13 @@
     "read_less": "Read Less",
     "read_more": "Read More",
     "go_back": "Go Back",
-    "add": "Add",
-    "product_type": "Product Type",
-    "continue": "Continue",
-    "of": "of",
-    "week": "Week"
+    "add" : "Add",
+    "product_type"  : "Product Type",
+    "continue"  : "Continue",
+    "of"  : "of",
+    "week"  : "Week",
+    "dismiss" : "Dismiss",
+    "n/a": "N/A"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -1930,7 +1931,14 @@
       "insert_amount": "Insert Amount",
       "payment_method": "Payment Method",
       "no_results_found": "No results found",
-      "cant_find_anything": "We couldn’t find anything that matches this search"
+      "cant_find_anything": "We couldn’t find anything that matches this search",
+      "product_details": "Product Details",
+      "description": "Description",
+      "size_guide": "Size Guide",
+      "bidding_history": "Bidding History",
+      "verification_guranteed": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed.",
+      "collection_items": "Collection Items",
+      "review": "Review"
     },
     "errors": {
       "missing_box_images": "Missing box images",
@@ -2423,7 +2431,13 @@
   },
   "shopping_cart": {
     "checkout_selling": "Checkout Selling",
+    "checkout": "Checkout",
+    "options": "Options",
+    "change_size": "Change size",
+    "move_to_wishilist": "Move to wishlist",
+    "remove_from_bag": "Remove from bag",
     "shopping_cart": "Shopping Cart",
+    "shopping_bag": "Shopping Bag",
     "item": "Item | Items",
     "my_products": "My Products",
     "quantity": "Quantity",
@@ -2435,6 +2449,7 @@
     "sku": "sku",
     "size": "Size",
     "color_way": "Colorway",
+    "box_condition": "Box Condition",
     "remove": "Remove",
     "save_for_later": "Save for later",
     "navigation_modal_text": "Are you sure you would like to leave this page?",
@@ -2454,11 +2469,15 @@
     "apply": "Apply",
     "billing_address": "Billing Address",
     "shipping_address": "Shipping Address",
+    "shipping": "Shipping",
+    "add_shipping": "Add Shipping",
     "payment": "Payment",
+    "add_payment": "Add Payment",
     "ending_in": "Ending In",
     "exp": "Exp",
     "terms_and_conditions": "Terms and Conditions",
     "terms_and_conditions_paragraph": "I agree to the {0}, By placing this order I agree and accept the processing fee of 3.0%*",
+    "terms_and_conditions_paragraph_mobile": "By ordering, I agree to the {0}.",
     "place_order": "Place Order",
     "billing_information": "Billing Information",
     "first_name": "First Name",
@@ -2830,6 +2849,7 @@
       "subtitle": "Select items you would like to list, Collection Auctions can add up to 10 items.",
       "max_count": "Max. allowed count: ",
       "select_drag": "Select or Drag and Drop Inventory",
+      "items_selected": "items selected",
       "select_items": "Select or drag & drop items",
       "up_to_ten": "Up to ten items",
       "select_inventory": "Select from Inventory",
@@ -2870,8 +2890,10 @@
       "no_reserve": "No Reserve",
       "reserve_price": "Reserve Price",
       "reserve_text_info": "A non-refundable fee of | will be charged at the time of listing whether the item sells or not.",
+      "reserve_info_short": "A non-refundable fee will be charged at the time of listing whether the item sells or not.",
       "starting_bid": "Starting Bid*",
       "date_text": "__/__/____",
+      "schedule_date_required": "Schedule date is required.",
       "enter_starting_bid": "Enter Starting Bid",
       "status_select": {
         "live": "Live",
@@ -2910,7 +2932,7 @@
       "terms_and_conditions": "Terms and Conditions",
       "thankyou": "Thank You",
       "days": "Days",
-      "reserve_fee": "Reserve fee ( 7.99% of reserve price)",
+      "reserve_fee": "Reserve fee",
       "go_to_auctions": "Go to Auction Dashboard",
       "contact_details": "If you have any questions about your order, you can email us at {0} or call us at {1}",
       "reference_number": "Reference Number",
@@ -2965,7 +2987,8 @@
       "excellent": "Excellent",
       "description": "Description",
       "description_details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Velit nulla et consectetur lorem ut. Semper facilisis nulla sit pharetra sed eu enim.",
-      "latest_sales":"Latest Sales"
+      "latest_sales":"Latest Sales",
+      "select_box_condition": "Select Box Condition" 
     },
     "auction": {
       "to_be_listed": "To Be Listed",
@@ -3270,9 +3293,11 @@
       "continue": "Continue",
       "delete": "Delete",
       "delete_alt_text": "Delete Icon",
-      "update_alt_text": "Update Icon"
+      "update_alt_text": "Update Icon",
+      "save_changes":"Save Changes"
     },
     "profile": {
+      "profile": "Profile",
       "personal_details": "Personal Details",
       "update_your_profile": "Update your profile",
       "first_name": "First Name",
@@ -3292,6 +3317,13 @@
       "billing_address": "Billing Address",
       "social_media_links": "Social Media Links",
       "social_links_description": "Update your social media links",
+      "language": "Language",
+      "language_description": "Change your language settings",
+      "preferred_language": "Preferred Language",
+      "language_english": "English",
+      "language_spanish": "Español",
+      "language_french": "Français",
+      "form_validation_error": "*Please fill out missing fields",
       "google": "Google Account",
       "facebook": "Facebook",
       "apple": "Apple",
@@ -3349,7 +3381,7 @@
         "contact_us": {
           "title": "Contact Us",
           "description": "Our customer service team is dedicated to providing you support for any questions and concerns you may have about your recent purchase or sale and general inquiries. With around-the-clock support, you can always connect with one of our representatives for any inquiries you may have.",
-          "description2": "'Our Customer Service Department can be reached via phone during our hours of operation: Monday-Friday from 8:30AM-5PM PST.",
+          "description2": "'Our Customer Service Department can be reached via phone during our hours of operation:<br><br>Monday-Friday <br>8:30AM-5PM PST.",
           "description3": "Although our goal is to respond and assist you within 24 hours, response times may vary. We do our best to answer responses in the order that they are received.",
           "the_office": "The Office",
           "address": "25978 Business Center Dr Redlands, CA 92374",
@@ -3363,7 +3395,23 @@
           "faq_desc": "Get your questions answered",
           "live_chat_desc": "Chat with live specialist"
         }
-      }
+      },
+      "update_shipping_billing"  : "Update your shipping and billing address",
+      "add_shippingaddress"  :  "Add Shipping Address",
+      "add_billingaddress"  : "Add Billing Address",
+      "update_shipping_address"  : "Update your shipping details",
+      "update_billing_address"  : "Update your billing details",
+      "address_added" : "Address added successfully",
+      "edit_billing_address"  : "Edit Billing Address",
+      "edit_shipping_address" : "Edit Shipping Address",
+      "changes_saved" : "Changes have been saved",
+      "delete_address"  : "Are you sure you want to delete this {type} address?",
+      "make_as_default" : "Are you sure you want to make this address you default {type} address?",
+      "atleast_one_address" : "You must have one default {type} address saved in your profile",
+      "unsaved_changes"  : "You have unsaved changes.",
+      "need_to_leave"  : "Are you sure you want to leave?",
+      "default_address_changed" : "Default address has been changed",
+      "please_fillout_missing_fields" : "*Please fill out missing fields"
     },
     "payments": {
       "payment": "Payment",
@@ -3585,6 +3633,8 @@
     "tracking_no": "Tracking Number",
     "tracking": "Tracking",
     "shipping_address": "Shipping Address",
+    "shipping_method": "Shipping Method",
+    "shipping_status": "Shipping Status",
     "shipping_details": "Shipping Details",
     "payment_summary": "Payment Summary",
     "billing_address": "Billing Address",
@@ -3597,9 +3647,13 @@
     "promotion": "Promotion",
     "paymentvia": "Payment via ",
     "view_details": "View Details",
+    "payment_summary": "Payment Summary ",
+    "view_shipping_details": "View Shipping Details",
     "shipping_carrier": "Shipping Carrier",
     "transactionid": "Transaction ID: #{transactionid}",
     "purchased_on": "Purchased On",
+    "placed_on": "Placed on",
+    "billing": "Billing",
     "updated_on": "Updated On ",
     "order_items": "Order Items",
     "items": "Items",
@@ -3612,6 +3666,9 @@
     "bitcoin_status": "Status",
     "status_accepted": "Accepted",
     "transaction_hash": "Transaction Hash",
+    "exp_date": "Expiration Date",
+    "enter_card": "Enter your card information",
+    "update_billing": "Update your billing details",
     "transaction_hashedvalue": "ENTER1234HASH56789012ASDF1587569855",
     "view_heatcheck": "View Heat Check",
     "delivered_desc": "Delivered to address",
@@ -3619,6 +3676,7 @@
     "package_arrived": "Package has arrived at Deadstock",
     "package_send_to_deadstock": "Package send to Deadstock",
     "awaiting_shipment": "Awaiting Shipment",
+    "error_payment": "There was an error processing your payment. Please update your payment information.",
     "update_payment_info": "Update Payment Information",
     "apt_suite": "Apt/Suite",
     "zip_postalcode": "Zip/ Postal Code",
@@ -3634,6 +3692,8 @@
     "receipt_of_purchase": "Receipt of Purchase",
     "receipt_id": "Receipt ID: 23423566543",
     "from": "From",
+    "request_amount": "Requested Amount",
+    "wallet_address": "Wallet Address",
     "receipt_date": "Receipt Date: 04/06/2022",
     "to": "To",
     "transaction_id": "Transaction ID:",
@@ -3665,6 +3725,8 @@
       "pending": "Pending",
       "processing_payment": "Processing Payment",
       "cancelled": "Cancelled",
+      "cancel": "Cancelled",
+      "": "",
       "received_at_ds": "Received at DS",
       "passed": "Passed",
       "inconclusive": "Inconclusive",
@@ -3675,7 +3737,10 @@
       "confirmed": "Confirmed",
       "success": "Success",
       "complete": "Complete",
-      "voided": "Voided"
+      "voided": "Voided",
+      "refunded": "Refunded",
+      "ship_to_deadstock": "Send to Deadstock",
+      "authentication_complete": "Authentication Complete"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
@@ -3931,8 +3996,8 @@
       "first_of_its_kind_desc": "The first platform that enables you to trade sneakers, apparel, streetwear and accessories.",
       "value_meter": "Value Meter",
       "value_meter_desc": "Our fair trade meter uses live analytics to help create the most compatible trades and assure equal transactions.",
-      "certified_authentic_products": "Certified Authentic Products",
-      "certified_authentic_products_desc": "Trade with confidence as all of our traded items are placed in our authentication process and authenticated by our experts.",
+      "authenticity_guaranteed_products": "Authenticity Guaranteed Products",
+      "authenticity_guaranteed_products_desc": "Trade with confidence as all of our traded items are placed in our authentication process and authenticated by our experts.",
       "new_features": "New Features",
       "trade_desc": "Explore our trade arena, utilize our fair trade meter and start trading items today."
     },
@@ -4463,6 +4528,7 @@
       "view_trader_wants": "View Trader’s Wants",
       "your_items_length": "Your Items quantity should not exceed {0}",
       "you_added_cash": "You added ${0} on top",
+      "you_requested_cash": "You requested ${0} on top",
       "balance_the_deal": "Balance the deal by Adding Cash",
       "edit_cash": "Edit Cash",
       "box_condition": "Box Condition",
@@ -4552,6 +4618,7 @@
     "offer_sent": "Offer Sent",
     "counter_offer_received": "Counter Offer Received",
     "counter_offer_sent": "Counter Offer Sent",
+    "counter_offer_declined": "Counter Offer Declined",
     "offer_id": "Offer ID",
     "placed_on": "Placed on",
     "my_trade_listings": "My Trade Listings",
@@ -4732,7 +4799,16 @@
     "your_offer": "Your Offer",
     "estimated_value": "Estimated Value",
     "estimated_value_trade": "Estimated Trade Value",
-    "trader_wants": "Trader’s Wants"
+    "trader_wants": "Trader’s Wants",
+    "balance_the_deal": "Balance this deal by adding cash",
+    "balance_the_deal_request": "Balance this deal by requesting cash",
+    "insert_amount": "Insert Amount",
+    "your_item_value": "Your items’ value",
+    "total_value": "Total Value",
+    "cash_added": "${0} Cash Added",
+    "cash_requested": "${0} Cash Requested",
+    "edit_added_cash": "Edit Added Cash",
+    "edit_requested_cash": "Edit Requested Cash"
   },
   "change_password": {
     "password": "Password",
@@ -5507,6 +5583,461 @@
       "pending": "Pending",
       "send_to_deadstock": "Send to Deadstock",
       "view_order": "View Order"
+    }
+  },
+  "purchases": {
+    "purchase_type": "Purchase Type",
+    "products": "Products",
+    "gift_cards": "Gift Cards",
+    "info_table": {
+      "id": "Order ID:",
+      "created_at": "Order Date:",
+      "order_status": "Status:",
+      "type": "Type:",
+      "quantity": "Quantity:",
+      "total": "Order Total:"
+    }
+  },
+  "newest_features": {
+    "title": "Newest<br>Features",
+    "desc": "Latest Deadstock features found on the website and mobile application",
+    "previous": "Previous",
+    "next": "Next",
+    "trading": {
+      "title": "Trade",
+      "desc": "Use sneakers, apparel and accesories to complete your trade. Our Fair Trade Meter helps create the most compatible trades.",
+      "feature_banner_title": "Trading on Deadstock",
+      "feature_banner_desc": "Start trading your items today",
+      "benefits": {
+        "first_benefit_title": "First of its Kind",
+        "first_benefit_desc": "The first platform that enables you to trade sneakers, apparel, streetwear and accessories.",
+        "second_benefit_title": "Value Meter",
+        "second_benefit_desc": "Our fair trade meter uses live analytics to help create the most compatible trades and assure equal transactions.",
+        "third_benefit_title": "Authenticity Guaranteed Products",
+        "third_benefit_desc": "Trade with confidence as all of our traded items are placed in our authentication process and authenticated by our experts."
+      },
+      "new-features": "NEW FEATURES",
+      "shop_now_banner": {
+        "desc": "Explore our trade arena, utilize our fair trade meter and start trading items today.",
+        "button_text": "Browse"
+      }
+    },
+    "buying": {
+      "title": "Buy",
+      "desc": "Enhanced buying experience with 100% product authentication, live 24 hour customer service and NFC blockchain photos.",
+      "feature_banner_title": "Shopping on Deadstock",
+      "feature_banner_desc": "A new enhanced buying experience",
+      "benefits": {
+        "first_benefit_title": "Certified Authentic Products",
+        "first_benefit_desc": "All of our products are placed in our authentication process and authenticated by our experts. Feel safe with your purchases as we guarantee 100% authentication and satisfaction.",
+        "second_benefit_title": "24 hour live Customer Service",
+        "second_benefit_desc": "We offer 24 hour live customer service where you can speak with an actual person to help you resolve any issues, questions or concerns.",
+        "third_benefit_title": "NFC blockchain backed photo ledger",
+        "third_benefit_desc": "With our new NFC Blockchain feature exclusive to Deadstock, scan the NFC on each sneaker and be directed to a page with the shoe details and proof of authentication."
+      },
+      "purchase_methods": "PURCHASE METHODS",
+      "shop_now_banner": {
+        "desc": "Check out various ways of shopping today. We also offer robust payment options, such as payment plans and crypto payments.",
+        "button_text": "Shop Now"
+      }
+    },
+    "international_buying_and_selling": {
+      "title": "Intl’ Buying and Selling ",
+      "desc": "Buy and sell items from across the globe with our international users. Receive access to exlcusive international drops.",
+      "feature_banner_title": "International Buying/Selling",
+      "feature_banner_desc": "Buy and sell items internationally.",
+      "benefits": {
+        "first_benefit_title": "Access to Items not available in your area",
+        "first_benefit_desc": "Get access to international items that are not available in your region.",
+        "second_benefit_title": "Access to items sold out in your area",
+        "second_benefit_desc": "Get access to items that have sold out in your area and are no longer available.",
+        "third_benefit_title": "More Customers viewing your items",
+        "third_benefit_desc": "New international buyers now have access to your listed items."
+      },
+      "refer_a_friend": "REFER A FRIEND TO DEADSTOCK",
+      "shop_now_banner": {
+        "desc": "Check out offerings for apparel, streetwear, sneakers and accessories from around the world.",
+        "button_text": "Browse"
+      }
+    },
+    "auctions": {
+      "title": "Auctions",
+      "desc": "Place bids on auctions and receive live updates. Auction off your items and use our analytics to determine what to sell at what price.",
+      "feature_banner_title": "Auctions On  Deadstock",
+      "feature_banner_desc": "Place bids or sell items through our auctions",
+      "benefits": {
+        "first_benefit_title": "Flexibility",
+        "first_benefit_desc": "Deadstock offers bidding on single item auctions or entire collections, paired with a variety of bidding methods.",
+        "second_benefit_title": "Higher Revenues for Sellers",
+        "second_benefit_desc": "Auctions tend to allow Sellers to sell more items in a quicker time frame.",
+        "third_benefit_title": "Certified Authentic Products   ",
+        "third_benefit_desc": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed."
+      },
+      "types": "Types",
+      "shop_now_banner": {
+        "desc": "Explore the excitment now by checking out our Single-Item and Collection Auctions for Footware, Apparel and Accessories.",
+        "button_text": "Browse"
+      }
+    },
+    "streetwear": {
+      "title": "Streetwear",
+      "desc": "Have access to the worlds best streetwear and buy, sell, trade or auction these items.",
+      "feature_banner_title": "Streetwear",
+      "feature_banner_desc": "Shop the worlds best streetwear",
+      "benefits": {
+        "first_benefit_title": "Exclusive Streetwear Drops",
+        "first_benefit_desc": "Get access to exclusive streetwear drops.",
+        "second_benefit_title": "Access to Streetwear without Signing up For Raffles",
+        "second_benefit_desc": "Gives you access to exclusive streetwear without the hassle of signing up for raffles",
+        "third_benefit_title": "Sold out exclusive streetwear items ",
+        "third_benefit_desc": "Deadstock offers access to streetwear items which are sold out."
+      },
+      "new_products": "New Products",
+      "shop_now_banner": {
+        "desc": "Check out offerings for apparel, streetwear, sneakers and accessories. Stay updated on the latest drops by creating a Deadstock Account.",
+        "button_text": "Browse"
+      }
+    },
+    "crypto_payments": {
+      "title": "Crypto Payments",
+      "desc": "You can now use Crypto as a form of payment to complete your purchases.",
+      "feature_banner_title": "Crypto Payments",
+      "feature_banner_desc": "Use Crypto as a form of payment",
+      "benefits": {
+        "first_benefit_title": "Safe and secure transactions",
+        "first_benefit_desc": "100% safety and satisfaction guranteed with all Crypto transactions.",
+        "second_benefit_title": "Enables International Buying",
+        "second_benefit_desc": "Crypto enables easier transactions for international users and trades with global buyers.",
+        "third_benefit_title": "Transactional Freedom",
+        "third_benefit_desc": "Cryptocurrency is not tied to any bank or centralized agency, so you can experience true transactional freedom."
+      },
+      "we_accept": "We Accept",
+      "bitcoin": "Bitcoin",
+      "etherium": "Etherium",
+      "binance": "Binance",
+      "vechain": "Vechain",
+      "shop_now_banner": {
+        "desc": "Shop our latest streetware and check out with your crypto wallet. Our transactions are fast, reliable, and safe. You can also purchase internationally without international banking fees.",
+        "button_text": "Browse"
+      }
+    },
+    "heat_check": {
+      "title": "Heat Check",
+      "desc": "Heat check description here.",
+      "feature_banner_title": ""
+    },
+    "live_customer_service": {
+      "title": "Live Customer Service",
+      "desc": "We now offer 24 hour live customer service, speak directly with a customer service rep for any questions.",
+      "feature_banner_title": "Live Customer Service",
+      "feature_banner_desc": "Live 24/7 customer service",
+      "chat": "Chat",
+      "phone": "Phone",
+      "email": "Email",
+      "benefits": {
+        "first_benefit_title": "24 hour live customer service",
+        "first_benefit_desc": "We offer 24 hour live customer service for our users.",
+        "second_benefit_title": "Talk to a real person",
+        "second_benefit_desc": "Talk to a real person via phone or email anytime to resolve your issue.",
+        "third_benefit_title": "Immediate Problem Solving",
+        "third_benefit_desc": "Our customer service representivies will help solve your issue immediately."
+      },
+      "options": "Options",
+      "shop_now_banner": {
+        "desc": "Have any questions or concerns resolved immediately with our 24/7 live customer service.",
+        "button_text": "FAQ"
+      }
+    },
+    "rewards_program": {
+      "title": "Rewards Program",
+      "desc": "Gain rewards for each transaction and use these points toward your future purchases.",
+      "feature_banner_title": "Rewards Program",
+      "feature_banner_desc": "Join our rewards program today",
+      "benefits": {
+        "first_benefit_title": "Earn Points with every transaction",
+        "first_benefit_desc": "Earn points every transaction and use these toward future purchases.",
+        "second_benefit_title": "Redeem for Free Items",
+        "second_benefit_desc": "Rack up your points and gain free items.",
+        "third_benefit_title": "track Rewards in your profile",
+        "third_benefit_desc": "Your profile will save your points and give you updates on your rewards."
+      },
+      "ways_to_earn": "Ways to earn",
+      "shop_now_banner": {
+        "desc": "Rack up your rewards with each transaction, stay updated with your points by accessing your profile.",
+        "button_text": "View Rewards"
+      }
+    },
+    "virtual_giftcards": {
+      "title": "Virtual Giftcards",
+      "desc": "Send and receive virtual gift cards of any custom amount; use these giftcards toward your purchases.",
+      "feature_banner_title": "Virtual Giftcards",
+      "feature_banner_desc": "Send and receive money",
+      "online": " Online",
+      "in_store": " In Store",
+      "benefits": {
+        "first_benefit_title": "No expiration",
+        "first_benefit_desc": "Your virtual gift cards never expire, use them at anytime with no worry.",
+        "second_benefit_title": "Never Lose your Card - Stored on Account",
+        "second_benefit_desc": "Your virtual gift card is stored to your account, giving you the safety of never losing your card.",
+        "third_benefit_title": "Pay in Partial Increments",
+        "third_benefit_desc": "Combine your gift card with other forms of payment for your convenience."
+      },
+      "options": "Options",
+      "shop_now_banner": {
+        "desc": "Send a custom virtual gift card to your friends, in which they can use in-store or online.",
+        "button_text": "Purchase"
+      }
+    },
+    "payments_plans": {
+      "title": "Payments Plans",
+      "desc": "Split your purchases into more affordable payments with our new installment plans.",
+      "feature_banner_title": "Payments Plans",
+      "feature_banner_desc": "Complete your purchase using installment payment plans",
+      "options": "OPTIONS",
+      "benefits": {
+        "first_benefit_title": "Increased Affordability",
+        "first_benefit_desc": "Use installment plans to divide your purchase into more affordable payments.",
+        "second_benefit_title": "Quick Approval",
+        "second_benefit_desc": "Receive approval of your installment payment plan immeditely during your checkout. ",
+        "third_benefit_title": "Custom Plans",
+        "third_benefit_desc": "Divide your plan into four seperate payments, or pay off your purchase whenever you’re ready."
+      },
+      "shop_now_banner": {
+        "desc": "Check out various ways of shopping today. We also offer robust payment options, such as payment plans and crypto payments.",
+        "button_text": "Shop Now"
+      }
+    },
+    "international_languages": {
+      "title": "Intl’ Languages",
+      "desc": "Our updated app now offers languages from across the globe. Giving access to international users.",
+      "feature_banner_title": "International Languages",
+      "feature_banner_desc": "More international languages.",
+      "benefits": {
+        "first_benefit_title": "Better Access",
+        "first_benefit_desc": "Gain access to more drops, trades, items and more with new international users.",
+        "second_benefit_title": "As a Seller, get access to more buyers",
+        "second_benefit_desc": "New international languages adds more consumers looking to buy your products.",
+        "third_benefit_title": "Join an international Community",
+        "third_benefit_desc": "Join an international community of collectors, buyers, sellers and traders."
+      },
+      "refer_a_friend": "Refer a friend to deadstock"
+    },
+
+    "promotions": {
+      "title": "Promotions",
+      "desc": "Receive exclusive Deadstock promotions updated daily, weekly and monthly.",
+      "feature_banner_title": "Promotions",
+      "feature_banner_desc": "New promotions for users.",
+      "benefits": {
+        "first_benefit_title": "New Raffles and Giveaways weekly and monthly",
+        "first_benefit_desc": "Have the chance to win free items with our weekly and monthly giveaways and raffles.",
+        "second_benefit_title": "Never miss a promotion with app notifications",
+        "second_benefit_desc": "Turn on notifications and be the first to know about new promotions.",
+        "third_benefit_title": "Exclusive to deadstock users",
+        "third_benefit_desc": "Our promotions, raffles and giveaways are exclusive to Deadstock users."
+      },
+      "prizes": "Prizes",
+      "cars": "Cars",
+      "sneakers": "Sneakers",
+      "cash": "Cash",
+      "shop_now_banner": {
+        "desc": "Check out daily exclusive promotions for apparel, streetwear, sneakers and accessories.",
+        "button_text": "Browse"
+      }
+    },
+    "damaged_box_items": {
+      "title": "Damaged Box Items",
+      "desc": "Our new box condition feature informs you of the exact condition you can expect your shoeboxes to be in.",
+      "feature_banner_title": "Damaged Box Items",
+      "feature_banner_desc": "New insights to box conditions",
+      "benefits": {
+        "first_benefit_title": "Insights Into The Condition Of Your Purchase",
+        "first_benefit_desc": "Our insights will inform you of box conditions for each item.",
+        "second_benefit_title": "Access to More Affordable Items",
+        "second_benefit_desc": "Box and item conditions can effect price, our analytics assure fair priced items.",
+        "third_benefit_title": "Info on Apparel & Accessory Packaging",
+        "third_benefit_desc": "We give detailed insights to how your items are packaged and what to expect."
+      },
+      "conditions": "Conditions",
+      "shop_now_banner": {
+        "desc": "Detailed insights on box conditions and packaging. Stay updated on the latest drops and offerings by creating a Deadstock Account.",
+        "button_text": "Browse"
+      }
+    },
+    "2fa_security": {
+      "title": "2FA Security",
+      "desc": "Enchanced security login to protect your account.",
+      "feature_banner_title": "2FA Security",
+      "feature_banner_desc": "Enhanced protection for your account",
+      "benefits": {
+        "first_benefit_title": "Increased Security",
+        "first_benefit_desc": "Our 2 factor authentication enhances account protection with an added layer of security.",
+        "second_benefit_title": "Biometric Identification",
+        "second_benefit_desc": "You can also use biometric measures such as a finger print and Touch ID technology.",
+        "third_benefit_title": "Ease of Use - Paired with SMS",
+        "third_benefit_desc": "Receive automated text or calls to verfiy account."
+      },
+      "shop_now_banner": {
+        "desc": "Our new security measurements assure safety and protection of your account. For further questions view our FAQ.",
+        "button_text": "FAQ"
+      }
+    },
+    "deadstock_exchange": {
+      "title": "Deadstock Exchange",
+      "desc": "Our new exchance feature gives you analytics to help determine what to sell and at what price based on the current market.",
+      "feature_banner_title": "Deadstock Exchange",
+      "feature_banner_desc": "Stay updated on the current market",
+      "benefits": {
+        "first_benefit_title": "Analytics on Current Trends ",
+        "first_benefit_desc": "Receive your payout immediately after the transaction is completed.",
+        "second_benefit_title": "Analytics on how to Price When Selling",
+        "second_benefit_desc": "The lowest seller fees in the marketplace, keep more of your revenue.",
+        "third_benefit_title": "Insights on Value of Specific Sizes of Items",
+        "third_benefit_desc": "Detailed instructions on how to quickly and efficiently ship your items."
+      },
+      "check_it_out": "CHECK IT OUT",
+      "shop_now_banner": {
+        "desc": "Deadstock Exchange enhances users selling and trading ability by giving analytics and insights.",
+        "button_text": "Deadstock Exchange"
+      }
+    },
+    "selling_on_deadstock": {
+      "title": "Sell",
+      "desc": "Sell your items quicker with our increased marketing visiblity. New analytics help you determine pricing, also receieve immediate payouts and low fees.",
+      "feature_banner_title": "Selling on Deadstock",
+      "feature_banner_desc": "Start selling your items today",
+      "benefits": {
+        "first_benefit_title": "Immediate Payout",
+        "first_benefit_desc": "Receive your payout immediately after the transaction is completed. ",
+        "second_benefit_title": "Low Fees",
+        "second_benefit_desc": "The lowest seller fees in the marketplace, keep more of your revenue.",
+        "third_benefit_title": "Fast Shipping",
+        "third_benefit_desc": "Detailed instructions on how to quickly and efficiently ship your items."
+      },
+      "process": "PROCESS",
+      "shop_now_banner": {
+        "desc": "Apply to become a vendor and earn  commission on selling Footware, Apparel, and Accessories today",
+        "button_text": "Apply"
+      }
+    },
+
+    "csv_bulk_uploading": {
+      "title": "CSV Bulk Uploading",
+      "desc": "Quick Item Upload for Selling",
+      "feature_banner_title": "Blockchain authentication Ledger",
+      "feature_banner_desc": "Convenient authentication.",
+      "benefits": {
+        "first_benefit_title": "Upload Multiple Items At Once",
+        "first_benefit_desc": "Receive your payout immediately after the transaction is completed.",
+        "second_benefit_title": "Easily editable & user-friendly",
+        "second_benefit_desc": "The lowest seller fees in the marketplace, keep more of your revenue.",
+        "third_benefit_title": "Time Saving & Efficient",
+        "third_benefit_desc": "Detailed instructions on how to quickly and efficiently ship your items."
+      },
+      "process": "THE PROCESS",
+      "shop_now_banner": {
+        "desc": "Apply to become a Vendor at Deadstock and upload your inventory via .CSV. Use our helpful template as assistance.",
+        "button_text": "Become a Vendor"
+      }
+    },
+    "blockchain_authentication_ledger": {
+      "title": "Blockchain Authentication Ledger",
+      "desc": "Our new blockchain helps you receive authentication of your items by giving you exact photo templates.",
+      "feature_banner_title": "Blockchain authentication Ledger",
+      "feature_banner_desc": "Convenient authentication.",
+      "benefits": {
+        "first_benefit_title": "Each item Bought and Sold has exclusive NFC",
+        "first_benefit_desc": "Every item comes with a NFC which can be shared or accessed by anyone.",
+        "second_benefit_title": "Each NFC Scan Shows proof of authentication",
+        "second_benefit_desc": "The NFC scan shows proof of authentication which can be shared with anyone.",
+        "third_benefit_title": "Scan NFC to Access more details",
+        "third_benefit_desc": "Scan the NFC to access more details and descriptions on each item."
+      },
+      "process": "Process",
+      "shop_now_banner": {
+        "desc": "Check out offerings for apparel, streetwear, sneakers and accessories and gain access to the NFC scanned items.",
+        "button_text": "Browse"
+      }
+    },
+    "in_app_notifications": {
+      "title": "In-App Notifications",
+      "desc": "Receive in-app notifications on new items, promotions and more. Also receive notificaitons on your current auctions, trades and sells.",
+      "feature_banner_title": "In-App Notifications",
+      "feature_banner_desc": "Stay updated with notifications",
+      "benefits": {
+        "first_benefit_title": "Get notified of promotions",
+        "first_benefit_desc": "Turn on notifications to stay updated with all promotions.",
+        "second_benefit_title": "Live updates on drops, marketplace and more",
+        "second_benefit_desc": "Live updates and notifications inform you of drops, changes in the market and more.",
+        "third_benefit_title": "Live notifications on status of your transactions",
+        "third_benefit_desc": "Stay updated on the status of your transactions with live updates and notifications."
+      },
+      "methods": "Methods",
+      "email": "Email",
+      "in_app": "In-App",
+      "text": "Text",
+      "shop_now_banner": {
+        "desc": "Enable notifications and stay updated with promotions, transactions and more. Choose which type of notification you prefer.",
+        "button_text": "Notification"
+      }
+    },
+    "social_signin": {
+      "title": "Social Sign In",
+      "desc": "Sign in our app from any social media by linking your Deadstock account to your social media accounts.",
+      "feature_banner_title": "Social Sign-In",
+      "feature_banner_desc": "Link your account to your socials.",
+      "benefits": {
+        "first_benefit_title": "Simplify Registration",
+        "first_benefit_desc": "Make signing up for Deadstock easier by linking social media accounts.",
+        "second_benefit_title": "Quick Sign-Up",
+        "second_benefit_desc": "Easily link your Deadstock account to your social media accounts in a few steps.",
+        "third_benefit_title": "Easier to share links on social media",
+        "third_benefit_desc": "Share links to social media easier when your accounts are linked, gain more rewards when you share posts."
+      },
+      "refer_a_friend": "Refer a friend to deadstock"
+    },
+    "instant_shipping": {
+      "title": "Instant Ship",
+      "desc": "Guranteed instant shipping, as items are shipped immediately after authentication.",
+      "feature_banner_title": "Instant Shipping",
+      "feature_banner_desc": "We off 24 hour shipping for all items.",
+      "benefits": {
+        "first_benefit_title": "Ships Quickly in 24 hrs",
+        "first_benefit_desc": "All items are shipped within 24 hours to gurantee the fastest shipping.",
+        "second_benefit_title": "Pre-authenticated",
+        "second_benefit_desc": "All items are certified authentic prior to being shipped out.",
+        "third_benefit_title": "Wide assortment of Items",
+        "third_benefit_desc": "We offer the widest range of items from sneakers, streetwear, accessories, and more all eligble for 24 hour shipping."
+      },
+      "shop_now_banner": {
+        "desc": "Check out offerings for apparel, streetwear, sneakers and accessories for 24 hour ship to get your items quickly and efficiently.",
+        "button_text": "Browse"
+      }
+    },
+    "shareable_wishlists_and_watchlists": {
+      "title": "Shareable Wishlists and Watchlists",
+      "desc": "You can share your lists on social media or send it to friends with a shareable link.",
+      "feature_banner_title": "Shareable Wishlists & Watchlists",
+      "feature_banner_desc": "Share wishlists & watchlists ",
+      "benefits": {
+        "first_benefit_title": "Save Items to Specified LIsts",
+        "first_benefit_desc": "Save your favorite items to specific wishlists to visit later or share with others. Receive updates on these items.",
+        "second_benefit_title": "Share Lists to friends and on Social Media",
+        "second_benefit_desc": "Share your wishlists and watchlists on your social media accounts.",
+        "third_benefit_title": "Customize and Tailor Lists",
+        "third_benefit_desc": "Customize your wishlists & watchlists to your personal liking."
+      },
+      "what_you_can_do": "What You Can Do",
+      "shop_now_banner": {
+        "desc": "Check out offerings for apparel, streetwear, sneakers and accessories and add them to your wishlish and watchlists with the heart and eye icon.",
+        "button_text": "Browse"
+      },
+      "save_to_wishlist": "Save To Wishlist",
+      "save_to_wishlist_desc": "Save any item of your choice to your wishlists to purchase later or send to others.",
+      "save_to_watchlist": "Save To Watchlist",
+      "save_to_watchlist_desc": "Save items to your watchlist to keep track of your favorite items.",
+      "name_organize_list": "Name & Organize Lists",
+      "name_organize_list_desc": "Customize and organize your lists to your liking."
     }
   },
   "banner": {

@@ -1,58 +1,43 @@
 <template>
   <div>
-    <Accordion :data="getTranslatedFAQs" />
+    <Accordion :data="faqs"/>
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
 import Accordion from '~/components/common/Accordion'
-import { LANG } from '~/static/constants'
+
 export default {
   name: 'FAQAccordion',
-  components: { Accordion },
+  components: {Accordion},
   data() {
     return {
-      faqs: [],
+      questions: []
     }
   },
-  computed: { 
-    ...mapState(['locale']),
-    getTranslatedFAQs() {
-      return this.faqs.map((data) => {
+  computed: {
+    faqs(){
+      return this.questions.map(x => {
         return {
-          id: `faq-${data.id}`,
-          title: `${
-            this.locale === LANG.EN
-              ? data.question.question_en
-              : this.locale === LANG.FR
-              ? data.question.question_fr
-              : data.question.question_es
-          }`,
-          body: `${
-            this.locale === LANG.EN
-              ? data.answer.answer_en
-              : this.locale === LANG.FR
-              ? data.answer.answer_fr
-              : data.answer.answer_es
-          }`,
+          id: `faq-${x.id}`,
+          title: x.question_details[0].question,
+          body: x.question_details[0].answer
         }
       })
-    },
+    }
   },
   mounted() {
-    this.getFAQ()
+    this.fetchFaqs()
   },
   methods: {
-    getFAQ() {
-      this.$axios
-        .get('/faqs')
-        .then(({ data }) => {
-          this.faqs = data.data
+    fetchFaqs() {
+      this.$axios.get('/faqs/categories/support')
+        .then(({data}) => {
+          this.questions = data.data[0].questions
         })
-        .catch((err) => {
+        .catch(err => {
           this.logger.logToServer(err.response)
         })
-    },
+    }
   },
 }
 </script>

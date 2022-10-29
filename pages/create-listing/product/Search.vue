@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="container-auction-search h-100 px-md-5 pb-5 mb-5">
+  <b-container fluid class="container-auction-search px-md-5 pb-5 mb-5">
     <div class="d-none d-md-flex justify-content-end align-items-center">
       <div v-if="selectedAuctionType === 'collection'">
         <FormStepper :steps="steps" :selected="getCollectionState"/>
@@ -118,11 +118,10 @@ export default {
 .container-auction-search
   padding: 47px 54px
   background-color: $color-white-5
+  height: 100%
 
   h2.title
     @include heading-3
-    color: $color-black-1
-  
   .btn-add::v-deep
     @include body-4-medium
     width: 168px
@@ -135,6 +134,7 @@ export default {
   @media (max-width: 576px)
     padding: 20px 16px
     background: transparent
+    height: calc(100vh - 317px)
     .heading-1-bold
       font-size: 16px
       line-height: 19px
@@ -166,7 +166,7 @@ export default {
         border-radius: 8px
         padding: 0px 12px
         .thumb-wrapper
-          width: 80px
+          width: 80px !important
         .body-4-normal
           font-weight: $normal
           font-size: 13px

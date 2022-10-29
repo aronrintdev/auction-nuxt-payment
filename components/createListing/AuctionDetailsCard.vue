@@ -16,7 +16,7 @@
       <b-col class="detail-text text-center my-auto">{{ item.time_limit }} Day</b-col>
       <b-col class="detail-text text-center my-auto"><span v-show="item.is_reserved">{{ '$' + item.reserve_price  }}</span></b-col>
       <b-col class="detail-text text-center my-auto">${{  item.start_bid_price  }}</b-col>
-      <b-col class="detail-text text-center my-auto">{{  item.status.toUpperCase()  }}</b-col>
+      <b-col class="detail-text text-center my-auto text-uppercase">{{  item.status }}</b-col>
       <b-col v-if="!editDisabled" class="detail-text text-right my-auto">
         <Button
           variant="outline-primary"

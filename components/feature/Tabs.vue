@@ -4,7 +4,7 @@
       <button
         v-for="(option, index) in options"
         :key="`feature-tab-${index}`"
-        class="btn-feature-tab d-flex align-items-center justify-content-center flex-shrink-0"
+        class="btn-feature-tab d-flex align-items-center justify-content-center flex-shrink-0 font-primary"
         :class="{ active: option.id === currentTab }"
         @click="handleTabClick(option)"
       >
@@ -64,6 +64,7 @@ export default {
     border-radius: 24px
     border: none
     padding: 0
+    box-shadow: 0px 1px 4px 0 rgba($color-black-1, 0.25)
 
     &:hover, &.hover, &:active, &.active, &:focus, &.focus, &:visited, &.visited
       box-shadow: 0px 1px 4px 0 rgba($color-black-1, 0.25)
@@ -71,4 +72,11 @@ export default {
   .tab-panel
     border-radius: 24px
     box-shadow: 0px 1px 4px 0 rgba($color-black-1, 0.25)
+
+
+@media (max-width: 768px)
+  .btn-feature-tab
+    font-size: 12px !important
+    &:active
+      box-shadow: 0px 4px 4px rgb(0 0 0 / 25%)
 </style>

@@ -559,3 +559,55 @@
   color: $color-gray-5
   .custom-control
     margin-top: -0.4em
+
+@media (max-width: 576px)
+  #auto-bid-modal
+    .modal-dialog
+      margin: 0
+      height: 100%
+      .modal-content
+        height: 100%
+        border-radius: 0
+        .auto-bid-auth-link
+          margin-bottom: 10px
+        .auto-bid-modal-title
+          @include body-7
+          font-family: $font-family-sf-pro-display
+          font-weight: $medium
+          color: $black
+        .auto-bid-section-title
+          @include body-13
+        .card-item
+          display: none
+        .form-group
+          label
+            @include body-9
+            font-weight: $normal
+        #saveCards
+          width: 100%
+          justify-content: center
+
+#autobid-prepare-modal,
+#placebid-modal
+  @media (max-width: 576px)
+    .description-text
+      @include body-9
+      font-family: $font-family-sf-pro-display
+      font-weight: $regular
+      color: $black
+    .field
+      border-bottom: 1px solid $color-gray-16
+      height: 56px
+      input
+        font-family: $font-family-sf-pro-display
+        @include body-5
+        font-weight: $bold
+        border: 1px solid $color-gray-47
+        border-radius: 8px
+        width: 80px
+        height: 38px
+    .modal-dialog
+      margin: 0
+      .modal-content
+        border-radius: 0
+        height: 100vh
