@@ -65,7 +65,7 @@
               <b-col sm="3" md="2">
                 <Thumb :product="item.item.product" />
               </b-col>
-              <b-col sm="9" md="10" class="pl-2">
+              <b-col sm="9" md="10" class="pl-2 pr-4">
                 <b-row class="mb-2 d-block">
                   <div class="body-4-bold mb-2 product-name">{{ item.item.product.name }}</div>
                   <div class="body-4-normal mb-2 text-gray-6 text-uppercase product-sku">
@@ -137,14 +137,14 @@
         variant="outline-primary"
         pill
         :disabled="processing"
-        class="d-none d-md-block flex-grow-1 mr-2 px-0"
+        class="d-none d-md-block mr-4 px-4"
         @click="addMore"
       >{{ $t('create_listing.confirm.add_auction') }}</Button
       >
       <Button
         variant="primary"
         pill
-        class="w-50 w-md-auto mr-2 px-0 save-draft"
+        class="mr-2 mx-md-4 px-0 px-md-5 save-draft"
         :disabled="processing"
         @click="saveAsDraft"
       >{{ $t('create_listing.confirm.save_draft') }}</Button
@@ -152,7 +152,7 @@
       <Button
         variant="dark"
         :disabled="processing || selectedAuctionItems.length < 2"
-        class="w-50 w-md-auto ml-2 px-0 next-post-btn"
+        class="ml-2 ml-md-4 px-0 px-md-5 next-post-btn"
         pill
         @click="postAuctions"
       >
@@ -376,6 +376,9 @@ export default {
     display: flex
     justify-content: center
   
+  .next-post-btn
+    min-width: 200px
+  
   @media (max-width: 576px)
     padding: 20px 16px
     background: transparent
@@ -449,9 +452,11 @@ export default {
       background: $white
       border-color: $color-blue-20
       color: $color-blue-20
+      width: 50%
     .next-post-btn.btn
       background: $color-blue-20
       border-color: $color-blue-20
+      width: 50%
     .collection-details-info
       box-shadow: 0px 1px 4px rgba($black, 0.25)
       border-radius: 10px

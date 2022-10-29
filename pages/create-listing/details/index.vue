@@ -72,7 +72,7 @@
           <template #cell(reserve_notice)="row">
             <div v-if="row.item.is_reserved" class="position-absolute d-flex align-items-start reserve-notice" >
               <img :src="infoIcon" class="icon-info scale-2" alt="Info icon" />
-              {{$t('create_listing.details.reserve_fee_desc1')}}&nbsp;${{ row.item.reserve_price * RESERVE_PRICE_FEE * 100 | formatPrice }}&nbsp;{{$t('create_listing.details.reserve_fee_desc2')}}
+              {{$t('create_listing.details.reserve_fee_desc1')}}&nbsp;${{ calculateFee(row.item.reserve_price).toFixed(2) }}&nbsp;{{$t('create_listing.details.reserve_fee_desc2')}}
             </div>
           </template>
         </b-table>
@@ -83,18 +83,12 @@
         <div class="auction-item-title">{{$t('create_listing.confirm.auction_number')}}{{index+1}}</div>
         <div class="item d-flex flex-column bg-white h-md-100 w-100 rounded-md">
           <div class="position-relative d-flex flex-column justify-content-between">
-            <b-dropdown id="dropdown-right" right variant="link" no-caret class="d-md-none position-absolute more-btn">
-              <template #button-content >
-                <img src="~/assets/img/icons/vertical-three-dots-icon.svg" />
-              </template>
-              <b-dropdown-item @click="deleteSingleItem(item, index)">{{ $t('common.delete') }}</b-dropdown-item>
-            </b-dropdown>
             <div class="detail-section d-flex flex-grow-1">
               <b-row>
                 <b-col sm="3" md="2">
                   <Thumb :product="item.item.product" />
                 </b-col>
-                <b-col sm="9" md="10" class="pl-2">
+                <b-col sm="9" md="10" class="pl-2 pr-4">
                   <b-row class="mb-2 d-block">
                     <div class="body-4-bold mb-2 product-name">{{ item.item.product.name }}</div>
                     <div class="body-4-normal mb-2 text-gray-6 text-uppercase product-sku">
@@ -124,7 +118,7 @@
             </div>
             <div class="d-flex align-items-center justify-content-between px-3 background-gray py-2">
               <div class="label">{{ $t('create_listing.details.table_columns.starting_bid') }}:</div>
-              <div class="value">{{ item.start_bid_price }}</div>
+              <div class="value">${{ item.start_bid_price }}</div>
             </div>
           </div>
         </div>
@@ -202,10 +196,11 @@
 import {mapActions, mapGetters} from 'vuex';
 import ShoppingCartOrder from '~/components/checkout/auction/ShoppingCartOrder'
 import infoIcon from '~/assets/img/icons/info-blue.svg';
-import { RESERVE_PRICE_FEE, SELLER_FEE, TRANSACTION_FEE } from '~/static/constants';
+import { SELLER_FEE, TRANSACTION_FEE } from '~/static/constants';
 import DeleteSvg from '~/assets/img/icons/delete-icon-white.png';
 import { Modal, Button } from '~/components/common'
 import Thumb from '~/components/product/Thumb';
+import createListingAuction from '~/plugins/mixins/create-listing-auction';
 
 export default {
   name: 'CreateListingDetails',
@@ -215,6 +210,7 @@ export default {
     Thumb,
     Button,
   },
+  mixins: [createListingAuction],
   layout: 'Profile',
   data(){
     return {
@@ -252,7 +248,6 @@ export default {
           class: 'reserve-notice-cell',
         }
       ],
-      RESERVE_PRICE_FEE,
       SELLER_FEE,
       TRANSACTION_FEE,
       deletableItem: {
@@ -308,6 +303,7 @@ export default {
   @media (max-width: 576px)
     padding: 0 16px
     background: transparent
+    min-height: calc(100vh - 269px)
 
     .order-summary::v-deep
       min-width: 0
