@@ -1,73 +1,50 @@
 <template>
-  <div>
-    <div class="">
-      <div class="row filter-row-top">
-        <!-- Input search -->
-        <div class="col search-input-col vtpc-search p-lg-3 pt-3 d-flex">
-          <div class="col-6">
-            <SearchInput
-              :value="searchValue"
-              :placeholder="
-                $t('deadstock_exchange.filter_by.details_placeholder')
-              "
-              variant="light"
-              class="flex-grow-1 mr-4 search-input"
-              :debounce="1000"
-              @change="searchProduct"
-            />
+  <section class="auction-filters">
+    <div class="auction-filters-content">
+      <div class="d-flex justify-content-between">
+        <div v-click-outside="hideDropdown" class="searchbox" :class="{ 'open': hasSearchResult }">
+          <search-box :searchText="searchText" :placeholder="$t('deadstock_exchange.filter_by.details_placeholder')" @search="search" />
+          <div v-if="hasSearchResult" class="dropdown-options">
+            <div
+              v-for="prod in searchedProducts"
+              :key="`${prod.sku}-${prod.category.name}`"
+              class="dropdown-option d-flex align-items-center"
+              @click="selectProduct(prod)"
+            >
+              <div class="position-relative d-inline-flex">
+                <b-img
+                  :src="`${prod.image  || 'https://images.deadstock.co/404.png'}?width=150}`"
+                  class="mx-auto"
+                  alt="..."
+                />
+                <div class="position-absolute overlay"></div>
+              </div>
+              &nbsp; {{ prod.name }}
+            </div>
+            <div v-if="!searchedProducts.length" class="dropdown-option text-center">
+              {{ $t('sell.create_listing.no_result') }}
+            </div>
           </div>
-
-          <div class="col-4">
-            <FormDropdown
-              id="sort-by"
-              :value="sortBy"
-              :placeholder="$t('selling_page.sortby')"
-              :items="SORT_OPTIONS"
-              :icon="require('~/assets/img/icons/three-lines.svg')"
-              :icon-arrow-down="
-                require('~/assets/img/icons/arrow-down-gray2.svg')
-              "
-              class="dropdown-sort flex-shrink-1"
-              can-clear
-              @select="handleSortBySelect"
-            />
-          </div>
-          <button
-            v-if="
-              selectedFilters.brand !== '' &&
-              selectedFilters.size_type !== '' &&
-              selectedFilters.category !== ''
-            "
-            class="btn btn-sm text-black filter-btn col-2"
-          >
-            Filter
-          </button>
         </div>
-        <!-- ./Input search -->
+        <FormDropdown
+          id="sort-by"
+          :value="selectedFilters.sortby"
+          :placeholder="$t('selling_page.sortby')"
+          :items="SORT_OPTIONS"
+          :icon="require('~/assets/img/icons/three-lines.svg')"
+          :icon-arrow-down="
+            require('~/assets/img/icons/arrow-down-black.svg')
+          "
+          class="dropdown-sort flex-shrink-1"
+          can-clear
+          @select="changeOption"
+        />
       </div>
-      <div
-        v-if="
-          selectedFilters.brand === '' ||
-          selectedFilters.size_type === '' ||
-          selectedFilters.category === ''
-        "
-        class="row filter-row-bottom"
-      >
-        <!-- Filter By Category-->
-        <div class="col filter-by-col">
-          <!-- <CustomSelect
-            :default="filterBy"
-            :threelineIcon="false"
-            :options="{
-              default: $t('deadstock_exchange.filter_by.categories.title'),
-              ...categories,
-            }"
-            :title="filterByTitle"
-            @input="handleFilterByCategories"
-          /> -->
-                <!-- Categories -->
+    </div>
+    <div  class="mt-4 d-flex align-items-center">
+      <!-- Categories -->
       <MultiSelectDropdown
-        v-model="selectedFilters.categories"
+        v-model="selectedFilters.category_id"
         collapseKey="categories"
         :title="$t('home_page.categories')"
         :options="categoryOptions"
@@ -75,101 +52,73 @@
         width="160"
       />
 
-        </div>
-        <!-- Filter By Category-->
+      <!-- Size Types -->
+      <MultiSelectDropdown
+        v-model="selectedFilters.sizeTypes"
+        collapseKey="size-types"
+        :title="$t('filter_sidebar.size_types')"
+        :options="sizeTypeOptions"
+        class="mr-3 mr-xl-4"
+        width="180"
+      />
+      <!-- Current Bid -->
+      <SliderDropdown
+        :start-label="$t('filter_sidebar.price_items.min')"
+        :end-label="$t('filter_sidebar.price_items.max')"
+        :start-placeholder="$t('filter_sidebar.price_items.from')"
+        :end-placeholder="$t('filter_sidebar.price_items.to')"
+        :minValue="MIN_PRICE"
+        :maxValue="MAX_PRICE / 100"
+        :step="50"
+        :title="$t('deadstock_exchange.filter_by.price_range')"
+        :value="selectedPrices"
+        class="mr-3 mr-xl-4 flex-grow-1"
+        @change="updatePriceFilters"
+      />
 
-        <!-- Filter By SizeType-->
-        <div class="col filter-by-col">
-          <!-- <CustomSelect
-            :default="filterBy"
-            :threelineIcon="false"
-            :options="{
-              default: $t('deadstock_exchange.filter_by.size_types'),
-              men: $t('deadstock_exchange.filter_by.size_type.men'),
-              women: $t('deadstock_exchange.filter_by.size_type.women'),
-              kids: $t('deadstock_exchange.filter_by.size_type.kids'),
-            }"
-            :title="filterByTitle"
-            @input="handleFilterBySizeType"
-          /> -->
+      <!-- Brand -->
+      <MultiSelectDropdown
+        v-model="selectedFilters.brands"
+        collapseKey="brands"
+        :title="$t('filter_sidebar.brands')"
+        :options="brandOptions"
+        class="mr-3 mr-xl-4 d-none d-xl-block flex-grow-1"
+      />
 
-          <!-- Size Types -->
-          <MultiSelectDropdown
-            v-model="selectedFilters.sizeTypes"
-            collapseKey="size-types"
-            :title="$t('filter_sidebar.size_types')"
-            :options="sizeTypeOptions"
-            class="mr-3 mr-xl-4"
-            width="180"
-          />
-        </div>
-        <!-- Filter By SizeType-->
-
-        <!-- Filter By Price Range-->
-        <div class="col filter-by-col">
-          <SliderDropdown
-            :start-label="$t('filter_sidebar.price_items.min')"
-            :end-label="$t('filter_sidebar.price_items.max')"
-            :start-placeholder="$t('filter_sidebar.price_items.from')"
-            :end-placeholder="$t('filter_sidebar.price_items.to')"
-            :minValue="MIN_PRICE"
-            :maxValue="MAX_PRICE / 100"
-            :step="50"
-            :title="$t('deadstock_exchange.filter_by.price_range')"
-            :value="selectedPrices"
-            class="mr-3 mr-xl-4 flex-grow-1"
-            @change="handleFilterByPriceRange"
-          />
-        </div>
-        <!-- Filter By Price Range-->
-
-        <!-- Filter By Brands-->
-        <div class="col filter-by-col">
-          <CustomSelect
-            :default="filterBy"
-            :threelineIcon="false"
-            :options="{
-              default: $t('deadstock_exchange.filter_by.brands'),
-              ...brands,
-            }"
-            :title="filterByTitle"
-            @input="handleFilterByBrands"
-          />
-        </div>
-        <!-- Filter By Brands-->
-
-        <!-- Filter By Years-->
-        <div class="col filter-by-col">
-
-          <!-- Years -->
-          <SliderDropdown
-            :start-label="$t('filter_sidebar.price_items.min')"
-            :end-label="$t('filter_sidebar.price_items.max')"
-            :start-placeholder="$t('filter_sidebar.price_items.from')"
-            :end-placeholder="$t('filter_sidebar.price_items.to')"
-            :minValue="MIN_YEAR"
-            :maxValue="MAX_YEAR"
-            :step="1"
-            :title="$t('auctions.frontpage.filterbar.year')"
-            :value="selectedYears"
-            class="mr-3 mr-xl-4"
-            :width="250"
-            @change="handleFilterByYears"
-          />
-        </div>
-        <!-- Filter By Years-->
-      </div>
+      <!-- Brand -->
+      <MultiSelectDropdown
+        v-model="selectedFilters.brands"
+        collapseKey="brands"
+        :title="$t('filter_sidebar.brands')"
+        :options="brandOptions"
+        class="mr-3 mr-xl-4 d-none d-md-block d-xl-none"
+        :width="250"
+      />
+      <!-- Years -->
+      <SliderDropdown
+        :start-label="$t('filter_sidebar.price_items.min')"
+        :end-label="$t('filter_sidebar.price_items.max')"
+        :start-placeholder="$t('filter_sidebar.price_items.from')"
+        :end-placeholder="$t('filter_sidebar.price_items.to')"
+        :minValue="MIN_YEAR"
+        :maxValue="MAX_YEAR"
+        :step="1"
+        :title="$t('deadstock_exchange.filter_by.years')"
+        :value="selectedYears"
+        class="mr-3 mr-xl-4"
+        :width="250"
+        @change="updateYearFilters"
+      />
     </div>
-    <!-- Filters -->
-    <div class="row filter-row">
+        <!-- Filters -->
+        <div class="row filter-row">
       <div class="col-md-12 col-sm-12 mt-md-4 mt-4">
-        <!-- Type Filters -->
-        <!-- Status Filters -->
+        <!-- Selected Filters -->
         <div
           v-if="
-            selectedFilters.brand != '' ||
-            selectedFilters.size_type != '' ||
-            selectedFilters.category != ''
+            selectedFilters.brands != [] &&
+            selectedFilters.sizeTypes != [] &&
+            selectedFilters.category_id != []
           "
           class="col-md-2 clearall-filter float-right"
         >
@@ -196,187 +145,240 @@
           ></i>
         </b-badge>
         <!-- ./Type Filters -->
-        <!-- Status Filters -->
-        <b-badge
-          v-for="(status, statusIndex) in activeStatusFilters"
-          :key="`status-${statusIndex}`"
-          class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
-        >
-          {{ status.type }}&colon; {{ status.text }}
-          <i
-            class="fa fa-times"
-            role="button"
-            aria-hidden="true"
-            @click="removeTypeFilter(status)"
-          ></i>
-        </b-badge>
       </div>
     </div>
     <!-- ./ -->
-  </div>
+  </section>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import CustomSelect from '~/components/common/CustomSelect.vue'
-import { SearchInput, FormDropdown,MultiSelectDropdown, SliderDropdown } from '~/components/common'
-
+import ClickOutside from 'vue-click-outside'
+import debounce from 'lodash.debounce'
+import SearchBox from '../RoundSearchBox'
+import { FormDropdown, MultiSelectDropdown, SliderDropdown } from '~/components/common'
 import {
-  Years,
-  MIN_PRICE,
   MAX_PRICE,
-  MAX_YEAR,
+  MIN_PRICE,
   MIN_YEAR,
+  MAX_YEAR,
   MIN_PRICE_RANGE_WINDOW,
-} from '~/static/constants/stock-exchange'
+  SNEAKER_SIZES,
+  APPAREL_SIZES,
+} from '~/static/constants'
+
+/*
+ * Stock Exchange Filter Bar Component
+ */
 export default {
-  name: 'ExchangeFilter',
+  name: 'ExchangeFilterBar',
   components: {
-    CustomSelect,
-    SearchInput,
+    SearchBox,
     FormDropdown,
+    MultiSelectDropdown,
     SliderDropdown,
-    MultiSelectDropdown
+  },
+  directives: {
+    ClickOutside
+  },
+  props: {
+    searchKeyword: {
+      type: String,
+      default: '',
+    }
   },
   data() {
     return {
+      activeTypeFilters: [],
+      searchText: null,
+      hasSearchResult: false,
+      searchedProducts: [],
+      SORT_OPTIONS: [
+        {
+          value: 'relevance',
+          label: this.$t('deadstock_exchange.sortby.relevance'),
+        },
+        {
+          value: 'end_date_asc',
+          label: this.$t('deadstock_exchange.sortby.end_date_asc'),
+        },
+        {
+          value: 'end_date_desc',
+          label: this.$t('deadstock_exchange.sortby.end_date_desc'),
+        },
+        {
+          value: 'price_asc',
+          label: this.$t('deadstock_exchange.sortby.price_asc'),
+        },
+        {
+          value: 'price_desc',
+          label: this.$t('deadstock_exchange.sortby.price_desc'),
+        },
+        {
+          value: 'most_viewed',
+          label: this.$t('deadstock_exchange.sortby.most_viewed'),
+        },
+      ],
       MAX_PRICE,
       MIN_PRICE,
       MAX_YEAR,
       MIN_YEAR,
       MIN_PRICE_RANGE_WINDOW,
-      filterByTitle: this.$t('selling_page.status'),
-      Years,
-      searchValue: '',
-      categorySelected: '', // For Sort by filter
-      selectedPrices: [MIN_PRICE, MAX_PRICE / 100],
-      selectedYears: [MIN_YEAR, MAX_YEAR],
-      filterBy: '',
-      brands: [],
-      allCategories: [],
+      moreFiltersVisible: false,
+      SNEAKER_SIZES,
+      APPAREL_SIZES,
       categoryOptions: [],
-      showSuccessMessage: null,
-      selectedFilters: {
-        sort_by_column: 'id',
-        search: '',
-        category: '',
-        category_id: '',
-        brand: '',
-        size_type: '',
-        priceRange: '',
-      },
-      activeTypeFilters: [],
-      activeStatusFilters: [],
-      SORT_OPTIONS: [
+      statusOptions: [
         {
-          label: this.$t('vendor_purchase.sort_by'),
-          value: 'default',
+          label: this.$t('filter_sidebar.status_options.live'),
+          value: 'live'
         },
         {
-          label: this.$t('deadstock_exchange.sort_by.highest_change'),
-          value: 'highestChange',
+          label: this.$t('filter_sidebar.status_options.upcoming'),
+          value: 'upcoming'
         },
         {
-          label: this.$t('deadstock_exchange.sort_by.lowest_change'),
-          value: 'lowestChange',
+          label: this.$t('filter_sidebar.status_options.expiring'),
+          value: 'ending_soon'
         },
         {
-          label: this.$t('deadstock_exchange.sort_by.release_date_asc'),
-          value: 'releaseDateAsc',
+          label: this.$t('filter_sidebar.status_options.expired'),
+          value: 'expired'
         },
         {
-          label: this.$t('deadstock_exchange.sort_by.last_price_lh'),
-          value: 'lastPriceLh',
-        },
-        {
-          label: this.$t('deadstock_exchange.sort_by.last_price_hl'),
-          value: 'lastPriceHl',
+          label: this.$t('filter_sidebar.status_options.sold'),
+          value: 'sold'
         },
       ],
-      sortBy: null,
+      selectedPrices: [MIN_PRICE, MAX_PRICE / 100],
+      selectedYears: [MIN_YEAR, MAX_YEAR],
+      selectedFilters: {
+        type: 'single',
+        sizeTypes: [],
+        sizes: [],
+        brands: [],
+        category_id: [],
+        status: [],
+        sortby: null,
+        product: null,
+      }
     }
   },
   computed: {
-    ...mapGetters({ activeFilters: 'stock-exchange/getActiveFilters' }),
+    ...mapGetters('browse', [
+      'filters',
+      'selectedBrands',
+      'selectedSizes',
+      'selectedSizeTypes',
+    ]),
+    sizeOptions() {
+      let options = this.filters?.sizes
+      if (options && this.sizeTypes && this.sizeTypes.length > 0) {
+        options = options.filter(({ type }) => this.sizeTypes.includes(type))
+      }
+      return (
+        options?.map(({ id, size, type }) => {
+          return {
+            label: `${type} - ${size}`,
+            value: id,
+          }
+        }) || []
+      )
+    },
+    brandOptions() {
+      return this.filters?.brands?.map(({ name }) => {
+        return { label: name, value: name }
+      })
+    },
+    sizeTypeOptions() {
+      return this.filters?.size_types?.map((type) => {
+        return { label: type, value: type }
+      })
+    },
+  },
+  watch: {
+    searchKeyword(newV) {
+      this.searchText = newV
+    },
+    selectedFilters: {
+      handler (newV) {
+        this.emitChange(newV)
+      },
+      deep: true
+    }
   },
   mounted() {
-    this.loadFilters()
-    this.getCategory()
+    const auctionFilters = document.querySelector('.auction-filters');
+    console.log(auctionFilters)
+    if (auctionFilters)
+    auctionFilters.style.padding='70px 10px';
+    this.searchText = this.searchKeyword
+    // Get categories list
+    this.$axios.get('/categories', {
+      params: {
+        take: 3,
+      }
+    })
+    .then(res => {
+      this.categoryOptions = res.data.map(cat => ({
+        label: this.$t(`common.categories.${cat.name}`),
+        value: cat.id,
+      }))
+    })
+    .catch(() => {
+      this.categoryOptions = []
+    })
+
   },
   methods: {
-    // Get All Product Filters List
-    loadFilters() {
-      this.$axios
-        .get('/products/filters-list')
-        .then((response) => {
-          const brandsList = {}
-          response.data.brands.forEach((elem, index) => {
-            const name = elem.name
-            brandsList[`${name}`] = name
-          })
-          this.brands = brandsList
-
-          const categoriesList = {}
-          this.allCategories = response.data.categories
-          this.allCategories.forEach((elem, index) => {
-            const name = elem.name
-            categoriesList[`${name}`] = name
-          })
-          // this.categoryOptions = categoriesList
-        })
-        .catch((error) => {
-          // Show unauthorized message on error
-          this.$toasted.error(error)
-        })
-    },
-    getCategory()
-    {
-      this.$axios.get('/categories', {
-        params: {
-          take: 3,
-        }
-      })
-      .then(res => {
-        this.categoryOptions = res.data.map(cat => ({
-          label: this.$t(`common.categories.${cat.name}`),
-          value: cat.id,
-        }))
-      })
-      .catch(() => {
-        this.categoryOptions = []
-      })
-    },
-    // On filter by change.
-    searchProduct(val) {
-      this.selectedFilters.search = val
-      this.setActiveFilter()
-      this.$emit('filterList', this.selectedFilters)
-    },
-    // On filter by change.
-    handleSortBySelect(value) {
+    // Search event listener
+    search(value) {
+      this.searchText = value
       if (value) {
-        this.sortBy = value.value
-        this.selectedFilters.sort_by_column = value === '' ? '' : value.label
-        this.setActiveFilter()
-        this.$emit('filterList', this.selectedFilters)
+        this.$axios.get('/products', {
+          params: {
+            search: value.toLowerCase(),
+          }
+        }).then(response => {
+          this.hasSearchResult = true;
+          this.searchedProducts = response.data.data || []
+        }).catch(error => {
+          this.hasSearchResult = false;
+          this.$toasted.error(error)
+        });
+      } else {
+        this.selectedProduct = null
+        this.emitChange()
       }
     },
-    // On filter by change.
-    handleFilterByCategories(value) {
-      const category = this.allCategories.filter((el) => el.name === value)
-      this.selectedFilters.category_id = value === '' ? '' : category[0].id
-      this.selectedFilters.category = value === '' ? '' : value
-      this.setActiveFilter()
-      this.$emit('filterList', this.selectedFilters)
+    // Select product
+    selectProduct(product) {
+      this.selectedProduct = product.sku
+      this.searchText = product.name
+      this.selectedFilters = {
+        ...this.selectedFilters,
+        product: this.selectedProduct,
+      }
+      this.hideDropdown()
     },
-    // Update selected size and pass to parent component
-    handleFilterBySizeType(value) {
-      this.selectedFilters.size_type = value === '' ? '' : value
-      this.setActiveFilter()
-      this.$emit('filterList', this.selectedFilters)
+    // Select SortBy option
+    changeOption(option) {
+      this.selectedFilters = {
+        ...this.selectedFilters,
+        sortby: option?.value
+      }
+    },
+
+    // Submit updated filters
+    emitChange: debounce(function(filters) {
+      this.$emit('filterList', filters)
+    }, 300),
+    hideDropdown() {
+      this.hasSearchResult = false
+      this.searchedProducts = []
     },
     // Update selected prices and pass to parent component
-    handleFilterByPriceRange(value) {
+    updatePriceFilters(value) {
       this.selectedPrices = value
       this.selectedFilters = {
         ...this.selectedFilters,
@@ -384,27 +386,51 @@ export default {
         price_to: value[1] === MAX_PRICE ? undefined : value[1] * 100,
       }
       this.setActiveFilter()
-      this.$emit('filterList', this.selectedFilters)
-    },
-    // On filter by brands.
-    handleFilterByBrands(value) {
-      this.selectedFilters.brand = value === '' ? '' : value
-      this.setActiveFilter()
-      this.$emit('filterList', this.selectedFilters)
     },
     // Update selected years and pass to parent component
-    handleFilterByYears(value) {
+    updateYearFilters(value) {
       this.selectedYears = value
-      this.setActiveFilter()
       this.selectedFilters = {
         ...this.selectedFilters,
         minYear: value[0] === MIN_YEAR ? undefined : value[0],
         maxYear: value[1] === MAX_YEAR ? undefined : value[1],
       }
+      this.setActiveFilter()
+    },
+    setActiveFilter() {
+      const val = this.selectedFilters
+      this.activeTypeFilters = []
+      for (const value of Object.values(val)) {
+        if (value !== '') {
+          const category = this.allCategories.filter((el) => el.id === value)
+          console.log(category )
+          if (
+            !this.activeTypeFilters.includes(value) &&
+            category[0] === undefined
+          ) {
+            this.activeTypeFilters.push(value)
+          }
+        }
+      }
+    },
+    // Clear the values
+    clearFilters() {
+      this.activeTypeFilters = []
+      this.activeStatusFilters = []
+      this.selectedFilters = {
+        type: 'single',
+        sizeTypes: [],
+        sizes: [],
+        brands: [],
+        category_id: [],
+        status: [],
+        sortby: null,
+        product: null,
+      }
+      this.$store.commit('stock-exchange/removeActiveFilters')
       this.$emit('filterList', this.selectedFilters)
     },
-
-    // Remove the filter from respective arrays
+        // Remove the filter from respective arrays
     removeTypeFilter(option) {
       const statusFilter = this.activeTypeFilters
       if (statusFilter.includes(option)) {
@@ -419,36 +445,53 @@ export default {
         this.clearFilters()
       }
     },
-    // Clear the values
-    clearFilters() {
-      this.activeTypeFilters = []
-      this.activeStatusFilters = []
-      this.selectedFilters = {
-        filterBy: '',
-        search: '',
-        category: '',
-        brand: '',
-        size_type: '',
-        priceRange: '',
-      }
-      this.$store.commit('stock-exchange/removeActiveFilters')
-      this.$emit('filterList', this.selectedFilters)
-    },
-    setActiveFilter() {
-      const val = this.selectedFilters
-      this.activeTypeFilters = []
-      for (const value of Object.values(val)) {
-        if (value !== '') {
-          const category = this.allCategories.filter((el) => el.id === value)
-          if (
-            !this.activeTypeFilters.includes(value) &&
-            category[0] === undefined
-          ) {
-            this.activeTypeFilters.push(value)
-          }
-        }
-      }
-    },
-  },
+  }
 }
 </script>
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
+.dropdown-sort::v-deep
+  .btn-dropdown
+    @include body-4-normal
+    color: $color-black-1
+    border: 1px solid transparent
+    background-color: $color-white-4
+    border-radius: 8px
+    height: 48px
+    width: 327px
+    padding: 0 13px 0 23px
+
+    .icon-main
+      margin-right: 20px !important
+
+    .icon-clear
+      right: 23px
+
+    &.opened
+      border-bottom-left-radius: 0
+      border-bottom-right-radius: 0
+      border: 1px solid transparent
+
+.more-filters-btn
+  @include body-13-regular
+  font-family: $font-sp-pro
+  color: $color-blue-20
+  img
+    width: 8px
+    &.before
+      transform: rotate(-180deg)
+.overflow-x-hidden
+  overflow-x: hidden
+::v-deep .nav-group
+  .btn-group
+    background-color: $white-3
+    .btn
+      background-color: $white-3
+.overlay
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: rgba($gray, 0.05)
+</style>
