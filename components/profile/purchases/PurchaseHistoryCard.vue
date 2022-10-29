@@ -78,13 +78,7 @@
               v-if="ORDERS_HAS_ITEMS.includes(orderType)"
               :variant="purchaseStatus"
               class="m-auto text-capitalize text-center status-button d-flex"
-              :class="[
-                ($t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) === 'Cancelled' ? 'btn-cancelled' : ''),
-                ($t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) === 'Refunded' ? 'btn-refunded' : ''),
-                ($t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) === 'Send to Deadstock' ? 'btn-send' : ''),
-                ($t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) === 'Authentication Complete' ? 'btn-authentication' : ''),
-                ($t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) === 'Multiple' ? 'btn-multiple' : ''),
-              ]"
+              :class="`btn-${purchaseStatus.split(' ').join('_')}`"
           >
             {{ $t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) }}
           </Button>
@@ -97,7 +91,6 @@
         </b-col>
       </b-row>
     </b-card-text>
-    <!--  -->
   </b-card>
 </template>
 
@@ -466,15 +459,21 @@ export default {
 .btn-refunded
   color: #F4B53F
   background: #fff9f0
-.btn-send
+.btn-ship_to_deadstock
   color: #8136bd
   background: #f5effa
   padding: 10px
-.btn-authentication
+.btn-authentication_complete
   color: #4ac557
   background: #effaf4
   padding: 20px 4px
 .btn-multiple
   color: #fff
   background: #000
+.btn-voided
+  color: #fff
+  background: #000
+.btn-cancel
+  color: #DE0100
+  background: rgba(222, 1, 0, 0.2)
 </style>
