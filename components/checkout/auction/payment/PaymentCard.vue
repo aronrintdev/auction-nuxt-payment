@@ -126,10 +126,10 @@
 
         <!-- Save For Next Time Checkbox -->
         <b-row class="mt-4">
-          <b-col md="2" offset-md="1" class="text-center">
+          <b-col md="2" offset-md="1" class="col-2 text-center">
             <b-form-checkbox v-model="form.saveForNextTime"></b-form-checkbox>
           </b-col>
-          <b-col md="9">
+          <b-col md="9" class="col-9">
             <i18n
               path="shopping_cart.save_for_next_time"
               tag="p"
@@ -139,7 +139,7 @@
         ><!-- End of Save For Next Time Checkbox -->
 
         <!-- Continue Button -->
-        <b-row class="mt-4">
+        <b-row class="mt-4 py-4 py-md-0">
           <b-col v-if="buttonSpinnerLoading" md="12" class="text-center">
             <b-spinner variant="color-blue-2"></b-spinner>
           </b-col>

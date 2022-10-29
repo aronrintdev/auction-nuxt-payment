@@ -73,6 +73,11 @@ export default {
       loading: false,
     }
   },
+  async fetch() {
+    this.loadingFilter = true
+    await this.fetchFilters()
+    this.loadingFilter = false
+  },
   computed: {
     ...mapGetters({
       productFilter: 'auction/getProductFilter'
@@ -105,6 +110,7 @@ export default {
     ...mapActions({
       fetchWatchlists: 'watchlist/fetchWatchlists',
       setProductFilter: 'auction/setProductFilter',
+      fetchFilters: 'browse/fetchFilters',
     }),
     handleSortByChanged(opt) {
       this.sortBy = opt

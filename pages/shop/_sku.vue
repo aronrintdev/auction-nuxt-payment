@@ -390,6 +390,7 @@ export default {
         colorWay: this.product.colorway,
         size: this.sizes[this.currentSize - 1],
         quantity: 1,
+        packaging_condition: this.packagingConditions[this.currentCondition - 1].name,
         inventory_stock: this.currentListingItem?.inventory_stock,
         price: this.currentListingItem?.inventory?.sale_price,
         instantShipPrice: this.shippingOption === INSTANT_SHIPPING ? this.currentListingItem?.inventory?.instant_ship_price : 0,

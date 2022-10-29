@@ -17,6 +17,14 @@ Vue.filter('getProductImageUrl', (product) => {
 })
 
 
+Vue.filter('truncate', function (text, length, suffix) {
+  if (text.length > length) {
+      return text.substring(0, length) + suffix;
+  } else {
+      return text;
+  }
+});
+
 /**
  * This function is used to show selected items by joining them
  * in string format seperated by commas
@@ -75,6 +83,11 @@ Vue.filter('formatDate', (value, type) => {
   if(type === 'MM/DD/YYYY') {
     return `${mm}/${dd}/${yyyy}`
   }
+
+  if(type === 'DD-MM-YYYY') {
+    return `${dd}-${mm}-${yyyy}`
+  }
+  
   return `${mm}/${dd}/${yyyy}`
 })
 

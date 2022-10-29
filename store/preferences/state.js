@@ -55,6 +55,13 @@ export default function () {
 
     selectedAmount: 0,
 
-    paymentDetails: {}
+    paymentDetails: {},
+
+    selectedAddress: '',
+
+    actionType: '',
+
+    editID: '',
+    updateDefaultConfirmed: false
   }
 }

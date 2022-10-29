@@ -5,9 +5,9 @@ export async function fetchFilters({ commit }) {
 }
 
 export function resetFilters({ commit }) {
-  commit('setSelectedPrices', null)
-  commit('setSelectedYears', null)
-  commit('setSelectedBrands', null)
-  commit('setSelectedSizes', null)
+  commit('setSelectedPrices', [])
+  commit('setSelectedYears', [])
+  commit('setSelectedBrands', [])
+  commit('setSelectedSizes', [])
   commit('setSelectedSizeTypes', null)
 }

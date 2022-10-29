@@ -95,9 +95,14 @@
               </div>
               <div v-else-if="cashAdded">
                 <div class="d-flex cash-added justify-content-center mt-4">
-                  <div>
+                  <div v-if="cashType === cashAddedType">
                     <img :src="require('~/assets/img/icons/dollar.svg')" class="ml-4 mr-2">
                     {{$t('trades.trade_arena.you_added_cash',{'0': optionalCash })}}
+                    <sup class="ml-1 mr-4" role="button"><img  id="cashPopover" :src="infoIcon"/></sup>
+                  </div>
+                  <div v-else>
+                    <img :src="require('~/assets/img/icons/dollar.svg')" class="ml-4 mr-2">
+                    {{$t('trades.trade_arena.you_requested_cash',{'0': optionalCash })}}
                     <sup class="ml-1 mr-4" role="button"><img  id="cashPopover" :src="infoIcon"/></sup>
                   </div>
                   <b-popover target="cashPopover" triggers="hover" placement="top" >
@@ -321,7 +326,8 @@ export default {
       MAX_ITEMS_ALLOWED,
       submittedItemType: OFFER_TYPE_YOURS,
       OFFER_TYPE_THEIR,
-      COUNTER_OFFER_TYPE
+      COUNTER_OFFER_TYPE,
+      cashAddedType:CASH_TYPE_ADDED
     }
   },
   computed: {
@@ -489,12 +495,13 @@ export default {
     getTheirTotal(formattedPrice = true){
       let optionalCash = 0
       if(this.getLastSubmittedOffer.cash_added &&
-        (((this.isOfferMine() &&
-        this.isCashTypeRequested())) ||
-        (!this.isOfferMine() &&
-        this.isCashTypeAdded())))
+        (this.isOfferMine() &&
+        this.isCashTypeRequested()))
       {
         optionalCash = (this.getLastSubmittedOffer.cash_added/100)
+      }
+      if(this.cashType !== this.cashAddedType){
+        optionalCash += (this.optionalCash)
       }
       const totalPrice = this.getTheirItems.map((inventoryItem) => (inventoryItem.inventory ? inventoryItem.inventory.sale_price : inventoryItem.sale_price))
       if(totalPrice.length) {
@@ -506,14 +513,14 @@ export default {
     getYourTotal(formattedPrice = true){
       let optionalCash = 0
       if(this.getLastSubmittedOffer.cash_added &&
-        (((!this.isOfferMine() &&
-        this.isCashTypeRequested())) ||
-        ((this.isOfferMine() &&
-        this.isCashTypeAdded()))))
+        (this.isOfferMine() &&
+        this.isCashTypeAdded()))
       {
           optionalCash = (this.getLastSubmittedOffer.cash_added/100)
       }
-      optionalCash += this.optionalCash
+      else if(this.cashType === this.cashAddedType){
+        optionalCash += this.optionalCash
+      }
       const totalPrice = this.getYourItems.map((inventoryItem) => (inventoryItem.inventory ? inventoryItem.inventory.sale_price : inventoryItem.sale_price))
       if(totalPrice.length) {
         return (formattedPrice) ?
@@ -556,8 +563,6 @@ export default {
       this.updateActiveTrade()
       if(!this.editYours && this.checkForPoorTradeTheirItemsEdited()) {
         this.$root.$emit('bv::show::modal', 'poor_trade_confirmation', '#btnShow')
-      }else if(!this.editYours){
-        this.submitCounterOffer()
       } else if(this.checkForPoorTrade()){
         this.$root.$emit('bv::show::modal', 'poor_trade_confirmation', '#btnShow')
       }else {

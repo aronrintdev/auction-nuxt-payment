@@ -4,7 +4,7 @@
  * @param {Object[]} notifications
  */
 export function setNotification(state, notifications) {
-    state.notifications = notifications.sort((a, b) => b.id - a.id)
+    state.notifications = notifications
 }
 
 /**
@@ -26,7 +26,16 @@ export function setNotificationFilters(state, filters) {
  * @param {number} count
  */
 export function setUnread(state, count) {
-    state.unreadCount = count
+  state.unreadCount = count
+}
+
+/**
+ * Set unread count
+ * @param state
+ * @param {number} total
+ */
+export function setTotal(state, total) {
+  state.total = total
 }
 
 /**

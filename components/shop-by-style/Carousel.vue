@@ -46,9 +46,6 @@
         </template>
       </Carousel>
 
-      <div v-else class="no-text py-5">
-        {{ $t('message.no_products_found') }}
-      </div>
     </client-only>
   </div>
 </template>
