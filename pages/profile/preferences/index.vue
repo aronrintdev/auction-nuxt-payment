@@ -1,11 +1,11 @@
 <template>
-  <b-col class="vendor-preferences-body">
-    <div class="vd-preferences-slider">
+  <b-col class="vendor-preferences-body" :class="isScreenXS">
+    <div v-if="!isScreenXS" class="vd-preferences-slider preferences-web">
       <h1 class="vd-preferences-slider-heading">
         {{ $t('profile_menu.preferences') }}
       </h1>
     </div>
-    <b-container fluid>
+    <b-container v-if="!isScreenXS" class="vendor-preferences-body preferences-web" fluid >
       <b-row class="mt-md-4 mt-4">
         <b-col md="3" sm="3"></b-col>
         <b-col
@@ -42,6 +42,33 @@
         <!-- ./Content -->
       </b-row>
     </b-container>
+
+    <!-- for responsive screen-->
+    <div v-if="isScreenXS" class="responsive-preferences" >
+      <!-- heading for responsive screen-->
+      <span class="d-flex text-align-center align-items-center
+                justify-content-center mt-3 border-bottom" >
+        <h1 class="responsive-heading text-capitalize">
+          {{ $t('profile_menu.preferences') }}
+        </h1>
+      </span>
+      <!-- heading for responsive screen-->
+      <b-col
+          class="justify-content-center align-items-center d-flex mt-3"
+        >
+          <!-- Profile/ Payments Tab for responsive screen-->
+          <NavGroup :value="activeNav" :data="menus" class="nav-select" @change="navItem" />
+          <!-- Profile/ Payments Tab for responsive screen-->
+      </b-col>
+      <b-row class="component-row" >
+        <!-- Content -->
+        <ResponsiveProfileComponent v-if="activeNav === 'profile'"/>
+        
+        <!-- ./Content -->
+      </b-row>
+    </div>
+     <!-- for responsive screen-->
+
   </b-col>
 </template>
 <script>
@@ -51,14 +78,17 @@ import PreferenceComponent from '~/components/profile/preferences/PreferenceComp
 import logoutMixin from '~/plugins/mixins/logout'
 import {GOOGLE_MAPS_BASE_URL} from '~/static/constants'
 import realtime from '~/plugins/mixins/realtime';
+import screenSize from '~/plugins/mixins/screenSize'
+import ResponsiveProfileComponent from '~/components/profile/preferences/ResponsiveProfileComponent.vue'
 export default {
   name: 'ProfilePreferencesIndexPage',
 
   components: {
     NavGroup, // Tabs Component
     PreferenceComponent,
+    ResponsiveProfileComponent
   },
-  mixins: [logoutMixin, realtime],
+  mixins: [logoutMixin, realtime, screenSize],
   layout: 'Profile',
 
   middleware: 'auth',
@@ -142,3 +172,33 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
+.responsive-preferences
+  padding: 4%
+
+.responsive-heading
+  font-family: $font-montserrat
+  font-style: normal
+  @include body-3-medium
+  letter-spacing: -0.02em
+  color: $color-black-1
+  background-color: $color-white-1  
+
+.nav-select  
+  width: 100% !important
+
+@media (max-width:576px)
+  .preferences-web
+    display: none
+  .responsive-preferences::v-deep
+    height: 700px
+    display: block
+    background-color: $color-white-1  
+@media (min-width:576px)
+  .preferences-web
+    display: block  
+
+
+</style>

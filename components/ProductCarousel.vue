@@ -6,6 +6,7 @@
         ref="carousel"
         :loop="loop"
         :nav="false"
+        :showArrows="showArrows"
         :center="true"
         :margin="0"
         :responsive="responsiveAttr"
@@ -21,7 +22,11 @@
               :class="{ item: true, 'photo-item': variant === 'photo' }"
             >
               <div>
-                <ProductCard v-if="variant === 'detail'" :product="product" />
+                <ProductCard
+                  v-if="variant === 'detail'"
+                  :product="product"
+                  :pageName="pageName"
+                />
               </div>
               <nuxt-link
                 v-if="variant === 'photo'"
@@ -35,6 +40,17 @@
               </nuxt-link>
             </div>
           </slot>
+        </template>
+        <template #prev>
+          <div class="owl-nav owl-prev">
+            <img :src="require('~/assets/img/home/arrow-left.svg')" />
+          </div>
+        </template>
+
+        <template #next>
+          <div class="owl-nav owl-next">
+            <img :src="require('~/assets/img/home/arrow-right.svg')" />
+          </div>
         </template>
       </Carousel>
 
@@ -63,7 +79,16 @@ export default {
       type: Boolean,
       default: false,
     },
+    pageName: {
+      type: String,
+      default: 'shop',
+    },
+    showArrows: {
+      type: Boolean,
+      default: false,
+    },
   },
+
   computed: {
     responsiveAttr() {
       if (this.variant === 'detail') {
@@ -81,7 +106,6 @@ export default {
       }
     },
   },
-
   watch: {
     products() {
       // Destroy and recreate carousel when products change
@@ -107,10 +131,11 @@ export default {
     margin-right: auto
     display: flex
     align-items: center
-    [id^='carousel_next_']
-      display: none
-    [id^='carousel_prev_']
-      display: none
+    @media (max-width: 576px)
+      [id^='carousel_next_']
+        display: none
+      [id^='carousel_prev_']
+        display: none
     >span .owl-nav
       display: block
     .owl-carousel
@@ -122,6 +147,7 @@ export default {
         &.photo-item
           img
             border-radius: 5px
+            object-fit: contain
             @media (max-width: 500px)
               height: 300px
     .owl-nav

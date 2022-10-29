@@ -1,7 +1,6 @@
 <template>
   <div class="child-container">
-    <h2 class="m-0">{{ $t('products.latest_sales') }}</h2>
-    <div class="text-right period-block">
+    <div class="period-block">
       <Button
         variant="link"
         :class="{ active: currentFormat === 'day' }"
@@ -293,14 +292,12 @@ export default {
     @include body-2-regular
     color: $color-black-1
     margin-left: 70px
-    margin-top: 10px
 
     img
       margin-left: 20px
 
   .sales-chart
     width: 100%
-    margin-top: 10px
 
     >div
       height: 380px

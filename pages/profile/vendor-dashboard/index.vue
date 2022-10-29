@@ -1,10 +1,12 @@
 <template>
-  <div class="dashboard pt-5 p-4">
+  <div class="dashboard pt-3 pt-sm-5 p-4">
     <div class="d-flex justify-content-between align-items-baseline">
-      <h1 class="fs-24 fw-7 mb-0 font-primary">
+      <h1 class="fs-24 fw-7 mb-0 font-primary d-none d-sm-block">
         {{ $t('vendor_dashboard.title') }}
       </h1>
-      <div class="d-flex gap-2 align-items-center">
+      <div
+        class="d-flex gap-2 align-items-center justify-content-sm-start full-width-sm"
+      >
         <h3
           class="font-secondary fs-14 fw-6 mb-0 bg-white br-10 px-4 py-2 d-flex align-items-center border shadow-sm"
         >
@@ -13,7 +15,7 @@
             aria-hidden="true"
             class="mr-2"
           />
-          {{ $t('vendor_dashboard.bronze_seller') }}
+          {{ vendor.rank }} {{ $t('vendor_dashboard.seller') }}
         </h3>
         <a
           class="font-secondary fs-14 fw-5 mb-0 border-bottom border-primary font-primary"
@@ -24,33 +26,37 @@
     </div>
 
     <!-- stats cards -->
-    <section class="row my-5">
-      <div class="col-md-3">
+    <section class="row my-3 my-sm-5">
+      <div class="col-6 col-md-3">
         <StatsCard
           :icon="require('~/assets/img/icons/profile/total-sales.svg')"
           :title="$t('vendor_dashboard.total_sales')"
-          value="$234,076"
+          :value="'$' + analytics.total_sales"
+          color="#667799"
         />
       </div>
-      <div class="col-md-3">
+      <div class="col-6 col-md-3">
         <StatsCard
           :icon="require('~/assets/img/icons/profile/commision-pending.svg')"
           :title="$t('vendor_dashboard.commision_pending')"
-          value="$234,076"
+          :value="'' + analytics.pending_commission"
+          color="#CE745F"
         />
       </div>
-      <div class="col-md-3">
+      <div class="col-6 col-md-3">
         <StatsCard
           :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
           :title="$t('vendor_dashboard.inventory')"
-          value="$234,076"
+          :value="'' + analytics.inventory_amount"
+          color="#7196B1"
         />
       </div>
-      <div class="col-md-3">
+      <div class="col-6 col-md-3">
         <StatsCard
           :icon="require('~/assets/img/icons/profile/item-sold.svg')"
           :title="$t('vendor_dashboard.items_sold')"
-          value="$234,076"
+          :value="'' + analytics.items_sold"
+          color="#909090"
         />
       </div>
     </section>
@@ -58,62 +64,25 @@
     <VendorDashboardCharts />
     <!-- top products  -->
     <section>
-      <div class="row my-5">
-        <div class="col-md-3">
-          <h1 class="font-secondary fs-24 fw-7 mb-0">
-            {{ $t('vendor_dashboard.top_products') }}
-          </h1>
-        </div>
-        <div class="col-md-6 d-flex justify-content-center">
-          <NavGroup :value="activeNav" :data="menus" @change="navItem" />
-        </div>
-        <div class="col-md-3 d-flex justify-content-end align-items-center">
-          <a
-            href="#"
-            class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0"
-            >{{ $t('vendor_dashboard.view_all') }}</a
-          >
-        </div> 
-      </div>
-      <div class="my-5">
-        <TopProducts />
-      </div>
+      <TopProducts />
     </section>
     <!-- orders  -->
     <section>
-      <div class="row my-5">
-        <div class="col-md-3">
-          <h1 class="font-secondary fs-24 fw-7 mb-0">
-            {{ $t('vendor_dashboard.orders') }}
-          </h1>
-        </div>
-        <div class="col-md-6 d-flex justify-content-center">
-          <NavGroup :value="activeNav" :data="menus" @change="navItem" />
-        </div>
-        <div class="col-md-3 d-flex justify-content-end align-items-center">
-          <a
-            href="#"
-            class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0"
-            >{{ $t('vendor_dashboard.view_all') }}</a
-          >
-        </div>
-      </div>
-      <div class="my-5">
-        <Orders />
-      </div>
+      <Orders />
     </section>
   </div>
 </template>
 <script>
-import NavGroup from '~/components/common/NavGroup.vue'
 import StatsCard from '~/components/common/DashbaordStatsCard'
 import TopProducts from '~/components/profile/vendor-dashboard/TopProductsTable'
 import VendorDashboardCharts from '~/components/profile/vendor-dashboard/VendorDashboardCharts'
 import Orders from '~/components/profile/vendor-dashboard/Orders'
 export default {
   name: 'VendorDashboard',
+  meta: {
+    pageTitle: 'Dashboard',
+  },
   components: {
-    NavGroup,
     TopProducts,
     StatsCard,
     Orders,
@@ -122,25 +91,55 @@ export default {
   layout: 'Profile',
   data() {
     return {
-      // Active Nav for the Toggle Button
-      activeNav: 'all',
       // Menus for tabs
-      menus: [
-        { label: this.$t('vendor_dashboard.all'), value: 'all' },
-        { label: this.$t('vendor_dashboard.footwear'), value: 'footwear' },
-        { label: this.$t('vendor_dashboard.apparel'), value: 'apparel' },
-        {
-          label: this.$t('vendor_dashboard.accessories'),
-          value: 'accessories',
-        },
-      ],
+      analytics: {
+        total_sales: 0,
+        pending_commission: 0,
+        inventory_amount: 0,
+        items_sold: 0,
+      },
+      vendor: [],
     }
+  },
+  mounted() {
+    this.getAnalytics()
   },
   methods: {
     // On Tab Change (All/ Footwear/ Apparel/ Accessories)
     navItem(val) {
       this.activeNav = val
     },
+    getAnalytics() {
+      this.$axios
+        .get('/dashboard/vendor/analytics')
+        .then((res) => {
+          this.analytics = res.data.data
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
+    },
+    getVendor() {
+      this.$axios
+        .get('/vendors')
+        .then((res) => {
+          this.vendor = res.data.data
+        })
+        .catch((err) => {
+          this.logger.logToServer(err.response)
+        })
+    },
   },
 }
 </script>
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+@media (max-width: 576px)
+  .view-details-link
+    font-size: 10px
+    font-weight: $medium
+  .orders-heading
+    font-size: 14px
+    font-family: $font-family-base
+    font-weight: $medium
+</style>

@@ -74,7 +74,7 @@
             {{ $t('trades.create_listing.vendor.wants.select_box_condition') }}
           </div>
         </div>
-        <div v-if="productFor === 'wantsList'" class="d-block ml-4" >
+        <div v-if="productFor === 'wantsList' && combinationId === null" class="d-block ml-4" >
           <label>Select List<sup>*</sup></label>
           <SelectListDropDown
             v-model="selectList"
@@ -177,7 +177,7 @@ export default {
     ...mapGetters('trades', ['getTradeItems', 'getTradeItemsWants']),
     ...mapGetters('trade', ['getYourTradeItems']),
       disabledBtn(){
-        return this.selected_size !== null &&  this.box_condition !== null
+        return this.isFormValid()
       }
   },
   mounted() {
@@ -221,11 +221,16 @@ export default {
         return this.yourItems.length
       if(this.productFor === this.tradeArena)
         return this.getYourTradeItems.length
-      if (this.productFor === this.tradeOffer)
+      if (this.productFor === this.tradeOffer && this.itemId)
+        return this.getTradeItems.filter(offerItem => offerItem.id !== this.itemId).map(i => parseInt(i.quantity)).reduce((a, b) => a + b, 0)
+      else if (this.productFor === this.tradeOffer)
         return this.getTradeItems.map(i => parseInt(i.quantity)).reduce((a, b) => a + b, 0)
       if (this.productFor === this.wantOfferConfirm)
         return this.getTradeItemsWants.map(i => parseInt(i.selected_quantity))
           .reduce((a, b) => a + b, 0) - (this.product.selected_quantity ? this.product.selected_quantity : 0)
+      if (this.productFor === this.wantOffer && this.itemId)
+        return this.getTradeItemsWants.filter(wantItem => wantItem.id !== this.itemId).map(i => parseInt(i.selected_quantity))
+          .reduce((a, b) => a + b, 0) - (this.selected_quantity ? this.selected_quantity : 0)
 
       return this.getTradeItemsWants.map(i => parseInt(i.selected_quantity))
         .reduce((a, b) => a + b, 0)
@@ -235,8 +240,9 @@ export default {
      * @returns {false|any|boolean}
      */
     isFormValid() {
-        console.log('check', this.selected_size)
-      return ((parseInt(this.itemsCount()) + parseInt(this.quantity)) <= MAX_ITEMS_ALLOWED &&
+      return (this.productFor === 'wantsList') ? ((this.product.packaging_conditions && this.box_condition !== null) &&
+          this.selected_size !== null && this.isValidYear(this.year) && ((this.selectList.length > 0 && this.combinationId === null) || (this.combinationId > 0)))
+        : ((parseInt(this.itemsCount()) + parseInt(this.quantity)) <= MAX_ITEMS_ALLOWED &&
         (this.product.packaging_conditions && this.box_condition !== null) &&
         this.isValidQuantity(parseInt(this.quantity)) &&
         this.isValidYear(this.year) &&
@@ -287,8 +293,8 @@ export default {
         }
       }
       selectedProduct.product = productDetails
-      selectedProduct.product_id = selectedProduct.id
-      selectedProduct.quantity = parseInt(this.quantity)
+      selectedProduct.product_id = productDetails.id
+      selectedProduct.quantity = 1 // quantity would be always 1
       selectedProduct.year = parseInt(this.year)
       selectedProduct.size_id = parseInt(this.selected_size)
       selectedProduct.size = selectedProduct?.sizes.find( i => i.id === this.selected_size)
@@ -308,21 +314,31 @@ export default {
     addToOffer(selectedProduct) {
       const _self = this;
       if (this.productFor === this.tradeArena){
-        for (let i = 0; i < _self.quantity; i++){
+        for (let i = 0; i < this.quantity; i++){
           selectedProduct = this.setSelectedItem(selectedProduct)
-
-        this.$store.commit('trade/setYourTradeItems', selectedProduct)
-        this.$root.$emit('back_to_search_offer')
+          this.$store.commit('trade/setYourTradeItems', selectedProduct)
         }
+        this.$root.$emit('back_to_search_offer')
       }
       else if (this.productFor === PRODUCT_FOR_COUNTER_OFFER) {
-        selectedProduct = this.setSelectedItem(selectedProduct)
-        this.$root.$emit('add_new_product', selectedProduct)
+        for (let i = 0; i < this.quantity; i++){
+          selectedProduct = this.setSelectedItem(selectedProduct)
+          this.$root.$emit('add_new_product', selectedProduct)
+        }
       }
       else if (this.productFor === this.tradeOffer) {
-        selectedProduct = this.setSelectedItem(selectedProduct)
-
-        this.$store.commit('trades/setTradeItems', selectedProduct)
+        for (let i = 0; i < this.quantity; i++){
+          selectedProduct = this.setSelectedItem(selectedProduct)
+          if (this.itemId && i <= 0) {
+            selectedProduct.id = this.itemId
+              setTimeout(function() {
+                _self.$store.commit('trades/updateTradeItems', selectedProduct)
+              }, 100);
+          } else{
+            selectedProduct.id = null
+            this.$store.commit('trades/setTradeItems', selectedProduct)
+          }
+        }
         this.$root.$emit('add_trade_item', false)
       }
       else if (this.productFor === this.wantOffer || this.productFor === this.wantOfferConfirm) {
@@ -342,7 +358,7 @@ export default {
               return (condition.id === _self.box_condition) ?
                 condition.name : null
             })[0].name,
-            selected_quantity: parseInt(this.quantity),
+            selected_quantity: 1,
             selected_year: this.year,
             selected_size: this.selected_size,
             selected_size_name: 'Size ' + selectedProduct.sizes.filter(function(size) {
@@ -353,12 +369,18 @@ export default {
             product: selectedProduct
           }
 
-          if (this.itemId) {
-            selectedProductWithAttributes.id = this.itemId
-            this.$store.commit('trades/updateWantsItemsTrade', selectedProductWithAttributes)
-          } else{
-            this.$store.commit('trades/setWantsItemsTrade', selectedProductWithAttributes)
+          for (let i = 0; i < this.quantity; i++){
+            if (this.itemId && i <= 0) {
+              selectedProductWithAttributes.id = this.itemId
+              setTimeout(function() {
+                _self.$store.commit('trades/updateWantsItemsTrade', selectedProductWithAttributes)
+              }, 100);
+            } else{
+              selectedProductWithAttributes.id = null
+              this.$store.commit('trades/setWantsItemsTrade', selectedProductWithAttributes)
+            }
           }
+
 
           if (this.productFor === this.wantOfferConfirm) {
             this.$root.$emit('back_to_search_wants')
@@ -408,10 +430,9 @@ export default {
       }
       this.$axios.post('trades/wants/combination/items', data)
         .then(()=>{
-            this.$root.$emit('back_to_edit')
+            this.$root.$emit('back_to_edit_combination')
         })
         .catch((error) => {
-          this.$toasted.error(this.$t('error.something_went_wrong'))
           this.$logger.logToServer('Add want item combination', error.response.data)
         })
     },

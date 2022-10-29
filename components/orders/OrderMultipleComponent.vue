@@ -34,15 +34,15 @@
           img-width="1024"
           img-height="250"
         >
-          <b-carousel-slide v-for="single in order.items" :key="single.key">
+          <b-carousel-slide v-for="(single, index) in order.items" :key="single.key">
             <template #img>
               <div class="w-100">
                 <div class="row">
                   <div class="col">
                     <div class="text-center">
                       <div class="pb-2"><img :src="product(single).image" height="70" alt=""></div>
-                      <NuxtLink :to="`/orders/${order.order_id}-${single.id}`" class="d-none d-md-block">
-                        <span>#{{ order.order_id }}-{{ single.id }}</span>
+                      <NuxtLink :to="`/orders/${order.order_id}-${index + 1}`" class="d-none d-md-block">
+                        <span>#{{ order.order_id }}-{{ index + 1 }}</span>
                       </NuxtLink>
                     </div>
                   </div>
@@ -52,7 +52,7 @@
                     <div class="sku">{{ $t('orders.sku') }}: {{ product(single).sku }}</div>
                     <div class="attribute">{{ $t('orders.colorway') }}: {{ product(single).colorway }},
                       {{ $t('orders.size') }}:
-                      {{ single.listing_item.inventory.size_id }}
+                      {{ sizeId(single) }}
                     </div>
                   </div>
                 </div>
@@ -62,8 +62,8 @@
                     <tr>
                       <td>{{ $t('orders.order_id') }}</td>
                       <td class="text-right">
-                        <NuxtLink :to="`/orders/${order.order_id}-${single.id}`">
-                          <span>#{{ order.order_id }}-{{ single.id }}</span>
+                        <NuxtLink :to="`/orders/${order.order_id}-${index + 1}`">
+                          <span>#{{ order.order_id }}-{{ index + 1 }}</span>
                         </NuxtLink>
                       </td>
                     </tr>
@@ -87,8 +87,8 @@
                     </tr>
                     <tr>
                       <td>{{ $t('orders.vendor_payout') }}</td>
-                      <td class="text-right">
-                        ${{ order.total | formatPrice }}
+                      <td v-if="isBuy" class="text-right">
+                        ${{ commissionAmount | formatPrice }}
                       </td>
                     </tr>
                     <tr>
@@ -134,7 +134,9 @@
     </div>
 
     <div class="col d-none d-md-block">
-      <div class="text-center">${{ order.total | formatPrice }}</div>
+      <div v-if="isBuy" class="text-center">
+        ${{ commissionAmount | formatPrice }}
+      </div>
     </div>
     <div class="col"></div>
     <div class="col-2 text-center d-none d-md-block"> -</div>
@@ -142,10 +144,10 @@
     <template v-if="!isCollapsed">
       <div class="w-100"></div>
       <div class="col-12 d-none d-md-block">
-        <div v-for="item in order.items" :key="item.key" class="row mt-3">
+        <div v-for="(item, index) in order.items" :key="item.key" class="row mt-3">
           <div class="col d-flex align-items-center justify-content-center">
-            <NuxtLink :to="`/orders/${order.order_id}-${item.id}`">
-              <span>#{{ order.order_id }}-{{ item.id }}</span>
+            <NuxtLink :to="`/orders/${order.order_id}-${index + 1}`">
+              <span>#{{ order.order_id }}-{{ index + 1 }}</span>
             </NuxtLink>
           </div>
 
@@ -157,10 +159,11 @@
               <div>
                 <div class="title">{{ product(item).name }}</div>
                 <div class="sku">{{ $t('orders.sku') }}: {{ product(item).sku }}</div>
-                <div class="attribute">{{ $t('orders.colorway') }}: {{ product(item).colorway }}, {{
-                    $t('orders.Size')
+                <div class="attribute">{{ $t('orders.colorway') }}: {{ product(item).colorway }},
+                  {{
+                    $t('orders.size')
                   }}:
-                  {{ item.listing_item.inventory.size_id }}
+                  {{ sizeId(item) }}
                 </div>
               </div>
             </div>
@@ -235,14 +238,27 @@ export default {
     }
   },
   computed: {
-    single() {
-      return this.order.items[0]
-    },
     iconSvg() {
       return this.isCollapsed
         ? require('~/assets/img/icons/arrow-down-gray.svg')
         : require('~/assets/img/icons/arrow-up-gray.svg')
     },
+    isTrade() {
+      return this.order.type.label === 'trade'
+    },
+    isBuy() {
+      return this.order.type.label === 'buy'
+    },
+    isAuction() {
+      return this.order.type.label === 'auction'
+    },
+    commissionAmount() {
+      let total = 0
+      this.order.items.forEach(x => {
+        total = total + (x.commission?.commission || 0)
+      })
+      return total
+    }
   },
   watch: {
     selected(newVal, oldVal) {
@@ -262,7 +278,13 @@ export default {
       this.isCollapsed = !this.isCollapsed
     },
     product(item) {
-      return item.listing_item.inventory.product
+      if (this.isBuy) {
+        return item.listing_item?.inventory?.product
+      }
+      return item.product
+    },
+    sizeId(item) {
+      return item.listing_item?.inventory?.size_id
     },
     // formatting date to US format mm/dd/yyyy
     dateFormat(strDate) {
@@ -274,7 +296,7 @@ export default {
         return false
       }
       const status = item.status_markable[len - 1]
-      const url = `/order-items/${this.order.id}/status?status=${status.key}`;
+      const url = `/order-items/${item.id}/status?status=${status.key}`;
 
       const resp = await this.$axios.put(url)
       if (resp.status === 200) {

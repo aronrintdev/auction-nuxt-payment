@@ -122,7 +122,6 @@
 <script>
 import { mapActions } from 'vuex'
 import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 
 import {AUCTION_TYPE_COLLECTION, AUCTION_TYPE_SINGLE, WATCHLIST_TYPE_AUCTION} from '~/static/constants';
 import WatchlistPopover from '~/components/watchlist/Popover'
@@ -189,9 +188,6 @@ export default {
     auction(newV) {
       this.watchlist = newV.watchlist_item?.watchlist
     }
-  },
-  created() {
-    dayjs.extend(relativeTime)
   },
   mounted() {
     this.watchlist = this.auction.watchlist_item?.watchlist

@@ -13,7 +13,16 @@ export function getNotifications(state) {
  * @return {number}
  */
 export function getUnreadCount(state) {
-    return state.unreadCount
+  return state.unreadCount
+}
+
+/**
+ * get unread count
+ * @param state
+ * @param {number} total
+ */
+export function getTotal(state, total) {
+  return state.total
 }
 
 /**
@@ -22,7 +31,7 @@ export function getUnreadCount(state) {
  * @return {number}
  */
 export function getSettings(state) {
-    return state.settings
+  return state.settings
 }
 
 /**

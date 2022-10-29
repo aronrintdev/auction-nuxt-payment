@@ -18,6 +18,7 @@
           :clearSearch="true"
           inputHeight="46px"
           @change="filterData"
+          @clear="filterData('')"
         />
       </b-col>
       <b-col md="5 pl-3" sm="12">
@@ -47,7 +48,7 @@
       :selected="selected"
       :unit-label="$tc('common.item', selected.length)"
       :action-label="`${$tc(`trades.${action}_selected`)} ${action === 'create_combination' ? `#${combinationNum}` : ''}`"
-      :total="action === 'delete_combination' ? combinationItems.length :wantedItems.length"
+      :total="action === 'delete_combination' ? combinationItems.length : wantedItems.length"
       :error="errorSelection"
       class="mt-3"
       @close="cancelAction()"
@@ -223,7 +224,7 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
-import debounce from 'lodash.debounce';
+import debounce from 'lodash.debounce'
 import SearchInput from '~/components/common/SearchInput'
 import CustomDropdown from '~/components/common/CustomDropdown'
 import {
@@ -242,11 +243,11 @@ import NavGroup from '~/components/common/NavGroup'
 import FormDropdown from '~/components/common/form/Dropdown'
 import Button from '~/components/common/Button'
 import {Pagination} from '~/components/common'
-import CombinationItemCard from '~/pages/profile/trades/wants/CombinationItemCard';
-import BulkSelectToolbar from '~/components/common/BulkSelectToolbar';
-import WantItemCard from '~/pages/profile/trades/wants/WantItemCard';
-import EditItem from '~/pages/profile/trades/wants/EditItem';
-import EditCombination from '~/pages/profile/trades/wants/EditCombination';
+import CombinationItemCard from '~/pages/profile/trades/wants/CombinationItemCard'
+import BulkSelectToolbar from '~/components/common/BulkSelectToolbar'
+import WantItemCard from '~/pages/profile/trades/wants/WantItemCard'
+import EditItem from '~/pages/profile/trades/wants/EditItem'
+import EditCombination from '~/pages/profile/trades/wants/EditCombination'
 
 export default {
   name: 'Index',
@@ -321,24 +322,24 @@ export default {
   },
   mounted() {
     this.$root.$on('discard_changes', () => {
-      this.getWantItems();
-      this.getCombinations();
+      this.getWantItems()
+      this.getCombinations()
       this.editItem = null
     })
     this.$root.$on('back_to_combination', () => {
-      this.getWantItems();
-      this.getCombinations();
+      this.getWantItems()
+      this.getCombinations()
       this.editCombination = null
     })
     this.$root.$on('back_to_list', () => {
-      this.getWantItems();
-      this.getCombinations();
+      this.getWantItems()
+      this.getCombinations()
       this.editCombination = null
       this.editItem = null
     })
-    this.getWantItems();
-    this.getCombinations();
-    this.getCombinationOptions();
+    this.getWantItems()
+    this.getCombinations()
+    this.getCombinationOptions()
   },
   methods: {
 
@@ -413,7 +414,7 @@ export default {
     handleSelect(item) {
       this.selected = []
       if (item?.value === 'create_combination') {
-        this.removeCombination = false;
+        this.removeCombination = false
         this.removeWantItems = true
         this.action = item?.value
       } else {
@@ -425,8 +426,8 @@ export default {
 
     cancelAction() {
       this.action = null
-      this.removeWantItems = false;
-      this.removeCombination = false;
+      this.removeWantItems = false
+      this.removeCombination = false
       this.selected = []
     },
 
@@ -474,6 +475,7 @@ export default {
         .then(() => {
           this.selected = []
           this.getWantItems()
+          this.pageCombination = 1
           this.getCombinations()
         })
         .catch(() => {
@@ -487,11 +489,10 @@ export default {
       }, 3000)
     },
     selectItemCombination(data, checked) {
-      this.selectedActionType = data.type
       if (checked) {
-        this.selected.push(data.id)
+        this.selected.push(data)
       } else {
-        this.selected.splice(this.selected.indexOf(data.id), 1)
+        this.selected.splice(this.selected.indexOf(data), 1)
       }
     },
     createCombination() {
@@ -500,6 +501,7 @@ export default {
       this.action = CREATE_COMBINATION
     },
     getWantItems: debounce(function () {
+      this.searchText = ''
       // Do the api call
       this.$axios.get('trades/wants', {
         params: {
@@ -516,6 +518,7 @@ export default {
           this.wantedItems = response.data && response.data.data.data
           this.totalCount = parseInt(response.data.data.total)
           this.perPage = parseInt(response.data.data.per_page)
+          this.$nextTick(() => this.$forceUpdate())
         })
         .catch((err) => {
           this.$toasted.error(this.$t(err.response.data.error))
@@ -540,7 +543,9 @@ export default {
           this.perPageCombination = parseInt(response.data.data.per_page)
           this.combinationItems.forEach((combination, index) => {
             this.combinationItems[index].selectedItemIndex = (this.totalCountCombination > 0) ? 0 : null
-          });
+          })
+          this.combinationNum = this.combinationItems.length + 1
+          this.$nextTick(() => this.$forceUpdate())
         })
         .catch((err) => {
           this.$toasted.error(this.$t(err.response.data.error))
@@ -569,7 +574,10 @@ export default {
         selected_ids: this.selected
       }
       this.$axios.post(url,data)
-      .then(this.getCombinations)
+      .then(() => {
+        this.getCombinations()
+        this.selected = []
+      })
       .catch((error)=>{
         this.$toasted.error(this.$t(error.response.data.error))
       })
@@ -623,7 +631,11 @@ export default {
     },
     filterData(text){
       this.searchText = text
-      this.wantedItems = this.wantedItems.filter(o => o.product.name.toLowerCase().includes(this.searchText.toLowerCase()) || o.product.sku.toLowerCase().includes(this.searchText.toLowerCase()));
+      if(text !== ''){
+        this.wantedItems = this.wantedItems.filter(o => o.product.name.toLowerCase().includes(this.searchText.toLowerCase()) || o.product.sku.toLowerCase().includes(this.searchText.toLowerCase()));
+      }else{
+        this.getWantItems()
+      }
     }
   }
 }

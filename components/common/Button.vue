@@ -177,6 +177,23 @@ export default {
     );
     border: 1px solid $color-blue-2;
   }
+  &.btn-dark-blue {
+    @include button-colors(
+      $background: $color-blue-20,
+      $foreground: $color-white-1,
+      $border: $color-blue-20,
+      $background-hover: $color-blue-20,
+      $foreground-hover: $color-white-1,
+      $border-hover: $color-blue-20,
+      $background-active: $color-blue-20,
+      $foreground-active: $color-white-1,
+      $border-active: $color-blue-20,
+      $background-disabled: $color-ui-primary-disabled,
+      $foreground-disabled: $color-white-1,
+      $border-disabled: $color-ui-primary-disabled
+    );
+    border: 1px solid $color-blue-20;
+  }
 
   &.btn-primary {
     @include button-colors(
@@ -260,6 +277,23 @@ export default {
       $border-hover: $color-ui-secondary-hover,
       $background-active: $color-transparent,
       $foreground-active: $color-ui-secondary-dark,
+      $border-active: $color-ui-secondary-dark,
+      $background-disabled: $color-transparent,
+      $foreground-disabled: $color-ui-secondary-disabled,
+      $border-disabled: $color-ui-secondary-disabled
+    );
+    border: 1px solid $color-ui-secondary;
+  }
+  &.btn-outline-secondary-blue {
+    @include button-colors(
+      $background: $color-transparent,
+      $foreground: $color-blue-19,
+      $border: $color-ui-secondary,
+      $background-hover: $color-transparent,
+      $foreground-hover: $color-blue-19,
+      $border-hover: $color-ui-secondary-hover,
+      $background-active: $color-transparent,
+      $foreground-active: $color-blue-19,
       $border-active: $color-ui-secondary-dark,
       $background-disabled: $color-transparent,
       $foreground-disabled: $color-ui-secondary-disabled,
@@ -383,15 +417,22 @@ export default {
     padding: 0;
   }
 
+  &.btn-link-blue {
+    @include body-4-regular;
+    color: $color-ui-info;
+    height: auto;
+    padding: 0;
+  }
+
   &.btn-dark {
     @include button-colors(
-      $background: $color-ui-dark,
-      $foreground: $color-white-1,
-      $border: $color-ui-dark,
-      $background-hover: $color-ui-dark-hover,
-      $foreground-hover: $color-white-1,
-      $border-hover: $color-ui-dark,
-      $background-active: $color-ui-dark-dark,
+        $background: $color-ui-dark,
+        $foreground: $color-white-1,
+        $border: $color-ui-dark,
+        $background-hover: $color-ui-dark-hover,
+        $foreground-hover: $color-white-1,
+        $border-hover: $color-ui-dark,
+        $background-active: $color-ui-dark-dark,
       $foreground-active: $color-white-1,
       $border-active: $color-ui-dark-dark,
       $background-disabled: $color-ui-dark-disabled,

@@ -44,7 +44,7 @@ export const AuctionThresholdsData = [
 export const AuctionSizes = [
   {
     type: 'US-M',
-    items: ['4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10']
+    items: ['4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '']
   },
   {
     type: 'US-W',
@@ -52,7 +52,7 @@ export const AuctionSizes = [
   },
   {
     type: 'US-Kids',
-    items: ['4Y', '4.5Y', '5Y', '5.5Y', '6Y', '6.5Y', '7Y', '7.5Y', '8Y', '8.5Y', '9Y', '9.5Y', '10Y']
+    items: ['4Y', '4.5Y', '5Y', '5.5Y', '6Y', '6.5Y', '7Y', '7.5Y', '8Y', '8.5Y', '9Y', '9.5Y', '10Y', '', '']
   },
   {
     type: 'UK',
@@ -69,7 +69,6 @@ export const AuctionSizes = [
 ];
 
 export const MIN_BID_PRICE = 50;
-export const RESERVE_PRICE_FEE = 0.0799;
 export const SELLER_FEE = 9.5;
 export const TRANSACTION_FEE = 2.9;
 export const AUCTIONS_PER_PAGE_OPTIONS = [4, 8, 16, 32, 48];

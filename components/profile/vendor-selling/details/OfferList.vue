@@ -21,7 +21,7 @@
             </b-img>
           </b-col>
           <b-col md="6" class="m-auto">
-            <span v-if="item.id === highestOffer.id" class="offer-value">
+            <span v-if="highestOffer && item.id === highestOffer.id" class="offer-value">
               {{ $t('selling_page.highest_offer') }}
             </span>
           </b-col>
@@ -30,11 +30,11 @@
     </b-td>
 
     <b-td class="vd-date-only align-self-center text-center text-bold">
-      <span class="table-text">&dollar;{{ item.bid_price | formatPrice }}</span>
+      <span class="table-text text-center">&dollar;{{ item.bid_price | formatPrice }}</span>
     </b-td>
 
     <b-td class="vd-invoce-qty-total align-self-center text-center">
-      <span class="table-text">{{ item.created_at | formatDate }}</span>
+      <span class="table-text text-center">{{ item.created_at | formatDate }}</span>
     </b-td>
 
     <b-td class="vd-invoce-qty-total align-self-center text-center">
@@ -48,7 +48,7 @@
           >
             {{ getOfferStatus }}</b-button
           ><br />
-          <span class="offer-text">
+          <span class="offer-text text-center">
             {{ $t('selling_page.expires_in') }} {{ remainingTime }}
           </span>
         </span>
@@ -170,12 +170,10 @@ export default {
 .offer-text
   font-style: normal
   @include body-5-normal
-  text-align: center
   color: $color-gray-5
 .table-text
   font-style: normal
   @include body-4-normal
-  text-align: center
   color: $color-black-1
 .offer-value
   font-style: normal

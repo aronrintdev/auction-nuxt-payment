@@ -154,7 +154,10 @@ import {
   COUNTER_OFFER_TYPE,
   OFFER_TYPE_THEIR,
   OFFER_TYPE_YOURS,
-  ACCEPT_OFFER
+  ACCEPT_OFFER,
+  SHIPPING_FEE_FIRST_ITEM,
+  SHIPPING_FEE_SECOND_ITEM,
+  SHIPPING_FEE_THIRD_ITEM
 } from '~/static/constants/trades';
 import CheckmarkIcon from '~/assets/img/icons/checkmark.svg?inline'
 import CloseIcon from '~/assets/img/icons/close.svg?inline'
@@ -193,8 +196,8 @@ export default {
       shippingAddress: 'auth/getShippingAddress',
       paymentMethod: 'auth/getPaymentMethod',
       paymentToken: 'order-details/getPaymentToken',
-      shippingFee: 'order-settings/getShippingFee',
       processingFee: 'order-settings/getProcessingFee',
+      tradingFee: 'order-settings/getTradingFee',
       taxRate: 'tax-rate/getTaxRate',
     }),
     shoppingCart: (vm) => {
@@ -234,21 +237,6 @@ export default {
       return vm.shoppingCart.offerParentId
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getItemsPrice: (vm) => {
-      let items = vm.shoppingCart.theirItems
-      if(vm.getSubmittedItemType === OFFER_TYPE_YOURS){
-        items = vm.shoppingCart.yourItems
-      }
-      return  items.reduce((sum, item) => {
-        if (item.sale_price) {
-          return sum + item.sale_price
-        }else if(item.inventory){
-          return sum + item.inventory.sale_price
-        }
-        return sum
-      }, 0)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getSubtotal: (vm) => {
       return vm.getCashAdded
     },
@@ -275,20 +263,57 @@ export default {
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getShippingFee: (vm) => {
-      return vm.shippingFee * vm.getTotalQuantity
+      let items = vm.shoppingCart.theirItems
+      if(vm.getSubmittedItemType === OFFER_TYPE_YOURS){
+        items = vm.shoppingCart.yourItems
+      }
+      let shippingFee = SHIPPING_FEE_FIRST_ITEM
+      if(items.length > 1){
+        shippingFee += SHIPPING_FEE_SECOND_ITEM
+        if(items.length > 2){
+          shippingFee += SHIPPING_FEE_THIRD_ITEM
+        }
+      }
+      return shippingFee
+    },
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    getShippingFeePaymentDetails: (vm) => {
+      let items = vm.shoppingCart.theirItems
+      if(vm.getSubmittedItemType === OFFER_TYPE_YOURS){
+        items = vm.shoppingCart.yourItems
+      }
+      let shippingFeeDetails = '1x$' + Math.trunc(SHIPPING_FEE_FIRST_ITEM / 100)
+      if(items.length > 1){
+        shippingFeeDetails = '1x$' + Math.trunc(SHIPPING_FEE_FIRST_ITEM / 100) + ' 1x$' + Math.trunc(SHIPPING_FEE_SECOND_ITEM / 100)
+        if(items.length > 2){
+          shippingFeeDetails = '1x$' + Math.trunc(SHIPPING_FEE_FIRST_ITEM / 100) + ' 2x$' + Math.trunc(SHIPPING_FEE_SECOND_ITEM / 100)
+        }
+      }
+      return shippingFeeDetails
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getProcessingFee: (vm) => {
-      return Math.trunc(vm.processingFee * vm.getItemsPrice)
+      return vm.getCashAdded > 0 ? Math.trunc(vm.processingFee * vm.getTotalExceptProcessingFee) : 0
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTax: (vm) => {
-      return Math.trunc(vm.taxRate * vm.getItemsPrice)
+      return Math.trunc(vm.taxRate * vm.getTotalWithoutTax)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTradeFee: (vm) => {
-      // TODO
-      return Math.trunc(0.1 * vm.getItemsPrice)
+      return vm.tradingFee
+    },
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    getTotalWithoutTax: (vm) => {
+      const total = vm.getShippingFee + vm.getProcessingFee + vm.getSubtotal + vm.getTradeFee
+
+      return vm.getTotalQuantity > 0 ? total : 0
+    },
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    getTotalExceptProcessingFee: (vm) => {
+      const total = vm.getShippingFee + vm.getSubtotal + vm.getTradeFee
+
+      return vm.getTotalQuantity > 0 ? total : 0
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTotal: (vm) => {
@@ -300,20 +325,24 @@ export default {
     getItems: (vm) => {
       const items = []
 
-      items.push({ key: vm.$t('shopping_cart.cash_added'), value: vm.getCashAdded })
-      items.push({ key: vm.$t('shopping_cart.subtotal'), value: vm.getSubtotal })
-      items.push({ key: vm.$t('shopping_cart.trade_fee'), value: vm.getTradeFee })
-      items.push({ key: vm.$t('shopping_cart.shipping_fee'), value: vm.getShippingFee })
-      items.push({ key: vm.$t('shopping_cart.processing_fee'), value: vm.getProcessingFee })
-      items.push({ key: vm.$t('shopping_cart.tax'), value: vm.getTax })
+      items.push({ label: vm.$t('shopping_cart.cash_added'), key: vm.$t('shopping_cart.cash_added'), value: vm.getCashAdded })
+      items.push({ label: vm.$t('shopping_cart.subtotal'), key: vm.$t('shopping_cart.subtotal'), value: vm.getSubtotal })
+      items.push({ label: vm.$t('shopping_cart.trade_fee'), key: vm.$t('shopping_cart.trade_fee'), value: vm.getTradeFee })
+      items.push({ label: vm.$t('shopping_cart.shipping_fee'), key: vm.$t('shopping_cart.shipping_fee'), value: vm.getShippingFee, paymentDetails: vm.getShippingFeePaymentDetails})
+      items.push({ label: vm.$t('shopping_cart.processing_fee'), key: vm.$t('shopping_cart.processing_fee'), value: vm.getProcessingFee, hideWith0Value: true })
+      items.push({ label: vm.$t('shopping_cart.tax'), key: vm.$t('shopping_cart.tax'), value: vm.getTax })
 
       return items
     }
+  },
+  mounted() {
+    this.getTaxRateByZip({ zip: this.billingAddress.zipCode })
   },
   methods: {
     ...mapActions({
       removePaymentToken: 'order-details/removePaymentToken',
       removePaymentMethod: 'auth/removePaymentMethod',
+      getTaxRateByZip: 'tax-rate/getTaxRateByZip',
     }),
     capitalize(myString){
       return myString.charAt(0).toUpperCase() + myString.slice(1)
@@ -383,7 +412,8 @@ export default {
         if(this.getOfferType === ACCEPT_OFFER){
           params = {
             ...params,
-            trade: this.shoppingCart.trade
+            trade: this.shoppingCart.trade,
+            latest_offer: this.shoppingCart.lastOffer,
           }
           apiUrl = `trades/${this.getTradeId}/accept-offer`
         }

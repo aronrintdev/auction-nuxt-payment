@@ -1,58 +1,79 @@
 <template>
-  <FeatureContentWrapper
-    :title="$t('features.2fa_security.title')"
-    :description="$t('features.2fa_security.desc')"
-  >
-    <FeatureBenefits :items="benefitItems" />
-
-    <!-- todo: add faq url -->
-    <FeatureBrowseSection
-      :title="$t('common.learn_more')"
-      :icon="require('~/assets/img/features/2fa-security/graduation-hat.svg')"
-      to="#"
-      :button-label="$t('footer.faq')"
+  <div>
+    <FeatureContentWrapper
+      :title="banner.title"
+      :description="banner.description"
+      :backgroundImage="banner.backgroundImage"
+      :backgroundImageSm="banner.backgroundImageSm"
+      :shopNowDescription="shopNowBanner.shopNowDescription"
+      :shopNowButtonText="shopNowBanner.shopNowButtonText"
+      :previousPage="shopNowBanner.previousPage"
+      :previousPageLink="shopNowBanner.previousPageLink"
+      :nextPage="shopNowBanner.nextPage"
+      :nextPageLink="shopNowBanner.nextPageLink"
     >
-      {{ $t('features.2fa_security.learn_more_desc') }}
-    </FeatureBrowseSection>
-  </FeatureContentWrapper>
+      <HorizontalBenefitBox
+        v-for="(benefit, index) in benefits"
+        :key="index"
+        :benefitImage="benefit.benefitImage"
+        :benefitTitle="benefit.benefitTitle"
+        :benefitDescription="benefit.benefitDescription"
+      />
+    </FeatureContentWrapper>
+  </div>
 </template>
 <script>
-import {
-  FeatureBenefits,
-  FeatureContentWrapper,
-  FeatureBrowseSection,
-} from '~/components/feature'
+import FeatureContentWrapper from '~/components/feature/ContentWrapper'
+import HorizontalBenefitBox from '~/components/feature/HorizontalBenefitBox'
 
 export default {
   components: {
-    FeatureBenefits,
     FeatureContentWrapper,
-    FeatureBrowseSection,
+    HorizontalBenefitBox,
   },
 
   layout: 'IndexLayout',
 
   data() {
     return {
-      benefitItems: [
+      banner: {
+        title: 'newest_features.2fa_security.feature_banner_title',
+        description: 'newest_features.2fa_security.feature_banner_desc',
+        backgroundImage: require('@/assets/img/features/newest-feature/2fa-security/2fa-security-banner.png'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/2fa-security/2fa-security-banner-sm.png'),
+      },
+      benefits: [
         {
-          icon: require('~/assets/img/features/2fa-security/lock.svg'),
-          heading: this.$t('features.2fa_security.increased_security'),
-          description: this.$t('features.2fa_security.increased_security_desc'),
+          benefitImage: require('@/assets/img/features/newest-feature/2fa-security/increased-security.png'),
+          benefitTitle:
+            'newest_features.2fa_security.benefits.first_benefit_title',
+          benefitDescription:
+            'newest_features.2fa_security.benefits.first_benefit_desc',
         },
         {
-          icon: require('~/assets/img/features/2fa-security/fingerprint.svg'),
-          heading: this.$t('features.2fa_security.biometric_identification'),
-          description: this.$t(
-            'features.2fa_security.biometric_identification_desc'
-          ),
+          benefitImage: require('@/assets/img/features/newest-feature/2fa-security/biometric-identification.png'),
+          benefitTitle:
+            'newest_features.2fa_security.benefits.second_benefit_title',
+          benefitDescription:
+            'newest_features.2fa_security.benefits.second_benefit_desc',
         },
         {
-          icon: require('~/assets/img/features/2fa-security/phone.svg'),
-          heading: this.$t('features.2fa_security.paired_with_sms'),
-          description: this.$t('features.2fa_security.paired_with_sms_desc'),
+          benefitImage: require('@/assets/img/features/newest-feature/2fa-security/ease-of-use.png'),
+          benefitTitle:
+            'newest_features.2fa_security.benefits.third_benefit_title',
+          benefitDescription:
+            'newest_features.2fa_security.benefits.third_benefit_desc',
         },
       ],
+      shopNowBanner: {
+        shopNowDescription: 'newest_features.2fa_security.shop_now_banner.desc',
+        shopNowButtonText:
+          'newest_features.2fa_security.shop_now_banner.button_text',
+        previousPage: 'newest_features.damaged_box_items.title',
+        previousPageLink: '/features/damaged-box-items',
+        nextPage: 'newest_features.deadstock_exchange.title',
+        nextPageLink: '/features/deadstock-exchange',
+      },
     }
   },
 }

@@ -9,8 +9,13 @@ export default function () {
       shippingAddress: null,
       paymentMethod: null
     },
-
+    redirectUrl: false,
     // To save the vendors payoutmethod.
     vendorPayoutMethod: {},
+    
+    address: {
+      billing: [],
+      shipping: []
+    }
   }
 }

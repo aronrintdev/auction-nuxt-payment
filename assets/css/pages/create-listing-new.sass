@@ -388,7 +388,7 @@
       .owl-carousel
         .item.active
           div.card
-            border-color: $primary
+            border-color: $black
           .price
             display: block
           &::after
@@ -409,3 +409,23 @@
     #promo-input
       background: $color-white-5
       border-radius: 10px
+
+.filters-sheet
+  label
+    @include body-5
+    font-family: $font-sp-pro
+    font-weight: $normal
+    color: $color-black-9
+    margin-bottom: 15px
+    &:last-child
+      margin-bottom: 0
+  &-title
+    @include body-17
+    font-family: $font-sp-pro
+    font-weight: $bold
+    letter-spacing: -0.02em
+    color: $black
+    border-bottom: 0.5px solid $color-gray-4
+    padding-bottom: 18px
+  &-content
+    padding: 20px 20px 0

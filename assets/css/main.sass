@@ -127,6 +127,57 @@
   font-weight: 400
   src: url('./fonts/SFProText-Regular.ttf')
 
+@font-face
+  font-family: 'SF Pro Display'
+  font-style: normal
+  font-weight: 400
+  src: url('./fonts/sf-pro-display/SFPRODISPLAYREGULAR.OTF')
+
+@font-face
+  font-family: 'SF Pro Display'
+  font-style: italic
+  font-weight: 100
+  src: url('./fonts/sf-pro-display/SFPRODISPLAYULTRALIGHTITALIC.OTF')
+
+@font-face
+  font-family: 'SF Pro Display'
+  font-style: italic
+  font-weight: 200
+  src: url('./fonts/sf-pro-display/SFPRODISPLAYTHINITALIC.OTF')
+
+@font-face
+  font-family: 'SF Pro Display'
+  font-style: italic
+  font-weight: 300
+  src: url('./fonts/sf-pro-display/SFPRODISPLAYLIGHTITALIC.OTF')
+
+@font-face
+  font-family: 'SF Pro Display'
+  font-style: normal
+  font-weight: 500
+  src: url('./fonts/sf-pro-display/SFPRODISPLAYMEDIUM.OTF')
+
+@font-face
+  font-family: 'SF Pro Display'
+  font-style: normal
+  font-weight: 700
+  src: url('./fonts/sf-pro-display/SFPRODISPLAYBOLD.OTF')
+
+@font-face
+  font-family: 'SF Pro Display'
+  font-style: italic
+  font-weight: 800
+  src: url('./fonts/sf-pro-display/SFPRODISPLAYHEAVYITALIC.OTF')
+
+@font-face
+  font-family: 'SF Pro Display'
+  font-style: italic
+  font-weight: 900
+  src: url('./fonts/sf-pro-display/SFPRODISPLAYBLACKITALIC.OTF')
+
+html
+  scroll-behavior: smooth
+
 html,
 body
   font-family: $font-family-base
@@ -240,6 +291,9 @@ body
   opacity: 1 !important
   padding-top: 8px
 
+.navbar-toggler
+  border: 0
+
 @media only screen and (max-width: 600px)
   .topmenu li
     border-bottom: solid 1px $black
@@ -257,9 +311,6 @@ body
 
   .navbar-nav .dropdown-menu
     position: absolute
-
-  .navbar-toggler
-    border: 0
 
   .h-logo
     float: left
@@ -691,6 +742,12 @@ svg[disabled]
 .text-gray-light
   color: $color-gray-30
 
+.text-gray-simple
+  color: $color-gray-5
+
+.text-gray-47
+  color: $color-gray-47
+
 .font-primary
   font-family: $font-family-base
 
@@ -700,11 +757,14 @@ svg[disabled]
 .font-adobe-garamond
   font-family: $font-family-garamond
 
+.font-ternary
+  font-family: $font-family-futura
+
 @for $i from 3 through 9
   .fw-#{$i}
     font-weight: $i * 100
 
-$font-sizes: 12, 14, 15, 16, 18, 20, 22, 24, 26, 30, 32, 36, 40, 48, 50, 52, 60
+$font-sizes: 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 30, 32, 36, 40, 48, 50, 52, 60
 @each $font-size in $font-sizes
   .fs-#{$font-size}
     font-size: #{$font-size}px
@@ -795,3 +855,11 @@ $radii: 3, 5, 8, 10, 15, 20, 25
   background: $color-gray-73
 .bg-red-24
   background: $color-red-24
+
+@media (min-width: 1336px)
+  .container
+    max-width: 1320px
+
+.full-width-sm
+  @media (max-width: 576px)
+    width: 100%

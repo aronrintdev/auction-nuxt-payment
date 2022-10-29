@@ -1,4 +1,5 @@
 <template>
+
   <div class="style-image-carousel-wrapper">
     <client-only>
       <Carousel
@@ -13,6 +14,7 @@
         class="carousel d-flex align-items-center"
         @changed="handleCarouselChanged"
       >
+
         <template #default>
           <div
             v-for="(image, index) in images"

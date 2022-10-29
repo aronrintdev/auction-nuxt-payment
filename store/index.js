@@ -1,7 +1,7 @@
 export const getters = {
   getLang(state) {
     return state
-  }
+  },
 }
 
 export const mutations = {
@@ -20,22 +20,17 @@ export const mutations = {
   },
   SET_LOGGEDIN(state, val) {
     state.auth.loggedIn = val
-    this.$router.push({ path: '/'} )
+    this.$router.push({ path: '/' })
   },
   SET_LOGGEDOUT(state) {
     state.auth.loggedIn = false
-    this.$router.push({ path: '/login'} )
-  }
+    this.$router.push({ path: '/login' })
+  },
 }
 
 export const actions = () => ({
-  /**
-   * Set the provided locale to the store.
-   * @param context
-   * @param value
-   */
-  setLocale(context, value) {
-    context.commit('SET_LANG', value)
+  setLocale({ commit }, value) {
+    commit('SET_LANG', value)
   },
 })
 

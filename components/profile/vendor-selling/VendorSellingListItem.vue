@@ -29,13 +29,15 @@
               >
               </b-form-checkbox>
             </div>
-            <div class="vd-sell-product-img col-md-10">
+            <div class="vd-sell-product-img col-md-10 text-center">
               <img
                 :src="getImage(row.item.inventory.product.image)"
                 alt="Product Picture"
                 width="auto"
                 @error="imageLoadError"
               />
+              <br />
+              <span class="list-id text-center text-decoration-underline" role="button" @click="handleEditClick(row.item.id)">&#35;{{ row.item.id }}</span>
             </div>
           </div>
         </template>
@@ -45,64 +47,67 @@
             {{ row.item.inventory.product.name }}
           </div>
 
-          <div class="vd-sku">
-            {{ $t('shopping_cart.sku') }}&colon;
-            <span v-if="row.item.inventory.product.sku">{{
-              row.item.inventory.product.sku
-            }}</span>
+          <div class="vd-sku">{{ $t('common.sku') }}&colon;
+            <span v-if="row.item.inventory.product.sku">
+              {{ row.item.inventory.product.sku }}</span>
             <span v-else>&#8211;</span>
           </div>
 
-          <div class="vd-color">
-            {{ $t('shopping_cart.color_way') }}&colon;
-            <span v-if="row.item.inventory.product.colorway">{{
-              row.item.inventory.product.colorway
-            }}</span>
+          <div class="vd-color">{{ $t('shopping_cart.color_way') }}&colon;
+            <span v-if="row.item.inventory.product.colorway">
+              {{ row.item.inventory.product.colorway }}
+            </span>
             <span v-else>&#8211;</span>
-            &comma;{{ $t('selling_page.size') }}&colon;
-            <span v-if="row.item.inventory.size.size">{{
-              row.item.inventory.size.size
-            }}</span>
+            &comma;
+            {{ $t('selling_page.size') }}&colon;
+            <span v-if="row.item.inventory.size.size">
+              {{ row.item.inventory.size.size }}
+            </span>
+            <span v-else>&#8211;</span>
+          </div>
+
+          <div class="vd-condition">{{ $t('common.box_condition') }}&colon;
+            <span v-if="row.item.inventory.packaging_condition">
+              {{ row.item.inventory.packaging_condition.name }}</span>
             <span v-else>&#8211;</span>
           </div>
         </template>
 
         <template #cell(date_listed)="row">
-          <span class="date-listed">{{
+          <span class="table-text text-center">{{
             row.item.created_at | formatDate
           }}</span>
         </template>
 
-        <template #cell(qty)="row">
-          <span v-if="row.item.quantity" class="quantity">
-            {{ row.item.quantity }}
+        <template #cell(price)="row">
+          <span class="table-text text-center">
+            {{ row.item.inventory.sale_price | toCurrency('USD', 'N/A') }}
           </span>
-          <span v-else> &#8211; </span>
+        </template>
+
+        <template #cell(last_sold)>
+            <!-- TODO -->
+          <span class="table-text text-center">--</span>
         </template>
 
         <template #cell(offers)="row">
-          <span v-if="row.item.inventory.product.offers">{{
+          <span v-if="row.item.inventory.product.offers && row.item.status === listedOffer" class="table-text">{{
             getOffers(row.item.inventory)
           }}</span>
           <span v-else>&#8211;</span>
         </template>
 
+        <template #cell(qty)="row">
+          <span v-if="row.item.quantity" class="table-text">
+            {{ row.item.quantity }}
+          </span>
+          <span v-else> &#8211; </span>
+        </template>
+
         <template #cell(status)="row">
-          <span class="status text-capitalize text-bold">{{
+          <span class="table-text text-capitalize ">{{
             row.item.status
           }}</span>
-        </template>
-        <template #cell(actions)="row">
-          <button
-            class="btn vd-sell-Edit-btn"
-            type="button"
-            @click="handleEditClick(row.item.id)"
-          >
-            <img
-              :src="require('~/assets/img/icons/Edit-icon.png')"
-              alt="Edit"
-            />
-          </button>
         </template>
       </b-table>
     </b-col>
@@ -115,6 +120,7 @@ import {
   PRODUCT_FALLBACK_URL,
   PENDING_OFFER,
   ACCEPTED_OFFER,
+  LISTED
 } from '~/static/constants'
 
 export default {
@@ -163,42 +169,50 @@ export default {
           key: 'date_listed',
           label: this.$t('selling_page.date_listed'),
           sortable: true,
-          tdClass: 'text-right',
-          thClass: 'text-right',
+          tdClass: 'text-center custom-width',
+          thClass: 'text-center custom-width',
         },
         {
-          key: 'qty',
-          label: this.$t('selling_page.qty'),
+          key: 'price',
+          label: this.$t('common.price'),
           sortable: true,
-          tdClass: 'text-right',
-          thClass: 'text-right',
+          tdClass: 'text-center custom-width',
+          thClass: 'text-center custom-width',
+        },
+        {
+          key: 'last_sold',
+          label: this.$t('sell.sell_now.last_sold'),
+          sortable: true,
+          tdClass: 'text-center custom-width',
+          thClass: 'text-center custom-width',
         },
         {
           key: 'offers',
           label: this.$t('selling_page.offers'),
           sortable: true,
-          tdClass: 'text-right',
-          thClass: 'text-right',
+          tdClass: 'text-center',
+          thClass: 'text-center',
+        },
+        {
+          key: 'qty',
+          label: this.$t('selling_page.qty'),
+          sortable: true,
+          tdClass: 'text-center',
+          thClass: 'text-center',
         },
         {
           key: 'status',
           label: this.$t('selling_page.status'),
           sortable: true,
-          tdClass: 'text-right',
-          thClass: 'text-right',
-        },
-        {
-          key: 'actions',
-          label: this.$t('selling_page.actions'),
-          sortable: true,
           tdClass: 'text-center',
-          thClass: 'text-right',
+          thClass: 'text-center',
         },
       ],
       productImageWidth: PRODUCT_IMG_WIDTH,
       fallbackUrl: PRODUCT_FALLBACK_URL,
       pendingOffer: PENDING_OFFER,
       acceptedOffer: ACCEPTED_OFFER,
+      listedOffer: LISTED
     }
   },
 
@@ -255,3 +269,34 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+.vd-sku,
+.vd-color,
+.vd-condition
+  font-family: $font-sp-pro
+  font-style: normal
+  @include body-10-normal
+  color: $color-gray-6
+.vd-product-title
+  font-family: $font-sf-pro-text
+  font-style: normal
+  @include body-8-medium
+  color: $color-black-1
+.vd-sell-product-img
+  left: 22.29%
+  right: 70%
+  top: 28.31%
+  bottom: 68.59%
+.table-text
+  font-family: $font-sp-pro
+  font-style: normal
+  @include body-4-normal
+  color: $color-black-1
+.list-id
+  font-family: $font-sp-pro
+  font-style: normal
+  @include body-5-bold
+  color: $color-blue-1
+</style>

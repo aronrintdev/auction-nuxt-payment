@@ -445,14 +445,19 @@ export default {
 
     removeSizeType(index){
       this.sizeType.splice(index, 1)
+      this.sizeTypeLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeType, 2) || this.$t('trades.create_listing.vendor.wants.size_type') // 2 is max number of labels show in filter
     },
 
     removeSize(index){
       this.sizes.splice(index, 1)
+      this.sizesLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizes, 5)
+        || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
     },
 
     removeApparelSize(index){
       this.apparelSize.splice(index, 1)
+      this.apparelSizesLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.apparelSize, 5)
+        || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
     },
 
     resetToDefaultPreferences(){

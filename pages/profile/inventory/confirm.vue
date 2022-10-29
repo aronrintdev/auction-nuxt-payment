@@ -25,9 +25,9 @@
           <td class="d-flex align-items-center p-3">
             <ProductThumb
               :product="inventory.product"
-              width="63"
-              height="63"
-              class="mr-4"
+              :width='83'
+              :height='53'
+              class="mr-2 flex-shrink-0 product-img"
             />
             <div>
               <div class="title mb-1">{{ inventory.product.name }}</div>
@@ -226,4 +226,8 @@ export default {
         background-image: url('~/assets/img/product/actions.png')
         background-position: right
         border: none
+
+.product-img
+  width: 83px
+  height: 53px
 </style>

@@ -1,4 +1,4 @@
-import { ADDRESS_TYPE_BILLING } from '~/static/constants'
+import { ADDRESS_TYPE_BILLING, ADDRESS_TYPE_SHIPPING } from '~/static/constants'
 
 /**
  * Store the user details in the state.
@@ -86,10 +86,29 @@ export function removePaymentMethod(state) {
 }
 
 /**
+ * Add login redirect URL.
+ * @param state
+ * @param URL
+ */
+export function setLoginRedirectUrl(state, Url) {
+  state.redirectUrl = Url
+}
+
+/**
  * Store the default vendor payout method.
- * @param state 
- * @param payload 
+ * @param state
+ * @param payload
  */
 export function addDefaultVendorPayoutMethod(state, payload) {
   state.vendorPayoutMethod = payload
+}
+
+
+
+export function setBillingaddress(state) {
+  state.address.billing = state.user.addresses.filter((i) => i.type === ADDRESS_TYPE_BILLING )
+}
+
+export function setShippingAddress(state) {
+  state.address.shipping = state.user.addresses.filter((i) => i.type === ADDRESS_TYPE_SHIPPING )
 }

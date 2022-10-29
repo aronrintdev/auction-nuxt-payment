@@ -118,9 +118,26 @@ export function getRewardPoints(state) {
 
 /**
  * Get the vendors payout details
- * @param state 
- * @returns 
+ * @param state
+ * @returns
  */
 export function getVendorPayoutMethod(state) {
   return state.vendorPayoutMethod
+}
+
+/**
+ * Get login redirect URL.
+ * @param state
+ */
+export function getLoginRedirectUrl(state) {
+  return state.redirectUrl
+}
+
+
+export function getBillingAddresses(state){
+  return state.address.billing
+}
+
+export function getShippingAddresses(state){
+  return state.address.shipping
 }

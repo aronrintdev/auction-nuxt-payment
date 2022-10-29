@@ -5,28 +5,41 @@
     class="container-style-detail mx-auto"
   >
     <b-row v-if="style">
+
       <b-col lg="6">
-        <div class="text-right share-wrapper">
-          <Button
-            variant="white"
-            icon="share.svg"
-            icon-only
-            pill
-            class="mr-3"
-          />
-          <Button
-            :id="`popover-wishlist-${style.id}`"
-            variant="white"
-            :icon="wishList ? `heart-red.svg` : 'heart2.svg'"
-            icon-only
-            tabindex="0"
-            :tooltip-text="wishList ? wishList.name : ''"
-            pill
-            @click="removeFromWishList"
-          >
-          </Button>
-        </div>
-        <ShopByStyleImageCarousel :images="style.images" class="mt-4" />
+        <b-row>
+          <b-col lg="6">
+            <nuxt-link
+              :to="`/shop-by-style`">
+              <p class="mt-2 backto-css fw-normal">{{ $t('shop_by_style.general.back_to_style') }}</p>
+            </nuxt-link>
+          </b-col>
+          <b-col lg="6">
+            <div class="text-right share-wrapper">
+
+              <Button
+                variant="white"
+                icon="share.svg"
+                icon-only
+                pill
+                class="mr-3"
+              />
+              <Button
+                :id="`popover-wishlist-${style.id}`"
+                variant="white"
+                :icon="wishList ? `heart-red.svg` : 'heart2.svg'"
+                icon-only
+                tabindex="0"
+                :tooltip-text="wishList ? wishList.name : ''"
+                pill
+              >
+              </Button>
+            </div>
+
+          </b-col>
+        </b-row>
+        <ShopByStyleImageCarousel v-if="!has360Images" :images="style.images" class="mt-4" />
+        <ProductImageViewerMagic360 v-if="has360Images" :product='style.style' class="mt-4" /> 
         <b-col cols="12" class="d-flex justify-content-center">
           <Button
             variant="outline-dark-blue"
@@ -35,9 +48,7 @@
             class="mt-5"
             @click="handleStyleAddToCart"
           >
-            {{ $t('shop_by_style.general.add_to_bag', {
-              type: style_type
-            }) }}
+            {{ $t('shop_by_style.general.add_style_to_bag') }}
           </Button>
         </b-col>
       </b-col>
@@ -55,9 +66,10 @@
 import { Button } from '~/components/common'
 import ShopByStyleImageCarousel from '~/components/shop-by-style/ImageCarousel'
 import ShopByStyleProductCard from '~/components/shop-by-style/ProductCard'
+import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
 
 export default {
-  components: { Button, ShopByStyleImageCarousel, ShopByStyleProductCard },
+  components: { Button, ShopByStyleProductCard, ShopByStyleImageCarousel, ProductImageViewerMagic360 },
 
   layout: 'IndexLayout',
 
@@ -68,6 +80,7 @@ export default {
       style_type: 'Look',
       style: null,
       loading: true,
+      wishList: false
     }
   },
 
@@ -79,13 +92,22 @@ export default {
         this.style = {
           id,
           images: res.data.data.images,
-          products: res.data.data.products
+          products: res.data.data.products,
+          style: res.data.data.style
         }
+        console.log('360 image data is',this.style.images);
+        console.log('360 image data is');
       })
       .catch(error => {
         this.$toasted.error(error)
       })
     this.loading = false
+  },
+  computed: {
+    has360Images() {
+      console.log('response data is',this.style);
+      return this.style.style?.has360Images
+    },
   },
   methods: {
     handleStyleAddToCart() {
@@ -95,6 +117,14 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
+@import '~/assets/css/_typography'
+.backto-css
+  font-weight: $regular
+  font-size: 18px
+  line-height: 21px
+  letter-spacing: -0.02em
+  color: $color-gray-6
 .container-style-detail
   max-width: 1440px
   padding: 30px 47px
@@ -102,10 +132,8 @@ export default {
 
   .share-wrapper
     padding-right: 79px
-
   .product-list
     padding: 64px 0 0 89px
-
     > div
       margin-bottom: 62px
 

@@ -1,5 +1,5 @@
 <template>
-  <b-card class="purchase-card-wrapper card p-2">
+  <b-card v-if="purchase.type.label !== 'auction' && totalQuantity > 0 && purchaseStatus !== ''" class="purchase-card-wrapper card p-2">
     <b-card-title>
       <!-- Order Number -->
       <span class="order-no text-capitalize">
@@ -26,15 +26,15 @@
     <b-card-text class="order-images">
       <div class="row py-3">
         <!-- Order Type - Buy -->
-        <template v-if="orderType === buy || orderType === sell && purchase.items">
+        <template v-if="ORDERS_HAS_ITEMS.includes(orderType) && purchase.items">
           <div
-            v-for="(item, indexKey) in purchase.items.slice(0, 3)"
-            :key="indexKey"
+              v-for="(item, indexKey) in purchase.items.slice(0, 3)"
+              :key="indexKey"
           >
             <div class="image-wrapper" :class="indexKey === 2 && 'bg-blur'">
               <b-img
-                class="product-img"
-                :src="item.product.image || fallbackImage"
+                  class="product-img"
+                  :src="item.product.image || fallbackImage"
               />
               <p v-if="indexKey === 2" class="overlap-text">
                 &#x002B;{{ balanceImage }}
@@ -75,17 +75,17 @@
         <b-col md="6" class="purchase-status-btn">
           <!-- Status Button -->
           <Button
-            v-if="orderType === buy || orderType === sell"
-            :variant="purchaseStatus"
-            class="m-auto text-capitalize text-center status-button d-flex"
+              v-if="ORDERS_HAS_ITEMS.includes(orderType)"
+              :variant="purchaseStatus"
+              class="m-auto text-capitalize text-center status-button d-flex"
           >
-            {{ $t(`vendor_purchase.orderstatus.${purchaseStatus}`) }}
+            {{$t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) }}
           </Button>
           <div
             v-if="orderType === giftCard"
             :class="`${purchaseStatus}-status text-uppercase d-flex giftcard-status`"
           >
-            {{ $t(`vendor_purchase.orderstatus.${purchaseStatus}`) }}
+            {{ $t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) }}
           </div>
         </b-col>
       </b-row>
@@ -103,7 +103,7 @@ import {
   PRODUCT_IMG_WIDTH,
   IMAGE_COUNT,
   BUY,
-  SELL
+  SELL, ORDERS_HAS_ITEMS
 } from '~/static/constants'
 export default {
   name: 'PurchaseHistoryCard',
@@ -127,7 +127,8 @@ export default {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
       imageCount: IMAGE_COUNT,
       buy: BUY,
-      sell: SELL
+      sell: SELL,
+      ORDERS_HAS_ITEMS
     }
   },
 
@@ -200,7 +201,7 @@ export default {
   color: $color-black-1
 .view-order
   @include body-5-medium
-  font-style: normal  
+  font-style: normal
   align-items: center
   text-decoration-line: underline
   color: $color-blue-2
@@ -441,7 +442,7 @@ export default {
   :deep(.purchase-details-col),
   :deep(.purchase-status-btn)
     width: 50%
-    
+
 @media (min-width: 1440px) and (max-width: 1524px)
   .purchase-card-wrapper
     width: 345px

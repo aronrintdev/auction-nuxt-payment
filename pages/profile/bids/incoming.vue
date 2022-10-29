@@ -1,28 +1,47 @@
 <template>
-  <b-container fluid class="container-profile-bids h-100">
-    <!--    Bids Filters    -->
-    <BidsFilters @update="FetchBids"/>
+  <b-container fluid class="h-100 p-3 p-md-5" :class="{'container-profile-bids': !isMobileSize}">
+    <!--    Bids Filters and mobile search    -->
+    <div v-if="isMobileSize" class="d-flex align-items-center">
+      <MobileSearchInput :value="filters.search" class="flex-grow-1" @input="mobileSearch" />
+      <span class="ml-3" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
+    </div>
+
+    <BidsFilters v-else @update="FetchBids"/>
+
 
     <div v-if="isVendor" class="d-flex justify-content-between align-items-center mt-5">
       <Button
         v-if="haveExpired"
         variant="link"
         size="sm"
-        class="delete-expired px-3 py-2 mr-4"
+        class="mobile px-4 py-3 mt-0 mt-mb-5"
+        :class="isMobileSize ? 'delete-expired-mobile' : 'delete-expired'"
         @click="deleteAction = true"
-      >{{ $t('bids.delete_expired') }}
+      >
+        <img v-if="isMobileSize" src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
+        {{ $t('bids.delete_expired') }}
       </Button>
     </div>
 
     <div class="d-flex justify-content-between align-items-center mt-4 ">
-      <h3 class="title">{{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})</h3>
+      <div class="d-flex align-items-center mt-0 mt-md-5">
+        <h3 class="title">
+          <span :class="{ 'body-4-medium' : isMobileSize }">
+            {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
+          </span>
+        </h3>
+        <span class="mx-4 d-none d-md-inline-flex">{{ $t('bids.highest_bid_info') }}</span>
+      </div>
       <Button
         v-if="haveExpired && !isVendor"
         variant="link"
         size="sm"
-        class=" delete-expired px-3 py-2 mr-4"
+        class="mobile px-4 py-3 mt-0 mb-md-5"
+        :class="isMobileSize ? 'delete-expired-mobile' : 'delete-expired'"
         @click="deleteAction = true"
-      >{{ $t('bids.delete_expired') }}
+      >
+        <img v-if="isMobileSize" src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
+        {{ $t('bids.delete_expired') }}
       </Button>
     </div>
 
@@ -60,40 +79,48 @@
       <Loader :loading="fetchLoading"/>
     </div>
     <div v-if="bidsCount>0 && !fetchLoading">
-      <b-row class="mt-5 text-center px-5 font-weight-bold">
-        <b-col sm="12" md="5" class="text-left">{{ $t('bids.headers.product') }}</b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }} <span role="button"><img :src="FilterDown"
-                                                                                             alt="donw"></span></b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.auto_bid') }} <span role="button"><img :src="FilterDown"
-                                                                                         alt="donw"></span></b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.bid_amt') }} <span role="button"><img :src="FilterDown"
-                                                                                        alt="donw"></span></b-col>
-        <b-col sm="12" md="2">{{ $t('bids.headers.time_remaining') }} <span role="button"><img :src="FilterDown"
-                                                                                               alt="donw"></span>
+      <b-row class="mt-5 text-center p-0 font-weight-bold d-none d-md-flex">
+        <b-col sm="12" md="2" class="text-center">{{ $t('bids.headers.auction_id') }}</b-col>
+        <b-col sm="12" md="3" class="text-left px-0">{{ $t('bids.headers.product') }}</b-col>
+        <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }}
+          <span role="button"><img :src="FilterDown" alt="donw"></span>
         </b-col>
-        <b-col sm="12" md="2">{{ $t('bids.headers.action') }}</b-col>
+        <b-col sm="12" md="1">{{ $t('bids.headers.auto_bid') }}
+          <span role="button"><img :src="FilterDown" alt="donw"></span>
+        </b-col>
+        <b-col sm="12" md="1">{{ $t('bids.headers.bid_amt') }}
+          <span role="button"><img :src="FilterDown" alt="donw"></span>
+        </b-col>
+        <b-col sm="12" md="2">{{ $t('bids.headers.time_remaining') }}
+          <span role="button"><img :src="FilterDown" alt="donw"></span>
+        </b-col>
+        <b-col sm="12" md="2" class="pr-5">{{ $t('bids.headers.action') }}</b-col>
       </b-row>
 
       <client-only>
         <div v-if="bidsCount>0" class="w-100">
           <div v-for="bid in bids" :key="bid.id" class="p-0">
-            <BidSingleItem v-if="bid.auction.type===BID_AUCTION_TYPE_SINGLE"
-                           :bid-type="bidType"
-                           :selected="selected.includes(bid.id)"
-                           :bid="bid" :selectable="isSelectable(bid)"
-                           :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
-                           @selected="selectBidAction"
-                           @accept="acceptBid"
-                           @edit="handleEdit"/>
-            <BidCollectionItem v-else
-                               :selected="selected.includes(bid.id)"
-                               :bid-type="bidType"
-                               :bid="bid"
-                               :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
-                               :selectable="isSelectable(bid)"
-                               @selected="selectBidAction"
-                               @accept="acceptBid"
-                               @edit="handleEdit"/>
+            <BidSingleItem
+              v-if="bid.auction.type===BID_AUCTION_TYPE_SINGLE"
+              :bid-type="bidType"
+              :selected="selected.includes(bid.id)"
+              :bid="bid" :selectable="isSelectable(bid)"
+              :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
+              @selected="selectBidAction"
+              @accept="acceptBid"
+              @edit="handleEdit"
+            />
+            <BidCollectionItem
+              v-else
+              :selected="selected.includes(bid.id)"
+              :bid-type="bidType"
+              :bid="bid"
+              :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
+              :selectable="isSelectable(bid)"
+              @selected="selectBidAction"
+              @accept="acceptBid"
+              @edit="handleEdit"
+            />
           </div>
         </div>
       </client-only>
@@ -111,7 +138,8 @@
       @per-page-change="handlePerPageChange"
     />
 
-    <!--    Bid accept confrimation modal -->
+    <!--    Bid accept confirmation modal -->
+    <!-- desktop version --->
     <Modal
       id="accept-item-modal"
       centered
@@ -148,6 +176,43 @@
 
       </template>
     </Modal>
+    <!-- desktop version --->
+    <vue-bottom-sheet
+      ref="mobileBidAcceptConfirm"
+      class="responsive-filter"
+      max-width="auto"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <div class="px-4">
+        <b-row class="my-3">
+          <b-col md="12" class="text-center">
+            <span v-if="acceptedBid">
+              {{ $tc('bids.accept_body', 1).replace(':amount:', acceptedBid.price / 100) }}
+            </span>
+          </b-col>
+        </b-row>
+        <b-row class="d-flex flex-column">
+          <Button
+            variant="primary"
+            class="bg-dark-blue my-3 mx-5"
+            pill
+            :disabled="modalActionLoading"
+            @click="acceptBidModalOk"
+          >{{ $t('bids.accept') }}
+          </Button>
+          <Button
+            variant="outline"
+            class="mt-2 mb-3 text-dark-blue"
+            pill
+            :disabled="modalActionLoading"
+            @click="$refs.mobileBidAcceptConfirm.close()"
+          >{{ $t('common.cancel') }}
+          </Button
+          >
+        </b-row>
+      </div>
+    </vue-bottom-sheet>
 
     <!--    Bid accepted success modal-->
     <Modal
@@ -156,6 +221,7 @@
       no-header-border
       no-footer-border
       hide-footer
+      @hidden="$router.push({ path: '/orders' })"
     >
       <template #default>
         <div class="px-5">
@@ -168,7 +234,7 @@
           <b-row class="d-flex justify-content-around">
             <Button
               iconOnly
-              variant="primary"
+              variant="success"
               pill
             >
               <img :src="whiteCheck"/>
@@ -178,11 +244,26 @@
 
       </template>
     </Modal>
+
+    <!-- Mobile filter begin -->
+    <!-- For mobile filters -->
+    <vue-bottom-sheet
+      ref="mobileFilter"
+      class="responsive-filter"
+      max-width="auto"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <MobileFilter @filter="onMobileFilter" />
+    </vue-bottom-sheet>
+    <!-- For mobile filters end -->
+    <!-- Mobile filter begin -->
   </b-container>
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex';
+import {mapActions, mapGetters} from 'vuex'
+import debounce from 'lodash.debounce'
 import {
   Button,
   Pagination,
@@ -195,6 +276,10 @@ import BidSingleItem from '~/components/profile/bids/BidSingleItem';
 import BidCollectionItem from '~/components/profile/bids/BidCollectionItem';
 import whiteCheck from '~/assets/img/icons/white-check.svg'
 import BidsFilters from '~/components/profile/bids/BidsFilters';
+import screenSize from '~/plugins/mixins/screenSize'
+import MobileFilter from '~/components/profile/bids/filters/MobileFilter.vue'
+import MobileSearchInput from '~/components/mobile/MobileSearchInput'
+
 import {
   DELISTED_STATUS, EXPIRED_STATUS,
   BID_ACCEPTED, BID_AUCTION_TYPE_SINGLE, BID_TYPE_INCOMING,
@@ -203,9 +288,12 @@ import {
   WINNING_BID_STATUS,
 } from '~/static/constants';
 
+
+
 export default {
   name: 'ProfileIncomingBids',
   components: {
+    MobileSearchInput,
     BidsFilters,
     BidCollectionItem,
     BidSingleItem,
@@ -213,8 +301,10 @@ export default {
     Pagination,
     BulkSelectToolbar,
     Loader,
-    Modal
+    Modal,
+    MobileFilter
   },
+  mixins: [screenSize],
   layout: 'Profile',
   data() {
     return {
@@ -271,6 +361,9 @@ export default {
     haveExpired() {
       return this.bids.filter(a => a.auction.status === EXPIRED_STATUS || a.auction.status === DELISTED_STATUS).length > 0
     },
+    isMobileSize() {
+      return this.isScreenXS || this.isScreenSM
+    }
   },
   mounted() {
     this.FetchBids()
@@ -282,22 +375,27 @@ export default {
       editBids: 'profile-bids/editBids',
       acceptAuctionBid: 'profile-bids/acceptAuctionBid',
     }),
+    closeBidModals() {
+      const { mobileBidAcceptConfirm } = this.$refs
+      if (mobileBidAcceptConfirm) {
+        mobileBidAcceptConfirm.close() // mobile
+      }
+      this.$bvModal.hide('accept-item-modal') // desktop
+    },
     acceptBidModalOk() {
       this.modalActionLoading = true
       const payload = {
         id: this.acceptedBid.auction.id,
         bid_id: this.acceptedBid.id
       }
+
       this.acceptAuctionBid(payload).then(res => {
-        this.$bvModal.hide('accept-item-modal')
+        this.closeBidModals()
         this.$bvModal.show('bid-accepted-modal')
-        this.$router.push({
-          path: '/orders',
-        })
         this.$toasted.success(res.data.message)
       }).catch(() => {
         this.modalActionLoading = false
-        this.$bvModal.hide('accept-item-modal')
+        this.closeBidModals()
       })
     },
     /**
@@ -306,7 +404,17 @@ export default {
      */
     acceptBid(bid) {
       this.acceptedBid = bid
-      this.$bvModal.show('accept-item-modal')
+      if (this.isMobileSize) {
+        this.$nextTick(() => {
+          const { mobileBidAcceptConfirm } = this.$refs
+          if (mobileBidAcceptConfirm) {
+            mobileBidAcceptConfirm.open() // mobile
+          }
+        })
+      } else {
+        this.$bvModal.show('accept-item-modal')
+      }
+
     },
     /**
      * Committing the selected bid to the store and then pushing the router to the edit page.
@@ -418,6 +526,16 @@ export default {
         this.fetchLoading = false
       })
     },
+    mobileSearch: debounce(function (e) {
+      if (this.filters.search === e) return
+      const filter = {
+        ...this.filters,
+        search: e // override by mobile input
+      }
+      this.$store.commit('profile-bids/setFilters', filter)
+      this.FetchBids()
+    }, 300),
+
     cancelAction() {
       this.deleteAction = false
       this.handleDeselectAll()
@@ -459,6 +577,21 @@ export default {
         this.deleteLoading = false
       })
     },
+    // Show the filter
+    showMobileFilter() {
+      const { mobileFilter } = this.$refs
+      if (mobileFilter) {
+        mobileFilter.open()
+      }
+    },
+    async onMobileFilter(mobileFilters) {
+      const filterData = {
+        ...this.filters,
+        ...mobileFilters
+      }
+      await this.$store.commit('profile-bids/setFilters', filterData)
+      this.FetchBids()
+    }
   }
 }
 </script>
@@ -486,6 +619,14 @@ export default {
   background-color: $color-blue-2
   border: none
 
+.bg-dark-blue.btn.btn-primary
+  background: $color-blue-20
+  border-color: $color-blue-20
+  font-weight: $normal
+
+.text-dark-blue
+  color: $color-blue-20
+
 :deep()
   .custom-control-input:checked
     ~ .custom-control-label::before
@@ -504,7 +645,6 @@ export default {
       border-radius: 2px
       border: 2px solid $color-gray-47
 
-
 :deep()
   .bg-light
     position: relative
@@ -515,19 +655,19 @@ export default {
     .btn-secondary
       background-color: $white
       border: none
-
-
       &:hover
         background-color: $white-2
 
 .delete-expired.btn
-  @include body-8-medium
+  @include body-5-regular
   background-color: $white
   color: $black
 
+.delete-expired-mobile.btn
+  @include body-5-regular
+  color: $color-gray-30
 
 .container-profile-bids
-  padding: 47px 54px
   background-color: $color-white-5
 
   h2.title
@@ -540,10 +680,8 @@ export default {
     color: $color-black-1
     font-weight: $bold
 
-
 .custom-selectbox
   border: 1px solid $color-gray-60
   height: 38px
-
 </style>
 

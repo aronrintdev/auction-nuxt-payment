@@ -10,8 +10,7 @@ export function removeTradeDetails({ commit }) {
 
 /**
  * Check if item already in listing item
- * @param commit
- * @param inventoryId
+ * @param payload
  * @returns {Promise<void>}
  */
 export function checkIfItemIsInListingItem({ commit }, payload){
@@ -29,15 +28,14 @@ export function checkIfItemIsInListingItem({ commit }, payload){
 
 /**
  * Check if item already in listing item
- * @param search
- * @param take
+ * @param payload
  * @returns {Promise<void>}
  */
-export function searchProductsList({ commit }, $payload){
+export function searchProductsList({ commit }, payload){
   return new Promise((resolve, reject) => {
     this.$axios
           .post('/search/products', {
-            filters: $payload,
+            filters: payload,
             page: 1
           })
       .then((response) => {
@@ -51,14 +49,32 @@ export function searchProductsList({ commit }, $payload){
 
 /**
  * Delete selected trades
- * @param search
- * @param take
+ * @param payload
  * @returns {Promise<void>}
  */
-export function deleteSelectedTrades({ commit }, $payload){
+export function deleteSelectedTrades({ commit }, payload){
+  console.log(payload)
   return new Promise((resolve, reject) => {
     this.$axios
-      .delete('/trades/multiple', $payload)
+      .delete('/trades/multiple', {data: {...payload}})
+    .then((response) => {
+      resolve(response)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+  })
+}
+
+/**
+ * Relist trade
+ * @param tradeId
+ * @returns {Promise<void>}
+ */
+export function relistTrade({ commit }, tradeId){
+  return new Promise((resolve, reject) => {
+    this.$axios
+      .put('/trades/' + tradeId + '/relist')
     .then((response) => {
       resolve(response)
     })

@@ -4,10 +4,8 @@
       <img :src="require('~/assets/img/icons/back.svg')" alt="back" />
       {{ $t('common.back') }}
     </Button>
-
     <div class="d-flex justify-content-between align-items-center mt-3 content-header">
       <h2 class="title">{{ $t('common.search') }}</h2>
-
       <Button
         variant="link"
         class="btn-draft"
@@ -44,9 +42,7 @@
         >
           <ProductThumb
             :product="product"
-            width="39"
-            height="39"
-            class="mr-2 flex-shrink-0"
+            class="mr-2 flex-shrink-0 product-img"
           />
           <div class="flex-grow-1 text-truncate">{{ product.name }}</div>
           <Button
@@ -268,4 +264,7 @@ export default {
 
   .btn-add-to-inventory
     @include body-4-normal
+.product-img
+  width: 39px 
+  height: 39px   
 </style>

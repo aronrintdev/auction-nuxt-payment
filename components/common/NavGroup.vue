@@ -44,6 +44,8 @@ export default {
 @import '~/assets/css/_variables'
 @import '~/assets/css/_typography'
 .nav-group
+  @media (min-width: 576px)
+    margin: 50px 0
   .btn-group
     background-color: $color-white-19
     border-radius: 20px
@@ -70,6 +72,7 @@ export default {
   @media (max-width: 576px)
     .btn-group
       width: 100%
-
-
+      .btn
+        padding: 6px 10px
+        white-space: nowrap
 </style>

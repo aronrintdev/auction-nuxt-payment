@@ -1,7 +1,12 @@
 <template>
-  <div v-show="mobileClass" :class="`sidebar-wrapper ${mobileClass} d-flex w-100 flex-column align-items-start`">
+  <div
+    v-show="mobileClass"
+    :class="`sidebar-wrapper ${mobileClass} d-flex w-100 flex-column align-items-start`"
+  >
     <div :class="`header ${mobileClass} w-100 px-5 py-3 border-bottom`">
-      <div :class="`filter-by w-100 ${mobileClass} d-flex aling-items-center justify-content-center`">
+      <div
+        :class="`filter-by w-100 ${mobileClass} d-flex aling-items-center justify-content-center`"
+      >
         <span>{{ $t('common.filter_by') }}</span>
       </div>
     </div>
@@ -18,7 +23,6 @@
               class="recent-to-old text-normal"
               name="sortby"
               value="recent_to_old"
-              @change="sortBy($event, filter.sortBy)"
               >{{ $t('offers_received.offers_recent_old') }}</b-form-radio
             >
             <b-form-radio
@@ -26,7 +30,6 @@
               class="old-to-recent text-normal"
               name="sortby"
               value="old_to_recent"
-              @change="sortBy"
               >{{ $t('offers_received.offers_old_recent') }}</b-form-radio
             >
           </div>
@@ -38,7 +41,7 @@
         <CollapseStatus
           :value="filter.status || {}"
           collapseKey="status"
-          :title="$t('filter_sidebar.brands')"
+          :title="$t('placed_offers.status')"
           :options="status"
           @selected="statusSelected"
         />
@@ -54,10 +57,17 @@
         />
       </div>
 
-      <div v-show="filterVisibility" :class="`section-actions ${mobileClass} d-flex align-items-center w-100 justify-content-between`">
-        <Button v-if="filterVisibility" pill class="btn-reset btn-light" @click="resetFilter">{{
-          $t('offers_received.reset')
-        }}</Button>
+      <div
+        v-show="filterVisibility"
+        :class="`section-actions ${mobileClass} d-flex align-items-center w-100 justify-content-between`"
+      >
+        <Button
+          v-if="filterVisibility"
+          pill
+          class="btn-reset btn-light"
+          @click="resetFilter"
+          >{{ $t('offers_received.reset') }}</Button
+        >
 
         <Button
           v-if="filterVisibility"
@@ -89,6 +99,13 @@ export default {
   },
 
   mixins: [screenSize],
+
+  props: {
+    showStatusOfferPlaced: {
+      type: Boolean,
+      default: false,
+    },
+  },
 
   data() {
     return {
@@ -130,10 +147,10 @@ export default {
     sortbyStatus: {
       deep: true,
       handler(newValue, oldValue) {
-        if(!oldValue){
+        if (!oldValue) {
           this.count = this.count + 1
         }
-      }
+      },
     },
   },
 
@@ -156,14 +173,6 @@ export default {
       }
       this.filter.status = value
     },
-
-    sortBy(event) {
-      if (!this.filter.sortby) {
-        this.count = this.count + 1
-      }
-      this.filter.sortby = event
-    },
-
     dateSelected({ value, data }) {
       if (value === true) {
         if ((data.start !== '' || data.end !== '') && !this.filter.date) {
