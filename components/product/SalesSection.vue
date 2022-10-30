@@ -17,7 +17,7 @@
             </b-col>
           </b-row>
         </b-tab>
-        <div class="d-flex pt-2 flex-column d-sm-none">
+        <div class="d-flex mx-3 p-3 flex-column d-sm-none mobile-section">
           <div class="d-flex justify-content-between align-items-center">
             <div class="body-5-medium text-black">{{ $t('products.latest_sales') }}</div>
             <Icon
@@ -195,6 +195,10 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.mobile-section
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25)
+  border-radius: 8px
+
 .dropdown-label
   font-weight: 600
   font-size: 16px
@@ -227,7 +231,8 @@ export default {
 
 ::v-deep
   .nav-tabs
-    border-bottom: 0.5px solid $color-gray-23 !important
+    @media (min-width: 576px)
+      border-bottom: 0.5px solid $color-gray-23 !important
 
 /* Overriding admin-lite theme styles */
 ::v-deep

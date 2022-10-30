@@ -162,7 +162,7 @@
       <!-- End of Product Details & Size Guide Section -->
 
       <!-- Sales Graph and Sales Data Section -->
-      <b-row v-if="product" class="my-5">
+      <b-row v-if="product" class="mt-3 mb-5">
         <b-col md="12">
           <SalesSection chartHeaderClass="d-none" :product="product" />
         </b-col>

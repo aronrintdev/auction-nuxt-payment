@@ -1,6 +1,6 @@
 <template>
   <div class="similar-items-wrapper">
-    <h3 class="gray-border pb-3 px-4">{{ $t('products.similar_items') }}</h3>
+    <h3 class="gray-border pb-3 px-3">{{ $t('products.similar_items') }}</h3>
     <div class="items">
       <ProductCarousel
         :products="products"
