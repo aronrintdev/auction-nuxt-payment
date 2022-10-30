@@ -50,6 +50,7 @@
 
           <ProductTitle
             :product-name="product.name"
+            :product="product"
             :lowest-price="lowestPrice"
             :product-last-sale-price="isNaN(product.last_sold_for) ? 0 : product.last_sold_for"
             class="mt-5"
@@ -106,7 +107,7 @@
           <!-- User Conditional Actions -->
           <OutOfStock
             v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
-            class="mt-3 px-3"
+            class="mt-3 px-4 d-none d-sm-block"
             @notify-me="handleNotifyMeClick"
             @place-offer="handleOfferSubmit"
           />
@@ -162,27 +163,68 @@
       <!-- End of Product Details & Size Guide Section -->
 
       <!-- Sales Graph and Sales Data Section -->
-      <b-row v-if="product" class="mt-3 mb-5">
+      <b-row v-if="product" class="mt-3 mb-4">
         <b-col md="12">
           <SalesSection chartHeaderClass="d-none" :product="product" />
         </b-col>
       </b-row>
       <!-- End of Sales Graph and Sales Data Section -->
 
-      <AlertModal id="message-modal" :message="message" icon="tick" />
+      <div class="create-listing d-flex d-sm-none">
+        <div class="col-6 px-0">
+          <div class="listing-title">SELL WITH US</div>
+          <div class="listing-sub-title text-capitalize">
+            {{ $t('products.have_pair_to_sell') }}
+          </div>
+          <div
+            role="button" 
+            class="create-listing-btn"
+            @click="redirectToCreateListing"
+          >
+            Create a Listing
+          </div>
+        </div>
+        <div class="col-6">
+          <img class="img-fluid" :src="require('~/assets/img/icons/product/sneakers.png')" />
+        </div>
+      </div>
 
-<!--        TODO: NP - Keeping this for now in order to have a reference on the create listing flow.-->
-<!--      <div>-->
-<!--        <b-row>-->
-<!--          <b-col lg="12">-->
-<!--            <div class="create-listing-text mt-5 mb-4">-->
-<!--              {{ $t('products.have_pair_to_sell') }}-->
-<!--              <span class="link" role="button" @click="redirectToCreateListing">-->
-<!--              {{ $t('products.create_a_listing') }}-->
-<!--            </span>-->
-<!--            </div>-->
-<!--          </b-col>-->
-<!--        </b-row>-->
+      <OutOfStock
+        v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
+        class="px-4 d-sm-none"
+        @notify-me="handleNotifyMeClick"
+        @place-offer="handleOfferSubmit"
+      />
+ 
+      <BuyNow
+        v-else-if="method === 'buy' && sizeViewMode === 'carousel' && product"
+        class="mt-3 px-4 d-sm-none"
+        :product="product"
+        :lowest-price="lowestPrice"
+        @buy-now="handleBuyNowClick"
+        @add-to-cart="handleAddToCartClick"
+        @shipping-option-selected="handleShippingOptionSelected"
+      />
+<!--
+      <SellNow
+        v-else-if="sizeViewMode === 'carousel'"
+        class="mt-3 px-3 d-sm-none"
+        :highest-offer="highestOffer"
+        @place-offer="handleOfferSubmit"
+        @sell-now="handleSellNowClick"
+      /> -->
+
+      <AlertModal id="message-modal" :message="message" icon="tick" />
+      <!-- <b-row>
+        <b-col lg="12">
+          <div class="create-listing-text mt-5 mb-4">
+            {{ $t('products.have_pair_to_sell') }}
+            <span class="link" role="button" @click="redirectToCreateListing">
+            {{ $t('products.create_a_listing') }}
+          </span>
+          </div>
+        </b-col>
+      </b-row> -->
 <!--        TODO: NP - Keeping this for now in order to have a reference on the product promo flow.-->
 <!--        <b-row class="mt-4">-->
 <!--          <b-col md="6">-->
@@ -192,7 +234,6 @@
 <!--            <ProductPromo :product="product" />-->
 <!--          </b-col>-->
 <!--        </b-row>-->
-<!--      </div>-->
     </b-col>
   </b-row>
 </template>
@@ -409,6 +450,7 @@ export default {
       }
     },
     handleConditionChange(condition) {
+      console.log('handleConditionChange', condition);
       if (condition?.id !== this.currentCondition) {
         this.currentCondition = condition.id
         this.findListingItem()
@@ -602,20 +644,19 @@ export default {
         this.$router.push('/checkout/sell-now')
       }
     },
-    // TODO: NP - Keeping this temporary for feature reference on the listing creation flow.
     // On create listing click, redirect to list creation page.
-  //   redirectToCreateListing(){
-  //     // If not authenticated redirect to login
-  //     if(!this.authenticated){
-  //       return this.$router.push('/login')
-  //     }
-  //     // If authenticated, but the user is not a vendor, redirect to vendor hub.
-  //     if (this.authenticated && !this.isVendor) {
-  //       return this.$router.push('/profile/vendor-hub')
-  //     }
-  //     // Redirect to listing page.
-  //     this.$router.push('/profile/create-listing')
-  //   }
+    redirectToCreateListing() {
+      // If not authenticated redirect to login
+      if(!this.authenticated){
+        return this.$router.push('/login')
+      }
+      // If authenticated, but the user is not a vendor, redirect to vendor hub.
+      if (this.authenticated && !this.isVendor) {
+        return this.$router.push('/profile/vendor-hub')
+      }
+      // Redirect to listing page.
+      this.$router.push('/profile/create-listing')
+    }
   },
 }
 </script>
@@ -628,5 +669,35 @@ export default {
 
 .body-17-medium
   @include body-17-medium
+
+.create-listing
+  background: $color-white-5
+  padding-left: 20px
+
+.listing-title
+  margin-top: 32px
+  font-weight: 500
+  font-size: 20px
+
+.listing-sub-title
+  font-weight: 500
+  font-size: 15px
+  color: $color-white-17
+  margin-top: 15px
+
+.create-listing-btn
+  margin-top: 20px
+  margin-bottom: 42px
+  height: 35px
+  background: $color-blue-20
+  padding-left: 20px
+  padding-right: 20px
+  display: flex
+  align-items: center
+  justify-content: center
+  border-radius: 20px
+  font-weight: 500
+  font-size: 16px
+  color: #FFF
 
 </style>

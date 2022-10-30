@@ -12,23 +12,28 @@
 
       <!-- Buy Now and Add to Wishlist Button Group -->
       <b-row class="mt-3">
-        <b-col md="12" class="d-flex">
+        <b-col md="12" class="d-flex justify-content-between justify-content-sm-start">
           <Button
-            class="border-radius-right-0 h-46"
+            class="border-radius-right-0 buy-now"
             variant="dark-blue"
             block
             @click="$emit('buy-now')"
           >
-            <span :style="{ marginLeft: '66px' }"> 
+            <span class="ml-sm-66"> 
               {{ $t('products.buy_now') }}
             </span>
           </Button>
+
+          <Button class="color-gray add-to-cart d-sm-none" block variant="dark" @click="$emit('add-to-cart')">
+            {{ $t('products.add_to_cart') }}
+          </Button>
+
           <Button
             :id="`popover-wishlist-${product.id}`"
             :tooltip-text="wishList ? wishList.name : ''"
             tabindex="0"
             variant="light"
-            class="px-4 border-0 border-radius-left-0 h-46"
+            class="px-4 d-none d-sm-block border-0 border-radius-left-0 h-46"
             @click="removeFromWishList"
           >
             <template #default>
@@ -50,7 +55,7 @@
         @hidden="wishListShow = false"
       />
 
-      <Button class="mt-3 color-gray h-46" block variant="dark" @click="$emit('add-to-cart')">
+      <Button class="mt-3 color-gray h-46 d-none d-sm-block" block variant="dark" @click="$emit('add-to-cart')">
         {{ $t('products.add_to_cart') }}
       </Button>
     </b-col>
@@ -79,6 +84,7 @@ export default {
     },
   },
   data() {
+    console.log('PROD', this.product);
     return {
       wishListShow: false,
       wishList:
@@ -129,7 +135,34 @@ export default {
   border-top-left-radius: 0
   border-bottom-left-radius: 0
 
+.buy-now
+  width: 162px !important
+  border-radius: 20px
+  height: 40px !important
+  @media (min-width: 576px)
+    border-radius: 4px
+    height: 46px !important
+    width: 100% !important
+
 .border-radius-right-0
-  border-top-right-radius: 0
-  border-bottom-right-radius: 0
+  @media (min-width: 576px)
+    border-top-right-radius: 0
+    border-bottom-right-radius: 0
+
+.ml-sm-66 
+  @media (min-width: 576px)
+    margin-left: 66px
+
+.add-to-cart
+  width: 162px !important
+  border-radius: 20px
+  color: #FFF !important
+  height: 40px !important
+  margin-top: 0 !important
+  @media (min-width: 576px)
+    border-radius: 4px
+    width: auto !important
+    height: 46px !important
+    color: #e6e6e6 !important
+
 </style>

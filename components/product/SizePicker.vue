@@ -1,5 +1,5 @@
 <template>
-  <div class="position-relative w-100 w-md-auto container px-4 px-sm-0">
+  <div class="position-relative w-100 mw-100 w-md-auto container px-4 px-sm-0">
     <div
       v-if="viewMode === 'carousel'"
       class="position-relative mx-auto carousel-wrapper"
@@ -12,26 +12,6 @@
             <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
           </span>
 
-          <!-- <Button
-            v-if="!singleMode"
-            variant="link"
-            class="view-all-btn body-8-medium"
-            size="sm"
-            @click="handleViewAllClick"
-          >
-            <template #default>
-              <div class="d-flex align-items-center">
-                <img 
-                  :src="require('~/assets/img/icons/eye2.svg')" 
-                  alt="view-details"
-                  class="d-sm-none mr-1"
-                />
-                <span class="all-sizes">
-                  {{ $t('products.all_sizes') }}
-                </span>
-              </div>
-            </template>
-          </Button> -->
           <div 
             v-if="!singleMode"
             @click="handleViewAllClick"

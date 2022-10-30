@@ -5,14 +5,27 @@
         <b-col md="12" class="d-flex align-items-center px-sm-0">
           <div class="d-flex justify-content-between align-items-center">
             <div class="title body-1-medium mr-sm-2 col-10 px-0 mr-2">{{ productName }}</div>
-            <b-img 
+            <b-img
+              :id="`popover-wishlist-${product.id}`"
+              :tooltip-text="wishList ? wishList.name : ''"
               width="18" 
               :src="require('~/assets/img/product/heart-outline.svg')"
               class="d-sm-none"
+              @click="removeFromWishList"
             >
             </b-img>
           </div>
           <ShareSVG class="d-none d-sm-block ml-auto" role="button" />
+
+          <WishListPopover
+            v-if="!wishList"
+            :product="product"
+            :wish-list="wishList"
+            :target="`popover-wishlist-${product.id}`"
+            @wishlisted="onWishListed"
+            @show="wishListShow = true"
+            @hidden="wishListShow = false"
+          />
         </b-col>
       </b-row>
       <b-row>
@@ -36,11 +49,13 @@
   </b-row>
 </template>
 <script>
+import { mapActions } from 'vuex'
 import ShareSVG from '~/assets/img/icons/share.svg?inline'
+import WishListPopover from '~/components/wish-list/Popover.vue'
 
 export default {
   name: 'ProductBreadcrumb',
-  components: { ShareSVG },
+  components: { ShareSVG, WishListPopover },
   props: {
     productName: {
       type: String,
@@ -54,6 +69,42 @@ export default {
       type: Number,
       required: true,
     },
+    product: {
+      type: Object,
+      default: () => {}
+    },
+    
+  },
+  data() {
+    return {
+      wishListShow: false,
+      wishList:
+        this.product.wish_lists && this.product.wish_lists.length > 0
+          ? this.product.wish_lists[0]
+          : null
+    }
+  },
+  methods: {
+    ...mapActions({
+      removeProductsFromWishList: 'wish-list/removeProductsFromWishList',
+    }),
+    removeFromWishList() {
+      if (this.wishList) {
+        this.removeProductsFromWishList({
+          wishList: this.wishList,
+          ids: [this.product.id],
+        })
+        this.wishList = null
+        this.$emit('unwishlisted', this.product)
+      }
+    },
+    onWishListed(wishList) {
+      if (wishList) {
+        this.$set(this, 'wishList', wishList)
+        this.wishListShow = false
+        this.$emit('wishlisted', this.product, wishList)
+      }
+    }
   },
   computed: {
     lastSalePriceProjectionValue(vm) {

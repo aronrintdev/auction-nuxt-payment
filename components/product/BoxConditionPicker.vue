@@ -1,5 +1,5 @@
 <template>
-  <div class="container px-sm-0 mt-4">
+  <div class="container px-sm-0 mt-4 w-100 mw-100 mx-0">
     <div class="box-condition-text">
       {{ $t('products.box_condition') }}
 
@@ -11,17 +11,17 @@
       />
     </div>
 
-    <div class="box-condition-btns d-none d-sm-flex">
+    <div class="box-condition-btns d-none d-sm-flex justify-content-between">
       <b-button
-        v-for="(condition, index) in conditions"
+        v-for="(c, index) in conditions"
         :key="`box-condition-${index}`"
         variant="link"
-        :class="{ active: value === condition.id }"
+        :class="{ active: condition.id === c.id }"
         class="m-0 condition"
-        @click="handleConditionSelect(condition)"
+        @click="handleConditionSelect(c)"
       >
         {{
-          $t(`products.box_conditions.${getUnderscoreCased(condition.name)}`)
+          $t(`products.box_conditions.${getUnderscoreCased(c.name)}`)
         }}
       </b-button>
     </div>
@@ -29,14 +29,14 @@
     <div class="dropdown-wrapper d-sm-none">
       <CustomDropdown 
         v-model="condition"
-        :label="conditions.find(c => c.id === condition).name"
+        :label="condition.name"
         :options="conditionsOptions"
         type="single-select"
         optionsWidth="custom"
         dropDownHeight="38px"
         variant="white"
         paddingX="14px"
-        @change="handleConditionSelect(condition)"
+        @change="handleConditionSelect"
         :inputStyle="{ 
           display: 'flex', 
           justifyContent: 'center',
@@ -54,7 +54,7 @@
           borderBottom: '1px solid #000',
         }"
         labelStyle="font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 14px; color: #667799;"
-        arrowStyle='color: #667799; width: 14px; height: 16px; position: absolute; right: 55px; margin-bottom: 13.5px !important;'
+        arrowStyle='color: #667799; width: 14px; height: 16px; position: absolute; right: 70px; margin-bottom: 13.5px !important;'
       />
     </div>
 
@@ -85,18 +85,17 @@ export default {
 
   data() {
     return {
-      condition: this.value,
+      condition: this.conditions.find(c => c.id === this.value),
       conditionsOptions: this.conditions.map((item) => ({ text: item.name, value: item.id })),
     }
   },
 
-  mounted() {
-    console.log('VAL', this.value)
-    console.log('conditions', this.conditions)
-  },
-
   methods: {
     handleConditionSelect(value) {
+      if (!value.id) {
+        value = this.conditions.find(c => c.id === value)
+      }
+      this.condition = value
       this.$emit('change', value)
     },
 

@@ -1,6 +1,6 @@
 <template>
  <b-row>
-   <b-col md="12" class="px-0">
+   <b-col md="12" class="mt-3 mt-sm-0 px-0">
      <div class="text-center body-8-medium text-color-red-3">{{ $t('products.error.out_of_stock') }}</div>
 
      <b-row class="mt-3">
@@ -12,7 +12,7 @@
            :placeholder="$t('products.enter_offer_amount')"
          />
        </b-col>
-       <b-col class="mt-3" md="4">
+       <b-col class="mt-3 mt-sm-0" md="4">
          <Button
            variant="dark-blue"
            block
