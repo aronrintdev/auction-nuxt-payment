@@ -1,81 +1,58 @@
 <template>
-  <!-- Order Summary -->
   <b-row>
     <b-col cols="12" sm="12">
       <!-- Top Title -->
       <ShoppingBagTitle
-        :title="$t('shopping_cart.checkout')"
+        :title="$t('shopping_cart.order_summary')"
         text-center
         class="mt-0"
-      />
+      >
+        <template #back-arrow>
+          <ArrowLeftBlackSVG class="back-arrow" @click="emitRenderComponentEvent($parent.$options.components.CheckoutSummary.name)"/>
+        </template>
+      </ShoppingBagTitle>
       <!-- End of Top Title -->
 
       <!-- Quantity of Items Purchased Indication -->
       <b-row class="quantity-wrapper">
         <b-col cols="12" sm="12">
           <div class="body-5-normal text-gray-25 text-center">
-            {{ getTotalQuantity}}&nbsp;{{ $tc('shopping_cart.item', getTotalQuantity) }}
+            {{ $tc('shopping_cart.item_purchasing', getTotalQuantity) }}&colon;&nbsp;{{ getTotalQuantity }}
           </div>
         </b-col>
       </b-row>
       <!-- End of Quantity of Items Purchased Indication -->
 
-      <!-- User Actions List Items -->
-      <b-row class="options-wrapper">
-        <b-col cols="12" sm="12">
-          <b-list-group>
-            <b-list-group-item>
-              <b-row class="d-flex">
-                <b-col cols="3" sm="3">
-                  <span class="text-black body-17-normal">{{ $t('shopping_cart.shipping') }}</span>
-                </b-col>
-                <b-col v-if="shippingAddress" cols="9" sm="9" class="text-right">
-                  <div>
-                    <span class="option-action text-gray-25 body-5-regular">{{ getShippingFullName }}</span>
-                    <ArrowRightBlackSVG />
-                  </div>
-                  <div class="shipping-detail text-gray-25 body-5-regular">{{ getShippingAddress }}</div>
-                  <div class="shipping-detail text-gray-25 body-5-regular">{{ getShippingCity }}</div>
-                  <div class="shipping-detail text-gray-25 body-5-regular">{{ getShippingCountry }}</div>
-                </b-col>
-                <b-col v-else cols="9" sm="9" class="text-right">
-                  <span class="option-action text-blue-20 body-5-normal">{{ $t('shopping_cart.add_shipping') }}</span>
-                  <ArrowRightBlackSVG />
-                </b-col>
-              </b-row>
-            </b-list-group-item>
-            <b-list-group-item @click="emitRenderComponentEvent($parent.$options.components.PaymentOptionsMenu.name)">
-              <PaymentDetailsListItem />
-            </b-list-group-item>
-            <b-list-group-item>
-              <b-row>
-                <b-col cols="6" sm="6">
-                  <span class="text-black body-17-normal">{{ $t('shopping_cart.total') }}</span>
-                </b-col>
-                <b-col cols="6" sm="6" class="text-right">
-                  <span class="option-action text-gray-25 body-5-normal">{{ getTotal | toCurrency }}</span>
-                  <ArrowRightBlackSVG />
-                </b-col>
-              </b-row>
-            </b-list-group-item>
-          </b-list-group>
-        </b-col>
-      </b-row>
-      <!-- End of User Actions List Items -->
+      <OrderSummaryCard
+        :items="getItems"
+        :promo-code="promoCode"
+        :promo-code-discount="getPromoDiscount"
+        :gift-card-number="giftCard.number"
+        :gift-card-discount="getGiftCardDiscount"
+        @clear-promo="removePromoCode"
+        @clear-gift-card="removeGiftCard"
+      >
+        <template #label>
+          <div class="section-title body-5-medium">{{ $t('shopping_cart.total') }}&colon;</div>
+        </template>
+      </OrderSummaryCard>
 
-      <!-- Terms And Conditions Text -->
-      <b-row class="mt-3">
-        <b-col cols="12" sm="12">
-          <i18n
-            path="shopping_cart.terms_and_conditions_paragraph_mobile"
-            tag="div"
-            class="body-10-normal text-center text-gray-25"
-          >
-            <span class="text-blue-30 text-decoration-underline" role="button" @click="$router.push('/terms-and-conditions')">{{ $t('shopping_cart.terms_and_conditions') }}</span>
-          </i18n>
+      <PromoCodeInput v-if="!promoCode" @click="applyPromoCode">
+        <template #label>
+          <div class="section-title body-5-medium">{{ $t('shopping_cart.promo_code') }}&colon;</div>
+        </template>
+      </PromoCodeInput>
+
+      <!-- Estimated Total -->
+      <b-row class="estimated-total-wrapper">
+        <b-col cols="6" sm="6">
+           <span class="body-5-normal text-black">{{ $t('shopping_cart.estimated_total') }}&colon;</span>
+        </b-col>
+        <b-col cols="6" sm="6" class="text-right">
+           <span class="body-5-normal text-black">{{ getTotal | toCurrency }}</span>
         </b-col>
       </b-row>
-      <!-- End of Terms And Conditions Text -->
+      <!-- End of Estimated Total -->
 
       <!-- Shopping Bag Place Order Button -->
       <b-row class="place-order-wrapper">
@@ -87,97 +64,42 @@
               $t('shopping_cart.place_order')}}
           </Button>
         </b-col>
-      </b-row><!-- End of Shopping Cart Place Order Button -->
+      </b-row><!-- End of Shopping Bag Place Order Button -->
     </b-col>
-  </b-row><!-- End of Order Summary -->
+  </b-row>
 </template>
 
 <script>
-// TODO: NP - Clean up unused flows.
-import { mapActions, mapGetters } from 'vuex'
-import emitEvent from '~/plugins/mixins/emit-event'
+import { mapGetters, mapActions} from 'vuex'
+import emitEventMixin from '~/plugins/mixins/emit-event'
 import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTitle'
-import ArrowRightBlackSVG from '~/assets/img/shopping-cart/arrow-right-black.svg?inline'
+import ArrowLeftBlackSVG from '~/assets/img/shopping-cart/arrow-left-black.svg?inline'
+import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
+import PromoCodeInput from '~/components/checkout/common/PromoCodeInput'
 import Button from '~/components/common/Button'
-import PaymentDetailsListItem from '~/components/checkout/selling/mobile/payment/PaymentDetailsListItem'
-import {
-  PERCENT,
-  FIXED_PRODUCT,
-  PAYMENT_METHOD_TYPE_CARD,
-  PAYMENT_METHOD_TYPE_INSTALLMENT,
-  BAD_REQUEST,
-  NOT_FOUND,
-  PERCENT_OFFSET,
-  AMOUNT_OFFSET
-} from '~/static/constants'
+import { AMOUNT_OFFSET, BAD_REQUEST, FIXED_PRODUCT, NOT_FOUND, PERCENT, PERCENT_OFFSET } from '~/static/constants'
 
 export default {
   name: 'OrderSummary',
-  components: {
-    ShoppingBagTitle,
-    ArrowRightBlackSVG,
-    Button,
-    PaymentDetailsListItem,
-  },
-  mixins: [ emitEvent ],
+  components: { ShoppingBagTitle, ArrowLeftBlackSVG, OrderSummaryCard, PromoCodeInput, Button },
+  mixins: [ emitEventMixin ],
   data() {
     return {
       loading: false,
-      alternativeItems: [],
-      inputPromoCode: '',
-      isInstallment: PAYMENT_METHOD_TYPE_INSTALLMENT,
-      isCard: PAYMENT_METHOD_TYPE_CARD,
-      form: {
-        inputCardHolderName: '',
-        inputCardNumber: '',
-        inputCardExpiryDate: '',
-        inputCardBrand: '',
-        agreedToTerms: false,
-      },
     }
   },
   computed: {
     ...mapGetters({
       shoppingCart: 'shopping-cart/getShoppingCart',
-      billingAddress: 'auth/getBillingAddress',
-      shippingAddress: 'auth/getShippingAddress',
-      paymentMethod: 'auth/getPaymentMethod',
-      giftCard: 'order-details/getGiftCard',
       promoCode: 'order-details/getPromoCode',
-      paymentToken: 'order-details/getPaymentToken',
-      installmentPlans: 'order-details/getInstallmentDetails',
-      cryptoDetails: 'order-details/getCryptoDetails',
+      giftCard: 'order-details/getGiftCard',
       redeemedReward: 'redeemed-reward/getRedeemedReward',
-      freeShippingRedeemedReward: 'redeemed-reward/getFreeShippingRedeemedReward',
       freeSneakersRedeemedReward: 'redeemed-reward/getFreeSneakersRedeemedReward',
+      freeShippingRedeemedReward: 'redeemed-reward/getFreeShippingRedeemedReward',
       shippingFee: 'order-settings/getShippingFee',
       processingFee: 'order-settings/getProcessingFee',
-      taxRate: 'tax-rate/getTaxRate'
+      taxRate: 'tax-rate/getTaxRate',
     }),
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getBillingFullName: (vm) => {
-      return `${vm.billingAddress.firstName} ${vm.billingAddress.lastName}`
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getBillingAddress: (vm) => {
-      return `${vm.billingAddress.addressLine}, ${vm.billingAddress.city}, ${vm.billingAddress.country}, ${vm.billingAddress.zipCode}`
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getShippingFullName: (vm) => {
-      return `${vm.shippingAddress.firstName} ${vm.shippingAddress.lastName}`
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getShippingAddress: (vm) => {
-      return vm.shippingAddress.addressLine
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getShippingCity: (vm) => {
-      return `${vm.shippingAddress.city}, ${vm.shippingAddress.country}, ${vm.shippingAddress.zipCode}`
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getShippingCountry: (vm) => {
-      return vm.shippingAddress.country
-    },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTotalQuantity: (vm) => {
       let totalQuantity =  vm.shoppingCart.reduce((sum, product) => {
@@ -307,34 +229,18 @@ export default {
       items.push({ key: 'tax', label: vm.$t('shopping_cart.tax'), value: vm.getTotalQuantity > 0 ? vm.getTax : 0 })
 
       return items
-    }
-  },
-  mounted() {
-    this.getTaxRateByZip({ zip: this.billingAddress.zipCode })
+    },
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    additionalTitle(vm) {
+      return '(' + vm.getTotalQuantity + ' ' + vm.$tc('shopping_cart.item', vm.getTotalQuantity) + ')'
+    },
   },
   methods: {
     ...mapActions({
       addPromoCode: 'order-details/addPromoCode',
       removePromoCode: 'order-details/removePromoCode',
-      cardCheckout: 'shopping-cart/cardCheckout',
-      installmentCheckout: 'shopping-cart/installmentCheckout',
-      cryptoCheckout: 'shopping-cart/cryptoCheckout',
-      removeProducts: 'shopping-cart/removeProducts',
-      addOrderDetails: 'order-details/addOrderDetails',
-      removePaymentToken: 'order-details/removePaymentToken',
-      removeRedeemedReward: 'redeemed-reward/removeRedeemedReward',
-      clearRedeemedReward: 'redeemed-reward/clearRedeemedReward',
-      getTaxRateByZip: 'tax-rate/getTaxRateByZip',
-      addAlternativeProducts: 'shopping-cart/addAlternativeProducts',
       removeGiftCard: 'order-details/removeGiftCard',
-      removeCryptoDetails: 'order-details/removeCryptoDetails',
-      removePaymentMethod: 'auth/removePaymentMethod',
-      removeInstallmentPlan: 'order-details/removeInstallmentPlan',
     }),
-    clearPromoCode() {
-      this.removePromoCode()
-      this.inputPromoCode = ''
-    },
     applyPromoCode(promoCode) {
       this.$axios.post('coupons/check', {
         promo_code: promoCode,
@@ -353,161 +259,7 @@ export default {
         this.$toasted.error(error)
       })
     },
-    clearReward() {
-      this.removeRedeemedReward()
-    },
-    // TODO: Extract the pattern shown in the checkout methods.
-    checkoutWithCard() {
-      this.loading = true
-      this.cardCheckout({
-        discount: this.getDiscount,
-        processingFee: this.getProcessingFee,
-        shippingFee: this.getShippingFee,
-        tax: this.getTax,
-        subTotal: this.getSubtotalAfterInstantShip,
-        total: this.getTotal,
-        promoCode: this.promoCode ? this.promoCode.code : '',
-        giftCardNumber: this.giftCard ? this.giftCard.number : '',
-        giftCardAmount: this.giftCard ? this.giftCard.amount : 0,
-        paymentToken: this.paymentToken,
-        paymentMethod: this.paymentMethod,
-        billingAddress: this.billingAddress,
-        shippingAddress: this.shippingAddress,
-        shoppingCart: this.shoppingCart,
-        redeemedReward: this.freeSneakersRedeemedReward
-      }).then((data) => {
-        if (data.message === 'shopping_cart.stock_from_different_vendors') {
-          this.alternativeItems = data.data
-          this.$bvModal.show('alternative-items-modal')
-          this.loading = false
-        } else {
-          data.products = this.shoppingCart
-          data.redeemedReward = this.redeemedReward
-          this.removeProducts()
-          this.clearRedeemedReward()
-          this.addOrderDetails(data).then(() => {
-            this.$router.push('selling/order-confirmation')
-          })
-        }
-      }).catch(error => {
-        this.loading = false
-
-        if (error.response.status === BAD_REQUEST) {
-          this.$toasted.error(this.$t(error.response.data.error).toString())
-
-          if (error.response.data?.message === 'shopping_cart.insufficient_quantity') {
-            this.$bvModal.show('insufficient-quantity-modal')
-          }
-
-          return
-        }
-
-        this.$toasted.error(error.response.statusText)
-      })
-      this.removePaymentToken()
-    },
-    checkoutWithInstallment() {
-      this.loading = true
-      this.installmentCheckout({
-        discount: this.getDiscount,
-        processingFee: this.getProcessingFee,
-        shippingFee: this.getShippingFee,
-        tax: this.getTax,
-        subTotal: this.getSubtotalAfterInstantShip,
-        total: Math.ceil(this.$options.filters.formatPrice(this.getTotal)),
-        promoCode: this.promoCode ? this.promoCode.code : '',
-        giftCardNumber: this.giftCard ? this.giftCard.number : '',
-        giftCardAmount: this.giftCard ? this.giftCard.amount : 0,
-        paymentToken: this.paymentToken,
-        paymentMethod: this.paymentMethod,
-        billingAddress: this.billingAddress,
-        shippingAddress: this.shippingAddress,
-        shoppingCart: this.shoppingCart,
-        installmentDetails: this.installmentPlans,
-        redeemedReward: this.freeSneakersRedeemedReward
-      }).then((data) => {
-        if (data.message === 'shopping_cart.stock_from_different_vendors') {
-          this.alternativeItems = data.data
-          this.$bvModal.show('alternative-items-modal')
-          this.loading = false
-        } else {
-          data.products = this.shoppingCart
-          data.redeemedReward = this.redeemedReward
-          this.removeProducts()
-          this.clearRedeemedReward()
-          this.addOrderDetails(data).then(() => {
-            this.$router.push('selling/order-confirmation')
-          })
-        }
-      }).catch(error => {
-        this.loading = false
-
-        if (error.response.status === BAD_REQUEST) {
-          this.$toasted.error(this.$t(error.response.data.error).toString())
-
-          if (error.response.data?.message === 'shopping_cart.insufficient_quantity') {
-            this.$bvModal.show('insufficient-quantity-modal')
-          }
-
-          return
-        }
-
-        this.$toasted.error(error.response.statusText)
-      })
-      this.removePaymentToken()
-    },
-    checkoutWithCrypto() {
-      this.loading = true
-      this.cryptoCheckout({
-        discount: this.getDiscount,
-        processingFee: this.getProcessingFee,
-        shippingFee: this.getShippingFee,
-        tax: this.getTax,
-        subTotal: this.getSubtotalAfterInstantShip,
-        total: this.getTotal,
-        promoCode: this.promoCode ? this.promoCode.code : '',
-        giftCardNumber: this.giftCard ? this.giftCard.number : '',
-        giftCardAmount: this.giftCard ? this.giftCard.amount : 0,
-        billingAddress: this.billingAddress,
-        shippingAddress: this.shippingAddress,
-        shoppingCart: this.shoppingCart,
-        paymentMethod: this.cryptoDetails,
-        redeemedReward: this.freeSneakersRedeemedReward
-      }).then((data) => {
-        if (data.message === 'shopping_cart.stock_from_different_vendors') {
-          this.alternativeItems = data.data
-          this.$bvModal.show('alternative-items-modal')
-          this.loading = false
-        } else {
-          data.products = this.shoppingCart
-          data.redeemedReward = this.redeemedReward
-          this.removeProducts()
-          this.clearRedeemedReward()
-          this.addOrderDetails(data).then(() => {
-            this.$router.push('selling/order-confirmation')
-          })
-        }
-      }).catch(error => {
-        this.loading = false
-
-        if (error.response.status === BAD_REQUEST) {
-          this.$toasted.error(this.$t(error.response.data.error).toString())
-
-          if (error.response.data?.message === 'shopping_cart.insufficient_quantity') {
-            this.$bvModal.show('insufficient-quantity-modal')
-          }
-
-          return
-        }
-
-        this.$toasted.error(error.response.statusText)
-      })
-    },
-    handleAddToBag() {
-      this.addAlternativeProducts(this.alternativeItems)
-      this.$bvModal.hide('alternative-items-modal')
-    }
-  },
+  }
 }
 </script>
 
@@ -517,35 +269,21 @@ export default {
 .quantity-wrapper
   margin-top: 7px
 
-.options-wrapper
-  margin-top: 20px
+.section-title
+  margin-bottom: 7px
 
-  .list-group-item
-    padding: 20px
-    border-color: $color-gray-23b
+.summary-wrapper
+  margin-bottom: 0
+  padding-bottom: 19px
+  border-bottom: 1px solid $color-gray-23b
 
-    .option-action
-      margin-right: 29px
-      margin-left: 8px
+.promo-wrapper
+  border-bottom: none
+  margin-top: 19px
+  padding-bottom: 0
 
-    .shipping-detail
-      margin-right: 41px
-
-    .gift-card-detail
-      margin-left: 10px
-
-    &:hover, &:active, &:focus
-      background: $color-gray-23b
-
-.add-card-wrapper
-  margin-top: 10px
-
-.remaining-amount-wrapper
-  margin-top: 10px
-
-  div.text-right
-    span
-      margin-right: 41px
+.estimated-total-wrapper
+  margin: 31px 40px 0
 
 .place-order-wrapper
   margin: 41px 0
@@ -553,5 +291,4 @@ export default {
   .btn
     min-width: 216px
     min-height: 40px
-
 </style>
