@@ -59,7 +59,7 @@ import MobileHeader from '~/components/mobile/MobileHeader.vue'
 import emitEvent from '~/plugins/mixins/emit-event'
 
 export default {
-  name: 'ShippingAddressList',
+  name: 'Item',
 
   components: {
     MobileHeader

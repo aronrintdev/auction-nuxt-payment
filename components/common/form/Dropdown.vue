@@ -14,6 +14,7 @@
           dropdownShow && 'opened'
         } ${value !== null && 'active'}`"
         block
+        @click="dropdownShow = !dropdownShow"
       >
         <img v-if="icon && !value" :src="icon" class="mr-2 icon-main" />
         <div
