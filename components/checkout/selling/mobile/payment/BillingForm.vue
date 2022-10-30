@@ -98,7 +98,7 @@ export default {
       this.getTaxRateByZip({ zip: form.inputZipCode })
 
       this.emitRenderComponentEvent(
-        this.$parent.$options.components.OrderSummary.name,
+        this.$parent.$options.components.CheckoutSummary.name,
       )
     }
   }
