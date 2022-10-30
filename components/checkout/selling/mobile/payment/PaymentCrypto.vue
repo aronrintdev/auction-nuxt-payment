@@ -184,7 +184,7 @@ export default {
     }),
     selectPaymentOption() {
       this.removePaymentMethod().then(() => {
-        this.emitRenderComponentEvent(this.$parent.$options.components.OrderSummary.name)
+        this.emitRenderComponentEvent(this.$parent.$options.components.CheckoutSummary.name)
       })
     },
     handleClick() {
