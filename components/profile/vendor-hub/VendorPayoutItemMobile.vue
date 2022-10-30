@@ -95,19 +95,6 @@
             ></b-form-input>
           </b-input-group>
         </b-form-group>
-        <Button
-          variant="link"
-          class="btn-edit-inventory ml-5 mr-2"
-          :tooltip-text="$t('common.edit')"
-          @click="$emit('edit', method)"
-        ></Button>
-        <Button
-          v-if="!method.is_default"
-          variant="link"
-          class="btn-delete"
-          :tooltip-text="$t('common.delete')"
-          @click="$emit('delete', method)"
-        ></Button>
       </div>
 
     </div>
@@ -152,18 +139,6 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
-.default-class
-  @include body-4
-  width: 150px
-  height: 40px
-  color: $color-blue-2
-  font-family: $font-family-sf-pro-display
-  font-style: normal
-  font-weight: $normal
-  background: rgba($color-blue-24, 0.08)
-  border-radius: 4px
-
-
 :deep()label.d-block
   @include body-5
   font-family: $font-family-montserrat
@@ -176,22 +151,6 @@ export default {
   font-style: normal
   font-weight: $normal
   background: $color-white-5
-
-.btn-edit-inventory
-  width: 30px
-  height: 30px
-  background-image: url('~/assets/img/product/actions.png')
-  background-position: center
-  border: none
-  border-radius: 4px
-
-.btn-delete
-  width: 30px
-  height: 30px
-  background-image: url('~/assets/img/product/actions.png')
-  background-position: right
-  border: none
-  border-radius: 4px
 
 .input-payout-mobile
   @include body-5
