@@ -2,7 +2,9 @@
   <!-- Shopping Bag Title -->
   <b-row class="title-wrapper">
     <b-col sm="12" md="12" :class="{ 'text-center': textCenter }" class="d-flex align-items-center justify-content-center">
-      <ArrowLeftGray17SVG v-if="backLink" class="arrow-left" @click="$emit('click')" />
+      <slot name="back-arrow">
+        <ArrowLeftGray17SVG v-if="backLink" class="back-arrow" @click="$emit('click')" />
+      </slot>
       <span class="body-12-bold">{{ title }}&nbsp;</span>
       <span class="body-12-normal">{{ additionalTitle }}</span>
     </b-col>
@@ -46,7 +48,7 @@ export default {
 .title-wrapper
   margin: 8px 18px 0
 
-.arrow-left
+.back-arrow
   position: absolute
   left: 0
 </style>
