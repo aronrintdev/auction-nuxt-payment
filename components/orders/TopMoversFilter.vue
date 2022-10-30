@@ -415,4 +415,13 @@ export default {
   font-family: $font-montserrat
   @include body-9
 
+@media (max-width: 992px)
+  ::v-deep .search
+    border: none
+
+  ::v-deep .search-input-wrapper.search-md input.search-input
+    font-size: 12px
+    background: #F7F7F7
+    border-radius: 8px
+
 </style>
