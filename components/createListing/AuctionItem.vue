@@ -57,7 +57,7 @@
 
     <div class="d-md-none">
       <div class="mt-4 status">
-        <div class="font-weight-bold mb-2">{{ $t('create_listing.confirm.status') }}</div>
+        <div class="font-weight-bold mb-2">{{ $t('create_listing.confirm.status') }}*</div>
         <CheckboxSwitch
           class="full-width-switch"
           :labelOff="$t('create_listing.confirm.status_select.live')"
@@ -65,20 +65,9 @@
           :value="item.status === 'scheduled'"
           @change="handleStatusSwitch"
         />
-        <div v-if="item.status === 'scheduled'" class="schedule-time mt-3">
-          <span
-            :class="{'is-invalid': itemError.includes('scheduled_date')}"
-          >{{(item.scheduled_date || $tc('create_listing.confirm.date_text'))}}</span>
-          <b-form-datepicker
-            size="xs"
-            class=""
-            button-only
-            hide-header
-            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-            locale="en"
-            @context="onContext">
-            default
-          </b-form-datepicker>
+        <div v-if="item.status === 'scheduled'" class="schedule-time mt-2">
+          <span v-if="item.scheduled_date">{{ item.scheduled_date }}</span>
+          <span v-else class="text-danger body-5-regular">* {{ $t('create_listing.confirm.schedule_date_required') }}</span>
         </div>
       </div>
       <div class="mt-4 d-flex">
@@ -92,9 +81,18 @@
             :icon-arrow-up="require('~/assets/img/icons/arrow-up-blue.svg')"
             :icon-arrow-down="require('~/assets/img/icons/arrow-down-blue.svg')"
             :class="{'is-invalid': itemError.includes('time_limit')}"
+            class="d-none d-md-block"
             no-arrow
             @select="handleDurationSelect"
           />
+          <button
+            class="d-md-none text-left duration-box-btn position-relative d-flex align-items-center"
+            :class="{'is-invalid': itemError.includes('time_limit')}"
+            @click="openDurationSheet"
+          >
+            <span v-if="!item.time_limit" class="placeholder">{{ $t('create_listing.confirm.select_duration_placeholder') }}</span>
+            <span v-else class="value">{{ item.time_limit }} {{ $tc('common.day', item.time_limit) }}</span>
+          </button>
         </div>
         <div class="reserve-section d-flex flex-column ml-3">
           <div class="font-weight-bold">{{ $t('create_listing.confirm.reserve') }} <img :src="infoIcon" class="icon-info position-absolute ml-1 scale-2" alt="Info icon" /></div>
@@ -120,8 +118,8 @@
         </div>
       </div>
       <div v-if="item.is_reserved" class="mt-2 p-2 d-flex align-items-start rounded reserve-info" >
-        <img :src="infoIcon" class="icon-info mr-1" alt="Info icon" />
-        <span>{{ $tc('create_listing.confirm.reserve_text_info', 1) }} ${{calculateFee(item.reserve_price).toFixed(2)}} {{ $tc('create_listing.confirm.reserve_text_info', 2) }}</span>
+        <img :src="infoIcon" class="icon-info mr-2" alt="Info icon" />
+        <span>{{ $t('create_listing.confirm.reserve_info_short') }}</span>
       </div>
       <div class="bid-section d-flex flex-column mt-4 row">
         <div class="col-12 col-md-7">
@@ -157,7 +155,14 @@
         />
       </div>
       <div class="reserve-section d-flex flex-column">
-        <span class="font-weight-bold">{{ $t('create_listing.confirm.reserve') }} <img :src="infoIcon" class="icon-info position-absolute mt-n2 mr-n5 scale-2" alt="Info icon" /></span>
+        <span class="font-weight-bold">{{ $t('create_listing.confirm.reserve') }}&nbsp;
+          <img
+            v-b-tooltip.hover
+            :src="infoIcon"
+            :title="$tc('create_listing.confirm.reserve_tooltip_info')"
+            class="icon-info position-absolute mt-n2 mr-n5 scale-2"
+          />
+        </span>
         <b-row class="mt-2 ">
           <b-col cols="2">
             <CheckboxSwitch
@@ -235,18 +240,59 @@
 
       </div>
     </div>
+    <!-- Duration Sheet -->
+    <vue-bottom-sheet ref="durationSheet">
+      <div class="d-flex flex-column h-100 filters-sheet">
+        <div class="filters-sheet-title text-center">{{ $t('auction.select_duration') }}</div>
+        <div class="flex-shrink-1 overflow-auto filters-sheet-content">
+          <div v-for="duration in DURATIONS" :key="duration.value">
+            <button class="w-100 border-0 text-left condition-option" @click="handleDurationSelect(duration);closeDurationSheet()">
+              <div>{{ duration.value }} {{ $tc('common.day', duration.value) }}</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </vue-bottom-sheet>
+    <!-- Schedule date Sheet -->
+    <vue-bottom-sheet ref="scheduleDateSheet" max-height="70%">
+      <div class="d-flex flex-column h-100 filters-sheet">
+        <div class="filters-sheet-title text-center">{{ $t('create_listing.product.select_box_condition') }}</div>
+        <div class="flex-shrink-1 overflow-auto filters-sheet-content">
+          <div class="pt-3 text-center">
+            <v-date-picker v-model="tempScheduleDate" :min-date="new Date()" :model-config="{ type: 'string', mask: 'YYYY/MM/DD' }" />
+          </div>
+          <div class="py-3 d-flex align-items-center justify-content-around">
+            <Button
+              variant="outline-primary"
+              pill
+              @click="$refs.scheduleDateSheet.close()"
+            >
+              {{ $t('create_listing.product.cancel') }}
+            </Button>
+            <Button
+              variant="primary"
+              class="px-5"
+              pill
+              @click="setScheduleDate"
+            >
+              {{ $t('create_listing.product.next') }}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </vue-bottom-sheet>
   </div>
 </template>
 
 <script>
 import Thumb from '~/components/product/Thumb';
-import {FormDropdown, FormInput, CheckboxSwitch} from '~/components/common'
-import infoIcon from '~/assets/img/icons/info-blue.svg';
+import {FormDropdown, FormInput, CheckboxSwitch, Button} from '~/components/common'
+import infoIcon from '~/assets/img/icons/info-dark-blue.svg';
 import createListingAuction from '~/plugins/mixins/create-listing-auction';
 
 export default {
   name: 'AuctionItem',
-  components: { Thumb, FormDropdown, FormInput, CheckboxSwitch},
+  components: { Thumb, FormDropdown, FormInput, CheckboxSwitch, Button},
   mixins: [createListingAuction],
   props: {
     item: {
@@ -272,7 +318,8 @@ export default {
           label: this.$t(`create_listing.confirm.status_select.${a}`),
           value:a,
         }
-      })
+      }),
+      tempScheduleDate: null,
     }
   },
   computed: {
@@ -298,13 +345,6 @@ export default {
         })
       }
     },
-    handleStatusSwitch(value) {
-      if (value) {
-        this.$emit('formChange', {...this.item, status: 'scheduled', scheduled_date: null })
-      } else {
-        this.$emit('formChange', {...this.item, status: 'live' })
-      }
-    },
     handleStatusSelect(item) {
       if (item.value === 'live') {
         this.$emit('formChange', {...this.item, status: item.value, scheduled_date: null })
@@ -323,7 +363,24 @@ export default {
     },
     editItem(){
       this.$emit('edit', this.item)
-    }
+    },
+    openDurationSheet() {
+      this.$refs.durationSheet.open()
+    },
+    closeDurationSheet() {
+      this.$refs.durationSheet.close()
+    },
+    handleStatusSwitch(value) {
+      this.$emit('formChange', {...this.item, status: value ? 'scheduled' : 'live' })
+      if (value) {
+        this.tempScheduleDate = this.item.scheduled_date
+        this.$refs.scheduleDateSheet.open()
+      }
+    },
+    setScheduleDate() {
+      this.$emit('formChange', {...this.item, scheduled_date: this.tempScheduleDate })
+      this.$refs.scheduleDateSheet.close()
+    },
   }
 }
 </script>
@@ -527,7 +584,7 @@ export default {
           white-space: nowrap
           padding: 16px 15px 16px 15px
           height: auto
-          min-width: 120px
+          min-width: 128px
           &.opened
             border-bottom: none
             border-bottom-left-radius: 0
@@ -592,4 +649,41 @@ export default {
         font-size: 12px
         line-height: 15px
         height: 50px
+
+    .duration-box-btn
+      @include body-9
+      border: 1px solid $color-gray-3
+      border-radius: 10px
+      background: transparent
+      padding: 17px 14px
+      font-family: $font-montserrat
+      font-weight: $medium
+      white-space: nowrap
+      width: 128px
+      &.is-invalid
+        border: 2px solid $red-1
+      .placeholder
+        color: $color-gray-23
+      .value
+        color: $black
+.bottom-sheet::v-deep
+  .bottom-sheet__content
+    overflow: hidden
+  .filters-sheet-content
+    padding: 0
+    .condition-option
+      @include body-5
+      font-family: $font-family-sf-pro-display
+      font-weight: $regular
+      color: $black
+      padding: 0 14px
+      background: transparent
+      div
+        padding: 17px 0
+        border-bottom: 0.5px solid $color-white-12
+      &:active
+        background: $color-blue-20
+        div
+          border-color: $color-blue-20
+          color: $white
 </style>

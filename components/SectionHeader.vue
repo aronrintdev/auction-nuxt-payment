@@ -1,7 +1,7 @@
 <template>
   <div
     class="d-flex align-items-center section-header"
-    :class="{ 'mx-md-5': !fullWidth }"
+    :class="{ 'full-width': fullWidth }"
   >
     <div class="d-flex title-wrapper">
       <h1 class="heading-garamond pre-line">
@@ -47,7 +47,7 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.section-header
+.section-header:not(.full-width)
   margin: 40px 0 0 32px
   @media (min-width: 576px)
     margin: 70px 74px 50px 74px
@@ -55,8 +55,4 @@ export default {
   margin-right: 0
   @media (min-width: 576px)
     margin-right: 89px
-@media (max-width: 500px)
-  .section-header
-    margin-left: calc(20px - 7.5px)
-    margin-right: calc(20px - 7.5px)
 </style>

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <span v-show="showPrev" :id="prevHandler">
+    <span v-show="showArrows" :id="prevHandler">
       <slot name="prev" />
     </span>
     <div :id="elementHandle" :class="['owl-carousel', 'owl-theme']">
       <slot />
     </div>
-    <span v-show="showNext" :id="nextHandler">
+    <span v-show="showArrows" :id="nextHandler">
       <slot name="next" />
     </span>
   </div>
@@ -83,6 +83,10 @@ export default {
       default: false,
     },
     autoWidth: {
+      type: Boolean,
+      default: false,
+    },
+    showArrows: {
       type: Boolean,
       default: false,
     },
@@ -236,7 +240,6 @@ export default {
     return {
       showPrev: true,
       showNext: true,
-
       prevHandler: 'carousel_prev_' + this.generateUniqueId(),
       elementHandle: 'carousel_' + this.generateUniqueId(),
       nextHandler: 'carousel_next_' + this.generateUniqueId(),

@@ -16,12 +16,12 @@
       </b-col>
     </b-row>
     <div class="d-flex d-md-none align-items-center justify-content-center color-sku-section">
-      <div class="text-center flex-grow-1">
+      <div class="w-50 text-center">
         <div class="label mb-1">{{ $t('sell.confirm_listing.sku') }}</div>
         <div class="value">{{ activeInventoryProduct.sku }}</div>
       </div>
       <div class="vertical-divider "></div>
-      <div class="text-center flex-grow-1">
+      <div class="w-50 text-center px-3">
         <div class="label mb-1">{{ $t('common.colorway') }}</div>
         <div class="value">{{ activeInventoryProduct.colorway || '-' }}</div>
       </div>
@@ -48,8 +48,11 @@
             :value="form.size_id"
             viewMode="carousel"
             singleMode
+            :xsCount="6"
+            :xsCenter="true"
             @update="handleSizeChange"
           />
+          <div v-if="showError && errors.size_id" class="text-danger body-5-regular">{{ $t('create_listing.product.errors.size') }}</div>
           <div class="d-none mt-3 mb-5 mx-4 d-md-flex justify-content-between min-medium-high-prices">
             <div class="text-left">
               <div>{{ $t('create_listing.product.lowest_price') }}:</div>
@@ -118,7 +121,7 @@
         </div>
         <div v-if="showError && errors.year" class="text-danger body-5-regular">{{ $t('create_listing.product.errors.year') }}</div>
       </b-col>
-      <b-col md="4">
+      <b-col md="4" class="d-none d-md-block">
         <div class="duration-section d-flex flex-column mt-4 mr-md-4">
           <span class="font-weight-bold mb-1">{{ $t('common.box_condition') }}*</span>
           <FormDropdown
@@ -133,6 +136,23 @@
             can-clear
             @select="handleBoxConditionSelect"
           />
+        </div>
+        <div v-if="showError && errors.packageCondition" class="text-danger body-5-regular">{{ $t('create_listing.product.errors.box_condition') }}</div>
+      </b-col>
+      <!-- Mobile Box Condition -->
+      <b-col class="d-md-none">
+        <div class="duration-section box-condition d-flex flex-column mt-2 mr-md-4">
+          <div class="text-center mb-2">
+            <span class="box-condition-title">{{ $t('common.box_condition') }}</span>
+            <img :src="infoIcon" class="ml-1" />
+          </div>
+          <button
+            class="box-condition-btn position-relative d-flex align-items-center justify-content-center"
+            @click="openBoxConditionSheet"
+          >
+            <span>{{ form.packageCondition || $t('trades.create_listing.default_box_condition') }}</span>
+            <img :src="arrowDownIcon" class="position-absolute" />
+          </button>
         </div>
         <div v-if="showError && errors.packageCondition" class="text-danger body-5-regular">{{ $t('create_listing.product.errors.box_condition') }}</div>
       </b-col>
@@ -187,6 +207,19 @@
         </div>
       </b-col>
     </b-row>
+    <!-- Box Condition Sheet -->
+    <vue-bottom-sheet ref="boxConditionSheet">
+      <div class="d-flex flex-column h-100 filters-sheet">
+        <div class="filters-sheet-title text-center">{{ $t('create_listing.product.select_box_condition') }}</div>
+        <div class="flex-shrink-1 overflow-auto filters-sheet-content">
+          <div v-for="condition in packageConditions" :key="condition.value">
+            <button class="w-100 border-0 text-left condition-option" @click="handleBoxConditionSelect(condition);closeBoxConditionSheet()">
+              <div>{{ condition.label }}</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </vue-bottom-sheet>
   </b-container>
 </template>
 
@@ -203,6 +236,7 @@ import LeftArrowSvg from '~/assets/img/home/arrow-left.svg?inline'
 import ProductSizePicker from '~/components/product/SizePicker'
 import arrowUpIcon from '~/assets/img/icons/arrow-up-blue.svg'
 import arrowDownIcon from '~/assets/img/icons/arrow-down-blue.svg'
+import infoIcon from '~/assets/img/icons/info-dark-blue.svg'
 
 export default {
   name: 'NoInventoryCollectionProduct',
@@ -240,6 +274,7 @@ export default {
       highestSold: null,
       arrowUpIcon,
       arrowDownIcon,
+      infoIcon,
     }
   },
   computed:{
@@ -349,6 +384,12 @@ export default {
         color_id: item.id,
       }   
     },
+    openBoxConditionSheet() {
+      this.$refs.boxConditionSheet.open()
+    },
+    closeBoxConditionSheet() {
+      this.$refs.boxConditionSheet.close()
+    },
   }
 }
 </script>
@@ -359,9 +400,8 @@ export default {
 
 .container-product-auction
   .size-bar
+    @include body-8
     font-weight: $normal
-    font-size: 15px
-    line-height: 18px
     color: $black
     .button
       font-weight: $medium
@@ -376,21 +416,23 @@ export default {
       margin: auto
     .container::v-deep
       .carousel-wrapper
-        width: 100%
+        margin: 0 -20px !important
+        width: auto
+        max-width: unset
         padding: 0
+        &-title
+          display: none
         .size-carousel
           width: 100%
           padding: 0
           .card
+            @include body-9
             width: 50px
             height: 50px
-            font-size: 12px
-            line-height: 15px
             border-width: 1px
             margin: 4px 0 0
           .price
-            font-size: 10px
-            line-height: 12px
+            @include body-18
             letter-spacing: 0.005em
             margin-top: 10px
 
@@ -399,27 +441,23 @@ export default {
     .size-selector-box
       width: 100%
     .size-bar
+      @include body-21
       font-weight: $normal
-      font-size: 13px
-      line-height: 16px
       .button
         font-weight: $normal
         color: $black
     .last-sale-price
+      @include body-5
       font-weight: $normal
-      font-size: 14px
-      line-height: 17px
       color: $color-gray-6
     .font-weight-bold
-      font-size: 12px
-      line-height: 15px
+      @include body-9
     .duration-section
       .form-dropdown-wrapper::v-deep
         .btn-dropdown
+          @include body-9
           border: 1px solid $white-5
           border-radius: 10px
-          font-size: 12px
-          line-height: 15px
           padding: 17px 14px
           font-weight: $normal
           height: auto
@@ -428,17 +466,18 @@ export default {
       .vertical-divider
         width: 1px
         height: 30px
-        background: $color-gray-47
+        background: $color-gray-4
       .label
+        @include body-21
         font-weight: $medium
-        font-size: 13px
-        line-height: 16px
         color: $black
       .value
+        @include body-5
         font-weight: $normal
-        font-size: 14px
-        line-height: 17px
         color: $color-blue-20
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
     .reserve-section,
     .bid-section
       .form-input-wrapper::v-deep
@@ -487,18 +526,15 @@ export default {
       border-radius: 8px
       padding: 20px
       .title
+        @include body-5
         font-weight: $medium
-        font-size: 14px
-        line-height: 17px
         color: $black
     .product-details
       &-title
-        font-size: 13px
-        line-height: 18px
+        @include body-30
         font-weight: $medium
       &-value
-        font-size: 13px
-        line-height: 18px
+        @include body-30
         color: $color-gray-5
         font-weight: $normal
     .latest-sales-graph
@@ -508,18 +544,16 @@ export default {
       .child-container::v-deep
         margin-top: 0
         h2
+          @include body-5
           font-family: $font-montserrat
           font-weight: $medium
-          font-size: 14px
-          line-height: 17px
           color: $black
         .period-block
           flex-direction: row
           justify-content: flex-end
           .btn
+            @include body-21
             font-weight: $medium
-            font-size: 13px
-            line-height: 16px
             color: $color-gray-47
             margin: 0 8px
             &.active
@@ -528,4 +562,46 @@ export default {
     padding: 12px
     @media (max-width: 576px)
       border-radius: 25px
+  .box-condition
+    &-title
+      @include body-5
+      font-weight: $medium
+      & + img
+        width: 12px
+        margin-top: -1px
+    &-btn
+      border: 1px solid $black
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.25))
+      height: 38px
+      background: $white
+      span
+        @include body-5
+        font-weight: $normal
+        color: $color-blue-20
+      img
+        width: 15px
+        top: 10px
+        right: 12px
+
+.bottom-sheet::v-deep
+  .bottom-sheet__content
+    overflow: hidden
+.filters-sheet-content
+  padding: 0
+  .condition-option
+    @include body-5
+    font-family: $font-family-sf-pro-display
+    font-weight: $regular
+    color: $black
+    padding: 0 14px
+    background: transparent
+    div
+      padding: 17px 0
+      border-bottom: 0.5px solid $color-white-12
+    &:active
+      background: $color-blue-20
+      div
+        border-color: $color-blue-20
+        color: $white
+
 </style>

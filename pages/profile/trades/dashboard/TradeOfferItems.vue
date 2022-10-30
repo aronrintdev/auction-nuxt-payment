@@ -7,7 +7,7 @@
         </div>
         <div class="pt-3">
           <div class="offer-id">
-            {{$t('trades.offer_id')}} #{{offer.id}}
+            {{$t('trades.offer_id')}} #{{showOfferId(offer)}}
           </div>
           <div class="offer-time">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
         </div>
@@ -94,6 +94,12 @@ export default {
         this.$router.push('/profile/trades/dashboard/' + offer.id)
       }
       return false
+    },
+    showOfferId(val){
+      if(val?.latest_offer !== null){
+        return val.latest_offer.id
+      }
+      else{ return val.id}
     }
   }
 }
