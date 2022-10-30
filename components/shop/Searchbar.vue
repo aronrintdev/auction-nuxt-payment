@@ -9,7 +9,7 @@
         >
           <search-box
             :searchText="searchText"
-            :placeholder="$t('common.search')"
+            :placeholder="`${$t('common.search')} ${$t('common.shop')}`"
             @search="search"
           />
           <div v-if="hasSearchResult" class="dropdown-options">

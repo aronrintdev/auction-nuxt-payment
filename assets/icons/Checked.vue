@@ -1,0 +1,34 @@
+<template>
+  <svg
+    width="18"
+    height="19"
+    viewBox="0 0 19 19"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    :class="{ active: active }"
+  >
+    <rect width="19" height="19" rx="9.5" fill="#667799" />
+    <rect class="rect-border" width="19" height="19" rx="9.5" stroke="black" />
+    <path
+      d="M5.5 9.4961L8.5 12.4961L13.5 6.49609"
+      stroke="white"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+</template>
+<script>
+export default {
+  props: {
+    active: { type: Boolean, default: false },
+  },
+}
+</script>
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+.rect-border
+  stroke: $color-blue-20
+.active
+  path
+    stroke: $color-black-1
+</style>

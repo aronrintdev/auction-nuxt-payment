@@ -433,15 +433,14 @@ export default {
 
   .search-results
     .popover-body
-      >div
+      > div
         @include body-4-normal
         font-family: $font-family-base
         color: $color-black-1
-        background-color: $color-white-4
-        height: 46px
         border: none
         border-bottom: 0.2px solid $light-gray-2
         padding: 0 23px
+        max-height: unset
         &:hover
           color: $color-gray-5
 
@@ -449,6 +448,9 @@ export default {
           border-bottom-left-radius: 8px
           border-bottom-right-radius: 8px
           border: none
+        .dropdownItem
+          height: 48px
+          background: transparent
 .more-filters-btn
   @include body-13-regular
   font-family: $font-sp-pro

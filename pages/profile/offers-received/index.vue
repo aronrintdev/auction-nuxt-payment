@@ -723,6 +723,7 @@ export default {
 .vendor-trade-inv-body
   font-family: $font-sp-pro
   font-style: normal
+  min-height: 35rem
 .placed-offer-heading
   font-style: normal
   font-family: $font-sp-pro
