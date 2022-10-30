@@ -4313,6 +4313,7 @@
       "banner_information": "Deadstock presents trading opportunities for sneakers, apparel, and accessories. Trade up to 3 items.",
       "browse": {
         "search_for_your_favorite_street_wear": "Search for your favorite street wear",
+        "search_trades":"Search Trades",
         "relevance": "Relevance",
         "end_date_ascending": "End Date - Ascending",
         "end_date_descending": "End Date - Descending",
@@ -4329,6 +4330,7 @@
         "auction": "Auction",
         "trade": "Trade",
         "trade_with_us": "Trade With Us",
+        "explore_trading_opportunities_mobile": "Have a Pair to Trade?",
         "explore_trading_opportunities": "Explore our trading opportunities and list your items today!"
       }
     },
