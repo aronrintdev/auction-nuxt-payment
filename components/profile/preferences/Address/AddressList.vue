@@ -39,7 +39,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import List from './List.vue'
+import List from './Item.vue'
 import { AlertModal } from '~/components/modal'
 
 import emitEvent from '~/plugins/mixins/emit-event'
