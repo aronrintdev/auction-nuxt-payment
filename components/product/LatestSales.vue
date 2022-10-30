@@ -1,7 +1,7 @@
 <template>
   <div class="child-container">
     <h2 :class="headerClass" class="m-0">{{ $t('products.latest_sales') }}</h2>
-    <div :style="labelsStyle" class="d-flex justify-content-between period-block">
+    <div :style="labelsStyle" class="d-flex justify-content-between period-block px-3">
       <Button
         variant="link"
         :class="{ active: currentFormat === 'day' }"
@@ -319,7 +319,7 @@ export default {
 
 .child-container
   margin-top: 18px
-  @media (min-width: 576px)
+  @media (min-width: 768px)
     padding: 0 56px
 
   h2
@@ -331,8 +331,6 @@ export default {
     margin-top: 40px
 
     .btn
-      margin: 0 40px
-
       &.active
         color: #000 !important
         text-decoration: underline

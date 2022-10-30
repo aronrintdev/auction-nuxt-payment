@@ -64,7 +64,7 @@
           :margin="10"
           :responsive="{
             0: { items: xsCount, nav: false, center: xsCenter },
-            600: { items: 3, nav: false },
+            576: { items: 6, nav: false },
             1268: { items: 5, nav: false },
           }"
           :mouse-drag="false"
@@ -362,9 +362,6 @@ export default {
     max-width: 100%
     padding: 0 20px
     margin-top: 8px
-
-    @media only screen and (max-width: 1290px)
-      width: 400px
 
     >span .owl-nav
       display: block !important

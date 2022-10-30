@@ -106,7 +106,7 @@
           <!-- User Conditional Actions -->
           <OutOfStock
             v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
-            class="mt-3"
+            class="mt-3 px-3"
             @notify-me="handleNotifyMeClick"
             @place-offer="handleOfferSubmit"
           />
@@ -123,7 +123,7 @@
 
           <SellNow
             v-else-if="sizeViewMode === 'carousel'"
-            class="mt-3"
+            class="mt-3 px-3"
             :highest-offer="highestOffer"
             @place-offer="handleOfferSubmit"
             @sell-now="handleSellNowClick"

@@ -3,34 +3,66 @@
     <b-row class="d-none d-sm-block h-100">
       <b-col md="12">
         <b-tabs content-class="mt-3" nav-class="pb-2 px-3">
-          <b-tab title-link-class="body-2-bold border-0 pl-0" :title="$t('products.product_details')">
+          <b-tab title-link-class="body-2-bold border-0 p-0 w-160" :title="$t('products.product_details')">
             <b-row>
-              <b-col md="6">
-                <b-row class="px-3 mt-3">
-                  <b-col md="4" class="body-24-normal text-black">
+              <b-col class="ml-2" md="9">
+                <div class="d-flex">
+                  <div class="col-3 mr-3 label body-24-normal text-black">
+                    {{ $t('common.sku') }}:
+                  </div>
+                  <div class="col-8 body-24-normal text-color-gray-5">
+                    {{ product.sku }}
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <div class="col-3 mr-3 label body-24-normal text-black">
+                    {{ $t('common.colorway') }}:
+                  </div>
+                  <div class="col-8 body-24-normal text-color-gray-5">
+                    {{ product.colorway }}
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <div class="col-3 mr-3 label body-24-normal text-black">
+                    {{ $t('common.retail_price') }}:
+                  </div>
+                  <div class="col-8 body-24-normal text-color-gray-5">
+                    {{ product.retail_price | toCurrency }}
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <div class="col-3 mr-3 label body-24-normal text-black">
+                    {{ $t('common.release_date') }}:
+                  </div>
+                  <div class="col-8 body-24-normal text-color-gray-5">
+                    {{ product.release_year }}
+                  </div>
+                </div>
+                <!-- <b-row class="px-3 mt-3">
+                  <b-col sm="4" class="body-24-normal text-black">
                     <div class="label">{{ $t('common.sku') }}&colon;</div>
                     <div class="label">{{ $t('common.colorway') }}&colon;</div>
                     <div class="label">{{ $t('common.retail_price') }}&colon;</div>
                     <div class="label">{{ $t('common.release_date') }}&colon;</div>
                   </b-col>
-                  <b-col md="8" class="body-24-normal text-color-gray-5">
+                  <b-col sm="8" class="body-24-normal text-color-gray-5">
                     <div>{{ product.sku }}</div>
                     <div>{{ product.colorway }}</div>
                     <div>{{ product.retail_price | toCurrency }}</div>
                     <div>{{ product.release_year }}</div>
                   </b-col>
-                </b-row>
+                </b-row> -->
               </b-col>
-              <b-col md="6" class="mt-3">
+              <!-- <b-col md="6" class="mt-3">
                 <div class="label border-0">{{ $t('products.description') }}&colon;</div>
                 <span class="mt-2 body-24-normal text-color-gray-5">{{ productDescriptionText }}</span>
                 <Button variant="link" @click="isFullTextShown = !isFullTextShown">
                   <span class="label mb-1">{{ isFullTextShown ? $t('products.read_less') : $t('products.read_more') }}</span>
                 </Button>
-              </b-col>
+              </b-col> -->
             </b-row>
           </b-tab>
-          <b-tab title-link-class="body-2-bold border-0 pl-5" :title="$t('products.size_guide')">
+          <b-tab title-link-class="body-2-bold border-0 p-0 w-160 text-center" :title="$t('products.size_guide')">
             <ProductSizeGuideShoe
               v-if="product.size_type && SHOE_CATEGORIES.indexOf(product.size_type) > -1"
               :selected-size="selectedSize"
@@ -76,7 +108,6 @@
 
 <script>
 import ProductSizeGuideShoe from '~/components/product/size-guide/Shoe'
-import Button from '~/components/common/Button'
 import DetailsModal from '~/components/product/DetailsModal'
 import SizeGuideModal from '~/components/product/size-guide/SizeGuideModal'
 
@@ -84,7 +115,6 @@ export default {
   name: 'ProductDetailsTab',
   components: {
     ProductSizeGuideShoe,
-    Button,
     DetailsModal,
     SizeGuideModal
   },

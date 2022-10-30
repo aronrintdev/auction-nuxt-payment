@@ -23,7 +23,7 @@
       </b-row>
       <b-row class="mt-3">
         <b-col md="12" class="text-center">
-          <OverallFitSVG />
+          <OverallFitSVG class="fit-svg w-100" />
         </b-col>
       </b-row>
     </b-col>
@@ -73,3 +73,12 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
+.fit-svg
+  @media(min-width: 1200px)
+    margin-left: 160px
+
+</style>

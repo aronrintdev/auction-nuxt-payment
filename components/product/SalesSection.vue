@@ -1,9 +1,9 @@
 <template>
   <b-row class="h-100">
     <b-col md="12">
-      <b-tabs content-class="mt-0 mt-sm-3" nav-class="pb-2">
+      <b-tabs content-class="mt-0 mt-sm-3" nav-class="pb-2 pl-sm-3">
         <b-tab 
-          title-link-class="body-2-bold border-0 pl-2 d-none d-sm-block" 
+          title-link-class="body-2-bold border-0 p-0 w-160 d-none d-sm-block" 
           :title="$t('products.sales_graph')"
         >
           <b-row class="d-none d-sm-block">
@@ -69,7 +69,7 @@
           </div>
         </div>
         <b-tab 
-          title-link-class="body-2-bold border-0 pl-5 d-none d-sm-block" 
+          title-link-class="body-2-bold border-0 p-0 w-160 text-center d-none d-sm-block" 
           :title="$t('products.sales_data')"
         >
           <b-row>
@@ -223,7 +223,7 @@ export default {
 ::v-deep
   .nav-tabs
     border: 0 !important
-    @media (min-width: 574px)
+    @media (min-width: 576px)
       border-bottom: 0.5px solid $color-gray-23 !important
 
 .text-color-gray-5

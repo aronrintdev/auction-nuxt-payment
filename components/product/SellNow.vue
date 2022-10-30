@@ -15,7 +15,7 @@
             :placeholder="$t('products.enter_offer_amount')"
           />
         </b-col>
-        <b-col md="4">
+        <b-col class="mt-3" md="4">
           <Button
             variant="dark-blue"
             block
