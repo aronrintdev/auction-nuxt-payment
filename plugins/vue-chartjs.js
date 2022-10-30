@@ -16,7 +16,11 @@ Vue.component('LineChart', {
     labels: {
       type: Array,
       default: null
-    }
+    },
+    isGraph: {
+      type: Boolean,
+      default: false
+    },
   },
   computed: {
     chartData() {
@@ -37,22 +41,29 @@ Vue.component('LineChart', {
 
   methods: {
     renderLineChart() {
-    this.renderChart(
+      if (this.isGraph === true)
       {
-        labels: this.chartLabels,
-        datasets: [
+        this.renderChart(this.chartData, this.options)
+      }else{
+        this.renderChart(
           {
-            borderColor: '#18A0FB',
-            backgroundColor: 'rgba(24, 160, 251, 0.15)',
-            data: this.chartData,
-            fill: true,
-            label: '',
-            borderWidth: 4,
-          }
-        ]
-      },
-      { responsive: true, maintainAspectRatio: false }
-    );      
+            labels: this.chartLabels,
+            datasets: [
+              {
+                borderColor: '#18A0FB',
+                backgroundColor: 'rgba(24, 160, 251, 0.15)',
+                data: this.chartData,
+                fill: true,
+                label: '',
+                borderWidth: 4,
+              }
+            ]
+          },
+          { responsive: true, maintainAspectRatio: false }
+        );
+      }
+
+
     }
   },
 });

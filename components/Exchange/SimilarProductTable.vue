@@ -23,7 +23,7 @@
       <tbody v-else>
         <tr
         v-for="(product, index) in products"
-         
+
           :key="`product-${product.id}-trend`"
           class="border-top-0"
         >
@@ -68,6 +68,7 @@
               :chart-data="product.last_7d_data"
               :options="chartOptions"
               class="trend-graph"
+              :isGraph="true"
             ></LineChart>
           </td>
           <td class="d-table-cell d-sm-none text-right">

@@ -196,6 +196,7 @@
                 ref="lineChart"
                 :chart-data="lineDatasets"
                 :options="lineChartOptions"
+                :isGraph="true"
                 class="line-chart"
                 chart-id="vendor-dashboard-line-chart"
               />
@@ -874,37 +875,37 @@ export default {
         case '24': {
           this.lineDatasets.labels = this.graphData.oneDay.labels
           // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
-          this.$refs.lineChart.redraw()
+          this.$refs.lineChart.renderLineChart()
           break
         }
         case '7': {
           this.lineDatasets.labels = this.graphData.week.labels
           // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
-          this.$refs.lineChart.redraw()
+          this.$refs.lineChart.renderLineChart()
           break
         }
         case '30': {
           this.lineDatasets.labels = this.graphData.oneMonth.labels
           // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
-          this.$refs.lineChart.redraw()
+          this.$refs.lineChart.renderLineChart()
           break
         }
         case '6': {
           this.lineDatasets.labels = this.graphData.sixMonths.labels
           // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
-          this.$refs.lineChart.redraw()
+          this.$refs.lineChart.renderLineChart()
           break
         }
         case '1': {
           this.lineDatasets.labels = this.graphData.oneYear.labels
           // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
-          this.$refs.lineChart.redraw()
+          this.$refs.lineChart.renderLineChart()
           break
         }
         case 'all': {
           this.lineDatasets.labels = this.graphData.oneYear.labels
           // this.lineDatasets.data = this.graphData.oneYear.data
-          this.$refs.lineChart.redraw()
+          this.$refs.lineChart.renderLineChart()
           break
         }
         default:
