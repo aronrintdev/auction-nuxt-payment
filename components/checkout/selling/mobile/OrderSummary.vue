@@ -44,21 +44,8 @@
                 </b-col>
               </b-row>
             </b-list-group-item>
-            <b-list-group-item>
-              <b-row>
-                <b-col cols="6" sm="6">
-                  <span class="text-black body-17-normal">{{ $t('shopping_cart.payment') }}</span>
-                </b-col>
-                <b-col v-if="paymentMethod" cols="6" sm="6" class="text-right">
-                  <b-img :src="getCardBrandLogo" alt="..." width="37" />
-                  <span class="option-action text-gray-25 body-5-normal">{{ paymentMethod.cardLastDigits }}</span>
-                  <ArrowRightBlackSVG />
-                </b-col>
-                <b-col v-else cols="6" sm="6" class="text-right">
-                  <span class="option-action text-blue-20 body-5-normal">{{ $t('shopping_cart.add_payment') }}</span>
-                  <ArrowRightBlackSVG />
-                </b-col>
-              </b-row>
+            <b-list-group-item @click="emitRenderComponentEvent($parent.$options.components.PaymentOptionsMenu.name)">
+              <PaymentDetailsListItem />
             </b-list-group-item>
             <b-list-group-item>
               <b-row>
@@ -112,6 +99,7 @@ import emitEvent from '~/plugins/mixins/emit-event'
 import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTitle'
 import ArrowRightBlackSVG from '~/assets/img/shopping-cart/arrow-right-black.svg?inline'
 import Button from '~/components/common/Button'
+import PaymentDetailsListItem from '~/components/checkout/selling/mobile/payment/PaymentDetailsListItem'
 import {
   PERCENT,
   FIXED_PRODUCT,
@@ -129,6 +117,7 @@ export default {
     ShoppingBagTitle,
     ArrowRightBlackSVG,
     Button,
+    PaymentDetailsListItem,
   },
   mixins: [ emitEvent ],
   data() {
@@ -165,14 +154,6 @@ export default {
       processingFee: 'order-settings/getProcessingFee',
       taxRate: 'tax-rate/getTaxRate'
     }),
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getCardBrandLogo(vm) {
-      try {
-        return require(`~/assets/img/shopping-cart/${vm.cardBrand}-logo.png`)
-      } catch (error) {
-        return require('~/assets/img/shopping-cart/visa-logo.png')
-      }
-    },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getBillingFullName: (vm) => {
       return `${vm.billingAddress.firstName} ${vm.billingAddress.lastName}`
@@ -550,8 +531,21 @@ export default {
     .shipping-detail
       margin-right: 41px
 
+    .gift-card-detail
+      margin-left: 10px
+
     &:hover, &:active, &:focus
       background: $color-gray-23b
+
+.add-card-wrapper
+  margin-top: 10px
+
+.remaining-amount-wrapper
+  margin-top: 10px
+
+  div.text-right
+    span
+      margin-right: 41px
 
 .place-order-wrapper
   margin: 41px 0
