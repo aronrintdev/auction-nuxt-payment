@@ -69,4 +69,7 @@ export default {
 
   ::v-deep .overview-box:nth-child(4) .box-value
     color: $color-red-26
+
+  .justify-content-between
+    justify-content: stretch !important
 </style>

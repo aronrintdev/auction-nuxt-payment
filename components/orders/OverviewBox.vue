@@ -2,7 +2,7 @@
     <div class="overview-box col align-middle mx-1">
         <div class="d-md-flex d-block h-100">
             <div class="box-icon d-none d-md-block"><img :src="icon" alt=""></div>
-            <div class="text-md-left text-center d-flex d-md-block flex-column justify-content-between h-100">
+            <div class="text-md-left text-center d-flex d-md-block flex-column justify-content-between align-items-stretch h-100">
                 <div class="box-title">{{ label }}</div>
                 <div class="box-value">{{ value }}</div>
             </div>
@@ -62,8 +62,13 @@ export default {
       font-family: $font-montserrat
       color: $color-gray-69
       font-size: 12px
+      height: 100%
+      display: flex
+      flex-direction: column
+      justify-content: flex-end
 
     .box-value
-        font-size: 15px
+        @include body-8-medium
+        height: 100%
 
 </style>
