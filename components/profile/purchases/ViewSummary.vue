@@ -360,7 +360,7 @@ export default {
 
     .view-details
       background: $color-white-1
-      border: 1px solid $color-gray-92
+      border: 1px solid $color-gray-94
       border-radius: 8px
       padding: 16px 20px
       margin-top: 14px
@@ -433,6 +433,6 @@ export default {
   margin-inline: -27px
 
   &.success
-    background-color: $color-green-27
+    background-color: $color-green-28
 
 </style>
