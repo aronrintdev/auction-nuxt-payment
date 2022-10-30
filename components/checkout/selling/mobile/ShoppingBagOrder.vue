@@ -5,8 +5,11 @@
 </template>
 
 <script>
+import CheckoutSummary from '~/components/checkout/selling/mobile/CheckoutSummary'
 import OrderSummary from '~/components/checkout/selling/mobile/OrderSummary'
 import ListItemOptionsMenu from '~/components/checkout/selling/mobile/ListItemOptionsMenu'
+import ShippingForm from '~/components/checkout/selling/mobile/ShippingForm'
+import ShippingInformation from '~/components/checkout/selling/mobile/ShippingInformation'
 import PaymentOptionsMenu from '~/components/checkout/selling/mobile/payment/PaymentOptionsMenu'
 import PaymentCard from '~/components/checkout/selling/mobile/payment/PaymentCard'
 import BillingForm from '~/components/checkout/selling/mobile/payment/BillingForm'
@@ -15,10 +18,21 @@ import PaymentGiftCard from '~/components/checkout/selling/mobile/payment/Paymen
 
 export default {
   name: 'ShoppingCartOrder',
-  components: { OrderSummary, ListItemOptionsMenu, PaymentOptionsMenu, PaymentCard, BillingForm, PaymentCrypto, PaymentGiftCard },
+  components: {
+    CheckoutSummary,
+    OrderSummary,
+    ListItemOptionsMenu,
+    ShippingForm,
+    ShippingInformation,
+    PaymentOptionsMenu,
+    PaymentCard,
+    BillingForm,
+    PaymentCrypto,
+    PaymentGiftCard
+  },
   data: () => {
     return {
-      renderedComponent: OrderSummary.name,
+      renderedComponent: CheckoutSummary.name,
     }
   },
   created() {
