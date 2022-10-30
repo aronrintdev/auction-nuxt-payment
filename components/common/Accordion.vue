@@ -1,9 +1,9 @@
 <template>
   <div class="accordion" role="tablist">
     <div v-for="{id, title, body} in data" :key="id" class="mb-2">
-      <div class="p-2 d-flex align-items-center" role="tab">
-        <img :src="getIcon(id)" alt="icon"/>
-        <span v-b-toggle="id" block class="accordion-title">{{ title }}</span>
+      <div class="p-2 d-flex align-items-center justify-content-between justify-content-md-start" role="tab">
+        <img :src="getIcon(id)" alt="icon" class="order-1 order-md-0"/>
+        <span v-b-toggle="id" block class="accordion-title order-0 order-md-1">{{ title }}</span>
       </div>
       <b-collapse :id="id" accordion="my-accordion" role="tabpanel" @shown="shown(id)" @hide="hide">
         <b-card-text class="accordion-body">{{ body }}</b-card-text>
@@ -46,9 +46,8 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-@import '~/assets/css/_typography'
 
-:deep(.card-text)
+::v-deep .card-text
   padding-left: 37px
   padding-bottom: 30px
 
@@ -68,4 +67,8 @@ export default {
   line-height: 18px
   color: $color-gray-5
 
+@media (max-width: 767px)
+  .accordion-title
+    color: $color-blue-20
+    @include body-8-normal
 </style>

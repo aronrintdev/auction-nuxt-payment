@@ -70,7 +70,6 @@
               v-if="$route.query.path !== 'from-inventory'"
               class="p-3 text-center"
             >
-              {{ listingItem.quantity }}
             </b-td>
             <b-td v-else>
               <b-form-group
@@ -85,7 +84,6 @@
                 <span class="text-danger error-text">
                   {{
                     !listingItem.quantity ||
-                    0 >= listingItem.quantity ||
                     listingItem.quantity > listingItem.stock
                       ? $t('createlisting.error.field', {
                           field: $t('common.quantity').toLowerCase(),
@@ -262,6 +260,7 @@
               <details-card
                 id="selling-details-card"
                 :key="`data-${index}`"
+                class="mb-2"
                 :totalCount="confirmData.length"
                 :product="listData.product"
                 :item="listData"
@@ -616,6 +615,7 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .container-profile-inventory-confirm
+  min-height: 37rem
   .product-off-row
     .product-off
       font-family: $font-montserrat

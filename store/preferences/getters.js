@@ -149,3 +149,19 @@ export function billingDetails(state) {
 export function getPageTitle(state){
   return state.pageTitle
 }
+
+export function getSelectedAddressType(state){
+  return state.selectedAddress
+}
+
+export function getActionType(state){
+  return state.actionType
+}
+
+export function editAddressID(state){
+  return state.editID
+}
+
+export function getDefaultConfirmedStatus(state){
+  return state.updateDefaultConfirmed
+}

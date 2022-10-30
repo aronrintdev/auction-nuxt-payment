@@ -4,7 +4,7 @@
       v-if="viewMode === 'carousel'"
       class="position-relative mx-auto carousel-wrapper"
     >
-      <b-row>
+      <b-row class="carousel-wrapper-title">
         <b-col md="12">
           <span class="body-8-normal text-uppercase">{{ $t('products.select_size') }}</span>
 
