@@ -11,7 +11,7 @@
             :id="`popover-watchlist-item-${activeAuction.id}`"
             src="eye.svg"
             hover-src="red-eye.svg"
-            :active="!!watchlist"
+            :active="watchlistShow || !!watchlist"
             width="20"
             height="20"
             tabindex="0"
@@ -794,7 +794,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      removeItemsFromWatchList: 'watchlist/removeItemsFromWatchList',
+      removeItemsFromWatchlist: 'watchlist/removeItemsFromWatchlist',
     }),
     ...mapMutations({
       updateBidPrice: 'auction/updateActiveAuctionPrice',
@@ -1006,7 +1006,7 @@ export default {
     },
     removeFromWatchList() {
       if (this.watchlist) {
-        this.removeItemsFromWatchList({
+        this.removeItemsFromWatchlist({
           watchlist: this.watchlist,
           ids: [this.activeAuction.id],
           type: WATCHLIST_TYPE_AUCTION,

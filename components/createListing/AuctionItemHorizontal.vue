@@ -43,12 +43,12 @@
             :tooltip-text="$t('common.copy')"
             @click="cloneItem"
           ></Button>
-          <Button
+          <!-- <Button
             variant="link"
             class="btn-edit-inventory mr-2"
             :tooltip-text="$t('common.edit')"
             @click="editItem"
-          ></Button>
+          ></Button> -->
           <Button
             variant="link"
             class="btn-delete"
