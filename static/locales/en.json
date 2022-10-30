@@ -5009,6 +5009,7 @@
       "csv_exported": "CSV file has been exported to your downloads folder",
       "export_selected": "Export Selected",
       "orders_fulfilled": "Total Orders Fulfilled",
+      "email_cvs": "Email CVS",
       "table": {
         "order_id": "Order ID",
         "product": "Product",

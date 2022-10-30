@@ -1,16 +1,14 @@
 <template>
   <div>
-    <div v-if="mobileClass" class="d-flex justify-content-between">
-      <SearchInput
-        id="selling-search"
-        class="flex-grow-1 mr-2"
-        :placeholder="$t('navbar.search')"
-      />
-      <img
-        class="mobile-filter"
-        :src="require('~/assets/img/icons/filter-icon.svg')"
-        alt="filter-icon"
-      />
+    <div v-if="mobileClass" class="d-flex justify-content-between align-items-center mb-3">
+      <MobileSearchInput class="flex-grow-1" />
+      <a role="button" @click="showMobileFilter">
+        <img
+          class="mobile-filter pt-1 pl-2"
+          :src="require('~/assets/img/icons/filter-icon.svg')"
+          alt="filter-icon"
+        />
+      </a>
     </div>
     <div :class="mobileClass ? '' : 'commission p-4'">
       <div class="d-flex justify-content-between align-items-center">
@@ -31,13 +29,6 @@
           <div class="title" :class="mobileClass.length ? 'body-10-medium color-blue-20' : 'heading-3-normal'">
           {{ $t('vendor_hub.commission.commission_details') }}
           </div>
-          <div v-if="mobileClass" @click="showMobileFilter" role="button">
-            <img
-              class="mobile-filter"
-              :src="require('~/assets/img/icons/filter-icon.svg')"
-              alt="filter-icon"
-            />
-          </div>
         </div>
         <download-csv
             :data="exportableData"
@@ -51,14 +42,14 @@
         <Button
             variant="dark"
             @click="toggleExport"
-            :class="{'w-100': mobileClass }"
+            v-if="!mobileClass"
         >
             {{ $t('vendor_hub.commission.export_to_csv') }}
         </Button>
 
       </div>
 
-      <div class="d-flex align-items-center justify-content-between mt-3">
+      <div v-if="!mobileClass" class="d-flex align-items-center justify-content-between mt-3">
         <span class="label-text">({{ itemsTotal }} {{ $t('vendor_hub.commission.entries') }})</span>
 
         <div class="d-flex flex-column">
@@ -96,8 +87,82 @@
           </div>
         </div>
       </div>
+      <div v-else class="d-flex justify-content-between">
+        <span class="text-color-gray-5 body-10-medium">{{ itemsTotal  }} {{ $t('vendor_hub.commission.entries') }}</span>
+        <!-- Hide it right now there aren't API yet -->
+        <!--
+        <a role="button" class="color-blue-20 body-10-normal" @click="toggleExport">
+          <i class="fa fa-upload" aria-hidden="true"></i> {{ $t("vendor_hub.commission.email_cvs") }}
+        </a>
+        -->
+      </div>
 
-      <div class="mt-3 flex-wrap overflow-auto">
+      <!-- Mobile list view -->
+      <template v-if="mobileClass">
+        <div v-for="(item, index) in items"  :key="index" class="border shadow-sm mt-3">
+          <b-row v-if="item.product">
+            <b-col cols="3">
+              <ProductThumb :product="item.product" />
+            </b-col>
+            <b-col cols="9">
+              <span class="body-5-medium">{{ item.product.name }}</span>
+              <div class="mb-2 text-gray-6 text-uppercase body-6-medium">
+                {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ item.product.sku }}
+              </div>
+              <div class="mb-2 text-gray-6 body-6-medium">
+                {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ item.product.colorway }}
+              </div>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col cols="12" class="py-1">
+              <div class="d-flex justify-content-between">
+                <span class="d-sm-block d-md-none body-9-medium">{{ $t('vendor_hub.commission.table.order_id') }}</span>
+                <span class="body-9-regular text-decoration-underline text-blue-30">{{ item.order.order_id }}</span>
+              </div>
+            </b-col>
+            <b-col cols="12" class="py-1 bg-lightgrey">
+              <div class="d-flex justify-content-between">
+                <span class="d-sm-block d-md-none body-9-medium">{{ $t('vendor_hub.commission.table.commission') }}</span>
+                <span class="body-9-regular text-gray-6">{{ item.commission | toCurrency }}</span>
+              </div>
+            </b-col>
+            <b-col cols="12" class="py-1">
+              <div class="d-flex justify-content-between">
+                <span class="d-sm-block d-md-none body-9-medium">
+                  {{ $t('vendor_hub.commission.table.status') }}
+                </span>
+                <span class="body-9-regular text-gray-6 text-capitalize">
+                  {{ item.status }}
+                </span>
+              </div>
+            </b-col>
+            <b-col cols="12" class="py-1 bg-lightgrey">
+              <div class="d-flex justify-content-between">
+                <span class="d-sm-block d-md-none body-9-medium">
+                  {{ $t('vendor_hub.commission.table.shipped_to_ds') }}
+                </span>
+                <span class="body-9-regular text-gray-6 text-capitalize">
+                  {{ item.status == 'paid' ? 'Yes' : 'No' }}
+                </span>
+              </div>
+            </b-col>
+            <b-col cols="12" class="py-1">
+              <div class="d-flex justify-content-between">
+                <span class="d-sm-block d-md-none body-9-medium">
+                  {{ $t('vendor_hub.commission.table.date_ordered') }}
+                </span>
+                <span class="body-9-regular text-gray-6 text-capitalize">
+                  {{ item.order.created_at | formatDate }}
+                </span>
+              </div>
+            </b-col>
+          </b-row>
+        </div>
+      </template>
+
+      <!-- Desktop list (table) view -->
+      <div v-else class="mt-3 flex-wrap overflow-auto">
         <b-table
             :borderless="true"
             :busy="dataLoading"
@@ -224,13 +289,12 @@ import Loader from '~/components/common/Loader';
 import {COMMISSIONS_PAGE_OPTIONS, COMMISSIONS_PER_PAGE} from '~/static/constants';
 import screenSize from '~/plugins/mixins/screenSize'
 import CommissionMobileFilter from '~/components/profile/vendor-hub/CommissionMobileFilter';
-import { SearchInput } from '~/components/common';
 
 Vue.component('DownloadCsv', JsonCSV)
 export default {
   name: 'Commissions',
   components: {
-    Loader, CommissionItem, SearchInput,
+    Loader, CommissionItem,
     Button, CalendarInput, CustomSelectwithCheckbox, Pagination, BulkSelectToolbar, CommissionMobileFilter},
   mixins: [screenSize],
   data() {
@@ -543,6 +607,19 @@ export default {
 
 .color-blue-20
   color: $color-blue-20
+
 .commission-item-box
   flex: 50%
+
+.text-color-gray-5
+  color: $color-gray-5
+
+.border
+  border: 1px solid $color-gray-60
+  border-radius: 12px
+  overflow: hidden
+  padding: 15px 10px
+
+.text-blue-30
+  color: $color-blue-30
 </style>
