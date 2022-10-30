@@ -49,7 +49,7 @@ export default {
         giftCard,
       }).then(() => {
         this.$toasted.success(this.$t('shopping_cart.gift_card_applied').toString())
-        this.emitRenderComponentEvent(this.$parent.$options.components.OrderSummary.name)
+        this.emitRenderComponentEvent(this.$parent.$options.components.CheckoutSummary.name)
       })
     }
   }
