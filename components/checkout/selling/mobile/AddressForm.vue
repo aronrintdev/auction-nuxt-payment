@@ -11,8 +11,8 @@
               >
                 <template #default>
                   <span class="body-5-normal text-gray-5 ml-3">
-                  {{ $t('shopping_cart.same_as_shipping_address') }}
-                </span>
+                    {{ $t('shopping_cart.same_as_shipping_address') }}
+                  </span>
                 </template>
               </b-form-checkbox>
             </b-col>
@@ -184,7 +184,7 @@
               <ValidationProvider
                 v-slot="validationContext"
                 :name="$t('shopping_cart.phone')"
-                :rules="{ required: true, numeric: true }"
+                :rules="{ required: false, numeric: true }"
               >
                 <b-form-group>
                   <b-form-input
@@ -225,7 +225,7 @@
           <!-- End of Country Field -->
 
           <!-- Save For Next Time CheckBox -->
-          <b-row>
+          <b-row v-if="saveForNextTime">
             <b-col cols="12" sm="12">
               <b-form-checkbox
                 v-model="form.inputSaveForNextTime"
@@ -244,7 +244,7 @@
           <b-row class="confirm-btn-wrapper">
             <b-col cols="12" sm="12">
               <Button type="submit" variant="dark-blue" pill block>
-                {{ $t('shopping_cart.continue') }}
+                {{ actionText }}
               </Button>
             </b-col>
           </b-row>
@@ -282,6 +282,10 @@ export default {
       default: false,
     },
     useAsShipping: {
+      type: Boolean,
+      default: false,
+    },
+    saveForNextTime: {
       type: Boolean,
       default: false,
     },
@@ -401,6 +405,18 @@ export default {
     &:active, &:focus
       border: 1px solid $black-1
 
+    &.is-invalid
+      border: 1px solid $color-red-3
+
+      &:active, &:focus
+        border: 1px solid $color-red-3
+
 .confirm-btn-wrapper
-  margin: 30px 18px
+  margin: 30px 0
+
+  div
+    padding: 0
+
+    button
+      min-height: 40px
 </style>
