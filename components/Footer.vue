@@ -86,6 +86,7 @@ export default {
   display: flex
   align-items: flex-start
   justify-content: space-between
+  font-family: $font-sp-pro
 
   .footer-links
     flex: 0 1 auto
