@@ -78,7 +78,7 @@
                         {{ validationContext.errors[0] }}
                       </b-form-invalid-feedback>
                     </b-input-group>
-                    <div v-if="amountApplied" class="body-18-normal text-green-27 mt-1 text-left">
+                    <div v-if="amountApplied" class="body-18-normal text-green-29 mt-1 text-left">
                       {{ $t('shopping_cart.gift_card_amount_applied') }}
                     </div>
                   </ValidationProvider>
