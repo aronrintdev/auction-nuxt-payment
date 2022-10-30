@@ -225,7 +225,7 @@ export default {
 .btn
   &.btn-confirm
     &.btn-disabled
-      background: $color-gray-47
+      background: $color-blue-20
       opacity: 1
       cursor: not-allowed
       &:hover
