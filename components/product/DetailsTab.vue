@@ -49,7 +49,10 @@
         <i class="fa fa-2x fa-angle-down icon"></i>
       </div>
 
-      <div class="mt-3 field">
+      <div 
+        class="mt-3 field"
+        @click="isSizeModalOpen = true"
+      >
         <div>{{ $t('products.size_guide') }}</div>
         <i class="fa fa-2x fa-angle-down icon"></i>
       </div>
@@ -61,6 +64,13 @@
       @closed="isDetailsModalOpen = false"
     />
 
+    <SizeGuideModal
+      :isOpen="isSizeModalOpen"
+      :product="product"
+      :selectedSize="selectedSize"
+      @closed="isSizeModalOpen = false"
+    />
+
   </div>
 </template>
 
@@ -68,13 +78,15 @@
 import ProductSizeGuideShoe from '~/components/product/size-guide/Shoe'
 import Button from '~/components/common/Button'
 import DetailsModal from '~/components/product/DetailsModal'
+import SizeGuideModal from '~/components/product/size-guide/SizeGuideModal'
 
 export default {
   name: 'ProductDetailsTab',
   components: {
     ProductSizeGuideShoe,
     Button,
-    DetailsModal
+    DetailsModal,
+    SizeGuideModal
   },
   props: {
     product: {
@@ -104,7 +116,8 @@ export default {
         'consectetur adipisicing elit. Amet, distinctio dolorem dolores dolorum ipsam iste iusto laboriosam minus non ' +
         'officia perferendis, praesentium, rerum unde vel veniam? Deserunt eligendi fuga voluptatem!',
       isFullTextShown: false,
-      isDetailsModalOpen: false
+      isDetailsModalOpen: false,
+      isSizeModalOpen: false
     }
   },
   computed: {

@@ -1458,6 +1458,11 @@
     "image": {
       "not_found": "Product image is not found"
     },
+    "standard": "Standard",
+    "inches": "Inches",
+    "runs_small": "Runs Small",
+    "runs_large": "Runs Large",
+    "true_to_size": "True to Size",
     "certified_authentic": "CertifiedAuthentic",
     "payment_plans": "Payment\nPlans",
     "description": "Description",
