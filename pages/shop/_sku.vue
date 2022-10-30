@@ -3,8 +3,8 @@
     <b-col md="12">
       <Loader v-if="loading" class="min-vh-100" />
 
-      <b-row v-if="product">
-        <b-col md="6" class="px-4 px-sm-0">
+      <b-row class="justify-content-center" v-if="product">
+        <b-col md="6" xl="6" class="px-4 px-sm-0">
           <ProductBreadcrumb
             :category="category"
             :brand="product.brand"
@@ -46,7 +46,7 @@
           <ProductImageViewerMagic360 v-if="has360Images" :product="product" />
         </b-col>
 
-        <b-col md="6" xl="5" class="mt-sm-5">
+        <b-col md="6" xl="4" class="mt-sm-5 px-sm-0">
 
           <ProductTitle
             :product-name="product.name"
@@ -107,7 +107,7 @@
           <!-- User Conditional Actions -->
           <OutOfStock
             v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
-            class="mt-3 px-4 d-none d-sm-block"
+            class="mt-3 px-4 d-none d-sm-block px-sm-0"
             @notify-me="handleNotifyMeClick"
             @place-offer="handleOfferSubmit"
           />
@@ -124,7 +124,7 @@
 
           <SellNow
             v-else-if="sizeViewMode === 'carousel'"
-            class="mt-3 px-3"
+            class="mt-3 px-3 px-sm-0"
             :highest-offer="highestOffer"
             @place-offer="handleOfferSubmit"
             @sell-now="handleSellNowClick"
@@ -163,7 +163,7 @@
       <!-- End of Product Details & Size Guide Section -->
 
       <!-- Sales Graph and Sales Data Section -->
-      <b-row v-if="product" class="mt-3 mb-4">
+      <b-row v-if="product" class="my-4">
         <b-col md="12">
           <SalesSection chartHeaderClass="d-none" :product="product" />
         </b-col>

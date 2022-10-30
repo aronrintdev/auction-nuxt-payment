@@ -1,6 +1,6 @@
 <template>
  <b-row>
-   <b-col md="12" class="mt-3 mt-sm-0 px-0">
+   <b-col md="12" class="mt-3 mt-md-0 px-0">
      <div class="text-center body-8-medium text-color-red-3">{{ $t('products.error.out_of_stock') }}</div>
 
      <b-row class="mt-3">
