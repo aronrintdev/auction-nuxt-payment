@@ -68,7 +68,7 @@
       />
     </div>
 
-    <div class="w-100 text-right mt-4" v-if="mobileClass">
+    <div v-if="mobileClass" class="w-100 text-right mt-4">
       <Button
         pill
         variant="primary circle-button p-3"

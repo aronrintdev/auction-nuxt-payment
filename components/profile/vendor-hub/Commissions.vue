@@ -17,7 +17,7 @@
         </div>
       </div>
       <b-row class="mt-3 mt-sm-5">
-        <div :class="mobileClass.length ? 'commission-item-box' : 'col'" v-for="(item, ind) in commissionItems" :key="ind">
+        <div v-for="(item, ind) in commissionItems" :key="ind" :class="mobileClass.length ? 'commission-item-box' : 'col'">
           <CommissionItem :item="item" />
         </div>
       </b-row>
@@ -40,9 +40,9 @@
         </download-csv>
 
         <Button
-            variant="dark"
-            @click="toggleExport"
-            v-if="!mobileClass"
+          v-if="!mobileClass"
+          variant="dark"
+          @click="toggleExport"
         >
             {{ $t('vendor_hub.commission.export_to_csv') }}
         </Button>
