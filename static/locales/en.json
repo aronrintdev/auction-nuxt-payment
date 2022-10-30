@@ -2445,10 +2445,12 @@
     "shopping_cart": "Shopping Cart",
     "shopping_bag": "Shopping Bag",
     "item": "Item | Items",
+    "item_purchasing": "Item Purchasing | Items Purchasing",
     "my_products": "My Products",
     "quantity": "Quantity",
     "price": "Price",
     "total": "Total",
+    "estimated_total": "Estimated Total",
     "you_have_no_items_in_your_cart": "You have no items in your cart",
     "continue_shopping": "Continue Shopping",
     "product_image": "Product Image",
@@ -2517,6 +2519,11 @@
     "phone": "Phone",
     "use_as_shipping": "Use as Shipping",
     "same_as_shipping_address": "Same as Shipping Address",
+    "edit": "Edit",
+    "add_address": "Add Address",
+    "add_shipping_address": "Add Shipping Address",
+    "edit_shipping_address": "Edit Shipping Address",
+    "shipping_information": "Shipping Information",
     "proceed_to_billing": "Proceed to Billing",
     "proceed_to_shipping": "Proceed to Shipping",
     "proceed_to_payment": "Proceed to Payment",
@@ -3014,7 +3021,7 @@
       "description": "Description",
       "description_details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Velit nulla et consectetur lorem ut. Semper facilisis nulla sit pharetra sed eu enim.",
       "latest_sales":"Latest Sales",
-      "select_box_condition": "Select Box Condition" 
+      "select_box_condition": "Select Box Condition"
     },
     "auction": {
       "to_be_listed": "To Be Listed",
