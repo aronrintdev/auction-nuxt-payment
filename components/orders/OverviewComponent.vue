@@ -72,4 +72,8 @@ export default {
 
   .justify-content-between
     justify-content: stretch !important
+    align-content: stretch
+
+  .row
+    flex-wrap: nowrap !important
 </style>
