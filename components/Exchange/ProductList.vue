@@ -180,7 +180,6 @@ export default {
         })
         .then((response) => {
           if (response.data) {
-            console.log(response.data.data)
             this.products = response.data.data.data
             this.totalRows = response.data.data.total
           }

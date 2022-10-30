@@ -309,7 +309,6 @@ export default {
   },
   mounted() {
     const auctionFilters = document.querySelector('.auction-filters');
-    console.log(auctionFilters)
     if (auctionFilters)
     auctionFilters.style.padding='70px 10px';
     this.searchText = this.searchKeyword
@@ -403,7 +402,6 @@ export default {
       for (const value of Object.values(val)) {
         if (value !== '') {
           const category = this.allCategories.filter((el) => el.id === value)
-          console.log(category )
           if (
             !this.activeTypeFilters.includes(value) &&
             category[0] === undefined

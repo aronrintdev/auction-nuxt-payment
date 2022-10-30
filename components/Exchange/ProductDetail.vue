@@ -936,7 +936,6 @@ export default {
       this.$axios
         .get(`/stock-exchange/${this.$route.params.sku}/graph`)
         .then((response) => {
-          console.log(response.data)
           if (response.data) {
             this.graphData = response.data.data
             this.loading = false
