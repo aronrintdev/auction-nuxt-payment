@@ -63,7 +63,7 @@
       </b-form>
 
 
-    <div class="mt-5 tos-text text-center">
+    <div class="mt-5 tos-text text-center d-none d-sm-block">
       {{ $tc('vendor_hub.payout_method.tos', 0) }}
       <span class="px-1 tos" role="button">{{ $tc('vendor_hub.payout_method.tos', 1) }}</span>
       {{ $tc('vendor_hub.payout_method.tos', 2) }}

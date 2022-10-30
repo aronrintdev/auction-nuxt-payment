@@ -1,58 +1,85 @@
 <template>
-  <div class="payment-method p-4">
-    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
-      <div class="title" :class="mobileClass.length ? 'body-13-bold font-weight-bold' : 'heading-3-normal'">
-        {{ $t('vendor_hub.payout_method.title') }}
+  <div>
+    <div :class="mobileClass ? 'mobile-form-box p-3' : 'payment-method p-4'">
+      <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="title" :class="mobileClass ? 'body-10-bold font-weight-bold text-blue-20' : 'heading-3-normal'">
+          {{ $t('vendor_hub.payout_method.title') }}
+        </div>
+
+        <Button
+          v-if="!mobileClass"
+          pill
+          variant="outline-primary mt-3 mt-md-0"
+          class="add-payout"
+          :hidden="isPaymentAddition || isPaymentEditActive"
+          @click="isPaymentAddition = true"
+        >
+          {{ $t('vendor_hub.payout_method.add_payment_method') }}
+        </Button>
+      </div>
+      <div v-if="!hasPayoutMethod && !isPaymentAddition && !isPaymentEditActive && !loading"
+           :class="mobileClass ? 'body-5-normal' : 'body-3-normal'"
+           class="no-payout m-5 m-sm-0 p-3 p-sm-0 text-center text-sm-left mt-sm-5">
+        {{ $t('vendor_hub.payout_method.no_method') }}
+      </div>
+      <div v-if="loading" class="mt-4 d-flex align-items-center justify-content-center">
+        <Loader :loading="loading"></Loader>
       </div>
 
+      <div v-if="!isPaymentAddition && !isPaymentEditActive">
+        <div v-for="(method, index) in payoutMethods" :key="index">
+          <template v-if="mobileClass">
+            <VendorPayoutItemMobile
+              v-if="showingId == null || showingId == method.id"
+              :method="method"
+              :isDetailView="showingId === method.id"
+              @edit="editItem"
+              @delete="deleteItemModalTrigger"
+              @showDetail="(id) => showingId = id"
+            />
+          </template>
+          <template v-else>
+            <VendorPayoutItem :method="method" @edit="editItem" @delete="deleteItemModalTrigger"/>
+            <hr v-if="index!==payoutMethods.length-1" class="mt-4 mb-2"/>
+          </template>
+        </div>
+      </div>
+
+
+
+      <VendorPayoutForm
+        v-if="isPaymentAddition || isPaymentEditActive"
+        :editMode="isPaymentEditActive"
+        @discard="isPaymentEditActive= false; isPaymentAddition = false"
+        @update="updateMethods"/>
+
+      <ConfirmModal
+        :modal-action-loading="modalActionLoading"
+        :confirm-text="$t('common.delete')"
+        :save-modal-body="$t('vendor_hub.payout_method.delete_body')"
+        :show-confirm="confirmModal"
+        @confirm-hidden="confirmModal = false"
+        @confirm-accept="deleteItem"
+      />
+      <SuccessModal
+        :success-modal-body="$t('vendor_hub.payout_method.delete_success')"
+        :show-success="finishedModal"
+        @success-hidden="finishedModal = false"
+      />
+    </div>
+
+    <div class="w-100 text-right mt-4" v-if="mobileClass">
       <Button
         pill
-        variant="outline-primary mt-3 mt-md-0"
+        variant="primary circle-button p-3"
         class="add-payout"
         :hidden="isPaymentAddition || isPaymentEditActive"
         @click="isPaymentAddition = true"
       >
-        {{ $t('vendor_hub.payout_method.add_payment_method') }}
+        <span class="text-white">+</span>
       </Button>
     </div>
-    <div v-if="!hasPayoutMethod && !isPaymentAddition && !isPaymentEditActive && !loading"
-         :class="mobileClass ? 'body-5-normal' : 'body-3-normal'"
-         class="no-payout mt-3 mt-sm-5">
-      {{ $t('vendor_hub.payout_method.no_method') }}
-    </div>
-    <div v-if="loading" class="mt-4 d-flex align-items-center justify-content-center">
-      <Loader :loading="loading"></Loader>
-    </div>
-
-    <div v-if="!isPaymentAddition && !isPaymentEditActive">
-      <div v-for="(method, index) in payoutMethods" :key="index">
-        <VendorPayoutItem :method="method" @edit="editItem" @delete="deleteItemModalTrigger"/>
-        <hr v-if="index!==payoutMethods.length-1" class="mt-4 mb-2"/>
-      </div>
-    </div>
-
-    <VendorPayoutForm
-      v-if="isPaymentAddition || isPaymentEditActive"
-      :editMode="isPaymentEditActive"
-      @discard="isPaymentEditActive= false; isPaymentAddition = false"
-      @update="updateMethods"/>
-
-    <ConfirmModal
-      :modal-action-loading="modalActionLoading"
-      :confirm-text="$t('common.delete')"
-      :save-modal-body="$t('vendor_hub.payout_method.delete_body')"
-      :show-confirm="confirmModal"
-      @confirm-hidden="confirmModal = false"
-      @confirm-accept="deleteItem"
-    />
-    <SuccessModal
-      :success-modal-body="$t('vendor_hub.payout_method.delete_success')"
-      :show-success="finishedModal"
-      @success-hidden="finishedModal = false"
-    />
   </div>
-
-
 </template>
 
 <script>
@@ -60,13 +87,14 @@ import {mapActions} from 'vuex';
 import {Button, Loader} from '~/components/common';
 import VendorPayoutForm from '~/components/profile/vendor-hub/VendorPayoutForm';
 import VendorPayoutItem from '~/components/profile/vendor-hub/VendorPayoutItem';
+import VendorPayoutItemMobile from '~/components/profile/vendor-hub/VendorPayoutItemMobile';
 import SuccessModal from '~/components/profile/vendor-hub/SuccessModal';
 import ConfirmModal from '~/components/profile/vendor-hub/ConfirmModal';
 import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'VendorPaymentMethod',
-  components: { VendorPayoutItem, VendorPayoutForm, Button, SuccessModal, ConfirmModal, Loader},
+  components: { VendorPayoutItem, VendorPayoutForm, Button, SuccessModal, ConfirmModal, Loader, VendorPayoutItemMobile},
   mixins: [screenSize],
   data() {
     return {
@@ -77,7 +105,8 @@ export default {
       finishedModal: false,
       modalActionLoading: false,
       selectedItem: null,
-      loading: false
+      loading: false,
+      showingId: null,
     }
   },
   computed: {
@@ -148,4 +177,18 @@ export default {
   border: 1px solid $color-gray-29
   border-radius: 4px
   height: max-content
+
+.mobile-form-box
+  box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
+  border-radius: 10px
+  padding-bottom: 3px
+
+.text-blue-20
+  color: $color-blue-20
+
+.circle-button
+  width: 25px
+  height: 25px
+  background-color: $color-blue-20!important
+  border-color: $color-blue-20!important
 </style>
