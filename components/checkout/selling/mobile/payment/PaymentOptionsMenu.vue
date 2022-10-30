@@ -8,7 +8,7 @@
         class="mt-0"
       >
         <template #back-arrow>
-          <ArrowLeftBlackSVG class="back-arrow" @click="emitRenderComponentEvent($parent.$options.components.OrderSummary.name)"/>
+          <ArrowLeftBlackSVG class="back-arrow" @click="emitRenderComponentEvent($parent.$options.components.CheckoutSummary.name)"/>
         </template>
       </ShoppingBagTitle>
       <!-- End of Top Title -->
