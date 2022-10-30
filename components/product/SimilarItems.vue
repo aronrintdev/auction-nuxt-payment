@@ -1,7 +1,7 @@
 <template>
   <div class="similar-items-wrapper">
-    <h3 class="gray-border pb-3 px-3">{{ $t('products.similar_items') }}</h3>
-    <div>
+    <h3 class="gray-border pb-3 px-4">{{ $t('products.similar_items') }}</h3>
+    <div class="items">
       <ProductCarousel
         :products="products"
         variant="detail"
@@ -39,13 +39,18 @@ export default {
 @import '~/assets/css/_variables'
 
 .gray-border
-  border-bottom: 0.5px solid $color-gray-23
+  @media (min-width: 576px)
+    border-bottom: 0.5px solid $color-gray-23
 
 .similar-items-wrapper
   h3
-    @include body-2-bold
-    font-family: $font-family-sf-pro-display
-    color: $color-black-1
+    font-weight: 600
+    font-size: 16px
+    color: #000
+    @media (min-width: 576px)
+      @include body-2-bold
+      font-family: $font-family-sf-pro-display
+      color: $color-black-1
 
   .similar-products-carousel::v-deep
     width: 100%
@@ -63,7 +68,7 @@ export default {
         margin-left: -60px !important
 
 @media (max-width: 576px)
-  .similar-items-wrapper
+  .items
     margin-left: -20px
     margin-right: -20px
 

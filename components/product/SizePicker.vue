@@ -41,14 +41,11 @@
               width="18"
               height="18"
               :src="require('~/assets/img/icons/eye2.svg')"
+              class="d-sm-none"
               :class="iconClass"
             />
             <span 
-              :style="{
-                fontSize: '14px',
-                fontWeight: 600,
-                color: '#000',
-              }"
+              class="all-sizes"
               :class="iconTextClass"
               role="button"
             >
@@ -328,6 +325,7 @@ export default {
   font-weight: 400
   font-size: 13px
   @media (min-width: 576px)
+    font-weight: 600
     color: $color-blue-30
     font-size: 15px
 

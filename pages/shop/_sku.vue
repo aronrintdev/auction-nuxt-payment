@@ -140,7 +140,7 @@
 
           <ProductAcceptedPaymentsV2
             v-if="sizeViewMode === 'carousel'"
-            class="mt-5"
+            class="mt-4 mt-sm-5"
           />
         </b-col>
       </b-row>
