@@ -80,4 +80,10 @@ export default {
   .orders-heading
     font-family: $font-montserrat
     @include body-11-bold
+
+  .py-20
+    padding: 0
+  .pt-20
+    padding-top: 0
+
 </style>
