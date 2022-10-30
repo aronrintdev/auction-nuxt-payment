@@ -41,7 +41,10 @@
     </b-row>
 
     <div class="d-sm-none px-3 d-flex flex-column">
-      <div class="field">
+      <div 
+        class="field"
+        @click="isDetailsModalOpen = true"
+      >
         <div>{{ $t('products.product_details') }}</div>
         <i class="fa fa-2x fa-angle-down icon"></i>
       </div>
@@ -51,18 +54,27 @@
         <i class="fa fa-2x fa-angle-down icon"></i>
       </div>
     </div>
+
+    <DetailsModal
+      :isOpen="isDetailsModalOpen"
+      :product="product"
+      @closed="isDetailsModalOpen = false"
+    />
+
   </div>
 </template>
 
 <script>
 import ProductSizeGuideShoe from '~/components/product/size-guide/Shoe'
 import Button from '~/components/common/Button'
+import DetailsModal from '~/components/product/DetailsModal'
 
 export default {
   name: 'ProductDetailsTab',
   components: {
     ProductSizeGuideShoe,
-    Button
+    Button,
+    DetailsModal
   },
   props: {
     product: {
@@ -92,6 +104,7 @@ export default {
         'consectetur adipisicing elit. Amet, distinctio dolorem dolores dolorum ipsam iste iusto laboriosam minus non ' +
         'officia perferendis, praesentium, rerum unde vel veniam? Deserunt eligendi fuga voluptatem!',
       isFullTextShown: false,
+      isDetailsModalOpen: false
     }
   },
   computed: {
