@@ -48,7 +48,7 @@
                   </div>
 
                   <div class="col-8">
-                    <div class="title">{{ product(single).name }} ({{ product(single).release_year }})</div>
+                    <div class="title">{{ product(single).name | wordLimit }} ({{ product(single).release_year }})</div>
                     <div class="sku">{{ $t('orders.sku') }}: {{ product(single).sku }}</div>
                     <div class="attribute">{{ $t('orders.colorway') }}: {{ product(single).colorway }},
                       {{ $t('orders.size') }}:
