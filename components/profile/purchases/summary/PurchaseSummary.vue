@@ -98,7 +98,7 @@
         <!-- Details: Single Order-->
         <SingleOrderVue
             v-if=" ORDERS_HAS_ITEMS.includes(orderType)"
-            :orderDetails="orderDetails.listing_item_order"
+            :orderDetails="orderDetails.items"
             :fullOrderDetails='orderDetails'
             :fields="fields"
             :orderType="orderType"
@@ -144,7 +144,7 @@
       </div>
       <template v-if="orderDetails.quantity > 1">
         <MultipleOrderVue
-          v-for="(purchaseItems, indexVal) in orderDetails.listing_item_order"
+          v-for="(purchaseItems, indexVal) in orderDetails.items"
           :key="indexVal"
           :orderItems="purchaseItems"
           :orderDetails="orderDetails"
@@ -171,7 +171,9 @@ import {
   DELIVERED,
   GIFTCARD,
   MONTHS,
-  MULTIPLE, ORDERS_HAS_ITEMS,
+  MULTIPLE,
+  ORDERS_HAS_ITEMS,
+  ORDERS_HAS_TYPES,
   PENDING,
   PROCESSING,
   SELL,
@@ -202,6 +204,7 @@ export default {
   data() {
     return {
       ORDERS_HAS_ITEMS,
+      ORDERS_HAS_TYPES,
       months: MONTHS,
       fields: [
         {

@@ -28,7 +28,7 @@
               <div class="mid-page-banner ml-5">
                 <h2>{{$t('trades.index.browse.trade_with_us')}}</h2>
                 <p>{{$t('trades.index.browse.explore_trading_opportunities')}}</p>
-                <button class="banner-btn">{{$t('common.list')}}</button>
+                <button class="banner-btn" @click="loadNextPage()">{{$t('common.list')}}</button>
               </div>
             </b-col>
           </b-row>
@@ -152,6 +152,24 @@ export default {
     this.filterTrades()
   },
   methods: {
+    ...mapGetters({
+      isVendor: 'auth/isVendor',
+    }),
+    loadNextPage(){
+      if(this.$auth.user.id && !this.isVendor){
+        this.$router.push({
+          path: '/profile/vendor-hub/apply'
+        })
+      }else if(!this.$auth.user?.id){
+        this.$router.push({
+          path: '/login'
+        })
+      }else{
+        this.$router.push({
+          path: '/profile/create-listing'
+        })
+      }
+    },
     // make section label pretty
     prettyLabel(label){
       const words = label.split('_')

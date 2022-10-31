@@ -2997,7 +2997,7 @@
       "description": "Description",
       "description_details": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Velit nulla et consectetur lorem ut. Semper facilisis nulla sit pharetra sed eu enim.",
       "latest_sales":"Latest Sales",
-      "select_box_condition": "Select Box Condition" 
+      "select_box_condition": "Select Box Condition"
     },
     "auction": {
       "to_be_listed": "To Be Listed",
@@ -3653,6 +3653,7 @@
     "total": "Total",
     "processing_fee": "Processing Fee",
     "shipping_fee": "Shipping Fee",
+    "trade_fee": "Trade Fee",
     "promotion": "Promotion",
     "paymentvia": "Payment via ",
     "view_details": "View Details",
@@ -3749,7 +3750,8 @@
       "voided": "Voided",
       "refunded": "Refunded",
       "ship_to_deadstock": "Send to Deadstock",
-      "authentication_complete": "Authentication Complete"
+      "authentication_complete": "Authentication Complete",
+      "awaiting_shipment_to_buyer": "Awaiting Shipment to Buyer"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
@@ -4557,6 +4559,7 @@
       "balance_the_deal": "Balance the deal by Adding Cash",
       "edit_cash": "Edit Cash",
       "box_condition": "Box Condition",
+      "box": "Box",
       "fair": "Fair",
       "this_product": "This Product",
       "list_id": "Listing ID:",

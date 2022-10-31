@@ -6,7 +6,7 @@
       <b-card class="purchase-multiple-orders">
         <h4 class="card-title cash-summary-header">
           <img :src="require('~/assets/img/purchases/dollar.svg')" alt="dollar-image" class="dollar-image-trade"/>
-          {{ $t('vendor_purchase.cash_received', { total: $options.filters.formatPrice(orderDetails.transaction.total ), }) }}
+          {{ $t('vendor_purchase.cash_received', { total: $options.filters.formatPrice(orderDetails.accepted_offer_their.cash_type === 'added' && orderDetails.accepted_offer_their.cash_added) }) }}
         </h4>
         <!-- Down arrow -->
         <span class="float-right" :class="{ rotatearrowimage: showDetails }" @click="toggleDetails">
@@ -44,7 +44,7 @@
                   {{ $t('vendor_purchase.pending_cash') }}
                 </div>
                 <div class="payment-summary-details-description">
-                  &dollar;{{ orderDetails.transaction.total | formatPrice }}
+                  &dollar;{{ orderDetails.accepted_offer_their.cash_type === 'added' && orderDetails.accepted_offer_their.cash_added | formatPrice }}
                 </div>
               </div>
             </div>
@@ -181,6 +181,20 @@
               <b-col md="3">
                 <div class="text-gray-25 pull-right">
                   &dollar;{{ orderDetails.transaction.sub_total | formatPrice }}
+                </div>
+              </b-col>
+            </b-row>
+            <b-row v-if="orderDetails.transaction.trade_fee">
+              <b-col md="6">
+                <div class="text-gray-25">
+                  {{ $t('vendor_purchase.trade_fee') }}
+                </div>
+              </b-col>
+              <b-col md="3">
+                <div class="text-gray-25 pull-right">
+                  &dollar;{{
+                    orderDetails.transaction.trade_fee | formatPrice
+                  }}
                 </div>
               </b-col>
             </b-row>
