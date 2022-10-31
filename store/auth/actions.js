@@ -35,6 +35,14 @@ export function updateAddress({ commit }, payload) {
 }
 
 /**
+ * Remove the user's shipping address.
+ * @param commit
+ */
+export function removeShippingAddress({ commit }) {
+  commit('removeShippingAddress')
+}
+
+/**
  * Add payment method to user details.
  * @param commit
  * @param payload
