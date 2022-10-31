@@ -48,7 +48,7 @@
             to="/auctions"
             full-width
           />
-          <ProductCarousel class="mt-4 mb-5" :products="products" loop />
+          <ProductCarousel class="mt-4 mb-5" :products="trendingPRoducts" loop />
         </section>
         <section class="ad-banner">
           <AdBanner class="d-block d-md-none" />
@@ -60,7 +60,7 @@
             to="/auctions"
             full-width
           />
-          <ProductCarousel class="mt-4 mb-5" :products="products" loop>
+          <ProductCarousel class="mt-4 mb-5" :products="instantShippingProducts" loop>
             <template #product>
               <div
                 v-for="(product, index) in products"
@@ -136,7 +136,9 @@ export default {
       perPage: 4,
       page: 1,
       recentProducts: [],
-      newRelease: []
+      newRelease: [],
+      trendingPRoducts: [],
+      instantShippingProducts: []
     }
   },
   async fetch() {
@@ -193,6 +195,8 @@ export default {
       filters.take = 4
       this.getRecentProducts(filters)
       this.getNewRelease(filters)
+      this.getTrending(filters);
+      this.getInstantShip(filters)
     },
     getRecentProducts(filters){
       if (this.sortBy) {
@@ -238,11 +242,29 @@ export default {
       }
       filters.desc = true
       this.$axios
-        .get('/products/shop', {
+        .get('/products/shop/trending', {
           params: filters
         })
         .then((res) => {
-          this.newRelease = res.data
+          this.trendingPRoducts = res.data
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+    getInstantShip(filters){
+      if (this.sortBy) {
+        filters.sort_by = 'created_at, '+this.sortBy
+      }else{
+        filters.sort_by = 'created_at'
+      }
+      filters.desc = true
+      this.$axios
+        .get('/products/shop/instant-shipping', {
+          params: filters
+        })
+        .then((res) => {
+          this.instantShippingProducts = res.data
         })
         .finally(() => {
           this.loading = false
