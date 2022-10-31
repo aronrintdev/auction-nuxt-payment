@@ -3444,7 +3444,8 @@
       "unsaved_changes"  : "You have unsaved changes.",
       "need_to_leave"  : "Are you sure you want to leave?",
       "default_address_changed" : "Default address has been changed",
-      "please_fillout_missing_fields" : "*Please fill out missing fields"
+      "please_fillout_missing_fields" : "*Please fill out missing fields",
+      "your_changes_have_been_saved"  : "Your changes have been saved!"
     },
     "payments": {
       "payment": "Payment",
