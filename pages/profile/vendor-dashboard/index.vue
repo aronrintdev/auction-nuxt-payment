@@ -71,7 +71,8 @@
     <section>
       <Orders />
     </section>
-    <VendorDetails :is-open="detailsMenu" @closed="detailsMenu = false" @opened="detailsMenu = true"/>
+    <VendorDetails v-if="vendor" :is-open="detailsMenu" :vendor="vendor" @closed="detailsMenu = false"
+                   @opened="detailsMenu = true"/>
   </div>
 </template>
 <script>
@@ -103,11 +104,12 @@ export default {
         inventory_amount: 0,
         items_sold: 0,
       },
-      vendor: [],
+      vendor: {},
     }
   },
   mounted() {
     this.getAnalytics()
+    this.getVendor()
   },
   methods: {
     // On Tab Change (All/ Footwear/ Apparel/ Accessories)
@@ -129,6 +131,8 @@ export default {
         .get('/vendors')
         .then((res) => {
           this.vendor = res.data.data
+          console.log(this.vendor);
+
         })
         .catch((err) => {
           this.logger.logToServer(err.response)

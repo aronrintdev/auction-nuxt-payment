@@ -71,7 +71,6 @@ export default {
     z-index: 1001
     top: 0
     overflow-x: hidden
-    transition: 0.5s
     position: fixed
 
     &.right
