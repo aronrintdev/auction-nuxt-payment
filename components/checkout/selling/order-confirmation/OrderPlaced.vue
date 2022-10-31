@@ -67,7 +67,7 @@
                       tag="div"
                       class="text-center body-5-normal"
                     >
-                      <span class="text-color-blue-2 body-5-bold">
+                      <span class="text-blue-2 body-5-bold">
                         <br>{{ rewardPoints }}&nbsp;{{ $t('shopping_cart.reward_points') }}<br>
                       </span>
                     </i18n>
