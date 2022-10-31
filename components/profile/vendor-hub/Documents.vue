@@ -1,7 +1,10 @@
 <template>
   <div class="documents-tab p-4">
     <div class="d-flex justify-content-between align-items-center">
-      <h3 class="title">{{ $t('vendor_hub.documents') }}</h3>
+      <div class="title"
+           :class="mobileClass.length ? 'body-13-bold font-weight-bold' : 'heading-3-normal'">
+        {{ $t('vendor_hub.documents') }}
+      </div>
     </div>
 
     <div v-if="!loading" class="mt-4">
@@ -15,6 +18,17 @@
     </div>
 
     <SellerDocumentUploadModal :requirement="selectedRequirement" :show="showUploadModal" @closed="showUploadModal = false" @uploaded="updateDocuments"/>
+    <vue-bottom-sheet
+      ref="mobileUploader"
+      class="responsive-filter"
+      max-width="auto"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <SellerDocumentUploadMobile :requirement="selectedRequirement"
+                                  @close="closeMobileUploader"
+                                  @uploaded="updateDocuments"/>
+    </vue-bottom-sheet>
   </div>
 </template>
 
@@ -22,10 +36,13 @@
 import {mapActions, mapGetters} from 'vuex';
 import DocumentItem from '~/components/profile/vendor-hub/DocumentItem';
 import SellerDocumentUploadModal from '~/components/profile/vendor-hub/SellerDocumentUploadModal';
+import SellerDocumentUploadMobile from '~/components/profile/vendor-hub/SellerDocumentUploadMobile';
 import Loader from '~/components/common/Loader';
+import screenSize from '~/plugins/mixins/screenSize'
 export default {
   name: 'Documents',
-  components: {Loader, SellerDocumentUploadModal, DocumentItem},
+  components: {Loader, SellerDocumentUploadModal, DocumentItem, SellerDocumentUploadMobile},
+  mixins: [screenSize],
   data() {
     return {
       showUploadModal: false,
@@ -65,8 +82,24 @@ export default {
     },
     upload(item){
       this.selectedRequirement = item
+
+      // mobile
+      if (this.mobileClass.length > 0) {
+        const { mobileUploader } = this.$refs
+        if (mobileUploader) {
+          mobileUploader.open()
+          return
+        }
+      }
+
       this.showUploadModal = true
-    }
+    },
+    closeMobileUploader() {
+      const { mobileUploader } = this.$refs
+      if (mobileUploader) {
+        mobileUploader.close()
+      }
+    },
   }
 }
 </script>
@@ -75,10 +108,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .title
-  @include heading-3
   font-family: $font-family-montserrat
-  font-style: normal
-  font-weight: $medium
 
 .documents-tab
   border: 1px solid $color-gray-29

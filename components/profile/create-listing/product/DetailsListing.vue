@@ -123,7 +123,18 @@
       </div>
 
       <!-- SizePicker -->
+      <SizeCarouselResponsive
+        v-if="isScreenXS"
+        :sizes="sizes"
+        :prices="pricesBySize"
+        :value="value.currentSize"
+        :view-mode="sizeViewMode"
+        class="size-picker"
+        @update="handleSizeChange"
+        @changeViewMode="handleSizeViewModeChange"
+      />
       <ProductSizePicker
+        v-if="!isScreenXS"
         :sizes="sizes"
         :prices="pricesBySize"
         :value="value.currentSize"
@@ -559,23 +570,6 @@
     </div>
     <!-- Inputs Responsive ends -->
 
-    <!-- Product details block -->
-    <div v-if="isScreenXS" class="row responsive-product-details-block mt-3">
-      <div class="col-12 product-details-block-col">
-        <div class="product-details-block d-flex justify-content-between px-3">
-          <span class="product-details-row my-auto">{{
-            $t('products.product_details')
-          }}</span>
-          <span class="img-icon-down my-auto">
-            <img
-              :src="require('~/assets/img/icons/arrow-down-dark-blue.svg')"
-              alt="dropdown-caret-down"
-            />
-          </span>
-        </div>
-      </div>
-    </div>
-
     <!-- Product details block responsive -->
     <SellingLatestSales
       v-if="isScreenXS"
@@ -656,6 +650,7 @@ import _ from 'lodash'
 import { mapActions, mapGetters } from 'vuex'
 import SellingLatestSales from '../selling/SellingLatestSales.vue'
 import ProductSizePicker from '~/components/product/SizePicker'
+import SizeCarouselResponsive from '~/components/profile/create-listing/SizeCarouselResponsive.vue'
 import {
   Meter,
   FormInput,
@@ -692,6 +687,7 @@ export default {
     NavGroup,
     ProductImageViewerMagic360,
     SellingLatestSales,
+    SizeCarouselResponsive
   },
 
   mixins: [screenSize],

@@ -9,6 +9,7 @@ export default function () {
     giftCard: {
       number: '',
       amount: '',
+      remainingAmount: '',
       pin: 0,
       image: '',
     },
