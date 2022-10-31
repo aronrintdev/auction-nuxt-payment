@@ -40,6 +40,7 @@
             <b-form-input
               type="date"
               class="start-date-input bg-white rounded-circle"
+              placeholder="dd/mm/yyyy"
               @input="inputStartDate($event)"
             >
             </b-form-input>
@@ -49,6 +50,7 @@
           <b-input-group @click="showEndDate">
             <b-form-input
               type="date"
+              placeholder="dd/mm/yyyy"
               class="start-date-input bg-white rounded-circle"
               @input="inputEndDate($event)"
             >

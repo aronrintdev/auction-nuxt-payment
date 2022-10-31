@@ -32,14 +32,14 @@
                 tabindex="0"
                 :tooltip-text="wishList ? wishList.name : ''"
                 pill
-                @click="removeFromWishList"
               >
               </Button>
             </div>
 
           </b-col>
         </b-row>
-        <ShopByStyleImageCarousel :images="style.images" class="mt-4" />
+        <ShopByStyleImageCarousel v-if="!has360Images" :images="style.images" class="mt-4" />
+        <ProductImageViewerMagic360 v-if="has360Images" :product='style.style' class="mt-4" /> 
         <b-col cols="12" class="d-flex justify-content-center">
           <Button
             variant="outline-dark-blue"
@@ -66,9 +66,10 @@
 import { Button } from '~/components/common'
 import ShopByStyleImageCarousel from '~/components/shop-by-style/ImageCarousel'
 import ShopByStyleProductCard from '~/components/shop-by-style/ProductCard'
+import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
 
 export default {
-  components: { Button, ShopByStyleImageCarousel, ShopByStyleProductCard },
+  components: { Button, ShopByStyleProductCard, ShopByStyleImageCarousel, ProductImageViewerMagic360 },
 
   layout: 'IndexLayout',
 
@@ -79,6 +80,7 @@ export default {
       style_type: 'Look',
       style: null,
       loading: true,
+      wishList: false
     }
   },
 
@@ -90,13 +92,22 @@ export default {
         this.style = {
           id,
           images: res.data.data.images,
-          products: res.data.data.products
+          products: res.data.data.products,
+          style: res.data.data.style
         }
+        console.log('360 image data is',this.style.images);
+        console.log('360 image data is');
       })
       .catch(error => {
         this.$toasted.error(error)
       })
     this.loading = false
+  },
+  computed: {
+    has360Images() {
+      console.log('response data is',this.style);
+      return this.style.style?.has360Images
+    },
   },
   methods: {
     handleStyleAddToCart() {

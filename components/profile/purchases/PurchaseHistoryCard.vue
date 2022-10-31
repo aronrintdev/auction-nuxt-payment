@@ -1,5 +1,5 @@
 <template>
-  <b-card class="purchase-card-wrapper card p-2">
+  <b-card v-if="purchase.type.label !== 'auction' && totalQuantity > 0 && purchaseStatus !== ''" class="purchase-card-wrapper card p-2">
     <b-card-title>
       <!-- Order Number -->
       <span class="order-no text-capitalize">

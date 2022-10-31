@@ -31,12 +31,6 @@
         <div class="auction-item-title">{{$t('create_listing.confirm.auction_number')}}{{index+1}}</div>
         <div class="item d-flex flex-column bg-white h-md-100 w-100 rounded-md">
           <div class="position-relative d-flex flex-column justify-content-between">
-            <b-dropdown id="dropdown-right" right variant="link" no-caret class="d-md-none position-absolute more-btn">
-              <template #button-content >
-                <img src="~/assets/img/icons/vertical-three-dots-icon.svg" />
-              </template>
-              <b-dropdown-item @click="deleteSingleItem(item, index)">{{ $t('common.delete') }}</b-dropdown-item>
-            </b-dropdown>
             <div class="detail-section d-flex flex-grow-1">
               <b-row>
                 <b-col sm="3" md="2">

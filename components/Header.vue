@@ -65,10 +65,19 @@
           :link-attrs="{ title: $t('navbar.shop') }"
         >
           {{ $t('navbar.shop') }}
-        </b-nav-item>
+        </b-nav-item>        
         <b-nav-item
+          v-if="authenticated"
           class="w-100"
           to="/sell"
+          :link-attrs="{ title: $t('navbar.sell') }"
+        >
+          {{ $t('navbar.sell') }}
+        </b-nav-item>
+        <b-nav-item
+          v-if="!authenticated"
+          class="w-100"
+          to="/login"
           :link-attrs="{ title: $t('navbar.sell') }"
         >
           {{ $t('navbar.sell') }}
@@ -236,6 +245,14 @@ import NotificationDropdown from '~/components/header/NotificationDropdown'
 import ScreenSize from '~/plugins/mixins/screenSize'
 import Dropdown from '~/components/common/form/Dropdown'
 export default {
+   head: {
+    title: 'Deadstock',
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' },
+    ],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/assets/img/icons/favicon.ico' }]
+  },
   name: 'Header',
   components: {
     NotificationDropdown,

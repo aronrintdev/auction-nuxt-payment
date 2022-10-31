@@ -6,7 +6,7 @@
       </h3>
     </div>
     <div class="bottom_sheet_body">
-      <div class="border-bottom py-3">
+      <div class="border-bottom pt-0 pb-3">
         <h5 class="fs-16 fw-7 text-base-blue font-secondary">
           {{ $t('selling_page.filter.sort') }}
         </h5>
@@ -108,21 +108,29 @@
       <div class="border-bottom py-3">
         <Collapse
           :title="$t('filter_sidebar.brands')"
-          :selectedValue="selectedBrand"
+          :selectedValue="selectedBrandsValue"
         >
           <div class="row">
             <div
-              v-for="(brandCategory, index) in brandOptions"
+              v-for="(brandCategory, index) in brandOptionsLess"
               :key="index"
               class="col-4 mb-3"
             >
-              <Radio
+              <Checkbox
                 v-model="selectedBrand"
                 button
                 :label="brandCategory.label"
                 :val="brandCategory.value"
                 name="brandCategory"
               />
+            </div>
+            <div class="text-center w-100">
+              <button
+                class="fs-14 fw-5 font-secondary text-base-blue bg-transparent border-0"
+                @click="$emit('showAllBrands')"
+              >
+                View More
+              </button>
             </div>
           </div>
         </Collapse>
@@ -214,7 +222,7 @@ export default {
       prices: ['150', '700'],
       brands: [],
       sizes: ['62', '64'],
-      selectedBrand: 'bape',
+      selectedBrand: ['BAPE'],
       selectedSizeType: 'child',
     }
   },
@@ -228,8 +236,15 @@ export default {
       'selectedSizeTypes',
     ]),
 
+    brandOptionsLess() {
+      return this.brandOptions?.slice(0, 9)
+    },
+
     selectedSizes() {
       return this.sizes.join(', ')
+    },
+    selectedBrandsValue() {
+      return this.selectedBrand.join(', ')
     },
     selectedPriceRange() {
       return `$${Math.trunc(this.prices[0])}-$${Math.trunc(this.prices[1])}`
@@ -323,6 +338,12 @@ export default {
   },
   methods: {
     ...mapActions('browse', ['resetFilters']),
+    openSheet() {
+      this.$refs.allBrands.open()
+    },
+    closeSheet() {
+      this.$refs.allBrands.close()
+    },
     applyFilters() {
       this.$store.commit('browse/setSelectedYears', this.years)
       this.$store.commit('browse/setSelectedPrices', this.prices)
@@ -346,6 +367,7 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .ShopFiltersMobile
+  padding-bottom: 90px
   .bottom_sheet_body
     margin: 0 19px
   .sizes-option
@@ -359,4 +381,6 @@ export default {
       width: 134px
     .apply-btn
         background-color: $color-blue-20
+::v-deep .bottom-sheet__content
+  margin-right: -8px
 </style>

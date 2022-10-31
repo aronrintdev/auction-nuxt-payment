@@ -54,19 +54,19 @@
             :options="chartOptions"
           ></LineChart>
         </client-only>
-        <div class="row position-absolute fixed-bottom p-3 w-100">
-          <div class="col text-center">
-            <Button variant="chart">
+        <div class="row p-3 w-100 actions">
+          <div class="col-4 text-center action-type">
+            <Button variant="chart" class="w-100">
               {{ $t('products.asks') }}
             </Button>
           </div>
-          <div class="col text-center">
-            <Button variant="chart">
+          <div class="col-4 text-center action-type">
+            <Button variant="chart" class="w-100">
               {{ $t('products.offers') }}
             </Button>
           </div>
-          <div class="col text-center">
-            <Button variant="chart">
+          <div class="col-4 text-center action-type">
+            <Button variant="chart" class="w-100">
               {{ $t('products.sales') }}
             </Button>
           </div>
@@ -320,4 +320,7 @@ export default {
     border: 1px solid $light-gray-2
     box-shadow: 0px 1px 2px $color-gray-91
     border-radius: 4px
+  .action-type
+    .btn
+      height: 34px
 </style>
