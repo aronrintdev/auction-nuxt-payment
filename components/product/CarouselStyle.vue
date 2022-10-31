@@ -31,18 +31,6 @@
             </nuxt-link>
           </div>
         </template>
-
-        <template #prev>
-          <div class="owl-nav owl-prev">
-            <img :src="require('~/assets/img/home/arrow-left.svg')" />
-          </div>
-        </template>
-
-        <template #next>
-          <div class="owl-nav owl-next">
-            <img :src="require('~/assets/img/home/arrow-right.svg')" />
-          </div>
-        </template>
       </Carousel>
 
       <div v-else class="no-text py-5 text-center">

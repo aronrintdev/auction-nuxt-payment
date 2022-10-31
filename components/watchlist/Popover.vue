@@ -3,7 +3,7 @@
     <b-popover
       ref="watchlistPopover"
       :target="target"
-      triggers="hover"
+      triggers="focus"
       placement="bottom"
       container="body"
       custom-class="watchlist-popover"

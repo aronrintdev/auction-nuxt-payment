@@ -7,8 +7,8 @@
           offset-md="3"
           class="d-flex flex-column align-items-center justify-content-center"
           ><b-row
-            class="justify-content-center order-lg-1 order-2 flex-column align-items-center"
-            ><b-row class="order-2 order-lg-1 mb-4">
+            class="justify-content-center flex-column align-items-center"
+            ><b-row class="mb-4">
               <b-col md="12">
                 <div class="right-heading-bold text-center d-none d-lg-flex">
                   {{ $t('auth.login_to_your_account') }}
@@ -21,7 +21,7 @@
 
             <SocialLoginButtons class="mt-4" />
 
-            <b-row class="my-2 w-100 order-1 order-lg-3 px-4 px-lg-0">
+            <b-row class="my-2 w-100 order-1 order-lg-3 px-4 px-lg-0 mt-5">
               <b-col md="12">
                 <div class="text-line-middle">
                   <span
@@ -96,7 +96,7 @@
             pill
             block
             variant="black"
-            class="w-75 fs-16 fw-5 font-primary bg-dark sign-up-btn"
+            class="w-75 fs-16 fw-5 font-primary bg-black sign-up-btn"
             to="/signup"
             >{{ $t('auth.signup') }}</Button
           >

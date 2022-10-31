@@ -9,6 +9,7 @@
     <div :class="hasHeaderDivider && 'divider'"
          class="header-title w-100 d-flex flex-column align-items-center justify-content-center">
       <span>{{ title }}</span>
+      <slot name="subtitle"></slot>
     </div>
     <slot>
 

@@ -132,3 +132,12 @@ export function getVendorPayoutMethod(state) {
 export function getLoginRedirectUrl(state) {
   return state.redirectUrl
 }
+
+
+export function getBillingAddresses(state){
+  return state.address.billing
+}
+
+export function getShippingAddresses(state){
+  return state.address.shipping
+}

@@ -14,6 +14,7 @@
           dropdownShow && 'opened'
         } ${value !== null && 'active'}`"
         block
+        @click="dropdownShow = !dropdownShow"
       >
         <img v-if="icon && !value" :src="icon" class="mr-2 icon-main" />
         <div
@@ -37,7 +38,7 @@
       <b-popover
         ref="popover"
         :target="`btn-dropdown-${id}`"
-        triggers="focus"
+        triggers="hover"
         placement="bottom"
         :container="`dropdown-container-${id}`"
         :custom-class="`search-results`"
@@ -155,7 +156,9 @@ export default {
         this.dropdownShow = false
       }
     },
-
+    hideDropdown() {
+      this.dropdownShow = false
+    },
     handleClearClick(event) {
       event.preventDefault()
       this.$emit('select', null)

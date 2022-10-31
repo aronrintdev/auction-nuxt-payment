@@ -19,7 +19,7 @@
             <!-- ./Heading -->
             <!-- Drafts -->
             <span
-              class="text-bold text-decoration-underline"
+              class="text-decoration-underline drafts-btn"
               role="button"
               @click="showDraft"
               >{{ $t('common.drafts') }} &#040;{{
@@ -203,7 +203,7 @@ export default {
     ...mapGetters('trades', ['getTradeDraftCount']),
 
     vendorPayoutMethod: (vm) => {
-      return !vm.getVendorPayoutMethod
+      return vm.getVendorPayoutMethod
     },
   },
   created() {
@@ -226,12 +226,11 @@ export default {
         this.$router.push({
           path: '/profile/create-listing/selling',
         })
-      } else if (type === LISTING_TYPES.TRADE) {
-        // If the type is trade
-        this.$store.commit('trades/removeAllWantItems')
-        this.$store.commit('trades/clearTradeItems')
-        this.$store.commit('trades/setTradeForEditing', null)
-        this.$router.push('/profile/create-listing/trades/create')
+      } else if(type === LISTING_TYPES.TRADE) { // If the type is trade
+          this.$store.commit('trades/removeAllWantItems')
+          this.$store.commit('trades/clearTradeItems')
+          this.$store.commit('trades/setTradeForEditing',null)
+          this.$router.push('/profile/create-listing/trades/create')
       } else if (type === LISTING_TYPES.AUCTION) {
         // If the type is auction
         this.$router.push({
@@ -245,6 +244,7 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+@import '~/assets/css/_typography'
 .create-listing-page
   background: $color-white-4
   .content-header
@@ -264,6 +264,8 @@ export default {
     margin-right: 100px
     margin-bottom: 36px
     padding: 0
+  .drafts-btn
+    font-weight: $medium
   .content-main-new-user
     .web-row
       padding: 4rem
@@ -340,8 +342,6 @@ export default {
     margin-right: 100px
     margin-bottom: 36px
     background: transparent
-    &:last-child
-      margin-right: 0
     &-title
       font-family: $font-family-sf-pro-text
       &.selling
