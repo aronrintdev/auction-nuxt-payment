@@ -3851,6 +3851,7 @@
     "live": "Live",
     "expired": "Expired",
     "your_bid": "Your Bid:",
+    "duration": "Duration",
     "bids": "Bids",
     "bids_summary": "Bids Summary",
     "delete_expired": "Delete Expired Bids",
