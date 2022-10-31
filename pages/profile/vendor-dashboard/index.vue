@@ -18,9 +18,10 @@
           {{ vendor.rank }} {{ $t('vendor_dashboard.seller') }}
         </h3>
         <a
-          class="font-secondary fs-14 fw-5 mb-0 border-bottom border-primary font-primary"
-          href="#"
-          >{{ $t('vendor_dashboard.view_details') }}</a
+            class="font-secondary fs-14 fw-5 mb-0 border-bottom border-primary font-primary"
+            role="button"
+            @click="detailsMenu = true"
+        >{{ $t('vendor_dashboard.view_details') }}</a
         >
       </div>
     </div>
@@ -70,6 +71,7 @@
     <section>
       <Orders />
     </section>
+    <VendorDetails :is-open="detailsMenu" @closed="detailsMenu = false" @opened="detailsMenu = true"/>
   </div>
 </template>
 <script>
@@ -77,12 +79,14 @@ import StatsCard from '~/components/common/DashbaordStatsCard'
 import TopProducts from '~/components/profile/vendor-dashboard/TopProductsTable'
 import VendorDashboardCharts from '~/components/profile/vendor-dashboard/VendorDashboardCharts'
 import Orders from '~/components/profile/vendor-dashboard/Orders'
+import VendorDetails from '~/components/profile/vendor-dashboard/VendorDetails';
 export default {
   name: 'VendorDashboard',
   meta: {
     pageTitle: 'Dashboard',
   },
   components: {
+    VendorDetails,
     TopProducts,
     StatsCard,
     Orders,
@@ -91,6 +95,7 @@ export default {
   layout: 'Profile',
   data() {
     return {
+      detailsMenu: false,
       // Menus for tabs
       analytics: {
         total_sales: 0,
@@ -134,6 +139,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
 @media (max-width: 576px)
   .view-details-link
     font-size: 10px
