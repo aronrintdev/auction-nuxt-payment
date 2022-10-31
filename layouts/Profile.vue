@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper min-vh-100">
+  <div id="profile-layout" class="wrapper min-vh-100">
     <Header />
 
     <div class="custom-wrapper">
