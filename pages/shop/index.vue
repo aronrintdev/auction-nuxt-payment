@@ -22,7 +22,7 @@
           <SectionHeader
             :title="$t('auctions.frontpage.recently_viewed')"
             :label="$t('home.view_more_products')"
-            to="/auctions"
+            to="/shop/products"
             full-width
           />
           <ProductCarousel
@@ -36,7 +36,7 @@
           <SectionHeader
             :title="$t('banner.new_release')"
             :label="$t('banner.view_more_release')"
-            to="/auctions"
+            to="/shop/products"
             full-width
           />
           <ProductCarousel class="mt-4 mb-5" :products="newRelease" loop />
@@ -45,7 +45,7 @@
           <SectionHeader
             :title="$t('home.trending')"
             :label="$t('banner.view_more_trending')"
-            to="/auctions"
+            to="/shop/products"
             full-width
           />
           <ProductCarousel class="mt-4 mb-5" :products="trendingPRoducts" loop />
@@ -57,7 +57,7 @@
           <SectionHeader
             :title="$t('home_page.instant_shipping')"
             :label="$t('home_page.view_more_products')"
-            to="/auctions"
+            to="/shop/products"
             full-width
           />
           <ProductCarousel class="mt-4 mb-5" :products="instantShippingProducts" loop>
