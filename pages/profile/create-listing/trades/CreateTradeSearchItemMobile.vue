@@ -131,11 +131,6 @@
           </div>
         </div>
       </div>
-      <div v-if="!isTradeEditForm" class="mt-2">
-        <div v-if="productFor !== 'wantsList'">
-          <FormStepProgressBar v-if="progressBar" :steps="steps" variant="transparent"/>
-        </div>
-      </div>
       <div class="mt-2">
         <b-btn :disabled=!disabledBtn class="create-trade-next-btn" @click="addToOffer(product)">
           {{
@@ -164,7 +159,6 @@
 <script>
 
 import {mapGetters, mapActions} from 'vuex'
-import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
 import ProductSizePicker from '~/components/product/SizePickerMobile'
 import {MAX_ITEMS_ALLOWED, DIGITS_IN_YEAR} from '~/static/constants/create-listing'
 import {WANTS_SELECT_LIST_OPTIONS, PRODUCT_FOR_COUNTER_OFFER} from '~/static/constants/trades'
@@ -175,7 +169,6 @@ export default {
   name: 'CreateTradeSearchItem',
   components: {
     SelectListDropDown,
-    FormStepProgressBar,
     ProductSizePicker
   },
   props: {
@@ -285,15 +278,20 @@ export default {
      * @returns {number|*}
      */
     itemsCount() {
-      if (this.productFor === PRODUCT_FOR_COUNTER_OFFER)
+      if(this.productFor === PRODUCT_FOR_COUNTER_OFFER)
         return this.yourItems.length
-      if (this.productFor === this.tradeArena)
+      if(this.productFor === this.tradeArena)
         return this.getYourTradeItems.length
-      if (this.productFor === this.tradeOffer)
+      if (this.productFor === this.tradeOffer && this.itemId)
+        return this.getTradeItems.filter(offerItem => offerItem.id !== this.itemId).map(i => parseInt(i.quantity)).reduce((a, b) => a + b, 0)
+      else if (this.productFor === this.tradeOffer)
         return this.getTradeItems.map(i => parseInt(i.quantity)).reduce((a, b) => a + b, 0)
       if (this.productFor === this.wantOfferConfirm)
         return this.getTradeItemsWants.map(i => parseInt(i.selected_quantity))
           .reduce((a, b) => a + b, 0) - (this.product.selected_quantity ? this.product.selected_quantity : 0)
+      if (this.productFor === this.wantOffer && this.itemId)
+        return this.getTradeItemsWants.filter(wantItem => wantItem.id !== this.itemId).map(i => parseInt(i.selected_quantity))
+          .reduce((a, b) => a + b, 0) - (this.selected_quantity ? this.selected_quantity : 0)
 
       return this.getTradeItemsWants.map(i => parseInt(i.selected_quantity))
         .reduce((a, b) => a + b, 0)
@@ -303,11 +301,13 @@ export default {
      * @returns {false|any|boolean}
      */
     isFormValid() {
-      return ((parseInt(this.itemsCount()) + parseInt(this.quantity)) <= MAX_ITEMS_ALLOWED &&
-        (this.product.packaging_conditions && this.box_condition !== null) &&
-        this.isValidQuantity(parseInt(this.quantity)) &&
-        this.isValidYear(this.year) &&
-        this.selected_size !== null)
+      return (this.productFor === 'wantsList') ? ((this.product.packaging_conditions && this.box_condition !== null) &&
+          this.selected_size !== null && this.isValidYear(this.year) && ((this.selectList.length > 0 && this.combinationId === null) || (this.combinationId > 0)))
+        : ((parseInt(this.itemsCount()) + parseInt(this.quantity)) <= MAX_ITEMS_ALLOWED &&
+          (this.product.packaging_conditions && this.box_condition !== null) &&
+          this.isValidQuantity(parseInt(this.quantity)) &&
+          this.isValidYear(this.year) &&
+          this.selected_size !== null)
     },
     /**
      * This function is used to check year is valid with 4 digits in it
@@ -327,13 +327,38 @@ export default {
       return quantity > 0 && quantity <= MAX_ITEMS_ALLOWED
         && (parseInt(this.itemsCount()) + parseInt(quantity)) <= MAX_ITEMS_ALLOWED
     },
-    setSelectedItem(selectedProduct) {
+    setSelectedItem(selectedProduct){
       const _self = this;
-      selectedProduct.product_id = selectedProduct.id
-      selectedProduct.quantity = parseInt(this.quantity)
+      let productDetails;
+      if(selectedProduct.product){
+        productDetails = {
+          id: selectedProduct.product.id,
+          name: selectedProduct.product.name,
+          colorway: selectedProduct.product.colorway,
+          sku: selectedProduct.product.sku,
+          category: selectedProduct.product.category,
+          image: selectedProduct.product.image,
+          sizes: selectedProduct.product.sizes,
+          packaging_conditions: selectedProduct.product.packaging_conditions
+        }
+      }else{
+        productDetails = {
+          id: selectedProduct.id,
+          name: selectedProduct.name,
+          sku: selectedProduct.sku,
+          colorway: selectedProduct.colorway,
+          category: selectedProduct.category,
+          image: selectedProduct.image,
+          sizes: selectedProduct.sizes,
+          packaging_conditions: selectedProduct.packaging_conditions
+        }
+      }
+      selectedProduct.product = productDetails
+      selectedProduct.product_id = productDetails.id
+      selectedProduct.quantity = 1 // quantity would be always 1
       selectedProduct.year = parseInt(this.year)
       selectedProduct.size_id = parseInt(this.selected_size)
-      selectedProduct.size = selectedProduct?.sizes.find(i => i.id === this.selected_size)
+      selectedProduct.size = selectedProduct?.sizes.find( i => i.id === this.selected_size)
       selectedProduct.packaging_condition = selectedProduct.packaging_conditions
         .filter(condition => condition.id === _self.box_condition)[0]
       selectedProduct.box_condition = selectedProduct.packaging_conditions
@@ -349,70 +374,92 @@ export default {
      */
     addToOffer(selectedProduct) {
       const _self = this;
-      if (this.productFor === this.tradeArena) {
-        for (let i = 0; i < _self.quantity; i++) {
+      if (this.productFor === this.tradeArena){
+        for (let i = 0; i < this.quantity; i++){
           selectedProduct = this.setSelectedItem(selectedProduct)
-
           this.$store.commit('trade/setYourTradeItems', selectedProduct)
-          this.$root.$emit('back_to_search_offer')
         }
-      } else if (this.productFor === PRODUCT_FOR_COUNTER_OFFER) {
-        selectedProduct = this.setSelectedItem(selectedProduct)
-        this.$root.$emit('add_new_product', selectedProduct)
-      } else if (this.productFor === this.tradeOffer) {
-        selectedProduct = this.setSelectedItem(selectedProduct)
-
-        this.$store.commit('trades/setTradeItems', selectedProduct)
+        this.$root.$emit('back_to_search_offer')
+      }
+      else if (this.productFor === PRODUCT_FOR_COUNTER_OFFER) {
+        for (let i = 0; i < this.quantity; i++){
+          selectedProduct = this.setSelectedItem(selectedProduct)
+          this.$root.$emit('add_new_product', selectedProduct)
+        }
+      }
+      else if (this.productFor === this.tradeOffer) {
+        for (let i = 0; i < this.quantity; i++){
+          selectedProduct = this.setSelectedItem(selectedProduct)
+          if (this.itemId && i <= 0) {
+            selectedProduct.id = this.itemId
+            setTimeout(function() {
+              _self.$store.commit('trades/updateTradeItems', selectedProduct)
+            }, 100);
+          } else{
+            selectedProduct.id = null
+            this.$store.commit('trades/setTradeItems', selectedProduct)
+          }
+        }
         this.$root.$emit('add_trade_item', false)
-      } else if (this.productFor === this.wantOffer || this.productFor === this.wantOfferConfirm) {
+      }
+      else if (this.productFor === this.wantOffer || this.productFor === this.wantOfferConfirm) {
         let selectedProductWithAttributes
 
         if (this.isFormValid()) {
           selectedProductWithAttributes = {
-            id: selectedProduct.id,
-            product_id: selectedProduct.id,
-            name: selectedProduct.name,
-            colorway: selectedProduct.colorway,
-            sku: selectedProduct.sku,
-            category: selectedProduct.category.name,
-            image: selectedProduct.image,
+            id: selectedProduct?.id,
+            product_id: selectedProduct?.id,
+            name: selectedProduct?.name,
+            colorway: selectedProduct?.colorway,
+            sku: selectedProduct?.sku,
+            category: selectedProduct?.category?.name,
+            image: selectedProduct?.image,
             selected_box_condition: this.box_condition,
-            selected_box_condition_name: selectedProduct.packaging_conditions.filter(function (condition) {
+            selected_box_condition_name: selectedProduct?.packaging_conditions.filter(function(condition) {
               return (condition.id === _self.box_condition) ?
-                condition.name : null
-            })[0].name,
-            selected_quantity: parseInt(this.quantity),
+                condition?.name : null
+            })[0]?.name,
+            selected_quantity: 1,
             selected_year: this.year,
             selected_size: this.selected_size,
-            selected_size_name: 'Size ' + selectedProduct.sizes.filter(function (size) {
+            selected_size_name: 'Size ' + selectedProduct?.sizes?.filter(function(size) {
               return (size.id === _self.selected_size) ?
                 'Size ' + size.size : null
 
             })[0].size,
             product: selectedProduct
           }
-
-          if (this.itemId) {
-            selectedProductWithAttributes.id = this.itemId
-            this.$store.commit('trades/updateWantsItemsTrade', selectedProductWithAttributes)
-          } else {
-            this.$store.commit('trades/setWantsItemsTrade', selectedProductWithAttributes)
+          for (let i = 0; i < this.quantity; i++){
+            if (this.itemId && i <= 0) {
+              selectedProductWithAttributes.id = this.itemId
+              setTimeout(function() {
+                _self.$store.commit('trades/updateWantsItemsTrade', selectedProductWithAttributes)
+              }, 100);
+            } else{
+              selectedProductWithAttributes.id = null
+              this.$store.commit('trades/setWantsItemsTrade', selectedProductWithAttributes)
+            }
           }
+
 
           if (this.productFor === this.wantOfferConfirm) {
             this.$root.$emit('back_to_search_wants')
-          } else {
-            this.$root.$emit('add_trade_item_want', false)
+          } else{
+            this.$root.$emit('add_trade_item_want',false)
           }
         }
       } else if (this.productFor === 'wantsList') {
-        if (this.combinationId) {
+        if(this.combinationId){
           this.addWantItemCombination(selectedProduct)
-        } else {
+        }
+        else {
           this.addWantItem(selectedProduct)
         }
       }
     },
+    /**
+     * THis function is used to add wants item in wants list
+     */
     /**
      * THis function is used to add wants item in wants list
      */
@@ -445,11 +492,10 @@ export default {
         wants_list_type: _self.selectList
       }
       this.$axios.post('trades/wants/combination/items', data)
-        .then(() => {
-          this.$root.$emit('back_to_edit')
+        .then(()=>{
+          this.$root.$emit('back_to_edit_combination')
         })
         .catch((error) => {
-          this.$toasted.error(this.$t('error.something_went_wrong'))
           this.$logger.logToServer('Add want item combination', error.response.data)
         })
     },

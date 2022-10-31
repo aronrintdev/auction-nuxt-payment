@@ -3,7 +3,7 @@
   <create-trade-search-item v-if="search_item" :product="search_item" :itemId="trade_want_id" productFor="wantOfferConfirm"/>
   <div v-else>
     <div class="offered-item-confirm-trade mt-2">
-      {{ $t('trades.create_listing.vendor.wants.offered_items') }}
+      {{$t('trades.create_listing.vendor.wants.offered_items')}} ({{getTradeItems.length}})
     </div>
     <div v-for="(item, index) in getTradeItems" :key="'offer-'+index+item.id" class="confirm-trade-item">
       <div class="d-flex">
@@ -52,9 +52,9 @@
       </b-col>
     </b-row>
 
-    <b-row class="offered-item-confirm-trade">
-      {{ $t('trades.create_listing.vendor.wants.wanted_items') }}
-    </b-row>
+    <div class="offered-item-confirm-trade">
+      {{$t('trades.create_listing.vendor.wants.wanted_items')}} ({{getTradeItemsWants.length}})
+    </div>
 
     <div v-for="(wantItem, index) in getTradeItemsWants" :key="'want-'+index+wantItem.id" class="confirm-trade-item">
       <div class="d-flex">
@@ -106,29 +106,17 @@
         </NuxtLink>
       </b-col>
     </b-row>
-
-    <div class="mt-2 d-flex ml-4">
-      <div class="mt-2" @click="$bvModal.show('offer-item-modal')">
-        <b-img
-          :src="require('~/assets/img/icons/clarity_eye-line.svg')"
-          :alt="$t('trades.create_listing.vendor.wants.view_offer_items')"
-        />
-      </div>
-      <div>
-        <FormStepProgressBar :steps="steps" variant="transparent"/>
-      </div>
-    </div>
-    <div class="press-content mt-2 ml-3">
+    <div class="press-content text-center mt-2 ml-3">
       {{$t('trades.by_pressing_post_listing')}}
     </div>
-    <div class="d-flex mt-2 mb-4">
+    <div class="d-flex mt-3 mb-4">
       <b-btn class="confirm-trade-draft-btn ml-3"
              @click="saveVendorTrade(STATUS_DRAFT)">
         {{  $t('trades.create_listing.vendor.wants.save_as_draft')  }}
       </b-btn>
       <b-btn class="confirm-trade-post-btn ml-3" :disabled="!getTradeItemsWants.length || !getTradeItems.length"
              @click="saveVendorTrade(STATUS_LIVE)">
-        {{  $t('trades.create_listing.vendor.wants.post_trade_listing')  }}
+        {{  $t('trades.post_trade')  }}
       </b-btn>
     </div>
   </div>
@@ -139,8 +127,7 @@
 <script>
 
 import { mapGetters } from 'vuex'
-import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
-import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem'
+import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItemMobile'
 import ViewOfferItemsModal from '~/pages/profile/create-listing/trades/wants/ViewOfferItemsModal';
 import {
   IMAGE_PATH,
@@ -153,7 +140,6 @@ export default {
   name: 'Index',
   components: {
     ViewOfferItemsModal,
-    FormStepProgressBar,
     CreateTradeSearchItem
   },
   layout: 'Profile',
@@ -282,10 +268,10 @@ export default {
      * @param tradeWant
      */
     addProductWant(wantProduct, tradeWant,count) {
-        if (count >= MAX_ITEMS_ALLOWED) {
+      if (count >= MAX_ITEMS_ALLOWED) {
         this.$toasted.error(this.$t('trades.create_listing.vendor.wants.want_items_quantity_should_not_exceed', [MAX_ITEMS_ALLOWED])) // error of quantity increase
       }
-        else {
+      else {
         this.trade_want_id = tradeWant?.id
         const product = JSON.parse(JSON.stringify(wantProduct));
         product.selected_box_condition = tradeWant?.selected_box_condition
@@ -335,7 +321,8 @@ export default {
   width: 162px
   height: 40px
   border-radius: 20px
-  background-color: $color-blue-20
+  border: unset
+  background-color: $color-black-1
   color: $color-white-1
   font-family: $font-montserrat
   font-weight: $medium
@@ -347,7 +334,8 @@ export default {
   @include body-5
   font-weight: $bold
   font-family: $font-montserrat
-  color: $color-black-1
+  color: $color-gray-5
+  padding-left: 17px
 .confirm-trade-item
   width: 343px
   height: 133px

@@ -16,6 +16,8 @@ export default {
     confirmationMobile:()=> import('./confirmationMobile'),
     confirmationWeb:()=>import('./confirmationWeb'),
   },
+  layout: 'Profile', // Layout
+  middleware: 'auth',
   data(){
     return {
       width:'',
