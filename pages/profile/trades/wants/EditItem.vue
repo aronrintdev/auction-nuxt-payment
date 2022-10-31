@@ -352,7 +352,6 @@ export default {
     },
   },
   data() {
-    // console.log('DEFAULT LIST', this.cmbinationId ? [this.combinationId] : []);
     return {
       listModalOpen: false,
       MAX_ITEMS_ALLOWED,
@@ -485,7 +484,6 @@ export default {
      * @param selectedProduct
      */
     addToOffer(selectedProduct) {
-      console.log('addToOffer1');
       this.validate()
       if (!Object.values(this.errors).every(x => x === null || x === '')) return
 
@@ -500,7 +498,6 @@ export default {
      * THis function is used to add wants item in wants list
      */
     addWantItem(selectedProduct) {
-      console.log('addWantItem2');
       const data = {
         product_id: selectedProduct.product.id,
         quantity: parseInt(this.quantity),
@@ -571,12 +568,10 @@ export default {
      * THis function is used to take back on previous page
      */
     backSearch() {
-      console.log('backSearch3', this.productFor, this.combinationId, this.itemId);
       if (this.productFor === 'wantsList' && !this.combinationId && !this.itemId) {
         this.$root.$emit('back_to_list')
       }
       else if(this.combinationId) {
-        console.log('backSearch4');
         this.$root.$emit('back_to_edit_combination')
       }
       else if(this.itemId){

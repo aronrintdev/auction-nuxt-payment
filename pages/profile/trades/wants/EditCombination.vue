@@ -140,7 +140,6 @@ export default {
     },
     mounted() {
         this.backToEdit = () => {
-            console.log('backToEdit5');
             this.addWantItem = false
             this.editItem = null
             this.getCombination()

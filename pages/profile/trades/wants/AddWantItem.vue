@@ -98,7 +98,6 @@ export default {
   mounted() {
     // emit listener use to add want item
     this.$root.$on('add_product_want_list', (val) => {
-      console.log('ON ADD CLICK', this.combinationId);
       this.searchItem = val
     })
     // emit listener use to take user back from search selection
@@ -129,7 +128,6 @@ export default {
       }
     },
     redirectToAddWant(product) {
-      console.log('1111111111111111');
       this.addItem = {
         product,
         packaging_condition: {
