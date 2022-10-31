@@ -40,8 +40,10 @@ export default {
 @import '~/assets/css/_variables'
 
 .circle
-    height: 15px
-    width: 15px
+  height: 15px
+  width: 15px
+  @media (max-width: 500px) and (min-width: 300px)
+    margin-left: 20px
 
 .step-indicator.active .circle
     background-color: $color-blue-2 !important
@@ -53,6 +55,9 @@ export default {
   background-color: $color-black-1
   position: absolute
   top: 47%
+  @media (max-width: 500px) and (min-width: 300px)
+    margin-left: -16px
+
 
 .back-color-primary
   background: $color-white-1
@@ -60,4 +65,18 @@ export default {
 .back-color-transparent
   background: transparent
 
+
+.trade_form_progress
+  @media (max-width: 399px) and (min-width: 350px)
+    width: 320px
+    height: 85px
+  @media (max-width: 349px) and (min-width: 300px)
+    width: 274px
+    height: 85px
+  @media (max-width: 500px) and (min-width: 400px)
+    width: 363px
+    height: 85px
+.step-heading
+  @media (max-width: 500px) and (min-width: 300px)
+    font-size: 12px
 </style>

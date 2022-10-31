@@ -1,11 +1,11 @@
 <template>
-  <div class="position-relative w-100 container">
+  <div class="position-relative w-100 w-md-auto container">
     <div
       v-if="viewMode === 'carousel'"
       class="position-relative mx-auto carousel-wrapper"
       :style="wrapperStyle"
     >
-      <b-row>
+      <b-row class="carousel-wrapper-title">
         <b-col md="12">
           <div>
             <span class="body-8-normal text-uppercase">{{ $t('products.select_size') }}</span>

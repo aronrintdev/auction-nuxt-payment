@@ -108,7 +108,7 @@
       </div>
     </div>
 
-    <div class="single-live-auction-summary-reserve-mbls mt-3 w-100 float-left">
+    <div class="single-live-auction-summary-reserve-mbls w-100 float-left">
       <div class="single-live-auctions-id-informtion">
         {{ $t('common.listing_id') }}&colon;
         <span
@@ -116,9 +116,11 @@
             float-right
             auction-id-digit-num-live-single
             text-decoration-underline
+            text-primary
           "
-          
-          ><a href="#">{{ result.id }}</a></span
+          role="button"
+          @click="viewMore"
+          >{{ result.id }}</span
         >
       </div>
       <div class="single-live-auctions-listed-on-heading-mbl">
@@ -139,7 +141,7 @@
         <!-- TODO Last Sold -->
       <div class="single-live-auctions-id-informtion">
         {{ $t('place_offer.offer') }}&colon; 
-        <span v-if="result.status === listed " class="float-right">{{ getOffers(inventory) }}</span>
+        <span v-if="result.status === listed" class="float-right">{{ getOffers(inventory) }}</span>
         <span v-else class="float-right">{{ emptyOffer }}</span>
 
       </div>
@@ -276,12 +278,12 @@ export default {
 .w-90
   width: 90%
 .single-live-reserve-section-box-collections
-  height: 320px
+  height: 287px
   background: $color-white-1
   box-shadow: 0px 1px 4px $color-black-rgb1
   border-radius: 8px
 .carousel
-  height: 145px
+  height: 130px
 .auction-inner-carousels-box
   height: 145px
 .carousel-item

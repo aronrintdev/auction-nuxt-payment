@@ -137,3 +137,10 @@ export async function getSingleBid({commit},payload) {
 export async function acceptAuctionBid({commit},payload) {
   return await this.$axios.post(`/auctions/${payload.id}/accept-bid`, payload)
 }
+
+export async function increaseBidPrice({commit}, { id, price }) {
+  return await this.$axios.put(`/bids/${id}/price`, { price }).then(() => {
+    commit('increaseSelectedBidPrice', price)
+    commit('updateSelectedBidAuctionBids', { id, price })
+  })
+}

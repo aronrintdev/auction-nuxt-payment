@@ -746,6 +746,7 @@ export default {
         .then(() => {
           this.selected = []
           this.getWantItems()
+          this.pageCombination = 1
           this.getCombinations()
         })
         .catch(() => {
@@ -874,11 +875,14 @@ export default {
       const data = {
         selected_ids: this.selected
       }
-      this.$axios.post(url, data)
-        .then(this.getCombinations)
-        .catch((error)=> {
-          this.$toasted.error(this.$t(error.response.data.error))
-        })
+      this.$axios.post(url,data)
+      .then(() => {
+        this.getCombinations()
+        this.selected = []
+      })
+      .catch((error)=>{
+        this.$toasted.error(this.$t(error.response.data.error))
+      })
     },
     getCombinationOptions(){
       this.$axios.get('trades/wants/combination/options')

@@ -245,9 +245,9 @@
       <!-- page content for web -->
 
       <!-- search for mob -->
-      <div v-if="isScreenXS" class="responsive-offer-placed-mobile search-input-col row">
+      <div v-if="isScreenXS" class="responsive-offer-placed-mobile search-input-col mt-3 row">
         <div class="col-10 form-group d-flex align-items-center m-auto">
-          <MobileSearchInput id="mobile-search" @input="search" />
+          <MobileSearchInput id="mobile-search" :value="searchFilters.keyWord" @input="search" />
         </div>
         <div class="col-2 m-auto d-flex justify-content-center">
           <span class="filter-wrapper" role="button" @click="showFilter">
@@ -602,6 +602,7 @@ export default {
       this.searchFilters.sortBy = val.sortby ? val.sortby : ''
       this.searchFilters.filterBy =
         val.status && val.status.value ? val.status.value : ''
+      
       this.getOffers()
       this.hideFilter()
     },
@@ -1112,6 +1113,7 @@ export default {
     @include body-13-medium
     color: $color-white-1
 .offers-placed-index
+  min-height: 35rem
   .heading-placed-offers
     font-family: $font-montserrat
     font-style: normal
@@ -1126,7 +1128,7 @@ export default {
       font-style: normal
       @include body-9-normal
       color: $color-gray-47
-#mobile-filter::v-deep,
+      
 #delete-confirm::v-deep
   .bottom-sheet__content
     overflow-y: hidden

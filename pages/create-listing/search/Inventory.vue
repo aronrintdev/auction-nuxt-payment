@@ -1,12 +1,12 @@
 <template>
-  <b-container fluid class="container-auction-search h-100 px-5" >
-    <div class="d-flex justify-content-between align-items-center">
+  <b-container fluid class="position-relative container-auction-search h-100" >
+    <div class="d-none d-md-flex justify-content-between align-items-center">
       <h2 class="title">{{ selectedAuctionTypeTitle }}</h2>
       <div v-if="selectedAuctionType === AUCTION_TYPE_COLLECTION">
         <FormStepper :steps="steps" :selected="getCollectionState"/>
       </div>
     </div>
-    <div class="d-flex justify-content-between mt-3 align-items-start">
+    <div class="d-none d-md-flex justify-content-between mt-3 align-items-start">
       <div class="position-relative w-100">
         <SearchInput
           :value="searchText"
@@ -42,21 +42,26 @@
         class="btn-add"
       >{{ $t('inventory.add_inventory') }}
       </Button>
-
     </div>
-    <div class="d-flex justify-content-between mt-3 align-items-center">
+    <!-- Mobile search box -->
+    <inventory-listing-filters :isCollection="selectedAuctionType === AUCTION_TYPE_COLLECTION"></inventory-listing-filters>
+    <div class="d-none d-md-flex justify-content-between mt-3 align-items-center">
       <div class="d-flex justify-content-between align-items-center">
-        <FormDropdown
-          id="categorySelector"
-          :value="categorySelect"
-          :placeholder="$tc('common.category', 2)"
-          :items="CATEGORIES"
-          :icon-arrow-up="arrowUpIcon"
-          :icon-arrow-down="arrowDownIcon"
-          class="dropdown-filters mr-4"
-          no-arrow
-          can-clear
-          @select="handleCategorySelect"
+
+        <CustomDropdown
+          v-model="categorySelect"
+          :options="CATEGORIES"
+          type="single-select"
+          :label="categoryFilterLabel"
+          class="categories-selector mr-4"
+          optionsWidth="custom"
+          width="150px"
+          dropDownHeight="38px"
+          variant="white"
+          borderRadius="4"
+          borderRadiusClose="4"
+          borderRadiusOptions="4"
+          @change="handleCategorySelect"
         />
 
         <SelectWithCheckbox
@@ -90,11 +95,11 @@
           :value="sortBy"
           :placeholder="$t('auctions.frontpage.filterbar.sortby.placeholder')"
           :items="SORTBY"
-          :icon="threeLinesIcon"
-          :icon-arrow-up="arrowUpIcon"
-          :icon-arrow-down="arrowDownIcon"
-          class="dropdown-filters"
-          no-arrow
+          :icon="require('~/assets/img/icons/three-lines.svg')"
+          :icon-arrow-down="
+            require('~/assets/img/icons/arrow-down-black.svg')
+          "
+          class="dropdown-sort"
           can-clear
           @select="handleSortBySelect"
         />
@@ -149,9 +154,10 @@
             </span>
     </div>
 
-    <div class="d-flex flex-column justify-content-between align-items-start mt-2">
+    <div class="d-flex flex-row flex-md-column justify-content-between align-items-center align-items-md-start mt-2">
       <h2 class="title">{{ $t('selling_page.inventory') }} ({{ totalCount }} {{$t('common.results')}})</h2>
-      <h6 v-if="selectedAuctionType===AUCTION_TYPE_COLLECTION" class="title">{{ $t('create_listing.collection.subtitle') }}</h6>
+      <h6 v-if="selectedAuctionType===AUCTION_TYPE_COLLECTION" class="title d-none d-md-block">{{ $t('create_listing.collection.subtitle') }}</h6>
+      <!-- <span class="d-md-none add-inventory-btn" role="button" @click="$router.push('/profile/inventory/search')">+ Create New Inventory</span> -->
     </div>
 
 
@@ -163,13 +169,11 @@
       ></b-spinner>
     </div>
 
-    <div v-else>
-      <b-row v-if="inventories.length === 0 && !loading"
-             class="d-flex justify-content-center align-items-center h-50 font-weight-bold text-gray-25"
-             :class="'mt-3'">
-        {{ $t('sell.create_listing.no_items') }}
+    <div v-else class="bg-white pb-md-5 inventory-card-list">
+      <b-row v-if="inventories.length === 0 && !loading" class="d-flex justify-content-center align-items-center mx-auto w-50 text-center no-items-found">
+        {{ $t('create_listing.no_items_found') }}
       </b-row>
-      <b-row v-if="inventories.length > 0" class="mt-3 mx-auto" style="max-width: 1200px">
+      <b-row v-else class="mt-3 mx-auto">
           <b-col
             v-for="inventory in inventories"
             :key="`inventory-${inventory.id}`"
@@ -202,7 +206,7 @@
         @per-page-change="handlePerPageChange"
       />
     </div>
-    <div v-if="selectedAuctionType === AUCTION_TYPE_COLLECTION" class="mt-4 mx-5 px-2">
+    <div v-if="selectedAuctionType === AUCTION_TYPE_COLLECTION" class="mt-md-4 mx-md-5 px-2 collection-items-preview">
       <PreviewDragAndDrop :inventories="selectedInventoryItems" :hide-info="onPreview"
                           @next="handleBulkAction()" @removed="(index) => selected.splice(index, 1)" @dragged="addItem"/>
     </div>
@@ -214,19 +218,25 @@
       :unit-label="$tc('common.product', selected.length)"
       :total="inventories.length"
       :action-label="$tc('sell.create_listing.continue_listing')"
-      class="mt-3"
+      class="d-none d-md-flex mt-3"
       @close="selected = []"
       @selectAll="handleSelectAll()"
       @deselectAll="selected = []"
       @submit="handleBulkAction()"
     />
+    <div v-if="selectedAuctionType === AUCTION_TYPE_SINGLE && selected.length" class="d-md-none position-fixed continue-btn-container p-4">
+      <button class='btn text-white d-flex align-items-center justify-content-center text-white m-auto' @click="handleBulkAction">
+        {{ $t('create_listing.continue') }} ({{ selected.length }})
+      </button>
+    </div>
   </b-container>
 </template>
 <script>
 import _ from 'lodash'
 import {mapActions, mapGetters} from 'vuex'
 import SearchInput from '~/components/common/SearchInput.vue'
-import {Button, FormDropdown, Pagination, BulkSelectToolbar} from '~/components/common'
+import {Button, FormDropdown, Pagination, BulkSelectToolbar } from '~/components/common'
+import CustomDropdown from '~/components/common/CustomDropdown'
 import InventoryCard from '~/components/inventory/Card'
 import SelectWithCheckbox from '~/components/common/CustomSelectwithCheckbox.vue'
 import {SNEAKER_SIZES,AUCTION_TYPE_COLLECTION, AUCTION_TYPE_SINGLE, AUCTIONS_PER_PAGE_OPTIONS, DEFAULT_PER_PAGE_OPTION} from '~/static/constants';
@@ -234,18 +244,23 @@ import createListingAuction from '~/plugins/mixins/create-listing-auction';
 import PreviewDragAndDrop from '~/components/createListing/PreviewDragAndDrop';
 import FormStepper from '~/components/createListing/FormStepper';
 import {MAX_AUCTION_ITEM_COUNT, PER_PAGE_COLLECTION, PER_PAGE_SINGLE} from '~/static/constants/create-listing';
-import threeLinesIcon from '~/assets/img/icons/three-lines.svg'
-import arrowUpIcon from '~/assets/img/icons/arrow-up-blue.svg'
-import arrowDownIcon from '~/assets/img/icons/arrow-down-blue.svg'
 import longArrowRightIcon from '~/assets/img/icons/long-arrow-right.svg'
+import InventoryListingFilters from '~/components/createListing/InventoryListingFilters'
 
 export default {
   name: 'SearchForCategoryPage',
   components: {
     FormStepper,
     PreviewDragAndDrop,
-    SearchInput, InventoryCard,
-    Button, FormDropdown, SelectWithCheckbox, Pagination, BulkSelectToolbar
+    SearchInput,
+    InventoryCard,
+    Button,
+    FormDropdown,
+    SelectWithCheckbox,
+    Pagination,
+    BulkSelectToolbar,
+    InventoryListingFilters,
+    CustomDropdown,
   },
   mixins: [createListingAuction],
   layout: 'Profile',
@@ -274,15 +289,15 @@ export default {
       products: [],
       CATEGORIES: [
         {
-          label: this.$t('common.footwear'),
+          text: this.$t('common.footwear'),
           value: 'sneakers',
         },
         {
-          label: this.$t('common.apparel'),
+          text: this.$t('common.apparel'),
           value: 'apparel',
         },
         {
-          label: this.$tc('common.accessory', 2),
+          text: this.$tc('common.accessory', 2),
           value: 'accessories',
         },
       ],
@@ -335,10 +350,8 @@ export default {
       inventoryProducts: [],
       AUCTION_TYPE_SINGLE,
       AUCTION_TYPE_COLLECTION,
-      threeLinesIcon,
-      arrowUpIcon,
-      arrowDownIcon,
       longArrowRightIcon,
+      categoryFilterLabel: this.$t('trades.create_listing.vendor.wants.category'),
     }
   },
   computed: {
@@ -576,6 +589,8 @@ export default {
       } else if (this.categorySelect !== null) {
         this.categorySelect = null
       }
+      const categoryFilteredKey = this.CATEGORIES.find(item => item.value === this.categorySelect)
+      this.categoryFilterLabel = this.$options.filters.capitalizeFirstLetter(categoryFilteredKey.text)
     },
     typeFilters({array, value}) {
       this.activeTypeFilters = array
@@ -650,11 +665,17 @@ export default {
 
 .container-auction-search
   padding: 47px 54px
-  background-color: $color-white-5
+  background-color: $color-white-4
 
   h2.title
     @include heading-3
     color: $color-black-1
+    font-weight: $bold
+
+    @media (max-width: 576px)
+      font-size: 14px
+      line-height: 17px
+      margin-bottom: 0
 
   .btn-draft::v-deep
     @include body-5-bold
@@ -713,7 +734,20 @@ export default {
             border-bottom-left-radius: 10px
             border-bottom-right-radius: 10px
             border-bottom: 1px solid $color-blue-1
-
+  .no-items-found
+    font-weight: $medium
+    font-size: 16px
+    line-height: 20px
+    color: $color-gray-5
+  @media (max-width: 576px)
+    padding: 20px 16px
+    background: transparent
+    min-height: calc(100vh - 130px)
+    .no-items-found
+      margin-top: 90px
+      margin-bottom: 120px
+      font-size: 14px
+      line-height: 24px
   .dropdown-filters::v-deep
     .btn-dropdown
       @include body-4-normal
@@ -751,13 +785,18 @@ export default {
 
   .size-select-box
     min-width: 180px
-  .inventory-card
-    flex: 0 0 100%
-    max-width: 100%
 
-    @media (min-width: 1030px)
-      flex: 0 0 50%
-      max-width: 50%
+  .add-inventory-btn
+    font-family: $font-family-sf-pro-display
+    font-weight: $regular
+    font-size: 14px
+    line-height: 17px
+    color: $color-gray-5
+
+  .inventory-card
+    flex: 0 0 50%
+    max-width: 50%
+    padding: 0
 
     @media (min-width: 1280px)
       flex: 0 0 33.33%
@@ -770,4 +809,152 @@ export default {
     @media (min-width: 1800px)
       flex: 0 0 25%
       max-width: 25%
+  .continue-btn-container 
+    bottom: 0
+    left: 0
+    width: 100%
+    background: $white
+    z-index: 100
+    button
+      border-radius: 30px
+      background: $color-blue-20
+      width: 215px
+      font-family: $font-montserrat-serif
+      font-weight: $medium
+      font-size: 13px
+      line-height: 16px
+      padding-top: 12px
+      padding-bottom: 12px
+
+  .categories-selector::v-deep
+    .label-wrapper 
+      border-radius: 4px
+      label
+        padding: 7px 10px
+      .fa
+        color: $black
+        font-size: 20px
+        padding-top: 3px
+        margin-right: 6px
+    ul.custom-dropdown-options
+      margin-top: -2px
+      border-top: 0
+      li
+        padding: 5px 10px
+        color: $black
+
+  
+  .inventory-card-wrapper::v-deep
+    .checkbox-label
+      top: 8px
+      right: 8px
+    .product-info
+      background: transparent
+      border: none
+      .product-image
+        .product-overlay
+          background: rgba(200, 200, 200, 0.1)
+      .product-detail
+        .product-price
+          color: $black
+  .inventory-card-list
+    @media (max-width: 576px)
+      margin: 0 -6px
+  .collection-items-preview::v-deep
+    @media (max-width: 576px)
+      position: fixed
+      bottom: 0
+      left: 0
+      width: 100%
+      background: $white
+      z-index: 2000
+      .simple-content
+        @include body-5-normal
+        border: 0.5px solid rgba($light-gray-2, 0.5)
+        border-radius: 5px
+        background: $white
+        padding: 12px 10px 10px
+        height: 42px
+        margin-top: 10px
+      .expand-btn
+        bottom: 80px
+        right: 20px
+      .preview-drag
+        background: $white
+        border: 0.5px solid rgba($light-gray-2, 0.5)
+        margin: 0
+        border-radius: 5px
+        padding: 10px 2.5px
+        &.no-items
+          border: none
+          padding: 0
+        .inventory-card-wrapper
+          .product-info
+            padding: 0
+            .product-image
+              padding: 0
+              height: auto
+              .thumb-wrapper
+                height: 0
+                padding-top: 100%
+                width: 100% !important
+                img
+                  position: absolute
+                  top: 0
+                  left: 0
+                  width: 100%
+                  height: 100%
+              .check-box
+                width: 10px
+                height: 10px
+                top: 0
+                img
+                  width: 100%
+            .product-detail
+              padding: 5px 0
+              .product-title,
+              .product-color,
+              .product-price
+                font-size: 11px
+
+.dropdown-sort::v-deep
+  .btn-dropdown
+    @include body-4-regular
+    color: $color-gray-5
+    border: 1px solid $color-gray-60
+    background-color: $white
+    border-radius: 4px
+    height: 40px
+    width: 200px
+    padding: 0 8px 0 14px
+
+    .icon-main
+      margin-right: 15px
+    .icon-default
+      width: 12px
+  .search-results
+    border: 1px solid $light-gray-2
+    margin-top: -2px
+    border-top-left-radius: 0
+    border-top-right-radius: 0
+    background: $white
+    .popover-body
+      .dropdownItem
+        @include body-5-normal
+        font-family: $font-family-base
+        color: $color-black-1
+        padding: 0 23px
+        max-height: unset
+        height: 35px
+        border: none
+        border-bottom: 0.2px solid $light-gray-2
+        color: $black
+        background: $white
+        &:hover
+          color: $color-gray-5
+
+        &:last-child
+          border-bottom-left-radius: 8px
+          border-bottom-right-radius: 8px
+          border: none
 </style>

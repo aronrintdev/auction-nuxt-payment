@@ -12,16 +12,20 @@
       >
         <ProductThumb :product="inventory.product" />
 
-        <div class="product-size position-absolute">
-          {{ `${$tc('common.size', 1)} ${inventory.size.size}` }}
+        <div class="product-overlay position-absolute w-100 h-100">
         </div>
 
-        <b-checkbox
-          v-if="selectable"
-          class="check-box position-absolute"
-          :checked="selected"
-          @change="toggleSelect"
-        ></b-checkbox>
+        <label v-if="selectable" class="position-absolute d-flex align-items-center checkbox-label">
+          <input
+            type="checkbox"
+            class="check-box position-absolute"
+            :checked="selected"
+            @change="toggleSelect"
+          />
+          <img :src="plusIcon" alt="addIcon" class="add" />
+          <img :src="removeIcon" alt="addIcon" class="remove" />
+          
+        </label>
 
         <span
           v-if="addable"
@@ -35,7 +39,8 @@
           class="check-box position-absolute mr-1"
           role="button"
         >
-          <img :src="removeIcon" alt="addIcon" @click="removeClicked" />
+          <img :src="removeIcon" alt="addIcon" class="remove d-none d-md-block" @click="removeClicked" />
+          <img :src="removeFillIcon" alt="removeIcon"  class="remove d-md-none" @click="removeClicked" />
         </span>
       </div>
 
@@ -44,13 +49,13 @@
           {{ inventory.product.name }}
         </div>
         <div class="product-color text-truncate">
-          {{ inventory.product.colorway }}
+          {{ inventory.product.colorway }}, {{ `${$tc('common.size', 1)} ${inventory.size.size}` }}
         </div>
-        <div class="product-color text-truncate mr-5">
+        <div class="product-color text-truncate">
           {{ inventory.packaging_condition.name }}
         </div>
         <div class="product-price text-truncate">
-          {{ $t('common.price') }}: {{ inventory.sale_price | toCurrency }}
+          {{ inventory.sale_price | toCurrency }}
         </div>
 
         <div
@@ -116,6 +121,7 @@ import ProductThumb from '~/components/product/Thumb'
 import { ConfirmModal } from '~/components/modal'
 import plusIcon from '~/assets/img/icons/plus_circle.svg'
 import removeIcon from '~/assets/img/icons/red-remove.svg'
+import removeFillIcon from '~/assets/img/icons/minus-filled-red.svg'
 
 export default {
   name: 'InventoryCard',
@@ -156,6 +162,7 @@ export default {
     return {
       removeIcon,
       plusIcon,
+      removeFillIcon,
     }
   },
   methods: {
@@ -210,6 +217,12 @@ export default {
       height: 200px
       background-color: $color-white-1
 
+      .product-overlay
+        top: 0
+        left: 0
+        z-index: 1
+        background: rgba($white, 0.1)
+
       .product-size
         @include body-5-regular
         color: $color-black-1
@@ -227,10 +240,10 @@ export default {
       .check-box
         right: 4px
         top: 10px
+        z-index: 10
 
     .product-detail
       @include body-10-normal
-      background-color: $color-gray-1
       padding: 5px 8px
 
       .product-title
@@ -271,4 +284,41 @@ export default {
       height: 32px
       padding: 0
       border-color: $color-gray-4
+  
+  .checkbox-label
+    top: 4px
+    right: 4px
+    z-index: 2
+    .check-box
+      visibility: hidden
+      & ~ .remove
+        display: none
+      &:checked ~ .remove
+        display: block
+      &:checked ~ .add
+        display: none
+
+  @media (max-width: 576px)
+    .product-info
+      border: none
+      padding-left: 6px
+      padding-right: 6px
+      .product-image
+        background: $color-white-4
+        padding: 10px
+      .product-detail
+        .product-title
+          font-size: 13px
+          line-height: 130%
+        .product-color
+          font-size:  13px
+          line-height: 130%
+        .product-price
+          font-size: 12px
+          line-height: 14px
+          color: $black
+    .checkbox-label
+      img
+        width: 19px
+        height: 19px
 </style>

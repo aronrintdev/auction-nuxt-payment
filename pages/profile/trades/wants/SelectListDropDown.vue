@@ -165,7 +165,8 @@ export default {
       isOpen: false,
       listOptions: [
         { text: this.$t('trades.wants_listing.general_wants'), value: 'general_wants' }
-      ]
+      ],
+      lastCombinationId: 0,
     };
   },
   computed:{
@@ -226,6 +227,7 @@ export default {
       this.$emit('change', selectedOption)
     },
     addCombination() {
+      this.lastCombinationId += 1
       this.listOptions.push({
         text: this.$t('trades.wants_listing.create_combination', { count: this.listOptions.length }),
         value: this.listOptions.length

@@ -52,7 +52,7 @@ export function getTradingFee(state) {
   })
 
   if (tradingFee) {
-    return tradingFee.value / 100
+    return tradingFee.value
   }
 
   return FALLBACK_TRADING_FEE_AMOUNT

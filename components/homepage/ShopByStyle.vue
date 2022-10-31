@@ -15,17 +15,15 @@
     />
     <div>
       <ProductStyleCarousel :products="styles" variant="photo" />
-      <Carousel :products="styles" variant="photo" />
     </div>
   </div>
 </template>
 <script>
 import NavGroup from '~/components/common/NavGroup.vue'
 import ProductStyleCarousel from '~/components/product/CarouselStyle.vue'
-import Carousel from '~/components/shop-by-style/Carousel.vue'
 export default {
   name: 'HomeShopByStyle',
-  components: { NavGroup, Carousel, ProductStyleCarousel },
+  components: { NavGroup, ProductStyleCarousel },
   fetchOnServer: false,
   data() {
     return {
@@ -35,7 +33,6 @@ export default {
         { label: 'Best Seller', value: 'best' },
       ],
       currentCategory: 'all',
-      products: [],
       styles: [],
     }
   },
@@ -70,10 +67,10 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-  .nav-group
-    margin-top: 33px
-    margin-bottom: 25px
-  .corousel::v-deep
-    .owl-stage
-      margin-left: -22px
+.nav-group
+  margin-top: 33px
+  margin-bottom: 25px
+.corousel::v-deep
+  .owl-stage
+    margin-left: -22px
 </style>

@@ -19,7 +19,7 @@
             <!-- ./Heading -->
             <!-- Drafts -->
             <span
-              class="text-bold text-decoration-underline"
+              class="text-decoration-underline drafts-btn"
               role="button"
               @click="showDraft"
               >{{ $t('common.drafts') }} &#040;{{
@@ -46,7 +46,7 @@
             >
               <div class="position-relative listing-type-img">
                 <img
-                  src="~/assets/img/create-listing/selling.svg"
+                  src="~/assets/img/create-listing/selling1.png"
                   class="position-absolute w-100"
                 />
               </div>
@@ -73,7 +73,7 @@
             >
               <div class="position-relative listing-type-img">
                 <img
-                  src="~/assets/img/create-listing/auctions.svg"
+                  src="~/assets/img/create-listing/auctions1.png"
                   class="position-absolute w-100"
                 />
               </div>
@@ -100,7 +100,7 @@
             >
               <div class="position-relative listing-type-img">
                 <img
-                  src="~/assets/img/create-listing/trade.svg"
+                  src="~/assets/img/create-listing/trade1.png"
                   class="position-absolute w-100"
                 />
               </div>
@@ -226,12 +226,11 @@ export default {
         this.$router.push({
           path: '/profile/create-listing/selling',
         })
-      } else if (type === LISTING_TYPES.TRADE) {
-        // If the type is trade
-        this.$store.commit('trades/removeAllWantItems')
-        this.$store.commit('trades/clearTradeItems')
-        this.$store.commit('trades/setTradeForEditing', null)
-        this.$router.push('/profile/create-listing/trades/create')
+      } else if(type === LISTING_TYPES.TRADE) { // If the type is trade
+          this.$store.commit('trades/removeAllWantItems')
+          this.$store.commit('trades/clearTradeItems')
+          this.$store.commit('trades/setTradeForEditing',null)
+          this.$router.push('/profile/create-listing/trades/create')
       } else if (type === LISTING_TYPES.AUCTION) {
         // If the type is auction
         this.$router.push({
@@ -245,8 +244,28 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+@import '~/assets/css/_typography'
 .create-listing-page
   background: $color-white-4
+  .content-header
+    border: none
+    &-title
+      @media (max-width: 576px)
+        font-size: 14px
+        line-height: 17px
+    span
+      @media (max-width: 576px)
+        font-size: 14px
+        line-height: 17px
+    @media (max-width: 576px)
+      margin-bottom: 0
+  .listing-type
+    border: none
+    margin-right: 100px
+    margin-bottom: 36px
+    padding: 0
+  .drafts-btn
+    font-weight: $medium
   .content-main-new-user
     .web-row
       padding: 4rem
@@ -323,8 +342,6 @@ export default {
     margin-right: 100px
     margin-bottom: 36px
     background: transparent
-    &:last-child
-      margin-right: 0
     &-title
       font-family: $font-family-sf-pro-text
       &.selling
@@ -337,11 +354,14 @@ export default {
       font-family: $font-family-sf-pro-text
       font-weight: $normal
     &-img
+      width: 100%
       height: 0
       padding-top: 100%
       img
         top: 0
         left: 0
+        width: 100%
+        height: 100%
     @media (max-width: 576px)
       margin-right: 15px
       align-items: flex-end

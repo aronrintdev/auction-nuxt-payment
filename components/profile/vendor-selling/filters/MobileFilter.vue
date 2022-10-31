@@ -232,7 +232,7 @@ export default {
 
   .section-actions
     &.mobile
-      margin-top: 20%
+      margin-top: 6rem
 
 @media (max-width: 576px)
   .sidebar-wrapper

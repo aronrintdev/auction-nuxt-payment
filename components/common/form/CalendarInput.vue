@@ -3,19 +3,20 @@
       <b-form-input class="date-input" :class="inputClass" :placeholder="placeholder ||  $t('common.date')" :value="value" :disabled="inputDisabled"></b-form-input>
       <b-input-group-append class="date-input-icon">
         <b-form-datepicker
-          v-model="date"
-          button-only
-          :class="dateClass"
-          :hide-header="hideHeader"
-          :disabled="dateDisabled"
-          hide-footer
-          class="date-dp"
-          right
-          :locale="locale"
-          :readonly="readonly"
-          :min="minDate"
-          :max="maxDate"
-          @context="onDateChange"
+            v-model="date"
+            button-only
+            :class="dateClass"
+            :hide-header="hideHeader"
+            :disabled="dateDisabled"
+            hide-footer
+            class="date-dp"
+            right
+            :locale="locale"
+            :readonly="readonly"
+            :min="minDate"
+            :max="maxDate"
+            :reset-button="dateResetButton"
+            @context="onDateChange"
         >
           <template #button-content>
             <img :src="CalendarImg" :alt="$t('common.calendar')">
@@ -81,11 +82,15 @@ export default {
       type: Boolean,
       default: false
     },
-    hideHeader:{
+    hideHeader: {
       type: Boolean,
       default: true
     },
-    readonly:{
+    readonly: {
+      type: Boolean,
+      default: false
+    },
+    dateResetButton: {
       type: Boolean,
       default: false
     }

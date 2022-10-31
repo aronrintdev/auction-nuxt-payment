@@ -10,7 +10,7 @@
           <b-col class="text-right pr-5">
             <div class="d-flex justify-content-end">
               <div class="offer-id-sm">{{ $t('trades.offer_id') }} #{{lastSubmittedOffer.id}}</div>
-              <div class="offer-type pl-3">{{ (isAcceptedOffer() ? $t('trades.accepted') : $t(lastSubmittedOffer.offer_type_translation)) }}</div>
+              <div class="offer-type pl-3">{{ (isAcceptedOffer() ? $t('trades.accepted') : offer.status === FILTER_OFFER_STATUS_DECLINED ? $t('trades.counter_offer_declined') : $t(lastSubmittedOffer.offer_type_translation)) }}</div>
             </div>
             <div class="placed-time">{{ $t('trades.placed_on') }} {{ lastSubmittedOffer.created_at | formatDateTimeString }}</div>
             <div v-if="!isAcceptedOffer()" class="placed-time">{{ $t('trades.expires_on') }} {{ lastSubmittedOffer.offer_expiry | formatDateTimeString }}</div>
@@ -78,7 +78,7 @@
                 <input type="text" class="yours" disabled :value="$t('trades.trade_arena.yours') + `: ${getYourTotal()}`">
               </div>
             </div>
-            <div v-if="!lastSubmittedOffer.is_blocked" class="trade-hub-buttons mt-4 mb-4">
+            <div v-if="!lastSubmittedOffer.is_blocked && (offer && offer.status !== FILTER_OFFER_STATUS_DECLINED)" class="trade-hub-buttons mt-4 mb-4">
               <Button v-if="!isOfferMine()" variant="primary" class="mr-3" @click="acceptOffer()">{{ $t('trades.accept') }}</Button>
               <Button v-if="!isOfferMine()" variant="light" class="mr-3" @click="$bvModal.show('declineOffer')">{{ $t('trades.decline') }}
               </Button>
@@ -126,7 +126,7 @@ import {
   DEFAULT_FAIR_TRADE_VALUE,
   ACCEPTED_OFFER,
   OFFER_TYPE_YOURS,
-  ACCEPT_OFFER
+  ACCEPT_OFFER, FILTER_OFFER_STATUS_DECLINED
 } from '~/static/constants/trades'
 
 export default {
@@ -155,7 +155,8 @@ export default {
       isPayment: false,
       ACCEPTED_OFFER,
       ACCEPT_OFFER,
-      OFFER_TYPE_YOURS
+      OFFER_TYPE_YOURS,
+      FILTER_OFFER_STATUS_DECLINED
     }
   },
   mounted(){
@@ -184,6 +185,7 @@ export default {
         yourItems: this.lastSubmittedOffer.yours_items,
         cashAdded: parseInt(parseFloat(cashAdded)),
         cashType: this.lastSubmittedOffer.cash_type,
+        lastOffer: this.lastSubmittedOffer,
         tradeCondition: this.lastSubmittedOffer.condition,
         submittedItemType: OFFER_TYPE_YOURS,
         offerType: ACCEPT_OFFER,

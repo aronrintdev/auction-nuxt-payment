@@ -1,6 +1,7 @@
 <template>
   <div
     :id="`search-input-${id}`"
+    class="h-100"
     :class="`search-input-wrapper ${
       pill && 'search-pill'
     } search-${size} search-${variant} ${bordered && 'bordered'} ${
