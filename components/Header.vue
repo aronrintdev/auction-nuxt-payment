@@ -10,9 +10,9 @@
         <Logo :width="171" />
       </div>
       <div class="d-inline-block d-sm-none">
-        <Logo v-if="!$nuxt.context.route.meta[0].pageTitle" :width="171" />
+        <Logo v-if="pageTitle" :width="171" />
         <h2 v-else class="meta-info font-primary fs-18 fw-7 mb-0 text-black">
-          {{ $nuxt.context.route.meta[0].pageTitle }}
+          {{ pageTitle }}
         </h2>
       </div>
     </b-navbar-brand>
@@ -65,7 +65,7 @@
           :link-attrs="{ title: $t('navbar.shop') }"
         >
           {{ $t('navbar.shop') }}
-        </b-nav-item>        
+        </b-nav-item>
         <b-nav-item
           v-if="authenticated"
           class="w-100"
@@ -260,7 +260,7 @@ export default {
     Logo,
     SearchInput,
     SearchOverlay,
-    Dropdown, 
+    Dropdown,
   },
   mixins: [ScreenSize],
   data() {
@@ -282,6 +282,9 @@ export default {
         return ''
       }
     },
+    pageTitle() {
+      return this.$nuxt?.context?.route?.meta[0]?.pageTitle ?? null
+    }
   },
   watch: {
     screenIsSmallThanLG(newVal) {

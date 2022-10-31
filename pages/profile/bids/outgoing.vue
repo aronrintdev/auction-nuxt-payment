@@ -69,14 +69,14 @@
         <b-col sm="12" md="3" class="text-left">{{ $t('bids.headers.product') }}</b-col>
         <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }} <span role="button"><img :src="FilterDown"
                                                                                              alt="donw"></span></b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.auto_bid') }} <span role="button"><img :src="FilterDown"
-                                                                                         alt="donw"></span></b-col>
+        <!--<b-col sm="12" md="1">{{ $t('bids.headers.auto_bid') }} <span role="button"><img :src="FilterDown"
+                                                                                         alt="donw"></span></b-col>-->
         <b-col sm="12" md="1">{{ $t('bids.headers.bid_amt') }} <span role="button"><img :src="FilterDown"
                                                                                         alt="donw"></span></b-col>
         <b-col sm="12" md="2">{{ $t('bids.headers.time_remaining') }} <span role="button"><img :src="FilterDown"
                                                                                                alt="donw"></span>
         </b-col>
-        <b-col sm="12" md="2">{{ $t('bids.headers.action') }}</b-col>
+        <b-col sm="12" md="3">{{ $t('bids.headers.action') }}</b-col>
       </b-row>
 
       <client-only>
