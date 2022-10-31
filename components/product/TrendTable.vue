@@ -306,9 +306,9 @@ export default {
 
 .trend-table-wrapper
   margin: 0 auto
-  width: calc( 100% - 10px )
+  width: calc( 100% - 86px )
   @media (max-width: 576px)
-    width: calc( 100% - 86px )
+    width: calc( 100% - 10px )
   tr
     border-top: 1px solid $color-gray-63
   thead tr td
