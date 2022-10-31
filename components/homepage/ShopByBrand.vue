@@ -13,7 +13,7 @@
         <div class="overflow-hidden">
           <img
             width="756px"
-            :src="require('~/assets/img/home/shopbybrand.png')" 
+            :src="require('~/assets/img/home/shopbybrand.png')"
           />
         </div>
       </div>
@@ -26,7 +26,9 @@
           :src="require('~/assets/img/home/shopbybrand-sm.png')"
         />
       </div>
-      <div class="col-lg-3 col-5 pl-lg-5 d-flex links-wrapper position-relative">
+      <div
+        class="col-lg-3 col-5 pl-lg-5 d-flex links-wrapper position-relative"
+      >
         <div class="brands-list">
           <h2
             v-for="brand in brands"
@@ -34,7 +36,7 @@
             class="fs-24 fw-5 font-secondary text-black brand-link mb-0 w-fit-content"
             @click="handleBrandClick(brand)"
           >
-            {{ brand.name }}
+            {{ brand.name }} 
           </h2>
         </div>
       </div>
@@ -46,67 +48,7 @@ export default {
   name: 'HomeShopByBrand',
   data() {
     return {
-      // TODO: Replace Dummy Data
-      brands: [
-        [
-          {
-            id: 1,
-            name: 'Nike',
-            image: 'https://images.deadstock.co/brand_logo/circle/Nike@2x.png',
-          },
-          {
-            id: 2,
-            name: 'Jordan',
-            image:
-              'https://images.deadstock.co/brand_logo/circle/Jordan@2x.png',
-          },
-          {
-            id: 3,
-            name: 'Converse',
-            image:
-              'https://images.deadstock.co/brand_logo/circle/Converse@2x.png',
-          },
-          {
-            id: 4,
-            name: 'Adidas',
-            image:
-              'https://images.deadstock.co/brand_logo/circle/Adidas@2x.png',
-          },
-          {
-            id: 5,
-            name: 'Vans',
-            image: 'https://images.deadstock.co/brand_logo/circle/Vans@2x.png',
-          },
-          {
-            id: 6,
-            name: 'Puma',
-            image: 'https://images.deadstock.co/brand_logo/circle/Puma@2x.png',
-          },
-          {
-            id: 7,
-            name: 'New Balance',
-            image:
-              'https://images.deadstock.co/brand_logo/circle/New balance@2x.png',
-          },
-          {
-            id: 8,
-            name: 'Saucony',
-            image:
-              'https://images.deadstock.co/brand_logo/circle/Saucony@2x.png',
-          },
-          {
-            id: 9,
-            name: 'Asics',
-            image: 'https://images.deadstock.co/brand_logo/circle/Asics@2x.png',
-          },
-          {
-            id: 10,
-            name: 'Under Armour',
-            image:
-              'https://images.deadstock.co/brand_logo/circle/Under armour@2x.png',
-          },
-        ],
-      ],
+      brands: [],
     }
   },
   async fetch() {

@@ -65,7 +65,7 @@
           :link-attrs="{ title: $t('navbar.shop') }"
         >
           {{ $t('navbar.shop') }}
-        </b-nav-item>        
+        </b-nav-item>
         <b-nav-item
           v-if="authenticated"
           class="w-100"
@@ -106,6 +106,15 @@
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
+    <vue-bottom-sheet
+      ref="searchBottomSheet"
+      max-width="auto"
+      max-height="100%"
+      :rounded="false"
+      :is-full-screen="true"
+    >
+      <SearchOverlayMobile ref="searchbar" @close="close" />
+    </vue-bottom-sheet>
     <!-- Sidebar menu begin -->
     <b-sidebar
       id="top-menu-sidebar"
@@ -117,16 +126,17 @@
     >
       <div class="top-menu-container">
         <b-nav-form class="search-box-collapse">
-          <SearchInput
-            :placeholder="$t('navbar.search')"
-            :value="searchKeyword"
-            pill
-            size="sm"
-            variant="secondary"
-            class="w-100"
-            @focus="handleSearchFocus"
-            @clear="handleSearchClear"
-          />
+          <div class="searchbar-mobile position-relative" @click="open">
+            <img
+              :src="require('~/assets/img/icons/search.svg')"
+              class="search-icon position-absolute"
+            />
+            <b-form-input
+              class="searchbar-input"
+              placeholder="Search"
+              type="search"
+            />
+          </div>
         </b-nav-form>
         <b-navbar-nav class="nav-menu-wrapper sidebar-nav mt-4">
           <b-nav-item
@@ -244,6 +254,7 @@ import SearchOverlay from '~/components/search/Overlay'
 import NotificationDropdown from '~/components/header/NotificationDropdown'
 import ScreenSize from '~/plugins/mixins/screenSize'
 import Dropdown from '~/components/common/form/Dropdown'
+import SearchOverlayMobile from '~/components/SearchOverlayMobile'
 export default {
    head: {
     title: 'Deadstock',
@@ -260,7 +271,8 @@ export default {
     Logo,
     SearchInput,
     SearchOverlay,
-    Dropdown, 
+    Dropdown,
+    SearchOverlayMobile,
   },
   mixins: [ScreenSize],
   data() {
@@ -292,6 +304,12 @@ export default {
     },
   },
   methods: {
+    open() {
+      this.$refs.searchBottomSheet.open()
+    },
+    close() {
+      this.$refs.searchBottomSheet.close()
+    },
     setLocale(lang) {
       this.$refs.locale.hideDropdown()
       this.$store.commit('SET_LANG', lang)
@@ -488,4 +506,18 @@ export default {
       border-bottom-left-radius: 0
       border-bottom-right-radius: 0
       background-color: $color-white-4
+img.search-icon
+  top: 50%
+  transform: translate(0, -50%)
+  left: 10px
+input.searchbar-input
+  background-color: $color-gray-3
+  color: $color-black-1
+  border: 0
+  border-radius: 50px
+  padding: 6px 10px
+  padding-left: 40px
+  width: 100%
+::v-deep .bottom-sheet__content
+  margin-right: -8px
 </style>
