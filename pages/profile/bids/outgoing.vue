@@ -101,7 +101,7 @@
         </div>
       </client-only>
     </div>
-    <div v-if="fetchLoading" class="mx-auto mt-5">
+    <div v-if="fetchLoading" class="mx-auto mt-5 mb-5 pb-5 pt-5">
       <Loader :loading="fetchLoading"/>
     </div>
 
