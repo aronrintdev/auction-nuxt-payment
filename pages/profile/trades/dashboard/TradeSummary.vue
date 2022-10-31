@@ -1,25 +1,48 @@
 <template>
   <div>
-    <div class="main-container m-4">
-      <b-row class="justify-content-between">
-        <b-col class="pt-4 pl-4">
-          <b-col class="expire-trade-id d-flex">{{$t('trades.trade_id')}} #{{ trade.id }}  <ul class="offer-status"><li>{{$t(trade.status_translation)}}</li></ul></b-col>
-          <b-col class="offer-time d-flex align-items-center pb-1">{{$t('trades.listed_on')}} {{ trade.created_at | formatDateTimeString }}</b-col>
-          <b-col class="offer-time d-flex align-items-center">{{$t('trades.expires_on')}} {{ trade.expiry_date | formatDateTimeString }}</b-col>
-        </b-col>
-        <b-col class="d-flex flex-column pr-4 pt-4">
-          <Button v-if="!isDelistedTrade(trade) && !blockTrade(trade)" variant="blue" class="expired-btn ml-auto mr-4" @click="$bvModal.show('edit-trade')">{{$t('trades.edit_listing')}}</Button>
-          <Button v-if="!isDelistedTrade(trade) && !blockTrade(trade)" class="mt-3 expired-btn ml-auto mr-4" variant="outline-primary" @click="$bvModal.show('delist-offer')">{{$t('trades.delist')}}</Button>
-          <Button v-if="isDelistedTrade(trade)" class="mt-3 expired-btn ml-auto mr-4" variant="outline-primary" @click="$bvModal.show('relist-trade')">{{$t('trades.relist')}}</Button>
-        </b-col>
-      </b-row>
-      <b-row class="justify-content-center mt-3">
-        <offer-items :offerItems="trade.offers"/>
-      </b-row>
+    <div v-if="width <= 500">
+      <div class="main-container-small ml-2">
+        <div class="justify-content-between">
+          <div class="pt-4 pl-4">
+            <div class="expire-trade-id-small d-flex">{{$t('trades.trade_id')}} #{{ trade.id }}  <ul class="offer-status"><li>{{$t(trade.status_translation)}}</li></ul></div>
+            <div class="offer-time-small d-flex align-items-center pb-1">{{$t('trades.listed_on')}} {{ trade.created_at | formatDateTimeString }}</div>
+            <div class="offer-time-small d-flex align-items-center">{{$t('trades.expires_on')}} {{ trade.expiry_date | formatDateTimeString }}</div>
+          </div>
+          <div>
+            <offer-items :offerItems="trade.offers"/>
+          </div>
+          <div class="d-flex mt-4">
+            <b-btn v-if="!isDelistedTrade(trade) && !blockTrade(trade)" class="mt-3 list-btn"  @click="$bvModal.show('delist-offer')">Delist</b-btn>
+            <b-btn v-if="isDelistedTrade(trade)" class="mt-3 list-btn"  @click="$bvModal.show('relist-trade')">Relist</b-btn>
+            <b-btn  v-if="!isDelistedTrade(trade) && !blockTrade(trade)"  class="mt-3 edit-btn" @click="$bvModal.show('edit-trade')">Edit</b-btn>
+          </div>
+        </div>
+
+      </div>
     </div>
-    <delist-modal :tradeId="trade.id" @delist="delistTrade"></delist-modal>
-    <relist-modal :tradeId="trade.id" @relist="relistMyTrade"></relist-modal>
-    <edit-trade-confirmation-modal :tradeId="trade.id" @edit="editTradeConfirmed"></edit-trade-confirmation-modal>
+    <div v-else>
+      <div class="main-container m-4">
+        <b-row class="justify-content-between">
+          <b-col class="pt-4 pl-4">
+            <b-col class="expire-trade-id d-flex">{{$t('trades.trade_id')}} #{{ trade.id }}  <ul class="offer-status"><li>{{$t(trade.status_translation)}}</li></ul></b-col>
+            <b-col class="offer-time d-flex align-items-center pb-1">{{$t('trades.listed_on')}} {{ trade.created_at | formatDateTimeString }}</b-col>
+            <b-col class="offer-time d-flex align-items-center">{{$t('trades.expires_on')}} {{ trade.expiry_date | formatDateTimeString }}</b-col>
+          </b-col>
+          <b-col class="d-flex flex-column pr-4 pt-4">
+            <Button v-if="!isDelistedTrade(trade) && !blockTrade(trade)" variant="blue" class="expired-btn ml-auto mr-4" @click="$bvModal.show('edit-trade')">{{$t('trades.edit_listing')}}</Button>
+            <Button v-if="!isDelistedTrade(trade) && !blockTrade(trade)" class="mt-3 expired-btn ml-auto mr-4" variant="outline-primary" @click="$bvModal.show('delist-offer')">{{$t('trades.delist')}}</Button>
+            <Button v-if="isDelistedTrade(trade)" class="mt-3 expired-btn ml-auto mr-4" variant="outline-primary" @click="$bvModal.show('relist-trade')">{{$t('trades.relist')}}</Button>
+          </b-col>
+        </b-row>
+        <b-row class="justify-content-center mt-3">
+          <offer-items :offerItems="trade.offers"/>
+        </b-row>
+      </div>
+      <delist-modal :tradeId="trade.id" @delist="delistTrade"></delist-modal>
+      <relist-modal :tradeId="trade.id" @relist="relistMyTrade"></relist-modal>
+      <edit-trade-confirmation-modal :tradeId="trade.id" @edit="editTradeConfirmed"></edit-trade-confirmation-modal>
+    </div>
+
   </div>
 </template>
 
@@ -51,12 +74,14 @@ export default {
   },
   data(){
     return {
-      COMPLETED_STATUS
+      COMPLETED_STATUS,
+      width:'',
     }
   },
   mounted() {
       this.$store.commit('trades/setEditTradePageReferrer', null)
       this.$store.commit('trades/setTradeForEditing', null)
+    this.width = window.innerWidth
   },
   methods: {
     ...mapActions('trades', ['relistTrade']),
@@ -103,12 +128,21 @@ export default {
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
   height: 371px
-
+.main-container-small
+  background: #F4F5F8
+  border-radius: 4px
+  height: 370px
+  width: 343px
 .expire-trade-id
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-2-bold
   color: $color-black-1
+.expire-trade-id-small
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-size: 14px
+  color: #667799
 
 .offer-status
   font-family: $font-family-montserrat
@@ -121,9 +155,36 @@ export default {
   font-style: normal
   @include body-13-normal
   color: $color-black-1
-
+.offer-time-small
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-size: 12px
+  color: #999999
 .expired-btn
   border-radius: 10px
   width: 174px
+.list-btn
+  height: 16px
+  width: 39px
+  color: #3D69E1
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 600
+  font-size: 13px
+  border: none
+  background-color: transparent
+  margin-left: 2rem
+.edit-btn
+  width: 121px
+  height: 30px
+  background: #667799
+  border-radius: 5px
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 600
+  font-size: 13px
+  line-height: 16px
+  color: #FFFFFF
+  margin-left: 5rem
 
 </style>
