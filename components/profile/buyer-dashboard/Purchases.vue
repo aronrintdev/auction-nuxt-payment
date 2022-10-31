@@ -102,7 +102,7 @@
                 />
               </div>
             </Carousel>
-            <div>
+            <div v-if="item">
               <h4 class="font-primary fw-6 fs-14 text-black mb-2">
                 <!-- TODO  -->
                 {{ item.products.name }}
