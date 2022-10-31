@@ -709,6 +709,7 @@ export default {
   background: $color-white-5
   border-bottom-right-radius: 3rem !important
   border-top-right-radius: 3rem !important
+  padding: 0.7rem
   .fa-eye-slash
     &:before
       color: $color-gray-47
@@ -768,6 +769,7 @@ export default {
       border: 1px solid $color-gray-3
       border-left: 0px
       border-radius: 0px 10px 10px 0px !important
+      padding: 0.7rem
       &:focus
         border-radius: 0px 10px 10px 0px
     .signup-heading
