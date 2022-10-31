@@ -327,4 +327,7 @@ export default {
   margin: 0 19px
 .apply-btn
   background-color: $color-blue-20
+.bottom-sheet-footers
+  .btn
+    width: 134px
 </style>

@@ -19,7 +19,7 @@
     <vue-bottom-sheet
       ref="filtersBottomSheet"
       max-width="auto"
-      max-height="90vh"
+      max-height="70vh"
       :rounded="true"
       :is-full-screen="true"
     >
