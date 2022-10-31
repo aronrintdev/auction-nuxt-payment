@@ -11,7 +11,7 @@
 
     <div class="d-flex justify-content-between align-items-center mt-4">
       <h3 class="title">
-        <span :class="{ 'body-4-medium' : isMobileSize }">
+        <span :class="{ 'body-5-medium' : isMobileSize }">
         {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
         </span>
       </h3>
@@ -24,7 +24,7 @@
         @click="deleteAction = true"
       >
         <img v-if="isMobileSize" src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
-        <span class="body-5-regular" :class="isMobileSize ? 'expire-button-gray' : 'text-black'">
+        <span class="body-9-regular" :class="isMobileSize ? 'expire-button-gray' : 'text-black'">
           {{ $t('bids.delete_expired') }}
         </span>
       </Button>

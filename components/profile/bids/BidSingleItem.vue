@@ -1,9 +1,9 @@
 <template>
   <div>
-    <b-row
+    <component :is="isMobileSize ? 'div' : 'b-row'"
       v-if="inventory.product"
-      :class="{'border shadow-sm' : isMobileSize}"
-      class="position-relative mt-3 text-center ml-n1 font-weight-bold w-100 bg-white single-item"
+      :class="isMobileSize ? 'border shadow-sm' : 'ml-n1'"
+      class="position-relative mt-3 text-center font-weight-bold w-100 bg-white single-item"
     >
       <div v-if="isMobileSize" :class="`${bid.place}_mobile`"
            class="position-absolute sf-pro-font text-left body-9-normal">
@@ -146,7 +146,7 @@
           <div class="px-0 px-md-1 px-lg-2 px-xl-3 body-4-medium"> {{ $t('bids.accept') }}</div>
         </Button>
       </b-col>
-    </b-row>
+    </component>
     <vue-bottom-sheet
       ref="mobileMenu"
       max-width="auto"
