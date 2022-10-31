@@ -454,8 +454,8 @@ export default {
     width: 459.5px
 /* media query ends */
 .btn-cancelled
-  color: #e00f0e
-  background: #fdebeb
+  color: $color-orange-22
+  background: $color-white-26
 .btn-refunded
   color: #F4B53F
   background: #fff9f0
