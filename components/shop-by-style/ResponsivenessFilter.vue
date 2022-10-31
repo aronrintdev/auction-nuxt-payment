@@ -4,8 +4,8 @@
     :class="{ scrolled: scrollPosition > 150 }"
   >
     <div class="d-flex align-items-center sf-wrapper">
-      <div class="searchbar-filter position-relative w-100">
-        <FilterIcon id="filters_sheet" class="filter_icon cursor-pointer" />
+      <div @click="open" class="searchbar-filter position-relative w-100">
+        <FilterIcon class="filter_icon cursor-pointer" />
       </div>
       <div class="setting-filter d-flex justify-content-start px-0 ml-2">
         <Icon 
@@ -16,26 +16,15 @@
         />
       </div>
     </div>
-    <BottomSheet id="filters_sheet">
+    <vue-bottom-sheet
+      ref="filtersBottomSheet"
+      max-width="auto"
+      max-height="90vh"
+      :rounded="true"
+      :is-full-screen="true"
+    >
       <ShopFiltersMobile ref="shopFilters" :defaultType="currentType" :dateFilter="date" @getStyles="stylesList" @selectedFilters="totalFilters" />
-      <template #footer>
-        <div
-          class="bottom-sheet-footers d-flex justify-content-between align-items-center w-100 px-3"
-        >
-          <button
-            class="btn fs-16 fw-6 font-secondary rounded-pill btn-outline-dark"
-          >
-            {{ $t('common.reset') }}
-          </button>
-          <button
-            class="btn text-white fs-16 fw-6 font-secondary rounded-pill apply-btn"
-            @click="apply"
-          >
-            {{ $t('common.apply_filters') }} {{ total ? '('+total+')' : '' }}
-          </button>
-        </div>
-      </template>
-    </BottomSheet>
+    </vue-bottom-sheet>
   </div>
 </template>
 <script>
@@ -72,9 +61,6 @@ export default {
   methods: {
     stylesList(styles) {
       this.$emit('renderStyles', styles)
-    },  
-    apply() {
-      this.$refs.shopFilters.applyFilters()
     },
     updateScroll() {
       this.scrollPosition = window.scrollY
@@ -84,6 +70,9 @@ export default {
     },
     totalFilters(value) {
       this.total = value
+    },
+    open() {
+      this.$refs.filtersBottomSheet.open()
     }
   },
 }
