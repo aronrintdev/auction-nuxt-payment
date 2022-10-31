@@ -390,7 +390,7 @@ export default {
 .mobile-collection-svg
   right: -18px
   top: -3px
-  z-index: 9999
+  z-index: 2
   img
     width: 22px
 
