@@ -10,12 +10,13 @@
       <AuctionSummary :auction="selectedAuction"  @update-auction="getUpdatedAuction"/>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center mt-5">
-      <h4 class="title">{{ $tc('auction.bids', 1) }} ({{selectedAuction?selectedAuction.bids.length: 0}})</h4>
+    <div class="d-flex justify-content-between align-items-center mt-3 mt-md-5 mb-3">
+      <h4 class="mb-0 title">{{ $tc('auction.bids', 1) }} ({{selectedAuction?selectedAuction.bids.length: 0}})</h4>
       <Button
-        v-if="selectedAuction"
+        v-if="selectedAuction && sortedBids.length > 0"
         variant="outline-primary"
         pill
+        class="send-final-btn"
         @click="selectAction = true"
       >
         {{ $t('auction.send_final') }}
@@ -37,30 +38,41 @@
       @submit="handleBulkAction()"
     />
 
-    <b-row class="mt-2 text-center px-5 font-weight-bold">
-      <b-col sm="12" md="5" class="text-left d-flex align-items-center">
+    <b-row class="mt-2 text-center px-0 px-md-5 bids-table-columns font-weight-bold">
+      <b-col cols="5" md="5" class="text-left d-flex align-items-center">
         <b-form-checkbox
         v-if="selectAction"
         id="checkbox-1"
         :checked="selectedAll"
-        class="position-absolute ml-n3 px-2"
+        class="custom-checkbox"
         @change="selectAllChange"
       >
           &nbsp;
       </b-form-checkbox> {{ $t('auction.recent_history') }}</b-col>
-      <b-col sm="12" md="4">{{ $t('auction.bid_amount') }}</b-col>
-      <b-col sm="12" md="3">{{ $t('auction.date_time') }}</b-col>
+      <b-col cols="4" md="4">{{ $t('auction.bid_amount') }}</b-col>
+      <b-col cols="3" md="3">{{ $t('auction.date_time') }}</b-col>
     </b-row>
     <div v-if="selectedAuction">
-      <Bid v-for="bid in sortedBids" :key="bid.id" :bid="bid"
-           :is-highest="bid.price===selectedAuction.highest_bid && !isDelistedOrExpired"
-           :selectable="selectAction"
-           :selected="selected.includes(bid.id)"
-           @accept="acceptBid"
-           @selected="selectBid"
+      <Bid
+        v-for="bid in sortedBids"
+        :key="bid.id"
+        :bid="bid"
+        :is-highest="bid.price===selectedAuction.highest_bid && !isDelistedOrExpired"
+        :selectable="selectAction"
+        :selected="selected.includes(bid.id)"
+        @accept="acceptBid"
+        @selected="selectBid"
       />
 
-      <div class="d-flex align-items-center justify-content-center">
+      <div v-if="!sortedBids.length">
+        <b-row class="mt-2 text-center px-0 px-md-5 bids-table-columns">
+          <b-col cols="5" md="5" class="text-left">-</b-col>
+          <b-col cols="4" md="4">-</b-col>
+          <b-col cols="3" md="3">-</b-col>
+        </b-row>
+      </div>
+
+      <div v-if="totalCount > sortedBids.length" class="d-flex align-items-center justify-content-center">
         <Button
           variant="primary"
           class="bg-blue-2 mt-3"
@@ -165,7 +177,8 @@ export default {
       selectedAll: false,
       modalActionLoading: false,
       take: BIDS_PER_PAGE,
-      page: 1
+      page: 1,
+      totalCount: 0,
     }
   },
 
@@ -222,6 +235,7 @@ export default {
       }
       this.bidsLoading = true
       this.getAuctionBids(payload).then(res => {
+        this.totalCount = res.data.total
         this.$store.commit('profile-auction/setBidsOfAuction', {id: this.selectedAuction.id, bids: res.data.data})
       }).catch(err => {
         this.$toasted.error(err.message || err.data.error)
@@ -312,12 +326,12 @@ export default {
 ::v-deep
   .custom-control-input:checked
     ~ .custom-control-label::after
-      transform: scale(1.5)
+      transform: scale(1)
 
 ::v-deep
   .custom-control-input
     ~ .custom-control-label::before
-      transform: scale(1.5)
+      transform: scale(1)
       color: $white
       background-color: $white
       box-shadow: none
@@ -338,4 +352,55 @@ export default {
   h4.title
     @include heading-1-medium
     color: $color-black-1
+
+  @media (max-width: 576px)
+    padding: 16px
+    background: $white
+    h2.title
+      @include body-3-bold
+
+    h4.title
+      @include body-4-bold
+    .send-final-btn
+      @include body-21
+      border: none
+      padding: 0
+      height: auto
+      &::focus
+        background: transparent
+    .bids-table-columns
+      @include body-9
+      font-weight: $medium
+      ::v-deep
+        .custom-control
+          margin-top: 0
+    ::v-deep
+      .custom-control
+        padding-left: 0
+        margin-right: 1em
+        margin-top: 10px
+      .custom-control-input:checked
+        ~ .custom-control-label::before
+          transform: scale(1)
+    ::v-deep
+      .custom-control-input:checked
+        ~ .custom-control-label::after
+          transform: scale(1)
+          top: -1.7rem
+
+    ::v-deep
+      .custom-control-label
+        height: 15px
+
+      .custom-control-label::before,
+      .custom-control-label::after
+        left: 0
+        position: relative
+      .custom-control-input
+        ~ .custom-control-label::before
+          transform: scale(1)
+    .bulk-select-toolbar-wrapper::v-deep
+      @include body-9
+      .btn
+        @include body-9
 </style>
