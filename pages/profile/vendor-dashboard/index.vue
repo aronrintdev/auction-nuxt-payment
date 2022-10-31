@@ -30,18 +30,18 @@
     <section class="row my-3 my-sm-5">
       <div class="col-6 col-md-3">
         <StatsCard
-          :icon="require('~/assets/img/icons/profile/total-sales.svg')"
-          :title="$t('vendor_dashboard.total_sales')"
-          :value="'$' + analytics.total_sales"
-          color="#667799"
+            :icon="require('~/assets/img/icons/profile/total-sales.svg')"
+            :title="$t('vendor_dashboard.total_sales')"
+            :value="totalSales"
+            color="#667799"
         />
       </div>
       <div class="col-6 col-md-3">
         <StatsCard
-          :icon="require('~/assets/img/icons/profile/commision-pending.svg')"
-          :title="$t('vendor_dashboard.commision_pending')"
-          :value="'' + analytics.pending_commission"
-          color="#CE745F"
+            :icon="require('~/assets/img/icons/profile/commision-pending.svg')"
+            :title="$t('vendor_dashboard.commision_pending')"
+            :value="commissionPending"
+            color="#CE745F"
         />
       </div>
       <div class="col-6 col-md-3">
@@ -105,6 +105,14 @@ export default {
         items_sold: 0,
       },
       vendor: {},
+    }
+  },
+  computed: {
+    totalSales() {
+      return this.$options.filters.toCurrency(parseInt(this.analytics.total_sales))
+    },
+    commissionPending() {
+      return this.$options.filters.toCurrency(parseInt(this.analytics.pending_commission))
     }
   },
   mounted() {
