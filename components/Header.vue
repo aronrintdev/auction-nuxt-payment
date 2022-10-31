@@ -256,6 +256,14 @@ import ScreenSize from '~/plugins/mixins/screenSize'
 import Dropdown from '~/components/common/form/Dropdown'
 import SearchOverlayMobile from '~/components/SearchOverlayMobile'
 export default {
+   head: {
+    title: 'Deadstock',
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' },
+    ],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/assets/img/icons/favicon.ico' }]
+  },
   name: 'Header',
   components: {
     NotificationDropdown,
