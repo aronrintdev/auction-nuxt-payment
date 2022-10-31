@@ -5015,6 +5015,10 @@
       "commission": "Commission",
       "documents": "Documents"
     },
+    "cancel": "Cancel",
+    "camera": "Camera",
+    "gallery": "Gallery",
+    "browse": "Browse",
     "vendor_hub": "Vendor Hub",
     "store_address": "Store Address",
     "documents": "Documents",
@@ -5130,6 +5134,7 @@
       "csv_exported": "CSV file has been exported to your downloads folder",
       "export_selected": "Export Selected",
       "orders_fulfilled": "Total Orders Fulfilled",
+      "email_cvs": "Email CVS",
       "table": {
         "order_id": "Order ID",
         "product": "Product",
@@ -5154,6 +5159,10 @@
       "enter_valid_phone": "Please enter a valid phone number.",
       "enter_valid_address": "Please enter a valid address.",
       "verification_expired": "Verification Code has expired."
+    },
+    "mobile": {
+      "verification_message_sent": "A verification code has been sent to your mobile phone.",
+      "verification_details_message": "Please input the code below to confirm within the next 5 minutes."
     },
     "messages": {
       "document_uploaded": "Vendor Document Uploaded!",
