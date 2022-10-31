@@ -23,16 +23,21 @@
         <Icon :src="iconSvg"/>
       </div>
       <div class="d-block d-md-none">
-        <div class="d-flex justify-content-center align-items-center">
-          <div class="p-1"><img :src="require('~/assets/img/orders/multiple-orders.svg')" height="16" alt=""></div>
-          <div class="title">{{ $t('orders.multi_product_item', [order.items.length]) }}</div>
+        <div class="row">
+          <div class="col"></div>
+          <div class="col-8">
+            <div class="d-flex justify-content-start align-items-center fix-margin">
+              <div class="p-1"><img :src="require('~/assets/img/orders/multiple-orders.svg')" height="16" alt=""></div>
+              <div class="title">{{ $t('orders.multi_product_item', [order.items.length]) }}</div>
+            </div>
+          </div>
         </div>
         <b-carousel
           id="carousel-1"
           ref="showcase"
+          v-model="currentSlide"
           :interval="5000"
-          img-width="1024"
-          img-height="250"
+          indicators
         >
           <b-carousel-slide v-for="(single, index) in order.items" :key="single.key">
             <template #img>
@@ -40,7 +45,7 @@
                 <div class="row">
                   <div class="col">
                     <div class="text-center">
-                      <div class="pb-2"><img :src="product(single).image" height="70" alt=""></div>
+                      <div class="pb-2"><img :src="product(single).image" width="74" alt=""></div>
                       <NuxtLink :to="`/orders/${order.order_id}-${index + 1}`" class="d-none d-md-block">
                         <span>#{{ order.order_id }}-{{ index + 1 }}</span>
                       </NuxtLink>
@@ -48,80 +53,81 @@
                   </div>
 
                   <div class="col-8">
-                    <div class="title">{{ product(single).name | wordLimit }} ({{ product(single).release_year }})</div>
-                    <div class="sku">{{ $t('orders.sku') }}: {{ product(single).sku }}</div>
-                    <div class="attribute">{{ $t('orders.colorway') }}: {{ product(single).colorway }},
-                      {{ $t('orders.size') }}:
-                      {{ sizeId(single) }}
+                    <div class="attribute">{{ product(single).name | wordLimit }} ({{
+                        product(single).release_year
+                      }})
                     </div>
+                    <div class="sku">{{ $t('orders.sku') }}: {{ product(single).sku }}</div>
+                    <div class="attribute">{{ $t('orders.colorway') }}: {{ product(single).colorway }}</div>
+                    <div class="attribute">{{ $t('orders.size') }}: {{ sizeId(single) }}</div>
+                    <div class="attribute">{{ $t('orders.box_condition') }}: {{ boxCondition(single) }}</div>
                   </div>
-                </div>
-                <div class="my-2">
-                  <table class="table table-striped table-borderless">
-                    <tbody>
-                    <tr>
-                      <td>{{ $t('orders.order_id') }}</td>
-                      <td class="text-right">
-                        <NuxtLink :to="`/orders/${order.order_id}-${index + 1}`">
-                          <span>#{{ order.order_id }}-{{ index + 1 }}</span>
-                        </NuxtLink>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>{{ $t('orders.date_ordered') }}</td>
-                      <td class="text-right">
-                        {{ dateFormat(order.created_at) }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>{{ $t('orders.status') }}</td>
-                      <td class="text-right">
-                        {{ single.status_label }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>{{ $t('orders.type') }}</td>
-                      <td class="text-right">
-                        {{ order.type.label }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>{{ $t('orders.vendor_payout') }}</td>
-                      <td v-if="isBuy" class="text-right">
-                        ${{ commissionAmount | formatPrice }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>{{ $t('orders.action') }}</td>
-                      <td class="text-right">
-                        <div v-if="single.status === PROCESSING">
-                          <a href="#generate-label"
-                             @click="generateLabel(single)">{{ $t('orders.generate_shipping_label') }}</a>
-                        </div>
-                        <div v-if="single.status === AWAITING_SHIPMENT_TO_DEADSTOCK">
-                          <a href="#generate-label"
-                             @click="generateLabel(single)">{{ $t('orders.delivered_to_deadstock') }}</a>
-                        </div>
-                        <div v-if="single.status !== PROCESSING && single.vendor_shipment">
-                          <a :href="downloadPdf(single)" :download="`${single.vendor_shipment.tracking_no}.pdf`">{{
-                              $t('orders.print_shipping_label')
-                            }}</a>
-                        </div>
-                        <div v-if="single.status !== PROCESSING && single.vendor_shipment">
-                          <span>{{ single.vendor_shipment.shipping_method_text }}</span>
-                          <a target="_blank"
-                             :href="single.vendor_shipment.tracking_url">{{ single.vendor_shipment.tracking_no }}</a>
-                        </div>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
                 </div>
               </div>
             </template>
           </b-carousel-slide>
         </b-carousel>
-
+        <div class="my-2">
+          <table class="table table-striped table-borderless">
+            <tbody>
+            <tr>
+              <td>{{ $t('orders.order_id') }}</td>
+              <td class="text-right">
+                <NuxtLink :to="`/orders/${order.order_id}-${currentSlide + 1}`">
+                  <span>#{{ order.order_id }}-{{ currentSlide + 1 }}</span>
+                </NuxtLink>
+              </td>
+            </tr>
+            <tr>
+              <td>{{ $t('orders.date_ordered') }}</td>
+              <td class="text-right">
+                {{ dateFormat(order.created_at) }}
+              </td>
+            </tr>
+            <tr>
+              <td>{{ $t('orders.status') }}</td>
+              <td class="text-right">
+                {{ slideItem.status_label }}
+              </td>
+            </tr>
+            <tr>
+              <td>{{ $t('orders.type') }}</td>
+              <td class="text-right">
+                {{ order.type.label }}
+              </td>
+            </tr>
+            <tr>
+              <td>{{ $t('orders.vendor_payout') }}</td>
+              <td v-if="isBuy" class="text-right">
+                ${{ commissionAmount | formatPrice }}
+              </td>
+            </tr>
+            <tr>
+              <td>{{ $t('orders.action') }}</td>
+              <td class="text-right">
+                <div v-if="slideItem.status === PROCESSING">
+                  <a href="#generate-label"
+                     @click="generateLabel(slideItem)">{{ $t('orders.generate_shipping_label') }}</a>
+                </div>
+                <div v-if="slideItem.status === AWAITING_SHIPMENT_TO_DEADSTOCK">
+                  <a href="#generate-label"
+                     @click="generateLabel(slideItem)">{{ $t('orders.delivered_to_deadstock') }}</a>
+                </div>
+                <div v-if="slideItem.status !== PROCESSING && slideItem.vendor_shipment">
+                  <a :href="downloadPdf(slideItem)" :download="`${slideItem.vendor_shipment.tracking_no}.pdf`">{{
+                      $t('orders.print_shipping_label')
+                    }}</a>
+                </div>
+                <div v-if="slideItem.status !== PROCESSING && slideItem.vendor_shipment">
+                  <span>{{ slideItem.vendor_shipment.shipping_method_text }}</span>
+                  <a target="_blank"
+                     :href="slideItem.vendor_shipment.tracking_url">{{ slideItem.vendor_shipment.tracking_no }}</a>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -234,7 +240,8 @@ export default {
       PROCESSING,
       AWAITING_SHIPMENT_TO_DEADSTOCK,
       isCollapsed: true,
-      selected: this.value
+      selected: this.value,
+      currentSlide: 0
     }
   },
   computed: {
@@ -258,6 +265,9 @@ export default {
         total = total + (x.commission?.commission || 0)
       })
       return total
+    },
+    slideItem() {
+      return this.order.items[this.currentSlide]
     }
   },
   watch: {
@@ -282,6 +292,9 @@ export default {
         return item.listing_item?.inventory?.product
       }
       return item.product
+    },
+    boxCondition(item) {
+      return item.listing_item?.inventory?.packaging_condition.name
     },
     sizeId(item) {
       return item.listing_item?.inventory?.size_id
@@ -338,6 +351,19 @@ export default {
   width: 141px
   padding: 10px 15px
   border-radius: 4px
+
+.fix-margin
+  margin-left: -25px
+
+@media (max-width: 992px)
+  ::v-deep .carousel-indicators
+    position: relative
+
+    li
+      border-radius: 50%
+      width: 5px
+      height: 5px
+      background-color: $color-black-1
 
 @media (min-width: 993px)
   .forced-wide
