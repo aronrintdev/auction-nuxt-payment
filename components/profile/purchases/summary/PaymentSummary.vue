@@ -1,8 +1,8 @@
 <template>
   <div class="row">
-    
+
     <!-- Cash Summary -->
-    <div v-if="orderDetails.type.label === 'trade'" class="col-12">
+    <div v-if="orderDetails.type === 'trade'" class="col-12">
       <b-card class="purchase-multiple-orders">
         <h4 class="card-title cash-summary-header">
           <img :src="require('~/assets/img/purchases/dollar.svg')" alt="dollar-image" class="dollar-image-trade"/>
@@ -21,7 +21,7 @@
         <span class="img-wrapper"> </span>
 
         <template v-if="showDetails">
-          
+
           <!-- Description -->
           <b-card-text>
             {{ $t('vendor_purchase.cash_received_description') }}
@@ -60,7 +60,7 @@
     <!-- Payment Details -->
     <div class="col-12 purchase-history-heading">
       <h5 class="text-bold">
-        {{ orderDetails.type.label !== 'trade' ? $t('vendor_purchase.payment_summary') : '' }}
+        {{ orderDetails.type !== 'trade' ? $t('vendor_purchase.payment_summary') : '' }}
       </h5>
     </div>
 
@@ -75,10 +75,10 @@
           </div>
 
           <div class="col-12 transaction-details">
-            <h5 v-if="orderDetails.type.label !== 'trade'" class="transaction-heading text-capitalize text-bold">
+            <h5 v-if="orderDetails.type !== 'trade'" class="transaction-heading text-capitalize text-bold">
               {{ $t('vendor_purchase.transactionid', { transactionid: orderDetails.transaction.transaction_id, })}}
               &nbsp;
-              ({{ orderDetails.type.label }})
+              ({{ orderDetails.type }})
             </h5>
             <h5 v-else class="transaction-heading text-capitalize text-bold">
               {{ $t('vendor_purchase.trade_summary') }}
@@ -128,7 +128,7 @@
               {{ $t('vendor_purchase.payment_method') }}
             </div>
             <div class="payment-summary-details-description mt-2">
-              <img :src="getImage" alt="payment-img" class="img-fluid payment-img" width="50"/>              
+              <img :src="getImage" alt="payment-img" class="img-fluid payment-img" width="50"/>
               {{ $t('vendor_purchase.paymentvia') }}
               <template v-if="orderDetails.transaction">
                 <span v-if="cardStatus.includes(orderDetails.transaction.payment_type)"
@@ -141,7 +141,7 @@
                 <span v-else class="text-capitalize">
                   {{ orderDetails.transaction.payment_type }}
                 </span>
-                
+
                 <p v-if="!cardStatus.includes(orderDetails.transaction.payment_type)" class="mt-4">
                   <span class="text-dark">
                     {{ $t('vendor_purchase.bitcoin_status') }}
@@ -158,9 +158,6 @@
               </template>
             </div>
           </div>
-
-
-
           <!-- ./Payment method -->
           <!-- Order Total -->
           <div v-if="orderDetails.transaction" class="col-md-4 col-sm-12 total">
@@ -228,7 +225,7 @@
             <b-row v-if="orderDetails.transaction.discount && orderDetails.promo_code!==null">
               <b-col md="6">
                 <div class="text-gray-25">
-                 {{ $t('vendor_purchase.promotion') }} 
+                 {{ $t('vendor_purchase.promotion') }}
                   <span v-if="orderDetails.promo_code">({{orderDetails.promo_code}})</span>
                 </div>
               </b-col>

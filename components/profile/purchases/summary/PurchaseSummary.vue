@@ -291,7 +291,7 @@ export default {
 
     // Item status
     orderType: (vm) => {
-      return vm.orderDetails.type.label
+      return vm.orderDetails.type
     },
     // Item quantity
     itemQuantity: (vm) => {
