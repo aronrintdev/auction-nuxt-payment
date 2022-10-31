@@ -345,9 +345,6 @@ export default {
     window.removeEventListener('resize', this.updatePerPageOptions)
   },
 
-  mounted() {
-  },
-
   methods: {
     ...mapActions({
       fetchInventories: 'inventory/fetchInventories',

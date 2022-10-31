@@ -4,26 +4,26 @@
         <div v-if="editRemove" class="d-flex justify-content-end">
           <img
             v-if="selected"
-            @click="$emit('select', wantItem.id, 'remove')"
             role="button"
-            :src="require('~/assets/img/icons/red-minus.svg')" 
+            :src="require('~/assets/img/icons/red-minus.svg')"
             height="22" 
             width="22" 
+            @click="$emit('select', wantItem.id, 'remove')" 
           >
           <img
             v-else
-            @click="$emit('select', wantItem.id, 'add')"
             role="button"
-            :src="require('~/assets/img/icons/gray-plus.svg')" 
+            :src="require('~/assets/img/icons/gray-plus.svg')"
             height="22" 
             width="22" 
+            @click="$emit('select', wantItem.id, 'add')" 
           >
         </div>
         <div v-else class="d-flex justify-content-center align-items-center">
           <div 
             role="button" 
-            @click="editWant"
             class="pr-1 d-flex align-items-center"
+            @click="editWant"
           >
             <img 
               :src="require('~/assets/img/icons/pencil-gray.svg')" 
@@ -34,8 +34,8 @@
           </div>
           <div 
             role="button" 
-            @click="deleteWant"
             class="pl-1 d-flex align-items-center"
+            @click="deleteWant"
           >
             <img 
               :src="require('~/assets/img/icons/Delete.svg')" 
@@ -94,12 +94,12 @@ export default {
       default: ()=> [],
     },
   },
-  mounted() {
-  },
   data() {
     return {
       IMAGE_PATH
     }
+  },
+  mounted() {
   },
   methods:{
     deleteWant() {

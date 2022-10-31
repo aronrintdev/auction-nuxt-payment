@@ -297,14 +297,13 @@ export default {
     margin-right: 10px !important
     
 .responsive-header
-  color: #000 !important
+  color: $color-black-1 !important
   font-size: 14px !important
-  font-weight: 600 !important
+  font-weight: $medium !important
   @media (min-width: 576px)
     font-family: $font-family-sf-pro-display !important
-    font-weight: 700 !important
+    font-weight: $normal !important
     font-size: 20px !important
-
 
 .child-container
   margin-top: 18px
@@ -325,7 +324,7 @@ export default {
       margin: 0 40px
 
       &.active
-        color: #000 !important
+        color: $color-black-1 !important
         text-decoration: underline
 
   .current-trend

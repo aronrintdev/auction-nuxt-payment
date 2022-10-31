@@ -50,8 +50,8 @@
           mobileClass &&
           'd-flex align-items-center text-center justify-content-center'
         }`"
-        v-html="message"
-        :style="messageStyle" 
+        :style="messageStyle"
+        v-html="message" 
       ></div>
     </div>
   </Modal>

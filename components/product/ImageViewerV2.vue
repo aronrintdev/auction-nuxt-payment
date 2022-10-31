@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ width: '95%' }" ref="container" class="container">
+  <div ref="container" class="container w-95">
     <PinchScrollZoom
       v-if="shouldMount"
       ref="zoomer"
@@ -109,6 +109,9 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.w-95
+  width: 95% !important
 
 .container
   display: flex

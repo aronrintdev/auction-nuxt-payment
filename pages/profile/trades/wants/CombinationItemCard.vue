@@ -24,8 +24,8 @@
               <div v-if="!editRemove" class="d-flex justify-content-end mb-5">
                 <div 
                   role="button" 
-                  @click="editWant"
                   class="d-flex align-items-center"
+                  @click="editWant"
                 >
                   <img 
                     :src="require('~/assets/img/icons/pencil-gray.svg')" 
@@ -36,8 +36,8 @@
                 </div>
                 <div
                   role="button" 
-                  @click="deleteWant"
                   class="d-flex align-items-center"
+                  @click="deleteWant"
                 >
                   <img 
                     :src="require('~/assets/img/icons/Delete.svg')" 
@@ -51,19 +51,19 @@
               <div v-else class="d-flex justify-content-end mb-5">
                 <img
                   v-if="selected"
-                  @click="$emit('select', combination.combination_id, 'remove')"
                   role="button"
-                  :src="require('~/assets/img/icons/red-minus.svg')" 
+                  :src="require('~/assets/img/icons/red-minus.svg')"
                   height="22" 
                   width="22" 
+                  @click="$emit('select', combination.combination_id, 'remove')" 
                 >
                 <img
                   v-else
-                  @click="$emit('select', combination.combination_id, 'add')"
                   role="button"
-                  :src="require('~/assets/img/icons/gray-plus.svg')" 
+                  :src="require('~/assets/img/icons/gray-plus.svg')"
                   height="22" 
                   width="22" 
+                  @click="$emit('select', combination.combination_id, 'add')" 
                 >
               </div>
               <div class="mt-2 text-bold">
@@ -207,21 +207,21 @@
                 <div v-else class="d-flex justify-content-end mb-5">
                   <img
                     v-if="selected"
-                    @click="$emit('select', combination.combination_id, 'remove')"
                     class="more"
                     role="button"
-                    :src="require('~/assets/img/icons/red-minus.svg')" 
+                    :src="require('~/assets/img/icons/red-minus.svg')"
                     height="19" 
                     width="19" 
+                    @click="$emit('select', combination.combination_id, 'remove')" 
                   >
                   <img
                     v-else
-                    @click="$emit('select', combination.combination_id, 'add')"
                     role="button"
                     class="more"
-                    :src="require('~/assets/img/icons/gray-plus.svg')" 
+                    :src="require('~/assets/img/icons/gray-plus.svg')"
                     height="19" 
                     width="19" 
+                    @click="$emit('select', combination.combination_id, 'add')" 
                   >
                 </div>
               </div>

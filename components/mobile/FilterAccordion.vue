@@ -60,11 +60,11 @@ export default {
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
 
-.value 
-  color: #000
+.value
+  @include body-4
+  color: $color-black-1
   font-family: $font-family-sf-pro-display
-  font-weight: 500
-  font-size: 16px
+  font-weight: $normal
   margin-right: 14px
   
 .title

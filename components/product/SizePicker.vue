@@ -12,21 +12,10 @@
             <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
           </div>
           
-          <!-- <Button
-            v-if="!singleMode"
-            variant="link"
-            class="position-absolute view-all-btn ml-auto body-8-medium"
-            size="sm"
-            @click="handleViewAllClick"
-          >
-            <template #default>
-              <span class="text-color-blue-30">1231</span>
-            </template>
-          </Button> -->
           <div 
             v-if="!singleMode"
-            @click="handleViewAllClick"
             class="position-absolute view-all-btn mr-2"
+            @click="handleViewAllClick"
           >
             <img
               width="18"
@@ -35,12 +24,8 @@
               :class="iconClass"
             />
             <span 
-              :style="{
-                fontSize: '14px',
-                fontWeight: 600,
-                color: '#000',
-              }"
               :class="iconTextClass"
+              class="icon-text"
               role="button"
             >
               {{ $t('products.all_sizes') }}
@@ -305,27 +290,31 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.icon-text
+  font-size: 14px !important
+  font-weight: $medium !important
+  color: $color-black-1 !important,
+
 .text-color-blue-30
   color: $color-blue-30
 
 .size-label-responsive
+  @include body-10
   display: block !important
-  font-size: 13px
-  color: #000
+  color: $color-black-1
   left: 0
   top: 0
   @media (min-width: 576px)
-    font-size: 15px
-    font-weight: 500
+    @include body-8-normal
     text-transform: uppercase
 
 .icon-text-responsive
   font-size: 13px !important
-  font-weight: 400 !important
-  color: #000 !important
+  font-weight: $regular !important
+  color: $color-black-1 !important
   @media (min-width: 576px)
     color: $color-blue-30 !important
-    font-weight: 600 !important
+    font-weight: $medium !important
 
 .owl-carousel 
   .owl-item

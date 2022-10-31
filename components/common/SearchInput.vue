@@ -217,7 +217,7 @@ export default {
   @media (max-width: 575px)
     height: 33px !important
     color: $color-black-4 !important
-    font-size: 12px !important
+    font-size: $font-size-12 !important
     background: $color-white-5 !important
     border: none !important
     border-radius: 8px !important

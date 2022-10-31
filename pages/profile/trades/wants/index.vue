@@ -37,7 +37,7 @@
                   @change="filterData"
                 />
               </div>
-              <img @click="filtersModalOpen = true" :src="require('assets/img/icons/filter.svg')" />
+              <img :src="require('assets/img/icons/filter.svg')" @click="filtersModalOpen = true" />
             </div>
             <SearchedProductsBelowSearchTextBox 
               v-if="searchedItems.length > 0 && searchText.length > 0" 
@@ -118,17 +118,17 @@
       <b-row class="d-none d-sm-flex justify-content-between justify-content-md-start px-2">
         <div 
           class="listing-heading" 
-          v-on:click="currentTab = 'inventory'"
           :style="{'color': currentTab === 'inventory' ? '#000' : '#999'}"
           role="button"
+          @click="currentTab = 'inventory'"
         >
           {{ $t('trades.wants_listing.general_list_items', { 0: totalCount }) }}
         </div>
         <div 
           class="wanted-items-heading" 
-          v-on:click="currentTab = 'combinations'"
           :style="{'color': currentTab === 'combinations' ? '#000' : '#999'}"
           role="button"
+          @click="currentTab = 'combinations'"
         >
           {{ $t('trades.wants_listing.combinations', { 0: combinationItems.length }) }}
         </div>
@@ -136,15 +136,15 @@
       <div class="mt-3 d-flex d-sm-none row navigation-container">
         <div 
           class="navigation-item" 
-          v-on:click="currentTab = 'inventory'"
           :class="{'navigation-item-active': currentTab === 'inventory'}"
+          @click="currentTab = 'inventory'"
         >
           <span class="navigation-text">{{ $t('common.wants_inventory') }}</span>
         </div>
         <div 
           class="navigation-item" 
-          v-on:click="currentTab = 'combinations'"
           :class="{'navigation-item-active': currentTab === 'combinations'}"
+          @click="currentTab = 'combinations'"
         >
           <span class="navigation-text font-weight-normal">{{ $t('common.wants_combinations') }}</span>
         </div>
@@ -161,12 +161,9 @@
           />
           <div 
             :style="{
-              fontFamily: 'SF Pro Display',
-              fontSize: '12px',
-              color: '#999',
-              fontWeight: 500,
-              marginLeft: '4px'
+              
             }"
+            class="delete-multiple"
           >
             {{ $t('product_page.delete_multiple') }}
           </div>
@@ -189,11 +186,11 @@
             dropDownHeight="38px"
             variant="white"
             borderRadius="4px"
-            @change="changeCategory"
             paddingX="10px"
             :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
             labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
             arrowStyle='color: #000'
+            @change="changeCategory"
           />
         </b-col>
         <b-col class="pr-0 pl-lg-0" sm="6" lg="2">
@@ -207,11 +204,11 @@
             dropDownHeight="38px"
             variant="white"
             borderRadius="4px"
-            @change="changeSizeTypeFilter"
             paddingX="10px"
             :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
             labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
             arrowStyle='color: #000'
+            @change="changeSizeTypeFilter"
           />
         </b-col>
         <b-col class="px-0" lg="2" >
@@ -225,15 +222,15 @@
             dropDownHeight="38px"
             variant="white"
             borderRadius="4px"
-            @change="changeSizeFilter"
             paddingX="10px"
             :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
             labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
             arrowStyle='color: #000'
+            @change="changeSizeFilter"
           />
         </b-col>
         <b-col sm="6" lg="2" class="pl-0">
-          <div class="button-filter" @click="getWantItems" role="button">
+          <div class="button-filter" role="button" @click="getWantItems">
             {{ $t('create_listing.trade.offer_items.filter_btn') }}
           </div>
         </b-col>
@@ -267,13 +264,13 @@
           v-if="currentTab === 'inventory'" 
           class=""
         >
-          <div :style="{ height: '100vh' }" class="no-items text-center mt-5" v-if="!wantedItems.length">
+          <div v-if="!wantedItems.length" :style="{ height: '100vh' }" class="no-items text-center mt-5">
             {{ $t('trades.wants_listing.you_have_no_items_in') }}
             <span class="add-new-item" role="button" @click="$router.push('/profile/trades/wants/addwantitem')">
               {{ $t('common.add_new_item') }}
             </span>
           </div>
-          <div class="d-flex flex-column bg-white content-container pb-3" v-else>
+          <div v-else class="d-flex flex-column bg-white content-container pb-3">
             <div class="d-flex flex-wrap justify-content-around">
               <div 
                 v-for="item in wantedItems" 
@@ -364,8 +361,8 @@
     </div>
     
     <div
-      class="d-flex flex-column d-sm-none px-3 pb-3"
       v-if="action === 'delete_combination' || action === 'delete' || action === 'create_combination'"
+      class="d-flex flex-column d-sm-none px-3 pb-3"
     >
       <div class="col-12 tap-to-delete">
         {{ action === 'create_combination' ? $t('common.tap_to_include') : $t('common.tap_to_delete') }}
@@ -442,7 +439,7 @@ import {
   SIZE_TYPES,
   THREE_ITEMS
 } from '~/static/constants/trades'
-import {Pagination} from '~/components/common'
+import {Pagination, Button } from '~/components/common'
 import CombinationItemCard from '~/pages/profile/trades/wants/CombinationItemCard';
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar';
 import WantItemCard from '~/pages/profile/trades/wants/WantItemCard';
@@ -452,7 +449,6 @@ import FiltersModal from '~/pages/profile/trades/wants/FiltersModal'
 import { ConfirmModal, AlertModal } from '~/components/modal'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox';
 import { APPAREL_SIZES } from '~/static/constants/sizes'
-import { Button } from '~/components/common';
 
 export default {
   name: 'Index',
@@ -951,36 +947,39 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.delete-multiple
+  @include body-9-normal
+  font-family: $font-family-sf-pro-display
+  color: $color-gray-4,
+  margin-left: 4px
+
 .tap-to-delete
+  @include body-9-normal
   text-align: center
-  font-weight: 500
-  font-size: 12px
   color: $color-gray-77
   margin-bottom: 23px
 
 .cancel-button
+  @include body-10-medium
   border: 1px solid $color-gray-76
   border-radius: 20px
-  font-weight: 600
-  font-size: 13px
   color: $color-gray-76
   height: 35px
 
 .delete-button-mobile
+  @include body-10-medium
   border-radius: 20px
   background: $color-blue-20
-  color: #fff
-  font-weight: 600
-  font-size: 13px
+  color: $color-white-1
   height: 35px
 
 .wants-container
-  background: #FDFDFD
+  background: $white-11
 
 .wants-main-container
   padding-left: 15px
   padding-right: 15px
-  background-color: #FFF
+  background-color: $color-white-1
   @media (min-width: 576px)
     background-color: $color-white-5
     padding-left: 54px
@@ -999,11 +998,10 @@ export default {
 
 
 .wants-sub-heading
+  @include body-13-normal
   font-family: $font-family-sf-pro-display
   font-style: normal
-  @include body-13-regular
   color: $color-gray-5
-  font-weight: 500
   display: none
   @media (min-width: 576px)
     display: block
@@ -1091,11 +1089,9 @@ export default {
   padding-top: 40px
 
 .filter-label
+  @include body-8-normal
   font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 500
-  font-size: 15px
-  line-height: 18px
   margin-top: 32px
   margin-bottom: 7px
 
@@ -1131,18 +1127,16 @@ export default {
   justify-content: center
 
 .navigation-text
-  font-family: 'Montserrat'
-  font-weight: 600
-  font-size: 11px
+  @include body-6-medium
+  font-family: $font-family-montserrat
 
 .navigation-item-active
-  background-color: #FFF
+  background-color: $color-white-1
   border-radius: 14.5px
 
 .create-combination
+  @include body-4-normal
   font-family: $font-family-sf-pro-display
-  font-weight: 500
-  font-size: 16
   color: $color-gray-5
 
 .add-new-item
@@ -1152,11 +1146,11 @@ export default {
     border-bottom: 2px solid $color-blue-1
 
 .button-delete-multiple
+  @include body-5
   border: 1px solid $color-blue-20
-  background: #FDFDFD
+  background: $white-11
   color: $color-gray-5
   font-family: $font-family-montserrat
-  font-size: 14px
   display: flex
   justify-content: center
   align-items: center
@@ -1170,12 +1164,11 @@ export default {
   top: 18px
 
 .button-filter
+  @include body-4-normal
   background: $color-blue-20
   border-radius: 5px
   font-family: $font-family-sf-pro-display
-  font-weight: 500
-  font-size: 16
-  color: #FFF
+  color: $color-white-1
   display: flex
   justify-content: center
   align-items: center

@@ -3,7 +3,7 @@
         <edit-item v-if="editItem" :product="editItem" :itemId="itemId"
                    :combinationId="getUpdateCombinations.combination_id" productFor="wantsList"/>
         <add-want-item v-else-if="addWantItem" :combinationId="getUpdateCombinations.combination_id"/>
-        <div :style="{ background: '#F4F4F4' }" v-else>
+        <div v-else class="bg-gray-75">
             <div class="header-section pt-4">
                 <div 
                     class="back-to-search text-center text-sm-left" 
@@ -33,9 +33,9 @@
                 </div>
             </div>
             <div 
+                v-for="(item, index) in getUpdateCombinations.combination_items"
+                :key="'offer-'+index+item.id" 
                 :style="{ marginBottom: '20px' }"
-                v-for="(item, index) in getUpdateCombinations.combination_items" 
-                :key="'offer-'+index+item.id"
             >
                 <div class="product-num">
                     {{ $tc('common.product') }} {{ index + 1 }}
@@ -320,6 +320,9 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.bg-gray-75
+    background: $color-gray-75 !important
 
 .create-trade-sub-heading
     font-family: $font-family-montserrat

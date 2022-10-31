@@ -25,8 +25,8 @@
               src="close.svg"
               width="12"
               height="12"
-              @click="currentDataTab = ''"
               class="btn-close mt-1"
+              @click="currentDataTab = ''"
             />
           </div>
           <div v-if="currentDataTab === 'sales'">
@@ -196,20 +196,20 @@ export default {
 @import '~/assets/css/_variables'
 
 .chart-button
+  @include body-5
   height: 34px
   border: 1px solid $color-gray-23
   border-radius: 4px
-  font-weight: 600
-  font-size: 14px
-  color: #000
+  font-weight: $medium
+  color: $color-black-1
   display: flex
   align-items: center
   justify-content: center
 
 .chart-header
+  @include body-2
   font-family: $font-family-sf-pro-display
-  font-size: 20px
-  font-weight: 700
+  font-weight: $bold
 
 ::v-deep
   .nav-tabs
@@ -227,9 +227,9 @@ export default {
     &:hover
       color: $color-gray-4
     &.active
-      color: #000
+      color: $color-black-1
       &:hover
-        color: #000
+        color: $color-black-1
 
 /* Collapse card content styles */
 .card

@@ -2,19 +2,19 @@
   <MobileBottomSheet
     :max-height="'80%'"
     :open="isOpen"
-    @closed="$emit('closed')"
-    @opened="$emit('opened')"
     :headerStyle="{
       display: 'none !important'
     }"
+    @closed="$emit('closed')"
+    @opened="$emit('opened')"
   >
     <div class="">
       <div class="header">
         {{ $t('common.filter_by') }}
         <img 
+          :src="require('assets/img/icons/close-gray.svg')" 
+          class="close-icon"
           @click="$emit('closed')" 
-          :src="require('assets/img/icons/close-gray.svg')"
-          class="close-icon" 
         />
       </div>
 
@@ -119,7 +119,6 @@
 </template>
 
 <script>
-/* eslint-disable vue/no-unused-components */
 import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
 import FilterAccordion from '~/components/mobile/FilterAccordion';
 import Button from '~/components/common/Button';
@@ -245,10 +244,9 @@ export default {
 @import '~/assets/css/_variables'
 
 .header
-  color: #000
+  @include body-17-bold
+  color: $color-black-1
   font-family: $font-family-sf-pro-display
-  font-weight: 700
-  font-size: 17px
   border-bottom: 1px solid $color-gray-4
   padding: 0 30px 18px 30px
   display: flex
@@ -266,19 +264,17 @@ export default {
   padding-right: 29px
 
 .label
+  @include body-4-bold
   font-family: $font-family-sf-pro-display
-  font-weight: 700
-  font-size: 16px
   color: $color-blue-20
 
 .sort-option
+  @include body-5-normal
   font-family: $font-family-sf-pro-display
-  font-weight: 500
-  font-size: 14px
   margin-left: 10px
 
 .radio-button[type="radio"]
-  accent-color: #000
+  accent-color: $color-black-1
 
 .separator
   width: 100%
