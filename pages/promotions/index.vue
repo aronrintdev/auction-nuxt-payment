@@ -88,4 +88,7 @@ export default {
 .promotions
   &.mobile
     background-color: $color-white-1
+  @media (min-width: 1336px)
+    .container
+      max-width: 1140px
 </style>
