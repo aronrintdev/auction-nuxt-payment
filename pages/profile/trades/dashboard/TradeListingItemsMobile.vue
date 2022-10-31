@@ -28,7 +28,7 @@
             </ul>
           </div>
         </div>
-        <div class="d-flex justify-content-center align-content-center">
+        <div class="d-flex justify-content-center align-content-center"  @click="showTrade(trade.id)">
           <div class="d-flex justify-content-center align-content-center" v-for="(offer) in trade.offers" :key="'trade-offer-'+offer.id">
             <div class="d-inline body-section-box m-1">
               <div class="d-flex justify-content-center align-content-center">
@@ -37,7 +37,8 @@
 
               <div class="bottom-section mt-4">
                 <div class="product-name p-1">{{ offer.inventory.product.name }}</div>
-                <div class="product-size p-1"><span>Size</span>{{offer.inventory.size.id }}</div>
+                <div class="product-size p-1"><span>Size : </span>{{offer.inventory.size.id }}</div>
+                <div class="product-size p-1"><span>Box : </span>{{offer.inventory.packaging_condition.name}}</div>
               </div>
             </div>
 
@@ -82,7 +83,7 @@ export default {
 
 .trade-listing-item-single
   width: 350px
-  height: 265px
+  height: 280px
   filter: drop-shadow(0px 1px 4px $drop-shadow1)
   background: $color-white-1
   border-radius: 5px
@@ -150,16 +151,18 @@ export default {
   font-weight: 500
   font-size: 10px
 .body-section-box
-  height: 143px
+  height: 137px
   width: 100px
   border-radius: 0px
-  background: #FFFFFF
-  border: 1px solid #D8D8D8
+  background: #FAFAFA
+  //border: 1px solid #D8D8D8
 .bottom-section
-  height: 52px
-  width: 98px
-  background: #F7F7F7
+  height: 67px
+  width: 100px
+  background: #FFFFFF
 .image-tarde
   width: 68px
   height: 65px
+.box-pro
+  background: #FAFAFA
 </style>

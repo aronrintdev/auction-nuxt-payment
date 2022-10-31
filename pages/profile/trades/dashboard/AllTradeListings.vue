@@ -1,12 +1,12 @@
 <template>
   <b-col class="container-trade-dashboard">
-    <b-row class="heading-dashboard mt-4">
+    <b-row class="heading-dashboard mt-4"  v-if="width > 500">
       {{$t('trades.my_trade_listings')}}
     </b-row>
     <div  v-if="width<= 500">
       <div class="d-flex mt-2">
         <div>
-          <SearchInput
+          <SearchInputMobile
             :value="searchText"
             variant="primary"
             :placeholder="$t('trades.search_trades')"
@@ -267,6 +267,7 @@
 import {mapActions} from 'vuex'
 import debounce from 'lodash.debounce'
 import SearchInput from '~/components/common/SearchInput';
+import SearchInputMobile from '~/components/common/SearchInputMobile';
 import CustomDropdown from '~/components/common/CustomDropdown';
 import CalendarInput from '~/components/common/form/CalendarInput';
 import Button from '~/components/common/Button';
@@ -297,6 +298,7 @@ export default {
     CalendarInput,
     CustomDropdown,
     SearchInput,
+    SearchInputMobile,
     SearchBarProductsList,
     tradeListingItemsMobile:()=> import('./TradeListingItemsMobile'),
     tradeListingItemsWeb:()=>import('./TradeListingItemsWeb'),
