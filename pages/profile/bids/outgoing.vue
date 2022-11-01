@@ -7,7 +7,7 @@
       <span class="ml-3" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
     </div>
     <!--    Bids Filters    -->
-    <BidsFilters v-else @update="FetchBids"/>
+    <BidsFilters v-else @update="FetchBids(true) "/>
 
     <div class="d-flex justify-content-between align-items-center mt-4">
       <h3 class="title">
@@ -301,7 +301,7 @@ export default {
     }
   },
   mounted() {
-    this.FetchBids()
+    this.FetchBids(true)
     if (process.browser) {
       const container = document.getElementById('profile-layout')
       window.onscroll = (ev) => {
@@ -437,8 +437,13 @@ export default {
     /**
      * Fetching bids from the backend and storing them in the store.
      */
-    FetchBids() {
+    FetchBids(isNewRecordCollection = false) {
       if(this.fetchLoading) return
+      /* start new lazy loading collection */
+      if (isNewRecordCollection) {
+        this.page = 1 // lazy loading will start from first page
+        this.bids = [] // new lazy loading record list
+      }
       this.fetchLoading = true
       const payload = {
         ...this.filters,
@@ -535,7 +540,7 @@ export default {
       }
       this.closeMobileFilter()
       await this.$store.commit('profile-bids/setFilters', filterData)
-      this.FetchBids()
+      this.FetchBids(true)
     }
   }
 }
