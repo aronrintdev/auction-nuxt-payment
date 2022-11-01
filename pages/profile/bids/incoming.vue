@@ -599,11 +599,19 @@ export default {
         mobileFilter.open()
       }
     },
+    // hide filter
+    closeMobileFilter() {
+      const { mobileFilter } = this.$refs
+      if (mobileFilter) {
+        mobileFilter.close()
+      }
+    },
     async onMobileFilter(mobileFilters) {
       const filterData = {
         ...this.filters,
         ...mobileFilters
       }
+      this.closeMobileFilter()
       await this.$store.commit('profile-bids/setFilters', filterData)
       this.FetchBids()
     }
