@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="mobileClass" class="d-flex justify-content-between align-items-center mb-3">
-      <MobileSearchInput class="flex-grow-1" />
+      <MobileSearchInput :value="''" class="flex-grow-1" />
       <a role="button" @click="showMobileFilter">
         <img
           class="mobile-filter pt-1 pl-2"

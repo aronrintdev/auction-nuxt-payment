@@ -108,7 +108,7 @@
                   </b-form-radio>
                 </b-form-group>
               </div>
-              <div class="border-top py-1">
+              <div class="border-top py-2">
                 <collapsible-box :title="$t('orders.type').toString()" :second-title="selectedTypesString">
                   <div class="row my-2">
                     <div v-for="type in orderTypes" :key="type.key" class="col-4 my-1 filter-boxes">
@@ -121,7 +121,7 @@
                   </div>
                 </collapsible-box>
               </div>
-              <div class="border-top py-1">
+              <div class="border-top py-2">
                 <collapsible-box :title="$t('orders.status').toString()" :second-title="selectedStatusString">
                   <div class="row my-2">
                     <div v-for="status in orderStatuses" :key="status.key" class="col-4 my-1 filter-boxes">
@@ -134,7 +134,7 @@
                   </div>
                 </collapsible-box>
               </div>
-              <div class="border-top py-1">
+              <div class="border-top py-2">
                 <collapsible-box :title="$t('orders.date_ordered').toString()" :second-title="selectedDateString">
                   <div class="row">
                     <div class="col mt-2">

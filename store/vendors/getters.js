@@ -58,6 +58,10 @@ export function totalCommission(state) {
   return state.totalCommission
 }
 
-export function totalCommissionPaid(state){
+export function totalCommissionPaid(state) {
   return state.totalCommissionPaid
+}
+
+export function queryString(state) {
+  return state.queryString
 }
