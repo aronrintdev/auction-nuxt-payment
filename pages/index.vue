@@ -1,11 +1,13 @@
 <template>
   <div class="padding-bottom">
-    <HeroSection />
+    <client-only>
+      <HeroSection />
+    </client-only>
     <div class="container">
       <HomeNewReleases />
       <HomeShopByStyle />
       <HomeShopByBrand />
-      <InstantShipping /> 
+      <InstantShipping />
       <ShopByCategory />
       <AllTrades />
       <AllAuctions />
