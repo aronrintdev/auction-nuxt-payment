@@ -10,7 +10,7 @@
          The Listings you have created
        </div>
      </div>
-      <div class="list-box ml-2 p-1"  @click="$router.push('/trades')">
+      <div class="list-box ml-2 p-1"  @click="$router.push('/profile/trades/dashboard/alloffers')">
         <div class="heading-trade-listing mt-2 ml-2">My Trade Offers</div>
         <div class="mt-2 d-flex justify-content-center align-content-center">
           <img src="~/assets/img/tradeOfferIcon.svg" />
