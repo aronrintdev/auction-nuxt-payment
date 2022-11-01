@@ -45,6 +45,7 @@
               :data="dataGraph"
               :labels="labels"
               :options="lineChartOptions"
+              :fill="!isScreenXS"
               :height="204"
               chart-id="vendor-dashboard-line-chart"
               class="line-chart d-block d-sm-none"
@@ -105,6 +106,7 @@
               :bg-colors="dataBgColors"
               :data="dataChart"
               :labels="chartLabels"
+              :height="204"
               :options="chartOptions"
               chart-id="vendor-dashboard-doughnut-chart"
               class="doughnut-chart d-none d-sm-block"
@@ -112,10 +114,10 @@
           <DoughnutChart
               ref="donChart2"
               :bg-colors="dataBgColors"
-              :chart-data="dataChart"
-              :height="204"
+              :data="dataChart"
               :labels="chartLabels"
               :options="chartOptions"
+              :height="204"
               chart-id="vendor-dashboard-doughnut-chart"
               class="doughnut-chart d-block d-sm-none"
           />
@@ -141,10 +143,12 @@
 <script>
 import {CustomSelect} from '~/components/common'
 import {DEFAULT, FILTERED_CATEGORIES, FOOTWEAR_CATEGORIES, GRAPH_COLORS} from '~/static/constants'
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'VendorDashboardCharts',
   components: {CustomSelect},
+  mixins: [screenSize],
   data() {
     return {
       // TODO Dummy Data
@@ -332,10 +336,8 @@ export default {
     },
     changeTab(tab) {
       this.activeTab = tab
-    },
-    random_bg_color() {
-      const randomColor = Math.floor(Math.random() * 16777215).toString(16)
-      return '#' + randomColor
+      this.handleFilterByChangeTotalSale('month')
+      this.handleFilterByChangeTotalSaleChart('year')
     },
     handleFilterByChangeTotalSaleChart(value) {
       this.$axios
