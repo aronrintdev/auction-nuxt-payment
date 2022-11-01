@@ -25,20 +25,20 @@
 <!--            </b-list-group-item>-->
             <b-list-group-item>
               <b-row>
-                <b-col cols="6" sm="6">
+                <b-col cols="8" sm="8">
                   <span class="text-black body-17-normal">{{ $t('shopping_cart.move_to_wishilist') }}</span>
                 </b-col>
-                <b-col cols="6" sm="6" class="text-right">
+                <b-col cols="4" sm="4" class="text-right">
                   <ArrowRightBlackSVG />
                 </b-col>
               </b-row>
             </b-list-group-item>
             <b-list-group-item>
               <b-row>
-                <b-col cols="6" sm="6">
+                <b-col cols="8" sm="8">
                   <span class="text-black body-17-normal">{{ $t('shopping_cart.remove_from_bag') }}</span>
                 </b-col>
-                <b-col cols="6" sm="6" class="text-right">
+                <b-col cols="4" sm="4" class="text-right">
                   <ArrowRightBlackSVG />
                 </b-col>
               </b-row>
