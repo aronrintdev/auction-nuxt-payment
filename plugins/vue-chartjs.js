@@ -24,6 +24,10 @@ Vue.component('LineChart', {
     borderWidth: {
       type: Number,
       default: 4
+    },
+    borderColor: {
+      type: String,
+      default: '#18A0FB'
     }
   },
   computed: {
@@ -50,7 +54,7 @@ Vue.component('LineChart', {
         labels: this.chartLabels,
         datasets: [
           {
-            borderColor: '#18A0FB',
+            borderColor: this.borderColor,
             backgroundColor: 'rgba(24, 160, 251, 0.15)',
             data: this.chartData,
             fill: this.fill,

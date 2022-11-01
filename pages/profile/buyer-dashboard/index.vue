@@ -7,7 +7,7 @@
     </div>
     <!-- stats cards -->
     <section class="row my-3 my-sm-5">
-      <div class="col-6 col-md-3">
+      <div class="col-3 col-md-3">
         <StatsCard
             :icon="require('~/assets/img/icons/profile/total-sales.svg')"
             :title="$t('buyer_dashboard.dashobard_buyer.total_purchases')"
@@ -15,28 +15,28 @@
             color="#667799"
         />
       </div>
-      <div class="col-6 col-md-3">
+      <div class="col-3 col-md-3">
         <StatsCard
-          :icon="require('~/assets/img/icons/profile/commision-pending.svg')"
-          :title="$t('buyer_dashboard.dashobard_buyer.rewards_points')"
-          :value="''+analytics.reward_points !=='undefined'?analytics.reward_points : '...'"
-          color="#CE745F"
+            :icon="require('~/assets/img/icons/profile/commision-pending.svg')"
+            :title="$t('buyer_dashboard.dashobard_buyer.rewards_points')"
+            :value="''+analytics.reward_points !=='undefined'?analytics.reward_points : '...'"
+            color="#CE745F"
         />
       </div>
-      <div class="col-6 col-md-3">
+      <div class="col-3 col-md-3">
         <StatsCard
-          :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
-          :title="$t('buyer_dashboard.dashobard_buyer.items_bought')"
-          :value="''+analytics.items_bought !=='undefined'?analytics.items_bought : '...'"
-          color="#7196B1"
+            :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
+            :title="$t('buyer_dashboard.dashobard_buyer.items_bought')"
+            :value="''+analytics.items_bought !=='undefined'?analytics.items_bought : '...'"
+            color="#7196B1"
         />
       </div>
-      <div class="col-6 col-md-3">
+      <div class="col-3 col-md-3">
         <StatsCard
-          :icon="require('~/assets/img/icons/profile/item-sold.svg')"
-          :title="$t('buyer_dashboard.dashobard_buyer.offers_placed')"
-          :value="''+analytics.offers_placed !=='undefined'?analytics.offers_placed : '...'"
-          color="#909090"
+            :icon="require('~/assets/img/icons/profile/item-sold.svg')"
+            :title="$t('buyer_dashboard.dashobard_buyer.offers_placed')"
+            :value="''+analytics.offers_placed !=='undefined'?analytics.offers_placed : '...'"
+            color="#909090"
         />
       </div>
     </section>

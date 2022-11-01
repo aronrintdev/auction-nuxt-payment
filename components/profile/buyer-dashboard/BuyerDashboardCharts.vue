@@ -23,21 +23,34 @@
           </div>
         </div>
         <div class="position-relative mt-3 mt-sm-5 mb-3 mb-sm-4">
+          <div class="tabs d-sm-none d-flex gap-2 justify-content-center my-4">
+            <h6
+                v-for="(tab, index) in tabsOptions"
+                :key="index"
+                :class="{ activeOne: activeTab === tab.value }"
+                class="fs-10 fw-7 font-primary mb-0 cursor-pointer position-relative text-uppercase"
+                @click="changeTab(tab.value)"
+            >
+              {{ tab.title }}
+            </h6>
+          </div>
           <LineChart
-            :data="dataChart"
-            :labels='labels'
-            :options="lineChartOptions"
-            :height="260"
-            class="line-chart d-none d-sm-block"
-            chart-id="vendor-dashboard-line-chart"
+              :data="dataChart"
+              :labels='labels'
+              :options="lineChartOptions"
+              :height="260"
+              class="line-chart d-none d-sm-block"
+              chart-id="vendor-dashboard-line-chart"
           />
           <LineChart
-            :data="dataChart"
-            :labels='labels'
-            :options="lineChartOptions"
-            class="line-chart d-block d-sm-none"
-            :height="204"
-            chart-id="vendor-dashboard-line-chart"
+              :data="dataChart"
+              :labels='labels'
+              :options="lineChartOptions"
+              :fill="false"
+              border-color="#667799"
+              class="line-chart d-block d-sm-none"
+              :height="204"
+              chart-id="vendor-dashboard-line-chart"
           />
         </div>
         <div class="text-right d-none d-sm-block">
@@ -68,19 +81,23 @@
           </div>
         </div>
         <div class="mt-3 mb-0 my-sm-4 text-center progressbar_wrapper mx-auto">
-          <RadialChart v-if="!isScreenXS"/>
+          <RadialChart v-if="!isScreenXS"
+                       :progress="progress"
+                       :rewards="rewards"
+          />
           <MobileRewardGauge
               v-else
               :current-points="rewardPoints"
               :show-next-expire="false"
           />
           <!-- TODO -->
-          <h6 v-if='rewards.next_reward' class="fs-12 mb-0 fw-7 font-primary mt-3">
+          <h6 v-if='rewards.next_reward' class="fs-12 mb-0 fw-7 font-primary text-black mt-3">
             {{ $t('buyer_dashboard.dashobard_buyer.your_next_reward') }}: {{ rewards.next_reward.name }}
           </h6>
           <b-button
               class="mt-3 bg-blue-primary py-2 w-100 font-primary fw-5 d-none d-sm-inline-block"
               pill
+              to="/shop"
           >{{ $t('buyer_dashboard.dashobard_buyer.earn_money') }}
           </b-button
           >
@@ -92,11 +109,12 @@
             >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}</b-button
           >
           <h6
-            class="fs-12 mb-0 fw-4 font-primary mt-3 text-dark d-none d-sm-block"
+              v-if="last.length"
+              class="fs-12 mb-0 fw-4 font-primary mt-3 text-dark d-none d-sm-block"
           >
-            *250
+            {{ last[0].points.toLocaleString() }}
             {{ $t('buyer_dashboard.dashobard_buyer.points_will_expire_on') }}
-            10/20/2022
+            {{ new Date(last[0].expires_on).toLocaleDateString() }}
           </h6>
         </div>
       </div>
@@ -117,6 +135,13 @@ export default {
   mixins: [screenSize],
   data() {
     return {
+      progress: 0,
+      activeTab: 'week',
+      tabsOptions: [
+        {title: 'Week', value: 'week'},
+        {title: 'Month', value: 'month'},
+        {title: 'Year', value: 'year'}
+      ],
       // TODO Dummy Data
       filterByTitle: this.$t('selling_page.status'),
       filterBy: '',
@@ -198,22 +223,55 @@ export default {
   computed: {
     ...mapGetters({
       rewardPoints: 'auth/getRewardPoints',
+      last: 'rewards/getLastCreditHistoryItem',
+      tiers: 'rewards/getRedeemableRewardsStages',
+      tillNext() {
+        return this.nextTier ? this.nextTier.highestValue - this.currentPoints : 0
+      },
+      nextTier() {
+        let next = null
+        for (const tier of this.tiers) {
+          if (tier.highestValue > this.currentPoints) {
+            next = tier
+            break
+          }
+        }
+        return next
+      }
     })
   },
   mounted() {
     this.handleFilterByChangeTotalSale('week')
+    this.getRewards()
   },
   methods: {
+    getRewards() {
+      this.$axios
+          .get('/dashboard/buyer/rewards')
+          .then((res) => {
+            this.rewards = res.data.data;
+            if (res.data.data.current_points > 0) {
+              this.progress = parseInt((res.data.data.current_points / res.data.data.next_reward.redemption_points) * 100);
+            }
+          })
+          .catch((err) => {
+            this.logger.logToServer(err.response)
+          })
+    },
+    changeTab(tab) {
+      this.activeTab = tab
+      this.handleFilterByChangeTotalSale(tab)
+    },
     handleFilterByChangeTotalSale(value) {
       this.$axios
           .get('/dashboard/buyer/purchases-graph?group_by=' + value)
           .then((res) => {
             const labels = []
             const dataSet = []
-          for (const property in res.data.data) {
-            labels.push(property)
-            dataSet.push(res.data.data[property])
-          }
+            for (const property in res.data.data) {
+              labels.push(property)
+              dataSet.push(res.data.data[property])
+            }
           this.dataChart = dataSet
           this.labels = labels
         })
@@ -244,4 +302,26 @@ export default {
     color: $color-gray-69
     text-align: center
     width: 100%
+
+.tabs
+  h6
+    color: $color-gray-47
+    transition: 0.1s all ease-in
+
+    &:hover
+      color: $color-black-1
+
+    &.activeOne
+      color: $color-black-1
+
+      &::after
+        content: ''
+        position: absolute
+        left: 50%
+        bottom: -5px
+        translate: -50% 50%
+        background: $color-black-1
+        height: 4px
+        width: 4px
+        border-radius: 50%
 </style>
