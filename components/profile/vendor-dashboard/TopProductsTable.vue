@@ -27,13 +27,14 @@
         tbody-tr-class="bg-white"
       >
         <template #cell(product)="row">
-          <div class="d-flex align-items-center gap-2 mb-2 mb-sm-0">
+          <div class="d-flex align-items-center gap-3 mb-2 mb-sm-0">
             <div class="col-thumb d-flex justify-content-center">
-              <ProductThumb :src="row.item.image" :product="row.item" />
+              <ProductThumb :src="row.item.image" :product="row.item"/>
             </div>
             <div>
               <h4
-                class="font-secondary fw-6 fs-15 text-primary border-bottom border-primary mb-1"
+                  class="font-secondary fw-6 fs-15 text-primary border-bottom border-primary mb-1"
+                  @click="$router.push('/profile/inventory')"
               >
                 {{ row.item.name }}
               </h4>

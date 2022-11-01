@@ -154,14 +154,11 @@ export default {
       // TODO Dummy Data
       filterByTitle: this.$t('selling_page.status'),
       filterBy: '',
-      activeTab: '24h',
+      activeTab: 'week',
       tabsOptions: [
-        {title: '24H', value: '24h'},
-        {title: '7D', value: '7d'},
-        {title: '30D', value: '30m'},
-        {title: '6M', value: '6m'},
-        {title: '1Y', value: '1y'},
-        {title: 'All', value: 'all'},
+        {title: 'Week', value: 'week'},
+        {title: 'Month', value: 'month'},
+        {title: 'Year', value: 'year'}
       ],
       searchFilters: {
         startDate: '',
@@ -313,8 +310,8 @@ export default {
     }
   },
   mounted() {
-    this.handleFilterByChangeTotalSale('week')
-    this.handleFilterByChangeTotalSaleChart('week')
+    this.handleFilterByChangeTotalSale('month')
+    this.handleFilterByChangeTotalSaleChart('month')
   },
   methods: {
     handleFilterByChangeTotalSale(value) {
@@ -336,8 +333,8 @@ export default {
     },
     changeTab(tab) {
       this.activeTab = tab
-      this.handleFilterByChangeTotalSale('month')
-      this.handleFilterByChangeTotalSaleChart('year')
+      this.handleFilterByChangeTotalSale(tab)
+      this.handleFilterByChangeTotalSaleChart(tab)
     },
     handleFilterByChangeTotalSaleChart(value) {
       this.$axios
