@@ -58,7 +58,6 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
 import OrderCommission from '~/components/orders/OrderCommission';
 import OrderStatusTimeline from '~/components/orders/OrderStatusTimeline';
 import OrderSummary from '~/components/orders/OrderSummary';
@@ -79,10 +78,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      'orders': 'vendors/orders',
-      'currentPage': 'vendors/currentPage',
-    }),
     isMultipleItems() {
       return this.order.items
         ? this.order.items.length > 1
@@ -103,8 +98,7 @@ export default {
     const orderId = parseInt(ids[0])
     const itemIndex = parseInt(ids[1]) - 1
 
-    this.order = this.orders.filter(x => x.order_id === orderId)[0]
-    this.item = this.order.items[itemIndex]
+    this.fetchOrder(orderId, itemIndex)
   },
   methods: {
     product(item) {
@@ -112,6 +106,18 @@ export default {
         return item.listing_item?.inventory?.product
       }
       return item.product
+    },
+    fetchOrder(orderId, itemIndex){
+      const that = this
+      this.$axios.get('/vendors/orders/'+orderId)
+        .then((resp)=>{
+          const order = resp.data.data.order
+          that.order = order
+          that.item = order.items[itemIndex]
+        })
+        .catch((err)=>{
+          console.info(err)
+        })
     }
   }
 }
