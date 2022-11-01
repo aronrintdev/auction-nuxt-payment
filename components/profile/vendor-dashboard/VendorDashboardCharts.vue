@@ -152,7 +152,7 @@ export default {
     return {
       // TODO Dummy Data
       filterByTitle: this.$t('selling_page.status'),
-      filterBy: '',
+      filterBy: 'month',
       activeTab: 'week',
       tabsOptions: [
         {title: 'Week', value: 'week'},

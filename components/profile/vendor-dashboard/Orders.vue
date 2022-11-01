@@ -27,25 +27,27 @@
         tbody-tr-class="bg-white"
       >
         <template #cell(order_id)="data">
-          <div class="d-flex align-items-center flex-column w-fit-content">
+          <div class="d-flex align-items-center flex-column w-fit-content" role="button"
+               @click="$router.push(`/orders/${orderId(data.item)}`)">
             <div class="col-thumb mb-1">
               <ProductThumb
-                :src="data.item.listing_item.inventory.product.image"
-                :product="data.item.listing_item.inventory.product"
+                  :src="data.item.listing_item.inventory.product.image"
+                  :product="data.item.listing_item.inventory.product"
               />
             </div>
             <div class="w-fit-content">
               <h4
-                class="fw-7 fs-14 font-secondary border-bottom border-primary text-primary mb-0 mx-auto"
+                  class="fw-7 fs-14 font-secondary border-bottom border-primary text-primary mb-0 mx-auto"
               >
-                #{{ data.item.order_id }}
+                #{{ orderId(data.item) }}
               </h4>
             </div>
           </div>
         </template>
         <template #cell(product)="data">
           <div
-            class="d-flex align-items-center align-items-sm-baseline justify-content-center flex-sm-column gap-2 tdHeightSm mb-2 mb-sm-0"
+              class="d-flex align-items-center align-items-sm-baseline justify-content-center flex-sm-column gap-2 tdHeightSm mb-2 mb-sm-0"
+              :class="mobileClass"
           >
             <div class="col-thumb d-flex d-sm-none">
               <ProductThumb
@@ -55,19 +57,24 @@
             </div>
             <div>
               <h4
-                class="font-secondary fw-6 fs-15 text-primary border-bottom border-primary mb-1"
+                  :class="{
+                 'body-5-medium mobile': isScreenXS,
+                  'font-secondary': !isScreenXS,
+                }"
+                  class="fw-6 fs-15 border-primary mb-1 text-nowrap text-truncate mw-300"
               >
                 {{ data.item.listing_item.inventory.product.name }}
               </h4>
-              <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
+              <h4 class="font-secondary fs-13 fw-5 mb-0 text-secondary-6">
                 {{ $t('vendor_dashboard.sku') }}:
                 {{ data.item.listing_item.inventory.product.sku }}
               </h4>
-              <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
+              <h4 :class="mobileClass"
+                  class="font-secondary fs-13 fw-5 mb-0 text-secondary-6 text-nowrap text-truncate mw-300">
                 {{ $t('vendor_dashboard.colorway') }}:
                 {{ data.item.listing_item.inventory.product.colorway }}
               </h4>
-              <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
+              <h4 class="font-secondary fs-13 fw-5 mb-0 text-secondary-6">
                 {{ $t('vendor_dashboard.box_condition') }}:
                 {{ data.item.listing_item.inventory.packaging_condition.name }}
               </h4>
@@ -80,16 +87,16 @@
             :aria-label="$t('vendor_dashboard.date_ordered')"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">
-              {{ data.item.created_at }}
+              {{ new Date(data.item.created_at).toLocaleDateString() }}
             </h4>
           </div>
         </template>
         <template #cell(type)="data">
           <div
-            class="d-flex align-items-center justify-content-center tdHeight"
-            :aria-label="$t('vendor_dashboard.type')"
+              class="d-flex align-items-center justify-content-center tdHeight text-capitalize"
+              :aria-label="$t('vendor_dashboard.type')"
           >
-            <h4 class="font-secondary fw-5 fs-16 mb-0">{{ data.value }}</h4>
+            <h4 class="font-secondary fw-5 fs-16 mb-0">{{ data.item.order.type.label }}</h4>
           </div>
         </template>
         <template #cell(vendor_payout)="data">
@@ -102,11 +109,11 @@
         </template>
         <template #cell(status)="data">
           <div
-            class="d-flex align-items-center justify-content-center tdHeight"
-            :aria-label="$t('vendor_dashboard.status')"
+              class="d-flex align-items-center justify-content-center tdHeight"
+              :aria-label="$t('vendor_dashboard.status')"
           >
-            <h4 class="status-badge-warning">
-              {{ data.item.status }}
+            <h4 class="status-badge-warning text-capitalize">
+              {{ data.item.status_label }}
             </h4>
           </div>
         </template>
@@ -129,9 +136,11 @@
 <script>
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
+import screenSize from '~/plugins/mixins/screenSize';
 export default {
   name: 'TopOrdersTable',
-  components: { NavGroup, ProductThumb },
+  components: {NavGroup, ProductThumb},
+  mixins: [screenSize],
   data() {
     return {
       // Active Nav for the Toggle Button
@@ -178,116 +187,10 @@ export default {
         {
           key: 'actions',
           label: this.$t('vendor_dashboard.actions'),
-          sortable: true,
+          sortable: false,
           thClass: 'text-center',
         },
       ],
-      items: [
-        {
-          order_id: '#123456-2',
-          product: 'product',
-          date_ordered: '10/08/2021',
-          type: 'Buy',
-          vendor_payout: '$2350',
-          status: 'Awaiting Shipping',
-          actions: '103932827178746',
-        },
-        {
-          order_id: '#123456-2',
-          product: 'product',
-          date_ordered: '10/08/2021',
-          type: 'Buy',
-          vendor_payout: '$2350',
-          status: 'Awaiting Shipping',
-          actions: '103932827178746',
-        },
-        {
-          order_id: '#123456-2',
-          product: 'product',
-          date_ordered: '10/08/2021',
-          type: 'Buy',
-          vendor_payout: '$2350',
-          status: 'Awaiting Shipping',
-          actions: '103932827178746',
-        },
-        {
-          order_id: '#123456-2',
-          product: 'product',
-          date_ordered: '10/08/2021',
-          type: 'Buy',
-          vendor_payout: '$2350',
-          status: 'Awaiting Shipping',
-          actions: '103932827178746',
-        },
-      ],
-      chartOptions: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          xAxes: [
-            {
-              type: 'time',
-              offset: false,
-              time: {
-                unit: 'day',
-              },
-              gridLines: {
-                display: false,
-                drawBorder: false,
-              },
-              scaleLabel: {
-                display: false,
-              },
-              ticks: {
-                display: false,
-              },
-            },
-          ],
-          yAxes: [
-            {
-              offset: false,
-              gridLines: {
-                display: false,
-                drawBorder: false,
-              },
-              scaleLabel: {
-                display: false,
-              },
-              ticks: {
-                display: false,
-              },
-            },
-          ],
-        },
-        legend: {
-          display: false,
-        },
-        elements: {
-          point: {
-            radius: 0,
-          },
-        },
-      },
-      datasets: {
-        labels: [
-          new Date('2022-2-8 03:24:00'),
-          new Date('2022-2-9 03:24:00'),
-          new Date('2022-2-10 03:24:00'),
-          new Date('2022-2-11 03:24:00'),
-          new Date('2022-2-12 03:24:00'),
-          new Date('2022-2-13 03:24:00'),
-          new Date('2022-2-14 03:24:00'),
-        ],
-        datasets: [
-          {
-            borderColor: '#18A0FB',
-            backgroundColor: null,
-            data: [0, 30, 200, 100, 280, 100, 400],
-            fill: false,
-            borderWidth: 2,
-          },
-        ],
-      },
       /** Todo need to make dynamic onces we have way of main categories in DB */
       menus: [
         { label: this.$t('vendor_dashboard.all'), value: '' },
@@ -304,6 +207,10 @@ export default {
     this.getTopOrders()
   },
   methods: {
+    orderId(order) {
+      const length = order.order.items.length
+      return `${order.order.order_id}${(length > 0 ? '-1' : '')}`
+    },
     // On Tab Change (All/ Footwear/ Apparel/ Accessories)
     navItem(val) {
       this.activeNav = val
@@ -311,9 +218,9 @@ export default {
     },
     getTopOrders() {
       this.$axios
-        .get('/dashboard/vendor/orders?category_id=' + this.activeNav)
-        .then((res) => {
-          this.topOrders = res.data.data.data
+          .get('/dashboard/vendor/orders?category_id=' + this.activeNav)
+          .then((res) => {
+            this.topOrders = res.data.data.data
         })
         .catch((err) => {
           this.logger.logToServer(err.response)
@@ -324,12 +231,24 @@ export default {
 </script>
 <style lang="sass">
 @import '~/assets/css/_variables'
+.mw-300
+  max-width: 300px
+
+  &.mobile
+    max-width: 200px
+
+.text-secondary-6
+  color: $color-gray-6
+  font-family: $font-sf-pro-text
+
 .ordersTable
   &.table.b-table.b-table-no-border-collapse
     border-spacing: 0 10px
+
   thead th div
     font-family: $font-family-base
     @include body-13-bold
+
   tbody td
     height: 120px
     @media (max-width: 576px)
