@@ -5,6 +5,22 @@
       <FormStepper :steps="steps" :selected="getCollectionState"/>
 
     </div>
+    <!-- Status Box -->
+    <div class="d-md-none mb-4 status">
+      <div class="font-weight-bold mb-2">{{ $t('create_listing.confirm.status') }}*</div>
+      <CheckboxSwitch
+        class="full-width-switch"
+        :labelOff="$t('create_listing.confirm.status_select.live')"
+        :labelOn="$t('create_listing.confirm.status_select.scheduled')"
+        :value="form.status === 'scheduled'"
+        @change="handleStatusSwitch"
+      />
+      <div v-if="form.status === 'scheduled'" class="schedule-time mt-2">
+        <span v-if="form.scheduled_date">{{ form.scheduled_date }}</span>
+        <span v-else class="text-danger body-5-regular">* {{ $t('create_listing.confirm.schedule_date_required') }}</span>
+      </div>
+    </div>
+
     <div class="d-flex flex-column justify-content-around h-50">
       <b-row class="mt-md-0">
         <b-col cols="12" sm="12" md="2">
@@ -26,7 +42,7 @@
         <b-col cols="12" sm="12" md="2">
           <span class="font-weight-bold">{{ $t('create_listing.confirm.duration') }}</span>
         </b-col>
-        <b-col cols="12" sm="12" md="3">
+        <b-col class="d-none d-md-block" cols="12" sm="12" md="3">
           <FormDropdown
             :id="'durationSelector'"
             :value="form.time_limit"
@@ -40,10 +56,29 @@
             @select="handleDurationSelect"
           />
         </b-col>
+        <b-col class="d-md-none" cols="12">
+          <button
+            class="text-left duration-box-btn w-100 position-relative d-flex align-items-center"
+            :class="{'is-invalid': errorArray.includes('time_limit')}"
+            @click="openDurationSheet"
+          >
+            <span v-if="!form.time_limit" class="placeholder">{{ $t('create_listing.confirm.select_duration_placeholder') }}</span>
+            <span v-else class="value">{{ form.time_limit }} {{ $tc('common.day', form.time_limit) }}</span>
+            <img src="~/assets/img/icons/arrow-down-gray.svg" class="position-absolute" />
+          </button>
+        </b-col>
       </b-row>
-      <b-row>
+
+      <b-row class="mt-4 mt-md-0">
         <b-col cols="12" sm="12" md="2">
-          <span class="font-weight-bold">{{ $t('create_listing.confirm.reserve') }} <img :src="infoIcon" class="icon-info mt-n1 ml-1" alt="Info icon" /></span>
+          <span class="font-weight-bold">{{ $t('create_listing.confirm.reserve') }}&nbsp;
+            <img
+              v-b-tooltip.hover
+              :src="infoIcon"
+              :title="$tc('create_listing.confirm.reserve_tooltip_info')"
+              class="icon-info position-absolute mt-n2 mr-n5 scale-2"
+            />
+          </span>
         </b-col>
         <b-col cols="12" sm="12" md="3">
           <div class="d-flex align-items-center reserve-switch">
@@ -54,7 +89,7 @@
             />
             <FormInput
               :placeholder="$t('create_listing.confirm.reserve_price')"
-              class="flex-grow-1"
+              class="flex-grow-1 flex-md-grow-0"
               :class="{'is-invalid': errorArray.includes('reserve_price')}"
               :disabled="!form.is_reserved"
               required
@@ -66,9 +101,9 @@
             />
           </div>
         </b-col>
-        <div v-if="form.is_reserved" class="p-2 mt-3 mt-md-5 ml-2 rounded reserve-info d-flex align-items-start" >
+        <div v-if="form.is_reserved" class="p-2 mt-3 mt-md-5 mx-2 rounded reserve-info d-flex align-items-start" >
           <img :src="infoIcon" class="icon-info scale-2 mt-1 mr-2" alt="Info icon" />
-          {{ $tc('create_listing.confirm.reserve_text_info', 1) }} ${{calculateFee(form.reserve_price).toFixed(2)}} {{ $tc('create_listing.confirm.reserve_text_info', 2) }}
+          {{ $t('create_listing.confirm.reserve_info_short') }}
         </div>
       </b-row>
       <b-row class="mt-4">
@@ -88,7 +123,7 @@
           />
         </b-col>
       </b-row>
-      <b-row class="mt-4">
+      <b-row class="d-none d-md-flex mt-4">
         <b-col cols="12" sm="12" md="2">
           <span class="font-weight-bold">{{ $t('create_listing.confirm.status') }}</span>
         </b-col>
@@ -129,7 +164,47 @@
         </b-col>
       </b-row>
     </div>
-
+    <!-- Schedule date Sheet -->
+    <vue-bottom-sheet ref="scheduleDateSheet" max-height="70%">
+      <div class="d-flex flex-column h-100 filters-sheet">
+        <div class="filters-sheet-title text-center">{{ $t('create_listing.product.select_box_condition') }}</div>
+        <div class="flex-shrink-1 overflow-auto filters-sheet-content">
+          <div class="pt-3 text-center">
+            <v-date-picker v-model="tempScheduleDate" :min-date="new Date()" :model-config="{ type: 'string', mask: 'YYYY/MM/DD' }" />
+          </div>
+          <div class="py-3 d-flex align-items-center justify-content-around">
+            <Button
+              variant="outline-primary"
+              pill
+              @click="$refs.scheduleDateSheet.close()"
+            >
+              {{ $t('create_listing.product.cancel') }}
+            </Button>
+            <Button
+              variant="primary"
+              class="px-5"
+              pill
+              @click="setScheduleDate"
+            >
+              {{ $t('create_listing.product.next') }}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </vue-bottom-sheet>
+     <!-- Duration Sheet -->
+     <vue-bottom-sheet ref="durationSheet">
+      <div class="d-flex flex-column h-100 filters-sheet">
+        <div class="filters-sheet-title text-center">{{ $t('auction.select_duration') }}</div>
+        <div class="flex-shrink-1 overflow-auto filters-sheet-content">
+          <div v-for="duration in DURATIONS" :key="duration.value">
+            <button class="w-100 border-0 text-left condition-option" @click="handleDurationSelect(duration);closeDurationSheet()">
+              <div>{{ duration.value }} {{ $tc('common.day', duration.value) }}</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </vue-bottom-sheet>
   </b-container>
 </template>
 
@@ -137,7 +212,7 @@
 import _ from 'lodash';
 import {mapGetters} from 'vuex';
 import {FormDropdown, FormInput, CheckboxSwitch, Button} from '~/components/common'
-import infoIcon from '~/assets/img/icons/info-blue.svg';
+import infoIcon from '~/assets/img/icons/info-dark-blue.svg';
 import createListingAuction from '~/plugins/mixins/create-listing-auction';
 import FormStepper from '~/components/createListing/FormStepper';
 import arrowUpIcon from '~/assets/img/icons/arrow-up-blue.svg'
@@ -155,8 +230,8 @@ export default {
       form: {
         time_limit: null,
         start_bid_price :null,
-        status : 'scheduled',
-        isLive: false,
+        status : 'live',
+        isLive: true,
         is_reserved : false,
         reserve_price: null,
         scheduled_date : null,
@@ -181,6 +256,7 @@ export default {
       }),
       arrowUpIcon,
       arrowDownIcon,
+      tempScheduleDate: null,
     }
   },
   computed: {
@@ -195,12 +271,13 @@ export default {
     form: {
       deep: true,
       handler(val) {
+        this.errorArray = []
         this.$store.commit('create-listing/setSingleAuctionItem', val)
       }
     }
   },
   mounted() {
-    this.form = {...this.selectedAuction[0], isLive: this.form.isLive}
+    this.form = {...this.selectedAuction[0], isLive: true, status: 'live' }
   },
   methods: {
     validateAndNext(){
@@ -224,7 +301,33 @@ export default {
       if (ctx.selectedFormatted!=='No date selected'){
         this.form.scheduled_date = ctx.selectedFormatted;
       }
-    }
+    },
+    handleStatusSwitch(value) {
+      this.showError = false
+      this.form = {
+        ...this.form,
+        isLive: !value,
+        status: value ? 'scheduled' : 'live',
+      }
+      if (value) {
+        this.tempScheduleDate = this.form.scheduled_date
+        this.$refs.scheduleDateSheet.open()
+      }
+    },
+    setScheduleDate() {
+      this.showError = false
+      this.form = {
+        ...this.form,
+        scheduled_date: this.tempScheduleDate
+      }
+      this.$refs.scheduleDateSheet.close()
+    },
+    openDurationSheet() {
+      this.$refs.durationSheet.open()
+    },
+    closeDurationSheet() {
+      this.$refs.durationSheet.close()
+    },
   }
 }
 </script>
@@ -321,6 +424,45 @@ export default {
       padding: 12px 40px
       height: auto
 .reserve-info
-  @include body-5-bold
+  @include body-5-regular
   background-color: $color-blue-10
+.duration-box-btn
+  @include body-9
+  border: 1px solid $color-gray-3
+  border-radius: 10px
+  background: transparent
+  padding: 17px 14px
+  font-family: $font-montserrat
+  font-weight: $medium
+  &.is-invalid
+    border: 2px solid $red-1
+  .placeholder
+    color: $color-gray-23
+  .value
+    color: $black
+  img
+    top: 22px
+    right: 14px
+    width: 10px
+
+.bottom-sheet::v-deep
+  .bottom-sheet__content
+    overflow: hidden
+.filters-sheet-content
+  padding: 0
+  .condition-option
+    @include body-5
+    font-family: $font-family-sf-pro-display
+    font-weight: $regular
+    color: $black
+    padding: 0 14px
+    background: transparent
+    div
+      padding: 17px 0
+      border-bottom: 0.5px solid $color-white-12
+    &:active
+      background: $color-blue-20
+      div
+        border-color: $color-blue-20
+        color: $white
 </style>

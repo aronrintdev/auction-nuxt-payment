@@ -79,5 +79,12 @@ export default {
 @media (max-width: 992px)
   .orders-heading
     font-family: $font-montserrat
+    padding-top: 16px
     @include body-11-bold
+
+  .py-20
+    padding: 0
+  .pt-20
+    padding-top: 0
+
 </style>

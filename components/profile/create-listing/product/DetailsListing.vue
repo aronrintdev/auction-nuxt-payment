@@ -64,9 +64,10 @@
     <!-- Product thumbnail 360 -->
     <ProductImageViewerMagic360
       v-if="has360Images"
-      class="360-image-viewer"
+      class="image-viewer-three-sixty"
       :product="product"
     />
+
     <div v-if="has360Images" class="row">
       <div class="col-12">
         <span class="float-right">
@@ -88,16 +89,19 @@
       </div>
       <div class="col-12">
         <div class="product-last-sale">
-          
           <span class="last-sale-title"
             >{{ $t('product_page.last_sale') }}&colon;</span
           >
-          <span v-if="lastSold" class="last-sale-amount">{{ lastSold.sale_price | toCurrency('USD', 'N/A') }}</span
+          <span v-if="lastSold" class="last-sale-amount">{{
+            lastSold.sale_price | toCurrency('USD', 'N/A')
+          }}</span>
+          <span
+            v-if="avgAmount && avgType"
+            class="last-sale-indicators"
+            :class="avgType === 'down' ? 'text-danger' : 'text-sucess'"
           >
-          <span v-if="avgAmount && avgType" class="last-sale-indicators" :class="avgType === 'down' ? 'text-danger' : 'text-sucess'">
             {{ avgAmount | toCurrency('USD', 'N/A') }}
           </span>
-          
         </div>
       </div>
     </div>
@@ -119,7 +123,18 @@
       </div>
 
       <!-- SizePicker -->
+      <SizeCarouselResponsive
+        v-if="isScreenXS"
+        :sizes="sizes"
+        :prices="pricesBySize"
+        :value="value.currentSize"
+        :view-mode="sizeViewMode"
+        class="size-picker"
+        @update="handleSizeChange"
+        @changeViewMode="handleSizeViewModeChange"
+      />
       <ProductSizePicker
+        v-if="!isScreenXS"
         :sizes="sizes"
         :prices="pricesBySize"
         :value="value.currentSize"
@@ -555,23 +570,6 @@
     </div>
     <!-- Inputs Responsive ends -->
 
-    <!-- Product details block -->
-    <div v-if="isScreenXS" class="row responsive-product-details-block mt-3">
-      <div class="col-12 product-details-block-col">
-        <div class="product-details-block d-flex justify-content-between px-3">
-          <span class="product-details-row my-auto">{{
-            $t('products.product_details')
-          }}</span>
-          <span class="img-icon-down my-auto">
-            <img
-              :src="require('~/assets/img/icons/arrow-down-dark-blue.svg')"
-              alt="dropdown-caret-down"
-            />
-          </span>
-        </div>
-      </div>
-    </div>
-
     <!-- Product details block responsive -->
     <SellingLatestSales
       v-if="isScreenXS"
@@ -609,7 +607,8 @@
       variant="block"
       @click="handleSellNow"
     >
-      {{ $t('sell_now.sell_now') }}&colon; {{ highestOffer | toCurrency('USD','N/A') }}
+      {{ $t('sell_now.sell_now') }}&colon;
+      {{ highestOffer | toCurrency('USD', 'N/A') }}
     </Button>
     <!-- Add listing button responsive ends -->
     <!-- Modal popup -->
@@ -651,6 +650,7 @@ import _ from 'lodash'
 import { mapActions, mapGetters } from 'vuex'
 import SellingLatestSales from '../selling/SellingLatestSales.vue'
 import ProductSizePicker from '~/components/product/SizePicker'
+import SizeCarouselResponsive from '~/components/profile/create-listing/SizeCarouselResponsive.vue'
 import {
   Meter,
   FormInput,
@@ -666,7 +666,7 @@ import {
   MINOFFER_MIN_VAL,
   API_PROD_URL,
   TYPE_BUY,
-  TYPE_OFFER
+  TYPE_OFFER,
 } from '~/static/constants'
 
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
@@ -687,6 +687,7 @@ export default {
     NavGroup,
     ProductImageViewerMagic360,
     SellingLatestSales,
+    SizeCarouselResponsive
   },
 
   mixins: [screenSize],
@@ -736,7 +737,7 @@ export default {
       avgAmount: '',
       avgType: '',
       buy: TYPE_BUY,
-      offer: TYPE_OFFER
+      offer: TYPE_OFFER,
     }
   },
 
@@ -824,40 +825,43 @@ export default {
       return vm.product.listing_item_order
     },
 
-   lastSold: (vm) => {
-      const items = vm.listingItemOrder && vm.listingItemOrder.reverse()
-      
-      const sold = items.find(
-        (i) =>  i.inventory.size_id === vm.value.currentSize && i.inventory.packaging_condition_id === vm.value.boxCondition
-      )
-      return sold && sold.inventory
-      
-
+    lastSold: (vm) => {
+      if(vm.listingItemOrder && vm.listingItemOrder.length) {
+        const items = vm.listingItemOrder && vm.listingItemOrder.reverse()
+        const sold = items.find(
+          (i) =>
+            i.inventory.size_id === vm.value.currentSize &&
+            i.inventory.packaging_condition_id === vm.value.boxCondition
+        )
+        return sold && sold.inventory
+      }
     },
 
     has360Images() {
       return this.product && this.product.has360Images
     },
 
-     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     lowestPrice: (vm) => {
-    
       const val = vm.product.lowest_prices.find(
-        (i) => i.size_id === vm.selectedSize && i.packaging_condition_id === vm.selectedCondition
+        (i) =>
+          i.size_id === vm.selectedSize &&
+          i.packaging_condition_id === vm.selectedCondition
       )
       return val && val.price
     },
 
-     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     highestOffer: (vm) => {
       const val = vm.product.highest_offers.find(
-        (i) =>  i.size_id === vm.selectedSize &&
-        i.packaging_condition_id === vm.selectedCondition
+        (i) =>
+          i.size_id === vm.selectedSize &&
+          i.packaging_condition_id === vm.selectedCondition
       )
       return val && val.price
     },
 
-     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     quantityError: (vm) => {
       if (
         vm.quantityMinVal > vm.value.quantity ||
@@ -871,7 +875,7 @@ export default {
       }
     },
 
-     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     minOfferError: (vm) => {
       if (
         vm.value.minOfferAmount === null ||
@@ -884,7 +888,7 @@ export default {
       }
     },
 
-     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     priceError: (vm) => {
       if (vm.value.price !== null && vm.value.price <= vm.priceMinVal) {
         return vm.$t('inventory.message.gt_than', {
@@ -898,7 +902,7 @@ export default {
   created() {
     this.getColors()
 
-    if(!this.value.boxCondition){
+    if (!this.value.boxCondition) {
       this.selectedCondition = 1
       this.$emit('input', { ...this.value, boxCondition: 1 })
     }
@@ -909,7 +913,7 @@ export default {
       fetchColors: 'inventory/fetchColors',
       checkItemExistforVendor: 'sell-now/checkItemExistforVendor',
     }),
-     handleSizeViewModeChange(mode) {
+    handleSizeViewModeChange(mode) {
       this.sizeViewMode = mode
     },
 
@@ -923,7 +927,7 @@ export default {
     handleSizeChange(value) {
       if (value && this.$route.query.path !== 'from-inventory') {
         this.selectedSize = value
-        
+
         this.$emit('input', { ...this.value, currentSize: value })
       }
     },
@@ -1017,9 +1021,9 @@ export default {
     },
 
     // On sell now click
-    handleSellNow(){
+    handleSellNow() {
       // If the user is not a vendor then we will redirect user to vendor hub apply page
-      if(this.isAuthenticated && !this.isVendor){
+      if (this.isAuthenticated && !this.isVendor) {
         this.$router.push('/profile/vendor-hub')
         return true
       }
@@ -1033,32 +1037,37 @@ export default {
       // If no listing or
       // If the currently listing inventory's vendor id doesnot matches the logged in vendor id,
       // then create listing with inventory.
-     
+
       this.checkItemExistforVendor({
         productID: this.product.id,
         sizeId: this.selectedSize,
         packagingConditionId: this.selectedCondition,
-        offerAmount: this.highestOffer
-      }).then((res) => {
-        this.$store.dispatch('sell-now/selectedItem', res.data.data).then(() => {
-          this.moveToSellNow()
-        })
-        return true
-      }).catch((err) => {
-        this.$logger.logToServer(
-          'Sell now create inventory and listing error',
-          err.response
-        )
-        this.$nuxt.refresh()
+        offerAmount: this.highestOffer,
       })
+        .then((res) => {
+          this.$store
+            .dispatch('sell-now/selectedItem', res.data.data)
+            .then(() => {
+              this.moveToSellNow()
+            })
+          return true
+        })
+        .catch((err) => {
+          this.$logger.logToServer(
+            'Sell now create inventory and listing error',
+            err.response
+          )
+          this.$nuxt.refresh()
+        })
     },
 
-    moveToSellNow(){
-      if(this.getSelectedItemforVendor &&
+    moveToSellNow() {
+      if (
+        this.getSelectedItemforVendor &&
         this.getSelectedItemforVendor.product &&
         this.authenticated &&
         this.isVendor
-      ){
+      ) {
         const sellNowData = {
           id: this.getSelectedItemforVendor.product_id,
           size: this.getSelectedItemforVendor.size,
@@ -1086,10 +1095,10 @@ export default {
     },
 
     // Show the up/down
-    latestPrice({ amount, type }){
+    latestPrice({ amount, type }) {
       this.avgAmount = amount
       this.avgType = type
-    }
+    },
   },
 }
 </script>
@@ -1194,7 +1203,7 @@ export default {
 
 // For !mobile screen
 @media (min-width: 576px)
-  .create-listing-form-wrapper
+  .create-listing-form-wrapper::v-deep
     .product-details-heading,
     .section-product-details,
     .product-size-details,
@@ -1214,8 +1223,15 @@ export default {
     .box-condition-select-col
       display: none
     .product-thumbnail
-      width: 323px
+      width: 323px !important // Added !important coz the product thumb component breaks the width of component
       height: 246px
+    .image-viewer-three-sixty
+      width: 323px !important // Added !important coz the product thumb component breaks the width of component
+      height: 246px
+      display: flex
+      justify-content: center
+      position: relative
+      margin: auto
 
 // For mobile screen
 @media (max-width: 576px)
@@ -1280,7 +1296,7 @@ export default {
             text-align: center
             letter-spacing: -0.04em
             color: $color-black-1
-          
+
     .product-details-responsive
       .product-name
         font-family: $font-montserrat
@@ -1353,6 +1369,9 @@ export default {
     border: 1px solid $color-red-3
 .box-condition-select-col::v-deep
   #dropdown-container-box-condition-dropdown
+    .popover
+      .popover-body
+        border: 1px solid $color-gray-85
     #btn-dropdown-box-condition-dropdown
       div
         font-family: $font-montserrat

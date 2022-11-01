@@ -1,42 +1,55 @@
 <template>
   <div>
-    <div class="commission p-4 ">
+    <div v-if="mobileClass" class="d-flex justify-content-between align-items-center mb-3">
+      <MobileSearchInput class="flex-grow-1" />
+      <a role="button" @click="showMobileFilter">
+        <img
+          class="mobile-filter pt-1 pl-2"
+          :src="require('~/assets/img/icons/filter-icon.svg')"
+          alt="filter-icon"
+        />
+      </a>
+    </div>
+    <div :class="mobileClass ? '' : 'commission p-4'">
       <div class="d-flex justify-content-between align-items-center">
-        <h3 class="title">{{ $t('vendor_hub.commission.overview') }}</h3>
+        <div class="title" :class="mobileClass.length ? 'body-10-medium color-blue-20' : 'heading-3-normal'">
+          {{ $t('vendor_hub.commission.overview') }}
+        </div>
       </div>
-      <b-row class="mt-5">
-        <b-col v-for="(item, ind) in commissionItems" :key="ind">
-          <CommissionItem :item="item"></CommissionItem>
-        </b-col>
+      <b-row class="mt-3 mt-sm-5">
+        <div v-for="(item, ind) in commissionItems" :key="ind" :class="mobileClass.length ? 'commission-item-box' : 'col'">
+          <CommissionItem :item="item" />
+        </div>
       </b-row>
     </div>
 
-    <div class="commission p-4 mt-5">
-      <div class="d-flex justify-content-between align-items-center">
-        <h3 class="title">{{ $t('vendor_hub.commission.commission_details') }}</h3>
+    <div :class="mobileClass ? '' : 'commission p-4'" class="mt-3">
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
+        <div class="d-flex justify-content-between w-100 mb-4 mb-sm-0">
+          <div class="title" :class="mobileClass.length ? 'body-10-medium color-blue-20' : 'heading-3-normal'">
+          {{ $t('vendor_hub.commission.commission_details') }}
+          </div>
+        </div>
         <download-csv
             :data="exportableData"
             :fields="fields.map(({ key }) => key)"
             :labels="fields.map(({label}) => label)"
             :name="'Commissions.csv'"
         >
-          <Button
-              ref="exportButton"
-              class="d-none"
-          >
-          </Button>
+          <Button ref="exportButton" class="d-none" />
         </download-csv>
 
         <Button
-            variant="dark"
-            @click="toggleExport"
+          v-if="!mobileClass"
+          variant="dark"
+          @click="toggleExport"
         >
-          {{ $t('vendor_hub.commission.export_to_csv') }}
+            {{ $t('vendor_hub.commission.export_to_csv') }}
         </Button>
 
       </div>
 
-      <div class="d-flex align-items-center justify-content-between mt-3">
+      <div v-if="!mobileClass" class="d-flex align-items-center justify-content-between mt-3">
         <span class="label-text">({{ itemsTotal }} {{ $t('vendor_hub.commission.entries') }})</span>
 
         <div class="d-flex flex-column">
@@ -74,8 +87,82 @@
           </div>
         </div>
       </div>
+      <div v-else class="d-flex justify-content-between">
+        <span class="text-color-gray-5 body-10-medium">{{ itemsTotal  }} {{ $t('vendor_hub.commission.entries') }}</span>
+        <!-- Hide it right now there aren't API yet -->
+        <!--
+        <a role="button" class="color-blue-20 body-10-normal" @click="toggleExport">
+          <i class="fa fa-upload" aria-hidden="true"></i> {{ $t("vendor_hub.commission.email_cvs") }}
+        </a>
+        -->
+      </div>
 
-      <div class="mt-3">
+      <!-- Mobile list view -->
+      <template v-if="mobileClass">
+        <div v-for="(item, index) in items"  :key="index" class="border shadow-sm mt-3">
+          <b-row v-if="item.product">
+            <b-col cols="3">
+              <ProductThumb :product="item.product" />
+            </b-col>
+            <b-col cols="9">
+              <span class="body-5-medium">{{ item.product.name }}</span>
+              <div class="mb-2 text-gray-6 text-uppercase body-6-medium">
+                {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ item.product.sku }}
+              </div>
+              <div class="mb-2 text-gray-6 body-6-medium">
+                {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ item.product.colorway }}
+              </div>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col cols="12" class="py-1">
+              <div class="d-flex justify-content-between">
+                <span class="d-sm-block d-md-none body-9-medium">{{ $t('vendor_hub.commission.table.order_id') }}</span>
+                <span class="body-9-regular text-decoration-underline text-blue-30">{{ item.order.order_id }}</span>
+              </div>
+            </b-col>
+            <b-col cols="12" class="py-1 bg-lightgrey">
+              <div class="d-flex justify-content-between">
+                <span class="d-sm-block d-md-none body-9-medium">{{ $t('vendor_hub.commission.table.commission') }}</span>
+                <span class="body-9-regular text-gray-6">{{ item.commission | toCurrency }}</span>
+              </div>
+            </b-col>
+            <b-col cols="12" class="py-1">
+              <div class="d-flex justify-content-between">
+                <span class="d-sm-block d-md-none body-9-medium">
+                  {{ $t('vendor_hub.commission.table.status') }}
+                </span>
+                <span class="body-9-regular text-gray-6 text-capitalize">
+                  {{ item.status }}
+                </span>
+              </div>
+            </b-col>
+            <b-col cols="12" class="py-1 bg-lightgrey">
+              <div class="d-flex justify-content-between">
+                <span class="d-sm-block d-md-none body-9-medium">
+                  {{ $t('vendor_hub.commission.table.shipped_to_ds') }}
+                </span>
+                <span class="body-9-regular text-gray-6 text-capitalize">
+                  {{ item.status == 'paid' ? 'Yes' : 'No' }}
+                </span>
+              </div>
+            </b-col>
+            <b-col cols="12" class="py-1">
+              <div class="d-flex justify-content-between">
+                <span class="d-sm-block d-md-none body-9-medium">
+                  {{ $t('vendor_hub.commission.table.date_ordered') }}
+                </span>
+                <span class="body-9-regular text-gray-6 text-capitalize">
+                  {{ item.order.created_at | formatDate }}
+                </span>
+              </div>
+            </b-col>
+          </b-row>
+        </div>
+      </template>
+
+      <!-- Desktop list (table) view -->
+      <div v-else class="mt-3 flex-wrap overflow-auto">
         <b-table
             :borderless="true"
             :busy="dataLoading"
@@ -178,6 +265,16 @@
           @per-page-change="handlePerPageChange"
       />
     </div>
+
+    <vue-bottom-sheet
+      id="mobile-filter"
+      ref="mobileFilter"
+      max-width="100vw"
+      max-height="90vh"
+      :rounded="true"
+    >
+      <CommissionMobileFilter @filter="applyMobileFilter" />
+    </vue-bottom-sheet>
   </div>
 </template>
 
@@ -190,11 +287,16 @@ import {BulkSelectToolbar, Button, CustomSelectwithCheckbox, Pagination} from '~
 import CalendarInput from '~/components/common/form/CalendarInput';
 import Loader from '~/components/common/Loader';
 import {COMMISSIONS_PAGE_OPTIONS, COMMISSIONS_PER_PAGE} from '~/static/constants';
+import screenSize from '~/plugins/mixins/screenSize'
+import CommissionMobileFilter from '~/components/profile/vendor-hub/CommissionMobileFilter';
 
 Vue.component('DownloadCsv', JsonCSV)
 export default {
   name: 'Commissions',
-  components: {Loader, CommissionItem, Button, CalendarInput, CustomSelectwithCheckbox, Pagination, BulkSelectToolbar},
+  components: {
+    Loader, CommissionItem,
+    Button, CalendarInput, CustomSelectwithCheckbox, Pagination, BulkSelectToolbar, CommissionMobileFilter},
+  mixins: [screenSize],
   data() {
     return {
       isExportActive: false,
@@ -310,6 +412,12 @@ export default {
     applyFilter() {
       this.getCommissions()
     },
+    applyMobileFilter(filters) {
+      this.filterForm.activeStatusFilters = filters?.activeStatusFilters ?? []
+      this.filterForm.startDate = filters?.startDate ?? null
+      this.filterForm.endDate = filters?.endDate ?? null
+      this.getCommissions()
+    },
     allSelected(val) {
       this.isAllSelected = val
       if (this.isAllSelected) {
@@ -420,6 +528,13 @@ export default {
         this.getCommissions()
       }
     },
+    // Show the filter
+    showMobileFilter() {
+      const { mobileFilter } = this.$refs
+      if (mobileFilter) {
+        mobileFilter.open()
+      }
+    },
   }
 }
 </script>
@@ -458,10 +573,7 @@ export default {
   border-radius: 4px
 
 .title
-  @include heading-3
   font-family: $font-family-montserrat
-  font-style: normal
-  font-weight: $medium
 
 ::v-deep.bg-light
   position: initial !important
@@ -492,4 +604,22 @@ export default {
 
 .divider
   border: 2px solid $color-gray-3
+
+.color-blue-20
+  color: $color-blue-20
+
+.commission-item-box
+  flex: 50%
+
+.text-color-gray-5
+  color: $color-gray-5
+
+.border
+  border: 1px solid $color-gray-60
+  border-radius: 12px
+  overflow: hidden
+  padding: 15px 10px
+
+.text-blue-30
+  color: $color-blue-30
 </style>

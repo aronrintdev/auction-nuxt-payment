@@ -135,6 +135,7 @@ import {
   PERCENT_OFFSET,
   AMOUNT_OFFSET
 } from '~/static/constants'
+import createListingAuction from '~/plugins/mixins/create-listing-auction';
 
 export default {
   name: 'OrderSummary',
@@ -145,7 +146,7 @@ export default {
     AddressCard,
     PaymentCardDetailsCard,
   },
-  mixins: [ emitEvent ],
+  mixins: [ emitEvent, createListingAuction ],
   data() {
     return {
       loading: false,
@@ -185,7 +186,7 @@ export default {
     getSubtotal: (vm) => {
       const value = vm.shoppingCart.reduce((sum, auction) => {
         if (auction.reserve_price) {
-          return sum + auction.reserve_price * 100 * vm.reserveFee
+          return sum + vm.calculateFee(auction.reserve_price) * 100
         }
         return sum
       }, 0)

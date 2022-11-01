@@ -245,7 +245,7 @@
       <!-- page content for web -->
 
       <!-- search for mob -->
-      <div v-if="isScreenXS" class="responsive-offer-placed-mobile search-input-col row">
+      <div v-if="isScreenXS" class="responsive-offer-placed-mobile search-input-col mt-3 row">
         <div class="col-10 form-group d-flex align-items-center m-auto">
           <MobileSearchInput id="mobile-search" :value="searchFilters.keyWord" @input="search" />
         </div>
@@ -1113,6 +1113,7 @@ export default {
     @include body-13-medium
     color: $color-white-1
 .offers-placed-index
+  min-height: 35rem
   .heading-placed-offers
     font-family: $font-montserrat
     font-style: normal

@@ -83,6 +83,11 @@ Vue.filter('formatDate', (value, type) => {
   if(type === 'MM/DD/YYYY') {
     return `${mm}/${dd}/${yyyy}`
   }
+
+  if(type === 'DD-MM-YYYY') {
+    return `${dd}-${mm}-${yyyy}`
+  }
+
   return `${mm}/${dd}/${yyyy}`
 })
 
@@ -173,4 +178,8 @@ Vue.filter('formatDateTimeString', (value, format) => {
   return `${
     monthName.charAt(0).toUpperCase() + monthName.slice(1)
   } ${date.getDate()}, ${date.getFullYear()} ${strTime} ${timezone}`
+})
+
+Vue.filter('wordLimit', (string, limit = 3) => {
+  return string.split(' ').splice(0, limit).join(' ').trim()
 })

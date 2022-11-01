@@ -221,7 +221,7 @@ export default {
         top: 0
         left: 0
         z-index: 1
-        background: rgba($white, 0.49)
+        background: rgba($white, 0.1)
 
       .product-size
         @include body-5-regular

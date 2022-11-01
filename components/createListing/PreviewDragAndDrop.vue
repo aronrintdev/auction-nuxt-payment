@@ -1,9 +1,9 @@
 <template>
   <div class="h-100 max-w828 mx-auto" @drop="dropped" @dragover.prevent="(ev) => true">
-    <b-row  class="preview-drag bg-white mt-2 mt-md-3 pb-md-2 px-md-5" :class="{ 'no-items': inventories.length === 0 }">
+    <b-row v-if="fullView" class="preview-drag bg-white mt-2 mt-md-3 pb-md-2 px-md-5" :class="{ 'no-items': inventories.length === 0 }">
       <b-col
         v-for="(inventory, index) in inventories"
-        :key="`inventory-${inventory.id}`"
+        :key="`inventory-${inventory.id}-${index}`"
         class="inventory-card"
       >
         <InventoryCard
@@ -31,9 +31,16 @@
         </div>
       </div>
     </b-row>
+    <div v-else class="simple-content">
+      {{ inventories.length }} {{ $t('create_listing.collection.items_selected') }}
+    </div>
 
     <div v-if="inventories.length>0" class="d-flex justify-content-end">
-      <Button pill class="w-100 w-md-auto my-3 my-md-4 px-5 next-button" @click="$emit('next')"> {{ $t('create_listing.collection.next') }}</Button>
+      <Button pill class="my-3 my-md-4 px-5 next-button" @click="$emit('next')"> {{ $t('create_listing.collection.next') }}</Button>
+    </div>
+
+    <div v-if="inventories.length>0" class="d-md-none position-absolute expand-btn">
+      <img src="~/assets/img/icons/expand-icon.svg" @click="togglePreview" />
     </div>
   </div>
 
@@ -60,7 +67,8 @@ export default {
   },
   data() {
     return {
-      plusIcon
+      plusIcon,
+      fullView: true,
     }
   },
   methods: {
@@ -82,6 +90,9 @@ export default {
     },
     removeItem(index) {
       this.$emit('removed', index)
+    },
+    togglePreview() {
+      this.fullView = !this.fullView
     }
   }
 }
@@ -105,6 +116,9 @@ export default {
 .next-button.btn
   background: $color-blue-20
   border-color: $color-blue-20
+  width: auto
+  @media (max-width: 576px)
+    width: 100%
 
 .inventory-card
   flex: 0 0 33.3%

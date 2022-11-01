@@ -6,7 +6,7 @@
 export async function getUserDetails({ commit }) {
   try {
     const result = await this.$axios.get('/user-details')
-    if (result.data) {
+    if (result && result.data) {
       commit('setUserDetails', result.data)
     } else {
       commit('setUserDetails', '')
@@ -32,6 +32,14 @@ export function removeUserDetails({ commit }) {
  */
 export function updateAddress({ commit }, payload) {
   commit('updateAddress', payload)
+}
+
+/**
+ * Remove the user's shipping address.
+ * @param commit
+ */
+export function removeShippingAddress({ commit }) {
+  commit('removeShippingAddress')
 }
 
 /**
@@ -67,4 +75,13 @@ export function addVendorPayoutMethod({ commit }){
         reject(error)
       })
   })
+}
+
+
+export function billingAddresses({ commit }){
+  commit('setBillingaddress')
+}
+
+export function shippingAddresses({ commit }){
+  commit('setShippingAddress')
 }

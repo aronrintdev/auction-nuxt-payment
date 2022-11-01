@@ -9,7 +9,7 @@
           :src="require('~/assets/img/icons/arrow-right-gray.svg')"></span>
       </div>
     </div>
-    <div>
+    <div class="d-none d-md-block">
       <b-carousel
         id="carousel-1"
         ref="showcase"
@@ -31,6 +31,18 @@
           </template>
         </b-carousel-slide>
       </b-carousel>
+    </div>
+    <div style="overflow-x: scroll" class="d-block d-md-none product-strip-wrapper">
+      <div class="bg-light" :style="stripWidth">
+        <div class="d-flex box-gap flex-nowrap product-strip">
+          <div v-for="item in products" :key="item.key" class="item overflow-hidden">
+            <movers-card v-if="item"
+                         :product="item"
+                         :top-sales-percentage="topSalesPercentage">
+            </movers-card>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -54,6 +66,10 @@ export default {
     ...mapGetters({
       'products': 'vendors/products'
     }),
+    stripWidth(){
+      const count = this.products.length
+      return `width: ${(count * 151)}px`
+    },
     slides() {
       const slides = []
       const products = Object.values(this.products)
@@ -101,13 +117,30 @@ export default {
     color: $color-gray-6
     @include body-14
 
+.product-strip-wrapper
+  -ms-overflow-style: none
+  scrollbar-width: none
+
+  &::-webkit-scrollbar
+    display: none
+
+.product-strip .item
+  width: 151px
+
+  ::v-deep .col
+    padding: 0 !important
+
+  ::v-deep .mx-2
+    margin-left: 0 !important
+    margin-right: 0 !important
+
 @media (min-width: 993px)
   .box-gap
     gap: 30px
 
 @media (max-width: 992px)
   .box-gap
-    gap: 0
+    gap: 10px
 
   .top-movers-heading
     font-family: $font-montserrat
