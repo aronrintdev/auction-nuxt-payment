@@ -219,6 +219,7 @@ export default {
           this.removeProducts()
           this.clearRedeemedReward()
           this.addOrderDetails(data).then(() => {
+            this.$parent.$parent.close()
             this.$router.push('selling/order-confirmation')
           })
         }
@@ -252,6 +253,7 @@ export default {
           this.removeProducts()
           this.clearRedeemedReward()
           this.addOrderDetails(data).then(() => {
+            this.$parent.$parent.close()
             this.$router.push('selling/order-confirmation')
           })
         }
@@ -285,6 +287,7 @@ export default {
           this.removeProducts()
           this.clearRedeemedReward()
           this.addOrderDetails(data).then(() => {
+            this.$parent.$parent.close()
             this.$router.push('selling/order-confirmation')
           })
         }
