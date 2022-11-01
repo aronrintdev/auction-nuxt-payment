@@ -38,9 +38,9 @@
         <b-form-group class="start-date h-100">
           <b-input-group @click="showStartDate">
             <b-form-input
-              type="date"
+              type="text"
+              onfocus="(this.type='date')"
               class="start-date-input bg-white rounded-circle"
-              placeholder="dd/mm/yyyy"
               @input="inputStartDate($event)"
             >
             </b-form-input>
@@ -49,8 +49,8 @@
         <b-form-group class="start-date h-100">
           <b-input-group @click="showEndDate">
             <b-form-input
-              type="date"
-              placeholder="dd/mm/yyyy"
+              type="text"
+              onfocus="(this.type='date')"
               class="start-date-input bg-white rounded-circle"
               @input="inputEndDate($event)"
             >

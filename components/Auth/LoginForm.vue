@@ -222,7 +222,7 @@ export default {
   border-bottom-right-radius: 3rem !important
   border-top-right-radius: 3rem !important
 
-.btn
+::v-deep .btn
   &.btn-confirm
     &.btn-disabled
       background: $color-blue-20

@@ -2,7 +2,7 @@ export default function ({ isHMR, app, store, route, params, error, redirect }) 
   const defaultLocale = app.i18n.fallbackLocale
   // If middleware is called from hot module replacement, ignore it
   if (isHMR) return
-  const locale = route.query.lang || defaultLocale
+  const locale = route.query.lang || store.state.locale || defaultLocale
   if (!store.state.locales.includes(locale)) {
     return error({ message: 'This page could not be found.', statusCode: 404 })
   }

@@ -25,8 +25,12 @@
           <div class="col text-left">
             {{ title }}
           </div>
-          <div class="col text-right">
-            <span v-if="value" class="filters overflow-hidden d-inline-block text-nowrap">{{ value.label }}</span>
+          <div class="col text-right pr-4">
+            <span v-if="value && value.length > 0" class="filters">
+              <span v-for="(item, index) in value" :key="index">
+                {{ item.text }}<span v-if="index < value.length-1">,</span>
+              </span>
+            </span>
           </div>
         </div>
       </button>
@@ -43,7 +47,7 @@
           v-for="(option, index) in options"
           id="amount-list-button"
           :key="index"
-          class="denomination mr-2"
+          class="rounded denomination mr-2"
           :class="
             value.includes(option)
               ? 'active d-flex align-items-center text-align-center'
@@ -54,6 +58,7 @@
           <div
             class="add-amount-item d-flex align-items-center text-align-center justify-content-center"
             @click="activeStatus(option)"
+            :class="value.includes(option) ? 'active' : ''"
           >
             {{ option.label || option.text }}
           </div>
@@ -171,7 +176,7 @@ export default {
         transform: rotate(-180deg)
   .accordion-filter-body
     max-height: 150px
-    justify-content: space-evenly
+    // justify-content: space-evenly
     scroll-behavior: smooth
     margin: 20px 0 0 0
   ::-webkit-scrollbar
@@ -183,24 +188,27 @@ export default {
     background-color: $color-gray-3
 .add-amount-item
   background: $color-white-1
-  color: $color-white-1
-  border: 1px solid $color-gray-7
+  border: 1px solid $color-gray-4
   color: $color-gray-7
   padding: 1rem
   width: 99px
   height: 45px
   font-family: $font-sp-pro
   font-style: normal
-  @include body-5-normal
+  border-radius: 5px
+  @include body-9-normal
   color: $color-gray-28
+  &.active
+    border-color: $color-black-1
+    background-color: $color-gray-2
+
 .denomination
   &.active
-    background: $color-gray-21
-    border: 1px solid $color-black-1
-    border-radius: 3px
+    // background: $color-gray-21
+    // border: 1px solid $color-black-1
     .add-amount-item
       font-style: normal
-      @include body-5-normal
+      @include body-9-normal
       color: $color-black-1
 @media (min-width: 320px) and (max-width:330px)
   .add-amount-item
