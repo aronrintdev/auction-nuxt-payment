@@ -16,7 +16,7 @@ export function getVendorOrders({commit, state}, page = 1) {
     .then((res) => {
       const data = res.data?.data
 
-      commit('setTotalOrders', data.orders.data.length)
+      commit('setTotalOrders', data.orders.total)
       commit('setTotalSales', data.total_sales)
       commit('setTotalCommission', data.total_commission)
       commit('setTotalCommissionPending', data.pending_commission)
@@ -26,7 +26,7 @@ export function getVendorOrders({commit, state}, page = 1) {
       commit('setProducts', data.products)
       commit('setOrders', data.orders.data)
       commit('setCurrentPage', data.orders.current_page)
-      commit('setTotalPage', data.orders.total)
+      commit('setTotalPage', data.orders.last_page)
 
       if (!isPerPageSet) {
         commit('setPerPage', data.orders.per_page)
