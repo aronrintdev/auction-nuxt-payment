@@ -16,6 +16,14 @@ Vue.component('LineChart', {
     labels: {
       type: Array,
       default: null
+    },
+    fill: {
+      type: Boolean,
+      default: true
+    },
+    borderWidth: {
+      type: Number,
+      default: 4
     }
   },
   computed: {
@@ -45,14 +53,14 @@ Vue.component('LineChart', {
             borderColor: '#18A0FB',
             backgroundColor: 'rgba(24, 160, 251, 0.15)',
             data: this.chartData,
-            fill: true,
+            fill: this.fill,
             label: '',
-            borderWidth: 4,
+            borderWidth: this.borderWidth,
           }
         ]
       },
-      { responsive: true, maintainAspectRatio: false }
-    );      
+        {responsive: true, maintainAspectRatio: false, ...this.options}
+    );
     }
   },
 });

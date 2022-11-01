@@ -42,9 +42,10 @@
               class="line-chart d-none d-sm-block"
           />
           <LineChart
-              :chart-data="lineDatasets"
-              :height="204"
+              :data="dataGraph"
+              :labels="labels"
               :options="lineChartOptions"
+              :height="204"
               chart-id="vendor-dashboard-line-chart"
               class="line-chart d-block d-sm-none"
           />
@@ -351,10 +352,6 @@ export default {
               }
             }
             this.dataChart = data
-            console.log(this.dataChart);
-            console.log(this.chartLabels);
-            console.log(this.dataBgColors);
-            console.log(res.data.data);
           })
           .catch((err) => {
             this.logger.logToServer(err.response)

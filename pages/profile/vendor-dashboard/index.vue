@@ -139,7 +139,6 @@ export default {
         .get('/vendors')
         .then((res) => {
           this.vendor = res.data.data
-          console.log(this.vendor);
 
         })
         .catch((err) => {

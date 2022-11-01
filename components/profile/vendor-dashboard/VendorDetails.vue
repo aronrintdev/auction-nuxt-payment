@@ -260,7 +260,6 @@ export default {
       this.$axios
           .get('/commission-thresholds')
           .then((res) => {
-            console.log(res);
             this.thresholds = res.data.data
           })
           .catch((err) => {
@@ -278,7 +277,6 @@ export default {
           .then((res) => {
             this.orders = res.data.data.data
             this.total = res.data.data.total
-            console.log(this.orders);
           })
           .catch((err) => {
             this.logger.logToServer(err.response)

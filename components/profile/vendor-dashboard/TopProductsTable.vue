@@ -9,11 +9,11 @@
       <div class="col-md-6 d-sm-flex justify-content-center d-none">
         <NavGroup :value="activeNav" :data="menus" @change="navItem" />
       </div>
-      <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
+      <div class="col-6 col-md-3 d-flex justify-content-end align-items-center" role="button">
         <a
-          href="#"
-          class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
-          >{{ $t('vendor_dashboard.view_all') }}</a
+            class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
+            @click="$router.push('/profile/inventory')"
+        >{{ $t('vendor_dashboard.view_all') }}</a
         >
       </div>
     </div>
@@ -91,9 +91,12 @@
             class="d-flex align-items-center justify-content-center tdHeight position-relative"
           >
             <LineChart
-              :chart-data="datasets"
-              :options="chartOptions"
-              class="stats-graph"
+                :border-width="2"
+                :data="datasets.datasets[0].data"
+                :fill="false"
+                :labels="datasets.labels"
+                :options="lineConfig"
+                class="stats-graph"
             ></LineChart>
           </div>
         </template>
@@ -174,17 +177,15 @@ export default {
           chart: 4,
         },
       ],
-      chartOptions: {
+      lineConfig: {
         responsive: true,
         maintainAspectRatio: false,
+        borderWidth: 3,
+        showLine: false,
+        fill: false,
         scales: {
           xAxes: [
             {
-              type: 'time',
-              offset: false,
-              time: {
-                unit: 'day',
-              },
               gridLines: {
                 display: false,
                 drawBorder: false,
@@ -199,7 +200,6 @@ export default {
           ],
           yAxes: [
             {
-              offset: false,
               gridLines: {
                 display: false,
                 drawBorder: false,
@@ -222,21 +222,24 @@ export default {
           },
         },
       },
+      // TODO make dynamic when API provides with data
       datasets: {
         labels: [
-          new Date('2022-2-8 03:24:00'),
-          new Date('2022-2-9 03:24:00'),
-          new Date('2022-2-10 03:24:00'),
-          new Date('2022-2-11 03:24:00'),
-          new Date('2022-2-12 03:24:00'),
-          new Date('2022-2-13 03:24:00'),
-          new Date('2022-2-14 03:24:00'),
+          '1',
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9',
         ],
         datasets: [
           {
             borderColor: '#18A0FB',
             backgroundColor: null,
-            data: [0, 30, 200, 100, 280, 100, 400],
+            data: [65, 59, 80, 81, 56, 55, 100, 22, 55],
             fill: false,
             borderWidth: 2,
           },
