@@ -199,10 +199,10 @@ export default {
     handlePlaceOrder() {
       if (this.cryptoDetails.amount){
         this.checkoutWithCrypto()
-      } else if (this.installmentPlans) {
-        this.checkoutWithInstallment()
-      } else {
+      } else if (this.paymentMethod) {
         this.checkoutWithCard()
+      } else {
+        this.checkoutWithInstallment()
       }
     },
     // TODO: Extract the pattern shown in the checkout methods.
