@@ -2,7 +2,7 @@
   <b-navbar toggleable="lg" class="navbar-wrapper border-bottom">
     <b-navbar-toggle target="top-menu-sidebar">
       <template #default>
-        <img width="25px" :src="require('~/assets/img/icons/menu.svg')" />
+        <img width="25px" :src="require('~/assets/img/icons/menu.svg')" alt="..."/>
       </template>
     </b-navbar-toggle>
     <b-navbar-brand to="/" class="navbar-brand ml-auto m-lg-0">
@@ -39,10 +39,11 @@
         <img
           height="24px"
           :src="require('~/assets/img/icons/notification-icon.svg')"
+          alt="..."
         />
       </b-nav-item>
       <b-nav-item class="nav-item-icons" to="/checkout/selling">
-        <img height="22px" :src="require('~/assets/img/icons/bag.png')" />
+        <img height="22px" :src="require('~/assets/img/icons/bag.png')" alt="..." />
       </b-nav-item>
     </b-navbar-nav>
     <b-collapse id="nav-collapse" is-nav class="navbar-collapse">
@@ -256,14 +257,6 @@ import ScreenSize from '~/plugins/mixins/screenSize'
 import Dropdown from '~/components/common/form/Dropdown'
 import SearchOverlayMobile from '~/components/SearchOverlayMobile'
 export default {
-   head: {
-    title: 'Deadstock',
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' },
-    ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/assets/img/icons/favicon.ico' }]
-  },
   name: 'Header',
   components: {
     NotificationDropdown,
@@ -280,6 +273,14 @@ export default {
       showSearchOverlay: false,
       sidebarIsVisible: false,
     }
+  },
+  head: {
+    title: 'Deadstock',
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' },
+    ],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/assets/img/icons/favicon.ico' }]
   },
   computed: {
     ...mapState(['locale', 'locales']),

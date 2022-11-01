@@ -57,8 +57,8 @@
         >
           <div
             class="add-amount-item d-flex align-items-center text-align-center justify-content-center"
-            @click="activeStatus(option)"
             :class="value.includes(option) ? 'active' : ''"
+            @click="activeStatus(option)"
           >
             {{ option.label || option.text }}
           </div>
