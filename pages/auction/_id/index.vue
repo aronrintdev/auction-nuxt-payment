@@ -40,7 +40,7 @@
         <div class="mt-5 body-5-bold">
           {{ $t('auctions.frontpage.have_piece_to_sell') }} <nuxt-link to="#">{{ $t('auctions.frontpage.create_listing') }}</nuxt-link>
         </div>
-        <div class="mt-5">
+        <div v-if="activeAuction.auction_items[currentItemIdx]" class="mt-5">
           <b-tabs pills class="product-details-tabs">
             <b-tab title="Product Details" active>
                 <div>{{ $t('common.sku') }}: {{ activeAuction.auction_items[currentItemIdx].inventory.product.sku }}</div>
@@ -202,7 +202,7 @@
         <ProductImageViewerMagic360 v-if="activeAuction.auction_items[currentItemIdx].inventory.product.has360Images" :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
         <Thumb v-else :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
       </div>
-      <div class="mt-4 d-flex align-items-start justify-content-between p-0 product-info-box">
+      <div v-if="activeAuction.auction_items[currentItemIdx]" class="mt-4 d-flex align-items-start justify-content-between p-0 product-info-box">
         <div>
           <div class="product-info-box-title">{{ activeAuction.auction_items[currentItemIdx].inventory.product.name }}</div>
           <div class="product-info-box-value">
@@ -795,6 +795,7 @@ export default {
   methods: {
     ...mapActions({
       removeItemsFromWatchlist: 'watchlist/removeItemsFromWatchlist',
+      getAuctionDetails: 'auction/getAuctionDetails',
     }),
     ...mapMutations({
       updateBidPrice: 'auction/updateActiveAuctionPrice',
@@ -804,7 +805,7 @@ export default {
     loadAuction() {
       this.loading = true
       const { id: auctionId } = this.$route.params
-      this.$store.dispatch('auction/getAuctionDetails', auctionId)
+      this.getAuctionDetails(auctionId)
     },
     // Click place bid button
     placeBid(type) {
