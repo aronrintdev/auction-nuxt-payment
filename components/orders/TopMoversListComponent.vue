@@ -196,7 +196,6 @@ export default {
       this.infiniteOrders = []
       this.infiniteId += 1
       this.url = `/vendors/orders?page=1${val}`
-      console.debug(this.url)
     },
     chkSelectAll(val) {
       if (val === 'select_all') {
@@ -248,8 +247,6 @@ export default {
     },
     handleLoading($state) {
       const that = this
-      console.debug(this.url)
-      console.debug('before:')
       this.$axios.get(this.url).then(res => {
         const data = res.data?.data
 
@@ -257,7 +254,6 @@ export default {
           $state.complete()
         }else{
           that.url = data.orders.next_page_url
-          console.debug(that.url)
         }
 
         if (data.orders.current_page === 1) {
