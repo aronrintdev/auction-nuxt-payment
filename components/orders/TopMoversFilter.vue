@@ -159,7 +159,7 @@
             </div>
           </div>
           <div class="p-3">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center pb-4">
               <button class="btn-bottom-sheet reset" @click="clearFilters">{{ $t('orders.reset') }}</button>
               <button class="btn btn-bottom-sheet apply-filter" @click="applyFilter">{{
                   $t('orders.apply_filter')
@@ -302,6 +302,7 @@ export default {
     color: $color-gray-28
 
 .filter-boxes
+  @include body-5-normal
   .active-filter
     border-color: $color-black-1 !important
     background: $color-white-7
