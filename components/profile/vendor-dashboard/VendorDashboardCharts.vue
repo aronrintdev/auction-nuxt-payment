@@ -106,7 +106,6 @@
               :bg-colors="dataBgColors"
               :data="dataChart"
               :labels="chartLabels"
-              :height="204"
               :options="chartOptions"
               chart-id="vendor-dashboard-doughnut-chart"
               class="doughnut-chart d-none d-sm-block"

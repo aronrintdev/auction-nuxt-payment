@@ -65,14 +65,18 @@
     <VendorDashboardCharts />
     <!-- top products  -->
     <section>
-      <TopProducts />
+      <TopProducts/>
     </section>
     <!-- orders  -->
     <section>
-      <Orders />
+      <Orders/>
     </section>
-    <VendorDetails v-if="vendor" :is-open="detailsMenu" :vendor="vendor" @closed="detailsMenu = false"
+    <VendorDetails v-if="vendor && !isScreenXS" :is-open="detailsMenu" :vendor="vendor" @closed="detailsMenu = false"
                    @opened="detailsMenu = true"/>
+    <MobileVendorDetails
+        v-if="vendor && isScreenXS" :is-open="detailsMenu" :vendor="vendor" @closed="detailsMenu = false"
+        @opened="detailsMenu = true"
+    />
   </div>
 </template>
 <script>
@@ -81,18 +85,23 @@ import TopProducts from '~/components/profile/vendor-dashboard/TopProductsTable'
 import VendorDashboardCharts from '~/components/profile/vendor-dashboard/VendorDashboardCharts'
 import Orders from '~/components/profile/vendor-dashboard/Orders'
 import VendorDetails from '~/components/profile/vendor-dashboard/VendorDetails';
+import MobileVendorDetails from '~/components/profile/vendor-dashboard/MobileVendorDetails';
+import screenSize from '~/plugins/mixins/screenSize';
+
 export default {
   name: 'VendorDashboard',
   meta: {
     pageTitle: 'Dashboard',
   },
   components: {
+    MobileVendorDetails,
     VendorDetails,
     TopProducts,
     StatsCard,
     Orders,
     VendorDashboardCharts,
   },
+  mixins: [screenSize],
   layout: 'Profile',
   data() {
     return {
