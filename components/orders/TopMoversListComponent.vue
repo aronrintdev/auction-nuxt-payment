@@ -131,8 +131,6 @@
       </div>
       <infinite-loading :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
     </template>
-
-
   </div>
 </template>
 
@@ -166,7 +164,7 @@ export default {
       chkSelectAll: '',
       selectedOrders: [],
       infiniteId: +new Date(),
-      url: `/vendors/orders?page=1${this.queryString}`,
+      url: null,
       navCategories: [
         {label: 'All', value: ''},
         {label: 'Footwear', value: '1'},
@@ -194,6 +192,12 @@ export default {
       this.$store.commit('vendors/setOrderBy', val)
       this.$store.dispatch('vendors/getVendorOrders', 1)
     },
+    queryString(val) {
+      this.infiniteOrders = []
+      this.infiniteId += 1
+      this.url = `/vendors/orders?page=1${val}`
+      console.debug(this.url)
+    },
     chkSelectAll(val) {
       if (val === 'select_all') {
         this.handleSelectAll()
@@ -201,6 +205,9 @@ export default {
         this.handleDeselectAll()
       }
     }
+  },
+  mounted() {
+    this.url = `/vendors/orders?page=1${this.queryString}`
   },
   methods: {
     ...mapActions({
@@ -241,14 +248,17 @@ export default {
     },
     handleLoading($state) {
       const that = this
-
+      console.debug(this.url)
+      console.debug('before:')
       this.$axios.get(this.url).then(res => {
         const data = res.data?.data
 
         if (!data.orders.next_page_url) {
           $state.complete()
+        }else{
+          that.url = data.orders.next_page_url
+          console.debug(that.url)
         }
-        that.url = data.orders.next_page_url
 
         if (data.orders.current_page === 1) {
           that.infiniteOrders = [...data.orders.data]
