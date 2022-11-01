@@ -1987,6 +1987,8 @@
     }
   },
   "shop": {
+    "browse_shop": "Browse Shop",
+    "clear_all": "Clear all",
     "banner": {
       "leading": "Buy With<br>Deadstock",
       "subleading": "Shop your favorite streetwear and brands on Deadstock.",

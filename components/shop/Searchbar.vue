@@ -131,11 +131,13 @@ export default {
         ...this.selectedFilters,
         product: this.selectedProduct,
       }
+      this.$emit('change', this.selectedFilters)
       this.hideDropdown()
     },
 
     // Submit updated filters
     emitChange: debounce(function (filters) {
+      alert('adfasdf');
       this.$emit('change', filters)
     }, 300),
     hideDropdown() {

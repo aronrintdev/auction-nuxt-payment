@@ -3,7 +3,7 @@
     <div class="container-shop pb-5">
       <section class="section-filters">
         <div class="d-none d-sm-block container">
-          <h1 class="fs-48 fw-7 font-adobe-garamond my-4">Browse Shop</h1>
+          <h1 class="fs-48 fw-7 font-adobe-garamond my-4">{{$t('shop.browse_shop')}}</h1>
           <ShopFilters ref="filterSidebar" @apply="fetchProducts" />
         </div>
         <div class="searchbar d-block d-sm-none">
@@ -138,7 +138,8 @@ export default {
       recentProducts: [],
       newRelease: [],
       trendingPRoducts: [],
-      instantShippingProducts: []
+      instantShippingProducts: [],
+      desc: true
     }
   },
   async fetch() {
@@ -153,6 +154,9 @@ export default {
       'selectedBrands',
       'selectedSizes',
       'selectedSizeTypes',
+      'selectedSearch',
+      'selectedSort',
+      'selectedOrdering'
     ]),
   },
 
@@ -187,11 +191,16 @@ export default {
         filters.sizes = this.selectedSizes.join(',')
       }
       if (this.selectedSizeTypes) {
-        filters.size_types = this.selectedSizeTypes.join(',')
+        filters.size_types = this.selectedSizeTypes
       }
       if (this.selectedYears) {
         filters.years = this.selectedYears.join('-')
       }
+      if(this.selectedSearch){
+        filters.search = this.selectedSearch
+      }
+      filters.desc = this.selectedOrdering
+
       filters.take = 4
       this.getRecentProducts(filters)
       this.getNewRelease(filters)
@@ -199,12 +208,12 @@ export default {
       this.getInstantShip(filters)
     },
     getRecentProducts(filters){
-      if (this.sortBy) {
-        filters.order_by = 'views, '+this.sortBy
+      console.log(this.selectedSort)
+      if (this.selectedSort) {
+        filters.order_by = this.selectedSort
       }else{
         filters.order_by = 'views'
       }
-      filters.desc = true
       this.$axios
         .get('/products/shop', {
           params: filters
@@ -217,12 +226,11 @@ export default {
         })
     },
     getNewRelease(filters){
-      if (this.sortBy) {
-        filters.order_by = 'created_at, '+this.sortBy
+      if (this.selectedSort) {
+        filters.order_by = this.selectedSort
       }else{
         filters.order_by = 'created_at'
       }
-      filters.desc = true
       this.$axios
         .get('/products/shop', {
           params: filters
@@ -235,12 +243,11 @@ export default {
         })
     },
     getTrending(filters){
-      if (this.sortBy) {
-        filters.sort_by = 'created_at, '+this.sortBy
+      if (this.selectedSort) {
+        filters.order_by = this.selectedSort
       }else{
         filters.sort_by = 'created_at'
       }
-      filters.desc = true
       this.$axios
         .get('/products/shop/trending', {
           params: filters
@@ -253,12 +260,11 @@ export default {
         })
     },
     getInstantShip(filters){
-      if (this.sortBy) {
-        filters.sort_by = 'created_at, '+this.sortBy
+      if (this.selectedSort) {
+        filters.order_by = this.selectedSort
       }else{
         filters.sort_by = 'created_at'
       }
-      filters.desc = true
       this.$axios
         .get('/products/shop/instant-shipping', {
           params: filters
