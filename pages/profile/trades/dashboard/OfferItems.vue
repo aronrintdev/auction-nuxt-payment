@@ -2,7 +2,7 @@
   <div>
     <div v-if="width <= 500">
       <div class="product-card">
-        <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
+        <div v-if="heading" class="item-heading-text pb-2 pl-2">{{heading}}</div>
         <div class="d-flex justify-content-center align-content-center" >
           <div v-for="(item) in offerItems" :key="'offer-item-list-' + item.id" class="single-div m-2">
             <div class="offer-item-small">
