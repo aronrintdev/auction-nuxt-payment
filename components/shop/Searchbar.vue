@@ -137,7 +137,6 @@ export default {
 
     // Submit updated filters
     emitChange: debounce(function (filters) {
-      alert('adfasdf');
       this.$emit('change', filters)
     }, 300),
     hideDropdown() {
