@@ -400,11 +400,8 @@ export default {
       this.statusFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.statusFilter, 2) || this.$t('trades.status') // 2 is max number of labels show in filter
     },
     changeStatusFilterMobile(selectedStatuses){
-      console.log('status',selectedStatuses)
       if (!this.statusFilter.includes(selectedStatuses)) {
-        console.log('come if')
         this.statusFilter.push(selectedStatuses)
-        console.log('this.statusFilter',this.statusFilter)
       }
     },
     searchTrades(product){
