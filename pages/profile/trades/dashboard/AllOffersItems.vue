@@ -1,28 +1,56 @@
 <template>
   <div>
-    <div v-if="offers.length > 0" :offers="offers">
-      <div v-for="(offer) in offers" :key="'trade-page-offer-list-' + offer.id" class="offer-item-trade-container m-4" @click="showOffer(offer.id)">
-        <div class="d-flex justify-content-between">
-          <div :id="`flyer-${offer.condition}`">
-            {{$t(offer.condition_translation)}}
-          </div>
-          <div class="pt-3 text-center">
-            <div class="offer-id">{{$t('trades.offer_id')}} #{{offer.id}}</div>
-            <div class="offer-time">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
-          </div>
-          <div :class="`offer-${offer.offer_type}`" class="d-flex justify-content-center align-items-center" @click="$router.push('/profile/trades/dashboard/' + offer.trade.id)">
-            {{$t(offer.offer_type_translation)}}
-            <img v-if="!isOfferMine(offer)" :src="require('~/assets/img/icons/upword-arrow.svg')" class="ml-2" alt="">
-            <img v-else-if="isOfferMine(offer)" :src="require('~/assets/img/icons/downword-arrow.svg')" class="ml-2" alt="">
-          </div>
+    <div v-if="width <= 500">
+      <div v-if="offers.length > 0" :offers="offers">
+        <div v-for="(offer) in offers" :key="'trade-page-offer-list-' + offer.id" class="offer-item-trade-container-mobile mt-2 mb-2" @click="showOffer(offer.id)">
+          <div class="offer-id pt-2 ml-2">{{$t('trades.offer_id')}} #{{offer.id}}</div>
+          <div class="offer-time m-2">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
+            <div class="d-flex justify-content-end mr-2" @click="$router.push('/profile/trades/dashboard/' + offer.trade.id)">
+              <img v-if="!isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="ml-2" alt="">
+              <img v-else-if="isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="ml-2" alt="">
+              {{$t(offer.offer_type_translation)}}
+            </div>
+           <div class="d-flex justify-content-end mr-2">
+             {{$t(offer.condition_translation)}}
+           </div>
+          <!-- items sections -->
+          <b-row class="justify-content-center mt-3" role="button">
+            <offer-items :offerItems="offer.theirs_items"/>
+          </b-row>
         </div>
-        <!-- items sections -->
-        <b-row class="justify-content-center mt-3" role="button">
-          <offer-items :offerItems="offer.theirs_items"/>
-        </b-row>
       </div>
+      <div v-else class="text-center mt-3">
+        {{(offerType !== ALL_OFFER_TYPE) ? $t('trades.no_trade_offers_have_been')
+        + $t('trades.offer_type.' + offerType) : $t('trades.no_trade_offers_have_been_found')}}</div>
     </div>
-    <div v-else class="text-center mt-3">{{(offerType !== ALL_OFFER_TYPE) ? $t('trades.no_trade_offers_have_been') + $t('trades.offer_type.' + offerType) : $t('trades.no_trade_offers_have_been_found')}}</div>
+    <div v-else>
+      <div v-if="offers.length > 0" :offers="offers">
+        <div v-for="(offer) in offers" :key="'trade-page-offer-list-' + offer.id" class="offer-item-trade-container m-4" @click="showOffer(offer.id)">
+          <div class="d-flex justify-content-between">
+            <div :id="`flyer-${offer.condition}`">
+              {{$t(offer.condition_translation)}}
+            </div>
+            <div class="pt-3 text-center">
+              <div class="offer-id">{{$t('trades.offer_id')}} #{{offer.id}}</div>
+              <div class="offer-time">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
+            </div>
+            <div :class="`offer-${offer.offer_type}`" class="d-flex justify-content-center align-items-center" @click="$router.push('/profile/trades/dashboard/' + offer.trade.id)">
+              {{$t(offer.offer_type_translation)}}
+              <img v-if="!isOfferMine(offer)" :src="require('~/assets/img/icons/upword-arrow.svg')" class="ml-2" alt="">
+              <img v-else-if="isOfferMine(offer)" :src="require('~/assets/img/icons/downword-arrow.svg')" class="ml-2" alt="">
+            </div>
+          </div>
+          <!-- items sections -->
+          <b-row class="justify-content-center mt-3" role="button">
+            <offer-items :offerItems="offer.theirs_items"/>
+          </b-row>
+        </div>
+      </div>
+      <div v-else class="text-center mt-3">
+        {{(offerType !== ALL_OFFER_TYPE) ? $t('trades.no_trade_offers_have_been')
+        + $t('trades.offer_type.' + offerType) : $t('trades.no_trade_offers_have_been_found')}}</div>
+    </div>
+
   </div>
 </template>
 
@@ -52,12 +80,16 @@ export default {
   },
   data(){
     return {
+      width:'',
       ALL_OFFER_TYPE,
       OFFER_RECEIVED,
       COUNTER_OFFER_TYPE,
       OFFER_TYPE,
       OFFER_SENT
     }
+  },
+  mounted(){
+    this.width = window.innerWidth
   },
   methods: {
     isOfferMine(offer) {
@@ -76,6 +108,10 @@ export default {
 
 .offer-item-trade-container
   height: 350px
+  box-shadow: 0 1px 4px $drop-shadow1
+  border-radius: 10px
+.offer-item-trade-container-mobile
+  height: 360px
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
 
@@ -147,16 +183,21 @@ export default {
   border-left: 6px solid transparent
 
 .offer-id
-  font-family: $font-family-sf-pro-display
+  font-family: 'SF Pro Display'
   font-style: normal
-  @include body-12-bold
-  color: $color-blue-1
+  font-weight: 700
+  font-size: 16px
+  line-height: 19px
+  color: #667799
+
 
 .offer-time
-  font-family: $font-family-sf-pro-display
+  font-family: 'SF Pro Display'
   font-style: normal
-  @include body-13-normal
-  color: $color-gray-68
+  font-weight: 500
+  font-size: 12px
+  line-height: 14px
+  color: #999999
 
 .offer-received
   width: 195px

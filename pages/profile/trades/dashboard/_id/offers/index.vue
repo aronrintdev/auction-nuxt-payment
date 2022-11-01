@@ -74,7 +74,7 @@
         </b-row>
       </div>
     </div>
-
+    <all-offers-items :offerType="offerType" :offers="tradeOffers" />
   </div>
   <div class="container-fluid" v-else>
     <b-col md="12" class="pl-54 pt-4">
@@ -421,6 +421,4 @@ export default {
     width: 100px
     height: auto
     font-size: 12px
-.searching-box
-  background-color: grey !important
 </style>
