@@ -2,7 +2,7 @@
   <b-container fluid class="container-profile-auctions h-100">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="title">{{ $t('bids.bids_summary') }}</h2>
-      <span role="button" class="view-similar mt-2" @click="viewSimilarAuction">{{$t('bids.view_similar')}}</span>
+      <span role="button" class="view-similar mt-0 mt-md-2" @click="viewSimilarAuction">{{$t('bids.view_similar')}}</span>
     </div>
     <div v-if="selectedBid">
       <BidAuctionSummary/>
@@ -13,7 +13,7 @@
     </div>
 
     <div v-if="selectedBid">
-      <div class="d-flex mt-4 mx-1">
+      <div class="d-flex mt-4 mx-1 auction-bids">
         <div class="mr-5" role="button" @click="changeTab(BIDS_TAB_ALL)">
           <h2 class="title" :class="{'non-active': bidsTab === BIDS_TAB_YOUR}">{{ $t('bids.all_bids') }}
             ({{ bidsTotal }})</h2>
@@ -35,6 +35,7 @@
 
       <div class="d-flex align-items-center justify-content-center">
         <Button
+          v-if="bidsForList && bidsTotal > bidsForList.length"
           variant="primary"
           class="bg-blue-2 mt-3"
           :disabled="bidsLoading"
@@ -225,4 +226,18 @@ export default {
     @include heading-2
     color: $color-black-1
     font-weight: $bold
+
+  @media (max-width: 576px)
+    padding: 16px
+    background: $white
+    h2.title
+      @include body-3-bold
+      margin-bottom: 0
+    .view-similar
+      @include body-5
+      font-weight: $normal
+      width: auto
+    .auction-bids
+      h2.title
+        @include body-4-bold
 </style>

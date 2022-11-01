@@ -1,6 +1,6 @@
 <template>
   <b-container fluid class="container-profile-auctions h-100">
-    <div class="d-flex justify-content-start align-items-center body-4-normal" role="button" @click="goBackAuction">
+    <div class="d-flex justify-content-start align-items-center body-4-normal back-btn" role="button" @click="goBackAuction">
       <img :src="ArrowLeft" :alt="$t('auction.go_back_alt_text')" class="mr-2">
       {{$t('auction.back_to_summary')}}
     </div>
@@ -15,8 +15,8 @@
         </div>
       </div>
     </div>
-    <div  class="mt-5 d-flex flex-column   align-items-center">
-      <div v-for="(bid, index) in selectedBids" :key="index">
+    <div  class="mt-5 d-flex flex-column align-items-center">
+      <div v-for="(bid, index) in selectedBids" :key="index" class="w-100">
         <BidOffer :bid="bid" :index="index" :has-error="validationErrors[bid.id]" @remove="removeBid" @select="handleDurationSelect" />
       </div>
     </div>
@@ -40,7 +40,7 @@
       hide-footer
     >
       <template #default>
-        <div class="px-5">
+        <div class="px-md-5 mt-n3 mt-md-0 px-0">
           <b-row class="mb-4">
             <b-col md="12">
               {{modalBody}}
@@ -154,7 +154,7 @@ export default {
           this.$bvModal.hide('final-offer-modal')
           this.$toasted.success(res.data.message)
           this.$router.push({
-            path: '/profile/auction'
+            path: '/profile/auctions'
           })
         }).catch(err => {
           this.$toasted.error(err.message || err.data.error)
@@ -239,4 +239,19 @@ export default {
   padding: 47px 54px
   background-color: $color-white-5
 
+  @media (max-width: 576px)
+    padding: 16px
+    min-height: calc(100vh - 270px)
+    background: $white
+    h2
+      @include body-3-bold
+    h5
+      @include body-5
+      font-weight: $normal
+    .back-btn
+      @include body-5
+      margin-left: -4px
+      img
+        width: 16px
+    
 </style>

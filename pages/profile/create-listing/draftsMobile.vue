@@ -1,10 +1,10 @@
 <template>
-  <b-container fluid>
+  <b-container fluid class="px-3">
     <div class="mb-4 d-flex" @click="$router.push('/profile/create-listing')"><b-icon icon="arrow-left" class="font-26"></b-icon>&nbsp;
     <div class="back-listing" role="button">{{$t('trades.create_listing.back_to_create_listing')}}</div>
     </div>
-    <div v-if="!filterSection"  class="d-flex mt-2">
-      <div>
+    <div v-if="!filterSection"  class="d-flex w-100 mt-2">
+      <div class="flex-grow-1">
         <SearchInput
           :value="searchedText"
           :placeholder="$t('trades.create_listing.vendor.wants.search_by_options')"
@@ -130,6 +130,9 @@
         </b-row>
       </div>
     </div>
+    <div v-if="selectedItems === 'auction'">
+      <AuctionMobileDraftListing :search="searchedText" />
+    </div>
 
   </b-container>
 </template>
@@ -142,6 +145,7 @@ import {
 import {IMAGE_PATH,NAV_TYPES,COMBINATIONS_PER_PAGE_ITEMS} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import mobileFilters from '~/pages/profile/create-listing/trades/filtersMobile'
+import AuctionMobileDraftListing from '~/components/Auctions/MobileDraftListing'
 
 export default {
   name: 'ListingDrafts',
@@ -152,10 +156,13 @@ export default {
     SearchInput, // Component for search and selection of a product
     Pagination, // The pagination component to be used, by default showing 4 items
     mobileFilters,
+    AuctionMobileDraftListing,
   },
 
   layout: 'Profile', // Layout
-
+  meta: {
+    pageTitle: 'Draft',
+  },
   fetchOnServer: false,
 
   data() {
@@ -455,5 +462,9 @@ export default {
   height: 32px
   border-radius: 20px
   background: $color-blue-20
+
+.section-nav
+  @media (max-width: 576px)
+    width: 100%
 </style>
 

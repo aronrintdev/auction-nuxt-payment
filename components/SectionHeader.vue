@@ -9,7 +9,7 @@
       </h1>
     </div>
     <div class="mx-4 mx-md-0">
-      <h5
+      <h5 
         class="fw-4 fs-18 font-primary mb-0 text-gray-light garamond-desc pre-line"
       >
         <span>{{ desc }}</span>
@@ -48,7 +48,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 .section-header:not(.full-width)
-  margin: 40px 0 0 32px
+  margin: 40px 0 0 0
   @media (min-width: 576px)
     margin: 70px 74px 50px 74px
 .title-wrapper

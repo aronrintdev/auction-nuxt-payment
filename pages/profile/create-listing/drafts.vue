@@ -16,6 +16,10 @@ export default {
     draftMobile:()=> import('./draftsMobile'),
     draftWeb:()=>import('./draftsWeb'),
   },
+  layout: 'Profile', // Layout
+  meta: {
+    pageTitle: 'Draft',
+  },
   data(){
     return {
       width:'',
