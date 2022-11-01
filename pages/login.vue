@@ -51,7 +51,7 @@
           </b-row>
 
           <b-row class="mt-4 mb-5">
-            <b-col md="12">
+            <b-col md="12 mb-5">
               <div class="body-5-normal text-color-gray-38 text-center">
                 {{ $t('auth.secure_login_with_recaptcha') }}
               </div>
