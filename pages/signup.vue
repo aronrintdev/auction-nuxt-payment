@@ -113,16 +113,8 @@
               <b-col md="12" class="px-0">
                 <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
                   <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-                    <ValidationProvider
-                      v-slot="validationContext"
-                      :name="$t('auth.first_name')"
-                      :rules="{
-                        required: true,
-                        alphaNum: true,
-                        min: 3,
-                        max: 128,
-                      }"
-                      ><b-row class="d-lg-none d-flex"
+
+                      <b-row class="d-lg-none d-flex"
                         ><b-col
                           class="d-flex justify-content-center flex-column align-items-center"
                         >
@@ -140,8 +132,18 @@
                         class="text-center mb-4 d-lg-none d-block px-0"
                         @change="handleTabChange"
                       />
+                      <ValidationProvider
+                        v-slot="validationContext"
+                        :name="$t('auth.first_name')"
+                        :rules="{
+                          required: true,
+                          alphaNum: true,
+                          min: 3,
+                          max: 128,
+                        }"
+                      >
                       <b-form-group>
-                        <b-input-group>
+                        <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="first-name"
                             v-model="form.first_name"
@@ -152,17 +154,18 @@
                           <b-form-invalid-feedback>{{
                             validationContext.errors[0]
                           }}</b-form-invalid-feedback>
-                          <b-input-group-prepend
-                            v-if="getValidationState(validationContext)"
-                            class="d-flex align-items-center px-1"
-                          >
-                            <b-img
-                              width="20"
-                              height="20"
-                              :src="require('~/assets/img/auth/check.svg')"
-                            />
-                          </b-input-group-prepend>
+
                         </b-input-group>
+                        <b-input-group-prepend
+                          v-if="getValidationState(validationContext)"
+                          class="success-check d-flex align-items-center px-1"
+                        >
+                          <b-img
+                            width="20"
+                            height="20"
+                            :src="require('~/assets/img/auth/check.svg')"
+                          />
+                        </b-input-group-prepend>
                       </b-form-group>
                     </ValidationProvider>
                     <ValidationProvider
@@ -176,7 +179,7 @@
                       }"
                     >
                       <b-form-group>
-                        <b-input-group>
+                        <b-input-group class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="last-name"
                             v-model="form.last_name"
@@ -187,17 +190,17 @@
                           <b-form-invalid-feedback>{{
                             validationContext.errors[0]
                           }}</b-form-invalid-feedback>
-                          <b-input-group-prepend
-                            v-if="getValidationState(validationContext)"
-                            class="d-flex align-items-center px-1"
-                          >
-                            <b-img
-                              width="20"
-                              height="20"
-                              :src="require('~/assets/img/auth/check.svg')"
-                            />
-                          </b-input-group-prepend>
                         </b-input-group>
+                        <b-input-group-prepend
+                          v-if="getValidationState(validationContext)"
+                          class="success-check d-flex align-items-center px-1"
+                        >
+                          <b-img
+                            width="20"
+                            height="20"
+                            :src="require('~/assets/img/auth/check.svg')"
+                          />
+                        </b-input-group-prepend>
                       </b-form-group>
                     </ValidationProvider>
                     <ValidationProvider
@@ -211,7 +214,7 @@
                       }"
                     >
                       <b-form-group>
-                        <b-input-group>
+                        <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="username"
                             v-model="form.username"
@@ -222,17 +225,18 @@
                           <b-form-invalid-feedback>{{
                             validationContext.errors[0]
                           }}</b-form-invalid-feedback>
-                          <b-input-group-prepend
-                            v-if="getValidationState(validationContext)"
-                            class="d-flex align-items-center px-1"
-                          >
-                            <b-img
-                              width="20"
-                              height="20"
-                              :src="require('~/assets/img/auth/check.svg')"
-                            />
-                          </b-input-group-prepend>
+
                         </b-input-group>
+                        <b-input-group-prepend
+                          v-if="getValidationState(validationContext)"
+                          class="success-check d-flex align-items-center px-1"
+                        >
+                          <b-img
+                            width="20"
+                            height="20"
+                            :src="require('~/assets/img/auth/check.svg')"
+                          />
+                        </b-input-group-prepend>
                       </b-form-group>
                     </ValidationProvider>
                     <ValidationProvider
@@ -247,7 +251,7 @@
                       }"
                     >
                       <b-form-group>
-                        <b-input-group>
+                        <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="email-address"
                             v-model="form.email"
@@ -258,17 +262,17 @@
                           <b-form-invalid-feedback>{{
                             validationContext.errors[0]
                           }}</b-form-invalid-feedback>
-                          <b-input-group-prepend
-                            v-if="getValidationState(validationContext)"
-                            class="d-flex align-items-center px-1"
-                          >
-                            <b-img
-                              width="20"
-                              height="20"
-                              :src="require('~/assets/img/auth/check.svg')"
-                            />
-                          </b-input-group-prepend>
                         </b-input-group>
+                        <b-input-group-prepend
+                          v-if="getValidationState(validationContext)"
+                          class="success-check d-flex align-items-center px-1"
+                        >
+                          <b-img
+                            width="20"
+                            height="20"
+                            :src="require('~/assets/img/auth/check.svg')"
+                          />
+                        </b-input-group-prepend>
                       </b-form-group>
                     </ValidationProvider>
                     <ValidationProvider
@@ -284,7 +288,7 @@
                       vid="password"
                     >
                       <b-form-group>
-                        <b-input-group>
+                        <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="password"
                             v-model="form.password"
@@ -293,7 +297,7 @@
                             :state="getValidationState(validationContext)"
                             :type="passwordFieldType"
                           ></b-form-input>
-                          <b-input-group-append
+                          <b-input-group-prepend
                             class="d-flex align-items-center px-3 append-icon"
                           >
                             <i
@@ -310,21 +314,21 @@
                               role="button"
                               @click="isPasswordShown = !isPasswordShown"
                             ></i>
-                          </b-input-group-append>
-                          <b-input-group-prepend
-                            v-if="getValidationState(validationContext)"
-                            class="d-flex align-items-center px-1"
-                          >
-                            <b-img
-                              width="20"
-                              height="20"
-                              :src="require('~/assets/img/auth/check.svg')"
-                            />
                           </b-input-group-prepend>
                           <b-form-invalid-feedback>{{
                             validationContext.errors[0]
                           }}</b-form-invalid-feedback>
                         </b-input-group>
+                        <b-input-group-prepend
+                          v-if="getValidationState(validationContext)"
+                          class="success-check d-flex align-items-center px-1"
+                        >
+                          <b-img
+                            width="20"
+                            height="20"
+                            :src="require('~/assets/img/auth/check.svg')"
+                          />
+                        </b-input-group-prepend>
                       </b-form-group>
                     </ValidationProvider>
                     <ValidationProvider
@@ -340,7 +344,7 @@
                       }"
                     >
                       <b-form-group>
-                        <b-input-group>
+                        <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="password-confirmation"
                             v-model="form.password_confirmation"
@@ -349,7 +353,7 @@
                             :state="getValidationState(validationContext)"
                             :type="confirmPasswordFieldType"
                           ></b-form-input>
-                          <b-input-group-append
+                          <b-input-group-prepend
                             class="d-flex align-items-center px-3 append-icon"
                           >
                             <i
@@ -370,21 +374,21 @@
                                 isConfirmPasswordShown = !isConfirmPasswordShown
                               "
                             ></i>
-                          </b-input-group-append>
-                          <b-input-group-prepend
-                            v-if="getValidationState(validationContext)"
-                            class="d-flex align-items-center px-1"
-                          >
-                            <b-img
-                              width="20"
-                              height="20"
-                              :src="require('~/assets/img/auth/check.svg')"
-                            />
                           </b-input-group-prepend>
                           <b-form-invalid-feedback>{{
                             validationContext.errors[0]
                           }}</b-form-invalid-feedback>
                         </b-input-group>
+                        <b-input-group-prepend
+                          v-if="getValidationState(validationContext)"
+                          class="success-check d-flex align-items-center px-1"
+                        >
+                          <b-img
+                            width="20"
+                            height="20"
+                            :src="require('~/assets/img/auth/check.svg')"
+                          />
+                        </b-input-group-prepend>
                         <div
                           v-if="
                             getValidationState(validationContext) ||
@@ -627,6 +631,17 @@ export default {
 .text-color-grey-5
   color: $color-gray-5
 
+.w-95
+  width: 95%
+
+.w-5
+  width: 5%
+
+.success-check
+  padding: 0.5rem
+  margin: 0px auto
+  height: 100%
+
 /* Override common Button component border color */
 .border-gray
   border-color: $color-gray-40 !important
@@ -634,7 +649,7 @@ export default {
 /* Override bootstrap-vue 'b-form-input' styles */
 .input-signup
   @include body-5-normal
-  color: $color-gray-47
+  color: $color-black-1
   background-color: $color-white-5
   border: 0
   transition: border-color 0.01s ease-in-out, box-shadow 0.01s ease-in-out
@@ -694,6 +709,7 @@ export default {
   background: $color-white-5
   border-bottom-right-radius: 3rem !important
   border-top-right-radius: 3rem !important
+  padding: 0.7rem
   .fa-eye-slash
     &:before
       color: $color-gray-47
@@ -753,6 +769,7 @@ export default {
       border: 1px solid $color-gray-3
       border-left: 0px
       border-radius: 0px 10px 10px 0px !important
+      padding: 0.7rem
       &:focus
         border-radius: 0px 10px 10px 0px
     .signup-heading
