@@ -28,15 +28,15 @@
 
     <!-- stats cards -->
     <section class="row my-3 my-sm-5">
-      <div class="col-6 col-md-3">
+      <div class="col-3 col-md-3">
         <StatsCard
             :icon="require('~/assets/img/icons/profile/total-sales.svg')"
-            :title="$t('vendor_dashboard.total_sales')"
+            :title="$tc('vendor_dashboard.total_sales', 1).toString()"
             :value="totalSales"
             color="#667799"
         />
       </div>
-      <div class="col-6 col-md-3">
+      <div class="col-3 col-md-3">
         <StatsCard
             :icon="require('~/assets/img/icons/profile/commision-pending.svg')"
             :title="$t('vendor_dashboard.commision_pending')"
@@ -44,20 +44,20 @@
             color="#CE745F"
         />
       </div>
-      <div class="col-6 col-md-3">
+      <div class="col-3 col-md-3">
         <StatsCard
-          :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
-          :title="$t('vendor_dashboard.inventory')"
-          :value="'' + analytics.inventory_amount"
-          color="#7196B1"
+            :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
+            :title="$t('vendor_dashboard.inventory')"
+            :value="'' + analytics.inventory_amount"
+            color="#7196B1"
         />
       </div>
-      <div class="col-6 col-md-3">
+      <div class="col-3 col-md-3">
         <StatsCard
-          :icon="require('~/assets/img/icons/profile/item-sold.svg')"
-          :title="$t('vendor_dashboard.items_sold')"
-          :value="'' + analytics.items_sold"
-          color="#909090"
+            :icon="require('~/assets/img/icons/profile/item-sold.svg')"
+            :title="$t('vendor_dashboard.items_sold')"
+            :value="'' + analytics.items_sold"
+            color="#909090"
         />
       </div>
     </section>
