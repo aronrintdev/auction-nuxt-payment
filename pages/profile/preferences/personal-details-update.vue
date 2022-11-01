@@ -1,40 +1,10 @@
 <template>
   <div v-if="isScreenXS" class="profile-component-wrapper">
     <!-- heading -->
-    <div class="border-bottom">
-      <span class="mb-2" role="button" @click="moveBack()">
-        <img
-          :src="require('~/assets/img/icons/back.svg')"
-          alt="back-arrow"
-          class="float-left"
-        />
-      </span>
 
-      <span
-        class="
-          d-flex
-          text-align-center
-          align-items-center
-          justify-content-center
-          mt-3
-          responsive-heading
-          text-capitalize
-          mb-3
-        "
-      >
-        {{ $t('preferences.profile.profile') }}
+    <MobileHeader id="mobile-update-header" :title="$t('preferences.profile.profile')" @back="moveBack"></MobileHeader>
 
-        <span class="mobile-filter postition-absolute mb-3">
-          <img
-            class="mobile-filter postition-absolute"
-            :src="require('~/assets/img/icons/filter-icon.svg')"
-            alt="filter-icon"
-          />
-        </span>
-      </span>
-    </div>
-
-    <b-card class="mt-3">
+    <b-card id="mobile-personal-details-update" class="mt-3">
       <span class="personal-details-heading">
         <span class="d-flex col-sx-8">
           {{ $t('preferences.profile.personal_details') }}
@@ -184,26 +154,28 @@
       </b-button>
     </div>
 
-    <AlertModal
+    <TransparentAlertModal
       id="update-profile-success"
-      :message="$t('preferences.profile.update_success_content_your')"
-      icon="success-tick"
-      auto-hide
+      :text="$t('preferences.profile.your_changes_have_been_saved')"
+      :show="showAlert"
+      @hide="listenModalClose"
     />
   </div>
 </template>
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import { AlertModal } from '~/components/modal'
+import TransparentAlertModal from '~/components/common/TransparentAlertModal.vue'
 import screenSize from '~/plugins/mixins/screenSize'
+import MobileHeader from '~/components/mobile/MobileHeader.vue'
 
 export default {
   name: 'PersonalDetailsUpdate',
   components: {
-    AlertModal,
+    TransparentAlertModal,
     ValidationObserver,
     ValidationProvider,
+    MobileHeader
   },
   mixins: [screenSize],
 
@@ -223,6 +195,7 @@ export default {
       },
       validationEroor: false,
       formFilled: false,
+      showAlert: false
     }
   },
 
@@ -251,6 +224,10 @@ export default {
           this.updatePersonalDetails()
         }
       })
+    },
+
+    listenModalClose(){
+      this.showAlert = false
     },
 
     // Get the user address
@@ -284,10 +261,14 @@ export default {
       this.personalDetails.lastName = val.last_name
       this.personalDetails.email = val.email
       this.personalDetails.phoneNumber = val.phoneNumber
-      this.personalDetails.dateOfBirth = this.$options.filters.formatDate(
-        val.dob,
-        'YYYY-MM-DD'
-      )
+
+      // Set the selected value for date of birth selected box
+      const structuredDOB = val.dob ? val.dob.split('-') : ''
+      // Current date is shown if dob is null
+      const date = parseInt(structuredDOB[0]) // To remove leading 0 if date is between 1-9
+      const month = parseInt(structuredDOB[1]) // To remove leading 0 if month is between 1-9
+      const year = parseInt(structuredDOB[2])
+      this.personalDetails.dateOfBirth = `${date}/${month}/${year}`
     },
 
     // Update the personal profiledetails
@@ -301,7 +282,8 @@ export default {
           personal: this.personalDetails,
         })
         .then((res) => {
-          this.$toasted.success(this.$t(res.data.message))
+          this.showAlert = true
+          this.$nuxt.refresh()
         })
         .catch((err) => {
           this.$logger.logToServer(
@@ -310,8 +292,6 @@ export default {
           )
           this.$toasted.error(this.$t(err.response.data.message))
         })
-      this.$bvModal.show('update-profile-success')
-      this.$nuxt.refresh()
     },
   },
 }
@@ -381,4 +361,22 @@ export default {
   font-style: normal
   @include body-18-medium
   color: $color-red-3
+#mobile-update-header::v-deep
+  .title
+    font-family: $font-montserrat
+    font-style: normal
+    @include body-3-medium
+    display: flex
+    align-items: center
+    text-align: center
+    letter-spacing: -0.02em
+    color: $color-black-1
+#mobile-personal-details-update::v-deep
+  input
+    font-family: $font-montserrat
+    font-style: normal
+    @include body-9-normal
+    display: flex
+    align-items: center
+    color: $color-black-1
 </style>

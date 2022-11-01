@@ -573,6 +573,10 @@ $exbolder: 900
   @include body-17
   font-weight: $bold
 
+@mixin body-18-bold
+  @include body-18
+  font-weight: $bold
+
 @mixin body-29-bold
   @include body-29
   font-weight: $bold
@@ -590,6 +594,14 @@ $exbolder: 900
   @include body-13
   font-weight: $light
 
+@mixin heading-3-normal
+ @include heading-3
+ font-weight: $normal
+
+@mixin heading-3-medium
+  @include heading-3
+  font-weight: $medium
+
 /* Common Text Styles */
 .heading-4-normal
   @include heading-4-normal
@@ -600,6 +612,12 @@ $exbolder: 900
 
 .heading-1-medium
   @include heading-1-medium
+
+.heading-3-medium
+  @include heading-3-medium
+
+.heading-3-normal
+  @include heading-3-normal
 
 .heading-5-medium
   @include heading-5-medium

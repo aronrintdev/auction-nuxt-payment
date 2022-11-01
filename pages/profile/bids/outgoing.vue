@@ -11,7 +11,7 @@
 
     <div class="d-flex justify-content-between align-items-center mt-4">
       <h3 class="title">
-        <span :class="{ 'body-4-medium' : isMobileSize }">
+        <span :class="{ 'body-5-medium' : isMobileSize }">
         {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
         </span>
       </h3>
@@ -24,7 +24,7 @@
         @click="deleteAction = true"
       >
         <img v-if="isMobileSize" src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
-        <span class="body-5-regular" :class="isMobileSize ? 'expire-button-gray' : 'text-black'">
+        <span class="body-9-regular" :class="isMobileSize ? 'expire-button-gray' : 'text-black'">
           {{ $t('bids.delete_expired') }}
         </span>
       </Button>
@@ -60,23 +60,21 @@
         <span class="px-4"> {{ $t('bids.browse_auction') }}</span>
       </Button>
     </div>
-    <div v-if="fetchLoading" class="mx-auto mt-5">
-      <Loader :loading="fetchLoading"/>
-    </div>
-    <div v-if="bidsCount>0 && !fetchLoading">
+
+    <div v-if="bidsCount>0">
       <b-row class="mt-5 text-center p-0 font-weight-bold d-none d-md-flex">
         <b-col sm="12" md="2" class="text-center">{{ $t('bids.headers.auction_id') }}</b-col>
         <b-col sm="12" md="3" class="text-left">{{ $t('bids.headers.product') }}</b-col>
         <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }} <span role="button"><img :src="FilterDown"
                                                                                              alt="donw"></span></b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.auto_bid') }} <span role="button"><img :src="FilterDown"
-                                                                                         alt="donw"></span></b-col>
+        <!--<b-col sm="12" md="1">{{ $t('bids.headers.auto_bid') }} <span role="button"><img :src="FilterDown"
+                                                                                         alt="donw"></span></b-col>-->
         <b-col sm="12" md="1">{{ $t('bids.headers.bid_amt') }} <span role="button"><img :src="FilterDown"
                                                                                         alt="donw"></span></b-col>
         <b-col sm="12" md="2">{{ $t('bids.headers.time_remaining') }} <span role="button"><img :src="FilterDown"
                                                                                                alt="donw"></span>
         </b-col>
-        <b-col sm="12" md="2">{{ $t('bids.headers.action') }}</b-col>
+        <b-col sm="12" md="3">{{ $t('bids.headers.action') }}</b-col>
       </b-row>
 
       <client-only>
@@ -103,10 +101,12 @@
         </div>
       </client-only>
     </div>
-
+    <div v-if="fetchLoading" class="mx-auto mt-5 mb-5 pb-5 pt-5">
+      <Loader :loading="fetchLoading"/>
+    </div>
 
     <Pagination
-      v-if="bidsCount>0 && !fetchLoading"
+      v-if="bidsCount>0 && !fetchLoading && false"
       v-model="page"
       :total="totalCount"
       :per-page="perPage"
@@ -264,6 +264,7 @@ export default {
       selected: [],
       perPageOptions: [8, 16, 32, 48],
       perPage: 6,
+      lastPage: 1,
       FilterDown,
       bidType: this.isVendor? BID_TYPE_INCOMING : BID_TYPE_OUTGOING,
       deletePayload: [],
@@ -301,6 +302,19 @@ export default {
   },
   mounted() {
     this.FetchBids()
+    if (process.browser) {
+      const container = document.getElementById('profile-layout')
+      window.onscroll = (ev) => {
+        if (container && !this.fetchLoading) {
+          if ((window.innerHeight + window.scrollY) >= container.offsetHeight - 10) {
+           if (this.page < this.lastPage) {
+             this.page++
+             this.FetchBids()
+           }
+          }
+        }
+      };
+    }
   },
   methods: {
     ...mapActions({
@@ -424,6 +438,7 @@ export default {
      * Fetching bids from the backend and storing them in the store.
      */
     FetchBids() {
+      if(this.fetchLoading) return
       this.fetchLoading = true
       const payload = {
         ...this.filters,
@@ -440,8 +455,9 @@ export default {
           auction.bids = []
           return auction
         })
-        this.bids = data
+        this.bids.push(...data)
         this.totalCount = res.data.total
+        this.lastPage = res.data.last_page
       }).finally(() => {
         this.fetchLoading = false
       })
@@ -505,11 +521,19 @@ export default {
         mobileFilter.open()
       }
     },
+    // hide filter
+    closeMobileFilter() {
+      const { mobileFilter } = this.$refs
+      if (mobileFilter) {
+        mobileFilter.close()
+      }
+    },
     async onMobileFilter(mobileFilters) {
       const filterData = {
         ...this.filters,
         ...mobileFilters
       }
+      this.closeMobileFilter()
       await this.$store.commit('profile-bids/setFilters', filterData)
       this.FetchBids()
     }

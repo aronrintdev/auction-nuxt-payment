@@ -3451,7 +3451,8 @@
       "unsaved_changes"  : "You have unsaved changes.",
       "need_to_leave"  : "Are you sure you want to leave?",
       "default_address_changed" : "Default address has been changed",
-      "please_fillout_missing_fields" : "*Please fill out missing fields"
+      "please_fillout_missing_fields" : "*Please fill out missing fields",
+      "your_changes_have_been_saved"  : "Your changes have been saved!"
     },
     "payments": {
       "payment": "Payment",
@@ -3857,6 +3858,7 @@
     "live": "Live",
     "expired": "Expired",
     "your_bid": "Your Bid:",
+    "duration": "Duration",
     "bids": "Bids",
     "bids_summary": "Bids Summary",
     "delete_expired": "Delete Expired Bids",
@@ -4269,7 +4271,10 @@
     "confirm_discard_text": "Your changes have been discarded",
     "change_listing": "Are you sure you would like to change this listing?",
     "all_active_offers_will_be_lost": "All the active offers associated with these listing could be lost.",
-    "editsuccess": "Your changes have been saved and your listing has been modified"
+    "editsuccess": "Your changes have been saved and your listing has been modified",
+    "draft": {
+      "remove_success_message": "The auction has been removed successfully"
+    }
   },
   "color": {
     "white": "White",
@@ -5022,6 +5027,10 @@
       "commission": "Commission",
       "documents": "Documents"
     },
+    "cancel": "Cancel",
+    "camera": "Camera",
+    "gallery": "Gallery",
+    "browse": "Browse",
     "vendor_hub": "Vendor Hub",
     "store_address": "Store Address",
     "documents": "Documents",
@@ -5137,6 +5146,7 @@
       "csv_exported": "CSV file has been exported to your downloads folder",
       "export_selected": "Export Selected",
       "orders_fulfilled": "Total Orders Fulfilled",
+      "email_cvs": "Email CVS",
       "table": {
         "order_id": "Order ID",
         "product": "Product",
@@ -5161,6 +5171,10 @@
       "enter_valid_phone": "Please enter a valid phone number.",
       "enter_valid_address": "Please enter a valid address.",
       "verification_expired": "Verification Code has expired."
+    },
+    "mobile": {
+      "verification_message_sent": "A verification code has been sent to your mobile phone.",
+      "verification_details_message": "Please input the code below to confirm within the next 5 minutes."
     },
     "messages": {
       "document_uploaded": "Vendor Document Uploaded!",

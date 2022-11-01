@@ -390,9 +390,10 @@ export default {
     selected(val) {
       const auctionItems = []
       if (this.selectedAuctionType === AUCTION_TYPE_SINGLE) {
-        this.selected.map(a => {
+        val.map(a => {
           const item = this.selectedProducts.filter(z => z.id === a)[0]
           if (item) {
+            const savedAuctionInfo = this.selectedAuctionItems.find(it => it.items[0].inventory_id === a)
             auctionItems.push({
               id: this.randomStringId(),
               time_limit: null,
@@ -408,7 +409,8 @@ export default {
                 inventory_id: item.id,
                 quantity: 1
               }],
-              item
+              item,
+              ...savedAuctionInfo,
             })
           }
           return a
@@ -418,7 +420,7 @@ export default {
           id: this.randomStringId(),
           time_limit: null,
           start_bid_price: null,
-          status: 'scheduled',
+          status: 'live',
           is_reserved: false,
           reserve_price: null,
           scheduled_date: null,
@@ -543,8 +545,8 @@ export default {
         }
       })
     },
-    selectItem(id, checked) {
-      if (checked) {
+    selectItem(id, event) {
+      if (event.target.checked) {
         this.selected.push(id)
         this.$store.commit('create-listing/addSelectedInventoryProducts', this.inventories.filter(a => a.id === id)[0])
       } else {

@@ -33,8 +33,8 @@ export default {
   },
   computed: {
     isResponsive(vm) {
-      return vm.isScreenSM || vm.isScreenXS
-    },
+      return vm.isScreenXS || vm.isScreenSM
+    }
   },
   beforeMount() {
     if (this.$store.$auth.loggedIn) {

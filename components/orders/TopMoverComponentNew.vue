@@ -71,6 +71,12 @@ export default {
     font-family: $font-montserrat
     font-size: 12px
 
+  ::v-deep .table-striped tbody tr:nth-of-type(2n)
+    background-color: $color-white-5
+
+  ::v-deep .table-striped tbody tr:nth-of-type(2n+1)
+    background-color: $color-white-1
+
   ::v-deep .top-movers-row table.table-striped td:nth-child(1)
     font-weight: $medium
 
