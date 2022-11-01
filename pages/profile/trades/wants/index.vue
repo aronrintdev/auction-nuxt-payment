@@ -814,12 +814,6 @@ export default {
         this.combinationItems = response.data && response.data.data.data.sort(
           (a, b) => b.combination_items.length - a.combination_items.length
         )
-        // this.combinationItems = response.data.data.data.reduce((acc, item) => {
-        //   if (item.combination_items.length > 0) {
-        //     acc.push(item)
-        //   }
-        //   return acc;
-        // }, [])
         this.totalCountCombination = parseInt(response.data.data.total)
         this.perPageCombination = parseInt(response.data.data.per_page)
         this.combinationItems.forEach((combination, index) => {

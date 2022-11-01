@@ -294,9 +294,13 @@ export default {
       default: false,
     },
   },
+  watch: {
+    combination(newCombo) {
+      this.combinationItems = newCombo.combination_items
+    }
+  },
   data () {
     const product = { product: {}, packaging_condition: {}, size: {} }
-    console.log('this.combination', this.combination);
     return {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
       selectedCombination: this.combination.combination_items[0] || product,
