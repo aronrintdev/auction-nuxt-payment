@@ -2,6 +2,7 @@
   <b-row>
     <!-- Checkout selling normal version (md, lg & xl) -->
     <ItemsList v-if="! isResponsive" />
+
     <ShoppingCartOrder v-if="! isResponsive" class="order-summary" />
     <!-- End of Checkout selling normal version (md, lg & xl) -->
 
@@ -43,7 +44,7 @@ export default {
     }
     enquireScreenSizeHandler((type) => {
       this.$store.commit('size/setScreenType', type)
-    });
+    })
   },
   mounted() {
     this.injectRiskifiedBeacon()
