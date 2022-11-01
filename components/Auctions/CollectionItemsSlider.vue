@@ -58,7 +58,7 @@ export default {
         if (index < 0) {
           index += count;
         }
-        this.activeIndex = index
+        this.activeIndex = index < 0 ? 0 : index
       } else {
         this.activeIndex = 0
       }
