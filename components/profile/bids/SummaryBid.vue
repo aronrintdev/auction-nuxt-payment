@@ -1,13 +1,13 @@
 <template>
-  <b-row v-if="bid" class="mt-3 text-center px-5 py-5 ml-n1 table-text w-100 bg-white single-item position-relative">
+  <b-row v-if="bid" class="mt-3 text-center px-3 py-4 px-md-5 py-md-5 ml-0 ml-md-n1 table-text w-100 bg-white single-item position-relative">
     <div v-if="isMine"
          class="position-absolute tag-bid d-flex align-items-center justify-content-center text-white your-tag">
       {{ $t('bids.yours') }}
     </div>
-    <b-col sm="12" md="5" class="text-left">
+    <b-col cols="4" md="5" class="text-left">
       <b-row class="align-items-center">
         <b-col sm="2">
-          <img :src="HandIcon" alt="Bid hand">
+          <img :src="HandIcon" class="hand" alt="Bid hand">
         </b-col>
         <b-col sm="4">
           <div v-if="isHighest" class="highest-bid-text ">{{ $t('bids.bid_status.highest_bid') }}</div>
@@ -16,10 +16,10 @@
         </b-col>
       </b-row>
     </b-col>
-    <b-col sm="12" md="4" class="d-flex flex-column align-items-center justify-content-center">
-      <div>&dollar;{{ bid.price / 100 }}</div>
+    <b-col cols="4" md="4" class="d-flex flex-column align-items-center justify-content-center">
+      <div class="price-text">&dollar;{{ bid.price / 100 }}</div>
     </b-col>
-    <b-col sm="12" md="3" class="d-flex flex-column align-items-center justify-content-center">
+    <b-col cols="4" md="3" class="d-flex flex-column align-items-center justify-content-center">
       <div class="date-text">{{ getDateAndTime[0] }}</div>
       <div class="time-text">{{ getDateAndTime[1] }}</div>
     </b-col>
@@ -101,4 +101,21 @@ export default {
   border-radius: 10px
   border: 1px solid $color-gray-60
   padding: 15px 10px
+
+@media (max-width: 576px)
+  .tag-bid
+    @include body-6
+    height: 22px
+
+  img.hand
+    width: 40px
+    margin-bottom: 5px
+
+  .highest-bid-text
+    @include body-9
+  .price-text,
+  .time-text,
+  .single-item
+    @include body-10
+  
 </style>

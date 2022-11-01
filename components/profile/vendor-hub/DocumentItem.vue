@@ -3,22 +3,21 @@
     <div class="mt-3 mr-3">
       <img :src="require('~/assets/img/profile/vendor-hub/document.svg')">
     </div>
-
-    <b-col sm="3" class="d-flex flex-column">
+    <b-col sm="12" md="3" class="d-flex flex-column">
       <span class="column-label">{{$t('vendor_hub.document_name')}}</span>
       <span class="row-body document-name">{{document.name}}</span>
       <span v-if="fieldExist('url')" class="row-body document-file" role="button" @click="$emit('download', documentFile)">File</span>
       <span v-if="fieldExist('created_at')" class=" body-secondary-text">{{$t('vendor_hub.documents_tab.upload_date')}} {{documentFile.created_at | formatDate}}</span>
     </b-col>
 
-    <b-col sm="3" class="d-flex flex-column">
+    <b-col sm="12" md="4" class="d-flex flex-column">
       <span class="column-label">{{$t('vendor_hub.documents_tab.document_status')}}</span>
       <span class="row-body status-text" :class="documentStatusText.toLowerCase()">{{ documentStatusText }}</span>
       <span v-if="fieldExist('meta_values.seller_permit_no')" class=" body-secondary-text" role="button">{{$t('vendor_hub.documents_tab.seller_permit_number')}} {{documentFile.meta_values.seller_permit_no}}</span>
       <span v-if="fieldExist('meta_values.expiration_date')" class=" body-secondary-text">{{$t('vendor_hub.documents_tab.expire_date')}} {{documentFile.meta_values.expiration_date}}</span>
     </b-col>
 
-    <b-col sm="3" class="d-flex flex-column">
+    <b-col sm="12" md="4" class="d-flex flex-column">
       <span class="column-label">{{$t('vendor_hub.actions')}}</span>
       <Button
         v-if="!fieldExist('url')"
@@ -32,7 +31,7 @@
       <Button
         v-if="fieldExist('url')"
         pill
-        class="mt-3 action-button"
+        class="mt-3 action-button w-100"
         @click="$emit('re-upload', document)"
       >
         {{$t('vendor_hub.documents_tab.re_upload_form')}}

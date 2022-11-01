@@ -211,7 +211,7 @@
         :auctionItems="auction.auction_items"
         :is-expired-or-delisted="isExpiredOrDelisted"
         @viewSimilar="viewSimilarAuction"
-        @edit="$emit('edit', bid)"
+        @edit="hideMobileMenu(); $emit('edit', bid)"
         @close="hideMobileMenu"
       />
     </vue-bottom-sheet>

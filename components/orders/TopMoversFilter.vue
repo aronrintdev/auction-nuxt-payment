@@ -1,11 +1,10 @@
 <template>
   <div>
     <!--      End Header Search and Filter   -->
-    <b-row class="mt-4">
+    <b-row class="mt-md-4 align-items-md-end">
       <b-col md="12" lg="7">
-        <span class="header-title">&nbsp;</span>
         <b-row>
-          <b-col md="12" lg="12" class="mt-2">
+          <b-col md="12" lg="12" class="mt-md-2">
             <div class="d-flex align-items-center">
               <SearchInput
                 :value="filters.search"
@@ -415,5 +414,14 @@ export default {
 ::v-deep .search .search-input.form-control
   font-family: $font-montserrat
   @include body-9
+
+@media (max-width: 992px)
+  ::v-deep .search
+    border: none
+
+  ::v-deep .search-input-wrapper.search-md input.search-input
+    font-size: 12px
+    background: #F7F7F7
+    border-radius: 8px
 
 </style>
