@@ -1,11 +1,14 @@
 <template>
   <div>
-    <div class="row justify-content-between py-20">
+    <div class="row justify-content-center justify-content-md-between align-items-center py-md-0 py-3">
       <div class="text-center flex-md-grow-1">
-        <NavGroup :value="activeNav" :data="visibleCategories" @change="navItem"/>
+        <NavGroup :value="activeNav" :data="navCategories" @change="navItem"/>
       </div>
       <div class="d-none d-md-block">
-        <button class="btn-export text-center border-0" @click="handleExportBtnClick">{{ $t('orders.export_to_csv') }}</button>
+        <button class="btn-export text-center border-0" @click="handleExportBtnClick">{{
+            $t('orders.export_to_csv')
+          }}
+        </button>
       </div>
     </div>
 
@@ -23,7 +26,7 @@
         @submit="exportToCSV"
       />
 
-      <div class="row table-heading text-center">
+      <div v-if="!isLoading" class="row table-heading text-center">
         <div class="col d-none d-md-block">
           <div class="d-flex">
             <div v-if="action !== 'none'" class="mr-auto">
@@ -141,7 +144,13 @@ export default {
       action: 'none', // show, none
       descSort: '',
       chkSelectAll: '',
-      selectedOrders: []
+      selectedOrders: [],
+      navCategories: [
+        {label: 'All', value: ''},
+        {label: 'Footwear', value: '1'},
+        {label: 'Apparel', value: '2'},
+        {label: 'Accessories', value: '3'},
+      ]
     }
   },
   computed: {
@@ -150,12 +159,8 @@ export default {
       'totalPage': 'vendors/totalPage',
       'currentPage': 'vendors/currentPage',
       'perPage': 'vendors/perPage',
-      'categories': 'vendors/categories',
       'isLoading': 'vendors/isLoading'
-    }),
-    visibleCategories() {
-      return this.categories.filter(x => ['all', 'apparel', 'footwear', 'accessories'].includes(x.value))
-    }
+    })
   },
   watch: {
     descSort(val) {
@@ -177,8 +182,7 @@ export default {
   methods: {
     navItem(val) {
       this.activeNav = val
-      const categoryId = this.categories.find(x => x.value === val)?.id
-      this.$store.commit('vendors/setCategoryId', {category_id: categoryId})
+      this.$store.commit('vendors/setCategoryId', {category_id: val})
       this.reload()
     },
     handlePageClick(e, page) {

@@ -70,7 +70,7 @@ function getQueryStringFrom(filters) {
   addFilter('status', objectToString(filters.activeStatusFilters))
   addFilter('type', objectToString(filters.activeTypeFilters))
 
-  if (filters.category_id > 0) {
+  if (filters.category_id > 0 && filters.category_id !== '') {
     addFilter('category_id', filters.category_id)
   }
 
