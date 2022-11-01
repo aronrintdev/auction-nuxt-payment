@@ -7,12 +7,12 @@
             <div>
               <div class="amounts-input">
                 <!-- TODO -->
-                <input type="text" class="theirs" disabled :value="$t('trades.trade_arena.theirs') + `: ${getTheirTotal()}`">
+                <input type="text" class="theirs ml-2" disabled :value="$t('trades.trade_arena.theirs') + `: ${getTheirTotal()}`">
                 <input type="text" class="yours" disabled :value="$t('trades.trade_arena.yours') + `: ${getYourTotal()}`">
               </div>
             </div>
             <div class="d-flex">
-              <div class="left-side-image" :class="{'left-item-margin':lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length}">
+              <div class="left-side-image ml-2" :class="{'left-item-margin':lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length}">
                 <div class="item-head-trade-hub">{{ $t('trades.trade_arena.theirs') }}:</div>
                 <div v-for="(item) in lastSubmittedOffer.theirs_items"
                      :key="item.id" class="mb-4 ml-1"
@@ -28,12 +28,12 @@
                   </div>
                 </div>
               </div>
-              <div class="center-item">
+              <div class="center-item-small">
                 <div v-if="lastSubmittedOffer.theirs_items.length > ONE_ITEM" class="pointer-left-small"></div>
-                <div class="long-line" :class="{'long-line-length' : lastSubmittedOffer.theirs_items.length === ONE_ITEM }"></div>
+                <div class="long-line-small" :class="{'long-line-length-small' : lastSubmittedOffer.theirs_items.length === ONE_ITEM }"></div>
                 <img :src="require('~/assets/img/tradecenter.svg')"/>
-                <div class="long-line" :class="{'long-line-length' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>
-                <div v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" class="pointer-right"></div>
+                <div class="long-line-small" :class="{'long-line-length-small' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>
+                <div v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" class="pointer-right-small"></div>
               </div>
               <div class="right-side-image"
                    :class="{'right-item-margin':lastSubmittedOffer.theirs_items.length > ONE_ITEM &&
@@ -46,7 +46,7 @@
                    :key="item.id" class="mb-4">
                     <img class="item-image-small" :src="item.inventory.product | getProductImageUrl" alt="image"
                          :class="{'item-image-cond-small':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }" />
-                    <div class="item-caption">
+                    <div class="item-caption-small">
                       <span class="item-name-small">{{ item.inventory.product.name }}</span>
                       <span
                         class="item-box-condition-small">Box : {{ item.inventory.packaging_condition.name }}</span>
@@ -573,6 +573,34 @@ export default {
   height: 650px
 .right-side-image
   height: 650px
-.center-item
+  margin-right: 4rem
+
+.center-item-small
   margin-left: -4rem
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding-top: 21px
+  margin: 0 10px
+  min-width: 100px
+  max-width: 300px
+.long-line-length-small
+  width: 40px
+  border: 1px solid #c4c4c4
+.long-line-small
+  width: 40px
+  border: 1px solid #c4c4c4
+.pointer-right-small
+  border-top: 0.5px solid #c4c4c4
+  border-bottom: 0.5px solid #c4c4c4
+  border-left: 0.5px solid #c4c4c4
+  height: 340px
+  width: 100px
+  margin-right: 210px
+.item-caption-small
+  width: 100px
+  background: #f5f5f5
+  padding: 5px 10px
+  font-family: "SF Pro Display"
+  font-style: normal
 </style>
