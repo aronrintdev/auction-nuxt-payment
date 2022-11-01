@@ -134,7 +134,7 @@
                     <div class="body-5-medium text-gray-25">{{ $t('shopping_cart.payment') }}</div>
                   </b-col>
                   <b-col cols="6" sm="6">
-                    <div class="body-10-regular text-gray-25">{{ paymentMethod }}</div>
+                    <div class="body-10-regular text-gray-25">{{ getPaymentMethod }}</div>
                   </b-col>
                 </b-row>
               </b-col>
@@ -246,7 +246,7 @@ export default {
       processingFee: 'order-settings/getProcessingFee',
       taxRate: 'tax-rate/getTaxRate'
     }),
-    paymentMethod(vm) {
+    getPaymentMethod(vm) {
       if (vm.cryptoDetails.address) {
         return this.$t(`shopping_cart.${vm.cryptoDetails.currency}`)
       } else {
