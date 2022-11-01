@@ -58,7 +58,7 @@
               class="d-flex align-items-center justify-content-center tdHeight"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">
-              {{ row.item.avg_sales_price }}
+              {{ row.item.avg_sales_price | toCurrency }}
             </h4>
           </div>
         </template>
@@ -68,7 +68,7 @@
               class="d-flex align-items-center justify-content-center tdHeight"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">
-              {{ row.item.sales_amount_this_month }}
+              {{ row.item.sales_amount_this_month | toCurrency }}
               <span
                   v-if="row.item.sales_percentage > 0"
                   class="text-success text-sm"
@@ -88,19 +88,19 @@
               class="d-flex align-items-center justify-content-center tdHeight"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">
-              {{ row.item.total_sales_amount }}
+              {{ row.item.total_sales_amount | toCurrency }}
             </h4>
           </div>
         </template>
-        <template #cell(chart)>
+        <template #cell(chart)="row">
           <div
               class="d-flex align-items-center justify-content-center tdHeight position-relative"
           >
             <LineChart
                 :border-width="2"
-                :data="datasets.datasets[0].data"
+                :data="itemData(row.item)"
                 :fill="false"
-                :labels="datasets.labels"
+                :labels="itemLabel(row.item)"
                 :options="lineConfig"
                 class="stats-graph"
             ></LineChart>
@@ -225,6 +225,9 @@ export default {
         legend: {
           display: false,
         },
+        tooltip: {
+          display: false,
+        },
         elements: {
           point: {
             radius: 0,
@@ -273,6 +276,12 @@ export default {
     navItem(val) {
       this.activeNav = val
       this.getTopProducts()
+    },
+    itemData(item) {
+      return Object.values(item.month_graph)
+    },
+    itemLabel(item) {
+      return Object.keys(item.month_graph)
     },
     getTopProducts() {
       this.$axios

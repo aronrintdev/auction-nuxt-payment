@@ -104,7 +104,9 @@
             class="d-flex align-items-center justify-content-center tdHeight"
             :aria-label="$t('vendor_dashboard.vendor_payout')"
           >
-            <h4 class="font-secondary fw-5 fs-16 mb-0">{{ data.value }}</h4>
+            <h4 class="font-secondary fw-5 fs-16 mb-0">{{
+                (data.item.commission ? data.item.commission : 0) | toCurrency
+              }}</h4>
           </div>
         </template>
         <template #cell(status)="data">
@@ -146,7 +148,6 @@ export default {
       // Active Nav for the Toggle Button
       activeNav: '',
       topOrders: [],
-      // TODO Dummy data
       fields: [
         {
           key: 'order_id',
