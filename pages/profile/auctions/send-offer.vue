@@ -17,7 +17,13 @@
     </div>
     <div  class="mt-5 d-flex flex-column align-items-center">
       <div v-for="(bid, index) in selectedBids" :key="index" class="w-100">
-        <BidOffer :bid="bid" :index="index" :has-error="validationErrors[bid.id]" @remove="removeBid" @select="handleDurationSelect" />
+        <BidOffer
+          :bid="bid"
+          :index="index"
+          :has-error="validationErrors[bid.id]"
+          @remove="removeBid"
+          @select="handleDurationSelect"
+        />
       </div>
     </div>
     <div class="d-flex justify-content-center  mt-5">
@@ -93,7 +99,7 @@ export default {
   },
   computed:{
     ...mapGetters({
-        selectedBids: 'profile-auction/getSelectedBids',
+      selectedBids: 'profile-auction/getSelectedBids',
       selectedAuction: 'profile-auction/getSelectedAuction',
     }),
     /**
@@ -193,7 +199,7 @@ export default {
      * @param bid
      */
     removeBid(bid){
-      this.$store.commit('profile-auction/removeBidFromSelected', bid.id)
+      this.durationForm[bid.id] = undefined
     },
     /**
      *  Validating the form items and if there is no error, it sets the action to FINAL_OFFER and shows the modal.
