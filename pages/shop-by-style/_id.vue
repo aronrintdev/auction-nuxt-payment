@@ -7,14 +7,14 @@
     <b-row v-if="style">
 
       <b-col lg="6">
-        <b-row class="d-none d-sm-block">
-          <b-col lg="6">
+        <b-row>
+          <b-col lg="6" class="d-none d-sm-block">
             <nuxt-link
               :to="`/shop-by-style`">
               <p class="mt-2 backto-css fw-normal">{{ $t('shop_by_style.general.back_to_style') }}</p>
             </nuxt-link>
           </b-col>
-          <b-col lg="6">
+          <b-col lg="6" class="d-none d-sm-block">
             <div class="text-right share-wrapper">
 
               <Button
@@ -45,7 +45,7 @@
             variant="outline-dark-blue"
             black-text
             border="thick"
-            class="mt-5"
+            class="mt-5 d-none d-sm-block w-50"
             @click="handleStyleAddToCart"
           >
             {{ $t('shop_by_style.general.add_style_to_bag') }}
@@ -53,11 +53,23 @@
         </b-col>
       </b-col>
       <b-col lg="6" class="product-list">
+        <p class="items-counter">{{ style.products.length }} {{ $t('common.items') }}</p>
         <ShopByStyleProductCard
           v-for="product in style.products"
           :key="`product-${product.id}`"
           :product="product"
         />
+      </b-col>
+      <b-col cols="12" class="d-flex justify-content-center">
+        <Button
+          variant="dark-blue"
+          black-text
+          border="thick"
+          class="mt-5 d-block d-sm-none rounded-pill w-100 text-white"
+          @click="handleStyleAddToCart"
+        >
+          {{ $t('shop_by_style.general.add_style_to_bag') }}
+        </Button>
       </b-col>
     </b-row>
   </b-overlay>
@@ -119,6 +131,9 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 @import '~/assets/css/_typography'
+
+.items-counter
+  color: $color-gray-6
 .backto-css
   font-weight: $regular
   font-size: 18px
