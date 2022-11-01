@@ -159,6 +159,17 @@ export default {
       this.trackingNumber = this.orderItems.shipment.tracking_no
       this.shippingLabel = this.orderItems.shipment.shipping_method_text
     }
+
+    if (this.orderItems.status_history) {
+      this.timelineStatus = this.orderItems.status_history.map((status) => {
+        return {
+          id: status.id,
+          status: status.status_label,
+          description: status.status_label,
+          value: status.status_key,
+        }
+      })
+    }
   },
 
   methods: {

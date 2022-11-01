@@ -175,7 +175,6 @@ import {
   ORDERS_HAS_ITEMS,
   ORDERS_HAS_TYPES,
   PENDING,
-  PROCESSING,
   SELL,
   SEND_TO_DEADSTOCK,
   SHIPPED_AND_AUTH,
@@ -215,33 +214,6 @@ export default {
         {key: 'details', label: this.$t('vendor_purchase.product_details')},
         {key: 'quantity', label: this.$t('vendor_purchase.quantity')},
         {key: 'total', label: this.$t('vendor_purchase.total')},
-      ],
-      timelineStatus: [
-        {
-          id: 1,
-          status: this.$t('vendor_purchase.arrived_at_ds'),
-          description: this.$t('vendor_purchase.package_arrived'),
-          value: ARRIVED_TO_DEADSTOCK,
-          class: 'start',
-        },
-        {
-          id: 2,
-          status: this.$t('vendor_purchase.send_to_ds'),
-          description: this.$t('vendor_purchase.package_send_to_deadstock'),
-          value: SEND_TO_DEADSTOCK,
-          class: 'status',
-        },
-        {
-          id: 3,
-
-          status: this.$t('vendor_purchase.orderstatus.pending'),
-          description: this.$t('vendor_purchase.awaiting_shipment'),
-          value:
-            this.orderDetails.status.toLowerCase() === PROCESSING
-              ? PROCESSING
-              : PENDING,
-          class: 'tracking-end',
-        },
       ],
       // Export to PDF will only show when the order is
       exportStatus: [
@@ -290,6 +262,19 @@ export default {
         }
       }
       return address
+    },
+
+    timelineStatus: (vm) => {
+      if (vm.orderDetails.items[0].status_history && vm.orderDetails.quantity === 1) {
+        return vm.orderDetails.items[0].status_history.map((status) => {
+          return {
+            id: status.id,
+            status: status.status_label,
+            description: status.status_label,
+            value: status.status_key,
+          }
+        })
+      }
     },
 
     // Item status

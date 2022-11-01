@@ -86,7 +86,6 @@
 
       <div class="col-md-4 col-sm-12">
         <PurchaseTimeline
-          v-if="[pending,sendToDeadstock,arrivedToDeadstock,processingPayment,processing].includes(itemStatus)"
           :timeline="timelineStatus"
           :orderStatus="itemStatus"
           :updatedAt="updatedAt"
