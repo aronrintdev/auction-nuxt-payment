@@ -166,6 +166,7 @@ export default {
       chkSelectAll: '',
       selectedOrders: [],
       infiniteId: +new Date(),
+      url: `/vendors/orders?page=1${this.queryString}`,
       navCategories: [
         {label: 'All', value: ''},
         {label: 'Footwear', value: '1'},
@@ -240,15 +241,14 @@ export default {
     },
     handleLoading($state) {
       const that = this
-      let url = `/vendors/orders?page=1${this.queryString}`;
 
-      this.$axios.get(url).then(res => {
+      this.$axios.get(this.url).then(res => {
         const data = res.data?.data
 
         if (!data.orders.next_page_url) {
           $state.complete()
         }
-        url = data.orders.next_page_url
+        that.url = data.orders.next_page_url
 
         if (data.orders.current_page === 1) {
           that.infiniteOrders = [...data.orders.data]
