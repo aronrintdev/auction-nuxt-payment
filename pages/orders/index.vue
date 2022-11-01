@@ -51,6 +51,7 @@ export default {
     ])
   },
   mounted() {
+    /*
     function debounce(func, timeout = 300){
       let timer;
       return (...args) => {
@@ -65,7 +66,7 @@ export default {
           console.debug('fetching next page')
         }, 5000)()
       }
-    }
+    } */
   },
   methods: {
     ...mapActions({

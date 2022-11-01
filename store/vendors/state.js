@@ -23,6 +23,7 @@ export default function () {
     },
     sortBy: '',
     categories: [],
-    isLoading: false
+    isLoading: false,
+    queryString: ''
   }
 }

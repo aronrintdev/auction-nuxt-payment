@@ -1,18 +1,18 @@
 let isPerPageSet = false
 
-export async function getVendorOrders({commit, state}, page = 1) {
+export function getVendorOrders({commit, state}, page = 1) {
   let query = getQueryStringFrom(state.filters)
   let sortParam = getSortParam(state.sortBy)
 
   query = query ? '&' + query : ''
   sortParam = sortParam ? '&' + sortParam : ''
-
+  commit('setQueryString', query+sortParam)
 
   const url = `/vendors/orders?page=${page}${query}${sortParam}`;
 
   commit('setIsLoading', true)
 
-  return await this.$axios.get(url)
+  this.$axios.get(url)
     .then((res) => {
       const data = res.data?.data
 
@@ -35,6 +35,15 @@ export async function getVendorOrders({commit, state}, page = 1) {
 
       commit('setIsLoading', false)
     })
+}
+
+export function updateQueryString({commit, state}){
+  let query = getQueryStringFrom(state.filters)
+  let sortParam = getSortParam(state.sortBy)
+
+  query = query ? '&' + query : ''
+  sortParam = sortParam ? '&' + sortParam : ''
+  commit('setQueryString', query+sortParam)
 }
 
 export async function fetchCategories({commit}) {
