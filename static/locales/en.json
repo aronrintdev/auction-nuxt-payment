@@ -178,7 +178,8 @@
     "tap_to_include": "tap on the Wants you would like to include in combination",
     "edit_product": "Edit Product",
     "dismiss" : "Dismiss",
-    "n/a": "N/A"
+    "n/a": "N/A",
+    "no-items-in-combination": "No items in combination"
   },
   "message": {
     "no_products_found": "No Products Found",

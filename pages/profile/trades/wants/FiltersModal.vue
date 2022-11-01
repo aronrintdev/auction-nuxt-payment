@@ -5,6 +5,7 @@
     :headerStyle="{
       display: 'none !important'
     }"
+    :hasHeaderDivider="false"
     @closed="$emit('closed')"
     @opened="$emit('opened')"
   >

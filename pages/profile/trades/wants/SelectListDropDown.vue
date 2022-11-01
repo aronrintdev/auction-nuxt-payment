@@ -1,6 +1,7 @@
 <template>
   <div 
     class="custom-dropdown text-gray" 
+    :hasHeaderDivider="false"
     :style="{
       'min-width': width, 
       'height': dropDownHeight, 
@@ -206,12 +207,10 @@ export default {
       })
       .then((response) => { 
         response.data.data.data.forEach((item) => {
-          if (item.combination_items.length > 0) {
-            this.listOptions.push({
-              text: this.$t('trades.wants_listing.create_combination', { count: item.combination_id }),
-              value: item.combination_id
-            })
-          }
+          this.listOptions.push({
+            text: this.$t('trades.wants_listing.create_combination', { count: item.combination_id }),
+            value: item.combination_id
+          })
         });
       })
       .catch((err) => {

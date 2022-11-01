@@ -144,7 +144,7 @@ export default {
   height: 78px
 
 .size-cont
-  z-index: 1000
+  z-index: 90
   width: 213px
 
 .invent-item-name
