@@ -137,7 +137,7 @@
               <h6
                 class="mb-0 fs-12 fw-5 font-primary text-black w-fit-content text-secondary"
               >
-                {{ row.created_at | moment('MMMM D, YYYY') }}
+                {{ new Date(row.created_at).toLocaleDateString() }}
               </h6>
             </div>
             <div class="d-flex info-row px-3 py-1 justify-content-between">
@@ -145,7 +145,7 @@
                 {{ $t('vendor_dashboard.status') }}:
               </h6>
               <h6
-                class="mb-0 fs-12 fw-5 font-primary text-warning w-fit-content"
+                  class="mb-0 fs-12 fw-5 font-primary text-warning w-fit-content text-capitalize"
               >
                 {{ row.order_status }}
               </h6>

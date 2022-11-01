@@ -9,10 +9,10 @@
     <section class="row my-3 my-sm-5">
       <div class="col-6 col-md-3">
         <StatsCard
-          :icon="require('~/assets/img/icons/profile/total-sales.svg')"
-          :title="$t('buyer_dashboard.dashobard_buyer.total_purchases')"
-          :value="''+analytics.total_purchases !== 'undefined' ? '$'+analytics.total_purchases : '...'"
-          color="#667799"
+            :icon="require('~/assets/img/icons/profile/total-sales.svg')"
+            :title="$t('buyer_dashboard.dashobard_buyer.total_purchases')"
+            :value="totalPurchases"
+            color="#667799"
         />
       </div>
       <div class="col-6 col-md-3">
@@ -73,7 +73,7 @@ export default {
       // Active Nav for the Toggle Button
       activeNav: 'all',
       analytics: {
-        total_sales: 0,
+        total_purchases: 0,
         pending_commission: 0,
         inventory_amount: '2116448',
         items_sold: 0,
@@ -81,14 +81,19 @@ export default {
       rewards: [],
       // Menus for tabs
       menus: [
-        { label: this.$t('vendor_dashboard.all'), value: 'all' },
-        { label: this.$t('vendor_dashboard.footwear'), value: 'footwear' },
-        { label: this.$t('vendor_dashboard.apparel'), value: 'apparel' },
+        {label: this.$t('vendor_dashboard.all'), value: 'all'},
+        {label: this.$t('vendor_dashboard.footwear'), value: 'footwear'},
+        {label: this.$t('vendor_dashboard.apparel'), value: 'apparel'},
         {
           label: this.$t('vendor_dashboard.accessories'),
           value: 'accessories',
         },
       ],
+    }
+  },
+  computed: {
+    totalPurchases() {
+      return this.$options.filters.toCurrency(parseInt(this.analytics.total_purchases || 0))
     }
   },
   mounted() {
@@ -97,10 +102,10 @@ export default {
   methods: {
     getStats() {
       this.$axios
-        .get('/dashboard/buyer/analytics')
-        .then((res) => {
-          this.analytics = res.data.data
-        })
+          .get('/dashboard/buyer/analytics')
+          .then((res) => {
+            this.analytics = res.data.data
+          })
         .catch((err) => {
           this.logger.logToServer(err.response)
         })
