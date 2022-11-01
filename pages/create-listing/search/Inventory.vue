@@ -812,11 +812,11 @@ export default {
       flex: 0 0 25%
       max-width: 25%
   .continue-btn-container 
-    bottom: 0
+    bottom: 98px
     left: 0
     width: 100%
     background: $white
-    z-index: 100
+    z-index: 10
     button
       border-radius: 30px
       background: $color-blue-20
@@ -865,11 +865,11 @@ export default {
   .collection-items-preview::v-deep
     @media (max-width: 576px)
       position: fixed
-      bottom: 0
+      bottom: 98px
       left: 0
       width: 100%
       background: $white
-      z-index: 2000
+      z-index: 10
       .simple-content
         @include body-5-normal
         border: 0.5px solid rgba($light-gray-2, 0.5)
