@@ -175,5 +175,5 @@ export default {
         font-family: Montserrat, serif
 
 .email-us-wrapper
-  margin: 24px 0 30px
+  margin: 24px 0 0
 </style>
