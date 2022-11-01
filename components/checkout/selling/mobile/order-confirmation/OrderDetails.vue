@@ -1,5 +1,5 @@
 <template>
-  <b-row>
+  <b-row class="outer-wrapper">
     <b-col cols="12" sm="12">
       <!-- Top Title -->
       <ShoppingBagTitle
@@ -250,7 +250,7 @@ export default {
       if (vm.cryptoDetails.address) {
         return this.$t(`shopping_cart.${vm.cryptoDetails.currency}`)
       } else {
-        return vm.paymentMethod.cardBrand + ' - ' + vm.paymentMethod.cardLastDigits + ', Exp. ' + vm.paymentMethod.cardExpiryDate
+        return vm.paymentMethod.cardBrand.toUpperCase() + ' - ' + vm.paymentMethod.cardLastDigits + ', Exp. ' + vm.paymentMethod.cardExpiryDate
       }
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
@@ -387,6 +387,11 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.outer-wrapper
+  overflow-y: auto
+  overflow-x: hidden
+  height: 100%
 
 .quantity-wrapper
   margin-top: 7px
