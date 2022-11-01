@@ -50,24 +50,6 @@ export default {
       'totalOrders'
     ])
   },
-  mounted() {
-    /*
-    function debounce(func, timeout = 300){
-      let timer;
-      return (...args) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => { func.apply(this, args); }, timeout);
-      };
-    }
-
-    window.onscroll = ()=>{
-      if(window.innerHeight + window.scrollY >= document.body.offsetHeight){
-        debounce(() => {
-          console.debug('fetching next page')
-        }, 5000)()
-      }
-    } */
-  },
   methods: {
     ...mapActions({
       'getVendorsOrders': 'vendors/getVendorOrders',
