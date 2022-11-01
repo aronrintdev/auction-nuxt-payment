@@ -1,20 +1,17 @@
 <template>
-  <b-row class="my-2 selected-file px-2" :class="variant">
-    <b-col sm="1" class="d-flex align-items-center justify-content-center">
-      <img :src="require('~/assets/img/profile/vendor-hub/attachment-black.svg')" class="file-icon" alt="">
-    </b-col>
-    <b-col sm="9" class="file-name overflow-hidden text-truncate">{{ file.name }}</b-col>
-    <b-col sm="2" class="d-flex justify-content-end">
-      <Button
-        variant="link"
-        class="delete-button mr-2"
-        :disabled="disabled"
-        @click="handleClick"
-      >
-        {{ deleteAction ? $t('vendor_hub.delete'): $t('vendor_hub.view') }}
-      </Button>
-    </b-col>
-  </b-row>
+  <div class="my-2 selected-file px-2 d-flex align-items-center" :class="variant">
+    <img :src="require('~/assets/img/profile/vendor-hub/attachment-black.svg')" class="file-icon" alt="">
+    <div class="file-name overflow-hidden text-truncate px-3 flex-grow-1">{{ file.name }}</div>
+    <Button
+      variant="link"
+      class="delete-button mr-2"
+      :disabled="disabled"
+      @click="handleClick"
+    >
+      {{ deleteAction ? $t('vendor_hub.delete'): $t('vendor_hub.view') }}
+    </Button>
+  </div>
+
 </template>
 
 <script>

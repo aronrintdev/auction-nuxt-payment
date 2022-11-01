@@ -1,5 +1,5 @@
 <template>
-    <b-input-group class="date-input-group mr-4">
+    <b-input-group class="date-input-group" :class="groupClass">
       <b-form-input class="date-input" :class="inputClass" :placeholder="placeholder ||  $t('common.date')" :value="value" :disabled="inputDisabled"></b-form-input>
       <b-input-group-append class="date-input-icon">
         <b-form-datepicker
@@ -65,6 +65,10 @@ export default {
     dateClass: {
       type: String,
       default: ''
+    },
+    groupClass: {
+      type: String,
+      default: 'mr-4'
     },
     minDate: {
       type: [String, Date],

@@ -14,7 +14,7 @@
       @item-options-clicked="handleItemOptionsClick"
     />
 
-    <PromoCodeInput v-if="!promoCode" class="promo-wrapper" @click="applyPromoCode">
+    <PromoCodeInput v-if="!promoCode" @click="applyPromoCode">
       <template #label>
         <div class="section-title body-5-medium">{{ $t('shopping_cart.promo_code') }}&colon;</div>
       </template>
@@ -259,7 +259,7 @@ export default {
       this.$refs.shoppingBagOrder.open()
     },
     handleCheckoutButtonClick() {
-      this.emitRenderComponentEvent(this.$options.components.ShoppingBagOrder.components.OrderSummary.name)
+      this.emitRenderComponentEvent(this.$options.components.ShoppingBagOrder.components.CheckoutSummary.name)
       this.openBottomSheet('95%')
     },
     handleItemOptionsClick() {
