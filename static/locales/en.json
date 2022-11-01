@@ -4933,7 +4933,7 @@
   "shop_by_style": {
     "general": {
       "add_to_bag": "Add {type} to Bag",
-      "add_style_to_bag": "Add Style to Card",
+      "add_style_to_bag": "Add Style to Cart",
       "back_to_style": "< Back to All Style"
     },
     "title": "Shop by Style",
