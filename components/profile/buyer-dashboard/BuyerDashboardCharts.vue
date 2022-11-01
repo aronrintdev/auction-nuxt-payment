@@ -53,31 +53,42 @@
     <div class="col-md-4">
       <div class="bg-white br-10 px-2 py-3 p-sm-4 shadow-sm h-100">
         <div class="d-flex align-items-center justify-content-between">
-          <h1 class="fs-20 fw-7 font-primary mb-0 rewards-title">
+          <h1 :class="{
+            'mb-5': isScreenXS
+          }"
+              class="fs-20 fw-7 font-primary mb-0 rewards-title">
             {{ $t('buyer_dashboard.dashobard_buyer.rewards') }}
           </h1>
           <div>
             <nuxt-link
-              to='/profile/rewards'
-              class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 d-none d-sm-inline"
-              >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}</nuxt-link>
+                to='/profile/rewards'
+                class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 d-none d-sm-inline"
+            >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}
+            </nuxt-link>
           </div>
         </div>
         <div class="mt-3 mb-0 my-sm-4 text-center progressbar_wrapper mx-auto">
-          <RadialChart />
+          <RadialChart v-if="!isScreenXS"/>
+          <MobileRewardGauge
+              v-else
+              :current-points="rewardPoints"
+              :show-next-expire="false"
+          />
           <!-- TODO -->
           <h6 v-if='rewards.next_reward' class="fs-12 mb-0 fw-7 font-primary mt-3">
-            {{ $t('buyer_dashboard.dashobard_buyer.your_next_reward') }}: {{rewards.next_reward.name}}
+            {{ $t('buyer_dashboard.dashobard_buyer.your_next_reward') }}: {{ rewards.next_reward.name }}
           </h6>
           <b-button
-            class="mt-3 bg-blue-primary py-2 w-100 font-primary fw-5 d-none d-sm-inline-block"
-            pill
-            >{{ $t('buyer_dashboard.dashobard_buyer.earn_money') }}</b-button
+              class="mt-3 bg-blue-primary py-2 w-100 font-primary fw-5 d-none d-sm-inline-block"
+              pill
+          >{{ $t('buyer_dashboard.dashobard_buyer.earn_money') }}
+          </b-button
           >
           <b-button
-            class="mt-3 px-4 py-2 font-primary fs-12 fw-6 border d-sm-none d-inline-block"
-            variant="outline-secondary"
-            pill
+              class="mt-3 px-4 py-2 font-primary fs-12 fw-6 border d-sm-none d-inline-block"
+              variant="outline-secondary"
+              pill
+              to="/profile/rewards"
             >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}</b-button
           >
           <h6
@@ -93,12 +104,17 @@
   </section>
 </template>
 <script>
+import {mapGetters} from 'vuex';
 import RadialChart from './RadialChart'
-import { CustomSelect } from '~/components/common'
-import { DEFAULT } from '~/static/constants'
+import {CustomSelect} from '~/components/common'
+import {DEFAULT} from '~/static/constants'
+import screenSize from '~/plugins/mixins/screenSize';
+import MobileRewardGauge from '~/components/profile/rewards/MobileRewardGauge';
+
 export default {
   name: 'BuyerDashboardCharts',
-  components: { CustomSelect, RadialChart },
+  components: {MobileRewardGauge, CustomSelect, RadialChart},
+  mixins: [screenSize],
   data() {
     return {
       // TODO Dummy Data
@@ -179,16 +195,21 @@ export default {
       }
     }
   },
-  mounted(){
+  computed: {
+    ...mapGetters({
+      rewardPoints: 'auth/getRewardPoints',
+    })
+  },
+  mounted() {
     this.handleFilterByChangeTotalSale('week')
   },
   methods: {
     handleFilterByChangeTotalSale(value) {
       this.$axios
-        .get('/dashboard/buyer/purchases-graph?group_by='+value)
-        .then((res) => {
-          const labels = []
-          const dataSet = []
+          .get('/dashboard/buyer/purchases-graph?group_by=' + value)
+          .then((res) => {
+            const labels = []
+            const dataSet = []
           for (const property in res.data.data) {
             labels.push(property)
             dataSet.push(res.data.data[property])
