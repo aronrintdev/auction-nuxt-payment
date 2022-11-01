@@ -4,7 +4,7 @@
       :title="$t('home_page.all_auctions')"
       :desc="$t('home_page.trade_desc')"
       :label="$t('home_page.view_more_auctions')"
-      to="/auctions"
+      to="/auction"
     />
 
     <div class="banner-wrapper">
