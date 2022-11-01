@@ -1,9 +1,9 @@
 <template>
-  <div class=" auto-bid px-5 pb-3 w-100 bg-white d-flex flex-column">
+  <div class=" auto-bid px-3 px-md-5 pb-3 w-100 bg-white d-flex flex-column">
     <div>
       <h3 class="auto-bid-title">{{ $t('bids.autobid_settings') }}</h3>
     </div>
-    <div class="ml-5 mt-2 d-flex align-items-center">
+    <div class="ml-0 ml-md-5 mt-2 d-flex align-items-center">
       <div class="auto-bid-sub">{{ $t('bids.auto_bid') }}</div>
       <CheckboxSwitch
         class="scale-up mx-2"
@@ -182,4 +182,10 @@ export default {
   &::-webkit-inner-spin-button
     -webkit-appearance: none
 
+@media (max-width: 576px)
+  .auto-bid-title
+    @include body-5
+    font-weight: $medium
+  .auto-bid-sub
+    @include body-10
 </style>

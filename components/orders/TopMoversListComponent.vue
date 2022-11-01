@@ -1,126 +1,147 @@
 <template>
   <div>
-    <div class="row justify-content-between py-20">
+    <div class="row justify-content-center justify-content-md-between align-items-center py-md-0 py-3">
       <div class="text-center flex-md-grow-1">
-        <NavGroup :value="activeNav" :data="visibleCategories" @change="navItem"/>
+        <NavGroup :value="activeNav" :data="navCategories" @change="navItem"/>
       </div>
       <div class="d-none d-md-block">
-        <button class="btn-export text-center border-0" @click="handleExportBtnClick">{{ $t('orders.export_to_csv') }}</button>
+        <button class="btn-export text-center border-0" @click="handleExportBtnClick">{{
+            $t('orders.export_to_csv')
+          }}
+        </button>
       </div>
     </div>
+    <template v-if="!isScreenXS">
+      <div>
+        <bulk-select-toolbar
+          :active="action !== 'none'"
+          :total="orders.length"
+          :selected="selectedOrders"
+          :unitLabel="$tc('common.product', selectedOrders.length)"
+          :successLabel="$tc('wish_lists.products_removed_from_wishlist')"
+          :action-label="$tc('orders.export_to_csv')"
+          @close="cancelAction()"
+          @selectAll="handleSelectAll()"
+          @deselectAll="handleDeselectAll()"
+          @submit="exportToCSV"
+        />
 
-    <div>
-      <bulk-select-toolbar
-        :active="action !== 'none'"
-        :total="orders.length"
-        :selected="selectedOrders"
-        :unitLabel="$tc('common.product', selectedOrders.length)"
-        :successLabel="$tc('wish_lists.products_removed_from_wishlist')"
-        :action-label="$tc('orders.export_to_csv')"
-        @close="cancelAction()"
-        @selectAll="handleSelectAll()"
-        @deselectAll="handleDeselectAll()"
-        @submit="exportToCSV"
-      />
-
-      <div class="row table-heading text-center">
-        <div class="col d-none d-md-block">
-          <div class="d-flex">
-            <div v-if="action !== 'none'" class="mr-auto">
-              <b-form-checkbox
-                v-model="chkSelectAll"
-                name="select"
-                value="select_all"
-                unchecked-value="not_accepted"
-              />
+        <div v-if="!isLoading" class="row table-heading text-center">
+          <div class="col d-none d-md-block">
+            <div class="d-flex">
+              <div v-if="action !== 'none'" class="mr-auto">
+                <b-form-checkbox
+                  v-model="chkSelectAll"
+                  name="select"
+                  value="select_all"
+                  unchecked-value="not_accepted"
+                />
+              </div>
+              <div class="d-flex justify-content-center align-items-center pointer"
+                   @click="handleSort('order_id')">
+                <div>{{ $t('orders.order_id') }}</div>
+                <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
+                      :class="(descSort === 'order_id')?'ml-1 desc':'ml-1'"/>
+              </div>
             </div>
-            <div class="d-flex justify-content-center align-items-center pointer"
-                 @click="handleSort('order_id')">
-              <div>{{ $t('orders.order_id') }}</div>
+          </div>
+          <div class="col-md-2 d-none d-md-block">
+            <div class="d-flex justify-content-center pointer" @click="handleSort('products.name')">
+              <div>{{ $t('orders.product') }}</div>
               <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                    :class="(descSort === 'order_id')?'ml-1 desc':'ml-1'"/>
+                    :class="(descSort === 'products.name')?'ml-1 desc':'ml-1'"/>
             </div>
           </div>
-        </div>
-        <div class="col-md-2 d-none d-md-block">
-          <div class="d-flex justify-content-center pointer" @click="handleSort('products.name')">
-            <div>{{ $t('orders.product') }}</div>
-            <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                  :class="(descSort === 'products.name')?'ml-1 desc':'ml-1'"/>
+          <div class="col d-none d-md-block">
+            <div class="d-flex justify-content-center pointer" @click="handleSort('created_at')">
+              <div>{{ $t('orders.date_ordered') }}</div>
+              <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
+                    :class="(descSort === 'created_at')?'ml-1 desc':'ml-1'"/>
+            </div>
           </div>
-        </div>
-        <div class="col d-none d-md-block">
-          <div class="d-flex justify-content-center pointer" @click="handleSort('created_at')">
-            <div>{{ $t('orders.date_ordered') }}</div>
-            <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                  :class="(descSort === 'created_at')?'ml-1 desc':'ml-1'"/>
+          <div class="col d-none d-md-block">
+            <div class="d-flex justify-content-center pointer" @click="handleSort('order_type')">
+              <div>{{ $t('orders.type') }}</div>
+              <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
+                    :class="(descSort === 'order_type')?'ml-1 desc':'ml-1'"/>
+            </div>
           </div>
-        </div>
-        <div class="col d-none d-md-block">
-          <div class="d-flex justify-content-center pointer" @click="handleSort('order_type')">
-            <div>{{ $t('orders.type') }}</div>
-            <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                  :class="(descSort === 'order_type')?'ml-1 desc':'ml-1'"/>
+          <div class="col d-none d-md-block">
+            <div class="d-flex justify-content-center pointer" @click="handleSort('total')">
+              <div>{{ $t('orders.vendor_payout') }}</div>
+              <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
+                    :class="(descSort === 'total')?'ml-1 desc':'ml-1'"/>
+            </div>
           </div>
-        </div>
-        <div class="col d-none d-md-block">
-          <div class="d-flex justify-content-center pointer" @click="handleSort('total')">
-            <div>{{ $t('orders.vendor_payout') }}</div>
-            <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                  :class="(descSort === 'total')?'ml-1 desc':'ml-1'"/>
+          <div class="col d-none d-md-block">
+            <div class="d-flex justify-content-center pointer"
+                 @click="handleSort('listing_item_order.status')">
+              <div>{{ $t('orders.status') }}</div>
+              <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
+                    :class="(descSort === 'listing_item_order.status')?'ml-1 desc':'ml-1'"/>
+            </div>
           </div>
+          <div class="col-md-2 d-none d-md-block">{{ $t('orders.action') }}</div>
         </div>
-        <div class="col d-none d-md-block">
-          <div class="d-flex justify-content-center pointer"
-               @click="handleSort('listing_item_order.status')">
-            <div>{{ $t('orders.status') }}</div>
-            <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                  :class="(descSort === 'listing_item_order.status')?'ml-1 desc':'ml-1'"/>
-          </div>
+        <div v-if="isLoading">
+          <loader :loading="isLoading"></loader>
         </div>
-        <div class="col-md-2 d-none d-md-block">{{ $t('orders.action') }}</div>
-      </div>
-      <div v-if="isLoading">
-        <loader :loading="isLoading"></loader>
+        <div v-if="!isLoading">
+          <top-mover-component-new
+            v-for="order in orders" :key="order.key"
+            :order="order"
+            :is-selectable="action !== 'none'"
+            :value="isSelected(order.order_id)?order.order_id:0"
+            @labelCreated="reload"
+            @checked="handleChecked"
+          >
+          </top-mover-component-new>
+        </div>
       </div>
       <div v-if="!isLoading">
+        <Pagination
+          v-model="page"
+          :total="totalPage"
+          :per-page="perPage"
+          :per-page-options="[5, 10, 15, 20, 25]"
+          class="mt-2"
+          @page-click="handlePageClick"
+          @per-page-change="handlePerPageChange"
+        />
+      </div>
+      <AlertModal
+        id="exported-message-modal"
+        :message="$t('inventory.message.exported')"
+        icon="tick"
+        auto-hide
+        @hidden="onExportedModalHidden"
+      />
+    </template>
+    <template v-if="isScreenXS">
+      <div>
         <top-mover-component-new
-          v-for="order in orders" :key="order.key"
-          :order="order"
+          v-for="infOrder in infiniteOrders" :key="infOrder.key"
+          :order="infOrder"
           :is-selectable="action !== 'none'"
-          :value="isSelected(order.order_id)?order.order_id:0"
+          :value="isSelected(infOrder.order_id)?infOrder.order_id:0"
           @labelCreated="reload"
           @checked="handleChecked"
         >
         </top-mover-component-new>
       </div>
-    </div>
-    <div v-if="!isLoading">
-      <Pagination
-        v-model="page"
-        :total="totalPage"
-        :per-page="perPage"
-        :per-page-options="[5, 10, 15, 20, 25]"
-        class="mt-2"
-        @page-click="handlePageClick"
-        @per-page-change="handlePerPageChange"
-      />
-    </div>
-    <AlertModal
-      id="exported-message-modal"
-      :message="$t('inventory.message.exported')"
-      icon="tick"
-      auto-hide
-      @hidden="onExportedModalHidden"
-    />
+      <infinite-loading :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
+    </template>
+
+
   </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
 import {BulkSelectToolbar, Icon, Loader, NavGroup, Pagination} from '~/components/common';
 import {AlertModal} from '~/components/modal';
 import TopMoverComponentNew from '~/components/orders/TopMoverComponentNew';
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'TopMoversListComponent',
@@ -133,15 +154,24 @@ export default {
     Loader,
     AlertModal
   },
+  mixins: [screenSize],
   data() {
     return {
       page: this.currentPage || 1,
       // Active Nav for the Toggle Button
-      activeNav: 'all',
+      infiniteOrders: [],
+      activeNav: '',
       action: 'none', // show, none
       descSort: '',
       chkSelectAll: '',
-      selectedOrders: []
+      selectedOrders: [],
+      infiniteId: +new Date(),
+      navCategories: [
+        {label: 'All', value: ''},
+        {label: 'Footwear', value: '1'},
+        {label: 'Apparel', value: '2'},
+        {label: 'Accessories', value: '3'},
+      ]
     }
   },
   computed: {
@@ -150,12 +180,9 @@ export default {
       'totalPage': 'vendors/totalPage',
       'currentPage': 'vendors/currentPage',
       'perPage': 'vendors/perPage',
-      'categories': 'vendors/categories',
-      'isLoading': 'vendors/isLoading'
-    }),
-    visibleCategories() {
-      return this.categories.filter(x => ['all', 'apparel', 'footwear', 'accessories'].includes(x.value))
-    }
+      'isLoading': 'vendors/isLoading',
+      'queryString': 'vendors/queryString'
+    })
   },
   watch: {
     descSort(val) {
@@ -175,10 +202,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      'updateQueryString': 'vendors/updateQueryString'
+    }),
     navItem(val) {
       this.activeNav = val
-      const categoryId = this.categories.find(x => x.value === val)?.id
-      this.$store.commit('vendors/setCategoryId', {category_id: categoryId})
+      this.$store.commit('vendors/setCategoryId', {category_id: val})
+      this.infiniteId += 1
       this.reload()
     },
     handlePageClick(e, page) {
@@ -207,6 +237,27 @@ export default {
     onExportedModalHidden() {
       this.chkSelectAll = ''
       this.selectedOrders = []
+    },
+    handleLoading($state) {
+      const that = this
+      let url = `/vendors/orders?page=1${this.queryString}`;
+
+      this.$axios.get(url).then(res => {
+        const data = res.data?.data
+
+        if (!data.orders.next_page_url) {
+          $state.complete()
+        }
+        url = data.orders.next_page_url
+
+        if (data.orders.current_page === 1) {
+          that.infiniteOrders = [...data.orders.data]
+        } else {
+          that.infiniteOrders = [...that.infiniteOrders, ...data.orders.data]
+        }
+
+        $state.loaded()
+      })
     },
     exportToCSV() {
       const data = []

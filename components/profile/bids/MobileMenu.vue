@@ -1,46 +1,53 @@
 <template>
   <ul class="list-group">
-    <li class="d-flex align-items-center px-3 pb-3 border-bottom">
+    <li class="px-2 pb-3 border-bottom">
       <div v-if="auctionItems" class="collection-items">
         <b-carousel controls indicators>
           <b-carousel-slide v-for="(item, i) in auctionItems" :key="i" class="h-auto">
             <template #img>
               <b-row>
-                <b-col cols="4">
+                <b-col cols="2">
                   <ProductThumb :product="item.inventory.product" />
                 </b-col>
-                <b-col class="d-flex flex-column justify-content-center pl-3">
-                  <div class="text-black body-5-medium">
-                    {{ item.inventory.product.name }}
-                  </div>
-                  <div class="text-gray-6 body-6-medium mt-1">
-                    {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
-                      item.inventory.product.colorway
-                    }} | {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
-                      item.inventory.size.size
-                    }} |  {{ $t('products.box_condition') }}&colon;&nbsp;{{ item.inventory.packaging_condition.name }}
+                <b-col cols="10" class="d-flex flex-wrap align-items-baseline">
+                  <div class="text-nowrap overflow-hidden text-truncate">
+                    <div class="text-black body-5-normal text-nowrap overflow-hidden text-truncate sf-pro-font mt-1">
+                      {{ item.inventory.product.name }}
+                    </div>
+                    <div class="text-gray-6 body-6-normal text-nowrap overflow-hidden text-truncate sf-pro-font mt-1">
+                      {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
+                        item.inventory.product.colorway
+                      }} | {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
+                        item.inventory.size.size
+                      }} |  {{ $t('products.box_condition') }}&colon;&nbsp;{{ item.inventory.packaging_condition.name }}
+                    </div>
                   </div>
                 </b-col>
-
               </b-row>
             </template>
           </b-carousel-slide>
         </b-carousel>
       </div>
       <template v-else>
-        <ProductThumb :product="inventory.product" class="w-25" />
-        <div class="flex-1 d-flex flex-column px-3">
-        <div class="text-black body-5-medium">
-          {{ inventory.product.name }}
-        </div>
-        <div class="text-gray-6 body-6-medium mt-1">
-          {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
-            inventory.product.colorway
-          }} | {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
-            inventory.size.size
-          }} | {{ $t('products.box_condition') }}&colon;&nbsp;{{ inventory.packaging_condition.name }}
-        </div>
-      </div>
+        <b-row>
+          <b-col cols="2">
+            <ProductThumb :product="inventory.product" class="w-25" />
+          </b-col>
+          <b-col cols="10" class="d-flex flex-wrap">
+            <div class="text-nowrap overflow-hidden text-truncate">
+              <div class="text-black body-5-normal text-nowrap overflow-hidden text-truncate sf-pro-font mt-1">
+                {{ inventory.product.name }}
+              </div>
+              <div class="text-gray-6 body-6-normal text-nowrap overflow-hidden text-truncate sf-pro-font mt-1">
+                {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
+                  inventory.product.colorway
+                }} | {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
+                  inventory.size.size
+                }} |  {{ $t('products.box_condition') }}&colon;&nbsp;{{ inventory.packaging_condition.name }}
+              </div>
+            </div>
+          </b-col>
+        </b-row>
       </template>
     </li>
     <li class="border-bottom">

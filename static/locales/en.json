@@ -3851,6 +3851,7 @@
     "live": "Live",
     "expired": "Expired",
     "your_bid": "Your Bid:",
+    "duration": "Duration",
     "bids": "Bids",
     "bids_summary": "Bids Summary",
     "delete_expired": "Delete Expired Bids",
@@ -4263,7 +4264,10 @@
     "confirm_discard_text": "Your changes have been discarded",
     "change_listing": "Are you sure you would like to change this listing?",
     "all_active_offers_will_be_lost": "All the active offers associated with these listing could be lost.",
-    "editsuccess": "Your changes have been saved and your listing has been modified"
+    "editsuccess": "Your changes have been saved and your listing has been modified",
+    "draft": {
+      "remove_success_message": "The auction has been removed successfully"
+    }
   },
   "color": {
     "white": "White",

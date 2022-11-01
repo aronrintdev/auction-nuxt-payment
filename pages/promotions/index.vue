@@ -2,7 +2,7 @@
   <div :class="mobileClass" class="container-fluid promotions">
     <div class="row">
       <PromotionsBanner :title="$t('promotions.promotions')"></PromotionsBanner>
-      <div class="col-12 py-4 text-center">
+      <div class="col-12 py-4 d-flex justify-content-center  text-center">
         <NavGroup
             :data="categoryItems"
             :value="currentCategory"
@@ -88,4 +88,7 @@ export default {
 .promotions
   &.mobile
     background-color: $color-white-1
+  @media (min-width: 1336px)
+    .container
+      max-width: 1140px
 </style>
