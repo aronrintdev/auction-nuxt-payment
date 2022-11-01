@@ -28,6 +28,4 @@ export default {
 .bottom-sheet
   &__content
     height: 100% !important
-    overflow-y: scroll !important
-    padding-right: 0 !important
 </style>
