@@ -195,9 +195,10 @@ export default {
       DownArrow,
       CalendarImg,
       orderTypes: Object.keys(this.$t('orders.order_types')).map(a => {
+        const rectify = {'buy': 1, 'auction': 3, 'trade': 4}
         return {
           text: this.$t('orders.order_types.' + a),
-          value: a
+          value: rectify[a]
         }
       }),
       orderStatuses: Object.keys(this.$t('orders.order_statuses')).map(a => {
