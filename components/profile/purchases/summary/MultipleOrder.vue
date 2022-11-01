@@ -132,8 +132,8 @@ export default {
     return {
       downArrow: DownArrow,
       showDetails: false,
-      shippingLabel: 'Fe dex',
-      trackingNumber: 123456789,
+      shippingLabel: null,
+      trackingNumber: null,
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
       fields: [
         {

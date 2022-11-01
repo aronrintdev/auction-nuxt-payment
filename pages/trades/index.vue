@@ -12,14 +12,14 @@
 <script>
 export default {
   name: 'Index',
+  components: {
+    indexMobile:()=> import('./indexMobile'),
+    indexWeb:()=>import('./indexWeb'),
+  },
   data(){
     return {
       width:'',
     }
-  },
-  components: {
-    indexMobile:()=> import('./indexMobile'),
-    indexWeb:()=>import('./indexWeb'),
   },
   mounted() {
     this.width = window.innerWidth

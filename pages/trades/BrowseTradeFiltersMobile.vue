@@ -13,8 +13,8 @@
         <div class="mt-1 ml-2">
           <span class="filtersHeading ml-2">{{$t('create_listing.filterbar.sort')}}</span>
           <b-form-radio-group
-            class="radios mt-1 mb-1 sorted ml-3"
             v-model="sortFilters"
+            class="radios mt-1 mb-1 sorted ml-3"
             :options="sortOptions"
             :checked="getSortOrder"
             @change="setSortOrder($event, 'CUSTOM_VARIABLE')"
@@ -22,7 +22,7 @@
         </div>
         <hr class="hr" />
         <div class="mt-1 ml-2">
-          <div class="d-flex" v-b-toggle="'collapse-1'">
+          <div v-b-toggle="'collapse-1'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">{{$tc('common.category')}}</b-col>
               <b-col class="col-sm-6">
@@ -47,7 +47,7 @@
         </div>
         <hr class="hr" />
         <div class="mt-1 ml-2">
-          <div class="d-flex" v-b-toggle="'collapse-sizeType'">
+          <div v-b-toggle="'collapse-sizeType'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">{{$t('common.sizetype')}}</b-col>
               <b-col class="col-sm-6">
@@ -72,7 +72,7 @@
         <hr class="hr" />
 
         <div class="mt-1 ml-2">
-          <div class="d-flex" v-b-toggle="'collapse-slight'">
+          <div v-b-toggle="'collapse-slight'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6"> {{$t('common.trade_value')}}</b-col>
               <b-col class="col-sm-6">
@@ -104,7 +104,7 @@
         <hr class="hr" />
 
         <div class="mt-1 ml-2">
-          <div class="d-flex" v-b-toggle="'collapse-sizes'">
+          <div v-b-toggle="'collapse-sizes'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">{{$tc('common.size')}}</b-col>
               <b-col class="col-sm-6">
@@ -117,7 +117,7 @@
             </b-row>
           </div>
           <b-collapse id="collapse-sizes" v-model="isVisibleSize">
-            <b-row class="row" v-for="(categorySizes, key) in sizeOptions" :key="'sizecat-' + key">
+            <b-row v-for="(categorySizes, key) in sizeOptions" :key="'sizecat-' + key" class="row">
               <b-col v-for="(size, sizeKey) in categorySizes" :key="'size-' + sizeKey" >
                 <div :class="getSizeFilterSelection.includes(size.id) ? 'selected-item':'unselected-item' "
                      :value="size.id" class="m-1 d-flex justify-content-center align-content-center"

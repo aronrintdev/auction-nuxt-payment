@@ -265,11 +265,11 @@ export default {
       ORDERS_HAS_TYPES,
       productImageWidth: PRODUCT_IMG_WIDTH,
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
-      shippingCarrier: 'Fed Ex', // Harcoded for now
-      trackingNumber: '', // Harcoded for now,
-      transactionCancelled: 1234567890, // Harcoded for now: Single item transction id,
-      refundedOn: 'Febrary 9, 2022 10:00AM PST', // Harcoded for now since no single item refund currently
-      demoCardNumber: 'Visa *1122',
+      shippingCarrier: null, // Harcoded for now
+      trackingNumber: null, // Harcoded for now,
+      transactionCancelled: null, // Harcoded for now: Single item transction id,
+      refundedOn: null, // Harcoded for now since no single item refund currently
+      demoCardNumber: null,
       latitude: 38.8951, // TODO: Hardcoded for now - latitude for google map location marker
       longitude: -77.0364, // TODO: Hardcoded for now - longitude for google map location marker
       authTimelineStatus: [],
