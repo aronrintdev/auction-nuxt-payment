@@ -5,12 +5,12 @@
         <div v-for="(offer) in offers" :key="'trade-page-offer-list-' + offer.id" class="offer-item-trade-container-mobile mt-2 mb-2" @click="showOffer(offer.id)">
           <div class="offer-id pt-2 ml-2">{{$t('trades.offer_id')}} #{{offer.id}}</div>
           <div class="offer-time m-2">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
-            <div class="d-flex justify-content-end mr-2" @click="$router.push('/profile/trades/dashboard/' + offer.trade.id)">
+            <div class="d-flex justify-content-end mr-2 context-tran" @click="$router.push('/profile/trades/dashboard/' + offer.trade.id)">
               <img v-if="!isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="ml-2" alt="">
               <img v-else-if="isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="ml-2" alt="">
               {{$t(offer.offer_type_translation)}}
             </div>
-           <div class="d-flex justify-content-end mr-2">
+           <div class="d-flex justify-content-end mr-2 cond-tran">
              {{$t(offer.condition_translation)}}
            </div>
           <!-- items sections -->
@@ -216,5 +216,17 @@ export default {
   font-style: normal
   @include body-4-regular
   color: $color-gray-5
-
+.context-tran
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 400
+  font-size: 10px
+  line-height: 12px
+  color: #000000
+.cond-tran
+  font-family: 'SF Pro Display'
+  font-style: normal
+  font-weight: 700
+  font-size: 13px
+  line-height: 16px
 </style>
