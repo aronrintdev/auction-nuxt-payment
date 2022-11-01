@@ -302,7 +302,7 @@ export default {
     color: $color-gray-28
 
 .filter-boxes
-  @include body-5-normal
+  @include body-5-regular
   .active-filter
     border-color: $color-black-1 !important
     background: $color-white-7
