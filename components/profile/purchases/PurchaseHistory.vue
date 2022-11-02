@@ -82,8 +82,9 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 @import '~/assets/css/_variables'
+@import '~/assets/css/components/purchases/summary'
 
 @media (max-width:320px)
   .vd-purchase-history-slots
