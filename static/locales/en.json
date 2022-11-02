@@ -4547,11 +4547,14 @@
       "all": "All Offers",
       "received": "Received",
       "sent": "Sent",
-      "counter_received": "Counter(Received)",
-      "counter_sent": "Counter(Sent)"
+      "counter_received": "Counter (Received)",
+      "counter_sent": "Counter (Sent)"
     },
     "recent_to_oldest": "Listings: Recent to Oldest",
     "oldest_to_recent": "Listings: Oldest to Recent",
+    "offers_recent_to_oldest": "Offers: Recent to Oldest",
+    "offers_oldest_to_recent": "Offers: Oldest to Recent",
+    "offer_type_label": "Offer Type",
     "excellent_trade": "Excellent Trade",
     "poor_trade": "Poor Trade",
     "fair_trade": "Fair Trade",

@@ -1,11 +1,40 @@
 <template>
   <div class="container-trade-dashboard">
-    <b-row class="heading-dashboard mt-4">
+    <b-row class="heading-dashboard mt-4 d-none d-sm-flex">
       {{$t('trades.my_trade_offer')}}
     </b-row>
-    <b-row class="mt-5">
-      <b-col lg="8" sm="12" class="pl-0">
+    <b-row class="m-0 mt-sm-5">
+      <b-col lg="8" sm="12" class="d-flex justify-content-between align-items-center px-0 pr-sm-auto pl-sm-0">
+        <div class="col-11 px-0 d-sm-none">
+          <SearchInput
+            class="searchInput"
+            :value="searchText"
+            :inputStyle="{
+              paddingLeft: '44px !important', 
+              fontWeight: 400,
+              letterSpacing: '0.06em', 
+              color: '#626262',
+              fontSize: '12px',
+              fontFamily: 'Montserrat',
+              background: '#F7F7F7',
+              height: '33px',
+            }"
+            iconStyle='color: #979797; width: 14px; height: 14px;'
+            variant="primary"
+            :clearSearch="true"
+            @change="onSearchInput"
+            @clear="onSearchInput"
+          />
+        </div>
+        <img
+          class="d-sm-none"
+          :src="require('~/assets/img/filterTradeList.svg')" 
+          width="20"
+          height="20"
+          @click="isFiltersModalOpen=true"
+        />
         <SearchInput
+          class="w-100 d-none d-sm-block"
           :value="searchText"
           variant="primary"
           :placeholder="$t('trades.search_trades_offers')"
@@ -16,7 +45,7 @@
         />
         <SearchBarProductsList v-if="searchedProducts.length > 0" :productItems="searchedProducts" width="700px" class="position-absolute"/>
       </b-col>
-      <b-col lg="4" sm="12" class="d-flex justify-content-end pr-4">
+      <b-col lg="4" sm="12" class="justify-content-end pr-4 d-none d-sm-flex">
         <CustomDropdown
           v-model="orderFilter"
           type="single-select"
@@ -29,7 +58,7 @@
         />
       </b-col>
     </b-row>
-    <b-row class="d-flex mt-4">
+    <b-row class="d-none d-sm-flex mt-4">
       <b-col lg="5" sm="12" class="pl-0 pr-3">
         <label>{{$t('trades.filter_by')}}</label>
         <b-row class="pl-2">
@@ -142,6 +171,12 @@
         @per-page-change="handlePerPageChange"
       />
     </b-row>
+
+    <OffersFiltersModal
+      :isOpen="isFiltersModalOpen"
+      @closed="isFiltersModalOpen = false"
+      @opened="isFiltersModalOpen = true"
+    />
   </div>
 </template>
 
@@ -154,6 +189,8 @@ import Button from '~/components/common/Button';
 import Pagination from '~/components/common/Pagination';
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar';
 import NavGroup from '~/components/common/NavGroup';
+import OffersFiltersModal from '~/components/modal/OffersFiltersModal.vue';
+
 import {
   PAGE,
   PER_PAGE,
@@ -169,12 +206,10 @@ import {
   FILTER_CONDITION_POOR,
   FILTER_CONDITION_FAIR,
   FILTER_CONDITION_EXCELLENT,
-  TAKE_SEARCHED_PRODUCTS
+  TAKE_SEARCHED_PRODUCTS,
 } from '~/static/constants/trades';
 import TradeOfferItems from '~/pages/profile/trades/dashboard/TradeOfferItems';
 import SearchBarProductsList from '~/components/product/SearchBarProductsList'
-
-
 
 export default {
   name: 'AllOffers',
@@ -187,7 +222,8 @@ export default {
     CustomDropdown,
     SearchInput,
     NavGroup,
-    SearchBarProductsList
+    SearchBarProductsList,
+    OffersFiltersModal
   },
   layout: 'Profile',
   data (){
@@ -235,6 +271,7 @@ export default {
       perPageOptions: PER_PAGE_OPTIONS,
       deleteExpired: false,
       selected: [],
+      isFiltersModalOpen: false
     }
   },
   computed: {
@@ -413,7 +450,11 @@ export default {
   color: $color-black-1
 
 .container-trade-dashboard
-  padding-left: 54px
+  padding-left: 12px
+  padding-right: 12px
+  @media (min-width: 576px)
+    padding-left: 54px
+    padding-right: 0
 
 ::v-deep .date-input-icon
   background-color: $color-white-1
