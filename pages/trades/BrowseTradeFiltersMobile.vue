@@ -1,7 +1,7 @@
 <template>
   <div>
         <img class="float-right image-filter"
-             :src="require('~/assets/img/filterIcon.svg')"  @click="openBottomFilter()"/>
+             :src="require('~/assets/img/filterIcon.svg')" alt="..." @click="openBottomFilter()"/>
     <vue-bottom-sheet
       ref="browseFiltersSheet"
       class="more-options"
@@ -28,8 +28,8 @@
               <b-col class="col-sm-6">
                 <div class="d-flex justify-content-end mr-3">
                   <span class="mr-2 selected-content">{{getCategoryFilterSelection ? removeArray(getCategoryFilterSelection) : ''}}</span>
-                  <img  v-if="isVisible" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
-                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
+                  <img  v-if="isVisible" class="arrow-image" :src="require('~/assets/img/chev-up.svg')" alt="..."/>
+                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')" alt="..."/>
                 </div>
               </b-col>
             </b-row>
@@ -53,8 +53,8 @@
               <b-col class="col-sm-6">
                 <div class="d-flex justify-content-end mr-3">
                   <span class="mr-2 selected-content">{{getSizeTypeFilterSelection ? removeArray(getSizeTypeFilterSelection) : ''}}</span>
-                  <img  v-if="isVisibleSizeType" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
-                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
+                  <img  v-if="isVisibleSizeType" class="arrow-image" :src="require('~/assets/img/chev-up.svg')" alt="..." />
+                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')" alt="..." />
                 </div>
               </b-col>
             </b-row>
@@ -77,8 +77,8 @@
               <b-col class="col-sm-6"> {{$t('common.trade_value')}}</b-col>
               <b-col class="col-sm-6">
                 <div class="d-flex justify-content-end mr-3">
-                  <img  v-if="isVisibleSlight" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
-                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
+                  <img  v-if="isVisibleSlight" class="arrow-image" :src="require('~/assets/img/chev-up.svg')" alt="..."/>
+                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')" alt="..."/>
                 </div>
               </b-col>
             </b-row>
@@ -110,14 +110,14 @@
               <b-col class="col-sm-6">
                 <div class="d-flex justify-content-end mr-3">
                   <span class="mr-2 selected-content">{{getSizeFilterSelection ? removeArray(getSizeFilterSelection) : ''}}</span>
-                  <img  v-if="isVisibleSize" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
-                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
+                  <img  v-if="isVisibleSize" class="arrow-image" :src="require('~/assets/img/chev-up.svg')" alt="..." />
+                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')" alt="..."/>
                 </div>
               </b-col>
             </b-row>
           </div>
           <b-collapse id="collapse-sizes" v-model="isVisibleSize">
-            <b-row v-for="(categorySizes, key) in sizeOptions" :key="'sizecat-' + key" class="row">
+            <b-row v-for="(categorySizes, key) in sizeOptions" :key="'sizecat-' + key" class="row" >
               <b-col v-for="(size, sizeKey) in categorySizes" :key="'size-' + sizeKey" >
                 <div :class="getSizeFilterSelection.includes(size.id) ? 'selected-item':'unselected-item' "
                      :value="size.id" class="m-1 d-flex justify-content-center align-content-center"
@@ -140,7 +140,7 @@
       </div>
     </vue-bottom-sheet>
     <b-row v-if="showFilters" class="d-flex justify-content-center m-3" @click="showFilters = !showFilters">
-      <img :src="require('~/assets/img/icons/arrow-up-dark-gray.svg')" />
+      <img :src="require('~/assets/img/icons/arrow-up-dark-gray.svg')" alt="..." />
     </b-row>
   </div>
 </template>
@@ -186,11 +186,6 @@ export default {
       searchedItems: []
     }
   },
-  watch:{
-    sortFilters(sort) {
-      this.sortFilters = sort
-    },
-  },
   computed: {
     ...mapGetters('trade', [
       'sizeOptions', // Size options getter from trade store
@@ -202,7 +197,12 @@ export default {
       'getPriceRangeFilterSelection', // Price range filter values from trade store
       'getSortOrder', // sort order filter values from trade store
       'getSearchedText' //  searched text from trade store
-      ]),
+    ]),
+  },
+  watch:{
+    sortFilters(sort) {
+      this.sortFilters = sort
+    },
   },
   created() {
     this.sortFilters = this.getSortOrder

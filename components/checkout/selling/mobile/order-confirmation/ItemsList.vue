@@ -2,13 +2,11 @@
   <b-row>
     <b-col sm="12" md="12">
       <!-- List Item -->
-      <div v-show="shoppingCart.length">
+      <div v-show="products.length">
         <ListItem
-          v-for="product in shoppingCart"
+          v-for="product in products"
           :key="product.listing_item_id"
           :product="product"
-          product-options
-          quantity-controls
           @item-options-clicked="$emit('item-options-clicked')"
         />
       </div>
@@ -34,12 +32,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      shoppingCart: 'shopping-cart/getShoppingCart',
+      products: 'order-details/getProducts',
       freeSneakersRedeemedReward: 'redeemed-reward/getFreeSneakersRedeemedReward'
     }),
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTotalQuantity: (vm) => {
-      let totalQuantity =  vm.shoppingCart.reduce((sum, product) => {
+      let totalQuantity =  vm.products.reduce((sum, product) => {
         return sum + product.quantity
       }, 0)
 

@@ -118,6 +118,11 @@ export default {
       default: false
     },
   },
+  data() {
+    return {
+      isShowDetail: false,
+    }
+  },
   computed:{
     itemImage(){
       return this.method.is_verified? require('~/assets/img/profile/vendor-hub/check-outline.svg'): require('~/assets/img/profile/vendor-hub/cross-outline.svg')
@@ -126,11 +131,6 @@ export default {
   methods: {
     onDetails() {
       this.$emit('show-detail', this.method)
-    }
-  },
-  data() {
-    return {
-      isShowDetail: false,
     }
   },
 }

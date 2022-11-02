@@ -145,7 +145,7 @@ import {IMAGE_PATH, MAX_ITEMS_ALLOWED, PRODUCT_FALLBACK_URL} from '~/static/cons
 
 
 export default {
-  name: 'filtersMobile.vue',
+  name: 'FiltersMobile',
   data() {
     return {
       order:'',

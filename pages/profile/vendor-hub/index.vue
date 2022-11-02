@@ -113,5 +113,4 @@ export default {
 
 .vendor-page
   background-color: $color-gray-1
-  height: 100vh!important
 </style>
