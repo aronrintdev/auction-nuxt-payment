@@ -1,5 +1,5 @@
 <template>
-  <!-- Dynamic Component Rendering of OrderSummary, BillingForm, ShippingForm, PaymentOption, PaymentCard, PaymentOptionError & PaymentGiftCard -->
+  <!-- Dynamic Component Rendering of OfferSummary, ListItemOptionsMenu -->
   <component :is="renderedComponent"></component
   ><!-- End of Dynamic Component Rendering -->
 </template>
