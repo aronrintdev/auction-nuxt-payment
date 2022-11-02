@@ -150,7 +150,7 @@
               </b-col>
             </b-row>
 
-            <div v-else class="text-center">
+            <div v-else class="text-center no-itmes">
               <p class="mt-5">
                 {{ $t('wish_lists.no_items_info') }}
               </p>
@@ -511,4 +511,7 @@ export default {
 
 .mw-800px
   max-width: 800px
+
+.no-itmes
+  padding-right: 300px
 </style>
