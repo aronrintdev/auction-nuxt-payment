@@ -178,7 +178,6 @@ export default {
 
     // On start date select
     startDateSelected(value) {
-      console.log(value)
       this.date.start = value
       this.filters.bid_start_date = this.$moment(value).format('YYYY-MM-DD')
     },
