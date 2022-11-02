@@ -194,8 +194,10 @@
             <client-only>
               <LineChart
                 ref="lineChart"
-                :chart-data="lineDatasets"
+                :data="lineDatasets.datasets[0].data"
+                :chartData="lineDatasets"
                 :options="lineChartOptions"
+                :labels="lineDatasets.labels"
                 :isGraph="true"
                 class="line-chart"
                 chart-id="vendor-dashboard-line-chart"
@@ -875,19 +877,22 @@ export default {
         case '24': {
           this.lineDatasets.labels = this.graphData.oneDay.labels
           // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
+          // this.$refs.lineChart.renderLineChart()
           this.$refs.lineChart.renderLineChart()
           break
         }
         case '7': {
           this.lineDatasets.labels = this.graphData.week.labels
           // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
-          this.$refs.lineChart.renderLineChart()
+          // this.$refs.lineChart.renderLineChart()
+             this.$refs.lineChart.renderLineChart()
           break
         }
         case '30': {
           this.lineDatasets.labels = this.graphData.oneMonth.labels
           // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
-          this.$refs.lineChart.renderLineChart()
+          // this.$refs.lineChart.renderLineChart()
+             this.$refs.lineChart.renderLineChart()
           break
         }
         case '6': {
