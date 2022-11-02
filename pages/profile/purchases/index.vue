@@ -37,7 +37,7 @@
           <!-- Search Input -->
           <!-- Select Box -->
           <div
-            class="col-12 col-md-4 mt-md-4 col-sm-6 filter-customselect p-0 mt-2 border"
+            class="col-12 col-md-4 mt-md-4 col-sm-6 filter-customselect border rounded p-0 mt-2"
           >
             <VendorPurchaseCustomSelect
               :default="purchaseFilter"

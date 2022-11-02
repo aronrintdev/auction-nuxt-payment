@@ -1,7 +1,7 @@
 <template>
   <div
     class="custom-selectbox"
-    :class="{ open: open }"
+    :class="{ open: open, 'border-bottom': !bordered }"
     :tabindex="tabindex"
     @blur="open = false"
   >
@@ -86,9 +86,7 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
-.custom-selectbox .selected
-  font-weight: normal !important
-  font-size: 14px !important
+
 .custom-selectbox
   position: relative
   width: 100%
@@ -102,7 +100,7 @@ export default {
     cursor: pointer
     user-select: none
     font-family: $font-montserrat
-    font-size: 14px
+    font-size: 16px
     font-style: normal
     font-weight: $normal
     line-height: 20px
@@ -144,7 +142,7 @@ export default {
     cursor: pointer
     user-select: none
     font-family: $font-montserrat
-    font-size: 14px
+    font-size: 16px
     font-style: normal
     font-weight: $normal
     line-height: 20px
@@ -186,7 +184,7 @@ export default {
     cursor: pointer
     user-select: none
     font-family: $font-montserrat
-    font-size: 14px
+    font-size: 16px
     font-style: normal
     font-weight: $normal
     line-height: 20px
@@ -249,9 +247,9 @@ export default {
       cursor: pointer
       user-select: none
       font-family: $font-montserrat
-      font-size: 14px
+      font-size: 16px
       font-style: normal
-      font-weight: normal
+      font-weight: $normal
       line-height: 20px
       &:hover
         background-color: $color-black-14
@@ -277,7 +275,7 @@ export default {
       cursor: pointer
       user-select: none
       font-family: $font-montserrat
-      font-size: 14px
+      font-size: 16px
       font-style: normal
       font-weight: $normal
       line-height: 20px
@@ -303,7 +301,7 @@ export default {
       cursor: pointer
       user-select: none
       font-family: $font-montserrat
-      font-size: 14px
+      font-size: 16px
       font-style: normal
       font-weight: $normal
       line-height: 20px
