@@ -43,7 +43,13 @@
           @change="onSearchInput"
           @clear="onSearchInput"
         />
-        <SearchBarProductsList v-if="searchedProducts.length > 0" :productItems="searchedProducts" width="700px" class="position-absolute"/>
+        <SearchBarProductsList 
+          v-if="searchedProducts.length > 0" 
+          :productItems="searchedProducts" 
+          width="700px" 
+          class="position-absolute"
+          :style="{ top: '33px', width: '94% !important' }"
+        />
       </b-col>
       <b-col lg="4" sm="12" class="justify-content-end pr-4 d-none d-sm-flex">
         <CustomDropdown
