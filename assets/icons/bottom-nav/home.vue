@@ -1,0 +1,32 @@
+<template>
+  <svg
+    width="22"
+    height="24"
+    viewBox="0 0 22 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      :class="{ active: active }"
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M1 10.4424V21C1 22.1046 1.89543 23 3 23H19C20.1046 23 21 22.1046 21 21V10.4424L11 1.35146L1 10.4424ZM11 0L0 10V21C0 22.6569 1.34315 24 3 24H19C20.6569 24 22 22.6569 22 21V10L11 0ZM6.5 15C6.5 12.5147 8.51472 10.5 11 10.5C13.4853 10.5 15.5 12.5147 15.5 15V19H14.5V15C14.5 13.067 12.933 11.5 11 11.5C9.067 11.5 7.5 13.067 7.5 15V19H6.5V15Z"
+      fill="#ECECEC"
+    />
+  </svg>
+</template>
+<script>
+export default {
+  props: {
+    active: { type: Boolean, default: false },
+  },
+}
+</script>
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+.active
+  fill-rule: nonzero
+  clip-rule: nonzero
+  fill: $color-white-1
+  stroke: $color-black-1
+</style>

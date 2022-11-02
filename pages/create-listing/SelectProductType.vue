@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="create-listing-page h-100 p-3 p-md-4">
+  <b-container fluid class="create-listing-page h-100 px-3 px-md-4">
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="title">
         {{
@@ -15,8 +15,11 @@
           <img src="~/assets/img/create-listing/auction-single-type.png" class="position-absolute" />
         </div>
         <div class="listing-type-content">
-          <div class="mt-0 mt-md-4 listing-type-title single">
+          <div class="d-none d-md-block mt-0 mt-md-4 listing-type-title single">
             {{ $t('create_listing.index.auction_single') }}
+          </div>
+          <div class="d-md-none mt-0 mt-md-4 listing-type-title single">
+            {{ $tc('common.single_item', 1) }}
           </div>
           <div class="listing-type-desc">
             {{ $t('create_listing.index.auction_single_desc') }}
@@ -28,11 +31,14 @@
       </div>
       <div class="d-flex flex-row flex-md-column mx-auto listing-type" @click="selectAuctionType('collection')">
         <div class="position-relative listing-type-img">
-          <img src="~/assets/img/create-listing/auctionhousedoubled 2.png" class="position-absolute" />
+          <img src="~/assets/img/create-listing/auctionhousedoubled-2.png" class="position-absolute" />
         </div>
         <div class="listing-type-content">
-          <div class="mt-0 mt-md-4 listing-type-title collection">
+          <div class="d-none d-md-block mt-0 mt-md-4 listing-type-title collection">
             {{ $t('create_listing.index.auction_collection') }}
+          </div>
+          <div class="d-md-none mt-0 mt-md-4 listing-type-title collection">
+            {{ $tc('common.collection', 1) }}
           </div>
           <div class="listing-type-desc">
             {{ $t('create_listing.index.auction_collection_desc') }}
@@ -87,6 +93,7 @@ export default {
 </script>
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+@import '~/assets/css/_typography'
 .scale-up
   transform: scale(1.6)
 .create-listing-page
@@ -95,7 +102,10 @@ export default {
   h2.title
     @include heading-3
     color: $color-black-1
+    font-weight: $bold
   @media (max-width: 576px)
+    padding: 34px 0
+    background-color: $white
     h2.title
       font-size: 14px
       line-height: 17px
@@ -130,15 +140,19 @@ export default {
       margin-right: 15px
       align-items: flex-end
       &-img
-        width: 190px
-        padding-top: 190px
-        margin-right: 15px
+        width: 200px
+        padding-top: 200px
+        margin-right: 16px
       &-content
         flex: 1
+        display: flex
+        flex-direction: column
+        height: 200px
       &-title
         font-size: 15px
         line-height: 18px
         margin-bottom: 8px
+        padding: 16px 0 30px
         &.single
           color: $black
         &.collection
@@ -146,6 +160,7 @@ export default {
       &-desc
         font-size: 12px
         line-height: 15px
+        flex: 1
       .arrow-icon
         width: 44px
 </style>

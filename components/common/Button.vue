@@ -177,6 +177,23 @@ export default {
     );
     border: 1px solid $color-blue-2;
   }
+  &.btn-dark-blue {
+    @include button-colors(
+      $background: $color-blue-20,
+      $foreground: $color-white-1,
+      $border: $color-blue-20,
+      $background-hover: $color-blue-20,
+      $foreground-hover: $color-white-1,
+      $border-hover: $color-blue-20,
+      $background-active: $color-blue-20,
+      $foreground-active: $color-white-1,
+      $border-active: $color-blue-20,
+      $background-disabled: $color-ui-primary-disabled,
+      $foreground-disabled: $color-white-1,
+      $border-disabled: $color-ui-primary-disabled
+    );
+    border: 1px solid $color-blue-20;
+  }
 
   &.btn-primary {
     @include button-colors(

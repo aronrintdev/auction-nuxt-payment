@@ -10,6 +10,7 @@
                 <input type="text" class="theirs ml-2" disabled :value="$t('trades.trade_arena.theirs') + `: ${getTheirTotal()}`">
                 <input type="text" class="yours" disabled :value="$t('trades.trade_arena.yours') + `: ${getYourTotal()}`">
               </div>
+
             </div>
             <div class="d-flex">
               <div class="left-side-image ml-2" :class="{'left-item-margin':lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length}">
@@ -191,6 +192,7 @@
                   {{ $t('trades.declined') }}
                 </Button>
               </div>
+
             </div>
           </div>
           <b-row class="ml-54 history-heading">{{ $t('trades.offer_history') }}</b-row>
@@ -229,7 +231,7 @@ import {
   DEFAULT_FAIR_TRADE_VALUE,
   ACCEPTED_OFFER,
   OFFER_TYPE_YOURS,
-  ACCEPT_OFFER
+  ACCEPT_OFFER, FILTER_OFFER_STATUS_DECLINED
 } from '~/static/constants/trades'
 
 export default {
@@ -259,7 +261,8 @@ export default {
       isPayment: false,
       ACCEPTED_OFFER,
       ACCEPT_OFFER,
-      OFFER_TYPE_YOURS
+      OFFER_TYPE_YOURS,
+      FILTER_OFFER_STATUS_DECLINED
     }
   },
   mounted(){

@@ -533,7 +533,8 @@ export default {
       MAX_ITEMS_ALLOWED,
       submittedItemType: OFFER_TYPE_YOURS,
       OFFER_TYPE_THEIR,
-      COUNTER_OFFER_TYPE
+      COUNTER_OFFER_TYPE,
+      cashAddedType:CASH_TYPE_ADDED
     }
   },
   computed: {
@@ -711,12 +712,13 @@ export default {
     getTheirTotal(formattedPrice = true){
       let optionalCash = 0
       if(this.getLastSubmittedOffer.cash_added &&
-        (((this.isOfferMine() &&
-        this.isCashTypeRequested())) ||
-        (!this.isOfferMine() &&
-        this.isCashTypeAdded())))
+        (this.isOfferMine() &&
+        this.isCashTypeRequested()))
       {
         optionalCash = (this.getLastSubmittedOffer.cash_added/100)
+      }
+      if(this.cashType !== this.cashAddedType){
+        optionalCash += (this.optionalCash)
       }
       const totalPrice = this.getTheirItems.map((inventoryItem) => (inventoryItem.inventory ? inventoryItem.inventory.sale_price : inventoryItem.sale_price))
       if(totalPrice.length) {
@@ -728,14 +730,14 @@ export default {
     getYourTotal(formattedPrice = true){
       let optionalCash = 0
       if(this.getLastSubmittedOffer.cash_added &&
-        (((!this.isOfferMine() &&
-        this.isCashTypeRequested())) ||
-        ((this.isOfferMine() &&
-        this.isCashTypeAdded()))))
+        (this.isOfferMine() &&
+        this.isCashTypeAdded()))
       {
           optionalCash = (this.getLastSubmittedOffer.cash_added/100)
       }
-      optionalCash += this.optionalCash
+      else if(this.cashType === this.cashAddedType){
+        optionalCash += this.optionalCash
+      }
       const totalPrice = this.getYourItems.map((inventoryItem) => (inventoryItem.inventory ? inventoryItem.inventory.sale_price : inventoryItem.sale_price))
       if(totalPrice.length) {
         return (formattedPrice) ?

@@ -1,18 +1,20 @@
 <template>
-  <b-row>
-    <b-col md="12">
+  <b-row class="summary-wrapper">
+    <b-col cols="12" sm="12" md="12">
+      <slot name="label"></slot>
       <b-card class="custom-card radius-3">
         <b-row
-          v-for="(item, index) in getItems"
+          v-for="(item) in getItems"
           :key="item.key"
-          :class="{'mt-3': index, 'd-none': item.hideWith0Value && item.value <= 0 }"
+          :class="{ 'd-none': item.hideWith0Value && item.value <= 0 }"
+          class="summary-row"
         >
-          <b-col md="6">
+          <b-col cols="6" sm="6" md="6">
             <div class="body-5-regular text-gray-25">
               {{ item.label }}&colon;
             </div>
           </b-col>
-          <b-col md="6">
+          <b-col cols="6" sm="6" md="6">
             <div class="body-5-regular text-gray-25 pull-right">
               &dollar;{{ item.value | formatPrice }}
             </div>
@@ -21,8 +23,8 @@
             </div>
           </b-col>
         </b-row>
-        <b-row v-if="promoCode" class="mt-3">
-          <b-col md="6">
+        <b-row v-if="promoCode" class="summary-row">
+          <b-col cols="6" sm="6" md="6">
             <div class="body-5-regular text-gray-25">
               {{ $t('shopping_cart.promo_code') }}&colon;
             </div>
@@ -30,7 +32,7 @@
               {{ $t('shopping_cart.promo_code_applied') }}
             </div>
           </b-col>
-          <b-col md="6" class="d-flex align-items-center">
+          <b-col cols="6" sm="6" md="6" class="d-flex align-items-center">
             <b-button
               class="ml-auto pa-0"
               variant="img"
@@ -43,8 +45,8 @@
             </span>
           </b-col>
         </b-row>
-        <b-row v-if="giftCardNumber" class="mt-3">
-          <b-col md="6">
+        <b-row v-if="giftCardNumber" class="summary-row">
+          <b-col cols="6" sm="6" md="6">
             <div class="body-5-regular text-gray-25">
               {{ $t('shopping_cart.gift_card') }}&colon;
             </div>
@@ -52,7 +54,7 @@
               {{ $t('shopping_cart.gift_card_applied') }}
             </div>
           </b-col>
-          <b-col md="6" class="d-flex align-items-center">
+          <b-col cols="6" sm="6" md="6" class="d-flex align-items-center">
             <b-button
               class="ml-auto pa-0"
               variant="img"
@@ -65,13 +67,13 @@
             </span>
           </b-col>
         </b-row>
-        <b-row class="mt-3">
-          <b-col md="6" class="d-flex align-items-center">
+        <b-row class="summary-row">
+          <b-col cols="6" sm="6" md="6" class="d-flex align-items-center">
             <div class="body-5-normal">
               {{ $t('shopping_cart.total') }}&colon;
             </div>
           </b-col>
-          <b-col md="6">
+          <b-col cols="6" sm="6" md="6">
             <div class="pull-right body-5-normal">
               &dollar;{{ getTotal | formatPrice }}
             </div>
@@ -130,3 +132,28 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
+.summary-wrapper
+  @media (max-width: 576px)
+    padding: 0 18px 24px
+    margin: 30px 0 0
+
+    >div
+      padding: 0
+
+.summary-row
+  margin: 16px 0 0
+
+  @media (max-width: 576px)
+    margin: 12px 0 0
+
+.card.custom-card
+  @media (max-width: 576px)
+    background: $color-white-5
+
+    .card-body
+      padding: 0 14.5px 12px
+</style>

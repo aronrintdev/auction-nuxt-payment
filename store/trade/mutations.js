@@ -97,6 +97,24 @@ export function setSizeFilterSelection(state, key, selectedSize) {
     }
 }
 
+export function setSizeTypeFilterSelectionMobile(state, selectedSize) {
+  if (typeof selectedSize !== 'undefined' && selectedSize) {
+
+    // check if size type is already in selected list
+    const index = state.selectedFilters.sizes.findIndex(sizes => sizes === selectedSize)
+
+    // remove selected size type if it is already selected
+    if (index > -1) {
+      state.selectedFilters.sizes.splice(index, 1)
+    } else {
+      // push size type in selected list
+      state.selectedFilters.sizes.push(selectedSize)
+    }
+  }
+}
+
+
+
 /**
  * This mutation is used to set price range for trades filtering
  * @param state

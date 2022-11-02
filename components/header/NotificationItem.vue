@@ -20,7 +20,12 @@
             <img v-if="!fromDown && notification.icon_link"
                  :src="notification.icon_link" class="mr-2 icon-image">
             <p class="mb-0">
-              <span :class="{'mobile-subject': isScreenXS}">{{ notification.body }}</span>
+              <span :class="{'mobile-subject': isScreenXS}">
+                <span v-if="notification.data && notification.model_type == 'App\\Models\\ListingItemOrder'">
+                {{notification.data.prefix_listing_order_id}}:
+                </span>
+                {{ notification.body }}
+              </span>
               <span v-if="isScreenXS" class="ml-1 remaining-time">
                 {{ notificationDate }}
               </span>

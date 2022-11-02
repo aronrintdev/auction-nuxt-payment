@@ -1,25 +1,23 @@
 <template>
   <b-overlay :opacity="0.85" blur="2px" :show="loadingFilter" rounded="sm">
     <div class="container-shop pb-5">
-      <div
-        class="scroll-to-top d-none align-items-center justify-content-center position-fixed bg-white cursor-pointer"
-        :class="{ scrolled: scrollPosition > 250 }"
-        @click="scrollToTop"
-      >
-        <img src="~/assets/img/icons/scroll-to-top.svg" />
-      </div>
-      <ShopBanner @apply="fetchProducts" />
-      <div class="section-filters">
-        <ShopFilters ref="filterSidebar" @apply="fetchProducts" />
-      </div>
+      <section class="section-filters">
+        <div class="d-none d-sm-block container">
+          <h1 class="fs-48 fw-7 font-adobe-garamond my-4">Browse Shop</h1>
+          <ShopFilters ref="filterSidebar" @apply="fetchProducts" />
+        </div>
+        <div class="searchbar d-block d-sm-none">
+          <SearchAndFilter @apply="fetchProducts" />
+        </div>
+      </section>
       <NavGroup
         :data="CATEGORIES"
         :value="category"
         nav-key="category"
-        class="section-nav text-center mt-5"
+        class="section-nav text-center mt-3 mx-3 mx-sm-0"
         @change="handleCategoryChange"
       />
-      <div v-if="!noSearchResult" class="container mt-5">
+      <div v-if="!noSearchResult" class="container">
         <section class="recently-viewed">
           <SectionHeader
             :title="$t('auctions.frontpage.recently_viewed')"
@@ -96,7 +94,7 @@
               {{ $t('auctions.frontpage.cant_find_anything') }}
             </div>
           </div>
-        </div> 
+        </div>
       </div>
     </div>
   </b-overlay>
@@ -104,26 +102,26 @@
 <script>
 import debounce from 'lodash.debounce'
 import { mapActions, mapGetters } from 'vuex'
-import ShopBanner from '~/components/shop/Banner.vue'
 import ShopFilters from '~/components/shop/ShopFilters.vue'
 import AdBanner from '~/components/shop/AdBanner.vue'
 import { NavGroup } from '~/components/common'
 import ProductCard from '~/components/product/Card'
 import Badge from '~/components/product/Badge'
+import SearchAndFilter from '~/components/shop/SearchAndFilter'
+
 export default {
   components: {
-    ShopBanner,
     NavGroup,
     ProductCard,
     Badge,
     AdBanner,
     ShopFilters,
+    SearchAndFilter,
   },
   layout: 'IndexLayout',
   fetchOnServer: false,
   data() {
     return {
-      scrollPosition: null,
       noSearchResult: false,
       // todo
       products: [
@@ -529,30 +527,10 @@ export default {
       'selectedSizeTypes',
     ]),
   },
-  destroyed() {
-    // eslint-disable-next-line nuxt/no-env-in-hooks
-    if (process.client) {
-      window.removeEventListener('scroll', this.updateScroll)
-    }
-  },
-
-  mounted() {
-    // eslint-disable-next-line nuxt/no-env-in-hooks
-    if (process.client) {
-      window.addEventListener('scroll', this.updateScroll)
-    }
-  },
 
   methods: {
     ...mapActions('browse', ['fetchFilters']),
-    scrollToTop() {
-      if (process.client) {
-        window.scrollTo(0, 0)
-      }
-    },
-    updateScroll() {
-      this.scrollPosition = window.scrollY
-    },
+
     handleCategoryChange(category) {
       this.noSearchResult = false
       this.category = category
@@ -628,4 +606,7 @@ export default {
       @include body-1-regular
       font-family: $font-sp-pro
       color: $black
+::v-deep .section-header
+  @media (max-width: 576px)
+    margin: 30px 12.5px
 </style>
