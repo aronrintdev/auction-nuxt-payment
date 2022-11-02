@@ -2,7 +2,7 @@
   <div>
     <div v-if="width <=500">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
-        <b-col :md="isPayment ? 9 : 12">
+        <b-col :md="isPayment ? 9 : 12" v-if="!cashAdd">
           <div>
             <div class="amounts-input ml-2">
               <input type="text" class="theirs" disabled :value="$t('trades.trade_arena.theirs') + `: ${getTheirTotal()}`">
@@ -84,7 +84,9 @@
             <b-btn v-if="editYours" variant="primary"
                    class="btn-cash d-flex justify-content-center align-content-center m-4"
                    @click="addCash()">
-              {{ $t('trades.add_cash') }}</b-btn>
+             <span  v-if="optionalCash === '0.00'">{{ $t('trades.add_cash') }} </span>
+              <span v-else-if="optionalCash !== '0.00'">$ {{optionalCash}} </span>
+            </b-btn>
             <b-btn v-else   class="btn-cash d-flex justify-content-center align-content-center m-4" @click="addCash()">{{ $t('trades.request_cash') }}</b-btn>
           </div>
           <vue-bottom-sheet
