@@ -178,17 +178,19 @@ export default {
 
     // On start date select
     startDateSelected(value) {
+      console.log(value)
       this.date.start = value
-      this.filters.bid_start_date = value
+      this.filters.bid_start_date = this.$moment(value).format('YYYY-MM-DD')
     },
 
     // On end date select
     endDateSelected(value) {
       this.date.end = value
-      this.filters.bid_end_date = value
+      this.filters.bid_end_date = this.$moment(value).format('YYYY-MM-DD')
     },
 
-    applyFilter(){
+    applyFilter() {
+      console.log(this.filters)
       this.$emit('filter', { ...this.filters })
     }
   },
