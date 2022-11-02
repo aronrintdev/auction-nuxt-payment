@@ -3399,6 +3399,7 @@
       "removed_social_account": "Removed Social Account Connection.",
       "remove_existing": "This will remove your existing social connection.",
       "connected_successfully": "Connected to Social Account",
+      "log_out": "Log Out",
       "support": {
         "title": "Deadstock Support",
         "searchPlaceholer": "Search Support",
