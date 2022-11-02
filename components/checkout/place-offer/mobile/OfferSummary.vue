@@ -53,7 +53,7 @@
                   <span class="text-black body-17-normal">{{ $t('place_offer.offer_summary') }}</span>
                 </b-col>
                 <b-col cols="6" sm="6" class="text-right">
-                  <span class="option-action text-gray-25 body-5-normal">{{ offerDetails.bid_price | toCurrency }}</span>
+                  <span class="option-action text-gray-25 body-5-normal">{{ getTotal | toCurrency }}</span>
                   <ArrowRightBlackSVG />
                 </b-col>
               </b-row>
@@ -111,6 +111,7 @@ import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTi
 import ArrowRightBlackSVG from '~/assets/img/shopping-cart/arrow-right-black.svg?inline'
 import Button from '~/components/common/Button'
 import PaymentDetailsListItem from '~/components/checkout/selling/mobile/payment/PaymentDetailsListItem'
+import { AMOUNT_OFFSET, FIXED_PRODUCT, PERCENT, PERCENT_OFFSET } from '~/static/constants'
 
 export default {
   name: 'OfferSummary',
@@ -130,6 +131,10 @@ export default {
   computed: {
     ...mapGetters({
       offerDetails: 'offer/getOfferDetails',
+      shippingFee: 'order-settings/getShippingFee',
+      processingFee: 'order-settings/getProcessingFee',
+      taxRate: 'tax-rate/getTaxRate',
+      promoCode: 'order-details/getPromoCode',
       paymentMethod: 'auth/getPaymentMethod',
       paymentToken: 'order-details/getPaymentToken',
     }),
@@ -170,6 +175,52 @@ export default {
       )
 
       return condition[0].name.substr(0, 10)
+    },
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    getSubTotal: (vm) => {
+      return vm.offerDetails.bid_price
+    },
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    getSubtotalAfterDiscount: (vm) => {
+      return Math.max(vm.getSubTotal - vm.getPromoDiscount, 0)
+    },
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    getProcessingFee: (vm) => {
+      return Math.trunc(vm.processingFee * vm.getSubTotal)
+    },
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    getTax: (vm) => {
+      return Math.trunc(vm.taxRate * vm.getSubTotal)
+    },
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    getTotal: (vm) => {
+      return vm.getSubtotalAfterDiscount + vm.shippingFee + vm.getProcessingFee + vm.getTax
+    },
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    getPromoDiscount: (vm) => {
+      let discount = 0
+
+      if (vm.promoCode.code) {
+        switch (vm.promoCode.type) {
+          case FIXED_PRODUCT: {
+
+            if (vm.offerDetails.product.sku === vm.promoCode.sku) {
+              discount += vm.promoCode.amount * AMOUNT_OFFSET
+            }
+
+            break;
+          }
+          case PERCENT: {
+            discount += vm.getSubTotal * (vm.promoCode.amount / PERCENT_OFFSET)
+
+            break;
+          }
+          default:
+            discount += vm.promoCode.amount * AMOUNT_OFFSET
+        }
+      }
+
+      return discount
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     canPlaceOffer(vm) {
