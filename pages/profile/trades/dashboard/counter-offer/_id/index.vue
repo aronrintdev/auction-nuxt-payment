@@ -81,8 +81,15 @@
             />
           </div>
           <div>
-            <b-btn v-if="editYours" variant="primary"  class="btn-cash d-flex justify-content-center align-content-center m-4" @click="addOptionalCashMobile(true)">{{ $t('trades.add_cash') }}</b-btn>
-            <b-btn v-else variant="primary"  class="add-cash-btn" @click="addOptionalCash(true)">{{ $t('trades.request_cash') }}</b-btn>
+            <b-btn v-if="editYours" variant="primary"
+                   class="btn-cash d-flex justify-content-center align-content-center m-4"
+                   @click="addCash()">
+              {{ $t('trades.add_cash') }}</b-btn>
+<!--            <b-btn v-if="editYours" variant="primary"  -->
+<!--                   class="btn-cash d-flex justify-content-center align-content-center m-4" -->
+<!--                   @click="addOptionalCashMobile(true)">-->
+<!--              {{ $t('trades.add_cash') }}</b-btn>-->
+<!--            <b-btn v-else variant="primary"  class="add-cash-btn" @click="addOptionalCash(true)">{{ $t('trades.request_cash') }}</b-btn>-->
           </div>
           <vue-bottom-sheet
             ref="sheetcash"
@@ -198,6 +205,11 @@
 
         </b-col>
         <CheckoutSidebar v-if="isPayment" class="order-summary" />
+        <addCash v-if="cashAdd" :yourAmount="getYourTotal()"
+                 :theirAmount="getTheirTotal()"
+                 :addedAmount="optionalCash"
+                 :selectedType="optional_cash_type"
+                 @click="cancelCash" @change="addAmount"></addCash>
       </b-row>
       <create-trade-search-item v-if="searchItem" :yourItems="getYourItems" :product="searchItem" :productFor="productFor" :progressBar="false" :padding="true" />
       <discard-model @discard="redirectToOfferPage()" />
@@ -441,6 +453,7 @@
   import DiscardModel from '~/pages/profile/trades/dashboard/counter-offer/DiscardModel'
   import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem'
   import CheckoutSidebar from '~/components/checkout/trades/ShoppingCartOrder'
+  import addCash from '~/pages/profile/trades/dashboard/_id/offers/AddCash'
   import {
     GOOGLE_MAPS_BASE_URL
   } from '~/static/constants/environments'
@@ -483,11 +496,13 @@ export default {
     PoorTradeConfirmationModal,
     CreateTradeSearchItem,
     AlreadyListedModal,
-    CheckoutSidebar
+    CheckoutSidebar,
+    addCash
   },
   layout: 'Profile',
   data() {
     return {
+      cashAdd:false,
       width:'',
       GOOGLE_MAPS_BASE_URL,
       infoIcon: require('~/assets/img/icons/info-icon.svg'),
@@ -506,6 +521,7 @@ export default {
         {text: this.$tc('common.accessory', 2), value: 'accessories'},
       ],
       optionalCash: '0.00',
+      optional_cash_type:null,
       cashAdded: 0,
       categoryFilter: '',
       sizeTypesFilter: [],
@@ -577,6 +593,18 @@ export default {
 
     openBottomFilter() {
       this.$refs.sheetInventory.open();
+    },
+    addCash(){
+      this.cashAdd = true
+    },
+    cancelCash(){
+      this.cashAdd = false;
+    },
+    addAmount(value){
+      this.optionalCash = value.amount
+      this.optional_cash_type = value.add_cash ? 'add_cash':'request_cash'
+      this.cashAdd = false
+      this.getYourTotal(false)
     },
 
     /**
