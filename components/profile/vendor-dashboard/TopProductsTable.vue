@@ -32,21 +32,21 @@
             <div class="col-thumb d-flex justify-content-center">
               <ProductThumb :product="row.item" :src="row.item.image"/>
             </div>
-            <div>
+            <div class="font-secondary">
               <h4
                   :class="{
                   'body-5-medium mobile': isScreenXS,
                   'font-secondary': !isScreenXS,
                 }"
-                  class=" fw-6 fs-15 text-primary border-bottom border-primary mb-1 text-nowrap text-truncate mw-300"
+                  class="body-8-medium text-color-blue-1 border-bottom border-primary mb-1 text-nowrap text-truncate mw-300"
               >
                 {{ row.item.name }}
               </h4>
-              <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
+              <h4 class="body-21-normal mb-0 text-color-gray-6">
                 {{ $t('vendor_dashboard.sku') }}: {{ row.item.sku }}
               </h4>
               <h4 :class="mobileClass"
-                  class="font-secondary fs-14 fw-5 mb-0 text-gray-dark text-nowrap text-truncate mw-300">
+                  class="body-21-normal mb-0 text-color-gray-6 text-nowrap text-truncate mw-300">
                 {{ $t('vendor_dashboard.colorway') }}: {{ row.item.colorway }}
               </h4>
             </div>
@@ -130,60 +130,31 @@ export default {
           key: 'product',
           label: this.$t('vendor_dashboard.product'),
           sortable: true,
+          thClass: 'body-4-bold',
         },
         {
           key: 'average_sale_price',
           label: this.$t('vendor_dashboard.avg_price'),
           sortable: true,
-          thClass: 'text-center',
+          thClass: 'text-center body-4-bold',
         },
         {
           key: 'sales_this_month',
           label: this.$t('vendor_dashboard.sales_this_month'),
           sortable: true,
-          thClass: 'text-center',
+          thClass: 'text-center body-4-bold',
         },
         {
           key: 'total_sales',
           label: this.$tc('vendor_dashboard.total_sales', 1),
           sortable: true,
-          thClass: 'text-center',
+          thClass: 'text-center body-4-bold',
         },
         {
           key: 'chart',
           label: '',
           sortable: false,
           tdClass: 'd-none d-sm-flex',
-        },
-      ],
-      items: [
-        {
-          product: 40,
-          average_sale_price: '$350',
-          sales_this_month: '$360',
-          total_sales: '$2350',
-          chart: 4,
-        },
-        {
-          product: 40,
-          average_sale_price: '$350',
-          sales_this_month: '$360',
-          total_sales: '$2350',
-          chart: 4,
-        },
-        {
-          product: 40,
-          average_sale_price: '$350',
-          sales_this_month: '$360',
-          total_sales: '$2350',
-          chart: 4,
-        },
-        {
-          product: 40,
-          average_sale_price: '$350',
-          sales_this_month: '$360',
-          total_sales: '$2350',
-          chart: 4,
         },
       ],
       lineConfig: {
@@ -234,24 +205,12 @@ export default {
           },
         },
       },
-      // TODO make dynamic when API provides with data
       datasets: {
-        labels: [
-          '1',
-          '2',
-          '3',
-          '4',
-          '5',
-          '6',
-          '7',
-          '8',
-          '9',
-        ],
         datasets: [
           {
             borderColor: '#18A0FB',
             backgroundColor: null,
-            data: [65, 59, 80, 81, 56, 55, 100, 22, 55],
+            data: [],
             fill: false,
             borderWidth: 2,
           },
@@ -298,6 +257,13 @@ export default {
 </script>
 <style lang="sass">
 @import '~/assets/css/_variables'
+
+.text-color-blue-1
+  color: $color-blue-1
+
+.text-color-gray-6
+  color: $color-gray-6
+
 .mw-300
   max-width: 300px
 
@@ -322,6 +288,18 @@ export default {
         background-color: $color-white-5
       &:first-child
         background-color: transparent
+
+  thead
+    tr
+      [aria-sort=none]
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 1l25 23 24 22H1l25-22zM51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e") !important
+
+      [aria-sort=descending]
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e") !important
+
+      [aria-sort=ascending]
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 1l25 23 24 22H1l25-22z'/%3e%3c/svg%3e") !important
+
 
   .tdHeight
     height: inherit

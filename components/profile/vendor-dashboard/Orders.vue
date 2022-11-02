@@ -154,42 +154,44 @@ export default {
           label: this.$t('vendor_dashboard.order_id'),
           sortable: true,
           tdClass: 'product-img-cell d-none d-sm-flex',
+          thClass: ' body-4-bold',
         },
         {
           key: 'product',
           label: this.$t('vendor_dashboard.product'),
           sortable: true,
           tdClass: 'product-info-cell',
+          thClass: 'body-4-bold',
         },
         {
           key: 'date_ordered',
           label: this.$t('vendor_dashboard.date_ordered'),
           sortable: true,
-          thClass: 'text-center',
+          thClass: 'text-center body-4-bold',
         },
         {
           key: 'type',
           label: this.$t('vendor_dashboard.type'),
           sortable: true,
-          thClass: 'text-center',
+          thClass: 'text-center body-4-bold',
         },
         {
           key: 'vendor_payout',
           label: this.$t('vendor_dashboard.vendor_payout'),
           sortable: true,
-          thClass: 'text-center',
+          thClass: 'text-center body-4-bold',
         },
         {
           key: 'status',
           label: this.$t('vendor_dashboard.status'),
           sortable: true,
-          thClass: 'text-center',
+          thClass: 'text-center body-4-bold',
         },
         {
           key: 'actions',
           label: this.$t('vendor_dashboard.actions'),
           sortable: false,
-          thClass: 'text-center',
+          thClass: 'text-center body-4-bold',
         },
       ],
       /** Todo need to make dynamic onces we have way of main categories in DB */
@@ -245,6 +247,17 @@ export default {
 .ordersTable
   &.table.b-table.b-table-no-border-collapse
     border-spacing: 0 10px
+
+  thead
+    tr
+      [aria-sort=none]
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 1l25 23 24 22H1l25-22zM51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e") !important
+
+      [aria-sort=descending]
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e") !important
+
+      [aria-sort=ascending]
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 1l25 23 24 22H1l25-22z'/%3e%3c/svg%3e") !important
 
   thead th div
     font-family: $font-family-base
