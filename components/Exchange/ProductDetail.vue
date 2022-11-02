@@ -476,7 +476,7 @@ export default {
       similarProducts: [],
       prices: [],
       sortBy: null,
-      chartTabCurrentValue: '24',
+      chartTabCurrentValue: 'all',
       currentSize: null,
       currentCondition: null,
       currentListingItem: null,
@@ -882,7 +882,7 @@ export default {
         // there will sort category if equal to 24 hours then we will assgin
         //  24 hours record to the graph
         case '24': {
-          const oneDay = this.getGraphData(this.graphData.all.data);
+          const oneDay = this.getGraphData(this.graphData.oneDay.data);
           this.lineDatasets.labels = this.graphData.oneDay.labels
           this.lineDatasets.datasets[0].data = oneDay
           this.$refs.lineChart.renderLineChart()
@@ -919,7 +919,7 @@ export default {
         case '1': {
           // there will sort category if equal to 1 Year then we will assgin
           //  1 year record to the graph
-          const oneYear = this.getGraphData(this.graphData.all.data);
+          const oneYear = this.getGraphData(this.graphData.oneYear.data);
           this.lineDatasets.labels = this.graphData.oneYear.labels
           this.lineDatasets.datasets[0].data = oneYear
           this.$refs.lineChart.renderLineChart()
@@ -968,7 +968,6 @@ export default {
           if (response.data) {
             this.graphData = response.data.data
             this.loading = false
-            this.changeGraphLabel('24');
           }
         })
         .catch((error) => {
