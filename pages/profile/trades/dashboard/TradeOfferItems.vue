@@ -5,9 +5,8 @@
       :key="'offer-' + offer.id" 
       class="offer-item-trade-container mb-4 mx-auto" 
       :role="(offer.deleted_at === null ? 'button' : '')" 
-      @click="showOffer(offer)"
     >
-      <div class="d-none d-sm-block">
+      <div @click="showOffer(offer)" class="d-none d-sm-block">
         <div class="d-flex justify-content-between">
           <div :id="`flyer-${offer.condition}`">
             {{$t(offer.condition_translation)}}
@@ -95,8 +94,27 @@
             <div class="ml-1 offer-type">{{ $t(`trades.offer_type.${offer.offer_type}`) }}</div>
           </div>
         </div>
-        <div class="offer-time text-left mt-2">
-          {{ $t('trades.sent_on')}} {{ offer.created_at | formatDateTimeString }}
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="offer-time text-left mt-2">
+            {{ $t('trades.sent_on')}} {{ offer.created_at | formatDateTimeString }}
+          </div>
+          <div v-if="action && selected.find(s => s === offer.id)">
+            <div 
+              class="circle-full mr-3"
+              @click="$emit('select', offer.id)" 
+            >
+              <img 
+                :src="require('~/assets/img/trades/Tick.svg')" 
+                alt="" 
+              />
+            </div>
+          </div>
+          <div
+            v-else-if="action && !selected.find(s => s === s.id)"
+            class="circle-blue mr-3"
+            @click="$emit('select', offer.id)" 
+          >
+          </div>
         </div>
         <div class="mt-2 d-flex justify-content-between">
           <div class="owner-name">
@@ -176,6 +194,14 @@ export default {
     offers: {
       type: Array,
       required: true,
+    },
+    action: {
+      type: String,
+      default: ''
+    },
+    selected: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -197,6 +223,18 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.circle-full, .circle-blue
+  width: 19px
+  height: 19px
+  border: 1px solid $color-blue-20
+  border-radius: 25px
+
+.circle-full
+  display: flex
+  align-items: center
+  justify-content: center
+  background: $color-blue-20
 
 .relative-right-10
   position: relative

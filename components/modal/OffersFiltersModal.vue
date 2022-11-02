@@ -91,9 +91,23 @@
 
           <FilterAccordion 
             :title="$t('offers_received.offer_date')" 
-            :data="'213'"
+            :data="dateRangeLabel"
           >
-            <h1>123</h1>
+            <div class="d-flex justify-content-between">
+              <input 
+                class="date-picker"
+                format="DD/MM/YYYY"
+                type="date" 
+                @change="changeStartDate"
+              />
+              <input 
+                class="date-picker" 
+                :placeholder="$t('common.end_date')"
+                format="DD/MM/YYYY"
+                type="date" 
+                @change="changeEndDate"
+              />
+            </div>
           </FilterAccordion>
 
           <div class="separator"></div>
@@ -125,6 +139,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
 import {
   FILTER_RECENT_TO_OLDEST,
@@ -140,7 +155,6 @@ import {
 import FilterAccordion from '~/components/mobile/FilterAccordion';
 import ButtonSelector from '~/components/mobile/ButtonSelector';
 import Button from '~/components/common/Button';
-
 
 export default {
   name: 'FiltersModal',
@@ -179,9 +193,9 @@ export default {
         sortBy: FILTER_RECENT_TO_OLDEST,
         offerType: { text: '', value: '' },
         trade: [],
-        status: []
-        // category: { text: '', value: '' },
-        // size: []
+        status: [],
+        start_date: '',
+        end_date: ''
       },
     }
   },
@@ -199,7 +213,9 @@ export default {
         sortBy: FILTER_RECENT_TO_OLDEST,
         offerType: { text: '', value: '' },
         trade: [],
-        status: []
+        status: [],
+        start_date: '',
+        end_date: ''
       }
       this.$emit('filter', this.filters)
     },
@@ -215,6 +231,14 @@ export default {
     statusChange(value) {
       this.filters.status = value;
     },
+
+    changeStartDate(e) {
+      this.filters.start_date = e.target.value
+    },
+
+    changeEndDate(e) {
+      this.filters.end_date = e.target.value
+    }
   },
 
   computed: {
@@ -232,12 +256,30 @@ export default {
       if (this.filters.status.length > 0) {
         count++
       }
+      if (this.filters.start_date.length > 0 || this.filters.end_date.length > 0) {
+        count++
+      }
       return count
     },
 
     applyLabel() {
       const count = this.filterChangeCount
       return this.$t('notifications.apply_filters') + (count > 0 ? ` (${count})` : '')
+    },
+
+    dateRangeLabel() {
+      const start = this.filters.start_date
+      const end = this.filters.end_date
+      const format = 'MM/DD/YYYY'
+      if (start && end) {
+        return `${moment(start).format(format)} - ${moment(end).format(format)}`
+      } else if (start) {
+        return moment(start).format(format)
+      } else if (end) {
+        return moment(end).format(format)
+      }
+
+      return ''
     },
 
     tradeLabel() {
@@ -251,6 +293,7 @@ export default {
       }, '')
       return result;
     },
+
     statusLabel() {
       const result = this.filters.status.reduce((acc, item, index) => {
         const found = this.statusOptions.find(v => v.value === item);
@@ -269,6 +312,17 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.date-picker
+  @include body-9-medium
+  color: $color-black-4
+  margin-top: 20px
+  border-radius: 10px
+  width: 154px
+  height: 49px
+  padding-left: 10px
+  padding-right: 10px
+  border-width: 1px
 
 .filter-button
   @include body-4-medium

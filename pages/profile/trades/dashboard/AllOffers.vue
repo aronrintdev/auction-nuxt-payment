@@ -123,13 +123,37 @@
     </b-row>
     <b-row class="px-2 listings justify-content-between">
       {{ $t('trades.trade_offers', { '0': totalOffers }) }}
-      <div class="d-flex align-items-center d-sm-none">
-        <img
-          :src="require('~/assets/img/icons/delete-rounded.svg')"
-          :alt="$t('product_page.delete_multiple')"
-        />
-        <div class="ml-2 delete-offers">
-          {{ $t('offers_received.delete_offers') }}
+      <div class="d-sm-none">
+        <div
+          v-if="!action"
+          class="d-flex align-items-center"
+          @click="action = 'delete'"
+        >
+          <img
+            :src="require('~/assets/img/icons/delete-rounded.svg')"
+            :alt="$t('product_page.delete_multiple')"
+          />
+          <div class="ml-2 mt-1 delete-offers">
+            {{ $t('offers_received.delete_offers') }}
+          </div>
+        </div>
+        <div 
+          v-else-if="action === 'delete' || action === 'deselect_all'"
+          class="d-flex align-items-center"
+          @click="selectAll()"
+        >
+          <div class="circle-gray"></div>
+          <div class="mt-1 ml-2 delete-offers">{{ $t('common.select_all') }}</div>
+        </div>
+        <div
+          v-else-if="action === 'select_all'"
+          class="d-flex align-items-center"
+          @click="action = 'deselect_all'; selected = []"
+        >
+          <div class="circle-blue-outer">
+            <div class="circle-blue-inner"></div>
+          </div>
+          <div class="mt-1 ml-2 delete-offers">{{ $t('common.deselect_all') }}</div>
         </div>
       </div>
     </b-row>
@@ -169,7 +193,13 @@
     <div class="my-trade-listing-section">
       <div class="row justify-content-center">
         <div class="text-center w-100 px-2">
-        <trade-offer-items v-if="tradeOffers.length > 0" :offers="tradeOffers"></trade-offer-items>
+        <trade-offer-items 
+          v-if="tradeOffers.length > 0" 
+          :offers="tradeOffers"
+          :action="action"
+          :selected="selected"
+          @select="selectOffer"
+        />
         <div v-else>
           <div class="d-none d-sm-block">
             {{ 
@@ -189,7 +219,34 @@
         </div>
       </div>
     </div>
-    <b-row class="justify-content-center mt-4 mb-5">
+
+    <div 
+      class="d-sm-none mb-3"
+      :class="{
+        'd-none': !action
+      }"
+    >
+      <div class="delete-header">{{ $t('offers_received.tap_on_offers_to_delete') }}</div>
+      <div class="d-flex justify-content-between">
+        <div 
+          class="cancel-button"
+          @click="action = ''; selected = []"
+        >
+          {{ $t('common.cancel') }}
+        </div>
+        <div 
+          class="delete-button"
+          :class="{
+            'active-delete-button': selected.length > 0
+          }"
+          @click="deleteSelected()"
+        >
+          {{ $t('common.delete') }} {{ selected.length > 0 ? `(${selected.length})` : ''}}
+        </div>
+      </div>
+    </div>
+
+    <b-row class="justify-content-center mt-1 mb-3">
       <Pagination
         v-if="totalOffers"
         v-model="page"
@@ -301,6 +358,7 @@ export default {
       tradeOffers: [],
       perPageOptions: PER_PAGE_OPTIONS,
       deleteExpired: false,
+      action: '',
       selected: [],
       isFiltersModalOpen: false
     }
@@ -477,8 +535,49 @@ export default {
       this.conditionFilter = filters.trade
       this.orderFilter = filters.sortBy
       this.statusFilter = filters.status
+      this.start_date = filters.start_date
+      this.end_date = filters.end_date
       this.fetchOffersListing()
       this.isFiltersModalOpen = false
+    },
+
+    selectOffer(value) {
+      console.log('selected', value);
+      const foundIndex = this.selected.findIndex(s => s === value)
+      console.log('before', this.selected);
+      if (foundIndex !== -1) {
+        this.selected.splice(foundIndex, 1)
+      } else {
+        this.selected.push(value)
+      }
+      console.log('after', this.selected);
+    },
+
+    selectAll() {
+      this.action = 'select_all'
+      this.selected = this.tradeOffers.reduce((acc, item) => {
+        acc.push(item.id)
+        return acc
+      }, [])
+    },
+
+    deleteSelected() {
+      if (this.selected.length < 1) return
+      console.log('deleteSelected', this.selected.join(','));
+      this.$axios
+        .post('trades/offers/deactivate', {
+          params: {
+            offer_ids: this.selected.join(',')
+          }
+        })
+        .then((response) => {
+          this.action = ''
+          this.selected = []
+          this.fetchOffersListing()
+        })
+        .catch((error) => {
+          this.$toasted.error(this.$t(error.response.data.error))
+        })
     }
 
   }
@@ -487,6 +586,26 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.circle-gray, .circle-blue-outer
+  width: 19px
+  height: 19px
+  border-radius: 25px
+
+.circle-gray
+  border: 1px solid $color-gray-47
+
+.circle-blue-outer
+  border: 1px solid $color-blue-20
+  display: flex
+  align-items: center
+  justify-content: center
+
+.circle-blue-inner
+  width: 11px
+  height: 11px
+  border-radius: 25px
+  background: $color-blue-20
 
 .create-listing
   @include body-4-medium
@@ -558,6 +677,33 @@ export default {
 
 .mt-custom
   margin-top: 32px
+
+.cancel-button, .delete-button
+  @include body-10-medium
+  width: 162px
+  height: 40px
+  border-radius: 20px
+  display: flex
+  justify-content: center
+  align-items: center
+
+.cancel-button
+  color: $color-gray-76
+  border: 1px solid $color-gray-76
+
+.delete-button
+  background: $color-gray-75
+  color: $color-gray-47
+
+.active-delete-button
+  background: $color-blue-20
+  color: $color-white-1
+
+.delete-header
+  @include body-9-normal
+  color: $color-gray-77
+  margin-bottom: 15px
+  text-align: center
 
 </style>
 
