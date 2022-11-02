@@ -20,9 +20,9 @@
           <div class="color mt-1">
             {{ $t('common.price') }}: {{ product.sale_price | toCurrency }}
           </div>
-          <div class="position-absolute btn-add">
-            <Icon v-show="show !== product.id" src="plus.svg" width="45" height="45" @click='showProductDetail(product.id)' />
-            <Icon v-show="show === product.id" src="minus.svg" width="45" height="45" @click='showProductDetail(product.id)' />
+          <div class="position-absolute btn-add cursor-pointer">
+            <Icon v-show="show !== product.id" src="transparent-plus.png" width="35" height="35" @click='showProductDetail(product.id)' />
+            <Icon v-show="show === product.id" src="transparent-minus.png" width="35" @click='showProductDetail(product.id)' />
           </div>
         </div>
       </div>
@@ -48,8 +48,8 @@
             class="box-conditions"
             @change="handleConditionChange"
           />
-          <div class="accordion-filter-item bg-transparent w-100 border-0">
-            <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header mb-0">
+          <div class="accordion-filter-item bg-transparent w-100 border-0 mt-4">
+            <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header mb-4">
               <button
                 v-b-toggle.collapse-product-detail
                 aria-controls="panelsStayOpen-collapseOne"
@@ -59,7 +59,7 @@
                 data-bs-toggle="collapse"
                 type="button"
               >
-              {{ $t('shop_by_style.product_details')  }}
+              <span class="w-100">{{ $t('shop_by_style.product_details')  }}</span>
               </button>
             </h2>
             <b-collapse
