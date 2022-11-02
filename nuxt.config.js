@@ -58,6 +58,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/vue-click-outside.js', mode: 'client'},
     { src: '~/plugins/v-calendar.js', mode: 'client'},
     { src: '~/plugins/infinteloading', mode: 'client' },
+    { src: '~/plugins/numberOnly.js', mode: 'client' },
     { src: '~/plugins/vue-moment.js', mode: 'client' }
   ],
 
