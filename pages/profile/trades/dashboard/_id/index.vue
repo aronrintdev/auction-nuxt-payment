@@ -33,7 +33,7 @@
                 <div class="long-line-small" :class="{'long-line-length-small' : lastSubmittedOffer.theirs_items.length === ONE_ITEM }"></div>
                 <img :src="require('~/assets/img/tradecenter.svg')"/>
                 <div class="long-line-small" :class="{'long-line-length-small' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>
-                <div v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" class="pointer-right-small"></div>
+                <div v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" class="pointer-right-small m-2"></div>
               </div>
               <div class="right-side-image"
                    :class="{'right-item-margin':lastSubmittedOffer.theirs_items.length > ONE_ITEM &&
