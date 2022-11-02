@@ -2,7 +2,7 @@
   <div>
     <div class="row my-5">
       <div class="col-6 col-md-3">
-        <h1 class="font-secondary fs-24 fw-7 mb-0 heading">
+        <h1 class="heading-1-bold mb-0 heading font-secondary">
           {{ $t('vendor_dashboard.top_products') }}
         </h1>
       </div>
@@ -145,7 +145,7 @@ export default {
         },
         {
           key: 'total_sales',
-          label: this.$t('vendor_dashboard.total_sales'),
+          label: this.$tc('vendor_dashboard.total_sales', 1),
           sortable: true,
           thClass: 'text-center',
         },

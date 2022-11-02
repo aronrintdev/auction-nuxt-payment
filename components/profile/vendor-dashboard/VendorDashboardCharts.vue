@@ -1,7 +1,7 @@
 <template>
   <section class="row mb-4">
     <div class="col-md-8">
-      <div class="bg-white br-10 p-1 p-sm-4 shadow-sm">
+      <div class="bg-white br-10 p-1 p-sm-4">
         <div class="d-flex align-items-center justify-content-between">
           <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
             {{ $tc('vendor_dashboard.total_sales', 1) }}
@@ -17,7 +17,7 @@
                 :options="chartFilterOptions"
                 :threelineIcon="false"
                 :title="filterByTitle"
-                bordered
+                class="dropdown-filter"
                 @input="handleFilterByChangeTotalSale"
             />
           </div>
@@ -38,6 +38,7 @@
               :data="dataGraph"
               :labels="labels"
               :options="lineChartOptions"
+              :height="212"
               chart-id="vendor-dashboard-line-chart"
               class="line-chart d-none d-sm-block"
           />
@@ -68,7 +69,7 @@
       </div>
     </div>
     <div class="col-md-4 mt-3 mt-sm-0">
-      <div class="bg-white br-10 p-1 p-sm-4 shadow-sm">
+      <div class="bg-white br-10 p-1 p-sm-4">
         <div class="d-flex align-items-center justify-content-between">
           <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
             {{ $tc('vendor_dashboard.by_type', 1) }}
@@ -84,7 +85,7 @@
                 :options="chartFilterOptions"
                 :threelineIcon="false"
                 :title="filterByTitle"
-                bordered
+                class="dropdown-filter"
                 @input="handleFilterByChangeTotalSaleChart"
             />
           </div>
@@ -106,6 +107,7 @@
               :bg-colors="dataBgColors"
               :data="dataChart"
               :labels="chartLabels"
+              :height="212"
               :options="chartOptions"
               chart-id="vendor-dashboard-doughnut-chart"
               class="doughnut-chart d-none d-sm-block"
@@ -373,6 +375,21 @@ export default {
 
 .dropdownSelect
   width: 180px
+
+.view-more-link
+  color: $color-blue-30
+
+.dropdown-filter::v-deep
+  background-color: $color-white-4
+  border-radius: 8px
+  border: none !important
+
+  .selected
+    @include body-13-normal
+    color: $color-black-1
+    background-color: $color-white-4 !important
+    font-family: $font-family-sf-pro-display
+
 
 .text-grey-69
   color: $color-gray-69

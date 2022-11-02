@@ -1,14 +1,14 @@
 <template>
   <div class="dashboard pt-3 pt-sm-5 p-4">
     <div class="d-flex justify-content-between align-items-baseline">
-      <h1 class="fs-24 fw-7 mb-0 font-primary d-none d-sm-block">
+      <h1 class="heading-1-bold d-none d-sm-block">
         {{ $t('vendor_dashboard.title') }}
       </h1>
       <div
         class="d-flex gap-2 align-items-center justify-content-sm-start full-width-sm"
       >
         <h3
-          class="font-secondary fs-14 fw-6 mb-0 bg-white br-10 px-4 py-2 d-flex align-items-center border shadow-sm"
+            class="body-5-medium mb-0 bg-white br-10 px-3 py-2 d-flex align-items-center"
         >
           <img
             :src="require('~/assets/img/icons/bronze-badge.svg')"

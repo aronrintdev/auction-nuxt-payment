@@ -2,7 +2,7 @@
   <div>
     <div class="row my-5">
       <div class="col-6 col-md-3">
-        <h1 class="font-secondary fs-24 fw-7 mb-0 heading">
+        <h1 class="heading-1-bold mb-0 heading font-secondary">
           {{ $t('vendor_dashboard.orders') }}
         </h1>
       </div>
