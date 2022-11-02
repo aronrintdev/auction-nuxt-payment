@@ -1,187 +1,372 @@
 <template>
   <div>
-
-    <div class="d-flex">
-      <!-- Product name, colorway and thumbnail -->
-      <ProductThumb
-        v-show="show !== product.id"
-        :src="product.image"
-        :product="product"
-        :width="152"
-        :height="172"
-        overlay
-        class="flex-shrink-0 product-image"
-      />
-      <div class="info-section position-relative flex-grow-1">
-        <div class="title">{{ product.name }}</div>
-        <div class="color mt-2">
-          {{ `${$t('common.color')}: ${product.colorway}` }}
-        </div>
-        <div class="color mt-1">
-          {{ $t('common.price') }}: {{ product.sale_price | toCurrency }}
-        </div>
-        <div class="position-absolute btn-add">
-          <Icon v-show="show !== product.id" src="plus.svg" width="45" height="45" @click='showProductDetail(product.id)' />
-          <Icon v-show="show === product.id" src="minus.svg" width="45" height="45" @click='showProductDetail(product.id)' />
+    <div class="d-none d-sm-block">
+      <div class="d-flex">
+        <!-- Product name, colorway and thumbnail -->
+        <ProductThumb
+          v-show="show !== product.id"
+          :src="product.image"
+          :product="product"
+          :width="152"
+          :height="172"
+          overlay
+          class="flex-shrink-0 product-image"
+        />
+        <div class="info-section position-relative flex-grow-1">
+          <div class="title">{{ product.name }}</div>
+          <div class="color mt-2">
+            {{ `${$t('common.color')}: ${product.colorway}` }}
+          </div>
+          <div class="color mt-1">
+            {{ $t('common.price') }}: {{ product.sale_price | toCurrency }}
+          </div>
+          <div class="position-absolute btn-add">
+            <Icon v-show="show !== product.id" src="plus.svg" width="45" height="45" @click='showProductDetail(product.id)' />
+            <Icon v-show="show === product.id" src="minus.svg" width="45" height="45" @click='showProductDetail(product.id)' />
+          </div>
         </div>
       </div>
-    </div>
-    <!-- Product Detail -->
-    <div v-show="show === product.id" class="info-section position-relative flex-grow-1">
-      <div>
-        <ShopByStyleImageCarousel :images="productImages" class="mt-4" />
-        <div  class="w-100">
-          <ProductSizePicker
-            :sizes="sizes"
-            :prices="pricesBySize"
-            :value="currentSize"
-            :viewMode="sizeViewMode"
-            class="size-picker"
-            @update="handleSizeChange"
-            @changeViewMode="handleSizeViewModeChange"
-          />
-        </div>
-
-        <ProductBoxConditionPicker
-          :value="currentCondition"
-          :conditions="packagingConditions"
-          class="box-conditions"
-          @change="handleConditionChange"
-        />
-        <div class="accordion-filter-item bg-transparent w-100 border-0">
-          <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header mb-0">
-            <button
-              v-b-toggle.collapse-product-detail
-              aria-controls="panelsStayOpen-collapseOne"
-              aria-expanded="false"
-              class="accordion-filter-button collapsed position-relative d-flex align-items-center w-100 pa-0 border-0"
-              data-bs-target="#panelsStayOpen-collapseOne"
-              data-bs-toggle="collapse"
-              type="button"
-            >
-            {{ $t('shop_by_style.product_details')  }}
-            </button>
-          </h2>
-          <b-collapse
-            id="collapse-product-detail"
-            :accordion="accordion-title"
-            role="tabpanel"
-            class="accordion-filter-collapse"
-            aria-labelledby="panelsStayOpen-headingOne"
-          >
-            <div class="accordion-filter-body">
-              <div class="tab-content mt-40">
-                <div class="content-row">
-                  <div>{{ $t('common.sku') }}</div>
-                  <div>{{ products.sku }}</div>
-                </div>
-
-                <div class="content-row">
-                  <div>{{ $t('common.colorway') }}</div>
-                  <div>{{ products.colorway }}</div>
-                </div>
-
-                <div class="content-row">
-                  <div>{{ $t('common.retail_price') }}</div>
-                  <div>{{ products.retail_price | toCurrency }}</div>
-                </div>
-
-                <div class="content-row">
-                  <div>{{ $t('common.release_date') }}</div>
-                  <div>{{ products.release_year }}</div>
-                </div>
-              </div>
-            </div>
-          </b-collapse>
-          <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header">
-            <button
-              v-b-toggle.collapse-1
-              aria-controls="panelsStayOpen-collapseOne"
-              aria-expanded="false"
-              class="accordion-filter-button collapsed position-relative d-flex align-items-center w-100 pa-0 border-0"
-              data-bs-target="#panelsStayOpen-collapseOne"
-              data-bs-toggle="collapse"
-              type="button"
-            >
-            {{ $t('shop_by_style.size_guide')  }}
-            </button>
-          </h2>
-          <b-collapse
-            id="collapse-1"
-            :accordion="accordion-title"
-            role="tabpanel"
-            class="accordion-filter-collapse"
-            aria-labelledby="panelsStayOpen-headingOne"
-          >
-            <div class="accordion-filter-body">
-              <ProductSizeGuideShoe
-                v-if="
-                  products.size_type && SHOE_CATEGORIES.indexOf(products.size_type) > -1
-                "
-              />
-            </div>
-          </b-collapse>
-        </div>
-        <div class="wrapper">
-          <div
-            v-if="method === 'buy' && isOutOfStock"
-            class="out-of-stock-btns w-100 text-center"
-          >
-            <div class="warn-text mx-auto">
-              {{ $t('products.error.out_of_stock') }}
-            </div>
-
-            <Button
-              variant="outline-dark-blue"
-              block
-              black-text
-              border="thick"
-              class="mx-auto"
-              @click="handleNotifyMeClick"
-            >
-              {{ $t('products.notify_me') }}
-            </Button>
+      <!-- Product Detail -->
+      <div v-show="show === product.id" class="info-section position-relative flex-grow-1">
+        <div>
+          <ShopByStyleImageCarousel :images="productImages" class="mt-4" />
+          <div  class="w-100">
+            <ProductSizePicker
+              :sizes="sizes"
+              :prices="pricesBySize"
+              :value="currentSize"
+              :viewMode="sizeViewMode"
+              class="size-picker"
+              @update="handleSizeChange"
+              @changeViewMode="handleSizeViewModeChange"
+            />
           </div>
 
-          <div
-            v-else-if="
-              method === 'buy' &&
-              sizeViewMode === 'all' &&
-              !isOutOfStock
-            "
-            class="action-btns w-100"
-          >
-            <div>
-              <Button
-                variant="warning"
-                block
-                border="thick"
-                :disabled="addingToCart"
-                class="mx-auto"
-                @click="handleAddToCartClick"
+          <ProductBoxConditionPicker
+            :value="currentCondition"
+            :conditions="packagingConditions"
+            class="box-conditions"
+            @change="handleConditionChange"
+          />
+          <div class="accordion-filter-item bg-transparent w-100 border-0">
+            <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header mb-0">
+              <button
+                v-b-toggle.collapse-product-detail
+                aria-controls="panelsStayOpen-collapseOne"
+                aria-expanded="false"
+                class="accordion-filter-button collapsed position-relative d-flex align-items-center w-100 pa-0 border-0"
+                data-bs-target="#panelsStayOpen-collapseOne"
+                data-bs-toggle="collapse"
+                type="button"
               >
-                <div class="d-flex justify-content-center">
-                  <div>{{ $t('products.add_to_bag') }}: ${{ currentListingItem ? currentListingItem.inventory.sale_price / 100 : 0 }}</div>
-                  <div
-                    class="ml-1"
-                    :class="
-                      addingToCart ? 'add-to-cart-animation' : 'invisible'
-                    "
-                  >
-                    +1
+              {{ $t('shop_by_style.product_details')  }}
+              </button>
+            </h2>
+            <b-collapse
+              id="collapse-product-detail"
+              :accordion="accordion-title"
+              role="tabpanel"
+              class="accordion-filter-collapse"
+              aria-labelledby="panelsStayOpen-headingOne"
+            >
+              <div class="accordion-filter-body">
+                <div class="tab-content mt-40">
+                  <div class="content-row">
+                    <div>{{ $t('common.sku') }}</div>
+                    <div>{{ products.sku }}</div>
+                  </div>
+
+                  <div class="content-row">
+                    <div>{{ $t('common.colorway') }}</div>
+                    <div>{{ products.colorway }}</div>
+                  </div>
+
+                  <div class="content-row">
+                    <div>{{ $t('common.retail_price') }}</div>
+                    <div>{{ products.retail_price | toCurrency }}</div>
+                  </div>
+
+                  <div class="content-row">
+                    <div>{{ $t('common.release_date') }}</div>
+                    <div>{{ products.release_year }}</div>
                   </div>
                 </div>
-              </Button>
-              <div class="error-text">
-                {{ error.addToCart }}
               </div>
+            </b-collapse>
+            <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header">
+              <button
+                v-b-toggle.collapse-1
+                aria-controls="panelsStayOpen-collapseOne"
+                aria-expanded="false"
+                class="accordion-filter-button collapsed position-relative d-flex align-items-center w-100 pa-0 border-0"
+                data-bs-target="#panelsStayOpen-collapseOne"
+                data-bs-toggle="collapse"
+                type="button"
+              >
+              {{ $t('shop_by_style.size_guide')  }}
+              </button>
+            </h2>
+            <b-collapse
+              id="collapse-1"
+              :accordion="accordion-title"
+              role="tabpanel"
+              class="accordion-filter-collapse"
+              aria-labelledby="panelsStayOpen-headingOne"
+            >
+              <div class="accordion-filter-body">
+                <ProductSizeGuideShoe
+                  v-if="
+                    products.size_type && SHOE_CATEGORIES.indexOf(products.size_type) > -1
+                  "
+                />
+              </div>
+            </b-collapse>
+          </div>
+          <div class="wrapper">
+            <div
+              v-if="method === 'buy' && isOutOfStock"
+              class="out-of-stock-btns w-100 text-center"
+            >
+              <div class="warn-text mx-auto">
+                {{ $t('products.error.out_of_stock') }}
+              </div>
+
+              <Button
+                variant="outline-dark-blue"
+                block
+                black-text
+                border="thick"
+                class="mx-auto"
+                @click="handleNotifyMeClick"
+              >
+                {{ $t('products.notify_me') }}
+              </Button>
             </div>
 
+            <div
+              v-else-if="
+                method === 'buy' &&
+                sizeViewMode === 'all' &&
+                !isOutOfStock
+              "
+              class="action-btns w-100"
+            >
+              <div>
+                <Button
+                  variant="warning"
+                  block
+                  border="thick"
+                  :disabled="addingToCart"
+                  class="mx-auto"
+                  @click="handleAddToCartClick"
+                >
+                  <div class="d-flex justify-content-center">
+                    <div>{{ $t('products.add_to_bag') }}: ${{ currentListingItem ? currentListingItem.inventory.sale_price / 100 : 0 }}</div>
+                    <div
+                      class="ml-1"
+                      :class="
+                        addingToCart ? 'add-to-cart-animation' : 'invisible'
+                      "
+                    >
+                      +1
+                    </div>
+                  </div>
+                </Button>
+                <div class="error-text">
+                  {{ error.addToCart }}
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
       </div>
+      <AlertModal id="message-modal" :message="message" icon="tick" />
     </div>
-    <AlertModal id="message-modal" :message="message" icon="tick" />
+    <div class="d-block d-sm-none">
+      <div class="d-flex">
+        <!-- Product name, colorway and thumbnail -->
+        <ProductThumb
+          v-show="show !== product.id"
+          :src="product.image"
+          :product="product"
+          :width="152"
+          :height="172"
+          overlay
+          class="flex-shrink-0 product-image"
+        />
+        <div class="info-section position-relative flex-grow-1">
+          <div class="title">{{ product.name }}</div>
+          <div class="color mt-2">
+            {{ product.colorway }}
+          </div>
+          <div class="color mt-1">
+            {{ product.sale_price | toCurrency }}
+          </div>
+          <div class="position-absolute btn-add">
+            <Icon v-show="show !== product.id" src="plus.svg" width="45" height="45" @click='showProductDetail(product.id)' />
+            <Icon v-show="show === product.id" src="minus.svg" width="45" height="45" @click='showProductDetail(product.id)' />
+          </div>
+        </div>
+      </div>
+      <!-- Product Detail -->
+      <div v-show="show === product.id" class="info-section position-relative flex-grow-1">
+        <div>
+          <ShopByStyleImageCarousel :images="productImages" class="mt-4" />
+          <div  class="w-100">
+            <ProductSizePicker
+              :sizes="sizes"
+              :prices="pricesBySize"
+              :value="currentSize"
+              :viewMode="sizeViewMode"
+              class="size-picker"
+              @update="handleSizeChange"
+              @changeViewMode="handleSizeViewModeChange"
+            />
+          </div>
+
+          <ProductBoxConditionPicker
+            :value="currentCondition"
+            :conditions="packagingConditions"
+            class="box-conditions"
+            @change="handleConditionChange"
+          />
+          <div class="accordion-filter-item bg-transparent w-100 border-0">
+            <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header mb-0">
+              <button
+                v-b-toggle.collapse-product-detail
+                aria-controls="panelsStayOpen-collapseOne"
+                aria-expanded="false"
+                class="accordion-filter-button collapsed position-relative d-flex align-items-center w-100 pa-0 border-0"
+                data-bs-target="#panelsStayOpen-collapseOne"
+                data-bs-toggle="collapse"
+                type="button"
+              >
+              {{ $t('shop_by_style.product_details')  }}
+              </button>
+            </h2>
+            <b-collapse
+              id="collapse-product-detail"
+              :accordion="accordion-title"
+              role="tabpanel"
+              class="accordion-filter-collapse"
+              aria-labelledby="panelsStayOpen-headingOne"
+            >
+              <div class="accordion-filter-body">
+                <div class="tab-content mt-40">
+                  <div class="content-row">
+                    <div>{{ $t('common.sku') }}</div>
+                    <div>{{ products.sku }}</div>
+                  </div>
+
+                  <div class="content-row">
+                    <div>{{ $t('common.colorway') }}</div>
+                    <div>{{ products.colorway }}</div>
+                  </div>
+
+                  <div class="content-row">
+                    <div>{{ $t('common.retail_price') }}</div>
+                    <div>{{ products.retail_price | toCurrency }}</div>
+                  </div>
+
+                  <div class="content-row">
+                    <div>{{ $t('common.release_date') }}</div>
+                    <div>{{ products.release_year }}</div>
+                  </div>
+                </div>
+              </div>
+            </b-collapse>
+            <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header">
+              <button
+                v-b-toggle.collapse-1
+                aria-controls="panelsStayOpen-collapseOne"
+                aria-expanded="false"
+                class="accordion-filter-button collapsed position-relative d-flex align-items-center w-100 pa-0 border-0"
+                data-bs-target="#panelsStayOpen-collapseOne"
+                data-bs-toggle="collapse"
+                type="button"
+              >
+              {{ $t('shop_by_style.size_guide')  }}
+              </button>
+            </h2>
+            <b-collapse
+              id="collapse-1"
+              :accordion="accordion-title"
+              role="tabpanel"
+              class="accordion-filter-collapse"
+              aria-labelledby="panelsStayOpen-headingOne"
+            >
+              <div class="accordion-filter-body">
+                <ProductSizeGuideShoe
+                  v-if="
+                    products.size_type && SHOE_CATEGORIES.indexOf(products.size_type) > -1
+                  "
+                />
+              </div>
+            </b-collapse>
+          </div>
+          <div class="wrapper">
+            <div
+              v-if="method === 'buy' && isOutOfStock"
+              class="out-of-stock-btns w-100 text-center"
+            >
+              <div class="warn-text mx-auto">
+                {{ $t('products.error.out_of_stock') }}
+              </div>
+
+              <Button
+                variant="outline-dark-blue"
+                block
+                black-text
+                border="thick"
+                class="mx-auto"
+                @click="handleNotifyMeClick"
+              >
+                {{ $t('products.notify_me') }}
+              </Button>
+            </div>
+
+            <div
+              v-else-if="
+                method === 'buy' &&
+                sizeViewMode === 'all' &&
+                !isOutOfStock
+              "
+              class="action-btns w-100"
+            >
+              <div>
+                <Button
+                  variant="warning"
+                  block
+                  border="thick"
+                  :disabled="addingToCart"
+                  class="mx-auto"
+                  @click="handleAddToCartClick"
+                >
+                  <div class="d-flex justify-content-center">
+                    <div>{{ $t('products.add_to_bag') }}: ${{ currentListingItem ? currentListingItem.inventory.sale_price / 100 : 0 }}</div>
+                    <div
+                      class="ml-1"
+                      :class="
+                        addingToCart ? 'add-to-cart-animation' : 'invisible'
+                      "
+                    >
+                      +1
+                    </div>
+                  </div>
+                </Button>
+                <div class="error-text">
+                  {{ error.addToCart }}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <AlertModal id="message-modal" :message="message" icon="tick" />
+    </div>
+    
   </div>
 </template>
 <script>
