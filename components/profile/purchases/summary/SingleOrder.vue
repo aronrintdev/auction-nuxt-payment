@@ -95,7 +95,7 @@
     </div>
     <!-- Status is authenticated and shipped/ delivered -->
     <template
-        v-if="ORDERS_HAS_ITEMS.includes(orderType) && itemStatus === authenticatedAndShipped || itemStatus === delivered">
+        v-if="ORDERS_HAS_ITEMS.includes(orderType) && itemStatus === authenticatedAndShipped || itemStatus === delivered || itemStatus === completed">
       <hr/>
       <div class="row shipping-details-wrapper">
         <div class="col-md-6 col-sm-12">
@@ -211,7 +211,7 @@ import {
   AUTHENTICATED_AND_SHIPPED,
   PROCESSING_PAYMENT,
   DELIVERED,
-  CANCELLED, PRODUCT_IMG_WIDTH,
+  CANCELLED, COMPLETED, PRODUCT_IMG_WIDTH,
   PRODUCT_FALLBACK_URL,
   BUY,
   GIFTCARD,
@@ -281,6 +281,7 @@ export default {
       delivered: DELIVERED,
       processing: PROCESSING,
       cancelled: CANCELLED,
+      completed: COMPLETED,
       buy: BUY,
       sell: SELL,
       giftCard: GIFTCARD,
