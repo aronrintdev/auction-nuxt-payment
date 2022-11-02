@@ -1,7 +1,7 @@
 <template>
   <section class="row mb-4">
     <div class="col-md-8">
-      <div class="bg-white br-10 p-1 p-sm-4">
+      <div :class="mobileClass" class="chart-card bg-white br-10 p-1 p-sm-4">
         <div class="d-flex align-items-center justify-content-between">
           <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
             {{ $tc('vendor_dashboard.total_sales', 1) }}
@@ -69,7 +69,7 @@
       </div>
     </div>
     <div class="col-md-4 mt-3 mt-sm-0">
-      <div class="bg-white br-10 p-1 p-sm-4">
+      <div :class="mobileClass" class="chart-card bg-white br-10 p-1 p-sm-4">
         <div class="d-flex align-items-center justify-content-between">
           <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
             {{ $tc('vendor_dashboard.by_type', 1) }}
@@ -94,9 +94,9 @@
           <h6
               v-for="(tab, index) in tabsOptions"
               :key="index"
-              :class="{ activeOne: activeTab === tab.value }"
+              :class="{ activeOne: activeTabDoughnut === tab.value }"
               class="fs-10 fw-7 font-primary mb-0 cursor-pointer position-relative text-uppercase"
-              @click="changeTab(tab.value)"
+              @click="changeTabDoughnut(tab.value)"
           >
             {{ tab.title }}
           </h6>
@@ -155,7 +155,8 @@ export default {
       // TODO Dummy Data
       filterByTitle: this.$t('selling_page.status'),
       filterBy: 'month',
-      activeTab: 'week',
+      activeTab: 'month',
+      activeTabDoughnut: 'week',
       tabsOptions: [
         {title: 'Week', value: 'week'},
         {title: 'Month', value: 'month'},
@@ -335,6 +336,9 @@ export default {
     changeTab(tab) {
       this.activeTab = tab
       this.handleFilterByChangeTotalSale(tab)
+    },
+    changeTabDoughnut(tab) {
+      this.activeTabDoughnut = tab
       this.handleFilterByChangeTotalSaleChart(tab)
     },
     handleFilterByChangeTotalSaleChart(value) {
@@ -363,6 +367,11 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.chart-card
+  &.mobile
+    box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
+    border-radius: 8px
+
 .doughnut-chart
   #vendor-dashboard-doughnut-chart
     height: 170px

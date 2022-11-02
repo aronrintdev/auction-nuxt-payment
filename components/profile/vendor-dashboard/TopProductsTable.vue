@@ -84,7 +84,7 @@
         </template>
         <template #cell(total_sales)="row">
           <div
-              :aria-label="$t('vendor_dashboard.total_sales')"
+              :aria-label="$tc('vendor_dashboard.total_sales', 1)"
               class="d-flex align-items-center justify-content-center tdHeight"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">

@@ -8,12 +8,13 @@
         class="d-flex gap-2 align-items-center justify-content-sm-start full-width-sm"
       >
         <h3
-            class="body-5-medium mb-0 bg-white br-10 px-3 py-2 d-flex align-items-center"
+            :class="mobileClass"
+            class="medal-badge body-5-medium mb-0 bg-white br-10 px-3 py-2 d-flex align-items-center"
         >
           <img
-            :src="require('~/assets/img/icons/bronze-badge.svg')"
-            aria-hidden="true"
-            class="mr-2"
+              :src="require('~/assets/img/icons/bronze-badge.svg')"
+              aria-hidden="true"
+              class="mr-2"
           />
           {{ vendor.rank }} {{ $t('vendor_dashboard.seller') }}
         </h3>
@@ -27,7 +28,7 @@
     </div>
 
     <!-- stats cards -->
-    <section class="row my-3 my-sm-5">
+    <section :class="mobileClass" class="row my-3 my-sm-5">
       <div class="col-3 col-md-3">
         <StatsCard
             :icon="require('~/assets/img/icons/profile/total-sales.svg')"
@@ -159,6 +160,16 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.medal-badge
+  &.mobile
+    box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
+    border-radius: 8px
+
+.row
+  &.mobile
+    .col-3
+      padding-inline: 4px
 
 @media (max-width: 576px)
   .view-details-link

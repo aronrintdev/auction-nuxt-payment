@@ -26,24 +26,7 @@
         :items="topOrders"
         tbody-tr-class="bg-white"
       >
-        <template #cell(order_id)="data">
-          <div class="d-flex align-items-center flex-column w-fit-content" role="button"
-               @click="$router.push(`/orders/${orderId(data.item)}`)">
-            <div class="col-thumb mb-1">
-              <ProductThumb
-                  :src="data.item.listing_item.inventory.product.image"
-                  :product="data.item.listing_item.inventory.product"
-              />
-            </div>
-            <div class="w-fit-content">
-              <h4
-                  class="fw-7 fs-14 font-secondary border-bottom border-primary text-primary mb-0 mx-auto"
-              >
-                #{{ orderId(data.item) }}
-              </h4>
-            </div>
-          </div>
-        </template>
+
         <template #cell(product)="data">
           <div
               class="d-flex align-items-center align-items-sm-baseline justify-content-center flex-sm-column gap-2 tdHeightSm mb-2 mb-sm-0"
@@ -81,10 +64,27 @@
             </div>
           </div>
         </template>
+        <template #cell(order_id)="data">
+          <div :aria-label="$t('vendor_dashboard.order_id')" class="d-flex align-items-center  w-fit-content tdHeight"
+               role="button"
+               @click="$router.push(`/orders/${orderId(data.item)}`)">
+            <div v-if="!isScreenXS" class="col-thumb mb-1">
+              <ProductThumb
+                  :product="data.item.listing_item.inventory.product"
+                  :src="data.item.listing_item.inventory.product.image"
+              />
+            </div>
+            <h4
+                class="fw-7 fs-14 font-secondary border-bottom border-primary text-primary mb-0 mx-auto"
+            >
+              #{{ orderId(data.item) }}
+            </h4>
+          </div>
+        </template>
         <template #cell(date_ordered)="data">
           <div
-            class="d-flex align-items-center justify-content-center tdHeight"
-            :aria-label="$t('vendor_dashboard.date_ordered')"
+              class="d-flex align-items-center justify-content-center tdHeight"
+              :aria-label="$t('vendor_dashboard.date_ordered')"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">
               {{ new Date(data.item.created_at).toLocaleDateString() }}
@@ -114,14 +114,15 @@
               class="d-flex align-items-center justify-content-center tdHeight"
               :aria-label="$t('vendor_dashboard.status')"
           >
-            <h4 class="status-badge-warning text-capitalize">
+            <h4 :class="mobileClass" class="status-badge-warning text-capitalize">
               {{ data.item.status_label }}
             </h4>
           </div>
         </template>
         <template #cell(actions)="data">
           <div
-            class="d-flex align-items-center justify-content-center tdHeight"
+              class="d-flex align-items-center justify-content-center tdHeight"
+              :aria-label="$t('vendor_dashboard.actions')"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0 text-primary text-center">
               {{ $t('vendor_dashboard.fedex') }} <br />
@@ -148,12 +149,24 @@ export default {
       // Active Nav for the Toggle Button
       activeNav: '',
       topOrders: [],
+      statusColors: {
+        'pending': 'orange',
+        'processing': 'orange',
+        'arrived_to_ds': 'green',
+        'send_to_ds': 'purple',
+        'processing_payment': '',
+        'authenticated_and_shipped': '',
+        'delivered': 'black',
+        'cancelled': 'red',
+        'shipped_and_auth': '',
+        'multiple': ''
+      },
       fields: [
         {
           key: 'order_id',
           label: this.$t('vendor_dashboard.order_id'),
           sortable: true,
-          tdClass: 'product-img-cell d-none d-sm-flex',
+          tdClass: 'product-img-cell ',
           thClass: ' body-4-bold',
         },
         {
@@ -234,6 +247,11 @@ export default {
 </script>
 <style lang="sass">
 @import '~/assets/css/_variables'
+.status-badge-warning
+  &.mobile
+    background-color: transparent
+    padding: 0
+
 .mw-300
   max-width: 300px
 

@@ -1,13 +1,15 @@
 <template>
-  <div :class="mobileClass" class="stat-card bg-white br-10mb-2 mb-md-0">
+  <div :class="mobileClass" class="stat-card bg-white br-10 mb-2 mb-md-0">
     <img :src="icon" aria-hidden="true" class="mb-11 d-none d-sm-inline-block"/>
     <h4
         class="body-8-regular mb-0 text-gray-simple font-secondary text-center text-sm-left title d-flex align-items-center align-items-sm-start justify-content-center justify-content-sm-start"
+        :class="mobileClass"
     >
       {{ title }}
     </h4>
     <h3
         class="fw-7 fs-24 mb-0 font-primary text-center text-sm-left figures"
+        :class="mobileClass"
         :style="`--color: ${color}`"
     >
       {{ value }}
@@ -44,6 +46,19 @@ export default {
 @import '~/assets/css/_variables'
 .stat-card
   padding: 15px 36px
+
+  &.mobile
+    box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
+    border-radius: 8px
+    padding: 11px 6px
+
+  h4
+    &.mobile
+      @include body-9-medium
+      font-family: $font-montserrat
+      font-style: normal
+      color: $color-gray-69 !important
+
 
 .mb-11
   margin-bottom: 11px
