@@ -1229,7 +1229,7 @@ export default {
   font-family: 'Montserrat'
   font-style: normal
   font-weight: 600
-  font-size: 16px
+  font-size: 14px
   color: #667799
   background-color: #FFFFFF
   border-radius: 10px
