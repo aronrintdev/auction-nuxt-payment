@@ -7,7 +7,7 @@
     @hidden="$emit('hidden')"
   >
     <div class="confirm-modal-content">
-      <div class="message">
+      <div :style="messageStyle" class="message">
         {{ message }}
       </div>
       <div class="d-flex justify-content-around mt-4 mb-3">
@@ -23,12 +23,9 @@
 </template>
 <script>
 import { Button, Modal } from '~/components/common'
-
 export default {
   name: 'ConfirmModal',
-
   components: { Button, Modal },
-
   props: {
     id: {
       type: String,
@@ -46,14 +43,16 @@ export default {
       type: String,
       default: null,
     },
+    messageStyle: {
+      type: Object,
+      default: () => {}
+    }
   },
-
   methods: {
     handleOkClick() {
       this.$bvModal.hide(this.id)
       this.$emit('confirm')
     },
-
     handleCancelClick() {
       this.$bvModal.hide(this.id)
       this.$emit('cancel')
@@ -63,10 +62,8 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .confirm-modal-content::v-deep
   text-align: center
-
   .message
     @include body-3-regular
     color: $color-black-1

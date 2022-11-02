@@ -239,7 +239,7 @@
           :class="{
             'active-delete-button': selected.length > 0
           }"
-          @click="deleteSelected()"
+          @click="$bvModal.show('confirm-offers-delete')"
         >
           {{ $t('common.delete') }} {{ selected.length > 0 ? `(${selected.length})` : ''}}
         </div>
@@ -265,6 +265,33 @@
       @opened="isFiltersModalOpen = true"
       @submit="submitFiltersModal"
     />
+
+    <ConfirmModal
+      id="confirm-offers-delete"
+      :confirmLabel="$t('common.delete')"
+      :message="$t('common.bulk_delete_warning')"
+      :messageStyle="{
+        fontFamily: 'SF Pro Display',
+        fontWeight: 400,
+        fontSize: '18px',
+        color: '#000',
+        marginTop: '-30px',
+        width: '100%'
+      }"
+      @confirm="deleteSelected()"
+    />
+    <AlertModal
+      id="items-deleted"
+      :message="$t('common.items_deleted')"
+      icon="trash"
+      :messageStyle="{
+        fontFamily: 'SF Pro Display',
+        fontWeight: 400,
+        fontSize: '18px',
+        color: '#000',
+        width: '100%'
+      }"
+    />
   </div>
 </template>
 
@@ -278,6 +305,8 @@ import Pagination from '~/components/common/Pagination';
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar';
 import NavGroup from '~/components/common/NavGroup';
 import OffersFiltersModal from '~/components/modal/OffersFiltersModal.vue';
+import { ConfirmModal, AlertModal } from '~/components/modal'
+
 
 import {
   PAGE,
@@ -311,7 +340,9 @@ export default {
     SearchInput,
     NavGroup,
     SearchBarProductsList,
-    OffersFiltersModal
+    OffersFiltersModal,
+    ConfirmModal,
+    AlertModal
   },
   layout: 'Profile',
   data () {
@@ -430,8 +461,6 @@ export default {
         })
         .then((response) => {
           this.tradeOffers = response.data.data.data
-          console.log('offers', this.tradeOffers);
-
           this.totalOffers = parseInt(response.data.data.total)
         })
         .catch((error) => {
@@ -542,34 +571,29 @@ export default {
     },
 
     selectOffer(value) {
-      console.log('selected', value);
       const foundIndex = this.selected.findIndex(s => s === value)
-      console.log('before', this.selected);
       if (foundIndex !== -1) {
         this.selected.splice(foundIndex, 1)
       } else {
         this.selected.push(value)
       }
-      console.log('after', this.selected);
     },
 
     selectAll() {
       this.action = 'select_all'
       this.selected = this.tradeOffers.reduce((acc, item) => {
-        acc.push(item.id)
+        if (!item.deleted_at) {
+          acc.push(item.id)
+        }
         return acc
       }, [])
     },
 
     deleteSelected() {
       if (this.selected.length < 1) return
-      console.log('deleteSelected', this.selected.join(','));
+      console.log('deleteSelected', `trades/offers/deactivate?offer_ids=${this.selected.join(',')}`);
       this.$axios
-        .post('trades/offers/deactivate', {
-          params: {
-            offer_ids: this.selected.join(',')
-          }
-        })
+        .post(`trades/offers/deactivate?offer_ids=${this.selected.join(',')}`)
         .then((response) => {
           this.action = ''
           this.selected = []

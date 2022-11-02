@@ -39,6 +39,8 @@
     "discard_changes": "Discard Changes",
     "list": "List",
     "footwear": "Footwear",
+    "bulk_delete_warning": "Are you sure you would like to delete selected?",
+    "items_deleted": "Your items have been deleted!",
     "apparel": "Apparel",
     "accessory": "Accessory | Accessories",
     "hat": "Hat | Hats",

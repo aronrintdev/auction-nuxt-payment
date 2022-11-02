@@ -98,7 +98,7 @@
           <div class="offer-time text-left mt-2">
             {{ $t('trades.sent_on')}} {{ offer.created_at | formatDateTimeString }}
           </div>
-          <div v-if="action && selected.find(s => s === offer.id)">
+          <div v-if="action && selected.find(s => s === offer.id) && !offer.deleted_at">
             <div 
               class="circle-full mr-3"
               @click="$emit('select', offer.id)" 
@@ -110,7 +110,7 @@
             </div>
           </div>
           <div
-            v-else-if="action && !selected.find(s => s === s.id)"
+            v-else-if="action && !selected.find(s => s === s.id) && !offer.deleted_at"
             class="circle-blue mr-3"
             @click="$emit('select', offer.id)" 
           >
