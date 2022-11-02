@@ -1,64 +1,160 @@
 <template>
   <div class="d-block">
-    <div v-for="(offer) in offers" :key="'offer-' + offer.id" class="offer-item-trade-container mb-4" :role="(offer.deleted_at === null ? 'button' : '')" @click="showOffer(offer)">
-      <div class="d-flex justify-content-between">
-        <div :id="`flyer-${offer.condition}`">
-          {{$t(offer.condition_translation)}}
-        </div>
-        <div class="pt-3">
-          <div class="offer-id">
-            {{$t('trades.offer_id')}} #{{offer.id}}
+    <div 
+      v-for="(offer) in offers" 
+      :key="'offer-' + offer.id" 
+      class="offer-item-trade-container mb-4 mx-auto" 
+      :role="(offer.deleted_at === null ? 'button' : '')" 
+      @click="showOffer(offer)"
+    >
+      <div class="d-none d-sm-block">
+        <div class="d-flex justify-content-between">
+          <div :id="`flyer-${offer.condition}`">
+            {{$t(offer.condition_translation)}}
           </div>
-          <div class="offer-time">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
+          <div class="pt-3">
+            <div class="offer-id">
+              {{$t('trades.offer_id')}} #{{offer.id}}
+            </div>
+            <div class="offer-time">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
+          </div>
+          <div :class="`offer-${offer.offer_type}`" class="d-flex justify-content-center align-items-center">
+            {{$t(offer.offer_type_translation)}}
+            <img v-if="offer.offer_type === OFFER_SENT" :src="require('~/assets/img/icons/upword-arrow.svg')" class="ml-2">
+            <img v-else-if="offer.offer_type === OFFER_RECEIVED" :src="require('~/assets/img/icons/downword-arrow.svg')" class="ml-2">
+          </div>
         </div>
-        <div :class="`offer-${offer.offer_type}`" class="d-flex justify-content-center align-items-center">
-          {{$t(offer.offer_type_translation)}}
-          <img v-if="offer.offer_type === OFFER_SENT" :src="require('~/assets/img/icons/upword-arrow.svg')" class="ml-2">
-          <img v-else-if="offer.offer_type === OFFER_RECEIVED" :src="require('~/assets/img/icons/downword-arrow.svg')" class="ml-2">
+        <!-- items sections -->
+        <div class="d-flex justify-content-between mt-4">
+          <div class="inner-items-listed ml-auto mr-auto">
+            <div class="inner-heading-listing text-center p-2">
+              {{$t(offer.offer_type_translation)}}
+            </div>
+            <div v-if="offer.latest_offer">
+              <div v-for="(theirItems) in offer.latest_offer.theirs_items" :key="'offer-item-'+ theirItems.id" class="d-flex align-items-center ml-4">
+                <img :src="theirItems.inventory.product | getProductImageUrl" class="inner-item-image">
+                <ul class="inner-item-text">
+                  <li class="pt-3 text-truncate product-name">{{theirItems.inventory.product.name | truncate(30, '...')}}</li>
+                </ul>
+              </div>
+            </div>
+            <div v-else>
+              <div v-for="(theirItems) in offer.theirs_items" :key="'offer-item-'+ theirItems.id" class="d-flex align-items-center ml-4">
+                <img :src="theirItems.inventory.product | getProductImageUrl" class="inner-item-image">
+                <ul class="inner-item-text text-truncate product-name">
+                  <li class="pt-3">{{theirItems.inventory.product.name | truncate(30, '...')}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <img :src="require('~/assets/img/icons/trade-icon.svg')">
+          <div class="inner-items-listed ml-auto mr-auto">
+            <div class="inner-heading-listing text-center p-2">
+              {{$t('trades.your_listed_items')}}
+            </div>
+            <div v-if="offer.latest_offer">
+              <div v-for="(yourItems) in offer.latest_offer.yours_items" :key="'trade-offer-item-'+ yourItems.id" class="d-flex align-items-center ml-4">
+                <img :src="yourItems.inventory.product | getProductImageUrl" class="inner-item-image">
+                <ul class="inner-item-text">
+                  <li class="pt-3 text-truncate product-name">{{yourItems.inventory.product.name | truncate(30, '...')}}</li>
+                </ul>
+              </div>
+            </div>
+            <div v-else>
+              <div v-for="(yourItems) in offer.yours_items" :key="'trade-offer-item-'+ yourItems.id" class="d-flex align-items-center ml-4">
+                <img :src="yourItems.inventory.product | getProductImageUrl" class="inner-item-image">
+                <ul class="inner-item-text">
+                  <li class="pt-3 text-truncate product-name">{{ yourItems.inventory.product.name | truncate(30, '...')}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <!-- items sections -->
-      <div class="d-flex justify-content-between mt-4">
-        <div class="inner-items-listed ml-auto mr-auto">
-          <div class="inner-heading-listing text-center p-2">
-            {{$t(offer.offer_type_translation)}}
+      <div class="mobile-offer d-sm-none">
+        <div class="d-flex justify-content-between">
+          <div 
+            class="offer-id"
+            @click="showOffer(offer)"
+          >
+            {{$t('trades.offer_id')}} #{{offer.id}}
           </div>
-          <div v-if="offer.latest_offer">
-            <div v-for="(theirItems) in offer.latest_offer.theirs_items" :key="'offer-item-'+ theirItems.id" class="d-flex align-items-center ml-4">
-              <img :src="theirItems.inventory.product | getProductImageUrl" class="inner-item-image">
-              <ul class="inner-item-text">
-                <li class="pt-3 text-truncate product-name">{{theirItems.inventory.product.name | truncate(30, '...')}}</li>
-              </ul>
-            </div>
-          </div>
-          <div v-else>
-            <div v-for="(theirItems) in offer.theirs_items" :key="'offer-item-'+ theirItems.id" class="d-flex align-items-center ml-4">
-              <img :src="theirItems.inventory.product | getProductImageUrl" class="inner-item-image">
-              <ul class="inner-item-text text-truncate product-name">
-                <li class="pt-3">{{theirItems.inventory.product.name | truncate(30, '...')}}</li>
-              </ul>
-            </div>
+
+          <div class="d-flex align-items-center">
+            <img 
+              v-if="offer.offer_type === 'sent'" 
+              :src="require('~/assets/img/trades/SentType.svg')" 
+              alt="" 
+            />
+            <img 
+              v-else 
+              :src="require('~/assets/img/trades/ReceivedType.svg')" 
+              alt="" 
+            />
+
+            <div class="ml-1 offer-type">{{ $t(`trades.offer_type.${offer.offer_type}`) }}</div>
           </div>
         </div>
-        <img :src="require('~/assets/img/icons/trade-icon.svg')">
-        <div class="inner-items-listed ml-auto mr-auto">
-          <div class="inner-heading-listing text-center p-2">
-            {{$t('trades.your_listed_items')}}
+        <div class="offer-time text-left mt-2">
+          {{ $t('trades.sent_on')}} {{ offer.created_at | formatDateTimeString }}
+        </div>
+        <div class="mt-2 d-flex justify-content-between">
+          <div class="owner-name">
+            {{ $t('vendor_purchase.theirs') }}
           </div>
-          <div v-if="offer.latest_offer">
-            <div v-for="(yourItems) in offer.latest_offer.yours_items" :key="'trade-offer-item-'+ yourItems.id" class="d-flex align-items-center ml-4">
-              <img :src="yourItems.inventory.product | getProductImageUrl" class="inner-item-image">
-              <ul class="inner-item-text">
-                <li class="pt-3 text-truncate product-name">{{yourItems.inventory.product.name | truncate(30, '...')}}</li>
-              </ul>
+          <div class="owner-name">
+            {{ $t('vendor_purchase.yours') }}
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="col-5 d-flex flex-column justify-content-center">
+            <div 
+              v-for="(theirItems) in offer.theirs_items" 
+              :key="'mobile-offer-item-'+ theirItems.id" 
+              class="px-0 text-left"
+            >
+              <img 
+                width="99" 
+                :src="theirItems.inventory.product | getProductImageUrl" 
+                class="h-auto"
+              >
+              <div class="mobile-product-name">
+                {{ theirItems.inventory.product.name }}
+              </div>
+              <div class="mt-1 mobile-description">
+                <div>
+                  {{ theirItems.inventory.product.colorway | truncate(10, '...') }}, {{ $t('home_page.size') }} {{ theirItems.inventory.size.size }}
+                </div>
+                {{ $t('sell.inventory.box') }}: 
+                {{ theirItems.inventory.packaging_condition.name }}
+              </div>
             </div>
           </div>
-          <div v-else>
-            <div v-for="(yourItems) in offer.yours_items" :key="'trade-offer-item-'+ yourItems.id" class="d-flex align-items-center ml-4">
-              <img :src="yourItems.inventory.product | getProductImageUrl" class="inner-item-image">
-              <ul class="inner-item-text">
-                <li class="pt-3 text-truncate product-name">{{ yourItems.inventory.product.name | truncate(30, '...')}}</li>
-              </ul>
+          <div class="col-2 relative-right-10 d-flex flex-column align-items-center justify-content-center">
+            <div class="trade-icon-text mb-2">{{ $t('common.fair') }}</div>
+            <img width="31" height="31" :src="require('~/assets/img/icons/trade-icon.svg')" />
+          </div>
+          <div class="col-4 px-0 d-flex flex-column justify-content-center">
+            <div 
+              v-for="(yoursItems) in offer.yours_items" 
+              :key="'mobile-offer-item-'+ yoursItems.id" 
+              class="px-0 text-left d-flex flex-column"
+            >
+              <img 
+                width="99" 
+                :src="yoursItems.inventory.product | getProductImageUrl" 
+                class="h-auto mx-auto"
+              >
+              <div class="mobile-product-name">
+                {{ yoursItems.inventory.product.name }}
+              </div>
+              <div class="mt-1 mobile-description">
+                <div>
+                  {{ yoursItems.inventory.product.colorway | truncate(10, '...') }}, {{ $t('home_page.size') }} {{ yoursItems.inventory.size.size }}
+                </div>
+                {{ $t('sell.inventory.box') }}: 
+                {{ yoursItems.inventory.packaging_condition.name }}
+              </div>
             </div>
           </div>
         </div>
@@ -82,7 +178,7 @@ export default {
       required: true,
     }
   },
-  data(){
+  data() {
     return {
       OFFER_SENT,
       OFFER_RECEIVED
@@ -102,11 +198,55 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.relative-right-10
+  position: relative
+  right: 10px
+
+.trade-icon-text
+  @include body-3-bold
+  color: $color-black-1
+  font-family: $font-family-sf-pro-display
+
+.w-77
+  width: 77%
+
+.mobile-description
+  @include body-6-normal
+  line-height: 14px
+  font-family: $font-family-sf-pro-display
+  color: $color-gray-5
+
+.mobile-product-name
+  @include body-6-medium
+  font-family: $font-family-sf-pro-display
+  color: $color-black-1
+
+.owner-name
+  @include body-5-medium
+  color: $color-black-1
+  font-family: $font-family-sf-pro-display
+  background: $color-gray-1
+  width: 99px
+  height: 23px
+  display: flex
+  justify-content: center
+  align-items: center
+
+.offer-type
+  @include body-18
+  color: $color-black-1
+
+.mobile-offer
+  box-shadow: 0px 4px 4px $drop-shadow1
+  padding: 10px 14px 20px 14px
+  border-radius: 6px
+
 .offer-item-trade-container
-  width: 1062px
-  height: 350px
-  box-shadow: 0 1px 4px $drop-shadow1
-  border-radius: 10px
+  @media (min-width: 576px)
+    width: 1062px
+    height: 350px
+    box-shadow: 0 1px 4px $drop-shadow1
+    border-radius: 10px
 
 #flyer-excellent
   width: 145px
@@ -176,16 +316,21 @@ export default {
   border-left: 6px solid transparent
 
 .offer-id
-  font-family: $font-family-sf-pro-display
-  font-style: normal
-  @include body-12-bold
+  @include body-4-bold
   color: $color-blue-1
+  font-family: $font-family-sf-pro-display
+  @media (min-width: 576px)
+    @include body-12-bold
+    font-style: normal
 
 .offer-time
+  @include body-9-normal
+  color: $color-gray-47
   font-family: $font-family-sf-pro-display
-  font-style: normal
-  @include body-13-normal
-  color: $color-gray-64
+  @media (min-width: 576px)
+    @include body-13-normal
+    font-style: normal
+    color: $color-gray-64
 
 .offer-received
   width: 195px

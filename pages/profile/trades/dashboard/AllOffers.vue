@@ -115,17 +115,26 @@
         </b-row>
       </b-col>
     </b-row>
-    <b-row class="pt-57 listings">
-      {{$t('trades.trade_offers',{'0': totalOffers})}}
-    </b-row>
-    <b-row class="justify-content-center mt-3">
-        <NavGroup
-          v-model="offerType"
-          :data="offerTypeFilters"
-          nav-key="type"
-          class="type-nav mt-3 mb-3"
-          @change="handleMethodNavClick"
+    <b-row class="px-2 listings justify-content-between">
+      {{ $t('trades.trade_offers', { '0': totalOffers }) }}
+      <div class="d-flex align-items-center d-sm-none">
+        <img
+          :src="require('~/assets/img/icons/delete-rounded.svg')"
+          :alt="$t('product_page.delete_multiple')"
         />
+        <div class="ml-2 delete-offers">
+          {{ $t('offers_received.delete_offers') }}
+        </div>
+      </div>
+    </b-row>
+    <b-row class="justify-content-center mt-3 d-none d-sm-flex">
+      <NavGroup
+        v-model="offerType"
+        :data="offerTypeFilters"
+        nav-key="type"
+        class="type-nav mt-3 mb-3"
+        @change="handleMethodNavClick"
+      />
     </b-row>
     <b-row v-if="deleteExpired">
       <BulkSelectToolbar
@@ -153,7 +162,7 @@
     </b-row>
     <div class="my-trade-listing-section">
       <div class="row justify-content-center">
-        <div class="text-center">
+        <div class="text-center w-100 px-2">
         <trade-offer-items v-if="tradeOffers.length > 0" :offers="tradeOffers"></trade-offer-items>
         <div v-else>{{(offerType !== ALL_OFFER_TYPE) ? $t('trades.no_trade_offers_have_been') + $t('trades.offer_type.' + offerType) : $t('trades.no_trade_offers_have_been_found')}}</div>
         </div>
@@ -439,8 +448,12 @@ export default {
 </script>
 
 <style scoped lang="sass">
-
 @import '~/assets/css/_variables'
+
+.delete-offers
+  @include body-9-normal
+  font-family: $font-family-sf-pro-display
+  color: $color-gray-47
 
 .heading-dashboard
   font-family: $font-family-montserrat
@@ -478,15 +491,19 @@ export default {
   border-radius: 5px
 
 .listings
-  font-family: $font-family-sf-pro-display
-  font-style: normal
-  @include body-7-bold
+  @include body-17-normal
   color: $color-black-1
+  padding-top: 25px
+  margin-bottom: 24px
+  @media (min-width: 576px)
+    font-family: $font-family-sf-pro-display
+    font-style: normal
+    @include body-7-bold
+    margin-bottom: 0
+    padding-top: 57px
 
 .mt-custom
   margin-top: 32px
 
-.pt-57
-  padding-top: 57px
 </style>
 
