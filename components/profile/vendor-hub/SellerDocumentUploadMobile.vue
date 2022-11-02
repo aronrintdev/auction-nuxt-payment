@@ -65,7 +65,7 @@
           </div>
 
           <div class="mt-3 text-left px-5 mx-1">
-            <SelectedFile v-if="fileForm.file" :file="fileForm.file" :disabled="false"
+            <SelectedFile v-if="fileForm.file" :file="fileForm.file.name" :disabled="false"
                           @delete="fileForm.file = null "></SelectedFile>
             <ValidationProvider
               v-slot="{validate, errors }"

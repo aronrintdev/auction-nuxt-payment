@@ -7,9 +7,9 @@
       <span class="ml-3" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
     </div>
     <!--    Bids Filters    -->
-    <BidsFilters v-else @update="FetchBids"/>
+    <BidsFilters v-else @update="FetchBids(true) "/>
 
-    <div class="d-flex justify-content-between align-items-center mt-4">
+    <div v-if="bidsCount > 0" class="d-flex justify-content-between align-items-center mt-4">
       <h3 class="title">
         <span :class="{ 'body-5-medium' : isMobileSize }">
         {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
@@ -49,12 +49,13 @@
 
 
     <div v-if="bidsCount===0 && !fetchLoading"
-         class="d-flex align-items-center justify-content-center flex-column h-50">
-      <div class="not-found-text"> {{ $t('bids.no_bids') }}</div>
-      <div class="not-found-text mt-2"> {{ $t('bids.place_bid') }}</div>
+         class="d-flex align-items-center justify-content-center flex-column h-50 mt-5">
+      <div :class="isMobileSize ? 'body-5-medium' : 'not-found-text'"> {{ $t('bids.no_bids') }}</div>
+      <div class="mt-2" :class="isMobileSize ? 'body-5-medium' : 'not-found-text'"> {{ $t('bids.place_bid') }}</div>
       <Button
         to="/create-listing"
         class="bg-blue-2 mt-4"
+        :class="{'mobile': isMobileSize}"
         pill
       >
         <span class="px-4"> {{ $t('bids.browse_auction') }}</span>
@@ -301,7 +302,7 @@ export default {
     }
   },
   mounted() {
-    this.FetchBids()
+    this.FetchBids(true)
     if (process.browser) {
       const container = document.getElementById('profile-layout')
       window.onscroll = (ev) => {
@@ -437,8 +438,13 @@ export default {
     /**
      * Fetching bids from the backend and storing them in the store.
      */
-    FetchBids() {
+    FetchBids(isNewRecordCollection = false) {
       if(this.fetchLoading) return
+      /* start new lazy loading collection */
+      if (isNewRecordCollection) {
+        this.page = 1 // lazy loading will start from first page
+        this.bids = [] // new lazy loading record list
+      }
       this.fetchLoading = true
       const payload = {
         ...this.filters,
@@ -535,7 +541,7 @@ export default {
       }
       this.closeMobileFilter()
       await this.$store.commit('profile-bids/setFilters', filterData)
-      this.FetchBids()
+      this.FetchBids(true)
     }
   }
 }
@@ -563,6 +569,9 @@ export default {
 .bg-blue-2.btn.btn-primary
   background-color: $color-blue-2
   border: none
+  &.mobile
+    background-color: $color-blue-20
+    font-weight: 500
 
 :deep()
   .custom-control-input:checked
