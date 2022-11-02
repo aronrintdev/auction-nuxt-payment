@@ -6,7 +6,7 @@
       cols="12"
       class="purchase-card"
     >
-      <PurchaseHistoryCard :purchase="purchase" /> 
+      <PurchaseHistoryCard :purchase="purchase" />
     </b-col>
   </b-row>
 </template>
@@ -101,7 +101,7 @@ export default {
     justify-content: space-evenly
 
 .purchase-card
-  flex: 0 0 100%
+  flex: 0 0 34%
   max-width: 100%
   padding-top: 5px
   padding-bottom: 5px
@@ -119,7 +119,7 @@ export default {
     max-width: 50%
 
   @media (min-width: 1525px)
-    flex: 0 0 50%
+    flex: 0 0 34%
     max-width: 50%
 
   @media (min-width: 1800px)
@@ -129,7 +129,7 @@ export default {
   @media (min-width: 1920px)
     flex: 0 0 33.33%
     max-width: 33.33%
-  
+
   @media (min-width: 2500px)
     flex: 0 0 25%
     max-width: 25%

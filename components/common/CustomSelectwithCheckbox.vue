@@ -96,7 +96,11 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
+.custom-selectbox div.d-flex
+  font-size: 14px !important
+.custom-selectbox .selected span
+  font-weight: normal !important
+  font-size: 14px !important
 .custom-selectbox
   position: relative
   width: 100%
@@ -146,7 +150,7 @@ export default {
       border: 6px solid transparent
       border-color: $color-black-1 transparent transparent transparent
 
-    
+
     @media screen and (max-width: 576px)
       width: 84%
 
