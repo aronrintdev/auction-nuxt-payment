@@ -22,7 +22,7 @@
           <SectionHeader
             :title="$t('auctions.frontpage.recently_viewed')"
             :label="$t('home.view_more_products')"
-            to="/shop/products"
+            to="/shop/products?type=recent"
             full-width
           />
           <ProductCarousel
@@ -36,7 +36,7 @@
           <SectionHeader
             :title="$t('banner.new_release')"
             :label="$t('banner.view_more_release')"
-            to="/shop/products"
+            to="/shop/products?type=new-release"
             full-width
           />
           <ProductCarousel class="mt-4 mb-5" :products="newRelease" loop />
@@ -208,7 +208,6 @@ export default {
       this.getInstantShip(filters)
     },
     getRecentProducts(filters){
-      console.log(this.selectedSort)
       if (this.selectedSort) {
         filters.order_by = this.selectedSort
       }else{
@@ -219,7 +218,7 @@ export default {
           params: filters
         })
         .then((res) => {
-          this.recentProducts = res.data
+          this.recentProducts = res.data.data
         })
         .finally(() => {
           this.loading = false
@@ -236,7 +235,7 @@ export default {
           params: filters
         })
         .then((res) => {
-          this.newRelease = res.data
+          this.newRelease = res.data.data
         })
         .finally(() => {
           this.loading = false
@@ -253,7 +252,7 @@ export default {
           params: filters
         })
         .then((res) => {
-          this.trendingPRoducts = res.data
+          this.trendingPRoducts = res.data.data
         })
         .finally(() => {
           this.loading = false
@@ -270,7 +269,7 @@ export default {
           params: filters
         })
         .then((res) => {
-          this.instantShippingProducts = res.data
+          this.instantShippingProducts = res.data.data
         })
         .finally(() => {
           this.loading = false

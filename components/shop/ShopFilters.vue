@@ -23,7 +23,7 @@
         <div class="col-2">
           <FormDropdown
             id="size-type"
-            :value="sizesType"
+            :value="null"
             :placeholder="$t('trades.trade_arena.size_type')"
             :icon-arrow-down="
               require('~/assets/img/icons/arrow-down-gray2.svg')
@@ -60,7 +60,7 @@
         <div class="col-2">
           <FormDropdown
             id="sizes"
-            :value="sortBy"
+            :value="null"
             :placeholder="$t('product_page.sizes')"
             :items="SORT_OPTIONS"
             :icon-arrow-down="
@@ -513,6 +513,14 @@ export default {
       this.brands = []
       this.prices = []
       this.years = []
+
+      this.$store.commit('browse/setSelectedYears', this.years)
+      this.$store.commit('browse/setSelectedPrices', this.prices)
+      this.$store.commit('browse/setSelectedBrands', this.brands)
+      this.$store.commit('browse/setSelectedSizeTypes', this.sizesType)
+      this.$store.commit('browse/setSelectedSort', 'sale_price')
+      this.$store.commit('browse/setSelectedOrdering', this.sortBy)
+      this.$store.commit('browse/setSelectedSearch', this.search)
     },
     handleSearchChange(value) {
       this.search = value
