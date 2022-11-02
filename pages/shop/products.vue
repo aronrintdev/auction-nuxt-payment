@@ -23,9 +23,9 @@
               </ProductCard>
             </div>
           </div>
-          <div class="below text-center pb-20">
+          <div v-if="products.length !== 0" class="below text-center pb-20">
             <div id="scroll-trigger" ref="infinitescrolltrigger"></div>
-            <div class="text-center"><img src="~/assets/img/loading.gif" width="200" /></div>
+            <div class="text-center"><img src="~/assets/img/loading.gif" width="100" /></div>
           </div>
           <div v-if="products.length == 0" class="no-text py-5 text-center">
             {{ $t('message.no_products_found') }}
@@ -260,8 +260,7 @@ export default {
       padding: 10px 20px 
 .below
   position: relative
-  width: 400px
-  height: 100px
+  height: 200px
   #scroll-trigger
     height: 50px
 @keyframes animate
