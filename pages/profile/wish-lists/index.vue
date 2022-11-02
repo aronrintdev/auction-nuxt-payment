@@ -22,6 +22,20 @@
           <span>({{ totalCount }} items)</span>
         </div>
 
+        <div
+          class="navigation-tabs d-flex align-items-baseline justify-content-center"
+        >
+          <h3
+            v-for="(tab, index) in tabs"
+            :key="index"
+            class="fs-20 fw-6 font-primary cursor-pointer mr-5 mb-0"
+            :class="[activeTab === tab.value ? 'active' : '']"
+            @click="handleTabs(tab.value)"
+          >
+            {{ tab.name }}
+          </h3>
+        </div>
+
         <CheckboxSwitch
           v-if="!!currentWishList"
           :value="currentWishList.privacy === 'public'"
@@ -190,11 +204,9 @@
                   :variant="BUTTON_VARIANTS[index % 4]"
                   @click="moveSelected(list)"
                 >
-                <div
-                  class="text-truncate mw-300px"
-                >
-                  {{ $t('wish_lists.move_to_list', { list: list.name }) }}
-                </div>
+                  <div class="text-truncate mw-300px">
+                    {{ $t('wish_lists.move_to_list', { list: list.name }) }}
+                  </div>
                 </Button>
               </div>
 
@@ -253,6 +265,11 @@ export default {
   data() {
     return {
       category: 'all',
+      activeTab: 'signle-item',
+      tabs: [
+        { name: 'Signle Item', value: 'single-item' },
+        { name: 'Shop by Style', value: 'shop-by-style' },
+      ],
       action: 'none', // 'move' or 'remove'
       CATEGORIES: [
         {
@@ -318,9 +335,14 @@ export default {
       addProductsToWishList: 'wish-list/addProductsToWishList',
     }),
 
+    handleTabs(tab) {
+      console.log(tab)
+      this.activeTab = tab
+    },
+
     handleCreated(wishList) {
-      this.selectWishList(wishList);
-      this.$forceUpdate();
+      this.selectWishList(wishList)
+      this.$forceUpdate()
     },
 
     // Called when user select a wishlist in the lists
@@ -506,9 +528,24 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+@import '~/assets/css/_variables'
 .mw-300px
   max-width: 300px
 
 .mw-800px
   max-width: 800px
+
+.navigation-tabs
+  h3
+    color: $color-gray-47
+    &:hover
+      border-bottom: 1px solid $color-gray-47
+    &.active
+      border-bottom: 1px solid $color-black-1
+      color: $color-black-1
+      &:hover
+        border-bottom: 1px solid $color-black-1
+
+::v-deep .nav-group
+  margin: 0
 </style>
