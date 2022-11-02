@@ -325,6 +325,7 @@
             <!-- ./Input search -->
           </div>
           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
+            
             <FormDropdown
               id="sort-by"
               :value="selectedFilters.sortBy"
@@ -396,9 +397,7 @@
                 <div
                   v-for="size in sizes"
                   :key="`size-${size.type}-${size.id}`"
-                  :class="`col-3 item ${
-                    currentSize === size.id ? 'active' : ''
-                  }`"
+                  :class="`col-3 item ${currentSize === size.id ? 'active' : ''}`"
                 >
                   <div
                     class="card text-left pl-2"
@@ -659,6 +658,14 @@ export default {
       return this.product || {}
     },
   },
+  watch: {
+    selectedFilters: {
+      handler (newV) {
+        this.emitChange(newV)
+      },
+      deep: true
+    }
+  },
   mounted() {
     this.getProductChartData()
   },
@@ -692,13 +699,12 @@ export default {
     },
     // Emit update event to parent component when user select size
     updateSize(sizeId) {
-      this.$emit('update', sizeId)
-      this.$emit('input', sizeId)
+      alert(sizeId)
       this.$nextTick(() => {
         const position = $(
-          '.size-carousel .item[data-size="' + sizeId + '"]'
+          '.size-carousel [data-size="' + sizeId + '"]'
         ).data('position')
-
+        console.log('Carousl Position update',position)
         // Update carousel position to center selected size box and refresh carousel
         this.$refs.sizeCarousel?.goTo(position)
         this.$refs.sizeCarousel?.refresh()
@@ -716,10 +722,10 @@ export default {
       }
     },
     async findListingItem() {
-      if (!this.currentSize || !this.currentCondition) return
+      if (!this.currentSize) return
       const params = {
         size_id: this.currentSize,
-        packaging_condition_id: this.currentCondition,
+        // packaging_condition_id: this.currentCondition,
       }
       this.currentListingItem = await this.$axios
         .get(`/products/${this.product.id}/selling-item`, {
@@ -735,8 +741,7 @@ export default {
       ) {
         this.product.lowest_prices = this.product.lowest_prices.map((i) => {
           if (
-            i.size_id === this.currentSize &&
-            i.packaging_condition_id === this.currentCondition
+            i.size_id === this.currentSize
           ) {
             i.price = this.currentListingItem.inventory.sale_price
           }
@@ -927,6 +932,7 @@ export default {
     },
     // On filter sort by change.
     handleSortBySelect(option) {
+      console.log(option?.value)
       this.selectedFilters = {
         ...this.selectedFilters,
         sortby: option?.value,
