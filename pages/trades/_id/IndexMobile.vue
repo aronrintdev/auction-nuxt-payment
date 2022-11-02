@@ -121,7 +121,7 @@
             </div>
             </div>
             <!-- Buttons Section -->
-            <div class="d-flex justify-content-between mt-3 mb-4  ml-1 mr-1">
+            <div class="d-flex justify-content-between mt-3 mb-4 pb-100  ml-1 mr-1">
               <Button variant="outline-info" pill class="invent-btn" @click="showInventory">Inventory</Button>
               <Button variant="info" pill class="next-btns">Next</Button>
             </div>
@@ -1025,4 +1025,6 @@ export default {
 .invent-btn,.next-btns
   width: 162px
   height: 40px
+.pb-100
+  padding-bottom: 100px
 </style>

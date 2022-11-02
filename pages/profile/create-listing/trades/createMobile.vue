@@ -2,7 +2,7 @@
   <div class="main-container p-2">
     <create-trade-search-item v-if="search_item" :product="search_item" productFor="tradeOffer"/>
     <div v-else>
-      <div v-if="!filterSection" class="d-flex mt-2">
+      <div class="d-flex mt-2">
         <div>
           <SearchInput
             :value="searchText"
@@ -15,15 +15,17 @@
           />
           <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="tradeItem" width="700px" class="position-absolute"/>
         </div>
-        <div @click="filterSection = !filterSection">
+        <div @click="showFilters">
           <img class="ml-3 mt-1" :src="require('~/assets/img/filters.svg')" />
         </div>
       </div>
       <!-- Filters Section -->
-      <div v-if="filterSection">
-        <mobileFilters @click="applyFilters"/>
-      </div>
-      <div v-else>
+        <client-only>
+         <vue-bottom-sheet ref="filterSheet" max-height="90%" :is-full-screen="true" >
+           <trade-arena-filters @change="applyFilters" :orderFilter="true"/>
+         </vue-bottom-sheet>
+        </client-only>
+      <div>
         <div class="d-flex">
           <div class="inventory-heading">
             {{ $t('create_listing.trade.offer_items.available_inventory_mobile', {'0': totalCount}) }}
@@ -70,20 +72,23 @@
                    class="col-md-12 justify-content-center no-found">
               {{ $t('trades.create_listing.vendor.wants.no_products_found-mobile') }}
             </b-row>
-            <b-row class="col-md-12 justify-content-center">
-              <Pagination
-                v-if="inventory_items && inventory_items.length > 0"
-                v-model="page"
-                :total="totalCount"
-                :per-page="perPage"
-                :per-page-options="perPageOptions"
-                class="mt-4"
-                @page-click="handlePageClick"
-                @per-page-change="handlePerPageChange"
-              />
-            </b-row>
+<!--            <b-row class="col-md-12 justify-content-center">-->
+<!--              <Pagination-->
+<!--                v-if="inventory_items && inventory_items.length > 0"-->
+<!--                v-model="page"-->
+<!--                :total="totalCount"-->
+<!--                :per-page="perPage"-->
+<!--                :per-page-options="perPageOptions"-->
+<!--                class="mt-4"-->
+<!--                @page-click="handlePageClick"-->
+<!--                @per-page-change="handlePerPageChange"-->
+<!--              />-->
+<!--            </b-row>-->
           </b-row>
         </div>
+        <infinite-loading :identifier="infiniteId" @infinite="getInventory">
+          <span slot="no-more"></span>
+        </infinite-loading>
         <div v-if="showOffer" class="show-offers">
           <div class="row create-trade-drag-drop-item-mobile justify-content-center text-center position-relative"
                @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
@@ -162,24 +167,21 @@
 </template>
 <script>
 import {mapActions, mapGetters} from 'vuex'
-import debounce from 'lodash.debounce';
 import SearchInput from '~/components/common/SearchInput';
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBoxMobile.vue'
-import mobileFilters from '~/pages/profile/create-listing/trades/filtersMobile'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED, PRODUCT_FALLBACK_URL} from '~/static/constants';
 import {TAKE_SEARCHED_PRODUCTS} from '~/static/constants/trades';
 
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItemMobile';
-import {Pagination} from '~/components/common'
+import TradeArenaFilters from '~/components/trade/TradeArenaFilters';
 
 export default {
   name: 'CreateMobile',
   components: {
+    TradeArenaFilters,
     SearchInput,
     SearchedProductsBelowSearchTextBox,
     CreateTradeSearchItem,
-    Pagination,
-    mobileFilters,
   },
   layout: 'Profile', // Layout
   middleware: 'auth',
@@ -224,7 +226,9 @@ export default {
       itemListingId: 0,
       alreadyListedItemDetails: {},
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
-      showOffer: false
+      showOffer: false,
+      infiniteId: +new Date(),
+      url: '/vendor/inventory'
     }
   },
   computed: {
@@ -261,7 +265,6 @@ export default {
       this.searchedItems = []
     })
     this.fetchFilters();
-    this.getInventory();
 
     // Emit listener to emtpy search items
     this.$root.$on('click_outside', () => {
@@ -272,15 +275,21 @@ export default {
     })
   },
   methods: {
+    showFilters(){
+      this.$refs.filterSheet.open();
+    },
     closeFiltersSection() {
       this.filterSection = false
     },
-    applyFilters(data){
-      this.orderFilter = data.orderFilter ? data.orderFilter : null
-      this.categoryFilter = data.category ? data.category : null
-      this.sizeTypesFilter = data.sizeType ? data.sizeType : null
-      this.sizeFilter = data.sizes ? data.sizes: null
-      this.getInventory()
+    applyFilters(filters){
+      this.orderFilter = filters.sortby
+      this.categoryFilter =  filters?.categories?.join(',')
+      this.sizeTypesFilter = filters?.sizeTypes
+      this.sizeFilter = filters?.sizes
+      this.page = 1;
+      this.inventory_items = []
+      this.infiniteId += 1;
+      this.$refs.filterSheet.close();
     },
     /**
      * This function is used to check  if item
@@ -422,7 +431,6 @@ export default {
       this.orderFilter = selectedOrder
       const orderFilteredKey = this.generalListItemsCustomFilter.find(item => item.value === this.orderFilter)
       this.orderFilterLabel = this.capitalizeFirstLetter(orderFilteredKey.text)
-      this.getInventory();
     },
 
     /****
@@ -508,31 +516,38 @@ export default {
     /**
      * This function is used to get user listing of inventory
      */
-    getInventory: debounce(function (filters = {}) {
+    getInventory($state,filters = {}) {
+      const that = this
+      console.log(this.orderFilter)
       filters.sort_by = this.orderFilter // sorting filter
       filters.category = this.categoryFilter // category type filter
       filters.sizes = this.sizeFilter.join(',') // size filter
       filters.size_types = this.sizeTypesFilter.join(',') // size type filter
       this.$axios
-        .get('/vendor/inventory', {
+        .get(this.url, {
           params: {
             search: '',   // for search query
             page: this.page, // no of page to change
             per_page: this.perPage, // no of records to show on per page
             ...filters
-          },
+          }
         })
         .then((response) => {  // list of vendor inventory
-          this.inventory_items = response.data.data
-          this.totalCount = parseInt(response.data.total)
-          this.perPage = parseInt(response.data.per_page)
-          this.filterSection = false
+          const res = response?.data
+          if (!res.next_page_url) {
+            $state.complete()
+          }else {
+            that.page += 1;
+            that.inventory_items.push(...res.data);
+            that.filterSection = false
+            $state.loaded()
+          }
         })
         .catch((error) => {
           this.$toasted.error(this.$t(error.response.data.error))
           this.searchedItems = []
         })
-    }, 500),
+    },
 
     /**
      * This function is used to get product and show in
@@ -579,30 +594,6 @@ export default {
       this.$nextTick(() => this.$forceUpdate())
     },
 
-    /**
-     * This function is used to change pagination page no
-     * and get record again for that page
-     * @param bvEvent
-     * @param page
-     */
-    handlePageClick(bvEvent, page) {
-      if (this.page !== page) {
-        this.page = page
-        this.getInventory()
-      }
-    },
-
-    /**
-     * This function is used for change no records showing on per page
-     * @param value
-     */
-    handlePerPageChange(value) {
-      if (this.perPage !== value) {
-        this.perPage = value
-        this.page = 1
-        this.getInventory()
-      }
-    },
 
     /**
      * This function is used to clear all selected filters
@@ -617,7 +608,6 @@ export default {
       this.sizeFilterLabel = this.$t('trades.create_listing.vendor.wants.size')
       this.orderFilterLabel = this.$t('trades.create_listing.vendor.wants.sort_by')
       this.$nextTick(() => {
-        this.getInventory()
       })
     },
   }

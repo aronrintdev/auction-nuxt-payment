@@ -32,7 +32,7 @@
           @change="changeTotalTradeItems"
         />
       </div>
-      <div v-if="selectedItems === 'wants_inventory'">
+      <div v-show="selectedItems === 'wants_inventory'">
         <b-row>
           <b-col v-for="item in generalListItems" :key="item.id"  cols="6 mb-4">
             <div  class="create-trade-item-mobile position-relative" :draggable="true"
@@ -73,20 +73,8 @@
         <b-row v-if="!generalListItems || generalListItems.length === 0" class="col-md-12 justify-content-center">
           {{$t('create_listing.trade.no_item_found')}}
         </b-row>
-        <b-row class="col-md-12 justify-content-center mt-4 mb-3">
-          <Pagination
-            v-if="generalListItems && generalListItems.length > 0"
-            v-model="page"
-            :total="totalCount"
-            :per-page="perPage"
-            :per-page-options="perPageOptions"
-            class="mt-2"
-            @page-click="handlePageClick"
-            @per-page-change="handlePerPageChange"
-          />
-        </b-row>
       </div>
-      <div v-if="selectedItems === 'wants_combinations'">
+      <div v-show="selectedItems === 'wants_combinations'">
         <b-row class="d-inline">
           <b-col v-for="(combination, combinationIndex) in combinationItems" :key="combination.combination_id" cols="6" class="mb-4">
             <div class="combination-div-mobile" :draggable="true"
@@ -235,6 +223,12 @@
             <img :src="require('~/assets/img/trades/updown.svg')" role="button" class="position-absolute up-down-arrow" @click="showOffer = !showOffer">
           </div>
         </div>
+        <infinite-loading :identifier="infiniteId" @infinite="getGeneralListItems">
+          <span slot="no-more"></span>
+        </infinite-loading>
+        <infinite-loading :identifier="infiniteIdComb" @infinite="getCombinations">
+          <span slot="no-more"></span>
+        </infinite-loading>
         <div class="d-flex justify-content-center">
           <b-btn class="create-trade-next-btn" :disabled="!getTradeItemsWants.length"
                  @click="$router.push('/profile/create-listing/trades/confirmation')">
@@ -345,8 +339,13 @@ export default {
         { label: this.$t('trades.create_listing.vendor.wants.wants_combinations'), value: 'wants_combinations' },
       ],
       selectedItems: 'wants_inventory',
-      showOffer: false
-    }
+      showOffer: false,
+      wantUrl: 'vendor/want-items',
+      combUrl: 'vendor/want-items',
+      infiniteId: +new Date(),
+      infiniteIdComb: +new Date()
+
+  }
   },
   // get current language
   computed: {
@@ -381,8 +380,6 @@ export default {
     })
 
     this.fetchFilters()
-    this.getGeneralListItems()
-    this.getCombinations()
 
     // Emit listener to emtpy search items
     this.$root.$on('click_outside', () => {
@@ -600,7 +597,6 @@ export default {
       this.sizeFilterLabel = this.$t('trades.create_listing.vendor.wants.size')
       this.orderFilterLabel = this.$t('trades.create_listing.vendor.wants.sort_by')
       this.$nextTick(() => {
-        this.getGeneralListItems()
       })
     },
 
@@ -621,12 +617,11 @@ export default {
      * This function is used to get combination items listing
      * from api
      */
-    getCombinations: debounce(function () {
+    getCombinations: debounce(function ($state) {
       // api url
-      const url = 'vendor/want-items'
       // Do the api call
       this.$axios
-        .get(url, {
+        .get(this.combUrl, {
           params: {
             type: 'combinations',  // Type param for get req
             page: this.pageCombination, // page no param for req
@@ -636,12 +631,21 @@ export default {
         })
         .then((response) => { // response will get combination data for want items
           const _self = this
-          this.combinationItems = response.data.data && response.data.data.data
+          const res = response?.data?.data
+          if (!res.next_page_url) {
+            $state.complete()
+          }
+          _self.url = res?.next_page_url
+          if (res?.current_page === 1) {
+            _self.combinationItems = [...res.data]
+          } else {
+            _self.combinationItems = [..._self.combinationItems, ...res?.data]
+          }
+          $state.loaded()
           this.totalCountCombination = parseInt(response.data.data.total)
           this.combinationItems.forEach(function(combination, index) {
             _self.combinationItems[index].selectedItemIndex = (_self.totalCountCombination > 0) ? 0 : null
           });
-          this.perPageCombination = parseInt(response.data.data.per_page)
         })
         .catch((err) => {
           this.$toasted.error(this.$t(err.response.data.error))
@@ -651,12 +655,12 @@ export default {
     /**
      * This function is used to get list of general want items
      */
-    getGeneralListItems: debounce(function () {
+    getGeneralListItems: debounce(function ($state) {
       // api url
-      const url = 'vendor/want-items'
       // Do the api call
+      const that = this
       this.$axios
-        .get(url, {
+        .get(this.wantUrl, {
           params: {
             type: 'general_items', // Type param for get req
             page: this.page, // page no param for req
@@ -669,8 +673,17 @@ export default {
         })
         .then((response) => { // response will get general wants items
           this.generalListItems = response.data.data && response.data.data.data
-          this.totalCount = parseInt(response.data.data.total)
-          this.perPage = parseInt(response.data.data.per_page)
+          const res = response.data?.data
+          if (!res.next_page_url) {
+            $state.complete()
+          }
+          that.url = res?.next_page_url
+          if (res?.current_page === 1) {
+            that.generalListItems = [...res.data]
+          } else {
+            that.generalListItems = [...that.generalListItems, ...res?.data]
+          }
+          $state.loaded()
         })
         .catch((err) => {
           this.$toasted.error(this.$t(err.response.data.error))
@@ -688,7 +701,6 @@ export default {
       this.orderFilter = selectedOrder
       const orderFilteredKey = this.generalListItemsCustomFilter.find(item => item.value === this.orderFilter)
       this.orderFilterLabel = this.capitalizeFirstLetter(orderFilteredKey.text)
-      this.getGeneralListItems();
     },
 
     /****
@@ -792,7 +804,6 @@ export default {
       this.orderFilterCombination = selectedOrder
       const orderFilteredKey = this.combinationCustomFilter.find(item => item.value === this.orderFilterCombination)
       this.orderFilterLabelCombination = (orderFilteredKey.text) ? this.capitalizeFirstLetter(orderFilteredKey.text) : this.orderFilterLabelCombination
-      this.getCombinations()
     },
 
     /**
@@ -819,7 +830,6 @@ export default {
     handlePageClick(bvEvent, page) {
       if (this.page !== page) {
         this.page = page
-        this.getGeneralListItems()
       }
     },
 
@@ -831,7 +841,6 @@ export default {
       if (this.perPage !== value) {
         this.perPage = value
         this.page = 1
-        this.getGeneralListItems()
       }
     },
 
@@ -844,7 +853,6 @@ export default {
     handlePageClickCombination(bvEvent, page) {
       if (this.pageCombination !== page) {
         this.pageCombination = page
-        this.getCombinations()
       }
     },
 
@@ -858,7 +866,6 @@ export default {
       if (this.perPageCombination !== value) {
         this.perPageCombination = value
         this.pageCombination = 1
-        this.getCombinations()
       }
     },
   },
