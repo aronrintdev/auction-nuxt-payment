@@ -12,7 +12,7 @@
         </b-col>
         <b-col cols="6" sm="6" class="product-details pr-0">
           <div class="body-10-medium">
-            <ThreeDotMenuSVG class="float-right" @click="$emit('item-options-clicked')" />
+            <ThreeDotMenuSVG v-if="productOptions" class="float-right" @click="$emit('item-options-clicked')" />
             <span>{{ name }}</span>
           </div>
           <div class="body-9-normal text-gray-5 text-uppercase">
@@ -29,7 +29,7 @@
             <span>{{ $t('shopping_cart.price') }}&colon;&nbsp;{{ total | toCurrency }}</span>
           </div>
 
-          <b-button-group id="quantity-controls" size="sm">
+          <b-button-group v-if="quantityControls" id="quantity-controls" size="sm">
             <b-button class="d-flex align-items-center justify-content-center text-black bg-white" @click="decrementQuantity(product)">
               <span class="body-3-bold">&minus;</span>
             </b-button>
@@ -60,6 +60,14 @@ export default {
       default: () => {
         return {}
       },
+    },
+    quantityControls: {
+      type: Boolean,
+      default: false,
+    },
+    productOptions: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

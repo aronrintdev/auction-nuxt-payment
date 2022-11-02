@@ -55,8 +55,8 @@
       <!-- Outbid Type -->
       <div v-show="filterVisibility" class="collapses flex-column w-100">
         <CollapseSelector
-          :multiSelect="false"
           v-model="filters.activeOnOffBidFilters"
+          :multiSelect="false"
           collapseKey="outbid_type"
           :title="$t('bids.auto_bid_on_off')"
           :options="OUTBID_TYPES"
