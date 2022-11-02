@@ -1,8 +1,14 @@
 <template>
   <b-row>
-    <ItemsList />
+    <!-- Checkout selling normal version (md, lg & xl) -->
+    <ItemsList v-if="! isResponsive" />
 
-    <ShoppingCartOrder class="order-summary" />
+    <ShoppingCartOrder v-if="! isResponsive" class="order-summary" />
+    <!-- End of Checkout selling normal version (md, lg & xl) -->
+
+    <!-- Checkout selling mobile version (xs & sm) -->
+    <ShoppingBag v-else />
+    <!-- End of Checkout selling mobile version (xs & sm) -->
   </b-row>
 </template>
 
@@ -10,15 +16,24 @@
 import { mapActions } from 'vuex'
 import ItemsList from '~/components/checkout/selling/ItemsList'
 import ShoppingCartOrder from '~/components/checkout/selling/ShoppingCartOrder'
-import { GOOGLE_MAPS_BASE_URL, RISKIFIED_DOMAIN, RISKIFIED_SHOP_DOMAIN } from '~/static/constants/environments';
+import ShoppingBag from '~/components/checkout/selling/mobile/ShoppingBag'
+import { GOOGLE_MAPS_BASE_URL, RISKIFIED_DOMAIN, RISKIFIED_SHOP_DOMAIN } from '~/static/constants/environments'
+import screenSize from '~/plugins/mixins/screenSize'
+import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 
 export default {
   name: 'Index',
-  components: { ItemsList, ShoppingCartOrder },
+  components: { ItemsList, ShoppingCartOrder, ShoppingBag },
+  mixins: [ screenSize ],
   layout: 'IndexLayout',
   head() {
     return {
       title: this.$t('shopping_cart.checkout_selling'),
+    }
+  },
+  computed: {
+    isResponsive(vm) {
+      return vm.isScreenXS || vm.isScreenSM
     }
   },
   beforeMount() {
@@ -27,6 +42,9 @@ export default {
       this.getUserRedeemedReward()
       this.getOrderSettings()
     }
+    enquireScreenSizeHandler((type) => {
+      this.$store.commit('size/setScreenType', type)
+    })
   },
   mounted() {
     this.injectRiskifiedBeacon()

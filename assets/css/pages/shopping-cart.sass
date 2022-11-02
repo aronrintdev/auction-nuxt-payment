@@ -79,6 +79,14 @@ div.custom-form-element
     cursor: pointer
     filter: grayscale(1)
 
+  @media (max-width: 576px)
+    height: 79px
+    object-fit: cover
+    width: 134px
+    &:hover
+      cursor: pointer
+      filter: grayscale(1)
+
 /* Shopping cart list item action links & title back button styles */
 .btn
   &.btn-link
@@ -110,7 +118,7 @@ div.custom-form-element
 div
   .btn
     &.btn-confirm
-      background: $color-blue-2
+      background: $color-blue-20
       color: $color-white-1
       font-weight: $medium
       padding: 8px 8px
@@ -144,53 +152,10 @@ div
 .text-decoration-underline
   text-decoration: underline
 
-/* Custom typography styles */
-.body-3-regular
-  @include body-3-regular
-.body-5-regular
-  @include body-5-regular
-
-.body-3-normal
-  @include body-3-normal
-
-.body-4-normal
-  @include body-4-normal
-
-.body-5-normal
-  @include body-5-normal
-
-.heading-1-medium
-  @include heading-1-medium
-
-.body-2-medium
-  @include body-2-medium
-
-.body-4-medium
-  @include body-4-medium
-
-.heading-1-bold
-  @include heading-1-bold
-
-.heading-2-bold
-  @include heading-2-bold
-
-.body-2-bold
-  @include body-2-bold
-
-.body-3-bold
-  @include body-3-bold
-
-.body-4-bold
-  @include body-4-bold
-
-.body-5-bold
-  @include body-5-bold
-
-/* Color variants used inside bootstrap-vue elements (Do not edit) */
-.text-color-blue-2
-  color: $color-blue-2
-
 /* Custom text color styles */
+.text-gray-5
+  color: $color-gray-5
+
 .text-gray-6
   color: $color-gray-6
 
@@ -200,5 +165,27 @@ div
 .text-gray-25
   color: $color-gray-25
 
+.text-blue-2
+  color: $color-blue-2
+
+.text-blue-20
+  color: $color-blue-20
+
+.text-red-3
+  color: $color-red-3
+
 .text-red-6
   color: $color-red-6
+
+.text-blue-30
+  color: $color-blue-30
+
+.text-green-29
+  color: $color-green-29
+
+/* Custom background color styles */
+.bg-white-4
+  background: $color-white-4
+
+.bg-white-5
+  background: $color-white-5

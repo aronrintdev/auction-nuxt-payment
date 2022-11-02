@@ -69,7 +69,6 @@ export const AuctionSizes = [
 ];
 
 export const MIN_BID_PRICE = 50;
-export const RESERVE_PRICE_FEE = 0.0799;
 export const SELLER_FEE = 9.5;
 export const TRANSACTION_FEE = 2.9;
 export const AUCTIONS_PER_PAGE_OPTIONS = [4, 8, 16, 32, 48];

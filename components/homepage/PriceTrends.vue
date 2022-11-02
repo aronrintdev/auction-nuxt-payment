@@ -23,7 +23,9 @@
       class="text-center"
       @change="handleCategoryChange"
     />
-    <ProductTrendTable />
+    <client-only>
+      <ProductTrendTable />
+    </client-only>
   </div>
 </template>
 <script>

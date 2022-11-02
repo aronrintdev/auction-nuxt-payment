@@ -131,7 +131,7 @@
             </div>
             <div class="d-flex align-items-center justify-content-between px-3 background-gray py-2">
               <div class="label">{{ $t('create_listing.details.table_columns.starting_bid') }}:</div>
-              <div class="value">{{ item.start_bid_price }}</div>
+              <div class="value">${{ item.start_bid_price }}</div>
             </div>
           </div>
         </div>
@@ -290,6 +290,7 @@ export default {
     ...mapActions({
       auctionCreate: 'create-listing/auctionCreate',
       saveDraft: 'create-listing/saveDraft',
+      setAuctionItems: 'create-listing/setAuctionItemsAction',
     }),
     postAuctions() {
       this.processing = true
@@ -297,29 +298,27 @@ export default {
           product_id: item.product.id,
           size_id: item.size_id,
           packaging_condition_id: item.packaging_condition_id,
-          sale_price: item.product.retail_price,
-          stock: 1,
+          sale_price: item.product.retail_price < 5001 ? 5001 : item.product.retail_price,
+          stock: item.quantity,
           color_id: item.color_id,
         })
       )).then(values => {
-          return this.auctionItems.map((item, idx) => {
-            return this.auctionCreate({
-              ...item,
-              items: [{ inventory_id: values[idx].data.id, quantity: 1 }],
-              type: 'single',
-              reserve_price: item.reserve_price ? item.reserve_price * 100 : null,
-              scheduled_date: new Date(item.scheduled_date).toISOString().slice(0, 19).replace('T', ' '),
-            })
-          })
-        }).then(res => {
-          this.processing = false
-          this.$bvModal.show('post-auctions-success-modal')
-          setTimeout(() => {
-            // Redirect to auctions page
-            this.$bvModal.hide('post-auctions-success-modal')
-            this.$router.push('/auctions')
-            this.$store.commit('create-listing/setNonInventoryAuctionItems', [])
-          }, 3000)
+          const auctions = this.auctionItems.map((item, idx) => ({
+            ...item,
+            items: [{ inventory_id: values[idx].data.id, quantity: 1 }],
+            item: {
+              inventory_id: values[idx].data.id,
+              product: item.product,
+              packaging_condition: item.packaging_condition,
+              size: item.size,
+              quantity: 1
+            },
+            type: 'single',
+            reserve_price: item.reserve_price ? item.reserve_price * 100 : null,
+            scheduled_date: new Date(item.scheduled_date).toISOString().slice(0, 19).replace('T', ' '),
+          }))
+          this.setAuctionItems(auctions)
+          this.$router.push('/create-listing/details')
         }).catch(err=> {
           this.$toasted.error(err.message)
           this.processing = false
@@ -332,8 +331,8 @@ export default {
           product_id: item.product.id,
           size_id: item.size_id,
           packaging_condition_id: item.packaging_condition_id,
-          sale_price: item.product.retail_price,
-          stock: 1,
+          sale_price: item.product.retail_price < 5001 ? 5001 : item.product.retail_price,
+          stock: item.quantity,
           color_id: item.color_id,
         })
       )).then(values => {

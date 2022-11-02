@@ -216,6 +216,12 @@ export default {
         this.$router.push('/profile/trades/dashboard/' + offer.id)
       }
       return false
+    },
+    showOfferId(val){
+      if(val?.latest_offer !== null){
+        return val.latest_offer.id
+      }
+      else{ return val.id}
     }
   }
 }

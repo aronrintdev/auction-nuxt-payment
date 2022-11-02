@@ -1,11 +1,10 @@
 <template>
   <div>
     <!--      End Header Search and Filter   -->
-    <b-row class="mt-4">
+    <b-row class="mt-md-4 align-items-md-end">
       <b-col md="12" lg="7">
-        <span class="header-title">&nbsp;</span>
         <b-row>
-          <b-col md="12" lg="12" class="mt-2">
+          <b-col md="12" lg="12" class="mt-md-2">
             <div class="d-flex align-items-center">
               <SearchInput
                 :value="filters.search"
@@ -84,91 +83,93 @@
       </b-col>
     </b-row>
 
-    <vue-bottom-sheet ref="ordersFilter" max-height="90%" :is-full-screen="true">
-      <div class="d-flex flex-column justify-content-between h-100">
-        <div>
-          <div class="filter-title text-center pb-1">{{ $t('orders.filter_by') }}</div>
-          <div class="p-3 bottom-sheet-content">
-            <div>
-              <b-form-group v-slot="{ ariaDescribedby }" :label="$t('orders.sort')">
-                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="A">
-                  {{ $t('orders.date_ordered') }}: {{ $t('orders.recent_to_oldest') }}
-                </b-form-radio>
-                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
-                  {{ $t('orders.date_ordered') }}: {{ $t('orders.oldest_to_recent') }}
-                </b-form-radio>
-                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
-                  {{ $t('orders.product_name') }}: {{ $t('orders.a_to_z') }}
-                </b-form-radio>
-                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
-                  {{ $t('orders.product_name') }}: {{ $t('orders.z_to_a') }}
-                </b-form-radio>
-                <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
-                  {{ $t('orders.vendor_payout') }}: {{ $t('orders.lowest_to_highest') }}
-                </b-form-radio>
-              </b-form-group>
-            </div>
-            <div class="border-top py-1">
-              <collapsible-box :title="$t('orders.type').toString()" :second-title="selectedTypesString">
-                <div class="row my-2">
-                  <div v-for="type in orderTypes" :key="type.key" class="col-4 my-1 filter-boxes">
-                    <div
-                      :class="`border p-1 cursor-pointer h-100 d-flex align-items-center ${selectedFilterStyle(type, filters.activeTypeFilters)}`"
-                      @click="selectFilter(type, filters.activeTypeFilters, 'activeTypeFilters')">
-                      <div class="text-center w-100 filter-text">{{ type.text }}</div>
+    <div class="d-block d-md-none">
+      <vue-bottom-sheet ref="ordersFilter" max-height="90%" :is-full-screen="true">
+        <div class="d-flex flex-column justify-content-between h-100">
+          <div>
+            <div class="filter-title text-center pb-1">{{ $t('orders.filter_by') }}</div>
+            <div class="p-3 bottom-sheet-content">
+              <div>
+                <b-form-group v-slot="{ ariaDescribedby }" :label="$t('orders.sort')">
+                  <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="A">
+                    {{ $t('orders.date_ordered') }}: {{ $t('orders.recent_to_oldest') }}
+                  </b-form-radio>
+                  <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
+                    {{ $t('orders.date_ordered') }}: {{ $t('orders.oldest_to_recent') }}
+                  </b-form-radio>
+                  <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
+                    {{ $t('orders.product_name') }}: {{ $t('orders.a_to_z') }}
+                  </b-form-radio>
+                  <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
+                    {{ $t('orders.product_name') }}: {{ $t('orders.z_to_a') }}
+                  </b-form-radio>
+                  <b-form-radio :aria-describedby="ariaDescribedby" name="some-radios" value="B">
+                    {{ $t('orders.vendor_payout') }}: {{ $t('orders.lowest_to_highest') }}
+                  </b-form-radio>
+                </b-form-group>
+              </div>
+              <div class="border-top py-2">
+                <collapsible-box :title="$t('orders.type').toString()" :second-title="selectedTypesString">
+                  <div class="row my-2">
+                    <div v-for="type in orderTypes" :key="type.key" class="col-4 my-1 filter-boxes">
+                      <div
+                        :class="`border p-1 cursor-pointer h-100 d-flex align-items-center ${selectedFilterStyle(type, filters.activeTypeFilters)}`"
+                        @click="selectFilter(type, filters.activeTypeFilters, 'activeTypeFilters')">
+                        <div class="text-center w-100 filter-text">{{ type.text }}</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </collapsible-box>
-            </div>
-            <div class="border-top py-1">
-              <collapsible-box :title="$t('orders.status').toString()" :second-title="selectedStatusString">
-                <div class="row my-2">
-                  <div v-for="status in orderStatuses" :key="status.key" class="col-4 my-1 filter-boxes">
-                    <div
-                      :class="`border p-1 cursor-pointer h-100 d-flex align-items-center ${selectedFilterStyle(status, filters.activeStatusFilters)}`"
-                      @click="selectFilter(status, filters.activeStatusFilters, 'activeStatusFilters')">
-                      <div class="text-center w-100 filter-text">{{ status.text }}</div>
+                </collapsible-box>
+              </div>
+              <div class="border-top py-2">
+                <collapsible-box :title="$t('orders.status').toString()" :second-title="selectedStatusString">
+                  <div class="row my-2">
+                    <div v-for="status in orderStatuses" :key="status.key" class="col-4 my-1 filter-boxes">
+                      <div
+                        :class="`border p-1 cursor-pointer h-100 d-flex align-items-center ${selectedFilterStyle(status, filters.activeStatusFilters)}`"
+                        @click="selectFilter(status, filters.activeStatusFilters, 'activeStatusFilters')">
+                        <div class="text-center w-100 filter-text">{{ status.text }}</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </collapsible-box>
+                </collapsible-box>
+              </div>
+              <div class="border-top py-2">
+                <collapsible-box :title="$t('orders.date_ordered').toString()" :second-title="selectedDateString">
+                  <div class="row">
+                    <div class="col mt-2">
+                      <CalendarInput
+                        class="mr-4"
+                        :value="filters.start_date"
+                        :placeholder="$t('bids.start_date').toString()"
+                        @context="(context) => filters.start_date = context.selectedYMD"
+                      ></CalendarInput>
+                    </div>
+                    <div class="col mt-2">
+                      <CalendarInput
+                        class="mr-4"
+                        :value="filters.end_date"
+                        :placeholder="$t('bids.end_date').toString()"
+                        @context="(context) => filters.end_date = context.selectedYMD"
+                      ></CalendarInput>
+                    </div>
+                  </div>
+                </collapsible-box>
+              </div>
             </div>
-            <div class="border-top py-1">
-              <collapsible-box :title="$t('orders.date_ordered').toString()" :second-title="selectedDateString">
-                <div class="row">
-                  <div class="col mt-2">
-                    <CalendarInput
-                      class="mr-4"
-                      :value="filters.start_date"
-                      :placeholder="$t('bids.start_date').toString()"
-                      @context="(context) => filters.start_date = context.selectedYMD"
-                    ></CalendarInput>
-                  </div>
-                  <div class="col mt-2">
-                    <CalendarInput
-                      class="mr-4"
-                      :value="filters.end_date"
-                      :placeholder="$t('bids.end_date').toString()"
-                      @context="(context) => filters.end_date = context.selectedYMD"
-                    ></CalendarInput>
-                  </div>
-                </div>
-              </collapsible-box>
+          </div>
+          <div class="p-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <button class="btn-bottom-sheet reset" @click="clearFilters">{{ $t('orders.reset') }}</button>
+              <button class="btn btn-bottom-sheet apply-filter" @click="applyFilter">{{
+                  $t('orders.apply_filter')
+                }}
+              </button>
             </div>
           </div>
         </div>
-        <div class="p-3">
-          <div class="d-flex justify-content-between align-items-center">
-            <button class="btn-bottom-sheet reset" @click="clearFilters">{{ $t('orders.reset') }}</button>
-            <button class="btn btn-bottom-sheet apply-filter" @click="applyFilter">{{
-                $t('orders.apply_filter')
-              }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </vue-bottom-sheet>
+      </vue-bottom-sheet>
+    </div>
   </div>
 </template>
 
@@ -413,5 +414,14 @@ export default {
 ::v-deep .search .search-input.form-control
   font-family: $font-montserrat
   @include body-9
+
+@media (max-width: 992px)
+  ::v-deep .search
+    border: none
+
+  ::v-deep .search-input-wrapper.search-md input.search-input
+    font-size: 12px
+    background: #F7F7F7
+    border-radius: 8px
 
 </style>

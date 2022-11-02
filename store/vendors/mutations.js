@@ -71,3 +71,7 @@ export function setTotalCommission(state, val) {
 export function setTotalCommissionPaid(state, val) {
   state.totalCommissionPaid = val
 }
+
+export function setQueryString(state, val) {
+  state.queryString = val
+}

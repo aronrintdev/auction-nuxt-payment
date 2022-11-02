@@ -47,29 +47,24 @@ export default {
 
   created() {
     // Set the item values
-    const {
-      sizeId,
-      quantity,
-      price,
-      packagingConditionId,
-      minOfferAmount,
-      color,
-    } = this.draftDetail
-
-    this.form = {
-      currentSize: sizeId,
-      quantity,
-      price: price / 100,
-      boxCondition: packagingConditionId,
-      minOfferAmount:
-        this.$route.query.path === 'from-inventory'
-          ? minOfferAmount
-          : minOfferAmount / 100,
-      color: color || null,
-    }
-    // If adding listing from inventory
-    if (this.$route.query.path === 'from-inventory') {
-      this.form.inventory_id = this.draftDetail.inventory_id
+    const data = this.getDraftItem(this.$route.params.id)
+    if (data) {
+      this.form = {
+        currentSize: data.sizeId,
+        quantity: data.quantity,
+        price: data.price / 100,
+        boxCondition: data.packagingConditionId,
+        minOfferAmount:
+          this.$route.query.path === 'from-inventory'
+            ? data.minOfferAmount
+            : data.minOfferAmount / 100,
+        color: data.color || null,
+      }
+      // If adding listing from inventory
+      if (this.$route.query.path === 'from-inventory') {
+        this.form.inventory_id = data.inventory_id
+        this.form.stock = data.stock
+      }
     }
   },
 
@@ -95,7 +90,8 @@ export default {
         color: this.form.color,
       }
       if (this.form.inventory_id) {
-        item.inventory_id = this.form.inventory_id
+        Object.assign(item, { inventory_id: this.form.inventory_id })
+        Object.assign(item, { stock: this.form.stock })
       }
       this.updateDraft({
         index: this.$route.query?.id,
@@ -113,11 +109,11 @@ export default {
     },
 
     // Reset the quantiy and minimum offer amount
-    clearValue(){
+    clearValue() {
       const { quantity, minOfferAmount } = this.draftDetail
       this.form.quantity = quantity
       this.form.minOfferAmount = minOfferAmount
-    }
+    },
   },
 }
 </script>
