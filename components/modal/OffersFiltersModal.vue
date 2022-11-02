@@ -99,7 +99,7 @@
           <div class="separator"></div>
         </div>
 
-        <div class="bottom-section d-flex justify-content-between mb-3">
+        <div class="d-flex justify-content-between mb-3">
           <Button
             class="filter-button"
             pill
@@ -269,9 +269,6 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
-
-.filters-wrapper
-  height: 60vh
 
 .filter-button
   @include body-4-medium

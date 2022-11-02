@@ -131,7 +131,7 @@
             </div>
           </div>
           <div class="col-2 relative-right-10 d-flex flex-column align-items-center justify-content-center">
-            <div class="trade-icon-text mb-2">{{ $t('common.fair') }}</div>
+            <div class="trade-icon-text mb-2">{{ $t(`common.${offer.condition}`) }}</div>
             <img width="31" height="31" :src="require('~/assets/img/icons/trade-icon.svg')" />
           </div>
           <div class="col-4 px-0 d-flex flex-column justify-content-center">
@@ -238,7 +238,7 @@ export default {
 
 .mobile-offer
   box-shadow: 0px 4px 4px $drop-shadow1
-  padding: 10px 14px 20px 14px
+  padding: 13px 14px 20px 14px
   border-radius: 6px
 
 .offer-item-trade-container

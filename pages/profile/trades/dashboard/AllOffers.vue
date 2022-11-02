@@ -170,7 +170,22 @@
       <div class="row justify-content-center">
         <div class="text-center w-100 px-2">
         <trade-offer-items v-if="tradeOffers.length > 0" :offers="tradeOffers"></trade-offer-items>
-        <div v-else>{{(offerType !== ALL_OFFER_TYPE) ? $t('trades.no_trade_offers_have_been') + $t('trades.offer_type.' + offerType) : $t('trades.no_trade_offers_have_been_found')}}</div>
+        <div v-else>
+          <div class="d-none d-sm-block">
+            {{ 
+              (offerType !== ALL_OFFER_TYPE) ? 
+              $t('trades.no_trade_offers_have_been') + $t('trades.offer_type.' + offerType) : 
+              $t('trades.no_trade_offers_have_been_found') 
+            }}
+          </div>
+          <div class="d-sm-none mt-5">
+            <div class="no-trades">{{ $t('common.no_trades') }}</div>
+            <div class="mt-2 no-trades">{{ $t('common.list_product_today') }}</div>
+            <div class="mt-4 create-listing mx-auto" @click="redirectToListing()">
+              {{ $t('home.create_listing') }}
+            </div>
+          </div>
+        </div>
         </div>
       </div>
     </div>
@@ -191,6 +206,7 @@
       :isOpen="isFiltersModalOpen"
       @closed="isFiltersModalOpen = false"
       @opened="isFiltersModalOpen = true"
+      @submit="submitFiltersModal"
     />
   </div>
 </template>
@@ -241,7 +257,7 @@ export default {
     OffersFiltersModal
   },
   layout: 'Profile',
-  data (){
+  data () {
     return {
       ALL_OFFER_TYPE,
       FILTER_CONDITION_POOR,
@@ -356,6 +372,8 @@ export default {
         })
         .then((response) => {
           this.tradeOffers = response.data.data.data
+          console.log('offers', this.tradeOffers);
+
           this.totalOffers = parseInt(response.data.data.total)
         })
         .catch((error) => {
@@ -445,9 +463,23 @@ export default {
         this.fetchOffersListing()
       }
     },
-    applyFilters(){
+
+    applyFilters() {
       this.fetchOffersListing()
     },
+
+    redirectToListing() {
+      this.$router.push('/sell/create-listing')
+    },
+
+    submitFiltersModal(filters) {
+      this.offerType = filters.offerType.value
+      this.conditionFilter = filters.trade
+      this.orderFilter = filters.sortBy
+      this.statusFilter = filters.status
+      this.fetchOffersListing()
+      this.isFiltersModalOpen = false
+    }
 
   }
 }
@@ -455,6 +487,22 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.create-listing
+  @include body-4-medium
+  display: flex
+  align-items: center
+  justify-content: center
+  color: $color-white-1
+  width: 309px
+  height: 40px
+  border-radius: 21px
+  background: $color-blue-20
+
+.no-trades
+  @include body-5-medium
+  line-height: 17px
+  color: $color-gray-5
 
 .delete-offers
   @include body-9-normal

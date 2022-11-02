@@ -163,7 +163,9 @@
     "product_type": "Product Type",
     "continue": "Continue",
     "of": "of",
-    "week": "Week"
+    "week": "Week",
+    "no_trades": "No Trade offers have been sent",
+    "list_product_today": "List a product today on Deadstock!"
   },
   "message": {
     "no_products_found": "No Products Found",
