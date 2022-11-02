@@ -2,7 +2,11 @@
   <b-navbar toggleable="lg" class="navbar-wrapper border-bottom">
     <b-navbar-toggle target="top-menu-sidebar">
       <template #default>
-        <img width="25px" :src="require('~/assets/img/icons/menu.svg')" alt="..."/>
+        <img
+          width="25px"
+          :src="require('~/assets/img/icons/menu.svg')"
+          alt="..."
+        />
       </template>
     </b-navbar-toggle>
     <b-navbar-brand to="/" class="navbar-brand ml-auto m-lg-0">
@@ -11,10 +15,10 @@
       </div>
       <div class="d-inline-block d-sm-none">
         <Logo v-if="pageTitle" :width="171" />
-        <h2 v-else class="meta-info font-primary fs-18 fw-7 mb-0 text-black">
+        <h2 v-else class="meta-info font-primary fs- 18 fw-7 mb-0 text-black">
           {{ pageTitle }}
         </h2>
-      </div>
+      </div> 
     </b-navbar-brand>
     <b-nav-form class="search-box-wrapper">
       <SearchInput
@@ -43,7 +47,11 @@
         />
       </b-nav-item>
       <b-nav-item class="nav-item-icons" to="/checkout/selling">
-        <img height="22px" :src="require('~/assets/img/icons/bag.png')" alt="..." />
+        <img
+          height="22px"
+          :src="require('~/assets/img/icons/bag.png')"
+          alt="..."
+        />
       </b-nav-item>
     </b-navbar-nav>
     <b-collapse id="nav-collapse" is-nav class="navbar-collapse">
@@ -108,6 +116,7 @@
       </b-navbar-nav>
     </b-collapse>
     <vue-bottom-sheet
+      v-if="isScreenXS"
       ref="searchBottomSheet"
       max-width="auto"
       max-height="100%"
@@ -278,9 +287,19 @@ export default {
     title: 'Deadstock',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' },
+      {
+        name: 'viewport',
+        content:
+          'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0',
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/assets/img/icons/favicon.ico' }]
+    link: [
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/assets/img/icons/favicon.ico',
+      },
+    ],
   },
   computed: {
     ...mapState(['locale', 'locales']),
@@ -297,7 +316,7 @@ export default {
     },
     pageTitle() {
       return this.$nuxt?.context?.route?.meta[0]?.pageTitle ?? null
-    }
+    },
   },
   watch: {
     screenIsSmallThanLG(newVal) {
