@@ -6,10 +6,10 @@
       <span class="ml-3" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
     </div>
 
-    <BidsFilters v-else @update="FetchBids"/>
+    <BidsFilters v-else @update="FetchBids(true)"/>
 
 
-    <div v-if="isVendor" class="d-flex justify-content-between align-items-center mt-5">
+    <div v-if="isVendor" class="d-flex justify-content-between align-items-center">
       <Button
         v-if="haveExpired"
         variant="link"
@@ -23,10 +23,10 @@
       </Button>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center mt-4 ">
+    <div v-if="bidsCount > 0" class="d-flex justify-content-between align-items-center mt-4">
       <div class="d-flex align-items-center mt-0 mt-md-5">
         <h3 class="title">
-          <span :class="{ 'body-4-medium' : isMobileSize }">
+          <span :class="{ 'body-5-medium' : isMobileSize }">
             {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
           </span>
         </h3>
@@ -41,7 +41,9 @@
         @click="deleteAction = true"
       >
         <img v-if="isMobileSize" src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
-        {{ $t('bids.delete_expired') }}
+        <span class="body-9-regular" :class="isMobileSize ? 'expire-button-gray' : 'text-black'">
+          {{ $t('bids.delete_expired') }}
+        </span>
       </Button>
     </div>
 
@@ -65,20 +67,18 @@
 
     <div v-if="bidsCount===0 && !fetchLoading"
          class="d-flex align-items-center justify-content-center flex-column h-50">
-      <div class="not-found-text"> {{ $t('bids.no_bids') }}</div>
-      <div class="not-found-text mt-2"> {{ $t('bids.place_bid') }}</div>
+      <div :class="isMobileSize ? 'body-5-medium' : 'not-found-text'">{{ $t('bids.no_bids') }}</div>
+      <div class="mt-2" :class="isMobileSize ? 'body-5-medium' : 'not-found-text'"> {{ $t('bids.place_bid') }}</div>
       <Button
         to="/create-listing"
         class="bg-blue-2 mt-4"
+        :class="{'mobile': isMobileSize}"
         pill
       >
         <span class="px-4"> {{ $t('bids.browse_auction') }}</span>
       </Button>
     </div>
-    <div v-if="fetchLoading" class="mx-auto mt-5">
-      <Loader :loading="fetchLoading"/>
-    </div>
-    <div v-if="bidsCount>0 && !fetchLoading">
+    <div v-if="bidsCount>0">
       <b-row class="mt-5 text-center p-0 font-weight-bold d-none d-md-flex">
         <b-col sm="12" md="2" class="text-center">{{ $t('bids.headers.auction_id') }}</b-col>
         <b-col sm="12" md="3" class="text-left px-0">{{ $t('bids.headers.product') }}</b-col>
@@ -125,10 +125,12 @@
         </div>
       </client-only>
     </div>
-
+    <div v-if="fetchLoading" class="mx-auto mt-5 mb-5 pb-5 pt-5">
+      <Loader :loading="fetchLoading"/>
+    </div>
 
     <Pagination
-      v-if="bidsCount>0 && !fetchLoading"
+      v-if="bidsCount>0 && !fetchLoading && false"
       v-model="page"
       :total="totalCount"
       :per-page="perPage"
@@ -330,6 +332,7 @@ export default {
       selected: [],
       perPageOptions: [8, 16, 32, 48],
       perPage: 6,
+      lastPage: 1,
       FilterDown,
       bidType: BID_TYPE_INCOMING,
       deletePayload: [],
@@ -366,7 +369,20 @@ export default {
     }
   },
   mounted() {
-    this.FetchBids()
+    this.FetchBids(true)
+    if (process.browser) {
+      const container = document.getElementById('profile-layout')
+      window.onscroll = (ev) => {
+        if (container && !this.fetchLoading) {
+          if ((window.innerHeight + window.scrollY) >= container.offsetHeight - 10) {
+            if (this.page < this.lastPage) {
+              this.page++
+              this.FetchBids()
+            }
+          }
+        }
+      };
+    }
   },
   methods: {
     ...mapActions({
@@ -503,7 +519,13 @@ export default {
     /**
      * Fetching bids from the backend and storing them in the store.
      */
-    FetchBids() {
+    FetchBids(isNewRecordCollection = false) {
+      if (this.fetchLoading) return
+      /* start new lazy loading collection */
+      if (isNewRecordCollection) {
+        this.page = 1 // lazy loading will start from first page
+        this.bids = [] // new lazy loading record list
+      }
       this.fetchLoading = true
       const payload = {
         ...this.filters,
@@ -520,8 +542,9 @@ export default {
           auction.bids = []
           return auction
         })
-        this.bids = data
+        this.bids.push(...data)
         this.totalCount = res.data.total
+        this.lastPage = res.data.last_page
       }).finally(() => {
         this.fetchLoading = false
       })
@@ -584,13 +607,21 @@ export default {
         mobileFilter.open()
       }
     },
+    // hide filter
+    closeMobileFilter() {
+      const { mobileFilter } = this.$refs
+      if (mobileFilter) {
+        mobileFilter.close()
+      }
+    },
     async onMobileFilter(mobileFilters) {
       const filterData = {
         ...this.filters,
         ...mobileFilters
       }
+      this.closeMobileFilter()
       await this.$store.commit('profile-bids/setFilters', filterData)
-      this.FetchBids()
+      this.FetchBids(true)
     }
   }
 }
@@ -618,6 +649,9 @@ export default {
 .bg-blue-2.btn.btn-primary
   background-color: $color-blue-2
   border: none
+  &.mobile
+    background-color: $color-blue-20
+    font-weight: 500
 
 .bg-dark-blue.btn.btn-primary
   background: $color-blue-20
@@ -683,5 +717,8 @@ export default {
 .custom-selectbox
   border: 1px solid $color-gray-60
   height: 38px
+
+.expire-button-gray
+  color: $color-gray-30
 </style>
 

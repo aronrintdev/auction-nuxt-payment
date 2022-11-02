@@ -1,11 +1,10 @@
 <template>
   <div>
     <!--      End Header Search and Filter   -->
-    <b-row class="mt-4">
+    <b-row class="mt-md-4 align-items-md-end">
       <b-col md="12" lg="7">
-        <span class="header-title">&nbsp;</span>
         <b-row>
-          <b-col md="12" lg="12" class="mt-2">
+          <b-col md="12" lg="12" class="mt-md-2">
             <div class="d-flex align-items-center">
               <SearchInput
                 :value="filters.search"
@@ -109,7 +108,7 @@
                   </b-form-radio>
                 </b-form-group>
               </div>
-              <div class="border-top py-1">
+              <div class="border-top py-2">
                 <collapsible-box :title="$t('orders.type').toString()" :second-title="selectedTypesString">
                   <div class="row my-2">
                     <div v-for="type in orderTypes" :key="type.key" class="col-4 my-1 filter-boxes">
@@ -122,7 +121,7 @@
                   </div>
                 </collapsible-box>
               </div>
-              <div class="border-top py-1">
+              <div class="border-top py-2">
                 <collapsible-box :title="$t('orders.status').toString()" :second-title="selectedStatusString">
                   <div class="row my-2">
                     <div v-for="status in orderStatuses" :key="status.key" class="col-4 my-1 filter-boxes">
@@ -135,7 +134,7 @@
                   </div>
                 </collapsible-box>
               </div>
-              <div class="border-top py-1">
+              <div class="border-top py-2">
                 <collapsible-box :title="$t('orders.date_ordered').toString()" :second-title="selectedDateString">
                   <div class="row">
                     <div class="col mt-2">
@@ -415,5 +414,14 @@ export default {
 ::v-deep .search .search-input.form-control
   font-family: $font-montserrat
   @include body-9
+
+@media (max-width: 992px)
+  ::v-deep .search
+    border: none
+
+  ::v-deep .search-input-wrapper.search-md input.search-input
+    font-size: 12px
+    background: #F7F7F7
+    border-radius: 8px
 
 </style>

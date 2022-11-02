@@ -3,13 +3,13 @@
     <b-card class="mt-3">
       <!-- personal details -->
       <div class="card-text border-underline">
-        <span class="personal-details-heading">
+        <span class="personal-details-heading"
+          @click="personalProfileEdit">
           <span class="d-flex">
             {{ $t('preferences.profile.personal_details') }}
             <span
               class="forward-btn position-absolute"
               role="button"
-              @click="personalProfileEdit"
             >
               <img
                 :src="require('~/assets/img/icons/right-arrow.svg')"
@@ -51,13 +51,13 @@
 
       <!-- social media links -->
       <div class="card-text border-underline mt-3">
-        <span class="personal-details-heading">
+        <span class="personal-details-heading"
+         @click="openSocialMediaLinks">
           <span class="d-flex">
             {{ $t('preferences.profile.social_media_links') }}
             <span
               role="button"
               class="forward-btn position-absolute"
-              @click="openSocialMediaLinks"
             >
               <img
                 :src="require('~/assets/img/icons/right-arrow.svg')"
@@ -75,10 +75,11 @@
 
       <!-- language -->
       <div class="card-text mt-3">
-        <span class="personal-details-heading">
+        <span class="personal-details-heading"
+        @click="openLanguage">
           <span class="d-flex">
             {{ $t('preferences.profile.language') }}
-            <span role="button" class="forward-btn position-absolute" @click="openLanguage">
+            <span role="button" class="forward-btn position-absolute" >
               <img
                 :src="require('~/assets/img/icons/right-arrow.svg')"
                 class="float-right d-flex"

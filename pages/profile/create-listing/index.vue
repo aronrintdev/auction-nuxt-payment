@@ -23,7 +23,7 @@
               role="button"
               @click="showDraft"
               >{{ $t('common.drafts') }} &#040;{{
-                draftListingItem.length + getTradeDraftCount || 0
+                draftListingItem.length + getTradeDraftCount + auctionsDraftCount || 0
               }}&#041;
             </span>
             <!-- ./Drafts -->
@@ -195,6 +195,11 @@ export default {
   mixins: [screenSize],
   layout: 'Profile',
   middleware: ['auth', 'vendor'],
+  data() {
+    return {
+      auctionsDraftCount: 0
+    }
+  },
   computed: {
     ...mapGetters({
       draftListingItem: 'listingItems/listingSavedAsDraft',
@@ -208,6 +213,7 @@ export default {
   },
   created() {
     this.addVendorPayoutMethod()
+    this.getAuctionsDraftCount()
   },
   methods: {
     ...mapActions({
@@ -238,6 +244,9 @@ export default {
         })
       }
     },
+    async getAuctionsDraftCount() {
+      this.auctionsDraftCount = await this.$axios.get('/auctions/draft').then(res => res.data.total) || 0
+    }
   },
 }
 </script>

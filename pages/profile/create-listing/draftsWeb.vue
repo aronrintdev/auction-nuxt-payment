@@ -20,9 +20,9 @@
     <div class="d-flex justify-content-center mt-3 align-items-center">
 
       <NavGroup
-        :value="LISTING_TYPES.TRADE"
+        :value="type"
         nav-key="list-type"
-        :data="translateNavigationTypesLabels"
+        :data="translateNavigationTypesLabels()"
         @change="handleTypeChange"
       />
     </div>
@@ -31,6 +31,7 @@
     <div v-else-if="type === LISTING_TYPES.SELLING"> <!-- show drafts for selling -->
     </div>
     <div v-else-if="type === LISTING_TYPES.AUCTION"> <!-- show drafts for auction -->
+      <AuctionDraftListing :searchText="searchedText" />
     </div>
      <!-- show drafts for trades -->
     <div v-else>
@@ -164,6 +165,7 @@ import {
 } from '~/components/common'
 import {IMAGE_PATH,NAV_TYPES,COMBINATIONS_PER_PAGE_ITEMS,LISTING_TYPES} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
+import AuctionDraftListing from '~/components/Auctions/DraftListing'
 
 export default {
   name: 'ListingDrafts',
@@ -173,12 +175,15 @@ export default {
     SearchInput, // Component for search and selection of a product
     Loader, // Loader for waiting screen
     Pagination, // The pagination component to be used, by default showing 4 items
+    AuctionDraftListing,
   },
 
   layout: 'Profile', // Layout
 
   fetchOnServer: false,
-
+  meta: {
+    pageTitle: 'Draft',
+  },
   data() {
     return {
       IMAGE_PATH, // image production api url
@@ -192,7 +197,8 @@ export default {
       COMBINATIONS_PER_PAGE_ITEMS,
       LISTING_TYPES,
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
-      show: null
+      show: null,
+      type: LISTING_TYPES.TRADE,
     }
   },
   computed:{
@@ -328,6 +334,7 @@ export default {
      * @param type
      */
     handleTypeChange(type) {
+      this.type = type
       if (type !== this.LISTING_TYPES.TRADE) {
         this.LISTING_TYPES.TRADE = type
         if(type === this.LISTING_TYPES.TRADE) {

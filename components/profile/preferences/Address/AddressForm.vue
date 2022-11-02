@@ -911,9 +911,9 @@ export default {
 
     // on delete confirm
     deleteConfirm() {
+      this.deleteConfirmation = false
       this.addressDelete(this.editAddressID)
         .then((res) => {
-          this.deleteConfirmation = false
           this.emitRenderComponentEvent(
             this.$parent.$options.components.AddressList.name
           )
@@ -958,6 +958,7 @@ export default {
 
     // on confirm sheet
     onDiscardConfirm() {
+      this.onDiscardCancel()
       this.emitRenderComponentEvent(
         this.$parent.$options.components.AddressList.name
       )
@@ -991,6 +992,13 @@ export default {
     color: $color-blue-20
 .your-address-form::v-deep
   .address-form
+    input
+      font-family: $font-montserrat
+      font-style: normal
+      @include body-9-normal
+      display: flex
+      align-items: center
+      color: $color-black-17
     .btn-add
       height: 40px
       left: 18px
@@ -1035,9 +1043,6 @@ export default {
         label
           font-family: $font-montserrat
           font-style: normal
-          // font-weight: 600
-          // font-size: 11px
-          // line-height: 13px
           @include body-6-medium
           display: flex // Used for bootstrap input label
           align-items: center // Used for bootstrap input label
@@ -1056,9 +1061,6 @@ export default {
         &::placeholder
           font-family: $font-montserrat
           font-style: normal
-          // font-weight: 500
-          // font-size: 12px
-          // line-height: 15px
           @include body-9-normal
           display: flex
           align-items: center
