@@ -190,7 +190,6 @@ export default {
     },
 
     applyFilter() {
-      console.log(this.filters)
       this.$emit('filter', { ...this.filters })
     }
   },
