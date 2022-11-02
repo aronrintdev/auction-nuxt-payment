@@ -45,7 +45,7 @@
           <SectionHeader
             :title="$t('home.trending')"
             :label="$t('banner.view_more_trending')"
-            to="/shop/products"
+            to="/shop/products?type=trending"
             full-width
           />
           <ProductCarousel class="mt-4 mb-5" :products="trendingPRoducts" loop />
@@ -57,7 +57,7 @@
           <SectionHeader
             :title="$t('home_page.instant_shipping')"
             :label="$t('home_page.view_more_products')"
-            to="/shop/products"
+            to="/shop/products?type=instant-shipping"
             full-width
           />
           <ProductCarousel class="mt-4 mb-5" :products="instantShippingProducts" loop>
