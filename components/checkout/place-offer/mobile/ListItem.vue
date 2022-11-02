@@ -1,5 +1,5 @@
 <template>
-  <!-- Shopping Cart List Item -->
+  <!-- Place Offer List Item -->
   <b-row class="product-wrapper mx-0">
     <b-col cols="12" sm="12">
       <b-row class="product-card">
@@ -32,7 +32,7 @@
       </b-row>
     </b-col>
   </b-row>
-  <!-- End of Shopping Cart List Item -->
+  <!-- End of Place Offer List Item -->
 </template>
 
 <script>
