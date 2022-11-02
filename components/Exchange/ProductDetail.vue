@@ -146,6 +146,7 @@
         <div class="row mobile-product-size-picker mb-3">
           <div class="col-12">
             <ProductSizePicker
+               ref="productSizePicker"
               :sizes="sizes"
               :value="currentSize"
               :viewMode="sizeViewMode"
@@ -219,6 +220,7 @@
         <div class="row desktop-product-size-picker">
           <div class="col-lg-12 ml-3">
             <ProductSizePicker
+              ref="productSizePicker"
               :sizes="sizes"
               :value="currentSize"
               :viewMode="sizeViewMode"
@@ -699,16 +701,7 @@ export default {
     },
     // Emit update event to parent component when user select size
     updateSize(sizeId) {
-      alert(sizeId)
-      this.$nextTick(() => {
-        const position = $(
-          '.size-carousel [data-size="' + sizeId + '"]'
-        ).data('position')
-        console.log('Carousl Position update',position)
-        // Update carousel position to center selected size box and refresh carousel
-        this.$refs.sizeCarousel?.goTo(position)
-        this.$refs.sizeCarousel?.refresh()
-      })
+      this.$refs.productSizePicker.updateSize(sizeId)
     },
     pricesBySize() {
       if (this.method === 'buy') {
