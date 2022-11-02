@@ -85,11 +85,7 @@
                    class="btn-cash d-flex justify-content-center align-content-center m-4"
                    @click="addCash()">
               {{ $t('trades.add_cash') }}</b-btn>
-<!--            <b-btn v-if="editYours" variant="primary"  -->
-<!--                   class="btn-cash d-flex justify-content-center align-content-center m-4" -->
-<!--                   @click="addOptionalCashMobile(true)">-->
-<!--              {{ $t('trades.add_cash') }}</b-btn>-->
-<!--            <b-btn v-else variant="primary"  class="add-cash-btn" @click="addOptionalCash(true)">{{ $t('trades.request_cash') }}</b-btn>-->
+            <b-btn v-else   class="btn-cash d-flex justify-content-center align-content-center m-4" @click="addCash()">{{ $t('trades.request_cash') }}</b-btn>
           </div>
           <vue-bottom-sheet
             ref="sheetcash"
@@ -1236,14 +1232,14 @@ export default {
   background-color: #FAFAFA
 .inventory-btn
   height: 40px
-  width: 162px
-  font-family: 'Montserrat'
+  width: 330px
+  font-family: "Montserrat"
   font-style: normal
   font-weight: 600
   font-size: 16px
   color: #667799
   background-color: #FFFFFF
-  border-radius: 10px
+  border-radius: 4px
 .item-image-counteroffer-small
   width: 110px
 .inventory-small
