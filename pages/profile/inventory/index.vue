@@ -321,11 +321,6 @@ export default {
     }
   },
 
-  watch: {
-    category(val) {
-      console.log(val);
-    }
-  },
   fetch() {
     this.updatePerPageOptions()
   },
