@@ -88,13 +88,13 @@
       <!-- End of Offer Accepted Text -->
 
       <!-- Shopping Bag Place Order Button -->
-      <b-row class="place-order-wrapper">
+      <b-row class="place-offer-wrapper">
         <b-col v-if="loading" md="12" class="text-center">
           <b-spinner variant="blue-20"></b-spinner>
         </b-col>
         <b-col v-else md="12" class="text-center">
           <Button :disabled="! canPlaceOffer" type="button" variant="dark-blue" pill @click="placeOffer">{{
-              $t('shopping_cart.place_order')}}
+              $t('place_offer.place_offer')}}
           </Button>
         </b-col>
       </b-row><!-- End of Shopping Bag Place Order Button -->
@@ -303,7 +303,7 @@ export default {
   div
     font-family: 'SF Pro Text', serif
 
-.place-order-wrapper
+.place-offer-wrapper
   margin: 41px 0
 
   .btn
