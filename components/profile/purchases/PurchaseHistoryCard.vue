@@ -457,23 +457,23 @@ export default {
   color: $color-orange-22
   background: $color-white-26
 .btn-refunded
-  color: #F4B53F
-  background: #fff9f0
+  color: $color-orange-19
+  background: $color-yellow-9
 .btn-ship_to_deadstock
-  color: #8136bd
-  background: #f5effa
+  color: $color-purple-7
+  background: $color-gray-95
   padding: 10px
 .btn-authentication_complete
-  color: #4ac557
-  background: #effaf4
+  color: $color-green-30
+  background: $color-green-31
   padding: 20px 4px
 .btn-multiple
-  color: #fff
-  background: #000
+  color: $color-white-1
+  background: $color-black-1
 .btn-voided
-  color: #fff
-  background: #000
+  color: $color-white-1
+  background: $color-black-1
 .btn-cancel
-  color: #DE0100
-  background: rgba(222, 1, 0, 0.2)
+  color: $color-orange-19
+  background: $color-yellow-9
 </style>

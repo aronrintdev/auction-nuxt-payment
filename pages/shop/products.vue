@@ -254,8 +254,6 @@ export default {
     width: 400px
     margin-bottom: 20px
     border-radius: 10px
-    background-color: #efefef
-    color: #04525A
     overflow: hidden
     .p
       margin: 0
