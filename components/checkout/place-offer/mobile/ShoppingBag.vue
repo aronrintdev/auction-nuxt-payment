@@ -91,7 +91,7 @@ import { AMOUNT_OFFSET, BAD_REQUEST, FIXED_PRODUCT, NOT_FOUND, PERCENT, PERCENT_
 
 export default {
   name: 'ShoppingBag',
-  components: {ShoppingBagOrder, ShoppingBagTitle, ListItem, PromoCodeInput, OrderSummaryCard, Button },
+  components: { ShoppingBagTitle, ListItem, PromoCodeInput, OrderSummaryCard, Button, ShoppingBagOrder },
   mixins: [ emitEventMixin ],
   data() {
     return {
@@ -108,18 +108,16 @@ export default {
       taxRate: 'tax-rate/getTaxRate',
       promoCode: 'order-details/getPromoCode',
       billingAddress: 'auth/getBillingAddress',
-      shippingAddress: 'auth/getShippingAddress',
-      paymentMethod: 'auth/getPaymentMethod',
-      paymentToken: 'order-details/getPaymentToken'
     }),
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    subTotal: (vm) => {
+    getSubTotal: (vm) => {
       return vm.offerDetails.bid_price
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getItems: (vm) => {
       const items = []
-      items.push({ key: 'offer_amount', label: vm.$t('place_offer.offer_amount'), value: vm.subTotal > 0 ? vm.subTotal : 0 })
+      items.push({ key: 'sub_total', label: vm.$t('place_offer.offer_amount'), value: vm.getSubTotal > 0 ? vm.getSubTotal : 0 })
+      items.push({ key: 'sub_total_after_discount', label: '', value: vm.getSubtotalAfterDiscount > 0 ? vm.getSubtotalAfterDiscount : 0 })
       items.push({ key: 'shipping_fee', label: vm.$t('shopping_cart.shipping_fee'), value: vm.shippingFee > 0 ? vm.shippingFee : 0 })
       items.push({ key: 'processing_fee', label: vm.$t('shopping_cart.processing_fee'), value: vm.getProcessingFee > 0 ? vm.getProcessingFee : 0 })
       items.push({ key: 'tax', label: vm.$t('shopping_cart.tax'), value: vm.getTax > 0 ? vm.getTax : 0 })
@@ -127,36 +125,20 @@ export default {
       return items
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getBillingFullName: (vm) => {
-      return `${vm.billingAddress.firstName} ${vm.billingAddress.lastName}`
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getBillingAddress: (vm) => {
-      return `${vm.billingAddress.addressLine}, ${vm.billingAddress.city}, ${vm.billingAddress.country}, ${vm.billingAddress.zipCode}`
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getShippingFullName: (vm) => {
-      return `${vm.shippingAddress.firstName} ${vm.shippingAddress.lastName}`
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getShippingAddress: (vm) => {
-      return `${vm.shippingAddress.addressLine}, ${vm.shippingAddress.city}, ${vm.shippingAddress.country}, ${vm.shippingAddress.zipCode}`
+    getSubtotalAfterDiscount: (vm) => {
+      return Math.max(vm.getSubTotal - vm.getPromoDiscount, 0)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getProcessingFee: (vm) => {
-      return Math.trunc(vm.processingFee * vm.subTotal)
+      return Math.trunc(vm.processingFee * vm.getSubTotal)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTax: (vm) => {
-      return Math.trunc(vm.taxRate * vm.subTotal)
+      return Math.trunc(vm.taxRate * vm.getSubTotal)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTotal: (vm) => {
-      return vm.subTotal + vm.shippingFee + vm.getProcessingFee + vm.getTax
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getTotalQuantity: (vm) => {
-      return vm.offerDetails.quantity
+      return vm.getSubtotalAfterDiscount + vm.shippingFee + vm.getProcessingFee + vm.getTax
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getPromoDiscount: (vm) => {
@@ -165,22 +147,15 @@ export default {
       if (vm.promoCode.code) {
         switch (vm.promoCode.type) {
           case FIXED_PRODUCT: {
-            const items = vm.offerDetails.product.filter((item) => {
-              return item.sku === vm.promoCode.sku
-            })
 
-            if (items) {
-              const totalQuantity = items.reduce((sum, item) => {
-                return sum + item.quantity
-              }, 0)
-
-              discount += totalQuantity * vm.promoCode.amount * AMOUNT_OFFSET
+            if (vm.offerDetails.product.sku === vm.promoCode.sku) {
+              discount += vm.promoCode.amount * AMOUNT_OFFSET
             }
 
             break;
           }
           case PERCENT: {
-            discount += vm.getSubtotal * (vm.promoCode.amount / PERCENT_OFFSET)
+            discount += vm.getSubTotal * (vm.promoCode.amount / PERCENT_OFFSET)
 
             break;
           }
@@ -204,7 +179,7 @@ export default {
     applyPromoCode(promoCode) {
       this.$axios.post('coupons/check', {
         promo_code: promoCode,
-        listing_items: this.shoppingCart
+        listing_items: [this.offerDetails.product]
       }, { handleError: false }).then((response) => {
         this.addPromoCode({
           promoCode: response.data.data,
