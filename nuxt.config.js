@@ -57,7 +57,8 @@ export default defineNuxtConfig({
     { src: '~/plugins/vue-bottom-sheet.js', mode: 'client'},
     { src: '~/plugins/vue-click-outside.js', mode: 'client'},
     { src: '~/plugins/v-calendar.js', mode: 'client'},
-    { src: '~/plugins/infinteloading', mode: 'client' }
+    { src: '~/plugins/infinteloading', mode: 'client' },
+    { src: '~/plugins/numberOnly.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
