@@ -325,7 +325,7 @@
             <!-- ./Input search -->
           </div>
           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
-            
+
             <FormDropdown
               id="sort-by"
               :value="selectedFilters.sortBy"
@@ -879,46 +879,64 @@ export default {
     },
     changeGraphLabel(category) {
       switch (category) {
+        // there will sort category if equal to 24 hours then we will assgin
+        //  24 hours record to the graph
         case '24': {
+          const oneDay = this.getGraphData(this.graphData.all.data);
           this.lineDatasets.labels = this.graphData.oneDay.labels
-          // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
-          // this.$refs.lineChart.renderLineChart()
+          this.lineDatasets.datasets[0].data = oneDay
           this.$refs.lineChart.renderLineChart()
           break
         }
         case '7': {
+          // there will sort category if equal to week then we will assgin
+          //  Week record to the graph
+          const week = this.getGraphData(this.graphData.week.data);
           this.lineDatasets.labels = this.graphData.week.labels
-          // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
-          // this.$refs.lineChart.renderLineChart()
-             this.$refs.lineChart.renderLineChart()
+          this.lineDatasets.datasets[0].data = week
+          this.$refs.lineChart.renderLineChart()
+          console.log(week)
           break
         }
         case '30': {
+          // there will sort category if equal to 30 days then we will assgin
+          //  30 days record to the graph
+          const oneMonth = this.getGraphData(this.graphData.oneMonth.data);
           this.lineDatasets.labels = this.graphData.oneMonth.labels
-          // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
-          // this.$refs.lineChart.renderLineChart()
-             this.$refs.lineChart.renderLineChart()
+          this.lineDatasets.datasets[0].data = oneMonth
+          this.$refs.lineChart.renderLineChart()
           break
         }
         case '6': {
+          // there will sort category if equal to 6 month then we will assgin
+          //  6 month record to the graph
+          const sixMonth = this.getGraphData(this.graphData.sixMonths.data);
           this.lineDatasets.labels = this.graphData.sixMonths.labels
-          // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
+          this.lineDatasets.datasets[0].data = sixMonth
           this.$refs.lineChart.renderLineChart()
           break
         }
         case '1': {
+          // there will sort category if equal to 1 Year then we will assgin
+          //  1 year record to the graph
+          const oneYear = this.getGraphData(this.graphData.all.data);
           this.lineDatasets.labels = this.graphData.oneYear.labels
-          // this.lineDatasets.datasets[0].data = this.graphData.oneYear.data
+          this.lineDatasets.datasets[0].data = oneYear
           this.$refs.lineChart.renderLineChart()
           break
         }
         case 'all': {
-          this.lineDatasets.labels = this.graphData.oneYear.labels
-          // this.lineDatasets.data = this.graphData.oneYear.data
+          // there will sort category if equal to Al record then we will assgin
+          //  All record to the graph
+          const allData = this.getGraphData(this.graphData.all.data);
+          this.lineDatasets.labels = this.graphData.all.labels
+          this.lineDatasets.datasets[0].data = allData
           this.$refs.lineChart.renderLineChart()
           break
         }
         default:
+          // there will sort category if equal to 24 hours then we will assgin
+          //  24 hours record to the graph
           this.lineDatasets.labels = [
             '7 pm',
             '6 pm',
@@ -950,6 +968,7 @@ export default {
           if (response.data) {
             this.graphData = response.data.data
             this.loading = false
+            this.changeGraphLabel('24');
           }
         })
         .catch((error) => {
@@ -997,6 +1016,18 @@ export default {
     hideDropdown() {
       this.hasSearchResult = false
       this.searchedProducts = []
+    },
+    getGraphData(arrayData) {
+      // there we sort the garph data with selected time period
+      if (arrayData.length > 0)
+      {
+        const newData = arrayData.reduce(function (acc, current) {
+          acc.push(current.sale_price);
+          return acc;
+        }, [])
+        return newData;
+      }
+      return [];
     },
   },
 }
