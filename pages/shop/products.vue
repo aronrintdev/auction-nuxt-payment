@@ -67,8 +67,6 @@ export default {
     width: 400px
     margin-bottom: 20px
     border-radius: 10px
-    background-color: #efefef
-    color: #04525A
     overflow: hidden
     .p
       margin: 0
@@ -88,8 +86,8 @@ export default {
     width: 50px
     height: 50px
     border-radius: 50%
-    border: 5px solid rgba(255, 255, 255, .2)
-    border-top: 5px solid #fff
+    border: 5px solid $color-black-1
+    border-top: 5px solid $color-white-1
     animation: animate 1.5s infinite linear
 @keyframes animate
   0%
