@@ -5,18 +5,24 @@
 </template>
 
 <script>
-import OfferSummary from '~/components/checkout/place-offer/mobile/OfferSummary'
+import CheckoutSummary from '~/components/checkout/place-offer/mobile/CheckoutSummary'
 import ListItemOptionsMenu from '~/components/checkout/place-offer/mobile/ListItemOptionsMenu'
+import ShippingForm from '~/components/checkout/selling/mobile/ShippingForm'
+import ShippingInformation from '~/components/checkout/selling/mobile/ShippingInformation'
+import OfferSummary from '~/components/checkout/place-offer/mobile/OfferSummary'
 
 export default {
   name: 'ShoppingBagOrder',
   components: {
+    CheckoutSummary,
+    ListItemOptionsMenu,
+    ShippingForm,
+    ShippingInformation,
     OfferSummary,
-    ListItemOptionsMenu
   },
   data: () => {
     return {
-      renderedComponent: OfferSummary.name,
+      renderedComponent: CheckoutSummary.name,
     }
   },
   created() {
