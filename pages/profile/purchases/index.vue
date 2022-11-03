@@ -27,7 +27,7 @@
                   v-model="searchValue"
                   type="text"
                   class="form-control form-input vd-purchases-browse-input"
-                  :placeholder="$t('vendor_purchase.search_purchases_summary')"
+                  :placeholder="$t('vendor_purchase.search_purchases_summary_placeholder')"
                   autocomplete="on"
                   @input="searchPurchase"
                 />
@@ -37,7 +37,7 @@
           <!-- Search Input -->
           <!-- Select Box -->
           <div
-            class="col-12 col-md-4 mt-md-4 col-sm-6 filter-customselect mt-2"
+            class="col-12 col-md-4 mt-md-4 col-sm-6 filter-customselect border rounded p-0 mt-2"
           >
             <VendorPurchaseCustomSelect
               :default="purchaseFilter"
@@ -72,10 +72,11 @@
               @filters="statusFilters"
             />
           </div>
-          <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2 datepicker">
+          <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2 datepicker border rounded filter-datepicker">
             <b-form-datepicker
               id="example-datepicker-start"
               v-model="startdate"
+              right
               placeholder="Start date"
               :date-format-options="{
                 year: 'numeric',
@@ -86,7 +87,7 @@
               @context="onContext"
             ></b-form-datepicker>
           </div>
-          <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2 datepicker">
+          <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2 datepicker border rounded filter-datepicker">
             <b-form-datepicker
               id="example-datepicker-end"
               v-model="enddate"
@@ -119,7 +120,7 @@
           <div class="col-md-2 mt-md-4 mt-2 clearall-filter">
             <span
                 role="button"
-                class="justify-content-center d-flex text-primary"
+                class="d-flex text-primary"
                 @click="clearFilters()"
             >
               <u>{{ $t('vendor_purchase.clear_all_filters') }}</u>
@@ -699,7 +700,31 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
-
+.apply-btn-wrapper button
+  height: 40px
+  line-height: 0
+  background:$color-blue-20 !important
+.filter-datepicker
+  padding: 0
+  margin: 0 7.5px
+  direction: rtl
+.filter-datepicker .b-form-datepicker
+  background: $color-white-1
+  height: 40px !important
+  margin: 0 !important
+  font-size: 14px
+  padding: 0
+  margin: 0 7.5px
+.browse-search .form-input
+  height: 38px
+  max-width: 100% !important
+  width: 100% !important
+  padding: 0
+  margin: 0
+  font-size: 14px
+.custom-selectbox div
+  font-size: 14px !important
+  font-weight: normal !important
 input.date-input
   @include body-9
   height: 49px

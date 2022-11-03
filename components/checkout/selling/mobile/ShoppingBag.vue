@@ -255,7 +255,6 @@ export default {
     openBottomSheet(maxHeight = '95%', maxWidth = '640px') {
       this.bottomSheetMaxHeight = maxHeight
       this.bottomSheetMaxWidth = maxWidth
-      // this.$refs.shoppingBagOrder.$destroy()
       this.$refs.shoppingBagOrder.open()
     },
     handleCheckoutButtonClick() {

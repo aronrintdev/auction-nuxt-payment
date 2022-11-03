@@ -14,9 +14,9 @@
                     {{ $t('vendor_hub.apply_title') }}
                   </component>
 
-                  <component :is="mobileClass ? 'div' : 'h3'" class="text-sm-center mt-sm-5 mb-3 mb-sm-0">
-                    {{ $t('vendor_hub.store_details') }}
-                  </component>
+                  <h3 class="text-sm-center mt-sm-5 mb-3 mb-sm-0 p-0" :class="{'lh-mobile' : mobileClass}">
+                    <span :class="{'body-10-normal' : mobileClass}">{{ $t('vendor_hub.store_details') }}</span>
+                  </h3>
 
                 <ValidationProvider
                     v-slot="validationContext"
@@ -236,7 +236,7 @@
                   </ValidationProvider>
                 </div>
                 </div>
-                <div v-if="apply" class="text-center">
+                <div class="text-center">
                   <Button :block="isScreenXS" :disabled="isSendCodeDisabled" class="submit-button" pill type="submit"
                           variant="primary">
                     {{ $t('vendor_hub.send_code') }}
@@ -244,7 +244,7 @@
                 </div>
 
                 <!--Code sent form-->
-                <div v-if="apply">
+                <div v-if="apply && !mobileClass">
                   <div class=" text-center mt-4 mb-4 body-5-regular">{{ $t('vendor_hub.form.code_sent') }}</div>
                   <div class="d-flex justify-content-center align-items-start ml-5">
                     <b-form-group>
@@ -296,6 +296,7 @@
                     </Button>
                   </div>
                 </div>
+
               </b-form>
             </ValidationObserver>
           </div>
@@ -318,6 +319,25 @@
                                     @uploaded="fileUploaded"/>
       </vue-bottom-sheet>
 
+
+      <!--Mobile Verification -->
+      <vue-bottom-sheet
+        ref="mobileVerification"
+        class="responsive-filter"
+        max-width="auto"
+        max-height="100vh"
+      >
+        <MobileVerificationCode :codeSent="timerStarted"
+                                :isVerified="true"
+                                :codeTry="codeTry"
+                                :showCodeFailError="showCodeFailError"
+                                :next-button-text="'vendor_hub.form.apply'"
+                                @resendCode="resendCode"
+                                @ended="onCountdownEnd"
+                                @submit="applyVendorForm"
+                                @close="closeMobileVerificationPopup" />
+      </vue-bottom-sheet>
+
     </div>
   </div>
 </template>
@@ -331,6 +351,7 @@ import {countries} from '~/static/location'
 import SellerDocumentUploadModal from '~/components/profile/vendor-hub/SellerDocumentUploadModal';
 import SellerDocumentUploadMobile from '~/components/profile/vendor-hub/SellerDocumentUploadMobile';
 import SelectedFile from '~/components/profile/vendor-hub/SelectedFile';
+import MobileVerificationCode from '~/components/profile/vendor-hub/MobileVerificationCode';
 import screenSize from '~/plugins/mixins/screenSize';
 import {
   countryRestriction,
@@ -344,7 +365,7 @@ import {GOOGLE_MAPS_BASE_URL} from '~/static/constants/environments';
 export default {
   name: 'Apply',
   components: {
-    ValidationProvider, VueCountdown,
+    ValidationProvider, VueCountdown, MobileVerificationCode,
     ValidationObserver, SelectedFile, SellerDocumentUploadModal, Button, SellerDocumentUploadMobile
   },
   mixins: [screenSize],
@@ -354,6 +375,7 @@ export default {
       VERIFICATION_TIMER,
       isAllInputDisabled: false,
       apply: false,
+      codeSent: false,
       COUNTRIES: countries,
       isSendCodeDisabled: false,
       applyForm: {
@@ -392,6 +414,16 @@ export default {
     selectedCountryDialCode() {
       const country = this.COUNTRIES.filter(country => country.code === this.applyForm.country)
       return country.length > 0 ? country[0].dial_code : '+1'
+    }
+  },
+  watch: {
+    apply(v) {
+      if (v && this.mobileClass) {
+        // open mobile code component
+        this.codeSent = true;
+        const { mobileVerification } = this.$refs
+        mobileVerification.open()
+      }
     }
   },
   mounted() {
@@ -546,11 +578,20 @@ export default {
         this.$toasted.error(this.$t(err.response.data.message).toString())
       })
     },
-    applyVendorForm() {
+    resendCode() {
+      this.timerStarted = false
+      this.sendCode()
+    },
+    applyVendorForm(code = null) {
+      if (code) {
+        this.applyForm.code = code
+        this.applyForm.agree = true
+      }
       this.showCodeFailError = null
       if (this.codeTry > 0 && this.applyForm.agree) {
         this.applyVendor(this.applyForm).then(res => {
           this.$auth.fetchUser()
+          this.closeMobileVerificationPopup() // close mobile verification
           this.$router.push({path: '/profile/vendor-hub/application-received'})
         }).catch(err => {
           if (err.response.status === UNPROCESSABLE_ENTITY) {
@@ -596,8 +637,15 @@ export default {
         default:
           break;
       }
+    },
+    closeMobileVerificationPopup() {
+      const { mobileVerification } = this.$refs
+      if (mobileVerification) {
+        mobileVerification.close()
+        this.codeSent = false
+      }
     }
-  }
+  },
 }
 </script>
 
@@ -715,4 +763,7 @@ input.code-field
       box-shadow: none
       border-radius: 2px
       border: 1px solid $black
+
+.lh-mobile
+  line-height: 8px
 </style>
