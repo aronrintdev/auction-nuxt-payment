@@ -10,7 +10,7 @@
         <div class="link-text"> Public </div>
       </div>
       <hr class="hr-border"/>
-      <div class="p-2 mt-1">
+      <div class="p-2 mt-1" @click="offerSettings()">
         <div class="d-flex mb-1">
           <div class="inven-set d-flex justify-content-start align-content-start mt-2">Offer Settings </div>
           <img class="chev-img-offer d-flex justify-content-end align-content-end mt-2" src="~/assets/img/left-chev.svg" />
@@ -19,7 +19,16 @@
         <div class="link-text"> Starting at: 25% of Fair Offers </div>
       </div>
       <hr class="hr-border"/>
-      <div class="p-2 mt-1">
+      <div class="p-2 mt-1" @click="refineMatch()">
+        <div class="d-flex mb-1">
+          <div class="inven-set d-flex justify-content-start align-content-start mt-2">Refine Your Match </div>
+          <img class="chev-img-offer d-flex justify-content-end align-content-end mt-2" src="~/assets/img/left-chev.svg" />
+        </div>
+        <div class="inven-sub-set mb-1"> Update your interests  </div>
+        <div class="link-text"> Footwear 99%, Apparel 99%, Accessories 99% </div>
+      </div>
+      <hr class="hr-border"/>
+      <div class="p-2 mt-1" @click="sizePrefer()">
         <div class="d-flex mb-1">
           <div class="inven-set d-flex justify-content-start align-content-start mt-2"> Size Preferences </div>
           <img class="chev-img-size d-flex justify-content-end align-content-end mt-2" src="~/assets/img/left-chev.svg" />
@@ -28,7 +37,7 @@
         <div class="link-text"> Men’s: 5.5, 13, 12....  </div>
       </div>
       <hr class="hr-border"/>
-      <div class="p-2 mt-1">
+      <div class="p-2 mt-1" @click="brands()">
         <div class="d-flex mb-1">
           <div class="inven-set d-flex justify-content-start align-content-start mt-2"> Brand Preferences </div>
           <img class="chev-img d-flex justify-content-end align-content-end mt-2" src="~/assets/img/left-chev.svg" />
@@ -57,7 +66,6 @@
        </b-btn>
       </div>
     </div>
-
     <div class="inven-cont ml-3 m-2 p-3" v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM" >
      <div>
        <your-inventory @updateTotal="setTotalInventory" @change="changePublicInventories" />
@@ -68,214 +76,145 @@
     </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class="main-pref-container">
-      <!-- Your Inventory -->
-<!--      <b-col v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM"  class="inventory-settings mt-4">-->
-<!--        <div class="invent-setting-head">-->
-<!--          {{$t('trades.your_inventory', {0: totalInventory})}}-->
-<!--        </div>-->
-<!--        <your-inventory @updateTotal="setTotalInventory" @change="changePublicInventories" />-->
-<!--        <b-row class="justify-content-center pt-3">-->
-<!--          <Button variant="primary" class="mr-4" pill @click="savePreference()">-->
-<!--            {{$t('trades.preferences.save_changes')}}-->
-<!--          </Button>-->
-<!--          <Button variant="grey-light" pill @click="getTradePreferences()">-->
-<!--            {{$t('trades.preferences.discard_changes')}}-->
-<!--          </Button>-->
-<!--        </b-row>-->
-<!--      </b-col>-->
-
-      <!-- Offers Settings -->
-      <b-col class="inventory-settings mt-4">
-        <div class="invent-setting-head">
-          {{$t('trades.preferences.offer_settings')}}
+    <div class="mt-2 ml-3 mr-3 mb-5 offer-sections p-2" v-if="showOfferSetting">
+      <div>
+        <div class="offer-head">  {{$t('trades.preferences.offer_settings')}}</div>
+        <div class="offer-start"> {{$t('trades.preferences.starting_at')}}</div>
+        <div class="fair-text">
+          <single-slider :value="fairTrade"
+                         :minValue="0"
+                         :maxValue="DEFAULT_INTERESTS"
+                         :textToShow="$t('trades.preferences.of_fair_offer')"
+                         :meterText="true" @slide="changeFairTrade"
+          />
         </div>
-        <div class="invent-setting-sub-head">
-          {{$t('trades.preferences.other_traders_will_only_be_able')}}
+      </div>
+      <div class="offer-subtext pt-2">
+        {{$t('trades.preferences.other_traders_will_only_be_able')}}
+      </div>
+      <div>
+        <b-btn class="save-btn ml-3" @click="savePreference">
+          Save Changes
+        </b-btn>
+      </div>
+    </div>
+
+    <div class="mt-2 ml-3 mr-3 mb-5 refine-sections p-2" v-if="showrefineMatch">
+      <div>
+        <div class="offer-head">  {{$t('trades.preferences.refine_your_matches')}}</div>
+       <div class="refine-headings">
+         {{$t('trades.preferences.sneaker')}}
+       </div>
+        <div>
+          <single-slider :value="sneakerInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeSneakerInterest" />
         </div>
-        <div class="mt-4 mb-4">
-          <div class="invent-setting-option mr-3">
-            {{$t('trades.preferences.starting_at')}}
+        <div class="refine-headings">
+          {{$t('trades.preferences.apparel')}}
+        </div>
+        <div>
+          <single-slider :value="apparelInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeApparelInterest" />
+        </div>
+        <div class="refine-headings">
+          {{$t('trades.preferences.accessories')}}
+        </div>
+        <div>
+          <single-slider :value="accessoriesInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeAccessoriesInterest" />
+        </div>
+      <div>
+        <b-btn class="save-btn ml-3" @click="savePreference">
+          Save Changes
+        </b-btn>
+      </div>
+    </div>
+    </div>
+
+    <div class="mt-2 ml-3 mr-3 mb-5 p-2" v-if="sizePre">
+      <div  class="sizePre-sections">
+        <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.size_preferences')}}</div>
+        <div class="mt-2 ml-2">
+          <div class="d-flex" v-b-toggle="'collapse-1'">
+            <b-row class="filtersHeading ml-2">
+              <b-col class="col-sm-6">Size Type</b-col>
+              <b-col class="col-sm-6">
+                <div class="d-flex justify-content-end mr-3">
+                  <img  v-if="isVisible" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
+                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
+                </div>
+              </b-col>
+            </b-row>
           </div>
-          <b-col class="d-flex justify-content-center" sm="12" md="12">
-            <single-slider :value="fairTrade" :minValue="0" :maxValue="DEFAULT_INTERESTS" :textToShow="$t('trades.preferences.of_fair_offer')" :meterText="true" @slide="changeFairTrade" />
-          </b-col>
-          <b-row class="justify-content-center pt-3">
-            <Button variant="primary" class="mr-4" pill @click="savePreference()">
-              {{$t('trades.preferences.save_changes')}}
-            </Button>
-            <Button variant="grey-light" pill @click="getTradePreferences()">
-              {{$t('trades.preferences.discard_changes')}}
-            </Button>
-          </b-row>
+          <b-collapse id="collapse-1" v-model="isVisible">
+            <b-row class="row mt-1 column-sizes">
+              <b-col v-for="(sizeType, key) in filters.size_types" :key="'cat-' + key">
+                <div :value="sizeType" class= "unselected-item m-1 d-flex justify-content-center align-content-center"
+                     @click="changeSizeTypeFilter(sizeType)">
+                  {{sizeType}}
+                </div>
+              </b-col>
+            </b-row>
+          </b-collapse>
         </div>
-      </b-col>
-
-      <!-- Refine Your Matches -->
-      <b-col class="inventory-settings mt-4 pb-5">
-        <div class="invent-setting-head">
-          {{$t('trades.preferences.refine_your_matches')}}
-        </div>
-        <div class="invent-setting-sub-head">
-          {{$t('trades.preferences.only_see_trade_matches_based')}}
-        </div>
-        <div class="mt-4 mb-2">
-          <div class="invent-setting-option mr-3 d-flex flex-wrap">
-            <b-col md="2" sm="12" class="d-flex pt-1">
-              {{$t('trades.preferences.sneaker')}}
-            </b-col>
-            <b-col md="10" sm="12">
-              <single-slider :value="sneakerInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeSneakerInterest" />
-            </b-col>
+        <hr class="hr" />
+        <div class="mt-1 ml-2">
+          <div class="d-flex" v-b-toggle="'collapse-2'">
+            <b-row class="filtersHeading ml-2">
+              <b-col class="col-sm-6">Sizes</b-col>
+              <b-col class="col-sm-6">
+                <div class="d-flex justify-content-end mr-3">
+                  <img  v-if="isVisibleSize" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
+                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
+                </div>
+              </b-col>
+            </b-row>
           </div>
+          <b-collapse id="collapse-2" v-model="isVisibleSize">
+            <b-row class="row mt-1 column-sizes">
+              <b-col v-for="(size, key) in filterOtherSizes" :key="'cat-' + key">
+                <div :value="size" class= "unselected-item m-1 d-flex justify-content-center align-content-center"
+                     @click="changeSizeFilter(size.size)">
+                  {{size.size}}
+                </div>
+              </b-col>
+            </b-row>
+          </b-collapse>
         </div>
-        <div class="mt-4 mb-2">
-          <div class="invent-setting-option mr-3 d-flex flex-wrap">
-            <b-col md="2" sm="12" class="d-flex pt-1">
-              {{$t('trades.preferences.apparel')}}
-            </b-col>
-            <b-col md="10" sm="12">
-              <single-slider :value="apparelInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeApparelInterest" />
-            </b-col>
+        <hr class="hr" />
+        <div class="mt-1 ml-2">
+          <div class="d-flex" v-b-toggle="'collapse-3'">
+            <b-row class="filtersHeading ml-2">
+              <b-col class="col-sm-6">Apparel</b-col>
+              <b-col class="col-sm-6">
+                <div class="d-flex justify-content-end mr-3">
+                  <img  v-if="isVisibleApp" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
+                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
+                </div>
+              </b-col>
+            </b-row>
           </div>
+          <b-collapse id="collapse-3" v-model="isVisibleApp">
+            <b-row class="row mt-1 column-sizes">
+              <b-col v-for="(app, key) in filterApparelSizes" :key="'cat-' + key">
+                <div :value="app" class= "unselected-item m-1 d-flex justify-content-center align-content-center"
+                     @click="changeApparelSizeFilter(app.size)">
+                  {{app.size}}
+                </div>
+              </b-col>
+            </b-row>
+          </b-collapse>
         </div>
-        <div class="mt-4 mb-3">
-          <div class="invent-setting-option mr-3 d-flex flex-wrap">
-            <b-col md="2" sm="12" class="d-flex pt-1">
-              {{$t('trades.preferences.accessories')}}
-            </b-col>
-            <b-col md="10" sm="12">
-              <single-slider :value="accessoriesInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeAccessoriesInterest" />
-            </b-col>
-          </div>
-        </div>
-        <b-row class="justify-content-center pt-3">
-          <Button variant="primary" class="mr-4" pill @click="savePreference()">
-            {{$t('trades.preferences.save_changes')}}
-          </Button>
-          <Button variant="grey-light" pill @click="getTradePreferences()">
-            {{$t('trades.preferences.discard_changes')}}
-          </Button>
-        </b-row>
-      </b-col>
+      </div>
+      <div>
+        <b-btn class="save-btn ml-3" @click="savePreference">
+          Save Changes
+        </b-btn>
+      </div>
+    </div>
 
-      <!-- Size Preferences -->
-      <b-col class="inventory-settings mt-4">
-        <div class="invent-setting-head pb-5">
-          {{$t('trades.preferences.size_preferences')}}
-        </div>
-        <b-row class="pb-5">
-          <b-col md="4" class="d-flex align-items-center" >
-            <span class="invent-setting-option pr-39">
-              {{$t('trades.preferences.size_type')}}
-            </span>
-            <client-only>
-              <CustomDropdown
-                v-model="sizeType"
-                :options="filters.size_types"
-                type="multi-select-checkbox"
-                :label="sizeTypeLabel"
-                :showFilterBtn="false"
-                class="mr-3 width-156"
-                optionsWidth="custom"
-                width="164px"
-                variant="white"
-                borderRadius="4px"
-                @change="changeSizeTypeFilter"
-              />
-            </client-only>
-          </b-col>
-          <b-col md="4" class="d-flex align-items-center">
-            <span class="invent-setting-option pr-39">{{$t('trades.preferences.sneaker')}}</span>
-            <client-only>
-              <CustomDropdown
-                v-model="sizes"
-                :options="filterOtherSizes"
-                type="multi-select-checkbox"
-                :label="sizesLabel"
-                :showFilterBtn="false"
-                class="mr-3 width-156"
-                optionsWidth="custom"
-                width="164px"
-                variant="white"
-                borderRadius="4px"
-                @change="changeSizeFilter"
-              />
-            </client-only>
-          </b-col>
-          <b-col md="4" class="d-flex align-items-center">
-            <span class="invent-setting-option pr-39">{{$t('trades.preferences.apparel')}}</span>
-            <client-only>
-              <CustomDropdown
-                v-model="apparelSize"
-                :options="filterApparelSizes"
-                type="multi-select-checkbox"
-                :label="apparelSizesLabel"
-                :showFilterBtn="false"
-                class="mr-3 width-156"
-                optionsWidth="custom"
-                width="164px"
-                variant="white"
-                borderRadius="4px"
-                @change="changeApparelSizeFilter"
-              />
-            </client-only>
-          </b-col>
-        </b-row>
-        <b-col class="d-flex">
-          <b-col md="4" class="d-flex justify-content-start flex-wrap">
-            <div  v-for="(size,index) in sizeType" :key="index" class="selected-size text-center mr-1 mb-3">
-              {{size}}
-              <img class="ml-3" :src="require('~/assets/img/trades/small-cross.svg')" role="button" @click="removeSizeType(index)"/>
-            </div>
-          </b-col>
-          <b-col md="4" class="d-flex justify-content-start flex-wrap">
-            <div  v-for="(size,index) in sizes" :key="index" class="selected-size text-center mr-1 mb-3">
-              {{size}}
-              <img class="ml-3" :src="require('~/assets/img/trades/small-cross.svg')" role="button" @click="removeSize(index)"/>
-            </div>
-          </b-col>
-          <b-col md="4" class="d-flex justify-content-start flex-wrap">
-            <div  v-for="(size,index) in apparelSize" :key="index" class="selected-size text-center mr-1 mb-3">
-              {{size}}
-              <img class="ml-3" :src="require('~/assets/img/trades/small-cross.svg')" role="button" @click="removeApparelSize(index)"/>
-            </div>
-          </b-col>
-        </b-col>
-        <b-row class="justify-content-center pt-3">
-          <Button variant="primary" class="mr-4" pill @click="savePreference()">
-            {{$t('trades.preferences.save_changes')}}
-          </Button>
-          <Button variant="grey-light" pill @click="getTradePreferences()">
-            {{$t('trades.preferences.discard_changes')}}
-          </Button>
-        </b-row>
-      </b-col>
-
-      <!-- Brands Section -->
-      <b-col class="inventory-settings mt-4">
-        <div class="invent-setting-head">
-          {{$t('trades.preferences.brands_i_am_looking_for')}}
-        </div>
-        <div class="invent-setting-sub-head">
-          {{$t('trades.preferences.suggest_these_brands_to_find')}}
-        </div>
+    <div class="mt-2 ml-3 mr-3 mb-5 p-2" v-if="brandsPre">
+      <div  class="sizePre-sections">
+        <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.size_preferences')}}</div>
         <b-row class="mt-4">
-          <div  v-for="(brand,index) in filters.brands" :key="index" class="brand mr-5 mb-5">
+          <b-col sm="3" v-for="(brand,index) in filters.brands" :key="index" class="">
             <div class="position-relative">
               <div class="position-absolute checkbox-brand">
                 <b-form-checkbox :checked="selectedBrands" :value="brand._id" @change="changeSelectedBrands(brand._id)"></b-form-checkbox>
@@ -284,19 +223,19 @@
                 <img :src="brand.image" class="brand-image">
               </div>
             </div>
-          </div>
+          </b-col>
         </b-row>
-        <b-row class="justify-content-center pt-3">
-          <Button variant="primary" class="mr-4" pill @click="savePreference()">
-            {{$t('trades.preferences.save_changes')}}
-          </Button>
-          <Button variant="grey-light" pill @click="getTradePreferences()">
-            {{$t('trades.preferences.discard_changes')}}
-          </Button>
-        </b-row>
-      </b-col>
+      </div>
+      <div>
+        <b-btn class="save-btn ml-3" @click="savePreference">
+          Save Changes
+        </b-btn>
+      </div>
+    </div>
 
-      <b-row class="justify-content-end pt-4">
+
+    <div class="main-pref-container">
+      <b-row class="justify-content-center pt-4">
         <Button variant="grey-light" pill @click="$bvModal.show('resetModel')">
           {{$t('trades.preferences.reset_to_default_preferences')}}
         </Button>
@@ -310,8 +249,8 @@
 <script>
 
 import {mapActions, mapGetters} from 'vuex';
-import CustomDropdown from '~/components/common/CustomDropdown';
-import SingleSlider from '~/components/common/SingleSlider';
+// import CustomDropdown from '~/components/common/CustomDropdown';
+import SingleSlider from '~/components/common/SingleSliderMobile';
 import Button from '~/components/common/Button';
 import YourInventory from '~/pages/profile/trades/preferences/YourInventoryMobile';
 import ResetModal from '~/pages/profile/trades/preferences/ResetModal';
@@ -326,12 +265,19 @@ import {
 
 export default {
   name: 'Index',
-  components: {ResetModal, YourInventory, Button, SingleSlider, CustomDropdown},
+  components: {ResetModal, YourInventory, Button, SingleSlider},
   layout: 'Profile',
   data(){
     return {
       showInventory:false,
+      showOfferSetting:false,
+      showrefineMatch:false,
+      sizePre:false,
+      brandsPre:false,
       mainPageList:true,
+      isVisible:false,
+      isVisibleSize:false,
+      isVisibleApp:false,
       INVENTORY_STATUS_CUSTOM,
       APPAREL_SIZE_TYPE,
       DEFAULT_INVENTORY_STATUS,
@@ -389,6 +335,22 @@ export default {
       this.showInventory = true
       this.mainPageList = false
     },
+    offerSettings(){
+      this.showOfferSetting = true
+      this.mainPageList = false
+    },
+    refineMatch(){
+      this.showrefineMatch = true
+      this.mainPageList = false
+    },
+    sizePrefer(){
+      this.sizePre = true
+      this.mainPageList = false
+    },
+    brands(){
+      this.brandsPre = true
+      this.mainPageList = false
+    },
     getTradePreferences(){
       this.$axios
         .get('/trades/preferences')
@@ -425,6 +387,9 @@ export default {
           .then(() => {
             this.$toasted.success(this.$t('trades.preferences.preferences_updated_successfully'))
             this.showInventory = false
+            this.showOfferSetting = false
+            this.showrefineMatch = false
+            this.sizePre= false
             this.mainPageList = true
           })
           .catch((error) => {
@@ -622,7 +587,7 @@ export default {
   min-width: 75px
   @include body-9-regular
 .main-container
-  height: 451px
+  height: 570px
   width: 343px
   border-radius: 10px
   background: #FFFFFF
@@ -665,7 +630,7 @@ export default {
   border: 1px solid rgba(196, 196, 196, 0.17)
 .inven-cont
   width: 343px
-  height: 400px
+  height: 620px
   background: #FFFFFF
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
   border-radius: 10px
@@ -688,5 +653,96 @@ export default {
   height: 40px
   width: 340px
   margin-top: 5rem
+.offer-sections
+  width: 343px
+  height: 200px
+  background: #FFFFFF
+  border-radius: 10px
+  box-shadow: 0 1px 4px rgb(0 0 0 / 25%)
+  padding-top: 20px
+.offer-head
+  font-family: 'SF Pro Display'
+  font-style: normal
+  font-weight: 600
+  font-size: 16px
+  color: #667799
+.offer-start
+  font-family: 'SF Pro Display'
+  font-style: normal
+  font-weight: 500
+  font-size: 14px
+  color: #626262
+.offer-subtext
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 500
+  font-size: 12px
+  line-height: 15px
+  color: #626262
+.fair-text
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: 600
+  font-size: 12px
+  line-height: 15px
+  color: #000000
+.refine-sections
+  width: 343px
+  height: 450px
+  background: #FFFFFF
+  border-radius: 10px
+  box-shadow: 0 1px 4px rgb(0 0 0 / 25%)
+  padding-top: 20px
 
+.refine-headings
+  font-family: 'SF Pro Display'
+  font-style: normal
+  font-weight: 600
+  font-size: 14px
+  color: #000000
+.sizePre-sections
+  width: 343px
+  height: 500px
+  background: #FFFFFF
+  border-radius: 10px
+  box-shadow: 0 1px 4px rgb(0 0 0 / 25%)
+  padding-top: 20px
+.hr
+  border-top: 1px solid #E1E1E1
+  width: 318px
+.unselected-item
+  width: 99px
+  height: 45px
+  border-radius: 3px
+  background: #FFFFFF
+  border: 1px solid #999999
+  @include body-5
+  font-weight: $normal
+  font-family: $font-sp-pro
+  color: #999999
+  padding-top: 10px
+  //padding-left: 20px
+  cursor: pointer
+.selected-item
+  width: 99px
+  height: 45px
+  border-radius: 3px
+  border: 1px solid #000
+  @include body-5
+  font-weight: $medium
+  font-family: $font-sp-pro
+  color: #999999
+  padding-top: 10px
+  //padding-left: 20px
+  cursor: pointer
+  background: #F2F2F2
+.column-sizes
+  height: 100px
+  overflow-y: scroll
+.filtersHeading
+  font-size: 14px
+  font-weight: 600
+  font-family: $font-sp-pro
+  color: #000000
+  width: 100%
 </style>

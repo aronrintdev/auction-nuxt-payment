@@ -17,12 +17,12 @@ export default {
       width:'',
     }
   },
+  layout: 'Profile',
   components: {
     dashboardMobile:()=> import('./dashboardMobile'),
     dashboardWeb:()=>import('./dashboardWeb'),
   },
   mounted() {
-    console.log('page mounted')
     this.width = window.innerWidth
   },
 }
