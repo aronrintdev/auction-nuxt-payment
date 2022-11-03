@@ -1,13 +1,14 @@
 <template>
-  <div class="promotions bg-white pt-4 p-sm-4 br-10 shadow-sm">
+  <div class="promotions bg-white pt-4 p-sm-4 br-10">
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="fs-20 fw-7 font-primary mb-0 title">
         {{ $t('buyer_dashboard.promotions.title') }}
       </h2>
       <nuxt-link
-        to="/promotions"
-        class="font-secondary fs-16 fw-4 border-bottom border-primary mb-0 d-none d-sm-block"
-        >{{ $t('buyer_dashboard.promotions.view_promotions') }}</nuxt-link
+          to="/promotions"
+          class="font-secondary fs-16 fw-4 border-bottom border-primary mb-0 d-none d-sm-block"
+      >{{ $t('buyer_dashboard.promotions.view_promotions') }}
+      </nuxt-link
       >
     </div>
     <div class="container">

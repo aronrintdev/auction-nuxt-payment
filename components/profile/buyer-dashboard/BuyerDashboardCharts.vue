@@ -1,13 +1,13 @@
 <template>
   <section class="row mt-sm-5 mb-4">
     <div class="col-md-8 mb-2 mb-md-0">
-      <div class="bg-white br-10 px-2 pt-4 p-sm-4 shadow-sm">
+      <div class="bg-white br-10 px-2 pt-4 p-sm-4">
         <div class="d-flex align-items-center justify-content-between">
           <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
             {{ $t('buyer_dashboard.dashobard_buyer.total_purchases_main') }}
           </h1>
           <h1
-            class="fs-14 fw-7 font-primary text-grey-69 mb-0 d-block d-sm-none text-center w-100"
+              class="fs-14 fw-7 font-primary text-grey-69 mb-0 d-block d-sm-none text-center w-100"
           >
             {{ $t('buyer_dashboard.dashobard_buyer.total_purchases_main') }}
           </h1>
@@ -64,7 +64,7 @@
     </div>
     <!-- TODO -->
     <div class="col-md-4">
-      <div class="bg-white br-10 px-2 py-3 p-sm-4 shadow-sm h-100">
+      <div class="bg-white br-10 px-2 py-3 p-sm-4 h-100">
         <div class="d-flex align-items-center justify-content-between">
           <h1 :class="{
             'mb-5': isScreenXS

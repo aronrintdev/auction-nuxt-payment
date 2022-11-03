@@ -81,7 +81,7 @@
     </div>
     <div class="row d-flex d-sm-none">
       <div v-for="row in purchases" :key="row.id" class="col-12 my-2">
-        <div class="bg-white py-2 border shadow-sm br-10">
+        <div class="bg-white py-2 border br-10">
           <Carousel
               ref="sizeCarousel"
               :center="true"
