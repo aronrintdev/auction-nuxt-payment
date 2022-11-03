@@ -1030,6 +1030,7 @@ export default {
           .then((response) => {
             this.hasSearchResult = true
             this.similarProducts = response.data.data || []
+            this.searchedProducts = response.data.data || []
           })
           .catch((error) => {
             this.hasSearchResult = false
