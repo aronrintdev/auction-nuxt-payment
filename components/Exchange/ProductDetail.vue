@@ -88,30 +88,26 @@
               </div>
               <div class="col-2 text-right">
                 <Button
-            id="popover-wishlist"
-            :tooltip-text="wishList ? wishList.name : ''"
-            tabindex="0"
-            variant="link"
-            class="mr-3 shadow-none"
-            @click="removeFromWishList"
-          >
-            <template #default>
-              <b-img v-if="!wishList" width="18" :src="require('~/assets/img/product/heart-outline.svg')"></b-img>
-              <b-img v-else width="18" :src="require('~/assets/img/icons/heart-red.svg')"></b-img>
-            </template>
-          </Button>
-                <!-- <Button
-                  id="popover-wishlist"
-                  variant="link"
-                  :icon="wishList ? `heart-red.svg` : 'heart2.svg'"
-                  icon-only
-                  class="mr-3 shadow-none"
-                  tabindex="0"
+                  :id="`popover-wishlist-${productId}`"
                   :tooltip-text="wishList ? wishList.name : ''"
-                  pill
+                  tabindex="0"
+                  variant="link"
+                  class="mr-3 shadow-none"
                   @click="removeFromWishList"
                 >
-                </Button> -->
+                  <template #default>
+                    <b-img
+                      v-if="!wishList"
+                      width="18"
+                      :src="require('~/assets/img/product/heart-outline.svg')"
+                    ></b-img>
+                    <b-img
+                      v-else
+                      width="18"
+                      :src="require('~/assets/img/icons/heart-red.svg')"
+                    ></b-img>
+                  </template>
+                </Button>
               </div>
             </div>
           </div>
@@ -167,8 +163,8 @@
               @update="handleSizeChange"
               @changeViewMode="handleSizeViewAll"
             />
-             <!--Out Of Stock Message -->
-             <div
+            <!--Out Of Stock Message -->
+            <div
               v-if="
                 method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'
               "
@@ -383,13 +379,13 @@
         </div>
       </div>
       <WishListPopover
-      :product="productDetail"
-      :wish-list="wishList"
-      target="popover-wishlist"
-      @show="wishListShow = true"
-      @hidden="wishListShow = false"
-      @wishlisted="onWishListed"
-    />
+        :product="productDetail"
+        :wish-list="wishList"
+        :target="`popover-wishlist-${productId}`"
+        @show="wishListShow = true"
+        @hidden="wishListShow = false"
+        @wishlisted="onWishListed"
+      />
     </div>
     <Modal
       id="size-all-modal"
@@ -436,13 +432,13 @@
         <div class="row">
           <div class="col-12">
             <div class="all-sizes">
-              <div class="row  row-cols-lg-4 row-cols-md-4 row-cols-sm-3 row-cols-xs-2 items-wrapper">
+              <div
+                class="row row-cols-lg-4 row-cols-md-4 row-cols-sm-3 row-cols-xs-2 items-wrapper"
+              >
                 <div
                   v-for="size in sizes"
                   :key="`size-${size.type}-${size.id}`"
-                  :class="`col item ${
-                    currentSize === size.id ? 'active' : ''
-                  }`"
+                  :class="`col item ${currentSize === size.id ? 'active' : ''}`"
                 >
                   <div
                     class="card text-left pl-2 w-100"
@@ -470,7 +466,6 @@
         </div>
       </template>
     </Modal>
- 
   </div>
 </template>
 
@@ -696,8 +691,8 @@ export default {
         ? this.product.wish_lists[0]
         : null
     },
-    productId(){
-        return this.product && this.product.id
+    productId() {
+      return this.product && this.product.id
     },
     isOutOfStock() {
       return this.currentSize && !this.currentListingItem
