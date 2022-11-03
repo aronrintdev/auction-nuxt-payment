@@ -21,7 +21,7 @@
             <Logo :width="171" />
           </PortalTarget>
         </h2>
-      </div>
+      </div> 
     </b-navbar-brand>
     <b-nav-form class="search-box-wrapper">
       <SearchInput
@@ -124,6 +124,7 @@
       </b-navbar-nav>
     </b-collapse>
     <vue-bottom-sheet
+      v-if="isScreenXS"
       ref="searchBottomSheet"
       max-width="auto"
       max-height="100%"

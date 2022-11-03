@@ -48,6 +48,9 @@ export default {
 .title-wrapper
   margin: 8px 18px 0
 
+  div
+    font-family: 'Montserrat', serif
+
 .back-arrow
   position: absolute
   left: 0
