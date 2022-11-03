@@ -177,8 +177,6 @@ export default {
   methods: {
     viewOrder() {
       this.$router.push(`/profile/purchases/summary/${this.purchase.id}`)
-      console.log('order data is',this.$router);
-      console.log('order data is');
     },
   },
 }
