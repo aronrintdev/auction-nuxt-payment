@@ -12,32 +12,33 @@
       <b-row class="options-wrapper">
         <b-col cols="12" sm="12">
           <b-list-group>
-            <b-list-group-item>
-              <b-row class="d-flex">
-                <b-col cols="6" sm="6">
-                  <span class="text-black body-17-normal">{{ $t('shopping_cart.change_size') }}</span>
-                </b-col>
-                <b-col cols="6" sm="6" class="text-right">
-                  <ArrowRightBlackSVG />
-                </b-col>
-              </b-row>
-            </b-list-group-item>
+            <!-- TODO: NP - Will activate once implemented -->
+<!--            <b-list-group-item>-->
+<!--              <b-row class="d-flex">-->
+<!--                <b-col cols="6" sm="6">-->
+<!--                  <span class="text-black body-17-normal">{{ $t('shopping_cart.change_size') }}</span>-->
+<!--                </b-col>-->
+<!--                <b-col cols="6" sm="6" class="text-right">-->
+<!--                  <ArrowRightBlackSVG />-->
+<!--                </b-col>-->
+<!--              </b-row>-->
+<!--            </b-list-group-item>-->
             <b-list-group-item>
               <b-row>
-                <b-col cols="6" sm="6">
+                <b-col cols="8" sm="8">
                   <span class="text-black body-17-normal">{{ $t('shopping_cart.move_to_wishilist') }}</span>
                 </b-col>
-                <b-col cols="6" sm="6" class="text-right">
+                <b-col cols="4" sm="4" class="text-right">
                   <ArrowRightBlackSVG />
                 </b-col>
               </b-row>
             </b-list-group-item>
             <b-list-group-item>
               <b-row>
-                <b-col cols="6" sm="6">
+                <b-col cols="8" sm="8">
                   <span class="text-black body-17-normal">{{ $t('shopping_cart.remove_from_bag') }}</span>
                 </b-col>
-                <b-col cols="6" sm="6" class="text-right">
+                <b-col cols="4" sm="4" class="text-right">
                   <ArrowRightBlackSVG />
                 </b-col>
               </b-row>
