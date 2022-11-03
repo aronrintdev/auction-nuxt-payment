@@ -128,10 +128,11 @@
         </template>
         <template #cell(status)="data">
           <div
-              class="d-flex align-items-center justify-content-center tdHeight"
+              class="d-flex align-items-center justify-content-center tdHeight "
               :aria-label="$t('vendor_dashboard.status')"
           >
-            <h4 :class="mobileClass" class="status-badge-warning text-capitalize">
+            <h4 :class="styleFor(data.item.status_label) + ` ${mobileClass}`"
+                class="text-capitalize status body-13-normal">
               {{ data.item.status_label }}
             </h4>
           </div>
@@ -292,13 +293,15 @@ export default {
     },
     styleFor(statusLabel) {
       switch (statusLabel.toLowerCase()) {
-        case 'arrived at deadstock':
+        case 'arrived_at_deadstock':
           return 'arrived';
-        case 'shipped to deadstock':
+        case 'delivered':
+          return 'arrived';
+        case 'shipped_to_deadstock':
           return 'shipped';
-        case 'awaiting authentication':
+        case 'awaiting_authentication':
           return 'awaiting-auth';
-        case 'order taken over':
+        case 'order_taken_over':
           return 'order-taken-over';
       }
 
@@ -334,6 +337,45 @@ export default {
 </script>
 <style lang="sass">
 @import '~/assets/css/_variables'
+
+.status
+  &:not(.mobile)
+    padding: 11px 30px
+    border-radius: 4px
+    width: 141px
+    height: 61px
+    display: flex
+    align-items: center
+    justify-content: center
+
+.status.awaiting
+  color: $color-red-20
+
+  &:not(.mobile)
+    background: rgba($color-red-20, 0.08)
+
+.status.arrived
+  color: $color-green-3
+
+  &:not(.mobile)
+    background: $color-green-20
+
+.status.shipped
+  color: $color-blue-16
+
+  &:not(.mobile)
+    background: $dark-gray-5
+
+.status.awaiting-auth
+  &:not(.mobile)
+    background: rgba($color-blue-17, 0.05)
+  color: $color-blue-17
+
+.status.order-taken-over
+  &:not(.mobile)
+    background: $dark-gray-7
+  color: $color-gray-5
+
 .status-badge-warning
   &.mobile
     background-color: transparent
@@ -428,8 +470,6 @@ export default {
         font-size: 12px
         font-weight: $normal
         font-family: $font-family-base
-        &:not(.status-badge)
-          color: $color-gray-6
         &.actions
           display: flex
           column-gap: 6px
