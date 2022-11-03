@@ -10,6 +10,7 @@
     <!-- End of Top Title -->
 
     <ListItem
+      v-show="Object.keys(offerDetails).length"
       :offer-details="offerDetails"
       product-options
       @item-options-clicked="handleItemOptionsClick"
