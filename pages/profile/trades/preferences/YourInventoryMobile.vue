@@ -12,7 +12,67 @@
           @change="onSearchInput"
         />
       </div>
-      <div class="ml-2 mt-1"> <img class="image-tick"  src="~/assets/img/filterIcon.svg" /></div>
+      <div class="ml-2 mt-1"> <img class="image-tick"  src="~/assets/img/filtersPrefer.svg" @click="openBottomFilter()"/></div>
+      <vue-bottom-sheet
+        ref="browseFiltersSheet"
+        class="more-options"
+        max-width="auto"
+        max-height="90vh"
+        :rounded="true"
+      >
+        <div class="row d-flex">
+          <b-col md="2" ms="12">
+            <CustomDropdown v-model="categoryFilter"
+                            :options="categoryItems"
+                            type="single-select"
+                            :label="categoryFilterLabel"
+                            class="mr-3 width-156"
+                            optionsWidth="custom"
+                            width="150px"
+                            dropDownHeight="38px"
+                            variant="white"
+                            borderRadius="4px"
+                            @getResults="getInventory"
+                            @change="changeCategory"/>
+          </b-col>
+          <b-col md="2" sm="12">
+            <CustomDropdown v-model="sizeTypesFilter"
+                            :options="filters.size_types"
+                            type="multi-select-checkbox"
+                            :label="sizeTypesFilterLabel"
+                            class="mr-3 width-156"
+                            optionsWidth="custom"
+                            dropDownHeight="38px"
+                            variant="white"
+                            borderRadius="4px"
+                            @getResults="getInventory"
+                            @change="changeSizeTypeFilter"/>
+          </b-col>
+          <b-col md="2" sm="12">
+            <CustomDropdown v-model="sizeFilter"
+                            :options="filters.sizes"
+                            type="multi-select-checkbox"
+                            :label="sizeFilterLabel"
+                            class="mr-3 width-156"
+                            optionsWidth="custom"
+                            dropDownHeight="38px"
+                            variant="white"
+                            borderRadius="4px"
+                            @getResults="getInventory"
+                            @change="changeSizeFilter"/>
+          </b-col>
+          <b-col md="2" sm="12">
+            <Button class="mr-3" variant="primary" @click="getInventory">
+              {{ $t('create_listing.trade.offer_items.filter_btn') }}
+            </Button>
+          </b-col>
+          <b-col md="4" sm="12" class="d-flex align-items-center">
+            <img :src="require('~/assets/img/icons/info-blue.svg')" alt="No Image" width="13" height="13">
+            <span  v-if="category === DEFAULT_INVENTORY_STATUS" class="info-text ml-2">{{$t('trades.preferences.make_it_public')}}</span>
+            <span  v-else class="info-text ml-2">{{$t('trades.preferences.make_it_private')}}</span>
+          </b-col>
+        </div>
+      </vue-bottom-sheet>
     </div>
     <NavGroup
       :data="categories"
@@ -21,61 +81,6 @@
       class="section-nav text-center mt-2"
       @change="handleCategoryChange"
     />
-    <b-col class="mt-4 p-0" md="12" sm="12">
-      <span class="filter-by">{{ $t('create_listing.trade.offer_items.filter_by') }}</span>
-      <div class="row d-flex">
-        <b-col md="2" ms="12">
-          <CustomDropdown v-model="categoryFilter"
-                          :options="categoryItems"
-                          type="single-select"
-                          :label="categoryFilterLabel"
-                          class="mr-3 width-156"
-                          optionsWidth="custom"
-                          width="150px"
-                          dropDownHeight="38px"
-                          variant="white"
-                          borderRadius="4px"
-                          @getResults="getInventory"
-                          @change="changeCategory"/>
-          </b-col>
-        <b-col md="2" sm="12">
-        <CustomDropdown v-model="sizeTypesFilter"
-                          :options="filters.size_types"
-                          type="multi-select-checkbox"
-                          :label="sizeTypesFilterLabel"
-                          class="mr-3 width-156"
-                          optionsWidth="custom"
-                          dropDownHeight="38px"
-                          variant="white"
-                          borderRadius="4px"
-                          @getResults="getInventory"
-                          @change="changeSizeTypeFilter"/>
-        </b-col>
-        <b-col md="2" sm="12">
-          <CustomDropdown v-model="sizeFilter"
-                          :options="filters.sizes"
-                          type="multi-select-checkbox"
-                          :label="sizeFilterLabel"
-                          class="mr-3 width-156"
-                          optionsWidth="custom"
-                          dropDownHeight="38px"
-                          variant="white"
-                          borderRadius="4px"
-                          @getResults="getInventory"
-                          @change="changeSizeFilter"/>
-        </b-col>
-        <b-col md="2" sm="12">
-        <Button class="mr-3" variant="primary" @click="getInventory">
-          {{ $t('create_listing.trade.offer_items.filter_btn') }}
-        </Button>
-        </b-col>
-        <b-col md="4" sm="12" class="d-flex align-items-center">
-          <img :src="require('~/assets/img/icons/info-blue.svg')" alt="No Image" width="13" height="13">
-          <span  v-if="category === DEFAULT_INVENTORY_STATUS" class="info-text ml-2">{{$t('trades.preferences.make_it_public')}}</span>
-          <span  v-else class="info-text ml-2">{{$t('trades.preferences.make_it_private')}}</span>
-        </b-col>
-      </div>
-    </b-col>
     <b-row class="mt-4 pl-2">
     <inventory-card-item :items="inventoryItems" :selectedItems="publicItems" @changePublicInventories="emitParentChangePublicInventories" />
     </b-row>
@@ -146,7 +151,9 @@ export default {
     this.getInventory()
   },
   methods:{
-
+    openBottomFilter() {
+      this.$refs.browseFiltersSheet.open();
+    },
   /**
    * This function is used to get product and show in
    * listing below input search field
