@@ -6,7 +6,7 @@
       class="offer-item-trade-container mb-4 mx-auto" 
       :role="(offer.deleted_at === null ? 'button' : '')" 
     >
-      <div @click="showOffer(offer)" class="d-none d-sm-block">
+      <div @click="showOffer(offer)" class="d-none d-lg-block">
         <div class="d-flex justify-content-between">
           <div :id="`flyer-${offer.condition}`">
             {{$t(offer.condition_translation)}}
@@ -70,7 +70,7 @@
           </div>
         </div>
       </div>
-      <div class="mobile-offer d-sm-none">
+      <div class="mobile-offer d-lg-none">
         <div class="d-flex justify-content-between">
           <div 
             class="offer-id"
@@ -268,9 +268,9 @@ export default {
 .owner-name
   @include body-5-medium
   color: $color-black-1
+  width: 99px
   font-family: $font-family-sf-pro-display
   background: $color-gray-1
-  width: 99px
   height: 23px
   display: flex
   justify-content: center
@@ -284,16 +284,20 @@ export default {
   box-shadow: 0px 4px 4px $drop-shadow1
   padding: 13px 14px 20px 14px
   border-radius: 6px
+  @media (min-width: 576px)
+    width: 75%
+    margin-left: auto
+    margin-right: auto
+
 
 .offer-item-trade-container
-  @media (min-width: 576px)
+  @media (min-width: 1200px)
     width: 1062px
     height: 350px
     box-shadow: 0 1px 4px $drop-shadow1
     border-radius: 10px
 
 #flyer-excellent
-  width: 145px
   height: 30.36px
   background: $color-green-21
   border-radius: 0 4px 4px 0
@@ -303,6 +307,9 @@ export default {
   color: $color-white-1
   font-family: $font-family-sf-pro-display
   padding-top: 3px
+  @media (min-width: 1200px)
+    width: 145px
+
 
 #flyer-excellent:before,#flyer-excellent::before
   position: absolute
@@ -316,7 +323,6 @@ export default {
 
 
 #flyer-fair
-  width: 145px
   height: 30.36px
   background: $color-yellow-7
   border-radius: 0 4px 4px 0
@@ -326,6 +332,8 @@ export default {
   color: $color-white-1
   font-family: $font-family-sf-pro-display
   padding-top: 3px
+  @media (min-width: 1200px)
+    width: 145px
 
 #flyer-fair:before,#flyer-fair::before
   position: absolute
@@ -338,7 +346,6 @@ export default {
   border-left: 6px solid transparent
 
 #flyer-poor
-  width: 145px
   height: 30.36px
   background: $color-red-16
   border-radius: 0 4px 4px 0
@@ -348,6 +355,8 @@ export default {
   color: $color-white-1
   font-family: $font-family-sf-pro-display
   padding-top: 3px
+  @media (min-width: 1200px)
+    width: 145px
 
 #flyer-poor:before,#flyer-poor::before
   position: absolute
@@ -377,29 +386,33 @@ export default {
     color: $color-gray-64
 
 .offer-received
-  width: 195px
   background: $color-blue-27
   border-radius: 0 9px
   font-family: $font-family-montserrat
   font-style: normal
   @include body-4-normal
   color: $color-gray-5
+  @media (min-width: 1200px)
+    width: 195px
 
 .offer-sent
-  width: 195px
   background: $color-yellow-5
   border-radius: 0 9px
   font-family: $font-family-montserrat
   font-style: normal
   @include body-4-normal
   color: $color-gray-5
+  @media (min-width: 1200px)
+    width: 195px
 
 .trade-listing-item-single
-  width: 514px
   height: 340px
   filter: drop-shadow(0px 1px 4px $drop-shadow1)
   background: $color-white-1
   border-radius: 10px
+  @media (min-width: 1200px)
+    width: 514px
+
 
 .trade-id
   font-family: $font-family-sf-pro-display
@@ -421,10 +434,11 @@ export default {
   color: $color-gray-4
 
 .inner-items-listed
-  width: 418px
-  height: 217px
-  box-shadow: 0 1px 4px $drop-shadow1
-  border-radius: 10px
+  @media (min-width: 1200px)
+    width: 418px
+    height: 217px
+    box-shadow: 0 1px 4px $drop-shadow1
+    border-radius: 10px
 
 .inner-heading-listing
   background: $color-gray-1

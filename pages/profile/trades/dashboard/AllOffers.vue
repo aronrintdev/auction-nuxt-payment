@@ -1,9 +1,9 @@
 <template>
   <div class="container-trade-dashboard">
-    <b-row class="heading-dashboard mt-4 d-none d-sm-flex">
+    <b-row class="heading-dashboard mt-4 mx-0 d-none d-sm-flex">
       {{$t('trades.my_trade_offer')}}
     </b-row>
-    <b-row class="m-0 mt-sm-5">
+    <b-row class="m-0 mt-sm-3 justify-content-lg-between">
       <b-col lg="8" sm="12" class="d-flex justify-content-between align-items-center px-0 pr-sm-auto pl-sm-0">
         <div class="col-11 px-0 d-sm-none">
           <SearchInput
@@ -37,6 +37,9 @@
           class="w-100 d-none d-sm-block"
           :value="searchText"
           variant="primary"
+          :inputStyle="{
+            height: '38px'
+          }"
           :placeholder="$t('trades.search_trades_offers')"
           :clearSearch="true"
           bordered
@@ -51,24 +54,28 @@
           :style="{ top: '33px', width: '94% !important' }"
         />
       </b-col>
-      <b-col lg="4" sm="12" class="justify-content-end pr-4 d-none d-sm-flex">
+      <b-col lg="3" sm="12" class="justify-content-end mt-2 mt-lg-0 px-0 d-none d-sm-flex">
         <CustomDropdown
           v-model="orderFilter"
           type="single-select"
           :options="orderFilterItems"
           :label="orderFilterLabel"
           variant="white"
-          maxWidth="245px"
+          maxWidth="100%"
+          :dropdownStyle="{
+            background: '#FFF'
+          }"
+          width="100%"
           dropDownHeight="38px"
           @change="changeOrderFilter"
         />
       </b-col>
     </b-row>
-    <b-row class="d-none d-sm-flex mt-4">
-      <b-col lg="5" sm="12" class="pl-0 pr-3">
+    <b-row class="d-none d-sm-flex mt-4 justify-content-lg-between">
+      <b-col lg="5" xl="5" sm="12" class="">
         <label>{{$t('trades.filter_by')}}</label>
-        <b-row class="pl-2">
-          <b-col md="5 p-0" sm="12">
+        <b-row class="">
+          <b-col md="5" lg="7" xl="5" sm="12">
             <CustomDropdown
               v-model="conditionFilter"
               type="multi-select-checkbox"
@@ -77,12 +84,19 @@
               variant="white"
               dropDownHeight="38px"
               optionsWidth="custom"
-              width="275px"
+              maxWidth="100%"
+              width="100%"
+              :arrowStyle="{
+                marginLeft: 0
+              }"
+              :dropdownStyle="{
+                position: 'relative'
+              }"
               @getResults="fetchOffersListing"
               @change="changeConditionFilter"
             />
           </b-col>
-          <b-col md="7 pl-3" sm="12">
+          <b-col class="mt-2 mt-md-0" md="7" lg="5" xl="7" sm="12">
             <CustomDropdown
               v-model="statusFilter"
               type="multi-select-checkbox"
@@ -91,32 +105,40 @@
               variant="white"
               dropDownHeight="38px"
               optionsWidth="custom"
-              width="361px"
+              width="100%"
+              maxWidth="100%"
+              :dropdownStyle="{
+                position: 'relative'
+              }"
               @getResults="fetchOffersListing"
               @change="changeStatusFilter"
             />
           </b-col>
         </b-row>
       </b-col>
-      <b-col lg="6" sm="12" class="pl-0 offset-1">
-        <label class="offset-md-1">{{$t('trades.listed_date')}}</label>
-        <b-row class="justify-content-end">
-          <b-col md="4" sm="12" >
+      <b-col lg="6" xl="6" sm="12" class="mt-3 mt-lg-0 px-2">
+        <label class="">{{$t('selling_page.offer_date')}}</label>
+        <b-row class="justify-content-end justify-content-sm-start justify-content-lg-between">
+          <b-col sm="4" md="5" lg="4">
             <CalendarInput
               :value="start_date"
               :placeholder="$t('trades.start_date')"
+              groupClass="w-100"
               @context="(context) => start_date = context.selectedYMD"
             />
           </b-col>
-          <b-col md="4" sm="12" >
+          <b-col sm="4" md="5" lg="4">
             <CalendarInput
               :value="end_date"
               :placeholder="$t('trades.end_date')"
+              groupClass="w-100"
               @context="(context) => end_date = context.selectedYMD"
             />
           </b-col>
-          <b-col md="3" sm="12"  >
-            <Button variant="blue" @click="applyFilters">{{$t('trades.apply')}}</Button>
+          <b-col class="mt-2 mt-sm-0 d-flex justify-content-sm-end" sm="4" md="2" lg="3">
+            <Button variant="blue" class="" @click="applyFilters">
+              {{$t('trades.apply')}}
+            </Button>
           </b-col>
         </b-row>
       </b-col>
@@ -408,6 +430,10 @@ export default {
     this.$root.$on('productClick', (product) => {
       this.searchOffers(product)
     })
+    // const wrapper = document.querySelector('.main-wrapper')
+    // if (wrapper.querySelector('.container-trade-dashboard')) {
+    //   wrapper.style.backgroundColor = '#f7fbef'
+    // }
 
     // To reset search filter trade offers
     this.$root.$on('click_outside', () => {
@@ -662,9 +688,9 @@ export default {
 .container-trade-dashboard
   padding-left: 12px
   padding-right: 12px
-  @media (min-width: 576px)
+  @media (min-width: 992px)
     padding-left: 54px
-    padding-right: 0
+    padding-right: 54px
 
 ::v-deep .date-input-icon
   background-color: $color-white-1
