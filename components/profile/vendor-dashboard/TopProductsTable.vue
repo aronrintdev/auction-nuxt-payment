@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row my-5">
+    <div v-if="!isScreenXS" class="row my-5">
       <div class="col-6 col-md-3">
         <h1 class="heading-1-bold mb-0 heading font-secondary">
           {{ $t('vendor_dashboard.top_products') }}
@@ -15,6 +15,17 @@
             @click="$router.push('/profile/inventory')"
         >{{ $t('vendor_dashboard.view_all') }}</a
         >
+      </div>
+    </div>
+    <div v-if="isScreenXS" class="d-flex ">
+      <div class="flex-grow-1 text-center body-5-medium ml-5">
+        {{ $t('vendor_purchase.products') }}
+      </div>
+      <div class="d-flex align-items-center body-9-regular"
+           role="button"
+           @click="$router.push('/profile/inventory')">
+        <img :alt="$t('vendor_dashboard.view_all')" :src="require('~/assets/img/icons/eye2.svg')"
+             class="mr-1">{{ $t('vendor_dashboard.view_all') }}
       </div>
     </div>
     <div>

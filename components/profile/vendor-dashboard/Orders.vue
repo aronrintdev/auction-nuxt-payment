@@ -1,23 +1,37 @@
 <template>
   <div>
-    <div class="row my-5">
+    <div v-if="!screenSize" class="row my-5">
       <div class="col-6 col-md-3">
         <h1 class="heading-1-bold mb-0 heading font-secondary">
           {{ $t('vendor_dashboard.orders') }}
         </h1>
       </div>
       <div class="col-md-6 d-none d-sm-flex justify-content-center">
-        <NavGroup :value="activeNav" :data="menus" @change="navItem" />
+        <NavGroup :value="activeNav" :data="menus" @change="navItem"/>
       </div>
       <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
         <nuxt-link
-          to="/orders"
-          class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
-          >{{ $t('vendor_dashboard.view_all') }}</nuxt-link
+            to="/orders"
+            class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
+        >{{ $t('vendor_dashboard.view_all') }}
+        </nuxt-link
         >
       </div>
     </div>
-    <div class="my-5">
+    <div v-if="isScreenXS" class="d-flex ">
+      <div class="flex-grow-1 text-center body-5-medium ml-5">
+        {{ $t('vendor_dashboard.orders') }}
+      </div>
+      <div class="d-flex align-items-center body-9-regular"
+           role="button"
+           @click="$router.push('/orders')">
+        <img :alt="$t('vendor_dashboard.view_all')" :src="require('~/assets/img/icons/eye2.svg')"
+             class="mr-1">{{ $t('vendor_dashboard.view_all') }}
+      </div>
+    </div>
+    <div :class="{
+      'my-5': !isScreenXS
+    }">
       <b-table
           class="ordersTable"
           borderless
