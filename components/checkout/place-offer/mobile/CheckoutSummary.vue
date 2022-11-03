@@ -44,7 +44,7 @@
                 </b-col>
               </b-row>
             </b-list-group-item>
-            <b-list-group-item @click="emitRenderComponentEvent($parent.$options.components.PaymentOptionsMenu.name)">
+            <b-list-group-item @click="emitRenderComponentEvent($parent.$options.components.PaymentCard.name)">
               <PaymentDetailsListItem />
             </b-list-group-item>
             <b-list-group-item @click="emitRenderComponentEvent($parent.$options.components.OfferSummary.name)">
