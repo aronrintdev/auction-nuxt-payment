@@ -47,7 +47,7 @@
       </b-row>
 
       <div v-if="isMobileSize" class="collection-items mt-2">
-        <b-carousel controls indicators>
+        <b-carousel indicators>
           <b-carousel-slide v-for="(item, i) in auction.auction_items" :key="i" class="h-auto">
             <template #img>
               <b-row>
@@ -189,6 +189,7 @@ export default {
 
 .collection-item
   padding: 15px 10px
+
 
 .border
   border: 1px solid $color-gray-60
