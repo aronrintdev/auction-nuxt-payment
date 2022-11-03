@@ -45,7 +45,7 @@
           <div>{{ $t('deadstock_exchange.detail.sell') }}</div>
         </Button>
         <div v-if="error.buyNow" class="error-text">
-              {{ error.buyNow }}
+          {{ error.buyNow }}
         </div>
       </div>
     </div>
@@ -115,7 +115,7 @@
             </Button>
             <div v-if="error.buyNow" class="error-text">
               {{ error.buyNow }}
-             </div>
+            </div>
           </div>
         </div>
         <div class="row desktop-product-price-section">
@@ -146,7 +146,7 @@
         <div class="row mobile-product-size-picker mb-3">
           <div class="col-12">
             <ProductSizePicker
-               ref="productSizePicker"
+              ref="productSizePicker"
               :sizes="sizes"
               :value="currentSize"
               :viewMode="sizeViewMode"
@@ -327,7 +327,6 @@
             <!-- ./Input search -->
           </div>
           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
-
             <FormDropdown
               id="sort-by"
               :value="selectedFilters.sortBy"
@@ -382,11 +381,14 @@
             <div class="body-6-bold mb-2">
               {{ $t('deadstock_exchange.detail.day_gain') }}
             </div>
-            <div class="body-6-normal" :class="
+            <div
+              class="body-6-normal"
+              :class="
                 product && product.gainRatio > 0
                   ? 'text-success'
                   : 'text-danger'
-              ">
+              "
+            >
               {{ product && product.gainRatio | toCurrency }}
             </div>
           </div>
@@ -399,7 +401,9 @@
                 <div
                   v-for="size in sizes"
                   :key="`size-${size.type}-${size.id}`"
-                  :class="`col-3 item ${currentSize === size.id ? 'active' : ''}`"
+                  :class="`col-3 item ${
+                    currentSize === size.id ? 'active' : ''
+                  }`"
                 >
                   <div
                     class="card text-left pl-2"
@@ -407,14 +411,17 @@
                   >
                     {{ size.size }}
                     <div class="price">
-                    {{ size.price | toCurrency }}
+                      {{ size.price | toCurrency }}
                     </div>
-                    <div class="price-ratio" :class="
-                product && product.size_to_price_percentage > 0
-                  ? 'text-success'
-                  : 'text-danger'
-              ">
-                     {{size.size_to_price_percentage |toPercentage}}
+                    <div
+                      class="price-ratio"
+                      :class="
+                        product && product.size_to_price_percentage > 0
+                          ? 'text-success'
+                          : 'text-danger'
+                      "
+                    >
+                      {{ size.size_to_price_percentage | toPercentage }}
                     </div>
                   </div>
                 </div>
@@ -491,7 +498,7 @@ export default {
       hasSearchResult: false,
       error: {
         addToCart: null,
-        buyNow: null
+        buyNow: null,
       },
       selectedFilters: {
         type: 'trending',
@@ -636,12 +643,11 @@ export default {
     this.product = await this.$axios
       .get(`/stock-exchange/${sku}`)
       .then((res) => res.data)
-      this.similarProducts = this.product.similar_products
-      const lowestPrice = _.minBy(this.product.lowest_prices, 'price')
-      if (lowestPrice) {
-        this.currentSize = lowestPrice.size_id
-        await this.findListingItem() // 'add to chart' button needs listing of item
-
+    this.similarProducts = this.product.similar_products
+    const lowestPrice = _.minBy(this.product.lowest_prices, 'price')
+    if (lowestPrice) {
+      this.currentSize = lowestPrice.size_id
+      await this.findListingItem() // 'add to chart' button needs listing of item
     }
     this.loading = false
   },
@@ -662,11 +668,11 @@ export default {
   },
   watch: {
     selectedFilters: {
-      handler (newV) {
+      handler(newV) {
         this.emitChange(newV)
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   mounted() {
     this.getProductChartData()
@@ -733,9 +739,7 @@ export default {
         this.currentListingItem.inventory.sale_price < this.lowestPrice
       ) {
         this.product.lowest_prices = this.product.lowest_prices.map((i) => {
-          if (
-            i.size_id === this.currentSize
-          ) {
+          if (i.size_id === this.currentSize) {
             i.price = this.currentListingItem.inventory.sale_price
           }
           return i
@@ -875,7 +879,7 @@ export default {
         // there will sort category if equal to 24 hours then we will assgin
         //  24 hours record to the graph
         case '24': {
-          const oneDay = this.getGraphData(this.graphData.oneDay.data);
+          const oneDay = this.getGraphData(this.graphData.oneDay.data)
           this.lineDatasets.labels = this.graphData.oneDay.labels
           this.lineDatasets.datasets[0].data = oneDay
           this.$refs.lineChart.renderLineChart()
@@ -884,7 +888,7 @@ export default {
         case '7': {
           // there will sort category if equal to week then we will assgin
           //  Week record to the graph
-          const week = this.getGraphData(this.graphData.week.data);
+          const week = this.getGraphData(this.graphData.week.data)
           this.lineDatasets.labels = this.graphData.week.labels
           this.lineDatasets.datasets[0].data = week
           this.$refs.lineChart.renderLineChart()
@@ -894,7 +898,7 @@ export default {
         case '30': {
           // there will sort category if equal to 30 days then we will assgin
           //  30 days record to the graph
-          const oneMonth = this.getGraphData(this.graphData.oneMonth.data);
+          const oneMonth = this.getGraphData(this.graphData.oneMonth.data)
           this.lineDatasets.labels = this.graphData.oneMonth.labels
           this.lineDatasets.datasets[0].data = oneMonth
           this.$refs.lineChart.renderLineChart()
@@ -903,7 +907,7 @@ export default {
         case '6': {
           // there will sort category if equal to 6 month then we will assgin
           //  6 month record to the graph
-          const sixMonth = this.getGraphData(this.graphData.sixMonths.data);
+          const sixMonth = this.getGraphData(this.graphData.sixMonths.data)
           this.lineDatasets.labels = this.graphData.sixMonths.labels
           this.lineDatasets.datasets[0].data = sixMonth
           this.$refs.lineChart.renderLineChart()
@@ -912,7 +916,7 @@ export default {
         case '1': {
           // there will sort category if equal to 1 Year then we will assgin
           //  1 year record to the graph
-          const oneYear = this.getGraphData(this.graphData.oneYear.data);
+          const oneYear = this.getGraphData(this.graphData.oneYear.data)
           this.lineDatasets.labels = this.graphData.oneYear.labels
           this.lineDatasets.datasets[0].data = oneYear
           this.$refs.lineChart.renderLineChart()
@@ -921,7 +925,7 @@ export default {
         case 'all': {
           // there will sort category if equal to Al record then we will assgin
           //  All record to the graph
-          const allData = this.getGraphData(this.graphData.all.data);
+          const allData = this.getGraphData(this.graphData.all.data)
           this.lineDatasets.labels = this.graphData.all.labels
           this.lineDatasets.datasets[0].data = allData
           this.$refs.lineChart.renderLineChart()
@@ -985,6 +989,7 @@ export default {
           .then((response) => {
             this.hasSearchResult = true
             this.similarProducts = response.data.data || []
+            this.searchedProducts = response.data.data || []
           })
           .catch((error) => {
             this.hasSearchResult = false
@@ -1011,15 +1016,14 @@ export default {
     },
     getGraphData(arrayData) {
       // there we sort the garph data with selected time period
-      if (arrayData.length > 0)
-      {
+      if (arrayData.length > 0) {
         const newData = arrayData.reduce(function (acc, current) {
-          acc.push(current.sale_price);
-          return acc;
+          acc.push(current.sale_price)
+          return acc
         }, [])
-        return newData;
+        return newData
       }
-      return [];
+      return []
     },
   },
 }
