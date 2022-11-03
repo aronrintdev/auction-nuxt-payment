@@ -3,13 +3,13 @@
     <b-card class="mt-3">
       <!-- personal details -->
       <div class="card-text border-underline">
-        <span class="personal-details-heading">
+        <span class="personal-details-heading"
+          @click="personalProfileEdit">
           <span class="d-flex">
             {{ $t('preferences.profile.personal_details') }}
             <span
               class="forward-btn position-absolute"
               role="button"
-              @click="personalProfileEdit"
             >
               <img
                 :src="require('~/assets/img/icons/right-arrow.svg')"
@@ -51,13 +51,13 @@
 
       <!-- social media links -->
       <div class="card-text border-underline mt-3">
-        <span class="personal-details-heading">
+        <span class="personal-details-heading"
+         @click="openSocialMediaLinks">
           <span class="d-flex">
             {{ $t('preferences.profile.social_media_links') }}
             <span
               role="button"
               class="forward-btn position-absolute"
-              @click="openSocialMediaLinks"
             >
               <img
                 :src="require('~/assets/img/icons/right-arrow.svg')"
@@ -75,10 +75,11 @@
 
       <!-- language -->
       <div class="card-text mt-3">
-        <span class="personal-details-heading">
+        <span class="personal-details-heading"
+        @click="openLanguage">
           <span class="d-flex">
             {{ $t('preferences.profile.language') }}
-            <span role="button" class="forward-btn position-absolute" @click="openLanguage">
+            <span role="button" class="forward-btn position-absolute" >
               <img
                 :src="require('~/assets/img/icons/right-arrow.svg')"
                 class="float-right d-flex"
@@ -93,14 +94,33 @@
       </div>
       <!-- language -->
     </b-card>
+
+    <!-- logout btn -->
+    <div class="d-flex justify-content-center ">
+      <b-button
+        variant="logout-user"
+        class="
+        align-items-center
+        text-align-center
+        d-flex
+        justify-content-center
+        mt-2
+        "
+        @click="logout"
+        >
+        {{ $t('preferences.profile.log_out') }}
+      </b-button>
+    </div>
+    <!-- logout btn -->
   </div>
 </template>
 
 <script>
 import screenSize from '~/plugins/mixins/screenSize'
+import logoutMixin from '~/plugins/mixins/logout'
 export default {
   name: 'ResponsiveProfileComponent',
-  mixins: [screenSize],
+  mixins: [screenSize, logoutMixin],
   layout: 'Profile',
 
   middleware: 'auth',
@@ -115,6 +135,21 @@ export default {
     openLanguage() {
       this.$router.push('/profile/preferences/langauge-responsive')
     },
+
+    // Logout User
+    async logout() {
+      this.loggingOut = true
+      // Logout a user
+      await this.$auth.logout({ handleError: false }).then(() => {
+        this.disconnectSocket()
+        this.postLogout()
+      })
+
+      if (!this.$store.state.auth.loggedIn) {
+        this.$router.push('/?lang=' + this.$store.state.locale)
+        this.$toasted.success(this.$t('home.logout_successful'))
+      }
+    }
   },
 }
 </script>
@@ -142,4 +177,17 @@ export default {
 
 .forward-btn
   right: 25px
+
+.btn-logout-user
+  border-radius: 21px
+  height: 40px
+  width: 93%
+  font-family: $font-sp-pro
+  font-style: normal
+  @include body-4-medium
+  background: $color-blue-20
+  color: $color-white-1 
+  position: fixed
+  bottom: 15vh
+
 </style>

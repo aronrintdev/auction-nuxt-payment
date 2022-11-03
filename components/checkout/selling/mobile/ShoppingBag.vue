@@ -255,7 +255,6 @@ export default {
     openBottomSheet(maxHeight = '95%', maxWidth = '640px') {
       this.bottomSheetMaxHeight = maxHeight
       this.bottomSheetMaxWidth = maxWidth
-      // this.$refs.shoppingBagOrder.$destroy()
       this.$refs.shoppingBagOrder.open()
     },
     handleCheckoutButtonClick() {
@@ -278,7 +277,7 @@ export default {
     &.btn-checkout
       width: 216px
       height: 40px
-      margin-bottom: 26px
+      margin-bottom: 14px
 
 .section-title
   margin-bottom: 7px

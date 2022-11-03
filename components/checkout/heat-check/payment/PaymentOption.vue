@@ -35,13 +35,13 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import shoppingCartMixin from '~/plugins/mixins/shopping-cart'
+import emitEventMixin from '~/plugins/mixins/emit-event'
 import OrderTitle from '~/components/checkout/common/OrderTitle'
 import RadioOptionCard from '~/components/checkout/common/RadioOptionCard'
 export default {
   name: 'PaymentOption',
   components: { RadioOptionCard, OrderTitle },
-  mixins: [shoppingCartMixin],
+  mixins: [ emitEventMixin ],
   data() {
     return {
       cardOption: {

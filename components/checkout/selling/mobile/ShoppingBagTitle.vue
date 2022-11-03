@@ -15,12 +15,12 @@
 <script>
 import LocaleMessage from 'vue-i18n'
 import ArrowLeftGray17SVG from '~/assets/img/shopping-cart/arrow-left-gray-17.svg?inline'
-import shoppingCartMixin from '~/plugins/mixins/shopping-cart'
+import emitEventMixin from '~/plugins/mixins/emit-event'
 
 export default {
   name: 'ShoppingBagTitle',
   components: { ArrowLeftGray17SVG },
-  mixins: [shoppingCartMixin],
+  mixins: [ emitEventMixin ],
   props: {
     title: {
       type: [String, LocaleMessage],
@@ -47,6 +47,9 @@ export default {
 <style lang="sass" scoped>
 .title-wrapper
   margin: 8px 18px 0
+
+  div
+    font-family: 'Montserrat', serif
 
 .back-arrow
   position: absolute

@@ -55,8 +55,8 @@
       <!-- Outbid Type -->
       <div v-show="filterVisibility" class="collapses flex-column w-100">
         <CollapseSelector
-          :multiSelect="false"
           v-model="filters.activeOnOffBidFilters"
+          :multiSelect="false"
           collapseKey="outbid_type"
           :title="$t('bids.auto_bid_on_off')"
           :options="OUTBID_TYPES"
@@ -178,17 +178,17 @@ export default {
 
     // On start date select
     startDateSelected(value) {
-      this.date.start = value
-      this.filters.bid_start_date = value
+      this.date.start = this.$moment(value).format('MM/DD/YYYY')
+      this.filters.bid_start_date = this.$moment(value).format('MM/DD/YYYY')
     },
 
     // On end date select
     endDateSelected(value) {
-      this.date.end = value
-      this.filters.bid_end_date = value
+      this.date.end = this.$moment(value).format('MM/DD/YYYY')
+      this.filters.bid_end_date = this.$moment(value).format('MM/DD/YYYY')
     },
 
-    applyFilter(){
+    applyFilter() {
       this.$emit('filter', { ...this.filters })
     }
   },

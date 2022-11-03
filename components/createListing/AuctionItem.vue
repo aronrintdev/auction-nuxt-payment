@@ -159,7 +159,7 @@
           <img
             v-b-tooltip.hover
             :src="infoIcon"
-            :title="$tc('create_listing.confirm.reserve_tooltip_info')"
+            :title="$tc('create_listing.confirm.reserve_info_short')"
             class="icon-info position-absolute mt-n2 mr-n5 scale-2"
           />
         </span>

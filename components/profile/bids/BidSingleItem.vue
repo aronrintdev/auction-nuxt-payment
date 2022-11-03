@@ -28,7 +28,9 @@
               </b-form-checkbox>
             </div>
             <ProductThumb :product="inventory.product" />
-            <div v-if="!isMobileSize" class="auction-id">{{ $t('bids.auction_id') }}: {{ auction.id }}</div>
+            <NuxtLink v-if="!isMobileSize" :to="`/profile/auctions/${auction.id}`">
+              <div class="auction-id"> {{ $t('bids.auction_id') }}: {{ auction.id }}</div>
+            </NuxtLink>
           </b-col>
           <b-col cols="8" md="8" class="pl-4 d-md-flex align-content-md-center">
             <b-row class="mb-2 d-block" :class="{ 'flex-grow-1' : isMobileSize }">
@@ -74,11 +76,13 @@
         </b-row>
       </b-col>
       <b-col sm="12" md="1" class="d-sm-block d-md-none d-flex justify-content-around flex-column py-1 py-md-0 mt-3">
-        <div class="d-flex justify-content-between d-md-block">
+        <div class="d-flex justify-content-between d-md-block align-items-end">
           <span class="body-9-medium">{{ $t('bids.auction_id') }}:</span>
-          <span :class="isMobileSize ? 'body-9-regular text-underline text-blue-30' : 'body-4-medium'">
-          {{ auction.id }}
-        </span>
+          <NuxtLink :to="`/profile/auctions/${auction.id}`">
+            <span :class="isMobileSize ? 'body-9-regular text-underline text-blue-30' : 'body-4-medium'">
+              {{ auction.id }}
+            </span>
+          </NuxtLink>
         </div>
       </b-col>
       <b-col sm="12" md="1" class="d-flex justify-content-around flex-column py-1 py-md-0"

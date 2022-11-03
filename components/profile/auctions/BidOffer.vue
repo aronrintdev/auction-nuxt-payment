@@ -6,6 +6,7 @@
     <div class="d-flex align-items-center align-items-md-end">
       <FormDropdown
         :id="'durationSelector-'+bid.id"
+        :key="duration"
         :value="duration"
         :placeholder="$tc('auction.select_duration', 2)"
         :items="DURATIONS"
@@ -30,7 +31,7 @@
         variant="link"
         class="btn-delete border-0"
         :tooltip-text="$t('common.delete')"
-        @click="$emit('remove', bid)"
+        @click="removeDuration"
       ></Button>
       <!-- Duration Sheet -->
       <vue-bottom-sheet ref="durationSheet">
@@ -95,6 +96,10 @@ export default {
     closeDurationSheet() {
       this.$refs.durationSheet.close()
     },
+    removeDuration() {
+      this.duration = null
+      this.$emit('remove', this.bid)
+    }
   }
 }
 </script>
@@ -130,6 +135,7 @@ export default {
       padding: 17px 14px
       font-family: $font-montserrat
       font-weight: $medium
+      width: 128px
       &.has-error
         border: 2px solid $color-red-3
       .placeholder

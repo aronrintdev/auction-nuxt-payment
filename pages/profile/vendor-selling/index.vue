@@ -277,6 +277,7 @@
             class="list-item"
             :searchResults="searchResults.data"
             :loading="loading"
+            :totalCount="totalCount"
             :showCheckBox="showCheckBox"
             :selected="selected"
             @selectedItem="selectedItem"
@@ -309,7 +310,7 @@
               <div class="col listing-heading-col">
                 <span class="float-left">
                   {{ $t('selling_page.listings') }} &#40;{{
-                    searchData.length
+                    totalCount
                   }}&#41;</span
                 >
                 <span class="float-left ml-2" role="button" @click="moreOption">
@@ -944,7 +945,7 @@ export default {
       this.showCheckBox = !this.showCheckBox
       this.searchFilters.delistMultipleSelected =
         !this.searchFilters.delistMultiple
-      this.loadData()
+        // this.loadData() commented as part of ticket DVQ-498
       this.$refs.myBottomSheet.close()
     },
 

@@ -170,13 +170,13 @@ export default {
     },
     // On start date select
     startDateSelected(value) {
-      this.date.start = value
-      this.filters.start_date = new Date(value).toISOString().split('T')[0]
+      this.date.start = this.$moment(value).format('MM/DD/YYYY')
+      this.filters.start_date =  this.$moment(value).format('MM/DD/YYYY')
     },
     // On end date select
     endDateSelected(value) {
-      this.date.end = value
-      this.filters.end_date = new Date(value).toISOString().split('T')[0]
+      this.date.end = this.$moment(value).format('MM/DD/YYYY')
+      this.filters.end_date =  this.$moment(value).format('MM/DD/YYYY')
     },
     applyFilter(){
       this.$emit('filter', { ...this.filters })

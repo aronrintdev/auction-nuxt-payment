@@ -132,10 +132,12 @@
       v-if="paymentMethod.paymentType === isCard"
       class="mt-2"
       editable
+      clearable
       :card-brand="paymentMethod.cardBrand"
       :card-expiry-date="paymentMethod.cardExpiryDate"
       :card-last-digits="paymentMethod.cardLastDigits"
       @edit="emitRenderComponentEvent($parent.$options.components.PaymentOption.name)"
+      @clear="removePaymentMethod()"
     />
     <CryptoDetailsCard
       v-if="cryptoDetails.amount"
@@ -418,6 +420,7 @@ export default {
           tax: this.getTax,
           total: this.getTotal,
           payment_token: this.paymentToken,
+          payment_method: this.paymentMethod,
           billing_address: {
             first_name: this.billingAddress.firstName,
             last_name: this.billingAddress.lastName,
@@ -446,11 +449,9 @@ export default {
           this.loading = false
           this.$bvModal.show('order-success-modal')
           this.removePaymentToken()
-          this.removePaymentMethod()
         }).catch(error => {
           this.loading = false
           this.removePaymentToken()
-          this.removePaymentMethod()
 
           if (error.response.status === 400) {
           this.$toasted.error(this.$t(error.response.data.response_text).toString())

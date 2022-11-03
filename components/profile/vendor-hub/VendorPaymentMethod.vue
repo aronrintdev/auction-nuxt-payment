@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="mobileClass ? 'mobile-form-box p-3' : 'payment-method p-4'">
+    <div :class="mobileClass ? 'mobile-form-box p-3' : 'payment-method p-4 mb-2'">
       <div class="d-flex flex-row justify-content-between align-items-center">
         <div class="title" :class="mobileClass ? 'body-10-bold font-weight-bold text-blue-20' : 'heading-3-normal'">
           {{ $t('vendor_hub.payout_method.title') }}

@@ -33,7 +33,7 @@
                     :placeholder="$t('shopping_cart.first_name')"
                     :state="getValidationState(validationContext)"
                   ></b-form-input>
-                  <b-form-invalid-feedback>{{
+                  <b-form-invalid-feedback class="body-18-normal text-red-3">{{
                       validationContext.errors[0]
                     }}</b-form-invalid-feedback>
                 </b-form-group>
@@ -56,7 +56,7 @@
                     :placeholder="$t('shopping_cart.last_name')"
                     :state="getValidationState(validationContext)"
                   ></b-form-input>
-                  <b-form-invalid-feedback>{{
+                  <b-form-invalid-feedback class="body-18-normal text-red-3">{{
                       validationContext.errors[0]
                     }}</b-form-invalid-feedback>
                 </b-form-group>
@@ -64,6 +64,30 @@
             </b-col>
           </b-row>
           <!-- End of Last Name Field -->
+
+          <!-- Email Field -->
+          <b-row>
+            <b-col md="12">
+              <ValidationProvider
+                v-slot="validationContext"
+                :name="$t('shopping_cart.email')"
+                :rules="{ required: true, validEmail:true, email: true, min: 3, max: 128 }"
+              >
+                <b-form-group label-for="email">
+                  <b-form-input
+                    v-model="form.inputEmail"
+                    type="email"
+                    :placeholder="$t('shopping_cart.email')"
+                    :state="getValidationState(validationContext)"
+                  ></b-form-input>
+                  <b-form-invalid-feedback class="body-18-normal text-red-3">{{
+                      validationContext.errors[0]
+                    }}</b-form-invalid-feedback>
+                </b-form-group>
+              </ValidationProvider>
+            </b-col>
+          </b-row>
+          <!-- End of Email Field -->
 
           <!-- Address Line 1 Field -->
           <b-row>
@@ -80,7 +104,7 @@
                     :placeholder="$t('shopping_cart.address_line_1')"
                     :state="getValidationState(validationContext)"
                   ></b-form-input>
-                  <b-form-invalid-feedback>{{
+                  <b-form-invalid-feedback class="body-18-normal text-red-3">{{
                       validationContext.errors[0]
                     }}</b-form-invalid-feedback>
                 </b-form-group>
@@ -104,7 +128,7 @@
                     :placeholder="$t('shopping_cart.address_line_2')"
                     :state="getValidationState(validationContext)"
                   ></b-form-input>
-                  <b-form-invalid-feedback>{{
+                  <b-form-invalid-feedback class="body-18-normal text-red-3">{{
                       validationContext.errors[0]
                     }}</b-form-invalid-feedback>
                 </b-form-group>
@@ -128,7 +152,7 @@
                     :placeholder="$t('shopping_cart.zip')"
                     :state="getValidationState(validationContext)"
                   ></b-form-input>
-                  <b-form-invalid-feedback>{{
+                  <b-form-invalid-feedback class="body-18-normal text-red-3">{{
                       validationContext.errors[0]
                     }}</b-form-invalid-feedback>
                 </b-form-group>
@@ -151,7 +175,7 @@
                     :placeholder="$t('shopping_cart.city')"
                     :state="getValidationState(validationContext)"
                   ></b-form-input>
-                  <b-form-invalid-feedback>{{
+                  <b-form-invalid-feedback class="body-18-normal text-red-3">{{
                       validationContext.errors[0]
                     }}</b-form-invalid-feedback>
                 </b-form-group>
@@ -169,7 +193,7 @@
                     :placeholder="$t('shopping_cart.state')"
                     :state="getValidationState(validationContext)"
                   ></b-form-input>
-                  <b-form-invalid-feedback>{{
+                  <b-form-invalid-feedback class="body-18-normal text-red-3">{{
                       validationContext.errors[0]
                     }}</b-form-invalid-feedback>
                 </b-form-group>
@@ -192,7 +216,7 @@
                     :placeholder="$t('shopping_cart.phone')"
                     :state="getValidationState(validationContext)"
                   ></b-form-input>
-                  <b-form-invalid-feedback>{{
+                  <b-form-invalid-feedback class="body-18-normal text-red-3">{{
                       validationContext.errors[0]
                     }}</b-form-invalid-feedback>
                 </b-form-group>
@@ -215,7 +239,7 @@
                     :placeholder="$t('shopping_cart.country')"
                     :state="getValidationState(validationContext)"
                   ></b-form-input>
-                  <b-form-invalid-feedback>{{
+                  <b-form-invalid-feedback class="body-18-normal text-red-3">{{
                       validationContext.errors[0]
                     }}</b-form-invalid-feedback>
                 </b-form-group>
@@ -296,6 +320,7 @@ export default {
       form: {
         inputFirstName: this.address.firstName,
         inputLastName: this.address.lastName,
+        inputEmail: this.address.email,
         inputAddressLine: this.address.addressLine,
         inputAddressLine2: '',
         inputCity: this.address.city,

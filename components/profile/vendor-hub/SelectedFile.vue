@@ -1,7 +1,7 @@
 <template>
   <div class="my-2 selected-file px-2 d-flex align-items-center" :class="variant">
     <img :src="require('~/assets/img/profile/vendor-hub/attachment-black.svg')" class="file-icon" alt="">
-    <div class="file-name overflow-hidden text-truncate px-3 flex-grow-1">{{ file.name }}</div>
+    <div class="file-name overflow-hidden text-truncate px-3 flex-grow-1">{{ file.name ? file.name : file }}</div>
     <Button
       variant="link"
       class="delete-button mr-2"
@@ -22,7 +22,7 @@ export default {
   components: {Button},
   props: {
     file: {
-      type: Object,
+      type: [Object, String],
       required: true
     },
     variant: {

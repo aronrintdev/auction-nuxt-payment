@@ -2,31 +2,27 @@
     <b-row
       v-if="auction.auction_items"
       :class="{'border shadow-sm' : isMobileSize}"
-      class="mt-3 text-center ml-n1 font-weight-bold w-100 bg-white collection-item"
+      class="mt-3 text-center mx-0 ml-md-n1 font-weight-bold w-100 bg-white collection-item"
       role="button"
       @click="$emit('click')"
     >
-      <b-row class="w-100 pr-0">
-        <b-col sm="12" md="5" class="text-left mt-4">
-          <b-row>
-            <b-col cols="4" md="4" :class="isMobileSize ? 'text-right' : 'text-center'">
-              <div @click.stop>
-                <b-form-checkbox
-                  v-if="selectable"
-                  :checked="selected"
-                  class="position-absolute ml-n4 chekbox"
-                  @change="$emit('selected', auction.id)"
-                >
-                </b-form-checkbox>
-              </div>
-              <img :src="CollectionSvg" alt="collection image">
-            </b-col>
-            <b-col cols="8" md="8" class="pl-4 pt-2">
-              <span :class="isMobileSize ? 'body-5-medium': 'body-4-bold'">
-                {{ auction.name }} ( {{auction.auction_items.length}} {{$t('auction.items')}} )
-              </span>
-            </b-col>
-          </b-row>
+      <b-row class="w-100 m-0">
+        <b-col cols="12" md="5" class="text-left mt-4">
+          <div class="d-flex align-items-center justify-content-center">
+            <div @click.stop>
+              <b-form-checkbox
+                v-if="selectable"
+                :checked="selected"
+                class="position-absolute ml-n4 chekbox"
+                @change="$emit('selected', auction.id)"
+              >
+              </b-form-checkbox>
+            </div>
+            <img :src="CollectionSvg" class="pr-4" alt="collection image">
+            <span class="auction-name overflow-hidden text-nowrap" :class="isMobileSize ? 'body-5-medium': 'body-4-bold'">
+              {{ auction.name }} ( {{auction.auction_items.length}} {{$t('auction.items')}} )
+            </span>
+          </div>
         </b-col>
         <template v-if="!isMobileSize">
           <b-col sm="12" md="1" class="d-flex justify-content-around flex-column pt-4">
@@ -51,7 +47,7 @@
       </b-row>
 
       <div v-if="isMobileSize" class="collection-items mt-2">
-        <b-carousel controls indicators>
+        <b-carousel indicators>
           <b-carousel-slide v-for="(item, i) in auction.auction_items" :key="i" class="h-auto">
             <template #img>
               <b-row>
@@ -194,10 +190,14 @@ export default {
 .collection-item
   padding: 15px 10px
 
+
 .border
   border: 1px solid $color-gray-60
   border-radius: 12px
   overflow: hidden
+
+.auction-name
+  text-overflow: ellipsis
 
 .text-blue-30
   color: $color-blue-30
