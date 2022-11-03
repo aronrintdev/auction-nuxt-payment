@@ -1,18 +1,25 @@
 <template>
   <b-navbar toggleable="lg" class="navbar-wrapper border-bottom">
-    <b-navbar-toggle target="top-menu-sidebar">
-      <template #default>
-        <img width="25px" :src="require('~/assets/img/icons/menu.svg')" alt="..."/>
-      </template>
-    </b-navbar-toggle>
+    <PortalTarget name="back-icon-slot">
+      <b-navbar-toggle target="top-menu-sidebar">
+        <template #default>
+          <img
+            width="25px"
+            :src="require('~/assets/img/icons/menu.svg')"
+            alt="..."
+          />
+        </template>
+      </b-navbar-toggle>
+    </PortalTarget>
     <b-navbar-brand to="/" class="navbar-brand ml-auto m-lg-0">
       <div class="d-none d-sm-inline-block">
         <Logo :width="171" />
       </div>
       <div class="d-inline-block d-sm-none">
-        <Logo v-if="pageTitle" :width="171" />
-        <h2 v-else class="meta-info font-primary fs-18 fw-7 mb-0 text-black">
-          {{ pageTitle }}
+        <h2 class="meta-info font-primary fs-18 fw-7 mb-0 text-black">
+          <PortalTarget name="page-title">
+            <Logo :width="171" />
+          </PortalTarget>
         </h2>
       </div>
     </b-navbar-brand>
@@ -36,14 +43,23 @@
     />
     <b-navbar-nav class="nav-menu-wrapper flex-row d-flex d-lg-none">
       <b-nav-item class="nav-item-icons" to="#">
-        <img
-          height="24px"
-          :src="require('~/assets/img/icons/notification-icon.svg')"
-          alt="..."
-        />
+        <!-- to append custom elements based on different pages in responsive mode  -->
+        <PortalTarget name="notification-icon-slot">
+          <img
+            height="24px"
+            :src="require('~/assets/img/icons/notification-icon.svg')"
+            alt="..."
+          />
+        </PortalTarget>
       </b-nav-item>
       <b-nav-item class="nav-item-icons" to="/checkout/selling">
-        <img height="22px" :src="require('~/assets/img/icons/bag.png')" alt="..." />
+        <PortalTarget name="cart-icon-slot">
+          <img
+            height="22px"
+            :src="require('~/assets/img/icons/bag.png')"
+            alt="..."
+          />
+        </PortalTarget>
       </b-nav-item>
     </b-navbar-nav>
     <b-collapse id="nav-collapse" is-nav class="navbar-collapse">
@@ -278,9 +294,19 @@ export default {
     title: 'Deadstock',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' },
+      {
+        name: 'viewport',
+        content:
+          'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0',
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/assets/img/icons/favicon.ico' }]
+    link: [
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/assets/img/icons/favicon.ico',
+      },
+    ],
   },
   computed: {
     ...mapState(['locale', 'locales']),
@@ -297,7 +323,7 @@ export default {
     },
     pageTitle() {
       return this.$nuxt?.context?.route?.meta[0]?.pageTitle ?? null
-    }
+    },
   },
   watch: {
     screenIsSmallThanLG(newVal) {

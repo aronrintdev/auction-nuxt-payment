@@ -70,6 +70,7 @@
     <section>
       <Orders />
     </section>
+    <Portal to="page-title"> Dashboard </Portal>
   </div>
 </template>
 <script>
@@ -79,9 +80,6 @@ import VendorDashboardCharts from '~/components/profile/vendor-dashboard/VendorD
 import Orders from '~/components/profile/vendor-dashboard/Orders'
 export default {
   name: 'VendorDashboard',
-  meta: {
-    pageTitle: 'Dashboard',
-  },
   components: {
     TopProducts,
     StatsCard,

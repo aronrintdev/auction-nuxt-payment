@@ -54,10 +54,11 @@ export default defineNuxtConfig({
     { src: '~/plugins/vue-360.js', mode: 'client' },
     { src: '~/plugins/magic360.js', mode: 'client' },
     { src: '~/plugins/tawk.js', mode: 'client' },
-    { src: '~/plugins/vue-bottom-sheet.js', mode: 'client'},
-    { src: '~/plugins/vue-click-outside.js', mode: 'client'},
-    { src: '~/plugins/v-calendar.js', mode: 'client'},
-    { src: '~/plugins/infinteloading', mode: 'client' }
+    { src: '~/plugins/vue-bottom-sheet.js', mode: 'client' },
+    { src: '~/plugins/vue-click-outside.js', mode: 'client' },
+    { src: '~/plugins/v-calendar.js', mode: 'client' },
+    { src: '~/plugins/infinteloading', mode: 'client' },
+    { src: '~/plugins/portal', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -81,7 +82,7 @@ export default defineNuxtConfig({
     '@nuxtjs/recaptcha',
   ],
   bootstrapVue: {
-    icons: true
+    icons: true,
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
@@ -136,7 +137,7 @@ export default defineNuxtConfig({
       home: '/',
       logout: '/',
     },
-    plugins: [{src: '~/plugins/echo.js', mode: 'client'}]
+    plugins: [{ src: '~/plugins/echo.js', mode: 'client' }],
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

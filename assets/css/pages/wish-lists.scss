@@ -1,6 +1,9 @@
 .container-wishlists {
   // max-width: 1024px;
-  padding: 30px 40px;
+  padding: 16px;
+  @media (min-width: 576px) {
+    padding: 30px 40px;
+  }
 
   .section-no-list {
     p {
@@ -76,6 +79,9 @@
     max-height: 700px;
     min-width: 166px;
     overflow-y: scroll;
+    @media (max-width: 576px) {
+      margin-right: 0;
+    }
 
     &.mt {
       margin-top: 73px;

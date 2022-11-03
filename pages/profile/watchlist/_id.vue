@@ -1,6 +1,6 @@
 <template>
-  <b-container fluid class="container-wishlists">
-    <div class="wishlist-mobile">
+  <b-container fluid class="container-watchlists">
+    <div class="watchlist-mobile">
       <div v-for="(product, index) in listProducts" :key="index" class="mb-4">
         <div class="d-flex">
           <div class="thumb-wrapper">
@@ -41,30 +41,30 @@
     </div>
 
     <Portal to="back-icon-slot">
-      <nuxt-link to="/profile/wish-lists">
+      <nuxt-link to="/profile/watchlist">
         <img src="~/assets/img/icons/back.svg" />
       </nuxt-link> </Portal
     ><Portal to="page-title">
-      {{ currentWishList ? currentWishList.name : 'Wishlist' }}
+      {{ currentWatchList ? currentWatchList.name : 'Watchlist' }}
     </Portal>
     <Portal to="notification-icon-slot">
-      <div :id="`popover-share-wishlist`">
+      <div :id="`popover-share-watchlist`">
         <ShareIcon class="share-icon" />
       </div>
       <b-popover
         ref="sharePopover"
-        :target="`popover-share-wishlist`"
+        :target="`popover-share-watchlist`"
         triggers="click"
         placement="bottom"
         container="body"
-        custom-class="wishlist-popover"
+        custom-class="watchlist-popover"
         delay="200"
         @show="shareShow = true"
         @hidden="shareShow = false"
       >
         <ShareButton
-          :url="`${shareUrl}${currentWishList ? currentWishList.id : ''}`"
-          :title="currentWishList ? currentWishList.name : ''"
+          :url="`${shareUrl}${currentWatchList ? currentWatchList.id : ''}`"
+          :title="currentWatchList ? currentWatchList.name : ''"
           :description="shareDescription"
         />
       </b-popover>
@@ -74,48 +74,48 @@
       <h1 class="fs-16 fw-6 font-primary my-3">Inspired By Your List</h1>
       <ProductCarousel class="mt-4 mb-5" :products="products" loop />
     </div>
-    <CreateWishListModal />
+    <CreateWatchListModal />
   </b-container>
 </template>
 <script>
 import { mapActions } from 'vuex'
 import Thumb from '~/components/product/Thumb'
-import CreateWishListModal from '~/components/modal/CreateWishList'
+import CreateWatchListModal from '~/components/modal/CreateWatchList'
 import ShareIcon from '~/assets/icons/ShareIcon'
 import ShareButton from '~/components/common/ShareButton.vue'
 export default {
-  name: 'WishListsId',
-  components: { Thumb, CreateWishListModal, ShareIcon, ShareButton },
+  name: 'WatchListsId',
+  components: { Thumb, CreateWatchListModal, ShareIcon, ShareButton },
   layout: 'IndexLayout',
   data() {
     return {
       category: 'all',
       CATEGORIES: [
         {
-          label: this.$t('wish_lists.categories.all'),
+          label: this.$t('watch_lists.categories.all'),
           value: 'all',
         },
         {
-          label: this.$t('wish_lists.categories.footwear'),
+          label: this.$t('watch_lists.categories.footwear'),
           value: 'sneakers',
         },
         {
-          label: this.$t('wish_lists.categories.apparel'),
+          label: this.$t('watch_lists.categories.apparel'),
           value: 'apparel',
         },
         {
-          label: this.$t('wish_lists.categories.accessories'),
+          label: this.$t('watch_lists.categories.accessories'),
           value: 'accessories',
         },
       ],
-      currentWishList: null,
+      currentWatchList: null,
       listProducts: [],
       currentPage: 1,
       perPage: 0,
       totalCount: 0,
       loading: false,
-      shareDescription: this.$t('wish_lists.share_description'),
-      shareUrl: process.env.APP_URL + '/wish-lists/',
+      shareDescription: this.$t('watchlists.share_description'),
+      shareUrl: process.env.APP_URL + '/watch-lists/',
       products: [
         {
           id: 1,
@@ -237,32 +237,32 @@ export default {
   async fetch() {
     this.loading = true
     if (this.$route.params?.id) {
-      this.currentWishList = await this.findWishList({
+      this.currentWatchList = await this.findWatchList({
         id: this.$route.params.id,
       })
     }
-    if (this.currentWishList) {
-      await this.getWishListItems()
+    if (this.currentWatchList) {
+      await this.getWatchListItems()
     }
     this.loading = false
   },
 
   computed: {
-    isMyWishList() {
-      return this.$store.state?.auth?.user?.id === this.currentWishList.user_id
+    isMyWatchList() {
+      return this.$store.state?.auth?.user?.id === this.currentWatchList.user_id
     },
   },
 
   methods: {
     ...mapActions({
-      findWishList: 'wish-list/findWishList',
-      fetchWishListItems: 'wish-list/fetchWishListItems',
+      findWatchList: 'watch-list/findWatchList',
+      fetchWatchListItems: 'watch-list/fetchWatchListItems',
     }),
 
-    async getWishListItems() {
+    async getWatchListItems() {
       this.loading = true
-      const res = await this.fetchWishListItems({
-        wishList: this.currentWishList,
+      const res = await this.fetchWatchListItems({
+        watchList: this.currentWatchList,
         page: this.currentPage,
         perPage: this.perPage,
         category: this.category !== 'all' ? this.category : null,

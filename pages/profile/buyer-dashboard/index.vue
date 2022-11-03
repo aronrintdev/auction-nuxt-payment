@@ -11,7 +11,11 @@
         <StatsCard
           :icon="require('~/assets/img/icons/profile/total-sales.svg')"
           :title="$t('buyer_dashboard.dashobard_buyer.total_purchases')"
-          :value="''+analytics.total_purchases !== 'undefined' ? '$'+analytics.total_purchases : '...'"
+          :value="
+            '' + analytics.total_purchases !== 'undefined'
+              ? '$' + analytics.total_purchases
+              : '...'
+          "
           color="#667799"
         />
       </div>
@@ -19,7 +23,11 @@
         <StatsCard
           :icon="require('~/assets/img/icons/profile/commision-pending.svg')"
           :title="$t('buyer_dashboard.dashobard_buyer.rewards_points')"
-          :value="''+analytics.reward_points !=='undefined'?analytics.reward_points : '...'"
+          :value="
+            '' + analytics.reward_points !== 'undefined'
+              ? analytics.reward_points
+              : '...'
+          "
           color="#CE745F"
         />
       </div>
@@ -27,7 +35,11 @@
         <StatsCard
           :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
           :title="$t('buyer_dashboard.dashobard_buyer.items_bought')"
-          :value="''+analytics.items_bought !=='undefined'?analytics.items_bought : '...'"
+          :value="
+            '' + analytics.items_bought !== 'undefined'
+              ? analytics.items_bought
+              : '...'
+          "
           color="#7196B1"
         />
       </div>
@@ -35,7 +47,11 @@
         <StatsCard
           :icon="require('~/assets/img/icons/profile/item-sold.svg')"
           :title="$t('buyer_dashboard.dashobard_buyer.offers_placed')"
-          :value="''+analytics.offers_placed !=='undefined'?analytics.offers_placed : '...'"
+          :value="
+            '' + analytics.offers_placed !== 'undefined'
+              ? analytics.offers_placed
+              : '...'
+          "
           color="#909090"
         />
       </div>
@@ -49,6 +65,7 @@
     <section>
       <Purchases />
     </section>
+    <Portal to="page-title"> Dashboard </Portal>
   </div>
 </template>
 <script>
@@ -65,9 +82,6 @@ export default {
     BuyerDashboardCharts,
   },
   layout: 'Profile',
-  meta: {
-    pageTitle: 'Dashboard',
-  },
   data() {
     return {
       // Active Nav for the Toggle Button
