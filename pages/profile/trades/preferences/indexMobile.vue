@@ -3,47 +3,47 @@
     <div class="main-container ml-3 m-2 mt-5" v-if="mainPageList">
       <div class="p-2 mt-1" @click="inventorySettings()">
         <div class="d-flex mb-1">
-          <div class="inven-set d-flex justify-content-start align-content-start mt-2">Inventory Settings </div>
+          <div class="inven-set d-flex justify-content-start align-content-start mt-2">{{$t('trades.preferences.inventory_settings')}}</div>
           <img class="chev-img d-flex justify-content-end align-content-end mt-2" src="~/assets/img/left-chev.svg" />
         </div>
-        <div class="inven-sub-set mb-1"> Set privacy settings for your inventory </div>
-        <div class="link-text"> Public </div>
+        <div class="inven-sub-set mb-1">{{$t('trades.preferences.set_privacy_settting')}}</div>
+        <div class="link-text">{{$t('common.public')}}</div>
       </div>
       <hr class="hr-border"/>
       <div class="p-2 mt-1" @click="offerSettings()">
         <div class="d-flex mb-1">
-          <div class="inven-set d-flex justify-content-start align-content-start mt-2">Offer Settings </div>
+          <div class="inven-set d-flex justify-content-start align-content-start mt-2">{{$t('trades.preferences.set_privacy_settting')}}</div>
           <img class="chev-img-offer d-flex justify-content-end align-content-end mt-2" src="~/assets/img/left-chev.svg" />
         </div>
-        <div class="inven-sub-set mb-1"> Customize the min. value (%) of incoming offers </div>
-        <div class="link-text"> Starting at: 25% of Fair Offers </div>
+        <div class="inven-sub-set mb-1">{{'trades.preferences.customize_the_min_value'}}</div>
+        <div class="link-text">{{'trades.preferences.starting_at_25_of_fair_offers'}}</div>
       </div>
       <hr class="hr-border"/>
       <div class="p-2 mt-1" @click="refineMatch()">
         <div class="d-flex mb-1">
-          <div class="inven-set d-flex justify-content-start align-content-start mt-2">Refine Your Match </div>
+          <div class="inven-set d-flex justify-content-start align-content-start mt-2">{{'trades.preferences.refine_your_match'}}</div>
           <img class="chev-img-offer d-flex justify-content-end align-content-end mt-2" src="~/assets/img/left-chev.svg" />
         </div>
-        <div class="inven-sub-set mb-1"> Update your interests  </div>
-        <div class="link-text"> Footwear 99%, Apparel 99%, Accessories 99% </div>
+        <div class="inven-sub-set mb-1">{{'trades.preferences.update_your_interests'}}</div>
+        <div class="link-text">{{'trades.preferences.foot_apparel_accessFootwear'}}</div>
       </div>
       <hr class="hr-border"/>
       <div class="p-2 mt-1" @click="sizePrefer()">
         <div class="d-flex mb-1">
-          <div class="inven-set d-flex justify-content-start align-content-start mt-2"> Size Preferences </div>
+          <div class="inven-set d-flex justify-content-start align-content-start mt-2">{{$t('trades.preferences.size_preferences')}}</div>
           <img class="chev-img-size d-flex justify-content-end align-content-end mt-2" src="~/assets/img/left-chev.svg" />
         </div>
-        <div class="inven-sub-set mb-1"> Select prefered size type and sizes   </div>
-        <div class="link-text"> Men’s: 5.5, 13, 12....  </div>
+        <div class="inven-sub-set mb-1">{{$t('trades.preferences.select_preferred_size_type_and_sizes')}}</div>
+        <div class="link-text">{{$t('trades.preferences.mens_55_13_12s')}}</div>
       </div>
       <hr class="hr-border"/>
       <div class="p-2 mt-1" @click="brands()">
         <div class="d-flex mb-1">
-          <div class="inven-set d-flex justify-content-start align-content-start mt-2"> Brand Preferences </div>
+          <div class="inven-set d-flex justify-content-start align-content-start mt-2">{{$t('trades.preferences.brand_preferences')}}</div>
           <img class="chev-img d-flex justify-content-end align-content-end mt-2" src="~/assets/img/left-chev.svg" />
         </div>
-        <div class="inven-sub-set mb-1"> Select brands you are interested in  </div>
-        <div class="link-text"> Nike, Supreme, Bape  </div>
+        <div class="inven-sub-set mb-1">{{$t('trades.preferences.select_brands_you_are_interested_in')}}</div>
+        <div class="link-text">{{$t('trades.preferences.nike_supreme_bape')}}</div>
       </div>
       <hr class="hr-border"/>
     </div>
