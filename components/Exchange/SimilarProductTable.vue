@@ -37,7 +37,7 @@
             <div class="text-color font-primary">{{ product.colorway }}</div>
           </td>
           <td class="col-price d-none d-sm-table-cell">
-            {{ product.retailPrice | toCurrency }}
+            {{ product.retail_price | toCurrency }}
           </td>
           <td
             :class="`col-trend-${
@@ -57,11 +57,11 @@
           </td>
           <td
             :class="`col-trend-${
-              product.trend_30d >= 0 ? 'positive' : 'negative'
+              product.previous_month_sale_percentage >= 0 ? 'positive' : 'negative'
             }`"
             class="d-none d-sm-table-cell"
           >
-            {{ product.trend_30d | toPercentage }}
+            {{ product.previous_month_sale_percentage | toPercentage }}
           </td>
           <td class="col-graph d-none d-sm-table-cell">
             <LineChart
