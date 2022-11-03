@@ -2,7 +2,7 @@
     <b-row
       v-if="auction.auction_items"
       :class="{'border shadow-sm' : isMobileSize}"
-      class="mt-3 text-center ml-n1 font-weight-bold w-100 bg-white collection-item"
+      class="mt-3 text-center mx-0 ml-md-n1 font-weight-bold w-100 bg-white collection-item"
       role="button"
       @click="$emit('click')"
     >
