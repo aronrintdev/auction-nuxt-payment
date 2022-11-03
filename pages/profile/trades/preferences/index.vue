@@ -17,6 +17,7 @@ export default {
       width:'',
     }
   },
+  layout: 'Profile',
   components: {
     indexMobile:()=> import('./indexMobile'),
     indexWeb:()=>import('./indexWeb'),

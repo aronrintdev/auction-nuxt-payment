@@ -235,37 +235,7 @@
 
 
     <div class="main-pref-container">
-      <!-- Brands Section -->
-<!--      <b-col class="inventory-settings mt-4">-->
-<!--        <div class="invent-setting-head">-->
-<!--          {{$t('trades.preferences.brands_i_am_looking_for')}}-->
-<!--        </div>-->
-<!--        <div class="invent-setting-sub-head">-->
-<!--          {{$t('trades.preferences.suggest_these_brands_to_find')}}-->
-<!--        </div>-->
-<!--        <b-row class="mt-4">-->
-<!--          <div  v-for="(brand,index) in filters.brands" :key="index" class="brand mr-5 mb-5">-->
-<!--            <div class="position-relative">-->
-<!--              <div class="position-absolute checkbox-brand">-->
-<!--                <b-form-checkbox :checked="selectedBrands" :value="brand._id" @change="changeSelectedBrands(brand._id)"></b-form-checkbox>-->
-<!--              </div>-->
-<!--              <div>-->
-<!--                <img :src="brand.image" class="brand-image">-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </b-row>-->
-<!--        <b-row class="justify-content-center pt-3">-->
-<!--          <Button variant="primary" class="mr-4" pill @click="savePreference()">-->
-<!--            {{$t('trades.preferences.save_changes')}}-->
-<!--          </Button>-->
-<!--          <Button variant="grey-light" pill @click="getTradePreferences()">-->
-<!--            {{$t('trades.preferences.discard_changes')}}-->
-<!--          </Button>-->
-<!--        </b-row>-->
-<!--      </b-col>-->
-
-      <b-row class="justify-content-end pt-4">
+      <b-row class="justify-content-center pt-4">
         <Button variant="grey-light" pill @click="$bvModal.show('resetModel')">
           {{$t('trades.preferences.reset_to_default_preferences')}}
         </Button>
