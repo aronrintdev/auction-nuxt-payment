@@ -162,7 +162,6 @@ export default {
         .then((res) => {
           const that = this
           res.data.data.forEach(function (row) {
-            console.log(row)
             that.products.push(row)
           });
           
@@ -186,7 +185,6 @@ export default {
         .then((res) => {
           const that = this
           res.data.data.forEach(function (row) {
-            console.log(row)
             that.products.push(row)
           });
           this.totalResults = res.data.total
@@ -209,7 +207,6 @@ export default {
         .then((res) => {
           const that = this
           res.data.data.forEach(function (row) {
-            console.log(row)
             that.products.push(row)
           });
           this.totalResults = res.data.total
@@ -232,7 +229,6 @@ export default {
         .then((res) => {
           const that = this
           res.data.data.forEach(function (row) {
-            console.log(row)
             that.products.push(row)
           });
           this.totalResults = res.data.total
