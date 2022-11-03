@@ -460,9 +460,6 @@ export default {
     /**
      * THis function is used to add wants item in wants list
      */
-    /**
-     * THis function is used to add wants item in wants list
-     */
     addWantItem(selectedProduct) {
       const _self = this;
       const data = {
