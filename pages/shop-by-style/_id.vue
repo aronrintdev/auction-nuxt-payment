@@ -156,4 +156,7 @@ export default {
   .container-style-detail
     .product-list
       padding: 64px 0 0 0
+@media (max-width: 460px)
+  .container-style-detail
+    padding: 30px 20px
 </style>
