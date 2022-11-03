@@ -19,12 +19,12 @@
     </div>
     <div class="my-5">
       <b-table
-        class="ordersTable"
-        borderless
-        no-border-collapse
-        :fields="fields"
-        :items="topOrders"
-        tbody-tr-class="bg-white"
+          class="ordersTable"
+          borderless
+          no-border-collapse
+          :fields="tableFields"
+          :items="topOrders"
+          tbody-tr-class="bg-white"
       >
 
         <template #cell(product)="data">
@@ -66,6 +66,9 @@
         </template>
         <template #cell(order_id)="data">
           <div :aria-label="$t('vendor_dashboard.order_id')" class="d-flex align-items-center  w-fit-content tdHeight"
+               :class="{
+                  'flex-column': !isScreenXS
+               }"
                role="button"
                @click="$router.push(`/orders/${orderId(data.item)}`)">
             <div v-if="!isScreenXS" class="col-thumb mb-1">
@@ -75,7 +78,7 @@
               />
             </div>
             <h4
-                class="fw-7 fs-14 font-secondary border-bottom border-primary text-primary mb-0 mx-auto"
+                class="fw-7 fs-14 font-secondary border-bottom border-primary text-primary mb-0 mx-auto text-nowrap"
             >
               #{{ orderId(data.item) }}
             </h4>
@@ -124,12 +127,37 @@
               class="d-flex align-items-center justify-content-center tdHeight"
               :aria-label="$t('vendor_dashboard.actions')"
           >
-            <h4 class="font-secondary fw-5 fs-16 mb-0 text-primary text-center">
-              {{ $t('vendor_dashboard.fedex') }} <br />
-              <span class="border-bottom border-primary">
-                {{ data.value }}</span
-              >
-            </h4>
+            <div :class="{
+              'text-nowrap': isScreenXS
+            }"
+                 class="font-secondary fw-5 fs-16 mb-0 text-primary text-center mw-140">
+              <div v-if="data.item.status === PROCESSING && !isScreenXS"
+                   class="d-flex align-items-center justify-content-center">
+                <img :src="require('~/assets/img/paper.svg')"/>
+              </div>
+              <div v-if="data.item.status === PROCESSING">
+                <a href="#generate-label" @click="generateLabel(data.item)">{{ $t('orders.generate_shipping_label') }}
+                  <img v-if="isScreenXS" :src="require('~/assets/img/paper.svg')" height="16" width="12"/>
+                  <img v-if="!isScreenXS" :src="require('~/assets/img/rewards/arrow-right-blue.svg')"/>
+                </a>
+              </div>
+              <div v-if="data.item.status === AWAITING_SHIPMENT_TO_DEADSTOCK">
+                <a href="#generate-label" @click="generateLabel(data.item)">{{ $t('orders.delivered_to_deadstock') }}
+                  <img v-if="isScreenXS" :src="require('~/assets/img/paper.svg')" height="16" width="12"/>
+                  <img v-if="!isScreenXS" :src="require('~/assets/img/rewards/arrow-right-blue.svg')"/>
+                </a>
+              </div>
+              <div v-if="data.item.status !== PROCESSING && data.item.vendor_shipment">
+                <a :download="`${data.item.vendor_shipment.tracking_no}.pdf`" :href="downloadPdf(data.item)">{{
+                    $t('orders.print_shipping_label')
+                  }} <img v-if="isScreenXS" :src="require('~/assets/img/paper.svg')" height="16" width="12"/></a>
+              </div>
+              <span v-if="data.item.status !== PROCESSING && data.item.vendor_shipment">
+                <span>{{ data.item.vendor_shipment.shipping_method_text }}</span>
+                <a :href="data.item.vendor_shipment.tracking_url" class="text-decoration-underline"
+                   target="_blank">{{ data.item.vendor_shipment.tracking_no }}</a>
+              </span>
+            </div>
           </div>
         </template>
       </b-table>
@@ -140,12 +168,16 @@
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import screenSize from '~/plugins/mixins/screenSize';
+import {AWAITING_SHIPMENT_TO_DEADSTOCK, PROCESSING} from '~/static/constants';
+
 export default {
   name: 'TopOrdersTable',
   components: {NavGroup, ProductThumb},
   mixins: [screenSize],
   data() {
     return {
+      PROCESSING,
+      AWAITING_SHIPMENT_TO_DEADSTOCK,
       // Active Nav for the Toggle Button
       activeNav: '',
       topOrders: [],
@@ -209,9 +241,9 @@ export default {
       ],
       /** Todo need to make dynamic onces we have way of main categories in DB */
       menus: [
-        { label: this.$t('vendor_dashboard.all'), value: '' },
-        { label: this.$t('vendor_dashboard.footwear'), value: '1' },
-        { label: this.$t('vendor_dashboard.apparel'), value: '2' },
+        {label: this.$t('vendor_dashboard.all'), value: ''},
+        {label: this.$t('vendor_dashboard.footwear'), value: '1'},
+        {label: this.$t('vendor_dashboard.apparel'), value: '2'},
         {
           label: this.$t('vendor_dashboard.accessories'),
           value: '3',
@@ -219,10 +251,51 @@ export default {
       ],
     }
   },
+  computed: {
+    tableFields() {
+      if (!this.isScreenXS)
+        return this.fields
+      else
+        return this.swapElementTable()
+    }
+  },
   mounted() {
     this.getTopOrders()
   },
   methods: {
+    async generateLabel(item) {
+      const len = item.status_markable.length
+      if (len < 1) {
+        return false
+      }
+      const status = item.status_markable[len - 1]
+      const url = `/order-items/${item.id}/status?status=${status.key}`;
+
+      const resp = await this.$axios.put(url)
+      if (resp.status === 200) {
+        this.$emit('labelCreated')
+      }
+    },
+    styleFor(statusLabel) {
+      switch (statusLabel.toLowerCase()) {
+        case 'arrived at deadstock':
+          return 'arrived';
+        case 'shipped to deadstock':
+          return 'shipped';
+        case 'awaiting authentication':
+          return 'awaiting-auth';
+        case 'order taken over':
+          return 'order-taken-over';
+      }
+
+      return 'awaiting'
+    },
+    downloadPdf(item) {
+      return `data:application/pdf;base64,${item.vendor_shipment.shipment_pdf}`
+    },
+    swapElementTable() {
+      return [this.fields[1], this.fields[0], ...this.fields.slice(2, this.fields.length)]
+    },
     orderId(order) {
       const length = order.order.items.length
       return `${order.order.order_id}${(length > 0 ? '-1' : '')}`
@@ -251,6 +324,9 @@ export default {
   &.mobile
     background-color: transparent
     padding: 0
+
+.mw-140
+  max-width: 160px
 
 .mw-300
   max-width: 300px
@@ -320,7 +396,8 @@ export default {
       display: block
       margin: 12px 0
       padding: 15px 0
-      h4.font-secondary
+
+      div.font-secondary
         font-size: 12px
         color: $color-gray-6
         font-weight: $normal
