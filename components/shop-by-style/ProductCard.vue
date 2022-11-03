@@ -22,7 +22,7 @@
           </div>
           <div class="position-absolute btn-add cursor-pointer">
             <Icon v-show="show !== product.id" src="transparent-plus.png" width="35" height="35" @click='showProductDetail(product.id)' />
-            <Icon v-show="show === product.id" src="transparent-minus.png" width="35" @click='showProductDetail(product.id)' />
+            <Icon v-show="show === product.id" src="transparent-minus.png" width="35" height="5" @click='showProductDetail(product.id)' />
           </div>
         </div>
       </div>
@@ -59,7 +59,7 @@
                 data-bs-toggle="collapse"
                 type="button"
               >
-              <span class="w-100">{{ $t('shop_by_style.product_details')  }}</span>
+              <span class="w-100 text-left">{{ $t('shop_by_style.product_details')  }}</span>
               </button>
             </h2>
             <b-collapse
@@ -70,23 +70,23 @@
               aria-labelledby="panelsStayOpen-headingOne"
             >
               <div class="accordion-filter-body">
-                <div class="tab-content mt-40">
-                  <div class="content-row">
+                <div class="tab-content mt-40 ml-2">
+                  <div class="content-row w-100">
                     <div>{{ $t('common.sku') }}</div>
                     <div>{{ products.sku }}</div>
                   </div>
 
-                  <div class="content-row">
+                  <div class="content-row w-100">
                     <div>{{ $t('common.colorway') }}</div>
                     <div>{{ products.colorway }}</div>
                   </div>
 
-                  <div class="content-row">
+                  <div class="content-row w-100">
                     <div>{{ $t('common.retail_price') }}</div>
                     <div>{{ products.retail_price | toCurrency }}</div>
                   </div>
 
-                  <div class="content-row">
+                  <div class="content-row w-100">
                     <div>{{ $t('common.release_date') }}</div>
                     <div>{{ products.release_year }}</div>
                   </div>
@@ -122,7 +122,7 @@
               </div>
             </b-collapse>
           </div>
-          <div class="wrapper">
+          <div class="wrapper mt-4">
             <div
               v-if="method === 'buy' && isOutOfStock"
               class="out-of-stock-btns w-100 text-center"
@@ -153,7 +153,7 @@
             >
               <div>
                 <Button
-                  variant="warning"
+                  variant="dark"
                   block
                   border="thick"
                   :disabled="addingToCart"
@@ -161,7 +161,7 @@
                   @click="handleAddToCartClick"
                 >
                   <div class="d-flex justify-content-center">
-                    <div>{{ $t('products.add_to_bag') }}: ${{ currentListingItem ? currentListingItem.inventory.sale_price / 100 : 0 }}</div>
+                    <div>{{ $t('products.add_to_cart') }} {{ currentListingItem ? `: (`+ currentListingItem.length / 100 +`)`: '' }}</div>
                     <div
                       class="ml-1"
                       :class="
@@ -204,7 +204,7 @@
             {{ product.sale_price | toCurrency }}
           </div>
           <div class="position-absolute btn-add">
-            <Icon v-show="show !== product.id" src="plus.svg" width="45" height="45" @click='showProductDetail(product.id)' />
+            <Icon v-show="show !== product.id" src="add-plus-icon.svg" width="45" height="45" @click='showProductDetail(product.id)' />
             <Icon v-show="show === product.id" src="minus.svg" width="45" height="45" @click='showProductDetail(product.id)' />
           </div>
         </div>
@@ -305,7 +305,7 @@
               </div>
             </b-collapse>
           </div>
-          <div class="wrapper">
+          <div class="wrapper mt-4">
             <div
               v-if="method === 'buy' && isOutOfStock"
               class="out-of-stock-btns w-100 text-center"
@@ -336,7 +336,7 @@
             >
               <div>
                 <Button
-                  variant="warning"
+                  variant="dark"
                   block
                   border="thick"
                   :disabled="addingToCart"
@@ -344,7 +344,7 @@
                   @click="handleAddToCartClick"
                 >
                   <div class="d-flex justify-content-center">
-                    <div>{{ $t('products.add_to_bag') }}: ${{ currentListingItem ? currentListingItem.inventory.sale_price / 100 : 0 }}</div>
+                    <div>{{ $t('products.add_to_cart') }} {{ currentListingItem ? `: (`+ currentListingItem.length / 100 +`)`: '' }}</div>
                     <div
                       class="ml-1"
                       :class="
@@ -375,7 +375,7 @@ import { Icon, Button } from '~/components/common'
 import ProductThumb from '~/components/product/Thumb'
 import ShopByStyleImageCarousel from '~/components/shop-by-style/ImageCarousel'
 import ProductSizePicker from '~/components/product/SizePicker'
-import ProductBoxConditionPicker from '~/components/product/BoxConditionPicker'
+import ProductBoxConditionPicker from '~/components/shop-by-style/BoxConditionPicker'
 import ProductSizeGuideShoe from '~/components/product/size-guide/Shoe'
 import AlertModal from '~/components/modal/Alert'
 

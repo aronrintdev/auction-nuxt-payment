@@ -4947,7 +4947,9 @@
       "end_date": "End Date"
     },
     "product_details": "Product Details",
-    "size_guide": "Size Guide"
+    "size_guide": "Size Guide",
+    "product_condition": "Product Condition",
+    "box_condition_info": "Package condition refers to the current condition of the item’s package."
   },
   "coupons": {
     "errors": {
