@@ -178,6 +178,12 @@
         </div>
       </div>
     </div>
+
+    <infinite-loading 
+      class="d-sm-none" 
+      :identifier="infiniteId" 
+      @infinite="($state) => { $emit('loadMore', $state, page + 1) }"
+    />
   </div>
 </template>
 
@@ -190,7 +196,11 @@ import {
 
 export default {
   name: 'TradeOfferItems',
-  props:{
+
+  components: {
+  },
+
+  props: {
     offers: {
       type: Array,
       required: true,
@@ -202,12 +212,17 @@ export default {
     selected: {
       type: Array,
       default: () => []
+    },
+    page: {
+      type: Number,
+      default: 1
     }
   },
   data() {
     return {
       OFFER_SENT,
-      OFFER_RECEIVED
+      OFFER_RECEIVED,
+      infiniteId: +new Date(),
     }
   },
   methods: {
@@ -222,6 +237,10 @@ export default {
         return val.latest_offer.id
       }
       else{ return val.id}
+    },
+
+    handleLoading() {
+      this.infiniteId++
     }
   }
 }

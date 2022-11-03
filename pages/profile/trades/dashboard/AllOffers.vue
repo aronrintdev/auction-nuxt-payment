@@ -220,7 +220,9 @@
           :offers="tradeOffers"
           :action="action"
           :selected="selected"
+          :page="page"
           @select="selectOffer"
+          @loadMore="($state, newPage) => { page = newPage; fetchOffersListing($state) }"
         />
         <div v-else>
           <div class="d-none d-sm-block">
@@ -268,7 +270,7 @@
       </div>
     </div>
 
-    <b-row class="justify-content-center mt-1 mb-3">
+    <b-row class="justify-content-center d-none d-sm-flex mt-1 mb-3">
       <Pagination
         v-if="totalOffers"
         v-model="page"
@@ -470,7 +472,13 @@ export default {
       this.searchedProducts = []
       this.fetchOffersListing()
     },
-    fetchOffersListing(){
+
+    // infiniteScroll($state) {
+    //   this.fetchOffersListing('infinite')
+    // },
+
+    fetchOffersListing($state = null) {
+      console.log('fetchOffersListing fetchOffersListing', this.page);
       this.$axios
         .get('trades/submitted-offers', {
           params: {
@@ -486,7 +494,17 @@ export default {
           }
         })
         .then((response) => {
-          this.tradeOffers = response.data.data.data
+          if ($state) {
+            if (response.data.data.data.length > 0) {
+              this.tradeOffers = this.tradeOffers.concat(response.data.data.data)
+              $state.loaded()
+            } else {
+              $state.complete()
+            }
+          } else {
+            this.tradeOffers = response.data.data.data
+          }
+          console.log('this.tradeOffers', this.tradeOffers);
           this.totalOffers = parseInt(response.data.data.total)
         })
         .catch((error) => {
@@ -494,6 +512,8 @@ export default {
           this.tradeOffers =  []
           this.totalOffers =  0
         })
+
+      console.log('END END');
     },
     /**
      * This function is used to get product and show in
