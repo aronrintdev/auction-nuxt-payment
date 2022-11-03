@@ -65,8 +65,6 @@
           <OutOfStock
             v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
             class="mt-3"
-            @notify-me="handleNotifyMeClick"
-            @place-offer="handleOfferSubmit"
           />
 
           <BuyNow

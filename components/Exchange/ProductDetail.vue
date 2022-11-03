@@ -45,7 +45,7 @@
           <div>{{ $t('deadstock_exchange.detail.sell') }}</div>
         </Button>
         <div v-if="error.buyNow" class="error-text">
-              {{ error.buyNow }}
+          {{ error.buyNow }}
         </div>
       </div>
     </div>
@@ -88,7 +88,20 @@
               </div>
               <div class="col-2 text-right">
                 <Button
-                  :id="`popover-wishlist-${product && product.id}`"
+            id="popover-wishlist"
+            :tooltip-text="wishList ? wishList.name : ''"
+            tabindex="0"
+            variant="link"
+            class="mr-3 shadow-none"
+            @click="removeFromWishList"
+          >
+            <template #default>
+              <b-img v-if="!wishList" width="18" :src="require('~/assets/img/product/heart-outline.svg')"></b-img>
+              <b-img v-else width="18" :src="require('~/assets/img/icons/heart-red.svg')"></b-img>
+            </template>
+          </Button>
+                <!-- <Button
+                  id="popover-wishlist"
                   variant="link"
                   :icon="wishList ? `heart-red.svg` : 'heart2.svg'"
                   icon-only
@@ -98,7 +111,7 @@
                   pill
                   @click="removeFromWishList"
                 >
-                </Button>
+                </Button> -->
               </div>
             </div>
           </div>
@@ -115,7 +128,7 @@
             </Button>
             <div v-if="error.buyNow" class="error-text">
               {{ error.buyNow }}
-             </div>
+            </div>
           </div>
         </div>
         <div class="row desktop-product-price-section">
@@ -146,7 +159,7 @@
         <div class="row mobile-product-size-picker mb-3">
           <div class="col-12">
             <ProductSizePicker
-               ref="productSizePicker"
+              ref="productSizePicker"
               :sizes="sizes"
               :value="currentSize"
               :viewMode="sizeViewMode"
@@ -154,6 +167,15 @@
               @update="handleSizeChange"
               @changeViewMode="handleSizeViewAll"
             />
+             <!--Out Of Stock Message -->
+             <div
+              v-if="
+                method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'
+              "
+              class="text-center body-8-medium text-danger"
+            >
+              {{ $t('products.error.out_of_stock') }}
+            </div>
           </div>
         </div>
         <div class="row desktop-chart-header-section">
@@ -228,6 +250,15 @@
               @update="handleSizeChange"
               @changeViewMode="handleSizeViewAll"
             />
+            <!--Out Of Stock Message -->
+            <div
+              v-if="
+                method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'
+              "
+              class="text-center body-8-medium text-danger"
+            >
+              {{ $t('products.error.out_of_stock') }}
+            </div>
           </div>
         </div>
       </div>
@@ -327,7 +358,6 @@
             <!-- ./Input search -->
           </div>
           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2">
-
             <FormDropdown
               id="sort-by"
               :value="selectedFilters.sortBy"
@@ -352,6 +382,14 @@
           </div>
         </div>
       </div>
+      <WishListPopover
+      :product="productDetail"
+      :wish-list="wishList"
+      target="popover-wishlist"
+      @show="wishListShow = true"
+      @hidden="wishListShow = false"
+      @wishlisted="onWishListed"
+    />
     </div>
     <Modal
       id="size-all-modal"
@@ -382,11 +420,14 @@
             <div class="body-6-bold mb-2">
               {{ $t('deadstock_exchange.detail.day_gain') }}
             </div>
-            <div class="body-6-normal" :class="
+            <div
+              class="body-6-normal"
+              :class="
                 product && product.gainRatio > 0
                   ? 'text-success'
                   : 'text-danger'
-              ">
+              "
+            >
               {{ product && product.gainRatio | toCurrency }}
             </div>
           </div>
@@ -395,26 +436,31 @@
         <div class="row">
           <div class="col-12">
             <div class="all-sizes">
-              <div class="row items-wrapper">
+              <div class="row  row-cols-lg-4 row-cols-md-4 row-cols-sm-3 row-cols-xs-2 items-wrapper">
                 <div
                   v-for="size in sizes"
                   :key="`size-${size.type}-${size.id}`"
-                  :class="`col-3 item ${currentSize === size.id ? 'active' : ''}`"
+                  :class="`col item ${
+                    currentSize === size.id ? 'active' : ''
+                  }`"
                 >
                   <div
-                    class="card text-left pl-2"
+                    class="card text-left pl-2 w-100"
                     @click="handleSizeSelect(size.id)"
                   >
                     {{ size.size }}
                     <div class="price">
-                    {{ size.price | toCurrency }}
+                      {{ size.price | toCurrency }}
                     </div>
-                    <div class="price-ratio" :class="
-                product && product.size_to_price_percentage > 0
-                  ? 'text-success'
-                  : 'text-danger'
-              ">
-                     {{size.size_to_price_percentage |toPercentage}}
+                    <div
+                      class="price-ratio"
+                      :class="
+                        product && product.size_to_price_percentage > 0
+                          ? 'text-success'
+                          : 'text-danger'
+                      "
+                    >
+                      {{ size.size_to_price_percentage | toPercentage }}
                     </div>
                   </div>
                 </div>
@@ -424,15 +470,7 @@
         </div>
       </template>
     </Modal>
-    <WishListPopover
-      v-if="!wishList"
-      :product="productDetail"
-      :wish-list="wishList"
-      :target="`popover-wishlist-${product && product.id}`"
-      @show="wishListShow = true"
-      @hidden="wishListShow = false"
-      @wishlisted="onWishListed"
-    />
+ 
   </div>
 </template>
 
@@ -491,7 +529,7 @@ export default {
       hasSearchResult: false,
       error: {
         addToCart: null,
-        buyNow: null
+        buyNow: null,
       },
       selectedFilters: {
         type: 'trending',
@@ -636,18 +674,20 @@ export default {
     this.product = await this.$axios
       .get(`/stock-exchange/${sku}`)
       .then((res) => res.data)
-      this.similarProducts = this.product.similar_products
-      const lowestPrice = _.minBy(this.product.lowest_prices, 'price')
-      if (lowestPrice) {
-        this.currentSize = lowestPrice.size_id
-        await this.findListingItem() // 'add to chart' button needs listing of item
-
+    this.similarProducts = this.product.similar_products
+    const lowestPrice = _.minBy(this.product.lowest_prices, 'price')
+    if (lowestPrice) {
+      this.currentSize = lowestPrice.size_id
+      this.currentCondition = lowestPrice.packaging_condition_id
+      await this.findListingItem() // 'add to chart' button needs listing of item
+    } else {
+      this.currentCondition = this.product.packaging_conditions[0]?.id
     }
     this.loading = false
   },
   computed: {
     sizes() {
-      return this.product?.allSizes || []
+      return this.product?.sizes || []
     },
     wishList() {
       return this.product &&
@@ -656,17 +696,23 @@ export default {
         ? this.product.wish_lists[0]
         : null
     },
+    productId(){
+        return this.product && this.product.id
+    },
+    isOutOfStock() {
+      return this.currentSize && !this.currentListingItem
+    },
     productDetail() {
       return this.product || {}
     },
   },
   watch: {
     selectedFilters: {
-      handler (newV) {
+      handler(newV) {
         this.emitChange(newV)
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   mounted() {
     this.getProductChartData()
@@ -696,6 +742,7 @@ export default {
     handleSizeChange(sizeId) {
       if (sizeId) {
         this.currentSize = sizeId
+        this.resetError()
         this.findListingItem()
       }
     },
@@ -715,10 +762,10 @@ export default {
       }
     },
     async findListingItem() {
-      if (!this.currentSize) return
+      if (!this.currentSize || !this.currentCondition) return
       const params = {
         size_id: this.currentSize,
-        // packaging_condition_id: this.currentCondition,
+        packaging_condition_id: this.currentCondition,
       }
       this.currentListingItem = await this.$axios
         .get(`/products/${this.product.id}/selling-item`, {
@@ -733,16 +780,19 @@ export default {
         this.currentListingItem.inventory.sale_price < this.lowestPrice
       ) {
         this.product.lowest_prices = this.product.lowest_prices.map((i) => {
-          if (
-            i.size_id === this.currentSize
-          ) {
+          if (i.size_id === this.currentSize) {
             i.price = this.currentListingItem.inventory.sale_price
           }
           return i
         })
       }
     },
-
+    resetError() {
+      this.error = {
+        addToCart: null,
+        buyNow: null,
+      }
+    },
     getCartProduct() {
       return {
         id: this.product.id,
@@ -875,7 +925,7 @@ export default {
         // there will sort category if equal to 24 hours then we will assgin
         //  24 hours record to the graph
         case '24': {
-          const oneDay = this.getGraphData(this.graphData.oneDay.data);
+          const oneDay = this.getGraphData(this.graphData.oneDay.data)
           this.lineDatasets.labels = this.graphData.oneDay.labels
           this.lineDatasets.datasets[0].data = oneDay
           this.$refs.lineChart.renderLineChart()
@@ -884,7 +934,7 @@ export default {
         case '7': {
           // there will sort category if equal to week then we will assgin
           //  Week record to the graph
-          const week = this.getGraphData(this.graphData.week.data);
+          const week = this.getGraphData(this.graphData.week.data)
           this.lineDatasets.labels = this.graphData.week.labels
           this.lineDatasets.datasets[0].data = week
           this.$refs.lineChart.renderLineChart()
@@ -894,7 +944,7 @@ export default {
         case '30': {
           // there will sort category if equal to 30 days then we will assgin
           //  30 days record to the graph
-          const oneMonth = this.getGraphData(this.graphData.oneMonth.data);
+          const oneMonth = this.getGraphData(this.graphData.oneMonth.data)
           this.lineDatasets.labels = this.graphData.oneMonth.labels
           this.lineDatasets.datasets[0].data = oneMonth
           this.$refs.lineChart.renderLineChart()
@@ -903,7 +953,7 @@ export default {
         case '6': {
           // there will sort category if equal to 6 month then we will assgin
           //  6 month record to the graph
-          const sixMonth = this.getGraphData(this.graphData.sixMonths.data);
+          const sixMonth = this.getGraphData(this.graphData.sixMonths.data)
           this.lineDatasets.labels = this.graphData.sixMonths.labels
           this.lineDatasets.datasets[0].data = sixMonth
           this.$refs.lineChart.renderLineChart()
@@ -912,7 +962,7 @@ export default {
         case '1': {
           // there will sort category if equal to 1 Year then we will assgin
           //  1 year record to the graph
-          const oneYear = this.getGraphData(this.graphData.oneYear.data);
+          const oneYear = this.getGraphData(this.graphData.oneYear.data)
           this.lineDatasets.labels = this.graphData.oneYear.labels
           this.lineDatasets.datasets[0].data = oneYear
           this.$refs.lineChart.renderLineChart()
@@ -921,7 +971,7 @@ export default {
         case 'all': {
           // there will sort category if equal to Al record then we will assgin
           //  All record to the graph
-          const allData = this.getGraphData(this.graphData.all.data);
+          const allData = this.getGraphData(this.graphData.all.data)
           this.lineDatasets.labels = this.graphData.all.labels
           this.lineDatasets.datasets[0].data = allData
           this.$refs.lineChart.renderLineChart()
@@ -1011,15 +1061,14 @@ export default {
     },
     getGraphData(arrayData) {
       // there we sort the garph data with selected time period
-      if (arrayData.length > 0)
-      {
+      if (arrayData.length > 0) {
         const newData = arrayData.reduce(function (acc, current) {
-          acc.push(current.sale_price);
-          return acc;
+          acc.push(current.sale_price)
+          return acc
         }, [])
-        return newData;
+        return newData
       }
-      return [];
+      return []
     },
   },
 }
