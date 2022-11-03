@@ -7,7 +7,7 @@
           <SearchInput
             :value="searchText"
             variant="light"
-            :placeholder="$t('create_listing.trade.offer_items.search_by')"
+            :placeholder="$t('home_page.search')"
             :clearSearch="true"
             inputHeight="33px"
             class="create-trade-search"
@@ -518,7 +518,6 @@ export default {
      */
     getInventory($state,filters = {}) {
       const that = this
-      console.log(this.orderFilter)
       filters.sort_by = this.orderFilter // sorting filter
       filters.category = this.categoryFilter // category type filter
       filters.sizes = this.sizeFilter.join(',') // size filter

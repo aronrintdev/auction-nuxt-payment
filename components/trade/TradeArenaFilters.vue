@@ -67,22 +67,8 @@ export default {
         sortby: null,
       },
       SORT_OPTIONS: [
-        {
-          value: 'end_date_asc',
-          label: this.$t('auctions.frontpage.filterbar.sortby.end_date_asc'),
-        },
-        {
-          value: 'end_date_desc',
-          label: this.$t('auctions.frontpage.filterbar.sortby.end_date_desc'),
-        },
-        {
-          value: 'price_asc',
-          label: this.$t('auctions.frontpage.filterbar.sortby.price_asc'),
-        },
-        {
-          value: 'price_desc',
-          label: this.$t('auctions.frontpage.filterbar.sortby.price_desc'),
-        },
+        { text: this.$t('trades.create_listing.vendor.wants.price_low_to_high'), value: 'price_low_to_high' },
+        { text: this.$t('trades.create_listing.vendor.wants.price_high_to_low'), value: 'price_high_to_low' },
       ],
     }
   },

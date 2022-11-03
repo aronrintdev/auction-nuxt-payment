@@ -1,10 +1,10 @@
 <template>
   <div class="main-container p-2">
-      <div v-if="!filterSection" class="d-flex mt-2">
+      <div class="d-flex mt-2">
         <div>
           <SearchInput
             :value="searchText"
-            :placeholder="$t('trades.create_listing.vendor.wants.search_by_options')"
+            :placeholder="$t('home_page.search')"
             variant="light"
             :clearSearch="true"
             bordered
@@ -14,14 +14,16 @@
           />
           <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="wantItemTrade" width="700px" class="position-absolute"/>
         </div>
-        <div @click="filterSection = !filterSection">
+        <div @click="showFilters">
           <img class="ml-3 mt-1" :src="require('~/assets/img/filters.svg')" />
         </div>
       </div>
     <!-- Filters Section -->
-    <div v-if="filterSection">
-      <mobileFilters @click="applyFilters"/>
-    </div>
+    <client-only>
+        <vue-bottom-sheet ref="filterSheet" max-height="90%" :is-full-screen="true" >
+          <trade-arena-filters @change="applyFilters" :orderFilter="true"/>
+        </vue-bottom-sheet>
+      </client-only>
     <div class="mt-2">
       <div class="d-flex justify-content-center mt-3 align-items-center">
         <NavGroup
@@ -144,18 +146,6 @@
         <b-row v-if="!combinationItems || combinationItems.length === 0" class="col-md-12 justify-content-center">
           {{$t('trades.create_listing.no_combination_found')}}
         </b-row>
-        <b-row class="col-md-12 justify-content-center">
-          <Pagination
-            v-if="combinationItems && combinationItems.length > 0"
-            v-model="pageCombination"
-            :total="totalCountCombination"
-            :per-page="perPageCombination"
-            :per-page-options="perPageOptionsCombinations"
-            class="mt-2"
-            @page-click="handlePageClickCombination"
-            @per-page-change="handlePerPageChangeCombination"
-          />
-        </b-row>
       </div>
     </div>
 
@@ -225,9 +215,11 @@
         </div>
         <infinite-loading :identifier="infiniteId" @infinite="getGeneralListItems">
           <span slot="no-more"></span>
+          <span slot="no-results"></span>
         </infinite-loading>
-        <infinite-loading :identifier="infiniteIdComb" @infinite="getCombinations">
+        <infinite-loading :identifier="infiniteId" @infinite="getCombinations">
           <span slot="no-more"></span>
+          <span slot="no-results"></span>
         </infinite-loading>
         <div class="d-flex justify-content-center">
           <b-btn class="create-trade-next-btn" :disabled="!getTradeItemsWants.length"
@@ -258,11 +250,11 @@ import SearchInput from '~/components/common/SearchInput'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBoxMobile'
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
 import ViewOfferItemsModal from '~/pages/profile/create-listing/trades/wants/ViewOfferItemsModal';
-import { Pagination , NavGroup } from '~/components/common'
+import { NavGroup } from '~/components/common'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
-import mobileFilters from '~/pages/profile/create-listing/trades/filtersMobile'
+import TradeArenaFilters from '~/components/trade/TradeArenaFilters';
 
 /*
   Trade Wants Page
@@ -270,12 +262,11 @@ import mobileFilters from '~/pages/profile/create-listing/trades/filtersMobile'
 export default {
   name: 'TradeWants',
   components: {
-    mobileFilters,
+    TradeArenaFilters,
     NavGroup,
     SearchInput, // search input
     SearchedProductsBelowSearchTextBox, //  component for items show below search as search results
     CreateTradeSearchItem, // component used for item via search selection
-    Pagination, // Pagination component
     ViewOfferItemsModal // model to show offers items
   },
   layout: 'Profile', // Layout
@@ -391,18 +382,25 @@ export default {
   },
 
   methods: {
+    showFilters(){
+      this.$refs.filterSheet.open();
+    },
     changeTotalTradeItems(listingItems) {
       this.selectedItems = listingItems
     },
     closeFiltersSection() {
       this.filterSection = false
     },
-    applyFilters(data){
-      this.orderFilter = data.orderFilter ? data.orderFilter : null
-      this.categoryFilter = data.category ? data.category : null
-      this.sizeTypesFilter = data.sizeType ? data.sizeType : null
-      this.sizeFilter = data.sizes ? data.sizes: null
-      this.getInventory()
+    applyFilters(filters){
+      this.orderFilter = filters.sortby
+      this.categoryFilter =  filters?.categories?.join(',')
+      this.sizeTypesFilter = filters?.sizeTypes
+      this.sizeFilter = filters?.sizes
+      this.page = 1;
+      this.generalListItems = []
+      this.combinationItems = []
+      this.infiniteId += 1;
+      this.$refs.filterSheet.close();
     },
     /**
      * This function is used to return estimated total value
@@ -635,13 +633,11 @@ export default {
           if (!res.next_page_url) {
             $state.complete()
           }
-          _self.url = res?.next_page_url
-          if (res?.current_page === 1) {
-            _self.combinationItems = [...res.data]
-          } else {
-            _self.combinationItems = [..._self.combinationItems, ...res?.data]
+          else{
+            _self.pageCombination += 1;
+            _self.combinationItems.push(...res.data)
+            $state.loaded()
           }
-          $state.loaded()
           this.totalCountCombination = parseInt(response.data.data.total)
           this.combinationItems.forEach(function(combination, index) {
             _self.combinationItems[index].selectedItemIndex = (_self.totalCountCombination > 0) ? 0 : null
@@ -658,7 +654,6 @@ export default {
     getGeneralListItems: debounce(function ($state) {
       // api url
       // Do the api call
-      const that = this
       this.$axios
         .get(this.wantUrl, {
           params: {
@@ -677,13 +672,11 @@ export default {
           if (!res.next_page_url) {
             $state.complete()
           }
-          that.url = res?.next_page_url
-          if (res?.current_page === 1) {
-            that.generalListItems = [...res.data]
-          } else {
-            that.generalListItems = [...that.generalListItems, ...res?.data]
+          else{
+            this.page+=1;
+            this.generalListItems.push(...res.data)
+            $state.loaded()
           }
-          $state.loaded()
         })
         .catch((err) => {
           this.$toasted.error(this.$t(err.response.data.error))
