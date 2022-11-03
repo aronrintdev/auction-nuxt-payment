@@ -3656,8 +3656,9 @@
     "purchases": "Purchases",
     "search_purchases": "Search Purchases",
     "search_purchases_summary": "Search for Order Number or Product Name",
+    "search_purchases_summary_placeholder": "Search for Purchase ID or Product Name",
     "purchase_history": "Purchase History",
-    "order_no": "Order Number: #{orderNo}",
+    "order_no": "Order #{orderNo}",
     "order": "Order #{orderNo}",
     "ordered_on": "Ordered on {orderedDate}",
     "view_order": "View Order",
@@ -3783,6 +3784,7 @@
       "voided": "Voided",
       "refunded": "Refunded",
       "ship_to_deadstock": "Send to Deadstock",
+      "shipped_to_deadstock": "Send to Deadstock",
       "authentication_complete": "Authentication Complete"
     },
     "delivery_address": "Delivery address",
