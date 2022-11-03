@@ -49,10 +49,9 @@
     </div>
     <div v-if="showInventory">
       <div class="inven-cont ml-3 m-2 p-3">
-        <div class="inven-set">Inventory Settings</div>
+        <div class="inven-set">{{$t('trades.preferences.inventory_settings')}}</div>
         <div class="inven-sub-set mb-2 mt-2">
-          Set what other traders are able to view when placing
-          an offer
+          {{$t('trades.preferences.set_what_other_traders_are_able_to_view_when_placing')}}
         </div>
         <div  v-for="(status, index) in inventoryStatusOptions" :key="index">
          <div  @click="changeStatus(status.value)" class="option-status p-3">
@@ -62,7 +61,7 @@
       </div>
       <div>
        <b-btn class="save-btn ml-3" @click="savePreference">
-         Save Changes
+         {{$t('common.save_changes')}}
        </b-btn>
       </div>
     </div>
@@ -71,7 +70,7 @@
        <your-inventory @updateTotal="setTotalInventory" @change="changePublicInventories" />
      </div>
       <b-btn class="save-btn ml-3" @click="savePreference">
-        Save Changes
+        {{$t('common.save_changes')}}
       </b-btn>
     </div>
 
@@ -94,7 +93,7 @@
       </div>
       <div>
         <b-btn class="save-btn ml-3" @click="savePreference">
-          Save Changes
+          {{$t('common.save_changes')}}
         </b-btn>
       </div>
     </div>
@@ -122,7 +121,7 @@
         </div>
       <div>
         <b-btn class="save-btn ml-3" @click="savePreference">
-          Save Changes
+          {{$t('common.save_changes')}}
         </b-btn>
       </div>
     </div>
@@ -134,7 +133,7 @@
         <div class="mt-2 ml-2">
           <div class="d-flex" v-b-toggle="'collapse-1'">
             <b-row class="filtersHeading ml-2">
-              <b-col class="col-sm-6">Size Type</b-col>
+              <b-col class="col-sm-6">{{$tc('common.size_type')}}</b-col>
               <b-col class="col-sm-6">
                 <div class="d-flex justify-content-end mr-3">
                   <img  v-if="isVisible" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
@@ -158,7 +157,7 @@
         <div class="mt-1 ml-2">
           <div class="d-flex" v-b-toggle="'collapse-2'">
             <b-row class="filtersHeading ml-2">
-              <b-col class="col-sm-6">Sizes</b-col>
+              <b-col class="col-sm-6">{{$tc('common.size')}}</b-col>
               <b-col class="col-sm-6">
                 <div class="d-flex justify-content-end mr-3">
                   <img  v-if="isVisibleSize" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
@@ -182,7 +181,7 @@
         <div class="mt-1 ml-2">
           <div class="d-flex" v-b-toggle="'collapse-3'">
             <b-row class="filtersHeading ml-2">
-              <b-col class="col-sm-6">Apparel</b-col>
+              <b-col class="col-sm-6">{{$t('common.apparel')}}</b-col>
               <b-col class="col-sm-6">
                 <div class="d-flex justify-content-end mr-3">
                   <img  v-if="isVisibleApp" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
@@ -205,7 +204,7 @@
       </div>
       <div>
         <b-btn class="save-btn ml-3" @click="savePreference">
-          Save Changes
+          {{$t('common.save_changes')}}
         </b-btn>
       </div>
     </div>
@@ -228,7 +227,7 @@
       </div>
       <div>
         <b-btn class="save-btn ml-3" @click="savePreference">
-          Save Changes
+          {{$t('common.save_changes')}}
         </b-btn>
       </div>
     </div>
@@ -249,7 +248,6 @@
 <script>
 
 import {mapActions, mapGetters} from 'vuex';
-// import CustomDropdown from '~/components/common/CustomDropdown';
 import SingleSlider from '~/components/common/SingleSliderMobile';
 import Button from '~/components/common/Button';
 import YourInventory from '~/pages/profile/trades/preferences/YourInventoryMobile';
