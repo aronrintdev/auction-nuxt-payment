@@ -5051,6 +5051,7 @@
     "seller_permit_number": "Seller Permit Number:",
     "enter_permit_number": "Enter Permit Number",
     "expiration_date": "Expiration Date:",
+    "document_expiration_date": "Expiration Date #:",
     "drag_drop_here": "Drag and Drop here | or",
     "expiration_date_placeholder": "__/__/____",
     "send_code": "Send Code",
