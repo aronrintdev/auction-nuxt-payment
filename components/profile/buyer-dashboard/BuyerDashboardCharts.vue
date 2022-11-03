@@ -41,7 +41,7 @@
               :data="dataChart"
               :labels='labels'
               :options="lineChartOptions"
-              :height="212"
+              :height="260"
               class="line-chart d-none d-sm-block"
               chart-id="vendor-dashboard-line-chart"
           />
