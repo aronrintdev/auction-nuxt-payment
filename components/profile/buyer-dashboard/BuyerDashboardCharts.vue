@@ -92,7 +92,7 @@
               :show-next-expire="false"
           />
           <!-- TODO -->
-          <h6 v-if='rewards.next_reward' class="fs-12 mb-0 fw-7 font-primary text-black mt-3">
+          <h6 v-if='rewards.next_reward && !isScreenXS' class="fs-12 mb-0 fw-7 font-primary text-black mt-3">
             {{ $t('buyer_dashboard.dashobard_buyer.your_next_reward') }}: {{ rewards.next_reward.name }}
           </h6>
           <b-button
