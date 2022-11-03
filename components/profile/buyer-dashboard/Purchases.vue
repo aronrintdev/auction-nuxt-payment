@@ -140,7 +140,8 @@
                 {{ $t('buyer_dashboard.purchases.order') }}:
               </h6>
               <h6
-                class="mb-0 fs-12 fw-5 font-primary text-primary w-fit-content border-bottom border-primary"
+                  class="mb-0 fs-12 fw-5 font-primary text-primary w-fit-content border-bottom border-primary"
+                  @click="$router.push('/profile/purchases/summary/' + row.order_id)"
               >
                 #{{ row.order_id }}
               </h6>

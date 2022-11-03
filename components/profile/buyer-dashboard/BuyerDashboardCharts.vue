@@ -13,12 +13,13 @@
           </h1>
           <div class="dropdownSelect d-none d-sm-block">
             <CustomSelect
-              bordered
-              :default="filterBy"
-              :threelineIcon="false"
-              :options="chartFilterOptions"
-              :title="filterByTitle"
-              @input="handleFilterByChangeTotalSale"
+                bordered
+                :default="filterBy"
+                :threelineIcon="false"
+                :options="chartFilterOptions"
+                :title="filterByTitle"
+                class="dropdown-filter"
+                @input="handleFilterByChangeTotalSale"
             />
           </div>
         </div>
@@ -38,7 +39,7 @@
               :data="dataChart"
               :labels='labels'
               :options="lineChartOptions"
-              :height="260"
+              :height="212"
               class="line-chart d-none d-sm-block"
               chart-id="vendor-dashboard-line-chart"
           />
@@ -287,11 +288,27 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.dropdown-filter::v-deep
+  background-color: $color-white-4
+  border-radius: 8px
+  border: none !important
+  width: 200px
+
+  .selected
+    @include body-13-normal
+    color: $color-black-1
+    background-color: $color-white-4 !important
+    font-family: $font-family-sf-pro-display
+    border: none !important
+
 .line-chart
   #vendor-dashboard-line-chart
     height: 280px
+
 .progressbar_wrapper
   width: 240px
+
 @media (max-width: 576px)
   .view-more-link
     font-size: 10px
