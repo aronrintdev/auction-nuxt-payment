@@ -5,9 +5,18 @@
         <img v-if="labelLeftImage !== null" :src="labelLeftImage" class="mr-2">
         {{label}}
       </label>
-      <i class="pull-right mt-1 pr-1 fa fa-2x" :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"></i>
+      <i 
+        class="pull-right mt-1 pr-1 fa fa-2x" 
+        :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"
+        :style="arrowStyle"
+      >
+      </i>
     </div>
-    <ul v-if="isOpen"  class="custom-dropdown-options" :class="`${optionsWidth}-color ${bordered && 'bordered'}`" :style="{'min-width': width,'border-radius': isOpen ? borderRadiusOptions: ''}"
+    <ul 
+      v-if="isOpen" 
+      class="custom-dropdown-options" 
+      :class="`${optionsWidth}-color ${bordered && 'bordered'}`" 
+      :style="{'min-width': width,'border-radius': isOpen ? borderRadiusOptions: '', ...dropdownStyle}"
     >
       <li
         v-for="(option, key) of options" :key="key"
@@ -94,6 +103,14 @@ export default {
       type: Boolean,
       default: () => true
     },
+    dropdownStyle: {
+      type: Object,
+      default: () => {}
+    },
+    arrowStyle: {
+      type: Object,
+      default: () => {}
+    }
   },
   data() {
     return {
