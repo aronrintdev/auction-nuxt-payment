@@ -1,7 +1,9 @@
 <template>
-  <section class="row mt-sm-5 mb-4">
-    <div class="col-md-8 mb-2 mb-md-0">
-      <div class="bg-white br-10 px-2 pt-4 p-sm-4">
+  <section class=" row mt-sm-5 mb-4">
+    <div :class="mobileClass" class="charts col-md-8 mb-2 mb-md-0">
+      <div :class="{
+        'pt-4': !isScreenXS
+      }" class="bg-white br-10 px-2  p-sm-4">
         <div class="d-flex align-items-center justify-content-between">
           <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
             {{ $t('buyer_dashboard.dashobard_buyer.total_purchases_main') }}
@@ -56,16 +58,17 @@
         </div>
         <div class="text-right d-none d-sm-block">
           <a
-            href="#"
-            class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0"
-            >{{ $t('vendor_dashboard.view_breakdown') }}</a
+              href="#"
+              class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0"
+          >{{ $t('vendor_dashboard.view_breakdown') }}</a
           >
         </div>
       </div>
     </div>
     <!-- TODO -->
-    <div class="col-md-4">
-      <div class="bg-white br-10 px-2 py-3 p-sm-4 h-100">
+    <div :class="mobileClass" class="col-md-4 charts radial">
+      <div class=" bg-white br-10 px-2 py-3 p-sm-4 h-100">
+
         <div class="d-flex align-items-center justify-content-between">
           <h1 :class="{
             'mb-5': isScreenXS
@@ -81,7 +84,8 @@
             </nuxt-link>
           </div>
         </div>
-        <div class="mt-3 mb-0 my-sm-4 text-center progressbar_wrapper mx-auto">
+
+        <div class=" mt-3 mb-0 my-sm-4 text-center progressbar_wrapper mx-auto position-relative">
           <RadialChart v-if="!isScreenXS"
                        :progress="progress"
                        :rewards="rewards"
@@ -103,7 +107,7 @@
           </b-button
           >
           <b-button
-              class="mt-3 px-4 py-2 font-primary fs-12 fw-6 border d-sm-none d-inline-block"
+              class="mt-5 px-4 py-2 font-primary fs-12 fw-6 border d-sm-none d-inline-block position-absolute reward-button text-nowrap"
               variant="outline-secondary"
               pill
               to="/profile/rewards"
@@ -288,6 +292,17 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.charts
+  &.mobile
+    box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
+    border-radius: 8px
+    padding: 21px 7px
+
+    &.radial
+      padding-bottom: 80px
+
+.reward-button
+  right: 50px
 
 .dropdown-filter::v-deep
   background-color: $color-white-4

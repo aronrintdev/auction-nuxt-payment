@@ -1,5 +1,5 @@
 <template>
-  <div class="promotions bg-white pt-4 p-sm-4 br-10">
+  <div :class="mobileClass" class="promotions bg-white pt-4 p-sm-4 br-10">
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="fs-20 fw-7 font-primary mb-0 title">
         {{ $t('buyer_dashboard.promotions.title') }}
@@ -17,7 +17,7 @@
           class="col-md-6 d-flex align-items-center align-items-sm-baseline flex-sm-column justify-content-center my-4 my-sm-0 order-2 order-sm-1"
         >
           <h2
-            class="fs-30 fw-7 font-primary mb-0 text-left promotion-title mr-2 mr-sm-0"
+              class="fs-30 fw-7 font-primary mb-0 text-left promotion-title mr-2 mr-sm-0 text-nowrap text-truncate mr-1"
           >
             {{ promotions.name }}
           </h2>
@@ -44,12 +44,17 @@
             <img :src="promotions.promotion_image" class="img-fluid" />
           </div>
         </div>
-        <div class="d-sm-none d-inline-block order-3 w-100 text-center mb-3">
+        <div class="d-sm-none d-inline-block order-3 w-100 text-center ">
           <b-button
-            class="mt-3 px-4 py-2 font-primary fs-12 fw-6 border"
-            variant="outline-secondary"
-            pill
-            >{{ $t('buyer_dashboard.promotions.view_promotions') }}</b-button
+              :class="{
+              'my-3' :!isScreenXS
+            }"
+              class=" px-4 py-2 font-primary fs-12 fw-6 border"
+              variant="outline-secondary"
+              pill
+              to="/promotions"
+          >{{ $t('buyer_dashboard.promotions.view_promotions') }}
+          </b-button
           >
         </div>
       </div>
@@ -58,9 +63,11 @@
 </template>
 <script>
 import CountdownTimer from './CountdownTimer'
+import screenSize from '~/plugins/mixins/screenSize';
 export default {
   name: 'Promotions',
-  components: { CountdownTimer },
+  components: {CountdownTimer},
+  mixins: [screenSize],
   data() {
     return {
       promotions: [],
@@ -89,6 +96,13 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.promotions
+  &.mobile
+    margin-top: 14px
+    box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
+    border-radius: 8px
+    padding: 21px 7px
+
 .divider
   height: 2px
 .car-main img
