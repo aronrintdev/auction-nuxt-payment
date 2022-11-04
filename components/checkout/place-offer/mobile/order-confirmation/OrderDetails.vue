@@ -19,7 +19,7 @@
       </b-row>
       <!-- End of Quantity of Items Purchased Indication -->
 
-      <ListItem />
+      <ListItem :offer-details="offerDetails" />
 
       <!-- Offer Details Section -->
       <b-row class="offer-details-wrapper">
@@ -178,7 +178,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions} from 'vuex'
 import billingAddressMixin from '~/plugins/mixins/billing-address'
 import shippingAddressMixin from '~/plugins/mixins/shipping-address'
 import offerDetailsMixin from '~/plugins/mixins/offer-details'
@@ -198,6 +198,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      paymentMethod: 'auth/getPaymentMethod'
+    }),
     getPaymentMethod(vm) {
       return vm.paymentMethod.cardBrand.toUpperCase() + ' - ' + vm.paymentMethod.cardLastDigits + ', Exp. ' + vm.paymentMethod.cardExpiryDate
     },
@@ -220,6 +223,12 @@ export default {
   overflow-y: auto
   overflow-x: hidden
   height: 100%
+
+  div
+    font-family: 'SF Pro Display', serif
+
+  .product-wrapper
+    border-bottom: 1px solid $color-gray-47
 
 .quantity-wrapper
   margin-top: 7px
