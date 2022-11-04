@@ -8,7 +8,7 @@
       </span>
       <!-- ./Order Number -->
       <!-- View Order -->
-      <span role="button" class="view-order" @click="viewOrder">{{
+      <span role="button" class="view-order d-flex align-items-center color-blue-20" @click="viewOrder">{{
         $t('vendor_purchase.view_order')
       }}</span>
       <!-- ./View Order -->
@@ -78,9 +78,9 @@
               v-if="ORDERS_HAS_ITEMS.includes(orderType)"
               :variant="purchaseStatus"
               class="m-auto text-capitalize text-center status-button d-flex"
-              :class="`btn-${purchaseStatus.split(' ').join('_')}`"
+              :class="{[purchaseStatus.split(' ').join('_')]: purchaseStatus.split(' ').join('_')}"
           >
-            {{ $t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) }}
+            {{$t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) }}
           </Button>
           <div
             v-if="orderType === giftCard"
@@ -494,27 +494,4 @@ button.status-button
   .purchase-card-wrapper
     width: 459.5px
 /* media query ends */
-.btn-cancelled
-  color: $color-orange-22
-  background: $color-white-26
-.btn-refunded
-  color: $color-orange-19
-  background: $color-yellow-9
-.btn-ship_to_deadstock
-  color: $color-purple-7
-  background: $color-gray-95
-  padding: 10px
-.btn-authentication_complete
-  color: $color-green-30
-  background: $color-green-31
-  padding: 20px 4px
-.btn-multiple
-  color: $color-white-1
-  background: $color-black-1
-.btn-voided
-  color: $color-white-1
-  background: $color-black-1
-.btn-cancel
-  color: $color-orange-19
-  background: $color-yellow-9
 </style>
