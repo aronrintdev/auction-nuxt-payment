@@ -103,7 +103,8 @@ export default {
     ...mapActions({
       addPromoCode: 'order-details/addPromoCode',
       removePromoCode: 'order-details/removePromoCode',
-      offerSubmit: 'offer/offerSubmit'
+      offerSubmit: 'offer/offerSubmit',
+      removePaymentToken: 'order-details/removePaymentToken',
     }),
     applyPromoCode(promoCode) {
       this.$axios.post('coupons/check', {
@@ -139,7 +140,10 @@ export default {
         },
         paymentToken: this.paymentToken
       }).then(() => {
-        this.$router.push('/checkout/place-offer/order-confirmation')
+        this.removePaymentToken().then(() => {
+          this.$parent.$parent.close()
+          this.$router.push('/checkout/place-offer/order-confirmation')
+        })
       }).catch((err) => {
         this.$logger.logToServer('Place Offer Error', err.response);
       }).finally(() => {
