@@ -52,8 +52,11 @@ export const SORT_BY = [
   { text: 'trades.create_listing.vendor.wants.price_high_to_low', value: 'price_desc' },
 ]
 
+export const PRICE_ASC = 'price_asc'
+export const SELECT_LIST_PER_PAGE = 30
+
 export const WANTS_SORT_OPTIONS = [
-  { text: 'trades.create_listing.vendor.wants.price_low_to_high', value: 'price_asc' },
+  { text: 'trades.create_listing.vendor.wants.price_low_to_high', value: PRICE_ASC },
   { text: 'trades.create_listing.vendor.wants.price_high_to_low', value: 'price_desc' },
   { text: 'createlisting.size_small_large', value: 'size_asc' },
   { text: 'createlisting.size_large_small', value: 'size_desc' },

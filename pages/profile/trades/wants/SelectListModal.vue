@@ -47,6 +47,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
+import { SELECT_LIST_PER_PAGE } from '~/static/constants/trades'
 
 export default {
   name: 'SelectListModal',
@@ -90,7 +91,7 @@ export default {
           category: '',
           size_types: '',
           sizes: '',
-          perPage: 200
+          perPage: SELECT_LIST_PER_PAGE
         }
       })
       .then((response) => { 

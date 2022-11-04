@@ -124,7 +124,7 @@ import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
 import FilterAccordion from '~/components/mobile/FilterAccordion';
 import Button from '~/components/common/Button';
 import ButtonSelector from '~/components/mobile/ButtonSelector';
-import { SIZE_TYPES, WANTS_SORT_OPTIONS } from '~/static/constants/trades'
+import { SIZE_TYPES, WANTS_SORT_OPTIONS, PRICE_ASC } from '~/static/constants/trades'
 import { APPAREL_SIZES } from '~/static/constants/sizes'
 
 
@@ -156,7 +156,7 @@ export default {
       sortOptions: WANTS_SORT_OPTIONS.map(item => ({ text: this.$t(item.text), value: item.value })),
       sizeOptions: APPAREL_SIZES.map(item => ({ text: item, value: item })),
       filters: {
-        sortBy: 'price_asc',
+        sortBy: PRICE_ASC,
         size_type: [],
         category: { text: '', value: '' },
         size: []
@@ -171,7 +171,7 @@ export default {
     },
     filterChangeCount() {
       let count = 0
-      if (this.filters.sortBy !== 'price_asc') {
+      if (this.filters.sortBy !== PRICE_ASC) {
         count++
       }
       if (this.filters.category.value.length > 0) {
@@ -217,7 +217,7 @@ export default {
   methods: {
     resetForm() {
       this.filters = {
-        sortBy: 'price_asc',
+        sortBy: PRICE_ASC,
         size_type: [],
         category: { text: '', value: '' },
         size: []
