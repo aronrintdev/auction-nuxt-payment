@@ -28,7 +28,7 @@
 
                 <b-row>
                   <b-col cols="12" sm="12" class="text-center">
-                    <div class="copped-text">COPPED</div>
+                    <div class="copped-text">{{ coppedText }}</div>
                     <b-img :src="require('~/assets/img/home/logo-mb.png')" class="ds-logo" />
                   </b-col>
                 </b-row>
@@ -58,6 +58,10 @@ export default {
   props: {
     products: {
       type: Array,
+      required: true,
+    },
+    coppedText: {
+      type: String,
       required: true,
     }
   },
@@ -118,7 +122,7 @@ export default {
 
     .copped-text
       @include heading-10
-      line-height: -2
+      line-height: 56px
 
     .ds-logo
       margin-top: 24px
