@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div id="profile-layout" class="wrapper min-vh-100">
     <Header />
 
     <div class="custom-wrapper">
@@ -30,30 +30,32 @@
         </div>
 
         <!-- New menu design begin -->
-        <div class="col">
-          <button
-            v-if="isScreenXS || isScreenSM || isScreenMD"
-            v-b-toggle.sidebar
-            class="w3-button w3-xlarge w3-hide-large float-left">
-            <span class="text-bold">{{ $t('navbar.profile') }}</span>
-            <i class="fa fa-bars"></i>
-          </button>
+        <client-only>
+          <div class="col">
+            <button
+              v-if="isScreenXS || isScreenSM || isScreenMD"
+              v-b-toggle.sidebar
+              class="w3-button w3-xlarge w3-hide-large float-left">
+              <span class="text-bold">{{ $t('navbar.profile') }}</span>
+              <i class="fa fa-bars"></i>
+            </button>
 
-          <!-- new menu area -->
-          <b-sidebar id="sidebar"
-                     ref="mySidebar"
-                     shadow
-                     @shown="sidebarIsVisible = true"
-                     @hidden="sidebarIsVisible = false">
-            <NewSideMenu id="sidemenu" ref="sidemenu" v-click-outside="onClickOutside" :show-title="false"  />
-          </b-sidebar>
-          <NewSideMenu v-if="!isScreenXS && !isScreenSM && !isScreenMD" />
-          <!-- new menu area end -->
-        </div>
+            <!-- new menu area -->
+            <b-sidebar id="sidebar"
+                       ref="mySidebar"
+                       shadow
+                       @shown="sidebarIsVisible = true"
+                       @hidden="sidebarIsVisible = false">
+              <NewSideMenu id="sidemenu" ref="sidemenu" v-click-outside="onClickOutside" :show-title="false"  />
+            </b-sidebar>
+            <NewSideMenu v-if="!isScreenXS && !isScreenSM && !isScreenMD" />
+            <!-- new menu area end -->
+          </div>
+        </client-only>
         <!-- New menu design end -->
       </div>
 
-      <div class="main-wrapper">
+      <div class="main-wrapper" :class="{'mobile-p-b' : isScreenXS || isScreenSM}">
         <Nuxt />
       </div>
     </div>
@@ -204,4 +206,7 @@ export default {
     .custom-wrapper
       background-color: $color-white-19
 
+.mobile-p-b
+  padding-bottom: 98px
+  
 </style>

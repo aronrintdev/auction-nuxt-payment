@@ -2,7 +2,7 @@
   <div v-show="mobileClass" :class="`sidebar-wrapper ${mobileClass} d-flex w-100 flex-column align-items-start`">
     <div :class="`header ${mobileClass} w-100 px-5 py-3 border-bottom`">
       <div :class="`filter-by w-100 ${mobileClass} d-flex aling-items-center justify-content-center`">
-        <span>{{ $t('common.filter_by') }}</span>
+        <span class="font-weight-bold">{{ $t('common.filter_by') }}</span>
       </div>
     </div>
     <div :class="`filter-body ${mobileClass} p-4 w-100 h-100`">
@@ -15,11 +15,14 @@
           <div :class="`body-filter mt-2 ${mobileClass} f-w-normal`">
             <b-form-radio v-for="(sortBy, index) in SORT_BY" :key="index"
               v-model="filters.sortBy"
-              class="recent-to-old text-normal"
+              class="recent-to-old text-normal mt-1"
               name="sortby"
               :value="sortBy.value"
-              >{{ sortBy.label }}</b-form-radio
-            >
+              >
+              <span class="body-5-normal color-black-9 py-3">
+                {{ sortBy.label }}
+              </span>
+            </b-form-radio>
           </div>
         </div>
         <hr />
@@ -53,9 +56,10 @@
       <div v-show="filterVisibility" class="collapses flex-column w-100">
         <CollapseSelector
           v-model="filters.activeOnOffBidFilters"
+          :multiSelect="false"
           collapseKey="outbid_type"
           :title="$t('bids.auto_bid_on_off')"
-          :options="BID_TYPES"
+          :options="OUTBID_TYPES"
         />
       </div>
       <!-- Outbid ends -->
@@ -76,7 +80,7 @@
 
       <hr v-show="filterVisibility" />
 
-      <div v-show="filterVisibility" :class="`section-actions ${mobileClass} d-flex align-items-center w-100 justify-content-between`">
+      <div v-show="filterVisibility" :class="`section-actions ${mobileClass} d-flex align-items-center w-100 justify-content-between pb-5`">
         <Button v-if="filterVisibility" pill class="btn-reset btn-light" @click="resetFilter">{{
           $t('offers_received.reset')
         }}</Button>
@@ -174,17 +178,17 @@ export default {
 
     // On start date select
     startDateSelected(value) {
-      this.date.start = value
-      this.filters.bid_start_date = value
+      this.date.start = this.$moment(value).format('MM/DD/YYYY')
+      this.filters.bid_start_date = this.$moment(value).format('MM/DD/YYYY')
     },
 
     // On end date select
     endDateSelected(value) {
-      this.date.end = value
-      this.filters.bid_end_date = value
+      this.date.end = this.$moment(value).format('MM/DD/YYYY')
+      this.filters.bid_end_date = this.$moment(value).format('MM/DD/YYYY')
     },
 
-    applyFilter(){
+    applyFilter() {
       this.$emit('filter', { ...this.filters })
     }
   },
@@ -233,7 +237,7 @@ export default {
 .filter-by
   &.mobile
     font-family: $font-sp-pro
-    font-style: normal
+    font-style: bold
     @include body-17-bold
     letter-spacing: -0.02em
     color: $color-black-1
@@ -261,4 +265,6 @@ export default {
       font-style: normal
       @include body-5-medium
       color: $color-white-1
+.color-black-9
+  color: $color-black-9
 </style>

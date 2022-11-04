@@ -1,20 +1,20 @@
 <template>
-  <div v-if="auction" class="mt-3 px-5 py-4 ml-n1 w-100 bg-white card-summary">
+  <div v-if="auction" class="mt-3 p-3 px-md-5 py-md-4 ml-n1 w-100 bg-white card-summary">
     <b-row>
       <b-col sm="11">
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-column card-summary-header">
           <b-row>
-            <b-col sm="3" class="body-4-bold">
+            <b-col cols="8" md="3" class="body-4-bold">
               {{ $t('auction.auction_id') }} #{{ auction.id }}
             </b-col>
-            <b-col sm="3">
+            <b-col cols="4" md="3" class="text-right text-md-left">
               <span v-if="auction.status === LIVE_STATUS" class="text-success body-4-medium">&bull; {{
                   $t('auction.live')
                 }}</span>
               <span v-if="auction.status === SCHEDULED_STATUS"
                     class="text-gray-24 body-4-medium">&bull; {{ $t('auction.scheduled') }}</span>
             </b-col>
-            <b-col v-if="auction.status === LIVE_STATUS" sm="6" class="text-danger body-4-medium">
+            <b-col v-if="auction.status === LIVE_STATUS" cols="12" md="6" class="text-danger body-4-medium">
               {{$t('auction.time_remaining')}}&colon;
               {{
                 auction.remaining_time
@@ -23,7 +23,76 @@
           </b-row>
         </div>
 
-        <b-row class="mt-3 mx-5 body-4-medium text-gray-25">
+        <div class="mt-3 d-md-none">
+          <div class="mb-1 d-flex d-md-none justify-content-between">
+            <span v-if="isScheduled" class="field-label">{{ $t('auction.scheduled') }}</span>
+            <span v-else class="field-label">{{ $t('auction.listed_on') }}</span>
+            <span v-if="isScheduled" class="field-value">{{ formattedDate(auction.scheduled_date) }}</span>
+            <span v-else class="field-value">{{ formattedDate(auction.listed_at) }}</span>
+          </div>
+          <div class="mb-1 d-flex d-md-none justify-content-between">
+            <span v-if="isScheduled" class="field-label">{{ $t('auction.duration') }}</span>
+            <span v-else class="field-label">{{ $t('auction.expires_on') }}</span>
+            <span v-if="isScheduled" class="field-value">{{ auction.remaining_time }}</span>
+            <span v-else class="field-value">{{ formattedDate(auction.end_date) }}</span>
+          </div>
+          <div class="mb-1 d-flex d-md-none justify-content-between">
+            <span class="field-label">{{ $t('auction.auction_type') }}</span>
+            <span class="field-value">{{ $t('auction.auction_types.' + auction.type) }}</span>
+          </div>
+          <div class="mb-1 d-flex d-md-none justify-content-between">
+            <span class="field-label">{{ $t('auction.reserve_price') }}</span>
+            <div class="field-value">
+              <div class="d-flex">
+                <div class="d-flex" :class="hasReserveError? 'error-border': ''">
+                  <span v-if="auction.is_reserved" class="mt-1">
+                    &dollar;
+                </span>
+                  <input
+                    v-if="auction.is_reserved"
+                    :value="auctionReserveValue"
+                    type="number"
+                    class="py-1"
+                    :class="editReserve? 'custom-reserve-input' : 'non-edit border-0'"
+                    :readonly="!editReserve"
+                    @input="reserveChange"
+                  >
+                  <span v-else>
+                    {{auctionReserveValue}}
+                  </span>
+                </div>
+
+                <Button
+                  v-if="auction.is_reserved && moreThan12"
+                  variant="link"
+                  class=" ml-3"
+                  :class="editReserve? 'btn-send': 'btn-edit-inventory'"
+                  :tooltip-text="$t('common.edit')"
+                  @click="editReserveAction"
+                ></Button>
+                <Button
+                  v-if="auction.is_reserved && editReserve"
+                  variant="link"
+                  class="btn-revert ml-3"
+                  :tooltip-text="$t('common.revert')"
+                  @click="editReserveReverse"
+                ></Button>
+              </div>
+              <div v-if="hasReserveError" class="mt-1 reserve-error position-absolute mt-4 pt-2">
+                {{$t('auction.reserve_error')}}
+              </div>
+              <div v-if="editReserve" class="mt-4 remove-button" role="button" @click="removeReserve">
+                {{$t('auction.remove_reserve')}}
+              </div>
+            </div>
+          </div>
+          <div class="mb-1 d-flex d-md-none justify-content-between">
+            <span class="field-label">{{ $t('auction.starting_bid') }}</span>
+            <span class="field-value">${{ auction.start_bid_price | formatPrice }}</span>
+          </div>
+        </div>
+
+        <b-row class="d-none d-md-flex mt-3 mx-5 body-4-medium text-gray-25">
           <b-col sm="2">
             <span v-if="isScheduled">{{ $t('auction.scheduled') }}</span>
             <span v-else>{{ $t('auction.listed_on') }}</span>
@@ -45,7 +114,7 @@
           </b-col>
         </b-row>
 
-        <b-row class="mt-3 mx-5 body-4-normal">
+        <b-row class="d-none d-md-flex mt-3 mx-5 body-4-normal">
           <b-col sm="2">
             <span v-if="isScheduled"> {{
                 formattedDate(auction.scheduled_date)
@@ -122,7 +191,7 @@
           <AuctionSummaryCollection v-if="auction.type === AUCTION_TYPE_COLLECTION" :products="getProducts"/>
         </div>
       </b-col>
-      <b-col sm="1" class="d-flex flex-column align-items-center">
+      <b-col sm="1" class="mt-3 mt-md-0 d-flex flex-row justify-content-between flex-md-column align-items-center">
         <Button
           v-if="moreThan12 && !isDelistedOrExpired"
           class="bg-blue-2"
@@ -593,4 +662,23 @@ export default {
   border-radius: 10px
   border: 1px solid $color-gray-58
   padding: 15px 10px
+
+@media (max-width: 576px)
+  .card-summary-header
+    .body-4-medium
+      @include body-5
+  .field-label
+    @include body-5
+    font-weight: $normal
+  .field-value
+    @include body-5
+    font-weight: $regular
+    color: $color-gray-5
+  .modify-button
+    position: static
+    border: 1px solid $color-blue-2
+    white-space: nowrap
+    padding: 6px 20px
+    width: auto
+    border-radius: 40px
 </style>

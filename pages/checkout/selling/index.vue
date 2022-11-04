@@ -1,8 +1,9 @@
 <template>
   <b-row>
     <!-- Checkout selling normal version (md, lg & xl) -->
-    <ItemsList v-if="! isScreenSM || ! isScreenXS" />
-    <ShoppingCartOrder v-if="! isScreenSM || ! isScreenXS" class="order-summary" />
+    <ItemsList v-if="! isResponsive" />
+
+    <ShoppingCartOrder v-if="! isResponsive" class="order-summary" />
     <!-- End of Checkout selling normal version (md, lg & xl) -->
 
     <!-- Checkout selling mobile version (xs & sm) -->
@@ -18,6 +19,7 @@ import ShoppingCartOrder from '~/components/checkout/selling/ShoppingCartOrder'
 import ShoppingBag from '~/components/checkout/selling/mobile/ShoppingBag'
 import { GOOGLE_MAPS_BASE_URL, RISKIFIED_DOMAIN, RISKIFIED_SHOP_DOMAIN } from '~/static/constants/environments'
 import screenSize from '~/plugins/mixins/screenSize'
+import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 
 export default {
   name: 'Index',
@@ -29,12 +31,20 @@ export default {
       title: this.$t('shopping_cart.checkout_selling'),
     }
   },
+  computed: {
+    isResponsive(vm) {
+      return vm.isScreenXS || vm.isScreenSM
+    }
+  },
   beforeMount() {
     if (this.$store.$auth.loggedIn) {
       this.getUserDetails()
       this.getUserRedeemedReward()
       this.getOrderSettings()
     }
+    enquireScreenSizeHandler((type) => {
+      this.$store.commit('size/setScreenType', type)
+    })
   },
   mounted() {
     this.injectRiskifiedBeacon()

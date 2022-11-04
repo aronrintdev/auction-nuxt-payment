@@ -65,10 +65,12 @@
       v-if="paymentMethod.paymentType === isCard"
       class="mt-2"
       editable
+      clearable
       :card-brand="paymentMethod.cardBrand"
       :card-expiry-date="paymentMethod.cardExpiryDate"
       :card-last-digits="paymentMethod.cardLastDigits"
       @edit="emitRenderComponentEvent($parent.$options.components.PaymentOption.name)"
+      @clear="removePaymentMethod()"
     />
     <!-- End of Shopping Cart Payment Details -->
 
@@ -133,6 +135,8 @@ import {
   FIXED_PRODUCT,
   PAYMENT_METHOD_TYPE_CARD,
   PERCENT_OFFSET,
+  BAD_REQUEST,
+  NOT_FOUND,
   AMOUNT_OFFSET
 } from '~/static/constants'
 import createListingAuction from '~/plugins/mixins/create-listing-auction';
@@ -154,7 +158,6 @@ export default {
       shippingFee: 0,
       processingFee: 0,
       tax: 0,
-      reserveFee: 0.0799, // unit: %
       isCard: PAYMENT_METHOD_TYPE_CARD,
       form: {
         inputCardHolderName: '',
@@ -287,8 +290,21 @@ export default {
       this.inputPromoCode = ''
     },
     applyPromoCode(promoCode) {
-      this.addPromoCode({
-        promoCode,
+      this.$axios.post('coupons/check', {
+        promo_code: promoCode,
+        listing_items: this.shoppingCart
+      }, { handleError: false }).then((response) => {
+        this.addPromoCode({
+          promoCode: response.data.data,
+        })
+      }).catch((error) => {
+        if (error.response.status === BAD_REQUEST || error.response.status === NOT_FOUND) {
+          this.$toasted.error(this.$t(error.response.data.message).toString())
+
+          return
+        }
+
+        this.$toasted.error(error)
       })
     },
     // TODO: Extract the pattern shown in the checkout methods.
@@ -299,6 +315,7 @@ export default {
         reserve_price: item.reserve_price * 100,
         start_bid_price: item.start_bid_price * 100,
         payment_token: this.paymentToken,
+        payment_method: this.paymentMethod,
         billing_address: {
           first_name: this.billingAddress.firstName,
           last_name: this.billingAddress.lastName,
@@ -350,14 +367,17 @@ export default {
             .finally(() => {
               this.loading = false
               this.removePaymentToken()
-              this.removePaymentMethod()
             })
           } else {
             this.loading = false
             this.removePaymentToken()
-            this.removePaymentMethod()
             this.emitRenderComponentEvent(this.$parent.$options.components.ThankYou.name)
           }
+        })
+        .catch((error) => {
+          this.loading = false
+          this.removePaymentToken()
+          this.$toasted.error(error)
         })
     },
   },

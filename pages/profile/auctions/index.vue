@@ -586,6 +586,13 @@ export default {
         mobileFilter.open()
       }
     },
+    // hide filter
+    closeMobileFilter() {
+      const { mobileFilter } = this.$refs
+      if (mobileFilter) {
+        mobileFilter.close()
+      }
+    },
 
     onMobileFilter(filters) {
       this.activeStatusFilters = filters.activeStatusFilters;
@@ -593,6 +600,7 @@ export default {
       this.sortBy = filters.sortBy;
       this.start_date = filters.start_date;
       this.end_date = filters.end_date;
+      this.closeMobileFilter()
       this.FetchAuctions()
     }
   }

@@ -278,7 +278,7 @@ export default {
     &.btn-checkout
       width: 216px
       height: 40px
-      margin-bottom: 26px
+      margin-bottom: 14px
 
 .section-title
   margin-bottom: 7px

@@ -42,7 +42,7 @@
           }).toLowerCase()
         }}
       </div>
-      <div class="ml-2">
+      <div class="ml-auto ml-md-2 mr-3 mr-md-0">
         <Button
           v-if="selected.length === total"
           variant="link"

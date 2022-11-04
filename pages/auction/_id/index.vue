@@ -40,7 +40,7 @@
         <div class="mt-5 body-5-bold">
           {{ $t('auctions.frontpage.have_piece_to_sell') }} <nuxt-link to="#">{{ $t('auctions.frontpage.create_listing') }}</nuxt-link>
         </div>
-        <div class="mt-5">
+        <div v-if="activeAuction.auction_items[currentItemIdx]" class="mt-5">
           <b-tabs pills class="product-details-tabs">
             <b-tab title="Product Details" active>
                 <div>{{ $t('common.sku') }}: {{ activeAuction.auction_items[currentItemIdx].inventory.product.sku }}</div>
@@ -106,7 +106,7 @@
             <div class="product-info-box-value">{{ activeAuction.auction_items[currentItemIdx].inventory.color.name }}</div>
           </div>
           <div class="product-info-box-value">
-            {{ $t('common.size') }} {{ activeAuction.auction_items[currentItemIdx].inventory.size.size }}
+            {{ $tc('common.size', 1) }} {{ activeAuction.auction_items[currentItemIdx].inventory.size.size }}
           </div>
         </div>
         <div class="mb-4 text-center bid-details">
@@ -114,7 +114,7 @@
           <strong v-else class="bid-details-price">{{ $t('auctions.frontpage.current_bid') }}: &nbsp;&nbsp;-&nbsp;&nbsp;</strong>
           <div class="mt-4 place-bid-form">
             <div class="place-bid-form-title">{{ $t('auctions.frontpage.place_bid') }}</div>
-            <input v-model="placeBidPrice" :placeholder="$t('auctions.frontpage.insert_amount')" />
+            <input v-model="placeBidPrice" v-number-only :placeholder="$t('auctions.frontpage.insert_amount')" />
             <ArrowFillIcon role="button" :disabled="!placeBidPrice" @click="placeBid" />
           </div>
           <div v-if="showLowBidError" class="text-left text-danger mt-1">
@@ -142,7 +142,7 @@
               </b-tooltip>
             </div>
             <div class="mt-3 d-flex justify-content-between auto-bid-content">
-              <input v-model="autoBidPrice" :placeholder="$t('auctions.frontpage.up_to')" />
+              <input v-model="autoBidPrice" v-number-only :placeholder="$t('auctions.frontpage.up_to')" />
               <b-btn :disabled="!autoBidPrice || parseFloat(autoBidPrice) * 100 < activeAuction.highest_bid" pill @click="placeAutoBid">{{ $t('auctions.frontpage.place_auto_bid') }}</b-btn>
             </div>
             <div v-if="authUser && activeAuction.auto_bid_setting" class="mt-3 text-left auto-bid-setting">
@@ -202,11 +202,11 @@
         <ProductImageViewerMagic360 v-if="activeAuction.auction_items[currentItemIdx].inventory.product.has360Images" :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
         <Thumb v-else :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
       </div>
-      <div class="mt-4 d-flex align-items-start justify-content-between p-0 product-info-box">
+      <div v-if="activeAuction.auction_items[currentItemIdx]" class="mt-4 d-flex align-items-start justify-content-between p-0 product-info-box">
         <div>
           <div class="product-info-box-title">{{ activeAuction.auction_items[currentItemIdx].inventory.product.name }}</div>
           <div class="product-info-box-value">
-            {{ $t('common.size') }} {{ activeAuction.auction_items[currentItemIdx].inventory.size.size }} - {{ $t('common.box_condition') }}: {{ activeAuction.auction_items[currentItemIdx].inventory.packaging_condition.name }}
+            {{ $tc('common.size', 1) }} {{ activeAuction.auction_items[currentItemIdx].inventory.size.size }} - {{ $t('common.box_condition') }}: {{ activeAuction.auction_items[currentItemIdx].inventory.packaging_condition.name }}
           </div>
         </div>
         <div class="round-btn" role="button">
@@ -795,6 +795,7 @@ export default {
   methods: {
     ...mapActions({
       removeItemsFromWatchlist: 'watchlist/removeItemsFromWatchlist',
+      getAuctionDetails: 'auction/getAuctionDetails',
     }),
     ...mapMutations({
       updateBidPrice: 'auction/updateActiveAuctionPrice',
@@ -804,7 +805,7 @@ export default {
     loadAuction() {
       this.loading = true
       const { id: auctionId } = this.$route.params
-      this.$store.dispatch('auction/getAuctionDetails', auctionId)
+      this.getAuctionDetails(auctionId)
     },
     // Click place bid button
     placeBid(type) {
