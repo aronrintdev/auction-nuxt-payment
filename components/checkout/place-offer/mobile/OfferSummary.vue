@@ -123,26 +123,27 @@ export default {
         this.$toasted.error(error)
       })
     },
-    placeOffer(){
+    placeOffer() {
+      this.loading = true
       this.offerSubmit({
         billingAddress: this.billingAddress,
         shippingAddress: this.shippingAddress,
         paymentMethod: this.paymentMethod,
-        offerDetails: this.getOfferDetails,
+        offerDetails: this.offerDetails,
         priceDetails: {
           shipping_fee: this.shippingFee,
           processing_fee: this.getProcessingFee,
           tax: this.getTax,
-          sub_total: this.subTotal,
+          sub_total: this.getSubtotalAfterDiscount,
           total: this.getTotal
         },
         paymentToken: this.paymentToken
-      }).then((res) => {
-        if (res.data.success){
-          this.$bvModal.show('message-modal')
-        }
+      }).then(() => {
+        this.$router.push('/checkout/place-offer/order-confirmation')
       }).catch((err) => {
         this.$logger.logToServer('Place Offer Error', err.response);
+      }).finally(() => {
+        this.loading = false
       })
     },
   }
@@ -177,4 +178,9 @@ export default {
   .btn
     min-width: 216px
     min-height: 40px
+
+    &:disabled
+      border: none
+      background: $color-gray-1
+      color: $color-gray-47
 </style>
