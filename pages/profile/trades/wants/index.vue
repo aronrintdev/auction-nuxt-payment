@@ -324,7 +324,7 @@
             >
               <img
                 :src="require('~/assets/img/icons/product/Plus.svg')"
-                alt="Add"
+                :alt="$t('common.add')"
               />
             </div>
             <div 
