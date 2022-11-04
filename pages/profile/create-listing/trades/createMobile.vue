@@ -72,18 +72,6 @@
                    class="col-md-12 justify-content-center no-found">
               {{ $t('trades.create_listing.vendor.wants.no_products_found-mobile') }}
             </b-row>
-<!--            <b-row class="col-md-12 justify-content-center">-->
-<!--              <Pagination-->
-<!--                v-if="inventory_items && inventory_items.length > 0"-->
-<!--                v-model="page"-->
-<!--                :total="totalCount"-->
-<!--                :per-page="perPage"-->
-<!--                :per-page-options="perPageOptions"-->
-<!--                class="mt-4"-->
-<!--                @page-click="handlePageClick"-->
-<!--                @per-page-change="handlePerPageChange"-->
-<!--              />-->
-<!--            </b-row>-->
           </b-row>
         </div>
         <infinite-loading :identifier="infiniteId" @infinite="getInventory">
