@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="h-100 p-4 p-md-5" :class="{'container-profile-auctions' : !isMobileSize}">
+  <b-container fluid class="h-100 p-4 p-md-5 container-profile-auctions-listing" :class="{'container-profile-auctions' : !isMobileSize}">
     <div
       :class="{'border-bottom border-dark' : isMobileSize}"
       class="d-flex justify-content-center justify-content-md-between align-items-center">
@@ -745,4 +745,7 @@ export default {
         background-color: $color-blue-2
         border: none
 
+.container-profile-auctions-listing
+  @media (max-width: 576px)
+    min-height: calc(100vh - 360px)
 </style>
