@@ -363,6 +363,9 @@ export default {
     })
   },
   methods: {
+    ...mapGetters({
+      tradingFee: 'order-settings/getTradingFee',
+    }),
     ...mapActions('counter-offer', ['fetchOfferDetails']), // get filters from api call by calling action from store
     ...mapActions('browse', ['fetchFilters']), // getter to get filter listing from store
     ...mapActions('trades', ['checkIfItemIsInListingItem', 'searchProductsList']),
@@ -570,7 +573,7 @@ export default {
       }
     },
     getTradeFee() {
-      return 1000
+      return this.tradingFee
     },
 
     setActiveTrade(){
