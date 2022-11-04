@@ -23,10 +23,10 @@
               </ProductCard>
             </div>
           </div>
-          <div v-if="products.length !== 0" class="below text-center pb-20">
-            <div id="scroll-trigger" ref="infinitescrolltrigger"></div>
+          <infinite-loading :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
+          <!-- <div v-if="products.length !== 0" class="below text-center pb-20">
             <div class="text-center"><img src="~/assets/img/loading.gif" width="100" /></div>
-          </div>
+          </div> -->
           <div v-if="products.length == 0" class="no-text py-5 text-center">
             {{ $t('message.no_products_found') }}
           </div>
@@ -36,13 +36,10 @@
   </div>
 </template>
 <script>
-import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex'
-import VueLoadmore from 'vuejs-loadmore';
 import ShopFilters from '~/components/shop/ShopFilters.vue'
 import Badge from '~/components/product/Badge'
 
-Vue.use(VueLoadmore);
 export default {
   components: {
     ShopFilters,
@@ -57,7 +54,10 @@ export default {
       totalResults: 0,
       showloader: true,
       products: [],
-      pageType: ''
+      pageType: '',
+      state: '',
+      url: '',
+      infiniteId: +new Date()
     };
   },
   computed: {
@@ -82,24 +82,22 @@ export default {
   },
   mounted() {
     this.pageType = this.$route.query.type
-    this.scrollTrigger();
-    this.fetchProducts();
+    if(this.pageType === 'recent'){
+      this.url = '/products/shop'
+    }else if (this.pageType === 'new-release'){
+      this.url = '/products/shop'
+    }else if (this.pageType === 'trending'){
+      this.url = '/products/shop/trending'
+    }else if(this.pageType === 'instant-shipping'){
+      this.url = '/products/shop/instant-shipping'
+    }
+    // this.fetchProducts();
   },
   methods: {
     ...mapActions('browse', ['fetchFilters']),
-    scrollTrigger() {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.intersectionRatio > 0 && this.currentPage < this.pageCount) {
-            this.showloader = true;
-            setTimeout(() => {
-              this.currentPage += 1;
-              this.fetchProducts()
-            }, 1000) // ajax call here;
-          }
-        });
-      });
-      observer.observe(this.$refs.infinitescrolltrigger);
+    handleLoading($state) {
+      this.state = $state
+      this.fetchProducts();
     },
     research(){
       this.totalResults = 0
@@ -155,18 +153,25 @@ export default {
       }else{
         filters.order_by = 'views'
       }
+  
       this.$axios
-        .get('/products/shop', {
+        .get(this.url, {
           params: filters
         })
         .then((res) => {
           const that = this
-          res.data.data.forEach(function (row) {
-            that.products.push(row)
-          });
-          
-          this.totalResults = res.data.total
-          this.showloader = false;
+          if (!res.data.next_page_url) {
+            this.state.complete()
+          }else{
+            this.currentPage += 1;
+            this.url = res.data.next_page_url
+          }
+          if (res.data.current_page === 1) {
+            this.products = [...res.data.data]
+          } else {
+            this.products = [...that.products, ...res.data.data]
+          }
+          this.state.loaded()
         })
         .finally(() => {
           this.loading = false
@@ -179,16 +184,23 @@ export default {
         filters.order_by = 'created_at'
       }
       this.$axios
-        .get('/products/shop', {
+        .get(this.url, {
           params: filters
         })
         .then((res) => {
           const that = this
-          res.data.data.forEach(function (row) {
-            that.products.push(row)
-          });
-          this.totalResults = res.data.total
-          this.showloader = false;
+          if (!res.data.next_page_url) {
+            this.state.complete()
+          }else{
+            this.currentPage += 1;
+            this.url = res.data.next_page_url
+          }
+          if (res.data.current_page === 1) {
+            this.products = [...res.data.data]
+          } else {
+            this.products = [...that.products, ...res.data.data]
+          }
+          this.state.loaded()
         })
         .finally(() => {
           this.loading = false
@@ -201,16 +213,23 @@ export default {
         filters.sort_by = 'created_at'
       }
       this.$axios
-        .get('/products/shop/trending', {
+        .get(this.url, {
           params: filters
         })
         .then((res) => {
           const that = this
-          res.data.data.forEach(function (row) {
-            that.products.push(row)
-          });
-          this.totalResults = res.data.total
-          this.showloader = false;
+          if (!res.data.next_page_url) {
+            this.state.complete()
+          }else{
+            this.currentPage += 1;
+            this.url = res.data.next_page_url
+          }
+          if (res.data.current_page === 1) {
+            this.products = [...res.data.data]
+          } else {
+            this.products = [...that.products, ...res.data.data]
+          }
+          this.state.loaded()
         })
         .finally(() => {
           this.loading = false
@@ -223,16 +242,23 @@ export default {
         filters.sort_by = 'created_at'
       }
       this.$axios
-        .get('/products/shop/instant-shipping', {
+        .get(this.url, {
           params: filters
         })
         .then((res) => {
           const that = this
-          res.data.data.forEach(function (row) {
-            that.products.push(row)
-          });
-          this.totalResults = res.data.total
-          this.showloader = false;
+          if (!res.data.next_page_url) {
+            this.state.complete()
+          }else{
+            this.currentPage += 1;
+            this.url = res.data.next_page_url
+          }
+          if (res.data.current_page === 1) {
+            this.products = [...res.data.data]
+          } else {
+            this.products = [...that.products, ...res.data.data]
+          }
+          this.state.loaded()
         })
         .finally(() => {
           this.loading = false
