@@ -253,7 +253,8 @@ export default {
       return this.selectedItem.vendor_shipment?.shipping_method_text
     },
     isPaymentUpdateEnabled() {
-      return this.status === 'processing'
+      // return this.status === 'processing' let it stay until it is decided
+      return false
     },
     status() {
       if (this.orderDetails && this.orderDetails.quantity === 1) {
