@@ -56,8 +56,11 @@
         <p class="items-counter">{{ style.products.length }} {{ $t('common.items') }}</p>
         <ShopByStyleProductCard
           v-for="product in style.products"
+          v-show="showStyleProduct ? showStyleProduct : true"
           :key="`product-${product.id}`"
           :product="product"
+          @styleProduct="productDetail"
+          :styleID = style.id
         />
       </b-col>
       <b-col cols="12" class="d-flex justify-content-center">
@@ -92,7 +95,8 @@ export default {
       style_type: 'Look',
       style: null,
       loading: true,
-      wishList: false
+      wishList: false,
+      showStyleProduct: ''
     }
   },
 
@@ -125,6 +129,9 @@ export default {
     handleStyleAddToCart() {
       this.addingToCart = true
     },
+    productDetail(value) {
+      this.showStyleProduct = value
+    }
   }
 }
 </script>

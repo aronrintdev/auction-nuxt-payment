@@ -209,6 +209,106 @@
     width: 475px
     max-width: 100%
 
+.mobile-tab-content
+  margin-top: 9px
+
+  &.mt-40
+
+    .helper-text
+      @include body-5-bold
+      color: $color-gray-6
+      margin-top: 20px
+
+    .content-row
+      padding: 17px 0
+      display: flex
+      justify-content: space-between
+
+      &:not(:last-child)
+
+      >div:first-child
+        @include body-5-medium
+        color: $color-gray-5
+        margin-right: 20px
+
+      >div:last-child
+        @include body-5-regular
+        color: $color-black-1
+        word-break: break-word
+    .action-btns
+      margin-top: 20px
+
+    >div, .btn
+      width: 408px
+      max-width: 100%
+
+    .mt1
+      margin-top: 10px
+
+    .mt2
+      margin-top: 10px
+
+    .error-text
+      @include body-5-normal
+      color: $color-red-3
+      margin-top: 3px
+      height: 17px
+      padding-left: 20px
+
+    :deep(.add-to-cart-animation)
+      animation: 0.5s anim-lineUp ease-out
+      opacity: 0
+    @keyframes anim-lineUp
+      0%
+        opacity: 1
+        transform: translateY(30%)
+      20%
+        opacity: 1
+      50%
+        opacity: 0.5
+        transform: translateY(-30%)
+      100%
+        opacity: 0
+        transform: translateY(-50%)
+
+    .out-of-stock-btns
+      .warn-text
+        @include body-8-medium
+        color: $color-black-1
+        width: 300px
+        margin-top: 25px
+
+    .btn
+      width: 408px
+      max-width: 100%
+      margin-top: 16px
+
+  .btn-asks
+    width: 120px
+    margin: 0 12px
+
+    &.active
+      background-color: $color-gray-4
+
+  :deep(.size-picker)
+    .size-carousel
+
+      .owl-carousel
+        .item
+          &.active
+            &::after
+              border-color: $color-blue-20
+
+    .all-sizes
+      .item
+        &.active
+          &::after
+            border-color: $color-blue-20
+
+  .table-wrapper
+    width: 475px
+    max-width: 100%
+
 @media (max-width: 620px)
   .wrapper
     .btn-asks

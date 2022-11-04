@@ -168,7 +168,11 @@
     "of"  : "of",
     "week"  : "Week",
     "dismiss" : "Dismiss",
-    "n/a": "N/A"
+    "n/a": "N/A",
+    "season": "Season",
+    "season_detail": "SS",
+    "model": "Model",
+    "model_detail": "The model is 5’ 8” and wears a large"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -4949,7 +4953,10 @@
     "product_details": "Product Details",
     "size_guide": "Size Guide",
     "product_condition": "Product Condition",
-    "box_condition_info": "Package condition refers to the current condition of the item’s package."
+    "box_condition_info": "Package condition refers to the current condition of the item’s package.",
+    "more_look": "More From This Look",
+    "view_all": "View All",
+    "style_id": "Style ID"
   },
   "coupons": {
     "errors": {
