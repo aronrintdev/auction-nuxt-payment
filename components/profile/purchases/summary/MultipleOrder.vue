@@ -11,18 +11,18 @@
         <span v-if="!showDetails" class="text-bold"
           >
           {{ $t('vendor_purchase.size') }}&colon;
-          {{ orderItems.listing_item.inventory.size.size }}
+          {{ orderItems.inventory.size.size }}
         </span>
         <!-- ./Size -->
         <img :src="downArrow" alt="down-arrow" />
       </span>
       <!-- ./Down arrow -->
       <!-- TODO: Shipping Carrier - Harcoded for now -->
-      
+
       <div v-if="showDetails" class="row">
         <div class="col details-col">
           <div class="list-product-name text-bold">
-            {{ orderItems.listing_item.inventory.product.name }}
+            {{ orderItems.inventory.product.name }}
           </div>
           <div class="ordered-on text-capitalize">
             {{ $t('vendor_purchase.ordered_on', {
@@ -33,18 +33,17 @@
             }}
           </div>
         </div>
-        <div class="col shipping-col">
+        <div v-if="orderItems.shipment" class="col shipping-col">
           <div v-if="showDetails" class="shipping-carrier">
             {{ $t('vendor_purchase.shipping_carrier') }}&colon;
             {{ shippingLabel }}
           </div>
           <div class="tracking-number">
             {{ $t('vendor_purchase.tracking_no') }}&colon;
-              <nuxt-link to="#" class="text-underline">{{
-                trackingNumber
-              }}</nuxt-link>
+            <a v-if="orderItems.shipment" :href="orderItems.shipment.tracking_url"
+               target="_blank" class="text-decoration-underline">{{ trackingNumber }}</a>
           </div>
-        
+
         </div>
         <div class="col status-col">
           <div :id="orderItems.status">
@@ -54,19 +53,19 @@
           </div>
         </div>
       </div>
-    
+
       <!-- ./Shipping Carrier -->
       <span v-if="!showDetails" class="img-wrapper text-bold">
         <img
           :src="
-            orderItems.listing_item.inventory.product.image || fallbackImage
+            orderItems.inventory.product | getProductImageUrl
           "
           alt="product-img"
           class="product-img"
           @error="imageLoadError"
         />
         <span class="list-product-name" >{{
-          orderItems.listing_item.inventory.product.name
+          orderItems.inventory.product.name
         }}</span>
       </span>
 
@@ -77,8 +76,9 @@
           <SingleOrderVue
             :orderDetails="[orderItems]"
             :fields="fields"
-            :itemCount="orderDetails.listing_item_order.length"
+            :itemCount="orderDetails.items.length"
             :timelineStatus="timelineStatus"
+            :fullOrderDetails="orderDetails"
             :itemStatus="status.toLowerCase()"
             :updatedAt="updatedAt"
             :orderType="orderType"
@@ -94,10 +94,6 @@
 import SingleOrderVue from './SingleOrder.vue'
 import DownArrow from '~/assets/img/icons/down-arrow.svg'
 import {
-  ARRIVED_TO_DEADSTOCK,
-  SEND_TO_DEADSTOCK,
-  PENDING, PRODUCT_IMG_WIDTH,
-  PROCESSING,
   PRODUCT_FALLBACK_URL
 } from '~/static/constants'
 export default {
@@ -136,9 +132,8 @@ export default {
     return {
       downArrow: DownArrow,
       showDetails: false,
-      shippingLabel: 'Fe dex',
-      trackingNumber: 123456789,
-      productImageWidth: PRODUCT_IMG_WIDTH,
+      shippingLabel: null,
+      trackingNumber: null,
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
       fields: [
         {
@@ -150,29 +145,7 @@ export default {
         { key: 'quantity', label: this.$t('vendor_purchase.quantity') },
         { key: 'total', label: this.$t('vendor_purchase.total') },
       ],
-      timelineStatus: [
-        {
-          id: 1,
-          status: this.$t('vendor_purchase.arrived_at_ds'),
-          description: this.$t('vendor_purchase.package_arrived'),
-          value: ARRIVED_TO_DEADSTOCK,
-          class: 'start',
-        },
-        {
-          id: 2,
-          status: this.$t('vendor_purchase.send_to_ds'),
-          description: this.$t('vendor_purchase.package_send_to_deadstock'),
-          value: SEND_TO_DEADSTOCK,
-          class: 'status',
-        },
-        {
-          id: 3,
-          status: this.$t('vendor_purchase.orderstatus.pending'),
-          description: this.$t('vendor_purchase.awaiting_shipment'),
-          value: this.status.toLowerCase() === PENDING ? PENDING : PROCESSING,
-          class: 'tracking-end',
-        },
-      ],
+      timelineStatus: [],
     }
   },
 
@@ -180,6 +153,23 @@ export default {
     fallbackImage: (vm) => {
       return vm.fallbackImgUrl + '' + vm.productImageWidth
     },
+  },
+  mounted() {
+    if (this.orderItems.shipment) {
+      this.trackingNumber = this.orderItems.shipment.tracking_no
+      this.shippingLabel = this.orderItems.shipment.shipping_method_text
+    }
+
+    if (this.orderItems.status_history) {
+      this.timelineStatus = this.orderItems.status_history.map((status) => {
+        return {
+          id: status.id,
+          status: status.status_label,
+          description: status.status_label,
+          value: status.status_key,
+        }
+      })
+    }
   },
 
   methods: {

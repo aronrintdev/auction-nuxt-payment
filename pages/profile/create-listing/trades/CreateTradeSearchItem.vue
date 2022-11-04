@@ -243,10 +243,10 @@ export default {
       return (this.productFor === 'wantsList') ? ((this.product.packaging_conditions && this.box_condition !== null) &&
           this.selected_size !== null && this.isValidYear(this.year) && ((this.selectList.length > 0 && this.combinationId === null) || (this.combinationId > 0)))
         : ((parseInt(this.itemsCount()) + parseInt(this.quantity)) <= MAX_ITEMS_ALLOWED &&
-        (this.product.packaging_conditions && this.box_condition !== null) &&
-        this.isValidQuantity(parseInt(this.quantity)) &&
-        this.isValidYear(this.year) &&
-        this.selected_size !== null)
+          (this.product.packaging_conditions && this.box_condition !== null) &&
+          this.isValidQuantity(parseInt(this.quantity)) &&
+          this.isValidYear(this.year) &&
+          this.selected_size !== null)
     },
     /**
      * This function is used to check year is valid with 4 digits in it

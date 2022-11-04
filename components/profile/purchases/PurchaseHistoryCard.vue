@@ -1,5 +1,5 @@
 <template>
-  <b-card v-if="purchase.type.label !== 'auction' && totalQuantity > 0 && purchaseStatus !== ''" class="purchase-card-wrapper card p-2">
+  <b-card v-if="orderType !== giftCard && totalQuantity > 0 && purchaseStatus !== ''" class="purchase-card-wrapper card p-2">
     <b-card-title>
       <!-- Order Number -->
       <span class="order-no text-capitalize">
@@ -8,7 +8,7 @@
       </span>
       <!-- ./Order Number -->
       <!-- View Order -->
-      <span role="button" class="view-order d-flex align-items-center" @click="viewOrder">{{
+      <span role="button" class="view-order d-flex align-items-center color-blue-20" @click="viewOrder">{{
         $t('vendor_purchase.view_order')
       }}</span>
       <!-- ./View Order -->
@@ -24,19 +24,19 @@
 
     <!-- Images -->
     <b-card-text class="order-images">
-      <div class="row py-3">
+      <div class="row">
         <!-- Order Type - Buy -->
         <template v-if="ORDERS_HAS_ITEMS.includes(orderType) && purchase.items">
           <div
               v-for="(item, indexKey) in purchase.items.slice(0, 3)"
               :key="indexKey"
           >
-            <div class="image-wrapper" :class="indexKey === 2 && 'bg-blur'">
+            <div class="image-wrapper" :class="indexKey === 2 && balanceImage >=1 && 'bg-blur'">
               <b-img
                   class="product-img"
                   :src="item.product.image || fallbackImage"
               />
-              <p v-if="indexKey === 2" class="overlap-text">
+              <p v-if="indexKey === 2 && balanceImage >=1" class="overlap-text">
                 &#x002B;{{ balanceImage }}
               </p>
             </div>
@@ -63,11 +63,11 @@
     <b-card-text class="mt-auto">
       <b-row class="py-2">
         <b-col md="6" class="purchase-details-col">
-          <div class="text-bold">
+          <div class="font-size14">
             {{ $t('vendor_purchase.quantity') }}&colon;
             {{ totalQuantity }}
           </div>
-          <div class="text-bold">
+          <div class="font-size14">
             {{ $t('vendor_purchase.order_total') }}&colon;
             {{ purchase.total | toCurrency('USD', 'N/A') }}
           </div>
@@ -78,6 +78,7 @@
               v-if="ORDERS_HAS_ITEMS.includes(orderType)"
               :variant="purchaseStatus"
               class="m-auto text-capitalize text-center status-button d-flex"
+              :class="{[purchaseStatus.split(' ').join('_')]: purchaseStatus.split(' ').join('_')}"
           >
             {{$t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) }}
           </Button>
@@ -185,10 +186,42 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.status-button.pending
+  background: $orange-btn-bg !important
+  color: $color-orange-1 !important
+.status-button.shipped_to_ds,
+.status-button.shipped_to_deadstock,
+.status-button.ship_to_deadstock
+  background: $purple-btn-bg !important
+  color: $color-purple-7 !important
+.status-button.cancelled,
+.status-button.cancel
+  background: $red-btn-bg !important
+  color: $color-red-3 !important
+.status-button.processing_payment
+  background: $yellow-btn-bg !important
+  color: $color-orange-22 !important
+.status-button.authenticated_and_shipped
+  background: $purple-btn-bg !important
+  color: $color-purple-7 !important
+.status-button.arrived_at_ds
+  background: $green-btn-bg !important
+  color: $color-green-3 !important
+.status-button.delivered
+  background: $blue-btn-bg !important
+  color: $color-blue-17 !important
+.font-size14
+  font-size: 14px
+button.status-button
+  width: 141px
+  height: 57px !important
+  color: $color-white-1 !important
+  background: $color-gray-69 !important
+  margin: 0 !important
+  float: right
 .purchase-card-wrapper
   width: 484px
-  height: 310px
-  margin: 50px auto 30px
+  margin: 38px 0 0 0
 .order-no
   font-style: normal
   font-weight: $bold
@@ -204,28 +237,39 @@ export default {
   font-style: normal
   align-items: center
   text-decoration-line: underline
-  color: $color-blue-2
+  color: $color-blue-20
   float: right
 .card-body
   display: flex
   flex-direction: column
+  padding: 1rem 1.25rem
 .product-img
   width: 113px
   height: 100%
 .order-images
   .row
     justify-content: space-between
+    margin:0
 .overlap-text
   @include heading-2
-  left: 75%
-  padding-left: 20px
-  padding-right: 20px
+  z-index: 9
   position: absolute
   text-align: center
-  top: 45%
+  top: 33%
+  left: 0
+  width: 100%
+  margin: 0
 .bg-blur
   background: $color-gray-68
-
+  position: relative
+.image-wrapper.bg-blur::after
+  content: ""
+  background: $image-overlay
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  position: absolute
 /* Status indicator buttons */
 .btn-multiple
   @include body-4-normal

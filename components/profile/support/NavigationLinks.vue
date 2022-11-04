@@ -45,29 +45,25 @@
           </nuxt-link>
         </div>
         <div v-if="$route.name !== 'profile-support-live-chat'" class="col-md-4 col-6">
-          <nuxt-link
-            to="/profile/support/live-chat"
-            class="navigation-link"
+          <div
+            class="border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column cursor-pointer"
+            @click="openChat"
           >
-            <div
-              class="border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
-            >
-              <img
-                :src="require('~/assets/img/icons/live-chat.svg')"
-                class="fs-50"
-              />
-              <h2 class="text-base-blue fw-6 mt-3 fs-24 font-primary">
-                {{ $t('preferences.profile.support.live_chat.title') }}
-              </h2>
-              <h6 class="text-dark mb-0 fw-5 fs-14 text-black font-primary">
-                {{
-                  $t(
-                    'preferences.profile.support.navigation_links.live_chat_desc'
-                  )
-                }}
-              </h6>
-            </div>
-          </nuxt-link>
+            <img
+              :src="require('~/assets/img/icons/live-chat.svg')"
+              class="fs-50"
+            />
+            <h2 class="text-base-blue fw-6 mt-3 fs-24 font-primary">
+              {{ $t('preferences.profile.support.live_chat.title') }}
+            </h2>
+            <h6 class="text-dark mb-0 fw-5 fs-14 text-black font-primary">
+              {{
+                $t(
+                  'preferences.profile.support.navigation_links.live_chat_desc'
+                )
+              }}
+            </h6>
+          </div>
         </div>
         <div v-if="$route.name !== 'profile-support-contact-us'" class="col-md-4 col-6">
           <nuxt-link
@@ -122,14 +118,14 @@ export default {
   props: {
     centered: Boolean,
   },
-  mounted() {
-    console.debug(this.$route.name)
-  },
   methods: {
-    // todo remove this
     openChat() {
-      this.$tawkMessenger.toggle()
-    },
+      try{
+        this.$tawkMessenger.toggle()
+      }catch (e){
+        console.info('twak not installed')
+      }
+    }
   },
 }
 </script>

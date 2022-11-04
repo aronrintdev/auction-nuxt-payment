@@ -98,7 +98,7 @@
           @click="changeLang('fr')"
         >
           {{ $t('preferences.profile.language_french') }}
-          <span v-if="selectedFrench" class="selected-icon mt-2">
+          <span v-if="selectedFrench" class="selected-icon mt-2 position-absolute">
             <img
               :src="require('~/assets/img/icons/product/confirm-tick.svg')"
               alt="icon"
@@ -136,6 +136,7 @@ export default {
   methods: {
     // On language click, language is set, and the current route change to the selected language
     changeLang(lang) {
+      this.$root.$i18n.locale = lang
       if (lang === 'en') {
         this.selectedEnglish = true
         this.selectedSpanish = false
@@ -152,7 +153,7 @@ export default {
 
       this.$store.commit('SET_LANG', lang)
       this.$router.push({
-        path: `${this.$router.currentRoute.path}?lang=${lang}`,
+        path: `${this.$router.currentRoute.path}`,
       })
     },
 

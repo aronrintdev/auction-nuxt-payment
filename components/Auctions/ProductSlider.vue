@@ -1,7 +1,7 @@
 <template>
   <section class="auctions-block" >
     <div class="row">
-      <div class="col-12 d-flex align-items-center justify-content-between">
+      <div v-if="showHeader" class="col-12 d-flex align-items-center justify-content-between auctions-block-header">
         <div class="px-0 px-md-4 new-releases-heading text-left">{{ title }}</div>
         <div v-if="isCarouselMode" class="px-2 px-md-4 view-more-products-text" @click="showAll">
           <span>{{ $t('home.view_more_products') }}</span>
@@ -9,7 +9,7 @@
         </div>
       </div>
 
-      <div v-if="auctionList.length > 0" class="col-12">
+      <div v-if="auctionList.length > 0" class="col-12 auctions-block-list">
         <div v-if="isCarouselMode" class="w-100 mt-3 mt-md-5 tab-align-center">
           <carousel
             :key="auctionList.length"
@@ -95,6 +95,10 @@ export default {
       default: () => [],
     },
     isCarouselMode: {
+      type: Boolean,
+      default: true,
+    },
+    showHeader: {
       type: Boolean,
       default: true,
     }

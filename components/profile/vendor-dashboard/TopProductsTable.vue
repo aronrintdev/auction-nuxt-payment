@@ -1,46 +1,63 @@
 <template>
   <div>
-    <div class="row my-5">
+    <div v-if="!isScreenXS" class="row my-5">
       <div class="col-6 col-md-3">
-        <h1 class="font-secondary fs-24 fw-7 mb-0 heading">
+        <h1 class="heading-1-bold mb-0 heading font-secondary">
           {{ $t('vendor_dashboard.top_products') }}
         </h1>
       </div>
       <div class="col-md-6 d-sm-flex justify-content-center d-none">
-        <NavGroup :value="activeNav" :data="menus" @change="navItem" />
+        <NavGroup :data="menus" :value="activeNav" @change="navItem"/>
       </div>
-      <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
+      <div class="col-6 col-md-3 d-flex justify-content-end align-items-center" role="button">
         <a
-          href="#"
-          class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
-          >{{ $t('vendor_dashboard.view_all') }}</a
+            class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
+            @click="$router.push('/profile/inventory')"
+        >{{ $t('vendor_dashboard.view_all') }}</a
         >
+      </div>
+    </div>
+    <div v-if="isScreenXS" class="d-flex ">
+      <div class="flex-grow-1 text-center body-5-medium ml-5">
+        {{ $t('vendor_purchase.products') }}
+      </div>
+      <div class="d-flex align-items-center body-9-regular"
+           role="button"
+           @click="$router.push('/profile/inventory')">
+        <img :alt="$t('vendor_dashboard.view_all')" :src="require('~/assets/img/icons/eye2.svg')"
+             class="mr-1">{{ $t('vendor_dashboard.view_all') }}
       </div>
     </div>
     <div>
       <b-table
-        class="productTable"
-        borderless
-        no-border-collapse
-        :fields="fields"
-        :items="topProducts"
-        tbody-tr-class="bg-white"
+          :fields="fields"
+          :items="topProducts"
+          borderless
+          class="productTable"
+          no-border-collapse
+          tbody-tr-class="bg-white"
       >
         <template #cell(product)="row">
-          <div class="d-flex align-items-center gap-2 mb-2 mb-sm-0">
+          <div class="d-flex align-items-center gap-3 mb-2 mb-sm-0" role="button"
+               @click="$router.push('/profile/inventory')">
             <div class="col-thumb d-flex justify-content-center">
-              <ProductThumb :src="row.item.image" :product="row.item" />
+              <ProductThumb :product="row.item" :src="row.item.image"/>
             </div>
-            <div>
+            <div class="font-secondary">
               <h4
-                class="font-secondary fw-6 fs-15 text-primary border-bottom border-primary mb-1"
+                  :class="{
+                  'body-5-medium mobile': isScreenXS,
+                  'font-secondary': !isScreenXS,
+                }"
+                  class="body-8-medium text-color-blue-1 border-bottom border-primary mb-1 text-nowrap text-truncate mw-300"
               >
                 {{ row.item.name }}
               </h4>
-              <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
+              <h4 class="body-21-normal mb-0 text-color-gray-6">
                 {{ $t('vendor_dashboard.sku') }}: {{ row.item.sku }}
               </h4>
-              <h4 class="font-secondary fs-14 fw-5 mb-0 text-gray-dark">
+              <h4 :class="mobileClass"
+                  class="body-21-normal mb-0 text-color-gray-6 text-nowrap text-truncate mw-300">
                 {{ $t('vendor_dashboard.colorway') }}: {{ row.item.colorway }}
               </h4>
             </div>
@@ -48,52 +65,55 @@
         </template>
         <template #cell(average_sale_price)="row">
           <div
-            class="d-flex align-items-center justify-content-center tdHeight"
-            :aria-label="$t('vendor_dashboard.avg_price')"
+              :aria-label="$t('vendor_dashboard.avg_price')"
+              class="d-flex align-items-center justify-content-center tdHeight"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">
-              {{ row.item.avg_sales_price }}
+              {{ row.item.avg_sales_price | toCurrency }}
             </h4>
           </div>
         </template>
         <template #cell(sales_this_month)="row">
           <div
-            class="d-flex align-items-center justify-content-center tdHeight"
-            :aria-label="$t('vendor_dashboard.sales_this_month')"
+              :aria-label="$t('vendor_dashboard.sales_this_month')"
+              class="d-flex align-items-center justify-content-center tdHeight"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">
-              {{ row.item.sales_amount_this_month }}
+              {{ row.item.sales_amount_this_month | toCurrency }}
               <span
-                v-if="row.item.sales_percentage > 0"
-                class="text-success text-sm"
-                >(+{{ row.item.sales_percentage }}%)</span
+                  v-if="row.item.sales_percentage > 0"
+                  class="text-success text-sm"
+              >(+{{ row.item.sales_percentage }}%)</span
               >
               <span
-                v-if="row.item.sales_percentage < 0"
-                class="text-danger text-sm"
-                >(-{{ row.item.sales_percentage }}%)</span
+                  v-if="row.item.sales_percentage < 0"
+                  class="text-danger text-sm"
+              >(-{{ row.item.sales_percentage }}%)</span
               >
             </h4>
           </div>
         </template>
         <template #cell(total_sales)="row">
           <div
-            class="d-flex align-items-center justify-content-center tdHeight"
-            :aria-label="$t('vendor_dashboard.total_sales')"
+              :aria-label="$tc('vendor_dashboard.total_sales', 1)"
+              class="d-flex align-items-center justify-content-center tdHeight"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">
-              {{ row.item.total_sales_amount }}
+              {{ row.item.total_sales_amount | toCurrency }}
             </h4>
           </div>
         </template>
-        <template #cell(chart)>
+        <template #cell(chart)="row">
           <div
-            class="d-flex align-items-center justify-content-center tdHeight position-relative"
+              class="d-flex align-items-center justify-content-center tdHeight position-relative"
           >
             <LineChart
-              :chart-data="datasets"
-              :options="chartOptions"
-              class="stats-graph"
+                :border-width="2"
+                :data="itemData(row.item)"
+                :fill="false"
+                :labels="itemLabel(row.item)"
+                :options="lineConfig"
+                class="stats-graph"
             ></LineChart>
           </div>
         </template>
@@ -104,9 +124,12 @@
 <script>
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
+import screenSize from '~/plugins/mixins/screenSize';
+
 export default {
   name: 'TopProductsTable',
-  components: { NavGroup, ProductThumb },
+  components: {NavGroup, ProductThumb},
+  mixins: [screenSize],
   data() {
     return {
       // Active Nav for the Toggle Button
@@ -118,24 +141,25 @@ export default {
           key: 'product',
           label: this.$t('vendor_dashboard.product'),
           sortable: true,
+          thClass: 'body-4-bold',
         },
         {
           key: 'average_sale_price',
           label: this.$t('vendor_dashboard.avg_price'),
           sortable: true,
-          thClass: 'text-center',
+          thClass: 'text-center body-4-bold',
         },
         {
           key: 'sales_this_month',
           label: this.$t('vendor_dashboard.sales_this_month'),
           sortable: true,
-          thClass: 'text-center',
+          thClass: 'text-center body-4-bold',
         },
         {
           key: 'total_sales',
-          label: this.$t('vendor_dashboard.total_sales'),
+          label: this.$tc('vendor_dashboard.total_sales', 1),
           sortable: true,
-          thClass: 'text-center',
+          thClass: 'text-center body-4-bold',
         },
         {
           key: 'chart',
@@ -144,47 +168,15 @@ export default {
           tdClass: 'd-none d-sm-flex',
         },
       ],
-      items: [
-        {
-          product: 40,
-          average_sale_price: '$350',
-          sales_this_month: '$360',
-          total_sales: '$2350',
-          chart: 4,
-        },
-        {
-          product: 40,
-          average_sale_price: '$350',
-          sales_this_month: '$360',
-          total_sales: '$2350',
-          chart: 4,
-        },
-        {
-          product: 40,
-          average_sale_price: '$350',
-          sales_this_month: '$360',
-          total_sales: '$2350',
-          chart: 4,
-        },
-        {
-          product: 40,
-          average_sale_price: '$350',
-          sales_this_month: '$360',
-          total_sales: '$2350',
-          chart: 4,
-        },
-      ],
-      chartOptions: {
+      lineConfig: {
         responsive: true,
         maintainAspectRatio: false,
+        borderWidth: 3,
+        showLine: false,
+        fill: false,
         scales: {
           xAxes: [
             {
-              type: 'time',
-              offset: false,
-              time: {
-                unit: 'day',
-              },
               gridLines: {
                 display: false,
                 drawBorder: false,
@@ -199,7 +191,6 @@ export default {
           ],
           yAxes: [
             {
-              offset: false,
               gridLines: {
                 display: false,
                 drawBorder: false,
@@ -216,6 +207,9 @@ export default {
         legend: {
           display: false,
         },
+        tooltip: {
+          display: false,
+        },
         elements: {
           point: {
             radius: 0,
@@ -223,20 +217,11 @@ export default {
         },
       },
       datasets: {
-        labels: [
-          new Date('2022-2-8 03:24:00'),
-          new Date('2022-2-9 03:24:00'),
-          new Date('2022-2-10 03:24:00'),
-          new Date('2022-2-11 03:24:00'),
-          new Date('2022-2-12 03:24:00'),
-          new Date('2022-2-13 03:24:00'),
-          new Date('2022-2-14 03:24:00'),
-        ],
         datasets: [
           {
             borderColor: '#18A0FB',
             backgroundColor: null,
-            data: [0, 30, 200, 100, 280, 100, 400],
+            data: [],
             fill: false,
             borderWidth: 2,
           },
@@ -244,9 +229,9 @@ export default {
       },
       /** Todo need to make dynamic onces we have way of main categories in DB */
       menus: [
-        { label: this.$t('vendor_dashboard.all'), value: '' },
-        { label: this.$t('vendor_dashboard.footwear'), value: '1' },
-        { label: this.$t('vendor_dashboard.apparel'), value: '2' },
+        {label: this.$t('vendor_dashboard.all'), value: ''},
+        {label: this.$t('vendor_dashboard.footwear'), value: '1'},
+        {label: this.$t('vendor_dashboard.apparel'), value: '2'},
         {
           label: this.$t('vendor_dashboard.accessories'),
           value: '3',
@@ -262,27 +247,48 @@ export default {
       this.activeNav = val
       this.getTopProducts()
     },
+    itemData(item) {
+      return Object.values(item.month_graph)
+    },
+    itemLabel(item) {
+      return Object.keys(item.month_graph)
+    },
     getTopProducts() {
       this.$axios
-        .get('/dashboard/vendor/top-products?category_id=' + this.activeNav)
-        .then((res) => {
-          this.topProducts = res.data.data
-        })
-        .catch((err) => {
-          this.logger.logToServer(err.response)
-        })
+          .get('/dashboard/vendor/top-products?category_id=' + this.activeNav)
+          .then((res) => {
+            this.topProducts = res.data.data
+          })
+          .catch((err) => {
+            this.logger.logToServer(err.response)
+          })
     },
   },
 }
 </script>
 <style lang="sass">
 @import '~/assets/css/_variables'
+
+.text-color-blue-1
+  color: $color-blue-1
+
+.text-color-gray-6
+  color: $color-gray-6
+
+.mw-300
+  max-width: 300px
+
+  &.mobile
+    max-width: 200px
+
 .productTable
   &.table.b-table.b-table-no-border-collapse
     border-spacing: 0 10px
+
   thead th div
     font-family: $font-family-base
     @include body-13-bold
+
   tbody td
     height: 100px
     @media (max-width: 576px)
@@ -290,16 +296,32 @@ export default {
       height: fit-content
       padding: 2px 0.75rem
       &:nth-child(odd)
-        background-color:  $color-white-5
+        background-color: $color-white-5
       &:first-child
         background-color: transparent
+
+  thead
+    tr
+      [aria-sort=none]
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 1l25 23 24 22H1l25-22zM51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e") !important
+
+      [aria-sort=descending]
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e") !important
+
+      [aria-sort=ascending]
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 1l25 23 24 22H1l25-22z'/%3e%3c/svg%3e") !important
+
+
   .tdHeight
     height: inherit
+
   .col-thumb
     width: 100px
+
   .stats-graph
     width: 100px
     height: 40px
+
   @media (max-width: 576px)
     .view-more-link
       font-size: 10px
@@ -316,12 +338,14 @@ export default {
       display: block
       margin: 12px 0
       padding: 15px 0
+
       h4.font-secondary
         width: fit-content
         font-size: 12px
         color: $color-gray-6
         font-weight: $normal
         font-family: $font-family-base
+
         &.border-bottom.bottom-primary
           border: 0 !important
     .tdHeight
@@ -329,10 +353,12 @@ export default {
       color: $color-black-1
       font-weight: $bold
       width: 100%
+
       h4
         font-size: 12px
         color: $color-gray-6
         font-weight: $normal
+
       &::before
         content: attr(aria-label)
         margin-right: auto

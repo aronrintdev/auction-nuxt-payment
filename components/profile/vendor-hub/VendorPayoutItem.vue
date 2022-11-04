@@ -38,7 +38,6 @@
           ></b-form-input>
         </b-input-group>
       </b-form-group>
-
       <b-form-group
         :label="$t('vendor_hub.payout_method.routing_number')"
         label-for="routing_number"
@@ -54,7 +53,6 @@
           ></b-form-input>
         </b-input-group>
       </b-form-group>
-
       <Button
         variant="link"
         class="btn-edit-inventory ml-5 mr-2"

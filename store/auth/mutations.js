@@ -61,6 +61,14 @@ export function updateAddress(state, payload) {
 }
 
 /**
+ * Remove the user's shipping address.
+ * @param state
+ */
+export function removeShippingAddress(state) {
+  state.userDetails.shippingAddress = null
+}
+
+/**
  * Add payment method to the user details.
  * @param state
  * @param payload

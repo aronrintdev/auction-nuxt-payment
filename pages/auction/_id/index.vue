@@ -11,7 +11,7 @@
             :id="`popover-watchlist-item-${activeAuction.id}`"
             src="eye.svg"
             hover-src="red-eye.svg"
-            :active="!!watchlist"
+            :active="watchlistShow || !!watchlist"
             width="20"
             height="20"
             tabindex="0"
@@ -40,7 +40,7 @@
         <div class="mt-5 body-5-bold">
           {{ $t('auctions.frontpage.have_piece_to_sell') }} <nuxt-link to="#">{{ $t('auctions.frontpage.create_listing') }}</nuxt-link>
         </div>
-        <div class="mt-5">
+        <div v-if="activeAuction.auction_items[currentItemIdx]" class="mt-5">
           <b-tabs pills class="product-details-tabs">
             <b-tab title="Product Details" active>
                 <div>{{ $t('common.sku') }}: {{ activeAuction.auction_items[currentItemIdx].inventory.product.sku }}</div>
@@ -114,7 +114,7 @@
           <strong v-else class="bid-details-price">{{ $t('auctions.frontpage.current_bid') }}: &nbsp;&nbsp;-&nbsp;&nbsp;</strong>
           <div class="mt-4 place-bid-form">
             <div class="place-bid-form-title">{{ $t('auctions.frontpage.place_bid') }}</div>
-            <input v-model="placeBidPrice" :placeholder="$t('auctions.frontpage.insert_amount')" />
+            <input v-model="placeBidPrice" v-number-only :placeholder="$t('auctions.frontpage.insert_amount')" />
             <ArrowFillIcon role="button" :disabled="!placeBidPrice" @click="placeBid" />
           </div>
           <div v-if="showLowBidError" class="text-left text-danger mt-1">
@@ -202,7 +202,7 @@
         <ProductImageViewerMagic360 v-if="activeAuction.auction_items[currentItemIdx].inventory.product.has360Images" :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
         <Thumb v-else :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
       </div>
-      <div class="mt-4 d-flex align-items-start justify-content-between p-0 product-info-box">
+      <div v-if="activeAuction.auction_items[currentItemIdx]" class="mt-4 d-flex align-items-start justify-content-between p-0 product-info-box">
         <div>
           <div class="product-info-box-title">{{ activeAuction.auction_items[currentItemIdx].inventory.product.name }}</div>
           <div class="product-info-box-value">
@@ -794,7 +794,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      removeItemsFromWatchList: 'watchlist/removeItemsFromWatchList',
+      removeItemsFromWatchlist: 'watchlist/removeItemsFromWatchlist',
+      getAuctionDetails: 'auction/getAuctionDetails',
     }),
     ...mapMutations({
       updateBidPrice: 'auction/updateActiveAuctionPrice',
@@ -804,7 +805,7 @@ export default {
     loadAuction() {
       this.loading = true
       const { id: auctionId } = this.$route.params
-      this.$store.dispatch('auction/getAuctionDetails', auctionId)
+      this.getAuctionDetails(auctionId)
     },
     // Click place bid button
     placeBid(type) {
@@ -1006,7 +1007,7 @@ export default {
     },
     removeFromWatchList() {
       if (this.watchlist) {
-        this.removeItemsFromWatchList({
+        this.removeItemsFromWatchlist({
           watchlist: this.watchlist,
           ids: [this.activeAuction.id],
           type: WATCHLIST_TYPE_AUCTION,

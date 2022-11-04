@@ -1028,6 +1028,7 @@ export default {
 .invent-btn,.next-btns
   width: 162px
   height: 40px
+  
 @media (max-width: 576px)
   .order-summary::v-deep
     min-width: 0
@@ -1042,4 +1043,7 @@ export default {
       @include body-9
     .custom-form .form-control
       background: $color-white-5
+.pb-100
+  padding-bottom: 100px
+
 </style>

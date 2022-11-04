@@ -7,7 +7,7 @@
       @moveBack="moveBack"
       @edit="editAddress"
     />
-    <span class="add-more-img mr-4 mb-4 float-right" @click="addForm">
+    <span class="add-more-img mr-4 float-right" @click="addForm">
       <img
         :src="require('~/assets/img/icons/plus-bg-dark-blue.svg')"
         alt="add-more-icon"
@@ -39,7 +39,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import List from './List.vue'
+import List from './Item.vue'
 import { AlertModal } from '~/components/modal'
 
 import emitEvent from '~/plugins/mixins/emit-event'
@@ -171,3 +171,11 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+
+.add-more-img
+  position: fixed
+  right: 1vw
+  bottom: 15vh
+</style>

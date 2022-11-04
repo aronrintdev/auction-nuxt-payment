@@ -27,7 +27,13 @@
           <template #head(reserve)>
             <div class="reserve-info">
               {{ $t('create_listing.details.reserve') }}
-              <img :src="infoIcon" class="icon-info position-absolute mt-n2 mr-n5 scale-2" alt="Info icon" />
+              <img
+                v-b-tooltip.hover
+                :src="infoIcon"
+                :title="$tc('create_listing.confirm.reserve_info_short')"  
+                class="icon-info position-absolute mt-n1 mr-n5 scale-2"
+                alt="Info icon"
+              />
             </div>
           </template>
           <template #cell(details)="row">
@@ -86,7 +92,7 @@
             <div class="detail-section d-flex flex-grow-1">
               <b-row>
                 <b-col sm="3" md="2">
-                  <Thumb :product="item.item.product" />
+                  <ProductThumb :product="item.item.product" />
                 </b-col>
                 <b-col sm="9" md="10" class="pl-2 pr-4">
                   <b-row class="mb-2 d-block">
@@ -195,11 +201,11 @@
 <script>
 import {mapActions, mapGetters} from 'vuex';
 import ShoppingCartOrder from '~/components/checkout/auction/ShoppingCartOrder'
-import infoIcon from '~/assets/img/icons/info-blue.svg';
+import infoIcon from '~/assets/img/icons/info-dark-blue.svg';
 import { SELLER_FEE, TRANSACTION_FEE } from '~/static/constants';
 import DeleteSvg from '~/assets/img/icons/delete-icon-white.png';
 import { Modal, Button } from '~/components/common'
-import Thumb from '~/components/product/Thumb';
+import ProductThumb from '~/components/product/Thumb';
 import createListingAuction from '~/plugins/mixins/create-listing-auction';
 
 export default {
@@ -207,7 +213,7 @@ export default {
   components: {
     ShoppingCartOrder,
     Modal,
-    Thumb,
+    ProductThumb,
     Button,
   },
   mixins: [createListingAuction],

@@ -1,22 +1,22 @@
 let isPerPageSet = false
 
-export async function getVendorOrders({commit, state}, page = 1) {
+export function getVendorOrders({commit, state}, page = 1) {
   let query = getQueryStringFrom(state.filters)
   let sortParam = getSortParam(state.sortBy)
 
   query = query ? '&' + query : ''
   sortParam = sortParam ? '&' + sortParam : ''
-
+  commit('setQueryString', query+sortParam)
 
   const url = `/vendors/orders?page=${page}${query}${sortParam}`;
 
   commit('setIsLoading', true)
 
-  return await this.$axios.get(url)
+  this.$axios.get(url)
     .then((res) => {
       const data = res.data?.data
 
-      commit('setTotalOrders', data.orders.data.length)
+      commit('setTotalOrders', data.orders.total)
       commit('setTotalSales', data.total_sales)
       commit('setTotalCommission', data.total_commission)
       commit('setTotalCommissionPending', data.pending_commission)
@@ -26,7 +26,7 @@ export async function getVendorOrders({commit, state}, page = 1) {
       commit('setProducts', data.products)
       commit('setOrders', data.orders.data)
       commit('setCurrentPage', data.orders.current_page)
-      commit('setTotalPage', data.orders.total)
+      commit('setTotalPage', data.orders.last_page)
 
       if (!isPerPageSet) {
         commit('setPerPage', data.orders.per_page)
@@ -35,6 +35,15 @@ export async function getVendorOrders({commit, state}, page = 1) {
 
       commit('setIsLoading', false)
     })
+}
+
+export function updateQueryString({commit, state}){
+  let query = getQueryStringFrom(state.filters)
+  let sortParam = getSortParam(state.sortBy)
+
+  query = query ? '&' + query : ''
+  sortParam = sortParam ? '&' + sortParam : ''
+  commit('setQueryString', query+sortParam)
 }
 
 export async function fetchCategories({commit}) {
@@ -70,7 +79,7 @@ function getQueryStringFrom(filters) {
   addFilter('status', objectToString(filters.activeStatusFilters))
   addFilter('type', objectToString(filters.activeTypeFilters))
 
-  if (filters.category_id > 0) {
+  if (filters.category_id > 0 && filters.category_id !== '') {
     addFilter('category_id', filters.category_id)
   }
 

@@ -1,29 +1,28 @@
 <template>
-  <div v-if="auction" class="mt-3 px-5 py-4 ml-n1 w-100 bg-white card-summary position-relative">
+  <div v-if="auction" class="mt-3 p-3 px-md-5 py-md-4 ml-0 ml-md-n1 w-100 bg-white card-summary position-relative">
     <div class="position-absolute tag-bid d-flex align-items-center justify-content-center text-white"
          :class="selectedBid.place">
       {{ $t('bids.bid_status.' + selectedBid.place) }}
     </div>
 
-    <div v-if="isAutoBidVisible"
-         class="position-absolute tag-auto-bid d-flex align-items-center justify-content-center autobid-to">
+    <div v-if="isAutoBidVisible" class="position-absolute tag-auto-bid d-flex align-items-center justify-content-end justify-content-md-center autobid-to">
       &bull; &nbsp; {{ $t('bids.auto_bid_to') }} ${{ selectedBid.auction.auto_bid_setting.price / 100 }}
     </div>
     <b-row class="mt-2">
       <b-col sm="12" md="9">
-        <div class="d-flex flex-column">
+        <div class="d-flex flex-column mt-3 card-summary-header">
           <b-row>
-            <b-col sm="3" class="body-4-bold text-color-blue-1">
+            <b-col cols="8" sm="3" class="body-4-bold text-color-blue-1">
               {{ $t('bids.auction_id') }} #{{ auction.id }}
             </b-col>
-            <b-col sm="3">
+            <b-col cols="4" sm="3" class="text-right text-md-left">
               <span v-if="auction.status === 'live'" class="text-success body-4-medium">&bull; &nbsp; {{
                   $t('bids.live')
                 }}</span>
               <span v-else
                     class="text-gray-24 body-4-medium">&bull; &nbsp;{{ $t('bids.expired') }}</span>
             </b-col>
-            <b-col sm="6" class="text-danger body-4-medium">
+            <b-col cols="12" sm="6" class="text-danger body-4-medium">
               {{ $t('bids.headers.time_remaining') }}&colon;
               {{
                 auction.remaining_time
@@ -32,7 +31,27 @@
           </b-row>
         </div>
 
-        <b-row class="mt-3 mx-5 body-4-medium text-gray-25">
+        <div class="mt-3 d-md-none">
+          <div class="mb-1 d-flex d-md-none justify-content-between">
+            <span class="field-label">{{ $t('auction.listed_on') }}</span>
+            <span class="field-value">{{ formattedDate(auction.listed_at) }}</span>
+          </div>
+          <div class="mb-1 d-flex d-md-none justify-content-between">
+            <span class="field-label">{{ $t('auction.expires_on') }}</span>
+            <span class="field-value">{{ formattedDate(auction.end_date) }}</span>
+          </div>
+          <div class="mb-1 d-flex d-md-none justify-content-between">
+            <span class="field-label">{{ $t('auction.auction_type') }}</span>
+            <span class="field-value">{{ $t('auction.auction_types.' + auction.type) }}</span>
+          </div>
+          <div class="mb-1 d-flex d-md-none justify-content-between">
+            <span class="field-label">{{ $t('auction.highest_bid') }}</span>
+            <span class="field-value">${{ auction.highest_bid | formatPrice }}</span>
+          </div>
+        </div>
+
+
+        <b-row class="d-none d-md-flex mt-3 mx-5 body-4-medium text-gray-25">
           <b-col sm="3">
             <span>{{ $t('bids.listed_on') }}</span>
           </b-col>
@@ -47,7 +66,7 @@
           </b-col>
         </b-row>
 
-        <b-row class="mt-3 mx-5 body-4-normal">
+        <b-row class="d-none d-md-flex mt-3 mx-5 body-4-normal">
           <b-col sm="3">
             <span> {{
                 formattedDate(auction.listed_at)
@@ -487,5 +506,34 @@ export default {
   border-radius: 10px
   border: 1px solid $color-gray-60
   padding: 15px 10px
+
+@media (max-width: 576px)
+  .tag-bid
+    @include body-10
+    width: 90px
+    height: 25px
+    @media (max-width: 576px)
+  .card-summary-header
+    .body-4-bold
+      @include body-4
+    .body-4-medium
+      @include body-5
+  .field-label
+    @include body-5
+    font-weight: $normal
+  .field-value
+    @include body-5
+    font-weight: $regular
+    color: $color-gray-5
+  .modify-button
+    position: static
+    border: 1px solid $color-blue-2
+    white-space: nowrap
+    padding: 6px 20px
+    width: auto
+    border-radius: 40px
+  .tag-auto-bid
+    @include body-10
+    padding-right: 16px
 </style>
 

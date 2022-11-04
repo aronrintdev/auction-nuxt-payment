@@ -15,7 +15,8 @@
           <div
             class="
               col-12
-              mt-md-4 mt-2
+              mt-md-4
+              my-2
               vd-selling-heading
               d-flex
               align-items-center
@@ -27,7 +28,15 @@
           <!-- Heading -->
 
           <!-- Search Filter -->
-          <div v-if="userRole" class="flex-grow-1 col-sm-12 col-md-8 col-lg-8 mt-sm-4 vd-selling-search">
+          <div
+            v-if="userRole"
+            class="
+              flex-grow-1
+              col-sm-12 col-md-8 col-lg-8
+              mt-sm-4
+              vd-selling-search
+            "
+          >
             <!--
             <VendorSellingSearchFilter
               v-if="!isScreenXS"
@@ -35,13 +44,20 @@
               @search="getProducts"
             />
             -->
-            <SearchInput v-if="!isScreenXS"
-                         :placeholder="$t('selling_page.filter_details_placeholder').toString()"
-                         class="flex-grow-1 mw-734 search"
-                         :debounce="1000"
-                         @search="getProducts" />
+            <SearchInput
+              v-if="!isScreenXS"
+              :placeholder="
+                $t('selling_page.filter_details_placeholder').toString()
+              "
+              class="flex-grow-1 mw-734 search"
+              :debounce="1000"
+              @search="getProducts"
+            />
 
-            <div v-else class="search-filter-responsive d-flex align-items-center" >
+            <div
+              v-else
+              class="search-filter-responsive d-flex align-items-center"
+            >
               <SearchInput
                 id="selling-search"
                 class="flex-grow-1 mr-2"
@@ -55,12 +71,21 @@
                   :src="require('~/assets/img/icons/filter-icon.svg')"
                   alt="filter-icon"
                 />
-            </span>
+              </span>
             </div>
           </div>
 
           <!-- Sort By -->
-          <div v-if="userRole" class="flex-grow-1 col-sm-12 col-md-4 col-lg-4 mt-sm-4 col-sm-6 browse-dropdown">
+          <div
+            v-if="userRole"
+            class="
+              flex-grow-1
+              col-sm-12 col-md-4 col-lg-4
+              mt-sm-4
+              col-sm-6
+              browse-dropdown
+            "
+          >
             <VendorSellingSortBy
               :default="purchaseFilter"
               :options="{
@@ -130,17 +155,29 @@
           <!-- Apply Button -->
           <div class="col-md-1 col-sm-12 col-xs-6 mt-4 mt-md-4">
             <br />
-            <Button variant="apply text-cente form-item"
-                    class="px-3"
-                    :class="{'w-100' : isScreenXS || isScreenSM }"
-                    @click="loadData">
+            <Button
+              variant="apply text-cente form-item"
+              class="px-3"
+              :class="{ 'w-100': isScreenXS || isScreenSM }"
+              @click="loadData"
+            >
               {{ $t('selling_page.apply') }}
             </Button>
           </div>
           <!-- Apply Button -->
         </div>
 
-        <div v-if="searchResults.data && !isScreenXS" class="row mt-5 px-3 d-flex flex-column flex-sm-row justify-content-between">
+        <div
+          v-if="searchResults.data && !isScreenXS"
+          class="
+            row
+            mt-5
+            px-3
+            d-flex
+            flex-column flex-sm-row
+            justify-content-between
+          "
+        >
           <!-- Delist Multiple Button -->
           <Button
             variant="delist"
@@ -158,7 +195,14 @@
                 <b-badge
                   v-for="(options, typeIndex) in activeFilters"
                   :key="`type-${typeIndex}`"
-                  class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
+                  class="
+                    filter-badge
+                    px-2
+                    rounded-pill
+                    py-1
+                    mr-2
+                    text-capitalize
+                  "
                 >
                   {{ options.type }}&colon; {{ options.text }}
                   <i
@@ -173,8 +217,8 @@
                   class="text-decoration-underline text-primary"
                   @click="clearFilters()"
                 >
-                {{ $t('vendor_purchase.clear_all_filters') }}
-              </span>
+                  {{ $t('vendor_purchase.clear_all_filters') }}
+                </span>
               </template>
             </div>
             <div class="vacationMode d-flex align-items-center">
@@ -196,10 +240,6 @@
             </div>
           </div>
           <!-- vacation mode -->
-        </div>
-
-        <div v-if="searchResults.data" class="row filter-data">
-
         </div>
         <!-- ./Row -->
         <!-- FILTERS ENDS HERE -->
@@ -237,6 +277,7 @@
             class="list-item"
             :searchResults="searchResults.data"
             :loading="loading"
+            :totalCount="totalCount"
             :showCheckBox="showCheckBox"
             :selected="selected"
             @selectedItem="selectedItem"
@@ -256,7 +297,7 @@
 
         <!-- ListingData Responsive -->
         <template
-          v-if="!searchResults.data || !searchResults.data.length"
+          v-if="!responsiveData || !responsiveData.length"
           class="result-data-empty"
         >
           <!-- Empty Content -->
@@ -269,7 +310,7 @@
               <div class="col listing-heading-col">
                 <span class="float-left">
                   {{ $t('selling_page.listings') }} &#40;{{
-                    searchData.length
+                    totalCount
                   }}&#41;</span
                 >
                 <span class="float-left ml-2" role="button" @click="moreOption">
@@ -302,7 +343,7 @@
 
           <template v-if="isScreenXS">
             <ListItemResult
-              v-for="(result, index) in searchData"
+              v-for="(result, index) in responsiveData"
               :key="index"
               :result="result"
               :selected="selected"
@@ -310,16 +351,11 @@
               @select="selectedListItem"
             />
           </template>
-
-          <Pagination
-            v-model="page"
-            :total="totalCount"
-            :per-page="perPage"
-            :per-page-options="perPageOptions"
-            class="mt-2 pagination-responsive"
-            @page-click="handlePageClick"
-            @per-page-change="handlePerPageChange"
-          />
+          <infinite-loading
+            v-if="responsiveData.length && isScreenXS"
+            spinner="spiral"
+            @infinite="infiniteScroll"
+          ></infinite-loading>
         </template>
 
         <!-- ListingData Responsive Ends -->
@@ -350,7 +386,8 @@
       ref="filter"
       class="responsive-filter"
       max-width="auto"
-      max-height="90vh"
+      :is-full-screen="true"
+      max-height="450px"
       :rounded="true"
     >
       <MobileFilter @filter="applyFilter" />
@@ -392,7 +429,7 @@
       id="delistConfirmation"
       ref="delistConfirmation"
       max-width="100vw"
-      max-height="33vh"
+      max-height="32vh"
       :rounded="true"
     >
       <ListingConfirmation
@@ -553,12 +590,17 @@ export default {
       delist: DELIST,
       delistCheckbox: false,
       relist: RELIST,
+      responsiveData: [],
     }
   },
 
   computed: {
     searchData: (vm) => {
-      return vm.searchResults && vm.searchResults.data
+      if (vm.isScreenXS) {
+        return vm.responsiveData && vm.responsiveData
+      } else {
+        return vm.searchResults && vm.searchResults.data
+      }
     },
   },
 
@@ -575,13 +617,52 @@ export default {
 
   mounted() {
     // Load the data
+    this.responsiveData = []
     this.loadData()
     this.searchFilters.delistMultipleSelected = false
   },
 
   methods: {
+    infiniteScroll($state) {
+      setTimeout(() => {
+        this.page++
+        this.$axios
+          .get('selling-items', {
+            params: {
+              perPage: this.perPage,
+              searchFilters: this.searchFilters,
+              page: this.page,
+            },
+          })
+          .then((res) => {
+            if (res.data.data.data.length > 1) {
+              this.loading = false
+              this.responsiveData.push(...res.data.data.data)
+              this.searchResults = res.data.data
+              this.totalCount = parseInt(res.data.data.total)
+              this.perPage = parseInt(res.data.data.per_page)
+              this.pageCount = parseInt(res.data.data.last_page)
+              $state.loaded()
+            } else {
+              $state.complete()
+            }
+          })
+          .catch((err) => {
+            this.$logger.logToServer('Selling Data', err.response)
+          })
+      }, 500)
+    },
+
+    onScrollLoad(page) {
+      if (this.page !== page) {
+        this.page = page
+        this.loadData()
+      }
+    },
+
     // Load the data
     loadData() {
+      this.responsiveData = []
       this.$axios
         .get('selling-items', {
           params: {
@@ -592,6 +673,7 @@ export default {
         })
         .then((res) => {
           this.loading = false
+          this.responsiveData.push(...res.data.data.data)
           this.searchResults = res.data.data
           this.totalCount = parseInt(res.data.data.total)
           this.perPage = parseInt(res.data.data.per_page)
@@ -704,7 +786,11 @@ export default {
 
     // Bulk select
     handleSelectAll() {
-      this.selected = this.searchResults.data.map((p) => p.id)
+      if (!this.isScreenXS) {
+        this.selected = this.searchResults.data.map((p) => p.id)
+      } else {
+        this.selected = this.responsiveData.map((p) => p.id)
+      }
     },
 
     // Bulk deselect
@@ -740,7 +826,11 @@ export default {
 
     // Vacation mode on confirm
     confirmVacationMode() {
-      this.selected = this.searchResults.data.map((p) => p.id)
+      if (!this.isScreenXS) {
+        this.selected = this.searchResults.data.map((p) => p.id)
+      } else {
+        this.selected = this.responsiveData.map((p) => p.id)
+      }
       this.multipleDelist()
       this.enabledVacationMode = true
       this.action = null
@@ -759,6 +849,7 @@ export default {
           if (!showPopUp === 'hidePopUp') {
             this.$toasted.success(this.$t(res.data.message))
           }
+          this.responsiveData = []
           this.$nuxt.refresh()
           this.loadData()
         })
@@ -780,7 +871,11 @@ export default {
 
     // TODO: Exiting vacation mode
     exitVacationMode() {
-      this.undoSelected = this.searchResults.data.map((p) => p.id)
+      if (!this.isScreenXS) {
+        this.undoSelected = this.searchResults.data.map((p) => p.id)
+      } else {
+        this.undoSelected = this.responsiveData.map((p) => p.id)
+      }
       this.undoBulkAction()
       this.vacationMode = false
       this.enabledVacationMode = false
@@ -791,7 +886,6 @@ export default {
     handleSelectAllListingItem() {
       if (this.delistCheckbox) {
         this.handleSelectAll()
-        this.loadData()
         this.$refs.delistConfirmation.open()
       } else {
         this.handleDeselectAll()
@@ -851,7 +945,7 @@ export default {
       this.showCheckBox = !this.showCheckBox
       this.searchFilters.delistMultipleSelected =
         !this.searchFilters.delistMultiple
-      this.loadData()
+        // this.loadData() commented as part of ticket DVQ-498
       this.$refs.myBottomSheet.close()
     },
 
@@ -876,6 +970,8 @@ export default {
     // On vacation mode cancel
     onVacationModeCancel() {
       this.$refs.enterVacationModeConfirmation.close()
+      this.$refs.exitVacationModeConfirmation.close()
+      this.$auth.$storage.removeUniversal(`vacationMode-${this.$auth.user.id}`)
     },
 
     // On vacation mode enter
@@ -889,7 +985,6 @@ export default {
         this.action = null
         this.$nuxt.refresh()
         this.$refs.enterVacationModeConfirmation.close()
-        this.loadData()
         return true
       }
     },
@@ -913,31 +1008,43 @@ export default {
 
     // On bulk select
     handleBulkSelect(value) {
-      for (let i = 1; i <= this.pageCount; i++) {
-        this.page = i
-        this.$axios
-          .get('selling-items', {
-            params: {
-              perPage: this.perPage,
-              searchFilters: this.searchFilters,
-              page: this.page,
-            },
-          })
-          .then((res) => {
-            this.page = 1
-            this.selected.push(...res.data.data.data.map((p) => p.id))
-            if (value === this.delist) {
-              this.multipleDelist()
-              return true
-            }
-            if (value === this.relist) {
-              this.undoBulkAction('hidePopUp')
-              return true
-            }
-          })
-          .catch((err) => {
-            this.$logger.logToServer('Selling Data', err.response)
-          })
+      if (!this.isScreenXS) {
+        for (let i = 1; i <= this.pageCount; i++) {
+          this.page = i
+          this.$axios
+            .get('selling-items', {
+              params: {
+                perPage: this.perPage,
+                searchFilters: this.searchFilters,
+                page: this.page,
+              },
+            })
+            .then((res) => {
+              this.page = 1
+              this.selected.push(...res.data.data.data.map((p) => p.id))
+              if (value === this.delist) {
+                this.multipleDelist()
+                return true
+              }
+              if (value === this.relist) {
+                this.undoBulkAction('hidePopUp')
+                return true
+              }
+            })
+            .catch((err) => {
+              this.$logger.logToServer('Selling Data', err.response)
+            })
+        }
+      } else {
+        this.selected.push(...this.responsiveData.map((p) => p.id)) 
+        if (value === this.delist) {
+          this.multipleDelist()
+          return true
+        }
+        if (value === this.relist) {
+          this.undoBulkAction('hidePopUp')
+          return true
+        }
       }
     },
 
@@ -1092,6 +1199,7 @@ export default {
       @include body-3-medium
       border-bottom: 0.5px solid $color-gray-47
       justify-content: center
+      padding-bottom: 0.5rem
   .vd-selling-search::v-deep
     margin-top: 10px
     .browse-search::v-deep
@@ -1122,6 +1230,11 @@ export default {
   .bottom-sheet__pan
     padding-bottom: 0
     height: 0
+  .bottom-sheet__card
+    &.stripe
+      padding-bottom: 0
+  .bottom-sheet__content
+    overflow-y: auto
 .round
   & label
     border: 1px solid $color-gray-60
@@ -1174,4 +1287,8 @@ export default {
 .form-item
   border: 1px solid $white-2
   height: 44px
+.vendor-dashboard-body::v-deep
+  .infinite-loading-container
+    .infinite-status-prompt
+      display: none
 </style>

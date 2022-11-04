@@ -60,7 +60,7 @@
 
     <template v-if="!offers || !offers.length || status === delisted">
       <div class="no-offers-placed align-items-center text-center justify-content-center w-100">
-        <p class="text-center d-flex justify-content-center w-100">{{ $t('selling_page.product_is_delisted') }}</p>  
+        <p v-if="status === delisted" class="text-center d-flex justify-content-center w-100">{{ $t('selling_page.product_is_delisted') }}</p>  
         <p>{{ $t('selling_page.no_offers_placed') }}</p>
       </div>
     </template>   
