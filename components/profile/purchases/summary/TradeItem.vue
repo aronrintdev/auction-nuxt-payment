@@ -11,15 +11,8 @@
             class="my-col-products-items border w-100 text-center"
           >
             <div class="thumb-products-similar text-center mt-2">
-              <h5>
-                {{
-                  $t('vendor_purchase.order_no', {
-                    orderNo: orderDetails.id,
-                  })
-                }}
-              </h5>
               <img
-                :src="getImage(items)"
+                :src="items.inventory.product | getProductImageUrl"
                 class="product-similar-img trades-img-prdcts"
                 alt="product-image"
                 @error="imageLoadError"
@@ -27,34 +20,29 @@
               <div class="text-center">
                 <div class="blockquote">
                   <p class="products-title-main text-left ml-3">
-                    {{ items.order_itemable.inventory.name }}
+                    {{ items.inventory.product.name }}
                   </p>
                 </div>
                 <div class="products-title-subtitle text-left ml-3">
                   <p class="mb-0">
-                    <span class="text-dark text-bold"
-                      >{{ $t('vendor_purchase.sku') }}&colon; </span
-                    >{{
-                      items.order_itemable.inventory.sku
-                        ? items.order_itemable.inventory.sku
+                    {{
+                      items.inventory.product.colorway
+                        ? items.inventory.product.colorway
                         : ''
-                    }}
-                  </p>
-                  <p class="mb-0">
-                    <span class="text-dark text-bold"
-                      >{{ $t('vendor_purchase.colorway') }}&colon; </span
-                    >{{
-                      items.order_itemable.inventory.colorway
-                        ? items.order_itemable.inventory.colorway
+                    }}, {{ $t('trades.trade_arena.size') }} {{
+                      items.inventory.size.size
+                        ? items.inventory.size.size
                         : ''
                     }}
                   </p>
                   <p>
                     <span class="text-dark text-bold"
-                      >{{ $t('vendor_purchase.size') }}&colon; </span
+                      >{{
+                      $t('trades.trade_arena.box')
+                    }}&colon; </span
                     >{{
-                      items.order_itemable.inventory.size
-                        ? items.order_itemable.inventory.size
+                      items.inventory.packaging_condition.name
+                        ? items.inventory.packaging_condition.name
                         : ''
                     }}
                   </p>
@@ -75,15 +63,8 @@
               class="my-col-products-items border"
             >
               <div class="thumb-products-similar text-center mt-2">
-                <h5>
-                  {{
-                    $t('vendor_purchase.order_no', {
-                      orderNo: orderDetails.id,
-                    })
-                  }}
-                </h5>
                 <img
-                  :src="getImage(items)"
+                  :src="items.inventory.product | getProductImageUrl"
                   class="product-similar-img trades-img-prdcts"
                   alt="product-image"
                   @error="imageLoadError"
@@ -91,34 +72,29 @@
                 <div class="text-center">
                   <div class="blockquote">
                     <p class="products-title-main text-left ml-3">
-                      {{ items.order_itemable.inventory.name }}
+                      {{ items.inventory.product.name }}
                     </p>
                   </div>
                   <div class="products-title-subtitle text-left ml-3">
                     <p class="mb-0">
-                      <span class="text-dark text-bold"
-                        >{{ $t('vendor_purchase.sku') }}&colon; </span
-                      >{{
-                        items.order_itemable.inventory.sku
-                          ? items.order_itemable.inventory.sku
+                      {{
+                        items.inventory.product.colorway
+                          ? items.inventory.product.colorway
                           : ''
-                      }}
-                    </p>
-                    <p class="mb-0">
-                      <span class="text-dark text-bold"
-                        >{{ $t('vendor_purchase.colorway') }}&colon; </span
-                      >{{
-                        items.order_itemable.inventory.colorway
-                          ? items.order_itemable.inventory.colorway
+                      }}, {{ $t('trades.trade_arena.size') }} {{
+                        items.inventory.size.size
+                          ? items.inventory.size.size
                           : ''
                       }}
                     </p>
                     <p>
                       <span class="text-dark text-bold"
-                        >{{ $t('vendor_purchase.size') }}&colon; </span
+                        >{{
+                        $t('trades.trade_arena.box')
+                      }}&colon; </span
                       >{{
-                        items.order_itemable.inventory.size
-                          ? items.order_itemable.inventory.size
+                        items.inventory.packaging_condition.name
+                          ? items.inventory.packaging_condition.name
                           : ''
                       }}
                     </p>
@@ -145,15 +121,8 @@
               class="my-col-products-items border"
             >
               <div class="thumb-products-similar text-center mt-2">
-                <h5>
-                  {{
-                    $t('vendor_purchase.order_no', {
-                      orderNo: orderDetails.id,
-                    })
-                  }}
-                </h5>
                 <img
-                  :src="getImage(items)"
+                  :src="items.inventory.product | getProductImageUrl"
                   class="product-similar-img trades-img-prdcts"
                   alt="product-image"
                   @error="imageLoadError"
@@ -161,34 +130,29 @@
                 <div class="text-center">
                   <div class="blockquote">
                     <p class="products-title-main text-left ml-3">
-                      {{ items.order_itemable.inventory.name }}
+                      {{ items.inventory.product.name }}
                     </p>
                   </div>
                   <div class="products-title-subtitle text-left ml-3">
                     <p class="mb-0">
-                      <span class="text-dark text-bold"
-                        >{{ $t('vendor_purchase.sku') }}&colon; </span
-                      >{{
-                        items.order_itemable.inventory.sku
-                          ? items.order_itemable.inventory.sku
+                      {{
+                        items.inventory.product.colorway
+                          ? items.inventory.product.colorway
                           : ''
-                      }}
-                    </p>
-                    <p class="mb-0">
-                      <span class="text-dark text-bold"
-                        >{{ $t('vendor_purchase.colorway') }}&colon; </span
-                      >{{
-                        items.order_itemable.inventory.colorway
-                          ? items.order_itemable.inventory.colorway
+                      }}, {{ $t('trades.trade_arena.size') }} {{
+                        items.inventory.size.size
+                          ? items.inventory.size.size
                           : ''
                       }}
                     </p>
                     <p>
                       <span class="text-dark text-bold"
-                        >{{ $t('vendor_purchase.size') }}&colon; </span
+                        >{{
+                        $t('trades.trade_arena.box')
+                      }}&colon; </span
                       >{{
-                        items.order_itemable.inventory.size
-                          ? items.order_itemable.inventory.size
+                        items.inventory.packaging_condition.name
+                          ? items.inventory.packaging_condition.name
                           : ''
                       }}
                     </p>
@@ -209,15 +173,8 @@
             class="my-col-products-items border w-100 text-center"
           >
             <div class="thumb-products-similar text-center mt-2">
-              <h5>
-                {{
-                  $t('vendor_purchase.order_no', {
-                    orderNo: orderDetails.id,
-                  })
-                }}
-              </h5>
               <img
-                :src="getImage(items)"
+                :src="items.inventory.product | getProductImageUrl"
                 class="product-similar-img trades-img-prdcts"
                 alt="product-image"
                 @error="imageLoadError"
@@ -225,34 +182,29 @@
               <div class="text-center">
                 <div class="blockquote">
                   <p class="products-title-main text-left ml-3">
-                    {{ items.order_itemable.inventory.name }}
+                    {{ items.inventory.product.name }}
                   </p>
                 </div>
                 <div class="products-title-subtitle text-left ml-3">
                   <p class="mb-0">
-                    <span class="text-dark text-bold"
-                      >{{ $t('vendor_purchase.sku') }}&colon; </span
-                    >{{
-                      items.order_itemable.inventory.sku
-                        ? items.order_itemable.inventory.sku
+                    {{
+                      items.inventory.product.colorway
+                        ? items.inventory.product.colorway
                         : ''
-                    }}
-                  </p>
-                  <p class="mb-0">
-                    <span class="text-dark text-bold"
-                      >{{ $t('vendor_purchase.colorway') }}&colon; </span
-                    >{{
-                      items.order_itemable.inventory.colorway
-                        ? items.order_itemable.inventory.colorway
+                    }}, {{ $t('trades.trade_arena.size') }} {{
+                      items.inventory.size.size
+                        ? items.inventory.size.size
                         : ''
                     }}
                   </p>
                   <p>
                     <span class="text-dark text-bold"
-                      >{{ $t('vendor_purchase.size') }}&colon; </span
+                      >{{
+                      $t('trades.trade_arena.box')
+                    }}&colon; </span
                     >{{
-                      items.order_itemable.inventory.size
-                        ? items.order_itemable.inventory.size
+                      items.inventory.packaging_condition.name
+                        ? items.inventory.packaging_condition.name
                         : ''
                     }}
                   </p>
@@ -269,7 +221,7 @@
         <!-- TODO: Slider -->
         <div class="slider-container m-auto">
           <div class="slider-wrapper border">
-            <p class="text-bold text-capitalize">{{ status }}</p>
+            <p class="text-bold text-capitalize">{{ $tc(status) }}</p>
             <b-form-input
               id="type-range"
               v-model="sliderVal"
@@ -279,13 +231,13 @@
           </div>
           <div class="button-wrapper mt-3">
             <b-button variant="yours float-left text-bold"
-              >{{ $t('vendor_purchase.yours') }}&colon; &dollar;{{
-                orderDetails.transaction.total | formatPrice
+              >{{ $t('vendor_purchase.yours') }}&colon; {{
+                getYourTotal(true)
               }}</b-button
             >
             <b-button variant="theirs float-right text-bold"
-              >{{ $t('vendor_purchase.theirs') }}&colon; &dollar;{{
-                theirsAmount
+              >{{ $t('vendor_purchase.theirs') }}&colon; {{
+                getTheirTotal(true)
               }}</b-button
             >
           </div>
@@ -297,13 +249,6 @@
 </template>
 
 <script>
-import {
-  WANTEDLISTING_ITEM,
-  TRADELISTING_ITEM,
-  LISTING_ITEM,
-  AUCTION, PRODUCT_IMG_WIDTH,
-  PRODUCT_FALLBACK_URL
-} from '~/static/constants'
 export default {
   name: 'TradeItem',
 
@@ -318,13 +263,10 @@ export default {
   data() {
     return {
       sliderVal: '',
-      API_URL: process.env.API_URL,
-      productImageWidth: PRODUCT_IMG_WIDTH,
       wantedListingArray: [],
       tradeListingArray: [],
-      status: 'Fair', // TODO: Harcoded for now
-      theirsAmount: 100,
-      fallbackImgUrl: PRODUCT_FALLBACK_URL,
+      status: null,
+      cashReceived: 0,
     }
   },
 
@@ -333,37 +275,43 @@ export default {
   },
 
   methods: {
+
     // Array the items to wanted and trade listing array
     checkTradeItems(order) {
-      if (order.type.label === 'trade') {
-        const arr = order.items
-        // eslint-disable-next-line array-callback-return
-        arr.filter((item) => {
-          if (item.order_itemable_type === WANTEDLISTING_ITEM) {
-            this.wantedListingArray.push(item)
-          }
-          if (item.order_itemable_type === TRADELISTING_ITEM) {
-            this.tradeListingArray.push(item)
-          }
-        })
+      if (order.type === 'trade') {
+        this.wantedListingArray = order.accepted_offer_their.yours_items
+        this.tradeListingArray =  order.accepted_offer_your.yours_items
+        this.status = order.trade.condition_translation
       }
     },
-    // Get the product image
-    getImage(val) {
-      switch (val.order_itemable_type) {
-        case WANTEDLISTING_ITEM:
-          return `${this.API_URL}/products/${val.order_itemable.product_sku}/thumb`
-        case LISTING_ITEM:
-          return `${val.order_itemable.inventory.product.image}`
-        case AUCTION:
-          return `${this.API_URL}/products/${val.order_itemable.inventory.sku}/thumb`
-        case TRADELISTING_ITEM:
-          return `${this.API_URL}/products/${val.order_itemable.product_sku}/thumb`
-        default:
-          return `${this.fallbackImgUrl}${this.productImageWidth}`
+    getTheirTotal(formattedPrice = true){
+      let optionalCash = 0
+      if(this.orderDetails.accepted_offer_their.cash_added && this.orderDetails.accepted_offer_your.cash_type === 'added')
+      {
+        optionalCash = (this.orderDetails.accepted_offer_their.cash_added/100)
+        this.cashReceived = optionalCash
       }
-    },
 
+      const totalPrice = this.wantedListingArray.map((inventoryItem) => inventoryItem.inventory.sale_price)
+      if(totalPrice.length) {
+        return (formattedPrice) ?
+          '$' + ((totalPrice.reduce((a, b) => a + b, 0)/100) + parseFloat(optionalCash)).toFixed(2) : totalPrice.reduce((a, b) => a + b, 0) + (optionalCash * 100)
+      }
+      return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(optionalCash)) : optionalCash * 100
+    },
+    getYourTotal(formattedPrice = true){
+      let optionalCash = 0
+      if(this.orderDetails.accepted_offer_your.cash_added && this.orderDetails.accepted_offer_your.cash_type === 'added')
+      {
+          optionalCash = (this.orderDetails.accepted_offer_your.cash_added/100)
+      }
+      const totalPrice = this.tradeListingArray.map((inventoryItem) => inventoryItem.inventory.sale_price)
+      if(totalPrice.length) {
+        return (formattedPrice) ?
+          '$' + ((totalPrice.reduce((a, b) => a + b, 0)/100) + parseFloat(optionalCash)).toFixed(2) : totalPrice.reduce((a, b) => a + b, 0) + (optionalCash * 100)
+      }
+      return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(optionalCash)) : optionalCash * 100
+    },
     // Image on load error
     imageLoadError(event) {
       event.target.src = `${this.fallbackImgUrl}${this.productImageWidth}`
@@ -386,7 +334,7 @@ export default {
   float: right
 .product-similar-img
   width: 132px
-  height: 85px
+  height: 115px
 .products-title-main
   @include body-9-medium
   font-style: normal

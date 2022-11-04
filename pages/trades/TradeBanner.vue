@@ -12,14 +12,14 @@
 <script>
 export default {
   name: 'TradeBanner',
+  components: {
+    tradeBannerMobile:()=> import('./TradeBannerMobile'),
+    tradeBannerWeb:()=>import('./TradeBannerWeb'),
+  },
   data(){
     return {
       width:'',
     }
-  },
-  components: {
-    tradeBannerMobile:()=> import('./TradeBannerMobile'),
-    tradeBannerWeb:()=>import('./TradeBannerWeb'),
   },
   mounted() {
     this.width = window.innerWidth

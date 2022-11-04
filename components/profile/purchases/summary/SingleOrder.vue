@@ -7,26 +7,26 @@
                  class="vendor-purchase-details-table" responsive="sm">
           <template #cell(products)="row">
             <div class="img-col w-100">
-              <img :src="row.item.listing_item.inventory.product.image || fallbackImage" alt="product-image"
+              <img :src="row.item.inventory.product | getProductImageUrl" alt="product-image"
                    class="product-image img-fluid" @error="imageLoadError"/>
             </div>
           </template>
           <template #cell(details)="row">
             <span>
               <p class="f-w-500 mb-0 name">
-                {{ row.item.listing_item.inventory.product.name }}
+                {{ row.item.inventory.product.name }}
               </p>
               <p class="f-w-500 mb-0 colorway">
-                {{ $t('vendor_purchase.colorway') }}&colon; {{row.item.listing_item.inventory.product.colorway}}
+                {{ $t('vendor_purchase.colorway') }}&colon; {{row.item.inventory.product.colorway}}
               </p>
               <p class="f-w-500 mb-0 size">
-                {{ $t('vendor_purchase.size') }}&colon; {{row.item.listing_item.inventory.size.size}}
+                {{ $t('vendor_purchase.size') }}&colon; {{row.item.inventory.size.size}}
               </p>
               <p class="f-w-500 mb-0 box-condition">
-                {{ $t('vendor_purchase.box_condition') }}&colon; {{row.item.listing_item.inventory.packaging_condition.name}}
+                {{ $t('vendor_purchase.box_condition') }}&colon; {{row.item.inventory.packaging_condition.name}}
               </p>
               <p class="f-w-500 mb-0 sku">
-                {{ $t('vendor_purchase.sku') }}&colon; {{row.item.listing_item.inventory.product.sku}}
+                {{ $t('vendor_purchase.sku') }}&colon; {{row.item.inventory.product.sku}}
               </p>
             </span>
           </template>
@@ -34,7 +34,7 @@
             <span>{{ row.item.quantity }}</span>
           </template>
           <template #cell(total)="row">
-            <span>{{ row.item.listing_item.inventory.sale_price | toCurrency('USD', 'N/A') }}</span>
+            <span>{{ row.item.inventory.sale_price | toCurrency('USD', 'N/A') }}</span>
           </template>
         </b-table>
 
@@ -86,7 +86,6 @@
 
       <div class="col-md-4 col-sm-12">
         <PurchaseTimeline
-          v-if="[pending,sendToDeadstock,arrivedToDeadstock,processingPayment,processing].includes(itemStatus)"
           :timeline="timelineStatus"
           :orderStatus="itemStatus"
           :updatedAt="updatedAt"
@@ -96,7 +95,7 @@
     </div>
     <!-- Status is authenticated and shipped/ delivered -->
     <template
-        v-if="ORDERS_HAS_ITEMS.includes(orderType) && itemStatus === authenticatedAndShipped || itemStatus === delivered">
+        v-if="ORDERS_HAS_ITEMS.includes(orderType) && itemStatus === authenticatedAndShipped || itemStatus === delivered || itemStatus === completed">
       <hr/>
       <div class="row shipping-details-wrapper">
         <div class="col-md-6 col-sm-12">
@@ -212,11 +211,13 @@ import {
   AUTHENTICATED_AND_SHIPPED,
   PROCESSING_PAYMENT,
   DELIVERED,
-  CANCELLED, PRODUCT_IMG_WIDTH,
+  CANCELLED, COMPLETED, PRODUCT_IMG_WIDTH,
   PRODUCT_FALLBACK_URL,
   BUY,
   GIFTCARD,
-  SELL, ORDERS_HAS_ITEMS
+  SELL,
+  ORDERS_HAS_ITEMS,
+  ORDERS_HAS_TYPES
 } from '~/static/constants'
 export default {
   name: 'SingleOrder',
@@ -261,13 +262,14 @@ export default {
   data() {
     return {
       ORDERS_HAS_ITEMS,
+      ORDERS_HAS_TYPES,
       productImageWidth: PRODUCT_IMG_WIDTH,
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
-      shippingCarrier: 'Fed Ex', // Harcoded for now
-      trackingNumber: '', // Harcoded for now,
-      transactionCancelled: 1234567890, // Harcoded for now: Single item transction id,
-      refundedOn: 'Febrary 9, 2022 10:00AM PST', // Harcoded for now since no single item refund currently
-      demoCardNumber: 'Visa *1122',
+      shippingCarrier: null, // Harcoded for now
+      trackingNumber: null, // Harcoded for now,
+      transactionCancelled: null, // Harcoded for now: Single item transction id,
+      refundedOn: null, // Harcoded for now since no single item refund currently
+      demoCardNumber: null,
       latitude: 38.8951, // TODO: Hardcoded for now - latitude for google map location marker
       longitude: -77.0364, // TODO: Hardcoded for now - longitude for google map location marker
       authTimelineStatus: [],
@@ -279,6 +281,7 @@ export default {
       delivered: DELIVERED,
       processing: PROCESSING,
       cancelled: CANCELLED,
+      completed: COMPLETED,
       buy: BUY,
       sell: SELL,
       giftCard: GIFTCARD,
@@ -294,7 +297,7 @@ export default {
     },
   },
   mounted() {
-    if (this.fullOrderDetails.items[0].shipment) {
+    if (this.fullOrderDetails?.items[0].shipment) {
       this.getShippingDetails(this.fullOrderDetails.items[0].shipment.tracking_no)
     }
   },

@@ -26,7 +26,7 @@
       </div>
       <div class="info-card d-flex flex-column">
         <div class="body-8-medium text-capitalize">
-          {{ $t('vendor_purchase.order', {orderNo: orderDetails.id}) }} ({{ orderDetails.type.label }})
+          {{ $t('vendor_purchase.order', {orderNo: orderDetails.id}) }} ({{ orderDetails.type }})
         </div>
         <div class="mt-1 body-5-regular date-text">
           {{ $t('vendor_purchase.ordered_on', {orderedDate: getOrderedDate}) }}
@@ -54,30 +54,30 @@
             >
               <b-row class="">
                 <b-col cols="4">
-                  <ProductThumb :product="item.listing_item.inventory.product" width="82"/>
+                  <ProductThumb :product="item.inventory.product" width="82"/>
                 </b-col>
                 <b-col class="item-desc" cols="8">
-                  <div v-if="item.listing_item.inventory.product.sku" class="text-nowrap text-truncate body-21-medium">
-                    {{ item.listing_item.inventory.product.name }}
+                  <div v-if="item.inventory.product.sku" class="text-nowrap text-truncate body-21-medium">
+                    {{ item.inventory.product.name }}
                   </div>
-                  <div v-if="item.listing_item.inventory.product.sku" class="text-nowrap text-truncate">
+                  <div v-if="item.inventory.product.sku" class="text-nowrap text-truncate">
                     <span class="color-gray">{{ $t('common.sku') }}: </span>{{
-                      item.listing_item.inventory.product.sku
+                      item.inventory.product.sku
                     }}
                   </div>
-                  <div v-if="item.listing_item.inventory.product.colorway" class="text-nowrap text-truncate">
+                  <div v-if="item.inventory.product.colorway" class="text-nowrap text-truncate">
                     <span class="color-gray">{{
                         $t('common.colorway')
-                      }}:  </span>{{ item.listing_item.inventory.product.colorway }}
+                      }}:  </span>{{ item.inventory.product.colorway }}
                   </div>
-                  <div v-if="item.listing_item.inventory.product.colorway" class="text-nowrap text-truncate">
+                  <div v-if="item.inventory.product.colorway" class="text-nowrap text-truncate">
                     <span class="color-gray">{{
                         $tc('common.size', 2)
-                      }}: </span>{{ item.listing_item.inventory.size.size }}
+                      }}: </span>{{ item.inventory.size.size }}
                   </div>
-                  <div v-if="item.listing_item.inventory.product.sku" class="text-nowrap text-truncate">
+                  <div v-if="item.inventory.product.sku" class="text-nowrap text-truncate">
                     <span class="color-gray">{{ $t('common.box_condition') }}: </span>
-                    {{ item.listing_item.inventory.product.sku }}
+                    {{ item.inventory.product.sku }}
                   </div>
                 </b-col>
               </b-row>
@@ -278,17 +278,14 @@ export default {
     },
     changeItem(item) {
       this.selectedItem = this.orderDetails.items[item.item.index]
-      console.log(this.status);
     },
     loadDetails() {
       this.loading = true
       this.$axios
           .get(`purchases/${this.$route.params.id}/details`)
           .then((res) => {
-            console.log(res);
-            this.orderDetails = res.data
+            this.orderDetails = res.data.data
             this.insertMap(this.orderDetails)
-            console.log(this.$refs);
           })
           .catch((err) => {
             this.$toasted.error(this.$t(err.response.data.message).toString())
@@ -325,7 +322,6 @@ export default {
         zoom: 8,
         disableDefaultUI: true
       }
-      console.log(options);
       this.$nextTick(() => {
         this.map = new window.google.maps.Map(this.$refs.map, options)
       })

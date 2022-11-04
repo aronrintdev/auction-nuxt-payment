@@ -46,35 +46,35 @@
             </div>
           </div>
           <div class="col-md-2 d-none d-md-block">
-            <div class="d-flex justify-content-center pointer" @click="handleSort('products.name')">
+            <div class="d-flex justify-content-center pointer align-items-center" @click="handleSort('products.name')">
               <div>{{ $t('orders.product') }}</div>
               <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
                     :class="(descSort === 'products.name')?'ml-1 desc':'ml-1'"/>
             </div>
           </div>
           <div class="col d-none d-md-block">
-            <div class="d-flex justify-content-center pointer" @click="handleSort('created_at')">
+            <div class="d-flex justify-content-center pointer align-items-center" @click="handleSort('created_at')">
               <div>{{ $t('orders.date_ordered') }}</div>
               <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
                     :class="(descSort === 'created_at')?'ml-1 desc':'ml-1'"/>
             </div>
           </div>
           <div class="col d-none d-md-block">
-            <div class="d-flex justify-content-center pointer" @click="handleSort('order_type')">
+            <div class="d-flex justify-content-center pointer align-items-center" @click="handleSort('order_type')">
               <div>{{ $t('orders.type') }}</div>
               <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
                     :class="(descSort === 'order_type')?'ml-1 desc':'ml-1'"/>
             </div>
           </div>
           <div class="col d-none d-md-block">
-            <div class="d-flex justify-content-center pointer" @click="handleSort('total')">
+            <div class="d-flex justify-content-center pointer align-items-center" @click="handleSort('total')">
               <div>{{ $t('orders.vendor_payout') }}</div>
               <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
                     :class="(descSort === 'total')?'ml-1 desc':'ml-1'"/>
             </div>
           </div>
           <div class="col d-none d-md-block">
-            <div class="d-flex justify-content-center pointer"
+            <div class="d-flex justify-content-center pointer align-items-center"
                  @click="handleSort('listing_item_order.status')">
               <div>{{ $t('orders.status') }}</div>
               <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"

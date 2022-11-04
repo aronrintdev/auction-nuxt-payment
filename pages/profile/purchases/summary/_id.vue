@@ -192,8 +192,7 @@ export default {
       this.$axios
         .get(`purchases/${orderId}/details`)
         .then((res) => {
-          console.log(res);
-          this.orderDetails = res.data
+          this.orderDetails = res.data.data
           this.dataloaded = true
         })
         .catch((err) => {
