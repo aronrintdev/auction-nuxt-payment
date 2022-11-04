@@ -1,8 +1,8 @@
 <template>
   <b-col cols="12" sm="12" class="px-0">
-    <ProductPreview />
+    <ProductPreview :products="combinedProducts" />
 
-    <ThankYou @view-order-details="$refs.orderDetails.open()" />
+    <ThankYou :order-details="orderDetails" @view-order-details="$refs.orderDetails.open()" />
 
     <!-- Bottom Sheet with the Order Summary -->
     <vue-bottom-sheet ref="orderDetails">
@@ -13,13 +13,30 @@
 </template>
 
 <script>
-import ProductPreview from '~/components/checkout/selling/mobile/order-confirmation/ProductPreview'
-import ThankYou from '~/components/checkout/selling/mobile/order-confirmation/ThankYou'
+import { mapGetters } from 'vuex'
+import ProductPreview from '~/components/checkout/common/mobile/order-confirmation/ProductPreview'
+import ThankYou from '~/components/checkout/common/mobile/order-confirmation/ThankYou'
 import OrderDetails from '~/components/checkout/selling/mobile/order-confirmation/OrderDetails'
 
 export default {
   name: 'OrderConfirmation',
-  components: { ProductPreview, ThankYou, OrderDetails }
+  components: { ProductPreview, ThankYou, OrderDetails },
+  computed: {
+    ...mapGetters({
+      products: 'order-details/getProducts',
+      freeSneakersRedeemedReward: 'order-details/getFreeSneakersRedeemedReward',
+      orderDetails: 'order-details/getOrderDetails',
+    }),
+    combinedProducts(vm) {
+      const products = [...vm.products]
+
+      if (vm.freeSneakersRedeemedReward) {
+        products.push(vm.freeSneakersRedeemedReward)
+      }
+
+      return products
+    }
+  }
 }
 </script>
 
