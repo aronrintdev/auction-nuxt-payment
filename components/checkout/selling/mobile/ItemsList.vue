@@ -7,6 +7,8 @@
           v-for="product in shoppingCart"
           :key="product.listing_item_id"
           :product="product"
+          product-options
+          quantity-controls
           @item-options-clicked="$emit('item-options-clicked')"
         />
       </div>

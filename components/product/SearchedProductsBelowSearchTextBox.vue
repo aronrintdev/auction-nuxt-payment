@@ -59,7 +59,6 @@
               {{$t('common.dont_see_your_product')}} 
               <a 
                 class="suggest-new" 
-                href="#"
                 @click="$bvModal.show('suggest_a_new_product')"
               >
                 {{$t('common.suggest_a_new_product')}}
@@ -234,55 +233,49 @@ export default {
   z-index: 100000
 
 .searched-product-name
+  @include body-9-normal
   font-family: $font-family-montserrat
-  font-weight: 500
-  font-size: 12px
   color: $color-black-15
   @media (min-width: 576px)
-    font-size: 16px
-    color: #000
+    @include body-4
+    color: $color-black-1
 
 .searched-product-add-to-wants
+  @include body-4-normal
   color: $color-gray-5 !important
   font-family: $font-family-montserrat
-  font-weight: 500
-  font-size: 16px
 
 .no-product
-  font-weight: 500
-  font-size: 11px
+  @include body-6-normal
   font-style: italic
-  color: #000
+  color: $color-black-1
   letter-spacing: 1px
-  @media (min-width: 576px) 
+  @media (min-width: 576px)
+    @include body-4-regular
     font-family: $font-family-montserrat
-    font-size: 16px
-    font-weight: 400
-    color: #000
     border-bottom-left-radius: 8px
     border-bottom-right-radius: 8px
     height: 60px
 
 .suggest-new
-  color: #000
+  color: $color-black-1
   text-decoration: underline
 
 .search-item
-  border: 0.5px solid #CECECE
+  border: 0.5px solid $color-gray-89
   margin-top: 11px
   border-radius: 4px
   padding: 10px
 
 .add-item-button
+  @include body-9-medium
   background: $color-blue-20
   border-radius: 5px
   display: flex
   align-items: center
   justify-content: center
   font-family: $font-family-sf-pro-display
-  font-weight: 600
-  font-size: 12px
-  color: #FFF
+  color: $color-white-1
   height: 22px
 
 </style>

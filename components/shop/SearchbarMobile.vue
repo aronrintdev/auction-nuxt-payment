@@ -97,6 +97,7 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .searchbar-main
+  display: block
   .searchbar-filter
     input[type="search"]
       background: $color-white-5

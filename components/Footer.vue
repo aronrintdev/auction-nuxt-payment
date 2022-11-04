@@ -15,8 +15,8 @@
         <NuxtLink to="/fee-policy">{{ $t('footer.fee_policy') }}</NuxtLink>
       </div>
       <div>
-        <NuxtLink to="#">{{ $t('footer.contact_us') }}</NuxtLink>
-        <NuxtLink to="#">{{ $t('footer.faq') }}</NuxtLink>
+        <NuxtLink to="/profile/support/contact-us">{{ $t('footer.contact_us') }}</NuxtLink>
+        <NuxtLink to="/profile/support/faqs">{{ $t('footer.faq') }}</NuxtLink>
       </div>
       <div class="secondary-links">
         <NuxtLink to="/privacy-policy">

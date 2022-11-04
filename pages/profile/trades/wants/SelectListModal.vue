@@ -2,11 +2,11 @@
   <MobileBottomSheet
     :max-height="'50%'"
     :open="isOpen"
-    @closed="$emit('closed', selectedItems)"
-    @opened="$emit('opened')"
     :headerStyle="{
       display: 'none !important'
     }"
+    @closed="$emit('closed', selectedItems)"
+    @opened="$emit('opened')"
   >
     <div class="font-sf-pro">
       <div
@@ -34,9 +34,9 @@
         <div class="item justify-content-between" @click="addCombination()">
           {{ $t('trades.wants_listing.create_combination', { count: '' }) }}
           <img 
-            @click="addCombination()" 
-            :src="require('~/assets/img/icons/product/Add.svg')"
+            :src="require('~/assets/img/icons/product/Add.svg')" 
             alt=""
+            @click="addCombination()"
           />
         </div>
       </div>
@@ -47,6 +47,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
+import { SELECT_LIST_PER_PAGE } from '~/static/constants/trades'
 
 export default {
   name: 'SelectListModal',
@@ -90,7 +91,7 @@ export default {
           category: '',
           size_types: '',
           sizes: '',
-          perPage: 200
+          perPage: SELECT_LIST_PER_PAGE
         }
       })
       .then((response) => { 
@@ -140,25 +141,23 @@ export default {
   font-family: $font-family-sf-pro-display
 
 .title
-  font-weight: 600
-  font-size: 17px
-  color: #000
+  @include body-17-medium
+  color: $color-black-1
 
 .sub-title
-  font-weight: 400
-  font-size: 15px
+  @include body-8-regular
   margin-top: 4px
-  color: #000
+  color: $color-black-1
 
 .item
+  @include body-5
   border-top: 1px solid $color-gray-4
   height: 54px
   display: flex
   align-items: center
   padding-left: 14px
   padding-right: 14px
-  font-size: 14px
-  color: #000
+  color: $color-black-1
 
 .selected
   background: $color-blue-20

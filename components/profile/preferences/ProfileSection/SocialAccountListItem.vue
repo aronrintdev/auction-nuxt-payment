@@ -4,12 +4,10 @@
       <b-row>
         <!-- Image -->
         
-        <b-col md="1" class="social-logo">
-          <img v-if="!responsiveDesign" :src="require(`~/assets/img/icons/${img}`)" alt="logo" />
+        
+        <b-col md="1" cols="8" class="social-logo">
+          <img :class="responsiveDesign && 'icon-image'" :src="require(`~/assets/img/icons/${img}`)" alt="logo" />
 
-          <!-- for responsive design-->
-          <img v-if="responsiveDesign" :src="require(`~/assets/img/icons/${img}`)" alt="logo" 
-          class="icon-image"/>
           <span v-if="responsiveDesign" class="text-bold social-media-label ml-3">
               <span class="responsive-social-name">{{ type }}</span>
             <div
@@ -59,7 +57,7 @@
         </b-col>
         
         <!-- Buttons for responsive design -->
-        <b-col v-if="responsiveDesign" md="3" class="text-center  social-button">  
+        <b-col v-if="responsiveDesign" md="3" cols="4" class="text-center  social-button">  
           
           <b-button
               v-if="connectionStatus === 'connected'"

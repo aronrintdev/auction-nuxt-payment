@@ -14,8 +14,8 @@
 
           <div 
             v-if="!singleMode"
-            @click="handleViewAllClick"
             class="position-absolute view-all-btn mr-2"
+            @click="handleViewAllClick"
           >
             <img
               width="18"
@@ -292,41 +292,44 @@ export default {
 @import '~/assets/css/_variables'
 
 .select-size
-  color: #000
-  font-weight: 400
-  font-size: 13px
+  @include body-10-regular
+  color: $color-black-1
   @media (min-width: 576px)
-    font-weight: 500
-    font-size: 15px
+    @include body-8-normal
     text-transform: uppercase
 
 .all-sizes
-  color: #000
-  font-weight: 400
-  font-size: 13px
+  @include body-10-regular
+  color: $color-black-1
   @media (min-width: 576px)
-    font-weight: 600
+    @include body-8-medium
     color: $color-blue-30
-    font-size: 15px
+
+.icon-text
+  font-size: 14px !important
+  font-weight: $medium !important
+  color: $color-black-1 !important,
+
+.text-color-blue-30
+  color: $color-blue-30
 
 .size-label-responsive
+  @include body-10
   display: block !important
-  font-size: 13px
-  color: #000
+  color: $color-black-1
   left: 0
   top: 0
   @media (min-width: 576px)
-    font-size: 15px
-    font-weight: 500
+    @include body-8-normal
     text-transform: uppercase
 
 .icon-text-responsive
   font-size: 13px !important
-  font-weight: 400 !important
-  color: #000 !important
+  font-weight: $regular !important
+  color: $color-black-1 !important
   @media (min-width: 576px)
     color: $color-blue-30 !important
-    font-weight: 600 !important
+    font-weight: $medium !important
 
 .owl-carousel 
   .owl-item
@@ -396,8 +399,7 @@ export default {
           margin-left: -30px !important
 
     .card
-      font-weight: 600
-      font-size: 12px
+      @include body-9-medium
       border: 1px solid $color-gray-21
       border-radius: 10px
       width: 49px
@@ -449,8 +451,7 @@ export default {
           margin-right: auto
 
       .card
-        font-weight: 600
-        font-size: 12px
+        @include body-9-medium
         width: 49px
         height: 49px
         border: 1px solid $color-gray-21

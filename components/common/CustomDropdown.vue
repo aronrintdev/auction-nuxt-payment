@@ -40,8 +40,8 @@
       <li
         v-for="(option, key) of options" :key="key"
         :class="`${optionsWidth}-color`"
-        @click="selectOption((option.value ? option.value : option))"
         :style="optionStyle"
+        @click="selectOption((option.value ? option.value : option))"
       >
         <input 
           v-if="type.includes('multi')" 

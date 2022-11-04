@@ -390,9 +390,10 @@ export default {
     selected(val) {
       const auctionItems = []
       if (this.selectedAuctionType === AUCTION_TYPE_SINGLE) {
-        this.selected.map(a => {
+        val.map(a => {
           const item = this.selectedProducts.filter(z => z.id === a)[0]
           if (item) {
+            const savedAuctionInfo = this.selectedAuctionItems.find(it => it.items[0].inventory_id === a)
             auctionItems.push({
               id: this.randomStringId(),
               time_limit: null,
@@ -408,7 +409,8 @@ export default {
                 inventory_id: item.id,
                 quantity: 1
               }],
-              item
+              item,
+              ...savedAuctionInfo,
             })
           }
           return a
@@ -418,7 +420,7 @@ export default {
           id: this.randomStringId(),
           time_limit: null,
           start_bid_price: null,
-          status: 'scheduled',
+          status: 'live',
           is_reserved: false,
           reserve_price: null,
           scheduled_date: null,
@@ -543,8 +545,8 @@ export default {
         }
       })
     },
-    selectItem(id, checked) {
-      if (checked) {
+    selectItem(id, event) {
+      if (event.target.checked) {
         this.selected.push(id)
         this.$store.commit('create-listing/addSelectedInventoryProducts', this.inventories.filter(a => a.id === id)[0])
       } else {
@@ -810,11 +812,11 @@ export default {
       flex: 0 0 25%
       max-width: 25%
   .continue-btn-container 
-    bottom: 0
+    bottom: 98px
     left: 0
     width: 100%
     background: $white
-    z-index: 100
+    z-index: 10
     button
       border-radius: 30px
       background: $color-blue-20
@@ -863,11 +865,11 @@ export default {
   .collection-items-preview::v-deep
     @media (max-width: 576px)
       position: fixed
-      bottom: 0
+      bottom: 98px
       left: 0
       width: 100%
       background: $white
-      z-index: 2000
+      z-index: 10
       .simple-content
         @include body-5-normal
         border: 0.5px solid rgba($light-gray-2, 0.5)

@@ -58,7 +58,8 @@
                 :key="`product-${product.id}`"
                 class="d-flex align-items-center w-100"
               >
-                <ProductThumb
+                <ThumbMobile
+                  id="product-thumb"
                   :product="product"
                   class="mr-2 flex-shrink-0 product-img"
                 />
@@ -237,10 +238,25 @@
         </b-col>
       </b-row>
       <!-- ./For Active Filter -->
+      
+      <div class="d-flex justify-content-between">
+        <!-- Inventory heading/ inventory count -->
+        <InventoryCount :inventory="inventoryLength" showResult />
+        <!-- Inventory heading/ inventory count ends -->
+        <!-- variant="selected-continue"  -->
 
-      <!-- Inventory heading/ inventory count -->
-      <InventoryCount :inventory="inventoryLength" showResult />
-      <!-- Inventory heading/ inventory count ends -->
+        <span v-if="!isScreenXS">
+          <Button v-if="selectedItems.length" 
+            variant="info" pill
+            class="border-0 d-flex align-items-center text-align-center mt-4"
+            @click="handleBulkAction">
+              <span>
+                {{ $t('common.continue') }}
+                <span v-if="selectedItems">&#40;{{ selectedItems.length }}&#41;</span>
+              </span>
+          </Button>
+        </span>  
+      </div>
 
       <!-- If result show th inventory card -->
       <template
@@ -282,7 +298,7 @@
       <!-- Pagination component -->
       <b-row
         v-if="inventories && inventories.length"
-        class="d-flex justify-content-center"
+        class="d-flex justify-content-center  mb-5"
       >
         <Pagination
           v-if="inventories.length > 0"
@@ -310,7 +326,7 @@
       </template>
 
       <!-- Bulk select toolbar -->
-      <div class="row p-md-4 p-2 continue-to-list-bulk-select d-flex justify-content-center">
+      <div v-if="isScreenXS && selectedItems.length" class="row p-md-4 p-2 continue-to-list-bulk-select d-flex justify-content-center" :class="mobileClass">
         <BulkSelectToolbar
           ref="bulkSelectToolbar"
           :active="!!action"
@@ -385,7 +401,7 @@ import {
   Pagination,
   Modal
 } from '~/components/common'
-import ProductThumb from '~/components/product/Thumb'
+import ThumbMobile from '~/components/product/ThumbMobile.vue'
 
 import InventoryCount from '~/components/profile/create-listing/selling/InventoryCount.vue'
 import MobileResult from '~/components/profile/create-listing/selling/MobileResult.vue'
@@ -407,7 +423,7 @@ export default {
     MobileFilter,
     InventoryCount,
     MobileResult,
-    ProductThumb,
+    ThumbMobile,
   },
 
   mixins: [screenSize],
@@ -883,4 +899,19 @@ export default {
     .mobileFilter,
     .continue-with-selected
       display: none
+
+.filters
+  #new-inventory
+    #product-thumb::v-deep
+      width: 10px
+
+.continue-to-list-bulk-select::v-deep
+  &.mobile
+    position: fixed
+    height: 50px
+    background-color: $color-white-1
+    bottom: 0px
+    left: 0px
+    right: 0px
+    margin-bottom: 98px
 </style>

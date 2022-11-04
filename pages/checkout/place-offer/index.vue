@@ -1,30 +1,43 @@
 <template>
   <b-row class="place-offer">
-    <ItemList />
+    <ItemList v-if="! isResponsive" />
 
-    <PlaceOfferSummary class="offer-summary" />
+    <PlaceOfferSummary v-if="! isResponsive" class="offer-summary" />
+
+    <ShoppingBag v-else />
   </b-row>
 </template>
 
 <script>
+import screenSize from '~/plugins/mixins/screenSize'
 import ItemList from '~/components/checkout/place-offer/ItemList'
 import PlaceOfferSummary from '~/components/checkout/place-offer/PlaceOfferSummaryComponent'
+import ShoppingBag from '~/components/checkout/place-offer/mobile/ShoppingBag'
 import { GOOGLE_MAPS_BASE_URL } from '~/static/constants/environments'
+import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 
 export default {
   name: 'PlaceOffer',
-
   components: {
     ItemList,
     PlaceOfferSummary,
+    ShoppingBag
   },
-
+  mixins: [ screenSize ],
   layout: 'IndexLayout',
-
+  computed: {
+    isResponsive() {
+      return this.isScreenXS || this.isScreenSM
+    }
+  },
+  beforeMount() {
+    enquireScreenSizeHandler((type) => {
+      this.$store.commit('size/setScreenType', type)
+    })
+  },
   mounted() {
     this.injectGoogleMapsApi()
   },
-
   methods: {
     // Inject Google Maps Api (if it doesn't exist)
     injectGoogleMapsApi() {
@@ -34,7 +47,6 @@ export default {
 
       const scriptTag = this.createScriptTag()
       scriptTag.src = GOOGLE_MAPS_BASE_URL
-
       this.insertScript(scriptTag)
     },
     // Create a new script tag without the src attribute.

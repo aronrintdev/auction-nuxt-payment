@@ -63,7 +63,6 @@
 </template>
 
 <script>
-/* eslint-disable vue/no-unused-components */
 import {mapActions} from 'vuex'
 import debounce from 'lodash.debounce'
 import SearchInput from '~/components/common/SearchInput'
@@ -98,7 +97,6 @@ export default {
   mounted() {
     // emit listener use to add want item
     this.$root.$on('add_product_want_list', (val) => {
-      console.log('ON ADD CLICK', this.combinationId);
       this.searchItem = val
     })
     // emit listener use to take user back from search selection
@@ -129,7 +127,6 @@ export default {
       }
     },
     redirectToAddWant(product) {
-      console.log('1111111111111111');
       this.addItem = {
         product,
         packaging_condition: {
@@ -178,7 +175,7 @@ export default {
 
 .add-item-container
   padding: 15px 12px 0 12px
-  background: #FFF
+  background: $color-white-1
   @media (min-width: 576px)
     background: $color-white-5
     padding: 25px
@@ -203,33 +200,30 @@ export default {
   color: $color-gray-5
 
 .search-item
-  border: 0.5px solid #CECECE
+  border: 0.5px solid $color-gray-89
   margin-top: 11px
   border-radius: 4px
   padding: 10px
 
 .add-item-button
+  @include body-9-medium
   background: $color-blue-20
   border-radius: 5px
   display: flex
   align-items: center
   justify-content: center
   font-family: $font-family-sf-pro-display
-  font-weight: 600
-  font-size: 12px
-  color: #FFF
+  color: $color-white-1
   height: 22px
 
 .searched-product-name
-  font-weight: 500
-  font-size: 13px
+  @include body-10-normal
   color: $color-black-15
 
 .no-product
-  font-weight: 500
-  font-size: 11px
+  @include body-6-normal
   font-style: italic
-  color: #000
+  color: $color-black-1
   letter-spacing: 1px
 
 </style>

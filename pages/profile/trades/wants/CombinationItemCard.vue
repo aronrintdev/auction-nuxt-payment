@@ -7,7 +7,7 @@
             <div class="title-combination ml-4">
               {{ $t('trades.create_listing.vendor.wants.combination_no') }}{{ combination.combination_id }}
             </div>
-            <div>
+            <div v-if="selectedCombination.product.name">
               <object 
                 v-if="selectedCombination.product.image"
                 :data="selectedCombination.product.image"
@@ -24,8 +24,8 @@
               <div v-if="!editRemove" class="d-flex justify-content-end mb-5">
                 <div 
                   role="button" 
-                  @click="editWant"
                   class="d-flex align-items-center"
+                  @click="editWant"
                 >
                   <img 
                     :src="require('~/assets/img/icons/pencil-gray.svg')" 
@@ -36,8 +36,8 @@
                 </div>
                 <div
                   role="button" 
-                  @click="deleteWant"
                   class="d-flex align-items-center"
+                  @click="deleteWant"
                 >
                   <img 
                     :src="require('~/assets/img/icons/Delete.svg')" 
@@ -51,40 +51,41 @@
               <div v-else class="d-flex justify-content-end mb-5">
                 <img
                   v-if="selected"
-                  @click="$emit('select', combination.combination_id, 'remove')"
                   role="button"
-                  :src="require('~/assets/img/icons/red-minus.svg')" 
+                  :src="require('~/assets/img/icons/red-minus.svg')"
                   height="22" 
                   width="22" 
+                  @click="$emit('select', combination.combination_id, 'remove')" 
                 >
                 <img
                   v-else
-                  @click="$emit('select', combination.combination_id, 'add')"
                   role="button"
-                  :src="require('~/assets/img/icons/gray-plus.svg')" 
+                  :src="require('~/assets/img/icons/gray-plus.svg')"
                   height="22" 
                   width="22" 
+                  @click="$emit('select', combination.combination_id, 'add')" 
                 >
               </div>
-              <div class="mt-2 text-bold">
-                {{ selectedCombination.product.name }}
+              <div v-if="selectedCombination.product.name">
+                <div class="mt-2 text-bold">
+                  {{ selectedCombination.product.name }}
+                </div>
+                <div class="name-desktop">
+                  <span class="text-uppercase">{{ $t('trades.create_listing.vendor.wants.sku') }}:</span>
+                  {{ selectedCombination.product.sku }}
+                </div>
+                <div class="name-desktop">
+                  {{ $t('sell.confirm_listing.table_columns.colorway') }}:
+                  {{ selectedCombination.product.colorway }}
+                </div>
+                <div class="name-desktop">
+                  {{ $t('trades.create_listing.vendor.wants.box') }}:
+                  {{ selectedCombination.packaging_condition.name }}
+                </div>
+                <div class="text-bold">{{ $t('trades.create_listing.vendor.wants.lowest_ask') }}: 
+                  ${{ selectedCombination.product.estimated_market_value }}
+                </div>
               </div>
-              <div class="name-desktop">
-                <span class="text-uppercase">{{ $t('trades.create_listing.vendor.wants.sku') }}:</span>
-                {{ selectedCombination.product.sku }}
-              </div>
-              <div class="name-desktop">
-                {{ $t('sell.confirm_listing.table_columns.colorway') }}:
-                {{ selectedCombination.product.colorway }}
-              </div>
-              <div class="name-desktop">
-                {{ $t('trades.create_listing.vendor.wants.box') }}:
-                {{ selectedCombination.packaging_condition.name }}
-              </div>
-              <div class="text-bold">{{ $t('trades.create_listing.vendor.wants.lowest_ask') }}: 
-                ${{ selectedCombination.product.estimated_market_value }}
-              </div>
-
             </div>
           </div>
         </div>
@@ -125,7 +126,7 @@
       </div>
     </div>
     <div class="d-flex row d-md-none custom-shadow rounded mx-sm-2">
-      <client-only>
+      <client-only v-if="combination.combination_items.length > 0">
         <Carousel
           :loop="true"
           :mouse-drag="false"
@@ -142,10 +143,7 @@
               :key="`trade-carousel-${index}`"
               class="d-flex justify-content-around"
             >
-              <div 
-                class="col-4 d-flex flex-column align-items-end pb-3"
-                :style="{'padding-top': '20px'}"
-              >
+              <div class="col-4 d-flex flex-column align-items-end pb-3 pt-20">
                 <img
                   class="w-auto"
                   width="16"
@@ -207,21 +205,21 @@
                 <div v-else class="d-flex justify-content-end mb-5">
                   <img
                     v-if="selected"
-                    @click="$emit('select', combination.combination_id, 'remove')"
                     class="more"
                     role="button"
-                    :src="require('~/assets/img/icons/red-minus.svg')" 
+                    :src="require('~/assets/img/icons/red-minus.svg')"
                     height="19" 
                     width="19" 
+                    @click="$emit('select', combination.combination_id, 'remove')" 
                   >
                   <img
                     v-else
-                    @click="$emit('select', combination.combination_id, 'add')"
                     role="button"
                     class="more"
-                    :src="require('~/assets/img/icons/gray-plus.svg')" 
+                    :src="require('~/assets/img/icons/gray-plus.svg')"
                     height="19" 
                     width="19" 
+                    @click="$emit('select', combination.combination_id, 'add')" 
                   >
                 </div>
               </div>
@@ -229,8 +227,39 @@
           </template>
         </Carousel>
       </client-only>
-      
-      
+      <div class="d-flex w-100 py-3" v-else>
+        <div class="col-4"></div>
+          
+        <div class="col-8 d-flex flex-column">
+          <div class="combination-mobile pl-3">
+            {{ $t('trades.create_listing.vendor.wants.combination_no') }}{{ combination.combination_id }}
+          </div>
+          <div class="value mt-2 pl-3">
+            {{ $t('common.no-items-in-combination') }}
+          </div>
+          <div v-if="editRemove">
+            <img
+              v-if="selected"
+              class="more -top-9"
+              role="button"
+              :src="require('~/assets/img/icons/red-minus.svg')"
+              height="19" 
+              width="19" 
+              @click="$emit('select', combination.combination_id, 'remove')" 
+            >
+            <img
+              v-else
+              role="button"
+              class="more -top-9"
+              :src="require('~/assets/img/icons/gray-plus.svg')"
+              height="19" 
+              width="19" 
+              @click="$emit('select', combination.combination_id, 'add')" 
+            >
+          </div>
+          
+        </div>
+      </div>
     </div>
     <ActionsModal
       :isOpen="isModalOpen"
@@ -265,10 +294,16 @@ export default {
       default: false,
     },
   },
+  watch: {
+    combination(newCombo) {
+      this.combinationItems = newCombo.combination_items
+    }
+  },
   data () {
+    const product = { product: {}, packaging_condition: {}, size: {} }
     return {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
-      selectedCombination: this.combination.combination_items[0],
+      selectedCombination: this.combination.combination_items[0] || product,
       combinationItems: this.combination.combination_items,
       isModalOpen: false,
       selectedItemIndex: 0
@@ -309,24 +344,27 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.pt-20
+  padding-top: 20px !important  
+
 .details-container
   height: 120px
 
-::v-deep .owl-dots
+:deep(.owl-dots)
   position: absolute
   left: 8%
   bottom: 35px
 
-::v-deep .owl-dot span
+:deep(.owl-dot span)
   width: 4px !important
   height: 4px !important
   background: $color-gray-4 !important
 
-::v-deep .owl-dot
+:deep(.owl-dot)
   width: 9px
 
-::v-deep .active span
-  background: #000 !important
+:deep(.active span)
+  background: $color-black-1 !important
 
 .more
   position: absolute
@@ -336,28 +374,29 @@ export default {
   @media (min-width: 576px)
     right: 15px
 
+.-top-9
+  top: -9px
+
 .value
-  font-family: 'Montserrat'
-  font-weight: 600
-  font-size: 12px
+  @include body-9-medium
+  font-family: $font-family-montserrat
   margin-top: 20px
-  color: #000
+  color: $color-black-1
   
 .name, .name-desktop
+  @include body-6-normal
+  line-height: 16px
   font-family: $font-sp-pro
-  font-weight: 500
-  font-size: 11px
   color: $color-gray-6
 
 .name-desktop
-  font-size: 13px
+  @include body-10
   line-height: 20px
 
 .combination-mobile
+  @include body-5-medium
   font-family: $font-sp-pro
-  font-weight: 600
-  font-size: 14px
-  color: #000
+  color: $color-black-1
   flex: 1
 
 .slider-item
@@ -368,7 +407,7 @@ export default {
   margin-right: 4px
 
 .slider-active
-  background: #000
+  background: $color-black-1
 
 .custom-shadow
   box-shadow: 0px 1px 4px rgb(0 0 0 / 25%)

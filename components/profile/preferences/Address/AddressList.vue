@@ -7,7 +7,7 @@
       @moveBack="moveBack"
       @edit="editAddress"
     />
-    <span class="add-more-img mr-4 mb-4 float-right" @click="addForm">
+    <span class="add-more-img mr-4 float-right" @click="addForm">
       <img
         :src="require('~/assets/img/icons/plus-bg-dark-blue.svg')"
         alt="add-more-icon"
@@ -171,3 +171,11 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+
+.add-more-img
+  position: fixed
+  right: 1vw
+  bottom: 15vh
+</style>

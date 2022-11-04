@@ -31,10 +31,6 @@
         </div>
         <div class="col-xl-6 px-0 px-sm-2">
           <p class="mt-3 mb-0 title">{{ product.product.name }}</p>
-          <!-- <p class="custom-border">
-            <span class="last-sale">{{ $t('product_page.last_sale') }}: $250.00</span>
-            <span class="last-sale-value">+0.64 (+0.36%)</span>
-          </p> -->
           <div class="position-relative">
             <ProductSizePicker
               :value="currentSizeId"
@@ -45,8 +41,6 @@
               :style="{
                 maxWidth: 'unset'
               }"
-              @update="handleSizeChange"
-              @changeViewMode="handleSizeViewModeChange"
               :cardStyle="{
                 width: '64px',
                 height: '64px',
@@ -68,15 +62,12 @@
                 width: '100%'
               }"
               :errorText="errors.size"
+              @update="handleSizeChange"
+              @changeViewMode="handleSizeViewModeChange"
             />
           </div>
           
-          <div 
-            :style="{
-              marginTop: '130px'
-            }" 
-            class="d-flex flex-column pb-sm-2"
-          >
+          <div class="d-flex flex-column pb-sm-2 mt-130">
             <div class="d-flex align-items-center mb-2">
               <div class="box mr-1">{{ $t('products.box_condition') }}</div>
               <img
@@ -99,7 +90,6 @@
                   dropDownHeight="38px"
                   variant="white"
                   paddingX="10px"
-                  @change="changeCondition"
                   :inputStyle="{ 
                     display: 'flex', 
                     justifyContent: 'center',
@@ -118,6 +108,7 @@
                   }"
                   labelStyle="font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 14px; color: #667799;"
                   arrowStyle='color: #667799; width: 16px; height: 18px; position: absolute; right: 50px; margin-bottom: 12.5px !important;'
+                  @change="changeCondition"
                 />
               </div>
               <div class="d-none d-sm-flex justify-content-between">
@@ -146,8 +137,8 @@
                   </div>
                 </div>
                 <input
-                  type="number"
                   v-model="quantity"
+                  type="number"
                   required
                   class="bg-white form-label form-input pr-2"                 
                 />
@@ -174,7 +165,6 @@
                     borderRadius="10px"
                     borderRadiusClose="10px 10px 0 0"
                     borderRadiusOptions="0 0 8px 8px"
-                    @change="listType"
                     :inputStyle="{
                       borderColor: '#E8E8E8',
                       height: '49px',
@@ -205,13 +195,13 @@
                     :dropdownItemStyle="{
                       borderColor: '#667799',
                     }"
+                    @change="listType"
                   />
                 </div>
                 <div class="d-sm-none mobile-input" @click="listModalOpen = !listModalOpen">
                   <div>{{ $t('trades.wants_listing.add_to') }}</div>
                   <i 
-                    :style="{ color: '#7196B1'}" 
-                    class="fa fa-2x" 
+                    class="fa fa-2x color-blue-19" 
                     :class="listModalOpen ? 'fa-angle-up' : 'fa-angle-down'">
                   </i>
                 </div>
@@ -247,10 +237,6 @@
               {{ product.product.release_date || $t('products.box_conditions.none') }}
             </div>
           </div>
-          <!-- <div class="col-5">
-            <div class="product-details-label">{{ $t('rewards.description') }}:</div>
-            <div>Lorem ipsum dolor dit amet</div>
-          </div> -->
         </div>
       </div>
 
@@ -289,7 +275,6 @@
 </template>
 
 <script>
-/* eslint-disable vue/no-unused-components */
 import {mapGetters, mapActions} from 'vuex'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import ProductSizePicker from '~/components/product/SizePicker'
@@ -303,6 +288,7 @@ import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360
 import ProductLatestSales from '~/components/product/LatestSales'
 import SalesSection from '~/components/product/SalesSection'
 import { Icon } from '~/components/common'
+import { WANTS_SELECT_LIST_OPTIONS } from '~/static/constants/trades'
 
 
 export default {
@@ -352,7 +338,6 @@ export default {
     },
   },
   data() {
-    // console.log('DEFAULT LIST', this.cmbinationId ? [this.combinationId] : []);
     return {
       listModalOpen: false,
       MAX_ITEMS_ALLOWED,
@@ -370,7 +355,9 @@ export default {
         {name: this.$t('trades.create_listing.vendor.wants.confirm_trade'), active: false}
       ],
       selectList: [],
-      selectListOptions: [{ text: this.$t('trades.wants_listing.general_wants'), value: 'general_wants' }],
+      selectListOptions: WANTS_SELECT_LIST_OPTIONS.map(
+        item => ({ text: this.$t(item.text), value: item.value })
+      ),
       conditionsOptions: this.product.product.packaging_conditions.map((item) => ({ text: item.name, value: item.id })),
       condition: { text: this.product.packaging_condition.name, value: this.product.packaging_condition.id },
       conditionLabel: this.product.packaging_condition.name || this.$t('products.box_conditions.none'),
@@ -485,7 +472,6 @@ export default {
      * @param selectedProduct
      */
     addToOffer(selectedProduct) {
-      console.log('addToOffer1');
       this.validate()
       if (!Object.values(this.errors).every(x => x === null || x === '')) return
 
@@ -500,7 +486,6 @@ export default {
      * THis function is used to add wants item in wants list
      */
     addWantItem(selectedProduct) {
-      console.log('addWantItem2');
       const data = {
         product_id: selectedProduct.product.id,
         quantity: parseInt(this.quantity),
@@ -571,12 +556,10 @@ export default {
      * THis function is used to take back on previous page
      */
     backSearch() {
-      console.log('backSearch3', this.productFor, this.combinationId, this.itemId);
       if (this.productFor === 'wantsList' && !this.combinationId && !this.itemId) {
         this.$root.$emit('back_to_list')
       }
       else if(this.combinationId) {
-        console.log('backSearch4');
         this.$root.$emit('back_to_edit_combination')
       }
       else if(this.itemId){
@@ -584,7 +567,6 @@ export default {
       }
     },
     listType(checked) {
-      console.log('listType1', checked);
       if (!this.selectList.includes(checked)) {
         this.selectList.push(checked)
       } else {
@@ -604,21 +586,26 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.color-blue-19
+  color: $color-blue-19
+
+.mt-130
+  margin-top: 130px
+
 .max-w-120 
   @media (max-width: 576px)
     max-width: 120px
 
 .product-details
+  @icnlude body-2-bold
   font-family: $font-family-sf-pro-display
-  font-weight: 700
-  font-size: 20px
   padding-bottom: 17px
   margin-top: 55px
   border-bottom: 0.5px solid $color-gray-23
 
 .custom-shadow
   @media (max-width: 576px)
-    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25)
+    box-shadow: 0px 1px 2px $drop-shadow1
     border-radius: 8px
 
 .horizontal-scroll 
@@ -650,69 +637,56 @@ export default {
   justify-content: center
 
 .size-item
+  @include body-9-medium
   border: 1px solid $color-gray-3
-  font-weight: 600
-  font-size: 12px
 
 .size-item-active
-  border-color: #000
-  font-weight: 600
-  font-size: 17px
+  @include body-17-medium
+  border-color: $color-black-1
 
 .size-price
-  font-weight: 700
-  font-size: 10px
+  @include body-18-bold
   color: $color-gray-20
 
 .select-size, .all-sizes
-  font-size: 13px
+  @include body-10
 
 .select-size
   @media (min-width: 576px)
-    font-weight: 500
-    font-size: 15px
+    @include body-8-normal
     text-transform: uppercase
-    color: #000
+    color: $color-black-1
 
 .all-sizes
   @media (min-width: 576px)
+    @include body-8-normal
     color: $color-blue-30
-    font-weight: 600
-    font-size: 15px
 
-.title 
-  font-size: 18px
-  font-weight: 600
+.title
+  @include body-3-medium 
   @media (min-width: 576px)
-    font-weight: 700
-    font-size: 24px
+    @include heading-1
 
 .last-sale
-  font-family: 500
-  font-size: 14px
+  @include body-5-normal
   color: $color-gray-6
   @media (min-width: 576px)
-    font-weight: 600
+    font-weight: $medium
 
 .last-sale-value
-  font-weight: 500
-  font-size: 12px
-  color: #36A60F
+  @include body-9-normal
+  color: $color-green-26
   @media (min-width: 576px)
-    font-weight: 600
-    font-size: 14px
+    @include body-5-medium
 
 .label
-  font-size: 13px
-  font-weight: 600
+  @include body-10-medium
 
 .box
-  font-size: 14px
-  font-weight: 600
-  color: #000
+  @include body-5-medium
+  color: $color-black-1
   @media (min-width: 576px)
-    font-weight: 500
-    font-size: 15px
+    @include body-8-normal
     text-transform: uppercase
 
 .back-to-wants
@@ -724,8 +698,7 @@ export default {
   color: $color-black-1
 
 .value
-  font-weight: 500
-  font-size: 14px
+  @include body-5-normal
   color: $color-blue-20
 
 .wd-724
@@ -748,42 +721,39 @@ export default {
     background: $light-opacity
 
 .create-trade-select-box
+  @include body-5-normal
   border-radius: 0
   margin-top: 15px
   background-color: $color-white-1
-  border: 1px solid #000
-  font-weight: 500
-  font-size: 14px
+  border: 1px solid $color-black-1
 
 .create-trade-quantity-box
+  @include body-5-normal
   margin-top: 15px
   background-color: $color-white-1
-  border: 1px solid #000
-  font-weight: 500
-  font-size: 14px
+  border: 1px solid $color-black-1
 
 .btn-width
   width: 203px
 
 .form-label
+  @include body-9
   margin-bottom: 9px
-  font-size: 12px
-  font-weight: 600 !important
-  color: #000
+  font-weight: $medium !important
+  color: $color-black-1
   @media (min-width: 576px)
-    font-weight: 500 !important
-    font-size: 15px
+    @include body-8
+    font-weight: $normal !important
     text-transform: uppercase
 
 .add-want-button
+  @icnlude body-4-medium
   height: 40px
-  background: #000
+  background: $color-black-1
   display: flex
   align-items: center
   justify-content: center
-  font-weight: 600
-  font-size: 16px
-  color: #FFF
+  color: $color-white-1
   border-radius: 25px
   margin-top: 40px
   @media (min-width: 576px)
@@ -791,13 +761,13 @@ export default {
     margin-top: 0
 
 .product-details-label, .product-details-value
+  @include body-3
   line-height: 30px
   font-family: $font-family-sf-pro-display
-  font-weight: 500
-  font-size: 18px
+  font-weight: $normal
 
 .product-details-label
-  color: #000
+  color: $color-black-1
 
 .product-details-value
   color: $color-gray-5
@@ -812,8 +782,7 @@ export default {
     border-bottom: 1px solid $color-gray-16f
 
 .box-item
-  font-weight: 500
-  font-size: 15px
+  @include body-8-normal
   color: $color-gray-23
 
 .form-input
@@ -827,6 +796,7 @@ export default {
     height: 40px
 
 .mobile-input
+  @include body-9-medium
   height: 49px
   padding-left: 15px
   padding-right: 15px
@@ -835,8 +805,6 @@ export default {
   display: flex
   align-items: center
   justify-content: space-between
-  font-weight: 600
-  font-size: 12px
 
 .close-table
   position: relative

@@ -1,6 +1,7 @@
 <template>
   <div 
     class="custom-dropdown text-gray" 
+    :hasHeaderDivider="false"
     :style="{
       'min-width': width, 
       'height': dropDownHeight, 
@@ -25,7 +26,7 @@
         <img v-if="labelLeftImage !== null" :src="labelLeftImage" class="mr-2">
         {{label}}
       </label>
-      <i :style="iconStyle" class="pull-right  pr-1 fa fa-2x" :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"></i>
+      <i :style="iconStyle" class="pull-right pr-1 fa fa-2x" :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"></i>
     </div>
     <ul 
       v-if="isOpen" 
@@ -42,8 +43,8 @@
         v-for="(option, key) of listOptions" :key="key"
         :class="`${optionsWidth}-color ${combinationId && 'pointer-event-none'}`"
         class="d-flex justify-content-between align-items-center"
-        @click="selectOption((option.value ? option.value : option))"
         :style="dropdownItemStyle"
+        @click="selectOption((option.value ? option.value : option))"
       >
         <span>{{ (option.value) ? option.text : option }}</span>
         <input class="mr-2" :checked="value.includes(option.value)" type="checkbox"  />
@@ -206,12 +207,10 @@ export default {
       })
       .then((response) => { 
         response.data.data.data.forEach((item) => {
-          if (item.combination_items.length > 0) {
-            this.listOptions.push({
-              text: this.$t('trades.wants_listing.create_combination', { count: item.combination_id }),
-              value: item.combination_id
-            })
-          }
+          this.listOptions.push({
+            text: this.$t('trades.wants_listing.create_combination', { count: item.combination_id }),
+            value: item.combination_id
+          })
         });
       })
       .catch((err) => {

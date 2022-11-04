@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="d-block d-md-none product-info">
-      <div class="product-name">{{ product.name }}</div>
+      <div class="product-name">{{ product.name | wordLimit }}</div>
       <div class="product-color">{{ product.colorway }}</div>
       <div class="product-sku">{{ $t('orders.sku') }}: {{ product.sku }}</div>
     </div>
@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     brandNameToLogoUrl(name) {
-      const brand = this.filters.brands.find(b => b.name === name)
+      const brand = this.filters.brands?.find(b => b.name === name)
       if (brand) {
         return brand.image
       }

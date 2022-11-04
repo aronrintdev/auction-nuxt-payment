@@ -2,19 +2,20 @@
   <MobileBottomSheet
     :max-height="'80%'"
     :open="isOpen"
-    @closed="$emit('closed')"
-    @opened="$emit('opened')"
     :headerStyle="{
       display: 'none !important'
     }"
+    :hasHeaderDivider="false"
+    @closed="$emit('closed')"
+    @opened="$emit('opened')"
   >
     <div class="">
       <div class="header">
         {{ $t('common.filter_by') }}
         <img 
+          :src="require('assets/img/icons/close-gray.svg')" 
+          class="close-icon"
           @click="$emit('closed')" 
-          :src="require('assets/img/icons/close-gray.svg')"
-          class="close-icon" 
         />
       </div>
 
@@ -119,12 +120,11 @@
 </template>
 
 <script>
-/* eslint-disable vue/no-unused-components */
 import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
 import FilterAccordion from '~/components/mobile/FilterAccordion';
 import Button from '~/components/common/Button';
 import ButtonSelector from '~/components/mobile/ButtonSelector';
-import { SIZE_TYPES, WANTS_SORT_OPTIONS } from '~/static/constants/trades'
+import { SIZE_TYPES, WANTS_SORT_OPTIONS, PRICE_ASC } from '~/static/constants/trades'
 import { APPAREL_SIZES } from '~/static/constants/sizes'
 
 
@@ -156,7 +156,7 @@ export default {
       sortOptions: WANTS_SORT_OPTIONS.map(item => ({ text: this.$t(item.text), value: item.value })),
       sizeOptions: APPAREL_SIZES.map(item => ({ text: item, value: item })),
       filters: {
-        sortBy: 'price_asc',
+        sortBy: PRICE_ASC,
         size_type: [],
         category: { text: '', value: '' },
         size: []
@@ -171,7 +171,7 @@ export default {
     },
     filterChangeCount() {
       let count = 0
-      if (this.filters.sortBy !== 'price_asc') {
+      if (this.filters.sortBy !== PRICE_ASC) {
         count++
       }
       if (this.filters.category.value.length > 0) {
@@ -217,7 +217,7 @@ export default {
   methods: {
     resetForm() {
       this.filters = {
-        sortBy: 'price_asc',
+        sortBy: PRICE_ASC,
         size_type: [],
         category: { text: '', value: '' },
         size: []
@@ -245,10 +245,9 @@ export default {
 @import '~/assets/css/_variables'
 
 .header
-  color: #000
+  @include body-17-bold
+  color: $color-black-1
   font-family: $font-family-sf-pro-display
-  font-weight: 700
-  font-size: 17px
   border-bottom: 1px solid $color-gray-4
   padding: 0 30px 18px 30px
   display: flex
@@ -266,19 +265,17 @@ export default {
   padding-right: 29px
 
 .label
+  @include body-4-bold
   font-family: $font-family-sf-pro-display
-  font-weight: 700
-  font-size: 16px
   color: $color-blue-20
 
 .sort-option
+  @include body-5-normal
   font-family: $font-family-sf-pro-display
-  font-weight: 500
-  font-size: 14px
   margin-left: 10px
 
 .radio-button[type="radio"]
-  accent-color: #000
+  accent-color: $color-black-1
 
 .separator
   width: 100%

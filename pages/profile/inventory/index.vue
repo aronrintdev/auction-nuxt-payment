@@ -1,206 +1,210 @@
 <template>
-  <b-container :class="mobileClass" class="container-profile-inventory h-100" fluid>
-    <div v-if="!isScreenXS" class="d-flex justify-content-between align-items-center">
-      <h2 class="title">{{ $tc('common.inventory', 1) }}</h2>
-      <Button
-          to="/profile/inventory/csv-drafts"
-          variant="link"
-          class="btn-draft"
-          underlinedText
-          :disabled="!csvDrafts.length"
-      >{{ $t('inventory.csv_drafts') }} ({{ csvDrafts.length }})
-      </Button
-      >
-    </div>
-
-    <div v-if="isScreenXS" class="d-flex align-items-center justify-content-between">
-      <MobileSearchInput
-          class="w-100"
-          @input="handleSearch"
-      />
-      <filter-svg class="ml-3" role="button"
-                  @click="mobileFiltersOpen = !mobileFiltersOpen"></filter-svg>
-    </div>
-    <div :class="`d-flex justify-content-${!isScreenXS? 'between mt-3': 'center mt-4'}  align-items-center`">
-      <div v-if="!isScreenXS" class="products-count">
-        {{ $tc('common.product', totalCount) }}({{ totalCount }})
+  <client-only>
+    <b-container :class="mobileClass" class="container-profile-inventory h-100" fluid>
+      <div v-if="!isScreenXS" class="d-flex justify-content-between align-items-center">
+        <h2 class="title">{{ $tc('common.inventory', 1) }}</h2>
+        <Button
+            :disabled="!csvDrafts.length"
+            class="btn-draft"
+            to="/profile/inventory/csv-drafts"
+            underlinedText
+            variant="link"
+        >{{ $t('inventory.csv_drafts') }} ({{ csvDrafts.length }})
+        </Button
+        >
       </div>
 
-      <NavGroup
-          :value="type"
-          nav-key="list-type"
-          :data="TYPES"
-          :class="`${isScreenXS && 'w-100'}`"
-          @change="handleTypeChange"
-      />
-
-      <Button
-          v-if="!isScreenXS"
-          variant="dark"
-          class="btn-add"
-          @click="moveToCreateInventory"
-        >{{ $t('inventory.add_inventory') }}</Button
-      >
-    </div>
-
-    <div v-if="!isScreenXS" class="d-flex justify-content-between align-items-center mt-4">
-      <SearchInput
-          :value="search"
-          :placeholder="$t('inventory.search_placeholder')"
-          class="flex-grow-1 mr-4"
-          :debounce="1000"
-          @change="handleSearch"
-      />
-
-      <FormDropdown
-          id="inventory-filters"
-        :value="category"
-        :placeholder="$tc('common.filter', 1)"
-        :items="FILTERS"
-        :icon="require('~/assets/img/icons/three-lines.svg')"
-        class="dropdown-filters mr-4"
-        no-arrow
-        can-clear
-        @select="handleFilterSelect"
-      />
-
-      <FormDropdown
-          id="inventory-actions"
-          :placeholder="$tc('common.action', 2)"
-          :items="ACTIONS"
-          class="dropdown-actions"
-          :icon-arrow-up="require('~/assets/img/icons/arrow-up-blue.svg')"
-          :icon-arrow-down="require('~/assets/img/icons/arrow-down-blue.svg')"
-          @select="handleActionSelect"
-      />
-    </div>
-
-    <div v-if="isScreenXS" class="d-flex align-items-center justify-content-between mt-4">
-      <div class="products-count">
-        {{ $tc('common.inventory', totalCount) }}({{ totalCount }})
+      <div v-if="isScreenXS" class="d-flex align-items-center justify-content-between">
+        <MobileSearchInput
+            :value="search"
+            class="w-100"
+            @input="handleSearch"
+        />
+        <filter-svg class="ml-3" role="button"
+                    @click="mobileFiltersOpen = !mobileFiltersOpen"></filter-svg>
       </div>
-      <div class="d-flex align-items-center" @click="moveToCreateInventory">
-        <add-svg class="add-svg mr-2" height="13" width="13"/>
-        <span class="add-text">
+      <div :class="`d-flex justify-content-${!isScreenXS? 'between mt-3': 'center mt-4'}  align-items-center`">
+        <div v-if="!isScreenXS" class="products-count">
+          {{ $tc('common.product', totalCount) }}({{ totalCount }})
+        </div>
+
+        <NavGroup
+            :class="`${isScreenXS && 'w-100'}`"
+            :data="TYPES"
+            :value="inventoryType"
+            nav-key="list-type"
+            @change="handleTypeChange"
+        />
+
+        <Button
+            v-if="!isScreenXS"
+            class="btn-add"
+            variant="dark"
+            @click="moveToCreateInventory"
+        >{{ $t('inventory.add_inventory') }}
+        </Button
+        >
+      </div>
+
+      <div v-if="!isScreenXS" class="d-flex justify-content-between align-items-center mt-4">
+        <SearchInput
+            :debounce="1000"
+            :placeholder="$t('inventory.search_placeholder')"
+            :value="search"
+            class="flex-grow-1 mr-4"
+            @change="handleSearch"
+        />
+
+        <FormDropdown
+            id="inventory-filters"
+            :icon="require('~/assets/img/icons/three-lines.svg')"
+            :items="FILTERS"
+            :placeholder="$tc('common.filter', 1)"
+            :value="category"
+            can-clear
+            class="dropdown-filters mr-4"
+            no-arrow
+            @select="handleFilterSelect"
+        />
+
+        <FormDropdown
+            id="inventory-actions"
+            :icon-arrow-down="require('~/assets/img/icons/arrow-down-blue.svg')"
+            :icon-arrow-up="require('~/assets/img/icons/arrow-up-blue.svg')"
+            :items="ACTIONS"
+            :placeholder="$tc('common.action', 2)"
+            class="dropdown-actions"
+            @select="handleActionSelect"
+        />
+      </div>
+
+      <div v-if="isScreenXS" class="d-flex align-items-center justify-content-between mt-4">
+        <div class="products-count">
+          {{ $tc('common.inventory', totalCount) }}({{ totalCount }})
+        </div>
+        <div class="d-flex align-items-center" @click="moveToCreateInventory">
+          <add-svg class="add-svg mr-2" height="13" width="13"/>
+          <span class="add-text">
           {{ $t('createlisting.create_new_inventory') }}
         </span>
+        </div>
       </div>
-    </div>
 
-    <BulkSelectToolbar
-        ref="bulkSelectToolbar"
-        :active="!!action"
-        :selected="selected"
-        :unit-label="$tc('common.product', selected.length)"
-        :total="inventories.length"
-        :action-label="$tc(`inventory.${action}_selected`)"
-        class="mt-3"
-        @close="cancelAction()"
-      @selectAll="handleSelectAll()"
-      @deselectAll="handleDeselectAll()"
-      @submit="handleBulkAction()"
-    />
-
-    <Loader v-if="loading" :loading="loading"/>
-    <div v-else>
-      <b-row v-if="inventories.length > 0" :class="(!action && !isScreenXS && 'mt-3 ') + mobileClass"
-             class=" items-wrapper ">
-        <b-col
-            v-for="inventory in inventories"
-            :key="`inventory-${inventory.id}`"
-            :class="`${isScreenXS && 'col-xs-6'}`"
-            class="inventory-card col-sm-3"
-        >
-          <NewInventoryCard
-              :inventory="inventory"
-              :selectable="!!action"
-              :selected="!!selected.find((id) => id == inventory.id)"
-
-              class="my-3"
-              @select="selectItem"
-              @list="selectList"
-          />
-        </b-col>
-      </b-row>
-
-      <Pagination
-        v-if="inventories.length > 0"
-        v-model="page"
-        :total="totalCount"
-        :per-page="perPage"
-        :per-page-options="perPageOptions"
-        class="mt-2"
-        @page-click="handlePageClick"
-        @per-page-change="handlePerPageChange"
+      <BulkSelectToolbar
+          ref="bulkSelectToolbar"
+          :action-label="$tc(`inventory.${action}_selected`)"
+          :active="!!action"
+          :selected="selected"
+          :total="inventories.length"
+          :unit-label="$tc('common.product', selected.length)"
+          class="mt-3"
+          @close="cancelAction()"
+          @deselectAll="handleDeselectAll()"
+          @selectAll="handleSelectAll()"
+          @submit="handleBulkAction()"
       />
-    </div>
 
-    <ConfirmModal
-      id="confirm-delete-modal"
-      :message="$t('inventory.message.confirm_delete')"
-      :confirmLabel="$t('common.delete')"
-      @confirm="onConfirmDelete"
-    />
-
-    <AlertModal
-        id="deleted-message-modal"
-        :message="$t('inventory.message.deleted')"
-        icon="trash"
-        auto-hide
-        @hidden="onDeletedModalHidden"
-    />
-
-    <AlertModal
-        id="exported-message-modal"
-        :message="$t('inventory.message.exported')"
-        icon="tick"
-        auto-hide
-        @hidden="onExportedModalHidden"
-    />
-
-
-    <MobileBottomSheet
-        :max-height="'50%'"
-        :open="mobileFiltersOpen"
-        :title="$t('notifications.filter_by')"
-        @closed="mobileFiltersOpen = false"
-        @opened="mobileFiltersOpen = true">
-
-      <div class="filter-content py-2 px-4 d-flex flex-column justify-content-between">
-        <div class="my-2 flex-grow-1">
-          <FilterAccordion :open="true" :title="$tc('common.category', 1)">
-            <div class="mt-2">
-              <ButtonSelector :options="mobileFilters" :single="true" :values="category"
-                              @change="handeMobileFilterSelect"/>
-            </div>
-          </FilterAccordion>
-        </div>
-        <div class="d-flex align-items-center justify-content-between">
-          <Button
-              class="filter-button"
-              pill
-              variant="outline-dark"
-              @click="category = null; mobileFiltersOpen = false"
+      <Loader v-if="loading" :loading="loading"/>
+      <div v-else>
+        <b-row v-if="inventories.length > 0" :class="(!action && !isScreenXS && 'mt-3 ') + mobileClass"
+               class=" items-wrapper ">
+          <b-col
+              v-for="inventory in inventories"
+              :key="`inventory-${inventory.id}`"
+              :class="`${isScreenXS && 'col-xs-6'}`"
+              class="inventory-card col-sm-3"
           >
-            {{ $t('notifications.reset') }}
-          </Button>
+            <NewInventoryCard
+                :inventory="inventory"
+                :selectable="!!action"
+                :selected="!!selected.find((id) => id == inventory.id)"
 
-          <Button
-              :disabled="loading"
-              class="filter-button apply-filters"
-              pill
-              variant="dark-blue"
-              @click="getInventories"
-          >
-            {{ $t('notifications.apply_filters') }}
-          </Button>
-        </div>
+                class="my-3"
+                @list="selectList"
+                @select="selectItem"
+            />
+          </b-col>
+        </b-row>
+
+        <Pagination
+            v-if="inventories.length > 0"
+            v-model="page"
+            :per-page="perPage"
+            :per-page-options="perPageOptions"
+            :total="totalCount"
+            class="mt-2"
+            @page-click="handlePageClick"
+            @per-page-change="handlePerPageChange"
+        />
       </div>
-    </MobileBottomSheet>
-  </b-container>
+
+      <ConfirmModal
+          id="confirm-delete-modal"
+          :confirmLabel="$t('common.delete')"
+          :message="$t('inventory.message.confirm_delete')"
+          @confirm="onConfirmDelete"
+      />
+
+      <AlertModal
+          id="deleted-message-modal"
+          :message="$t('inventory.message.deleted')"
+          auto-hide
+          icon="trash"
+          @hidden="onDeletedModalHidden"
+      />
+
+      <AlertModal
+          id="exported-message-modal"
+          :message="$t('inventory.message.exported')"
+          auto-hide
+          icon="tick"
+          @hidden="onExportedModalHidden"
+      />
+
+
+      <MobileBottomSheet
+          :max-height="'50%'"
+          :open="mobileFiltersOpen"
+          :title="$t('notifications.filter_by')"
+          @closed="mobileFiltersOpen = false"
+          @opened="mobileFiltersOpen = true">
+
+        <div class="filter-content py-2 px-4 d-flex flex-column justify-content-between">
+          <div class="my-2 flex-grow-1">
+            <FilterAccordion :open="true" :title="$tc('common.category', 1)">
+              <div class="mt-2">
+                <ButtonSelector :options="mobileFilters" :single="true" :values="category"
+                                @change="handeMobileFilterSelect"/>
+              </div>
+            </FilterAccordion>
+          </div>
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <Button
+                class="filter-button"
+                pill
+                variant="outline-dark"
+                @click="resetFilter"
+            >
+              {{ $t('notifications.reset') }}
+            </Button>
+
+            <Button
+                :disabled="loading"
+                class="filter-button apply-filters"
+                pill
+                variant="dark-blue"
+                @click="getInventories"
+            >
+              {{ $t('notifications.apply_filters') }}
+            </Button>
+          </div>
+        </div>
+      </MobileBottomSheet>
+    </b-container>
+  </client-only>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import {
   Button,
   NavGroup,
@@ -254,9 +258,9 @@ export default {
       mobileFiltersOpen: false,
       action: null,
       selected: [],
-      type: 'available',
+      inventoryType: 'available',
       category: null,
-      search: null,
+      search: '',
       page: 1,
       perPage: null,
       totalCount: 0,
@@ -345,9 +349,6 @@ export default {
     window.removeEventListener('resize', this.updatePerPageOptions)
   },
 
-  mounted() {
-  },
-
   methods: {
     ...mapActions({
       fetchInventories: 'inventory/fetchInventories',
@@ -376,7 +377,10 @@ export default {
         this.getInventories()
       }
     },
-
+    resetFilter() {
+      this.category = null
+      this.getInventories()
+    },
     getInventories() {
       this.loading = true
       this.fetchInventories({
@@ -384,12 +388,14 @@ export default {
         page: this.page,
         per_page: this.perPage,
         category: this.category,
-        type: this.type,
+        type: this.inventoryType,
       }).then((res) => {
         this.inventories = res.data
         this.totalCount = parseInt(res.total)
         this.perPage = parseInt(res.per_page)
+      }).finally(() => {
         this.loading = false
+        this.mobileFiltersOpen = false
       })
     },
 
@@ -400,13 +406,13 @@ export default {
     },
 
     handleTypeChange(type) {
-      if (type !== this.type) {
-        this.type = type
+      if (type !== this.inventoryType) {
+        this.inventoryType = type
         this.getInventories()
       }
     },
     handeMobileFilterSelect(item) {
-      this.category = item.value
+      this.category = item
     },
     handleFilterSelect(item) {
       if (item && item.value !== this.category) {
@@ -464,7 +470,7 @@ export default {
       if (!this.selected?.length) return
 
       if (this.action === 'list') {
-        if (this.type === 'selling') {
+        if (this.inventoryType === 'selling') {
           this.selected.forEach((value) => {
             this.$axios.get(`inventories/${value}`).then((res) => {
               const items = {
@@ -483,12 +489,12 @@ export default {
 
           this.$router.push({
             path: '/profile/create-listing/selling/confirm',
-            query: { path: 'from-inventory' },
+            query: {path: 'from-inventory'},
           })
         } else {
           this.$router.push({
             path: '/sell/create-listing',
-            query: { id: this.selected },
+            query: {id: this.selected},
           })
         }
       } else if (this.action === 'delete') {
@@ -499,7 +505,7 @@ export default {
     },
 
     onConfirmDelete() {
-      this.deleteInventories({ ids: this.selected }).then((res) => {
+      this.deleteInventories({ids: this.selected}).then((res) => {
         this.$bvModal.show('deleted-message-modal')
       })
     },
@@ -527,20 +533,20 @@ export default {
           'price',
         ].join(','),
         ...this.inventories
-          .filter((i) => this.selected.includes(i.id))
-          .map((i) =>
-            [
-              i.product.name,
-              i.product.sku,
-              i.size.size,
-              i.packaging_condition.name,
-              i.stock,
-              i.sale_price / 100,
-            ].join(',')
-          ),
+            .filter((i) => this.selected.includes(i.id))
+            .map((i) =>
+                [
+                  i.product.name,
+                  i.product.sku,
+                  i.size.size,
+                  i.packaging_condition.name,
+                  i.stock,
+                  i.sale_price / 100,
+                ].join(',')
+            ),
       ]
-        .join('\n')
-        .replace(/(^\[)|(\]$)/gm, '')
+          .join('\n')
+          .replace(/(^\[)|(\]$)/gm, '')
 
       const data = encodeURI(csvContent)
       const link = document.createElement('a')
@@ -557,8 +563,8 @@ export default {
       this.$router.push('/profile/inventory/search')
     },
 
-    selectList({ inventory, checked }) {
-      if (this.type === 'selling') {
+    selectList({inventory, checked}) {
+      if (this.inventoryType === 'selling') {
         if (checked) {
           this.toList.push(inventory)
         } else {
@@ -579,7 +585,7 @@ export default {
         })
         return this.$router.push({
           path: '/profile/create-listing/selling/confirm',
-          query: { path: 'from-inventory' },
+          query: {path: 'from-inventory'},
         })
       } else {
         this.$router.push('/profile/create-listing')
@@ -649,11 +655,11 @@ export default {
         border-top-right-radius: 10px
         border-bottom-left-radius: 0
         border-bottom-right-radius: 0
-        // border-bottom: 1px solid $color-gray-23
+    // border-bottom: 1px solid $color-gray-23
 
     .search-results
       .popover-body
-        >div
+        > div
           @include body-4-normal
           font-family: $font-family-base
           color: $color-gray-5
@@ -691,7 +697,7 @@ export default {
 
     .search-results
       .popover-body
-        >div
+        > div
           @include body-4-normal
           font-family: $font-family-base
           color: $color-black-1

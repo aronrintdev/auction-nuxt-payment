@@ -2,11 +2,11 @@
   <MobileBottomSheet
     :max-height="'30%'"
     :open="isOpen"
-    @closed="$emit('closed')"
-    @opened="$emit('opened')"
     :headerStyle="{
       display: 'none !important'
     }"
+    @closed="$emit('closed')"
+    @opened="$emit('opened')"
   >
   <div class="d-flex flex-column">
     <div class="d-flex">
@@ -46,7 +46,6 @@
 </template>
 
 <script>
-/* eslint-disable vue/no-unused-components */
 import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
 
 
@@ -71,24 +70,6 @@ export default {
       default: null
     }
   },
-
-  data() {
-    return {
-      
-    };
-  },
-
-  computed: {
-    
-  },
-  
-  mounted() {
-  },
-
-  methods: {
-    
-    
-  }
 }
 </script>
 
@@ -96,26 +77,26 @@ export default {
 @import '~/assets/css/_variables'
 
 .title
+  @include body-17
   font-family: $font-family-sf-pro-display
-  font-weight: 700
-  font-size: 17px
-  color: #000
+  font-weight: $bold
+  color: $color-black-1
 
 .sub-header
   font-family: $font-family-sf-pro-display
   color: $color-gray-5
-  font-weight: 500
-  font-size: 12px
+  font-weight: $normal
+  font-size: $font-size-12
 
 .action
+  @include body-17
   display: flex
   align-items: center
   height: 54px
   border-top: 0.5px solid $color-gray-47
   font-family: $font-family-sf-pro-display
-  font-weight: 500
-  color: #000
-  font-size: 17px
+  font-weight: $normal
+  color: $color-black-1
   padding-left: 20px
 
 </style>
