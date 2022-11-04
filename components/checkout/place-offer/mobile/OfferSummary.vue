@@ -1,226 +1,95 @@
 <template>
-  <!-- Offer Summary -->
   <b-row>
     <b-col cols="12" sm="12">
       <!-- Top Title -->
       <ShoppingBagTitle
-        :title="name"
+        :title="$t('place_offer.offer_summary')"
         text-center
         class="mt-0"
-      />
+      >
+        <template #back-arrow>
+          <ArrowLeftBlackSVG class="back-arrow" @click="emitRenderComponentEvent($parent.$options.components.CheckoutSummary.name)"/>
+        </template>
+      </ShoppingBagTitle>
       <!-- End of Top Title -->
 
-      <!-- Sub Title -->
+      <!-- Quantity of Items Purchased Indication -->
       <b-row class="quantity-wrapper">
         <b-col cols="12" sm="12">
           <div class="body-5-normal text-gray-25 text-center">
-            {{ subTitle }}
+            {{ name }}
           </div>
         </b-col>
       </b-row>
-      <!-- End of Sub Title -->
+      <!-- End of Quantity of Items Purchased Indication -->
 
-      <!-- User Actions List Items -->
-      <b-row class="options-wrapper">
-        <b-col cols="12" sm="12">
-          <b-list-group>
-            <b-list-group-item @click="handleShippingAddressClick">
-              <b-row class="d-flex">
-                <b-col cols="3" sm="3">
-                  <span class="text-black body-17-normal">{{ $t('shopping_cart.shipping') }}</span>
-                </b-col>
-                <b-col v-if="shippingAddress" cols="9" sm="9" class="text-right">
-                  <div>
-                    <span class="option-action text-gray-25 body-5-regular">{{ getShippingFullName }}</span>
-                    <ArrowRightBlackSVG />
-                  </div>
-                  <div class="shipping-detail text-gray-25 body-5-regular">{{ getShippingAddress }}</div>
-                  <div class="shipping-detail text-gray-25 body-5-regular">{{ getShippingCity }}</div>
-                  <div class="shipping-detail text-gray-25 body-5-regular">{{ getShippingCountry }}</div>
-                </b-col>
-                <b-col v-else cols="9" sm="9" class="text-right">
-                  <span class="option-action text-blue-20 body-5-normal">{{ $t('shopping_cart.add_shipping') }}</span>
-                  <ArrowRightBlackSVG />
-                </b-col>
-              </b-row>
-            </b-list-group-item>
-            <b-list-group-item @click="emitRenderComponentEvent($parent.$options.components.PaymentOptionsMenu.name)">
-              <PaymentDetailsListItem />
-            </b-list-group-item>
-            <b-list-group-item @click="emitRenderComponentEvent($parent.$options.components.OrderSummary.name)">
-              <b-row>
-                <b-col cols="6" sm="6">
-                  <span class="text-black body-17-normal">{{ $t('place_offer.offer_summary') }}</span>
-                </b-col>
-                <b-col cols="6" sm="6" class="text-right">
-                  <span class="option-action text-gray-25 body-5-normal">{{ getTotal | toCurrency }}</span>
-                  <ArrowRightBlackSVG />
-                </b-col>
-              </b-row>
-            </b-list-group-item>
-          </b-list-group>
+      <OrderSummaryCard
+        :items="getItems"
+        :promo-code="promoCode"
+        :promo-code-discount="getPromoDiscount"
+        @clear-promo="removePromoCode"
+      >
+        <template #label>
+          <div class="section-title body-5-medium">{{ $t('shopping_cart.total') }}&colon;</div>
+        </template>
+      </OrderSummaryCard>
+
+      <PromoCodeInput v-if="!promoCode" @click="applyPromoCode">
+        <template #label>
+          <div class="section-title body-5-medium">{{ $t('shopping_cart.promo_code') }}&colon;</div>
+        </template>
+      </PromoCodeInput>
+
+      <!-- Estimated Total -->
+      <b-row class="estimated-total-wrapper">
+        <b-col cols="6" sm="6">
+          <span class="body-5-normal text-black">{{ $t('shopping_cart.estimated_total') }}&colon;</span>
+        </b-col>
+        <b-col cols="6" sm="6" class="text-right">
+          <span class="body-5-normal text-black">{{ getTotal | toCurrency }}</span>
         </b-col>
       </b-row>
-      <!-- End of User Actions List Items -->
-
-      <!-- Terms And Conditions Text -->
-      <b-row class="mt-3 terms-and-conditions">
-        <b-col cols="12" sm="12">
-          <i18n
-            path="shopping_cart.terms_and_conditions_paragraph_mobile"
-            tag="div"
-            class="body-10-normal text-center text-gray-25"
-          >
-            <span class="text-blue-30 text-decoration-underline" role="button" @click="$router.push('/terms-and-conditions')">{{ $t('shopping_cart.terms_and_conditions') }}</span>
-          </i18n>
-        </b-col>
-      </b-row>
-      <!-- End of Terms And Conditions Text -->
-
-      <!-- Offer Accepted Text -->
-      <b-row class="mt-3">
-        <b-col cols="12" sm="12" class="text-center">
-          <span class="body-10-regular text-gray-25">
-            {{ $t('place_offer.offer_accepted_text') }}&period;
-          </span>
-        </b-col>
-      </b-row>
-      <!-- End of Offer Accepted Text -->
+      <!-- End of Estimated Total -->
 
       <!-- Shopping Bag Place Order Button -->
-      <b-row class="place-offer-wrapper">
+      <b-row class="place-order-wrapper">
         <b-col v-if="loading" md="12" class="text-center">
-          <b-spinner variant="blue-20"></b-spinner>
+          <b-spinner variant="color-blue-2"></b-spinner>
         </b-col>
         <b-col v-else md="12" class="text-center">
-          <Button :disabled="! canPlaceOffer" type="button" variant="dark-blue" pill @click="placeOffer">{{
+          <Button :disabled="! canPlaceOffer" type="button" variant="dark-blue" pill>{{
               $t('place_offer.place_offer')}}
           </Button>
         </b-col>
       </b-row><!-- End of Shopping Bag Place Order Button -->
     </b-col>
-  </b-row><!-- End of Offer Summary -->
+  </b-row>
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import { mapActions } from 'vuex'
 import emitEventMixin from '~/plugins/mixins/emit-event'
-import billingAddressMixin from '~/plugins/mixins/billing-address'
-import shippingAddressMixin from '~/plugins/mixins/shipping-address'
+import offerDetailsMixin from '~/plugins/mixins/offer-details'
 import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTitle'
-import ArrowRightBlackSVG from '~/assets/img/shopping-cart/arrow-right-black.svg?inline'
+import ArrowLeftBlackSVG from '~/assets/img/shopping-cart/arrow-left-black.svg?inline'
+import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
+import PromoCodeInput from '~/components/checkout/common/PromoCodeInput'
 import Button from '~/components/common/Button'
-import PaymentDetailsListItem from '~/components/checkout/selling/mobile/payment/PaymentDetailsListItem'
-import { AMOUNT_OFFSET, FIXED_PRODUCT, PERCENT, PERCENT_OFFSET } from '~/static/constants'
+import { BAD_REQUEST, NOT_FOUND } from '~/static/constants'
 
 export default {
   name: 'OfferSummary',
-  components: {
-    ShoppingBagTitle,
-    ArrowRightBlackSVG,
-    Button,
-    PaymentDetailsListItem,
-  },
-  mixins: [ emitEventMixin, billingAddressMixin, shippingAddressMixin ],
+  components: { ShoppingBagTitle, ArrowLeftBlackSVG, OrderSummaryCard, PromoCodeInput, Button },
+  mixins: [ emitEventMixin, offerDetailsMixin ],
   data() {
     return {
       loading: false,
-      alternativeItems: [],
     }
   },
   computed: {
-    ...mapGetters({
-      offerDetails: 'offer/getOfferDetails',
-      shippingFee: 'order-settings/getShippingFee',
-      processingFee: 'order-settings/getProcessingFee',
-      taxRate: 'tax-rate/getTaxRate',
-      promoCode: 'order-details/getPromoCode',
-      paymentMethod: 'auth/getPaymentMethod',
-      paymentToken: 'order-details/getPaymentToken',
-    }),
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    subTitle(vm) {
-      return vm.$t('shopping_cart.color')
-        + ': '
-        + vm.colorWay
-        + ' | '
-        + vm.$t('shopping_cart.size')
-        + ': '
-        + vm.size
-        + ' | '
-        + vm.$t('shopping_cart.box_condition')
-        + ': '
-        + vm.boxCondition
-    },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     name: (vm) => {
       return vm.offerDetails.product.name.substr(0, 32)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    colorWay: (vm) => {
-      return vm.offerDetails.product.colorway.substr(0, 4)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    size: (vm) => {
-      const size = vm.offerDetails.product.sizes.filter(
-        (i) => i.id === vm.offerDetails.size_id
-      )
-
-      return size[0].size
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    boxCondition: (vm) => {
-      const condition = vm.offerDetails.product.packaging_conditions.filter(
-        (i) =>  i.id === vm.offerDetails.packaging_condition_id
-      )
-
-      return condition[0].name.substr(0, 10)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getSubTotal: (vm) => {
-      return vm.offerDetails.bid_price
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getSubtotalAfterDiscount: (vm) => {
-      return Math.max(vm.getSubTotal - vm.getPromoDiscount, 0)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getProcessingFee: (vm) => {
-      return Math.trunc(vm.processingFee * vm.getSubTotal)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getTax: (vm) => {
-      return Math.trunc(vm.taxRate * vm.getSubTotal)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getTotal: (vm) => {
-      return vm.getSubtotalAfterDiscount + vm.shippingFee + vm.getProcessingFee + vm.getTax
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getPromoDiscount: (vm) => {
-      let discount = 0
-
-      if (vm.promoCode.code) {
-        switch (vm.promoCode.type) {
-          case FIXED_PRODUCT: {
-
-            if (vm.offerDetails.product.sku === vm.promoCode.sku) {
-              discount += vm.promoCode.amount * AMOUNT_OFFSET
-            }
-
-            break;
-          }
-          case PERCENT: {
-            discount += vm.getSubTotal * (vm.promoCode.amount / PERCENT_OFFSET)
-
-            break;
-          }
-          default:
-            discount += vm.promoCode.amount * AMOUNT_OFFSET
-        }
-      }
-
-      return discount
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     canPlaceOffer(vm) {
@@ -230,16 +99,30 @@ export default {
         && vm.offerDetails)
     }
   },
-  mounted() {
-    this.getTaxRateByZip({ zip: this.billingAddress.zipCode })
-  },
   methods: {
     ...mapActions({
       addPromoCode: 'order-details/addPromoCode',
       removePromoCode: 'order-details/removePromoCode',
-      getTaxRateByZip: 'tax-rate/getTaxRateByZip',
       offerSubmit: 'offer/offerSubmit'
     }),
+    applyPromoCode(promoCode) {
+      this.$axios.post('coupons/check', {
+        promo_code: promoCode,
+        listing_items: [this.offerDetails.product]
+      }, { handleError: false }).then((response) => {
+        this.addPromoCode({
+          promoCode: response.data.data,
+        })
+      }).catch((error) => {
+        if (error.response.status === BAD_REQUEST || error.response.status === NOT_FOUND) {
+          this.$toasted.error(this.$t(error.response.data.message).toString())
+
+          return
+        }
+
+        this.$toasted.error(error)
+      })
+    },
     placeOffer(){
       this.offerSubmit({
         billingAddress: this.billingAddress,
@@ -262,14 +145,7 @@ export default {
         this.$logger.logToServer('Place Offer Error', err.response);
       })
     },
-    handleShippingAddressClick() {
-      if (this.shippingAddress) {
-        this.emitRenderComponentEvent(this.$parent.$options.components.ShippingInformation.name)
-      } else {
-        this.emitRenderComponentEvent(this.$parent.$options.components.ShippingForm.name)
-      }
-    },
-  },
+  }
 }
 </script>
 
@@ -279,40 +155,26 @@ export default {
 .quantity-wrapper
   margin-top: 7px
 
-.options-wrapper
-  margin-top: 20px
+.section-title
+  margin-bottom: 7px
 
-  .list-group-item
-    padding: 20px
-    border-color: $color-gray-23b
+.summary-wrapper
+  margin-bottom: 0
+  padding-bottom: 19px
+  border-bottom: 1px solid $color-gray-23b
 
-    .option-action
-      margin-right: 29px
-      margin-left: 8px
+.promo-wrapper
+  border-bottom: none
+  margin-top: 19px
+  padding-bottom: 0
 
-    .shipping-detail
-      margin-right: 41px
+.estimated-total-wrapper
+  margin: 31px 40px 0
 
-    .gift-card-detail
-      margin-left: 10px
-
-    &:hover, &:active, &:focus
-      background: $color-gray-23b
-
-.terms-and-conditions
-  div
-    font-family: 'SF Pro Text', serif
-
-.place-offer-wrapper
+.place-order-wrapper
   margin: 41px 0
 
   .btn
     min-width: 216px
     min-height: 40px
-
-    &:disabled
-      border: none
-      background: $color-gray-1
-      color: $color-gray-47
-
 </style>

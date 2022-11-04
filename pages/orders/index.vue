@@ -38,17 +38,17 @@ export default {
   },
   layout: 'Profile',
   middleware: 'auth',
-  async fetch() {
+  computed: {
+    ...mapGetters('vendors', [
+      'totalOrders'
+    ])
+  },
+  async mounted() {
     this.loadingFilter = true
     await this.getVendorsOrders(1)
     await this.fetchCategories()
     await this.fetchFilters()
     this.loadingFilter = false
-  },
-  computed: {
-    ...mapGetters('vendors', [
-      'totalOrders'
-    ])
   },
   methods: {
     ...mapActions({

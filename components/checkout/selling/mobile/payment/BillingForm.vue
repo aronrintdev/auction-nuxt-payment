@@ -8,7 +8,7 @@
         class="mt-0"
       >
         <template #back-arrow>
-          <ArrowLeftBlackSVG class="back-arrow" @click="emitRenderComponentEvent($parent.$options.components.PaymentOptionsMenu.name)"/>
+          <ArrowLeftBlackSVG class="back-arrow" @click="handleBackClick"/>
         </template>
       </ShoppingBagTitle>
       <!-- End of Top Title -->
@@ -80,6 +80,13 @@ export default {
       updateAddress: 'auth/updateAddress',
       getTaxRateByZip: 'tax-rate/getTaxRateByZip',
     }),
+    handleBackClick() {
+      if ('PaymentOptionsMenu' in this.$parent.$options.components) {
+        this.emitRenderComponentEvent(this.$parent.$options.components.PaymentOptionsMenu.name)
+      } else {
+        this.emitRenderComponentEvent(this.$parent.$options.components.CheckoutSummary.name)
+      }
+    },
     handleFormSubmit(form) {
       // Update the shipping address in the case were this is the billing address being edited. (Only if "Use as Shipping" is checked)
       if (form.inputForShipping) {
