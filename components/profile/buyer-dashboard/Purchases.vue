@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-2">
     <div class="row mt-2 mb-2 my-sm-5">
       <div class="col-6 col-md-3">
         <h1 class="font-secondary fs-24 fw-7 mb-0 heading">
@@ -7,7 +7,7 @@
         </h1>
       </div>
       <div class="d-none col-md-6 d-sm-flex justify-content-center">
-        <NavGroup :value="activeNav" :data="menus" @change="navItem" />
+        <NavGroup :value="activeNav" :data="menus" @change="navItem"/>
       </div>
       <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
         <nuxt-link

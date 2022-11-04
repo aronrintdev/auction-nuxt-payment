@@ -14,7 +14,7 @@
     <div class="container">
       <div v-if="promotion && !loading" class="row mt-4 my-sm-4">
         <div
-            class="col-md-6 d-flex align-items-center align-items-sm-baseline flex-sm-column justify-content-center my-4 my-sm-0 order-2 order-sm-1"
+            class="col-md-5 col-xs-offset-1 d-flex align-items-center align-items-sm-baseline flex-sm-column justify-content-center my-4 my-sm-0 order-2 order-sm-1"
         >
           <h2
               class="fs-30 fw-7 font-primary mb-0 text-left promotion-title mr-2 mr-sm-0 text-nowrap text-truncate mr-1"
@@ -39,7 +39,7 @@
             </h4>
           </div>
         </div>
-        <div class="col-md-6 d-flex justify-content-center order-1 order-sm-2">
+        <div class="col-md-5  d-flex justify-content-center order-1 order-sm-2">
           <div class="car-main justify-content-center d-flex">
             <img :src="promotion.promotion_image" class="img-fluid"/>
           </div>
