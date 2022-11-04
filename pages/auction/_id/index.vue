@@ -1,5 +1,5 @@
 <template>
-  <div v-if="activeAuction" class="container-fluid auction-details p-3 p-md-4">
+  <div v-if="activeAuction" class="container-fluid overflow auction-details p-3 p-md-4">
     <div class="d-none d-md-flex align-items-center justify-content-between mb-4 auction-header">
       <div>
         <b-breadcrumb :items="breadcrumbItems"></b-breadcrumb>
@@ -142,8 +142,14 @@
               </b-tooltip>
             </div>
             <div class="mt-3 d-flex justify-content-between auto-bid-content">
-              <input v-model="autoBidPrice" :placeholder="$t('auctions.frontpage.up_to')" />
-              <b-btn :disabled="!autoBidPrice || parseFloat(autoBidPrice) * 100 < activeAuction.highest_bid" pill @click="placeAutoBid">{{ $t('auctions.frontpage.place_auto_bid') }}</b-btn>
+              <input v-model="autoBidPrice" v-number-only :placeholder="$t('auctions.frontpage.up_to')" />
+              <b-btn
+                :disabled="!autoBidPrice || parseFloat(autoBidPrice) * 100 < activeAuction.start_bid_price || parseFloat(autoBidPrice) * 100 < activeAuction.highest_bid"
+                pill
+                @click="placeAutoBid"
+              >
+                {{ $t('auctions.frontpage.place_auto_bid') }}
+              </b-btn>
             </div>
             <div v-if="authUser && activeAuction.auto_bid_setting" class="mt-3 text-left auto-bid-setting">
               <div>{{ $t('auctions.frontpage.prev_auto_bid_placed_at') }} ${{ activeAuction.auto_bid_setting.price | formatPrice }}</div>
@@ -785,7 +791,8 @@ export default {
       this.watchlist = newV.watchlist_item?.watchlist
       this.loadSimilarAuctions()
     },
-    placeBidPrice() {
+    placeBidPrice(value) {
+      console.log(value)
       this.showLowBidError = false
     },
   },
