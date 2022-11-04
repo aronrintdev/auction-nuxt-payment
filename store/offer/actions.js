@@ -55,7 +55,7 @@ export function offerSubmit({ commit }, payload) {
       offer_details: payload.offerDetails,
       price_details: payload.priceDetails
     }).then((res) => {
-      commit('saveOrderDetails', res.data)
+      commit('saveOrderDetails', res.data.data)
 
       resolve(res)
     }).catch((error) => {
