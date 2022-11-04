@@ -2675,6 +2675,13 @@
       "expired": "Expired",
       "delisted": "Delisted"
     },
+    "status_array": {
+      "live": "Live",
+      "expired": "Expired",
+      "delisted": "Delisted",
+      "scheduled": "Scheduled",
+      "completed": "Sold"
+    },
     "type": "Type",
     "bid": "Bid",
     "no_bid": "No Bids Found",
@@ -2765,10 +2772,9 @@
     "accept_body": "Are you sure you would like to accept the $:amount: and end this auction early?",
     "sold_body": "This auction has been sold! | You will be re-directed to your orders page. ",
     "status_types": {
-      "all": "All",
       "live": "Live",
-      "upcoming": "Upcoming",
-      "expired": "Expiring",
+      "scheduled": "Upcoming",
+      "ending_soon": "Expiring",
       "sold": "Sold"
     },
     "status_type": "Status"

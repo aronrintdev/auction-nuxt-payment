@@ -65,7 +65,7 @@
 
       <hr v-show="filterVisibility" />
 
-      <div v-show="filterVisibility" :class="`section-actions ${mobileClass} d-flex align-items-center w-100 justify-content-between`">
+      <div v-show="filterVisibility" :class="`section-actions ${mobileClass} d-flex align-items-center w-100 justify-content-between pb-4`">
         <Button v-if="filterVisibility" pill class="btn-reset btn-light" @click="resetFilter">{{
             $t('offers_received.reset')
           }}</Button>
@@ -75,11 +75,9 @@
           pill
           class="btn-apply border-0"
           @click="applyFilter()"
-        ><span
-        >{{ $t('offers_received.apply_filters') }}
-            <span v-if="count">&#40;{{ count }}&#41;</span></span
-        ></Button
         >
+          <span>{{ $t('offers_received.apply_filters') }}</span>
+        </Button>
       </div>
     </div>
   </div>
@@ -232,6 +230,30 @@ export default {
       font-style: normal
       @include body-4-bold
       color: $color-blue-20
+      
+    .custom-control::v-deep
+      display: flex
+      align-items: center
+      margin-bottom: 12px
+      label.custom-control-label
+        @include body-5
+        font-weight: $normal
+        color: $color-black-9
+        &::before,
+        &::after
+          top: 1px
+.accordion-filter-item::v-deep
+  .accordion-filter-body
+    flex-flow: row wrap
+    margin-right: -8px
+    .denomination
+      width: calc(33.33% - 8px)
+      margin-bottom: 8px
+      .add-amount-item
+        width: 100%
+        padding-left: 0
+        padding-right: 0
+
 /** Filter css ends */
 @media (max-width: 407px)
   .btn-apply
