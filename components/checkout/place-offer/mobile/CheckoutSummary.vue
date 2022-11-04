@@ -149,7 +149,7 @@ export default {
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     name: (vm) => {
-      return vm.offerDetails.product.name.substr(0, 32)
+      return vm.offerDetails.product.name.substr(0, 29)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     colorWay: (vm) => {
@@ -184,7 +184,8 @@ export default {
       addPromoCode: 'order-details/addPromoCode',
       removePromoCode: 'order-details/removePromoCode',
       getTaxRateByZip: 'tax-rate/getTaxRateByZip',
-      offerSubmit: 'offer/offerSubmit'
+      offerSubmit: 'offer/offerSubmit',
+      removePaymentToken: 'order-details/removePaymentToken',
     }),
     placeOffer() {
       this.loading = true
@@ -202,7 +203,10 @@ export default {
         },
         paymentToken: this.paymentToken
       }).then(() => {
-        this.$router.push('/checkout/place-offer/order-confirmation')
+        this.removePaymentToken().then(() => {
+          this.$parent.$parent.close()
+          this.$router.push('/checkout/place-offer/order-confirmation')
+        })
       }).catch((err) => {
         this.$logger.logToServer('Place Offer Error', err.response);
       }).finally(() => {
