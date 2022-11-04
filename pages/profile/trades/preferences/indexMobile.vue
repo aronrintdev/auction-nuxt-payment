@@ -589,30 +589,24 @@ export default {
   height: 600px
   width: 343px
   border-radius: 10px
-  background: #FFFFFF
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+  background: $color-white-1
+  box-shadow: 0px 1px 4px $color-black-rgb2
 .inven-set
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 600
-  font-size: 16px
-  line-height: 19px
-  color: #667799
+  @include body-13-medium
+  color: $color-blue-20
 .inven-sub-set
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 400
-  font-size: 13px
-  line-height: 16px
-  color: #33363C
+  @include body-21-regular
+  color: $color-gray-79c
 .link-text
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 500
-  font-size: 13px
-  line-height: 16px
+  @include body-21-normal
   text-decoration-line: underline
-  color: #9E9E9E
+  color: $color-gray-95
 .chev-img
   height: 15px
   width: 7px
@@ -626,28 +620,26 @@ export default {
   width: 7px
   margin-left: 12rem
 .hr-border
-  border: 1px solid rgba(196, 196, 196, 0.17)
+  border: 1px solid $color-gray-96
 .inven-cont
   width: 343px
   height: 620px
-  background: #FFFFFF
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+  background: $color-white-1
+  box-shadow: 0px 1px 4px $color-black-rgb2
   border-radius: 10px
 .list-text
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 500
-  font-size: 14px
-  line-height: 17px
-  color: #000000
+  @include body-5-normal
+  color: $color-black-1
 .image-tick
   height: 20px
   width: 12px
   margin-left: 10rem
 .option-status
-  border-bottom: 1px solid #E6E6E6
+  border-bottom: 1px solid $color-white-28
 .save-btn
-  background: #667799
+  background: $color-blue-20
   border-radius: 20px
   height: 40px
   width: 300px
@@ -655,93 +647,87 @@ export default {
 .offer-sections
   width: 343px
   height: 200px
-  background: #FFFFFF
+  background: $color-white-1
   border-radius: 10px
-  box-shadow: 0 1px 4px rgb(0 0 0 / 25%)
+  box-shadow: 0 1px 4px $color-black-rgb1
   padding-top: 20px
 .offer-head
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   font-size: 16px
-  color: #667799
+  color: $color-blue-20
 .offer-start
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 500
+  font-weight: $normal
   font-size: 14px
-  color: #626262
+  color: $color-gray-5
 .offer-subtext
-  font-family: 'Montserrat'
+  font-family: $font-family-montserrat
   font-style: normal
-  font-weight: 500
-  font-size: 12px
-  line-height: 15px
-  color: #626262
+  @include body-9-normal
+  color: $color-gray-5
 .fair-text
-  font-family: 'Montserrat'
+  font-family: $font-family-montserrat
   font-style: normal
-  font-weight: 600
-  font-size: 12px
-  line-height: 15px
-  color: #000000
+  @include body-9-medium
+  color: $color-black-1
 .refine-sections
   width: 343px
   height: 450px
-  background: #FFFFFF
+  background: $color-white-1
   border-radius: 10px
-  box-shadow: 0 1px 4px rgb(0 0 0 / 25%)
+  box-shadow: 0 1px 4px $color-black-rgb1
   padding-top: 20px
 
 .refine-headings
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   font-size: 14px
-  color: #000000
+  color: $color-black-1
 .sizePre-sections
   width: 343px
   height: 550px
-  background: #FFFFFF
+  background: $color-white-1
   border-radius: 10px
-  box-shadow: 0 1px 4px rgb(0 0 0 / 25%)
+  box-shadow: 0 1px 4px $color-black-rgb1
   padding-top: 20px
 .brand-sections
   width: 343px
   height: 350px
-  background: #FFFFFF
+  background: $color-white-1
   border-radius: 10px
-  box-shadow: 0 1px 4px rgb(0 0 0 / 25%)
+  box-shadow: 0 1px 4px $color-black-rgb1
   padding-top: 20px
 .hr
-  border-top: 1px solid #E1E1E1
+  border-top: 1px solid $color-gray-62
   width: 318px
 .unselected-item
   width: 99px
   height: 45px
   border-radius: 3px
-  background: #FFFFFF
-  border: 1px solid #999999
+  background: $color-white-1
+  border: 1px solid $color-gray-47
   @include body-5
   font-weight: $normal
   font-family: $font-sp-pro
-  color: #999999
+  color: $color-gray-47
   padding-top: 10px
-  //padding-left: 20px
   cursor: pointer
 .selected-item
   width: 99px
   height: 45px
   border-radius: 3px
-  border: 1px solid #000
+  border: 1px solid $color-black-1
   @include body-5
   font-weight: $medium
   font-family: $font-sp-pro
-  color: #999999
+  color: $color-gray-47
   padding-top: 10px
-  //padding-left: 20px
   cursor: pointer
-  background: #F2F2F2
+  background: $color-gray-21
 .column-sizes
   height: 100px
   overflow-y: scroll
@@ -749,7 +735,7 @@ export default {
   font-size: 14px
   font-weight: 600
   font-family: $font-sp-pro
-  color: #000000
+  color: $color-black-1
   width: 100%
 .images-row
   height: 300px

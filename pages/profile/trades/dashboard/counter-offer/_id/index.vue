@@ -1119,32 +1119,32 @@ export default {
   padding: 0
 .btn-accept
   border-radius: 8px
-  background: #667799
-  font-family: 'Montserrat'
+  background: $color-blue-20
+  font-family: $font-family-montserrat
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   font-size: 11px
-  color: #FFFFFF
+  color: $color-white-1
 .btn-decline
   border-radius: 8px
-  background: #F7F7F7
-  font-family: 'Montserrat'
+  background: $color-white-5
+  font-family: $font-family-montserrat
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   font-size: 11px
-  color: #545F77
-  border: 1px solid #F7F7F7
+  color: $color-blue-32
+  border: 1px solid $color-white-5
 .btn-counter
   border-radius: 8px
-  border: 1px solid #667799
-  font-family: 'Montserrat'
+  border: 1px solid $color-blue-20
+  font-family: $font-family-montserrat
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   font-size: 11px
-  color: #667799
-  background-color: #FFFFFF
+  color: $color-blue-20
+  background-color: $color-white-1
 .fair-trade-division
-  background-color: #FAFAFA
+  background-color: $color-white-4
   width: 247px
   height: 68px
 .item-image-small
@@ -1159,7 +1159,6 @@ export default {
 .item-length-small
   height: 160px
   width: 100px
-  //background-color: #FAFAFA
 .item-normal-small
   height: 160px
   width: 100px
@@ -1168,31 +1167,25 @@ export default {
   height: 26px
   font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: $medium
-  font-size: 11px
-  line-height: 13px
+  @include body-16-medium
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
   display: block
 .item-box-condition-small
-  font-family: 'Montserrat'
+  font-family: $font-family-montserrat
   font-style: normal
-  font-weight: 600
   width: 80px
-  font-size: 11px
-  line-height: 13px
+  @include body-16-medium
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
   display: block
 .item-caption-description-small
-  font-family: 'Montserrat'
+  font-family: $font-family-montserrat
   font-style: normal
-  font-weight: 600
   width: 80px
-  font-size: 11px
-  line-height: 13px
+  @include body-16-medium
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
@@ -1214,36 +1207,36 @@ export default {
   max-width: 300px
 .long-line-length-small
   width: 40px
-  border: 1px solid #c4c4c4
+  border: 1px solid $light-gray-2
 .long-line-small
   width: 40px
-  border: 1px solid #c4c4c4
+  border: 1px solid $light-gray-2
 .pointer-right-small
-  border-top: 0.5px solid #c4c4c4
-  border-bottom: 0.5px solid #c4c4c4
-  border-left: 0.5px solid #c4c4c4
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-left: 0.5px solid $light-gray-2
   height: 340px
   width: 100px
   margin-right: 210px
 .item-caption-small
   width: 100px
-  background: #FFFFFF
+  background: $color-white-1
   padding: 5px 10px
-  font-family: "SF Pro Display"
+  font-family: $font-family-sf-pro-display
   font-style: normal
 .image-right
-  background-color: #FAFAFA
+  background-color: $color-white-4
 .bg-img
-  background-color: #FAFAFA
+  background-color: $color-white-4
 .inventory-btn
   height: 40px
   width: 330px
-  font-family: "Montserrat"
+  font-family: $font-family-montserrat
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   font-size: 16px
-  color: #667799
-  background-color: #FFFFFF
+  color: $color-blue-20
+  background-color: $color-white-1
   border-radius: 4px
 .item-image-counteroffer-small
   width: 110px
@@ -1251,37 +1244,36 @@ export default {
   height: 265px
   width: 150px
 .bg-white
-  background-color: #FFFFFF
+  background-color: $color-white-1
 .discard-changes
   height: 40px
   width: 162px
-  font-family: 'Montserrat'
+  font-family: $font-family-montserrat
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   font-size: 14px
-  color: #667799
-  background-color: #FFFFFF
+  color: $color-blue-20
+  background-color: $color-white-1
   border-radius: 10px
 .counter-offer
   height: 40px
   width: 162px
-  font-family: 'Montserrat'
+  font-family: $font-family-montserrat
   font-style: normal
-  font-weight: 600
-  font-size: 16px
-  line-height: 20px
-  color: #FFFFFF
+  font-weight: $medium
+  @include body-4-medium
+  color: $color-white-1
   border-radius: 10px
-  background-color: #667799
+  background-color: $color-blue-20
 .btn-cash
   width: 315px
   height: 37px
-  font-family: 'Montserrat'
+  font-family: $font-family-montserrat
   font-style: normal
-  font-weight: 500
+  font-weight: $normal
   font-size: 14px
-  color: #7196B1
-  background-color: #FFFFFF
-  border: 1px solid #000000
+  color: $color-blue-19
+  background-color: $color-white-1
+  border: 1px solid $color-black-1
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25)
 </style>

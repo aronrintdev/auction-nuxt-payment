@@ -183,21 +183,17 @@ export default {
   border-left: 6px solid transparent
 
 .offer-id
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 700
-  font-size: 16px
-  line-height: 19px
-  color: #667799
+  @include body-13-bold
+  color: $color-blue-20
 
 
 .offer-time
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 500
-  font-size: 12px
-  line-height: 14px
-  color: #999999
+  @include body-9-normal
+  color: $color-gray-47
 
 .offer-received
   width: 195px
@@ -217,16 +213,12 @@ export default {
   @include body-4-regular
   color: $color-gray-5
 .context-tran
-  font-family: 'Montserrat'
+  font-family: $font-family-montserrat
   font-style: normal
-  font-weight: 400
-  font-size: 10px
-  line-height: 12px
-  color: #000000
+  @include body-18-regular
+  color: $color-black-1
 .cond-tran
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 700
-  font-size: 13px
-  line-height: 16px
+  @include body-21-bold
 </style>

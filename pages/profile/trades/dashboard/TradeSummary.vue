@@ -12,9 +12,9 @@
             <offer-items :offerItems="trade.offers"/>
           </div>
           <div class="d-flex mt-4">
-            <b-btn v-if="!isDelistedTrade(trade) && !blockTrade(trade)" class="mt-3 list-btn"  @click="$bvModal.show('delist-offer')">Delist</b-btn>
+            <b-btn v-if="!isDelistedTrade(trade) && !blockTrade(trade)" class="mt-3 list-btn"  @click="$bvModal.show('delist-offer')">{{$t('trades.delist')}}</b-btn>
             <b-btn v-if="isDelistedTrade(trade)" class="mt-3 list-btn"  @click="$bvModal.show('relist-trade')">Relist</b-btn>
-            <b-btn  v-if="!isDelistedTrade(trade) && !blockTrade(trade)"  class="mt-3 edit-btn" @click="$bvModal.show('edit-trade')">Edit</b-btn>
+            <b-btn  v-if="!isDelistedTrade(trade) && !blockTrade(trade)"  class="mt-3 edit-btn" @click="$bvModal.show('edit-trade')">{{$t('common.edit')}}</b-btn>
           </div>
         </div>
 
@@ -129,7 +129,7 @@ export default {
   border-radius: 10px
   height: 371px
 .main-container-small
-  background: #F4F5F8
+  background: $color-gray-56
   border-radius: 4px
   height: 370px
   width: 343px
@@ -142,7 +142,7 @@ export default {
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-size: 14px
-  color: #667799
+  color: $color-blue-20
 
 .offer-status
   font-family: $font-family-montserrat
@@ -159,17 +159,17 @@ export default {
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-size: 12px
-  color: #999999
+  color: $color-gray-47
 .expired-btn
   border-radius: 10px
   width: 174px
 .list-btn
   height: 16px
   width: 39px
-  color: #3D69E1
-  font-family: 'Montserrat'
+  color: $color-blue-5
+  font-family: $font-family-montserrat
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   font-size: 13px
   border: none
   background-color: transparent
@@ -177,14 +177,12 @@ export default {
 .edit-btn
   width: 121px
   height: 30px
-  background: #667799
+  background: $color-blue-20
   border-radius: 5px
-  font-family: 'Montserrat'
+  font-family: $font-family-montserrat
   font-style: normal
-  font-weight: 600
-  font-size: 13px
-  line-height: 16px
-  color: #FFFFFF
+  @include body-21-medium
+  color: $color-white-1
   margin-left: 5rem
 
 </style>

@@ -89,27 +89,21 @@ export default {
   border-radius: 5px
 
 .trade-id
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 700
-  font-size: 16px
-  line-height: 19px
-  color: #667799
+  @include body-13-bold
+  color: $color-blue-20
 .new-offers
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 500
-  font-size: 13px
-  line-height: 18px
-  color: #E90000
+  @include body-21-normal
+  color: $color-red-18
 
 .listed-time
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 500
-  font-size: 13px
-  line-height: 16px
-  color: #999999
+  @include body-21-normal
+  color: $color-gray-47
 
 .inner-items-listed
   width: 430px
@@ -139,30 +133,27 @@ export default {
   height: 26px
   font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: $medium
-  font-size: 11px
-  line-height: 13px
+  @include body-6-medium
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
 .product-size
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 500
+  font-weight: $normal
   font-size: 10px
 .body-section-box
   height: 137px
   width: 100px
   border-radius: 0px
-  background: #FAFAFA
-  //border: 1px solid #D8D8D8
+  background: $color-white-4
 .bottom-section
   height: 67px
   width: 100px
-  background: #FFFFFF
+  background: $color-white-1
 .image-tarde
   width: 68px
   height: 65px
 .box-pro
-  background: #FAFAFA
+  background: $color-white-4
 </style>

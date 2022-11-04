@@ -66,10 +66,8 @@ export default {
   width: 350px
 
 .listing-heading
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 700
-  font-size: 16px
-  line-height: 19px
-  color: #667799
+  @include body-13-bold
+  color: $color-blue-20
 </style>

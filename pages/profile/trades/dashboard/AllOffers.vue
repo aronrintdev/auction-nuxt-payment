@@ -10,9 +10,9 @@
             class="searchInput"
             :value="searchText"
             :inputStyle="{
-              paddingLeft: '44px !important', 
+              paddingLeft: '44px !important',
               fontWeight: 400,
-              letterSpacing: '0.06em', 
+              letterSpacing: '0.06em',
               color: '#626262',
               fontSize: '12px',
               fontFamily: 'Montserrat',
@@ -28,7 +28,7 @@
         </div>
         <img
           class="d-sm-none"
-          :src="require('~/assets/img/filterTradeList.svg')" 
+          :src="require('~/assets/img/filterTradeList.svg')"
           width="20"
           height="20"
           @click="isFiltersModalOpen=true"
@@ -46,10 +46,10 @@
           @change="onSearchInput"
           @clear="onSearchInput"
         />
-        <SearchBarProductsList 
-          v-if="searchedProducts.length > 0" 
-          :productItems="searchedProducts" 
-          width="700px" 
+        <SearchBarProductsList
+          v-if="searchedProducts.length > 0"
+          :productItems="searchedProducts"
+          width="700px"
           class="position-absolute"
           :style="{ top: '33px', width: '94% !important' }"
         />
@@ -159,7 +159,7 @@
             {{ $t('offers_received.delete_offers') }}
           </div>
         </div>
-        <div 
+        <div
           v-else-if="action === 'delete' || action === 'deselect_all'"
           class="d-flex align-items-center"
           @click="selectAll()"
@@ -215,8 +215,8 @@
     <div class="my-trade-listing-section">
       <div class="row justify-content-center">
         <div class="text-center w-100 px-2">
-        <trade-offer-items 
-          v-if="tradeOffers.length > 0" 
+        <trade-offer-items
+          v-if="tradeOffers.length > 0"
           :offers="tradeOffers"
           :action="action"
           :selected="selected"
@@ -226,10 +226,10 @@
         />
         <div v-else>
           <div class="d-none d-sm-block">
-            {{ 
-              (offerType !== ALL_OFFER_TYPE) ? 
-              $t('trades.no_trade_offers_have_been') + $t('trades.offer_type.' + offerType) : 
-              $t('trades.no_trade_offers_have_been_found') 
+            {{
+              (offerType !== ALL_OFFER_TYPE) ?
+              $t('trades.no_trade_offers_have_been') + $t('trades.offer_type.' + offerType) :
+              $t('trades.no_trade_offers_have_been_found')
             }}
           </div>
           <div class="d-sm-none mt-5">
@@ -244,7 +244,7 @@
       </div>
     </div>
 
-    <div 
+    <div
       class="d-sm-none mb-3"
       :class="{
         'd-none': !action
@@ -252,13 +252,13 @@
     >
       <div class="delete-header">{{ $t('offers_received.tap_on_offers_to_delete') }}</div>
       <div class="d-flex justify-content-between">
-        <div 
+        <div
           class="cancel-button"
           @click="action = ''; selected = []"
         >
           {{ $t('common.cancel') }}
         </div>
-        <div 
+        <div
           class="delete-button"
           :class="{
             'active-delete-button': selected.length > 0
@@ -432,10 +432,6 @@ export default {
     this.$root.$on('productClick', (product) => {
       this.searchOffers(product)
     })
-    // const wrapper = document.querySelector('.main-wrapper')
-    // if (wrapper.querySelector('.container-trade-dashboard')) {
-    //   wrapper.style.backgroundColor = '#f7fbef'
-    // }
 
     // To reset search filter trade offers
     this.$root.$on('click_outside', () => {
@@ -473,12 +469,7 @@ export default {
       this.fetchOffersListing()
     },
 
-    // infiniteScroll($state) {
-    //   this.fetchOffersListing('infinite')
-    // },
-
     fetchOffersListing($state = null) {
-      console.log('fetchOffersListing fetchOffersListing', this.page);
       this.$axios
         .get('trades/submitted-offers', {
           params: {
@@ -504,7 +495,6 @@ export default {
           } else {
             this.tradeOffers = response.data.data.data
           }
-          console.log('this.tradeOffers', this.tradeOffers);
           this.totalOffers = parseInt(response.data.data.total)
         })
         .catch((error) => {
@@ -513,7 +503,6 @@ export default {
           this.totalOffers =  0
         })
 
-      console.log('END END');
     },
     /**
      * This function is used to get product and show in
@@ -637,7 +626,6 @@ export default {
 
     deleteSelected() {
       if (this.selected.length < 1) return
-      console.log('deleteSelected', `trades/offers/deactivate?offer_ids=${this.selected.join(',')}`);
       this.$axios
         .post(`trades/offers/deactivate?offer_ids=${this.selected.join(',')}`)
         .then((response) => {

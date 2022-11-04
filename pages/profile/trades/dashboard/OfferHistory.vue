@@ -169,7 +169,7 @@ export default {
 
 .offer-history-mobile
   width: 360px
-  background: #F7F7F7 !important
+  background: $color-white-5 !important
 
 .history-heading
   font-family: $font-family-sf-pro-display
@@ -184,12 +184,10 @@ export default {
   color: $color-black-1
 
 .history-time-mobile
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 500
-  font-size: 12px
-  line-height: 14px
-  color: #000000
+  @include body-9-regular
+  color: $color-black-1
 .heading-offer
   font-family: $font-family-sf-pro-display
   font-style: normal
@@ -198,12 +196,10 @@ export default {
   padding-left: 47px
 
 .heading-offer-small
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 500
-  font-size: 12px
-  line-height: 14px
-  color: #999999
+  @include body-9-normal
+  color: $color-gray-47
 
 .background-blue
   background:  $color-blue-28
@@ -225,7 +221,7 @@ export default {
 .request-amount-mobile
   width: 225px
   border-radius: 4px
-  background: #FAFAFA
+  background: $color-white-4
 .dollar-img
   width: 7px
   height: 12px
