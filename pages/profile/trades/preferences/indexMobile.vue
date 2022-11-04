@@ -313,15 +313,20 @@ export default {
     ...mapGetters('browse', ['filters']), // getter for getting list of filters data
   },
   mounted() {
-    this.filterApparelSizes = this.filters.sizes.filter(function (size) {
+    // console.log('filters',this.filters)
+    this.filterApparelSizes = this.filters?.sizes?.filter(function (size) {
       return size.type === APPAREL_SIZE_TYPE
     })
 
-    this.filterOtherSizes = this.filters.sizes.filter(function (size) {
+    this.filterOtherSizes = this.filters?.sizes?.filter(function (size) {
       return size.type !== APPAREL_SIZE_TYPE
     })
 
     this.getTradePreferences()
+
+  },
+  created() {
+    console.log('created called')
     this.fetchFilters()
   },
   methods:{
@@ -585,7 +590,7 @@ export default {
   min-width: 75px
   @include body-9-regular
 .main-container
-  height: 570px
+  height: 600px
   width: 343px
   border-radius: 10px
   background: #FFFFFF
