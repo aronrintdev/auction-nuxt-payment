@@ -59,7 +59,6 @@
               {{$t('common.dont_see_your_product')}} 
               <a 
                 class="suggest-new" 
-                href="#"
                 @click="$bvModal.show('suggest_a_new_product')"
               >
                 {{$t('common.suggest_a_new_product')}}

@@ -350,20 +350,20 @@ export default {
 .details-container
   height: 120px
 
-::v-deep .owl-dots
+:deep(.owl-dots)
   position: absolute
   left: 8%
   bottom: 35px
 
-::v-deep .owl-dot span
+:deep(.owl-dot span)
   width: 4px !important
   height: 4px !important
   background: $color-gray-4 !important
 
-::v-deep .owl-dot
+:deep(.owl-dot)
   width: 9px
 
-::v-deep .active span
+:deep(.active span)
   background: $color-black-1 !important
 
 .more
