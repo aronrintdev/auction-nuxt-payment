@@ -91,6 +91,7 @@
         </b-col>
       </b-row>
     </b-card-text>
+    <!--  -->
   </b-card>
 </template>
 
@@ -175,6 +176,7 @@ export default {
   },
 
   methods: {
+    // On click view order
     viewOrder() {
       this.$router.push(`/profile/purchases/summary/${this.purchase.id}`)
     },
