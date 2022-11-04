@@ -92,7 +92,9 @@ export default {
     }
   },
   beforeMount() {
-    this.getAwardedPoints()
+    if (! this.$router.currentRoute.name.includes('place-offer')) {
+      this.getAwardedPoints()
+    }
   },
   methods: {
     getAwardedPoints() {
