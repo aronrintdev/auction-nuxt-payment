@@ -7,11 +7,13 @@
     } search-${size} search-${variant} ${bordered && 'bordered'} ${
       searchResultShow && $slots.default && 'opened'
     }`"
+    :style="containerStyle"
   >
     <div :id="styles" class="position-relative w-100 d-flex align-items-center">
       <img
         :src="require('~/assets/img/icons/search.svg')"
         class="icon-search"
+        :style="iconStyle"
       />
 
       <b-form-input
@@ -22,8 +24,8 @@
         :placeholder="placeholder || $t('common.search')"
         :debounce="debounce"
         autocomplete="off"
-        class="search-input"
-        :style="{ height: inputHeight }"
+        :class="`search-input ${inputClass}`"
+        :style="inputStyleComputed"
         :autofocus="autofocus"
         @input="handleTextInput"
         @keydown.enter="handleEnterKeyDown"
@@ -37,7 +39,16 @@
         hover-src="close.svg"
         width="15"
         height="15"
-        class="btn-clear"
+        class="btn-clear d-none d-sm-block"
+        @click="handleClearClick"
+      />
+      <Icon
+        v-if="value"
+        src="close3.svg"
+        hover-src="close.svg"
+        width="15"
+        height="15"
+        class="btn-clear d-sm-none"
         @click="handleClearClick"
       />
     </div>
@@ -72,6 +83,14 @@ export default {
   components: { Icon },
 
   props: {
+    isOpen: {
+      type: Boolean,
+      default: false
+    },
+    onOpenStyle: {
+      type: Object,
+      default: () => {}
+    },
     id: {
       type: String,
       default: '',
@@ -112,7 +131,23 @@ export default {
       type: String,
       default: 'unset',
     },
+    inputStyle: {
+      type: Object,
+      default: () => {}
+    },
+    iconStyle: {
+      type: String,
+      default: ''
+    },
+    containerStyle: {
+      type: Object,
+      default: () => {}
+    },
     styles: {
+      type: String,
+      default: ''
+    },
+    inputClass: {
       type: String,
       default: ''
     }
@@ -123,6 +158,17 @@ export default {
       searchResultShow: false,
     }
   },
+
+  computed: {
+    inputStyleComputed() {
+      let result = { height: this.inputHeight, ...this.inputStyle }
+      if (this.isOpen) {
+        result = { ...result, ...this.onOpenStyle }
+      }
+      return result;
+    }
+  },
+
   watch: {
     searchResultShow(newVal, oldVal) {
       if (newVal !== oldVal) {
@@ -167,11 +213,25 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.search-mobile
+  @media (max-width: 575px)
+    height: 33px !important
+    color: $color-black-4 !important
+    font-size: $font-size-12 !important
+    background: $color-white-5 !important
+    border: none !important
+    border-radius: 8px !important
+    padding-left: 39px !important
+    width: 102% !important
+
 #brands-search
   input
     font-size: $font-size-12
 .search-input-wrapper
   position: relative
+
+  @media (max-width: 575px)
+    margin-left: 7px
 
   &.search-pill
     input.search-input
@@ -225,11 +285,15 @@ export default {
   img.icon-search
     z-index: 1
     margin-left: 12px
+    @media (max-width: 575px)
+      left: -5px !important
+      width: 14px
+      height: 14px
 
   .btn-clear
     position: absolute
     z-index: 1
-    right: 12px
+    right: 20px
 
   input.search-input
     width: 100%

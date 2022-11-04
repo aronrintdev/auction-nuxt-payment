@@ -117,7 +117,7 @@
             </b-row>
           </div>
           <b-collapse id="collapse-sizes" v-model="isVisibleSize">
-            <b-row v-for="(categorySizes, key) in sizeOptions" :key="'sizecat-' + key" class="row" >
+            <b-row v-for="(categorySizes, key) in sizeOptions" :key="'sizecat-' + key" class="row">
               <b-col v-for="(size, sizeKey) in categorySizes" :key="'size-' + sizeKey" >
                 <div :class="getSizeFilterSelection.includes(size.id) ? 'selected-item':'unselected-item' "
                      :value="size.id" class="m-1 d-flex justify-content-center align-content-center"
