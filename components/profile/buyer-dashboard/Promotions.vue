@@ -58,7 +58,7 @@
           >
         </div>
       </div>
-      <div v-if="!loading && !promotion" class="d-flex align-items-center justify-content-center my-4">
+      <div v-if="!loading && !promotion" class="text-center my-4">
         <div class="fs-20 fw-7 font-primary ">
           {{ $t('buyer_dashboard.promotions.no_active') }}
         </div>

@@ -1,5 +1,7 @@
 <template>
-  <div class="mb-2">
+  <div :class="{
+    'mb-2': !isScreenXS
+  }">
     <div class="row mt-2 mb-2 my-sm-5">
       <div class="col-6 col-md-3">
         <h1 class="font-secondary fs-24 fw-7 mb-0 heading">
@@ -205,8 +207,10 @@
 <script>
 import NavGroup from '~/components/common/NavGroup.vue'
 import ProductThumb from '~/components/product/Thumb.vue'
+import screenSize from '~/plugins/mixins/screenSize';
 export default {
-  components: { ProductThumb, NavGroup },
+  components: {ProductThumb, NavGroup},
+  mixins: [screenSize],
   data() {
     return {
       purchases: [],
@@ -214,9 +218,9 @@ export default {
       // Menus for tabs
       /** Todo need to make dynamic onces we have way of main categories in DB */
       menus: [
-        { label: this.$t('vendor_dashboard.all'), value: '' },
-        { label: this.$t('vendor_dashboard.footwear'), value: '1' },
-        { label: this.$t('vendor_dashboard.apparel'), value: '2' },
+        {label: this.$t('vendor_dashboard.all'), value: ''},
+        {label: this.$t('vendor_dashboard.footwear'), value: '1'},
+        {label: this.$t('vendor_dashboard.apparel'), value: '2'},
         {
           label: this.$t('vendor_dashboard.accessories'),
           value: '3',

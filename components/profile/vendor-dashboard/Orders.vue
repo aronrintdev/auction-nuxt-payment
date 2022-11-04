@@ -48,11 +48,12 @@
           >
             <div class="col-thumb d-flex d-sm-none">
               <ProductThumb
-                :src="data.item.listing_item.inventory.product.image"
-                :product="data.item.listing_item.inventory.product"
+                  v-if="data.item.listing_item"
+                  :src="data.item.listing_item.inventory.product.image"
+                  :product="data.item.listing_item.inventory.product"
               />
             </div>
-            <div>
+            <div v-if="data.item.listing_item">
               <h4
                   :class="{
                  'body-5-medium mobile': isScreenXS,
@@ -87,6 +88,7 @@
                @click="$router.push(`/orders/${orderId(data.item)}`)">
             <div v-if="!isScreenXS" class="col-thumb mb-1">
               <ProductThumb
+                  v-if="data.item.listing_item"
                   :product="data.item.listing_item.inventory.product"
                   :src="data.item.listing_item.inventory.product.image"
               />
@@ -128,7 +130,7 @@
         </template>
         <template #cell(status)="data">
           <div
-              class="d-flex align-items-center justify-content-center tdHeight "
+              class="d-flex align-items-center justify-content-center tdHeight text-center"
               :aria-label="$t('vendor_dashboard.status')"
           >
             <h4 :class="styleFor(data.item.status_label) + ` ${mobileClass}`"
@@ -327,7 +329,7 @@ export default {
           .get('/dashboard/vendor/orders?category_id=' + this.activeNav)
           .then((res) => {
             this.topOrders = res.data.data.data
-        })
+          })
         .catch((err) => {
           this.logger.logToServer(err.response)
         })
