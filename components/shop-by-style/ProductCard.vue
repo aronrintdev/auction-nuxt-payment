@@ -200,7 +200,6 @@
             <h2 class="fs-13 fw-6">{{ $t('shop_by_style.style_id') }}</h2>
             <p>{{ styleID }}</p>
           </div>
-          <div class="wall"></div>
           <div class="col-sm-6 w-50 text-center">
             <h2 class="fs-13 fw-6">{{ $t('common.color') }}</h2>
             <p>{{ product.colorway }}</p>
@@ -384,6 +383,7 @@
       </div>
       <AlertModal id="message-modal" :message="message" icon="tick" />
     </div>
+    
   </div>
 </template>
 <script>
@@ -646,8 +646,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-@import '~/assets/css/_variables'
-
 .product-image
   width: 152px
   height: 172px
@@ -655,7 +653,4 @@ export default {
   background: #FFFFFF
   box-shadow: 0px -0.1px 2px rgba(0, 0, 0, 0.25), 0px 1px 2px rgba(0, 0, 0, 0.25)
   border-radius: 8px
-.wall
-  border-left: 6px solid $color-gray-1
-  height: $normal
 </style>
