@@ -4,7 +4,7 @@
     <div class="title-points">{{ currentPoints.toLocaleString() }}</div>
     <div class="ds-points">{{ $t('rewards.ds_points') }}</div>
     <div class="next-reward">{{ $t('rewards.till_next_reward', [tillNext.toLocaleString()]) }}</div>
-    <div v-if="last.length" class="expire-on text-decoration-underline">{{
+    <div v-if="last.length && showNextExpire" class="expire-on text-decoration-underline">{{
         $t('rewards.expire_on', {
           points: last[0].points.toLocaleString(),
           date: new Date(last[0].expires_on).toLocaleDateString()
@@ -23,6 +23,10 @@ export default {
     currentPoints: {
       type: Number,
       required: true
+    },
+    showNextExpire: {
+      type: Boolean,
+      default: true
     },
   },
   computed: {

@@ -5,7 +5,7 @@
       <div class="banner-content p-5 position-absolute">
         <h1>{{$t('trades.index.banner_heading')}}</h1>
         <p class="banner-information">{{$t('trades.index.banner_information')}}</p>
-        <button class="banner-btn">{{$t('common.learn_more')}}</button>
+        <button class="banner-btn" @click="$router.push('features/trading')">{{$t('common.learn_more')}}</button>
       </div>
     </b-col>
   </b-row>

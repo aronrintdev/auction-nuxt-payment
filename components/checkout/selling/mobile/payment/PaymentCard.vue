@@ -8,7 +8,7 @@
         class="mt-0"
       >
         <template #back-arrow>
-          <ArrowLeftBlackSVG class="back-arrow" @click="emitRenderComponentEvent($parent.$options.components.PaymentOptionsMenu.name)"/>
+          <ArrowLeftBlackSVG class="back-arrow" @click="handleBackClick"/>
         </template>
       </ShoppingBagTitle>
       <!-- End of Top Title -->
@@ -194,6 +194,13 @@ export default {
       addPaymentToken: 'order-details/addPaymentToken',
       removeCryptoDetails: 'order-details/removeCryptoDetails',
     }),
+    handleBackClick() {
+      if ('PaymentOptionsMenu' in this.$parent.$options.components) {
+        this.emitRenderComponentEvent(this.$parent.$options.components.PaymentOptionsMenu.name)
+      } else {
+        this.emitRenderComponentEvent(this.$parent.$options.components.CheckoutSummary.name)
+      }
+    },
     // Inject Collect.js into document head
     // Do not use head property here because collect.js raises error if script tag has extra attrs like `data-n-head`
     injectCollectJs() {

@@ -617,10 +617,11 @@ export default {
      */
     decrementOrRemoveItem(id) {
       const existingItem = this.getTradeItems.find(val => val.id === id)
+      const index = this.getTradeItems.indexOf(existingItem)
       if (existingItem.quantity > 1) {
-        this.$store.commit('trades/decrementTradeItemQuantity', id)
+        this.$store.commit('trades/decrementTradeItemQuantity', index)
       } else {
-        this.$store.commit('trades/removeTradeItem', id)
+        this.$store.commit('trades/removeTradeItem', index)
       }
       this.$nextTick(() => this.$forceUpdate())
     },
