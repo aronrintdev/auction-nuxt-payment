@@ -5677,7 +5677,8 @@
       "hours": "Hours",
       "minutes": "Minutes",
       "seconds": "Seconds",
-      "your_entries": "Your Entries"
+      "your_entries": "Your Entries",
+      "no_active": "There no active promotions."
     },
     "purchases": {
       "title": "Purchases",
