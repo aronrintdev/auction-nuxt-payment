@@ -26,7 +26,7 @@
       </div>
       <div class="info-card d-flex flex-column">
         <div class="body-8-medium text-capitalize">
-          {{ $t('vendor_purchase.order', {orderNo: orderDetails.id}) }} ({{ orderDetails.type }})
+          {{ $t('vendor_purchase.order', {orderNo: orderDetails.order_id}) }} ({{ orderDetails.type }})
         </div>
         <div class="mt-1 body-5-regular date-text">
           {{ $t('vendor_purchase.ordered_on', {orderedDate: getOrderedDate}) }}
