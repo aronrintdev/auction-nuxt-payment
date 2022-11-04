@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="h-100 p-4 p-md-5" :class="{'container-profile-auctions' : !isMobileSize}">
+  <b-container fluid class="h-100 py-2 px-3 p-md-5 container-profile-auctions-listing" :class="{'container-profile-auctions' : !isMobileSize}">
     <div
       :class="{'border-bottom border-dark' : isMobileSize}"
       class="d-flex justify-content-center justify-content-md-between align-items-center">
@@ -7,108 +7,108 @@
     </div>
     <template v-if="!isMobileSize">
       <div class="d-flex justify-content-between align-items-center mt-4">
-      <SearchInput
-        :value="search"
-        :placeholder="$t('auction.search_placeholder')"
-        class="flex-grow-1 mr-5 mw-734"
-        :debounce="1000"
-        @input="handleSearch"
-      />
-      <div class="flex-grow-0">
-        <FormDropdown
-          id="sortBySelect"
-          :value="sortBy"
-          :placeholder="$t('auction.sort_by')"
-          :items="SORT_BY"
-          class="dropdown-filters sort-by mr-4"
-          @select="handleSortBySelect"
-        ></FormDropdown>
+        <SearchInput
+          :value="search"
+          :placeholder="$t('auction.search_placeholder')"
+          class="flex-grow-1 mr-5 mw-734"
+          :debounce="1000"
+          @input="handleSearch"
+        />
+        <div class="flex-grow-0">
+          <FormDropdown
+            id="sortBySelect"
+            :value="sortBy"
+            :placeholder="$t('auction.sort_by')"
+            :items="SORT_BY"
+            class="dropdown-filters sort-by mr-4"
+            @select="handleSortBySelect"
+          ></FormDropdown>
+        </div>
       </div>
-    </div>
       <div class="d-flex justify-content-between align-items-center mt-5">
-      <div class="d-flex align-items-center justify-content-start">
-        <SelectWithCheckbox
-          id="auction-type-selector"
-          class="mr-4 dropdown-filters"
-          :default="auctionType"
-          :options="AUCTION_TYPES"
-          :title="$t('auction.auction_type')"
-          :updateFilters="activeTypeFilters"
-          @filters="typeFilters"
-        />
+        <div class="d-flex align-items-center justify-content-start">
+          <SelectWithCheckbox
+            id="auction-type-selector"
+            class="mr-4 dropdown-filters"
+            :default="auctionType"
+            :options="AUCTION_TYPES"
+            :title="$t('auction.auction_type')"
+            :updateFilters="activeTypeFilters"
+            @filters="typeFilters"
+          />
 
-        <SelectWithCheckbox
-          id="auction-status-selector"
-          class="mr-4 dropdown-filters"
-          :default="auctionStatus"
-          :options="STATUS_TYPES"
-          :title="$t('auction.status_type')"
-          :updateFilters="activeStatusFilters"
-          @filters="typeFilters"
-        />
+          <SelectWithCheckbox
+            id="auction-status-selector"
+            class="mr-4 dropdown-filters"
+            :default="auctionStatus"
+            :options="STATUS_TYPES"
+            :title="$t('auction.status_type')"
+            :updateFilters="activeStatusFilters"
+            @filters="typeFilters"
+          />
 
-        <b-input-group class="date-input-group mr-4">
-          <b-form-input class="date-input" :placeholder="$t('auction.start_date')" :value="start_date"></b-form-input>
-          <b-input-group-append class="date-input-icon">
-            <b-form-datepicker
-              v-model="start_date"
-              button-only
-              hide-header
-              hide-footer
-              class="date-dp"
-              right
-              locale="en-US"
-            >
-              <template #button-content>
-                <img :src="CalendarImg">
-              </template>
-            </b-form-datepicker>
-          </b-input-group-append>
-        </b-input-group>
+          <b-input-group class="date-input-group mr-4">
+            <b-form-input class="date-input" :placeholder="$t('auction.start_date')" :value="start_date"></b-form-input>
+            <b-input-group-append class="date-input-icon">
+              <b-form-datepicker
+                v-model="start_date"
+                button-only
+                hide-header
+                hide-footer
+                class="date-dp"
+                right
+                locale="en-US"
+              >
+                <template #button-content>
+                  <img :src="CalendarImg">
+                </template>
+              </b-form-datepicker>
+            </b-input-group-append>
+          </b-input-group>
 
-        <b-input-group class="date-input-group mr-4">
-          <b-form-input class="date-input" :placeholder="$t('auction.end_date')" :value="end_date"></b-form-input>
-          <b-input-group-append class="date-input-icon">
-            <b-form-datepicker
-              v-model="end_date"
-              button-only
-              hide-header
-              hide-footer
-              class="date-dp"
-              right
-              locale="en-US"
-            >
-              <template #button-content>
-                <img :src="CalendarImg">
-              </template>
-            </b-form-datepicker>
-          </b-input-group-append>
-        </b-input-group>
+          <b-input-group class="date-input-group mr-4">
+            <b-form-input class="date-input" :placeholder="$t('auction.end_date')" :value="end_date"></b-form-input>
+            <b-input-group-append class="date-input-icon">
+              <b-form-datepicker
+                v-model="end_date"
+                button-only
+                hide-header
+                hide-footer
+                class="date-dp"
+                right
+                locale="en-US"
+              >
+                <template #button-content>
+                  <img :src="CalendarImg">
+                </template>
+              </b-form-datepicker>
+            </b-input-group-append>
+          </b-input-group>
 
-        <b-button
-          variant="primary"
-          size="sm"
-          class=" apply-button text-white shadow border-0 px-3 py-2"
-          @click="FetchAuctions"
-        >{{ $t('vendor_purchase.apply') }}
-        </b-button>
-        <span v-if="haveFilters" role="button" class="clear-filters ml-4"
-              @click="clearFilters">{{ $t('auction.clear_filters') }}</span>
+          <b-button
+            variant="primary"
+            size="sm"
+            class=" apply-button text-white shadow border-0 px-3 py-2"
+            @click="FetchAuctions"
+          >{{ $t('vendor_purchase.apply') }}
+          </b-button>
+          <span v-if="haveFilters" role="button" class="clear-filters ml-4"
+                @click="clearFilters">{{ $t('auction.clear_filters') }}</span>
+        </div>
+        <div>
+          <b-button
+            v-if="haveExpired"
+            :disabled="haveAuction"
+            variant="light"
+            size="sm"
+            class=" delete-expired px-3 py-2 mr-4"
+            @click="deleteActionNow"
+          >{{ $t('auction.delete_expired') }}
+          </b-button>
+        </div>
       </div>
-      <div>
-        <b-button
-          v-if="haveExpired"
-          :disabled="haveAuction"
-          variant="light"
-          size="sm"
-          class=" delete-expired px-3 py-2 mr-4"
-          @click="deleteActionNow"
-        >{{ $t('auction.delete_expired') }}
-        </b-button>
-      </div>
-    </div>
     </template>
-    <div v-if="isMobileSize" class="d-flex align-items-center">
+    <div v-if="isMobileSize" class="d-flex align-items-center mt-3">
       <MobileSearchInput :value="search" class="flex-grow-1" @input="handleSearch" />
       <span class="ml-3 mt-1" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
     </div>
@@ -745,4 +745,7 @@ export default {
         background-color: $color-blue-2
         border: none
 
+.container-profile-auctions-listing
+  @media (max-width: 576px)
+    min-height: calc(100vh - 360px)
 </style>

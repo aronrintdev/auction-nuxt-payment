@@ -3692,6 +3692,7 @@
     "total": "Total",
     "processing_fee": "Processing Fee",
     "shipping_fee": "Shipping Fee",
+    "trade_fee": "Trade Fee",
     "promotion": "Promotion",
     "paymentvia": "Payment via ",
     "view_details": "View Details",
@@ -3788,6 +3789,8 @@
       "voided": "Voided",
       "refunded": "Refunded",
       "ship_to_deadstock": "Send to Deadstock",
+      "authentication_complete": "Authentication Complete",
+      "awaiting_shipment_to_buyer": "Awaiting Shipment to Buyer",
       "shipped_to_deadstock": "Send to Deadstock",
       "authentication_complete": "Authentication Complete"
     },
@@ -4601,6 +4604,7 @@
       "balance_the_deal": "Balance the deal by Adding Cash",
       "edit_cash": "Edit Cash",
       "box_condition": "Box Condition",
+      "box": "Box",
       "fair": "Fair",
       "this_product": "This Product",
       "list_id": "Listing ID:",
@@ -4894,7 +4898,10 @@
     "cash_added": "${0} Cash Added",
     "cash_requested": "${0} Cash Requested",
     "edit_added_cash": "Edit Added Cash",
-    "edit_requested_cash": "Edit Requested Cash"
+    "edit_requested_cash": "Edit Requested Cash",
+    "offer": "Offer",
+    "want": "Want",
+    "post_trade": "Post Trade"
   },
   "change_password": {
     "password": "Password",
@@ -5071,6 +5078,7 @@
     "seller_permit_number": "Seller Permit Number:",
     "enter_permit_number": "Enter Permit Number",
     "expiration_date": "Expiration Date:",
+    "document_expiration_date": "Expiration Date #:",
     "drag_drop_here": "Drag and Drop here | or",
     "expiration_date_placeholder": "__/__/____",
     "send_code": "Send Code",
@@ -5279,11 +5287,11 @@
     },
     "order_statuses": {
       "awaiting_shipment": "Awaiting Shipment",
-      "on_route": "On Route",
-      "arrived_at_deadstock": "Arrived at Deadstock",
-      "awaiting_authentication": "Awaiting Authentication",
-      "authentication_complete": "Authentication Complete",
-      "commission_paid": "Commission Paid",
+      "shipped_to_ds": "On Route",
+      "arrived_at_ds": "Arrived at Deadstock",
+      "awaiting_auth": "Awaiting Authentication",
+      "auth_completed": "Authentication Complete",
+      "shipped_to_buyer": "Commission Paid",
       "order_taken_over": "Order Taken Over"
     }
   },
@@ -5411,9 +5419,28 @@
     "title": "Fee Policy"
   },
   "vendor_dashboard": {
-    "title": "Dashbaord",
+    "title": "Dashboard",
+    "hi_name": "Hi {0},",
+    "you_are_seller": "You are a {rank} Seller",
+    "seller_fee": "Seller Fee",
+    "overview": "Overview",
+    "selling_history": "Selling History",
     "bronze_seller": "Bronze Seller",
     "seller": "Seller",
+    "outcome": "Outcome",
+    "seller_ranking": "Seller Ranking",
+    "view_more": "View More",
+    "footwear": "Footwear",
+    "on_track": "You are on track for {rank} Seller Next Quarter",
+    "next_sales": "With {next} more successful sales",
+    "till_next": "{point} till {next}",
+    "outcomes": {
+      "paid": "Fulfilled",
+      "due": "Due",
+      "failed_auth": "Failed Auth."
+    },
+    "faq_title": "Vendor Hub Frequently Asked Questions",
+    "faq_body": "Have a question? See our FAQ with link below",
     "view_details": "View Details",
     "view_all": "View All",
     "total_sales": "Total Sales | Sales Activity",

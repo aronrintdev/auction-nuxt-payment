@@ -1,158 +1,166 @@
 <template>
   <section class="row mb-4">
     <div class="col-md-8">
-      <div class="bg-white br-10 p-1 p-sm-4 shadow-sm">
+      <div :class="mobileClass" class="chart-card bg-white br-10 p-1 p-sm-4">
         <div class="d-flex align-items-center justify-content-between">
           <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
             {{ $tc('vendor_dashboard.total_sales', 1) }}
           </h1>
           <h1
-            class="fs-14 fw-7 font-primary text-grey-69 mb-0 d-block d-sm-none text-center w-100"
+              class="fs-14 fw-7 font-primary text-grey-69 mb-0 d-block d-sm-none text-center w-100"
           >
             {{ $tc('vendor_dashboard.total_sales', 2) }}
           </h1>
           <div class="dropdownSelect d-none d-sm-block">
             <CustomSelect
-              bordered
-              :default="filterBy"
-              :threelineIcon="false"
-              :options="chartFilterOptions"
-              :title="filterByTitle"
-              @input="handleFilterByChangeTotalSale"
+                :default="filterBy"
+                :options="chartFilterOptions"
+                :threelineIcon="false"
+                :title="filterByTitle"
+                class="dropdown-filter"
+                @input="handleFilterByChangeTotalSale"
             />
           </div>
         </div>
         <div class="tabs d-sm-none d-flex gap-2 justify-content-center my-4">
           <h6
-            v-for="(tab, index) in tabsOptions"
-            :key="index"
-            class="fs-10 fw-7 font-primary mb-0 cursor-pointer position-relative text-uppercase"
-            :class="{ activeOne: activeTab === tab.value }"
-            @click="changeTab(tab.value)"
+              v-for="(tab, index) in tabsOptions"
+              :key="index"
+              :class="{ activeOne: activeTab === tab.value }"
+              class="fs-10 fw-7 font-primary mb-0 cursor-pointer position-relative text-uppercase"
+              @click="changeTab(tab.value)"
           >
             {{ tab.title }}
           </h6>
         </div>
         <div class="position-relative mt-3 mt-sm-5 mb-3 mb-sm-4">
           <LineChart
-            :data="dataGraph"
-            :labels="labels"
-            :options="lineChartOptions"
-            class="line-chart d-none d-sm-block"
-            chart-id="vendor-dashboard-line-chart"
+              :data="dataGraph"
+              :labels="labels"
+              :options="lineChartOptions"
+              :height="212"
+              chart-id="vendor-dashboard-line-chart"
+              class="line-chart d-none d-sm-block"
           />
           <LineChart
-            :chart-data="lineDatasets"
-            :options="lineChartOptions"
-            class="line-chart d-block d-sm-none"
-            :height="204"
-            chart-id="vendor-dashboard-line-chart"
+              :data="dataGraph"
+              :labels="labels"
+              :options="lineChartOptions"
+              :fill="!isScreenXS"
+              :height="204"
+              chart-id="vendor-dashboard-line-chart"
+              class="line-chart d-block d-sm-none"
           />
         </div>
         <div class="text-right d-none d-sm-block">
           <a
-            href="#"
-            class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
-            >{{ $t('vendor_dashboard.view_breakdown') }}</a
+              class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
+              href="#"
+          >{{ $t('vendor_dashboard.view_breakdown') }}</a
           >
         </div>
       </div>
       <div class="text-right d-block d-sm-none mt-2">
         <a
-          href="#"
-          class="font-primary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
-          >{{ $t('vendor_dashboard.view_breakdown') }}</a
+            class="font-primary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
+            href="#"
+        >{{ $t('vendor_dashboard.view_breakdown') }}</a
         >
       </div>
     </div>
     <div class="col-md-4 mt-3 mt-sm-0">
-      <div class="bg-white br-10 p-1 p-sm-4 shadow-sm">
+      <div :class="mobileClass" class="chart-card bg-white br-10 p-1 p-sm-4">
         <div class="d-flex align-items-center justify-content-between">
           <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
             {{ $tc('vendor_dashboard.by_type', 1) }}
           </h1>
           <h1
-            class="fs-14 fw-7 font-primary text-grey-69 mb-0 d-block d-sm-none text-center w-100"
+              class="fs-14 fw-7 font-primary text-grey-69 mb-0 d-block d-sm-none text-center w-100"
           >
             {{ $tc('vendor_dashboard.by_type', 2) }}
           </h1>
           <div class="dropdownSelect d-none d-sm-block">
             <CustomSelect
-              bordered
-              :default="filterBy"
-              :threelineIcon="false"
-              :options="chartFilterOptions"
-              :title="filterByTitle"
-              @input="handleFilterByChangeTotalSaleChart"
+                :default="filterBy"
+                :options="chartFilterOptions"
+                :threelineIcon="false"
+                :title="filterByTitle"
+                class="dropdown-filter"
+                @input="handleFilterByChangeTotalSaleChart"
             />
           </div>
         </div>
         <div class="tabs d-sm-none d-flex gap-2 justify-content-center my-4">
           <h6
-            v-for="(tab, index) in tabsOptions"
-            :key="index"
-            class="fs-10 fw-7 font-primary mb-0 cursor-pointer position-relative text-uppercase"
-            :class="{ activeOne: activeTab === tab.value }"
-            @click="changeTab(tab.value)"
+              v-for="(tab, index) in tabsOptions"
+              :key="index"
+              :class="{ activeOne: activeTabDoughnut === tab.value }"
+              class="fs-10 fw-7 font-primary mb-0 cursor-pointer position-relative text-uppercase"
+              @click="changeTabDoughnut(tab.value)"
           >
             {{ tab.title }}
           </h6>
         </div>
         <div class="positoin-relative mt-5 mb-4">
           <DoughnutChart
-            :data="dataChart"
-            :labels="chartLabels"
-            :options="chartOptions"
-            class="doughnut-chart d-none d-sm-block"
-            chart-id="vendor-dashboard-doughnut-chart"
+              ref="donChart1"
+              :bg-colors="dataBgColors"
+              :data="dataChart"
+              :labels="chartLabels"
+              :height="212"
+              :options="chartOptions"
+              chart-id="vendor-dashboard-doughnut-chart"
+              class="doughnut-chart d-none d-sm-block"
           />
           <DoughnutChart
-            :chart-data="dataChart"
-            :labels="chartLabels"
-            :options="chartOptions"
-            class="doughnut-chart d-block d-sm-none"
-            :height="204"
-            :bgColors="dataBgColors"
-            chart-id="vendor-dashboard-doughnut-chart"
+              ref="donChart2"
+              :bg-colors="dataBgColors"
+              :data="dataChart"
+              :labels="chartLabels"
+              :options="chartOptions"
+              :height="204"
+              chart-id="vendor-dashboard-doughnut-chart"
+              class="doughnut-chart d-block d-sm-none"
           />
         </div>
         <div class="text-right d-none d-sm-block">
           <a
-            href="#"
-            class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
-            >{{ $t('vendor_dashboard.view_breakdown') }}</a
+              class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
+              href="#"
+          >{{ $t('vendor_dashboard.view_breakdown') }}</a
           >
         </div>
       </div>
       <div class="text-right mt-2 d-block d-sm-none">
         <a
-          href="#"
-          class="font-primary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
-          >{{ $t('vendor_dashboard.view_breakdown') }}</a
+            class="font-primary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
+            href="#"
+        >{{ $t('vendor_dashboard.view_breakdown') }}</a
         >
       </div>
     </div>
   </section>
 </template>
 <script>
-import { CustomSelect } from '~/components/common'
-import { DEFAULT } from '~/static/constants'
+import {CustomSelect} from '~/components/common'
+import {DEFAULT, FILTERED_CATEGORIES, FOOTWEAR_CATEGORIES, GRAPH_COLORS} from '~/static/constants'
+import screenSize from '~/plugins/mixins/screenSize';
+
 export default {
   name: 'VendorDashboardCharts',
-  components: { CustomSelect },
+  components: {CustomSelect},
+  mixins: [screenSize],
   data() {
     return {
       // TODO Dummy Data
       filterByTitle: this.$t('selling_page.status'),
-      filterBy: '',
-      activeTab: '24h',
+      filterBy: 'month',
+      activeTab: 'month',
+      activeTabDoughnut: 'week',
       tabsOptions: [
-        { title: '24H', value: '24h' },
-        { title: '7D', value: '7d' },
-        { title: '30D', value: '30m' },
-        { title: '6M', value: '6m' },
-        { title: '1Y', value: '1y' },
-        { title: 'All', value: 'all' },
+        {title: 'Week', value: 'week'},
+        {title: 'Month', value: 'month'},
+        {title: 'Year', value: 'year'}
       ],
       searchFilters: {
         startDate: '',
@@ -163,7 +171,7 @@ export default {
         perPage: 8,
         page: 1,
       },
-      dataChart: [],
+      dataChart: [0, 0, 0],
       chartLabels: [
         this.$t('vendor_dashboard.footwear'),
         this.$t('vendor_dashboard.apparel'),
@@ -182,9 +190,43 @@ export default {
             pointStyle: 'circle',
             fontFamily: 'Montserrat',
             fontColor: '#000',
-            fontSize: 12,
+            fontSize: 10,
+            lineHeight: 12,
+            fontWeight: 500
           },
         },
+        tooltips: {
+          callbacks: {
+            title(tooltipItem, data) {
+              return data.labels[tooltipItem[0].index];
+            },
+            label: (tooltipItem, data) => {
+              const dataset = data.datasets[0];
+              return Math.round((dataset.data[tooltipItem.index] / Object.values(dataset._meta)[0].total) * 100) + '% ' + this.$options.filters.toCurrency(parseInt(dataset.data[tooltipItem.index]));
+            },
+            afterLabel(tooltipItem, data) {
+              return ''
+            }
+          },
+          backgroundColor: '#FAFAFA',
+          titleFont: {
+            weight: 500,
+            family: 'Montserrat',
+            size: 12,
+            lineHeight: 15
+          },
+          cornerRadius: 9,
+          bodyFont: {
+            weight: 700,
+            family: 'Montserrat',
+            size: 14,
+            lineHeight: 17
+          },
+          titleFontColor: '#626262',
+          bodyFontColor: '#4B942D',
+          displayColors: false,
+          padding: 8
+        }
       },
       chartData: {
         labels: this.chartLabels,
@@ -198,6 +240,8 @@ export default {
       lineChartOptions: {
         responsive: true,
         maintainAspectRatio: false,
+        borderWidth: 5,
+        showLine: false,
         scales: {
           xAxes: [
             {
@@ -239,7 +283,7 @@ export default {
         },
       },
       dataGraph: [],
-      dataBgColors: [],
+      dataBgColors: Object.values(GRAPH_COLORS),
       labels: [
         'Sunday',
         'Monday',
@@ -268,53 +312,54 @@ export default {
     }
   },
   mounted() {
-    this.handleFilterByChangeTotalSale('week')
-    this.handleFilterByChangeTotalSaleChart('week')
+    this.handleFilterByChangeTotalSale('month')
+    this.handleFilterByChangeTotalSaleChart('month')
   },
   methods: {
     handleFilterByChangeTotalSale(value) {
       this.$axios
-        .get('/dashboard/vendor/sales-graph?group_by=' + value)
-        .then((res) => {
-          const labels = []
-          const dataSet = []
-          for (const property in res.data.data) {
-            labels.push(property)
-            dataSet.push(res.data.data[property])
-          }
-          this.dataGraph = dataSet
-          this.labels = labels
-        })
-        .catch((err) => {
-          this.logger.logToServer(err.response)
-        })
+          .get('/dashboard/vendor/sales-graph?group_by=' + value)
+          .then((res) => {
+            const labels = []
+            const dataSet = []
+            for (const property in res.data.data) {
+              labels.push(property)
+              dataSet.push(res.data.data[property])
+            }
+            this.dataGraph = dataSet
+            this.labels = labels
+          })
+          .catch((err) => {
+            this.logger.logToServer(err.response)
+          })
     },
     changeTab(tab) {
       this.activeTab = tab
+      this.handleFilterByChangeTotalSale(tab)
     },
-    random_bg_color() {
-      const randomColor = Math.floor(Math.random() * 16777215).toString(16)
-      return '#' + randomColor
+    changeTabDoughnut(tab) {
+      this.activeTabDoughnut = tab
+      this.handleFilterByChangeTotalSaleChart(tab)
     },
     handleFilterByChangeTotalSaleChart(value) {
       this.$axios
-        .get('/dashboard/vendor/sales-chart?group_by=' + value)
-        .then((res) => {
-          const labels = []
-          const dataSet = []
-          const bgColors = []
-          for (const property in res.data.data) {
-            labels.push(property)
-            dataSet.push(res.data.data[property])
-            bgColors.push(this.random_bg_color())
-          }
-          this.dataChart = dataSet
-          this.chartLabels = labels
-          this.dataBgColors = bgColors
-        })
-        .catch((err) => {
-          this.logger.logToServer(err.response)
-        })
+          .get('/dashboard/vendor/sales-chart?group_by=' + value)
+          .then((res) => {
+            const data = [0, 0, 0]
+            // LIMIT categories to 'apparel', 'accessories' and 'footwear' as grouped 'sneakers', 'shoes'
+            for (const property in res.data.data) {
+              if (FILTERED_CATEGORIES.includes(property)) {
+                data[FILTERED_CATEGORIES.indexOf(property) + 1] += res.data.data[property]
+              }
+              if (FOOTWEAR_CATEGORIES.includes(property)) {
+                data[0] += res.data.data[property]
+              }
+            }
+            this.dataChart = data
+          })
+          .catch((err) => {
+            this.logger.logToServer(err.response)
+          })
       this.searchFilters.filterBy = value === DEFAULT ? '' : value
     },
   },
@@ -322,26 +367,53 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.chart-card
+  &.mobile
+    box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
+    border-radius: 8px
+
 .doughnut-chart
   #vendor-dashboard-doughnut-chart
-    height: 280px
+    height: 170px
+
 .line-chart
   #vendor-dashboard-line-chart
     height: 280px
     @media (max-width: 576px)
       height: 204px
+
 .dropdownSelect
   width: 180px
+
+.view-more-link
+  color: $color-blue-30
+
+.dropdown-filter::v-deep
+  background-color: $color-white-4
+  border-radius: 8px
+  border: none !important
+
+  .selected
+    @include body-13-normal
+    color: $color-black-1
+    background-color: $color-white-4 !important
+    font-family: $font-family-sf-pro-display
+
+
 .text-grey-69
   color: $color-gray-69
+
 .tabs
   h6
     color: $color-gray-47
     transition: 0.1s all ease-in
+
     &:hover
       color: $color-black-1
+
     &.activeOne
       color: $color-black-1
+
       &::after
         content: ''
         position: absolute
@@ -352,6 +424,7 @@ export default {
         height: 4px
         width: 4px
         border-radius: 50%
+
 @media (max-width: 576px)
   .view-more-link
     font-size: 10px

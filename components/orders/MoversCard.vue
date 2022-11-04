@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     brandNameToLogoUrl(name) {
-      const brand = this.filters.brands.find(b => b.name === name)
+      const brand = this.filters.brands?.find(b => b.name === name)
       if (brand) {
         return brand.image
       }
