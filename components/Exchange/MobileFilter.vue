@@ -58,7 +58,7 @@
         </div>
       </div>
     </div>
-    <vue-bottom-sheet ref="auctionFiltersSheet">
+    <vue-bottom-sheet ref="stockExchangeFiltersSheet">
       <div class="d-flex flex-column h-100 filters-sheet">
         <div class="filters-sheet-title text-center">
           {{ $t('auctions.frontpage.filterbar.filter_by') }}
@@ -108,10 +108,10 @@ import SearchBox from '../RoundSearchBox'
 import { MIN_YEAR, MAX_YEAR, MIN_PRICE_RANGE_WINDOW } from '~/static/constants'
 
 /*
- * Auction Mobile FilterBar
+ * StockExchangeMobileFilter Mobile FilterBar
  */
 export default {
-  name: 'AuctionMobileFilter',
+  name: 'StockExchangeMobileFilter',
   components: {
     SearchBox,
   },
@@ -121,16 +121,6 @@ export default {
       hasSearchResult: false,
       searchedProducts: [],
       searchEnabled: false,
-      auctionTypes: [
-        {
-          label: this.$t('auctions.frontpage.filterbar.types.single'),
-          value: 'single',
-        },
-        {
-          label: this.$t('auctions.frontpage.filterbar.types.collections'),
-          value: 'collection',
-        },
-      ],
       selectedFilters: {
         type: 'single',
         sizeTypes: [],
@@ -143,7 +133,6 @@ export default {
       MAX_YEAR,
       MIN_YEAR,
       MIN_PRICE_RANGE_WINDOW,
-      // selectedPrices: [MIN_PRICE, MAX_PRICE / 100],
       selectedYears: [MIN_YEAR, MAX_YEAR],
       SIMILAR_FILTER_SORT_OPTIONS: [
         {
@@ -270,30 +259,14 @@ export default {
       }
     },
     openBottomFilter() {
-      this.$refs.auctionFiltersSheet.open()
+      this.$refs.stockExchangeFiltersSheet.open()
     },
     closeBottomFilter() {
-      this.$refs.auctionFiltersSheet.close()
-    },
-    // updatePriceFilters(value) {
-    //   this.selectedPrices = value
-    //   this.selectedFilters = {
-    //     ...this.selectedFilters,
-    //     minPrice: value[0] === MIN_PRICE ? undefined : value[0] * 100,
-    //     maxPrice: value[1] === MAX_PRICE ? undefined : value[1] * 100,
-    //   }
-    // },
-    // Update selected years and pass to parent component
-    updateYearFilters(value) {
-      this.selectedYears = value
-      this.selectedFilters = {
-        ...this.selectedFilters,
-        minYear: value[0] === MIN_YEAR ? undefined : value[0],
-        maxYear: value[1] === MAX_YEAR ? undefined : value[1],
-      }
+      this.$refs.stockExchangeFiltersSheet.close()
     },
     resetFilters() {
       this.selectedFilters = {}
+      this.$emit('change', this.selectedFilters)
     },
     applyFilters() {
       this.$emit('change', this.selectedFilters)

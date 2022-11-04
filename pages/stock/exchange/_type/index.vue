@@ -19,7 +19,7 @@
       <div class="container container-auction-details">
         <div class="row">
           <div class="col-12 col-md-11 col-sm-11 mx-auto">
-            <ProductList  :loading="loading" :title="currentCategory"></ProductList>
+            <ProductList ref="productList"  :loading="loading" :title="currentCategory" ></ProductList>
           </div>
         </div>
       </div>
@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     handleFilterChange() {
-      // this.loadPage()
+      this.$refs.productList.filterList()
     },
     // Set the screen Size
     myEventHandler(e) {
