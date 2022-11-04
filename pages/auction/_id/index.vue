@@ -114,7 +114,7 @@
           <strong v-else class="bid-details-price">{{ $t('auctions.frontpage.current_bid') }}: &nbsp;&nbsp;-&nbsp;&nbsp;</strong>
           <div class="mt-4 place-bid-form">
             <div class="place-bid-form-title">{{ $t('auctions.frontpage.place_bid') }}</div>
-            <input v-model="placeBidPrice" :placeholder="$t('auctions.frontpage.insert_amount')" />
+            <input v-model="placeBidPrice" v-number-only :placeholder="$t('auctions.frontpage.insert_amount')" />
             <ArrowFillIcon role="button" :disabled="!placeBidPrice" @click="placeBid" />
           </div>
           <div v-if="showLowBidError" class="text-left text-danger mt-1">

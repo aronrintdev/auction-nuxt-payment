@@ -2457,6 +2457,7 @@
     "sku": "sku",
     "size": "Size",
     "color_way": "Colorway",
+    "color": "Color",
     "box_condition": "Box Condition",
     "remove": "Remove",
     "save_for_later": "Save for later",
@@ -3395,6 +3396,7 @@
       "removed_social_account": "Removed Social Account Connection.",
       "remove_existing": "This will remove your existing social connection.",
       "connected_successfully": "Connected to Social Account",
+      "log_out": "Log Out",
       "support": {
         "title": "Deadstock Support",
         "searchPlaceholer": "Search Support",
@@ -3654,8 +3656,9 @@
     "purchases": "Purchases",
     "search_purchases": "Search Purchases",
     "search_purchases_summary": "Search for Order Number or Product Name",
+    "search_purchases_summary_placeholder": "Search for Purchase ID or Product Name",
     "purchase_history": "Purchase History",
-    "order_no": "Order Number: #{orderNo}",
+    "order_no": "Order #{orderNo}",
     "order": "Order #{orderNo}",
     "ordered_on": "Ordered on {orderedDate}",
     "view_order": "View Order",
@@ -3783,7 +3786,9 @@
       "refunded": "Refunded",
       "ship_to_deadstock": "Send to Deadstock",
       "authentication_complete": "Authentication Complete",
-      "awaiting_shipment_to_buyer": "Awaiting Shipment to Buyer"
+      "awaiting_shipment_to_buyer": "Awaiting Shipment to Buyer",
+      "shipped_to_deadstock": "Send to Deadstock",
+      "authentication_complete": "Authentication Complete"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
@@ -4873,7 +4878,10 @@
     "cash_added": "${0} Cash Added",
     "cash_requested": "${0} Cash Requested",
     "edit_added_cash": "Edit Added Cash",
-    "edit_requested_cash": "Edit Requested Cash"
+    "edit_requested_cash": "Edit Requested Cash",
+    "offer": "Offer",
+    "want": "Want",
+    "post_trade": "Post Trade"
   },
   "change_password": {
     "password": "Password",
@@ -5050,6 +5058,7 @@
     "seller_permit_number": "Seller Permit Number:",
     "enter_permit_number": "Enter Permit Number",
     "expiration_date": "Expiration Date:",
+    "document_expiration_date": "Expiration Date #:",
     "drag_drop_here": "Drag and Drop here | or",
     "expiration_date_placeholder": "__/__/____",
     "send_code": "Send Code",
@@ -5258,11 +5267,11 @@
     },
     "order_statuses": {
       "awaiting_shipment": "Awaiting Shipment",
-      "on_route": "On Route",
-      "arrived_at_deadstock": "Arrived at Deadstock",
-      "awaiting_authentication": "Awaiting Authentication",
-      "authentication_complete": "Authentication Complete",
-      "commission_paid": "Commission Paid",
+      "shipped_to_ds": "On Route",
+      "arrived_at_ds": "Arrived at Deadstock",
+      "awaiting_auth": "Awaiting Authentication",
+      "auth_completed": "Authentication Complete",
+      "shipped_to_buyer": "Commission Paid",
       "order_taken_over": "Order Taken Over"
     }
   },
@@ -5390,9 +5399,28 @@
     "title": "Fee Policy"
   },
   "vendor_dashboard": {
-    "title": "Dashbaord",
+    "title": "Dashboard",
+    "hi_name": "Hi {0},",
+    "you_are_seller": "You are a {rank} Seller",
+    "seller_fee": "Seller Fee",
+    "overview": "Overview",
+    "selling_history": "Selling History",
     "bronze_seller": "Bronze Seller",
     "seller": "Seller",
+    "outcome": "Outcome",
+    "seller_ranking": "Seller Ranking",
+    "view_more": "View More",
+    "footwear": "Footwear",
+    "on_track": "You are on track for {rank} Seller Next Quarter",
+    "next_sales": "With {next} more successful sales",
+    "till_next": "{point} till {next}",
+    "outcomes": {
+      "paid": "Fulfilled",
+      "due": "Due",
+      "failed_auth": "Failed Auth."
+    },
+    "faq_title": "Vendor Hub Frequently Asked Questions",
+    "faq_body": "Have a question? See our FAQ with link below",
     "view_details": "View Details",
     "view_all": "View All",
     "total_sales": "Total Sales | Sales Activity",
@@ -5576,9 +5604,12 @@
     "quantity": "Quantity",
     "duration": "Duration",
     "offer": "Offer",
-    "days": "Days",
+    "days": "Day | Days",
+    "next": "Next",
+    "details": "Details",
     "offer_summary": "Offer Summary",
     "offer_amount": "Offer Amount",
+    "place_offer": "Place Offer",
     "remove": "Remove",
     "save_for_later": "Save for later"
   },

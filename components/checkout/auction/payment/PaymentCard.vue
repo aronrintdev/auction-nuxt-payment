@@ -354,7 +354,10 @@ export default {
     },
     submit() {
       // If there is cardholder name & billing address name mismatch show the error page.
-      if (this.getBillingFullName !== this.form.inputCardHolderName) {
+      if (
+        this.getBillingFullName.toLowerCase() !==
+        this.form.inputCardHolderName.toLowerCase()
+      ) {
         this.emitRenderComponentEvent(
           this.$parent.$options.components.PaymentOptionError.name,
         )
