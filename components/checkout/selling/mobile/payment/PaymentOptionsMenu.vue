@@ -41,7 +41,7 @@
 <script>
 import { mapActions } from 'vuex'
 import emitEventMixin from '~/plugins/mixins/emit-event'
-import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTitle'
+import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTitle'
 import ArrowLeftBlackSVG from '~/assets/img/shopping-cart/arrow-left-black.svg?inline'
 
 export default {
