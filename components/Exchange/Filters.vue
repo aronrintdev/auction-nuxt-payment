@@ -2,8 +2,18 @@
   <section class="auction-filters">
     <div class="auction-filters-content">
       <div class="d-flex justify-content-between">
-        <div v-click-outside="hideDropdown" class="searchbox" :class="{ 'open': hasSearchResult }">
-          <search-box :searchText="searchText" :placeholder="$t('deadstock_exchange.filter_by.details_placeholder')" @search="search" />
+        <div
+          v-click-outside="hideDropdown"
+          class="searchbox"
+          :class="{ open: hasSearchResult }"
+        >
+          <search-box
+            :searchText="searchText"
+            :placeholder="
+              $t('deadstock_exchange.filter_by.details_placeholder')
+            "
+            @search="search"
+          />
           <div v-if="hasSearchResult" class="dropdown-options">
             <div
               v-for="prod in searchedProducts"
@@ -13,7 +23,9 @@
             >
               <div class="position-relative d-inline-flex">
                 <b-img
-                  :src="`${prod.image  || 'https://images.deadstock.co/404.png'}?width=150}`"
+                  :src="`${
+                    prod.image || 'https://images.deadstock.co/404.png'
+                  }?width=150}`"
                   class="mx-auto"
                   alt="..."
                 />
@@ -21,7 +33,10 @@
               </div>
               &nbsp; {{ prod.name }}
             </div>
-            <div v-if="!searchedProducts.length" class="dropdown-option text-center">
+            <div
+              v-if="!searchedProducts.length"
+              class="dropdown-option text-center"
+            >
               {{ $t('sell.create_listing.no_result') }}
             </div>
           </div>
@@ -32,16 +47,14 @@
           :placeholder="$t('selling_page.sortby')"
           :items="SORT_OPTIONS"
           :icon="require('~/assets/img/icons/three-lines.svg')"
-          :icon-arrow-down="
-            require('~/assets/img/icons/arrow-down-black.svg')
-          "
+          :icon-arrow-down="require('~/assets/img/icons/arrow-down-black.svg')"
           class="dropdown-sort flex-shrink-1"
           can-clear
           @select="changeOption"
         />
       </div>
     </div>
-    <div  class="mt-4 d-flex align-items-center">
+    <div class="mt-4 d-flex align-items-center">
       <!-- Categories -->
       <MultiSelectDropdown
         v-model="selectedFilters.category_id"
@@ -110,8 +123,8 @@
         @change="updateYearFilters"
       />
     </div>
-        <!-- Filters -->
-        <div class="row filter-row">
+    <!-- Filters -->
+    <div class="row filter-row">
       <div class="col-md-12 col-sm-12 mt-md-4 mt-4">
         <!-- Selected Filters -->
         <div
@@ -156,7 +169,11 @@ import { mapGetters } from 'vuex'
 import ClickOutside from 'vue-click-outside'
 import debounce from 'lodash.debounce'
 import SearchBox from '../RoundSearchBox'
-import { FormDropdown, MultiSelectDropdown, SliderDropdown } from '~/components/common'
+import {
+  FormDropdown,
+  MultiSelectDropdown,
+  SliderDropdown,
+} from '~/components/common'
 import {
   MAX_PRICE,
   MIN_PRICE,
@@ -179,13 +196,13 @@ export default {
     SliderDropdown,
   },
   directives: {
-    ClickOutside
+    ClickOutside,
   },
   props: {
     searchKeyword: {
       type: String,
       default: '',
-    }
+    },
   },
   data() {
     return {
@@ -231,23 +248,23 @@ export default {
       statusOptions: [
         {
           label: this.$t('filter_sidebar.status_options.live'),
-          value: 'live'
+          value: 'live',
         },
         {
           label: this.$t('filter_sidebar.status_options.upcoming'),
-          value: 'upcoming'
+          value: 'upcoming',
         },
         {
           label: this.$t('filter_sidebar.status_options.expiring'),
-          value: 'ending_soon'
+          value: 'ending_soon',
         },
         {
           label: this.$t('filter_sidebar.status_options.expired'),
-          value: 'expired'
+          value: 'expired',
         },
         {
           label: this.$t('filter_sidebar.status_options.sold'),
-          value: 'sold'
+          value: 'sold',
         },
       ],
       selectedPrices: [MIN_PRICE, MAX_PRICE / 100],
@@ -261,16 +278,11 @@ export default {
         status: [],
         sortby: null,
         product: null,
-      }
+      },
     }
   },
   computed: {
-    ...mapGetters('browse', [
-      'filters',
-      'selectedBrands',
-      'selectedSizes',
-      'selectedSizeTypes',
-    ]),
+    ...mapGetters({ filters: 'browse/filters' }),
     sizeOptions() {
       let options = this.filters?.sizes
       if (options && this.sizeTypes && this.sizeTypes.length > 0) {
@@ -301,50 +313,53 @@ export default {
       this.searchText = newV
     },
     selectedFilters: {
-      handler (newV) {
+      handler(newV) {
+        this.setActiveFilter()
         this.emitChange(newV)
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   mounted() {
-    const auctionFilters = document.querySelector('.auction-filters');
-    if (auctionFilters)
-    auctionFilters.style.padding='70px 10px';
+    const auctionFilters = document.querySelector('.auction-filters')
+    if (auctionFilters) auctionFilters.style.padding = '70px 10px'
     this.searchText = this.searchKeyword
     // Get categories list
-    this.$axios.get('/categories', {
-      params: {
-        take: 3,
-      }
-    })
-    .then(res => {
-      this.categoryOptions = res.data.map(cat => ({
-        label: this.$t(`common.categories.${cat.name}`),
-        value: cat.id,
-      }))
-    })
-    .catch(() => {
-      this.categoryOptions = []
-    })
-
+    this.$axios
+      .get('/categories', {
+        params: {
+          take: 3,
+        },
+      })
+      .then((res) => {
+        this.categoryOptions = res.data.map((cat) => ({
+          label: this.$t(`common.categories.${cat.name}`),
+          value: cat.id,
+        }))
+      })
+      .catch(() => {
+        this.categoryOptions = []
+      })
   },
   methods: {
     // Search event listener
     search(value) {
       this.searchText = value
       if (value) {
-        this.$axios.get('/products', {
-          params: {
-            search: value.toLowerCase(),
-          }
-        }).then(response => {
-          this.hasSearchResult = true;
-          this.searchedProducts = response.data.data || []
-        }).catch(error => {
-          this.hasSearchResult = false;
-          this.$toasted.error(error)
-        });
+        this.$axios
+          .get('/products', {
+            params: {
+              search: value.toLowerCase(),
+            },
+          })
+          .then((response) => {
+            this.hasSearchResult = true
+            this.searchedProducts = response.data.data || []
+          })
+          .catch((error) => {
+            this.hasSearchResult = false
+            this.$toasted.error(error)
+          })
       } else {
         this.selectedProduct = null
         this.emitChange()
@@ -364,12 +379,12 @@ export default {
     changeOption(option) {
       this.selectedFilters = {
         ...this.selectedFilters,
-        sortby: option?.value
+        sortby: option?.value,
       }
     },
 
     // Submit updated filters
-    emitChange: debounce(function(filters) {
+    emitChange: debounce(function (filters) {
       this.$emit('filterList', filters)
     }, 300),
     hideDropdown() {
@@ -384,7 +399,6 @@ export default {
         price_from: value[0] === MIN_PRICE ? undefined : value[0] * 100,
         price_to: value[1] === MAX_PRICE ? undefined : value[1] * 100,
       }
-      this.setActiveFilter()
     },
     // Update selected years and pass to parent component
     updateYearFilters(value) {
@@ -394,19 +408,41 @@ export default {
         minYear: value[0] === MIN_YEAR ? undefined : value[0],
         maxYear: value[1] === MAX_YEAR ? undefined : value[1],
       }
-      this.setActiveFilter()
     },
+    //  this will show the all selected filter in bage
     setActiveFilter() {
       const val = this.selectedFilters
       this.activeTypeFilters = []
+      console.log(val)
       for (const value of Object.values(val)) {
-        if (value !== '') {
-          const category = this.allCategories.filter((el) => el.id === value)
-          if (
-            !this.activeTypeFilters.includes(value) &&
-            category[0] === undefined
-          ) {
-            this.activeTypeFilters.push(value)
+        console.log('val', val)
+        if (value !== null && value !== '' && value !== []) {
+          let data = ''
+          const arrValue = value || []
+          if (Array.isArray(arrValue) && arrValue.length > 0) {
+            data = arrValue.join(',')
+            const category = this.categoryOptions.filter((el) => el.id === data)
+            if (
+              !this.activeTypeFilters.includes(data) &&
+              category[0] === undefined &&
+              category[0] !== []
+            ) {
+              this.activeTypeFilters.push(data)
+              console.log('1', category)
+            }
+          } else {
+            const category = this.categoryOptions.filter(
+              (el) => el.id === value
+            )
+            console.log('2', category)
+            if (
+              !this.activeTypeFilters.includes(value) &&
+              category[0] !== undefined &&
+              category[0] !== [] &&
+              category[0].length > 0
+            ) {
+              this.activeTypeFilters.push(value)
+            }
           }
         }
       }
@@ -428,7 +464,7 @@ export default {
       this.$store.commit('stock-exchange/removeActiveFilters')
       this.$emit('filterList', this.selectedFilters)
     },
-        // Remove the filter from respective arrays
+    // Remove the filter from respective arrays
     removeTypeFilter(option) {
       const statusFilter = this.activeTypeFilters
       if (statusFilter.includes(option)) {
@@ -443,7 +479,7 @@ export default {
         this.clearFilters()
       }
     },
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>
