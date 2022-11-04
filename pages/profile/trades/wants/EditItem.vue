@@ -31,10 +31,6 @@
         </div>
         <div class="col-xl-6 px-0 px-sm-2">
           <p class="mt-3 mb-0 title">{{ product.product.name }}</p>
-          <!-- <p class="custom-border">
-            <span class="last-sale">{{ $t('product_page.last_sale') }}: $250.00</span>
-            <span class="last-sale-value">+0.64 (+0.36%)</span>
-          </p> -->
           <div class="position-relative">
             <ProductSizePicker
               :value="currentSizeId"
@@ -241,10 +237,6 @@
               {{ product.product.release_date || $t('products.box_conditions.none') }}
             </div>
           </div>
-          <!-- <div class="col-5">
-            <div class="product-details-label">{{ $t('rewards.description') }}:</div>
-            <div>Lorem ipsum dolor dit amet</div>
-          </div> -->
         </div>
       </div>
 
@@ -283,7 +275,6 @@
 </template>
 
 <script>
-/* eslint-disable vue/no-unused-components */
 import {mapGetters, mapActions} from 'vuex'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import ProductSizePicker from '~/components/product/SizePicker'
@@ -297,6 +288,7 @@ import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360
 import ProductLatestSales from '~/components/product/LatestSales'
 import SalesSection from '~/components/product/SalesSection'
 import { Icon } from '~/components/common'
+import { WANTS_SELECT_LIST_OPTIONS } from '~/static/constants/trades'
 
 
 export default {
@@ -363,7 +355,9 @@ export default {
         {name: this.$t('trades.create_listing.vendor.wants.confirm_trade'), active: false}
       ],
       selectList: [],
-      selectListOptions: [{ text: this.$t('trades.wants_listing.general_wants'), value: 'general_wants' }],
+      selectListOptions: WANTS_SELECT_LIST_OPTIONS.map(
+        item => ({ text: this.$t(item.text), value: item.value })
+      ),
       conditionsOptions: this.product.product.packaging_conditions.map((item) => ({ text: item.name, value: item.id })),
       condition: { text: this.product.packaging_condition.name, value: this.product.packaging_condition.id },
       conditionLabel: this.product.packaging_condition.name || this.$t('products.box_conditions.none'),
@@ -573,7 +567,6 @@ export default {
       }
     },
     listType(checked) {
-      console.log('listType1', checked);
       if (!this.selectList.includes(checked)) {
         this.selectList.push(checked)
       } else {
@@ -612,7 +605,7 @@ export default {
 
 .custom-shadow
   @media (max-width: 576px)
-    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25)
+    box-shadow: 0px 1px 2px $drop-shadow1
     border-radius: 8px
 
 .horizontal-scroll 
