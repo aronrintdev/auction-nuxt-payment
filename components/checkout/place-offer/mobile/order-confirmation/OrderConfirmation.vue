@@ -1,6 +1,6 @@
 <template>
   <b-col cols="12" sm="12" class="px-0">
-    <ProductPreview :products="products" />
+    <ProductPreview :products="products" :copped-text="coppedText" />
 
     <ThankYou :order-details="offerDetails" @view-order-details="$refs.orderDetails.open()" />
 
@@ -21,6 +21,11 @@ import OrderDetails from '~/components/checkout/place-offer/mobile/order-confirm
 export default {
   name: 'OrderConfirmation',
   components: { ProductPreview, ThankYou, OrderDetails },
+  data() {
+    return {
+      coppedText: 'OFFER PLACED'
+    }
+  },
   computed: {
     ...mapGetters({
       offerDetails: 'offer/getOfferDetails',
