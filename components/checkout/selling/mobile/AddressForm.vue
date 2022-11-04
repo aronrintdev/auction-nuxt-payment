@@ -437,7 +437,7 @@ export default {
         border: 1px solid $color-red-3
 
 .confirm-btn-wrapper
-  margin: 30px 0
+  margin: 30px 0 0
 
   div
     padding: 0
