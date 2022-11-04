@@ -212,16 +212,17 @@
     <div class="mt-2 ml-3 mr-3 mb-5 p-2" v-if="brandsPre">
       <div  class="sizePre-sections">
         <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.size_preferences')}}</div>
-        <b-row class="mt-4">
-          <b-col sm="3" v-for="(brand,index) in filters.brands" :key="index" class="">
-            <div class="position-relative">
-              <div class="position-absolute checkbox-brand">
-                <b-form-checkbox :checked="selectedBrands" :value="brand._id" @change="changeSelectedBrands(brand._id)"></b-form-checkbox>
-              </div>
+        <b-row class="images-row">
+          <b-col v-for="(brand,index) in filters.brands" :key="index">
+<!--            <div class="position-relative">-->
+<!--              <div class="position-absolute checkbox-brand">-->
+<!--                <b-form-checkbox :checked="selectedBrands" :value="brand._id" @change="changeSelectedBrands(brand._id)"></b-form-checkbox>-->
+<!--              </div>-->
               <div>
+                <b-form-checkbox :checked="selectedBrands" :value="brand._id" @change="changeSelectedBrands(brand._id)"></b-form-checkbox>
                 <img :src="brand.image" class="brand-image">
               </div>
-            </div>
+<!--            </div>-->
           </b-col>
         </b-row>
       </div>
@@ -573,8 +574,8 @@ export default {
   top: 5px
 
 .brand-image
-  width: 165px
-  height: 150px
+  width: 50px
+  height: 50px
 
 .pr-39
   padding-right: 39px
@@ -748,4 +749,7 @@ export default {
   font-family: $font-sp-pro
   color: #000000
   width: 100%
+.images-row
+  height: 200px
+  overflow-y: scroll
 </style>
