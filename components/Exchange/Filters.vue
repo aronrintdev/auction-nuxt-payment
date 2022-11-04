@@ -413,9 +413,7 @@ export default {
     setActiveFilter() {
       const val = this.selectedFilters
       this.activeTypeFilters = []
-      console.log(val)
       for (const value of Object.values(val)) {
-        console.log('val', val)
         if (value !== null && value !== '' && value !== []) {
           let data = ''
           const arrValue = value || []
@@ -428,13 +426,11 @@ export default {
               category[0] !== []
             ) {
               this.activeTypeFilters.push(data)
-              console.log('1', category)
             }
           } else {
             const category = this.categoryOptions.filter(
               (el) => el.id === value
             )
-            console.log('2', category)
             if (
               !this.activeTypeFilters.includes(value) &&
               category[0] !== undefined &&
