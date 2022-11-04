@@ -174,12 +174,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('browse', [
-      'filters',
-      'selectedBrands',
-      'selectedSizes',
-      'selectedSizeTypes',
-    ]),
+    ...mapGetters({ filters: 'browse/filters' }),
     sizeOptions() {
       let options = this.filters?.sizes
       if (options && this.sizeTypes && this.sizeTypes.length > 0) {
