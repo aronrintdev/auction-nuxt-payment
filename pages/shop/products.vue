@@ -153,29 +153,7 @@ export default {
       }else{
         filters.order_by = 'views'
       }
-  
-      this.$axios
-        .get(this.url, {
-          params: filters
-        })
-        .then((res) => {
-          const that = this
-          if (!res.data.next_page_url) {
-            this.state.complete()
-          }else{
-            this.currentPage += 1;
-            this.url = res.data.next_page_url
-          }
-          if (res.data.current_page === 1) {
-            this.products = [...res.data.data]
-          } else {
-            this.products = [...that.products, ...res.data.data]
-          }
-          this.state.loaded()
-        })
-        .finally(() => {
-          this.loading = false
-        })
+      this.loadData(filters)
     },
     getNewRelease(filters){
       if (this.selectedSort) {
@@ -183,28 +161,7 @@ export default {
       }else{
         filters.order_by = 'created_at'
       }
-      this.$axios
-        .get(this.url, {
-          params: filters
-        })
-        .then((res) => {
-          const that = this
-          if (!res.data.next_page_url) {
-            this.state.complete()
-          }else{
-            this.currentPage += 1;
-            this.url = res.data.next_page_url
-          }
-          if (res.data.current_page === 1) {
-            this.products = [...res.data.data]
-          } else {
-            this.products = [...that.products, ...res.data.data]
-          }
-          this.state.loaded()
-        })
-        .finally(() => {
-          this.loading = false
-        })
+      this.loadData(filters)
     },
     getTrending(filters){
       if (this.selectedSort) {
@@ -212,28 +169,7 @@ export default {
       }else{
         filters.sort_by = 'created_at'
       }
-      this.$axios
-        .get(this.url, {
-          params: filters
-        })
-        .then((res) => {
-          const that = this
-          if (!res.data.next_page_url) {
-            this.state.complete()
-          }else{
-            this.currentPage += 1;
-            this.url = res.data.next_page_url
-          }
-          if (res.data.current_page === 1) {
-            this.products = [...res.data.data]
-          } else {
-            this.products = [...that.products, ...res.data.data]
-          }
-          this.state.loaded()
-        })
-        .finally(() => {
-          this.loading = false
-        })
+      this.loadData(filters)
     },
     getInstantShip(filters){
       if (this.selectedSort) {
@@ -241,6 +177,9 @@ export default {
       }else{
         filters.sort_by = 'created_at'
       }
+      this.loadData(filters)
+    },
+    loadData(filters){
       this.$axios
         .get(this.url, {
           params: filters
