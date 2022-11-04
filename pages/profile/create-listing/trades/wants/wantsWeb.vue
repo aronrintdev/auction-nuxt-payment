@@ -866,10 +866,11 @@ export default {
      */
     removeOrDecrementWantItem(id) {
       const existingItem = this.getTradeItemsWants.find(val => val.id === id)
+      const index = this.getTradeItemsWants.indexOf(existingItem)
       if (existingItem.selected_quantity > 1) {
-        this.$store.commit('trades/decrementTradeWantItemQuantity', id)
+        this.$store.commit('trades/decrementTradeWantItemQuantity', index)
       } else {
-        this.$store.commit('trades/removeWantsItemsTrade', id)
+        this.$store.commit('trades/removeWantsItemsTrade', index)
       }
       this.$nextTick(() => this.$forceUpdate())
     },
