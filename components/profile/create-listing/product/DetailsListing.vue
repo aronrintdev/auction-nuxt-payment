@@ -3,7 +3,7 @@
     <span
       v-if="!isScreenXS"
       role="button"
-      class="backToSearch"
+      class="backToSearch body-13"
       @click="backToSearch"
     >
       <img
@@ -12,567 +12,598 @@
       />
       {{ $t('common.back_to_search') }}
     </span>
-    <div
-      v-if="!isScreenXS"
-      class="
-        justify-content-between
-        align-items-center
-        mt-3
-        product-details-heading
-      "
-    >
-      <h2 class="title">{{ product.name }}</h2>
-    </div>
-    
-    <div v-if="!isScreenXS" class="section-product-details">
-      <div class="mt-2">{{ $t('common.sku') }}: {{ product.sku }}</div>
-      <div class="mt-2">{{ $t('common.color') }}: {{ product.colorway }}</div>
-    </div>
 
-    <!-- Nav Bar for mobile -->
-    <div v-if="isScreenXS" class="row mobile-nav-row">
-      <div class="col-12 mobile-nav-col">
-        <nav-group
-          v-model="selectedCategory"
-          :data="visibleCategories"
-          nav-key="category"
-          class="create-selling-details-nav"
-        />
-      </div>
-      <div class="col-12 mobile-nav-price-col">
-        <div class="price-section w-100 mt-2">
-          <div :class="selectedCategory == buy && 'active'">
-            {{ lowestPrice | toCurrency }}
+    <b-row>
+      <b-col sm="12" md="6">
+      </b-col>
+      <b-col sm="12" md="6" v-if="!isScreenXS">
+        <div class="d-flex">
+          <div class="product-name flex-grow-1">
+            {{ product.name }}
           </div>
-          <div :class="selectedCategory == offer && 'active'">
-            {{ highestOffer | toCurrency }}
+          <a role="button" class="ml-3 text-black"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
+        </div>
+        <div class="product-last-sale">
+          <span class="last-sale-title" v-if="lastSold"
+          >{{ $t('product_page.last_sale') }}&colon;</span
+          >
+          <span v-if="lastSold" class="last-sale-amount">
+            {{ lastSold.sale_price | toCurrency('USD', 'N/A') }}
+          </span>
+          <span v-if="avgAmount && avgType"
+                class="last-sale-indicators"
+                :class="avgType === 'down' ? 'text-danger' : 'text-sucess'"
+          >
+            {{ avgAmount | toCurrency('USD', 'N/A') }}
+          </span>
+        </div>
+      </b-col>
+      <b-col v-else sm="12" md="6">
+        <!-- Nav Bar Mobile -->
+        <div class="row mb-3">
+          <div class="col-12">
+            <nav-group
+              v-model="selectedCategory"
+              :data="visibleCategories"
+              nav-key="category"
+              class="m-0 w-100 d-flex justify-content-center"
+            />
+          </div>
+          <div class="col-12">
+            <div class="d-flex justify-content-center mt-2">
+              <div class="px-5 mx-3 text-gray-24 body-5-medium" :class="selectedCategory == buy && 'active text-black'">
+                {{ lowestPrice | toCurrency }}
+              </div>
+              <div class="px-5 mx-3 text-gray-24 body-5-medium" :class="selectedCategory == offer && 'active text-black'">
+                {{ highestOffer | toCurrency }}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <!-- Nav Bar for mobile -->
+        <!-- Nav Bar Mobile end -->
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col sm="12" md="6">
+        <!-- Product thumbnail -->
+        <ProductThumb
+          v-if="!has360Images"
+          :product="product"
+          overlay
+          class="product-thumbnail mx-auto align-items-center overflow-hidden mt-3"
+        />
+        <!-- Product thumbnail ends -->
 
-    <!-- Product thumbnail -->
-    <ProductThumb
-      v-if="!has360Images"
-      :product="product"
-      overlay
-      class="product-thumbnail mx-auto align-items-center overflow-hidden mt-3"
-    />
-    <!-- Product thumbnail ends -->
+        <!-- Product thumbnail 360 -->
+        <ProductImageViewerMagic360
+          v-if="has360Images"
+          class="image-viewer-three-sixty"
+          :product="product"
+        />
 
-    <!-- Product thumbnail 360 -->
-    <ProductImageViewerMagic360
-      v-if="has360Images"
-      class="image-viewer-three-sixty"
-      :product="product"
-    />
-
-    <div v-if="has360Images" class="row">
-      <div class="col-12">
+        <div v-if="has360Images" class="row">
+          <div class="col-12">
         <span class="float-right">
           <img
             :src="require('~/assets/img/icons/360.svg')"
             alt="360 view icon"
           />
         </span>
-      </div>
-    </div>
-    <!-- Product thumbnail 360 ends -->
-
-    <!-- Product details responsive -->
-    <div v-if="isScreenXS" class="row product-details-responsive mt-4">
-      <div class="col-12">
-        <div class="product-name">
-          {{ product.name }}
+          </div>
         </div>
-      </div>
-      <div class="col-12">
-        <div class="product-last-sale">
-          <span class="last-sale-title"
-            >{{ $t('product_page.last_sale') }}&colon;</span
+        <!-- Product thumbnail 360 ends -->
+      </b-col>
+      <b-col sm="12" md="6">
+        <hr>
+        <!-- Nav Bar -->
+        <div v-if="!isScreenXS" class="row">
+          <div class="col-12">
+            <nav-group
+              v-model="selectedCategory"
+              :data="visibleCategories"
+              nav-key="category"
+              class="m-0 w-100 d-flex justify-content-center"
+            />
+          </div>
+          <div class="col-12">
+            <div class="d-flex justify-content-center mt-2">
+              <div class="px-5 mx-3 text-gray-24 body-5-medium" :class="selectedCategory == buy && 'active text-black'">
+                {{ lowestPrice | toCurrency }}
+              </div>
+              <div class="px-5 mx-3 text-gray-24 body-5-medium" :class="selectedCategory == offer && 'active text-black'">
+                {{ highestOffer | toCurrency }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Nav Bar end -->
+
+        <!-- Mobile product name begin -->
+        <b-row v-else>
+          <b-col sm="12" md="6">
+            <div class="d-flex">
+              <div class="product-name mobile flex-grow-1">
+                {{ product.name }}
+              </div>
+              <a role="button" class="ml-3 text-black"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
+            </div>
+            <div class="product-last-sale">
+          <span class="last-sale-title" v-if="lastSold"
+          >{{ $t('product_page.last_sale') }}&colon;</span
           >
-          <span v-if="lastSold" class="last-sale-amount">{{
-            lastSold.sale_price | toCurrency('USD', 'N/A')
-          }}</span>
-          <span
-            v-if="avgAmount && avgType"
-            class="last-sale-indicators"
-            :class="avgType === 'down' ? 'text-danger' : 'text-sucess'"
-          >
+              <span v-if="lastSold" class="last-sale-amount">
+            {{ lastSold.sale_price | toCurrency('USD', 'N/A') }}
+          </span>
+              <span v-if="avgAmount && avgType"
+                    class="last-sale-indicators"
+                    :class="avgType === 'down' ? 'text-danger' : 'text-sucess'"
+              >
             {{ avgAmount | toCurrency('USD', 'N/A') }}
           </span>
+            </div>
+          </b-col>
+        </b-row>
+        <!-- Mobile product name end -->
+
+        <!-- SizePicker -->
+        <div class="mt-2 mx-auto section-product-size">
+          <!--
+          <div
+            class="d-flex align-items-end product-size-details"
+          >
+            <div class="mr-2 form-item-title">{{ $tc('common.size', 1) }}*</div>
+            <div class="form-item-desc">
+              ({{ $t('inventory.suggested_value_displayed') }})
+            </div>
+            <span class="error-msg form-item-desc">{{
+                value.currentSize ? '' : $t('createlisting.please_select_a_size')
+              }}</span>
+          </div>
+          -->
+
+          <!-- SizePicker -->
+          <SizeCarouselResponsive
+            v-if="isScreenXS"
+            :sizes="sizes"
+            :prices="pricesBySize"
+            :value="value.currentSize"
+            :view-mode="sizeViewMode"
+            class="size-picker"
+            @update="handleSizeChange"
+            @changeViewMode="handleSizeViewModeChange"
+          />
+          <ProductSizePicker
+            v-if="!isScreenXS"
+            :sizes="sizes"
+            :prices="pricesBySize"
+            :value="value.currentSize"
+            :view-mode="sizeViewMode"
+            class="size-picker"
+            @update="handleSizeChange"
+            @changeViewMode="handleSizeViewModeChange"
+          />
+          <!-- ./SizePicker -->
         </div>
-      </div>
-    </div>
-    <!-- Product details responsive ends -->
+        <!-- SizePicker ends -->
 
-    <!-- SizePicker -->
-    <div class="mt-2 mx-auto section-product-size">
-      <div
-        v-if="!isScreenXS"
-        class="d-flex align-items-end product-size-details"
-      >
-        <div class="mr-2 form-item-title">{{ $tc('common.size', 1) }}*</div>
-        <div class="form-item-desc">
-          ({{ $t('inventory.suggested_value_displayed') }})
-        </div>
-        <span class="error-msg form-item-desc">{{
-          value.currentSize ? '' : $t('createlisting.please_select_a_size')
-        }}</span>
-      </div>
-
-      <!-- SizePicker -->
-      <SizeCarouselResponsive
-        v-if="isScreenXS"
-        :sizes="sizes"
-        :prices="pricesBySize"
-        :value="value.currentSize"
-        :view-mode="sizeViewMode"
-        class="size-picker"
-        @update="handleSizeChange"
-        @changeViewMode="handleSizeViewModeChange"
-      />
-      <ProductSizePicker
-        v-if="!isScreenXS"
-        :sizes="sizes"
-        :prices="pricesBySize"
-        :value="value.currentSize"
-        :view-mode="sizeViewMode"
-        class="size-picker"
-        @update="handleSizeChange"
-        @changeViewMode="handleSizeViewModeChange"
-      />
-      <!-- ./SizePicker -->
-    </div>
-    <!-- SizePicker ends -->
-
-    <!-- Box Condition Section Responsive -->
-    <div v-if="isScreenXS" class="row box-condition-responsive mt-4">
-      <div class="col-12">
-        <div class="box-condition-title d-flex justify-content-center">
-          {{ $t('common.box_condition') }}
-          <span class="info-icon" role="button">
+        <!-- Box Condition Section Responsive -->
+        <div class="row box-condition-responsive mt-4 mb-4 px-2">
+          <div class="col-12">
+            <div class="body-8-normal d-flex align-items-center"
+              :class="[
+                {'text-uppercase' : !isScreenXS},
+                isScreenXS ? 'justify-content-center' : 'justify-content-start'
+              ]"
+            >
+              {{ $t('common.box_condition') }}*
+              <span class="info-icon px-2" role="button">
             <img
               :src="require('~/assets/img/icons/info-dark-blue.svg')"
               alt="more-info"
               width="12"
             />
           </span>
-        </div>
-      </div>
+            </div>
+          </div>
 
-      <div class="col-12 box-condition-select-col mt-3">
-        <FormDropdown
-          id="box-condition-dropdown"
-          :value="value.boxCondition"
-          :items="packagingConditions"
-          class="dropdown-filters d-flex justify-content-center"
-          :icon-arrow-up="arrowDownIcon"
-          :icon-arrow-down="arrowDownIcon"
-          @input="handlePackagingConditionChange"
-        />
-      </div>
-    </div>
-    <!-- Box Condition Section Responsive ends -->
-
-    <div
-      v-if="!isScreenXS"
-      class="mt-4 mx-auto section-meter bg-white px-3 py-2 size-meter"
-    >
-      <!-- Meter -->
-      <Meter
-        :value="value.price ? Number(value.price) * 100 : null"
-        :lowest="lowestListedPrice"
-        :highest="highestOfferPrice"
-        :fair="lastSoldPrice"
-      />
-      <!-- ./Meter -->
-
-      <!-- Price list -->
-      <div class="d-flex justify-content-between mt-4">
-        <div class="text-left">
-          <div class="field">{{ $t('products.highest_offer') }}</div>
-          <div class="value">
-            {{ highestOfferPrice | toCurrency('USD', 'N/A') }}
+          <div class="col-12 box-condition-select-col mt-3">
+            <FormDropdown
+              v-if="isScreenXS"
+              id="box-condition-dropdown"
+              :value="value.boxCondition"
+              :items="packagingConditions"
+              class="dropdown-filters d-flex justify-content-center"
+              :icon-arrow-up="arrowDownIcon"
+              :icon-arrow-down="arrowDownIcon"
+              @input="handlePackagingConditionChange"
+            />
+            <div v-else class="d-flex justify-content-between">
+              <a role="button"
+                 v-for="(bc, index) in packagingConditions"
+                 :key="index"
+                 @click="handlePackagingConditionChange(bc.value)"
+              >
+                <span :class="selectedCondition !== bc.value ? 'text-gray-47' : 'body-8-bold'">
+                  {{ bc.label }}
+                </span>
+              </a>
+            </div>
           </div>
         </div>
-        <div class="text-center">
-          <div class="field">
-            {{ $t('sell.sell_now.last_sold') }}
-          </div>
-          <div class="value">
-            {{ lastSoldPrice | toCurrency('USD', 'N/A') }}
-          </div>
-        </div>
-        <div class="text-right">
-          <div class="field">{{ $t('inventory.lowest_listed') }}</div>
-          <div class="value">
-            {{ lowestListedPrice | toCurrency('USD', 'N/A') }}
-          </div>
-        </div>
-      </div>
-      <!-- ./Price List -->
-    </div>
+        <!-- Box Condition Section Responsive ends -->
 
-    <!-- Inputs -->
-    <b-row
-      v-if="!isScreenXS"
-      class="section-form-fields justify-content-center m-auto inputs"
-    >
-      <!-- Quantity -->
-      <div
-        class="col-xs-12 col-md-4 px-md-4 mt-3"
-        :class="
+
+        <!-- Inputs -->
+        <div v-if="!isScreenXS" class="row section-form-fields m-auto mt-5">
+          <!-- Price -->
+          <div
+            class="mt-3 col-md-6 col-xs-12 input-col"
+            :class="value.price !== null && value.price <= priceMinVal && 'error'"
+          >
+            <FormInput
+              :value="value.price"
+              :placeholder="$t('inventory.enter_price')"
+              :label="$t('inventory.your_price')"
+              prefix="$"
+              class="input-error"
+              required
+              number
+              @input="handlePriceChange"
+            />
+            <div class="error-text mt-1">
+              {{
+                value.price > priceMinVal ||
+                $t('inventory.message.gt_than', {
+                  field: $t('common.price').toLowerCase(),
+                  amount: priceMinVal,
+                })
+              }}
+            </div>
+          </div>
+          <!-- End of Price -->
+
+          <!-- Quantity -->
+          <div
+            class="mt-3 col-md-6 col-xs-12 input-col"
+            :class="
           (value.quantity < quantityMinVal ||
             value.quantity > quantityMaxVal) &&
           'error'
         "
-      >
-        <FormInput
-          :value="value.quantity"
-          :placeholder="$t('inventory.enter_quantity')"
-          :label="$t('common.quantity')"
-          class="input-error"
-          required
-          integer
-          @input="handleQuantityChange"
-        />
-        <div class="error-text mt-1">
-          {{
-            (quantityMinVal > value.quantity ||
-              value.quantity > quantityMaxVal) &&
-            $t('inventory.message.between', {
-              field: $t('common.quantity').toLowerCase(),
-              min: quantityMinVal,
-              max: quantityMaxVal,
-            })
-          }}
-        </div>
-      </div>
-      <!-- End of Quantity -->
+          >
+            <FormInput
+              :value="value.quantity"
+              :placeholder="$t('inventory.enter_quantity')"
+              :label="$t('common.quantity')"
+              class="input-error"
+              required
+              integer
+              @input="handleQuantityChange"
+            />
+            <div class="error-text mt-1">
+              {{
+                (quantityMinVal > value.quantity ||
+                  value.quantity > quantityMaxVal) &&
+                $t('inventory.message.between', {
+                  field: $t('common.quantity').toLowerCase(),
+                  min: quantityMinVal,
+                  max: quantityMaxVal,
+                })
+              }}
+            </div>
+          </div>
+          <!-- End of Quantity -->
 
-      <!-- Price -->
-      <div
-        class="col-xs-12 col-md-4 px-md-4 mt-3"
-        :class="value.price !== null && value.price <= priceMinVal && 'error'"
-      >
-        <FormInput
-          :value="value.price"
-          :placeholder="$t('inventory.enter_price')"
-          :label="$t('inventory.your_price')"
-          prefix="$"
-          class="input-error"
-          required
-          number
-          @input="handlePriceChange"
-        />
-        <div class="error-text mt-1">
-          {{
-            value.price > priceMinVal ||
-            $t('inventory.message.gt_than', {
-              field: $t('common.price').toLowerCase(),
-              amount: priceMinVal,
-            })
-          }}
-        </div>
-      </div>
-      <!-- End of Price -->
 
-      <!-- Packaging Condition -->
-      <div
-        v-if="
-          !['apparel', 'accessories'].includes(
-            product.category.name.toLowerCase()
-          )
-        "
-        class="col-xs-12 col-md-4 px-md-4 mt-3"
-      >
-        <FormDropdown
-          id="packaging-conditions"
-          :value="value.boxCondition"
-          :placeholder="$t('inventory.select_condition')"
-          :label="$t('common.box_condition')"
-          :items="packagingConditions"
-          required
-          @input="handlePackagingConditionChange"
-        />
-      </div>
-      <!-- End of Packaging Condition -->
-
-      <!-- In case of Accessories / Apparel - Min Offer Amount -->
-      <div
-        v-if="
+          <!-- In case of Accessories / Apparel - Min Offer Amount -->
+          <div
+            v-if="
           ['apparel', 'accessories'].includes(
             product.category.name.toLowerCase()
           )
         "
-        class="col-xs-12 col-md-4 px-md-4 min-offer-div mt-3"
-        :class="
+            class="col-md-6 col-xs-12 input-col"
+            :class="
           value.minOfferAmount !== null &&
           value.minOfferAmount <= minOfferMinVal &&
           'error'
         "
-      >
-        <FormInput
-          :value="value.minOfferAmount"
-          :placeholder="$t('createlisting.enter_min_offer_amount')"
-          :label="$t('createlisting.min_offer_amount')"
-          class="input-error"
-          prefix="$"
-          required
-          integer
-          @input="handleMinOfferPriceChange"
-        />
-        <div class="error-text mt-1">
-          {{
-            value.minOfferAmount === null ||
-            $t('inventory.message.gt_than', {
-              field: $t('common.price').toLowerCase(),
-              amount: minOfferMinVal,
-            })
-          }}
-        </div>
-      </div>
-      <!-- ./MinOffer Amount -->
+          >
+            <FormInput
+              :value="value.minOfferAmount"
+              :placeholder="$t('createlisting.enter_min_offer_amount')"
+              :label="$t('createlisting.min_offer_amount')"
+              class="input-error"
+              prefix="$"
+              required
+              integer
+              @input="handleMinOfferPriceChange"
+            />
+            <div class="error-text mt-1">
+              {{
+                value.minOfferAmount === null ||
+                $t('inventory.message.gt_than', {
+                  field: $t('common.price').toLowerCase(),
+                  amount: minOfferMinVal,
+                })
+              }}
+            </div>
+          </div>
+          <!-- ./MinOffer Amount -->
 
-      <div
-        v-if="
-          !['apparel', 'accessories'].includes(
-            product.category.name.toLowerCase()
-          )
-        "
-        class="col-md-4 col-xs-12 px-md-4 mt-3"
-        :class="
+          <div v-if="!['apparel', 'accessories'].includes(product.category.name.toLowerCase())"
+               class="mt-3 col-12 input-col"
+              :class="
           value.minOfferAmount !== null &&
           value.minOfferAmount <= minOfferMinVal &&
           'error'
         "
-      >
-        <FormInput
-          :value="value.minOfferAmount"
-          :placeholder="$t('createlisting.enter_min_offer_amount')"
-          :label="$t('createlisting.min_offer_amount')"
-          class="input-error"
-          prefix="$"
-          required
-          integer
-          @input="handleMinOfferPriceChange"
-        />
-        <div class="error-text mt-1">
-          {{
-            value.minOfferAmount === null ||
-            $t('inventory.message.gt_than', {
-              field: $t('common.price').toLowerCase(),
-              amount: minOfferMinVal,
-            })
-          }}
-        </div>
-      </div>
-      <template v-if="typeof action === 'string' && action === 'add'">
-        <div
-          v-if="
+          >
+            <FormInput
+              :value="value.minOfferAmount"
+              :placeholder="$t('createlisting.enter_min_offer_amount')"
+              :label="$t('createlisting.min_offer_amount')"
+              class="input-error"
+              prefix="$"
+              required
+              integer
+              @input="handleMinOfferPriceChange"
+            />
+            <div class="error-text mt-1">
+              {{
+                value.minOfferAmount === null ||
+                $t('inventory.message.gt_than', {
+                  field: $t('common.price').toLowerCase(),
+                  amount: minOfferMinVal,
+                })
+              }}
+            </div>
+          </div>
+          <template v-if="typeof action === 'string' && action === 'add'">
+            <div
+              v-if="
             !['apparel', 'accessories'].includes(
               product.category.name.toLowerCase()
             )
           "
-          class="col-md-4 col-xs-12 px-md-4 mt-auto text-center mt-3"
+              class="col-12 text-center mt-3 input-col"
+            >
+              <Button
+                variant="dark"
+                class="mt-3 w-100"
+                :disabled="!isFormValid"
+                @click="handleSaveClick"
+              >
+                {{ $t('createlisting.add_listing') }}
+              </Button>
+            </div>
+
+            <div
+              v-if="
+            !['apparel', 'accessories'].includes(
+              product.category.name.toLowerCase()
+            )
+          "
+              class="col-md-6 col-xs-12 text-center mt-3"
+            ></div>
+          </template>
+
+          <template
+            v-if="
+          ['apparel', 'accessories'].includes(
+            product.category.name.toLowerCase()
+          )
+        "
+          >
+            <!-- Color -->
+            <div class="mt-3 col-md-6 col-xs-12 input-col">
+              <FormDropdown
+                id="packaging-condition"
+                :value="value.color"
+                :placeholder="$t('createlisting.select_color')"
+                :label="$t('common.color')"
+                :items="colors"
+                required
+                @input="handleColorChange"
+              />
+            </div>
+            <!-- End of Color -->
+
+            <!-- Year -->
+            <div class="mt-3 col-md-6 col-xs-12 input-col">
+              <FormInput
+                :value="``"
+                :placeholder="$t('createlisting.enter_year')"
+                :label="$t('common.year')"
+                class="input-error"
+                required
+                number
+                @input="handleYearChange"
+              />
+            </div>
+            <!-- End of Year -->
+
+            <div class="mt-3 col-md-6 col-xs-12 text-center input-col">
+              <Button
+                v-if="typeof action === 'string' && action === 'add'"
+                variant="info"
+                pill
+                :disabled="!isFormValid"
+                class="mt-3"
+                @click="handleSaveClick"
+              >
+                {{ $t('createlisting.add_listing') }}
+              </Button>
+            </div>
+          </template>
+        </div>
+        <div
+          v-if="!isScreenXS && typeof action === 'string' && action === 'edit'"
+          class="row section-form-fields d-flex justify-content-center m-auto"
         >
           <Button
-            variant="info"
-            pill
-            class="mt-3"
+            variant="dark"
             :disabled="!isFormValid"
-            @click="handleSaveClick"
+            class="mt-3 mr-3"
+            @click="handleEditClick"
           >
-            {{ $t('createlisting.add_listing') }}
+            {{ $t('inventory.save_changes') }}
           </Button>
-        </div>
-
-        <div
-          v-if="
-            !['apparel', 'accessories'].includes(
-              product.category.name.toLowerCase()
-            )
-          "
-          class="col-md-4 col-xs-12 px-md-4 text-center mt-3"
-        ></div>
-      </template>
-
-      <template
-        v-if="
-          ['apparel', 'accessories'].includes(
-            product.category.name.toLowerCase()
-          )
-        "
-      >
-        <!-- Color -->
-        <div class="col-md-4 col-xs-12 px-md-4 mt-3">
-          <FormDropdown
-            id="packaging-condition"
-            :value="value.color"
-            :placeholder="$t('createlisting.select_color')"
-            :label="$t('common.color')"
-            :items="colors"
-            required
-            @input="handleColorChange"
-          />
-        </div>
-        <!-- End of Color -->
-
-        <!-- Year -->
-        <div class="col-md-4 col-xs-12 px-md-4 mt-3">
-          <FormInput
-            :value="``"
-            :placeholder="$t('createlisting.enter_year')"
-            :label="$t('common.year')"
-            class="input-error"
-            required
-            number
-            @input="handleYearChange"
-          />
-        </div>
-        <!-- End of Year -->
-
-        <!-- Packaging Condition -->
-        <div class="col-md-4 col-xs-12 px-md-4 mt-3">
-          <FormDropdown
-            id="packaging-conditions"
-            :value="value.boxCondition"
-            :placeholder="$t('inventory.select_condition')"
-            :label="$t('createlisting.packaging_condition')"
-            :items="packagingConditions"
-            required
-            @input="handlePackagingConditionChange"
-          />
-        </div>
-        <!-- End of Packaging Conditions -->
-
-        <div class="col-md-4 col-xs-12 px-md-4 mt-auto text-center mt-3">
           <Button
-            v-if="typeof action === 'string' && action === 'add'"
-            variant="info"
-            pill
-            :disabled="!isFormValid"
+            variant="outline-primary"
             class="mt-3"
-            @click="handleSaveClick"
+            @click="handleDiscard"
           >
-            {{ $t('createlisting.add_listing') }}
+            {{ $t('inventory.discard_changes') }}
           </Button>
         </div>
-      </template>
-    </b-row>
-    <b-row
-      v-if="!isScreenXS && typeof action === 'string' && action === 'edit'"
-      class="section-form-fields d-flex justify-content-center m-auto inputs"
-    >
-      <Button
-        variant="info"
-        pill
-        :disabled="!isFormValid"
-        class="mt-3 mr-3"
-        @click="handleEditClick"
-      >
-        {{ $t('inventory.save_changes') }}
-      </Button>
-      <Button
-        pill
-        variant="outline-primary"
-        class="mt-3"
-        @click="handleDiscard"
-      >
-        {{ $t('inventory.discard_changes') }}
-      </Button>
-    </b-row>
-    <!-- End of Inputs -->
+        <!-- End of Inputs -->
 
-    <!-- Inputs Responsive -->
-    <div v-if="isScreenXS" class="row responsive-inputs-row mt-3">
-      <!-- Minimum offer -->
-      <div class="col-6 input-col">
-        <FormInput
-          :id="
+        <!-- Inputs Responsive -->
+        <div v-if="isScreenXS" class="row responsive-inputs-row mt-3">
+          <!-- Minimum offer -->
+          <div class="col-6 input-col">
+            <FormInput
+              :id="
             (value.minOfferAmount !== null &&
               value.minOfferAmount <= minOfferMinVal &&
               'error-responsive') ||
             'form-input-responsive'
           "
-          :value="value.minOfferAmount"
-          :placeholder="$t('createlisting.enter_min_offer')"
-          :label="$t('createlisting.minOfferAmount')"
-          class="input-form input-error"
-          required
-          :pill="false"
-          integer
-          @input="handleMinOfferPriceChange"
-        />
-        <span v-if="value.minOfferAmount">
-          <small class="text-danger">
-            {{ minOfferError }}
-          </small>
-        </span>
-      </div>
-      <!-- Minimum offer ends -->
-      <!-- Quantity -->
-      <div class="col-6 input-col">
-        <FormInput
-          :id="
+              :value="value.minOfferAmount"
+              :placeholder="$t('createlisting.enter_min_offer')"
+              :label="$t('createlisting.minOfferAmount')"
+              class="input-form input-error"
+              required
+              :pill="false"
+              integer
+              @input="handleMinOfferPriceChange"
+            />
+            <span v-if="value.minOfferAmount">
+              <small class="text-danger">
+                {{ minOfferError }}
+              </small>
+            </span>
+          </div>
+          <!-- Minimum offer ends -->
+          <!-- Quantity -->
+          <div class="col-6 input-col">
+            <FormInput
+              :id="
             ((value.quantity < quantityMinVal ||
               value.quantity > quantityMaxVal) &&
               'error-responsive') ||
             'form-input-responsive'
           "
-          :value="value.quantity"
-          :placeholder="$t('common.quantity')"
-          :label="$t('common.quantity')"
-          class="input-form input-error"
-          required
-          :pill="false"
-          integer
-          @input="handleQuantityChange"
-        />
-        <span>
+              :value="value.quantity"
+              :placeholder="$t('common.quantity')"
+              :label="$t('common.quantity')"
+              class="input-form input-error"
+              required
+              :pill="false"
+              integer
+              @input="handleQuantityChange"
+            />
+            <span>
           <small class="text-danger">
             {{ quantityError }}
           </small>
         </span>
-      </div>
-      <!-- Quantity ends -->
-    </div>
-    <!-- Minimum offer/ Quantity ends -->
+          </div>
+          <!-- Quantity ends -->
+        </div>
+        <!-- Minimum offer/ Quantity ends -->
 
-    <div v-if="isScreenXS" class="row responsive-inputs-row mt-3">
-      <!-- Price -->
-      <div class="col-12 input-col">
-        <FormInput
-          id="form-input-responsive"
-          :value="value.price"
-          :placeholder="$t('create_listing.amount_box_placeholder')"
-          :label="$t('inventory.your_price')"
-          class="input-form input-error"
-          :class="
+        <div v-if="isScreenXS" class="row responsive-inputs-row mt-3">
+          <!-- Price -->
+          <div class="col-12 input-col">
+            <FormInput
+              id="form-input-responsive"
+              :value="value.price"
+              :placeholder="$t('create_listing.amount_box_placeholder')"
+              :label="$t('inventory.your_price')"
+              class="input-form input-error"
+              :class="
             value.price !== null &&
             value.price <= priceMinVal &&
             'error-responsive'
           "
-          required
-          :pill="false"
-          integer
-          @input="handlePriceChange"
-        />
-        <span v-if="value.price">
-          <small class="text-danger">
-            {{ priceError }}
-          </small>
-        </span>
-      </div>
-      <!-- Price -->
+              required
+              :pill="false"
+              integer
+              @input="handlePriceChange"
+            />
+            <span v-if="value.price">
+              <small class="text-danger">
+                {{ priceError }}
+              </small>
+            </span>
+          </div>
+          <!-- Price -->
+        </div>
+        <!-- Inputs Responsive ends -->
+      </b-col>
+    </b-row>
+
+    <div v-if="!isScreenXS" class="section-product-details">
+      <span class="body-2-medium text-black">{{ $t('create_listing.product.product_details') }}</span>
+      <hr>
+      <b-row>
+        <b-col sm="12" md="6">
+          <b-row>
+            <b-col cols="4" class="text-black py-1">{{ $t('common.sku') }}:</b-col>
+            <b-col cols="8" class="py-1">{{ product.sku }}</b-col>
+            <b-col cols="4" class="text-black py-1">{{ $t('common.color') }}:</b-col>
+            <b-col cols="8" class="py-1">{{ product.colorway }}</b-col>
+            <template v-if="product.retail_price">
+              <b-col cols="4" class="text-black py-1">{{ $t('common.retail_price') }}:</b-col>
+              <b-col cols="8" class="py-1">{{ product.retail_price | formatPrice }}</b-col>
+            </template>
+            <template v-if="product.release_date">
+              <b-col cols="4" class="text-black py-1">{{ $t('common.release_date') }}:</b-col>
+              <b-col cols="8" class="py-1">{{ product.release_date | formatDate }}</b-col>
+            </template>
+          </b-row>
+        </b-col>
+        <!--
+        <b-col sm="12" md="6" class="pt-3 pt-md-0 text-black">
+          {{ $t('create_listing.product.description') }}
+        </b-col>
+        -->
+      </b-row>
     </div>
-    <!-- Inputs Responsive ends -->
+    <div v-else class="rounded p-3 box-shadow mt-4"
+         @click="mobileDetailsIsExpanded = !mobileDetailsIsExpanded">
+      <div class="d-flex justify-content-between">
+        <span class="body-9-medium text-black">
+          {{ $t('create_listing.product.product_details') }}
+        </span>
+        <img :src="require('~/assets/img/icons/arrow-down-dark-blue.svg')"
+             width="12"
+             :class="{'rotate': mobileDetailsIsExpanded}" />
+      </div>
+      <div v-if="mobileDetailsIsExpanded" class="mt-3">
+        <div class="d-flex justify-content-between body-6-normal py-1">
+          <div class="flex-grow-1">{{ $t('common.sku') }}:</div>
+          <div>{{ product.sku }}</div>
+        </div>
+        <div class="d-flex justify-content-between body-9-normal py-1">
+          <div class="flex-grow-1">{{ $t('common.color') }}:</div>
+          <div>{{ product.colorway }}</div>
+        </div>
+        <div v-if="product.retail_price" class="d-flex justify-content-between body-6-medium py-1">
+          <div class="flex-grow-1">{{ $t('common.retail_price') }}:</div>
+          <div>{{ product.retail_price | formatPrice }}</div>
+        </div>
+        <div v-if="product.release_date" class="d-flex justify-content-between body-6-medium py-1">
+          <div class="flex-grow-1">{{ $t('common.retail_price') }}:</div>
+          <div>{{ product.release_date | formatDate }}</div>
+        </div>
+      </div>
+    </div>
 
     <!-- Product details block responsive -->
     <SellingLatestSales
-      v-if="isScreenXS"
       :value="product.latest_sales"
       :sku="product.sku"
       @latestPrice="latestPrice"
@@ -642,6 +673,7 @@
     />
     <!-- Discard confirm message -->
     <!-- Modal popup ends here -->
+
   </div>
 </template>
 
@@ -652,7 +684,7 @@ import SellingLatestSales from '../selling/SellingLatestSales.vue'
 import ProductSizePicker from '~/components/product/SizePicker'
 import SizeCarouselResponsive from '~/components/profile/create-listing/SizeCarouselResponsive.vue'
 import {
-  Meter,
+  // Meter,
   FormInput,
   FormDropdown,
   Button,
@@ -678,7 +710,7 @@ export default {
 
   components: {
     ProductSizePicker,
-    Meter,
+    // Meter,
     FormInput,
     FormDropdown,
     Button,
@@ -738,6 +770,7 @@ export default {
       avgType: '',
       buy: TYPE_BUY,
       offer: TYPE_OFFER,
+      mobileDetailsIsExpanded: false
     }
   },
 
@@ -1144,16 +1177,11 @@ export default {
       color: $color-gray-5
 
   .section-form-fields
-    >div
-      width: 203px
-
-    >.min-offer-div
-      width: 234px
-
     .error-text
       display: none
 
     .error
+
       border: 0
       .input-error::v-deep
         .form-input
@@ -1163,14 +1191,34 @@ export default {
         @include body-5-regular
         display: block
         color: $color-red-3
+
+    .input-col::v-deep
+      .input-label
+        font-family: $font-montserrat
+        font-style: normal
+        @include body-8-normal
+        color: $color-black-1
+        margin-left: 0px!important
+        text-transform: uppercase
+        margin-bottom: 8px
+      input
+        border-radius: 4px!important
+        height: 40px
+        left: 16px
+        top: 804px
+        border: 1px solid $color-blue-20
+        &::placeholder
+          font-family: $font-montserrat
+          font-style: normal
+          @include body-8-normal
+          font-weight: normal
+          color: $color-gray-23
+
 @media (max-width: 375px)
   .create-listing-form-wrapper
     .product-thumbnail
       width: 246px
 @media (min-width: 650px)
-  .section-form-fields
-    width: 75%
-
 .box-condition-select-col::v-deep
   .form-dropdown-wrapper
     .btn-dropdown
@@ -1204,24 +1252,18 @@ export default {
 // For !mobile screen
 @media (min-width: 576px)
   .create-listing-form-wrapper::v-deep
-    .product-details-heading,
     .section-product-details,
     .product-size-details,
     .size-meter,
 
     .backToSearch
       display: block
-    .product-details-heading,
-    .inputs
-      display: flex
     .product-thumbnail
       display: flex
     .mobile-nav-row,
     .responsive-inputs-row,
     .add-listing-btn,
     .responsive-product-details-block,
-    .box-condition-select-col
-      display: none
     .product-thumbnail
       width: 323px !important // Added !important coz the product thumb component breaks the width of component
       height: 246px
@@ -1240,7 +1282,6 @@ export default {
     .section-product-details,
     .product-size-details,
     .size-meter,
-    .inputs,
     .backToSearch
       display: none
     .product-thumbnail
@@ -1382,5 +1423,22 @@ export default {
         text-align: center
         color: $color-blue-20
         justify-content: center
+
+.product-name
+  font-family: $font-montserrat
+  font-style: normal
+  @include body-1-medium
+  display: flex
+  align-items: center
+  color: $color-black-1
+  &.mobile
+    @include body-12-medium
+
+.box-shadow
+  box-shadow: 0px 1px 2px $color-gray-th-43
+
+.rotate
+  transform: rotate(180deg)
+
 </style>
 
