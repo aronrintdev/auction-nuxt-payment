@@ -1,29 +1,59 @@
 <template>
-  <div class="custom-dropdown text-gray" :style="{'min-width': width, 'height': dropDownHeight, 'width': maxWidth,'border-radius': !isOpen ? borderRadius : borderRadiusClose}">
-    <div class="label-wrapper" :style="{'min-width': width, 'height': dropDownHeight, 'width': maxWidth, 'border-radius': !isOpen ? borderRadius : borderRadiusClose}" :class="`background-${variant} ${bordered && 'bordered'}`" @click="isOpen = !isOpen">
-      <label class="font-weight-light">
+  <div
+    class="custom-dropdown text-gray"
+    :style="{
+        'min-width': width,
+        'height': dropDownHeight,
+        'width': maxWidth,
+        'border-radius': !isOpen ? borderRadius : borderRadiusClose,
+      }"
+    >
+    <div
+      class="label-wrapper"
+      :style="{
+        'padding-left': paddingX,
+        'padding-right': paddingX,
+        'min-width': width,
+        'height': dropDownHeight,
+        'width': maxWidth,
+        'border-radius': !isOpen ? borderRadius : borderRadiusClose,
+        ...inputStyle
+      }"
+      :class="`background-${variant} ${bordered && 'bordered'}`"
+      @click="isOpen = !isOpen"
+    >
+      <label
+        class="font-weight-light m-0 p-0"
+        :style="labelStyle"
+      >
         <img v-if="labelLeftImage !== null" :src="labelLeftImage" class="mr-2">
         {{label}}
       </label>
-      <i 
-        class="pull-right mt-1 pr-1 fa fa-2x" 
+      <i
+        class="pull-right mt-1 pr-1 fa fa-2x"
         :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"
         :style="arrowStyle"
       >
       </i>
     </div>
-    <ul 
-      v-if="isOpen" 
-      class="custom-dropdown-options" 
-      :class="`${optionsWidth}-color ${bordered && 'bordered'}`" 
+    <ul
+      v-if="isOpen"
+      class="custom-dropdown-options"
+      :class="`${optionsWidth}-color ${bordered && 'bordered'}`"
       :style="{'min-width': width,'border-radius': isOpen ? borderRadiusOptions: '', ...dropdownStyle}"
     >
       <li
         v-for="(option, key) of options" :key="key"
         :class="`${optionsWidth}-color`"
-        @click="selectOption((option.value ? option.value : option))">
-        <input v-if="type.includes('multi')" class="mr-2" :checked="value && value.includes(option.size ? option.size : option)"
-         type="checkbox"  />
+        :style="optionStyle"
+        @click="selectOption((option.value ? option.value : option))"
+      >
+        <input
+          v-if="type.includes('multi')"
+          class="mr-2"
+          :checked="value && value.includes(option.size ? option.size : option)"
+          type="checkbox"
+        />
         <span>{{ (option.value) ? option.text : capitalizeFirstLetter(option) }}</span>
       </li>
       <li v-if="type.includes('multi') && showFilterBtn" class="fixed">
@@ -99,15 +129,31 @@ export default {
       type: Boolean,
       default: true,
     },
+    labelStyle: {
+      type: String,
+      default: ''
+    },
+    paddingX: {
+      type: String,
+      default: ''
+    },
     showFilterBtn: {
       type: Boolean,
       default: () => true
+    },
+    arrowStyle: {
+      type: String,
+      default: ''
     },
     dropdownStyle: {
       type: Object,
       default: () => {}
     },
-    arrowStyle: {
+    inputStyle: {
+      type: Object,
+      default: () => {}
+    },
+    optionStyle: {
       type: Object,
       default: () => {}
     }
@@ -164,7 +210,7 @@ export default {
 @import '~/assets/css/_variables'
 
 ul.custom-dropdown-options
-  position: absolute
+  position: relative
   z-index: 100000
   padding: 0
   list-style: none
@@ -175,7 +221,7 @@ ul.custom-dropdown-options
 
 ul.custom-dropdown-options li
   padding: 5px 5px
-  border-top: 1px solid $color-gray-17b
+  border-bottom: 1px solid $color-gray-17b
   cursor: pointer
 
 ul.custom-dropdown-options li:last-of-type
@@ -194,9 +240,14 @@ ul.custom-dropdown-options li.fixed button
   width: 100%
   background-color: $color-blue-2
 
+.label-wrapper
+  display: flex
+  justify-content: space-between
+  align-items: center
 
 div.label-wrapper label
-  padding: 7px 5px 0 5px
+  padding-left: 5px
+  padding-right: 5px
 
 .custom-color
   background: $color-white-1

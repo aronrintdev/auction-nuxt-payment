@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div 
+    <div
       class="d-flex align-items-center justify-content-between"
       :class="titleSectionClass"
-      role="button" 
+      role="button"
       @click="shown = !shown"
     >
       <span class="title">
@@ -63,13 +63,14 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+
 .value
   @include body-4
   color: $color-black-1
   font-family: $font-family-sf-pro-display
   font-weight: $normal
   margin-right: 14px
-  
+
 .title
   @include body-13
   font-family: $font-family-sf-pro-display

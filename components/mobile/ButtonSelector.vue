@@ -1,6 +1,6 @@
 <template>
   <div>
-    <object 
+    <object
       :is="single? 'b-form-radio-group': 'b-form-checkbox-group'"
       v-model="selected"
       :options="options"
@@ -96,6 +96,7 @@ export default {
     border: 1px solid $color-black-1 !important
     color: $color-black-1 !important
     background-color: $color-gray-21 !important
+
   .btn-d-custom
     @include body-5
     height: 45px !important
@@ -108,10 +109,12 @@ export default {
     font-weight: $normal
     color: $color-gray-4
     border-radius: 3px !important
+
   .size-45
     min-width: 45px !important
     max-width: 45px !important
   .size-42
     min-width: 42px !important
     max-width: 42px !important
+
 </style>
