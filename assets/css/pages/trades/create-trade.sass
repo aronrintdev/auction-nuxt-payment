@@ -5,7 +5,6 @@
   font-size: 24px
   line-height: 29px
   color: $color-black-1
-  padding-left: 22px
   padding-top: 22px
 
 .wrapper-progressBar
@@ -435,9 +434,13 @@
   padding-left: 52px
 
 .confirm-trade-item
-  height: 125px
   background: $color-white-1
   margin: 5px 28px 11px
+  padding-top: 12px
+  padding-bottom: 12px
+  @media (min-width: 576px)
+    padding-top: 22px
+    padding-bottom: 22px
 
 .back-color-gray
   background-color: $color-white-5
@@ -471,10 +474,6 @@
   color: $color-black-1
   padding-left: 60px
   padding-top: 55px
-
-.confirm-trade-icons
-  padding-left: 33px
-  padding-top: 48px
 
 .confirm-trade-draft-btn
   background: $color-white-1

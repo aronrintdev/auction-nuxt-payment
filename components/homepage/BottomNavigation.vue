@@ -77,10 +77,10 @@ export default {
   },
   methods: {
     handleSearchFocus() {
-      this.showSearchOverlay = true
+      this.$root.$emit('showSearchOverlay')
     },
     handleSearchOverlayHide() {
-      this.showSearchOverlay = false
+      this.$root.$emit('hideSearchOverlay')
     },
   },
 }
