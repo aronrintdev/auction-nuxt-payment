@@ -16,6 +16,8 @@ export default {
     createMobile:()=> import('./createMobile'),
     createWeb:()=>import('./createWeb'),
   },
+  layout: 'Profile', // Layout
+  middleware: 'auth',
   data(){
     return {
       width:'',

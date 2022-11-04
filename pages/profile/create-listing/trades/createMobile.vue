@@ -2,60 +2,57 @@
   <div class="main-container p-2">
     <create-trade-search-item v-if="search_item" :product="search_item" productFor="tradeOffer"/>
     <div v-else>
-      <div v-if="!filterSection" class="d-flex mt-2">
+      <div class="d-flex mt-2">
         <div>
           <SearchInput
             :value="searchText"
-            variant="primary"
-            :placeholder="$t('create_listing.trade.offer_items.search_by')"
+            variant="light"
+            :placeholder="$t('home_page.search')"
             :clearSearch="true"
-            bordered
-            inputHeight="60px"
+            inputHeight="33px"
+            class="create-trade-search"
             @change="onSearchInput"
           />
           <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="tradeItem" width="700px" class="position-absolute"/>
         </div>
-        <div @click="filterSection = !filterSection">
+        <div @click="showFilters">
           <img class="ml-3 mt-1" :src="require('~/assets/img/filters.svg')" />
         </div>
       </div>
       <!-- Filters Section -->
-      <div v-if="filterSection">
-        <mobileFilters @click="applyFilters"/>
-      </div>
-      <div v-else>
-        <div class="d-flex mt-2">
+        <client-only>
+         <vue-bottom-sheet ref="filterSheet" max-height="90%" :is-full-screen="true" >
+           <trade-arena-filters @change="applyFilters" :orderFilter="true"/>
+         </vue-bottom-sheet>
+        </client-only>
+      <div>
+        <div class="d-flex">
           <div class="inventory-heading">
             {{ $t('create_listing.trade.offer_items.available_inventory_mobile', {'0': totalCount}) }}
           </div>
-          <div class="ml-5">
-        <span class="create-inventory-btn" @click="setReferrer()">
-        <img :src="require('~/assets/img/plus.svg')"/>  {{ $t('create_listing.trade.offer_items.create_inventory') }}
-        </span>
-          </div>
         </div>
-        <div class="mt-2">
+        <div class="">
           <b-row class="inventory-area">
             <b-col v-for="item in inventory_items" :key="'offer-'+item.id" cols="6 mb-4">
-              <div class="create-trade-item-mobile" :draggable="true" @dragstart="startDrag($event, item)">
-                <div class="d-flex mt-1">
-                  <div class="size ml-2">{{$t('trades.create_listing.vendor.wants.size')}} {{ item.size && item.size.size }}</div>
-                  <div>
-                    <img alt="No Image" class="plus-icon-add" :src="require('~/assets/img/icons/addPlus.svg')"
+              <div class="create-trade-item-mobile position-relative" :draggable="true" @dragstart="startDrag($event, item)">
+                <div class="position-relative">
+                    <img alt="No Image" class="plus-icon-add position-absolute" :src="require('~/assets/img/icons/addPlus.svg')"
                          @click="checkIfItemAlreadyListed(item)"/>
-                  </div>
                 </div>
+                <div class="position-relative d-flex align-items-center justify-content-center prod-img">
                 <object
                   :data="`${IMAGE_PATH}/${item.product && item.product.category && item.product.category.name}/${item.product && item.product.sku}/800xAUTO/IMG01.jpg`"
                   class="create-trade-item-image-mobile justify-content-center"
                   type="image/png">
                   <img class="create-trade-item-image-mobile-no justify-content-center mb-2" :src="fallbackImgUrl" alt="image"/>
                 </object>
+               <div class="overlay-mob position-absolute"></div>
+               </div>
                 <div class="create-trade-item-caption-mobile">
                 <span :id="`name${item.id}`"
                       class="create-trade-item-name">{{ item.product && item.product.name }}</span>
                   <span :id="`colorway${item.id}`"
-                        class="create-trade-item-caption-description">{{ item.product && item.product.colorway }}</span>
+                        class="create-trade-item-caption-description">{{ item.product && item.product.colorway }},{{$t('trades.create_listing.vendor.wants.size')}} {{ item.size && item.size.size }}</span>
                   <span
                     class="create-trade-item-caption-description">Box: {{
                       item.packaging_condition && item.packaging_condition.name
@@ -67,7 +64,7 @@
                 </b-tooltip>
                 <!-- tooltip for colorway -->
                 <b-tooltip :target="`colorway${item.id}`" triggers="hover">
-                  {{ item.product && item.product.colorway }}
+                  {{ item.product && item.product.colorway }},{{$t('trades.create_listing.vendor.wants.size')}} {{ item.size && item.size.size }}
                 </b-tooltip>
               </div>
             </b-col>
@@ -75,22 +72,13 @@
                    class="col-md-12 justify-content-center no-found">
               {{ $t('trades.create_listing.vendor.wants.no_products_found-mobile') }}
             </b-row>
-            <b-row class="col-md-12 justify-content-center">
-              <Pagination
-                v-if="inventory_items && inventory_items.length > 0"
-                v-model="page"
-                :total="totalCount"
-                :per-page="perPage"
-                :per-page-options="perPageOptions"
-                class="mt-4"
-                @page-click="handlePageClick"
-                @per-page-change="handlePerPageChange"
-              />
-            </b-row>
           </b-row>
         </div>
-        <div v-if="inventory_items.length" class="mt-2">
-          <div class="row create-trade-drag-drop-item-mobile justify-content-center text-center py-2"
+        <infinite-loading :identifier="infiniteId" @infinite="getInventory">
+          <span slot="no-more"></span>
+        </infinite-loading>
+        <div v-if="showOffer" class="show-offers">
+          <div class="row create-trade-drag-drop-item-mobile justify-content-center text-center position-relative"
                @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
             <div v-if="getTradeItems.length < 1">
               <div class="create-trade-drag-drop-heading">
@@ -99,25 +87,25 @@
               <span class="create-trade-drag-drop-sub-heading">{{
                   $t('create_listing.trade.offer_items.search_at')
                 }}</span>
-              <b-row class="justify-content-center mt-2">
+              <b-row class="justify-content-center mt-1">
                 <img class="plus-image" :src="require('~/assets/img/Plus-circle.svg')">
               </b-row>
             </div>
             <b-row v-else class="justify-content-center">
               <div v-for="(prod, index) in getTradeItems"
                    :key="'selected-'+index+prod.id" class="create-trade-item-sm d-flex justify-content-between flex-column mr-2">
-                <div class="d-flex justify-content-between mt-2 mx-2">
-                  <div v-if="prod.quantity > 1" class="create-trade-quantity-car-sm">x{{ prod.quantity || 1 }}</div>
-                  <div class="create-trade-minus-icon-sm" @click="decrementOrRemoveItem(prod.id)">
+                <div class="position-relative">
+                  <div class="create-trade-minus-icon-sm position-absolute" @click="decrementOrRemoveItem(prod.id)">
                     <div class="create-trade-minus-line-sm"></div>
                   </div>
                 </div>
-                <div class="create-trade-item-image-div-sm">
+                <div class="offer-item-img-sm position-relative d-flex align-items-center justify-content-center">
                   <object
                     :data="`${IMAGE_PATH}/${prod.product && prod.product.category.name ? prod.product.category.name : prod.category.name }/${prod.sku ? prod.sku : prod.product.sku}/800xAUTO/IMG01.jpg`"
                     class="create-trade-item-image-sm" type="image/png">
                     <img class="create-trade-item-image-sm mb-2" :src="fallbackImgUrl" alt="image"/>
                   </object>
+                  <div class="overlay-mob position-absolute"></div>
                 </div>
                 <div class="create-trade-item-caption-sm">
                 <span :id="`name-sm${prod.id}`"
@@ -145,45 +133,43 @@
                 </div>
               </div>
             </b-row>
+            <img :src="require('~/assets/img/trades/updown.svg')" role="button" class="position-absolute up-down-arrow" @click="showOffer = !showOffer">
           </div>
         </div>
-        <div class="mt-2">
-          <div>
-            <FormStepProgressBar :steps="steps" variant="transparent"/>
-          </div>
-        </div>
-        <div class="mt-2">
+        <div class="d-flex justify-content-center">
           <b-btn class="create-trade-next-btn" :disabled="getTradeItems.length < 1"
                  @click="$router.push('/profile/create-listing/trades/wants')">
             {{ $t('create_listing.trade.offer_items.next') }}
           </b-btn>
         </div>
+        <b-col class="position-relative">
+          <div v-if="!showOffer" @click="showOffer = !showOffer" class="offers-items d-flex align-items-center" role="button">
+            <img :src="require('~/assets/img/trades/updown.svg')">
+            <span class="offer-text">{{$t('trades.offer')}}</span>
+            <div v-if="getTradeItems.length" class="counter-icon position-absolute d-flex justify-content-center align-items-center">{{getTradeItems.length}}</div>
+          </div>
+        </b-col>
       </div>
     </div>
   </div>
 </template>
 <script>
 import {mapActions, mapGetters} from 'vuex'
-import debounce from 'lodash.debounce';
-import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
 import SearchInput from '~/components/common/SearchInput';
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBoxMobile.vue'
-import mobileFilters from '~/pages/profile/create-listing/trades/filtersMobile'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED, PRODUCT_FALLBACK_URL} from '~/static/constants';
 import {TAKE_SEARCHED_PRODUCTS} from '~/static/constants/trades';
 
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItemMobile';
-import {Pagination} from '~/components/common'
+import TradeArenaFilters from '~/components/trade/TradeArenaFilters';
 
 export default {
   name: 'CreateMobile',
   components: {
+    TradeArenaFilters,
     SearchInput,
     SearchedProductsBelowSearchTextBox,
-    FormStepProgressBar,
     CreateTradeSearchItem,
-    Pagination,
-    mobileFilters,
   },
   layout: 'Profile', // Layout
   middleware: 'auth',
@@ -228,6 +214,9 @@ export default {
       itemListingId: 0,
       alreadyListedItemDetails: {},
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
+      showOffer: false,
+      infiniteId: +new Date(),
+      url: '/vendor/inventory'
     }
   },
   computed: {
@@ -264,7 +253,6 @@ export default {
       this.searchedItems = []
     })
     this.fetchFilters();
-    this.getInventory();
 
     // Emit listener to emtpy search items
     this.$root.$on('click_outside', () => {
@@ -275,15 +263,21 @@ export default {
     })
   },
   methods: {
+    showFilters(){
+      this.$refs.filterSheet.open();
+    },
     closeFiltersSection() {
       this.filterSection = false
     },
-    applyFilters(data){
-      this.orderFilter = data.orderFilter ? data.orderFilter : null
-      this.categoryFilter = data.category ? data.category : null
-      this.sizeTypesFilter = data.sizeType ? data.sizeType : null
-      this.sizeFilter = data.sizes ? data.sizes: null
-      this.getInventory()
+    applyFilters(filters){
+      this.orderFilter = filters.sortby
+      this.categoryFilter =  filters?.categories?.join(',')
+      this.sizeTypesFilter = filters?.sizeTypes
+      this.sizeFilter = filters?.sizes
+      this.page = 1;
+      this.inventory_items = []
+      this.infiniteId += 1;
+      this.$refs.filterSheet.close();
     },
     /**
      * This function is used to check  if item
@@ -425,7 +419,6 @@ export default {
       this.orderFilter = selectedOrder
       const orderFilteredKey = this.generalListItemsCustomFilter.find(item => item.value === this.orderFilter)
       this.orderFilterLabel = this.capitalizeFirstLetter(orderFilteredKey.text)
-      this.getInventory();
     },
 
     /****
@@ -511,31 +504,37 @@ export default {
     /**
      * This function is used to get user listing of inventory
      */
-    getInventory: debounce(function (filters = {}) {
+    getInventory($state,filters = {}) {
+      const that = this
       filters.sort_by = this.orderFilter // sorting filter
       filters.category = this.categoryFilter // category type filter
       filters.sizes = this.sizeFilter.join(',') // size filter
       filters.size_types = this.sizeTypesFilter.join(',') // size type filter
       this.$axios
-        .get('/vendor/inventory', {
+        .get(this.url, {
           params: {
             search: '',   // for search query
             page: this.page, // no of page to change
             per_page: this.perPage, // no of records to show on per page
             ...filters
-          },
+          }
         })
         .then((response) => {  // list of vendor inventory
-          this.inventory_items = response.data.data
-          this.totalCount = parseInt(response.data.total)
-          this.perPage = parseInt(response.data.per_page)
-          this.filterSection = false
+          const res = response?.data
+          if (!res.next_page_url) {
+            $state.complete()
+          }else {
+            that.page += 1;
+            that.inventory_items.push(...res.data);
+            that.filterSection = false
+            $state.loaded()
+          }
         })
         .catch((error) => {
           this.$toasted.error(this.$t(error.response.data.error))
           this.searchedItems = []
         })
-    }, 500),
+    },
 
     /**
      * This function is used to get product and show in
@@ -573,38 +572,15 @@ export default {
      */
     decrementOrRemoveItem(id) {
       const existingItem = this.getTradeItems.find(val => val.id === id)
+      const index = this.getTradeItems.indexOf(existingItem)
       if (existingItem.quantity > 1) {
-        this.$store.commit('trades/decrementTradeItemQuantity', id)
+        this.$store.commit('trades/decrementTradeItemQuantity', index)
       } else {
-        this.$store.commit('trades/removeTradeItem', id)
+        this.$store.commit('trades/removeTradeItem', index)
       }
       this.$nextTick(() => this.$forceUpdate())
     },
 
-    /**
-     * This function is used to change pagination page no
-     * and get record again for that page
-     * @param bvEvent
-     * @param page
-     */
-    handlePageClick(bvEvent, page) {
-      if (this.page !== page) {
-        this.page = page
-        this.getInventory()
-      }
-    },
-
-    /**
-     * This function is used for change no records showing on per page
-     * @param value
-     */
-    handlePerPageChange(value) {
-      if (this.perPage !== value) {
-        this.perPage = value
-        this.page = 1
-        this.getInventory()
-      }
-    },
 
     /**
      * This function is used to clear all selected filters
@@ -619,7 +595,6 @@ export default {
       this.sizeFilterLabel = this.$t('trades.create_listing.vendor.wants.size')
       this.orderFilterLabel = this.$t('trades.create_listing.vendor.wants.sort_by')
       this.$nextTick(() => {
-        this.getInventory()
       })
     },
   }
@@ -635,10 +610,9 @@ export default {
   @include body-5
   font-weight: $bold
   font-family: $font-montserrat
-  @media (min-width: 300px)  and (max-width: 349px)
-    @include body-6
-  @media (min-width: 400px)  and (max-width: 500px)
-    @include body-13
+  padding: 20px 0
+  @media (min-width: 300px)  and (max-width: 500px)
+    @include body-4
 .create-inventory-btn
   @include body-5
   font-weight: 400
@@ -651,8 +625,7 @@ export default {
     @include body-13
 .create-trade-item-mobile
   width: 164px
-  height: 212px
-  border: 1px solid #C4C4C4
+  height: 265px
   @media (min-width: 300px)  and (max-width: 349px)
     width: 140px
   @media (min-width: 400px)  and (max-width: 500px)
@@ -662,24 +635,23 @@ export default {
 
 .plus-icon-add
   width: 19px
-  margin-left: 5rem
   height: 19px
   cursor: pointer
-  z-index: 1000
+  right: 7px
+  top: 7px
+  z-index: 10
   @media (min-width: 300px)  and (max-width: 349px)
     margin-left: 4rem
   @media (min-width: 400px)  and (max-width: 500px)
     margin-left: 6.5rem
 .create-trade-item-image-mobile
   width: 109px
-  margin-left: 20px
+  margin-left: 5px
 .create-trade-item-image-mobile-no
   width: 109px
 .create-trade-item-caption-mobile
   width: 162px
-  background-color: #F7F7F7
-  margin-top: 16px
-  padding: 5px
+  padding: 8px 3px
   @media (min-width: 300px)  and (max-width: 349px)
     width: 138px
   @media (min-width: 400px)  and (max-width: 500px)
@@ -702,11 +674,13 @@ export default {
     width: 160px
 .create-trade-drag-drop-item-mobile
   width: 343px
-  height: 140px
+  min-height: 140px
+  max-height: 201px
   margin-left: 5px
   margin-right: 0px
   border-radius: 3px
-  background-color: #FBFAFA
+  background-color: $color-white-1
+  border: 0.5px solid $color-gray-23
   @media (min-width: 300px)  and (max-width: 349px)
     width: 294px
   @media (min-width: 400px)  and (max-width: 500px)
@@ -716,20 +690,21 @@ export default {
   font-family: $font-sp-pro
   font-weight: $medium
   @include body-5
-  padding: 0px
+  padding-top: 25px
 .create-trade-drag-drop-sub-heading
   font-family: $font-sp-pro
   font-weight: $normal
   @include body-9
-  padding: 0px
+  padding-top: 8px
 .plus-image
   padding-top: 10px
   height: 40px
   width: 40px
 .create-trade-item-sm
-  width: 100px
-  height: 128px
-  border: 1px solid #D8D8D8
+  width: 99px
+  height: 161px
+  margin-top: 13px
+  border: unset
   @media (min-width: 300px)  and (max-width: 349px)
     width: 90px
 .create-trade-item-image-sm
@@ -738,7 +713,7 @@ export default {
 .create-trade-item-caption-sm
   width: 98px
   height: 57px
-  border: 1px solid #F7F7F7
+  background: unset
 .create-trade-item-name-sm
   width: 62px
   @include body-6
@@ -751,6 +726,9 @@ export default {
   font-family: $font-sp-pro
 .create-trade-minus-icon-sm
   background-color: #FF9696
+  right: 5px
+  top: 5px
+  z-index: 81
 .create-trade-item-image-sm-dummy
   width: 95px
   height: 125px
@@ -771,4 +749,55 @@ export default {
   font-family: $font-montserrat
   font-weight: $medium
   @include body-10
+
+.search-input-wrapper::v-deep
+  width: 303px
+  @media (max-width: 330px)
+    width: 260px
+.overlay-mob
+  background: rgba(153, 153, 153, 0.05)
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+.prod-img
+  height: 185px
+.offers-items
+  background: $color-white-27
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.25)
+  border-radius: 9px
+  width: 92px
+  height: 28px
+  padding: 0 25px 0 14px
+  right: 15px
+  bottom: 120px
+  position: fixed
+  z-index: 80
+.offer-text
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-9-regular
+  letter-spacing: -0.02em
+  color: $color-gray-5
+  padding-left: 10px
+.counter-icon
+  background: #CE0000
+  width: 18px
+  height: 18px
+  border-radius: 50%
+  font-size: 13px
+  font-family: $font-family-montserrat
+  color: $color-white-1
+  top: -5px
+  right: -5px
+.up-down-arrow
+  right: 8px
+  bottom: 8px
+  z-index: 20
+.offer-item-img-sm
+  height: 112px
+.show-offers
+  position: fixed
+  bottom: 120px
+  z-index: 80
 </style>

@@ -16,6 +16,8 @@ export default {
     wantsMobile:()=> import('./wantsMobile'),
     wantsWeb:()=>import('./wantsWeb'),
   },
+  layout: 'Profile', // Layout
+  middleware: 'auth',
   data(){
     return {
       width:'',

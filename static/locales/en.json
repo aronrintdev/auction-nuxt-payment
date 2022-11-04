@@ -4874,7 +4874,10 @@
     "cash_added": "${0} Cash Added",
     "cash_requested": "${0} Cash Requested",
     "edit_added_cash": "Edit Added Cash",
-    "edit_requested_cash": "Edit Requested Cash"
+    "edit_requested_cash": "Edit Requested Cash",
+    "offer": "Offer",
+    "want": "Want",
+    "post_trade": "Post Trade"
   },
   "change_password": {
     "password": "Password",
