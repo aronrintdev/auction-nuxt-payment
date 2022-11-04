@@ -115,7 +115,7 @@
               class="d-flex align-items-center justify-content-center tdHeight text-capitalize"
               :aria-label="$t('vendor_dashboard.type')"
           >
-            <h4 class="font-secondary fw-5 fs-16 mb-0">{{ data.item.order.type.label }}</h4>
+            <h4 v-if="data.item.order" class="font-secondary fw-5 fs-16 mb-0">{{ data.item.order.type.label }}</h4>
           </div>
         </template>
         <template #cell(vendor_payout)="data">
@@ -124,7 +124,7 @@
             :aria-label="$t('vendor_dashboard.vendor_payout')"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">{{
-                (data.item.commission ? data.item.commission : 0) | toCurrency
+                (data.item.commission ? data.item.commission.commission : 0) | toCurrency
               }}</h4>
           </div>
         </template>
@@ -133,7 +133,7 @@
               class="d-flex align-items-center justify-content-center tdHeight text-center"
               :aria-label="$t('vendor_dashboard.status')"
           >
-            <h4 :class="styleFor(data.item.status_label) + ` ${mobileClass}`"
+            <h4 :class="styleFor(data.item.status) + ` ${mobileClass}`"
                 class="text-capitalize status body-13-normal">
               {{ data.item.status_label }}
             </h4>
@@ -297,12 +297,26 @@ export default {
       switch (statusLabel.toLowerCase()) {
         case 'arrived_at_deadstock':
           return 'arrived';
-        case 'delivered':
+        case 'arrived_at_ds':
           return 'arrived';
+        case 'delivered':
+          return 'delivered';
+        case 'completed':
+          return 'arrived';
+        case 'cancel':
+          return 'cancel';
+        case 'refunded':
+          return 'cancel';
+        case 'cancelled':
+          return 'cancel';
         case 'shipped_to_deadstock':
+          return 'shipped';
+        case 'shipped_to_ds':
           return 'shipped';
         case 'awaiting_authentication':
           return 'awaiting-auth';
+        case 'auth_completed':
+          return 'auth-completed';
         case 'order_taken_over':
           return 'order-taken-over';
       }
@@ -349,6 +363,7 @@ export default {
     display: flex
     align-items: center
     justify-content: center
+    border: none
 
 .status.awaiting
   color: $color-red-20
@@ -356,17 +371,35 @@ export default {
   &:not(.mobile)
     background: rgba($color-red-20, 0.08)
 
+.status.cancel
+  color: $color-red-3
+
+  &:not(.mobile)
+    background: rgba($color-red-3, 0.05)
+
 .status.arrived
   color: $color-green-3
 
   &:not(.mobile)
     background: $color-green-20
 
+.status.delivered
+  color: $color-blue-17
+
+  &:not(.mobile)
+    background: rgba($color-blue-17, 0.05)
+
 .status.shipped
   color: $color-blue-16
 
   &:not(.mobile)
     background: $dark-gray-5
+
+.status.auth-completed
+  color: $color-purple-7
+
+  &:not(.mobile)
+    background: $color-purple-8
 
 .status.awaiting-auth
   &:not(.mobile)
