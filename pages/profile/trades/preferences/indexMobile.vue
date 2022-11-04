@@ -34,7 +34,7 @@
           <img class="chev-img-size d-flex justify-content-end align-content-end mt-2" src="~/assets/img/left-chev.svg" />
         </div>
         <div class="inven-sub-set mb-1">{{$t('trades.preferences.select_preferred_size_type_and_sizes')}}</div>
-        <div class="link-text">{{$t('trades.preferences.mens_55_13_12s')}}</div>
+        <div class="link-text">{{$t('trades.preferences.mens_55')}}</div>
       </div>
       <hr class="hr-border"/>
       <div class="p-2 mt-1" @click="brands()">
@@ -210,19 +210,13 @@
     </div>
 
     <div class="mt-2 ml-3 mr-3 mb-5 p-2" v-if="brandsPre">
-      <div  class="sizePre-sections">
+      <div  class="brand-sections">
         <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.size_preferences')}}</div>
         <b-row class="images-row">
           <b-col v-for="(brand,index) in filters.brands" :key="index">
-<!--            <div class="position-relative">-->
-<!--              <div class="position-absolute checkbox-brand">-->
-<!--                <b-form-checkbox :checked="selectedBrands" :value="brand._id" @change="changeSelectedBrands(brand._id)"></b-form-checkbox>-->
-<!--              </div>-->
-              <div>
-                <b-form-checkbox :checked="selectedBrands" :value="brand._id" @change="changeSelectedBrands(brand._id)"></b-form-checkbox>
-                <img :src="brand.image" class="brand-image">
+              <div class="m-2">
+                <img :src="brand.image" class="brand-image" @click="changeSelectedBrands(brand._id)">
               </div>
-<!--            </div>-->
           </b-col>
         </b-row>
       </div>
@@ -327,7 +321,6 @@ export default {
 
   },
   created() {
-    console.log('created called')
     this.fetchFilters()
   },
   methods:{
@@ -393,7 +386,8 @@ export default {
             this.showInventory = false
             this.showOfferSetting = false
             this.showrefineMatch = false
-            this.sizePre= false
+            this.sizePre = false
+            this.brandsPre = false
             this.mainPageList = true
           })
           .catch((error) => {
@@ -512,6 +506,7 @@ export default {
     },
 
     changeSelectedBrands(brandId){
+      console.log('brandId',brandId)
       if(this.selectedBrands.includes(brandId)){
         this.selectedBrands = this.selectedBrands.filter(brand => brand !== brandId)
       }else{
@@ -655,7 +650,7 @@ export default {
   background: #667799
   border-radius: 20px
   height: 40px
-  width: 340px
+  width: 300px
   margin-top: 5rem
 .offer-sections
   width: 343px
@@ -706,7 +701,14 @@ export default {
   color: #000000
 .sizePre-sections
   width: 343px
-  height: 500px
+  height: 550px
+  background: #FFFFFF
+  border-radius: 10px
+  box-shadow: 0 1px 4px rgb(0 0 0 / 25%)
+  padding-top: 20px
+.brand-sections
+  width: 343px
+  height: 350px
   background: #FFFFFF
   border-radius: 10px
   box-shadow: 0 1px 4px rgb(0 0 0 / 25%)
@@ -750,6 +752,6 @@ export default {
   color: #000000
   width: 100%
 .images-row
-  height: 200px
+  height: 300px
   overflow-y: scroll
 </style>
