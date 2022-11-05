@@ -120,13 +120,14 @@ export default {
           imageUrl: require('@/assets/img/features/all-features/virtual-giftcards.svg'),
           imgSmUrl: require('@/assets/img/features/all-features/virtual-giftcards-sm.svg'),
         },
-        {
-          to: '/features/international-buying-and-selling',
-          title: 'newest_features.international_buying_and_selling.title',
-          description: 'newest_features.international_buying_and_selling.desc',
-          imageUrl: require('@/assets/img/features/all-features/int-buying-and-selling.png'),
-          imgSmUrl: require('@/assets/img/features/all-features/int-buying-and-selling-sm.png'),
-        },
+        // Todo will add this feature later
+        // {
+        //   to: '/features/international-buying-and-selling',
+        //   title: 'newest_features.international_buying_and_selling.title',
+        //   description: 'newest_features.international_buying_and_selling.desc',
+        //   imageUrl: require('@/assets/img/features/all-features/int-buying-and-selling.png'),
+        //   imgSmUrl: require('@/assets/img/features/all-features/int-buying-and-selling-sm.png'),
+        // },
         {
           to: '/features/payments-plans',
           title: 'newest_features.payments_plans.title',
