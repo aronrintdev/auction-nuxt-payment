@@ -113,26 +113,25 @@
               <b-col md="12" class="px-0">
                 <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
                   <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-
-                      <b-row class="d-lg-none d-flex"
-                        ><b-col
-                          class="d-flex justify-content-center flex-column align-items-center"
-                        >
-                          <Logo class="img-fluid w-auto" />
-                          <span
-                            class="signup-heading fs-15 fw-5 font-primary w-75 text-center text-color-grey-5 my-3 pre-line"
-                            >{{ $t('signup.create_your_account') }}</span
-                          ></b-col
-                        ></b-row
+                    <b-row class="d-lg-none d-flex"
+                      ><b-col
+                        class="d-flex justify-content-center flex-column align-items-center"
                       >
-                      <NavGroup
-                        :data="tabs"
-                        :value="currentTab"
-                        nav-key="new_releases"
-                        class="text-center mb-4 d-lg-none d-block px-0"
-                        @change="handleTabChange"
-                      />
-                      <ValidationProvider
+                        <Logo class="img-fluid w-auto" :height="53" />
+                        <span
+                          class="signup-heading fs-15 fw-5 font-primary w-75 text-center text-color-grey-5 my-3 pre-line"
+                          >{{ $t('signup.create_your_account') }}</span
+                        ></b-col
+                      ></b-row
+                    >
+                    <NavGroup
+                      :data="tabs"
+                      :value="currentTab"
+                      nav-key="new_releases"
+                      class="text-center mb-4 d-lg-none d-block px-0"
+                      @change="handleTabChange"
+                    />
+                    <ValidationProvider
                         v-slot="validationContext"
                         :name="$t('auth.first_name')"
                         :rules="{
@@ -473,8 +472,8 @@ export default {
   data() {
     return {
       tabs: [
-        { label: this.$t('auth.create_an_account'), value: 'signup' },
         { label: this.$t('auth.login'), value: 'Login' },
+        { label: this.$t('auth.create_an_account'), value: 'signup' },
       ],
       currentTab: 'signup',
 
@@ -776,7 +775,7 @@ export default {
       line-height: 18px
     .logo-img
       width: 134px
-      height: 40px
+      height: 53px
     .validation
       font-size: 10px !important
       font-weight: 500 !important
