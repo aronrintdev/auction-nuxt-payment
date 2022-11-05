@@ -55,6 +55,7 @@
         <!-- ./Row -->
         <div v-if="!isScreenXS" class="row filter-second-row">
           <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2">
+            <label class="font15 filter-label">{{ $t('common.filter_by') }}</label>
             <VendorPurchaseSelectWithCheckbox
                 :default="purchaseFilter"
                 :options="typeOptions"
@@ -63,7 +64,8 @@
                 @filters="typeFilters"
             />
           </div>
-          <div class="col-md-3 col-12 col-sm-12 mt-md-4 mt-2">
+
+          <div class="col-md-3 col-12 col-sm-12 mt-md-4 mt-2 flex-end-align-col">
             <VendorPurchaseSelectWithCheckbox
               :default="purchaseFilter"
               :title="statusTitle"
@@ -72,7 +74,9 @@
               @filters="statusFilters"
             />
           </div>
-          <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2 datepicker border rounded filter-datepicker">
+
+          <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2 datepicker filter-datepicker">
+            <label class="font15 filter-label">{{ $t('orders.date_ordered') }}</label>
             <b-form-datepicker
               id="example-datepicker-start"
               v-model="startdate"
@@ -83,11 +87,12 @@
                 month: 'numeric',
                 day: 'numeric',
               }"
-              class="mb-2 h-100"
+              class="mb-2 h-100 flex-end-align-col border rounded"
               @context="onContext"
             ></b-form-datepicker>
           </div>
-          <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2 datepicker border rounded filter-datepicker">
+
+          <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2 datepicker border rounded filter-datepicker flex-end-align-col">
             <b-form-datepicker
               id="example-datepicker-end"
               v-model="enddate"
@@ -101,12 +106,14 @@
               @context="onContext"
             ></b-form-datepicker>
           </div>
+
           <div
             class="
               col-md-1 col-12 col-sm-12
               apply-btn-wrapper
               mt-md-4 mt-2
               text-center
+              flex-end-align-col
             "
           >
             <b-button
@@ -116,15 +123,6 @@
               @click="loadData"
               >{{ $t('vendor_purchase.apply') }}</b-button
             >
-          </div>
-          <div class="col-md-2 mt-md-4 mt-2 clearall-filter">
-            <span
-                role="button"
-                class="d-flex text-primary"
-                @click="clearFilters()"
-            >
-              <u>{{ $t('vendor_purchase.clear_all_filters') }}</u>
-            </span>
           </div>
         </div>
         <!-- ./Row -->
@@ -163,6 +161,15 @@
               ></i>
             </b-badge>
             <!-- Status Filters -->
+            <!-- clear filter link -->
+            <span
+                v-if="activeStatusFilters.length || activeTypeFilters.length"
+                role="button"
+                class="text-base-blue"
+                @click="clearFilters()"
+            >
+              <u>{{ $t('vendor_purchase.clear_all_filters') }}</u>
+            </span>
           </div>
         </div>
         <!-- ./ -->
@@ -700,6 +707,14 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+.flex-end-align-col
+  align-self: flex-end
+.font15
+  font-size: 15px !important
+.font-normal
+  font-weight: normal !important
+.filter-label
+  font-weight: 500 !important
 .apply-btn-wrapper button
   height: 40px
   line-height: 0
