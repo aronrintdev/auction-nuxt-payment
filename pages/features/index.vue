@@ -104,7 +104,7 @@ export default {
           title: 'newest_features.live_customer_service.title',
           description: 'newest_features.live_customer_service.desc',
           imageUrl: require('@/assets/img/features/all-features/live-customer-service.svg'),
-          imgSmUrl: require('@/assets/img/features/all-features/live-customer-service-sm.png'),
+          imgSmUrl: require('@/assets/img/features/all-features/live-customer-service-sm.svg'),
         },
         {
           to: '/features/rewards-program',
