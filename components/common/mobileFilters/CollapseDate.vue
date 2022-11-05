@@ -15,7 +15,7 @@
             {{ title }}
           </div>
 
-          <div class="col text-right pr-4">
+          <div class="col text-right pr-3">
             <span v-if="visibleDate" class="filters overflow-hidden">
               <span v-if="value && value.start">{{ value.start }}</span>
               <span  v-if="value && value.start">-</span>
@@ -40,7 +40,7 @@
           <b-input-group @click="showStartDate">
             <b-form-input
               type="date"
-              class="date-input bg-white rounded-circle py-3"
+              class="date-input bg-white rounded-circle py-2"
               @input="inputStartDate($event)"
             >
             </b-form-input>
@@ -50,7 +50,7 @@
           <b-input-group @click="showEndDate">
             <b-form-input
               type="date"
-              class="date-input bg-white rounded-circle"
+              class="date-input bg-white rounded-circle py-2"
               @input="inputEndDate($event)"
             >
             </b-form-input>
@@ -176,7 +176,7 @@ export default {
     @include body-4-bold
     color: $color-blue-20
     .filters
-      width: 93px
+      width: auto
       height: 19px
       left: 209px
       top: 7px
@@ -185,6 +185,7 @@ export default {
       @include body-4-normal
       color: $color-black-1
       text-overflow: ellipsis
+      white-space: nowrap
     @media (prefers-reduced-motion: reduce)
       transition: none
     &::after

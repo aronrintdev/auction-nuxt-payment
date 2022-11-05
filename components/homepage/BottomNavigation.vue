@@ -1,5 +1,5 @@
 <template>
-  <div class="bottom-navigation bg-black px-4 pt-3 position-fixed w-100">
+  <div class="bottom-navigation bg-black px-4 pt-3 position-sticky w-100">
     <SearchOverlay
       ref="searchOverlay"
       :show="showSearchOverlay"
@@ -77,10 +77,10 @@ export default {
   },
   methods: {
     handleSearchFocus() {
-      this.showSearchOverlay = true
+      this.$root.$emit('showSearchOverlay')
     },
     handleSearchOverlayHide() {
-      this.showSearchOverlay = false
+      this.$root.$emit('hideSearchOverlay')
     },
   },
 }

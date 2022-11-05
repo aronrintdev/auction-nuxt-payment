@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="mobileClass" class="d-flex justify-content-between align-items-center mb-3">
-      <MobileSearchInput class="flex-grow-1" />
+      <MobileSearchInput :value="''" class="flex-grow-1" />
       <a role="button" @click="showMobileFilter">
         <img
           class="mobile-filter pt-1 pl-2"
@@ -82,7 +82,7 @@
                 :updateFilters="filterForm.activeStatusFilters"
                 :value="filterForm.statusType"
                 class="mr-4 dropdown-filters"
-                @filters="getCommissions"
+                @filters="getCommissions(true)"
             />
           </div>
         </div>
@@ -253,7 +253,7 @@
         </b-table>
       </div>
     </div>
-    <div class="d-flex justify-content-around mt-3">
+    <div v-if="false" class="d-flex justify-content-around mt-3">
       <Pagination
           v-if="items.length>0"
           :per-page="perPage"
@@ -302,6 +302,7 @@ export default {
       isExportActive: false,
       itemsTotal: 0,
       page: 1,
+      lastPage: 1,
       perPage: COMMISSIONS_PER_PAGE,
       perPageOptions: COMMISSIONS_PAGE_OPTIONS,
       fields: Object.keys(this.$t('vendor_hub.commission.table')).map(a => {
@@ -385,8 +386,21 @@ export default {
     }
   },
   mounted() {
-    this.getCommissions()
+    this.getCommissions(true)
     this.getStatistics()
+    if (process.browser) {
+      const container = document.getElementById('profile-layout')
+      window.onscroll = (ev) => {
+        if (container && !this.dataLoading) {
+          if ((window.innerHeight + window.scrollY) >= container.offsetHeight - 10) {
+            if (this.page < this.lastPage) {
+              this.page++
+              this.getCommissions()
+            }
+          }
+        }
+      };
+    }
   },
   methods: {
     ...mapActions({
@@ -410,13 +424,13 @@ export default {
       this.$refs.exportButton.$el.click()
     },
     applyFilter() {
-      this.getCommissions()
+      this.getCommissions(true)
     },
     applyMobileFilter(filters) {
       this.filterForm.activeStatusFilters = filters?.activeStatusFilters ?? []
       this.filterForm.startDate = filters?.startDate ?? null
       this.filterForm.endDate = filters?.endDate ?? null
-      this.getCommissions()
+      this.getCommissions(true)
     },
     allSelected(val) {
       this.isAllSelected = val
@@ -426,8 +440,13 @@ export default {
         this.selected = []
       }
     },
-    getCommissions() {
+    getCommissions(isNewRecordCollection = false) {
       this.dataLoading = true
+      /* start new lazy loading collection */
+      if (isNewRecordCollection) {
+        this.page = 1 // lazy loading will start from first page
+        this.items = [] // new lazy loading record list
+      }
       this.fetchCommissions(
           {
             take: this.perPage,
@@ -437,8 +456,9 @@ export default {
             page: this.page
           }
       ).then(res => {
-        this.items = res.data.data.data
+        this.items.push(...res.data.data.data)
         this.itemsTotal = res.data.data.total
+        this.lastPage = res.data.data.last_page
       }).catch(err => {
         this.$toasted.error(err.message)
       }).finally(() => {

@@ -102,7 +102,7 @@ export default {
       productImageWidth: PRODUCT_IMG_WIDTH,
       months: MONTHS,
       items: [],
-      trackingNumber: 'Z1234567890', // TODO: Hardcoded for now
+      trackingNumber: null, // TODO: Hardcoded for now
       fields: [
         { key: 'datevalue', label: 'Date/ Time' },
         { key: 'activity', label: 'Activity' },

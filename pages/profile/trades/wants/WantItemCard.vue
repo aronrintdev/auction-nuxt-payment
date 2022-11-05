@@ -1,21 +1,51 @@
 <template>
-    <div  class="invent-item mr-45">
+    <div class="invent-item">
       <div class="position-absolute size-cont">
-        <b-row class="justify-content-between">
-          <div class="size text-center ml-3 mt-2">
-            {{$t('trades.size')}} {{ wantItem.size && wantItem.size.size }}
+        <div v-if="editRemove" class="d-flex justify-content-end">
+          <img
+            v-if="selected"
+            role="button"
+            :src="require('~/assets/img/icons/red-minus.svg')"
+            height="22" 
+            width="22" 
+            @click="$emit('select', wantItem.id, 'remove')" 
+          >
+          <img
+            v-else
+            role="button"
+            :src="require('~/assets/img/icons/gray-plus.svg')"
+            height="22" 
+            width="22" 
+            @click="$emit('select', wantItem.id, 'add')" 
+          >
+        </div>
+        <div v-else class="d-flex justify-content-center align-items-center">
+          <div 
+            role="button" 
+            class="pr-1 d-flex align-items-center"
+            @click="editWant"
+          >
+            <img 
+              :src="require('~/assets/img/icons/pencil-gray.svg')" 
+              height="15" 
+              width="15" 
+            >
+            <span class="edit-label ml-1">{{ $t('common.edit') }}</span>
           </div>
-          <b-form-checkbox
-            v-if="editRemove"
-            :checked="selected"
-            class="pr-2 pt-2"
-            @change="toggleSelect"
-          ></b-form-checkbox>
-          <div v-else class="d-flex pr-3 pt-2">
-            <img :src="require('~/assets/img/trades/edit-icon.svg')" height="24" width="24" role="button" @click="editWant">
-            <img :src="require('~/assets/img/trades/minus-icon.svg')" height="24" width="24" class="ml-2" role="button" @click="deleteWant">
+          <div 
+            role="button" 
+            class="pl-1 d-flex align-items-center"
+            @click="deleteWant"
+          >
+            <img 
+              :src="require('~/assets/img/icons/Delete.svg')" 
+              height="15" 
+              width="15" 
+              class="ml-4"
+            >
+            <span class="delete-label ml-1">{{ $t('common.delete') }}</span>
           </div>
-        </b-row>
+        </div>
       </div>
       <div class="inventory-image d-flex justify-content-center mx-auto align-items-center">
         <div class="thumb-wrapper">
@@ -24,8 +54,10 @@
       </div>
       <div class="card-text-item pt-3 pl-2">
         <div class="invent-item-name">{{wantItem.product && wantItem.product.name}}</div>   <!-- to do just frontend .....  -->
-        <div class="invent-item-color">{{ wantItem.product && wantItem.product.colorway }}</div>
-        <div class="invent-item-color">{{$t('trades.box_condition')}}:{{
+        <div class="invent-item-color">
+          {{ wantItem.product && wantItem.product.colorway }}, {{ $t('home_page.size') }} {{ wantItem.size && wantItem.size.size }}
+        </div>
+        <div class="invent-item-color">{{ $t('sell.inventory.box') }}: {{
             wantItem.packaging_condition && wantItem.packaging_condition.name
           }}</div>
       </div>
@@ -62,15 +94,14 @@ export default {
       default: ()=> [],
     },
   },
-  data(){
+  data() {
     return {
       IMAGE_PATH
     }
   },
+  mounted() {
+  },
   methods:{
-    toggleSelect(checked) {
-      this.$emit('select', this.wantItem.id, checked)
-    },
     deleteWant() {
       this.$emit('click', this.wantItem.id, 'delete')
     },
@@ -85,10 +116,10 @@ export default {
 @import '~/assets/css/_variables'
 
 .invent-item
-  background: $color-white-1
-  border: 1px solid $light-gray-2
   height: 281px
   width: 213px
+  @media (min-width: 992px)
+    margin-right: 50px
 
 .size
   border: 1px solid $light-gray-2
@@ -111,10 +142,9 @@ export default {
 
 .card-text-item
   height: 78px
-  background: $color-gray-1
 
 .size-cont
-  z-index: 1000
+  z-index: 90
   width: 213px
 
 .invent-item-name
@@ -141,4 +171,3 @@ export default {
   margin-right: 40px
 
 </style>
-

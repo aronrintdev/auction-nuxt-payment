@@ -1,18 +1,49 @@
 <template>
-  <div class="custom-dropdown text-gray" :style="{'min-width': width, 'height': dropDownHeight, 'width': maxWidth,'border-radius': !isOpen ? borderRadius : borderRadiusClose}">
-    <div class="label-wrapper" :style="{'min-width': width, 'height': dropDownHeight, 'width': maxWidth, 'border-radius': !isOpen ? borderRadius : borderRadiusClose}" :class="`background-${variant} ${bordered && 'bordered'}`" @click="isOpen = !isOpen">
-      <label class="font-weight-light">
+  <div 
+    class="custom-dropdown text-gray" 
+    :hasHeaderDivider="false"
+    :style="{
+      'min-width': width, 
+      'height': dropDownHeight, 
+      'width': maxWidth,
+      'border-radius': !isOpen ? borderRadius : borderRadiusClose,
+      ...wrapperStyle
+    }"
+  >
+    <div 
+      class="label-wrapper" 
+      :style="{
+        'min-width': width, 
+        'height': dropDownHeight, 
+        'width': maxWidth, 
+        'border-radius': !isOpen ? borderRadius : borderRadiusClose,
+        ...inputStyle
+      }" 
+      :class="`background-${variant} ${bordered && 'bordered'} ${inputClass} ${isOpen && 'list-opened'}`" 
+      @click="isOpen = !isOpen"
+    >
+      <label :style="labelStyle" class="font-weight-light">
         <img v-if="labelLeftImage !== null" :src="labelLeftImage" class="mr-2">
         {{label}}
       </label>
-      <i class="pull-right  pr-1 fa fa-2x" :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"></i>
+      <i :style="iconStyle" class="pull-right pr-1 fa fa-2x" :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"></i>
     </div>
-    <ul v-if="isOpen"  class="custom-dropdown-options position-absolute pa-0 overflow-auto" :class="`${optionsWidth}-color ${bordered && 'bordered'}`" :style="{'min-width': width,'border-radius': isOpen ? borderRadiusOptions: ''}"
+    <ul 
+      v-if="isOpen" 
+      class="custom-dropdown-options position-relative pa-0 overflow-auto border-top-0" 
+      :class="`${optionsWidth}-color ${bordered && 'bordered'}`" 
+      :style="{
+        'min-width': width,
+        'border-radius': isOpen ? borderRadiusOptions: '',
+        zIndex: 100000,
+        ...dropdownStyle
+      }"
     >
       <li
         v-for="(option, key) of listOptions" :key="key"
         :class="`${optionsWidth}-color ${combinationId && 'pointer-event-none'}`"
-        class="d-flex justify-content-between"
+        class="d-flex justify-content-between align-items-center"
+        :style="dropdownItemStyle"
         @click="selectOption((option.value ? option.value : option))"
       >
         <span>{{ (option.value) ? option.text : option }}</span>
@@ -101,6 +132,34 @@ export default {
       type: Number,
       default: () => null,
     },
+    inputStyle: {
+      type: Object,
+      default: () => {}
+    },
+    labelStyle: {
+      type: Object,
+      default: () => {}
+    },
+    iconStyle: {
+      type: Object,
+      default: () => {}
+    },
+    wrapperStyle: {
+      type: Object,
+      default: () => {}
+    },
+    dropdownStyle: {
+      type: Object,
+      default: () => {}
+    },
+    dropdownItemStyle: {
+      type: Object,
+      default: () => {}
+    },
+    inputClass: {
+      type: String,
+      default: () => {}
+    },
   },
   data() {
     return {
@@ -126,23 +185,36 @@ export default {
     this.setOptions()
   },
   methods: {
-    setOptions(){
+    setOptions() {
       if(this.itemId && !this.combinationId){
         // eslint-disable-next-line vue/no-mutating-props
         this.value.push('general_wants')
       }
       else if(this.combinationId){
         // eslint-disable-next-line vue/no-mutating-props
-        this.value.push(`combination_item ${this.combinationId}`)
+        this.value.push(this.combinationId)
       }
     },
     combinationOptions(){
-      this.getCombinationsId.forEach((item)=>{
-        this.listOptions.push({
-          text: this.$t('trades.wants_listing.create_combination', {count: item}),
-          value: item
-        })
-        this.lastCombinationId = item
+      this.$axios.get('trades/wants', {
+        params: {
+          type: 'combinations',
+          page: 1,
+          category: '',
+          size_types: '',
+          sizes: '',
+        }
+      })
+      .then((response) => { 
+        response.data.data.data.forEach((item) => {
+          this.listOptions.push({
+            text: this.$t('trades.wants_listing.create_combination', { count: item.combination_id }),
+            value: item.combination_id
+          })
+        });
+      })
+      .catch((err) => {
+        this.$toasted.error(this.$t(err.response.data.error))
       })
     },
     filterResults() {
@@ -156,8 +228,8 @@ export default {
     addCombination() {
       this.lastCombinationId += 1
       this.listOptions.push({
-        text: this.$t('trades.wants_listing.create_combination', {count: this.lastCombinationId}),
-        value: 'new'
+        text: this.$t('trades.wants_listing.create_combination', { count: this.listOptions.length }),
+        value: this.listOptions.length
       })
     }
   }
@@ -166,6 +238,8 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+
 
 ul.custom-dropdown-options
   position: absolute
@@ -213,4 +287,20 @@ div.label-wrapper label
 
 .pointer-event-none
   pointer-events: none
+
+.form-input
+  border: 1px solid $color-gray-3
+  border-radius: 10px
+  height: 49px
+  paddingLeft: 16px
+  @media (min-width: 576px)
+    border-color: $color-blue-20 !important
+    border-radius: 4px !important
+    height: 40px !important
+
+.list-opened
+  border-bottom: 0 !important
+  border-bottom-left-radius: 0 !important
+  border-bottom-right-radius: 0 !important
+
 </style>

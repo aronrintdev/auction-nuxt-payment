@@ -64,4 +64,6 @@ export default {
   z-index: 10
   right: 10px
   top: 0
+.promotions-banner-title
+  letter-spacing: -0.08em
 </style>

@@ -7,7 +7,7 @@
           <span
             v-if="result.value === orderStatus"
             class="d-flex order-status-date"
-            >{{ result.date | formatDate }}</span
+            >{{ updatedAt | formatDate }}</span
           >
         </div>
         <div class="col-md-9">
@@ -50,8 +50,11 @@ export default {
       type: Array,
       required: true,
     },
-
     orderStatus: {
+      type: String,
+      required: true,
+    },
+    updatedAt: {
       type: String,
       required: true,
     },

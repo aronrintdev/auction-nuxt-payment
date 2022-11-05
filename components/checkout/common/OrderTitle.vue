@@ -18,11 +18,11 @@
 
 <script>
 import LocaleMessage from 'vue-i18n'
-import shoppingCartMixin from '~/plugins/mixins/shopping-cart'
+import emitEventMixin from '~/plugins/mixins/emit-event'
 
 export default {
   name: 'OrderTitle',
-  mixins: [shoppingCartMixin],
+  mixins: [ emitEventMixin ],
   props: {
     title: {
       type: [String, LocaleMessage],

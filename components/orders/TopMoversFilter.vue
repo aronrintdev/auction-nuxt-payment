@@ -108,7 +108,7 @@
                   </b-form-radio>
                 </b-form-group>
               </div>
-              <div class="border-top py-1">
+              <div class="border-top py-2">
                 <collapsible-box :title="$t('orders.type').toString()" :second-title="selectedTypesString">
                   <div class="row my-2">
                     <div v-for="type in orderTypes" :key="type.key" class="col-4 my-1 filter-boxes">
@@ -121,7 +121,7 @@
                   </div>
                 </collapsible-box>
               </div>
-              <div class="border-top py-1">
+              <div class="border-top py-2">
                 <collapsible-box :title="$t('orders.status').toString()" :second-title="selectedStatusString">
                   <div class="row my-2">
                     <div v-for="status in orderStatuses" :key="status.key" class="col-4 my-1 filter-boxes">
@@ -134,7 +134,7 @@
                   </div>
                 </collapsible-box>
               </div>
-              <div class="border-top py-1">
+              <div class="border-top py-2">
                 <collapsible-box :title="$t('orders.date_ordered').toString()" :second-title="selectedDateString">
                   <div class="row">
                     <div class="col mt-2">
@@ -159,7 +159,7 @@
             </div>
           </div>
           <div class="p-3">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center pb-4">
               <button class="btn-bottom-sheet reset" @click="clearFilters">{{ $t('orders.reset') }}</button>
               <button class="btn btn-bottom-sheet apply-filter" @click="applyFilter">{{
                   $t('orders.apply_filter')
@@ -195,9 +195,10 @@ export default {
       DownArrow,
       CalendarImg,
       orderTypes: Object.keys(this.$t('orders.order_types')).map(a => {
+        const rectify = {'buy': 1, 'auction': 3, 'trade': 4}
         return {
           text: this.$t('orders.order_types.' + a),
-          value: a
+          value: rectify[a]
         }
       }),
       orderStatuses: Object.keys(this.$t('orders.order_statuses')).map(a => {
@@ -301,6 +302,7 @@ export default {
     color: $color-gray-28
 
 .filter-boxes
+  @include body-5-regular
   .active-filter
     border-color: $color-black-1 !important
     background: $color-white-7

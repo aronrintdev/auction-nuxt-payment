@@ -25,7 +25,7 @@
           <div class="col text-left">
             {{ title }}
           </div>
-          <div class="col text-right pr-4">
+          <div class="col text-right pr-3">
             <span v-if="value && value.length > 0" class="filters">
               <span v-for="(item, index) in value" :key="index">
                 {{ item.text }}<span v-if="index < value.length-1">,</span>
@@ -57,8 +57,8 @@
         >
           <div
             class="add-amount-item d-flex align-items-center text-align-center justify-content-center"
-            @click="activeStatus(option)"
             :class="value.includes(option) ? 'active' : ''"
+            @click="activeStatus(option)"
           >
             {{ option.label || option.text }}
           </div>
@@ -147,6 +147,8 @@ export default {
       @include body-4-normal
       color: $color-black-1
       text-overflow: ellipsis
+      overflow: hidden
+      white-space: nowrap
     @media (prefers-reduced-motion: reduce)
       transition: none
     &::after

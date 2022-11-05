@@ -80,10 +80,10 @@
       <!-- Shopping Bag Place Order Button -->
       <b-row class="place-order-wrapper">
         <b-col v-if="loading" md="12" class="text-center">
-          <b-spinner variant="color-blue-2"></b-spinner>
+          <b-spinner variant="blue-20"></b-spinner>
         </b-col>
         <b-col v-else md="12" class="text-center">
-          <Button :disabled="! getTotalQuantity" type="button" variant="dark-blue" pill>{{
+          <Button :disabled="! canPlaceOrder" type="button" variant="dark-blue" pill @click="handlePlaceOrder">{{
               $t('shopping_cart.place_order')}}
           </Button>
         </b-col>
@@ -93,22 +93,16 @@
 </template>
 
 <script>
-// TODO: NP - Clean up unused flows.
 import { mapActions, mapGetters } from 'vuex'
 import emitEventMixin from '~/plugins/mixins/emit-event'
+import orderDetailsMixin from '~/plugins/mixins/order-details'
 import billingAddressMixin from '~/plugins/mixins/billing-address'
 import shippingAddressMixin from '~/plugins/mixins/shipping-address'
 import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTitle'
 import ArrowRightBlackSVG from '~/assets/img/shopping-cart/arrow-right-black.svg?inline'
 import Button from '~/components/common/Button'
 import PaymentDetailsListItem from '~/components/checkout/selling/mobile/payment/PaymentDetailsListItem'
-import {
-  PERCENT,
-  FIXED_PRODUCT,
-  BAD_REQUEST,
-  PERCENT_OFFSET,
-  AMOUNT_OFFSET
-} from '~/static/constants'
+import { BAD_REQUEST, PAYMENT_METHOD_TYPE_CARD, PAYMENT_METHOD_TYPE_CRYPTO, PAYMENT_METHOD_TYPE_INSTALLMENT } from '~/static/constants'
 
 export default {
   name: 'CheckoutSummary',
@@ -118,7 +112,7 @@ export default {
     Button,
     PaymentDetailsListItem,
   },
-  mixins: [ emitEventMixin, billingAddressMixin, shippingAddressMixin ],
+  mixins: [ emitEventMixin, billingAddressMixin, shippingAddressMixin, orderDetailsMixin ],
   data() {
     return {
       loading: false,
@@ -127,149 +121,16 @@ export default {
   },
   computed: {
     ...mapGetters({
-      shoppingCart: 'shopping-cart/getShoppingCart',
       paymentMethod: 'auth/getPaymentMethod',
-      giftCard: 'order-details/getGiftCard',
-      promoCode: 'order-details/getPromoCode',
       paymentToken: 'order-details/getPaymentToken',
       installmentPlans: 'order-details/getInstallmentDetails',
       cryptoDetails: 'order-details/getCryptoDetails',
-      redeemedReward: 'redeemed-reward/getRedeemedReward',
-      freeShippingRedeemedReward: 'redeemed-reward/getFreeShippingRedeemedReward',
-      freeSneakersRedeemedReward: 'redeemed-reward/getFreeSneakersRedeemedReward',
-      shippingFee: 'order-settings/getShippingFee',
-      processingFee: 'order-settings/getProcessingFee',
-      taxRate: 'tax-rate/getTaxRate'
     }),
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getTotalQuantity: (vm) => {
-      let totalQuantity =  vm.shoppingCart.reduce((sum, product) => {
-        return sum + product.quantity
-      }, 0)
-
-      if (vm.freeSneakersRedeemedReward) {
-        ++totalQuantity
-      }
-
-      return totalQuantity
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getSubtotal: (vm) => {
-      return vm.shoppingCart.reduce((sum, product) => {
-        return sum + product.price * product.quantity
-      }, 0)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getSubtotalAfterInstantShip: (vm) => {
-      return vm.shoppingCart.reduce((sum, product) => {
-        if (product.instantShipPrice) {
-          return sum + product.instantShipPrice * product.quantity
-        }
-
-        return sum + product.price * product.quantity
-      }, 0)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getSubtotalAfterDiscount: (vm) => {
-      if (vm.getSubtotalAfterInstantShip) {
-        return Math.max(vm.getSubtotalAfterInstantShip - vm.getDiscount, 0)
-      }
-
-      return Math.max(vm.getSubtotal - vm.getDiscount, 0)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getShippingFee: (vm) => {
-      if (vm.freeShippingRedeemedReward) {
-        return 0.00
-      }
-
-      return vm.shippingFee * vm.getTotalQuantity
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getProcessingFee: (vm) => {
-      if (vm.freeSneakersRedeemedReward) {
-        return Math.trunc(vm.processingFee * (vm.getSubtotal + vm.freeSneakersRedeemedReward.price))
-      }
-
-      return Math.trunc(vm.processingFee * vm.getSubtotal)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getTax: (vm) => {
-      return Math.trunc(vm.taxRate * vm.getSubtotalAfterDiscount)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getTotal: (vm) => {
-      const total = vm.getShippingFee + vm.getProcessingFee + vm.getTax + vm.getSubtotalAfterDiscount
-
-      return vm.getTotalQuantity > 0 ? total : 0
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getPromoDiscount: (vm) => {
-      let discount = 0
-
-      if (vm.promoCode.code) {
-        switch (vm.promoCode.type) {
-          case FIXED_PRODUCT: {
-            const items = vm.shoppingCart.filter((item) => {
-              return item.sku === vm.promoCode.sku
-            })
-
-            if (items) {
-              const totalQuantity = items.reduce((sum, item) => {
-                return sum + item.quantity
-              }, 0)
-
-              discount += totalQuantity * vm.promoCode.amount * AMOUNT_OFFSET
-            }
-
-            break;
-          }
-          case PERCENT: {
-            if (vm.getSubtotalAfterInstantShip) {
-              discount += vm.getSubtotalAfterInstantShip * (vm.promoCode.amount / PERCENT_OFFSET)
-            } else {
-              discount += vm.getSubtotal * (vm.promoCode.amount / PERCENT_OFFSET)
-            }
-
-            break;
-          }
-          default:
-            discount += vm.promoCode.amount * AMOUNT_OFFSET
-        }
-      }
-
-      return discount
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getGiftCardDiscount(vm) {
-      let discount = 0
-
-      if (vm.giftCard) {
-        discount += vm.giftCard.amount
-      }
-
-      return discount
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getDiscount: (vm) => {
-      return Math.trunc(vm.getPromoDiscount + vm.getGiftCardDiscount)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getItems: (vm) => {
-      const items = []
-      // DVQ-24 items should be calculated if there is product in cart
-      if (vm.getSubtotalAfterInstantShip) {
-        items.push({ key: 'sub_total', label: vm.$t('shopping_cart.subtotal'), value: vm.getTotalQuantity > 0 ? vm.getSubtotalAfterInstantShip : 0 })
-      } else {
-        items.push({ key: 'sub_total', label: vm.$t('shopping_cart.subtotal'), value: vm.getTotalQuantity > 0 ? vm.getSubtotal : 0 })
-      }
-
-      items.push({ key: 'sub_total_after_discount', label: '', value: vm.getTotalQuantity > 0 ? vm.getSubtotalAfterDiscount : 0 })
-      items.push({ key: 'shipping_fee', label: vm.$t('shopping_cart.shipping_fee'), value: vm.getTotalQuantity > 0 ? vm.getShippingFee : 0 })
-      items.push({ key: 'processing_fee', label: vm.$t('shopping_cart.processing_fee'), value: vm.getTotalQuantity > 0 ? vm.getProcessingFee : 0 })
-      items.push({ key: 'tax', label: vm.$t('shopping_cart.tax'), value: vm.getTotalQuantity > 0 ? vm.getTax : 0 })
-
-      return items
+    canPlaceOrder(vm) {
+      return !!(vm.getTotalQuantity
+        && vm.billingAddress
+        && vm.shippingAddress
+        && (vm.cryptoDetails.amount || vm.paymentMethod))
     }
   },
   mounted() {
@@ -297,10 +158,8 @@ export default {
     clearReward() {
       this.removeRedeemedReward()
     },
-    // TODO: Extract the pattern shown in the checkout methods.
-    checkoutWithCard() {
-      this.loading = true
-      this.cardCheckout({
+    prepareCheckoutPayload(type) {
+      const payload = {
         discount: this.getDiscount,
         processingFee: this.getProcessingFee,
         shippingFee: this.getShippingFee,
@@ -310,13 +169,46 @@ export default {
         promoCode: this.promoCode ? this.promoCode.code : '',
         giftCardNumber: this.giftCard ? this.giftCard.number : '',
         giftCardAmount: this.giftCard ? this.giftCard.amount : 0,
-        paymentToken: this.paymentToken,
-        paymentMethod: this.paymentMethod,
         billingAddress: this.billingAddress,
         shippingAddress: this.shippingAddress,
         shoppingCart: this.shoppingCart,
         redeemedReward: this.freeSneakersRedeemedReward
-      }).then((data) => {
+      }
+
+      switch (type) {
+        case PAYMENT_METHOD_TYPE_CARD: {
+          payload.paymentMethod = this.paymentMethod
+          payload.paymentToken = this.paymentToken
+
+          break;
+        }
+        case PAYMENT_METHOD_TYPE_INSTALLMENT: {
+          payload.paymentMethod = this.paymentMethod
+          payload.paymentToken = this.paymentToken
+          payload.installmentDetails = this.installmentPlans
+
+          break
+        }
+        default: {
+          payload.paymentMethod = this.cryptoDetails
+        }
+      }
+
+      return payload
+    },
+    handlePlaceOrder() {
+      if (this.cryptoDetails.amount){
+        this.checkoutWithCrypto()
+      } else if (this.paymentMethod) {
+        this.checkoutWithCard()
+      } else {
+        this.checkoutWithInstallment()
+      }
+    },
+    // TODO: Extract the pattern shown in the checkout methods.
+    checkoutWithCard() {
+      this.loading = true
+      this.cardCheckout(this.prepareCheckoutPayload(PAYMENT_METHOD_TYPE_CARD)).then((data) => {
         if (data.message === 'shopping_cart.stock_from_different_vendors') {
           this.alternativeItems = data.data
           this.$bvModal.show('alternative-items-modal')
@@ -327,6 +219,7 @@ export default {
           this.removeProducts()
           this.clearRedeemedReward()
           this.addOrderDetails(data).then(() => {
+            this.$parent.$parent.close()
             this.$router.push('selling/order-confirmation')
           })
         }
@@ -349,24 +242,7 @@ export default {
     },
     checkoutWithInstallment() {
       this.loading = true
-      this.installmentCheckout({
-        discount: this.getDiscount,
-        processingFee: this.getProcessingFee,
-        shippingFee: this.getShippingFee,
-        tax: this.getTax,
-        subTotal: this.getSubtotalAfterInstantShip,
-        total: Math.ceil(this.$options.filters.formatPrice(this.getTotal)),
-        promoCode: this.promoCode ? this.promoCode.code : '',
-        giftCardNumber: this.giftCard ? this.giftCard.number : '',
-        giftCardAmount: this.giftCard ? this.giftCard.amount : 0,
-        paymentToken: this.paymentToken,
-        paymentMethod: this.paymentMethod,
-        billingAddress: this.billingAddress,
-        shippingAddress: this.shippingAddress,
-        shoppingCart: this.shoppingCart,
-        installmentDetails: this.installmentPlans,
-        redeemedReward: this.freeSneakersRedeemedReward
-      }).then((data) => {
+      this.installmentCheckout(this.prepareCheckoutPayload(PAYMENT_METHOD_TYPE_INSTALLMENT)).then((data) => {
         if (data.message === 'shopping_cart.stock_from_different_vendors') {
           this.alternativeItems = data.data
           this.$bvModal.show('alternative-items-modal')
@@ -377,6 +253,7 @@ export default {
           this.removeProducts()
           this.clearRedeemedReward()
           this.addOrderDetails(data).then(() => {
+            this.$parent.$parent.close()
             this.$router.push('selling/order-confirmation')
           })
         }
@@ -399,22 +276,7 @@ export default {
     },
     checkoutWithCrypto() {
       this.loading = true
-      this.cryptoCheckout({
-        discount: this.getDiscount,
-        processingFee: this.getProcessingFee,
-        shippingFee: this.getShippingFee,
-        tax: this.getTax,
-        subTotal: this.getSubtotalAfterInstantShip,
-        total: this.getTotal,
-        promoCode: this.promoCode ? this.promoCode.code : '',
-        giftCardNumber: this.giftCard ? this.giftCard.number : '',
-        giftCardAmount: this.giftCard ? this.giftCard.amount : 0,
-        billingAddress: this.billingAddress,
-        shippingAddress: this.shippingAddress,
-        shoppingCart: this.shoppingCart,
-        paymentMethod: this.cryptoDetails,
-        redeemedReward: this.freeSneakersRedeemedReward
-      }).then((data) => {
+      this.cryptoCheckout(this.prepareCheckoutPayload(PAYMENT_METHOD_TYPE_CRYPTO)).then((data) => {
         if (data.message === 'shopping_cart.stock_from_different_vendors') {
           this.alternativeItems = data.data
           this.$bvModal.show('alternative-items-modal')
@@ -425,6 +287,7 @@ export default {
           this.removeProducts()
           this.clearRedeemedReward()
           this.addOrderDetails(data).then(() => {
+            this.$parent.$parent.close()
             this.$router.push('selling/order-confirmation')
           })
         }
@@ -491,5 +354,10 @@ export default {
   .btn
     min-width: 216px
     min-height: 40px
+
+    &:disabled
+      border: none
+      background: $color-gray-1
+      color: $color-gray-47
 
 </style>

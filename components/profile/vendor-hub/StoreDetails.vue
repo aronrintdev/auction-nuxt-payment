@@ -307,13 +307,14 @@
           </b-row>
         </div>
 
-        <div v-if="isEditModeActive" class="d-flex justify-content-center flex-sm-row-reverse">
-          <Button pill type="button" variant="outline-dark" class="mt-4 mt-md-0 mx-3" @click="discardClick">
-           {{ $t('vendor_hub.payout_method.discard_changes') }}
+        <div v-if="isEditModeActive" class="d-flex justify-content-center flex-sm-row-reverse pr-1">
+          <Button pill type="button" variant="outline-dark" class="mt-4 mt-md-0 mx-1 mx-md-3" @click="discardClick">
+           <span :class="{'body-9-medium px-1': mobileClass}">{{ $t('vendor_hub.payout_method.discard_changes') }}</span>
           </Button>
-          <Button :disabled="codeTry<=0 || isAddressValid || updateLoading" class="bg-blue-2 mt-4 mt-md-0 mx-3"
+          <Button :disabled="codeTry<=0 || isAddressValid || updateLoading"
+                  class="bg-blue-2 mt-4 mt-md-0 mx-1 mx-md-3"
                   pill type="submit">
-           {{ $t('vendor_hub.payout_method.save_changes') }}
+           <span :class="{'body-9-medium px-1': mobileClass}">{{ $t('vendor_hub.payout_method.save_changes') }}</span>
           </Button>
         </div>
       </b-form>

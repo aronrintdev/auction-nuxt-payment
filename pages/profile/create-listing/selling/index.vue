@@ -238,10 +238,25 @@
         </b-col>
       </b-row>
       <!-- ./For Active Filter -->
+      
+      <div class="d-flex justify-content-between">
+        <!-- Inventory heading/ inventory count -->
+        <InventoryCount :inventory="inventoryLength" showResult />
+        <!-- Inventory heading/ inventory count ends -->
+        <!-- variant="selected-continue"  -->
 
-      <!-- Inventory heading/ inventory count -->
-      <InventoryCount :inventory="inventoryLength" showResult />
-      <!-- Inventory heading/ inventory count ends -->
+        <span v-if="!isScreenXS">
+          <Button v-if="selectedItems.length" 
+            variant="info" pill
+            class="border-0 d-flex align-items-center text-align-center mt-4"
+            @click="handleBulkAction">
+              <span>
+                {{ $t('common.continue') }}
+                <span v-if="selectedItems">&#40;{{ selectedItems.length }}&#41;</span>
+              </span>
+          </Button>
+        </span>  
+      </div>
 
       <!-- If result show th inventory card -->
       <template

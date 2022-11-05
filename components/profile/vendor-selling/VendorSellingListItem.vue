@@ -3,7 +3,7 @@
     <b-col md="12" sm="12" class="vd-selling-Inventory mt-md-4 mt-2">
       <h5 class="text-bold text-capitalize">
         {{ $t('selling_page.listings') }} &#40;{{
-          searchResults.length ? searchResults.length : 0
+          totalCount
         }}&#41;
       </h5>
     </b-col>
@@ -148,6 +148,12 @@ export default {
       type: Array,
       default: () => [],
     },
+    // new
+    totalCount:{
+      type: Number,
+      default: 0,
+    }
+    // new
   },
 
   data() {
