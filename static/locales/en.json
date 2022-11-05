@@ -2018,6 +2018,8 @@
     }
   },
   "shop": {
+    "browse_shop": "Browse Shop",
+    "clear_all": "Clear all",
     "banner": {
       "leading": "Buy With<br>Deadstock",
       "subleading": "Shop your favorite streetwear and brands on Deadstock.",
@@ -3815,6 +3817,7 @@
       "voided": "Voided",
       "refunded": "Refunded",
       "ship_to_deadstock": "Send to Deadstock",
+      "awaiting_drop_off_with_shipping_carrier": "Awaiting drop off with Shipping Carrier",
       "authentication_complete": "Authentication Complete",
       "awaiting_shipment_to_buyer": "Awaiting Shipment to Buyer",
       "shipped_to_deadstock": "Send to Deadstock",

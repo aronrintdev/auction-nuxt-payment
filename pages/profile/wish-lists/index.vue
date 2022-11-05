@@ -284,7 +284,7 @@ export default {
       perPage: 15,
       loading: false,
       shareDescription: this.$t('wish_lists.share_description'),
-      shareUrl: process.env.APP_URL + '/wish-lists/',
+      shareUrl: process.env.APP_URL + '/profile/wish-lists/',
     }
   },
 
