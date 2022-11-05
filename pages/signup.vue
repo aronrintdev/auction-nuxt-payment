@@ -119,7 +119,7 @@
                       >
                         <Logo class="img-fluid w-auto" :height="53" />
                         <span
-                          class="signup-heading fs-15 fw-5 font-primary w-75 text-center text-color-grey-5 my-3 pre-line"
+                          class="signup-heading fs-15 fw-5 font-primary w-75 text-center my-3 pre-line"
                           >{{ $t('signup.create_your_account') }}</span
                         ></b-col
                       ></b-row
@@ -141,7 +141,7 @@
                           max: 128,
                         }"
                       >
-                      <b-form-group>
+                      <b-form-group class="px-3">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="first-name"
@@ -177,7 +177,7 @@
                         max: 128,
                       }"
                     >
-                      <b-form-group>
+                      <b-form-group class="px-3">
                         <b-input-group class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="last-name"
@@ -212,7 +212,7 @@
                         max: 128,
                       }"
                     >
-                      <b-form-group>
+                      <b-form-group class="px-3">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="username"
@@ -249,7 +249,7 @@
                         max: 128,
                       }"
                     >
-                      <b-form-group>
+                      <b-form-group class="px-3">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="email-address"
@@ -286,7 +286,7 @@
                       }"
                       vid="password"
                     >
-                      <b-form-group>
+                      <b-form-group class="px-3">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="password"
@@ -342,7 +342,7 @@
                         confirmed: 'password',
                       }"
                     >
-                      <b-form-group>
+                      <b-form-group class="px-3">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="password-confirmation"
@@ -737,7 +737,7 @@ export default {
     color: $color-gray-47
 
   .form-area::v-deep
-    padding: 0px 16px
+    padding: 0px 1px
     .form-group
       margin-bottom: 14px !important
     .minimum
@@ -773,6 +773,9 @@ export default {
         border-radius: 0px 10px 10px 0px
     .signup-heading
       line-height: 18px
+      color: $color-black-1
+      font-style: normal
+      font-weight: $bold
     .logo-img
       width: 134px
       height: 53px

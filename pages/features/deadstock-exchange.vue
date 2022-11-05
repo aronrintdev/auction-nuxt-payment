@@ -107,8 +107,8 @@ export default {
       banner: {
         title: 'newest_features.deadstock_exchange.feature_banner_title',
         description: 'newest_features.deadstock_exchange.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/deadstock-exchange/deadstockexchangebbanner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/deadstock-exchange/deadstockexchangemobile.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/deadstock-exchange/deadstockexchangebbanner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/deadstock-exchange/deadstockexchangemobile.svg'),
       },
       shopNowBanner: {
         shopNowDescription:

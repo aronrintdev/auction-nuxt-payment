@@ -82,8 +82,8 @@ export default {
         title: 'newest_features.live_customer_service.feature_banner_title',
         description:
           'newest_features.live_customer_service.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/live-customer-service/live-customer-service-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/live-customer-service/live-customer-service-banner-sm.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/live-customer-service/live-customer-service-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/live-customer-service/live-customer-service-banner-sm.svg'),
       },
       benefits: [
         {
