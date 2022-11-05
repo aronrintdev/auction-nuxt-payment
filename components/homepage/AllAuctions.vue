@@ -72,7 +72,7 @@ export default {
     margin-left: -7.5px
     margin-right: -7.5px
 .banner
-  background-image: url('~/assets/img/home/auctions-cover.png')
+  background-image: url('~/assets/img/home/auctions-cover.svg')
   background-repeat: no-repeat
   background-position: center
   background-size: cover
