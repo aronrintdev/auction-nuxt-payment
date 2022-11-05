@@ -156,7 +156,7 @@ export default {
   methods: {
     singupPage(){
       this.$router.push({
-        path: '/sinup',
+        path: '/signup',
       })
     },
     handleVerify(payload) {
