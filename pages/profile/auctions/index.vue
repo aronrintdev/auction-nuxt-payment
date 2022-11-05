@@ -191,10 +191,10 @@
           </div>
         </div>
         <div v-else class="w-100 mt-5 d-flex flex-column align-items-center justify-content-around">
-          <div class="text-gray-24 font-weight-bold mt-5">
+          <div class="text-gray-24 font-weight-bold mt-5 text-center">
             {{ $t('auction.no_items') }}
           </div>
-          <div class="text-gray-24 font-weight-bold mt-2">
+          <div class="text-gray-24 font-weight-bold mt-2 text-center">
             {{ $t('auction.list_auction_today') }}
           </div>
           <div>
@@ -481,7 +481,7 @@ export default {
         types: this.activeTypeFilters.map(filter => filter.value).filter(filter => filter),
         start_date: this.start_date,
         end_date: this.end_date,
-        status: this.status === 'all' ? null : this.status,
+        category: this.duration === 'all' ? null : this.duration,
       }
       if(this.activeStatusFilters.length) {
         const hasAll = this.activeStatusFilters.filter((f) => f.value === 'all')
@@ -554,6 +554,7 @@ export default {
     handleMethodNavClick(duration) {
       if (duration) {
         this.duration = duration
+        this.page = 1
         this.FetchAuctions()
       }
     },

@@ -7,7 +7,7 @@
     @hidden="$emit('hidden')"
   >
     <div class="confirm-modal-content">
-      <div class="message">
+      <div :style="messageStyle" class="message">
         {{ message }}
       </div>
       <div class="d-flex justify-content-around mt-4 mb-3">
@@ -46,6 +46,10 @@ export default {
       type: String,
       default: null,
     },
+    messageStyle: {
+      type: Object,
+      default: () => {}
+    }
   },
 
   methods: {
