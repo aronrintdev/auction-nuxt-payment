@@ -162,9 +162,6 @@ export default {
     handleVerify(payload) {
       this.credentials = payload
     },
-    navItem(){
-      this.$router.push('./signup') 
-    },
   },
 }
 </script>
