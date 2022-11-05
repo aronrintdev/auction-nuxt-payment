@@ -46,7 +46,7 @@
         <input 
           v-if="type.includes('multi')" 
           class="mr-2" 
-          :checked="value && value.includes(option.size ? option.size : option)"
+          :checked="value && value.includes(option.value ? option.value : option)"
           type="checkbox"  
         />
         <span>{{ (option.value) ? option.text : capitalizeFirstLetter(option) }}</span>
@@ -158,7 +158,7 @@ export default {
       isOpen: false
     };
   },
-  mounted(){
+  mounted() {
     /**
      * close drop if clicked outside
      */
@@ -179,8 +179,8 @@ export default {
     capitalizeFirstLetter(string) {
       if(typeof string === 'string')
         return string[0].toUpperCase() + string.slice(1);
-      else if(typeof string === 'object' && string.size && typeof string.size === 'string')
-        return string.size[0].toUpperCase() + string.size.slice(1);
+      else if(typeof string === 'object' && string.value && typeof string.value === 'string')
+        return string.value[0].toUpperCase() + string.value.slice(1);
     },
     /**
      * get results on selection

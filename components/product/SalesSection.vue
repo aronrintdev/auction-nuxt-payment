@@ -224,6 +224,7 @@ export default {
 ::v-deep
   .nav-link
     color: $color-gray-4
+    font-family: $font-family-sf-pro-display
     &:hover
       color: $color-gray-4
     &.active

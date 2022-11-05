@@ -30,7 +30,7 @@
           <ProductImageViewerMagic360 v-if="product.product.has360Images" :product="product.product" />
         </div>
         <div class="col-xl-6 px-0 px-sm-2">
-          <p class="mt-3 mb-0 title">{{ product.product.name }}</p>
+          <p class="mb-0 title">{{ product.product.name }}</p>
           <div class="position-relative">
             <ProductSizePicker
               :value="currentSizeId"
@@ -276,36 +276,27 @@
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import ProductSizePicker from '~/components/product/SizePicker'
 import {MAX_ITEMS_ALLOWED, DIGITS_IN_YEAR} from '~/static/constants/create-listing'
 import SelectListDropDown from '~/pages/profile/trades/wants/SelectListDropDown'
 import SelectListModal from '~/pages/profile/trades/wants/SelectListModal'
-import Button from '~/components/common/Button'
 import CustomDropdown from '~/components/common/CustomDropdown'
 import ProductImageViewer from '~/components/product/ImageViewerV2'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
-import ProductLatestSales from '~/components/product/LatestSales'
 import SalesSection from '~/components/product/SalesSection'
-import { Icon } from '~/components/common'
 import { WANTS_SELECT_LIST_OPTIONS } from '~/static/constants/trades'
 
 
 export default {
   name: 'EditItem',
   components: {
-    Button,
     CustomDropdown,
     SelectListDropDown,
     ProductSizePicker,
-    ValidationObserver,
-    ValidationProvider,
     ProductImageViewer,
     ProductImageViewerMagic360,
-    ProductLatestSales,
     SelectListModal,
     SalesSection,
-    Icon
   },
   props: {
     product: {
@@ -597,7 +588,7 @@ export default {
     max-width: 120px
 
 .product-details
-  @icnlude body-2-bold
+  @include body-2-bold
   font-family: $font-family-sf-pro-display
   padding-bottom: 17px
   margin-top: 55px
@@ -664,7 +655,9 @@ export default {
 
 .title
   @include body-3-medium 
+  margin-top: 20px
   @media (min-width: 576px)
+  margin-top: 60px
     @include heading-1
 
 .last-sale

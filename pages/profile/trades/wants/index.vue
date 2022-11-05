@@ -551,6 +551,11 @@ export default {
     },
   },
   mounted() {
+    const wrapper = document.querySelector('.main-wrapper')
+    if (wrapper.querySelector('.wants-main-container')) {
+      wrapper.style.backgroundColor = '#f7f7f7'
+    }
+
     this.$root.$on('edit', (product) => {
       this.editItem = product
     })
@@ -886,7 +891,6 @@ export default {
      * @param selectedSizeType
      */
     changeSizeTypeFilter(selectedSizeType) {
-
       if (!this.sizeTypesFilter.includes(selectedSizeType)) {
         this.sizeTypesFilter.push(selectedSizeType)
       } else {
@@ -900,12 +904,11 @@ export default {
      * @param selectedSize
      */
     changeSizeFilter(selectedSize) {
-      if (!this.sizeFilter.includes(selectedSize.size)) {
-        this.sizeFilter.push(selectedSize.size)
+      if (!this.sizeFilter.includes(selectedSize)) {
+        this.sizeFilter.push(selectedSize)
       } else {
-        this.sizeFilter = this.sizeFilter.filter(item => item !== selectedSize.size)
+        this.sizeFilter = this.sizeFilter.filter(item => item !== selectedSize)
       }
-
       this.sizeFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeFilter, this.TAKE_SEARCHED_PRODUCTS)
         || this.$t('trades.create_listing.vendor.wants.size') // 5 is a max labels show in filter
     },
