@@ -54,23 +54,6 @@ export default {
       required: true
     }
   },
-
-  data() {
-    console.log('product1', this.product);
-    return {
-    };
-  },
-
-  computed: {
-  },
-
-  mounted() {
-    console.log('product1', this.product);
-  },
-
-  methods: {
-    
-  }
 }
 </script>
 
@@ -80,21 +63,17 @@ export default {
 .font-sf-pro
   font-family: $font-family-sf-pro-display
 
-
 .label
-  font-weight: 600
-  font-size: 14px
+  @include body-5-medium
   color: $color-gray-5
 
 .value
-  font-weight: 400
-  font-size: 14px
-  color: #000
+  @include body-5-regular
+  color: $color-black-1
 
 .header
-  font-size: 17px
-  font-weight: 700
-  color: #000
+  @include body-17-bold
+  color: $color-black-1
   text-align: center
   border-bottom: 0.5px solid $color-gray-47
   padding-bottom: 17px

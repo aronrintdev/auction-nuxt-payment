@@ -15,7 +15,11 @@
             >
             </b-img>
           </div>
-          <ShareSVG class="d-none d-sm-block ml-auto" role="button" />
+          <ShareSVG
+            :id="`popover-share-${product.id}`"
+            class="d-none d-sm-block ml-auto" 
+            role="button" 
+          />
 
           <WishListPopover
             v-if="!wishList"
@@ -46,16 +50,35 @@
         </b-col>
       </b-row>
     </b-col>
+
+    <b-popover
+      ref="sharePopover"
+      :target="`popover-share-${product.id}`"
+      triggers="click"
+      placement="bottom"
+      container="body"
+      custom-class="wishlist-popover"
+      delay="200"
+      @show="shareShow = true"
+      @hidden="shareShow = false"
+    >
+      <ShareButton
+        :url="shareUrl + product.sku"
+        :title="product.name"
+        :description="product.description"
+      />
+    </b-popover>
   </b-row>
 </template>
 <script>
 import { mapActions } from 'vuex'
 import ShareSVG from '~/assets/img/icons/share.svg?inline'
 import WishListPopover from '~/components/wish-list/Popover.vue'
+import ShareButton from '~/components/common/ShareButton'
 
 export default {
   name: 'ProductBreadcrumb',
-  components: { ShareSVG, WishListPopover },
+  components: { ShareSVG, WishListPopover, ShareButton },
   props: {
     productName: {
       type: String,
@@ -73,11 +96,12 @@ export default {
       type: Object,
       default: () => {}
     },
-    
   },
   data() {
     return {
       wishListShow: false,
+      shareShow: false,
+      shareUrl: process.env.APP_URL + '/shop/',
       wishList:
         this.product.wish_lists && this.product.wish_lists.length > 0
           ? this.product.wish_lists[0]

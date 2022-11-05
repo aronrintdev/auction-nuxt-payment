@@ -84,7 +84,6 @@ export default {
     },
   },
   data() {
-    console.log('PROD', this.product);
     return {
       wishListShow: false,
       wishList:
