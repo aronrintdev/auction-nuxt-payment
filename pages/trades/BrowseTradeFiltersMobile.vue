@@ -1,7 +1,13 @@
 <template>
   <div>
-        <img class="float-right image-filter"
-             :src="require('~/assets/img/filterIcon.svg')" alt="..." @click="openBottomFilter()"/>
+    <div class="d-flex justify-content-between p-3">
+      <div class="">
+        <search-input :placeholder="$t('trades.index.browse.search_trades')" :value="searchedText" @input="setSearchedText"></search-input>
+        <SearchedOfferItems :searchedOfferItems="searchedItems"/>
+      </div>
+      <img class="" :src="require('~/assets/img/trades/filter-icon.svg')" alt="..." @click="openBottomFilter()"/>
+    </div>
+
     <vue-bottom-sheet
       ref="browseFiltersSheet"
       class="more-options"
@@ -149,10 +155,14 @@
 import { mapActions, mapGetters } from 'vuex'
 import { capitalizeFirstLetter } from '~/utils/string'
 import SliderInput from '~/components/common/SliderInput'
+import SearchInput from '~/components/common/SearchInputMobile';
+import SearchedOfferItems from '~/components/trade/SearchedOfferItems';
 
 export default {
   name: 'BrowseTradeFilters',
   components: {
+    SearchedOfferItems,
+    SearchInput,
     SliderInput, // Input component slider
   },
   data() {
@@ -338,18 +348,13 @@ export default {
   font-family: $font-sp-pro
   color: $color-gray-4
   padding-top: 10px
-  //padding-left: 20px
   cursor: pointer
 .sorted
   display: grid !important
 .filter-options
   background-color: $color-white-1
 .image-filter
-  position: relative
-  margin-top: -12rem
-  margin-right: 3rem
-  @media (max-width: 350px) and  (min-width: 300px)
-    margin-top: -10rem
+  margin-right: 15px
 .resetBtn
   width: 130px
   height: 40px
