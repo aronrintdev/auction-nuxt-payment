@@ -18,7 +18,7 @@
         <h2 v-else class="meta-info font-primary fs- 18 fw-7 mb-0 text-black page-title">
           {{ pageTitle }}
         </h2>
-      </div> 
+      </div>
     </b-navbar-brand>
     <b-nav-form class="search-box-wrapper">
       <SearchInput
@@ -106,33 +106,36 @@
           {{ $t('navbar.auction') }}
         </b-nav-item>
         <b-nav-item
-          v-if="authenticated"
-          class="nav-item-profile w-100"
-          to="/profile/preferences"
-          :link-attrs="{ title: $t('navbar.profile') }"
+            v-if="authenticated"
+            class="nav-item-profile w-100"
+            to="/profile/preferences"
+            :link-attrs="{ title: $t('navbar.profile') }"
         >
           {{ $t('navbar.profile') }}
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
-    <vue-bottom-sheet
-      v-if="isScreenXS"
-      ref="searchBottomSheet"
-      max-width="auto"
-      max-height="100%"
-      :rounded="false"
-      :is-full-screen="true"
-    >
-      <SearchOverlayMobile ref="searchbar" @close="close" />
-    </vue-bottom-sheet>
+    <client-only>
+      <vue-bottom-sheet
+          v-if="isScreenXS"
+          ref="searchBottomSheet"
+          :is-full-screen="true"
+          :rounded="false"
+          max-height="100%"
+          max-width="auto"
+      >
+        <SearchOverlayMobile ref="searchbar" @close="close"/>
+      </vue-bottom-sheet>
+    </client-only>
+
     <!-- Sidebar menu begin -->
     <b-sidebar
-      id="top-menu-sidebar"
-      ref="topSidebar"
-      v-click-outside="onClickOutside"
-      shadow
-      @shown="sidebarIsVisible = true"
-      @hidden="sidebarIsVisible = false"
+        id="top-menu-sidebar"
+        ref="topSidebar"
+        v-click-outside="onClickOutside"
+        shadow
+        @shown="sidebarIsVisible = true"
+        @hidden="sidebarIsVisible = false"
     >
       <div class="top-menu-container">
         <b-nav-form class="search-box-collapse">
@@ -320,11 +323,19 @@ export default {
   },
   watch: {
     screenIsSmallThanLG(newVal) {
-      const { topSidebar } = this.$refs
+      const {topSidebar} = this.$refs
       if (!newVal && topSidebar) {
         topSidebar.hide()
       }
     },
+  },
+  mounted() {
+    this.$root.$on('showSearchOverlay', this.open)
+    this.$root.$on('hideSearchOverlay', this.close)
+  },
+  destroyed() {
+    this.$root.$off('showSearchOverlay', this.open)
+    this.$root.$off('hideSearchOverlay', this.close)
   },
   methods: {
     open() {
