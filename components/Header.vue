@@ -39,7 +39,14 @@
       @hide="handleSearchOverlayHide"
     />
     <b-navbar-nav class="nav-menu-wrapper flex-row d-flex d-lg-none">
-      <b-nav-item class="nav-item-icons" to="#">
+      <b-nav-item v-if='authenticated' to='/profile/notification' class="nav-item-icons">
+        <img
+          height="24px"
+          :src="require('~/assets/img/icons/notification-icon.svg')"
+          alt="..."
+        />
+      </b-nav-item>
+      <b-nav-item v-if='!authenticated' to='/login' class="nav-item-icons">
         <img
           height="24px"
           :src="require('~/assets/img/icons/notification-icon.svg')"
@@ -327,6 +334,13 @@ export default {
     },
   },
   methods: {
+    notificationPage(){
+      if(this.authenticated){
+        this.$router.push({
+          path: '/profile/notification',
+        })
+      }
+    },
     open() {
       this.$refs.searchBottomSheet.open()
     },

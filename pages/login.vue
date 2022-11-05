@@ -30,11 +30,11 @@
               </b-col>
             </b-row>
 
-            <div class="toggler-main">
+            <div class="toggler-main d-lg-none">
               <button class="login-btn">
                 {{$t('auth.login')}}
               </button>
-              <span class="signup-btn" role="button" @click="window.open('./signup')">
+              <span class="signup-btn" role="button" @click="singupPage">
                 {{$t('auth.create_an_account')}}
               </span>
             </div>
@@ -154,6 +154,11 @@ export default {
     }
   },
   methods: {
+    singupPage(){
+      this.$router.push({
+        path: '/sinup',
+      })
+    },
     handleVerify(payload) {
       this.credentials = payload
     },
