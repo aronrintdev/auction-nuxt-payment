@@ -179,6 +179,10 @@
     "edit_product": "Edit Product",
     "dismiss" : "Dismiss",
     "n/a": "N/A",
+    "season": "Season",
+    "season_detail": "SS",
+    "model": "Model",
+    "model_detail": "The model is 5’ 8” and wears a large",
     "no-items-in-combination": "No items in combination"
   },
   "message": {
@@ -4989,7 +4993,7 @@
   "shop_by_style": {
     "general": {
       "add_to_bag": "Add {type} to Bag",
-      "add_style_to_bag": "Add Style to Card",
+      "add_style_to_bag": "Add Style to Cart",
       "back_to_style": "< Back to All Style"
     },
     "title": "Shop by Style",
@@ -5003,7 +5007,12 @@
       "end_date": "End Date"
     },
     "product_details": "Product Details",
-    "size_guide": "Size Guide"
+    "size_guide": "Size Guide",
+    "product_condition": "Product Condition",
+    "box_condition_info": "Package condition refers to the current condition of the item’s package.",
+    "more_look": "More From This Look",
+    "view_all": "View All",
+    "style_id": "Style ID"
   },
   "coupons": {
     "errors": {
@@ -5716,7 +5725,8 @@
       "hours": "Hours",
       "minutes": "Minutes",
       "seconds": "Seconds",
-      "your_entries": "Your Entries"
+      "your_entries": "Your Entries",
+      "no_active": "There are not active promotions."
     },
     "purchases": {
       "title": "Purchases",
