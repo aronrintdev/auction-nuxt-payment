@@ -70,7 +70,7 @@
         <CopyAbleField :text="'196DgadfadifvDFGDGHJcvdsafjnd3Bd'"/>
       </div>
       <div class="body-4-medium text-black">{{ $t('vendor_purchase.billing') }}</div>
-      <b-row class="mt-16">
+      <b-row v-if="orderDetails.payment_method" class="mt-16">
         <b-col class="section-label body-5-mendium text-nowrap" cols="6">{{ $t('payments.cardholder_name') }}</b-col>
         <b-col cols="6">{{ orderDetails.payment_method.card_holder_name }}</b-col>
       </b-row>

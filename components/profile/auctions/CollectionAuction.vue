@@ -112,7 +112,7 @@
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.status') }}:</span>
             <span class="body-9-regular text-gray-6"
                   :class="{' text-green ' :auction.status==='live'}">
-              {{$t('auction.duration_type.' + auction.status)}}
+              {{$t('auction.status_array.' + auction.status)}}
             </span>
           </div>
         </b-col>
