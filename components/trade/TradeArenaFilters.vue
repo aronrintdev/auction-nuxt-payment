@@ -3,6 +3,15 @@
     <div class="d-flex flex-column h-100 filters-sheet">
       <div class="filters-sheet-title text-center">{{ $t('auctions.frontpage.filterbar.filter_by') }}</div>
       <div class="flex-shrink-1 overflow-auto filters-sheet-content">
+        <div class="filter-group" v-if="orderFilter">
+          <div class="filter-group-title mb-3">{{ $t('auctions.frontpage.filterbar.sort') }}</div>
+          <div class="flex-wrap justify-content-between filter-group-body">
+            <label v-for="(option, idx) in SORT_OPTIONS" :key="idx" class="d-flex align-items-center">
+              <input v-model="selectedFilters.sortby" :value="option.value" type="radio" name="sortby"/>
+              <span class="ml-2">{{ option.label }}</span>
+            </label>
+          </div>
+        </div>
         <FilterGroup
           :title="$t('home_page.categories')"
           :options="categoryOptions"
@@ -26,7 +35,7 @@
           @change="(value) => filterGroupChanged(value, 'sizes')"
         />
       </div>
-      <div class="d-flex align-items-center justify-content-between filters-sheet-footer">
+      <div class="d-flex align-items-center justify-content-between filters-sheet-footer mb-4 pb-4">
         <button class="btn btn-pills" @click="resetFilters">{{ $t('auctions.frontpage.filterbar.reset') }}</button>
         <button class="btn btn-pills apply-btn" @click="applyFilters">{{ $t('auctions.frontpage.filterbar.apply_filters') }}</button>
       </div>
@@ -42,14 +51,25 @@ import FilterGroup from '~/components/trade/FilterGroup';
 export default {
   name: 'TradeArenaFilters',
   components: {FilterGroup},
+  props:{
+    orderFilter:{
+      type: Boolean,
+      default: false
+    }
+  },
   data(){
     return {
       categoryOptions: [],
       selectedFilters: {
-        size_types: [],
+        sizeTypes: [],
         category: '',
         sizes: [],
+        sortby: null,
       },
+      SORT_OPTIONS: [
+        { text: this.$t('trades.create_listing.vendor.wants.price_low_to_high'), value: 'price_low_to_high' },
+        { text: this.$t('trades.create_listing.vendor.wants.price_high_to_low'), value: 'price_high_to_low' },
+      ],
     }
   },
   computed: {
@@ -103,7 +123,13 @@ export default {
       }
     },
     resetFilters() {
-      this.selectedFilters = {}
+      this.selectedFilters = {
+        sizeTypes: [],
+        category: '',
+        sizes: [],
+        sortby: null,
+      }
+      this.applyFilters()
     },
     applyFilters() {
       this.$emit('change', this.selectedFilters)

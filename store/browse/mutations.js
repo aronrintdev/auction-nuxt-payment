@@ -20,3 +20,12 @@ export function setSelectedSizes(state, val) {
 export function setSelectedSizeTypes(state, val) {
   state.selectedSizeTypes = val
 }
+export function setSelectedSort(state, val){
+  state.selectedSort = val
+}
+export function setSelectedSearch(state, val){
+  state.search = val
+}
+export function setSelectedOrdering(state, val){
+  state.selectedOrdering = val
+}

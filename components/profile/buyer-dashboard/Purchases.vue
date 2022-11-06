@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div :class="{
+    'mb-2': !isScreenXS
+  }">
     <div class="row mt-2 mb-2 my-sm-5">
       <div class="col-6 col-md-3">
         <h1 class="font-secondary fs-24 fw-7 mb-0 heading">
@@ -7,7 +9,7 @@
         </h1>
       </div>
       <div class="d-none col-md-6 d-sm-flex justify-content-center">
-        <NavGroup :value="activeNav" :data="menus" @change="navItem" />
+        <NavGroup :value="activeNav" :data="menus" @change="navItem"/>
       </div>
       <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
         <nuxt-link
@@ -33,7 +35,13 @@
                   </h2>
                   <h4 class="fs-16 fw-6 font-secondary mb-0">
                     {{ $t('buyer_dashboard.purchases.ordred_on') }}
-                    {{ row.created_at | moment('MMMM D, YYYY') }}
+                    {{
+                      new Date(row.created_at).toLocaleDateString(undefined, {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })
+                    }}
                   </h4>
                 </div>
                 <div class="col-6 d-flex flex-column align-items-end">
@@ -64,7 +72,7 @@
                     }}
                   </h5>
                 </div>
-                <div class="col-md-4 status-badge-warning">
+                <div class="col-md-4 status-badge-warning text-capitalize">
                   {{ row.order_status }}
                 </div>
               </div>
@@ -75,48 +83,57 @@
     </div>
     <div class="row d-flex d-sm-none">
       <div v-for="row in purchases" :key="row.id" class="col-12 my-2">
-        <div class="bg-white py-2 border shadow-sm br-10">
-          <div
-            class="px-2 product-info d-flex align-items-center align-items-sm-baseline flex-sm-column gap-2 mb-2 mb-sm-0 position-relative"
-          >
-            <Carousel
-              ref="carousel"
-              :loop="false"
-              :nav="false"
+        <div class="bg-white py-2 border br-10">
+          <Carousel
+              ref="sizeCarousel"
               :center="true"
-              :margin="0"
-              :responsive="responsiveAttr"
-              :mouse-drag="true"
               :dots="true"
-              class="thumb-carousel"
-              autoWidth
-            >
-              <div
-                v-for="item in row.items"
+              :loop="false"
+              :margin="20"
+              :mouse-drag="false"
+              :nav="true"
+              :nav-text="['', '']"
+              :responsive="{
+            0: { items: 1, nav: false, center: true },
+          }"
+              class="carousel slide-fade position-relative thumb-carousel"
+          >
+            <div
+                v-for="(item, index) in row.items"
                 :key="item.id"
-                class="col-thumb d-flex justify-content-center"
-              >
-                <ProductThumb
-                  :src="item.product.image"
-                  :product="item.product"
-                />
-              </div>
-            </Carousel>
-            <div>
-              <h4 class="font-primary fw-6 fs-14 text-black mb-2">
-                <!-- TODO  -->
-                {{ item.products.name }}
-              </h4>
-              <h4 class="font-primary fs-11 fw-5 mb-0 text-secondary">
-                {{ $t('vendor_dashboard.colorway') }}:{{
-                  item.products.colorway
-                }}
-              </h4>
-              <h4 class="font-primary fs-11 fw-5 mb-0 text-secondary">
-                {{ $t('vendor_dashboard.box_condition') }}: Opened with No Tag
-              </h4>
+                :data-position="index"
+                :data-size="item.id"
+            >
+              <b-row class="mb-0">
+                <b-col class="title-item body-5-medium text-nowrap text-truncate text-black" offset="4">
+                  {{ item.product.name }}
+                </b-col>
+              </b-row>
+              <b-row v-if="item" class="px-2">
+                <b-col cols="4">
+                  <ProductThumb
+                      :product="item.product"
+                      :src="item.product.image"
+                      class="image-thumb"
+                      width="82"
+                  />
+                </b-col>
+                <b-col class="item-desc d-flex flex-column justify-content-center" cols="8">
+                  <h4 class="body-6-normal text-nowrap mb-0 ">
+                    {{ $t('common.sku') }}: {{ item.product.sku }}
+                  </h4>
+                  <h4 class="body-6-normal text-secondary mb-0">
+                    {{ $t('vendor_dashboard.colorway') }}:{{
+                      item.product.colorway
+                    }}
+                  </h4>
+                  <h4 class="body-6-normal  text-secondary mb-0">
+                    {{ $t('vendor_dashboard.box_condition') }}: {{ item.product.box_condition || '' }}
+                  </h4>
+                </b-col>
+              </b-row>
             </div>
-          </div>
+            </Carousel>
 
           <!-- TODO  -->
           <div class="order-info">
@@ -125,7 +142,8 @@
                 {{ $t('buyer_dashboard.purchases.order') }}:
               </h6>
               <h6
-                class="mb-0 fs-12 fw-5 font-primary text-primary w-fit-content border-bottom border-primary"
+                  class="mb-0 fs-12 fw-5 font-primary text-primary w-fit-content border-bottom border-primary"
+                  @click="$router.push('/profile/purchases/summary/' + row.order_id)"
               >
                 #{{ row.order_id }}
               </h6>
@@ -137,7 +155,7 @@
               <h6
                 class="mb-0 fs-12 fw-5 font-primary text-black w-fit-content text-secondary"
               >
-                {{ row.created_at | moment('MMMM D, YYYY') }}
+                {{ new Date(row.created_at).toLocaleDateString() }}
               </h6>
             </div>
             <div class="d-flex info-row px-3 py-1 justify-content-between">
@@ -145,7 +163,7 @@
                 {{ $t('vendor_dashboard.status') }}:
               </h6>
               <h6
-                class="mb-0 fs-12 fw-5 font-primary text-warning w-fit-content"
+                  class="mb-0 fs-12 fw-5 font-primary text-warning w-fit-content text-capitalize"
               >
                 {{ row.order_status }}
               </h6>
@@ -189,8 +207,10 @@
 <script>
 import NavGroup from '~/components/common/NavGroup.vue'
 import ProductThumb from '~/components/product/Thumb.vue'
+import screenSize from '~/plugins/mixins/screenSize';
 export default {
-  components: { ProductThumb, NavGroup },
+  components: {ProductThumb, NavGroup},
+  mixins: [screenSize],
   data() {
     return {
       purchases: [],
@@ -198,9 +218,9 @@ export default {
       // Menus for tabs
       /** Todo need to make dynamic onces we have way of main categories in DB */
       menus: [
-        { label: this.$t('vendor_dashboard.all'), value: '' },
-        { label: this.$t('vendor_dashboard.footwear'), value: '1' },
-        { label: this.$t('vendor_dashboard.apparel'), value: '2' },
+        {label: this.$t('vendor_dashboard.all'), value: ''},
+        {label: this.$t('vendor_dashboard.footwear'), value: '1'},
+        {label: this.$t('vendor_dashboard.apparel'), value: '2'},
         {
           label: this.$t('vendor_dashboard.accessories'),
           value: '3',
@@ -211,7 +231,7 @@ export default {
   computed: {
     responsiveAttr() {
       return {
-        0: { items: 1, nav: false, center: false },
+        0: {items: 1, nav: false, center: true},
       }
     },
   },
@@ -239,25 +259,39 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.title-item
+  max-width: 200px
+
+::v-deep.image-thumb
+  width: 82px
+
 .order-info
   .info-row:nth-child(even)
-    background-color:  $color-white-5
+    background-color: $color-white-5
+
 .col-thumb
   width: 100px
+
 .thumb-carousel::v-deep
-  width: 100px
   .owl-dots
-    position: absolute
-    top: 74px
-    right: -100px
-    button.owl-dot
+    height: 10px
+    margin-top: 0
+    margin-bottom: 22px
+
+    .owl-dot
+      margin-inline: 4px
+      margin-block: 0
+
+    .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span
+      background-color: $color-black-1
+
+    button
       span
-        width: 4px
+        margin: 0
         height: 4px
-        margin: 5px 2px
-      &.active
-        span
-          background: $color-black-1
+        width: 4px
+        background-color: $color-gray-4
+
 @media (max-width: 576px)
   .view-more-link
     font-size: 10px

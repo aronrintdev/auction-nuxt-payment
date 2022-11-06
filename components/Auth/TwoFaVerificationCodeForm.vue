@@ -27,19 +27,30 @@
             </p>
             <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
               <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-                <OtpInputVue :default="'00000'" :digit-count="5" @setOtp="onSetOtp($event)" />
-
-                <b-row v-if="timer" class="mt-3">
-                  <b-col md="12">
-                    <VueCountdown :time="timer" emit-events @end="onCountdownEnd">
-                      <template slot-scope="props">
-                        {{ $t('auth.resend_code') }}&colon;&nbsp;{{ props.minutes }}m&nbsp;{{ props.seconds }}s
-                      </template>
-                    </VueCountdown>
+                <b-row class="mt-3" align-v="end">
+                  <b-col md="9">
+                    <OtpInputVue :default="'00000'" :digit-count="5" @setOtp="onSetOtp($event)" />
+                  </b-col>
+                  <b-col md="3">
+                    <div v-if="timer"  class="d-flex bg-dark justify-content-end align-items-center rounded mb-1">
+                      <ClockIcon :stroke-color="'#fff'" style="height: 14px" class="mx-2"></ClockIcon>
+                      <vue-countdown
+                        v-if="codeSent"
+                        v-slot="{minutes, seconds}"
+                        :auto-start="true"
+                        :time="VERIFICATION_TIMER"
+                        :transform="transformSlotProps"
+                        @end="onCountdownEnd"
+                        @progress="onTimerProgress">
+                          <div class="text-white pr-2 py-1 text-center">
+                            {{ minutes }}: {{ seconds }}
+                          </div>
+                      </vue-countdown>
+                    </div>
                   </b-col>
                 </b-row>
 
-                <b-row class="mt-5 w-100 align-items-center justify-content-center">
+                <b-row v-if="isVerifyButtonActive" class="mt-5 w-100 align-items-center justify-content-center">
                   <p class="text-center">
                     {{$t('auth.2fa_have_not_recieved')}}
                     <span class="resend-text" @click.prevent="sendVerificationCode">
@@ -50,7 +61,7 @@
 
                 <b-row class="mt-5 w-100 align-items-center justify-content-center">
                   <p class="text-center">
-                    <span class="otp-cancel" @click.prevent="sendVerificationCode">
+                    <span class="otp-cancel" @click.prevent="cancel">
                       {{$t('common.cancel')}}
                     </span>
                   </p>
@@ -69,10 +80,13 @@ import { mapActions } from 'vuex'
 import { ValidationObserver } from 'vee-validate'
 import VueCountdown from '@chenfengyuan/vue-countdown'
 import OtpInputVue from '../common/form/OtpInput.vue'
+import {VERIFICATION_TIMER} from '~/static/constants'
+import ClockIcon from '~/components/profile/vendor-hub/ClockIcon'
+
 
 export default {
   name: 'TwoFaVerificationCodeForm',
-  components: { ValidationObserver, VueCountdown, OtpInputVue },
+  components: { ValidationObserver, VueCountdown, OtpInputVue, ClockIcon },
   props: {
     credentials: {
       type: Object,
@@ -81,9 +95,11 @@ export default {
   },
   data() {
     return {
+      VERIFICATION_TIMER,
       verificationCode: '',
       timer: 0,
-      isVerifyButtonActive: false,
+      isVerifyButtonActive: true,
+      codeSent: 0,
     }
   },
   computed: {
@@ -108,14 +124,20 @@ export default {
       this.timer = 120000
     },
     sendVerificationCode() {
-      this.$axios.post('/send-code', {
-        login: this.credentials.login
-      }, { handleError: false}).then(() => {
+      if(this.isVerifyButtonActive){
         this.resetTimer()
-        this.$toasted.success(this.$t('auth.verification_code_has_been_sent').toString())
-      }).catch(error => {
-        this.$toasted.error(this.$t(error.response.data.message).toString())
-      })
+        this.codeSent = 1
+        this.$axios.post('/send-code', {
+          login: this.credentials.login
+        }, { handleError: false}).then(() => {
+          this.resetTimer()
+          this.codeSent = 1
+          this.$toasted.success(this.$t('auth.verification_code_has_been_sent').toString())
+        }).catch(error => {
+          this.$toasted.error(this.$t(error.response.data.message).toString())
+        })
+      }
+
     },
     onSubmit() {
       // Do the login process
@@ -140,6 +162,9 @@ export default {
           this.$toasted.error(this.$t(error.response.data.message).toString())
         })
     },
+    onTimerProgress(data) {
+      this.secondsLeft = data.totalSeconds
+    },
     onCountdownEnd() {
       this.isVerifyButtonActive = true
       this.timer = 0
@@ -148,6 +173,11 @@ export default {
       this.verificationCode = otp
       console.log('otp', otp);
       this.onSubmit()
+    },
+    cancel(){
+      this.$router.push({
+        path: '/signup',
+      })
     }
   }
 }
@@ -222,6 +252,7 @@ export default {
   font-size: 16px
   line-height: 20px
 .verification-container
+  padding: 50px
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
   max-width: 500px
   max-height: 600px
@@ -233,9 +264,9 @@ export default {
   color: $color-blue-20
 
 @media (max-width: 768px)
-.verification-container
-  box-shadow: none
-  .p-img
-    width: 68px
-    height: 68px
+  .verification-container
+    box-shadow: none
+    .p-img
+      width: 68px
+      height: 68px
 </style>

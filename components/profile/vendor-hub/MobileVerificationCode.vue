@@ -35,8 +35,8 @@
           </div>
           </vue-countdown>
         </div>
-        <a v-if="true || codeTry===0" class="text-black text-decoration-underline body-10-normal"
-           @click="$emit('resendCode')">
+        <a class="text-decoration-underline body-10-normal" :class="codeTry > 0 ? 'text-gray-6' : 'text-black'"
+           @click="() => codeTry === 0 ? $emit('resendCode') : null">
           Resend Code
         </a>
       </div>
@@ -45,14 +45,20 @@
 
   </div>
   <div class="my-2 text-center">
-    <input id="terms" v-model="agree" type="checkbox" />
-    <label for="terms">
-      <span class="body-5-regular text-gray-6">{{ $t('vendor_hub.form.terms_conditions') }} </span>
-    </label>
+
+
+    <b-form-checkbox v-model="agree" class="form-check-input ml-2" maxlength="6" pattern="\d*" type="text">
+      <div class="position-relative">
+        <div v-b-popover.hover.top="$t('vendor_hub.form.info_popover')"
+             class="position-absolute mt-n2 mr-n3 info-icon body-5-regular text-gray-6" role="button" />
+        <span class="body-5-regular text-gray-6">{{ $tc('vendor_hub.form.terms_conditions', 1) }}</span>
+        <a href="#" class="body-5-regular">{{ $tc('vendor_hub.form.terms_conditions', 2) }}</a>
+      </div>
+    </b-form-checkbox>
   </div>
   <div class="d-flex flex-column">
     <Button :disabled="!agree || codeTry == 0" type="button" class="verify mt-4 mt-md-0 mx-3" pill @click="onSubmit">
-      {{ $t('common.next') }}
+      {{ $t(nextButtonText) }}
     </Button>
     <a role="button" class="verify-cancel text-center w-100 mt-3 body-5-medium" @click="$emit('close')" >
       {{ $t('common.cancel') }}
@@ -89,6 +95,10 @@ export default {
       type: Boolean,
       required: true
     },
+    nextButtonText: {
+      type: String,
+      default: 'common.next'
+    }
   },
   data() {
     return {

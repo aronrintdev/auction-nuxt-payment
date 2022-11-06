@@ -1,36 +1,29 @@
 <template>
   <div class="main-container p-2">
-      <div v-if="!filterSection" class="d-flex mt-2">
+      <div class="d-flex mt-2">
         <div>
           <SearchInput
             :value="searchText"
-            :placeholder="$t('trades.create_listing.vendor.wants.search_by_options')"
-            variant="primary"
+            :placeholder="$t('home_page.search')"
+            variant="light"
             :clearSearch="true"
             bordered
-            inputHeight="60px"
+            inputHeight="33px"
+            class="create-trade-search"
             @change="onSearchInput"
           />
           <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="wantItemTrade" width="700px" class="position-absolute"/>
         </div>
-        <div @click="filterSection = !filterSection">
+        <div @click="showFilters">
           <img class="ml-3 mt-1" :src="require('~/assets/img/filters.svg')" />
         </div>
       </div>
     <!-- Filters Section -->
-    <div v-if="filterSection">
-      <mobileFilters @click="applyFilters"/>
-    </div>
-    <div class="mt-2">
-      <NuxtLink class="back-to-offers-link text-gray" to="/profile/create-listing/trades/create">
-        <b-img
-          :src="require('~/assets/img/icons/back-btn-slim.svg')"
-          :alt="$t('trades.create_listing.vendor.wants.back_to_offers_item')"
-          class="back-image"
-        />
-        <span>{{ $t('trades.create_listing.vendor.wants.back_to_offers_item') }}</span>
-      </NuxtLink>
-    </div>
+    <client-only>
+        <vue-bottom-sheet ref="filterSheet" max-height="90%" :is-full-screen="true" >
+          <trade-arena-filters @change="applyFilters" :orderFilter="true"/>
+        </vue-bottom-sheet>
+      </client-only>
     <div class="mt-2">
       <div class="d-flex justify-content-center mt-3 align-items-center">
         <NavGroup
@@ -41,31 +34,28 @@
           @change="changeTotalTradeItems"
         />
       </div>
-      <div v-if="selectedItems === 'wants_inventory'">
+      <div v-show="selectedItems === 'wants_inventory'">
         <b-row>
           <b-col v-for="item in generalListItems" :key="item.id"  cols="6 mb-4">
-            <div  class="create-trade-item-mobile" :draggable="true"
+            <div  class="create-trade-item-mobile position-relative" :draggable="true"
                   @dragstart="startDrag($event, item)">
-              <div class="d-flex mt-1">
-                <div class="size ml-2">{{$t('trades.create_listing.vendor.wants.size')}} {{ item.size && item.size.size }}</div>
-                <div>
-                  <img alt="No Image" class="plus-icon-add" :src="require('~/assets/img/icons/addPlus.svg')"
-                       @click="addOrIncrementWantedItem(item)"/>
-                </div>
+              <div class="position-relative">
+                <img alt="No Image" class="plus-icon-add position-absolute" :src="require('~/assets/img/icons/addPlus.svg')"
+                     @click="addOrIncrementWantedItem(item)"/>
               </div>
+              <div class="position-relative d-flex align-items-center justify-content-center prod-img">
               <object
                 class="create-trade-item-image-mobile justify-content-center"
                 :data="`${IMAGE_PATH}/${item.product && item.product.category && item.product.category.name}/${item.product && item.product.sku}/800xAUTO/IMG01.jpg`"
                 type="image/png">
                 <img class="create-trade-item-image-mobile-no justify-content-center mb-2" :src="fallbackImgUrl" alt="image"/>
               </object>
+              <div class="overlay-mob position-absolute"></div>
+              </div>
               <div class="create-trade-item-caption-mobile">
-          <span :id="`name${item.id}`" class="create-trade-item-name">{{
-              item.product && item.product.name
-            }}</span>
-
+              <span :id="`name${item.id}`" class="create-trade-item-name">{{item.product && item.product.name }}</span>
                 <span :id="`colorway${item.id}`"
-                      class="create-trade-item-caption-description">{{ item.product && item.product.colorway }}</span>
+                      class="create-trade-item-caption-description">{{ item.product && item.product.colorway }},{{$t('trades.create_listing.vendor.wants.size')}} {{ item.size && item.size.size }}</span>
                 <span
                   class="create-trade-item-caption-description">Box: {{
                     item.packaging_condition && item.packaging_condition.name
@@ -85,20 +75,8 @@
         <b-row v-if="!generalListItems || generalListItems.length === 0" class="col-md-12 justify-content-center">
           {{$t('create_listing.trade.no_item_found')}}
         </b-row>
-        <b-row class="col-md-12 justify-content-center mt-4 mb-3">
-          <Pagination
-            v-if="generalListItems && generalListItems.length > 0"
-            v-model="page"
-            :total="totalCount"
-            :per-page="perPage"
-            :per-page-options="perPageOptions"
-            class="mt-2"
-            @page-click="handlePageClick"
-            @per-page-change="handlePerPageChange"
-          />
-        </b-row>
       </div>
-      <div v-if="selectedItems === 'wants_combinations'">
+      <div v-show="selectedItems === 'wants_combinations'">
         <b-row class="d-inline">
           <b-col v-for="(combination, combinationIndex) in combinationItems" :key="combination.combination_id" cols="6" class="mb-4">
             <div class="combination-div-mobile" :draggable="true"
@@ -168,18 +146,6 @@
         <b-row v-if="!combinationItems || combinationItems.length === 0" class="col-md-12 justify-content-center">
           {{$t('trades.create_listing.no_combination_found')}}
         </b-row>
-        <b-row class="col-md-12 justify-content-center">
-          <Pagination
-            v-if="combinationItems && combinationItems.length > 0"
-            v-model="pageCombination"
-            :total="totalCountCombination"
-            :per-page="perPageCombination"
-            :per-page-options="perPageOptionsCombinations"
-            class="mt-2"
-            @page-click="handlePageClickCombination"
-            @per-page-change="handlePerPageChangeCombination"
-          />
-        </b-row>
       </div>
     </div>
 
@@ -188,7 +154,7 @@
 
     <section v-else class="content">
       <b-container fluid class="px-3">
-        <div class="selection-section">
+        <div v-if="showOffer" class="selection-section show-offers" >
           <div class="row create-trade-drag-drop-item-mobile justify-content-center text-center py-2 mt-2"
                @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
             <div v-if="getTradeItemsWants.length < 1">
@@ -205,18 +171,18 @@
             <b-row v-else class="justify-content-center">
               <div v-for="item in getTradeItemsWants" :key="item.id"
                    class="create-trade-item-sm d-flex justify-content-between flex-column mr-2">
-                <div class="d-flex justify-content-between mt-2 mx-2">
-                  <div v-if="item.selected_quantity > 1" class="create-trade-quantity-car-sm">x{{ item.selected_quantity || 1 }}</div>
-                  <div class="create-trade-minus-icon-sm" @click="removeOrDecrementWantItem(item.id)">
+                <div class="position-relative">
+                  <div class="create-trade-minus-icon-sm position-absolute" @click="removeOrDecrementWantItem(item.id)">
                     <div class="create-trade-minus-line-sm"></div>
                   </div>
                 </div>
-                <div class="create-trade-item-image-div-sm">
-                  <object
+                <div class="offer-item-img-sm position-relative d-flex align-items-center justify-content-center">
+                <object
                     :data="item.image"
                     class="create-trade-item-image-sm" type="image/png">
                     <img class="create-trade-item-image-sm mb-2" :src="fallbackImgUrl" alt="image"/>
                   </object>
+                <div class="overlay-mob position-absolute"></div>
                 </div>
                 <div class="create-trade-item-caption-sm">
           <span :id="`name-sm${item.id}`"
@@ -244,25 +210,30 @@
                 </div>
               </div>
             </b-row>
+            <img :src="require('~/assets/img/trades/updown.svg')" role="button" class="position-absolute up-down-arrow" @click="showOffer = !showOffer">
           </div>
         </div>
-        <div class="mt-2 d-flex">
-          <div class="mt-2" @click="$bvModal.show('offer-item-modal')">
-            <b-img
-              :src="require('~/assets/img/icons/clarity_eye-line.svg')"
-              :alt="$t('trades.create_listing.vendor.wants.view_offer_items')"
-            />
-          </div>
-          <div>
-            <FormStepProgressBar :steps="steps" variant="transparent"/>
-          </div>
-        </div>
-        <div class="mt-2">
+        <infinite-loading :identifier="infiniteId" @infinite="getGeneralListItems">
+          <span slot="no-more"></span>
+          <span slot="no-results"></span>
+        </infinite-loading>
+        <infinite-loading :identifier="infiniteId" @infinite="getCombinations">
+          <span slot="no-more"></span>
+          <span slot="no-results"></span>
+        </infinite-loading>
+        <div class="d-flex justify-content-center">
           <b-btn class="create-trade-next-btn" :disabled="!getTradeItemsWants.length"
                  @click="$router.push('/profile/create-listing/trades/confirmation')">
             {{  $t('trades.create_listing.vendor.wants.next')  }}
           </b-btn>
         </div>
+        <b-col class="position-relative">
+          <div v-if="!showOffer" @click="showOffer = !showOffer" class="offers-items d-flex align-items-center" role="button">
+            <img :src="require('~/assets/img/trades/updown.svg')">
+            <span class="offer-text">{{$t('trades.want')}}</span>
+            <div v-if="getTradeItemsWants.length" class="counter-icon position-absolute d-flex justify-content-center align-items-center">{{getTradeItemsWants.length}}</div>
+          </div>
+        </b-col>
 
         <!-- /.row (main row) -->
       </b-container>
@@ -275,16 +246,15 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import debounce from 'lodash.debounce'
-import FormStepProgressBar from '~/components/common/FormStepProgressBar'
 import SearchInput from '~/components/common/SearchInput'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBoxMobile'
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
 import ViewOfferItemsModal from '~/pages/profile/create-listing/trades/wants/ViewOfferItemsModal';
-import { Pagination , NavGroup } from '~/components/common'
+import { NavGroup } from '~/components/common'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
-import mobileFilters from '~/pages/profile/create-listing/trades/filtersMobile'
+import TradeArenaFilters from '~/components/trade/TradeArenaFilters';
 
 /*
   Trade Wants Page
@@ -292,13 +262,11 @@ import mobileFilters from '~/pages/profile/create-listing/trades/filtersMobile'
 export default {
   name: 'TradeWants',
   components: {
-    mobileFilters,
+    TradeArenaFilters,
     NavGroup,
-    FormStepProgressBar, // Stepper component
     SearchInput, // search input
     SearchedProductsBelowSearchTextBox, //  component for items show below search as search results
     CreateTradeSearchItem, // component used for item via search selection
-    Pagination, // Pagination component
     ViewOfferItemsModal // model to show offers items
   },
   layout: 'Profile', // Layout
@@ -362,7 +330,13 @@ export default {
         { label: this.$t('trades.create_listing.vendor.wants.wants_combinations'), value: 'wants_combinations' },
       ],
       selectedItems: 'wants_inventory',
-    }
+      showOffer: false,
+      wantUrl: 'vendor/want-items',
+      combUrl: 'vendor/want-items',
+      infiniteId: +new Date(),
+      infiniteIdComb: +new Date()
+
+  }
   },
   // get current language
   computed: {
@@ -397,8 +371,6 @@ export default {
     })
 
     this.fetchFilters()
-    this.getGeneralListItems()
-    this.getCombinations()
 
     // Emit listener to emtpy search items
     this.$root.$on('click_outside', () => {
@@ -410,18 +382,25 @@ export default {
   },
 
   methods: {
+    showFilters(){
+      this.$refs.filterSheet.open();
+    },
     changeTotalTradeItems(listingItems) {
       this.selectedItems = listingItems
     },
     closeFiltersSection() {
       this.filterSection = false
     },
-    applyFilters(data){
-      this.orderFilter = data.orderFilter ? data.orderFilter : null
-      this.categoryFilter = data.category ? data.category : null
-      this.sizeTypesFilter = data.sizeType ? data.sizeType : null
-      this.sizeFilter = data.sizes ? data.sizes: null
-      this.getInventory()
+    applyFilters(filters){
+      this.orderFilter = filters.sortby
+      this.categoryFilter =  filters?.categories?.join(',')
+      this.sizeTypesFilter = filters?.sizeTypes
+      this.sizeFilter = filters?.sizes
+      this.page = 1;
+      this.generalListItems = []
+      this.combinationItems = []
+      this.infiniteId += 1;
+      this.$refs.filterSheet.close();
     },
     /**
      * This function is used to return estimated total value
@@ -616,7 +595,6 @@ export default {
       this.sizeFilterLabel = this.$t('trades.create_listing.vendor.wants.size')
       this.orderFilterLabel = this.$t('trades.create_listing.vendor.wants.sort_by')
       this.$nextTick(() => {
-        this.getGeneralListItems()
       })
     },
 
@@ -637,12 +615,11 @@ export default {
      * This function is used to get combination items listing
      * from api
      */
-    getCombinations: debounce(function () {
+    getCombinations: debounce(function ($state) {
       // api url
-      const url = 'vendor/want-items'
       // Do the api call
       this.$axios
-        .get(url, {
+        .get(this.combUrl, {
           params: {
             type: 'combinations',  // Type param for get req
             page: this.pageCombination, // page no param for req
@@ -652,12 +629,19 @@ export default {
         })
         .then((response) => { // response will get combination data for want items
           const _self = this
-          this.combinationItems = response.data.data && response.data.data.data
+          const res = response?.data?.data
+          if (!res.next_page_url) {
+            $state.complete()
+          }
+          else{
+            _self.pageCombination += 1;
+            _self.combinationItems.push(...res.data)
+            $state.loaded()
+          }
           this.totalCountCombination = parseInt(response.data.data.total)
           this.combinationItems.forEach(function(combination, index) {
             _self.combinationItems[index].selectedItemIndex = (_self.totalCountCombination > 0) ? 0 : null
           });
-          this.perPageCombination = parseInt(response.data.data.per_page)
         })
         .catch((err) => {
           this.$toasted.error(this.$t(err.response.data.error))
@@ -667,12 +651,11 @@ export default {
     /**
      * This function is used to get list of general want items
      */
-    getGeneralListItems: debounce(function () {
+    getGeneralListItems: debounce(function ($state) {
       // api url
-      const url = 'vendor/want-items'
       // Do the api call
       this.$axios
-        .get(url, {
+        .get(this.wantUrl, {
           params: {
             type: 'general_items', // Type param for get req
             page: this.page, // page no param for req
@@ -685,8 +668,15 @@ export default {
         })
         .then((response) => { // response will get general wants items
           this.generalListItems = response.data.data && response.data.data.data
-          this.totalCount = parseInt(response.data.data.total)
-          this.perPage = parseInt(response.data.data.per_page)
+          const res = response.data?.data
+          if (!res.next_page_url) {
+            $state.complete()
+          }
+          else{
+            this.page+=1;
+            this.generalListItems.push(...res.data)
+            $state.loaded()
+          }
         })
         .catch((err) => {
           this.$toasted.error(this.$t(err.response.data.error))
@@ -704,7 +694,6 @@ export default {
       this.orderFilter = selectedOrder
       const orderFilteredKey = this.generalListItemsCustomFilter.find(item => item.value === this.orderFilter)
       this.orderFilterLabel = this.capitalizeFirstLetter(orderFilteredKey.text)
-      this.getGeneralListItems();
     },
 
     /****
@@ -808,7 +797,6 @@ export default {
       this.orderFilterCombination = selectedOrder
       const orderFilteredKey = this.combinationCustomFilter.find(item => item.value === this.orderFilterCombination)
       this.orderFilterLabelCombination = (orderFilteredKey.text) ? this.capitalizeFirstLetter(orderFilteredKey.text) : this.orderFilterLabelCombination
-      this.getCombinations()
     },
 
     /**
@@ -817,10 +805,11 @@ export default {
      */
     removeOrDecrementWantItem(id) {
       const existingItem = this.getTradeItemsWants.find(val => val.id === id)
+      const index = this.getTradeItemsWants.indexOf(existingItem)
       if (existingItem.selected_quantity > 1) {
-        this.$store.commit('trades/decrementTradeWantItemQuantity', id)
+        this.$store.commit('trades/decrementTradeWantItemQuantity', index)
       } else {
-        this.$store.commit('trades/removeWantsItemsTrade', id)
+        this.$store.commit('trades/removeWantsItemsTrade', index)
       }
       this.$nextTick(() => this.$forceUpdate())
     },
@@ -834,7 +823,6 @@ export default {
     handlePageClick(bvEvent, page) {
       if (this.page !== page) {
         this.page = page
-        this.getGeneralListItems()
       }
     },
 
@@ -846,7 +834,6 @@ export default {
       if (this.perPage !== value) {
         this.perPage = value
         this.page = 1
-        this.getGeneralListItems()
       }
     },
 
@@ -859,7 +846,6 @@ export default {
     handlePageClickCombination(bvEvent, page) {
       if (this.pageCombination !== page) {
         this.pageCombination = page
-        this.getCombinations()
       }
     },
 
@@ -873,7 +859,6 @@ export default {
       if (this.perPageCombination !== value) {
         this.perPageCombination = value
         this.pageCombination = 1
-        this.getCombinations()
       }
     },
   },
@@ -951,7 +936,6 @@ export default {
 .create-trade-item-mobile
   width: 164px
   height: 212px
-  border: 1px solid #C4C4C4
   @media (min-width: 300px)  and (max-width: 349px)
     width: 140px
   @media (min-width: 400px)  and (max-width: 500px)
@@ -961,10 +945,11 @@ export default {
 
 .plus-icon-add
   width: 19px
-  margin-left: 5rem
   height: 19px
   cursor: pointer
-  z-index: 1000
+  right: 7px
+  top: 7px
+  z-index: 10
   @media (min-width: 300px)  and (max-width: 349px)
     margin-left: 4rem
   @media (min-width: 400px)  and (max-width: 500px)
@@ -976,9 +961,7 @@ export default {
   width: 109px
 .create-trade-item-caption-mobile
   width: 162px
-  background-color: #F7F7F7
-  margin-top: 16px
-  padding: 5px
+  padding: 8px 3px
   @media (min-width: 300px)  and (max-width: 349px)
     width: 138px
   @media (min-width: 400px)  and (max-width: 500px)
@@ -1001,10 +984,12 @@ export default {
     width: 160px
 .create-trade-drag-drop-item-mobile
   width: 343px
-  height: 140px
-  margin-right: 0px
+  min-height: 140px
+  max-height: 201px
+  margin-right: 0
   border-radius: 3px
-  background-color: #FBFAFA
+  background-color: $color-white-1
+  border: 0.5px solid $color-gray-23
   @media (min-width: 300px)  and (max-width: 349px)
     width: 294px
   @media (min-width: 400px)  and (max-width: 500px)
@@ -1014,20 +999,21 @@ export default {
   font-family: $font-sp-pro
   font-weight: $medium
   @include body-5
-  padding: 0px
+  padding-top: 25px
 .create-trade-drag-drop-sub-heading
   font-family: $font-sp-pro
   font-weight: $normal
   @include body-9
-  padding: 0px
+  padding-top: 8px
 .plus-image
   padding-top: 10px
   height: 40px
   width: 40px
 .create-trade-item-sm
-  width: 100px
-  height: 128px
-  border: 1px solid #D8D8D8
+  width: 99px
+  height: 161px
+  margin-top: 13px
+  border: unset
   @media (min-width: 300px)  and (max-width: 349px)
     width: 90px
 .create-trade-item-image-sm
@@ -1036,7 +1022,7 @@ export default {
 .create-trade-item-caption-sm
   width: 98px
   height: 57px
-  border: 1px solid $color-white-5
+  background: unset
 .create-trade-item-name-sm
   width: 62px
   @include body-6
@@ -1049,6 +1035,9 @@ export default {
   font-family: $font-sp-pro
 .create-trade-minus-icon-sm
   background-color: #FF9696
+  right: 5px
+  top: 5px
+  z-index: 81
 .create-trade-item-image-sm-dummy
   width: 95px
   height: 125px
@@ -1109,8 +1098,56 @@ export default {
   padding-top: 5px !important
   padding-left: 15px !important
   border-radius: 20px !important
-//.selection-section
-//  margin-top: 35rem
+.prod-img
+  height: 185px
+.overlay-mob
+  background: rgba(153, 153, 153, 0.05)
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+.show-offers
+  position: fixed
+  bottom: 120px
+  z-index: 80
+.offers-items
+  background: $color-white-27
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.25)
+  border-radius: 9px
+  width: 92px
+  height: 28px
+  padding: 0 25px 0 14px
+  right: 15px
+  bottom: 120px
+  position: fixed
+  z-index: 80
+.offer-text
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-9-regular
+  letter-spacing: -0.02em
+  color: $color-gray-5
+  padding-left: 10px
+.counter-icon
+  background: #CE0000
+  width: 18px
+  height: 18px
+  border-radius: 50%
+  font-size: 13px
+  font-family: $font-family-montserrat
+  color: $color-white-1
+  top: -5px
+  right: -5px
+.up-down-arrow
+  right: 8px
+  bottom: 8px
+  z-index: 20
+.offer-item-img-sm
+  height: 112px
+.create-trade-search
+  width: 303px
+  @media (max-width: 330px)
+    width: 260px
 </style>
 
 

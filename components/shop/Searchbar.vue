@@ -131,6 +131,7 @@ export default {
         ...this.selectedFilters,
         product: this.selectedProduct,
       }
+      this.$emit('change', this.selectedFilters)
       this.hideDropdown()
     },
 

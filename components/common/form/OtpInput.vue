@@ -117,9 +117,9 @@ export default {
   border: none
   border-bottom: 1px  solid $color-gray-47
   outline: none
-  height: 4rem
-  width: 2rem
-  display: inline-block
+  height: 3rem
+  width: 3rem
+  display: flex
   margin: 5px
   padding: 0.4rem
   font-size: 2rem

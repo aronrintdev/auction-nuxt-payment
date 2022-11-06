@@ -1,8 +1,8 @@
 <template>
-  <div id="profile-layout" class="wrapper min-vh-100">
+  <div id="profile-layout" class="wrapper min-vh-100 d-flex flex-column">
     <Header />
 
-    <div class="custom-wrapper">
+    <div class="custom-wrapper flex-grow-1">
       <div class="row mb-bb">
 
         <!-- TODO: It will remove after getting confirmation for the new menu design -->
@@ -55,7 +55,7 @@
         <!-- New menu design end -->
       </div>
 
-      <div class="main-wrapper" :class="{'mobile-p-b' : isScreenXS || isScreenSM}">
+      <div class="main-wrapper">
         <Nuxt />
       </div>
     </div>
@@ -128,6 +128,10 @@ export default {
     enquireScreenSizeHandler((type) => {
       this.$store.commit('size/setScreenType', type)
     });
+    const wrapper = document.querySelector('.main-wrapper')
+    if (wrapper.querySelector('.wants-container')) {
+      wrapper.style.backgroundColor = '#f7f7f7'
+    }
     this.notificationSubscriptions()
   },
   beforeDestroy() {
@@ -149,6 +153,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
 .wrapper
   .custom-wrapper
     overflow: hidden
@@ -195,6 +200,10 @@ export default {
     display: none
   #sidemenu-expanded
     display: none
+@media (max-width: 992px)
+  .wrapper
+    .custom-wrapper
+      background-color: $color-white-19
 
 .mobile-p-b
   padding-bottom: 98px

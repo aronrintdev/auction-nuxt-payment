@@ -663,6 +663,7 @@ export default {
     // Load the data
     loadData() {
       this.responsiveData = []
+      this.page = 1
       this.$axios
         .get('selling-items', {
           params: {
@@ -945,7 +946,7 @@ export default {
       this.showCheckBox = !this.showCheckBox
       this.searchFilters.delistMultipleSelected =
         !this.searchFilters.delistMultiple
-        // this.loadData() commented as part of ticket DVQ-498
+        this.loadData() 
       this.$refs.myBottomSheet.close()
     },
 

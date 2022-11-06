@@ -65,6 +65,7 @@
           </div>
           <div>
             <Button variant="outline-secondary-blue" class="add-cash" @click="cashAdd">{{buttonText}}</Button>
+            <div v-if="!isExpire && !isPayment" >
             <div class="authenticity d-flex justify-content-center align-items-center">
               <img :src="require('~/assets/img/trades/authenticity.svg')">
               <div class="pl-1">{{$t('products.authenticity_guaranteed')}}</div>
@@ -72,7 +73,9 @@
             <div class="authenticity-text d-flex justify-content-center text-center">
               {{$t('features.auctions.certified_authentic_products_desc')}}
             </div>
-            <div>
+            </div>
+
+            <div v-if="!isExpire && !isPayment" >
             <div class="detail-heading">
               {{$t('trades.create_listing.table_columns.details')}}
             </div>
@@ -104,7 +107,7 @@
             </div>
             </div>
             <!-- Wants section -->
-            <div>
+            <div v-if="!isExpire && !isPayment" >
             <div class="wants-heading">
               {{$t('trades.trader_wants')}}
             </div>
@@ -121,9 +124,9 @@
             </div>
             </div>
             <!-- Buttons Section -->
-            <div class="d-flex justify-content-between mt-3 mb-4  ml-1 mr-1">
-              <Button variant="outline-info" pill class="invent-btn" @click="showInventory">Inventory</Button>
-              <Button variant="info" pill class="next-btns">Next</Button>
+            <div v-if="!isExpire && !isPayment"  class="d-flex justify-content-between mt-3 mb-4  ml-1 mr-1">
+              <Button variant="outline-info" pill class="invent-btn" @click="showInventory">{{$t('orders.inventory')}}</Button>
+              <Button variant="info" pill class="next-btns" @click="showPoorTradeConfirmationModal">{{$t('trades.trade_arena.next')}}</Button>
             </div>
           </div>
           <inventory-bottom-sheet ref="inventory"/>
@@ -131,7 +134,7 @@
           <PoorTradeConfirmationModal :poorTrade="checkForPoorTrade()"></PoorTradeConfirmationModal>
           <AlreadyListedModal :listingId="itemListingId" :item="alreadyListedItemDetails" @confirm="addOrIncrementYourItem" />
         </b-col>
-        <CheckoutSidebar  v-if="isPayment" class="order-summary" />
+        <CheckoutSidebar  v-if="isPayment" class="bg-white order-summary" />
       </div>
     </div>
   </div>
@@ -1025,4 +1028,22 @@ export default {
 .invent-btn,.next-btns
   width: 162px
   height: 40px
+  
+@media (max-width: 576px)
+  .order-summary::v-deep
+    min-width: 0
+    width: 100%
+    .custom-card .card-body
+      padding: 15px
+      background: $color-white-5
+      border-radius: 10px
+    .heading-1-medium
+      @include body-13
+    .body-4-medium
+      @include body-9
+    .custom-form .form-control
+      background: $color-white-5
+.pb-100
+  padding-bottom: 100px
+
 </style>

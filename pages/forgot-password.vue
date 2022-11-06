@@ -1,7 +1,7 @@
 <template>
   <b-row class="vh-100">
     <b-col md="8">
-      <b-row class="mt-3 ml-2">
+      <b-row class="mt-3 ml-2 back-to-login">
         <b-col md="12" class="d-flex align-items-center">
           <b-img :src="require('~/assets/img/auth/back_arrow_blue_1.svg')"></b-img>
           <NuxtLink
@@ -46,19 +46,29 @@
                     </b-form-group>
                   </ValidationProvider>
 
-                  <b-row class="mt-5 w-100">
+                  <b-row class="mt-5 w-100 link-btn">
                     <b-col md="4" offset-md="4" class="text-center">
-                      <Button :disabled="! isEmailFilled" block pill variant="confirm" type="submit" :class="{ 'btn-disabled': ! isEmailFilled }">{{ $t('auth.send_link') }}</Button>
+                      <Button :disabled="! isEmailFilled" block pill variant="confirm" type="submit" :class=" { 'btn-disabled': ! isEmailFilled }">{{ $t('auth.send_link') }}</Button>
                     </b-col>
                   </b-row>
                 </b-form>
               </ValidationObserver>
+              <div class="back-to-login-btn">
+                <b-img :src="require('~/assets/img/auth/back_arrow_blue_1.svg')"></b-img>
+                <NuxtLink
+                  class="custom-link pl-0"
+                  to="login"
+                ><span class="text-color-blue-1">{{
+                    $t('auth.back_to_log_in')
+                  }}</span>
+                </NuxtLink>
+              </div>
             </b-col>
           </b-row>
         </b-col>
       </b-row>
     </b-col>
-    <b-col md="4" class="d-flex flex-column align-items-center justify-content-center bg-color-white-5">
+    <b-col md="4" class="d-flex flex-column align-items-center justify-content-center bg-color-white-5 new-to-deadstock-main">
       <b-row class="mt-5">
         <b-col md="12">
           <div class="left-heading-bold text-center">{{ $t('auth.new_to_deadstock') }}&quest;</div>
@@ -148,6 +158,25 @@ export default {
   font-weight: $bold
   font-size: 42px
   line-height: 51px
+@media (min-width: 320px) and (max-width: 556px)
+  .right-heading-bold
+    font-size: 17px
+  .input-forgot-password
+    margin-left: 5px
+  .new-to-deadstock-main
+    display: none !important
+  .link-btn
+    width: 200px !important
+    margin: 0 auto
+  .back-to-login
+    display: none !important
+  .back-to-login-btn
+    margin: 0 auto
+    border: 1px solid $color-blue-1
+    border-radius: 25px
+    padding: 6px 10px
+    width: 185px !important
+    margin-top: 80px
 
 /* Override bootstrap-vue 'b-form-input' styles */
 .input-forgot-password
