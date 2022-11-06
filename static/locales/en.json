@@ -231,6 +231,11 @@
     "resend_code": "Resend verification code",
     "resend": "Resend",
     "account_verified": "Your account has been verified!",
+    "2fa_text_1": "Let’s make sure it’s you",
+    "2fa_text_2": "Protecting your account is our top priority. To confirm your identity we sent you a code.",
+    "2fa_text_3": "Your code has been sent to (***)***-1234",
+    "2fa_have_not_recieved": "Haven’t received it?",
+    "2fa_resend_code": "Resend a new code.",
     "error": {
       "unauthorized": "The provided credentials do not match our records.",
       "inactive": "This user is not active.",

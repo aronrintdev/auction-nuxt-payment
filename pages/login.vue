@@ -1,14 +1,25 @@
 <template>
-  <b-row class="w-100">
+
+  <b-row v-if="Object.keys(credentials).length">
+    <b-col  lg="8" class="w-100 py-5 px-5 px-md-0">
+      <TwoFaVerificationCodeForm
+            v-if="Object.keys(credentials).length"
+            :credentials="credentials"
+            class="mt-5 w-100"
+          />
+    </b-col>
+  </b-row>
+  <b-row v-else class="w-100">
     <b-col lg="8" class="w-100 py-5 px-5 px-md-0">
       <b-row class="h-100">
         <b-col
           md="6"
           offset-md="3"
           class="d-flex flex-column align-items-center justify-content-center"
-          ><b-row
-            class="justify-content-center flex-column align-items-center"
-            ><b-row class="mb-4">
+          >
+            <b-row
+              class="justify-content-center flex-column align-items-center"
+              ><b-row class="mb-4">
               <b-col md="12">
                 <div class="right-heading-bold text-center d-none d-lg-flex">
                   {{ $t('auth.login_to_your_account') }}
@@ -32,13 +43,7 @@
               </b-col>
             </b-row></b-row
           >
-
-          <VerificationCodeForm
-            v-if="Object.keys(credentials).length"
-            :credentials="credentials"
-            class="mt-5 w-100"
-          />
-          <LoginForm v-else class="mt-5 w-100" @verify="handleVerify" />
+          <LoginForm class="mt-5 w-100" @verify="handleVerify" />
 
           <b-row class="mt-5 w-100">
             <b-col md="12" class="text-center">
@@ -109,11 +114,11 @@
 import Button from '~/components/common/Button'
 import LoginForm from '~/components/Auth/LoginForm'
 import SocialLoginButtons from '~/components/Auth/SocialLoginButtons'
-import VerificationCodeForm from '~/components/Auth/VerificationCodeForm'
+import TwoFaVerificationCodeForm from '~/components/Auth/TwoFaVerificationCodeForm'
 
 export default {
   name: 'Login',
-  components: { VerificationCodeForm, LoginForm, SocialLoginButtons, Button },
+  components: { TwoFaVerificationCodeForm, LoginForm, SocialLoginButtons, Button },
   layout: 'Auth',
   data() {
     return {
