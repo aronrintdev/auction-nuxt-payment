@@ -6,7 +6,7 @@
         v-model="digits[ind]"
         type="text"
         class="digit-box text-center"
-        :class="{'dirty': !digits[ind] }"
+        :class="checkClass(ind)"
         :autofocus="ind === 0"
         maxlength="1"
         @keydown="handleKeyDown($event, ind)"
@@ -37,11 +37,16 @@ export default {
       inputStatus: {}
     }
   },
+  computed: {
+
+  },
   mounted() {
     // ok
   },
-
   methods: {
+    checkClass(index) {
+      return this.digits[index] ? 'dirty': ''
+    },
     prefixedValue(value) {
       return (value === 0 || value) && this.prefix ? this.prefix + value : value
     },

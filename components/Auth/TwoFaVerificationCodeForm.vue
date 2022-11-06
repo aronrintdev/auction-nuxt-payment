@@ -176,7 +176,7 @@ export default {
     },
     cancel(){
       this.$router.push({
-        path: '/signup',
+        path: '/login',
       })
     }
   }
