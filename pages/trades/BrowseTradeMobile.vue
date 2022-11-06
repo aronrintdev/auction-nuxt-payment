@@ -38,11 +38,11 @@
           </div>
         </div>
         <div>
-          <div class="d-flex justify-content-center align-content-center mb-2 mt-3">
-            <div class="mr-5">
-              <div class="pretty-label ml-4" v-html="prettyLabel(key)"></div>
+          <div class="d-flex justify-content-between align-content-center mb-2 mt-3 p-3">
+            <div class="">
+              <div class="pretty-label" v-html="prettyLabel(key)"></div>
             </div>
-           <div class="mr-2">
+           <div class="">
                <img :src="require('~/assets/img/moreicon.svg')"/>
            </div>
           </div>
