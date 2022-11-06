@@ -742,7 +742,7 @@ export default {
 .font-normal
   font-weight: normal !important
 .filter-label
-  font-weight: 500 !important
+  font-weight: $normal !important
 .apply-btn-wrapper button
   height: 40px
   line-height: 0

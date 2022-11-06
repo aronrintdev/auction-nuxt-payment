@@ -233,7 +233,7 @@ button.status-button
   width: 455px
 .order-no
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   @include body-3
   align-items: center
   color: $color-black-1
@@ -241,7 +241,7 @@ button.status-button
   @include body-5-medium
   font-style: normal
   color: $color-black-1
-  font-weight: 500
+  font-weight: $normal
   line-height: 25px
 .view-order
   @include body-5-medium
@@ -250,7 +250,7 @@ button.status-button
   text-decoration-line: underline
   color: $color-blue-20
   float: right
-  font-weight: 500
+  font-weight: $normal
 .card-body
   display: flex
   flex-direction: column
