@@ -3,7 +3,7 @@
     <b-row class="heading-dashboard mt-4 mx-0 d-none d-sm-flex">
       {{$t('trades.my_trade_offer')}}
     </b-row>
-    <b-row class="m-0 mt-sm-3 justify-content-lg-between">
+    <b-row class="m-0 mt-sm-3 justify-content-lg-between pt-3">
       <b-col lg="8" sm="12" class="d-flex justify-content-between align-items-center px-0 pr-sm-auto pl-sm-0">
         <div class="col-11 px-0 d-sm-none">
           <SearchInput
