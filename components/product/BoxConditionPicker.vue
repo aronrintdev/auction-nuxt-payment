@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="box-condition-text">
-      {{ $t('products.box_condition') }}
+    <div class="box-condition-text d-flex align-items-center">
+      <span >{{ $t('products.box_condition') }}</span>
 
       <b-img
         v-b-tooltip.hover
@@ -10,16 +10,16 @@
       />
     </div>
 
-    <div class="box-condition-btns">
+    <div class="box-condition-btns d-flex justify-content-between">
       <b-button
         v-for="(condition, index) in conditions"
         :key="`box-condition-${index}`"
         variant="link"
-        :class="{ active: value === condition.id }"
+        :class="{ 'active': value === condition[valueField] }"
         @click="handleConditionSelect(condition)"
       >
         {{
-          $t(`products.box_conditions.${getUnderscoreCased(condition.name)}`)
+          $t(`products.box_conditions.${getUnderscoreCased(condition[labelField])}`)
         }}
       </b-button>
     </div>
@@ -39,6 +39,14 @@ export default {
     conditions: {
       type: Array,
       default: () => [],
+    },
+    valueField: {
+      type: String,
+      default: 'id'
+    },
+    labelField: {
+      type: String,
+      default: 'name'
     },
   },
 
@@ -68,9 +76,9 @@ export default {
     position: relative
 
     img
+      margin-left: 5px
       width: 13px
       height: 13px
-      margin-top: -5px
       cursor: help
 
   .box-condition-btns
@@ -79,7 +87,6 @@ export default {
     .btn
       @include body-8-normal
       color: $color-gray-23
-      margin-right: 6px
 
       &:first-child
         padding-left: 0

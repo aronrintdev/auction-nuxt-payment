@@ -17,26 +17,12 @@
       <b-col sm="12" md="6">
       </b-col>
       <b-col sm="12" md="6" v-if="!isScreenXS">
-        <div class="d-flex">
-          <div class="product-name flex-grow-1">
-            {{ product.name }}
-          </div>
-          <a role="button" class="ml-3 text-black"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
-        </div>
-        <div class="product-last-sale">
-          <span class="last-sale-title" v-if="lastSold"
-          >{{ $t('product_page.last_sale') }}&colon;</span
-          >
-          <span v-if="lastSold" class="last-sale-amount">
-            {{ lastSold.sale_price | toCurrency('USD', 'N/A') }}
-          </span>
-          <span v-if="avgAmount && avgType"
-                class="last-sale-indicators"
-                :class="avgType === 'down' ? 'text-danger' : 'text-sucess'"
-          >
-            {{ avgAmount | toCurrency('USD', 'N/A') }}
-          </span>
-        </div>
+        <ProductTitle
+          :product-name="product.name"
+          :lowest-price="lowestPrice ? lowestPrice : 0"
+          :product-last-sale-price="lastSold && lastSold.sale_price ? lastSold.sale_price : 0"
+          class="mt-5"
+        />
       </b-col>
       <b-col v-else sm="12" md="6">
         <!-- Nav Bar Mobile -->
@@ -94,10 +80,9 @@
         <!-- Product thumbnail 360 ends -->
       </b-col>
       <b-col sm="12" md="6">
-        <hr>
         <!-- Nav Bar -->
         <div v-if="!isScreenXS" class="row">
-          <div class="col-12">
+          <div class="col-12 mt-4">
             <nav-group
               v-model="selectedCategory"
               :data="visibleCategories"
@@ -107,10 +92,10 @@
           </div>
           <div class="col-12">
             <div class="d-flex justify-content-center mt-2">
-              <div class="px-5 mx-3 text-gray-24 body-5-medium" :class="selectedCategory == buy && 'active text-black'">
+              <div class="px-5 mx-3 text-gray-24 body-1-medium" :class="selectedCategory == buy && 'active text-black'">
                 {{ lowestPrice | toCurrency }}
               </div>
-              <div class="px-5 mx-3 text-gray-24 body-5-medium" :class="selectedCategory == offer && 'active text-black'">
+              <div class="px-5 mx-3 text-gray-24 body-1-medium" :class="selectedCategory == offer && 'active text-black'">
                 {{ highestOffer | toCurrency }}
               </div>
             </div>
@@ -121,26 +106,12 @@
         <!-- Mobile product name begin -->
         <b-row v-else>
           <b-col sm="12" md="6">
-            <div class="d-flex">
-              <div class="product-name mobile flex-grow-1">
-                {{ product.name }}
-              </div>
-              <a role="button" class="ml-3 text-black"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
-            </div>
-            <div class="product-last-sale">
-          <span class="last-sale-title" v-if="lastSold"
-          >{{ $t('product_page.last_sale') }}&colon;</span
-          >
-              <span v-if="lastSold" class="last-sale-amount">
-            {{ lastSold.sale_price | toCurrency('USD', 'N/A') }}
-          </span>
-              <span v-if="avgAmount && avgType"
-                    class="last-sale-indicators"
-                    :class="avgType === 'down' ? 'text-danger' : 'text-sucess'"
-              >
-            {{ avgAmount | toCurrency('USD', 'N/A') }}
-          </span>
-            </div>
+            <ProductTitle
+              :product-name="product.name"
+              :lowest-price="lowestPrice ? lowestPrice : 0"
+              :product-last-sale-price="lastSold && lastSold.sale_price ? lastSold.sale_price : 0"
+              class="mt-5"
+            />
           </b-col>
         </b-row>
         <!-- Mobile product name end -->
@@ -188,47 +159,48 @@
 
         <!-- Box Condition Section Responsive -->
         <div class="row box-condition-responsive mt-4 mb-4 px-2">
-          <div class="col-12">
-            <div class="body-8-normal d-flex align-items-center"
-              :class="[
-                {'text-uppercase' : !isScreenXS},
-                isScreenXS ? 'justify-content-center' : 'justify-content-start'
-              ]"
-            >
-              {{ $t('common.box_condition') }}*
-              <span class="info-icon px-2" role="button">
-            <img
-              :src="require('~/assets/img/icons/info-dark-blue.svg')"
-              alt="more-info"
-              width="12"
-            />
-          </span>
-            </div>
-          </div>
-
-          <div class="col-12 box-condition-select-col mt-3">
-            <FormDropdown
-              v-if="isScreenXS"
-              id="box-condition-dropdown"
-              :value="value.boxCondition"
-              :items="packagingConditions"
-              class="dropdown-filters d-flex justify-content-center"
-              :icon-arrow-up="arrowDownIcon"
-              :icon-arrow-down="arrowDownIcon"
-              @input="handlePackagingConditionChange"
-            />
-            <div v-else class="d-flex justify-content-between">
-              <a role="button"
-                 v-for="(bc, index) in packagingConditions"
-                 :key="index"
-                 @click="handlePackagingConditionChange(bc.value)"
+          <template v-if="isScreenXS">
+            <div class="col-12">
+              <div class="body-8-normal d-flex align-items-center"
+                :class="[
+                  {'text-uppercase' : !isScreenXS},
+                  isScreenXS ? 'justify-content-center' : 'justify-content-start'
+                ]"
               >
-                <span :class="selectedCondition !== bc.value ? 'text-gray-47' : 'body-8-bold'">
-                  {{ bc.label }}
-                </span>
-              </a>
+                {{ $t('common.box_condition') }}*
+                <span class="info-icon px-2" role="button">
+              <img
+                v-b-tooltip.hover
+                :src="require('~/assets/img/icons/info-dark-blue.svg')"
+                :title="$t('products.message.box_condition_info')"
+                alt="more-info"
+                width="12"
+              />
+            </span>
+              </div>
             </div>
-          </div>
+
+            <div class="col-12 box-condition-select-col mt-3">
+              <FormDropdown
+                id="box-condition-dropdown"
+                :value="value.boxCondition"
+                :items="packagingConditions"
+                class="dropdown-filters d-flex justify-content-center"
+                :icon-arrow-up="arrowDownIcon"
+                :icon-arrow-down="arrowDownIcon"
+                @input="handlePackagingConditionChange"
+              />
+            </div>
+          </template>
+          <BoxConditionPicker v-else
+            :value="value.boxCondition"
+            :conditions="packagingConditions"
+            value-field="value"
+            label-field="label"
+            class="box-conditions m-0 p-0"
+            @change="(obj) => handlePackagingConditionChange(obj.value)"
+          />
+
         </div>
         <!-- Box Condition Section Responsive ends -->
 
@@ -683,6 +655,8 @@ import { mapActions, mapGetters } from 'vuex'
 import SellingLatestSales from '../selling/SellingLatestSales.vue'
 import ProductSizePicker from '~/components/product/SizePicker'
 import SizeCarouselResponsive from '~/components/profile/create-listing/SizeCarouselResponsive.vue'
+import ProductTitle from '~/components/product/ProductTitle'
+
 import {
   // Meter,
   FormInput,
@@ -704,6 +678,7 @@ import {
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
 import screenSize from '~/plugins/mixins/screenSize'
 import arrowDownIcon from '~/assets/img/icons/arrow-down-dark-blue.svg'
+import BoxConditionPicker from '~/components/product/BoxConditionPicker';
 
 export default {
   name: 'DetailsListing',
@@ -711,6 +686,7 @@ export default {
   components: {
     ProductSizePicker,
     // Meter,
+    ProductTitle,
     FormInput,
     FormDropdown,
     Button,
@@ -719,7 +695,8 @@ export default {
     NavGroup,
     ProductImageViewerMagic360,
     SellingLatestSales,
-    SizeCarouselResponsive
+    SizeCarouselResponsive,
+    BoxConditionPicker
   },
 
   mixins: [screenSize],
@@ -871,7 +848,7 @@ export default {
     },
 
     has360Images() {
-      return this.product && this.product.has360Images
+      return this.product?.has360Images
     },
 
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
@@ -1346,22 +1323,6 @@ export default {
         display: flex
         align-items: center
         color: $color-black-1
-      .product-last-sale
-        .last-sale-title
-          font-family: $font-montserrat
-          font-style: normal
-          @include body-5-normal
-          color: $color-gray-6
-        .last-sale-amount
-          font-family: $font-montserrat
-          font-style: normal
-          @include body-5-normal
-          color: $color-gray-6
-        .last-sale-indicators
-          font-family: $font-montserrat
-          font-style: normal
-          @include body-9-normal
-          color: $color-green-26
 
     .product-size-select-row
       .select-size-title
@@ -1423,16 +1384,6 @@ export default {
         text-align: center
         color: $color-blue-20
         justify-content: center
-
-.product-name
-  font-family: $font-montserrat
-  font-style: normal
-  @include body-1-medium
-  display: flex
-  align-items: center
-  color: $color-black-1
-  &.mobile
-    @include body-12-medium
 
 .box-shadow
   box-shadow: 0px 1px 2px $color-gray-th-43

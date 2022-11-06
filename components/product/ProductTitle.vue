@@ -3,13 +3,15 @@
     <b-col md="12">
       <b-row>
         <b-col md="12" class="d-flex align-items-center">
-          <span class="body-1-medium">{{ productName }}</span>
+          <span :class="isScreenXS ? 'body-12-medium' : 'body-1-medium'">{{ productName }}</span>
           <ShareSVG class="ml-auto" role="button" />
         </b-col>
       </b-row>
       <b-row>
         <b-col md="12">
-          <span class="body-5-medium text-color-grey-6">{{ $t('product_page.last_sale') }}&colon;&nbsp;&dollar;{{ productLastSalePrice | formatPrice }}</span>
+          <span class="text-color-grey-6" :class="isScreenXS ? 'body-5-regular' : 'body-5-medium'">
+            {{ $t('product_page.last_sale') }}&colon;&nbsp;&dollar;{{ productLastSalePrice | formatPrice }}
+          </span>
           <span v-if="lastSalePriceProjectionValue >= 0" class="body-5-medium text-color-green-24">
             &plus;{{ lastSalePriceProjectionValue | formatPrice }}&nbsp;&lpar;&plus;{{ lastSalePriceProjectionPercentage }}&percnt;&rpar;
           </span>
@@ -23,10 +25,12 @@
 </template>
 <script>
 import ShareSVG from '~/assets/img/icons/share.svg?inline'
+import screenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'ProductBreadcrumb',
   components: { ShareSVG },
+  mixins: [screenSize],
   props: {
     productName: {
       type: String,
@@ -39,7 +43,7 @@ export default {
     productLastSalePrice: {
       type: Number,
       required: true,
-    },
+    }
   },
   computed: {
     lastSalePriceProjectionValue(vm) {
