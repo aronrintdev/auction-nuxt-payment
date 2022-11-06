@@ -4,6 +4,7 @@
     class="carousel collection-item-carousel slide-fade"
     :responsive="{
       0: { items: 3, nav: false, center: false, margin: 15 },
+      0: { items: 5, nav: false, center: false, margin: 15 },
     }"
     :mouse-drag="true"
     :dots="false"
@@ -71,18 +72,38 @@ export default {
 <style lang="sass" scoped>
   @import '~/assets/css/_variables'
   .collection-item-carousel::v-deep
+    max-width: 100%
+    width: auto
     .owl-carousel
       .owl-item
-        width: 100px
+        width: 90px
         height: 110px
-        border-radius: 4px
+        .slide
+          border-radius: 4px
+          width: 90px
+          height: 90px
+          background: $color-white-5
         &:not(.active) + .active
           &::after
             content: ''
             display: block
             margin-top: 4px
-            margin-left: 20px
+            margin-left: 15px
             width: 60px
             height: 2px
             background-color: $color-blue-19
+      @media (max-width: 576px)
+        .owl-item
+          width: 100px
+          height: 110px
+          border-radius: 4px
+          &:not(.active) + .active
+            &::after
+              content: ''
+              display: block
+              margin-top: 4px
+              margin-left: 20px
+              width: 60px
+              height: 2px
+              background-color: $color-blue-19
 </style>
