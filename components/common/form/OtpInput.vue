@@ -5,7 +5,8 @@
         :key="el+ind"
         v-model="digits[ind]"
         type="text"
-        class="digit-box"
+        class="digit-box text-center"
+        :class="{'dirty': !digits[ind] }"
         :autofocus="ind === 0"
         maxlength="1"
         @keydown="handleKeyDown($event, ind)"
@@ -14,6 +15,7 @@
     </div>
 </template>
 <script>
+
 export default {
   name: 'OtpFormInput',
 
@@ -31,7 +33,8 @@ export default {
 
   data() {
     return {
-      digits: [null, null, null, null, null]
+      digits: [null, null, null, null, null],
+      inputStatus: {}
     }
   },
   mounted() {
@@ -75,35 +78,40 @@ export default {
     },
 
     handleKeyDown(event, index) {
-    if (event.key !== 'Tab' &&
-        event.key !== 'ArrowRight' &&
-        event.key !== 'ArrowLeft'
-    ) {
-      event.preventDefault()
-    }
-
-    if (event.key === 'Backspace') {
-      this.digits[index] = null;
-
-      if (index !== 0) {
-
-        (this.$refs.otpCont.children)[index-1].focus()
+      if (event.key !== 'Tab' &&
+          event.key !== 'ArrowRight' &&
+          event.key !== 'ArrowLeft'
+      ) {
+        event.preventDefault()
       }
 
-      return;
-    }
+      if (event.key === 'Backspace') {
+        this.digits[index] = null;
+        (this.$refs.otpCont.children)[index].value = null
 
-    if ((/^([0-9])$/).test(event.key)) {
-      this.digits[index] = event.key
-      console.log(event.key, index, this.digits);
+        if (index !== 0) {
+          (this.$refs.otpCont.children)[index-1].focus()
+        }
 
-      if (index !== this.digitCount - 1) {
-        (this.$refs.otpCont.children)[index+1].focus();
+        return;
+      }
+
+      if ((/^([0-9])$/).test(event.key)) {
+        console.log((this.$refs.otpCont.children)[index])
+        this.digits[index] = event.key
+        console.log('digits', this.digits);
+        // (this.$refs.otpCont.children)[index].classList.remove('dirty')
+        (this.$refs.otpCont.children)[index].value = event.key
+
+        if (index !== this.digitCount - 1) {
+          (this.$refs.otpCont.children)[index+1].focus()
+        } else {
+          this.$emit('setOtp',this.digits.join(''))
+        }
       } else {
-        this.$emit('setOtp',this.digits.join(''))
+        // (this.$refs.otpCont.children)[index].classList.add('dirty')
       }
     }
-  }
   },
 }
 </script>
@@ -115,7 +123,7 @@ export default {
 
   color: $color-black-1
   border: none
-  border-bottom: 1px  solid $color-gray-47
+  border-bottom: 1.5px  solid $color-gray-47
   outline: none
   height: 3rem
   width: 3rem
@@ -125,8 +133,9 @@ export default {
   font-size: 2rem
   font-weight: $regular
   &:focus:before
-    border-bottom: 1px  solid black
-    border-left: 0
-    border-right: 0
-    border-top: 0
+    border-bottom: 1.5px  solid black
+  &:active
+    border-bottom: 1.5px  solid $color-blue-1
+  &.dirty
+    border-bottom: 1.5px  solid $color-red-3
 </style>
