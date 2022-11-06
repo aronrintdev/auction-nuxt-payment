@@ -4,7 +4,7 @@
       {{$t('trades.my_trade_listings')}}
     </b-row>
     <div  v-if="width<= 500">
-      <div class="d-flex mt-2">
+      <div class="d-flex pt-3">
         <div>
           <SearchInputMobile
             :value="searchText"

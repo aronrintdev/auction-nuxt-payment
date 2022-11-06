@@ -36,9 +36,9 @@
               </div>
 
               <div class="bottom-section mt-4">
-                <div class="product-name p-1">{{ offer.inventory.product.name }}</div>
-                <div class="product-size p-1"><span>Size : </span>{{offer.inventory.size.id }}</div>
-                <div class="product-size p-1"><span>Box : </span>{{offer.inventory.packaging_condition.name}}</div>
+                <div class="product-name ">{{ offer.inventory.product.name }}</div>
+                <div class="product-size "><span>Size : </span>{{offer.inventory.size.id }}</div>
+                <div class="product-size "><span>Box : </span>{{offer.inventory.packaging_condition.name}}</div>
               </div>
             </div>
 
@@ -130,7 +130,6 @@ export default {
 
 .product-name
   width: 90px
-  height: 26px
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-6-medium
