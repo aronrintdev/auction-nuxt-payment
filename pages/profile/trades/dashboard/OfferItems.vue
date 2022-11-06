@@ -76,8 +76,7 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
-.product-card
-    //width : 350px
+
 .offer-item-small
   width: 80px
   background: $color-white-1
@@ -115,11 +114,11 @@ export default {
     @include body-5-regular
     color: $color-gray-4
 .offer-item-text-small
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: 500
   font-size: 11px
-  color: #626262
+  color: $color-gray-5
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis

@@ -615,7 +615,7 @@ export default {
   height: 40px
   font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   font-size: 16px
   color: $color-white-1
   background-color: $color-blue-20
@@ -633,7 +633,7 @@ export default {
   width: 99px
   height: 45px
   border-radius: 3px
-  border: 1px solid #000
+  border: 1px solid $color-black-1
   @include body-5
   font-weight: $medium
   font-family: $font-sp-pro

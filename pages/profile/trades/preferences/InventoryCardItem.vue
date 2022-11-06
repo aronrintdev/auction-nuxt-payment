@@ -99,7 +99,7 @@ export default {
     width: 213px
 .invent-item-small
     background: $color-white-1
-    border: 0.5px solid #C4C4C4
+    border: 0.5px solid $color-gray-23
     height: 200px
     width: 150px
 .size

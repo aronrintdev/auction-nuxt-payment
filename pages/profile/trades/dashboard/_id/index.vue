@@ -497,7 +497,7 @@ export default {
   background: $color-blue-20
   font-family: $font-family-montserrat
   font-style: normal
-  font-weight: 600
+  font-weight: $medium
   font-size: 11px
   color: $color-white-1
 .btn-decline
@@ -582,10 +582,10 @@ export default {
   max-width: 300px
 .long-line-length-small
   width: 40px
-  border: 1px solid #c4c4c4
+  border: 1px solid $light-gray-2
 .long-line-small
   width: 40px
-  border: 1px solid #c4c4c4
+  border: 1px solid $light-gray-2
 .pointer-right-small
   border-top: 0.5px solid $light-gray-2
   border-bottom: 0.5px solid $light-gray-2
