@@ -260,7 +260,6 @@ button.status-button
   height: 100%
 .order-images
   .row
-    justify-content: space-between
     margin:0
 .overlap-text
   @include heading-2
@@ -326,6 +325,12 @@ button.status-button
   @include body-3-medium
   color: $color-red-2
   float: right
+.order-images .row div .image-wrapper
+  width: 100%
+  text-align: center
+  background: transparent
+.order-images .row div
+  width: 33%
 .btn-auth_issued
   background: $color-red-9
   color: $color-red-8
