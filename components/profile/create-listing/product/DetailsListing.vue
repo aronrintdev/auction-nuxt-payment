@@ -199,7 +199,7 @@
             :conditions="packagingConditions"
             value-field="value"
             label-field="label"
-            class="box-conditions m-0 p-0"
+            class="box-conditions m-0"
             @change="(obj) => handlePackagingConditionChange(obj.value)"
           />
         </div>
