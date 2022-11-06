@@ -89,7 +89,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import sellNowDetailsMixin from '~/plugins/mixins/sell-now-details'
-import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTitle'
+import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTitle'
 import ListItem from '~/components/checkout/sell-now/mobile/ListItem'
 import PromoCodeInput from '~/components/checkout/common/PromoCodeInput'
 import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
