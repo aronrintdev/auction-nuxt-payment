@@ -63,7 +63,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import emitEventMixin from '~/plugins/mixins/emit-event'
-import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTitle'
+import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTitle'
 import ItemsList from '~/components/checkout/selling/mobile/ItemsList'
 import PromoCodeInput from '~/components/checkout/common/PromoCodeInput'
 import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
