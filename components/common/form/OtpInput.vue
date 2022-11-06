@@ -7,9 +7,9 @@
         type="text"
         class="digit-box"
         :autofocus="ind === 0"
-        :placeholder="ind+1"
         maxlength="1"
         @keydown="handleKeyDown($event, ind)"
+        @change="handleValueChange($event, ind)"
       >
     </div>
 </template>
@@ -34,12 +34,6 @@ export default {
       digits: [null, null, null, null, null]
     }
   },
-
-  watch: {
-    digits(newVal) {
-      this.currentValue = this.prefixedValue(newVal)
-    },
-  },
   mounted() {
     // ok
   },
@@ -49,8 +43,9 @@ export default {
       return (value === 0 || value) && this.prefix ? this.prefix + value : value
     },
 
-    handleValueChange(value) {
+    handleValueChange(event, index) {
       let res
+      const value = event.key
       if (this.prefix && value.length > 1) {
         res = value.substr(this.prefix.length) || ''
       } else if (value === this.prefix) {
@@ -100,9 +95,12 @@ export default {
 
     if ((/^([0-9])$/).test(event.key)) {
       this.digits[index] = event.key
+      console.log(event.key, index, this.digits);
 
       if (index !== this.digitCount - 1) {
         (this.$refs.otpCont.children)[index+1].focus();
+      } else {
+        this.$emit('setOtp',this.digits.join(''))
       }
     }
   }
@@ -116,10 +114,9 @@ export default {
   @include body-3-regular
 
   color: $color-black-1
+  border: none
   border-bottom: 1px  solid $color-gray-47
-  border-left: 0
-  border-right: 0
-  border-top: 0
+  outline: none
   height: 4rem
   width: 2rem
   display: inline-block

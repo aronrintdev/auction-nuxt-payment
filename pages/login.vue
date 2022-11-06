@@ -1,11 +1,11 @@
 <template>
 
   <b-row v-if="Object.keys(credentials).length">
-    <b-col  lg="8" class="w-100 py-5 px-5 px-md-0">
+    <b-col  lg="12" class="w-100 py-5 px-5 px-md-0">
       <TwoFaVerificationCodeForm
             v-if="Object.keys(credentials).length"
             :credentials="credentials"
-            class="mt-5 w-100"
+            class="mt-1 w-100"
           />
     </b-col>
   </b-row>

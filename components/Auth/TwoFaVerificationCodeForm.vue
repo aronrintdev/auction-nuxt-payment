@@ -1,14 +1,18 @@
 <template>
-  <b-row class="h-100">
+  <b-row class="h-100 d-flex flex-column align-items-center justify-content-center">
     <b-col
       md="6"
-      offset-md="3"
-      class="d-flex flex-column align-items-center justify-content-center"
+      class="verification-container  d-flex flex-column align-items-center justify-content-center mb-5"
       >
         <b-row>
+          <b-col md="12" class="d-lg-none d-flex flex-column align-items-center justify-content-center">
+            <span class="align-items-center justify-content-center text-center mb-5">
+              <img :src="require('~/assets/img/home/logo-mb.png')" alt="Deadstock Logo" />
+            </span>
+          </b-col>
           <b-col md="12" class="d-flex flex-column align-items-center justify-content-center">
             <span class="align-items-center justify-content-center text-center mb-5">
-              <img :src="require('~/assets/img/auth/padlock.svg')" alt="padloack" />
+              <img class="p-img" :src="require('~/assets/img/auth/padlock.svg')" alt="padloack" />
             </span>
           </b-col>
           <b-col md="12">
@@ -23,7 +27,7 @@
             </p>
             <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
               <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-                <OtpInputVue :default="'00000'" :digit-count="5" />
+                <OtpInputVue :default="'00000'" :digit-count="5" @setOtp="onSetOtp($event)" />
 
                 <b-row v-if="timer" class="mt-3">
                   <b-col md="12">
@@ -40,6 +44,14 @@
                     {{$t('auth.2fa_have_not_recieved')}}
                     <span class="resend-text" @click.prevent="sendVerificationCode">
                       {{$t('auth.2fa_resend_code')}}
+                    </span>
+                  </p>
+                </b-row>
+
+                <b-row class="mt-5 w-100 align-items-center justify-content-center">
+                  <p class="text-center">
+                    <span class="otp-cancel" @click.prevent="sendVerificationCode">
+                      {{$t('common.cancel')}}
                     </span>
                   </p>
                 </b-row>
@@ -132,6 +144,11 @@ export default {
       this.isVerifyButtonActive = true
       this.timer = 0
     },
+    onSetOtp(otp){
+      this.verificationCode = otp
+      console.log('otp', otp);
+      this.onSubmit()
+    }
   }
 }
 </script>
@@ -204,4 +221,21 @@ export default {
   font-weight: $medium
   font-size: 16px
   line-height: 20px
+.verification-container
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+  max-width: 500px
+  max-height: 600px
+  .p-img
+    width: 91.33px
+    height: 102.75px
+.otp-cancel
+  @include body-4-normal
+  color: $color-blue-20
+
+@media (max-width: 768px)
+.verification-container
+  box-shadow: none
+  .p-img
+    width: 68px
+    height: 68px
 </style>
