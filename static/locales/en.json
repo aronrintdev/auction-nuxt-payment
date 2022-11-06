@@ -2800,6 +2800,8 @@
     "status_type": "Status"
   },
   "create_listing": {
+    "your_listing_price": "Your listing price",
+    "your_listing_price_placeholder": "Enter listing price",
     "drafts": "Drafts ({0})",
     "search": {
       "title": "Search",

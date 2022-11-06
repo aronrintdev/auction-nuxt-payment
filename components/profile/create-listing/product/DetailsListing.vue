@@ -200,73 +200,12 @@
             class="box-conditions m-0 p-0"
             @change="(obj) => handlePackagingConditionChange(obj.value)"
           />
-
         </div>
         <!-- Box Condition Section Responsive ends -->
 
 
         <!-- Inputs -->
         <div v-if="!isScreenXS" class="row section-form-fields m-auto mt-5">
-          <!-- Price -->
-          <div
-            class="mt-3 col-md-6 col-xs-12 input-col"
-            :class="value.price !== null && value.price <= priceMinVal && 'error'"
-          >
-            <FormInput
-              :value="value.price"
-              :placeholder="$t('inventory.enter_price')"
-              :label="$t('inventory.your_price')"
-              prefix="$"
-              class="input-error"
-              required
-              number
-              @input="handlePriceChange"
-            />
-            <div class="error-text mt-1">
-              {{
-                value.price > priceMinVal ||
-                $t('inventory.message.gt_than', {
-                  field: $t('common.price').toLowerCase(),
-                  amount: priceMinVal,
-                })
-              }}
-            </div>
-          </div>
-          <!-- End of Price -->
-
-          <!-- Quantity -->
-          <div
-            class="mt-3 col-md-6 col-xs-12 input-col"
-            :class="
-          (value.quantity < quantityMinVal ||
-            value.quantity > quantityMaxVal) &&
-          'error'
-        "
-          >
-            <FormInput
-              :value="value.quantity"
-              :placeholder="$t('inventory.enter_quantity')"
-              :label="$t('common.quantity')"
-              class="input-error"
-              required
-              integer
-              @input="handleQuantityChange"
-            />
-            <div class="error-text mt-1">
-              {{
-                (quantityMinVal > value.quantity ||
-                  value.quantity > quantityMaxVal) &&
-                $t('inventory.message.between', {
-                  field: $t('common.quantity').toLowerCase(),
-                  min: quantityMinVal,
-                  max: quantityMaxVal,
-                })
-              }}
-            </div>
-          </div>
-          <!-- End of Quantity -->
-
-
           <!-- In case of Accessories / Apparel - Min Offer Amount -->
           <div
             v-if="
@@ -304,8 +243,8 @@
           <!-- ./MinOffer Amount -->
 
           <div v-if="!['apparel', 'accessories'].includes(product.category.name.toLowerCase())"
-               class="mt-3 col-12 input-col"
-              :class="
+               class="mt-3 col-md-6 col-xs-12 input-col"
+               :class="
           value.minOfferAmount !== null &&
           value.minOfferAmount <= minOfferMinVal &&
           'error'
@@ -331,6 +270,66 @@
               }}
             </div>
           </div>
+
+          <!-- Quantity -->
+          <div
+            class="mt-3 col-md-6 col-xs-12 input-col"
+            :class="
+          (value.quantity < quantityMinVal ||
+            value.quantity > quantityMaxVal) &&
+          'error'
+        "
+          >
+            <FormInput
+              :value="value.quantity"
+              :placeholder="$t('inventory.enter_quantity')"
+              :label="$t('common.quantity')"
+              class="input-error"
+              required
+              integer
+              @input="handleQuantityChange"
+            />
+            <div class="error-text mt-1">
+              {{
+                (quantityMinVal > value.quantity ||
+                  value.quantity > quantityMaxVal) &&
+                $t('inventory.message.between', {
+                  field: $t('common.quantity').toLowerCase(),
+                  min: quantityMinVal,
+                  max: quantityMaxVal,
+                })
+              }}
+            </div>
+          </div>
+          <!-- End of Quantity -->
+
+          <!-- Price -->
+          <div
+            class="mt-3 col-12 input-col"
+            :class="value.price !== null && value.price <= priceMinVal && 'error'"
+          >
+            <FormInput
+              :value="value.price"
+              :placeholder="$t('create_listing.your_listing_price_placeholder')"
+              :label="$t('create_listing.your_listing_price')"
+              prefix="$"
+              class="input-error"
+              required
+              number
+              @input="handlePriceChange"
+            />
+            <div class="error-text mt-1">
+              {{
+                value.price > priceMinVal ||
+                $t('inventory.message.gt_than', {
+                  field: $t('common.price').toLowerCase(),
+                  amount: priceMinVal,
+                })
+              }}
+            </div>
+          </div>
+          <!-- End of Price -->
+
           <template v-if="typeof action === 'string' && action === 'add'">
             <div
               v-if="
@@ -492,8 +491,8 @@
             <FormInput
               id="form-input-responsive"
               :value="value.price"
-              :placeholder="$t('create_listing.amount_box_placeholder')"
-              :label="$t('inventory.your_price')"
+              :placeholder="$t('create_listing.your_listing_price_placeholder')"
+              :label="$t('create_listing.your_listing_price')"
               class="input-form input-error"
               :class="
             value.price !== null &&
