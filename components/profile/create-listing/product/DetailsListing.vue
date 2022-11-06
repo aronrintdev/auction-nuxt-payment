@@ -149,6 +149,8 @@
             :prices="pricesBySize"
             :value="value.currentSize"
             :view-mode="sizeViewMode"
+            iconTextClass="text-color-blue-30"
+            iconClass="d-none"
             class="size-picker"
             @update="handleSizeChange"
             @changeViewMode="handleSizeViewModeChange"

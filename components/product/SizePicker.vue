@@ -11,8 +11,8 @@
             <span class="body-8-normal text-uppercase">{{ $t('products.select_size') }}</span>
             <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
           </div>
-          
-          <div 
+
+          <div
             v-if="!singleMode"
             class="position-absolute view-all-btn mr-2"
             @click="handleViewAllClick"
@@ -23,9 +23,9 @@
               :src="require('~/assets/img/icons/eye2.svg')"
               :class="iconClass"
             />
-            <span 
-              :class="iconTextClass"
+            <span
               class="icon-text"
+              :class="iconTextClass"
               role="button"
             >
               {{ $t('products.all_sizes') }}
@@ -76,9 +76,9 @@
           </template>
 
           <template #prev>
-            <div 
-              v-if="arrowsVisible" 
-              class="owl-nav owl-prev" 
+            <div
+              v-if="arrowsVisible"
+              class="owl-nav owl-prev"
               :style="arrowStyle"
             >
               <img :src="require('~/assets/img/icons/arrow-left-gray.svg')" />
@@ -88,7 +88,7 @@
           <template #next>
             <div
               v-if="arrowsVisible"
-              class="owl-nav owl-next" 
+              class="owl-nav owl-next"
               :style="arrowStyle"
             >
               <img :src="require('~/assets/img/icons/arrow-right-gray.svg')" />
@@ -296,7 +296,7 @@ export default {
   color: $color-black-1 !important,
 
 .text-color-blue-30
-  color: $color-blue-30
+  color: $color-blue-30 !important
 
 .size-label-responsive
   @include body-10
@@ -316,7 +316,7 @@ export default {
     color: $color-blue-30 !important
     font-weight: $medium !important
 
-.owl-carousel 
+.owl-carousel
   .owl-item
     width: 70px !important
 
