@@ -62,14 +62,14 @@
     <!-- Display single section -->
     <div v-else>
       <div v-for="(trades, key) in sectionTypes" :key="key">
-        <div class="px-5 pt-5">
+        <div class="pt-5">
             <b-row>
-              <b-col md="12" class="d-flex justify-content-between carousel-heading mb-5 ml-5">
+              <b-col md="12" class="d-flex carousel-heading mb-5 pl-4">
                 <h2 v-html="prettyLabel(key)"></h2>
               </b-col>
               <!-- Display trades with single items -->
-              <b-col v-if="selectedTradeTotalItems === 'one' && trades.length" md="12" class="justify-content-center d-flex flex-wrap">
-                <div v-for="(trade) in trades" :key="'trade-item-' + trade.id" class="trade-card mb-5 mx-3 d-inline-block">
+              <b-col v-if="selectedTradeTotalItems === 'one' && trades.length" md="12" class="d-flex flex-wrap pl-4">
+                <div v-for="(trade) in trades" :key="'trade-item-' + trade.id" class="trade-card mb-5 d-inline-block">
                   <div
                     v-for="(product, index) in trade.offers"
                     :key="`trade-carousel-${index}`"
@@ -222,9 +222,8 @@ export default {
   @media (max-width: 350px) and  (min-width: 300px)
     width: 310px
 .trade-card
-  width: 255px
+  width: 164px
   background: $color-white-1
-  border: 1px solid $light-gray-2
   box-sizing: border-box
 .create-btn
   width: 160px
