@@ -526,7 +526,6 @@ export default {
 
 .main-pref-container
   background: $color-white-1
-  //padding: 50px
 
 .inventory-settings
   background: $color-white-1
