@@ -121,7 +121,6 @@
 
 <script>
 import { mapActions } from 'vuex'
-import dayjs from 'dayjs'
 
 import {AUCTION_TYPE_COLLECTION, AUCTION_TYPE_SINGLE, WATCHLIST_TYPE_AUCTION} from '~/static/constants';
 import WatchlistPopover from '~/components/watchlist/Popover'
@@ -144,12 +143,7 @@ export default {
     CalendarIcon,
   },
   filters: {
-    diffForHumans: (date) => {
-      if (!date) {
-        return null
-      }
-      return dayjs(date).fromNow()
-    },
+
   },
   props: {
     auction: {
