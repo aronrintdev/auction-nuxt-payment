@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="feature-card d-flex align-items-start flex-column mb-0 mb-sm-5 cursor-pointer"
+      class="feature-card d-flex align-items-start flex-column mb-0 mb-sm-1 cursor-pointer"
       @click="handleCardClick"
     >
       <div class="feature-image">
