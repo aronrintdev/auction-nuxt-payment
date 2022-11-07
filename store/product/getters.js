@@ -18,11 +18,18 @@ export function activeCategory(state) {
 export function products(state) {
   return state.products
 }
+
 // Get the items in apparel[]
 export function apparel(state) {
   return state.apparel
 }
+
 // Get the items in accessories []
 export function accessories(state) {
   return state.accessories
+}
+
+// Get the search history
+export function getRecentSearchHistory(state) {
+  return state.recentSearchHistory
 }
