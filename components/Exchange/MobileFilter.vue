@@ -1,9 +1,5 @@
 <template>
   <section class="position-relative auction-mobile-filter">
-    <!-- <img
-      src="~/assets/img/auctions/auctionbannermobilebrowse2.png"
-      class="w-100 auction-mobile-filter-bg"
-    /> -->
     <div
       class="d-flex align-items-center auction-mobile-filter-content searchbox"
       :class="{ active: searchEnabled }"
