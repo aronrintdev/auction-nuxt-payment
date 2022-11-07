@@ -90,7 +90,7 @@ export default {
       wishLists: 'wish-list/getWishLists',
     }),
     wishlist(vm) {
-      return vm.properties.wishLists.length ? vm.properties.wishLists[0] : false
+      return vm.properties.wishLists && vm.properties.wishLists.length ? vm.properties.wishLists[0] : false
     }
   },
   methods: {
