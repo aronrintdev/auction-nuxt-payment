@@ -1979,6 +1979,9 @@
       "direct_bid": "Direct bid",
       "auction_details_title": "Auction Details",
       "auction_details_description": "Description",
+      "watchlist": "Watchlist",
+      "scheduled_on": "Starting",
+      "sold_on": "Sold on",
       "quick_bid_info": "A quick bid allows you bid quickly with a suggested value shown on the page based on the highest bid.",
       "review": "Review"
     },
