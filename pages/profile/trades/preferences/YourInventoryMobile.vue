@@ -20,57 +20,86 @@
         max-height="90vh"
         :rounded="true"
       >
-        <div class="row d-flex">
-          <b-col md="2" ms="12">
-            <CustomDropdown v-model="categoryFilter"
-                            :options="categoryItems"
-                            type="single-select"
-                            :label="categoryFilterLabel"
-                            class="mr-3 width-156"
-                            optionsWidth="custom"
-                            width="150px"
-                            dropDownHeight="38px"
-                            variant="white"
-                            borderRadius="4px"
-                            @getResults="getInventory"
-                            @change="changeCategory"/>
-          </b-col>
-          <b-col md="2" sm="12">
-            <CustomDropdown v-model="sizeTypesFilter"
-                            :options="filters.size_types"
-                            type="multi-select-checkbox"
-                            :label="sizeTypesFilterLabel"
-                            class="mr-3 width-156"
-                            optionsWidth="custom"
-                            dropDownHeight="38px"
-                            variant="white"
-                            borderRadius="4px"
-                            @getResults="getInventory"
-                            @change="changeSizeTypeFilter"/>
-          </b-col>
-          <b-col md="2" sm="12">
-            <CustomDropdown v-model="sizeFilter"
-                            :options="filters.sizes"
-                            type="multi-select-checkbox"
-                            :label="sizeFilterLabel"
-                            class="mr-3 width-156"
-                            optionsWidth="custom"
-                            dropDownHeight="38px"
-                            variant="white"
-                            borderRadius="4px"
-                            @getResults="getInventory"
-                            @change="changeSizeFilter"/>
-          </b-col>
-          <b-col md="2" sm="12">
-            <Button class="mr-3" variant="primary" @click="getInventory">
-              {{ $t('create_listing.trade.offer_items.filter_btn') }}
-            </Button>
-          </b-col>
-          <b-col md="4" sm="12" class="d-flex align-items-center">
-            <img :src="require('~/assets/img/icons/info-blue.svg')" alt="No Image" width="13" height="13">
-            <span  v-if="category === DEFAULT_INVENTORY_STATUS" class="info-text ml-2">{{$t('trades.preferences.make_it_public')}}</span>
-            <span  v-else class="info-text ml-2">{{$t('trades.preferences.make_it_private')}}</span>
-          </b-col>
+        <div class="mt-1 ml-2">
+          <div class="d-flex" v-b-toggle="'collapse-1'">
+            <b-row class="filtersHeading ml-2">
+              <b-col class="col-sm-6">{{$tc('common.category')}}</b-col>
+              <b-col class="col-sm-6">
+                <div class="d-flex justify-content-end mr-3">
+
+                  <img  v-if="isVisible" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
+                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
+                </div>
+              </b-col>
+            </b-row>
+          </div>
+          <b-collapse id="collapse-1" v-model="isVisible">
+            <b-row class="row mt-1">
+              <b-col v-for="(cat, key) in categoryItems" :key="'cat-' + key">
+                <div :value="cat" class= "unselected-item m-1 d-flex justify-content-center align-content-center"
+                     @click="changeCategory(cat.value)">
+                  {{cat.text}}
+                </div>
+              </b-col>
+            </b-row>
+          </b-collapse>
+        </div>
+        <hr class="hr" />
+        <div class="mt-1 ml-2">
+          <div class="d-flex" v-b-toggle="'collapse-2'">
+            <b-row class="filtersHeading ml-2">
+              <b-col class="col-sm-6">Size Type</b-col>
+              <b-col class="col-sm-6">
+                <div class="d-flex justify-content-end mr-3">
+                  <img  v-if="isVisibleType" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
+                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
+                </div>
+              </b-col>
+            </b-row>
+          </div>
+          <b-collapse id="collapse-2" v-model="isVisibleType">
+            <b-row class="row mt-1 sizesTypes">
+              <b-col v-for="(st, key) in filters.size_types" :key="'cat-' + key">
+                <div :value="st" class= "unselected-item m-1 d-flex justify-content-center align-content-center"
+                     @click="changeSizeTypeFilter(st)">
+                  {{st}}
+                </div>
+              </b-col>
+            </b-row>
+          </b-collapse>
+        </div>
+        <hr class="hr" />
+        <div class="mt-1 ml-2">
+          <div class="d-flex" v-b-toggle="'collapse-3'">
+            <b-row class="filtersHeading ml-2">
+              <b-col class="col-sm-6">Size</b-col>
+              <b-col class="col-sm-6">
+                <div class="d-flex justify-content-end mr-3">
+                  <img  v-if="isVisibleSize" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
+                  <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
+                </div>
+              </b-col>
+            </b-row>
+          </div>
+          <b-collapse id="collapse-3" v-model="isVisibleSize">
+            <b-row class="row mt-1 sizesTypes">
+              <b-col v-for="(size, key) in filters.sizes" :key="'cat-' + key">
+                <div :value="size" class= "unselected-item m-1 d-flex justify-content-center align-content-center"
+                     @click="changeSizeFilter(size)">
+                  {{size.size}}
+                </div>
+              </b-col>
+            </b-row>
+          </b-collapse>
+        </div>
+        <hr class="hr" />
+        <div class="d-flex mb-3">
+          <div class="ml-2">
+            <b-btn class="resetBtn" @click="clearAllFilters">{{$t('common.reset')}}</b-btn>
+          </div>
+          <div class="ml-5">
+            <b-btn class="filter-btn" @click="getInventory"> {{ $t('create_listing.trade.offer_items.filter_btn') }}</b-btn>
+          </div>
         </div>
       </vue-bottom-sheet>
     </div>
@@ -102,8 +131,8 @@
 import {mapGetters} from 'vuex'
 import debounce from 'lodash.debounce'
 import SearchInput from '~/components/common/SearchInput'
-import CustomDropdown from '~/components/common/CustomDropdown.vue'
-import Button from '~/components/common/Button'
+// import CustomDropdown from '~/components/common/CustomDropdown.vue'
+// import Button from '~/components/common/Button'
 import {Pagination} from '~/components/common'
 import {
   CATEGORY_ITEMS,
@@ -121,9 +150,12 @@ import NavGroup from'~/components/common/NavGroup'
 
 export default {
   name: 'YourInventory',
-  components: {NavGroup, InventoryCardItem, Pagination,Button, CustomDropdown,SearchInput},
+  components: {NavGroup, InventoryCardItem, Pagination,SearchInput},
   data(){
     return {
+      isVisible: false,
+      isVisibleType: false,
+      isVisibleSize:false,
       PUBLIC_INVENTORY_STATUS,
       DEFAULT_INVENTORY_STATUS,
       searchText: null,
@@ -153,6 +185,16 @@ export default {
   methods:{
     openBottomFilter() {
       this.$refs.browseFiltersSheet.open();
+    },
+    clearAllFilters(){
+      this.orderFilter = null
+      this.categoryFilter = null
+      this.sizeFilter = []
+      this.sizeTypesFilter = []
+      this.getInventory()
+      this.isVisible = false
+      this.isVisibleType = false
+      this.isVisibleSize = false
     },
   /**
    * This function is used to get product and show in
@@ -186,6 +228,11 @@ export default {
           this.totalCount = parseInt(response.data.total)
           this.perPage = parseInt(response.data.per_page)
           this.$emit('updateTotal', this.totalCount)
+          this.isVisible = false
+          this.isVisibleType = false
+          this.isVisibleSize = false
+          this.$refs.browseFiltersSheet.close();
+
         })
         .catch((error) => {
           this.$toasted.error(this.$t(error.response.data.error))
@@ -289,4 +336,68 @@ export default {
   font-style: normal
   @include body-13-light
   color: $color-black-1
+.hr
+  border-top: 1px solid $color-gray-62
+  width: 318px
+.unselected-item
+  width: 99px
+  height: 45px
+  border-radius: 3px
+  background: $color-white-1
+  border: 1px solid $color-gray-47
+  @include body-5
+  font-weight: $normal
+  font-family: $font-sp-pro
+  color: $color-gray-47
+  padding-top: 10px
+  cursor: pointer
+.selected-item
+  width: 99px
+  height: 45px
+  border-radius: 3px
+  border: 1px solid $color-black-1
+  @include body-5
+  font-weight: $medium
+  font-family: $font-sp-pro
+  color: $color-gray-47
+  padding-top: 10px
+  cursor: pointer
+  background: $color-white-7
+.filtersHeading
+  @include body-13-bold
+  font-family: $font-sp-pro
+  color: $color-blue-20
+  width: 100%
+.sizesTypes
+  height: 100px
+  overflow-y: scroll
+.filter-btn
+  width: 130px
+  height: 40px
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $medium
+  font-size: 16px
+  color: $color-white-1
+  background-color: $color-blue-20
+  border-radius: 30px
+  @media (max-width: 350px) and  (min-width: 300px)
+    width: 100px
+    height: auto
+    font-size: 12px
+.resetBtn
+  width: 130px
+  height: 40px
+  border-radius: 30px
+  font-family: $font-sp-pro
+  font-weight: $medium
+  font-style: normal
+  font-size: 16px
+  color:  $color-black-1
+  background-color: $color-white-1
+  margin-left: 10px
+  @media (max-width: 350px) and  (min-width: 300px)
+    width: 100px
+    height: auto
+    font-size: 12px
 </style>
