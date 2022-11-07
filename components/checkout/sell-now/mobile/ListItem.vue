@@ -6,7 +6,7 @@
         <b-col cols="6" sm="6" class="bg-white-4 d-flex align-items-center justify-content-center">
           <b-img
             class="custom-thumbnail"
-            :src="offerDetails.product.image"
+            :src="sellItem.image"
             :alt="$t('shopping_cart.product_image')"
           ></b-img>
         </b-col>
@@ -16,17 +16,17 @@
             <span>{{ name }}</span>
           </div>
           <div class="body-9-normal text-gray-5 text-uppercase">
-            <span>{{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ offerDetails.product.sku }}</span>
+            <span>{{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ sellItem.sku }}</span>
           </div>
           <div class="body-9-normal text-gray-5">
             <span>{{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ colorWay }}&comma;</span>
-            <span>{{ $tc('common.size', 1) }}&colon;&nbsp;{{ size }}</span>
+            <span>{{ $tc('common.size', 1) }}&colon;&nbsp;{{ sellItem.size.size }}</span>
           </div>
           <div class="body-9-normal text-gray-5">
             <span>{{ $t('shopping_cart.box_condition') }}&colon;&nbsp;{{ boxCondition }}</span>
           </div>
           <div class="body-9-normal text-gray-5">
-            <span>{{ $t('place_offer.offer_amount') }}&colon;&nbsp;{{ offerDetails.bid_price | toCurrency }}</span>
+            <span>{{ $t('sell_now.price') }}&colon;&nbsp;{{ sellItem.price | toCurrency }}</span>
           </div>
         </b-col>
       </b-row>
@@ -42,7 +42,7 @@ export default {
   name: 'ListItem',
   components: { ThreeDotMenuSVG },
   props: {
-    offerDetails: {
+    sellItem: {
       type: Object,
       required: true,
       default: () => {
@@ -57,29 +57,17 @@ export default {
   computed: {
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     name: (vm) => {
-      return vm.offerDetails.product.name.substr(0, 36)
+      return vm.sellItem.name.substr(0, 36)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     colorWay: (vm) => {
-      return vm.offerDetails.product.colorway.substr(0, 4)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    size: (vm) => {
-      const size = vm.offerDetails.product.sizes.filter(
-        (i) => i.id === vm.offerDetails.size_id
-      )
-
-      return size[0].size
+      return vm.sellItem.colorWay.substr(0, 4)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     boxCondition: (vm) => {
-      const condition = vm.offerDetails.product.packaging_conditions.filter(
-        (i) =>  i.id === vm.offerDetails.packaging_condition_id
-      )
-
-      return condition[0].name.substr(0, 10)
+      return vm.sellItem.packaging_condition.name.substr(0, 10)
     }
-  },
+  }
 }
 </script>
 

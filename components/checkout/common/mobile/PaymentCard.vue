@@ -115,7 +115,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import emitEventMixin from '~/plugins/mixins/emit-event'
-import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTitle'
+import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTitle'
 import ArrowLeftBlackSVG from '~/assets/img/shopping-cart/arrow-left-black.svg?inline'
 import Button from '~/components/common/Button'
 import { CARD_LAST_DIGITS_OFFSET, NMI_COLLECTJS_URL, PAYMENT_METHOD_TYPE_CARD } from '~/static/constants'

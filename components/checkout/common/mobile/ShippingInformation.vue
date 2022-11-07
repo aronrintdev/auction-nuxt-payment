@@ -60,7 +60,7 @@
 import { mapActions } from 'vuex'
 import emitEventMixin from '~/plugins/mixins/emit-event'
 import shippingAddressMixin from '~/plugins/mixins/shipping-address'
-import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTitle'
+import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTitle'
 import ArrowLeftBlackSVG from '~/assets/img/shopping-cart/arrow-left-black.svg?inline'
 import PencilSquaredBlueSvg from '~/assets/img/icons/pencil_squared_blue.svg?inline'
 import Button from '~/components/common/Button'

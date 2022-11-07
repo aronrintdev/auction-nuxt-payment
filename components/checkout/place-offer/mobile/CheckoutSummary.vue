@@ -108,7 +108,7 @@ import emitEventMixin from '~/plugins/mixins/emit-event'
 import offerDetailsMixin from '~/plugins/mixins/offer-details'
 import billingAddressMixin from '~/plugins/mixins/billing-address'
 import shippingAddressMixin from '~/plugins/mixins/shipping-address'
-import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTitle'
+import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTitle'
 import ArrowRightBlackSVG from '~/assets/img/shopping-cart/arrow-right-black.svg?inline'
 import Button from '~/components/common/Button'
 import PaymentDetailsListItem from '~/components/checkout/selling/mobile/payment/PaymentDetailsListItem'
@@ -149,7 +149,7 @@ export default {
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     name: (vm) => {
-      return vm.offerDetails.product.name.substr(0, 32)
+      return vm.offerDetails.product.name.substr(0, 29)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     colorWay: (vm) => {
@@ -184,28 +184,33 @@ export default {
       addPromoCode: 'order-details/addPromoCode',
       removePromoCode: 'order-details/removePromoCode',
       getTaxRateByZip: 'tax-rate/getTaxRateByZip',
-      offerSubmit: 'offer/offerSubmit'
+      offerSubmit: 'offer/offerSubmit',
+      removePaymentToken: 'order-details/removePaymentToken',
     }),
-    placeOffer(){
+    placeOffer() {
+      this.loading = true
       this.offerSubmit({
         billingAddress: this.billingAddress,
         shippingAddress: this.shippingAddress,
         paymentMethod: this.paymentMethod,
-        offerDetails: this.getOfferDetails,
+        offerDetails: this.offerDetails,
         priceDetails: {
           shipping_fee: this.shippingFee,
           processing_fee: this.getProcessingFee,
           tax: this.getTax,
-          sub_total: this.subTotal,
+          sub_total: this.getSubtotalAfterDiscount,
           total: this.getTotal
         },
         paymentToken: this.paymentToken
-      }).then((res) => {
-        if (res.data.success){
-          this.$bvModal.show('message-modal')
-        }
+      }).then(() => {
+        this.removePaymentToken().then(() => {
+          this.$parent.$parent.close()
+          this.$router.push('/checkout/place-offer/order-confirmation')
+        })
       }).catch((err) => {
         this.$logger.logToServer('Place Offer Error', err.response);
+      }).finally(() => {
+        this.loading = false
       })
     },
     handleShippingAddressClick() {

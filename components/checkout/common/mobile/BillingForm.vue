@@ -51,10 +51,10 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 import emitEventMixin from '~/plugins/mixins/emit-event'
-import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTitle'
+import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTitle'
 import ArrowLeftBlackSVG from '~/assets/img/shopping-cart/arrow-left-black.svg?inline'
 import CameraGraySVG from '~/assets/img/shopping-cart/camera-gray.svg?inline'
-import AddressForm from '~/components/checkout/selling/mobile/AddressForm'
+import AddressForm from '~/components/checkout/common/mobile/AddressForm'
 import { ADDRESS_TYPE_BILLING, ADDRESS_TYPE_SHIPPING } from '~/static/constants'
 
 export default {

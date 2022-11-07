@@ -6,7 +6,7 @@
         <b-col cols="12" sm="12">
           <b-carousel ref="productPreviewCarousel" v-model="slide">
             <b-carousel-slide
-              v-for="product in combinedProducts"
+              v-for="product in products"
               :key="product.listing_item_id"
               class="h-auto position-relative"
             >
@@ -28,7 +28,7 @@
 
                 <b-row>
                   <b-col cols="12" sm="12" class="text-center">
-                    <div class="copped-text">COPPED</div>
+                    <div class="copped-text">{{ coppedText }}</div>
                     <b-img :src="require('~/assets/img/home/logo-mb.png')" class="ds-logo" />
                   </b-col>
                 </b-row>
@@ -53,31 +53,24 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'ProductPreview',
+  props: {
+    products: {
+      type: Array,
+      required: true,
+    },
+    coppedText: {
+      type: String,
+      required: true,
+    }
+  },
   data() {
     return {
       shareUrl: process.env.APP_URL + '/shop/',
       shareShow: false,
       slide: 0,
       brands: [],
-    }
-  },
-  computed: {
-    ...mapGetters({
-      products: 'order-details/getProducts',
-      freeSneakersRedeemedReward: 'order-details/getFreeSneakersRedeemedReward',
-    }),
-    combinedProducts(vm) {
-      const products = [...vm.products]
-
-      if (vm.freeSneakersRedeemedReward) {
-        products.push(vm.freeSneakersRedeemedReward)
-      }
-
-      return products
     }
   },
   created() {
@@ -129,7 +122,7 @@ export default {
 
     .copped-text
       @include heading-10
-      line-height: -2
+      line-height: 56px
 
     .ds-logo
       margin-top: 24px
