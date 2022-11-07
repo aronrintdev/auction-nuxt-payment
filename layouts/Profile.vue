@@ -1,8 +1,8 @@
 <template>
-  <div class="wrapper">
+  <div id="profile-layout" class="wrapper min-vh-100 d-flex flex-column">
     <Header />
 
-    <div class="custom-wrapper">
+    <div class="custom-wrapper flex-grow-1">
       <div class="row mb-bb">
 
         <!-- TODO: It will remove after getting confirmation for the new menu design -->
@@ -30,26 +30,28 @@
         </div>
 
         <!-- New menu design begin -->
-        <div class="col">
-          <button
-            v-if="isScreenXS || isScreenSM || isScreenMD"
-            v-b-toggle.sidebar
-            class="w3-button w3-xlarge w3-hide-large float-left">
-            <span class="text-bold">{{ $t('navbar.profile') }}</span>
-            <i class="fa fa-bars"></i>
-          </button>
+        <client-only>
+          <div class="col">
+            <button
+              v-if="isScreenXS || isScreenSM || isScreenMD"
+              v-b-toggle.sidebar
+              class="w3-button w3-xlarge w3-hide-large float-left">
+              <span class="text-bold">{{ $t('navbar.profile') }}</span>
+              <i class="fa fa-bars"></i>
+            </button>
 
-          <!-- new menu area -->
-          <b-sidebar id="sidebar"
-                     ref="mySidebar"
-                     shadow
-                     @shown="sidebarIsVisible = true"
-                     @hidden="sidebarIsVisible = false">
-            <NewSideMenu id="sidemenu" ref="sidemenu" v-click-outside="onClickOutside" :show-title="false"  />
-          </b-sidebar>
-          <NewSideMenu v-if="!isScreenXS && !isScreenSM && !isScreenMD" />
-          <!-- new menu area end -->
-        </div>
+            <!-- new menu area -->
+            <b-sidebar id="sidebar"
+                       ref="mySidebar"
+                       shadow
+                       @shown="sidebarIsVisible = true"
+                       @hidden="sidebarIsVisible = false">
+              <NewSideMenu id="sidemenu" ref="sidemenu" v-click-outside="onClickOutside" :show-title="false"  />
+            </b-sidebar>
+            <NewSideMenu v-if="!isScreenXS && !isScreenSM && !isScreenMD" />
+            <!-- new menu area end -->
+          </div>
+        </client-only>
         <!-- New menu design end -->
       </div>
 
@@ -126,6 +128,10 @@ export default {
     enquireScreenSizeHandler((type) => {
       this.$store.commit('size/setScreenType', type)
     });
+    const wrapper = document.querySelector('.main-wrapper')
+    if (wrapper.querySelector('.wants-container')) {
+      wrapper.style.backgroundColor = '#f7f7f7'
+    }
     this.notificationSubscriptions()
   },
   beforeDestroy() {
@@ -147,6 +153,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
 .wrapper
   .custom-wrapper
     overflow: hidden
@@ -193,4 +200,11 @@ export default {
     display: none
   #sidemenu-expanded
     display: none
+@media (max-width: 992px)
+  .wrapper
+    .custom-wrapper
+      background-color: $color-white-19
+
+.mobile-p-b
+  padding-bottom: 98px
 </style>

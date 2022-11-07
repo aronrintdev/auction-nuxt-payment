@@ -424,6 +424,13 @@ export default {
     padding: 0;
   }
 
+  &.btn-link-blue-dark {
+    @include body-4-regular;
+    color: $color-blue-20;
+    height: auto;
+    padding: 0;
+  }
+
   &.btn-dark {
     @include button-colors(
         $background: $color-ui-dark,

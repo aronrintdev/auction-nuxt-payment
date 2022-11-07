@@ -75,12 +75,12 @@
             <img
               v-b-tooltip.hover
               :src="infoIcon"
-              :title="$tc('create_listing.confirm.reserve_tooltip_info')"
+              :title="$tc('create_listing.confirm.reserve_info_short')"
               class="icon-info position-absolute mt-n2 mr-n5 scale-2"
             />
           </span>
         </b-col>
-        <b-col cols="12" sm="12" md="10">
+        <b-col cols="12" sm="12" md="3">
           <div class="d-flex align-items-center reserve-switch">
             <CheckboxSwitch
               class="mr-2"
@@ -136,7 +136,7 @@
             @change="liveStatusChange"
           />
         </b-col>
-        <b-col v-if="!form.isLive"  class="mt-4">
+        <b-col v-if="!form.isLive">
           <span
             class="ml-2"
             :class="{'is-invalid': errorArray.includes('scheduled_date')}"
@@ -153,13 +153,15 @@
           </b-form-datepicker>
         </b-col>
       </b-row>
-      <b-row class="justify-content-center pt-5 pb-4">
-        <Button
-          variant="primary"
-          pill
-          class="next-button"
-          @click="validateAndNext"
-        >{{ $t('create_listing.collection.save_next') }}</Button>
+      <b-row class="pt-5 pb-4 justify-content-center">
+        <b-col cols="12" sm="12" md="4">
+          <Button
+            variant="primary"
+            pill
+            class="next-button"
+            @click="validateAndNext"
+          >{{ $t('create_listing.collection.save_next') }}</Button>
+        </b-col>
       </b-row>
     </div>
     <!-- Schedule date Sheet -->

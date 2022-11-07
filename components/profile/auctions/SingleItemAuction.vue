@@ -2,7 +2,7 @@
     <b-row
       v-if="inventory.product"
       :class="{'border shadow-sm' : isMobileSize}"
-      class="mt-3 text-center ml-n1 font-weight-bold w-100 bg-white single-item"
+      class="mt-3 text-center mx-0 ml-md-n1 font-weight-bold w-100 bg-white single-item"
       role="button"
       @click="$emit('click')"
     >
@@ -75,7 +75,7 @@
         </div>
       </b-col>
       <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0">
-        <div class="d-flex justify-content-between d-md-block">
+        <div class="d-flex justify-content-between d-md-block text-capitalize">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.time_remaining') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-medium'">
             {{auction.status !== 'live' ? '-' : auction.remaining_time}}
@@ -89,7 +89,7 @@
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.status') }}:</span>
           <span :class="[isMobileSize ? 'body-9-regular' : 'body-4-medium',
                         {' text-green ' :auction.status===LIVE_STATUS}]">
-            {{$t('auction.duration_type.' + auction.status)}}
+            {{$t('auction.status_array.' + auction.status)}}
           </span>
         </div>
       </b-col>

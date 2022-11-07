@@ -1,5 +1,5 @@
 <template>
-  <div class="bottom-navigation bg-black px-4 pt-3 position-sticky">
+  <div class="bottom-navigation bg-black px-4 pt-3 position-sticky w-100">
     <SearchOverlay
       ref="searchOverlay"
       :show="showSearchOverlay"
@@ -77,10 +77,10 @@ export default {
   },
   methods: {
     handleSearchFocus() {
-      this.showSearchOverlay = true
+      this.$root.$emit('showSearchOverlay')
     },
     handleSearchOverlayHide() {
-      this.showSearchOverlay = false
+      this.$root.$emit('hideSearchOverlay')
     },
   },
 }
@@ -88,6 +88,6 @@ export default {
 <style lang="sass" scoped>
 .bottom-navigation
     bottom: 0
-    z-index: 99
+    z-index: 9999
     padding-bottom: 30px
 </style>

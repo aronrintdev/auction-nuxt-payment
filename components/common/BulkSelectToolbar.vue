@@ -1,5 +1,5 @@
 <template>
-  <div v-if="active" class="bulk-select-toolbar-wrapper">
+  <div v-if="active" class="bulk-select-toolbar-wrapper py-2">
     <div v-if="successLabel" class="d-flex align-items-center w-100">
       <div class="mx-3">
         <Icon
@@ -42,7 +42,7 @@
           }).toLowerCase()
         }}
       </div>
-      <div class="ml-2">
+      <div class="ml-auto ml-md-2 mr-3 mr-md-0">
         <Button
           v-if="selected.length === total"
           variant="link"
@@ -146,7 +146,7 @@ export default {
   @include body-4-normal
   background-color: $color-black-7
   color: $color-white-1
-  height: 38px
+  min-height: 38px
   width: 100%
   display: flex
   align-items: center

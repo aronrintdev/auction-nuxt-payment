@@ -7,6 +7,7 @@ export const PROCESSING_PAYMENT = 'processing_payment' || 'PROCESSING_PAYMENT';
 export const AUTHENTICATED_AND_SHIPPED = 'authenticated_and_shipped' || 'AUTHENTICATED_AND_SHIPPED';
 export const DELIVERED = 'delivered' || 'DELIVERED';
 export const CANCELLED = 'cancelled' || 'CANCELLED';
+export const COMPLETED = 'completed' || 'COMPLETED';
 export const SHIPPED_AND_AUTH = 'shipped_and_auth' || 'SHIPPED_AND_AUTH';
 export const MULTIPLE = 'multiple' || 'MULTIPLE';
 

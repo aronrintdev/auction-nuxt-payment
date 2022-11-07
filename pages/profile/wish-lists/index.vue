@@ -150,7 +150,7 @@
               </b-col>
             </b-row>
 
-            <div v-else class="text-center">
+            <div v-else class="text-center no-itmes">
               <p class="mt-5">
                 {{ $t('wish_lists.no_items_info') }}
               </p>
@@ -284,7 +284,7 @@ export default {
       perPage: 15,
       loading: false,
       shareDescription: this.$t('wish_lists.share_description'),
-      shareUrl: process.env.APP_URL + '/wish-lists/',
+      shareUrl: process.env.APP_URL + '/profile/wish-lists/',
     }
   },
 
@@ -511,4 +511,7 @@ export default {
 
 .mw-800px
   max-width: 800px
+
+.no-itmes
+  padding-right: 300px
 </style>

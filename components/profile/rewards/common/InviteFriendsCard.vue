@@ -9,7 +9,7 @@
                 <span :class="mobileClass" class="body-7-bold d-block title">{{
                     $t('rewards.invite_your_friends')
                   }}</span>
-                <span :class="mobileClass" class="body-1-bold text-color-blue-2 mt-1 d-block subtitle text-nowrap">{{
+                <span :class="mobileClass" class="body-1-bold text-blue-2 mt-1 d-block subtitle text-nowrap">{{
                     $t('rewards.everybody_gets_points')
                   }}</span>
                 <span :class="mobileClass" class="body-6-normal mt-2 d-block desc ">{{

@@ -3,7 +3,7 @@
     <b-row v-if="fullView" class="preview-drag bg-white mt-2 mt-md-3 pb-md-2 px-md-5" :class="{ 'no-items': inventories.length === 0 }">
       <b-col
         v-for="(inventory, index) in inventories"
-        :key="`inventory-${inventory.id}`"
+        :key="`inventory-${inventory.id}-${index}`"
         class="inventory-card"
       >
         <InventoryCard

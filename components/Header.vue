@@ -2,7 +2,11 @@
   <b-navbar toggleable="lg" class="navbar-wrapper border-bottom">
     <b-navbar-toggle target="top-menu-sidebar">
       <template #default>
-        <img width="25px" :src="require('~/assets/img/icons/menu.svg')" />
+        <img
+          width="25px"
+          :src="require('~/assets/img/icons/menu.svg')"
+          alt="..."
+        />
       </template>
     </b-navbar-toggle>
     <b-navbar-brand to="/" class="navbar-brand ml-auto m-lg-0">
@@ -10,9 +14,9 @@
         <Logo :width="171" />
       </div>
       <div class="d-inline-block d-sm-none">
-        <Logo v-if="!$nuxt.context.route.meta[0].pageTitle" :width="171" />
-        <h2 v-else class="meta-info font-primary fs-18 fw-7 mb-0 text-black">
-          {{ $nuxt.context.route.meta[0].pageTitle }}
+        <Logo v-if="pageTitle" :width="171"/>
+        <h2 v-else class="meta-info font-primary fs- 18 fw-7 mb-0 text-black">
+          {{ pageTitle }}
         </h2>
       </div>
     </b-navbar-brand>
@@ -35,14 +39,26 @@
       @hide="handleSearchOverlayHide"
     />
     <b-navbar-nav class="nav-menu-wrapper flex-row d-flex d-lg-none">
-      <b-nav-item class="nav-item-icons" to="#">
+      <b-nav-item v-if='authenticated' to='/profile/notification' class="nav-item-icons">
         <img
           height="24px"
           :src="require('~/assets/img/icons/notification-icon.svg')"
+          alt="..."
+        />
+      </b-nav-item>
+      <b-nav-item v-if='!authenticated' to='/login' class="nav-item-icons">
+        <img
+          height="24px"
+          :src="require('~/assets/img/icons/notification-icon.svg')"
+          alt="..."
         />
       </b-nav-item>
       <b-nav-item class="nav-item-icons" to="/checkout/selling">
-        <img height="22px" :src="require('~/assets/img/icons/bag.png')" />
+        <img
+          height="22px"
+          :src="require('~/assets/img/icons/bag.png')"
+          alt="..."
+        />
       </b-nav-item>
     </b-navbar-nav>
     <b-collapse id="nav-collapse" is-nav class="navbar-collapse">
@@ -65,7 +81,7 @@
           :link-attrs="{ title: $t('navbar.shop') }"
         >
           {{ $t('navbar.shop') }}
-        </b-nav-item>        
+        </b-nav-item>
         <b-nav-item
           v-if="authenticated"
           class="w-100"
@@ -97,36 +113,50 @@
           {{ $t('navbar.auction') }}
         </b-nav-item>
         <b-nav-item
-          v-if="authenticated"
-          class="nav-item-profile w-100"
-          to="/profile/preferences"
-          :link-attrs="{ title: $t('navbar.profile') }"
+            v-if="authenticated"
+            class="nav-item-profile w-100"
+            to="/profile/preferences"
+            :link-attrs="{ title: $t('navbar.profile') }"
         >
           {{ $t('navbar.profile') }}
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
+    <client-only>
+      <vue-bottom-sheet
+          v-if="isScreenXS"
+          ref="searchBottomSheet"
+          :is-full-screen="true"
+          :rounded="false"
+          max-height="100%"
+          max-width="auto"
+      >
+        <SearchOverlayMobile ref="searchbar" @close="close"/>
+      </vue-bottom-sheet>
+    </client-only>
+
     <!-- Sidebar menu begin -->
     <b-sidebar
-      id="top-menu-sidebar"
-      ref="topSidebar"
-      v-click-outside="onClickOutside"
-      shadow
-      @shown="sidebarIsVisible = true"
-      @hidden="sidebarIsVisible = false"
+        id="top-menu-sidebar"
+        ref="topSidebar"
+        v-click-outside="onClickOutside"
+        shadow
+        @shown="sidebarIsVisible = true"
+        @hidden="sidebarIsVisible = false"
     >
       <div class="top-menu-container">
         <b-nav-form class="search-box-collapse">
-          <SearchInput
-            :placeholder="$t('navbar.search')"
-            :value="searchKeyword"
-            pill
-            size="sm"
-            variant="secondary"
-            class="w-100"
-            @focus="handleSearchFocus"
-            @clear="handleSearchClear"
-          />
+          <div class="searchbar-mobile position-relative" @click="open">
+            <img
+              :src="require('~/assets/img/icons/search.svg')"
+              class="search-icon position-absolute"
+            />
+            <b-form-input
+              class="searchbar-input"
+              placeholder="Search"
+              type="search"
+            />
+          </div>
         </b-nav-form>
         <b-navbar-nav class="nav-menu-wrapper sidebar-nav mt-4">
           <b-nav-item
@@ -244,6 +274,7 @@ import SearchOverlay from '~/components/search/Overlay'
 import NotificationDropdown from '~/components/header/NotificationDropdown'
 import ScreenSize from '~/plugins/mixins/screenSize'
 import Dropdown from '~/components/common/form/Dropdown'
+import SearchOverlayMobile from '~/components/SearchOverlayMobile'
 export default {
   name: 'Header',
   components: {
@@ -252,7 +283,8 @@ export default {
     Logo,
     SearchInput,
     SearchOverlay,
-    Dropdown, 
+    Dropdown,
+    SearchOverlayMobile,
   },
   mixins: [ScreenSize],
   data() {
@@ -260,6 +292,24 @@ export default {
       showSearchOverlay: false,
       sidebarIsVisible: false,
     }
+  },
+  head: {
+    title: 'Deadstock',
+    meta: [
+      { charset: 'utf-8' },
+      {
+        name: 'viewport',
+        content:
+          'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0',
+      },
+    ],
+    link: [
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/assets/img/icons/favicon.ico',
+      },
+    ],
   },
   computed: {
     ...mapState(['locale', 'locales']),
@@ -274,16 +324,40 @@ export default {
         return ''
       }
     },
+    pageTitle() {
+      return this.$nuxt?.context?.route?.meta[0]?.pageTitle ?? null
+    },
   },
   watch: {
     screenIsSmallThanLG(newVal) {
-      const { topSidebar } = this.$refs
+      const {topSidebar} = this.$refs
       if (!newVal && topSidebar) {
         topSidebar.hide()
       }
     },
   },
+  mounted() {
+    this.$root.$on('showSearchOverlay', this.open)
+    this.$root.$on('hideSearchOverlay', this.close)
+  },
+  destroyed() {
+    this.$root.$off('showSearchOverlay', this.open)
+    this.$root.$off('hideSearchOverlay', this.close)
+  },
   methods: {
+    notificationPage(){
+      if(this.authenticated){
+        this.$router.push({
+          path: '/profile/notification',
+        })
+      }
+    },
+    open() {
+      this.$refs.searchBottomSheet.open()
+    },
+    close() {
+      this.$refs.searchBottomSheet.close()
+    },
     setLocale(lang) {
       this.$refs.locale.hideDropdown()
       this.$store.commit('SET_LANG', lang)
@@ -480,4 +554,18 @@ export default {
       border-bottom-left-radius: 0
       border-bottom-right-radius: 0
       background-color: $color-white-4
+img.search-icon
+  top: 50%
+  transform: translate(0, -50%)
+  left: 10px
+input.searchbar-input
+  background-color: $color-gray-3
+  color: $color-black-1
+  border: 0
+  border-radius: 50px
+  padding: 6px 10px
+  padding-left: 40px
+  width: 100%
+::v-deep .bottom-sheet__content
+  margin-right: -8px
 </style>

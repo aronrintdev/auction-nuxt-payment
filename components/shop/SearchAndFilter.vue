@@ -124,6 +124,7 @@ export default {
       scrollPosition: null,
       search: null,
       brandName: '',
+      selectedBrand: []
     }
   },
   computed: {

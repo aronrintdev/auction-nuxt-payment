@@ -14,7 +14,7 @@
       @item-options-clicked="handleItemOptionsClick"
     />
 
-    <PromoCodeInput v-if="!promoCode" class="promo-wrapper" @click="applyPromoCode">
+    <PromoCodeInput v-if="!promoCode" @click="applyPromoCode">
       <template #label>
         <div class="section-title body-5-medium">{{ $t('shopping_cart.promo_code') }}&colon;</div>
       </template>
@@ -63,7 +63,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import emitEventMixin from '~/plugins/mixins/emit-event'
-import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTitle'
+import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTitle'
 import ItemsList from '~/components/checkout/selling/mobile/ItemsList'
 import PromoCodeInput from '~/components/checkout/common/PromoCodeInput'
 import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
@@ -255,11 +255,10 @@ export default {
     openBottomSheet(maxHeight = '95%', maxWidth = '640px') {
       this.bottomSheetMaxHeight = maxHeight
       this.bottomSheetMaxWidth = maxWidth
-      // this.$refs.shoppingBagOrder.$destroy()
       this.$refs.shoppingBagOrder.open()
     },
     handleCheckoutButtonClick() {
-      this.emitRenderComponentEvent(this.$options.components.ShoppingBagOrder.components.OrderSummary.name)
+      this.emitRenderComponentEvent(this.$options.components.ShoppingBagOrder.components.CheckoutSummary.name)
       this.openBottomSheet('95%')
     },
     handleItemOptionsClick() {
@@ -278,7 +277,7 @@ export default {
     &.btn-checkout
       width: 216px
       height: 40px
-      margin-bottom: 26px
+      margin-bottom: 14px
 
 .section-title
   margin-bottom: 7px

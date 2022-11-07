@@ -4,7 +4,7 @@
       :title="$t('home_page.all_auctions')"
       :desc="$t('home_page.trade_desc')"
       :label="$t('home_page.view_more_auctions')"
-      to="/auctions"
+      to="/auction"
     />
 
     <div class="banner-wrapper">
@@ -16,66 +16,48 @@
         </h1>
       </div>
     </div>
-    <div>
-      <ProductCarousel :products="products" :pageName='pageName'>
-        <template #product>
-          <div
-            v-for="(product, index) in products"
-            :key="`product-carousel-${index}`"
-            class="item"
-          >
-            <ProductCard :product="product" showPriceAndSize :showPrice="false" :pageName='pageName'>
-              <template #badge>
-                <!-- TODO -->
-                <Badge
-                  title="5d 18h"
-                  :icon="require('~/assets/img/home/clock.svg')"
-                  color="red-24"
-                />
-              </template>
-              <template #action>
-                <b-button
-                  variant="dark"
-                  class="fs-15 fw-5 font-secondary w-100 btn-sm bg-grey-73"
-                  >{{ $t('home_page.bid_now') }}</b-button
-                >
-              </template>
-            </ProductCard>
-          </div>
-        </template>
-      </ProductCarousel>
+    <div class="products-wrapper">
+      <product-slider
+        :title="''"
+        :auctions="auctions"
+        :type="'live'"
+        :showHeader="false"
+        @showAll="() => {}"
+      ></product-slider>
     </div>
   </div>
 </template>
 <script>
-import ProductCard from '~/components/product/Card.vue'
-import Badge from '~/components/product/Badge.vue'
+import ProductSlider from '~/components/Auctions/ProductSlider'
+
 export default {
   name: 'AllAuctions',
-  components: { ProductCard, Badge },
+  components: { ProductSlider },
   fetchOnServer: false,
   data() {
     return {
-      products: [],
-      pageName: 'trades'
+      auctions: [],
+      pageName: 'auctions'
     }
   },
   async fetch() {
     await this.fetchProducts()
   },
   methods: {
-    async fetchProducts() {
-      this.products = await this.$axios
-        .get('/products/selling', {
+    fetchProducts() {
+      this.$axios
+        .get('/auctions/public', {
           params: {
-            order_by: 'release_date',
-            desc: 1,
             take: 10,
             category: this.currentCategory,
+            type: 'single',
+            status: 'live',
           },
           handleError: false,
         })
-        .then((res) => res.data || [])
+        .then((res) => {
+          this.auctions = res.data.data || []
+        })
         .catch((error) => {
           this.$toasted.error(error.message)
         })
@@ -86,12 +68,11 @@ export default {
 <style lang="sass" scoped>
 .banner-wrapper
   margin-top: 33px
-  margin-bottom: 28px
   @media (max-width: 550px)
     margin-left: -7.5px
     margin-right: -7.5px
 .banner
-  background-image: url('~/assets/img/home/auctions-cover.png')
+  background-image: url('~/assets/img/home/auctions-cover.svg')
   background-repeat: no-repeat
   background-position: center
   background-size: cover
@@ -112,4 +93,8 @@ export default {
         height: 25px
     .badge-icon
       width: 15px
+
+.products-wrapper
+  .auctions-block
+    padding: 0
 </style>

@@ -1,31 +1,55 @@
 <template>
   <b-row class="place-offer">
-    <ItemList />
+    <ItemList v-if="! isResponsive" />
 
-    <PlaceOfferSummary class="offer-summary" />
+    <PlaceOfferSummary v-if="! isResponsive" class="offer-summary" />
+
+    <ShoppingBag v-else />
   </b-row>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import screenSize from '~/plugins/mixins/screenSize'
 import ItemList from '~/components/checkout/place-offer/ItemList'
 import PlaceOfferSummary from '~/components/checkout/place-offer/PlaceOfferSummaryComponent'
+import ShoppingBag from '~/components/checkout/place-offer/mobile/ShoppingBag'
 import { GOOGLE_MAPS_BASE_URL } from '~/static/constants/environments'
+import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 
 export default {
   name: 'PlaceOffer',
-
   components: {
     ItemList,
     PlaceOfferSummary,
+    ShoppingBag
   },
-
+  mixins: [ screenSize ],
   layout: 'IndexLayout',
-
+  computed: {
+    isResponsive() {
+      return this.isScreenXS || this.isScreenSM
+    }
+  },
+  beforeMount() {
+    enquireScreenSizeHandler((type) => {
+      this.$store.commit('size/setScreenType', type)
+    })
+  },
   mounted() {
+    if (this.$store.$auth.loggedIn) {
+      this.getUserDetails()
+      this.getUserRedeemedReward()
+      this.getOrderSettings()
+    }
     this.injectGoogleMapsApi()
   },
-
   methods: {
+    ...mapActions({
+      getUserDetails: 'auth/getUserDetails',
+      getUserRedeemedReward: 'redeemed-reward/getUserRedeemedReward',
+      getOrderSettings: 'order-settings/getOrderSettings'
+    }),
     // Inject Google Maps Api (if it doesn't exist)
     injectGoogleMapsApi() {
       if (window.google) {
@@ -34,7 +58,6 @@ export default {
 
       const scriptTag = this.createScriptTag()
       scriptTag.src = GOOGLE_MAPS_BASE_URL
-
       this.insertScript(scriptTag)
     },
     // Create a new script tag without the src attribute.

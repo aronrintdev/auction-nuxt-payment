@@ -1,5 +1,5 @@
 <template>
-  <div class="search-result">
+  <div class="search-result bg-white">
     <div
       v-for="(result, index) in searchResult"
       :key="index"

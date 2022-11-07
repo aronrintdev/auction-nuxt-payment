@@ -1,7 +1,7 @@
 /**
  * Store thr offer details before the placing.
- * @param commit 
- * @param payload 
+ * @param commit
+ * @param payload
  */
 export function storeOfferDetails({ commit }, payload) {
   commit('saveOfferDetails', payload)
@@ -9,9 +9,9 @@ export function storeOfferDetails({ commit }, payload) {
 
 /**
  * Do the place offer.
- * @param param 
- * @param payload 
- * @returns 
+ * @param param
+ * @param payload
+ * @returns
  */
 export function offerSubmit({ commit }, payload) {
   return new Promise((resolve, reject) => {
@@ -55,6 +55,8 @@ export function offerSubmit({ commit }, payload) {
       offer_details: payload.offerDetails,
       price_details: payload.priceDetails
     }).then((res) => {
+      commit('saveOrderDetails', res.data.data)
+
       resolve(res)
     }).catch((error) => {
       reject(error)

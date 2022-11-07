@@ -1,27 +1,46 @@
 <template>
   <b-row class="w-100">
-    <b-col lg="8" class="w-100 py-5 px-5 px-md-0">
+    <b-col lg="8" class="w-100 py-1 py-lg-5 px-auto px-md-0">
       <b-row class="h-100">
         <b-col
           md="6"
           offset-md="3"
           class="d-flex flex-column align-items-center justify-content-center"
-          ><b-row
-            class="justify-content-center order-lg-1 order-2 flex-column align-items-center"
-            ><b-row class="order-2 order-lg-1 mb-4">
+        >
+          <b-row
+            class="justify-content-center flex-column align-items-center"
+            ><b-row class="mb-4">
               <b-col md="12">
                 <div class="right-heading-bold text-center d-none d-lg-flex">
-                  {{ $t('auth.login_to_your_account') }}
+                  {{ $t('auth.login_to_your_account') }}  
                 </div>
-                <div class="body-5-normal text-color-gray-38 text-center mt-3">
+                <div class="body-5-normal text-color-gray-38 text-center mt-3 d-none d-lg-block">
                   {{ $t('auth.login_via_social_media') }}
                 </div>
               </b-col>
             </b-row>
+            <b-row class="mb-4">
+              <b-col md="12">
+                <div class="text-center d-block d-lg-none">
+                  <b-img :src="require('~/assets/img/home/logo-mb.png')" class="ds-logo" />
+                </div>
+                <div class="welcome-back-text text-center d-block d-lg-none">
+                  {{ $t('home.welcome_back') }}
+                </div>
+              </b-col>
+            </b-row>
 
-            <SocialLoginButtons class="mt-4" />
+            <div class="toggler-main d-lg-none">
+              <button class="login-btn">
+                {{$t('auth.login')}}
+              </button>
+              <span class="signup-btn" role="button" @click="singupPage">
+                {{$t('auth.create_an_account')}}
+              </span>
+            </div>
+            <SocialLoginButtons class="mt-4 d-none d-lg-block"/>
 
-            <b-row class="my-2 w-100 order-1 order-lg-3 px-4 px-lg-0">
+            <b-row class="my-2 w-100 order-1 order-lg-3 px-4 px-lg-0 mt-5 d-none d-lg-block">
               <b-col md="12">
                 <div class="text-line-middle">
                   <span
@@ -30,17 +49,17 @@
                   >
                 </div>
               </b-col>
-            </b-row></b-row
-          >
+            </b-row>
+          </b-row>
 
           <VerificationCodeForm
             v-if="Object.keys(credentials).length"
             :credentials="credentials"
             class="mt-5 w-100"
           />
-          <LoginForm v-else class="mt-5 w-100" @verify="handleVerify" />
+          <LoginForm v-else class="mt-5 w-100 ml-2 ml-lg-0" @verify="handleVerify" />
 
-          <b-row class="mt-5 w-100">
+          <b-row class="mt-5 w-100 d-block d-lg-none">
             <b-col md="12" class="text-center">
               <b-link
                 class="text-color-black-1 text-decoration-underline"
@@ -49,9 +68,23 @@
               >
             </b-col>
           </b-row>
+          <b-col md="12 d-block d-lg-none pt-5 pb-3">
+            <div class="text-line-middle">
+              <span
+                class="body-4-bold text-color-gray-22 text-uppercase mx-5"
+              >
+              {{ $t('auth.or') }}
+              </span>
+            </div>
+          </b-col>
+          <div class="body-5-normal text-color-gray-38 text-center mt-3 d-block d-lg-none">
+            {{ $t('auth.login_via_social_media') }}
+          </div>
 
-          <b-row class="mt-4 mb-5">
-            <b-col md="12">
+          <SocialLoginButtons class="mt-4 d-block d-lg-none ml-2 mb-5"/>
+          
+          <b-row class="mt-4 mb-5 d-none d-lg-block">
+            <b-col md="12 mb-5">
               <div class="body-5-normal text-color-gray-38 text-center">
                 {{ $t('auth.secure_login_with_recaptcha') }}
               </div>
@@ -96,7 +129,7 @@
             pill
             block
             variant="black"
-            class="w-75 fs-16 fw-5 font-primary bg-dark sign-up-btn"
+            class="w-75 fs-16 fw-5 font-primary bg-black sign-up-btn"
             to="/signup"
             >{{ $t('auth.signup') }}</Button
           >
@@ -121,6 +154,11 @@ export default {
     }
   },
   methods: {
+    singupPage(){
+      this.$router.push({
+        path: '/signup',
+      })
+    },
     handleVerify(payload) {
       this.credentials = payload
     },
@@ -177,4 +215,37 @@ export default {
 
 .bg-color-white-5
   background: $color-white-5
+.welcome-back-text
+  color: black
+  font-style: normal
+  font-weight: $bold
+  font-size: 17px
+  line-height: 51px
+.toggle-btn
+  width: 320px !important
+.toggler-main
+  background-color: $color-gray-75
+  padding: 4px 5px
+  border-radius: 20px
+  display: inline
+  width: 100%
+  text-align: center
+  margin: 0 auto
+  font-size: 11px
+  margin-left: 5px
+.login-btn
+  border: none
+  padding: 4px 55px
+  background-color: $color-white-1
+  border-radius: 20px
+  font-weight: 700
+  margin-right: 30px
+.signup-btn
+  border: none
+  padding: 1px 15px
+  background-color: $color-gray-75
+  border-radius: 20px
+  padding-right: 27px
+  font-weight: 700
+
 </style>

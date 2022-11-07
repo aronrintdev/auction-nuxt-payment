@@ -5,15 +5,34 @@
 </template>
 
 <script>
+import CheckoutSummary from '~/components/checkout/selling/mobile/CheckoutSummary'
 import OrderSummary from '~/components/checkout/selling/mobile/OrderSummary'
 import ListItemOptionsMenu from '~/components/checkout/selling/mobile/ListItemOptionsMenu'
+import ShippingForm from '~/components/checkout/common/mobile/ShippingForm'
+import ShippingInformation from '~/components/checkout/common/mobile/ShippingInformation'
+import PaymentOptionsMenu from '~/components/checkout/selling/mobile/payment/PaymentOptionsMenu'
+import PaymentCard from '~/components/checkout/common/mobile/PaymentCard'
+import BillingForm from '~/components/checkout/common/mobile/BillingForm'
+import PaymentCrypto from '~/components/checkout/selling/mobile/payment/PaymentCrypto'
+import PaymentGiftCard from '~/components/checkout/selling/mobile/payment/PaymentGiftCard'
 
 export default {
   name: 'ShoppingCartOrder',
-  components: { OrderSummary, ListItemOptionsMenu },
+  components: {
+    CheckoutSummary,
+    OrderSummary,
+    ListItemOptionsMenu,
+    ShippingForm,
+    ShippingInformation,
+    PaymentOptionsMenu,
+    PaymentCard,
+    BillingForm,
+    PaymentCrypto,
+    PaymentGiftCard
+  },
   data: () => {
     return {
-      renderedComponent: OrderSummary.name,
+      renderedComponent: CheckoutSummary.name,
     }
   },
   created() {

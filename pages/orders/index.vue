@@ -38,17 +38,17 @@ export default {
   },
   layout: 'Profile',
   middleware: 'auth',
-  async fetch() {
+  computed: {
+    ...mapGetters('vendors', [
+      'totalOrders'
+    ])
+  },
+  async mounted() {
     this.loadingFilter = true
     await this.getVendorsOrders(1)
     await this.fetchCategories()
     await this.fetchFilters()
     this.loadingFilter = false
-  },
-  computed: {
-    ...mapGetters('vendors', [
-      'totalOrders'
-    ])
   },
   methods: {
     ...mapActions({
@@ -79,5 +79,12 @@ export default {
 @media (max-width: 992px)
   .orders-heading
     font-family: $font-montserrat
+    padding-top: 16px
     @include body-11-bold
+
+  .py-20
+    padding: 0
+  .pt-20
+    padding-top: 0
+
 </style>

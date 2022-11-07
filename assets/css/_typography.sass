@@ -213,6 +213,10 @@ $exbolder: 900
   font-size: 17px
   line-height: 24px
 
+@mixin body-1326
+  font-size: 13px
+  line-height: 26px
+
 @mixin body-1-regular
   @include body-1
   font-weight: $regular
@@ -337,7 +341,6 @@ $exbolder: 900
   @include body-11
   font-weight: $normal
 
-
 @mixin body-12-normal
   @include body-12
   font-weight: $normal
@@ -362,6 +365,10 @@ $exbolder: 900
   @include body-17
   font-weight: $normal
 
+@mixin body-18-normal
+  @include body-18
+  font-weight: $normal
+
 @mixin body-20-normal
   @include body-20
   font-weight: $normal
@@ -380,6 +387,10 @@ $exbolder: 900
 
 @mixin body-32-normal
   @include body-32
+  font-weight: $normal
+
+@mixin body-1326-normal
+  @include body-1326
   font-weight: $normal
 
 @mixin heading-1-medium
@@ -462,9 +473,13 @@ $exbolder: 900
   @include body-17
   font-weight: $medium
 
-@mixin  body-18-medium
+@mixin body-18-medium
   @include body-18
   font-weight: $medium
+
+@mixin body-18-bold
+  @include body-18
+  font-weight: $bold
 
 @mixin body-21-medium
   @include body-21
@@ -562,10 +577,17 @@ $exbolder: 900
   @include body-17
   font-weight: $bold
 
+@mixin body-18-bold
+  @include body-18
+  font-weight: $bold
+
 @mixin body-29-bold
   @include body-29
   font-weight: $bold
 
+@mixin body-1326-bold
+  @include body-1326
+  font-weight: $bold
 
 @mixin body-21-bold
   @include body-21
@@ -575,6 +597,14 @@ $exbolder: 900
 @mixin body-13-light
   @include body-13
   font-weight: $light
+
+@mixin heading-3-normal
+ @include heading-3
+ font-weight: $normal
+
+@mixin heading-3-medium
+  @include heading-3
+  font-weight: $medium
 
 /* Common Text Styles */
 .heading-4-normal
@@ -586,6 +616,12 @@ $exbolder: 900
 
 .heading-1-medium
   @include heading-1-medium
+
+.heading-3-medium
+  @include heading-3-medium
+
+.heading-3-normal
+  @include heading-3-normal
 
 .heading-5-medium
   @include heading-5-medium
@@ -665,8 +701,14 @@ $exbolder: 900
 .body-12-normal
   @include body-12-normal
 
+.body-13-normal
+  @include body-13-normal
+
 .body-17-normal
   @include body-17-normal
+
+.body-18-normal
+  @include body-18-normal
 
 .body-24-normal
   @include body-24-normal
@@ -676,6 +718,9 @@ $exbolder: 900
 
 .body-21-normal
   @include body-21-normal
+
+.body-1326-normal
+  @include body-1326-normal
 
 .body-1-medium
   @include body-1-medium
@@ -706,6 +751,9 @@ $exbolder: 900
 
 .body-10-medium
   @include body-10-medium
+
+.body-13-medium
+  @include body-13-medium
 
 .body-17-medium
   @include body-17-medium
@@ -749,7 +797,16 @@ $exbolder: 900
 .body-12-bold
   @include body-12-bold
 
+.body-18-bold
+  @include body-18-bold
+
 .body-21-bold
   @include body-21-bold
+
+.heading-13
+  @include heading-13
+
+.body-1326-bold
+  @include body-1326-bold
 
 $font-size-12: 12px

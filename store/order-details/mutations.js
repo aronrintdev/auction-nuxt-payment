@@ -42,6 +42,7 @@ export function addPaymentToken(state, payload) {
 export function addGiftCard(state, payload) {
   state.giftCard.number = payload.giftCard.number
   state.giftCard.amount = payload.giftCard.amount
+  state.giftCard.remainingAmount = payload.giftCard?.remainingAmount
   state.giftCard.pin = payload.giftCard.pin
   state.giftCard.image = payload.giftCard.image
 }

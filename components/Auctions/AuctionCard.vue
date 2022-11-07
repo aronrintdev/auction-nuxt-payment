@@ -63,20 +63,20 @@
           </div>
         </div>
         <div v-if="auction.highest_bid" class="auct-card-price">${{ auction.highest_bid | formatPrice }}</div>
-        <div v-else class="auct-card-price">{{ $t('sell.sell_now.not_available') }}</div>
+        <div v-else class="auct-card-price">${{ auction.start_bid_price | formatPrice }}</div>
       </div>
       <nuxt-link :to="`/auction/${auction.id}`">
         <button class="w-100 btn bid-now-btn text-nowrap">{{ $t('home_page.bid_now') }}</button>
       </nuxt-link>
     </div>
-    <div class="auct-card-quick-btns">
+    <div class="auct-card-quick-btns" :class="{ 'show-actions' : watchlistShow || shareShow }">
       <div class="d-flex align-items-center justify-content-center">
         <div class="round-btn" role="button">
           <Icon
             :id="`popover-watchlist-${auction.id}-${type}`"
             src="eye.svg"
             hover-src="red-eye.svg"
-            :active="!!watchlist"
+            :active="watchlistShow || !!watchlist"
             width="15"
             height="15"
             tabindex="0"
@@ -194,7 +194,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      removeItemsFromWatchList: 'watchlist/removeItemsFromWatchList',
+      removeItemsFromWatchlist: 'watchlist/removeItemsFromWatchlist',
     }),
 
     onWatchlisted(watchlist) {
@@ -205,7 +205,7 @@ export default {
     },
     removeFromWatchList() {
       if (this.watchlist) {
-        this.removeItemsFromWatchList({
+        this.removeItemsFromWatchlist({
           watchlist: this.watchlist,
           ids: [this.auction.id],
           type: WATCHLIST_TYPE_AUCTION,
@@ -221,6 +221,8 @@ export default {
 @import '~/assets/css/_variables'
 
 .auct-card
+  &-quick-btns.show-actions
+    opacity: 1
   .remaining-time
     background: $dark-gray-8
     padding: 4px 8px 4px 6px
