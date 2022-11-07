@@ -10,7 +10,7 @@
           <td>24h</td>
           <td>7d</td>
           <td>30d</td>
-          <td>{{ $t('common.last_xdays', { day: 7 }) }}</td>
+          <td>{{ $t('common.last_xdays', { day: SEVEN}) }}</td>
         </tr>
     </thead>
       <tbody v-if="products.length == 0">
@@ -91,6 +91,7 @@
   </template>
   <script>
   import ProductThumb from '~/components/product/Thumb.vue'
+  import { SEVEN } from '~/static/constants/stock-exchange'
   export default {
     name: 'ProductTrendListCard',
     components: { ProductThumb },
@@ -99,6 +100,7 @@
         type: Array,
         default: () => {
           return [
+            // ToDo
             {
               id: 1,
               name: 'Yeezy Boost 350 V2',
@@ -276,6 +278,7 @@
     },
     data() {
       return {
+        SEVEN,
         chartOptions: {
           responsive: true,
           maintainAspectRatio: false,

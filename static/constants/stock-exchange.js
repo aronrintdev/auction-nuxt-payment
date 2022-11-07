@@ -14,6 +14,7 @@ export const MIN_PRICE = 0
 export const MIN_YEAR = 2000
 export const MAX_YEAR = 2099
 export const PER_PAGE = 5
+export const SEVEN = 7
 export const VERIFICATION_CODE_TRY_COUNT = 3
 export const PAGE_OPTIONS = [8, 16, 32, 48]
 export const Years = {
