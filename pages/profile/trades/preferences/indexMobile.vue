@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="main-container ml-3 m-2 mt-5" v-if="mainPageList">
+    <div class="main-container ml-3" v-if="mainPageList">
       <div class="p-2 mt-1" @click="inventorySettings()">
         <div class="d-flex mb-1">
           <div class="inven-set d-flex justify-content-start align-content-start mt-2">{{$t('trades.preferences.inventory_settings')}}</div>
@@ -600,9 +600,9 @@ export default {
 .link-text
   font-family: $font-family-sf-pro-display
   font-style: normal
-  @include body-21-normal
+  @include body-6
   text-decoration-line: underline
-  color: $color-gray-95
+  color: #000000
 .chev-img
   height: 15px
   width: 7px
