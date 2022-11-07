@@ -49,16 +49,7 @@ export default {
   components:{
 
   },
-  layout: 'Profile',
-  data(){
-    return {
-
-    }
-  },
-  mounted() {
-  },
-  methods:{
-  }
+  layout: 'Profile'
 }
 </script>
 
@@ -66,7 +57,6 @@ export default {
 @import '~/assets/css/_variables'
 .container-dashboard
   width: 350px
-  //height: auto
 .list-box
   width: 160px
   height: 150px
