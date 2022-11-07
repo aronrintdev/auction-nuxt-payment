@@ -21,7 +21,7 @@
             </b-row>
             <b-row class="mb-3">
               <b-col md="12">
-                <div class="text-center img-main d-block d-lg-none">
+                <div class="text-center img-main main-mobile-image d-block d-lg-none">
                   <b-img :src="require('~/assets/img/home/logo-mb.png')" class="ds-logo pt-1" />
                 </div>
                 <div class="welcome-back-text text-center d-block d-lg-none">
@@ -247,6 +247,6 @@ export default {
   border-radius: 20px
   padding-right: 27px
   font-weight: 700
-.img-main
-  padding: 16px 0px 0px 10px !important
+.main-mobile-image
+  padding: 16px 0px 0px 10px
 </style>
