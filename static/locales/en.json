@@ -252,7 +252,7 @@
     "account_verified": "Your account has been verified!",
     "2fa_text_1": "Let’s make sure it’s you",
     "2fa_text_2": "Protecting your account is our top priority. To confirm your identity we sent you a code.",
-    "2fa_text_3": "Your code has been sent to (***)***-1234",
+    "2fa_text_3": "Your code has been sent to (***)***-{last_phone_digits}",
     "2fa_have_not_recieved": "Haven’t received it?",
     "2fa_resend_code": "Resend a new code.",
     "error": {
@@ -885,7 +885,7 @@
       "add_style_to_card": "Add Style to Card"
     },
     "validations": {
-      "alpha": "The {_field_} field may only contain alphabetic characters",
+      "alpha": "The {c} field may only contain alphabetic characters",
       "alpha_num": "The {_field_} field may only contain alpha-numeric characters",
       "alpha_dash": "The {_field_} field may contain alpha-numeric characters as well as dashes and underscores",
       "alpha_spaces": "The {_field_} field may only contain alphabetic characters as well as spaces",

@@ -246,10 +246,8 @@ export default {
 .fw-400
   font-weight: $regular
 .resend-text
+  @include body-4-medium
   color: $color-blue-1
-  font-weight: $medium
-  font-size: 16px
-  line-height: 20px
 .verification-container
   padding: 50px
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
