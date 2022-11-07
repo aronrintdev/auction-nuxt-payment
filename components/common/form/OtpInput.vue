@@ -37,12 +37,6 @@ export default {
       inputStatus: {}
     }
   },
-  computed: {
-
-  },
-  mounted() {
-    // ok
-  },
   methods: {
     checkClass(index) {
       return this.digits[index] ? 'dirty': ''
@@ -102,19 +96,14 @@ export default {
       }
 
       if ((/^([0-9])$/).test(event.key)) {
-        console.log((this.$refs.otpCont.children)[index])
-        this.digits[index] = event.key
-        console.log('digits', this.digits);
-        // (this.$refs.otpCont.children)[index].classList.remove('dirty')
         (this.$refs.otpCont.children)[index].value = event.key
+        this.digits[index] = event.key
 
         if (index !== this.digitCount - 1) {
           (this.$refs.otpCont.children)[index+1].focus()
         } else {
           this.$emit('setOtp',this.digits.join(''))
         }
-      } else {
-        // (this.$refs.otpCont.children)[index].classList.add('dirty')
       }
     }
   },

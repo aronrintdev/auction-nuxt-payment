@@ -171,7 +171,6 @@ export default {
     },
     onSetOtp(otp){
       this.verificationCode = otp
-      console.log('otp', otp);
       this.onSubmit()
     },
     cancel(){
