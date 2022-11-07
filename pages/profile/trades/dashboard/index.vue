@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="width<= 500">
+    <div v-if="width<= 500" class="pt-5 pb-5">
       <dashboard-mobile></dashboard-mobile>
     </div>
     <div v-else>
