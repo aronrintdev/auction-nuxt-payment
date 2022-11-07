@@ -2,8 +2,8 @@
   <b-row class="h-100">
     <b-col md="12">
       <b-tabs content-class="mt-0 mt-sm-3" nav-class="pb-2">
-        <b-tab 
-          title-link-class="body-2-bold border-0 pl-2 d-none d-sm-block" 
+        <b-tab
+          title-link-class="body-2-bold border-0 pl-2 d-none d-sm-block"
           :title="$t('products.sales_graph')"
         >
           <b-row class="d-none d-sm-block">
@@ -48,19 +48,19 @@
           </div>
 
           <div class="d-flex d-sm-none justify-content-between mt-2 h-auto">
-            <div 
+            <div
               class="chart-button col-3"
               @click="$root.$emit('bv::collapse::state', 'recent-asks-collapse', true)"
             >
               {{ $t('products.asks') }}
             </div>
-            <div 
+            <div
               class="chart-button col-3"
               @click="$root.$emit('bv::collapse::state', 'recent-offers-collapse', true)"
             >
               {{ $t('products.offers') }}
             </div>
-            <div 
+            <div
               class="chart-button col-3"
               @click="$root.$emit('bv::collapse::state', 'recent-sales-collapse', true)"
             >
@@ -68,8 +68,8 @@
             </div>
           </div>
         </div>
-        <b-tab 
-          title-link-class="body-2-bold border-0 pl-5 d-none d-sm-block" 
+        <b-tab
+          title-link-class="body-2-bold border-0 pl-5 d-none d-sm-block"
           :title="$t('products.sales_data')"
         >
           <b-row>
@@ -228,6 +228,7 @@ export default {
       color: $color-gray-4
     &.active
       color: $color-black-1
+      background-color: transparent
       &:hover
         color: $color-black-1
 

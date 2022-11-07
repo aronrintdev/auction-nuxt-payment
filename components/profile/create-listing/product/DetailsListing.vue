@@ -16,7 +16,7 @@
     <b-row>
       <b-col sm="12" md="6">
       </b-col>
-      <b-col sm="12" md="6" v-if="!isScreenXS">
+      <b-col v-if="!isScreenXS" sm="12" md="6">
         <ProductTitle
           :product-name="product.name"
           :lowest-price="lowestPrice ? lowestPrice : 0"
@@ -63,8 +63,12 @@
         <!-- Product thumbnail 360 -->
         <ProductImageViewerMagic360
           v-if="has360Images"
-          class="image-viewer-three-sixty"
-          :product="product"
+          class="image-viewer-three-sixty px-2"
+          :product="{
+            ...product,
+              image360Name: 'IMG{col}.png',
+              'path360Images':'https://sneakersdb2.s3.us-east-2.amazonaws.com/products/360View/DJ7998-100/800XAUTO'
+          }"
         />
 
         <div v-if="has360Images" class="row">
@@ -575,13 +579,13 @@
       </div>
     </div>
 
-    <!-- Product details block responsive -->
-    <SellingLatestSales
-      :value="product.latest_sales"
-      :sku="product.sku"
-      @latestPrice="latestPrice"
-    />
-    <!-- Product details chart ends -->
+    <!-- Sales Graph and Sales Data Section -->
+    <b-row v-if="product" class="my-5">
+      <b-col md="12">
+        <SalesSection :product="product" />
+      </b-col>
+    </b-row>
+    <!-- End of Sales Graph and Sales Data Section -->
 
     <!-- Add listing button responsive -->
 
@@ -653,10 +657,10 @@
 <script>
 import _ from 'lodash'
 import { mapActions, mapGetters } from 'vuex'
-import SellingLatestSales from '../selling/SellingLatestSales.vue'
 import ProductSizePicker from '~/components/product/SizePicker'
 import SizeCarouselResponsive from '~/components/profile/create-listing/SizeCarouselResponsive.vue'
 import ProductTitle from '~/components/product/ProductTitle'
+import SalesSection from '~/components/product/SalesSection'
 
 import {
   // Meter,
@@ -695,7 +699,7 @@ export default {
     ConfirmModal,
     NavGroup,
     ProductImageViewerMagic360,
-    SellingLatestSales,
+    SalesSection,
     SizeCarouselResponsive,
     BoxConditionPicker
   },
@@ -1391,6 +1395,5 @@ export default {
 
 .rotate
   transform: rotate(180deg)
-
 </style>
 
