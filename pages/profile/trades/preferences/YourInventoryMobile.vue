@@ -4,12 +4,13 @@
       <div>
         <SearchInput
           :value="searchText"
-          variant="primary"
+          variant="secondary"
           :placeholder="$t('create_listing.trade.offer_items.search_by')"
           :clearSearch="true"
           bordered
-          inputHeight="46px"
+          inputHeight="33px"
           @change="onSearchInput"
+
         />
       </div>
       <div class="ml-2 mt-1"> <img class="image-tick"  src="~/assets/img/filtersPrefer.svg" @click="openBottomFilter()"/></div>
@@ -113,17 +114,9 @@
     <b-row class="mt-4 pl-2">
     <inventory-card-item :items="inventoryItems" :selectedItems="publicItems" @changePublicInventories="emitParentChangePublicInventories" />
     </b-row>
-    <b-row class="col-md-12 justify-content-center">
-      <Pagination
-        v-model="page"
-        :total="totalCount"
-        :per-page="perPage"
-        :per-page-options="perPageOptions"
-        class="mt-4"
-        @page-click="handlePageClick"
-        @per-page-change="handlePerPageChange"
-      />
-    </b-row>
+    <infinite-loading :identifier="infiniteId" @infinite="getInventory">
+      <span slot="no-more"></span>
+    </infinite-loading>
   </div>
 </template>
 
@@ -133,7 +126,7 @@ import debounce from 'lodash.debounce'
 import SearchInput from '~/components/common/SearchInput'
 // import CustomDropdown from '~/components/common/CustomDropdown.vue'
 // import Button from '~/components/common/Button'
-import {Pagination} from '~/components/common'
+// import {Pagination} from '~/components/common'
 import {
   CATEGORY_ITEMS,
   NAV_CATEGORY_OPTIONS,
@@ -150,7 +143,7 @@ import NavGroup from'~/components/common/NavGroup'
 
 export default {
   name: 'YourInventory',
-  components: {NavGroup, InventoryCardItem, Pagination,SearchInput},
+  components: {NavGroup, InventoryCardItem,SearchInput},
   data(){
     return {
       isVisible: false,
@@ -174,6 +167,9 @@ export default {
       categories: NAV_CATEGORY_OPTIONS.map(item => ({label: this.$t(item.label), value: item.value})),
       inventoryItems: [],
       publicItems: [],
+      infiniteId: +new Date(),
+      url: '/vendor/inventory'
+
     }
   },
   computed:{
@@ -207,13 +203,14 @@ export default {
     /**
      * This function is used to get user listing of inventory
      */
-     getInventory: debounce(function (filters = {}) {
+     getInventory: debounce(function ($state,filters = {}) {
+      const that = this
       filters.sort_by = this.orderFilter // sorting filter
       filters.category = this.categoryFilter // category type filter
       filters.sizes = this.sizeFilter.join(',') // size filter
       filters.size_types = this.sizeTypesFilter.join(',') // size type filter
       this.$axios
-        .get('/vendor/inventory', {
+        .get(this.url, {
           params: {
             search: this.searchText,   // for search query
             visibility: this.category,
@@ -223,16 +220,19 @@ export default {
           },
         })
         .then((response) => {  // list of vendor inventory
-          this.inventoryItems = response.data.data
-          this.publicItems = this.inventoryItems.filter((item) => item.visibility === PUBLIC_INVENTORY_STATUS).map((item) => item.id)
-          this.totalCount = parseInt(response.data.total)
-          this.perPage = parseInt(response.data.per_page)
-          this.$emit('updateTotal', this.totalCount)
-          this.isVisible = false
-          this.isVisibleType = false
-          this.isVisibleSize = false
-          this.$refs.browseFiltersSheet.close();
-
+          const res = response?.data
+          if (!res.next_page_url) {
+            $state.complete()
+          }else{
+            that.page += 1;
+            that.inventoryItems.push(...res.data);
+            that.publicItems = that.inventoryItems.filter((item) => item.visibility === PUBLIC_INVENTORY_STATUS).map((item) => item.id)
+            that.isVisible = false
+            that.isVisibleType = false
+            that.isVisibleSize = false
+            that.$refs.browseFiltersSheet.close();
+            $state.loaded()
+          }
         })
         .catch((error) => {
           this.$toasted.error(this.$t(error.response.data.error))
@@ -400,4 +400,5 @@ export default {
     width: 100px
     height: auto
     font-size: 12px
+
 </style>

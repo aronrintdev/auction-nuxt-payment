@@ -69,9 +69,6 @@
      <div>
        <your-inventory @updateTotal="setTotalInventory" @change="changePublicInventories" />
      </div>
-      <b-btn class="save-btn-customzie ml-3" @click="savePreference">
-        {{$t('common.save_changes')}}
-      </b-btn>
     </div>
     <div class="mt-2 ml-3 mr-3 mb-5 offer-sections p-2" v-if="showOfferSetting">
       <div>
@@ -225,7 +222,11 @@
       </div>
     </div>
 
-
+    <div v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM">
+      <b-btn class="save-btn-customzie ml-5" @click="savePreference">
+        {{$t('common.save_changes')}}
+      </b-btn>
+    </div>
     <div class="main-pref-container">
       <b-row class="justify-content-center pt-4">
         <Button variant="grey-light" pill @click="$bvModal.show('resetModel')">
@@ -306,7 +307,6 @@ export default {
     ...mapGetters('browse', ['filters']), // getter for getting list of filters data
   },
   mounted() {
-    // console.log('filters',this.filters)
     this.filterApparelSizes = this.filters?.sizes?.filter(function (size) {
       return size.type === APPAREL_SIZE_TYPE
     })
@@ -459,9 +459,7 @@ export default {
      * @param selectedCategory
      */
     changeStatus(selectedStatus) {
-      console.log('selectedStatus',selectedStatus)
       if(selectedStatus === 'customize') {
-        console.log('come in')
         this.showInventory = false
       }
       this.inventoryStatus = selectedStatus
@@ -627,10 +625,11 @@ export default {
   border-radius: 10px
 .customize-cont
   width: 343px
-  height: 620px
+  height: 450px
   background: $color-white-1
   box-shadow: 0px 1px 4px $color-black-rgb2
   border-radius: 10px
+  //overflow-y: scroll
 .list-text
   font-family: $font-family-sf-pro-display
   font-style: normal
