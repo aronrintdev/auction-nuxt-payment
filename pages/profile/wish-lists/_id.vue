@@ -116,6 +116,7 @@ export default {
       loading: false,
       shareDescription: this.$t('wish_lists.share_description'),
       shareUrl: process.env.APP_URL + '/wish-lists/',
+      // todo 
       products: [
         {
           id: 1,

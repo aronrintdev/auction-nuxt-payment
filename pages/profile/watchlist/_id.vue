@@ -116,6 +116,7 @@ export default {
       loading: false,
       shareDescription: this.$t('watchlists.share_description'),
       shareUrl: process.env.APP_URL + '/watch-lists/',
+      // todo
       products: [
         {
           id: 1,
