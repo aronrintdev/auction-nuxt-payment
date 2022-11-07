@@ -140,7 +140,7 @@ export default {
   mixins: [screenSize],
   data() {
     return {
-      progress: 0,
+      progress: 25,
       activeTab: 'week',
       tabsOptions: [
         {title: 'Week', value: 'week'},
@@ -150,7 +150,7 @@ export default {
       // TODO Dummy Data
       filterByTitle: this.$t('selling_page.status'),
       filterBy: '',
-      rewards: '',
+      rewards: {},
       searchFilters: {
         startDate: '',
         endDate: '',
@@ -256,7 +256,7 @@ export default {
           .then((res) => {
             this.rewards = res.data.data;
             if (res.data.data.current_points > 0) {
-              this.progress = parseInt((res.data.data.current_points / res.data.data.next_reward.redemption_points) * 100);
+              this.progress = parseInt(res.data.data.current_points / res.data.data.next_reward.redemption_points * 100) + 25
             }
           })
           .catch((err) => {

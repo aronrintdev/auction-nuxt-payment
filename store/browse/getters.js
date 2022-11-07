@@ -20,3 +20,12 @@ export function selectedSizes(state) {
 export function selectedSizeTypes(state) {
   return state.selectedSizeTypes
 }
+export function selectedSort(state) {
+  return state.selectedSort
+}
+export function selectedSearch(state) {
+  return state.search
+}
+export function selectedOrdering(state){
+  return state.selectedOrdering
+}

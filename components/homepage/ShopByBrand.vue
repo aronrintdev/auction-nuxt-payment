@@ -13,7 +13,7 @@
         <div class="overflow-hidden">
           <img
             width="756px"
-            :src="require('~/assets/img/home/shopbybrand.png')"
+            :src="require('~/assets/img/home/shopbybrand.svg')"
           />
         </div>
       </div>

@@ -15,8 +15,8 @@
     <div class="detail-wrapper">
       <div class="product-name">{{ product.name }}</div>
       <div class="product-color">{{ product.colorway }}</div>
-      <div class="d-flex">
-       <div class="product-size d-flex justify-content-start align-content-start">{{ product.size }}</div>
+      <div class="d-flex justify-content-between">
+       <div class="product-size">{{ product.size }}</div>
         <div class=" d-flex justify-content-end align-content-end mt-1 ml-5">
            <img class="trade-btn" :src="require('~/assets/img/tradebtn.svg')" />
         </div>

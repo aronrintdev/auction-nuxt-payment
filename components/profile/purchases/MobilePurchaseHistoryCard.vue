@@ -21,15 +21,15 @@
             :data-size="item.id"
         >
           <b-row>
-            <b-col class="title-item text-nowrap text-truncate" offset="4">
+            <b-col class="title-item text-nowrap text-truncate" offset="3">
               {{ item.product.name }}
             </b-col>
           </b-row>
           <b-row class="">
-            <b-col cols="4">
-              <ProductThumb :product="item.product" width="82"/>
+            <b-col cols="3">
+              <ProductThumb :product="item.product" class="nmt-2"/>
             </b-col>
-            <b-col class="item-desc" cols="8">
+            <b-col class="item-desc" cols="9">
               <div v-if="item.product.sku" class="text-nowrap text-truncate mt-1">
                 {{ $t('common.sku') }}: {{ item.product.sku }}
               </div>
@@ -119,6 +119,9 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+.nmt-2
+  margin-top: -1rem
+
 .purchase-card
   box-shadow: 0 1px 4px rgba($color-black-1, 0.25)
   border-radius: 8px
