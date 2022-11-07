@@ -912,7 +912,7 @@ export default {
     display: none
 
 .btn-apply
-  background: $color-blue-2
+  background: $color-blue-20
   color: $color-white-1
   height: 47px
 #example-datepicker-start,

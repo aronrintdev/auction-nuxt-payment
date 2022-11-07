@@ -64,7 +64,7 @@
           {{ row.item.product.name }}
         </div>
 
-        <div class="vd-sku">
+        <div class="vd-sku text-uppercase">
           {{ $t('shopping_cart.sku') }}&colon;
           <span>{{ row.item.product.sku }}</span>
         </div>
@@ -82,7 +82,7 @@
       <!-- ./Product Details -->
 
       <!-- Offer Amount -->
-      <template #cell(offer_amount)="row">
+      <template #cell(offer_amount)="row"  >
         <div class="offer-amount text-center">
           <span v-if="!row.item.isEditing" @click="editAmount(row.item)"
             >{{ row.item.bid_price | toCurrency('USD', 'N/A') }}
@@ -93,7 +93,7 @@
             ></Button>
           </span>
 
-          <span v-else id="editOffer" class="d-flex justify-content-center">
+          <span v-else id="editOffer" class="d-flex justify-content-center m-auto">
             <ValidationObserver ref="observer">
               <form @submit.prevent="onSubmit(row.item)">
                 <ValidationProvider
@@ -102,7 +102,7 @@
                   rules="required|price"
                   :name="$t('selling_page.offer_amount')"
                 >
-                  <span class="d-flex">
+                  <span  class="d-flex">
                     <b-form-input
                       id="offeramountInput"
                       v-model="inputAmount"
@@ -390,17 +390,16 @@ export default {
 
     // Get the listing ID.
     getListingID(value) {
-      const details = value
-      let id = null
+      const productId = value.product_id
+      const sizeId = value.size_id
+      const conditionId = value.packaging_condition_id
 
-      details.product.inventories.forEach((element) => {
-        if (value.size_id === element.size_id && value.packaging_condition_id === element.packaging_condition_id) {
-          if (element.listing_items && element.listing_items.length) {
-            id = element.listing_items[0].id
-          }
-        }
-      })
-      return id || null
+
+      const result = value.product.inventories.find(
+        (i) => i.size_id === sizeId && i.product_id === productId && i.packaging_condition_id === conditionId
+      ).listing_items
+
+      return result && result[0].id
     },
   },
 }
@@ -482,4 +481,6 @@ export default {
 #validator-field
   @media (min-width: 1330px)
     max-width: 70%
+#editOffer
+  width: 18rem
 </style>
