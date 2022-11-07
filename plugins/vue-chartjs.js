@@ -49,21 +49,7 @@ Vue.component('LineChart', {
     renderLineChart() {
       if (this.isGraph === true)
       {
-        // this.renderChart(this.chartData, this.options)
         this.renderChart(this.chartData, this.options)
-        // this.renderChart(
-        //   {
-        //     labels: this.chartLabels,
-        //     datasets: [
-        //       {
-        //         label: 'Data One',
-        //         backgroundColor: '#f87979',
-        //         data: this.chartData
-        //       }
-        //     ]
-        //   },
-        //   { responsive: true, maintainAspectRatio: false }
-        // )
       }else{
         this.renderChart(
           {
