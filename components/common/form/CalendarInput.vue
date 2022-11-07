@@ -128,7 +128,7 @@ export default {
   background-color: $color-white-1
   border: 1px solid $color-gray-60
   border-right: none
-
+  letter-spacing: 0.06em
 
 
 ::v-deep.date-dp

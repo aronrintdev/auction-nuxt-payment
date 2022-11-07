@@ -147,7 +147,7 @@ export default {
     inputClass: {
       type: String,
       default: ''
-    }
+    },
   },
   data() {
     return {
@@ -156,7 +156,10 @@ export default {
   },
   computed: {
     inputStyleComputed() {
-      let result = { height: this.inputHeight, ...this.inputStyle }
+      let result = { 
+        height: this.inputHeight, 
+        ...this.inputStyle,
+      }
       if (this.isOpen) {
         result = { ...result, ...this.onOpenStyle }
       }
@@ -276,6 +279,7 @@ export default {
     width: 100%
     background-color: $color-gray-3
     color: $color-black-1
+    letter-spacing: 0.06em
     padding-left: 44px
     margin-left: -33px
 .search-results::v-deep

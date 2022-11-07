@@ -10,15 +10,7 @@
     >
     <div
       class="label-wrapper"
-      :style="{
-        'padding-left': paddingX,
-        'padding-right': paddingX,
-        'min-width': width,
-        'height': dropDownHeight,
-        'width': maxWidth,
-        'border-radius': !isOpen ? borderRadius : borderRadiusClose,
-        ...inputStyle
-      }"
+      :style="inputStyleComputed"
       :class="`background-${variant} ${bordered && 'bordered'}`"
       @click="isOpen = !isOpen"
     >
@@ -40,7 +32,13 @@
       v-if="isOpen"
       class="custom-dropdown-options"
       :class="`${optionsWidth}-color ${bordered && 'bordered'}`"
-      :style="{'min-width': width,'border-radius': isOpen ? borderRadiusOptions: '', ...dropdownStyle}"
+      :style="{
+        'min-width': width,
+        'border-radius': isOpen ? borderRadiusOptions: '', 
+        'borderBottomLeftRadius': '5px',
+        'borderBottomRightRadius': '5px',
+        ...dropdownStyle
+      }"
     >
       <li
         v-for="(option, key) of options" :key="key"
@@ -142,8 +140,8 @@ export default {
       default: () => true
     },
     arrowStyle: {
-      type: String,
-      default: ''
+      type: Object,
+      default: () => {}
     },
     dropdownStyle: {
       type: Object,
@@ -156,14 +154,14 @@ export default {
     optionStyle: {
       type: Object,
       default: () => {}
-    }
+    },
   },
   data() {
     return {
       isOpen: false
     };
   },
-  mounted(){
+  mounted() {
     /**
      * close drop if clicked outside
      */
@@ -172,6 +170,37 @@ export default {
         this.isOpen = false
       }
     })
+  },
+  computed: {
+    inputStyleComputed() {
+      // :style="{
+      //   'padding-left': paddingX,
+      //   'padding-right': paddingX,
+      //   'min-width': width,
+      //   'height': dropDownHeight,
+      //   'width': maxWidth,
+      //   'border-radius': !isOpen ? borderRadius : borderRadiusClose,
+      //   ...inputStyle
+      // }"
+      let result = {
+        'padding-left': this.paddingX,
+        'padding-right': this.paddingX,
+        'min-width': this.width,
+        'height': this.dropDownHeight,
+        'width': this.maxWidth,
+        ...this.inputStyle
+      }
+
+      if (this.isOpen) {
+        result = {
+          ...result,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+          borderBottomWidth: 0
+        }
+      }
+      return result
+    }
   },
   methods: {
     /***

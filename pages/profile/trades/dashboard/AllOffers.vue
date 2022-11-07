@@ -1,6 +1,6 @@
 <template>
   <div class="container-trade-dashboard">
-    <b-row class="heading-dashboard mt-4 mx-0 d-none d-sm-flex">
+    <b-row class="heading-dashboard mt-5 mx-0 d-none d-sm-flex">
       {{$t('trades.my_trade_offer')}}
     </b-row>
     <b-row class="m-0 mt-sm-3 justify-content-lg-between pt-3">
@@ -37,9 +37,7 @@
           class="w-100 d-none d-sm-block"
           :value="searchText"
           variant="primary"
-          :inputStyle="{
-            height: '38px'
-          }"
+          inputClass="search-offers-input"
           :placeholder="$t('trades.search_trades_offers')"
           :clearSearch="true"
           bordered
@@ -62,8 +60,21 @@
           :label="orderFilterLabel"
           variant="white"
           maxWidth="100%"
+          paddingX="10px"
+          :labelStyle="{
+            fontSize: '14px',
+            letterSpacing: '0.06em',
+            color: '#626262'
+          }"
+          :inputStyle="{
+            borderRadius: '5px'
+          }"
           :dropdownStyle="{
             background: '#FFF'
+          }"
+          :arrowStyle="{
+            marginTop: '0 !important',
+            color: '#000000'
           }"
           width="100%"
           dropDownHeight="38px"
@@ -73,7 +84,7 @@
     </b-row>
     <b-row class="d-none d-sm-flex mt-4 justify-content-lg-between">
       <b-col lg="5" xl="5" sm="12" class="">
-        <label>{{$t('trades.filter_by')}}</label>
+        <label class="filter-label">{{$t('trades.filter_by')}}</label>
         <b-row class="">
           <b-col md="5" lg="7" xl="5" sm="12">
             <CustomDropdown
@@ -86,8 +97,16 @@
               optionsWidth="custom"
               maxWidth="100%"
               width="100%"
+              paddingX="10px"
+              :labelStyle="{
+                fontSize: '14px',
+                letterSpacing: '0.06em',
+                color: '#626262'
+              }"
               :arrowStyle="{
-                marginLeft: 0
+                marginLeft: 0,
+                marginTop: '0 !important',
+                color: '#000000'
               }"
               :dropdownStyle="{
                 position: 'relative'
@@ -107,6 +126,17 @@
               optionsWidth="custom"
               width="100%"
               maxWidth="100%"
+              paddingX="10px"
+              :labelStyle="{
+                fontSize: '14px',
+                letterSpacing: '0.06em',
+                color: '#626262'
+              }"
+              :arrowStyle="{
+                marginLeft: 0,
+                marginTop: '0 !important',
+                color: '#000000'
+              }"
               :dropdownStyle="{
                 position: 'relative'
               }"
@@ -117,7 +147,7 @@
         </b-row>
       </b-col>
       <b-col lg="6" xl="6" sm="12" class="mt-3 mt-lg-0 px-2">
-        <label class="">{{$t('selling_page.offer_date')}}</label>
+        <label class="filter-label">{{ $t('selling_page.offer_date') }}</label>
         <b-row class="justify-content-end justify-content-sm-start justify-content-lg-between">
           <b-col sm="4" md="5" lg="4">
             <CalendarInput
@@ -136,7 +166,7 @@
             />
           </b-col>
           <b-col class="mt-2 mt-sm-0 d-flex justify-content-sm-end" sm="4" md="2" lg="3">
-            <Button variant="blue" class="" @click="applyFilters">
+            <Button variant="dark-blue" @click="applyFilters">
               {{$t('trades.apply')}}
             </Button>
           </b-col>
@@ -185,6 +215,7 @@
         :data="offerTypeFilters"
         nav-key="type"
         class="type-nav mt-3 mb-3"
+        btnClass="btn-lg"
         @change="handleMethodNavClick"
       />
     </b-row>
@@ -437,6 +468,11 @@ export default {
     this.$root.$on('click_outside', () => {
       this.searchedProducts = []
     })
+
+    const wrapper = document.querySelector('.main-wrapper')
+    if (wrapper.querySelector('.container-trade-dashboard')) {
+      wrapper.style.backgroundColor = '#f7f7f7'
+    }
   },
   methods:{
     /**
@@ -762,6 +798,11 @@ export default {
   color: $color-gray-77
   margin-bottom: 15px
   text-align: center
+
+.filter-label
+  @include body-8-normal
+  font-family: $font-family-sf-pro-display
+  color: $color-black-1
 
 </style>
 
