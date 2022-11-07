@@ -115,6 +115,11 @@ Vue.filter('remainingTime', (value, type) => {
       hrs < 10 ? '0' + hrs + 'h ' : hrs + 'h '
     } ${mins < 10 ? '0' + mins + 'm' : mins + 'm'}`
   }
+  if (type === 'dots') {
+    return `${days < 10 ? '0' + days + 'd : ' : days + 'd : '}${
+      hrs < 10 ? '0' + hrs + 'h : ' : hrs + 'h : '
+    }${mins < 10 ? '0' + mins + 'm' : mins + 'm'}`
+  }
   return `${days > 0 ? days + ' DAYS ' : ''}${hrs > 0 ? hrs + ' HRS ' : ''} ${
     mins > 0 ? mins + ' MINS' : ''
   }`
