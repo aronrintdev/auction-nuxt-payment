@@ -49,19 +49,19 @@
 
           <div class="d-flex d-sm-none justify-content-between mt-2 h-auto">
             <div 
-              class="chart-button col-3"
+              class="chart-button d-flex align-items-center justify-content-center col-3"
               @click="$root.$emit('bv::collapse::state', 'recent-asks-collapse', true)"
             >
               {{ $t('products.asks') }}
             </div>
             <div 
-              class="chart-button col-3"
+              class="chart-button d-flex align-items-center justify-content-center col-3"
               @click="$root.$emit('bv::collapse::state', 'recent-offers-collapse', true)"
             >
               {{ $t('products.offers') }}
             </div>
             <div 
-              class="chart-button col-3"
+              class="chart-button d-flex align-items-center justify-content-center col-3"
               @click="$root.$emit('bv::collapse::state', 'recent-sales-collapse', true)"
             >
               {{ $t('products.sales') }}
@@ -196,29 +196,24 @@ export default {
 @import '~/assets/css/_variables'
 
 .mobile-section
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25)
+  box-shadow: 0px 1px 2px $color-black-rgb2
   border-radius: 8px
 
 .dropdown-label
-  font-weight: 600
-  font-size: 16px
+  @include body-4-medium
   font-family: $font-family-sf-pro-display
-  color: #000
+  color: $color-black-1
+
 .chart-button
-  @include body-5
+  @include body-5-medium
   height: 34px
   border: 1px solid $color-gray-23
   border-radius: 4px
-  font-weight: $medium
   color: $color-black-1
-  display: flex
-  align-items: center
-  justify-content: center
 
 .chart-header
-  @include body-2
+  @include body-2-bold
   font-family: $font-family-sf-pro-display
-  font-weight: $bold
 
 ::v-deep
   .nav-tabs
@@ -237,10 +232,9 @@ export default {
 /* Overriding admin-lite theme styles */
 ::v-deep
   .nav-link
+    @include body-2-bold
     color: $color-gray-47
     font-family: $font-family-sf-pro-display
-    font-weight: 700
-    font-size: 20px
     &:hover
       color: $color-gray-4
     &.active

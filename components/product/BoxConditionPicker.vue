@@ -114,8 +114,7 @@ export default {
   margin-right: -7.5px
 
   .box-condition-text
-    font-weight: 600
-    font-size: 14px
+    @include body-5-medium
     text-align: center
     @media (min-width: 576px)
       @include body-8-normal
@@ -133,12 +132,9 @@ export default {
 
   .box-condition-btns
     margin-top: 8px
-    display: flex
-    justify-content: space-between
 
     .btn
-      font-size: 15px
-      font-weight: 500
+      @include body-8-normal
       color: $color-gray-23
       margin-right: 6px
 

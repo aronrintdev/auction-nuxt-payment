@@ -1,5 +1,5 @@
 <template>
-  <b-row>
+  <b-row class="buy-now-section">
     <b-col md="12" class="px-0">
       <ShippingOptions
         v-if="instantShip"
@@ -24,7 +24,7 @@
             </span>
           </Button>
 
-          <Button class="color-gray add-to-cart d-sm-none" block variant="dark" @click="$emit('add-to-cart')">
+          <Button class="add-to-cart d-sm-none" block variant="dark" @click="$emit('add-to-cart')">
             {{ $t('products.add_to_cart') }}
           </Button>
 
@@ -123,25 +123,26 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
 
 .h-46 
-  height: 46px !important
+  height: 46px
 
-.color-gray
-  color: #E6E6E6 !important
+.buy-now-section .color-gray
+  color: $color-white-28
 
 .border-radius-left-0
   border-top-left-radius: 0
   border-bottom-left-radius: 0
 
-.buy-now
-  width: 162px !important
+.buy-now-section .buy-now
+  width: 162px 
   border-radius: 20px
-  height: 40px !important
+  height: 40px 
   @media (min-width: 576px)
     border-radius: 4px
-    height: 46px !important
-    width: 100% !important
+    height: 46px 
+    width: 100%
 
 .border-radius-right-0
   @media (min-width: 576px)
@@ -152,16 +153,16 @@ export default {
   @media (min-width: 576px)
     margin-left: 66px
 
-.add-to-cart
-  width: 162px !important
+.buy-now-section .add-to-cart
+  width: 162px 
   border-radius: 20px
-  color: #FFF !important
-  height: 40px !important
-  margin-top: 0 !important
+  color: $color-white-1
+  height: 40px 
+  margin-top: 0
   @media (min-width: 576px)
     border-radius: 4px
-    width: auto !important
-    height: 46px !important
-    color: #e6e6e6 !important
+    width: auto
+    height: 46px 
+    color: $color-white-28 
 
 </style>

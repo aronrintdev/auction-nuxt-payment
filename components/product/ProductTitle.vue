@@ -152,10 +152,8 @@ export default {
 @import '~/assets/css/_variables'
 
 .title
-  font-size: 18px
-  line-height: 20px
-  font-weight: 600
-  color: #000
+  @include body-12-medium
+  color: $color-black-1
   @media (min-width: 576px)
     @include body-1-medium
 
@@ -173,15 +171,13 @@ export default {
   color: $color-gray-6
 
 .last-sale
-  font-weight: 500
-  font-size: 14px
+  @include body-5-normal
   color: $color-gray-6
   @media (min-width: 576px)
     @include body-5-medium 
 
 .last-sale-diff
-  font-weight: 500
-  font-size: 12px
+  @include body-9-normal
   color: $color-green-26
   @media (min-width: 576px)
     @include body-5-medium

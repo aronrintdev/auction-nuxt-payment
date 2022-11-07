@@ -478,9 +478,4 @@ export default {
     .all-sizes
       .item
         width: 25%
-// @media (max-width: 450px)
-//   .container
-//     .all-sizes
-//       .item
-//         width: 50%
 </style>

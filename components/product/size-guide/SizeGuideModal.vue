@@ -13,7 +13,7 @@
         </div>
       </div>
 
-      <div>
+      <div class="pb-3">
         <div class="overall-fit">
           <img src="~/assets/img/icons/arcticons_tapemeasure.svg" />
           <span class="ml-2">{{ $t('auctions.frontpage.overall_fit') }}</span>
@@ -34,7 +34,7 @@
         </div>
 
         <div class="d-flex flex-column pb-3">
-          <div class="table-header">
+          <div class="table-header d-flex align-items-center justify-content-between">
             <div 
               class="col"
               v-for="(item, idx) in tableHeaders" 
@@ -44,7 +44,7 @@
             </div>
           </div>
           <div
-            class="table-row"
+            class="table-row d-flex align-items-center justify-content-between"
             :key="i"
             :class="{ 
               'bg-light-gray': i % 2 !== 0, 
@@ -127,13 +127,6 @@ export default {
     }
   },
 
-  computed: {
-    
-  },
-
-  mounted() {
-  },
-
   methods: {
     findSelectedIndexRow() {
       const size = this.product.sizes.find(el => el.id === this.selectedSize).size
@@ -157,7 +150,7 @@ export default {
 .table-row, .table-header
   div
     text-align: center
-    color: #000
+    color: $color-black-1
 
 .bg-light-gray
   background: $color-gray-21
@@ -165,30 +158,22 @@ export default {
 .row-active
   background: $color-blue-20
   div
-    color: #FFF
+    color: $color-white-1
 
 .table-header
+  @include body-10-medium
   height: 48px
   padding-left: 20px
   padding-right: 20px
-  font-size: 13px
-  font-weight: 600
   border-top: 0.5px solid $color-gray-4
   border-bottom: 0.5px solid $color-gray-4
   margin-top: 19px
-  display: flex
-  align-items: center
-  justify-content: space-between
 
 .table-row
+  @include body-10-regular
   height: 40px
   padding-left: 20px
   padding-right: 20px
-  display: flex
-  align-items: center
-  font-weight: 400
-  font-size: 13px
-  justify-content: space-between
 
 .w-40
   width: 40%
@@ -208,39 +193,26 @@ export default {
   background: $color-blue-19
 
 .line-label
-  font-weight: 300
-  font-size: 13px
-  color: #000
+  @include body-10
+  font-weight: $light
+  color: $color-black-1
   margin-top: 8px
 
 .overall-fit
-  font-weight: 500
-  font-size: 13px
-  color: #000
+  @include body-10-normal
+  color: $color-black-1
   padding: 12px 30px 0 30px
 
 .font-sf-pro
   font-family: $font-family-sf-pro-display
 
 .sub-header
-  font-weight: 500
-  font-size: 14px
+  @include body-5-normal
   color: $color-gray-25
 
-.label
-  font-weight: 600
-  font-size: 14px
-  color: $color-gray-5
-
-.value
-  font-weight: 400
-  font-size: 14px
-  color: #000
-
 .header
-  font-size: 17px
-  font-weight: 600
-  color: #000
+  @include body-17-medium
+  color: $color-black-1
 
 .border-b
   border-bottom: 0.5px solid $color-gray-47
@@ -259,7 +231,7 @@ export default {
     .size-table-cell
       flex: none
       &:nth-child(even)
-        background: #F4F4F4
+        background: $color-gray-75
   &-cell
     @include body-21
     font-family: $font-family-sf-pro-display

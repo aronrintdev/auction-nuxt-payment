@@ -44,13 +44,11 @@ export default {
 
 .similar-items-wrapper
   h3
-    font-weight: 600
-    font-size: 16px
-    color: #000
+    @include body-4-medium
+    color: $color-black-1
     @media (min-width: 576px)
       @include body-2-bold
       font-family: $font-family-sf-pro-display
-      color: $color-black-1
 
   .similar-products-carousel::v-deep
     width: 100%

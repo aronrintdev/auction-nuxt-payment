@@ -172,16 +172,16 @@
 
       <div class="create-listing d-flex d-sm-none">
         <div class="col-6 px-0">
-          <div class="listing-title">SELL WITH US</div>
+          <div class="listing-title uppercase">{{ $t('common.sell_with_us') }}</div>
           <div class="listing-sub-title text-capitalize">
             {{ $t('products.have_pair_to_sell') }}
           </div>
           <div
             role="button" 
-            class="create-listing-btn"
+            class="create-listing-btn d-flex align-items-center justify-content-center text-center"
             @click="redirectToCreateListing"
           >
-            Create a Listing
+            {{ $t('home.create_listing') }}
           </div>
         </div>
         <div class="col-6">
@@ -195,7 +195,7 @@
         @notify-me="handleNotifyMeClick"
         @place-offer="handleOfferSubmit"
       />
- 
+
       <BuyNow
         v-else-if="method === 'buy' && sizeViewMode === 'carousel' && product"
         class="mt-3 px-4 d-sm-none"
@@ -205,26 +205,9 @@
         @add-to-cart="handleAddToCartClick"
         @shipping-option-selected="handleShippingOptionSelected"
       />
-<!--
-      <SellNow
-        v-else-if="sizeViewMode === 'carousel'"
-        class="mt-3 px-3 d-sm-none"
-        :highest-offer="highestOffer"
-        @place-offer="handleOfferSubmit"
-        @sell-now="handleSellNowClick"
-      /> -->
 
       <AlertModal id="message-modal" :message="message" icon="tick" />
-      <!-- <b-row>
-        <b-col lg="12">
-          <div class="create-listing-text mt-5 mb-4">
-            {{ $t('products.have_pair_to_sell') }}
-            <span class="link" role="button" @click="redirectToCreateListing">
-            {{ $t('products.create_a_listing') }}
-          </span>
-          </div>
-        </b-col>
-      </b-row> -->
+      
 <!--        TODO: NP - Keeping this for now in order to have a reference on the product promo flow.-->
 <!--        <b-row class="mt-4">-->
 <!--          <b-col md="6">-->
@@ -450,7 +433,6 @@ export default {
       }
     },
     handleConditionChange(condition) {
-      console.log('handleConditionChange', condition);
       if (condition?.id !== this.currentCondition) {
         this.currentCondition = condition.id
         this.findListingItem()
@@ -676,29 +658,22 @@ export default {
   padding-left: 20px
 
 .listing-title
+  @include body-2-normal
   margin-top: 32px
-  font-weight: 500
-  font-size: 20px
 
 .listing-sub-title
-  font-weight: 500
-  font-size: 15px
+  @include body-8-normal
   color: $color-white-17
   margin-top: 15px
 
 .create-listing-btn
+  @include body-4-normal
   margin-top: 20px
   margin-bottom: 42px
-  height: 35px
+  min-height: 35px
   background: $color-blue-20
-  padding-left: 20px
-  padding-right: 20px
-  display: flex
-  align-items: center
-  justify-content: center
+  padding: 5px 20px
   border-radius: 20px
-  font-weight: 500
-  font-size: 16px
-  color: #FFF
+  color: $color-white-1
 
 </style>

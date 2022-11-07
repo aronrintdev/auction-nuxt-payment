@@ -74,7 +74,7 @@ export default {
         
       &.active
         background-color: $color-white-1
-        font-weight: 600
+        font-weight: $medium
       &::before
         display: block
         content: attr(title)

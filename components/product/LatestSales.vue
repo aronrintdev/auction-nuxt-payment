@@ -292,9 +292,9 @@ export default {
 @import '~/assets/css/_variables'
 
 .label
+  @include body-10
   font-family: $font-family-sf-pro-display
-  font-weight: 500 !important
-  font-size: 13px
+  font-weight: $normal !important
   color: $color-gray-4 !important
 
 .responsive-chart
