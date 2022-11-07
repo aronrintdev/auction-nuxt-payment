@@ -1,7 +1,7 @@
 <template>
   <!-- Dynamic Component Rendering of OrderSummary, BillingForm, ShippingForm, PaymentOption, PaymentCard, PaymentOptionError & PaymentGiftCard -->
-  <component :is="renderedComponent"></component
-  ><!-- End of Dynamic Component Rendering -->
+  <component :is="renderedComponent" :properties="renderedProperties" />
+  <!-- End of Dynamic Component Rendering -->
 </template>
 
 <script>
@@ -15,6 +15,8 @@ import PaymentCard from '~/components/checkout/common/mobile/PaymentCard'
 import BillingForm from '~/components/checkout/common/mobile/BillingForm'
 import PaymentCrypto from '~/components/checkout/selling/mobile/payment/PaymentCrypto'
 import PaymentGiftCard from '~/components/checkout/selling/mobile/payment/PaymentGiftCard'
+import WishList from '~/components/checkout/selling/mobile/WishList'
+import CreateWishList from '~/components/checkout/selling/mobile/CreateWishList'
 
 export default {
   name: 'ShoppingCartOrder',
@@ -28,16 +30,20 @@ export default {
     PaymentCard,
     BillingForm,
     PaymentCrypto,
-    PaymentGiftCard
+    PaymentGiftCard,
+    WishList,
+    CreateWishList,
   },
   data: () => {
     return {
       renderedComponent: CheckoutSummary.name,
+      renderedProperties: null,
     }
   },
   created() {
-    this.$nuxt.$on('renderComponent', (componentName) => {
+    this.$nuxt.$on('renderComponent', (componentName, properties) => {
       this.renderedComponent = componentName
+      this.renderedProperties = properties
     })
   },
 }
