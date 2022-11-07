@@ -6,5 +6,8 @@ export default function () {
     selectedBrands: [],
     selectedSizes: [],
     selectedSizeTypes: null,
+    selectedSort: null,
+    selectedOrdering: true,
+    search: null,
   }
 }

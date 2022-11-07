@@ -38,7 +38,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTitle'
+import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTitle'
 import ArrowRightBlackSVG from '~/assets/img/shopping-cart/arrow-right-black.svg?inline'
 
 export default {

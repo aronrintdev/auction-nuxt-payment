@@ -47,127 +47,133 @@
                 recent_to_old: $t('vendor_purchase.purchase_recent_to_old'),
                 old_to_recent: $t('vendor_purchase.purchase_oldest_to_recent'),
               }"
-                  @input="handleFilterChanged"
-              ></VendorPurchaseCustomSelect>
-            </div>
-            <!-- Select Box -->
+              @input="handleFilterChanged"
+            ></VendorPurchaseCustomSelect>
           </div>
-          <!-- ./Row -->
-          <!-- ./Row -->
-          <div v-if="!isScreenXS" class="row filter-second-row">
-            <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2">
-              <VendorPurchaseSelectWithCheckbox
-                  :default="purchaseFilter"
-                  :options="typeOptions"
-                  :title="typeTitle"
-                  :updateFilters="activeTypeFilters"
-                  @filters="typeFilters"
-              />
-            </div>
-            <div class="col-md-3 col-12 col-sm-12 mt-md-4 mt-2">
-              <VendorPurchaseSelectWithCheckbox
-                  :default="purchaseFilter"
-                  :options="productsOptions"
-                  :title="statusTitle"
-                  :updateFilters="activeStatusFilters"
-                  @filters="statusFilters"
-              />
-            </div>
-            <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2 datepicker border rounded filter-datepicker">
-              <b-form-datepicker
-                  id="example-datepicker-start"
-                  v-model="startdate"
-                  :date-format-options="{
+          <!-- Select Box -->
+        </div>
+        <!-- ./Row -->
+        <!-- ./Row -->
+        <div v-if="!isScreenXS" class="row filter-second-row">
+          <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2">
+            <label class="font15 filter-label">{{ $t('common.filter_by') }}</label>
+            <VendorPurchaseSelectWithCheckbox
+                :default="purchaseFilter"
+                :options="typeOptions"
+                :title="typeTitle"
+                :updateFilters="activeTypeFilters"
+                @filters="typeFilters"
+            />
+          </div>
+
+          <div class="col-md-3 col-12 col-sm-12 mt-md-4 mt-2 flex-end-align-col">
+            <VendorPurchaseSelectWithCheckbox
+              :default="purchaseFilter"
+              :title="statusTitle"
+              :options="productsOptions"
+              :updateFilters="activeStatusFilters"
+              @filters="statusFilters"
+            />
+          </div>
+
+          <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2 datepicker filter-datepicker">
+            <label class="font15 filter-label">{{ $t('orders.date_ordered') }}</label>
+            <b-form-datepicker
+              id="example-datepicker-start"
+              v-model="startdate"
+              right
+              placeholder="Start date"
+              :date-format-options="{
                 year: 'numeric',
                 month: 'numeric',
                 day: 'numeric',
               }"
-                  class="mb-2 h-100"
-                  placeholder="Start date"
-                  right
-                  @context="onContext"
-              ></b-form-datepicker>
-            </div>
-            <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2 datepicker border rounded filter-datepicker">
-              <b-form-datepicker
-                  id="example-datepicker-end"
-                  v-model="enddate"
-                  :dateFormatOptions="{
+              class="mb-2 h-100 flex-end-align-col border rounded"
+              @context="onContext"
+            ></b-form-datepicker>
+          </div>
+
+          <div class="col-md-2 col-12 col-sm-12 mt-md-4 mt-2 datepicker border rounded filter-datepicker flex-end-align-col">
+            <b-form-datepicker
+              id="example-datepicker-end"
+              v-model="enddate"
+              placeholder="End date"
+              :dateFormatOptions="{
                 year: 'numeric',
                 month: 'numeric',
                 day: 'numeric',
               }"
-                  class="mb-2 h-100"
-                  placeholder="End date"
-                  @context="onContext"
-              ></b-form-datepicker>
-            </div>
-            <div
-                class="
+              class="mb-2 h-100"
+              @context="onContext"
+            ></b-form-datepicker>
+          </div>
+
+          <div
+            class="
               col-md-1 col-12 col-sm-12
               apply-btn-wrapper
               mt-md-4 mt-2
               text-center
+              flex-end-align-col
             "
+          >
+            <b-button
+              variant="apply"
+              size="sm"
+              class="text-white shadow"
+              @click="loadData"
+              >{{ $t('vendor_purchase.apply') }}</b-button
             >
-              <b-button
-                  class="text-white shadow"
-                  size="sm"
-                  variant="apply"
-                  @click="loadData"
-              >{{ $t('vendor_purchase.apply') }}
-              </b-button
-              >
-            </div>
-            <div class="col-md-2 mt-md-4 mt-2 clearall-filter">
-            <span
+          </div>
+        </div>
+        <!-- ./Row -->
+        <!-- Filters -->
+        <div
+            v-if="!isScreenXS"
+            class="row filter-row">
+          <div class="col-md-12 col-sm-12 mt-md-4 mt-4">
+            <!-- Type Filters -->
+            <b-badge
+                v-for="(options, typeIndex) in activeTypeFilters"
+                :key="`type-${typeIndex}`"
+                class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
+            >
+              {{ options.type }}&colon; {{ options.text }}
+              <i
+                  class="fa fa-times"
                 role="button"
-                class="d-flex text-primary"
+                aria-hidden="true"
+                @click="removeTypeFilter(options)"
+              ></i>
+            </b-badge>
+            <!-- ./Type Filters -->
+            <!-- Status Filters -->
+            <b-badge
+              v-for="(status, statusIndex) in activeStatusFilters"
+              :key="`status-${statusIndex}`"
+              class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
+            >
+              {{ status.type }}&colon; {{ status.text }}
+              <i
+                  class="fa fa-times"
+                  role="button"
+                  aria-hidden="true"
+                  @click="removeTypeFilter(status)"
+              ></i>
+            </b-badge>
+            <!-- Status Filters -->
+            <!-- clear filter link -->
+            <span
+                v-if="activeStatusFilters.length || activeTypeFilters.length"
+                role="button"
+                class="text-base-blue"
                 @click="clearFilters()"
             >
               <u>{{ $t('vendor_purchase.clear_all_filters') }}</u>
             </span>
-            </div>
           </div>
-          <!-- ./Row -->
-          <!-- Filters -->
-          <div
-              v-if="!isScreenXS"
-              class="row filter-row">
-            <div class="col-md-12 col-sm-12 mt-md-4 mt-4">
-              <!-- Type Filters -->
-              <b-badge
-                  v-for="(options, typeIndex) in activeTypeFilters"
-                  :key="`type-${typeIndex}`"
-                  class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
-              >
-                {{ options.type }}&colon; {{ options.text }}
-                <i
-                    aria-hidden="true"
-                    class="fa fa-times"
-                    role="button"
-                    @click="removeTypeFilter(options)"
-                ></i>
-              </b-badge>
-              <!-- ./Type Filters -->
-              <!-- Status Filters -->
-              <b-badge
-                  v-for="(status, statusIndex) in activeStatusFilters"
-                  :key="`status-${statusIndex}`"
-                  class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
-              >
-                {{ status.type }}&colon; {{ status.text }}
-                <i
-                    aria-hidden="true"
-                    class="fa fa-times"
-                    role="button"
-                    @click="removeTypeFilter(status)"
-                ></i>
-              </b-badge>
-              <!-- Status Filters -->
-            </div>
-          </div>
-          <!-- ./ -->
+        </div>
+        <!-- ./ -->
 
           <div v-if="isScreenXS" class="d-flex align-items-center justify-content-between">
             <MobileSearchInput
@@ -729,6 +735,14 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+.flex-end-align-col
+  align-self: flex-end
+.font15
+  font-size: 15px !important
+.font-normal
+  font-weight: normal !important
+.filter-label
+  font-weight: $normal !important
 .apply-btn-wrapper button
   height: 40px
   line-height: 0

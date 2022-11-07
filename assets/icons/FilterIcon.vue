@@ -1,7 +1,7 @@
 <template>
   <svg
-    width="20"
-    height="20"
+    width="40"
+    height="40"
     viewBox="0 0 20 20"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +46,7 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .circleColor
-  fill: $color-white-20
+  fill: $color-gray-47
 .lineColor
-  stroke: $color-white-1
+  stroke: $color-gray-47
 </style>

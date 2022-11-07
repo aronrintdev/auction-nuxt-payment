@@ -1,29 +1,35 @@
 <template>
-  <b-row>
-    <b-col md="12">
-      <b-row class="text-center">
-        <b-col md="4">
-          <b-img :src="require('~/assets/img/product/authenticity.png')" />
-        </b-col>
-        <b-col md="4" class="border-left border-right">
-          <b-img :src="require('~/assets/img/product/affirm.png')" />
-        </b-col>
-        <b-col md="4">
-          <b-img :src="require('~/assets/img/product/crypto.png')" />
-        </b-col>
-      </b-row>
-      <b-row class="text-center">
-        <b-col md="4">
-          <span class="pre-line">{{ $t('products.authenticity_guaranteed') }}</span>
-        </b-col>
-        <b-col md="4" class="border-left border-right">
-          <span class="pre-line">{{ $t('products.payment_plans') }}</span>
-        </b-col>
-        <b-col md="4">
-          <span class="pre-line">{{ $t('products.crypto_payments') }}</span>
-        </b-col>
-      </b-row>
-    </b-col>
+  <b-row class="px-30 ">
+    <div class="col-4 d-flex flex-column h-81 text-center">
+      <div class="flex-1">
+        <b-img class="img-fluid" :src="require('~/assets/img/product/authenticity.png')" />
+      </div>
+      <span 
+        class="label pre-line"
+      >
+        {{ $t('products.authenticity_guaranteed') }}
+      </span>
+    </div>
+    <div class="col-4 d-flex flex-column h-81 text-center border-x">
+      <div class="flex-1">
+        <b-img class="img-fluid" :src="require('~/assets/img/product/affirm.png')" />
+      </div>
+      <span 
+        class="label pre-line mt-14"
+      >
+        {{ $t('products.payment_plans') }}
+      </span>
+    </div>
+    <div class="col-4 d-flex flex-column h-81 text-center">
+      <div class="flex-1">
+        <b-img class="img-fluid" :src="require('~/assets/img/product/crypto.png')" />
+      </div>
+      <span 
+        class="label pre-line"
+      >
+        {{ $t('products.crypto_payments') }}
+      </span>
+    </div>
   </b-row>
 </template>
 
@@ -32,3 +38,29 @@ export default {
   name: 'ProductAcceptedPaymentsV2',
 }
 </script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
+.mt-14
+  margin-top: 14px
+
+.px-30
+  padding-left: 30px
+  padding-right: 30px  
+
+.h-81
+  height: 81px
+
+.label
+  @include body-6
+  color: $color-black-1
+
+.border-x
+  border-left: 1px solid $color-black-1
+  border-right: 1px solid $color-black-1
+  @media (min-width: 576px)
+    border-color: $color-gray-16f
+
+</style>
+

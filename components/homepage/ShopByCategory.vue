@@ -61,70 +61,70 @@ export default {
       categories: [
         {
           title: this.$t('home_page.tops'),
-          image: require('~/assets/img/home/categories/tops.png'),
+          image: require('~/assets/img/home/categories/tops.svg'),
           to: './shop',
         },
         {
           title: this.$t('home_page.t-shirts'),
-          image: require('~/assets/img/home/categories/t-shirts.png'),
+          image: require('~/assets/img/home/categories/t-shirts.svg'),
           to: './shop',
         },
         {
           title: this.$t('home_page.sweatshirts'),
-          image: require('~/assets/img/home/categories/sweat-shirts.png'),
+          image: require('~/assets/img/home/categories/sweat-shirts.svg'),
           to: './shop',
         },
         {
           title: this.$t('home_page.footwear'),
-          image: require('~/assets/img/home/categories/footwear.png'),
+          image: require('~/assets/img/home/categories/footwear.svg'),
           to: './shop',
         },
         {
           title: this.$t('home_page.bottoms'),
-          image: require('~/assets/img/home/categories/bottoms.png'),
+          image: require('~/assets/img/home/categories/bottoms.svg'),
           to: './shop',
         },
         {
           title: this.$t('home_page.shirts'),
-          image: require('~/assets/img/home/categories/shirts.png'),
+          image: require('~/assets/img/home/categories/shirts.svg'),
           to: './shop',
         },
         {
           title: this.$t('home_page.jackets'),
-          image: require('~/assets/img/home/categories/jackets.png'),
+          image: require('~/assets/img/home/categories/jackets.svg'),
           to: './shop',
         },
         {
           title: this.$t('home_page.accessories'),
-          image: require('~/assets/img/home/categories/accessories.png'),
+          image: require('~/assets/img/home/categories/accessories.svg'),
           to: './shop',
         },
       ],
       categoriesSm: [
         {
           title: this.$t('home_page.tops'),
-          image: require('~/assets/img/home/categories/tops.png'),
+          image: require('~/assets/img/home/categories/tops.svg'),
         },
         {
           title: this.$t('home_page.bottoms'),
-          image: require('~/assets/img/home/categories/bottoms.png'),
+          image: require('~/assets/img/home/categories/bottoms.svg'),
         },
         {
           title: this.$t('home_page.sweatshirts'),
-          image: require('~/assets/img/home/categories/sweat-shirts.png'),
+          image: require('~/assets/img/home/categories/sweat-shirts.svg'),
         },
         {
           title: this.$t('home_page.jackets'),
-          image: require('~/assets/img/home/categories/jackets.png'),
+          image: require('~/assets/img/home/categories/jackets.svg'),
         },
         {
           title: this.$t('home_page.footwear'),
-          image: require('~/assets/img/home/categories/footwear.png'),
+          image: require('~/assets/img/home/categories/footwear.svg'),
         },
 
         {
           title: this.$t('home_page.accessories'),
-          image: require('~/assets/img/home/categories/accessories.png'),
+          image: require('~/assets/img/home/categories/accessories.svg'),
         },
       ],
     }

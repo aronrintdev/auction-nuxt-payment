@@ -76,10 +76,10 @@ export default {
 @media screen and (max-width: 577px)
   .feature-card
     width: 163px
-    height: 270px
+    height: 220px
     .feature-image
       width: 163px
-      height: 209px
+      height: 170px
     h6.feature-title
       font-size: 15px
       font-weight: 400

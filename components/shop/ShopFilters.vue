@@ -12,9 +12,7 @@
             :placeholder="$t('selling_page.sortby')"
             :items="SORT_OPTIONS"
             :icon="require('~/assets/img/icons/three-lines.svg')"
-            :icon-arrow-down="
-              require('~/assets/img/icons/arrow-down-gray2.svg')
-            "
+            :icon-arrow-down="require('~/assets/img/icons/arrow-down-gray2.svg')"
             class="dropdown-sort flex-shrink-1"
             can-clear
             @select="handleSortBySelect"
@@ -25,7 +23,7 @@
         <div class="col-2">
           <FormDropdown
             id="size-type"
-            :value="sortBy"
+            :value="null"
             :placeholder="$t('trades.trade_arena.size_type')"
             :icon-arrow-down="
               require('~/assets/img/icons/arrow-down-gray2.svg')
@@ -62,7 +60,7 @@
         <div class="col-2">
           <FormDropdown
             id="sizes"
-            :value="sortBy"
+            :value="null"
             :placeholder="$t('product_page.sizes')"
             :items="SORT_OPTIONS"
             :icon-arrow-down="
@@ -100,7 +98,7 @@
         <div class="col-2">
           <FormDropdown
             id="Price"
-            :value="sortBy"
+            :value='defaultValue'
             :placeholder="$t('common.price')"
             :items="SORT_OPTIONS"
             :icon-arrow-down="
@@ -131,7 +129,7 @@
         <div class="col-4">
           <FormDropdown
             id="brands"
-            :value="sortBy"
+            :value='defaultValue'
             :placeholder="$t('filter_sidebar.brands')"
             :items="SORT_OPTIONS"
             :icon-arrow-down="
@@ -181,7 +179,7 @@
         <div class="col-2">
           <FormDropdown
             id="years"
-            :value="sortBy"
+            :value="defaultValue"
             :placeholder="$t('banner.years')"
             :items="SORT_OPTIONS"
             :icon-arrow-down="
@@ -274,14 +272,13 @@
           class="font-secondary fs-14 fw-5 border-bottom border-secondary cursor-pointer"
           @click="clearAllFilters"
         >
-          Clear all
+          {{$t('shop.clear_all')}}
         </div>
       </div>
     </div>
   </section>
 </template>
 <script>
-import debounce from 'lodash.debounce'
 import _ from 'lodash'
 import { mapGetters, mapActions } from 'vuex'
 import {
@@ -307,23 +304,16 @@ export default {
     return {
       SORT_OPTIONS: [
         {
-          label: this.$t('home.trending'),
-          value: 'trending',
-        },
-        {
-          label: this.$t('home_page.newest'),
-          value: 'newest',
-        },
-        {
           label: this.$t('shop.sort_by.price_low_first'),
-          value: 'price_asc',
+          value: 'false',
         },
         {
           label: this.$t('shop.sort_by.price_high_first'),
-          value: 'price_desc',
+          value: 'true',
         },
       ],
       sortBy: null,
+      defaultValue: null,
       search: '',
       sizesType: null,
       sizes: [],
@@ -344,6 +334,7 @@ export default {
         'selectedBrands',
         'selectedSizes',
         'selectedSizeTypes',
+        'selectedOrdering'
       ],
       'auction',
       ['getProductFilter']
@@ -447,6 +438,27 @@ export default {
       }
       this.loadAuctions()
     },
+    prices(){
+      this.applyFilters()
+    },
+    years(){
+      this.applyFilters()
+    },
+    brandName(){
+      this.applyFilters()
+    },
+    sizesType(){
+      this.applyFilters()
+    },
+    sizes(){
+      this.applyFilters()
+    },
+    sortBy(){
+      this.applyFilters()
+    },
+    brands(){
+      this.applyFilters()
+    }
   },
   created() {
     this.MIN_PRICE_RANGE_WINDOW = MIN_PRICE_RANGE_WINDOW
@@ -467,7 +479,10 @@ export default {
       this.$store.commit('browse/setSelectedYears', this.years)
       this.$store.commit('browse/setSelectedPrices', this.prices)
       this.$store.commit('browse/setSelectedBrands', this.brands)
-      this.$store.commit('browse/setSelectedSizeTypes', this.sizeTypes)
+      this.$store.commit('browse/setSelectedSizeTypes', this.sizesType)
+      this.$store.commit('browse/setSelectedSort', 'sale_price')
+      this.$store.commit('browse/setSelectedOrdering', this.sortBy)
+      this.$store.commit('browse/setSelectedSearch', this.search)
       if (this.sizeTypes && this.sizeTypes.length > 0 && this.sizes) {
         const newSizes = this.sizes.filter((size) =>
           this.filters?.sizes?.find(
@@ -498,62 +513,29 @@ export default {
       this.brands = []
       this.prices = []
       this.years = []
+
+      this.$store.commit('browse/setSelectedYears', this.years)
+      this.$store.commit('browse/setSelectedPrices', this.prices)
+      this.$store.commit('browse/setSelectedBrands', this.brands)
+      this.$store.commit('browse/setSelectedSizeTypes', this.sizesType)
+      this.$store.commit('browse/setSelectedSort', 'sale_price')
+      this.$store.commit('browse/setSelectedOrdering', this.sortBy)
+      this.$store.commit('browse/setSelectedSearch', this.search)
     },
     handleSearchChange(value) {
       this.search = value
       this.page = 1
-      this.fetchProducts()
+      this.applyFilters();
     },
     handleSortBySelect(value) {
       this.sortBy = value?.value
       this.page = 1
-      this.fetchProducts()
     },
-    fetchProducts: debounce(function () {
-      if (!this.perPage || !this.page) return
-
-      this.loading = true
-      const filters = {}
-      if (this.sortBy) {
-        filters.sort_by = this.sortBy
-      }
-      if (this.search) {
-        filters.search = this.search
-      }
-      if (this.category) {
-        filters.category = this.category
-      }
-      if (this.selectedPrices) {
-        filters.prices = this.selectedPrices.join('-')
-      }
-      if (this.selectedBrands) {
-        filters.brands = this.selectedBrands.join(',')
-      }
-      if (this.selectedSizes) {
-        filters.sizes = this.selectedSizes.join(',')
-      }
-      if (this.selectedSizeTypes) {
-        filters.size_types = this.selectedSizeTypes.join(',')
-      }
-      if (this.selectedYears) {
-        filters.years = this.selectedYears.join('-')
-      }
-
-      this.$axios
-        .get('/list-all-products', {
-          params: { filters, page: this.page, per_page: this.perPage },
-        })
-        .then((res) => {
-          this.products = res.data
-        })
-        .finally(() => {
-          this.loading = false
-        })
-    }, 500),
     handleFilterChange(filters) {
+      this.search = filters.product
       this.isViewAll = 'search_results'
       this.filterOptions = filters
-      this.fetchProducts()
+      this.applyFilters()
     },
   },
 }

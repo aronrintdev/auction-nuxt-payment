@@ -18,6 +18,7 @@
       </b-col>
       <b-col v-if="!isScreenXS" sm="12" md="6">
         <ProductTitle
+          :product="product"
           :product-name="product.name"
           :lowest-price="lowestPrice ? lowestPrice : 0"
           :product-last-sale-price="lastSold && lastSold.sale_price ? lastSold.sale_price : 0"
@@ -111,6 +112,7 @@
         <b-row v-else>
           <b-col sm="12" md="6">
             <ProductTitle
+              :product="product"
               :product-name="product.name"
               :lowest-price="lowestPrice ? lowestPrice : 0"
               :product-last-sale-price="lastSold && lastSold.sale_price ? lastSold.sale_price : 0"
@@ -165,46 +167,11 @@
 
         <!-- Box Condition Section Responsive -->
         <div class="row box-condition-responsive mt-4 mb-4 px-2">
-          <template v-if="isScreenXS">
-            <div class="col-12">
-              <div class="body-8-normal d-flex align-items-center"
-                :class="[
-                  {'text-uppercase' : !isScreenXS},
-                  isScreenXS ? 'justify-content-center' : 'justify-content-start'
-                ]"
-              >
-                {{ $t('common.box_condition') }}*
-                <span class="info-icon px-2" role="button">
-              <img
-                v-b-tooltip.hover
-                :src="require('~/assets/img/icons/info-dark-blue.svg')"
-                :title="$t('products.message.box_condition_info')"
-                alt="more-info"
-                width="12"
-              />
-            </span>
-              </div>
-            </div>
-
-            <div class="col-12 box-condition-select-col mt-3">
-              <FormDropdown
-                id="box-condition-dropdown"
-                :value="value.boxCondition"
-                :items="packagingConditions"
-                class="dropdown-filters d-flex justify-content-center"
-                :icon-arrow-up="arrowDownIcon"
-                :icon-arrow-down="arrowDownIcon"
-                @input="handlePackagingConditionChange"
-              />
-            </div>
-          </template>
-          <BoxConditionPicker v-else
+          <BoxConditionPicker
             :value="value.boxCondition"
             :conditions="packagingConditions"
-            value-field="value"
-            label-field="label"
             class="box-conditions m-0"
-            @change="(obj) => handlePackagingConditionChange(obj.value)"
+            @change="(obj) => handlePackagingConditionChange(obj.id)"
           />
         </div>
         <!-- Box Condition Section Responsive ends -->
@@ -818,7 +785,7 @@ export default {
     packagingConditions() {
       return (
         this.product?.packaging_conditions?.map((i) => {
-          return { label: i.name, value: i.id }
+          return { ...i }
         }) || []
       )
     },
