@@ -1,8 +1,8 @@
 <template>
-  <b-card v-if="orderType !== giftCard && totalQuantity > 0 && purchaseStatus !== ''" class="purchase-card-wrapper card p-2">
+  <b-card v-if="orderType !== giftCard && totalQuantity > 0 && purchaseStatus !== ''" class="purchase-card-wrapper card p-2 m-0">
     <b-card-title>
       <!-- Order Number -->
-      <span class="order-no text-capitalize">
+      <span class="order-no text-capitalize mb-5">
         {{ $t('vendor_purchase.order_no', { orderNo: purchase.order_id }) }}
         &#40;{{ purchase.type.label }}&#41;
       </span>
@@ -186,6 +186,8 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.purchase-details-col
+  align-self: flex-end
 .status-button.pending
   background: $orange-btn-bg !important
   color: $color-orange-1 !important
@@ -195,7 +197,9 @@ export default {
   background: $purple-btn-bg !important
   color: $color-purple-7 !important
 .status-button.cancelled,
-.status-button.cancel
+.status-button.cancel,
+.status-button.voided,
+.status-button.refunded
   background: $red-btn-bg !important
   color: $color-red-3 !important
 .status-button.processing_payment
@@ -210,6 +214,11 @@ export default {
 .status-button.delivered
   background: $blue-btn-bg !important
   color: $color-blue-17 !important
+.status-button.multiple,
+.status-button.authentication_complete,
+.status-button.arrived_at_deadstock
+  background: $green-btn-bg !important
+  color: $color-green-3 !important
 .font-size14
   font-size: 14px
 button.status-button
@@ -219,12 +228,12 @@ button.status-button
   background: $color-gray-69 !important
   margin: 0 !important
   float: right
+  font-weight: normal
 .purchase-card-wrapper
-  width: 484px
-  margin: 38px 0 0 0
+  width: 455px
 .order-no
   font-style: normal
-  font-weight: $bold
+  font-weight: $medium
   @include body-3
   align-items: center
   color: $color-black-1
@@ -232,6 +241,8 @@ button.status-button
   @include body-5-medium
   font-style: normal
   color: $color-black-1
+  font-weight: $normal
+  line-height: 25px
 .view-order
   @include body-5-medium
   font-style: normal
@@ -239,6 +250,7 @@ button.status-button
   text-decoration-line: underline
   color: $color-blue-20
   float: right
+  font-weight: $normal
 .card-body
   display: flex
   flex-direction: column
@@ -248,7 +260,6 @@ button.status-button
   height: 100%
 .order-images
   .row
-    justify-content: space-between
     margin:0
 .overlap-text
   @include heading-2
@@ -314,6 +325,12 @@ button.status-button
   @include body-3-medium
   color: $color-red-2
   float: right
+.order-images .row div .image-wrapper
+  width: 100%
+  text-align: center
+  background: transparent
+.order-images .row div
+  width: 33%
 .btn-auth_issued
   background: $color-red-9
   color: $color-red-8
@@ -487,13 +504,9 @@ button.status-button
   :deep(.purchase-status-btn)
     width: 50%
 
-@media (min-width: 1440px) and (max-width: 1524px)
+@media (min-width: 1280px) and (max-width: 1524px)
   .purchase-card-wrapper
-    width: 345px
-    height: 370px
-    margin: 0 auto
-@media (min-width: 1280px)
-  .purchase-card-wrapper
-    width: 459.5px
+    width: 500px
+    margin: 0
 /* media query ends */
 </style>

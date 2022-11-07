@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" class="navbar-wrapper border-bottom">
+  <b-navbar toggleable="lg" class="navbar-wrapper border-bottom-gray">
     <b-navbar-toggle target="top-menu-sidebar">
       <template #default>
         <img
@@ -14,8 +14,8 @@
         <Logo :width="171" />
       </div>
       <div class="d-inline-block d-sm-none">
-        <Logo v-if="pageTitle" :width="171"/>
-        <h2 v-else class="meta-info font-primary fs- 18 fw-7 mb-0 text-black">
+        <Logo v-if="!pageTitle" :width="171" />
+        <h2 v-else class="meta-info font-primary fs- 18 fw-7 mb-0 text-black page-title">
           {{ pageTitle }}
         </h2>
       </div>
@@ -385,6 +385,10 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.page-title
+  @include body-3-medium
+
 .locale-popover.popover
   background-color: red
   width: 100%

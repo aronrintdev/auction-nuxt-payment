@@ -1,5 +1,11 @@
 <template>
-  <b-row v-show="productItems.length" id="products" cols="1" class="text-xs w-100 searched-item-row" :style="{'max-width': width}">
+  <b-row 
+    v-show="productItems.length" 
+    id="products" 
+    cols="1" 
+    class="text-xs w-100 searched-item-row" 
+    :style="{ 'max-width': width }"
+  >
     <b-col align-self="center">
       <b-list-group v-for="(product, index) in productItems" :key="`searched-product-${index}`" role="button" @click="applySearch(product)">
         <b-list-group-item class="text-xs">
