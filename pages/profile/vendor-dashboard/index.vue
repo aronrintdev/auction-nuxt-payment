@@ -25,23 +25,6 @@
             @click="detailsMenu = true"
             >{{ $t('vendor_dashboard.view_details') }}</a
           >
-          <h3
-            :class="mobileClass"
-            class="medal-badge body-5-medium mb-0 bg-white br-10 px-3 py-2 d-flex align-items-center"
-          >
-            <img
-              :src="require('~/assets/img/icons/bronze-badge.svg')"
-              aria-hidden="true"
-              class="mr-2"
-            />
-            {{ vendor.rank }} {{ $t('vendor_dashboard.seller') }}
-          </h3>
-          <a
-            class="font-secondary fs-14 fw-5 mb-0 border-bottom border-primary font-primary"
-            role="button"
-            @click="detailsMenu = true"
-            >{{ $t('vendor_dashboard.view_details') }}</a
-          >
         </div>
       </div>
 
