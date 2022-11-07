@@ -38,7 +38,7 @@ export default {
     };
   },
   watch: {
-    items(newV) {
+    data(newV) {
       this.$refs.carousel?.destroy();
       this.$nextTick(() => this.$refs.carousel?.create());
       this.data = newV;

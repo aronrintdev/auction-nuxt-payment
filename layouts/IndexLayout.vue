@@ -1,7 +1,7 @@
 <template>
   <div class="position-relative">
     <Header />
-    <div class="container-fluid p-0">
+    <div class="container-fluid p-0 overflow-hidden">
       <Nuxt />
     </div>
     <ScrollToTop v-show="showScroll" />
