@@ -13,9 +13,9 @@
       </p>
       <div class="text-bold min-offer-text">
         {{ $t('selling_page.min_offers') }}
-        <span v-if="minimumOffer && status !== delisted" class="show-amount"
-          >&dollar;{{ minimumOffer | formatPrice }}</span
-        >
+        <span v-if="status !== delisted" class="show-amount"
+          >&dollar;{{ minimumOffer | formatPrice }}
+        </span>
       </div>
     </b-col>
 
@@ -186,7 +186,7 @@ export default {
     // Get the min Offer
     minimumOffer: (vm) => {
       if (vm.offers && vm.offers.length >= 1) {
-        return Math.min(...vm.value)
+        return isFinite(Math.min(...vm.value)) ? Math.min(...vm.value) : 0
       }
       return 0
     },

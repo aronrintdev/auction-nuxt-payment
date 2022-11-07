@@ -41,6 +41,7 @@ export default {
       this.getUserDetails()
       this.getUserRedeemedReward()
       this.getOrderSettings()
+      this.$auth.fetchUser()
     }
     this.injectGoogleMapsApi()
   },
