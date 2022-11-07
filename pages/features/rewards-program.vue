@@ -78,26 +78,26 @@ export default {
       banner: {
         title: 'newest_features.rewards_program.feature_banner_title',
         description: 'newest_features.rewards_program.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/rewards-program/rewards-program-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/rewards-program/rewards-program-banner-sm.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/rewards-program/rewards-program-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/rewards-program/rewards-program-banner-sm.svg'),
       },
       benefits: [
         {
-          benefitImage: require('@/assets/img/features/newest-feature/rewards-program/earn-points.png'),
+          benefitImage: require('@/assets/img/features/newest-feature/rewards-program/earn-points.svg'),
           benefitTitle:
             'newest_features.rewards_program.benefits.first_benefit_title',
           benefitDescription:
             'newest_features.rewards_program.benefits.first_benefit_desc',
         },
         {
-          benefitImage: require('@/assets/img/features/newest-feature/rewards-program/redeem-for-free-items.png'),
+          benefitImage: require('@/assets/img/features/newest-feature/rewards-program/redeem-for-free-items.svg'),
           benefitTitle:
             'newest_features.rewards_program.benefits.second_benefit_title',
           benefitDescription:
             'newest_features.rewards_program.benefits.second_benefit_desc',
         },
         {
-          benefitImage: require('@/assets/img/features/newest-feature/rewards-program/track-rewards.png'),
+          benefitImage: require('@/assets/img/features/newest-feature/rewards-program/track-rewards.svg'),
           benefitTitle:
             'newest_features.rewards_program.benefits.third_benefit_title',
           benefitDescription:

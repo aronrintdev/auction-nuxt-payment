@@ -92,8 +92,8 @@ export default {
       banner: {
         title: 'newest_features.auctions.feature_banner_title',
         description: 'newest_features.auctions.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/auctions/auctions-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/auctions/auctions-banner-sm.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/auctions/auctions-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/auctions/auctions-banner-sm.svg'),
       },
       options: [
         {
