@@ -3821,7 +3821,7 @@
       "authentication_complete": "Authentication Complete",
       "awaiting_shipment_to_buyer": "Awaiting Shipment to Buyer",
       "shipped_to_deadstock": "Send to Deadstock",
-      "authentication_complete": "Authentication Complete"
+      "arrived_at_deadstock": "Arrived at Deadstock"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
@@ -5548,8 +5548,7 @@
     "types": {
       "buying": "Buying",
       "selling": "Selling",
-      "communication": "Deadstock Comms",
-      "comms": "Deadstock Comms"
+      "communication": "Deadstock Comms"
     },
     "start": "Start",
     "end": "End",
