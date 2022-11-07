@@ -1,10 +1,10 @@
 <template>
   <div>
-    <object 
+    <object
       :is="single? 'b-form-radio-group': 'b-form-checkbox-group'"
       v-model="selected"
       :options="options"
-      :button-variant="`d-custom col col-4 d-flex justify-content-center align-items-center ml-2 mt-1 ${itemClass}`"
+      :button-variant="`d-custom col col-4 d-flex justify-content-center align-items-center ml-${marginLeft} mt-1 ${itemClass}`"
       buttons
       class="custom-button-multi w-100 row text-capitalize d-flex justify-content-between"
       :style="contentStyle"
@@ -16,7 +16,7 @@
           v-if="all"
           v-model="selected"
           :value="'all'"
-          :button-variant="`d-custom d-flex justify-content-center align-items-center ml-2 mt-1 ${itemClass}`"
+          :button-variant="`d-custom d-flex justify-content-center align-items-center ml-${marginLeft} mt-1 ${itemClass}`"
           buttons
           @change="allChanged"
         >
@@ -54,6 +54,10 @@ export default {
     itemClass: {
       type: String,
       default: ''
+    },
+    marginLeft: {
+      type: Number,
+      default: 2
     }
   },
   data() {
@@ -86,7 +90,6 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
-
 
 ::v-deep.custom-button-multi
   .active

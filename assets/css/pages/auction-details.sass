@@ -1,8 +1,9 @@
 .auction-details
   .auction-content
     display: flex
+    padding: 0 160px
     &-main
-      flex: 1
+      width: calc(100% - 500px)
       .collection-items-slider
         display: flex
         align-content: center
@@ -19,7 +20,7 @@
           padding: 0 25px
           user-select: none
     &-side
-      width: 560px
+      width: 500px
   .auction-header
     .breadcrumb
       background: transparent
@@ -66,7 +67,6 @@
           img
             margin-right: 0
   .product-details-tabs
-    max-width: 750px
     .nav
       padding: 0
     .nav-link
@@ -162,26 +162,15 @@
         color: $black
         min-height: 22px
   .product-info-box
-    padding: 15px 30px
+    padding: 0 10px 18px
     background: $color-white-2
-    border-radius: 10px
+    border-bottom: 1px solid $color-gray-16f
+    padding-bottom: 18px
     &-title
-      font-family: 'Futura'
-      font-weight: $bold
-      font-size: 24px
-      line-height: 32px
-      letter-spacing: -0.02em
-      text-transform: uppercase
+      font-family: $font-montserrat
       color: $black
-      margin-bottom: 5px
-      margin-right: 20px
-      max-width: 460px
     &-value
-      font-weight: $normal
-      font-size: 18px
-      line-height: 24px
       color: $color-gray-5
-      margin-bottom: 5px
       margin-top: 5px
       white-space: nowrap
   .bid-details
@@ -196,13 +185,6 @@
       letter-spacing: -0.02em
       color: $black
     .place-bid-form
-      display: flex
-      align-items: center
-      justify-content: space-between
-      border: 1px solid $color-blue-1
-      box-sizing: border-box
-      border-radius: 20px
-      padding: 8px 12px
       &-title
         text-align: left
         flex: 1
@@ -611,3 +593,14 @@
       .modal-content
         border-radius: 0
         height: 100vh
+.watchlist-popover
+  width: 150px
+  .arrow::before
+    border-bottom-color: $black
+  .share-btn-group
+    width: 120px
+    display: flex
+    align-items: center
+    justify-content: space-between
+    img
+      margin-right: 0
