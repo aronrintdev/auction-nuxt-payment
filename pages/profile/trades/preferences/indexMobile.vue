@@ -73,8 +73,6 @@
         {{$t('common.save_changes')}}
       </b-btn>
     </div>
-
-
     <div class="mt-2 ml-3 mr-3 mb-5 offer-sections p-2" v-if="showOfferSetting">
       <div>
         <div class="offer-head">  {{$t('trades.preferences.offer_settings')}}</div>
@@ -642,8 +640,8 @@ export default {
   background: $color-blue-20
   border-radius: 20px
   height: 40px
-  width: 300px
-  margin-top: 5rem
+  width: 270px
+  margin-top: 3rem
 .offer-sections
   width: 343px
   height: 200px
