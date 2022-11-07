@@ -244,7 +244,6 @@
                       :name="$t('auth.email_address')"
                       :rules="{
                         required: true,
-                        validEmail: true,
                         email: true,
                         min: 3,
                         max: 128,
