@@ -60,16 +60,16 @@
         </div>
       </div>
       <div>
-       <b-btn class="save-btn ml-3" @click="savePreference">
+       <b-btn class="save-changes-btn ml-5" @click="savePreference">
          {{$t('common.save_changes')}}
        </b-btn>
       </div>
     </div>
-    <div class="inven-cont ml-3 m-2 p-3" v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM" >
+    <div class="customize-cont ml-3 m-2 p-3" v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM" >
      <div>
        <your-inventory @updateTotal="setTotalInventory" @change="changePublicInventories" />
      </div>
-      <b-btn class="save-btn ml-3" @click="savePreference">
+      <b-btn class="save-btn-customzie ml-3" @click="savePreference">
         {{$t('common.save_changes')}}
       </b-btn>
     </div>
@@ -528,7 +528,7 @@ export default {
 
 .main-pref-container
   background: $color-white-1
-  padding: 50px
+  //padding: 50px
 
 .inventory-settings
   background: $color-white-1
@@ -621,6 +621,12 @@ export default {
   border: 1px solid $color-gray-96
 .inven-cont
   width: 343px
+  height: 300px
+  background: $color-white-1
+  box-shadow: 0px 1px 4px $color-black-rgb2
+  border-radius: 10px
+.customize-cont
+  width: 343px
   height: 620px
   background: $color-white-1
   box-shadow: 0px 1px 4px $color-black-rgb2
@@ -642,6 +648,18 @@ export default {
   height: 40px
   width: 270px
   margin-top: 3rem
+.save-changes-btn
+  background: $color-blue-20
+  border-radius: 20px
+  height: 40px
+  width: 270px
+  margin-top: 1rem
+.save-btn-customzie
+  background: $color-blue-20
+  border-radius: 20px
+  height: 40px
+  width: 270px
+  margin-top: 1rem
 .offer-sections
   width: 343px
   height: 200px
