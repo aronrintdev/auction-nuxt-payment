@@ -1,15 +1,16 @@
 <template>
   <div>
-    <div 
-      class="d-flex align-items-center justify-content-between" 
-      role="button" 
+    <div
+      class="d-flex align-items-center justify-content-between"
+      :class="titleSectionClass"
+      role="button"
       @click="shown = !shown"
     >
       <span class="title">
         {{ title }}
       </span>
 
-      <div class="col-5 d-flex justify-content-between align-items-center">
+      <div class="col-5 px-0 d-flex justify-content-between align-items-center">
         <span class="value text-truncate">{{ data }}</span>
         <arrow-down-black :class="{'reverse': shown}" />
       </div>
@@ -24,7 +25,6 @@
 
 <script>
 import arrowDownBlack from '~/assets/img/icons/arrow-down-black.svg?inline'
-
 export default {
   name: 'FilterAccordion',
   components: {arrowDownBlack},
@@ -42,6 +42,10 @@ export default {
       default: false
     },
     data: {
+      type: String,
+      default: ''
+    },
+    titleSectionClass: {
       type: String,
       default: ''
     }
@@ -66,14 +70,13 @@ export default {
   font-family: $font-family-sf-pro-display
   font-weight: $normal
   margin-right: 14px
-  
+
 .title
   @include body-13
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $medium
   color: $color-blue-20
-
 .reverse
   animation-duration: 0.5s
   transform: rotate(180deg)

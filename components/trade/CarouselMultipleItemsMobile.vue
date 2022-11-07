@@ -89,7 +89,7 @@ export default {
 
   .carousel::v-deep
     width: 100%
-    padding: 0 58px
+    padding: 0 15px
     position: relative
     margin-left: auto
     margin-right: auto
@@ -102,7 +102,7 @@ export default {
     .owl-carousel
       .item
         margin: 0 10px
-        width: 77px
+        width: 101px
         margin-left: auto
         margin-right: auto
 
@@ -126,7 +126,7 @@ export default {
   box-shadow: 0px 1px 4px $color-black-rgb2
   border-radius: 10px
   margin: 2px 2px 2px 2px
-  height: 210px
+  height: 278px
 
 .trade-info
   background: $color-gray-1
@@ -151,8 +151,6 @@ export default {
 .listing-id-color
   color: $color-blue-1
 
-.item
-  border: 0.5px solid $light-gray-2
 .text-created
   font-family: $font-family-montserrat
   font-style: normal
@@ -174,4 +172,6 @@ export default {
   height: 21px
   width: 100px !important
   float: right
+.products
+  height: 171px
 </style>

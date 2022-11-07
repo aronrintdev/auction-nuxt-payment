@@ -39,6 +39,8 @@
     "discard_changes": "Discard Changes",
     "list": "List",
     "footwear": "Footwear",
+    "bulk_delete_warning": "Are you sure you would like to delete selected?",
+    "items_deleted": "Your items have been deleted!",
     "apparel": "Apparel",
     "accessory": "Accessory | Accessories",
     "hat": "Hat | Hats",
@@ -144,8 +146,6 @@
     "add_to_general": "Add to general wants or a combination",
     "price_range": "Price Range",
     "browse": "Browse",
-    "bulk_delete_warning": "Are you sure you would like to delete selected?",
-    "items_deleted": "Your items have been deleted!",
     "wants_inventory": "Wants Inventory",
     "wants_combinations": "Wants Combinations",
     "categories": {
@@ -169,6 +169,8 @@
     "read_less": "Read Less",
     "read_more": "Read More",
     "go_back": "Go Back",
+    "no_trades": "No Trade offers have been sent",
+    "list_product_today": "List a product today on Deadstock!",
     "product_type"  : "Product Type",
     "continue"  : "Continue",
     "of"  : "of",
@@ -4720,15 +4722,19 @@
     "no_trade_offers_have_been": "No Trade offers have been ",
     "no_trade_offers_have_been_found": "No Trade offers have been found",
     "no_trade_list_have_been_found": "No Trade list have been found",
+    "sent_on": "Sent on",
     "offer_type": {
       "all": "All Offers",
       "received": "Received",
       "sent": "Sent",
-      "counter_received": "Counter(Received)",
-      "counter_sent": "Counter(Sent)"
+      "counter_received": "Counter (Received)",
+      "counter_sent": "Counter (Sent)"
     },
     "recent_to_oldest": "Listings: Recent to Oldest",
     "oldest_to_recent": "Listings: Oldest to Recent",
+    "offers_recent_to_oldest": "Offers: Recent to Oldest",
+    "offers_oldest_to_recent": "Offers: Oldest to Recent",
+    "offer_type_label": "Offer Type",
     "excellent_trade": "Excellent Trade",
     "poor_trade": "Poor Trade",
     "fair_trade": "Fair Trade",
@@ -4854,7 +4860,19 @@
       "status": "Status",
       "size": "Size",
       "preferences_updated_successfully": "Preferences updated successfully",
-      "no_inventory_found": "No Inventory found"
+      "no_inventory_found": "No Inventory found",
+      "set_privacy_settting": "Set privacy settings for your inventory",
+      "customize_the_min_value": "Customize the min. value (%) of incoming offers",
+      "starting_at_25_of_fair_offers": "Starting at: 25% of Fair Offers",
+      "refine_your_match": "Refine Your Match",
+      "update_your_interests": "Update your interests",
+      "foot_apparel_access": "Footwear 99%, Apparel 99%, Accessories 99%",
+      "select_preferred_size_type_and_sizes": "Select preferred size type and sizes",
+      "mens_55": "Men's: 5.5, 13, 12....",
+      "brand_preferences": "Brand Preferences",
+      "select_brands_you_are_interested_in": "Select brands you are interested in",
+      "nike_supreme_bape": "Nike, Supreme, Bape",
+      "set_what_other_traders_are_able_to_view_when_placing": "Set what other traders are able to view when placing an offer"
     },
     "wants_listing": {
       "general_wants": "General Wants",
@@ -4930,7 +4948,11 @@
     "edit_requested_cash": "Edit Requested Cash",
     "offer": "Offer",
     "want": "Want",
-    "post_trade": "Post Trade"
+    "post_trade": "Post Trade",
+    "date_sent": "Date Sent",
+    "wants_list": "Wants List",
+    "wants_list_contains_items_saved_from_your_listings": "Wants List contains items saved from your listings",
+    "manage_all_aspects_of_your_trades": "Manage all aspects of your trades"
   },
   "change_password": {
     "password": "Password",

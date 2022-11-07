@@ -15,7 +15,7 @@
     <div class="detail-wrapper">
       <div class="product-name">{{ product.name }}</div>
       <div class="product-color">{{ product.colorway }}</div>
-      <div class="product-color">{{ product.size }}</div>
+      <div class="product-name">{{ product.size }}</div>
     </div>
   </div>
 </template>
@@ -66,10 +66,12 @@ export default {
 .product-image
     position: relative
     padding: 0 10px
+    height: 115px
 
 .detail-wrapper
   background-color: $color-white-1
   padding: 8px
+  height: 56px
 
 .product-name
   @include body-9
@@ -81,7 +83,6 @@ export default {
 .product-color
   @include body-18
   color: $color-gray-5
-  margin-top: 7px
   text-overflow: ellipsis
   overflow: hidden
   white-space: nowrap
