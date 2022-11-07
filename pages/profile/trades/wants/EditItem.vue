@@ -296,7 +296,7 @@ export default {
     ProductImageViewer,
     ProductImageViewerMagic360,
     SelectListModal,
-    SalesSection,
+    SalesSection
   },
   props: {
     product: {

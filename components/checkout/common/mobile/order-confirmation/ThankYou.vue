@@ -78,22 +78,23 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'ThankYou',
+  props: {
+    orderDetails: {
+      type: Object,
+      required: true,
+    }
+  },
   data() {
     return {
       rewardPoints: 0,
     }
   },
-  computed: {
-    ...mapGetters({
-      orderDetails: 'order-details/getOrderDetails',
-    })
-  },
   beforeMount() {
-    this.getAwardedPoints()
+    if (! this.$router.currentRoute.name.includes('place-offer')) {
+      this.getAwardedPoints()
+    }
   },
   methods: {
     getAwardedPoints() {

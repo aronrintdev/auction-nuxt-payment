@@ -1,8 +1,8 @@
 <template>
   <b-col cols="12" sm="12" class="px-0">
-    <ProductPreview :products="combinedProducts" :copped-text="coppedText" />
+    <ProductPreview :products="products" :copped-text="coppedText" />
 
-    <ThankYou :order-details="orderDetails" @view-order-details="$refs.orderDetails.open()" />
+    <ThankYou :order-details="offerDetails" @view-order-details="$refs.orderDetails.open()" />
 
     <!-- Bottom Sheet with the Order Summary -->
     <vue-bottom-sheet ref="orderDetails">
@@ -16,30 +16,22 @@
 import { mapGetters } from 'vuex'
 import ProductPreview from '~/components/checkout/common/mobile/order-confirmation/ProductPreview'
 import ThankYou from '~/components/checkout/common/mobile/order-confirmation/ThankYou'
-import OrderDetails from '~/components/checkout/selling/mobile/order-confirmation/OrderDetails'
+import OrderDetails from '~/components/checkout/place-offer/mobile/order-confirmation/OrderDetails'
 
 export default {
   name: 'OrderConfirmation',
   components: { ProductPreview, ThankYou, OrderDetails },
   data() {
     return {
-      coppedText: 'COPPED'
+      coppedText: 'OFFER PLACED'
     }
   },
   computed: {
     ...mapGetters({
-      products: 'order-details/getProducts',
-      freeSneakersRedeemedReward: 'order-details/getFreeSneakersRedeemedReward',
-      orderDetails: 'order-details/getOrderDetails',
+      offerDetails: 'offer/getOfferDetails',
     }),
-    combinedProducts(vm) {
-      const products = [...vm.products]
-
-      if (vm.freeSneakersRedeemedReward) {
-        products.push(vm.freeSneakersRedeemedReward)
-      }
-
-      return products
+    products(vm) {
+      return [vm.offerDetails.product]
     }
   }
 }
