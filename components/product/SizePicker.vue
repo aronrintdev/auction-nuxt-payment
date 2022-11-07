@@ -1,17 +1,17 @@
 <template>
-  <div class="position-relative w-100 w-md-auto container">
+  <div class="position-relative w-100 mw-100 w-md-auto container px-4 px-sm-0">
     <div
       v-if="viewMode === 'carousel'"
       class="position-relative mx-auto carousel-wrapper"
       :style="wrapperStyle"
     >
-      <b-row class="carousel-wrapper-title">
-        <b-col md="12">
-          <div>
-            <span class="body-8-normal text-uppercase">{{ $t('products.select_size') }}</span>
+      <b-row>
+        <b-col md="12" class="d-flex justify-content-between align-items-center px-0">
+          <span class="select-size">
+            {{ $t('products.select_size') }}<span class="d-sm-none">:</span>
             <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
-          </div>
-          
+          </span>
+
           <div 
             v-if="!singleMode"
             class="position-absolute view-all-btn mr-2"
@@ -21,11 +21,12 @@
               width="18"
               height="18"
               :src="require('~/assets/img/icons/eye2.svg')"
+              class="d-sm-none"
               :class="iconClass"
             />
             <span 
+              class="all-sizes"
               :class="iconTextClass"
-              class="icon-text"
               role="button"
             >
               {{ $t('products.all_sizes') }}
@@ -43,7 +44,7 @@
           :margin="10"
           :responsive="{
             0: { items: xsCount, nav: false, center: xsCenter },
-            600: { items: 3, nav: false },
+            576: { items: 6, nav: false },
             1268: { items: 5, nav: false },
           }"
           :mouse-drag="false"
@@ -290,6 +291,20 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.select-size
+  @include body-10-regular
+  color: $color-black-1
+  @media (min-width: 576px)
+    @include body-8-normal
+    text-transform: uppercase
+
+.all-sizes
+  @include body-10-regular
+  color: $color-black-1
+  @media (min-width: 576px)
+    @include body-8-medium
+    color: $color-blue-30
+
 .icon-text
   font-size: 14px !important
   font-weight: $medium !important
@@ -323,15 +338,13 @@ export default {
 .container
   .carousel-wrapper
     max-width: 100%
-    padding-top: 24px
+    @media (min-width: 576px)
+      padding-top: 24px
 
   .size-carousel::v-deep
     max-width: 100%
     padding: 0 20px
     margin-top: 8px
-
-    @media only screen and (max-width: 1290px)
-      width: 400px
 
     >span .owl-nav
       display: block !important
@@ -340,7 +353,7 @@ export default {
 
       .item
         cursor: pointer
-
+        margin: 0 !important
         &.active
           .card
             border: 1px solid $color-black-4
@@ -351,12 +364,14 @@ export default {
 
           &::after
             content: " "
-            width: 63px
             border-bottom: 2px solid $color-blue-5
             margin-top: 11px
             display: block
             margin-left: auto
             margin-right: auto
+            width: 49px
+            @media (min-width: 576px)
+              width: 63px
 
     .owl-nav
       margin-bottom: 0px
@@ -369,24 +384,33 @@ export default {
         float: right
         width: auto
         margin-right: -30px !important
-        margin-top: -92px !important
+        margin-top: -71px !important
+        @media (min-width: 576px)
+          margin-right: -30px !important
+          margin-top: -80px !important
 
       &.owl-prev
-        margin-left: -30px !important
-        margin-top: 28px !important
         float: left
         width: auto
+        margin-top: 13px !important
+        margin-left: -30px !important
+        @media (min-width: 576px)
+          margin-top: 18px !important
+          margin-left: -30px !important
 
     .card
-      @include body-2-medium
+      @include body-9-medium
       border: 1px solid $color-gray-21
       border-radius: 10px
-      width: 80px
-      height: 80px
+      width: 49px
+      height: 49px
       color: $color-black-4
       background-color: $color-white-1
       box-shadow: none
-
+      @media (min-width: 576px)
+        @include body-2-medium
+        width: 64px
+        height: 64px
     .price
       @include body-13-normal
       margin-top: 8px
@@ -397,7 +421,6 @@ export default {
     top: 0
 
   .all-sizes
-    padding-top: 24px
     max-width: 100%
 
     .items-wrapper
@@ -428,14 +451,18 @@ export default {
           margin-right: auto
 
       .card
-        @include body-2-medium
-        width: 70px
-        height: 70px
+        @include body-9-medium
+        width: 49px
+        height: 49px
         border: 1px solid $color-gray-21
         color: $color-black-4
         box-shadow: none
         background-color: $color-white-1
         border-radius: 10px
+        @media (min-width: 576px)
+          @include body-2-medium
+          width: 64px
+          height: 64px
 
       .price
         @include body-13-normal
@@ -451,9 +478,4 @@ export default {
     .all-sizes
       .item
         width: 25%
-@media (max-width: 450px)
-  .container
-    .all-sizes
-      .item
-        width: 50%
 </style>

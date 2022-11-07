@@ -38,11 +38,11 @@
           </div>
         </div>
         <div>
-          <div class="d-flex justify-content-center align-content-center mb-2 mt-3">
-            <div class="mr-5">
-              <div class="pretty-label ml-4" v-html="prettyLabel(key)"></div>
+          <div class="d-flex justify-content-between align-content-center mb-2 mt-3 p-3">
+            <div class="">
+              <div class="pretty-label" v-html="prettyLabel(key)"></div>
             </div>
-           <div class="mr-2">
+           <div class="">
                <img :src="require('~/assets/img/moreicon.svg')"/>
            </div>
           </div>
@@ -62,14 +62,14 @@
     <!-- Display single section -->
     <div v-else>
       <div v-for="(trades, key) in sectionTypes" :key="key">
-        <div class="px-5 pt-5">
+        <div class="pt-5">
             <b-row>
-              <b-col md="12" class="d-flex justify-content-between carousel-heading mb-5 ml-5">
+              <b-col md="12" class="d-flex carousel-heading mb-5 pl-4">
                 <h2 v-html="prettyLabel(key)"></h2>
               </b-col>
               <!-- Display trades with single items -->
-              <b-col v-if="selectedTradeTotalItems === 'one' && trades.length" md="12" class="justify-content-center d-flex flex-wrap">
-                <div v-for="(trade) in trades" :key="'trade-item-' + trade.id" class="trade-card mb-5 mx-3 d-inline-block">
+              <b-col v-if="selectedTradeTotalItems === 'one' && trades.length" md="12" class="d-flex flex-wrap pl-4">
+                <div v-for="(trade) in trades" :key="'trade-item-' + trade.id" class="trade-card mb-5 d-inline-block">
                   <div
                     v-for="(product, index) in trade.offers"
                     :key="`trade-carousel-${index}`"
@@ -175,7 +175,6 @@ export default {
 
     // load trade items when filters are applied
     applyTradeFilters(){
-      console.log('come inside')
       this.$store.commit('trade/setTradeType', 'search_results')
       this.filterTrades()
     },
@@ -222,9 +221,8 @@ export default {
   @media (max-width: 350px) and  (min-width: 300px)
     width: 310px
 .trade-card
-  width: 255px
+  width: 164px
   background: $color-white-1
-  border: 1px solid $light-gray-2
   box-sizing: border-box
 .create-btn
   width: 160px

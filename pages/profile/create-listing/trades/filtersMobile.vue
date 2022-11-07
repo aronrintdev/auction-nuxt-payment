@@ -27,7 +27,7 @@
         <div class="d-flex">
 <!--          <span class="selected-catgory pull-left">{{categoryFilter}}</span>-->
           <img  v-if="isVisible" class="arrow-image pull-right" :src="require('~/assets/img/upArrow.svg')"/>
-          <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/downArrow.svg')"/>
+          <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/downArrowFilter.svg')"/>
         </div>
       </div>
       <b-collapse id="collapse-1" v-model="isVisible">
@@ -46,7 +46,7 @@
         </div>
         <div class="d-flex">
           <img  v-if="isVisibleSizeType" class="arrow-image pull-right" :src="require('~/assets/img/upArrow.svg')"/>
-          <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/downArrow.svg')"/>
+          <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/downArrowFilter.svg')"/>
         </div>
       </div>
       <b-collapse id="collapse-sizeType" v-model="isVisibleSizeType">
@@ -73,7 +73,7 @@
         </div>
         <div class="d-flex">
           <img  v-if="isVisibleSizes" class="arrow-image pull-right" :src="require('~/assets/img/upArrow.svg')"/>
-          <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/downArrow.svg')"/>
+          <img  v-else class="arrow-image pull-right" :src="require('~/assets/img/downArrowFilter.svg')"/>
         </div>
       </div>
       <b-collapse id="collapse-sizes" v-model="isVisibleSizes">
