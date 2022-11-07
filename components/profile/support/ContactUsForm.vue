@@ -106,13 +106,10 @@ export default {
       return field === 'no' ? 'error-border' : ''
     },
     handleSortByChange(e) {
-      console.debug(e)
       this.form.concern = e
     },
     fileChanged(e) {
       this.file = e.target.files[0]
-      console.debug(this.file)
-      console.debug(e.target.files[0])
     },
     fileRemoved() {
       this.file = null
@@ -165,6 +162,8 @@ export default {
         subject: '',
         description: ''
       }
+      this.file = null
+      this.categorySelected = ''
     }
   }
 }
