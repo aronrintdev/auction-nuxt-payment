@@ -8,44 +8,50 @@
     @hidden="$emit('hidden')"
   >
     <div v-if="!mobileClass" class="message-modal-content">
-      <div class="message" v-html="message"></div>
+      <div :style="messageStyle" class="message" v-html="message"></div>
       <img
         v-if="icon && icon === 'tick'"
         :src="require('~/assets/img/icons/product/confirm-tick.svg')"
       />
       <img
         v-if="icon && icon === 'trash'"
-        :src="require('~/assets/img/icons/product/trash.svg')"
+        :src="require('~/assets/img/icons/trash-mobile.svg')"
       />
     </div>
 
-    <div v-if="mobileClass" class="message-modal-content">
-      <img
-        v-if="icon && icon === 'tick'"
-        :src="require('~/assets/img/icons/product/confirm-tick.svg')"
-        @click="$emit('hidden')"
-      />
-      <img
-        v-if="icon && icon === 'trash'"
-        :src="require('~/assets/img/icons/trash-mobile.svg')"
-        @click="$emit('hidden')"
-      />
-      <img
-        v-if="icon && icon === 'success-tick'"
-        :src="require('~/assets/img/icons/product/success-tick.svg')"
-        @click="$emit('hidden')"
-      />
-      <img
-        v-if="icon && icon === 'trash-red-bg'"
-        :src="require('~/assets/img/icons/trash-mobile.svg')"
-        @click="$emit('hidden')"
-      />
+    <div 
+      v-if="mobileClass" 
+      class="message-modal-content" 
+    >
+      <div>
+        <img
+          v-if="icon && icon === 'tick'"
+          :src="require('~/assets/img/icons/product/confirm-tick.svg')"
+          @click="$emit('hidden')"
+        />
+        <img
+          v-if="icon && icon === 'trash'"
+          :src="require('~/assets/img/icons/trash-mobile.svg')"
+          @click="$emit('hidden')"
+        />
+        <img
+          v-if="icon && icon === 'success-tick'"
+          :src="require('~/assets/img/icons/product/success-tick.svg')"
+          @click="$emit('hidden')"
+        />
+        <img
+          v-if="icon && icon === 'trash-red-bg'"
+          :src="require('~/assets/img/icons/trash-mobile.svg')"
+          @click="$emit('hidden')"
+        />
+      </div>
       <div
         :class="`message ${mobileClass} ${
           mobileClass &&
           'd-flex align-items-center text-center justify-content-center'
         }`"
-        v-html="message"
+        :style="messageStyle"
+        v-html="message" 
       ></div>
     </div>
   </Modal>
@@ -85,6 +91,10 @@ export default {
     hideHeader: {
       type: Boolean,
       default: false,
+    },
+    messageStyle: {
+      type: Object,
+      default: () => {}
     },
   },
 

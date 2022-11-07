@@ -191,10 +191,10 @@
           </div>
         </div>
         <div v-else class="w-100 mt-5 d-flex flex-column align-items-center justify-content-around">
-          <div class="text-gray-24 font-weight-bold mt-5">
+          <div class="text-gray-24 font-weight-bold mt-5 text-center">
             {{ $t('auction.no_items') }}
           </div>
-          <div class="text-gray-24 font-weight-bold mt-2">
+          <div class="text-gray-24 font-weight-bold mt-2 text-center">
             {{ $t('auction.list_auction_today') }}
           </div>
           <div>
@@ -214,19 +214,21 @@
     </div>
     <!--    no item text and action    -->
 
-
-    <Pagination
-      v-if="haveAuction && !fetchLoading"
-      v-model="page"
-      :total="totalCount"
-      :per-page="perPage"
-      :per-page-options="perPageOptions"
-      class="mt-4"
-      @page-click="handlePageClick"
-      @per-page-change="handlePerPageChange"
-    />
-
-
+    <template v-if="!isMobileSize">
+      <Pagination
+        v-if="haveAuction && !fetchLoading"
+        v-model="page"
+        :total="totalCount"
+        :per-page="perPage"
+        :per-page-options="perPageOptions"
+        class="mt-4"
+        @page-click="handlePageClick"
+        @per-page-change="handlePerPageChange"
+      />
+    </template>
+    <template v-else>
+      <infinite-loading :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
+    </template>
     <!-- For mobile filters begin -->
     <vue-bottom-sheet
       ref="mobileFilter"
@@ -325,7 +327,8 @@ export default {
           text: this.$t('auction.status_types.' + key),
           value: key
         }
-      })
+      }),
+      infiniteId: +new Date(),
     }
   },
   computed: {
@@ -481,7 +484,7 @@ export default {
         types: this.activeTypeFilters.map(filter => filter.value).filter(filter => filter),
         start_date: this.start_date,
         end_date: this.end_date,
-        status: this.status === 'all' ? null : this.status,
+        category: this.duration === 'all' ? null : this.duration,
       }
       if(this.activeStatusFilters.length) {
         const hasAll = this.activeStatusFilters.filter((f) => f.value === 'all')
@@ -554,6 +557,7 @@ export default {
     handleMethodNavClick(duration) {
       if (duration) {
         this.duration = duration
+        this.page = 1
         this.FetchAuctions()
       }
     },
@@ -602,7 +606,42 @@ export default {
       this.end_date = filters.end_date;
       this.closeMobileFilter()
       this.FetchAuctions()
-    }
+    },
+    handleLoading($state) {
+      const payload = {
+        take: this.perPage,
+        page: this.page,
+        search: this.search,
+        sort_by: this.sortBy,
+        types: this.activeTypeFilters.map(filter => filter.value).filter(filter => filter),
+        start_date: this.start_date,
+        end_date: this.end_date,
+        category: this.duration === 'all' ? null : this.duration,
+      }
+      if(this.activeStatusFilters.length) {
+        const hasAll = this.activeStatusFilters.filter((f) => f.value === 'all')
+        if (hasAll.length) {
+          payload.status = null
+        } else {
+          payload.status = this.activeStatusFilters.map((s) => s.value)
+        }
+      }
+      this.fetchAuctions(payload).then(res => {
+        this.totalCount = res.data.total
+
+        if (this.totalCount <= this.getAuctions.length) {
+          $state.complete()
+        }
+        if (this.page === 1) {
+          this.$store.commit('profile-auction/setAuctions', res.data?.data)
+        } else {
+          const data = [...this.getAuctions, ...res.data?.data]
+          this.$store.commit('profile-auction/setAuctions', data)
+        }
+        this.page = this.page + 1
+        $state.loaded()
+      })
+    },
   }
 }
 </script>

@@ -21,7 +21,7 @@
             <Logo :width="171" />
           </PortalTarget>
         </h2>
-      </div> 
+      </div>
     </b-navbar-brand>
     <b-nav-form class="search-box-wrapper">
       <SearchInput
@@ -42,7 +42,10 @@
       @hide="handleSearchOverlayHide"
     />
     <b-navbar-nav class="nav-menu-wrapper flex-row d-flex d-lg-none">
-      <b-nav-item class="nav-item-icons" to="#">
+      <b-nav-item
+        class="nav-item-icons"
+        :to="`${authenticated ? '/profile/notification' : '/login'}`"
+      >
         <!-- to append custom elements based on different pages in responsive mode  -->
         <PortalTarget name="notification-icon-slot">
           <img
@@ -123,16 +126,19 @@
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
-    <vue-bottom-sheet
-      v-if="isScreenXS"
-      ref="searchBottomSheet"
-      max-width="auto"
-      max-height="100%"
-      :rounded="false"
-      :is-full-screen="true"
-    >
-      <SearchOverlayMobile ref="searchbar" @close="close" />
-    </vue-bottom-sheet>
+    <client-only>
+      <vue-bottom-sheet
+        v-if="isScreenXS"
+        ref="searchBottomSheet"
+        :is-full-screen="true"
+        :rounded="false"
+        max-height="100%"
+        max-width="auto"
+      >
+        <SearchOverlayMobile ref="searchbar" @close="close" />
+      </vue-bottom-sheet>
+    </client-only>
+
     <!-- Sidebar menu begin -->
     <b-sidebar
       id="top-menu-sidebar"
@@ -334,7 +340,22 @@ export default {
       }
     },
   },
+  mounted() {
+    this.$root.$on('showSearchOverlay', this.open)
+    this.$root.$on('hideSearchOverlay', this.close)
+  },
+  destroyed() {
+    this.$root.$off('showSearchOverlay', this.open)
+    this.$root.$off('hideSearchOverlay', this.close)
+  },
   methods: {
+    notificationPage() {
+      if (this.authenticated) {
+        this.$router.push({
+          path: '/profile/notification',
+        })
+      }
+    },
     open() {
       this.$refs.searchBottomSheet.open()
     },

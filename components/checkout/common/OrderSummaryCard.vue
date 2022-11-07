@@ -9,14 +9,14 @@
           :class="{ 'd-none': item.hideWith0Value && item.value <= 0 }"
           class="summary-row"
         >
-          <b-col cols="6" sm="6" md="6">
+          <b-col cols="7" sm="7" md="6">
             <div class="body-5-regular text-gray-25">
               {{ item.label }}&colon;
             </div>
           </b-col>
-          <b-col cols="6" sm="6" md="6">
+          <b-col cols="5" sm="5" md="6">
             <div class="body-5-regular text-gray-25 pull-right">
-              &dollar;{{ item.value | formatPrice }}
+              {{ item.value | toCurrency }}
             </div>
             <div v-if="item.paymentDetails" class="col-12 text-gray-25 pull-right text-sm text-right pr-0">
               <small>({{item.paymentDetails}})</small>
@@ -75,7 +75,7 @@
           </b-col>
           <b-col cols="6" sm="6" md="6">
             <div class="pull-right body-5-normal">
-              &dollar;{{ getTotal | formatPrice }}
+              {{ getTotal | toCurrency }}
             </div>
           </b-col>
         </b-row>

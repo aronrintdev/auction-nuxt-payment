@@ -70,7 +70,7 @@
 import { mapActions } from 'vuex'
 import emitEventMixin from '~/plugins/mixins/emit-event'
 import offerDetailsMixin from '~/plugins/mixins/offer-details'
-import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTitle'
+import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTitle'
 import ArrowLeftBlackSVG from '~/assets/img/shopping-cart/arrow-left-black.svg?inline'
 import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
 import PromoCodeInput from '~/components/checkout/common/PromoCodeInput'
@@ -103,7 +103,8 @@ export default {
     ...mapActions({
       addPromoCode: 'order-details/addPromoCode',
       removePromoCode: 'order-details/removePromoCode',
-      offerSubmit: 'offer/offerSubmit'
+      offerSubmit: 'offer/offerSubmit',
+      removePaymentToken: 'order-details/removePaymentToken',
     }),
     applyPromoCode(promoCode) {
       this.$axios.post('coupons/check', {
@@ -123,26 +124,30 @@ export default {
         this.$toasted.error(error)
       })
     },
-    placeOffer(){
+    placeOffer() {
+      this.loading = true
       this.offerSubmit({
         billingAddress: this.billingAddress,
         shippingAddress: this.shippingAddress,
         paymentMethod: this.paymentMethod,
-        offerDetails: this.getOfferDetails,
+        offerDetails: this.offerDetails,
         priceDetails: {
           shipping_fee: this.shippingFee,
           processing_fee: this.getProcessingFee,
           tax: this.getTax,
-          sub_total: this.subTotal,
+          sub_total: this.getSubtotalAfterDiscount,
           total: this.getTotal
         },
         paymentToken: this.paymentToken
-      }).then((res) => {
-        if (res.data.success){
-          this.$bvModal.show('message-modal')
-        }
+      }).then(() => {
+        this.removePaymentToken().then(() => {
+          this.$parent.$parent.close()
+          this.$router.push('/checkout/place-offer/order-confirmation')
+        })
       }).catch((err) => {
         this.$logger.logToServer('Place Offer Error', err.response);
+      }).finally(() => {
+        this.loading = false
       })
     },
   }
@@ -177,4 +182,9 @@ export default {
   .btn
     min-width: 216px
     min-height: 40px
+
+    &:disabled
+      border: none
+      background: $color-gray-1
+      color: $color-gray-47
 </style>

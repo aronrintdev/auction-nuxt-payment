@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import screenSize from '~/plugins/mixins/screenSize'
 import ItemList from '~/components/checkout/place-offer/ItemList'
 import PlaceOfferSummary from '~/components/checkout/place-offer/PlaceOfferSummaryComponent'
@@ -36,9 +37,19 @@ export default {
     })
   },
   mounted() {
+    if (this.$store.$auth.loggedIn) {
+      this.getUserDetails()
+      this.getUserRedeemedReward()
+      this.getOrderSettings()
+    }
     this.injectGoogleMapsApi()
   },
   methods: {
+    ...mapActions({
+      getUserDetails: 'auth/getUserDetails',
+      getUserRedeemedReward: 'redeemed-reward/getUserRedeemedReward',
+      getOrderSettings: 'order-settings/getOrderSettings'
+    }),
     // Inject Google Maps Api (if it doesn't exist)
     injectGoogleMapsApi() {
       if (window.google) {

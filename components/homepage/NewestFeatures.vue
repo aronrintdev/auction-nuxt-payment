@@ -10,12 +10,12 @@
     <div class="newest-features-grid row no-gutters">
       <div class="col-12 col-sm-6 row no-gutters border-right features-sm">
         <div class="col-7 col-sm-12 border-bottom">
-          <NuxtLink to="./profile/wish-lists">
+          <NuxtLink to="./features/shareable-wishlists-and-watchlists">
             <div class="overflow-wrapper position-relative">
               <img
                 width="100%"
                 class="d-none d-sm-block"
-                :src="require('~/assets/img/home/features/features1.png')"
+                :src="require('~/assets/img/home/features/features1.svg')"
               />
               <img
                 width="100%"
@@ -37,12 +37,12 @@
           </NuxtLink>
         </div>
         <div class="col-5 col-sm-6 border-right">
-          <NuxtLink to="./trades">
+          <NuxtLink to="./features/trading">
             <div class="overflow-wrapper">
               <img
                 width="100%"
                 class="d-none d-sm-block"
-                :src="require('~/assets/img/home/features/features3.png')"
+                :src="require('~/assets/img/home/features/features3.svg')"
               />
               <img
                 width="100%"
@@ -59,12 +59,12 @@
           </NuxtLink>
         </div>
         <div class="col-5 col-sm-6">
-          <NuxtLink to="./profile/preferences">
+          <NuxtLink to="./features/crypto-payments">
             <div class="overflow-wrapper">
               <img
                 width="100%"
                 class="d-none d-sm-block"
-                :src="require('~/assets/img/home/features/features4.png')"
+                :src="require('~/assets/img/home/features/features4.svg')"
               />
               <img
                 width="100%"
@@ -84,7 +84,7 @@
           </NuxtLink>
         </div>
         <div class="col-7 d-flex d-sm-none border-bottom">
-          <NuxtLink to="./profile/preferences">
+          <NuxtLink to="./features/streetwear">
             <div class="overflow-wrapper">
               <img
                 width="100%"
@@ -101,12 +101,12 @@
         </div>
       </div>
       <div class="col-6 row no-gutters d-none d-sm-flex">
-        <NuxtLink to="./shop">
+        <NuxtLink to="./features/streetwear">
           <div class="col-12 border-bottom">
             <div class="overflow-wrapper">
               <img
                 width="100%"
-                :src="require('~/assets/img/home/features/features2.png')"
+                :src="require('~/assets/img/home/features/features2.svg')"
               />
               <h1
                 class="feature-title position-absolute text-center fs-24 fw-4 font-primary text-white mb-0"
@@ -117,11 +117,11 @@
           </div>
         </NuxtLink>
         <div class="col-6 border-right">
-          <NuxtLink to="./shop">
+          <NuxtLink to="./features/instant-shipping">
             <div class="overflow-wrapper">
               <img
                 width="100%"
-                :src="require('~/assets/img/home/features/features5.png')"
+                :src="require('~/assets/img/home/features/features5.svg')"
               />
               <h1
                 class="feature-title position-absolute text-center fs-24 fw-4 font-primary text-white mb-0"
@@ -132,11 +132,11 @@
           </NuxtLink>
         </div>
         <div class="col-6">
-          <NuxtLink to="./auctions">
+          <NuxtLink to="./features/auctions">
             <div class="overflow-wrapper">
               <img
                 width="100%"
-                :src="require('~/assets/img/home/features/features6.png')"
+                :src="require('~/assets/img/home/features/features6.svg')"
               />
               <h1
                 class="feature-title position-absolute text-center fs-24 fw-4 font-primary text-white mb-0"

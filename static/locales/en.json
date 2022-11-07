@@ -109,6 +109,7 @@
     "nil": "Nil",
     "pin": "Pin",
     "chat": "Chat",
+    "add": "Add",
     "purchase": "Purchase",
     "update": "Update",
     "add_product": "Add Product",
@@ -139,8 +140,14 @@
     "sneakers_sizes": "Sneaker Sizes",
     "apparel_sizes": "Apparel Sizes",
     "accessories_sizes": "Accessories Sizes",
+    "select_list": "Select List",
+    "add_to_general": "Add to general wants or a combination",
     "price_range": "Price Range",
     "browse": "Browse",
+    "bulk_delete_warning": "Are you sure you would like to delete selected?",
+    "items_deleted": "Your items have been deleted!",
+    "wants_inventory": "Wants Inventory",
+    "wants_combinations": "Wants Combinations",
     "categories": {
       "sneakers": "Sneakers",
       "apparel": "Apparel",
@@ -162,13 +169,21 @@
     "read_less": "Read Less",
     "read_more": "Read More",
     "go_back": "Go Back",
-    "add" : "Add",
     "product_type"  : "Product Type",
     "continue"  : "Continue",
     "of"  : "of",
     "week"  : "Week",
+    "search_wants": "Search for Wants",
+    "tap_to_delete": "Tap on the Wants you would like to delete",
+    "tap_to_include": "tap on the Wants you would like to include in combination",
+    "edit_product": "Edit Product",
     "dismiss" : "Dismiss",
-    "n/a": "N/A"
+    "n/a": "N/A",
+    "season": "Season",
+    "season_detail": "SS",
+    "model": "Model",
+    "model_detail": "The model is 5’ 8” and wears a large",
+    "no-items-in-combination": "No items in combination"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -176,6 +191,10 @@
   },
   "error": {
     "something_went_wrong": "Something went wrong. Please try again later!",
+    "incorrect_size": "Incorrect Size",
+    "incorrect_quantity": "Incorrect quantity",
+    "box": "Select Box Condition",
+    "list": "Choose List",
     "combination_already_has_maximum_items": "Combination already has maximum items",
     "invalid_combination_selected": "Invalid combination selected"
   },
@@ -534,6 +553,8 @@
     "size": "Size",
     "sell": "Sell",
     "or_ask": "or Ask",
+    "delete_multiple": "Delete Multiple",
+    "no_combinations_found": "0 combinations have been found in your wants combinations",
     "looking_to_join_the_affiliate’s_program": "Looking to join the Affiliate’s Program?",
     "list_what_you_have_with_us": "List what you have with us!",
     "list": "List",
@@ -1099,6 +1120,7 @@
           "select_items": "Select items you would like to list, trades can contain upto a minimum of 1 item, maximum 3 items",
           "filter_by": "Filter By",
           "filter_btn": "Filter",
+          "delete_multiple": "Delete Multiple",
           "drag_drop": "Select or Drag Drop Inventory",
           "drag_drop_mobile": "Select Inventory",
           "drag_drop_want_mobile": "Select upto 3 wants",
@@ -1855,6 +1877,7 @@
         "men": "Men",
         "women": "Women",
         "unisex": "Unisex",
+        "kids": "Kids",
         "child": "Child",
         "toddler": "Toddler",
         "sort": "Sort",
@@ -1995,6 +2018,8 @@
     }
   },
   "shop": {
+    "browse_shop": "Browse Shop",
+    "clear_all": "Clear all",
     "banner": {
       "leading": "Buy With<br>Deadstock",
       "subleading": "Shop your favorite streetwear and brands on Deadstock.",
@@ -2284,6 +2309,7 @@
     "dashboard": "Dashboard",
     "vendor_dashboard": "Vendor Dashboard",
     "offers_placed": "Offers Placed",
+    "inventory": "Inventory",
     "bids_placed": "Bids Placed",
     "bids_received": "Bids Received",
     "orders": "Orders",
@@ -2675,6 +2701,13 @@
       "expired": "Expired",
       "delisted": "Delisted"
     },
+    "status_array": {
+      "live": "Live",
+      "expired": "Expired",
+      "delisted": "Delisted",
+      "scheduled": "Scheduled",
+      "completed": "Sold"
+    },
     "type": "Type",
     "bid": "Bid",
     "no_bid": "No Bids Found",
@@ -2765,10 +2798,9 @@
     "accept_body": "Are you sure you would like to accept the $:amount: and end this auction early?",
     "sold_body": "This auction has been sold! | You will be re-directed to your orders page. ",
     "status_types": {
-      "all": "All",
       "live": "Live",
-      "upcoming": "Upcoming",
-      "expired": "Expiring",
+      "scheduled": "Upcoming",
+      "ending_soon": "Expiring",
       "sold": "Sold"
     },
     "status_type": "Status"
@@ -3785,6 +3817,7 @@
       "voided": "Voided",
       "refunded": "Refunded",
       "ship_to_deadstock": "Send to Deadstock",
+      "awaiting_drop_off_with_shipping_carrier": "Awaiting drop off with Shipping Carrier",
       "authentication_complete": "Authentication Complete",
       "awaiting_shipment_to_buyer": "Awaiting Shipment to Buyer",
       "shipped_to_deadstock": "Send to Deadstock",
@@ -4342,6 +4375,17 @@
           "apparel": "Apparel",
           "accessories": "Accessories"
         },
+        "product_type": "Product Type",
+        "product_types": {
+          "backpack": "Backpack",
+          "bag": "Bag",
+          "bandana": "Bandana",
+          "cap": "Cap",
+          "hand_bag": "Hand Bag",
+          "hat": "Hat",
+          "home": "Home",
+          "sunglasses": "Sunglasses"
+        },
         "one_item": "One Item",
         "two_items": "Two Items",
         "three_items": "Three Items",
@@ -4468,6 +4512,7 @@
         "wants": {
           "back_to_offers_item": "Back to Offer Items",
           "add_wants": "Add Wants",
+          "add_want": "Add Want",
           "optional": "Optional",
           "search_information": "Search for what you're looking for with a minimum of 1 item, maximum {0} items or add your items or combinations from the Trade Wants List",
           "search_by_options": "Search by SKU, Keyword, or Brand",
@@ -4810,6 +4855,7 @@
     "wants_listing": {
       "general_wants": "General Wants",
       "create_combination": "Create Combination {count}",
+      "create_combination_label": "Create Combination",
       "add_to": "Add To",
       "trading_wants_list": "Trading Wants List",
       "wants_list_contains_items": "Wants List contains items saved from you listings to help you find trade matches suitable for you. Search, add and edit your recently added wants.",
@@ -4828,8 +4874,7 @@
       "edit_combination": "Edit Combination #{0}",
       "add_another_item": "+ Add Another Item",
       "edit_or_add_new_items_to_your_combination": "Edit or add new items to your combination",
-      "back_to_wants": "Back to Trade Wants",
-      "you_cannot_select_more_than": "You cannot select more than 3 items in one combination"
+      "back_to_wants": "Back to Trade Wants"
     },
     "create_combination_selected": "Add to Combination",
     "delete_selected": "Delete Selected",
@@ -4951,7 +4996,7 @@
   "shop_by_style": {
     "general": {
       "add_to_bag": "Add {type} to Bag",
-      "add_style_to_bag": "Add Style to Card",
+      "add_style_to_bag": "Add Style to Cart",
       "back_to_style": "< Back to All Style"
     },
     "title": "Shop by Style",
@@ -4965,7 +5010,12 @@
       "end_date": "End Date"
     },
     "product_details": "Product Details",
-    "size_guide": "Size Guide"
+    "size_guide": "Size Guide",
+    "product_condition": "Product Condition",
+    "box_condition_info": "Package condition refers to the current condition of the item’s package.",
+    "more_look": "More From This Look",
+    "view_all": "View All",
+    "style_id": "Style ID"
   },
   "coupons": {
     "errors": {
@@ -5182,7 +5232,8 @@
     "error_messages": {
       "enter_valid_phone": "Please enter a valid phone number.",
       "enter_valid_address": "Please enter a valid address.",
-      "verification_expired": "Verification Code has expired."
+      "verification_expired": "Verification Code has expired.",
+      "you_cannot_select_more": "You cannot select more than 3 items in one combination"
     },
     "mobile": {
       "verification_message_sent": "A verification code has been sent to your mobile phone.",
@@ -5378,7 +5429,10 @@
     "sale_summary": "Sale Summary",
     "make_a_sale": "You are about to make a sale",
     "items_selling": "Items Selling",
-    "ask_price": "Ask:",
+    "ask_price": "Ask",
+    "price": "Price",
+    "cancel": "Cancel",
+    "edit_product": "Edit Product",
     "seller_fee": "Seller Fee: ({percentage}%)",
     "transaction_fee": "Transaction Fee: ({percentage}%)",
     "promo_code": "Do you have a Promo Code ?",
@@ -5609,6 +5663,7 @@
     "details": "Details",
     "offer_summary": "Offer Summary",
     "offer_amount": "Offer Amount",
+    "offer_details": "Offer Details",
     "place_offer": "Place Offer",
     "remove": "Remove",
     "save_for_later": "Save for later"
@@ -5677,7 +5732,8 @@
       "hours": "Hours",
       "minutes": "Minutes",
       "seconds": "Seconds",
-      "your_entries": "Your Entries"
+      "your_entries": "Your Entries",
+      "no_active": "There are not active promotions."
     },
     "purchases": {
       "title": "Purchases",
