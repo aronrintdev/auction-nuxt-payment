@@ -627,9 +627,8 @@ export default {
   width: 343px
   height: 450px
   background: $color-white-1
-  box-shadow: 0px 1px 4px $color-black-rgb2
+  box-shadow: 0 1px 4px $color-black-rgb2
   border-radius: 10px
-  //overflow-y: scroll
 .list-text
   font-family: $font-family-sf-pro-display
   font-style: normal

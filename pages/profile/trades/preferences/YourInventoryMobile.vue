@@ -124,9 +124,6 @@
 import {mapGetters} from 'vuex'
 import debounce from 'lodash.debounce'
 import SearchInput from '~/components/common/SearchInput'
-// import CustomDropdown from '~/components/common/CustomDropdown.vue'
-// import Button from '~/components/common/Button'
-// import {Pagination} from '~/components/common'
 import {
   CATEGORY_ITEMS,
   NAV_CATEGORY_OPTIONS,
