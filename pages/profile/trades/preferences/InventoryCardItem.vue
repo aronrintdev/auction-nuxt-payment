@@ -138,7 +138,6 @@ export default {
     height: 78px
     background: $color-gray-1
 .card-text-item-small
-  //height: 60px
   background: $color-gray-1
   width: auto
 .size-cont
