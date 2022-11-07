@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pt-3">
     <div class="main-container ml-3" v-if="mainPageList">
       <div class="p-2 mt-1" @click="inventorySettings()">
         <div class="d-flex mb-1">
@@ -582,7 +582,7 @@ export default {
   min-width: 75px
   @include body-9-regular
 .main-container
-  height: 600px
+  //height: 600px
   width: 343px
   border-radius: 10px
   background: $color-white-1
