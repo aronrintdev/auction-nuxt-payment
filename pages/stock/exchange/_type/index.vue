@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid promotions">
     <div class="row">
-      <div v-if="isMobile" class="col-12">
+      <div v-if="isResponsive" class="col-12">
         <div class="col-md-12 col-sm-12">
           <StockExchangeMobileFilter @change="handleFilterChange"/>
         </div>
@@ -31,6 +31,8 @@ import ExchangeBanner from '~/components/Exchange/Banner'
 import NavGroup from '~/components/common/NavGroup.vue'
 import ProductList from '~/components/Exchange/ProductList'
 import StockExchangeMobileFilter from '~/components/Exchange/MobileFilter'
+import screenSize from '~/plugins/mixins/screenSize'
+import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 
 export default {
   components: {
@@ -39,6 +41,7 @@ export default {
     ProductList,
     StockExchangeMobileFilter
   },
+  mixins:[screenSize],
   layout: 'IndexLayout',
   data() {
     return {
@@ -63,31 +66,22 @@ export default {
     }
   },
   computed: {
-    isMobile() {
-      if (this.screenWidth <= 760) {
-        return true
-      } else {
-        return false
-      }
+    isResponsive() {
+      return this.isScreenXS || this.isScreenSM
     },
   },
   created(){
     this.currentCategory = this.categoryItems.filter(({ value }) => value === this.$route.params.type )
     this.myEventHandler()
   },
-  destroyed() {
-    window.removeEventListener('resize', this.myEventHandler)
-  },
-  mounted() {
-    window.addEventListener('resize', this.myEventHandler)
+  beforeMount() {
+    enquireScreenSizeHandler((type) => {
+      this.$store.commit('size/setScreenType', type)
+    })
   },
   methods: {
     handleFilterChange() {
       this.$refs.productList.filterList()
-    },
-    // Set the screen Size
-    myEventHandler(e) {
-      this.screenWidth = screen.width
     },
     handleCategoryChange(category) {
       if (this.currentCategory !== category) {

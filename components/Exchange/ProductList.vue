@@ -12,7 +12,7 @@
     </div>
 
     <!-- Filters -->
-    <div v-if="!loading && !isMobile">
+    <div v-if="!loading && !isResponsive">
       <ExchangeFilter @filterList="filterList" />
     </div>
 
@@ -24,7 +24,7 @@
         :type="type"
       />
       <Pagination
-        v-if="products.length > 0 && !isMobile"
+        v-if="products.length > 0 && !isResponsive"
         :value="currentPage"
         :total="products.length"
         :per-page="perPage"
@@ -40,7 +40,7 @@
         <div class="no-text py-5 text-center">No Products Found</div>
       </div>
     </div>
-    <div v-if="products.length > 0 && isMobile" class="ml-auto float-right">
+    <div v-if="products.length > 0 && isResponsive" class="ml-auto float-right">
       <div class="view-more-wrapper d-flex align-items-end">
         <span
           variant="link"
@@ -64,6 +64,8 @@ import { Loader, Pagination } from '~/components/common'
 import ExchangeFilter from '~/components/Exchange/Filters'
 import ProductTrendListCard from '~/components/Exchange/SimilarProductTable'
 import { PAGE_OPTIONS, PER_PAGE } from '~/static/constants/stock-exchange'
+import screenSize from '~/plugins/mixins/screenSize'
+import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 
 export default {
   name: 'TopProductsList',
@@ -74,6 +76,7 @@ export default {
     Pagination,
 
   },
+  mixins: [ screenSize ],
   props: {
     loading: {
       type: Boolean,
@@ -108,32 +111,22 @@ export default {
     currentSweepStake() {
       return this.promotions.length ? this.promotions[0] : null
     },
-    isMobile() {
-      if (this.screenWidth <= 760) {
-        return true
-      } else {
-        return false
-      }
+    isResponsive() {
+      return this.isScreenXS || this.isScreenSM
     },
   },
   created() {
-    if (this.isMobile === true)
+    if (this.isResponsive === true)
     {
       this.loadPage()
     }
-    this.myEventHandler()
   },
-  destroyed() {
-    window.removeEventListener('resize', this.myEventHandler)
-  },
-  mounted() {
-    window.addEventListener('resize', this.myEventHandler)
+  beforeMount() {
+    enquireScreenSizeHandler((type) => {
+      this.$store.commit('size/setScreenType', type)
+    })
   },
   methods: {
-    // Set the screen Size
-    myEventHandler(e) {
-      this.screenWidth = screen.width
-    },
     // Search Data
     filterList(value) {
       this.filter = value
