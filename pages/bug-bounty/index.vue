@@ -24,7 +24,7 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col sm="12" md="7" offset-md="2" class="mt-3 mobile-form">
+            <b-col sm="12" md="7" offset-md="2" class="mt-3 mobile-form shadow">
               <h3 class="d-inline-block text-left text-heading">{{$t('bounty.report_bug')}}</h3>
               <ContactForm class="mt-5" @verify="handleVerify"/>
             </b-col>
@@ -155,7 +155,6 @@
     
 @media (max-width: 575px)
   .mobile-form
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
     border-radius: 24px
     padding: 15px
   

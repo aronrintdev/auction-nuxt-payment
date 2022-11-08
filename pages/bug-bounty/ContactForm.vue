@@ -82,7 +82,6 @@
               >
                 <b-input-group>
                   <b-form-input
-                    id="password"
                     v-model="form.email"
                     class="rounded-pill input-login input-append"
                     :placeholder="$t('bounty.form.email_placeholder')"
@@ -150,7 +149,6 @@
               >
                 <b-input-group>
                   <b-form-input
-                    id="password"
                     v-model="form.url"
                     class="rounded-pill input-login input-append"
                     :placeholder="$t('bounty.form.loi_placeholder')"
@@ -173,7 +171,6 @@
               >
                 <b-input-group>
                   <b-form-input
-                    id="password"
                     v-model="form.device_name"
                     class="rounded-pill input-login input-append"
                     :placeholder="$t('bounty.form.device_used')"
@@ -262,7 +259,7 @@
   </template>
 
   <script>
-  import {mapActions, mapGetters} from 'vuex'
+  import {mapGetters} from 'vuex'
   import {ValidationProvider, ValidationObserver} from 'vee-validate'
   import {Button} from '~/components/common';
   import UploadModal from '~/pages/bug-bounty/UploadModal'
@@ -290,7 +287,6 @@
     },
     computed: {
       ...mapGetters({
-        isVendor: 'auth/isVendor',
         vendorDocRequirements: 'vendor-hub/vendorDocRequirements',
       }),
       fileRequirement() {
@@ -299,13 +295,6 @@
 
     },
     methods: {
-      ...mapActions({
-        getUserDetails: 'auth/getUserDetails',
-        getUserRedeemedReward: 'redeemed-reward/getUserRedeemedReward'
-      }),
-      ...mapGetters({
-        getLoginRedirectUrl: 'auth/getLoginRedirectUrl',
-      }),
       getValidationState({ dirty, validated, valid = null }) {
         // Returns the contextual state (validation style) of the element being validated (false for invalid, true for valid, or null for no validation state)
         return dirty || validated ? valid : null

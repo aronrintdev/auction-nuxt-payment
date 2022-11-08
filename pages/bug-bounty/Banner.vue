@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="banner-wrapper d-none d-sm-block">
+    <div class="banner-wrapper d-none d-sm-block text-purple">
     </div>
     <img class="d-block d-sm-none w-100" src="~/assets/img/bug-bounty/bugbountymobile1.png">
   </div>
@@ -20,7 +20,6 @@
     background-image: url('~/assets/img/bug-bounty/bounty-banner.png')
     width: 100%
     height: 443px
-    background-color: purple
     background-position: center
     background-size: cover
     background-repeat: no-repeat
