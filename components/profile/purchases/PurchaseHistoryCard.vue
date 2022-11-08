@@ -77,7 +77,7 @@
           <Button
               v-if="ORDERS_HAS_ITEMS.includes(orderType)"
               :variant="purchaseStatus"
-              class="m-auto text-capitalize text-center status-button d-flex"
+              class="m-auto body-13-normal font-secondary text-capitalize text-center status-button d-flex"
               :class="{[purchaseStatus.split(' ').join('_')]: purchaseStatus.split(' ').join('_')}"
           >
             {{$t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) }}
@@ -235,6 +235,8 @@ button.status-button
   margin: 0 !important
   float: right
   font-weight: normal
+  border: none
+  box-shadow: none
 
 ::v-deep.purchase-card-wrapper
   width: 455px

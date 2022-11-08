@@ -3,7 +3,7 @@
     <div class="container-fluid vd-purchases-section p-0">
       <div class="row h-100 vd-purchases-section">
         <div :class="{
-            'px-5 py-5': !isScreenXS,
+            'web-padding': !isScreenXS,
             'mobile': isScreenXS,
           }"
              class="col-md-12 col-lg-12 vendor-dashboard-body ">
@@ -112,7 +112,7 @@
                   :key="`type-${typeIndex}`"
                   class="filter-badge body-9-regular px-2 rounded-pill py-1 mr-2 text-capitalize"
               >
-                {{ options.type }}&colon; {{ options.text }}
+                {{ options.text }}
                 <img :src="require('~/assets/img/close-dark-blue.svg')" alt="" class="ml-1" role="button"
                      @click="removeTypeFilter(options)">
               </b-badge>
@@ -131,7 +131,7 @@
               <!-- clear filter link -->
               <span
                   v-if="activeStatusFilters.length || activeTypeFilters.length"
-                  class="text-base-blue"
+                  class="text-base-blue body-9-regular font-primary"
                   role="button"
                   @click="clearFilters()"
               >
@@ -706,6 +706,8 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+.web-padding
+  padding: 45px 54px
 
 .mt-38
   margin-top: 38px
