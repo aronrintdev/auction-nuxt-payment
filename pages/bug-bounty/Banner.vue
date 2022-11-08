@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="banner-wrapper d-none d-sm-block text-purple">
+    <div class="banner-wrapper d-none d-sm-block">
     </div>
     <img class="d-block d-sm-none w-100" src="~/assets/img/bug-bounty/bugbountymobile1.png">
   </div>
