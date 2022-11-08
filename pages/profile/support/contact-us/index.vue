@@ -96,7 +96,6 @@ export default {
   },
   methods:{
     submitted(e){
-      console.debug('submit')
       this.$refs.contactUsForm.submitted(e)
     }
   }
@@ -136,7 +135,7 @@ export default {
         @include body-8-normal
 
     .form-box
-      background: #FFFFFF
+      background: $color-white-1
       box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
       border-radius: 24px
 
@@ -144,7 +143,7 @@ export default {
         @include body-8-normal
 
     .btn.btn-primary
-      background: #999999
+      background: $color-gray-47
       border: none
       border-radius: 20px
       min-width: 156px

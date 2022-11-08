@@ -138,7 +138,7 @@ export default {
           this.resetForm()
         })
         .catch(err => {
-          console.debug(err)
+
         })
 
     },
@@ -189,7 +189,7 @@ export default {
     border-bottom: none !important
 
   .btn.btn-primary
-    background: #999999
+    background: $color-gray-47
     border: none
     border-radius: 20px
     color: $color-white-1
@@ -214,11 +214,11 @@ export default {
 @media (max-width: 767px)
   .contact-us-form
     .form-control
-      border: 1px solid #E8E8E8
+      border: 1px solid $white-5
       border-radius: 10px
 
     ::v-deep .border-bottom
       border-radius: 10px
-      border: 1px solid #E8E8E8 !important
+      border: 1px solid $white-5 !important
 
 </style>
