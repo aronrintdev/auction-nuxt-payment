@@ -168,13 +168,13 @@ export default {
     },
     // On start date select
     startDateSelected(value) {
-      this.date.start = this.$moment(value).format('MM/DD/YYYY')
-      this.filters.start_date =  this.$moment(value).format('MM/DD/YYYY')
+      this.date.start = value ? this.$moment(value).format('MM/DD/YYYY') : value
+      this.filters.start_date =  value ? this.$moment(value).format('MM/DD/YYYY') : value
     },
     // On end date select
     endDateSelected(value) {
-      this.date.end = this.$moment(value).format('MM/DD/YYYY')
-      this.filters.end_date =  this.$moment(value).format('MM/DD/YYYY')
+      this.date.end = value ? this.$moment(value).format('MM/DD/YYYY') : value
+      this.filters.end_date =  value ? this.$moment(value).format('MM/DD/YYYY') : value
     },
     applyFilter(){
       this.$emit('filter', { ...this.filters })
