@@ -227,7 +227,7 @@
       />
     </template>
     <template v-else>
-      <infinite-loading :key="status" :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
+      <infinite-loading :key="`${status}-${totalCount}`" :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
     </template>
     <!-- For mobile filters begin -->
     <vue-bottom-sheet
@@ -599,6 +599,7 @@ export default {
     },
 
     onMobileFilter(filters) {
+      this.page = 1
       this.activeStatusFilters = filters.activeStatusFilters;
       this.activeTypeFilters = filters.activeTypeFilters;
       this.sortBy = filters.sortBy;

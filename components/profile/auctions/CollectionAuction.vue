@@ -43,9 +43,9 @@
             sm="12"
             md="1"
             class="d-flex justify-content-around flex-column pt-4"
-            :class="{'text-green' : !isExpired && auction.status === LIVE_STATUS, 'text-danger': isExpired }"
+            :class="{'text-green' : !isExpired && auction.status === LIVE_STATUS, 'text-danger': isExpired && auction.status === LIVE_STATUS }"
           >
-            <span class="body-4-medium">{{ isExpired ? $t('bids.expired') : $t('auction.status_array.' + auction.status) }}</span>
+            <span class="body-4-medium">{{ (isExpired && auction.status === LIVE_STATUS) ? $t('bids.expired') : $t('auction.status_array.' + auction.status) }}</span>
           </b-col>
         </template>
       </b-row>
@@ -115,8 +115,8 @@
           <div class="d-flex justify-content-between d-md-block">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.status') }}:</span>
             <span class="body-9-regular text-gray-6"
-            :class="{'text-green' : !isExpired && auction.status === LIVE_STATUS, 'text-danger': isExpired }">
-            {{ isExpired ? $t('bids.expired') : $t('auction.status_array.' + auction.status) }}
+            :class="{'text-green' : !isExpired && auction.status === LIVE_STATUS, 'text-danger': isExpired && auction.status === LIVE_STATUS }">
+            {{ (isExpired && auction.status === LIVE_STATUS) ? $t('bids.expired') : $t('auction.status_array.' + auction.status) }}
             </span>
           </div>
         </b-col>
