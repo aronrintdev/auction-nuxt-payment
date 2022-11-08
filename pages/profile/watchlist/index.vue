@@ -1,7 +1,7 @@
 <template>
-  <b-container fluid class="container-watchlists">
+  <b-container fluid class="h-100 m-0 container-watchlists">
     <div class="d-flex justify-content-between align-items-start header">
-      <div v-if="!!currentWatchlist" class="title">
+      <div v-if="!!currentWatchlist" class="title overflow-hidden">
         <h2 class="text-truncate mw-800px">{{ currentWatchlist.name }}</h2>
         <span>({{ totalCount }} {{ $t('common.items') }})</span>
       </div>
@@ -25,14 +25,15 @@
           {{ $t('home.auctions') }}
         </span>
       </div>
-
-      <CheckboxSwitch
-        v-if="!!currentWatchlist"
-        :value="currentWatchlist.privacy === WATCHLIST_PRIVACY_PUBLIC"
-        :label-on="$t('common.public')"
-        :label-off="$t('common.private')"
-        @change="togglePrivacy"
-      />
+      <div v-if="!!currentWatchlist" class="checkbox-switch-wrapper">
+        <CheckboxSwitch
+          class="justify-content-end"
+          :value="currentWatchlist.privacy === WATCHLIST_PRIVACY_PUBLIC"
+          :label-on="$t('common.public')"
+          :label-off="$t('common.private')"
+          @change="togglePrivacy"
+        />
+      </div>
       <div v-else>&nbsp;</div>
     </div>
       
@@ -42,9 +43,9 @@
           <section
             :class="`section-lists`"
           >
-            <h5>{{ $t('watchlists.buying_lists') }}</h5>
+            <h5>{{ $t('wish_lists.auction_watchlists') }}</h5>
 
-            <div v-for="list in watchlists" :key="list.id" class="px-2">
+            <div v-for="list in watchlists" :key="list.id">
               <Button
                 :pressed="list.id === currentWatchlist.id"
                 variant="link"
@@ -220,9 +221,24 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+@import '~/assets/css/_variables'
 .mw-300px
   max-width: 300px
 
 .mw-800px
   max-width: 800px
+.container-watchlists
+  background: $white
+  width: calc(100vw - 265px)
+  .section-lists
+    max-width: 250px
+    margin-right: 20px
+    h5
+      padding-left: 10px
+  .title
+    flex: 3
+    padding-right: 100px
+  .checkbox-switch-wrapper
+    margin-top: 2px
+    flex: 3
 </style>

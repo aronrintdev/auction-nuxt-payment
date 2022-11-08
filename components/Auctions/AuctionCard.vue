@@ -218,9 +218,9 @@ export default {
   &-quick-btns.show-actions
     opacity: 1
   .remaining-time
-    background: $color-red-24
+    background: $dark-gray-8
     padding: 4px 8px 4px 6px
-    color: $white
+    color: $black
     min-width: 90px
     min-height: 30px
     justify-content: center
