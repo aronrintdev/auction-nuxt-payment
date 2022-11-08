@@ -78,7 +78,7 @@
               v-if="ORDERS_HAS_ITEMS.includes(orderType)"
               :variant="purchaseStatus"
               class="m-auto text-capitalize text-center status-button d-flex"
-              :class="{[purchaseStatus.split(' ').join('_')]: purchaseStatus.split(' ').join('_')}"
+              :class="{[purchaseBtnClass]: purchaseBtnClass}"
           >
             {{$t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) }}
           </Button>
@@ -173,6 +173,10 @@ export default {
       }
       return vm.purchase.status.toLowerCase()
     },
+    // Status Class
+    purchaseBtnClass: (vm) => {
+      return (vm.purchase.items.length > 1) ? 'item-status-multiple' : 'item-status-'+vm.purchase.items[0].status;
+    },
   },
 
   methods: {
@@ -188,35 +192,36 @@ export default {
 @import '~/assets/css/_variables'
 .purchase-details-col
   align-self: flex-end
-.status-button.pending
+.status-button.item-status-pending
   background: $orange-btn-bg !important
   color: $color-orange-1 !important
-.status-button.shipped_to_ds,
-.status-button.shipped_to_deadstock,
-.status-button.ship_to_deadstock
+.status-button.item-status-shipped_to_ds,
+.status-button.item-status-shipped_to_deadstock,
+.status-button.item-status-ship_to_deadstock
   background: $purple-btn-bg !important
   color: $color-purple-7 !important
-.status-button.cancelled,
-.status-button.cancel,
-.status-button.voided,
-.status-button.refunded
+.status-button.item-status-cancelled,
+.status-button.item-status-cancel,
+.status-button.item-status-voided,
+.status-button.item-status-refunded
   background: $red-btn-bg !important
   color: $color-red-3 !important
-.status-button.processing_payment
+.status-button.item-status-processing_payment
   background: $yellow-btn-bg !important
   color: $color-orange-22 !important
-.status-button.authenticated_and_shipped
+.status-button.item-status-authenticated_and_shipped
   background: $purple-btn-bg !important
   color: $color-purple-7 !important
-.status-button.arrived_at_ds
+.status-button.item-status-arrived_at_ds
   background: $green-btn-bg !important
   color: $color-green-3 !important
-.status-button.delivered
+.status-button.item-status-delivered
   background: $blue-btn-bg !important
   color: $color-blue-17 !important
-.status-button.multiple,
-.status-button.authentication_complete,
-.status-button.arrived_at_deadstock
+button.status-button,
+.status-button.item-status-multiple,
+.status-button.item-status-authentication_complete,
+.status-button.item-status-arrived_at_deadstock
   background: $green-btn-bg !important
   color: $color-green-3 !important
 .font-size14
@@ -224,13 +229,15 @@ export default {
 button.status-button
   width: 141px
   height: 57px !important
-  color: $color-white-1 !important
-  background: $color-gray-69 !important
+  background: $green-btn-bg !important
+  color: $color-green-3 !important
+  text-overflow: ellipsis
+  overflow: hidden
   margin: 0 !important
   float: right
   font-weight: normal
 .purchase-card-wrapper
-  width: 455px
+  width: 453px
 .order-no
   font-style: normal
   font-weight: $medium

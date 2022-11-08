@@ -3843,7 +3843,10 @@
       "authentication_complete": "Authentication Complete",
       "awaiting_shipment_to_buyer": "Awaiting Shipment to Buyer",
       "shipped_to_deadstock": "Send to Deadstock",
-      "arrived_at_deadstock": "Arrived at Deadstock"
+      "arrived_at_deadstock": "Arrived at Deadstock",
+      "awaiting_shipment_to_ds" : "Awaiting Shipment to DS",
+      "completed" : "Completed",
+      "order_shipped": "Order Shipped"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
