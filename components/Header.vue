@@ -1,6 +1,6 @@
 <template>
   <b-navbar toggleable="lg" class="navbar-wrapper border-bottom">
-    <PortalTarget name="back-icon-slot">
+    <PortalTarget v-if="showMenuIcon" name="back-icon-slot">
       <b-navbar-toggle target="top-menu-sidebar">
         <template #default>
           <img
@@ -331,6 +331,9 @@ export default {
     pageTitle() {
       return this.$nuxt?.context?.route?.meta[0]?.pageTitle ?? null
     },
+    showMenuIcon(){
+      return this.$route.name !== 'login' && this.$route.name !== 'signup'
+    }
   },
   watch: {
     screenIsSmallThanLG(newVal) {
