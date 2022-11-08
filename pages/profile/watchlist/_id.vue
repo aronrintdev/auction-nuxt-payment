@@ -82,7 +82,7 @@
 <script>
 import { mapActions } from 'vuex'
 import Thumb from '~/components/product/Thumb'
-import CreateWatchListModal from '~/components/modal/CreateWatchList'
+import CreateWatchListModal from '~/components/modal/CreateWatchlist'
 import ShareIcon from '~/assets/icons/ShareIcon'
 import ShareButton from '~/components/common/ShareButton.vue'
 export default {
