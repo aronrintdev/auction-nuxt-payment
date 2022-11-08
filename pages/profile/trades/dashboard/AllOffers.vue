@@ -5,7 +5,7 @@
     </b-row>
     <b-row class="m-0 mt-sm-3 justify-content-lg-between pt-3">
       <b-col lg="8" cols="12" class="sm-row justify-content-between align-items-center px-0 pr-sm-auto pl-sm-0">
-        <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center justify-content-between d-sm-none">
           <div class="col-11 px-0">
             <SearchInput
               class="searchInput"
@@ -34,7 +34,7 @@
             @click="isFiltersModalOpen=true"
           />
         </div>
-        <div class="col-11">
+        <div class="col-11 d-sm-none">
           <SearchBarProductsList
             v-if="searchedProducts.length > 0"
             :productItems="searchedProducts"
@@ -43,81 +43,6 @@
             listItemClass="border-top-0"
           />
         </div>
-        <!-- <div class="d-flex d-sm-none">
-          <div class="col-11 px-0">
-            <SearchInput
-              class="searchInput w-100"
-              :value="searchText"
-              :inputStyle="{
-                paddingLeft: '44px !important',
-                fontWeight: 400,
-                letterSpacing: '0.06em',
-                color: '#626262',
-                fontSize: '12px',
-                fontFamily: 'Montserrat',
-                background: '#F7F7F7',
-                height: '33px',
-              }"
-              iconStyle='color: #979797; width: 14px; height: 14px;'
-              variant="primary"
-              :clearSearch="true"
-              @change="onSearchInput"
-              @clear="onSearchInput"
-            />
-          </div>
-          <img
-            class="d-sm-none"
-            :src="require('~/assets/img/filterTradeList.svg')"
-            width="20"
-            height="20"
-            @click="isFiltersModalOpen=true"
-          />
-        </div>
-        <div class="col-11">
-          <SearchBarProductsList
-            v-if="searchedProducts.length > 0"
-            :productItems="searchedProducts"
-            class="position-relative w-auto rounded-bottom d-sm-none"
-            listGroupClass="rounded-0"
-            listItemClass="border-top-0"
-          />
-        </div> -->
-        <!-- <div class="col-11 px-0 d-sm-none">
-          <SearchInput
-            class="searchInput"
-            :value="searchText"
-            :inputStyle="{
-              paddingLeft: '44px !important',
-              fontWeight: 400,
-              letterSpacing: '0.06em',
-              color: '#626262',
-              fontSize: '12px',
-              fontFamily: 'Montserrat',
-              background: '#F7F7F7',
-              height: '33px',
-            }"
-            iconStyle='color: #979797; width: 14px; height: 14px;'
-            variant="primary"
-            :clearSearch="true"
-            @change="onSearchInput"
-            @clear="onSearchInput"
-          />
-
-          <SearchBarProductsList
-            v-if="searchedProducts.length > 0"
-            :productItems="searchedProducts"
-            class="position-relative w-auto rounded-bottom"
-            listGroupClass="rounded-0"
-            listItemClass="border-top-0"
-          />
-        </div>
-        <img
-          class="d-sm-none"
-          :src="require('~/assets/img/filterTradeList.svg')"
-          width="20"
-          height="20"
-          @click="isFiltersModalOpen=true"
-        /> -->
         <div class="d-none d-sm-flex flex-column w-100">
           <SearchInput
             class="w-100"
@@ -238,7 +163,7 @@
           </b-col>
         </b-row>
       </b-col>
-      <b-col lg="6" xl="6" sm="12" class="mt-3 mt-lg-0 px-2">
+      <b-col lg="7" xl="6" sm="12" class="mt-3 mt-lg-0 px-2">
         <label class="filter-label">{{ $t('selling_page.offer_date') }}</label>
         <b-row class="justify-content-end justify-content-sm-start justify-content-lg-between">
           <b-col sm="4" md="5" lg="4">

@@ -27,7 +27,7 @@
         </div>
         <div class="d-flex mt-1">
           <div class="w-62 px-0 d-flex justify-content-between align-items-center">
-            <div class="offer-time">
+            <div class="offer-time pr-2">
               {{ $t('trades.received_on')}} {{ offer.created_at | formatDateTimeString }}
             </div>
             <div 
@@ -72,8 +72,8 @@
               </div>
             </div>
           </div>
-          <div class="w-10 d-flex flex-column align-items-center justify-content-center">
-            <div class="trade-icon-text mb-2">{{ $t(`common.${offer.condition}`) }}</div>
+          <div class="w-10 text-break d-flex flex-column align-items-center justify-content-center">
+            <div class="trade-icon-text mb-2 px-1">{{ $t(`common.${offer.condition}`) }}</div>
             <img width="45" height="45" :src="require('~/assets/img/icons/trade-icon.svg')" />
           </div>
           <div class="w-45 items-section">
@@ -583,6 +583,7 @@ export default {
   font-family: $font-family-sf-pro-display
   @media (min-width: 576px)
     @include body-4-normal
+    text-align: left
     font-style: normal
     color: $color-gray-64
 
