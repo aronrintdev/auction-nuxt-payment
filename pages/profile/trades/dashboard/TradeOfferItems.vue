@@ -3,11 +3,114 @@
     <div 
       v-for="(offer) in offers" 
       :key="'offer-' + offer.id" 
-      class="offer-item-trade-container mb-4 mx-auto" 
+      class="mb-4" 
       :role="(offer.deleted_at === null ? 'button' : '')" 
     >
-      <div @click="showOffer(offer)" class="d-none d-lg-block">
+      <div class="desktop-offer d-none d-lg-block">
         <div class="d-flex justify-content-between">
+          <div class="offer-id">
+            {{ $t('trades.offer_id') }} {{ $t('common.thread') }} #{{ offer.id }}
+          </div>
+          <div class="offer-type d-flex justify-content-center align-items-center">
+            <img 
+              v-if="offer.offer_type === OFFER_SENT" 
+              :src="require('~/assets/img/trades/SentType.svg')" 
+              class="mr-2"
+            >
+            <img 
+              v-else-if="offer.offer_type === OFFER_RECEIVED" 
+              :src="require('~/assets/img/trades/ReceivedType.svg')" 
+              class="mr-2"
+            >
+            {{ $t(offer.offer_type_translation )}}
+          </div>
+        </div>
+        <div class="d-flex mt-1">
+          <div class="w-62 px-0 d-flex justify-content-between align-items-center">
+            <div class="offer-time">
+              {{ $t('trades.received_on')}} {{ offer.created_at | formatDateTimeString }}
+            </div>
+            <div 
+              class="offer-on-top d-flex align-items-center"
+              v-if="offer.cash_added"
+            >
+              <span class="dollar-sign">$</span> 
+              {{ $t('common.they_added') }} 
+              <span class="dollar-count mx-1">${{ offer.cash_added }}</span> {{ $t('common.on_top') }}
+            </div>
+          </div>
+          <div 
+            class="w-38 px-0 view-details d-flex align-items-center justify-content-end"
+            @click="showOffer(offer)" 
+          >
+            {{ $t('vendor_purchase.view_details') }}
+          </div>
+        </div>
+
+        <div class="mt-4 d-flex">
+          <div class="w-45 items-section">
+            <div class="text-center owner-name-desktop">
+              {{ $t('vendor_purchase.theirs') }}
+            </div>
+            <div class="d-flex flex-wrap justify-content-between">
+              <div 
+                v-for="(theirItems) in offer.theirs_items" 
+                :key="'offer-item-'+ theirItems.id" 
+                class="col-4 text-left mx-auto"
+              >
+                <img :src="theirItems.inventory.product | getProductImageUrl" class="img-fluid">
+                <div class="product-name">
+                  {{ theirItems.inventory.product.name }}
+                </div>
+                <div class="mt-1 product-box">
+                  {{ $t('sell.inventory.box') }}: 
+                  {{ theirItems.inventory.packaging_condition.name }}
+                </div>
+                <div class="mt-1 product-size">
+                  {{ $t('home_page.size') }} {{ theirItems.inventory.size.size }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="w-10 d-flex flex-column align-items-center justify-content-center">
+            <div class="trade-icon-text mb-2">{{ $t(`common.${offer.condition}`) }}</div>
+            <img width="45" height="45" :src="require('~/assets/img/icons/trade-icon.svg')" />
+          </div>
+          <div class="w-45 items-section">
+            <div class="text-center owner-name-desktop">
+              {{ $t('vendor_purchase.yours') }}
+            </div>
+
+            <div class="d-flex flex-wrap justify-content-between">
+              <div 
+                v-for="(yoursItems) in offer.yours_items" 
+                :key="'offer-item-'+ yoursItems.id" 
+                class="col-4 text-left mx-auto"
+              >
+                <img :src="yoursItems.inventory.product | getProductImageUrl" class="img-fluid">
+                <div class="product-name">
+                  {{ yoursItems.inventory.product.name }}
+                </div>
+                <div class="mt-1 product-box">
+                  {{ $t('sell.inventory.box') }}: 
+                  {{ yoursItems.inventory.packaging_condition.name }}
+                </div>
+                <div class="mt-1 product-size">
+                  {{ $t('home_page.size') }} {{ yoursItems.inventory.size.size }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 d-flex justify-content-center">
+          <Button 
+            variant="btn-dark-blue"
+          >
+            {{ $t('common.accept_trade') }}
+          </Button>
+        </div>
+        <!-- <div class="d-flex justify-content-between">
           <div :id="`flyer-${offer.condition}`">
             {{$t(offer.condition_translation)}}
           </div>
@@ -23,7 +126,6 @@
             <img v-else-if="offer.offer_type === OFFER_RECEIVED" :src="require('~/assets/img/icons/downword-arrow.svg')" class="ml-2">
           </div>
         </div>
-        <!-- items sections -->
         <div class="d-flex justify-content-between mt-4">
           <div class="inner-items-listed ml-auto mr-auto">
             <div class="inner-heading-listing text-center p-2">
@@ -68,7 +170,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="mobile-offer d-lg-none">
         <div class="d-flex justify-content-between">
@@ -219,6 +321,7 @@ export default {
     }
   },
   data() {
+    console.log('offers', this.offers);
     return {
       OFFER_SENT,
       OFFER_RECEIVED,
@@ -248,6 +351,67 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.w-62
+  width: 62%
+
+.w-38
+  width: 38%
+
+.w-45
+  width: 45%
+
+.w-10
+  width: 10%
+  
+.product-name, .product-box, .product-size
+  @include body-10-medium
+  color: $color-black-1
+  font-family: $font-family-sf-pro-display
+
+.product-box
+  color: $color-gray-5
+  font-weight: $regular
+
+.product-size
+  @include body-9
+
+.owner-name-desktop
+  @include body-3-bold
+  color: $color-black-1
+
+.items-section
+  border: 1px solid $color-gray-th-44
+  border-radius: 4px
+  padding: 20px 11px 8px 11px
+
+.view-details
+  @include body-4-normal
+  color: $color-blue-20
+  text-decoration: underline
+
+.offer-on-top
+  @include body-5-regular
+  background: $color-gray-1
+  border-radius: 4px
+  padding-left: 20px
+  padding-right: 52px
+  color: $color-black-1
+  font-family: $font-family-sf-pro-display
+  height: 33px
+
+.dollar-count
+  @include body-5-medium
+
+.dollar-sign
+  @include body-2-bold
+  margin-right: 20px
+
+.desktop-offer
+  background: $color-white-1
+  padding: 27px 20px
+  box-shadow: 0px 1px 4px $color-black-rgb2
+  border-radius: 10px
 
 .circle-full, .circle-blue
   width: 19px
@@ -298,6 +462,9 @@ export default {
 .offer-type
   @include body-18
   color: $color-black-1
+  @media (min-width: 576px)
+    @include body-4-normal
+    color: $color-gray-5
 
 .mobile-offer
   box-shadow: 0px 4px 4px $drop-shadow1
@@ -307,14 +474,6 @@ export default {
     width: 75%
     margin-left: auto
     margin-right: auto
-
-
-.offer-item-trade-container
-  @media (min-width: 1200px)
-    width: 1062px
-    height: 350px
-    box-shadow: 0 1px 4px $drop-shadow1
-    border-radius: 10px
 
 #flyer-excellent
   height: 30.36px
@@ -392,15 +551,16 @@ export default {
   color: $color-blue-1
   font-family: $font-family-sf-pro-display
   @media (min-width: 576px)
-    @include body-12-bold
+    @include body-3-bold
     font-style: normal
+    color: $color-black-1
 
 .offer-time
   @include body-9-normal
   color: $color-gray-47
   font-family: $font-family-sf-pro-display
   @media (min-width: 576px)
-    @include body-13-normal
+    @include body-4-normal
     font-style: normal
     color: $color-gray-64
 

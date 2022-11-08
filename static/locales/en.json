@@ -154,6 +154,9 @@
       "footwear": "Footwear",
       "accessories": "Accessories"
     },
+    "accept_trade": "Accept Trade",
+    "they_added": "They added",
+    "on_top": "on top",
     "filter_by": "Filter By",
     "next": "Next",
     "prev": "Prev",
@@ -185,7 +188,8 @@
     "season_detail": "SS",
     "model": "Model",
     "model_detail": "The model is 5’ 8” and wears a large",
-    "no-items-in-combination": "No items in combination"
+    "no-items-in-combination": "No items in combination",
+    "thread": "Thread"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -4719,6 +4723,7 @@
     "no_trade_offers_have_been_found": "No Trade offers have been found",
     "no_trade_list_have_been_found": "No Trade list have been found",
     "sent_on": "Sent on",
+    "received_on": "Received on",
     "offer_type": {
       "all": "All Offers",
       "received": "Received",

@@ -214,7 +214,7 @@
         v-model="offerType"
         :data="offerTypeFilters"
         nav-key="type"
-        class="type-nav mt-3 mb-3"
+        class="type-nav mt-3 mb-5"
         btnClass="btn-lg"
         @change="handleMethodNavClick"
       />
@@ -361,7 +361,6 @@ import BulkSelectToolbar from '~/components/common/BulkSelectToolbar';
 import NavGroup from '~/components/common/NavGroup';
 import OffersFiltersModal from '~/components/modal/OffersFiltersModal.vue';
 import { ConfirmModal, AlertModal } from '~/components/modal'
-
 
 import {
   PAGE,
