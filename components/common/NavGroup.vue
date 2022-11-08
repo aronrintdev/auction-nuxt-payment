@@ -67,8 +67,11 @@ export default {
       border-radius: 20px !important
       color: $color-black-1 !important
       height: auto
-      padding: 6px 35px
-        
+      font-size: 13px
+      @media (min-width: 576px)
+        font-size: 15px
+        padding: 6px 35px
+
       &.active
         background-color: $color-white-1
         font-weight: $bold

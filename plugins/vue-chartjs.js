@@ -1,9 +1,10 @@
 import Vue from 'vue'
-import { Line } from 'vue-chartjs'
+import { Line ,mixins} from 'vue-chartjs'
 
-
+const { reactiveProp } = mixins
 Vue.component('LineChart', {
   extends: Line,
+  mixins: [reactiveProp],
   props: {
     options: {
       type: Object,
@@ -14,6 +15,14 @@ Vue.component('LineChart', {
       default: null
     },
     labels: {
+      type: Array,
+      default: null
+    },
+    isGraph: {
+      type: Boolean,
+      default: false
+    },
+    chartData: {
       type: Array,
       default: null
     },
@@ -31,7 +40,7 @@ Vue.component('LineChart', {
     }
   },
   computed: {
-    chartData() {
+    chartDetail() {
       return this.data;
     },
     chartLabels(){
@@ -45,14 +54,16 @@ Vue.component('LineChart', {
   },
   mounted() {
     this.renderLineChart();
+    this.$emit('mounted')
   },
 
   methods: {
     renderLineChart() {
-    this.renderChart(
+      if (this.isGraph === true)
       {
-        labels: this.chartLabels,
-        datasets: [
+        this.renderChart(this.chartData, this.options)
+      }else{
+        this.renderChart(
           {
             borderColor: this.borderColor,
             backgroundColor: 'rgba(24, 160, 251, 0.15)',
@@ -60,11 +71,11 @@ Vue.component('LineChart', {
             fill: this.fill,
             label: '',
             borderWidth: this.borderWidth,
-          }
-        ]
-      },
+          },
         {responsive: true, maintainAspectRatio: false, ...this.options}
     );
+
+    }
     }
   },
 });

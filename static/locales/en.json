@@ -2359,7 +2359,8 @@
     "notifications": "Notifications",
     "security": "Security",
     "security_settings": "Security Settings",
-    "support": "Support"
+    "support": "Support",
+    "stock_exchange": "Stock Exchange"
   },
   "rewards": {
     "earn_points": "Earn Points",
@@ -5798,6 +5799,81 @@
       "pending": "Pending",
       "send_to_deadstock": "Send to Deadstock",
       "view_order": "View Order"
+    }
+  },
+  "deadstock_exchange":{
+    "title": "Deadstock Exchange",
+    "biggest_lossers": "Biggest losers",
+    "biggest_winners": "Biggest Winners",
+    "trendings": "Trendings",
+    "heading_detail": "Search for the top trending streetwear ranked by price backed by data",
+    "filter_by":{
+      "categories":{
+        "title":"Category"
+      },
+      "size_type":{
+        "title":"Size Type",
+        "men":"Men",
+        "kids":"Kids",
+        "women":"Women"
+      },
+      "size_types":"Size Types",
+      "price_range":"Price Range",
+      "brands":"Brands",
+      "years":"Years",
+      "details_placeholder":"Search"
+    },
+    "list":{
+      "table_columns":{
+        "ranking":"Ranking#",
+        "last_price":"Last Price",
+        "name":"Name",
+        "24h":"24h",
+        "7d":"7d",
+        "30d":"30d",
+        "last_7d":"Last 7Days"
+      }
+    },
+    "sortby": {
+      "placeholder": "Sort By",
+      "relevance": "Relevance",
+      "end_date_asc": "End Date - Ascending",
+      "end_date_desc": "End Date - Descending",
+      "price_asc": "Price: Low to High",
+      "price_desc": "Price: High to Low",
+      "most_viewed": "Most Viewed"
+    },
+    "sort_by":{
+      "highest_change":"Highest Change %",
+      "lowest_change":"Lowest Change %",
+      "release_date_asc":"Release Date - Ascending",
+      "release_date_desc":"Release Date - Descending",
+      "last_price_lh":"Last Price (low-high)",
+      "last_price_hl":"Last Price (high-low)"
+    },
+    "detail":{
+      "buy":"Buy",
+      "sell":"Sell",
+      "24h":"24H",
+      "7d":"7D",
+      "30d":"30D",
+      "6m":"6M",
+      "1y":"1Y",
+      "all":"All",
+      "similar_products":"Similar Products",
+      "similar_search_placeholder":"Search",
+      "filter":"Filter",
+      "avg_price":"Avg.Price",
+      "size_specific":"Size Specific",
+      "product_detail": "Product Detail",
+      "last_sale": "Last Sale",
+      "sku": "Sku",
+      "colorway": "Colorway",
+      "retail_price": "Retail Price",
+      "release_date": "Release Date",
+      "all_sizes":"All Sizes",
+      "average_price":"Average price",
+      "day_gain":"Day gain"
     }
   },
   "purchases": {
