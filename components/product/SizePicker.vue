@@ -311,7 +311,7 @@ export default {
   color: $color-black-1 !important,
 
 .text-color-blue-30
-  color: $color-blue-30 !important
+  color: $color-blue-30
 
 .size-label-responsive
   @include body-10

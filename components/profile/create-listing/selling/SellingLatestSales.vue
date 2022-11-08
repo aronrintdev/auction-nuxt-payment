@@ -296,9 +296,6 @@ export default {
 .product-details-chart-block
   .chart-latest-sales
     height: 372px
-    // background: $color-gray-90
-    // box-shadow: 0px 1px 2px $color-gray-th-43
-    // border-radius: 8px
   .chart-heading
     font-family: $font-montserrat
     font-style: normal
