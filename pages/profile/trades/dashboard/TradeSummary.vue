@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pt-5">
     <div v-if="width <= 500">
       <div class="main-container-small ml-2">
         <div class="justify-content-between">

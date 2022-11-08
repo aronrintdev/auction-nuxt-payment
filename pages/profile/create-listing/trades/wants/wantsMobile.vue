@@ -222,7 +222,7 @@
           <span slot="no-results"></span>
         </infinite-loading>
         <div class="d-flex justify-content-center">
-          <b-btn class="create-trade-next-btn" :disabled="!getTradeItemsWants.length"
+          <b-btn class="create-trade-next-btn position-fixed" :disabled="!getTradeItemsWants.length"
                  @click="$router.push('/profile/create-listing/trades/confirmation')">
             {{  $t('trades.create_listing.vendor.wants.next')  }}
           </b-btn>
@@ -924,7 +924,7 @@ export default {
   margin-top: 45px
   padding-right: 30px
 .create-trade-next-btn
-  background-color: #667799
+  background-color: $color-blue-20
   border-radius: 20px
   float: right
   margin-bottom: 7px
@@ -933,6 +933,8 @@ export default {
   font-family: $font-montserrat
   font-weight: $medium
   @include body-10
+  bottom: 100px
+  z-index: 100
 .create-trade-item-mobile
   width: 164px
   height: 212px
@@ -1034,7 +1036,7 @@ export default {
   font-weight: $normal
   font-family: $font-sp-pro
 .create-trade-minus-icon-sm
-  background-color: #FF9696
+  background-color: $color-red-27
   right: 5px
   top: 5px
   z-index: 81
@@ -1043,13 +1045,13 @@ export default {
   height: 125px
   padding: 2px
 .main-container
-  background: #fff
+  background: $color-white-1
 .combination-div-mobile
   width: 340px
-  background: #FFFFFF
+  background: $color-white-1
   height: 165px
   border-radius: 10px
-  box-shadow: 0px 1px 4px rgb(0 0 0 / 25%)
+  box-shadow: 0px 1px 4px $color-black-rgb1
   @media (min-width: 300px)  and (max-width: 349px)
     width: 290px
 .com-img
@@ -1084,24 +1086,24 @@ export default {
   height: 5px
   width: 5px
   border-radius: 50%
-  background: #999999
+  background: $color-gray-4
 .selected-circle
   height: 5px
   width: 5px
   border-radius: 50%
-  background: #000000
-#nav-wants
-  font-size: 12px !important
-  height: 45px !important
-  padding-bottom: 5px !important
-  background-color: #F4F4F4 !important
-  padding-top: 5px !important
-  padding-left: 15px !important
-  border-radius: 20px !important
+  background: $color-black-1
+#nav-wants::v-deep
+  font-size: 12px
+  height: 45px
+  padding-bottom: 5px
+  background-color: $color-gray-75
+  padding-top: 5px
+  padding-left: 15px
+  border-radius: 20px
 .prod-img
   height: 185px
 .overlay-mob
-  background: rgba(153, 153, 153, 0.05)
+  background: $light-opacity
   top: 0
   left: 0
   width: 100%
@@ -1112,7 +1114,7 @@ export default {
   z-index: 80
 .offers-items
   background: $color-white-27
-  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.25)
+  box-shadow: inset 0 1px 4px $drop-shadow1
   border-radius: 9px
   width: 92px
   height: 28px
@@ -1129,7 +1131,7 @@ export default {
   color: $color-gray-5
   padding-left: 10px
 .counter-icon
-  background: #CE0000
+  background: $color-red-29
   width: 18px
   height: 18px
   border-radius: 50%
