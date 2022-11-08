@@ -25,16 +25,16 @@
 
           <b-row class="mt-2 d-sm-none mx-2">
             <b-col class="text-center">
-              <span 
-                class="body-17-medium" 
+              <span
+                class="body-17-medium"
                 :class="method === 'buy' && 'active'"
               >
                 {{ lowestPrice | toCurrency }}
               </span>
             </b-col>
             <b-col class="text-center">
-              <span 
-                class="body-17-medium" 
+              <span
+                class="body-17-medium"
                 :class="method === 'offer' && 'active'"
               >
                 {{ highestOffer | toCurrency }}
@@ -70,14 +70,14 @@
 
           <b-row class="mt-2 d-none d-sm-flex col-lg-8 mx-auto w-100">
             <div class="d-flex w-100">
-              <div 
-                class="body-1-medium col-6 text-center" 
+              <div
+                class="body-1-medium col-6 text-center"
                 :class="method === 'buy' && 'active'"
               >
                 {{ lowestPrice | toCurrency }}
               </div>
-              <div 
-                class="body-1-medium col-6 text-center" 
+              <div
+                class="body-1-medium col-6 text-center"
                 :class="method === 'offer' && 'active'"
               >
                 {{ highestOffer | toCurrency }}
@@ -177,7 +177,7 @@
             {{ $t('products.have_pair_to_sell') }}
           </div>
           <div
-            role="button" 
+            role="button"
             class="create-listing-btn d-flex align-items-center justify-content-center text-center"
             @click="redirectToCreateListing"
           >
@@ -207,7 +207,7 @@
       />
 
       <AlertModal id="message-modal" :message="message" icon="tick" />
-      
+
 <!--        TODO: NP - Keeping this for now in order to have a reference on the product promo flow.-->
 <!--        <b-row class="mt-4">-->
 <!--          <b-col md="6">-->

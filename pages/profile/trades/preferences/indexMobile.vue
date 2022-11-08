@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-3">
+  <div class="pt-3 pb-5">
     <div class="main-container ml-3" v-if="mainPageList">
       <div class="p-2 mt-1" @click="inventorySettings()">
         <div class="d-flex mb-1">
@@ -87,7 +87,7 @@
         {{$t('trades.preferences.other_traders_will_only_be_able')}}
       </div>
       <div>
-        <b-btn class="save-btn ml-3" @click="savePreference">
+        <b-btn class="save-btn-offer-setting ml-4" @click="savePreference">
           {{$t('common.save_changes')}}
         </b-btn>
       </div>
@@ -115,14 +115,14 @@
           <single-slider :value="accessoriesInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeAccessoriesInterest" />
         </div>
       <div>
-        <b-btn class="save-btn ml-3" @click="savePreference">
+        <b-btn class="save-btn-refine ml-4" @click="savePreference">
           {{$t('common.save_changes')}}
         </b-btn>
       </div>
     </div>
     </div>
 
-    <div class="mt-2 ml-3 mr-3 mb-5 p-2" v-if="sizePre">
+    <div class="mt-2 ml-2 mr-3 p-2" v-if="sizePre">
       <div  class="sizePre-sections">
         <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.size_preferences')}}</div>
         <div class="mt-2 ml-2">
@@ -138,7 +138,7 @@
             </b-row>
           </div>
           <b-collapse id="collapse-1" v-model="isVisible">
-            <b-row class="row mt-1 column-sizes">
+            <b-row class="row mt-1">
               <b-col v-for="(sizeType, key) in filters.size_types" :key="'cat-' + key">
                 <div :value="sizeType" class= "unselected-item m-1 d-flex justify-content-center align-content-center"
                      @click="changeSizeTypeFilter(sizeType)">
@@ -162,7 +162,7 @@
             </b-row>
           </div>
           <b-collapse id="collapse-2" v-model="isVisibleSize">
-            <b-row class="row mt-1 column-sizes">
+            <b-row class="row mt-1">
               <b-col v-for="(size, key) in filterOtherSizes" :key="'cat-' + key">
                 <div :value="size" class= "unselected-item m-1 d-flex justify-content-center align-content-center"
                      @click="changeSizeFilter(size.size)">
@@ -186,7 +186,7 @@
             </b-row>
           </div>
           <b-collapse id="collapse-3" v-model="isVisibleApp">
-            <b-row class="row mt-1 column-sizes">
+            <b-row class="row mt-1">
               <b-col v-for="(app, key) in filterApparelSizes" :key="'cat-' + key">
                 <div :value="app" class= "unselected-item m-1 d-flex justify-content-center align-content-center"
                      @click="changeApparelSizeFilter(app.size)">
@@ -198,16 +198,15 @@
         </div>
       </div>
       <div>
-        <b-btn class="save-btn ml-3" @click="savePreference">
+        <b-btn class="save-btn-size ml-4" @click="savePreference">
           {{$t('common.save_changes')}}
         </b-btn>
       </div>
     </div>
-
-    <div class="mt-2 ml-3 mr-3 mb-5 p-2" v-if="brandsPre">
+    <div class="mt-2 ml-2 mr-3 p-2" v-if="brandsPre">
       <div  class="brand-sections">
         <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.size_preferences')}}</div>
-        <b-row class="images-row">
+        <b-row>
           <b-col v-for="(brand,index) in filters.brands" :key="index">
               <div class="m-2">
                 <img :src="brand.image" class="brand-image" @click="changeSelectedBrands(brand._id)">
@@ -216,12 +215,11 @@
         </b-row>
       </div>
       <div>
-        <b-btn class="save-btn ml-3" @click="savePreference">
+        <b-btn class="save-btn-brand" @click="savePreference">
           {{$t('common.save_changes')}}
         </b-btn>
       </div>
     </div>
-
     <div v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM">
       <b-btn class="save-btn-customzie ml-5" @click="savePreference">
         {{$t('common.save_changes')}}
@@ -651,12 +649,37 @@ export default {
   height: 40px
   width: 270px
   margin-top: 1rem
+.save-btn-size
+  background: $color-blue-20
+  border-radius: 20px
+  height: 40px
+  width: 270px
+  margin-top: 1rem
+.save-btn-brand
+  background: $color-blue-20
+  border-radius: 20px
+  height: 40px
+  width: 270px
+  margin-top: 1rem
+  margin-left: 2.3rem
+.save-btn-offer-setting
+  background: $color-blue-20
+  border-radius: 20px
+  height: 40px
+  width: 270px
+  margin-top: 1.5rem
 .save-btn-customzie
   background: $color-blue-20
   border-radius: 20px
   height: 40px
   width: 270px
   margin-top: 1rem
+.save-btn-refine
+  background: $color-blue-20
+  border-radius: 20px
+  height: 40px
+  width: 270px
+  margin-top: 2rem
 .offer-sections
   width: 343px
   height: 200px
@@ -688,7 +711,7 @@ export default {
   color: $color-black-1
 .refine-sections
   width: 343px
-  height: 450px
+  height: 400px
   background: $color-white-1
   border-radius: 10px
   box-shadow: 0 1px 4px $color-black-rgb1
@@ -702,14 +725,15 @@ export default {
   color: $color-black-1
 .sizePre-sections
   width: 343px
-  height: 550px
+  //height: 550px
   background: $color-white-1
   border-radius: 10px
   box-shadow: 0 1px 4px $color-black-rgb1
   padding-top: 20px
+  padding-bottom: 20px
 .brand-sections
   width: 343px
-  height: 350px
+  //height: 350px
   background: $color-white-1
   border-radius: 10px
   box-shadow: 0 1px 4px $color-black-rgb1

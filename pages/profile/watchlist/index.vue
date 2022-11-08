@@ -1,7 +1,9 @@
 <template>
-  <b-container fluid class="h-100 m-0 container-watchlists">
-    <div class="d-flex justify-content-between align-items-start header">
-      <div v-if="!!currentWatchlist" class="title overflow-hidden">
+  <b-container fluid class="container-watchlists">
+    <div
+      class="d-none d-sm-flex justify-content-between align-items-start header"
+    >
+      <div v-if="!!currentWatchlist" class="title">
         <h2 class="text-truncate mw-800px">{{ currentWatchlist.name }}</h2>
         <span>({{ totalCount }} {{ $t('common.items') }})</span>
       </div>
@@ -11,7 +13,7 @@
         <span
           role="button"
           class="body-2-medium mx-5 watchlists-type"
-          :class="{ 'active': watchlistsType === WATCHLIST_TYPE_TRADE }"
+          :class="{ active: watchlistsType === WATCHLIST_TYPE_TRADE }"
           @click="changeListType(WATCHLIST_TYPE_TRADE)"
         >
           {{ $t('home.trades') }}
@@ -19,7 +21,7 @@
         <span
           role="button"
           class="body-2-medium text-underline mx-5 watchlists-type"
-          :class="{ 'active': watchlistsType === WATCHLIST_TYPE_AUCTION }"
+          :class="{ active: watchlistsType === WATCHLIST_TYPE_AUCTION }"
           @click="changeListType(WATCHLIST_TYPE_AUCTION)"
         >
           {{ $t('home.auctions') }}
@@ -36,15 +38,20 @@
       </div>
       <div v-else>&nbsp;</div>
     </div>
-      
+    <div class="d-block d-sm-none">
+      <NavGroup
+        v-model="activeTab"
+        nav-key="list-type"
+        class="d-flex d-sm-none mb-4"
+        :data="tabs"
+        @change="handleTabs"
+      />
+    </div>
     <div v-if="watchlists.length > 0 && currentWatchlist">
-      <div class="d-flex justify-content-between">
-        <div class="d-flex flex-column flex-shrink-0">
-          <section
-            :class="`section-lists`"
-          >
-            <h5>{{ $t('wish_lists.auction_watchlists') }}</h5>
-
+      <div class="row">
+        <div class="col-12 col-sm-3">
+          <section class="d-none d-sm-block" :class="`section-lists`">
+            <h5>{{ $t('watchlists.buying_lists') }}</h5>
             <div v-for="list in watchlists" :key="list.id">
               <Button
                 :pressed="list.id === currentWatchlist.id"
@@ -54,11 +61,11 @@
               >
                 {{ list.name }}
               </Button>
-
             </div>
 
             <div
-              v-if="currentWatchlist.id &&
+              v-if="
+                currentWatchlist.id &&
                 currentWatchlist.privacy === WATCHLIST_PRIVACY_PUBLIC
               "
               class="share-block"
@@ -71,34 +78,130 @@
               />
             </div>
           </section>
+          <div class="wishlist-mobile d-block d-sm-none">
+            <div v-for="list in watchlists" :key="list.id" class="mb-4">
+              <div class="d-flex">
+                <div class="thumb-wrapper">
+                  <Thumb :src="list.image" />
+                </div>
+                <div
+                  class="w-100 d-flex flex-column justify-content-between ml-3"
+                >
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <h4 class="fs-14 fw-6 font-secondary mb-1">
+                        {{ list.name }}
+                      </h4>
+                      <h6
+                        class="fs-12 fw-5 text-gray-5 font-secondary text-capitalize"
+                      >
+                        {{ list.privacy }} List
+                      </h6>
+                    </div>
+                    <div :id="`popover-share-${list.id}`">
+                      <ShareIcon />
+                    </div>
+                  </div>
+                  <nuxt-link
+                    class="btn btn-outline-dark w-100 rounded-pill fs-13 fw-6 font-primary mb-4 text-black"
+                    :to="`/profile/watchlist/${list.id}`"
+                  >
+                    {{ $t('watchlists.view_list') }}
+                  </nuxt-link>
+                </div>
+              </div>
+              <button
+                class="fs-14 fw-5 font-secondary text-gray-47 btn btn-link p-0 mt-3"
+              >
+                {{ $t('watchlists.edit') }}
+              </button>
+              <b-popover
+                ref="sharePopover"
+                :target="`popover-share-${list.id}`"
+                triggers="click"
+                placement="bottom"
+                container="body"
+                custom-class="wishlist-popover"
+                delay="200"
+                @show="shareShow = true"
+                @hidden="shareShow = false"
+              >
+                <ShareButton
+                  :url="shareUrl + list.id"
+                  :title="list.name"
+                  :description="shareDescription"
+                />
+              </b-popover>
+            </div>
+          </div>
         </div>
 
-        <div v-if="!!currentWatchlist && watchlistsType === WATCHLIST_TYPE_AUCTION" class="section-items mt-4 flex-grow-1">
+        <div
+          v-if="!!currentWatchlist && watchlistsType === WATCHLIST_TYPE_AUCTION"
+          class="section-items mt-4 col-9 d-none d-sm-block"
+        >
           <div class="accordion" role="tablist">
             <b-card no-body class="mb-1">
-              <b-card-header class="py-2 px-3 d-flex align-items-center justify-content-between" role="tab">
-                <span class="body-2-bold flex-grow-1">{{ $t('auction.auction_types.single') }} ({{ singleAuctionsCount }})</span>
-                <div v-b-toggle.accordion-1 class="d-flex align-items-center justify-content-center p-1 collapase-icon">
+              <b-card-header
+                class="py-2 px-3 d-flex align-items-center justify-content-between"
+                role="tab"
+              >
+                <span class="body-2-bold flex-grow-1"
+                  >{{ $t('auction.auction_types.single') }} ({{
+                    singleAuctionsCount
+                  }})</span
+                >
+                <div
+                  v-b-toggle.accordion-1
+                  class="d-flex align-items-center justify-content-center p-1 collapase-icon"
+                >
                   <UpArrowIcon />
                 </div>
               </b-card-header>
-              <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
+              <b-collapse
+                id="accordion-1"
+                visible
+                accordion="my-accordion"
+                role="tabpanel"
+              >
                 <b-card-body class="px-0">
-                  <AuctionItems :key="currentWatchlist.id" :currentWatchlist="currentWatchlist" type="single" />
+                  <AuctionItems
+                    :key="currentWatchlist.id"
+                    :currentWatchlist="currentWatchlist"
+                    type="single"
+                  />
                 </b-card-body>
               </b-collapse>
             </b-card>
 
             <b-card no-body class="mb-1">
-              <b-card-header class="py-2 px-3 d-flex align-items-center justify-content-between" role="tab">
-                <span class="body-2-bold flex-grow-1">{{ $t('auctions.list.collection') }}  ({{ collectionAuctionsCount }})</span>
-                <div v-b-toggle.accordion-2 class="d-flex align-items-center justify-content-center p-1 collapase-icon">
+              <b-card-header
+                class="py-2 px-3 d-flex align-items-center justify-content-between"
+                role="tab"
+              >
+                <span class="body-2-bold flex-grow-1"
+                  >{{ $t('auctions.list.collection') }} ({{
+                    collectionAuctionsCount
+                  }})</span
+                >
+                <div
+                  v-b-toggle.accordion-2
+                  class="d-flex align-items-center justify-content-center p-1 collapase-icon"
+                >
                   <UpArrowIcon />
                 </div>
               </b-card-header>
-              <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
+              <b-collapse
+                id="accordion-2"
+                accordion="my-accordion"
+                role="tabpanel"
+              >
                 <b-card-body class="px-0">
-                  <AuctionItems :key="currentWatchlist.id" :currentWatchlist="currentWatchlist" type="collection" />
+                  <AuctionItems
+                    :key="currentWatchlist.id"
+                    :currentWatchlist="currentWatchlist"
+                    type="collection"
+                  />
                 </b-card-body>
               </b-collapse>
             </b-card>
@@ -122,7 +225,7 @@
         </Button>
       </div>
     </div>
-
+    <Portal to="page-title"> Watchlist </Portal>
     <CreateWatchlistModal @created="handleCreated" />
   </b-container>
 </template>
@@ -133,9 +236,16 @@ import ShareButton from '~/components/common/ShareButton.vue'
 import AuctionItems from '~/components/watchlist/AuctionItems'
 import CreateWatchlistModal from '~/components/modal/CreateWatchlist'
 import Button from '~/components/common/Button.vue'
-import { WATCHLIST_TYPE_AUCTION, WATCHLIST_TYPE_TRADE, WATCHLIST_PRIVACY_PRIVATE, WATCHLIST_PRIVACY_PUBLIC } from '~/static/constants'
+import NavGroup from '~/components/common/NavGroup.vue'
+import {
+  WATCHLIST_TYPE_AUCTION,
+  WATCHLIST_TYPE_TRADE,
+  WATCHLIST_PRIVACY_PRIVATE,
+  WATCHLIST_PRIVACY_PUBLIC,
+} from '~/static/constants'
 import UpArrowIcon from '~/assets/img/icons/up-arrow.svg?inline'
-
+import Thumb from '~/components/product/Thumb'
+import ShareIcon from '~/assets/icons/ShareIcon'
 export default {
   name: 'Watchlists',
 
@@ -146,6 +256,9 @@ export default {
     Button,
     UpArrowIcon,
     AuctionItems,
+    Thumb,
+    ShareIcon,
+    NavGroup,
   },
 
   layout: 'Profile',
@@ -159,6 +272,11 @@ export default {
       currentWatchlist: null,
       shareDescription: this.$t('watchlists.share_description'),
       shareUrl: process.env.APP_URL + '/watchlist/',
+      activeTab: 'trades',
+      tabs: [
+        { label: 'Trades', value: 'trades' },
+        { label: 'Auctions', value: 'auctions' },
+      ],
       WATCHLIST_TYPE_AUCTION,
       WATCHLIST_TYPE_TRADE,
       WATCHLIST_PRIVACY_PUBLIC,
@@ -180,7 +298,7 @@ export default {
     }),
     totalCount() {
       return this.singleAuctionsCount + this.collectionAuctionsCount
-    }
+    },
   },
 
   methods: {
@@ -190,9 +308,13 @@ export default {
       changeWatchlistsType: 'watchlist/changeWatchlistsType',
     }),
 
+    handleTabs(tab) {
+      this.activeTab = tab
+    },
+
     handleCreated(watchlist) {
-      this.selectWatchlist(watchlist);
-      this.$forceUpdate();
+      this.selectWatchlist(watchlist)
+      this.$forceUpdate()
     },
 
     async changeListType(type) {
@@ -222,11 +344,18 @@ export default {
 </script>
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+.text-gray-5
+  color: $color-gray-5
+
 .mw-300px
   max-width: 300px
 
 .mw-800px
   max-width: 800px
+
+.wishlist-mobile
+  .thumb-wrapper
+    width: 164px
 .container-watchlists
   background: $white
   width: calc(100vw - 265px)

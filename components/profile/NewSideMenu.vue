@@ -266,6 +266,14 @@ export default {
           menu: MENU_CATEGORY_MISC,
         },
         {
+          label: this.$t('profile_menu.stock_exchange'),
+          icon: require('~/assets/img/icons/side-menu/promotions.svg'),
+          iconActive: require('~/assets/img/icons/side-menu/promotions-active.svg'),
+          href: '/stock/exchange/trending',
+          route: 'stock-exchange',
+          menu: MENU_CATEGORY_MISC,
+        },
+        {
           label: this.$t('profile_menu.rewards'),
           iconActive: require('~/assets/img/rewards/rewards_active.svg'),
           icon: require('~/assets/img/rewards/rewards.svg'),
