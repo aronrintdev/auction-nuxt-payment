@@ -10,13 +10,6 @@
                 </div>
                 <div class="text-created">{{prettifyExpiryDate(trade.created_at)}}</div>
               </div>
-<!--            <label class="listing-text">-->
-<!--              {{$t('common.listing_id')}}-->
-<!--              <span class="listing-id-color">: #{{trade.id}}</span>-->
-<!--            </label>-->
-<!--            <span class="expire-text" >-->
-<!--              {{$t('common.expires')}} {{prettifyExpiryDate(trade.created_at)}}-->
-<!--            </span>-->
           </div>
           <div class="row  col-md-12 d-flex justify-content-center pt-2 pb-4">
             <div v-for="(product, index) in trade.offers" :key="'trade-item-'+index" class="products d-flex justify-content-center mx-1" >
@@ -126,7 +119,7 @@ export default {
   align-items: center
   margin: 0
 .trade-info-mobile
-  background: #FFFFFF
+  background: $color-white-1
   border-radius: 9px 9px 0 0
   height: 62px
   align-items: center
@@ -143,7 +136,7 @@ export default {
   font-size: 12px
   border: 1px solid $color-gray-23 !important
   padding: 0
-  color: #FFFFFF
+  color: $color-white-1
   background-color: $color-gray-23
 
 </style>
