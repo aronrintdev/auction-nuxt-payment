@@ -12,7 +12,6 @@
                       {{ $t('bounty.detail_content_description1') }}
                   </p>
                   <p class="mt-4">
-                      Aftert the completion of your form, our team will respond to you promptly. We thank you for helping our community and we may be rewarding effective reports with compensation. Reports are subject to the terms and conditions of our Program, set forth below, and with the Terms and Conditions available on our site.
                       {{ $t('bounty.detail_content_description2') }}
                   </p>
               </div>
@@ -93,15 +92,6 @@
   <style scoped lang="sass">
   @import '~/assets/css/_variables'
   @import '~/assets/css/_typography'
-
-  .card
-    width: 242px
-    height: 242px
-
-    background: #FFFFFF
-    box-shadow: 10px 10px 50px rgba(183, 183, 183, 0.25)
-    border-radius: 17px
-
   .text-heading
     color: $color-blue-20
     font-size: 30px

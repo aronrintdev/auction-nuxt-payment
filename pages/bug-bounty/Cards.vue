@@ -18,7 +18,7 @@
                 <p>
                   {{ $t('bounty.stages.low_detail') }}
                 </p>
-                <a href="#" class="fs-14 fw-5"><u>{{ $t('bounty.stages.low_content') }}</u></a>
+                <u class="fs-14 fw-5 text-blue">{{ $t('bounty.stages.low_content') }}</u>
             </div>
             <div
               class="col-sm-3 offset-sm-1 border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
@@ -36,7 +36,7 @@
               <p>
                 {{ $t('bounty.stages.mid_detail') }}
               </p>
-              <a href="#" class="fs-14 fw-5"><u>{{ $t('bounty.stages.mid_content') }}</u></a>
+              <u class="fs-14 fw-5 text-blue">{{ $t('bounty.stages.mid_content') }}</u>
             </div>
             <div
               class="offset-sm-1 col-sm-3 border p-4 br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
@@ -54,7 +54,7 @@
               <p>
                 {{ $t('bounty.stages.high_detail') }}
               </p>
-              <a href="#" class="fs-14 fw-5"><u>{{ $t('bounty.stages.high_content') }}</u></a>
+              <u class="fs-14 fw-5 text-blue">{{ $t('bounty.stages.high_content') }}</u>
             </div>
         </div>
       </div>
@@ -76,6 +76,7 @@
   </script>
   
   <style lang="sass">
+  @import '~/assets/css/_variables'
   .navigation-links
     .navigation-card
       width: 260px

@@ -15,7 +15,6 @@
                 <div class="row bug-type">
                   <div class="d-flex col-sm-12 col-md-4 type-option">
                     <b-form-radio
-                      id="login"
                       v-model="form.bug_type"
                       value="visual"
                       class="rounded-pill input-login"
@@ -26,7 +25,6 @@
                   </div>
                   <div class="d-flex col-sm-12 col-md-4 type-option">
                     <b-form-radio
-                      id="login"
                       v-model="form.bug_type"
                       value="functional"
                       class="rounded-pill input-login"
@@ -37,7 +35,6 @@
                   </div>
                   <div class="d-flex col-sm-12 col-md-4 type-option">
                     <b-form-radio
-                      id="login"
                       v-model="form.bug_type"
                       value="system"
                       class="rounded-pill input-login"
@@ -64,7 +61,6 @@
               class="text-black fw-5"
               >
                 <b-form-input
-                  id="login"
                   v-model="form.name"
                   class="rounded-pill input-login"
                   :placeholder="$t('bounty.form.name_placeholder')"
@@ -108,7 +104,6 @@
               class="text-black fw-5"
               >
                 <b-form-input
-                  id="login"
                   v-model="form.title"
                   class="rounded-pill input-login"
                   :placeholder="$t('bounty.form.toi_placeholder')"
