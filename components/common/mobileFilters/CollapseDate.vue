@@ -37,7 +37,7 @@
     >
       <div class="accordion-filter-body p-0 d-flex justify-content-between">
         <div class="w-100 d-flex align-items-center justify-content-between">
-          <v-date-picker v-model="startDate" :model-config="{ type: 'string', mask: 'MM/DD/YYYY' }">
+          <v-date-picker :key="endDate" v-model="startDate" :model-config="{ type: 'string', mask: 'MM/DD/YYYY' }">
             <template #default="{ inputValue, inputEvents }">
               <div class="d-flex align-items-center justify-content-between">
                 <input
@@ -49,7 +49,7 @@
               </div>
             </template>
           </v-date-picker>
-          <v-date-picker v-model="endDate" :min-date="startDate" :model-config="{ type: 'string', mask: 'MM/DD/YYYY' }">
+          <v-date-picker :key="startDate" v-model="endDate" :min-date="startDate" :model-config="{ type: 'string', mask: 'MM/DD/YYYY' }">
             <template #default="{ inputValue, inputEvents }">
               <div class="d-flex align-items-center justify-content-between">
                 <input
@@ -112,14 +112,16 @@ export default {
   },
   watch: {
     startDate(newV) {
-      if (newV) {
-        this.$emit('startDate', newV)
+      if (newV > this.endDate) {
+        this.endDate = null
       }
+      this.$emit('startDate', newV)
     },
     endDate(newV) {
-      if (newV) {
-        this.$emit('endDate', newV)
+      if (newV < this.startDate) {
+        this.startDate = null
       }
+      this.$emit('endDate', newV)
     },
     clearDate(newV) {
       if (newV) {

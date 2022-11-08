@@ -87,8 +87,8 @@
 
         <div class="d-flex justify-content-between d-md-block">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.status') }}:</span>
-          <span :class="[isMobileSize ? 'body-9-regular' : 'body-4-medium', {'text-green' : !isExpired && auction.status === LIVE_STATUS, 'text-danger': isExpired }]">
-            {{ isExpired ? $t('bids.expired') : $t('auction.status_array.' + auction.status)}}
+          <span :class="[isMobileSize ? 'body-9-regular' : 'body-4-medium', {'text-green' : !isExpired && auction.status === LIVE_STATUS, 'text-danger': isExpired && auction.status === LIVE_STATUS }]">
+            {{ (isExpired && auction.status === LIVE_STATUS) ? $t('bids.expired') : $t('auction.status_array.' + auction.status)}}
           </span>
         </div>
       </b-col>
