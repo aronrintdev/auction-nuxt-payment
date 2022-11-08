@@ -18,11 +18,25 @@ export function activeCategory(state, val) {
 export function setProducts(state, val) {
   state.products = val
 }
+
 // Set the results to apparel[]
 export function setApparel(state, val) {
   state.apparel = val
 }
+
 // Set the results to accessories[]
 export function setAccessories(state, val) {
   state.accessories = val
+}
+
+// Set the search history
+export function setRecentSearchHistory(state, val) {
+  state.recentSearchHistory = val
+}
+
+// add the items to search history
+export function addToRecentSearchHistory(state, val) {
+  if (state.recentSearchHistory.length === 3)
+    state.recentSearchHistory.splice(2, 1)
+  state.recentSearchHistory.unshift(val)
 }
