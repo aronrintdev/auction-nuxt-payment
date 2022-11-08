@@ -61,8 +61,8 @@ export default {
           'newest_features.shareable_wishlists_and_watchlists.feature_banner_title',
         description:
           'newest_features.shareable_wishlists_and_watchlists.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/shareable-wishlists-and-watchlists-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/shareable-wishlists-and-watchlists-banner.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/shareable-wishlists-and-watchlists-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/shareable-wishlists-and-watchlists-banner-sm.svg'),
       },
       benefits: [
         {

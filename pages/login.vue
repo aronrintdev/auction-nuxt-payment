@@ -19,10 +19,10 @@
                 </div>
               </b-col>
             </b-row>
-            <b-row class="mb-4">
+            <b-row class="mb-3">
               <b-col md="12">
-                <div class="text-center d-block d-lg-none">
-                  <b-img :src="require('~/assets/img/home/logo-mb.png')" class="ds-logo" />
+                <div class="text-center img-main main-mobile-image d-block d-lg-none">
+                  <b-img :src="require('~/assets/img/home/logo-mb.png')" class="ds-logo pt-1" />
                 </div>
                 <div class="welcome-back-text text-center d-block d-lg-none">
                   {{ $t('home.welcome_back') }}
@@ -59,7 +59,7 @@
           />
           <LoginForm v-else class="mt-5 w-100 ml-2 ml-lg-0" @verify="handleVerify" />
 
-          <b-row class="mt-5 w-100 d-block d-lg-none">
+          <b-row class="mt-5 w-100">
             <b-col md="12" class="text-center">
               <b-link
                 class="text-color-black-1 text-decoration-underline"
@@ -216,7 +216,7 @@ export default {
 .bg-color-white-5
   background: $color-white-5
 .welcome-back-text
-  color: black
+  color: $color-black-1
   font-style: normal
   font-weight: $bold
   font-size: 17px
@@ -247,5 +247,6 @@ export default {
   border-radius: 20px
   padding-right: 27px
   font-weight: 700
-
+.main-mobile-image
+  padding: 16px 0px 0px 10px
 </style>

@@ -59,14 +59,10 @@
 <script>
 import Modal from '~/components/common/Modal.vue'
 import screenSize from '~/plugins/mixins/screenSize'
-
 export default {
   name: 'AlertModal',
-
   components: { Modal },
-
   mixins: [screenSize],
-
   props: {
     id: {
       type: String,
@@ -97,7 +93,6 @@ export default {
       default: () => {}
     },
   },
-
   methods: {
     onShown() {
       if (this.autoHide) {
@@ -111,10 +106,8 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .message-modal-content::v-deep
   text-align: center
-
   .message
     @include body-3-regular
     color: $color-black-1
@@ -128,7 +121,6 @@ export default {
       font-style: normal
       @include body-4-normal
       color: $color-black-1
-
   img
     margin-top: 13px
     width: 55px

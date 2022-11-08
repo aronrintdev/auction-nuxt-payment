@@ -85,6 +85,8 @@ export default {
 <style lang="sass">
 @import '~/assets/css/_variables'
 @import '~/assets/css/components/purchases/summary'
+.purchase-history-wrapper
+  margin-bottom: 95px
 
 @media (max-width:320px)
   .vd-purchase-history-slots
@@ -102,43 +104,7 @@ export default {
     justify-content: space-evenly
 
 .purchase-card
-  flex: 0 0 34%
+  flex: 0 0 33%
   max-width: 100%
-  padding-top: 5px
-  padding-bottom: 5px
-
-  @media (min-width: 768px)
-    flex: 0 0 100%
-    max-width: 100%
-
-  @media (min-width: 992px)
-    flex: 0 0 100%
-    max-width: 100%
-
-  @media (min-width: 1280px)
-    flex: 0 0 50%
-    max-width: 50%
-
-  @media (min-width: 1525px)
-    flex: 0 0 34%
-    max-width: 50%
-
-  @media (min-width: 1800px)
-    flex: 0 0 50%
-    max-width: 50%
-
-  @media (min-width: 1920px)
-    flex: 0 0 33.33%
-    max-width: 33.33%
-
-  @media (min-width: 2500px)
-    flex: 0 0 25%
-    max-width: 25%
-  @media (min-width: 2750px)
-    flex: 0 0 25%
-    max-width: 25%
-  @media (min-width: 3000px)
-    flex: 0 0 20%
-    max-width: 20%
-
+  padding: 15px
 </style>

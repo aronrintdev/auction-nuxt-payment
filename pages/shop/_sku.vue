@@ -1,25 +1,56 @@
 <template>
-  <b-row class="px-5">
+  <b-row class="px-sm-5">
     <b-col md="12">
       <Loader v-if="loading" class="min-vh-100" />
 
-      <b-row v-if="product">
-        <b-col md="6">
+      <b-row class="justify-content-center" v-if="product">
+        <b-col md="6" xl="6" class="px-4 px-sm-0">
           <ProductBreadcrumb
             :category="category"
             :brand="product.brand"
             :name="product.name"
-            class="mt-3"
-          ></ProductBreadcrumb>
+            class="mt-3 d-none d-sm-block"
+          />
+
+          <NavGroup
+            v-model="method"
+            :data="methods"
+            nav-key="method"
+            class="text-center mt-4 body-8-normal d-sm-none"
+            :btnGroupStyle="{
+              minHeight: '40px'
+            }"
+            @change="handleMethodNavClick"
+          />
+
+          <b-row class="mt-2 d-sm-none mx-2">
+            <b-col class="text-center">
+              <span 
+                class="body-17-medium" 
+                :class="method === 'buy' && 'active'"
+              >
+                {{ lowestPrice | toCurrency }}
+              </span>
+            </b-col>
+            <b-col class="text-center">
+              <span 
+                class="body-17-medium" 
+                :class="method === 'offer' && 'active'"
+              >
+                {{ highestOffer | toCurrency }}
+              </span>
+            </b-col>
+          </b-row>
 
           <ProductImageViewer v-if="!has360Images" :product="product" />
-
           <ProductImageViewerMagic360 v-if="has360Images" :product="product" />
         </b-col>
 
-        <b-col md="6" class="mt-5">
+        <b-col md="6" xl="4" class="mt-sm-5 px-sm-0">
+
           <ProductTitle
             :product-name="product.name"
+            :product="product"
             :lowest-price="lowestPrice"
             :product-last-sale-price="isNaN(product.last_sold_for) ? 0 : product.last_sold_for"
             class="mt-5"
@@ -30,17 +61,28 @@
             v-model="method"
             :data="methods"
             nav-key="method"
-            class="text-center mt-3 body-8-normal"
+            class="text-center mt-4 body-8-normal d-none d-sm-block"
+            :btnGroupStyle="{
+              minHeight: '40px'
+            }"
             @change="handleMethodNavClick"
           />
 
-          <b-row class="mt-2">
-            <b-col md="3" offset-md="3" class="text-center">
-              <span class="body-1-medium" :class="method === 'buy' && 'active'">{{ lowestPrice | toCurrency }}</span>
-            </b-col>
-            <b-col md="3" class="text-center">
-              <span class="body-1-medium" :class="method === 'offer' && 'active'">{{ highestOffer | toCurrency }}</span>
-            </b-col>
+          <b-row class="mt-2 d-none d-sm-flex col-lg-8 mx-auto w-100">
+            <div class="d-flex w-100">
+              <div 
+                class="body-1-medium col-6 text-center" 
+                :class="method === 'buy' && 'active'"
+              >
+                {{ lowestPrice | toCurrency }}
+              </div>
+              <div 
+                class="body-1-medium col-6 text-center" 
+                :class="method === 'offer' && 'active'"
+              >
+                {{ highestOffer | toCurrency }}
+              </div>
+            </div>
           </b-row>
           <!-- End of Lowest Price & Highest Offer Nav Group -->
 
@@ -50,6 +92,7 @@
             :value="currentSize"
             :viewMode="sizeViewMode"
             class="size-picker"
+            :xsCount="4"
             @update="handleSizeChange"
             @changeViewMode="handleSizeViewModeChange"
           />
@@ -64,14 +107,14 @@
           <!-- User Conditional Actions -->
           <OutOfStock
             v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
-            class="mt-3"
+            class="mt-3 px-4 d-none d-sm-block px-sm-0"
             @notify-me="handleNotifyMeClick"
             @place-offer="handleOfferSubmit"
           />
 
           <BuyNow
             v-else-if="method === 'buy' && sizeViewMode === 'carousel'"
-            class="mt-3"
+            class="mt-3 d-none d-sm-block"
             :product="product"
             :lowest-price="lowestPrice"
             @buy-now="handleBuyNowClick"
@@ -81,7 +124,7 @@
 
           <SellNow
             v-else-if="sizeViewMode === 'carousel'"
-            class="mt-3"
+            class="mt-3 px-3 px-sm-0"
             :highest-offer="highestOffer"
             @place-offer="handleOfferSubmit"
             @sell-now="handleSellNowClick"
@@ -98,7 +141,7 @@
 
           <ProductAcceptedPaymentsV2
             v-if="sizeViewMode === 'carousel'"
-            class="mt-4"
+            class="mt-4 mt-sm-5"
           />
         </b-col>
       </b-row>
@@ -120,27 +163,51 @@
       <!-- End of Product Details & Size Guide Section -->
 
       <!-- Sales Graph and Sales Data Section -->
-      <b-row v-if="product" class="my-5">
+      <b-row v-if="product" class="my-4">
         <b-col md="12">
-          <SalesSection :product="product" />
+          <SalesSection chartHeaderClass="d-none" :product="product" />
         </b-col>
       </b-row>
       <!-- End of Sales Graph and Sales Data Section -->
 
-      <AlertModal id="message-modal" :message="message" icon="tick" />
+      <div class="create-listing d-flex d-sm-none">
+        <div class="col-6 px-0">
+          <div class="listing-title uppercase">{{ $t('common.sell_with_us') }}</div>
+          <div class="listing-sub-title text-capitalize">
+            {{ $t('products.have_pair_to_sell') }}
+          </div>
+          <div
+            role="button" 
+            class="create-listing-btn d-flex align-items-center justify-content-center text-center"
+            @click="redirectToCreateListing"
+          >
+            {{ $t('home.create_listing') }}
+          </div>
+        </div>
+        <div class="col-6">
+          <img class="img-fluid" :src="require('~/assets/img/icons/product/sneakers.png')" />
+        </div>
+      </div>
 
-<!--        TODO: NP - Keeping this for now in order to have a reference on the create listing flow.-->
-<!--      <div>-->
-<!--        <b-row>-->
-<!--          <b-col lg="12">-->
-<!--            <div class="create-listing-text mt-5 mb-4">-->
-<!--              {{ $t('products.have_pair_to_sell') }}-->
-<!--              <span class="link" role="button" @click="redirectToCreateListing">-->
-<!--              {{ $t('products.create_a_listing') }}-->
-<!--            </span>-->
-<!--            </div>-->
-<!--          </b-col>-->
-<!--        </b-row>-->
+      <OutOfStock
+        v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
+        class="px-4 d-sm-none"
+        @notify-me="handleNotifyMeClick"
+        @place-offer="handleOfferSubmit"
+      />
+
+      <BuyNow
+        v-else-if="method === 'buy' && sizeViewMode === 'carousel' && product"
+        class="mt-3 px-4 d-sm-none"
+        :product="product"
+        :lowest-price="lowestPrice"
+        @buy-now="handleBuyNowClick"
+        @add-to-cart="handleAddToCartClick"
+        @shipping-option-selected="handleShippingOptionSelected"
+      />
+
+      <AlertModal id="message-modal" :message="message" icon="tick" />
+      
 <!--        TODO: NP - Keeping this for now in order to have a reference on the product promo flow.-->
 <!--        <b-row class="mt-4">-->
 <!--          <b-col md="6">-->
@@ -150,7 +217,6 @@
 <!--            <ProductPromo :product="product" />-->
 <!--          </b-col>-->
 <!--        </b-row>-->
-<!--      </div>-->
     </b-col>
   </b-row>
 </template>
@@ -390,6 +456,7 @@ export default {
         colorWay: this.product.colorway,
         size: this.sizes[this.currentSize - 1],
         quantity: 1,
+        wishLists: this.product?.wish_lists,
         packaging_condition: this.packagingConditions[this.currentCondition - 1].name,
         inventory_stock: this.currentListingItem?.inventory_stock,
         price: this.currentListingItem?.inventory?.sale_price,
@@ -561,20 +628,19 @@ export default {
         this.$router.push('/checkout/sell-now')
       }
     },
-    // TODO: NP - Keeping this temporary for feature reference on the listing creation flow.
     // On create listing click, redirect to list creation page.
-  //   redirectToCreateListing(){
-  //     // If not authenticated redirect to login
-  //     if(!this.authenticated){
-  //       return this.$router.push('/login')
-  //     }
-  //     // If authenticated, but the user is not a vendor, redirect to vendor hub.
-  //     if (this.authenticated && !this.isVendor) {
-  //       return this.$router.push('/profile/vendor-hub')
-  //     }
-  //     // Redirect to listing page.
-  //     this.$router.push('/profile/create-listing')
-  //   }
+    redirectToCreateListing() {
+      // If not authenticated redirect to login
+      if(!this.authenticated){
+        return this.$router.push('/login')
+      }
+      // If authenticated, but the user is not a vendor, redirect to vendor hub.
+      if (this.authenticated && !this.isVendor) {
+        return this.$router.push('/profile/vendor-hub')
+      }
+      // Redirect to listing page.
+      this.$router.push('/profile/create-listing')
+    }
   },
 }
 </script>
@@ -584,4 +650,31 @@ export default {
 
 .text-color-red-3
   color: $color-red-3
+
+.body-17-medium
+  @include body-17-medium
+
+.create-listing
+  background: $color-white-5
+  padding-left: 20px
+
+.listing-title
+  @include body-2-normal
+  margin-top: 32px
+
+.listing-sub-title
+  @include body-8-normal
+  color: $color-white-17
+  margin-top: 15px
+
+.create-listing-btn
+  @include body-4-normal
+  margin-top: 20px
+  margin-bottom: 42px
+  min-height: 35px
+  background: $color-blue-20
+  padding: 5px 20px
+  border-radius: 20px
+  color: $color-white-1
+
 </style>

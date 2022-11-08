@@ -16,6 +16,7 @@ export default {
     indexMobile:()=> import('./indexMobile'),
     indexWeb:()=>import('./indexWeb'),
   },
+  layout: 'IndexLayout',
   data(){
     return {
       width:'',

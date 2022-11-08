@@ -389,6 +389,10 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.page-title
+  @include body-3-medium
+
 .locale-popover.popover
   background-color: red
   width: 100%

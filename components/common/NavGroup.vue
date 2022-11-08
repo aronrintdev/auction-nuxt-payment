@@ -1,11 +1,12 @@
 <template>
   <div class="nav-group">
-    <b-button-group>
+    <b-button-group class="col-lg-8" :style="btnGroupStyle">
       <b-button
         v-for="(item, index) in data"
         :key="`nav-group-${navKey}-${index}`"
         :class="{ active: item.value === value }"
         :title="item.label"
+        :style="btnStyle"
         class="font-primary"
         @click="onClick(item.value)"
         >{{ item.label }}</b-button
@@ -30,6 +31,14 @@ export default {
       type: String,
       default: '',
     },
+    btnGroupStyle: {
+      type: Object,
+      default: () => {}
+    },
+    btnStyle: {
+      type: Object,
+      default: () => {}
+    }
   },
 
   methods: {
@@ -43,24 +52,29 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 @import '~/assets/css/_typography'
+
 .nav-group
   @media (min-width: 576px)
-    margin: 50px 0
+    margin: 14px 0
   .btn-group
     background-color: $color-white-19
     border-radius: 20px
-    padding: 4px 6px
+    padding-top: 5px
+    padding-bottom: 5px
     .btn
       @include body-6-regular
       background-color: $color-white-19
       border: 0 !important
       border-radius: 20px !important
       color: $color-black-1 !important
-      padding: 6px 35px
       height: auto
+      font-size: 13px
+      @media (min-width: 576px)
+        font-size: 15px
+        
       &.active
         background-color: $color-white-1
-        font-weight: $bold
+        font-weight: $medium
       &::before
         display: block
         content: attr(title)
@@ -73,6 +87,5 @@ export default {
     .btn-group
       width: 100%
       .btn
-        padding: 6px 10px
         white-space: nowrap
 </style>

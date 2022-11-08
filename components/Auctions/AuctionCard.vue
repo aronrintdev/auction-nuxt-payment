@@ -121,7 +121,6 @@
 
 <script>
 import { mapActions } from 'vuex'
-import dayjs from 'dayjs'
 
 import {AUCTION_TYPE_COLLECTION, AUCTION_TYPE_SINGLE, WATCHLIST_TYPE_AUCTION} from '~/static/constants';
 import WatchlistPopover from '~/components/watchlist/Popover'
@@ -144,12 +143,7 @@ export default {
     CalendarIcon,
   },
   filters: {
-    diffForHumans: (date) => {
-      if (!date) {
-        return null
-      }
-      return dayjs(date).fromNow()
-    },
+
   },
   props: {
     auction: {
@@ -224,9 +218,9 @@ export default {
   &-quick-btns.show-actions
     opacity: 1
   .remaining-time
-    background: $dark-gray-8
+    background: $color-red-24
     padding: 4px 8px 4px 6px
-    color: $black
+    color: $white
     min-width: 90px
     min-height: 30px
     justify-content: center

@@ -104,7 +104,7 @@ export default {
     },
 
     expiry: (vm) => {
-      return `${vm.expiryDate} ${vm.$t('place_offer.days')}`
+      return `${vm.expiryDate} ${vm.$tc('place_offer.days', 1)}`
     },
 
     itemQuantity: (vm) => {

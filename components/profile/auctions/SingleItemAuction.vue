@@ -77,8 +77,8 @@
       <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0">
         <div class="d-flex justify-content-between d-md-block text-capitalize">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.time_remaining') }}:</span>
-          <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-medium'">
-            {{auction.status !== 'live' ? '-' : auction.remaining_time}}
+          <span class="text-capitalize" :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-medium'">
+            {{ isExpired || auction.status !== LIVE_STATUS ? '-' : auction.remaining_time }}
           </span>
         </div>
       </b-col>
@@ -87,9 +87,8 @@
 
         <div class="d-flex justify-content-between d-md-block">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.status') }}:</span>
-          <span :class="[isMobileSize ? 'body-9-regular' : 'body-4-medium',
-                        {' text-green ' :auction.status===LIVE_STATUS}]">
-            {{$t('auction.status_array.' + auction.status)}}
+          <span :class="[isMobileSize ? 'body-9-regular' : 'body-4-medium', {'text-green' : !isExpired && auction.status === LIVE_STATUS, 'text-danger': isExpired }]">
+            {{ isExpired ? $t('bids.expired') : $t('auction.status_array.' + auction.status)}}
           </span>
         </div>
       </b-col>
@@ -98,7 +97,7 @@
 
 <script>
 import ProductThumb from '~/components/product/Thumb';
-import {LIVE_STATUS} from '~/static/constants';
+import {EXPIRED_STATUS, LIVE_STATUS} from '~/static/constants';
 import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
@@ -130,6 +129,9 @@ export default {
     },
     isMobileSize() {
       return this.isScreenXS || this.isScreenSM
+    },
+    isExpired() {
+      return this.auction.remaining_time === EXPIRED_STATUS
     }
   }
 }

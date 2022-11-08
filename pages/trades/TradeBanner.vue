@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div v-if="width<= 500">
-      <trade-banner-mobile></trade-banner-mobile>
-    </div>
-    <div v-else>
+    <div v-if="width > 500">
       <trade-banner-web></trade-banner-web>
     </div>
   </div>
@@ -13,8 +10,7 @@
 export default {
   name: 'TradeBanner',
   components: {
-    tradeBannerMobile:()=> import('./TradeBannerMobile'),
-    tradeBannerWeb:()=>import('./TradeBannerWeb'),
+    tradeBannerWeb:()=>import('./TradeBannerWeb')
   },
   data(){
     return {

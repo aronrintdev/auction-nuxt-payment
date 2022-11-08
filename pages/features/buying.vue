@@ -70,8 +70,8 @@ export default {
       banner: {
         title: 'newest_features.buying.feature_banner_title',
         description: 'newest_features.buying.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/buying/buyingbanner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/buying/auctionsbannermobile.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/buying/feature-banner-updated.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/buying/feature-banner-updated-sm.svg'),
       },
       shopNowBanner: {
         shopNowDescription: 'newest_features.buying.shop_now_banner.desc',

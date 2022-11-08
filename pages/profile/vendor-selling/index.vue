@@ -99,15 +99,15 @@
           </div>
           <!-- Sort By -->
         </div>
-
         <!-- Row -->
-        <div v-if="searchResults.data" class="row filter-data">
+        <div v-if="resultLength" class="row filter-data">
           <!-- Tabs Filter -->
           <div class="col-12 col-md-4 mt-sm-4 col-sm-12 filter-by mt-2 mt-md-4">
             <label class="filter-text">{{
               $t('selling_page.filter_by')
             }}</label>
             <VendorSellingFilterBy
+              v-if="searchResults.data"
               :default="filterBy"
               :options="filterByOptions"
               :title="filterByTitle"
@@ -123,6 +123,7 @@
               $t('selling_page.listed_date')
             }}</label>
             <b-form-datepicker
+              v-if="searchResults.data"
               id="example-datepicker-start"
               v-model="searchFilters.startDate"
               class="form-item"
@@ -139,6 +140,7 @@
           <!-- End Date -->
           <div class="col-md-2 col-sm-12 end-date mt-4 mt-md-4 pt-0 pt-md-3">
             <b-form-datepicker
+              v-if="searchResults.data"
               id="example-datepicker-end"
               v-model="searchFilters.endDate"
               class="mt-2 form-item"
@@ -165,10 +167,20 @@
             </Button>
           </div>
           <!-- Apply Button -->
+
+          <div class="col-md-3 float-right">
+            <Button
+            variant="delist"
+            class="float-right mt-2 text-center"
+            @click="delistMultiple()"
+          >
+            {{ $t('selling_page.delist_multiple') }}
+          </Button>
+          </div>
         </div>
 
         <div
-          v-if="searchResults.data && !isScreenXS"
+          v-if="resultLength && searchResults.data && !isScreenXS"
           class="
             row
             mt-5
@@ -179,13 +191,6 @@
           "
         >
           <!-- Delist Multiple Button -->
-          <Button
-            variant="delist"
-            class="float-right mt-2 text-center"
-            @click="delistMultiple()"
-          >
-            {{ $t('selling_page.delist_multiple') }}
-          </Button>
           <!-- ./Delist Multiple Button -->
 
           <!-- vacation mode -->
@@ -602,6 +607,10 @@ export default {
         return vm.searchResults && vm.searchResults.data
       }
     },
+
+    resultLength: (vm) => {
+      return vm.searchResults.data && vm.searchResults.data.length
+    }
   },
 
   watch: {
@@ -663,7 +672,6 @@ export default {
     // Load the data
     loadData() {
       this.responsiveData = []
-      this.page = 1
       this.$axios
         .get('selling-items', {
           params: {
@@ -946,6 +954,7 @@ export default {
       this.showCheckBox = !this.showCheckBox
       this.searchFilters.delistMultipleSelected =
         !this.searchFilters.delistMultiple
+      this.page = 1
         this.loadData() 
       this.$refs.myBottomSheet.close()
     },

@@ -2,127 +2,116 @@
   <div v-if="activeAuction" class="container-fluid overflow auction-details p-3 p-md-4">
     <div class="d-none d-md-flex align-items-center justify-content-between mb-4 auction-header">
       <div>
-        <b-breadcrumb :items="breadcrumbItems"></b-breadcrumb>
-        <div class="auction-id">{{ $t('auctions.frontpage.auction_number') }} - #{{ activeAuction.id }}</div>
-      </div>
-      <div class="d-flex align-items-center">
-        <div class="round-btn" role="button">
-          <Icon
-            :id="`popover-watchlist-item-${activeAuction.id}`"
-            src="eye.svg"
-            hover-src="red-eye.svg"
-            :active="watchlistShow || !!watchlist"
-            width="20"
-            height="20"
-            tabindex="0"
-            disableHover
-            class="action-icon"
-            :alt-text="watchlist ? watchlist.name : ''"
-            :tooltip-text="watchlist ? watchlist.name : ''"
-            @click="removeFromWatchList"
-          />
-        </div>
-        <div :id="`popover-share-${activeAuction.id}`" class="round-btn" role="button" ><share-icon></share-icon></div>
+        <b-breadcrumb :items="breadcrumbItems" class="mb-1"></b-breadcrumb>
+        <div class="auctioner-rating">{{ $t('auctions.frontpage.auctioneer_rating') }}:<span class="ml-4">97%</span></div> <!-- todo -->
       </div>
     </div>
     <!-- [mobile] time remaining block -->
-    <mobile-time-remaining :end-at="activeAuction.end_date"></mobile-time-remaining>
+    <mobile-time-remaining
+      :is-expired="isExpired"
+      :is-scheduled="isScheduled"
+      :is-sold="isSold"
+      :end-at="activeAuction.end_date"
+    />
     <div v-if="activeAuction.auction_items && activeAuction.auction_items.length > 0" class="d-none d-md-flex auction-content">
-      <div class="auction-content-main">
-        <!-- Auction items carousel with arrows -->
-        <div v-if="activeAuction.type === 'collection'" class="collection-items-slider">
-          <LeftArrow role="button" :class="{ disabled: currentItemIdx === 0 }" @click="moveBack" />
-          <span>{{`${currentItemIdx + 1} ${$t('auctions.frontpage.of')} ${activeAuction.auction_items.length} ${$t('common.items')}`}}</span>
-          <RightArrow role="button" :class="{ disabled: currentItemIdx === activeAuction.auction_items.length - 1 }" @click="moveForward" />
+      <div class="auction-content-main d-block">
+        <!-- 360 image viewer -->
+        <ProductImageViewerMagic360 v-if="activeAuction.auction_items[currentItemIdx].inventory.product.has360Images" :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
+        <div v-else class="w-auto pr-5 mr-5">
+          <Thumb :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
         </div>
-        <!-- Media Viewer & thumbnails list -->
-        <media-carousel-with-thumbs :images="images.slice(currentItemIdx, currentItemIdx + 1)"></media-carousel-with-thumbs>
-        <div class="mt-5 body-5-bold">
-          {{ $t('auctions.frontpage.have_piece_to_sell') }} <nuxt-link to="#">{{ $t('auctions.frontpage.create_listing') }}</nuxt-link>
-        </div>
-        <div v-if="activeAuction.auction_items[currentItemIdx]" class="mt-5">
-          <b-tabs pills class="product-details-tabs">
-            <b-tab title="Product Details" active>
-                <div>{{ $t('common.sku') }}: {{ activeAuction.auction_items[currentItemIdx].inventory.product.sku }}</div>
-                <div>{{ $t('common.colorway') }}: {{ activeAuction.auction_items[currentItemIdx].inventory.color }}</div>
-                <div>{{ $t('common.box_condition') }}: {{ activeAuction.auction_items[currentItemIdx].inventory.packaging_condition.name }}</div>
-                <div>{{ $t('product_page.release_date') }}: {{ activeAuction.auction_items[currentItemIdx].created_at | formatDate }}</div>
-            </b-tab>
-            <b-tab title="Size Guide">
-              <div class="size-guide-content">
-                <div>
-                  <strong>{{ $t('auctions.frontpage.size_guide_text') }}</strong>
-                  <div class="size-table">
-                    <div class="size-sticky-col">
-                      <div v-for="(size, idx) in sizes" :key="idx" class="size-table-cell">{{ size.type }}</div>
-                    </div>
-                    <div class="size-table-content">
-                      <div v-for="(size, idx) in sizes" :key="idx" class="size-table-row">
-                        <div v-for="(item, index) in size.items" :key="`cell-${idx}-${index}`" class="size-table-cell">{{ item }}</div>
-                      </div>
-                    </div>
-                  </div>
-                  <OverallFit />
-                </div>
-                <div>
-                </div>
-              </div>
-            </b-tab>
-          </b-tabs>
-        </div>
-        <div class="mt-5 auction-details">
-          <div class="auction-details-title">{{ $t('auctions.frontpage.details') }}</div>
-          <div class="mt-3 mb-4 mr-5 auction-details-border"></div>
-          <div class="auction-details-content">
-            <div>{{ $t('auctions.frontpage.estimated_value') }}: ${{ activeAuction.estimated_low_price | formatPrice }} - {{ activeAuction.high_price | formatPrice }}</div>
-            <div>{{ $t('auctions.frontpage.duration') }}: {{ activeAuction.time_limit }} {{ $tc('common.day', activeAuction.time_limit) }}</div>
-            <div>{{ $t('auctions.frontpage.auction_type') }}: {{ activeAuction.type === 'single' ? 'Single Item' : 'Collection' }}</div>
-            <div class="mt-3 rating">{{ $t('auctions.frontpage.auctioneer_rating') }}: 97%</div> <!-- Todo -->
+        <div v-if="activeAuction.type === 'collection'" class="d-block pr-5 mr-5 collection-items-slider">
+          <div class="d-flex align-items-center mb-3">
+            <span class="title">{{ $t('auctions.frontpage.collection_items') }}</span>
+            <span class="count">{{`${currentItemIdx + 1} ${$t('auctions.frontpage.of')} ${activeAuction.auction_items.length}`}}</span>
           </div>
+          <CollectionItemsSlider :items="activeAuction.auction_items" @change="onSlideChanged"></CollectionItemsSlider>
         </div>
       </div>
       <div class="auction-content-side">
-        <div class="mb-4 text-center stats-box">
-          <div>
-            <span class="stat-name">{{ $t('home_page.timeremaining') }}</span>
-            <div class="text-danger stat-value">{{ activeAuction | remainingTime('medium') }}</div>
-          </div>
-          <div>
-            <span class="stat-name">{{ $t('auctions.frontpage.starting_bid') }}</span>
-            <div class="stat-value">${{ activeAuction.start_bid_price | formatPrice }}</div>
-          </div>
-          <div>
-            <span class="stat-name">{{ $t('auctions.frontpage.number_of_bids') }}</span>
-            <div class="stat-value">{{ activeAuction.bids.length }}</div>
-          </div>
-          <div>
-            <span class="stat-name">{{ $t('auctions.frontpage.watchers') }}</span>
-            <div class="stat-value">{{ activeAuction.number_of_bidders }}</div>
-          </div>
+        <!-- Expired mark -->
+        <div v-if="isExpired" class="mb-4 d-flex flex-column align-items-center justify-content-center expired-status">
+          <span>{{ $t('bids.expired_on') }}</span>
+          <div class="d-flex mt-1"><span class="date">{{ activeAuction.end_date | formatDate }}</span><span class="ml-2 time">@ {{ formatTime(activeAuction.end_date) }}</span></div>
         </div>
-        <div class="mb-4 d-flex justify-content-between product-info-box">
+        <!-- Scheduled -->
+        <div v-if="isScheduled" class="mb-4 d-flex flex-column align-items-center justify-content-center scheduled-status">
+          <span>{{ $t('auctions.frontpage.scheduled_on') }}</span>
+          <div class="d-flex mt-1"><span class="date">{{ activeAuction.end_date | formatDate }}</span><span class="ml-2 time">@ {{ formatTime(activeAuction.end_date) }}</span></div>
+        </div>
+        <!-- Sold -->
+        <div v-if="isSold" class="mb-4 d-flex flex-column align-items-center justify-content-center sold-status">
+          <span>{{ $t('auctions.frontpage.sold_on') }}</span>
+          <div class="d-flex mt-1"><span class="date">{{ activeAuction.end_date | formatDate }}</span><span class="ml-2 time">@ {{ formatTime(activeAuction.end_date) }}</span></div>
+        </div>
+        <div class="mb-4 d-flex justify-content-between px-0 product-info-box">
           <div>
             <div class="product-info-box-title">{{ activeAuction.auction_items[currentItemIdx].inventory.product.name }}</div>
-            <div class="product-info-box-value">{{ activeAuction.auction_items[currentItemIdx].inventory.color.name }}</div>
+            <div class="product-info-box-value">
+              <span>{{ $tc('common.size', 1) }} {{ activeAuction.auction_items[currentItemIdx].inventory.size.size }}&nbsp;-</span>
+              <span>{{ $t('common.box_condition') }}: {{ activeAuction.auction_items[currentItemIdx].inventory.packaging_condition.name  }}</span>
+            </div>
           </div>
-          <div class="product-info-box-value">
-            {{ $t('common.size') }} {{ activeAuction.auction_items[currentItemIdx].inventory.size.size }}
+          <div v-if="!isMobileSize" class="d-flex align-items-start ml-4">
+            <div :id="`popover-share-${activeAuction.id}`" class="round-btn" role="button">
+              <share-icon width="16" height="20"></share-icon>
+            </div>
+            <div v-if="!isExpired" class="round-btn ml-4 mt-1" role="button">
+              <Icon
+                :id="`popover-watchlist-item-${activeAuction.id}`"
+                src="eye.svg"
+                hover-src="red-eye.svg"
+                :active="watchlistShow || !!watchlist"
+                width="20"
+                height="20"
+                tabindex="0"
+                disableHover
+                class="action-icon"
+                :alt-text="watchlist ? watchlist.name : ''"
+                :tooltip-text="watchlist ? watchlist.name : ''"
+                @click="removeFromWatchList"
+              />
+            </div>
           </div>
         </div>
-        <div class="mb-4 text-center bid-details">
-          <strong v-if="activeAuction.highest_bid" class="bid-details-price">{{ $t('auctions.frontpage.current_bid') }}: ${{ activeAuction.highest_bid | formatPrice }}</strong>
-          <strong v-else class="bid-details-price">{{ $t('auctions.frontpage.current_bid') }}: &nbsp;&nbsp;-&nbsp;&nbsp;</strong>
-          <div class="mt-4 place-bid-form">
-            <div class="place-bid-form-title">{{ $t('auctions.frontpage.place_bid') }}</div>
-            <input v-model="placeBidPrice" v-number-only :placeholder="$t('auctions.frontpage.insert_amount')" />
-            <ArrowFillIcon role="button" :disabled="!placeBidPrice" @click="placeBid" />
+        <div class="mb-4 d-flex align-items-center stats">
+          <div>
+            <span class="stat-name">{{ $t('home_page.timeremaining') }}:</span>
+            <span v-if="isExpired" class="ml-2 text-danger text-capitalize stat-value">
+              {{ $t('bids.expired') }}
+            </span>
+            <span v-if="isScheduled" class="ml-2 text-gray text-capitalize stat-value">
+              {{ $t('bids.scheduled') }}
+            </span>
+            <span v-else class="ml-2 stat-value">{{ activeAuction | remainingTime('dots') }}</span>
           </div>
-          <div v-if="showLowBidError" class="text-left text-danger mt-1">
-            {{ $t('auctions.frontpage.place_bid_error') }}
+          <div class="stat-divider mx-3"></div> 
+          <div>
+            <div class="stat-value text-primary" role="button" @click="$bvModal.show('bids-history-modal')">
+              {{ activeAuction.bids.length }} {{ $tc('common.bid', activeAuction.bids.length) }}
+            </div>
           </div>
+          <div class="stat-divider mx-3"></div>
+          <div>
+            <div class="stat-value">{{ activeAuction.number_of_bidders }} {{ $t('auctions.frontpage.watchers') }}</div>
+          </div>
+        </div>
+        <div v-if="!isExpired" class="mb-4 p-0 bid-details">
+          <div class="bid-details-price">
+            <div class="text-uppercase mb-1">{{ $t('auctions.frontpage.current_bid') }}:</div>
+            <div class="bid-details-price-value">${{ activeAuction.highest_bid || activeAuction.start_bid_price | formatPrice }}</div>
+            <div v-if="activeAuction.estimated_low_price" class="bid-details-price-estimate text-capitalize">
+              <span>({{ $t('auctions.frontpage.estimated_value') }}: </span>
+              <span>${{ activeAuction.estimated_low_price | formatPrice }} - {{ activeAuction.high_price | formatPrice }})</span>
+            </div>
+          </div>
+          <!-- Quickc bid -->
           <div class="mt-4 quick-bid">
-            <div class="mb-3 quick-bid-title">{{ $t('auctions.frontpage.quick_bid') }}</div>
-            <div class="d-flex align-items-center justify-content-between">
+            <div class="mb-2 text-left text-uppercase quick-bid-title">
+              {{ $t('auctions.frontpage.quick_bid') }}
+              <img v-b-tooltip.hover :title="$t('auctions.frontpage.quick_bid_info')" class="mt-n1 ml-1" src="~/assets/img/icons/info-dark-blue.svg" />
+            </div>
+            <div class="d-flex align-items-center justify-content-between quick-bid-content">
               <div
                 v-for="price in quickBidPrices"
                 :key="price"
@@ -133,23 +122,21 @@
               </div>
             </div>
           </div>
-          <div class="mt-4 auto-bid">
-            <div class="position-relative d-inline-block auto-bid-title">
-              <strong>{{ $t('auctions.frontpage.auto_bid') }}</strong>
-              <InfoIcon id="info-icon" />
+
+          <!-- AutoBid -->
+          <div class="mt-4 quick-bid d-block place-bid-form">
+            <div class="mb-2 text-left text-uppercase quick-bid-title">
+              {{ $t('auctions.frontpage.auto_bid') }}
+              <img id="info-icon" class="mt-n1 ml-1" src="~/assets/img/icons/info-dark-blue.svg" />
               <b-tooltip target="info-icon" custom-class="auto-bid-tooltip" triggers="hover">
                 {{ $t('auctions.frontpage.auto_bid_tooltip') }} <span v-b-modal.auto-bid-thresholds-modal class="text-primary">{{ $t('auctions.frontpage.view_threshold_chart') }}</span>
               </b-tooltip>
             </div>
-            <div class="mt-3 d-flex justify-content-between auto-bid-content">
-              <input v-model="autoBidPrice" v-number-only :placeholder="$t('auctions.frontpage.up_to')" />
-              <b-btn
-                :disabled="!autoBidPrice || parseFloat(autoBidPrice) * 100 < activeAuction.start_bid_price || parseFloat(autoBidPrice) * 100 < activeAuction.highest_bid"
-                pill
-                @click="placeAutoBid"
-              >
-                {{ $t('auctions.frontpage.place_auto_bid') }}
-              </b-btn>
+            <div class="d-flex align-items-center">
+              <input v-model="autoBidPrice" v-number-only class="text-left" :placeholder="$t('auctions.frontpage.insert_amount', { price: activeAuction.highest_bid / 100 || activeAuction.start_bid_price / 100 })" />
+              <button class="place-bid-btn auto-bid" :disabled="!autoBidPrice || parseFloat(autoBidPrice) * 100 < activeAuction.start_bid_price || parseFloat(autoBidPrice) * 100 < activeAuction.highest_bid" @click="placeAutoBid">
+                {{ $t('auctions.frontpage.place_auto_bid') }}  
+              </button>
             </div>
             <div v-if="authUser && activeAuction.auto_bid_setting" class="mt-3 text-left auto-bid-setting">
               <div>{{ $t('auctions.frontpage.prev_auto_bid_placed_at') }} ${{ activeAuction.auto_bid_setting.price | formatPrice }}</div>
@@ -160,50 +147,34 @@
               </div>
             </div>
           </div>
-          <!-- Expired Wrapper -->
-          <div v-if="isExpired" class="expired-wrapper">
-            <ExpiredSvg></ExpiredSvg>
+
+          <div class="mt-4 quick-bid d-block place-bid-form">
+            <div class="mb-2 text-left text-uppercase quick-bid-title">
+              {{ $t('auctions.frontpage.direct_bid') }}
+            </div>
+            <div class="d-flex align-items-center">
+              <input v-model="placeBidPrice" v-number-only class="text-left flew-grow-1" :placeholder="$t('auctions.frontpage.insert_amount', { price: activeAuction.highest_bid / 100 || activeAuction.start_bid_price / 100 })" />
+              <button class="place-bid-btn" :disabled="!placeBidPrice" @click="placeBid">{{ $t('auctions.frontpage.place_bid') }}</button>
+            </div>
+            <div v-if="showLowBidError" class="text-left text-danger mt-1">
+              {{ $t('auctions.frontpage.place_bid_error') }}
+            </div>
           </div>
         </div>
-        <div class="recent-bidding-history">
-          <div class="recent-bidding-history-title">{{ $t('auctions.frontpage.recent_bidding_history') }}</div>
-          <table class="mt-3">
-            <thead>
-              <tr>
-                <th>{{ $t('auctions.frontpage.time_date') }}</th>
-                <th>{{ $t('auctions.frontpage.bid_amount') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <template v-if="activeAuction.bids.length > 0">
-                <tr v-for="bid in activeAuction.bids" :key="bid.id">
-                  <td>
-                    <strong>{{ bid.created_at | formatDate('MM-DD-YYYY') }}</strong>
-                    <span>{{ bid.created_at | formatTime }}</span>
-                  </td>
-                  <td>${{ bid.price | formatPrice }}</td>
-                </tr>
-              </template>
-              <template v-else>
-                <tr>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>
-              </template>
-            </tbody>
-          </table>
+
+        <!-- Auth guaranteed -->
+        <div class="m-5 d-flex align-items-center justify-content-between auth-guaranteed">
+          <div class="p-2 text-center">
+            <img src="~/assets/img/icons/auth-guaranteed.png" />
+            <div class="mt-2 auth-guaranteed-label">{{ $t('products.authenticity_guaranteed') }}</div>
+          </div>
+          <div class="mx-4 auth-guaranteed-divider"></div>
+          <div class="auth-guaranteed-text py-2">{{ $t('auctions.frontpage.verification_guranteed') }}</div>
         </div>
       </div>
     </div>
     <div v-if="activeAuction.auction_items && activeAuction.auction_items.length > 0" class="d-md-none">
-      <div v-if="activeAuction.type === 'collection'" class="collection-items-slider">
-        <div>
-          <span class="title">{{ $t('auctions.frontpage.collection_items') }}</span>
-          <span class="count">{{`${currentItemIdx + 1} ${$t('auctions.frontpage.of')} ${activeAuction.auction_items.length}`}}</span>
-        </div>
-        <CollectionItemsSlider :items="activeAuction.auction_items" @change="onSlideChanged"></CollectionItemsSlider>
-      </div>
-      <div class="mt-4">
+      <div>
         <!-- 360 image viewer -->
         <ProductImageViewerMagic360 v-if="activeAuction.auction_items[currentItemIdx].inventory.product.has360Images" :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
         <Thumb v-else :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
@@ -215,44 +186,50 @@
             {{ $t('common.size') }} {{ activeAuction.auction_items[currentItemIdx].inventory.size.size }} - {{ $t('common.box_condition') }}: {{ activeAuction.auction_items[currentItemIdx].inventory.packaging_condition.name }}
           </div>
         </div>
-        <div class="round-btn" role="button">
+        <div v-if="isMobileSize && !isExpired" class="round-btn ml-3" role="button">
           <Icon
-            :id="`popover-watchlist-item-${activeAuction.id}`"
+            :key="`watchlist-${watchlist && watchlist.id}`"
             src="eye.svg"
             hover-src="red-eye.svg"
             :active="!!watchlist"
             width="20"
             height="20"
             tabindex="0"
-            disableHover
             class="action-icon"
-            :alt-text="watchlist ? watchlist.name : ''"
-            :tooltip-text="watchlist ? watchlist.name : ''"
-            @click="removeFromWatchList"
+            @click="toggleItemFromWatchlist"
           />
         </div>
       </div>
-      <!-- quick bid -->
-      <div class="mt-4 quick-bid">
-        <div class="mb-2 text-left text-uppercase quick-bid-title">{{ $t('auctions.frontpage.quick_bid') }}</div>
-        <div class="d-flex align-items-center justify-content-between quick-bid-content">
-          <div
-            v-for="price in quickBidPrices"
-            :key="price"
-            class="border-0 quick-bid-btn"
-            @click="placeQuickBid(price, 'sheet')"
-          >
-            ${{ price / 100 }}
+      <div v-if="activeAuction.type === 'collection'" class="mt-4 collection-items-slider">
+        <div class="mb-2">
+          <span class="title">{{ $t('auctions.frontpage.collection_items') }}</span>
+          <span class="count">{{`${currentItemIdx + 1} ${$t('auctions.frontpage.of')} ${activeAuction.auction_items.length}`}}</span>
+        </div>
+        <CollectionItemsSlider :items="activeAuction.auction_items" @change="onSlideChanged"></CollectionItemsSlider>
+      </div>
+      <template v-if="!isExpired">
+        <!-- quick bid -->
+        <div  class="mt-4 quick-bid">
+          <div class="mb-2 text-left text-uppercase quick-bid-title">{{ $t('auctions.frontpage.quick_bid') }}</div>
+          <div class="d-flex align-items-center justify-content-between quick-bid-content">
+            <div
+              v-for="price in quickBidPrices.slice(0, 4)"
+              :key="price"
+              class="border-0 quick-bid-btn"
+              @click="placeQuickBid(price, 'sheet')"
+            >
+              ${{ price / 100 }}
+            </div>
           </div>
         </div>
-      </div>
-      <!-- Auto bid -->
-      <div class="mt-4 quick-bid">
-        <div class="mb-2 text-left text-uppercase quick-bid-title">{{ $t('auctions.frontpage.auto_bid') }}</div>
-        <div class="d-flex align-items-center justify-content-between quick-bid-content">
-          <b-btn class="w-100 py-2 px-0 quick-bid-autobid" @click="prepareAutoBid">{{ $t('auctions.frontpage.place_auto_bid') }}</b-btn>
+        <!-- Auto bid -->
+        <div class="mt-4 quick-bid">
+          <div class="mb-2 text-left text-uppercase quick-bid-title">{{ $t('auctions.frontpage.auto_bid') }}</div>
+          <div class="d-flex align-items-center justify-content-between quick-bid-content">
+            <b-btn class="w-100 py-2 px-0 quick-bid-autobid" @click="prepareAutoBid">{{ $t('auctions.frontpage.place_auto_bid') }}</b-btn>
+          </div>
         </div>
-      </div>
+      </template>
       <!-- Auction details -->
       <div class="mt-5 auction-details">
         <div class="auction-details-title">{{ $t('auctions.frontpage.details') }}</div>
@@ -282,7 +259,7 @@
       <!-- product details -->
       <div class="mt-4">
         <!-- bidding history -->
-        <div>
+        <div v-if="!isExpired">
           <BottomSheetOpener :title="$t('auctions.frontpage.bidding_history')">
             <table class="w-100 text-center bidding-history-table">
               <thead>
@@ -370,6 +347,19 @@
         <div class="auth-guaranteed-text py-2">{{ $t('auctions.frontpage.verification_guranteed') }}</div>
       </div>
     </div>
+    <!-- Auction Details  -->
+    <div class="mt-5 d-none d-md-block auctions-block auction-details">
+      <div class="auction-details-title">
+        {{ $t('auctions.frontpage.auction_details_title') }}
+      </div>
+      <div class="auction-details-content">
+        <div class="auction-details-content-label">{{ $tc('auctions.frontpage.auction_details_description') }}:</div>
+        <!-- todo -->
+        <div class="auction-details-content-text">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit consectetur risus sed diam eu est cursus senectus. Dui tincidunt non venenatis, consequat fusce sit consequat viverra amet. Quis convallis quam amet arcu suspendisse quis tempor ullamcorper. Vestibulum quisque lectus ultrices libero cursus nunc. Iaculis vulputate quis eget ut. Turpis in imperdiet morbi iaculis arcu nullam nunc adipiscing risus.
+        </div>
+      </div>
+    </div>
     <div class="similar-auctions">
       <product-slider
         :title="$t('auctions.frontpage.auction_details.similar_auctions')"
@@ -377,8 +367,49 @@
         @showAll="showAllAuctions"
       ></product-slider>
     </div>
+    <div v-if="activeAuction.auction_items && activeAuction.auction_items[currentItemIdx]" class="mt-5 d-none d-md-block auctions-block product-details">
+      <b-tabs pills class="product-details-tabs">
+        <b-tab title="Product Details" active>
+            <b-row class="mb-1">
+              <b-col class="field-name" md="2">{{ $t('common.sku') }}:</b-col>
+              <b-col class="field-value" md="10">{{ activeAuction.auction_items[currentItemIdx].inventory.product.sku }}</b-col>
+            </b-row>
+            <b-row class="mb-1">
+              <b-col class="field-name" md="2">{{ $t('common.colorway') }}:</b-col>
+              <b-col class="field-value" md="10">{{ activeAuction.auction_items[currentItemIdx].inventory.color }}</b-col>
+            </b-row>
+            <b-row>
+              <b-col class="field-name" md="2">{{ $t('common.box_condition') }}:</b-col>
+              <b-col class="field-value" md="10">{{ activeAuction.auction_items[currentItemIdx].inventory.packaging_condition.name }}</b-col>
+            </b-row>
+        </b-tab>
+        <b-tab title="Size Guide">
+          <div class="size-guide-content">
+            <div>
+              <strong>{{ $t('auctions.frontpage.size_guide_text') }}</strong>
+              <div class="size-table">
+                <div class="size-sticky-col">
+                  <div v-for="(size, idx) in sizes" :key="idx" class="size-table-cell">{{ size.type }}</div>
+                </div>
+                <div class="size-table-content">
+                  <div v-for="(size, idx) in sizes" :key="idx" class="size-table-row">
+                    <div v-for="(item, index) in size.items" :key="`cell-${idx}-${index}`" class="size-table-cell">{{ item }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+            </div>
+          </div>
+        </b-tab>
+      </b-tabs>
+    </div>
     <!-- place bid -->
-    <div class="d-md-none mt-5 py-3 d-flex justify-content-between place-bid-section">
+    <div v-if="isExpired" class="text-center place-bid-section">
+      <div class="current-bid-label text-uppercase">{{ $t('auctions.frontpage.starting_bid') }}</div>
+      <div class="current-bid-price text-gray">${{ activeAuction.start_bid_price | formatPrice }}</div>
+    </div>
+    <div v-else class="d-md-none mt-5 py-3 d-flex justify-content-between place-bid-section">
       <div>
         <div class="current-bid-label text-uppercase">{{ $t('auctions.frontpage.current_bid') }}</div>
         <div class="current-bid-price">${{ (activeAuction.highest_bid || 0) | formatPrice }}</div>
@@ -592,7 +623,7 @@
           {{ $t('auctions.frontpage.auto_bid_tooltip') }} <span v-b-modal.auto-bid-thresholds-modal class="text-primary">{{ $t('auctions.frontpage.view_threshold_chart') }}</span>
         </div>
         <div class="mt-3 field d-flex justify-content-between align-items-center">
-          <span class="mr-3">{{ $t('auctions.frontpage.insert_amount') }}</span>
+          <span class="mr-3">{{ $t('auctions.frontpage.insert_amount', { price: activeAuction.highest_bid / 100 || activeAuction.start_bid_price / 100 }) }}</span>
           <input v-model="autoBidPrice" type="number" placeholder="$0" class="text-right px-2" />
         </div>
         <div class="field d-flex justify-content-between align-items-center">
@@ -623,7 +654,7 @@
       <div class="text-left">
         <h5 class="mt-3 mb-4">{{ $t('auctions.frontpage.place_bid') }}</h5>
         <div class="mt-3 field d-flex justify-content-between align-items-center">
-          <span class="mr-3">{{ $t('auctions.frontpage.insert_amount') }}</span>
+          <span class="mr-3">{{ $t('auctions.frontpage.insert_amount', { price: activeAuction.highest_bid / 100 || activeAuction.start_bid_price / 100 }) }}</span>
           <input v-model="placeBidPrice" type="number" placeholder="$0" class="text-right px-2" />
         </div>
         <div class="field d-flex justify-content-between align-items-center">
@@ -646,28 +677,57 @@
         </div>
       </div>
     </b-modal>
+    <!-- Bids history Modal -->
+    <b-modal id="bids-history-modal" class="bid-modal" hide-footer hide-header size="md">
+      <div class="text-right">
+        <close-icon role="button" class="close-icon" @click="$bvModal.hide('bids-history-modal')"></close-icon>
+      </div>
+      <div class="text-left recent-bidding-history">
+        <div class="recent-bidding-history-title">{{ $t('auctions.frontpage.recent_bidding_history') }}</div>
+        <table class="mt-2 w-100 text-center">
+          <thead>
+            <tr>
+              <th>{{ $t('auctions.frontpage.time_date') }}</th>
+              <th>{{ $t('auctions.frontpage.bid_amount') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template v-if="activeAuction.bids && activeAuction.bids.length > 0">
+              <tr v-for="bid in activeAuction.bids" :key="bid.id">
+                <td>
+                  <strong>{{ bid.created_at | formatDate('MM-DD-YYYY') }}</strong>
+                  <span>{{ bid.created_at | formatTime }}</span>
+                </td>
+                <td>${{ bid.price | formatPrice }}</td>
+              </tr>
+            </template>
+            <template v-else>
+              <tr>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </b-modal>
+    <WatchlistBottomSheet :auction="activeAuction" :open="watchlistSheetVisible" @watchlisted="onWatchlisted" @close="watchlistSheetVisible=false" />
   </div>
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import { ValidationObserver } from 'vee-validate'
+import dayjs from 'dayjs'
 
 import ProductSlider from '~/components/Auctions/ProductSlider'
-import MediaCarouselWithThumbs from '~/components/Auctions/MediaCarouselWithThumbs'
-import OverallFit from '~/components/Auctions/OverallFit'
-import ArrowFillIcon from '~/assets/img/icons/arrow-fill.svg?inline'
-import InfoIcon from '~/assets/img/icons/info-blue.svg?inline'
 import ShareIcon from '~/assets/img/icons/share.svg?inline'
 import CloseIcon from '~/assets/img/icons/close.svg?inline'
 import SignUpComponent from '~/components/Auth/SignUpComponent'
 import LoginComponent from '~/components/Auth/LoginComponent'
 import Cards from '~/components/profile/preferences/Popup/Payments/Cards'
 import BillingShippingAddressForm from '~/components/profile/preferences/Popup/BillingShippingAddressForm'
-import ExpiredSvg from '~/assets/img/icons/expired-mark.svg?inline'
-import { AuctionThresholdsData, AuctionSizes, AUCTION_TYPE_COLLECTION, WATCHLIST_TYPE_AUCTION } from '~/static/constants'
+import { AuctionThresholdsData, AuctionSizes, AUCTION_TYPE_COLLECTION, WATCHLIST_TYPE_AUCTION, SCHEDULED_STATUS, COMPLETED_STATUS } from '~/static/constants'
 import CheckmarkIcon from '~/assets/img/icons/checkmark.svg?inline'
-import LeftArrow from '~/assets/img/home/arrow-left.svg?inline'
-import RightArrow from '~/assets/img/home/arrow-right.svg?inline'
 import {API_PROD_URL} from '~/static/constants/environments'
 import {LARGE_PRODUCT_IMG_WIDTH, THUMB_PRODUCT_IMG_WIDTH, DEADSTOCK_PRODUCT_FALLBACK_IMAGE, EXPIRED_STATUS} from '~/static/constants/auctions'
 import WatchlistPopover from '~/components/watchlist/Popover'
@@ -678,26 +738,20 @@ import Thumb from '~/components/product/Thumb'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
 import BottomSheetOpener from '~/components/Auctions/BottomSheetOpener'
 import CollectionItemsSlider from '~/components/Auctions/CollectionItemsSlider'
+import WatchlistBottomSheet from '~/components/Auctions/WatchlistBottomSheet'
 
 export default {
   name: 'AuctionDetailsPage',
   components: {
     ShareIcon,
     ProductSlider,
-    MediaCarouselWithThumbs,
-    ArrowFillIcon,
-    InfoIcon,
     CloseIcon,
-    OverallFit,
     SignUpComponent,
     LoginComponent,
     Cards,
     BillingShippingAddressForm,
     ValidationObserver,
-    ExpiredSvg,
     CheckmarkIcon,
-    RightArrow,
-    LeftArrow,
     WatchlistPopover,
     ShareButton,
     Icon,
@@ -706,6 +760,7 @@ export default {
     ProductImageViewerMagic360,
     BottomSheetOpener,
     CollectionItemsSlider,
+    WatchlistBottomSheet,
   },
   layout: 'IndexLayout',
   data() {
@@ -747,12 +802,23 @@ export default {
       watchlistShow: false,
       watchlist: null,
       auctionName: '',
+      watchlistSheetVisible: false,
+      EXPIRED_STATUS,
     }
   },
   computed: {
     ...mapGetters({
       activeAuction: 'auction/activeAuction',
     }),
+    isMobileSize() {
+      return window.innerWidth < 576
+    },
+    isScheduled() {
+      return this.activeAuction.status === SCHEDULED_STATUS
+    },
+    isSold() {
+      return this.activeAuction.status === COMPLETED_STATUS
+    }
   },
   watch: {
     activeAuction(newV) {
@@ -782,7 +848,7 @@ export default {
         }
       })
       const mainPrice = newV.highest_bid ? Math.floor(newV.highest_bid / 5000) + 1 : Math.floor(newV.start_bid_price / 5000) + 1;
-      this.quickBidPrices = [mainPrice * 5000, (mainPrice + 1) *5000, (mainPrice + 2) * 5000, (mainPrice + 3) * 5000]
+      this.quickBidPrices = [mainPrice * 5000, (mainPrice + 1) *5000, (mainPrice + 2) * 5000, (mainPrice + 3) * 5000, (mainPrice + 4) * 5000]
       if (this.$options.filters.remainingTime(newV) === EXPIRED_STATUS || newV.status === EXPIRED_STATUS) {
         this.isExpired = true
       }
@@ -792,7 +858,6 @@ export default {
       this.loadSimilarAuctions()
     },
     placeBidPrice(value) {
-      console.log(value)
       this.showLowBidError = false
     },
   },
@@ -859,7 +924,6 @@ export default {
           this.$toasted.success(this.$t(res.data.message))
           if (address.type === 'billing') {
             this.$bvModal.hide('auto-bid-modal')
-            console.log('--- is mobile', window.innerWidth)
             if (window.innerWidth < 576) {
               this.$refs.autoBidModalSheet.open()
             } else {
@@ -1047,6 +1111,21 @@ export default {
     },
     prepareAutoBid() {
       this.$bvModal.show('autobid-prepare-modal')
+    },
+    toggleItemFromWatchlist() {
+      if (this.watchlist) {
+        this.removeItemsFromWatchlist({
+          watchlist: this.watchlist,
+          ids: [this.activeAuction.id],
+          type: WATCHLIST_TYPE_AUCTION,
+        })
+        this.watchlist = null
+      } else {
+        this.watchlistSheetVisible = true
+      }
+    },
+    formatTime(time) {
+      return dayjs(time).format('h:mm A')
     }
   },
 }
@@ -1057,14 +1136,174 @@ export default {
 @import '~/assets/css/_typography'
 
 .auction-details
+  .product-info-box
+    background: transparent
+    &-title
+      @include body-1-medium
+    &-value
+      @include body-4
+      font-weight: $regular
+  .auctioner-rating
+    font-family: $font-sp-pro
+    font-weight: $normal
+    @include body-11
+    color: $black
+    span
+      color: $color-gray-5
+  .stats
+    .stat-name,
+    .stat-value
+      font-weight: $medium
+      @include body-8
+      color: $color-gray-5
+    .stat-divider
+      width: 1px
+      height: 18px
+      background: $black
+  .bid-details
+    background: transparent
+    border: 0
+    &-price
+      font-weight: $medium
+      @include body-8
+      &-value
+        @include heading-2
+        font-weight: $medium
+      &-estimate
+        font-weight: $normal
+        @include body-10
+        letter-spacing: -0.02em
+        color: $color-gray-5
+  .quick-bid
+    &-title
+      font-weight: $normal
+      @include body-8
+      color: $black
+      img
+        width: 14px
+        height: 14px
+    &-content
+      margin: 0 -8px
+    &-btn
+      @include body-4-medium
+      color: $white
+      margin: 0 8px
+      background: $color-blue-20
+      border-color: $color-blue-20
+      box-shadow: 0px 1px 4px rgba($black, 0.25)
+      border-radius: 4px
+      flex: 1
+  .place-bid-form
+    input
+      padding: 10px 18px
+      border: 1px solid $black
+      border-radius: 4px
+      font-weight: $medium
+      height: 40px
+      flex: 1
+    .place-bid-btn
+      font-weight: $medium
+      border-radius: 4px
+      @include body-8
+      color: $white
+      border: none
+      background: $black
+      width: 140px
+      height: 40px
+      &.auto-bid
+        background: $color-blue-20
+  .auth-guaranteed
+    img
+      width: 36px
+      height: 36px
+    &-text,
+    &-label
+      @include body-9
+      font-weight: $regular
+      line-height: 18px
+      color: $black
+    &-label
+      @include body-6
+    &-divider
+      width: 1px
+      min-height: 80px
+      height: 100%
+      background: $color-gray-16f
+  .similar-auctions::v-deep
+    .auctions-block-header
+      border-bottom: 0.5px solid $color-gray-23
+      padding-bottom: 14px
+      .new-releases-heading
+        font-family: $font-sp-pro
+        font-weight: $bold
+        letter-spacing: 0
+    .view-more-products-text
+      display: none
+  .product-details-tabs::v-deep
+    ul
+      border-bottom: 0.5px solid $color-gray-23
+      padding: 14px 30px
+    .nav-link
+      font-family: $font-sp-pro
+      font-weight: $bold
+      letter-spacing: 0
+    .tab-content > div
+      padding-left: 50px
+    .field-name
+      font-family: $font-sp-pro
+      font-weight: $normal
+      @include body-24
+      color: $black
+    .field-value
+      font-family: $font-sp-pro
+      font-weight: $normal
+      @include body-24
+      color: $color-gray-5
+  .auction-details
+    &-title
+      border-bottom: 0.5px solid $color-gray-23
+      padding: 14px 30px
+      font-family: $font-sp-pro
+      font-weight: $bold
+      letter-spacing: 0
+      @include body-2
+      color: $black
+    &-content
+      padding: 0 50px 30px
+      &-label
+        font-family: $font-sp-pro
+        font-weight: $normal
+        @include body-24
+        color: $black
+      &-text
+        font-family: $font-sp-pro
+        font-weight: $normal
+        @include body-24
+        color: $color-gray-5
+  .collection-items-slider
+    .title
+      @include body-8
+      font-weight: $normal
+      letter-spacing: 0.01em
+      color: $black
+      padding: 0
+      margin-right: 10px
+    .count
+      @include body-8
+      font-weight: $normal
+      color: $color-gray-5
   @media (max-width: 576px)
     .product-info-box
       background: transparent
+      border-bottom: none
       &-title
         @include body-3-medium
+        padding: 0
+        border: none
       &-value
         @include body-21
         font-weight: $regular
+        padding: 0
     .quick-bid
       &-title
         @include body-5
@@ -1090,9 +1329,12 @@ export default {
     .auction-details
       &-title
         @include body-4-medium
+        padding: 0
+        border: none
       &-content
+        padding: 0
         @include body-5
-        font-weight: $medium
+        font-weight: $normal
         color: $color-gray-5
     .product-details
       @include body-5
@@ -1154,36 +1396,21 @@ export default {
         font-weight: $normal
         letter-spacing: -0.02em
         color: $color-gray-47
-    .auth-guaranteed
-      img
-        width: 36px
-        height: 36px
-      &-text,
-      &-label
-        @include body-9
-        font-weight: $regular
-        line-height: 18px
-        color: $black
-      &-label
-        @include body-6
-      &-divider
-        width: 1px
-        min-height: 80px
-        height: 100%
-        background: $color-gray-16f
-    .similar-auctions
-      padding: 0
-      .auctions-block
-        padding: 0
-        .col-12
+
+    .similar-auctions::v-deep
+        .auctions-block
           padding: 0
-        .new-releases-heading
-          @include body-5
-          font-weight: $medium
-          color: $black
-        .view-more-products-text
-          img
-            width: 36px
+          .col-12
+            padding: 0
+            border: none
+          .new-releases-heading
+            @include body-5
+            font-weight: $medium
+            color: $black
+          .view-more-products-text
+            display: block
+            img
+              width: 36px
     .place-bid-section
       .current-bid-label
         @include body-21
@@ -1226,5 +1453,54 @@ export default {
         @include body-5
         font-weight: $medium
         padding: 10px 0px
-
+.expired-status,
+.scheduled-status,
+.sold-status
+  background: $color-yellow-10
+  box-shadow: 0px 1px 4px rgba($black, 0.25)
+  padding: 15px 0
+  span
+    font-weight: $normal
+    font-family: $font-sp-pro
+    @include body-5
+    color: $black
+    &.time
+      @include body-2
+      color: $color-gray-5
+    &.date
+      @include body-2
+      color: $black
+.scheduled-status
+  background: $color-blue-33
+.sold-status
+  background: $color-green-32
+.recent-bidding-history
+  min-height: 300px
+  &-title
+    font-weight: $medium
+    @include body-2
+    color: $black
+    font-family: $font-sp-pro
+  table
+    tbody
+      tr
+        border-top: thin solid $light-gray-2
+    th
+      font-weight: $bold
+      font-family: $font-sp-pro
+      @include body-8
+      color: $black
+      padding: 12px
+    td
+      padding: 15px
+      font-weight: $normal
+      @include body-5
+      color: $color-gray-5
+      span
+        color: $color-gray-4
+      strong
+        color: $black
+        font-weight: $normal
+        display: block
+      margin-bottom: 4px
 </style>

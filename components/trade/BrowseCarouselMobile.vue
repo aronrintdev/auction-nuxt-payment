@@ -85,7 +85,7 @@ export default {
 
   .carousel::v-deep
     width: 100%
-    padding: 0 58px
+    padding: 0 15px
     position: relative
     margin-left: auto
     margin-right: auto

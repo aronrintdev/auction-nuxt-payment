@@ -463,6 +463,7 @@ export default {
   overflow-x: hidden
 ::v-deep .nav-group
   .btn-group
+    max-width: 480px
     background-color: $white-3
     .btn
       background-color: $white-3

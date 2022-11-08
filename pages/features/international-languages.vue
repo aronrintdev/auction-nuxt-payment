@@ -46,8 +46,8 @@ export default {
         title: 'newest_features.international_languages.feature_banner_title',
         description:
           'newest_features.international_languages.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/international-languages/int-languages-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/international-languages/int-languages-banner-sm.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/international-languages/int-languages-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/international-languages/int-languages-banner-sm.svg'),
       },
       benefits: [
         {

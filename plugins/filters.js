@@ -1,4 +1,7 @@
 import Vue from 'vue'
+import dayjs from 'dayjs'
+import relativeTime from '../node_modules/dayjs/plugin/relativeTime'
+
 import { MONTHS, EXPIRED_STATUS, API_PROD_URL, PRODUCT_IMG_WIDTH } from '~/static/constants'
 
 Vue.filter('formatPrice', (value) => {
@@ -115,6 +118,11 @@ Vue.filter('remainingTime', (value, type) => {
       hrs < 10 ? '0' + hrs + 'h ' : hrs + 'h '
     } ${mins < 10 ? '0' + mins + 'm' : mins + 'm'}`
   }
+  if (type === 'dots') {
+    return `${days < 10 ? '0' + days + 'd : ' : days + 'd : '}${
+      hrs < 10 ? '0' + hrs + 'h : ' : hrs + 'h : '
+    }${mins < 10 ? '0' + mins + 'm' : mins + 'm'}`
+  }
   return `${days > 0 ? days + ' DAYS ' : ''}${hrs > 0 ? hrs + ' HRS ' : ''} ${
     mins > 0 ? mins + ' MINS' : ''
   }`
@@ -182,4 +190,12 @@ Vue.filter('formatDateTimeString', (value, format) => {
 
 Vue.filter('wordLimit', (string, limit = 3) => {
   return string.split(' ').splice(0, limit).join(' ').trim()
+})
+
+Vue.filter('diffForHumans', (date) => {
+  if (!date) {
+    return null
+  }
+  dayjs.extend(relativeTime)
+  return dayjs(date).toNow()
 })
