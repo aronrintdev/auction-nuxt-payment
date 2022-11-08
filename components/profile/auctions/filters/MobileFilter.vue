@@ -56,7 +56,7 @@
           collapseKey="offer-date"
           :title="$t('selling_page.filter.date_send')"
           :options="STATUS_TYPES"
-          :clearDate="!date"
+          :clearDate="!date.start && !date.end"
           @showFilters="dateSelected"
           @startDate="startDateSelected"
           @endDate="endDateSelected"
