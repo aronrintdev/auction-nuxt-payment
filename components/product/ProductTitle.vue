@@ -2,13 +2,13 @@
   <b-row class="title-wrapper pb-3">
     <b-col md="12" class="px-4 px-sm-0">
       <b-row>
-        <b-col md="12" class="d-flex align-items-center px-sm-0">
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="title body-1-medium mr-sm-2 col-10 px-0 mr-2">{{ productName }}</div>
+        <b-col class="p-0 d-flex justify-content-between align-items-center">
+          <div class="w-100 d-flex justify-content-between align-items-center">
+            <div class="title body-1-medium flex-grow-1">{{ productName }}</div>
             <b-img
               :id="`popover-wishlist-${product.id}`"
               :tooltip-text="wishList ? wishList.name : ''"
-              width="18" 
+              width="18"
               :src="require('~/assets/img/product/heart-outline.svg')"
               class="d-sm-none"
               @click="removeFromWishList"
@@ -17,10 +17,9 @@
           </div>
           <ShareSVG
             :id="`popover-share-${product.id}`"
-            class="d-none d-sm-block ml-auto" 
-            role="button" 
+            class="d-none d-sm-block ml-auto"
+            role="button"
           />
-
           <WishListPopover
             v-if="!wishList"
             :product="product"
@@ -32,14 +31,14 @@
           />
         </b-col>
       </b-row>
-      <b-row>
+      <b-row class="w-100">
         <b-col md="12" class="px-sm-0 mt-1">
           <span class="last-sale">
             {{ $t('product_page.last_sale') }}&colon;&nbsp;
             &dollar;{{ productLastSalePrice | formatPrice }}
           </span>
-          <span 
-            v-if="lastSalePriceProjectionValue >= 0" 
+          <span
+            v-if="lastSalePriceProjectionValue >= 0"
             class="last-sale-diff"
           >
             &plus;{{ lastSalePriceProjectionValue | formatPrice }}&nbsp;&lpar;&plus;{{ lastSalePriceProjectionPercentage }}&percnt;&rpar;
@@ -174,7 +173,7 @@ export default {
   @include body-5-normal
   color: $color-gray-6
   @media (min-width: 576px)
-    @include body-5-medium 
+    @include body-5-medium
 
 .last-sale-diff
   @include body-9-normal

@@ -36,33 +36,38 @@
       @hide="hideFilter(true)"
     >
       <div class="accordion-filter-body p-0 d-flex justify-content-between">
-        <b-form-group class="start-date h-100">
-          <b-input-group @click="showStartDate">
-            <b-form-input
-              type="date"
-              class="date-input bg-white rounded-circle py-2"
-              @input="inputStartDate($event)"
-            >
-            </b-form-input>
-          </b-input-group>
-        </b-form-group>
-        <b-form-group class="start-date h-100">
-          <b-input-group @click="showEndDate">
-            <b-form-input
-              type="date"
-              class="date-input bg-white rounded-circle py-2"
-              @input="inputEndDate($event)"
-            >
-            </b-form-input>
-          </b-input-group>
-        </b-form-group>
+        <div class="w-100 d-flex align-items-center justify-content-between">
+          <v-date-picker :key="endDate" v-model="startDate" :model-config="{ type: 'string', mask: 'MM/DD/YYYY' }">
+            <template #default="{ inputValue, inputEvents }">
+              <div class="d-flex align-items-center justify-content-between">
+                <input
+                  class="date-input"
+                  :value="inputValue"
+                  placeholder="mm/dd/yyyy"
+                  v-on="inputEvents"
+                />
+              </div>
+            </template>
+          </v-date-picker>
+          <v-date-picker :key="startDate" v-model="endDate" :min-date="startDate" :model-config="{ type: 'string', mask: 'MM/DD/YYYY' }">
+            <template #default="{ inputValue, inputEvents }">
+              <div class="d-flex align-items-center justify-content-between">
+                <input
+                  class="date-input"
+                  :value="inputValue"
+                  placeholder="mm/dd/yyyy"
+                  v-on="inputEvents"
+                />
+              </div>
+            </template>
+          </v-date-picker>
+        </div>
       </div>
     </b-collapse>
   </div>
 </template>
 
 <script>
-import { START_DATE, END_DATE } from '~/static/constants'
 export default {
   name: 'CollapseDate',
   props: {
@@ -93,38 +98,37 @@ export default {
   },
   data() {
     return {
-      showDate: false,
-      startDate: this.$t('common.start_date'),
-      endDate: this.$t('common.end_date'),
-      dateValue: '',
-      startDateVisible: false,
-      endDateVisible: false,
-      startDateText: START_DATE,
-      endDateText: END_DATE,
+      startDate: null,
+      endDate: null,
     }
   },
   computed: {
     visibleDate: (vm) => {
       return (
-        vm.startDate !== vm.$t('common.start_date') ||
-        vm.endDate !== vm.$t('common.end_date') ||
-        !vm.clearDate
+        vm.startDate ||
+        vm.endDate
       )
     },
   },
   watch: {
-    startDate() {
-      this.showStartDate()
-    },
-    endDate() {
-      this.showEndDate()
-    },
-    clearDate() {
-      if (this.clearDate) {
-        this.startDate = ''
-        this.endDate = ''
+    startDate(newV) {
+      if (newV > this.endDate) {
+        this.endDate = null
       }
+      this.$emit('startDate', newV)
     },
+    endDate(newV) {
+      if (newV < this.startDate) {
+        this.startDate = null
+      }
+      this.$emit('endDate', newV)
+    },
+    clearDate(newV) {
+      if (newV) {
+        this.startDate = null
+        this.endDate = null
+      }
+    }
   },
   methods: {
     hideFilter(value) {
@@ -132,34 +136,6 @@ export default {
         value,
       )
     },
-    // Update the start date show flag
-    showStartDate() {
-      this.endDateVisible = false
-      this.startDateVisible = !this.startDateVisible
-    },
-    // Update end date show flag
-    showEndDate() {
-      this.startDateVisible = false
-      this.endDateVisible = !this.endDateVisible
-    },
-    // On end date input
-    inputEndDate(event) {
-      if(event){
-        this.endDate = this.$options.filters.formatDate(event ,'MM/DD/YYYY')
-      }else{
-        this.endDate = ''
-      }
-      this.$emit('endDate', this.endDate)
-    },
-    // on start date input
-    inputStartDate(event) {
-      if(event){
-        this.startDate = this.$options.filters.formatDate(event, 'MM/DD/YYYY')
-      }else{
-        this.startDate = ''
-      }
-      this.$emit('startDate', this.startDate)
-    }
   },
 }
 </script>
@@ -217,6 +193,8 @@ export default {
     max-height: 150px
     scroll-behavior: smooth
     margin: 20px 0 0 0
+    & > span
+      width: 100%
   ::-webkit-scrollbar
     width: 6px !important
   ::-webkit-scrollbar-thumb
@@ -224,12 +202,11 @@ export default {
     border: none !important
   ::-webkit-scrollbar-track
     background-color: $color-gray-3
-.start-date
+.date-input
   width: 154px
   height: 49px
   border: 1px solid $color-black-1
   border-radius: 10px
-  &.start-date-input
-    margin: 1px
+  padding: 0 16px
 
 </style>

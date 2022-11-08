@@ -12,7 +12,7 @@
             <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
           </span>
 
-          <div 
+          <div
             v-if="!singleMode"
             class="position-absolute view-all-btn mr-2"
             @click="handleViewAllClick"
@@ -24,7 +24,7 @@
               class="d-sm-none"
               :class="iconClass"
             />
-            <span 
+            <span
               class="all-sizes"
               :class="iconTextClass"
               role="button"
@@ -77,9 +77,9 @@
           </template>
 
           <template #prev>
-            <div 
-              v-if="arrowsVisible" 
-              class="owl-nav owl-prev" 
+            <div
+              v-if="arrowsVisible"
+              class="owl-nav owl-prev"
               :style="arrowStyle"
             >
               <img :src="require('~/assets/img/icons/arrow-left-gray.svg')" />
@@ -89,7 +89,7 @@
           <template #next>
             <div
               v-if="arrowsVisible"
-              class="owl-nav owl-next" 
+              class="owl-nav owl-next"
               :style="arrowStyle"
             >
               <img :src="require('~/assets/img/icons/arrow-right-gray.svg')" />
@@ -331,7 +331,7 @@ export default {
     color: $color-blue-30 !important
     font-weight: $medium !important
 
-.owl-carousel 
+.owl-carousel
   .owl-item
     width: 70px !important
 

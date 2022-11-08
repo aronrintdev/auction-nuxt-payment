@@ -1,6 +1,6 @@
 <template>
   <div class="container px-sm-0 mt-4 w-100 mw-100 mx-0">
-    <div class="box-condition-text">
+    <div class="box-condition-text text-center text-md-left">
       {{ $t('products.box_condition') }}
 
       <b-img
@@ -16,7 +16,7 @@
         v-for="(c, index) in conditions"
         :key="`box-condition-${index}`"
         variant="link"
-        :class="{ active: condition.id === c.id }"
+        :class="{ active: (condition && condition.id) === c.id }"
         class="m-0 condition"
         @click="handleConditionSelect(c)"
       >
@@ -27,9 +27,9 @@
     </div>
 
     <div class="dropdown-wrapper d-sm-none">
-      <CustomDropdown 
+      <CustomDropdown
         v-model="condition"
-        :label="condition.name"
+        :label="condition ? condition.name : ''"
         :options="conditionsOptions"
         type="single-select"
         optionsWidth="custom"
@@ -37,15 +37,15 @@
         variant="white"
         paddingX="14px"
         @change="handleConditionSelect"
-        :inputStyle="{ 
-          display: 'flex', 
+        :inputStyle="{
+          display: 'flex',
           justifyContent: 'center',
-          border: '1px solid black !important' 
+          border: '1px solid black !important'
         }"
-        :dropdownStyle="{ 
-          border: '1px solid #000', 
-          borderTop: 0, 
-          zIndex: 9999 
+        :dropdownStyle="{
+          border: '1px solid #000',
+          borderTop: 0,
+          zIndex: 9999
         }"
         :optionsStyle="{
           fontWeight: '500 !important',
@@ -115,7 +115,6 @@ export default {
 
   .box-condition-text
     @include body-5-medium
-    text-align: center
     @media (min-width: 576px)
       @include body-8-normal
       color: $color-black-1

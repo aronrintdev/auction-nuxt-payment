@@ -1,6 +1,6 @@
 <template>
   <div class="nav-group">
-    <b-button-group class="col-lg-8" :style="btnGroupStyle">
+    <b-button-group :style="btnGroupStyle">
       <b-button
         v-for="(item, index) in data"
         :key="`nav-group-${navKey}-${index}`"
@@ -55,12 +55,11 @@ export default {
 
 .nav-group
   @media (min-width: 576px)
-    margin: 14px 0
+    margin: 50px 0
   .btn-group
     background-color: $color-white-19
     border-radius: 20px
-    padding-top: 5px
-    padding-bottom: 5px
+    padding: 4px 6px
     .btn
       @include body-6-regular
       background-color: $color-white-19
@@ -68,13 +67,11 @@ export default {
       border-radius: 20px !important
       color: $color-black-1 !important
       height: auto
-      font-size: 13px
-      @media (min-width: 576px)
-        font-size: 15px
+      padding: 6px 35px
         
       &.active
         background-color: $color-white-1
-        font-weight: $medium
+        font-weight: $bold
       &::before
         display: block
         content: attr(title)
@@ -87,5 +84,6 @@ export default {
     .btn-group
       width: 100%
       .btn
+        padding: 6px 10px
         white-space: nowrap
 </style>

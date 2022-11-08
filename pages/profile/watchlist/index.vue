@@ -27,14 +27,15 @@
           {{ $t('home.auctions') }}
         </span>
       </div>
-
-      <CheckboxSwitch
-        v-if="!!currentWatchlist"
-        :value="currentWatchlist.privacy === WATCHLIST_PRIVACY_PUBLIC"
-        :label-on="$t('common.public')"
-        :label-off="$t('common.private')"
-        @change="togglePrivacy"
-      />
+      <div v-if="!!currentWatchlist" class="checkbox-switch-wrapper">
+        <CheckboxSwitch
+          class="justify-content-end"
+          :value="currentWatchlist.privacy === WATCHLIST_PRIVACY_PUBLIC"
+          :label-on="$t('common.public')"
+          :label-off="$t('common.private')"
+          @change="togglePrivacy"
+        />
+      </div>
       <div v-else>&nbsp;</div>
     </div>
     <div class="d-block d-sm-none">
@@ -51,8 +52,7 @@
         <div class="col-12 col-sm-3">
           <section class="d-none d-sm-block" :class="`section-lists`">
             <h5>{{ $t('watchlists.buying_lists') }}</h5>
-
-            <div v-for="list in watchlists" :key="list.id" class="px-2">
+            <div v-for="list in watchlists" :key="list.id">
               <Button
                 :pressed="list.id === currentWatchlist.id"
                 variant="link"
@@ -356,4 +356,18 @@ export default {
 .wishlist-mobile
   .thumb-wrapper
     width: 164px
+.container-watchlists
+  background: $white
+  width: calc(100vw - 265px)
+  .section-lists
+    max-width: 250px
+    margin-right: 20px
+    h5
+      padding-left: 10px
+  .title
+    flex: 3
+    padding-right: 100px
+  .checkbox-switch-wrapper
+    margin-top: 2px
+    flex: 3
 </style>
