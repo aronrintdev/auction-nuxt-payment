@@ -1,7 +1,7 @@
 <template>
   <div class="cursor-pointer file-upload" @click="clicked">
     <img :src="require('/assets/img/icons/clip.svg')" alt="">
-    <span class="mx-1">(optional)</span>
+    <span class="mx-1">({{$t('contact_us.optional')}})</span>
     <div class="d-none">
       <input ref="file" type="file" @change="changed"/>
     </div>
