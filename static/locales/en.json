@@ -411,8 +411,9 @@
     "shop_all_streetwear_desc": "Shop the latest<br>sneakers, apparel and<br>accessories",
     "from_our_socials": "From<br>Our Socials",
     "from_our_socials_desc": "Follow our socials to stay<br>updated with streetwear<br>news and daily content!",
-    "bug_bounty_program": "Bug Bounty Program<br>Up to $1000",
-    "for_reporting": "For Reporting A Vulnerability",
+    "bug_bounty_program": "Bug Bounty Program<br>Up to <span class=\"text-success\">$ 10,000</span>",
+    "bug_number": "$ 10,000",
+    "for_reporting": "For Reporting Bugs or Vulnerabilities",
     "heatcheck": "Heat Check"
   },
   "navbar": {
@@ -6271,5 +6272,75 @@
     "resend_code": "Resend Code",
     "action_required": "Action Required",
     "update_phone_number": "Update Phone Number"
+  },
+  "bounty": {
+    "submit": "Submit",
+    "report_an_issue": "Report an Issue",
+    "levels": "Levels",
+    "contact_us": "Contact Us",
+    "report_bug": "Submit a Bug",
+    "detail_content_description1": "Deadstock is committed to protecting our customers; therefore, we have formulated the “Bug Bounty” security program for users to report issues associated with our website. If you think you have found a vulnerability or issue with our site and would like to report a problem, please fill out the form below and be as thorough as possible.",
+    "detail_content_description2": "Aftert the completion of your form, our team will respond to you promptly. We thank you for helping our community and we may be rewarding effective reports with compensation. Reports are subject to the terms and conditions of our Program, set forth below, and with the Terms and Conditions available on our site.",
+    "disclosure": {
+      "title": "Deadstock Disclosure",
+      "description": "Deadstock is committed to protecting our customers; therefore, we have formulated the “Bug Bounty” program for users to report issues associated with our website. If you think you have found a vulnerability or issue with our site and would like to report a problem, please fill out the form below and be as thorough as possible.<br>Aftert the completion of your form, our team will respond to you promptly. We thank you for helping our community and we may be rewarding effective reports with compensation. Reports are subject to the “Disclosure” of our Program, set forth below, and with the Terms and Conditions available on our site.",
+      "eligibility": "Eligibility",
+      "eligibility_detail": "Deadstock’s Bug Bounty Program is available to anyone 18 years of age or older. Anyone residing in a County where the US trade export sanctions or other trade restrictions is not eligible for this program as well as individuals on sanctioned lists.",
+      "scope": "Scope",
+      "backend": "www.deadstock.co",
+      "admin": "api.deadstock.co",
+      "frontend": "app.deadstock.co"
+    },
+    "stages": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "critical": "Critical",
+      "low_range": "$20 - 50",
+      "mid_range": "$51 - 100",
+      "high_range": "$101 - 25,000",
+      "low_content": "Visual/Content",
+      "mid_content": "Functional",
+      "high_content": "System Vulnerability",
+      "low_detail": "Graphical UI issues and other content issues",
+      "mid_detail": "Relating to the function of the app",
+      "high_detail": "Relating to the function of the app"
+    },
+    "form": {
+      "bug_type": "Bug Type",
+      "name": "Name",
+      "name_placeholder": "Your name",
+      "email": "Email",
+      "email_placeholder": "Your email address",
+      "title_of_issue": "Title of Issue",
+      "toi_placeholder": "Add a title of your issue",
+      "description_of_issue": "Description of Issue (please be as thorough as possible)",
+      "description_placeholder": "Add a detailed explanation of the bug or vulnerability and the security risk and impact",
+      "link_of_issue": "Link/URL to the Issue (optional)",
+      "device_used": "Device Used",
+      "bug_created": "Bug Created Sucessfully",
+      "loi_placeholder": "Add a link to the issue",
+      "proof_of_concept": "Proof of Concept (optional)",
+      "poc_placeholder": "Add a proof of concept",
+      "attachment": {
+        "title": "Attachments (add up to 20 attachments such as screen shots and/or videos)",
+        "terms": "I agree to Deadstock’s terms & conditions as well as any additional rules and instructions provided by the organization hosting this program"
+      },
+      "submit": "Submit"
+    },
+    "notice": {
+      "title": "Notice",
+      "i": "(i) Automated testing is prohibited",
+      "ii": "(ii) Deadstock is not obligated to respond to, nor reward every submission",
+      "iii": "(iii) Any requests for monetary or other compensation will be deemed in violation of this Disclosure",
+      "iv": "(iv) You must be the first to report the issue to us, if this issue has been reported before, you will not receive a reward",
+      "v": "(v) Please do not publicly disclose any Screenshots nor Videos, inlucluding posting material on Youtube or Vimeo",
+      "vi": "",
+      "detail": "Failure to comply with the foregoing rules above may disqualify you from this program."
+    },
+    "conclusion": {
+      "title": "Conclusion",
+      "detail": "We want to thank you for going out of your way to enhance the experience of our website. If you need any help or have any questions on submitting or this disclosure, please email <u>bug@deadstock.co</u>."
+    }
   }
 }
