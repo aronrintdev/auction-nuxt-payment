@@ -21,7 +21,7 @@
                       :placeholder="$t('bounty.form.name_placeholder')"
                       :state="getValidationState(validationContext)"
                     ></b-form-radio>
-                    <p>{{ $t('bounty.stages.low_content') }}</p>  
+                    <p>{{ $t('bounty.stages.low_content') }}</p>
                   </div>
                   <div class="d-flex col-sm-12 col-md-4 type-option">
                     <b-form-radio
@@ -31,7 +31,7 @@
                       :placeholder="$t('bounty.form.name_placeholder')"
                       :state="getValidationState(validationContext)"
                     ></b-form-radio>
-                    <p>{{ $t('bounty.stages.mid_content') }}</p>  
+                    <p>{{ $t('bounty.stages.mid_content') }}</p>
                   </div>
                   <div class="d-flex col-sm-12 col-md-4 type-option">
                     <b-form-radio
@@ -41,7 +41,7 @@
                       :placeholder="$t('bounty.form.name_placeholder')"
                       :state="getValidationState(validationContext)"
                     ></b-form-radio>
-                    <p>{{ $t('bounty.stages.high_content') }}</p>  
+                    <p>{{ $t('bounty.stages.high_content') }}</p>
                   </div>
 
                 </div>
