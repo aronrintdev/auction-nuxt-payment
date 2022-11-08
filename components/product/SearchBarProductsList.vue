@@ -7,8 +7,14 @@
     :style="{ 'max-width': width }"
   >
     <b-col align-self="center">
-      <b-list-group v-for="(product, index) in productItems" :key="`searched-product-${index}`" role="button" @click="applySearch(product)">
-        <b-list-group-item class="text-xs">
+      <b-list-group 
+        v-for="(product, index) in productItems" 
+        :key="`searched-product-${index}`" 
+        role="button"
+        :class="listGroupClass" 
+        @click="applySearch(product)"
+      >
+        <b-list-group-item class="text-xs" :class="listItemClass">
           <span class="searched-product-image mr-2 col-md-2"><img :src="product.image" width="40px" height="40px" /></span>
           <span class="searched-product-name align-self-center mt-5 col-md-7">{{product.name}}</span>
         </b-list-group-item>
@@ -29,6 +35,14 @@ export default {
       type: String,
       default: 'unset',
     },
+    listGroupClass: {
+      type: String,
+      default: ''
+    },
+    listItemClass: {
+      type: String,
+      default: ''
+    }
   },
   data(){
     return {

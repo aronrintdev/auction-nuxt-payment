@@ -113,7 +113,7 @@
           <div class="separator"></div>
         </div>
 
-        <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex justify-content-between pb-5">
           <Button
             class="filter-button"
             pill

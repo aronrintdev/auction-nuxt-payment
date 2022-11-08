@@ -103,11 +103,22 @@
           </div>
         </div>
 
-        <div class="mt-3 d-flex justify-content-center">
+        <div class="mt-4 d-flex justify-content-center">
           <Button 
-            variant="btn-dark-blue"
+            variant="dark-blue"
+            class="mr-3"
           >
-            {{ $t('common.accept_trade') }}
+            {{ $t('common.accept_trade') }} 
+          </Button>
+          
+          <div class="decline-button d-flex justify-content-center align-items-center mr-3">
+            {{ $t('common.decline') }}
+          </div>
+
+          <Button 
+            variant="outline-dark-blue" 
+          >
+            {{ $t('trades.counter_offer') }}
           </Button>
         </div>
         <!-- <div class="d-flex justify-content-between">
@@ -295,11 +306,13 @@ import {
   OFFER_SENT,
   OFFER_RECEIVED
 } from '~/static/constants/trades'
+import Button from '~/components/common/Button'
 
 export default {
   name: 'TradeOfferItems',
 
   components: {
+    Button
   },
 
   props: {
@@ -351,6 +364,14 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.decline-button
+  @include body-8-medium
+  background: #F6F6F8
+  color: $color-blue-32
+  height: 38px
+  border-radius: .25rem
+  padding: 0px 30px
 
 .w-62
   width: 62%
@@ -470,6 +491,7 @@ export default {
   box-shadow: 0px 4px 4px $drop-shadow1
   padding: 13px 14px 20px 14px
   border-radius: 6px
+  background: $color-white-1
   @media (min-width: 576px)
     width: 75%
     margin-left: auto

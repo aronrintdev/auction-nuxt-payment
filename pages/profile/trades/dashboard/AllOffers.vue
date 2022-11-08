@@ -1,11 +1,88 @@
 <template>
   <div class="container-trade-dashboard">
-    <b-row class="heading-dashboard mt-5 mx-0 d-none d-sm-flex">
+    <b-row class="heading-dashboard mt-lg-5 mx-0 d-none d-sm-flex">
       {{$t('trades.my_trade_offer')}}
     </b-row>
     <b-row class="m-0 mt-sm-3 justify-content-lg-between pt-3">
-      <b-col lg="8" sm="12" class="d-flex justify-content-between align-items-center px-0 pr-sm-auto pl-sm-0">
-        <div class="col-11 px-0 d-sm-none">
+      <b-col lg="8" cols="12" class="sm-row justify-content-between align-items-center px-0 pr-sm-auto pl-sm-0">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="col-11 px-0">
+            <SearchInput
+              class="searchInput"
+              :value="searchText"
+              :inputStyle="{
+                paddingLeft: '44px !important',
+                fontWeight: 400,
+                letterSpacing: '0.06em',
+                color: '#626262',
+                fontSize: '12px',
+                fontFamily: 'Montserrat',
+                background: '#F7F7F7',
+                height: '33px',
+              }"
+              iconStyle='color: #979797; width: 14px; height: 14px;'
+              variant="primary"
+              :clearSearch="true"
+              @change="onSearchInput"
+              @clear="onSearchInput"
+            />
+          </div>
+          <img
+            :src="require('~/assets/img/filters.svg')"
+            width="20"
+            height="20"
+            @click="isFiltersModalOpen=true"
+          />
+        </div>
+        <div class="col-11">
+          <SearchBarProductsList
+            v-if="searchedProducts.length > 0"
+            :productItems="searchedProducts"
+            class="position-relative w-auto rounded-bottom"
+            listGroupClass="rounded-0"
+            listItemClass="border-top-0"
+          />
+        </div>
+        <!-- <div class="d-flex d-sm-none">
+          <div class="col-11 px-0">
+            <SearchInput
+              class="searchInput w-100"
+              :value="searchText"
+              :inputStyle="{
+                paddingLeft: '44px !important',
+                fontWeight: 400,
+                letterSpacing: '0.06em',
+                color: '#626262',
+                fontSize: '12px',
+                fontFamily: 'Montserrat',
+                background: '#F7F7F7',
+                height: '33px',
+              }"
+              iconStyle='color: #979797; width: 14px; height: 14px;'
+              variant="primary"
+              :clearSearch="true"
+              @change="onSearchInput"
+              @clear="onSearchInput"
+            />
+          </div>
+          <img
+            class="d-sm-none"
+            :src="require('~/assets/img/filterTradeList.svg')"
+            width="20"
+            height="20"
+            @click="isFiltersModalOpen=true"
+          />
+        </div>
+        <div class="col-11">
+          <SearchBarProductsList
+            v-if="searchedProducts.length > 0"
+            :productItems="searchedProducts"
+            class="position-relative w-auto rounded-bottom d-sm-none"
+            listGroupClass="rounded-0"
+            listItemClass="border-top-0"
+          />
+        </div> -->
+        <!-- <div class="col-11 px-0 d-sm-none">
           <SearchInput
             class="searchInput"
             :value="searchText"
@@ -25,6 +102,14 @@
             @change="onSearchInput"
             @clear="onSearchInput"
           />
+
+          <SearchBarProductsList
+            v-if="searchedProducts.length > 0"
+            :productItems="searchedProducts"
+            class="position-relative w-auto rounded-bottom"
+            listGroupClass="rounded-0"
+            listItemClass="border-top-0"
+          />
         </div>
         <img
           class="d-sm-none"
@@ -32,25 +117,32 @@
           width="20"
           height="20"
           @click="isFiltersModalOpen=true"
-        />
-        <SearchInput
-          class="w-100 d-none d-sm-block"
-          :value="searchText"
-          variant="primary"
-          inputClass="search-offers-input"
-          :placeholder="$t('trades.search_trades_offers')"
-          :clearSearch="true"
-          bordered
-          @change="onSearchInput"
-          @clear="onSearchInput"
-        />
-        <SearchBarProductsList
-          v-if="searchedProducts.length > 0"
-          :productItems="searchedProducts"
-          width="700px"
-          class="position-absolute"
-          :style="{ top: '33px', width: '94% !important' }"
-        />
+        /> -->
+        <div class="d-none d-sm-flex flex-column w-100">
+          <SearchInput
+            class="w-100"
+            :value="searchText"
+            variant="primary"
+            inputClass="search-offers-input"
+            :placeholder="$t('trades.search_trades_offers')"
+            :clearSearch="true"
+            :isOpen="searchedProducts.length > 0"
+            :onOpenStyle="{
+              borderBottomLeftRadius: '0 !important',
+              borderBottomRightRadius: '0 !important',
+            }"
+            bordered
+            @change="onSearchInput"
+            @clear="onSearchInput"
+          />
+          <SearchBarProductsList
+            v-if="searchedProducts.length > 0"
+            :productItems="searchedProducts"
+            class="position-relative w-auto rounded-bottom"
+            listGroupClass="rounded-0"
+            listItemClass="border-top-0"
+          />
+        </div>
       </b-col>
       <b-col lg="3" sm="12" class="justify-content-end mt-2 mt-lg-0 px-0 d-none d-sm-flex">
         <CustomDropdown
@@ -361,6 +453,7 @@ import BulkSelectToolbar from '~/components/common/BulkSelectToolbar';
 import NavGroup from '~/components/common/NavGroup';
 import OffersFiltersModal from '~/components/modal/OffersFiltersModal.vue';
 import { ConfirmModal, AlertModal } from '~/components/modal'
+import screenSize from '~/plugins/mixins/screenSize';
 
 import {
   PAGE,
@@ -399,8 +492,10 @@ export default {
     AlertModal
   },
   layout: 'Profile',
+  mixins: [screenSize],
   data () {
     return {
+
       ALL_OFFER_TYPE,
       FILTER_CONDITION_POOR,
       FILTER_CONDITION_FAIR,
@@ -448,14 +543,16 @@ export default {
       isFiltersModalOpen: false
     }
   },
+
   computed: {
-    getConditionFilterItems(){
+    getConditionFilterItems() {
       return this.conditionFilterItems.map(condition => condition.value)
     },
-    getStatusFilterItems(){
+    getStatusFilterItems() {
       return this.statusFilterItems.map(status => status.value)
     }
   },
+
   mounted() {
     this.fetchOffersListing()
     // To filter trade offers
@@ -467,13 +564,31 @@ export default {
     this.$root.$on('click_outside', () => {
       this.searchedProducts = []
     })
-
-    const wrapper = document.querySelector('.main-wrapper')
-    if (wrapper.querySelector('.container-trade-dashboard')) {
-      wrapper.style.backgroundColor = '#f7f7f7'
-    }
+    this.setBackgroundColor()
   },
-  methods:{
+
+  beforeMount() {
+    window.addEventListener('resize', this.setBackgroundColor)
+  },
+  
+  beforeDestroy() {
+    window.removeEventListener('resize', this.setBackgroundColor)
+  },
+
+  methods: {
+    setBackgroundColor() {
+      const wrapper = document.querySelector('.main-wrapper')
+      const customWrapper = document.querySelector('.custom-wrapper')
+
+      if (this.isScreenXS || this.isScreenSM || this.isScreenMD) {
+        customWrapper.style.backgroundColor = '#FFF'
+        wrapper.style.backgroundColor = '#FFF'
+      } else {
+        wrapper.style.backgroundColor = '#f7f7f7'
+        customWrapper.style.backgroundColor = '#FFF'
+      }
+    },
+
     /**
      * This function is used to change condition filter
      * @param selectedConditions
