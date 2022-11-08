@@ -92,26 +92,26 @@ export default {
       banner: {
         title: 'newest_features.crypto_payments.feature_banner_title',
         description: 'newest_features.crypto_payments.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/crypto-payments/crypto-payments-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/crypto-payments/crypto-payments-banner-sm.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/crypto-payments/crypto-payments-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/crypto-payments/crypto-payments-banner-sm.svg'),
       },
       benefits: [
         {
-          benefitImage: require('@/assets/img/features/newest-feature/crypto-payments/safe-and-secure-transactions.png'),
+          benefitImage: require('@/assets/img/features/newest-feature/crypto-payments/safe-and-secure-transactions.svg'),
           benefitTitle:
             'newest_features.crypto_payments.benefits.first_benefit_title',
           benefitDescription:
             'newest_features.crypto_payments.benefits.first_benefit_desc',
         },
         {
-          benefitImage: require('@/assets/img/features/newest-feature/crypto-payments/enables-int-buying.png'),
+          benefitImage: require('@/assets/img/features/newest-feature/crypto-payments/enables-int-buying.svg'),
           benefitTitle:
             'newest_features.crypto_payments.benefits.second_benefit_title',
           benefitDescription:
             'newest_features.crypto_payments.benefits.second_benefit_desc',
         },
         {
-          benefitImage: require('@/assets/img/features/newest-feature/crypto-payments/transactional-freedom.png'),
+          benefitImage: require('@/assets/img/features/newest-feature/crypto-payments/transactional-freedom.svg'),
           benefitTitle:
             'newest_features.crypto_payments.benefits.third_benefit_title',
           benefitDescription:

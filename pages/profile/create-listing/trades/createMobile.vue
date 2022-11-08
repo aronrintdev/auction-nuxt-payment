@@ -137,7 +137,7 @@
           </div>
         </div>
         <div class="d-flex justify-content-center">
-          <b-btn class="create-trade-next-btn" :disabled="getTradeItems.length < 1"
+          <b-btn class="create-trade-next-btn position-fixed" :disabled="getTradeItems.length < 1"
                  @click="$router.push('/profile/create-listing/trades/wants')">
             {{ $t('create_listing.trade.offer_items.next') }}
           </b-btn>
@@ -605,7 +605,7 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .main-container
-  background-color: #fff
+  background-color: $color-white-1
 .inventory-heading
   @include body-5
   font-weight: $bold
@@ -725,7 +725,7 @@ export default {
   font-weight: $normal
   font-family: $font-sp-pro
 .create-trade-minus-icon-sm
-  background-color: #FF9696
+  background-color: $color-red-27
   right: 5px
   top: 5px
   z-index: 81
@@ -740,7 +740,7 @@ export default {
   font-family: $font-montserrat
   padding: 50px
 .create-trade-next-btn
-  background-color: #667799
+  background-color: $color-blue-20
   border-radius: 20px
   float: right
   margin-bottom: 7px
@@ -749,13 +749,15 @@ export default {
   font-family: $font-montserrat
   font-weight: $medium
   @include body-10
+  bottom: 100px
+  z-index: 100
 
 .search-input-wrapper::v-deep
   width: 303px
   @media (max-width: 330px)
     width: 260px
 .overlay-mob
-  background: rgba(153, 153, 153, 0.05)
+  background: $light-opacity
   top: 0
   left: 0
   width: 100%
@@ -764,7 +766,7 @@ export default {
   height: 185px
 .offers-items
   background: $color-white-27
-  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.25)
+  box-shadow: inset 0 1px 4px$drop-shadow1
   border-radius: 9px
   width: 92px
   height: 28px
@@ -781,7 +783,7 @@ export default {
   color: $color-gray-5
   padding-left: 10px
 .counter-icon
-  background: #CE0000
+  background: $color-red-29
   width: 18px
   height: 18px
   border-radius: 50%

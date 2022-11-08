@@ -14,5 +14,7 @@ export default function () {
     apparel: [],
     // Accessories items to show in the homepage are loaded and stored in accessories[]
     accessories: [],
+    // Recent search history.
+    recentSearchHistory: []
   }
 }

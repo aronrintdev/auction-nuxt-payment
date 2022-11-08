@@ -86,8 +86,8 @@ export default {
       banner: {
         title: 'newest_features.trading.feature_banner_title',
         description: 'newest_features.trading.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/trading/tradebanner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/trading/tradebannermobile.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/trading/tradebanner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/trading/tradebannermobile.svg'),
       },
       shopNowBanner: {
         shopNowDescription: 'newest_features.trading.shop_now_banner.desc',

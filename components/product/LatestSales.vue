@@ -1,10 +1,11 @@
 <template>
   <div class="child-container">
     <h2 :class="headerClass" class="m-0">{{ $t('products.latest_sales') }}</h2>
-    <div :style="labelsStyle" class="text-right period-block">
+    <div :style="labelsStyle" class="d-flex justify-content-between period-block px-3">
       <Button
         variant="link"
         :class="{ active: currentFormat === 'day' }"
+        class="label"
         :style="labelStyle"
         @click="setFormat('day')"
         >{{ $tc('common.day', 1) }}</Button
@@ -13,6 +14,7 @@
         variant="link"
         :class="{ active: currentFormat === 'month' }"
         :style="labelStyle"
+        class="label"
         @click="setFormat('month')"
         >{{ $t('common.month') }}</Button
       >
@@ -20,6 +22,7 @@
         variant="link"
         :class="{ active: currentFormat === 'quarter' }"
         :style="labelStyle"
+        class="label"
         @click="setFormat('quarter')"
         >{{ $t('common.quarter') }}</Button
       >
@@ -27,6 +30,7 @@
         variant="link"
         :class="{ active: currentFormat === 'year' }"
         :style="labelStyle"
+        class="label"
         @click="setFormat('year')"
         >{{ $t('common.year') }}</Button
       >
@@ -34,6 +38,7 @@
         variant="link"
         :class="{ active: currentFormat === 'all' }"
         :style="labelStyle"
+        class="label"
         @click="setFormat('all')"
         >{{ $t('common.all') }}</Button
       >
@@ -286,6 +291,12 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.label
+  @include body-10
+  font-family: $font-family-sf-pro-display
+  font-weight: $normal !important
+  color: $color-gray-4 !important
+
 .responsive-chart
   margin-left: auto
   margin-right: auto
@@ -307,7 +318,7 @@ export default {
 
 .child-container
   margin-top: 18px
-  @media (min-width: 576px)
+  @media (min-width: 768px)
     padding: 0 56px
 
   h2
@@ -319,10 +330,6 @@ export default {
     margin-top: 40px
 
     .btn
-      @include body-8-medium
-      color: $color-black-1
-      margin: 0 40px
-
       &.active
         color: $color-black-1 !important
         text-decoration: underline
@@ -346,9 +353,6 @@ export default {
     padding: 0
 
     .period-block
-      display: flex
-      flex-direction: column
-      align-items: flex-end
       margin: 20px 0
 
       > button.btn

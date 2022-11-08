@@ -67,8 +67,8 @@ export default {
       banner: {
         title: 'newest_features.virtual_giftcards.feature_banner_title',
         description: 'newest_features.virtual_giftcards.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/virtual-giftcards/virtual-giftcards-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/virtual-giftcards/virtual-giftcards-banner-sm.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/virtual-giftcards/virtual-giftcards-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/virtual-giftcards/virtual-giftcards-banner-sm.svg'),
       },
       benefits: [
         {

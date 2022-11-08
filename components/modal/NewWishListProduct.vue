@@ -11,7 +11,11 @@
 
     <template #default="{}">
       <div class="body-text">
-        {{ $t('wish_lists.one_item_added', { list: wishList.name }) }}
+        {{
+          $t('wish_lists.one_item_added', {
+            list: wishList ? wishlist.name : 'Wishlist',
+          })
+        }}
       </div>
       <div class="d-flex align-items-center justify-content-center mt-2">
         <div class="img-product">
@@ -28,7 +32,9 @@
       <Button
         variant="outline-dark"
         pill
-        @click="$router.push(`/profile/wish-lists?id=${wishList.id}`)"
+        @click="
+          wishlist ? $router.push(`/profile/wish-lists?id=${wishList}`) : ''
+        "
       >
         {{ $t('wish_lists.view_list') }}
       </Button>

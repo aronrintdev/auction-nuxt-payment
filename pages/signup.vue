@@ -113,26 +113,25 @@
               <b-col md="12" class="px-0">
                 <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
                   <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-
-                      <b-row class="d-lg-none d-flex"
-                        ><b-col
-                          class="d-flex justify-content-center flex-column align-items-center"
-                        >
-                          <Logo class="img-fluid w-auto" />
-                          <span
-                            class="signup-heading fs-15 fw-5 font-primary w-75 text-center text-color-grey-5 my-3 pre-line"
-                            >{{ $t('signup.create_your_account') }}</span
-                          ></b-col
-                        ></b-row
+                    <b-row class="d-lg-none d-flex"
+                      ><b-col
+                        class="d-flex justify-content-center flex-column align-items-center"
                       >
-                      <NavGroup
-                        :data="tabs"
-                        :value="currentTab"
-                        nav-key="new_releases"
-                        class="text-center mb-4 d-lg-none d-block px-0"
-                        @change="handleTabChange"
-                      />
-                      <ValidationProvider
+                        <Logo class="img-fluid w-auto" :height="53" />
+                        <span
+                          class="signup-heading fs-15 fw-5 font-primary w-75 text-center my-3 pre-line"
+                          >{{ $t('signup.create_your_account') }}</span
+                        ></b-col
+                      ></b-row
+                    >
+                    <NavGroup
+                      :data="tabs"
+                      :value="currentTab"
+                      nav-key="new_releases"
+                      class="text-center mb-4 d-lg-none d-block px-0"
+                      @change="handleTabChange"
+                    />
+                    <ValidationProvider
                         v-slot="validationContext"
                         :name="$t('auth.first_name')"
                         :rules="{
@@ -142,7 +141,7 @@
                           max: 128,
                         }"
                       >
-                      <b-form-group>
+                      <b-form-group class="px-3">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="first-name"
@@ -178,7 +177,7 @@
                         max: 128,
                       }"
                     >
-                      <b-form-group>
+                      <b-form-group class="px-3">
                         <b-input-group class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="last-name"
@@ -213,7 +212,7 @@
                         max: 128,
                       }"
                     >
-                      <b-form-group>
+                      <b-form-group class="px-3">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="username"
@@ -244,13 +243,12 @@
                       :name="$t('auth.email_address')"
                       :rules="{
                         required: true,
-                        validEmail: true,
                         email: true,
                         min: 3,
                         max: 128,
                       }"
                     >
-                      <b-form-group>
+                      <b-form-group class="px-3">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="email-address"
@@ -287,7 +285,7 @@
                       }"
                       vid="password"
                     >
-                      <b-form-group>
+                      <b-form-group class="px-3">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="password"
@@ -343,7 +341,7 @@
                         confirmed: 'password',
                       }"
                     >
-                      <b-form-group>
+                      <b-form-group class="px-3">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="password-confirmation"
@@ -473,8 +471,8 @@ export default {
   data() {
     return {
       tabs: [
-        { label: this.$t('auth.create_an_account'), value: 'signup' },
         { label: this.$t('auth.login'), value: 'Login' },
+        { label: this.$t('auth.create_an_account'), value: 'signup' },
       ],
       currentTab: 'signup',
 
@@ -738,7 +736,7 @@ export default {
     color: $color-gray-47
 
   .form-area::v-deep
-    padding: 0px 16px
+    padding: 0px 1px
     .form-group
       margin-bottom: 14px !important
     .minimum
@@ -774,9 +772,12 @@ export default {
         border-radius: 0px 10px 10px 0px
     .signup-heading
       line-height: 18px
+      color: $color-black-1
+      font-style: normal
+      font-weight: $bold
     .logo-img
       width: 134px
-      height: 40px
+      height: 53px
     .validation
       font-size: 10px !important
       font-weight: 500 !important

@@ -63,7 +63,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import emitEventMixin from '~/plugins/mixins/emit-event'
-import ShoppingBagTitle from '~/components/checkout/selling/mobile/ShoppingBagTitle'
+import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTitle'
 import ItemsList from '~/components/checkout/selling/mobile/ItemsList'
 import PromoCodeInput from '~/components/checkout/common/PromoCodeInput'
 import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
@@ -261,8 +261,8 @@ export default {
       this.emitRenderComponentEvent(this.$options.components.ShoppingBagOrder.components.CheckoutSummary.name)
       this.openBottomSheet('95%')
     },
-    handleItemOptionsClick() {
-      this.emitRenderComponentEvent(this.$options.components.ShoppingBagOrder.components.ListItemOptionsMenu.name)
+    handleItemOptionsClick(product) {
+      this.emitRenderComponentEvent(this.$options.components.ShoppingBagOrder.components.ListItemOptionsMenu.name, product)
       this.openBottomSheet('328px')
     }
   }

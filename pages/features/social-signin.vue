@@ -45,8 +45,8 @@ export default {
       banner: {
         title: 'newest_features.social_signin.feature_banner_title',
         description: 'newest_features.social_signin.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/social-signin/social-signin-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/social-signin/social-signin-banner-sm.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/social-signin/social-signin-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/social-signin/social-signin-banner-sm.svg'),
       },
       benefits: [
         {
@@ -57,14 +57,14 @@ export default {
             'newest_features.social_signin.benefits.first_benefit_desc',
         },
         {
-          benefitImage: require('@/assets/img/features/newest-feature/social-signin/quickly-signup.png'),
+          benefitImage: require('@/assets/img/features/newest-feature/social-signin/quickly-signup.svg'),
           benefitTitle:
             'newest_features.social_signin.benefits.second_benefit_title',
           benefitDescription:
             'newest_features.social_signin.benefits.second_benefit_desc',
         },
         {
-          benefitImage: require('@/assets/img/features/newest-feature/social-signin/easier-to-share.png'),
+          benefitImage: require('@/assets/img/features/newest-feature/social-signin/easier-to-share.svg'),
           benefitTitle:
             'newest_features.social_signin.benefits.third_benefit_title',
           benefitDescription:

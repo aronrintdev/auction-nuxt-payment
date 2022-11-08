@@ -1,7 +1,7 @@
 <template>
   <div class="position-relative">
     <Header />
-    <div class="container-fluid p-0">
+    <div class="height-wrapper container-fluid p-0 overflow-hidden">
       <Nuxt />
     </div>
     <ScrollToTop v-show="showScroll" />
@@ -47,3 +47,8 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+.height-wrapper
+    @media (max-width: 576px)
+      min-height: calc(100vh - 200px)
+</style>

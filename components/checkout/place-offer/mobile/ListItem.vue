@@ -44,6 +44,7 @@ export default {
   props: {
     offerDetails: {
       type: Object,
+      required: true,
       default: () => {
         return {}
       },

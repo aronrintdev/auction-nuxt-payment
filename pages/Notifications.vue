@@ -20,18 +20,8 @@
   </div>
 </template>
 <script>
-import dayjs from 'dayjs'
-import relativeTime from '../node_modules/dayjs/plugin/relativeTime'
 export default {
   name: 'Notifications',
-  filters: {
-    diffForHumans: (date) => {
-      if (!date) {
-        return null
-      }
-      return dayjs(date).fromNow()
-    },
-  },
   layout: 'Profile',
   middleware: 'auth',
   data() {
@@ -40,9 +30,6 @@ export default {
       notifications: [],
       notificationReceived: null,
     }
-  },
-  created() {
-    dayjs.extend(relativeTime)
   },
   mounted() {
     this.notificationReceived = (msg) => {

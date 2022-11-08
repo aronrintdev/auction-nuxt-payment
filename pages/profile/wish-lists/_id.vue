@@ -1,95 +1,94 @@
 <template>
   <b-container fluid class="container-wishlists">
-    <div class="d-flex justify-content-between header">
-      <div class="title">
-        <h2>{{ currentWishList && currentWishList.name }}</h2>
-        <span>({{ totalCount }} items)</span>
-      </div>
-    </div>
-
-    <div class="d-flex align-items-center">
-      <div class="btn-categories flex-grow-1 text-center">
-        <NavGroup
-          v-model="category"
-          nav-key="category"
-          :data="CATEGORIES"
-          @change="handleCategoryClick"
-        />
-      </div>
-    </div>
-
-    <div class="section-items p-3">
-      <Loader v-if="loading" class="my-5" />
-
-      <div v-else>
-        <b-row v-if="listProducts.length > 0">
-          <b-col
-            v-for="product in listProducts"
-            :key="`wish-list-item-${product.id}-${currentWishList.id}`"
-            lg="3"
-            md="4"
-            sm="6"
-            class="card-container"
-          >
-            <ProductCard :product="product" :show-actions="!isMyWishList" />
-          </b-col>
-        </b-row>
-        <div v-else class="text-center">
-          <div v-if="isMyWishList">
-            <p class="mt-5">
-              {{ $t('wish_lists.no_items_info') }}
-            </p>
-            <Button
-              variant="primary"
-              class="mt-4"
-              pill
-              @click="handleBrowseClick"
-            >
-              {{ $t('wish_lists.browse_items') }}
-            </Button>
+    <div class="wishlist-mobile">
+      <div v-for="(product, index) in listProducts" :key="index" class="mb-4">
+        <div class="d-flex">
+          <div class="thumb-wrapper">
+            <Thumb :src="product.image" />
           </div>
-          <div v-else>
-            <p class="mt-5">
-              {{ $t('wish_lists.no_items_info2') }}
-            </p>
+          <div class="w-100 d-flex flex-column justify-content-between ml-3">
+            <div>
+              <h4 class="fs-14 fw-6 font-secondary mb-1">
+                {{ product.name }}
+              </h4>
+              <h6 class="fs-12 fw-5 text-gray-5 font-secondary text-capitalize">
+                {{ product.colorway }}
+              </h6>
+              <h6 class="fs-12 fw-5 text-gray-5 font-secondary text-capitalize">
+                ${{ product.retail_price }}
+              </h6>
+            </div>
+            <button
+              class="btn w-100 rounded-pill fs-13 fw-6 font-primary mb-4 text-base-blue add-to-bag"
+            >
+              {{ $t('products.add_to_bag') }}
+            </button>
           </div>
         </div>
-
-        <Pagination
-          v-if="listProducts.length > 0"
-          v-model="currentPage"
-          :total="totalCount"
-          :per-page="perPage"
-          :per-page-options="[5, 10, 15, 20, 25]"
-          class="mt-2"
-          @page-click="handlePageClick"
-          @per-page-change="handlePerPageChange"
-        />
+        <div>
+          <button
+            class="fs-14 fw-5 font-secondary text-gray-47 btn btn-link p-0 mt-3"
+          >
+            {{ $t('shopping_cart.remove') }}
+          </button>
+          <button
+            class="fs-14 fw-5 font-secondary text-gray-47 btn btn-link p-0 mt-3 ml-4"
+          >
+            {{ $t('wish_lists.move') }}
+          </button>
+        </div>
       </div>
     </div>
+
+    <Portal to="back-icon-slot">
+      <nuxt-link to="/profile/wish-lists">
+        <img src="~/assets/img/icons/back.svg" />
+      </nuxt-link> </Portal
+    ><Portal to="page-title">
+      {{ currentWishList ? currentWishList.name : 'Wishlist' }}
+    </Portal>
+    <Portal to="notification-icon-slot">
+      <div :id="`popover-share-wishlist`">
+        <ShareIcon class="share-icon" />
+      </div>
+      <b-popover
+        ref="sharePopover"
+        :target="`popover-share-wishlist`"
+        triggers="click"
+        placement="bottom"
+        container="body"
+        custom-class="wishlist-popover"
+        delay="200"
+        @show="shareShow = true"
+        @hidden="shareShow = false"
+      >
+        <ShareButton
+          :url="`${shareUrl}${currentWishList ? currentWishList.id : ''}`"
+          :title="currentWishList ? currentWishList.name : ''"
+          :description="shareDescription"
+        />
+      </b-popover>
+    </Portal>
+    <div class="border-top my-2 divider"></div>
+    <div class="inspirtaion-list">
+      <h1 class="fs-16 fw-6 font-primary my-3">
+        {{ $t('wish_lists.inspired_by_you') }}
+      </h1>
+      <ProductCarousel class="mt-4 mb-5" :products="products" loop />
+    </div>
+    <CreateWishListModal />
   </b-container>
 </template>
 <script>
 import { mapActions } from 'vuex'
-import NavGroup from '~/components/common/NavGroup.vue'
-import ProductCard from '~/components/product/Card.vue'
-import Pagination from '~/components/common/Pagination'
-import Button from '~/components/common/Button'
-import Loader from '~/components/common/Loader.vue'
-
+import Thumb from '~/components/product/Thumb'
+import CreateWishListModal from '~/components/modal/CreateWishList'
+import ShareIcon from '~/assets/icons/ShareIcon'
+import ShareButton from '~/components/common/ShareButton.vue'
 export default {
   name: 'WishListsId',
-
-  components: {
-    NavGroup,
-    ProductCard,
-    Pagination,
-    Button,
-    Loader,
-  },
-
+  components: { Thumb, CreateWishListModal, ShareIcon, ShareButton },
   layout: 'IndexLayout',
-
   data() {
     return {
       category: 'all',
@@ -117,6 +116,124 @@ export default {
       perPage: 0,
       totalCount: 0,
       loading: false,
+      shareDescription: this.$t('wish_lists.share_description'),
+      shareUrl: process.env.APP_URL + '/wish-lists/',
+      // todo
+      products: [
+        {
+          id: 1,
+          sku: 'CZ0328-400',
+          brand: 'Nike',
+          name: 'Nike LeBron 8 South Beach (2021)',
+          colorway: 'Retro/Pink Flash-Filament Green-Black',
+          gender: 'men',
+          category_id: 1,
+          release_year: '2021',
+          release_date: '2021-07-21',
+          retail_price: 20000,
+          estimated_market_value: 252,
+          story: '',
+          ai: 0,
+          enabled: 1,
+          total_sales: '0',
+          image: null,
+          _id: '60556a245d104527f351af92',
+          views: 0,
+          searches: 0,
+          rank: 0,
+          created_at: '08/23/2022',
+          updated_at: '08/23/2022',
+          size_type: 'men',
+          brand_id: 1,
+          sale_price: 27004,
+          previous_month_sale_percentage: 0,
+          current_month_sale_percentage: 0,
+          sales_percentage: 0,
+          category: {
+            id: 1,
+            name: 'sneakers',
+            _id: 'ueEbqPBxLbnTFLWwQdc4gv',
+            created_at: '08/23/2022',
+            updated_at: '08/23/2022',
+          },
+        },
+        {
+          id: 2,
+          sku: 'DJ7998-100',
+          brand: 'Nike',
+          name: 'Nike Air Force 1 Low Hare Space Jam',
+          colorway: 'White/Light Blue Fury-White',
+          gender: 'men',
+          category_id: 1,
+          release_year: '2021',
+          release_date: '2021-07-16',
+          retail_price: 12000,
+          estimated_market_value: 185,
+          story: '',
+          ai: 0,
+          enabled: 1,
+          total_sales: '0',
+          image:
+            '//images.deadstock.co/products/sneakers/DJ7998-100/800xAUTO/IMG01.jpg',
+          _id: '60c9ea8eb842f35756e39442',
+          views: 0,
+          searches: 0,
+          rank: 2,
+          created_at: '08/23/2022',
+          updated_at: '08/23/2022',
+          size_type: 'men',
+          brand_id: 1,
+          sale_price: 23547,
+          previous_month_sale_percentage: 0,
+          current_month_sale_percentage: 0,
+          sales_percentage: 0,
+          category: {
+            id: 1,
+            name: 'sneakers',
+            _id: 'ueEbqPBxLbnTFLWwQdc4gv',
+            created_at: '08/23/2022',
+            updated_at: '08/23/2022',
+          },
+        },
+        {
+          id: 3,
+          sku: 'CV7562-401',
+          brand: 'Nike',
+          name: 'Nike Lebron 18 Low Wile E. vs Roadrunner Space Jam',
+          colorway: 'Racer Blue/Baltic Blue-University Gold-White',
+          gender: 'men',
+          category_id: 1,
+          release_year: '2021',
+          release_date: '2021-07-16',
+          retail_price: 16000,
+          estimated_market_value: 223,
+          story: '',
+          ai: 0,
+          enabled: 1,
+          total_sales: '0',
+          image:
+            '//images.deadstock.co/products/sneakers/CV7562-401/800xAUTO/IMG01.jpg',
+          _id: '60e59a7fea2d5e0f0a00c97a',
+          views: 0,
+          searches: 0,
+          rank: 2,
+          created_at: '08/23/2022',
+          updated_at: '08/23/2022',
+          size_type: 'men',
+          brand_id: 1,
+          sale_price: 26129,
+          previous_month_sale_percentage: 0,
+          current_month_sale_percentage: 0,
+          sales_percentage: 0,
+          category: {
+            id: 1,
+            name: 'sneakers',
+            _id: 'ueEbqPBxLbnTFLWwQdc4gv',
+            created_at: '08/23/2022',
+            updated_at: '08/23/2022',
+          },
+        },
+      ],
     }
   },
 
@@ -158,37 +275,21 @@ export default {
       this.listProducts = res.data
       this.loading = false
     },
-
-    // Called when user navigate from current page to another
-    handlePageClick(bvEvent, page) {
-      if (this.currentPage !== page) {
-        this.currentPage = page
-        this.getWishListItems()
-      }
-    },
-
-    handlePerPageChange(value) {
-      if (this.perPage !== value) {
-        this.perPage = value
-        this.currentPage = 1
-        this.getWishListItems()
-      }
-    },
-
-    handleCategoryClick(category) {
-      if (category) {
-        this.category = category
-        this.currentPage = 1
-        this.getWishListItems()
-      }
-    },
-
-    handleBrowseClick() {
-      this.$router.push({
-        path: '/browse',
-        query: { category: this.category },
-      })
-    },
   },
 }
 </script>
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+.thumb-wrapper
+  width: 164px
+.add-to-bag
+  border: 1px solid $color-blue-20
+.divider
+  margin: 0 -16px
+  border-color: $color-gray-47  !important
+::v-deep .share-icon
+  .strokeColor
+    stroke: $color-gray-47
+  .fillColor
+    fill: $color-gray-47
+</style>
