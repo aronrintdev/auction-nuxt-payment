@@ -23,7 +23,7 @@
               {{$t('auth.2fa_text_2')}}
               <br/>
               <br/>
-              {{$t('auth.2fa_text_3')}}
+              {{$t('auth.2fa_text_3', {last_phone_digits: phoneLastDigits})}}
             </p>
             <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
               <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
@@ -100,6 +100,7 @@ export default {
       timer: 0,
       isVerifyButtonActive: true,
       codeSent: 0,
+      phoneLastDigits: ''
     }
   },
   computed: {
@@ -129,9 +130,10 @@ export default {
         this.codeSent = 1
         this.$axios.post('/send-code', {
           login: this.credentials.login
-        }, { handleError: false}).then(() => {
+        }, { handleError: false}).then((resp) => {
           this.resetTimer()
           this.codeSent = 1
+          this.phoneLastDigits = resp.data.data.last_4_digits
           this.$toasted.success(this.$t('auth.verification_code_has_been_sent').toString())
         }).catch(error => {
           this.$toasted.error(this.$t(error.response.data.message).toString())
