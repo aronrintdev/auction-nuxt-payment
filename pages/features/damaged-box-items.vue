@@ -79,8 +79,8 @@ export default {
       banner: {
         title: 'newest_features.damaged_box_items.feature_banner_title',
         description: 'newest_features.damaged_box_items.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/damaged-box-items/damaged-box-items-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/damaged-box-items/damaged-box-items-banner-sm.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/damaged-box-items/damaged-box-items-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/damaged-box-items/damaged-box-items-banner-sm.svg'),
       },
       benefits: [
         {

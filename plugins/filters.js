@@ -1,4 +1,7 @@
 import Vue from 'vue'
+import dayjs from 'dayjs'
+import relativeTime from '../node_modules/dayjs/plugin/relativeTime'
+
 import { MONTHS, EXPIRED_STATUS, API_PROD_URL, PRODUCT_IMG_WIDTH } from '~/static/constants'
 
 Vue.filter('formatPrice', (value) => {
@@ -187,4 +190,12 @@ Vue.filter('formatDateTimeString', (value, format) => {
 
 Vue.filter('wordLimit', (string, limit = 3) => {
   return string.split(' ').splice(0, limit).join(' ').trim()
+})
+
+Vue.filter('diffForHumans', (date) => {
+  if (!date) {
+    return null
+  }
+  dayjs.extend(relativeTime)
+  return dayjs(date).toNow()
 })

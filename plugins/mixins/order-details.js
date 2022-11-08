@@ -117,7 +117,7 @@ export default {
     getGiftCardDiscount(vm) {
       let discount = 0
 
-      if (vm.giftCard) {
+      if (vm.giftCard && vm.getTotalQuantity) {
         discount += vm.giftCard.amount
       }
 

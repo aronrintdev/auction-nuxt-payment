@@ -120,8 +120,8 @@ export default {
       banner: {
         title: 'newest_features.csv_bulk_uploading.feature_banner_title',
         description: 'newest_features.csv_bulk_uploading.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/csv-bulk-uploading/csvbanner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/csv-bulk-uploading/csvbannermobile.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/csv-bulk-uploading/csvbanner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/csv-bulk-uploading/csvbannermobile.svg'),
       },
       shopNowBanner: {
         shopNowDescription:

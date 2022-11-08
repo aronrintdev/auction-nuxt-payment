@@ -37,6 +37,15 @@ export function removeProducts(state, product) {
 }
 
 /**
+ * Remove product from wish list.
+ * @param state
+ * @param product
+ */
+export function removeProductFromWishList(state, product) {
+  state.shoppingCart[state.shoppingCart.indexOf(product)].wishLists = []
+}
+
+/**
  * Increment the provided product's quantity.
  * @param state
  * @param product

@@ -24,7 +24,7 @@
       </template>
       <!-- ./Table busy -->
 
-      <template #cell(checkbox)="row">
+      <template #cell(checkbox)="row" class="check-box">
         <div v-if="showCheckBox" class="checkbox-col">
           <b-form-checkbox
             :id="`checkbox-${row.item.id}`"
@@ -42,7 +42,7 @@
       <!-- Image -->
       <template #cell(products)="row">
         <div class="img-col">
-          <div class="d-flex align-items-center flex-column">
+          <div class="d-flex align-items-start flex-column">
             <img
               :src="row.item.product.image || fallbackImage"
               alt="Product Picture"
@@ -51,7 +51,7 @@
               @error="imageLoadError"
             />
 
-            <span class="listing-id text-decoration-underline">{{
+            <span role="button" class="listing-id text-decoration-underline" @click="$router.push(`/profile/vendor-selling/details/${getListingID(row.item)}`)">{{
               $t('placed_offers.listing_id', {
                 listingID: getListingID(row.item),
               })
@@ -67,7 +67,7 @@
           {{ row.item.product.name }}
         </div>
 
-        <div class="vd-sku">
+        <div class="vd-sku text-uppercase">
           {{ $t('shopping_cart.sku') }}&colon;
           <span>{{ row.item.product.sku }}</span>
         </div>
@@ -353,16 +353,15 @@ export default {
 
     // Get the listing ID.
     getListingID(value) {
-      const details = value
-      let id = null
-      details.product.inventories.forEach((element) => {
-        if (value.size_id === element.size_id) {
-          if (element.listing_items && element.listing_items.length) {
-            id = element.listing_items[0].id
-          }
-        }
-      })
-      return id || null
+      const productId = value.product_id
+      const sizeId = value.size_id
+      const conditionId = value.packaging_condition_id
+
+
+      const result = value.product.inventories.find(
+        (i) => i.size_id === sizeId && i.product_id === productId && i.packaging_condition_id === conditionId
+      ).listing_items
+      return result && result[0].id
     },
   },
 }
@@ -426,4 +425,26 @@ export default {
 #validator-field
   @media (min-width: 1330px)
     max-width: 70%
+.action-col
+  .offer-status-accepted
+    width: 141px
+    height: 34px
+    color: $color-green-3
+    background: $color-green-25
+    border-radius: 4px
+    .text-capitalize
+      font-family: $font-sp-pro
+      font-style: normal
+      @include body-13-normal
+      color: $color-green-3
+  .offer-status-declined
+    width: 141px
+    height: 34px
+    background: $color-red-23
+    border-radius: 4px
+    .text-capitalize
+      font-family: $font-sp-pro
+      font-style: normal
+      @include body-13-normal
+      color: $color-red-3
 </style>

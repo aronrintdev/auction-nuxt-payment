@@ -456,6 +456,7 @@ export default {
         colorWay: this.product.colorway,
         size: this.sizes[this.currentSize - 1],
         quantity: 1,
+        wishLists: this.product?.wish_lists,
         packaging_condition: this.packagingConditions[this.currentCondition - 1].name,
         inventory_stock: this.currentListingItem?.inventory_stock,
         price: this.currentListingItem?.inventory?.sale_price,

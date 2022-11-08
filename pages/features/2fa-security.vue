@@ -39,12 +39,12 @@ export default {
       banner: {
         title: 'newest_features.2fa_security.feature_banner_title',
         description: 'newest_features.2fa_security.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/2fa-security/2fa-security-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/2fa-security/2fa-security-banner-sm.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/2fa-security/2fa-security-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/2fa-security/2fa-security-banner-sm.svg'),
       },
       benefits: [
         {
-          benefitImage: require('@/assets/img/features/newest-feature/2fa-security/increased-security.png'),
+          benefitImage: require('@/assets/img/features/newest-feature/2fa-security/increased-security.svg'),
           benefitTitle:
             'newest_features.2fa_security.benefits.first_benefit_title',
           benefitDescription:
@@ -58,7 +58,7 @@ export default {
             'newest_features.2fa_security.benefits.second_benefit_desc',
         },
         {
-          benefitImage: require('@/assets/img/features/newest-feature/2fa-security/ease-of-use.png'),
+          benefitImage: require('@/assets/img/features/newest-feature/2fa-security/ease-of-use.svg'),
           benefitTitle:
             'newest_features.2fa_security.benefits.third_benefit_title',
           benefitDescription:

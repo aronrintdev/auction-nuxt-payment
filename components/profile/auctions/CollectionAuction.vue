@@ -37,11 +37,15 @@
             <span class="body-4-medium">{{auction.bids.length|| '-'}}</span>
           </b-col>
           <b-col sm="12" md="2" class="d-flex justify-content-around flex-column pt-4">
-            <span class="body-4-medium">{{auction.status !== 'live' ? '-' : auction.remaining_time}}</span>
+            <span class="body-4-medium text-capitalize">{{ isExpired || auction.status !== LIVE_STATUS ? '-' : auction.remaining_time }}</span>
           </b-col>
-          <b-col sm="12" md="1" class="d-flex justify-content-around flex-column pt-4"
-                 :class="{' text-green ' :auction.status==='live'}">
-            <span class="body-4-medium">{{$t('auction.duration_type.' + auction.status)}}</span>
+          <b-col
+            sm="12"
+            md="1"
+            class="d-flex justify-content-around flex-column pt-4"
+            :class="{'text-green' : !isExpired && auction.status === LIVE_STATUS, 'text-danger': isExpired }"
+          >
+            <span class="body-4-medium">{{ isExpired ? $t('bids.expired') : $t('auction.status_array.' + auction.status) }}</span>
           </b-col>
         </template>
       </b-row>
@@ -149,6 +153,7 @@
 <script>
 import CollectionSvg from '~/assets/img/icons/collection.svg'
 import ProductThumb from '~/components/product/Thumb';
+import {EXPIRED_STATUS, LIVE_STATUS} from '~/static/constants';
 import screenSize from '~/plugins/mixins/screenSize';
 export default {
   name: 'CollectionAuction',
@@ -170,7 +175,8 @@ export default {
   },
   data(){
     return {
-      CollectionSvg
+      CollectionSvg,
+      LIVE_STATUS,
     }
   },
   computed:{
@@ -179,6 +185,9 @@ export default {
     },
     isMobileSize() {
       return this.isScreenXS || this.isScreenSM
+    },
+    isExpired() {
+      return this.auction.remaining_time === EXPIRED_STATUS
     }
   }
 }
