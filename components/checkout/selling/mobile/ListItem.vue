@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import ThreeDotMenuSVG from '~/assets/img/shopping-cart/three-dot-menu.svg?inline'
 
 export default {
@@ -71,9 +71,6 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      wishLists: 'wish-list/getWishLists',
-    }),
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     total: (vm) => {
       return vm.product.price * vm.product.quantity

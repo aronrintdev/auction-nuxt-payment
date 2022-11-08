@@ -261,8 +261,8 @@ export default {
       this.emitRenderComponentEvent(this.$options.components.ShoppingBagOrder.components.CheckoutSummary.name)
       this.openBottomSheet('95%')
     },
-    handleItemOptionsClick() {
-      this.emitRenderComponentEvent(this.$options.components.ShoppingBagOrder.components.ListItemOptionsMenu.name)
+    handleItemOptionsClick(product) {
+      this.emitRenderComponentEvent(this.$options.components.ShoppingBagOrder.components.ListItemOptionsMenu.name, product)
       this.openBottomSheet('328px')
     }
   }

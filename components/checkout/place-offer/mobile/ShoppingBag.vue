@@ -16,12 +16,6 @@
       @item-options-clicked="handleItemOptionsClick"
     />
 
-    <PromoCodeInput v-if="! promoCode" @click="applyPromoCode">
-      <template #label>
-        <div class="section-title body-5-medium">{{ $t('shopping_cart.promo_code') }}&colon;</div>
-      </template>
-    </PromoCodeInput>
-
     <!-- Offer Details Section -->
     <b-row class="offer-details-wrapper">
       <b-col cols="12" sm="12">
@@ -41,6 +35,12 @@
       </b-col>
     </b-row>
     <!-- End of Offer Details Section -->
+
+    <PromoCodeInput v-if="! promoCode" @click="applyPromoCode">
+      <template #label>
+        <div class="section-title body-5-medium">{{ $t('shopping_cart.promo_code') }}&colon;</div>
+      </template>
+    </PromoCodeInput>
 
     <OrderSummaryCard
       :items="getItems"

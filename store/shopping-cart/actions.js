@@ -17,6 +17,15 @@ export function addProduct({ commit, state }, product) {
 }
 
 /**
+ * Remove product from wish list.
+ * @param commit
+ * @param product
+ */
+export function removeProductFromWishList({ commit }, product) {
+  commit('removeProductFromWishList', product)
+}
+
+/**
  * Add product to shopping cart or increment its quantity if exists.
  * @param commit
  * @param state
