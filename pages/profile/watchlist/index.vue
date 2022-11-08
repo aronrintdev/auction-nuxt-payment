@@ -106,14 +106,14 @@
                     class="btn btn-outline-dark w-100 rounded-pill fs-13 fw-6 font-primary mb-4 text-black"
                     :to="`/profile/watchlist/${list.id}`"
                   >
-                    View List
+                    {{ $t('watchlists.view_list') }}
                   </nuxt-link>
                 </div>
               </div>
               <button
                 class="fs-14 fw-5 font-secondary text-gray-47 btn btn-link p-0 mt-3"
               >
-                Edit
+                {{ $t('watchlists.edit') }}
               </button>
               <b-popover
                 ref="sharePopover"

@@ -21,7 +21,7 @@
             <button
               class="btn w-100 rounded-pill fs-13 fw-6 font-primary mb-4 text-base-blue add-to-bag"
             >
-              Add to Bag
+              {{ $t('products.add_to_bag') }}
             </button>
           </div>
         </div>
@@ -29,12 +29,12 @@
           <button
             class="fs-14 fw-5 font-secondary text-gray-47 btn btn-link p-0 mt-3"
           >
-            Remove
+            {{ $t('shopping_cart.remove') }}
           </button>
           <button
             class="fs-14 fw-5 font-secondary text-gray-47 btn btn-link p-0 mt-3 ml-4"
           >
-            Move
+            {{ $t('wish_lists.move') }}
           </button>
         </div>
       </div>
@@ -71,7 +71,9 @@
     </Portal>
     <div class="border-top my-2 divider"></div>
     <div class="inspirtaion-list">
-      <h1 class="fs-16 fw-6 font-primary my-3">Inspired By Your List</h1>
+      <h1 class="fs-16 fw-6 font-primary my-3">
+        {{ $t('wish_lists.inspired_by_you') }}
+      </h1>
       <ProductCarousel class="mt-4 mb-5" :products="products" loop />
     </div>
     <CreateWishListModal />
@@ -116,7 +118,7 @@ export default {
       loading: false,
       shareDescription: this.$t('wish_lists.share_description'),
       shareUrl: process.env.APP_URL + '/wish-lists/',
-      // todo 
+      // todo
       products: [
         {
           id: 1,

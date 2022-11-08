@@ -62,7 +62,7 @@
       <section>
         <Purchases />
       </section>
-      <Portal to="page-title"> Dashboard </Portal>
+      <Portal to="page-title"> {{ $t('profile_menu.dashboard') }} </Portal>
     </div>
   </client-only>
 </template>
