@@ -227,7 +227,7 @@
       />
     </template>
     <template v-else>
-      <infinite-loading :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
+      <infinite-loading :key="status" :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
     </template>
     <!-- For mobile filters begin -->
     <vue-bottom-sheet
@@ -628,7 +628,6 @@ export default {
       }
       this.fetchAuctions(payload).then(res => {
         this.totalCount = res.data.total
-
         if (this.totalCount <= this.getAuctions.length) {
           $state.complete()
         }
