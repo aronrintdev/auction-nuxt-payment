@@ -148,6 +148,7 @@
     "browse": "Browse",
     "wants_inventory": "Wants Inventory",
     "wants_combinations": "Wants Combinations",
+    "decline_multiple": "Decline Multiple",
     "categories": {
       "sneakers": "Sneakers",
       "apparel": "Apparel",

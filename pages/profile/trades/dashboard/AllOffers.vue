@@ -209,7 +209,7 @@
         <div
           v-else-if="action === 'delete' || action === 'deselect_all'"
           class="d-flex align-items-center"
-          @click="selectAll()"
+          @click="action = 'select_all'; selectAll()"
         >
           <div class="circle-gray"></div>
           <div class="mt-1 ml-2 delete-offers">{{ $t('common.select_all') }}</div>
@@ -226,40 +226,62 @@
         </div>
       </div>
     </b-row>
-    <b-row class="justify-content-center mt-3 d-none d-sm-flex">
+    <div class="d-flex flex-wrap justify-content-center pb-3 align-items-center">
       <NavGroup
         v-model="offerType"
         :data="offerTypeFilters"
         nav-key="type"
-        class="type-nav mt-3 mb-5"
+        class="type-nav mt-3 mb-3 mx-auto"
         btnClass="btn-lg"
         @change="handleMethodNavClick"
       />
-    </b-row>
-    <b-row v-if="deleteExpired">
+      <CustomDropdown
+        v-model="action"
+        :options="actions"
+        class="d-none d-sm-block"
+        type="single-select"
+        :label="actionLabel"
+        variant="white"
+        dropDownHeight="46px"
+        optionsWidth="custom"
+        maxWidth="180px"
+        width="180px"
+        paddingX="10px"
+        :inputStyle="{
+          borderRadius: '4px',
+          borderColor: '#667799'
+        }"
+        :labelStyle="{
+          fontSize: '14px',
+          letterSpacing: '0.06em',
+          color: '#626262'
+        }"
+        :arrowStyle="{
+          marginLeft: 0,
+          marginTop: '0 !important',
+          color: '#667799'
+        }"
+        :dropdownStyle="{
+          position: 'relative',
+          borderColor: '#667799'
+        }"
+        @change="changeAction"
+      />
+
       <BulkSelectToolbar
         ref="bulkSelectToolbar"
-        :active="selected.length>0"
+        :active="action.length > 0 ? true : false"
         :selected="selected"
         :unit-label="$tc('common.product', selected.length)"
-        action-label="Delete Selected"
+        :action-label="$t('product_page.delete_multiple')"
         class="mt-3"
         @close="selected = []"
-        @selectAll="handleSelectAll()"
+        @selectAll="selectAll()"       
         @deselectAll="selected = []"
+        @submit="deleteSelected()"
       />
-    </b-row>
-    <b-row v-if="deleteExpired" class="pt-2 pl-4">
-      <b-form-checkbox
-        id="checkbox-1"
-        v-model="status"
-        name="checkbox-1"
-        value="accepted"
-        unchecked-value="not_accepted"
-      >
-        {{$t('trades.select_all_expired_trades')}}
-      </b-form-checkbox>
-    </b-row>
+    </div>
+    
     <div class="my-trade-listing-section">
       <div class="row justify-content-center">
         <div class="text-center w-100 px-2">
@@ -420,7 +442,6 @@ export default {
   mixins: [screenSize],
   data () {
     return {
-
       ALL_OFFER_TYPE,
       FILTER_CONDITION_POOR,
       FILTER_CONDITION_FAIR,
@@ -455,6 +476,12 @@ export default {
         { text: this.$t('trades.fair'), value: FILTER_CONDITION_FAIR },
         { text: this.$t('trades.excellent'), value: FILTER_CONDITION_EXCELLENT },
       ],
+      actions: [
+        // { text: this.$t('common.decline_multiple'), value: 'decline_multiple' },
+        { text: this.$t('product_page.delete_multiple'), value: 'delete_multiple' }
+      ],
+      action: '',
+      actionLabel: this.$t('common.actions'),
       start_date: null,
       end_date: null,
       page: PAGE,
@@ -462,8 +489,6 @@ export default {
       totalOffers: 0,
       tradeOffers: [],
       perPageOptions: PER_PAGE_OPTIONS,
-      deleteExpired: false,
-      action: '',
       selected: [],
       isFiltersModalOpen: false
     }
@@ -514,11 +539,16 @@ export default {
       }
     },
 
+    changeAction(newAction) {
+      this.action = newAction
+      this.actionLabel = this.actions.find(a => a.value === newAction).text
+    },
+
     /**
      * This function is used to change condition filter
      * @param selectedConditions
      */
-     changeConditionFilter(selectedConditions) {
+    changeConditionFilter(selectedConditions) {
       if (!this.conditionFilter.includes(selectedConditions)) {
         this.conditionFilter.push(selectedConditions)
       } else {
@@ -526,11 +556,12 @@ export default {
       }
       this.conditionFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.conditionFilter, 2) || this.$t('trades.trade_condition') // 2 is max number of labels show in filter
     },
+
     /**
      * This function is used to change status filter
      * @param selectedStatuses
      */
-     changeStatusFilter(selectedStatuses) {
+    changeStatusFilter(selectedStatuses) {
       if (!this.statusFilter.includes(selectedStatuses)) {
         this.statusFilter.push(selectedStatuses)
       } else {
@@ -538,7 +569,7 @@ export default {
       }
       this.statusFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.statusFilter, 2) || this.$t('trades.status') // 2 is max number of labels show in filter
     },
-    searchOffers(product){
+    searchOffers(product) {
       this.searchText = (product) ? product.name : ''
       this.searchedProducts = []
       this.fetchOffersListing()
@@ -646,14 +677,6 @@ export default {
       }
     },
 
-    handleSelectAll() {
-      this.selected = ''
-    },
-
-    removeExpired(){
-      this.deleteExpired = !this.deleteExpired
-    },
-
     handleMethodNavClick(type) {
       if (type) {
         this.offerType = type
@@ -690,7 +713,6 @@ export default {
     },
 
     selectAll() {
-      this.action = 'select_all'
       this.selected = this.tradeOffers.reduce((acc, item) => {
         if (!item.deleted_at) {
           acc.push(item.id)
