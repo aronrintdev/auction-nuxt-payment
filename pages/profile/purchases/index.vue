@@ -104,13 +104,13 @@
           <!-- Filters -->
           <div
               v-if="!isScreenXS"
-              class="row filter-row mb-60">
+              class="row filter-row mb-36">
             <div class="col-md-12 col-sm-12 mt-md-4 mt-4">
               <!-- Type Filters -->
               <b-badge
                   v-for="(options, typeIndex) in activeTypeFilters"
                   :key="`type-${typeIndex}`"
-                  class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
+                  class="filter-badge body-9-regular px-2 rounded-pill py-1 mr-2 text-capitalize"
               >
                 {{ options.type }}&colon; {{ options.text }}
                 <img :src="require('~/assets/img/close-dark-blue.svg')" alt="" class="ml-1" role="button"
@@ -121,7 +121,7 @@
               <b-badge
                   v-for="(status, statusIndex) in activeStatusFilters"
                   :key="`status-${statusIndex}`"
-                  class="filter-badge px-2 rounded-pill py-1 mr-2 text-capitalize"
+                  class="filter-badge body-9-regular px-2 rounded-pill py-1 mr-2 text-capitalize"
               >
                 {{ status.type }}&colon; {{ status.text }}
                 <img :src="require('~/assets/img/close-dark-blue.svg')" alt="" class="ml-1" role="button"
@@ -710,8 +710,8 @@ export default {
 .mt-38
   margin-top: 38px
 
-.mb-60
-  margin-bottom: 60px
+.mb-36
+  margin-bottom: 36px
 
 .mb-5p
   margin-bottom: 5px
