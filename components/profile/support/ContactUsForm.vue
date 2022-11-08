@@ -3,64 +3,64 @@
     <div class="form-group">
       <label for="inputName">Name</label>
       <input id="inputName" v-model="form.name" type="text" class="form-control" :class="errorBorder(valid.name)"
-             placeholder="Your name">
-      <div v-if="valid.name==='no'" class="error-msg">Please Enter a Name</div>
+             :placeholder="$t('contact_us.your_name')">
+      <div v-if="valid.name==='no'" class="error-msg">{{$t('contact_us.please_enter_a_name')}}</div>
     </div>
     <div class="form-group">
-      <label for="inputEmail">Email</label>
+      <label for="inputEmail">{{ $t('contact_us.email') }}</label>
       <input id="inputEmail" v-model="form.email" type="email" class="form-control" :class="errorBorder(valid.email)"
              aria-describedby="emailHelp"
-             placeholder="Your email address">
-      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-      <div v-if="valid.email==='no'" class="error-msg">Please Enter a Valid Email Address</div>
+             :placeholder="$t('contact_us.your_email_address')">
+      <small id="emailHelp" class="form-text text-muted">{{$t('contact_us.we_will_never_share_your_email')}}</small>
+      <div v-if="valid.email==='no'" class="error-msg">{{$t('contact_us.please_enter_a_valid_email_address')}}</div>
     </div>
     <div class="form-group">
-      <label for="inputPhone">Phone (Optional)</label>
+      <label for="inputPhone">{{$t('contact_us.phone_optional')}}</label>
       <input id="inputPhone" v-model="form.phone" type="text" class="form-control" placeholder="( ) - ">
     </div>
     <div class="form-group" :class="errorBorder(valid.concern)">
-      <label for="inputAreaOfConcern">Area of Concern</label>
+      <label for="inputAreaOfConcern">{{ $t('contact_us.area_of_concern') }}</label>
       <CustomSelect
         id="category-types"
         :default="categorySelected"
         :threelineIcon="false"
         :options="{
-              default: 'Please select an area of concern',
-              buying: 'Buying',
-              selling: 'Selling',
-              trading: 'Trading',
-              seeking_partnership: 'Seeking Partnership',
-              other: 'Other (Specify in Description)'
+              default: $t('contact_us.please_select_an_area_of_concern'),
+              buying: $t('contact_us.buying'),
+              selling: $t('contact_us.selling'),
+              trading: $t('contact_us.trading'),
+              seeking_partnership: $t('contact_us.seeking_partnership'),
+              other: $t('contact_us.other')
             }"
         @input="handleSortByChange"
       />
-      <div v-if="valid.concern==='no'" class="error-msg">Please Enter an Area of Concern</div>
+      <div v-if="valid.concern==='no'" class="error-msg">{{$t('contact_us.please_enter_an_area_of_concern')}}</div>
     </div>
     <div class="form-group">
-      <label for="inputOrderId">Order ID (Optional)</label>
+      <label for="inputOrderId">{{$t('contact_us.order_id_optional')}}</label>
       <input id="inputOrderId" v-model="form.orderId" type="text" class="form-control"
-             placeholder="Please enter the Order ID if nec">
+             :placeholder="$t('contact_us.please_enter_the_order_id_if_nec')">
     </div>
     <div class="form-group">
       <label for="inputSubject">Subject</label>
       <input id="inputSubject" v-model="form.subject" type="text" class="form-control"
              :class="errorBorder(valid.subject)"
-             placeholder="Please enter your message subject">
-      <div v-if="valid.subject==='no'" class="error-msg">Please Enter a Subject</div>
+             :placeholder="$t('contact_us.please_enter_your_message_subject')">
+      <div v-if="valid.subject==='no'" class="error-msg">{{$t('contact_us.please_enter_a_subject')}}</div>
     </div>
     <div class="form-group">
-      <label for="inputDescription">Description</label>
+      <label for="inputDescription">{{$t('contact_us.description')}}</label>
       <textarea id="inputDescription" v-model="form.description" type="text" class="form-control"
                 :class="errorBorder(valid.description)"
-                placeholder="How can we help you?"
+                :placeholder="$t('contact_us.how_can_we_help_you')"
                 rows="3"></textarea>
-      <div v-if="valid.description==='no'" class="error-msg">Please Enter a Description</div>
+      <div v-if="valid.description==='no'" class="error-msg">{{$t('contact_us.please_enter_a_description')}}</div>
     </div>
     <div class="d-flex justify-content-start align-items-center">
       <file-upload-button @change="fileChanged"></file-upload-button>
       <div v-if="file" class="filename">{{ file.name }}
         <img :src="require('/assets/img/icons/close-round.svg')" @click="fileRemoved"/></div>
-      <button type="submit" class="btn btn-primary px-5 ml-auto d-none d-md-block" @click="submitted">Submit</button>
+      <button type="submit" class="btn btn-primary px-5 ml-auto d-none d-md-block" @click="submitted">{{$t('contact_us.submit')}}</button>
     </div>
     <transparent-alert-modal :show="showModal" text="Ticket Created! We’ll start looking into your issue as soon as possible."></transparent-alert-modal>
   </div>
