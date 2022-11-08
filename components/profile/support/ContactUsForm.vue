@@ -137,9 +137,7 @@ export default {
           this.showModal = true
           this.resetForm()
         })
-        .catch(err => {
-
-        })
+        .catch()
 
     },
     formValidate() {
