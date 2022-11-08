@@ -106,5 +106,5 @@ export default {
 .purchase-card
   flex: 0 0 33%
   max-width: 100%
-  padding: 15px
+  padding-block: 15px
 </style>

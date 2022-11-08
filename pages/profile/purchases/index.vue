@@ -744,6 +744,8 @@ export default {
     border: none
     height: 36px
     text-wrap: none
+    display: flex
+    align-items: center
 
     div
       @include body-5-regular

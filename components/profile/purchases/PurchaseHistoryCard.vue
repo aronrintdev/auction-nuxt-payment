@@ -2,22 +2,22 @@
   <b-card v-if="orderType !== giftCard && totalQuantity > 0 && purchaseStatus !== ''" class="purchase-card-wrapper card p-2 m-0">
     <b-card-title>
       <!-- Order Number -->
-      <span class="order-no text-capitalize mb-5">
-        {{ $t('vendor_purchase.order_no', { orderNo: purchase.order_id }) }}
-        &#40;{{ purchase.type.label }}&#41;
+      <span class="body-12-bold font-secondary text-capitalize mb-5">
+        {{ $t('vendor_purchase.order_no', {orderNo: purchase.order_id}) }}
+        &#40;{{ purchaseLabel(purchase.type.label) }}&#41;
       </span>
       <!-- ./Order Number -->
       <!-- View Order -->
-      <span role="button" class="view-order d-flex align-items-center color-blue-20" @click="viewOrder">{{
-        $t('vendor_purchase.view_order')
-      }}</span>
+      <span class="view-order font-secondary d-flex align-items-center color-blue-20" role="button" @click="viewOrder">{{
+          $t('vendor_purchase.view_order')
+        }}</span>
       <!-- ./View Order -->
     </b-card-title>
 
     <!-- Ordered Date -->
     <b-card-text class="order-on-wrapper">
-      <span class="date text-capitalize d-flex align-items-center">
-        {{ $t('vendor_purchase.ordered_on', { orderedDate: getOrderedDate }) }}
+      <span class="body-13-medium font-secondary mt-6 text-capitalize d-flex align-items-center">
+        {{ $t('vendor_purchase.ordered_on', {orderedDate: getOrderedDate}) }}
       </span>
     </b-card-text>
     <!-- ./Ordered Date -->
@@ -62,12 +62,12 @@
     <!--  -->
     <b-card-text class="mt-auto">
       <b-row class="py-2">
-        <b-col md="6" class="purchase-details-col">
-          <div class="font-size14">
+        <b-col class="purchase-details-col body-5-normal font-secondary" md="6">
+          <div>
             {{ $t('vendor_purchase.quantity') }}&colon;
             {{ totalQuantity }}
           </div>
-          <div class="font-size14">
+          <div class="mt-6">
             {{ $t('vendor_purchase.order_total') }}&colon;
             {{ purchase.total | toCurrency('USD', 'N/A') }}
           </div>
@@ -176,6 +176,9 @@ export default {
   },
 
   methods: {
+    purchaseLabel(label) {
+      return label === BUY ? this.$t('common.shop') : label
+    },
     // On click view order
     viewOrder() {
       this.$router.push(`/profile/purchases/summary/${this.purchase.id}`)
@@ -186,6 +189,9 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.mt-6
+  margin-top: 6px
+
 .purchase-details-col
   align-self: flex-end
 .status-button.pending
@@ -229,8 +235,16 @@ button.status-button
   margin: 0 !important
   float: right
   font-weight: normal
-.purchase-card-wrapper
+
+::v-deep.purchase-card-wrapper
   width: 455px
+
+  &.card
+    background: $color-white-1
+    border: 1px solid $color-gray-60
+    border-radius: 10px
+    box-shadow: none
+
 .order-no
   font-style: normal
   font-weight: $medium
