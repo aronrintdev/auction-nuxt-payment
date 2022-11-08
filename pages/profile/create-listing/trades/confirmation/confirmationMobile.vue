@@ -109,7 +109,7 @@
     <div class="press-content text-center mt-2 ml-3">
       {{$t('trades.by_pressing_post_listing')}}
     </div>
-    <div class="d-flex mt-3 mb-4">
+    <div class="d-flex mt-3 pb-4">
       <b-btn class="confirm-trade-draft-btn ml-3"
              @click="saveVendorTrade(STATUS_DRAFT)">
         {{  $t('trades.create_listing.vendor.wants.save_as_draft')  }}
@@ -341,7 +341,7 @@ export default {
   height: 133px
   border-radius: 10px
   background: $color-white-1
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+  box-shadow: 0px 1px 4px $drop-shadow1
   @media (min-width: 300px)  and (max-width: 349px)
     width: 290px
   @media (min-width: 400px)  and (max-width: 500px)
