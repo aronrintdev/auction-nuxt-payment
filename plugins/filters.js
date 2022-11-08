@@ -197,5 +197,5 @@ Vue.filter('diffForHumans', (date) => {
     return null
   }
   dayjs.extend(relativeTime)
-  return dayjs(date).toNow()
+  return dayjs(date).fromNow()
 })
