@@ -35,6 +35,7 @@
                 />
               </div>
               <VendorPurchaseCustomSelect
+                  bordered
                   :default="purchaseFilter"
                   :options="{
                 '': $t('vendor_purchase.sort_by'),
@@ -50,10 +51,11 @@
           </div>
           <!-- ./Row -->
           <!-- ./Row -->
-          <div v-if="!isScreenXS" class="d-flex align-items-end filter-second-row">
+          <div v-if="!isScreenXS" class="d-flex align-items-end">
             <div class="mr-20">
               <span class="mb-5p font-secondary body-8-normal text-black ">{{ $t('common.filter_by') }}</span>
               <VendorPurchaseSelectWithCheckbox
+                  bordered
                   :default="purchaseFilter"
                   :options="typeOptions"
                   :title="typeTitle"
@@ -65,6 +67,7 @@
 
             <div class="mr-20">
               <VendorPurchaseSelectWithCheckbox
+                  bordered
                   :default="purchaseFilter"
                   :options="productsOptions"
                   :title="statusTitle"
@@ -101,7 +104,7 @@
           <!-- Filters -->
           <div
               v-if="!isScreenXS"
-              class="row filter-row">
+              class="row filter-row mb-60">
             <div class="col-md-12 col-sm-12 mt-md-4 mt-4">
               <!-- Type Filters -->
               <b-badge
@@ -149,7 +152,6 @@
           </div>
 
           <div :class="{
-          'mt-md-4 mt-4': !isScreenXS,
           'mobile': isScreenXS
         }"
                class="row vd-purchase-history ">
@@ -164,7 +166,7 @@
           <template v-if="purchaseDatas.data">
             <div
                 v-if="purchaseDatas.data.length === 0 && !isScreenXS"
-                class="row vd-purchase-empty mb-5 mt-md-4"
+                class="row vd-purchase-empty mb-5 mt-38"
             >
               <div class="col-12 text-center">
                 <p class="vd-purchase-browse-now">
@@ -365,7 +367,6 @@ export default {
           text: this.$t('vendor_purchase.purchase_oldest_to_recent')
         }
       ],
-      typeTitle: this.$t('vendor_purchase.type'),
       typeOptions: [
         {
           id: 1,
@@ -498,7 +499,6 @@ export default {
           type: 'giftcard',
         },
       ],
-      statusTitle: this.$t('vendor_purchase.status'),
       statusFilter: [],
       typeFilter: [],
       filters: {
@@ -529,7 +529,13 @@ export default {
       return (+!!this.startdate) + (+!!this.enddate) +
           +(this.activeTypeFilters.length > 0) +
           +(this.typeFilter.length > 0)
-    }
+    },
+    typeTitle() {
+      return this.activeTypeFilters.length ? this.activeTypeFilters.map(a => a.text).join(', ') : this.$t('vendor_purchase.type')
+    },
+    statusTitle() {
+      return this.activeStatusFilters.length ? this.activeStatusFilters.map(a => `${this.$options.filters.capitalizeFirstLetter(a.type)}: ${a.text}`).join(', ') : this.$t('vendor_purchase.status')
+    },
   },
 
   mounted() {
@@ -701,6 +707,12 @@ export default {
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
 
+.mt-38
+  margin-top: 38px
+
+.mb-60
+  margin-bottom: 60px
+
 .mb-5p
   margin-bottom: 5px
   margin-top: 21px
@@ -723,14 +735,33 @@ export default {
 
 ::v-deep.vp-custom-select
   background: $color-white-1
-  border: 1px solid $color-gray-60 !important
   border-radius: 5px
   height: 38px
+  border: none
 
   .selected
     padding: 10px
     border: none
     height: 36px
+    text-wrap: none
+
+    div
+      @include body-5-regular
+      font-family: $font-montserrat
+      font-style: normal
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+
+      &.text-dark
+        color: $color-black-1
+
+      &.text-muted
+        color: $color-gray-5
+
+    &.border
+      border: 1px solid $color-gray-60 !important
+
 
 .input-text
   @include body-5-regular
