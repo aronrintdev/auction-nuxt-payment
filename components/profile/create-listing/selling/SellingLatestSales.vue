@@ -266,8 +266,6 @@ export default {
             this.setChartData(res.data)
             this.chartOptions.scales.xAxes[0].time.unit =
               value === 'day' ? 'hour' : 'day'
-            // TODO: Disabled temporarily
-            // this.$refs.chart.redraw()
             this.$emit('latestPrice',{amount: this.latestPrice ,type: this.latestPrice >= this.currentTrend ? 'up' : 'down' })
           })
       }
