@@ -411,6 +411,11 @@ export default {
   font-family: $font-family-base
   padding: 31px 16px
   background-color: $color-white-1
+
+  svg text
+    font-family: $font-family-sf-pro-display
+    @include body-18-normal
+
   @media (min-width: 576px)
     padding: 25px 43px
     padding-right: 19px
