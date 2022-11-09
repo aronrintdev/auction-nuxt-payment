@@ -553,7 +553,7 @@ export default {
   mounted() {
     const wrapper = document.querySelector('.main-wrapper')
     if (wrapper.querySelector('.wants-main-container')) {
-      wrapper.style.backgroundColor = '#f7f7f7'
+      wrapper.classList.add('bg-white-5')
     }
 
     this.$root.$on('edit', (product) => {
@@ -947,6 +947,9 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.bg-white-5
+  background: $color-white-5 !important
 
 .delete-multiple
   @include body-9-normal
