@@ -4,7 +4,6 @@
       v-for="(offer) in offers" 
       :key="'offer-' + offer.id" 
       class="mb-4" 
-      :role="(offer.deleted_at === null ? 'button' : '')" 
     >
       <div class="desktop-offer d-none d-lg-block">
         <div class="d-flex justify-content-between">
@@ -41,6 +40,8 @@
           </div>
           <div 
             class="w-38 px-0 view-details d-flex align-items-center justify-content-end"
+            v-if="offer.deleted_at === null"
+            role="button" 
             @click="showOffer(offer)" 
           >
             {{ $t('vendor_purchase.view_details') }}
@@ -107,6 +108,7 @@
           <Button 
             variant="dark-blue"
             class="mr-3"
+            @click="acceptOffer()"
           >
             {{ $t('common.accept_trade') }} 
           </Button>
@@ -121,67 +123,7 @@
             {{ $t('trades.counter_offer') }}
           </Button>
         </div>
-        <!-- <div class="d-flex justify-content-between">
-          <div :id="`flyer-${offer.condition}`">
-            {{$t(offer.condition_translation)}}
-          </div>
-          <div class="pt-3">
-            <div class="offer-id">
-              {{$t('trades.offer_id')}} #{{offer.id}}
-            </div>
-            <div class="offer-time">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
-          </div>
-          <div :class="`offer-${offer.offer_type}`" class="d-flex justify-content-center align-items-center">
-            {{$t(offer.offer_type_translation)}}
-            <img v-if="offer.offer_type === OFFER_SENT" :src="require('~/assets/img/icons/upword-arrow.svg')" class="ml-2">
-            <img v-else-if="offer.offer_type === OFFER_RECEIVED" :src="require('~/assets/img/icons/downword-arrow.svg')" class="ml-2">
-          </div>
-        </div>
-        <div class="d-flex justify-content-between mt-4">
-          <div class="inner-items-listed ml-auto mr-auto">
-            <div class="inner-heading-listing text-center p-2">
-              {{$t(offer.offer_type_translation)}}
-            </div>
-            <div v-if="offer.latest_offer">
-              <div v-for="(theirItems) in offer.latest_offer.theirs_items" :key="'offer-item-'+ theirItems.id" class="d-flex align-items-center ml-4">
-                <img :src="theirItems.inventory.product | getProductImageUrl" class="inner-item-image">
-                <ul class="inner-item-text">
-                  <li class="pt-3 text-truncate product-name">{{theirItems.inventory.product.name | truncate(30, '...')}}</li>
-                </ul>
-              </div>
-            </div>
-            <div v-else>
-              <div v-for="(theirItems) in offer.theirs_items" :key="'offer-item-'+ theirItems.id" class="d-flex align-items-center ml-4">
-                <img :src="theirItems.inventory.product | getProductImageUrl" class="inner-item-image">
-                <ul class="inner-item-text text-truncate product-name">
-                  <li class="pt-3">{{theirItems.inventory.product.name | truncate(30, '...')}}</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <img :src="require('~/assets/img/icons/trade-icon.svg')">
-          <div class="inner-items-listed ml-auto mr-auto">
-            <div class="inner-heading-listing text-center p-2">
-              {{$t('trades.your_listed_items')}}
-            </div>
-            <div v-if="offer.latest_offer">
-              <div v-for="(yourItems) in offer.latest_offer.yours_items" :key="'trade-offer-item-'+ yourItems.id" class="d-flex align-items-center ml-4">
-                <img :src="yourItems.inventory.product | getProductImageUrl" class="inner-item-image">
-                <ul class="inner-item-text">
-                  <li class="pt-3 text-truncate product-name">{{yourItems.inventory.product.name | truncate(30, '...')}}</li>
-                </ul>
-              </div>
-            </div>
-            <div v-else>
-              <div v-for="(yourItems) in offer.yours_items" :key="'trade-offer-item-'+ yourItems.id" class="d-flex align-items-center ml-4">
-                <img :src="yourItems.inventory.product | getProductImageUrl" class="inner-item-image">
-                <ul class="inner-item-text">
-                  <li class="pt-3 text-truncate product-name">{{ yourItems.inventory.product.name | truncate(30, '...')}}</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div> -->
+        
       </div>
       <div class="mobile-offer d-lg-none">
         <div class="d-flex justify-content-between">
@@ -342,6 +284,65 @@ export default {
     }
   },
   methods: {
+    acceptOffer(offer) {
+      // const params = {
+      //   price: 
+      // }
+      // console.log('acceptOffer', params);
+      // let params
+      // billing_address: (...)
+      // billing_address_id: (...)
+      // card_details: (...)
+      // cash_added: (...)
+      // cash_type: (...)
+      // condition: (...)
+      // condition_translation: (...)
+      // created_at: (...)
+      // customer_vault_id: (...)
+      // deleted_at: (...)
+      // id: (...)
+      // is_blocked: (...)
+      // latest_offer: (...)
+      // offer_expiry: (...)
+      // offer_history: (...)
+      // offer_type: (...)
+      // offer_type_translation: (...)
+      // parent_id: (...)
+      // price: (...)
+      // processing_fee: (...)
+      // received_by_id: (...)
+      // sent_by_id: (...)
+      // shipping_address: (...)
+      // shipping_address_id: (...)
+      // shipping_fee: (...)
+      // status: (...)
+      // tax: (...)
+      // theirs_items: (...)
+      // total: (...)
+      // trade: (...)
+      // trade_fee: (...)
+      // trade_id: (...)
+      // type: (...)
+      // updated_at: (...)
+      // yours_items: (...)
+
+      // 'price' => 'required|numeric',
+      // 'shipping_fee' => 'numeric',
+      // 'processing_fee' => 'numeric',
+      // 'trade_fee' => 'numeric',
+      // 'tax' => 'numeric',
+      // 'card_details' => 'required|string',
+      // 'total' => 'required|numeric',
+      // 'billing_address' => 'nullable',
+      // 'shipping_address' => 'nullable',
+      // 'parent_id' => 'nullable',
+      // 'your_items' => 'required',
+      // 'their_items' => 'required',
+      // 'condition' => 'required|in:poor,fair,excellent',
+      // 'offer_type' => 'required|string|in:accept',
+      // 'their_vendor_id' => 'numeric',
+    },
+
     showOffer(offer){
       if(offer.deleted_at === null){
         this.$router.push('/profile/trades/dashboard/' + offer.id)
