@@ -54,13 +54,8 @@ export default {
       addVendorPayoutMethod: 'auth/addVendorPayoutMethod',
     }),
     offerExist(){
-      this.$axios.get('/sell-now/check-offerexist', {params: {
-        id: this.sellItem.id,
-        size_id: this.sellItem.size_id,
-        packaging_condition_id: this.sellItem.packaging_condition_id,
-        highestOffer: this.sellItem.highestOffer,
-      }})
-      .then((res) => {
+      this.$axios.get(`/offer/${this.sellItem.selectedOfferId}`)
+      .then((res) =>  {
         this.$store.dispatch('sell-now/addItem', { ...this.sellItem, offer: res.data.data })
       })
       .catch((err) => {

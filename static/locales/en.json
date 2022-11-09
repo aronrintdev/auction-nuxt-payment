@@ -5483,7 +5483,8 @@
     "no_offer": "There is no offer placed.",
     "user_address_not_found": "User doesnot have a billing address.",
     "error_processing": "Error Processing Request",
-    "sell_successfull": "Selling has been done successfully."
+    "sell_successfull": "Selling has been done successfully.",
+    "no_payout_method"  : "No Payout Method Found"
   },
   "fee_policy": {
     "title": "Fee Policy"
