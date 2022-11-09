@@ -186,7 +186,12 @@
     "season_detail": "SS",
     "model": "Model",
     "model_detail": "The model is 5’ 8” and wears a large",
-    "no-items-in-combination": "No items in combination"
+    "no-items-in-combination": "No items in combination",
+    "current_trade": "Current Trade",
+    "their_value": "Their Value",
+    "your_value": "Your Value",
+    "fair_trade_meter": "Fair Trade Meter",
+    "accept_trade": "Accept Trade"
   },
   "message": {
     "no_products_found": "No Products Found",
