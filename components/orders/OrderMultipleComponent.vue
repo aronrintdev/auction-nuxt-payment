@@ -180,7 +180,7 @@
           <div class="col"></div>
 
           <div class="col">
-            <div v-if="item.status_label!=='voided'" :class="`text-center status m-auto ${styleFor(item.status_label)}`">{{ item.status_label }}</div>
+            <div v-if="item.status_label!=='voided'" :class="`text-center status m-auto ${styleFor(item.status_label)}`">{{ item.status_label | wordLimit }}</div>
           </div>
 
           <div class="col-2">

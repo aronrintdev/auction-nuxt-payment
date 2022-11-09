@@ -104,7 +104,7 @@
     </div>
 
     <div class="col d-none d-md-block">
-      <div v-if="single.status_label!=='voided'" :class="`text-center status m-auto ${styleFor(single.status_label)}`">{{ single.status_label }}</div>
+      <div v-if="single.status_label!=='voided'" :class="`text-center status m-auto ${styleFor(single.status_label)}`">{{ single.status_label | wordLimit }}</div>
     </div>
 
     <div class="col-2 d-none d-md-block">
