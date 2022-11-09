@@ -173,15 +173,6 @@ export default {
   },
   computed: {
     inputStyleComputed() {
-      // :style="{
-      //   'padding-left': paddingX,
-      //   'padding-right': paddingX,
-      //   'min-width': width,
-      //   'height': dropDownHeight,
-      //   'width': maxWidth,
-      //   'border-radius': !isOpen ? borderRadius : borderRadiusClose,
-      //   ...inputStyle
-      // }"
       let result = {
         'padding-left': this.paddingX,
         'padding-right': this.paddingX,
