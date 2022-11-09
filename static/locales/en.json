@@ -190,7 +190,8 @@
     "model": "Model",
     "model_detail": "The model is 5’ 8” and wears a large",
     "no-items-in-combination": "No items in combination",
-    "thread": "Thread"
+    "thread": "Thread",
+    "rescind": "Rescind"
   },
   "message": {
     "no_products_found": "No Products Found",

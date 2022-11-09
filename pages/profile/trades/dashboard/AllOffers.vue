@@ -226,7 +226,7 @@
         </div>
       </div>
     </b-row>
-    <div class="d-flex flex-wrap justify-content-center pb-3 align-items-center">
+    <div class="d-none d-sm-flex flex-wrap justify-content-center pb-3 align-items-center">
       <NavGroup
         v-model="offerType"
         :data="offerTypeFilters"
@@ -238,7 +238,6 @@
       <CustomDropdown
         v-model="action"
         :options="actions"
-        class="d-none d-sm-block"
         type="single-select"
         :label="actionLabel"
         variant="white"

@@ -10,7 +10,10 @@
           <div class="offer-id">
             {{ $t('trades.offer_id') }} {{ $t('common.thread') }} #{{ offer.id }}
           </div>
-          <div class="offer-type d-flex justify-content-center align-items-center">
+          <div
+            v-if="new Date(offer.offer_expiry).getTime() > Date.now()"
+            class="offer-type d-flex justify-content-center align-items-center"
+          >
             <img 
               v-if="offer.offer_type === OFFER_SENT" 
               :src="require('~/assets/img/trades/SentType.svg')" 
@@ -22,6 +25,12 @@
               class="mr-2"
             >
             {{ $t(offer.offer_type_translation )}}
+          </div>
+          <div
+            class="expired-label d-flex align-items-center justify-content-center"
+            v-else
+          >
+            {{ $t('bids.expired') }}
           </div>
         </div>
         <div class="d-flex mt-1">
@@ -104,25 +113,40 @@
           </div>
         </div>
 
-        <div class="mt-4 d-flex justify-content-center">
+        <div
+          v-if="new Date(offer.offer_expiry).getTime() > Date.now()"
+          class="mt-4 d-flex justify-content-center"
+        >
           <Button 
             variant="dark-blue"
             class="mr-3"
-            @click="acceptOffer()"
+            @click="$router.push(`/profile/trades/dashboard/${offer.id}`)"
           >
             {{ $t('common.accept_trade') }} 
           </Button>
           
-          <div class="decline-button d-flex justify-content-center align-items-center mr-3">
+          <div 
+            class="decline-button d-flex justify-content-center align-items-center mr-3"
+            role="button"
+            @click="$bvModal.show('declineOffer')"
+          >
             {{ $t('common.decline') }}
           </div>
 
           <Button 
-            variant="outline-dark-blue" 
+            variant="outline-dark-blue"
+            @click="$router.push(`/profile/trades/dashboard/counter-offer/${offer.id}`)"
           >
             {{ $t('trades.counter_offer') }}
           </Button>
         </div>
+        <Button
+          class="mt-4"
+          variant="outline-warning"
+          v-else-if="offer.latest_offer && offer.latest_offer.status === 'Declined'"
+        >
+          {{ $t('common.rescind') }}
+        </Button>
         
       </div>
       <div class="mobile-offer d-lg-none">
@@ -134,7 +158,10 @@
             {{$t('trades.offer_id')}} #{{offer.id}}
           </div>
 
-          <div class="d-flex align-items-center">
+          <div 
+            v-if="new Date(offer.offer_expiry).getTime() > Date.now()" 
+            class="d-flex align-items-center"
+          >
             <img 
               v-if="offer.offer_type === 'sent'" 
               :src="require('~/assets/img/trades/SentType.svg')" 
@@ -145,9 +172,15 @@
               :src="require('~/assets/img/trades/ReceivedType.svg')" 
               alt="" 
             />
-
             <div class="ml-1 offer-type">{{ $t(`trades.offer_type.${offer.offer_type}`) }}</div>
           </div>
+          <div
+            class="expired-label d-flex align-items-center justify-content-center"
+            v-else
+          >
+            {{ $t('bids.expired') }}
+          </div>
+          
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <div class="offer-time text-left mt-2">
@@ -232,7 +265,25 @@
           </div>
         </div>
       </div>
+
+      <DeclineModel 
+        v-if="offer" 
+        :offer="offer"
+        @decline="(blockUser) => { declineOffer(offer, blockUser) }" 
+      />
     </div>
+
+    <b-modal id="order-success-modal" hide-footer hide-header size="md">
+      <div class="text-right">
+        <close-icon role="button" class="close-icon" @click="$bvModal.hide('order-success-modal')"></close-icon>
+      </div>
+      <div class="text-center w-75 mx-auto my-2">
+        <div class="success-text">{{ $t('trades.offer_accepted_successfully') }}</div>
+        <div class="d-flex align-items-center justify-content-center mx-auto mt-3 checkmark-icon">
+          <CheckmarkIcon />
+        </div>
+      </div>
+    </b-modal>
 
     <infinite-loading 
       class="d-sm-none" 
@@ -249,12 +300,14 @@ import {
   OFFER_RECEIVED
 } from '~/static/constants/trades'
 import Button from '~/components/common/Button'
+import DeclineModel from '~/pages/profile/trades/dashboard/DeclineModel'
 
 export default {
   name: 'TradeOfferItems',
 
   components: {
-    Button
+    Button,
+    DeclineModel
   },
 
   props: {
@@ -284,63 +337,14 @@ export default {
     }
   },
   methods: {
-    acceptOffer(offer) {
-      // const params = {
-      //   price: 
-      // }
-      // console.log('acceptOffer', params);
-      // let params
-      // billing_address: (...)
-      // billing_address_id: (...)
-      // card_details: (...)
-      // cash_added: (...)
-      // cash_type: (...)
-      // condition: (...)
-      // condition_translation: (...)
-      // created_at: (...)
-      // customer_vault_id: (...)
-      // deleted_at: (...)
-      // id: (...)
-      // is_blocked: (...)
-      // latest_offer: (...)
-      // offer_expiry: (...)
-      // offer_history: (...)
-      // offer_type: (...)
-      // offer_type_translation: (...)
-      // parent_id: (...)
-      // price: (...)
-      // processing_fee: (...)
-      // received_by_id: (...)
-      // sent_by_id: (...)
-      // shipping_address: (...)
-      // shipping_address_id: (...)
-      // shipping_fee: (...)
-      // status: (...)
-      // tax: (...)
-      // theirs_items: (...)
-      // total: (...)
-      // trade: (...)
-      // trade_fee: (...)
-      // trade_id: (...)
-      // type: (...)
-      // updated_at: (...)
-      // yours_items: (...)
-
-      // 'price' => 'required|numeric',
-      // 'shipping_fee' => 'numeric',
-      // 'processing_fee' => 'numeric',
-      // 'trade_fee' => 'numeric',
-      // 'tax' => 'numeric',
-      // 'card_details' => 'required|string',
-      // 'total' => 'required|numeric',
-      // 'billing_address' => 'nullable',
-      // 'shipping_address' => 'nullable',
-      // 'parent_id' => 'nullable',
-      // 'your_items' => 'required',
-      // 'their_items' => 'required',
-      // 'condition' => 'required|in:poor,fair,excellent',
-      // 'offer_type' => 'required|string|in:accept',
-      // 'their_vendor_id' => 'numeric',
+    declineOffer(offer, blockUser) {
+      this.$axios.put(`/trades/${offer.id}/decline-offer`, {
+        offer_id: offer.id,
+        block_user: (blockUser) ? 1 : 0
+      })
+      .catch((error) => {
+        this.$toasted.error(this.$t(error.response.data.error))
+      })
     },
 
     showOffer(offer){
@@ -365,6 +369,13 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.expired-label
+  @include body-5-medium
+  color: $color-white-1
+  background: $color-red-24
+  height: 31px
+  width: 100px
 
 .decline-button
   @include body-8-medium
@@ -573,7 +584,7 @@ export default {
   @include body-4-bold
   color: $color-blue-1
   font-family: $font-family-sf-pro-display
-  @media (min-width: 576px)
+  @media (min-width: 768px)
     @include body-3-bold
     font-style: normal
     color: $color-black-1
