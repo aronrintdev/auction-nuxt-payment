@@ -31,6 +31,7 @@ export default {
     }
   },
   beforeMount() {
+    this.$root.$emit('hide-header', { hideHeader: true })
     enquireScreenSizeHandler((type) => {
       this.$store.commit('size/setScreenType', type)
     })
@@ -40,11 +41,14 @@ export default {
     this.getOrderSettings()
     this.addVendorPayoutMethod()
     // If the user is a vendor
-    if(this.isVendor){
+    if (this.isVendor){
       this.getVendorCommission(this.$store.state.auth.user.vendor.id)
     }
 
     this.getGlobalCommission()
+  },
+  beforeDestroy() {
+    this.$root.$emit('hide-header', { hideHeader: false })
   },
   methods: {
     ...mapActions({
