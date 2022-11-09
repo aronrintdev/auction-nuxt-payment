@@ -31,7 +31,7 @@
         <div class="d-flex justify-content-center align-content-center"  @click="showTrade(trade.id)">
           <div class="d-flex justify-content-center align-content-center" v-for="(offer) in trade.offers" :key="'trade-offer-'+offer.id">
             <div class="d-inline body-section-box m-1">
-              <div class="d-flex justify-content-center align-content-center">
+              <div class="d-flex justify-content-center align-content-center pt-3">
                 <img class="image-tarde" :src="offer.inventory.product | getProductImageUrl">
               </div>
 
