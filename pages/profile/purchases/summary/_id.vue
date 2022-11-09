@@ -38,7 +38,7 @@
 
             <!-- Payment Summary Details -->
             <PurchaseUpdatePaymentInfo
-                v-if="status === processingPayment &&
+                v-if="status === processingPayment && updatePaymentMethod &&
               !paymentInfoIsUpdated
             "
                 :orderDetails="orderDetails"
@@ -104,7 +104,8 @@ export default {
 
   data() {
     return {
-      // listingItem: LISTING_ITEM,
+      // TODO for now disable update payment info
+      updatePaymentMethod: false,
       orderDetails: {},
       dataloaded: false,
       processingPayment: PROCESSING_PAYMENT,
