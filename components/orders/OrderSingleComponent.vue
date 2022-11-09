@@ -120,7 +120,7 @@
           }}</a>
       </div>
       <div v-if="single.status !== PROCESSING && single.vendor_shipment">
-        <span>{{ single.vendor_shipment.shipping_method_text }}</span>
+        <div class="text-center text-color-blue-1">{{ single.vendor_shipment.shipping_method_text }}</div>
         <a target="_blank" :href="single.vendor_shipment.tracking_url">{{ single.vendor_shipment.tracking_no }}</a>
       </div>
     </div>
