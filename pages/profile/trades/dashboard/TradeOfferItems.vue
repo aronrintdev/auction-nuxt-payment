@@ -180,7 +180,7 @@
           >
             {{ $t('bids.expired') }}
           </div>
-          
+
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <div class="offer-time text-left mt-2">
@@ -329,7 +329,6 @@ export default {
     }
   },
   data() {
-    console.log('offers', this.offers);
     return {
       OFFER_SENT,
       OFFER_RECEIVED,
