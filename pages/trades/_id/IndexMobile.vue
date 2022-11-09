@@ -176,7 +176,7 @@ import {
   OFFER_TYPE_YOURS,
   OFFER_TYPE_THEIR,
   OFFER_TYPE,
-  TAKE_SEARCHED_PRODUCTS
+  TAKE_SEARCHED_PRODUCTS, CASH_TYPE_REQUESTED
 } from '~/static/constants/trades'
 import Button from '~/components/common/Button';
 import InventoryBottomSheet from '~/pages/trades/_id/InventoryBottomSheet';
@@ -250,6 +250,8 @@ export default {
       OFFER_TYPE_YOURS,
       OFFER_TYPE_THEIR,
       OFFER_TYPE,
+      cashTypeAdded:CASH_TYPE_ADDED,
+      cashTypeReq:CASH_TYPE_REQUESTED,
       addCash: false,
     }
   },
@@ -597,6 +599,7 @@ export default {
       this.$store.commit('trade/updateActiveTrade', {
         yourItems: this.getYourTradeItems,
         cashAdded: parseInt(parseFloat(this.optional_cash)*100),
+        cashType: this.optional_cash_type === 'add_cash' ? this.cashTypeAdded : this.cashTypeReq,
         tradeCondition: this.tradeCondition
       })
     },
@@ -744,6 +747,7 @@ export default {
       this.optional_cash_type = value.add_cash ? 'add_cash':'request_cash'
       this.addCash = false
       this.yourTotal(false)
+      this.updateActiveTrade()
     }
   }
 }
@@ -1028,7 +1032,7 @@ export default {
 .invent-btn,.next-btns
   width: 162px
   height: 40px
-  
+
 @media (max-width: 576px)
   .order-summary::v-deep
     min-width: 0
