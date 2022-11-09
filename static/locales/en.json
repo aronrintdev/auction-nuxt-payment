@@ -172,10 +172,10 @@
     "go_back": "Go Back",
     "no_trades": "No Trade offers have been sent",
     "list_product_today": "List a product today on Deadstock!",
-    "product_type"  : "Product Type",
-    "continue"  : "Continue",
-    "of"  : "of",
-    "week"  : "Week",
+    "product_type": "Product Type",
+    "continue": "Continue",
+    "of": "of",
+    "week": "Week",
     "search_wants": "Search for Wants",
     "tap_to_delete": "Tap on the Wants you would like to delete",
     "tap_to_include": "tap on the Wants you would like to include in combination",
@@ -5890,7 +5890,7 @@
     }
   },
   "newest_features": {
-    "title": "Newest<br>Features",
+    "title": "Newest \n Features",
     "desc": "Latest Deadstock features found on the website and mobile application",
     "previous": "Previous",
     "next": "Next",
