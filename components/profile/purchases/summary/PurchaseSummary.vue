@@ -145,7 +145,7 @@
       <!-- Details: Multiple Order -->
       <div v-if="orderDetails.quantity > 1" class="row">
         <div class="col-12">
-          <h5 class="text-bold">
+          <h5 class="body-15-bold font-secondary">
             {{ $t('vendor_purchase.order_items') }}&colon;
           </h5>
         </div>
