@@ -1167,7 +1167,7 @@ export default {
   height: 26px
   font-family: $font-family-sf-pro-display
   font-style: normal
-  @include body-16-medium
+  @include body-18
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
@@ -1176,7 +1176,7 @@ export default {
   font-family: $font-family-montserrat
   font-style: normal
   width: 80px
-  @include body-16-medium
+  @include body-18
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
@@ -1185,7 +1185,7 @@ export default {
   font-family: $font-family-montserrat
   font-style: normal
   width: 80px
-  @include body-16-medium
+  @include body-18
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
