@@ -19,6 +19,7 @@
           <div
             v-for="(image, index) in images"
             :key="`style-image-carousel-${index}`"
+            :class="[mainImage ? 'style-image': '']"
           >
             <img :src="image" class="w-100" />
           </div>
@@ -36,15 +37,6 @@
           </div>
         </template>
       </Carousel>
-
-      <div class="text-center mt-4 pages">
-        {{
-          $t('shop_by_style.showing_of', {
-            page: position,
-            total: images.length,
-          })
-        }}
-      </div>
     </client-only>
   </div>
 </template>
@@ -57,6 +49,10 @@ export default {
       type: Array,
       required: true,
     },
+    mainImage: {
+      type: Boolean,
+      default: false
+    }
   },
 
   data() {
@@ -75,6 +71,9 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.style-image
+  width: 305px
+  margin-left: 240px
 .style-image-carousel-wrapper
   .pages
     @include body-4-medium
