@@ -125,7 +125,7 @@
             </div>
           </b-row>
           <div class="current-trade">{{ $t('common.current_trade') }}</div>
-          <div class="offer-card mb-3">
+          <div class="offer-card">
             <div class="center-container d-flex justify-content-center"
                  :class="{'center-cont-height':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }">
               <div class="left-item" :class="{'left-item-margin':lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length}">
@@ -189,7 +189,7 @@
                 </div>
               </div>
             </div>
-            <div v-if="!isAcceptedOffer()" class="d-flex flex-column align-items-center mb-4">
+            <div v-if="!isAcceptedOffer()" class="d-flex flex-column align-items-center">
               <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
                 <Meter :highest="getTheirTotal(false)"
                        :lowest="0"
@@ -215,14 +215,14 @@
 
             </div>
           </div>
-          <b-row class="ml-54 history-heading">{{ $t('trades.offer_history') }}</b-row>
+          <div class="history-heading">{{ $t('trades.offer_history') }}</div>
           <b-row class="m-3">
             <offer-history :offerHistory="offer" />
           </b-row>
           <b-row class="justify-content-center pt-3 pb-3">
             <hr class="center-line">
           </b-row>
-          <b-row class="ml-3 mr-3 mb-4 mt-4">
+          <b-row class="justify-content-center">
             <initial-listing :initialWantsItems="offer.trade.wants" />
           </b-row>
         </b-col>
@@ -524,9 +524,10 @@ export default {
   color: $color-gray-5
 
 .history-heading
+  @include body-15-bold
   font-family: $font-family-sf-pro-display
   font-style: normal
-  @include body-15-bold
+  margin-top: 77px
   color: $color-black-1
 
 .center-line

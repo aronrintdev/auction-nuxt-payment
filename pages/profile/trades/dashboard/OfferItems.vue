@@ -22,23 +22,28 @@
         </div>
       </div>
     </div>
-    <div v-else>
-      <div class="product-card">
-        <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
-        <b-row class="justify-content-between" >
-          <b-col v-for="(item) in offerItems" :key="'offer-item-list-' + item.id" class="offer-item text-center p-0" :class="`${marginItems}`">
-            <b-col class="item-heading pt-2 pb-2 align-items-center">
-              {{item.inventory ? item.inventory.product.name : item.product.name}}
-            </b-col>
-            <b-col>
-              <img v-if="item.inventory" :src="item.inventory.product | getProductImageUrl" class="offer-item-image" width="100px" />
-              <img v-else :src="item.product | getProductImageUrl" class="offer-item-image" width="100px" />
-            </b-col>
-            <div class="offer-item-text">{{$t('trades.box_condition')}}: {{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
-            <div class="offer-item-text">{{item.inventory ? item.inventory.product.colorway : item.product.colorway}}</div>
-            <div class="offer-item-text">{{$t('trades.size')}} {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
+    <div class="product-card" v-else>
+      <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
+      <div class="d-flex justify-content-between">
+        <b-col 
+          v-for="(item) in offerItems" :key="'offer-item-list-' + item.id" 
+          :class="`${marginItems}`"
+        >
+          <b-col>
+            <img v-if="item.inventory" :src="item.inventory.product | getProductImageUrl" class="offer-item-image" width="100px" />
+            <img v-else :src="item.product | getProductImageUrl" class="offer-item-image" width="100px" />
           </b-col>
-        </b-row>
+          <div class="offer-item-name">
+            {{ item.inventory ? item.inventory.product.name : item.product.name }}
+          </div>
+          <div class="mt-1 offer-box">
+            {{ $t('trades.trade_arena.box') }}: 
+            {{ item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name }}
+          </div>
+          <div class="mt-1 offer-size">
+            {{ $t('trades.size') }} {{ item.inventory ? item.inventory.size.size : item.size.size }}
+          </div>
+        </b-col>
       </div>
     </div>
   </div>
@@ -76,6 +81,21 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.offer-item-name, .offer-size, .offer-box
+  font-family: $font-family-sf-pro-display
+
+.offer-item-name
+  @include body-10-medium
+  color: $color-black-1
+
+.offer-size
+  @include body-9-medium
+  color: $color-black-1
+
+.offer-box
+  @include body-10-medium
+  color: $color-gray-5
 
 .offer-item-small
   width: 80px
