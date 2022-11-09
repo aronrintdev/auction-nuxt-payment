@@ -60,7 +60,7 @@
           <b-spinner variant="blue-20"></b-spinner>
         </b-col>
         <b-col v-else md="12" class="text-center">
-          <Button :disabled="! getTotalQuantity" type="button" variant="dark-blue" pill @click="handlePlaceOrder">{{
+          <Button :disabled="! canPlaceOrder" type="button" variant="dark-blue" pill @click="handlePlaceOrder">{{
               $t('shopping_cart.place_order')}}
           </Button>
         </b-col>
@@ -101,7 +101,13 @@ export default {
       paymentMethod: 'auth/getPaymentMethod',
       paymentToken: 'order-details/getPaymentToken',
       cryptoDetails: 'order-details/getCryptoDetails',
-    })
+    }),
+    canPlaceOrder(vm) {
+      return !!(vm.getTotalQuantity
+        && vm.billingAddress
+        && vm.shippingAddress
+        && (vm.cryptoDetails.amount || vm.paymentMethod))
+    }
   },
   methods: {
     ...mapActions({
