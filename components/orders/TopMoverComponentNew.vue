@@ -60,6 +60,8 @@ export default {
 
 <style scoped lang="sass">
 @import '/assets/css/variables'
+::v-deep .sf-pro
+  font-family: $font-family-sf-pro-display
 
 @media (max-width: 993px)
   .top-movers-row
