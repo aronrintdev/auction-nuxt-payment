@@ -218,10 +218,26 @@ export default {
           key: 'products',
           label: this.$t('vendor_purchase.products'),
           tdClass: 'vd-img-col',
+          thClass: 'body-12-medium font-primary font-secondary'
         },
-        {key: 'details', label: this.$t('vendor_purchase.product_details')},
-        {key: 'quantity', label: this.$t('vendor_purchase.quantity')},
-        {key: 'total', label: this.$t('vendor_purchase.total')},
+        {
+          key: 'details',
+          label: this.$t('vendor_purchase.product_details'),
+          thClass: 'body-12-medium font-secondary',
+          tdClass: 'body-12-regular font-secondary',
+        },
+        {
+          key: 'quantity',
+          label: this.$t('vendor_purchase.quantity'),
+          thClass: 'body-12-medium font-secondary',
+          tdClass: 'body-12-regular font-secondary',
+        },
+        {
+          key: 'total',
+          label: this.$t('vendor_purchase.total'),
+          thClass: 'body-12-medium font-secondary',
+          tdClass: 'body-12-regular font-secondary',
+        },
       ],
       // Export to PDF will only show when the order is
       exportStatus: [
