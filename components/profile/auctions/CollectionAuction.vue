@@ -37,11 +37,15 @@
             <span class="body-4-medium">{{auction.bids.length|| '-'}}</span>
           </b-col>
           <b-col sm="12" md="2" class="d-flex justify-content-around flex-column pt-4">
-            <span class="body-4-medium">{{auction.status !== 'live' ? '-' : auction.remaining_time}}</span>
+            <span class="body-4-medium text-capitalize">{{ isExpired || auction.status !== LIVE_STATUS ? '-' : auction.remaining_time }}</span>
           </b-col>
-          <b-col sm="12" md="1" class="d-flex justify-content-around flex-column pt-4"
-                 :class="{' text-green ' :auction.status==='live'}">
-            <span class="body-4-medium">{{$t('auction.duration_type.' + auction.status)}}</span>
+          <b-col
+            sm="12"
+            md="1"
+            class="d-flex justify-content-around flex-column pt-4"
+            :class="{'text-green' : !isExpired && auction.status === LIVE_STATUS, 'text-danger': isExpired && auction.status === LIVE_STATUS }"
+          >
+            <span class="body-4-medium">{{ (isExpired && auction.status === LIVE_STATUS) ? $t('bids.expired') : $t('auction.status_array.' + auction.status) }}</span>
           </b-col>
         </template>
       </b-row>
@@ -104,15 +108,15 @@
         <b-col sm="12" md="1" class="py-1">
           <div class="d-flex justify-content-between d-md-block">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.time_remaining') }}:</span>
-            <span class="body-9-regular text-gray-6">{{auction.status !== 'live' ? '-' : auction.remaining_time}}</span>
+            <span class="body-9-regular text-gray-6">{{ isExpired || auction.status !== LIVE_STATUS ? '-' : auction.remaining_time }}</span>
           </div>
         </b-col>
         <b-col sm="12" md="1" class="py-1 bg-lightgrey">
           <div class="d-flex justify-content-between d-md-block">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.status') }}:</span>
             <span class="body-9-regular text-gray-6"
-                  :class="{' text-green ' :auction.status==='live'}">
-              {{$t('auction.status_array.' + auction.status)}}
+            :class="{'text-green' : !isExpired && auction.status === LIVE_STATUS, 'text-danger': isExpired && auction.status === LIVE_STATUS }">
+            {{ (isExpired && auction.status === LIVE_STATUS) ? $t('bids.expired') : $t('auction.status_array.' + auction.status) }}
             </span>
           </div>
         </b-col>
@@ -149,6 +153,7 @@
 <script>
 import CollectionSvg from '~/assets/img/icons/collection.svg'
 import ProductThumb from '~/components/product/Thumb';
+import {EXPIRED_STATUS, LIVE_STATUS} from '~/static/constants';
 import screenSize from '~/plugins/mixins/screenSize';
 export default {
   name: 'CollectionAuction',
@@ -170,7 +175,8 @@ export default {
   },
   data(){
     return {
-      CollectionSvg
+      CollectionSvg,
+      LIVE_STATUS,
     }
   },
   computed:{
@@ -179,6 +185,9 @@ export default {
     },
     isMobileSize() {
       return this.isScreenXS || this.isScreenSM
+    },
+    isExpired() {
+      return this.auction.remaining_time === EXPIRED_STATUS
     }
   }
 }

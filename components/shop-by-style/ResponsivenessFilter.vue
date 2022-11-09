@@ -4,7 +4,7 @@
     :class="{ scrolled: scrollPosition > 150 }"
   >
     <div class="d-flex align-items-center sf-wrapper">
-      <div @click="open" class="searchbar-filter position-relative w-100">
+      <div class="searchbar-filter position-relative w-100" @click="open">
         <FilterIcon class="filter_icon cursor-pointer" />
       </div>
       <div class="setting-filter d-flex justify-content-start px-0 ml-2">

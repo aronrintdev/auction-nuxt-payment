@@ -1,22 +1,25 @@
 <template>
   <b-navbar toggleable="lg" class="navbar-wrapper border-bottom">
-    <b-navbar-toggle target="top-menu-sidebar">
-      <template #default>
-        <img
-          width="25px"
-          :src="require('~/assets/img/icons/menu.svg')"
-          alt="..."
-        />
-      </template>
-    </b-navbar-toggle>
+    <PortalTarget v-if="showMenuIcon" name="back-icon-slot">
+      <b-navbar-toggle target="top-menu-sidebar">
+        <template #default>
+          <img
+            width="25px"
+            :src="require('~/assets/img/icons/menu.svg')"
+            alt="..."
+          />
+        </template>
+      </b-navbar-toggle>
+    </PortalTarget>
     <b-navbar-brand to="/" class="navbar-brand ml-auto m-lg-0">
       <div class="d-none d-sm-inline-block">
         <Logo :width="171" />
       </div>
       <div class="d-inline-block d-sm-none">
-        <Logo v-if="pageTitle" :width="171"/>
-        <h2 v-else class="meta-info font-primary fs- 18 fw-7 mb-0 text-black">
-          {{ pageTitle }}
+        <h2 class="meta-info font-primary fs-18 fw-7 mb-0 text-black">
+          <PortalTarget name="page-title">
+            <Logo :width="171" />
+          </PortalTarget>
         </h2>
       </div>
     </b-navbar-brand>
@@ -39,26 +42,27 @@
       @hide="handleSearchOverlayHide"
     />
     <b-navbar-nav class="nav-menu-wrapper flex-row d-flex d-lg-none">
-      <b-nav-item v-if='authenticated' to='/profile/notification' class="nav-item-icons">
-        <img
-          height="24px"
-          :src="require('~/assets/img/icons/notification-icon.svg')"
-          alt="..."
-        />
-      </b-nav-item>
-      <b-nav-item v-if='!authenticated' to='/login' class="nav-item-icons">
-        <img
-          height="24px"
-          :src="require('~/assets/img/icons/notification-icon.svg')"
-          alt="..."
-        />
+      <b-nav-item
+        class="nav-item-icons"
+        :to="`${authenticated ? '/profile/notification' : '/login'}`"
+      >
+        <!-- to append custom elements based on different pages in responsive mode  -->
+        <PortalTarget name="notification-icon-slot">
+          <img
+            height="24px"
+            :src="require('~/assets/img/icons/notification-icon.svg')"
+            alt="..."
+          />
+        </PortalTarget>
       </b-nav-item>
       <b-nav-item class="nav-item-icons" to="/checkout/selling">
-        <img
-          height="22px"
-          :src="require('~/assets/img/icons/bag.png')"
-          alt="..."
-        />
+        <PortalTarget name="cart-icon-slot">
+          <img
+            height="22px"
+            :src="require('~/assets/img/icons/bag.png')"
+            alt="..."
+          />
+        </PortalTarget>
       </b-nav-item>
     </b-navbar-nav>
     <b-collapse id="nav-collapse" is-nav class="navbar-collapse">
@@ -113,10 +117,10 @@
           {{ $t('navbar.auction') }}
         </b-nav-item>
         <b-nav-item
-            v-if="authenticated"
-            class="nav-item-profile w-100"
-            to="/profile/preferences"
-            :link-attrs="{ title: $t('navbar.profile') }"
+          v-if="authenticated"
+          class="nav-item-profile w-100"
+          to="/profile/preferences"
+          :link-attrs="{ title: $t('navbar.profile') }"
         >
           {{ $t('navbar.profile') }}
         </b-nav-item>
@@ -124,25 +128,25 @@
     </b-collapse>
     <client-only>
       <vue-bottom-sheet
-          v-if="isScreenXS"
-          ref="searchBottomSheet"
-          :is-full-screen="true"
-          :rounded="false"
-          max-height="100%"
-          max-width="auto"
+        v-if="isScreenXS"
+        ref="searchBottomSheet"
+        :is-full-screen="true"
+        :rounded="false"
+        max-height="100%"
+        max-width="auto"
       >
-        <SearchOverlayMobile ref="searchbar" @close="close"/>
+        <SearchOverlayMobile ref="searchbar" @close="close" />
       </vue-bottom-sheet>
     </client-only>
 
     <!-- Sidebar menu begin -->
     <b-sidebar
-        id="top-menu-sidebar"
-        ref="topSidebar"
-        v-click-outside="onClickOutside"
-        shadow
-        @shown="sidebarIsVisible = true"
-        @hidden="sidebarIsVisible = false"
+      id="top-menu-sidebar"
+      ref="topSidebar"
+      v-click-outside="onClickOutside"
+      shadow
+      @shown="sidebarIsVisible = true"
+      @hidden="sidebarIsVisible = false"
     >
       <div class="top-menu-container">
         <b-nav-form class="search-box-collapse">
@@ -327,10 +331,13 @@ export default {
     pageTitle() {
       return this.$nuxt?.context?.route?.meta[0]?.pageTitle ?? null
     },
+    showMenuIcon(){
+      return this.$route.name !== 'login' && this.$route.name !== 'signup'
+    }
   },
   watch: {
     screenIsSmallThanLG(newVal) {
-      const {topSidebar} = this.$refs
+      const { topSidebar } = this.$refs
       if (!newVal && topSidebar) {
         topSidebar.hide()
       }
@@ -345,8 +352,8 @@ export default {
     this.$root.$off('hideSearchOverlay', this.close)
   },
   methods: {
-    notificationPage(){
-      if(this.authenticated){
+    notificationPage() {
+      if (this.authenticated) {
         this.$router.push({
           path: '/profile/notification',
         })
@@ -385,6 +392,10 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.page-title
+  @include body-3-medium
+
 .locale-popover.popover
   background-color: red
   width: 100%
@@ -403,6 +414,11 @@ export default {
   font-family: $font-family-base
   padding: 31px 16px
   background-color: $color-white-1
+
+  svg text
+    font-family: $font-family-sf-pro-display
+    @include body-18-normal
+
   @media (min-width: 576px)
     padding: 25px 43px
     padding-right: 19px

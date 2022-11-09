@@ -76,12 +76,9 @@
 <script>
 import debounce from 'lodash.debounce'
 import { Icon } from '~/components/common'
-
 export default {
   name: 'SearchInput',
-
   components: { Icon },
-
   props: {
     isOpen: {
       type: Boolean,
@@ -152,13 +149,11 @@ export default {
       default: ''
     }
   },
-
   data() {
     return {
       searchResultShow: false,
     }
   },
-
   computed: {
     inputStyleComputed() {
       let result = { height: this.inputHeight, ...this.inputStyle }
@@ -168,7 +163,6 @@ export default {
       return result;
     }
   },
-
   watch: {
     searchResultShow(newVal, oldVal) {
       if (newVal !== oldVal) {
@@ -184,26 +178,21 @@ export default {
       this.searchResultShow = !!value
       this.showSearchResult(value)
     },
-
     handleEnterKeyDown(event) {
       if (event) event.preventDefault()
       this.$emit('enterKeydown')
     },
-
     handleClearClick() {
       this.handleTextInput('')
       this.$refs.searchInput.focus()
       this.$emit('clear')
     },
-
     handleFocus(e) {
       this.$emit('focus', e)
     },
-
     handleBlur(e) {
       this.$emit('blur', e)
     },
-
     showSearchResult: debounce(function (value) {
       this.$emit('search', value)
     }, 300),
@@ -229,59 +218,47 @@ export default {
     font-size: $font-size-12
 .search-input-wrapper
   position: relative
-
   @media (max-width: 575px)
     margin-left: 7px
-
   &.search-pill
     input.search-input
       border-radius: 40px !important
-
   &.search-lg
     input.search-input
       @include body-4-normal
       height: 60px
       border-radius: 10px
-
   &.search-md
     input.search-input
       @include body-4-regular
       height: 46px
       border-radius: 8px
-
   &.search-sm
     input.search-input
       @include body-5-regular
       height: 36px
       border-radius: 5px
-
   &.search-primary
     input.search-input
       background-color: $color-white-1
-
     &.bordered
       input.search-input
         border: 1px solid $color-gray-4
-
   &.show-results
     &.bordered
       input.search-input
         border-bottom-left-radius: 0
         border-bottom-right-radius: 0
-
   &.search-secondary
     input.search-input
       background-color: $color-gray-3
-
   &.search-light
     input.search-input
       background-color: $color-white-5
-
   &.opened
     input.search-input
       border-bottom-left-radius: 0
       border-bottom-right-radius: 0
-
   img.icon-search
     z-index: 1
     margin-left: 12px
@@ -301,7 +278,6 @@ export default {
     color: $color-black-1
     padding-left: 44px
     margin-left: -33px
-
 .search-results::v-deep
   background-color: transparent
   width: 100%
@@ -309,55 +285,43 @@ export default {
   margin: 0
   border: none
   box-shadow: none
-
   .arrow
     display: none
-
   .popover-body
     padding: 0
-
     >div
       color: $color-black-1
       border-radius: 0
       padding: 0 20px
-
   &.search-sm
     .popover-body >div
       @include body-5-regular
       height: 36px
-
       &:last-child
         border-bottom-left-radius: 5px
         border-bottom-right-radius: 5px
-
   &.search-md
     .popover-body >div
       @include body-4-regular
       height: 46px
-
       &:last-child
         border-bottom-left-radius: 8px
         border-bottom-right-radius: 8px
-
   &.search-lg
     .popover-body >div
       @include body-4-normal
       height: 60px
-
       &:last-child
         border-bottom-left-radius: 10px
         border-bottom-right-radius: 10px
-
   &.search-primary
     .popover-body >div
       background-color: $color-white-1
-
     &.bordered
       .popover-body >div
         border-bottom: 1px solid $color-gray-4
         border-left: 1px solid $color-gray-4
         border-right: 1px solid $color-gray-4
-
   &.search-secondary
     .popover-body >div
       background-color: $color-gray-3

@@ -1,28 +1,38 @@
 <template>
-  <b-row class="w-100">
-    <b-col lg="8" class="w-100 py-1 py-lg-5 px-auto px-md-0">
+
+  <b-row v-if="Object.keys(credentials).length">
+    <b-col  lg="12" class="w-100 py-5 px-5 px-md-0">
+      <TwoFaVerificationCodeForm
+            v-if="Object.keys(credentials).length"
+            :credentials="credentials"
+            class="mt-1 w-100"
+          />
+    </b-col>
+  </b-row>
+  <b-row v-else class="w-100">
+    <b-col lg="8" class="w-100 py-5 px-5 px-md-0">
       <b-row class="h-100">
         <b-col
           md="6"
           offset-md="3"
           class="d-flex flex-column align-items-center justify-content-center"
-        >
-          <b-row
-            class="justify-content-center flex-column align-items-center"
-            ><b-row class="mb-4">
+          >
+            <b-row
+              class="justify-content-center flex-column align-items-center"
+              ><b-row class="mb-4">
               <b-col md="12">
                 <div class="right-heading-bold text-center d-none d-lg-flex">
-                  {{ $t('auth.login_to_your_account') }}  
+                  {{ $t('auth.login_to_your_account') }}
                 </div>
                 <div class="body-5-normal text-color-gray-38 text-center mt-3 d-none d-lg-block">
                   {{ $t('auth.login_via_social_media') }}
                 </div>
               </b-col>
             </b-row>
-            <b-row class="mb-4">
+            <b-row class="mb-3">
               <b-col md="12">
-                <div class="text-center d-block d-lg-none">
-                  <b-img :src="require('~/assets/img/home/logo-mb.png')" class="ds-logo" />
+                <div class="text-center img-main main-mobile-image d-block d-lg-none">
+                  <b-img :src="require('~/assets/img/home/logo-mb.png')" class="ds-logo pt-1" />
                 </div>
                 <div class="welcome-back-text text-center d-block d-lg-none">
                   {{ $t('home.welcome_back') }}
@@ -49,17 +59,11 @@
                   >
                 </div>
               </b-col>
-            </b-row>
-          </b-row>
+            </b-row></b-row
+          >
+          <LoginForm class="mt-5 w-100" @verify="handleVerify" />
 
-          <VerificationCodeForm
-            v-if="Object.keys(credentials).length"
-            :credentials="credentials"
-            class="mt-5 w-100"
-          />
-          <LoginForm v-else class="mt-5 w-100 ml-2 ml-lg-0" @verify="handleVerify" />
-
-          <b-row class="mt-5 w-100 d-block d-lg-none">
+          <b-row class="mt-5 w-100">
             <b-col md="12" class="text-center">
               <b-link
                 class="text-color-black-1 text-decoration-underline"
@@ -82,7 +86,7 @@
           </div>
 
           <SocialLoginButtons class="mt-4 d-block d-lg-none ml-2 mb-5"/>
-          
+
           <b-row class="mt-4 mb-5 d-none d-lg-block">
             <b-col md="12 mb-5">
               <div class="body-5-normal text-color-gray-38 text-center">
@@ -142,11 +146,11 @@
 import Button from '~/components/common/Button'
 import LoginForm from '~/components/Auth/LoginForm'
 import SocialLoginButtons from '~/components/Auth/SocialLoginButtons'
-import VerificationCodeForm from '~/components/Auth/VerificationCodeForm'
+import TwoFaVerificationCodeForm from '~/components/Auth/TwoFaVerificationCodeForm'
 
 export default {
   name: 'Login',
-  components: { VerificationCodeForm, LoginForm, SocialLoginButtons, Button },
+  components: { TwoFaVerificationCodeForm, LoginForm, SocialLoginButtons, Button },
   layout: 'Auth',
   data() {
     return {
@@ -216,7 +220,7 @@ export default {
 .bg-color-white-5
   background: $color-white-5
 .welcome-back-text
-  color: black
+  color: $color-black-1
   font-style: normal
   font-weight: $bold
   font-size: 17px
@@ -247,5 +251,6 @@ export default {
   border-radius: 20px
   padding-right: 27px
   font-weight: 700
-
+.main-mobile-image
+  padding: 16px 0px 0px 10px
 </style>

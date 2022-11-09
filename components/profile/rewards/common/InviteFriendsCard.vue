@@ -194,7 +194,8 @@ export default {
 
 
 ::v-deep.invite-link
-  margin-right: 13px
+  margin-right: 3px
+  margin-left: 20px
 
   &.btn
     @include body-5

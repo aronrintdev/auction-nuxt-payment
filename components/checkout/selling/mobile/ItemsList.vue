@@ -9,7 +9,7 @@
           :product="product"
           product-options
           quantity-controls
-          @item-options-clicked="$emit('item-options-clicked')"
+          @item-options-clicked="$emit('item-options-clicked', product)"
         />
       </div>
       <!-- End of List Item -->

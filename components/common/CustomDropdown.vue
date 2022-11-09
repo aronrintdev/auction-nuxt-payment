@@ -1,40 +1,45 @@
 <template>
-  <div 
-    class="custom-dropdown text-gray" 
+  <div
+    class="custom-dropdown text-gray"
     :style="{
-        'min-width': width, 
-        'height': dropDownHeight, 
+        'min-width': width,
+        'height': dropDownHeight,
         'width': maxWidth,
         'border-radius': !isOpen ? borderRadius : borderRadiusClose,
       }"
     >
-    <div 
-      class="label-wrapper" 
+    <div
+      class="label-wrapper"
       :style="{
-        'padding-left': paddingX, 
-        'padding-right': paddingX, 
-        'min-width': width, 
-        'height': dropDownHeight, 
-        'width': maxWidth, 
+        'padding-left': paddingX,
+        'padding-right': paddingX,
+        'min-width': width,
+        'height': dropDownHeight,
+        'width': maxWidth,
         'border-radius': !isOpen ? borderRadius : borderRadiusClose,
         ...inputStyle
-      }" 
-      :class="`background-${variant} ${bordered && 'bordered'}`" 
+      }"
+      :class="`background-${variant} ${bordered && 'bordered'}`"
       @click="isOpen = !isOpen"
     >
-      <label 
+      <label
         class="font-weight-light m-0 p-0"
         :style="labelStyle"
       >
         <img v-if="labelLeftImage !== null" :src="labelLeftImage" class="mr-2">
         {{label}}
       </label>
-      <i class="pull-right m-0 pr-1 fa fa-2x" :style="arrowStyle" :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"></i>
+      <i
+        class="pull-right mt-1 pr-1 fa fa-2x"
+        :class="isOpen ? 'fa-angle-up' : 'fa-angle-down'"
+        :style="arrowStyle"
+      >
+      </i>
     </div>
-    <ul 
-      v-if="isOpen" 
-      class="custom-dropdown-options" 
-      :class="`${optionsWidth}-color ${bordered && 'bordered'}`" 
+    <ul
+      v-if="isOpen"
+      class="custom-dropdown-options"
+      :class="`${optionsWidth}-color ${bordered && 'bordered'}`"
       :style="{'min-width': width,'border-radius': isOpen ? borderRadiusOptions: '', ...dropdownStyle}"
     >
       <li

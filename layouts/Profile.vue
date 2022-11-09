@@ -4,22 +4,25 @@
 
     <div class="custom-wrapper flex-grow-1">
       <div class="row mb-bb">
-
         <!-- TODO: It will remove after getting confirmation for the new menu design -->
         <div v-if="false" class="col-md-12 col-lg-2">
-
-          <button v-if="screenIsSmallThanLG"
-                  v-b-toggle.sidebar
-                  class="w3-button w3-xlarge w3-hide-large float-left">
+          <button
+            v-if="screenIsSmallThanLG"
+            v-b-toggle.sidebar
+            class="w3-button w3-xlarge w3-hide-large float-left"
+          >
             <span class="text-bold">{{ $t('navbar.profile') }}</span>
             <i class="fa fa-bars"></i>
           </button>
           <!-- BootstrapVue Sidebar: in small devices -->
-          <b-sidebar id="sidebar" ref="mySidebar"
-                     v-click-outside="onClickOutside"
-                     shadow
-                     @shown="sidebarIsVisible = true"
-                     @hidden="sidebarIsVisible = false">
+          <b-sidebar
+            id="sidebar"
+            ref="mySidebar"
+            v-click-outside="onClickOutside"
+            shadow
+            @shown="sidebarIsVisible = true"
+            @hidden="sidebarIsVisible = false"
+          >
             <NewSideMenu id="sidemenu" ref="sidemenu" />
           </b-sidebar>
           <!-- ./BootstrapVue Sidebar -->
@@ -35,18 +38,26 @@
             <button
               v-if="isScreenXS || isScreenSM || isScreenMD"
               v-b-toggle.sidebar
-              class="w3-button w3-xlarge w3-hide-large float-left">
+              class="w3-button w3-xlarge w3-hide-large float-left"
+            >
               <span class="text-bold">{{ $t('navbar.profile') }}</span>
               <i class="fa fa-bars"></i>
             </button>
 
             <!-- new menu area -->
-            <b-sidebar id="sidebar"
-                       ref="mySidebar"
-                       shadow
-                       @shown="sidebarIsVisible = true"
-                       @hidden="sidebarIsVisible = false">
-              <NewSideMenu id="sidemenu" ref="sidemenu" v-click-outside="onClickOutside" :show-title="false"  />
+            <b-sidebar
+              id="sidebar"
+              ref="mySidebar"
+              shadow
+              @shown="sidebarIsVisible = true"
+              @hidden="sidebarIsVisible = false"
+            >
+              <NewSideMenu
+                id="sidemenu"
+                ref="sidemenu"
+                v-click-outside="onClickOutside"
+                :show-title="false"
+              />
             </b-sidebar>
             <NewSideMenu v-if="!isScreenXS && !isScreenSM && !isScreenMD" />
             <!-- new menu area end -->
@@ -55,7 +66,10 @@
         <!-- New menu design end -->
       </div>
 
-      <div class="main-wrapper">
+      <div
+        class="main-wrapper"
+        :class="{ 'mobile-p-b': isScreenXS || isScreenSM }"
+      >
         <Nuxt />
       </div>
     </div>
@@ -74,7 +88,7 @@ import Footer from '~/components/Footer.vue'
 import NewSideMenu from '~/components/profile/NewSideMenu'
 import ScrollToTop from '~/components/common/ScrollToTop.vue'
 import screenSize from '~/plugins/mixins/screenSize'
-import {SCROLLY} from '~/static/constants'
+import { SCROLLY } from '~/static/constants'
 import realtime from '~/plugins/mixins/realtime'
 import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 import BottomNavigation from '~/components/homepage/BottomNavigation.vue'
@@ -127,7 +141,7 @@ export default {
     this.$store.dispatch('notifications/getUnreadCount')
     enquireScreenSizeHandler((type) => {
       this.$store.commit('size/setScreenType', type)
-    });
+    })
     const wrapper = document.querySelector('.main-wrapper')
     if (wrapper.querySelector('.wants-container')) {
       wrapper.style.backgroundColor = '#f7f7f7'
@@ -147,7 +161,7 @@ export default {
       if (mySidebar && this.sidebarIsVisible) {
         mySidebar.hide()
       }
-    }
+    },
   },
 }
 </script>
@@ -163,6 +177,8 @@ export default {
     .main-wrapper
       width: 100%
       background-color: $color-white-4
+      @media (max-width: 576px)
+        min-height: calc(100vh - 200px)
 
 .w3-xlarge
   @include body-1

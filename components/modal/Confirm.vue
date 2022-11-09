@@ -23,12 +23,9 @@
 </template>
 <script>
 import { Button, Modal } from '~/components/common'
-
 export default {
   name: 'ConfirmModal',
-
   components: { Button, Modal },
-
   props: {
     id: {
       type: String,
@@ -51,13 +48,11 @@ export default {
       default: () => {}
     }
   },
-
   methods: {
     handleOkClick() {
       this.$bvModal.hide(this.id)
       this.$emit('confirm')
     },
-
     handleCancelClick() {
       this.$bvModal.hide(this.id)
       this.$emit('cancel')
@@ -67,10 +62,8 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .confirm-modal-content::v-deep
   text-align: center
-
   .message
     @include body-3-regular
     color: $color-black-1

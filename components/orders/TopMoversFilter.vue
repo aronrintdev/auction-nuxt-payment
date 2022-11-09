@@ -291,7 +291,6 @@ export default {
 
 <style scoped lang="sass">
 @import '/assets/css/variables'
-
 .filter-boxes
   border-color: $color-gray-28
 
@@ -314,10 +313,10 @@ export default {
 .header-title
   @include body-4
   font-weight: $normal
-  font-family: $font-family-base
+  font-family: $font-family-sf-pro-display
 
 .apply-button button
-  background: $color-blue-2
+  background: $color-blue-20
   color: $color-white-1
   height: 60px
 
@@ -336,7 +335,7 @@ export default {
   width: 200px
 
 .bg-blue-2.btn.btn-primary
-  background-color: $color-blue-2
+  background-color: $color-blue-20
   border: none
 
 ::v-deep .btn.btn-secondary

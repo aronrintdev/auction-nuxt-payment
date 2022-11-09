@@ -42,8 +42,8 @@ export default {
       banner: {
         title: 'newest_features.instant_shipping.feature_banner_title',
         description: 'newest_features.instant_shipping.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/instant-shipping/instant-shipping-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/instant-shipping/instant-shipping-banner-sm.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/instant-shipping/instant-shipping-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/instant-shipping/instant-shipping-banner-sm.svg'),
       },
       benefits: [
         {

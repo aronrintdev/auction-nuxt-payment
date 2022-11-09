@@ -1,31 +1,29 @@
 <template>
-
   <div>
-
-  <div
-    v-b-tooltip.hover
-    :class="`icon-wrapper ${hoverSrc ? 'pointer-cursor' : ''} ${
-      active && 'active'
-    } ${disableHover && 'no-hover'}`"
-    :title="tooltipText"
-    @click="handleClick"
-  >
-    <img
-      :src="getUrl(hoverSrc)"
-      :alt="altText"
-      :width="width"
-      :height="height"
-      class="icon-hovered"
-    />
-    <img
-      :src="getUrl(src)"
-      :alt="altText"
-      :width="width"
-      :height="height"
-      class="icon-default"
-    />
+    <div
+      v-b-tooltip.hover
+      :class="`icon-wrapper ${hoverSrc ? 'pointer-cursor' : ''} ${
+        active && 'active'
+      } ${disableHover && 'no-hover'}`"
+      :title="tooltipText"
+      @click="handleClick"
+    >
+      <img
+        :src="getUrl(hoverSrc)"
+        :alt="altText"
+        :width="width"
+        :height="height"
+        class="icon-hovered"
+      />
+      <img
+        :src="getUrl(src)"
+        :alt="altText"
+        :width="width"
+        :height="height"
+        class="icon-default"
+      />
+    </div>
   </div>
-</div>
 </template>
 <script>
 export default {
@@ -103,4 +101,3 @@ export default {
   .icon-hovered
     display: none
 </style>
-

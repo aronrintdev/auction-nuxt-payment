@@ -113,8 +113,8 @@ export default {
       banner: {
         title: 'newest_features.selling_on_deadstock.feature_banner_title',
         description: 'newest_features.selling_on_deadstock.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/selling-on-deadstock/sellingbanner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/selling-on-deadstock/sellingbannermobile.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/selling-on-deadstock/sellingbanner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/selling-on-deadstock/sellingbannermobile.svg'),
       },
       shopNowBanner: {
         shopNowDescription:

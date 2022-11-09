@@ -81,8 +81,8 @@ export default {
       banner: {
         title: 'newest_features.promotions.feature_banner_title',
         description: 'newest_features.promotions.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/promotions/promotions-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/promotions/promotions-banner-sm.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/promotions/promotions-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/promotions/promotions-banner-sm.svg'),
       },
       benefits: [
         {

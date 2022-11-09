@@ -1,5 +1,82 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid" v-if="width <= 500">
+    <trade-summary v-if="trade !== null" :trade="trade" />
+    <div class="mt-5 offers-heading pl-30">
+      {{$t('trades.offers' , {'0': tradeOffers.length})}}
+    </div>
+    <div class="d-flex mt-2">
+      <div>
+        <SearchInput
+          :value="searchText"
+          variant="primary"
+          placeholder="Search Offers"
+          :clearSearch="true"
+          @change="onSearchInput"
+          class="searching-box"
+        />
+      </div>
+      <div class="mt-2 ml-3">
+        <img class="float-right image-filter"
+             :src="require('~/assets/img/filterTradeList.svg')"  @click="openBottomFilter()"/>
+        <vue-bottom-sheet
+          ref="browseFiltersSheet"
+          class="more-options"
+          max-width="auto"
+          max-height="90vh"
+          :rounded="true"
+        >
+          <div class="filtersSection">
+            <div class="mt-1 ml-2">
+              <span class="filtersHeading ml-2">{{$t('auctions.frontpage.filterbar.sort')}}</span>
+              <b-form-radio-group
+                class="radios mt-1 mb-1 sorted ml-3"
+                v-model="orderFilter"
+                :options="orderFilterItems"
+                :checked="orderFilter"
+                @change="changeOrderFilter($event, 'CUSTOM_VARIABLE')"
+              />
+            </div>
+            <hr class="hr" />
+            <div class="mt-1 ml-2">
+              <div class="d-flex" v-b-toggle="'collapse-1'">
+                <b-row class="filtersHeading ml-2">
+                  <b-col class="col-sm-6">{{$t('trades.trade_condition')}}</b-col>
+                  <b-col class="col-sm-6">
+                    <div class="d-flex justify-content-end mr-3">
+
+                      <img  v-if="isVisible" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
+                      <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
+                    </div>
+                  </b-col>
+                </b-row>
+              </div>
+              <b-collapse id="collapse-1" v-model="isVisible">
+                <b-row class="row mt-1">
+                  <b-col v-for="(status, key) in conditionFilterItems" :key="'cat-' + key">
+                    <div :value="status" class= "unselected-item m-1 d-flex justify-content-center align-content-center"
+                         @click="changeConditionFilter(status.value)">
+                      {{status.text}}
+                    </div>
+                  </b-col>
+                </b-row>
+              </b-collapse>
+            </div>
+            <hr class="hr" />
+            <div class="d-flex mb-3">
+              <div class="ml-5">
+                <b-btn class="filter-btn" @click="fetchOffersListing">{{$t('common.apply_filters')}}r</b-btn>
+              </div>
+            </div>
+          </div>
+        </vue-bottom-sheet>
+        <b-row v-if="showFilters" class="d-flex justify-content-center m-3" @click="showFilters = !showFilters">
+          <img :src="require('~/assets/img/icons/arrow-up-dark-gray.svg')" />
+        </b-row>
+      </div>
+    </div>
+    <all-offers-items :offerType="offerType" :offers="tradeOffers" />
+  </div>
+  <div class="container-fluid" v-else>
     <b-col md="12" class="pl-54 pt-4">
       <b-row class="heading">{{$t('trades.trade_id')}} #{{ trade && trade.id }}</b-row>
       <b-row class="sub-heading pt-4">{{$t('trades.trade_summary')}}</b-row>
@@ -103,6 +180,10 @@ export default {
   layout: 'Profile',
   data(){
     return {
+      width:'',
+      isVisible:false,
+      showFilters : false,
+      isVisibleSizeType: false,
       TAKE_SEARCHED_PRODUCTS,
       FILTER_CONDITION_POOR,
       FILTER_CONDITION_FAIR,
@@ -136,8 +217,12 @@ export default {
   },
   mounted(){
     this.fetchTradeDetails()
+    this.width = window.innerWidth
   },
   methods:{
+    openBottomFilter() {
+      this.$refs.browseFiltersSheet.open();
+    },
     /**
      * This function is used to change condition filter
      * @param selectedConditions
@@ -178,6 +263,7 @@ export default {
         .then((response) => {
           this.tradeOffers = response.data.data.data
           this.totalOffers = parseInt(response.data.data.total)
+          this.$refs.browseFiltersSheet.close();
         })
         .catch((error) => {
           this.$toasted.error(this.$t(error.response.data.error))
@@ -256,5 +342,79 @@ export default {
 
 .pl-30
   padding-left: 30px
-
+.radios
+  @include body-9
+  font-weight: $normal
+  color: $color-gray-41
+  display: grid
+.filtersHeading
+  @include body-13-bold
+  font-family: $font-sp-pro
+  color: $color-blue-20
+  width: 100%
+.hr
+  border-top: 1px solid $color-gray-62
+  width: 318px
+.unselected-item
+  width: 99px
+  height: 45px
+  border-radius: 3px
+  background: $color-white-1
+  border: 1px solid $color-gray-47
+  @include body-5
+  font-weight: $normal
+  font-family: $font-sp-pro
+  color: $color-gray-47
+  padding-top: 10px
+  cursor: pointer
+.sorted
+  display: grid !important
+.filter-btn
+  width: 130px
+  height: 40px
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $medium
+  font-size: 16px
+  color: $color-white-1
+  background-color: $color-blue-20
+  border-radius: 30px
+  @media (max-width: 350px) and  (min-width: 300px)
+    width: 100px
+    height: auto
+    font-size: 12px
+.selected-catgory
+  @include body-13
+  font-weight: $normal
+  font-family: $font-sp-pro
+  color: $color-black-1
+.selected-item
+  width: 99px
+  height: 45px
+  border-radius: 3px
+  border: 1px solid $color-black-1
+  @include body-5
+  font-weight: $medium
+  font-family: $font-sp-pro
+  color: $color-gray-47
+  padding-top: 10px
+  cursor: pointer
+  background: $color-white-7
+.dates
+  width: 150px
+.resetBtn
+  width: 130px
+  height: 40px
+  border-radius: 30px
+  font-family: $font-sp-pro
+  font-weight: $medium
+  font-style: normal
+  font-size: 16px
+  color:  $color-black-1
+  background-color: $color-white-1
+  margin-left: 10px
+  @media (max-width: 350px) and  (min-width: 300px)
+    width: 100px
+    height: auto
+    font-size: 12px
 </style>

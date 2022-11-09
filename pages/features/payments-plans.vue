@@ -100,8 +100,8 @@ export default {
       banner: {
         title: 'newest_features.payments_plans.feature_banner_title',
         description: 'newest_features.payments_plans.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/payment-plans/payment-plan-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/payment-plans/paymentplansbannermobile.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/payment-plans/payment-plan-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/payment-plans/paymentplansbannermobile.svg'),
       },
       shopNowBanner: {
         shopNowDescription:
@@ -141,7 +141,7 @@ export default {
           description: this.$t(
             'newest_features.payments_plans.benefits.second_benefit_desc'
           ),
-          image: require('~/assets/img/features/newest-feature/payment-plans/timer.png'),
+          image: require('~/assets/img/features/newest-feature/payment-plans/timer.svg'),
         },
         {
           title: this.$t(
@@ -150,7 +150,7 @@ export default {
           description: this.$t(
             'newest_features.payments_plans.benefits.third_benefit_desc'
           ),
-          image: require('~/assets/img/features/newest-feature/payment-plans/using-phone.png'),
+          image: require('~/assets/img/features/newest-feature/payment-plans/using-phone.svg'),
         },
       ],
     }

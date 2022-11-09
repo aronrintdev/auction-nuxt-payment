@@ -84,7 +84,7 @@
           :item="item"
           :selectable="action === 'move' || action === 'remove'"
           :selected="!!selected.find((id) => id == item.id)"
-          class="col-12 col-md-4 col-lg-4 col-xl-3"
+          class="col-12 col-md-4 col-lg-6 col-xl-4"
           @select="selectItem"
         ></WatchlistAuctionCard>
       </div>

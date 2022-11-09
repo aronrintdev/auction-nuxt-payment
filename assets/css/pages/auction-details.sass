@@ -1,8 +1,9 @@
 .auction-details
   .auction-content
     display: flex
+    padding: 0 160px
     &-main
-      flex: 1
+      width: calc(100% - 500px)
       .collection-items-slider
         display: flex
         align-content: center
@@ -19,7 +20,7 @@
           padding: 0 25px
           user-select: none
     &-side
-      width: 560px
+      width: 500px
   .auction-header
     .breadcrumb
       background: transparent
@@ -66,7 +67,6 @@
           img
             margin-right: 0
   .product-details-tabs
-    max-width: 750px
     .nav
       padding: 0
     .nav-link
@@ -162,26 +162,15 @@
         color: $black
         min-height: 22px
   .product-info-box
-    padding: 15px 30px
+    padding: 0 10px 18px
     background: $color-white-2
-    border-radius: 10px
+    border-bottom: 1px solid $color-gray-16f
+    padding-bottom: 18px
     &-title
-      font-family: 'Futura'
-      font-weight: $bold
-      font-size: 24px
-      line-height: 32px
-      letter-spacing: -0.02em
-      text-transform: uppercase
+      font-family: $font-montserrat
       color: $black
-      margin-bottom: 5px
-      margin-right: 20px
-      max-width: 460px
     &-value
-      font-weight: $normal
-      font-size: 18px
-      line-height: 24px
       color: $color-gray-5
-      margin-bottom: 5px
       margin-top: 5px
       white-space: nowrap
   .bid-details
@@ -196,13 +185,6 @@
       letter-spacing: -0.02em
       color: $black
     .place-bid-form
-      display: flex
-      align-items: center
-      justify-content: space-between
-      border: 1px solid $color-blue-1
-      box-sizing: border-box
-      border-radius: 20px
-      padding: 8px 12px
       &-title
         text-align: left
         flex: 1
@@ -302,50 +284,6 @@
         font-size: 15px
         line-height: 18px
         color: $color-white-1
-  .recent-bidding-history
-    background: $color-white-2
-    border-radius: 10px
-    padding: 25px
-    height: 335px
-    overflow: auto
-    scrollbar-width: none
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    &::-webkit-scrollbar
-      display: none
-    &-title
-      font-weight: $medium
-      font-size: 20px
-      line-height: 24px
-      color: $black
-    table
-      width: 100%
-      tbody
-        tr
-          border-top: thin solid $light-gray-2
-      th
-        font-weight: $bold
-        font-size: 15px
-        line-height: 18px
-        text-align: center
-        color: $black
-        padding: 12px
-      td
-        padding: 15px
-        font-style: normal
-        font-weight: $normal
-        font-size: 14px
-        line-height: 17px
-        text-align: center
-        color: $color-gray-5
-        span
-          color: $color-gray-4
-        strong
-          font-size: 15px
-          line-height: 18px
-          color: $black
-          font-weight: $normal
-          display: block
-          margin-bottom: 4px
 .auto-bid-tooltip.tooltip.b-tooltip
   opacity: 1
   .arrow
@@ -425,6 +363,45 @@
               padding: 1em 0
               border-bottom: 1px solid $color-gray-4
               border-right: 1px solid $color-gray-4
+  @media (max-width: 576px)
+    height: calc(100vh - 100px)
+    .modal-dialog
+      margin: 0
+      .modal-content
+        border-radius: 0
+        .modal-body
+          font-family: $font-sp-pro
+          .thresholds-modal-title
+            @include body-2
+          table
+            width: 100%
+            th
+              div
+                background: transparent
+                text-align: left
+                border: none
+                font-weight: $medium
+                @include body-17
+                color: $color-blue-20
+              &.bid-increment
+                div
+                  text-align: right
+                  color: $color-orange-11
+            tbody tr
+              border: none
+              td
+                div
+                  text-align: left
+                  border: none
+                  font-weight: $regular
+                  @include body-5
+                &.bid-increment
+                  div
+                    text-align: right
+          .thresholds-modal-content
+            font-weight: $regular
+            @include body-9
+            letter-spacing: 0.03em
 .size-guide-content
   strong
     color: $color-gray-6
@@ -611,3 +588,14 @@
       .modal-content
         border-radius: 0
         height: 100vh
+.watchlist-popover
+  width: 150px
+  .arrow::before
+    border-bottom-color: $black
+  .share-btn-group
+    width: 120px
+    display: flex
+    align-items: center
+    justify-content: space-between
+    img
+      margin-right: 0

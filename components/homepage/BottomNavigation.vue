@@ -26,8 +26,8 @@
           {{ $t('navbar.shop') }}
         </h6>
       </nuxt-link>
-      <nuxt-link v-if="authenticated" class="navLink" to="/trade">
-        <trade :active="$route.path === '/trade'" />
+      <nuxt-link v-if="authenticated" class="navLink" to="/trades">
+        <trade :active="$route.path === '/trades'" />
         <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
           {{ $t('navbar.trade') }}
         </h6>

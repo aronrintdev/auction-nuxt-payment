@@ -79,26 +79,26 @@ export default {
       banner: {
         title: 'newest_features.in_app_notifications.feature_banner_title',
         description: 'newest_features.in_app_notifications.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/in-app-notifications/in-app-notifications-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/in-app-notifications/in-app-notifications-banner-sm.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/in-app-notifications/in-app-notifications-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/in-app-notifications/in-app-notifications-banner-sm.svg'),
       },
       benefits: [
         {
-          benefitImage: require('@/assets/img/features/newest-feature/in-app-notifications/get-notified.png'),
+          benefitImage: require('@/assets/img/features/newest-feature/in-app-notifications/get-notified.svg'),
           benefitTitle:
             'newest_features.in_app_notifications.benefits.first_benefit_title',
           benefitDescription:
             'newest_features.in_app_notifications.benefits.first_benefit_desc',
         },
         {
-          benefitImage: require('@/assets/img/features/newest-feature/in-app-notifications/live-updates.png'),
+          benefitImage: require('@/assets/img/features/newest-feature/in-app-notifications/live-updates.svg'),
           benefitTitle:
             'newest_features.in_app_notifications.benefits.second_benefit_title',
           benefitDescription:
             'newest_features.in_app_notifications.benefits.second_benefit_desc',
         },
         {
-          benefitImage: require('@/assets/img/features/newest-feature/in-app-notifications/live-notifications.png'),
+          benefitImage: require('@/assets/img/features/newest-feature/in-app-notifications/live-notifications.svg'),
           benefitTitle:
             'newest_features.in_app_notifications.benefits.third_benefit_title',
           benefitDescription:
