@@ -36,7 +36,6 @@
               </div>
               <VendorPurchaseCustomSelect
                   bordered
-                  :default="purchaseFilter"
                   :options="{
                 '': $t('vendor_purchase.sort_by'),
                 recent_to_old: $t('vendor_purchase.purchase_recent_to_old'),
@@ -56,7 +55,6 @@
               <span class="mb-5p font-secondary body-8-normal text-black ">{{ $t('common.filter_by') }}</span>
               <VendorPurchaseSelectWithCheckbox
                   bordered
-                  :default="purchaseFilter"
                   :options="typeOptions"
                   :title="typeTitle"
                   :updateFilters="activeTypeFilters"
@@ -68,7 +66,6 @@
             <div class="mr-20">
               <VendorPurchaseSelectWithCheckbox
                   bordered
-                  :default="purchaseFilter"
                   :options="productsOptions"
                   :title="statusTitle"
                   :updateFilters="activeStatusFilters"
@@ -706,96 +703,7 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
-.web-padding
-  padding: 45px 54px
 
-.mt-38
-  margin-top: 38px
-
-.mb-36
-  margin-bottom: 36px
-
-.mb-5p
-  margin-bottom: 5px
-  margin-top: 21px
-
-::v-deep.date-calendar
-  width: 170px
-
-.mb-22
-  margin-bottom: 22px
-
-.mr-20
-  margin-right: 20px
-
-.w-120
-  width: 120px
-
-.w-245
-  width: 245px
-
-
-::v-deep.vp-custom-select
-  background: $color-white-1
-  border-radius: 5px
-  height: 38px
-  border: none
-
-  .selected
-    padding: 10px
-    border: none
-    height: 36px
-    text-wrap: none
-    display: flex
-    align-items: center
-
-    div
-      @include body-5-regular
-      font-family: $font-montserrat
-      font-style: normal
-      white-space: nowrap
-      overflow: hidden
-      text-overflow: ellipsis
-
-      &.text-dark
-        color: $color-black-1
-
-      &.text-muted
-        color: $color-gray-5
-
-    &.border
-      border: 1px solid $color-gray-60 !important
-
-
-.input-text
-  @include body-5-regular
-  font-family: $font-montserrat
-  font-style: normal
-  color: $color-black-1
-
-  &::placeholder
-    @include body-5-regular
-    font-family: $font-montserrat
-    font-style: normal
-    color: $color-gray-5
-
-::v-deep.input-field-search
-  padding: 10px 18px
-  background: $color-white-1
-  border: 1px solid $color-gray-60
-  border-radius: 5px
-  height: 38px
-  max-width: 753px
-
-  input
-    height: 36px
-
-    &:focus
-      outline: none
-
-
-.vd-purchases-section
-  background: $white-11
 
 .flex-end-align-col
   align-self: flex-end

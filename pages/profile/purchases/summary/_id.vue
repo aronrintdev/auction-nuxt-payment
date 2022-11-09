@@ -1,13 +1,18 @@
 <template>
-  <div class="container-fluid vd-purchases-section">
+  <div :class="{
+    'web-padding': !isScreenXS
+  }"
+       class="container-fluid vd-purchases-section">
     <div v-if="!isScreenXS">
-      <div v-if="!viewShippingDetails" class="row mb-bb">
-        <div class="col-md-12 col-lg-12 vendor-dashboard-body px-5 py-5">
+      <div v-if="!viewShippingDetails" class="row ">
+        <div class="col-md-12 col-lg-12">
           <!-- Row (Heading/ Search Fields/ Tabs) -->
-          <div class="row mt-md-4 mt-4 vd-purchase-css">
+          <div class="row mb-22">
             <!-- Heading -->
-            <div class="col-12 purchase-heading">
-              {{ $t('vendor_purchase.purchases') }}
+            <div class="col-12 d-flex align-items-center justify-content-between">
+              <div class="heading-13 font-primary">
+                {{ $t('vendor_purchase.purchases') }}
+              </div>
               <Button
                   class="btn-back float-right"
                   to="/profile/purchases"
@@ -20,25 +25,6 @@
                 />
                 {{ $t('vendor_purchase.back_to_purchases') }}
               </Button>
-            </div>
-            <!-- ./Heading -->
-            <!-- TODO: Search Input -->
-            <div class="col-md-8 col-12 col-sm-6 mt-md-4 mt-2">
-              <div class="form browse-search border rounded">
-                <div class="form-group selling-search-input">
-                  <img
-                      :src="require('~/assets/img/icons/search.svg')"
-                      alt="Search"
-                      class="icon-search"
-                  />
-                  <input
-                      id="search-result"
-                      :placeholder="$t('vendor_purchase.search_purchases_summary')"
-                      autocomplete="on"
-                      class="form-control form-input vd-purchases-browse-input"
-                  />
-                </div>
-              </div>
             </div>
           </div>
           <!-- ./Row -->
@@ -258,6 +244,7 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.footer-note
-  margin-top: 20rem
+@import "~/assets/css/variables"
+
+
 </style>
