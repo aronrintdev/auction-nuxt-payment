@@ -401,7 +401,6 @@ export default {
       this.fetchTradesListing()
     },
     fetchTradesListing(){
-      console.log('Listing statusFilter',this.statusFilter)
       this.selected = []
       this.selectAllExpired = false
       this.$axios

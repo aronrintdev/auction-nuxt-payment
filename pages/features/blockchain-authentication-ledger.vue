@@ -55,8 +55,8 @@ export default {
           'newest_features.blockchain_authentication_ledger.feature_banner_title',
         description:
           'newest_features.blockchain_authentication_ledger.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/blockchain-authentication-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/blockchain-authentication-banner-sm.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/blockchain-authentication-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/blockchain-authentication-banner-sm.svg'),
       },
       benefits: [
         {

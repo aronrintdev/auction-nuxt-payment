@@ -178,59 +178,79 @@
   .bulk-select-section
     margin: 20px 0
 
-  .auct-card
-    padding: 20px 20px 10px
-    background: $color-gray-1
-    border: none
-    height: auto
-    .auct-bid-price
-      font-size: 20px
-    .bids-count
-      font-weight: $regular
-      font-size: 12px
-      line-height: 15px
-      margin-bottom: 3px
-    &-quick-btns
-      opacity: 0
-      position: absolute
-      top: 50%
-      left: 50%
-      transform: translate(-50%, -50%)
-      background: $color-white-1
-      border: 0.5px solid $light-gray-2
-      border-radius: 20px
-      padding: 4px 10px
-      z-index: 10
-      .round-btn
-        padding: 4px 20px
-        display: flex
-        align-items: center
-        img
-          width: inherit
-        .popover
-          width: 120px
-          .share-btn-group
-            display: flex
-            align-items: center
-            justify-content: space-between
-            img
-              width: 24px
-              height: 24px
-              margin-right: 0
-      .divider
-        width: 1px
-        height: 15px
-        background: $color-gray-4
-    .auct-card-body
+  .item
+    position: relative
+    &:hover
+      .auct-card
+        &-quick-btns
+          opacity: 1
+    a
+      color: inherit
+    .auct-card
+      padding: 12px
+      background: $color-white-4
+      border: none
       height: auto
-      .auct-card-title
-        font-size: 16px
-        font-weight: $bold
+      .auct-bid-price
+        font-size: 20px
+      .bids-count
+        font-weight: $regular
+        font-size: 12px
+        line-height: 15px
+        margin-bottom: 3px
+      &-quick-btns
+        opacity: 0
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+        background: $color-white-1
+        border: 0.5px solid $light-gray-2
+        border-radius: 20px
+        padding: 4px 10px
+        z-index: 10
+        .round-btn
+          padding: 4px 20px
+          display: flex
+          align-items: center
+          img
+            width: inherit
+          .popover
+            width: 120px
+            .share-btn-group
+              display: flex
+              align-items: center
+              justify-content: space-between
+              img
+                width: 24px
+                height: 24px
+                margin-right: 0
+        .divider
+          width: 1px
+          height: 15px
+          background: $color-gray-4
+      .auct-card-body
+        height: auto
+        .product-image
+          height: 0
+          padding-top: 100%
+          position: relative
+          .thumb-wrapper
+            position: absolute
+            top: 0
+            left: 0
+            width: 100%
+            height: 100%
+      &-title
+        @include body-8-medium
+        font-family: $font-sp-pro
+        color: $black
         overflow: hidden
         text-overflow: ellipsis
         white-space: nowrap
-      .auct-card-text
+      &-text
         @include body-5-regular
+        font-family: $font-sp-pro
         margin-bottom: 6px
         color: $dark-gray
         display: flex
@@ -240,67 +260,97 @@
           white-space: nowrap
         &-size
           white-space: nowrap
-      .auct-card-body-img
-        position: relative
-        height: 0
-        padding-top: 85%
-        img
-          position: absolute
-          width: 100%
-          height: 100%
-          object-fit: contain
-          top: 0
-          left: 0
-      .auct-card-body-title
-        height: auto
-        .bid-description-text
-          font-weight: $medium
-          font-size: 12px
-          line-height: 15px
-        .bid-now-btn
-          border: 1px solid $color-blue-2
-          margin: 5px 0 10px
-          &:hover
-            background: $color-blue-2
-  .collection-product-imgs
-    margin: 0 -10px
-    .collection-product-img
-      flex: 1
-      background: $color-gray-1
-      border-radius: 4px
-      overflow: hidden
+      &-price
+        @include body-2-bold
+        color: $black
+    .auct-card-body-img
       position: relative
-      margin: 10px 10px 0px 10px
-      padding: 5px
-      max-width: 26%
-      &-overlay
+      height: 0
+      padding-top: 85%
+      img
         position: absolute
-        top: 50%
-        left: 50%
-        transform: translate(-50%, -50%)
-        font-size: 24px
-        line-height: 29px
-        color: $color-gray-14
-        background: rgba($white, 0.4)
-        height: 100%
         width: 100%
-        border: 1px solid $color-gray-23
+        height: 100%
+        object-fit: contain
+        top: 0
+        left: 0
+    .auct-card-body-title
+      height: auto
+      .bid-description-text
+        font-weight: $medium
+        font-size: 12px
+        line-height: 15px
+    .bid-now-btn
+      background: $black
+      border: 2px solid $black
+      border-radius: 4px
+      color: $color-white-1
+      @include body-10
+      padding: 4px 16px
+      transform: all 0.3s ease
+      &:hover
+        background: $color-white-1
+        color: $black
+    .collection-product-imgs
+      margin: 0 -10px
+      .collection-product-img
+        flex: 1
+        background: $color-gray-1
         border-radius: 4px
-        display: flex
-        align-items: center
-        justify-content: center
+        overflow: hidden
+        position: relative
+        margin: 10px 10px 0px 10px
+        padding: 5px
+        max-width: 26%
+        &-overlay
+          position: absolute
+          top: 50%
+          left: 50%
+          transform: translate(-50%, -50%)
+          font-size: 24px
+          line-height: 29px
+          color: $color-gray-14
+          background: rgba($white, 0.47)
+          height: 100%
+          width: 100%
+          border: 1px solid rgba($color-gray-23, 0.5)
+          border-radius: 4px
+          display: flex
+          align-items: center
+          justify-content: center
   @media (max-width: 1400px)
     .item
       .collection-product-imgs
         margin: 0 -6px
         .collection-product-img
           margin: 12px 6px 0px 6px
-  @media (max-width: 1200px)
+  @media (max-width: 1024px)
+    padding: 0 30px
+    .auction-carousel
+      .owl-nav
+        &.owl-prev
+          left: -15px
+        &.owl-next
+          right: -30px
+  @media (max-width: 576px)
+    padding: 0 16px
     .item
-      .collection-product-imgs
-        margin: 0 -10px
-        .collection-product-img
-          margin: 9px 10px 0px 10px
+      .bid-now-btn
+        font-size: 10px
+        line-height: 12px
+        padding: 4px 10px
+        height: auto
+      .auct-card
+        padding: 10px
+        &-title,
+        &-text-colorway,
+        &-text-size
+          font-size: 13px
+          line-height: 130%
+        &-price
+          font-size: 12px
+          line-height: 14px
+
 .create-list-modal
   .modal-header
     align-items: center

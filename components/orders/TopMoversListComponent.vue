@@ -252,7 +252,7 @@ export default {
 
         if (!data.orders.next_page_url) {
           $state.complete()
-        }else{
+        } else {
           that.url = data.orders.next_page_url
         }
 
@@ -387,7 +387,7 @@ export default {
 
 .table-heading
   font-family: $font-family-montserrat
-  @include body-4-bold
+  @include body-8-medium
 
 .collapsible-table thead th
   font-family: $font-family-montserrat

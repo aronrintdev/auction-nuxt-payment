@@ -50,23 +50,40 @@
               </b-form-group>
             </ValidationProvider>
           </b-col>
-            <b-col sm="12" md="3">
-            <b-form-group label-for="phoneNumber" class="w-100" :label="$t('vendor_hub.form.phone_number')">
-              <b-input-group>
-                <b-form-input
-                  id="phoneNumber"
-                  :disabled="!isEditModeActive"
-                  :placeholder="$t('vendor_hub.form.phone_number')"
-                  :value="applyForm.phone"
-                  class="rounded-pill field-input"
-                  :class="mobileClass"
-                  type="text"
-                  @input="phoneChanged"></b-form-input>
-                <span v-if="isEditModeActive && !isVerified && codeSent && codeTry===0"
-                      class="verify-button text-right ml-auto my-1 mr-1"
-                      role="button" @click="resendCode">{{ $t('vendor_hub.form.resend_code') }}</span>
-              </b-input-group>
-            </b-form-group>
+          <b-col sm="12" md="3">
+            <ValidationProvider
+              v-slot="validationContext"
+              :name="$t('vendor_hub.form.phone_number')"
+              :rules="{ required: true, min: 7 }"
+              class="w-100"
+            >
+              <b-form-group label-for="phoneNumber" class="w-100" :label="$t('vendor_hub.form.phone_number')">
+                <b-input-group>
+                  <b-form-input
+                    id="phoneNumber"
+                    v-validate="'alpha'"
+                    :disabled="!isEditModeActive"
+                    :placeholder="$t('vendor_hub.form.phone_number')"
+                    :state="getValidationState(validationContext)"
+                    :value="applyForm.phone"
+                    class="rounded-pill field-input"
+                    :class="mobileClass"
+                    @input="phoneChanged"></b-form-input>
+                  <span
+                    v-if="isEditModeActive && !isVerified && codeSent && codeTry===0"
+                    class="verify-button text-right ml-auto my-1 mr-1"
+                    role="button" 
+                    @click="resendCode"
+                  >
+                    {{ $t('vendor_hub.form.resend_code') }}
+                  </span>
+                </b-input-group>
+                <b-form-invalid-feedback>{{
+                    validationContext.errors[0]
+                  }}
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </ValidationProvider>
           </b-col>
             <b-col sm="12" md="3">
             <b-form-group
@@ -144,7 +161,7 @@
               <ValidationProvider
                 v-slot="validationContext"
                 :name="$t('vendor_hub.store_details_tab.shipping_address')"
-                :rules="{ required: true }"
+                :rules="{ required: true, min: 5 }"
                 class="w-100"
               >
                 <b-form-group
@@ -172,22 +189,34 @@
               </ValidationProvider>
             </b-col>
             <b-col sm="12" md="3">
-              <b-form-group
+              <ValidationProvider
+                v-slot="validationContext"
+                :name="$t('vendor_hub.store_details_tab.apt_suite')"
+                :rules="{ required: true, min: 5 }"
                 class="w-100"
-                label-for="aptSuite"
-                :label="$t('vendor_hub.store_details_tab.apt_suite')"
               >
-                <b-input-group>
-                  <b-form-input
-                    id="aptSuite"
-                    v-model="applyForm.suiteno"
-                    :disabled="!isEditModeActive"
-                    :placeholder="$t('vendor_hub.store_details_tab.apt_suite')"
-                    class="rounded-pill field-input"
-                    :class="mobileClass"
-                    type="text"></b-form-input>
-                </b-input-group>
-              </b-form-group>
+                <b-form-group
+                  class="w-100"
+                  label-for="aptSuite"
+                  :label="$t('vendor_hub.store_details_tab.apt_suite')"
+                >
+                  <b-input-group>
+                    <b-form-input
+                      id="aptSuite"
+                      v-model="applyForm.suiteno"
+                      :disabled="!isEditModeActive"
+                      :placeholder="$t('vendor_hub.store_details_tab.apt_suite')"
+                      :state="getValidationState(validationContext)"
+                      class="rounded-pill field-input"
+                      :class="mobileClass"
+                      type="text"></b-form-input>
+                      <b-form-invalid-feedback>{{
+                        validationContext.errors[0]
+                      }}
+                    </b-form-invalid-feedback>
+                  </b-input-group>
+                </b-form-group>
+              </ValidationProvider>
             </b-col>
             <b-col sm="12" md="3">
               <ValidationProvider
@@ -225,7 +254,7 @@
               <ValidationProvider
                 v-slot="validationContext"
                 :name="$t('vendor_hub.form.state')"
-                :rules="{ required: true }"
+                :rules="{ required: true,min: 2 }"
                 class="w-100"
               >
                 <b-form-group
@@ -255,7 +284,7 @@
               <ValidationProvider
                 v-slot="validationContext"
                 :name="$t('vendor_hub.form.zip_code')"
-                :rules="{ required: true }"
+                :rules="{ required: true,min: 5 }"
                 class="w-100"
               >
                 <b-form-group
@@ -272,7 +301,7 @@
                       :state="getValidationState(validationContext)"
                       class="rounded-pill field-input"
                       :class="mobileClass"
-                      type="text"></b-form-input>
+                      type="number"></b-form-input>
                     <b-form-invalid-feedback>{{
                         validationContext.errors[0]
                       }}
@@ -282,27 +311,40 @@
               </ValidationProvider>
             </b-col>
             <b-col sm="12" md="3">
-              <b-form-group
+              <ValidationProvider
+                v-slot="validationContext"
+                :name="$t('vendor_hub.form.country')"
+                :rules="{ required: true }"
                 class="w-100"
-                label-for="phoneNumber"
-                :label="$t('vendor_hub.form.country')"
               >
-                <b-input-group id="countryField">
-                  <b-form-select
-                                 v-model="applyForm.country"
-                                 :disabled="!isEditModeActive" :options="countries"
-                                 class="rounded-pill field-input form-control"
-                                 :class="mobileClass"
-                                 size="sm">
-                    <template #first>
-                      <b-form-select-option :value="null" disabled>{{
-                          $t('vendor_hub.form.country')
-                        }}
-                      </b-form-select-option>
-                    </template>
-                  </b-form-select>
-                </b-input-group>
-              </b-form-group>
+                <b-form-group
+                  class="w-100"
+                  label-for="phoneNumber"
+                  :label="$t('vendor_hub.form.country')"
+                >
+                  <b-input-group id="countryField">
+                    <b-form-select
+                      v-model="applyForm.country"
+                      :disabled="!isEditModeActive" :options="countries"
+                      :state="getValidationState(validationContext)"
+                      class="rounded-pill field-input form-control"
+                      :class="mobileClass"
+                      size="sm"
+                    >
+                      <template #first>
+                        <b-form-select-option :value="null" disabled>{{
+                            $t('vendor_hub.form.country')
+                          }}
+                        </b-form-select-option>
+                      </template>
+                    </b-form-select>
+                  </b-input-group>
+                  <b-form-invalid-feedback>{{
+                      validationContext.errors[0]
+                    }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
+              </ValidationProvider>
             </b-col>
           </b-row>
         </div>

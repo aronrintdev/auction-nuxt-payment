@@ -74,8 +74,8 @@ export default {
       banner: {
         title: 'newest_features.streetwear.feature_banner_title',
         description: 'newest_features.streetwear.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/streetwear/streetwear-banner.png'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/streetwear/streetwear-banner-sm.png'),
+        backgroundImage: require('@/assets/img/features/newest-feature/streetwear/streetwear-banner.svg'),
+        backgroundImageSm: require('@/assets/img/features/newest-feature/streetwear/streetwear-banner-sm.svg'),
       },
       benefits: [
         {

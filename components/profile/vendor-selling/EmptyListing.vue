@@ -39,7 +39,7 @@
         <p class="vd-purchase-browse-now">
           {{ $t('selling_page.list_a_product_today_on_ds') }}
         </p>
-        <Button variant="apply" pill @click="moveToCreateListing">
+        <Button variant="apply-empty" pill @click="moveToCreateListing">
           {{ $t('home.create_listing') }}
         </Button>
       </b-col>
@@ -97,7 +97,8 @@ export default {
   .section-nav
     display: block
   .vd-selling-Inventory
-    margin-top: 3rem
+    .section-nav
+      margin: 1rem 0
     .listing-heading
       font-family: $font-sp-pro
       font-style: normal
@@ -106,19 +107,19 @@ export default {
       align-items: center
       color: $color-black-1
   .vd-purchase-empty
-    .btn-apply
+    .btn-apply-empty
       height: 38px
       left: 770px
       top: 512.66px
       background: $color-blue-20
       border-radius: 21px
+      color: $color-white-1
       
 //On responsive screen media query
 @media (max-width: 576px)
   .section-nav
     display: none
   .vd-selling-Inventory
-    margin-top: 1rem
     .listing-heading
       font-family: $font-montserrat
       font-style: normal

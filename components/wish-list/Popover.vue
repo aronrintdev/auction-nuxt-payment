@@ -115,6 +115,7 @@ export default {
         ids: [this.product.id],
       })
       this.$emit('wishlisted', data)
+      this.$bvModal.hide(`create-list-modal-${this.product.id}`)
       this.$nextTick(() =>
         this.$bvModal.show(`new-list-product-modal-${this.product.id}`)
       )

@@ -4,7 +4,7 @@
     :width="width"
     :height="height"
     alt="DEADSTOCK"
-    class="logo-img"
+    class="logo-img ds-logo"
   />
 </template>
 <script>

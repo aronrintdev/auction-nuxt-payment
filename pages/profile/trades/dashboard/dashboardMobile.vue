@@ -1,5 +1,5 @@
 <template>
-  <div class="container-dashboard d-flex justify-content-center align-content-center mt-5 mb-5">
+  <div class="container-dashboard d-flex justify-content-center align-content-center">
     <div>
      <div class="list-box ml-2 p-1" @click="$router.push('/profile/trades/dashboard/alltradelistings')">
        <div class="heading-trade-listing mt-2 ml-2 ">{{$t('trades.my_trade_listings')}}</div>
@@ -49,16 +49,7 @@ export default {
   components:{
 
   },
-  layout: 'Profile',
-  data(){
-    return {
-
-    }
-  },
-  mounted() {
-  },
-  methods:{
-  }
+  layout: 'Profile'
 }
 </script>
 
@@ -66,7 +57,6 @@ export default {
 @import '~/assets/css/_variables'
 .container-dashboard
   width: 350px
-  height: auto
 .list-box
   width: 160px
   height: 150px

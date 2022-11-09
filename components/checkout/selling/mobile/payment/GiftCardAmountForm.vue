@@ -49,7 +49,7 @@
                       required: true,
                       price: true,
                       min_value: 0,
-                      max_value: $options.filters.formatPrice(selectedGiftCard.amount) }"
+                      max_value: maxPartialAmount }"
                   >
                     <b-input-group>
                       <b-form-input
@@ -106,11 +106,13 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import orderDetailsMixin from '~/plugins/mixins/order-details'
 import Button from '~/components/common/Button'
 
 export default {
   name: 'GiftCardAmountForm',
   components: { ValidationObserver, ValidationProvider, Button },
+  mixins: [ orderDetailsMixin ],
   props: {
     selectedGiftCard: {
       type: Object,
@@ -121,7 +123,7 @@ export default {
     return {
       isPartialAmount: null,
       partialAmount: null,
-      giftCard: {
+      appliedGiftCard: {
         number: null,
         amount: null,
         pin: null,
@@ -135,14 +137,19 @@ export default {
     getGiftCardImage() {
       return require('~/assets/img/preferences/giftcard/GiftCard_1.png')
     },
+    maxPartialAmount(vm) {
+      if (vm.getSubtotal > vm.selectedGiftCard.amount) {
+        return vm.$options.filters.formatPrice(vm.selectedGiftCard.amount)
+      } else {
+        return vm.$options.filters.formatPrice(vm.getSubtotal)
+      }
+    },
     isButtonDisabled(vm) {
       if (typeof vm.isPartialAmount !== 'boolean') {
         return true
       }
 
       return !!(vm.isPartialAmount && !vm.amountApplied);
-
-
     },
   },
   methods: {
@@ -158,19 +165,23 @@ export default {
       this.partialAmount = null
     },
     onSubmit() {
-      this.giftCard.number = this.selectedGiftCard.number
-      this.giftCard.pin = this.selectedGiftCard.pin
-      this.giftCard.image = this.selectedGiftCard.image
+      this.appliedGiftCard.number = this.selectedGiftCard.number
+      this.appliedGiftCard.pin = this.selectedGiftCard.pin
+      this.appliedGiftCard.image = this.selectedGiftCard.image
 
       if (this.isPartialAmount) {
-        this.giftCard.amount = this.partialAmount * 100
-        this.giftCard.remainingAmount = this.selectedGiftCard.amount - this.partialAmount * 100
+        this.appliedGiftCard.amount = this.partialAmount * 100
+        this.appliedGiftCard.remainingAmount = this.selectedGiftCard.amount - this.partialAmount * 100
       } else {
-        this.giftCard.amount = this.selectedGiftCard.amount
-        this.giftCard.remainingAmount = 0
+        this.appliedGiftCard.amount = this.selectedGiftCard.amount - this.getSubtotal < 0
+          ? this.selectedGiftCard.amount
+          : this.getSubtotal
+        this.appliedGiftCard.remainingAmount = this.selectedGiftCard.amount - this.getSubtotal < 0
+          ? 0
+          : this.selectedGiftCard.amount - this.getSubtotal
       }
 
-      this.$emit('gift-card-applied', this.giftCard)
+      this.$emit('gift-card-applied', this.appliedGiftCard)
     }
   }
 }

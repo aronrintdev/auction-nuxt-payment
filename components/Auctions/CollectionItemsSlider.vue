@@ -3,16 +3,16 @@
     ref="carousel"
     class="carousel collection-item-carousel slide-fade"
     :responsive="{
-      0: { items: 3, nav: false, center: false, margin: 15 },
+      0: { items: 3, autoWidth: true, nav: false, center: false, margin: 15 },
     }"
     :mouse-drag="true"
     :dots="false"
-    :loop="true"
-    @changed="onSlide"
+    :loop="false"
   >
     <template #default>
-      <div v-for="(item, idx) in data" :key="idx" class="slide">
-        <Thumb :product="item.inventory.product" />
+      <div v-for="(item, idx) in data" :key="idx" class="slide" :class="{ active: activeIndex === idx }" @click="selectItem(idx)">
+        <Thumb :product="item.inventory.product" overlay />
+        <div v-if="activeIndex === idx" class="bar"></div>
       </div>
     </template>
   </carousel>
@@ -38,7 +38,7 @@ export default {
     };
   },
   watch: {
-    items(newV) {
+    data(newV) {
       this.$refs.carousel?.destroy();
       this.$nextTick(() => this.$refs.carousel?.create());
       this.data = newV;
@@ -48,21 +48,9 @@ export default {
     this.data = this.items;
   },
   methods: {
-    onSlide(event) {
-      if (event.item.index !== 0) {
-        let index = event.item.index - event.page.size
-        const count = event.item.count
-        if (index >= count) {
-          index -= count;
-        }
-        if (index < 0) {
-          index += count;
-        }
-        this.activeIndex = index < 0 ? 0 : index
-      } else {
-        this.activeIndex = 0
-      }
-      this.$emit('change', this.activeIndex)
+    selectItem(idx) {
+      this.activeIndex = idx
+      this.$emit('change', idx)
     }
   }
 }
@@ -71,18 +59,35 @@ export default {
 <style lang="sass" scoped>
   @import '~/assets/css/_variables'
   .collection-item-carousel::v-deep
+    max-width: 100%
+    width: auto
     .owl-carousel
       .owl-item
-        width: 100px
+        width: 90px
         height: 110px
-        border-radius: 4px
-        &:not(.active) + .active
-          &::after
-            content: ''
-            display: block
-            margin-top: 4px
-            margin-left: 20px
-            width: 60px
-            height: 2px
-            background-color: $color-blue-19
+        .slide
+          width: 90px
+          height: 90px
+          .thumb-wrapper
+            border-radius: 4px
+            background: transparent
+            img
+              padding: 8px
+            &:hover
+              cursor: pointer
+              .overlay
+                background: rgba(0, 0, 0, 0.1)
+            .overlay
+              background: rgba(0, 0, 0, 0.05)
+              transition: background 0.5s ease
+        .bar
+          margin-top: 10px
+          margin-left: 15px
+          width: 60px
+          height: 2px
+          background-color: $color-blue-19
+      @media (max-width: 576px)
+        .owl-item
+          .bar
+            margin-top: 8px
 </style>

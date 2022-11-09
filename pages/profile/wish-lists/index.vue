@@ -4,7 +4,7 @@
       <p class="mb-3">
         {{ $t('wish_lists.no_wish_lists') }}
       </p>
-
+ 
       <Button
         v-b-modal.create-list-modal
         variant="primary"
@@ -16,10 +16,24 @@
     </div>
 
     <div v-else>
-      <div class="d-flex justify-content-between header">
+      <div class="d-none d-sm-flex justify-content-between header">
         <div v-if="!!currentWishList" class="title">
           <h2 class="text-truncate mw-800px">{{ currentWishList.name }}</h2>
           <span>({{ totalCount }} items)</span>
+        </div>
+
+        <div
+          class="navigation-tabs d-flex align-items-baseline justify-content-center"
+        >
+          <h3
+            v-for="(tab, index) in tabs"
+            :key="index"
+            class="fs-20 fw-6 font-primary cursor-pointer mr-5 mb-0"
+            :class="[activeTab === tab.value ? 'active' : '']"
+            @click="handleTabs(tab.value)"
+          >
+            {{ tab.label }}
+          </h3>
         </div>
 
         <CheckboxSwitch
@@ -33,7 +47,7 @@
 
       <div
         v-if="!!currentWishList && action === 'none'"
-        class="d-flex align-items-center"
+        class="d-none d-sm-flex align-items-center"
       >
         <div class="btn-categories flex-grow-1 text-center">
           <NavGroup
@@ -75,44 +89,112 @@
           </b-dropdown>
         </div>
       </div>
-
-      <div class="d-flex justify-content-between">
-        <div class="d-flex flex-column flex-shrink-0">
+      <NavGroup
+        v-model="activeTab"
+        nav-key="list-type"
+        class="d-flex d-sm-none mb-4"
+        :data="tabs"
+        @change="handleTabs"
+      />
+      <div class="row">
+        <div class="d-flex flex-column flex-shrink-0 col-12 col-sm-3">
           <section
             v-if="wishLists.length > 0"
             :class="`section-lists ${action !== 'none' ? 'mt' : ''}`"
           >
-            <h5>{{ $t('wish_lists.buying_lists') }}</h5>
+            <h5 class="d-none d-sm-block">
+              {{ $t('wish_lists.buying_lists') }}
+            </h5>
+            <div class="d-none d-sm-block">
+              <div v-for="list in wishLists" :key="list.id" class="px-2">
+                <Button
+                  :pressed="list.id === currentWishList.id"
+                  variant="link"
+                  class="text-truncate mw-300px"
+                  @click="selectWishList(list)"
+                >
+                  {{ list.name }}
+                </Button>
 
-            <div v-for="list in wishLists" :key="list.id" class="px-2">
-              <Button
-                :pressed="list.id === currentWishList.id"
-                variant="link"
-                class="text-truncate mw-300px"
-                @click="selectWishList(list)"
-              >
-                {{ list.name }}
-              </Button>
-
-              <div
-                v-if="
-                  list.id === currentWishList.id &&
-                  currentWishList.privacy === 'public'
-                "
-                class="share-block"
-              >
-                <h6>{{ $t('common.share').toUpperCase() }}</h6>
-                <ShareButton
-                  :url="shareUrl + list.id"
-                  :title="list.name"
-                  :description="shareDescription"
-                />
+                <div
+                  v-if="
+                    list.id === currentWishList.id &&
+                    currentWishList.privacy === 'public'
+                  "
+                  class="share-block"
+                >
+                  <h6>{{ $t('common.share').toUpperCase() }}</h6>
+                  <ShareButton
+                    :url="shareUrl + list.id"
+                    :title="list.name"
+                    :description="shareDescription"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="wishlist-mobile d-block d-sm-none">
+              <div v-for="list in wishLists" :key="list.id" class="mb-4">
+                <div class="d-flex">
+                  <div class="thumb-wrapper">
+                    <Thumb :src="list.image" />
+                  </div>
+                  <div
+                    class="w-100 d-flex flex-column justify-content-between ml-3"
+                  >
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <h4 class="fs-14 fw-6 font-secondary mb-1">
+                          {{ list.name }}
+                        </h4>
+                        <h6
+                          class="fs-12 fw-5 text-gray-5 font-secondary text-capitalize"
+                        >
+                          {{ list.privacy }} List
+                        </h6>
+                      </div>
+                      <div :id="`popover-share-${list.id}`">
+                        <ShareIcon />
+                      </div>
+                    </div>
+                    <nuxt-link
+                      class="btn btn-outline-dark w-100 rounded-pill fs-13 fw-6 font-primary mb-4 text-black"
+                      :to="`/profile/wish-lists/${list.id}`"
+                    >
+                      View List
+                    </nuxt-link>
+                  </div>
+                </div>
+                <button
+                  class="fs-14 fw-5 font-secondary text-gray-47 btn btn-link p-0 mt-3"
+                >
+                  Edit
+                </button>
+                <b-popover
+                  ref="sharePopover"
+                  :target="`popover-share-${list.id}`"
+                  triggers="click"
+                  placement="bottom"
+                  container="body"
+                  custom-class="wishlist-popover"
+                  delay="200"
+                  @show="shareShow = true"
+                  @hidden="shareShow = false"
+                >
+                  <ShareButton
+                    :url="shareUrl + list.id"
+                    :title="list.name"
+                    :description="shareDescription"
+                  />
+                </b-popover>
               </div>
             </div>
           </section>
         </div>
 
-        <div v-if="!!currentWishList" class="section-items flex-grow-1">
+        <div
+          v-if="!!currentWishList"
+          class="section-items d-none d-sm-block col-9"
+        >
           <div
             v-if="!!currentWishList && action !== 'none'"
             class="bulk-select-section"
@@ -190,11 +272,9 @@
                   :variant="BUTTON_VARIANTS[index % 4]"
                   @click="moveSelected(list)"
                 >
-                <div
-                  class="text-truncate mw-300px"
-                >
-                  {{ $t('wish_lists.move_to_list', { list: list.name }) }}
-                </div>
+                  <div class="text-truncate mw-300px">
+                    {{ $t('wish_lists.move_to_list', { list: list.name }) }}
+                  </div>
                 </Button>
               </div>
 
@@ -213,7 +293,7 @@
         </div>
       </div>
     </div>
-
+    <Portal to="page-title"> Wishlist </Portal>
     <CreateWishListModal @created="handleCreated" />
   </b-container>
 </template>
@@ -228,10 +308,10 @@ import ProductCard from '~/components/product/Card.vue'
 import CreateWishListModal from '~/components/modal/CreateWishList'
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar'
 import Pagination from '~/components/common/Pagination'
-
+import Thumb from '~/components/product/Thumb'
+import ShareIcon from '~/assets/icons/ShareIcon'
 export default {
   name: 'WishLists',
-
   components: {
     CheckboxSwitch,
     NavGroup,
@@ -242,6 +322,8 @@ export default {
     CreateWishListModal,
     BulkSelectToolbar,
     Pagination,
+    Thumb,
+    ShareIcon,
   },
 
   layout: 'Profile',
@@ -253,6 +335,11 @@ export default {
   data() {
     return {
       category: 'all',
+      activeTab: 'single-item',
+      tabs: [
+        { label: 'Single Item', value: 'single-item' },
+        { label: 'Shop by Style', value: 'shop-by-style' },
+      ],
       action: 'none', // 'move' or 'remove'
       CATEGORIES: [
         {
@@ -318,9 +405,13 @@ export default {
       addProductsToWishList: 'wish-list/addProductsToWishList',
     }),
 
+    handleTabs(tab) {
+      this.activeTab = tab
+    },
+
     handleCreated(wishList) {
-      this.selectWishList(wishList);
-      this.$forceUpdate();
+      this.selectWishList(wishList)
+      this.$forceUpdate()
     },
 
     // Called when user select a wishlist in the lists
@@ -336,6 +427,10 @@ export default {
         this.currentWishList = null
         this.listProducts = []
       }
+    },
+
+    viewList(wishList) {
+      this.selectWishList(wishList)
     },
 
     // Called when user click move/delete item buttons
@@ -506,12 +601,32 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+@import '~/assets/css/_variables'
+.text-gray-5
+  color: $color-gray-5
+
 .mw-300px
   max-width: 300px
 
 .mw-800px
   max-width: 800px
 
+.navigation-tabs
+  h3
+    color: $color-gray-47
+    &:hover
+      border-bottom: 1px solid $color-gray-47
+    &.active
+      border-bottom: 1px solid $color-black-1
+      color: $color-black-1
+      &:hover
+        border-bottom: 1px solid $color-black-1
+
+::v-deep .nav-group
+  margin: 0
+.wishlist-mobile
+  .thumb-wrapper
+    width: 164px
 .no-itmes
   padding-right: 300px
 </style>

@@ -448,7 +448,7 @@ export default {
   },
   mixins: [screenSize],
   layout: 'Profile',
-  middleware: 'auth',
+  middleware: ['auth', 'vendor'],
   data() {
     return {
       showCheckBox: false,
@@ -507,11 +507,11 @@ export default {
     getOffers() {
       this.isTableBusy = true
       this.$axios
-        .get('/offers', {
+        .get('/offers-received', {
           params: this.searchFilters,
         })
         .then((res) => {
-          this.totalCount = parseInt(res.data.meta.total)
+          this.totalCount = parseInt(res.data.data)
           this.searchFilters.perPage = parseInt(res.data.meta.per_page)
           this.offers = res.data.data
           this.pageCount = parseInt(res.data.meta.last_page)
@@ -573,7 +573,7 @@ export default {
       for (let i = 1; i <= this.pageCount; i++) {
         this.searchFilters.page = i
         this.$axios
-          .get('/offers', {
+          .get('/offers-received', {
             params: this.searchFilters,
           })
           .then((res) => {

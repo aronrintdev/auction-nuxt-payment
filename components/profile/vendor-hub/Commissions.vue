@@ -253,7 +253,7 @@
         </b-table>
       </div>
     </div>
-    <div v-if="false" class="d-flex justify-content-around mt-3">
+    <div v-if="!isScreenXS" class="d-flex justify-content-around mt-3">
       <Pagination
           v-if="items.length>0"
           :per-page="perPage"
@@ -392,7 +392,7 @@ export default {
       const container = document.getElementById('profile-layout')
       window.onscroll = (ev) => {
         if (container && !this.dataLoading) {
-          if ((window.innerHeight + window.scrollY) >= container.offsetHeight - 10) {
+          if ((window.innerHeight + window.scrollY) >= container.offsetHeight - 10 && this.isScreenXS) {
             if (this.page < this.lastPage) {
               this.page++
               this.getCommissions()
@@ -440,11 +440,11 @@ export default {
         this.selected = []
       }
     },
-    getCommissions(isNewRecordCollection = false) {
+    getCommissions(isNewRecordCollection = false, page = 1) {
       this.dataLoading = true
       /* start new lazy loading collection */
       if (isNewRecordCollection) {
-        this.page = 1 // lazy loading will start from first page
+        this.page = page // lazy loading will start from first page
         this.items = [] // new lazy loading record list
       }
       this.fetchCommissions(
@@ -537,15 +537,13 @@ export default {
     },
     handlePageClick(bvEvent, page) {
       if (this.page !== page) {
-        this.page = page
-        this.getCommissions()
+        this.getCommissions(true, page)
       }
     },
     handlePerPageChange(value) {
       if (this.perPage !== value) {
         this.perPage = value
-        this.page = 1
-        this.getCommissions()
+        this.getCommissions(true)
       }
     },
     // Show the filter

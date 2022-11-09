@@ -1,24 +1,30 @@
 <template>
   <b-container fluid class="container-profile-inventory h-100 b-gray p-4">
-    <div class="mb-4 d-flex" @click="$router.push('/profile/create-listing')"><b-icon icon="arrow-left" class="font-26"></b-icon>&nbsp;
-    <div class="back-listing" role="button">{{$t('trades.create_listing.back_to_create_listing')}}</div>
+    <div class="mb-4 d-flex" @click="$router.push('/profile/create-listing')">
+      <b-icon icon="arrow-left" class="font-26"></b-icon>&nbsp;
+      <div class="back-listing" role="button">
+        {{ $t('trades.create_listing.back_to_create_listing') }}
+      </div>
     </div>
     <div class="d-flex justify-content-between align-items-center">
-      <h2 class="title">{{$t('trades.create_listing.vendor.wants.drafts')}}</h2>
+      <h2 class="title">
+        {{ $t('trades.create_listing.vendor.wants.drafts') }}
+      </h2>
     </div>
     <b-row class="pr-md-5 pr-lg-5 pr-sm-0 mb-2">
-          <b-col class="col-md-8 col-12 col-sm-6 mt-md-4">
-            <SearchInput
-              :value="searchedText"
-              :placeholder="$t('trades.create_listing.vendor.wants.search_by_options')"
-              size="lg"
-              @change="onSearchInput"
-            />
-          </b-col>
-        </b-row>
+      <b-col class="col-md-8 col-12 col-sm-6 mt-md-4">
+        <SearchInput
+          :value="searchedText"
+          :placeholder="
+            $t('trades.create_listing.vendor.wants.search_by_options')
+          "
+          size="lg"
+          @change="onSearchInput"
+        />
+      </b-col>
+    </b-row>
 
     <div class="d-flex justify-content-center mt-3 align-items-center">
-
       <NavGroup
         :value="type"
         nav-key="list-type"
@@ -28,120 +34,277 @@
     </div>
 
     <Loader v-if="loading" />
-    <div v-else-if="type === LISTING_TYPES.SELLING"> <!-- show drafts for selling -->
+    <div v-else-if="type === LISTING_TYPES.SELLING">
+      <!-- show drafts for selling -->
     </div>
-    <div v-else-if="type === LISTING_TYPES.AUCTION"> <!-- show drafts for auction -->
+    <div v-else-if="type === LISTING_TYPES.AUCTION">
+      <!-- show drafts for auction -->
       <AuctionDraftListing :searchText="searchedText" />
     </div>
-     <!-- show drafts for trades -->
+    <!-- show drafts for trades -->
     <div v-else>
       <b-row>
-        <p class="text-gray">{{$t('trades.create_listing.vendor.wants.recently_added')}}</p>
+        <p class="text-gray">
+          {{ $t('trades.create_listing.vendor.wants.recently_added') }}
+        </p>
       </b-row>
       <b-row>
         <!-- These are the headers shown for the listing of the trade items -->
-        <b-col md="5">{{$t('trades.create_listing.vendor.wants.details')}}</b-col>
-        <b-col md="3">{{$t('trades.create_listing.vendor.wants.items')}}</b-col>
-        <b-col md="2">{{$t('trades.create_listing.vendor.wants.last_updated')}}</b-col>
-        <b-col md="2">{{$t('trades.create_listing.vendor.wants.actions')}}</b-col>
+        <b-col md="5">{{
+          $t('trades.create_listing.vendor.wants.details')
+        }}</b-col>
+        <b-col md="3">{{
+          $t('trades.create_listing.vendor.wants.items')
+        }}</b-col>
+        <b-col md="2">{{
+          $t('trades.create_listing.vendor.wants.last_updated')
+        }}</b-col>
+        <b-col md="2">{{
+          $t('trades.create_listing.vendor.wants.actions')
+        }}</b-col>
       </b-row>
       <!-- These are the body rows shown for the listing of the trade items -->
-      <b-row v-for="(trade, index) in tradeDrafts" :key="trade.id" class="mb-4 col-md-12 draft-row">
+      <b-row
+        v-for="(trade, index) in tradeDrafts"
+        :key="trade.id"
+        class="mb-4 col-md-12 draft-row"
+      >
         <div class="d-flex col-md-12 alignment-center">
-        <b-col md="5">
-          <div v-if="(show === null || show !== index)" class="d-flex" role="button" @click="show = index">
-          <img class="mr-2" :src="require('~/assets/img/icons/draft-list-image.svg')" />
-          <b>
-            <img v-show="show !== index" class="mr-2" :src="require('~/assets/img/icons/triangle-arrow-down.svg')" />
-            {{$t('trades.create_listing.vendor.wants.draft')}} {{(index+1)}}
-           </b>
-          </div>
-          <div v-if="show === index" class="d-flex" role="button" @click="show = null">
-          <img class="mr-2" :src="require('~/assets/img/icons/draft-list-image.svg')" />
-          <b>
-            <img v-show="show === index" class="mr-2" :src="require('~/assets/img/icons/triangle-arrow-up.svg')" />
-            {{$t('trades.create_listing.vendor.wants.draft')}} {{(index+1)}}
-           </b>
-          </div>
-        </b-col>
-        <b-col md="3">{{trade.offers.length}} {{$t('trades.create_listing.vendor.wants.offered')}}/{{trade.wants.length}} {{$t('trades.create_listing.vendor.wants.wants')}}</b-col>
-        <b-col md="2">{{trade.created_at | formatDate}}</b-col>
-        <b-col md="2" class="d-flex justify-between">
-          <img :src="require('~/assets/img/box-pencil.svg')" class="icon-size" role="button" :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="setTradeId(trade.id)"/>
-          <img :src="require('~/assets/img/box-delete.svg')" class="ml-1 icon-size" role="button" :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="deleteTrade(trade.id)" />
-        </b-col>
+          <b-col md="5">
+            <div
+              v-if="show === null || show !== index"
+              class="d-flex"
+              role="button"
+              @click="show = index"
+            >
+              <img
+                class="mr-2"
+                :src="require('~/assets/img/icons/draft-list-image.svg')"
+              />
+              <b>
+                <img
+                  v-show="show !== index"
+                  class="mr-2"
+                  :src="require('~/assets/img/icons/triangle-arrow-down.svg')"
+                />
+                {{ $t('trades.create_listing.vendor.wants.draft') }}
+                {{ index + 1 }}
+              </b>
+            </div>
+            <div
+              v-if="show === index"
+              class="d-flex"
+              role="button"
+              @click="show = null"
+            >
+              <img
+                class="mr-2"
+                :src="require('~/assets/img/icons/draft-list-image.svg')"
+              />
+              <b>
+                <img
+                  v-show="show === index"
+                  class="mr-2"
+                  :src="require('~/assets/img/icons/triangle-arrow-up.svg')"
+                />
+                {{ $t('trades.create_listing.vendor.wants.draft') }}
+                {{ index + 1 }}
+              </b>
+            </div>
+          </b-col>
+          <b-col md="3"
+            >{{ trade.offers.length }}
+            {{ $t('trades.create_listing.vendor.wants.offered') }}/{{
+              trade.wants.length
+            }}
+            {{ $t('trades.create_listing.vendor.wants.wants') }}</b-col
+          >
+          <b-col md="2">{{ trade.created_at | formatDate }}</b-col>
+          <b-col md="2" class="d-flex justify-between">
+            <img
+              :src="require('~/assets/img/box-pencil.svg')"
+              class="icon-size"
+              role="button"
+              :alt="$t('trades.create_listing.vendor.wants.no_image')"
+              @click="setTradeId(trade.id)"
+            />
+            <img
+              :src="require('~/assets/img/box-delete.svg')"
+              class="ml-1 icon-size"
+              role="button"
+              :alt="$t('trades.create_listing.vendor.wants.no_image')"
+              @click="deleteTrade(trade.id)"
+            />
+          </b-col>
         </div>
-        <div v-show="show === index" class=" col-md-12">
-        <b-row  md="12" class="col-md-12 pt-3">
-          <div v-if="trade.offers.length" class="col-md-12">
-            <b-row class="col-md-12">
-              <b-col md="3" class="text-center font-weight-bold">{{$t('trades.create_listing.vendor.wants.offered_items')}}</b-col>
-              <b-col v-for="offerItem in trade.offers" :key="offerItem.id" md="2" class="draft-list-item p-0 mr-5 mt-4">
-                <div class="d-flex justify-content-between mt-2 mx-2">
-                  <div class="create-trade-size-car-sm">{{$t('trades.create_listing.vendor.wants.size')}} {{ offerItem.inventory.size && offerItem.inventory.size.size }}</div>
-                  <div v-if="offerItem.quantity > 1" class="create-trade-quantity-car-sm">x{{ offerItem.quantity || 1 }}</div>
-                </div>
-                <object
-                    :data="`${IMAGE_PATH}/${offerItem.inventory.product && offerItem.inventory.product.category && offerItem.inventory.product.category.name}/${offerItem.inventory.product && offerItem.inventory.product.sku}/800xAUTO/IMG01.jpg`"
-                    class="create-trade-item-image" type="image/png">
-                  <img class="create-trade-item-image mb-2" :src="fallbackImgUrl" alt="image"/>
-                </object>
-                <div class="create-trade-item-caption">
-                  <span :id="`name${offerItem.id}`" class="create-trade-item-name-sm">{{ offerItem.inventory.product && offerItem.inventory.product.name }}</span>
-                  <span :id="`colorway${offerItem.id}`" class="create-trade-item-caption-description-sm">{{ offerItem.inventory.product && offerItem.inventory.product.colorway }}</span>
-                  <span
-                      class="create-trade-item-caption-description-sm">{{$t('trades.create_listing.vendor.wants.box')}}: {{
-                      offerItem.inventory.packaging_condition && offerItem.inventory.packaging_condition.name
-                    }}</span>
-                </div>
-                <!-- tooltip for name -->
-                <b-tooltip :target="`name${offerItem.id}`" triggers="hover">
-                  {{ offerItem.inventory.product.name }}
-                </b-tooltip>
-                <!-- tooltip for colorway -->
-                <b-tooltip :target="`colorway${offerItem.id}`" triggers="hover">
-                  {{ offerItem.inventory.product && offerItem.inventory.product.colorway }}
-                </b-tooltip>
-              </b-col>
-            </b-row>
-          </div>
-          <div v-else>
-            <b-col md="6" class="text-center">({{$t('trades.create_listing.vendor.wants.no_offers_specified')}})</b-col>
-          </div>
-        </b-row>
-        <b-row class="col-md-12 pt-4">
-          <div v-if="trade.wants.length" class="col-md-12 mb-5">
-            <b-row class="col-md-12">
-              <b-col md="3" class="text-center font-weight-bold">{{$t('trades.create_listing.vendor.wants.want_items')}}</b-col>
-              <b-col v-for="wantItem in trade.wants" :key="wantItem.id" md="2" class="draft-list-item p-0 mr-5 mt-4">
-                <div class="d-flex justify-content-between mt-2 mx-2">
-                  <div class="create-trade-size-car-sm">Size {{ wantItem.size && wantItem.size.size }}</div>
-                  <div v-if="wantItem.quantity > 1" class="create-trade-quantity-car-sm">x{{ wantItem.quantity || 1 }}</div>
-                </div>
-                <img class="create-trade-item-image" :src="wantItem.product.image" alt="image"/>
-                <div class="create-trade-item-caption">
-                  <span :id="`want-name${wantItem.id}`" class="create-trade-item-name-sm wd-136">{{wantItem.product.name}}</span>
-                  <span :id="`want-colorway${wantItem.id}`" class="create-trade-item-caption-description-sm">{{wantItem.product.colorway}}</span>
-                  <span class="create-trade-item-caption-description-sm">{{ $t('trades.create_listing.vendor.wants.box') }}: {{wantItem.packaging_condition.name}}</span>
-                </div>
-                <!-- tooltip for name -->
-                <b-tooltip :target="`want-name${wantItem.id}`" triggers="hover">
-                  {{ wantItem.product.name }}
-                </b-tooltip>
-                <!-- tooltip for colorway -->
-                <b-tooltip :target="`want-colorway${wantItem.id}`" triggers="hover">
-                  {{ wantItem.product.colorway }}
-                </b-tooltip>
-              </b-col>
-            </b-row>
-          </div>
-          <div v-else>
-            <b-col md="6" class="text-center">({{$t('trades.create_listing.vendor.wants.want_items')}})</b-col>
-          </div>
-        </b-row>
+        <div v-show="show === index" class="col-md-12">
+          <b-row md="12" class="col-md-12 pt-3">
+            <div v-if="trade.offers.length" class="col-md-12">
+              <b-row class="col-md-12">
+                <b-col md="3" class="text-center font-weight-bold">{{
+                  $t('trades.create_listing.vendor.wants.offered_items')
+                }}</b-col>
+                <b-col
+                  v-for="offerItem in trade.offers"
+                  :key="offerItem.id"
+                  md="2"
+                  class="draft-list-item p-0 mr-5 mt-4"
+                >
+                  <div class="d-flex justify-content-between mt-2 mx-2">
+                    <div class="create-trade-size-car-sm">
+                      {{ $t('trades.create_listing.vendor.wants.size') }}
+                      {{
+                        offerItem.inventory.size &&
+                        offerItem.inventory.size.size
+                      }}
+                    </div>
+                    <div
+                      v-if="offerItem.quantity > 1"
+                      class="create-trade-quantity-car-sm"
+                    >
+                      x{{ offerItem.quantity || 1 }}
+                    </div>
+                  </div>
+                  <object
+                    :data="`${IMAGE_PATH}/${
+                      offerItem.inventory.product &&
+                      offerItem.inventory.product.category &&
+                      offerItem.inventory.product.category.name
+                    }/${
+                      offerItem.inventory.product &&
+                      offerItem.inventory.product.sku
+                    }/800xAUTO/IMG01.jpg`"
+                    class="create-trade-item-image"
+                    type="image/png"
+                  >
+                    <img
+                      class="create-trade-item-image mb-2"
+                      :src="fallbackImgUrl"
+                      alt="image"
+                    />
+                  </object>
+                  <div class="create-trade-item-caption">
+                    <span
+                      :id="`name${offerItem.id}`"
+                      class="create-trade-item-name-sm"
+                      >{{
+                        offerItem.inventory.product &&
+                        offerItem.inventory.product.name
+                      }}</span
+                    >
+                    <span
+                      :id="`colorway${offerItem.id}`"
+                      class="create-trade-item-caption-description-sm"
+                      >{{
+                        offerItem.inventory.product &&
+                        offerItem.inventory.product.colorway
+                      }}</span
+                    >
+                    <span class="create-trade-item-caption-description-sm"
+                      >{{ $t('trades.create_listing.vendor.wants.box') }}:
+                      {{
+                        offerItem.inventory.packaging_condition &&
+                        offerItem.inventory.packaging_condition.name
+                      }}</span
+                    >
+                  </div>
+                  <!-- tooltip for name -->
+                  <b-tooltip :target="`name${offerItem.id}`" triggers="hover">
+                    {{ offerItem.inventory.product.name }}
+                  </b-tooltip>
+                  <!-- tooltip for colorway -->
+                  <b-tooltip
+                    :target="`colorway${offerItem.id}`"
+                    triggers="hover"
+                  >
+                    {{
+                      offerItem.inventory.product &&
+                      offerItem.inventory.product.colorway
+                    }}
+                  </b-tooltip>
+                </b-col>
+              </b-row>
+            </div>
+            <div v-else>
+              <b-col md="6" class="text-center"
+                >({{
+                  $t('trades.create_listing.vendor.wants.no_offers_specified')
+                }})</b-col
+              >
+            </div>
+          </b-row>
+          <b-row class="col-md-12 pt-4">
+            <div v-if="trade.wants.length" class="col-md-12 mb-5">
+              <b-row class="col-md-12">
+                <b-col md="3" class="text-center font-weight-bold">{{
+                  $t('trades.create_listing.vendor.wants.want_items')
+                }}</b-col>
+                <b-col
+                  v-for="wantItem in trade.wants"
+                  :key="wantItem.id"
+                  md="2"
+                  class="draft-list-item p-0 mr-5 mt-4"
+                >
+                  <div class="d-flex justify-content-between mt-2 mx-2">
+                    <div class="create-trade-size-car-sm">
+                      Size {{ wantItem.size && wantItem.size.size }}
+                    </div>
+                    <div
+                      v-if="wantItem.quantity > 1"
+                      class="create-trade-quantity-car-sm"
+                    >
+                      x{{ wantItem.quantity || 1 }}
+                    </div>
+                  </div>
+                  <img
+                    class="create-trade-item-image"
+                    :src="wantItem.product.image"
+                    alt="image"
+                  />
+                  <div class="create-trade-item-caption">
+                    <span
+                      :id="`want-name${wantItem.id}`"
+                      class="create-trade-item-name-sm wd-136"
+                      >{{ wantItem.product.name }}</span
+                    >
+                    <span
+                      :id="`want-colorway${wantItem.id}`"
+                      class="create-trade-item-caption-description-sm"
+                      >{{ wantItem.product.colorway }}</span
+                    >
+                    <span class="create-trade-item-caption-description-sm"
+                      >{{ $t('trades.create_listing.vendor.wants.box') }}:
+                      {{ wantItem.packaging_condition.name }}</span
+                    >
+                  </div>
+                  <!-- tooltip for name -->
+                  <b-tooltip
+                    :target="`want-name${wantItem.id}`"
+                    triggers="hover"
+                  >
+                    {{ wantItem.product.name }}
+                  </b-tooltip>
+                  <!-- tooltip for colorway -->
+                  <b-tooltip
+                    :target="`want-colorway${wantItem.id}`"
+                    triggers="hover"
+                  >
+                    {{ wantItem.product.colorway }}
+                  </b-tooltip>
+                </b-col>
+              </b-row>
+            </div>
+            <div v-else>
+              <b-col md="6" class="text-center"
+                >({{
+                  $t('trades.create_listing.vendor.wants.want_items')
+                }})</b-col
+              >
+            </div>
+          </b-row>
         </div>
       </b-row>
-      <b-row class="col-md-12 justify-content-center" >
+      <b-row class="col-md-12 justify-content-center">
         <Pagination
           v-if="tradeDrafts && tradeDrafts.length > 0"
           v-model="tradePage"
@@ -154,16 +317,17 @@
         />
       </b-row>
     </div>
+    <Portal to="page-title"> Draft </Portal>
   </b-container>
 </template>
 <script>
+import { NavGroup, SearchInput, Loader, Pagination } from '~/components/common'
 import {
-  NavGroup,
-  SearchInput,
-  Loader,
-  Pagination
-} from '~/components/common'
-import {IMAGE_PATH,NAV_TYPES,COMBINATIONS_PER_PAGE_ITEMS,LISTING_TYPES} from '~/static/constants/create-listing'
+  IMAGE_PATH,
+  NAV_TYPES,
+  COMBINATIONS_PER_PAGE_ITEMS,
+  LISTING_TYPES,
+} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import AuctionDraftListing from '~/components/Auctions/DraftListing'
 
@@ -171,7 +335,7 @@ export default {
   name: 'ListingDrafts',
 
   components: {
-    NavGroup,  // Component to show multiple Navigation tabs
+    NavGroup, // Component to show multiple Navigation tabs
     SearchInput, // Component for search and selection of a product
     Loader, // Loader for waiting screen
     Pagination, // The pagination component to be used, by default showing 4 items
@@ -181,9 +345,6 @@ export default {
   layout: 'Profile', // Layout
 
   fetchOnServer: false,
-  meta: {
-    pageTitle: 'Draft',
-  },
   data() {
     return {
       IMAGE_PATH, // image production api url
@@ -201,22 +362,22 @@ export default {
       type: LISTING_TYPES.TRADE,
     }
   },
-  computed:{
+  computed: {
     draftsListing() {
       return this.tradeDrafts
-    }
+    },
   },
   mounted() {
     this.getTradeDrafts()
   },
   methods: {
     /**
-    * Translate naviation types labels
-    * @return {array}
-    */
+     * Translate naviation types labels
+     * @return {array}
+     */
     translateNavigationTypesLabels() {
       return NAV_TYPES.map((nav) => {
-        return { label: this.$t(nav.label), value: nav.value}
+        return { label: this.$t(nav.label), value: nav.value }
       })
     },
 
@@ -238,8 +399,8 @@ export default {
       this.$axios
         .delete('trades/multiple', {
           data: {
-            trade_ids: String(tradeId)
-          }
+            trade_ids: String(tradeId),
+          },
         })
         .then(() => {
           this.tradeDrafts.splice(index, 1)
@@ -259,24 +420,24 @@ export default {
      */
     getTradeDrafts() {
       this.$axios
-      .get('trades', {
-        params: {
-          search: this.searchedText,
-          per_page: this.tradePerPage,
-          page: this.tradePage,
-          status: 'draft'
-        }
-      })
-      .then((response) => {
-        this.tradeDrafts = response.data.data.data // array of listing of drafts
-        this.tradeTotalCount = parseInt(response.data.data.total) // total record count
-        this.$store.commit('trades/setTradeDraftCount',this.tradeTotalCount) // storing record count in state
-        this.tradePerPage = parseInt(response.data.data.per_page) // per page counts
-      })
-      .catch((error) => {
-        this.$toasted.error(this.$t(error.response.data.error))
-        this.tradeDrafts =  []
-      })
+        .get('trades', {
+          params: {
+            search: this.searchedText,
+            per_page: this.tradePerPage,
+            page: this.tradePage,
+            status: 'draft',
+          },
+        })
+        .then((response) => {
+          this.tradeDrafts = response.data.data.data // array of listing of drafts
+          this.tradeTotalCount = parseInt(response.data.data.total) // total record count
+          this.$store.commit('trades/setTradeDraftCount', this.tradeTotalCount) // storing record count in state
+          this.tradePerPage = parseInt(response.data.data.per_page) // per page counts
+        })
+        .catch((error) => {
+          this.$toasted.error(this.$t(error.response.data.error))
+          this.tradeDrafts = []
+        })
     },
     /**
      * This function is used to pass search input query to
@@ -284,7 +445,7 @@ export default {
      * @param term
      */
     onSearchInput(term) {
-      this.searchedText =  term || null
+      this.searchedText = term || null
       this.getTradeDrafts()
     },
 
@@ -337,7 +498,7 @@ export default {
       this.type = type
       if (type !== this.LISTING_TYPES.TRADE) {
         this.LISTING_TYPES.TRADE = type
-        if(type === this.LISTING_TYPES.TRADE) {
+        if (type === this.LISTING_TYPES.TRADE) {
           this.getTradeDrafts()
         }
       }
@@ -385,4 +546,3 @@ export default {
   right: 5px
   margin-top: 8%
 </style>
-

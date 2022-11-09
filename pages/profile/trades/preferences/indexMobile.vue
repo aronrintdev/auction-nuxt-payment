@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="main-container ml-3 m-2 mt-5" v-if="mainPageList">
+  <div class="pt-3 pb-5">
+    <div class="main-container ml-3" v-if="mainPageList">
       <div class="p-2 mt-1" @click="inventorySettings()">
         <div class="d-flex mb-1">
           <div class="inven-set d-flex justify-content-start align-content-start mt-2">{{$t('trades.preferences.inventory_settings')}}</div>
@@ -69,9 +69,6 @@
      <div>
        <your-inventory @updateTotal="setTotalInventory" @change="changePublicInventories" />
      </div>
-      <b-btn class="save-btn-customzie ml-3" @click="savePreference">
-        {{$t('common.save_changes')}}
-      </b-btn>
     </div>
     <div class="mt-2 ml-3 mr-3 mb-5 offer-sections p-2" v-if="showOfferSetting">
       <div>
@@ -90,7 +87,7 @@
         {{$t('trades.preferences.other_traders_will_only_be_able')}}
       </div>
       <div>
-        <b-btn class="save-btn ml-3" @click="savePreference">
+        <b-btn class="save-btn-offer-setting ml-4" @click="savePreference">
           {{$t('common.save_changes')}}
         </b-btn>
       </div>
@@ -118,14 +115,14 @@
           <single-slider :value="accessoriesInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeAccessoriesInterest" />
         </div>
       <div>
-        <b-btn class="save-btn ml-3" @click="savePreference">
+        <b-btn class="save-btn-refine ml-4" @click="savePreference">
           {{$t('common.save_changes')}}
         </b-btn>
       </div>
     </div>
     </div>
 
-    <div class="mt-2 ml-3 mr-3 mb-5 p-2" v-if="sizePre">
+    <div class="mt-2 ml-2 mr-3 p-2" v-if="sizePre">
       <div  class="sizePre-sections">
         <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.size_preferences')}}</div>
         <div class="mt-2 ml-2">
@@ -141,7 +138,7 @@
             </b-row>
           </div>
           <b-collapse id="collapse-1" v-model="isVisible">
-            <b-row class="row mt-1 column-sizes">
+            <b-row class="row mt-1">
               <b-col v-for="(sizeType, key) in filters.size_types" :key="'cat-' + key">
                 <div :value="sizeType" class= "unselected-item m-1 d-flex justify-content-center align-content-center"
                      @click="changeSizeTypeFilter(sizeType)">
@@ -165,7 +162,7 @@
             </b-row>
           </div>
           <b-collapse id="collapse-2" v-model="isVisibleSize">
-            <b-row class="row mt-1 column-sizes">
+            <b-row class="row mt-1">
               <b-col v-for="(size, key) in filterOtherSizes" :key="'cat-' + key">
                 <div :value="size" class= "unselected-item m-1 d-flex justify-content-center align-content-center"
                      @click="changeSizeFilter(size.size)">
@@ -189,7 +186,7 @@
             </b-row>
           </div>
           <b-collapse id="collapse-3" v-model="isVisibleApp">
-            <b-row class="row mt-1 column-sizes">
+            <b-row class="row mt-1">
               <b-col v-for="(app, key) in filterApparelSizes" :key="'cat-' + key">
                 <div :value="app" class= "unselected-item m-1 d-flex justify-content-center align-content-center"
                      @click="changeApparelSizeFilter(app.size)">
@@ -201,16 +198,15 @@
         </div>
       </div>
       <div>
-        <b-btn class="save-btn ml-3" @click="savePreference">
+        <b-btn class="save-btn-size ml-4" @click="savePreference">
           {{$t('common.save_changes')}}
         </b-btn>
       </div>
     </div>
-
-    <div class="mt-2 ml-3 mr-3 mb-5 p-2" v-if="brandsPre">
+    <div class="mt-2 ml-2 mr-3 p-2" v-if="brandsPre">
       <div  class="brand-sections">
         <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.size_preferences')}}</div>
-        <b-row class="images-row">
+        <b-row>
           <b-col v-for="(brand,index) in filters.brands" :key="index">
               <div class="m-2">
                 <img :src="brand.image" class="brand-image" @click="changeSelectedBrands(brand._id)">
@@ -219,13 +215,16 @@
         </b-row>
       </div>
       <div>
-        <b-btn class="save-btn ml-3" @click="savePreference">
+        <b-btn class="save-btn-brand" @click="savePreference">
           {{$t('common.save_changes')}}
         </b-btn>
       </div>
     </div>
-
-
+    <div v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM">
+      <b-btn class="save-btn-customzie ml-5" @click="savePreference">
+        {{$t('common.save_changes')}}
+      </b-btn>
+    </div>
     <div class="main-pref-container">
       <b-row class="justify-content-center pt-4">
         <Button variant="grey-light" pill @click="$bvModal.show('resetModel')">
@@ -306,7 +305,6 @@ export default {
     ...mapGetters('browse', ['filters']), // getter for getting list of filters data
   },
   mounted() {
-    // console.log('filters',this.filters)
     this.filterApparelSizes = this.filters?.sizes?.filter(function (size) {
       return size.type === APPAREL_SIZE_TYPE
     })
@@ -459,9 +457,7 @@ export default {
      * @param selectedCategory
      */
     changeStatus(selectedStatus) {
-      console.log('selectedStatus',selectedStatus)
       if(selectedStatus === 'customize') {
-        console.log('come in')
         this.showInventory = false
       }
       this.inventoryStatus = selectedStatus
@@ -528,7 +524,6 @@ export default {
 
 .main-pref-container
   background: $color-white-1
-  //padding: 50px
 
 .inventory-settings
   background: $color-white-1
@@ -584,7 +579,7 @@ export default {
   min-width: 75px
   @include body-9-regular
 .main-container
-  height: 600px
+  //height: 600px
   width: 343px
   border-radius: 10px
   background: $color-white-1
@@ -602,9 +597,9 @@ export default {
 .link-text
   font-family: $font-family-sf-pro-display
   font-style: normal
-  @include body-21-normal
+  @include body-6
   text-decoration-line: underline
-  color: $color-gray-95
+  color: #000000
 .chev-img
   height: 15px
   width: 7px
@@ -627,9 +622,9 @@ export default {
   border-radius: 10px
 .customize-cont
   width: 343px
-  height: 620px
+  height: 450px
   background: $color-white-1
-  box-shadow: 0px 1px 4px $color-black-rgb2
+  box-shadow: 0 1px 4px $color-black-rgb2
   border-radius: 10px
 .list-text
   font-family: $font-family-sf-pro-display
@@ -654,12 +649,37 @@ export default {
   height: 40px
   width: 270px
   margin-top: 1rem
+.save-btn-size
+  background: $color-blue-20
+  border-radius: 20px
+  height: 40px
+  width: 270px
+  margin-top: 1rem
+.save-btn-brand
+  background: $color-blue-20
+  border-radius: 20px
+  height: 40px
+  width: 270px
+  margin-top: 1rem
+  margin-left: 2.3rem
+.save-btn-offer-setting
+  background: $color-blue-20
+  border-radius: 20px
+  height: 40px
+  width: 270px
+  margin-top: 1.5rem
 .save-btn-customzie
   background: $color-blue-20
   border-radius: 20px
   height: 40px
   width: 270px
   margin-top: 1rem
+.save-btn-refine
+  background: $color-blue-20
+  border-radius: 20px
+  height: 40px
+  width: 270px
+  margin-top: 2rem
 .offer-sections
   width: 343px
   height: 200px
@@ -691,7 +711,7 @@ export default {
   color: $color-black-1
 .refine-sections
   width: 343px
-  height: 450px
+  height: 400px
   background: $color-white-1
   border-radius: 10px
   box-shadow: 0 1px 4px $color-black-rgb1
@@ -705,14 +725,15 @@ export default {
   color: $color-black-1
 .sizePre-sections
   width: 343px
-  height: 550px
+  //height: 550px
   background: $color-white-1
   border-radius: 10px
   box-shadow: 0 1px 4px $color-black-rgb1
   padding-top: 20px
+  padding-bottom: 20px
 .brand-sections
   width: 343px
-  height: 350px
+  //height: 350px
   background: $color-white-1
   border-radius: 10px
   box-shadow: 0 1px 4px $color-black-rgb1

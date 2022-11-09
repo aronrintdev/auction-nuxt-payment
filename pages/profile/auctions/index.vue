@@ -227,7 +227,7 @@
       />
     </template>
     <template v-else>
-      <infinite-loading :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
+      <infinite-loading :key="`${status}-${totalCount}-${sortBy}`" :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
     </template>
     <!-- For mobile filters begin -->
     <vue-bottom-sheet
@@ -482,8 +482,8 @@ export default {
         search: this.search,
         sort_by: this.sortBy,
         types: this.activeTypeFilters.map(filter => filter.value).filter(filter => filter),
-        start_date: this.start_date,
-        end_date: this.end_date,
+        start_date: this.start_date ? this.$moment(this.start_date).format('YYYY-MM-DD') : null,
+        end_date: this.end_date ? this.$moment(this.end_date).format('YYYY-MM-DD') : null,
         category: this.duration === 'all' ? null : this.duration,
       }
       if(this.activeStatusFilters.length) {
@@ -599,6 +599,7 @@ export default {
     },
 
     onMobileFilter(filters) {
+      this.page = 1
       this.activeStatusFilters = filters.activeStatusFilters;
       this.activeTypeFilters = filters.activeTypeFilters;
       this.sortBy = filters.sortBy;
@@ -614,8 +615,8 @@ export default {
         search: this.search,
         sort_by: this.sortBy,
         types: this.activeTypeFilters.map(filter => filter.value).filter(filter => filter),
-        start_date: this.start_date,
-        end_date: this.end_date,
+        start_date: this.start_date ? this.$moment(this.start_date).format('YYYY-MM-DD') : null,
+        end_date: this.end_date ? this.$moment(this.end_date).format('YYYY-MM-DD') : null,
         category: this.duration === 'all' ? null : this.duration,
       }
       if(this.activeStatusFilters.length) {
@@ -628,7 +629,6 @@ export default {
       }
       this.fetchAuctions(payload).then(res => {
         this.totalCount = res.data.total
-
         if (this.totalCount <= this.getAuctions.length) {
           $state.complete()
         }

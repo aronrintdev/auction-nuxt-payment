@@ -1,5 +1,5 @@
 <template>
-  <div class="row align-items-center py-1">
+  <div class="row align-items-center py-1 sf-pro">
     <div class="col d-none d-md-block">
       <div class="d-flex align-items-center">
         <div v-if="isSelectable">
@@ -163,7 +163,7 @@
                 <div class="pb-2"><img :src="product(item).image" height="70" alt=""></div>
               </div>
               <div>
-                <div class="title">{{ product(item).name }}</div>
+                <div class="title">{{ product(item).name | wordLimit }}</div>
                 <div class="sku">{{ $t('orders.sku') }}: {{ product(item).sku }}</div>
                 <div class="attribute">{{ $t('orders.colorway') }}: {{ product(item).colorway }},
                   {{
@@ -180,7 +180,7 @@
           <div class="col"></div>
 
           <div class="col">
-            <div :class="`text-center status m-auto ${styleFor(item.status_label)}`">{{ item.status_label }}</div>
+            <div v-if="item.status_label!=='voided'" :class="`text-center status m-auto ${styleFor(item.status_label)}`">{{ item.status_label }}</div>
           </div>
 
           <div class="col-2">

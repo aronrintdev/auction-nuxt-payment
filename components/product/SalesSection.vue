@@ -1,9 +1,9 @@
 <template>
   <b-row class="h-100">
     <b-col md="12">
-      <b-tabs content-class="mt-0 mt-sm-3" nav-class="pb-2">
-        <b-tab 
-          title-link-class="body-2-bold border-0 pl-2 d-none d-sm-block" 
+      <b-tabs content-class="mt-0 mt-sm-3" nav-class="pb-2 pl-sm-3">
+        <b-tab
+          title-link-class="body-2-bold border-0 p-0 w-160 d-none d-sm-block"
           :title="$t('products.sales_graph')"
         >
           <b-row class="d-none d-sm-block">
@@ -17,7 +17,7 @@
             </b-col>
           </b-row>
         </b-tab>
-        <div class="d-flex pt-2 flex-column d-sm-none">
+        <div class="d-flex mx-3 p-3 flex-column d-sm-none mobile-section">
           <div class="d-flex justify-content-between align-items-center">
             <div class="body-5-medium text-black">{{ $t('products.latest_sales') }}</div>
             <Icon
@@ -48,28 +48,28 @@
           </div>
 
           <div class="d-flex d-sm-none justify-content-between mt-2 h-auto">
-            <div 
-              class="chart-button col-3"
+            <div
+              class="chart-button d-flex align-items-center justify-content-center col-3"
               @click="$root.$emit('bv::collapse::state', 'recent-asks-collapse', true)"
             >
               {{ $t('products.asks') }}
             </div>
-            <div 
-              class="chart-button col-3"
+            <div
+              class="chart-button d-flex align-items-center justify-content-center col-3"
               @click="$root.$emit('bv::collapse::state', 'recent-offers-collapse', true)"
             >
               {{ $t('products.offers') }}
             </div>
-            <div 
-              class="chart-button col-3"
+            <div
+              class="chart-button d-flex align-items-center justify-content-center col-3"
               @click="$root.$emit('bv::collapse::state', 'recent-sales-collapse', true)"
             >
               {{ $t('products.sales') }}
             </div>
           </div>
         </div>
-        <b-tab 
-          title-link-class="body-2-bold border-0 pl-5 d-none d-sm-block" 
+        <b-tab
+          title-link-class="body-2-bold border-0 p-0 w-160 text-center d-none d-sm-block"
           :title="$t('products.sales_data')"
         >
           <b-row>
@@ -93,7 +93,7 @@
               <Button v-b-toggle.recent-offers-collapse block variant="outline-dark" class="text-left">
                 <template #default>
                   <div class="d-flex align-items-center">
-                    <span class="pull-left">{{ $t('products.recent_offers') }}</span>
+                    <span class="pull-left dropdown-label">{{ $t('products.recent_offers') }}</span>
                     <b-img v-if="isRecentOffersShown" :src="require('~/assets/img/icons/arrow-up-gray.svg')" class="ml-auto" />
                     <b-img v-else :src="require('~/assets/img/icons/arrow-down-gray.svg')" class="ml-auto" />
                   </div>
@@ -109,7 +109,7 @@
               <Button v-b-toggle.recent-asks-collapse block variant="outline-dark" class="text-left">
                 <template #default>
                   <div class="d-flex align-items-center">
-                    <span class="pull-left">{{ $t('products.recent_asks') }}</span>
+                    <span class="pull-left dropdown-label">{{ $t('products.recent_asks') }}</span>
                     <b-img v-if="isRecentAsksShown" :src="require('~/assets/img/icons/arrow-up-gray.svg')" class="ml-auto" />
                     <b-img v-else :src="require('~/assets/img/icons/arrow-down-gray.svg')" class="ml-auto" />
                   </div>
@@ -195,39 +195,51 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.mobile-section
+  box-shadow: 0px 1px 2px $color-black-rgb2
+  border-radius: 8px
+
+.dropdown-label
+  @include body-4-medium
+  font-family: $font-family-sf-pro-display
+  color: $color-black-1
+
 .chart-button
-  @include body-5
+  @include body-5-medium
   height: 34px
   border: 1px solid $color-gray-23
   border-radius: 4px
-  font-weight: $medium
   color: $color-black-1
-  display: flex
-  align-items: center
-  justify-content: center
 
 .chart-header
-  @include body-2
+  @include body-2-bold
   font-family: $font-family-sf-pro-display
-  font-weight: $bold
 
 ::v-deep
   .nav-tabs
     border: 0 !important
-    @media (min-width: 574px)
+    @media (min-width: 576px)
       border-bottom: 0.5px solid $color-gray-23 !important
 
 .text-color-gray-5
   color: $color-gray-5
 
+::v-deep
+  .nav-tabs
+    @media (min-width: 576px)
+      border-bottom: 0.5px solid $color-gray-23 !important
+
 /* Overriding admin-lite theme styles */
 ::v-deep
   .nav-link
-    color: $color-gray-4
+    @include body-2-bold
+    color: $color-gray-47
+    font-family: $font-family-sf-pro-display
     &:hover
       color: $color-gray-4
     &.active
       color: $color-black-1
+      background-color: transparent
       &:hover
         color: $color-black-1
 
@@ -243,8 +255,10 @@ export default {
 
 /* Collapse buttons custom styles */
 .btn
+  padding: 0 14px
   &.btn-block
     &.btn-outline-dark
+      height: 59px
       border: 1px solid $color-gray-47
 
       &:hover
