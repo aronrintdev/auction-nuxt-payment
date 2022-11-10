@@ -1,14 +1,10 @@
 <template>
   <div>
-    <div v-if="!isScreenXS" class="row my-5">
-      <div class="col-6 col-md-3">
-        <h1 class="heading-1-bold mb-0 heading font-secondary">
-          {{ $t('vendor_dashboard.top_products') }}
-        </h1>
-      </div>
-      <div class="col-md-6 d-sm-flex justify-content-center d-none">
-        <NavGroup :data="menus" :value="activeNav" @change="navItem"/>
-      </div>
+    <div v-if="!isScreenXS" class="d-flex align-items-center justify-content-between">
+      <h1 class="heading-1-bold mb-0 heading font-secondary">
+        {{ $t('vendor_dashboard.top_products') }}
+      </h1>
+      <NavGroup :data="menus" :value="activeNav" @change="navItem"/>
       <div class="col-6 col-md-3 d-flex justify-content-end align-items-center" role="button">
         <a
             class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
@@ -36,7 +32,14 @@
           class="productTable"
           no-border-collapse
           tbody-tr-class="bg-white"
+          :busy="loading"
+          :show-empty="!loading && topProducts.length === 0"
       >
+        <template #table-busy>
+          <div class="d-flex align-items-center justify-content-center">
+            <Loader :loading="loading"/>
+          </div>
+        </template>
         <template #cell(product)="row">
           <div class="d-flex align-items-center gap-3 mb-2 mb-sm-0" role="button"
                @click="$router.push('/profile/inventory')">
@@ -125,10 +128,11 @@
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import screenSize from '~/plugins/mixins/screenSize';
+import Loader from '~/components/common/Loader';
 
 export default {
   name: 'TopProductsTable',
-  components: {NavGroup, ProductThumb},
+  components: {Loader, NavGroup, ProductThumb},
   mixins: [screenSize],
   data() {
     return {
@@ -237,6 +241,7 @@ export default {
           value: '3',
         },
       ],
+      loading: false
     }
   },
   mounted() {
@@ -254,6 +259,7 @@ export default {
       return Object.keys(item.month_graph)
     },
     getTopProducts() {
+      this.loading = true
       this.$axios
           .get('/dashboard/vendor/top-products?category_id=' + this.activeNav)
           .then((res) => {
@@ -261,7 +267,9 @@ export default {
           })
           .catch((err) => {
             this.logger.logToServer(err.response)
-          })
+          }).finally(() => {
+        this.loading = false
+      })
     },
   },
 }
