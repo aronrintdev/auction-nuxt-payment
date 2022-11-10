@@ -8,11 +8,14 @@
               <div class="left-side-image ml-2 mt-2" :class="{'left-item-margin':lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length}">
                 <div class="item-head-trade-hub-mobile">{{ $t('trades.trade_arena.theirs') }}</div>
                 <div v-for="(item) in lastSubmittedOffer.theirs_items"
-                     :key="item.id" class="mb-4 ml-1"
-                     :class="[((lastSubmittedOffer.theirs_items.length > ONE_ITEM )|| (lastSubmittedOffer.yours_items.length)) ? 'item-length-small' : 'item-normal-small']">
-                  <img class="item-image-small" :src="item.inventory.product | getProductImageUrl"
-                       :class="{'item-image-cond-small':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }"/>
-                  <div class="item-caption">
+                     :key="item.id" class="mb-4 ml-1 mt-2">
+                  <div class="p-2 image-small-size">
+                    <img class="item-image-small" :src="item.inventory.product | getProductImageUrl"
+                         :class="{'item-image-cond-small'
+                       :(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }"/>
+                  </div>
+
+                  <div class="item-caption-small">
                     <span class="item-name-small">{{ item.inventory.product.name }}</span>
                     <span
                       class="item-box-condition-small">Box: {{ item.inventory.packaging_condition.name }}</span>
@@ -36,9 +39,11 @@
                 <div class="item-head-trade-hub-mobile">{{ $t('trades.trade_arena.yours') }}</div>
                 <div v-if="lastSubmittedOffer.yours_items.length" >
                   <div v-for="(item) in lastSubmittedOffer.yours_items"
-                   :key="item.id" class="mb-4">
-                    <img class="item-image-small" :src="item.inventory.product | getProductImageUrl" alt="image"
-                         :class="{'item-image-cond-small':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }" />
+                   :key="item.id" class="mb-4 mt-2">
+                    <div class="p-2 image-small-size">
+                      <img class="item-image-small" :src="item.inventory.product | getProductImageUrl" alt="image"
+                           :class="{'item-image-cond-small':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }" />
+                    </div>
                     <div class="item-caption-small">
                       <span class="item-name-small">{{ item.inventory.product.name }}</span>
                       <span
@@ -531,6 +536,7 @@ export default {
 .item-image-small
   width: 80px
   height: 100px
+
 .item-image-cond-small
   width: 80px
   height: 100px
@@ -572,9 +578,9 @@ export default {
   text-overflow: ellipsis
   display: block
 .left-side-image
-  height: 650px
+  height: 700px
 .right-side-image
-  height: 650px
+  height: 700px
   margin-right: 4rem
 
 .center-item-small
@@ -601,8 +607,9 @@ export default {
   margin-right: 210px
 .item-caption-small
   width: 100px
-  background: $color-gray-1
   padding: 5px 10px
   font-family: $font-family-sf-pro-display
   font-style: normal
+.image-small-size
+  background: $color-gray-1
 </style>
