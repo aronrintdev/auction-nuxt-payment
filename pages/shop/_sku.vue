@@ -3,7 +3,7 @@
     <b-col md="12">
       <Loader v-if="loading" class="min-vh-100" />
 
-      <b-row class="justify-content-center" v-if="product">
+      <b-row v-if="product" class="justify-content-center">
         <b-col md="6" xl="6" class="px-4 px-sm-0">
           <ProductBreadcrumb
             :category="category"
@@ -318,6 +318,7 @@ export default {
       isVendor: 'auth/isVendor',
       isAuthenticated: 'auth/authenticated',
       getSelectedItemforVendor: 'sell-now/getSelectedItem',
+      hasVendorPayoutMethod: 'auth/getVendorPayoutMethod'
     }),
     category() {
       return this.product?.category?.name
@@ -341,6 +342,13 @@ export default {
           i.size_id === this.currentSize &&
           i.packaging_condition_id === this.currentCondition
       )?.price
+    },
+    highestOfferId() {
+      return this.product?.highest_offers?.find(
+        (i) =>
+          i.size_id === this.currentSize &&
+          i.packaging_condition_id === this.currentCondition
+      )?.offer_id
     },
     sizes() {
       return this.product?.sizes || []
@@ -576,10 +584,8 @@ export default {
       })
         .then((res) => {
           this.$store.dispatch('sell-now/selectedItem', res.data.data).then(() => {
-            this.moveToSellNow()
+            return this.moveToSellNow()
           })
-
-          return true
         })
         .catch((err) => {
           this.$logger.logToServer(
@@ -622,6 +628,7 @@ export default {
           price: this.getSelectedItemforVendor.sale_price,
           listing_item_id: this.getSelectedItemforVendor.listing_items[0].id,
           highestOffer: this.highestOffer,
+          selectedOfferId: this.highestOfferId
         }
 
         this.$store.dispatch('sell-now/addItem', sellNowData)

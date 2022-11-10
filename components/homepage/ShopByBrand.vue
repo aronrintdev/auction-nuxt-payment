@@ -4,7 +4,7 @@
       :title="$t('home_page.shop_by_brand')"
       :desc="$t('home_page.shop_by_brand_description')"
       :label="$t('home_page.view_more_brands')"
-      to="#"
+      to="/shop"
     />
     <div class="row brand-list-wrapper">
       <div

@@ -5,16 +5,15 @@
     class="container-style-detail mx-auto"
   >
     <b-row v-if="style">
-
-      <b-col lg="6">
+      <b-col lg="12">
         <b-row>
-          <b-col lg="6" class="d-none d-sm-block">
+          <b-col lg="4" class="d-none d-sm-block">
             <nuxt-link
               :to="`/shop-by-style`">
               <p class="mt-2 backto-css fw-normal">{{ $t('shop_by_style.general.back_to_style') }}</p>
             </nuxt-link>
           </b-col>
-          <b-col lg="6" class="d-none d-sm-block">
+          <b-col lg="4" class="d-none d-sm-block">
             <div class="text-right share-wrapper">
 
               <Button
@@ -38,21 +37,12 @@
 
           </b-col>
         </b-row>
-        <ShopByStyleImageCarousel v-if="!has360Images" :images="style.images" class="mt-4" />
-        <ProductImageViewerMagic360 v-if="has360Images" :product='style.style' class="mt-4" /> 
-        <b-col cols="12" class="d-flex justify-content-center">
-          <Button
-            variant="outline-dark-blue"
-            black-text
-            border="thick"
-            class="mt-5 d-none d-sm-block w-50"
-            @click="handleStyleAddToCart"
-          >
-            {{ $t('shop_by_style.general.add_style_to_bag') }}
-          </Button>
-        </b-col>
       </b-col>
-      <b-col lg="6" class="product-list">
+      <b-col lg="7">
+        <ShopByStyleImageCarousel v-if="!has360Images" :images="style.images" class="mt-4" :mainImage="true" />
+        <ProductImageViewerMagic360 v-if="has360Images" :product='style.style' class="mt-4" />
+      </b-col>
+      <b-col lg="5" class="product-list">
         <p class="items-counter">{{ style.products.length }} {{ $t('common.items') }}</p>
         <ShopByStyleProductCard
           v-for="product in style.products"
@@ -60,19 +50,7 @@
           :key="`product-${product.id}`"
           :product="product"
           @styleProduct="productDetail"
-          :styleID = style.id
         />
-      </b-col>
-      <b-col cols="12" class="d-flex justify-content-center">
-        <Button
-          variant="dark-blue"
-          black-text
-          border="thick"
-          class="mt-5 d-block d-sm-none rounded-pill w-100 text-white"
-          @click="handleStyleAddToCart"
-        >
-          {{ $t('shop_by_style.general.add_style_to_bag') }}
-        </Button>
       </b-col>
     </b-row>
   </b-overlay>
