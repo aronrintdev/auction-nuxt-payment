@@ -77,22 +77,40 @@
     <!-- End of Shopping Cart Payment Details -->
 
     <!-- Terms & Conditions Paragraph -->
-    <b-row v-if="billingAddress && shippingAddress && (paymentMethod)" class="mt-4">
-      <b-col md="3" class="text-center">
-        <b-form-checkbox v-model="form.agreedToTerms"></b-form-checkbox>
-      </b-col>
-      <b-col md="9">
-        <i18n
-          path="shopping_cart.terms_and_conditions_paragraph"
-          tag="p"
-          class="body-5-normal justify-content-start"
-        >
+    <div v-if="width <=500">
+      <div v-if="billingAddress && shippingAddress && (paymentMethod)" class="mt-4 d-flex">
+        <div> <b-form-checkbox v-model="form.agreedToTerms"></b-form-checkbox></div>
+        <div>
+          <i18n
+            path="shopping_cart.terms_and_conditions_paragraph"
+            tag="p"
+            class="body-5-normal justify-content-start"
+          >
           <span class="text-decoration-underline">{{
-            $t('shopping_cart.terms_and_conditions')
-          }}</span>
-        </i18n>
-      </b-col> </b-row
-    ><!-- End of Terms & Conditions Paragraph -->
+              $t('shopping_cart.terms_and_conditions')
+            }}</span>
+          </i18n>
+        </div>
+    </div>
+    </div>
+    <div v-else>
+      <b-row v-if="billingAddress && shippingAddress && (paymentMethod)" class="mt-4">
+        <b-col md="3" class="text-center">
+          <b-form-checkbox v-model="form.agreedToTerms"></b-form-checkbox>
+        </b-col>
+        <b-col md="9">
+          <i18n
+            path="shopping_cart.terms_and_conditions_paragraph"
+            tag="p"
+            class="body-5-normal justify-content-start"
+          >
+          <span class="text-decoration-underline">{{
+              $t('shopping_cart.terms_and_conditions')
+            }}</span>
+          </i18n>
+        </b-col> </b-row
+      ><!-- End of Terms & Conditions Paragraph -->
+    </div>
 
     <!-- Shopping Cart Total Price Heading -->
     <b-row class="mt-4">
@@ -175,6 +193,7 @@ export default {
   mixins: [ emitEvent ],
   data() {
     return {
+      width:'',
       loading: false,
       isCard: PAYMENT_METHOD_TYPE_CARD,
       form: {
@@ -337,6 +356,7 @@ export default {
   },
   mounted() {
     this.getTaxRateByZip({ zip: this.billingAddress.zipCode })
+    this.width = window.innerWidth
   },
   methods: {
     ...mapActions({
