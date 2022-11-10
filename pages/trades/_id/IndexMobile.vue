@@ -304,7 +304,6 @@ export default {
     this.$store.commit('trade/addTrade',null) // commit is used to set state empty
     this.fetchFilters()
     this.fetchVendorTradeSummary()
-    this.getInventory()
 
     this.trade_completed = this.getSubmittedOffer
 
@@ -695,7 +694,6 @@ export default {
     handlePageClick(bvEvent, page) {
       if (this.page !== page) {
         this.page = page
-        this.getInventory()
       }
     },
     /**
@@ -706,7 +704,6 @@ export default {
       if (this.perPage !== value) {
         this.perPage = value
         this.page = 1
-        this.getInventory()
       }
     },
     /**
@@ -734,7 +731,6 @@ export default {
     },
     showInventory(){
       this.$refs.inventory.open();
-      this.$refs.inventory.getInventory();
     },
     cashAdd(){
       this.addCash = true;
