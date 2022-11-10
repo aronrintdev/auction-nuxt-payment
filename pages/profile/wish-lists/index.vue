@@ -53,6 +53,7 @@
           <NavGroup
             v-model="category"
             nav-key="category"
+            class="tablist"
             :data="CATEGORIES"
             @change="handleCategoryClick"
           />
@@ -96,7 +97,7 @@
         :data="tabs"
         @change="handleTabs"
       />
-      <div class="row">
+      <div class="row wishlist-products-wrapper">
         <div class="d-flex flex-column flex-shrink-0 col-12 col-sm-3">
           <section
             v-if="wishLists.length > 0"
@@ -654,4 +655,6 @@ export default {
     width: 164px
 .no-itmes
   padding-right: 300px
+.wishlist-products-wrapper
+  margin-top: 20px
 </style>
