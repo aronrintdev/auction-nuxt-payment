@@ -12,8 +12,7 @@
           <div class="d-flex">
             <div class="left-side-image ml-2" :class="{'left-item-margin':getTheirItems.length === ONE_ITEM && getYourItems.length}">
               <div v-for="(item, index) in getTheirItems"
-                   :key="'their-trade-item-key-'+index" class="mb-4"
-                   :class="[((getTheirItems.length > ONE_ITEM )|| (getTheirItems.length)) ? 'item-length-small p-2' : 'item-normal-small']">
+                   :key="'their-trade-item-key-'+index" class="mb-4 mt-2">
                 <div v-if="!editYours" class="position-relative">
                   <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
                     <img :src="require('~/assets/img/trades/minus-icon.svg')">
@@ -42,7 +41,7 @@
               <div class="long-line" :class="{'long-line-length-small' : getYourItems.length === ONE_ITEM }"></div>
               <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right-small m-2"></div>
             </div>
-            <div class="right-side-image mt-0"
+            <div class="right-side-image mt-2"
                  :class="{'right-item-margin':getTheirItems.length > ONE_ITEM || getYourItems.length === ONE_ITEM,'mt-10p': getTheirItems.length > ONE_ITEM && getYourItems.length === ONE_ITEM,'mt-8p': getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM}">
               <div v-if="getYourItems.length" >
                 <div v-for="(item, index) in getYourItems"
