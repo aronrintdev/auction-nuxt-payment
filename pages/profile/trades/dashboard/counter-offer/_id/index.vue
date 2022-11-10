@@ -1156,8 +1156,13 @@ export default {
   width: 80px
   height: 100px
 .pointer-left-small
-  height: 160px
+  border-top: 0.5px solid #c4c4c4
+  border-bottom: 0.5px solid #c4c4c4
+  border-right: 0.5px solid #c4c4c4
+  height: 450px
   width: 100px
+  margin-right: 8px
+  margin-top: -2rem
 .item-length-small
   height: 160px
   width: 100px
@@ -1217,9 +1222,10 @@ export default {
   border-top: 0.5px solid $light-gray-2
   border-bottom: 0.5px solid $light-gray-2
   border-left: 0.5px solid $light-gray-2
-  height: 340px
+  height: 450px
   width: 100px
   margin-right: 210px
+  margin-top: -1rem !important
 .item-caption-small
   width: 100px
   background: $color-white-1
