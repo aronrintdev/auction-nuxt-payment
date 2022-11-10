@@ -1,20 +1,20 @@
 <template>
-  <div>
-    <div v-if="isExpired" class="mb-4 d-md-none d-flex flex-column align-items-center justify-content-center expired-status">
+  <div v-if="endAt">
+    <div v-if="isExpired" class="mb-3 d-md-none d-flex flex-column align-items-center justify-content-center expired-status">
       <span>{{ $t('bids.expired_on') }}</span>
       <div class="d-flex align-items-center justify-content-center mt-1">
         <span class="date">{{ endAt | formatDate }}</span>
         <span class="ml-2 w-auto h-auto time">@ {{ formatTime(endAt) }}</span>
       </div>
     </div>
-    <div v-else-if="isScheduled" class="mb-4 d-md-none d-flex flex-column align-items-center justify-content-center expired-status">
+    <div v-else-if="isScheduled" class="mb-3 d-md-none d-flex flex-column align-items-center justify-content-center expired-status">
       <span>{{ $t('auctions.frontpage.scheduled_on') }}</span>
       <div class="d-flex align-items-center justify-content-center mt-1">
         <span class="date">{{ endAt | formatDate }}</span>
         <span class="ml-2 w-auto h-auto time">@ {{ formatTime(endAt) }}</span>
       </div>
     </div>
-    <div v-else-if="isSold" class="mb-4 d-md-none d-flex flex-column align-items-center justify-content-center expired-status">
+    <div v-else-if="isSold" class="mb-3 d-md-none d-flex flex-column align-items-center justify-content-center expired-status">
       <span>{{ $t('auctions.frontpage.sold_on') }}</span>
       <div class="d-flex align-items-center justify-content-center mt-1">
         <span class="date">{{ endAt | formatDate }}</span>
