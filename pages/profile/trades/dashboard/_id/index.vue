@@ -66,12 +66,12 @@
                   {{ $t('trades.declined') }}
                 </b-btn>
               </div>
-              <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
+              <div class="fair-trade-division-mobile d-flex justify-content-center flex-column align-items-center">
                 <Meter :highest="getTheirTotal(false)"
                        :lowest="0"
                        :value="getYourTotal(false)"
                        :fair="getFairTradeValue()"
-                       :heading="false"
+                       heading="trades.trade_arena.fair_trade_meter"
                 />
               </div>
             </div>
@@ -397,6 +397,10 @@ export default {
   background: #F5F5F5
   padding-top: 7px
   padding-left: 30px
+.fair-trade-division-mobile
+  background-color: $color-white-4
+  width: 247px
+  height: 68px
 #trade-item-0
   position: absolute
   margin-left: 115%

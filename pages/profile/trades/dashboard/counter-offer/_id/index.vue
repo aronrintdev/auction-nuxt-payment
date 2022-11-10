@@ -70,12 +70,12 @@
               </div>
             </div>
           </div>
-          <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center m-5">
+          <div class="fair-trade-division-mobile d-flex justify-content-center flex-column align-items-center m-5">
             <Meter :highest="getTheirTotal(false)"
                    :lowest="0"
                    :value="getYourTotal(false)"
                    :fair="getFairTradeValue()"
-                   :heading="false"
+                   heading="trades.trade_arena.fair_trade_meter"
             />
           </div>
           <div>
@@ -128,7 +128,7 @@
               </div>
             </div>
           </vue-bottom-sheet>
-          <div class="ml-3 mb-2">
+          <div class="ml-4 mb-2">
             <b-btn class="inventory-btn"  @click="openBottomFilter()">
               Inventory
             </b-btn>
@@ -195,7 +195,7 @@
             </div>
           </vue-bottom-sheet>
           <div class="d-flex mb-5">
-            <b-btn class="discard-changes ml-3 mr-3"  @click="$bvModal.show('discardModel')">{{ $t('trades.discard_changes') }}</b-btn>
+            <b-btn class="discard-changes ml-4 mr-3"  @click="$bvModal.show('discardModel')">{{ $t('trades.discard_changes') }}</b-btn>
             <b-btn class="counter-offer"  @click="showPoorTradeConfirmationModal">Next</b-btn>
           </div>
 
@@ -1146,6 +1146,10 @@ export default {
   background-color: $color-white-4
   width: 247px
   height: 68px
+.fair-trade-division-mobile
+  background-color: $color-white-4
+  width: 247px
+  height: 68px
 .item-image-small
   width: 80px
   height: 100px
@@ -1256,7 +1260,7 @@ export default {
   border-radius: 10px
 .counter-offer
   height: 40px
-  width: 162px
+  width: 150px
   font-family: $font-family-montserrat
   font-style: normal
   font-weight: $medium
@@ -1265,7 +1269,7 @@ export default {
   border-radius: 10px
   background-color: $color-blue-20
 .btn-cash
-  width: 315px
+  width: 330px
   height: 37px
   font-family: $font-family-montserrat
   font-style: normal
