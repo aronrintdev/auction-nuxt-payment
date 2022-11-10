@@ -4,7 +4,7 @@
       <p class="mb-3">
         {{ $t('wish_lists.no_wish_lists') }}
       </p>
- 
+
       <Button
         v-b-modal.create-list-modal
         variant="primary"
@@ -216,6 +216,7 @@
           <Loader v-if="loading" class="my-5" />
 
           <div v-else>
+
             <b-row v-if="listProducts.length > 0">
               <b-col
                 v-for="product in listProducts"
@@ -246,6 +247,8 @@
                 {{ $t('wish_lists.browse_items') }}
               </Button>
             </div>
+
+            <infinite-loading :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
 
             <div class="mt-m1">
               <div
@@ -372,6 +375,9 @@ export default {
       loading: false,
       shareDescription: this.$t('wish_lists.share_description'),
       shareUrl: process.env.APP_URL + '/profile/wish-lists/',
+      infiniteId: +new Date(),
+      state: '',
+      url: '',
     }
   },
 
@@ -405,6 +411,10 @@ export default {
       addProductsToWishList: 'wish-list/addProductsToWishList',
     }),
 
+    handleLoading($state) {
+      this.state = $state
+      this.getWishListItems();
+    },
     handleTabs(tab) {
       this.activeTab = tab
     },
@@ -416,13 +426,13 @@ export default {
 
     // Called when user select a wishlist in the lists
     // Fetch list products and pagination details for selected wishlist
-    async selectWishList(wishList) {
+    selectWishList(wishList) {
       this.cancelAction()
       this.category = 'all'
       if (wishList) {
         this.currentWishList = wishList
         this.currentPage = 1
-        await this.getWishListItems()
+        // await this.getWishListItems()
       } else {
         this.currentWishList = null
         this.listProducts = []
@@ -524,6 +534,7 @@ export default {
 
     // Fetch wishlist products and pagination information
     async getWishListItems() {
+      console.log('curr', this.currentPage)
       this.loading = true
       const res = await this.fetchWishListItems({
         wishList: this.currentWishList,
@@ -531,9 +542,25 @@ export default {
         perPage: this.perPage,
         category: this.category !== 'all' ? this.category : null,
       })
+      const that = this
+      console.log('Response', res);
+      if (!res.next_page_url) {
+        this.state.complete()
+      }else{
+        this.currentPage += 1
+        this.url = res.next_page_url
+      }
+      if (res.current_page === 1) {
+        this.listProducts = [...res.data]
+      } else {
+        this.listProducts = [...that.listProducts, ...res.data]
+      }
+      console.log('current page', this.currentPage);
+      this.state.loaded()
+      /* this.state.loaded()
       this.perPage = parseInt(res.per_page)
       this.totalCount = res.total
-      this.listProducts = res.data
+      this.listProducts = res.data */
       this.loading = false
     },
 
