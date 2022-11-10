@@ -208,7 +208,7 @@
         <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.size_preferences')}}</div>
         <b-row>
           <b-col v-for="(brand,index) in filters.brands" :key="index">
-              <div class="m-2">
+              <div class="m-2" :class="selectedBrands.includes(brand._id) ?'selected-brand':'unselected-brand'">
                 <img :src="brand.image" class="brand-image" @click="changeSelectedBrands(brand._id)">
               </div>
           </b-col>
@@ -302,7 +302,7 @@ export default {
     }
   },
   computed:{
-    ...mapGetters('browse', ['filters']), // getter for getting list of filters data
+    ...mapGetters('browse', ['filters','selectedBrands']), // getter for getting list of filters data
   },
   mounted() {
     this.filterApparelSizes = this.filters?.sizes?.filter(function (size) {
@@ -766,6 +766,14 @@ export default {
   padding-top: 10px
   cursor: pointer
   background: $color-gray-21
+.selected-brand
+  border-radius: 3px
+  border: 1px solid $color-black-1
+  padding-bottom: 4px
+  padding-left: 2px
+.unselected-brand
+  border-radius: 3px
+  //border: 1px solid $color-gray-47
 .column-sizes
   height: 100px
   overflow-y: scroll
