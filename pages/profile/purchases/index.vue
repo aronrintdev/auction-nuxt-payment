@@ -160,7 +160,11 @@
           </div>
           <!-- No products -->
 
-          <template v-if="purchaseDatas.data">
+          <div v-if="loading" class="d-flex align-items-center justify-content-center">
+            <Loader :loading="loading"></Loader>
+          </div>
+
+          <template v-if="purchaseDatas.data && !loading">
             <div
                 v-if="purchaseDatas.data.length === 0 && !isScreenXS"
                 class="row vd-purchase-empty mb-5 mt-38"
@@ -179,7 +183,7 @@
             </div>
 
             <!-- ./No products -->
-            <template v-if="purchaseDatas.data.length !== 0 && !isScreenXS">
+            <template v-if="purchaseDatas.data.length !== 0 && !isScreenXS && !loading">
               <VendorPurchaseHistory :purchaseDatas="purchaseDatas.data"/>
             </template>
 
@@ -315,11 +319,13 @@ import ItemDivider from '~/components/profile/notifications/ItemDivider';
 import FilterAccordion from '~/components/mobile/FilterAccordion';
 import ButtonSelector from '~/components/mobile/ButtonSelector';
 import CalendarInput from '~/components/common/form/CalendarInput';
+import Loader from '~/components/common/Loader';
 
 export default {
   name: 'ProfilePreferencesPurchasesIndexPage',
 
   components: {
+    Loader,
     CalendarInput,
     InfiniteLoading,
     ButtonSelector,

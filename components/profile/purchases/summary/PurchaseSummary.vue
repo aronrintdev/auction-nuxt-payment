@@ -290,12 +290,13 @@ export default {
 
     timelineStatus: (vm) => {
       if (vm.orderDetails.items[0].status_history && vm.orderDetails.quantity === 1) {
-        return vm.orderDetails.items[0].status_history.map((status) => {
+        return vm.orderDetails.items[0].status_history.map((status, index) => {
           return {
             id: status.id,
             status: status.status_label,
             description: status.status_label,
             value: status.status_key,
+            class: (index + 1) === vm.orderDetails.items[0].status_history.length ? 'tracking-end' : ''
           }
         })
       }
