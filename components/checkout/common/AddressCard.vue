@@ -1,19 +1,37 @@
 <template>
-  <b-row>
-    <b-col class="col-md-12">
-      <b-card class="custom-card">
-        <b-row>
-          <b-col md="11">
-            <div class="body-5-normal mb-2">{{ fullName }}</div>
-            <div class="body-5-regular">{{ fullAddress }}</div>
-          </b-col>
-          <b-col md="1" class="d-flex flex-column mt-2">
-            <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
-          </b-col>
-        </b-row>
-      </b-card>
-    </b-col>
-  </b-row>
+  <div>
+    <div v-if="width <=500">
+          <b-card class="custom-card">
+            <div class="d-flex">
+              <div>
+                <div class="body-5-normal mb-2">{{ fullName }}</div>
+                <div class="body-5-regular">{{ fullAddress }}</div>
+              </div>
+              <div>
+                <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
+              </div>
+            </div>
+          </b-card>
+    </div>
+    <div v-else>
+      <b-row>
+        <b-col class="col-md-12">
+          <b-card class="custom-card">
+            <b-row>
+              <b-col md="11">
+                <div class="body-5-normal mb-2">{{ fullName }}</div>
+                <div class="body-5-regular">{{ fullAddress }}</div>
+              </b-col>
+              <b-col md="1" class="d-flex flex-column mt-2">
+                <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
+              </b-col>
+            </b-row>
+          </b-card>
+        </b-col>
+      </b-row>
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -37,6 +55,14 @@ export default {
       type: Boolean,
       default: false,
     }
+  },
+  data(){
+    return {
+      width:''
+    }
+  },
+  mounted() {
+    this.width = window.innerWidth
   }
 }
 </script>
