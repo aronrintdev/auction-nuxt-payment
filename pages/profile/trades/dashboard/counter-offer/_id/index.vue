@@ -11,7 +11,6 @@
           </div>
           <div class="d-flex">
             <div class="left-side-image ml-2" :class="{'left-item-margin':getTheirItems.length === ONE_ITEM && getYourItems.length}">
-<!--              <div class="item-head-trade-hub">{{ $t('trades.trade_arena.theirs') }}:</div>-->
               <div v-for="(item, index) in getTheirItems"
                    :key="'their-trade-item-key-'+index" class="mb-4"
                    :class="[((getTheirItems.length > ONE_ITEM )|| (getTheirItems.length)) ? 'item-length-small p-2' : 'item-normal-small']">
@@ -45,7 +44,6 @@
             </div>
             <div class="right-side-image mt-0"
                  :class="{'right-item-margin':getTheirItems.length > ONE_ITEM || getYourItems.length === ONE_ITEM,'mt-10p': getTheirItems.length > ONE_ITEM && getYourItems.length === ONE_ITEM,'mt-8p': getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM}">
-<!--              <div class="item-head-trade-hub">{{ $t('trades.trade_arena.yours') }}:</div>-->
               <div v-if="getYourItems.length" >
                 <div v-for="(item, index) in getYourItems"
                       :key="'your-trade-item-key-'+index"
