@@ -8,36 +8,9 @@
     <b-row v-else>
     <b-col v-if="Object.keys(trade).length && !trade_completed" class=" p-0" :class="{'cont-height':isPayment}" :md="isPayment ? 9 : 12">
       <div>
-        <div class="px-5">
-          <div class="heading">{{$t('trades.trade_arena.arena')}}</div>
-          <div class="sub-heading">{{$t('trades.trade_arena.trader_ranking')}} {{ getVendorTradeSummary.trader_ranking }}%</div>
-          <div class="sub-heading"> {{ getVendorTradeSummary.total_trades }}+ {{ $t('trades.trade_arena.trades') }}</div>
-        </div>
-        <div :class="{'timings-left' : isPayment}">
-          <div v-if="!isExpire" class="timings">
-            <countdown :time="countDownTimer(trade.created_at)" :transform="countDownTimerTransform">
-              <template slot-scope="{days, hours, minutes}">
-                <div class="time-left">{{$t('trades.trade_arena.time_left')}} &nbsp;
-                  <span class="time">{{ days }} {{ hours }} {{ minutes }}</span>
-                </div>
-              </template>
-            </countdown>
-            <div class="today">{{ remainingTime(trade.created_at) }}</div>
-          </div>
-          <div v-else>
-            <div class="text-danger text-bold text-capitalize text-center">{{$t('trades.trade_arena.expired_at')}} {{ getExpiryDateTime(trade.created_at) | formatDateTimeString }}</div>
-          </div>
-        </div>
-        <div class="trade-details">
-          <div class="inner-rectangle">
-            <div class="trade-value">{{$t('trades.trade_arena.trade_value')}}</div>
-            <div class="line"></div>
-            <div class="offers">{{$t('trades.trade_arena.number_of_offers')}}</div>
-          </div>
-          <div class="price_offer">
-            <div class="lowest_price">{{theirTotal()}}</div>
-            <div class="highest_offer">{{totalOffersReceived}}</div>
-          </div>
+        <div class="text-center">
+          <div class="heading d-flex justify-content-center pt-2">{{$t('trades.trade_arena.arena')}}</div>
+          <div class="sub-heading">{{$t('trades.trade_hub.trade_id')}}:{{ $route.params.id }}</div>
         </div>
         <div v-if="!isPayment && !isExpire" class="share-wishlist">
           <div class="icons">
@@ -54,12 +27,41 @@
               <div class="social-icons">
                 <div class="twitter">
                   <b-icon icon="twitter" class="twt-icon" role="button"></b-icon></div>
-                  <b-icon icon="facebook" class="facebook" role="button"></b-icon>
-                  <img :src="require('~/assets/img/instagram.png')" class="instagram" role="button">
-                  <b-icon icon="link45deg" class="link-icon" role="button"></b-icon>
+                <b-icon icon="facebook" class="facebook" role="button"></b-icon>
+                <img :src="require('~/assets/img/instagram.png')" class="instagram" role="button">
+                <b-icon icon="link45deg" class="link-icon" role="button"></b-icon>
               </div>
             </div>
           </b-popover>
+        </div>
+        <div class="d-flex justify-content-center trade-values align-items-center">
+          <div class="header-values-div d-flex justify-content-between">
+            <div class="their-value">
+              <div>{{$t('trades.their_value')}}</div>
+              <div class="their-value-text">{{theirTotal()}}</div>
+            </div>
+            <div>
+              <div v-if="!isExpire" class="">
+                <countdown :time="countDownTimer(trade.created_at)" :transform="countDownTimerTransform">
+                  <template slot-scope="{days, hours, minutes}">
+                    <div class="time-left">
+                      <span class="time">{{ days }} {{ hours }} {{ minutes }}</span>
+                    </div>
+                  </template>
+                </countdown>
+                <div class="today">{{ remainingTime(trade.created_at) }}</div>
+              </div>
+            </div>
+            <div class="their-value">
+              <div>{{$t('trades.your_value')}}</div>
+              <div class="their-value-text">{{yourTotal()}}</div>
+            </div>
+          </div>
+        </div>
+        <div :class="{'timings-left' : isPayment}">
+          <div>
+<!--            <div class="text-danger text-bold text-capitalize text-center">{{$t('trades.trade_arena.expired_at')}} {{ getExpiryDateTime(trade.created_at) | formatDateTimeString }}</div>-->
+          </div>
         </div>
         <div class="center-container" :class="{'center-cont-height':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) , 'center-container-margin': isPayment, 'mt-5': isExpire, 'pt-5': isExpire }">
           <div class="left-item" :class="{'left-item-margin':trade.offers.length == ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0}">
@@ -853,7 +855,18 @@ export default {
 
 .h-43
   height: 43px
-
+.heading
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-1-medium
+  letter-spacing: -0.02em
+  text-transform: uppercase
+  color: $color-black-1
+  width: unset
+  height: unset
+.sub-heading
+  line-height: 130%
+  color: $color-gray-5
 .width-156
   min-width: 156px
   background: $color-white-1
@@ -927,5 +940,21 @@ export default {
 
 #your-item-0
   margin-top: 130px
+.header-values-div
+  background: $color-white-4
+  border-radius: 4px
+  height: 72px
+
+.their-value
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-17-normal
+  text-transform: uppercase
+  color: $color-gray-5
+  width: 364px
+.their-value-text
+  font-weight: $medium
+  line-height: 150%
+  color: $color-black-1
 
 </style>
