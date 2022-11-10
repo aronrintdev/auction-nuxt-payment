@@ -120,6 +120,7 @@ export default {
 .trade-hub-heading-bar
   width: 133px
   border: 3px solid $color-blue-2
+  background-color: $color-blue-2
   margin-left: -10px
   margin-top: 5px
 

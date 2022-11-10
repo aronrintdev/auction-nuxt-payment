@@ -180,7 +180,7 @@
           <div class="col"></div>
 
           <div class="col">
-            <div v-if="item.status_label!=='voided'" :class="`text-center status m-auto ${styleFor(item.status_label)}`">{{ item.status_label }}</div>
+            <div v-if="item.status_label!=='voided'" :class="`text-center status m-auto ${styleFor(item.status_label)}`">{{ item.status_label | wordLimit }}</div>
           </div>
 
           <div class="col-2">
@@ -198,7 +198,7 @@
                 </a>
               </div>
               <div v-if="item.status !== PROCESSING && item.vendor_shipment">
-                <span>{{ item.vendor_shipment.shipping_method_text }}</span>
+                <div class="text-center text-color-blue-1">{{ item.vendor_shipment.shipping_method_text }}</div>
                 <a target="_blank" :href="item.vendor_shipment.tracking_url">{{ item.vendor_shipment.tracking_no }}</a>
               </div>
             </div>

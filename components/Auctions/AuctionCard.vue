@@ -65,7 +65,7 @@
         <div v-if="auction.highest_bid" class="auct-card-price">${{ auction.highest_bid | formatPrice }}</div>
         <div v-else class="auct-card-price">${{ auction.start_bid_price | formatPrice }}</div>
       </div>
-      <nuxt-link :to="`/auction/${auction.id}`">
+      <nuxt-link :to="auction.type === AUCTION_TYPE_COLLECTION ? `/auction/collection/${auction.id}` : `/auction/${auction.id}`">
         <button class="w-100 btn bid-now-btn text-nowrap">{{ $t('home_page.bid_now') }}</button>
       </nuxt-link>
     </div>

@@ -30,7 +30,7 @@
           <ProductImageViewerMagic360 v-if="product.product.has360Images" :product="product.product" />
         </div>
         <div class="col-xl-6 px-0 px-sm-2">
-          <p class="mt-3 mb-0 title">{{ product.product.name }}</p>
+          <p class="mb-0 title">{{ product.product.name }}</p>
           <div class="position-relative">
             <ProductSizePicker
               :value="currentSizeId"
@@ -588,7 +588,7 @@ export default {
     max-width: 120px
 
 .product-details
-  @icnlude body-2-bold
+  @include body-2-bold
   font-family: $font-family-sf-pro-display
   padding-bottom: 17px
   margin-top: 55px
@@ -655,7 +655,9 @@ export default {
 
 .title
   @include body-3-medium 
+  margin-top: 20px
   @media (min-width: 576px)
+  margin-top: 60px
     @include heading-1
 
 .last-sale

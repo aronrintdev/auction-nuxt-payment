@@ -1,0 +1,96 @@
+.vd-purchases-section
+  background: $white-11
+
+  .card-web
+    background: $color-white-1
+    border: 1px solid $color-gray-60
+    border-radius: 10px
+
+  &.web-padding
+    padding: 45px 54px
+
+  .web-padding
+    padding: 45px 54px
+
+  .input-text
+    @include body-5-regular
+    font-family: $font-montserrat
+    font-style: normal
+    color: $color-black-1
+
+    &::placeholder
+      @include body-5-regular
+      font-family: $font-montserrat
+      font-style: normal
+      color: $color-gray-5
+
+
+  .input-field-search
+    padding: 10px 18px
+    background: $color-white-1
+    border: 1px solid $color-gray-60
+    border-radius: 5px
+    height: 38px
+    max-width: 753px
+
+    input
+      height: 36px
+
+      &:focus
+        outline: none
+
+  .mt-38
+    margin-top: 38px
+
+  .mb-36
+    margin-bottom: 36px
+
+  .mb-5p
+    margin-bottom: 5px
+    margin-top: 21px
+
+  ::v-deep.date-calendar
+    width: 170px
+
+  .mb-22
+    margin-bottom: 22px
+
+  .mr-20
+    margin-right: 20px
+
+  .w-120
+    width: 120px
+
+  .w-245
+    width: 245px
+
+  .vp-custom-select
+    background: $color-white-1
+    border-radius: 5px
+    height: 38px
+    border: none
+
+    .selected
+      padding: 10px
+      border: none
+      height: 36px
+      text-wrap: none
+      display: flex
+      align-items: center
+
+      div
+        @include body-5-regular
+        font-family: $font-montserrat
+        font-style: normal
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+
+        &.text-dark
+          color: $color-black-1
+
+        &.text-muted
+          color: $color-gray-5
+
+      &.border
+        border: 1px solid $color-gray-60 !important

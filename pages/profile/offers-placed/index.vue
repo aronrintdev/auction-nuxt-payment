@@ -719,6 +719,7 @@ export default {
           this.isTableBusy = false
         })
         .catch((err) => {
+          this.isTableBusy = false
           this.$logger.logToServer('Offers Listing', err.response)
         })
     },

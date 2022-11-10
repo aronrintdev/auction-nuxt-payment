@@ -93,27 +93,31 @@
             :title="$t('offers_received.offer_date')" 
             :data="dateRangeLabel"
           >
-            <div class="d-flex justify-content-between">
-              <input 
-                class="date-picker"
-                format="DD/MM/YYYY"
-                type="date" 
-                @change="changeStartDate"
-              />
-              <input 
-                class="date-picker" 
-                :placeholder="$t('common.end_date')"
-                format="DD/MM/YYYY"
-                type="date" 
-                @change="changeEndDate"
-              />
+            <div class="row justify-content-between">
+              <div class="col-6">
+                <input 
+                  class="date-picker"
+                  format="DD/MM/YYYY"
+                  type="date" 
+                  @change="changeStartDate"
+                />
+              </div>
+              <div class="col-6">
+                <input 
+                  class="date-picker" 
+                  :placeholder="$t('common.end_date')"
+                  format="DD/MM/YYYY"
+                  type="date" 
+                  @change="changeEndDate"
+                />
+              </div>
             </div>
           </FilterAccordion>
 
           <div class="separator"></div>
         </div>
 
-        <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex justify-content-between pb-5">
           <Button
             class="filter-button"
             pill
@@ -318,10 +322,7 @@ export default {
   color: $color-black-4
   margin-top: 20px
   border-radius: 10px
-  width: 154px
   height: 49px
-  padding-left: 10px
-  padding-right: 10px
   border-width: 1px
 
 .filter-button
