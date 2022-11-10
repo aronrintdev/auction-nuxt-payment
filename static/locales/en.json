@@ -2834,7 +2834,8 @@
       "ending_soon": "Expiring",
       "sold": "Sold"
     },
-    "status_type": "Status"
+    "status_type": "Status",
+    "estimate_value": "Estimated Auction Value"
   },
   "create_listing": {
     "your_listing_price": "Your listing price",
