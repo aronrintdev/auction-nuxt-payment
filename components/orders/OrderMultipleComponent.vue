@@ -180,7 +180,9 @@
           <div class="col"></div>
 
           <div class="col">
-            <div v-if="item.status_label!=='voided'" :class="`text-center status m-auto ${styleFor(item.status_label)}`">{{ item.status_label | wordLimit }}</div>
+            <div v-if="item.status_label!=='voided'"
+                 :class="`text-center status m-auto ${styleFor(item.status_label)}`">{{ item.status_label | wordLimit }}
+            </div>
           </div>
 
           <div class="col-2">
@@ -318,17 +320,22 @@ export default {
     },
     styleFor(statusLabel) {
       switch (statusLabel.toLowerCase()) {
-        case 'arrived at deadstock':
+        case 'Awaiting Shipment':
+          return 'awaiting-shipment';
+        case 'Arrived at Deadstock':
           return 'arrived';
-        case 'shipped to deadstock':
+        case 'Shipped to Deadstock':
           return 'shipped';
-        case 'awaiting authentication':
+        case 'Awaiting Authentication':
           return 'awaiting-auth';
-        case 'order taken over':
+        case 'Awaiting Shipment to Deadstock':
+          return 'awaiting-shipment-ds';
+        case 'Comission Paid':
+        case 'Commission Paid':
+          return 'commission-paid';
+        default:
           return 'order-taken-over';
       }
-
-      return 'awaiting'
     },
     downloadPdf(item) {
       return `data:application/pdf;base64,${item.vendor_shipment.shipment_pdf}`

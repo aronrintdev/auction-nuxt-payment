@@ -12,7 +12,7 @@
       </div>
     </div>
     <template v-if="!isScreenXS">
-      <div>
+      <div class="py-md-50px">
         <bulk-select-toolbar
           :active="action !== 'none'"
           :total="orders.length"
@@ -429,24 +429,32 @@ export default {
     padding: 12px 30px
     border-radius: 4px
 
-::v-deep .status.awaiting
-  background: $color-gray-3
+::v-deep .status.awaiting-shipment
+  background: rgba(211, 76, 0, 0.08)
   color: $color-red-20
+
+::v-deep .status.awaiting-shipment-ds
+  background: rgba(50, 189, 109, 0.08)
+  color: $color-green-3
+
+::v-deep .status.commission-paid
+  background: rgba(78, 148, 244, 0.05)
+  color: $color-blue-34
 
 ::v-deep .status.arrived
   background: $color-green-20
   color: $color-green-3
 
 ::v-deep .status.shipped
-  background: $dark-gray-5
+  background: rgba(74, 93, 168, 0.08)
   color: $color-blue-16
 
 ::v-deep .status.awaiting-auth
-  background: $dark-gray-6
+  background: rgba(84, 76, 241, 0.05)
   color: $color-blue-17
 
 ::v-deep .status.order-taken-over
-  background: $dark-gray-7
+  background: rgba(98, 98, 98, 0.08)
   color: $color-gray-5
 
 ::v-deep .collapsible-table tbody tr
@@ -461,7 +469,24 @@ export default {
 .desc
   transform: rotate(180deg)
 
+::v-deep .nav-group
+  .btn-group
+    background-color: #E8E8E8
+
+    .btn
+      font-size: 11px
+      background-color: #E8E8E8
+
+    .btn.active
+      font-weight: 600
+
 @media (min-width: 993px)
   .d-md-header-group
     display: table-header-group !important
+
+  .py-md-50px
+    margin-top: 57px
+
+  ::v-deep .nav-group
+    margin: 5px 0
 </style>

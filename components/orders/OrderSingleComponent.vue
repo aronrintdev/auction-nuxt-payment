@@ -218,17 +218,22 @@ export default {
     },
     styleFor(statusLabel) {
       switch (statusLabel.toLowerCase()) {
-        case 'arrived at deadstock':
+        case 'Awaiting Shipment':
+          return 'awaiting-shipment';
+        case 'Arrived at Deadstock':
           return 'arrived';
-        case 'shipped to deadstock':
+        case 'Shipped to Deadstock':
           return 'shipped';
-        case 'awaiting authentication':
+        case 'Awaiting Authentication':
           return 'awaiting-auth';
-        case 'order taken over':
+        case 'Awaiting Shipment to Deadstock':
+          return 'awaiting-shipment-ds';
+        case 'Comission Paid':
+        case 'Commission Paid':
+          return 'commission-paid';
+        default:
           return 'order-taken-over';
       }
-
-      return 'awaiting'
     },
     downloadPdf(item) {
       return `data:application/pdf;base64,${item.vendor_shipment.shipment_pdf}`
