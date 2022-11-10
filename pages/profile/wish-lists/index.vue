@@ -281,7 +281,7 @@
                 </Button>
               </div>
 
-              <Pagination
+              <!-- <Pagination
                 v-if="listProducts.length > 0"
                 v-model="currentPage"
                 :total="totalCount"
@@ -290,7 +290,7 @@
                 class="mt-2"
                 @page-click="handlePageClick"
                 @per-page-change="handlePerPageChange"
-              />
+              /> -->
             </div>
           </div>
         </div>
@@ -310,7 +310,6 @@ import Loader from '~/components/common/Loader.vue'
 import ProductCard from '~/components/product/Card.vue'
 import CreateWishListModal from '~/components/modal/CreateWishList'
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar'
-import Pagination from '~/components/common/Pagination'
 import Thumb from '~/components/product/Thumb'
 import ShareIcon from '~/assets/icons/ShareIcon'
 export default {
@@ -324,7 +323,6 @@ export default {
     ProductCard,
     CreateWishListModal,
     BulkSelectToolbar,
-    Pagination,
     Thumb,
     ShareIcon,
   },
@@ -533,36 +531,36 @@ export default {
     },
 
     // Fetch wishlist products and pagination information
-    async getWishListItems() {
+    getWishListItems() {
       console.log('curr', this.currentPage)
       this.loading = true
-      const res = await this.fetchWishListItems({
+      this.fetchWishListItems({
         wishList: this.currentWishList,
         page: this.currentPage,
         perPage: this.perPage,
         category: this.category !== 'all' ? this.category : null,
       })
-      const that = this
-      console.log('Response', res);
-      if (!res.next_page_url) {
-        this.state.complete()
-      }else{
-        this.currentPage += 1
-        this.url = res.next_page_url
-      }
-      if (res.current_page === 1) {
-        this.listProducts = [...res.data]
-      } else {
-        this.listProducts = [...that.listProducts, ...res.data]
-      }
-      console.log('current page', this.currentPage);
-      this.state.loaded()
-      /* this.state.loaded()
-      this.perPage = parseInt(res.per_page)
-      this.totalCount = res.total
-      this.listProducts = res.data */
-      this.loading = false
-    },
+      .then((res) => {
+        const that = this
+        console.log('Response', res);
+        if (!res.next_page_url) {
+          this.state.complete()
+        }else{
+          this.currentPage += 1
+          this.url = res.next_page_url
+        }
+        if (res.current_page === 1) {
+          this.listProducts = [...res.data]
+        } else {
+          this.listProducts = [...that.listProducts, ...res.data]
+        }
+        console.log('current page', this.currentPage);
+        this.state.loaded()
+      })
+      .finally(() => {
+        this.loading = false
+      })
+  },
 
     // Called when user navigate from current page to another
     handlePageClick(bvEvent, page) {
