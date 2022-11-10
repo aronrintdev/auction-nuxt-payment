@@ -22,17 +22,23 @@
         </div>
       </div>
     </div>
-    <div class="product-card" v-else>
+    <div class="product-card px-3" v-else>
       <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
       <div class="d-flex justify-content-between">
-        <b-col 
-          v-for="(item) in offerItems" :key="'offer-item-list-' + item.id" 
+        <div 
+          v-for="(item) in offerItems" :key="'offer-item-list-' + item.id"
           :class="`${marginItems}`"
+          class="d-flex flex-column col"
         >
-          <b-col>
-            <img v-if="item.inventory" :src="item.inventory.product | getProductImageUrl" class="offer-item-image" width="100px" />
-            <img v-else :src="item.product | getProductImageUrl" class="offer-item-image" width="100px" />
-          </b-col>
+          <img 
+            v-if="item.inventory" 
+            :src="item.inventory.product | getProductImageUrl"
+            class="offer-item-image mx-auto"
+          />
+          <img 
+            v-else :src="item.product | getProductImageUrl" 
+            class="offer-item-image mx-auto" 
+          />
           <div class="offer-item-name">
             {{ item.inventory ? item.inventory.product.name : item.product.name }}
           </div>
@@ -43,7 +49,7 @@
           <div class="mt-1 offer-size">
             {{ $t('trades.size') }} {{ item.inventory ? item.inventory.size.size : item.size.size }}
           </div>
-        </b-col>
+        </div>
       </div>
     </div>
   </div>
@@ -88,6 +94,7 @@ export default {
 .offer-item-name
   @include body-10-medium
   color: $color-black-1
+  margin-top: 5px
 
 .offer-size
   @include body-9-medium
@@ -124,8 +131,8 @@ export default {
   overflow: hidden
   text-overflow: ellipsis
 .offer-item-image
-    width: 100px
-    height: auto
+  width: auto
+  height: 160px
 .offer-item-image-small
    width: 80px
 .offer-item-text

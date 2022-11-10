@@ -9,20 +9,20 @@
   </div>
   <div v-else>
     <div class="initial-listing mx-auto col-12 col-md-8 col-xl-6">
-      <b-row class="justify-content-between">
+      <div class="d-flex justify-content-between">
         <div class="listing-heading">{{ $t('trades.initial_listing') }}</div>
         <div class="created-at">
           {{ initialWantsItems[0] && initialWantsItems[0].created_at | formatDateTimeString }}
         </div>
-      </b-row>
-      <b-row class="justify-content-center mt-3">
+      </div>
+      <div class="d-flex justify-content-center mt-3">
         <offer-items 
           v-if="initialWantsItems && initialWantsItems.length > 0" 
           :offerItems="initialWantsItems" 
           :heading="$t('trades.your_listed_items')"
           marginItems="mr-0"
         />
-      </b-row>
+      </div>
     </div>
   </div>
 

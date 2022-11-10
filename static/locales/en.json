@@ -4398,6 +4398,9 @@
         "open": "Open Trades",
         "completed": "Completed"
       },
+      "their_counter_offerHistory": "Their Counter Offer",
+      "your_counter_offer": "Your Counter Offer",
+      "their_offer": "Their Offer",
       "create_listing_btn": "Create a Trade Listing",
       "trades": "Trades",
       "trade_hub": "Trade Hub",
@@ -4827,6 +4830,8 @@
     "your_counter_offer": "Your Counter Offer",
     "their_counter_offer": "Their Counter Offer",
     "they_offered": "They offered:",
+    "you_offered": "You offered:",
+    "they_asking_for": "They’re asking for:",
     "you_asking_for": "You’re asking for:",
     "you_requested": "You requested <b>${0}</b> on top",
     "you_added": "You added <b>${0}</b> on top",
