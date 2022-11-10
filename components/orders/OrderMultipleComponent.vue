@@ -328,18 +328,18 @@ export default {
     },
     styleFor(statusLabel) {
       switch (statusLabel.toLowerCase()) {
-        case 'Awaiting Shipment':
+        case 'awaiting shipment':
           return 'awaiting-shipment';
-        case 'Arrived at Deadstock':
+        case 'arrived at deadstock':
           return 'arrived';
-        case 'Shipped to Deadstock':
+        case 'shipped to deadstock':
           return 'shipped';
-        case 'Awaiting Authentication':
+        case 'awaiting authentication':
           return 'awaiting-auth';
-        case 'Awaiting Shipment to Deadstock':
+        case 'awaiting shipment to deadstock':
           return 'awaiting-shipment-ds';
-        case 'Comission Paid':
-        case 'Commission Paid':
+        case 'comission paid':
+        case 'commission paid':
           return 'commission-paid';
         default:
           return 'order-taken-over';
