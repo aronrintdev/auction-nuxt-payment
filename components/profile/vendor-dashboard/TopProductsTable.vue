@@ -112,9 +112,9 @@
           >
             <LineChart
                 :border-width="2"
-                :data="itemData(row.item)"
+                :chart-data="itemChart(row.item)"
+                is-graph
                 :fill="false"
-                :labels="itemLabel(row.item)"
                 :options="lineConfig"
                 class="stats-graph"
             ></LineChart>
@@ -139,7 +139,6 @@ export default {
       // Active Nav for the Toggle Button
       activeNav: '',
       topProducts: [],
-      // TODO dummy data
       fields: [
         {
           key: 'product',
@@ -220,17 +219,6 @@ export default {
           },
         },
       },
-      datasets: {
-        datasets: [
-          {
-            borderColor: '#18A0FB',
-            backgroundColor: null,
-            data: [],
-            fill: false,
-            borderWidth: 2,
-          },
-        ],
-      },
       /** Todo need to make dynamic onces we have way of main categories in DB */
       menus: [
         {label: this.$t('vendor_dashboard.all'), value: ''},
@@ -257,6 +245,20 @@ export default {
     },
     itemLabel(item) {
       return Object.keys(item.month_graph)
+    },
+    itemChart(item) {
+      return {
+        labels: this.itemLabel(item),
+        datasets: [
+          {
+            borderColor: '#18A0FB',
+            backgroundColor: null,
+            data: this.itemData(item),
+            fill: false,
+            borderWidth: 2,
+          },
+        ],
+      }
     },
     getTopProducts() {
       this.loading = true
