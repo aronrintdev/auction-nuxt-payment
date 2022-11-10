@@ -471,14 +471,14 @@ export default {
 
 ::v-deep .nav-group
   .btn-group
-    background-color: #E8E8E8
+    background-color: $white-5
 
     .btn
-      font-size: 11px
-      background-color: #E8E8E8
+      @include body-6
+      background-color: $white-5
 
     .btn.active
-      font-weight: 600
+      font-weight: $medium
 
 @media (min-width: 993px)
   .d-md-header-group
