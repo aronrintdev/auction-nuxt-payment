@@ -60,13 +60,15 @@
             @change="onSearchInput"
             @clear="onSearchInput"
           />
-          <SearchBarProductsList
-            v-if="searchedProducts.length > 0"
-            :productItems="searchedProducts"
-            class="position-relative w-auto rounded-bottom"
-            listGroupClass="rounded-0"
-            listItemClass="border-top-0"
-          />
+          <div class="position-relative">
+            <SearchBarProductsList
+              v-if="searchedProducts.length > 0"
+              :productItems="searchedProducts"
+              class="position-absolute left-0 right-0 w-auto rounded-bottom"
+              listGroupClass="rounded-0"
+              listItemClass="border-top-0"
+            />
+          </div>
         </div>
       </b-col>
       <b-col lg="3" sm="12" class="justify-content-end mt-2 mt-lg-0 px-0 d-none d-sm-flex">
@@ -83,12 +85,12 @@
             letterSpacing: '0.06em',
             color: '#626262'
           }"
-          :inputStyle="{
-            borderRadius: '5px'
-          }"
           :dropdownStyle="{
-            background: '#FFF'
+            background: '#FFF',
+            borderRadius: '0 0 5px 5px'
           }"
+          borderRadius="5px"
+          borderRadiusClose="5px 5px 0 0"
           :arrowStyle="{
             marginTop: '0 !important',
             color: '#000000'
@@ -120,13 +122,17 @@
                 letterSpacing: '0.06em',
                 color: '#626262'
               }"
+              :dropdownStyle="{
+                position: 'relative',
+                background: '#FFF',
+                borderRadius: '0 0 5px 5px'
+              }"
+              borderRadius="5px"
+              borderRadiusClose="5px 5px 0 0"
               :arrowStyle="{
                 marginLeft: 0,
                 marginTop: '0 !important',
                 color: '#000000'
-              }"
-              :dropdownStyle="{
-                position: 'relative'
               }"
               @getResults="fetchOffersListing"
               @change="changeConditionFilter"
@@ -144,6 +150,13 @@
               width="100%"
               maxWidth="100%"
               paddingX="10px"
+              :dropdownStyle="{
+                position: 'relative',
+                background: '#FFF',
+                borderRadius: '0 0 5px 5px'
+              }"
+              borderRadius="5px"
+              borderRadiusClose="5px 5px 0 0"
               :labelStyle="{
                 fontSize: '14px',
                 letterSpacing: '0.06em',
@@ -153,9 +166,6 @@
                 marginLeft: 0,
                 marginTop: '0 !important',
                 color: '#000000'
-              }"
-              :dropdownStyle="{
-                position: 'relative'
               }"
               @getResults="fetchOffersListing"
               @change="changeStatusFilter"
@@ -476,7 +486,6 @@ export default {
         { text: this.$t('trades.excellent'), value: FILTER_CONDITION_EXCELLENT },
       ],
       actions: [
-        // { text: this.$t('common.decline_multiple'), value: 'decline_multiple' },
         { text: this.$t('product_page.delete_multiple'), value: 'delete_multiple' }
       ],
       action: '',
