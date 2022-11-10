@@ -198,7 +198,7 @@
         </div>
       </div>
       <div>
-        <b-btn class="save-btn-size ml-4" @click="savePreference">
+        <b-btn class="save-btn-size" @click="savePreference">
           {{$t('common.save_changes')}}
         </b-btn>
       </div>
@@ -655,6 +655,7 @@ export default {
   height: 40px
   width: 270px
   margin-top: 1rem
+  margin-left: 2.3rem
 .save-btn-brand
   background: $color-blue-20
   border-radius: 20px
