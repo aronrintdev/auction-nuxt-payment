@@ -126,6 +126,7 @@ export default {
         .get('shop-by-style', {
           params: {
             selectedType: this.type,
+            pageName: 'BROWSE',
             filters
           },
         })
