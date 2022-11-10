@@ -4,16 +4,9 @@
       <b-row v-if="offer !== null">
         <b-col :md="isPayment ? 9 : 12">
           <div class="">
-            <div>
-              <div class="amounts-input">
-                <input type="text" class="theirs ml-2" disabled :value="$t('trades.trade_arena.theirs') + `: ${getTheirTotal()}`">
-                <input type="text" class="yours" disabled :value="$t('trades.trade_arena.yours') + `: ${getYourTotal()}`">
-              </div>
-
-            </div>
             <div class="d-flex">
-              <div class="left-side-image ml-2" :class="{'left-item-margin':lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length}">
-                <div class="item-head-trade-hub">{{ $t('trades.trade_arena.theirs') }}:</div>
+              <div class="left-side-image ml-2 mt-2" :class="{'left-item-margin':lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length}">
+                <div class="item-head-trade-hub-mobile">{{ $t('trades.trade_arena.theirs') }}</div>
                 <div v-for="(item) in lastSubmittedOffer.theirs_items"
                      :key="item.id" class="mb-4 ml-1"
                      :class="[((lastSubmittedOffer.theirs_items.length > ONE_ITEM )|| (lastSubmittedOffer.yours_items.length)) ? 'item-length-small' : 'item-normal-small']">
@@ -35,12 +28,12 @@
                 <div class="long-line-small" :class="{'long-line-length-small' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>
                 <div v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" class="pointer-right-small m-2"></div>
               </div>
-              <div class="right-side-image"
+              <div class="right-side-image mt-2"
                    :class="{'right-item-margin':lastSubmittedOffer.theirs_items.length > ONE_ITEM &&
                     lastSubmittedOffer.yours_items.length === 0,'mt-10p': lastSubmittedOffer.theirs_items.length > ONE_ITEM &&
                     lastSubmittedOffer.yours_items.length === ONE_ITEM,'mt-8p': lastSubmittedOffer.theirs_items.length === ONE_ITEM
                     && lastSubmittedOffer.yours_items.length === ONE_ITEM}">
-                <div class="item-head-trade-hub">{{ $t('trades.trade_arena.yours') }}:</div>
+                <div class="item-head-trade-hub-mobile">{{ $t('trades.trade_arena.yours') }}</div>
                 <div v-if="lastSubmittedOffer.yours_items.length" >
                   <div v-for="(item) in lastSubmittedOffer.yours_items"
                    :key="item.id" class="mb-4">
@@ -394,7 +387,16 @@ export default {
   margin-bottom: 10px
   height: 35px
   padding-top: 15px
-
+.item-head-trade-hub-mobile
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $medium
+  font-size: 14px
+  color: $color-black-1
+  height: 35px
+  background: #F5F5F5
+  padding-top: 7px
+  padding-left: 30px
 #trade-item-0
   position: absolute
   margin-left: 115%
