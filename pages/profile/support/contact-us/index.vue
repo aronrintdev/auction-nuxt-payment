@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-6 col-12">
           <div class="px-md-5 py-3 px-3 form-box mx-3 mb-4">
-            <contact-us-form />
+            <contact-us-form ref="contactUsForm" />
           </div>
         </div>
         <div class="col-md-6 col-12">
@@ -66,6 +66,9 @@
             {{ $t('preferences.profile.support.contact_us.support_team') }}
           </h2>
           <NavigationLinks class="mt-4"/>
+          <div class="d-block d-md-none text-center">
+            <button type="submit" class="btn btn-primary px-5" @click="submitted">Submit</button>
+          </div>
         </div>
       </div>
     </div>
@@ -91,6 +94,11 @@ export default {
       EMAIL_ADDRESS,
     }
   },
+  methods:{
+    submitted(e){
+      this.$refs.contactUsForm.submitted(e)
+    }
+  }
 }
 </script>
 <style scoped lang="sass">
@@ -127,10 +135,19 @@ export default {
         @include body-8-normal
 
     .form-box
-      background: #FFFFFF
+      background: $color-white-1
       box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
       border-radius: 24px
 
       .fs-18, .fs-22
         @include body-8-normal
+
+    .btn.btn-primary
+      background: $color-gray-47
+      border: none
+      border-radius: 20px
+      min-width: 156px
+      width: 70%
+      color: $color-white-1
+
 </style>

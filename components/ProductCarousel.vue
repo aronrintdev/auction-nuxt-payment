@@ -157,8 +157,8 @@ export default {
         background: none
       &.owl-next
         float: right
-        margin-right: -47px !important
+        margin-right: -15px 
       &.owl-prev
         float: left
-        margin-left: -47px !important
+        margin-left: -15px
 </style>

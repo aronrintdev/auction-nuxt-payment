@@ -135,20 +135,17 @@ export default {
       border-radius: 6px 6px 0px 0px
 
       &:after
-        border-color: transparent transparent $color-black-1 transparent
-        top: 12px
+        top: 5px
+        content: url(../../assets/img/icons/arrow-up-black.svg)
 
     &:after
       position: absolute
-      content: ""
-      top: 22px
-      top: 18px
-      right: 1em
-      right: 10px
+      content: url(../../assets/img/icons/arrow-down-black.svg)
+      top: 5px
+      right: 30px
       width: 0
       height: 0
       border: 6px solid transparent
-      border-color: $color-black-1 transparent transparent transparent
 
 
     @media screen and (max-width: 576px)

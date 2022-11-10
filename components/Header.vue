@@ -1,6 +1,6 @@
 <template>
   <b-navbar toggleable="lg" class="navbar-wrapper border-bottom">
-    <PortalTarget name="back-icon-slot">
+    <PortalTarget v-if="showMenuIcon" name="back-icon-slot">
       <b-navbar-toggle target="top-menu-sidebar">
         <template #default>
           <img
@@ -331,6 +331,9 @@ export default {
     pageTitle() {
       return this.$nuxt?.context?.route?.meta[0]?.pageTitle ?? null
     },
+    showMenuIcon(){
+      return this.$route.name !== 'login' && this.$route.name !== 'signup'
+    }
   },
   watch: {
     screenIsSmallThanLG(newVal) {
@@ -411,6 +414,11 @@ export default {
   font-family: $font-family-base
   padding: 31px 16px
   background-color: $color-white-1
+
+  svg text
+    font-family: $font-family-sf-pro-display
+    @include body-18-normal
+
   @media (min-width: 576px)
     padding: 25px 43px
     padding-right: 19px

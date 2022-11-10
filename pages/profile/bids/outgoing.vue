@@ -107,7 +107,7 @@
     </div>
 
     <Pagination
-      v-if="bidsCount>0 && !fetchLoading && false"
+      v-if="bidsCount>0 && !fetchLoading && !isMobileSize"
       v-model="page"
       :total="totalCount"
       :per-page="perPage"
@@ -306,7 +306,7 @@ export default {
     if (process.browser) {
       const container = document.getElementById('profile-layout')
       window.onscroll = (ev) => {
-        if (container && !this.fetchLoading) {
+        if (container && !this.fetchLoading && this.isMobileSize) {
           if ((window.innerHeight + window.scrollY) >= container.offsetHeight - 10) {
            if (this.page < this.lastPage) {
              this.page++
@@ -438,11 +438,11 @@ export default {
     /**
      * Fetching bids from the backend and storing them in the store.
      */
-    FetchBids(isNewRecordCollection = false) {
+    FetchBids(isNewRecordCollection = false, page = 1) {
       if(this.fetchLoading) return
       /* start new lazy loading collection */
       if (isNewRecordCollection) {
-        this.page = 1 // lazy loading will start from first page
+        this.page = page // lazy loading will start from first page
         this.bids = [] // new lazy loading record list
       }
       this.fetchLoading = true
@@ -484,15 +484,13 @@ export default {
     },
     handlePageClick(bvEvent, page) {
       if (this.page !== page) {
-        this.page = page
-        this.FetchBids()
+        this.FetchBids(true, page)
       }
     },
     handlePerPageChange(value) {
       if (this.perPage !== value) {
         this.perPage = value
-        this.page = 1
-        this.FetchBids()
+        this.FetchBids(true)
       }
     },
     /** Undoing the delete action.

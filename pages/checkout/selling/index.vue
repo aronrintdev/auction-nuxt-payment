@@ -37,11 +37,14 @@ export default {
     }
   },
   beforeMount() {
+    this.$root.$emit('hide-header', { hideHeader: true })
+
     if (this.$store.$auth.loggedIn) {
       this.getUserDetails()
       this.getUserRedeemedReward()
       this.getOrderSettings()
     }
+
     enquireScreenSizeHandler((type) => {
       this.$store.commit('size/setScreenType', type)
     })
@@ -49,6 +52,9 @@ export default {
   mounted() {
     this.injectRiskifiedBeacon()
     this.injectGoogleMapsApi()
+  },
+  beforeDestroy() {
+    this.$root.$emit('hide-header', { hideHeader: false })
   },
   methods: {
     ...mapActions({

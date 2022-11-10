@@ -1,6 +1,18 @@
 <template>
   <b-container fluid class="container-watchlists">
-    <div class="watchlist-mobile">
+    <div
+      v-if="listProducts.length === 0"
+      class="section-no-list text-center py-5"
+    >
+      <p class="mb-3">
+        {{ $t('wish_lists.no_wish_lists') }}
+      </p>
+
+      <Button variant="primary" class="mx-auto" pill>
+        {{ $t('wish_lists.create_new_list') }}
+      </Button>
+    </div>
+    <div v-else class="watchlist-mobile">
       <div v-for="(product, index) in listProducts" :key="index" class="mb-4">
         <div class="d-flex">
           <div class="thumb-wrapper">
@@ -85,9 +97,11 @@ import Thumb from '~/components/product/Thumb'
 import CreateWatchListModal from '~/components/modal/CreateWatchlist'
 import ShareIcon from '~/assets/icons/ShareIcon'
 import ShareButton from '~/components/common/ShareButton.vue'
+import Button from '~/components/common/Button.vue'
+
 export default {
   name: 'WatchListsId',
-  components: { Thumb, CreateWatchListModal, ShareIcon, ShareButton },
+  components: { Thumb, CreateWatchListModal, ShareIcon, ShareButton, Button  },
   layout: 'IndexLayout',
   data() {
     return {

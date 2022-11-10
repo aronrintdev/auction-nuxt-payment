@@ -1,27 +1,17 @@
 <template>
   <div>
     <b-container fluid class="px-0 mb-4 mb-sm-0 all-features-container">
-      <FeatureBanner
-        :title="banner.title"
-        :description="banner.description"
-        :backgroundImage="banner.backgroundImage"
-        :backgroundImageSm="banner.backgroundImageSm"
-      />
       <b-container>
         <div class="m-auto my-wrapper-class">
-          <h2
-            class="text-center text-black text-uppercase fs-40 fw-6 mt-5 d-none d-sm-block deadstock-v2"
-          >
-            Deadstock V2.0
-          </h2>
-          <div class="mx-2 mx-sm-0 mt-5 mb-5 position-relative">
+          <div class="mx-2 mx-sm-0 mb-76 position-relative">
             <h2
-              class="text-center text-black text-uppercase fs-40 fw-6 newest-features"
-              v-html="$t('newest_features.title')"
-            ></h2>
+              class="text-center text-black fs-48 fw-7 newest-features font-adobe-garamond mb-0"
+            >
+              <span class="pre_line_sm">{{ $t('newest_features.title') }}</span>
+            </h2>
           </div>
           <div
-            class="d-flex align-items-center justify-content-around justify-content-sm-between flex-wrap"
+            class="d-flex align-items-center justify-content-around justify-content-sm-between flex-wrap cards_wrapper"
           >
             <NewestFeatureCard
               v-for="(feature, index) in newestFeatures"
@@ -40,11 +30,10 @@
   </div>
 </template>
 <script>
-import FeatureBanner from '~/components/feature/Banner'
 import NewestFeatureCard from '~/components/feature/NewestFeatureCard'
 
 export default {
-  components: { FeatureBanner, NewestFeatureCard },
+  components: { NewestFeatureCard },
 
   layout: 'IndexLayout',
 
@@ -220,14 +209,32 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.mb-76
+  margin-bottom: 30px
+  @media (min-width: 576px)
+    margin-bottom: 76px
+.cards_wrapper
+  @media (min-width: 576px)
+    row-gap: 50px
+.font-adobe-garamond
+  @media (max-width: 576px)
+    .pre_line_sm
+      white-space: pre-line
+      text-transform: uppercase
 .all-features-container
   background-color: $color-gray-1
   .my-wrapper-class
     max-width: 968px
+    padding-top: 30px
+    @media (min-width: 576px)
+      padding-top: 117px
+  h2.newest-features
+    text-transform: capitalize
   h2.newest-features::before
     position: absolute
     left: 0px
     top: 50%
+    transform: translate(0, 50%)
     content: ''
     width: 289px
     height: 1px
@@ -236,6 +243,7 @@ export default {
     position: absolute
     right: 0px
     top: 50%
+    transform: translate(0, 50%)
     content: ''
     width: 289px
     height: 1px
@@ -257,6 +265,7 @@ export default {
 @media screen and (max-width: 426px)
   .all-features-container
     h2.newest-features::before
+      text-transform: uppercase
       width: 88px
     h2.newest-features::after
       width: 88px

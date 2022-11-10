@@ -201,7 +201,6 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .search-mobile
   @media (max-width: 575px)
     height: 33px !important
@@ -212,7 +211,6 @@ export default {
     border-radius: 8px !important
     padding-left: 39px !important
     width: 102% !important
-
 #brands-search
   input
     font-size: $font-size-12
@@ -266,12 +264,10 @@ export default {
       left: -5px !important
       width: 14px
       height: 14px
-
   .btn-clear
     position: absolute
     z-index: 1
     right: 20px
-
   input.search-input
     width: 100%
     background-color: $color-gray-3

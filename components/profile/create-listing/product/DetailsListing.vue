@@ -843,6 +843,14 @@ export default {
       return val && val.price
     },
 
+    highestOfferId: (vm) => {
+      return vm.product?.highest_offers?.find(
+        (i) =>
+          i.size_id === vm.selectedSize &&
+          i.packaging_condition_id === vm.selectedCondition
+      )?.offer_id
+    },
+
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     quantityError: (vm) => {
       if (
@@ -1069,6 +1077,7 @@ export default {
           price: this.getSelectedItemforVendor.sale_price,
           listing_item_id: this.getSelectedItemforVendor.listing_items[0].id,
           highestOffer: this.highestOffer,
+          selectedOfferId: this.highestOfferId
         }
 
         this.$store.dispatch('sell-now/addItem', sellNowData)
