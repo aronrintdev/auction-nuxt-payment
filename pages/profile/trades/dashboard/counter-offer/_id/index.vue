@@ -196,9 +196,9 @@
               </b-row>
             </div>
           </vue-bottom-sheet>
-          <div class="d-flex">
+          <div class="d-flex mb-5">
             <b-btn class="discard-changes ml-3 mr-3"  @click="$bvModal.show('discardModel')">{{ $t('trades.discard_changes') }}</b-btn>
-            <b-btn class="counter-offer"  @click="showPoorTradeConfirmationModal">{{ $t('trades.counter_offer') }}</b-btn>
+            <b-btn class="counter-offer"  @click="showPoorTradeConfirmationModal">Next</b-btn>
           </div>
 
         </b-col>
@@ -597,6 +597,7 @@ export default {
     },
     addCash(){
       this.cashAdd = true
+      this.isPayment = false
     },
     cancelCash(){
       this.cashAdd = false;
