@@ -583,7 +583,7 @@ export default {
       this.sendCode()
     },
     applyVendorForm(code = null) {
-      if (code) {
+      if (code && typeof (code) !== 'object') {
         this.applyForm.code = code
         this.applyForm.agree = true
       }

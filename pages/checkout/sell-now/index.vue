@@ -31,6 +31,7 @@ export default {
     }
   },
   beforeMount() {
+    this.$root.$emit('hide-header', { hideHeader: true })
     enquireScreenSizeHandler((type) => {
       this.$store.commit('size/setScreenType', type)
     })
@@ -40,11 +41,14 @@ export default {
     this.getOrderSettings()
     this.addVendorPayoutMethod()
     // If the user is a vendor
-    if(this.isVendor){
+    if (this.isVendor){
       this.getVendorCommission(this.$store.state.auth.user.vendor.id)
     }
 
     this.getGlobalCommission()
+  },
+  beforeDestroy() {
+    this.$root.$emit('hide-header', { hideHeader: false })
   },
   methods: {
     ...mapActions({
@@ -54,13 +58,8 @@ export default {
       addVendorPayoutMethod: 'auth/addVendorPayoutMethod',
     }),
     offerExist(){
-      this.$axios.get('/sell-now/check-offerexist', {params: {
-        id: this.sellItem.id,
-        size_id: this.sellItem.size_id,
-        packaging_condition_id: this.sellItem.packaging_condition_id,
-        highestOffer: this.sellItem.highestOffer,
-      }})
-      .then((res) => {
+      this.$axios.get(`/offer/${this.sellItem.selectedOfferId}`)
+      .then((res) =>  {
         this.$store.dispatch('sell-now/addItem', { ...this.sellItem, offer: res.data.data })
       })
       .catch((err) => {

@@ -104,25 +104,28 @@
     </div>
 
     <div class="col d-none d-md-block">
-      <div v-if="single.status_label!=='voided'" :class="`text-center status m-auto ${styleFor(single.status_label)}`">{{ single.status_label }}</div>
+      <div v-if="single.status_label!=='voided'" :class="`text-center status m-auto ${styleFor(single.status_label)}`">{{ single.status_label | wordLimit }}</div>
     </div>
 
-    <div class="col-2 d-none d-md-block">
+    <div class="text-center col-2 d-none d-md-block">
       <div v-if="single.status === PROCESSING">
         <a href="#generate-label" @click="generateLabel(single)">{{ $t('orders.generate_shipping_label') }}</a>
       </div>
-      <div v-if="single.status === AWAITING_SHIPMENT_TO_DEADSTOCK">
+      <div v-else-if="single.status === AWAITING_SHIPMENT_TO_DEADSTOCK">
         <a href="#generate-label" @click="generateLabel(single)">{{ $t('orders.delivered_to_deadstock') }}</a>
       </div>
-      <div v-if="single.status !== PROCESSING && single.vendor_shipment">
-        <a :href="downloadPdf(single)" :download="`${single.vendor_shipment.tracking_no}.pdf`">{{
-            $t('orders.print_shipping_label')
-          }}</a>
+      <div v-else-if="single.status !== PROCESSING && single.vendor_shipment">
+        <div>
+          <a :href="downloadPdf(single)" :download="`${single.vendor_shipment.tracking_no}.pdf`">{{
+              $t('orders.print_shipping_label')
+            }}</a>
+        </div>
+        <div>
+          <div class="text-center text-color-blue-1">{{ single.vendor_shipment.shipping_method_text }}</div>
+          <a target="_blank" :href="single.vendor_shipment.tracking_url">{{ single.vendor_shipment.tracking_no }}</a>
+        </div>
       </div>
-      <div v-if="single.status !== PROCESSING && single.vendor_shipment">
-        <span>{{ single.vendor_shipment.shipping_method_text }}</span>
-        <a target="_blank" :href="single.vendor_shipment.tracking_url">{{ single.vendor_shipment.tracking_no }}</a>
-      </div>
+      <div v-else>-</div>
     </div>
   </div>
 </template>
@@ -197,6 +200,9 @@ export default {
       return item.product
     },
     sizeId(item) {
+      if (this.isAuction) {
+        return item.auction_item?.inventory?.size.size
+      }
       return item.listing_item?.inventory?.size_id
     },
     // formatting date to US format mm/dd/yyyy

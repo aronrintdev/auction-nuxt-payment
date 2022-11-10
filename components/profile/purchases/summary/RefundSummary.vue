@@ -1,20 +1,20 @@
 <template>
   <div class="row vd-purchase-history">
-    <div class="col-12 purchase-history-heading refund-summary">
+    <div class="body-16-bold font-secondary">
       {{ $t('vendor_purchase.refund_summary') }}
     </div>
     <div class="col-12 payment-summary-details mt-3">
-      <b-card class="shadow-none border">
+      <b-card class="shadow-none border card-web">
         <div class="row">
           <div class="col-12 transaction-details">
-            <h5 class="transaction-heading text-capitalize text-bold">
+            <h5 class="body-15-bold font-secondary text-capitalize">
               {{
                 $t('vendor_purchase.transactionid', {
                   transactionid: orderDetails.transaction.transaction_id,
                 })
               }}&nbsp;({{ orderDetails.type.label }})
             </h5>
-            <p class="text-capitalize refunded-date">
+            <p class="body-12-medium font-secondary">
               {{ $t('vendor_purchase.refunded_on') }}
               {{ orderDetails.transaction.created_at | formatDateTimeString }}
             </p>
@@ -22,7 +22,7 @@
           <!-- Billing address -->
           <div class="col-md-4 col-sm-12 address">
             <div
-              class="payment-summary-details-subheading text-muted text-bold"
+                class="body-24-normal font-secondary text-muted6"
             >
               {{ $t('vendor_purchase.billing_address') }}
             </div>
@@ -51,10 +51,10 @@
           <!-- ./Billing address -->
 
           <div v-if="orderDetails.transaction" class="col-md-4 col-sm-12 transaction">
-            <div class="payment-summary-details-subheading text-muted text-bold">
+            <div class="body-24-normal font-secondary text-muted6">
               {{ $t('vendor_purchase.payment_method') }}
             </div>
-            <div class="payment-summary-details-description mt-2">
+            <div class="body-4-normal mt-2">
               <img :src="getImage" alt="payment-image" class="payment-img" width="50"/>
               {{ $t('vendor_purchase.paymentvia') }}
               <span v-if="cardStatus.includes(orderDetails.transaction.payment_type)" class="text-capitalize">
@@ -87,13 +87,13 @@
           <!-- Order Total -->
           <div v-if="orderDetails.transaction" class="col-md-4 col-sm-12 total">
             <div
-              class="payment-summary-details-subheading text-muted text-bold"
+                class="body-24-normal font-secondary text-muted6"
             >
               {{ $t('vendor_purchase.refund_total') }}
             </div>
             <b-row v-if="orderDetails.transaction.sub_total" class="mt-2">
               <b-col md="6">
-                <div class="text-gray-25">
+                <div class="text-muted5 font-secondary body-4-regular">
                   {{ $t('shopping_cart.subtotal') }}
                   {{
                     $t('vendor_purchase.item', {
@@ -103,19 +103,19 @@
                 </div>
               </b-col>
               <b-col md="3">
-                <div class="text-gray-25 pull-right">
+                <div class="text-black body-1816-medium font-secondary pull-right">
                   &dollar;{{ orderDetails.transaction.sub_total | formatPrice }}
                 </div>
               </b-col>
             </b-row>
             <b-row v-if="orderDetails.transaction.shipping_fee">
               <b-col md="6">
-                <div class="text-gray-25">
+                <div class="text-muted5 font-secondary body-4-regular">
                   {{ $t('vendor_purchase.shipping_fee') }}
                 </div>
               </b-col>
               <b-col md="3">
-                <div class="text-gray-25 pull-right">
+                <div class="text-black body-1816-medium font-secondary pull-right">
                   &dollar;{{
                     orderDetails.transaction.shipping_fee | formatPrice
                   }}
@@ -124,12 +124,12 @@
             </b-row>
             <b-row v-if="orderDetails.transaction.processing_fee">
               <b-col md="6">
-                <div class="text-gray-25">
+                <div class="text-muted5 font-secondary body-4-regular">
                   {{ $t('vendor_purchase.processing_fee') }}
                 </div>
               </b-col>
               <b-col md="3">
-                <div class="text-gray-25 pull-right">
+                <div class="text-black body-1816-medium font-secondary pull-right">
                   &dollar;{{
                     orderDetails.transaction.processing_fee | formatPrice
                   }}
@@ -138,23 +138,25 @@
             </b-row>
             <b-row v-if="orderDetails.transaction.tax">
               <b-col md="6">
-                <div class="text-gray-25">{{ $t('vendor_purchase.tax') }}</div>
+                <div class="text-muted5 font-secondary body-4-regular">{{ $t('vendor_purchase.tax') }}</div>
               </b-col>
               <b-col md="3">
-                <div class="text-gray-25 pull-right">
+                <div class="text-black body-1816-medium font-secondary pull-right">
                   &dollar;{{ orderDetails.transaction.tax | formatPrice }}
                 </div>
               </b-col>
             </b-row>
-            <b-row>
+            <b-row v-if="orderDetails.transaction.discount && orderDetails.promo_code!==null">
               <b-col md="6">
-                <div class="text-gray-25">
+                <div class="text-muted5 font-secondary body-4-regular">
                   {{ $t('vendor_purchase.promotion') }}
+                  <span v-if="orderDetails.promo_code">({{ orderDetails.promo_code }})</span>
                 </div>
               </b-col>
               <b-col md="3">
-                <div class="text-gray-25 pull-right">&dollar;0.00</div>
-                <!-- TODO: Harcoded for now -->
+                <div class="text-black body-1816-medium font-secondary pull-right">
+                  &dollar;{{ orderDetails.transaction.discount }}
+                </div>
               </b-col>
             </b-row>
             <b-row v-if="orderDetails.transaction.total">
@@ -162,7 +164,7 @@
                 <div class="text-bold">{{ $t('vendor_purchase.total') }}</div>
               </b-col>
               <b-col md="3">
-                <div class="text-gray-25 pull-right">
+                <div class="text-black body-1816-medium font-secondary pull-right">
                   &dollar;{{ orderDetails.transaction.total | formatPrice }}
                 </div>
               </b-col>
@@ -227,6 +229,12 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.text-muted6
+  color: $color-gray-6
+
+.text-muted5
+  color: $color-gray-5
+
 @media (max-width: 426px)
   .refund-summary
     @include body-7-bold
