@@ -15,7 +15,7 @@
             </div>
             <!-- ./Heading -->
             <!-- Search Input -->
-            <div class="col-md-8 col-12 col-sm-6 mt-md-4 mt-2">
+            <div class="col-md-7 col-12 col-sm-6 mt-md-4 mt-2">
               <div class="form browse-search border rounded">
                 <div class="form-group selling-search-input">
                   <img
@@ -38,17 +38,18 @@
             <!-- Search Input -->
             <!-- Select Box -->
             <div
-                class="col-12 col-md-4 mt-md-4 col-sm-6 filter-customselect border rounded p-0 mt-2"
+                class="col-12 col-md-4 mt-md-4 col-sm-6 filter-customselect border rounded p-0 mt-2 ml-auto"
             >
               <VendorPurchaseCustomSelect
-                  :default="purchaseFilter"
-                  :options="{
-                '': $t('vendor_purchase.sort_by'),
-                recent_to_old: $t('vendor_purchase.purchase_recent_to_old'),
-                old_to_recent: $t('vendor_purchase.purchase_oldest_to_recent'),
-              }"
-              @input="handleFilterChanged"
-            ></VendorPurchaseCustomSelect>
+                :default="purchaseFilter"
+                :options="{
+                  '': $t('vendor_purchase.sort_by'),
+                  recent_to_old: $t('vendor_purchase.purchase_recent_to_old'),
+                  old_to_recent: $t('vendor_purchase.purchase_oldest_to_recent'),
+                }"
+                @input="handleFilterChanged"
+              >
+              </VendorPurchaseCustomSelect>
           </div>
           <!-- Select Box -->
         </div>
