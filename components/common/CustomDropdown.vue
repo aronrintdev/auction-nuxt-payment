@@ -173,6 +173,7 @@ export default {
       }
     })
   },
+
   methods: {
     /***
      * This function is used to convert string first
@@ -208,7 +209,6 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
-
 ul.custom-dropdown-options
   position: relative
   z-index: 100000
@@ -218,15 +218,12 @@ ul.custom-dropdown-options
   min-width: 150px
   max-height: 160px
   overflow: auto
-
 ul.custom-dropdown-options li
   padding: 5px 5px
   border-bottom: 1px solid $color-gray-17b
   cursor: pointer
-
 ul.custom-dropdown-options li:last-of-type
   border-bottom: none
-
 ul.custom-dropdown-options li.fixed
   position: -webkit-sticky
   position: sticky
@@ -234,28 +231,21 @@ ul.custom-dropdown-options li.fixed
   background-color: $color-white-5
   width: 100%
   z-index: 100000
-
 ul.custom-dropdown-options li.fixed button
   text-align: center
   width: 100%
   background-color: $color-blue-2
-
 .label-wrapper
   display: flex
   justify-content: space-between
   align-items: center
-
 div.label-wrapper label
   padding-left: 5px
   padding-right: 5px
-
 .custom-color
   background: $color-white-1
-
 .background-white
   background: $color-white-1
-
 .bordered
   border: 1px solid $color-gray-17b
-
 </style>

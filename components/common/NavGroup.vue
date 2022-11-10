@@ -4,7 +4,7 @@
       <b-button
         v-for="(item, index) in data"
         :key="`nav-group-${navKey}-${index}`"
-        :class="{ active: item.value === value }"
+        :class="[item.value === value ? 'active' : '', btnClass]"
         :title="item.label"
         :style="btnStyle"
         class="font-primary"
@@ -30,6 +30,10 @@ export default {
     navKey: {
       type: String,
       default: '',
+    },
+    btnClass: {
+      type: String,
+      default: ''
     },
     btnGroupStyle: {
       type: Object,
@@ -60,7 +64,7 @@ export default {
     background-color: $color-white-19
     border-radius: 20px
     padding: 4px 6px
-    .btn
+    .btn, .btn-lg
       @include body-6-regular
       background-color: $color-white-19
       border: 0 !important
@@ -82,7 +86,9 @@ export default {
         height: 0
         overflow: hidden
         visibility: hidden
-
+    .btn-lg
+      @include body-5-regular
+      
   @media (max-width: 576px)
     .btn-group
       width: 100%

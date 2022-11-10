@@ -1,25 +1,26 @@
 <template>
   <div class="custom-selectbox" :tabindex="tabindex" @blur="open = false">
     <div
-      class="selected bg-white"
-      :class="{ open: open }"
-      @click="open = !open"
+        class="selected bg-white"
+        :class="{ open: open, border: bordered }"
+        @click="open = !open"
     >
-      <span
-        :class="updateFilters.length ? 'text-dark' : 'text-muted'"
-        >{{ title }}</span
+      <div
+          :class="updateFilters.length ? 'text-dark' : 'text-muted'"
+      >{{ title }}
+      </div
       >
     </div>
-    <div class="items bg-white" :class="{ selectHide: !open }">
+    <div :class="{ selectHide: !open, border: bordered }" class="items bg-white">
       <div class="item-wrapper">
         <div v-for="(option, key) in options" :key="key" class="p-0" @click="checked(option)">
           <div class="p-3 d-flex">
             <b-form-checkbox
-              v-if="option.value"
-              class="border-0 p-0 ml-4 text-normal"
-              :value="option.value"
-              :checked="getVal(option)"
-              @change="checked(option)"
+                v-if="option.value"
+                class="border-0 p-0 ml-4 text-normal"
+                :value="option.value"
+                :checked="getVal(option)"
+                @change="checked(option)"
             />
             {{ option.text }}
           </div>
@@ -38,6 +39,10 @@
 export default {
   name: 'SelectWithCheckbox',
   props: {
+    bordered: {
+      type: Boolean,
+      default: false,
+    },
     title: {
       type: String,
       default: null,
@@ -130,20 +135,17 @@ export default {
       border-radius: 6px 6px 0px 0px
 
       &:after
-        border-color: transparent transparent $color-black-1 transparent
-        top: 12px
+        top: 5px
+        content: url(../../assets/img/icons/arrow-up-black.svg)
 
     &:after
       position: absolute
-      content: ""
-      top: 22px
-      top: 18px
-      right: 1em
-      right: 10px
+      content: url(../../assets/img/icons/arrow-down-black.svg)
+      top: 5px
+      right: 30px
       width: 0
       height: 0
       border: 6px solid transparent
-      border-color: $color-black-1 transparent transparent transparent
 
 
     @media screen and (max-width: 576px)

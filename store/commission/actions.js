@@ -24,7 +24,7 @@ export function getGlobalCommission({ commit }) {
   return this.$axios
     .get('/commissions/global/active', { handleError: false })
     .then((response) => {
-      commit('setGlobalCommission', response.data)
+      commit('setGlobalCommission', response.data.data)
       return Promise.resolve(response.data.data)
     })
     .catch((err) => {

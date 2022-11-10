@@ -45,7 +45,7 @@
                 <div class="row">
                   <div class="col">
                     <div class="text-center">
-                      <div class="pb-2"><img :src="product(single).image" width="74" alt=""></div>
+                      <div class="pr-2"><Thumb :product="product(single)" width="74px" /></div>
                       <NuxtLink :to="`/orders/${order.order_id}-${index + 1}`" class="d-none d-md-block">
                         <span>#{{ order.order_id }}-{{ index + 1 }}</span>
                       </NuxtLink>
@@ -160,7 +160,7 @@
           <div class="col-8 col-md-2">
             <div class="d-flex align-items-center text-left forced-wide">
               <div class="p-1">
-                <div class="pb-2"><img :src="product(item).image" height="70" alt=""></div>
+                <div class="pr-2"><Thumb :product="product(item)" width="70px" /></div>
               </div>
               <div>
                 <div class="title">{{ product(item).name | wordLimit }}</div>
@@ -180,29 +180,32 @@
           <div class="col"></div>
 
           <div class="col">
-            <div v-if="item.status_label!=='voided'"
-                 :class="`text-center status m-auto ${styleFor(item.status_label)}`">{{ item.status_label | wordLimit }}
+            <div class="d-flex align-items-center h-100">
+              <div v-if="item.status_label!=='voided'" :class="`text-center status m-auto ${styleFor(item.status_label)}`">{{ item.status_label | wordLimit }}</div>
             </div>
           </div>
 
           <div class="col-2">
-            <div>
+            <div class="text-center d-flex align-items-center h-100">
               <!--todo this portion need further confirmation-->
               <div v-if="item.status === PROCESSING">
                 <a href="#generate-label" @click="generateLabel(item)">{{ $t('orders.generate_shipping_label') }}</a>
               </div>
-              <div v-if="item.status === AWAITING_SHIPMENT_TO_DEADSTOCK">
+              <div v-else-if="item.status === AWAITING_SHIPMENT_TO_DEADSTOCK">
                 <a href="#generate-label" @click="generateLabel(item)">{{ $t('orders.delivered_to_deadstock') }}</a>
               </div>
-              <div v-if="item.status !== PROCESSING && item.vendor_shipment">
-                <a :href="downloadPdf(item)" :download="`${item.vendor_shipment.tracking_no}.pdf`">
-                  {{ $t('orders.print_shipping_label') }}
-                </a>
+              <div v-else-if="item.status !== PROCESSING && item.vendor_shipment">
+                <div>
+                  <a :href="downloadPdf(item)" :download="`${item.vendor_shipment.tracking_no}.pdf`">
+                    {{ $t('orders.print_shipping_label') }}
+                  </a>
+                </div>
+                <div>
+                  <div class="text-center text-color-blue-1">{{ item.vendor_shipment.shipping_method_text }}</div>
+                  <a target="_blank" :href="item.vendor_shipment.tracking_url">{{ item.vendor_shipment.tracking_no }}</a>
+                </div>
               </div>
-              <div v-if="item.status !== PROCESSING && item.vendor_shipment">
-                <div class="text-center text-color-blue-1">{{ item.vendor_shipment.shipping_method_text }}</div>
-                <a target="_blank" :href="item.vendor_shipment.tracking_url">{{ item.vendor_shipment.tracking_no }}</a>
-              </div>
+              <div v-else>-</div>
             </div>
           </div>
           <div class="w-100"></div>
@@ -214,12 +217,14 @@
 
 <script>
 import {AWAITING_SHIPMENT_TO_DEADSTOCK, PROCESSING} from '~/static/constants';
-import {Icon} from '~/components/common';
+import {Icon } from '~/components/common';
+import Thumb from '~/components/product/Thumb';
 
 export default {
   name: 'OrderMultipleComponent',
   components: {
-    Icon
+    Icon,
+    Thumb,
   },
   props: {
     order: {
@@ -299,6 +304,9 @@ export default {
       return item.listing_item?.inventory?.packaging_condition.name
     },
     sizeId(item) {
+      if (this.isAuction) {
+        return item.auction_item?.inventory?.size.size
+      }
       return item.listing_item?.inventory?.size_id
     },
     // formatting date to US format mm/dd/yyyy

@@ -148,6 +148,7 @@
     "browse": "Browse",
     "wants_inventory": "Wants Inventory",
     "wants_combinations": "Wants Combinations",
+    "decline_multiple": "Decline Multiple",
     "sell_with_us": "Sell with us",
     "categories": {
       "sneakers": "Sneakers",
@@ -155,6 +156,9 @@
       "footwear": "Footwear",
       "accessories": "Accessories"
     },
+    "accept_trade": "Accept Trade",
+    "they_added": "They added",
+    "on_top": "on top",
     "filter_by": "Filter By",
     "next": "Next",
     "prev": "Prev",
@@ -186,7 +190,9 @@
     "season_detail": "SS",
     "model": "Model",
     "model_detail": "The model is 5’ 8” and wears a large",
-    "no-items-in-combination": "No items in combination"
+    "no-items-in-combination": "No items in combination",
+    "thread": "Thread",
+    "rescind": "Rescind"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -2834,7 +2840,8 @@
       "ending_soon": "Expiring",
       "sold": "Sold"
     },
-    "status_type": "Status"
+    "status_type": "Status",
+    "estimate_value": "Estimated Auction Value"
   },
   "create_listing": {
     "your_listing_price": "Your listing price",
@@ -4753,6 +4760,7 @@
     "no_trade_offers_have_been_found": "No Trade offers have been found",
     "no_trade_list_have_been_found": "No Trade list have been found",
     "sent_on": "Sent on",
+    "received_on": "Received on",
     "offer_type": {
       "all": "All Offers",
       "received": "Received",
@@ -5503,7 +5511,8 @@
     "no_offer": "There is no offer placed.",
     "user_address_not_found": "User doesnot have a billing address.",
     "error_processing": "Error Processing Request",
-    "sell_successfull": "Selling has been done successfully."
+    "sell_successfull": "Selling has been done successfully.",
+    "no_payout_method"  : "No Payout Method Found"
   },
   "fee_policy": {
     "title": "Fee Policy"

@@ -1,58 +1,75 @@
 <template>
   <div class="container-trade-dashboard">
-    <b-row class="heading-dashboard mt-4 mx-0 d-none d-sm-flex">
+    <b-row class="heading-dashboard mt-lg-5 mx-0 d-none d-sm-flex">
       {{$t('trades.my_trade_offer')}}
     </b-row>
     <b-row class="m-0 mt-sm-3 justify-content-lg-between pt-3">
-      <b-col lg="8" sm="12" class="d-flex justify-content-between align-items-center px-0 pr-sm-auto pl-sm-0">
-        <div class="col-11 px-0 d-sm-none">
+      <b-col lg="8" cols="12" class="sm-row justify-content-between align-items-center px-0 pr-sm-auto pl-sm-0">
+        <div class="d-flex align-items-center justify-content-between d-sm-none">
+          <div class="col-11 px-0">
+            <SearchInput
+              class="searchInput"
+              :value="searchText"
+              :inputStyle="{
+                paddingLeft: '44px !important',
+                fontWeight: 400,
+                letterSpacing: '0.06em',
+                color: '#626262',
+                fontSize: '12px',
+                fontFamily: 'Montserrat',
+                background: '#F7F7F7',
+                height: '33px',
+              }"
+              iconStyle='color: #979797; width: 14px; height: 14px;'
+              variant="primary"
+              :clearSearch="true"
+              @change="onSearchInput"
+              @clear="onSearchInput"
+            />
+          </div>
+          <img
+            :src="require('~/assets/img/filters.svg')"
+            width="20"
+            height="20"
+            @click="isFiltersModalOpen=true"
+          />
+        </div>
+        <div class="col-11 d-sm-none">
+          <SearchBarProductsList
+            v-if="searchedProducts.length > 0"
+            :productItems="searchedProducts"
+            class="position-relative w-auto rounded-bottom"
+            listGroupClass="rounded-0"
+            listItemClass="border-top-0"
+          />
+        </div>
+        <div class="d-none d-sm-flex flex-column w-100">
           <SearchInput
-            class="searchInput"
+            class="w-100"
             :value="searchText"
-            :inputStyle="{
-              paddingLeft: '44px !important',
-              fontWeight: 400,
-              letterSpacing: '0.06em',
-              color: '#626262',
-              fontSize: '12px',
-              fontFamily: 'Montserrat',
-              background: '#F7F7F7',
-              height: '33px',
-            }"
-            iconStyle='color: #979797; width: 14px; height: 14px;'
             variant="primary"
+            inputClass="search-offers-input"
+            :placeholder="$t('trades.search_trades_offers')"
             :clearSearch="true"
+            :isOpen="searchedProducts.length > 0"
+            :onOpenStyle="{
+              borderBottomLeftRadius: '0 !important',
+              borderBottomRightRadius: '0 !important',
+            }"
+            bordered
             @change="onSearchInput"
             @clear="onSearchInput"
           />
+          <div class="position-relative">
+            <SearchBarProductsList
+              v-if="searchedProducts.length > 0"
+              :productItems="searchedProducts"
+              class="position-absolute left-0 right-0 w-auto rounded-bottom"
+              listGroupClass="rounded-0"
+              listItemClass="border-top-0"
+            />
+          </div>
         </div>
-        <img
-          class="d-sm-none"
-          :src="require('~/assets/img/filterTradeList.svg')"
-          width="20"
-          height="20"
-          @click="isFiltersModalOpen=true"
-        />
-        <SearchInput
-          class="w-100 d-none d-sm-block"
-          :value="searchText"
-          variant="primary"
-          :inputStyle="{
-            height: '38px'
-          }"
-          :placeholder="$t('trades.search_trades_offers')"
-          :clearSearch="true"
-          bordered
-          @change="onSearchInput"
-          @clear="onSearchInput"
-        />
-        <SearchBarProductsList
-          v-if="searchedProducts.length > 0"
-          :productItems="searchedProducts"
-          width="700px"
-          class="position-absolute"
-          :style="{ top: '33px', width: '94% !important' }"
-        />
       </b-col>
       <b-col lg="3" sm="12" class="justify-content-end mt-2 mt-lg-0 px-0 d-none d-sm-flex">
         <CustomDropdown
@@ -62,8 +79,21 @@
           :label="orderFilterLabel"
           variant="white"
           maxWidth="100%"
+          paddingX="10px"
+          :labelStyle="{
+            fontSize: '14px',
+            letterSpacing: '0.06em',
+            color: '#626262'
+          }"
           :dropdownStyle="{
-            background: '#FFF'
+            background: '#FFF',
+            borderRadius: '0 0 5px 5px'
+          }"
+          borderRadius="5px"
+          borderRadiusClose="5px 5px 0 0"
+          :arrowStyle="{
+            marginTop: '0 !important',
+            color: '#000000'
           }"
           width="100%"
           dropDownHeight="38px"
@@ -73,7 +103,7 @@
     </b-row>
     <b-row class="d-none d-sm-flex mt-4 justify-content-lg-between">
       <b-col lg="5" xl="5" sm="12" class="">
-        <label>{{$t('trades.filter_by')}}</label>
+        <label class="filter-label">{{$t('trades.filter_by')}}</label>
         <b-row class="">
           <b-col md="5" lg="7" xl="5" sm="12">
             <CustomDropdown
@@ -86,11 +116,23 @@
               optionsWidth="custom"
               maxWidth="100%"
               width="100%"
-              :arrowStyle="{
-                marginLeft: 0
+              paddingX="10px"
+              :labelStyle="{
+                fontSize: '14px',
+                letterSpacing: '0.06em',
+                color: '#626262'
               }"
               :dropdownStyle="{
-                position: 'relative'
+                position: 'relative',
+                background: '#FFF',
+                borderRadius: '0 0 5px 5px'
+              }"
+              borderRadius="5px"
+              borderRadiusClose="5px 5px 0 0"
+              :arrowStyle="{
+                marginLeft: 0,
+                marginTop: '0 !important',
+                color: '#000000'
               }"
               @getResults="fetchOffersListing"
               @change="changeConditionFilter"
@@ -107,8 +149,23 @@
               optionsWidth="custom"
               width="100%"
               maxWidth="100%"
+              paddingX="10px"
               :dropdownStyle="{
-                position: 'relative'
+                position: 'relative',
+                background: '#FFF',
+                borderRadius: '0 0 5px 5px'
+              }"
+              borderRadius="5px"
+              borderRadiusClose="5px 5px 0 0"
+              :labelStyle="{
+                fontSize: '14px',
+                letterSpacing: '0.06em',
+                color: '#626262'
+              }"
+              :arrowStyle="{
+                marginLeft: 0,
+                marginTop: '0 !important',
+                color: '#000000'
               }"
               @getResults="fetchOffersListing"
               @change="changeStatusFilter"
@@ -116,8 +173,8 @@
           </b-col>
         </b-row>
       </b-col>
-      <b-col lg="6" xl="6" sm="12" class="mt-3 mt-lg-0 px-2">
-        <label class="">{{$t('selling_page.offer_date')}}</label>
+      <b-col lg="7" xl="6" sm="12" class="mt-3 mt-lg-0 px-2">
+        <label class="filter-label">{{ $t('selling_page.offer_date') }}</label>
         <b-row class="justify-content-end justify-content-sm-start justify-content-lg-between">
           <b-col sm="4" md="5" lg="4">
             <CalendarInput
@@ -136,7 +193,7 @@
             />
           </b-col>
           <b-col class="mt-2 mt-sm-0 d-flex justify-content-sm-end" sm="4" md="2" lg="3">
-            <Button variant="blue" class="" @click="applyFilters">
+            <Button variant="dark-blue" @click="applyFilters">
               {{$t('trades.apply')}}
             </Button>
           </b-col>
@@ -162,7 +219,7 @@
         <div
           v-else-if="action === 'delete' || action === 'deselect_all'"
           class="d-flex align-items-center"
-          @click="selectAll()"
+          @click="action = 'select_all'; selectAll()"
         >
           <div class="circle-gray"></div>
           <div class="mt-1 ml-2 delete-offers">{{ $t('common.select_all') }}</div>
@@ -179,39 +236,61 @@
         </div>
       </div>
     </b-row>
-    <b-row class="justify-content-center mt-3 d-none d-sm-flex">
+    <div class="d-none d-sm-flex flex-wrap justify-content-center pb-3 align-items-center">
       <NavGroup
         v-model="offerType"
         :data="offerTypeFilters"
         nav-key="type"
-        class="type-nav mt-3 mb-3"
+        class="type-nav mt-3 mb-3 mx-auto"
+        btnClass="btn-lg"
         @change="handleMethodNavClick"
       />
-    </b-row>
-    <b-row v-if="deleteExpired">
+      <CustomDropdown
+        v-model="action"
+        :options="actions"
+        type="single-select"
+        :label="actionLabel"
+        variant="white"
+        dropDownHeight="46px"
+        optionsWidth="custom"
+        maxWidth="180px"
+        width="180px"
+        paddingX="10px"
+        :inputStyle="{
+          borderRadius: '4px',
+          borderColor: '#667799'
+        }"
+        :labelStyle="{
+          fontSize: '14px',
+          letterSpacing: '0.06em',
+          color: '#626262'
+        }"
+        :arrowStyle="{
+          marginLeft: 0,
+          marginTop: '0 !important',
+          color: '#667799'
+        }"
+        :dropdownStyle="{
+          position: 'relative',
+          borderColor: '#667799'
+        }"
+        @change="changeAction"
+      />
+
       <BulkSelectToolbar
         ref="bulkSelectToolbar"
-        :active="selected.length>0"
+        :active="action.length > 0 ? true : false"
         :selected="selected"
         :unit-label="$tc('common.product', selected.length)"
-        action-label="Delete Selected"
+        :action-label="$t('product_page.delete_multiple')"
         class="mt-3"
         @close="selected = []"
-        @selectAll="handleSelectAll()"
+        @selectAll="selectAll()"       
         @deselectAll="selected = []"
+        @submit="deleteSelected()"
       />
-    </b-row>
-    <b-row v-if="deleteExpired" class="pt-2 pl-4">
-      <b-form-checkbox
-        id="checkbox-1"
-        v-model="status"
-        name="checkbox-1"
-        value="accepted"
-        unchecked-value="not_accepted"
-      >
-        {{$t('trades.select_all_expired_trades')}}
-      </b-form-checkbox>
-    </b-row>
+    </div>
+    
     <div class="my-trade-listing-section">
       <div class="row justify-content-center">
         <div class="text-center w-100 px-2">
@@ -330,7 +409,7 @@ import BulkSelectToolbar from '~/components/common/BulkSelectToolbar';
 import NavGroup from '~/components/common/NavGroup';
 import OffersFiltersModal from '~/components/modal/OffersFiltersModal.vue';
 import { ConfirmModal, AlertModal } from '~/components/modal'
-
+import screenSize from '~/plugins/mixins/screenSize';
 
 import {
   PAGE,
@@ -369,6 +448,7 @@ export default {
     AlertModal
   },
   layout: 'Profile',
+  mixins: [screenSize],
   data () {
     return {
       ALL_OFFER_TYPE,
@@ -405,6 +485,11 @@ export default {
         { text: this.$t('trades.fair'), value: FILTER_CONDITION_FAIR },
         { text: this.$t('trades.excellent'), value: FILTER_CONDITION_EXCELLENT },
       ],
+      actions: [
+        { text: this.$t('product_page.delete_multiple'), value: 'delete_multiple' }
+      ],
+      action: '',
+      actionLabel: this.$t('common.actions'),
       start_date: null,
       end_date: null,
       page: PAGE,
@@ -412,20 +497,20 @@ export default {
       totalOffers: 0,
       tradeOffers: [],
       perPageOptions: PER_PAGE_OPTIONS,
-      deleteExpired: false,
-      action: '',
       selected: [],
       isFiltersModalOpen: false
     }
   },
+
   computed: {
-    getConditionFilterItems(){
+    getConditionFilterItems() {
       return this.conditionFilterItems.map(condition => condition.value)
     },
-    getStatusFilterItems(){
+    getStatusFilterItems() {
       return this.statusFilterItems.map(status => status.value)
     }
   },
+
   mounted() {
     this.fetchOffersListing()
     // To filter trade offers
@@ -437,13 +522,41 @@ export default {
     this.$root.$on('click_outside', () => {
       this.searchedProducts = []
     })
+    this.setBackgroundColor()
   },
-  methods:{
+
+  beforeMount() {
+    window.addEventListener('resize', this.setBackgroundColor)
+  },
+  
+  beforeDestroy() {
+    window.removeEventListener('resize', this.setBackgroundColor)
+  },
+
+  methods: {
+    setBackgroundColor() {
+      const wrapper = document.querySelector('.main-wrapper')
+      const customWrapper = document.querySelector('.custom-wrapper')
+
+      if (this.isScreenXS || this.isScreenSM || this.isScreenMD) {
+        customWrapper.style.backgroundColor = '#FFF'
+        wrapper.style.backgroundColor = '#FFF'
+      } else {
+        wrapper.style.backgroundColor = '#f7f7f7'
+        customWrapper.style.backgroundColor = '#FFF'
+      }
+    },
+
+    changeAction(newAction) {
+      this.action = newAction
+      this.actionLabel = this.actions.find(a => a.value === newAction).text
+    },
+
     /**
      * This function is used to change condition filter
      * @param selectedConditions
      */
-     changeConditionFilter(selectedConditions) {
+    changeConditionFilter(selectedConditions) {
       if (!this.conditionFilter.includes(selectedConditions)) {
         this.conditionFilter.push(selectedConditions)
       } else {
@@ -451,11 +564,12 @@ export default {
       }
       this.conditionFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.conditionFilter, 2) || this.$t('trades.trade_condition') // 2 is max number of labels show in filter
     },
+
     /**
      * This function is used to change status filter
      * @param selectedStatuses
      */
-     changeStatusFilter(selectedStatuses) {
+    changeStatusFilter(selectedStatuses) {
       if (!this.statusFilter.includes(selectedStatuses)) {
         this.statusFilter.push(selectedStatuses)
       } else {
@@ -463,7 +577,7 @@ export default {
       }
       this.statusFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.statusFilter, 2) || this.$t('trades.status') // 2 is max number of labels show in filter
     },
-    searchOffers(product){
+    searchOffers(product) {
       this.searchText = (product) ? product.name : ''
       this.searchedProducts = []
       this.fetchOffersListing()
@@ -571,14 +685,6 @@ export default {
       }
     },
 
-    handleSelectAll() {
-      this.selected = ''
-    },
-
-    removeExpired(){
-      this.deleteExpired = !this.deleteExpired
-    },
-
     handleMethodNavClick(type) {
       if (type) {
         this.offerType = type
@@ -615,7 +721,6 @@ export default {
     },
 
     selectAll() {
-      this.action = 'select_all'
       this.selected = this.tradeOffers.reduce((acc, item) => {
         if (!item.deleted_at) {
           acc.push(item.id)
@@ -762,6 +867,11 @@ export default {
   color: $color-gray-77
   margin-bottom: 15px
   text-align: center
+
+.filter-label
+  @include body-8-normal
+  font-family: $font-family-sf-pro-display
+  color: $color-black-1
 
 </style>
 
