@@ -76,7 +76,7 @@
     }" class="d-flex flex-column ">
       <div class="text-center d-flex align-items-center my-4 terms-and-conditions">
         <div class="body-5-regular px-4">
-          {{ $t('promotions.want_to_know_more') }}&nbsp;<nuxt-link to="/terms">
+          {{ $t('promotions.want_to_know_more') }}&nbsp;<nuxt-link to="/terms-and-conditions">
           <strong>{{ $t('promotions.terms_and_conditions') }}</strong></nuxt-link>
         </div>
       </div>

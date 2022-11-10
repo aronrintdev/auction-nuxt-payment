@@ -63,6 +63,7 @@
       <b-row class="component-row" >
         <!-- Content -->
         <ResponsiveProfileComponent v-if="activeNav === 'profile'"/>
+        <PaymentComponent v-if="activeNav === 'payments'"/>
         
         <!-- ./Content -->
       </b-row>
@@ -80,13 +81,15 @@ import {GOOGLE_MAPS_BASE_URL} from '~/static/constants'
 import realtime from '~/plugins/mixins/realtime';
 import screenSize from '~/plugins/mixins/screenSize'
 import ResponsiveProfileComponent from '~/components/profile/preferences/ResponsiveProfileComponent.vue'
+import PaymentComponent from '~/components/profile/preferences/PaymentComponent.vue'
 export default {
   name: 'ProfilePreferencesIndexPage',
 
   components: {
     NavGroup, // Tabs Component
     PreferenceComponent,
-    ResponsiveProfileComponent
+    ResponsiveProfileComponent,
+    PaymentComponent
   },
   mixins: [logoutMixin, realtime, screenSize],
   layout: 'Profile',
