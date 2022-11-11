@@ -214,16 +214,14 @@
       <AlreadyListedModal :listingId="itemListingId" :item="alreadyListedItemDetails" @confirm="addYourInventoryItem" />
       <PoorTradeConfirmationModal :poorTrade="(tradeCondition === FILTER_CONDITION_POOR)"></PoorTradeConfirmationModal>
     </div>
-    <div v-else>
+    <div class="bg-white-5" v-else>
       <b-row v-if="getLastSubmittedOffer && !searchItem">
-        <b-col :md="isPayment ? 9 : 12">
-          <b-row class="justify-content-between d-flex justify-content-center ml-54 pt-4">
-            <b-col>
-              <div class="offer-id-head">{{ $t('trades.offer_id') }} #{{getOffer.id}}</div>
-              <div class="offer-sum-text">{{ $t('trades.counter_offer') }}</div>
-            </b-col>
-          </b-row>
-          <div class="offer-card m-3">
+        <b-col class="px-4" :md="isPayment ? 9 : 12">
+          <div class="">
+            <div class="offer-id-head">{{ $t('trades.offer_id') }} #{{getOffer.id}}</div>
+            <div class="offer-sum-text">{{ $t('trades.counter_offer') }}</div>
+          </div>
+          <div class="offer-card my-3">
             <div class="center-container"
                  :class="{'center-cont-height':(getTheirItems.length > ONE_ITEM || getYourItems.length) }">
               <div class="left-item" :class="{'left-item-margin':getTheirItems.length === ONE_ITEM && getYourItems.length}">
@@ -252,7 +250,7 @@
               <div class="center-item">
                 <div v-if="getTheirItems.length > ONE_ITEM" class="pointer-left"></div>
                 <div class="long-line" :class="{'long-line-length' : getTheirItems.length === ONE_ITEM }"></div>
-                <img :src="require('~/assets/img/trades/border.svg')"/>
+                <img :src="require('~/assets/img/trades/Trade.svg')"/>
                 <div class="long-line" :class="{'long-line-length' : getYourItems.length === ONE_ITEM }"></div>
                 <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right"></div>
               </div>
@@ -1028,6 +1026,7 @@ export default {
   letter-spacing: -0.02em
   text-transform: capitalize
   color: $color-black-1
+  margin-top: 49px
 
 .offer-sum-text
   font-family: $font-family-sf-pro-display
@@ -1066,9 +1065,6 @@ export default {
   position: absolute
   margin-top: 107px
   margin-left: -115%
-
-.item
-  border: 0.5px solid $light-gray-2
 
 .optional-input-field
   width: 210px
@@ -1276,4 +1272,8 @@ export default {
   background-color: $color-white-1
   border: 1px solid $color-black-1
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25)
+
+.bg-white-5
+  background: $color-white-5
+
 </style>
