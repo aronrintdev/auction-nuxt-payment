@@ -109,7 +109,7 @@
             to="/profile/support/faqs"
           >
             <div
-                class="d-flex p-4 h-100 border br-10 align-items-center mt-lg-5 navigation-card"
+                class="d-flex p-4 h-100 border br-10 align-items-center mt-lg-5 navigation-card faq"
                 :class="{
                 'mobile': isScreenXS,
                 'p-4': !isScreenXS
@@ -120,10 +120,11 @@
                 <span class="d-none d-md-block fs-26">{{ $t('preferences.profile.support.faq.title') }}</span>
                 <span class="d-block d-md-none fs-24">{{ $t('preferences.profile.support.faq.title_short') }}</span>
               </h2>
-              <h6 class="text-dark mb-0 fw-5 fs-14 text-black font-primary">
+              <h6 v-if="isScreenXS" class="text-dark mb-0 fw-5 fs-14 text-black font-primary">
                 Get your questions answered
               </h6>
-              <img class="d-none d-md-block" :src="require('assets/img/home/view-more.png')"/>
+              <img :src="require('assets/img/home/view-more.png')" class="d-none d-md-block" height="41px"
+                   width="55px"/>
             </div>
           </nuxt-link>
         </div>
@@ -157,6 +158,24 @@ export default {
 @import '~/assets/css/_variables'
 
 .navigation-card
+  border: 0.5px solid $color-gray-4
+  padding: 19px 12px !important
+
+  &.faq
+    padding: 5px 38px !important
+
+  h2
+    @include body-7-medium
+    font-family: $font-montserrat
+    font-style: normal
+    color: $color-blue-20
+
+  h6
+    @include body-5-normal
+    font-family: $font-montserrat
+    font-style: normal
+    color: $color-black-1
+
   &.mobile
     background: $color-white-1
     box-shadow: 0px 1px 4px rgba($color-black-1, 0.25) !important

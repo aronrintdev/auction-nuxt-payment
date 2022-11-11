@@ -8,7 +8,6 @@
         {{ $t('preferences.profile.support.sub_heading') }}
       </h2>
       <Searchbar :class="{
-        'mt-md-5 mt-3': !isScreenXS,
         'mb-7': isScreenXS
       }" centered/>
     </div>
@@ -38,6 +37,14 @@ export default {
   margin-top: 42px
 
 .support-hero
+  h1
+    @include heading-11
+    font-family: $font-montserrat
+    font-style: normal
+
+  h2
+    margin-bottom: 38px
+
   &.mobile
     background-color: $color-white-4
     padding: 23px 13px !important
