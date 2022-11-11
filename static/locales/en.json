@@ -4998,7 +4998,8 @@
     "new_password": "New Password",
     "current_password": "Current Password",
     "change_password": "Change Password",
-    "password_policy": "Password Policy"
+    "password_policy": "Password Policy",
+    "password_policy_long": "Minimum 8 characters, 1 uppercase, 1 number, and 1 symbol"
   },
   "giftcard_section": {
     "giftcard": "Gift Card: {cardNo}",

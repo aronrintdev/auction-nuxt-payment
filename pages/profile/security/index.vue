@@ -1,5 +1,5 @@
 <template>
-  <b-col class="vendor-preferences-body">
+  <b-col class="vendor-preferences-body h-100">
     <div class="vd-preferences-slider d-none d-md-block">
       <h1 class="vd-preferences-slider-heading">
         {{ $t('profile_menu.security_settings') }}
