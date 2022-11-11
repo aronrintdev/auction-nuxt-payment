@@ -90,10 +90,10 @@
         <div class="heading-offer pt-1">
           {{ offerData(offerHistory).label }}
         </div>
-        <b-col class="row justify-content-center pt-2 m-0">
+        <div class="pt-2 m-0">
           <offer-items v-if="isOfferMine(offerHistory) && offerHistory.yours_items && offerHistory.yours_items.length > 0" :offerItems="offerHistory.yours_items" marginItems="mr-0"/>
           <offer-items v-if="!isOfferMine(offerHistory) && offerHistory.theirs_items && offerHistory.theirs_items.length > 0" :offerItems="offerHistory.theirs_items" marginItems="mr-0"/>
-        </b-col>
+        </div>
         <b-row v-if="offerHistory.cash_added" class="justify-content-end">
           <b-col class="request-amount d-flex">
             <img class="mr-2" :src="require('~/assets/img/trades/dollar.svg')">

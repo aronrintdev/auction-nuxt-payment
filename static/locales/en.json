@@ -196,7 +196,8 @@
     "your_value": "Your Value",
     "fair_trade_meter": "Fair Trade Meter",
     "thread": "Thread",
-    "rescind": "Rescind"
+    "rescind": "Rescind",
+    "enter_cash_amount": "Enter Cash Amount"
   },
   "message": {
     "no_products_found": "No Products Found",

@@ -22,22 +22,22 @@
         </div>
       </div>
     </div>
-    <div class="product-card px-3" v-else>
+    <div class="product-card" v-else>
       <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
-      <div class="d-flex justify-content-between">
+      <div class="row justify-content-center">
         <div 
           v-for="(item) in offerItems" :key="'offer-item-list-' + item.id"
           :class="`${marginItems}`"
-          class="d-flex flex-column col"
+          class="d-flex flex-column col-4"
         >
           <img 
             v-if="item.inventory" 
             :src="item.inventory.product | getProductImageUrl"
-            class="offer-item-image mx-auto"
+            class="img-fluid"
           />
           <img 
             v-else :src="item.product | getProductImageUrl" 
-            class="offer-item-image mx-auto" 
+            class="img-fluid" 
           />
           <div class="offer-item-name">
             {{ item.inventory ? item.inventory.product.name : item.product.name }}
@@ -94,7 +94,7 @@ export default {
 .offer-item-name
   @include body-10-medium
   color: $color-black-1
-  margin-top: 5px
+  margin-top: 8px
 
 .offer-size
   @include body-9-medium
