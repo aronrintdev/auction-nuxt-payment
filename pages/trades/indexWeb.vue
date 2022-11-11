@@ -1,39 +1,17 @@
 <template>
   <div class="f-montserrat">
-    <TradeBanner></TradeBanner>
-    <div class="main-section pt-5">
-      <div class="trade-selections">
-        <b-row class="mb-5">
-          <b-col md="12" class="text-center">
-            <h2 class="page-title">{{$t('trades.index.trades')}}</h2>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="6" class="col-sm-6 col-xs-6 text-right pr-6" :class="{'active-nav' : navTab === 'trade_hub', 'inactive-nav': navTab !== 'trade_hub'}">
-            <h3 class="d-inline-block pointer" @click="navTab = 'trade_hub'">{{$t('trades.index.trade_hub')}}</h3>
-          </b-col>
-          <b-col md="6" class="col-sm-6 col-xs-6 pl-6 text-left " :class="{'active-nav': navTab === 'browse_trade', 'inactive-nav' : navTab !== 'browse_trade'}">
-            <h3 class="d-inline-block pointer" @click="navTab = 'browse_trade'">{{$t('trades.index.browse_trades')}}</h3>
-          </b-col>
-        </b-row>
-      </div>
-      <TradeHub v-if="navTab === 'trade_hub'"/>
-      <BrowseTrade v-if="navTab === 'browse_trade'" />
-    </div>
+    <BrowseTrade />
   </div>
 </template>
 
 <script>
-import TradeBanner from '~/pages/trades/TradeBanner'
 import BrowseTrade from '~/pages/trades/BrowseTrade'
-import TradeHub from '~/pages/trades/TradeHub'
-
 export default {
   name: 'Trade',
   components: {
-    TradeBanner,
+    // TradeBanner,
     BrowseTrade,
-    TradeHub
+    // TradeHub
   },
   layout: 'IndexLayout',
   data(){

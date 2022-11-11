@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="browse-tarde-heading ml-5 mt-3">Browse Trade</div>
     <div>
     <!-- Display all filter options -->
     <BrowserTradeFilters @applyFilters="applyTradeFilters" @clearFilters="resetTradeFilters" @applySorting="filterTrades"/>
@@ -286,5 +287,12 @@ export default {
   font-size: 16px
   line-height: 20px
   color: $color-white-1
+.browse-tarde-heading
+  font-family: 'Adobe Garamond Pro'
+  font-style: normal
+  font-weight: $bold
+  font-size: 48px
+  line-height: 100%
+  color: $color-black-1
 
 </style>

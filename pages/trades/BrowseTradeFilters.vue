@@ -2,7 +2,7 @@
   <div>
     <b-row class="d-flex justify-content-center m-5">
       <b-col md="9">
-        <SearchInput :placeholder="$t('trades.index.browse.search_for_your_favorite_street_wear')" :value="searchedText" @input="setSearchedText" />
+        <SearchInput  variant="secondary" :placeholder="$t('trades.index.browse.search_for_your_favorite_street_wear')" :value="searchedText" @input="setSearchedText" />
         <SearchedOfferItems :searchedOfferItems="searchedItems" />
       </b-col>
       <b-col md="3">
@@ -14,22 +14,22 @@
     <!-- filters -->
     <div class="d-flex ml-5">
       <div>
-        <b-dropdown  id="dropdown-1" text="Select Size Type" class="m-md-2">
-            <b-list-group-item v-for="(sizeType, index) in sizeTypeOptions" :key="'sizetype-' + index" class="border-transparent p-2">
+        <b-dropdown variant="light-secondary"  id="dropdown-1" text="Select Size Type" class="m-md-2">
+            <b-list-group-item v-for="(sizeType, index) in sizeTypeOptions" :key="'sizetype-' + index" class="border-transparent p-2 list-grp">
               <b-form-checkbox v-model="selectedSizeTypes" :value="sizeType" class="filter-item" @change="toggleSizeTypeSelection(sizeType)">{{prettySizeTypeName(sizeType)}}</b-form-checkbox>
             </b-list-group-item>
         </b-dropdown>
       </div>
       <div>
-        <b-dropdown id="dropdown-2" text="Select Category" class="m-md-2">
-          <b-list-group-item v-for="(category, key) in categories" :key="'cat-' + key" class="border-transparent p-2">
+        <b-dropdown  variant="light-secondary" id="dropdown-2" text="Select Category" class="m-md-2" >
+          <b-list-group-item v-for="(category, key) in categories" :key="'cat-' + key" class="border-transparent p-2 list-grp">
             <b-form-checkbox v-model="selectedCategories" :value="category.value" class="filter-item" @change="toggleCategorySelection(category.value)">{{category.text}}</b-form-checkbox>
           </b-list-group-item>
         </b-dropdown>
       </div>
       <div>
-        <b-dropdown id="dropdown-3" text="Trade Value" class="m-md-2">
-          <div class="p-2">
+        <b-dropdown variant="light-secondary" id="dropdown-3" text="Trade Value" class="m-md-2">
+          <div class="p-2 list-grp">
             <span>{{$t('common.trade_value')}}</span>
             <SliderInput
               v-model="selectedPriceRange"
@@ -216,6 +216,8 @@ export default {
   font-weight: $medium
   font-family: $font-family-sf-pro-display
   @include body-5
+.list-grp
+  background-color: #FAFAFA
 .filter-details
   font-family: $font-montserrat
   & h3
