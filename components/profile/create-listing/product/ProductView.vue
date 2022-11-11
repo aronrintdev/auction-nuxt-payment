@@ -2,7 +2,7 @@
   <div class="profile-view">
     <span v-if="!isScreenXS" role="button" class="backToSearch body-13" @click="$emit('back')">
       <img :src="require('~/assets/img/icons/arrow-left-gray.svg')" class="img-fluid"/>
-      {{ $t('common.back_to_search') }}
+      {{ $t(backButtonText) }}
     </span>
 
     <b-row>
@@ -258,6 +258,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    backButtonText: {
+      type: String,
+      default: 'common.back_to_search'
+    }
   },
 
   data() {
@@ -379,7 +383,8 @@ export default {
 
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     lowestPrice: (vm) => {
-      const val = vm.product.lowest_prices.find(
+      const lowerPrice = vm.product?.lowest_prices ?? []
+      const val = lowerPrice.find(
         (i) =>
           i.size_id === vm.selectedSize &&
           i.packaging_condition_id === vm.selectedCondition
@@ -389,7 +394,8 @@ export default {
 
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     highestOffer: (vm) => {
-      const val = vm.product.highest_offers.find(
+      const highestOffers = vm.product?.highest_offers ?? []
+      const val = highestOffers.find(
         (i) =>
           i.size_id === vm.selectedSize &&
           i.packaging_condition_id === vm.selectedCondition

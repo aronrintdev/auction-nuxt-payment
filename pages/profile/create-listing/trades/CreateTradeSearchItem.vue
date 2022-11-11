@@ -1,101 +1,77 @@
 <template>
   <div :class="{'p-5':padding}">
-    <div  class="create-trade-back-to-search" @click="backSearch()">
-      <b-icon icon="chevron-left" aria-hidden="true"></b-icon>
-      {{ (productFor === PRODUCT_FOR_COUNTER_OFFER) ? $t('trades.back_to_counter_offer') : ((productFor === 'wantOfferConfirm' && !isTradeEditForm) ?
-        $t('trades.create_listing.vendor.wants.back_to_confirm_trade_listing') :
-        (!isTradeEditForm ? $t('trades.create_listing.vendor.wants.back_to_search') : (!itemId ? $t('trades.back_to_trade_search') : $t('trades.back_to_trade_editing')))) }}
-    </div>
-    <b-row>
-      <b-col md="6" class="create-trade-heading pt-50" >
-        <div>{{product.name}}</div>
-      </b-col>
-      <b-col v-if="!isTradeEditForm" md="6">
-        <div v-if="productFor !== 'wantsList'" class="row">
-          <div class="col-md-12 ">
-            <FormStepProgressBar v-if="progressBar" :steps="steps" variant="transparent"/>
+    <ProductView
+      v-if="product"
+      :product="product"
+      v-model="form"
+      @back="backSearch"
+      :back-button-text="backButtonText"
+    >
+      <div slot="right-content">
+        <div class="row">
+          <div v-if="productFor !== 'wantsList'" class="col-12 col-md-6 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+            <FormInput :value="quantity"
+                       :placeholder="$t('trades.create_listing.vendor.wants.enter_quantity')"
+                       :label="$t('trades.create_listing.vendor.wants.quantity')"
+                       class="input"
+                       :class="{'input-error': !isValidQuantity(quantity)}"
+                       required
+                       integer
+            />
+            <div class="error-text mt-1" v-if="!isValidQuantity(quantity)">
+              {{
+                ((productFor === tradeOffer) || (productFor === tradeArena))
+                  ? $t('create_listing.trade.offer_items.offer_items_limit')
+                  : $t('trades.create_listing.vendor.wants.want_items_quantity_should_not_exceed', [MAX_ITEMS_ALLOWED])
+              }}
+            </div>
           </div>
-        </div>
-      </b-col>
-    </b-row>
-    <div  class="create-trade-product-color">
-      <div>{{ $t('trades.create_listing.vendor.wants.sku') }}: {{product.sku}}</div>
-      <div>{{ $t('trades.create_listing.vendor.wants.colorway') }}: {{product.colorway}}</div>
-    </div>
-    <b-row class="justify-content-center">
-      <div class="thumb-wrapper">
-        <img :src="product.image" alt="No Image" class="trade-search-item-image"/>
-      </div>
-    </b-row>
-    <b-row class="justify-content-center" :class="!selected_size && 'error'">
-      <div id="size" ref="list" class="d-flex search-trade-size-list">
-        <div class="search-trade-size-heading">{{ $t('trades.create_listing.vendor.wants.size') }}<sup>*</sup></div>
-        <div class="error-text mt-1 text-xs">
-          {{ $t('trades.create_listing.vendor.wants.select_size') }}
-        </div>
-          <ProductSizePicker
-          :value="selected_size"
-          :v-model="selected_size"
-          :sizes="product.sizes"
-          single-mode
-          class="size-picker"
-          @input="select_size"
-        />
-      </div>
-    </b-row>
-    <b-row class="justify-content-center mt-5">
-      <div class="row wd-724 justify-start">
-        <div v-if="productFor !== 'wantsList'" class="d-block" :class="(!isValidQuantity(quantity)) && 'error'">
-          <label>{{ $t('trades.create_listing.vendor.wants.quantity') }}<sup>*</sup></label>
-          <b-form-input v-model="quantity" type="number" :placeholder="$t('trades.create_listing.vendor.wants.enter_quantity')" class="create-trade-quantity-box"></b-form-input>
-          <div class="error-text mt-1 text-xs">
-            {{((productFor === tradeOffer) || (productFor === tradeArena)) ? $t('create_listing.trade.offer_items.offer_items_limit'): $t('trades.create_listing.vendor.wants.want_items_quantity_should_not_exceed', [MAX_ITEMS_ALLOWED]) }}
-          </div>
-        </div>
-        <div v-if="product.category.name !== 'sneakers'" class="d-block ml-4" :class="!isValidYear(year) && 'error'">
-            <label>{{ $t('trades.create_listing.vendor.wants.year') }}<sup>*</sup></label>
-            <b-form-input v-model="year" type="number" :placeholder="$t('trades.create_listing.vendor.wants.enter_year')" class="create-trade-quantity-box"></b-form-input>
-            <div class="error-text mt-1 text-xs">
+          <div v-if="product.category.name !== 'sneakers'" class="col-12 col-md-6 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+            <FormInput :value="year"
+                       :placeholder="$t('trades.create_listing.vendor.wants.enter_year')"
+                       :label="$t('trades.create_listing.vendor.wants.year')"
+                       class="input"
+                       :class="{'input-error': !isValidYear(year)}"
+                       required
+                       integer
+            />
+            <div class="error-text mt-1" v-if="!isValidYear(year)">
               {{ $t('trades.create_listing.vendor.wants.enter_year') }}
             </div>
           </div>
-        <div v-if="product.packaging_conditions" class="d-block ml-4" :class="!box_condition && 'error'">
-          <label>{{ $t('trades.create_listing.vendor.wants.box_condition') }}<sup>*</sup></label>
-          <b-form-select v-model="box_condition" class="create-trade-select-box">
-            <b-form-select-option :value="null">{{ $t('trades.create_listing.vendor.wants.select') }} </b-form-select-option>
-            <b-form-select-option
-              v-for="condition in product.packaging_conditions"
-              :key="condition.id"
-              :value="condition.id">
-                {{condition.name}}
-            </b-form-select-option>
-          </b-form-select>
-          <div class="error-text mt-1 text-xs">
-            {{ $t('trades.create_listing.vendor.wants.select_box_condition') }}
+          <div v-if="productFor === 'wantsList' && combinationId === null" class="col-12 col-md-6 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+            <label>Select List<sup>*</sup></label>
+            <SelectListDropDown
+              v-model="selectList"
+              :options="selectListOptions" type="multi-select-checkbox"
+              :label="selectListLabel" class="bg-white" optionsWidth="custom"
+              :combinationId="combinationId"
+              maxWidth="203px" variant="white"
+              dropDownHeight="33px"
+              borderRadius="20px"
+              borderRadiusClose="20px 20px 0 0"
+              borderRadiusOptions="0 0 8px 8px"
+              width="203px"
+              @change="listType"
+            />
           </div>
-        </div>
-        <div v-if="productFor === 'wantsList' && combinationId === null" class="d-block ml-4" >
-          <label>Select List<sup>*</sup></label>
-          <SelectListDropDown
-            v-model="selectList"
-            :options="selectListOptions" type="multi-select-checkbox"
-            :label="selectListLabel" class="bg-white" optionsWidth="custom"
-            :combinationId="combinationId"
-            maxWidth="203px" variant="white"
-            dropDownHeight="33px"
-            borderRadius="20px"
-            borderRadiusClose="20px 20px 0 0"
-            borderRadiusOptions="0 0 8px 8px"
-            width="203px"
-            @change="listType"
-          />
-        </div>
-        <b-btn class="search-trade-add-btn ml-4" :disabled = !disabledBtn  @click="addToOffer(product)">
-          {{ ((productFor === tradeOffer) || (productFor === tradeArena)) ?
+          <b-btn class="search-trade-add-btn ml-4" :disabled = !disabledBtn  @click="addToOffer(product)">
+            {{ ((productFor === tradeOffer) || (productFor === tradeArena)) ?
             $t('trades.create_listing.vendor.wants.add_to_offers') : $t('trades.create_listing.vendor.wants.add_to_wants') }}
-        </b-btn>
+          </b-btn>
+        </div>
       </div>
-    </b-row>
+    </ProductView>
+
+    <b-col v-if="!isTradeEditForm" md="6">
+      <div v-if="productFor !== 'wantsList'" class="row">
+        <div class="col-md-12 ">
+          <FormStepProgressBar v-if="progressBar" :steps="steps" variant="transparent"/>
+        </div>
+      </div>
+    </b-col>
+
+
   </div>
 </template>
 
@@ -103,19 +79,20 @@
 
 import {mapGetters, mapActions} from 'vuex'
 import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
-import ProductSizePicker from '~/components/product/SizePicker'
 import {MAX_ITEMS_ALLOWED, DIGITS_IN_YEAR} from '~/static/constants/create-listing'
 import {WANTS_SELECT_LIST_OPTIONS,PRODUCT_FOR_COUNTER_OFFER} from '~/static/constants/trades'
 import SelectListDropDown from '~/pages/profile/trades/wants/SelectListDropDown'
-
+import ProductView from '~/components/profile/create-listing/product/ProductView'
+import screenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'CreateTradeSearchItem',
   components:{
     SelectListDropDown,
     FormStepProgressBar,
-    ProductSizePicker
+    ProductView
   },
+  mixins: [screenSize],
   props:{
     product: {
       type: Object,
@@ -152,7 +129,13 @@ export default {
   },
   data() {
     return {
-        disabled:false,
+      form: {
+        currentSize: null,
+        quantity: null,
+        price: null,
+        boxCondition: null,
+      },
+      disabled:false,
       PRODUCT_FOR_COUNTER_OFFER,
       MAX_ITEMS_ALLOWED,
       box_condition: null,
@@ -176,9 +159,17 @@ export default {
   computed: {
     ...mapGetters('trades', ['getTradeItems', 'getTradeItemsWants']),
     ...mapGetters('trade', ['getYourTradeItems']),
-      disabledBtn(){
-        return this.isFormValid()
-      }
+    disabledBtn(){
+      return this.isFormValid()
+    },
+    backButtonText() {
+      return (this.productFor === PRODUCT_FOR_COUNTER_OFFER)
+        ? 'trades.back_to_counter_offer'
+        : ((this.productFor === 'wantOfferConfirm' && !this.isTradeEditForm)
+          ? 'trades.create_listing.vendor.wants.back_to_confirm_trade_listing'
+          : (!this.isTradeEditForm ?'trades.create_listing.vendor.wants.back_to_search'
+             : (!this.itemId ? 'trades.back_to_trade_search': 'trades.back_to_trade_editing')))
+    }
   },
   mounted() {
     if (this.itemId) {
@@ -486,30 +477,8 @@ export default {
 .pt-50
   padding-top: 50px
 
-.error-text
-  display: none
-
-.error
-  :deep(.input-error)
-    .form-input
-      border-color: $color-red-3
-
-  .error-text
-    @include body-5-regular
-    display: block
-    color: $color-red-3
-
-  .overlay
-    background: $light-opacity
-
-.create-trade-select-box
-  background: $color-white-1
-  border: 0.5px solid $color-gray-43
-  box-sizing: border-box
-  border-radius: 20px
-  width: 203px
-  height: 32px
-  padding: 0 0.75rem
+.overlay
+  background: $light-opacity
 
 .create-trade-quantity-box
   background-color: $color-white-1
