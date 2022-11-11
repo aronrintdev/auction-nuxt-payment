@@ -371,11 +371,13 @@
             </div>
           </div>
           <div class="my-3 inventory-card-trade">
-            <div class="inventory-heading">
-              {{ (editYours) ? $t('trades.your_inventory', {0: inventoryItems.length}) : $t('trades.their_inventory', {0: inventoryItems.length}) }}
-              <span v-if="editYours" class="sub-heading-inventory">{{ $t('trades.add_remove_items') }}</span>
-              <Button v-if="editYours" variant="dark-blue" class="pull-right" @click="editTheirsItems()">{{ $t('trades.edit_theirs') }}</Button>
-              <Button v-else variant="dark-blue" class="pull-right" @click="editYoursItems()">{{ $t('trades.edit_yours') }}</Button>
+            <div class="inventory-heading d-flex flex-column flex-md-row justify-content-between">
+              <div class="d-flex mb-2 mb-md-0">
+                {{ (editYours) ? $t('trades.your_inventory', {0: inventoryItems.length}) : $t('trades.their_inventory', {0: inventoryItems.length}) }}
+                <span v-if="editYours" class="sub-heading-inventory pt-2">{{ $t('trades.add_remove_items') }}</span>
+              </div>
+              <Button v-if="editYours" variant="dark-blue" class="" @click="editTheirsItems()">{{ $t('trades.edit_theirs') }}</Button>
+              <Button v-else variant="dark-blue" class="" @click="editYoursItems()">{{ $t('trades.edit_yours') }}</Button>
             </div>
             <b-col v-if="editYours" md="9" sm="12" class="pt-4 px-0">
               <SearchInput
