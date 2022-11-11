@@ -5,7 +5,7 @@
       <FormStepper :steps="steps" :selected="getCollectionState"/>
     </div>
     <!-- Status Box -->
-    <div class="d-md-none mb-4 status">
+    <div class="d-md-none mb-4 statusbox">
       <div class="font-weight-bold mb-2">{{ $t('create_listing.confirm.status') }}*</div>
       <CheckboxSwitch
         class="full-width-switch"
