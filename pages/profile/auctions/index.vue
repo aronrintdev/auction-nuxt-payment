@@ -92,7 +92,7 @@
             @click="FetchAuctions"
           >{{ $t('vendor_purchase.apply') }}
           </b-button>
-          <span v-if="haveFilters" role="button" class="clear-filters ml-4"
+          <span v-if="haveFilters" role="button" class="clear-filters text-nowrap ml-4"
                 @click="clearFilters">{{ $t('auction.clear_filters') }}</span>
         </div>
         <div>
@@ -199,7 +199,7 @@
           </div>
           <div>
             <Button
-              to="/create-listing"
+              to="/profile/create-listing"
               class="bg-blue-2 mt-4"
               pill
             >

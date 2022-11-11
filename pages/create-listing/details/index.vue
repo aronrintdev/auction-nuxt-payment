@@ -320,6 +320,9 @@ export default {
         @include body-13
       .body-4-medium
         @include body-9
+      .summary-wrapper,
+      .promo-wrapper
+        padding: 0
       
     .auction-item
       padding-top: 20px

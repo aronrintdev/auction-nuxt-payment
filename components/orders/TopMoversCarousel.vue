@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-baseline">
-      <h2 class="top-movers-heading">{{ $t('orders.your_top_movers') }} <small>({{ $t('orders.this_month') }})</small>
+      <h2 class="top-movers-heading px-md-2">{{ $t('orders.your_top_movers') }} <small>({{ $t('orders.this_month') }})</small>
       </h2>
       <div class="d-none d-md-block">
         <span class="cursor-pointer" @click="prev"><img :src="require('~/assets/img/icons/arrow-left-gray.svg')"></span>
@@ -105,7 +105,7 @@ export default {
 @import '/assets/css/variables'
 
 .box-gap
-  gap: 10px
+  gap: 8px
 
 .top-movers-heading
   font-family: $font-family-sf-pro-display
@@ -133,10 +133,6 @@ export default {
   ::v-deep .mx-2
     margin-left: 0 !important
     margin-right: 0 !important
-
-@media (min-width: 993px)
-  .box-gap
-    gap: 30px
 
 @media (max-width: 992px)
   .box-gap

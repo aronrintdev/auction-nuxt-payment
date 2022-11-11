@@ -217,6 +217,7 @@ $color-blue-30: #3A71EA;
 $color-blue-31: #295FF6;
 $color-blue-32: #545F77;
 $color-blue-33: #EFF4FB;
+$color-blue-34: #4E94F4;
 
 $color-green-1: #008000;
 $color-green-2: #5db454;
@@ -432,3 +433,11 @@ $yellow-btn-bg: rgba(218, 131, 29, 8%);
 $green-btn-bg: rgba(50, 189, 109, 8%);
 $blue-btn-bg: rgba(84, 76, 241, 8%);
 $image-overlay: rgba(243,243,243,.5);
+
+$awaiting-shipment: rgba(211, 76, 0, 0.08);
+$awaiting-shipment-ds: rgba(50, 189, 109, 0.08);
+$commission-paid: rgba(78, 148, 244, 0.05);
+$shipped: rgba(74, 93, 168, 0.08);
+$awaiting-auth: rgba(84, 76, 241, 0.05);
+$order-taken-over: rgba(98, 98, 98, 0.08);
+
