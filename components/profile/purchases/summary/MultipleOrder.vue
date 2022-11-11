@@ -1,34 +1,35 @@
 <template>
   <div>
-    <b-card class="purchase-multiple-orders">
+    <b-card class="purchase-multiple-orders shadow-none card-web card-padding">
       <!-- Down arrow -->
       <span
-        class="float-right"
-        :class="{ rotatearrowimage: showDetails }"
-        @click="toggleDetails"
+          class="float-right"
+          :class="{ rotatearrowimage: showDetails }"
+          @click="toggleDetails"
       >
         <!-- Size -->
-        <span v-if="!showDetails" class="text-bold"
-          >
+        <span v-if="!showDetails" class="body-2-bold font-secondary mr-63"
+        >
           {{ $t('vendor_purchase.size') }}&colon;
           {{ orderItems.inventory.size.size }}
         </span>
         <!-- ./Size -->
-        <img :src="downArrow" alt="down-arrow" />
+        <img :src="downArrow" alt="down-arrow" class="mr-3" role="button"/>
       </span>
       <!-- ./Down arrow -->
       <!-- TODO: Shipping Carrier - Harcoded for now -->
 
       <div v-if="showDetails" class="row">
         <div class="col details-col">
-          <div class="list-product-name text-bold">
+          <div class="body-2-bold font-secondary">
             {{ orderItems.inventory.product.name }}
           </div>
-          <div class="ordered-on text-capitalize">
-            {{ $t('vendor_purchase.ordered_on', {
-              orderedDate: $options.filters.formatDateTimeString(
-                orderDetails.created_at
-              ),
+          <div class="body-3-medium font-secondary text-capitalize mt-1">
+            {{
+              $t('vendor_purchase.ordered_on', {
+                orderedDate: $options.filters.formatDateTimeString(
+                    orderDetails.created_at
+                ),
               })
             }}
           </div>
@@ -57,16 +58,16 @@
       <!-- ./Shipping Carrier -->
       <span v-if="!showDetails" class="img-wrapper text-bold">
         <img
-          :src="
+            :src="
             orderItems.inventory.product | getProductImageUrl
           "
-          alt="product-img"
-          class="product-img"
-          @error="imageLoadError"
+            alt="product-img"
+            class="product-img mr-46"
+            @error="imageLoadError"
         />
-        <span class="list-product-name" >{{
-          orderItems.inventory.product.name
-        }}</span>
+        <span class="body-2-bold font-secondary">{{
+            orderItems.inventory.product.name
+          }}</span>
       </span>
 
       <template v-if="showDetails">
@@ -140,10 +141,23 @@ export default {
           key: 'products',
           label: this.$t('vendor_purchase.products'),
           tdClass: 'vd-img-col',
+          thClass: 'body-12-medium font-primary font-secondary'
         },
-        { key: 'details', label: this.$t('vendor_purchase.product_details') },
-        { key: 'quantity', label: this.$t('vendor_purchase.quantity') },
-        { key: 'total', label: this.$t('vendor_purchase.total') },
+        {
+          key: 'details', label: this.$t('vendor_purchase.product_details'),
+          thClass: 'body-12-medium font-secondary',
+          tdClass: 'body-12-regular font-secondary',
+        },
+        {
+          key: 'quantity', label: this.$t('vendor_purchase.quantity'),
+          thClass: 'body-12-medium font-secondary',
+          tdClass: 'body-12-regular font-secondary',
+        },
+        {
+          key: 'total', label: this.$t('vendor_purchase.total'),
+          thClass: 'body-12-medium font-secondary',
+          tdClass: 'body-12-regular font-secondary',
+        },
       ],
       timelineStatus: [],
     }
@@ -161,12 +175,13 @@ export default {
     }
 
     if (this.orderItems.status_history) {
-      this.timelineStatus = this.orderItems.status_history.map((status) => {
+      this.timelineStatus = this.orderItems.status_history.map((status, index) => {
         return {
           id: status.id,
           status: status.status_label,
           description: status.status_label,
           value: status.status_key,
+          class: index + 1 === this.orderItems.status_history.length ? 'tracking-end' : ''
         }
       })
     }
@@ -186,6 +201,25 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.card-padding
+  padding: 17px 22px
+
+  .card-body
+    padding: 0
+
+.product-img
+  height: 46px
+  width: 73px
+  object-fit: cover
+
+.mr-63
+  margin-right: 63px
+
+.mt-45
+  margin-top: 45px
+
+.mr-46
+  margin-right: 46px
 
 @media (max-width: 426px)
   .tracking-number

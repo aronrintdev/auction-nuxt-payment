@@ -254,7 +254,7 @@ export default {
         this.$bvModal.hide('accept-item-modal')
         this.$bvModal.show('bid-accepted-modal')
         this.$router.push({
-          path: '/profile/orders',
+          path: '/orders',
         })
         this.$toasted.success(res.data.message)
       }).catch(err => {

@@ -32,6 +32,7 @@ export default {
     }
   },
   beforeMount() {
+    this.$root.$emit('hide-header', { hideHeader: true })
     enquireScreenSizeHandler((type) => {
       this.$store.commit('size/setScreenType', type)
     })
@@ -44,6 +45,9 @@ export default {
       this.$auth.fetchUser()
     }
     this.injectGoogleMapsApi()
+  },
+  beforeDestroy() {
+    this.$root.$emit('hide-header', { hideHeader: false })
   },
   methods: {
     ...mapActions({

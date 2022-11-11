@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="features_cards_wrapper">
     <div
       class="feature-card d-flex align-items-start flex-column mb-0 mb-sm-1 cursor-pointer"
       @click="handleCardClick"
@@ -23,7 +23,7 @@
         {{ $t(title) }}
       </h6>
       <p
-        class="feature-description text-black font-primary fs-14 fw-5 mt-1 mb-0 d-none d-sm-block"
+        class="feature-description text-black font-primary fs-14 fw-5 mt-2 mb-0 d-none d-sm-block"
       >
         {{ $t(description) }}
       </p>
@@ -66,7 +66,6 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .feature-card
   width: 294px
   height: 445px

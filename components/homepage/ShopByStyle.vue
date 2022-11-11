@@ -49,6 +49,7 @@ export default {
         .get('/shop-by-style', {
           params: {
             type: this.currentCategory,
+            pageName: 'HOME'
           },
         })
         .then((res) => {

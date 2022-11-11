@@ -79,7 +79,7 @@
 
       <!-- Shopping Bag Place Order Button -->
       <b-row class="place-order-wrapper">
-        <b-col v-if="loading" md="12" class="text-center">
+        <b-col v-if="isLoading" md="12" class="text-center">
           <b-spinner variant="blue-20"></b-spinner>
         </b-col>
         <b-col v-else md="12" class="text-center">
@@ -102,7 +102,7 @@ import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTit
 import ArrowRightBlackSVG from '~/assets/img/shopping-cart/arrow-right-black.svg?inline'
 import Button from '~/components/common/Button'
 import PaymentDetailsListItem from '~/components/checkout/selling/mobile/payment/PaymentDetailsListItem'
-import { BAD_REQUEST, PAYMENT_METHOD_TYPE_CARD, PAYMENT_METHOD_TYPE_CRYPTO, PAYMENT_METHOD_TYPE_INSTALLMENT } from '~/static/constants'
+import { BAD_REQUEST, PAYMENT_METHOD_TYPE_CARD, PAYMENT_METHOD_TYPE_CRYPTO } from '~/static/constants'
 
 export default {
   name: 'CheckoutSummary',
@@ -115,15 +115,13 @@ export default {
   mixins: [ emitEventMixin, billingAddressMixin, shippingAddressMixin, orderDetailsMixin ],
   data() {
     return {
-      loading: false,
-      alternativeItems: [],
+      isLoading: false,
     }
   },
   computed: {
     ...mapGetters({
       paymentMethod: 'auth/getPaymentMethod',
       paymentToken: 'order-details/getPaymentToken',
-      installmentPlans: 'order-details/getInstallmentDetails',
       cryptoDetails: 'order-details/getCryptoDetails',
     }),
     canPlaceOrder(vm) {
@@ -141,23 +139,13 @@ export default {
       addPromoCode: 'order-details/addPromoCode',
       removePromoCode: 'order-details/removePromoCode',
       cardCheckout: 'shopping-cart/cardCheckout',
-      installmentCheckout: 'shopping-cart/installmentCheckout',
       cryptoCheckout: 'shopping-cart/cryptoCheckout',
       removeProducts: 'shopping-cart/removeProducts',
       addOrderDetails: 'order-details/addOrderDetails',
       removePaymentToken: 'order-details/removePaymentToken',
-      removeRedeemedReward: 'redeemed-reward/removeRedeemedReward',
-      clearRedeemedReward: 'redeemed-reward/clearRedeemedReward',
       getTaxRateByZip: 'tax-rate/getTaxRateByZip',
-      addAlternativeProducts: 'shopping-cart/addAlternativeProducts',
       removeGiftCard: 'order-details/removeGiftCard',
-      removeCryptoDetails: 'order-details/removeCryptoDetails',
-      removePaymentMethod: 'auth/removePaymentMethod',
-      removeInstallmentPlan: 'order-details/removeInstallmentPlan',
     }),
-    clearReward() {
-      this.removeRedeemedReward()
-    },
     prepareCheckoutPayload(type) {
       const payload = {
         discount: this.getDiscount,
@@ -182,13 +170,6 @@ export default {
 
           break;
         }
-        case PAYMENT_METHOD_TYPE_INSTALLMENT: {
-          payload.paymentMethod = this.paymentMethod
-          payload.paymentToken = this.paymentToken
-          payload.installmentDetails = this.installmentPlans
-
-          break
-        }
         default: {
           payload.paymentMethod = this.cryptoDetails
         }
@@ -199,117 +180,51 @@ export default {
     handlePlaceOrder() {
       if (this.cryptoDetails.amount){
         this.checkoutWithCrypto()
-      } else if (this.paymentMethod) {
-        this.checkoutWithCard()
       } else {
-        this.checkoutWithInstallment()
+        this.checkoutWithCard()
       }
     },
-    // TODO: Extract the pattern shown in the checkout methods.
+    // TODO: Extract the pattern shown in the checkout methods. Implement alternative products flow
     checkoutWithCard() {
-      this.loading = true
+      this.isLoading = true
       this.cardCheckout(this.prepareCheckoutPayload(PAYMENT_METHOD_TYPE_CARD)).then((data) => {
-        if (data.message === 'shopping_cart.stock_from_different_vendors') {
-          this.alternativeItems = data.data
-          this.$bvModal.show('alternative-items-modal')
-          this.loading = false
-        } else {
-          data.products = this.shoppingCart
-          data.redeemedReward = this.redeemedReward
-          this.removeProducts()
-          this.clearRedeemedReward()
-          this.addOrderDetails(data).then(() => {
-            this.$parent.$parent.close()
-            this.$router.push('selling/order-confirmation')
-          })
-        }
+        data.products = this.shoppingCart
+        data.redeemedReward = []
+        this.removeProducts()
+        this.removePaymentToken()
+        this.addOrderDetails(data).then(() => {
+          this.$parent.$parent.close()
+          this.$router.push('selling/order-confirmation')
+        })
       }).catch(error => {
-        this.loading = false
-
         if (error.response.status === BAD_REQUEST) {
           this.$toasted.error(this.$t(error.response.data.error).toString())
-
-          if (error.response.data?.message === 'shopping_cart.insufficient_quantity') {
-            this.$bvModal.show('insufficient-quantity-modal')
-          }
-
-          return
-        }
-
-        this.$toasted.error(error.response.statusText)
-      })
-      this.removePaymentToken()
-    },
-    checkoutWithInstallment() {
-      this.loading = true
-      this.installmentCheckout(this.prepareCheckoutPayload(PAYMENT_METHOD_TYPE_INSTALLMENT)).then((data) => {
-        if (data.message === 'shopping_cart.stock_from_different_vendors') {
-          this.alternativeItems = data.data
-          this.$bvModal.show('alternative-items-modal')
-          this.loading = false
         } else {
-          data.products = this.shoppingCart
-          data.redeemedReward = this.redeemedReward
-          this.removeProducts()
-          this.clearRedeemedReward()
-          this.addOrderDetails(data).then(() => {
-            this.$parent.$parent.close()
-            this.$router.push('selling/order-confirmation')
-          })
+          this.$toasted.error(error.response.statusText)
         }
-      }).catch(error => {
-        this.loading = false
-
-        if (error.response.status === BAD_REQUEST) {
-          this.$toasted.error(this.$t(error.response.data.error).toString())
-
-          if (error.response.data?.message === 'shopping_cart.insufficient_quantity') {
-            this.$bvModal.show('insufficient-quantity-modal')
-          }
-
-          return
-        }
-
-        this.$toasted.error(error.response.statusText)
+      }).finally(() => {
+        this.isLoading = false
       })
-      this.removePaymentToken()
     },
     checkoutWithCrypto() {
-      this.loading = true
+      this.isLoading = true
       this.cryptoCheckout(this.prepareCheckoutPayload(PAYMENT_METHOD_TYPE_CRYPTO)).then((data) => {
-        if (data.message === 'shopping_cart.stock_from_different_vendors') {
-          this.alternativeItems = data.data
-          this.$bvModal.show('alternative-items-modal')
-          this.loading = false
-        } else {
-          data.products = this.shoppingCart
-          data.redeemedReward = this.redeemedReward
-          this.removeProducts()
-          this.clearRedeemedReward()
-          this.addOrderDetails(data).then(() => {
-            this.$parent.$parent.close()
-            this.$router.push('selling/order-confirmation')
-          })
-        }
+        data.products = this.shoppingCart
+        data.redeemedReward = []
+        this.removeProducts()
+        this.addOrderDetails(data).then(() => {
+          this.$parent.$parent.close()
+          this.$router.push('selling/order-confirmation')
+        })
       }).catch(error => {
-        this.loading = false
-
         if (error.response.status === BAD_REQUEST) {
           this.$toasted.error(this.$t(error.response.data.error).toString())
-
-          if (error.response.data?.message === 'shopping_cart.insufficient_quantity') {
-            this.$bvModal.show('insufficient-quantity-modal')
-          }
-
-          return
+        } else {
+          this.$toasted.error(error.response.statusText)
         }
-
-        this.$toasted.error(error.response.statusText)
+      }).finally(() => {
+        this.isLoading = false
       })
-    },
-    handleAddToBag() {
-      this.addAlternativeProducts(this.alternativeItems)
-      this.$bvModal.hide('alternative-items-modal')
     },
     handleShippingAddressClick() {
       if (this.shippingAddress) {
