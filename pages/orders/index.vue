@@ -1,7 +1,7 @@
 <template>
-  <div class="container-fluid p-md-5 p-3">
+  <div class="container-fluid p-md-28x p-3">
     <div class="row">
-      <div class="orders-heading w-100 order-md-0 order-3">
+      <div class="orders-heading w-100 order-md-0 order-3 px-md-2">
         {{ $t('orders.orders') }} ({{ totalOrders }})
       </div>
       <div class="w-100 order-md-1 order-1">
@@ -75,6 +75,10 @@ export default {
 
 .py-20
   padding: 20px 0
+
+@media (min-width: 993px)
+  .p-md-28x
+    padding: 1.75rem !important
 
 @media (max-width: 992px)
   .orders-heading
