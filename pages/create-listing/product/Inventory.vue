@@ -152,7 +152,7 @@
       </b-col>
 
       <!-- Status Box -->
-      <b-col md="4" class="mt-4 status">
+      <b-col md="4" class="mt-4 statusbox">
         <div class="font-weight-bold mb-2">{{ $t('create_listing.confirm.status') }}*</div>
         <CheckboxSwitch
           class="full-width-switch"

@@ -130,6 +130,7 @@ export default {
   async fetch() {
     await this.$axios
       .get('/calculate-commission-details', {
+        handleError: false,
         params: { offer: this.sellItem.selectedOfferId },
       })
       .then((res) => {
@@ -172,15 +173,19 @@ export default {
 
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getSellerFee: (vm) => {
-      return vm.calculateCommission || 0
+      return vm.calculateCommission 
     },
 
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTransactionFee: (vm) => {
-      return vm.getSubTotal * (vm.saleTransactionFee / vm.percentageOffset)
+      if(vm.getSellerFee >= vm.getSubTotal){
+        return 0
+      }else{
+        return vm.getSubTotal * (vm.saleTransactionFee / vm.percentageOffset)
+      }
     },
 
-    // // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTotal: (vm) => {
       return vm.getSubTotal - vm.getSellerFee - vm.getTransactionFee || 0
     },
@@ -202,7 +207,7 @@ export default {
       })
       items.push({
         key: vm.$t('sell_now.transaction_fee', {
-          percentage: vm.saleTransactionFee,
+          percentage: vm.getTransactionFee > 0 ? vm.saleTransactionFee : 0,
         }),
         value: vm.getTransactionFee || 0,
         sign: '-',

@@ -170,7 +170,7 @@
     </div>
 
     <div v-else class="bg-white pb-md-5 inventory-card-list">
-      <b-row v-if="inventories.length === 0 && !loading" class="d-flex justify-content-center align-items-center mx-auto w-50 text-center no-items-found">
+      <b-row v-if="inventories.length === 0 && !loading" class="mt-3 pt-md-5 d-flex justify-content-center align-items-center mx-auto w-50 text-center no-items-found">
         {{ $t('create_listing.no_items_found') }}
       </b-row>
       <b-row v-else class="mt-3 mx-auto">

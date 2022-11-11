@@ -1,14 +1,10 @@
 <template>
   <div>
-    <div v-if="!screenSize" class="row my-5">
-      <div class="col-6 col-md-3">
-        <h1 class="heading-1-bold mb-0 heading font-secondary">
-          {{ $t('vendor_dashboard.orders') }}
-        </h1>
-      </div>
-      <div class="col-md-6 d-none d-sm-flex justify-content-center">
-        <NavGroup :value="activeNav" :data="menus" @change="navItem"/>
-      </div>
+    <div v-if="!isScreenXS" class="d-flex align-items-center justify-content-between">
+      <h1 class="heading-1-bold mb-0 heading font-secondary">
+        {{ $t('vendor_dashboard.orders') }}
+      </h1>
+      <NavGroup :data="menus" :value="activeNav" @change="navItem"/>
       <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
         <nuxt-link
             to="/orders"
@@ -39,8 +35,14 @@
           :fields="tableFields"
           :items="topOrders"
           tbody-tr-class="bg-white"
+          :busy="loading"
+          :show-empty="!loading && topOrders.length === 0"
       >
-
+        <template #table-busy>
+          <div class="d-flex align-items-center justify-content-center">
+            <Loader :loading="loading"/>
+          </div>
+        </template>
         <template #cell(product)="data">
           <div
               class="d-flex align-items-center align-items-sm-baseline justify-content-center flex-sm-column gap-2 tdHeightSm mb-2 mb-sm-0"
@@ -130,10 +132,13 @@
         </template>
         <template #cell(status)="data">
           <div
-              class="d-flex align-items-center justify-content-center tdHeight text-center"
+              :class="{
+                'text-center': !isScreenXS
+              }"
+              class="d-flex align-items-center justify-content-center tdHeight "
               :aria-label="$t('vendor_dashboard.status')"
           >
-            <h4 :class="styleFor(data.item.status) + ` ${mobileClass}`"
+            <h4 :class="styleFor(data.item.status) + ` ${mobileClass}` + `${isScreenXS? 'text-nowrap': ''}`"
                 class="text-capitalize status body-13-normal">
               {{ data.item.status_label }}
             </h4>
@@ -186,10 +191,11 @@ import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import screenSize from '~/plugins/mixins/screenSize';
 import {AWAITING_SHIPMENT_TO_DEADSTOCK, PROCESSING} from '~/static/constants';
+import Loader from '~/components/common/Loader';
 
 export default {
   name: 'TopOrdersTable',
-  components: {NavGroup, ProductThumb},
+  components: {Loader, NavGroup, ProductThumb},
   mixins: [screenSize],
   data() {
     return {
@@ -256,6 +262,7 @@ export default {
           thClass: 'text-center body-4-bold',
         },
       ],
+      loading: false,
       /** Todo need to make dynamic onces we have way of main categories in DB */
       menus: [
         {label: this.$t('vendor_dashboard.all'), value: ''},
@@ -339,14 +346,17 @@ export default {
       this.getTopOrders()
     },
     getTopOrders() {
+      this.loading = true
       this.$axios
           .get('/dashboard/vendor/orders?category_id=' + this.activeNav)
           .then((res) => {
             this.topOrders = res.data.data.data
           })
-        .catch((err) => {
-          this.logger.logToServer(err.response)
-        })
+          .catch((err) => {
+            this.logger.logToServer(err.response)
+          }).finally(() => {
+        this.loading = false
+      })
     },
   },
 }
@@ -355,6 +365,12 @@ export default {
 @import '~/assets/css/_variables'
 
 .status
+  &.mobile
+    border: none
+    box-shadow: none
+    filter: none
+    text-align: right
+
   &:not(.mobile)
     padding: 11px 30px
     border-radius: 4px
