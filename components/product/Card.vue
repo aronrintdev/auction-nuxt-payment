@@ -25,7 +25,7 @@
           <Icon
             :id="`popover-wishlist-${product.id}`"
             src="heart2.svg"
-            hover-src="heart-red.svg"
+            hover-src="heart2.svg"
             :active="wishListShow || !!wishList"
             width="15"
             height="15"
@@ -247,6 +247,7 @@ export default {
 .product-card-wrapper
   max-width: initial
   text-align: left
+  background-color: $color-white-4
   .badge-slot
     position: absolute
     top: 10px

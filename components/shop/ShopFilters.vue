@@ -19,7 +19,7 @@
           />
         </div>
       </div>
-      <div class="row mt-3">
+      <div class="row mt-4">
         <div class="col-2">
           <FormDropdown
             id="size-type"
