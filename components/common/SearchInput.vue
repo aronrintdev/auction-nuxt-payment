@@ -201,6 +201,13 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.counter-search-input
+  .search-input
+    letter-spacing: 0.06em
+    border: 1px solid $color-gray-23 !important
+    padding-left: 74px !important
+
 .search-mobile
   @media (max-width: 575px)
     height: 33px !important

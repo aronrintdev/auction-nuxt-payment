@@ -370,27 +370,51 @@
               </b-row>
             </div>
           </div>
-          <div class="m-3 p-3 inventory-card-trade">
-            <div class="inventory-heading pl-4">
+          <div class="my-3 inventory-card-trade">
+            <div class="inventory-heading">
               {{ (editYours) ? $t('trades.your_inventory', {0: inventoryItems.length}) : $t('trades.their_inventory', {0: inventoryItems.length}) }}
               <span v-if="editYours" class="sub-heading-inventory">{{ $t('trades.add_remove_items') }}</span>
-              <Button v-if="editYours" variant="primary" class="pull-right mr-5" @click="editTheirsItems()">{{ $t('trades.edit_theirs') }}</Button>
-              <Button v-else variant="primary" class="pull-right mr-5" @click="editYoursItems()">{{ $t('trades.edit_yours') }}</Button>
+              <Button v-if="editYours" variant="dark-blue" class="pull-right" @click="editTheirsItems()">{{ $t('trades.edit_theirs') }}</Button>
+              <Button v-else variant="dark-blue" class="pull-right" @click="editYoursItems()">{{ $t('trades.edit_yours') }}</Button>
             </div>
-            <b-col v-if="editYours" md="9" sm="12" class="pt-4 pl-4">
+            <b-col v-if="editYours" md="9" sm="12" class="pt-4 px-0">
               <SearchInput
                 bordered
                 variant="primary"
+                class="counter-search-input"
+                inputHeight="46px"
+                :isOpen="searchedItems.length > 0"
+                :onOpenStyle="{
+                  borderBottomLeftRadius: '0 !important',
+                  borderBottomRightRadius: '0 !important',
+                }"
+                :iconStyle="{
+                  position: 'relative',
+                  left: '12px'
+                }"
                 :placeholder="$t('trades.trade_arena.search_inventory')"
                 :clearSearch="true"
                 @change="onSearchInput"
               />
-              <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" :productsFor="productFor" width="700px" class="position-absolute"/>
+              <div class="position-relative">
+                <SearchedProductsBelowSearchTextBox 
+                  v-if="searchedItems.length > 0" 
+                  :productItems="searchedItems" 
+                  :productsFor="productFor" 
+                  class="position-absolute width-responsive counter-wrapper"
+                  :itemStyle="{
+                    padding: 0
+                  }"
+                  :wrapperStyle="{
+                    margin: 0
+                  }"
+                />
+              </div>
             </b-col>
-            <b-col md="12" class="pt-4 pl-4">
+            <div class="pt-4">
               <label>{{ $t('trades.filter_by') }}</label>
-              <div class="d-flex">
-                <b-col md="2" sm="12" class="pl-0">
+              <div class="row">
+                <b-col md="2" sm="12">
                   <client-only>
                     <CustomDropdown v-model="categoryFilter" :options="categoryItems" type="single-select"
                                     :label="categoryFilterLabel" class="mr-3 width-156" optionsWidth="custom"
@@ -422,8 +446,8 @@
                   <Button class="filter-btn" @click="getInventory">{{ $t('trades.filter') }}</Button>
                 </b-col>
               </div>
-            </b-col>
-            <div v-if="inventoryItems.length" class="carousel row justify-content-between inventory-items-trade">
+            </div>
+            <div v-if="inventoryItems.length" class="carousel d-flex justify-content-between inventory-items-trade">
               <div v-for="(item) in inventoryItems" :key="item.id" class="item invent-item">
                 <div>
                   <b-row class="justify-content-between">
@@ -1168,6 +1192,7 @@ export default {
   background: $color-white-1
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
+  padding: 30px 67px 20px 67px
 
 .inventory-heading
   font-family: $font-family-sf-pro-display
@@ -1187,7 +1212,8 @@ export default {
   height: 42px
 
 .inventory-items-trade
-  padding: 30px 30px 30px 30px
+  padding-top: 30px
+  padding-bottom: 30px
 
 .remove-item-icon
   right: 5px
