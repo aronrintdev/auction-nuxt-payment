@@ -1,16 +1,21 @@
 <template>
   <div :class="{'p-5':padding}">
+    <div v-if="!isTradeEditForm && productFor !== 'wantsList'" class="row">
+      <div class="col-md-12 ml-5 mr-md-5 progress-bar-container">
+        <FormStepProgressBar v-if="progressBar" :steps="steps" variant="transparent"/>
+      </div>
+    </div>
     <ProductView
       v-if="product"
       :product="product"
+      :back-button-text="backButtonText"
       v-model="form"
       @back="backSearch"
-      :back-button-text="backButtonText"
     >
       <div slot="right-content">
         <div class="row">
-          <div v-if="productFor !== 'wantsList'" class="col-12 col-md-6 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
-            <FormInput :value="quantity"
+          <div v-if="productFor !== 'wantsList'" class="col-12 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+            <FormInput v-model="quantity"
                        :placeholder="$t('trades.create_listing.vendor.wants.enter_quantity')"
                        :label="$t('trades.create_listing.vendor.wants.quantity')"
                        class="input"
@@ -26,8 +31,8 @@
               }}
             </div>
           </div>
-          <div v-if="product.category.name !== 'sneakers'" class="col-12 col-md-6 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
-            <FormInput :value="year"
+          <div v-if="product.category.name !== 'sneakers'" class="col-12 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+            <FormInput v-model="year"
                        :placeholder="$t('trades.create_listing.vendor.wants.enter_year')"
                        :label="$t('trades.create_listing.vendor.wants.year')"
                        class="input"
@@ -39,39 +44,32 @@
               {{ $t('trades.create_listing.vendor.wants.enter_year') }}
             </div>
           </div>
-          <div v-if="productFor === 'wantsList' && combinationId === null" class="col-12 col-md-6 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
-            <label>Select List<sup>*</sup></label>
+          <div v-if="productFor === 'wantsList' && combinationId === null" class="col-12 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+            <div class="input-label ml-2">Select List<sup>*</sup></div>
             <SelectListDropDown
               v-model="selectList"
               :options="selectListOptions" type="multi-select-checkbox"
               :label="selectListLabel" class="bg-white" optionsWidth="custom"
               :combinationId="combinationId"
-              maxWidth="203px" variant="white"
-              dropDownHeight="33px"
-              borderRadius="20px"
+              variant="white"
+              :dropDownHeight="isScreenXS ? '49px' : '40px'"
+              borderRadius="4px"
               borderRadiusClose="20px 20px 0 0"
               borderRadiusOptions="0 0 8px 8px"
-              width="203px"
+              width="100%"
               @change="listType"
             />
           </div>
-          <b-btn class="search-trade-add-btn ml-4" :disabled = !disabledBtn  @click="addToOffer(product)">
-            {{ ((productFor === tradeOffer) || (productFor === tradeArena)) ?
-            $t('trades.create_listing.vendor.wants.add_to_offers') : $t('trades.create_listing.vendor.wants.add_to_wants') }}
-          </b-btn>
+          <div  class="col-12">
+            <b-btn class="search-trade-add-btn w-100 rounded" :disabled = !disabledBtn  @click="addToOffer(product)">
+              {{ ((productFor === tradeOffer) || (productFor === tradeArena)) ?
+              $t('trades.create_listing.vendor.wants.add_to_offers') : $t('trades.create_listing.vendor.wants.add_to_wants') }}
+            </b-btn>
+          </div>
+
         </div>
       </div>
     </ProductView>
-
-    <b-col v-if="!isTradeEditForm" md="6">
-      <div v-if="productFor !== 'wantsList'" class="row">
-        <div class="col-md-12 ">
-          <FormStepProgressBar v-if="progressBar" :steps="steps" variant="transparent"/>
-        </div>
-      </div>
-    </b-col>
-
-
   </div>
 </template>
 
@@ -84,13 +82,15 @@ import {WANTS_SELECT_LIST_OPTIONS,PRODUCT_FOR_COUNTER_OFFER} from '~/static/cons
 import SelectListDropDown from '~/pages/profile/trades/wants/SelectListDropDown'
 import ProductView from '~/components/profile/create-listing/product/ProductView'
 import screenSize from '~/plugins/mixins/screenSize'
+import {FormInput} from '~/components/common'
 
 export default {
   name: 'CreateTradeSearchItem',
   components:{
     SelectListDropDown,
     FormStepProgressBar,
-    ProductView
+    ProductView,
+    FormInput
   },
   mixins: [screenSize],
   props:{
@@ -131,8 +131,6 @@ export default {
     return {
       form: {
         currentSize: null,
-        quantity: null,
-        price: null,
         boxCondition: null,
       },
       disabled:false,
@@ -169,6 +167,12 @@ export default {
           ? 'trades.create_listing.vendor.wants.back_to_confirm_trade_listing'
           : (!this.isTradeEditForm ?'trades.create_listing.vendor.wants.back_to_search'
              : (!this.itemId ? 'trades.back_to_trade_search': 'trades.back_to_trade_editing')))
+    }
+  },
+  watch: {
+    form(newVal) {
+      this.selected_size = newVal.currentSize;
+      this.box_condition = newVal.boxCondition;
     }
   },
   mounted() {
@@ -470,22 +474,108 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+.input-col::v-deep
+  .input-label
+    font-family: $font-montserrat
+    font-style: normal
+    @include body-8-normal
+    color: $color-black-1
+    margin-left: 0px!important
+    text-transform: uppercase
+    margin-bottom: 8px
+  .input
+    .form-input
+      border-radius: 4px!important
+      height: 40px
+      left: 16px
+      border: 1px solid $color-blue-20
+      &::placeholder
+        font-family: $font-montserrat
+        font-style: normal
+        @include body-8-normal
+        font-weight: normal
+        color: $color-gray-23
+  .error-text
+    @include body-5-regular
+    display: block
+    color: $color-red-3
 
-.wd-724
-  width: 724px
+  .button
+    background: $color-black-1
+    border-radius: 20px
+    color: $color-white-1
 
-.pt-50
-  padding-top: 50px
+  .input-error
+    .form-input
+      border-color: $color-red-3
 
-.overlay
-  background: $light-opacity
+  .error-text
+    @include body-5-regular
+    display: block
+    color: $color-red-3
 
-.create-trade-quantity-box
-  background-color: $color-white-1
-  border: 0.5px solid $color-gray-43
-  box-sizing: border-box
-  border-radius: 20px
-  width: 203px
-  height: 32px
+  .custom-dropdown
+    .label-wrapper
+      border-radius: 4px!important
+      padding: 2px 10px
+      height: 40px
+      left: 16px
+      border: 1px solid $color-blue-20
+    ul
+      border: 1px solid $color-blue-20
+      li
+        padding: 8px
+        border-color:  $color-blue-20
 
+.input-col-mobile::v-deep
+  .input-label
+    margin-bottom: 3px
+    font-family: $font-montserrat
+    font-style: normal
+    @include body-9-medium
+    color: $color-black-1
+  .input
+    .form-input
+      height: 49px
+      left: 16px
+      top: 804px
+      border: 1px solid $white-5
+      border-radius: 4px!important
+      &::placeholder
+        font-family: $font-montserrat
+        font-style: normal
+        @include body-9-medium
+        color: $color-gray-23
+  .error-text
+    @include body-5-regular
+    display: block
+    color: $color-red-3
+
+  .button
+    background: $color-black-1
+    border-radius: 20px
+    color: $color-white-1
+
+  .input-error
+    .form-input
+      border-color: $color-red-3
+
+  .error-text
+    @include body-5-regular
+    display: block
+    color: $color-red-3
+
+  .custom-dropdown
+    .label-wrapper
+      padding: 8px 10px
+      left: 16px
+      top: 804px
+      border: 1px solid $white-5
+      border-radius: 4px!important
+    ul
+      li
+        padding: 12px
+
+.progress-bar-container
+  margin-bottom: -36px
 </style>
