@@ -1,11 +1,12 @@
 <template>
   <div v-if="show" class="search-overlay-wrapper" :class="{ show: show }">
     <div class="backdrop" @click="hideOverlay"></div>
-
     <div class="search-content">
       <div class="search-form">
-        <h3>{{ $t('common.search') }}</h3>
-
+        <div class="d-flex">
+          <h3>{{ $t('common.search') }}</h3>
+          <close-icon role="button" class="close-icon" @click="hideOverlay"></close-icon>
+        </div>
         <SearchInput
           id="nav-search"
           ref="searchInput"
@@ -83,13 +84,14 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
+import CloseIcon from '~/assets/img/icons/close.svg?inline'
 import { Button, SearchInput } from '~/components/common'
 import ProductThumb from '~/components/product/Thumb'
 
 export default {
   name: 'SearchOverlay',
 
-  components: { SearchInput, Button, ProductThumb },
+  components: { SearchInput, Button, ProductThumb, CloseIcon },
 
   props: {
     show: {
@@ -320,5 +322,10 @@ export default {
             margin: 15px 20px 0 0
 .product-img
   width: 39px 
-  height: 39px 
+  height: 39px
+.close-icon
+  margin-left: auto
+  display: flex
+  margin-top: 20px
+  margin-right: 20px
 </style>
