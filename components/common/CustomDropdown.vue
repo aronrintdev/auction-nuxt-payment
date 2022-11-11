@@ -23,7 +23,7 @@
       @click="isOpen = !isOpen"
     >
       <label
-        class="font-weight-light m-0 p-0"
+        class="my-label font-weight-light m-0 p-0"
         :style="labelStyle"
       >
         <img v-if="labelLeftImage !== null" :src="labelLeftImage" class="mr-2">
@@ -51,10 +51,10 @@
         <input 
           v-if="type.includes('multi')" 
           class="mr-2" 
-          :checked="value && value.includes(option.value ? option.value : option)"
+          :checked="isChecked(option)"
           type="checkbox"  
         />
-        <span>{{ (option.value) ? option.text : capitalizeFirstLetter(option) }}</span>
+        <span>{{ getText(option) }}</span>
       </li>
       <li v-if="type.includes('multi') && showFilterBtn" class="fixed">
         <Button @click="filterResults">{{$t('common.drop_filter')}} ({{value && value.length}})</Button>
@@ -203,12 +203,46 @@ export default {
       this.isOpen = this.type.includes('multi')
       this.$emit('change', selectedOption)
     },
+
+    getText(option) {
+      if (option.text) {
+        return option.text
+      }
+      if (option.size) {
+        return option.size
+      }
+
+      return this.capitalizeFirstLetter(option)
+    },
+
+    isChecked(option) {
+      if (!this.value) {
+        return false
+      }
+      
+      if (
+        this.value.includes(option.value) ||
+        this.value.includes(option.size) ||
+        this.value.includes(option)
+      ) {
+        return true
+      }
+      
+      return false
+    }
   }
 }
 </script>
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.counter-page-dropdown
+  .my-label
+    color: $color-gray-5 !important
+    font-size: 14px !important
+    font-size: $regular !important
+
 ul.custom-dropdown-options
   position: relative
   z-index: 100000

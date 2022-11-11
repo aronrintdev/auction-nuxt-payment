@@ -412,38 +412,88 @@
               </div>
             </b-col>
             <div class="pt-4">
-              <label>{{ $t('trades.filter_by') }}</label>
-              <div class="row">
+              <div class="filter-label">{{ $t('trades.filter_by') }}</div>
+              <div class="row align-items-center">
                 <b-col md="2" sm="12">
                   <client-only>
-                    <CustomDropdown v-model="categoryFilter" :options="categoryItems" type="single-select"
-                                    :label="categoryFilterLabel" class="mr-3 width-156" optionsWidth="custom"
-                                    width="150px"
-                                    dropDownHeight="38px" variant="white"
-                                    @getResults="getInventory"
-                                    @change="changeCategory"/>
+                    <CustomDropdown 
+                      v-model="categoryFilter" 
+                      :options="categoryItems" 
+                      type="single-select"
+                      :label="categoryFilterLabel" 
+                      paddingX="10px"
+                      class="mr-3 counter-page-dropdown" 
+                      optionsWidth="custom"
+                      dropDownHeight="38px" 
+                      variant="white"
+                      :arrowStyle="{
+                        color: '#000',
+                        marginTop: '0 !important'
+                      }"
+                      :dropdownStyle="{
+                        borderRadius: '0 0 5px 5px'
+                      }"
+                      borderRadius="5px"
+                      borderRadiusClose="5px 5px 0 0"
+                      @getResults="getInventory"
+                      @change="changeCategory"
+                    />
                   </client-only>
                 </b-col>
                 <b-col md="2" sm="12">
                   <client-only>
-                    <CustomDropdown v-model="sizeTypesFilter" :options="filters.size_types" type="multi-select-checkbox"
-                                    :label="sizeTypesFilterLabel" class="mr-3 width-156" optionsWidth="custom"
-                                    dropDownHeight="38px" variant="white"
-                                    @getResults="getInventory"
-                                    @change="changeSizeTypeFilter"/>
+                    <CustomDropdown 
+                      v-model="sizeTypesFilter" 
+                      :options="filters.size_types" 
+                      type="multi-select-checkbox"
+                      :label="sizeTypesFilterLabel" 
+                      class="mr-3 counter-page-dropdown"
+                      paddingX="10px"
+                      optionsWidth="custom"
+                      dropDownHeight="38px"
+                      :arrowStyle="{
+                        color: '#000',
+                        marginTop: '0 !important'
+                      }"
+                      :dropdownStyle="{
+                        borderRadius: '0 0 5px 5px'
+                      }"
+                      borderRadius="5px"
+                      borderRadiusClose="5px 5px 0 0"
+                      variant="white"
+                      @getResults="getInventory"
+                      @change="changeSizeTypeFilter"
+                    />
                   </client-only>
                 </b-col>
                 <b-col md="2" sm="12">
                   <client-only>
-                    <CustomDropdown v-model="sizeFilter" :options="filters.sizes" type="multi-select-checkbox"
-                                    :label="sizeFilterLabel" class="mr-3 width-156" optionsWidth="custom"
-                                    dropDownHeight="38px" variant="white"
-                                    @getResults="getInventory"
-                                    @change="changeSizeFilter"/>
+                    <CustomDropdown 
+                      v-model="sizeFilter" 
+                      :options="filters.sizes" 
+                      type="multi-select-checkbox"
+                      :label="sizeFilterLabel" 
+                      class="mr-3 counter-page-dropdown"
+                      paddingX="10px"
+                      optionsWidth="custom"
+                      dropDownHeight="38px" 
+                      :arrowStyle="{
+                        color: '#000',
+                        marginTop: '0 !important'
+                      }"
+                      :dropdownStyle="{
+                        borderRadius: '0 0 5px 5px'
+                      }"
+                      borderRadius="5px"
+                      borderRadiusClose="5px 5px 0 0"
+                      variant="white"
+                      @getResults="getInventory"
+                      @change="changeSizeFilter"
+                    />
                   </client-only>
                 </b-col>
                 <b-col md="2" sm="12">
-                  <Button class="filter-btn" @click="getInventory">{{ $t('trades.filter') }}</Button>
+                  <Button class="filter-btn" variant="dark-blue" @click="getInventory">{{ $t('trades.filter') }}</Button>
                 </b-col>
               </div>
             </div>
@@ -969,7 +1019,6 @@ export default {
      * @param selectedSizeType
      */
     changeSizeTypeFilter(selectedSizeType) {
-
       if (!this.sizeTypesFilter.includes(selectedSizeType)) {
         this.sizeTypesFilter.push(selectedSizeType)
       } else {
@@ -989,8 +1038,8 @@ export default {
       } else {
         this.sizeFilter = this.sizeFilter.filter(item => item !== selectedSize.size)
       }
-
-      this.sizeFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeFilter, MAX_LABELS_IN_CUSTOM_DROP_DOWN)
+      this.sizeFilterLabel = this.$options
+        .filters.joinAndCapitalizeFirstLetters(this.sizeFilter, MAX_LABELS_IN_CUSTOM_DROP_DOWN)
         || this.$t('trades.create_listing.vendor.wants.size')
     },
 
@@ -1079,6 +1128,12 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.filter-label
+  @include body-8-normal
+  color: $color-black-1
+  font-family: $font-family-sf-pro-display
+  margin-bottom: 5px
 
 .border-radius-8
   border-radius: 8px
