@@ -18,7 +18,7 @@
       <div
         v-if="showActions"
         :class="`product-actions ${
-          wishListShow || shareShow ? 'show-actions' : ''
+          wishListShow || isShareBtnsVisible ? 'show-actions' : ''
         }`"
       >
         <div class="action-item btn-wishlist">
@@ -100,8 +100,8 @@
       container="body"
       custom-class="wishlist-popover"
       delay="200"
-      @show="shareShow = true"
-      @hidden="shareShow = false"
+      @show="isShareBtnsVisible = true"
+      @hidden="isShareBtnsVisible = false"
     >
       <ShareButton
         :url="shareUrl + product.sku"
@@ -166,12 +166,15 @@ export default {
       type: String,
       default: 'shop',
     },
+    showShareBtns: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
     return {
-      wishListShow: false,
-      shareShow: false,
+      wishListShow: true,
       shareUrl: process.env.APP_URL + '/shop/',
       wishList:
         this.product.wish_lists && this.product.wish_lists.length > 0
@@ -191,6 +194,9 @@ export default {
         .join(' ')
       return name
     },
+    isShareBtnsVisible(){
+      return this.showShareBtns
+    }
   },
   watch: {
     product(newVal, oldVal) {
