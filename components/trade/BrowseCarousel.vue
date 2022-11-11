@@ -118,5 +118,5 @@ export default {
         margin-left: -50px !important
 
 .item
-  border: 0.5px solid $light-gray-2
+  //border: 0.5px solid $light-gray-2
 </style>

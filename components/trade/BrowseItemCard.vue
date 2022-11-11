@@ -1,22 +1,26 @@
 <template>
   <div class="trade-card-wrapper" v-if="width > 500">
     <div v-if="showExpire && trade !== null" class="expire-wrapper">
-      <div class=" d-flex mt-2 ml-1 pt-2">
+      <div class="btn-expire d-flex mt-2 ml-1 pt-2">
         <div>
           <img class="clock-image pl-1 pr-1" :src="require('~/assets/img/clock.svg')" />
         </div>
-        <div class="text-created">{{prettifyExpiryDate(trade.created_at)}}</div>
+        <div class="text-created pl-1">{{prettifyExpiryDate(trade.created_at)}}</div>
       </div>
     </div>
     <div class="product-image d-flex flex-column justify-content-center align-items-center mx-auto">
       <ProductThumb :product="product" role="button"/>
     </div>
     <div class="detail-wrapper">
-      <div class="product-name">{{ product.name }}</div>
-      <div class="product-color">{{ product.colorway }}</div>
-      <div class="product-size">{{ product.size }}</div>
-      <div class=" d-flex justify-content-end align-content-end mt-1 ml-5">
-        <img class="trade-btn" :src="require('~/assets/img/tradebtn.svg')" />
+      <div class="d-flex">
+        <div class="left-side-cont pr-4">
+          <div class="product-name">{{ product.name }}</div>
+          <div class="product-color">{{ product.colorway }}</div>
+          <div class="product-size">{{ product.size }}</div>
+        </div>
+        <div class="">
+          <img class="trade-btn" :src="require('~/assets/img/tradebtn.svg')" />
+        </div>
       </div>
     </div>
   </div>
@@ -86,21 +90,27 @@ export default {
   font-weight: $medium
   @include body-18
   line-height: 12px
-
-
+  padding-top: 1px
+.trade-btn
+  height: 40px
+  width: 94px
+.left-side-cont
+  width: 150px
 .trade-card-wrapper
-  background: $color-white-1
+  background: #FAFAFA
   position: relative
-  border: 1px solid $light-gray-2
 
   .expire-wrapper
     padding: 0 19px
-    padding-top: 14px
-
+    padding-top: 10px
+    padding-bottom: 10px
     .btn-expire
-      @include body-4-normal
-      border: 1px solid $color-gray-23 !important
-      padding: 0
+      @include body-5
+      background-color: $color-red-24
+      color: $color-white-1
+      font-weight: $medium
+      width: 94px
+      height: 31px
 
   .product-image
     position: relative
@@ -117,7 +127,7 @@ export default {
       height: auto
 
   .detail-wrapper
-    background-color: $color-gray-1
+    background-color: $color-white-1
     padding: 8px
 
     .product-name

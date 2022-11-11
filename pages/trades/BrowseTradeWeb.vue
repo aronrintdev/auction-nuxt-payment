@@ -37,7 +37,7 @@
           <b-row class="d-flex justify-content-center col-md-12">
             <b-col :md="selectedTradeTotalItems === 'one'? 10 : 11" class="d-flex justify-content-between carousel-heading mb-5">
               <h2 v-html="prettyLabel(key)"></h2>
-              <label v-if="trades.length" @click="showTradeTypeDetails(key)">{{$t('common.view_more')}}<img :src="require('~/assets/img/icons/arrow-right-gray.svg')" class="ml-3 mr-2" /></label>
+              <label v-if="trades.length" @click="showTradeTypeDetails(key)">{{$t('common.view_more')}}<img :src="require('~/assets/img/moreicon.svg')" class="ml-3 mr-2" /></label>
             </b-col>
 
             <!-- Display trade with single items -->
