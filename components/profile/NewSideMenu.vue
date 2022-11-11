@@ -16,7 +16,7 @@
       </Button>
     </div>
 
-    <div class="sidebar-menus flex-column flex-grow-1 flex-column" :class="{'sidebar-bottom': isScreenXS || isScreenSM}">
+    <div class="sidebar-menus flex-column flex-grow-1 flex-column">
       <div class="sidebar-sub-header mb-4 mt-2">
         <span class="sidebar-sub-title">{{
           $t('profile_menu.categories.' + MENU_CATEGORY_BUYING)
@@ -100,12 +100,10 @@ import {
   MENU_CATEGORY_SELLING,
 } from '~/static/constants'
 import SideMenuItem from '~/components/side-menu/SideMenuItem'
-import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'NewSideMenu',
   components: {SideMenuItem, Button},
-  mixins: [screenSize],
   props: {
     showTitle: {
       type: Boolean,
@@ -367,7 +365,4 @@ export default {
 
 .create-listing-button.btn
   color: $color-gray-47
-
-.sidebar-bottom
-  padding-bottom: 120px
 </style>
