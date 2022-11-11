@@ -22,6 +22,10 @@
                 id="current-password"
                 v-model="form.current_password"
                 :state="getValidationState(validationContext)"
+                :class="{
+                    'rounded-pill': !isScreenXS
+                }"
+                :placeholder="isScreenXS? null: $t('change_password.current_password')"
                 type="password"
             ></b-form-input>
             <b-form-invalid-feedback>{{
@@ -46,6 +50,10 @@
                 id="new-password"
                 v-model="form.password"
                 :state="getValidationState(validationContext)"
+                :class="{
+                  'rounded-pill': !isScreenXS
+                }"
+                :placeholder="isScreenXS? null: $t('change_password.new_password')"
                 type="password"
             ></b-form-input>
             <b-form-invalid-feedback>{{
@@ -68,6 +76,10 @@
                 id="confirm-password"
                 v-model="form.password_confirmation"
                 :state="getValidationState(validationContext)"
+                :class="{
+                    'rounded-pill': !isScreenXS
+                }"
+                :placeholder="isScreenXS? null: $t('change_password.confirm_password')"
                 type="password"
             ></b-form-input>
             <b-form-invalid-feedback>{{
@@ -76,8 +88,10 @@
             </b-form-invalid-feedback>
           </b-form-group>
         </ValidationProvider>
-        <div v-if="!isScreenXS" class="text-right">
-          <b-button class="btn-update" type="submit">{{ $t('common.update') }}</b-button>
+        <div v-if="!isScreenXS" class="text-right ">
+          <Button :disabled="invalid || loading" class="submit-btn lg" pill type="submit" variant="dark-blue">
+            {{ $t('common.update') }}
+          </Button>
         </div>
         <div v-else class="position-absolute bottom-button w-100">
           <Button :disabled="invalid || loading" block class="submit-btn" pill type="submit" variant="dark-blue">
@@ -153,18 +167,45 @@ export default {
   left: 0
   padding-inline: 9px
 
-  ::v-deep.submit-btn
-    &.btn
-      @include body-17-medium
-      font-family: $font-family-sf-pro-display
-      font-style: normal
+::v-deep.submit-btn
+  &.lg
+    padding: 5px 50px
 
-      &:disabled
-        background: $color-gray-21
-        color: $color-gray-4
-        border: solid 1px $color-gray-21
+    &:disabled
+      background: $color-gray-47 !important
+      border-color: $color-gray-47 !important
+      color: $color-white-1 !important
+
+  &.btn
+    @include body-17-medium
+    font-family: $font-family-sf-pro-display
+    font-style: normal
+
+    &:disabled
+      background: $color-gray-21
+      color: $color-gray-4
+      border: solid 1px $color-gray-21
 
 .password-component
+  ::v-deep.form-group
+    label
+      @include body-5-normal
+      font-family: $font-family-montserrat
+      font-style: normal
+      color: $color-black-1
+      margin-bottom: 16px
+
+    input
+      padding: 13px 22px
+      height: 40px
+
+      &::placeholder
+        @include body-5-normal
+        font-family: $font-family-montserrat
+        font-style: normal
+        color: $color-gray-24
+
+
   &.mobile
     background: $color-white-1
     box-shadow: 0 1px 4px rgba($color-black-1, 0.25)
