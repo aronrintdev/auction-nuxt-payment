@@ -430,15 +430,15 @@ export default {
     border-radius: 4px
 
 ::v-deep .status.awaiting-shipment
-  background: rgba(211, 76, 0, 0.08)
+  background: $awaiting-shipment
   color: $color-red-20
 
 ::v-deep .status.awaiting-shipment-ds
-  background: rgba(50, 189, 109, 0.08)
+  background: $awaiting-shipment-ds
   color: $color-green-3
 
 ::v-deep .status.commission-paid
-  background: rgba(78, 148, 244, 0.05)
+  background: $commission-paid
   color: $color-blue-34
 
 ::v-deep .status.arrived
@@ -446,15 +446,15 @@ export default {
   color: $color-green-3
 
 ::v-deep .status.shipped
-  background: rgba(74, 93, 168, 0.08)
+  background: $shipped
   color: $color-blue-16
 
 ::v-deep .status.awaiting-auth
-  background: rgba(84, 76, 241, 0.05)
+  background: $awaiting-auth
   color: $color-blue-17
 
 ::v-deep .status.order-taken-over
-  background: rgba(98, 98, 98, 0.08)
+  background: $order-taken-over
   color: $color-gray-5
 
 ::v-deep .collapsible-table tbody tr
