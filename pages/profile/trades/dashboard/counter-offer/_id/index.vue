@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="width <=500">
+    <div v-if="width <=550">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col :md="isPayment ? 9 : 12" v-if="!cashAdd">
           <div>
@@ -222,8 +222,8 @@
             <div class="offer-sum-text">{{ $t('trades.counter_offer') }}</div>
           </div>
           <div class="offer-card my-3">
-            <div class="d-flex flex-column">
-              <div class="mt-55 d-flex justify-content-between col-8 mx-auto">
+            <div class="d-flex flex-column px-3 px-lg-0">
+              <div class="mt-55 d-flex justify-content-between col-12 col-md-8 mx-auto">
                 <div class="value">
                   {{ $t('common.their_value') }} 
                   <span class="ml-1 price">{{ getTheirTotal() }}</span>
@@ -234,7 +234,7 @@
                 </div>
               </div>
               <div
-                class="center-container"
+                class="center-container col-12 col-sm-8 d-flex mx-0 mx-sm-auto justify-content-between col-xl-12"
                 :class="{'center-cont-height':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"
               >
                 <div 
@@ -249,7 +249,7 @@
                         <img :src="require('~/assets/img/trades/minus-icon.svg')">
                       </div>
                     </div>
-                    <img class="item-image" :src="item.inventory.product | getProductImageUrl"
+                    <img class="item-image w-auto" :src="item.inventory.product | getProductImageUrl"
                         :class="{'item-image-cond':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
                     <div class="item-caption">
                       <span class="item-name">{{ item.inventory.product.name }}</span>
@@ -260,7 +260,7 @@
                         <div>, {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</div>
                       </div>
                       <span
-                        class="mt-1 item-box-condition">{{
+                        class="mt-1 item-caption-description">{{
                           $t('trades.trade_arena.box') 
                         }}: {{ item.inventory.packaging_condition.name }}
                       </span>
@@ -281,13 +281,13 @@
                   <div v-if="getYourItems.length" >
                     <div v-for="(item, index) in getYourItems"
                         :id="getYourItems.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="'your-trade-item-key-'+index"
-                        class="preview item-length mb-4">
+                        class="item-length mb-4">
                       <div v-if="editYours" class="position-relative">
                         <div class="position-absolute remove-item-icon" role="button" @click.stop="removeItem(item.inventory.product.id)">
                           <img :src="require('~/assets/img/trades/minus-icon.svg')">
                         </div>
                       </div>
-                      <img class="item-image" :src="item.inventory.product | getProductImageUrl" alt="image"
+                      <img class="item-image w-auto" :src="item.inventory.product | getProductImageUrl" alt="image"
                           :class="{'item-image-cond':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
                       <div class="item-caption">
                         <span class="item-name">{{ item.inventory.product.name }}</span>
@@ -298,7 +298,7 @@
                           <div>, {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</div>
                         </div>
                         <span
-                          class="mt-1 item-box-condition">{{
+                          class="mt-1 item-caption-description">{{
                             $t('trades.trade_arena.box') 
                           }}: {{ item.inventory.packaging_condition.name }}
                         </span>
@@ -503,7 +503,7 @@
               <div 
                 v-for="(item) in inventoryItems" 
                 :key="item.id" 
-                class="item invent-item d-flex flex-column justify-content-center col col-md-3 px-0"
+                class="item invent-item d-flex flex-column justify-content-center mx-auto mx-md-0 col-6 col-md-3 px-0"
               >
                 <b-row class="justify-content-between">
                   <b-col class="d-flex justify-content-end pr-3 pt-3">
@@ -513,7 +513,7 @@
                           :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
                   </b-col>
                 </b-row>
-                <img class="img-fluid mx-auto" :src="item.product | getProductImageUrl" />
+                <img class="img-fluid mx-auto max-h-200" :src="item.product | getProductImageUrl" />
                 <div class="item-caption">
                   <span class="item-name">{{ item.product.name }}</span>
                   <div class="mt-1 item-caption-description d-flex">
@@ -1135,6 +1135,9 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.max-h-200
+  max-height: 200px
+
 .filter-label
   @include body-8-normal
   color: $color-black-1
@@ -1201,6 +1204,9 @@ export default {
 
 .center-container
   margin: 45px 2% 5px 2%
+  @media (min-width: 768px)
+    padding-left: 80px
+    padding-right: 80px
 
 .offer-card
   background: $color-white-1
@@ -1218,14 +1224,16 @@ export default {
   padding-top: 15px
 
 #trade-item-0
-  position: absolute
-  margin-left: 115%
-  margin-top: 107px
+  @media (min-width: 1200px)
+    position: absolute
+    margin-left: 115%
+    margin-top: 107px
 
 #your-trade-item-0
-  position: absolute
-  margin-top: 107px
-  margin-left: -115%
+  @media (min-width: 1200px)
+    position: absolute
+    margin-top: 107px
+    margin-left: -115%
 
 .optional-input-field
   @include body-9-normal

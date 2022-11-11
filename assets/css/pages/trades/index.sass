@@ -123,14 +123,16 @@
 
 .center-container
   display: flex
-  justify-content: center
   margin: 45px 10%
+  @media (min-width: 1200px)
+    justify-content: center
 
 .center-container-margin
   margin: 70px 2%
 
 .center-cont-height
-  min-height: 545px
+  @media (min-width: 1200px)
+    min-height: 545px
 
 .left-item, .right-item
   width: fit-content
@@ -252,7 +254,8 @@
   margin-top: 10px
 
 .left-item, .right-item
-  max-height: 317px
+  @media (min-width: 1200px)
+    max-height: 317px
 
 .item-text, .drag-drop
   display: flex
@@ -305,12 +308,14 @@
   align-items: center
   padding-top: 21px
   margin: 0 10px
-  min-width: 435px
-  max-width: 780px
+  @media (min-width: 1200px)
+    min-width: 435px
+    max-width: 780px
 
 .long-line
-  border: 0.5px solid $color-gray-23
-  width: 50px
+  @media (min-width: 1200px)
+    border: 0.5px solid $color-gray-23
+    width: 50px
 
 .view-button-container
   display: flex
@@ -628,20 +633,23 @@
   margin-left: 19px
 
 .pointer-left
-  border-top: 0.5px solid $light-gray-2
-  border-bottom: 0.5px solid $light-gray-2
-  border-right: 0.5px solid $light-gray-2
-  height: 340px
-  width: 275px
-  z-index: 1
+  @media (min-width: 1200px)
+    height: 340px
+    width: 275px
+    z-index: 1
+    border-top: 0.5px solid $light-gray-2
+    border-bottom: 0.5px solid $light-gray-2
+    border-right: 0.5px solid $light-gray-2
+  
 
 .pointer-right
-  z-index: 1
-  border-top: 0.5px solid $light-gray-2
-  border-bottom: 0.5px solid $light-gray-2
-  border-left: 0.5px solid $light-gray-2
-  height: 340px
-  width: 275px
+  @media (min-width: 1200px)
+    z-index: 1
+    height: 340px
+    width: 275px
+    border-top: 0.5px solid $light-gray-2
+    border-bottom: 0.5px solid $light-gray-2
+    border-left: 0.5px solid $light-gray-2
 
 #item-0
   position: absolute

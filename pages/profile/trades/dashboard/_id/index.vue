@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="width <=500">
+    <div v-if="width <=550">
       <b-row v-if="offer !== null">
         <b-col :md="isPayment ? 9 : 12">
           <div class="">
@@ -101,7 +101,7 @@
     <div v-else>
       <b-row v-if="offer !== null">
         <b-col class="main-content" :md="isPayment ? 9 : 12">
-          <b-row class="justify-content-between">
+          <div class="d-flex justify-content-between">
             <b-col>
               <div class="offer-id-head">{{ $t('trades.offer_summary') }}</div>
             </b-col>
@@ -123,13 +123,13 @@
               <div class="mt-2 placed-time">{{ $t('trades.placed_on') }} {{ lastSubmittedOffer.created_at | formatDateTimeString }}</div>
               <div v-if="!isAcceptedOffer()" class="mt-2 placed-time">{{ $t('trades.expires_on') }} {{ lastSubmittedOffer.offer_expiry | formatDateTimeString }}</div>
             </div>
-          </b-row>
+          </div>
           <div class="current-trade">{{ $t('common.current_trade') }}</div>
           <div class="offer-card">
             <div 
-              class="d-flex flex-column"
+              class="d-flex flex-column px-3 px-lg-0"
             >
-              <div class="d-flex justify-content-between col-8 mx-auto">
+              <div class="d-flex justify-content-between col-12 col-md-8 mx-auto">
                 <div class="value">
                   {{ $t('common.their_value') }} 
                   <span class="ml-1 price">{{ getTheirTotal() }}</span>
@@ -140,14 +140,14 @@
                 </div>
               </div>
               <div 
-                class="d-flex justify-content-center center-container"
+                class="center-container col-sm-12 col-8 d-flex mx-0 mx-sm-auto justify-content-between col-xl-12"
                 :class="{'center-cont-height':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }"
               >
                 <div class="left-item" :class="{'left-item-margin':lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length}">      
                   <div v-for="(item, index) in lastSubmittedOffer.theirs_items" :id="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ?'trade-item-'+index : ''"
                       :key="item.id" class="item mb-4"
                       :class="[((lastSubmittedOffer.theirs_items.length > ONE_ITEM )|| (lastSubmittedOffer.yours_items.length)) ? 'item-length' : 'item-normal']">
-                    <img class="item-image" :src="item.inventory.product | getProductImageUrl"
+                    <img class="item-image w-auto" :src="item.inventory.product | getProductImageUrl"
                         :class="{'item-image-cond':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }" width="131px"/>
                     <div class="item-caption">
                       <span class="item-name">{{ item.inventory.product.name }}</span>
@@ -157,7 +157,7 @@
                         </div>
                         <div>, {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</div>
                       </div>
-                      <span class="mt-1 item-box-condition">
+                      <span class="mt-1 item-caption-description">
                         {{ $t('trades.trade_arena.box') }}: 
                         {{ item.inventory.packaging_condition.name }}
                       </span>
@@ -177,8 +177,8 @@
                   <div v-if="lastSubmittedOffer.yours_items.length" >
                     <div v-for="(item, index) in lastSubmittedOffer.yours_items"
                         :id="lastSubmittedOffer.yours_items.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="item.id"
-                        class="preview item-length mb-4">
-                      <img class="item-image" :src="item.inventory.product | getProductImageUrl" alt="image"
+                        class="item-length mb-4">
+                      <img class="item-image w-auto" :src="item.inventory.product | getProductImageUrl" alt="image"
                           :class="{'item-image-cond':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }" width="131px"/>
                       <div class="item-caption">
                         <span class="item-name">{{ item.inventory.product.name }}</span>
@@ -188,7 +188,7 @@
                           </div>
                           <div>, {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</div>
                         </div>
-                        <span class="mt-1 item-box-condition">
+                        <span class="mt-1 item-caption-description">
                           {{ $t('trades.trade_arena.box') }}: 
                           {{ item.inventory.packaging_condition.name }}
                         </span>
@@ -225,13 +225,13 @@
             </div>
           </div>
           <div class="history-heading">{{ $t('trades.offer_history') }}</div>
-          <b-row class="col-md-7">
+          <b-row class="col-lg-7">
             <offer-history :offerHistory="offer" />
           </b-row>
           <b-row class="justify-content-center pt-3 pb-3">
             <hr class="center-line">
           </b-row>
-          <b-row class="justify-content-center">
+          <b-row class="justify-content-center px-3">
             <initial-listing :initialWantsItems="offer.trade.wants" />
           </b-row>
         </b-col>
@@ -433,10 +433,15 @@ export default {
   color: $color-black-1
   
 .main-content
-  padding: 50px 62px
+  padding: 50px 20px
+  @media (min-width: 768px)
+    padding: 50px 62px
 
 .center-container
   margin: 25px 2%
+  @media (min-width: 768px)
+    padding-left: 80px
+    padding-right: 80px
 
 .item-head-trade-hub
   font-family: $font-family-sf-pro-display
@@ -449,14 +454,16 @@ export default {
   padding-top: 15px
 
 #trade-item-0
-  position: absolute
-  margin-left: 115%
-  margin-top: 107px
+  @media (min-width: 1200px)
+    position: absolute
+    margin-left: 115%
+    margin-top: 107px
 
 #your-trade-item-0
-  position: absolute
-  margin-top: 107px
-  margin-left: -115%
+  @media (min-width: 1200px)
+    position: absolute
+    margin-top: 107px
+    margin-left: -115%
 
 .mt-10p
   margin-top: 10%
