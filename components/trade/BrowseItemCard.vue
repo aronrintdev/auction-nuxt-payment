@@ -26,31 +26,40 @@
   </div>
   <div class="trade-card-wrapper" v-else>
     <div v-if="showExpire && trade !== null" class="expire-wrapper">
-      <Button variant="outline-danger" class="btn-expire" block
-        >{{$t('common.expires')}} {{prettifyExpiryDate(trade.created_at)}}</Button
-      >
+      <div class="btn-expire d-flex mt-2 ml-1 pt-2">
+        <div>
+          <img class="clock-image pl-1 pr-1" :src="require('~/assets/img/clock.svg')" />
+        </div>
+        <div class="text-created pl-1">{{prettifyExpiryDate(trade.created_at)}}</div>
+      </div>
     </div>
     <div class="product-image d-flex flex-column justify-content-center align-items-center mx-auto">
       <ProductThumb :product="product" role="button"/>
     </div>
     <div class="detail-wrapper">
-      <div class="product-name">{{ product.name }}</div>
-      <div class="product-color">{{ product.colorway }}</div>
-      <div class="product-size">{{ product.size }}</div>
+      <div class="d-flex">
+        <div class="left-side-cont pr-4">
+          <div class="product-name">{{ product.name }}</div>
+          <div class="product-color">{{ product.colorway }}</div>
+          <div class="product-size">{{ product.size }}</div>
+        </div>
+        <div class="">
+          <img class="trade-btn" :src="require('~/assets/img/tradebtn.svg')" />
+        </div>
+      </div>
     </div>
 
   </div>
 </template>
 <script>
 import ProductThumb from '~/components/product/Thumb.vue'
-import Button from '~/components/common/Button.vue'
 import { tradeRemainingTime } from '~/utils/string'
 import { TRADE_EXPIRY_DAYS } from '~/static/constants'
 
 export default {
   name: 'BrowseItemCard',
 
-  components: { ProductThumb, Button },
+  components: { ProductThumb },
 
   props: {
     product: {

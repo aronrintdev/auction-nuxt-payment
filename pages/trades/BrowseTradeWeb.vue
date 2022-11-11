@@ -229,7 +229,7 @@ export default {
 .trade-card
   width: 255px
   background: $color-white-1
-  border: 1px solid $light-gray-2
+  //border: 1px solid $light-gray-2
   box-sizing: border-box
 .carousel-heading
   & h2
