@@ -20,14 +20,11 @@
             class="browse-trade"
           >
             <nuxt-link :to="'/trades/' + trade.id">
-              <div class=" row trade-info d-flex justify-content-between pl-4 pr-4">
-                <label class="listing-text">
-                  {{$t('common.listing_id')}}
-                  <span class="listing-id-color">: #{{trade.id}}</span>
-                </label>
-                <span class="expire-text" >
-                  {{$t('common.expires')}} {{prettifyExpiryDate(trade.created_at)}}
-                </span>
+              <div class="btn-expire d-flex">
+                <div>
+                  <img class="clock-image p-1" :src="require('~/assets/img/black_clock.svg')" />
+                </div>
+                <div class="text-created pt-1">{{prettifyExpiryDate(trade.created_at)}}</div>
               </div>
               <div class="row d-flex justify-content-center pt-3 pb-4">
               <div v-for="(product, key) in trade.offers" :key="'trade-item-'+key" class="products d-flex justify-content-center mx-4">
@@ -85,7 +82,23 @@ export default {
 
 .trade-carousel-wrapper
   padding: 0
-
+.text-created
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $medium
+  @include body-18
+  line-height: 12px
+.btn-expire
+  width: 95px
+  height: 25px
+  background-color: $dark-gray-8
+  color: $color-black-1
+  position: relative
+  top: 10px
+  left: 5px
+.clock-image
+  height: 20px
+  width: 20px
   .carousel::v-deep
     width: 100%
     padding: 0 58px
@@ -93,6 +106,7 @@ export default {
     margin-left: auto
     margin-right: auto
     display: flex
+    justify-content: center
     align-items: center
 
     >span .owl-nav
@@ -154,6 +168,7 @@ export default {
   color: $color-blue-1
 
 .item
-  border: 0.5px solid $light-gray-2
-
+  //border: 0.5px solid $light-gray-2
+.products
+  width: 213px
 </style>
