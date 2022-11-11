@@ -324,7 +324,7 @@
                   <span class="add-cash">{{ $t('trades.add_cash') }}</span>
                   <span class="request-cash">{{ $t('trades.request_cash') }}</span>
                 </div>
-                <div v-if="!cashAdded" class="optional-input d-flex">
+                <div v-if="!cashAdded" class="optional-input w-100 d-flex">
                   <div class="position-relative">
                     <span v-if="optionalCash" class="position-absolute input-mt ml-2">$</span>
                     <input 
@@ -414,7 +414,7 @@
             <div class="pt-4">
               <div class="filter-label">{{ $t('trades.filter_by') }}</div>
               <div class="row align-items-center">
-                <b-col md="2" sm="12">
+                <b-col md="3" xl="2" sm="12">
                   <client-only>
                     <CustomDropdown 
                       v-model="categoryFilter" 
@@ -422,7 +422,7 @@
                       type="single-select"
                       :label="categoryFilterLabel" 
                       paddingX="10px"
-                      class="mr-3 counter-page-dropdown" 
+                      class="mr-sm-3 counter-page-dropdown" 
                       optionsWidth="custom"
                       dropDownHeight="38px" 
                       variant="white"
@@ -440,14 +440,14 @@
                     />
                   </client-only>
                 </b-col>
-                <b-col md="2" sm="12">
+                <b-col md="3" xl="2" sm="12" class="mt-2 mt-md-0">
                   <client-only>
                     <CustomDropdown 
                       v-model="sizeTypesFilter" 
                       :options="filters.size_types" 
                       type="multi-select-checkbox"
                       :label="sizeTypesFilterLabel" 
-                      class="mr-3 counter-page-dropdown"
+                      class="mr-sm-3 counter-page-dropdown"
                       paddingX="10px"
                       optionsWidth="custom"
                       dropDownHeight="38px"
@@ -466,14 +466,14 @@
                     />
                   </client-only>
                 </b-col>
-                <b-col md="2" sm="12">
+                <b-col md="3" xl="2" sm="12" class="mt-2 mt-md-0">
                   <client-only>
                     <CustomDropdown 
                       v-model="sizeFilter" 
                       :options="filters.sizes" 
                       type="multi-select-checkbox"
                       :label="sizeFilterLabel" 
-                      class="mr-3 counter-page-dropdown"
+                      class="mr-sm-3 counter-page-dropdown"
                       paddingX="10px"
                       optionsWidth="custom"
                       dropDownHeight="38px" 
@@ -492,31 +492,35 @@
                     />
                   </client-only>
                 </b-col>
-                <b-col md="2" sm="12">
+                <b-col md="2" sm="12" class="mt-2 mt-md-0">
                   <Button class="filter-btn" variant="dark-blue" @click="getInventory">{{ $t('trades.filter') }}</Button>
                 </b-col>
               </div>
             </div>
-            <div v-if="inventoryItems.length" class="carousel d-flex justify-content-between inventory-items-trade">
-              <div v-for="(item) in inventoryItems" :key="item.id" class="item invent-item">
-                <div>
-                  <b-row class="justify-content-between">
-                    <b-col>
-                      <div class="size-car">{{ $t('trades.trade_arena.size') }} {{item.size.size}}</div>
-                    </b-col>
-                    <b-col class="d-flex justify-content-end pr-3 pt-3">
-                      <img v-if="!editYours" class="plus-icon-add-trade" role="button"
-                           :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>
-                      <img v-else class="plus-icon-add-trade" role="button"
-                           :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
-                    </b-col>
-                  </b-row>
-                  <img class="item-image-counteroffer" :src="item.product | getProductImageUrl" width="200px" />
-                  <div class="item-caption">
-                    <span class="item-name">{{ item.product.name }}</span>
-                    <span class="item-box-condition">{{ $t('common.box_condition') }}: {{item.packaging_condition.name}}</span>
-                    <span class="item-caption-description">{{item.product.colorway}}</span>
+            <div v-if="inventoryItems.length" class="carousel d-flex flex-column flex-md-row flex-wrap justify-content-between inventory-items-trade">
+              <div 
+                v-for="(item) in inventoryItems" 
+                :key="item.id" 
+                class="item invent-item d-flex flex-column justify-content-center col col-md-3 px-0"
+              >
+                <b-row class="justify-content-between">
+                  <b-col class="d-flex justify-content-end pr-3 pt-3">
+                    <img v-if="!editYours" class="plus-icon-add-trade" role="button"
+                          :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>
+                    <img v-else class="plus-icon-add-trade" role="button"
+                          :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
+                  </b-col>
+                </b-row>
+                <img class="img-fluid mx-auto" :src="item.product | getProductImageUrl" />
+                <div class="item-caption">
+                  <span class="item-name">{{ item.product.name }}</span>
+                  <div class="mt-1 item-caption-description d-flex">
+                    <div class="item-color text-truncate">{{ item.product.colorway }}</div>
+                    <div>, {{ $t('trades.trade_arena.size') }} {{ item.size.size }}</div>
                   </div>
+                  <span class="mt-1 item-caption-description">
+                    {{ $t('trades.trade_arena.box') }}: {{ item.packaging_condition.name }}
+                  </span>
                 </div>
               </div>
             </div>
