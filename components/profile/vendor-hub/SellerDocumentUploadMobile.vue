@@ -24,7 +24,7 @@
                         v-model="fileForm.permitNumber"
                         type="text"
                         :state="getValidationState(validationContext)"
-                        class="form-input rounded border bg-white"
+                        class="form-input text-box rounded border bg-white"
                         :placeholder="$t('vendor_hub.enter_permit_seller_number')"></b-form-input>
                       <b-form-invalid-feedback>{{
                           validationContext.errors[0]
@@ -298,11 +298,11 @@ label.input-label
   font-style: normal
   font-weight: $regular
 
-.form-input
+.text-box
   border: 1px solid $color-gray-60
-  background-color: $color-white-5 !important
-  padding: 10px 15px 10px 14px !important
-  font-size: 14px !important
+  background-color: $color-white-5
+  padding: 10px 15px 10px 14px
+  font-size: 14px
 
 .text-blue-20
   color: $color-blue-20
