@@ -63,7 +63,7 @@
         <div v-for="(trades, key) in sectionTypes" :key="key">
           <div class="px-5 pt-5">
             <b-row>
-              <b-col md="12" class="d-flex justify-content-between carousel-heading mb-5 ml-5">
+              <b-col md="12" class="d-flex justify-content-between carousel-heading mb-5 ml-5 pl-5">
                 <h2 v-html="prettyLabel(key)"></h2>
               </b-col>
               <!-- Display trades with single items -->
@@ -278,8 +278,7 @@ export default {
     font-style: normal
     letter-spacing: 2px
     ::v-deep & u
-      text-decoration-color: $color-blue-2
-      text-underline-offset: 15px
+      text-decoration-color: $color-transparent
   & label
     font-family: $font-montserrat
     font-weight: $regular

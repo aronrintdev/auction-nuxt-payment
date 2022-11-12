@@ -61,7 +61,7 @@
         :minValue="MIN_PRICE"
         :maxValue="MAX_PRICE / 100"
         :step="50"
-        :title="$t('home_page.current_bid')"
+        :title="$t('home_page.trade_value')"
         :value="selectedPrices"
         class="mr-3 mr-xl-4 flex-grow-1"
         @change="updatePriceFilters"
@@ -183,21 +183,13 @@ export default {
           value: 'live'
         },
         {
-          label: this.$t('filter_sidebar.status_options.upcoming'),
-          value: 'upcoming'
-        },
-        {
-          label: this.$t('filter_sidebar.status_options.expiring'),
-          value: 'ending_soon'
+          label: this.$t('filter_sidebar.status_options.traded'),
+          value: 'traded'
         },
         {
           label: this.$t('filter_sidebar.status_options.expired'),
           value: 'expired'
-        },
-        {
-          label: this.$t('filter_sidebar.status_options.sold'),
-          value: 'sold'
-        },
+        }
       ],
       SORT_OPTIONS: [
         {

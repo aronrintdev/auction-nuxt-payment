@@ -575,7 +575,8 @@
     "sweatshirts": "SWEATSHIRTS",
     "bottoms": "BOTTOMS",
     "shirts": "SHIRTS",
-    "jackets": "JACKETS"
+    "jackets": "JACKETS",
+    "trade_value":  "Trade Value"
   },
   "Sign Up": "Sign Up",
   "Log In": "Log In",
@@ -2068,7 +2069,8 @@
       "upcoming": "Upcoming",
       "expiring": "Expiring",
       "expired": "Expired",
-      "sold": "Sold"
+      "sold": "Sold",
+      "traded": "Traded"
     }
   },
   "shop": {
