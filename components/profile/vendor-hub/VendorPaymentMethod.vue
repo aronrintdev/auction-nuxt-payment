@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="mobileClass ? 'mobile-form-box p-3' : 'payment-method p-4 mb-2'">
+    <div :class="mobileClass ? 'mobile-form-box p-3' : 'payment-method mb-2'">
       <div class="d-flex flex-row justify-content-between align-items-center">
         <div class="title" :class="mobileClass ? 'body-10-bold font-weight-bold text-blue-20' : 'heading-3-normal'">
           {{ $t('vendor_hub.payout_method.title') }}
@@ -26,7 +26,7 @@
         <Loader :loading="loading"></Loader>
       </div>
 
-      <div v-if="!isPaymentAddition && !isPaymentEditActive">
+      <div v-if="!isPaymentAddition && !isPaymentEditActive" class="mt-5">
         <div v-for="(method, index) in payoutMethods" :key="index">
           <template v-if="mobileClass">
             <VendorPayoutItemMobile
@@ -177,6 +177,7 @@ export default {
   border: 1px solid $color-gray-29
   border-radius: 4px
   height: max-content
+  padding: 30px
 
 .mobile-form-box
   box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
