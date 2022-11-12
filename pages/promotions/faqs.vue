@@ -45,10 +45,12 @@ export default {
   methods: {
     // TODO change API to get filtered faqs for promotions only when new FAQS api ready
     getFaqs() {
-      this.$axios.get('faqs').then(res => {
+      this.$axios.get('faqs/categories/promotions').then(res => {
         this.faqs = res.data.data
+        console.log('log data is',this.faqs);
       }).catch(error => {
         this.$toasted.error(error)
+        console.log('log data is',error);
       })
     },
   }

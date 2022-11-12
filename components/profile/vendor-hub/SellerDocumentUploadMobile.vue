@@ -2,7 +2,7 @@
   <div>
     <div class="mb-3">
       <div class="text-center">
-        <h4 class="document-name">{{ requirement ? requirement.name : $t('vendor_hub.retailer_certification') }}</h4>
+        <h4 class="document-name">{{ requirement ? requirement.name : $t('vendor_hub.delete') }}</h4>
         <div class="mt-2 body-9-normal px-3">{{ $t('vendor_hub.accepted_document_types') }}</div>
       </div>
 
@@ -15,7 +15,7 @@
                 <div class="col-12">
                   <ValidationProvider
                     v-slot="validationContext"
-                    :name="$t('vendor_hub.seller_permit_number')"
+                    :name="$t('vendor_hub.enter_permit_seller_number')"
                     :rules="{ required: true, min: 3}"
                   >
                     <b-form-group class="text-left input-label">
@@ -25,7 +25,7 @@
                         type="text"
                         :state="getValidationState(validationContext)"
                         class="form-input rounded border bg-white"
-                        :placeholder="$t('vendor_hub.enter_permit_number')"></b-form-input>
+                        :placeholder="$t('vendor_hub.enter_permit_seller_number')"></b-form-input>
                       <b-form-invalid-feedback>{{
                           validationContext.errors[0]
                         }}
@@ -45,7 +45,7 @@
                       <b-input-group>
                         <CalendarInput
                           id="expiration-date"
-                          :placeholder="$t('vendor_hub.expiration_date_placeholder')"
+                          :placeholder="$t('vendor_hub.expiration_date')"
                           :value="fileForm.date"
                           :input-disabled="true"
                           :min-date="tomorrowDate"
@@ -81,7 +81,7 @@
                   <input ref="fileCapture"
                          type="file" class="file-input" accept="image/jpeg, image/png" capture
                          @change="onFileChange($event) || validate($event)"/>
-                    <div class="d-flex justify-content-between px-5">
+                    <div class="d-flex justify-content-between">
                       <a class="text-primary mb-3" @click="openCamera">
                         <div class="py-3 px-4 bg-gray-light rounded">
                           <img src="~/assets/img/icons/camera-2.svg" />
@@ -113,7 +113,7 @@
 
           <div class="mx-5 px-3">
             <Button variant="secondary" class="upload-btn rounded-pill" block :disabled="invalid || uploading || disabled" type="submit">
-              {{ $t('vendor_hub.upload') }}
+              {{ $t('vendor_hub.submit') }}
             </Button>
           </div>
         </b-form>
@@ -300,6 +300,9 @@ label.input-label
 
 .form-input
   border: 1px solid $color-gray-60
+  background-color: $color-white-5 !important
+  padding: 10px 15px 10px 14px !important
+  font-size: 14px !important
 
 .text-blue-20
   color: $color-blue-20

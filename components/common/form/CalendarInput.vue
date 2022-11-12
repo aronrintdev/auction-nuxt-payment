@@ -9,7 +9,7 @@
             :hide-header="hideHeader"
             :disabled="dateDisabled"
             hide-footer
-            class="date-dp"
+            class="date-dp date-input-field"
             right
             :locale="locale"
             :readonly="readonly"
@@ -125,7 +125,7 @@ export default {
   @include body-5
   font-weight: $regular
   color: $color-gray-5
-  background-color: $color-white-1
+  background-color: $color-white-5
   border: 1px solid $color-gray-60
   border-right: none
   letter-spacing: 0.06em
@@ -133,7 +133,7 @@ export default {
 
 ::v-deep.date-dp
   .btn-secondary
-    background-color: $color-white-1
+    background-color: $color-white-5
     border: 1px solid $color-gray-60
     border-left: none
     border-radius: 0 6px 6px 0
