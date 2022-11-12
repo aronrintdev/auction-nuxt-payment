@@ -2,66 +2,66 @@
   <div>
     <div class="browse-tarde-heading ml-5 mt-3">Browse Trade</div>
     <div>
-    <!-- Display all filter options -->
-    <BrowserTradeFilters @applyFilters="applyTradeFilters" @clearFilters="resetTradeFilters" @applySorting="filterTrades"/>
-    <b-row class="w-100">
-      <b-col md="12" class="text-center">
-        <!-- Display total items filter selection one, two or three items -->
-        <NavGroup
-          :data="tradeTotalItems"
-          :value="selectedTradeTotalItems"
-          nav-key="trade-type"
-          class="section-nav pb-4"
-          @change="changeTotalTradeItems"
-        />
-      </b-col>
-    </b-row>
+      <!-- Display all filter options -->
+      <BrowserTradeFilters @applyFilters="applyTradeFilters" @change="applyTradeFiltersNew" @clearFilters="resetTradeFilters" @applySorting="filterTrades"/>
+      <b-row class="w-100">
+        <b-col md="12" class="text-center">
+          <!-- Display total items filter selection one, two or three items -->
+          <NavGroup
+            :data="tradeTotalItems"
+            :value="selectedTradeTotalItems"
+            nav-key="trade-type"
+            class="section-nav pb-4"
+            @change="changeTotalTradeItems"
+          />
+        </b-col>
+      </b-row>
     </div>
     <div class="bg-white">
-    <!-- Display all sections -->
-    <div v-if="Object.keys(sectionTypes).length > 1">
-      <div v-for="(trades, key, index) in sectionTypes" :key="key">
-        <!-- show banner in between sections -->
-        <div v-if="index === 2" class="m-5 pt-5">
-          <b-row>
-            <b-col class="d-flex justify-content-center carousel-heading mb-5">
-              <img :src="require('~/assets/img/home/shoe-2.png')" />
-              <div class="mid-page-banner ml-5">
-                <h2>{{$t('trades.index.browse.trade_with_us')}}</h2>
-                <p>{{$t('trades.index.browse.explore_trading_opportunities')}}</p>
-                <button class="banner-btn" @click="loadNextPage()">{{$t('common.list')}}</button>
-              </div>
-            </b-col>
-          </b-row>
-        </div>
-        <div class="p-5">
-          <b-row class="d-flex justify-content-center col-md-12">
-            <b-col :md="selectedTradeTotalItems === 'one'? 10 : 11" class="d-flex justify-content-between carousel-heading mb-5">
-              <h2 v-html="prettyLabel(key)"></h2>
-              <label v-if="trades.length" @click="showTradeTypeDetails(key)">{{$t('common.view_more')}}<img :src="require('~/assets/img/moreicon.svg')" class="ml-3 mr-2" /></label>
-            </b-col>
+      <!-- Display all sections -->
+      <div v-if="Object.keys(sectionTypes).length > 1">
+        <div v-for="(trades, key, index) in sectionTypes" :key="key">
+          <!-- show banner in between sections -->
+          <div v-if="index === 2" class="m-5 pt-5">
+            <b-row>
+              <b-col class="d-flex justify-content-center carousel-heading mb-5">
+                <img :src="require('~/assets/img/home/shoe-2.png')" />
+                <div class="mid-page-banner ml-5">
+                  <h2>{{$t('trades.index.browse.trade_with_us')}}</h2>
+                  <p>{{$t('trades.index.browse.explore_trading_opportunities')}}</p>
+                  <button class="banner-btn" @click="loadNextPage()">{{$t('common.list')}}</button>
+                </div>
+              </b-col>
+            </b-row>
+          </div>
+          <div class="p-5">
+            <b-row class="d-flex justify-content-center col-md-12">
+              <b-col :md="selectedTradeTotalItems === 'one'? 10 : 11" class="d-flex justify-content-between carousel-heading mb-5">
+                <h2 v-html="prettyLabel(key)"></h2>
+                <label v-if="trades.length" @click="showTradeTypeDetails(key)">{{$t('common.view_more')}}<img :src="require('~/assets/img/moreicon.svg')" class="ml-3 mr-2" /></label>
+              </b-col>
 
-            <!-- Display trade with single items -->
-            <b-col v-if="selectedTradeTotalItems === 'one'" md="11">
-              <BrowseCarousel v-if="trades.length"
-                :trades="trades" />
-              <p v-else class="text-center">{{$t('trades.trade_hub.no_trade_listing_found')}}</p>
-            </b-col>
+              <!-- Display trade with single items -->
+              <b-col v-if="selectedTradeTotalItems === 'one'" md="11">
+                <BrowseCarousel v-if="trades.length"
+                                :trades="trades" />
+                <p v-else class="text-center">{{$t('trades.trade_hub.no_trade_listing_found')}}</p>
+              </b-col>
 
-            <!-- Display trade with multiple items -->
-            <b-col v-else md="12">
-              <CarouselMultipleItems v-if="trades.length" :trades="trades" />
-              <p v-else class="text-center">{{$t('trades.trade_hub.no_trade_listing_found')}}</p>
-            </b-col>
-          </b-row>
+              <!-- Display trade with multiple items -->
+              <b-col v-else md="12">
+                <CarouselMultipleItems v-if="trades.length" :trades="trades" />
+                <p v-else class="text-center">{{$t('trades.trade_hub.no_trade_listing_found')}}</p>
+              </b-col>
+            </b-row>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Display single section -->
-    <div v-else>
-      <div v-for="(trades, key) in sectionTypes" :key="key">
-        <div class="px-5 pt-5">
+      <!-- Display single section -->
+      <div v-else>
+        <div v-for="(trades, key) in sectionTypes" :key="key">
+          <div class="px-5 pt-5">
             <b-row>
               <b-col md="12" class="d-flex justify-content-between carousel-heading mb-5 ml-5">
                 <h2 v-html="prettyLabel(key)"></h2>
@@ -91,7 +91,7 @@
             </b-row>
           </div>
         </div>
-    </div>
+      </div>
     </div>
   </div>
 </template>
@@ -119,15 +119,26 @@ export default {
   layout: 'IndexLayout',
   data() {
     return {
-        tradeTotalItems: [
-          { label: this.$t('trades.index.browse.one_item'), value: 'one' },
-          { label: this.$t('trades.index.browse.two_items'), value: 'two' },
-          { label: this.$t('trades.index.browse.three_items'), value: 'three' },
-        ],
-        // by default choose 1 item trades
-        selectedTradeTotalItems: 'one',
-        sectionTypes: []
-      }
+      tradeTotalItems: [
+        { label: this.$t('trades.index.browse.one_item'), value: 'one' },
+        { label: this.$t('trades.index.browse.two_items'), value: 'two' },
+        { label: this.$t('trades.index.browse.three_items'), value: 'three' },
+      ],
+      // by default choose 1 item trades
+      selectedTradeTotalItems: 'one',
+      sectionTypes: [],
+      getFilters:{},
+      selectedFilters: {
+        type: 'single',
+        sizeTypes: [],
+        sizes: [],
+        brands: [],
+        categories: [],
+        status: [],
+        sortby: 'relevance',
+        product: null,
+      },
+    }
   },
   async fetch() {
     await this.filterTrades()
@@ -145,7 +156,7 @@ export default {
       'getSearchedText', // Search text from store
       'getTotalItemTrades', // total item of trades
       'getTradeType' // Trade Type from store
-      ]),
+    ]),
   },
   mounted() {
     // set filters as per previous state
@@ -195,29 +206,55 @@ export default {
       this.$store.commit('trade/setTradeType', 'search_results')
       this.filterTrades()
     },
+    applyTradeFiltersNew(filters){
+      this.$store.commit('trade/setTradeType', 'search_results')
+      this.filterTrades(filters)
+    },
 
     // reset all filters
     resetTradeFilters(){
+      this.selectedFilters.sizes = []
+      this.selectedFilters.sizeTypes =[]
+      this.selectedFilters.brands =[]
+      this.selectedFilters.categories =[]
+      this.selectedFilters.status=[]
+      this.selectedFilters.sortby = null
+      this.selectedFilters.product = null
+      this.selectedSortOrder = 'relevance'
       this.selectedTradeTotalItems = 'one'
       this.$store.commit('trade/setTradeType', 'All')
       this.filterTrades()
     },
 
     // fetch trade offer items
-    filterTrades: debounce(function () {
+    filterTrades: debounce(function (filters) {
+      this.getFilters = filters !== undefined ? filters : this.selectedFilters
+      if(this.getFilters.categories.length <= 0 &&
+        this.getFilters.sizeTypes.length <= 0 &&
+        this.getFilters.sizes.length <= 0 &&
+        this.getFilters.brands.length <= 0 &&
+        this.getFilters.status.length <= 0
+      ){
+        this.$store.commit('trade/setTradeType', 'All')
+      } else {
+        this.$store.commit('trade/setTradeType', 'search_results')
+      }
       this.sectionTypes = []
-      const priceRange = this.getPriceRangeFilterSelection
       this.$axios.post('/trades/offers', {
-            trade_type: this.getTradeType,
-            categories: this.getCategoryFilterSelection.join(','),
-            size_types: this.getSizeTypeFilterSelection.join(','),
-            sizes: this.getSizeFilterSelection.join(','),
-            searched_text: this.getSearchedText,
-            sort_by: this.getSortOrder,
-            trade_total_items: this.getTotalItemTrades,
-            price_min: priceRange[0],
-            price_max: priceRange[1]
-        })
+        trade_type: this.getTradeType,
+        categories: this.getFilters.categories.join(','),
+        size_types:  this.getFilters.sizeTypes.join(','),
+        sizes: this.getFilters.sizes.join(','),
+        brands: this.getFilters.brands.join(','),
+        status:this.getFilters.status.join(','),
+        product: this.getFilters.product,
+        searched_text: this.getSearchedText,
+        sort_by: this.getFilters.sort_by ? this.getFilters.sort_by : this.getSortOrder,
+        // sort_by: this.getSortOrder,
+        trade_total_items: this.getTotalItemTrades,
+        price_min: this.getFilters.minPrice,
+        price_max: this.getFilters.maxPrice,
+      })
         .then(res => {  // trades listing items in response
           this.sectionTypes = res.data.data
         })
