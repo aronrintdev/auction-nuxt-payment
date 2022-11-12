@@ -5,7 +5,7 @@
       <div class="search-form">
         <div class="d-flex">
           <h3>{{ $t('common.search') }}</h3>
-          <close-icon role="button" class="close-icon" @click="hideOverlay"></close-icon>
+          <close-icon role="button" class="close-icon ml-auto d-flex" @click="hideOverlay"></close-icon>
         </div>
         <SearchInput
           id="nav-search"
@@ -324,8 +324,6 @@ export default {
   width: 39px 
   height: 39px
 .close-icon
-  margin-left: auto
-  display: flex
   margin-top: 20px
   margin-right: 20px
 </style>

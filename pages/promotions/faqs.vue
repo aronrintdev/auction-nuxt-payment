@@ -47,10 +47,8 @@ export default {
     getFaqs() {
       this.$axios.get('faqs/categories/promotions').then(res => {
         this.faqs = res.data.data
-        console.log('log data is',this.faqs);
       }).catch(error => {
         this.$toasted.error(error)
-        console.log('log data is',error);
       })
     },
   }

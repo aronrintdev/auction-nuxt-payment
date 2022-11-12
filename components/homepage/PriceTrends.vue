@@ -1,16 +1,11 @@
 <template>
   <div class="section-wrapper">
-    <a 
-      href=
-        "https://deadstock-v2-dev.deadstock.co/stock/exchange/trending"
-        class="header-text"
-    >
-      <SectionHeader
-        :title="$t('home_page.price_trends')"
-        :desc="$t('home_page.trade_desc')"
-        :label="$t('home_page.view_price_trends')"
-      />
-    </a>
+    <SectionHeader
+      :title="$t('home_page.price_trends')"
+      :desc="$t('home_page.trade_desc')"
+      :label="$t('home_page.view_price_trends')"
+      to="/stock/exchange/trending"
+    />
     <div class="banner-wrapper">
       <div class="banner">
         <h1
@@ -105,5 +100,5 @@ export default {
       font-size: 15px
       letter-spacing: 0.26em
 .header-text
-  color: $color-black-1 !important
+  color: $color-black-1
 </style>
