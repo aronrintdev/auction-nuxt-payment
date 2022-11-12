@@ -35,37 +35,48 @@
           </b-popover>
         </div>
         <div class="d-flex justify-content-center trade-values align-items-center">
-          <div class="header-values-div d-flex justify-content-between">
-            <div class="their-value">
+          <div class="header-values-div d-flex justify-content-between align-items-center">
+            <div class="their-value text-center">
               <div>{{$t('trades.their_value')}}</div>
               <div class="their-value-text">{{theirTotal()}}</div>
             </div>
             <div>
               <div v-if="!isExpire" class="">
                 <countdown :time="countDownTimer(trade.created_at)" :transform="countDownTimerTransform">
-                  <template slot-scope="{days, hours, minutes}">
-                    <div class="time-left">
-                      <span class="time">{{ days }} {{ hours }} {{ minutes }}</span>
+                  <template slot-scope="{days, hours, minutes,seconds}">
+                    <div class="d-flex">
+                      <div class="d-block text-center p-o-17"  v-if="days">
+                        <div class="time-val">{{ days? days.replace('d','') : '' }}</div>
+                        <div class="time-text">{{$tc('common.day')}}</div>
+                      </div>
+                      <div class="d-block text-center p-17">
+                        <div class="time-val">{{ hours ? hours.replace('h','') : '' }}</div>
+                        <div class="time-text">{{$t('common.hours')}}</div>
+                      </div>
+                      <div class="d-block text-center p-17">
+                        <div class="time-val">{{ minutes? minutes.replace('m',''): '' }}</div>
+                        <div class="time-text">{{$t('common.mins')}}</div>
+                      </div>
+                      <div class="d-block text-center p-17">
+                        <div class="time-val">{{seconds ? seconds.replace('s','') : ''}}</div>
+                        <div class="time-text">{{$t('common.secs')}}</div>
+                      </div>
                     </div>
                   </template>
                 </countdown>
-                <div class="today">{{ remainingTime(trade.created_at) }}</div>
               </div>
             </div>
-            <div class="their-value">
+            <div class="their-value text-center">
               <div>{{$t('trades.your_value')}}</div>
               <div class="their-value-text">{{yourTotal()}}</div>
             </div>
           </div>
         </div>
         <div :class="{'timings-left' : isPayment}">
-          <div>
-<!--            <div class="text-danger text-bold text-capitalize text-center">{{$t('trades.trade_arena.expired_at')}} {{ getExpiryDateTime(trade.created_at) | formatDateTimeString }}</div>-->
-          </div>
         </div>
         <div class="center-container" :class="{'center-cont-height':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) , 'center-container-margin': isPayment, 'mt-5': isExpire, 'pt-5': isExpire }">
           <div class="left-item" :class="{'left-item-margin':trade.offers.length == ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0}">
-            <div class="item-head" :class="{'heading-left': trade.offers.length > ITEM_COUNT_ONE}">{{$t('trades.trade_arena.theirs')}}</div>
+<!--            <div class="item-head" :class="{'heading-left': trade.offers.length > ITEM_COUNT_ONE}">{{$t('trades.trade_arena.theirs')}}</div>-->
             <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'item-'+index : ''" :key="index" class="item mb-4" :class="[((trade.offers.length > ITEM_COUNT_ONE )|| (getYourTradeItems.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
               <div class="image-wrapper">
               <img class="item-image" :src="item.inventory.product | getProductImageUrl" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
@@ -89,7 +100,7 @@
             <div v-if="getYourTradeItems.length > ITEM_COUNT_0" class="pointer-right"></div>
           </div>
           <div class="right-item" :class="{'right-item-margin':trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0}">
-            <div class="item-head" :class="{'heading-right': getYourTradeItems.length > ITEM_COUNT_0}">{{$t('trades.trade_arena.yours')}}</div>
+<!--            <div class="item-head" :class="{'heading-right': getYourTradeItems.length > ITEM_COUNT_0}">{{$t('trades.trade_arena.yours')}}</div>-->
             <div  v-if="getYourTradeItems.length" class="">
               <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_ONE ?'your-item-'+index : 'your-item'" :key="index" class="preview item-length mb-4">
                 <div class="remove-item" @click="decrementOrRemoveItem(item)">
@@ -658,7 +669,7 @@ export default {
       Object.entries(props).forEach(([key, value]) => {
         if (value > 0 || (key === 'seconds' && props.totalSeconds > 0)) transformedProps[key] = `${value}${key[0]}`
       })
-
+      console.log(transformedProps)
       return transformedProps
     },
     /**
@@ -956,5 +967,20 @@ export default {
   font-weight: $medium
   line-height: 150%
   color: $color-black-1
-
+.p-o-17
+  padding: 0 17px
+.p-17
+  padding: 0 17px
+  border-left: 0.5px solid $color-white-20
+.time-val
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-17-medium
+  color: $color-gray-5
+.time-text
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $light
+  @include body-6
+  color: $color-gray-5
 </style>

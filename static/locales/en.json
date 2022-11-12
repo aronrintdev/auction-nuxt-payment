@@ -186,7 +186,11 @@
     "season_detail": "SS",
     "model": "Model",
     "model_detail": "The model is 5’ 8” and wears a large",
-    "no-items-in-combination": "No items in combination"
+    "no-items-in-combination": "No items in combination",
+    "days": "days",
+    "mins": "mins",
+    "hours": "hours",
+    "secs": "secs"
   },
   "message": {
     "no_products_found": "No Products Found",
