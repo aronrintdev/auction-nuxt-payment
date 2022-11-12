@@ -138,7 +138,7 @@ export default {
   @include body-13
   line-height: 19px
   text-decoration-line: underline
-  color: $color-gray-5
+  color: #667799
 .inner-item-image
   width: 58px
 
