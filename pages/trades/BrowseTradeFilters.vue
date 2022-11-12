@@ -6,11 +6,24 @@
         <SearchedOfferItems :searchedOfferItems="searchedItems" />
       </b-col>
       <b-col md="3">
+        <FormDropdown
+          id="sort-by"
+          :value="selectedFilters.sortby"
+          :placeholder="$t('selling_page.sortby')"
+          :items="SORT_OPTIONS"
+          :icon="require('~/assets/img/icons/three-lines.svg')"
+          :icon-arrow-down="
+            require('~/assets/img/icons/arrow-down-black.svg')
+          "
+          class="dropdown-sort flex-shrink-1"
+          can-clear
+          @select="changeOption"
+        />
         <!-- Sort options -->
-        <CustomSelect :options="sortOptions" :default="selectedSortOrder" @input="setSortOrder" />
+<!--        <CustomSelect :options="sortOptions" :default="selectedSortOrder" @input="setSortOrder" />-->
       </b-col>
     </b-row>
-    <div v-if="!moreFiltersVisible" class="mt-4 d-flex align-items-center ml-4 mr-4">
+    <div v-if="!moreFiltersVisible" class="mt-4 d-flex align-items-center ml-5 mr-5">
       <!-- Categories -->
       <MultiSelectDropdown
         v-model="selectedFilters.categories"
@@ -115,19 +128,20 @@ import { mapActions, mapGetters } from 'vuex'
 import { capitalizeFirstLetter } from '~/utils/string'
 import SearchInput from '~/components/common/SearchInput'
 // import SliderInput from '~/components/common/SliderInput'
-import CustomSelect from '~/components/common/CustomSelect'
+// import CustomSelect from '~/components/common/CustomSelect'
 import SearchedOfferItems from '~/components/trade/SearchedOfferItems.vue'
-import { MultiSelectDropdown,SliderDropdown} from '~/components/common'
+import { MultiSelectDropdown,SliderDropdown,FormDropdown} from '~/components/common'
 import {MAX_PRICE, MAX_YEAR, MIN_PRICE, MIN_PRICE_RANGE_WINDOW, MIN_YEAR} from '~/static/constants';
 
 
 export default {
   name: 'BrowseTradeFilters',
   components: {
+    FormDropdown,
     SliderDropdown,
     MultiSelectDropdown,
     SearchInput, // Search input component
-    CustomSelect, // custom select component
+    // CustomSelect, // custom select component
     // SliderInput, // Input component slider
     SearchedOfferItems // Search offer items
   },
@@ -188,6 +202,32 @@ export default {
         {
           label: this.$t('filter_sidebar.status_options.sold'),
           value: 'sold'
+        },
+      ],
+      SORT_OPTIONS: [
+        {
+          value: 'relevance',
+          label: this.$t('auctions.frontpage.filterbar.sortby.relevance'),
+        },
+        {
+          value: 'end_date_asc',
+          label: this.$t('auctions.frontpage.filterbar.sortby.end_date_asc'),
+        },
+        {
+          value: 'end_date_desc',
+          label: this.$t('auctions.frontpage.filterbar.sortby.end_date_desc'),
+        },
+        {
+          value: 'price_asc',
+          label: this.$t('auctions.frontpage.filterbar.sortby.price_asc'),
+        },
+        {
+          value: 'price_desc',
+          label: this.$t('auctions.frontpage.filterbar.sortby.price_desc'),
+        },
+        {
+          value: 'most_viewed',
+          label: this.$t('auctions.frontpage.filterbar.sortby.most_viewed'),
         },
       ],
     }
@@ -276,6 +316,13 @@ export default {
     emitChange: debounce(function(filters) {
       this.$emit('change', filters)
     }, 300),
+    // Select SortBy option
+    changeOption(option) {
+      this.selectedFilters = {
+        ...this.selectedFilters,
+        sortby: option?.value
+      }
+    },
     // Update selected prices and pass to parent component
     updatePriceFilters(value) {
       this.selectedPrices = value
@@ -342,7 +389,6 @@ export default {
       this.selectedFilters.status=[]
       this.selectedFilters.sortby = null
       this.selectedFilters.product = null
-      this.selectedSortOrder = 'relevance'
       this.searchedText = ''
       this.$store.commit('trade/resetAllFilters')
       this.$emit('clearFilters')

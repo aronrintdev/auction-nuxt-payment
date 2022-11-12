@@ -220,7 +220,7 @@ export default {
       this.selectedFilters.status=[]
       this.selectedFilters.sortby = null
       this.selectedFilters.product = null
-      this.selectedSortOrder = 'relevance'
+      this.selectedFilters.sortby = 'relevance'
       this.selectedTradeTotalItems = 'one'
       this.$store.commit('trade/setTradeType', 'All')
       this.filterTrades()
@@ -233,10 +233,13 @@ export default {
         this.getFilters.sizeTypes.length <= 0 &&
         this.getFilters.sizes.length <= 0 &&
         this.getFilters.brands.length <= 0 &&
-        this.getFilters.status.length <= 0
+        this.getFilters.status.length <= 0 &&
+        this.getFilters.sortby == null
       ){
+        console.log('if')
         this.$store.commit('trade/setTradeType', 'All')
       } else {
+        console.log('else')
         this.$store.commit('trade/setTradeType', 'search_results')
       }
       this.sectionTypes = []
@@ -249,7 +252,7 @@ export default {
         status:this.getFilters.status.join(','),
         product: this.getFilters.product,
         searched_text: this.getSearchedText,
-        sort_by: this.getFilters.sort_by ? this.getFilters.sort_by : this.getSortOrder,
+        sort_by: this.getFilters.sortby,
         // sort_by: this.getSortOrder,
         trade_total_items: this.getTotalItemTrades,
         price_min: this.getFilters.minPrice,
