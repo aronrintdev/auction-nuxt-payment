@@ -166,9 +166,6 @@ export default {
 
 .listing-id-color
   color: $color-blue-1
-
-.item
-  //border: 0.5px solid $light-gray-2
 .products
   width: 213px
 </style>

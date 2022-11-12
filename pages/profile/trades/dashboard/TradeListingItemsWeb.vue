@@ -90,7 +90,7 @@ export default {
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-12-bold
-  color: #667799
+  color: $color-blue-20
   font-weight: $bold
 
 .new-offers
@@ -138,7 +138,7 @@ export default {
   @include body-13
   line-height: 19px
   text-decoration-line: underline
-  color: #667799
+  color: $color-blue-20
 .inner-item-image
   width: 58px
 
@@ -168,7 +168,6 @@ export default {
   background: $color-white-4
 .bottom-section
   height: 67px
-  //width: 213px
   background: $color-white-1
 .image-tarde
   width: 125px

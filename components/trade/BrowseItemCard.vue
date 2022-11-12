@@ -106,7 +106,7 @@ export default {
 .left-side-cont
   width: 150px
 .trade-card-wrapper
-  background: #FAFAFA
+  background: $color-white-4
   position: relative
 
   .expire-wrapper

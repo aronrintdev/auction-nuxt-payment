@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="browse-tarde-heading ml-5 mt-3">Browse Trade</div>
+    <div class="browse-tarde-heading ml-5 mt-3">{{$t('trades.browse_trade')}}</div>
     <div>
       <!-- Display all filter options -->
       <BrowserTradeFilters @applyFilters="applyTradeFilters" @change="applyTradeFiltersNew" @clearFilters="resetTradeFilters" @applySorting="filterTrades"/>
@@ -253,7 +253,6 @@ export default {
         product: this.getFilters.product,
         searched_text: this.getSearchedText,
         sort_by: this.getFilters.sortby,
-        // sort_by: this.getSortOrder,
         trade_total_items: this.getTotalItemTrades,
         price_min: this.getFilters.minPrice,
         price_max: this.getFilters.maxPrice,
@@ -270,7 +269,6 @@ export default {
 .trade-card
   width: 255px
   background: $color-white-1
-  //border: 1px solid $light-gray-2
   box-sizing: border-box
 .carousel-heading
   & h2
@@ -328,7 +326,7 @@ export default {
   line-height: 20px
   color: $color-white-1
 .browse-tarde-heading
-  font-family: 'Adobe Garamond Pro'
+  font-family: $font-family-garamond
   font-style: normal
   font-weight: $bold
   font-size: 48px

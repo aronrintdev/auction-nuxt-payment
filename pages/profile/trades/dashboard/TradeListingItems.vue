@@ -134,7 +134,7 @@ export default {
   @include body-13
   line-height: 19px
   text-decoration-line: underline
-  color: #667799
+  color: $color-blue-20
 .product-name
   width: 90%
 .product-name
@@ -157,7 +157,6 @@ export default {
   background: $color-white-4
 .bottom-section
   height: 67px
-  //width: 213px
   background: $color-white-1
 .image-tarde
   width: 125px

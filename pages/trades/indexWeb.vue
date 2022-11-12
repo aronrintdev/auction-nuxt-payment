@@ -9,9 +9,7 @@ import BrowseTrade from '~/pages/trades/BrowseTrade'
 export default {
   name: 'Trade',
   components: {
-    // TradeBanner,
     BrowseTrade,
-    // TradeHub
   },
   layout: 'IndexLayout',
   data(){

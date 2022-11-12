@@ -20,7 +20,6 @@
           @select="changeOption"
         />
         <!-- Sort options -->
-<!--        <CustomSelect :options="sortOptions" :default="selectedSortOrder" @input="setSortOrder" />-->
       </b-col>
     </b-row>
     <div v-if="!moreFiltersVisible" class="mt-4 d-flex align-items-center ml-5 mr-5">
@@ -127,8 +126,6 @@ import debounce from 'lodash.debounce';
 import { mapActions, mapGetters } from 'vuex'
 import { capitalizeFirstLetter } from '~/utils/string'
 import SearchInput from '~/components/common/SearchInput'
-// import SliderInput from '~/components/common/SliderInput'
-// import CustomSelect from '~/components/common/CustomSelect'
 import SearchedOfferItems from '~/components/trade/SearchedOfferItems.vue'
 import { MultiSelectDropdown,SliderDropdown,FormDropdown} from '~/components/common'
 import {MAX_PRICE, MAX_YEAR, MIN_PRICE, MIN_PRICE_RANGE_WINDOW, MIN_YEAR} from '~/static/constants';
@@ -141,8 +138,6 @@ export default {
     SliderDropdown,
     MultiSelectDropdown,
     SearchInput, // Search input component
-    // CustomSelect, // custom select component
-    // SliderInput, // Input component slider
     SearchedOfferItems // Search offer items
   },
   data() {
@@ -490,12 +485,12 @@ export default {
   border: none
   font-family: $font-montserrat
 .clear-all-text
-  color: #626262
+  color: $color-gray-5
   font-weight: $medium
   font-family: $font-family-sf-pro-display
   @include body-5
 .list-grp
-  background-color: #FAFAFA
+  background-color: $color-white-4
 .filter-details
   font-family: $font-montserrat
   & h3
