@@ -99,6 +99,7 @@
     "logout_successful": "Cierre de sesión correctamente"
   },
   "navbar": {
+    "shop": "tienda",
     "browse": "Hojear",
     "sell": "Vender",
     "trade": "Comercio",
