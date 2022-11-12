@@ -93,7 +93,7 @@
             <tr>
               <td>{{ $t('orders.type') }}</td>
               <td class="text-right">
-                {{ order.type.label }}
+                {{ mapType(order.type.label) }}
               </td>
             </tr>
             <tr>
@@ -136,7 +136,7 @@
     </div>
 
     <div class="col d-none d-md-block">
-      <div class="text-capitalize text-center">{{ order.type.label }}</div>
+      <div class="text-capitalize text-center">{{ mapType(order.type.label) }}</div>
     </div>
 
     <div class="col d-none d-md-block">
@@ -344,6 +344,14 @@ export default {
         default:
           return 'order-taken-over';
       }
+    },
+    mapType(type){
+      switch(type.toLocaleString()){
+        case 'sell':
+        case 'buy':
+          return 'Shop'
+      }
+      return type
     },
     downloadPdf(item) {
       return `data:application/pdf;base64,${item.vendor_shipment.shipment_pdf}`
