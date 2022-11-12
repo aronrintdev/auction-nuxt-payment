@@ -7,7 +7,7 @@
     </div>
 
     <div class="flex-grow-1 bg-white d-flex flex-column">
-      <div class="d-flex justify-content-center nav-area mt-3">
+      <div class="d-flex justify-content-center">
         <NavGroup
             :data="NAV_ITEMS"
             :value="currentTab"

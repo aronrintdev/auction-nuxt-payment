@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'store-details p-4' : !mobileClass}">
+  <div :class="{'store-details' : !mobileClass}">
 
     <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
       <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
@@ -17,7 +17,7 @@
               @click="editActivation"
             ></Button>
           </div>
-          <b-row class="mt-4 flex justify-content-between">
+          <b-row class="mt-3 flex justify-content-between">
             <b-col sm="12" md="3">
             <ValidationProvider
               v-slot="validationContext"
@@ -72,7 +72,7 @@
                   <span
                     v-if="isEditModeActive && !isVerified && codeSent && codeTry===0"
                     class="verify-button text-right ml-auto my-1 mr-1"
-                    role="button" 
+                    role="button"
                     @click="resendCode"
                   >
                     {{ $t('vendor_hub.form.resend_code') }}
@@ -363,8 +363,8 @@
     </ValidationObserver>
 
     <div v-if="!isEditModeActive"
-         class="d-flex align-items-center justify-content-between faq-card mt-4 mx-auto"
-         :class="mobileClass ? 'body-5-medium' : ''"
+         class="d-flex align-items-center justify-content-between faq-card mt-3 mx-auto"
+         :class="mobileClass ? 'body-5-medium' : 'body-7-medium px-3'"
          role="button"
          @click="$router.push({path: '/faqs/vendor-hub'})">
       <span class="faq-title" :class="mobileClass ? 'body-5' : 'body-7'">
@@ -863,7 +863,7 @@ export default {
   text-decoration-line: underline
 
 .field-input
-  @include body-5
+  @include body-4-normal
   font-family: $font-family-montserrat
   font-style: normal
   font-weight: $normal
@@ -901,6 +901,7 @@ export default {
   border: 1px solid $color-gray-29
   border-radius: 4px
   height: max-content
+  padding: 30px
 
 ::v-deep label.d-block
   @include body-5
@@ -917,7 +918,7 @@ export default {
   border-radius: 4px
 
 ::v-deep.form-control:disabled
-  @include body-5
+  @include body-4-normal
   font-family: $font-family-montserrat
   font-style: normal
   font-weight: $normal
