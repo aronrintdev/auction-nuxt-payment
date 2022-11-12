@@ -65,6 +65,7 @@
                   </template>
                 </countdown>
               </div>
+              <div v-else class="text-danger text-bold text-capitalize text-center">{{$t('trades.trade_arena.expired_at')}} {{ getExpiryDateTime(trade.created_at) | formatDateTimeString }}</div>
             </div>
             <div class="their-value text-center">
               <div>{{$t('trades.your_value')}}</div>
