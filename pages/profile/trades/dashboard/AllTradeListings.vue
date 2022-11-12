@@ -132,6 +132,7 @@
           <SearchBarProductsList v-if="searchedProducts.length > 0" :productItems="searchedProducts" width="700px" class="position-absolute"/>
         </b-col>
         <b-col lg="4" sm="12" class="d-flex justify-content-end pr-4">
+
           <CustomDropdown
             v-model="orderFilter"
             type="single-select"
@@ -149,7 +150,7 @@
         <b-col lg="3" sm="12" class="pl-0 pr-3">
           <label>{{$t('trades.filter_by')}}</label>
           <b-row class="pl-2">
-            <b-col md="12 p-0" sm="12">
+            <b-col md="4 p-0" sm="12">
               <CustomDropdown
                 v-model="statusFilter"
                 type="multi-select-checkbox"
@@ -158,7 +159,7 @@
                 optionsWidth="custom"
                 variant="white"
                 dropDownHeight="38px"
-                width="390px"
+                width="250px"
                 @getResults="fetchTradesListing"
                 @change="changeStatusFilter"
               />
