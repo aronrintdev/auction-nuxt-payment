@@ -38,6 +38,7 @@
         <b-form-group class="start-date h-100">
           <b-input-group @click="showStartDate">
             <b-form-input
+              id="date"
               type="date"
               placeholder="dd/mm/yyyy"
               class="start-date-input bg-white rounded-circle"
@@ -49,6 +50,7 @@
         <b-form-group class="start-date h-100">
           <b-input-group @click="showEndDate">
             <b-form-input
+              id="date"
               type="date"
               placeholder="dd/mm/yyyy"
               class="start-date-input bg-white rounded-circle"
@@ -233,19 +235,17 @@ export default {
   &.start-date-input
     margin: 1px
 .date-input-fields::v-deep
-  input[type="date"]::before
-    color: $color-black-1
-    content: attr(placeholder)
+  #date
+    &::before
+      color: $color-gray-47
+      content: attr(placeholder)
 
-  input[type="date"]
     color: $color-white-1
 
-  input[type="date"]:focus,
-  input[type="date"]:valid
-    color: $color-gray-78
+    &:focus, &:valid
+      color: $color-gray-78
 
-  input[type="date"]:focus::before,
-  input[type="date"]:valid::before
-    content: ""
+    &:focus::before, &:valid::before
+      content: "" !important
 
 </style>

@@ -139,79 +139,12 @@
       </vue-bottom-sheet>
     </client-only>
 
-    <!-- Sidebar menu begin -->
-    <b-sidebar
-      id="top-menu-sidebar"
-      ref="topSidebar"
-      v-click-outside="onClickOutside"
-      shadow
-      @shown="sidebarIsVisible = true"
-      @hidden="sidebarIsVisible = false"
-    >
-      <div class="top-menu-container">
-        <b-nav-form class="search-box-collapse">
-          <div class="searchbar-mobile position-relative" @click="open">
-            <img
-              :src="require('~/assets/img/icons/search.svg')"
-              class="search-icon position-absolute"
-            />
-            <b-form-input
-              class="searchbar-input"
-              placeholder="Search"
-              type="search"
-            />
-          </div>
-        </b-nav-form>
-        <b-navbar-nav class="nav-menu-wrapper sidebar-nav mt-4">
-          <b-nav-item
-            class="w-100"
-            to="/shop"
-            :link-attrs="{ title: $t('navbar.shop') }"
-          >
-            <img src="~/assets/img/icons/profile/purchases.svg" />
-            <span>{{ $t('navbar.shop') }}</span>
-          </b-nav-item>
-          <b-nav-item
-            class="w-100"
-            to="/sell"
-            :link-attrs="{ title: $t('navbar.sell') }"
-          >
-            <img src="~/assets/img/icons/profile/selling.svg" /><span>{{
-              $t('navbar.sell')
-            }}</span>
-          </b-nav-item>
-          <b-nav-item
-            class="w-100"
-            to="/trades"
-            :link-attrs="{ title: $t('navbar.trade') }"
-          >
-            <img src="~/assets/img/icons/profile/trades.svg" /><span>{{
-              $t('navbar.trade')
-            }}</span>
-          </b-nav-item>
-          <b-nav-item
-            class="w-100"
-            to="/auction"
-            :link-attrs="{ title: $t('navbar.auction') }"
-          >
-            <img src="~/assets/img/icons/profile/auctions.svg" /><span>{{
-              $t('navbar.auction')
-            }}</span>
-          </b-nav-item>
-          <b-nav-item
-            v-if="authenticated"
-            class="nav-item-profile w-100"
-            to="/profile/preferences"
-            :link-attrs="{ title: $t('navbar.profile') }"
-          >
-            <img src="~/assets/img/icons/side-menu/preferences.svg" /><span>{{
-              $t('navbar.profile')
-            }}</span>
-          </b-nav-item>
-        </b-navbar-nav>
-      </div>
-    </b-sidebar>
-    <!-- Sidebar menu end -->
+    <SideBarMenu
+      :user="user"
+      :is-authenticated="authenticated"
+      :is-vendor="isVendor"
+    />
+
     <b-navbar-nav
       class="nav-menu-wrapper flex-row d-none d-lg-flex"
       :class="{ 'divider-left pl-4': authenticated }"
@@ -272,6 +205,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import Logo from '~/components/header/Logo'
+import SideBarMenu from '~/components/SideBarMenu'
 import SearchInput from '~/components/common/SearchInput'
 import BagIcon from '~/components/checkout/icons/BagIcon'
 import SearchOverlay from '~/components/search/Overlay'
@@ -279,12 +213,14 @@ import NotificationDropdown from '~/components/header/NotificationDropdown'
 import ScreenSize from '~/plugins/mixins/screenSize'
 import Dropdown from '~/components/common/form/Dropdown'
 import SearchOverlayMobile from '~/components/SearchOverlayMobile'
+
 export default {
   name: 'Header',
   components: {
     NotificationDropdown,
     BagIcon,
     Logo,
+    SideBarMenu,
     SearchInput,
     SearchOverlay,
     Dropdown,
@@ -319,6 +255,8 @@ export default {
     ...mapState(['locale', 'locales']),
     ...mapGetters({
       authenticated: 'auth/authenticated',
+      isVendor: 'auth/isVendor',
+      user: 'auth/user',
     }),
     searchKeyword() {
       // Set value for search input box in search page
@@ -380,12 +318,6 @@ export default {
       this.$nextTick(() => {
         this.$refs.searchOverlay.clearInput()
       })
-    },
-    onClickOutside() {
-      const { topSidebar } = this.$refs
-      if (topSidebar && this.sidebarIsVisible) {
-        topSidebar.hide()
-      }
     },
   },
 }

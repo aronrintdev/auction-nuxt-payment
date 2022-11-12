@@ -53,7 +53,7 @@
       <div :class="isMobileSize ? 'body-5-medium' : 'not-found-text'"> {{ $t('bids.no_bids') }}</div>
       <div class="mt-2" :class="isMobileSize ? 'body-5-medium' : 'not-found-text'"> {{ $t('bids.place_bid') }}</div>
       <Button
-        to="/create-listing"
+        to="/auction"
         class="bg-blue-2 mt-4"
         :class="{'mobile': isMobileSize}"
         pill

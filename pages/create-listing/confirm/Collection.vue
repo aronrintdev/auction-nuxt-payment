@@ -107,7 +107,7 @@
         <Button
           variant="outline-primary"
           pill
-          @click="$router.push({path: '/create-listing'})"
+          @click="$router.push({path: '/profile/create-listing'})"
         >{{ $t('create_listing.confirm.create_auction') }}</Button
         >
       </div>

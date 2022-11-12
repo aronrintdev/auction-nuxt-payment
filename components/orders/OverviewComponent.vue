@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1 class="overview-heading">{{ $t('orders.overview') }}</h1>
-    <div class="row justify-content-between">
+    <h1 class="overview-heading px-md-2">{{ $t('orders.overview') }}</h1>
+    <div class="row justify-content-between box-gap">
       <overview-box :label="$t('orders.total_sales').toString()" :value="totalSalesStr"
                     :icon="require('~/assets/img/orders/total-sales.svg')"></overview-box>
       <overview-box :label="$t('orders.commission_pending').toString()" :value="commissionPendingStr"
@@ -47,10 +47,8 @@ export default {
   font-family: $font-family-sf-pro-display
   @include body-15-bold
   text-transform: uppercase
-  margin: 30px 0
-
-.box-gap
-  gap: 30px
+  margin-top: 26px
+  margin-bottom: 15px
 
 @media (max-width: 992px)
   .overview-heading
@@ -76,4 +74,9 @@ export default {
 
   .row
     flex-wrap: nowrap !important
+
+@media (min-width: 993px)
+  .box-gap
+    gap: 25px
+
 </style>
