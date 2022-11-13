@@ -5017,7 +5017,8 @@
     "date_sent": "Date Sent",
     "wants_list": "Wants List",
     "wants_list_contains_items_saved_from_your_listings": "Wants List contains items saved from your listings",
-    "manage_all_aspects_of_your_trades": "Manage all aspects of your trades"
+    "manage_all_aspects_of_your_trades": "Manage all aspects of your trades",
+    "browse_trade" : "Browse Trade"
   },
   "change_password": {
     "password": "Password",
