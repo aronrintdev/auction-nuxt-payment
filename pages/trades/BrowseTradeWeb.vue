@@ -185,7 +185,7 @@ export default {
     // make section label pretty
     prettyLabel(label){
       const words = label.split('_')
-      return '<u>'+this.$tc('common.'+words[0], 1) + '</u> ' + this.$tc('common.' + words[1], 1)
+      return this.$tc('common.'+words[0], 1)  + this.$tc('common.' + words[1], 1)
     },
 
     // filter if no of trade items is change
