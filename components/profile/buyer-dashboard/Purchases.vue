@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-6 d-flex flex-column align-items-end">
                   <nuxt-link
-                    :to="'/orders/' + row.order_id + '-' + row.id"
+                    :to="'/profile/purchases/summary/' + row.id"
                     class="font-secondary fs-16 fw-4 border-bottom border-primary mb-0"
                     >{{ $t('buyer_dashboard.purchases.view_order') }}
                   </nuxt-link>
