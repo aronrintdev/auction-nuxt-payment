@@ -115,8 +115,8 @@
     <!-- filters -->
     <div class="d-flex ml-5">
       <div class="mt-1">
+        <b-btn @click="sendFilters()" class="filter-btn mt-1">Filters</b-btn>
         <label><u @click="clearAllFilters" class="ml-2 clear-all-text">{{$t('common.clear_all')}}</u></label>
-        <label><u @click="sendFilters()" class="ml-2 clear-all-text">Filters</u></label>
       </div>
     </div>
   </div>
@@ -429,6 +429,18 @@ export default {
 </script>
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+.filter-btn
+  width: 100px
+  height: 39px
+  background: #667799
+  border-radius: 8px
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $medium
+  @include body-10
+  line-height: 20px
+  color: $color-white-1
+  cursor: pointer
 .dropdown-sort::v-deep
   .btn-dropdown
     @include body-4-normal
