@@ -10,7 +10,7 @@
               {{ $t('vendor_hub.store_details') }}
             </div>
             <Button
-              v-if="!isEditModeActive"
+              v-if="!isEditModeActive && !isScreenXS"
               :tooltip-text="$t('common.edit')"
               class="btn-edit-inventory ml-5 mr-2"
               variant="link"
@@ -30,7 +30,15 @@
                 class="w-100 mr-sm-5"
                 :label="$t('vendor_hub.form.store_name')"
               >
-                <b-input-group>
+                <b-input-group class="position-relative">
+                  <a
+                    v-if="!isEditModeActive && isScreenXS"
+                    role="button"
+                    class="mobile-input-button"
+                    @click="editActivation"
+                  >
+                    {{ $t('common.edit') }}
+                  </a>
                   <b-form-input
                     id="storeName"
                     v-model="applyForm.store"
@@ -58,7 +66,15 @@
               class="w-100"
             >
               <b-form-group label-for="phoneNumber" class="w-100" :label="$t('vendor_hub.form.phone_number')">
-                <b-input-group>
+                <b-input-group class="position-relative">
+                  <a
+                    v-if="!isEditModeActive && isScreenXS"
+                    role="button"
+                    class="mobile-input-button"
+                    @click="editActivation"
+                  >
+                    {{ $t('common.edit') }}
+                  </a>
                   <b-form-input
                     id="phoneNumber"
                     v-validate="'alpha'"
@@ -368,9 +384,10 @@
          role="button"
          @click="$router.push({path: '/faqs/vendor-hub'})">
       <span class="faq-title" :class="mobileClass ? 'body-5' : 'body-7'">
-        {{ $t('vendor_hub.faq') }}
+        {{ isScreenXS ? $t('vendor_hub.faq_title') : $t('vendor_hub.faq') }}
       </span>
-      <img :src="require('~/assets/img/profile/vendor-hub/arrow-circle-right.svg')">
+      <img :src="require('~/assets/img/profile/vendor-hub/arrow-circle-right.svg')"
+           :class="{'faq-icon': isScreenXS}">
     </div>
 
     <vue-bottom-sheet
@@ -938,4 +955,16 @@ export default {
 
 .text-blue-20
   color: $color-blue-20
+
+.mobile-input-button
+  @include body-4-normal
+  color:  $color-blue-20
+  position: absolute
+  right: 15px
+  top: 18px
+  z-index: 10
+
+.faq-icon
+  width: 38px
+  height: auto
 </style>
