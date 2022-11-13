@@ -20,7 +20,7 @@
           @select="changeOption"
         />
         <!-- Sort options -->
-<!--        <CustomSelect :options="sortOptions" :default="selectedSortOrder" @input="setSortOrder" />-->
+        <!--        <CustomSelect :options="sortOptions" :default="selectedSortOrder" @input="setSortOrder" />-->
       </b-col>
     </b-row>
     <div v-if="!moreFiltersVisible" class="mt-4 d-flex align-items-center ml-5 mr-5">
@@ -86,36 +86,37 @@
         <img class="mr-2 before" src="~/assets/img/home/arrow-right.svg" />
         <span class="text-nowrap">{{ $t('auctions.frontpage.filterbar.more_filters') }}</span>
       </div>
-<!--       Status -->
-            <MultiSelectDropdown
-              v-model="selectedFilters.status"
-              collapseKey="status"
-              :title="$t('filter_sidebar.status')"
-              :options="statusOptions"
-              class="mr-3 mr-xl-4"
-              :width="250"
-            />
+      <!--       Status -->
+      <MultiSelectDropdown
+        v-model="selectedFilters.status"
+        collapseKey="status"
+        :title="$t('filter_sidebar.status')"
+        :options="statusOptions"
+        class="mr-3 mr-xl-4"
+        :width="250"
+      />
 
-<!--       Years -->
-            <SliderDropdown
-              :start-label="$t('filter_sidebar.price_items.min')"
-              :end-label="$t('filter_sidebar.price_items.max')"
-              :start-placeholder="$t('filter_sidebar.price_items.from')"
-              :end-placeholder="$t('filter_sidebar.price_items.to')"
-              :minValue="MIN_YEAR"
-              :maxValue="MAX_YEAR"
-              :step="1"
-              :title="$t('auctions.frontpage.filterbar.year')"
-              :value="selectedYears"
-              class="mr-3 mr-xl-4"
-              :width="250"
-              @change="updateYearFilters"
-            />
+      <!--       Years -->
+      <SliderDropdown
+        :start-label="$t('filter_sidebar.price_items.min')"
+        :end-label="$t('filter_sidebar.price_items.max')"
+        :start-placeholder="$t('filter_sidebar.price_items.from')"
+        :end-placeholder="$t('filter_sidebar.price_items.to')"
+        :minValue="MIN_YEAR"
+        :maxValue="MAX_YEAR"
+        :step="1"
+        :title="$t('auctions.frontpage.filterbar.year')"
+        :value="selectedYears"
+        class="mr-3 mr-xl-4"
+        :width="250"
+        @change="updateYearFilters"
+      />
     </div>
     <!-- filters -->
     <div class="d-flex ml-5">
       <div class="mt-1">
         <label><u @click="clearAllFilters" class="ml-2 clear-all-text">{{$t('common.clear_all')}}</u></label>
+        <label><u @click="sendFilters()" class="ml-2 clear-all-text">Filters</u></label>
       </div>
     </div>
   </div>
@@ -170,7 +171,7 @@ export default {
         brands: [],
         categories: [],
         status: [],
-        sortby: 'relevance',
+        sortby: null,
         product: null,
       },
       moreFiltersVisible: false,
@@ -236,12 +237,12 @@ export default {
     searchKeyword(newV) {
       this.searchText = newV
     },
-    selectedFilters: {
-      handler (newV) {
-        this.emitChange(newV)
-      },
-      deep: true
-    }
+    // selectedFilters: {
+    //   handler (newV) {
+    //     this.emitChange(newV)
+    //   },
+    //   deep: true
+    // }
   },
   computed: {
     ...mapGetters('trade', [
@@ -313,8 +314,21 @@ export default {
   methods: {
     ...mapActions('trade', ['fetchTradeBrowseFilters']), // get filters from api call by calling action from store
 
+    sendFilters(){
+      const filterData = {
+        brands : this.selectedFilters.brands,
+        categories : this.selectedFilters.categories,
+        sizeTypes : this.selectedFilters.sizeTypes,
+        sizes: this.selectedFilters.sizes,
+        status: this.selectedFilters.status,
+        sortby: this.selectedFilters.sortby,
+        product: this.selectedFilters.product,
+        type: this.selectedFilters.type
+      }
+      this.emitChange(filterData)
+    },
     emitChange: debounce(function(filters) {
-      this.$emit('change', filters)
+      this.$emit('click', filters)
     }, 300),
     // Select SortBy option
     changeOption(option) {
@@ -494,6 +508,7 @@ export default {
   font-weight: $medium
   font-family: $font-family-sf-pro-display
   @include body-5
+  cursor: pointer
 .list-grp
   background-color: #FAFAFA
 .filter-details
