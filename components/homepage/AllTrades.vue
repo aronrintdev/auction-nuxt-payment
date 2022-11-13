@@ -41,7 +41,9 @@
                   />
                 </template>
                 <template #action>
-                  <nuxt-link to="/trades">
+                  <nuxt-link 
+                  :to="'/trades/' + product.id"
+                  >
                     <b-button
                       variant="dark"
                       class="fs-15 fw-5 font-secondary w-100 btn-sm d-flex align-items-center justify-content-center bg-grey-73"
