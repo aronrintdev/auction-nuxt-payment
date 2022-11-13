@@ -2,7 +2,7 @@
   <div>
     <div :class="mobileClass ? 'mobile-form-box p-3' : 'payment-method mb-2'">
       <div class="d-flex flex-row justify-content-between align-items-center">
-        <div class="title" :class="mobileClass ? 'body-10-bold font-weight-bold text-blue-20' : 'heading-3-normal'">
+        <div class="title" :class="mobileClass ? 'body-13-medium text-blue-20 font-sf-pro' : 'heading-3-normal'">
           {{ $t('vendor_hub.payout_method.title') }}
         </div>
 
@@ -26,7 +26,7 @@
         <Loader :loading="loading"></Loader>
       </div>
 
-      <div v-if="!isPaymentAddition && !isPaymentEditActive" class="mt-5">
+      <div v-if="!isPaymentAddition && !isPaymentEditActive" class="mt-2">
         <div v-for="(method, index) in payoutMethods" :key="index">
           <template v-if="mobileClass">
             <VendorPayoutItemMobile
@@ -68,7 +68,7 @@
       />
     </div>
 
-    <div v-if="mobileClass" class="w-100 text-right mt-4">
+    <div v-if="mobileClass" class="mobile-add-payout">
       <Button
         pill
         variant="primary circle-button p-3"
@@ -76,7 +76,7 @@
         :hidden="isPaymentAddition || isPaymentEditActive"
         @click="isPaymentAddition = true"
       >
-        <span class="text-white">+</span>
+        <img src="~/assets/img/vendorhub/plus.svg" />
       </Button>
     </div>
   </div>
@@ -188,8 +188,16 @@ export default {
   color: $color-blue-20
 
 .circle-button
-  width: 25px
-  height: 25px
+  width: 42px
+  height: 42px
   background-color: $color-blue-20!important
   border-color: $color-blue-20!important
+
+.font-sf-pro
+  font-family: $font-family-sf-pro-display
+
+.mobile-add-payout
+  position: absolute
+  right: 16px
+  bottom: 200px
 </style>
