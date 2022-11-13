@@ -579,7 +579,6 @@ export default {
   min-width: 75px
   @include body-9-regular
 .main-container
-  //height: 600px
   width: 343px
   border-radius: 10px
   background: $color-white-1
@@ -599,7 +598,7 @@ export default {
   font-style: normal
   @include body-6
   text-decoration-line: underline
-  color: #000000
+  color: $color-black-1
 .chev-img
   height: 15px
   width: 7px
@@ -726,7 +725,6 @@ export default {
   color: $color-black-1
 .sizePre-sections
   width: 343px
-  //height: 550px
   background: $color-white-1
   border-radius: 10px
   box-shadow: 0 1px 4px $color-black-rgb1
@@ -734,7 +732,6 @@ export default {
   padding-bottom: 20px
 .brand-sections
   width: 343px
-  //height: 350px
   background: $color-white-1
   border-radius: 10px
   box-shadow: 0 1px 4px $color-black-rgb1
@@ -773,7 +770,6 @@ export default {
   padding-left: 2px
 .unselected-brand
   border-radius: 3px
-  //border: 1px solid $color-gray-47
 .column-sizes
   height: 100px
   overflow-y: scroll

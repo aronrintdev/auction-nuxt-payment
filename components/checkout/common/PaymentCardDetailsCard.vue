@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="width <=500">
+    <div v-if="isResponsive">
           <b-card class="custom-card">
             <div class="d-flex">
               <div class="images-squard">
@@ -61,10 +61,13 @@
 <script>
 import PencilSquaredBlueSvg from '~/assets/img/icons/pencil_squared_blue.svg?inline'
 import CloseSquaredRed from '~/assets/img/icons/close_squared_red.svg?inline'
+import screenSize from '~/plugins/mixins/screenSize';
+
 
 export default {
   name: 'PaymentCardDetailsCard',
   components: { PencilSquaredBlueSvg, CloseSquaredRed },
+  mixins: [ screenSize ],
   props: {
     editable: {
       type: Boolean,
@@ -90,14 +93,6 @@ export default {
       default: '',
     },
   },
-  data(){
-    return {
-      width:''
-    }
-  },
-  mounted() {
-    this.width = window.innerWidth
-  },
   computed: {
     getCardBrandLogo(vm) {
       try {
@@ -105,7 +100,10 @@ export default {
       } catch (error) {
         return require('~/assets/img/shopping-cart/visa-logo.png')
       }
-    }
+    },
+    isResponsive() {
+      return this.isScreenXS || this.isScreenSM
+    },
   }
 }
 </script>

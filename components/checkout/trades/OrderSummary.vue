@@ -77,7 +77,7 @@
     <!-- End of Shopping Cart Payment Details -->
 
     <!-- Terms & Conditions Paragraph -->
-    <div v-if="width <=500">
+    <div v-if="isResponsive">
       <div v-if="billingAddress && shippingAddress && (paymentMethod)" class="mt-4 d-flex">
         <div> <b-form-checkbox v-model="form.agreedToTerms"></b-form-checkbox></div>
         <div>
@@ -165,6 +165,8 @@ import OrderTitle from '~/components/checkout/common/OrderTitle'
 import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
 import AddressCard from '~/components/checkout/common/AddressCard'
 import PaymentCardDetailsCard from '~/components/checkout/common/PaymentCardDetailsCard'
+import screenSize from '~/plugins/mixins/screenSize'
+
 import {
   PAYMENT_METHOD_TYPE_CARD
 } from '~/static/constants'
@@ -190,7 +192,7 @@ export default {
     CheckmarkIcon,
     CloseIcon,
   },
-  mixins: [ emitEvent ],
+  mixins: [ emitEvent, screenSize ],
   data() {
     return {
       width:'',
@@ -352,7 +354,10 @@ export default {
       items.push({ label: vm.$t('shopping_cart.tax'), key: vm.$t('shopping_cart.tax'), value: vm.getTax })
 
       return items
-    }
+    },
+    isResponsive() {
+      return this.isScreenXS || this.isScreenSM
+    },
   },
   mounted() {
     this.getTaxRateByZip({ zip: this.billingAddress.zipCode })

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="width <=500">
+    <div v-if="isResponsive">
       <b-row v-if="offer !== null">
         <b-col :md="isPayment ? 9 : 12">
           <div class="">
@@ -208,7 +208,6 @@
       <DeclineModel v-if="lastSubmittedOffer" :offer="lastSubmittedOffer"
                     @decline="declineOffer" @close="closeDeclineModal" />
     </div>
-
   </div>
 </template>
 
@@ -218,7 +217,8 @@ import Button from '~/components/common/Button'
 import OfferHistory from '~/pages/profile/trades/dashboard/OfferHistory'
 import InitialListing from '~/pages/profile/trades/dashboard/InitialListing'
 import DeclineModel from '~/pages/profile/trades/dashboard/DeclineModel'
-  import CheckoutSidebar from '~/components/checkout/trades/ShoppingCartOrder'
+import CheckoutSidebar from '~/components/checkout/trades/ShoppingCartOrder'
+import screenSize from '~/plugins/mixins/screenSize'
 import {
   ONE_ITEM,
   TWO_ITEMS,
@@ -241,6 +241,7 @@ export default {
     Meter,
     CheckoutSidebar
   },
+  mixins: [ screenSize ],
   layout: 'Profile',
   data() {
     return {
@@ -260,6 +261,11 @@ export default {
       ACCEPT_OFFER,
       OFFER_TYPE_YOURS,
       FILTER_OFFER_STATUS_DECLINED
+    }
+  },
+  computed:{
+    isResponsive() {
+      return this.isScreenXS || this.isScreenSM
     }
   },
   mounted(){
@@ -399,7 +405,7 @@ export default {
   font-size: 14px
   color: $color-black-1
   height: 35px
-  background: #F5F5F5
+  background: $color-gray-1
   padding-top: 7px
   padding-left: 30px
 .fair-trade-division-mobile
@@ -541,9 +547,9 @@ export default {
   width: 80px
   height: 100px
 .pointer-left-small
-  border-top: 0.5px solid #c4c4c4
-  border-bottom: 0.5px solid #c4c4c4
-  border-right: 0.5px solid #c4c4c4
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-right: 0.5px solid $light-gray-2
   height: 450px
   width: 100px
   margin-right: 8px

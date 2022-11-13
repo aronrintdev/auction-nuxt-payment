@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="width <=500">
+    <div v-if="isResponsive">
           <b-card class="custom-card">
             <div class="d-flex">
               <div>
@@ -36,10 +36,12 @@
 
 <script>
 import PencilSquaredBlueSvg from '~/assets/img/icons/pencil_squared_blue.svg?inline'
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'AddressCard',
   components: { PencilSquaredBlueSvg },
+  mixins: [ screenSize ],
   props: {
     fullName: {
       type: String,
@@ -56,13 +58,10 @@ export default {
       default: false,
     }
   },
-  data(){
-    return {
-      width:''
-    }
+  computed:{
+    isResponsive() {
+      return this.isScreenXS || this.isScreenSM
+    },
   },
-  mounted() {
-    this.width = window.innerWidth
-  }
 }
 </script>

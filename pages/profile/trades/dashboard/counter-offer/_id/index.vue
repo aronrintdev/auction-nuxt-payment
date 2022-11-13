@@ -1156,9 +1156,9 @@ export default {
   width: 80px
   height: 100px
 .pointer-left-small
-  border-top: 0.5px solid #c4c4c4
-  border-bottom: 0.5px solid #c4c4c4
-  border-right: 0.5px solid #c4c4c4
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-right: 0.5px solid $light-gray-2
   height: 450px
   width: 100px
   margin-right: 8px
@@ -1283,5 +1283,5 @@ export default {
   color: $color-blue-19
   background-color: $color-white-1
   border: 1px solid $color-black-1
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25)
+  box-shadow: 0px 1px 2px $color-black-rgb2
 </style>
