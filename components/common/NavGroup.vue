@@ -76,8 +76,8 @@ export default {
       line-height: 17px
       padding: 6px 17px
       @media (min-width: 576px)
-        //font-size: 15px
-        //padding: 6px 35px
+        // font-size: 15px
+        // padding: 6px 35px
 
       &.active
         background-color: $color-white-1
@@ -96,6 +96,7 @@ export default {
     .btn-group
       width: 100%
       .btn
-        //padding: 6px 10px
+        padding: 6px 10px
         white-space: nowrap
+        font-size: 11px
 </style>
