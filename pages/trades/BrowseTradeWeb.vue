@@ -3,7 +3,7 @@
     <div class="browse-tarde-heading ml-5 mt-3">{{$t('trades.browse_trade')}}</div>
     <div>
       <!-- Display all filter options -->
-      <BrowserTradeFilters @applyFilters="applyTradeFilters" @change="applyTradeFiltersNew" @clearFilters="resetTradeFilters" @applySorting="filterTrades"/>
+      <BrowserTradeFilters @applyFilters="applyTradeFilters" @click="applyTradeFiltersNew" @clearFilters="resetTradeFilters" @applySorting="filterTrades"/>
       <b-row class="w-100">
         <b-col md="12" class="text-center">
           <!-- Display total items filter selection one, two or three items -->
@@ -135,7 +135,7 @@ export default {
         brands: [],
         categories: [],
         status: [],
-        sortby: 'relevance',
+        sortby: null,
         product: null,
       },
     }
@@ -185,7 +185,7 @@ export default {
     // make section label pretty
     prettyLabel(label){
       const words = label.split('_')
-      return '<u>'+this.$tc('common.'+words[0], 1) + '</u> ' + this.$tc('common.' + words[1], 1)
+      return this.$tc('common.'+words[0], 1)  + this.$tc('common.' + words[1], 1)
     },
 
     // filter if no of trade items is change
@@ -220,7 +220,7 @@ export default {
       this.selectedFilters.status=[]
       this.selectedFilters.sortby = null
       this.selectedFilters.product = null
-      this.selectedFilters.sortby = 'relevance'
+      this.selectedFilters.sortby = null
       this.selectedTradeTotalItems = 'one'
       this.$store.commit('trade/setTradeType', 'All')
       this.filterTrades()
@@ -236,10 +236,8 @@ export default {
         this.getFilters.status.length <= 0 &&
         this.getFilters.sortby == null
       ){
-        console.log('if')
         this.$store.commit('trade/setTradeType', 'All')
       } else {
-        console.log('else')
         this.$store.commit('trade/setTradeType', 'search_results')
       }
       this.sectionTypes = []

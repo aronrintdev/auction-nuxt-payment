@@ -25,20 +25,24 @@
     <div v-else>
       <div class="product-card">
         <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
-        <b-row class="justify-content-between" >
-          <b-col v-for="(item) in offerItems" :key="'offer-item-list-' + item.id" class="offer-item text-center p-0" :class="`${marginItems}`">
-            <b-col class="item-heading pt-2 pb-2 align-items-center">
-              {{item.inventory ? item.inventory.product.name : item.product.name}}
-            </b-col>
-            <b-col>
-              <img v-if="item.inventory" :src="item.inventory.product | getProductImageUrl" class="offer-item-image" width="100px" />
-              <img v-else :src="item.product | getProductImageUrl" class="offer-item-image" width="100px" />
-            </b-col>
-            <div class="offer-item-text">{{$t('trades.box_condition')}}: {{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
-            <div class="offer-item-text">{{item.inventory ? item.inventory.product.colorway : item.product.colorway}}</div>
-            <div class="offer-item-text">{{$t('trades.size')}} {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
-          </b-col>
-        </b-row>
+        <div class="d-flex justify-content-center align-content-center" >
+          <div class="d-flex justify-content-center align-content-center"  v-for="(item) in offerItems" :key="'offer-item-list-' + item.id">
+            <div class="d-inline body-section-box m-1">
+              <div class="d-flex justify-content-center align-content-center">
+                <img v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
+                     class="image-tarde pt-4"  />
+                <img v-else :src="item.product | getProductImageUrl" class="image-tarde pt-4"  />
+              </div>
+
+              <div class="bottom-section mt-4">
+                <div class="product-name pt-1">  {{item.inventory ? item.inventory.product.name : item.product.name}}}</div>
+                <div class="product-size "><span>Size : </span> {{item.inventory ? item.inventory.size.size : item.size.size}}}</div>
+                <div class="product-size "><span>Box : </span>{{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -132,4 +136,68 @@ export default {
 .single-div
   width: 100px
   height: 161px
+.listed-time
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-13-normal
+  color: $color-gray-4
+
+.inner-items-listed
+  width: 430px
+  height: 220px
+  box-shadow: 0 1px 4px $drop-shadow1
+  border-radius: 10px
+
+.inner-heading-listing
+  background: $color-gray-1
+  border-radius: 9px 9px 0 0
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-3-bold
+  color: $color-black-1
+
+.inner-item-image
+  width: 58px
+
+.inner-item-text
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-12-normal
+  color: $color-gray-5
+.view-detail-text
+  font-family: $font-family-sf-pro-display
+  font-style: $normal
+  font-weight: 500
+  @include body-13
+  line-height: 19px
+  text-decoration-line: underline
+  color: #667799
+.product-name
+  width: 90%
+.product-name
+  width: 90px
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-6-medium
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+.product-size
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $normal
+  font-size: 10px
+.body-section-box
+  height: 215px
+  width: 140px
+  border-radius: 0px
+  background: $color-white-4
+.bottom-section
+  height: 67px
+  //width: 213px
+  background: $color-white-1
+.image-tarde
+  width: 125px
+.box-pro
+  background: $color-white-4
 </style>
