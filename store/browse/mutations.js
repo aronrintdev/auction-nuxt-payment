@@ -29,3 +29,6 @@ export function setSelectedSearch(state, val){
 export function setSelectedOrdering(state, val){
   state.selectedOrdering = val
 }
+export function setSizesByType(state, val){
+  state.sizes = val
+}

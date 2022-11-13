@@ -3,8 +3,8 @@
     <div class="container-shop pb-5">
       <section class="section-filters">
         <div class="d-none d-sm-block container">
-          <h1 class="fs-48 fw-7 font-adobe-garamond my-4 pt-3">{{$t('shop.browse_shop')}}</h1>
-          <ShopFilters ref="filterSidebar" @apply="fetchProducts" class="mt-5" />
+          <h1 class="fs-48 fw-7 font-adobe-garamond my-4">{{$t('shop.browse_shop')}}</h1>
+          <ShopFilters ref="filterSidebar" @apply="fetchProducts" />
         </div>
         <div class="searchbar d-block d-sm-none">
           <SearchAndFilter @apply="fetchProducts" />
@@ -281,7 +281,6 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .container-shop
-  padding: 0 50px
   @media (min-width: 1024px)
     .scroll-to-top
       display: flex !important

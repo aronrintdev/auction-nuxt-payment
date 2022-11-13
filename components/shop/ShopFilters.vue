@@ -59,7 +59,7 @@
         </div>
         <div class="col-2">
           <FormDropdown
-            id="sizes"
+            id="sizes" 
             :value="null"
             :placeholder="$t('product_page.sizes')"
             :items="SORT_OPTIONS"
@@ -73,7 +73,7 @@
               <!-- Sizes -->
               <div class="filter-body">
                 <div
-                  v-for="(item, index) in sizeOptions"
+                  v-for="(item, index) in sizeOptions()"
                   :key="index"
                   class="form-check"
                 >
@@ -334,7 +334,8 @@ export default {
         'selectedBrands',
         'selectedSizes',
         'selectedSizeTypes',
-        'selectedOrdering'
+        'selectedOrdering',
+        'getSizesByType'
       ],
       'auction',
       ['getProductFilter']
@@ -378,21 +379,6 @@ export default {
       } else {
         return Number(this.filters?.price_range?.max)
       }
-    },
-
-    sizeOptions() {
-      let options = this.filters?.sizes
-      if (options && this.sizeTypes && this.sizeTypes.length > 0) {
-        options = options.filter(({ type }) => this.sizeTypes.includes(type))
-      }
-      return (
-        options?.map(({ id, size, type }) => {
-          return {
-            label: `${type} - ${size}`,
-            value: id,
-          }
-        }) || []
-      )
     },
 
     brandOptions() {
@@ -445,9 +431,14 @@ export default {
       this.applyFilters()
     },
     brandName(){
+      
       this.applyFilters()
     },
-    sizesType(){
+    sizesType(newV){
+      if(newV){
+        this.fetchSizesByType(newV)
+      }
+     
       this.applyFilters()
     },
     sizes(){
@@ -466,7 +457,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('browse', ['resetFilters', 'fetchFilters']),
+    ...mapActions('browse', ['resetFilters', 'fetchFilters','fetchSizesByType']),
     loadOptions() {
       this.prices = this.selectedPrices
       this.years = this.selectedYears
@@ -521,6 +512,7 @@ export default {
       this.$store.commit('browse/setSelectedSort', 'sale_price')
       this.$store.commit('browse/setSelectedOrdering', this.sortBy)
       this.$store.commit('browse/setSelectedSearch', this.search)
+      this.$store.commit('browse/setSizesByType', [])
     },
     handleSearchChange(value) {
       this.search = value
@@ -536,6 +528,21 @@ export default {
       this.isViewAll = 'search_results'
       this.filterOptions = filters
       this.applyFilters()
+    },
+    sizeOptions() {
+      let options = this.getSizesByType && this.getSizesByType.length > 0?this.getSizesByType:this.filters?.sizes
+      if (options && this.sizeTypes && this.sizeTypes.length > 0) {
+        options = options.filter(({ type }) => this.sizeTypes.includes(type))
+      }
+      console.log('computed options',options)
+      return (
+        options?.map(({ id, size, type }) => {
+          return {
+            label: `${type} - ${size}`,
+            value: id,
+          }
+        }) || []
+      )
     },
   },
 }
