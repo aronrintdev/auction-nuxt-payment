@@ -8,17 +8,17 @@
     <b-row v-else>
     <b-col v-if="Object.keys(trade).length && !trade_completed" class=" p-0" :class="{'cont-height':isPayment}" :md="isPayment ? 9 : 12">
       <div>
-        <div class="text-center">
+        <div class="text-center mb-1">
           <div class="heading d-flex justify-content-center pt-2">{{$t('trades.trade_arena.arena')}}</div>
           <div class="sub-heading">{{$t('trades.trade_hub.trade_id')}}:{{ $route.params.id }}</div>
         </div>
-        <div v-if="!isPayment && !isExpire" class="share-wishlist">
+        <div v-if="!isPayment && !isExpire" class="share-icons position-absolute">
           <div class="icons">
-            <div id="popover-bottom" class="icon-div mr-2">
-              <b-icon icon="share-fill" font-size="22" scale="1"></b-icon>
+            <div id="popover-bottom" class="mr-2">
+              <img :src="require('~/assets/img/trades/share.svg')">
             </div>
-            <div class="icon-div">
-              <b-icon font-size="28" icon="eye" scale="1"></b-icon>
+            <div class="">
+              <img :src="require('~/assets/img/trades/eye.svg')">
             </div>
           </div>
           <b-popover target="popover-bottom" placement="bottom" triggers="click">
@@ -75,12 +75,13 @@
         </div>
         <div :class="{'timings-left' : isPayment}">
         </div>
-        <div class="center-container" :class="{'center-cont-height':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) , 'center-container-margin': isPayment, 'mt-5': isExpire, 'pt-5': isExpire }">
-          <div class="left-item" :class="{'left-item-margin':trade.offers.length == ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0}">
+        <div class="center-container" :class="{'center-cont-height':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_ONE) , 'center-container-margin': isPayment, 'mt-5': isExpire, 'pt-5': isExpire }">
+          <div class="left-item" :class="{'left-item-margin':trade.offers.length == ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_ONE}">
 <!--            <div class="item-head" :class="{'heading-left': trade.offers.length > ITEM_COUNT_ONE}">{{$t('trades.trade_arena.theirs')}}</div>-->
-            <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'item-'+index : ''" :key="index" class="item mb-4" :class="[((trade.offers.length > ITEM_COUNT_ONE )|| (getYourTradeItems.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
-              <div class="image-wrapper">
+            <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'item-'+index : ''" :key="index" class="item" :class="[((trade.offers.length > ITEM_COUNT_ONE )|| (getYourTradeItems.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
+              <div class="image-wrapper position-relative">
               <img class="item-image" :src="item.inventory.product | getProductImageUrl" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
+              <div class="overlay"></div>
               </div>
               <div class="item-caption">
                 <span class="item-name">{{ item.inventory.product.name}}</span>
@@ -90,26 +91,27 @@
               </div>
             </div>
             <div class="view-button-container">
-              <button ref="btnWant" class="view-button" :class="{'btn-length' : (trade.wants.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0)}" @click="viewWants()">{{$t('trades.trade_arena.view_trader_wants')}}</button>
+              <button ref="btnWant" class="view-button mt-4" :class="{'btn-length' : (trade.wants.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0)}" @click="viewWants()">{{$t('trades.trade_arena.view_trader_wants')}}</button>
             </div>
           </div>
           <div class="center-item">
             <div v-if="trade.offers.length > ITEM_COUNT_ONE" class="pointer-left"></div>
             <div class="long-line" :class="{'long-line-length' : trade.offers.length == ITEM_COUNT_ONE }"></div>
             <img :src="require('~/assets/img/trades/border.svg')" />
-            <div class="long-line" :class="{'long-line-length' : getYourTradeItems.length == ITEM_COUNT_0 }"></div>
-            <div v-if="getYourTradeItems.length > ITEM_COUNT_0" class="pointer-right"></div>
+            <div class="long-line" :class="{'long-line-length' : (getYourTradeItems.length == ITEM_COUNT_0 || getYourTradeItems.length == ITEM_COUNT_ONE) }"></div>
+            <div v-if="getYourTradeItems.length > ITEM_COUNT_ONE" class="pointer-right"></div>
           </div>
-          <div class="right-item" :class="{'right-item-margin':trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0}">
+          <div class="right-item" :class="{'right-item-margin':trade.offers.length > ITEM_COUNT_ONE && (getYourTradeItems.length === ITEM_COUNT_0 || getYourTradeItems.length === ITEM_COUNT_ONE)}">
 <!--            <div class="item-head" :class="{'heading-right': getYourTradeItems.length > ITEM_COUNT_0}">{{$t('trades.trade_arena.yours')}}</div>-->
             <div  v-if="getYourTradeItems.length" class="">
-              <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_ONE ?'your-item-'+index : 'your-item'" :key="index" class="preview item-length mb-4">
+              <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_TWO ?'your-item-'+index : 'your-item'" :key="index" class="preview item-length mb-4">
                 <div class="remove-item" @click="decrementOrRemoveItem(item)">
                   <div class="minus"></div>
                 </div>
-                <div class="image-wrapper">
+                <div class="image-wrapper position-relative">
                 <img v-if="item.product" class="item-image" :src="item.product | getProductImageUrl" alt="image" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
                 <img v-else class="item-image" :src="item | getProductImageUrl" alt="image" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
+                <div v-if="item.product" class="overlay"></div>
                 </div>
                 <div class="item-caption">
                   <span class="item-name">{{  (item.product && item.product.name) ? item.product.name : item.name  }}</span>
@@ -119,20 +121,10 @@
                 </div>
               </div>
             </div>
-            <div v-if="getYourTradeItems.length === ITEM_COUNT_0 || getYourTradeItems.length < ITEM_COUNT_THREE" class="item" :class="[getYourTradeItems.length > ITEM_COUNT_0 ? 'item-length' : 'item-normal']"   @drop="onDrop($event)"
+            <div v-if="getYourTradeItems.length === ITEM_COUNT_0" :class="[getYourTradeItems.length > ITEM_COUNT_ONE ? 'item-length' : 'item-normal']"   @drop="onDrop($event)"
                 @dragover.prevent
                 @dragenter.prevent>
-              <div class="size-box"></div>
-              <div class="item-text">
-
-                <span class="select-from-inventory">{{$t('trades.trade_arena.select_from_inventory')}}</span>
-                <span class="three-items">{{$t('trades.trade_arena.up_to_three_items')}}</span>
-              </div>
-              <div class="drag-drop">
-                <button class="plus" ></button>
-                <span class="select-drag-drop">{{$t('trades.trade_arena.select_or_drag_&_drop_items')}}</span>
-              </div>
-              <div class="bottom-box"></div>
+            <img :src="require('~/assets/img/trades/tradeNow.svg')">
             </div>
           </div>
         </div>
@@ -141,12 +133,12 @@
             <span class="fair-trade-label"></span>
             <Meter :fair="getFairTradeValue()" heading="trades.trade_arena.fair_trade_meter" :highest="theirTotal(false)" :lowest="0" :value="yourTotal(false)"/>
           </div>
-          <div>
-            <div class="amounts-input">
-              <input type="text"  class="theirs" disabled :value="`${$t('trades.trade_arena.theirs')}: ${theirTotal()}`">
-              <input type="text"  class="yours" disabled :value="`${$t('trades.trade_arena.yours')}: ${yourTotal()}`">
-            </div>
-          </div>
+<!--          <div>-->
+<!--            <div class="amounts-input">-->
+<!--              <input type="text"  class="theirs" disabled :value="`${$t('trades.trade_arena.theirs')}: ${theirTotal()}`">-->
+<!--              <input type="text"  class="yours" disabled :value="`${$t('trades.trade_arena.yours')}: ${yourTotal()}`">-->
+<!--            </div>-->
+<!--          </div>-->
           <span v-if="!cash_added && !isExpire" class="optional-text">{{$t('trades.trade_arena.optional')}}</span>
           <div v-if="!cash_added && !isExpire" class="optional-input d-flex">
             <div class="position-relative">
@@ -936,16 +928,14 @@ export default {
   line-height: 17px
   color: $color-blue-1
 
-.item
-  border: 0.5px solid $light-gray-2
-
 .item-image-trade
   width: 204px
   height: 232px
   border-radius: 0
 
 .image-wrapper
-  height: 196px
+  height: 220px
+  background: $color-white-4
 
 #item-0
   margin-top: 130px
@@ -984,4 +974,42 @@ export default {
   font-weight: $light
   @include body-6
   color: $color-gray-5
+.left-item,.right-item
+  height: 280px
+  width: 203px
+.item-normal
+  width: 203px
+  height: 280px
+  max-height: 280px
+  min-height: 280px
+.item-image
+  width: 191px
+  height: auto
+  margin-left: 6px
+.overlay
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: $color-grey-70
+.item-caption
+  background: $color-white-1
+#item-1
+  margin-bottom: 30px
+.right-item-margin,.left-item-margin
+  margin-top: 11%
+.right-item .item,.right-item .preview
+  border: unset
+.item-length
+  height: 280px
+.remove-item
+  z-index: 100
+.share-icons
+  right: 9.5%
+  margin-top: -30px
+  z-index: 10
+.fair-trade-division
+  border: unset
+
 </style>
