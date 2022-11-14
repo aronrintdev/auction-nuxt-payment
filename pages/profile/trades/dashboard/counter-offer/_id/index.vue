@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="width <=550">
+    <div v-if="isScreenXS">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col :md="isPayment ? 9 : 12" v-if="!cashAdd">
           <div>
@@ -220,7 +220,7 @@
           </div>
           <div class="offer-card my-3">
             <div class="d-flex flex-column px-3 px-lg-0">
-              <div class="mt-55 d-flex justify-content-between col-12 col-md-8 mx-auto">
+              <div class="mt-55 d-flex justify-content-between col-md-8 mx-auto">
                 <div class="value">
                   {{ $t('common.their_value') }} 
                   <span class="ml-1 price">{{ getTheirTotal() }}</span>
@@ -231,7 +231,7 @@
                 </div>
               </div>
               <div
-                class="center-container col-12 col-sm-8 d-flex mx-0 mx-sm-auto justify-content-between col-xl-12"
+                class="center-container d-flex mx-0 mx-md-auto justify-content-between col-md-8 col-xl-12"
                 :class="{'center-cont-height':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"
               >
                 <div 
@@ -246,8 +246,7 @@
                         <img :src="require('~/assets/img/trades/minus-icon.svg')">
                       </div>
                     </div>
-                    <img class="item-image w-auto" :src="item.inventory.product | getProductImageUrl"
-                        :class="{'item-image-cond':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
+                    <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
                     <div class="item-caption">
                       <span class="item-name">{{ item.inventory.product.name }}</span>
                       <div class="mt-1 item-caption-description d-flex">
@@ -267,7 +266,7 @@
                 <div class="center-item">
                   <div v-if="getTheirItems.length > ONE_ITEM" class="pointer-left"></div>
                   <div class="long-line" :class="{'long-line-length' : getTheirItems.length === ONE_ITEM }"></div>
-                  <img :src="require('~/assets/img/trades/Trade.svg')"/>
+                  <img :src="require('~/assets/img/trades/Trade.svg')" />
                   <div class="long-line" :class="{'long-line-length' : getYourItems.length === ONE_ITEM }"></div>
                   <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right"></div>
                 </div>
@@ -284,8 +283,7 @@
                           <img :src="require('~/assets/img/trades/minus-icon.svg')">
                         </div>
                       </div>
-                      <img class="item-image w-auto" :src="item.inventory.product | getProductImageUrl" alt="image"
-                          :class="{'item-image-cond':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
+                      <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" alt="image" />
                       <div class="item-caption">
                         <span class="item-name">{{ item.inventory.product.name }}</span>
                         <div class="mt-1 item-caption-description d-flex">
@@ -401,6 +399,7 @@
                   :productItems="searchedItems" 
                   :productsFor="productFor" 
                   class="position-absolute width-responsive counter-wrapper"
+                  addBtnClass="text-right"
                   :itemStyle="{
                     padding: 0
                   }"
@@ -564,6 +563,7 @@
   import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem'
   import CheckoutSidebar from '~/components/checkout/trades/ShoppingCartOrder'
   import addCash from '~/pages/profile/trades/dashboard/_id/offers/AddCash'
+  import ScreenSize from '~/plugins/mixins/screenSize'
   import {
     GOOGLE_MAPS_BASE_URL
   } from '~/static/constants/environments'
@@ -610,6 +610,7 @@ export default {
     addCash
   },
   layout: 'Profile',
+  mixins: [ScreenSize],
   data() {
     return {
       cashAdd:false,
@@ -1150,7 +1151,7 @@ export default {
   height: 39px
   width: 190px
   border-radius: 8px
-  background: #F6F6F8
+  background: $color-white-29
   color: $color-blue-20
 
 .add-cash, .request-cash
@@ -1201,10 +1202,12 @@ export default {
   margin-left: 54px
 
 .center-container
-  margin: 45px 2% 5px 2%
-  @media (min-width: 768px)
-    padding-left: 80px
-    padding-right: 80px
+  @media (min-width: 1200px)
+    padding-left: 30px
+    padding-right: 30px
+  @media (min-width: 1400px)
+    padding-left: 160px
+    padding-right: 160px
 
 .offer-card
   background: $color-white-1
@@ -1224,14 +1227,18 @@ export default {
 #trade-item-0
   @media (min-width: 1200px)
     position: absolute
-    margin-left: 115%
-    margin-top: 107px
+    margin-left: 120%
+    margin-top: 150px
+  @media (min-width: 1400px)
+    margin-left: 150%
 
 #your-trade-item-0
   @media (min-width: 1200px)
     position: absolute
-    margin-top: 107px
-    margin-left: -115%
+    margin-top: 150px
+    margin-left: -120%
+  @media (min-width: 1400px)
+    margin-left: -150%
 
 .optional-input-field
   @include body-9-normal

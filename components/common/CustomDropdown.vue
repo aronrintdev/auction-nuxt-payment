@@ -23,7 +23,7 @@
       @click="isOpen = !isOpen"
     >
       <label
-        class="my-label font-weight-light m-0 p-0"
+        class="font-weight-light m-0 p-0 my-label"
         :style="labelStyle"
       >
         <img v-if="labelLeftImage !== null" :src="labelLeftImage" class="mr-2">
@@ -216,19 +216,9 @@ export default {
     },
 
     isChecked(option) {
-      if (!this.value) {
-        return false
-      }
-      
-      if (
-        this.value.includes(option.value) ||
-        this.value.includes(option.size) ||
-        this.value.includes(option)
-      ) {
-        return true
-      }
-      
-      return false
+      return this.value.includes(option.value) 
+        || this.value.includes(option.size) 
+        || this.value.includes(option)
     }
   }
 }
@@ -239,9 +229,9 @@ export default {
 
 .counter-page-dropdown
   .my-label
-    color: $color-gray-5 !important
-    font-size: 14px !important
-    font-size: $regular !important
+    @include body-11
+    color: $color-gray-5
+    font-weight: $regular !important
 
 ul.custom-dropdown-options
   position: relative

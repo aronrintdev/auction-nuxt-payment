@@ -97,13 +97,11 @@
       <DeclineModel v-if="lastSubmittedOffer" :offer="lastSubmittedOffer"
                     @decline="declineOffer" @close="closeDeclineModal" />
     </div>
-    <div v-else>
+    <div class="" v-else>
       <b-row v-if="offer !== null">
         <b-col class="main-content" :md="isPayment ? 9 : 12">
           <div class="d-flex justify-content-between">
-            <b-col>
-              <div class="offer-id-head">{{ $t('trades.offer_summary') }}</div>
-            </b-col>
+            <div class="col px-0 offer-id-head">{{ $t('trades.offer_summary') }}</div>
             <div class="">
               <div class="d-flex align-items-center">
                 <div class="offer-id-sm">{{ $t('trades.offer_id') }} #{{lastSubmittedOffer.id}}</div>
@@ -139,15 +137,14 @@
                 </div>
               </div>
               <div 
-                class="center-container col-sm-12 col-8 d-flex mx-0 mx-sm-auto justify-content-between col-xl-12"
+                class="center-container d-flex mx-0 mx-md-auto justify-content-between col-md-8 col-xl-12"
                 :class="{'center-cont-height':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }"
               >
                 <div class="left-item" :class="{'left-item-margin':lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length}">      
                   <div v-for="(item, index) in lastSubmittedOffer.theirs_items" :id="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ?'trade-item-'+index : ''"
                       :key="item.id" class="item mb-4"
                       :class="[((lastSubmittedOffer.theirs_items.length > ONE_ITEM )|| (lastSubmittedOffer.yours_items.length)) ? 'item-length' : 'item-normal']">
-                    <img class="item-image w-auto" :src="item.inventory.product | getProductImageUrl"
-                        :class="{'item-image-cond':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }" width="131px"/>
+                    <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
                     <div class="item-caption">
                       <span class="item-name">{{ item.inventory.product.name }}</span>
                       <div class="mt-1 item-caption-description d-flex">
@@ -166,7 +163,7 @@
                 <div class="center-item">
                   <div v-if="lastSubmittedOffer.theirs_items.length > ONE_ITEM" class="pointer-left"></div>
                   <div class="long-line" :class="{'long-line-length' : lastSubmittedOffer.theirs_items.length === ONE_ITEM }"></div>
-                  <img :src="require('~/assets/img/trades/border.svg')"/>
+                  <img :src="require('~/assets/img/trades/Trade.svg')" />
                   <div class="long-line" :class="{'long-line-length' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>
                   <div v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" class="pointer-right"></div>
                 </div>
@@ -177,8 +174,7 @@
                     <div v-for="(item, index) in lastSubmittedOffer.yours_items"
                         :id="lastSubmittedOffer.yours_items.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="item.id"
                         class="item-length mb-4">
-                      <img class="item-image w-auto" :src="item.inventory.product | getProductImageUrl" alt="image"
-                          :class="{'item-image-cond':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }" width="131px"/>
+                      <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" alt="image" />
                       <div class="item-caption">
                         <span class="item-name">{{ item.inventory.product.name }}</span>
                         <div class="mt-1 item-caption-description d-flex">
@@ -224,15 +220,13 @@
             </div>
           </div>
           <div class="history-heading">{{ $t('trades.offer_history') }}</div>
-          <b-row class="col-lg-7">
+          <div class="col-lg-10 col-xl-6 d-flex px-0 m-0">
             <offer-history :offerHistory="offer" />
-          </b-row>
+          </div>
           <b-row class="justify-content-center pt-3 pb-3">
             <hr class="center-line">
           </b-row>
-          <b-row class="justify-content-center px-3">
-            <initial-listing :initialWantsItems="offer.trade.wants" />
-          </b-row>
+          <initial-listing :initialWantsItems="offer.trade.wants" />
         </b-col>
         <CheckoutSidebar v-if="isPayment" class="order-summary" />
       </b-row>
@@ -243,6 +237,7 @@
 </template>
 
 <script>
+/* eslint-disable vue/no-unused-components */
 import Meter from '~/components/common/Meter'
 import Button from '~/components/common/Button'
 import OfferHistory from '~/pages/profile/trades/dashboard/OfferHistory'
@@ -443,10 +438,12 @@ export default {
     padding: 50px 62px
 
 .center-container
-  margin: 25px 2%
-  @media (min-width: 768px)
-    padding-left: 80px
-    padding-right: 80px
+  @media (min-width: 1200px)
+    padding-left: 30px
+    padding-right: 30px
+  @media (min-width: 1400px)
+    padding-left: 127px
+    padding-right: 127px
 
 .item-head-trade-hub
   font-family: $font-family-sf-pro-display
@@ -471,16 +468,17 @@ export default {
   background-color: $color-white-4
   width: 247px
   height: 68px
+
 #trade-item-0
   @media (min-width: 1200px)
     position: absolute
     margin-left: 115%
-    margin-top: 107px
+    margin-top: 150px
 
 #your-trade-item-0
   @media (min-width: 1200px)
     position: absolute
-    margin-top: 107px
+    margin-top: 150px
     margin-left: -115%
 
 .mt-10p
@@ -566,8 +564,8 @@ export default {
   color: $color-black-1
 
 .center-line
-  width: 879px
-  border: 1px solid $color-gray-65
+  width: 83%
+  border: 1px solid $color-gray-98
 
 .order-summary
   padding: 0
