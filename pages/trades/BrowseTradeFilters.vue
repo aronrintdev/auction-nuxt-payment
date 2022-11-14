@@ -170,6 +170,8 @@ export default {
         status: [],
         sortby: null,
         product: null,
+        maxYear:null,
+        minYear:null
       },
       moreFiltersVisible: false,
       categoryOptions: [],
@@ -392,6 +394,8 @@ export default {
       this.selectedFilters.status=[]
       this.selectedFilters.sortby = null
       this.selectedFilters.product = null
+      this.selectedFilters.maxYear = null
+      this.selectedFilters.minYear = null
       this.searchedText = ''
       this.$store.commit('trade/resetAllFilters')
       this.$emit('clearFilters')

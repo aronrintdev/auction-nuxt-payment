@@ -137,6 +137,8 @@ export default {
         status: [],
         sortby: null,
         product: null,
+        maxYear:null,
+        minYear:null
       },
     }
   },
@@ -221,6 +223,8 @@ export default {
       this.selectedFilters.sortby = null
       this.selectedFilters.product = null
       this.selectedFilters.sortby = null
+      this.selectedFilters.maxYear = null
+      this.selectedFilters.minYear = null
       this.selectedTradeTotalItems = 'one'
       this.$store.commit('trade/setTradeType', 'All')
       this.filterTrades()
@@ -234,7 +238,9 @@ export default {
         this.getFilters.sizes.length <= 0 &&
         this.getFilters.brands.length <= 0 &&
         this.getFilters.status.length <= 0 &&
-        this.getFilters.sortby == null
+        this.getFilters.sortby == null &&
+        this.getFilters.maxYear == null &&
+        this.getFilters.minYear == null
       ){
         this.$store.commit('trade/setTradeType', 'All')
       } else {
@@ -254,6 +260,8 @@ export default {
         trade_total_items: this.getTotalItemTrades,
         price_min: this.getFilters.minPrice,
         price_max: this.getFilters.maxPrice,
+        maxYear: this.getFilters.maxYear,
+        minYear: this.getFilters.minYear,
       })
         .then(res => {  // trades listing items in response
           this.sectionTypes = res.data.data
