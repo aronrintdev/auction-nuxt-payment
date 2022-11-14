@@ -152,7 +152,9 @@
           'mobile': isScreenXS
         }"
                class="row vd-purchase-history ">
-            <div class="col-12 purchase-history-heading">
+            <div :class="{
+              'body-4-medium font-primary' : isScreenXS
+            }" class="col-12 purchase-history-heading ">
               {{ $t('vendor_purchase.purchase_history') }} &#40;{{
                 total
               }}&#41;
@@ -720,8 +722,9 @@ export default {
     font-style: normal
     white-space: nowrap
 
-  .btn-secondary
-    background-color: $color-white-1
+  .date-dp
+    .btn-secondary
+      background-color: $color-white-1
 
 .flex-end-align-col
   align-self: flex-end
