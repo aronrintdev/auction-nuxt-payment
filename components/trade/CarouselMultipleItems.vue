@@ -3,7 +3,7 @@
     <client-only>
       <Carousel
         :loop="true"
-        :nav="false"
+        :nav="true"
         :center="true"
         :margin="10"
         :responsive="{
@@ -41,13 +41,13 @@
 
         <template #prev>
           <div class="owl-nav owl-prev">
-            <img :src="require('~/assets/img/home/arrow-left.svg')" />
+            ddd<img :src="require('~/assets/img/home/arrow-left.svg')" />
           </div>
         </template>
 
         <template #next>
           <div class="owl-nav owl-next">
-            <img :src="require('~/assets/img/home/arrow-right.svg')" />
+            nnnn<img :src="require('~/assets/img/home/arrow-right.svg')" />
           </div>
         </template>
       </Carousel>
