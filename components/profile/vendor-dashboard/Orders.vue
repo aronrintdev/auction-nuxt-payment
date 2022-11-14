@@ -1,30 +1,32 @@
 <template>
   <div>
     <div v-if="!isScreenXS" class="d-flex align-items-center justify-content-between">
-      <h1 class="heading-1-bold mb-0 heading font-secondary">
+      <h1 class="heading-1-bold mb-0  font-secondary">
         {{ $t('vendor_dashboard.orders') }}
       </h1>
       <NavGroup :data="menus" :value="activeNav" @change="navItem"/>
       <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
         <nuxt-link
             to="/orders"
-            class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
+            class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link "
         >{{ $t('vendor_dashboard.view_all') }}
         </nuxt-link
         >
       </div>
     </div>
-    <div v-if="isScreenXS" class="d-flex ">
-      <div class="flex-grow-1 text-center body-5-medium ml-5">
+    <div v-if="isScreenXS" class="d-flex align-items-center justify-content-between">
+      <div class="body-5-medium">
         {{ $t('vendor_dashboard.orders') }}
       </div>
-      <div class="d-flex align-items-center body-9-regular"
-           role="button"
-           @click="$router.push('/orders')">
-        <img :alt="$t('vendor_dashboard.view_all')" :src="require('~/assets/img/icons/eye2.svg')"
-             class="mr-1">{{ $t('vendor_dashboard.view_all') }}
-      </div>
+      <nuxt-link
+          class="font-secondary text-decoration-underline body-18-regular border-primary mb-0 view-more-link "
+          to="/orders"
+      >{{ $t('vendor_dashboard.view_all') }}
+      </nuxt-link
+      >
     </div>
+    <NavGroup v-if="isScreenXS" :data="mobileMenu" :value="activeNav" class="mt-2" @change="navItem"/>
+
     <div :class="{
       'my-5': !isScreenXS
     }">
@@ -202,7 +204,7 @@ export default {
       PROCESSING,
       AWAITING_SHIPMENT_TO_DEADSTOCK,
       // Active Nav for the Toggle Button
-      activeNav: '',
+      activeNav: this.isScreenXS ? '1' : '',
       topOrders: [],
       statusColors: {
         'pending': 'orange',
@@ -281,6 +283,9 @@ export default {
         return this.fields
       else
         return this.swapElementTable()
+    },
+    mobileMenu() {
+      return this.menus.filter(menu => menu.value !== '')
     }
   },
   mounted() {

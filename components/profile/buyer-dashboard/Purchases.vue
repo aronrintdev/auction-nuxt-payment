@@ -4,7 +4,7 @@
   }">
     <div class="row mt-2 mb-2 my-sm-5">
       <div class="col-6 col-md-3">
-        <h1 class="font-secondary fs-24 fw-7 mb-0 heading">
+        <h1 class="font-secondary fs-24 fw-7 mb-0">
           {{ $t('buyer_dashboard.purchases.title') }}
         </h1>
       </div>

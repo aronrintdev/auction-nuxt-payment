@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!isScreenXS" class="d-flex align-items-center justify-content-between">
-      <h1 class="heading-1-bold mb-0 heading font-secondary">
+      <h1 class="heading-1-bold mb-0  font-secondary">
         {{ $t('vendor_dashboard.top_products') }}
       </h1>
       <NavGroup :data="menus" :value="activeNav" @change="navItem"/>
@@ -13,17 +13,19 @@
         >
       </div>
     </div>
-    <div v-if="isScreenXS" class="d-flex ">
-      <div class="flex-grow-1 text-center body-5-medium ml-5">
+    <div v-if="isScreenXS" class="d-flex align-items-center justify-content-between">
+      <div class="text-center body-5-medium">
         {{ $t('vendor_purchase.products') }}
       </div>
-      <div class="d-flex align-items-center body-9-regular"
-           role="button"
-           @click="$router.push('/profile/inventory')">
-        <img :alt="$t('vendor_dashboard.view_all')" :src="require('~/assets/img/icons/eye2.svg')"
-             class="mr-1">{{ $t('vendor_dashboard.view_all') }}
-      </div>
+      <nuxt-link
+          class="font-secondary text-decoration-underline body-18-regular border-primary mb-0 view-more-link "
+          to="/profile/inventory"
+      >{{ $t('vendor_dashboard.view_all') }}
+      </nuxt-link
+      >
     </div>
+    <NavGroup v-if="isScreenXS" :data="mobileMenu" :value="activeNav" class="mt-2" @change="navItem"/>
+
     <div>
       <b-table
           :fields="fields"
@@ -36,7 +38,7 @@
           :show-empty="!loading && topProducts.length === 0"
       >
         <template #table-busy>
-          <div class="d-flex align-items-center justify-content-center">
+          <div class="d-flex align-items-center justify-content-center w-100">
             <Loader :loading="loading"/>
           </div>
         </template>
@@ -137,7 +139,7 @@ export default {
   data() {
     return {
       // Active Nav for the Toggle Button
-      activeNav: '',
+      activeNav: this.isScreenXS ? '1' : '',
       topProducts: [],
       fields: [
         {
@@ -230,6 +232,11 @@ export default {
         },
       ],
       loading: false
+    }
+  },
+  computed: {
+    mobileMenu() {
+      return this.menus.filter(menu => menu.value !== '')
     }
   },
   mounted() {

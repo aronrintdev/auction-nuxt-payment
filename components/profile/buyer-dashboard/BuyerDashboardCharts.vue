@@ -190,6 +190,10 @@ export default {
                 fontColor: '#000',
                 fontSize: 12,
                 fontStyle: 'bold',
+                callback(value, index, ticks) {
+                  const formatter = Intl.NumberFormat('en', {notation: 'compact'})
+                  return formatter.format(value);
+                }
               },
             },
           ],
