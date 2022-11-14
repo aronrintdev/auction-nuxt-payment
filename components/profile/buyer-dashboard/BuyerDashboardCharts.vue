@@ -67,7 +67,9 @@
     <div :class="mobileClass" class="col-md-4 charts radial">
       <div class=" bg-white br-10 px-2 py-3 p-sm-4 h-100">
 
-        <div class="d-flex align-items-center justify-content-between">
+        <div :class="{
+          'justify-content-between': !isScreenXS,
+        }" class="d-flex align-items-center ">
           <h1 :class="{
             'mb-5': isScreenXS
           }"

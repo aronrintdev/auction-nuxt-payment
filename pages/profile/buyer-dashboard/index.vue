@@ -21,7 +21,7 @@
           <StatsCard
               :coloredText="false"
               :icon="require('~/assets/img/icons/profile/commision-pending.svg')"
-              :title="$t('buyer_dashboard.dashobard_buyer.rewards_points')"
+              :title="$t(`buyer_dashboard.dashobard_buyer.rewards_points${isScreenXS? '_mobile': ''}`)"
               :value="
               '' + analytics.reward_points !== 'undefined'
                 ? analytics.reward_points + ''
@@ -34,7 +34,7 @@
           <StatsCard
               :coloredText="false"
               :icon="require('~/assets/img/icons/profile/inventory-icon.svg')"
-              :title="$t('buyer_dashboard.dashobard_buyer.items_bought')"
+              :title="$t(`buyer_dashboard.dashobard_buyer.items_bought${isScreenXS? '_mobile': ''}`)"
               :value="
               '' + analytics.items_bought !== 'undefined'
                 ? analytics.items_bought + ''
@@ -47,7 +47,7 @@
           <StatsCard
               :coloredText="false"
               :icon="require('~/assets/img/icons/profile/item-sold.svg')"
-              :title="$t('buyer_dashboard.dashobard_buyer.offers_placed')"
+              :title="$t(`buyer_dashboard.dashobard_buyer.offers_placed${isScreenXS? '_mobile': ''}`)"
               :value="
               '' + analytics.offers_placed !== 'undefined'
                 ? analytics.offers_placed + ''
