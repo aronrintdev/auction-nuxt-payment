@@ -281,17 +281,6 @@
                   </div>
                 </Button>
               </div>
-
-              <!-- <Pagination
-                v-if="listProducts.length > 0"
-                v-model="currentPage"
-                :total="totalCount"
-                :per-page="perPage"
-                :per-page-options="[5, 10, 15, 20, 25]"
-                class="mt-2"
-                @page-click="handlePageClick"
-                @per-page-change="handlePerPageChange"
-              /> -->
             </div>
           </div>
         </div>
@@ -533,7 +522,6 @@ export default {
 
     // Fetch wishlist products and pagination information
     getWishListItems() {
-      console.log('curr', this.currentPage)
       this.loading = true
       this.fetchWishListItems({
         wishList: this.currentWishList,
@@ -543,7 +531,6 @@ export default {
       })
       .then((res) => {
         const that = this
-        console.log('Response', res);
         if (!res.next_page_url) {
           this.state.complete()
         }else{
@@ -555,7 +542,6 @@ export default {
         } else {
           this.listProducts = [...that.listProducts, ...res.data]
         }
-        console.log('current page', this.currentPage);
         this.state.loaded()
       })
       .finally(() => {
