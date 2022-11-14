@@ -58,15 +58,17 @@
         </div>
       </section>
       <section>
-        <BuyerDashboardCharts />
+        <BuyerDashboardCharts/>
       </section>
       <section class="my-sm-5">
-        <Promotions />
+        <Promotions/>
       </section>
-      <section>
-        <Purchases />
+      <section :class="{
+        'mt-20': isScreenXS
+      }">
+        <Purchases/>
       </section>
-      <Portal to="page-title"> {{ $t('profile_menu.dashboard') }} </Portal>
+      <Portal to="page-title"> {{ $t('profile_menu.dashboard') }}</Portal>
     </div>
   </client-only>
 </template>
@@ -135,6 +137,9 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.mt-20
+  margin-top: 20px
+
 .row
   &.mobile
     .col-3

@@ -4,7 +4,9 @@
   }">
     <div class="row mt-2 mb-2 my-sm-5">
       <div class="col-6 col-md-3">
-        <h1 class="font-secondary fs-24 fw-7 mb-0">
+        <h1 :class="{
+          'body-5-medium font-primary': isScreenXS
+        }" class="font-secondary fs-24 fw-7 mb-0">
           {{ $t('buyer_dashboard.purchases.title') }}
         </h1>
       </div>
@@ -104,11 +106,6 @@
                 :data-position="index"
                 :data-size="item.id"
             >
-              <b-row class="mb-0">
-                <b-col class="title-item body-5-medium text-nowrap text-truncate text-black" offset="4">
-                  {{ item.product.name }}
-                </b-col>
-              </b-row>
               <b-row v-if="item" class="px-2">
                 <b-col cols="4">
                   <ProductThumb
@@ -119,6 +116,9 @@
                   />
                 </b-col>
                 <b-col class="item-desc d-flex flex-column justify-content-center" cols="8">
+                  <h4 class="title-item body-5-medium text-nowrap text-truncate text-black">
+                    {{ item.product.name }}
+                  </h4>
                   <h4 class="body-6-normal text-nowrap mb-0 ">
                     {{ $t('common.sku') }}: {{ item.product.sku }}
                   </h4>
@@ -173,11 +173,12 @@
                 {{ $t('vendor_dashboard.type') }}:
               </h6>
               <h6
-                class="mb-0 fs-12 fw-5 font-primary text-black w-fit-content text-secondary"
+                  class="mb-0 fs-12 fw-5 font-primary text-black w-fit-content text-secondary text-capitalize"
               >
-                Trade
+                {{ row.type.label }}
               </h6>
             </div>
+
             <div class="d-flex info-row px-3 py-1 justify-content-between">
               <h6 class="mb-0 fs-12 fw-7 font-primary text-black">
                 {{ $t('buyer_dashboard.purchases.quantity') }}:
@@ -263,7 +264,9 @@ export default {
   max-width: 200px
 
 ::v-deep.image-thumb
-  width: 82px
+  img
+    width: 82px
+    object-fit: cover
 
 .order-info
   .info-row:nth-child(even)
