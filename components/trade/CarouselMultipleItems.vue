@@ -17,7 +17,7 @@
           <div
             v-for="(trade, index) in trades"
             :key="`trade-carousel-${index}`"
-            class="browse-trade"
+            class="browse-trade d-flex justify-content-center align-items-center"
           >
             <nuxt-link :to="'/trades/' + trade.id">
               <div class="btn-expire d-flex">
@@ -26,10 +26,14 @@
                 </div>
                 <div class="text-created pt-1">{{prettifyExpiryDate(trade.created_at)}}</div>
               </div>
-              <div class="row d-flex justify-content-center pt-3 pb-4">
-              <div v-for="(product, key) in trade.offers" :key="'trade-item-'+key" class="products d-flex justify-content-center mx-4">
-                <BrowseItemCard :product="product.inventory.product" :showExpire="false" class="item d-inline-block" itemCount="two" cardSize="sm-" />
+              <div class="row d-flex justify-content-center pt-3 pb-2">
+                <div v-for="(product, key) in trade.offers" :key="'trade-item-'+key" class="products d-flex justify-content-center mx-5">
+                  <BrowseItemCard :product="product.inventory.product" :showExpire="false" class="item" itemCount="two" cardSize="sm-" />
+                </div>
+
               </div>
+              <div class="">
+                <img class="trade-btn" :src="require('~/assets/img/tradebtn.svg')" />
               </div>
             </nuxt-link>
           </div>
@@ -51,7 +55,7 @@
   </div>
 </template>
 <script>
-import BrowseItemCard from '~/components/trade/BrowseItemCard.vue'
+import BrowseItemCard from '~/components/trade/BrowseItemMultipleCard'
 import { tradeRemainingTime } from '~/utils/string'
 import { TRADE_EXPIRY_DAYS } from '~/static/constants'
 
@@ -139,6 +143,7 @@ export default {
   box-shadow: 0px 1px 4px $color-black-rgb2
   border-radius: 10px
   margin: 2px 2px 2px 2px
+  height: 380px
 
 .trade-info
   background: $color-gray-1
@@ -168,4 +173,8 @@ export default {
   color: $color-blue-1
 .products
   width: 213px
+.trade-btn
+  height: 21px
+  width: 100px !important
+  float: right
 </style>
