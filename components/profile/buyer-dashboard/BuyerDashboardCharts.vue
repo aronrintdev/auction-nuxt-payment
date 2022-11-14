@@ -15,11 +15,11 @@
           </h1>
           <div class="dropdownSelect d-none d-sm-block">
             <CustomSelect
-                bordered
                 :default="filterBy"
-                :threelineIcon="false"
                 :options="chartFilterOptions"
+                :threelineIcon="false"
                 :title="filterByTitle"
+                bordered
                 class="dropdown-filter"
                 @input="handleFilterByChangeTotalSale"
             />
@@ -38,28 +38,26 @@
             </h6>
           </div>
           <LineChart
-              :data="dataChart"
-              :labels='labels'
-              :options="lineChartOptions"
+              :chart-data="mainChart"
               :height="260"
-              class="line-chart d-none d-sm-block"
+              :options="lineChartOptions"
               chart-id="vendor-dashboard-line-chart"
+              class="line-chart d-none d-sm-block"
+              is-graph
           />
           <LineChart
-              :data="dataChart"
-              :labels='labels'
-              :options="lineChartOptions"
-              :fill="false"
-              border-color="#667799"
-              class="line-chart d-block d-sm-none"
+              :chart-data="mainChart"
               :height="204"
+              :options="lineChartOptions"
               chart-id="vendor-dashboard-line-chart"
+              class="line-chart d-block d-sm-none"
+              is-graph
           />
         </div>
         <div class="text-right d-none d-sm-block">
           <a
-              href="#"
               class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0"
+              href="#"
           >{{ $t('vendor_dashboard.view_breakdown') }}</a
           >
         </div>
@@ -78,8 +76,8 @@
           </h1>
           <div>
             <nuxt-link
-                to='/profile/rewards'
                 class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 d-none d-sm-inline"
+                to='/profile/rewards'
             >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}
             </nuxt-link>
           </div>
@@ -108,10 +106,11 @@
           >
           <b-button
               class="mt-5 px-4 py-2 font-primary fs-12 fw-6 border d-sm-none d-inline-block position-absolute reward-button text-nowrap"
-              variant="outline-secondary"
               pill
               to="/profile/rewards"
-            >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}</b-button
+              variant="outline-secondary"
+          >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}
+          </b-button
           >
           <h6
               v-if="last.length"
@@ -212,7 +211,7 @@ export default {
           {
             borderColor: '#18A0FB',
             backgroundColor: 'rgba(24, 160, 251, 0.15)',
-            data : this.dataChart,
+            data: this.dataChart,
             fill: true,
             borderWidth: 4,
           },
@@ -230,20 +229,34 @@ export default {
       rewardPoints: 'auth/getRewardPoints',
       last: 'rewards/getLastCreditHistoryItem',
       tiers: 'rewards/getRedeemableRewardsStages',
-      tillNext() {
-        return this.nextTier ? this.nextTier.highestValue - this.currentPoints : 0
-      },
-      nextTier() {
-        let next = null
-        for (const tier of this.tiers) {
-          if (tier.highestValue > this.currentPoints) {
-            next = tier
-            break
-          }
+    }),
+    tillNext() {
+      return this.nextTier ? this.nextTier.highestValue - this.currentPoints : 0
+    },
+    nextTier() {
+      let next = null
+      for (const tier of this.tiers) {
+        if (tier.highestValue > this.currentPoints) {
+          next = tier
+          break
         }
-        return next
       }
-    })
+      return next
+    },
+    mainChart() {
+      return {
+        labels: this.labels,
+        datasets: [
+          {
+            borderColor: this.isScreenXS ? '#667799' : '#18A0FB',
+            backgroundColor: 'rgba(24, 160, 251, 0.15)',
+            data: this.dataChart,
+            fill: !this.isScreenXS,
+            borderWidth: 4,
+          },
+        ],
+      }
+    }
   },
   mounted() {
     this.handleFilterByChangeTotalSale('week')
@@ -277,12 +290,12 @@ export default {
               labels.push(property)
               dataSet.push(res.data.data[property])
             }
-          this.dataChart = dataSet
-          this.labels = labels
-        })
-        .catch((err) => {
-          this.logger.logToServer(err.response)
-        })
+            this.dataChart = dataSet
+            this.labels = labels
+          })
+          .catch((err) => {
+            this.logger.logToServer(err.response)
+          })
     },
     handleFilterByChange(value) {
       this.searchFilters.filterBy = value === DEFAULT ? '' : value

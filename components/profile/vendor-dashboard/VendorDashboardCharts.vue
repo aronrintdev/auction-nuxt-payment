@@ -35,21 +35,20 @@
         </div>
         <div class="position-relative mt-3 mt-sm-5 mb-3 mb-sm-4">
           <LineChart
-              :data="dataGraph"
-              :labels="labels"
-              :options="lineChartOptions"
+              :chart-data="mainChart"
               :height="212"
+              :options="lineChartOptions"
               chart-id="vendor-dashboard-line-chart"
               class="line-chart d-none d-sm-block"
+              is-graph
           />
           <LineChart
-              :data="dataGraph"
-              :labels="labels"
-              :options="lineChartOptions"
-              :fill="!isScreenXS"
+              :chart-data="mainChart"
               :height="204"
+              :options="lineChartOptions"
               chart-id="vendor-dashboard-line-chart"
               class="line-chart d-block d-sm-none"
+              is-graph
           />
         </div>
         <div class="text-right d-none d-sm-block">
@@ -106,8 +105,8 @@
               ref="donChart1"
               :bg-colors="dataBgColors"
               :data="dataChart"
-              :labels="chartLabels"
               :height="212"
+              :labels="chartLabels"
               :options="chartOptions"
               chart-id="vendor-dashboard-doughnut-chart"
               class="doughnut-chart d-none d-sm-block"
@@ -116,9 +115,9 @@
               ref="donChart2"
               :bg-colors="dataBgColors"
               :data="dataChart"
+              :height="204"
               :labels="chartLabels"
               :options="chartOptions"
-              :height="204"
               chart-id="vendor-dashboard-doughnut-chart"
               class="doughnut-chart d-block d-sm-none"
           />
@@ -309,6 +308,22 @@ export default {
         month: 'Month',
         year: 'Year',
       },
+    }
+  },
+  computed: {
+    mainChart() {
+      return {
+        labels: this.labels,
+        datasets: [
+          {
+            borderColor: '#18A0FB',
+            backgroundColor: 'rgba(24, 160, 251, 0.15)',
+            data: this.dataGraph,
+            fill: !this.isScreenXS,
+            borderWidth: 4,
+          },
+        ],
+      }
     }
   },
   mounted() {

@@ -11,10 +11,8 @@
           </div>
           <div class="d-flex">
             <div class="left-side-image ml-2" :class="{'left-item-margin':getTheirItems.length === ONE_ITEM && getYourItems.length}">
-              <div class="item-head-trade-hub">{{ $t('trades.trade_arena.theirs') }}:</div>
               <div v-for="(item, index) in getTheirItems"
-                   :key="'their-trade-item-key-'+index" class="mb-4"
-                   :class="[((getTheirItems.length > ONE_ITEM )|| (getTheirItems.length)) ? 'item-length-small p-2' : 'item-normal-small']">
+                   :key="'their-trade-item-key-'+index" class="mb-4 mt-2">
                 <div v-if="!editYours" class="position-relative">
                   <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
                     <img :src="require('~/assets/img/trades/minus-icon.svg')">
@@ -43,9 +41,8 @@
               <div class="long-line" :class="{'long-line-length-small' : getYourItems.length === ONE_ITEM }"></div>
               <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right-small m-2"></div>
             </div>
-            <div class="right-side-image mt-0"
+            <div class="right-side-image mt-2"
                  :class="{'right-item-margin':getTheirItems.length > ONE_ITEM || getYourItems.length === ONE_ITEM,'mt-10p': getTheirItems.length > ONE_ITEM && getYourItems.length === ONE_ITEM,'mt-8p': getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM}">
-              <div class="item-head-trade-hub">{{ $t('trades.trade_arena.yours') }}:</div>
               <div v-if="getYourItems.length" >
                 <div v-for="(item, index) in getYourItems"
                       :key="'your-trade-item-key-'+index"
@@ -72,12 +69,12 @@
               </div>
             </div>
           </div>
-          <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center m-5">
+          <div class="fair-trade-division-mobile d-flex justify-content-center flex-column align-items-center m-5">
             <Meter :highest="getTheirTotal(false)"
                    :lowest="0"
                    :value="getYourTotal(false)"
                    :fair="getFairTradeValue()"
-                   :heading="false"
+                   heading="trades.trade_arena.fair_trade_meter"
             />
           </div>
           <div>
@@ -130,7 +127,7 @@
               </div>
             </div>
           </vue-bottom-sheet>
-          <div class="ml-3 mb-2">
+          <div class="ml-4 mb-2">
             <b-btn class="inventory-btn"  @click="openBottomFilter()">
               Inventory
             </b-btn>
@@ -196,9 +193,9 @@
               </b-row>
             </div>
           </vue-bottom-sheet>
-          <div class="d-flex">
-            <b-btn class="discard-changes ml-3 mr-3"  @click="$bvModal.show('discardModel')">{{ $t('trades.discard_changes') }}</b-btn>
-            <b-btn class="counter-offer"  @click="showPoorTradeConfirmationModal">{{ $t('trades.counter_offer') }}</b-btn>
+          <div class="d-flex mb-5">
+            <b-btn class="discard-changes ml-4 mr-3"  @click="$bvModal.show('discardModel')">{{ $t('trades.discard_changes') }}</b-btn>
+            <b-btn class="counter-offer"  @click="showPoorTradeConfirmationModal">Next</b-btn>
           </div>
 
         </b-col>
@@ -597,6 +594,7 @@ export default {
     },
     addCash(){
       this.cashAdd = true
+      this.isPayment = false
     },
     cancelCash(){
       this.cashAdd = false;
@@ -1147,6 +1145,10 @@ export default {
   background-color: $color-white-4
   width: 247px
   height: 68px
+.fair-trade-division-mobile
+  background-color: $color-white-4
+  width: 247px
+  height: 68px
 .item-image-small
   width: 80px
   height: 100px
@@ -1154,8 +1156,13 @@ export default {
   width: 80px
   height: 100px
 .pointer-left-small
-  height: 160px
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-right: 0.5px solid $light-gray-2
+  height: 450px
   width: 100px
+  margin-right: 8px
+  margin-top: -2rem
 .item-length-small
   height: 160px
   width: 100px
@@ -1167,7 +1174,7 @@ export default {
   height: 26px
   font-family: $font-family-sf-pro-display
   font-style: normal
-  @include body-16-medium
+  @include body-18
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
@@ -1176,7 +1183,7 @@ export default {
   font-family: $font-family-montserrat
   font-style: normal
   width: 80px
-  @include body-16-medium
+  @include body-18
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
@@ -1185,7 +1192,7 @@ export default {
   font-family: $font-family-montserrat
   font-style: normal
   width: 80px
-  @include body-16-medium
+  @include body-18
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
@@ -1215,9 +1222,10 @@ export default {
   border-top: 0.5px solid $light-gray-2
   border-bottom: 0.5px solid $light-gray-2
   border-left: 0.5px solid $light-gray-2
-  height: 340px
+  height: 450px
   width: 100px
   margin-right: 210px
+  margin-top: -1rem !important
 .item-caption-small
   width: 100px
   background: $color-white-1
@@ -1257,7 +1265,7 @@ export default {
   border-radius: 10px
 .counter-offer
   height: 40px
-  width: 162px
+  width: 150px
   font-family: $font-family-montserrat
   font-style: normal
   font-weight: $medium
@@ -1266,7 +1274,7 @@ export default {
   border-radius: 10px
   background-color: $color-blue-20
 .btn-cash
-  width: 315px
+  width: 330px
   height: 37px
   font-family: $font-family-montserrat
   font-style: normal
@@ -1275,5 +1283,5 @@ export default {
   color: $color-blue-19
   background-color: $color-white-1
   border: 1px solid $color-black-1
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25)
+  box-shadow: 0px 1px 2px $color-black-rgb2
 </style>

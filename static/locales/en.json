@@ -148,6 +148,7 @@
     "browse": "Browse",
     "wants_inventory": "Wants Inventory",
     "wants_combinations": "Wants Combinations",
+    "decline_multiple": "Decline Multiple",
     "sell_with_us": "Sell with us",
     "categories": {
       "sneakers": "Sneakers",
@@ -155,6 +156,9 @@
       "footwear": "Footwear",
       "accessories": "Accessories"
     },
+    "accept_trade": "Accept Trade",
+    "they_added": "They added",
+    "on_top": "on top",
     "filter_by": "Filter By",
     "next": "Next",
     "prev": "Prev",
@@ -172,10 +176,10 @@
     "go_back": "Go Back",
     "no_trades": "No Trade offers have been sent",
     "list_product_today": "List a product today on Deadstock!",
-    "product_type"  : "Product Type",
-    "continue"  : "Continue",
-    "of"  : "of",
-    "week"  : "Week",
+    "product_type": "Product Type",
+    "continue": "Continue",
+    "of": "of",
+    "week": "Week",
     "search_wants": "Search for Wants",
     "tap_to_delete": "Tap on the Wants you would like to delete",
     "tap_to_include": "tap on the Wants you would like to include in combination",
@@ -190,7 +194,9 @@
     "days": "days",
     "mins": "mins",
     "hours": "hours",
-    "secs": "secs"
+    "secs": "secs",
+    "thread": "Thread",
+    "rescind": "Rescind"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -362,7 +368,34 @@
   },
   "home": {
     "home": "Home",
+    "get_the_most_out_of": "Get the most out of the Deadstock App",
+    "create_account": "Create Account",
+    "sign_in": "Sign In",
+    "vendor_hub": "Vendor Hub",
+    "promotions": "Promotions",
+    "rewards": "Rewards",
+    "support": "Support",
     "dashboard": "Dashboard",
+    "inventory": "Inventory",
+    "buying_profile": "Buying Profile",
+    "selling_profile": "Selling Profile",
+    "my_profile": "My Profile",
+    "orders": "Orders",
+    "hi_user": "Hi, {name}",
+    "selling_listings": "Selling Listings",
+    "trade_listings": "Trade Listings",
+    "trade_offers": "Trade Offers",
+    "offers_received": "Offers Received",
+    "bids_received": "Bids Received",
+    "auctions_listings": "Auctions Listings",
+    "vendor_dashboard": "Vendor Dashboard",
+    "offers_placed": "Offers Placed",
+    "bids_placed": "Bids Placed",
+    "wishlist": "Wishlist",
+    "watchlist": "Watchlist",
+    "create_a_listing": "Create a Listing",
+    "become_a_vendor": "Become a Vendor",
+    "preferences": "Preferences Gauge",
     "welcome": "Welcome",
     "logout": "Logout",
     "please_wait": "Please wait",
@@ -2838,7 +2871,8 @@
       "ending_soon": "Expiring",
       "sold": "Sold"
     },
-    "status_type": "Status"
+    "status_type": "Status",
+    "estimate_value": "Estimated Auction Value"
   },
   "create_listing": {
     "your_listing_price": "Your listing price",
@@ -4757,6 +4791,7 @@
     "no_trade_offers_have_been_found": "No Trade offers have been found",
     "no_trade_list_have_been_found": "No Trade list have been found",
     "sent_on": "Sent on",
+    "received_on": "Received on",
     "offer_type": {
       "all": "All Offers",
       "received": "Received",
@@ -4988,7 +5023,8 @@
     "wants_list_contains_items_saved_from_your_listings": "Wants List contains items saved from your listings",
     "manage_all_aspects_of_your_trades": "Manage all aspects of your trades",
     "their_value": "THEIR VALUE",
-    "your_value": "YOUR VALUE"
+    "your_value": "YOUR VALUE",
+    "browse_trade" : "Browse Trade"
   },
   "change_password": {
     "password": "Password",
@@ -5150,6 +5186,7 @@
       "commission": "Commission",
       "documents": "Documents"
     },
+    "submit": "Submit",
     "cancel": "Cancel",
     "camera": "Camera",
     "gallery": "Gallery",
@@ -5164,11 +5201,13 @@
     "document_name": "Document Name",
     "file": "File",
     "retailer_certification": "Retailer Certification",
+    "upload_retailer_certificate": "Upload Retailer Certificate",
     "attach_documents": "Attach Document",
     "browse_files": "Browse Files",
     "accepted_document_types": "Accepted Doucmnet File Types include JPEG, PNG and PDF",
     "seller_permit_number": "Seller Permit Number:",
     "enter_permit_number": "Enter Permit Number",
+    "enter_permit_seller_number": "Enter Permit Seller Number",
     "expiration_date": "Expiration Date:",
     "document_expiration_date": "Expiration Date #:",
     "drag_drop_here": "Drag and Drop here | or",
@@ -5509,7 +5548,8 @@
     "no_offer": "There is no offer placed.",
     "user_address_not_found": "User doesnot have a billing address.",
     "error_processing": "Error Processing Request",
-    "sell_successfull": "Selling has been done successfully."
+    "sell_successfull": "Selling has been done successfully.",
+    "no_payout_method"  : "No Payout Method Found"
   },
   "fee_policy": {
     "title": "Fee Policy"
@@ -5896,7 +5936,7 @@
     }
   },
   "newest_features": {
-    "title": "Newest<br>Features",
+    "title": "Newest \n Features",
     "desc": "Latest Deadstock features found on the website and mobile application",
     "previous": "Previous",
     "next": "Next",
@@ -6436,5 +6476,31 @@
       "title": "Conclusion",
       "detail": "We want to thank you for going out of your way to enhance the experience of our website. If you need any help or have any questions on submitting or this disclosure, please email <u>bug@deadstock.co</u>."
     }
+  },
+  "contact_us": {
+    "please_enter_a_name": "Please Enter a Name",
+    "your_name": "Your name",
+    "your_email_address": "Your email address",
+    "we_will_never_share_your_email": "We'll never share your email with anyone else.",
+    "please_enter_a_valid_email_address": "Please Enter a Valid Email Address",
+    "phone_optional": "Phone (Optional)",
+    "area_of_concern": "Area of Concern",
+    "please_enter_an_area_of_concern": "Please Enter an Area of Concern",
+    "order_id_optional": "Order ID (Optional)",
+    "please_enter_the_order_id_if_nec": "Please enter the Order ID if necessary",
+    "please_enter_your_message_subject": "Please enter your message subject",
+    "please_enter_a_subject": "Please Enter a Subject",
+    "description": "Description",
+    "how_can_we_help_you": "How can we help you?",
+    "please_enter_a_description": "Please Enter a Description",
+    "submit": "Submit",
+    "please_select_an_area_of_concern": "Please select an area of concern",
+    "buying": "Buying",
+    "selling": "Selling",
+    "trading": "Trading",
+    "seeking_partnership": "Seeking Partnership",
+    "other": "Other (Specify in Description)",
+    "email": "Email",
+    "optional": "optional"
   }
 }

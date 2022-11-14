@@ -25,18 +25,16 @@
     <div class="col-md-12 mb-5 mx-5 " v-else>
       <div v-for="(trade) in trades" :key="'trade-list-' + trade.id" class="search-trade mb-5">
         <nuxt-link :to="'/trades/' + trade.id">
-          <div class="row trade-info d-flex justify-content-between pl-4 pr-4">
-            <label class="listing-text">
-              {{$t('common.listing_id')}}
-              <span class="listing-id-color">: #{{trade.id}}</span>
-            </label>
-            <span class="expire-text" >
-              {{$t('common.expires')}} {{prettifyExpiryDate(trade.created_at)}}
-            </span>
+          <div class="btn-expire d-flex mt-2 ml-1 pt-2">
+            <div>
+              <img class="clock-image pl-1 pr-1 pb-2" :src="require('~/assets/img/clock.svg')" />
+            </div>
+            <div class="text-created pl-1 pb-2">{{prettifyExpiryDate(trade.created_at)}}</div>
           </div>
-          <div class="row  col-md-12 d-flex justify-content-center pt-3 pb-4">
+
+          <div class="row d-flex justify-content-center pt-3 pb-4">
             <div v-for="(product, index) in trade.offers" :key="'trade-item-'+index" class="products d-flex justify-content-center mx-4" >
-              <BrowseItemCard :product="product.inventory.product" :showExpire="false" class="trade-card item d-inline-block"/>
+              <BrowseItemCard :product="product.inventory.product" :showExpire="false" class="item d-inline-block"/>
             </div>
           </div>
         </nuxt-link>
@@ -133,10 +131,11 @@ export default {
   height: 20px
   width: 20px
 .btn-expire
-  font-size: 12px
-  border: 1px solid $color-gray-23 !important
-  padding: 0
+  @include body-9
   color: $color-white-1
   background-color: $color-gray-23
-
+  width: 95px
+  height: 25px
+.products
+  width: 213px
 </style>

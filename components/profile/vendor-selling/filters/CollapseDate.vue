@@ -34,13 +34,13 @@
       @show="hideFilter(false)"
       @hide="hideFilter(true)"
     >
-      <div class="accordion-filter-body p-0 d-flex justify-content-between">
+      <div class="accordion-filter-body p-0 d-flex justify-content-between date-input-fields">
         <b-form-group class="start-date h-100">
           <b-input-group @click="showStartDate">
             <b-form-input
-              type="text"
+              id="date"
+              type="date"
               placeholder="dd/mm/yyyy"
-              onfocus="(this.type='date')"
               class="start-date-input bg-white rounded-circle"
               @input="inputStartDate($event)"
             >
@@ -50,9 +50,9 @@
         <b-form-group class="start-date h-100">
           <b-input-group @click="showEndDate">
             <b-form-input
-              type="text"
+              id="date"
+              type="date"
               placeholder="dd/mm/yyyy"
-              onfocus="(this.type='date')"
               class="start-date-input bg-white rounded-circle"
               @input="inputEndDate($event)"
             >
@@ -234,4 +234,18 @@ export default {
   border-radius: 10px
   &.start-date-input
     margin: 1px
+.date-input-fields::v-deep
+  #date
+    &::before
+      color: $color-gray-47
+      content: attr(placeholder)
+
+    color: $color-white-1
+
+    &:focus, &:valid
+      color: $color-gray-78
+
+    &:focus::before, &:valid::before
+      content: "" !important
+
 </style>

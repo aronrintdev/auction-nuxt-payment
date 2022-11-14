@@ -104,7 +104,7 @@ import {
   GLOBAL_COMMISSION,
   FIXED_AND_PERCENTAGE,
   PERCENTAGE,
-  FIXED_AMOUNT
+  FIXED_AMOUNT,
 } from '~/static/constants'
 export default {
   name: 'SaleSummary',
@@ -122,9 +122,26 @@ export default {
       fixedAndPercentage: FIXED_AND_PERCENTAGE,
       percentage: PERCENTAGE,
       fixedAmount: FIXED_AMOUNT,
-      percentageOffset: PERCENT_OFFSET
+      percentageOffset: PERCENT_OFFSET,
+      commission: {}
     }
   },
+
+  async fetch() {
+    await this.$axios
+      .get('/calculate-commission-details', {
+        handleError: false,
+        params: { offer: this.sellItem.selectedOfferId },
+      })
+      .then((res) => {
+        this.commission = res.data.data
+      })
+      .catch((err) => {
+        this.$logger.logToServer('Calculate Commission error: ', err.response)
+      })
+  },
+
+  fetchOnServer: false,
 
   computed: {
     ...mapGetters({
@@ -140,44 +157,8 @@ export default {
       return vm.sellItem.quantity
     },
 
-
     calculateCommission: (vm) => {
-     // TODO This will be handled by the new calculate_commission function which will be written
-      // If the type is vendor_specific
-      if(vm.getCommission.vendorCommission && vm.getCommission.vendorCommission.type === vm.vendorSpecific){
-        // If the commission type is fixed and percentage.
-        if(vm.getCommission.vendorCommission.commission_type === vm.fixedAndPercentage){
-          const percentage = vm.getCommission.vendorCommission.percentage / 100
-          return (vm.getSubTotal * percentage) + (vm.getCommission.vendorCommission.fixed_amount * 100)
-        }
-        // If the commission type is percentage.
-        if(vm.getCommission.vendorCommission.commission_type === vm.percentage){
-          const percentage = vm.getCommission.vendorCommission.percentage / 100
-          return vm.getSubTotal * percentage
-        }
-
-        if(vm.getCommission.vendorCommission.commission_type === vm.fixedAmount){
-          return vm.getSubTotal - (vm.getCommission.vendorCommission.fixed_amount * 100)
-        }
-      }
-      // If the type is global_commission
-      if(vm.getCommission.vendorCommission && vm.getCommission.vendorCommission.type === vm.globalCommission){
-        if(vm.getCommission.globalCommission.commission_type === vm.fixedAndPercentage){
-          const percentage = vm.getCommission.globalCommission.percentage / 100
-          return (vm.getSubTotal * percentage) + (vm.getCommission.globalCommission.fixed_amount * 100)
-        }
-
-        if(vm.getCommission.globalCommission.commission_type === vm.percentage){
-          const percentage = vm.getCommission.globalCommission.percentage / 100
-          return vm.getSubTotal * percentage
-        }
-
-        if(vm.getCommission.globalCommission.commission_type === vm.fixedAmount){
-          return vm.getSubTotal - (vm.getCommission.globalCommission.fixed_amount * 100)
-        }
-      }
-      // Fallback fee
-      return vm.getSubTotal * (vm.saleSellerFee / vm.percentageOffset)
+      return vm.commission.commission_amount
     },
 
     getSellerPercentage: (vm) => {
@@ -187,22 +168,24 @@ export default {
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getSubTotal: (vm) => {
       // Processing fee and shipping fee will be added to it.
-      return (
-        vm.sellItem.highestOffer * vm.getTotalQuantity 
-      )
+      return vm.sellItem.highestOffer * vm.getTotalQuantity
     },
 
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getSellerFee: (vm) => {
-      return vm.calculateCommission
+      return vm.calculateCommission 
     },
 
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTransactionFee: (vm) => {
-      return vm.getSubTotal * (vm.saleTransactionFee / vm.percentageOffset)
+      if(vm.getSellerFee >= vm.getSubTotal){
+        return 0
+      }else{
+        return vm.getSubTotal * (vm.saleTransactionFee / vm.percentageOffset)
+      }
     },
 
-    // // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getTotal: (vm) => {
       return vm.getSubTotal - vm.getSellerFee - vm.getTransactionFee || 0
     },
@@ -217,14 +200,14 @@ export default {
       })
       items.push({
         key: vm.$t('sell_now.seller_fee', {
-          percentage: vm.getSellerPercentage
+          percentage: vm.getSellerPercentage || 0,
         }),
         value: vm.getSellerFee || 0,
         sign: '-',
       })
       items.push({
         key: vm.$t('sell_now.transaction_fee', {
-          percentage: vm.saleTransactionFee,
+          percentage: vm.getTransactionFee > 0 ? vm.saleTransactionFee : 0,
         }),
         value: vm.getTransactionFee || 0,
         sign: '-',
@@ -272,18 +255,17 @@ export default {
         shippingFee: 0,
         processingFee: 0,
         askPrice: this.getSubTotal,
+        commission: this.commission
       }
       // Do the sell now.
 
-      this.doSellNow(data)
+        this.doSellNow(data)
         .then((res) => {
-          if (res.data.data.response) {
-            this.loading = false
-            this.addSellNowItem({})
-            this.selectedInventoryAndListing({})
-            this.$toasted.success(this.$t('sell_now.sell_successfull'))
-            this.$router.push('/')
-          }
+          this.loading = false
+          this.addSellNowItem({})
+          this.selectedInventoryAndListing({})
+          this.$toasted.success(this.$t('sell_now.sell_successfull'))
+          this.$router.push(`/orders/${res.data.data.order_id}-1`)
         })
         .catch((error) => {
           this.loading = false

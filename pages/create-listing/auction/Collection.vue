@@ -8,7 +8,7 @@
               <div class="content-header-title">{{ $t('create_listing.auction.collection.title') }}</div>
               <div>
                 <NuxtLink
-                  to="/create-listing"
+                  to="/profile/create-listing"
                   class="btn btn-outline-dark px-5 back-btn"
                 >
                   {{ $t('create_listing.auction.single.back_to_auctions') }}

@@ -77,7 +77,7 @@
         <Button
           variant="outline-primary"
           pill
-          @click="$router.push({path: '/create-listing'})"
+          @click="$router.push({path: '/profile/create-listing'})"
         >{{ $t('create_listing.confirm.create_auction') }}</Button
         >
       </div>
@@ -260,7 +260,7 @@ export default {
           status: 'live',
         })
       }).then(res => {
-        this.$router.push({path: '/create-listing'})
+        this.$router.push({path: '/profile/create-listing'})
         this.$toasted.success(this.$t('create_listing.confirm.draft_saved'))
         this.$store.commit('create-listing/setNonInventoryCollectionAuction', {})
         this.processing = false

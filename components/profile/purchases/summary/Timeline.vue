@@ -13,10 +13,7 @@
         <div class="col-md-9">
           <div class="tracking-item" :class="result.class">
             <div class="tracking-icon status-intransit">
-              <TimelineIcon
-                :resultValue="result.value"
-                :orderStatus="orderStatus"
-              />
+              <TimelineIcon :status="result.value === orderStatus? 'active': 'past'" class="icon"></TimelineIcon>
             </div>
             <div
               class="tracking-content"
@@ -37,14 +34,10 @@
 </template>
 
 <script>
-import TimelineIcon from './TimelineIcon.vue'
+import TimelineIcon from '~/components/orders/TimelineIcon';
 export default {
   name: 'PurchaseTimeline',
-
-  components: {
-    TimelineIcon,
-  },
-
+  components: {TimelineIcon},
   props: {
     timeline: {
       type: Array,

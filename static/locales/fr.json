@@ -99,6 +99,7 @@
     "logout_successful": "Déconnexion réussie"
   },
   "navbar": {
+    "shop": "magasin",
     "browse": "Parcourir",
     "sell": "Vendre",
     "trade": "Commerce",

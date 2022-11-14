@@ -56,7 +56,7 @@
     </div>
 
     <div class="d-md-none">
-      <div class="mt-4 status">
+      <div class="mt-4 statusbox">
         <div class="font-weight-bold mb-2">{{ $t('create_listing.confirm.status') }}*</div>
         <CheckboxSwitch
           class="full-width-switch"

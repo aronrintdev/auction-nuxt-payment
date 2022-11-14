@@ -42,7 +42,7 @@
       <NavGroup
         v-model="activeTab"
         nav-key="list-type"
-        class="d-flex d-sm-none mb-4"
+        class="d-flex d-sm-none mb-4 pt-2"
         :data="tabs"
         @change="handleTabs"
       />
@@ -358,7 +358,6 @@ export default {
     width: 164px
 .container-watchlists
   background: $white
-  width: calc(100vw - 265px)
   .section-lists
     max-width: 250px
     margin-right: 20px

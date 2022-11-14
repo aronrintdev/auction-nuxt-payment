@@ -296,7 +296,7 @@
           />
         </b-col>
 
-        <b-col v-if="!mobileClass" class="placed-offer-result pt-5">
+        <b-col v-if="!mobileClass && offers.length" class="placed-offer-result pt-5">
           <div v-if="!!action" class="p-md-4 p-2">
             <BulkSelectToolbar
               ref="bulkSetoggleSelectlectToolbar"
