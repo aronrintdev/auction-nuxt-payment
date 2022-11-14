@@ -150,19 +150,6 @@ export default defineNuxtConfig({
     transpile: ['vee-validate/dist/rules'],
     extend(config, ctx) {},
     extractCSS: process.env.NODE_ENV !== 'development', // Disable in development mode for debugging css
-    optimization: {
-      splitChunks: {
-            maxSize: 300000,
-        cacheGroups: {
-          styles: {
-            name: 'styles',
-            test: /\.(css|vue)$/,
-            chunks: 'all',
-            enforce: true
-          }
-        }
-      }
-    },
     plugins: [
       new webpack.ProvidePlugin({
         $: 'jquery',
