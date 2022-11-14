@@ -424,8 +424,6 @@ export default {
 .m-padding-title
   padding: 12px 14px 0 14px
 
-.diagram
-  max-width: 329px
 
 .mr-59
   margin-right: 59px

@@ -1,15 +1,18 @@
 <template>
-  <section class=" row mt-sm-5 mb-4">
+  <section class="row mt-sm-5 mb-4">
     <div :class="mobileClass" class="charts col-md-8 mb-2 mb-md-0">
-      <div :class="{
-        'pt-4': !isScreenXS
-      }" class="bg-white br-10 px-2  p-sm-4">
+      <div
+          :class="{
+          'pt-4': !isScreenXS,
+        }"
+          class="bg-white br-10 px-2 p-sm-4"
+      >
         <div class="d-flex align-items-center justify-content-between">
           <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
             {{ $t('buyer_dashboard.dashobard_buyer.total_purchases_main') }}
           </h1>
           <h1
-              class="fs-14 fw-7 font-primary text-grey-69 mb-0 d-block d-sm-none text-center w-100"
+              class="fs-14 fw-7 font-primary text-grey-69 mb-0 d-block d-sm-none w-100"
           >
             {{ $t('buyer_dashboard.dashobard_buyer.total_purchases_main') }}
           </h1>
@@ -65,55 +68,63 @@
     </div>
     <!-- TODO -->
     <div :class="mobileClass" class="col-md-4 charts radial">
-      <div class=" bg-white br-10 px-2 py-3 p-sm-4 h-100">
-
-        <div :class="{
-          'justify-content-between': !isScreenXS,
-        }" class="d-flex align-items-center ">
-          <h1 :class="{
-            'mb-5': isScreenXS
+      <div
+          :class="{
+          'py-3': !isScreenXS,
+          'pb-4 pt-1': isScreenXS,
+        }"
+          class="bg-white br-10 px-2 p-sm-4 h-100"
+      >
+        <div
+            :class="{
+            'mb-5': isScreenXS,
           }"
-              class="fs-20 fw-7 font-primary mb-0 rewards-title">
+            class="d-flex align-items-center justify-content-between"
+        >
+          <h1 class="fs-20 fw-7 font-primary mb-0 rewards-title">
             {{ $t('buyer_dashboard.dashobard_buyer.rewards') }}
           </h1>
           <div>
             <nuxt-link
-                class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 d-none d-sm-inline"
-                to='/profile/rewards'
+                :class="{
+                'body-18-regular': isScreenXS,
+              }"
+                class="font-secondary fs-16 fw-400 text-decoration-underline border-primary text-nowrap rewards-link"
+                to="/profile/rewards"
             >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}
             </nuxt-link>
           </div>
         </div>
 
-        <div class=" mt-3 mb-0 my-sm-4 text-center progressbar_wrapper mx-auto position-relative">
-          <RadialChart v-if="!isScreenXS"
-                       :progress="progress"
-                       :rewards="rewards"
+        <div
+            class="mt-3 mb-0 my-sm-4 text-center progressbar_wrapper mx-auto position-relative"
+        >
+          <RadialChart
+              v-if="!isScreenXS"
+              :progress="progress"
+              :rewards="rewards"
           />
           <MobileRewardGauge
               v-else
               :current-points="rewardPoints"
+              :height="'250px'"
               :show-next-expire="false"
           />
           <!-- TODO -->
-          <h6 v-if='rewards.next_reward && !isScreenXS' class="fs-12 mb-0 fw-7 font-primary text-black mt-3">
-            {{ $t('buyer_dashboard.dashobard_buyer.your_next_reward') }}: {{ rewards.next_reward.name }}
+          <h6
+              v-if="rewards.next_reward && !isScreenXS"
+              class="fs-12 mb-0 fw-7 font-primary text-black mt-3"
+          >
+            {{ $t('buyer_dashboard.dashobard_buyer.your_next_reward') }}:
+            {{ rewards.next_reward.name }}
           </h6>
           <b-button
               class="mt-3 bg-blue-primary py-2 w-100 font-primary fw-5 d-none d-sm-inline-block"
               pill
               to="/shop"
           >{{ $t('buyer_dashboard.dashobard_buyer.earn_money') }}
-          </b-button
-          >
-          <b-button
-              class="mt-5 px-4 py-2 font-primary fs-12 fw-6 border d-sm-none d-inline-block position-absolute reward-button text-nowrap"
-              pill
-              to="/profile/rewards"
-              variant="outline-secondary"
-          >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}
-          </b-button
-          >
+          </b-button>
+
           <h6
               v-if="last.length"
               class="fs-12 mb-0 fw-4 font-primary mt-3 text-dark d-none d-sm-block"
@@ -128,12 +139,12 @@
   </section>
 </template>
 <script>
-import {mapGetters} from 'vuex';
+import {mapGetters} from 'vuex'
 import RadialChart from './RadialChart'
 import {CustomSelect} from '~/components/common'
 import {DEFAULT} from '~/static/constants'
-import screenSize from '~/plugins/mixins/screenSize';
-import MobileRewardGauge from '~/components/profile/rewards/MobileRewardGauge';
+import screenSize from '~/plugins/mixins/screenSize'
+import MobileRewardGauge from '~/components/profile/rewards/MobileRewardGauge'
 
 export default {
   name: 'BuyerDashboardCharts',
@@ -146,7 +157,7 @@ export default {
       tabsOptions: [
         {title: 'Week', value: 'week'},
         {title: 'Month', value: 'month'},
-        {title: 'Year', value: 'year'}
+        {title: 'Year', value: 'year'},
       ],
       // TODO Dummy Data
       filterByTitle: this.$t('selling_page.status'),
@@ -193,9 +204,11 @@ export default {
                 fontSize: 12,
                 fontStyle: 'bold',
                 callback(value, index, ticks) {
-                  const formatter = Intl.NumberFormat('en', {notation: 'compact'})
-                  return formatter.format(value);
-                }
+                  const formatter = Intl.NumberFormat('en', {
+                    notation: 'compact',
+                  })
+                  return formatter.format(value)
+                },
               },
             },
           ],
@@ -210,7 +223,14 @@ export default {
         },
       },
       dataChart: [],
-      labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Friday', 'Saturday'],
+      labels: [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Friday',
+        'Saturday',
+      ],
       lineDatasets: {
         labels: this.labels,
         datasets: [
@@ -227,7 +247,7 @@ export default {
         week: 'Week',
         month: 'Month',
         year: 'Year',
-      }
+      },
     }
   },
   computed: {
@@ -262,7 +282,7 @@ export default {
           },
         ],
       }
-    }
+    },
   },
   mounted() {
     this.handleFilterByChangeTotalSale('week')
@@ -273,9 +293,14 @@ export default {
       this.$axios
           .get('/dashboard/buyer/rewards')
           .then((res) => {
-            this.rewards = res.data.data;
+            this.rewards = res.data.data
             if (res.data.data.current_points > 0) {
-              this.progress = parseInt(res.data.data.current_points / res.data.data.next_reward.redemption_points * 100) + 25
+              this.progress =
+                  parseInt(
+                      (res.data.data.current_points /
+                          res.data.data.next_reward.redemption_points) *
+                      100
+                  ) + 25
             }
           })
           .catch((err) => {
@@ -315,10 +340,10 @@ export default {
   &.mobile
     box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
     border-radius: 8px
-    padding: 21px 7px
+    padding: 10px 7px
 
     &.radial
-      padding-bottom: 80px
+      padding-bottom: 30px
 
 .reward-button
   right: 50px
@@ -351,7 +376,6 @@ export default {
     font-size: 14px
     font-weight: $bold
     color: $color-gray-69
-    text-align: center
     width: 100%
 
 .tabs
