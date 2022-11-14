@@ -130,12 +130,13 @@ export default {
     &-img
       width: 100%
       height: 0
-      padding-top: 100%
+      padding-top: 77.65%
       img
         top: 0
         left: 0
         width: 100%
         height: 100%
+        object-fit: cover
     @media (max-width: 576px)
       margin-right: 15px
       align-items: flex-end

@@ -233,8 +233,10 @@ export default {
       @include body-5-medium
 ::v-deep
   .thumb-wrapper
+    img
+      padding: 0 !important
     .overlay
-      background: rgba(153, 153, 153, 0.05)
+      background: rgba(180, 180, 180, 0.08)
 .collection-product-imgs
   ::v-deep
     .thumb-wrapper
