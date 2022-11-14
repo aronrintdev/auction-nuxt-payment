@@ -179,12 +179,12 @@
                 </div>
               </div>
               <div v-if="!lastSubmittedOffer.is_blocked" class="trade-hub-buttons mt-4 mb-4">
-                <Button v-if="!isOfferMine()" variant="primary" class="mr-3" @click="acceptOffer()">{{ $t('trades.accept') }}</Button>
-                <Button v-if="!isOfferMine()" variant="light" class="mr-3" @click="$bvModal.show('declineOffer')">{{ $t('trades.decline') }}
-                </Button>
-                <Button v-if="!isOfferMine()" variant="outline-primary"  @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
+                <b-btn v-if="!isOfferMine()"  class="accpt-btn mr-3" @click="acceptOffer()">{{ $t('trades.accept') }}</b-btn>
+                <b-btn v-if="!isOfferMine()"  class="decline-btn  mr-3" @click="$bvModal.show('declineOffer')">{{ $t('trades.decline') }}
+                </b-btn>
+                <b-btn class="count-btn" v-if="!isOfferMine()"   @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
                   {{ $t('trades.counter_offer') }}
-                </Button>
+                </b-btn>
               </div>
               <div v-else class="trade-hub-buttons mt-4 mb-4">
                 <Button variant="outline-danger">
@@ -599,4 +599,35 @@ export default {
   padding: 5px 10px
   font-family: $font-family-sf-pro-display
   font-style: normal
+.accpt-btn
+  width: 139px
+  height: 39px
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: $medium
+  @include body-13
+  color: $color-white-1
+  background: #667799
+  border-radius: 8px
+.decline-btn
+  width: 139px
+  height: 39px
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: $medium
+  @include body-13
+  color: #545F77
+  background: #F6F6F8
+  border-radius: 8px
+.count-btn
+  width: 139px
+  height: 39px
+  font-family: 'Montserrat'
+  font-style: normal
+  font-weight: $medium
+  @include body-13
+  color: #667799
+  background: $color-white-1
+  border-radius: 8px
+  border: 1px solid #667799
 </style>
