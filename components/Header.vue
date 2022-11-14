@@ -306,6 +306,9 @@ export default {
     setLocale(lang) {
       this.$refs.locale.hideDropdown()
       this.$store.commit('SET_LANG', lang)
+      this.$router.push({
+        path: `${this.$router.currentRoute.path}?lang=${lang}`,
+      })
     },
     handleSearchFocus() {
       this.showSearchOverlay = true

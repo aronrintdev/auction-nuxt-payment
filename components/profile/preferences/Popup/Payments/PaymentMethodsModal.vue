@@ -100,6 +100,7 @@ export default {
     clearDetails() {
       this.$nuxt.$emit('reloadPaymentMethods')
       this.removeGiftCardValues({})
+      this.tabIndex = 0
     },
   },
 }
