@@ -198,7 +198,7 @@
         </div>
       </div>
       <div>
-        <b-btn class="save-btn-size ml-4" @click="savePreference">
+        <b-btn class="save-btn-size" @click="savePreference">
           {{$t('common.save_changes')}}
         </b-btn>
       </div>
@@ -208,7 +208,7 @@
         <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.size_preferences')}}</div>
         <b-row>
           <b-col v-for="(brand,index) in filters.brands" :key="index">
-              <div class="m-2">
+              <div class="m-2" :class="selectedBrands.includes(brand._id) ?'selected-brand':'unselected-brand'">
                 <img :src="brand.image" class="brand-image" @click="changeSelectedBrands(brand._id)">
               </div>
           </b-col>
@@ -302,7 +302,7 @@ export default {
     }
   },
   computed:{
-    ...mapGetters('browse', ['filters']), // getter for getting list of filters data
+    ...mapGetters('browse', ['filters','selectedBrands']), // getter for getting list of filters data
   },
   mounted() {
     this.filterApparelSizes = this.filters?.sizes?.filter(function (size) {
@@ -579,7 +579,6 @@ export default {
   min-width: 75px
   @include body-9-regular
 .main-container
-  //height: 600px
   width: 343px
   border-radius: 10px
   background: $color-white-1
@@ -599,7 +598,7 @@ export default {
   font-style: normal
   @include body-6
   text-decoration-line: underline
-  color: #000000
+  color: $color-black-1
 .chev-img
   height: 15px
   width: 7px
@@ -655,6 +654,7 @@ export default {
   height: 40px
   width: 270px
   margin-top: 1rem
+  margin-left: 2.3rem
 .save-btn-brand
   background: $color-blue-20
   border-radius: 20px
@@ -725,7 +725,6 @@ export default {
   color: $color-black-1
 .sizePre-sections
   width: 343px
-  //height: 550px
   background: $color-white-1
   border-radius: 10px
   box-shadow: 0 1px 4px $color-black-rgb1
@@ -733,7 +732,6 @@ export default {
   padding-bottom: 20px
 .brand-sections
   width: 343px
-  //height: 350px
   background: $color-white-1
   border-radius: 10px
   box-shadow: 0 1px 4px $color-black-rgb1
@@ -765,6 +763,13 @@ export default {
   padding-top: 10px
   cursor: pointer
   background: $color-gray-21
+.selected-brand
+  border-radius: 3px
+  border: 1px solid $color-black-1
+  padding-bottom: 4px
+  padding-left: 2px
+.unselected-brand
+  border-radius: 3px
 .column-sizes
   height: 100px
   overflow-y: scroll

@@ -77,22 +77,40 @@
     <!-- End of Shopping Cart Payment Details -->
 
     <!-- Terms & Conditions Paragraph -->
-    <b-row v-if="billingAddress && shippingAddress && (paymentMethod)" class="mt-4">
-      <b-col md="3" class="text-center">
-        <b-form-checkbox v-model="form.agreedToTerms"></b-form-checkbox>
-      </b-col>
-      <b-col md="9">
-        <i18n
-          path="shopping_cart.terms_and_conditions_paragraph"
-          tag="p"
-          class="body-5-normal justify-content-start"
-        >
+    <div v-if="isResponsive">
+      <div v-if="billingAddress && shippingAddress && (paymentMethod)" class="mt-4 d-flex">
+        <div> <b-form-checkbox v-model="form.agreedToTerms"></b-form-checkbox></div>
+        <div>
+          <i18n
+            path="shopping_cart.terms_and_conditions_paragraph"
+            tag="p"
+            class="body-5-normal justify-content-start"
+          >
           <span class="text-decoration-underline">{{
-            $t('shopping_cart.terms_and_conditions')
-          }}</span>
-        </i18n>
-      </b-col> </b-row
-    ><!-- End of Terms & Conditions Paragraph -->
+              $t('shopping_cart.terms_and_conditions')
+            }}</span>
+          </i18n>
+        </div>
+    </div>
+    </div>
+    <div v-else>
+      <b-row v-if="billingAddress && shippingAddress && (paymentMethod)" class="mt-4">
+        <b-col md="3" class="text-center">
+          <b-form-checkbox v-model="form.agreedToTerms"></b-form-checkbox>
+        </b-col>
+        <b-col md="9">
+          <i18n
+            path="shopping_cart.terms_and_conditions_paragraph"
+            tag="p"
+            class="body-5-normal justify-content-start"
+          >
+          <span class="text-decoration-underline">{{
+              $t('shopping_cart.terms_and_conditions')
+            }}</span>
+          </i18n>
+        </b-col> </b-row
+      ><!-- End of Terms & Conditions Paragraph -->
+    </div>
 
     <!-- Shopping Cart Total Price Heading -->
     <b-row class="mt-4">
@@ -147,6 +165,8 @@ import OrderTitle from '~/components/checkout/common/OrderTitle'
 import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
 import AddressCard from '~/components/checkout/common/AddressCard'
 import PaymentCardDetailsCard from '~/components/checkout/common/PaymentCardDetailsCard'
+import screenSize from '~/plugins/mixins/screenSize'
+
 import {
   PAYMENT_METHOD_TYPE_CARD
 } from '~/static/constants'
@@ -172,9 +192,10 @@ export default {
     CheckmarkIcon,
     CloseIcon,
   },
-  mixins: [ emitEvent ],
+  mixins: [ emitEvent, screenSize ],
   data() {
     return {
+      width:'',
       loading: false,
       isCard: PAYMENT_METHOD_TYPE_CARD,
       form: {
@@ -333,10 +354,14 @@ export default {
       items.push({ label: vm.$t('shopping_cart.tax'), key: vm.$t('shopping_cart.tax'), value: vm.getTax })
 
       return items
-    }
+    },
+    isResponsive() {
+      return this.isScreenXS || this.isScreenSM
+    },
   },
   mounted() {
     this.getTaxRateByZip({ zip: this.billingAddress.zipCode })
+    this.width = window.innerWidth
   },
   methods: {
     ...mapActions({
