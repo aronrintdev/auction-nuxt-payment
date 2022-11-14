@@ -1,6 +1,6 @@
 <template>
   <div class="thumb-wrapper overflow-hidden product-thumb" :style="{ width: width, height: height }" @click="handleClick">
-    <b-img :src="imageUrl" :width="width" :height="height" :alt="altText" />
+    <b-img class="pt-3 pb-3" :src="imageUrl" :width="width" :height="height" :alt="altText" />
     <div v-if="overlay" class="overlay"></div>
   </div>
 </template>

@@ -6,7 +6,7 @@
 
     </div>
     <!-- Status Box -->
-    <div class="d-md-none mb-4 status">
+    <div class="d-md-none mb-4 statusbox">
       <div class="font-weight-bold mb-2">{{ $t('create_listing.confirm.status') }}*</div>
       <CheckboxSwitch
         class="full-width-switch"
@@ -422,6 +422,7 @@ export default {
       background-color: $color-blue-20
       border-color: $color-blue-20
       padding: 12px 40px
+      width: 100%
       height: auto
 .reserve-info
   @include body-5-regular
