@@ -179,12 +179,12 @@
                 </div>
               </div>
               <div v-if="!lastSubmittedOffer.is_blocked" class="trade-hub-buttons mt-4 mb-4">
-                <b-btn v-if="!isOfferMine()"  class="accpt-btn mr-3" @click="acceptOffer()">{{ $t('trades.accept') }}</b-btn>
-                <b-btn v-if="!isOfferMine()"  class="decline-btn  mr-3" @click="$bvModal.show('declineOffer')">{{ $t('trades.decline') }}
-                </b-btn>
-                <b-btn class="count-btn" v-if="!isOfferMine()"   @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
+                <Button v-if="!isOfferMine()"  class="accpt-btn mr-3" @click="acceptOffer()">{{ $t('trades.accept') }}</Button>
+                <Button v-if="!isOfferMine()"  class="decline-btn  mr-3" @click="$bvModal.show('declineOffer')">{{ $t('trades.decline') }}
+                </Button>
+                <Button class="count-btn" v-if="!isOfferMine()"   @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
                   {{ $t('trades.counter_offer') }}
-                </b-btn>
+                </Button>
               </div>
               <div v-else class="trade-hub-buttons mt-4 mb-4">
                 <Button variant="outline-danger">
@@ -606,8 +606,8 @@ export default {
   font-style: normal
   font-weight: $medium
   @include body-13
-  color: $color-white-1
-  background: #667799
+  color: $color-white-1 !important
+  background: #667799 !important
   border-radius: 8px
 .decline-btn
   width: 139px
@@ -616,8 +616,8 @@ export default {
   font-style: normal
   font-weight: $medium
   @include body-13
-  color: #545F77
-  background: #F6F6F8
+  color: #545F77 !important
+  background: #F6F6F8 !important
   border-radius: 8px
 .count-btn
   width: 139px
@@ -626,8 +626,8 @@ export default {
   font-style: normal
   font-weight: $medium
   @include body-13
-  color: #667799
-  background: $color-white-1
+  color: #667799 !important
+  background: $color-white-1 !important
   border-radius: 8px
-  border: 1px solid #667799
+  border: 1px solid #667799 !important
 </style>

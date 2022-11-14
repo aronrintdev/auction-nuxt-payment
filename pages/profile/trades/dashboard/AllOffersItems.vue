@@ -58,13 +58,14 @@
           <b-row class="justify-content-center mt-3" role="button">
             <offer-items :offerItems="offer.theirs_items"/>
           </b-row>
+
           <div class="trade-hub-buttons d-flex justify-content-center align-items-center mt-4">
-            <b-btn class="accpt-btn mr-3"  @click="acceptOffer()">{{ $t('trades.accept') }}</b-btn>
-            <b-btn class="decline-btn mr-3"  @click="$bvModal.show('declineOffer')">{{ $t('trades.decline') }}
-            </b-btn>
-            <b-btn class="count-btn"  @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
+            <Button class="accpt-btn mr-3"  @click="acceptOffer()">{{ $t('trades.accept') }}</Button>
+            <Button class="decline-btn mr-3"  @click="$bvModal.show('declineOffer')">{{ $t('trades.decline') }}
+            </Button>
+            <Button class="count-btn"  @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
               {{ $t('trades.counter_offer') }}
-            </b-btn>
+            </Button>
           </div>
         </div>
       </div>
@@ -78,6 +79,7 @@
 
 <script>
 import OfferItems from '~/pages/profile/trades/dashboard/OfferItems';
+import Button from '~/components/common/Button'
 import {
   ALL_OFFER_TYPE,
   OFFER_RECEIVED,
@@ -96,7 +98,8 @@ import {
 export default {
   name: 'AllOffersItems',
   components: {
-    OfferItems
+    OfferItems,
+    Button
   },
   props:{
     offers: {
@@ -333,8 +336,8 @@ export default {
  font-style: normal
  font-weight: $medium
  @include body-13
- color: $color-white-1
- background: #667799
+ color: $color-white-1 !important
+ background: #667799 !important
  border-radius: 8px
 .decline-btn
   width: 139px
@@ -343,8 +346,8 @@ export default {
   font-style: normal
   font-weight: $medium
   @include body-13
-  color: #545F77
-  background: #F6F6F8
+  color: #545F77 !important
+  background: #F6F6F8 !important
   border-radius: 8px
 .count-btn
   width: 139px
@@ -353,8 +356,8 @@ export default {
   font-style: normal
   font-weight: $medium
   @include body-13
-  color: #667799
-  background: $color-white-1
+  color: #667799 !important
+  background: $color-white-1 !important
   border-radius: 8px
-  border: 1px solid #667799
+  border: 1px solid #667799 !important
 </style>
