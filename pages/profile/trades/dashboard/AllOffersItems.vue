@@ -26,18 +26,20 @@
     <div v-else>
       <div v-if="offers.length > 0" :offers="offers">
         <div v-for="(offer) in offers" :key="'trade-page-offer-list-' + offer.id" class="offer-item-trade-container m-4" @click="showOffer(offer.id)">
-          <div class="d-flex justify-content-between">
-            <div :id="`flyer-${offer.condition}`">
-              {{$t(offer.condition_translation)}}
+          <div class="d-flex">
+            <div class="justify-content-start align-content-start place-cont">
+              <div class="offer-id-text pt-2 ml-2">{{$t('trades.offer_id')}} #{{offer.id}}</div>
+              <div class="offer-time m-2">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
             </div>
-            <div class="pt-3 text-center">
-              <div class="offer-id">{{$t('trades.offer_id')}} #{{offer.id}}</div>
-              <div class="offer-time">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
-            </div>
-            <div :class="`offer-${offer.offer_type}`" class="d-flex justify-content-center align-items-center" @click="$router.push('/profile/trades/dashboard/' + offer.trade.id)">
-              {{$t(offer.offer_type_translation)}}
-              <img v-if="!isOfferMine(offer)" :src="require('~/assets/img/icons/upword-arrow.svg')" class="ml-2" alt="">
-              <img v-else-if="isOfferMine(offer)" :src="require('~/assets/img/icons/downword-arrow.svg')" class="ml-2" alt="">
+            <div class="justify-content-end align-content-end mt-2">
+              <div>
+                <img v-if="!isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="ml-2" alt="">
+                <img v-else-if="isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="ml-2" alt="">
+                {{$t(offer.offer_type_translation)}}
+              </div>
+              <div class="view-detail-text ml-5">
+                View Details
+              </div>
             </div>
           </div>
           <!-- items sections -->
@@ -110,6 +112,7 @@ export default {
   height: 350px
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
+  background: $color-white-1
 .offer-item-trade-container-mobile
   height: 360px
   box-shadow: 0 1px 4px $drop-shadow1
@@ -187,7 +190,11 @@ export default {
   font-style: normal
   @include body-13-bold
   color: $color-blue-20
-
+.offer-id-text
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-13-bold
+  color: $color-black-1
 
 .offer-time
   font-family: $font-family-sf-pro-display
@@ -221,4 +228,14 @@ export default {
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-21-bold
+.view-detail-text
+  font-family: $font-family-sf-pro-display
+  font-style: $normal
+  font-weight: 500
+  @include body-13
+  line-height: 19px
+  text-decoration-line: underline
+  color: $color-blue-20
+.place-cont
+  width: 870px
 </style>

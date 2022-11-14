@@ -36,7 +36,7 @@
 
               <div class="bottom-section mt-4">
                 <div class="product-name pt-1">  {{item.inventory ? item.inventory.product.name : item.product.name}}}</div>
-                <div class="product-size "><span>Size : </span> {{item.inventory ? item.inventory.size.size : item.size.size}}}</div>
+                <div class="product-size "><span>Size : </span> {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
                 <div class="product-size "><span>Box : </span>{{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
               </div>
             </div>
