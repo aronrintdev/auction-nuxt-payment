@@ -222,8 +222,8 @@ export default {
 
       input
         &.form-control
-          background: #FFFFFF
-          border: 1px solid #E8E8E8
+          background: $color-white-1
+          border: 1px solid $color-gray-3
           border-radius: 10px
           height: 49px
 

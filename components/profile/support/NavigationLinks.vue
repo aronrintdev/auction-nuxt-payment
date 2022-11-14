@@ -10,7 +10,7 @@
             <div
                 :class="{
                 'mobile': isScreenXS,
-                'p-4': !isScreenXS
+                'p-web': !isScreenXS
               }"
                 class="border br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
             >
@@ -33,7 +33,7 @@
             <div
                 :class="{
                 'mobile': isScreenXS,
-                'p-4': !isScreenXS
+                'p-web': !isScreenXS
               }"
                 class="border br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
             >
@@ -56,7 +56,7 @@
           <div
               :class="{
               'mobile': isScreenXS,
-              'p-4': !isScreenXS
+              'p-web': !isScreenXS
             }"
               class="border br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column cursor-pointer"
               @click="openChat"
@@ -85,7 +85,7 @@
             <div
                 :class="{
                 'mobile': isScreenXS,
-                'p-4': !isScreenXS
+                'p-web': !isScreenXS
               }"
                 class="border br-10 text-center navigation-card h-100 d-flex justify-content-center align-items-center flex-column"
             >
@@ -109,10 +109,9 @@
             to="/profile/support/faqs"
           >
             <div
-                class="d-flex p-4 h-100 border br-10 align-items-center mt-lg-5 navigation-card faq"
+                class="d-flex h-100 border br-10 align-items-center mt-lg-5 navigation-card faq"
                 :class="{
                 'mobile': isScreenXS,
-                'p-4': !isScreenXS
               }"
             >
               <img class="d-block d-md-none fs-50" :src="require('assets/img/icons/faq.svg')"/>
@@ -159,10 +158,12 @@ export default {
 
 .navigation-card
   border: 0.5px solid $color-gray-4
-  padding: 19px 12px !important
+
+  &.p-web
+    padding: 19px 12px
 
   &.faq
-    padding: 5px 38px !important
+    padding: 5px 38px
 
   h2
     @include body-7-medium
@@ -178,11 +179,11 @@ export default {
 
   &.mobile
     background: $color-white-1
-    box-shadow: 0px 1px 4px rgba($color-black-1, 0.25) !important
+    box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
     border-radius: 10px
-    padding: 19px 3px !important
-    height: 165px !important
-    width: 165px !important
+    padding: 19px 3px
+    height: 165px
+    width: 165px
 
     h2
       @include body-4-bold
