@@ -4,7 +4,7 @@
       <p class="mb-3">
         {{ $t('wish_lists.no_wish_lists') }}
       </p>
- 
+
       <Button
         v-b-modal.create-list-modal
         variant="primary"
@@ -53,6 +53,7 @@
           <NavGroup
             v-model="category"
             nav-key="category"
+            class="tablist"
             :data="CATEGORIES"
             @change="handleCategoryClick"
           />
@@ -96,7 +97,7 @@
         :data="tabs"
         @change="handleTabs"
       />
-      <div class="row">
+      <div class="row wishlist-products-wrapper">
         <div class="d-flex flex-column flex-shrink-0 col-12 col-sm-3">
           <section
             v-if="wishLists.length > 0"
@@ -216,6 +217,7 @@
           <Loader v-if="loading" class="my-5" />
 
           <div v-else>
+
             <b-row v-if="listProducts.length > 0">
               <b-col
                 v-for="product in listProducts"
@@ -247,6 +249,8 @@
               </Button>
             </div>
 
+            <infinite-loading :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
+
             <div class="mt-m1">
               <div
                 v-if="action === 'remove' && listProducts.length > 0"
@@ -277,17 +281,6 @@
                   </div>
                 </Button>
               </div>
-
-              <Pagination
-                v-if="listProducts.length > 0"
-                v-model="currentPage"
-                :total="totalCount"
-                :per-page="perPage"
-                :per-page-options="[5, 10, 15, 20, 25]"
-                class="mt-2"
-                @page-click="handlePageClick"
-                @per-page-change="handlePerPageChange"
-              />
             </div>
           </div>
         </div>
@@ -307,7 +300,6 @@ import Loader from '~/components/common/Loader.vue'
 import ProductCard from '~/components/product/Card.vue'
 import CreateWishListModal from '~/components/modal/CreateWishList'
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar'
-import Pagination from '~/components/common/Pagination'
 import Thumb from '~/components/product/Thumb'
 import ShareIcon from '~/assets/icons/ShareIcon'
 export default {
@@ -321,7 +313,6 @@ export default {
     ProductCard,
     CreateWishListModal,
     BulkSelectToolbar,
-    Pagination,
     Thumb,
     ShareIcon,
   },
@@ -372,6 +363,9 @@ export default {
       loading: false,
       shareDescription: this.$t('wish_lists.share_description'),
       shareUrl: process.env.APP_URL + '/profile/wish-lists/',
+      infiniteId: +new Date(),
+      state: '',
+      url: '',
     }
   },
 
@@ -405,6 +399,10 @@ export default {
       addProductsToWishList: 'wish-list/addProductsToWishList',
     }),
 
+    handleLoading($state) {
+      this.state = $state
+      this.getWishListItems();
+    },
     handleTabs(tab) {
       this.activeTab = tab
     },
@@ -416,13 +414,13 @@ export default {
 
     // Called when user select a wishlist in the lists
     // Fetch list products and pagination details for selected wishlist
-    async selectWishList(wishList) {
+    selectWishList(wishList) {
       this.cancelAction()
       this.category = 'all'
       if (wishList) {
         this.currentWishList = wishList
         this.currentPage = 1
-        await this.getWishListItems()
+        // await this.getWishListItems()
       } else {
         this.currentWishList = null
         this.listProducts = []
@@ -523,19 +521,33 @@ export default {
     },
 
     // Fetch wishlist products and pagination information
-    async getWishListItems() {
+    getWishListItems() {
       this.loading = true
-      const res = await this.fetchWishListItems({
+      this.fetchWishListItems({
         wishList: this.currentWishList,
         page: this.currentPage,
         perPage: this.perPage,
         category: this.category !== 'all' ? this.category : null,
       })
-      this.perPage = parseInt(res.per_page)
-      this.totalCount = res.total
-      this.listProducts = res.data
-      this.loading = false
-    },
+      .then((res) => {
+        const that = this
+        if (!res.next_page_url) {
+          this.state.complete()
+        }else{
+          this.currentPage += 1
+          this.url = res.next_page_url
+        }
+        if (res.current_page === 1) {
+          this.listProducts = [...res.data]
+        } else {
+          this.listProducts = [...that.listProducts, ...res.data]
+        }
+        this.state.loaded()
+      })
+      .finally(() => {
+        this.loading = false
+      })
+  },
 
     // Called when user navigate from current page to another
     handlePageClick(bvEvent, page) {
@@ -629,4 +641,6 @@ export default {
     width: 164px
 .no-itmes
   padding-right: 300px
+.wishlist-products-wrapper
+  margin-top: 20px
 </style>

@@ -1,25 +1,21 @@
 <template>
   <div>
-    <div v-if="width <=500">
+    <div v-if="isResponsive">
       <b-row v-if="offer !== null">
         <b-col :md="isPayment ? 9 : 12">
           <div class="">
-            <div>
-              <div class="amounts-input">
-                <input type="text" class="theirs ml-2" disabled :value="$t('trades.trade_arena.theirs') + `: ${getTheirTotal()}`">
-                <input type="text" class="yours" disabled :value="$t('trades.trade_arena.yours') + `: ${getYourTotal()}`">
-              </div>
-
-            </div>
             <div class="d-flex">
-              <div class="left-side-image ml-2" :class="{'left-item-margin':lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length}">
-                <div class="item-head-trade-hub">{{ $t('trades.trade_arena.theirs') }}:</div>
+              <div class="left-side-image ml-2 mt-2" :class="{'left-item-margin':lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length}">
+                <div class="item-head-trade-hub-mobile">{{ $t('trades.trade_arena.theirs') }}</div>
                 <div v-for="(item) in lastSubmittedOffer.theirs_items"
-                     :key="item.id" class="mb-4 ml-1"
-                     :class="[((lastSubmittedOffer.theirs_items.length > ONE_ITEM )|| (lastSubmittedOffer.yours_items.length)) ? 'item-length-small' : 'item-normal-small']">
-                  <img class="item-image-small" :src="item.inventory.product | getProductImageUrl"
-                       :class="{'item-image-cond-small':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }"/>
-                  <div class="item-caption">
+                     :key="item.id" class="mb-4 ml-1 mt-2">
+                  <div class="p-2 image-small-size">
+                    <img class="item-image-small" :src="item.inventory.product | getProductImageUrl"
+                         :class="{'item-image-cond-small'
+                       :(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }"/>
+                  </div>
+
+                  <div class="item-caption-small">
                     <span class="item-name-small">{{ item.inventory.product.name }}</span>
                     <span
                       class="item-box-condition-small">Box: {{ item.inventory.packaging_condition.name }}</span>
@@ -35,17 +31,19 @@
                 <div class="long-line-small" :class="{'long-line-length-small' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>
                 <div v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" class="pointer-right-small m-2"></div>
               </div>
-              <div class="right-side-image"
+              <div class="right-side-image mt-2"
                    :class="{'right-item-margin':lastSubmittedOffer.theirs_items.length > ONE_ITEM &&
                     lastSubmittedOffer.yours_items.length === 0,'mt-10p': lastSubmittedOffer.theirs_items.length > ONE_ITEM &&
                     lastSubmittedOffer.yours_items.length === ONE_ITEM,'mt-8p': lastSubmittedOffer.theirs_items.length === ONE_ITEM
                     && lastSubmittedOffer.yours_items.length === ONE_ITEM}">
-                <div class="item-head-trade-hub">{{ $t('trades.trade_arena.yours') }}:</div>
+                <div class="item-head-trade-hub-mobile">{{ $t('trades.trade_arena.yours') }}</div>
                 <div v-if="lastSubmittedOffer.yours_items.length" >
                   <div v-for="(item) in lastSubmittedOffer.yours_items"
-                   :key="item.id" class="mb-4">
-                    <img class="item-image-small" :src="item.inventory.product | getProductImageUrl" alt="image"
-                         :class="{'item-image-cond-small':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }" />
+                   :key="item.id" class="mb-4 mt-2">
+                    <div class="p-2 image-small-size">
+                      <img class="item-image-small" :src="item.inventory.product | getProductImageUrl" alt="image"
+                           :class="{'item-image-cond-small':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }" />
+                    </div>
                     <div class="item-caption-small">
                       <span class="item-name-small">{{ item.inventory.product.name }}</span>
                       <span
@@ -73,12 +71,12 @@
                   {{ $t('trades.declined') }}
                 </b-btn>
               </div>
-              <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
+              <div class="fair-trade-division-mobile d-flex justify-content-center flex-column align-items-center">
                 <Meter :highest="getTheirTotal(false)"
                        :lowest="0"
                        :value="getYourTotal(false)"
                        :fair="getFairTradeValue()"
-                       :heading="false"
+                       heading="trades.trade_arena.fair_trade_meter"
                 />
               </div>
             </div>
@@ -210,7 +208,6 @@
       <DeclineModel v-if="lastSubmittedOffer" :offer="lastSubmittedOffer"
                     @decline="declineOffer" @close="closeDeclineModal" />
     </div>
-
   </div>
 </template>
 
@@ -220,7 +217,8 @@ import Button from '~/components/common/Button'
 import OfferHistory from '~/pages/profile/trades/dashboard/OfferHistory'
 import InitialListing from '~/pages/profile/trades/dashboard/InitialListing'
 import DeclineModel from '~/pages/profile/trades/dashboard/DeclineModel'
-  import CheckoutSidebar from '~/components/checkout/trades/ShoppingCartOrder'
+import CheckoutSidebar from '~/components/checkout/trades/ShoppingCartOrder'
+import screenSize from '~/plugins/mixins/screenSize'
 import {
   ONE_ITEM,
   TWO_ITEMS,
@@ -243,6 +241,7 @@ export default {
     Meter,
     CheckoutSidebar
   },
+  mixins: [ screenSize ],
   layout: 'Profile',
   data() {
     return {
@@ -262,6 +261,11 @@ export default {
       ACCEPT_OFFER,
       OFFER_TYPE_YOURS,
       FILTER_OFFER_STATUS_DECLINED
+    }
+  },
+  computed:{
+    isResponsive() {
+      return this.isScreenXS || this.isScreenSM
     }
   },
   mounted(){
@@ -394,7 +398,20 @@ export default {
   margin-bottom: 10px
   height: 35px
   padding-top: 15px
-
+.item-head-trade-hub-mobile
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $medium
+  font-size: 14px
+  color: $color-black-1
+  height: 35px
+  background: $color-gray-1
+  padding-top: 7px
+  padding-left: 30px
+.fair-trade-division-mobile
+  background-color: $color-white-4
+  width: 247px
+  height: 68px
 #trade-item-0
   position: absolute
   margin-left: 115%
@@ -525,12 +542,18 @@ export default {
 .item-image-small
   width: 80px
   height: 100px
+
 .item-image-cond-small
   width: 80px
   height: 100px
 .pointer-left-small
-  height: 160px
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-right: 0.5px solid $light-gray-2
+  height: 450px
   width: 100px
+  margin-right: 8px
+  margin-top: -2rem
 .item-length-small
   height: 160px
   width: 100px
@@ -566,9 +589,9 @@ export default {
   text-overflow: ellipsis
   display: block
 .left-side-image
-  height: 650px
+  height: 700px
 .right-side-image
-  height: 650px
+  height: 700px
   margin-right: 4rem
 
 .center-item-small
@@ -590,13 +613,15 @@ export default {
   border-top: 0.5px solid $light-gray-2
   border-bottom: 0.5px solid $light-gray-2
   border-left: 0.5px solid $light-gray-2
-  height: 340px
+  height: 450px
   width: 100px
   margin-right: 210px
+  margin-top: -1rem !important
 .item-caption-small
   width: 100px
-  background: $color-gray-1
   padding: 5px 10px
   font-family: $font-family-sf-pro-display
   font-style: normal
+.image-small-size
+  background: $color-gray-1
 </style>

@@ -41,15 +41,19 @@
                   />
                 </template>
                 <template #action>
-                  <b-button
-                    variant="dark"
-                    class="fs-15 fw-5 font-secondary w-100 btn-sm d-flex align-items-center justify-content-center bg-grey-73"
+                  <nuxt-link 
+                  :to="'/trades/' + product.id"
                   >
-                    <img class="btnIcon" src="~/assets/img/home/trade.svg" />
-                    <span class="ml-1">
-                      {{ $t('home_page.trade') }}
-                    </span>
-                  </b-button>
+                    <b-button
+                      variant="dark"
+                      class="fs-15 fw-5 font-secondary w-100 btn-sm d-flex align-items-center justify-content-center bg-grey-73"
+                    >
+                      <img class="btnIcon" src="~/assets/img/home/trade.svg" />
+                      <span class="ml-1">
+                        {{ $t('home_page.trade') }}
+                      </span>
+                    </b-button>
+                  </nuxt-link>
                 </template>
               </ProductCard>
             </div>
