@@ -11,8 +11,15 @@
     <!-- End of Top Title -->
 
     <ItemsList
+      v-if="shoppingCart.length"
       @item-options-clicked="handleItemOptionsClick"
     />
+
+    <b-row v-else class="empty-cart-text">
+      <b-col cols="12" sm="12">
+        <div class="text-center">{{ $t('shopping_cart.you_have_no_items') }}</div>
+      </b-col>
+    </b-row>
 
     <PromoCodeButton v-if="! isPromoCodeVisible && ! promoCode" @show-promo="isPromoCodeVisible = true" />
 
@@ -135,6 +142,9 @@ export default {
 
 <style lang="sass">
 @import '~/assets/css/_variables'
+
+.empty-cart-text
+  margin: 240px 0
 
 .btn
   &.btn-dark-blue

@@ -2566,6 +2566,7 @@
     "size": "Size",
     "color_way": "Colorway",
     "color": "Color",
+    "you_have_no_items": "You have no items in your cart",
     "box_condition": "Box Condition",
     "remove": "Remove",
     "save_for_later": "Save for later",
