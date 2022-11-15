@@ -42,6 +42,7 @@
               type="date"
               placeholder="dd/mm/yyyy"
               class="start-date-input bg-white rounded-circle"
+              required
               @input="inputStartDate($event)"
             >
             </b-form-input>
@@ -54,6 +55,7 @@
               type="date"
               placeholder="dd/mm/yyyy"
               class="start-date-input bg-white rounded-circle"
+              required
               @input="inputEndDate($event)"
             >
             </b-form-input>
@@ -240,7 +242,10 @@ export default {
       color: $color-gray-47
       content: attr(placeholder)
 
-    color: $color-white-1
+    font-family: $font-montserrat
+    font-style: normal
+    @include body-9-medium
+    color: $color-black-4
 
     &:focus, &:valid
       color: $color-gray-78
