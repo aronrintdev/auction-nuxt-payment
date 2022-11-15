@@ -1,5 +1,8 @@
 <template>
-  <b-card v-if="orderType !== giftCard && totalQuantity > 0 && purchaseStatus !== ''" class="purchase-card-wrapper card p-2 m-0">
+  <b-card
+      v-if="orderType !== giftCard && totalQuantity > 0 && purchaseStatus !== ''"
+      class="purchase-card-wrapper card p-2 m-0"
+  >
     <b-card-title>
       <!-- Order Number -->
       <span class="body-12-bold font-secondary text-capitalize mb-5">
@@ -8,15 +11,20 @@
       </span>
       <!-- ./Order Number -->
       <!-- View Order -->
-      <span class="view-order font-secondary d-flex align-items-center color-blue-20" role="button" @click="viewOrder">{{
-          $t('vendor_purchase.view_order')
-        }}</span>
+      <span
+          class="view-order font-secondary d-flex align-items-center color-link"
+          role="button"
+          @click="viewOrder"
+      >{{ $t('vendor_purchase.view_order') }}</span
+      >
       <!-- ./View Order -->
     </b-card-title>
 
     <!-- Ordered Date -->
     <b-card-text class="order-on-wrapper">
-      <span class="body-13-medium font-secondary mt-6 text-capitalize d-flex align-items-center">
+      <span
+          class="body-13-medium font-secondary mt-6 text-capitalize d-flex align-items-center"
+      >
         {{ $t('vendor_purchase.ordered_on', {orderedDate: getOrderedDate}) }}
       </span>
     </b-card-text>
@@ -31,12 +39,18 @@
               v-for="(item, indexKey) in purchase.items.slice(0, 3)"
               :key="indexKey"
           >
-            <div class="image-wrapper" :class="indexKey === 2 && balanceImage >=1 && 'bg-blur'">
+            <div
+                :class="indexKey === 2 && balanceImage >= 1 && 'bg-blur'"
+                class="image-wrapper"
+            >
               <b-img
-                  class="product-img"
                   :src="item.product.image || fallbackImage"
+                  class="product-img"
               />
-              <p v-if="indexKey === 2 && balanceImage >=1" class="overlap-text">
+              <p
+                  v-if="indexKey === 2 && balanceImage >= 1"
+                  class="overlap-text"
+              >
                 &#x002B;{{ balanceImage }}
               </p>
             </div>
@@ -76,17 +90,29 @@
           <!-- Status Button -->
           <Button
               v-if="ORDERS_HAS_ITEMS.includes(orderType)"
+              :class="{ [purchaseBtnClass]: purchaseBtnClass }"
               :variant="purchaseStatus"
               class="m-auto body-13-normal font-secondary text-capitalize text-center status-button d-flex"
-              :class="{[purchaseBtnClass]: purchaseBtnClass}"
           >
-            {{$t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) }}
+            {{
+              $t(
+                  `vendor_purchase.orderstatus.${purchaseStatus
+                      .split(' ')
+                      .join('_')}`
+              )
+            }}
           </Button>
           <div
             v-if="orderType === giftCard"
             :class="`${purchaseStatus}-status text-uppercase d-flex giftcard-status`"
           >
-            {{ $t(`vendor_purchase.orderstatus.${purchaseStatus.split(' ').join('_')}`) }}
+            {{
+              $t(
+                  `vendor_purchase.orderstatus.${purchaseStatus
+                      .split(' ')
+                      .join('_')}`
+              )
+            }}
           </div>
         </b-col>
       </b-row>
@@ -104,7 +130,8 @@ import {
   PRODUCT_IMG_WIDTH,
   IMAGE_COUNT,
   BUY,
-  SELL, ORDERS_HAS_ITEMS
+  SELL,
+  ORDERS_HAS_ITEMS,
 } from '~/static/constants'
 export default {
   name: 'PurchaseHistoryCard',
@@ -129,7 +156,7 @@ export default {
       imageCount: IMAGE_COUNT,
       buy: BUY,
       sell: SELL,
-      ORDERS_HAS_ITEMS
+      ORDERS_HAS_ITEMS,
     }
   },
 
@@ -175,7 +202,9 @@ export default {
     },
     // Status Class
     purchaseBtnClass: (vm) => {
-      return (vm.purchase.items.length > 1) ? 'item-status-multiple' : 'item-status-'+vm.purchase.items[0].status;
+      return vm.purchase.items.length > 1
+          ? 'item-status-multiple'
+          : 'item-status-' + vm.purchase.items[0].status
     },
   },
 
@@ -193,6 +222,9 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.color-link
+  color: $color-blue-1
+
 .mt-6
   margin-top: 6px
 
@@ -271,7 +303,6 @@ button.status-button
   font-style: normal
   align-items: center
   text-decoration-line: underline
-  color: $color-blue-20
   float: right
   font-weight: $normal
 .card-body

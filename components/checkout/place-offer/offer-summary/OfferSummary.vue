@@ -5,13 +5,15 @@
       back-link
       :title="$t('place_offer.offer_summary')"
     />
-    
+
     <OfferSummaryCard
       :items="getItems"
     />
 
+    <PromoCodeButton v-if="! isPromoCodeVisible && ! promoCode" @show-promo="isPromoCodeVisible = true" />
+
     <!-- Offer Summary Promo Code -->
-    <b-row v-if="!promoCode">
+    <b-row v-if="isPromoCodeVisible && !promoCode">
       <b-col md="12">
         <div class="body-4-medium">
           {{ $t('shopping_cart.promo_code') }}&colon;
@@ -19,7 +21,7 @@
       </b-col>
     </b-row>
     <PromoCodeInput
-      v-if="!promoCode"
+      v-if="isPromoCodeVisible && !promoCode"
       class="mt-2"
     />
     <!-- End of Offer Summary Promo Code -->
@@ -144,6 +146,7 @@ import { mapGetters, mapActions } from 'vuex'
 import OfferSummaryCard from './OfferSummaryCard.vue'
 import emitEvent from '~/plugins/mixins/emit-event'
 import OrderTitle from '~/components/checkout/common/OrderTitle'
+import PromoCodeButton from '~/components/checkout/common/PromoCodeButton'
 import PromoCodeInput from '~/components/checkout/common/PromoCodeInput'
 import AddressCard from '~/components/checkout/common/AddressCard'
 import PaymentCardDetailsCard from '~/components/checkout/common/PaymentCardDetailsCard'
@@ -155,6 +158,7 @@ export default {
   components: {
     OrderTitle,
     OfferSummaryCard,
+    PromoCodeButton,
     PromoCodeInput,
     AddressCard,
     PaymentCardDetailsCard,
@@ -166,6 +170,7 @@ export default {
   data() {
     return {
       message: null,
+      isPromoCodeVisible: false,
       loading: false,
       isCard: PAYMENT_METHOD_TYPE_CARD,
       form: {
@@ -211,12 +216,12 @@ export default {
     getBillingAddress: (vm) => {
       return `${vm.billingAddress.addressLine}, ${vm.billingAddress.city}, ${vm.billingAddress.country}, ${vm.billingAddress.zipCode}`
     },
-    
+
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getShippingFullName: (vm) => {
       return `${vm.shippingAddress.firstName} ${vm.shippingAddress.lastName}`
     },
-    
+
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     getShippingAddress: (vm) => {
       return `${vm.shippingAddress.addressLine}, ${vm.shippingAddress.city}, ${vm.shippingAddress.country}, ${vm.shippingAddress.zipCode}`

@@ -2,7 +2,7 @@
   <b-col cols="12" sm="12">
     <!-- Top Title -->
     <ShoppingBagTitle
-      :title="$t('shopping_cart.shopping_bag')"
+      :title="$t('shopping_cart.shopping_cart')"
       :additional-title="additionalTitle"
       back-link
       text-center
@@ -11,10 +11,19 @@
     <!-- End of Top Title -->
 
     <ItemsList
+      v-if="shoppingCart.length"
       @item-options-clicked="handleItemOptionsClick"
     />
 
-    <PromoCodeInput v-if="!promoCode" @click="applyPromoCode">
+    <b-row v-else class="empty-cart-text">
+      <b-col cols="12" sm="12">
+        <div class="text-center">{{ $t('shopping_cart.you_have_no_items') }}</div>
+      </b-col>
+    </b-row>
+
+    <PromoCodeButton v-if="! isPromoCodeVisible && ! promoCode" @show-promo="isPromoCodeVisible = true" />
+
+    <PromoCodeInput v-if="isPromoCodeVisible && !promoCode" @click="applyPromoCode">
       <template #label>
         <div class="section-title body-5-medium">{{ $t('shopping_cart.promo_code') }}&colon;</div>
       </template>
@@ -66,6 +75,7 @@ import emitEventMixin from '~/plugins/mixins/emit-event'
 import orderDetailsMixin from '~/plugins/mixins/order-details'
 import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTitle'
 import ItemsList from '~/components/checkout/selling/mobile/ItemsList'
+import PromoCodeButton from '~/components/checkout/common/PromoCodeButton'
 import PromoCodeInput from '~/components/checkout/common/PromoCodeInput'
 import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
 import ShoppingBagOrder from '~/components/checkout/selling/mobile/ShoppingBagOrder'
@@ -74,12 +84,13 @@ import { BAD_REQUEST, NOT_FOUND } from '~/static/constants'
 
 export default {
   name: 'ShoppingBag',
-  components: { ShoppingBagTitle, ItemsList, PromoCodeInput, OrderSummaryCard, Button, ShoppingBagOrder },
+  components: { ShoppingBagTitle, ItemsList, PromoCodeButton, PromoCodeInput, OrderSummaryCard, Button, ShoppingBagOrder },
   mixins: [ emitEventMixin, orderDetailsMixin ],
   data() {
     return {
       bottomSheetMaxWidth: '640px',
       bottomSheetMaxHeight: '95%',
+      isPromoCodeVisible: false,
     }
   },
   computed: {
@@ -131,6 +142,9 @@ export default {
 
 <style lang="sass">
 @import '~/assets/css/_variables'
+
+.empty-cart-text
+  margin: 240px 0
 
 .btn
   &.btn-dark-blue

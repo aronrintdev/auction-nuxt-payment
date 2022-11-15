@@ -3,7 +3,7 @@ import webpack from 'webpack'
 
 export default defineNuxtConfig({
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: true,
+  // ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {

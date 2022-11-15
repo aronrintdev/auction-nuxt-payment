@@ -28,13 +28,15 @@
           >
             <span>{{ slide.heading }}</span>
           </h1>
-          <b-button
-            variant="outline-light"
-            squared
-            class="py-2 px-md-5 fs-20 fw-6 font-primary d-flex align-items-center justify-content-center"
-          >
-            {{ slide.btnLabel }}</b-button
-          >
+          <nuxt-link to="/shop">
+            <b-button
+              variant="outline-light"
+              squared
+              class="py-2 px-md-5 fs-20 fw-6 font-primary d-flex align-items-center justify-content-center"
+            >
+              {{ slide.btnLabel }}
+            </b-button>
+          </nuxt-link>
         </div>
       </div>
     </Carousel>

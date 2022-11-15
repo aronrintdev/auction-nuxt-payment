@@ -4,7 +4,7 @@
       :title="$t('home_page.price_trends')"
       :desc="$t('home_page.trade_desc')"
       :label="$t('home_page.view_price_trends')"
-      to="#"
+      to="/stock/exchange/trending"
     />
     <div class="banner-wrapper">
       <div class="banner">
@@ -76,6 +76,7 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
 .banner-wrapper
   margin-top: 33px
   margin-bottom: 28px
@@ -98,4 +99,6 @@ export default {
     h1
       font-size: 15px
       letter-spacing: 0.26em
+.header-text
+  color: $color-black-1
 </style>

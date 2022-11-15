@@ -13,9 +13,9 @@
               <div class="item-name align-items-center mt-2">
                 {{item.inventory ? item.inventory.product.name : item.product.name}}
               </div>
-              <div class="offer-item-text-small">Box : {{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
+              <div class="offer-item-text-small">{{$t('common.box')}} : {{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
               <div class="offer-item-text-small">{{item.inventory ? item.inventory.product.colorway : item.product.colorway}}</div>
-              <div class="offer-item-text-small">Size {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
+              <div class="offer-item-text-small">{{$tc('common.size')}} {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
             </div>
 
           </div>
@@ -36,8 +36,8 @@
 
               <div class="bottom-section mt-4">
                 <div class="product-name pt-1">  {{item.inventory ? item.inventory.product.name : item.product.name}}}</div>
-                <div class="product-size "><span>Size : </span> {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
-                <div class="product-size "><span>Box : </span>{{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
+                <div class="product-size "><span>{{ $tc('common.size') }} : </span> {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
+                <div class="product-size "><span>{{$t('common.box')}} : </span>{{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
               </div>
             </div>
 
