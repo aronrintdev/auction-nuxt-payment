@@ -5,7 +5,6 @@ export async function fetchFilters({ commit }) {
 }
 export async function fetchSizesByType({ commit },type) {
   return await this.$axios.get('/sizes-by-type/'+type).then((res) => {
-    console.log('size type response',res.data.data)
     return commit('setSizesByType', res.data.data)
   })
 }
