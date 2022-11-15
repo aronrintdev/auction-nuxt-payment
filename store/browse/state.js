@@ -9,5 +9,6 @@ export default function () {
     selectedSort: null,
     selectedOrdering: true,
     search: null,
+    sizes:[],
   }
 }

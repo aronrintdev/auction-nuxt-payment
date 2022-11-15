@@ -23,7 +23,7 @@
                 {{ product.name }}
               </span>
             </div>
-            <div class="col-sm-4 px-0">
+            <div :class="addBtnClass" class="add-product col-sm-4 px-0">
               <span
                 v-if="productsFor === tradeItem || productsFor === counterOffer"
                 class="cursor-pointer"
@@ -159,6 +159,10 @@ export default {
     suggestNewStyle: {
       type: Object,
       default: () => {}
+    },
+    addBtnClass: {
+      type: String,
+      default: ''
     }
   },
   data(){
@@ -228,6 +232,16 @@ export default {
 @import '~/assets/css/_typography'
 @import '~/assets/css/_variables'
 
+.counter-wrapper::v-deep
+  .list-group-item
+    border-bottom: 1px solid $color-gray-23
+
+.width-responsive
+  left: 0
+  right: 0
+  z-index: 1
+  width: auto
+
 .searched-item-row
   font-weight: $normal
   z-index: 100000
@@ -253,6 +267,7 @@ export default {
   @media (min-width: 576px)
     @include body-4-regular
     font-family: $font-family-montserrat
+    border-radius: 0
     border-bottom-left-radius: 8px
     border-bottom-right-radius: 8px
     height: 60px

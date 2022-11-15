@@ -645,5 +645,8 @@ export default {
   &.white-text {
     color: $color-white-1;
   }
+  &.text-blue-32 {
+    color: $color-blue-32 
+  }
 }
 </style>

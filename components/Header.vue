@@ -126,18 +126,6 @@
         </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
-    <client-only>
-      <vue-bottom-sheet
-        v-if="isScreenXS"
-        ref="searchBottomSheet"
-        :is-full-screen="true"
-        :rounded="false"
-        max-height="100%"
-        max-width="auto"
-      >
-        <SearchOverlayMobile ref="searchbar" @close="close" />
-      </vue-bottom-sheet>
-    </client-only>
 
     <SideBarMenu
       :user="user"
@@ -212,7 +200,6 @@ import SearchOverlay from '~/components/search/Overlay'
 import NotificationDropdown from '~/components/header/NotificationDropdown'
 import ScreenSize from '~/plugins/mixins/screenSize'
 import Dropdown from '~/components/common/form/Dropdown'
-import SearchOverlayMobile from '~/components/SearchOverlayMobile'
 
 export default {
   name: 'Header',
@@ -224,7 +211,6 @@ export default {
     SearchInput,
     SearchOverlay,
     Dropdown,
-    SearchOverlayMobile,
   },
   mixins: [ScreenSize],
   data() {
@@ -296,12 +282,6 @@ export default {
           path: '/profile/notification',
         })
       }
-    },
-    open() {
-      this.$refs.searchBottomSheet.open()
-    },
-    close() {
-      this.$refs.searchBottomSheet.close()
     },
     setLocale(lang) {
       this.$refs.locale.hideDropdown()

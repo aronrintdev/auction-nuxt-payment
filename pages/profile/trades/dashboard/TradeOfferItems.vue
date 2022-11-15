@@ -378,7 +378,7 @@ export default {
 
 .decline-button
   @include body-8-medium
-  background: #F6F6F8
+  background: $color-white-29
   color: $color-blue-32
   height: 38px
   border-radius: .25rem

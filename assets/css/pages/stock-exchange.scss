@@ -128,8 +128,7 @@
     height: 17px;
     padding-left: 20px;
   }
-}
-.dropdown-sort {
+  .dropdown-sort {
   .btn-dropdown {
     color: $color-black-1 !important;
     border: 1px solid transparent !important;
@@ -170,6 +169,8 @@
     }
   }
 }
+}
+
 .filter-row {
   .filter-badge {
     background: $color-blue-24;
