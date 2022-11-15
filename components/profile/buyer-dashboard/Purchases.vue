@@ -2,7 +2,7 @@
   <div :class="{
     'mb-2': !isScreenXS
   }">
-    <div class="row mt-2 mb-2 my-sm-5">
+    <div class="row mt-2 mb-2 my-sm-3">
       <div class="col-6 col-md-3">
         <h1 :class="{
           'body-5-medium font-primary': isScreenXS
