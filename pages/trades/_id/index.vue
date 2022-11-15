@@ -77,7 +77,6 @@
         </div>
         <div class="center-container" :class="{'center-cont-height':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_ONE) , 'center-container-margin': isPayment, 'mt-5': isExpire, 'pt-5': isExpire }">
           <div class="left-item" :class="{'left-item-margin':trade.offers.length == ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_ONE}">
-<!--            <div class="item-head" :class="{'heading-left': trade.offers.length > ITEM_COUNT_ONE}">{{$t('trades.trade_arena.theirs')}}</div>-->
             <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'item-'+index : ''" :key="index" class="item" :class="[((trade.offers.length > ITEM_COUNT_ONE )|| (getYourTradeItems.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
               <div class="image-wrapper position-relative">
               <img class="item-image" :src="item.inventory.product | getProductImageUrl" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
@@ -99,7 +98,6 @@
             <div v-if="getYourTradeItems.length > ITEM_COUNT_ONE" class="pointer-right"></div>
           </div>
           <div class="right-item" :class="{'right-item-margin':trade.offers.length > ITEM_COUNT_ONE && (getYourTradeItems.length === ITEM_COUNT_0 || getYourTradeItems.length === ITEM_COUNT_ONE)}">
-<!--            <div class="item-head" :class="{'heading-right': getYourTradeItems.length > ITEM_COUNT_0}">{{$t('trades.trade_arena.yours')}}</div>-->
             <div  v-if="getYourTradeItems.length" class="">
               <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_TWO ?'your-item-'+index : 'your-item'" :key="index" class="preview item-length mb-4" :class="{'yml': isPayment && getYourTradeItems.length > ITEM_COUNT_TWO}">
                 <div class="remove-item" @click="decrementOrRemoveItem(item)">
@@ -130,12 +128,6 @@
             <span class="fair-trade-label"></span>
             <Meter :fair="getFairTradeValue()" heading="trades.trade_arena.fair_trade_meter" :highest="theirTotal(false)" :lowest="0" :value="yourTotal(false)"/>
           </div>
-<!--          <div>-->
-<!--            <div class="amounts-input">-->
-<!--              <input type="text"  class="theirs" disabled :value="`${$t('trades.trade_arena.theirs')}: ${theirTotal()}`">-->
-<!--              <input type="text"  class="yours" disabled :value="`${$t('trades.trade_arena.yours')}: ${yourTotal()}`">-->
-<!--            </div>-->
-<!--          </div>-->
           <span v-if="!cash_added && !isExpire" class="optional-text"><span :class="{'active': addCash}" @click="setCashType(addCashType)">{{$t('trades.add_cash')}}</span><span class="ml-4" :class="{'active': !addCash}" @click="setCashType(requestCashType)">{{$t('trades.request_cash')}}</span></span>
           <div v-if="!cash_added && !isExpire" class="optional-input d-flex">
             <div class="position-relative">
