@@ -8,12 +8,12 @@
     </div>
   </div>
   <div v-else>
-    <b-col class="initial-listing">
+    <div class="initial-listing-web">
       <b-row class="justify-content-center listing-heading pt-4">{{$t('trades.initial_listing')}}</b-row>
       <b-row class="justify-content-center mt-3">
         <offer-items v-if="initialWantsItems && initialWantsItems.length > 0" :offerItems="initialWantsItems" :heading="$t('trades.your_listed_items')"/>
       </b-row>
-    </b-col>
+    </div>
   </div>
 
 </template>
@@ -64,7 +64,12 @@ export default {
   border-radius: 10px
   height: 323px
   width: 350px
-
+.initial-listing-web
+  background: $color-white-1
+  box-shadow: 0 1px 4px $drop-shadow1
+  border-radius: 10px
+  height: 356px
+  width: 685px
 .listing-heading
   font-family: $font-family-sf-pro-display
   font-style: normal

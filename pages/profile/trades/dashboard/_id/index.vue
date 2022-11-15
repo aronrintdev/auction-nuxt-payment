@@ -201,9 +201,9 @@
           <b-row class="justify-content-center pt-3 pb-3">
             <hr class="center-line">
           </b-row>
-          <b-row class="ml-3 mr-3 mb-4 mt-4">
+          <div class="d-flex justify-content-center align-items-center mb-5">
             <initial-listing :initialWantsItems="offer.trade.wants" />
-          </b-row>
+          </div>
         </b-col>
         <CheckoutSidebar v-if="isPayment" class="order-summary" />
       </b-row>
@@ -440,6 +440,7 @@ export default {
   background: $color-white-1
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
+  height: 700px
 
 .offer-id-head
   font-family: $font-family-sf-pro-display
