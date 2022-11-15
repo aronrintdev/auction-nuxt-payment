@@ -1,6 +1,6 @@
 <template>
   <div v-if="activeAuction" class="container-fluid overflow auction-details px-3 pt-3 p-md-4">
-    <div class="d-none d-md-flex align-items-center justify-content-between mb-4 auction-header">
+    <div v-if="!isMobileSize" class="d-md-flex align-items-center justify-content-between mb-4 auction-header">
       <div>
         <b-breadcrumb :items="breadcrumbItems" class="mb-1"></b-breadcrumb>
         <div class="auctioner-rating">{{ $t('auctions.frontpage.auctioneer_rating') }}:<span class="ml-4">97%</span></div> <!-- todo -->
@@ -8,12 +8,13 @@
     </div>
     <!-- [mobile] time remaining block -->
     <mobile-time-remaining
+      v-if="isMobileSize"
       :is-expired="isExpired"
       :is-scheduled="isScheduled"
       :is-sold="isSold"
       :end-at="activeAuction.end_date"
     />
-    <div v-if="activeAuction.auction_items && activeAuction.auction_items.length > 0" class="d-none d-md-flex auction-content">
+    <div v-if="activeAuction.auction_items && activeAuction.auction_items.length > 0 && !isMobileSize" class="d-md-flex auction-content">
       <div class="auction-content-main d-block">
         <!-- 360 image viewer -->
         <ProductImageViewerMagic360 v-if="activeAuction.auction_items[currentItemIdx].inventory.product.has360Images" :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
@@ -100,9 +101,9 @@
           <div class="bid-details-price">
             <div class="text-uppercase mb-1">{{ $t('auctions.frontpage.current_bid') }}:</div>
             <div class="bid-details-price-value">${{ activeAuction.highest_bid || activeAuction.start_bid_price | formatPrice }}</div>
-            <div v-if="activeAuction.estimated_low_price" class="bid-details-price-estimate text-capitalize">
+            <div class="bid-details-price-estimate text-capitalize">
               <span>({{ $t('auctions.frontpage.estimated_value') }}: </span>
-              <span>${{ activeAuction.estimated_low_price | formatPrice }} - {{ activeAuction.high_price | formatPrice }})</span>
+              <span>${{ estimatedLowPrice | formatPrice }} - ${{ estimatedHighPrice | formatPrice }})</span>
             </div>
           </div>
           <!-- Quickc bid -->
@@ -173,7 +174,7 @@
         </div>
       </div>
     </div>
-    <div v-if="activeAuction.auction_items && activeAuction.auction_items.length > 0" class="d-md-none">
+    <div v-if="activeAuction.auction_items && activeAuction.auction_items.length > 0 && isMobileSize">
       <div>
         <!-- 360 image viewer -->
         <ProductImageViewerMagic360 v-if="activeAuction.auction_items[currentItemIdx].inventory.product.has360Images" :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
@@ -242,7 +243,7 @@
         <div class="mt-3 auction-details-content">
           <div class="mt-2 d-flex align-items-center justify-content-between">
             <span>{{ $t('auctions.frontpage.estimated_value') }}</span>
-            <span>${{ activeAuction.estimated_low_price | formatPrice }} - {{ activeAuction.high_price | formatPrice }}</span>
+            <span>${{ estimatedLowPrice | formatPrice }} - ${{ estimatedHighPrice | formatPrice }}</span>
           </div>
           <div class="mt-2 d-flex align-items-center justify-content-between">
             <span>{{ $t('auctions.frontpage.number_of_bids') }}</span>
@@ -354,7 +355,7 @@
       </div>
     </div>
     <!-- Auction Details  -->
-    <div class="d-none d-md-block auctions-block auction-details">
+    <div v-if="!isMobileSize" class="d-md-block auctions-block auction-details">
       <div class="auction-details-title">
         {{ $t('auctions.frontpage.auction_details_title') }}
       </div>
@@ -373,7 +374,7 @@
         @showAll="showAllAuctions"
       ></product-slider>
     </div>
-    <div v-if="activeAuction.auction_items && activeAuction.auction_items[currentItemIdx]" class="mt-5 d-none d-md-block auctions-block product-details">
+    <div v-if="activeAuction.auction_items && activeAuction.auction_items[currentItemIdx] && !isMobileSize" class="mt-5 d-md-block auctions-block product-details">
       <b-tabs pills class="product-details-tabs">
         <b-tab title="Product Details" active>
             <b-row class="mb-1">
@@ -567,7 +568,7 @@
         :description="''"
       />
     </b-popover>
-    <vue-bottom-sheet ref="quickBidModalSheet">
+    <vue-bottom-sheet v-if="isMobileSize" ref="quickBidModalSheet">
       <div class="d-flex flex-column h-100 filters-sheet">
         <div class="flex-shrink-1 overflow-auto text-center filters-sheet-content quick-bid-sheet">
           <h5 class="mb-2 w-100">{{ modalData.title }}</h5>
@@ -584,7 +585,7 @@
         </div>
       </div>
     </vue-bottom-sheet>
-    <vue-bottom-sheet ref="placeBidModalSheet">
+    <vue-bottom-sheet v-if="isMobileSize" ref="placeBidModalSheet">
       <div class="d-flex flex-column h-100 filters-sheet">
         <div class="flex-shrink-1 overflow-auto text-center filters-sheet-content quick-bid-sheet">
           <h5 class="mb-2 w-100">{{ modalData.title }}</h5>
@@ -602,7 +603,7 @@
       </div>
     </vue-bottom-sheet>
     <!-- AutoBid Modal Sheet -->
-    <vue-bottom-sheet ref="autoBidModalSheet">
+    <vue-bottom-sheet v-if="isMobileSize" ref="autoBidModalSheet">
       <div class="d-flex flex-column h-100 filters-sheet">
         <div class="flex-shrink-1 overflow-auto text-center filters-sheet-content quick-bid-sheet">
           <h5 class="mt-3 mb-4 mx-auto w-75">{{ $t('auctions.frontpage.enable_auto_bid_confirm_text') }}</h5>
@@ -717,9 +718,9 @@
         </table>
       </div>
     </b-modal>
-    <WatchlistBottomSheet :auction="activeAuction" :open="watchlistSheetVisible" @watchlisted="onWatchlisted" @close="watchlistSheetVisible=false" />
+    <WatchlistBottomSheet v-if="isMobileSize" :auction="activeAuction" :open="watchlistSheetVisible" @watchlisted="onWatchlisted" @close="watchlistSheetVisible=false" />
     <!-- PlaceBid Desc Sheet -->
-    <vue-bottom-sheet ref="quickBidDescSheet" max-height="70%">
+    <vue-bottom-sheet v-if="isMobileSize" ref="quickBidDescSheet" max-height="70%">
       <div class="d-flex flex-column h-100 filters-sheet">
         <div class="filters-sheet-title text-center">{{ $t('auctions.frontpage.quick_bid') }}</div>
         <div class="flex-shrink-1 overflow-auto filters-sheet-content quick-bid-desc-sheet">
@@ -731,7 +732,7 @@
       </div>
     </vue-bottom-sheet>
     <!-- AutoBid Desc Sheet -->
-    <vue-bottom-sheet ref="autoBidDescSheet" max-height="70%">
+    <vue-bottom-sheet v-if="isMobileSize" ref="autoBidDescSheet" max-height="70%">
       <div class="d-flex flex-column h-100 filters-sheet">
         <div class="filters-sheet-title text-center">{{ $t('auctions.frontpage.auto_bid') }}</div>
         <div class="flex-shrink-1 overflow-auto filters-sheet-content quick-bid-desc-sheet">
@@ -769,6 +770,7 @@ import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360
 import BottomSheetOpener from '~/components/Auctions/BottomSheetOpener'
 import CollectionItemsSlider from '~/components/Auctions/CollectionItemsSlider'
 import WatchlistBottomSheet from '~/components/Auctions/WatchlistBottomSheet'
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'AuctionDetailsPage',
@@ -792,6 +794,7 @@ export default {
     CollectionItemsSlider,
     WatchlistBottomSheet,
   },
+  mixins: [screenSize],
   layout: 'IndexLayout',
   data() {
     return {
@@ -841,13 +844,19 @@ export default {
       activeAuction: 'auction/activeAuction',
     }),
     isMobileSize() {
-      return window.innerWidth < 576
+      return this.isScreenXS || this.isScreenSM
     },
     isScheduled() {
       return this.activeAuction.status === SCHEDULED_STATUS
     },
     isSold() {
       return this.activeAuction.status === COMPLETED_STATUS
+    },
+    estimatedLowPrice() {
+      return this.activeAuction ? Math.ceil(this.activeAuction.start_bid_price / 1000) * 1000 : 0
+    },
+    estimatedHighPrice() {
+      return this.activeAuction ? Math.ceil(this.activeAuction.start_bid_price * 1.84 / 1000) * 1000 : 0
     }
   },
   watch: {
