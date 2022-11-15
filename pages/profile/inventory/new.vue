@@ -1,43 +1,35 @@
 <template>
-  <b-container fluid class="container-profile-inventory-new h-100">
+  <b-container fluid class="w h-100" :class=" !isScreenXS ? 'container-profile-inventory-new' : 'p-4'">
     <div v-if="loading"><Loader /></div>
     <div v-else-if="product">
-      <Button to="/profile/inventory/search" variant="link" class="btn-back">
-        <img
-          :src="require('~/assets/img/icons/arrow-left-gray.svg')"
-          :alt="$t('common.back')"
-          class="mr-2"
+      <ProductView :product="product" v-model="form" @back="$router.push('/profile/inventory/search')">
+        <InventoryNewForm class="mb-sm-4"
+          slot="right-content"
+          v-model="form"
+          :is-form-valid="isFormValid"
+          @submit="handleAddInventory"
         />
-        {{ $t('inventory.back_to_search') }}
-      </Button>
-
-      <InventoryNewForm v-model="form" :product="product" />
-
-      <div class="mt-5 mx-auto d-flex justify-content-center">
-        <Button
-          variant="outline-primary"
-          pill
-          :disabled="!isFormValid"
-          @click="handleAddInventory"
-          >{{ $t('inventory.add_inventory') }}</Button
-        >
-      </div>
+      </ProductView>
     </div>
   </b-container>
 </template>
 <script>
 import { mapActions } from 'vuex'
-import { Button, Loader } from '~/components/common'
+import { Loader } from '~/components/common'
 import InventoryNewForm from '~/components/inventory/NewForm'
+import ProductView from '~/components/profile/create-listing/product/ProductView'
+import screenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'ProfileInventoryNew',
 
   components: {
-    Button,
     Loader,
     InventoryNewForm,
+    ProductView
   },
+
+  mixins: [screenSize],
 
   layout: 'Profile',
 
@@ -48,10 +40,10 @@ export default {
       loading: false,
       product: null,
       form: {
-        sizeId: null,
+        currentSize: null,
         quantity: null,
         price: null,
-        packagingConditionId: null,
+        boxCondition: null,
       },
     }
   },
@@ -69,10 +61,10 @@ export default {
   computed: {
     isFormValid() {
       return (
-        this.form.sizeId &&
+        this.form.currentSize &&
         this.form.quantity &&
         this.form.price &&
-        this.form.packagingConditionId &&
+        this.form.boxCondition &&
         this.form.quantity > 0 &&
         this.form.quantity < 51 &&
         this.form.price > 50
@@ -88,10 +80,10 @@ export default {
     handleAddInventory() {
       this.addInventory({
         product: this.product,
-        sizeId: Number(this.form.sizeId),
+        sizeId: Number(this.form.currentSize),
         quantity: Number(this.form.quantity),
         price: Number(this.form.price) * 100,
-        packagingConditionId: Number(this.form.packagingConditionId),
+        packagingConditionId: Number(this.form.boxCondition),
       })
       this.$router.push('/profile/inventory/confirm')
     },
@@ -100,7 +92,6 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .container-profile-inventory-new
   padding: 47px 54px
   background-color: $color-white-5

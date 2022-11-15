@@ -1,16 +1,8 @@
 <template>
-  <div class="create-listing-form-wrapper">
-    <span
-      v-if="!isScreenXS"
-      role="button"
-      class="backToSearch body-13"
-      @click="backToSearch"
-    >
-      <img
-        :src="require('~/assets/img/icons/arrow-left-gray.svg')"
-        class="img-fluid"
-      />
-      {{ $t('common.back_to_search') }}
+  <div class="profile-view">
+    <span v-if="!isScreenXS" role="button" class="backToSearch body-13" @click="$emit('back')">
+      <img :src="require('~/assets/img/icons/arrow-left-gray.svg')" class="img-fluid"/>
+      {{ $t(backButtonText) }}
     </span>
 
     <b-row>
@@ -120,19 +112,6 @@
 
         <!-- SizePicker -->
         <div class="mt-2 mx-auto section-product-size">
-          <!--
-          <div
-            class="d-flex align-items-end product-size-details"
-          >
-            <div class="mr-2 form-item-title">{{ $tc('common.size', 1) }}*</div>
-            <div class="form-item-desc">
-              ({{ $t('inventory.suggested_value_displayed') }})
-            </div>
-            <span class="error-msg form-item-desc">{{
-                value.currentSize ? '' : $t('createlisting.please_select_a_size')
-              }}</span>
-          </div>
-          -->
 
           <!-- SizePicker -->
           <SizeCarouselResponsive
@@ -172,316 +151,8 @@
         </div>
         <!-- Box Condition Section Responsive ends -->
 
+        <slot name="right-content"></slot>
 
-        <!-- Inputs -->
-        <div v-if="!isScreenXS" class="row section-form-fields m-auto mt-5">
-          <!-- In case of Accessories / Apparel - Min Offer Amount -->
-          <div
-            v-if="
-          ['apparel', 'accessories'].includes(
-            product.category.name.toLowerCase()
-          )
-        "
-            class="col-md-6 col-xs-12 input-col"
-            :class="
-          value.minOfferAmount !== null &&
-          value.minOfferAmount <= minOfferMinVal &&
-          'error'
-        "
-          >
-            <FormInput
-              :value="value.minOfferAmount"
-              :placeholder="$t('createlisting.enter_min_offer_amount')"
-              :label="$t('createlisting.min_offer_amount')"
-              class="input-error"
-              prefix="$"
-              required
-              integer
-              @input="handleMinOfferPriceChange"
-            />
-            <div class="error-text mt-1">
-              {{
-                value.minOfferAmount === null ||
-                $t('inventory.message.gt_than', {
-                  field: $t('common.price').toLowerCase(),
-                  amount: minOfferMinVal,
-                })
-              }}
-            </div>
-          </div>
-          <!-- ./MinOffer Amount -->
-
-          <div v-if="!['apparel', 'accessories'].includes(product.category.name.toLowerCase())"
-               class="mt-3 col-md-6 col-xs-12 input-col"
-               :class="
-          value.minOfferAmount !== null &&
-          value.minOfferAmount <= minOfferMinVal &&
-          'error'
-        "
-          >
-            <FormInput
-              :value="value.minOfferAmount"
-              :placeholder="$t('createlisting.enter_min_offer_amount')"
-              :label="$t('createlisting.min_offer_amount')"
-              class="input-error"
-              prefix="$"
-              required
-              integer
-              @input="handleMinOfferPriceChange"
-            />
-            <div class="error-text mt-1">
-              {{
-                value.minOfferAmount === null ||
-                $t('inventory.message.gt_than', {
-                  field: $t('common.price').toLowerCase(),
-                  amount: minOfferMinVal,
-                })
-              }}
-            </div>
-          </div>
-
-          <!-- Quantity -->
-          <div
-            class="mt-3 col-md-6 col-xs-12 input-col"
-            :class="
-          (value.quantity < quantityMinVal ||
-            value.quantity > quantityMaxVal) &&
-          'error'
-        "
-          >
-            <FormInput
-              :value="value.quantity"
-              :placeholder="$t('inventory.enter_quantity')"
-              :label="$t('common.quantity')"
-              class="input-error"
-              required
-              integer
-              @input="handleQuantityChange"
-            />
-            <div class="error-text mt-1">
-              {{
-                (quantityMinVal > value.quantity ||
-                  value.quantity > quantityMaxVal) &&
-                $t('inventory.message.between', {
-                  field: $t('common.quantity').toLowerCase(),
-                  min: quantityMinVal,
-                  max: quantityMaxVal,
-                })
-              }}
-            </div>
-          </div>
-          <!-- End of Quantity -->
-
-          <!-- Price -->
-          <div
-            class="mt-3 col-12 input-col"
-            :class="value.price !== null && value.price <= priceMinVal && 'error'"
-          >
-            <FormInput
-              :value="value.price"
-              :placeholder="$t('create_listing.your_listing_price_placeholder')"
-              :label="$t('create_listing.your_listing_price')"
-              prefix="$"
-              class="input-error"
-              required
-              number
-              @input="handlePriceChange"
-            />
-            <div class="error-text mt-1">
-              {{
-                value.price > priceMinVal ||
-                $t('inventory.message.gt_than', {
-                  field: $t('common.price').toLowerCase(),
-                  amount: priceMinVal,
-                })
-              }}
-            </div>
-          </div>
-          <!-- End of Price -->
-
-          <template v-if="typeof action === 'string' && action === 'add'">
-            <div
-              v-if="
-            !['apparel', 'accessories'].includes(
-              product.category.name.toLowerCase()
-            )
-          "
-              class="col-12 text-center mt-3 input-col"
-            >
-              <Button
-                variant="dark"
-                class="mt-3 w-100"
-                :disabled="!isFormValid"
-                @click="handleSaveClick"
-              >
-                {{ $t('createlisting.add_listing') }}
-              </Button>
-            </div>
-
-            <div
-              v-if="
-            !['apparel', 'accessories'].includes(
-              product.category.name.toLowerCase()
-            )
-          "
-              class="col-md-6 col-xs-12 text-center mt-3"
-            ></div>
-          </template>
-
-          <template
-            v-if="
-          ['apparel', 'accessories'].includes(
-            product.category.name.toLowerCase()
-          )
-        "
-          >
-            <!-- Color -->
-            <div class="mt-3 col-md-6 col-xs-12 input-col">
-              <FormDropdown
-                id="packaging-condition"
-                :value="value.color"
-                :placeholder="$t('createlisting.select_color')"
-                :label="$t('common.color')"
-                :items="colors"
-                required
-                @input="handleColorChange"
-              />
-            </div>
-            <!-- End of Color -->
-
-            <!-- Year -->
-            <div class="mt-3 col-md-6 col-xs-12 input-col">
-              <FormInput
-                :value="``"
-                :placeholder="$t('createlisting.enter_year')"
-                :label="$t('common.year')"
-                class="input-error"
-                required
-                number
-                @input="handleYearChange"
-              />
-            </div>
-            <!-- End of Year -->
-
-            <div class="mt-3 col-md-6 col-xs-12 text-center input-col">
-              <Button
-                v-if="typeof action === 'string' && action === 'add'"
-                variant="info"
-                pill
-                :disabled="!isFormValid"
-                class="mt-3"
-                @click="handleSaveClick"
-              >
-                {{ $t('createlisting.add_listing') }}
-              </Button>
-            </div>
-          </template>
-        </div>
-        <div
-          v-if="!isScreenXS && typeof action === 'string' && action === 'edit'"
-          class="row section-form-fields d-flex justify-content-center m-auto"
-        >
-          <Button
-            variant="dark"
-            :disabled="!isFormValid"
-            class="mt-3 mr-3"
-            @click="handleEditClick"
-          >
-            {{ $t('inventory.save_changes') }}
-          </Button>
-          <Button
-            variant="outline-primary"
-            class="mt-3"
-            @click="handleDiscard"
-          >
-            {{ $t('inventory.discard_changes') }}
-          </Button>
-        </div>
-        <!-- End of Inputs -->
-
-        <!-- Inputs Responsive -->
-        <div v-if="isScreenXS" class="row responsive-inputs-row mt-3">
-          <!-- Minimum offer -->
-          <div class="col-6 input-col">
-            <FormInput
-              :id="
-            (value.minOfferAmount !== null &&
-              value.minOfferAmount <= minOfferMinVal &&
-              'error-responsive') ||
-            'form-input-responsive'
-          "
-              :value="value.minOfferAmount"
-              :placeholder="$t('createlisting.enter_min_offer')"
-              :label="$t('createlisting.minOfferAmount')"
-              class="input-form input-error"
-              required
-              :pill="false"
-              integer
-              @input="handleMinOfferPriceChange"
-            />
-            <span v-if="value.minOfferAmount">
-              <small class="text-danger">
-                {{ minOfferError }}
-              </small>
-            </span>
-          </div>
-          <!-- Minimum offer ends -->
-          <!-- Quantity -->
-          <div class="col-6 input-col">
-            <FormInput
-              :id="
-            ((value.quantity < quantityMinVal ||
-              value.quantity > quantityMaxVal) &&
-              'error-responsive') ||
-            'form-input-responsive'
-          "
-              :value="value.quantity"
-              :placeholder="$t('common.quantity')"
-              :label="$t('common.quantity')"
-              class="input-form input-error"
-              required
-              :pill="false"
-              integer
-              @input="handleQuantityChange"
-            />
-            <span>
-          <small class="text-danger">
-            {{ quantityError }}
-          </small>
-        </span>
-          </div>
-          <!-- Quantity ends -->
-        </div>
-        <!-- Minimum offer/ Quantity ends -->
-
-        <div v-if="isScreenXS" class="row responsive-inputs-row mt-3">
-          <!-- Price -->
-          <div class="col-12 input-col">
-            <FormInput
-              id="form-input-responsive"
-              :value="value.price"
-              :placeholder="$t('create_listing.your_listing_price_placeholder')"
-              :label="$t('create_listing.your_listing_price')"
-              class="input-form input-error"
-              :class="
-            value.price !== null &&
-            value.price <= priceMinVal &&
-            'error-responsive'
-          "
-              required
-              :pill="false"
-              integer
-              @input="handlePriceChange"
-            />
-            <span v-if="value.price">
-              <small class="text-danger">
-                {{ priceError }}
-              </small>
-            </span>
-          </div>
-          <!-- Price -->
-        </div>
-        <!-- Inputs Responsive ends -->
       </b-col>
     </b-row>
 
@@ -505,11 +176,6 @@
             </template>
           </b-row>
         </b-col>
-        <!--
-        <b-col sm="12" md="6" class="pt-3 pt-md-0 text-black">
-          {{ $t('create_listing.product.description') }}
-        </b-col>
-        -->
       </b-row>
     </div>
     <div v-else class="rounded p-3 box-shadow mt-4"
@@ -541,79 +207,7 @@
         </div>
       </div>
     </div>
-
-    <!-- Sales Graph and Sales Data Section -->
-    <b-row v-if="product" class="my-5">
-      <b-col md="12">
-        <SalesSection :product="product" />
-      </b-col>
-    </b-row>
-    <!-- End of Sales Graph and Sales Data Section -->
-
-    <!-- Add listing button responsive -->
-
-    <Button
-      v-if="isScreenXS && selectedCategory === buy && action === 'add'"
-      class="mt-3 add-listing-btn"
-      variant="block"
-      :disabled="!isFormValid"
-      :class="!isFormValid && 'disabled'"
-      @click="handleSaveClick"
-    >
-      {{ $t('createlisting.add_listing') }}
-    </Button>
-    <Button
-      v-if="isScreenXS && selectedCategory === buy && action === 'edit'"
-      class="mt-3 add-listing-btn"
-      variant="block"
-      :disabled="!isFormValid"
-      :class="!isFormValid && 'disabled'"
-      @click="handleEditClick"
-    >
-      {{ $t('createlisting.add_listing') }}
-    </Button>
-    <Button
-      v-if="isScreenXS && selectedCategory === offer"
-      class="mt-3 add-listing-btn"
-      variant="block"
-      @click="handleSellNow"
-    >
-      {{ $t('sell_now.sell_now') }}&colon;
-      {{ highestOffer | toCurrency('USD', 'N/A') }}
-    </Button>
-    <!-- Add listing button responsive ends -->
-    <!-- Modal popup -->
-    <!-- On save changes click -->
-    <AlertModal
-      id="save-listing-success"
-      :message="$t('inventory.message.saved')"
-      icon="tick"
-      auto-hide
-      @hidden="emitEditSuccess"
-    />
-    <!-- End of On save changes click -->
-
-    <!-- On discard changes -->
-    <ConfirmModal
-      id="discard"
-      :message="$t('createlisting.discard_changes')"
-      :confirmLabel="$t('common.discard')"
-      @confirm="onConfirm"
-      @cancel="onCancel"
-    />
-    <!-- End of On discard changes -->
-
-    <!-- Discard confirm message -->
-    <AlertModal
-      id="discard-confirm"
-      :message="$t('inventory.message.discarded')"
-      icon="trash"
-      auto-hide
-      @hidden="onCancelDiscard"
-    />
-    <!-- Discard confirm message -->
-    <!-- Modal popup ends here -->
-
+    <slot></slot>
   </div>
 </template>
 
@@ -623,22 +217,13 @@ import { mapActions, mapGetters } from 'vuex'
 import ProductSizePicker from '~/components/product/SizePicker'
 import SizeCarouselResponsive from '~/components/profile/create-listing/SizeCarouselResponsive.vue'
 import ProductTitle from '~/components/product/ProductTitle'
-import SalesSection from '~/components/product/SalesSection'
 
-import {
-  // Meter,
-  FormInput,
-  FormDropdown,
-  Button,
-  NavGroup,
-} from '~/components/common'
-import { AlertModal, ConfirmModal } from '~/components/modal'
+import {NavGroup} from '~/components/common'
 import {
   QUANTITY_MIN_VAL,
   QUANTITY_MAX_VAL,
   PRICE_MIN_VAL,
   MINOFFER_MIN_VAL,
-  API_PROD_URL,
   TYPE_BUY,
   TYPE_OFFER,
 } from '~/static/constants'
@@ -653,16 +238,9 @@ export default {
 
   components: {
     ProductSizePicker,
-    // Meter,
     ProductTitle,
-    FormInput,
-    FormDropdown,
-    Button,
-    AlertModal,
-    ConfirmModal,
     NavGroup,
     ProductImageViewerMagic360,
-    SalesSection,
     SizeCarouselResponsive,
     BoxConditionPicker
   },
@@ -680,10 +258,10 @@ export default {
       type: Object,
       default: () => {},
     },
-    action: {
+    backButtonText: {
       type: String,
-      required: true,
-    },
+      default: 'common.back_to_search'
+    }
   },
 
   data() {
@@ -703,13 +281,10 @@ export default {
         },
       ],
       selectedCategory: 'buy',
-      listedPrice: '',
       arrowDownIcon,
       selectedSize: '',
       selectedCondition: '',
-      apiProdUrl: API_PROD_URL,
       sizeViewMode: 'carousel',
-      showLastSalePrice: '',
       lastAmount: '',
       avgAmount: '',
       avgType: '',
@@ -785,19 +360,6 @@ export default {
         }) || []
       )
     },
-    // Form valid? Enable the save/update button
-    isFormValid() {
-      return (
-        this.value.currentSize &&
-        this.value.quantity &&
-        this.value.price &&
-        this.value.boxCondition &&
-        this.value.quantity >= this.quantityMinVal &&
-        this.value.quantity <= this.quantityMaxVal &&
-        this.value.price > this.priceMinVal &&
-        this.value.minOfferAmount > this.minOfferMinVal
-      )
-    },
 
     listingItemOrder: (vm) => {
       return vm.product.listing_item_order
@@ -821,7 +383,8 @@ export default {
 
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     lowestPrice: (vm) => {
-      const val = vm.product.lowest_prices.find(
+      const lowerPrice = vm.product?.lowest_prices ?? []
+      const val = lowerPrice.find(
         (i) =>
           i.size_id === vm.selectedSize &&
           i.packaging_condition_id === vm.selectedCondition
@@ -831,20 +394,13 @@ export default {
 
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     highestOffer: (vm) => {
-      const val = vm.product.highest_offers.find(
+      const highestOffers = vm.product?.highest_offers ?? []
+      const val = highestOffers.find(
         (i) =>
           i.size_id === vm.selectedSize &&
           i.packaging_condition_id === vm.selectedCondition
       )
       return val && val.price
-    },
-
-    highestOfferId: (vm) => {
-      return vm.product?.highest_offers?.find(
-        (i) =>
-          i.size_id === vm.selectedSize &&
-          i.packaging_condition_id === vm.selectedCondition
-      )?.offer_id
     },
 
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
@@ -916,11 +472,6 @@ export default {
 
         this.$emit('input', { ...this.value, currentSize: value })
       }
-    },
-
-    // Back to Search on click
-    backToSearch() {
-      this.$router.push('/profile/create-listing/selling')
     },
     /**
      * On quantity input emit the value to be updated.
@@ -1006,80 +557,6 @@ export default {
       }
     },
 
-    // On sell now click
-    handleSellNow() {
-      // If the user is not a vendor then we will redirect user to vendor hub apply page
-      if (this.isAuthenticated && !this.isVendor) {
-        this.$router.push('/profile/vendor-hub')
-        return true
-      }
-
-      // If no highest offer is placed.
-      if (!this.highestOffer) {
-        this.$toasted.error(this.$t('sell_now.no_offer'))
-        return false
-      }
-
-      // If no listing or
-      // If the currently listing inventory's vendor id doesnot matches the logged in vendor id,
-      // then create listing with inventory.
-
-      this.checkItemExistforVendor({
-        productID: this.product.id,
-        sizeId: this.selectedSize,
-        packagingConditionId: this.selectedCondition,
-        offerAmount: this.highestOffer,
-      })
-        .then((res) => {
-          this.$store
-            .dispatch('sell-now/selectedItem', res.data.data)
-            .then(() => {
-              this.moveToSellNow()
-            })
-          return true
-        })
-        .catch((err) => {
-          this.$logger.logToServer(
-            'Sell now create inventory and listing error',
-            err.response
-          )
-          this.$nuxt.refresh()
-        })
-    },
-
-    moveToSellNow() {
-      if (
-        this.getSelectedItemforVendor &&
-        this.getSelectedItemforVendor.product &&
-        this.authenticated &&
-        this.isVendor
-      ) {
-        const sellNowData = {
-          id: this.getSelectedItemforVendor.product_id,
-          size: this.getSelectedItemforVendor.size,
-          size_id: this.getSelectedItemforVendor.size_id,
-          name: this.getSelectedItemforVendor.product.name,
-          product: this.getSelectedItemforVendor.product,
-          brand: this.getSelectedItemforVendor.product.brand,
-          sku: this.getSelectedItemforVendor.product.sku,
-          colorWay: this.getSelectedItemforVendor.product.colorway,
-          image: `${this.apiProdUrl}/${this.getSelectedItemforVendor.product.category.name}/${this.getSelectedItemforVendor.product.sku}/image`,
-          quantity: 1,
-          packaging_condition:
-            this.product.packaging_conditions[
-              this.getSelectedItemforVendor.packaging_condition_id - 1
-            ],
-          packaging_condition_id: this.selectedCondition,
-          price: this.getSelectedItemforVendor.sale_price,
-          listing_item_id: this.getSelectedItemforVendor.listing_items[0].id,
-          highestOffer: this.highestOffer,
-          selectedOfferId: this.highestOfferId
-        }
-
-        this.$store.dispatch('sell-now/addItem', sellNowData)
-        this.$router.push('/checkout/sell-now')
-      }
-    },
 
     // Show the up/down
     latestPrice({ amount, type }) {
@@ -1092,11 +569,7 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-.create-listing-form-wrapper
-  h2.title
-    @include heading-1
-    color: $color-black-1
-
+.profile-view
   .btn-back
     @include body-4-regular
     color: $color-black-1
@@ -1105,30 +578,8 @@ export default {
     @include body-3-normal
     color: $color-gray-5
 
-  .form-item-title
-    @include body-3-normal
-    color: $color-black-1
-
-  .form-item-desc
-    @include body-5-regular
-    color: $color-gray-5
-  .error-msg
-    @include body-5-regular
-    color: $color-red-3
-
   .section-product-size
     max-width: 570px
-
-  .section-meter
-    max-width: 390px
-
-    .field
-      @include body-4-medium
-      color: $color-black-1
-
-    .value
-      @include body-4-regular
-      color: $color-gray-5
 
   .section-form-fields
     .error-text
@@ -1169,7 +620,7 @@ export default {
           color: $color-gray-23
 
 @media (max-width: 375px)
-  .create-listing-form-wrapper
+  .profile-view
     .product-thumbnail
       width: 246px
 @media (min-width: 650px)
@@ -1205,7 +656,7 @@ export default {
 
 // For !mobile screen
 @media (min-width: 576px)
-  .create-listing-form-wrapper::v-deep
+  .profile-view::v-deep
     .section-product-details,
     .product-size-details,
     .size-meter,
@@ -1231,7 +682,7 @@ export default {
 
 // For mobile screen
 @media (max-width: 576px)
-  .create-listing-form-wrapper::v-deep
+  .profile-view::v-deep
     .product-details-heading,
     .section-product-details,
     .product-size-details,

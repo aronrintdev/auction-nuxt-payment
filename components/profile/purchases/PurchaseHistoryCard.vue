@@ -8,7 +8,7 @@
       </span>
       <!-- ./Order Number -->
       <!-- View Order -->
-      <span class="view-order font-secondary d-flex align-items-center color-blue-20" role="button" @click="viewOrder">{{
+      <span class="view-order font-secondary d-flex align-items-center color-link" role="button" @click="viewOrder">{{
           $t('vendor_purchase.view_order')
         }}</span>
       <!-- ./View Order -->
@@ -193,6 +193,9 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.color-link
+  color: $color-blue-1
+
 .mt-6
   margin-top: 6px
 
@@ -271,7 +274,6 @@ button.status-button
   font-style: normal
   align-items: center
   text-decoration-line: underline
-  color: $color-blue-20
   float: right
   font-weight: $normal
 .card-body

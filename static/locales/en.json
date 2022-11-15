@@ -197,7 +197,25 @@
     "fair_trade_meter": "Fair Trade Meter",
     "thread": "Thread",
     "rescind": "Rescind",
-    "enter_cash_amount": "Enter Cash Amount"
+    "enter_cash_amount": "Enter Cash Amount",
+    "box_conditions": {
+      "1": {
+        "1": "Excellent",
+        "2": "Damaged Box",
+        "3": "Missing Lid",
+        "4": "No Original Box"
+      },
+      "2": {
+        "1": "Excellent",
+        "2": "Damaged Packaging",
+        "3": "No Original Packaging"
+      },
+      "3": {
+        "1": "Excellent",
+        "2": "Damaged Packaging",
+        "3": "No Original Packaging"
+      }
+    }
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -1128,7 +1146,7 @@
       "allow_cash_with_offer": "Allow Cash with Offer",
       "confirm_trade": "Confirm Trade",
       "days": "Days",
-      "good_condition": "Good Condition Box",
+      "good_condition": "Excellent",
       "new_condition": "New Condition",
       "damaged_box": "Damaged Box",
       "missing_lid": "Missing Lid",
@@ -1337,7 +1355,7 @@
           "default_time_limit": "Duration",
           "days": "Days",
           "box_condition": "Box Condition",
-          "good_condition": "Good condition Box",
+          "good_condition": "Excellent",
           "new_condition": "New Condition",
           "damaged_box": "Damaged Box",
           "missing_lid": "Missing Lid",
@@ -1543,7 +1561,7 @@
     "all_sizes": "All Sizes",
     "box_condition": "Box Condition",
     "box_conditions": {
-      "good_condition": "Good Condition",
+      "good_condition": "Excellent",
       "damaged_box": "Damaged Box",
       "missing_lid": "Missing Lid",
       "no_original_box": "No Original Box",
@@ -2017,7 +2035,7 @@
       "description": "Description",
       "size_guide": "Size Guide",
       "bidding_history": "Bidding History",
-      "verification_guranteed": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed.",
+      "verification_guaranteed": "Every item is authenticated by our experts through our authentication process. 100% verification guaranteed.",
       "collection_items": "Collection Items",
       "direct_bid": "Direct bid",
       "auction_details_title": "Auction Details",
@@ -2931,7 +2949,7 @@
     "allow_cash_with_offer": "Allow Cash with Offer",
     "confirm_trade": "Confirm Trade",
     "days": "Days",
-    "good_condition": "Good Condition Box",
+    "good_condition": "Excellent",
     "new_condition": "New Condition",
     "damaged_box": "Damaged Box",
     "missing_lid": "Missing Lid",
@@ -3155,7 +3173,7 @@
         "default_time_limit": "Duration",
         "days": "Days",
         "box_condition": "Box Condition",
-        "good_condition": "Good condition Box",
+        "good_condition": "Excellent",
         "new_condition": "New Condition",
         "damaged_box": "Damaged Box",
         "missing_lid": "Missing Lid",
@@ -4556,7 +4574,7 @@
       "allow_cash_with_offer": "Allow Cash with Offer",
       "confirm_trade": "Confirm Trade",
       "days": "Days",
-      "good_condition": "Good Condition Box",
+      "good_condition": "Excellent",
       "new_condition": "New Condition",
       "damaged_box": "Damaged Box",
       "missing_lid": "Missing Lid",
@@ -5190,6 +5208,7 @@
       "commission": "Commission",
       "documents": "Documents"
     },
+    "submit": "Submit",
     "cancel": "Cancel",
     "camera": "Camera",
     "gallery": "Gallery",
@@ -5204,11 +5223,13 @@
     "document_name": "Document Name",
     "file": "File",
     "retailer_certification": "Retailer Certification",
+    "upload_retailer_certificate": "Upload Retailer Certificate",
     "attach_documents": "Attach Document",
     "browse_files": "Browse Files",
     "accepted_document_types": "Accepted Doucmnet File Types include JPEG, PNG and PDF",
     "seller_permit_number": "Seller Permit Number:",
     "enter_permit_number": "Enter Permit Number",
+    "enter_permit_seller_number": "Enter Permit Seller Number",
     "expiration_date": "Expiration Date:",
     "document_expiration_date": "Expiration Date #:",
     "drag_drop_here": "Drag and Drop here | or",

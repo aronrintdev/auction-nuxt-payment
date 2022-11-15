@@ -16,7 +16,7 @@
             <!-- ./Heading -->
             <!-- Search Input -->
             <div class="w-100 d-flex align-items-center ">
-              <div class="w-100 d-flex input-field-search align-items-center mr-5">
+              <div class="w-100 flex-grow-1 d-flex input-field-search align-items-center mr-5">
                 <img
                     :src="require('~/assets/img/icons/search.svg')"
                     alt="Search"
@@ -710,6 +710,18 @@ export default {
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
 
+::v-deep.date-calendar
+  max-width: 170px
+
+  .date-input
+    background-color: $color-white-1
+    @include body-5-regular
+    font-family: $font-montserrat
+    font-style: normal
+    white-space: nowrap
+
+  .btn-secondary
+    background-color: $color-white-1
 
 .flex-end-align-col
   align-self: flex-end
