@@ -149,15 +149,35 @@ import Button from '~/components/common/Button'
 import LoginForm from '~/components/Auth/LoginForm'
 import SocialLoginButtons from '~/components/Auth/SocialLoginButtons'
 import TwoFaVerificationCodeForm from '~/components/Auth/TwoFaVerificationCodeForm'
+import screenSize from '~/plugins/mixins/screenSize'
+import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 
 export default {
   name: 'Login',
   components: { TwoFaVerificationCodeForm, LoginForm, SocialLoginButtons, Button },
+  mixins: [ screenSize ],
   layout: 'Auth',
   data() {
     return {
       credentials: {},
     }
+  },
+  computed: {
+    isResponsive(vm) {
+      return vm.isScreenXS || vm.isScreenSM
+    }
+  },
+  beforeMount() {
+    this.$root.$emit('hide-header', { hideHeader: true })
+    this.$root.$emit('hide-footer', { hideFooter: true })
+
+    enquireScreenSizeHandler((type) => {
+      this.$store.commit('size/setScreenType', type)
+    })
+  },
+  beforeDestroy() {
+    // this.$root.$emit('hide-header', { hideHeader: false })
+    // this.$root.$emit('hide-footer', { hideFooter: false })
   },
   methods: {
     singupPage(){
