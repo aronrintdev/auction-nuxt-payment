@@ -10,7 +10,7 @@
           >{{ $t('shop_by_style.archive') }} ({{ styleCount }})</Button
         >
       </div>
-      <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex justify-content-between align-items-center mmt-8">
         <h2 class="title">{{ $t('shop_by_style.title') }}</h2>
       </div>
       
@@ -20,7 +20,7 @@
           :data="typeOptions"
           nav-key="shop-by-style-type"
           @change="handleTypeChange"
-          class="mt-0"
+          class="mt-0 custom-nav w-345"
         />
         <Button
           ref="btnFilter"
@@ -173,7 +173,15 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.custom-nav::v-deep
+  .button
+    padding: 6px 30px
 
+
+.w-345
+  width: 345px
+.mmt-8
+  margin-top: -8px
 .look-view
   margin: 0 150px!important
 .container-shop-by-style

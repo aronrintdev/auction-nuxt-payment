@@ -13,7 +13,7 @@
             class="p-2 mb-1  border border-success rounded"
           />
         </div>
-        <div class="offset-sm-1 col-sm-3 mb-4">
+        <div class="col-sm-3 mb-4 ml-54">
           <SearchFilterCollapsible
             v-model="brandsSelected"
             collapseKey="brands"
@@ -23,12 +23,12 @@
             @searchBrands="handleSearchChange"
           />
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-6 ml-54">
           <div class="row w-fit-content">
             <div
               v-for="(option, index) in sizeTypeSelected"
               :key="index"
-              class="p-1 br-5 d-flex align-items-center border border-success rounded ml-1 mt-1"
+              class="p-1 br-5 d-flex align-items-center border border-success rounded ml-3 mt-1"
               @click.prevent
             >
               <span class="text-capitalize">{{ option }}</span>
@@ -195,6 +195,8 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.ml-54
+  margin-left: 54px
 .w-fit-content
   width: fit-content
 .filters-heading 
