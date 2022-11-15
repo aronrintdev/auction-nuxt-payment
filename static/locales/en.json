@@ -192,7 +192,25 @@
     "model_detail": "The model is 5’ 8” and wears a large",
     "no-items-in-combination": "No items in combination",
     "thread": "Thread",
-    "rescind": "Rescind"
+    "rescind": "Rescind",
+    "box_conditions": {
+      "1": {
+        "1": "Excellent",
+        "2": "Damaged Box",
+        "3": "Missing Lid",
+        "4": "No Original Box"
+      },
+      "2": {
+        "1": "Excellent",
+        "2": "Damaged Packaging",
+        "3": "No Original Packaging"
+      },
+      "3": {
+        "1": "Excellent",
+        "2": "Damaged Packaging",
+        "3": "No Original Packaging"
+      }
+    }
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -1123,7 +1141,7 @@
       "allow_cash_with_offer": "Allow Cash with Offer",
       "confirm_trade": "Confirm Trade",
       "days": "Days",
-      "good_condition": "Good Condition Box",
+      "good_condition": "Excellent",
       "new_condition": "New Condition",
       "damaged_box": "Damaged Box",
       "missing_lid": "Missing Lid",
@@ -1332,7 +1350,7 @@
           "default_time_limit": "Duration",
           "days": "Days",
           "box_condition": "Box Condition",
-          "good_condition": "Good condition Box",
+          "good_condition": "Excellent",
           "new_condition": "New Condition",
           "damaged_box": "Damaged Box",
           "missing_lid": "Missing Lid",
@@ -1538,7 +1556,7 @@
     "all_sizes": "All Sizes",
     "box_condition": "Box Condition",
     "box_conditions": {
-      "good_condition": "Good Condition",
+      "good_condition": "Excellent",
       "damaged_box": "Damaged Box",
       "missing_lid": "Missing Lid",
       "no_original_box": "No Original Box",
@@ -2012,7 +2030,7 @@
       "description": "Description",
       "size_guide": "Size Guide",
       "bidding_history": "Bidding History",
-      "verification_guranteed": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed.",
+      "verification_guaranteed": "Every item is authenticated by our experts through our authentication process. 100% verification guaranteed.",
       "collection_items": "Collection Items",
       "direct_bid": "Direct bid",
       "auction_details_title": "Auction Details",
@@ -2533,8 +2551,8 @@
     "move_this_item_a_list": "Move this item to a list",
     "remove_from_bag": "Remove from bag",
     "shopping_cart": "Shopping Cart",
-    "shopping_bag": "Shopping Bag",
     "item": "Item | Items",
+    "have_promo_code": "Have a Promo Code",
     "item_purchasing": "Item Purchasing | Items Purchasing",
     "my_products": "My Products",
     "quantity": "Quantity",
@@ -2926,7 +2944,7 @@
     "allow_cash_with_offer": "Allow Cash with Offer",
     "confirm_trade": "Confirm Trade",
     "days": "Days",
-    "good_condition": "Good Condition Box",
+    "good_condition": "Excellent",
     "new_condition": "New Condition",
     "damaged_box": "Damaged Box",
     "missing_lid": "Missing Lid",
@@ -3150,7 +3168,7 @@
         "default_time_limit": "Duration",
         "days": "Days",
         "box_condition": "Box Condition",
-        "good_condition": "Good condition Box",
+        "good_condition": "Excellent",
         "new_condition": "New Condition",
         "damaged_box": "Damaged Box",
         "missing_lid": "Missing Lid",
@@ -4548,7 +4566,7 @@
       "allow_cash_with_offer": "Allow Cash with Offer",
       "confirm_trade": "Confirm Trade",
       "days": "Days",
-      "good_condition": "Good Condition Box",
+      "good_condition": "Excellent",
       "new_condition": "New Condition",
       "damaged_box": "Damaged Box",
       "missing_lid": "Missing Lid",

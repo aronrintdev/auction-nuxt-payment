@@ -60,7 +60,6 @@
         .arrow::before
           border-bottom-color: $black
         .share-btn-group
-          width: 120px
           display: flex
           align-items: center
           justify-content: space-between
@@ -593,9 +592,17 @@
   .arrow::before
     border-bottom-color: $black
   .share-btn-group
-    width: 120px
     display: flex
     align-items: center
     justify-content: space-between
     img
       margin-right: 0
+
+@media (min-width: 576px)
+  #quick-bid-modal,
+  #auto-bid-enable-modal,
+  #auto-bid-success-modal,
+  #bids-history-modal,
+  #placebid-modal
+    .modal-dialog
+      margin-top: 161px
