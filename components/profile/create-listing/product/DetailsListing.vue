@@ -65,11 +65,7 @@
         <ProductImageViewerMagic360
           v-if="has360Images"
           class="image-viewer-three-sixty px-2"
-          :product="{
-            ...product,
-              image360Name: 'IMG{col}.png',
-              'path360Images':'https://sneakersdb2.s3.us-east-2.amazonaws.com/products/360View/DJ7998-100/800XAUTO'
-          }"
+          :product="product"
         />
 
         <div v-if="has360Images" class="row">

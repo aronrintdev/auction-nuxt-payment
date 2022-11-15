@@ -12,6 +12,7 @@
           :placeholder="$t('auction.search_placeholder')"
           class="flex-grow-1 mr-5 mw-734"
           :debounce="1000"
+          inputHeight="38"
           @input="handleSearch"
         />
         <div class="flex-grow-0">
@@ -26,64 +27,73 @@
         </div>
       </div>
       <div class="d-flex justify-content-between align-items-center mt-5">
-        <div class="d-flex align-items-center justify-content-start">
-          <SelectWithCheckbox
-            id="auction-type-selector"
-            class="mr-4 dropdown-filters"
-            :default="auctionType"
-            :options="AUCTION_TYPES"
-            :title="$t('auction.auction_type')"
-            :updateFilters="activeTypeFilters"
-            @filters="typeFilters"
-          />
+        <div class="d-flex align-items-end justify-content-start filters-bar">
+          <div>
+            <div class="body-8-normal mb-1 sf-pro-display">{{ $t('common.filter_by') }}</div>
+            <div class="d-flex align-items-center">
+              <SelectWithCheckbox
+                id="auction-type-selector"
+                class="mr-4 dropdown-filters"
+                :default="auctionType"
+                :options="AUCTION_TYPES"
+                :title="$t('auction.auction_type')"
+                :updateFilters="activeTypeFilters"
+                @filters="typeFilters"
+              />
 
-          <SelectWithCheckbox
-            id="auction-status-selector"
-            class="mr-4 dropdown-filters"
-            :default="auctionStatus"
-            :options="STATUS_TYPES"
-            :title="$t('auction.status_type')"
-            :updateFilters="activeStatusFilters"
-            @filters="typeFilters"
-          />
+              <SelectWithCheckbox
+                id="auction-status-selector"
+                class="mr-4 dropdown-filters"
+                :default="auctionStatus"
+                :options="STATUS_TYPES"
+                :title="$t('auction.status_type')"
+                :updateFilters="activeStatusFilters"
+                @filters="typeFilters"
+              />
+            </div>
+          </div>
+          <div>
+            <div class="body-8-normal mb-1 sf-pro-display">{{ $t('selling_page.date_listed') }}</div>
+            <div class="d-flex align-items-center">
+              <b-input-group class="date-input-group mr-4">
+                <b-form-input class="date-input" :placeholder="$t('auction.start_date')" :value="start_date"></b-form-input>
+                <b-input-group-append class="date-input-icon">
+                  <b-form-datepicker
+                    v-model="start_date"
+                    button-only
+                    hide-header
+                    hide-footer
+                    class="date-dp"
+                    right
+                    locale="en-US"
+                  >
+                    <template #button-content>
+                      <img :src="CalendarImg">
+                    </template>
+                  </b-form-datepicker>
+                </b-input-group-append>
+              </b-input-group>
 
-          <b-input-group class="date-input-group mr-4">
-            <b-form-input class="date-input" :placeholder="$t('auction.start_date')" :value="start_date"></b-form-input>
-            <b-input-group-append class="date-input-icon">
-              <b-form-datepicker
-                v-model="start_date"
-                button-only
-                hide-header
-                hide-footer
-                class="date-dp"
-                right
-                locale="en-US"
-              >
-                <template #button-content>
-                  <img :src="CalendarImg">
-                </template>
-              </b-form-datepicker>
-            </b-input-group-append>
-          </b-input-group>
-
-          <b-input-group class="date-input-group mr-4">
-            <b-form-input class="date-input" :placeholder="$t('auction.end_date')" :value="end_date"></b-form-input>
-            <b-input-group-append class="date-input-icon">
-              <b-form-datepicker
-                v-model="end_date"
-                button-only
-                hide-header
-                hide-footer
-                class="date-dp"
-                right
-                locale="en-US"
-              >
-                <template #button-content>
-                  <img :src="CalendarImg">
-                </template>
-              </b-form-datepicker>
-            </b-input-group-append>
-          </b-input-group>
+              <b-input-group class="date-input-group mr-4">
+                <b-form-input class="date-input" :placeholder="$t('auction.end_date')" :value="end_date"></b-form-input>
+                <b-input-group-append class="date-input-icon">
+                  <b-form-datepicker
+                    v-model="end_date"
+                    button-only
+                    hide-header
+                    hide-footer
+                    class="date-dp"
+                    right
+                    locale="en-US"
+                  >
+                    <template #button-content>
+                      <img :src="CalendarImg">
+                    </template>
+                  </b-form-datepicker>
+                </b-input-group-append>
+              </b-input-group>
+            </div>
+          </div>
 
           <b-button
             variant="primary"
@@ -92,19 +102,8 @@
             @click="FetchAuctions"
           >{{ $t('vendor_purchase.apply') }}
           </b-button>
-          <span v-if="haveFilters" role="button" class="clear-filters ml-4"
+          <span v-if="haveFilters" role="button" class="clear-filters text-nowrap ml-4"
                 @click="clearFilters">{{ $t('auction.clear_filters') }}</span>
-        </div>
-        <div>
-          <b-button
-            v-if="haveExpired"
-            :disabled="haveAuction"
-            variant="light"
-            size="sm"
-            class=" delete-expired px-3 py-2 mr-4"
-            @click="deleteActionNow"
-          >{{ $t('auction.delete_expired') }}
-          </b-button>
         </div>
       </div>
     </template>
@@ -199,7 +198,7 @@
           </div>
           <div>
             <Button
-              to="/create-listing"
+              to="/profile/create-listing"
               class="bg-blue-2 mt-4"
               pill
             >
@@ -650,8 +649,12 @@ export default {
 @import '~/assets/css/_variables'
 
 .dropdown-filters.sort-by::v-deep
+  border: none
   .btn-dropdown
     width: 300px
+    padding: 0 10px
+    height: 38px
+    border-color: $color-gray-60
 
 
 .clear-filters
@@ -702,20 +705,22 @@ export default {
   color: $black
 
 .apply-button
-  background: $color-blue-2
+  background: $color-blue-20
   color: $color-white-1
   border-radius: 6px
 
   &:hover
     border: none
     box-shadow: $color-black-1 0 5px 15px
-    background: $color-blue-2
+    background: $color-blue-20f
     color: $color-white-1
 
 .date-input
   background-color: white
   border: 1px solid $color-gray-58
   border-right: none
+  @include body-5
+  font-weight: $regular
 
 .date-input-icon
   background-color: white
@@ -743,34 +748,42 @@ export default {
     @include heading-3
     color: $color-black-1
 
-
+.search-input-wrapper.search-primary::v-deep input.search-input
+  height: 38px
+  border: 1px solid $color-gray-60
+  border-radius: 5px
 .dropdown-filters::v-deep
+  min-width: 170px
+  height: 38px
+  border: 1px solid $color-gray-60
+  .selected
+    height: 36px
+    padding: 10px 16px
+    &::after
+      top: 2px
+      right: 25px
   .btn-dropdown
     display: flex
     justify-content: space-between
     color: $color-gray-5
-    border: 1px solid $color-gray-58
     border-radius: 6px
     height: 46px
     padding: 0 23px
 
     &.opened
-      border: 2px solid $color-gray-58
-
+      border-bottom: none
 
   .search-results
     .popover-body
       > div
         font-family: $font-family-base
         color: $color-black-1
-        height: 46px
+        height: auto
         border: 1px solid $color-gray-58
         padding: 0 23px
 
         &:hover
           color: $white
-          background-color: $color-blue-2
-          border: none
 
         &:last-child
           border-bottom-left-radius: 6px
@@ -781,8 +794,16 @@ export default {
 
       .active
         color: $white
-        background-color: $color-blue-2
-        border: none
+        margin: 0 -24px
+        background-color: $color-blue-20
+        border-radius: 0
+      .dropdownItem
+        height: 38px
+        &:hover
+          color: $white
+          margin: 0 -24px
+          background-color: $color-blue-20
+          border-radius: 0
 
 .container-profile-auctions-listing
   @media (max-width: 576px)

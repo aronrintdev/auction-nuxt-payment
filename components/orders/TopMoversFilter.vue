@@ -425,4 +425,7 @@ export default {
     background: #F7F7F7
     border-radius: 8px
 
+@media (min-width: 993px)
+  .box-gap
+    gap: 24px
 </style>

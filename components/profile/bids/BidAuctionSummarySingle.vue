@@ -9,20 +9,20 @@
       <b-row class="mb-2 d-block body-4-normal">
         <div class="d-none d-md-block body-4-bold mb-2 text-gray-24">{{ $t('bids.product_details') }}</div>
         <b-row>
-          <b-col sm="4">
+          <b-col sm="9">
             <div class="mb-2 product-name">{{ auctionItem.inventory.product.name }}</div>
           </b-col>
-          <b-col class="product-value">{{
+          <b-col sm="3" class="product-value">{{
               $t('shopping_cart.size')
             }}&colon; {{ auctionItem.inventory.size.size }}
           </b-col>
         </b-row>
         <b-row>
-          <b-col sm="4" class="product-value">
+          <b-col sm="9" class="product-value">
             {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ auctionItem.inventory.product.colorway }}
           </b-col>
-          <b-col>
-            <div class="mb-0 mb-md-2 text-uppercase product-value">
+          <b-col sm="3">
+            <div class="mb-0 mb-md-2 text-uppercase text-nowrap product-value">
               {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ auctionItem.inventory.product.sku }}
             </div>
           </b-col>

@@ -1,16 +1,33 @@
 <template>
   <section class="row mb-4">
     <div class="col-md-8">
-      <div :class="mobileClass" class="chart-card bg-white br-10 p-1 p-sm-4">
-        <div class="d-flex align-items-center justify-content-between">
+      <div
+          :class="{
+          mobile: isScreenXS,
+          'mr-59': !isScreenXS,
+        }"
+          class="chart-card bg-white br-10 p-1 p-sm-4"
+      >
+        <div
+            :class="{
+            'm-padding-title': isScreenXS,
+          }"
+            class="d-flex align-items-center justify-content-between"
+        >
           <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
             {{ $tc('vendor_dashboard.total_sales', 1) }}
           </h1>
           <h1
-              class="fs-14 fw-7 font-primary text-grey-69 mb-0 d-block d-sm-none text-center w-100"
+              class="fs-14 fw-7 font-primary text-grey-69 mb-0 d-block d-sm-none"
           >
             {{ $tc('vendor_dashboard.total_sales', 2) }}
           </h1>
+          <a
+              v-if="isScreenXS"
+              class="font-primary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link text-nowrap"
+              href="#"
+          >{{ $t('vendor_dashboard.view_breakdown') }}</a
+          >
           <div class="dropdownSelect d-none d-sm-block">
             <CustomSelect
                 :default="filterBy"
@@ -35,21 +52,20 @@
         </div>
         <div class="position-relative mt-3 mt-sm-5 mb-3 mb-sm-4">
           <LineChart
-              :data="dataGraph"
-              :labels="labels"
-              :options="lineChartOptions"
+              :chart-data="mainChart"
               :height="212"
+              :options="lineChartOptions"
               chart-id="vendor-dashboard-line-chart"
               class="line-chart d-none d-sm-block"
+              is-graph
           />
           <LineChart
-              :data="dataGraph"
-              :labels="labels"
-              :options="lineChartOptions"
-              :fill="!isScreenXS"
+              :chart-data="mainChart"
               :height="204"
+              :options="lineChartOptions"
               chart-id="vendor-dashboard-line-chart"
               class="line-chart d-block d-sm-none"
+              is-graph
           />
         </div>
         <div class="text-right d-none d-sm-block">
@@ -60,25 +76,32 @@
           >
         </div>
       </div>
-      <div class="text-right d-block d-sm-none mt-2">
-        <a
-            class="font-primary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
-            href="#"
-        >{{ $t('vendor_dashboard.view_breakdown') }}</a
-        >
-      </div>
     </div>
     <div class="col-md-4 mt-3 mt-sm-0">
-      <div :class="mobileClass" class="chart-card bg-white br-10 p-1 p-sm-4">
-        <div class="d-flex align-items-center justify-content-between">
+      <div
+          :class="mobileClass"
+          class="chart-card bg-white br-10 p-1 p-sm-4 diagram"
+      >
+        <div
+            :class="{
+            'm-padding-title': isScreenXS,
+          }"
+            class="d-flex align-items-center justify-content-between"
+        >
           <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
             {{ $tc('vendor_dashboard.by_type', 1) }}
           </h1>
           <h1
-              class="fs-14 fw-7 font-primary text-grey-69 mb-0 d-block d-sm-none text-center w-100"
+              class="fs-14 fw-7 font-primary text-grey-69 mb-0 d-block d-sm-none"
           >
-            {{ $tc('vendor_dashboard.by_type', 2) }}
+            {{ $tc('vendor_dashboard.by_type', 1) }}
           </h1>
+          <a
+              v-if="isScreenXS"
+              class="font-primary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link text-nowrap"
+              href="#"
+          >{{ $t('vendor_dashboard.view_breakdown') }}</a
+          >
           <div class="dropdownSelect d-none d-sm-block">
             <CustomSelect
                 :default="filterBy"
@@ -106,8 +129,8 @@
               ref="donChart1"
               :bg-colors="dataBgColors"
               :data="dataChart"
-              :labels="chartLabels"
               :height="212"
+              :labels="chartLabels"
               :options="chartOptions"
               chart-id="vendor-dashboard-doughnut-chart"
               class="doughnut-chart d-none d-sm-block"
@@ -116,9 +139,9 @@
               ref="donChart2"
               :bg-colors="dataBgColors"
               :data="dataChart"
+              :height="204"
               :labels="chartLabels"
               :options="chartOptions"
-              :height="204"
               chart-id="vendor-dashboard-doughnut-chart"
               class="doughnut-chart d-block d-sm-none"
           />
@@ -131,20 +154,18 @@
           >
         </div>
       </div>
-      <div class="text-right mt-2 d-block d-sm-none">
-        <a
-            class="font-primary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
-            href="#"
-        >{{ $t('vendor_dashboard.view_breakdown') }}</a
-        >
-      </div>
     </div>
   </section>
 </template>
 <script>
 import {CustomSelect} from '~/components/common'
-import {DEFAULT, FILTERED_CATEGORIES, FOOTWEAR_CATEGORIES, GRAPH_COLORS} from '~/static/constants'
-import screenSize from '~/plugins/mixins/screenSize';
+import {
+  DEFAULT,
+  FILTERED_CATEGORIES,
+  FOOTWEAR_CATEGORIES,
+  GRAPH_COLORS,
+} from '~/static/constants'
+import screenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'VendorDashboardCharts',
@@ -160,7 +181,7 @@ export default {
       tabsOptions: [
         {title: 'Week', value: 'week'},
         {title: 'Month', value: 'month'},
-        {title: 'Year', value: 'year'}
+        {title: 'Year', value: 'year'},
       ],
       searchFilters: {
         startDate: '',
@@ -192,41 +213,51 @@ export default {
             fontColor: '#000',
             fontSize: 10,
             lineHeight: 12,
-            fontWeight: 500
+            fontWeight: 500,
           },
         },
         tooltips: {
           callbacks: {
             title(tooltipItem, data) {
-              return data.labels[tooltipItem[0].index];
+              return data.labels[tooltipItem[0].index]
             },
             label: (tooltipItem, data) => {
-              const dataset = data.datasets[0];
-              return Math.round((dataset.data[tooltipItem.index] / Object.values(dataset._meta)[0].total) * 100) + '% ' + this.$options.filters.toCurrency(parseInt(dataset.data[tooltipItem.index]));
+              const dataset = data.datasets[0]
+              return (
+                  Math.round(
+                      (dataset.data[tooltipItem.index] /
+                          Object.values(dataset._meta)[0].total) *
+                      100
+                  ) +
+                  '% ' +
+                  this.$options.filters.toCurrency(
+                      parseInt(dataset.data[tooltipItem.index])
+                  )
+              )
             },
             afterLabel(tooltipItem, data) {
               return ''
-            }
+            },
           },
           backgroundColor: '#FAFAFA',
           titleFont: {
             weight: 500,
             family: 'Montserrat',
             size: 12,
-            lineHeight: 15
+            lineHeight: 15,
           },
           cornerRadius: 9,
           bodyFont: {
             weight: 700,
             family: 'Montserrat',
             size: 14,
-            lineHeight: 17
+            lineHeight: 17,
           },
           titleFontColor: '#626262',
           bodyFontColor: '#4B942D',
           displayColors: false,
-          padding: 8
-        }
+          padding: 8,
+        },
       },
       chartData: {
         labels: this.chartLabels,
@@ -269,6 +300,12 @@ export default {
                 fontColor: '#000',
                 fontSize: 12,
                 fontStyle: 'bold',
+                callback(value, index, ticks) {
+                  const formatter = Intl.NumberFormat('en', {
+                    notation: 'compact',
+                  })
+                  return formatter.format(value)
+                },
               },
             },
           ],
@@ -311,6 +348,22 @@ export default {
       },
     }
   },
+  computed: {
+    mainChart() {
+      return {
+        labels: this.labels,
+        datasets: [
+          {
+            borderColor: this.isScreenXS ? '#667799' : '#18A0FB',
+            backgroundColor: 'rgba(24, 160, 251, 0.15)',
+            data: this.dataGraph,
+            fill: !this.isScreenXS,
+            borderWidth: this.isScreenXS ? 2 : 4,
+          },
+        ],
+      }
+    },
+  },
   mounted() {
     this.handleFilterByChangeTotalSale('month')
     this.handleFilterByChangeTotalSaleChart('month')
@@ -349,7 +402,8 @@ export default {
             // LIMIT categories to 'apparel', 'accessories' and 'footwear' as grouped 'sneakers', 'shoes'
             for (const property in res.data.data) {
               if (FILTERED_CATEGORIES.includes(property)) {
-                data[FILTERED_CATEGORIES.indexOf(property) + 1] += res.data.data[property]
+                data[FILTERED_CATEGORIES.indexOf(property) + 1] +=
+                    res.data.data[property]
               }
               if (FOOTWEAR_CATEGORIES.includes(property)) {
                 data[0] += res.data.data[property]
@@ -367,6 +421,13 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.m-padding-title
+  padding: 12px 14px 0 14px
+
+
+.mr-59
+  margin-right: 59px
+
 .chart-card
   &.mobile
     box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)

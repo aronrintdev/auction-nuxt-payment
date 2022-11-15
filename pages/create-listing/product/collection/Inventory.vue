@@ -438,8 +438,10 @@ export default {
 
         .owl-nav
           display: none !important
-    .size-selector-box
+    .size-selector-box::v-deep
       width: 100%
+      .select-size
+        display: none
     .size-bar
       @include body-21
       font-weight: $normal

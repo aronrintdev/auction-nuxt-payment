@@ -68,15 +68,6 @@
     <div v-if="bidsCount===0 && !fetchLoading"
          class="d-flex align-items-center justify-content-center flex-column h-50">
       <div :class="isMobileSize ? 'body-5-medium' : 'not-found-text'">{{ $t('bids.no_bids') }}</div>
-      <div class="mt-2" :class="isMobileSize ? 'body-5-medium' : 'not-found-text'"> {{ $t('bids.place_bid') }}</div>
-      <Button
-        to="/create-listing"
-        class="bg-blue-2 mt-4"
-        :class="{'mobile': isMobileSize}"
-        pill
-      >
-        <span class="px-4"> {{ $t('bids.browse_auction') }}</span>
-      </Button>
     </div>
     <div v-if="bidsCount>0">
       <b-row class="mt-5 text-center p-0 font-weight-bold d-none d-md-flex">
@@ -85,10 +76,7 @@
         <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }}
           <span role="button"><img :src="FilterDown" alt="donw"></span>
         </b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.auto_bid') }}
-          <span role="button"><img :src="FilterDown" alt="donw"></span>
-        </b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.bid_amt') }}
+        <b-col sm="12" md="2">{{ $t('bids.headers.bid_amt') }}
           <span role="button"><img :src="FilterDown" alt="donw"></span>
         </b-col>
         <b-col sm="12" md="2">{{ $t('bids.headers.time_remaining') }}

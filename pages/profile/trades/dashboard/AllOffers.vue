@@ -260,6 +260,8 @@
           borderRadius: '4px',
           borderColor: '#667799'
         }"
+        borderRadius="5px"
+        borderRadiusClose="5px 5px 0 0"
         :labelStyle="{
           fontSize: '14px',
           letterSpacing: '0.06em',
@@ -272,7 +274,8 @@
         }"
         :dropdownStyle="{
           position: 'relative',
-          borderColor: '#667799'
+          borderColor: '#667799',
+          borderRadius: '0 0 5px 5px'
         }"
         @change="changeAction"
       />

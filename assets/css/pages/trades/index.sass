@@ -123,14 +123,15 @@
 
 .center-container
   display: flex
-  justify-content: center
-  margin: 45px 10%
+  @media (min-width: 1200px)
+    justify-content: center
 
 .center-container-margin
   margin: 70px 2%
 
 .center-cont-height
-  min-height: 545px
+  @media (min-width: 1200px)
+    min-height: 545px
 
 .left-item, .right-item
   width: fit-content
@@ -138,7 +139,7 @@
 
 .item-length
   height: 267px
-  width: 203px
+  width: 144px
 
 .item-normal
   min-height: 317px
@@ -174,7 +175,6 @@
   width: 100%
 
 .item-caption
-  background: $color-gray-1
   padding: 5px 10px
   font-family: $font-family-sf-pro-display
   font-style: normal
@@ -183,8 +183,7 @@
   display: block
   align-items: center
   color: $color-gray-5
-  @include body-10-normal
-  max-width: 180px
+  @include body-5-normal
   text-overflow: ellipsis
   white-space: nowrap
   overflow: hidden
@@ -193,7 +192,7 @@
   display: block
   align-items: center
   color: $color-gray-5
-  @include body-10-normal
+  @include body-9-normal
   width: 185px
   overflow: hidden
   text-overflow: ellipsis
@@ -203,15 +202,13 @@
   display: block
   align-items: center
   color: $color-black-1
-  @include body-10-medium
+  @include body-8-medium
   white-space: nowrap
   text-overflow: ellipsis
   overflow: hidden
-  width: 185px
 
 .right-item .item, .right-item .preview
   background-color: $color-white-2
-  border: 0.5px solid $light-gray-2
   box-sizing: border-box
   position: relative
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 210 112' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.3059 20.1544L17.3571 0.603516L31.9413 2.30359L45.7153 16.7542L76.5043 2.30359H86.2271L146.995 45.6555L201.281 60.9562L208.573 74.5568L175.353 94.1077H107.293L1.15234 74.5568L13.3059 20.1544Z' fill='%23E9E7E9'/%3E%3Cpath d='M0.345703 73.7072L23.0323 69.457L55.4417 76.2573L108.107 80.5075L125.932 90.708L156.721 82.2076L173.736 89.8579L209.387 73.7072V88.1579L206.146 97.5083L172.926 109.409L146.188 111.109L106.487 111.959H71.6465L20.6016 108.559L1.96617 97.5083L0.345703 73.7072Z' fill='%23C4C4C4'/%3E%3C/svg%3E%0A")
@@ -256,7 +253,8 @@
   margin-top: 10px
 
 .left-item, .right-item
-  max-height: 317px
+  @media (min-width: 1200px)
+    max-height: 317px
 
 .item-text, .drag-drop
   display: flex
@@ -309,12 +307,12 @@
   align-items: center
   padding-top: 21px
   margin: 0 10px
-  min-width: 435px
-  max-width: 780px
+  width: 100%
 
 .long-line
-  border: 0.5px solid $color-gray-23
-  width: 50px
+  @media (min-width: 1200px)
+    border: 0.5px solid $color-gray-23
+    width: 50px
 
 .view-button-container
   display: flex
@@ -335,7 +333,6 @@
   width: 339px
   height: 92px
   background: $color-white-1
-  border: 1px solid $color-gray-23
   border-radius: 4px
 
 .fair-trade-label
@@ -633,18 +630,23 @@
   margin-left: 19px
 
 .pointer-left
-  border-top: 0.5px solid $light-gray-2
-  border-bottom: 0.5px solid $light-gray-2
-  border-right: 0.5px solid $light-gray-2
-  height: 340px
-  width: 275px
+  @media (min-width: 1200px)
+    height: 340px
+    width: 100%
+    z-index: 1
+    border-top: 0.5px solid $light-gray-2
+    border-bottom: 0.5px solid $light-gray-2
+    border-right: 0.5px solid $light-gray-2
+  
 
 .pointer-right
-  border-top: 0.5px solid $light-gray-2
-  border-bottom: 0.5px solid $light-gray-2
-  border-left: 0.5px solid $light-gray-2
-  height: 340px
-  width: 275px
+  @media (min-width: 1200px)
+    z-index: 1
+    height: 340px
+    width: 100%
+    border-top: 0.5px solid $light-gray-2
+    border-bottom: 0.5px solid $light-gray-2
+    border-left: 0.5px solid $light-gray-2
 
 #item-0
   position: absolute

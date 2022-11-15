@@ -399,7 +399,11 @@ export default {
         (i) => i.size_id === sizeId && i.product_id === productId && i.packaging_condition_id === conditionId
       )
 
-      return result && result.listing_items && result.listing_items[0].id || '--'
+      if(result && result.listing_items.length){
+        return result.listing_items[0].id
+      }else{
+        return '--'
+      }
     },
   },
 }

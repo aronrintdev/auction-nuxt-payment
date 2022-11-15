@@ -58,12 +58,13 @@ export default {
       addVendorPayoutMethod: 'auth/addVendorPayoutMethod',
     }),
     offerExist(){
-      this.$axios.get(`/offer/${this.sellItem.selectedOfferId}`)
+      this.$axios.get(`/offer/${this.sellItem.selectedOfferId}`, {
+        handleError: false
+      })
       .then((res) =>  {
         this.$store.dispatch('sell-now/addItem', { ...this.sellItem, offer: res.data.data })
       })
-      .catch((err) => {
-        this.$logger.logToServer('Offer Doesnot Exist', err.response.data)
+      .catch(() => {
         this.$router.push(`/shop/${this.sellItem.sku}`)
       })
     }
