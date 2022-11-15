@@ -440,7 +440,7 @@ export default {
   background: $color-white-1
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
-  height: 700px
+  height: 1000px
 
 .offer-id-head
   font-family: $font-family-sf-pro-display
