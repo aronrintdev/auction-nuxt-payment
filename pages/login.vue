@@ -10,7 +10,7 @@
     </b-col>
   </b-row>
   <b-row v-else class="w-100">
-    <b-col lg="8" class="w-100 py-5 px-5 px-md-0">
+    <b-col lg="8" class="w-100 px-5 px-md-0">
       <b-row class="h-100">
         <b-col
           md="6"
@@ -239,7 +239,7 @@ export default {
   margin-left: 5px
 .login-btn
   border: none
-  padding: 4px 55px
+  padding: 4px 38px
   background-color: $color-white-1
   border-radius: 20px
   font-weight: 700
