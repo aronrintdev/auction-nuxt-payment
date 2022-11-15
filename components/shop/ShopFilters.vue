@@ -534,7 +534,6 @@ export default {
       if (options && this.sizeTypes && this.sizeTypes.length > 0) {
         options = options.filter(({ type }) => this.sizeTypes.includes(type))
       }
-      console.log('computed options',options)
       return (
         options?.map(({ id, size, type }) => {
           return {
