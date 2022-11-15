@@ -5579,7 +5579,6 @@
     "outcome": "Outcome",
     "seller_ranking": "Seller Ranking",
     "view_more": "View More",
-    "footwear": "Footwear",
     "on_track": "You are on track for {rank} Seller Next Quarter",
     "next_sales": "With {next} more successful sales",
     "till_next": "{point} till {next}",
@@ -5594,6 +5593,7 @@
     "view_all": "View All",
     "total_sales": "Total Sales | Sales Activity",
     "commision_pending": "Commision Pending",
+    "pending_percentage": "Pending (%)",
     "inventory": "Inventory",
     "items_sold": "Items Sold",
     "totall_sales": "Total Sales",
@@ -5829,8 +5829,11 @@
       "dashboard": "Dashboard",
       "total_purchases": "Total Purchases",
       "rewards_points": "Rewards Points",
+      "rewards_points_mobile": "Points",
       "items_bought": "Items Bought",
+      "items_bought_mobile": "Bought",
       "offers_placed": "Offers Placed",
+      "offers_placed_mobile": "Offers",
       "total_purchases_main": "Total Purchases",
       "earn_money": "Earn Money",
       "rewards": "Rewards",
@@ -5847,7 +5850,7 @@
       "minutes": "Minutes",
       "seconds": "Seconds",
       "your_entries": "Your Entries",
-      "no_active": "There are not active promotions."
+      "no_active": "There are no active promotions"
     },
     "purchases": {
       "title": "Purchases",
