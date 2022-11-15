@@ -232,9 +232,9 @@ export default {
 @import '~/assets/css/_typography'
 @import '~/assets/css/_variables'
 
-.counter-wrapper
-  :deep(.list-group-item)
-    border-bottom: 1px solid $color-gray-23 !important
+.counter-wrapper::v-deep
+  .list-group-item
+    border-bottom: 1px solid $color-gray-23
 
 .width-responsive
   left: 0
