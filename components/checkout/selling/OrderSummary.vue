@@ -183,11 +183,9 @@
 
     <!-- Shopping Cart Total Price Heading -->
     <b-row class="mt-4">
-      <b-col md="6" class="text-center">
-        <div class="body-4-medium">{{ $t('shopping_cart.total') }}&colon;</div>
-      </b-col>
-      <b-col md="6" class="text-center">
-        <div class="body-4-medium">&dollar;{{ getTotal | formatPrice }}</div>
+      <b-col md="12" class="d-flex align-items-center">
+        <span class="body-4-medium">{{ $t('shopping_cart.total') }}&colon;</span>
+        <span class="body-4-medium ml-auto">&dollar;{{ getTotal | formatPrice }}</span>
       </b-col>
     </b-row><!-- End of Shopping Cart Total Price Heading -->
 
@@ -281,7 +279,7 @@
       <b-col v-if="loading" md="12" class="text-center">
         <b-spinner variant="color-blue-2"></b-spinner>
       </b-col>
-      <b-col v-else md="12" class="text-center">
+      <b-col v-else md="12" class="text-center place-order-wrapper">
         <b-button v-if="!billingAddress" :disabled="! getTotalQuantity" type="button" class="px-5" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.BillingForm.name)">{{
             $t('shopping_cart.proceed_to_billing')
           }}</b-button>
@@ -733,6 +731,9 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+*
+  font-family: 'SF Pro Display', serif
+
 /* Promo code input & button styles */
 #btn-promo
   border-radius: 0 0.25rem 0.25rem 0
@@ -743,4 +744,9 @@ export default {
 
 .text-pre-line
   white-space: pre-line
+
+.place-order-wrapper
+  button
+    width: 216px
+    height: 40px
 </style>
