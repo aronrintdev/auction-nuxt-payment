@@ -800,28 +800,4 @@ export default {
         background: $color-gray-71
         flex: 1
         width: 50px !important
-.toggler-main
-  background-color: $color-gray-75
-  padding: 4px 5px
-  border-radius: 20px
-  display: inline
-  width: 100%
-  text-align: center
-  margin: 0 auto
-  font-size: 11px
-  margin-left: 5px
-.login-btn
-  border: none
-  padding: 4px 38px
-  background-color: $color-white-1
-  border-radius: 20px
-  font-weight: 700
-  margin-right: 30px
-.signup-btn
-  border: none
-  padding: 1px 15px
-  background-color: $color-gray-75
-  border-radius: 20px
-  padding-right: 27px
-  font-weight: 700
 </style>
