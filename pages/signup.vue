@@ -20,8 +20,9 @@
               variant="white"
               class="text-white border-0 px-5"
               to="/login"
-              >{{ $t('auth.login') }}</Button
             >
+              {{ $t('auth.login') }}
+            </Button>
           </b-col>
         </b-row>
       </b-col>
@@ -101,12 +102,15 @@
               </b-row>
               <b-row class="order-4 skip-link d-lg-none d-flex">
                 <b-col>
-                  <u
-                    ><a href="#" class="fs-15 fw-4 font-primary text-black">{{
-                      $t('signup.skip')
-                    }}</a></u
-                  ></b-col
-                >
+                  <u>
+                    <b-link
+                      class="fs-15 fw-4 font-primary text-black"
+                      to="/login"
+                    >
+                        {{$t('signup.skip')}}
+                    </b-link>
+                  </u>
+                </b-col>
               </b-row>
             </b-row>
             <b-row class="form-area order-1 order-lg-2 w-100">
@@ -128,7 +132,7 @@
                       :data="tabs"
                       :value="currentTab"
                       nav-key="new_releases"
-                      class="text-center px-3 mb-4 d-lg-none d-block px-0"
+                      class="text-center px-1 mb-4 d-lg-none d-block px-0"
                       @change="handleTabChange"
                     />
                     <ValidationProvider
@@ -141,8 +145,8 @@
                           max: 128,
                         }"
                       >
-                      <b-form-group class="px-3">
-                        <b-input-group  class="d-flex align-items-end w-95 pull-left">
+                      <b-form-group class="px-1">
+                        <b-input-group class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="first-name"
                             v-model="form.first_name"
@@ -177,7 +181,7 @@
                         max: 128,
                       }"
                     >
-                      <b-form-group class="px-3">
+                      <b-form-group class="px-1">
                         <b-input-group class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="last-name"
@@ -212,7 +216,7 @@
                         max: 128,
                       }"
                     >
-                      <b-form-group class="px-3">
+                      <b-form-group class="px-1">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="username"
@@ -248,7 +252,7 @@
                         max: 128,
                       }"
                     >
-                      <b-form-group class="px-3">
+                      <b-form-group class="px-1">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="email-address"
@@ -285,7 +289,7 @@
                       }"
                       vid="password"
                     >
-                      <b-form-group class="px-3">
+                      <b-form-group class="px-1">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="password"
@@ -296,7 +300,7 @@
                             :type="passwordFieldType"
                           ></b-form-input>
                           <b-input-group-prepend
-                            class="d-flex align-items-center px-3 append-icon"
+                            class="d-flex align-items-center px-1 append-icon"
                           >
                             <i
                               v-if="isPasswordShown"
@@ -341,7 +345,7 @@
                         confirmed: 'password',
                       }"
                     >
-                      <b-form-group class="px-3">
+                      <b-form-group class="px-1">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="password-confirmation"
@@ -352,7 +356,7 @@
                             :type="confirmPasswordFieldType"
                           ></b-form-input>
                           <b-input-group-prepend
-                            class="d-flex align-items-center px-3 append-icon"
+                            class="d-flex align-items-center px-1 append-icon"
                           >
                             <i
                               v-if="isConfirmPasswordShown"
@@ -471,8 +475,8 @@ export default {
   data() {
     return {
       tabs: [
-        { label: this.$t('auth.login'), value: 'Login' },
         { label: this.$t('auth.create_an_account'), value: 'signup' },
+        { label: this.$t('auth.login'), value: 'Login' },
       ],
       currentTab: 'signup',
 
@@ -743,7 +747,6 @@ export default {
       margin-bottom: 15px
     .submit-btn-p
       .btn
-        filter: drop-shadow(0px 4px 4px $drop-shadow1) !important
         width: 171px
         height: 42px
     input
@@ -772,7 +775,7 @@ export default {
         border-radius: 0px 10px 10px 0px
     .signup-heading
       line-height: 18px
-      color: $color-black-1
+      color: $color-gray-5
       font-style: normal
       font-weight: $bold
     .logo-img
@@ -800,4 +803,9 @@ export default {
         background: $color-gray-71
         flex: 1
         width: 50px !important
+
+@media (min-width: 320px) and (max-width: 556px)
+  .input-signup
+    left: 10px !important
+
 </style>
