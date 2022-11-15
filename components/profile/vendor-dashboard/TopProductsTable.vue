@@ -24,7 +24,7 @@
       </nuxt-link
       >
     </div>
-    <NavGroup v-if="isScreenXS" :data="mobileMenu" :value="activeNav" class="mt-2" @change="navItem"/>
+    <NavGroup v-if="isScreenXS" :data="mobileMenu" :value="activeNav" class="mt-20" @change="navItem"/>
 
     <div>
       <b-table
@@ -43,10 +43,14 @@
           </div>
         </template>
         <template #cell(product)="row">
-          <div class="d-flex align-items-center gap-3 mb-2 mb-sm-0" role="button"
+          <div :class="{
+                  'align-items-center': !isScreenXS,
+                  'align-items-start': isScreenXS,
+               }" class="d-flex gap-3 mb-2 mb-sm-0"
+               role="button"
                @click="$router.push('/profile/inventory')">
             <div class="col-thumb d-flex justify-content-center">
-              <ProductThumb :product="row.item" :src="row.item.image"/>
+              <ProductThumb :product="row.item" :src="row.item.image" class="prod-image"/>
             </div>
             <div class="font-secondary">
               <h4
@@ -54,7 +58,7 @@
                   'body-5-medium mobile': isScreenXS,
                   'font-secondary': !isScreenXS,
                 }"
-                  class="body-8-medium text-color-blue-1 border-bottom border-primary mb-1 text-nowrap text-truncate mw-300"
+                  class="body-8-medium text-color-blue-30 text-decoration-underline border-primary mb-1 text-nowrap text-truncate mw-300"
               >
                 {{ row.item.name }}
               </h4>
@@ -283,8 +287,20 @@ export default {
   },
 }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+::v-deep.prod-image
+  width: 100px
+
+  img
+    object-fit: cover
+
+.text-color-blue-30
+  color: $color-blue-30
+
+.mt-20
+  margin-top: 20px
 
 .text-color-blue-1
   color: $color-blue-1
@@ -298,7 +314,7 @@ export default {
   &.mobile
     max-width: 200px
 
-.productTable
+::v-deep.productTable
   &.table.b-table.b-table-no-border-collapse
     border-spacing: 0 10px
 
@@ -331,9 +347,6 @@ export default {
 
   .tdHeight
     height: inherit
-
-  .col-thumb
-    width: 100px
 
   .stats-graph
     width: 100px

@@ -74,8 +74,17 @@
                     }}
                   </h5>
                 </div>
-                <div class="col-md-4 status-badge-warning text-capitalize">
-                  {{ row.order_status }}
+                <div
+                    :aria-label="$t('vendor_dashboard.status')"
+                    :class="{
+                'text-center ml-auto': !isScreenXS
+              }"
+                    class="d-flex align-items-center justify-content-center tdHeight "
+                >
+                  <h4 :class="styleFor(row.order_status) + ` ${mobileClass}` + `${isScreenXS? 'text-nowrap': ''}`"
+                      class="text-capitalize status body-13-normal">
+                    {{ row.order_status }}
+                  </h4>
                 </div>
               </div>
             </div>
@@ -240,6 +249,36 @@ export default {
     this.getPurchases()
   },
   methods: {
+    styleFor(statusLabel) {
+      switch (statusLabel.toLowerCase()) {
+        case 'arrived_at_deadstock':
+          return 'arrived';
+        case 'arrived_at_ds':
+          return 'arrived';
+        case 'delivered':
+          return 'delivered';
+        case 'completed':
+          return 'arrived';
+        case 'cancel':
+          return 'cancel';
+        case 'refunded':
+          return 'cancel';
+        case 'cancelled':
+          return 'cancel';
+        case 'shipped_to_deadstock':
+          return 'shipped';
+        case 'shipped_to_ds':
+          return 'shipped';
+        case 'awaiting_authentication':
+          return 'awaiting-auth';
+        case 'auth_completed':
+          return 'auth-completed';
+        case 'order_taken_over':
+          return 'order-taken-over';
+      }
+
+      return 'awaiting'
+    },
     // On Tab Change (All/ Footwear/ Apparel/ Accessories)
     navItem(val) {
       this.activeNav = val
@@ -247,9 +286,9 @@ export default {
     },
     getPurchases() {
       this.$axios
-        .get('/dashboard/buyer/purchases?category_id=' + this.activeNav)
-        .then((res) => {
-          this.purchases = res.data.data
+          .get('/dashboard/buyer/purchases?category_id=' + this.activeNav)
+          .then((res) => {
+            this.purchases = res.data.data
         })
         .catch((err) => {
           this.logger.logToServer(err.response)
@@ -260,6 +299,57 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.awaiting
+  color: $color-red-20
+
+  &:not(.mobile)
+    background: rgba($color-red-20, 0.08)
+
+.status.cancel
+  color: $color-red-3
+
+  &:not(.mobile)
+    background: rgba($color-red-3, 0.05)
+
+.status.arrived
+  color: $color-green-3
+
+  &:not(.mobile)
+    background: $color-green-20
+
+.status.delivered
+  color: $color-blue-17
+
+  &:not(.mobile)
+    background: rgba($color-blue-17, 0.05)
+
+.status.shipped
+  color: $color-blue-16
+
+  &:not(.mobile)
+    background: $dark-gray-5
+
+.status.auth-completed
+  color: $color-purple-7
+
+  &:not(.mobile)
+    background: $color-purple-8
+
+.status.awaiting-auth
+  &:not(.mobile)
+    background: rgba($color-blue-17, 0.05)
+  color: $color-blue-17
+
+.status.order-taken-over
+  &:not(.mobile)
+    background: $dark-gray-7
+  color: $color-gray-5
+
+.status-badge-warning
+  &.mobile
+    background-color: transparent
+    padding: 0
+
 .title-item
   max-width: 200px
 

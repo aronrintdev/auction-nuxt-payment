@@ -354,11 +354,11 @@ export default {
         labels: this.labels,
         datasets: [
           {
-            borderColor: '#18A0FB',
+            borderColor: this.isScreenXS ? '#667799' : '#18A0FB',
             backgroundColor: 'rgba(24, 160, 251, 0.15)',
             data: this.dataGraph,
             fill: !this.isScreenXS,
-            borderWidth: 4,
+            borderWidth: this.isScreenXS ? 2 : 4,
           },
         ],
       }

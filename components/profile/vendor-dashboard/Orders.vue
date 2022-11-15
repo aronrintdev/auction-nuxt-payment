@@ -41,7 +41,7 @@
           :show-empty="!loading && topOrders.length === 0"
       >
         <template #table-busy>
-          <div class="d-flex align-items-center justify-content-center">
+          <div class="d-flex align-items-center justify-content-center w-100">
             <Loader :loading="loading"/>
           </div>
         </template>
