@@ -75,7 +75,7 @@
         </div>
         <div :class="{'timings-left' : isPayment}">
         </div>
-        <div class="center-container" :class="{'center-cont-height':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_ONE) , 'center-container-margin': isPayment, 'mt-5': isExpire, 'pt-5': isExpire }">
+        <div class="center-container d-flex justify-content-center" :class="{'center-cont-height':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_ONE) , 'center-container-margin': isPayment, 'mt-5': isExpire, 'pt-5': isExpire }">
           <div class="left-item" :class="{'left-item-margin':trade.offers.length == ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_ONE}">
             <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'item-'+index : ''" :key="index" class="item" :class="[((trade.offers.length > ITEM_COUNT_ONE )|| (getYourTradeItems.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
               <div class="image-wrapper position-relative">
@@ -1060,4 +1060,27 @@ export default {
   color: $color-white-1
 .z-100
   z-index: 100
+.item-caption-description
+  display: block
+  align-items: center
+  color: $color-gray-5
+  @include body-10-normal
+  max-width: 180px
+  text-overflow: ellipsis
+  white-space: nowrap
+  overflow: hidden
+
+.item-box-condition, .item-size
+  display: block
+  align-items: center
+  color: $color-gray-5
+  @include body-10-normal
+  width: 185px
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+.center-container
+  margin: 45px 10%
+.center-cont-height
+  min-height: 545px
 </style>
