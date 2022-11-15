@@ -16,7 +16,7 @@
               class="medal-badge body-5-medium mb-0 bg-white br-10 px-3 py-2 d-flex align-items-center"
           >
             <img
-                :src="require('~/assets/img/icons/bronze-badge.svg')"
+                :src="require(`~/assets/img/icons/${vendor.rank? vendor.rank.toLowerCase(): 'bronze'}-badge.svg`)"
                 aria-hidden="true"
                 class="mr-2"
             />
