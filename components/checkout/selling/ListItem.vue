@@ -19,9 +19,10 @@
               {{ $tc('common.size', 1) }}&colon;&nbsp;{{ product.size.size }}
             </div>
             <div class="body-4-normal mb-2 text-gray-6">
-              {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
-                product.colorWay
-              }}
+              {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ product.colorWay }}
+            </div>
+            <div class="body-4-normal mb-2 text-gray-6">
+              {{ $t('shopping_cart.box_condition') }}&colon;&nbsp;{{ product.packaging_condition }}
             </div>
           </b-row>
           <b-row class="d-inline">
@@ -44,29 +45,15 @@
     <b-col md="6">
       <b-row>
         <b-col md="4">
-          <b-row>
-            <b-col md="4" class="text-center">
-              <div
-                class="body-4-bold quantity-control"
-                @click="decrementQuantity(product)"
-              >
-                &minus;
-              </div>
-            </b-col>
-            <b-col md="4" class="custom-form">
+          <b-row class="mt-n2">
+            <b-col md="12" class="d-flex align-items-center justify-content-center">
+              <span class="quantity-control mr-3" @click="decrementQuantity(product)">&minus;</span>
               <b-form-input
                 class="text-center quantity-indicator"
                 :value="product.quantity"
                 readonly
-              ></b-form-input>
-            </b-col>
-            <b-col md="4" class="text-center">
-              <div
-                class="body-4-bold quantity-control"
-                @click="checkInventoryQuantity(product)"
-              >
-                &plus;
-              </div>
+              />
+              <span class="quantity-control ml-3" @click="checkInventoryQuantity(product)">&plus;</span>
             </b-col>
           </b-row>
         </b-col>
@@ -158,6 +145,9 @@ export default {
 
 /* Quantity controls (plus and minus incrementer) styles */
 .quantity-control
+  @include body-3-regular
+  color: $color-black-1
+
   &:hover,
   &:focus
     color: $color-gray-4
@@ -167,12 +157,13 @@ export default {
 /* Quantity indicator styles */
 .quantity-indicator
   &.form-control
+    @include body-4-regular
+    padding: 0
+    width: 40px
+    height: 32px
     background: $white
     border: 1px solid $color-gray-4
     border-radius: 0.25rem
-    position: absolute
-    right: 0
-    top: -0.6rem
     @include body-4-bold
     &:focus
       border: 1px solid $color-gray-4
