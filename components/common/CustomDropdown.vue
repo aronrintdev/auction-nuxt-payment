@@ -48,13 +48,13 @@
         :style="optionStyle"
         @click="selectOption((option.value ? option.value : option))"
       >
-        <input 
-          v-if="type.includes('multi')" 
-          class="mr-2" 
-          :checked="value && value.includes(option.value ? option.value : option)"
-          type="checkbox"  
+        <input
+          v-if="type.includes('multi')"
+          class="mr-2"
+          :checked="value && value.includes(option.value ? option.value : option.size)"
+          type="checkbox"
         />
-        <span>{{ (option.value) ? option.text : capitalizeFirstLetter(option) }}</span>
+        <span>{{ (option.value) ? option.text : capitalizeFirstLetter(option.size) }}</span>
       </li>
       <li v-if="type.includes('multi') && showFilterBtn" class="fixed">
         <Button @click="filterResults">{{$t('common.drop_filter')}} ({{value && value.length}})</Button>
