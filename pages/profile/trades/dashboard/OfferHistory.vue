@@ -229,7 +229,7 @@ export default {
   background: #edf5ff
   margin-top: 2rem
   float: right
-  margin-left: 27rem
+  margin-left: 35rem
 .white-theme
   background: white
   float: left
