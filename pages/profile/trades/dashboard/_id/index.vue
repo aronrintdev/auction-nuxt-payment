@@ -237,7 +237,6 @@
 </template>
 
 <script>
-/* eslint-disable vue/no-unused-components */
 import Meter from '~/components/common/Meter'
 import Button from '~/components/common/Button'
 import OfferHistory from '~/pages/profile/trades/dashboard/OfferHistory'
