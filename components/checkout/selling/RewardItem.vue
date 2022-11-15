@@ -23,6 +23,11 @@
               product.colorWay
             }}
           </div>
+          <div class="body-4-normal mb-2 text-gray-6">
+            {{ $t('shopping_cart.box_condition') }}&colon;&nbsp;{{
+              product.packaging_condition
+            }}
+          </div>
         </b-row>
         <b-row class="d-inline">
           <b-btn
