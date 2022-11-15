@@ -48,11 +48,11 @@
         :style="optionStyle"
         @click="selectOption((option.value ? option.value : option))"
       >
-        <input 
-          v-if="type.includes('multi')" 
-          class="mr-2" 
+        <input
+          v-if="type.includes('multi')"
+          class="mr-2"
           :checked="isChecked(option)"
-          type="checkbox"  
+          type="checkbox"
         />
         <span>{{ getText(option) }}</span>
       </li>
@@ -216,8 +216,8 @@ export default {
     },
 
     isChecked(option) {
-      return this.value.includes(option.value) 
-        || this.value.includes(option.size) 
+      return this.value.includes(option.value)
+        || this.value.includes(option.size)
         || this.value.includes(option)
     }
   }

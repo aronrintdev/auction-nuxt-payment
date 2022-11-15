@@ -191,6 +191,10 @@
     "model": "Model",
     "model_detail": "The model is 5’ 8” and wears a large",
     "no-items-in-combination": "No items in combination",
+    "days": "days",
+    "mins": "mins",
+    "hours": "hours",
+    "secs": "secs",
     "current_trade": "Current Trade",
     "their_value": "Their Value",
     "your_value": "Your Value",
@@ -5050,6 +5054,8 @@
     "wants_list": "Wants List",
     "wants_list_contains_items_saved_from_your_listings": "Wants List contains items saved from your listings",
     "manage_all_aspects_of_your_trades": "Manage all aspects of your trades",
+    "their_value": "THEIR VALUE",
+    "your_value": "YOUR VALUE",
     "browse_trade" : "Browse Trade"
   },
   "change_password": {
