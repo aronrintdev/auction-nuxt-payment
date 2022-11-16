@@ -157,7 +157,7 @@ export default {
         {text: this.$t('trades.index.browse.categories.accessories'), value: 'accessories'}
       ],
       selectedPriceRange: [0, 100],
-      selectedSortOrder: 'relevance',
+      selectedSortOrder: '',
       searchedText: '',
       searchedItems: [],
       selectedFilters: {
@@ -223,17 +223,6 @@ export default {
       ],
     }
   },
-  watch: {
-    searchKeyword(newV) {
-      this.searchText = newV
-    },
-    selectedFilters: {
-      handler (newV) {
-        this.emitChange(newV)
-      },
-      deep: true
-    }
-  },
   computed: {
     ...mapGetters('trade', [
       'sizeOptions', // Size options getter from trade store
@@ -276,6 +265,17 @@ export default {
         return { label: name, value: name }
       })
     },
+  },
+  watch: {
+    searchKeyword(newV) {
+      this.searchText = newV
+    },
+    selectedFilters: {
+      handler (newV) {
+        this.emitChange(newV)
+      },
+      deep: true
+    }
   },
   mounted() {
     // Get trade browse page filters
@@ -384,6 +384,7 @@ export default {
       this.selectedFilters.minYear = null
       this.searchedText = ''
       this.$store.commit('trade/resetAllFilters')
+      this.$store.commit('trade/setTradeType', 'All')
       this.$emit('clearFilters')
     },
 
