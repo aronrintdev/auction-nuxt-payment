@@ -3,14 +3,16 @@
     <template v-if="!isDetailView">
       <hr class="my-3" />
       <b-row class="d-flex align-items-center body-9-medium">
-        <b-col cols="5">
+        <b-col cols="4">
           <span>{{method.check_name}}</span>
         </b-col>
         <b-col cols="3">
           <span>{{method.check_account}}</span>
         </b-col>
-        <b-col cols="3">
-          <span>{{method.check_aba}}</span>
+        <b-col cols="4" class="text-green-33">
+          <span>{{$t('vendor_hub.payout_method.verified')}}</span>
+          <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+
         </b-col>
         <b-col cols="1" class="text-right">
           <a role="button" class="d-inline-block w-full p-1 text-black"  @click="$emit('showDetail', method.id)">
@@ -166,5 +168,8 @@ export default {
 
 .text-blue-20
   color: $color-blue-20
+
+.text-green-33
+  color: $color-green-33
 
 </style>

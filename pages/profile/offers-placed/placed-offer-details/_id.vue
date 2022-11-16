@@ -3,40 +3,6 @@
     class="product-summary-details responsive-offer-placed-mobile p-3"
     :class="mobileClass"
   >
-    <b-row v-if="isScreenXS" class="heading-row responsive-offer-placed-mobile">
-      <!-- Heading -->
-      <div
-        class="
-          col-12
-          mt-md-4 mt-2
-          vd-selling-heading
-          mobile
-          d-flex
-          justify-content-between
-          border-bottom
-          py-2
-        "
-      >
-        <span role="button" @click="moveBack()">
-          <img
-            :src="require('~/assets/img/icons/back.svg')"
-            alt="back-arrow"
-            class="float-left"
-          />
-        </span>
-        <span class="placed-offer-heading-mobile d-flex align-items-center">{{
-          $t('placed_offers.responsive_detailed_heading')
-        }}</span>
-        <span class="filter-wrapper" role="button">
-          <img
-            class="mobile-filter"
-            :src="require('~/assets/img/icons/filter-icon.svg')"
-            alt="filter-icon"
-          />
-        </span>
-      </div>
-      <!-- ./Heading -->
-    </b-row>
 
     <!-- Product summary heading -->
     <div v-if="isScreenXS" class="row vd-product-summary-listing my-4">
@@ -322,6 +288,18 @@
       @reload="reloadData"
     />
     <!-- popup for edit offer -->
+
+    <client-only>
+      <Portal to="page-title"> {{ $t('placed_offers.responsive_detailed_heading') }}</Portal>
+      <Portal to="back-icon-slot">
+        <img
+            :src="require('~/assets/img/icons/back.svg')"
+            alt="back-arrow"
+            class="float-left"
+            @click="moveBack()"
+          />
+      </Portal>
+    </client-only>
   </div>
 </template>
 

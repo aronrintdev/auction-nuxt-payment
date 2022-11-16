@@ -17,19 +17,39 @@
         </b-col>
       </b-row>
       <div>
-        <b-row class="mt-4 create-trade-pl-22">
+        <b-row class="mt-4 pl-0 pl-sm-auto create-trade-pl-22">
           <b-col md="7 p-0">
             <SearchInput
               :value="searchText"
               variant="primary"
               :placeholder="$t('create_listing.trade.offer_items.search_by')"
               :clearSearch="true"
+              :inputStyle="{ 
+                borderBottomLeftRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
+                borderBottomRightRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
+              }"
+              class="w-100"
               bordered
               inputHeight="60px"
               @change="onSearchInput"
             />
-            <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="tradeItem" width="700px" class="position-absolute"/>
-          </b-col>
+            <div class="position-relative">
+              <SearchedProductsBelowSearchTextBox 
+                v-if="searchedItems.length > 0" 
+                :productItems="searchedItems" 
+                productsFor="tradeItem" 
+                class="position-absolute"
+                :wrapperStyle="{ margin: 0 }"
+                :itemStyle="{ padding: 0 }"
+                addBtnClass="text-right"
+                noProductClass="no-product-responsive"
+                listGroupItemClass="border-gray"
+                :style="{
+                  zIndex: 100
+                }" 
+              />
+            </div>
+            </b-col>
           <b-col md="5" class="text-center pt-2">
             <a class="create-new-inventory-btn p-2 float-right cursor-pointer" @click="setReferrer()">
               {{ $t('create_listing.trade.offer_items.create_inventory') }}
@@ -231,6 +251,7 @@ import {Pagination} from '~/components/common'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
+import ScreenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'CreateTradeListing',
@@ -287,6 +308,7 @@ export default {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
     }
   },
+  mixins: [ScreenSize],
   computed: {
     ...mapGetters('trades', ['getTradeItems', 'getTradeId', 'getTradeOfferItemQuantity']), // Getter for getting trade items listing,quantity trade id from store
     ...mapGetters('browse', ['filters']), // getter for getting list of filters data

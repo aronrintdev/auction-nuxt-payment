@@ -55,19 +55,20 @@
       </b-form-group>
       <Button
         variant="link"
-        class="btn-edit-inventory ml-5 mr-2"
+        class="btn-edit-inventory ml-5 mr-2 mt-3"
         :tooltip-text="$t('common.edit')"
         @click="$emit('edit', method)"
       ></Button>
       <Button
         v-if="!method.is_default"
         variant="link"
-        class="btn-delete"
+        class="btn-delete mt-3"
         :tooltip-text="$t('common.delete')"
         @click="$emit('delete', method)"
       ></Button>
     </div>
-    <div :class="method.is_default? 'default-class' : 'non-default'" class="d-flex align-items-center justify-content-center">
+    <div :class="method.is_default? 'default-class' : 'non-default'"
+         class="d-flex align-items-center justify-content-center mt-2 mb-3">
       {{method.is_default? $t('vendor_hub.payout_method.default') : $t('vendor_hub.payout_method.non_default')}}
     </div>
   </div>

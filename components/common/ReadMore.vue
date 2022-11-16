@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div class="d-none d-md-block">
+    <div :class="{
+      'text-black font-primary body-5-regular': !isScreenXS,
+      'mb-2': showFull,
+      'mb-5': !showFull
+    }" class="d-none d-md-block desc-text">
       <p v-if="showFull">
         <span v-html="full"></span>
         <span class="cursor-pointer link" @click="toggle">{{ $t('common.read_less') }}</span>
@@ -30,8 +34,11 @@
 </template>
 
 <script>
+import screenSize from '~/plugins/mixins/screenSize';
+
 export default {
   name: 'ReadMore',
+  mixins: [screenSize],
   props: {
     content: {
       type: String,
@@ -67,6 +74,7 @@ export default {
 </script>
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
 .link
   color: $color-blue-30
 

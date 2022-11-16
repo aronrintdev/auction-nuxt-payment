@@ -31,7 +31,7 @@
       <template v-else>
         <b-row>
           <b-col cols="2">
-            <ProductThumb :product="inventory.product" class="w-25" />
+            <ProductThumb :product="inventory.product" />
           </b-col>
           <b-col cols="10" class="d-flex flex-wrap">
             <div class="text-nowrap overflow-hidden text-truncate">
@@ -98,3 +98,11 @@ export default {
   }
 }
 </script>
+
+<style lang="sass">
+
+.list-group
+  .thumb-wrapper
+    img
+      padding: 0 !important
+</style>
