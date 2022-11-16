@@ -21,7 +21,7 @@
       </b-row>
       <div>
         <b-row class="mt-4 create-trade-pl-22">
-          <b-col md="7 p-0">
+          <b-col md="7 p-0" xl="10" lg="10">
             <SearchInput
               :value="searchText"
               variant="primary"
@@ -33,7 +33,7 @@
             />
             <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="tradeItem" width="1000px" class="position-absolute search-prod"/>
           </b-col>
-          <b-col md="5" class="text-center pt-2">
+          <b-col xl="2" lg="2" class="text-center pt-2">
             <Button
               class="flex-shrink-0 btn-file"
               @click="handleUploadCSVClick"
@@ -44,7 +44,7 @@
 <!--            </a>-->
           </b-col>
         </b-row>
-        <div class="inventory-section-module mt-5 ml-2">
+        <div class="inventory-section-module mt-5 ml-2 mb-2 pb-5">
           <b-row class="available-invent-trade-heading">
             {{ $t('create_listing.trade.offer_items.available_inventory', {'0': totalCount}) }}
           </b-row>
@@ -107,7 +107,7 @@
             <b-col v-for="item in inventory_items" :key="'offer-'+item.id" cols="3 mb-4">
               <div class="create-trade-item" :draggable="true" @dragstart="startDrag($event, item)">
                 <div>
-                  <div class="create-trade-size-car">{{$t('trades.create_listing.vendor.wants.size')}} {{ item.size && item.size.size }}</div>
+<!--                  <div class="create-trade-size-car">{{$t('trades.create_listing.vendor.wants.size')}} {{ item.size && item.size.size }}</div>-->
                   <img alt="No Image" class="plus-icon-add" :src="require('~/assets/img/icons/addPlus.svg')"
                        @click="checkIfItemAlreadyListed(item)"/>
                 </div>
@@ -126,6 +126,8 @@
                     class="create-trade-item-caption-description">Box: {{
                       item.packaging_condition && item.packaging_condition.name
                     }}</span>
+                  <span
+                    class="create-trade-item-caption-description">Size: {{ item.size && item.size.size }}</span>
                 </div>
                 <!-- tooltip for name -->
                 <b-tooltip :target="`name${item.id}`" triggers="hover">
@@ -750,8 +752,8 @@ export default {
   line-height: 21px
   color: #626262
 .inventory-section-module
-  width: 1115px
-  height: 1016px
+  //width: 1115px
+  //height: 1016px
   background: $color-white-1
 .btn-file
   background: $color-black-1
