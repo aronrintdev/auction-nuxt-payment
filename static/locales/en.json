@@ -4006,6 +4006,7 @@
     "items": "Items",
     "auto_bid_to": "Autobid to ",
     "highest_bid_info": "The highest bid for each auction is displayed",
+    "highest_bid_placed_info": "The highest bid you have placed for each auction is displayed",
     "messages": {
       "saved": "Your changes have been saved!"
     },
