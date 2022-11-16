@@ -18,9 +18,9 @@
               <span>{{ $t('trades.create_listing.vendor.wants.back_to_offers_item') }}</span>
             </NuxtLink>
           </b-col>
-          <b-col class="text-right">
-            <FormStepProgressBar :steps="steps" variant="transparent"/>
-          </b-col>
+<!--          <b-col class="text-right">-->
+<!--            <FormStepProgressBar :steps="steps" variant="transparent"/>-->
+<!--          </b-col>-->
         </b-row>
         <b-row cols="1" class="pr-md-5 pr-lg-5 pr-sm-0">
           <b-col class="w-100">
@@ -43,15 +43,15 @@
             <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="wantItemTrade" width="700px" class="position-absolute"/>
           </b-col>
           <b-col align-self="center" class="col-md-4 col-12 col-sm-6 mt-md-4 text-right">
-            <a class="font-weight-bolder text-gray cursor-pointer" @click="$bvModal.show('offer-item-modal')">
+            <b-btn class="font-weight-bolder cursor-pointer btn-offer" @click="$bvModal.show('offer-item-modal')">
               <b-img
-                :src="require('~/assets/img/icons/clarity_eye-line.svg')"
+                :src="require('~/assets/img/eye-offer.svg')"
                 :alt="$t('trades.create_listing.vendor.wants.view_offer_items')"
               />
-              <span class="border-bottom border-dark">{{
+              <span class="">{{
                   $t('trades.create_listing.vendor.wants.view_offer_items')
                 }}</span>
-            </a>
+            </b-btn>
           </b-col>
         </b-row>
         <b-row class="mt-5 mb-2">
@@ -272,7 +272,7 @@
             </div>
           </b-collapse>
         </b-row>
-        <b-row class="mt-5 mr-5 p-5 border-dotted text-center d-flex justify-content-center" @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
+        <b-row class="mt-5 mr-5 p-5 create-trade-drag-drop-item  text-center d-flex justify-content-center" @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
           <div v-if="getTradeItemsWants.length < 1">
             <div class="create-trade-drag-drop-heading">
               {{ $t('create_listing.trade.offer_items.drag_drop') }}
@@ -329,7 +329,7 @@
         </b-row>
         <b-row class="mt-5 d-block pr-5">
           <b-col class="w-25 pull-right">
-            <Button pill :disabled="!getTradeItemsWants.length" size="lg" class="w-50 pull-right mb-4" @click="$router.push('/profile/create-listing/trades/confirmation')">{{ $t('trades.create_listing.vendor.wants.next') }}</Button>
+            <b-btn pill :disabled="!getTradeItemsWants.length" class="pull-right mb-4 create-trade-next-btn" @click="$router.push('/profile/create-listing/trades/confirmation')">{{ $t('trades.create_listing.vendor.wants.next') }}</b-btn>
           </b-col>
         </b-row>
         <!-- /.row (main row) -->
@@ -344,8 +344,8 @@
 import { mapActions, mapGetters } from 'vuex'
 import debounce from 'lodash.debounce'
 
-import FormStepProgressBar from '~/components/common/FormStepProgressBar'
-import Button from '~/components/common/Button'
+// import FormStepProgressBar from '~/components/common/FormStepProgressBar'
+// import Button from '~/components/common/Button'
 import SearchInput from '~/components/common/SearchInput'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox'
 import CustomDropdown from '~/components/common/CustomDropdown'
@@ -363,8 +363,8 @@ import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
 export default {
   name: 'TradeWants',
   components: {
-    FormStepProgressBar, // Stepper component
-    Button, // Button component
+    // FormStepProgressBar, // Stepper component
+    // Button, // Button component
     SearchInput, // search input
     SearchedProductsBelowSearchTextBox, //  component for items show below search as search results
     CustomDropdown, // custom dropdown component used for filters
@@ -970,4 +970,7 @@ export default {
 .mt-custom
   margin-top: 45px
   padding-right: 30px
+.btn-offer
+  background: #000000
+  color: #fff
 </style>
