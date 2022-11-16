@@ -5160,6 +5160,7 @@
   },
   "placed_offers": {
     "heading": "Placed Offers",
+    "header_title"  : "Offers Placed",
     "status": "Status",
     "size": "Size",
     "list_id": "List ID",
