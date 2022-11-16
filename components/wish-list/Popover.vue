@@ -44,7 +44,8 @@
     <NewWishListProductModal
       :id="`new-list-product-modal-${product.id}`"
       :product="product"
-      :wish-list="wishList"
+      :wish-list="createdWishlist"
+      @hidden="$emit('wishlisted', createdWishlist)"
     />
   </div>
 </template>
@@ -80,6 +81,12 @@ export default {
     },
   },
 
+  data() {
+    return {
+      createdWishlist: null,
+    }
+  },
+
   computed: {
     ...mapGetters({
       wishLists: 'wish-list/getWishLists',
@@ -110,11 +117,10 @@ export default {
     },
 
     async handleWishListCreated(wishList) {
-      const data = await this.addProductsToWishList({
+      this.createdWishlist = await this.addProductsToWishList({
         wishList,
         ids: [this.product.id],
       })
-      this.$emit('wishlisted', data)
       this.$bvModal.hide(`create-list-modal-${this.product.id}`)
       this.$nextTick(() =>
         this.$bvModal.show(`new-list-product-modal-${this.product.id}`)
