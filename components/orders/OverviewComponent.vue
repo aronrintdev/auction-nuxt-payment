@@ -1,14 +1,14 @@
 <template>
   <div>
     <h1 class="overview-heading px-md-2">{{ $t('orders.overview') }}</h1>
-    <div class="row justify-content-between box-gap">
+    <div class="row mx-0 justify-content-between box-gap">
       <overview-box :label="$t('orders.total_sales').toString()" :value="totalSalesStr"
                     :icon="require('~/assets/img/orders/total-sales.svg')"></overview-box>
-      <overview-box :label="$t('orders.commission_pending').toString()" :value="commissionPendingStr"
+      <overview-box :label="labelCommissionPending" :value="commissionPendingStr"
                     :icon="require('~/assets/img/orders/commission-pending.svg')"></overview-box>
       <overview-box :label="$t('orders.inventory').toString()" :value="inventoryCount.toString()"
                     :icon="require('~/assets/img/orders/inventory.svg')"></overview-box>
-      <overview-box :label="$t('orders.offers').toString()" :value="totalOffers.toString()"
+      <overview-box :label="$t('orders.items_sold').toString()" :value="totalOffers.toString()"
                     :icon="require('~/assets/img/orders/offers.svg')"></overview-box>
     </div>
   </div>
@@ -17,12 +17,14 @@
 <script>
 import {mapGetters} from 'vuex'
 import OverviewBox from '~/components/orders/OverviewBox'
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'OverviewComponent',
   components: {
     OverviewBox
   },
+  mixins:[screenSize],
   computed: {
     ...mapGetters('vendors', [
       'totalCommissionPending',
@@ -35,6 +37,12 @@ export default {
     },
     commissionPendingStr(){
       return '$'+(this.totalCommissionPending / 100).toFixed(2)
+    },
+    labelCommissionPending(){
+      if(this.isScreenXS){
+        return this.$t('orders.pending').toString()
+      }
+      return this.$t('orders.commission_pending').toString()
     }
   },
 }
@@ -55,18 +63,6 @@ export default {
     font-family: $font-montserrat
     @include body-5
     text-transform: capitalize
-
-  ::v-deep .overview-box:nth-child(1) .box-value
-    color: $color-blue-20
-
-  ::v-deep .overview-box:nth-child(2) .box-value
-    color: $color-orange-11
-
-  ::v-deep .overview-box:nth-child(3) .box-value
-    color: $color-blue-19
-
-  ::v-deep .overview-box:nth-child(4) .box-value
-    color: $color-red-26
 
   .justify-content-between
     justify-content: stretch !important
