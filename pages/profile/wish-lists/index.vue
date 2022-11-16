@@ -103,10 +103,10 @@
             v-if="wishLists.length > 0"
             :class="`section-lists ${action !== 'none' ? 'mt' : ''}`"
           >
-            <h5 class="d-none d-sm-block">
+            <h5 class="d-none d-sm-block px-2">
               {{ $t('wish_lists.buying_lists') }}
             </h5>
-            <div class="d-none d-sm-block">
+            <div class="d-none d-sm-block wishlist-wrapper">
               <div v-for="list in wishLists" :key="list.id" class="px-2">
                 <Button
                   :pressed="list.id === currentWishList.id"
@@ -170,6 +170,7 @@
                 >
                   Edit
                 </button>
+
                 <b-popover
                   ref="sharePopover"
                   :target="`popover-share-${list.id}`"
@@ -188,6 +189,10 @@
                   />
                 </b-popover>
               </div>
+              <div class="d-flex justify-content-end">
+                <span v-b-modal.create-list-modal><img width="42" height="42" src="~/assets/img/plus-circle-blue.svg" /></span>
+              </div>
+
             </div>
           </section>
         </div>
@@ -641,5 +646,7 @@ export default {
   overflow-y: auto
   overflow-x: hidden
   min-height: 500px
+.wishlist-wrapper
+  margin-left: -10px
 
 </style>
