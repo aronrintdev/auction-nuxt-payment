@@ -5425,6 +5425,8 @@
     "next_step": "Next step",
     "total_sales": "Total Sales",
     "commission_pending": "Commission Pending",
+    "pending": "Pending (%)",
+    "items_sold": "Items Sold",
     "inventory": "Inventory",
     "offers": "Offers",
     "generate_shipping_label": "Generate Shipping Label",
