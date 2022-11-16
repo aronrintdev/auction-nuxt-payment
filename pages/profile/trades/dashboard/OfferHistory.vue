@@ -78,11 +78,11 @@
           </b-col>
         </b-row>
       </div>
-      <div class="offer-history" :class="'background-' + (isOfferMine(offerHistory) ? 'blue' : 'white')">
+      <div class="offer-history"  :class="isOfferMine(offerHistory) ? 'blue-theme':'white-theme'">
         <b-row class="justify-content-between pt-4 pl-4 pr-4">
           <b-col v-if="isOfferMine(offerHistory) && offerHistory.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.your_counter_offer')}} ({{ offerHistory.id}})</b-col>
           <b-col v-else-if="!isOfferMine(offerHistory) && offerHistory.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.their_counter_offerHistory')}} ({{ offerHistory.id}})</b-col>
-          <b-col class="history-time text-right">on {{ offerHistory.created_at | formatDateTimeString }}</b-col>
+          <b-col class="history-time text-right">{{ offerHistory.created_at | formatDateTimeString }}</b-col>
         </b-row>
         <b-col v-if="!isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.they_offered')}}</b-col>
         <b-col v-else-if="isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.you_asking_for')}}</b-col>
@@ -160,7 +160,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .offer-history
-  width: 876px
+  width: 685px
   min-height: 333px
   max-height: 350px
   background: $color-white-1
@@ -225,4 +225,12 @@ export default {
 .dollar-img
   width: 7px
   height: 12px
+.blue-theme
+  background: #edf5ff
+  margin-top: 2rem
+  float: right
+  margin-left: 35rem
+.white-theme
+  background: white
+  float: left
 </style>

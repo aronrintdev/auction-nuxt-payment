@@ -6,44 +6,23 @@
         <div class="row">
           <div class="col-12 trade-sum-heading trade-inv-heading">
             <h1 class="placed-offer-heading d-flex align-items-center">
-              {{ $t('placed_offers.heading') }}
+              {{ $t('placed_offers.header_title') }}
             </h1>
           </div>
         </div>
       </div>
       <!-- title for web -->
 
-      <!-- title for mob -->
-      <div v-if="isScreenXS" class="responsive-offer-placed-mobile">
-        <div class="row mt-3 border-bottom">
-          <div class="col-12 trade-sum-heading trade-inv-heading-mobile">
-            <h1
-              class="
-                placed-offer-heading-mobile
-                d-flex
-                align-items-center
-                justify-content-center
-                mb-2
-              "
-            >
-              {{ $t('products.offers') }}
-            </h1>
-          </div>
-        </div>
-      </div>
-      <!-- title for mob -->
-
       <!-- search for web -->
       <div v-if="!isScreenXS" class="offer-placed-web">
         <div class="row filter-row-top">
           <!-- Input search -->
-          <div class="col search-input-col vtpc-search p-lg-3 pt-3">
+          <div class="col-md-12 col-lg-8 search-input-col vtpc-search pt-3">
             <div class="form trade-search">
               <div
                 class="
                   form-group
                   selling-search-input
-                  border
                   d-flex
                   align-items-center
                   m-0
@@ -73,7 +52,7 @@
           <!-- ./Input search -->
 
           <!-- Sort By -->
-          <div class="col sortby-col p-lg-3 pt-3">
+          <div class="col-md-12 col-lg-4 sortby-col pt-3">
             <CustomSelect
               id="category-types"
               :default="categorySelected"
@@ -96,9 +75,10 @@
       <div v-if="!isScreenXS" class="offer-placed-web">
         <div class="row filter-row-bottom">
           <!-- Filter By -->
-          <div class="col filter-by-col">
+          <div class="col-lg-3 col-md-4 col-sm-4 filter-by-col">
             <label>{{ $t('selling_page.filter_by') }}</label>
             <CustomSelect
+              id="filterby"
               :default="filterBy"
               :threelineIcon="false"
               :options="{
@@ -114,76 +94,38 @@
           <!-- ./Filter By -->
 
           <!-- Offer Date -->
-          <div class="col date-from-col">
+          <div class="col-lg-2 col-md-4 col-sm-4 date-from-col p-0">
             <label>{{ $t('selling_page.offer_date') }}</label>
-            <b-input-group>
-              <b-form-input
-                id="example-datepicker-start"
-                v-model="searchFilters.startDate"
-                type="text"
-                :placeholder="$t('placed_offers.start_date')"
-                autocomplete="off"
-              ></b-form-input>
-              <b-input-group-append>
-                <b-form-datepicker
-                  id="append-b-datepicker"
-                  v-model="searchFilters.startDate"
-                  button-only
-                  right
-                  locale="en-US"
-                  aria-controls="example-input"
-                  :date-format-options="{
-                    year: 'numeric',
-                    month: 'numeric',
-                    day: 'numeric',
-                  }"
-                  @context="onContextStart"
-                ></b-form-datepicker>
-              </b-input-group-append>
-            </b-input-group>
+            <CalendarInput
+              id="start-date"
+              class="position-absolute"
+              :value="searchFilters.startDate"
+              :placeholder="$t('placed_offers.start_date')"
+              @context="(context) => searchFilters.startDate = context.selectedYMD"
+            ></CalendarInput>
           </div>
 
-          <div class="col date-to-col">
-            <br />
-            <b-input-group class="mt-2">
-              <b-form-input
-                id="example-datepicker-end"
-                v-model="searchFilters.endDate"
-                :placeholder="$t('placed_offers.end_date')"
-                type="text"
-                autocomplete="off"
-              ></b-form-input>
-              <b-input-group-append>
-                <b-form-datepicker
-                  id="append-b-datepicker"
-                  v-model="searchFilters.endDate"
-                  button-only
-                  right
-                  locale="en-US"
-                  aria-controls="example-input"
-                  :date-format-options="{
-                    year: 'numeric',
-                    month: 'numeric',
-                    day: 'numeric',
-                  }"
-                  @context="onContextEnd"
-                ></b-form-datepicker>
-              </b-input-group-append>
-            </b-input-group>
+          <div class="col-lg-2 col-md-4 col-sm-4 date-to-col ">
+             <CalendarInput
+              id="end-date"
+              class="position-absolute"
+              :value="searchFilters.endDate"
+              :placeholder="$t('placed_offers.end_date')"
+              @context="(context) => searchFilters.endDate = context.selectedYMD"
+            ></CalendarInput>
           </div>
           <!-- ./Offer Date -->
 
-          <div class="col apply-button">
-            <br />
-            <Button variant="apply" class="mt-2" @click="getOffers">{{
+          <div :class="`col-lg-2 col-6 apply-button d-flex ${screenIsSmallThanLG && 'mt-5'}`">
+            <Button variant="apply" class="mt-2 position-absolute ml-1" @click="getOffers">{{
               $t('selling_page.apply')
             }}</Button>
           </div>
-          <div class="col hide-col"></div>
-          <div class="col remove-multiple-button mt-auto">
+          <!-- <div class="col-lg-1 hide-col"></div> -->
+          <div :class="`col-lg-3 col-6 remove-multiple-button mt-auto d-flex justify-content-end ${screenIsSmallThanLG && 'mt-5'}`">
             <Button
               variant="remove-multiple"
-              class="pa-0"
+              class="p-0"
               @click="toggleCheckBox"
               >{{ $t('placed_offers.remove_multiple') }}</Button
             >
@@ -245,7 +187,7 @@
       <!-- page content for web -->
 
       <!-- search for mob -->
-      <div v-if="isScreenXS" class="responsive-offer-placed-mobile search-input-col mt-3 row">
+      <div v-if="isScreenXS" class="responsive-offer-placed-mobile search-input-col pt-3 row">
         <div class="col-10 form-group d-flex align-items-center m-auto">
           <MobileSearchInput id="mobile-search" :value="searchFilters.keyWord" @input="search" />
         </div>
@@ -453,6 +395,9 @@
       <!-- Edit offer ends -->
       <!-- page content for mob -->
     </div>
+    <client-only>
+      <Portal to="page-title"> {{ $t('products.offers') }}</Portal>
+    </client-only>
   </div>
 </template>
 
@@ -474,6 +419,7 @@ import Confirmation from '~/components/profile/offers-received/Confirmation.vue'
 import MobileSearchInput from '~/components/mobile/MobileSearchInput.vue'
 import EditOffer from '~/components/profile/offers-placed/EditOffer.vue'
 import screenSize from '~/plugins/mixins/screenSize'
+import CalendarInput from '~/components/common/form/CalendarInput'
 
 export default {
   name: 'OffersPlaced',
@@ -488,7 +434,8 @@ export default {
     Pagination,
     Confirmation,
     MobileSearchInput,
-    EditOffer
+    EditOffer,
+    CalendarInput
   },
 
   mixins: [screenSize],
@@ -875,28 +822,9 @@ export default {
     display: flex
     justify-content: space-between
 
-.sortby-col
-  @media (min-width:993px)
-    flex: 0 0 30%
-    max-width: 30%
-
-.search-input-col
-  @media (min-width:993px)
-    flex: 0 0 60%
-    max-width: 60%
-.filter-by-col,
-.date-from-col,
-.date-to-col
-  @media (max-width: 425px)
-    flex: 0 0 100%
-    max-width: 100%
-  @media (min-width: 993px)
-    flex: 0 0 20%
-    max-width: 20%
-  @media (min-width:426px) and (max-width: 768px)
-    flex: 0 0 33.33%
-    max-width: 33.33%
-.apply-button
+.apply-button::v-deep
+  @media (min-width: 992px)
+    text-align: center
   @media (max-width: 320px)
     flex: 0 0 50%
     max-width: 50%
@@ -918,7 +846,8 @@ export default {
   height: 47px
 #example-datepicker-start,
 #example-datepicker-end
-  height: 47px
+  width: 170px
+  height: 38px
   background: $color-white-1
   border: 1px solid $white-2
   .input-group-append
@@ -926,7 +855,7 @@ export default {
       background: $color-white-1
 .btn-remove-multiple
   width: 168px
-  height: 47px
+  height: 38px
   left: 1201px
   top: 291px
   background: $color-white-1
@@ -1105,7 +1034,7 @@ export default {
     width: 100%
 
 #responsive-product-placed-offer-card::v-deep
-  height: 236px
+  height: 208px
 
 .empty-browse-now
   .browse-btn
@@ -1136,4 +1065,80 @@ export default {
 #delete-confirm::v-deep
   .bottom-sheet__content
     height: 145px
+  
+.offers-placed-index::v-deep
+  /**  Search input */
+  .trade-search
+    .selling-search-input
+      border: 1px solid $color-gray-60
+      @media (min-width: 1440px)
+        width: 100%
+        height: 40px
+      @media (max-width: 1440px)
+        width: 100%
+        height: 40px
+      #search-result
+        font-family: $font-montserrat
+        font-style: normal
+        @include body-5-regular
+        letter-spacing: 0.06em
+        color: $color-gray-5
+  /** Sort by */
+  .sortby-col
+    #category-types
+      .selected
+        height: 100%
+        border: 1px solid $color-gray-60
+        border-radius: 5px
+        padding: 8px 8px
+      .items
+        border: 1px solid $color-gray-60
+      @media (min-width: 1440px)
+        width: 245px
+        height: 38px
+        float: right
+    
+  .apply-button
+    .btn-apply
+      height: 38px
+      background: $color-blue-20
+      border-radius: 5px
+      bottom: 0
+
+  .date-from-col
+    @media (min-width: 992px)
+      padding: 0
+    #start-date
+      width: 100%
+      height: 38px
+      bottom: 0
+      .date-input
+        background: $color-white-1
+      .date-input-icon
+        .dropdown-toggle
+          background: $color-white-1
+  .date-to-col
+    #end-date
+      width: 100%
+      height: 38px
+      bottom: 0
+      .date-input
+        background: $color-white-1
+      .date-input-icon
+        .dropdown-toggle
+          background: $color-white-1
+  .filter-by-col
+    #filterby
+      width: 100%
+      height: 38px
+      .selected
+        height: 100%
+        border: 1px solid $color-gray-60
+        border-radius: 5px
+        padding: 8px 8px
+        &:after
+          top: 3px
+      .items
+        border: 1px solid $color-gray-60
+        border-radius: 5px
 </style>

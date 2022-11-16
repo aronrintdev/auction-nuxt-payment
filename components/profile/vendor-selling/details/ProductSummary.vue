@@ -1,7 +1,7 @@
 <template>
   <div class="product-summary-details">
     <!-- Product summary heading -->
-    <div class="row vd-product-summary-listing my-4">
+    <div class="row vd-product-summary-listing py-4">
       <div class="col-12 product-summary-heading d-flex justify-content-start text-center">
         {{ $t('selling_page.product_summary') }}
       </div>

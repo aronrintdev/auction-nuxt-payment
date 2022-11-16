@@ -1,39 +1,5 @@
 <template>
   <b-col cols="12" class="vd-selling mb-4">
-    <b-row class="heading-row">
-      <!-- Heading -->
-      <div
-        class="
-          col-12
-          mt-md-4 mt-2
-          vd-selling-heading
-          mobile
-          d-flex
-          justify-content-between
-          border-bottom
-          py-2
-        "
-      >
-        <span role="button" @click="moveBack()">
-          <img
-            :src="require('~/assets/img/icons/back.svg')"
-            alt="back-arrow"
-            class="float-left"
-          />
-        </span>
-        <span class="selling-heading">
-          {{ $t('selling_page.selling_page_heading') }}
-        </span>
-        <span class="filter-wrapper" role="button">
-          <img
-            class="mobile-filter"
-            :src="require('~/assets/img/icons/filter-icon.svg')"
-            alt="filter-icon"
-          />
-        </span>
-      </div>
-      <!-- ./Heading -->
-    </b-row>
 
     <!--Product Summary  -->
     <ProductSummary :details="details" @viewOptions="viewOptions" />
@@ -94,6 +60,17 @@
       />
     </vue-bottom-sheet>
     <!-- Vue bottom-sheets ends -->
+    <client-only>
+      <Portal to="page-title"> {{ $t('selling_page.selling_page_heading') }}</Portal>
+      <Portal to="back-icon-slot">
+        <img
+            :src="require('~/assets/img/icons/back.svg')"
+            alt="back-arrow"
+            class="float-left"
+            @click="moveBack()"
+          />
+      </Portal>
+    </client-only>
   </b-col>
 </template>
 

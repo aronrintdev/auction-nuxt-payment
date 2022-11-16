@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="product-image d-flex flex-column justify-content-center align-items-center mx-auto">
-      <ProductThumb :product="product" role="button"/>
+      <ProductThumb :product="product" role="button" :overlay="true"/>
     </div>
     <div class="detail-wrapper">
       <div class="d-flex">
@@ -34,7 +34,7 @@
       </div>
     </div>
     <div class="product-image d-flex flex-column justify-content-center align-items-center mx-auto">
-      <ProductThumb :product="product" role="button"/>
+      <ProductThumb :product="product" role="button" :overlay="true"/>
     </div>
     <div class="detail-wrapper">
       <div class="d-flex">
@@ -100,7 +100,7 @@ export default {
   @include body-18
   line-height: 12px
   padding-top: 1px
-.trade-btn
+.trade-btn::v-deep
   height: 40px
   width: 94px
 .left-side-cont
@@ -125,7 +125,7 @@ export default {
     position: relative
     height: 215px
     width: 245px
-    padding: 0 20px
+    background: $color-white-4
     @media(min-width: 300px) and (max-width: 500px)
       position: relative
       height: 100px
@@ -151,7 +151,7 @@ export default {
     .product-color
       @include body-5-normal
       color: $color-gray-5
-      margin-top: 7px
+      margin-top: 3px
       text-overflow: ellipsis
       overflow: hidden
       white-space: nowrap
@@ -162,4 +162,9 @@ export default {
       @include body-5-normal
       color: $color-gray-5
       margin-top: 3px
+::v-deep .overlay
+    background: $color-grey-70
+::v-deep .prod-image
+    padding: 20px
+
 </style>

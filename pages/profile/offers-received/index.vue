@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-12 vendor-trade-inv-body" :class="mobileClass">
     <div class="container-fluid">
-      <div class="row" :class="mobileClass ? 'border-bottom border-dark' : ''">
+      <div v-if="!isScreenXS" class="row" :class="mobileClass ? 'border-bottom border-dark' : ''">
         <div
           class="col-12 trade-sum-heading trade-inv-heading"
           :class="mobileClass ? 'd-flex justify-content-center' : ''"
@@ -412,6 +412,9 @@
       />
       <!-- Delete confirm message mobile view ends -->
     </div>
+    <client-only>
+    <Portal to="page-title"> {{ $t('offers_received.heading') }}</Portal>
+    </client-only>
   </div>
 </template>
 

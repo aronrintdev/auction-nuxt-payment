@@ -191,8 +191,17 @@
     "model": "Model",
     "model_detail": "The model is 5’ 8” and wears a large",
     "no-items-in-combination": "No items in combination",
+    "days": "days",
+    "mins": "mins",
+    "hours": "hours",
+    "secs": "secs",
+    "current_trade": "Current Trade",
+    "their_value": "Their Value",
+    "your_value": "Your Value",
+    "fair_trade_meter": "Fair Trade Meter",
     "thread": "Thread",
     "rescind": "Rescind",
+    "enter_cash_amount": "Enter Cash Amount",
     "box_conditions": {
       "1": {
         "1": "Excellent",
@@ -210,7 +219,8 @@
         "2": "Damaged Packaging",
         "3": "No Original Packaging"
       }
-    }
+    },
+    "box": "Box"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -593,7 +603,8 @@
     "sweatshirts": "SWEATSHIRTS",
     "bottoms": "BOTTOMS",
     "shirts": "SHIRTS",
-    "jackets": "JACKETS"
+    "jackets": "JACKETS",
+    "trade_value":  "Trade Value"
   },
   "Sign Up": "Sign Up",
   "Log In": "Log In",
@@ -2086,7 +2097,8 @@
       "upcoming": "Upcoming",
       "expiring": "Expiring",
       "expired": "Expired",
-      "sold": "Sold"
+      "sold": "Sold",
+      "traded": "Traded"
     }
   },
   "shop": {
@@ -4291,7 +4303,7 @@
       "add_additional_security": "Add additional security to your account with two factor authentication",
       "2fa_enabled": "Two-factor authentication is enabled",
       "2fa_disabled": "Two-factor authentication is disabled",
-      "as_part_of_our_mission": "As part of our mission to build the world’s most trustworthy, secure, and technologically advanced marketplace for sneakerheads and streetwear fanatics. Deadstock further ensures protection from security breaches on our platform by using two-factor authentication.<br /><br /> With two-factor authentication, we take identity verification to the next level by requiring a second method of verification for users to access their account. By providing an ultra-secure online marketplace, Deadstock’s aim is to create the optimal user experience.",
+      "as_part_of_our_mission": "As part of our mission to build the world’s most trustworthy, secure, and technologically advanced marketplace for sneakerheads and streetwear fanatics. <br/> Deadstock further ensures protection from security breaches on our platform by using two-factor authentication.<br /><br /> With two-factor authentication, we take identity verification to the next level by requiring a second method of verification for users to access their account. By providing an ultra-secure online marketplace, Deadstock’s aim is to create the optimal user experience.",
       "2fa_faq_full": "Frequently Asked Questions about Two-Factor Authentication",
       "2fa_faq_small": "Frequently Asked Questions",
       "msg_enable_success": "2FA enabled successfully",
@@ -4446,6 +4458,9 @@
         "open": "Open Trades",
         "completed": "Completed"
       },
+      "their_counter_offerHistory": "Their Counter Offer",
+      "your_counter_offer": "Your Counter Offer",
+      "their_offer": "Their Offer",
       "create_listing_btn": "Create a Trade Listing",
       "trades": "Trades",
       "trade_hub": "Trade Hub",
@@ -4876,6 +4891,8 @@
     "your_counter_offer": "Your Counter Offer",
     "their_counter_offer": "Their Counter Offer",
     "they_offered": "They offered:",
+    "you_offered": "You offered:",
+    "they_asking_for": "They’re asking for:",
     "you_asking_for": "You’re asking for:",
     "you_requested": "You requested <b>${0}</b> on top",
     "you_added": "You added <b>${0}</b> on top",
@@ -5037,15 +5054,19 @@
     "wants_list": "Wants List",
     "wants_list_contains_items_saved_from_your_listings": "Wants List contains items saved from your listings",
     "manage_all_aspects_of_your_trades": "Manage all aspects of your trades",
-    "browse_trade" : "Browse Trade"
+    "their_value": "THEIR VALUE",
+    "your_value": "YOUR VALUE",
+    "browse_trade" : "Browse Trade",
+    "view_details": "View Details"
   },
   "change_password": {
     "password": "Password",
-    "confirm_password": "Confirm Password",
+    "confirm_password": "Confirm New Password",
     "new_password": "New Password",
     "current_password": "Current Password",
     "change_password": "Change Password",
-    "password_policy": "Password Policy"
+    "password_policy": "Password Policy",
+    "password_policy_long": "Minimum 8 characters, 1 uppercase, 1 number, and 1 symbol"
   },
   "giftcard_section": {
     "giftcard": "Gift Card: {cardNo}",
@@ -5139,6 +5160,7 @@
   },
   "placed_offers": {
     "heading": "Placed Offers",
+    "header_title"  : "Offers Placed",
     "status": "Status",
     "size": "Size",
     "list_id": "List ID",
@@ -5211,6 +5233,7 @@
     "view": "View",
     "discard": "Discard",
     "faq": "Frequently Asked Questions about the Vendor Hub",
+    "faq_title": "Frequently Asked Questions",
     "document_name": "Document Name",
     "file": "File",
     "retailer_certification": "Retailer Certification",
@@ -5581,7 +5604,6 @@
     "outcome": "Outcome",
     "seller_ranking": "Seller Ranking",
     "view_more": "View More",
-    "footwear": "Footwear",
     "on_track": "You are on track for {rank} Seller Next Quarter",
     "next_sales": "With {next} more successful sales",
     "till_next": "{point} till {next}",
@@ -5596,6 +5618,7 @@
     "view_all": "View All",
     "total_sales": "Total Sales | Sales Activity",
     "commision_pending": "Commision Pending",
+    "pending_percentage": "Pending (%)",
     "inventory": "Inventory",
     "items_sold": "Items Sold",
     "totall_sales": "Total Sales",
@@ -5638,6 +5661,7 @@
     "apply_filters": "Apply Filters",
     "this_week": "This Week",
     "new": "New",
+    "older": "Older",
     "at": "at",
     "all": "All",
     "date_range": "Date Range",
@@ -5831,8 +5855,11 @@
       "dashboard": "Dashboard",
       "total_purchases": "Total Purchases",
       "rewards_points": "Rewards Points",
+      "rewards_points_mobile": "Points",
       "items_bought": "Items Bought",
+      "items_bought_mobile": "Bought",
       "offers_placed": "Offers Placed",
+      "offers_placed_mobile": "Offers",
       "total_purchases_main": "Total Purchases",
       "earn_money": "Earn Money",
       "rewards": "Rewards",
@@ -5849,7 +5876,7 @@
       "minutes": "Minutes",
       "seconds": "Seconds",
       "your_entries": "Your Entries",
-      "no_active": "There are not active promotions."
+      "no_active": "There are no active promotions."
     },
     "purchases": {
       "title": "Purchases",
