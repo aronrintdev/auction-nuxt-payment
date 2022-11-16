@@ -24,11 +24,19 @@
 
       <!-- Info Message Text -->
       <b-row v-if="! isAuthenticated" class="info-text-wrapper">
-        <b-col cols="12" sm="12" class="d-flex align-items-center">
-          <div class="body-13-medium">{{ $t('home.get_the_most_out_of') }}&excl;</div>
+        <b-col cols="12" sm="12">
+          <div class="body-13-medium">{{ $t('home.deadstock_app_buy_sell_trade') }}</div>
         </b-col>
       </b-row>
       <!-- End of Info Message Text -->
+
+      <!-- Guest Image -->
+      <b-row v-if="! isAuthenticated" class="guest-img-wrapper">
+        <b-col cols="12" sm="12">
+          <b-img fluid-grow :src="require('~/assets/img/home/sidebar/sidebar-menu-banner.png')" />
+        </b-col>
+      </b-row>
+      <!-- End of Guest Image -->
 
       <!-- Authentication Buttons -->
       <b-row v-if="! isAuthenticated" class="btn-wrapper">
@@ -191,8 +199,8 @@ export default {
       isVisible: false,
       guestProfileListItems: [
         {
-          icon: 'vendor-hub-outline-gray',
-          label: this.$t('home.vendor_hub'),
+          icon: 'vendor-outline-gray',
+          label: this.$t('vendor_hub.apply_title'),
           link: '/profile/vendor-hub'
         },
         {
@@ -341,14 +349,19 @@ export default {
 
 .main-content-wrapper
   font-family: 'SF Pro Display', serif
-  margin: 42px 20px 0
+  margin: 42px 9px 0
 
   .welcome-text-wrapper
     span
       margin-left: 10px
 
   .info-text-wrapper
+    font-family: 'SF Pro Text', serif
     margin-top: 10px
+
+  .guest-img-wrapper
+    img
+      margin-top: 11px
 
   .btn-wrapper
     margin: 42px 0
