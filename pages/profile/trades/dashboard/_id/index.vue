@@ -218,8 +218,8 @@
             </div>
           </div>
           <div class="history-heading">{{ $t('trades.offer_history') }}</div>
-          <div class="col-lg-10 col-xl-6 d-flex px-0 m-0">
-            <offer-history :offerHistory="offer" />
+          <div class="col-12 col-lg-10 col-xl-6 d-flex px-0 m-0">
+            <offer-history class="w-100" :offerHistory="offer" />
           </div>
           <b-row class="justify-content-center pt-3 pb-3">
             <hr class="center-line">
