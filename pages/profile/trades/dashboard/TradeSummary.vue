@@ -1,6 +1,6 @@
 <template>
   <div class="pt-5">
-    <div v-if="width <= 500">
+    <div v-if="isScreenXS">
       <div class="main-container-small ml-2">
         <div class="justify-content-between">
           <div class="pt-4 pl-4">
@@ -53,6 +53,7 @@ import OfferItems from '~/pages/profile/trades/dashboard/OfferItems'
 import DelistModal from '~/pages/profile/trades/dashboard/_id/offers/DelistModal'
 import RelistModal from '~/pages/profile/trades/dashboard/_id/offers/RelistModal'
 import EditTradeConfirmationModal from '~/pages/profile/trades/dashboard/_id/offers/EditTradeConfirmationModal'
+import ScreenSize from '~/plugins/mixins/screenSize'
 import {
   DELIST_STATUS,
   COMPLETED_STATUS
@@ -72,16 +73,15 @@ export default {
       required: true
     }
   },
+  mixins: [ScreenSize],
   data(){
     return {
       COMPLETED_STATUS,
-      width:'',
     }
   },
   mounted() {
-      this.$store.commit('trades/setEditTradePageReferrer', null)
-      this.$store.commit('trades/setTradeForEditing', null)
-    this.width = window.innerWidth
+    this.$store.commit('trades/setEditTradePageReferrer', null)
+    this.$store.commit('trades/setTradeForEditing', null)
   },
   methods: {
     ...mapActions('trades', ['relistTrade']),

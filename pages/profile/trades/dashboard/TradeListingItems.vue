@@ -145,6 +145,7 @@ export default {
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
+
 .product-size
   font-family: $font-family-sf-pro-display
   font-style: normal

@@ -98,7 +98,6 @@
                 <span class="optional-text">{{ $t('trades.trade_arena.optional') }}</span>
                 <div v-if="!cashAdded" class="optional-input d-flex">
                   <div class="position-relative">
-                    <span v-if="optionalCash" class="position-absolute input-mt ml-2">$</span>
                     <input v-model="optionalCash" type="text" :placeholder="$t('trades.trade_arena.enter_amount_usd')"
                            class="optional-input-field">
                   </div>
@@ -106,7 +105,7 @@
                 </div>
                 <div v-else-if="cashAdded">
                   <div class="d-flex cash-added justify-content-center mt-4">
-                    <div v-if="cashType === CASH_TYPE_ADDED">
+                    <div v-if="cashType === CASH_TYPE_REQUESTED">
                       <img :src="require('~/assets/img/icons/dollar.svg')" class="ml-4 mr-2">
                       {{$t('trades.trade_arena.you_added_cash',{'0': optionalCash })}}
                       <sup class="ml-1 mr-4" role="button"><img  id="cashPopover" :src="infoIcon"/></sup>
@@ -315,10 +314,9 @@
                 </div>
                 <div v-if="!cashAdded" class="optional-input w-100 d-flex">
                   <div class="position-relative">
-                    <span v-if="optionalCash" class="position-absolute input-mt ml-2">$</span>
                     <input
                       v-model="optionalCash"
-                      type="text"
+                      type="number"
                       :placeholder="$t('common.enter_cash_amount')"
                       class="optional-input-field"
                     >
@@ -333,7 +331,7 @@
                 </div>
                 <div v-else-if="cashAdded">
                   <div class="d-flex cash-added justify-content-center mt-4">
-                    <div v-if="cashType === CASH_TYPE_ADDED">
+                    <div v-if="cashType === cashAddedType">
                       <img :src="require('~/assets/img/icons/dollar.svg')" class="ml-4 mr-2">
                       {{$t('trades.trade_arena.you_added_cash',{'0': optionalCash })}}
                       <sup class="ml-1 mr-4" role="button"><img  id="cashPopover" :src="infoIcon"/></sup>
@@ -797,13 +795,14 @@ export default {
       }
     },
 
-    editTheirsItems(){
+    editTheirsItems() {
       this.submittedItemType = OFFER_TYPE_THEIR
       this.editYours = false
       this.loadData()
       this.cashType = CASH_TYPE_REQUESTED
     },
-    editYoursItems(){
+
+    editYoursItems() {
       this.submittedItemType = OFFER_TYPE_YOURS
       this.editYours = true
       this.loadData()
@@ -1228,12 +1227,14 @@ export default {
   @media (min-width: 1200px)
     position: absolute
     margin-left: 120%
-    margin-top: 110px
+    margin-top: 140px
+    z-index: 10
 
 #your-trade-item-0
   @media (min-width: 1200px)
     position: absolute
-    margin-top: 110px
+    z-index: 10
+    margin-top: 140px
     margin-left: -120%
 
 .optional-input-field
@@ -1243,12 +1244,15 @@ export default {
   background: $color-white-1
   border: 0.5px solid $color-gray-23
   border-radius: 4px
-  padding-left: 20px
+  padding-left: 10px
   padding-right: 10px
-  color: $color-gray-47
+  color: $color-black-1
   font-family: $font-family-sf-pro-display
   box-shadow: inset 0px 6px 9px rgba(0, 0, 0, 0.06)
   margin-right: 16px
+
+.optional-input-field::placeholder
+  color: $color-gray-47
 
 .input-mt
   margin-top: 7px
