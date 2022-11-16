@@ -121,13 +121,8 @@ export default {
       isModalOpen: false
     }
   },
-  mounted() {
-    console.log('item', this.items);
-    console.log('wantItem', this.wantItem);
-  },
-  methods:{
+  methods: {
     deleteWant() {
-      console.log('deleteWant2', this.wantItem.id);
       this.$emit('click', this.wantItem.id, 'delete')
     },
     editWant() {

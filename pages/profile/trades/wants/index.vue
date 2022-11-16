@@ -750,7 +750,6 @@ export default {
       }
     },
     editDelete(data, type) {
-      console.log('editDelete3', data, type);
       if(type === 'delete') {
         this.selected.push(data)
         this.deleteWant(type)
