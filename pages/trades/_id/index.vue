@@ -980,6 +980,7 @@ export default {
 .left-item,.right-item
   height: 280px
   width: 203px
+  max-height: 280px
 .item-normal
   width: 203px
   height: 280px
@@ -1002,16 +1003,41 @@ export default {
   margin-bottom: 30px
 .right-item-margin,.left-item-margin
   margin-top: 11%
+  @media (min-width: 1600px) and (max-width: 1700px)
+    margin-top: 10%
+  @media (min-width: 1701px) and (max-width: 1900px)
+    margin-top: 9%
+  @media (min-width: 1901px) and (max-width: 2480px)
+    margin-top: 7%
+  @media (min-width: 2481px) and (max-width: 2900px)
+    margin-top: 6%
 .right-item .item,.right-item .preview
   border: unset
 .item-length
   height: 280px
+  width: 203px
 .remove-item
   z-index: 100
 .share-icons
   right: 11.4%
   margin-top: -30px
   z-index: 10
+  @media (min-width: 1600px) and (max-width: 1700px)
+    right: 15%
+  @media (min-width: 1701px) and (max-width: 1800px)
+    right: 16%
+  @media (min-width: 1801px) and (max-width: 1901px)
+    right: 18%
+  @media (min-width: 1901px) and (max-width: 2000px)
+    right: 20%
+  @media (min-width: 2001px) and (max-width: 2100px)
+    right: 22%
+  @media (min-width: 2101px) and (max-width: 2200px)
+    right: 24%
+  @media (min-width: 2201px) and (max-width: 2400px)
+    right: 26%
+  @media (min-width: 2401px) and (max-width: 2900px)
+    right: 30%
 .fair-trade-division
   border: unset
 .active
@@ -1028,6 +1054,7 @@ export default {
   border: 1px solid $color-black-1
   color: $color-gray-56
   @include body-13-medium
+  margin-top: 180px
 .trade-footer
   background: unset
 .expired
@@ -1060,4 +1087,55 @@ export default {
   color: $color-white-1
 .z-100
   z-index: 100
+.item-caption-description
+  display: block
+  align-items: center
+  color: $color-gray-5
+  @include body-10-normal
+  max-width: 180px
+  text-overflow: ellipsis
+  white-space: nowrap
+  overflow: hidden
+
+.item-box-condition, .item-size
+  display: block
+  align-items: center
+  color: $color-gray-5
+  @include body-10-normal
+  width: 185px
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+.item-name
+  display: block
+  align-items: center
+  color: $color-black-1
+  @include body-10-medium
+  white-space: nowrap
+  text-overflow: ellipsis
+  overflow: hidden
+  width: 185px
+.center-container
+  display: flex
+  justify-content: center
+  margin: 45px 10%
+.center-cont-height
+  min-height: 545px
+.center-container-margin
+  margin: 70px 2%
+.center-item
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding-top: 21px
+  margin: 0 10px
+  min-width: 435px
+  width: unset
+  max-width: 780px
+.long-line
+  border: 0.5px solid $color-gray-23
+  width: 50px
+.pointer-left,.pointer-right
+  height: 340px
+  width: 275px
 </style>

@@ -138,7 +138,6 @@
   position: relative
 
 .item-length
-  height: 267px
   width: 144px
 
 .item-normal
@@ -217,10 +216,10 @@
   background-position: center
 
 .right-item-margin
-  margin-top: 8%
+  margin-top: 12%
 
 .left-item-margin
-  margin-top: 8%
+  margin-top: 12%
 
 .size-box
   height: 37px
@@ -251,10 +250,6 @@
   letter-spacing: 0.005em
   color: $color-gray-5
   margin-top: 10px
-
-.left-item, .right-item
-  @media (min-width: 1200px)
-    max-height: 317px
 
 .item-text, .drag-drop
   display: flex
@@ -303,7 +298,7 @@
 
 .center-item
   display: flex
-  justify-content: space-between
+  justify-content: center
   align-items: center
   padding-top: 21px
   margin: 0 10px
@@ -313,6 +308,8 @@
   @media (min-width: 1200px)
     border: 0.5px solid $color-gray-23
     width: 50px
+    margin-left: 10px
+    margin-right: 10px
 
 .view-button-container
   display: flex
@@ -631,7 +628,7 @@
 
 .pointer-left
   @media (min-width: 1200px)
-    height: 340px
+    height: 250px
     width: 100%
     z-index: 1
     border-top: 0.5px solid $light-gray-2
@@ -642,7 +639,7 @@
 .pointer-right
   @media (min-width: 1200px)
     z-index: 1
-    height: 340px
+    height: 250px
     width: 100%
     border-top: 0.5px solid $light-gray-2
     border-bottom: 0.5px solid $light-gray-2
@@ -831,7 +828,6 @@
   color: $color-black-1
 
 .invent-item
-  margin-right: 8px
   margin-bottom: 30px
 
 .pointer

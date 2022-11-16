@@ -220,7 +220,7 @@
           </div>
           <div class="offer-card my-3">
             <div class="d-flex flex-column px-3 px-lg-0">
-              <div class="mt-55 d-flex justify-content-between col-md-8 mx-auto">
+              <div class="mt-55 d-flex mb-2 justify-content-between col-md-8 mx-auto">
                 <div class="value">
                   {{ $t('common.their_value') }} 
                   <span class="ml-1 price">{{ getTheirTotal() }}</span>
@@ -231,13 +231,10 @@
                 </div>
               </div>
               <div
-                class="center-container d-flex mx-0 mx-md-auto justify-content-between col-md-8 col-xl-12"
+                class="center-container d-flex mx-0 mx-md-auto justify-content-between align-items-center col-md-8 col-xl-12"
                 :class="{'center-cont-height':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"
               >
-                <div 
-                  class="left-item"
-                  :class="{'left-item-margin':getTheirItems.length === ONE_ITEM && getYourItems.length}"
-                >
+                <div class="left-item">
                   <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'trade-item-'+index : ''"
                       :key="'their-trade-item-key-'+index" class="item mb-4"
                       :class="[((getTheirItems.length > ONE_ITEM )|| (getYourItems.length)) ? 'item-length' : 'item-normal']">
@@ -265,15 +262,12 @@
                 </div>
                 <div class="center-item">
                   <div v-if="getTheirItems.length > ONE_ITEM" class="pointer-left"></div>
-                  <div class="long-line" :class="{'long-line-length' : getTheirItems.length === ONE_ITEM }"></div>
+                  <div class="long-line" :class="{'w-xl-100' : getTheirItems.length === ONE_ITEM }"></div>
                   <img :src="require('~/assets/img/trades/Trade.svg')" />
-                  <div class="long-line" :class="{'long-line-length' : getYourItems.length === ONE_ITEM }"></div>
+                  <div class="long-line" :class="{'w-xl-100' : getYourItems.length === ONE_ITEM }"></div>
                   <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right"></div>
                 </div>
-                <div 
-                  class="right-item"
-                  :class="{'right-item-margin':getTheirItems.length === ONE_ITEM && getYourItems.length}"
-                >
+                <div class="right-item">
                   <div v-if="getYourItems.length" >
                     <div v-for="(item, index) in getYourItems"
                         :id="getYourItems.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="'your-trade-item-key-'+index"
@@ -1134,6 +1128,10 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.w-xl-100
+  @media (min-width: 1200px)
+    width: 100%
+
 .max-h-200
   max-height: 200px
 
@@ -1213,6 +1211,8 @@ export default {
   background: $color-white-1
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
+  height: 1000px
+
 
 .item-head-trade-hub
   font-family: $font-family-sf-pro-display
@@ -1228,17 +1228,13 @@ export default {
   @media (min-width: 1200px)
     position: absolute
     margin-left: 120%
-    margin-top: 150px
-  @media (min-width: 1400px)
-    margin-left: 150%
+    margin-top: 110px
 
 #your-trade-item-0
   @media (min-width: 1200px)
     position: absolute
-    margin-top: 150px
+    margin-top: 110px
     margin-left: -120%
-  @media (min-width: 1400px)
-    margin-left: -150%
 
 .optional-input-field
   @include body-9-normal

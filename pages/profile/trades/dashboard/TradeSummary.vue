@@ -29,12 +29,12 @@
             <b-col class="offer-time d-flex align-items-center">{{$t('trades.expires_on')}} {{ trade.expiry_date | formatDateTimeString }}</b-col>
           </b-col>
           <b-col class="d-flex flex-column pr-4 pt-4">
-            <Button v-if="!isDelistedTrade(trade) && !blockTrade(trade)" variant="blue" class="expired-btn ml-auto mr-4" @click="$bvModal.show('edit-trade')">{{$t('trades.edit_listing')}}</Button>
-            <Button v-if="!isDelistedTrade(trade) && !blockTrade(trade)" class="mt-3 expired-btn ml-auto mr-4" variant="outline-primary" @click="$bvModal.show('delist-offer')">{{$t('trades.delist')}}</Button>
-            <Button v-if="isDelistedTrade(trade)" class="mt-3 expired-btn ml-auto mr-4" variant="outline-primary" @click="$bvModal.show('relist-trade')">{{$t('trades.relist')}}</Button>
+            <b-btn v-if="!isDelistedTrade(trade) && !blockTrade(trade)"  class="edit-btn-web ml-auto mr-4" @click="$bvModal.show('edit-trade')">{{$t('trades.edit_listing')}}</b-btn>
+            <b-btn v-if="!isDelistedTrade(trade) && !blockTrade(trade)" class="mt-3 delist-btn ml-auto mr-4"  @click="$bvModal.show('delist-offer')">{{$t('trades.delist')}}</b-btn>
+            <b-btn v-if="isDelistedTrade(trade)" class="mt-3 delist-btn ml-auto mr-4"  @click="$bvModal.show('relist-trade')">{{$t('trades.relist')}}</b-btn>
           </b-col>
         </b-row>
-        <b-row class="justify-content-center mt-3">
+        <b-row class="justify-content-center">
           <offer-items :offerItems="trade.offers"/>
         </b-row>
       </div>
@@ -48,7 +48,7 @@
 
 <script>
   import {mapActions} from 'vuex'
-import Button from '~/components/common/Button'
+// import Button from '~/components/common/Button'
 import OfferItems from '~/pages/profile/trades/dashboard/OfferItems'
 import DelistModal from '~/pages/profile/trades/dashboard/_id/offers/DelistModal'
 import RelistModal from '~/pages/profile/trades/dashboard/_id/offers/RelistModal'
@@ -61,7 +61,7 @@ export default {
   name: 'TradeSummary',
   components: {
     OfferItems,
-    Button,
+    // Button,
     DelistModal,
     RelistModal,
     EditTradeConfirmationModal
@@ -184,5 +184,24 @@ export default {
   @include body-21-medium
   color: $color-white-1
   margin-left: 5rem
+.edit-btn-web
+  width: 174px
+  height: 42px
+  background: #667799
+  border-radius: 4px
+  color: $color-white-1
+  font-family: $font-family-montserrat
+  font-weight: $normal
+  @include body-13
+.delist-btn
+  width: 174px
+  height: 42px
+  border: 1px solid #667799
+  border-radius: 4px
+  font-family: $font-family-montserrat
+  font-weight: $normal
+  @include body-13
+  color: #667799
+  background-color: $color-white-1
 
 </style>
