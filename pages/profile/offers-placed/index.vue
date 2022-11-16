@@ -117,7 +117,6 @@
           <!-- ./Offer Date -->
 
           <div :class="`col-lg-2 col-6 apply-button d-flex ${screenIsSmallThanLG && 'mt-5'}`">
-            <!-- <br /> -->
             <Button variant="apply" class="mt-2 position-absolute ml-1" @click="getOffers">{{
               $t('selling_page.apply')
             }}</Button>
