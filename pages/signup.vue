@@ -152,7 +152,7 @@
                           <b-form-input
                             id="first-name"
                             v-model="form.first_name"
-                            class="rounded-pill rounded-md input-signup"
+                            class="rounded-pill rounded-md input-signup mr-2"
                             :placeholder="$t('auth.first_name')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -163,7 +163,7 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1"
+                          class="success-check d-flex align-items-center px-1 pl-2"
                         >
                           <b-img
                             width="20"
@@ -188,7 +188,7 @@
                           <b-form-input
                             id="last-name"
                             v-model="form.last_name"
-                            class="rounded-pill input-signup"
+                            class="rounded-pill input-signup mr-2"
                             :placeholder="$t('auth.last_name')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -198,7 +198,7 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1"
+                          class="success-check d-flex align-items-center px-1 pl-2"
                         >
                           <b-img
                             width="20"
@@ -223,7 +223,7 @@
                           <b-form-input
                             id="username"
                             v-model="form.username"
-                            class="rounded-pill input-signup"
+                            class="rounded-pill input-signup mr-2"
                             :placeholder="$t('auth.username')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -234,7 +234,7 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1"
+                          class="success-check d-flex align-items-center px-1 pl-2"
                         >
                           <b-img
                             width="20"
@@ -259,7 +259,7 @@
                           <b-form-input
                             id="email-address"
                             v-model="form.email"
-                            class="rounded-pill input-signup"
+                            class="rounded-pill input-signup mr-2"
                             :placeholder="$t('auth.email_address')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -269,7 +269,7 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1"
+                          class="success-check d-flex align-items-center px-1 pl-2"
                         >
                           <b-img
                             width="20"
@@ -398,7 +398,7 @@
                             getValidationState(validationContext) ||
                             getValidationState(validationContext) === null
                           "
-                          class="body-5-normal text-color-gray-47 mt-2 text-lg-center validation minimum"
+                          class="body-5-normal text-color-gray-47 mt-2 text-lg-center validation minimum ml-3"
                         >
                           {{ $t('auth.password_validation_rule') }}
                         </div>
