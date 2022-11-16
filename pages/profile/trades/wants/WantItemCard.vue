@@ -1,7 +1,7 @@
 <template>
     <div class="invent-item">
-      <div class="position-absolute size-cont">
-        <div v-if="editRemove" class="d-flex justify-content-end">
+      <div class="w-100">
+        <div v-if="editRemove" class="position-absolute size-cont d-flex justify-content-end">
           <img
             v-if="selected"
             role="button"
@@ -19,31 +19,41 @@
             @click="$emit('select', wantItem.id, 'add')" 
           >
         </div>
-        <div v-else class="d-flex justify-content-center align-items-center">
-          <div 
-            role="button" 
-            class="pr-1 d-flex align-items-center"
-            @click="editWant"
-          >
-            <img 
-              :src="require('~/assets/img/icons/pencil-gray.svg')" 
-              height="15" 
-              width="15" 
+        <div v-else>
+          <div class="d-none d-sm-flex justify-content-center align-items-center">
+            <div 
+              role="button" 
+              class="pr-1 d-flex align-items-center"
+              @click="editWant"
             >
-            <span class="edit-label ml-1">{{ $t('common.edit') }}</span>
+              <img 
+                :src="require('~/assets/img/icons/pencil-gray.svg')" 
+                height="15" 
+                width="15" 
+              >
+              <span class="edit-label ml-1">{{ $t('common.edit') }}</span>
+            </div>
+            <div 
+              role="button" 
+              class="pl-1 d-flex align-items-center"
+              @click="deleteWant"
+            >
+              <img 
+                :src="require('~/assets/img/icons/Delete.svg')" 
+                height="15" 
+                width="15" 
+                class="ml-4"
+              >
+              <span class="delete-label ml-1">{{ $t('common.delete') }}</span>
+            </div>
           </div>
-          <div 
-            role="button" 
-            class="pl-1 d-flex align-items-center"
-            @click="deleteWant"
-          >
+          <div class="d-flex justify-content-end d-sm-none">
             <img 
-              :src="require('~/assets/img/icons/Delete.svg')" 
-              height="15" 
-              width="15" 
-              class="ml-4"
-            >
-            <span class="delete-label ml-1">{{ $t('common.delete') }}</span>
+              width="19"
+              height="19"
+              :src="require('assets/img/icons/More.svg')" 
+              @click="isModalOpen = true"
+            />
           </div>
         </div>
       </div>
@@ -52,7 +62,7 @@
           <img :src="`${IMAGE_PATH}/${wantItem.product && wantItem.product.category && wantItem.product.category.name}/${wantItem.product && wantItem.product.sku}/800xAUTO/IMG01.jpg`" alt="No Image" class="invent-image h-auto">
         </div>
       </div>
-      <div class="card-text-item pt-3 pl-2">
+      <div class="card-text-item pt-3 pl-sm-2">
         <div class="invent-item-name">{{wantItem.product && wantItem.product.name}}</div>   <!-- to do just frontend .....  -->
         <div class="invent-item-color">
           {{ wantItem.product && wantItem.product.colorway }}, {{ $t('home_page.size') }} {{ wantItem.size && wantItem.size.size }}
@@ -61,15 +71,26 @@
             wantItem.packaging_condition && wantItem.packaging_condition.name
           }}</div>
       </div>
+      <ActionsModal
+        :isOpen="isModalOpen"
+        :product="wantItem"
+        productType="want"
+        @closed="isModalOpen = false"
+        @opened="isModalOpen = true"
+        @deleteWant="deleteWant()"
+        @editWant="editWant()"
+      />
     </div>
 </template>
 
 <script>
 import {IMAGE_PATH} from '~/static/constants/create-listing'
+import ActionsModal from '~/components/modal/ActionsModal'
 export default {
   name: 'WantItemCard',
-  props:{
-    wantItem:{
+  components: { ActionsModal },
+  props: {
+    wantItem: {
       type: Object,
       required: true,
     },
@@ -96,12 +117,11 @@ export default {
   },
   data() {
     return {
-      IMAGE_PATH
+      IMAGE_PATH,
+      isModalOpen: false
     }
   },
-  mounted() {
-  },
-  methods:{
+  methods: {
     deleteWant() {
       this.$emit('click', this.wantItem.id, 'delete')
     },
@@ -116,8 +136,6 @@ export default {
 @import '~/assets/css/_variables'
 
 .invent-item
-  height: 281px
-  width: 213px
   @media (min-width: 992px)
     margin-right: 50px
 
@@ -133,7 +151,6 @@ export default {
 
 .inventory-image
   position: relative
-  height: 201px
   padding: 0 20px
   .thumb-wrapper
     position: relative
@@ -145,7 +162,6 @@ export default {
 
 .size-cont
   z-index: 90
-  width: 213px
 
 .invent-item-name
   font-family: $font-family-sf-pro-display
@@ -155,7 +171,6 @@ export default {
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
-  width: 200px
 
 .invent-item-color
   font-family: $font-family-sf-pro-display
@@ -165,7 +180,6 @@ export default {
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
-  width: 200px
 
 .mr-45
   margin-right: 40px

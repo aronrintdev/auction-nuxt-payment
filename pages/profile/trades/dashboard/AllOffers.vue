@@ -181,6 +181,7 @@
               :value="start_date"
               :placeholder="$t('trades.start_date')"
               groupClass="w-100"
+              inputClass="bg-white"
               @context="(context) => start_date = context.selectedYMD"
             />
           </b-col>
@@ -189,6 +190,7 @@
               :value="end_date"
               :placeholder="$t('trades.end_date')"
               groupClass="w-100"
+              inputClass="bg-white"
               @context="(context) => end_date = context.selectedYMD"
             />
           </b-col>
