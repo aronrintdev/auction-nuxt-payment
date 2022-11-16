@@ -121,9 +121,9 @@
                       ><b-col
                         class="d-flex justify-content-center flex-column align-items-center"
                       >
-                        <nuxt-link to="/">
+                        <b-link to="/">
                           <Logo class="img-fluid w-auto" :height="53" />
-                        </nuxt-link>
+                        </b-link>
                         <span
                           class="signup-heading fs-15 fw-5 font-primary w-75 text-center my-3 pre-line"
                           >{{ $t('signup.create_your_account') }}</span
