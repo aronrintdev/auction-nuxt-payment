@@ -27,9 +27,9 @@
         <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
         <div class="row justify-content-center align-content-center" >
           <div
-            class="d-flex justify-content-center align-content-center col-4"
-            :key="'offer-item-list-' + item.id"
             v-for="(item) in offerItems"
+            :key="'offer-item-list-' + item.id"
+            class="d-flex justify-content-center align-content-center col-4"
           >
             <div class="d-inline body-section-box w-100 m-1">
               <div class="d-flex justify-content-center align-content-center">

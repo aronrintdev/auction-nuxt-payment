@@ -102,6 +102,7 @@ export default {
     OfferItems,
     Button
   },
+  mixins: [ScreenSize],
   props:{
     offers: {
       type: Array,
@@ -112,7 +113,6 @@ export default {
       required: true
     }
   },
-  mixins: [ScreenSize],
   data(){
     return {
       offer: null,

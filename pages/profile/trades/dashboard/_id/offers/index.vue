@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid" v-if="isScreenXS">
+  <div v-if="isScreenXS" class="container-fluid">
     <trade-summary v-if="trade !== null" :trade="trade" />
     <div class="mt-5 offers-heading pl-30">
       {{$t('trades.offers' , {'0': tradeOffers.length})}}
