@@ -33,13 +33,6 @@
     </div>
 
     <div class="mt-2 d-flex flex-column">
-      
-      <!-- <div class="action" @click="$emit('closed'); $root.$emit('edit', product)">
-        {{ $t('common.edit_product') }}
-      </div>
-      <div class="action" @click="$root.$emit('delete', product.id, combinationId)">
-        {{ $t('common.delete') }}
-      </div> -->
       <div class="action" @click="editProduct()">
         {{ $t('common.edit_product') }}
       </div>
@@ -84,16 +77,6 @@ export default {
     }
   },
 
-  mounted() {
-    console.log('productType1', this.productType);
-  },
-
-  watch: {
-    productType(n1, n2) {
-      console.log('watch', n1, n2);
-    }
-  },
-
   methods: {
     editProduct() {
       this.$emit('closed')
@@ -105,7 +88,6 @@ export default {
     },
 
     deleteProduct() {
-      console.log('deleteProduct1', this.productType);
       if (this.productType === 'combination') {
         this.$root.$emit('delete', this.product.id, this.combinationId)
       } else {
