@@ -13,7 +13,7 @@
             :style="{ minHeight: '60px' }"
             class="rounded-0 border-top-0 list-group-item text-xs d-flex align-items-center justify-content-between"
           >
-            <div class="d-flex col-sm-8 pl-0 align-items-center">
+            <div class="d-flex col-sm-8 col-xl-10 col-md-10 pl-0 align-items-center">
               <img
                 :style="{ maxHeight: '50px', width: 'auto' }"
                 class="mr-3"
