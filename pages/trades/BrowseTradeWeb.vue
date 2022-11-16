@@ -236,10 +236,8 @@ export default {
         this.getFilters.status.length <= 0 &&
         this.getFilters.sortby == null
       ){
-        console.log('if')
         this.$store.commit('trade/setTradeType', 'All')
       } else {
-        console.log('else')
         this.$store.commit('trade/setTradeType', 'search_results')
       }
       this.sectionTypes = []
