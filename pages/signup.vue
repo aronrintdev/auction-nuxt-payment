@@ -122,7 +122,7 @@
                         class="d-flex justify-content-center flex-column align-items-center"
                       >
                         <b-link to="/">
-                          <Logo class="img-fluid w-auto" :height="53" />
+                          <Logo class="img-fluid w-auto img-main" :height="53" />
                         </b-link>
                         <span
                           class="signup-heading fs-15 fw-5 font-primary w-75 text-center my-3 pre-line"
@@ -134,7 +134,7 @@
                       :data="tabs"
                       :value="currentTab"
                       nav-key="new_releases"
-                      class="text-center px-1 mb-4 d-lg-none d-block px-0"
+                      class="text-center px-2 mb-4 d-lg-none d-block"
                       @change="handleTabChange"
                     />
                     <ValidationProvider
@@ -826,5 +826,6 @@ export default {
 @media (min-width: 320px) and (max-width: 556px)
   .input-signup
     left: 10px !important
-
+  .img-main
+    margin: 0 auto
 </style>

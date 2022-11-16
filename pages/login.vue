@@ -63,7 +63,7 @@
               </b-col>
             </b-row>
           </b-row>
-          <LoginForm class="mt-5 w-100 d-flex ml-auto" @verify="handleVerify" />
+          <LoginForm class="mt-4 w-100 d-flex ml-auto px-2" @verify="handleVerify" />
 
           <b-row class="mt-2 w-100">
             <b-col md="12" class="text-center">
@@ -261,11 +261,11 @@ export default {
   width: 100%
   text-align: center
   margin: 0 auto
-  font-size: 11px
+  font-size: 14px
   margin-left: 5px
 .login-btn
   border: none
-  padding: 4px 38px
+  padding: 2px 38px
   background-color: $color-white-1
   border-radius: 20px
   font-weight: 700
@@ -275,9 +275,9 @@ export default {
   background-color: $color-gray-75
   border-radius: 20px
   padding-right: 27px
-  font-weight: 700
+  font-weight: 500
 .main-mobile-image
-  padding: 16px 0px 0px 10px
+  padding: 20px 0px 0px 0px
 
 @media (min-width: 320px) and (max-width: 556px)
   .forgot-pass-text
