@@ -122,8 +122,8 @@
     </b-row>
 
     <b-row class="justify-content-center mt-4 mb-4">
-      <Button class="confirm-trade-draft-btn" variant="listing" @click="saveVendorTrade(STATUS_DRAFT)">{{ $t('trades.create_listing.vendor.wants.save_as_draft') }}</Button>
-      <Button class="confirm-trade-post-btn ml-5" :disabled="!getTradeItemsWants.length || !getTradeItems.length" variant="listing" @click="saveVendorTrade(STATUS_LIVE)">{{ $t('trades.create_listing.vendor.wants.post_trade_listing') }}</Button>
+      <b-btn class="confirm-trade-draft" variant="listing" @click="saveVendorTrade(STATUS_DRAFT)">{{ $t('trades.create_listing.vendor.wants.save_as_draft') }}</b-btn>
+      <b-btn class="confirm-trade-post ml-5" :disabled="!getTradeItemsWants.length || !getTradeItems.length" variant="listing" @click="saveVendorTrade(STATUS_LIVE)">{{ $t('trades.create_listing.vendor.wants.post_trade_listing') }}</b-btn>
     </b-row>
   </div>
 </div>
@@ -140,12 +140,12 @@ import {
   STATUS_DRAFT,
   STATUS_LIVE
 } from '~/static/constants/create-listing'
-import Button from '~/components/common/Button';
+// import Button from '~/components/common/Button';
 
 export default {
   name: 'Index',
   components: {
-    Button,
+    // Button,
     // FormStepProgressBar,
     CreateTradeSearchItem
   },
@@ -311,3 +311,26 @@ export default {
   }
 }
 </script>
+<style scoped lang="sass">
+@import '~/assets/css/_variables'
+.confirm-trade-draft
+  width: 196.22px
+  height: 38px
+  background: #667799
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $medium
+  font-size: 15px
+  line-height: 18px
+  color: $color-white-1
+.confirm-trade-post
+  width: 196.22px
+  height: 38px
+  background: $color-black-1
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $medium
+  font-size: 15px
+  line-height: 18px
+  color: $color-white-1
+</style>
