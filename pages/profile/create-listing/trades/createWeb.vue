@@ -24,12 +24,30 @@
               variant="primary"
               :placeholder="$t('create_listing.trade.offer_items.search_by')"
               :clearSearch="true"
+              :inputStyle="{ 
+                borderBottomLeftRadius: searchedItems.length > 0 ? 0 : '8px',
+                borderBottomRightRadius: searchedItems.length > 0 ? 0 : '8px',
+              }"
               bordered
               inputHeight="60px"
               @change="onSearchInput"
             />
-            <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="tradeItem" width="700px" class="position-absolute"/>
-          </b-col>
+            <div class="position-relative">
+              <SearchedProductsBelowSearchTextBox 
+                v-if="searchedItems.length > 0" 
+                :productItems="searchedItems" 
+                productsFor="tradeItem" 
+                class="position-absolute"
+                :wrapperStyle="{ margin: 0 }"
+                :itemStyle="{ padding: 0 }"
+                addBtnClass="text-right"
+                listGroupItemClass="border-gray"
+                :style="{
+                  zIndex: 9999
+                }" 
+              />
+            </div>
+            </b-col>
           <b-col md="5" class="text-center pt-2">
             <a class="create-new-inventory-btn p-2 float-right cursor-pointer" @click="setReferrer()">
               {{ $t('create_listing.trade.offer_items.create_inventory') }}

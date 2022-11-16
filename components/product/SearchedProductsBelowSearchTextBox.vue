@@ -12,6 +12,7 @@
           <div
             :style="{ minHeight: '60px' }"
             class="rounded-0 border-top-0 list-group-item text-xs d-flex align-items-center justify-content-between"
+            :class="listGroupItemClass"
           >
             <div class="d-flex col-sm-8 pl-0 align-items-center">
               <img
@@ -54,7 +55,10 @@
       </b-col>
       <b-col :style="itemStyle" align-self="center" v-if="productItems.length > 0">
         <b-list-group class="text-md" :style="suggestNewStyle">
-          <b-list-group-item class="p-4 border-top-0 no-product d-flex align-items-center">
+          <b-list-group-item 
+            class="p-4 border-top-0 no-product d-flex align-items-center"
+            :class="listGroupItemClass"
+          >
             <i>
               {{$t('common.dont_see_your_product')}}
               <a
@@ -163,6 +167,10 @@ export default {
     addBtnClass: {
       type: String,
       default: ''
+    },
+    listGroupItemClass: {
+      type: String,
+      default: ''
     }
   },
   data(){
@@ -235,6 +243,9 @@ export default {
 .counter-wrapper::v-deep
   .list-group-item
     border-bottom: 1px solid $color-gray-23
+
+.border-gray
+  border-color: $color-gray-47
 
 .width-responsive
   left: 0
