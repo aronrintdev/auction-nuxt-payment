@@ -28,7 +28,7 @@
               inputHeight="60px"
               @change="onSearchInput"
             />
-            <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="tradeItem" width="700px" class="position-absolute"/>
+            <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="tradeItem" width="1000px" class="position-absolute search-prod"/>
           </b-col>
           <b-col md="5" class="text-center pt-2">
             <a class="create-new-inventory-btn p-2 float-right cursor-pointer" @click="setReferrer()">
@@ -718,5 +718,6 @@ export default {
 
 .flex-flow-column
   flex-flow: column
-
+.search-prod
+  z-index: 9999
 </style>
