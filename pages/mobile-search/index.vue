@@ -39,7 +39,7 @@
         <SectionHeader class="px-2"
           :title="$t('shop_by_style.title')"
           :label="$t('banner.view_more_trending')"
-          to="/url/here"
+          to="/shop-by-style"
           full-width
         />
         <div class="px-2 mt-4 mb-5">
@@ -65,7 +65,7 @@
       <section class="shop_by_brand">
         <SectionHeader class="px-2"
           :title="$t('mobile_search.shop_by_brand')"
-          to="/url/here"
+          to="/shop"
           full-width
         />
         <div class="px-2 mt-4 mb-5">
@@ -75,7 +75,7 @@
       <section class="view_trades">
         <SectionHeader class="px-2"
           :title="$t('mobile_search.view_trades')"
-          to="/url/here"
+          to="/trades"
           full-width
         />
         <MobileSearchCarousel
@@ -90,7 +90,7 @@
       <section class="view_auctions">
         <SectionHeader class="px-2"
           :title="$t('mobile_search.view_auctions')"
-          to="/url/here"
+          to="/auction"
           full-width
         />
         <MobileSearchCarousel
@@ -136,11 +136,11 @@ export default {
         { image: require('~/assets/img/mobile-search/img-3.png'), title: 'Kids' }
       ],
       featured: [
-        { image: require('~/assets/img/mobile-search/featured_1.png'), title: 'New Releases' },
-        { image: require('~/assets/img/mobile-search/featured_2.png'), title: 'Instant Shipping' },
-        { image: require('~/assets/img/mobile-search/featured_3.png'), title: 'Best Selling' },
-        { image: require('~/assets/img/mobile-search/featured_4.png'), title: 'Trending' },
-        { image: require('~/assets/img/mobile-search/featured_5.png'), title: 'Gift Card' },
+        { image: require('~/assets/img/mobile-search/featured_1.png'), title: 'New Releases', url: '/new-release' },
+        { image: require('~/assets/img/mobile-search/featured_2.png'), title: 'Instant Shipping', url: '/shop/products?type=instant-shipping' },
+        { image: require('~/assets/img/mobile-search/featured_3.png'), title: 'Best Selling', url: '/shop/products?type=instant-shipping' },
+        { image: require('~/assets/img/mobile-search/featured_4.png'), title: 'Trending', url: 'shop/products?type=trending' },
+        { image: require('~/assets/img/mobile-search/featured_5.png'), title: 'Gift Card', url: 'shop/products?types=gift-card' },
         { image: require('~/assets/img/mobile-search/featured_6.png'), title: '' }
       ],
       shopByStyle: [
