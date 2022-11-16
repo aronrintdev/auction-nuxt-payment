@@ -3730,6 +3730,7 @@
     "search_placeholder": "Search your Inventory by SKU, Product Name or Brand",
     "search_product_placeholder": "Search by SKU, Keyword, or Brand",
     "upload_csv_file": "Upload CSV File",
+    "upload_csv_bulk_file": "CSV Bulk Upload",
     "csv_sample": "CSV Sample",
     "add_to_inventory": "Add to Inventory",
     "dont_see_your_product": "Don't See Your Product?",

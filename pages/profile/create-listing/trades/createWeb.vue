@@ -11,13 +11,13 @@
             Search your inventory or find a new item to offer, minimum of 1 item, maximum 3 items
           </div>
         </b-col>
-        <b-col md="6">
-          <div class="row">
-            <div class="col-md-12 ">
-              <FormStepProgressBar :steps="steps" variant="transparent"/>
-            </div>
-          </div>
-        </b-col>
+<!--        <b-col md="6">-->
+<!--          <div class="row">-->
+<!--            <div class="col-md-12 ">-->
+<!--              <FormStepProgressBar :steps="steps" variant="transparent"/>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </b-col>-->
       </b-row>
       <div>
         <b-row class="mt-4 create-trade-pl-22">
@@ -34,17 +34,19 @@
             <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="tradeItem" width="1000px" class="position-absolute search-prod"/>
           </b-col>
           <b-col md="5" class="text-center pt-2">
-            <a class="create-new-inventory-btn p-2 float-right cursor-pointer" @click="setReferrer()">
-              {{ $t('create_listing.trade.offer_items.create_inventory') }}
-            </a>
+            <Button
+              class="flex-shrink-0 btn-file"
+              @click="handleUploadCSVClick"
+            >{{ $t('inventory.upload_csv_bulk_file') }}</Button
+            >
+<!--            <a class="create-new-inventory-btn p-2 float-right cursor-pointer" @click="setReferrer()">-->
+<!--              {{ $t('create_listing.trade.offer_items.create_inventory') }}-->
+<!--            </a>-->
           </b-col>
         </b-row>
         <div class="inventory-section-module mt-5 ml-2">
           <b-row class="available-invent-trade-heading">
             {{ $t('create_listing.trade.offer_items.available_inventory', {'0': totalCount}) }}
-          </b-row>
-          <b-row class="available-invent-trade-text">
-            {{ $t('create_listing.trade.offer_items.select_items', [MAX_ITEMS_ALLOWED]) }}
           </b-row>
           <b-row class="create-trade-pl-22">
             <div class="col-md-8 mt-4 p-0">
@@ -221,13 +223,18 @@
       </div>
     </div>
     <AlreadyListedModal :listingId="itemListingId" :item="alreadyListedItemDetails" @confirm="addOrIncrementOfferItem" />
+    <InventoryCsvUploadModal
+      id="csv-upload-modal"
+      :message="$t('inventory.message.csv_upload')"
+      @uploaded="onCsvUploaded"
+    />
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
 import debounce from 'lodash.debounce'
-import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
+// import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
 import SearchInput from '~/components/common/SearchInput';
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
 import AlreadyListedModal from '~/pages/profile/create-listing/trades/AlreadyListedModal';
@@ -237,13 +244,17 @@ import {Pagination} from '~/components/common'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
+import {
+  InventoryCsvUploadModal,
+} from '~/components/modal'
 
 export default {
   name: 'CreateTradeListing',
   components: {
+    InventoryCsvUploadModal,
     CreateTradeSearchItem, // component used for item via search selection
     SearchInput,            // component used for search input field
-    FormStepProgressBar,    //  component for stepper
+    // FormStepProgressBar,    //  component for stepper
     SearchedProductsBelowSearchTextBox, // component for items show below search as search results
     CustomDropdown,   // custom dropdown component used for filters
     Pagination,   // pagination component
@@ -364,7 +375,13 @@ export default {
           })
       }
     },
-
+    handleUploadCSVClick() {
+      console.log('click')
+      this.$bvModal.show('csv-upload-modal')
+    },
+    onCsvUploaded() {
+      this.$router.push('/profile/inventory/csv-drafts')
+    },
     /**
      * This function is used to check item can be added for trade
      * or limit exceeds
@@ -736,4 +753,9 @@ export default {
   width: 1115px
   height: 1016px
   background: $color-white-1
+.btn-file
+  background: $color-black-1
+  color:  $color-white-1
+  padding: 8px
+  border-radius: 7px
 </style>
