@@ -17,7 +17,7 @@
         </b-col>
       </b-row>
       <div>
-        <b-row class="mt-4 create-trade-pl-22">
+        <b-row class="mt-4 pl-0 pl-sm-auto create-trade-pl-22">
           <b-col md="7 p-0">
             <SearchInput
               :value="searchText"
@@ -25,9 +25,10 @@
               :placeholder="$t('create_listing.trade.offer_items.search_by')"
               :clearSearch="true"
               :inputStyle="{ 
-                borderBottomLeftRadius: searchedItems.length > 0 ? 0 : '8px',
-                borderBottomRightRadius: searchedItems.length > 0 ? 0 : '8px',
+                borderBottomLeftRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
+                borderBottomRightRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
               }"
+              class="w-100"
               bordered
               inputHeight="60px"
               @change="onSearchInput"
@@ -41,9 +42,10 @@
                 :wrapperStyle="{ margin: 0 }"
                 :itemStyle="{ padding: 0 }"
                 addBtnClass="text-right"
+                noProductClass="no-product-responsive"
                 listGroupItemClass="border-gray"
                 :style="{
-                  zIndex: 9999
+                  zIndex: 100
                 }" 
               />
             </div>
@@ -249,6 +251,7 @@ import {Pagination} from '~/components/common'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
+import ScreenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'CreateTradeListing',
@@ -305,6 +308,7 @@ export default {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
     }
   },
+  mixins: [ScreenSize],
   computed: {
     ...mapGetters('trades', ['getTradeItems', 'getTradeId', 'getTradeOfferItemQuantity']), // Getter for getting trade items listing,quantity trade id from store
     ...mapGetters('browse', ['filters']), // getter for getting list of filters data
