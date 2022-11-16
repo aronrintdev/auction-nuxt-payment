@@ -5056,7 +5056,8 @@
     "manage_all_aspects_of_your_trades": "Manage all aspects of your trades",
     "their_value": "THEIR VALUE",
     "your_value": "YOUR VALUE",
-    "browse_trade" : "Browse Trade"
+    "browse_trade" : "Browse Trade",
+    "view_details": "View Details"
   },
   "change_password": {
     "password": "Password",

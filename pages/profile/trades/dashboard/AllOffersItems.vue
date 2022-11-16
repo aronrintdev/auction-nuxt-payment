@@ -41,7 +41,7 @@
                   {{$t(offer.offer_type_translation)}}
                 </div>
                 <div class="view-detail-text ml-5">
-                  View Details
+                  {{$t('trades.view_details')}}
                 </div>
               </div>
             </b-col>
