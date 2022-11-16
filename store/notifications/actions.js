@@ -2,16 +2,27 @@
  * Get All notifications of user
  * @param commit
  * @param {Object} payload
- * @param {String} payload.from_year
- * @param {String} payload.to_year
+ * @param {Number[]} payload.years
  * @param {String} payload.search
- * @param {String[]} payload.categories
+ * @param {Number} payload.perPage
+ * @param {String[]} payload.types
  * @return {Promise<AxiosResponse<any>>}
  */
+import {NOTIFICATION_PER_PAGE} from '~/static/constants';
+
 export function getNotifications({commit}, payload) {
+    const allFilters = {
+        from_year: payload && payload.years ? payload.years[0] : null,
+        to_year: payload && payload.years ? payload.years[1] : null,
+        search: payload && payload.search || null,
+        categories: payload && payload.types || null,
+        perPage: payload && payload.perPage || NOTIFICATION_PER_PAGE,
+    }
+    commit('setNotificationFilters', allFilters)
     return this.$axios.get('notifications/user', {
         params: payload
     }).then(res => {
+
         commit('setNotification', res.data.data.data)
         commit('setTotal', res.data.data.total)
         Promise.resolve(res)
@@ -163,9 +174,8 @@ export function readAllNotification({dispatch}) {
 }
 
 
-
 /**
- * read all notification
+ * change filters
  * @param dispatch
  * @param {Object} filters
  * @param {String} filters.from_year

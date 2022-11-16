@@ -21,6 +21,7 @@
           :offerItems="initialWantsItems" 
           :heading="$t('trades.your_listed_items')"
           marginItems="mr-0"
+          class="w-100"
         />
       </div>
     </div>

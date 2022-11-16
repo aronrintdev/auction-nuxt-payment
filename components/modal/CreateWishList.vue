@@ -59,7 +59,7 @@
                 <Button
                   ref="btnSave"
                   type="submit"
-                  variant="primary"
+                  variant="dark-blue"
                   pill
                   block
                   :disabled="!newListName || loading"

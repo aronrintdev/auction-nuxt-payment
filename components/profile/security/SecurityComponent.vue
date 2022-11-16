@@ -1,8 +1,20 @@
 <template>
-  <b-col cols="12" class="mb-5">
-    <b-row class="mt-md-4 mt-4">
-      <b-col cols="12" class="d-flex justify-content-center align-items-center px-3 d-md-none">
-        <NavGroup :value="activeNav" :data="navigations" class="my-2 w-100" @change="navItem"/>
+  <b-col :class="{
+    'mobile' : isScreenXS,
+    'mb-5' : !isScreenXS
+  }" class="security-body" cols="12">
+    <b-row :class="{
+        'mobile' : isScreenXS,
+        'mt-md-4 mt-4-5' : !isScreenXS
+      }" class="content">
+      <b-col :class="{
+        'px-3': !isScreenXS,
+        '': !isScreenXS
+      }" class="d-flex justify-content-center align-items-center d-md-none" cols="12">
+        <NavGroup :class="{
+          'my-2': !isScreenXS,
+          'mb-30': isScreenXS
+        }" :data="navigations" :value="activeNav" class="w-100" @change="navItem"/>
       </b-col>
       <b-col md="6" class="d-none d-md-block">
         <div class="ph-30">
@@ -30,6 +42,7 @@
 import PasswordChangeComponent from '~/components/profile/security/PasswordChangeComponent';
 import TwoFactorAuthenticationComponent from '~/components/profile/security/TwoFactorAuthenticationComponent';
 import {NavGroup} from '~/components/common';
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'SecurityComponent',
@@ -38,6 +51,7 @@ export default {
     TwoFactorAuthenticationComponent,
     NavGroup
   },
+  mixins: [screenSize],
   data() {
     return {
       activeNav: 'password',
@@ -57,6 +71,13 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.security-body
+  &.mobile
+    padding: 22px 11px
+
+  .mb-30
+    margin-bottom: 30px
 
 .ph-30
   padding: 0 30px

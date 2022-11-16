@@ -41,7 +41,7 @@
 
         <Button
           v-if="!mobileClass"
-          variant="dark"
+          variant="dark export-button"
           @click="toggleExport"
         >
             {{ $t('vendor_hub.commission.export_to_csv') }}
@@ -77,6 +77,7 @@
           <span class="label-text thin">{{ $t('vendor_hub.commission.filter_by') }}</span>
           <div class="mt-1">
             <CustomSelectwithCheckbox
+              style="max-width: 262px"
                 :options="STATUSES"
                 :title="$t('bids.status')"
                 :updateFilters="filterForm.activeStatusFilters"
@@ -246,7 +247,38 @@
                   @change="allSelected"
               >
               </b-form-checkbox>
-              <span>{{ data.label }}</span>
+              <span class="header">{{ data.label }}</span>
+              <img src="~/assets/img/icons/filter-down.svg" class="ml-2" />
+            </div>
+          </template>
+          <template #head(product)="data">
+            <div class="d-flex justify-content-center">
+              <span class="header">{{ data.label }}</span>
+              <img src="~/assets/img/icons/filter-down.svg" class="ml-2" />
+            </div>
+          </template>
+          <template #head(commission)="data">
+            <div class="d-flex justify-content-center">
+              <span class="header">{{ data.label }}</span>
+              <img src="~/assets/img/icons/filter-down.svg" class="ml-2" />
+            </div>
+          </template>
+          <template #head(status)="data">
+            <div class="d-flex justify-content-center">
+              <span class="header">{{ data.label }}</span>
+              <img src="~/assets/img/icons/filter-down.svg" class="ml-2" />
+            </div>
+          </template>
+          <template #head(shipped_to_ds)="data">
+            <div class="d-flex justify-content-center">
+              <span class="header">{{ data.label }}</span>
+              <img src="~/assets/img/icons/filter-down.svg" class="ml-2" />
+            </div>
+          </template>
+          <template #head(date_ordered)="data">
+            <div class="d-flex justify-content-center">
+              <span class="header">{{ data.label }}</span>
+              <img src="~/assets/img/icons/filter-down.svg" class="ml-2" />
             </div>
           </template>
 
@@ -640,4 +672,14 @@ export default {
 
 .text-blue-30
   color: $color-blue-30
+
+.export-button
+  width: 260px
+  font-family: $font-sp-pro
+  @include body-8-normal
+
+.header
+  font-family: $font-sp-pro
+  font-style: normal
+  @include body-8-bold
 </style>
