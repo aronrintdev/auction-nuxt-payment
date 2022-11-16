@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex flex-wrap justify-content-start">
-      <div v-if="width <=500">
+      <div v-if="isScreenXS">
         <b-row class="inventory-items-small">
         <b-col v-for="(item) in items" :key="'preference-inventory' + item.id" sm="6" class="invent-item-small ml-2 mr-2 mb-2 p-0">
             <div class="d-flex mt-2">
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import ScreenSize from '~/plugins/mixins/screenSize'
 import {
     PUBLIC_INVENTORY_STATUS
 } from '~/static/constants/trades'

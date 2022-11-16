@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="width <=500" class="col-md-12 mx-auto">
+    <div v-if="isScreenXS" class="col-md-12 mx-auto">
       <div v-for="(trade) in trades" :key="'trade-list-' + trade.id" class="search-trade mb-5">
         <nuxt-link :to="'/trades/' + trade.id">
           <div class="row trade-info-mobile d-flex justify-content-between pl-4 pr-4" :class="`${selectCounterBG(trade.created_at)}`">
@@ -49,6 +49,7 @@
 import BrowseItemCard from '~/components/trade/BrowseItemCardMultipleMobile'
 import { tradeRemainingTime, isRemainingTimeLessThan12Hours } from '~/utils/string'
 import { TRADE_EXPIRY_DAYS } from '~/static/constants'
+import ScreenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'TradeCardWithMultipleItems',
