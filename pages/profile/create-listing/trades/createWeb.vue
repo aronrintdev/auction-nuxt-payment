@@ -21,7 +21,7 @@
       </b-row>
       <div>
         <b-row class="mt-4 create-trade-pl-22">
-          <b-col md="7 p-0" xl="10" lg="10">
+          <b-col md="7 p-0" xl="7" lg="7">
             <SearchInput
               :value="searchText"
               variant="primary"
@@ -173,11 +173,11 @@
           </div>
           <b-row v-else class="justify-content-center">
             <div v-for="(prod, index) in getTradeItems"
-                 :key="'selected-'+index+prod.id" class="create-trade-item-sm d-flex justify-content-between flex-column mr-4">
-              <div class="d-flex justify-content-between mt-2 mx-2">
-                <div class="create-trade-size-car-sm">{{$t('trades.create_listing.vendor.wants.size')}} {{ prod.size && prod.size.size }}</div>
+                 :key="'selected-'+index+prod.id" class="create-trade-item-web d-flex justify-content-between flex-column mr-4">
+              <div class="d-flex justify-content-between mt-2 mx-2 min-sign">
+<!--                <div class="create-trade-size-car-sm">{{$t('trades.create_listing.vendor.wants.size')}} {{ prod.size && prod.size.size }}</div>-->
                 <div v-if="prod.quantity > 1" class="create-trade-quantity-car-sm">x{{ prod.quantity || 1 }}</div>
-                <div class="create-trade-minus-icon-sm" @click="decrementOrRemoveItem(prod.id)">
+                <div class="create-trade-minus-icon-web" @click="decrementOrRemoveItem(prod.id)">
                   <div class="create-trade-minus-line-sm"></div>
                 </div>
               </div>
@@ -188,7 +188,7 @@
                   <img class="create-trade-item-image-sm mb-2" :src="fallbackImgUrl" alt="image"/>
                 </object>
               </div>
-              <div class="create-trade-item-caption-sm">
+              <div class="create-trade-item-caption-web">
                 <span :id="`name-sm${prod.id}`"
                       class="create-trade-item-name-sm">{{ prod.name ? prod.name : prod.product.name }}</span>
                 <span :id="`colorway-sm${prod.id}`"
@@ -196,6 +196,7 @@
                 <span class="create-trade-item-caption-description-sm">Box: {{
                     prod.packaging_condition && prod.packaging_condition.name
                   }}</span>
+                <span class="create-trade-item-caption-description-sm">Size: {{ prod.size && prod.size.size }}</span>
               </div>
 
               <b-tooltip :target="`name-sm${prod.id}`" triggers="hover">
@@ -208,7 +209,7 @@
               </b-tooltip>
 
             </div>
-            <div v-if="getTradeOfferItemQuantity < MAX_ITEMS_ALLOWED" class="create-trade-item-sm">
+            <div v-if="getTradeOfferItemQuantity < MAX_ITEMS_ALLOWED" class="create-trade-item-web">
               <div>
                 <img :src="require('~/assets/img/three-items.svg')">
               </div>
@@ -752,8 +753,8 @@ export default {
   line-height: 21px
   color: #626262
 .inventory-section-module
-  //width: 1115px
-  //height: 1016px
+  width: 1050px
+  height: 1016px
   background: $color-white-1
 .btn-file
   background: $color-black-1
