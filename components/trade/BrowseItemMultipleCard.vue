@@ -1,5 +1,5 @@
 <template>
-  <div class="trade-card-wrapper" v-if="width > 500">
+  <div class="trade-card-wrapper" v-if="isMobileSize">
     <div v-if="showExpire && trade !== null" class="expire-wrapper">
       <div class="btn-expire d-flex mt-2 ml-1 pt-2">
         <div>
@@ -52,12 +52,13 @@
 import ProductThumb from '~/components/product/Thumb.vue'
 import { tradeRemainingTime } from '~/utils/string'
 import { TRADE_EXPIRY_DAYS } from '~/static/constants'
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'BrowseItemCard',
 
   components: { ProductThumb },
-
+  mixins: [screenSize],
   props: {
     product: {
       type: Object,
@@ -78,8 +79,10 @@ export default {
       width:''
     }
   },
-  mounted() {
-    this.width = window.innerWidth
+  computed:{
+    isMobileSize() {
+      return this.isScreenXS || this.isScreenSM
+    },
   },
   methods: {
     prettifyExpiryDate(createdAt){
