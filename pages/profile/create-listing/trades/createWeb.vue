@@ -264,6 +264,7 @@ export default {
     Pagination,   // pagination component
     AlreadyListedModal // model used for telling product is already listed in other category
   },
+  mixins: [ScreenSize],
   layout: 'Profile', // Layout
   middleware: 'auth',
   data() {
@@ -308,7 +309,6 @@ export default {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
     }
   },
-  mixins: [ScreenSize],
   computed: {
     ...mapGetters('trades', ['getTradeItems', 'getTradeId', 'getTradeOfferItemQuantity']), // Getter for getting trade items listing,quantity trade id from store
     ...mapGetters('browse', ['filters']), // getter for getting list of filters data

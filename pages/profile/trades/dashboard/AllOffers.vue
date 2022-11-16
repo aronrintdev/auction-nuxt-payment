@@ -452,8 +452,8 @@ export default {
     ConfirmModal,
     AlertModal
   },
-  layout: 'Profile',
   mixins: [screenSize],
+  layout: 'Profile',
   data () {
     return {
       ALL_OFFER_TYPE,

@@ -1,6 +1,6 @@
 <template>
   <div class="pt-3 pb-5">
-    <div class="main-container ml-3" v-if="mainPageList">
+    <div v-if="mainPageList" class="main-container ml-3">
       <div class="p-2 mt-1" @click="inventorySettings()">
         <div class="d-flex mb-1">
           <div class="inven-set d-flex justify-content-start align-content-start mt-2">{{$t('trades.preferences.inventory_settings')}}</div>
@@ -54,8 +54,8 @@
           {{$t('trades.preferences.set_what_other_traders_are_able_to_view_when_placing')}}
         </div>
         <div  v-for="(status, index) in inventoryStatusOptions" :key="index">
-         <div  @click="changeStatus(status.value)" class="option-status p-3">
-           {{status.text}}  <img class="image-tick" v-if="status.value == inventoryStatus" src="~/assets/img/tick.svg" />
+         <div  class="option-status p-3" @click="changeStatus(status.value)">
+           {{status.text}}  <img v-if="status.value == inventoryStatus" class="image-tick" src="~/assets/img/tick.svg" />
          </div>
         </div>
       </div>
@@ -65,12 +65,12 @@
        </b-btn>
       </div>
     </div>
-    <div class="customize-cont ml-3 m-2 p-3" v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM" >
+    <div v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM" class="customize-cont ml-3 m-2 p-3" >
      <div>
        <your-inventory @updateTotal="setTotalInventory" @change="changePublicInventories" />
      </div>
     </div>
-    <div class="mt-2 ml-3 mr-3 mb-5 offer-sections p-2" v-if="showOfferSetting">
+    <div v-if="showOfferSetting" class="mt-2 ml-3 mr-3 mb-5 offer-sections p-2">
       <div>
         <div class="offer-head">  {{$t('trades.preferences.offer_settings')}}</div>
         <div class="offer-start"> {{$t('trades.preferences.starting_at')}}</div>
@@ -93,7 +93,7 @@
       </div>
     </div>
 
-    <div class="mt-2 ml-3 mr-3 mb-5 refine-sections p-2" v-if="showrefineMatch">
+    <div v-if="showrefineMatch" class="mt-2 ml-3 mr-3 mb-5 refine-sections p-2">
       <div>
         <div class="offer-head">  {{$t('trades.preferences.refine_your_matches')}}</div>
        <div class="refine-headings">
@@ -122,11 +122,11 @@
     </div>
     </div>
 
-    <div class="mt-2 ml-2 mr-3 p-2" v-if="sizePre">
+    <div v-if="sizePre" class="mt-2 ml-2 mr-3 p-2">
       <div  class="sizePre-sections">
         <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.size_preferences')}}</div>
         <div class="mt-2 ml-2">
-          <div class="d-flex" v-b-toggle="'collapse-1'">
+          <div v-b-toggle="'collapse-1'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">{{$tc('common.size_type')}}</b-col>
               <b-col class="col-sm-6">
@@ -150,7 +150,7 @@
         </div>
         <hr class="hr" />
         <div class="mt-1 ml-2">
-          <div class="d-flex" v-b-toggle="'collapse-2'">
+          <div v-b-toggle="'collapse-2'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">{{$tc('common.size')}}</b-col>
               <b-col class="col-sm-6">
@@ -174,7 +174,7 @@
         </div>
         <hr class="hr" />
         <div class="mt-1 ml-2">
-          <div class="d-flex" v-b-toggle="'collapse-3'">
+          <div v-b-toggle="'collapse-3'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">{{$t('common.apparel')}}</b-col>
               <b-col class="col-sm-6">
@@ -203,7 +203,7 @@
         </b-btn>
       </div>
     </div>
-    <div class="mt-2 ml-2 mr-3 p-2" v-if="brandsPre">
+    <div v-if="brandsPre" class="mt-2 ml-2 mr-3 p-2">
       <div  class="brand-sections">
         <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.size_preferences')}}</div>
         <b-row>

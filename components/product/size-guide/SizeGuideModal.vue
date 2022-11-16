@@ -36,26 +36,26 @@
         <div class="d-flex flex-column pb-3">
           <div class="table-header d-flex align-items-center justify-content-between">
             <div 
-              class="col"
-              v-for="(item, idx) in tableHeaders" 
-              :key="idx"  
+              v-for="(item, idx) in tableHeaders"
+              :key="idx" 
+              class="col"  
             >
               {{ item }}
             </div>
           </div>
           <div
-            class="table-row d-flex align-items-center justify-content-between"
+            v-for="(row, i) in tableData"
             :key="i"
+            class="table-row d-flex align-items-center justify-content-between"
             :class="{ 
               'bg-light-gray': i % 2 !== 0, 
               'row-active': i === selectedSizeIndex 
             }"
-            v-for="(row, i) in tableData"
           >
             <div
-              class="col"
               v-for="(el, j) in row"
               :key="j"
+              class="col"
             >
               {{ el }}
             </div>

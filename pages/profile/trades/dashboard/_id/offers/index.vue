@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid" v-if="width <= 500">
+  <div v-if="width <= 500" class="container-fluid">
     <trade-summary v-if="trade !== null" :trade="trade" />
     <div class="mt-5 offers-heading pl-30">
       {{$t('trades.offers' , {'0': tradeOffers.length})}}
@@ -11,8 +11,8 @@
           variant="primary"
           placeholder="Search Offers"
           :clearSearch="true"
-          @change="onSearchInput"
           class="searching-box"
+          @change="onSearchInput"
         />
       </div>
       <div class="mt-2 ml-3">
@@ -29,8 +29,8 @@
             <div class="mt-1 ml-2">
               <span class="filtersHeading ml-2">{{$t('auctions.frontpage.filterbar.sort')}}</span>
               <b-form-radio-group
-                class="radios mt-1 mb-1 sorted ml-3"
                 v-model="orderFilter"
+                class="radios mt-1 mb-1 sorted ml-3"
                 :options="orderFilterItems"
                 :checked="orderFilter"
                 @change="changeOrderFilter($event, 'CUSTOM_VARIABLE')"
@@ -38,7 +38,7 @@
             </div>
             <hr class="hr" />
             <div class="mt-1 ml-2">
-              <div class="d-flex" v-b-toggle="'collapse-1'">
+              <div v-b-toggle="'collapse-1'" class="d-flex">
                 <b-row class="filtersHeading ml-2">
                   <b-col class="col-sm-6">{{$t('trades.trade_condition')}}</b-col>
                   <b-col class="col-sm-6">
@@ -76,7 +76,7 @@
     </div>
     <all-offers-items :offerType="offerType" :offers="tradeOffers" />
   </div>
-  <div class="container-fluid" v-else>
+  <div v-else class="container-fluid">
     <b-col md="12" class="pl-54 pt-4">
       <b-row class="heading">{{$t('trades.trade_id')}} #{{ trade && trade.id }}</b-row>
       <b-row class="sub-heading pt-4">{{$t('trades.trade_summary')}}</b-row>

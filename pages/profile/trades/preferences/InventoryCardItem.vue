@@ -2,7 +2,7 @@
     <div class="d-flex flex-wrap justify-content-start">
       <div v-if="width <=500">
         <b-row class="inventory-items-small">
-        <b-col sm="6" v-for="(item) in items" :key="'preference-inventory' + item.id" class="invent-item-small ml-2 mr-2 mb-2 p-0">
+        <b-col v-for="(item) in items" :key="'preference-inventory' + item.id" sm="6" class="invent-item-small ml-2 mr-2 mb-2 p-0">
             <div class="d-flex mt-2">
               <div class="size-small ml-2">
                 {{$t('trades.size')}} {{item.size.size}}

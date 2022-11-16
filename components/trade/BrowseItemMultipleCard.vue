@@ -1,5 +1,5 @@
 <template>
-  <div class="trade-card-wrapper" v-if="isMobileSize">
+  <div v-if="isMobileSize" class="trade-card-wrapper">
     <div v-if="showExpire && trade !== null" class="expire-wrapper">
       <div class="btn-expire d-flex mt-2 ml-1 pt-2">
         <div>
@@ -21,7 +21,7 @@
       </div>
     </div>
   </div>
-  <div class="trade-card-wrapper" v-else>
+  <div v-else class="trade-card-wrapper">
     <div v-if="showExpire && trade !== null" class="expire-wrapper">
       <div class="btn-expire d-flex mt-2 ml-1 pt-2">
         <div>

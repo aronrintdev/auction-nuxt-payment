@@ -12,15 +12,15 @@
 <script>
 export default {
   name: 'Create',
+  components: {
+    indexMobile:()=> import('./indexMobile'),
+    indexWeb:()=>import('./indexWeb'),
+  },
+  layout: 'Profile',
   data(){
     return {
       width:'',
     }
-  },
-  layout: 'Profile',
-  components: {
-    indexMobile:()=> import('./indexMobile'),
-    indexWeb:()=>import('./indexWeb'),
   },
   mounted() {
     this.width = window.innerWidth

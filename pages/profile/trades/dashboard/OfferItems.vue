@@ -26,7 +26,7 @@
       <div class="product-card">
         <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
         <div class="d-flex justify-content-center align-content-center" >
-          <div class="d-flex justify-content-center align-content-center"  v-for="(item) in offerItems" :key="'offer-item-list-' + item.id">
+          <div v-for="(item) in offerItems"  :key="'offer-item-list-' + item.id" class="d-flex justify-content-center align-content-center">
             <div class="d-inline body-section-box m-1">
               <div class="d-flex justify-content-center align-content-center">
                 <img v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
@@ -53,14 +53,6 @@
 
 export default {
   name: 'OfferItems',
-  data(){
-    return {
-      width:'',
-    }
-  },
-  mounted() {
-    this.width = window.innerWidth
-  },
   props:{
     marginItems: {
       type: String,
@@ -74,6 +66,14 @@ export default {
       type: Array,
       required: true,
     },
+  },
+  data(){
+    return {
+      width:'',
+    }
+  },
+  mounted() {
+    this.width = window.innerWidth
   }
 }
 </script>

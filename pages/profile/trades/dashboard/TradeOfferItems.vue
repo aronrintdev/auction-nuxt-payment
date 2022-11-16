@@ -1,9 +1,9 @@
 <template>
   <div class="d-block">
-    <div 
-      v-for="(offer) in offers" 
-      :key="'offer-' + offer.id" 
-      class="mb-4" 
+    <div
+      v-for="(offer) in offers"
+      :key="'offer-' + offer.id"
+      class="mb-4"
     >
       <div class="desktop-offer d-none d-lg-block">
         <div class="d-flex justify-content-between">
@@ -14,21 +14,21 @@
             v-if="new Date(offer.offer_expiry).getTime() > Date.now()"
             class="offer-type d-flex justify-content-center align-items-center"
           >
-            <img 
-              v-if="offer.offer_type === OFFER_SENT" 
-              :src="require('~/assets/img/trades/SentType.svg')" 
+            <img
+              v-if="offer.offer_type === OFFER_SENT"
+              :src="require('~/assets/img/trades/SentType.svg')"
               class="mr-2"
             >
-            <img 
-              v-else-if="offer.offer_type === OFFER_RECEIVED" 
-              :src="require('~/assets/img/trades/ReceivedType.svg')" 
+            <img
+              v-else-if="offer.offer_type === OFFER_RECEIVED"
+              :src="require('~/assets/img/trades/ReceivedType.svg')"
               class="mr-2"
             >
             {{ $t(offer.offer_type_translation )}}
           </div>
           <div
-            class="expired-label d-flex align-items-center justify-content-center"
             v-else
+            class="expired-label d-flex align-items-center justify-content-center"
           >
             {{ $t('bids.expired') }}
           </div>
@@ -38,20 +38,20 @@
             <div class="offer-time pr-2">
               {{ $t('trades.received_on')}} {{ offer.created_at | formatDateTimeString }}
             </div>
-            <div 
-              class="offer-on-top d-flex align-items-center"
+            <div
               v-if="offer.cash_added"
+              class="offer-on-top d-flex align-items-center"
             >
-              <span class="dollar-sign">$</span> 
-              {{ $t('common.they_added') }} 
-              <span class="dollar-count mx-1">${{ offer.cash_added }}</span> {{ $t('common.on_top') }}
+              <span class="dollar-sign">$</span>
+              {{ $t('common.they_added') }}
+              <span class="dollar-count mx-1">${{ offer.cash_added/100 }}</span> {{ $t('common.on_top') }}
             </div>
           </div>
-          <div 
-            class="w-38 px-0 view-details d-flex align-items-center justify-content-end"
+          <div
             v-if="offer.deleted_at === null"
-            role="button" 
-            @click="showOffer(offer)" 
+            class="w-38 px-0 view-details d-flex align-items-center justify-content-end"
+            role="button"
+            @click="showOffer(offer)"
           >
             {{ $t('vendor_purchase.view_details') }}
           </div>
@@ -63,9 +63,9 @@
               {{ $t('vendor_purchase.theirs') }}
             </div>
             <div class="d-flex flex-wrap justify-content-between">
-              <div 
-                v-for="(theirItems) in offer.theirs_items" 
-                :key="'offer-item-'+ theirItems.id" 
+              <div
+                v-for="(theirItems) in offer.theirs_items"
+                :key="'offer-item-'+ theirItems.id"
                 class="col-4 text-left mx-auto"
               >
                 <img :src="theirItems.inventory.product | getProductImageUrl" class="img-fluid">
@@ -73,7 +73,7 @@
                   {{ theirItems.inventory.product.name }}
                 </div>
                 <div class="mt-1 product-box">
-                  {{ $t('sell.inventory.box') }}: 
+                  {{ $t('sell.inventory.box') }}:
                   {{ theirItems.inventory.packaging_condition.name }}
                 </div>
                 <div class="mt-1 product-size">
@@ -92,9 +92,9 @@
             </div>
 
             <div class="d-flex flex-wrap justify-content-between">
-              <div 
-                v-for="(yoursItems) in offer.yours_items" 
-                :key="'offer-item-'+ yoursItems.id" 
+              <div
+                v-for="(yoursItems) in offer.yours_items"
+                :key="'offer-item-'+ yoursItems.id"
                 class="col-4 text-left mx-auto"
               >
                 <img :src="yoursItems.inventory.product | getProductImageUrl" class="img-fluid">
@@ -102,7 +102,7 @@
                   {{ yoursItems.inventory.product.name }}
                 </div>
                 <div class="mt-1 product-box">
-                  {{ $t('sell.inventory.box') }}: 
+                  {{ $t('sell.inventory.box') }}:
                   {{ yoursItems.inventory.packaging_condition.name }}
                 </div>
                 <div class="mt-1 product-size">
@@ -117,15 +117,15 @@
           v-if="new Date(offer.offer_expiry).getTime() > Date.now()"
           class="mt-4 d-flex justify-content-center"
         >
-          <Button 
+          <Button
             variant="dark-blue"
             class="mr-3"
             @click="$router.push(`/profile/trades/dashboard/${offer.id}`)"
           >
-            {{ $t('common.accept_trade') }} 
+            {{ $t('common.accept_trade') }}
           </Button>
-          
-          <div 
+
+          <div
             class="decline-button d-flex justify-content-center align-items-center mr-3"
             role="button"
             @click="$bvModal.show('declineOffer')"
@@ -133,7 +133,7 @@
             {{ $t('common.decline') }}
           </div>
 
-          <Button 
+          <Button
             variant="outline-dark-blue"
             @click="$router.push(`/profile/trades/dashboard/counter-offer/${offer.id}`)"
           >
@@ -141,42 +141,42 @@
           </Button>
         </div>
         <Button
+          v-else-if="offer.latest_offer && offer.latest_offer.status === 'Declined'"
           class="mt-4"
           variant="outline-warning"
-          v-else-if="offer.latest_offer && offer.latest_offer.status === 'Declined'"
         >
           {{ $t('common.rescind') }}
         </Button>
-        
+
       </div>
       <div class="mobile-offer d-lg-none">
         <div class="d-flex justify-content-between">
-          <div 
+          <div
             class="offer-id"
             @click="showOffer(offer)"
           >
             {{$t('trades.offer_id')}} #{{offer.id}}
           </div>
 
-          <div 
-            v-if="new Date(offer.offer_expiry).getTime() > Date.now()" 
+          <div
+            v-if="new Date(offer.offer_expiry).getTime() > Date.now()"
             class="d-flex align-items-center"
           >
-            <img 
-              v-if="offer.offer_type === 'sent'" 
-              :src="require('~/assets/img/trades/SentType.svg')" 
-              alt="" 
+            <img
+              v-if="offer.offer_type === 'sent'"
+              :src="require('~/assets/img/trades/SentType.svg')"
+              alt=""
             />
-            <img 
-              v-else 
-              :src="require('~/assets/img/trades/ReceivedType.svg')" 
-              alt="" 
+            <img
+              v-else
+              :src="require('~/assets/img/trades/ReceivedType.svg')"
+              alt=""
             />
             <div class="ml-1 offer-type">{{ $t(`trades.offer_type.${offer.offer_type}`) }}</div>
           </div>
           <div
-            class="expired-label d-flex align-items-center justify-content-center"
             v-else
+            class="expired-label d-flex align-items-center justify-content-center"
           >
             {{ $t('bids.expired') }}
           </div>
@@ -187,20 +187,20 @@
             {{ $t('trades.sent_on')}} {{ offer.created_at | formatDateTimeString }}
           </div>
           <div v-if="action && selected.find(s => s === offer.id) && !offer.deleted_at">
-            <div 
+            <div
               class="circle-full mr-3"
-              @click="$emit('select', offer.id)" 
+              @click="$emit('select', offer.id)"
             >
-              <img 
-                :src="require('~/assets/img/trades/Tick.svg')" 
-                alt="" 
+              <img
+                :src="require('~/assets/img/trades/Tick.svg')"
+                alt=""
               />
             </div>
           </div>
           <div
             v-else-if="action && !selected.find(s => s === s.id) && !offer.deleted_at"
             class="circle-blue mr-3"
-            @click="$emit('select', offer.id)" 
+            @click="$emit('select', offer.id)"
           >
           </div>
         </div>
@@ -214,14 +214,14 @@
         </div>
         <div class="d-flex justify-content-between">
           <div class="col-5 d-flex flex-column justify-content-center">
-            <div 
-              v-for="(theirItems) in offer.theirs_items" 
-              :key="'mobile-offer-item-'+ theirItems.id" 
+            <div
+              v-for="(theirItems) in offer.theirs_items"
+              :key="'mobile-offer-item-'+ theirItems.id"
               class="px-0 text-left"
             >
-              <img 
-                width="99" 
-                :src="theirItems.inventory.product | getProductImageUrl" 
+              <img
+                width="99"
+                :src="theirItems.inventory.product | getProductImageUrl"
                 class="h-auto"
               >
               <div class="mobile-product-name">
@@ -231,7 +231,7 @@
                 <div>
                   {{ theirItems.inventory.product.colorway | truncate(10, '...') }}, {{ $t('home_page.size') }} {{ theirItems.inventory.size.size }}
                 </div>
-                {{ $t('sell.inventory.box') }}: 
+                {{ $t('sell.inventory.box') }}:
                 {{ theirItems.inventory.packaging_condition.name }}
               </div>
             </div>
@@ -241,14 +241,14 @@
             <img width="31" height="31" :src="require('~/assets/img/icons/trade-icon.svg')" />
           </div>
           <div class="col-4 px-0 d-flex flex-column justify-content-center">
-            <div 
-              v-for="(yoursItems) in offer.yours_items" 
-              :key="'mobile-offer-item-'+ yoursItems.id" 
+            <div
+              v-for="(yoursItems) in offer.yours_items"
+              :key="'mobile-offer-item-'+ yoursItems.id"
               class="px-0 text-left d-flex flex-column"
             >
-              <img 
-                width="99" 
-                :src="yoursItems.inventory.product | getProductImageUrl" 
+              <img
+                width="99"
+                :src="yoursItems.inventory.product | getProductImageUrl"
                 class="h-auto mx-auto"
               >
               <div class="mobile-product-name">
@@ -258,7 +258,7 @@
                 <div>
                   {{ yoursItems.inventory.product.colorway | truncate(10, '...') }}, {{ $t('home_page.size') }} {{ yoursItems.inventory.size.size }}
                 </div>
-                {{ $t('sell.inventory.box') }}: 
+                {{ $t('sell.inventory.box') }}:
                 {{ yoursItems.inventory.packaging_condition.name }}
               </div>
             </div>
@@ -266,10 +266,10 @@
         </div>
       </div>
 
-      <DeclineModel 
-        v-if="offer" 
+      <DeclineModel
+        v-if="offer"
         :offer="offer"
-        @decline="(blockUser) => { declineOffer(offer, blockUser) }" 
+        @decline="(blockUser) => { declineOffer(offer, blockUser) }"
       />
     </div>
 
@@ -285,9 +285,9 @@
       </div>
     </b-modal>
 
-    <infinite-loading 
-      class="d-sm-none" 
-      :identifier="infiniteId" 
+    <infinite-loading
+      class="d-sm-none"
+      :identifier="infiniteId"
       @infinite="($state) => { $emit('loadMore', $state, page + 1) }"
     />
   </div>
@@ -395,7 +395,7 @@ export default {
 
 .w-10
   width: 10%
-  
+
 .product-name, .product-box, .product-size
   @include body-10-medium
   color: $color-black-1

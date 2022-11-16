@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="col-md-12 mx-auto" v-if="width <=500">
+    <div v-if="width <=500" class="col-md-12 mx-auto">
       <div v-for="(trade) in trades" :key="'trade-list-' + trade.id" class="search-trade mb-5">
         <nuxt-link :to="'/trades/' + trade.id">
           <div class="row trade-info-mobile d-flex justify-content-between pl-4 pr-4">
@@ -22,7 +22,7 @@
         </nuxt-link>
       </div>
     </div>
-    <div class="col-md-12 mb-5 mx-5 " v-else>
+    <div v-else class="col-md-12 mb-5 mx-5 ">
       <div v-for="(trade) in trades" :key="'trade-list-' + trade.id" class="search-trade mb-5">
         <nuxt-link :to="'/trades/' + trade.id">
           <div class="btn-expire d-flex mt-2 ml-1 pt-2">

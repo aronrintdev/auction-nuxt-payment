@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="d-flex justify-content-center align-content-center"  @click="showTrade(trade.id)">
-          <div class="d-flex justify-content-center align-content-center" v-for="(offer) in trade.offers" :key="'trade-offer-'+offer.id">
+          <div v-for="(offer) in trade.offers" :key="'trade-offer-'+offer.id" class="d-flex justify-content-center align-content-center">
             <div class="d-inline body-section-box m-1">
               <div class="d-flex justify-content-center align-content-center pt-3">
                 <img class="image-tarde" :src="offer.inventory.product | getProductImageUrl">
@@ -37,8 +37,8 @@
 
               <div class="bottom-section mt-4">
                 <div class="product-name ">{{ offer.inventory.product.name }}</div>
-                <div class="product-size "><span>Size : </span>{{offer.inventory.size.id }}</div>
-                <div class="product-size "><span>Box : </span>{{offer.inventory.packaging_condition.name}}</div>
+                <div class="product-size "><span>{{ $tc('common.size') }} : </span>{{offer.inventory.size.id }}</div>
+                <div class="product-size "><span>{{$t('common.box')}} : </span>{{offer.inventory.packaging_condition.name}}</div>
               </div>
             </div>
 

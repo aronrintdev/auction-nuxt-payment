@@ -1,5 +1,5 @@
 <template>
-  <div class="trade-card-wrapper" v-if="width > 500">
+  <div v-if="width > 500" class="trade-card-wrapper">
     <div v-if="showExpire && trade !== null" class="expire-wrapper">
       <div class="btn-expire d-flex mt-2 ml-1 pt-2">
         <div>
@@ -24,7 +24,7 @@
       </div>
     </div>
   </div>
-  <div class="trade-card-wrapper" v-else>
+  <div v-else class="trade-card-wrapper">
     <div v-if="showExpire && trade !== null" class="expire-wrapper">
       <div class="btn-expire d-flex mt-2 ml-1 pt-2">
         <div>
@@ -118,7 +118,7 @@ export default {
       background-color: $color-red-24
       color: $color-white-1
       font-weight: $medium
-      width: 94px
+      width: 110px
       height: 31px
 
   .product-image

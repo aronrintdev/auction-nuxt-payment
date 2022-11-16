@@ -116,7 +116,7 @@
     <!-- filters -->
     <div class="d-flex ml-5">
       <div class="mt-1">
-        <label><u @click="clearAllFilters" class="ml-2 clear-all-text">{{$t('common.clear_all')}}</u></label>
+        <label><u class="ml-2 clear-all-text" @click="clearAllFilters">{{$t('common.clear_all')}}</u></label>
       </div>
     </div>
   </div>

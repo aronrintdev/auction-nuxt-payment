@@ -2,7 +2,7 @@
   <div>
     <div v-if="isScreenXS">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
-        <b-col :md="isPayment ? 9 : 12" v-if="!cashAdd">
+        <b-col v-if="!cashAdd" :md="isPayment ? 9 : 12">
           <div>
             <div class="amounts-input ml-2">
               <input type="text" class="theirs" disabled :value="$t('trades.trade_arena.theirs') + `: ${getTheirTotal()}`">
@@ -156,7 +156,7 @@
               </div>
 
               <b-row v-if="inventoryItems.length" class="mt-2">
-                <b-col sm="6" v-for="(item) in inventoryItems" :key="item.id" class="inventory-small">
+                <b-col v-for="(item) in inventoryItems" :key="item.id" sm="6" class="inventory-small">
                   <div class="bg-img">
                     <b-row class="justify-content-between">
                       <b-col class="d-flex justify-content-end pr-3 pt-3">
@@ -172,7 +172,7 @@
 
                     <div class="item-caption bg-white">
                       <span class="item-name-small">{{ item.product.name }}</span>
-                      <span class="item-box-condition-small">Box : {{item.packaging_condition.name}}</span>
+                      <span class="item-box-condition-small">{{$t('common.box')}} : {{item.packaging_condition.name}}</span>
                       <span class="item-caption-description">{{item.product.colorway}}</span>
                     </div>
                   </div>
@@ -211,7 +211,7 @@
       <AlreadyListedModal :listingId="itemListingId" :item="alreadyListedItemDetails" @confirm="addYourInventoryItem" />
       <PoorTradeConfirmationModal :poorTrade="(tradeCondition === FILTER_CONDITION_POOR)"></PoorTradeConfirmationModal>
     </div>
-    <div class="bg-white-5" v-else>
+    <div v-else class="bg-white-5">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col class="px-4" :md="isPayment ? 9 : 12">
           <div class="">
@@ -222,7 +222,7 @@
             <div class="d-flex flex-column px-3 px-lg-0">
               <div class="mt-55 d-flex mb-2 justify-content-between col-md-8 mx-auto">
                 <div class="value">
-                  {{ $t('common.their_value') }} 
+                  {{ $t('common.their_value') }}
                   <span class="ml-1 price">{{ getTheirTotal() }}</span>
                 </div>
                 <div class="value">
@@ -254,7 +254,7 @@
                       </div>
                       <span
                         class="mt-1 item-caption-description">{{
-                          $t('trades.trade_arena.box') 
+                          $t('trades.trade_arena.box')
                         }}: {{ item.inventory.packaging_condition.name }}
                       </span>
                     </div>
@@ -288,7 +288,7 @@
                         </div>
                         <span
                           class="mt-1 item-caption-description">{{
-                            $t('trades.trade_arena.box') 
+                            $t('trades.trade_arena.box')
                           }}: {{ item.inventory.packaging_condition.name }}
                         </span>
                       </div>
@@ -299,7 +299,7 @@
             </div>
             <div class="d-flex flex-column align-items-center mb-4">
               <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
-                <Meter 
+                <Meter
                   :highest="getTheirTotal(false)"
                   :lowest="0"
                   :value="getYourTotal(false)"
@@ -316,16 +316,16 @@
                 <div v-if="!cashAdded" class="optional-input w-100 d-flex">
                   <div class="position-relative">
                     <span v-if="optionalCash" class="position-absolute input-mt ml-2">$</span>
-                    <input 
-                      v-model="optionalCash" 
-                      type="text" 
+                    <input
+                      v-model="optionalCash"
+                      type="text"
                       :placeholder="$t('common.enter_cash_amount')"
                       class="optional-input-field"
                     >
                   </div>
-                  <Button 
-                    variant="dark-blue" 
-                    class="add-cash-btn" 
+                  <Button
+                    variant="dark-blue"
+                    class="add-cash-btn"
                     @click="addOptionalCash(true)"
                   >
                     {{ $t('common.confirm') }}
@@ -388,10 +388,10 @@
                 @change="onSearchInput"
               />
               <div class="position-relative">
-                <SearchedProductsBelowSearchTextBox 
-                  v-if="searchedItems.length > 0" 
-                  :productItems="searchedItems" 
-                  :productsFor="productFor" 
+                <SearchedProductsBelowSearchTextBox
+                  v-if="searchedItems.length > 0"
+                  :productItems="searchedItems"
+                  :productsFor="productFor"
                   class="position-absolute width-responsive counter-wrapper"
                   addBtnClass="text-right"
                   :itemStyle="{
@@ -408,15 +408,15 @@
               <div class="row align-items-center">
                 <b-col md="3" xl="2" sm="12">
                   <client-only>
-                    <CustomDropdown 
-                      v-model="categoryFilter" 
-                      :options="categoryItems" 
+                    <CustomDropdown
+                      v-model="categoryFilter"
+                      :options="categoryItems"
                       type="single-select"
-                      :label="categoryFilterLabel" 
+                      :label="categoryFilterLabel"
                       paddingX="10px"
-                      class="mr-sm-3 counter-page-dropdown" 
+                      class="mr-sm-3 counter-page-dropdown"
                       optionsWidth="custom"
-                      dropDownHeight="38px" 
+                      dropDownHeight="38px"
                       variant="white"
                       :arrowStyle="{
                         color: '#000',
@@ -434,11 +434,11 @@
                 </b-col>
                 <b-col md="3" xl="2" sm="12" class="mt-2 mt-md-0">
                   <client-only>
-                    <CustomDropdown 
-                      v-model="sizeTypesFilter" 
-                      :options="filters.size_types" 
+                    <CustomDropdown
+                      v-model="sizeTypesFilter"
+                      :options="filters.size_types"
                       type="multi-select-checkbox"
-                      :label="sizeTypesFilterLabel" 
+                      :label="sizeTypesFilterLabel"
                       class="mr-sm-3 counter-page-dropdown"
                       paddingX="10px"
                       optionsWidth="custom"
@@ -460,15 +460,15 @@
                 </b-col>
                 <b-col md="3" xl="2" sm="12" class="mt-2 mt-md-0">
                   <client-only>
-                    <CustomDropdown 
-                      v-model="sizeFilter" 
-                      :options="filters.sizes" 
+                    <CustomDropdown
+                      v-model="sizeFilter"
+                      :options="filters.sizes"
                       type="multi-select-checkbox"
-                      :label="sizeFilterLabel" 
+                      :label="sizeFilterLabel"
                       class="mr-sm-3 counter-page-dropdown"
                       paddingX="10px"
                       optionsWidth="custom"
-                      dropDownHeight="38px" 
+                      dropDownHeight="38px"
                       :arrowStyle="{
                         color: '#000',
                         marginTop: '0 !important'
@@ -490,9 +490,9 @@
               </div>
             </div>
             <div v-if="inventoryItems.length" class="carousel d-flex flex-column flex-md-row flex-wrap justify-content-between inventory-items-trade">
-              <div 
-                v-for="(item) in inventoryItems" 
-                :key="item.id" 
+              <div
+                v-for="(item) in inventoryItems"
+                :key="item.id"
                 class="item invent-item d-flex flex-column justify-content-center mx-auto mx-md-0 col-6 col-md-3 px-0"
               >
                 <b-row class="justify-content-between">
@@ -529,7 +529,7 @@
                 @per-page-change="handlePerPageChange"
               />
             </b-row>
-          </div>          
+          </div>
         </b-col>
         <CheckoutSidebar v-if="isPayment" class="order-summary" />
       </b-row>
@@ -603,8 +603,8 @@ export default {
     CheckoutSidebar,
     addCash
   },
-  layout: 'Profile',
   mixins: [ScreenSize],
+  layout: 'Profile',
   data() {
     return {
       cashAdd:false,
