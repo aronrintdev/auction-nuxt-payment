@@ -53,7 +53,8 @@
     <div class="d-flex justify-content-between align-items-center">
     <SearchInput
         :value="searchText"
-        variant="primary"
+        variant="light"
+        inputHeight="33px"
         :placeholder="$t('trades.trade_arena.search_inventory')"
         :clearSearch="true"
         bordered
@@ -82,21 +83,12 @@
           </div>
         </div>
       </div>
-
-      <b-row class="justify-content-center col-md-12">
-        <Pagination
-          v-if="inventoryItems && inventoryItems.length > ITEM_COUNT_0"
-          v-model="page"
-          :total="totalCount"
-          :per-page="perPage"
-          :per-page-options="perPageOptions"
-          class="mt-4"
-          @page-click="handlePageClick"
-          @per-page-change="handlePerPageChange"
-        />
-      </b-row>
     </div>
     </div>
+    <infinite-loading :identifier="infiniteId" @infinite="getInventory">
+        <span slot="no-more"></span>
+        <span slot="no-results"></span>
+    </infinite-loading>
     <div v-if="!inventoryItems.length" class="w-100 py-5 text-center">
         <div class="d-inline-flex align-items-center no-items-found">
           <img src="~/assets/img/no-items-found.png" class="mr-3" />
@@ -118,7 +110,6 @@ import {
   ITEM_COUNT_0,
 } from '~/static/constants/trades'
 import {DEFAULT_PER_PAGE_ITEMS, MAX_ITEMS_ALLOWED, PER_PAGE_ITEMS} from '~/static/constants';
-import {Pagination} from '~/components/common'
 import SearchInput from '~/components/common/SearchInput';
 import TradeArenaFilters from '~/components/trade/TradeArenaFilters';
 export default {
@@ -126,7 +117,6 @@ export default {
   components:{
     TradeArenaFilters,
     SearchInput,
-    Pagination
   },
   data(){
     return {
@@ -143,6 +133,7 @@ export default {
       MAX_ITEMS_ALLOWED,
       searchText: '',
       filterScreen: false,
+      infiniteId: +new Date(),
 
     }
   },
@@ -157,7 +148,7 @@ export default {
      * This function is used to get listing of your inventory items
      * from api
      */
-    getInventory: debounce(function (filters = {}) {
+    getInventory: debounce(function ($state,filters = {}) {
       filters.category = this.categoryFilter
       filters.sizes = this.sizeFilter?.join(',')
       filters.size_types = this.sizeTypesFilter?.join(',')
@@ -171,9 +162,14 @@ export default {
           },
         })
         .then((response) => { // response will get us listing of
-          this.inventoryItems = response.data.data
-          this.totalCount = parseInt(response.data.total)
-          this.perPage = parseInt(response.data.per_page)
+          const res = response?.data
+          if (!res.next_page_url) {
+            $state.complete()
+          }else {
+            this.page += 1;
+            this.inventoryItems.push(...res.data);
+            $state.loaded()
+          }
         })
         .catch((error) => { // return error
           this.$toasted.error(this.$t(error.response.data.error))
@@ -190,9 +186,9 @@ export default {
       this.sizeFilter = filters?.sizes
       this.sizeTypesFilter = filters?.sizeTypes
       this.filterScreen = false
-      this.getInventory()
-      this.$forceUpdate()
-
+      this.page = 1;
+      this.inventoryItems = []
+      this.infiniteId += 1;
     },
     decrementOrRemoveItem(item) {
       const existingItem = this.getYourTradeItems.find(val => val.id === item.id)
@@ -220,7 +216,6 @@ export default {
     handlePageClick(bvEvent, page) {
       if (this.page !== page) {
         this.page = page
-        this.getInventory()
       }
     },
     /**
@@ -231,7 +226,6 @@ export default {
       if (this.perPage !== value) {
         this.perPage = value
         this.page = 1
-        this.getInventory()
       }
     },
     /**
@@ -317,20 +311,15 @@ export default {
      */
     onSearchInput(term) {
       this.searchText = term
-      this.getInventory()
+      this.page = 1;
+      this.inventoryItems = []
+      this.infiniteId += 1;
     },
     doneClose(){
       this.$refs.myBottomSheet.close();
     },
     clearItems(){
       this.$store.commit('trade/setTradeItemsEmpty',[])
-    },
-    applyFilters(data){
-      this.orderFilter = data.orderFilter ? data.orderFilter : null
-      this.categoryFilter = data.category ? data.category : null
-      this.sizeTypesFilter = data.sizeType ? data.sizeType : null
-      this.sizeFilter = data.sizes ? data.sizes: null
-      this.getInventory()
     },
     showFilters(){
       this.filterScreen = true;
@@ -363,6 +352,7 @@ export default {
 
 .pro-image
   width: 81px
+  z-index: 10
 .remove-item
   height: 13px
   width: 13px
@@ -439,12 +429,12 @@ export default {
   left: 0
   width: 100%
   height: 100%
-  background: $color-grey-70
+  background: $color-white-1
 .image-wrapper
   width: 99px
   height: 112.4px
 .item-caption
-  background: $color-white-1
+  background: $color-gray-1
   padding-left: unset
 .color-blue
   color: $color-blue-20

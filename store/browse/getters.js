@@ -29,3 +29,6 @@ export function selectedSearch(state) {
 export function selectedOrdering(state){
   return state.selectedOrdering
 }
+export function getSizesByType(state){
+  return state.sizes
+}

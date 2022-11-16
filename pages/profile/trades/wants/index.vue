@@ -102,8 +102,12 @@
             :label="orderFilterLabel"
             class="bg-white"
             optionsWidth="custom"
-            labelStyle='font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 16px; color: #000'
+            labelStyle='font-weight: 500 !important; font-size: 16px; color: #000'
             paddingX="23px"
+            :arrowStyle="{
+              marginTop: '0 !important',
+              color: '#999'
+            }"
             variant="white"
             dropDownHeight="46px"
             borderRadius="8px"
@@ -187,9 +191,17 @@
             variant="white"
             borderRadius="4px"
             paddingX="10px"
-            :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
-            labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
-            arrowStyle='color: #000'
+            :dropdownStyle="{ 
+              border: '1px solid #cbcbcb', 
+              borderTop: 0,
+              borderRadius: '0 0 4px 4px'
+            }"
+            borderRadiusClose="4px 4px 0 0"
+            labelStyle="font-size: 14px; color: #626262;"
+            :arrowStyle="{
+              color: '#000',
+              marginTop: '0 !important'
+            }"
             @change="changeCategory"
           />
         </b-col>
@@ -205,9 +217,17 @@
             variant="white"
             borderRadius="4px"
             paddingX="10px"
-            :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
-            labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
-            arrowStyle='color: #000'
+            :dropdownStyle="{ 
+              border: '1px solid #cbcbcb', 
+              borderTop: 0,
+              borderRadius: '0 0 4px 4px'
+            }"
+            borderRadiusClose="4px 4px 0 0"
+            labelStyle="font-size: 14px; color: #626262;"
+            :arrowStyle="{
+              color: '#000',
+              marginTop: '0 !important'
+            }"
             @change="changeSizeTypeFilter"
           />
         </b-col>
@@ -223,9 +243,17 @@
             variant="white"
             borderRadius="4px"
             paddingX="10px"
-            :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
-            labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
-            arrowStyle='color: #000'
+            :dropdownStyle="{ 
+              border: '1px solid #cbcbcb', 
+              borderTop: 0,
+              borderRadius: '0 0 4px 4px'
+            }"
+            borderRadiusClose="4px 4px 0 0"
+            labelStyle="font-size: 14px; color: #626262;"
+            :arrowStyle="{
+              color: '#000',
+              marginTop: '0 !important'
+            }"
             @change="changeSizeFilter"
           />
         </b-col>
