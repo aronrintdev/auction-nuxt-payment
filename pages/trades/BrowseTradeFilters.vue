@@ -116,7 +116,6 @@
     <!-- filters -->
     <div class="d-flex ml-5">
       <div class="mt-1">
-<!--        <b-btn @click="sendFilters()" class="filter-btn mt-1">Filters</b-btn>-->
         <label><u @click="clearAllFilters" class="ml-2 clear-all-text">{{$t('common.clear_all')}}</u></label>
       </div>
     </div>
@@ -305,19 +304,6 @@ export default {
   methods: {
     ...mapActions('trade', ['fetchTradeBrowseFilters']), // get filters from api call by calling action from store
 
-    // sendFilters(){
-    //   const filterData = {
-    //     brands : this.selectedFilters.brands,
-    //     categories : this.selectedFilters.categories,
-    //     sizeTypes : this.selectedFilters.sizeTypes,
-    //     sizes: this.selectedFilters.sizes,
-    //     status: this.selectedFilters.status,
-    //     sortby: this.selectedFilters.sortby,
-    //     product: this.selectedFilters.product,
-    //     type: this.selectedFilters.type
-    //   }
-    //   this.emitChange(filterData)
-    // },
     emitChange: debounce(function(filters) {
       this.$emit('click', filters)
     }, 300),
@@ -425,7 +411,7 @@ export default {
 .filter-btn
   width: 100px
   height: 39px
-  background: #667799
+  background: $color-blue-20
   border-radius: 8px
   font-family: $font-montserrat
   font-style: normal
