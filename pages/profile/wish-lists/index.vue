@@ -213,15 +213,12 @@
               @undo="handleUndoBulkAction()"
             />
           </div>
+          <div class="infinite-wrapper mb-5">
 
-          <Loader v-if="loading" class="my-5" />
-
-          <div v-else>
-
-            <b-row v-if="listProducts.length > 0">
+            <b-row>
               <b-col
-                v-for="product in listProducts"
-                :key="`wish-list-item-${product.id}-${currentWishList.id}`"
+                v-for="(product, index) in listProducts"
+                :key="`wish-list-item-${product.id}-${currentWishList.id}-${index}`"
                 class="card-container"
               >
                 <ProductCard
@@ -233,56 +230,55 @@
                 />
               </b-col>
             </b-row>
+            <infinite-loading :identifier="infiniteId" @infinite="handleLoading" ></infinite-loading>
 
-            <div v-else class="text-center no-itmes">
-              <p class="mt-5">
-                {{ $t('wish_lists.no_items_info') }}
-              </p>
+            <div v-if="listProducts.length === 0" class="text-center no-itmes">
+            <p class="mt-5">
+              {{ $t('wish_lists.no_items_info') }}
+            </p>
 
+            <Button
+              variant="primary"
+              class="mt-4 mx-auto"
+              pill
+              @click="handleBrowseClick"
+            >
+              {{ $t('wish_lists.browse_items') }}
+            </Button>
+          </div>
+          </div>
+          <div v-if="listProducts.length > 0" class="mt-m1">
+            <div
+              v-if="action === 'remove'"
+              class="action-container"
+            >
               <Button
                 variant="primary"
-                class="mt-4 mx-auto"
-                pill
-                @click="handleBrowseClick"
+                :disabled="selected.length === 0"
+                @click="removeSelected"
               >
-                {{ $t('wish_lists.browse_items') }}
+                {{ $t('wish_lists.remove_selected') }}
               </Button>
             </div>
 
-            <infinite-loading :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
-
-            <div class="mt-m1">
-              <div
-                v-if="action === 'remove' && listProducts.length > 0"
-                class="action-container"
+            <div
+              v-if="action === 'move'"
+              class="action-container"
+            >
+              <Button
+                v-for="(list, index) in getMovableWishLists()"
+                :key="`move-to-wishlist-${list.id}`"
+                :disabled="selected.length === 0"
+                :variant="BUTTON_VARIANTS[index % 4]"
+                @click="moveSelected(list)"
               >
-                <Button
-                  variant="primary"
-                  :disabled="selected.length === 0"
-                  @click="removeSelected"
-                >
-                  {{ $t('wish_lists.remove_selected') }}
-                </Button>
-              </div>
-
-              <div
-                v-if="action === 'move' && listProducts.length > 0"
-                class="action-container"
-              >
-                <Button
-                  v-for="(list, index) in getMovableWishLists()"
-                  :key="`move-to-wishlist-${list.id}`"
-                  :disabled="selected.length === 0"
-                  :variant="BUTTON_VARIANTS[index % 4]"
-                  @click="moveSelected(list)"
-                >
-                  <div class="text-truncate mw-300px">
-                    {{ $t('wish_lists.move_to_list', { list: list.name }) }}
-                  </div>
-                </Button>
-              </div>
+                <div class="text-truncate mw-300px">
+                  {{ $t('wish_lists.move_to_list', { list: list.name }) }}
+                </div>
+              </Button>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -296,7 +292,6 @@ import CheckboxSwitch from '~/components/common/CheckboxSwitch.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import ShareButton from '~/components/common/ShareButton.vue'
 import Button from '~/components/common/Button.vue'
-import Loader from '~/components/common/Loader.vue'
 import ProductCard from '~/components/product/Card.vue'
 import CreateWishListModal from '~/components/modal/CreateWishList'
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar'
@@ -309,7 +304,6 @@ export default {
     NavGroup,
     ShareButton,
     Button,
-    Loader,
     ProductCard,
     CreateWishListModal,
     BulkSelectToolbar,
@@ -369,7 +363,12 @@ export default {
     }
   },
 
-  async fetch() {
+  computed: {
+    ...mapGetters({
+      wishLists: 'wish-list/getWishLists',
+    }),
+  },
+  async mounted (){
     await this.fetchWishLists()
     if (this.$route.query?.id) {
       const wishList = this.wishLists.find(
@@ -381,12 +380,7 @@ export default {
       }
     }
     await this.selectWishList(this.wishLists[0])
-  },
-
-  computed: {
-    ...mapGetters({
-      wishLists: 'wish-list/getWishLists',
-    }),
+    this.url = `wish-lists/${this.currentWishList.id}/items?page=1&per_page=${this.perPage}`
   },
 
   methods: {
@@ -401,7 +395,7 @@ export default {
 
     handleLoading($state) {
       this.state = $state
-      this.getWishListItems();
+      this.getWishListItems($state);
     },
     handleTabs(tab) {
       this.activeTab = tab
@@ -409,6 +403,7 @@ export default {
 
     handleCreated(wishList) {
       this.selectWishList(wishList)
+      this.infiniteId += 1
       this.$forceUpdate()
     },
 
@@ -420,7 +415,7 @@ export default {
       if (wishList) {
         this.currentWishList = wishList
         this.currentPage = 1
-        // await this.getWishListItems()
+        this.infiniteId += 1
       } else {
         this.currentWishList = null
         this.listProducts = []
@@ -521,7 +516,7 @@ export default {
     },
 
     // Fetch wishlist products and pagination information
-    getWishListItems() {
+    getWishListItems($state) {
       this.loading = true
       this.fetchWishListItems({
         wishList: this.currentWishList,
@@ -531,29 +526,29 @@ export default {
       })
       .then((res) => {
         const that = this
-        if (!res.next_page_url) {
-          this.state.complete()
-        }else{
-          this.currentPage += 1
-          this.url = res.next_page_url
-        }
         if (res.current_page === 1) {
           this.listProducts = [...res.data]
         } else {
           this.listProducts = [...that.listProducts, ...res.data]
         }
-        this.state.loaded()
+        $state.loaded()
+        if (!res.next_page_url) {
+          $state.complete()
+        }else{
+          this.currentPage += 1
+          this.url = res.next_page_url
+        }
       })
       .finally(() => {
         this.loading = false
       })
-  },
+    },
 
     // Called when user navigate from current page to another
     handlePageClick(bvEvent, page) {
       if (this.currentPage !== page) {
         this.currentPage = page
-        this.getWishListItems()
+        this.infiniteId += 1
       }
     },
 
@@ -561,7 +556,6 @@ export default {
       if (this.perPage !== value) {
         this.perPage = value
         this.currentPage = 1
-        this.getWishListItems()
       }
     },
 
@@ -570,7 +564,7 @@ export default {
       if (category) {
         this.category = category
         this.currentPage = 1
-        this.getWishListItems()
+        this.infiniteId += 1
       }
     },
 
@@ -643,4 +637,9 @@ export default {
   padding-right: 300px
 .wishlist-products-wrapper
   margin-top: 20px
+.infinite-wrapper
+  overflow-y: auto
+  overflow-x: hidden
+  min-height: 500px
+
 </style>
