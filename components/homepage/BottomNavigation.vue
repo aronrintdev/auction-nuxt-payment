@@ -22,7 +22,7 @@
       </div>
       <nuxt-link class="navLink" to="/shop">
         <shop :active="$route.path === '/shop'" />
-        <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
+        <h6 class="mb-0 fs-12 fw-5 font-primary text-white shop-text">
           {{ $t('navbar.shop') }}
         </h6>
       </nuxt-link>
@@ -90,4 +90,6 @@ export default {
     bottom: 0
     z-index: 9999
     padding-bottom: 30px
+.shop-text
+  margin-top: 5px
 </style>
