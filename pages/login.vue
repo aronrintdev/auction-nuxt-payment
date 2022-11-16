@@ -31,7 +31,9 @@
             <b-row class="mb-3">
               <b-col md="12">
                 <div class="text-center img-main main-mobile-image d-block d-lg-none">
+                  <nuxt-link to='/'>
                   <b-img :src="require('~/assets/img/home/logo-mb.png')" class="ds-logo pt-1" />
+                  </nuxt-link>
                 </div>
                 <div class="welcome-back-text text-center d-block d-lg-none">
                   {{ $t('home.welcome_back') }}
@@ -176,8 +178,8 @@ export default {
     })
   },
   beforeDestroy() {
-    // this.$root.$emit('hide-header', { hideHeader: false })
-    // this.$root.$emit('hide-footer', { hideFooter: false })
+    this.$root.$emit('hide-header', { hideHeader: false })
+    this.$root.$emit('hide-footer', { hideFooter: false })
   },
   methods: {
     singupPage(){

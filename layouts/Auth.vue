@@ -1,10 +1,10 @@
 <template>
   <b-container fluid class="p-0">
-    <Header v-if="!isHeaderHidden || !isResponsive" />
+    <Header v-if="!isHeaderHidden && !isResponsive" />
     <div class="wrapper">
       <Nuxt />
     </div>
-    <BottomNavigation v-if="!isFooterHidden || !isResponsive" class="d-flex d-md-none" />
+    <BottomNavigation v-if="!isFooterHidden && !isResponsive" class="d-flex d-md-none" />
     <Footer class="d-none d-md-flex" />
   </b-container>
 </template>
@@ -37,14 +37,10 @@ export default {
   },
   mounted() {
     this.$root.$on('hide-header', payload => {
-      console.log(payload)
       this.isHeaderHidden = payload.hideHeader
-      console.log(this.isHeaderHidden)
     })
     this.$root.$on('hide-footer', payload => {
-      console.log(payload)
       this.isFooterHidden = payload.hideFooter
-      console.log(this.isFooterHidden)
     })
   },
 }

@@ -121,7 +121,9 @@
                       ><b-col
                         class="d-flex justify-content-center flex-column align-items-center"
                       >
-                        <Logo class="img-fluid w-auto" :height="53" />
+                        <nuxt-link to="/">
+                          <Logo class="img-fluid w-auto" :height="53" />
+                        </nuxt-link>
                         <span
                           class="signup-heading fs-15 fw-5 font-primary w-75 text-center my-3 pre-line"
                           >{{ $t('signup.create_your_account') }}</span
@@ -461,6 +463,8 @@ import Button from '~/components/common/Button'
 import { UNPROCESSABLE_ENTITY } from '~/static/constants'
 import NavGroup from '~/components/common/NavGroup'
 import Logo from '~/components/header/Logo.vue'
+import screenSize from '~/plugins/mixins/screenSize'
+import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 
 export default {
   name: 'SignUp',
@@ -471,6 +475,7 @@ export default {
     NavGroup,
     Logo,
   },
+  mixins: [ screenSize ],
   layout: 'Auth',
   data() {
     return {
@@ -493,6 +498,9 @@ export default {
     }
   },
   computed: {
+     isResponsive(vm) {
+      return vm.isScreenXS || vm.isScreenSM
+    },
     passwordFieldType(vm) {
       return vm.isPasswordShown ? 'text' : 'password'
     },
@@ -523,8 +531,18 @@ export default {
       this.$toasted.error(error)
     }
   },
+  beforeMount() {
+    this.$root.$emit('hide-header', { hideHeader: true })
+    this.$root.$emit('hide-footer', { hideFooter: true })
+
+    enquireScreenSizeHandler((type) => {
+      this.$store.commit('size/setScreenType', type)
+    })
+  },
   beforeDestroy() {
     this.$recaptcha.destroy()
+    this.$root.$emit('hide-header', { hideHeader: false })
+    this.$root.$emit('hide-footer', { hideFooter: false })
   },
   methods: {
     getValidationState({ dirty, validated, valid = null }) {
@@ -731,7 +749,8 @@ export default {
       cursor: not-allowed
       &:hover
         box-shadow: none
-
+.invalid-feedback
+  padding-left: 13px
 // ------------------Responsive--------------------
 @media only screen and (max-width: 768px)
   .input-signup
