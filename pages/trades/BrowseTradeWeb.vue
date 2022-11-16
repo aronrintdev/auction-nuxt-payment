@@ -3,7 +3,7 @@
     <div class="browse-tarde-heading ml-5 mt-3">{{$t('trades.browse_trade')}}</div>
     <div>
       <!-- Display all filter options -->
-      <BrowserTradeFilters @applyFilters="applyTradeFilters" @change="applyTradeFiltersNew" @clearFilters="resetTradeFilters" @applySorting="filterTrades"/>
+      <BrowserTradeFilters @applyFilters="applyTradeFilters" @click="applyTradeFiltersNew" @clearFilters="resetTradeFilters" @applySorting="filterTrades"/>
       <b-row class="w-100">
         <b-col md="12" class="text-center">
           <!-- Display total items filter selection one, two or three items -->
@@ -63,7 +63,7 @@
         <div v-for="(trades, key) in sectionTypes" :key="key">
           <div class="px-5 pt-5">
             <b-row>
-              <b-col md="12" class="d-flex justify-content-between carousel-heading mb-5 ml-5">
+              <b-col md="12" class="d-flex justify-content-between carousel-heading mb-5 ml-5 pl-5">
                 <h2 v-html="prettyLabel(key)"></h2>
               </b-col>
               <!-- Display trades with single items -->
@@ -135,8 +135,10 @@ export default {
         brands: [],
         categories: [],
         status: [],
-        sortby: 'relevance',
+        sortby: null,
         product: null,
+        maxYear:null,
+        minYear:null
       },
     }
   },
@@ -185,7 +187,7 @@ export default {
     // make section label pretty
     prettyLabel(label){
       const words = label.split('_')
-      return '<u>'+this.$tc('common.'+words[0], 1) + '</u> ' + this.$tc('common.' + words[1], 1)
+      return this.$tc('common.'+words[0], 1)  + this.$tc('common.' + words[1], 1)
     },
 
     // filter if no of trade items is change
@@ -220,7 +222,9 @@ export default {
       this.selectedFilters.status=[]
       this.selectedFilters.sortby = null
       this.selectedFilters.product = null
-      this.selectedFilters.sortby = 'relevance'
+      this.selectedFilters.sortby = null
+      this.selectedFilters.maxYear = null
+      this.selectedFilters.minYear = null
       this.selectedTradeTotalItems = 'one'
       this.$store.commit('trade/setTradeType', 'All')
       this.filterTrades()
@@ -234,12 +238,12 @@ export default {
         this.getFilters.sizes.length <= 0 &&
         this.getFilters.brands.length <= 0 &&
         this.getFilters.status.length <= 0 &&
-        this.getFilters.sortby == null
+        this.getFilters.sortby == null &&
+        this.getFilters.maxYear == null &&
+        this.getFilters.minYear == null
       ){
-        console.log('if')
         this.$store.commit('trade/setTradeType', 'All')
       } else {
-        console.log('else')
         this.$store.commit('trade/setTradeType', 'search_results')
       }
       this.sectionTypes = []
@@ -256,6 +260,8 @@ export default {
         trade_total_items: this.getTotalItemTrades,
         price_min: this.getFilters.minPrice,
         price_max: this.getFilters.maxPrice,
+        maxYear: this.getFilters.maxYear,
+        minYear: this.getFilters.minYear,
       })
         .then(res => {  // trades listing items in response
           this.sectionTypes = res.data.data
@@ -278,8 +284,7 @@ export default {
     font-style: normal
     letter-spacing: 2px
     ::v-deep & u
-      text-decoration-color: $color-blue-2
-      text-underline-offset: 15px
+      text-decoration-color: $color-transparent
   & label
     font-family: $font-montserrat
     font-weight: $regular

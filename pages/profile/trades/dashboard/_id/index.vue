@@ -97,90 +97,115 @@
       <DeclineModel v-if="lastSubmittedOffer" :offer="lastSubmittedOffer"
                     @decline="declineOffer" @close="closeDeclineModal" />
     </div>
-    <div v-else>
+    <div class="" v-else>
       <b-row v-if="offer !== null">
-        <b-col :md="isPayment ? 9 : 12">
-          <b-row class="justify-content-between ml-54 pt-4">
-            <b-col>
-              <div class="offer-id-head">{{ $t('trades.trade_id') }} #{{offer.trade_id}}</div>
-              <div class="offer-sum-text">{{ $t('trades.offer_summary') }}</div>
-            </b-col>
-            <b-col class="text-right pr-5">
-              <div class="d-flex justify-content-end">
+        <b-col class="main-content" :md="isPayment ? 9 : 12">
+          <div class="d-flex justify-content-between">
+            <div class="col px-0 offer-id-head">{{ $t('trades.offer_summary') }}</div>
+            <div class="">
+              <div class="d-flex align-items-center justify-content-between">
                 <div class="offer-id-sm">{{ $t('trades.offer_id') }} #{{lastSubmittedOffer.id}}</div>
-                <div class="offer-type pl-3">{{ (isAcceptedOffer() ? $t('trades.accepted') : $t(lastSubmittedOffer.offer_type_translation)) }}</div>
-              </div>
-              <div class="placed-time">{{ $t('trades.placed_on') }} {{ lastSubmittedOffer.created_at | formatDateTimeString }}</div>
-              <div v-if="!isAcceptedOffer()" class="placed-time">{{ $t('trades.expires_on') }} {{ lastSubmittedOffer.offer_expiry | formatDateTimeString }}</div>
-            </b-col>
-          </b-row>
-          <div class="offer-card m-3">
-            <div class="center-container d-flex justify-content-center"
-                 :class="{'center-cont-height':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }">
-              <div class="left-item" :class="{'left-item-margin':lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length}">
-                <div class="item-head-trade-hub">{{ $t('trades.trade_arena.theirs') }}:</div>
-                <div v-for="(item, index) in lastSubmittedOffer.theirs_items" :id="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ?'trade-item-'+index : ''"
-                     :key="item.id" class="item mb-4"
-                     :class="[((lastSubmittedOffer.theirs_items.length > ONE_ITEM )|| (lastSubmittedOffer.yours_items.length)) ? 'item-length' : 'item-normal']">
-                  <img class="item-image" :src="item.inventory.product | getProductImageUrl"
-                       :class="{'item-image-cond':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }" width="131px"/>
-                  <div class="item-caption">
-                    <span class="item-name">{{ item.inventory.product.name }}</span>
-                    <span
-                      class="item-box-condition">{{ $t('trades.trade_arena.box_condition') }}: {{ item.inventory.packaging_condition.name }}</span>
-                    <span class="item-caption-description">{{ item.inventory.product.colorway }}</span>
-                    <span class="item-size">{{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</span>
-                  </div>
+                <div class="offer-type px-3">
+                  <img 
+                    v-if="lastSubmittedOffer.offer_type === 'sent'" 
+                    :src="require('~/assets/img/trades/SentType.svg')" 
+                  >
+                  <img 
+                    v-else-if="lastSubmittedOffer.offer_type === 'received'" 
+                    :src="require('~/assets/img/trades/ReceivedType.svg')" 
+                  >
+                  {{ $t(lastSubmittedOffer.offer_type_translation )}}
                 </div>
               </div>
-              <div class="center-item">
-                <div v-if="lastSubmittedOffer.theirs_items.length > ONE_ITEM" class="pointer-left"></div>
-                <div class="long-line" :class="{'long-line-length' : lastSubmittedOffer.theirs_items.length === ONE_ITEM }"></div>
-                <img :src="require('~/assets/img/trades/border.svg')"/>
-                <div class="long-line" :class="{'long-line-length' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>
-                <div v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" class="pointer-right"></div>
+              <div class="mt-2 placed-time">{{ $t('trades.placed_on') }} {{ lastSubmittedOffer.created_at | formatDateTimeString }}</div>
+              <div v-if="!isAcceptedOffer()" class="mt-2 placed-time">{{ $t('trades.expires_on') }} {{ lastSubmittedOffer.offer_expiry | formatDateTimeString }}</div>
+            </div>
+          </div>
+          <div class="current-trade">{{ $t('common.current_trade') }}</div>
+          <div class="offer-card">
+            <div 
+              class="d-flex flex-column px-3 px-lg-0"
+            >
+              <div class="d-flex justify-content-between col-12 col-md-8 mb-2 mx-auto">
+                <div class="value">
+                  {{ $t('common.their_value') }} 
+                  <span class="ml-1 price">{{ getTheirTotal() }}</span>
+                </div>
+                <div class="value">
+                  {{ $t('common.your_value') }}
+                  <span class="ml-1 price">{{ getYourTotal() }}</span>
+                </div>
               </div>
-              <div class="right-item"
-                   :class="{'right-item-margin':lastSubmittedOffer.theirs_items.length > ONE_ITEM && lastSubmittedOffer.yours_items.length === 0,'mt-10p': lastSubmittedOffer.theirs_items.length > ONE_ITEM && lastSubmittedOffer.yours_items.length === ONE_ITEM,'mt-8p': lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length === ONE_ITEM}">
-                <div class="item-head-trade-hub">{{ $t('trades.trade_arena.yours') }}:</div>
-                <div v-if="lastSubmittedOffer.yours_items.length" >
-                  <div v-for="(item, index) in lastSubmittedOffer.yours_items"
-                       :id="lastSubmittedOffer.yours_items.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="item.id"
-                       class="preview item-length mb-4">
-                    <img class="item-image" :src="item.inventory.product | getProductImageUrl" alt="image"
-                         :class="{'item-image-cond':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }" width="131px"/>
+              <div 
+                class="center-container d-flex mx-0 mx-md-auto justify-content-between align-items-center col-md-8 col-xl-12"
+                :class="{'center-cont-height':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }"
+              >
+                <div class="left-item">      
+                  <div v-for="(item, index) in lastSubmittedOffer.theirs_items" :id="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ?'trade-item-'+index : ''"
+                      :key="item.id" class="item"
+                      :class="[((lastSubmittedOffer.theirs_items.length > ONE_ITEM )|| (lastSubmittedOffer.yours_items.length)) ? 'item-length' : 'item-normal']">
+                    <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
                     <div class="item-caption">
                       <span class="item-name">{{ item.inventory.product.name }}</span>
-                      <span
-                        class="item-box-condition">{{ $t('trades.trade_arena.box_condition') }}: {{ item.inventory.packaging_condition.name }}</span>
-                      <span class="item-caption-description">{{ item.inventory.product.colorway }}</span>
-                      <span class="item-size">{{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</span>
+                      <div class="mt-1 item-caption-description d-flex">
+                        <div class="item-color text-truncate">
+                          {{ item.inventory.product.colorway }}
+                        </div>
+                        <div>, {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</div>
+                      </div>
+                      <span class="mt-1 item-caption-description">
+                        {{ $t('trades.trade_arena.box') }}: 
+                        {{ item.inventory.packaging_condition.name }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="center-item">
+                  <div v-if="lastSubmittedOffer.theirs_items.length > ONE_ITEM" class="pointer-left"></div>
+                  <div class="long-line" :class="{'w-xl-100' : lastSubmittedOffer.theirs_items.length === ONE_ITEM }"></div>
+                  <img :src="require('~/assets/img/trades/Trade.svg')" />
+                  <div class="long-line" :class="{'w-xl-100' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>
+                  <div v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" class="pointer-right"></div>
+                </div>
+                <div class="right-item">
+                  <div v-if="lastSubmittedOffer.yours_items.length" >
+                    <div v-for="(item, index) in lastSubmittedOffer.yours_items"
+                        :id="lastSubmittedOffer.yours_items.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="item.id"
+                        class="item-length">
+                      <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" alt="image" />
+                      <div class="item-caption">
+                        <span class="item-name">{{ item.inventory.product.name }}</span>
+                        <div class="mt-1 item-caption-description d-flex">
+                          <div class="item-color text-truncate">
+                            {{ item.inventory.product.colorway }}
+                          </div>
+                          <div>, {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</div>
+                        </div>
+                        <span class="mt-1 item-caption-description">
+                          {{ $t('trades.trade_arena.box') }}: 
+                          {{ item.inventory.packaging_condition.name }}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div v-if="!isAcceptedOffer()" class="d-flex flex-column align-items-center mb-4">
+            <div v-if="!isAcceptedOffer()" class="d-flex flex-column align-items-center">
               <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
                 <Meter :highest="getTheirTotal(false)"
                        :lowest="0"
                        :value="getYourTotal(false)"
                        :fair="getFairTradeValue()"
-                       :heading="false"
+                       heading="common.fair_trade_meter"
+                       headingClass="my-header"
                 />
               </div>
-              <div>
-                <div class="amounts-input">
-                  <!-- TODO -->
-                  <input type="text" class="theirs" disabled :value="$t('trades.trade_arena.theirs') + `: ${getTheirTotal()}`">
-                  <input type="text" class="yours" disabled :value="$t('trades.trade_arena.yours') + `: ${getYourTotal()}`">
-                </div>
-              </div>
               <div v-if="!lastSubmittedOffer.is_blocked" class="trade-hub-buttons mt-4 mb-4">
-                <Button v-if="!isOfferMine()" variant="primary" class="mr-3" @click="acceptOffer()">{{ $t('trades.accept') }}</Button>
-                <Button v-if="!isOfferMine()" variant="light" class="mr-3" @click="$bvModal.show('declineOffer')">{{ $t('trades.decline') }}
+                <Button variant="dark-blue" v-if="!isOfferMine()" class="mr-3" @click="acceptOffer()">{{ $t('common.accept_trade') }}</Button>
+                <Button variant="light" v-if="!isOfferMine()" class="mr-3 text-blue-32" @click="$bvModal.show('declineOffer')">{{ $t('trades.decline') }}
                 </Button>
-                <Button v-if="!isOfferMine()" variant="outline-primary"  @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
+                <Button variant="outline-dark-blue" v-if="!isOfferMine()" @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
                   {{ $t('trades.counter_offer') }}
                 </Button>
               </div>
@@ -192,16 +217,14 @@
 
             </div>
           </div>
-          <b-row class="ml-54 history-heading">{{ $t('trades.offer_history') }}</b-row>
-          <b-row class="m-3">
-            <offer-history :offerHistory="offer" />
-          </b-row>
+          <div class="history-heading">{{ $t('trades.offer_history') }}</div>
+          <div class="col-12 col-lg-10 col-xl-6 d-flex px-0 m-0">
+            <offer-history class="w-100" :offerHistory="offer" />
+          </div>
           <b-row class="justify-content-center pt-3 pb-3">
             <hr class="center-line">
           </b-row>
-          <b-row class="ml-3 mr-3 mb-4 mt-4">
-            <initial-listing :initialWantsItems="offer.trade.wants" />
-          </b-row>
+          <initial-listing :initialWantsItems="offer.trade.wants" />
         </b-col>
         <CheckoutSidebar v-if="isPayment" class="order-summary" />
       </b-row>
@@ -228,7 +251,7 @@ import {
   DEFAULT_FAIR_TRADE_VALUE,
   ACCEPTED_OFFER,
   OFFER_TYPE_YOURS,
-  ACCEPT_OFFER, FILTER_OFFER_STATUS_DECLINED
+  ACCEPT_OFFER, FILTER_OFFER_STATUS_DECLINED,
 } from '~/static/constants/trades'
 
 export default {
@@ -273,6 +296,8 @@ export default {
       if(val)
         this.$router.push('/profile/trades/dashboard')
     })
+
+    document.querySelector('.main-wrapper').style.backgroundColor = '#F7F7F7' 
 
     this.fetchOfferDetails()
     this.width = window.innerWidth
@@ -365,13 +390,14 @@ export default {
     isOfferMine() {
       return this.lastSubmittedOffer.sent_by_id === this.$auth.user.vendor.id
     },
-    fetchOfferDetails(){
+    fetchOfferDetails() {
       this.offerId = parseInt(this.$route.params.id)
       this.$axios
         .get('trades/offer/' + this.offerId)
         .then((response) => {
           this.offer = response.data.data
           this.lastSubmittedOffer = response.data.data.latest_offer ?? response.data.data
+          console.log('lastSubmittedOffer', this.lastSubmittedOffer);
         })
         .catch((error) => {
           this.$toasted.error(this.$t(error.response.data.error))
@@ -386,8 +412,39 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.item-color
+  max-width: 140px
+
+.w-xl-100
+  @media (min-width: 1200px)
+    width: 100%
+
+.value
+  @include body-8-normal
+  color: $color-gray-5
+  text-transform: uppercase
+
+.price
+  @include body-8-medium
+  color: $color-black-1
+
+.current-trade
+  @include body-7-bold
+  font-family: $font-family-sf-pro-display
+  color: $color-black-1
+  
+.main-content
+  padding: 50px 20px
+  @media (min-width: 768px)
+    padding: 50px 62px
+
 .center-container
-  margin: 45px 2%
+  @media (min-width: 1200px)
+    padding-left: 30px
+    padding-right: 30px
+  @media (min-width: 1400px)
+    padding-left: 127px
+    padding-right: 127px
 
 .item-head-trade-hub
   font-family: $font-family-sf-pro-display
@@ -412,15 +469,18 @@ export default {
   background-color: $color-white-4
   width: 247px
   height: 68px
+
 #trade-item-0
-  position: absolute
-  margin-left: 115%
-  margin-top: 107px
+  @media (min-width: 1200px)
+    position: absolute
+    margin-left: 115%
+    margin-top: 110px
 
 #your-trade-item-0
-  position: absolute
-  margin-top: 107px
-  margin-left: -115%
+  @media (min-width: 1200px)
+    position: absolute
+    margin-top: 110px
+    margin-left: -115%
 
 .mt-10p
   margin-top: 10%
@@ -454,6 +514,8 @@ export default {
   background: $color-white-1
 
 .offer-card
+  margin-top: 30px
+  padding-top: 66px
   background: $color-white-1
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
@@ -492,20 +554,19 @@ export default {
   font-family: $font-family-montserrat
   font-style: normal
   @include body-4-normal
-  color: $color-blue-2
+  color: $color-gray-5
 
 .history-heading
+  @include body-15-bold
   font-family: $font-family-sf-pro-display
   font-style: normal
-  @include body-15-bold
+  margin-top: 77px
+  margin-bottom: 30px
   color: $color-black-1
 
 .center-line
-  width: 879px
-  border: 1px solid $color-gray-65
-
-.item
-  border: 0.5px solid $light-gray-2
+  width: 83%
+  border: 1px solid $color-gray-98
 
 .order-summary
   padding: 0
@@ -622,6 +683,10 @@ export default {
   padding: 5px 10px
   font-family: $font-family-sf-pro-display
   font-style: normal
+
+.item-caption
+  background: $color-white-1
+
 .image-small-size
   background: $color-gray-1
 </style>

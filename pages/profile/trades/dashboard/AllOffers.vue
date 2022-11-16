@@ -181,6 +181,7 @@
               :value="start_date"
               :placeholder="$t('trades.start_date')"
               groupClass="w-100"
+              inputClass="bg-white"
               @context="(context) => start_date = context.selectedYMD"
             />
           </b-col>
@@ -189,6 +190,7 @@
               :value="end_date"
               :placeholder="$t('trades.end_date')"
               groupClass="w-100"
+              inputClass="bg-white"
               @context="(context) => end_date = context.selectedYMD"
             />
           </b-col>
@@ -260,6 +262,8 @@
           borderRadius: '4px',
           borderColor: '#667799'
         }"
+        borderRadius="5px"
+        borderRadiusClose="5px 5px 0 0"
         :labelStyle="{
           fontSize: '14px',
           letterSpacing: '0.06em',
@@ -272,7 +276,8 @@
         }"
         :dropdownStyle="{
           position: 'relative',
-          borderColor: '#667799'
+          borderColor: '#667799',
+          borderRadius: '0 0 5px 5px'
         }"
         @change="changeAction"
       />

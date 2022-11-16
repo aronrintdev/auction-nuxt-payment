@@ -1,5 +1,4 @@
 <template>
-
   <b-row v-if="Object.keys(credentials).length">
     <b-col  lg="12" class="w-100 py-5 px-5 px-md-0">
       <TwoFaVerificationCodeForm
@@ -10,7 +9,7 @@
     </b-col>
   </b-row>
   <b-row v-else class="w-100">
-    <b-col lg="8" class="w-100 py-5 px-5 px-md-0">
+    <b-col lg="8" class="w-100 px-sm-1 px-md-5 px-lg-1 pt-lg-5">
       <b-row class="h-100">
         <b-col
           md="6"
@@ -32,7 +31,9 @@
             <b-row class="mb-3">
               <b-col md="12">
                 <div class="text-center img-main main-mobile-image d-block d-lg-none">
+                  <nuxt-link to='/'>
                   <b-img :src="require('~/assets/img/home/logo-mb.png')" class="ds-logo pt-1" />
+                  </nuxt-link>
                 </div>
                 <div class="welcome-back-text text-center d-block d-lg-none">
                   {{ $t('home.welcome_back') }}
@@ -41,12 +42,12 @@
             </b-row>
 
             <div class="toggler-main d-lg-none">
-              <button class="login-btn">
-                {{$t('auth.login')}}
-              </button>
               <span class="signup-btn" role="button" @click="singupPage">
                 {{$t('auth.create_an_account')}}
               </span>
+              <button class="login-btn">
+                {{$t('auth.login')}}
+              </button>
             </div>
             <SocialLoginButtons class="mt-4 d-none d-lg-block"/>
 
@@ -55,37 +56,39 @@
                 <div class="text-line-middle">
                   <span
                     class="body-4-bold text-color-gray-22 text-uppercase mx-5"
-                    >{{ $t('auth.or') }}</span
                   >
+                    {{ $t('auth.or') }}
+                  </span>
                 </div>
               </b-col>
-            </b-row></b-row
-          >
-          <LoginForm class="mt-5 w-100" @verify="handleVerify" />
+            </b-row>
+          </b-row>
+          <LoginForm class="mt-4 w-100 d-flex ml-auto px-2" @verify="handleVerify" />
 
-          <b-row class="mt-5 w-100">
+          <b-row class="mt-2 w-100">
             <b-col md="12" class="text-center">
               <b-link
-                class="text-color-black-1 text-decoration-underline"
+                class="text-color-gray-47 text-decoration-underline forgot-pass-text ml-3"
                 to="/forgot-password"
-                >{{ $t('auth.forgot_password') }}&quest;</b-link
               >
+                {{ $t('auth.forgot_password') }}&quest;
+              </b-link>
             </b-col>
           </b-row>
-          <b-col md="12 d-block d-lg-none pt-5 pb-3">
-            <div class="text-line-middle">
+          <b-col md="12 d-lg-none pt-5 pb-3 ml-auto mt-5">
+            <div class="text-line-middle pl-2">
               <span
-                class="body-4-bold text-color-gray-22 text-uppercase mx-5"
+                class="body-4-bold text-color-gray-22 text-uppercase mx-3"
               >
               {{ $t('auth.or') }}
               </span>
             </div>
           </b-col>
-          <div class="body-5-normal text-color-gray-38 text-center mt-3 d-block d-lg-none">
+          <div class="body-5-normal text-color-gray-38 text-center mt-2 d-block d-lg-none">
             {{ $t('auth.login_via_social_media') }}
           </div>
 
-          <SocialLoginButtons class="mt-4 d-block d-lg-none ml-2 mb-5"/>
+          <SocialLoginButtons class="mt-4 d-block d-lg-none mb-5 p-0"/>
 
           <b-row class="mt-4 mb-5 d-none d-lg-block">
             <b-col md="12 mb-5">
@@ -135,8 +138,9 @@
             variant="black"
             class="w-75 fs-16 fw-5 font-primary bg-black sign-up-btn"
             to="/signup"
-            >{{ $t('auth.signup') }}</Button
           >
+            {{ $t('auth.signup') }}
+          </Button>
         </b-col>
       </b-row>
     </b-col>
@@ -147,15 +151,35 @@ import Button from '~/components/common/Button'
 import LoginForm from '~/components/Auth/LoginForm'
 import SocialLoginButtons from '~/components/Auth/SocialLoginButtons'
 import TwoFaVerificationCodeForm from '~/components/Auth/TwoFaVerificationCodeForm'
+import screenSize from '~/plugins/mixins/screenSize'
+import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 
 export default {
   name: 'Login',
   components: { TwoFaVerificationCodeForm, LoginForm, SocialLoginButtons, Button },
+  mixins: [ screenSize ],
   layout: 'Auth',
   data() {
     return {
       credentials: {},
     }
+  },
+  computed: {
+    isResponsive(vm) {
+      return vm.isScreenXS || vm.isScreenSM
+    }
+  },
+  beforeMount() {
+    this.$root.$emit('hide-header', { hideHeader: true })
+    this.$root.$emit('hide-footer', { hideFooter: true })
+
+    enquireScreenSizeHandler((type) => {
+      this.$store.commit('size/setScreenType', type)
+    })
+  },
+  beforeDestroy() {
+    this.$root.$emit('hide-header', { hideHeader: false })
+    this.$root.$emit('hide-footer', { hideFooter: false })
   },
   methods: {
     singupPage(){
@@ -195,6 +219,8 @@ export default {
 
 .text-color-black-1
   color: $color-black-1
+.text-color-gray-47
+  color: $color-gray-47
 
 .text-color-gray-22
   color: $color-gray-22
@@ -220,7 +246,7 @@ export default {
 .bg-color-white-5
   background: $color-white-5
 .welcome-back-text
-  color: $color-black-1
+  color: $color-gray-5
   font-style: normal
   font-weight: $bold
   font-size: 17px
@@ -235,22 +261,30 @@ export default {
   width: 100%
   text-align: center
   margin: 0 auto
-  font-size: 11px
+  font-size: 14px
   margin-left: 5px
 .login-btn
   border: none
-  padding: 4px 55px
+  padding: 2px 38px
   background-color: $color-white-1
   border-radius: 20px
   font-weight: 700
-  margin-right: 30px
 .signup-btn
   border: none
   padding: 1px 15px
   background-color: $color-gray-75
   border-radius: 20px
   padding-right: 27px
-  font-weight: 700
+  font-weight: 500
 .main-mobile-image
-  padding: 16px 0px 0px 10px
+  padding: 20px 0px 0px 0px
+
+@media (min-width: 320px) and (max-width: 556px)
+  .forgot-pass-text
+    font-size: 14px !important
+  .text-line-middle
+    width: 50%
+    margin: 0 auto
+  .welcome-back-text
+    margin: 0 auto
 </style>

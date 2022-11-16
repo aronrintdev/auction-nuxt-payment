@@ -150,6 +150,7 @@
         <div class="action-col">
           <Button
             v-if="row.item.status !== ACCEPTED_OFFER"
+            id="delete-btn"
             variant="outline-danger"
             @click="deleteOffer(row.item.id, 'delete')"
           >
@@ -240,7 +241,7 @@ export default {
         {
           key: 'products',
           label: this.$t('placed_offers.table.products'),
-          sortable: true,
+          sortable: false,
         },
         {
           key: 'product_details',
@@ -251,7 +252,7 @@ export default {
           key: 'offer_amount',
           label: this.$t('placed_offers.table.offer_amount'),
           thClass: 'text-center',
-          sortable: false,
+          sortable: true,
         },
         {
           key: 'expires',
@@ -415,17 +416,19 @@ export default {
   img
     height: 70px
 :deep(.btn-outline-danger)
-  font-family: 'SF Pro Display'
+  font-family: $font-sp-pro
   font-style: normal
   @include body-4-normal
   color: $color-red-3
 .vd-product-title
+  font-family: $font-sp-pro
   font-style: normal
   @include body-5-normal
   color: $color-black-1
 .vd-sku,
 .vd-color,
 .vd-size
+  font-family: $font-sp-pro
   font-style: normal
   @include body-5-normal
   color: $color-gray-6
@@ -436,9 +439,10 @@ export default {
   background: $color-gray-70
   border-radius: 4px
   .text-capitalize
-    font-style: normal
-    @include body-5-normal
     color: $color-gray-25
+    font-family: $font-sp-pro
+    font-style: normal
+    @include body-13-normal
 
 .offer-status-accepted
   width: 141px
@@ -447,17 +451,20 @@ export default {
   border-radius: 4px
   background: $color-green-21
   .text-capitalize
+    font-family: $font-sp-pro
     font-style: normal
-    @include body-4-normal
+    @include body-13-normal
     color: $color-white-1
 
 .offer-amount
   font-style: normal
   @include body-4-normal
   color: $color-black-1
+  font-family: $font-sf-pro-text
 .remove-from-list
+  font-family: $font-sp-pro
   font-style: normal
-  @include body-4-normal
+  @include body-13-normal
   color: $color-red-3
 .btn-edit-offer
   width: 30px
@@ -481,10 +488,31 @@ export default {
   @include body-5-bold
   text-decoration-line: underline
   color: $color-blue-1
+  font-family: $font-sf-pro-text
 
 #validator-field
   @media (min-width: 1330px)
     max-width: 70%
 #editOffer
   width: 18rem
+.offer-placed-table::v-deep
+  .offer-table
+    .table.b-table > thead > tr > [aria-sort=none]
+      background-image: url('~/assets/img/icons/filter-down.svg')
+    .table.b-table > thead > tr > [aria-sort=ascending]
+      background-image: url('~/assets/img/icons/filter-down.svg')
+    .table.b-table > thead > tr > [aria-sort=descending]
+      background-image: url('~/assets/img/icons/filter-down.svg')
+    .expire-date
+      font-family: $font-sp-pro
+      font-style: normal
+      @include body-13-normal
+      color: $color-black-1
+  .action-col
+    #delete-btn
+      font-family: $font-sp-pro
+      font-style: normal
+      @include body-13-normal
+      width: 141px
+      height: 34px
 </style>
