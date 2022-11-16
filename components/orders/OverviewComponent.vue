@@ -63,6 +63,7 @@ export default {
     font-family: $font-montserrat
     @include body-5
     text-transform: capitalize
+    margin: 24px 0
 
   .justify-content-between
     justify-content: stretch !important
