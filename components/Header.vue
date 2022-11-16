@@ -1,6 +1,6 @@
 <template>
   <b-navbar toggleable="lg" class="navbar-wrapper border-bottom">
-    <PortalTarget v-if="showMenuIcon" name="back-icon-slot">
+    <PortalTarget name="back-icon-slot">
       <b-navbar-toggle target="top-menu-sidebar">
         <template #default>
           <img

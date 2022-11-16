@@ -1,6 +1,6 @@
 <template>
   <div class="col mx-2">
-    <div class="movers-card row d-flex flex-column justify-content-between">
+    <div class="movers-card row mx-0 d-flex flex-column justify-content-between">
       <div class="d-flex justify-content-between">
         <div class="d-none d-md-block"><img :src="brandNameToLogoUrl(product.brand)" alt="" height="40"></div>
         <div v-if="topSalesPercentage > 0 && topSalesPercentage === product.sales_percentage"

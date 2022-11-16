@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="bg-white my-2 top-movers-row py-2">
-      <div v-if="multiple">
+      <div v-if="multiple" class="overflow-hidden">
         <order-multiple-component :order="order" :is-selectable="isSelectable" :value="value"
                                   @labelCreated="handleLabelCreated"
                                   @checked="handleChecked"></order-multiple-component>
       </div>
-      <div v-else>
+      <div v-else class="overflow-hidden">
         <order-single-component :order="order" :is-selectable="isSelectable" :value="value"
                                 @labelCreated="handleLabelCreated"
                                 @checked="handleChecked"></order-single-component>

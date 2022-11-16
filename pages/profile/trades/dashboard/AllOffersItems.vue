@@ -26,24 +26,47 @@
     <div v-else>
       <div v-if="offers.length > 0" :offers="offers">
         <div v-for="(offer) in offers" :key="'trade-page-offer-list-' + offer.id" class="offer-item-trade-container m-4" @click="showOffer(offer.id)">
-          <div class="d-flex justify-content-between">
-            <div :id="`flyer-${offer.condition}`">
-              {{$t(offer.condition_translation)}}
+          <b-row>
+            <b-col>
+              <div>
+              <div class="offer-id-text pt-2 ml-2">{{$t('trades.offer_id')}} #{{offer.id}}</div>
+              <div class="offer-time m-2">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
+              </div>
+            </b-col>
+            <b-col>
+              <div class="mt-2 float-right mr-5">
+                <div>
+                  <img v-if="!isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="ml-2" alt="">
+                  <img v-else-if="isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="ml-2" alt="">
+                  {{$t(offer.offer_type_translation)}}
+                </div>
+                <div class="view-detail-text ml-5">
+                  {{$t('trades.view_details')}}
+                </div>
+              </div>
+            </b-col>
+          </b-row>
+          <div class="d-flex">
+            <div class="justify-content-start align-content-start place-cont">
+
             </div>
-            <div class="pt-3 text-center">
-              <div class="offer-id">{{$t('trades.offer_id')}} #{{offer.id}}</div>
-              <div class="offer-time">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
-            </div>
-            <div :class="`offer-${offer.offer_type}`" class="d-flex justify-content-center align-items-center" @click="$router.push('/profile/trades/dashboard/' + offer.trade.id)">
-              {{$t(offer.offer_type_translation)}}
-              <img v-if="!isOfferMine(offer)" :src="require('~/assets/img/icons/upword-arrow.svg')" class="ml-2" alt="">
-              <img v-else-if="isOfferMine(offer)" :src="require('~/assets/img/icons/downword-arrow.svg')" class="ml-2" alt="">
+            <div class="justify-content-end align-content-end mt-2">
+
             </div>
           </div>
           <!-- items sections -->
           <b-row class="justify-content-center mt-3" role="button">
             <offer-items :offerItems="offer.theirs_items"/>
           </b-row>
+
+          <div class="trade-hub-buttons d-flex justify-content-center align-items-center mt-4">
+            <Button class="accpt-btn mr-3"  @click="acceptOffer()">{{ $t('trades.accept') }}</Button>
+            <Button class="decline-btn mr-3"  @click="$bvModal.show('declineOffer')">{{ $t('trades.decline') }}
+            </Button>
+            <Button class="count-btn"  @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
+              {{ $t('trades.counter_offer') }}
+            </Button>
+          </div>
         </div>
       </div>
       <div v-else class="text-center mt-3">
@@ -56,17 +79,27 @@
 
 <script>
 import OfferItems from '~/pages/profile/trades/dashboard/OfferItems';
+import Button from '~/components/common/Button'
 import {
   ALL_OFFER_TYPE,
   OFFER_RECEIVED,
   OFFER_SENT,
   COUNTER_OFFER_TYPE,
-  OFFER_TYPE
+  OFFER_TYPE,
+  OFFER_TYPE_YOURS,
+  ACCEPT_OFFER,
+  CASH_TYPE_REQUESTED,
+  ACCEPTED_OFFER,
+  ONE_ITEM,
+  THREE_ITEMS,
+  TWO_ITEMS,
+  DEFAULT_FAIR_TRADE_VALUE, CASH_TYPE_ADDED, FILTER_OFFER_STATUS_DECLINED
 } from '~/static/constants/trades'
 export default {
   name: 'AllOffersItems',
   components: {
-    OfferItems
+    OfferItems,
+    Button
   },
   props:{
     offers: {
@@ -81,15 +114,31 @@ export default {
   data(){
     return {
       width:'',
+      offer: null,
       ALL_OFFER_TYPE,
       OFFER_RECEIVED,
       COUNTER_OFFER_TYPE,
       OFFER_TYPE,
-      OFFER_SENT
+      OFFER_SENT,
+      lastSubmittedOffer: null,
+      ACCEPTED_OFFER,
+      ACCEPT_OFFER,
+      OFFER_TYPE_YOURS,
+      tradeId: 0,
+      ONE_ITEM,
+      THREE_ITEMS,
+      TWO_ITEMS,
+      fairTradePercentage: (DEFAULT_FAIR_TRADE_VALUE / 100).toFixed(2), // converting to percentage
+      CASH_TYPE_ADDED,
+      CASH_TYPE_REQUESTED,
+      DEFAULT_FAIR_TRADE_VALUE,
+      isPayment: false,
+      FILTER_OFFER_STATUS_DECLINED
     }
   },
   mounted(){
     this.width = window.innerWidth
+    // this.fetchOfferDetails()
   },
   methods: {
     isOfferMine(offer) {
@@ -97,7 +146,51 @@ export default {
     },
     showOffer(offerId){
       this.$router.push('/profile/trades/dashboard/' + offerId)
-    }
+    },
+    acceptOffer(){
+      let cashAdded = 0
+      if(this.lastSubmittedOffer.cash_added &&
+        !this.isOfferMine() &&
+        this.isCashTypeRequested())
+      {
+        cashAdded = (this.lastSubmittedOffer.cash_added)
+      }
+      this.$store.commit('trade/setActiveTrade', {
+        trade: this.offer,
+        theirItems: this.lastSubmittedOffer.theirs_items,
+        yourItems: this.lastSubmittedOffer.yours_items,
+        cashAdded: parseInt(parseFloat(cashAdded)),
+        cashType: this.lastSubmittedOffer.cash_type,
+        lastOffer: this.lastSubmittedOffer,
+        tradeCondition: this.lastSubmittedOffer.condition,
+        submittedItemType: OFFER_TYPE_YOURS,
+        offerType: ACCEPT_OFFER,
+        theirVendorId: this.lastSubmittedOffer.theirs_items[0].vendor_id,
+        tradeId: this.lastSubmittedOffer.trade_id,
+        offerParentId: (this.lastSubmittedOffer.parent_id ? this.lastSubmittedOffer.parent_id : this.lastSubmittedOffer.id)
+      })
+      this.isPayment = true
+    },
+    isCashTypeRequested(){
+      return this.lastSubmittedOffer.cash_type === CASH_TYPE_REQUESTED
+    },
+    fetchOfferDetails(){
+      console.log('inside')
+      this.offerId = parseInt(this.$route.params.id)
+      console.log(' this.offerId', this.offerId)
+      this.$axios
+        .get('trades/offer/' + this.offerId)
+        .then((response) => {
+          console.log('response',response)
+          this.offer = response.data.data
+          this.lastSubmittedOffer = response.data.data.latest_offer ?? response.data.data
+          console.log('lastSubmittedOffer', this.lastSubmittedOffer)
+        })
+        .catch((error) => {
+          this.$toasted.error(this.$t(error.response.data.error))
+          this.offer = null
+        })
+    },
   }
 
 }
@@ -107,9 +200,10 @@ export default {
 @import '~/assets/css/_variables'
 
 .offer-item-trade-container
-  height: 350px
+  height: 400px
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
+  background: $color-white-1
 .offer-item-trade-container-mobile
   height: 360px
   box-shadow: 0 1px 4px $drop-shadow1
@@ -187,7 +281,11 @@ export default {
   font-style: normal
   @include body-13-bold
   color: $color-blue-20
-
+.offer-id-text
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-13-bold
+  color: $color-black-1
 
 .offer-time
   font-family: $font-family-sf-pro-display
@@ -221,4 +319,44 @@ export default {
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-21-bold
+.view-detail-text
+  font-family: $font-family-sf-pro-display
+  font-style: $normal
+  font-weight: 500
+  @include body-13
+  line-height: 19px
+  text-decoration-line: underline
+  color: $color-blue-20
+
+.accpt-btn
+ width: 139px
+ height: 39px
+ font-family: $font-family-montserrat
+ font-style: normal
+ font-weight: $medium
+ @include body-13
+ color: $color-white-1 !important
+ background: $color-blue-20 !important
+ border-radius: 8px
+.decline-btn
+  width: 139px
+  height: 39px
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $medium
+  @include body-13
+  color: $color-blue-32 !important
+  background: $color-white-29 !important
+  border-radius: 8px
+.count-btn
+  width: 139px
+  height: 39px
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $medium
+  @include body-13
+  color: $color-blue-20 !important
+  background: $color-white-1 !important
+  border-radius: 8px
+  border: 1px solid $color-blue-20 !important
 </style>

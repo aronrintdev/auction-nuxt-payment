@@ -125,7 +125,7 @@
         </div>
       </div>
     </div>
-    <div class="d-flex row d-md-none custom-shadow rounded mx-sm-2">
+    <div class="d-flex d-md-none custom-shadow rounded mx-sm-2">
       <client-only v-if="combination.combination_items.length > 0">
         <Carousel
           :loop="true"
@@ -171,7 +171,7 @@
                     {{ product.product.name }}
                   </div>
                   <div class="name d-flex">
-                    <div class="text-uppercase">{{ $t('trades.create_listing.vendor.wants.sku') }}: </div>
+                    <div class="text-uppercase">{{ $t('trades.create_listing.vendor.wants.sku') }}:&nbsp;</div>
                     {{ product.product.sku }}
                   </div>
                   <div class="name">
@@ -190,13 +190,11 @@
                     $t('trades.create_listing.vendor.wants.total_est_value')
                   }}:   ${{ estValue(combination.combination_items) }}
                 </div>
-
-                <div class="dots-placeholder"></div>
               </div>
               <div class="d-md-none">
                 <img 
                   v-if="!editRemove" 
-                  class="more"
+                  class="more w-auto"
                   width="19"
                   height="19"
                   :src="require('assets/img/icons/More.svg')" 
@@ -205,7 +203,7 @@
                 <div v-else class="d-flex justify-content-end mb-5">
                   <img
                     v-if="selected"
-                    class="more"
+                    class="more w-auto"
                     role="button"
                     :src="require('~/assets/img/icons/red-minus.svg')"
                     height="19" 
@@ -215,7 +213,7 @@
                   <img
                     v-else
                     role="button"
-                    class="more"
+                    class="more w-auto"
                     :src="require('~/assets/img/icons/gray-plus.svg')"
                     height="19" 
                     width="19" 
@@ -240,7 +238,7 @@
           <div v-if="editRemove">
             <img
               v-if="selected"
-              class="more -top-9"
+              class="more w-auto -top-9"
               role="button"
               :src="require('~/assets/img/icons/red-minus.svg')"
               height="19" 
@@ -250,7 +248,7 @@
             <img
               v-else
               role="button"
-              class="more -top-9"
+              class="more w-auto -top-9"
               :src="require('~/assets/img/icons/gray-plus.svg')"
               height="19" 
               width="19" 
@@ -344,33 +342,38 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+::v-deep .owl-item
+  visibility: hidden
+
+::v-deep .owl-stage .active
+  visibility: visible
+
 .pt-20
   padding-top: 20px !important  
 
 .details-container
   height: 120px
 
-:deep(.owl-dots)
+::v-deep .owl-dots
   position: absolute
   left: 8%
-  bottom: 35px
+  top: 125px
 
-:deep(.owl-dot span)
+::v-deep .owl-dot span
   width: 4px !important
   height: 4px !important
   background: $color-gray-4 !important
 
-:deep(.owl-dot)
+::v-deep .owl-dot
   width: 9px
 
-:deep(.active span)
+::v-deep .active span
   background: $color-black-1 !important
 
 .more
   position: absolute
-  right: 5px
+  right: 10px
   top: 7px
-  width: auto !important
   @media (min-width: 576px)
     right: 15px
 
