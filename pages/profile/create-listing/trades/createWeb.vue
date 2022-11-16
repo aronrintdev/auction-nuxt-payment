@@ -158,7 +158,7 @@
           </b-row>
         </div>
 
-        <div class="row create-trade-drag-drop-item justify-content-center text-center py-4"
+        <div class="row create-trade-drag-drop-item justify-content-center text-center py-4 mt-5"
              @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
           <div v-if="getTradeItems.length < 1">
             <div class="create-trade-drag-drop-heading">
