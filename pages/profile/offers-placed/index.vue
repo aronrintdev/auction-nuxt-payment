@@ -106,7 +106,6 @@
           </div>
 
           <div class="col-lg-2 col-md-4 col-sm-4 date-to-col ">
-            <!-- <br /> -->
              <CalendarInput
               id="end-date"
               class="position-absolute"
