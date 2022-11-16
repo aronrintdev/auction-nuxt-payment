@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid" v-if="width <= 500">
+  <div class="container-fluid" v-if="isScreenXS">
     <trade-summary v-if="trade !== null" :trade="trade" />
     <div class="mt-5 offers-heading pl-30">
       {{$t('trades.offers' , {'0': tradeOffers.length})}}
@@ -157,6 +157,7 @@ import NavGroup from '~/components/common/NavGroup';
 import AllOffersItems from '~/pages/profile/trades/dashboard/AllOffersItems';
 import CustomDropdown from '~/components/common/CustomDropdown';
 import Button from '~/components/common/Button';
+import ScreenSize from '~/plugins/mixins/screenSize'
 import {
   FILTER_RECENT_TO_OLDEST,
   FILTER_OLDEST_TO_RECENT,
@@ -177,6 +178,7 @@ export default {
     SearchInput,
     TradeSummary,
   },
+  mixins: [ScreenSize],
   layout: 'Profile',
   data(){
     return {
