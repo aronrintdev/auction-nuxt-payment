@@ -327,37 +327,36 @@ export default {
   line-height: 19px
   text-decoration-line: underline
   color: $color-blue-20
-//.place-cont
-//  width: 870px
+
 .accpt-btn
  width: 139px
  height: 39px
- font-family: 'Montserrat'
+ font-family: $font-family-montserrat
  font-style: normal
  font-weight: $medium
  @include body-13
  color: $color-white-1 !important
- background: #667799 !important
+ background: $color-blue-20 !important
  border-radius: 8px
 .decline-btn
   width: 139px
   height: 39px
-  font-family: 'Montserrat'
+  font-family: $font-family-montserrat
   font-style: normal
   font-weight: $medium
   @include body-13
-  color: #545F77 !important
-  background: #F6F6F8 !important
+  color: $color-blue-32 !important
+  background: $color-white-29 !important
   border-radius: 8px
 .count-btn
   width: 139px
   height: 39px
-  font-family: 'Montserrat'
+  font-family: $font-family-montserrat
   font-style: normal
   font-weight: $medium
   @include body-13
-  color: #667799 !important
+  color: $color-blue-20 !important
   background: $color-white-1 !important
   border-radius: 8px
-  border: 1px solid #667799 !important
+  border: 1px solid $color-blue-20 !important
 </style>
