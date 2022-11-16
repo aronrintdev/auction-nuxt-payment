@@ -41,13 +41,13 @@
 
         <template #prev>
           <div class="owl-nav owl-prev">
-            ddd<img :src="require('~/assets/img/home/arrow-left.svg')" />
+            <img :src="require('~/assets/img/home/arrow-left.svg')" />
           </div>
         </template>
 
         <template #next>
           <div class="owl-nav owl-next">
-            nnnn<img :src="require('~/assets/img/home/arrow-right.svg')" />
+            <img :src="require('~/assets/img/home/arrow-right.svg')" />
           </div>
         </template>
       </Carousel>
