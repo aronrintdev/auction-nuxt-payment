@@ -603,11 +603,6 @@ export default {
   },
   layout: 'Profile',
   mixins: [ScreenSize],
-  watch: {
-    cashType(cash) {
-      console.log('CHANGE', cash);
-    }
-  },
   data() {
     return {
       cashAdd:false,
