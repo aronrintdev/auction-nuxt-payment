@@ -500,7 +500,6 @@ export default {
     },
 
     changeSelectedBrands(brandId){
-      console.log('brandId',brandId)
       if(this.selectedBrands.includes(brandId)){
         this.selectedBrands = this.selectedBrands.filter(brand => brand !== brandId)
       }else{

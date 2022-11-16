@@ -176,7 +176,6 @@ export function resetAllFilters(state) {
     state.selectedFilters.sortOrder = ''
     state.selectedFilters.totalTradeItems = 'one'
     state.selectedFilters.tradeType = 'All'
-    console.log('Mutation', state.selectedFilters.tradeType)
 }
 
 /**

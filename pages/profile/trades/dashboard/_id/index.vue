@@ -397,7 +397,6 @@ export default {
         .then((response) => {
           this.offer = response.data.data
           this.lastSubmittedOffer = response.data.data.latest_offer ?? response.data.data
-          console.log('lastSubmittedOffer', this.lastSubmittedOffer);
         })
         .catch((error) => {
           this.$toasted.error(this.$t(error.response.data.error))

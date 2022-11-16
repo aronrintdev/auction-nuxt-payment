@@ -237,14 +237,12 @@ export default {
       this.selectedFilters.minYear = null
       this.selectedTradeTotalItems = 'one'
       this.$store.commit('trade/setTradeType', 'All')
-      console.log('Method', this.getTradeType)
       this.filterTrades()
     },
 
     // fetch trade offer items
     filterTrades: debounce(function (filters) {
       this.getFilters = filters !== undefined ? filters : this.selectedFilters
-      console.log('Filter', this.getTradeType)
       this.sectionTypes = []
       this.$axios.post('/trades/offers', {
         trade_type: this.getTradeType,
