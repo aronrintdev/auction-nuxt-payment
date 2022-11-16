@@ -220,7 +220,7 @@
           </div>
           <div class="offer-card my-3">
             <div class="d-flex flex-column px-3 px-lg-0">
-              <div class="mt-55 d-flex justify-content-between col-md-8 mx-auto">
+              <div class="mt-55 d-flex mb-2 justify-content-between col-md-8 mx-auto">
                 <div class="value">
                   {{ $t('common.their_value') }} 
                   <span class="ml-1 price">{{ getTheirTotal() }}</span>

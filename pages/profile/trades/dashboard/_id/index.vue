@@ -126,7 +126,7 @@
             <div 
               class="d-flex flex-column px-3 px-lg-0"
             >
-              <div class="d-flex justify-content-between col-12 col-md-8 mx-auto">
+              <div class="d-flex justify-content-between col-12 col-md-8 mb-2 mx-auto">
                 <div class="value">
                   {{ $t('common.their_value') }} 
                   <span class="ml-1 price">{{ getTheirTotal() }}</span>
