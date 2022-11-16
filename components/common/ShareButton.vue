@@ -12,7 +12,8 @@
     </ShareNetwork>
     <!-- <img src="~/assets/img/icons/instagram.png" @click="shareInstagram" /> -->
     <img
-      v-b-popover.hover.bottom="message"
+      :title="message"
+      class="link-share-btn"
       src="~/assets/img/icons/link.png"
       @click="shareLink"
       @mouseout="handleBlur"
@@ -72,7 +73,7 @@ export default {
   methods: {
     shareLink() {
       this.copyStringToClipboard(this.url)
-      this.message = this.$t('share.copied')
+      this.$toasted.success(this.$t('share.copied'))
     },
 
     copyStringToClipboard(str) {

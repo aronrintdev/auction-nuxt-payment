@@ -72,7 +72,7 @@
                   <span
                     v-if="isEditModeActive && !isVerified && codeSent && codeTry===0"
                     class="verify-button text-right ml-auto my-1 mr-1"
-                    role="button" 
+                    role="button"
                     @click="resendCode"
                   >
                     {{ $t('vendor_hub.form.resend_code') }}
@@ -192,7 +192,7 @@
               <ValidationProvider
                 v-slot="validationContext"
                 :name="$t('vendor_hub.store_details_tab.apt_suite')"
-                :rules="{ required: true, min: 5 }"
+                :rules="{ required: false }"
                 class="w-100"
               >
                 <b-form-group

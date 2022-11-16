@@ -202,10 +202,10 @@ export default {
       return this.activeAuction.end_date
     },
     estimatedLowPrice() {
-      return this.activeAuction ? this.activeAuction.start_bid_price : 0
+      return this.activeAuction ? Math.ceil(this.activeAuction.start_bid_price / 1000) * 1000 : 0
     },
     estimatedHighPrice() {
-      return this.activeAuction ? Math.round(this.activeAuction.start_bid_price * 1.84 / 1000) * 1000 : 0
+      return this.activeAuction ? Math.ceil(this.activeAuction.start_bid_price * 1.84 / 1000) * 1000 : 0
     }
   },
   watch: {
