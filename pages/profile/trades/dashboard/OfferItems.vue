@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="width <= 500">
+    <div v-if="isScreenXS">
       <div class="product-card">
         <div v-if="heading" class="item-heading-text pb-2 pl-2">{{heading}}</div>
         <div class="d-flex justify-content-center align-content-center" >
@@ -54,17 +54,11 @@
 </template>
 
 <script>
+import ScreenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'OfferItems',
-  data(){
-    return {
-      width:'',
-    }
-  },
-  mounted() {
-    this.width = window.innerWidth
-  },
+  mixins: [ScreenSize],
   props:{
     marginItems: {
       type: String,
