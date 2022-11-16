@@ -10,14 +10,17 @@
   >
   <div class="d-flex flex-column">
     <div class="d-flex">
-      <div class="col-2 d-flex justify-content-center">
+      <div 
+        v-if="productType === 'combination'"
+        class="col-2 d-flex justify-content-center"
+      >
         <img 
           width="16"
           height="16"
           :src="require('assets/img/icons/draft-list-image.svg')"
         />
       </div>
-      <div class="col-10">
+      <div class="col">
         <div class="title">
           {{ product.product.name }}
         </div>
@@ -30,11 +33,10 @@
     </div>
 
     <div class="mt-2 d-flex flex-column">
-      
-      <div class="action" @click="$emit('closed'); $root.$emit('edit', product)">
+      <div class="action" @click="editProduct()">
         {{ $t('common.edit_product') }}
       </div>
-      <div class="action" @click="$root.$emit('delete', product.id, combinationId)">
+      <div class="action" @click="deleteProduct()">
         {{ $t('common.delete') }}
       </div>
       <div class="action" @click="$emit('closed')">
@@ -68,8 +70,31 @@ export default {
     combinationId: {
       type: Number,
       default: null
+    },
+    productType: {
+      type: String,
+      defaut: 'combination'
     }
   },
+
+  methods: {
+    editProduct() {
+      this.$emit('closed')
+      if (this.productType === 'combination') {
+        this.$root.$emit('edit', this.product)
+      } else {
+        this.$emit('editWant')
+      }
+    },
+
+    deleteProduct() {
+      if (this.productType === 'combination') {
+        this.$root.$emit('delete', this.product.id, this.combinationId)
+      } else {
+        this.$emit('deleteWant')
+      }
+    }
+  }
 }
 </script>
 

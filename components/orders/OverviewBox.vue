@@ -1,7 +1,7 @@
 <template>
   <div class="overview-box col align-middle mx-1">
-    <div class="d-md-flex d-block h-100">
-      <div class="box-icon d-none d-md-block"><img :src="icon" alt=""></div>
+    <div class="d-flex flex-md-row flex-column align-items-stretch h-100">
+      <div class="box-icon text-center"><img :src="icon" alt=""></div>
       <div
         class="text-md-left text-center d-flex d-md-block flex-column justify-content-between align-items-stretch h-100">
         <div class="box-title">{{ label }}</div>
@@ -53,17 +53,19 @@ export default {
   @include body-1-bold
 
 @media (max-width: 992px)
+  .box-icon
+    margin-right: 0
   .overview-box
-    box-shadow: inset 0px 1px 4px $color-white-1
-    filter: drop-shadow(0px 1px 4px rgba(0, 0, 0, 0.31))
-    height: 60px
+    box-shadow: inset 0px 1px 4px #FFFFFF
+    filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.31))
     border-radius: 8px
-    padding: 1px 10px
+    height: 119px
+    padding: 5px
 
   .box-title
     font-family: $font-montserrat
     color: $color-gray-69
-    font-size: 12px
+    @include body-9-regular
     height: 100%
     display: flex
     flex-direction: column
@@ -71,6 +73,7 @@ export default {
 
   .box-value
     @include body-8-medium
+    color: $color-black-4
     height: 100%
     display: flex
     flex-direction: column

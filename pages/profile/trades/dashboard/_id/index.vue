@@ -103,16 +103,16 @@
           <div class="d-flex justify-content-between">
             <div class="col px-0 offer-id-head">{{ $t('trades.offer_summary') }}</div>
             <div class="">
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center justify-content-between">
                 <div class="offer-id-sm">{{ $t('trades.offer_id') }} #{{lastSubmittedOffer.id}}</div>
-                <div class="offer-type pl-3">
-                  <img
-                    v-if="lastSubmittedOffer.offer_type === 'sent'"
-                    :src="require('~/assets/img/trades/SentType.svg')"
+                <div class="offer-type px-3">
+                  <img 
+                    v-if="lastSubmittedOffer.offer_type === 'sent'" 
+                    :src="require('~/assets/img/trades/SentType.svg')" 
                   >
-                  <img
-                    v-else-if="lastSubmittedOffer.offer_type === 'received'"
-                    :src="require('~/assets/img/trades/ReceivedType.svg')"
+                  <img 
+                    v-else-if="lastSubmittedOffer.offer_type === 'received'" 
+                    :src="require('~/assets/img/trades/ReceivedType.svg')" 
                   >
                   {{ $t(lastSubmittedOffer.offer_type_translation )}}
                 </div>
@@ -123,12 +123,12 @@
           </div>
           <div class="current-trade">{{ $t('common.current_trade') }}</div>
           <div class="offer-card">
-            <div
+            <div 
               class="d-flex flex-column px-3 px-lg-0"
             >
-              <div class="d-flex justify-content-between col-12 col-md-8 mx-auto">
+              <div class="d-flex justify-content-between col-12 col-md-8 mb-2 mx-auto">
                 <div class="value">
-                  {{ $t('common.their_value') }}
+                  {{ $t('common.their_value') }} 
                   <span class="ml-1 price">{{ getTheirTotal() }}</span>
                 </div>
                 <div class="value">
@@ -136,13 +136,13 @@
                   <span class="ml-1 price">{{ getYourTotal() }}</span>
                 </div>
               </div>
-              <div
-                class="center-container d-flex mx-0 mx-md-auto justify-content-between col-md-8 col-xl-12"
+              <div 
+                class="center-container d-flex mx-0 mx-md-auto justify-content-between align-items-center col-md-8 col-xl-12"
                 :class="{'center-cont-height':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }"
               >
-                <div class="left-item" :class="{'left-item-margin':lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length}">
+                <div class="left-item">      
                   <div v-for="(item, index) in lastSubmittedOffer.theirs_items" :id="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ?'trade-item-'+index : ''"
-                      :key="item.id" class="item mb-4"
+                      :key="item.id" class="item"
                       :class="[((lastSubmittedOffer.theirs_items.length > ONE_ITEM )|| (lastSubmittedOffer.yours_items.length)) ? 'item-length' : 'item-normal']">
                     <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
                     <div class="item-caption">
@@ -154,7 +154,7 @@
                         <div>, {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</div>
                       </div>
                       <span class="mt-1 item-caption-description">
-                        {{ $t('trades.trade_arena.box') }}:
+                        {{ $t('trades.trade_arena.box') }}: 
                         {{ item.inventory.packaging_condition.name }}
                       </span>
                     </div>
@@ -162,18 +162,16 @@
                 </div>
                 <div class="center-item">
                   <div v-if="lastSubmittedOffer.theirs_items.length > ONE_ITEM" class="pointer-left"></div>
-                  <div class="long-line" :class="{'long-line-length' : lastSubmittedOffer.theirs_items.length === ONE_ITEM }"></div>
+                  <div class="long-line" :class="{'w-xl-100' : lastSubmittedOffer.theirs_items.length === ONE_ITEM }"></div>
                   <img :src="require('~/assets/img/trades/Trade.svg')" />
-                  <div class="long-line" :class="{'long-line-length' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>
+                  <div class="long-line" :class="{'w-xl-100' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>
                   <div v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" class="pointer-right"></div>
                 </div>
-                <div class="right-item"
-                    :class="{'right-item-margin':lastSubmittedOffer.theirs_items.length > ONE_ITEM && lastSubmittedOffer.yours_items.length === 0,'mt-10p': lastSubmittedOffer.theirs_items.length > ONE_ITEM && lastSubmittedOffer.yours_items.length === ONE_ITEM,'mt-8p': lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length === ONE_ITEM}">
-
+                <div class="right-item">
                   <div v-if="lastSubmittedOffer.yours_items.length" >
                     <div v-for="(item, index) in lastSubmittedOffer.yours_items"
                         :id="lastSubmittedOffer.yours_items.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="item.id"
-                        class="item-length mb-4">
+                        class="item-length">
                       <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" alt="image" />
                       <div class="item-caption">
                         <span class="item-name">{{ item.inventory.product.name }}</span>
@@ -184,7 +182,7 @@
                           <div>, {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</div>
                         </div>
                         <span class="mt-1 item-caption-description">
-                          {{ $t('trades.trade_arena.box') }}:
+                          {{ $t('trades.trade_arena.box') }}: 
                           {{ item.inventory.packaging_condition.name }}
                         </span>
                       </div>
@@ -226,9 +224,7 @@
           <b-row class="justify-content-center pt-3 pb-3">
             <hr class="center-line">
           </b-row>
-          <div class="d-flex justify-content-center align-items-center mb-5">
-            <initial-listing :initialWantsItems="offer.trade.wants" />
-          </div>
+          <initial-listing :initialWantsItems="offer.trade.wants" />
         </b-col>
         <CheckoutSidebar v-if="isPayment" class="order-summary" />
       </b-row>
@@ -301,7 +297,7 @@ export default {
         this.$router.push('/profile/trades/dashboard')
     })
 
-    document.querySelector('.main-wrapper').style.backgroundColor = '#F7F7F7'
+    document.querySelector('.main-wrapper').style.backgroundColor = '#F7F7F7' 
 
     this.fetchOfferDetails()
     this.width = window.innerWidth
@@ -419,6 +415,10 @@ export default {
 .item-color
   max-width: 140px
 
+.w-xl-100
+  @media (min-width: 1200px)
+    width: 100%
+
 .value
   @include body-8-normal
   color: $color-gray-5
@@ -432,7 +432,7 @@ export default {
   @include body-7-bold
   font-family: $font-family-sf-pro-display
   color: $color-black-1
-
+  
 .main-content
   padding: 50px 20px
   @media (min-width: 768px)
@@ -474,12 +474,12 @@ export default {
   @media (min-width: 1200px)
     position: absolute
     margin-left: 115%
-    margin-top: 150px
+    margin-top: 110px
 
 #your-trade-item-0
   @media (min-width: 1200px)
     position: absolute
-    margin-top: 150px
+    margin-top: 110px
     margin-left: -115%
 
 .mt-10p
@@ -519,7 +519,6 @@ export default {
   background: $color-white-1
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
-  height: 1000px
 
 .offer-id-head
   font-family: $font-family-sf-pro-display
@@ -655,6 +654,7 @@ export default {
 .right-side-image
   height: 700px
   margin-right: 4rem
+
 .center-item-small
   margin-left: -4rem
   display: flex
@@ -683,6 +683,7 @@ export default {
   padding: 5px 10px
   font-family: $font-family-sf-pro-display
   font-style: normal
+
 .item-caption
   background: $color-white-1
 
