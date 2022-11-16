@@ -36,11 +36,29 @@
               :value="searchText"
               :placeholder="$t('trades.create_listing.vendor.wants.search_by_options')"
               size="lg"
+              :inputStyle="{ 
+                borderBottomLeftRadius: searchedItems.length > 0 ? 0 : '8px',
+                borderBottomRightRadius: searchedItems.length > 0 ? 0 : '8px',
+              }"
               bordered
               inputHeight="60px"
               @change="onSearchInput"
             />
-            <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="wantItemTrade" width="700px" class="position-absolute"/>
+            <div class="position-relative">
+              <SearchedProductsBelowSearchTextBox 
+                v-if="searchedItems.length > 0" 
+                :productItems="searchedItems" 
+                productsFor="wantItemTrade" 
+                class="position-absolute"
+                :wrapperStyle="{ margin: 0 }"
+                :itemStyle="{ padding: 0 }"
+                addBtnClass="text-right"
+                listGroupItemClass="border-gray"
+                :style="{
+                  zIndex: 9999
+                }" 
+              />
+            </div>
           </b-col>
           <b-col align-self="center" class="col-md-4 col-12 col-sm-6 mt-md-4 text-right">
             <a class="font-weight-bolder text-gray cursor-pointer" @click="$bvModal.show('offer-item-modal')">
