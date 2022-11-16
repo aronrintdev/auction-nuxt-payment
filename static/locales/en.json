@@ -219,7 +219,8 @@
         "2": "Damaged Packaging",
         "3": "No Original Packaging"
       }
-    }
+    },
+    "box": "Box"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -602,7 +603,8 @@
     "sweatshirts": "SWEATSHIRTS",
     "bottoms": "BOTTOMS",
     "shirts": "SHIRTS",
-    "jackets": "JACKETS"
+    "jackets": "JACKETS",
+    "trade_value":  "Trade Value"
   },
   "Sign Up": "Sign Up",
   "Log In": "Log In",
@@ -2095,7 +2097,8 @@
       "upcoming": "Upcoming",
       "expiring": "Expiring",
       "expired": "Expired",
-      "sold": "Sold"
+      "sold": "Sold",
+      "traded": "Traded"
     }
   },
   "shop": {
@@ -5053,7 +5056,8 @@
     "manage_all_aspects_of_your_trades": "Manage all aspects of your trades",
     "their_value": "THEIR VALUE",
     "your_value": "YOUR VALUE",
-    "browse_trade" : "Browse Trade"
+    "browse_trade" : "Browse Trade",
+    "view_details": "View Details"
   },
   "change_password": {
     "password": "Password",

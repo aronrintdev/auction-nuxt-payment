@@ -844,10 +844,27 @@ export default {
 
 .center-item
   min-width: 10px
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding-top: 21px
+  margin: 0 10px
+  width: unset
+  max-width: 780px
 
 .pointer-left,.pointer-right
   width: 25px
   height: 370px
+
+.pointer-left
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-right: 0.5px solid $light-gray-2
+
+.pointer-right
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-left: 0.5px solid $light-gray-2
 
 .long-line
   width: 17px
@@ -863,6 +880,8 @@ export default {
 .center-container
   min-height: 550px
   margin: 0 15px
+  display: flex
+  justify-content: center
 
 .image-wrapper
   .overlay
