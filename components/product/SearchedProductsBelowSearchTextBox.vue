@@ -110,6 +110,7 @@
       <div
         v-if="productItems.length > 0"
         class="mt-2 d-flex justify-content-between px-4 no-product"
+        :class="noProductClass"
       >
         <div class="">{{ $t('common.dont_see_your_product') }}</div>
         <u @click="$bvModal.show('suggest_a_new_product')">
@@ -169,6 +170,10 @@ export default {
       default: ''
     },
     listGroupItemClass: {
+      type: String,
+      default: ''
+    },
+    noProductClass: {
       type: String,
       default: ''
     }
@@ -240,6 +245,13 @@ export default {
 @import '~/assets/css/_typography'
 @import '~/assets/css/_variables'
 
+.no-product-responsive
+  height: 92px
+  align-items: center
+  background: $color-white-1
+  border: 0.5px solid $color-gray-89
+  border-radius: 4px
+
 .counter-wrapper::v-deep
   .list-group-item
     border-bottom: 1px solid $color-gray-23
@@ -292,6 +304,7 @@ export default {
   margin-top: 11px
   border-radius: 4px
   padding: 10px
+  background: $color-white-1
 
 .add-item-button
   @include body-9-medium
