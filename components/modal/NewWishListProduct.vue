@@ -77,11 +77,6 @@ export default {
       return vm.product.colorway ? vm.product.colorway.substr(0, 16) : vm.product.colorWay.substr(0, 16)
     }
   },
-  methods: {
-    test123() {
-      console.log('hello i am hidding now.')
-    }
-  }
 }
 </script>
 
