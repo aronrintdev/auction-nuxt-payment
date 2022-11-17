@@ -7,18 +7,6 @@
     <section v-else class="content">
       <b-container fluid class="px-3">
         <!-- Main row -->
-<!--        <b-row>-->
-<!--          <b-col class="text-left col-12 col-md-6">-->
-<!--            <NuxtLink class="back-to-offers-link text-gray" to="/profile/create-listing/trades/create">-->
-<!--              <b-img-->
-<!--                :src="require('~/assets/img/icons/back-btn-slim.svg')"-->
-<!--                :alt="$t('trades.create_listing.vendor.wants.back_to_offers_item')"-->
-<!--                class="mr-2"-->
-<!--              />-->
-<!--              <span>{{ $t('trades.create_listing.vendor.wants.back_to_offers_item') }}</span>-->
-<!--            </NuxtLink>-->
-<!--          </b-col>-->
-<!--        </b-row>-->
         <b-row cols="1" class="pr-md-5 pr-lg-5 pr-sm-0">
           <b-col class="w-100">
             <h2 class="font-weight-bold">{{ $t('trades.create_listing.vendor.wants.add_wants') }} <span class="ml-3 font-weight-lighter">({{ $t('trades.create_listing.vendor.wants.optional') }})</span></h2>

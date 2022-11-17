@@ -716,8 +716,7 @@ export default {
   font-family: $font-montserrat
   font-style: normal
   font-weight: $regular
-  font-size: 12px
-  line-height: 15px
+  @include body-9
   text-align: right
   text-decoration-line: underline
   color: $color-blue-2
@@ -736,14 +735,12 @@ export default {
   padding-left: 15px
   padding-right: 15px
   padding-top: 15px
-  //padding: 33px 60px 0
 
 .filter-by
   font-family: $font-sp-pro
   font-style: normal
   font-weight: $normal
-  font-size: 15px
-  line-height: 18px
+  @include body-8
   color: $color-black-1
 
 .sort-by
@@ -758,10 +755,8 @@ export default {
   z-index: 9999
 .create-trade-subheading
   font-family: $font-sp-pro
-  font-weight: 400
-  font-size: 18px
-  line-height: 21px
-  color: #626262
+  @include body-12-regular
+  color: $color-gray-5
 .inventory-section-module
   height: 1016px
   position: relative
