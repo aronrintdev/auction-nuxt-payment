@@ -57,7 +57,6 @@
                                   padding-x="10px"
                                   border-radius="4px"
                                   dropDownHeight="38px" variant="white"
-                                  @getResults="getInventory"
                                   @change="changeCategory"/>
                   <CustomDropdown
                     v-model="sizeTypesFilter"
@@ -71,7 +70,6 @@
                     width="150px"
                     padding-x="10px"
                     border-radius="4px"
-                    @getResults="getInventory"
                     @change="changeSizeTypeFilter"/>
                   <CustomDropdown
                     v-model="sizeFilter"
@@ -85,10 +83,9 @@
                     width="150px"
                     padding-x="10px"
                     border-radius="4px"
-                    @getResults="getInventory"
                     @change="changeSizeFilter"/>
                 </client-only>
-                <b-btn class="filter-btn-create-trade mr-3" @click="getInventory">
+                <b-btn class="filter-btn-create-trade mr-3" @click="applyFilters">
                   {{ $t('create_listing.trade.offer_items.filter_btn') }}
                 </b-btn>
               </div>
@@ -103,7 +100,7 @@
                                   padding-x="10px"
                                   dropDownHeight="38px"
                                   border-radius="4px"
-                                  @getResults="getInventory" @change="changeOrderFilter"/>
+                                  @change="changeOrderFilter"/>
                 </client-only>
               </b-row>
             </div>
@@ -148,12 +145,8 @@
                    class="col-md-12 justify-content-center">
               {{ $t('trades.create_listing.vendor.wants.no_products_found') }}
             </b-row>
-            <infinite-loading :identifier="infiniteId" @infinite="getInventory">
-              <span slot="no-more"></span>
-            </infinite-loading>
           </b-row>
         </div>
-
         <div class="position-floating">
           <div class="row create-trade-drag-drop-item-float justify-content-center text-center py-4 mt-5"
                @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
@@ -220,9 +213,12 @@
             </b-btn>
           </b-row>
         </div>
-
       </div>
     </div>
+    <infinite-loading :identifier="infiniteId" @infinite="getInventory">
+      <span slot="no-more"></span>
+      <span slot="no-results"></span>
+    </infinite-loading>
     <AlreadyListedModal :listingId="itemListingId" :item="alreadyListedItemDetails" @confirm="addOrIncrementOfferItem" />
     <InventoryCsvUploadModal
       id="csv-upload-modal"
@@ -342,7 +338,6 @@ export default {
     })
     this.fetchFilters();
     this.getInventory();
-
     // Emit listener to emtpy search items
     this.$root.$on('click_outside', () => {
       this.searchedItems = []
@@ -379,7 +374,6 @@ export default {
       }
     },
     handleUploadCSVClick() {
-      console.log('click')
       this.$bvModal.show('csv-upload-modal')
     },
     onCsvUploaded() {
@@ -496,7 +490,9 @@ export default {
       this.orderFilter = selectedOrder
       const orderFilteredKey = this.generalListItemsCustomFilter.find(item => item.value === this.orderFilter)
       this.orderFilterLabel = this.capitalizeFirstLetter(orderFilteredKey.text)
-      this.getInventory();
+      this.page = 1;
+      this.inventory_items = []
+      this.infiniteId += 1;
     },
 
     /****
@@ -612,6 +608,11 @@ export default {
           this.$toasted.error(this.$t(error.response.data.error))
           this.searchedItems = []
         })
+    },
+    applyFilters(){
+      this.page = 1;
+      this.inventory_items = []
+      this.getInventory()
     },
     /**
      * This function is used to get product and show in
