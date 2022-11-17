@@ -1019,4 +1019,6 @@ export default {
   padding: 25px
 .create-trade-item-web
   background: $color-white-1
+.create-trade-drag-drop-item
+  width: unset
 </style>
