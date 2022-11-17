@@ -35,11 +35,11 @@
             v-for="(item) in offerItems" 
           >
             <div class="d-inline body-section-box w-100 m-1">
-              <div class="d-flex justify-content-center align-content-center">
-                <img v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
-                     class="img-fluid pt-4"  />
-                <img v-else :src="item.product | getProductImageUrl" class="img-fluid pt-4"  />
-              </div>
+              <img 
+                v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
+                class="img-fluid pt-4" 
+              />
+              <img v-else :src="item.product | getProductImageUrl" class="img-fluid pt-4" />
 
               <div class="bottom-section mt-4">
                 <div class="product-name pt-1">  {{item.inventory ? item.inventory.product.name : item.product.name}}}</div>
@@ -210,7 +210,9 @@ export default {
 .box-pro
   background: $color-white-4
 
-.w-50
-  width: 50%
+.responsive-width
+  width: 100%
+  @media (min-width: 1200px)
+    width: 72%
 
 </style>

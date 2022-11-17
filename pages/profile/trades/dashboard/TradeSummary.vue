@@ -62,7 +62,7 @@
           </b-col>
         </b-row>
         <b-row class="justify-content-center">
-          <offer-items class="w-50" :offerItems="trade.offers"/>
+          <offer-items class="responsive-width" :offerItems="trade.offers"/>
         </b-row>
       </div>
       <delist-modal :tradeId="trade.id" @delist="delistTrade"></delist-modal>

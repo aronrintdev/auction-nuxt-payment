@@ -336,7 +336,6 @@ export default {
   @include body-15-bold
   color: $color-black-1
   margin-top: 35px
-  margin-bottom: -40px
 
 .offers-heading
   @include body-4-medium
