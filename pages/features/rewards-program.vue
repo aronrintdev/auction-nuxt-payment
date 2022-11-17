@@ -27,13 +27,17 @@
       >
         <div class="d-flex cards-wrapper">
           <FeatureFourCards
-            :icon="require('~/assets/img/features/rewards-program/bag.svg')"
+            :icon="
+              require('~/assets/img/features/newest-feature/rewards-program/first-aid.svg')
+            "
             :title="$t('features.rewards_program.buying')"
             :description="$t('features.rewards_program.buying_desc')"
           />
 
           <FeatureFourCards
-            :icon="require('~/assets/img/features/rewards-program/trading.svg')"
+            :icon="
+              require('~/assets/img/features/newest-feature/rewards-program/data.svg')
+            "
             :title="$t('features.rewards_program.trading')"
             :description="$t('features.rewards_program.trading_desc')"
           />
@@ -41,14 +45,16 @@
         <div class="d-flex cards-wrapper">
           <FeatureFourCards
             :icon="
-              require('~/assets/img/features/rewards-program/auctions.svg')
+              require('~/assets/img/features/newest-feature/rewards-program/hammer.svg')
             "
             :title="$t('features.rewards_program.auctions')"
             :description="$t('features.rewards_program.auctions_desc')"
           />
 
           <FeatureFourCards
-            :icon="require('~/assets/img/features/rewards-program/dollar.svg')"
+            :icon="
+              require('~/assets/img/features/newest-feature/rewards-program/dollar.svg')
+            "
             :title="$t('features.rewards_program.selling')"
             :description="$t('features.rewards_program.selling_desc')"
           />

@@ -143,6 +143,8 @@ export default {
 @import '~/assets/css/_variables'
 .features-container
   .feature-content
+    .feature-tabs
+      padding: 0px 96px
     .h-card-main // card section main desktop
       .feature-card
         width: 286px
@@ -168,7 +170,7 @@ export default {
         background-size: 80px auto
 
       .selling-container
-        background-image: url('~/assets/img/features/auctions/dollar.svg')
+        background-image: url('~/assets/img/features/newest-feature/auctions/dollar-black.svg')
         background-position: bottom 80px right 90px
         background-repeat: no-repeat, no-repeat
         background-size: 80px auto
@@ -184,7 +186,6 @@ export default {
         margin-bottom: 9px
         width: 100%
 
-
       .description
         @include body-4-regular
         margin-bottom: 67px
@@ -196,7 +197,7 @@ export default {
   .features-container::v-deep
     .feature-tabs // Tabs section main Mobile
       margin: 40px 0px !important
-      padding: 0px 16px
+      padding: 0px 16px !important
       .btns-wrapper
         gap: 24px !important
         margin-bottom: 14px !important
@@ -226,7 +227,7 @@ export default {
             width: 60px !important
       .tab-container
         .heading
-          font-size: 12px !important
+          font-size: $font-size-12 !important
           margin: 0px
           line-height: 19px !important
           width: 100%
@@ -235,12 +236,18 @@ export default {
         .description
           margin-right: 0
           font-size: 11px
-          font-weight: 400
+          font-weight: $regular
           font-family: 'Montserrat'
           line-height: 18px !important
           margin-bottom: 12px
-      .bidding-container, .selling-container
-            padding: 22px 46px 10px 14px  !important
-            background-image: none !important
-            border-radius: 12px !important
+    .bidding-container
+      background-image: none !important
+      padding: 22px 46px 10px 14px  !important
+      border-radius: 12px !important
+    .selling-container
+      background-image: url('~/assets/img/features/newest-feature/auctions/mobile-dollar.svg') !important
+      background-position: bottom 9px right 7px !important
+      background-size: auto !important
+      padding: 22px 46px 10px 14px  !important
+      border-radius: 12px !important
 </style>

@@ -97,7 +97,7 @@ export default {
       },
       processes: [
         {
-          icon: require('~/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/heartplus.svg'),
+          icon: require('~/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/heart-with-plus.svg'),
           title: this.$t(
             'newest_features.shareable_wishlists_and_watchlists.save_to_wishlist'
           ),
@@ -106,21 +106,21 @@ export default {
           ),
         },
         {
-          icon: require('~/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/eyeplus.svg'),
+          icon: require('~/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/eye-with-plus.svg'),
           title: this.$t(
-            'newest_features.shareable_wishlists_and_watchlists.save_to_wishlist'
+            'newest_features.shareable_wishlists_and_watchlists.save_to_watchlist'
           ),
           description: this.$t(
-            'newest_features.shareable_wishlists_and_watchlists.save_to_wishlist_desc'
+            'newest_features.shareable_wishlists_and_watchlists.save_to_watchlist_desc'
           ),
         },
         {
-          icon: require('~/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/prefrences.svg'),
+          icon: require('~/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/Preferences.svg'),
           title: this.$t(
             'newest_features.shareable_wishlists_and_watchlists.name_organize_list'
           ),
           description: this.$t(
-            'newest_features.shareable_wishlists_and_watchlists.save_to_wishlist_desc'
+            'newest_features.shareable_wishlists_and_watchlists.name_organize_list_desc'
           ),
         },
       ],
@@ -130,23 +130,27 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .features-container
   .cards-wrapper
-    margin-bottom: 148px
+    margin-bottom: 100px
 @media (max-width: 768px)
   .features-container
     .cards-wrapper
       counter-reset: css-counter 0
       flex-direction: column
       align-items: center
-      gap: 16px !important
+      gap: 22px !important
       margin-bottom: 40px
+      .feature-card-hoverableV2
+        max-width: 343px
+        width: 100%
+        background-color: $color-white-1 !important
+        box-shadow: 0 1px 4px 0 rgb(0 0 0 / 25%) !important
+        border-radius: 10px
+        .feature-title
+          &:before
+            diplay: none !important
 
     > div:not(:last-child)
       margin: 0 0 40px 0
-  .shareable-wish-watch
-    .feature-card-hoverableV2
-      box-shadow: 0 1px 4px 0 rgba($color-black-1, 0.25) !important
-      max-width: 100%
 </style>

@@ -22,40 +22,29 @@
       <FeatureTitle>
         {{ $t('newest_features.live_customer_service.options') }}
       </FeatureTitle>
-      <div
-        class="d-flex align-items-center justify-content-between position-relative options-section mb-5"
-      >
-        <div class="card-wrapper">
-          <FeatureCardHoverableRound
+      <div class="cards-wrapper-in-app d-flex flex-column align-items-center">
+        <div class="in-app-cards">
+          <FeatureFourCards
             :icon="
-              require('~/assets/img/features/newest-feature/live-customer-service/message.svg')
+              require('~/assets/img/features/newest-feature/live-customer-service/chat.svg')
             "
-            :title="$t('newest_features.live_customer_service.chat')"
-            variant="round"
+            :title="$t('features.live_customer_service.cards.title1')"
+          />
+          <span class="before d-md-none d-block mx-auto"></span>
+          <FeatureFourCards
+            :icon="
+              require('~/assets/img/features/newest-feature/live-customer-service/nfc.svg')
+            "
+            :title="$t('features.live_customer_service.cards.title2')"
+          />
+          <span class="after d-md-none d-block mx-auto"></span>
+          <FeatureFourCards
+            :icon="
+              require('~/assets/img/features/newest-feature/live-customer-service/envelop.svg')
+            "
+            :title="$t('features.live_customer_service.cards.title3')"
           />
         </div>
-
-        <div class="card-wrapper">
-          <FeatureCardHoverableRound
-            :icon="
-              require('~/assets/img/features/newest-feature/live-customer-service/nfc-phone.svg')
-            "
-            :title="$tc('newest_features.live_customer_service.phone', 2)"
-            variant="round"
-          />
-        </div>
-
-        <div class="card-wrapper">
-          <FeatureCardHoverableRound
-            :icon="
-              require('~/assets/img/features/newest-feature/live-customer-service/envelope.svg')
-            "
-            :title="$tc('newest_features.live_customer_service.email', 2)"
-            variant="round"
-          />
-        </div>
-
-        <div class="mid-line position-absolute"></div>
       </div>
     </FeatureContentWrapper>
   </div>
@@ -64,14 +53,12 @@
 import FeatureContentWrapper from '~/components/feature/ContentWrapper'
 import HorizontalBenefitBox from '~/components/feature/HorizontalBenefitBox'
 import FeatureTitle from '~/components/feature/Title'
-import FeatureCardHoverableRound from '~/components/feature/CardHoverableRound'
 
 export default {
   components: {
     FeatureContentWrapper,
     HorizontalBenefitBox,
     FeatureTitle,
-    FeatureCardHoverableRound,
   },
 
   layout: 'IndexLayout',
@@ -122,55 +109,3 @@ export default {
   },
 }
 </script>
-
-<style lang="sass" scoped>
-@import '~/assets/css/_variables'
-.features-container
-  .feature-content
-
-    .feature-item
-      margin-bottom: 115px
-
-    .options-section
-      .mid-line
-        width: 100%
-        border-bottom: 1px solid $color-black-1
-
-      .card-wrapper
-        z-index: 1
-        background-color: $color-white-1
-        padding: 0 20px
-        background-color: $color-gray-1
-
-@media (max-width: 1200px)
-  .features-container
-    .feature-content
-      .options-section
-        .mid-line
-          width: 100%
-          border-bottom: 1px solid $color-black-1
-@media (max-width: 1000px)
-  .features-container
-    .feature-content
-
-        .card-wrapper
-          padding: 20px 0
-          margin: 20px 0
-
-@media (max-width: 578px)
-  .features-container
-    .feature-content
-      .feature-item::v-deep
-        flex-direction: column
-        align-items: center
-        .img-wrapper
-          margin: 0
-          margin-bottom: 20px
-
-        .text-wrapper
-          text-align: center
-      .options-section
-        .card-wrapper
-          padding: 0 10px
-          background-color: $color-white-1
-</style>

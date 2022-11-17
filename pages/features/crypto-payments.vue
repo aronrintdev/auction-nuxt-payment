@@ -22,50 +22,52 @@
       <FeatureTitle>
         {{ $t('newest_features.crypto_payments.we_accept') }}
       </FeatureTitle>
-      <div class="coins-section my-5">
-        <div class="coin bit-coin d-flex flex-column align-items-center gap-2">
+      <div class="coins-section">
+        <div
+          class="coin bit-coin d-flex flex-column align-items-center gap-2 justify-content-center"
+        >
           <img
-            src="~/assets/img/features/newest-feature/crypto-payments/bit-coin.png"
+            src="~/assets/img/features/newest-feature/crypto-payments/alexa.svg"
             alt=""
             class="img-fluid"
           />
-          <p class="fw-4">
+          <p class="mb-0 fs-24 fw-6 font-primary">
             {{ $t('newest_features.crypto_payments.bitcoin') }}
           </p>
         </div>
         <div
-          class="coin ethrium-coin d-flex flex-column align-items-center gap-2"
+          class="coin ethrium-coin d-flex flex-column align-items-center gap-2 justify-content-center"
         >
           <img
-            src="~/assets/img/features/newest-feature/crypto-payments/ethrium-coin.png"
+            src="~/assets/img/features/newest-feature/crypto-payments/coin2.png"
             alt=""
             class="img-fluid"
           />
-          <p class="fw-4">
+          <p class="mb-0 fs-24 fw-6 font-primary">
             {{ $t('newest_features.crypto_payments.etherium') }}
           </p>
         </div>
         <div
-          class="coin binance-coin d-flex flex-column align-items-center gap-2"
+          class="coin binance-coin d-flex flex-column align-items-center gap-2 justify-content-center"
         >
           <img
             src="~/assets/img/features/newest-feature/crypto-payments/binance-coin.png"
             alt=""
             class="img-fluid"
           />
-          <p class="fw-4">
+          <p class="mb-0 fs-24 fw-6 font-primary">
             {{ $t('newest_features.crypto_payments.binance') }}
           </p>
         </div>
         <div
-          class="coin vechain-coin d-flex flex-column align-items-center gap-2"
+          class="coin vechain-coin d-flex flex-column align-items-center gap-2 justify-content-center"
         >
           <img
             src="~/assets/img/features/newest-feature/crypto-payments/vechain-coin.png"
             alt=""
             class="img-fluid"
           />
-          <p class="fw-4">
+          <p class="mb-0 fs-24 fw-6 font-primary">
             {{ $t('newest_features.crypto_payments.vechain') }}
           </p>
         </div>
@@ -144,11 +146,17 @@ export default {
   display: grid
   width: 100%
   justify-content: center !important
-  grid-template-columns: minmax(52px,140px)minmax(52px,140px)minmax(52px,140px)minmax(52px,140px)
-  gap: 114px
+  grid-template-columns: minmax(76px, 228px) minmax(76px, 228px) minmax(76px, 228px) minmax(76px, 228px)
+  gap: 32px
+  margin-bottom: 100px
   .coin
+    background: white
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
+    border-radius: 20px
+    height: 218px
+
     img
-      width: 150px
+      width: 100px
       height: auto
     p
       font-size: 28px
@@ -159,8 +167,16 @@ export default {
   .coins-section
     width: 272px
     margin: 0 auto
-    gap: 30px
+    margin-bottom: 34px
+    gap: 10px
+
+    .coin
+      gap: 5px
+      height: 76px
+      img
+        width: 34px
     p
       font-size: 12px !important
-      font-weight: 400
+      font-weight: 600
+      line-height: 15px !important
 </style>

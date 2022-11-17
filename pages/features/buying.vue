@@ -26,7 +26,9 @@
           md="4"
           class="d-flex justify-content-md-start col-6 offset-3 offset-md-0"
           ><FeatureCardHoverable
-            :icon="require('~/assets/img/features/buying/buy-now.svg')"
+            :icon="
+              require('~/assets/img/features/newest-feature/buying/money-going.svg')
+            "
             :title="$t('products.buy_now')"
             :description="$t('features.buying.buy_now_desc')"
             class="pt-5 first-img"
@@ -34,14 +36,16 @@
         <b-col md="4" cols="6" class="d-flex justify-content-md-center"
           ><FeatureCardHoverable
             :icon="
-              require('~/assets/img/features/buying/shopping-cart-icon.svg')
+              require('~/assets/img/features/newest-feature/buying/shopping-cart-icon.svg')
             "
             :title="$t('features.buying.add_to_bag')"
             :description="$t('features.buying.add_to_bag_desc')"
         /></b-col>
         <b-col md="4" cols="6" class="d-flex justify-content-md-end"
           ><FeatureCardHoverable
-            :icon="require('~/assets/img/features/buying/offer.svg')"
+            :icon="
+              require('~/assets/img/features/newest-feature/buying/bxs_offer.svg')
+            "
             :title="$t('features.buying.make_an_offer')"
             :description="$t('features.buying.make_an_offer_desc')"
         /></b-col>

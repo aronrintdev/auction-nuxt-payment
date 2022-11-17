@@ -76,7 +76,7 @@ export default {
 
 @media (max-width: 768px)
   .btn-feature-tab
-    font-size: 12px !important
+    font-size: $font-size-12 !important
     &:active
       box-shadow: 0px 4px 4px rgb(0 0 0 / 25%)
 </style>

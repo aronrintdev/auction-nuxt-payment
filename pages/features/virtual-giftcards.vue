@@ -27,20 +27,20 @@
       >
         <FeatureCardHoverable
           :icon="
-            require('~/assets/img/features/newest-feature/virtual-giftcards/computer.svg')
+            require('~/assets/img/features/newest-feature/virtual-giftcards/Computer-Icon.svg')
           "
-          :description="$t('features.selling.create_listing')"
+          :description="$t('newest_features.virtual_giftcards.cards.title1')"
           :title2="$t('newest_features.virtual_giftcards.online')"
-          step="1. In Store"
+          step="1. Online"
         />
 
         <FeatureCardHoverable
           :icon="
-            require('~/assets/img/features/newest-feature/virtual-giftcards/shop.svg')
+            require('~/assets/img/features/newest-feature/virtual-giftcards/Store-Icon.svg')
           "
           :title2="$t('newest_features.virtual_giftcards.in_store')"
-          :description="$t('features.selling.sell_items')"
-          step="2. Online"
+          :description="$t('newest_features.virtual_giftcards.cards.title2')"
+          step="2. In Store"
         />
       </div>
     </FeatureContentWrapper>
@@ -133,7 +133,7 @@ export default {
     .feature-content
       .cards-wrapper-virtual
         gap: 26px !important
-        padding: 40px 16px
+        padding: 0px 16px 26px
       > div
         min-width: 168px !important
         min-height: 164px !important

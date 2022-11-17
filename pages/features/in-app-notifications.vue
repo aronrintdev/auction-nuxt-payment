@@ -30,12 +30,15 @@
             "
             :title="$t('newest_features.in_app_notifications.email')"
           />
+          <span class="before d-md-none d-block mx-auto"></span>
           <FeatureFourCards
             :icon="
-              require('~/assets/img/features/newest-feature/in-app-notification/mobile.svg')
+              require('~/assets/img/features/newest-feature/in-app-notifications/mobile-ring.svg')
             "
             :title="$t('newest_features.in_app_notifications.in_app')"
+            class="feature-four-cards-center"
           />
+          <span class="after d-md-none d-block mx-auto"></span>
           <FeatureFourCards
             :icon="
               require('~/assets/img/features/newest-feature/in-app-notification/sms.svg')
@@ -45,15 +48,16 @@
         </div>
         <div class="prefrence-card d-flex flex-column align-items-baseline">
           <div class="title-icon d-flex gap-2 align-items-center">
-            <div class="title feature-title">Prefrences</div>
+            <div class="title feature-title">
+              {{ $t('newest_features.in_app_notifications.prefrences') }}
+            </div>
             <img
-              src="~/assets/img/features/newest-feature/in-app-notification/prefrences.svg"
+              src="~/assets/img/features/newest-feature/in-app-notifications/setting-icon.svg"
               alt=""
             />
           </div>
           <div class="desc">
-            Change your preferences for all types of notifications within the
-            Deadstock App to suit you.
+            {{ $t('newest_features.in_app_notifications.prefrences_desc') }}
           </div>
         </div>
       </div>
@@ -124,24 +128,12 @@ export default {
 .features-container::v-deep
   .feature-content
     .cards-wrapper-in-app
-      padding-bottom: 70px
+      gap: 56px
       .in-app-cards
-        gap: 70px
-        display: grid
-        grid-template-columns: repeat(3,minmax(100px, 306px))
-        justify-content: center
-        margin-bottom: 70px
-        .feature-four-cards
-          max-width: 306px
-          width: 100% !important
-          max-height: 265px !important
-          min-width: 100px !important
-          min-height: 86px !important
-          height: auto !important
-          img
-            width: 94px
-          &:nth-child(2) img
-            width: 54px !important
+        margin-bottom: 0px
+      .feature-four-cards-center
+        img
+          width: 54px !important
       .prefrence-card
         max-width: 1060px
         width: 100%
@@ -152,14 +144,13 @@ export default {
         padding: 30px 50px
         gap: 20px
         background-color: $color-white-1
-
         .feature-title
           font-size: 24px !important
           font-weight: 700
           letter-spacing: -0.02em
           line-height: 29px
           font-weight: 600
-          color: #1d1c1d
+          color: $color-black-5
         .desc
           font-size: 18px !important
 
@@ -168,7 +159,7 @@ export default {
   .features-container::v-deep
     .feature-content
       .cards-wrapper-in-app
-        padding: 40px 16px
+        gap: 27px
         .prefrence-card
           border-radius: 8px !important
           padding: 20px 25px
@@ -179,13 +170,4 @@ export default {
             font-size: 12px !important
             font-weight: 400
             line-height: 22px
-        .in-app-cards
-          gap: 22px
-          margin-bottom: 22px
-        .feature-four-cards
-          border-radius: 8px !important
-          img
-            width: 30px !important
-          &:nth-child(2) img
-            width: 18px !important
 </style>

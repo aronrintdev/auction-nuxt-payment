@@ -22,40 +22,30 @@
       <FeatureTitle>
         {{ $t('newest_features.promotions.prizes') }}
       </FeatureTitle>
-      <div
-        class="d-flex align-items-center justify-content-between position-relative options-section mb-5"
-      >
-        <div class="card-wrapper">
-          <FeatureCardHoverableRound
+      <div class="cards-wrapper-in-app d-flex flex-column align-items-center">
+        <div class="in-app-cards">
+          <FeatureFourCards
             :icon="
-              require('~/assets/img/features/newest-feature/promotions/car.svg')
+              require('~/assets/img/features/newest-feature/promotions/car-2.svg')
             "
-            :title="$t('newest_features.promotions.cars')"
-            variant="round"
+            :title="$t('newest_features.promotions.cards.title1')"
+          />
+          <span class="before d-md-none d-block mx-auto"></span>
+          <FeatureFourCards
+            :icon="
+              require('~/assets/img/features/newest-feature/promotions/shoes-2.svg')
+            "
+            :title="$t('newest_features.promotions.cards.title2')"
+            class="feature-four-cards-center-promotions"
+          />
+          <span class="after d-md-none d-block mx-auto"></span>
+          <FeatureFourCards
+            :icon="
+              require('~/assets/img/features/newest-feature/promotions/cash-2.svg')
+            "
+            :title="$t('newest_features.promotions.cards.title3')"
           />
         </div>
-
-        <div class="card-wrapper">
-          <FeatureCardHoverableRound
-            :icon="
-              require('~/assets/img/features/newest-feature/promotions/shoes.svg')
-            "
-            :title="$t('newest_features.promotions.sneakers')"
-            variant="round"
-          />
-        </div>
-
-        <div class="card-wrapper">
-          <FeatureCardHoverableRound
-            :icon="
-              require('~/assets/img/features/newest-feature/promotions/cash.svg')
-            "
-            :title="$t('newest_features.promotions.cash')"
-            variant="round"
-          />
-        </div>
-
-        <div class="mid-line position-absolute"></div>
       </div>
     </FeatureContentWrapper>
   </div>
@@ -64,14 +54,12 @@
 import FeatureContentWrapper from '~/components/feature/ContentWrapper'
 import HorizontalBenefitBox from '~/components/feature/HorizontalBenefitBox'
 import FeatureTitle from '~/components/feature/Title'
-import FeatureCardHoverableRound from '~/components/feature/CardHoverableRound'
 
 export default {
   components: {
     FeatureContentWrapper,
     HorizontalBenefitBox,
     FeatureTitle,
-    FeatureCardHoverableRound,
   },
 
   layout: 'IndexLayout',
@@ -120,59 +108,10 @@ export default {
   },
 }
 </script>
-
 <style lang="sass" scoped>
-@import '~/assets/css/_variables'
-.features-container
-  .feature-content
-
-    .feature-item
-      margin-bottom: 115px
-
-    .options-section
-      margin: 0px 80px
-      .mid-line
-        width: 100%
-        border-bottom: 1px solid $color-black-1
-
-      .card-wrapper
-        z-index: 1
-        background-color: $color-white-1
-        padding: 0 20px
-        background-color: $color-gray-1
-
-@media (max-width: 1200px)
-  .features-container
-    .feature-content
-      .options-section
-        margin: 0px 0px
-        .mid-line
-          width: 100%
-          border-bottom: 1px solid $color-black-1
-@media (max-width: 1000px)
-  .features-container
-    .feature-content
-      .options-section
-        margin: 0px 0px
-        .card-wrapper
-          padding: 20px 0
-          margin: 20px 0
-
-@media (max-width: 578px)
-  .features-container
-    .feature-content
-      .feature-item::v-deep
-        flex-direction: column
-        align-items: center
-        .img-wrapper
-          margin: 0
-          margin-bottom: 20px
-
-        .text-wrapper
-          text-align: center
-      .options-section
-        margin: 0px 0px
-        .card-wrapper
-          padding: 0 10px
-          background-color: $color-white-1
+@media (max-width: 768px)
+  .cards-wrapper-in-app
+    .in-app-cards
+      .feature-four-cards
+        border-radius: 50% !important
 </style>

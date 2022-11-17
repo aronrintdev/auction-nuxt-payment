@@ -12,19 +12,18 @@
       :nextPage="shopNowBanner.nextPage"
       :nextPageLink="shopNowBanner.nextPageLink"
     >
-      <b-row
-        class="justify-content-md-between justify-content-center h-card-main mb-md-5 w-100 mx-0"
-      >
+      <b-row class="justify-content-center h-card-main">
         <b-col
           v-for="(item, index) in csvBulkUplaod"
           :key="index"
           md="3"
-          class="d-flex justify-content-center d-lg-block px-0"
+          class="d-flex justify-content-center d-lg-block h-card-column px-0"
         >
           <FeatureCard
             :title="item.title"
             :description="item.description"
             :imageUrl="item.image"
+            :resImageUrl="item.responsiveImage"
           />
         </b-col>
       </b-row>
@@ -74,6 +73,7 @@ export default {
             'newest_features.deadstock_exchange.benefits.first_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/deadstock-exchange/deadstockexchang.png'),
+          responsiveImage: require('~/assets/img/features/newest-feature/deadstock-exchange/mobile-deadstockexchange.png'),
         },
         {
           title: this.$t(
@@ -83,6 +83,7 @@ export default {
             'newest_features.deadstock_exchange.benefits.second_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/deadstock-exchange/alyticshowtopri.png'),
+          responsiveImage: require('~/assets/img/features/newest-feature/deadstock-exchange/mobile-deadstockexchjangeanalyticshowtoprice.png'),
         },
         {
           title: this.$t(
@@ -92,6 +93,7 @@ export default {
             'newest_features.deadstock_exchange.benefits.third_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/deadstock-exchange/deadstockexchanaly.png'),
+          responsiveImage: require('~/assets/img/features/newest-feature/deadstock-exchange/mobile-deadstockexchangeanalytics.png'),
         },
       ],
       options: [
