@@ -1,12 +1,12 @@
 <template>
-  <b-row class="p-md-4 p-2 vd-selling-details">
+  <b-row class="p-md-4 p-1 vd-selling-details">
     <b-col md="12" class="offers-section">
-      <p class="purchase-history-summary text-bold mb-0 offers-heading">
-        <span class="offer-text">{{
-          $t('selling_page.offers_count', {
-            count: status === delisted ? 0 : totalOffer,
-          })
-        }}</span>
+      <p class="body-15-bold text-black font-secondary">
+        <span class="">{{
+            $t('selling_page.offers_count', {
+              count: status === delisted ? 0 : totalOffer,
+            })
+          }}</span>
         <span class="offer-heading">
           {{ $t('products.offers') }}
         </span>
@@ -55,27 +55,26 @@
       </b-table-simple>
     </b-col>
 
-    
-
 
     <template v-if="!offers || !offers.length || status === delisted">
       <div class="no-offers-placed align-items-center text-center justify-content-center w-100">
-        <p v-if="status === delisted" class="text-center d-flex justify-content-center w-100">{{ $t('selling_page.product_is_delisted') }}</p>  
+        <p v-if="status === delisted" class="text-center d-flex justify-content-center w-100">
+          {{ $t('selling_page.product_is_delisted') }}</p>
         <p>{{ $t('selling_page.no_offers_placed') }}</p>
       </div>
-    </template>   
+    </template>
 
     <template v-else>
 
       <OfferGrid
-        v-for="(itemGrid, indexGrid) in offers"
-        :key="indexGrid"
-        :offer="itemGrid"
-        :highestOffer="highestOffer"
-        class="offer-grid"
-        @confirmation="showAcceptConfirmation"   
+          v-for="(itemGrid, indexGrid) in offers"
+          :key="indexGrid"
+          :offer="itemGrid"
+          :highestOffer="highestOffer"
+          class="offer-grid"
+          @confirmation="showAcceptConfirmation"
       />
-    </template> 
+    </template>
 
     <!-- Accept Offer -->
     <ConfirmModal
@@ -283,7 +282,7 @@ export default {
   .offer-grid,
   .no-offers-placed
     display: none
-  
+
 @media (max-width: 576px)
   .offer-text,
   .offers-table
