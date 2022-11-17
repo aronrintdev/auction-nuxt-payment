@@ -33,7 +33,7 @@
                       class="create-trade-item-name-sm">{{ prod.name ? prod.name : prod.product.name }}</span>
           <span :id="`colorway-sm${prod.id}`"
                 class="create-trade-item-caption-description-sm">{{ prod.colorway ? prod.colorway : prod.product.colorway }},{{$t('common.size')}}{{ prod.size && prod.size.size }}</span>
-          <span class="create-trade-item-caption-description-sm">{{$t('common.box.')}}: {{
+          <span class="create-trade-item-caption-description-sm">{{$t('common.box')}}: {{
               prod.packaging_condition && prod.packaging_condition.name
             }}</span>
         </div>
