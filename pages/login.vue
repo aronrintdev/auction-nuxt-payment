@@ -280,6 +280,8 @@ export default {
   padding: 20px 0px 0px 0px
 
 @media (min-width: 320px) and (max-width: 556px)
+  .img-main
+    padding-left: 1px
   .forgot-pass-text
     font-size: 14px !important
   .text-line-middle
