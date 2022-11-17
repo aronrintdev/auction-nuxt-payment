@@ -968,14 +968,14 @@ export default {
   margin-top: 45px
   padding-right: 30px
 .btn-offer
-  background: #000000
-  color: #fff
+  background: $color-black-1
+  color: $color-white-1
 .create-trade-next-web
   width: 151px
   height: 38px
-  background: #667799
+  background: $color-grey-101
   border-radius: 4px !important
-  border: 1px solid #667799
+  border: 1px solid $color-grey-101
   margin-top: 10px
   margin-right: 20px
   color: $color-white-1

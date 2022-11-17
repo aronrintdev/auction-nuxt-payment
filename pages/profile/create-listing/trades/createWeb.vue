@@ -770,7 +770,7 @@ export default {
 .create-trade-next-web
   width: 151px
   height: 38px
-  background: #667799
+  background: $color-grey-101
   border-radius: 4px
   border: 1px solid #667799
   margin-top: 10px
