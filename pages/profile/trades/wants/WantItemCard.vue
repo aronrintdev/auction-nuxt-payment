@@ -135,10 +135,6 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
-.invent-item
-  @media (min-width: 992px)
-    margin-right: 50px
-
 .size
   border: 1px solid $light-gray-2
   border-radius: 2px

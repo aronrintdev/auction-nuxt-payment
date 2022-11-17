@@ -12,6 +12,7 @@
           <div
             :style="{ minHeight: '60px' }"
             class="rounded-0 border-top-0 list-group-item text-xs d-flex align-items-center justify-content-between"
+            :class="listGroupItemClass"
           >
             <div class="d-flex col-sm-8 pl-0 align-items-center">
               <img
@@ -52,9 +53,12 @@
           </div>
         </b-list-group>
       </b-col>
-      <b-col :style="itemStyle" align-self="center" v-if="productItems.length > 0">
+      <b-col v-if="productItems.length > 0" :style="itemStyle" align-self="center">
         <b-list-group class="text-md" :style="suggestNewStyle">
-          <b-list-group-item class="p-4 border-top-0 no-product d-flex align-items-center">
+          <b-list-group-item 
+            class="p-4 border-top-0 no-product d-flex align-items-center"
+            :class="listGroupItemClass"
+          >
             <i>
               {{$t('common.dont_see_your_product')}}
               <a
@@ -106,6 +110,7 @@
       <div
         v-if="productItems.length > 0"
         class="mt-2 d-flex justify-content-between px-4 no-product"
+        :class="noProductClass"
       >
         <div class="">{{ $t('common.dont_see_your_product') }}</div>
         <u @click="$bvModal.show('suggest_a_new_product')">
@@ -161,6 +166,14 @@ export default {
       default: () => {}
     },
     addBtnClass: {
+      type: String,
+      default: ''
+    },
+    listGroupItemClass: {
+      type: String,
+      default: ''
+    },
+    noProductClass: {
       type: String,
       default: ''
     }
@@ -232,9 +245,19 @@ export default {
 @import '~/assets/css/_typography'
 @import '~/assets/css/_variables'
 
+.no-product-responsive
+  height: 92px
+  align-items: center
+  background: $color-white-1
+  border: 0.5px solid $color-gray-89
+  border-radius: 4px
+
 .counter-wrapper::v-deep
   .list-group-item
     border-bottom: 1px solid $color-gray-23
+
+.border-gray
+  border-color: $color-gray-47
 
 .width-responsive
   left: 0
@@ -281,6 +304,7 @@ export default {
   margin-top: 11px
   border-radius: 4px
   padding: 10px
+  background: $color-white-1
 
 .add-item-button
   @include body-9-medium

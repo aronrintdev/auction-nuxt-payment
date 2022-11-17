@@ -47,9 +47,9 @@
                     </div>
                     <div class="item-caption-small">
                       <span class="item-name-small">{{ item.inventory.product.name }}</span>
+                      <span class="item-caption-description-small">{{ item.inventory.product.colorway }},{{$tc('common.size')}}{{ item.inventory.size.size }}</span>
                       <span
                         class="item-box-condition-small">{{$tc('common.box')}}: {{ item.inventory.packaging_condition.name }}</span>
-                      <span class="item-caption-description-small">{{ item.inventory.product.colorway }},{{$tc('common.size')}}{{ item.inventory.size.size }}</span>
                     </div>
                   </div>
                 </div>
@@ -62,7 +62,7 @@
                 </b-btn>
                 <b-btn v-if="!isOfferMine()"  class="btn-accept mr-1" @click="acceptOffer()">
                   {{ $t('trades.accept') }}</b-btn>
-                <b-btn class="btn-counter" v-if="!isOfferMine()"   @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
+                <b-btn v-if="!isOfferMine()" class="btn-counter"   @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
                   {{ $t('trades.counter_offer') }}
                 </b-btn>
               </div>
@@ -97,7 +97,7 @@
       <DeclineModel v-if="lastSubmittedOffer" :offer="lastSubmittedOffer"
                     @decline="declineOffer" @close="closeDeclineModal" />
     </div>
-    <div class="" v-else>
+    <div v-else class="">
       <b-row v-if="offer !== null">
         <b-col class="main-content" :md="isPayment ? 9 : 12">
           <div class="d-flex justify-content-between">
@@ -202,10 +202,10 @@
                 />
               </div>
               <div v-if="!lastSubmittedOffer.is_blocked" class="trade-hub-buttons mt-4 mb-4">
-                <Button variant="dark-blue" v-if="!isOfferMine()" class="mr-3" @click="acceptOffer()">{{ $t('common.accept_trade') }}</Button>
-                <Button variant="light" v-if="!isOfferMine()" class="mr-3 text-blue-32" @click="$bvModal.show('declineOffer')">{{ $t('trades.decline') }}
+                <Button v-if="!isOfferMine()" variant="dark-blue" class="mr-3" @click="acceptOffer()">{{ $t('common.accept_trade') }}</Button>
+                <Button v-if="!isOfferMine()" variant="light" class="mr-3 text-blue-32" @click="$bvModal.show('declineOffer')">{{ $t('trades.decline') }}
                 </Button>
-                <Button variant="outline-dark-blue" v-if="!isOfferMine()" @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
+                <Button v-if="!isOfferMine()" variant="outline-dark-blue" @click="$router.push('/profile/trades/dashboard/counter-offer/' + offer.id)">
                   {{ $t('trades.counter_offer') }}
                 </Button>
               </div>
@@ -218,8 +218,8 @@
             </div>
           </div>
           <div class="history-heading">{{ $t('trades.offer_history') }}</div>
-          <div class="col-lg-10 col-xl-6 d-flex px-0 m-0">
-            <offer-history :offerHistory="offer" />
+          <div class="col-12 col-lg-10 col-xl-6 d-flex px-0 m-0">
+            <offer-history class="w-100" :offerHistory="offer" />
           </div>
           <b-row class="justify-content-center pt-3 pb-3">
             <hr class="center-line">
@@ -397,7 +397,6 @@ export default {
         .then((response) => {
           this.offer = response.data.data
           this.lastSubmittedOffer = response.data.data.latest_offer ?? response.data.data
-          console.log('lastSubmittedOffer', this.lastSubmittedOffer);
         })
         .catch((error) => {
           this.$toasted.error(this.$t(error.response.data.error))

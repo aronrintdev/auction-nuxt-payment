@@ -15,7 +15,7 @@
       <div class="wants-sub-heading col-md-6 pl-0 pt-1 mb-4">
         {{$t('trades.wants_listing.wants_list_contains_items')}}
       </div>
-      <div class="mt-2 pt-2 d-flex flex-sm-column justify-content-between">
+      <div class="mt-2 pt-2 d-flex flex-sm-column flex-md-row justify-content-between">
         <b-col sm="12" md="7" xl="8" class="mt-2 px-0">
           <div class="d-flex flex-column d-sm-none">
             <div class="d-flex justify-content-between">
@@ -303,7 +303,7 @@
               <div 
                 v-for="item in wantedItems" 
                 :key="`want-item-${item.id}`"
-                class="col-6"
+                class="col-6 col-md-3"
               >
                 <want-item-card
                   :wantItem="item"
@@ -585,7 +585,10 @@ export default {
     if (wrapper.querySelector('.wants-main-container')) {
       wrapper.classList.add('bg-white-5')
     }
-    document.querySelector('.mobile-p-b').classList.add('pb-0')
+    const mobile = document.querySelector('.mobile-p-b')
+    if (mobile) {
+      mobile.classList.add('pb-0')
+    }
 
     this.$root.$on('edit', (product) => {
       this.editItem = product

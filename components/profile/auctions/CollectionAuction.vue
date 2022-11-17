@@ -2,17 +2,17 @@
     <b-row
       v-if="auction.auction_items"
       :class="{'border shadow-sm' : isMobileSize}"
-      class="mt-3 text-center mx-0 ml-md-n1 font-weight-bold w-100 bg-white collection-item"
+      class="mt-3 text-center mx-0 font-weight-bold w-100 bg-white collection-item"
       role="button"
       @click="$emit('click')"
     >
       <b-row class="w-100 m-0">
         <b-col cols="12" md="5" class="text-left mt-md-4">
           <b-row>
-            <b-col cols="4" md="4" class="text-right text-md-center">
-              <img :src="CollectionSvg" alt="collection image">
+            <b-col cols="4" md="4" class="text-right text-md-center px-0">
+              <img :src="CollectionSvg" class="collection-image" alt="collection image">
             </b-col>
-            <b-col cols="8" md="8" class="pl-4 d-flex align-items-center">
+            <b-col cols="8" md="8" class="pl-3 pl-md-4 d-flex align-items-center">
               <span class="auction-name sf-pro-display overflow-hidden text-nowrap text-capitalize" :class="isMobileSize ? 'body-5-medium': 'body-13-bold'">
                 {{ auction.name }} ( {{auction.auction_items.length}} {{$t('auction.items')}} )
               </span>
@@ -24,7 +24,7 @@
             <span class="body-4-normal">{{$t('auction.auction_types.'+auction.type)}}</span>
           </b-col>
           <b-col  sm="12" md="2" class="d-flex justify-content-around sf-pro-display flex-column pt-4">
-            <span v-if="auction.bids.length" class="body-4-normal">{{ auction.highest_bid | formatPrice }} &dollar;</span>
+            <span v-if="auction.bids.length" class="body-4-normal">&dollar;{{ auction.highest_bid | formatPrice }}</span>
             <span v-else>-</span>
 
           </b-col>
@@ -77,40 +77,40 @@
           </b-carousel-slide>
         </b-carousel>
         <b-col class="py-1">
-          <div class="d-flex justify-content-between d-md-block sf-pro-display ">
+          <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display ">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.auction_id') }}:</span>
             <span class="body-9-regular text-decoration-underline text-blue-30">{{ auction.id }}</span>
           </div>
         </b-col>
         <b-col class="py-1 bg-lightgrey">
-          <div class="d-flex justify-content-between d-md-block sf-pro-display ">
+          <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display ">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.type') }}:</span>
             <span class="body-9-regular text-gray-6">{{ $t('auction.auction_types.'+auction.type) }}</span>
           </div>
         </b-col>
         <b-col sm="12" md="1" class="py-1">
-          <div class="d-flex justify-content-between d-md-block sf-pro-display ">
+          <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display ">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.highest_bid') }}:</span>
             <span class="body-9-regular text-gray-6">
-              <span v-if="auction.bids.length">{{ auction.highest_bid | formatPrice }} &dollar;</span>
+              <span v-if="auction.bids.length">&dollar;{{ auction.highest_bid | formatPrice }}</span>
               <span v-else>-</span>
             </span>
           </div>
         </b-col>
         <b-col sm="12" md="1" class="py-1 bg-lightgrey">
-          <div class="d-flex justify-content-between d-md-block sf-pro-display ">
+          <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display ">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.bids') }}:</span>
             <span class="body-9-regular text-gray-6">{{auction.bids.length|| '-'}}</span>
           </div>
         </b-col>
         <b-col sm="12" md="1" class="py-1">
-          <div class="d-flex justify-content-between d-md-block sf-pro-display ">
+          <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display ">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.time_remaining') }}:</span>
             <span class="body-9-regular text-gray-6">{{ isExpired || auction.status !== LIVE_STATUS ? '-' : auction.remaining_time }}</span>
           </div>
         </b-col>
         <b-col sm="12" md="1" class="py-1 bg-lightgrey">
-          <div class="d-flex justify-content-between d-md-block sf-pro-display ">
+          <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display ">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.status') }}:</span>
             <span class="body-9-regular text-gray-6"
             :class="{'text-green' : !isExpired && auction.status === LIVE_STATUS, 'text-danger': isExpired && auction.status === LIVE_STATUS }">
@@ -200,12 +200,17 @@ export default {
 
 .collection-item
   padding: 15px 10px
-
-
+  @media (max-width: 576px)
+    padding: 18px 0 6px
+    .collection-image
+      width: 16px
 .border
   border: 1px solid $color-gray-60
   border-radius: 12px
   overflow: hidden
+  @media (max-width: 576px)
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+    border-radius: 8px
 
 .auction-name
   text-overflow: ellipsis
@@ -224,6 +229,13 @@ export default {
     width: 12px
     height: 12px
     border-radius: 50%
+  @media (max-width: 576px)
+    .carousel-indicators li
+      width: 4px
+      height: 4px
+      border: none
+    .carousel
+      padding: 0 14px
 
 .collection-item
   .thumb-wrapper

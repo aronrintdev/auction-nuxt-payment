@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="width <= 500">
+    <div v-if="isScreenXS">
       <div v-if="offers.length > 0" :offers="offers">
         <div v-for="(offer) in offers" :key="'trade-page-offer-list-' + offer.id" class="offer-item-trade-container-mobile mt-2 mb-2" @click="showOffer(offer.id)">
           <div class="offer-id pt-2 ml-2">{{$t('trades.offer_id')}} #{{offer.id}}</div>
@@ -80,6 +80,7 @@
 <script>
 import OfferItems from '~/pages/profile/trades/dashboard/OfferItems';
 import Button from '~/components/common/Button'
+import ScreenSize from '~/plugins/mixins/screenSize'
 import {
   ALL_OFFER_TYPE,
   OFFER_RECEIVED,
@@ -101,6 +102,7 @@ export default {
     OfferItems,
     Button
   },
+  mixins: [ScreenSize],
   props:{
     offers: {
       type: Array,
@@ -113,7 +115,6 @@ export default {
   },
   data(){
     return {
-      width:'',
       offer: null,
       ALL_OFFER_TYPE,
       OFFER_RECEIVED,
@@ -135,10 +136,6 @@ export default {
       isPayment: false,
       FILTER_OFFER_STATUS_DECLINED
     }
-  },
-  mounted(){
-    this.width = window.innerWidth
-    // this.fetchOfferDetails()
   },
   methods: {
     isOfferMine(offer) {
@@ -175,16 +172,12 @@ export default {
       return this.lastSubmittedOffer.cash_type === CASH_TYPE_REQUESTED
     },
     fetchOfferDetails(){
-      console.log('inside')
       this.offerId = parseInt(this.$route.params.id)
-      console.log(' this.offerId', this.offerId)
       this.$axios
         .get('trades/offer/' + this.offerId)
         .then((response) => {
-          console.log('response',response)
           this.offer = response.data.data
           this.lastSubmittedOffer = response.data.data.latest_offer ?? response.data.data
-          console.log('lastSubmittedOffer', this.lastSubmittedOffer)
         })
         .catch((error) => {
           this.$toasted.error(this.$t(error.response.data.error))
