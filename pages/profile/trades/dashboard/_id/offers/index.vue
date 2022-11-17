@@ -76,26 +76,10 @@
     </div>
     <all-offers-items :offerType="offerType" :offers="tradeOffers" />
   </div>
-  <div class="container-fluid" v-else>
-    <b-col md="12" class="pl-54 pt-4">
-      <b-row class="heading">{{$t('trades.trade_id')}} #{{ trade && trade.id }}</b-row>
-      <b-row class="sub-heading pt-4">{{$t('trades.trade_summary')}}</b-row>
-    </b-col>
+  <div class="container-fluid bg-white-5 pt-5" v-else>
+    <div class="heading mx-4">{{ $t('vendor_purchase.trade_summary') }}</div>
+    <div class="sub-heading mx-4">{{ $t('common.your_listing') }}</div>
     <trade-summary v-if="trade !== null" :trade="trade" />
-
-    <!-- Search Input -->
-    <b-row class="mt-3">
-      <b-col md="7" class="pl-30">
-        <SearchInput
-          :value="searchText"
-          variant="primary"
-          placeholder="Search Offers"
-          :clearSearch="true"
-          @change="onSearchInput"
-        />
-      </b-col>
-
-    </b-row>
 
     <!--Offers Section-->
     <b-row class="mt-5 offers-heading pl-30">
@@ -110,8 +94,8 @@
         @change="handleMethodNavClick"
       />
     </b-row>
-    <b-row class="justify-content-between pl-30">
-      <b-col >
+    <b-row class="justify-content-between px-4">
+      <b-col>
         <label>{{$t('trades.filter_by')}}</label>
         <b-row class="pl-2">
         <custom-dropdown
@@ -122,15 +106,24 @@
           variant="white"
           width="200px"
           maxWidth="162px"
+          paddingX="10px"
+          :arrowStyle="{
+            marginTop: '0 !important',
+            color: '#000'
+          }"
+          :dropdownStyle="{
+            background: '#FFF'
+          }"
+          borderRadius="5px"
+          borderRadiusClose="5px 5px 0 0"
+          borderRadiusOptions="0 0 5px 5px"
           dropDownHeight="38px"
           @change="changeConditionFilter"
         />
-        <Button  variant="blue" class="ml-4" @click="fetchOffersListing()">{{$t('trades.filter')}}</Button>
+        <Button variant="dark-blue" class="ml-4" @click="fetchOffersListing()">{{$t('trades.filter')}}</Button>
         </b-row>
       </b-col>
-      <b-col>
-        <label></label>
-        <b-row class="justify-content-end pr-5">
+      <b-col class="d-flex align-items-end justify-content-end">
         <custom-dropdown
           v-model="conditionFilter"
           type="single-select"
@@ -139,10 +132,20 @@
           variant="white"
           maxWidth="245px"
           width="245px"
-          class="pt-2"
+          paddingX="10px"
+          borderRadius="5px"
+          borderRadiusClose="5px 5px 0 0"
+          borderRadiusOptions="0 0 5px 5px"
+          :dropdownStyle="{
+            background: '#FFF'
+          }"
+          :arrowStyle="{
+            marginTop: '0 !important',
+            color: '#000'
+          }"
           dropDownHeight="38px"
-          @change="changeOrderFilter"/>
-        </b-row>
+          @change="changeOrderFilter"
+        />
       </b-col>
     </b-row>
     <all-offers-items :offerType="offerType" :offers="tradeOffers" />
@@ -319,6 +322,9 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.bg-white-5
+  background: $color-white-5
+
 .pl-54
   padding-left: 54px
 
@@ -335,6 +341,8 @@ export default {
   font-style: normal
   @include body-15-bold
   color: $color-black-1
+  margin-top: 35px
+  margin-bottom: -40px
 
 .offers-heading
   font-family: $font-family-sf-pro-display

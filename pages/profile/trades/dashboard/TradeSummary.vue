@@ -35,7 +35,7 @@
           </b-col>
         </b-row>
         <b-row class="justify-content-center">
-          <offer-items :offerItems="trade.offers"/>
+          <offer-items class="w-50" :offerItems="trade.offers"/>
         </b-row>
       </div>
       <delist-modal :tradeId="trade.id" @delist="delistTrade"></delist-modal>
@@ -127,7 +127,7 @@ export default {
   background: $color-white-1
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
-  height: 371px
+
 .main-container-small
   background: $color-gray-56
   border-radius: 4px

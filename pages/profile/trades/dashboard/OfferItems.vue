@@ -212,4 +212,8 @@ export default {
     
 .box-pro
   background: $color-white-4
+
+.w-50
+  width: 50%
+
 </style>
