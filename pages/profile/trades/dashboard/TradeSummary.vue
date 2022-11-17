@@ -33,7 +33,7 @@
               class="list-btn" 
               @click="$bvModal.show('relist-trade')"
             > 
-              Relist
+              {{ $t('trades.relist')}}
             </b-btn>
             <b-btn 
               v-if="!isDelistedTrade(trade) && !blockTrade(trade)" 
@@ -213,7 +213,7 @@ export default {
 .edit-btn-web
   width: 174px
   height: 42px
-  background: #667799
+  background: $color-blue-20
   border-radius: 4px
   color: $color-white-1
   font-family: $font-family-montserrat
@@ -222,12 +222,12 @@ export default {
 .delist-btn
   width: 174px
   height: 42px
-  border: 1px solid #667799
+  border: 1px solid $color-blue-20
   border-radius: 4px
   font-family: $font-family-montserrat
   font-weight: $normal
   @include body-13
-  color: #667799
+  color: $color-blue-20
   background-color: $color-white-1
 
 .new-offers

@@ -121,6 +121,7 @@ export default {
   components: {
     OfferItems
   },
+  mixins: [ScreenSize],
   props:{
     variant:{
       type: String,

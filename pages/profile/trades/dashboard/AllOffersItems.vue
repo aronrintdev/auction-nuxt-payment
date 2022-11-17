@@ -126,7 +126,6 @@ export default {
       required: true
     }
   },
-  mixins: [ScreenSize],
   data() {
     return {
       offer: null,
@@ -376,9 +375,9 @@ export default {
   border: 1px solid $color-blue-20 !important
 
 .excellent
-  color: #6FD179
+  color: $color-green-34
 
 .poor
-  color: #FA3E3E
+  color: $color-red-30
 
 </style>
