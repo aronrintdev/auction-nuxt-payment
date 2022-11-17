@@ -8,7 +8,7 @@
             {{ $t('create_listing.trade.offer_items.offer') }}<sup>*</sup>
           </div>
           <div  class="create-trade-subheading mt-1">
-            Search your inventory or find a new item to offer, minimum of 1 item, maximum 3 items
+            {{ $t('create_listing.trade.offer_items.offer_subheading') }}
           </div>
         </b-col>
       </b-row>
@@ -40,9 +40,6 @@
                class="mr-2"
             /><span class="pt-2">{{ $t('inventory.upload_csv_bulk_file') }}</span></Button
             >
-<!--            <a class="create-new-inventory-btn p-2 float-right cursor-pointer" @click="setReferrer()">-->
-<!--              {{ $t('create_listing.trade.offer_items.create_inventory') }}-->
-<!--            </a>-->
           </b-col>
         </b-row>
         <div class="inventory-section-module mt-5 ml-2 mb-2 pb-5">
@@ -147,18 +144,6 @@
             <infinite-loading :identifier="infiniteId" @infinite="getInventory">
               <span slot="no-more"></span>
             </infinite-loading>
-<!--            <b-row class="col-md-12 justify-content-center">-->
-<!--              <Pagination-->
-<!--                v-if="inventory_items && inventory_items.length > 0"-->
-<!--                v-model="page"-->
-<!--                :total="totalCount"-->
-<!--                :per-page="perPage"-->
-<!--                :per-page-options="perPageOptions"-->
-<!--                class="mt-4"-->
-<!--                @page-click="handlePageClick"-->
-<!--                @per-page-change="handlePerPageChange"-->
-<!--              />-->
-<!--            </b-row>-->
           </b-row>
         </div>
 
@@ -180,7 +165,6 @@
               <div v-for="(prod, index) in getTradeItems"
                    :key="'selected-'+index+prod.id" class="create-trade-item-web d-flex justify-content-between flex-column mr-4">
                 <div class="d-flex justify-content-between mt-2 mx-2 min-sign">
-                  <!--                <div class="create-trade-size-car-sm">{{$t('trades.create_listing.vendor.wants.size')}} {{ prod.size && prod.size.size }}</div>-->
                   <div v-if="prod.quantity > 1" class="create-trade-quantity-car-sm">x{{ prod.quantity || 1 }}</div>
                   <div class="create-trade-minus-icon-web" @click="decrementOrRemoveItem(prod.id)">
                     <div class="create-trade-minus-line-sm"></div>
@@ -243,14 +227,11 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
-
-// import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
 import SearchInput from '~/components/common/SearchInput';
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
 import AlreadyListedModal from '~/pages/profile/create-listing/trades/AlreadyListedModal';
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox.vue'
 import CustomDropdown from '~/components/common/CustomDropdown.vue'
-// import {Pagination} from '~/components/common'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
@@ -267,10 +248,8 @@ export default {
     InventoryCsvUploadModal,
     CreateTradeSearchItem, // component used for item via search selection
     SearchInput,            // component used for search input field
-    // FormStepProgressBar,    //  component for stepper
     SearchedProductsBelowSearchTextBox, // component for items show below search as search results
     CustomDropdown,   // custom dropdown component used for filters
-    // Pagination,   // pagination component
     AlreadyListedModal // model used for telling product is already listed in other category
   },
   layout: 'Profile', // Layout
@@ -596,31 +575,6 @@ export default {
     /**
      * This function is used to get user listing of inventory
      */
-    // getInventory: debounce(function (filters = {}) {
-    //   filters.sort_by = this.orderFilter // sorting filter
-    //   filters.category = this.categoryFilter // category type filter
-    //   filters.sizes = this.sizeFilter.join(',') // size filter
-    //   filters.size_types = this.sizeTypesFilter.join(',') // size type filter
-    //   this.$axios
-    //     .get('/vendor/inventory', {
-    //       params: {
-    //         search: '',   // for search query
-    //         page: this.page, // no of page to change
-    //         per_page: this.perPage, // no of records to show on per page
-    //         ...filters
-    //       },
-    //     })
-    //     .then((response) => {  // list of vendor inventory
-    //       this.inventory_items = response.data.data
-    //       this.totalCount = parseInt(response.data.total)
-    //       this.perPage = parseInt(response.data.per_page)
-    //     })
-    //     .catch((error) => {
-    //       this.$toasted.error(this.$t(error.response.data.error))
-    //       this.searchedItems = []
-    //     })
-    // }, 500),
-
     getInventory($state,filters = {}) {
       const that = this
       filters.sort_by = this.orderFilter // sorting filter

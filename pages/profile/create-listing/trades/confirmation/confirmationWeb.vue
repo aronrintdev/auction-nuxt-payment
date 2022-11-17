@@ -9,11 +9,6 @@
         </div>
       </b-col>
       <b-col cols="6">
-<!--        <div class="row">-->
-<!--          <div class="col-md-12 ">-->
-<!--            <FormStepProgressBar :steps="steps" variant="transparent"/>-->
-<!--          </div>-->
-<!--        </div>-->
       </b-col>
     </b-row>
     <b-row class="offered-item-confirm-trade">
@@ -132,7 +127,6 @@
 <script>
 
 import { mapGetters } from 'vuex'
-// import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem'
 import {
   IMAGE_PATH,
@@ -140,13 +134,10 @@ import {
   STATUS_DRAFT,
   STATUS_LIVE
 } from '~/static/constants/create-listing'
-// import Button from '~/components/common/Button';
 
 export default {
   name: 'Index',
   components: {
-    // Button,
-    // FormStepProgressBar,
     CreateTradeSearchItem
   },
   layout: 'Profile',

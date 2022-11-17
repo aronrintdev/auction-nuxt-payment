@@ -18,9 +18,6 @@
               <span>{{ $t('trades.create_listing.vendor.wants.back_to_offers_item') }}</span>
             </NuxtLink>
           </b-col>
-<!--          <b-col class="text-right">-->
-<!--            <FormStepProgressBar :steps="steps" variant="transparent"/>-->
-<!--          </b-col>-->
         </b-row>
         <b-row cols="1" class="pr-md-5 pr-lg-5 pr-sm-0">
           <b-col class="w-100">
@@ -347,9 +344,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import debounce from 'lodash.debounce'
-
-// import FormStepProgressBar from '~/components/common/FormStepProgressBar'
-// import Button from '~/components/common/Button'
 import SearchInput from '~/components/common/SearchInput'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox'
 import CustomDropdown from '~/components/common/CustomDropdown'
@@ -367,8 +361,6 @@ import ScreenSize from '~/plugins/mixins/screenSize'
 export default {
   name: 'TradeWants',
   components: {
-    // FormStepProgressBar, // Stepper component
-    // Button, // Button component
     SearchInput, // search input
     SearchedProductsBelowSearchTextBox, //  component for items show below search as search results
     CustomDropdown, // custom dropdown component used for filters
