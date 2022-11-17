@@ -3,20 +3,36 @@
     <div v-if="isScreenXS">
       <div v-if="offers.length > 0" :offers="offers">
         <div v-for="(offer) in offers" :key="'trade-page-offer-list-' + offer.id" class="offer-item-trade-container-mobile mt-2 mb-2" @click="showOffer(offer.id)">
-          <div class="offer-id pt-2 ml-2">{{$t('trades.offer_id')}} #{{offer.id}}</div>
-          <div class="offer-time m-2">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
-            <div class="d-flex justify-content-end mr-2 context-tran" @click="$router.push('/profile/trades/dashboard/' + offer.trade.id)">
-              <img v-if="!isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="ml-2" alt="">
-              <img v-else-if="isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="ml-2" alt="">
-              {{$t(offer.offer_type_translation)}}
+          <div class="d-flex justify-content-between">
+            <div class="offer-id">
+              {{ $t('trades.offer_id') }} #{{ offer.id }}
             </div>
-           <div class="d-flex justify-content-end mr-2 cond-tran">
-             {{$t(offer.condition_translation)}}
-           </div>
-          <!-- items sections -->
-          <b-row class="justify-content-center mt-3" role="button">
+
+            <div 
+              class="d-flex context-tran align-items-center" 
+              @click="$router.push('/profile/trades/dashboard/' + offer.trade.id)"
+            >
+              <img v-if="!isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="mr-1" alt="">
+              <img v-else-if="isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="mr-1" alt="">
+              <div>{{ $t(offer.offer_type_translation) }}</div>
+            </div>
+          </div>
+          
+          <div class="mt-2 d-flex justify-content-between">
+            <div class="offer-time">
+              {{ $t('trades.placed_on') }} {{ offer.created_at | formatDateTimeString }}
+            </div>
+            <div 
+              class="cond-tran"
+              :class="[offer.condition === 'poor' ? 'poor' : 'excellent']"
+            >
+              {{ $t(offer.condition_translation) }}
+            </div> 
+          </div>
+
+          <div class="d-flex justify-content-center mt-3" role="button">
             <offer-items :offerItems="offer.theirs_items"/>
-          </b-row>
+          </div>
         </div>
       </div>
       <div v-else class="text-center mt-3">
@@ -111,7 +127,7 @@ export default {
   },
   
   mixins: [ScreenSize],
-  data(){
+  data() {
     return {
       offer: null,
       ALL_OFFER_TYPE,
@@ -205,9 +221,9 @@ export default {
   border-radius: 10px
   background: $color-white-1
 .offer-item-trade-container-mobile
-  height: 360px
   box-shadow: 0 1px 4px $drop-shadow1
-  border-radius: 10px
+  border-radius: 4px
+  padding: 13px
 
 #flyer-excellent
   width: 145px
@@ -362,4 +378,11 @@ export default {
   background: $color-white-1 !important
   border-radius: 8px
   border: 1px solid $color-blue-20 !important
+
+.excellent
+  color: #6FD179
+
+.poor
+  color: #FA3E3E
+
 </style>

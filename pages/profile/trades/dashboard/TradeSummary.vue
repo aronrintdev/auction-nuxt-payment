@@ -1,20 +1,47 @@
 <template>
-  <div class="pt-5">
-    <div v-if="isScreenXS">
-      <div class="main-container-small ml-2">
+  <div>
+    <div class="pt-3" v-if="isScreenXS">
+      <div class="main-container-small">
         <div class="justify-content-between">
-          <div class="pt-4 pl-4">
-            <div class="expire-trade-id-small d-flex">{{$t('trades.trade_id')}} #{{ trade.id }}  <ul class="offer-status"><li>{{$t(trade.status_translation)}}</li></ul></div>
-            <div class="offer-time-small d-flex align-items-center pb-1">{{$t('trades.listed_on')}} {{ trade.created_at | formatDateTimeString }}</div>
-            <div class="offer-time-small d-flex align-items-center">{{$t('trades.expires_on')}} {{ trade.expiry_date | formatDateTimeString }}</div>
+          <div class="">
+            <div class="d-flex justify-content-between">
+              <div class="expire-trade-id-small">
+                {{ $t('trades.trade_id') }} #{{ trade.id }}  
+              </div>
+              <div class="new-offers d-flex align-items-center">
+                <div class="red-circle rounded-circle mr-2"></div>
+                <div>{{ $t('trades.new_offers', {'0': trade.new_offers}) }}</div>
+              </div>
+            </div>
+            <div class="mt-1 offer-time-small">
+              {{ $t('trades.listed_on') }} {{ trade.created_at | formatDateTimeString }}
+            </div>
           </div>
           <div>
             <offer-items :offerItems="trade.offers"/>
           </div>
-          <div class="d-flex mt-4">
-            <b-btn v-if="!isDelistedTrade(trade) && !blockTrade(trade)" class="mt-3 list-btn"  @click="$bvModal.show('delist-offer')">{{$t('trades.delist')}}</b-btn>
-            <b-btn v-if="isDelistedTrade(trade)" class="mt-3 list-btn"  @click="$bvModal.show('relist-trade')">Relist</b-btn>
-            <b-btn  v-if="!isDelistedTrade(trade) && !blockTrade(trade)"  class="mt-3 edit-btn" @click="$bvModal.show('edit-trade')">{{$t('common.edit')}}</b-btn>
+          <div class="d-flex mt-4 justify-content-around">
+            <b-btn 
+              v-if="!isDelistedTrade(trade) && !blockTrade(trade)" 
+              class="list-btn" 
+              @click="$bvModal.show('delist-offer')"
+            >
+              {{ $t('trades.delist') }}
+            </b-btn>
+            <b-btn 
+              v-if="isDelistedTrade(trade)"
+              class="list-btn" 
+              @click="$bvModal.show('relist-trade')"
+            > 
+              Relist
+            </b-btn>
+            <b-btn 
+              v-if="!isDelistedTrade(trade) && !blockTrade(trade)" 
+              class="edit-btn" 
+              @click="$bvModal.show('edit-trade')"
+            >
+              {{ $t('common.edit') }}
+            </b-btn>
           </div>
         </div>
 
@@ -131,17 +158,16 @@ export default {
 .main-container-small
   background: $color-gray-56
   border-radius: 4px
-  height: 370px
-  width: 343px
+  padding: 13px
+
 .expire-trade-id
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-2-bold
   color: $color-black-1
 .expire-trade-id-small
+  @include body-4-bold
   font-family: $font-family-sf-pro-display
-  font-style: normal
-  font-size: 14px
   color: $color-blue-20
 
 .offer-status
@@ -156,10 +182,10 @@ export default {
   @include body-13-normal
   color: $color-black-1
 .offer-time-small
+  @include body-10-normal
   font-family: $font-family-sf-pro-display
-  font-style: normal
-  font-size: 12px
   color: $color-gray-47
+
 .expired-btn
   border-radius: 10px
   width: 174px
@@ -203,5 +229,15 @@ export default {
   @include body-13
   color: #667799
   background-color: $color-white-1
+
+.new-offers
+  @include body-10-normal
+  font-family: $font-family-sf-pro-display
+  color: $color-red-18
+
+.red-circle
+  background: $color-red-18
+  width: 4px
+  height: 4px
 
 </style>

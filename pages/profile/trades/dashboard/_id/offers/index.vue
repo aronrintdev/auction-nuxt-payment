@@ -1,23 +1,19 @@
 <template>
-  <div class="container-fluid" v-if="isScreenXS">
+  <div class="px-16" v-if="isScreenXS">
     <trade-summary v-if="trade !== null" :trade="trade" />
-    <div class="mt-5 offers-heading pl-30">
-      {{$t('trades.offers' , {'0': tradeOffers.length})}}
+    <div class="mt-4 d-flex">
+      <div class="offers-heading mr-2">
+        {{ $t('trades.offers', { '0': tradeOffers.length }) }}
+      </div>
+      <img 
+        class="float-right image-filter"
+        :src="require('~/assets/img/filterTradeList.svg')"  
+        @click="openBottomFilter()"
+      />
     </div>
     <div class="d-flex mt-2">
-      <div>
-        <SearchInput
-          :value="searchText"
-          variant="primary"
-          placeholder="Search Offers"
-          :clearSearch="true"
-          @change="onSearchInput"
-          class="searching-box"
-        />
-      </div>
       <div class="mt-2 ml-3">
-        <img class="float-right image-filter"
-             :src="require('~/assets/img/filterTradeList.svg')"  @click="openBottomFilter()"/>
+        
         <vue-bottom-sheet
           ref="browseFiltersSheet"
           class="more-options"
@@ -155,7 +151,6 @@
 <script>
 import debounce from 'lodash.debounce'
 import TradeSummary from '~/pages/profile/trades/dashboard/TradeSummary';
-import SearchInput from '~/components/common/SearchInput';
 import NavGroup from '~/components/common/NavGroup';
 import AllOffersItems from '~/pages/profile/trades/dashboard/AllOffersItems';
 import CustomDropdown from '~/components/common/CustomDropdown';
@@ -178,7 +173,6 @@ export default {
     CustomDropdown,
     AllOffersItems,
     NavGroup,
-    SearchInput,
     TradeSummary,
   },
   mixins: [ScreenSize],
@@ -345,10 +339,12 @@ export default {
   margin-bottom: -40px
 
 .offers-heading
+  @include body-4-medium
   font-family: $font-family-sf-pro-display
   font-style: normal
-  @include body-15-bold
   color: $color-black-1
+  @media (min-width: 576px)
+    @include body-15-bold
 
 .pl-30
   padding-left: 30px
@@ -427,4 +423,9 @@ export default {
     width: 100px
     height: auto
     font-size: 12px
+
+.px-16
+  padding-left: 16px
+  padding-right: 16px
+
 </style>
