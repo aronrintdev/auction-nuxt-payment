@@ -152,7 +152,7 @@
                           <b-form-input
                             id="first-name"
                             v-model="form.first_name"
-                            class="rounded-pill rounded-md input-signup mr-2"
+                            class="rounded-pill rounded-md input-signup ml-3"
                             :placeholder="$t('auth.first_name')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -188,7 +188,7 @@
                           <b-form-input
                             id="last-name"
                             v-model="form.last_name"
-                            class="rounded-pill input-signup mr-2"
+                            class="rounded-pill input-signup ml-3"
                             :placeholder="$t('auth.last_name')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -223,7 +223,7 @@
                           <b-form-input
                             id="username"
                             v-model="form.username"
-                            class="rounded-pill input-signup mr-2"
+                            class="rounded-pill input-signup ml-3"
                             :placeholder="$t('auth.username')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -259,7 +259,7 @@
                           <b-form-input
                             id="email-address"
                             v-model="form.email"
-                            class="rounded-pill input-signup mr-2"
+                            class="rounded-pill input-signup ml-3"
                             :placeholder="$t('auth.email_address')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -296,7 +296,7 @@
                           <b-form-input
                             id="password"
                             v-model="form.password"
-                            class="rounded-pill input-signup input-append"
+                            class="rounded-pill input-signup input-append ml-3"
                             :placeholder="$t('auth.password')"
                             :state="getValidationState(validationContext)"
                             :type="passwordFieldType"
@@ -352,7 +352,7 @@
                           <b-form-input
                             id="password-confirmation"
                             v-model="form.password_confirmation"
-                            class="rounded-pill input-signup input-append"
+                            class="rounded-pill input-signup input-append ml-3"
                             :placeholder="$t('auth.confirm_password')"
                             :state="getValidationState(validationContext)"
                             :type="confirmPasswordFieldType"
@@ -756,7 +756,6 @@ export default {
   .input-signup
     font-size: 15px
     line-height: 18px
-    color: $color-gray-47
 
   .form-area::v-deep
     padding: 0px 1px
@@ -824,8 +823,6 @@ export default {
         width: 50px !important
 
 @media (min-width: 320px) and (max-width: 556px)
-  .input-signup
-    left: 10px !important
   .img-main
     margin: 0 auto
 </style>
