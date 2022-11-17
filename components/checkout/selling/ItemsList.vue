@@ -247,6 +247,9 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+*
+  font-family: 'SF Pro Display', serif
+
 /* Continue shopping button link styles */
 #continue-shopping,
 #continue-shopping-empty-cart

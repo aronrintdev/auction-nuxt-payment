@@ -31,18 +31,37 @@
           </b-col>
         </b-row>
         <b-row class="pr-md-5 pr-lg-5 pr-sm-0 mb-2">
-          <b-col class="col-md-8 col-12 col-sm-6 mt-md-4">
+          <b-col class="col-md-8 col-12 mt-md-4">
             <SearchInput
               :value="searchText"
               :placeholder="$t('trades.create_listing.vendor.wants.search_by_options')"
               size="lg"
+              :inputStyle="{ 
+                borderBottomLeftRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
+                borderBottomRightRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
+              }"
               bordered
               inputHeight="60px"
               @change="onSearchInput"
             />
-            <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="wantItemTrade" width="700px" class="position-absolute"/>
+            <div class="position-relative">
+              <SearchedProductsBelowSearchTextBox 
+                v-if="searchedItems.length > 0" 
+                :productItems="searchedItems" 
+                productsFor="wantItemTrade" 
+                class="position-absolute"
+                :wrapperStyle="{ margin: 0 }"
+                :itemStyle="{ padding: 0 }"
+                addBtnClass="text-right"
+                listGroupItemClass="border-gray"
+                noProductClass="no-product-responsive"
+                :style="{
+                  zIndex: 100
+                }" 
+              />
+            </div>
           </b-col>
-          <b-col align-self="center" class="col-md-4 col-12 col-sm-6 mt-md-4 text-right">
+          <b-col align-self="center" class="col-md-4 col-12 mt-sm-4 text-right">
             <a class="font-weight-bolder text-gray cursor-pointer" @click="$bvModal.show('offer-item-modal')">
               <b-img
                 :src="require('~/assets/img/icons/clarity_eye-line.svg')"
@@ -355,7 +374,7 @@ import { Pagination } from '~/components/common'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
-
+import ScreenSize from '~/plugins/mixins/screenSize'
 
 /*
   Trade Wants Page
@@ -371,8 +390,9 @@ export default {
     CreateTradeSearchItem, // component used for item via search selection
     Pagination, // Pagination component
     ViewOfferItemsModal // model to show offers items
-  },
-  layout: 'Profile', // Layout
+  }, // Layout
+  mixins: [ScreenSize],
+  layout: 'Profile',
   data() {
     return {
       IMAGE_PATH, // Image production path

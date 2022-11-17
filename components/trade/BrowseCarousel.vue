@@ -17,16 +17,16 @@
         class="carousel"
       >
         <template #default>
-          <div v-for="trade in trades" :key="`trade-carousel-item-${trade.id}`">
+          <div v-for="trade in trades" :key="`trade-carousel-item-${type}-${trade.id}`">
             <div
               v-for="(product, index) in trade.offers"
-              :key="`trade-carousel-${index}`"
+              :key="`trade-carousel-${type}-${index}`"
               class="item"
             >
               <nuxt-link :to="'/trades/' + trade.id">
                 <BrowseItemCard
                   :trade="extractTradeInformation(trade)"
-                  :product="product.inventory.product"
+                  :inventory="product.inventory"
                 />
               </nuxt-link>
             </div>
@@ -64,6 +64,10 @@ export default {
     variant: {
       type: String, // enum: ['detail', 'photo']
       default: 'detail',
+    },
+    type: {
+      type: String,
+      default: 'ending_soon',
     },
   },
   methods: {

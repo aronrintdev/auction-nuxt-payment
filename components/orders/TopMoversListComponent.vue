@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row justify-content-center justify-content-md-between align-items-center py-md-0 py-3">
-      <div class="text-center flex-md-grow-1">
+      <div class="text-center flex-md-grow-1 nav-wrapper">
         <NavGroup :value="activeNav" :data="navCategories" @change="navItem"/>
       </div>
       <div class="d-none d-md-block">
@@ -481,6 +481,9 @@ export default {
       font-weight: $medium
 
 @media (min-width: 993px)
+  .nav-wrapper
+    width: 80%
+
   .d-md-header-group
     display: table-header-group !important
 
@@ -489,4 +492,11 @@ export default {
 
   ::v-deep .nav-group
     margin: 5px 0
+
+  ::v-deep .nav-group .btn-group
+    width: 45%
+
+@media (max-width: 992px)
+  .nav-wrapper
+    width: 96%
 </style>

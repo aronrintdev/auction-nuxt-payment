@@ -42,13 +42,13 @@
             <div class="">
               <div class="pretty-label" v-html="prettyLabel(key)"></div>
             </div>
-           <div class="">
+           <div class="" role="button" @click="showTradeTypeDetails(key)">
                <img :src="require('~/assets/img/moreicon.svg')"/>
            </div>
           </div>
           <div v-if="selectedTradeTotalItems === 'one'" class="p-0">
             <BrowseCarousel v-if="trades.length"
-                            :trades="trades" />
+                            :trades="trades" :type="key" />
             <p v-else class="text-center">{{$t('trades.trade_hub.no_trade_listing_found')}}</p>
           </div>
           <div v-else>
@@ -76,7 +76,15 @@
                     class="item"
                   >
                     <nuxt-link :to="'/trades/' + trade.id">
-                      <BrowseItemCard :product="product.inventory.product" />
+                    	<div class="expire-wrapper">
+			      <div class="btn-expire d-flex mt-2 ml-1 pt-2" :class="`${selectCounterBG(trade.created_at)}`">
+				<div>
+				  <img class="clock-image pl-1 pr-1" :src="require('~/assets/img/'+selectCounterBG(trade.created_at)+'_clock.svg')" height="15" />
+				</div>
+				<div class="text-created">{{prettifyExpiryDate(trade.created_at)}}</div>
+			      </div>
+			    </div>
+                      <BrowseItemCard :inventory="product.inventory" />
                     </nuxt-link>
                   </div>
                 </div>
@@ -101,12 +109,14 @@
 // import component
 import { mapGetters } from 'vuex'
 import debounce from 'lodash.debounce'
+import { tradeRemainingTime, isRemainingTimeLessThan12Hours } from '~/utils/string'
 import BrowserTradeFilters from '~/pages/trades/BrowseTradeFiltersMobile'
 import BrowseCarousel from '~/components/trade/BrowseCarouselMobile.vue'
 import CarouselMultipleItems from '~/components/trade/CarouselMultipleItemsMobile.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import BrowseItemCard from '~/components/trade/BrowseItemCardMobile.vue'
-import TradeCardWithMultipleItems from '~/components/trade/TradeCardWithMultipleItems.vue'
+import TradeCardWithMultipleItems from '~/components/trade/TradeCardWithMultipleItemsMobile.vue'
+import { TRADE_EXPIRY_DAYS } from '~/static/constants'
 export default {
   name: 'BrowseTrade',
   components: {
@@ -157,7 +167,7 @@ export default {
     // make section label pretty
     prettyLabel(label){
       const words = label.split('_')
-      return '<u>'+this.$tc('common.'+words[0], 1) + '</u> ' + this.$tc('common.' + words[1], 1)
+      return this.$tc('common.'+words[0], 1)  + this.$tc('common.' + words[1], 1)
     },
 
     // filter if no of trade items is change
@@ -204,7 +214,13 @@ export default {
         .then(res => {  // trades listing items in response
           this.sectionTypes = res.data.data
         })
-    }, 500)
+    }, 500),
+    selectCounterBG(createdAt){
+      return isRemainingTimeLessThan12Hours(createdAt, TRADE_EXPIRY_DAYS) ? 'red' : 'gray'
+    },
+    prettifyExpiryDate(createdAt){
+      return tradeRemainingTime(createdAt, TRADE_EXPIRY_DAYS)
+    },
   }
 }
 </script><style lang="sass" scoped>
@@ -224,6 +240,22 @@ export default {
   width: 164px
   background: $color-white-1
   box-sizing: border-box
+.btn-expire
+  @include body-9
+  width: 110px
+  height: 30px
+.gray
+  background-color: $dark-gray-8
+  color: $color-black-1
+.red
+  background-color: $color-red-24
+  color: $color-white-1
+.text-created
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $medium
+  @include body-18
+  line-height: 12px
 .create-btn
   width: 160px
   height: 35px

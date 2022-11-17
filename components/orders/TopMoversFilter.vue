@@ -2,7 +2,7 @@
   <div>
     <!--      End Header Search and Filter   -->
     <b-row class="mt-md-4 align-items-md-end">
-      <b-col md="12" lg="7">
+      <b-col md="12" lg="6">
         <b-row>
           <b-col md="12" lg="12" class="mt-md-2">
             <div class="d-flex align-items-center">
@@ -20,7 +20,7 @@
           </b-col>
         </b-row>
       </b-col>
-      <b-col md="12" lg="5" class="d-none d-md-block">
+      <b-col md="12" lg="6" class="d-none d-md-block">
         <span class="header-title">{{ $t('orders.date_ordered') }}</span>
         <b-row>
           <b-col sm="12" md="4" class="mt-2">
@@ -58,7 +58,7 @@
       <b-col sm="8">
         <span class="header-title">{{ $t('orders.filter_by') }}</span>
         <b-row>
-          <b-col sm="12" md="4" class="mt-2">
+          <b-col sm="12" md="3" class="mt-2">
             <CustomSelectwithCheckbox
               id="auction-type-selector"
               class="mr-4 dropdown-filters"
@@ -302,6 +302,7 @@ export default {
 
 .filter-boxes
   @include body-5-regular
+
   .active-filter
     border-color: $color-black-1 !important
     background: $color-white-7
@@ -416,6 +417,13 @@ export default {
   font-family: $font-montserrat
   @include body-9
 
+::v-deep .custom-selectbox .selected
+  padding: 10px 14px
+
+  &::after
+    top: 3px
+    right: 20px
+
 @media (max-width: 992px)
   ::v-deep .search
     border: none
@@ -428,4 +436,6 @@ export default {
 @media (min-width: 993px)
   .box-gap
     gap: 24px
+  ::v-deep .date-input
+    background: $color-white-1
 </style>

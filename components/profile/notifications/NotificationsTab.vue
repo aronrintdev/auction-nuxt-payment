@@ -45,26 +45,49 @@
             action
         />
       </div>
-      <div ref="last" class="last-elem">
-        <!--        this div represents end of notification elements-->
+
+      <div :class="{'px-4': isScreenXS, 'mt-4': !isScreenXS}"
+           class="d-flex justify-content-between align-items-center">
+        <h3 v-if="olderNotifications.length" class="fs-18 fw-6 text-black mb-0">
+          {{ $t('notifications.older') }}
+          <span v-if="!isScreenXS" class="text-primary ml-2">{{ olderNotifications.length }}</span>
+        </h3>
+
+      </div>
+      <div :class="{'mt-3': !isScreenXS}">
+        <NotificationItem
+            v-for="(notification, x) in olderNotifications"
+            :key="x"
+            :class="{'mt-2': !isScreenXS}"
+            :notification="notification"
+            action
+        />
       </div>
     </div>
+    <infinite-loading ref="loader" :identifier="infiniteId" @infinite="infiniteHandler">
+      <div slot="no-more"></div>
+    </infinite-loading>
+
   </div>
 </template>
 <script>
-import _ from 'lodash'
+import InfiniteLoading from 'vue-infinite-loading';
 import {mapActions, mapGetters} from 'vuex';
 import dayjs from 'dayjs'
 import NotificationItem from '~/components/header/NotificationItem';
 import NotificationMarkAllAsRead from '~/components/profile/notifications/NotificationMarkAllAsRead';
 import screenSize from '~/plugins/mixins/screenSize';
+import {NOTIFICATION_PER_PAGE} from '~/static/constants';
 
 export default {
   name: 'NotificationsTab',
-  components: {NotificationMarkAllAsRead, NotificationItem},
+  components: {NotificationMarkAllAsRead, NotificationItem, InfiniteLoading},
   mixins: [screenSize],
   data() {
     return {
+      loaderState: null,
+      perPage: NOTIFICATION_PER_PAGE,
+      infiniteId: +new Date(),
       readAllLoading: false,
       notificationCounts: {
         'all': 0,
@@ -83,6 +106,7 @@ export default {
   computed: {
     ...mapGetters({
       'notifications': 'notifications/getNotifications',
+      'filters': 'notifications/getNotificationFilters',
       'unread': 'notifications/getUnreadCount',
       'total': 'notifications/getTotal',
       'selectedStatus': 'notifications/getSelectedStatus'
@@ -96,6 +120,12 @@ export default {
       return this.filteredNotifications.filter((notification) => {
         const diff = dayjs(Date.now()).diff(notification.created_at, 'day')
         return diff <= 7 && diff > 1
+      })
+    },
+    olderNotifications() {
+      return this.filteredNotifications.filter((notification) => {
+        const diff = dayjs(Date.now()).diff(notification.created_at, 'day')
+        return diff > 8
       })
     },
     important() {
@@ -119,29 +149,36 @@ export default {
   watch: {
     notifications(val) {
       this.updateCounts()
+      if (this.loaderState) {
+        this.loaderState.loaded()
+      }
+    },
+    filters: {
+      deep: true,
+      handler(val) {
+        this.perPage = val.perPage
+        if (NOTIFICATION_PER_PAGE === this.perPage) {
+          this.infiniteId += 1
+        }
+      }
     }
   },
   mounted() {
-    window.addEventListener('scroll', e => this.checkLastVisible(e));
     this.updateCounts()
-  },
-  destroyed() {
-    window.removeEventListener('scroll', e => this.checkLastVisible(e));
   },
   methods: {
     ...mapActions({
       'readAll': 'notifications/readAllNotification'
     }),
-    checkLastVisible: _.debounce(function () {
-      const elm = this.$refs.last
-      if (elm) {
-        const rect = elm.getBoundingClientRect();
-        const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
-        if (!(rect.bottom < 0 || rect.top - viewHeight >= 0)) {
-          this.$emit('infinite')
-        }
+    infiniteHandler($state) {
+      this.loaderState = $state
+      if (this.total > this.perPage) {
+        this.perPage += NOTIFICATION_PER_PAGE
+        this.$emit('infinite', this.perPage)
+      } else {
+        $state.complete()
       }
-    }, 500),
+    },
     readUnreadNotifications(read = true) {
       return this.notifications.filter(notification => read ? notification.read : !notification.read)
     },

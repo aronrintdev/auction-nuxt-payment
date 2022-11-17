@@ -21,7 +21,7 @@
     <!-- Filters Section -->
     <client-only>
         <vue-bottom-sheet ref="filterSheet" max-height="90%" :is-full-screen="true" >
-          <trade-arena-filters @change="applyFilters" :orderFilter="true"/>
+          <trade-arena-filters :orderFilter="true" @change="applyFilters"/>
         </vue-bottom-sheet>
       </client-only>
     <div class="mt-2">
@@ -228,7 +228,7 @@
           </b-btn>
         </div>
         <b-col class="position-relative">
-          <div v-if="!showOffer" @click="showOffer = !showOffer" class="offers-items d-flex align-items-center" role="button">
+          <div v-if="!showOffer" class="offers-items d-flex align-items-center" role="button" @click="showOffer = !showOffer">
             <img :src="require('~/assets/img/trades/updown.svg')">
             <span class="offer-text">{{$t('trades.want')}}</span>
             <div v-if="getTradeItemsWants.length" class="counter-icon position-absolute d-flex justify-content-center align-items-center">{{getTradeItemsWants.length}}</div>

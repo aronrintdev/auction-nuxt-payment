@@ -1,12 +1,15 @@
 <template>
-  <b-row v-if="purchaseDatas && purchaseDatas.length > 0" class="mt-4 purchase-history-wrapper">
+  <b-row
+      v-if="purchaseDatas && purchaseDatas.length > 0"
+      class="mt-4 purchase-history-wrapper"
+  >
     <b-col
-      v-for="(purchase, index) in purchaseDatas"
-      :key="`purchase-${index}`"
-      cols="12"
-      class="purchase-card"
+        v-for="(purchase, index) in purchaseDatas"
+        :key="`purchase-${index}`"
+        cols="12"
+        class="purchase-card"
     >
-      <PurchaseHistoryCard :purchase="purchase" />
+      <PurchaseHistoryCard :purchase="purchase"/>
     </b-col>
   </b-row>
 </template>
@@ -24,8 +27,7 @@ import {
 export default {
   name: 'PurchaseHistory',
   components: {
-
-    PurchaseHistoryCard
+    PurchaseHistoryCard,
   },
 
   props: {

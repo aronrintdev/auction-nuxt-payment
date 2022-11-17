@@ -7,8 +7,6 @@
         <!-- New menu design begin -->
         <client-only>
           <div class="col">
-            <div v-if="screenIsSmallThanLG" class="heading-1-bold p-3">{{ $t('navbar.profile') }}</div>
-
             <NewSideMenu v-if="!isScreenXS && !isScreenSM && !isScreenMD" />
             <!-- new menu area end -->
           </div>

@@ -377,7 +377,7 @@
           </div>
         </div>
       </div>
-      <div class="row justify-content-between pr-3 pl-3" v-show="show === product.id">
+      <div v-show="show === product.id" class="row justify-content-between pr-3 pl-3">
         <h2 class="fs-16 fw-6">{{ $t('shop_by_style.more_look') }}</h2>
         <p class="fs-14 fw-5 text-gray cursor-pointer" @click='showProductDetail(product.id)'>{{ $t('shop_by_style.view_all') }}</p>
       </div>

@@ -16,7 +16,7 @@
             {{ vendor.rank }} {{ $t('vendor_dashboard.seller') }}
             <!--            TODO make it dynamic when rank color design is ready-->
             <img
-                :src="require('~/assets/img/icons/bronze-badge.svg')"
+                :src="require(`~/assets/img/icons/${vendor.rank? vendor.rank.toLowerCase(): 'bronze'}-badge.svg`)"
                 aria-hidden="true"
                 class="ml-2"
                 height="14px"

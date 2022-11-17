@@ -12,6 +12,23 @@ export const convertToUnderscoreCase = (str, divider = ' ', join = '_') => {
 }
 
 /**
+ * check if date is less than 12 hours
+ * @param createdAt (date)
+ * @param timeLimit (expiry days)
+ * @returns {string}
+ */
+export const isRemainingTimeLessThan12Hours = (createdAt, timeLimit) => {
+    const endingTimestamp = new Date(createdAt).valueOf() + 86400000 * timeLimit
+
+    const currentTimestamp = new Date().valueOf()
+    let diff = (endingTimestamp - currentTimestamp) / 1000
+    const days = parseInt(diff / 86400)
+    diff = diff - days * 86400
+    const hrs = parseInt(diff / 3600)
+    return (days <= 0 && hrs < 12)
+}
+
+/**
  * Convert Expiry date to 3d 2h 3m(xd yh zm)
  * @param createdAt (date)
  * @param timeLimit (expiry days)
@@ -27,7 +44,7 @@ export const tradeRemainingTime = (createdAt, timeLimit) => {
     const hrs = parseInt(diff / 3600)
     diff = diff - hrs * 3600
     const mins = Math.ceil(diff / 60)
-    return (days > 0 || hrs > 0 || mins > 0) ? `${days > 0 ? days + 'd ' : ''}${hrs > 0 ? hrs + 'h ' : ''} ${mins > 0 ? mins + 'm' : ''}` : ' - expired'
+    return (days > 0 || hrs > 0 || mins > 0) ? `${days > 0 ? days + 'd ' : ''}${hrs > 0 ? hrs + 'h ' : ''} ${mins > 0 ? mins + 'm' : ''}` : 'expired'
 }
 
 /**
