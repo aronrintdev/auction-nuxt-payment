@@ -2990,6 +2990,7 @@
     "trade": {
       "offer_items": {
         "offer": "Offer Items",
+        "offer_subheading": "Search your inventory or find a new item to offer, minimum of 1 item, maximum 3 items",
         "search_by": "Search by SKU, Keyword, or Brand",
         "create_inventory": "Create New Inventory",
         "available_inventory": "Inventory Available to Trade ({0} Results)",
@@ -3736,6 +3737,7 @@
     "search_placeholder": "Search your Inventory by SKU, Product Name or Brand",
     "search_product_placeholder": "Search by SKU, Keyword, or Brand",
     "upload_csv_file": "Upload CSV File",
+    "upload_csv_bulk_file": "CSV Bulk Upload",
     "csv_sample": "CSV Sample",
     "add_to_inventory": "Add to Inventory",
     "dont_see_your_product": "Don't See Your Product?",
@@ -5061,7 +5063,8 @@
     "their_value": "THEIR VALUE",
     "your_value": "YOUR VALUE",
     "browse_trade" : "Browse Trade",
-    "view_details": "View Details"
+    "view_details": "View Details",
+    "all_trade_listing_expire": "All trade listings expire in 14 days"
   },
   "change_password": {
     "password": "Password",
