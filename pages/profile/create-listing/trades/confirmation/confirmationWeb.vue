@@ -1,6 +1,6 @@
 <template>
 <div>
-  <create-trade-search-item v-if="search_item" :product="search_item" :itemId="trade_want_id" productFor="wantOfferConfirm"/>
+  <create-trade-search-item v-if="search_item" :product="search_item" :itemId="trade_want_id" productFor="wantOfferConfirm" :padding="true"/>
   <div v-else>
     <b-row class="pt-3 pl-32px">
       <b-col cols="6" class="create-trade-heading">
