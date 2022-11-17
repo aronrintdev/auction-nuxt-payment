@@ -75,18 +75,22 @@
                   <client-only>
                     <CustomDropdown v-model="categoryFilter" :label="categoryFilterLabel" :options="categoryItems"
                         class="mr-3 width-156" type="single-select" optionsWidth="custom" padding-x="10px"
-                        width="156px"
+                        width="180px"
+                                    border-radius="4px"
                         @change="changeCategory"
                         @getResults="getGeneralListItems"/>
                     <CustomDropdown v-model="sizeTypesFilter" :label="sizeTypesFilterLabel" :options="filters.size_types"
                         class="mr-3 width-156" type="multi-select-checkbox" optionsWidth="custom"
                         padding-x="10px"
                         @change="changeSizeTypeFilter"
+                        width="180px"
+                                    border-radius="4px"
                         @getResults="getGeneralListItems"/>
                     <CustomDropdown v-model="sizeFilter" :label="sizeFilterLabel" :options="filters.sizes"
                         class="mr-3 width-156" type="multi-select-checkbox" optionsWidth="custom"
-                        padding-x="10px"
+                        padding-x="10px" width="180px"
                         @change="changeSizeFilter"
+                                    border-radius="4px"
                         @getResults="getGeneralListItems"/>
                   </client-only>
                   <b-btn class="filter-btn-create-trade mr-3" @click="getGeneralListItems">
@@ -102,6 +106,7 @@
                         :label="orderFilterLabel" class="width-200"
                         optionsWidth="custom"
                         width="220px" padding-x="10px"
+                                    border-radius="4px"
                         @getResults="getGeneralListItems" @change="changeOrderFilter"/>
                   </client-only>
                 </b-row>
@@ -937,7 +942,6 @@ export default {
   border: none
 
 .width-156
-  width: 156px
   background: $color-white-1
 
 .width-200
