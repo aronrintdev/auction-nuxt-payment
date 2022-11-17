@@ -119,7 +119,6 @@
                   <div class="create-trade-item position-relative" :draggable="true"
                        @dragstart="startDrag($event, item)">
                     <div>
-                      <div class="create-trade-size-car">{{$t('trades.create_listing.vendor.wants.size')}} {{ item.size && item.size.size }}</div>
                       <img role="button" alt="No Image" class="plus-icon-add create-trade-plus-icon mt-0" :src="require('~/assets/img/icons/addPlus.svg')"
                            @click="addOrIncrementWantedItem(item)"/>
                     </div>
@@ -134,7 +133,7 @@
                       item.product && item.product.name
                     }}</span>
                       <span :id="`colorway${item.id}`"
-                            class="create-trade-item-caption-description">{{ item.product && item.product.colorway }}</span>
+                            class="create-trade-item-caption-description">Size: {{ item.size && item.size.size }} ,{{ item.product && item.product.colorway }}</span>
                       <span
                         class="create-trade-item-caption-description">Box: {{
                           item.packaging_condition && item.packaging_condition.name
