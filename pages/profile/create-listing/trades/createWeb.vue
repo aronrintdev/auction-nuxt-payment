@@ -732,7 +732,10 @@ export default {
 
 .inventory-area
   margin-bottom: 33px
-  padding: 33px 60px 0
+  padding-left: 15px
+  padding-right: 15px
+  padding-top: 15px
+  //padding: 33px 60px 0
 
 .filter-by
   font-family: $font-sp-pro
