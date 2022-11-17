@@ -116,7 +116,7 @@
     </div>
 
     <div v-else>
-      <b-row class="mt-3">
+      <b-row class="mt-3 justify-content-between">
         <b-col lg="8" sm="12" class="">
           <SearchInput
             :value="searchText"
@@ -140,7 +140,7 @@
             class="position-absolute"
           />
         </b-col>
-        <b-col lg="4" sm="12" class="d-flex justify-content-end mt-2">
+        <b-col lg="3" sm="12" class="d-flex justify-content-end mt-2 mt-lg-0">
           <CustomDropdown
             v-model="orderFilter"
             type="single-select"
@@ -162,11 +162,11 @@
           />
         </b-col>
       </b-row>
-      <b-row class="d-flex mt-3">
+      <div class="row mt-3 justify-content-lg-between flex-wrap">
         <b-col lg="3" sm="12" class="">
           <label>{{$t('trades.filter_by')}}</label>
           <b-row class="">
-            <b-col md="4" sm="12">
+            <b-col sm="12">
               <CustomDropdown
                 v-model="statusFilter"
                 type="multi-select-checkbox"
@@ -190,10 +190,10 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col lg="6" sm="12" class="mt-3">
+        <b-col xl="3" lg="6" sm="12" class="mt-3 mt-lg-0">
           <label>{{ $t('trades.listed_date') }}</label>
           <b-row class="">
-            <b-col md="4" sm="12" class="">
+            <b-col md="6" sm="12" class="">
               <CalendarInput
                 :value="start_date"
                 :placeholder="$t('trades.start_date')"
@@ -202,7 +202,7 @@
                 @context="(context) => start_date = context.selectedYMD"
               />
             </b-col>
-            <b-col md="4" sm="12" class="mt-2">
+            <b-col md="6" sm="12" class="mt-2 mt-md-0">
               <CalendarInput
                 :value="end_date"
                 :placeholder="$t('trades.end_date')"
@@ -214,14 +214,17 @@
           </b-row>
         </b-col>
 
-        <b-col md="2" sm="6" class="mt-2">
-          <Button variant="blue" @click="applyFilters">{{$t('trades.apply')}}</Button>
+        <b-col lg="2" sm="6" class="mt-2 d-lg-flex align-items-lg-end justify-content-lg-end">
+          <Button variant="dark-blue" @click="applyFilters">{{$t('trades.apply')}}</Button>
         </b-col>
 
-        <b-col md="3" sm="6" class="mt-custom mt-2 d-flex justify-content-end">
+        <b-col lg="4" sm="6" 
+          class="mt-custom mt-2 d-flex justify-content-end 
+                justify-content-lg-start justify-content-xl-end align-items-xl-end"
+        >
           <Button v-if="totalCount" variant="transparent" @click="removeExpired()">{{$t('trades.delete_expired_listings')}}</Button>
         </b-col>
-      </b-row>
+      </div>
     </div>
 
     <div class="mt-4 listings">
@@ -592,6 +595,7 @@ export default {
   padding-left: 15px
   padding-right: 15px
   @media (min-width: 576px)
+    background: $color-white-5
     padding-left: 25px
     padding-right: 25px
   @media (min-width: 768px)
