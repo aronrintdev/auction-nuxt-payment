@@ -54,6 +54,7 @@
                   <CustomDropdown v-model="categoryFilter" :options="categoryItems" type="single-select"
                                   :label="categoryFilterLabel" class="mr-3 width-156" optionsWidth="custom"
                                   width="150px"
+                                  padding-x="10px"
                                   dropDownHeight="38px" variant="white"
                                   @getResults="getInventory"
                                   @change="changeCategory"/>
@@ -67,6 +68,7 @@
                     dropDownHeight="38px"
                     variant="white"
                     width="150px"
+                    padding-x="10px"
                     @getResults="getInventory"
                     @change="changeSizeTypeFilter"/>
                   <CustomDropdown
@@ -79,13 +81,13 @@
                     dropDownHeight="38px"
                     variant="white"
                     width="150px"
+                    padding-x="10px"
                     @getResults="getInventory"
                     @change="changeSizeFilter"/>
                 </client-only>
                 <b-btn class="filter-btn-create-trade mr-3" @click="getInventory">
                   {{ $t('create_listing.trade.offer_items.filter_btn') }}
                 </b-btn>
-                <div class="clear-filter" @click="clearFilters">{{$t('trades.clear_filter')}}</div>
               </div>
             </div>
             <div class="col-md-4 mt-custom p-0">
@@ -95,6 +97,7 @@
                                   :options="generalListItemsCustomFilter" type="single-select"
                                   :label="orderFilterLabel" class="bg-white" optionsWidth="custom"
                                   width="220px" variant="white"
+                                  padding-x="10px"
                                   dropDownHeight="38px"
                                   @getResults="getInventory" @change="changeOrderFilter"/>
                 </client-only>
