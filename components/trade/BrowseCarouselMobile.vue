@@ -26,7 +26,7 @@
               <nuxt-link :to="'/trades/' + trade.id">
                 <BrowseItemCard
                   :trade="extractTradeInformation(trade)"
-                  :product="product.inventory.product"
+                  :inventory="product.inventory"
                 />
               </nuxt-link>
             </div>

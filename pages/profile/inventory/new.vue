@@ -2,10 +2,10 @@
   <b-container fluid class="w h-100" :class=" !isScreenXS ? 'container-profile-inventory-new' : 'p-4'">
     <div v-if="loading"><Loader /></div>
     <div v-else-if="product">
-      <ProductView :product="product" v-model="form" @back="$router.push('/profile/inventory/search')">
-        <InventoryNewForm class="mb-sm-4"
-          slot="right-content"
+      <ProductView v-model="form" :product="product" @back="$router.push('/profile/inventory/search')">
+        <InventoryNewForm slot="right-content"
           v-model="form"
+          class="mb-sm-4"
           :is-form-valid="isFormValid"
           @submit="handleAddInventory"
         />

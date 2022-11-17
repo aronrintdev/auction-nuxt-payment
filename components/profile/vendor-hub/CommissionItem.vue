@@ -3,7 +3,10 @@
        :class="{'m-2 px-1 py-2 mobile-box': mobileClass.length}">
     <img :src="item.image" :alt="item.description" :height="mobileClass ? 30 : 40" :width="mobileClass ? 30 : 'auto'">
     <div class="flex-column flex-sm-row pl-3 pl-sm-0">
-      <div class="text-sm-center my-1" :class="mobileClass ? 'body-6-bold': 'body-5-bold'">{{item.description}}</div>
+      <div class="text-sm-center my-1" :class="mobileClass ? 'body-6-bold': 'body-5-bold'">
+        {{
+          mobileClass ? item.description.replace('Fulfilled', '') : item.description
+        }}</div>
       <div v-if="item.amount" class="amount text-sm-center"
            :class="[item.color, {'body-3-medium': !mobileClass}, {'body-5-medium': mobileClass}]">
         {{item.amount}}

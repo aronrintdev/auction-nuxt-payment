@@ -160,7 +160,9 @@
           <div class="col-8 col-md-2">
             <div class="d-flex align-items-center text-left forced-wide">
               <div class="p-1">
-                <div class="pr-2"><Thumb :product="product(item)" width="70px" /></div>
+                <div class="pr-2">
+                  <img :src="product(item).image" height="70" alt="" />
+                </div>
               </div>
               <div>
                 <div class="title">{{ product(item).name | wordLimit }}</div>

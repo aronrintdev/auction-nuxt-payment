@@ -1,22 +1,22 @@
 <template>
-  <div class="trade-card-wrapper" v-if="width > 500">
+  <div v-if="width > 500" class="trade-card-wrapper">
     <div v-if="showExpire && trade !== null" class="expire-wrapper">
-      <div class="btn-expire d-flex mt-2 ml-1 pt-2">
+      <div class="btn-expire d-flex mt-2 ml-1 pt-2" :class="`${selectCounterBG(trade.created_at)}`">
         <div>
-          <img class="clock-image pl-1 pr-1" :src="require('~/assets/img/clock.svg')" />
+          <img class="clock-image pl-1 pr-1" :src="require('~/assets/img/'+selectCounterBG(trade.created_at)+'_clock.svg')" height="15" />
         </div>
         <div class="text-created pl-1">{{prettifyExpiryDate(trade.created_at)}}</div>
       </div>
     </div>
     <div class="product-image d-flex flex-column justify-content-center align-items-center mx-auto">
-      <ProductThumb :product="product" role="button" :overlay="true"/>
+      <ProductThumb :product="inventory.product" role="button" :overlay="true"/>
     </div>
     <div class="detail-wrapper">
       <div class="d-flex">
         <div class="left-side-cont pr-4">
-          <div class="product-name">{{ product.name }}</div>
-          <div class="product-color">{{ product.colorway }}</div>
-          <div class="product-size">{{ product.size }}</div>
+          <div class="product-name">{{ inventory.product.name }}</div>
+          <div class="product-color">{{ inventory.product.colorway }}</div>
+          <div class="product-size">{{ inventory.size.size }}</div>
         </div>
         <div class="">
           <img class="trade-btn" :src="require('~/assets/img/tradebtn.svg')" />
@@ -24,24 +24,24 @@
       </div>
     </div>
   </div>
-  <div class="trade-card-wrapper" v-else>
+  <div v-else class="trade-card-wrapper">
     <div v-if="showExpire && trade !== null" class="expire-wrapper">
-      <div class="btn-expire d-flex mt-2 ml-1 pt-2">
+      <div class="btn-expire d-flex mt-2 ml-1 pt-2" :class="`${selectCounterBG(trade.created_at)}`">
         <div>
-          <img class="clock-image pl-1 pr-1" :src="require('~/assets/img/clock.svg')" />
+          <img class="clock-image pl-1 pr-1" :src="require('~/assets/img/'+selectCounterBG(trade.created_at)+'_clock.svg')" height="15" />
         </div>
         <div class="text-created pl-1">{{prettifyExpiryDate(trade.created_at)}}</div>
       </div>
     </div>
     <div class="product-image d-flex flex-column justify-content-center align-items-center mx-auto">
-      <ProductThumb :product="product" role="button" :overlay="true"/>
+      <ProductThumb :product="inventory.product" role="button" :overlay="true"/>
     </div>
     <div class="detail-wrapper">
       <div class="d-flex">
         <div class="left-side-cont pr-4">
-          <div class="product-name">{{ product.name }}</div>
-          <div class="product-color">{{ product.colorway }}</div>
-          <div class="product-size">{{ product.size }}</div>
+          <div class="product-name">{{ inventory.product.name }}</div>
+          <div class="product-color">{{ inventory.product.colorway }}</div>
+          <div class="product-size">{{ inventory.size.size }}</div>
         </div>
         <div class="">
           <img class="trade-btn" :src="require('~/assets/img/tradebtn.svg')" />
@@ -53,7 +53,7 @@
 </template>
 <script>
 import ProductThumb from '~/components/product/Thumb.vue'
-import { tradeRemainingTime } from '~/utils/string'
+import { tradeRemainingTime, isRemainingTimeLessThan12Hours } from '~/utils/string'
 import { TRADE_EXPIRY_DAYS } from '~/static/constants'
 
 export default {
@@ -62,7 +62,7 @@ export default {
   components: { ProductThumb },
 
   props: {
-    product: {
+    inventory: {
       type: Object,
       required: true,
     },
@@ -87,6 +87,9 @@ export default {
   methods: {
     prettifyExpiryDate(createdAt){
       return tradeRemainingTime(createdAt, TRADE_EXPIRY_DAYS)
+    },
+    selectCounterBG(createdAt){
+      return isRemainingTimeLessThan12Hours(createdAt, TRADE_EXPIRY_DAYS) ? 'red' : 'gray'
     }
   }
 }
@@ -115,11 +118,15 @@ export default {
     padding-bottom: 10px
     .btn-expire
       @include body-5
+      font-weight: $medium
+      width: 110px
+      height: 31px
+    .gray
+      background-color: $dark-gray-8
+      color: $color-black-1
+    .red
       background-color: $color-red-24
       color: $color-white-1
-      font-weight: $medium
-      width: 94px
-      height: 31px
 
   .product-image
     position: relative

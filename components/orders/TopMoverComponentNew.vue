@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-white my-2 top-movers-row py-2">
+    <div class="bg-white my-3 my-md-2 top-movers-row py-2">
       <div v-if="multiple" class="overflow-hidden">
         <order-multiple-component :order="order" :is-selectable="isSelectable" :value="value"
                                   @labelCreated="handleLabelCreated"

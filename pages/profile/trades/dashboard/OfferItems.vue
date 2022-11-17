@@ -1,13 +1,16 @@
 <template>
   <div>
-    <div v-if="width <= 500">
+    <div v-if="isScreenXS">
       <div class="product-card">
         <div v-if="heading" class="item-heading-text pb-2 pl-2">{{heading}}</div>
-        <div class="d-flex justify-content-center align-content-center" >
-          <div v-for="(item) in offerItems" :key="'offer-item-list-' + item.id" class="single-div m-2">
+        <div class="mt-2 row justify-content-center align-content-center">
+          <div v-for="(item) in offerItems" :key="'offer-item-list-' + item.id" class="col-4">
             <div class="offer-item-small">
-              <img v-if="item.inventory" :src="item.inventory.product | getProductImageUrl" class="offer-item-image" width="100px" />
-              <img v-else :src="item.product | getProductImageUrl" class="offer-item-image-small" />
+              <img 
+                v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
+                class="img-fluid"
+              />
+              <img v-else :src="item.product | getProductImageUrl" class="img-fluid" />
             </div>
             <div class="inner-section">
               <div class="item-name align-items-center mt-2">
@@ -25,19 +28,23 @@
     <div v-else>
       <div class="product-card">
         <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
-        <div class="d-flex justify-content-center align-content-center" >
-          <div class="d-flex justify-content-center align-content-center"  v-for="(item) in offerItems" :key="'offer-item-list-' + item.id">
-            <div class="d-inline body-section-box m-1">
-              <div class="d-flex justify-content-center align-content-center">
-                <img v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
-                     class="image-tarde pt-4"  />
-                <img v-else :src="item.product | getProductImageUrl" class="image-tarde pt-4"  />
-              </div>
+        <div class="row justify-content-center align-content-center" >
+          <div
+            v-for="(item) in offerItems"
+            :key="'offer-item-list-' + item.id"
+            class="d-flex justify-content-center align-content-center col-4"
+          >
+            <div class="d-inline body-section-box w-100 m-1">
+              <img 
+                v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
+                class="img-fluid pt-4" 
+              />
+              <img v-else :src="item.product | getProductImageUrl" class="img-fluid pt-4" />
 
               <div class="bottom-section mt-4">
                 <div class="product-name pt-1">  {{item.inventory ? item.inventory.product.name : item.product.name}}}</div>
-                <div class="product-size "><span>{{ $tc('common.size') }} : </span> {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
-                <div class="product-size "><span>{{$t('common.box')}} : </span>{{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
+                <div class="product-box "><span>{{$t('common.box')}}: </span>{{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
+                <div class="product-size "><span>{{ $tc('common.size') }} </span> {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
               </div>
             </div>
 
@@ -50,17 +57,11 @@
 </template>
 
 <script>
+import ScreenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'OfferItems',
-  data(){
-    return {
-      width:'',
-    }
-  },
-  mounted() {
-    this.width = window.innerWidth
-  },
+  mixins: [ScreenSize],
   props:{
     marginItems: {
       type: String,
@@ -74,6 +75,14 @@ export default {
       type: Array,
       required: true,
     },
+  },
+  data(){
+    return {
+      width:'',
+    }
+  },
+  mounted() {
+    this.width = window.innerWidth
   }
 }
 </script>
@@ -82,7 +91,6 @@ export default {
 @import '~/assets/css/_variables'
 
 .offer-item-small
-  width: 80px
   background: $color-white-1
   border-radius: 8px
 .offer-item
@@ -97,8 +105,6 @@ export default {
     height: 55px
     overflow: hidden
 .item-name
-  width: 90px
-  height: 26px
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $medium
@@ -126,16 +132,13 @@ export default {
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
-  width: 50px
 
 .item-heading-text
-    font-family: $font-family-sf-pro-display
-    font-style: normal
-    @include body-13-normal
-    color: $color-gray-47
-.single-div
-  width: 100px
-  height: 161px
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-13-normal
+  color: $color-gray-47
+
 .listed-time
   font-family: $font-family-sf-pro-display
   font-style: normal
@@ -172,8 +175,7 @@ export default {
   line-height: 19px
   text-decoration-line: underline
   color: #667799
-.product-name
-  width: 90%
+
 .product-name
   width: 90px
   font-family: $font-family-sf-pro-display
@@ -182,22 +184,43 @@ export default {
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
-.product-size
+  @media (min-width: 576px)
+    @include body-10-medium
+    width: auto
+    color: $color-black-1
+
+.product-size, .product-box
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $normal
   font-size: 10px
+  @media (min-width: 576px)
+    @include body-9-medium
+    color: $color-black-1
+
+.product-box
+  @media (min-width: 576px)
+    color: $color-gray-5
+
 .body-section-box
-  height: 215px
-  width: 140px
-  border-radius: 0px
-  background: $color-white-4
+  @media (max-width: 500px)
+    height: 215px
+    width: 140px
+    border-radius: 0px
+    background: $color-white-4
 .bottom-section
   height: 67px
-  //width: 213px
-  background: $color-white-1
+
 .image-tarde
-  width: 125px
+  @media (max-width: 500px)
+    width: 125px
+
 .box-pro
   background: $color-white-4
+
+.responsive-width
+  width: 100%
+  @media (min-width: 1200px)
+    width: 72%
+
 </style>

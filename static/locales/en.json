@@ -112,6 +112,7 @@
     "pin": "Pin",
     "chat": "Chat",
     "add": "Add",
+    "your_listing": "Your Listing",
     "purchase": "Purchase",
     "update": "Update",
     "add_product": "Add Product",
@@ -170,6 +171,7 @@
     "options": "Options",
     "reset": "Reset",
     "apply_filters": "Apply Filters",
+    "view_details": "View Details",
     "view": "View",
     "read_less": "Read Less",
     "read_more": "Read More",
@@ -393,6 +395,7 @@
   "home": {
     "home": "Home",
     "get_the_most_out_of": "Get the most out of the Deadstock App",
+    "deadstock_app_buy_sell_trade": "Deadstock App - Buy, Sell, Trade and Auction",
     "create_account": "Create Account",
     "sign_in": "Sign In",
     "vendor_hub": "Vendor Hub",
@@ -2570,6 +2573,7 @@
     "remove_from_wishilist": "Remove from wishlist",
     "move_this_item_a_list": "Move this item to a list",
     "remove_from_bag": "Remove from bag",
+    "remove_from_wishlist": "Remove from wishlist",
     "shopping_cart": "Shopping Cart",
     "item": "Item | Items",
     "have_promo_code": "Have a Promo Code",
@@ -2995,6 +2999,7 @@
     "trade": {
       "offer_items": {
         "offer": "Offer Items",
+        "offer_subheading": "Search your inventory or find a new item to offer, minimum of 1 item, maximum 3 items",
         "search_by": "Search by SKU, Keyword, or Brand",
         "create_inventory": "Create New Inventory",
         "available_inventory": "Inventory Available to Trade ({0} Results)",
@@ -3741,6 +3746,7 @@
     "search_placeholder": "Search your Inventory by SKU, Product Name or Brand",
     "search_product_placeholder": "Search by SKU, Keyword, or Brand",
     "upload_csv_file": "Upload CSV File",
+    "upload_csv_bulk_file": "CSV Bulk Upload",
     "csv_sample": "CSV Sample",
     "add_to_inventory": "Add to Inventory",
     "dont_see_your_product": "Don't See Your Product?",
@@ -4014,6 +4020,7 @@
     "items": "Items",
     "auto_bid_to": "Autobid to ",
     "highest_bid_info": "The highest bid for each auction is displayed",
+    "highest_bid_placed_info": "The highest bid you have placed for each auction is displayed",
     "messages": {
       "saved": "Your changes have been saved!"
     },
@@ -5065,7 +5072,8 @@
     "their_value": "THEIR VALUE",
     "your_value": "YOUR VALUE",
     "browse_trade" : "Browse Trade",
-    "view_details": "View Details"
+    "view_details": "View Details",
+    "all_trade_listing_expire": "All trade listings expire in 14 days"
   },
   "change_password": {
     "password": "Password",
@@ -5241,6 +5249,7 @@
     "view": "View",
     "discard": "Discard",
     "faq": "Frequently Asked Questions about the Vendor Hub",
+    "faq_title": "Frequently Asked Questions",
     "document_name": "Document Name",
     "file": "File",
     "retailer_certification": "Retailer Certification",

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="width <=500">
+    <div v-if="isScreenXS">
       <div v-for="(offer) in offerHistory.offer_history" :key="'offer-history-'+ offer.id" class="offer-history-mobile" :class="'background-' + (isOfferMine(offer) ? 'blue' : 'white')">
         <b-row class="justify-content-between pt-4 pl-4 pr-4">
           <b-col v-if="isOfferMine(offer) && offer.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.your_counter_offer')}} ({{ offer.id}})</b-col>
@@ -61,7 +61,7 @@
         </b-row>
         <b-col v-if="!isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.they_offered')}}</b-col>
         <b-col v-else-if="isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.you_asking_for')}}</b-col>
-        <b-col class="row justify-content-start pl-54 pt-2 m-0">
+        <b-col class="row justify-content-start px-54 pt-2 m-0">
           <offer-items v-if="isOfferMine(offer) && offer.yours_items && offer.yours_items.length > 0" :offerItems="offer.yours_items" marginItems="mr-3"/>
           <offer-items v-if="!isOfferMine(offer) && offer.theirs_items && offer.theirs_items.length > 0" :offerItems="offer.theirs_items" marginItems="mr-3"/>
         </b-col>
@@ -86,7 +86,7 @@
         </b-row>
         <b-col v-if="!isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.they_offered')}}</b-col>
         <b-col v-else-if="isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.you_asking_for')}}</b-col>
-        <b-col class="row justify-content-start pl-54 pt-2 m-0">
+        <b-col class="row justify-content-center px-54 pt-2 m-0">
           <offer-items v-if="isOfferMine(offerHistory) && offerHistory.yours_items && offerHistory.yours_items.length > 0" :offerItems="offerHistory.yours_items" marginItems="mr-3"/>
           <offer-items v-if="!isOfferMine(offerHistory) && offerHistory.theirs_items && offerHistory.theirs_items.length > 0" :offerItems="offerHistory.theirs_items" marginItems="mr-3"/>
         </b-col>
@@ -110,6 +110,7 @@
 
 <script>
 import OfferItems from '~/pages/profile/trades/dashboard/OfferItems';
+import ScreenSize from '~/plugins/mixins/screenSize'
 import {
   OFFER_TYPE,
   COUNTER_OFFER_TYPE,
@@ -120,6 +121,7 @@ export default {
   components: {
     OfferItems
   },
+  mixins: [ScreenSize],
   props:{
     variant:{
       type: String,
@@ -160,12 +162,16 @@ export default {
 @import '~/assets/css/_variables'
 
 .offer-history
-  width: 685px
-  min-height: 333px
-  max-height: 350px
-  background: $color-white-1
-  border-radius: 10px
+  @media (max-width: 500px)
+    width: 685px
+    min-height: 333px
+    max-height: 350px
+    background: $color-white-1
+    border-radius: 10px
 
+.px-54
+  padding-left: 54px
+  padding-right: 54px
 
 .offer-history-mobile
   width: 360px
@@ -230,6 +236,9 @@ export default {
   margin-top: 2rem
   float: right
   margin-left: 35rem
+  @media (min-width: 576px)
+    width: 100%
+
 .white-theme
   background: white
   float: left

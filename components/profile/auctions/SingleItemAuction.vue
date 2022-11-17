@@ -2,7 +2,7 @@
     <b-row
       v-if="inventory.product"
       :class="{'border shadow-sm' : isMobileSize}"
-      class="mt-3 text-center mx-0 ml-md-n1 font-weight-bold w-100 bg-white single-item"
+      class="mt-3 text-center mx-0 font-weight-bold w-100 bg-white single-item"
       role="button"
       @click="$emit('click')"
     >
@@ -14,7 +14,7 @@
               {{ $t('bids.auction_id') }}: {{ auction.id }}
             </div>
           </b-col>
-          <b-col cols="8" md="8" class="pl-4 d-flex align-items-center">
+          <b-col cols="8" md="8" class="pl-4 pr-3 d-flex align-items-center">
             <b-row class="d-block" :class="{ 'flex-grow-1' : isMobileSize }">
               <div class="body-4-bold sf-pro-display mb-1 mb-md-2">
                 <span :class="isMobileSize ? 'body-5-medium': 'body-8-medium'">{{ inventory.product.name }}</span>
@@ -33,7 +33,7 @@
         </b-row>
       </b-col>
       <b-col v-if="isMobileSize" class="d-flex justify-content-around flex-column py-1 py-md-0">
-        <div class="d-flex justify-content-between d-md-block sf-pro-display">
+        <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.auction_id') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-decoration-underline text-blue-30' : 'body-4-normal'">
             {{auction.id}}
@@ -42,23 +42,23 @@
       </b-col>
       <b-col sm="12" md="1" class="d-flex justify-content-around flex-column py-1 py-md-0 py-1 py-md-0"
              :class="{'bg-lightgrey': isMobileSize}">
-        <div class="d-flex justify-content-between d-md-block sf-pro-display">
+        <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.type') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal'">{{$t('auction.auction_types.'+auction.type)}}</span>
         </div>
       </b-col>
       <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-normal py-1 py-md-0">
-        <div class="d-flex justify-content-between d-md-block sf-pro-display">
+        <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.highest_bid') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal'">
-            <span v-if="auction.bids.length">{{ auction.highest_bid | formatPrice }} &dollar;</span>
+            <span v-if="auction.bids.length">&dollar;{{ auction.highest_bid | formatPrice }}</span>
             <span v-else>-</span>
           </span>
         </div>
       </b-col>
       <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-normal py-1 py-md-0"
              :class="{'bg-lightgrey': isMobileSize}">
-        <div class="d-flex justify-content-between d-md-block sf-pro-display">
+        <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.bids') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal'">
            {{auction.bids.length|| '-'}}
@@ -66,7 +66,7 @@
         </div>
       </b-col>
       <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-normal py-1 py-md-0">
-        <div class="d-flex justify-content-between d-md-block text-capitalize sf-pro-display">
+        <div class="px-1 d-flex justify-content-between d-md-block text-capitalize sf-pro-display">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.time_remaining') }}:</span>
           <span class="text-capitalize" :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal'">
             {{ isExpired || auction.status !== LIVE_STATUS ? '-' : auction.remaining_time }}
@@ -76,7 +76,7 @@
       <b-col sm="12" md="1" class="d-flex justify-content-around flex-column body-4-normal py-1 py-md-0"
              :class="{'bg-lightgrey': isMobileSize}">
 
-        <div class="d-flex justify-content-between d-md-block sf-pro-display">
+        <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.status') }}:</span>
           <span :class="[isMobileSize ? 'body-9-regular' : 'body-4-normal', {'text-green' : !isExpired && auction.status === LIVE_STATUS, 'text-danger': isExpired && auction.status === LIVE_STATUS }]">
             {{ (isExpired && auction.status === LIVE_STATUS) ? $t('bids.expired') : $t('auction.status_array.' + auction.status)}}
@@ -140,6 +140,8 @@ export default {
 
 .single-item
   padding: 15px 10px
+  @media (max-width: 576px)
+    padding: 18px 0 6px
 
 .auction-id
   color: $color-blue-31
@@ -151,6 +153,9 @@ export default {
   border: 1px solid $color-gray-60
   border-radius: 12px
   overflow: hidden
+  @media (max-width: 576px)
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+    border-radius: 8px
 
 .thumb-wrapper::v-deep
   max-width: 120px

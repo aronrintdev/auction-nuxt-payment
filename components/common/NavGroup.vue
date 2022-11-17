@@ -7,7 +7,6 @@
         :class="[item.value === value ? 'active' : '', btnClass]"
         :title="item.label"
         :style="btnStyle"
-        class="font-primary"
         @click="onClick(item.value)"
         >{{ item.label }}</b-button
       >
@@ -59,11 +58,12 @@ export default {
 
 .nav-group
   @media (min-width: 576px)
-    margin: 50px 0
+    margin: 32px 0
   .btn-group
     background-color: $color-white-19
     border-radius: 20px
     padding: 4px 6px
+    height: 40px
     .btn, .btn-lg
       @include body-6-regular
       background-color: $color-white-19
@@ -71,14 +71,17 @@ export default {
       border-radius: 20px !important
       color: $color-black-1 !important
       height: auto
-      font-size: 13px
+      font-size: 14px
+      font-family: $font-family-montserrat
+      line-height: 17px
+      padding: 6px 17px
       @media (min-width: 576px)
-        font-size: 15px
-        padding: 6px 35px
+        // font-size: 15px
+        // padding: 6px 35px
 
       &.active
         background-color: $color-white-1
-        font-weight: $bold
+        font-weight: $medium
       &::before
         display: block
         content: attr(title)
@@ -88,11 +91,12 @@ export default {
         visibility: hidden
     .btn-lg
       @include body-5-regular
-      
+
   @media (max-width: 576px)
     .btn-group
       width: 100%
       .btn
         padding: 6px 10px
         white-space: nowrap
+        font-size: 11px
 </style>

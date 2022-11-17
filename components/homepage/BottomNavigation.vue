@@ -1,5 +1,10 @@
 <template>
-  <div class="bottom-navigation bg-black px-4 pt-3 position-sticky w-100">
+  <div class="bottom-navigation bg-black px-3 pt-3 position-sticky w-100">
+    <SearchOverlay
+      ref="searchOverlay"
+      :show="showSearchOverlay"
+      @hide="handleSearchOverlayHide"
+    />
     <div
       class="d-flex text-center justify-content-between align-items-center w-100"
     >
@@ -50,6 +55,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import SearchOverlay from '~/components/search/Overlay'
 import home from '~/assets/icons/bottom-nav/home'
 import search from '~/assets/icons/bottom-nav/search'
 import shop from '~/assets/icons/bottom-nav/shop'
@@ -58,7 +64,7 @@ import auction from '~/assets/icons/bottom-nav/auction'
 import profile from '~/assets/icons/bottom-nav/profile'
 export default {
   name: 'BottomNavigation',
-  components: { home, search, shop, trade, auction, profile },
+  components: { SearchOverlay, home, search, shop, trade, auction, profile },
   data() {
     return {
       showSearchOverlay: false,
@@ -69,11 +75,25 @@ export default {
       authenticated: 'auth/authenticated',
     }),
   },
+  methods: {
+    handleSearchFocus() {
+      this.$root.$emit('showSearchOverlay')
+    },
+    handleSearchOverlayHide() {
+      this.$root.$emit('hideSearchOverlay')
+    },
+  },
 }
 </script>
 <style lang="sass" scoped>
+@import '/assets/css/variables'
+
 .bottom-navigation
     bottom: 0
     z-index: 9999
     padding-bottom: 30px
+
+.fs-12
+  @include body-18
+  letter-spacing: -0.02em
 </style>
