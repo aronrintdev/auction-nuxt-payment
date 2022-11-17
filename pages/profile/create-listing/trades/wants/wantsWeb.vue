@@ -41,22 +41,7 @@
               inputHeight="60px"
               @change="onSearchInput"
             />
-            <div class="position-relative">
-              <SearchedProductsBelowSearchTextBox
-                v-if="searchedItems.length > 0"
-                :productItems="searchedItems"
-                productsFor="wantItemTrade"
-                class="position-absolute"
-                :wrapperStyle="{ margin: 0 }"
-                :itemStyle="{ padding: 0 }"
-                addBtnClass="text-right"
-                listGroupItemClass="border-gray"
-                noProductClass="no-product-responsive"
-                :style="{
-                  zIndex: 100
-                }"
-              />
-            </div>
+            <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="wantItemTrade" width="800px" class="position-absolute"/>
           </b-col>
           <b-col align-self="center" class="col-md-4 col-12 col-sm-6 mt-md-4 text-right">
             <b-btn class="font-weight-bolder cursor-pointer btn-offer" @click="$bvModal.show('offer-item-modal')">
@@ -345,7 +330,7 @@
         </b-row>
         <b-row class="mt-5 d-block pr-5">
           <b-col class="w-25 pull-right">
-            <b-btn pill :disabled="!getTradeItemsWants.length" class="pull-right mb-4 create-trade-next-btn" @click="$router.push('/profile/create-listing/trades/confirmation')">{{ $t('trades.create_listing.vendor.wants.next') }}</b-btn>
+            <b-btn pill :disabled="!getTradeItemsWants.length" class="pull-right mb-4 create-trade-next-web" @click="$router.push('/profile/create-listing/trades/confirmation')">{{ $t('trades.create_listing.vendor.wants.next') }}</b-btn>
           </b-col>
         </b-row>
         <!-- /.row (main row) -->
@@ -359,7 +344,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import debounce from 'lodash.debounce'
-
 import SearchInput from '~/components/common/SearchInput'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox'
 import CustomDropdown from '~/components/common/CustomDropdown'
@@ -985,5 +969,14 @@ export default {
   padding-right: 30px
 .btn-offer
   background: $color-black-1
+  color: $color-white-1
+.create-trade-next-web
+  width: 151px
+  height: 38px
+  background: $color-grey-101
+  border-radius: 4px !important
+  border: 1px solid $color-grey-101
+  margin-top: 10px
+  margin-right: 20px
   color: $color-white-1
 </style>

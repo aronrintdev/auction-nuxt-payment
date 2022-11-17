@@ -2988,6 +2988,7 @@
     "trade": {
       "offer_items": {
         "offer": "Offer Items",
+        "offer_subheading": "Search your inventory or find a new item to offer, minimum of 1 item, maximum 3 items",
         "search_by": "Search by SKU, Keyword, or Brand",
         "create_inventory": "Create New Inventory",
         "available_inventory": "Inventory Available to Trade ({0} Results)",
