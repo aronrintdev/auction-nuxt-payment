@@ -82,7 +82,6 @@ export default {
 @import '~/assets/css/_variables'
 .thumb-wrapper
   position: relative
-  background-color: $color-white-4
   img
     width: 100%
     aspect-ratio: 1

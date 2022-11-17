@@ -2,7 +2,7 @@
   <div class="view-more-wrapper d-flex align-items-center">
     <b-button
       variant="link"
-      class="btn-view-more font-primary text-gray-light mr-3 d-none d-lg-flex"
+      class="btn-view-more font-primary text-gray-light mr-2 d-none d-lg-flex border-0"
       @click="handleClick"
     >
       {{ label }}

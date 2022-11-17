@@ -1,7 +1,7 @@
 <template>
-  <div class="d-flex product-badge">
+  <div class="d-flex product-badge-wrapper">
     <div
-      class="px-2 py-1 d-flex align-items-center"
+      class="d-flex align-items-center product-badge"
       :class="[{ 'ml-auto': right }, `bg-${color}`]"
     >
       <span class="badge-icon">
@@ -36,11 +36,13 @@ export default {
   },
 }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
+.product-badge
+  padding: 7px 12px
 @media (max-width: 550px)
-  .product-badge
-    h5
-      font-size: 10px
-    img
-      width: 14px
+  .product-badge-wrapper
+      h5
+        font-size: 10px
+      img
+        width: 14px
 </style>

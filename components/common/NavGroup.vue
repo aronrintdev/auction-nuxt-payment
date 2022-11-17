@@ -33,16 +33,16 @@ export default {
     },
     btnClass: {
       type: String,
-      default: ''
+      default: '',
     },
     btnGroupStyle: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     btnStyle: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
 
   methods: {
@@ -78,17 +78,17 @@ export default {
 
       &.active
         background-color: $color-white-1
-        font-weight: $bold
+        font-weight: $medium
       &::before
         display: block
         content: attr(title)
-        font-weight: $normal
+        font-weight: $medium
         height: 0
         overflow: hidden
         visibility: hidden
     .btn-lg
       @include body-5-regular
-      
+
   @media (max-width: 576px)
     .btn-group
       width: 100%

@@ -6,7 +6,7 @@
     <div class="badge-slot">
       <slot name="badge"></slot>
     </div>
-    <div class="product-image">
+    <div class="product-image" :style="`--card-height: ${cardHeight}`">
       <ProductThumb :src="product.image" :product="product" />
       <div class="overlay" @click="goToDetailPage"></div>
       <b-checkbox
@@ -75,7 +75,7 @@
         </div>
       </div>
       <div
-        class="col-5 align-items-end align-items-sm-center action-btn-slot pl-0 pl-1"
+        class="col-5 align-items-end justify-content-end action-btn-slot pl-0 pl-1"
         :class="[showActionBtn ? 'col-5 d-flex ' : 'd-none']"
       >
         <slot name="action"> </slot>
@@ -166,6 +166,10 @@ export default {
       type: String,
       default: 'shop',
     },
+    cardHeight: {
+      type: String,
+      default: '312px',
+    },
   },
 
   data() {
@@ -201,6 +205,9 @@ export default {
           this.wishList = null
         }
       }
+    },
+    cardHeight(newValue) {
+      console.log(newValue, 'cardHeight')
     },
   },
   methods: {
@@ -249,10 +256,14 @@ export default {
   text-align: left
   .badge-slot
     position: absolute
-    top: 10px
-    left: 10px
+    top: 20px
+    left: 20px
     z-index: 9
-    width: calc(100% - 20px)
+    width: calc(100% - 40px)
+    @media (max-width: 576px)
+      top: 10px
+      left: 10px
+      width: calc(100% - 20px)
   &:hover
     .product-image
       .overlay
@@ -261,7 +272,7 @@ export default {
         display: flex
   .product-image
     position: relative
-    height: auto
+    height: var(--card-height)
     aspect-ratio: 1
     padding: 0 20px
     display: flex
