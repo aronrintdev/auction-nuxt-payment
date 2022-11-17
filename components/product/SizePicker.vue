@@ -6,7 +6,7 @@
       :style="wrapperStyle"
     >
       <b-row>
-        <b-col md="12" class="d-flex justify-content-between align-items-center px-0">
+        <b-col md="12" class="d-flex justify-content-between align-items-center">
           <span class="select-size">
             {{ $t('products.select_size') }}<span class="d-sm-none">:</span>
             <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
@@ -99,7 +99,11 @@
       </client-only>
     </div>
 
-    <div v-if="viewMode === 'all'" class="mx-auto position-relative all-sizes">
+    <div 
+      v-if="viewMode === 'all'" 
+      class="mx-auto position-relative all-sizes"
+      :class="allSizesClass"
+    >
       <div class="items-wrapper">
         <div
           v-for="size in sizes"
@@ -207,6 +211,10 @@ export default {
     errorText: {
       type: String,
       default: null
+    },
+    allSizesClass: {
+      type: String,
+      default: ''
     }
   },
 

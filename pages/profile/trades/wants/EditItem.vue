@@ -61,6 +61,7 @@
                 margin: '0 !important',
                 width: '100%'
               }"
+              allSizesClass="mt-3"
               :errorText="errors.size"
               @update="handleSizeChange"
               @changeViewMode="handleSizeViewModeChange"
@@ -69,7 +70,7 @@
           
           <div class="d-flex flex-column pb-sm-2 mt-130">
             <div class="d-flex align-items-center mb-2">
-              <div class="box mr-1">{{ $t('products.box_condition') }}</div>
+              <div class="box mr-2">{{ $t('products.box_condition') }}<sup>*</sup></div>
               <img
                 width="12"
                 height="12"
@@ -178,8 +179,8 @@
                     :labelStyle="{
                       padding: 0,
                       margin: 0,
-                      fontWeight: '600 !important',
-                      fontSize: '12px',
+                      fontWeight: '500 !important',
+                      fontSize: '15px',
                       color: '#000'
                     }"
                     :iconStyle="{
@@ -657,8 +658,10 @@ export default {
   @include body-3-medium 
   margin-top: 20px
   @media (min-width: 576px)
-  margin-top: 60px
     @include heading-1
+    margin-top: 60px
+    border-bottom: 1px solid $color-gray-16f
+    padding-bottom: 14px
 
 .last-sale
   @include body-5-normal
@@ -740,7 +743,7 @@ export default {
     text-transform: uppercase
 
 .add-want-button
-  @icnlude body-4-medium
+  @include body-4-medium
   height: 40px
   background: $color-black-1
   display: flex
@@ -750,7 +753,9 @@ export default {
   border-radius: 25px
   margin-top: 40px
   @media (min-width: 576px)
+    @include body-8-medium
     border-radius: 4px
+    border: 0
     margin-top: 0
 
 .product-details-label, .product-details-value
