@@ -134,7 +134,6 @@ export default {
         cryptoCurrency: 'btc',
         total: this.orderDetails.total
       }).then(res => {
-        console.log(res);
         this.cryptoData.currency_to = res.currency_to
         this.cryptoData.currency_from = res.currency_from
         this.cryptoData.amount_from = res.amount_from

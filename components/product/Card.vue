@@ -212,9 +212,6 @@ export default {
         }
       }
     },
-    cardHeight(newValue) {
-      console.log(newValue, 'cardHeight')
-    },
   },
   methods: {
     ...mapActions({
