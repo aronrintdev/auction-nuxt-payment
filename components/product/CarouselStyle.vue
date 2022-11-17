@@ -168,4 +168,6 @@ export default {
       &:hover
         .navigation-arrows
           display: flex
+  .thumb-wrapper::v-deep
+    background-color: transparent
 </style>
