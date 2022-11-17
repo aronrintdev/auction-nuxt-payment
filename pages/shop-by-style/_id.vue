@@ -57,7 +57,7 @@
           variant="dark-blue"
           black-text
           border="thick"
-          class="mt-5 d-block d-sm-none rounded-pill w-100 text-white"
+          class="mt-5 d-block d-sm-none rounded-pill w-100 text-white sticky-sm-top"
           @click="handleStyleAddToCart"
         >
           {{ $t('shop_by_style.general.add_style_to_bag') }}

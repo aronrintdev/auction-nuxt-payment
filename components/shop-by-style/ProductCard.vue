@@ -36,7 +36,7 @@
               :prices="pricesBySize"
               :value="currentSize"
               :viewMode="sizeViewMode"
-              class="size-picker"
+              class="size-picker ml-2"
               @update="handleSizeChange"
               @changeViewMode="handleSizeViewModeChange"
             />
@@ -45,7 +45,7 @@
           <ProductBoxConditionPicker
             :value="currentCondition"
             :conditions="packagingConditions"
-            class="box-conditions"
+            class="box-conditions p-0"
             @change="handleConditionChange"
           />
           <div class="accordion-filter-item bg-transparent w-100 border-0 mt-4">
@@ -54,7 +54,7 @@
                 v-b-toggle.collapse-product-detail
                 aria-controls="panelsStayOpen-collapseOne"
                 aria-expanded="false"
-                class="accordion-filter-button collapsed position-relative d-flex align-items-center w-100 pa-0 border-0"
+                class="p-0 accordion-filter-button collapsed position-relative d-flex align-items-center w-100 pa-0 border-0"
                 data-bs-target="#panelsStayOpen-collapseOne"
                 data-bs-toggle="collapse"
                 type="button"
@@ -98,7 +98,7 @@
                 v-b-toggle.collapse-1
                 aria-controls="panelsStayOpen-collapseOne"
                 aria-expanded="false"
-                class="accordion-filter-button collapsed position-relative d-flex align-items-center w-100 pa-0 border-0"
+                class="p-0 accordion-filter-button collapsed position-relative d-flex align-items-center w-100 pa-0 border-0"
                 data-bs-target="#panelsStayOpen-collapseOne"
                 data-bs-toggle="collapse"
                 type="button"
