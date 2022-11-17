@@ -7,7 +7,7 @@
     :style="{ 'max-width': width }"
   >
     <b-col align-self="center">
-      <b-list-group :class="listGroupClass" v-for="(product, index) in productItems" :key="`searched-product-${index}`" role="button" @click="applySearch(product)">
+      <b-list-group v-for="(product, index) in productItems" :key="`searched-product-${index}`" :class="listGroupClass" role="button" @click="applySearch(product)">
         <b-list-group-item :class="listItemClass" class="text-xs">
           <span class="searched-product-image mr-2 col-md-2"><img :src="product.image" width="40px" height="40px" /></span>
           <span class="searched-product-name align-self-center mt-5 col-md-7">{{product.name}}</span>

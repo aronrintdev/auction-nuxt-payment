@@ -53,7 +53,7 @@
           </div>
         </b-list-group>
       </b-col>
-      <b-col :style="itemStyle" align-self="center" v-if="productItems.length > 0">
+      <b-col v-if="productItems.length > 0" :style="itemStyle" align-self="center">
         <b-list-group class="text-md" :style="suggestNewStyle">
           <b-list-group-item 
             class="p-4 border-top-0 no-product d-flex align-items-center"

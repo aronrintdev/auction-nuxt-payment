@@ -26,10 +26,10 @@
       <div class="product-card">
         <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
         <div class="row justify-content-center align-content-center" >
-          <div 
-            class="d-flex justify-content-center align-content-center col-4" 
+          <div
+            v-for="(item) in offerItems"
             :key="'offer-item-list-' + item.id"
-            v-for="(item) in offerItems" 
+            class="d-flex justify-content-center align-content-center col-4"
           >
             <div class="d-inline body-section-box w-100 m-1">
               <div class="d-flex justify-content-center align-content-center">
@@ -72,6 +72,14 @@ export default {
       type: Array,
       required: true,
     },
+  },
+  data(){
+    return {
+      width:'',
+    }
+  },
+  mounted() {
+    this.width = window.innerWidth
   }
 }
 </script>
@@ -209,7 +217,7 @@ export default {
 .image-tarde
   @media (max-width: 500px)
     width: 125px
-    
+
 .box-pro
   background: $color-white-4
 </style>

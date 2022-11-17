@@ -2,26 +2,26 @@
   <div class="trade-card-wrapper">
 
     <div v-if="showExpire && trade !== null" class="expire-wrapper">
-      <div class="btn-expire d-flex mt-2 ml-1 pt-2">
+      <div class="btn-expire d-flex mt-2 ml-1 pt-2" :class="`${selectCounterBG(trade.created_at)}`">
         <div>
-          <img class="clock-image pl-1 pr-1" :src="require('~/assets/img/clock.svg')" />
+          <img class="clock-image pl-1 pr-1" :src="require('~/assets/img/'+selectCounterBG(trade.created_at)+'_clock.svg')" height="15" />
         </div>
         <div class="text-created">{{prettifyExpiryDate(trade.created_at)}}</div>
       </div>
     </div>
     <div class="product-image d-flex flex-row justify-content-center align-items-center mx-auto">
-      <ProductThumb :product="product" role="button" class="mt-2 mb-2"/>
+      <ProductThumb :product="inventory.product" role="button" class="mt-2 mb-2"/>
     </div>
     <div class="detail-wrapper">
-      <div class="product-name">{{ product.name }}</div>
-      <div class="product-color">{{ product.colorway }}</div>
-      <div class="product-name">{{ product.size }}</div>
+      <div class="product-name">{{ inventory.product.name }}</div>
+      <div class="product-color">{{ inventory.product.colorway }}</div>
+      <div class="product-name">{{ inventory.size.size }}</div>
     </div>
   </div>
 </template>
 <script>
 import ProductThumb from '~/components/product/Thumb.vue'
-import { tradeRemainingTime } from '~/utils/string'
+import { tradeRemainingTime, isRemainingTimeLessThan12Hours } from '~/utils/string'
 import { TRADE_EXPIRY_DAYS } from '~/static/constants'
 
 export default {
@@ -30,7 +30,7 @@ export default {
   components: { ProductThumb },
 
   props: {
-    product: {
+    inventory: {
       type: Object,
       required: true,
     },
@@ -47,6 +47,9 @@ export default {
   methods: {
     prettifyExpiryDate(createdAt){
       return tradeRemainingTime(createdAt, TRADE_EXPIRY_DAYS)
+    },
+    selectCounterBG(createdAt){
+      return isRemainingTimeLessThan12Hours(createdAt, TRADE_EXPIRY_DAYS) ? 'red' : 'gray'
     }
   }
 }
@@ -59,8 +62,13 @@ export default {
   margin-left: 3px
   margin-right: 3px
 .btn-expire
-  width: 95px
+  @include body-9
+  width: 110px
   height: 25px
+.gray
+  background-color: $dark-gray-8
+  color: $color-black-1
+.red
   background-color: $color-red-24
   color: $color-white-1
 .product-image

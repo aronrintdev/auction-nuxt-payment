@@ -390,9 +390,9 @@ export default {
     CreateTradeSearchItem, // component used for item via search selection
     Pagination, // Pagination component
     ViewOfferItemsModal // model to show offers items
-  },
-  layout: 'Profile', // Layout
+  }, // Layout
   mixins: [ScreenSize],
+  layout: 'Profile',
   data() {
     return {
       IMAGE_PATH, // Image production path

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="width <=500">
+  <div v-if="isScreenXS">
     <div class="initial-listing">
       <div class="justify-content-center listing-heading pt-4 ml-3">{{$t('trades.initial_listing')}}</div>
       <b-row class="justify-content-center mt-3">
@@ -16,9 +16,9 @@
         </div>
       </div>
       <div class="d-flex justify-content-center mt-3">
-        <offer-items 
-          v-if="initialWantsItems && initialWantsItems.length > 0" 
-          :offerItems="initialWantsItems" 
+        <offer-items
+          v-if="initialWantsItems && initialWantsItems.length > 0"
+          :offerItems="initialWantsItems"
           :heading="$t('trades.your_listed_items')"
           marginItems="mr-0"
           class="w-100"
@@ -31,6 +31,7 @@
 
 <script>
 import OfferItems from '~/pages/profile/trades/dashboard/OfferItems';
+import ScreenSize from '~/plugins/mixins/screenSize'
 export default {
   name: 'InitialListing',
   components: {

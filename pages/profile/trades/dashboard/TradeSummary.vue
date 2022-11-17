@@ -67,13 +67,13 @@ export default {
     RelistModal,
     EditTradeConfirmationModal
   },
+  mixins: [ScreenSize],
   props: {
     trade: {
       type: Object,
       required: true
     }
   },
-  mixins: [ScreenSize],
   data(){
     return {
       COMPLETED_STATUS,

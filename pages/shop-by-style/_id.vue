@@ -89,8 +89,6 @@ export default {
           products: res.data.data.products,
           style: res.data.data.style
         }
-        console.log('360 image data is',this.style.images);
-        console.log('360 image data is');
       })
       .catch(error => {
         this.$toasted.error(error)
@@ -99,7 +97,6 @@ export default {
   },
   computed: {
     has360Images() {
-      console.log('response data is',this.style);
       return this.style.style?.has360Images
     },
   },
