@@ -55,6 +55,7 @@
                                   :label="categoryFilterLabel" class="mr-3 width-156" optionsWidth="custom"
                                   width="150px"
                                   padding-x="10px"
+                                  border-radius="4px"
                                   dropDownHeight="38px" variant="white"
                                   @getResults="getInventory"
                                   @change="changeCategory"/>
@@ -69,6 +70,7 @@
                     variant="white"
                     width="150px"
                     padding-x="10px"
+                    border-radius="4px"
                     @getResults="getInventory"
                     @change="changeSizeTypeFilter"/>
                   <CustomDropdown
@@ -82,6 +84,7 @@
                     variant="white"
                     width="150px"
                     padding-x="10px"
+                    border-radius="4px"
                     @getResults="getInventory"
                     @change="changeSizeFilter"/>
                 </client-only>
@@ -99,6 +102,7 @@
                                   width="220px" variant="white"
                                   padding-x="10px"
                                   dropDownHeight="38px"
+                                  border-radius="4px"
                                   @getResults="getInventory" @change="changeOrderFilter"/>
                 </client-only>
               </b-row>
