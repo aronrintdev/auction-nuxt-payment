@@ -3,20 +3,36 @@
     <div v-if="isScreenXS">
       <div v-if="offers.length > 0" :offers="offers">
         <div v-for="(offer) in offers" :key="'trade-page-offer-list-' + offer.id" class="offer-item-trade-container-mobile mt-2 mb-2" @click="showOffer(offer.id)">
-          <div class="offer-id pt-2 ml-2">{{$t('trades.offer_id')}} #{{offer.id}}</div>
-          <div class="offer-time m-2">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
-            <div class="d-flex justify-content-end mr-2 context-tran" @click="$router.push('/profile/trades/dashboard/' + offer.trade.id)">
-              <img v-if="!isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="ml-2" alt="">
-              <img v-else-if="isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="ml-2" alt="">
-              {{$t(offer.offer_type_translation)}}
+          <div class="d-flex justify-content-between">
+            <div class="offer-id">
+              {{ $t('trades.offer_id') }} #{{ offer.id }}
             </div>
-           <div class="d-flex justify-content-end mr-2 cond-tran">
-             {{$t(offer.condition_translation)}}
-           </div>
-          <!-- items sections -->
-          <b-row class="justify-content-center mt-3" role="button">
+
+            <div 
+              class="d-flex context-tran align-items-center" 
+              @click="$router.push('/profile/trades/dashboard/' + offer.trade.id)"
+            >
+              <img v-if="!isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="mr-1" alt="">
+              <img v-else-if="isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="mr-1" alt="">
+              <div>{{ $t(offer.offer_type_translation) }}</div>
+            </div>
+          </div>
+          
+          <div class="mt-2 d-flex justify-content-between">
+            <div class="offer-time">
+              {{ $t('trades.placed_on') }} {{ offer.created_at | formatDateTimeString }}
+            </div>
+            <div 
+              class="cond-tran"
+              :class="[offer.condition === 'poor' ? 'poor' : 'excellent']"
+            >
+              {{ $t(offer.condition_translation) }}
+            </div> 
+          </div>
+
+          <div class="d-flex justify-content-center mt-3" role="button">
             <offer-items :offerItems="offer.theirs_items"/>
-          </b-row>
+          </div>
         </div>
       </div>
       <div v-else class="text-center mt-3">
@@ -25,37 +41,34 @@
     </div>
     <div v-else>
       <div v-if="offers.length > 0" :offers="offers">
-        <div v-for="(offer) in offers" :key="'trade-page-offer-list-' + offer.id" class="offer-item-trade-container m-4" @click="showOffer(offer.id)">
-          <b-row>
+        <div 
+          v-for="(offer) in offers" 
+          :key="'trade-page-offer-list-' + offer.id"
+          class="offer-item-trade-container m-4 pb-4" 
+          @click="showOffer(offer.id)"
+        >
+          <b-row class="heading-wrapper">
             <b-col>
               <div>
-              <div class="offer-id-text pt-2 ml-2">{{$t('trades.offer_id')}} #{{offer.id}}</div>
-              <div class="offer-time m-2">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
+                <div class="offer-id-text">{{$t('trades.offer_id')}} #{{offer.id}}</div>
+                <div class="mt-2 offer-time">{{$t('trades.placed_on')}} {{ offer.created_at | formatDateTimeString }}</div>
               </div>
             </b-col>
             <b-col>
-              <div class="mt-2 float-right mr-5">
+              <div class="float-right">
                 <div>
                   <img v-if="!isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="ml-2" alt="">
                   <img v-else-if="isOfferMine(offer)" :src="require('~/assets/img/downarrow.svg')" class="ml-2" alt="">
                   {{$t(offer.offer_type_translation)}}
                 </div>
-                <div class="view-detail-text ml-5">
+                <div class="mt-2 view-detail-text text-right">
                   {{$t('trades.view_details')}}
                 </div>
               </div>
             </b-col>
           </b-row>
-          <div class="d-flex">
-            <div class="justify-content-start align-content-start place-cont">
-
-            </div>
-            <div class="justify-content-end align-content-end mt-2">
-
-            </div>
-          </div>
           <!-- items sections -->
-          <b-row class="justify-content-center mt-3" role="button">
+          <b-row class="justify-content-center mt-3 w-72 mx-auto" role="button">
             <offer-items :offerItems="offer.theirs_items"/>
           </b-row>
 
@@ -113,7 +126,7 @@ export default {
       required: true
     }
   },
-  data(){
+  data() {
     return {
       offer: null,
       ALL_OFFER_TYPE,
@@ -192,15 +205,20 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.w-72
+  width: 72%
+
+.heading-wrapper
+  padding: 18px 31px 0 31px
+
 .offer-item-trade-container
-  height: 400px
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
   background: $color-white-1
 .offer-item-trade-container-mobile
-  height: 360px
   box-shadow: 0 1px 4px $drop-shadow1
-  border-radius: 10px
+  border-radius: 4px
+  padding: 13px
 
 #flyer-excellent
   width: 145px
@@ -277,7 +295,7 @@ export default {
 .offer-id-text
   font-family: $font-family-sf-pro-display
   font-style: normal
-  @include body-13-bold
+  @include body-3-bold
   color: $color-black-1
 
 .offer-time
@@ -285,6 +303,9 @@ export default {
   font-style: normal
   @include body-9-normal
   color: $color-gray-47
+  @media (min-width: 576px)
+    @include body-4-normal
+    color: $color-gray-64
 
 .offer-received
   width: 195px
@@ -352,4 +373,11 @@ export default {
   background: $color-white-1 !important
   border-radius: 8px
   border: 1px solid $color-blue-20 !important
+
+.excellent
+  color: $color-green-34
+
+.poor
+  color: $color-red-30
+
 </style>

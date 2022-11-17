@@ -64,6 +64,7 @@ import {
 } from '~/static/constants/trades'
 export default {
     name: 'InventoryCardItem',
+    mixins: [ScreenSize],
     props:{
         items:{
             type: Array,
