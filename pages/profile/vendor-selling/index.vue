@@ -155,35 +155,36 @@
 
           <!-- Apply Button -->
           <div class="col-md-1 col-sm-12 col-xs-6 mt-4 mt-md-4">
-            <br />
+            <br/>
             <Button
-              variant="apply text-cente form-item"
-              class="px-3"
-              :class="{ 'w-100': isScreenXS || isScreenSM }"
-              @click="loadData"
+                variant="apply text-cente form-item"
+                class="px-3"
+                :class="{ 'w-100': isScreenXS || isScreenSM }"
+                @click="loadData"
             >
               {{ $t('selling_page.apply') }}
             </Button>
           </div>
+          <div class="col-md-3 col-sm-12 col-xs-6 mt-4 mt-md-4">
+            <br/>
+            <Button
+                class="delist-btn float-right mt-2 text-center font-primary body-5-normal"
+                variant="white"
+                @click="delistMultiple()"
+            >
+              {{ $t('selling_page.delist_multiple') }}
+            </Button>
+          </div>
           <!-- Apply Button -->
 
-          <div class="col-md-3 float-right">
-            <Button
-            variant="delist"
-            class="float-right mt-2 text-center"
-            @click="delistMultiple()"
-          >
-            {{ $t('selling_page.delist_multiple') }}
-          </Button>
-          </div>
         </div>
 
         <div
           v-if="resultLength && searchResults.data && !isScreenXS"
           class="
             row
-            mt-5
-            px-3
+            mt-4
+            px-1
             d-flex
             flex-column flex-sm-row
             justify-content-between
@@ -193,10 +194,13 @@
           <!-- ./Delist Multiple Button -->
 
           <!-- vacation mode -->
-          <div class="d-flex align-items-center mt-3 mt-sm-0">
-            <div>
-              <template v-if="activeFilters.length">
-                <b-badge
+          <div :class="{
+            'justify-content-between': activeFilters.length,
+            'justify-content-end': !activeFilters.length,
+          }"
+               class="w-100 d-flex align-items-center mt-3 mt-sm-0">
+            <div v-if="activeFilters.length">
+              <b-badge
                   v-for="(options, typeIndex) in activeFilters"
                   :key="`type-${typeIndex}`"
                   class="
@@ -207,38 +211,40 @@
                     mr-2
                     text-capitalize
                   "
-                >
-                  {{ options.type }}&colon; {{ options.text }}
-                  <i
+              >
+                {{ options.type }}&colon; {{ options.text }}
+                <i
                     class="fa fa-times"
                     role="button"
                     aria-hidden="true"
                     @click="removeTypeFilter(options)"
-                  ></i>
-                </b-badge>
-                <span
+                ></i>
+              </b-badge>
+              <span
                   role="button"
                   class="text-decoration-underline text-primary"
                   @click="clearFilters()"
-                >
+              >
                   {{ $t('vendor_purchase.clear_all_filters') }}
                 </span>
-              </template>
             </div>
+
             <div class="vacationMode d-flex align-items-center">
               <!-- TODO: Vacation Mode -->
               <b-form-checkbox
-                id="checkbox"
-                v-model="vacationMode"
-                name="checkbox-1"
-                :value="true"
-                :unchecked-value="false"
-                @change="enableDisableVacationMode"
+                  id="checkbox"
+                  v-model="vacationMode"
+                  class="vacation-mode-checkbox"
+                  name="checkbox-1"
+                  :value="true"
+                  :unchecked-value="false"
+                  @change="enableDisableVacationMode"
               >
                 {{ $t('selling_page.enable_vacation_mode') }}
                 <img
-                  :src="require('~/assets/img/icons/info-blue.svg')"
-                  alt="ToolTip"
+                    :src="require('~/assets/img/icons/info-blue.svg')"
+                    alt="ToolTip"
+                    class="info-icon"
                 />
               </b-form-checkbox>
             </div>
@@ -959,7 +965,7 @@ export default {
       this.searchFilters.delistMultipleSelected =
         !this.searchFilters.delistMultiple
       this.page = 1
-        this.loadData() 
+      this.loadData()
       this.$refs.myBottomSheet.close()
     },
 
@@ -1050,7 +1056,7 @@ export default {
             })
         }
       } else {
-        this.selected.push(...this.responsiveData.map((p) => p.id)) 
+        this.selected.push(...this.responsiveData.map((p) => p.id))
         if (value === this.delist) {
           this.multipleDelist()
           return true
@@ -1101,11 +1107,18 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+::v-deep.delist-btn
+  width: 168px
+  border: 0.5px solid $color-gray-4 !important
+  border-radius: 5px
+
+
 .filter-text
   font-family: $font-sp-pro
   font-style: normal
   @include body-8-normal
   color: $color-black-1
+
 .vd-selling-heading
   font-family: $font-montserrat
   font-style: normal
@@ -1123,10 +1136,22 @@ export default {
     display: flex
     justify-items: center
   label
+    height: 18px
+    padding-top: 3px
     font-family: $font-sp-pro
     font-style: normal
     @include body-8-normal
     color: $color-black-1
+
+    .info-icon
+      margin-top: -12px
+      margin-left: -2px
+
+    &:before
+      border: 2px solid $color-gray-6
+      border-radius: 2px
+      background-color: $color-white-1
+      box-shadow: none
 .start-date::v-deep,
 .end-date::v-deep
   label
