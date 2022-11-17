@@ -18,10 +18,9 @@
               mt-md-4
               my-2
               vd-selling-heading
-              d-flex
               align-items-center
             "
-            :class="mobileClass"
+            :class="mobileClass ? 'd-none' : 'd-flex'"
           >
             {{ $t('selling_page.selling_page_heading') }}
           </div>
@@ -493,6 +492,11 @@
     />
 
     <!-- Modal Popups ends here -->
+
+    <client-only>
+      <Portal to="page-title"> {{ $t('selling_page.selling_page_heading') }}</Portal>
+    </client-only>
+
   </b-container>
 </template>
 

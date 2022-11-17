@@ -20,15 +20,16 @@
               variant="white"
               class="text-white border-0 px-5"
               to="/login"
-              >{{ $t('auth.login') }}</Button
             >
+              {{ $t('auth.login') }}
+            </Button>
           </b-col>
         </b-row>
       </b-col>
       <b-col
         lg="8"
         cols="12"
-        class="social-area pt-5 px-0 d-flex justify-content-center"
+        class="social-area pt-5 px-2 d-flex justify-content-center"
       >
         <b-row class="h-100 justify-content-center w-100">
           <b-col
@@ -101,12 +102,15 @@
               </b-row>
               <b-row class="order-4 skip-link d-lg-none d-flex">
                 <b-col>
-                  <u
-                    ><a href="#" class="fs-15 fw-4 font-primary text-black">{{
-                      $t('signup.skip')
-                    }}</a></u
-                  ></b-col
-                >
+                  <u>
+                    <b-link
+                      class="fs-15 fw-4 font-primary text-black"
+                      to="/login"
+                    >
+                        {{$t('signup.skip')}}
+                    </b-link>
+                  </u>
+                </b-col>
               </b-row>
             </b-row>
             <b-row class="form-area order-1 order-lg-2 w-100">
@@ -117,7 +121,9 @@
                       ><b-col
                         class="d-flex justify-content-center flex-column align-items-center"
                       >
-                        <Logo class="img-fluid w-auto" :height="53" />
+                        <b-link to="/">
+                          <Logo class="img-fluid w-auto img-main" :height="53" />
+                        </b-link>
                         <span
                           class="signup-heading fs-15 fw-5 font-primary w-75 text-center my-3 pre-line"
                           >{{ $t('signup.create_your_account') }}</span
@@ -128,7 +134,7 @@
                       :data="tabs"
                       :value="currentTab"
                       nav-key="new_releases"
-                      class="text-center mb-4 d-lg-none d-block px-0"
+                      class="text-center px-2 mb-4 d-lg-none d-block"
                       @change="handleTabChange"
                     />
                     <ValidationProvider
@@ -141,8 +147,8 @@
                           max: 128,
                         }"
                       >
-                      <b-form-group class="px-3">
-                        <b-input-group  class="d-flex align-items-end w-95 pull-left">
+                      <b-form-group class="px-1">
+                        <b-input-group class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="first-name"
                             v-model="form.first_name"
@@ -177,7 +183,7 @@
                         max: 128,
                       }"
                     >
-                      <b-form-group class="px-3">
+                      <b-form-group class="px-1">
                         <b-input-group class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="last-name"
@@ -212,7 +218,7 @@
                         max: 128,
                       }"
                     >
-                      <b-form-group class="px-3">
+                      <b-form-group class="px-1">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="username"
@@ -248,7 +254,7 @@
                         max: 128,
                       }"
                     >
-                      <b-form-group class="px-3">
+                      <b-form-group class="px-1">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="email-address"
@@ -285,7 +291,7 @@
                       }"
                       vid="password"
                     >
-                      <b-form-group class="px-3">
+                      <b-form-group class="px-1">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="password"
@@ -296,7 +302,7 @@
                             :type="passwordFieldType"
                           ></b-form-input>
                           <b-input-group-prepend
-                            class="d-flex align-items-center px-3 append-icon"
+                            class="d-flex align-items-center px-1 append-icon"
                           >
                             <i
                               v-if="isPasswordShown"
@@ -341,7 +347,7 @@
                         confirmed: 'password',
                       }"
                     >
-                      <b-form-group class="px-3">
+                      <b-form-group class="px-1">
                         <b-input-group  class="d-flex align-items-end w-95 pull-left">
                           <b-form-input
                             id="password-confirmation"
@@ -352,7 +358,7 @@
                             :type="confirmPasswordFieldType"
                           ></b-form-input>
                           <b-input-group-prepend
-                            class="d-flex align-items-center px-3 append-icon"
+                            class="d-flex align-items-center px-1 append-icon"
                           >
                             <i
                               v-if="isConfirmPasswordShown"
@@ -457,6 +463,8 @@ import Button from '~/components/common/Button'
 import { UNPROCESSABLE_ENTITY } from '~/static/constants'
 import NavGroup from '~/components/common/NavGroup'
 import Logo from '~/components/header/Logo.vue'
+import screenSize from '~/plugins/mixins/screenSize'
+import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 
 export default {
   name: 'SignUp',
@@ -467,12 +475,13 @@ export default {
     NavGroup,
     Logo,
   },
+  mixins: [ screenSize ],
   layout: 'Auth',
   data() {
     return {
       tabs: [
-        { label: this.$t('auth.login'), value: 'Login' },
         { label: this.$t('auth.create_an_account'), value: 'signup' },
+        { label: this.$t('auth.login'), value: 'Login' },
       ],
       currentTab: 'signup',
 
@@ -489,6 +498,9 @@ export default {
     }
   },
   computed: {
+     isResponsive(vm) {
+      return vm.isScreenXS || vm.isScreenSM
+    },
     passwordFieldType(vm) {
       return vm.isPasswordShown ? 'text' : 'password'
     },
@@ -519,8 +531,18 @@ export default {
       this.$toasted.error(error)
     }
   },
+  beforeMount() {
+    this.$root.$emit('hide-header', { hideHeader: true })
+    this.$root.$emit('hide-footer', { hideFooter: true })
+
+    enquireScreenSizeHandler((type) => {
+      this.$store.commit('size/setScreenType', type)
+    })
+  },
   beforeDestroy() {
     this.$recaptcha.destroy()
+    this.$root.$emit('hide-header', { hideHeader: false })
+    this.$root.$emit('hide-footer', { hideFooter: false })
   },
   methods: {
     getValidationState({ dirty, validated, valid = null }) {
@@ -727,7 +749,8 @@ export default {
       cursor: not-allowed
       &:hover
         box-shadow: none
-
+.invalid-feedback
+  padding-left: 13px
 // ------------------Responsive--------------------
 @media only screen and (max-width: 768px)
   .input-signup
@@ -743,7 +766,6 @@ export default {
       margin-bottom: 15px
     .submit-btn-p
       .btn
-        filter: drop-shadow(0px 4px 4px $drop-shadow1) !important
         width: 171px
         height: 42px
     input
@@ -772,7 +794,7 @@ export default {
         border-radius: 0px 10px 10px 0px
     .signup-heading
       line-height: 18px
-      color: $color-black-1
+      color: $color-gray-5
       font-style: normal
       font-weight: $bold
     .logo-img
@@ -800,4 +822,10 @@ export default {
         background: $color-gray-71
         flex: 1
         width: 50px !important
+
+@media (min-width: 320px) and (max-width: 556px)
+  .input-signup
+    left: 10px !important
+  .img-main
+    margin: 0 auto
 </style>

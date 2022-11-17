@@ -11,27 +11,38 @@
             Search your inventory or find a new item to offer, minimum of 1 item, maximum 3 items
           </div>
         </b-col>
-<!--        <b-col md="6">-->
-<!--          <div class="row">-->
-<!--            <div class="col-md-12 ">-->
-<!--              <FormStepProgressBar :steps="steps" variant="transparent"/>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </b-col>-->
       </b-row>
       <div>
-        <b-row class="mt-4 create-trade-pl-22">
-          <b-col md="7 p-0" xl="7" lg="7">
+        <b-row class="mt-4 pl-0 pl-sm-auto create-trade-pl-22">
+          <b-col md="7 p-0">
             <SearchInput
               :value="searchText"
               variant="primary"
               :placeholder="$t('create_listing.trade.offer_items.search_by')"
               :clearSearch="true"
+              :inputStyle="{
+                borderBottomLeftRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
+                borderBottomRightRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
+              }"
+              class="w-100"
               bordered
               inputHeight="60px"
               @change="onSearchInput"
             />
-            <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="tradeItem" width="1000px" class="position-absolute search-prod"/>
+            <SearchedProductsBelowSearchTextBox
+              v-if="searchedItems.length > 0"
+              :productItems="searchedItems"
+              productsFor="tradeItem"
+              class="position-absolute"
+              :wrapperStyle="{ margin: 0 }"
+              :itemStyle="{ padding: 0 }"
+              addBtnClass="text-right"
+              noProductClass="no-product-responsive"
+              listGroupItemClass="border-gray"
+              :style="{
+                  zIndex: 100
+                }"
+            />
           </b-col>
           <b-col xl="2" lg="2" class="text-center pt-2">
             <Button
@@ -39,9 +50,6 @@
               @click="handleUploadCSVClick"
             >{{ $t('inventory.upload_csv_bulk_file') }}</Button
             >
-<!--            <a class="create-new-inventory-btn p-2 float-right cursor-pointer" @click="setReferrer()">-->
-<!--              {{ $t('create_listing.trade.offer_items.create_inventory') }}-->
-<!--            </a>-->
           </b-col>
         </b-row>
         <div class="inventory-section-module mt-5 ml-2 mb-2 pb-5">
@@ -107,7 +115,6 @@
             <b-col v-for="item in inventory_items" :key="'offer-'+item.id" cols="3 mb-4">
               <div class="create-trade-item" :draggable="true" @dragstart="startDrag($event, item)">
                 <div>
-<!--                  <div class="create-trade-size-car">{{$t('trades.create_listing.vendor.wants.size')}} {{ item.size && item.size.size }}</div>-->
                   <img alt="No Image" class="plus-icon-add" :src="require('~/assets/img/icons/addPlus.svg')"
                        @click="checkIfItemAlreadyListed(item)"/>
                 </div>
@@ -146,18 +153,6 @@
             <infinite-loading :identifier="infiniteId" @infinite="getInventory">
               <span slot="no-more"></span>
             </infinite-loading>
-<!--            <b-row class="col-md-12 justify-content-center">-->
-<!--              <Pagination-->
-<!--                v-if="inventory_items && inventory_items.length > 0"-->
-<!--                v-model="page"-->
-<!--                :total="totalCount"-->
-<!--                :per-page="perPage"-->
-<!--                :per-page-options="perPageOptions"-->
-<!--                class="mt-4"-->
-<!--                @page-click="handlePageClick"-->
-<!--                @per-page-change="handlePerPageChange"-->
-<!--              />-->
-<!--            </b-row>-->
           </b-row>
         </div>
 
@@ -178,7 +173,6 @@
             <div v-for="(prod, index) in getTradeItems"
                  :key="'selected-'+index+prod.id" class="create-trade-item-web d-flex justify-content-between flex-column mr-4">
               <div class="d-flex justify-content-between mt-2 mx-2 min-sign">
-<!--                <div class="create-trade-size-car-sm">{{$t('trades.create_listing.vendor.wants.size')}} {{ prod.size && prod.size.size }}</div>-->
                 <div v-if="prod.quantity > 1" class="create-trade-quantity-car-sm">x{{ prod.quantity || 1 }}</div>
                 <div class="create-trade-minus-icon-web" @click="decrementOrRemoveItem(prod.id)">
                   <div class="create-trade-minus-line-sm"></div>
@@ -240,19 +234,18 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 
-// import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
 import SearchInput from '~/components/common/SearchInput';
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
 import AlreadyListedModal from '~/pages/profile/create-listing/trades/AlreadyListedModal';
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox.vue'
 import CustomDropdown from '~/components/common/CustomDropdown.vue'
-// import {Pagination} from '~/components/common'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
 import {
   InventoryCsvUploadModal,
 } from '~/components/modal'
+import ScreenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'CreateTradeListing',
@@ -260,10 +253,8 @@ export default {
     InventoryCsvUploadModal,
     CreateTradeSearchItem, // component used for item via search selection
     SearchInput,            // component used for search input field
-    // FormStepProgressBar,    //  component for stepper
     SearchedProductsBelowSearchTextBox, // component for items show below search as search results
     CustomDropdown,   // custom dropdown component used for filters
-    // Pagination,   // pagination component
     AlreadyListedModal // model used for telling product is already listed in other category
   },
   layout: 'Profile', // Layout
@@ -313,6 +304,7 @@ export default {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
     }
   },
+  mixins: [ScreenSize],
   computed: {
     ...mapGetters('trades', ['getTradeItems', 'getTradeId', 'getTradeOfferItemQuantity']), // Getter for getting trade items listing,quantity trade id from store
     ...mapGetters('browse', ['filters']), // getter for getting list of filters data
@@ -784,11 +776,11 @@ export default {
 .search-prod
   z-index: 9999
 .create-trade-subheading
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-weight: 400
   font-size: 18px
   line-height: 21px
-  color: #626262
+  color: $color-gray-5
 .inventory-section-module
   width: 1050px
   height: auto

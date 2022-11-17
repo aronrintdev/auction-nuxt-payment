@@ -219,7 +219,8 @@
         "2": "Damaged Packaging",
         "3": "No Original Packaging"
       }
-    }
+    },
+    "box": "Box"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -602,7 +603,8 @@
     "sweatshirts": "SWEATSHIRTS",
     "bottoms": "BOTTOMS",
     "shirts": "SHIRTS",
-    "jackets": "JACKETS"
+    "jackets": "JACKETS",
+    "trade_value":  "Trade Value"
   },
   "Sign Up": "Sign Up",
   "Log In": "Log In",
@@ -2095,7 +2097,8 @@
       "upcoming": "Upcoming",
       "expiring": "Expiring",
       "expired": "Expired",
-      "sold": "Sold"
+      "sold": "Sold",
+      "traded": "Traded"
     }
   },
   "shop": {
@@ -4301,7 +4304,7 @@
       "add_additional_security": "Add additional security to your account with two factor authentication",
       "2fa_enabled": "Two-factor authentication is enabled",
       "2fa_disabled": "Two-factor authentication is disabled",
-      "as_part_of_our_mission": "As part of our mission to build the world’s most trustworthy, secure, and technologically advanced marketplace for sneakerheads and streetwear fanatics. Deadstock further ensures protection from security breaches on our platform by using two-factor authentication.<br /><br /> With two-factor authentication, we take identity verification to the next level by requiring a second method of verification for users to access their account. By providing an ultra-secure online marketplace, Deadstock’s aim is to create the optimal user experience.",
+      "as_part_of_our_mission": "As part of our mission to build the world’s most trustworthy, secure, and technologically advanced marketplace for sneakerheads and streetwear fanatics. <br/> Deadstock further ensures protection from security breaches on our platform by using two-factor authentication.<br /><br /> With two-factor authentication, we take identity verification to the next level by requiring a second method of verification for users to access their account. By providing an ultra-secure online marketplace, Deadstock’s aim is to create the optimal user experience.",
       "2fa_faq_full": "Frequently Asked Questions about Two-Factor Authentication",
       "2fa_faq_small": "Frequently Asked Questions",
       "msg_enable_success": "2FA enabled successfully",
@@ -5054,15 +5057,17 @@
     "manage_all_aspects_of_your_trades": "Manage all aspects of your trades",
     "their_value": "THEIR VALUE",
     "your_value": "YOUR VALUE",
-    "browse_trade" : "Browse Trade"
+    "browse_trade" : "Browse Trade",
+    "view_details": "View Details"
   },
   "change_password": {
     "password": "Password",
-    "confirm_password": "Confirm Password",
+    "confirm_password": "Confirm New Password",
     "new_password": "New Password",
     "current_password": "Current Password",
     "change_password": "Change Password",
-    "password_policy": "Password Policy"
+    "password_policy": "Password Policy",
+    "password_policy_long": "Minimum 8 characters, 1 uppercase, 1 number, and 1 symbol"
   },
   "giftcard_section": {
     "giftcard": "Gift Card: {cardNo}",
@@ -5156,6 +5161,7 @@
   },
   "placed_offers": {
     "heading": "Placed Offers",
+    "header_title"  : "Offers Placed",
     "status": "Status",
     "size": "Size",
     "list_id": "List ID",
@@ -5426,6 +5432,8 @@
     "next_step": "Next step",
     "total_sales": "Total Sales",
     "commission_pending": "Commission Pending",
+    "pending": "Pending (%)",
+    "items_sold": "Items Sold",
     "inventory": "Inventory",
     "offers": "Offers",
     "generate_shipping_label": "Generate Shipping Label",
@@ -5653,6 +5661,7 @@
     "apply_filters": "Apply Filters",
     "this_week": "This Week",
     "new": "New",
+    "older": "Older",
     "at": "at",
     "all": "All",
     "date_range": "Date Range",
@@ -5867,7 +5876,7 @@
       "minutes": "Minutes",
       "seconds": "Seconds",
       "your_entries": "Your Entries",
-      "no_active": "There are no active promotions"
+      "no_active": "There are no active promotions."
     },
     "purchases": {
       "title": "Purchases",

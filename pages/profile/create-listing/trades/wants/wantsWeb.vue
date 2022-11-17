@@ -18,9 +18,6 @@
               <span>{{ $t('trades.create_listing.vendor.wants.back_to_offers_item') }}</span>
             </NuxtLink>
           </b-col>
-<!--          <b-col class="text-right">-->
-<!--            <FormStepProgressBar :steps="steps" variant="transparent"/>-->
-<!--          </b-col>-->
         </b-row>
         <b-row cols="1" class="pr-md-5 pr-lg-5 pr-sm-0">
           <b-col class="w-100">
@@ -31,16 +28,35 @@
           </b-col>
         </b-row>
         <b-row class="pr-md-5 pr-lg-5 pr-sm-0 mb-2">
-          <b-col class="col-md-8 col-12 col-sm-6 mt-md-4">
+          <b-col class="col-md-8 col-12 mt-md-4">
             <SearchInput
               :value="searchText"
               :placeholder="$t('trades.create_listing.vendor.wants.search_by_options')"
               size="lg"
+              :inputStyle="{
+                borderBottomLeftRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
+                borderBottomRightRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
+              }"
               bordered
               inputHeight="60px"
               @change="onSearchInput"
             />
-            <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="wantItemTrade" width="700px" class="position-absolute"/>
+            <div class="position-relative">
+              <SearchedProductsBelowSearchTextBox
+                v-if="searchedItems.length > 0"
+                :productItems="searchedItems"
+                productsFor="wantItemTrade"
+                class="position-absolute"
+                :wrapperStyle="{ margin: 0 }"
+                :itemStyle="{ padding: 0 }"
+                addBtnClass="text-right"
+                listGroupItemClass="border-gray"
+                noProductClass="no-product-responsive"
+                :style="{
+                  zIndex: 100
+                }"
+              />
+            </div>
           </b-col>
           <b-col align-self="center" class="col-md-4 col-12 col-sm-6 mt-md-4 text-right">
             <b-btn class="font-weight-bolder cursor-pointer btn-offer" @click="$bvModal.show('offer-item-modal')">
@@ -344,8 +360,6 @@
 import { mapActions, mapGetters } from 'vuex'
 import debounce from 'lodash.debounce'
 
-// import FormStepProgressBar from '~/components/common/FormStepProgressBar'
-// import Button from '~/components/common/Button'
 import SearchInput from '~/components/common/SearchInput'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox'
 import CustomDropdown from '~/components/common/CustomDropdown'
@@ -355,7 +369,7 @@ import { Pagination } from '~/components/common'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
-
+import ScreenSize from '~/plugins/mixins/screenSize'
 
 /*
   Trade Wants Page
@@ -363,8 +377,6 @@ import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
 export default {
   name: 'TradeWants',
   components: {
-    // FormStepProgressBar, // Stepper component
-    // Button, // Button component
     SearchInput, // search input
     SearchedProductsBelowSearchTextBox, //  component for items show below search as search results
     CustomDropdown, // custom dropdown component used for filters
@@ -373,6 +385,7 @@ export default {
     ViewOfferItemsModal // model to show offers items
   },
   layout: 'Profile', // Layout
+  mixins: [ScreenSize],
   data() {
     return {
       IMAGE_PATH, // Image production path
@@ -971,6 +984,6 @@ export default {
   margin-top: 45px
   padding-right: 30px
 .btn-offer
-  background: #000000
-  color: #fff
+  background: $color-black-1
+  color: $color-white-1
 </style>
