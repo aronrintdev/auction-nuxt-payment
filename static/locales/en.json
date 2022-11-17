@@ -393,6 +393,7 @@
   "home": {
     "home": "Home",
     "get_the_most_out_of": "Get the most out of the Deadstock App",
+    "deadstock_app_buy_sell_trade": "Deadstock App - Buy, Sell, Trade and Auction",
     "create_account": "Create Account",
     "sign_in": "Sign In",
     "vendor_hub": "Vendor Hub",
@@ -2562,6 +2563,7 @@
     "remove_from_wishilist": "Remove from wishlist",
     "move_this_item_a_list": "Move this item to a list",
     "remove_from_bag": "Remove from bag",
+    "remove_from_wishlist": "Remove from wishlist",
     "shopping_cart": "Shopping Cart",
     "item": "Item | Items",
     "have_promo_code": "Have a Promo Code",

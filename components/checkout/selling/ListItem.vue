@@ -33,11 +33,29 @@
               >{{ $t('shopping_cart.remove') }}</b-btn
             >
             <b-btn
+              v-if="wishList"
               class="custom-link ml-5"
               variant="link"
-              @click="saveForLater"
+              @click="removeFromWishList"
+            >
+              {{ $t('shopping_cart.remove_from_wishlist') }}
+            </b-btn>
+            <b-btn
+              v-else
+              :id="`popover-wishlist-${product.listing_item_id}`"
+              class="custom-link ml-5"
+              variant="link"
               >{{ $t('shopping_cart.save_for_later') }}</b-btn
             >
+            <WishListPopover
+              v-if="! wishList"
+              :product="product"
+              :target="`popover-wishlist-${product.listing_item_id}`"
+              :wish-list="wishList"
+              @show="isWishListShown = true"
+              @hidden="isWishListShown = false"
+              @wishlisted="onWishListed"
+            />
           </b-row>
         </b-col>
       </b-row>
@@ -71,10 +89,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
+import WishListPopover from '~/components/wish-list/Popover'
 
 export default {
   name: 'ListItem',
+  components: {WishListPopover},
   props: {
     product: {
       type: Object,
@@ -83,10 +103,16 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      isWishListShown: false,
+    }
+  },
   computed: {
-    ...mapGetters({
-      wishLists: 'wish-list/getWishLists',
-    }),
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    wishList(vm) {
+      return vm.product.wishLists && vm.product.wishLists.length ? vm.product.wishLists[0] : false
+    },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     total: (vm) => {
       return vm.product.price * vm.product.quantity
@@ -97,43 +123,33 @@ export default {
       removeProduct: 'shopping-cart/removeProduct',
       incrementQuantity: 'shopping-cart/incrementQuantity',
       decrementQuantity: 'shopping-cart/decrementQuantity',
-      fetchWishLists: 'wish-list/fetchWishLists',
+      removeProductsFromWishList: 'wish-list/removeProductsFromWishList',
+      removeProductFromWishList: 'shopping-cart/removeProductFromWishList',
     }),
     showModal() {
       this.$root.$emit('showModal', this.product)
       this.$bvModal.show('shopping-cart-list-item-modal')
-    },
-    saveForLater() {
-      this.fetchWishLists()
-        .then(() => {
-          if (this.wishLists.length) {
-            this.$root.$emit('showWishListModal', {
-              wishlists: this.wishLists,
-              product: this.product,
-            })
-            this.$bvModal.show('shopping-cart-wishlist-modal')
-          } else {
-            this.$toasted.error(this.$t('wish_lists.no_wish_lists').toString())
-          }
-        })
-        .catch((error) => {
-          // If error or credentials don't match
-          if (error.response.status === 401) {
-            this.$toasted.error(
-              this.$t('login.error_message.unauthorized').toString()
-            )
-          } else {
-            this.$toasted.error(
-              this.$t('error.something_went_wrong').toString()
-            )
-          }
-        })
     },
     checkInventoryQuantity (product) {
       if (product.quantity >= product.inventory_stock) {
         this.$bvModal.show('insufficient-quantity-modal')
       } else {
         this.incrementQuantity(product)
+      }
+    },
+    removeFromWishList() {
+      if (this.wishList) {
+        this.removeProductsFromWishList({ wishList: this.wishList, ids: [this.product.id] }).then(() => {
+          this.removeProductFromWishList(this.product).then(() => {
+            this.$toasted.success(this.$tc('wish_lists.products_removed_from_wishlist', 1).toString())
+          })
+        })
+      }
+    },
+    onWishListed(wishList) {
+      if (wishList) {
+        this.isWishListShown = false
+        this.removeProduct(this.product)
       }
     }
   },
