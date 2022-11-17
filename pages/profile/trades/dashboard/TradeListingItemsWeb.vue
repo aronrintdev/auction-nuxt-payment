@@ -1,47 +1,53 @@
 <template>
-  <div class="d-flex justify-content-between flex-wrap">
-    <div v-for="(trade) in tradesList" :key="'trade-' + trade.id" role="button"
-         class="trade-listing-item-single mt-3">
-      <b-row class="justify-content-end">
-        <b-checkbox
-          v-if="selectable"
-          class="pr-2 pt-2"
-          :checked="selected"
-          :value="trade.id"
-          @change="toggleSelect(trade.id)"
-        >
-        </b-checkbox>
-      </b-row>
-      <div class="d-flex justify-content-between" @click="showTrade(trade.id)">
-        <div>
-          <div class="trade-id">{{ $t('trades.trade_id') }} #{{ trade.id }}</div>
-          <div class="mt-2 listed-time">{{ $t('trades.listed_on') }} {{
-              trade.created_at | formatDateTimeString
-            }}
+  <div class="row justify-content-between flex-wrap">
+    <div 
+      v-for="(trade) in tradesList" 
+      :key="'trade-' + trade.id" 
+      role="button"
+      class="col-12 col-lg-6 mt-3"
+    >
+      <div class="trade-listing-item-single">
+        <b-row class="justify-content-end">
+          <b-checkbox
+            v-if="selectable"
+            class="pr-2 pt-2"
+            :checked="selected"
+            :value="trade.id"
+            @change="toggleSelect(trade.id)"
+          >
+          </b-checkbox>
+        </b-row>
+        <div class="d-flex justify-content-between" @click="showTrade(trade.id)">
+          <div>
+            <div class="trade-id">{{ $t('trades.trade_id') }} #{{ trade.id }}</div>
+            <div class="mt-2 listed-time">{{ $t('trades.listed_on') }} {{
+                trade.created_at | formatDateTimeString
+              }}
+            </div>
+          </div>
+          <div>
+            <div class="new-offers d-flex align-items-center">
+              <div class="red-circle rounded-circle mr-2"></div>
+              <span>{{ $t('trades.new_offers', {'0': trade.new_offers}) }}</span>
+            </div>
+            <div class="mt-2 view-detail-text text-right">{{ $t('vendor_purchase.view_details') }}</div>
           </div>
         </div>
-        <div>
-          <div class="new-offers d-flex align-items-center">
-            <div class="red-circle rounded-circle mr-2"></div>
-            <span>{{ $t('trades.new_offers', {'0': trade.new_offers}) }}</span>
-          </div>
-          <div class="mt-2 view-detail-text text-right">{{ $t('vendor_purchase.view_details') }}</div>
-        </div>
-      </div>
-      <div class="row justify-content-center align-content-center" @click="showTrade(trade.id)">
-        <div 
-          class="d-flex flex-column justify-content-center align-content-center col-4" 
-          v-for="(offer) in trade.offers" 
-          :key="'trade-offer-'+offer.id"
-        >
-          <img class="img-fluid mt-1" :src="offer.inventory.product | getProductImageUrl" />
-          <div class="mt-1 product-name text-truncate">{{ offer.inventory.product.name }}</div>
-          <div class="mt-1 product-box">
-            <span>{{ $t('sell.inventory.box') }}: </span>
-            {{ offer.inventory.packaging_condition.name }}
-          </div>
-          <div class="mt-1 product-size">
-            {{ $t('home_page.size') }} {{ offer.inventory.size.id }}
+        <div class="row justify-content-center align-content-center" @click="showTrade(trade.id)">
+          <div 
+            class="d-flex flex-column justify-content-center align-content-center col-4" 
+            v-for="(offer) in trade.offers" 
+            :key="'trade-offer-'+offer.id"
+          >
+            <img class="img-fluid mt-1" :src="offer.inventory.product | getProductImageUrl" />
+            <div class="mt-1 product-name text-truncate">{{ offer.inventory.product.name }}</div>
+            <div class="mt-1 product-box">
+              <span>{{ $t('sell.inventory.box') }}: </span>
+              {{ offer.inventory.packaging_condition.name }}
+            </div>
+            <div class="mt-1 product-size">
+              {{ $t('home_page.size') }} {{ offer.inventory.size.id }}
+            </div>
           </div>
         </div>
       </div>
@@ -85,7 +91,6 @@ export default {
   background: $color-white-1
   border-radius: 10px
   padding: 20px 28px 7px 28px
-  width: 100%
 
 .trade-id
   font-family: $font-family-sf-pro-display
