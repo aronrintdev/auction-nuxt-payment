@@ -1,6 +1,6 @@
 <template>
   <b-row>
-    <div class="mt-3 mr-3">
+    <div class="mr-3 file-icon">
       <img :src="require('~/assets/img/profile/vendor-hub/document.svg')">
     </div>
     <b-col sm="12" md="3" class="d-flex flex-column">
@@ -22,7 +22,7 @@
       <Button
         v-if="!fieldExist('url')"
         pill
-        class="mt-3 action-button"
+        class="mt-4 action-button"
         @click="$emit('upload', document)"
       >
         {{$t('vendor_hub.documents_tab.upload_form')}}
@@ -64,7 +64,9 @@ export default {
   },
   computed: {
     documentStatusText(){
-      return this.fieldExist('url')? this.$t('vendor_hub.documents_tab.document_status_'+ this.documentFile.status.toLowerCase()) : ''
+      return this.fieldExist('url')
+        ? this.$t('vendor_hub.documents_tab.document_status_'+ this.documentFile.status.toLowerCase())
+        : this.$t('vendor_hub.documents_tab.document_status_not_started')
     },
     documentFile(){
       return this.document.document
@@ -115,7 +117,7 @@ export default {
   color: $color-blue-1
 
 .row-body
-  margin-top: 10px
+  margin-top: 22px
   @include body-3
   font-family: $font-family-sf-pro-display
   font-style: normal
@@ -141,4 +143,7 @@ export default {
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $regular
+
+.file-icon
+  margin-top: 40px
 </style>

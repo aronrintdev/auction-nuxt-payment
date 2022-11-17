@@ -95,9 +95,8 @@
 
         <div class="separator"></div>
 
-        <div class="d-flex justify-content-between mb-3">
+        <div class="buttons-section d-flex justify-content-between mb-3">
           <Button
-            class="col-5 filter-button"
             pill
             variant="outline-dark"
             @click="resetForm"
@@ -106,9 +105,8 @@
           </Button>
 
           <Button
-            class="col-5 filter-button apply-filters"
             pill
-            variant="blue"
+            variant="dark-blue"
             @click="$emit('submit', filters)"
           >
             {{ applyLabel }}
@@ -244,6 +242,12 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.buttons-section
+  button
+    width: 44%
+    padding-left: 15px
+    padding-right: 15px 
+
 .header
   @include body-17-bold
   color: $color-black-1
@@ -261,8 +265,7 @@ export default {
   margin-top: -20px
 
 .content
-  padding-left: 29px
-  padding-right: 29px
+  padding: 0 29px 36px 29px
 
 .label
   @include body-4-bold

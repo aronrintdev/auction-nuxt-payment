@@ -85,6 +85,7 @@ export default {
     font-family: $font-montserrat
     padding-top: 16px
     @include body-11-bold
+    margin: 10px 0
 
   .py-20
     padding: 0

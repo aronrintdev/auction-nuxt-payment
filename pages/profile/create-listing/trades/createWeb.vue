@@ -20,6 +20,11 @@
               variant="primary"
               :placeholder="$t('create_listing.trade.offer_items.search_by')"
               :clearSearch="true"
+              :inputStyle="{
+                borderBottomLeftRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
+                borderBottomRightRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
+              }"
+              class="w-100"
               bordered
               inputHeight="60px"
               @change="onSearchInput"
@@ -249,9 +254,12 @@ import CustomDropdown from '~/components/common/CustomDropdown.vue'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
+
 import {
   InventoryCsvUploadModal,
 } from '~/components/modal'
+import ScreenSize from '~/plugins/mixins/screenSize'
+
 
 export default {
   name: 'CreateTradeListing',
@@ -312,6 +320,7 @@ export default {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
     }
   },
+  mixins: [ScreenSize],
   computed: {
     ...mapGetters('trades', ['getTradeItems', 'getTradeId', 'getTradeOfferItemQuantity']), // Getter for getting trade items listing,quantity trade id from store
     ...mapGetters('browse', ['filters']), // getter for getting list of filters data
@@ -799,7 +808,7 @@ export default {
   color:  $color-white-1
   padding: 8px
   border-radius: 7px
-  margin-left: 5rem
+  margin-left: 7rem
 
 .position-floating
   position: absolute

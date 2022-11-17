@@ -31,11 +31,15 @@
           </b-col>
         </b-row>
         <b-row class="pr-md-5 pr-lg-5 pr-sm-0 mb-2">
-          <b-col class="col-md-8 col-12 col-sm-6 mt-md-4">
+          <b-col class="col-md-8 col-12 mt-md-4">
             <SearchInput
               :value="searchText"
               :placeholder="$t('trades.create_listing.vendor.wants.search_by_options')"
               size="lg"
+              :inputStyle="{
+                borderBottomLeftRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
+                borderBottomRightRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
+              }"
               bordered
               inputHeight="60px"
               @change="onSearchInput"
@@ -355,7 +359,7 @@ import { Pagination } from '~/components/common'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
-
+import ScreenSize from '~/plugins/mixins/screenSize'
 
 /*
   Trade Wants Page
@@ -373,6 +377,7 @@ export default {
     ViewOfferItemsModal // model to show offers items
   },
   layout: 'Profile', // Layout
+  mixins: [ScreenSize],
   data() {
     return {
       IMAGE_PATH, // Image production path

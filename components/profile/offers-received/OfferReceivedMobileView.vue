@@ -60,9 +60,9 @@
         />
       </div>
 
-      <div v-if="hideButtons" class="col-xs-4" @click="showDetailPage">
+      <div v-if="hideButtons" class="col-xs-4 m-auto" @click="showDetailPage">
         <img
-          class="product-mobile-img"
+          class="product-mobile-img d-flex m-auto"
           :src="productImg || fallBackImg"
           alt="product-img"
           @error="imageLoadError"
@@ -74,7 +74,8 @@
         <div v-if="hideButtons" class="product-name" @click="showDetailPage">
           {{ productName }}
         </div>
-        <div v-if="hideButtons" class="product-sku mt-2">
+        <div class="custom-height"></div>
+        <div v-if="hideButtons" class="product-sku">
           {{ $t('common.sku') }}&colon; {{ productSku }}
         </div>
         <div v-if="!hideButtons" class="product-sku">
@@ -90,19 +91,19 @@
       </div>
     </div>
     <div class="row product-offer-details">
-      <div class="col-xs-12 d-flex justify-content-between">
-        <span class="offer-details-key">
+      <div class="col-xs-12 d-flex justify-content-between list-item-details">
+        <span class="offer-details-key my-auto mx-2">
           {{ $t('selling_page.offer_amount') }}&colon;
         </span>
-        <span class="offer-details-value text-right">{{
+        <span class="offer-details-value text-right my-auto mx-2">{{
           offerAmount | toCurrency('USD', 'N/A')
         }}</span>
       </div>
-      <div class="col-xs-12 d-flex justify-content-between background-grey">
-        <span class="offer-details-key">
+      <div class="col-xs-12 d-flex justify-content-between background-grey list-item-details">
+        <span class="offer-details-key my-auto mx-2">
           {{ $t('selling_page.offer_date') }}&colon;
         </span>
-        <span class="offer-details-value text-right">{{
+        <span class="offer-details-value text-right my-auto mx-2">{{
           offerDate | formatDate
         }}</span>
       </div>
@@ -362,10 +363,12 @@ export default {
     right: 1rem
   .product-details
     box-sizing: border-box
-    padding: 12px
+    padding: 12px 12px 18px 12px
   .product-offer-details
     box-sizing: border-box
-    padding: 9px
+    padding: 0 9px 9px 9px
+    .list-item-details
+      height: 20px
 
     .background-grey
       background: $color-white-5
@@ -376,19 +379,19 @@ export default {
       @include body-9-medium
       color: $color-black-1
       box-sizing: border-box
-      padding: 9px
     .offer-details-value
       font-family: $font-sp-pro
       font-style: normal
       @include body-9-normal
       color: $color-gray-6
       box-sizing: border-box
-      padding: 9px
 
   .product-mobile-img
     width: 86px
 
   .product-mobile-details
+    .custom-height
+      height: 12px
     .product-name
       width: 90%
       left: 124px
@@ -422,7 +425,7 @@ export default {
     box-sizing: border-box
     border: 1px solid $color-red-25
     border-radius: 8px
-    font-family: $font-sp-pro
+    font-family: $font-montserrat
     font-style: normal
     @include body-9-medium
     color: $color-red-25
@@ -433,7 +436,7 @@ export default {
     box-sizing: border-box
     border: 1px solid $color-green-2
     border-radius: 8px
-    font-family: $font-sp-pro
+    font-family: $font-montserrat
     font-style: normal
     @include body-9-medium
     color: $color-green-2

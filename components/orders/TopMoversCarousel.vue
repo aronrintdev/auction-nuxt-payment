@@ -142,6 +142,7 @@ export default {
     font-family: $font-montserrat
     @include body-5
     text-transform: capitalize
+    margin: 34px 0
 
     small
       @include body-9
