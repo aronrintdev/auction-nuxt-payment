@@ -117,19 +117,20 @@
               <b-col md="12" class="px-0">
                 <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
                   <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-                    <b-row class="d-lg-none d-flex"
-                      ><b-col
+                    <b-row class="d-lg-none d-flex">
+                      <b-col
                         class="d-flex justify-content-center flex-column align-items-center"
                       >
-                        <b-link to="/">
-                          <Logo class="img-fluid w-auto img-main" :height="53" />
-                        </b-link>
+                        <nuxt-link to="/">
+                          <Logo class="img-main" />
+                        </nuxt-link>
                         <span
-                          class="signup-heading fs-15 fw-5 font-primary w-75 text-center my-3 pre-line"
-                          >{{ $t('signup.create_your_account') }}</span
-                        ></b-col
-                      ></b-row
-                    >
+                          class="signup-heading fs-15 fw-5 font-primary w-75 text-center mb-3 pre-line"
+                        >
+                          {{ $t('signup.create_your_account') }}
+                        </span>
+                      </b-col>
+                    </b-row>
                     <NavGroup
                       :data="tabs"
                       :value="currentTab"
@@ -796,9 +797,6 @@ export default {
       color: $color-gray-5
       font-style: normal
       font-weight: $bold
-    .logo-img
-      width: 134px
-      height: 53px
     .validation
       font-size: 10px !important
       font-weight: 500 !important

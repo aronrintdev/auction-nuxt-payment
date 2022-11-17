@@ -30,9 +30,9 @@
             </b-row>
             <b-row class="mb-3">
               <b-col md="12">
-                <div class="text-center img-main main-mobile-image d-block d-lg-none">
+                <div class="text-center main-mobile-image d-block d-lg-none">
                   <nuxt-link to='/'>
-                  <b-img :src="require('~/assets/img/home/logo-mb.png')" class="ds-logo pt-1" />
+                    <b-img :src="require('~/assets/img/home/logo-mb.png')" class="ds-logo pt-1 img-main" />
                   </nuxt-link>
                 </div>
                 <div class="welcome-back-text text-center d-block d-lg-none">
@@ -261,7 +261,6 @@ export default {
   width: 100%
   text-align: center
   margin: 0 auto
-  font-size: 14px
   margin-left: 5px
 .login-btn
   border: none
@@ -269,6 +268,7 @@ export default {
   background-color: $color-white-1
   border-radius: 20px
   font-weight: 700
+  font-size: 13px
 .signup-btn
   border: none
   padding: 1px 15px
@@ -276,12 +276,14 @@ export default {
   border-radius: 20px
   padding-right: 27px
   font-weight: 500
+  font-size: 13px
 .main-mobile-image
-  padding: 20px 0px 0px 0px
+  padding: 20px 0px 0px 1px
 
 @media (min-width: 320px) and (max-width: 556px)
   .img-main
-    padding-left: 1px
+    height: 44px !important
+    width: 134px !important
   .forgot-pass-text
     font-size: 14px !important
   .text-line-middle

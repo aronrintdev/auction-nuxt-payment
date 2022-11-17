@@ -26,6 +26,6 @@ export default {
 <style lang="sass">
 .logo-img
   @media (max-width: 500px)
-    width: 125px
-    height: auto
+    height: 40px !important
+    width: 134px !important
 </style>

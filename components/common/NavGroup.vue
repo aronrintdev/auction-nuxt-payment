@@ -72,13 +72,14 @@ export default {
       color: $color-black-1 !important
       height: auto
       font-size: 13px
+      font-weight: $normal
       @media (min-width: 576px)
         font-size: 15px
         padding: 6px 35px
 
       &.active
         background-color: $color-white-1
-        font-weight: $bold
+        font-weight: $bold !important
       &::before
         display: block
         content: attr(title)
