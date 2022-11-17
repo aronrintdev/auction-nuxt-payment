@@ -165,53 +165,55 @@ export default {
           key: 'products',
           label: this.$t('selling_page.product'),
           sortable: false,
+          thClass: 'body-4-bold font-primary text-nowrap mr-4'
         },
         {
           key: 'product_details',
           label: '',
           sortable: false,
+          thClass: 'body-4-bold font-primary text-nowrap '
         },
         {
           key: 'date_listed',
           label: this.$t('selling_page.date_listed'),
           sortable: true,
-          tdClass: 'text-center custom-width',
-          thClass: 'text-center custom-width',
+          tdClass: 'body-4-regular text-center custom-width',
+          thClass: 'body-4-bold font-primary text-nowrap text-center custom-width',
         },
         {
           key: 'price',
           label: this.$t('common.price'),
           sortable: true,
-          tdClass: 'text-center custom-width',
-          thClass: 'text-center custom-width',
+          tdClass: 'body-4-regular text-center custom-width',
+          thClass: 'body-4-bold font-primary text-nowrap text-center custom-width',
         },
         {
           key: 'last_sold',
           label: this.$t('sell.sell_now.last_sold'),
           sortable: true,
-          tdClass: 'text-center custom-width',
-          thClass: 'text-center custom-width',
+          tdClass: 'body-4-regular text-center custom-width',
+          thClass: 'body-4-bold font-primary text-nowrap text-center custom-width',
         },
         {
           key: 'offers',
           label: this.$t('selling_page.offers'),
           sortable: true,
-          tdClass: 'text-center',
-          thClass: 'text-center',
+          tdClass: 'body-4-regular text-center',
+          thClass: 'body-4-bold font-primary text-nowrap text-center',
         },
         {
           key: 'qty',
           label: this.$t('selling_page.qty'),
           sortable: true,
-          tdClass: 'text-center',
-          thClass: 'text-center',
+          tdClass: 'body-4-regular text-center',
+          thClass: 'body-4-bold font-primary text-nowrap text-center',
         },
         {
           key: 'status',
           label: this.$t('selling_page.status'),
           sortable: true,
-          tdClass: 'text-center',
-          thClass: 'text-center',
+          tdClass: 'body-4-regular text-center',
+          thClass: 'body-4-bold font-primary text-nowrap text-center',
         },
       ],
       productImageWidth: PRODUCT_IMG_WIDTH,
@@ -278,17 +280,22 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.mt-3p
+  margin-top: 3px
+
 .vd-sku,
 .vd-color,
 .vd-condition
   font-family: $font-sp-pro
   font-style: normal
-  @include body-10-normal
+  @include body-21-normal
   color: $color-gray-6
+  margin-top: 3px
+
 .vd-product-title
   font-family: $font-sf-pro-text
   font-style: normal
-  @include body-8-medium
+  @include body-5-medium
   color: $color-black-1
 .vd-sell-product-img
   left: 22.29%
@@ -298,7 +305,6 @@ export default {
 .table-text
   font-family: $font-sp-pro
   font-style: normal
-  @include body-4-normal
   color: $color-black-1
 .list-id
   font-family: $font-sp-pro
