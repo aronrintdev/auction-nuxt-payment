@@ -161,71 +161,74 @@
           </b-row>
         </div>
 
-        <div class="row create-trade-drag-drop-item justify-content-center text-center py-4 mt-5"
-             @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
-          <div v-if="getTradeItems.length < 1">
-            <div class="create-trade-drag-drop-heading">
-              {{ $t('create_listing.trade.offer_items.drag_drop') }}
+        <div class="position-floating">
+          <div class="row create-trade-drag-drop-item-float justify-content-center text-center py-4 mt-5 ml-5"
+               @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
+            <div v-if="getTradeItems.length < 1">
+              <div class="create-trade-drag-drop-heading">
+                {{ $t('create_listing.trade.offer_items.drag_drop') }}
+              </div>
+              <span class="create-trade-drag-drop-sub-heading">{{
+                  $t('create_listing.trade.offer_items.search_at')
+                }}</span>
+              <b-row class="justify-content-center mt-2">
+                <img :src="require('~/assets/img/Plus-circle.svg')">
+              </b-row>
             </div>
-            <span class="create-trade-drag-drop-sub-heading">{{
-                $t('create_listing.trade.offer_items.search_at')
-              }}</span>
-            <b-row class="justify-content-center mt-2">
-              <img :src="require('~/assets/img/Plus-circle.svg')">
-            </b-row>
-          </div>
-          <b-row v-else class="justify-content-center">
-            <div v-for="(prod, index) in getTradeItems"
-                 :key="'selected-'+index+prod.id" class="create-trade-item-web d-flex justify-content-between flex-column mr-4">
-              <div class="d-flex justify-content-between mt-2 mx-2 min-sign">
-<!--                <div class="create-trade-size-car-sm">{{$t('trades.create_listing.vendor.wants.size')}} {{ prod.size && prod.size.size }}</div>-->
-                <div v-if="prod.quantity > 1" class="create-trade-quantity-car-sm">x{{ prod.quantity || 1 }}</div>
-                <div class="create-trade-minus-icon-web" @click="decrementOrRemoveItem(prod.id)">
-                  <div class="create-trade-minus-line-sm"></div>
+            <b-row v-else class="justify-content-center">
+              <div v-for="(prod, index) in getTradeItems"
+                   :key="'selected-'+index+prod.id" class="create-trade-item-web d-flex justify-content-between flex-column mr-4">
+                <div class="d-flex justify-content-between mt-2 mx-2 min-sign">
+                  <!--                <div class="create-trade-size-car-sm">{{$t('trades.create_listing.vendor.wants.size')}} {{ prod.size && prod.size.size }}</div>-->
+                  <div v-if="prod.quantity > 1" class="create-trade-quantity-car-sm">x{{ prod.quantity || 1 }}</div>
+                  <div class="create-trade-minus-icon-web" @click="decrementOrRemoveItem(prod.id)">
+                    <div class="create-trade-minus-line-sm"></div>
+                  </div>
                 </div>
-              </div>
-              <div class="create-trade-item-image-div-sm">
-                <object
-                  :data="`${IMAGE_PATH}/${prod.product && prod.product.category.name ? prod.product.category.name : prod.category.name }/${prod.sku ? prod.sku : prod.product.sku}/800xAUTO/IMG01.jpg`"
-                  class="create-trade-item-image-sm" type="image/png">
-                  <img class="create-trade-item-image-sm mb-2" :src="fallbackImgUrl" alt="image"/>
-                </object>
-              </div>
-              <div class="create-trade-item-caption-web">
+                <div class="create-trade-item-image-div-sm">
+                  <object
+                    :data="`${IMAGE_PATH}/${prod.product && prod.product.category.name ? prod.product.category.name : prod.category.name }/${prod.sku ? prod.sku : prod.product.sku}/800xAUTO/IMG01.jpg`"
+                    class="create-trade-item-image-sm" type="image/png">
+                    <img class="create-trade-item-image-sm mb-2" :src="fallbackImgUrl" alt="image"/>
+                  </object>
+                </div>
+                <div class="create-trade-item-caption-web">
                 <span :id="`name-sm${prod.id}`"
                       class="create-trade-item-name-sm">{{ prod.name ? prod.name : prod.product.name }}</span>
-                <span :id="`colorway-sm${prod.id}`"
-                      class="create-trade-item-caption-description-sm">{{ prod.colorway ? prod.colorway : prod.product.colorway }}</span>
-                <span class="create-trade-item-caption-description-sm">Box: {{
-                    prod.packaging_condition && prod.packaging_condition.name
-                  }}</span>
-                <span class="create-trade-item-caption-description-sm">Size: {{ prod.size && prod.size.size }}</span>
+                  <span :id="`colorway-sm${prod.id}`"
+                        class="create-trade-item-caption-description-sm">{{ prod.colorway ? prod.colorway : prod.product.colorway }}</span>
+                  <span class="create-trade-item-caption-description-sm">Box: {{
+                      prod.packaging_condition && prod.packaging_condition.name
+                    }}</span>
+                  <span class="create-trade-item-caption-description-sm">Size: {{ prod.size && prod.size.size }}</span>
+                </div>
+
+                <b-tooltip :target="`name-sm${prod.id}`" triggers="hover">
+                  {{ prod.name ? prod.name : prod.product.name }}
+                </b-tooltip>
+
+                <!-- tooltip for colorway -->
+                <b-tooltip :target="`colorway-sm${prod.id}`" triggers="hover">
+                  {{ prod.colorway ? prod.colorway : prod.product.colorway }}
+                </b-tooltip>
+
               </div>
-
-              <b-tooltip :target="`name-sm${prod.id}`" triggers="hover">
-                {{ prod.name ? prod.name : prod.product.name }}
-              </b-tooltip>
-
-              <!-- tooltip for colorway -->
-              <b-tooltip :target="`colorway-sm${prod.id}`" triggers="hover">
-                {{ prod.colorway ? prod.colorway : prod.product.colorway }}
-              </b-tooltip>
-
-            </div>
-            <div v-if="getTradeOfferItemQuantity < MAX_ITEMS_ALLOWED" class="create-trade-item-web">
-              <div>
-                <img :src="require('~/assets/img/three-items.svg')">
+              <div v-if="getTradeOfferItemQuantity < MAX_ITEMS_ALLOWED" class="create-trade-item-web">
+                <div>
+                  <img :src="require('~/assets/img/three-items.svg')">
+                </div>
               </div>
-            </div>
+            </b-row>
+          </div>
+
+          <b-row class="justify-content-end mt-4 pr-5" v-if="getTradeItems.length >= 1">
+            <b-btn class="create-trade-next-btn"
+                   @click="$router.push('/profile/create-listing/trades/wants')">
+              {{ $t('create_listing.trade.offer_items.next') }}
+            </b-btn>
           </b-row>
         </div>
 
-        <b-row class="justify-content-end mt-4 pr-5">
-          <b-btn class="create-trade-next-btn" :disabled="getTradeItems.length < 1"
-                 @click="$router.push('/profile/create-listing/trades/wants')">
-            {{ $t('create_listing.trade.offer_items.next') }}
-          </b-btn>
-        </b-row>
       </div>
     </div>
     <AlreadyListedModal :listingId="itemListingId" :item="alreadyListedItemDetails" @confirm="addOrIncrementOfferItem" />
@@ -791,11 +794,17 @@ export default {
   color: #626262
 .inventory-section-module
   width: 1050px
-  height: auto
+  height: 1016px
+  position: relative
+  overflow-y: scroll
   background: $color-white-1
 .btn-file
   background: $color-black-1
   color:  $color-white-1
   padding: 8px
   border-radius: 7px
+
+.position-floating
+  position: absolute
+  bottom: 40%
 </style>
