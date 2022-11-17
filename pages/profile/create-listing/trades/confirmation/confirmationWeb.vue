@@ -294,7 +294,13 @@ export default {
      * @param id
      */
     removeOfferItem(id) {
-      this.$store.commit('trades/removeTradeItem', id)
+      const existingItem = this.getTradeItems.find(val => val.id === id)
+      console.log(existingItem)
+      if(existingItem) {
+        const index = this.getTradeItems.indexOf(existingItem)
+        console.log(index)
+        this.$store.commit('trades/removeTradeItem', index)
+      }
       this.$nextTick(() => this.$forceUpdate())
     },
 
