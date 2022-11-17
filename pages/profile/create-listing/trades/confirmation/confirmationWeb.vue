@@ -2,10 +2,13 @@
 <div>
   <create-trade-search-item v-if="search_item" :product="search_item" :itemId="trade_want_id" productFor="wantOfferConfirm"/>
   <div v-else>
-    <b-row class="pt-3">
+    <b-row class="pt-3 pl-32px">
       <b-col cols="6" class="create-trade-heading">
         <div>
           {{ $t('trades.create_listing.vendor.wants.trade_confirmation') }}
+        </div>
+        <div class="expire-days mt-2">
+          {{$t('trades.all_trade_listing_expire')}}
         </div>
       </b-col>
       <b-col cols="6">
@@ -40,10 +43,10 @@
           </div>
         </div>
       </b-col>
-      <b-col cols="2">
+      <b-col cols="2" class="d-flex align-items-center">
         <div class="confirm-trade-item-quantity">{{ item.quantity }}</div>
       </b-col>
-      <b-col cols="2" class="confirm-trade-icons d-flex">
+      <b-col cols="2" class="confirm-trade-icons d-flex align-items-center">
         <div>
           <NuxtLink class="font-weight-bolder text-gray" to="/profile/create-listing/trades/create">
             <img :src="require('~/assets/img/box-pencil.svg')" :alt="$t('trades.create_listing.vendor.wants.no_image')"/>
@@ -91,10 +94,10 @@
           </div>
         </div>
       </b-col>
-      <b-col cols="2">
+      <b-col cols="2" class="d-flex align-items-center">
         <div class="confirm-trade-item-quantity">{{ wantItem.selected_quantity }}</div>
       </b-col>
-      <b-col cols="2" class="confirm-trade-icons d-flex">
+      <b-col cols="2" class="confirm-trade-icons d-flex align-items-center">
         <div>
           <img class="cursor-pointer" :src="require('~/assets/img/box-copy.svg')"
                :alt="$t('trades.create_listing.vendor.wants.no_image')" @click="addProductWant(wantItem.product, 0, getTradeItemsWants.map(i => parseInt(i.selected_quantity)).reduce((a, b) => a + b, 0))" />
@@ -119,6 +122,11 @@
     <b-row class="justify-content-center mt-4 mb-4">
       <b-btn class="confirm-trade-draft" variant="listing" @click="saveVendorTrade(STATUS_DRAFT)">{{ $t('trades.create_listing.vendor.wants.save_as_draft') }}</b-btn>
       <b-btn class="confirm-trade-post ml-5" :disabled="!getTradeItemsWants.length || !getTradeItems.length" variant="listing" @click="saveVendorTrade(STATUS_LIVE)">{{ $t('trades.create_listing.vendor.wants.post_trade_listing') }}</b-btn>
+    </b-row>
+    <b-row class="justify-content-center mt-4">
+      <div class="post-listing-tax">
+        {{$t('trades.by_pressing_post_listing')}}
+      </div>
     </b-row>
   </div>
 </div>
@@ -307,12 +315,11 @@ export default {
 .confirm-trade-draft
   width: 196.22px
   height: 38px
-  background: #667799
+  background: $color-blue-20
   font-family: $font-family-montserrat
   font-style: normal
   font-weight: $medium
-  font-size: 15px
-  line-height: 18px
+  @include body-8
   color: $color-white-1
 .confirm-trade-post
   width: 196.22px
@@ -321,7 +328,23 @@ export default {
   font-family: $font-family-montserrat
   font-style: normal
   font-weight: $medium
-  font-size: 15px
-  line-height: 18px
+  @include body-8
   color: $color-white-1
+.expire-days
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-12-regular
+  color: $color-gray-5
+.pl-32px
+  padding-left: 32px
+.confirm-trade-item-quantity
+  padding-top: unset
+.post-listing-tax
+  font-family: $font-family-sf-pro-text
+  font-style: normal
+  @include body-13-regular
+  text-align: center
+  letter-spacing: -0.02em
+  color: $color-black-1
+  width: 660px
 </style>

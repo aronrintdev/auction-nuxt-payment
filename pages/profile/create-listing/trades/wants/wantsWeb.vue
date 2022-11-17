@@ -7,18 +7,18 @@
     <section v-else class="content">
       <b-container fluid class="px-3">
         <!-- Main row -->
-        <b-row>
-          <b-col class="text-left col-12 col-md-6">
-            <NuxtLink class="back-to-offers-link text-gray" to="/profile/create-listing/trades/create">
-              <b-img
-                :src="require('~/assets/img/icons/back-btn-slim.svg')"
-                :alt="$t('trades.create_listing.vendor.wants.back_to_offers_item')"
-                class="mr-2"
-              />
-              <span>{{ $t('trades.create_listing.vendor.wants.back_to_offers_item') }}</span>
-            </NuxtLink>
-          </b-col>
-        </b-row>
+<!--        <b-row>-->
+<!--          <b-col class="text-left col-12 col-md-6">-->
+<!--            <NuxtLink class="back-to-offers-link text-gray" to="/profile/create-listing/trades/create">-->
+<!--              <b-img-->
+<!--                :src="require('~/assets/img/icons/back-btn-slim.svg')"-->
+<!--                :alt="$t('trades.create_listing.vendor.wants.back_to_offers_item')"-->
+<!--                class="mr-2"-->
+<!--              />-->
+<!--              <span>{{ $t('trades.create_listing.vendor.wants.back_to_offers_item') }}</span>-->
+<!--            </NuxtLink>-->
+<!--          </b-col>-->
+<!--        </b-row>-->
         <b-row cols="1" class="pr-md-5 pr-lg-5 pr-sm-0">
           <b-col class="w-100">
             <h2 class="font-weight-bold">{{ $t('trades.create_listing.vendor.wants.add_wants') }} <span class="ml-3 font-weight-lighter">({{ $t('trades.create_listing.vendor.wants.optional') }})</span></h2>
@@ -118,16 +118,17 @@
                 <b-col v-for="item in generalListItems" :key="item.id" cols="3" class="mb-5">
                   <div class="create-trade-item position-relative" :draggable="true"
                        @dragstart="startDrag($event, item)">
-                    <div>
-                      <img role="button" alt="No Image" class="plus-icon-add create-trade-plus-icon mt-0" :src="require('~/assets/img/icons/addPlus.svg')"
+                    <div class="image-cont d-flex justify-content-center align-items-center position-relative">
+                    <img role="button" alt="No Image" class="plus-icon-add position-absolute" :src="require('~/assets/img/icons/addPlus.svg')"
                            @click="addOrIncrementWantedItem(item)"/>
-                    </div>
                     <object
                       class="create-trade-item-image"
                       :data="`${IMAGE_PATH}/${item.product && item.product.category && item.product.category.name}/${item.product && item.product.sku}/800xAUTO/IMG01.jpg`"
                       type="image/png">
                       <img class="create-trade-item-image mb-2" :src="fallbackImgUrl" alt="image"/>
                     </object>
+                    <div class="overlay-item"></div>
+                    </div>
                     <div class="create-trade-item-caption">
                   <span :id="`name${item.id}`" class="create-trade-item-name">{{
                       item.product && item.product.name
@@ -290,20 +291,20 @@
             </b-row>
           </div>
           <b-row v-else class="justify-content-center">
-            <div v-for="item in getTradeItemsWants" :key="item.id" class="create-trade-item-web d-flex justify-content-between flex-column mr-4">
-              <div class="d-flex justify-content-between mt-2 mx-2">
-<!--                <div class="create-trade-size-car-sm">{{ item.selected_size_name }}</div>-->
-                <div v-if="item.selected_quantity > 1" class="create-trade-quantity-car-sm">
+            <div v-for="item in getTradeItemsWants" :key="item.id" class="create-trade-item-web mr-4">
+              <div class="position-relative d-flex justify-content-center align-items-center sm-img-cont">
+                <div v-if="item.selected_quantity > 1" class="create-trade-quantity-car-sm position-absolute">
                   x{{ item.selected_quantity || 1 }}
                 </div>
-                <div class="create-trade-minus-icon-web" @click="removeOrDecrementWantItem(item.id)">
+                <div class="create-trade-minus-icon-web position-absolute" @click="removeOrDecrementWantItem(item.id)">
                   <div class="create-trade-minus-line-sm"></div>
                 </div>
-              </div>
-              <div class="create-trade-item-image-div-sm">
+                <div class="create-trade-item-image-div-sm position-relative">
                 <object :data="item.image" class="create-trade-item-image-sm" type="image/png">
                   <img class="create-trade-item-image-sm mb-2" :src="fallbackImgUrl" alt="image"/>
                 </object>
+                </div>
+                <div class="overlay-item"></div>
               </div>
               <div class="create-trade-item-caption-web">
                 <span :id="`name-sm${item.id}`"
@@ -982,4 +983,40 @@ export default {
   margin-top: 10px
   margin-right: 20px
   color: $color-white-1
+.image-cont
+  height: 273px
+  background: $color-white-1
+  padding: 25px
+.plus-icon-add
+  right: 10px
+  top: 10px
+  z-index: 99
+.overlay-item
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: $color-grey-70
+.create-trade-item-image
+  width: 100%
+  aspect-ratio: 1
+.create-trade-item-image-sm
+  width: 100%
+  aspect-ratio: 1
+.create-trade-item-image-div-sm
+  background: $color-white-1
+.create-trade-quantity-car-sm
+  left: 10px
+  top: 10px
+.create-trade-minus-icon-web
+  right: 10px
+  top: 10px
+  z-index: 102
+.sm-img-cont
+  height: 180px
+  background: $color-white-1
+  padding: 25px
+.create-trade-item-web
+  background: $color-white-1
 </style>

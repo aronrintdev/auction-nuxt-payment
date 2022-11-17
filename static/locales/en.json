@@ -5061,7 +5061,8 @@
     "their_value": "THEIR VALUE",
     "your_value": "YOUR VALUE",
     "browse_trade" : "Browse Trade",
-    "view_details": "View Details"
+    "view_details": "View Details",
+    "all_trade_listing_expire": "All trade listings expire in 14 days"
   },
   "change_password": {
     "password": "Password",

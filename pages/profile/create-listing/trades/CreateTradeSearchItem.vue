@@ -1,10 +1,5 @@
 <template>
   <div :class="{'p-5':padding}">
-    <div v-if="!isTradeEditForm && productFor !== 'wantsList'" class="row">
-      <div class="col-md-12 ml-5 mr-md-5 progress-bar-container">
-        <FormStepProgressBar v-if="progressBar" :steps="steps" variant="transparent"/>
-      </div>
-    </div>
     <ProductView
       v-if="product"
       :product="product"
@@ -76,7 +71,6 @@
 <script>
 
 import {mapGetters, mapActions} from 'vuex'
-import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
 import {MAX_ITEMS_ALLOWED, DIGITS_IN_YEAR} from '~/static/constants/create-listing'
 import {WANTS_SELECT_LIST_OPTIONS,PRODUCT_FOR_COUNTER_OFFER} from '~/static/constants/trades'
 import SelectListDropDown from '~/pages/profile/trades/wants/SelectListDropDown'
@@ -88,7 +82,6 @@ export default {
   name: 'CreateTradeSearchItem',
   components:{
     SelectListDropDown,
-    FormStepProgressBar,
     ProductView,
     FormInput
   },
