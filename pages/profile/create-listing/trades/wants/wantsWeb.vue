@@ -290,13 +290,13 @@
             </b-row>
           </div>
           <b-row v-else class="justify-content-center">
-            <div v-for="item in getTradeItemsWants" :key="item.id" class="create-trade-item-sm d-flex justify-content-between flex-column mr-4">
+            <div v-for="item in getTradeItemsWants" :key="item.id" class="create-trade-item-web d-flex justify-content-between flex-column mr-4">
               <div class="d-flex justify-content-between mt-2 mx-2">
-                <div class="create-trade-size-car-sm">{{ item.selected_size_name }}</div>
+<!--                <div class="create-trade-size-car-sm">{{ item.selected_size_name }}</div>-->
                 <div v-if="item.selected_quantity > 1" class="create-trade-quantity-car-sm">
                   x{{ item.selected_quantity || 1 }}
                 </div>
-                <div class="create-trade-minus-icon-sm" @click="removeOrDecrementWantItem(item.id)">
+                <div class="create-trade-minus-icon-web" @click="removeOrDecrementWantItem(item.id)">
                   <div class="create-trade-minus-line-sm"></div>
                 </div>
               </div>
@@ -305,11 +305,11 @@
                   <img class="create-trade-item-image-sm mb-2" :src="fallbackImgUrl" alt="image"/>
                 </object>
               </div>
-              <div class="create-trade-item-caption-sm">
+              <div class="create-trade-item-caption-web">
                 <span :id="`name-sm${item.id}`"
                       class="create-trade-item-name-sm">{{ item.name ? item.name : item.product.name }}</span>
                 <span :id="`colorway-sm${item.id}`"
-                      class="create-trade-item-caption-description-sm">{{ item.product.colorway }}</span>
+                      class="create-trade-item-caption-description-sm">{{ item.selected_size_name }},{{ item.product.colorway }}</span>
                 <span class="create-trade-item-caption-description-sm">{{ $t('trades.create_listing.vendor.wants.box') }}: {{
                     item.selected_box_condition_name
                   }}</span>
