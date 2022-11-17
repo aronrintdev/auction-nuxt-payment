@@ -799,6 +799,7 @@ export default {
   color:  $color-white-1
   padding: 8px
   border-radius: 7px
+  margin-left: 5rem
 
 .position-floating
   position: absolute
