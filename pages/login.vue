@@ -262,6 +262,7 @@ export default {
   text-align: center
   margin: 0 auto
   margin-left: 5px
+  margin-top: 3px
 .login-btn
   border: none
   padding: 2px 38px
@@ -283,7 +284,7 @@ export default {
 @media (min-width: 320px) and (max-width: 556px)
   .img-main
     height: 44px !important
-    width: 134px !important
+    width: 133.2px !important
   .forgot-pass-text
     font-size: 14px !important
   .text-line-middle

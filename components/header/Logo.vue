@@ -27,5 +27,5 @@ export default {
 .logo-img
   @media (max-width: 500px)
     height: 40px !important
-    width: 134px !important
+    width: 133px !important
 </style>
