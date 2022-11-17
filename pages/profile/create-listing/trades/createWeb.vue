@@ -11,17 +11,10 @@
             Search your inventory or find a new item to offer, minimum of 1 item, maximum 3 items
           </div>
         </b-col>
-<!--        <b-col md="6">-->
-<!--          <div class="row">-->
-<!--            <div class="col-md-12 ">-->
-<!--              <FormStepProgressBar :steps="steps" variant="transparent"/>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </b-col>-->
       </b-row>
       <div>
         <b-row class="mt-4 create-trade-pl-22">
-          <b-col md="7 p-0" xl="7" lg="7">
+          <b-col md="7 p-0" xl="8" lg="8">
             <SearchInput
               :value="searchText"
               variant="primary"
@@ -33,11 +26,14 @@
             />
             <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="tradeItem" width="1000px" class="position-absolute search-prod"/>
           </b-col>
-          <b-col xl="2" lg="2" class="text-center pt-2">
+          <b-col xl="4" lg="4" class="text-center pt-2">
             <Button
               class="flex-shrink-0 btn-file"
               @click="handleUploadCSVClick"
-            >{{ $t('inventory.upload_csv_bulk_file') }}</Button
+            ><b-img
+              :src="require('~/assets/img/bx_upload.svg')"
+               class="mr-2"
+            /><span class="pt-2">{{ $t('inventory.upload_csv_bulk_file') }}</span></Button
             >
 <!--            <a class="create-new-inventory-btn p-2 float-right cursor-pointer" @click="setReferrer()">-->
 <!--              {{ $t('create_listing.trade.offer_items.create_inventory') }}-->
@@ -162,7 +158,7 @@
         </div>
 
         <div class="position-floating">
-          <div class="row create-trade-drag-drop-item-float justify-content-center text-center py-4 mt-5 ml-5"
+          <div class="row create-trade-drag-drop-item-float justify-content-center text-center py-4 mt-5 ml-5 mr-5"
                @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
             <div v-if="getTradeItems.length < 1">
               <div class="create-trade-drag-drop-heading">

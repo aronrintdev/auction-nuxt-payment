@@ -40,7 +40,7 @@
               inputHeight="60px"
               @change="onSearchInput"
             />
-            <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="wantItemTrade" width="700px" class="position-absolute"/>
+            <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="wantItemTrade" width="800px" class="position-absolute"/>
           </b-col>
           <b-col align-self="center" class="col-md-4 col-12 col-sm-6 mt-md-4 text-right">
             <b-btn class="font-weight-bolder cursor-pointer btn-offer" @click="$bvModal.show('offer-item-modal')">
@@ -329,7 +329,7 @@
         </b-row>
         <b-row class="mt-5 d-block pr-5">
           <b-col class="w-25 pull-right">
-            <b-btn pill :disabled="!getTradeItemsWants.length" class="pull-right mb-4 create-trade-next-btn" @click="$router.push('/profile/create-listing/trades/confirmation')">{{ $t('trades.create_listing.vendor.wants.next') }}</b-btn>
+            <b-btn pill :disabled="!getTradeItemsWants.length" class="pull-right mb-4 create-trade-next-web" @click="$router.push('/profile/create-listing/trades/confirmation')">{{ $t('trades.create_listing.vendor.wants.next') }}</b-btn>
           </b-col>
         </b-row>
         <!-- /.row (main row) -->
@@ -973,4 +973,13 @@ export default {
 .btn-offer
   background: #000000
   color: #fff
+.create-trade-next-web
+  width: 151px
+  height: 38px
+  background: #667799
+  border-radius: 4px !important
+  border: 1px solid #667799
+  margin-top: 10px
+  margin-right: 20px
+  color: $color-white-1
 </style>
