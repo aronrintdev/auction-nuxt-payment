@@ -10,17 +10,17 @@
           >{{ $t('shop_by_style.archive') }} ({{ styleCount }})</Button
         >
       </div>
-      <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex justify-content-between align-items-center mmt-8">
         <h2 class="title">{{ $t('shop_by_style.title') }}</h2>
       </div>
       
-      <div class="text-center position-relative d-flex offset-sm-4">
+      <div class="text-center position-relative d-flex offset-sm-4 mt-10">
         <NavGroup
           v-model="type"
           :data="typeOptions"
           nav-key="shop-by-style-type"
-          class="mt-0"
           @change="handleTypeChange"
+          class="mt-0 w-345"
         />
         <Button
           ref="btnFilter"
@@ -45,7 +45,7 @@
       <ResponsivenessFilter :currentType="type" @renderStyles="getStyles"/>
     </div>
     <b-row v-if="type === 'look'" class="mt-0 ml-0 mr-0 look-view">
-      <b-col v-for="(style, index) in styles" :key="index" md="3" sm="6">
+      <b-col v-for="(style, index) in styles" :key="index" md="3" sm="6" class="p-0">
         <ShopByStyleCard
           :style-id="style.id"
           :image-url="style.image"
@@ -55,7 +55,7 @@
     </b-row>
     <b-row v-else class="mt-0 ml-0 mr-0">
       <template v-for="(style, index) in styles">
-        <b-col v-if="index == 1" :key="index" lg="3" md="3" sm="6">
+        <b-col v-if="index == 1" :key="index" lg="3" md="3" sm="6" class="p-0">
           <ShopByStyleCard
             :style-id="style.id"
             :image-url="style.image"
@@ -76,7 +76,8 @@
   </div>
 </template>
 <script>
-import { NavGroup, Button } from '~/components/common'
+import { Button } from '~/components/common'
+import NavGroup from '~/components/shop-by-style/StyleNav'
 import ShopByStyleFilter from '~/components/shop-by-style/Filter'
 import ShopByStyleCard from '~/components/shop-by-style/Card'
 import { TYPE } from '~/static/constants/shop-by-style'
@@ -174,11 +175,17 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.mt-10
+  margin-top: 10px
+.w-345
+  width: 345px
+.mmt-8
+  margin-top: -8px
 .look-view
-  margin: 0 150px!important
+  margin: 0 178px!important
 .container-shop-by-style
   max-width: 1440px
-  padding: 64px 87px
+  padding: 64px 86px 64px 87px
 
   .title
     @include heading-2
@@ -191,11 +198,13 @@ export default {
     right: 0
     width: 179px
     margin-top: -5px
+    font-weight: $normal
+    font-size: 16px
 
   .row
     > div
       .style-card
-        margin-bottom: 40px
+        margin-bottom: 20px
 
 @media (max-width: 768px)
   .container-shop-by-style
