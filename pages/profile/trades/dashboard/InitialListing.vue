@@ -37,6 +37,7 @@ export default {
   components: {
     OfferItems
   },
+  mixins: [ScreenSize],
   props:{
     initialWantsItems: {
       type: Array,

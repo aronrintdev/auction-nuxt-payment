@@ -55,7 +55,7 @@ export default {
   name: 'TradeCardWithMultipleItems',
 
   components: { BrowseItemCard },
-
+  mixins: [ScreenSize],
   props: {
     trades: {
       type: Array,

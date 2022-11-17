@@ -3,11 +3,14 @@
     <div v-if="isScreenXS">
       <div class="product-card">
         <div v-if="heading" class="item-heading-text pb-2 pl-2">{{heading}}</div>
-        <div class="d-flex justify-content-center align-content-center" >
-          <div v-for="(item) in offerItems" :key="'offer-item-list-' + item.id" class="single-div m-2">
+        <div class="mt-2 row justify-content-center align-content-center">
+          <div v-for="(item) in offerItems" :key="'offer-item-list-' + item.id" class="col-4">
             <div class="offer-item-small">
-              <img v-if="item.inventory" :src="item.inventory.product | getProductImageUrl" class="offer-item-image" width="100px" />
-              <img v-else :src="item.product | getProductImageUrl" class="offer-item-image-small" />
+              <img 
+                v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
+                class="img-fluid"
+              />
+              <img v-else :src="item.product | getProductImageUrl" class="img-fluid" />
             </div>
             <div class="inner-section">
               <div class="item-name align-items-center mt-2">
@@ -32,11 +35,11 @@
             class="d-flex justify-content-center align-content-center col-4"
           >
             <div class="d-inline body-section-box w-100 m-1">
-              <div class="d-flex justify-content-center align-content-center">
-                <img v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
-                     class="img-fluid pt-4"  />
-                <img v-else :src="item.product | getProductImageUrl" class="img-fluid pt-4"  />
-              </div>
+              <img 
+                v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
+                class="img-fluid pt-4" 
+              />
+              <img v-else :src="item.product | getProductImageUrl" class="img-fluid pt-4" />
 
               <div class="bottom-section mt-4">
                 <div class="product-name pt-1">  {{item.inventory ? item.inventory.product.name : item.product.name}}}</div>
@@ -88,7 +91,6 @@ export default {
 @import '~/assets/css/_variables'
 
 .offer-item-small
-  width: 80px
   background: $color-white-1
   border-radius: 8px
 .offer-item
@@ -103,8 +105,6 @@ export default {
     height: 55px
     overflow: hidden
 .item-name
-  width: 90px
-  height: 26px
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $medium
@@ -132,16 +132,13 @@ export default {
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
-  width: 50px
 
 .item-heading-text
-    font-family: $font-family-sf-pro-display
-    font-style: normal
-    @include body-13-normal
-    color: $color-gray-47
-.single-div
-  width: 100px
-  height: 161px
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-13-normal
+  color: $color-gray-47
+
 .listed-time
   font-family: $font-family-sf-pro-display
   font-style: normal
@@ -220,4 +217,10 @@ export default {
 
 .box-pro
   background: $color-white-4
+
+.responsive-width
+  width: 100%
+  @media (min-width: 1200px)
+    width: 72%
+
 </style>
