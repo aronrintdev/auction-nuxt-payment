@@ -3,7 +3,7 @@
     <i class="fa fa-clock-o mr-1 fa-2x" aria-hidden="true"></i>
     <vue-countdown
       :auto-start="true"
-      :time="60000"
+      :time="time"
       v-slot="{ days, hours, minutes, seconds }"
       :transform="transformSlotProps"
     >
@@ -11,7 +11,7 @@
          <span>{{ days }}</span>d <span>{{ hours }}</span>h
       </template>
       <template v-if="hours > 0">
-        <span>{{ hours }}</span>h <span>{{ minutes }}</span>h
+        <span>{{ hours }}</span>h <span>{{ minutes }}</span>m
       </template>
       <template v-else>
          <span>{{ minutes }}</span>m <span>{{ seconds }}s</span>
@@ -51,8 +51,8 @@ export default {
   background-color: $color-red-30
   position: absolute
   width: auto
-  top: 10px
-  left: 15px
+  top: 15px
+  left: 20px
   padding: 5px
   @include body-18-medium
   color: $color-white

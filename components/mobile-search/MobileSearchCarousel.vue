@@ -20,31 +20,47 @@
               v-for="(item, index) in items"
               :key="`product-carousel-${index}`"
               :class="{ item: true, 'photo-item': variant === 'photo' }"
+              @click.stop="()=> item.to ? $router.push(item.to) : null"
             >
-              <div v-if="variant === 'trade' || variant === 'auctions'">
-                <CountdownItem :time="60000" :key="index" />
-                <ProductThumb :src="item.image" :img-class="'m-0'" />
-                <div class="title mt-2">{{ item.name }}</div>
-                <div class="color text-gray-light fs-14 fw-5 font-secondary">{{ item.color }}</div>
+              <div v-if="variant === 'trade' || variant === 'auction'">
+                <CountdownItem :time="5000000 * 3.8" :key="index" />
+                <div class="bg-gray">
+                  <ProductThumb
+                    :src="variant === 'auction' ? item.auction_items[0].inventory.product.image : item.image"
+                    :img-class="'m-0'"
+                    style="opacity: .9" />
+                </div>
+                <div class="title mt-2 text-nowrap text-truncate">
+                  <template v-if="variant === 'auction'">
+                    {{ item.auction_items[0].inventory.product.name }}
+                  </template>
+                  <template v-else>
+                    {{ item.name }}
+                  </template>
+                </div>
+                <div class="color text-gray-light fs-14 fw-5 font-secondary text-nowrap text-truncate">
+                  {{ item.colorway }}
+                </div>
 
                 <div v-if="variant === 'trade'" class="d-flex justify-content-between">
                   <div class="font-secondary fs-14 mt-1 text-black body-5-normal">
-                    {{ item.size }}
+                   {{ $t('home_page.size')}} {{ item.inventory.length ? item.inventory[0].size.size : '-' }}
                   </div>
-                  <a role="button" class="trade d-flex align-items-center">
+                  <a role="button" class="trade d-flex align-items-center" @click="$router.push(`/trades/${item.id}`)">
                     <img src="~/assets/img/mobile-search/arrows.svg" /> <span class="ml-2">{{ $t('mobile_search.trade')}}</span>
                   </a>
                 </div>
 
                 <div v-else class="d-flex justify-content-sm-start w-100">
                  <div class="font-secondary fs-14 mt-1 text-black body-5-normal">
-                   &dollar;{{ item.price | formatPrice }}
+                   &dollar;{{ item.highest_bid ? item.highest_bid : item.start_bid_price | formatPrice }}
                  </div>
                   <div class="d-flex justify-content-between w-100">
                      <span class="font-secondary fs-12 mt-1 text-gray-light body-5-light px-1 flex-grow-1">
-                        ({{ item.size }})
+                        ({{ item.auction_items[0].inventory.color }})
                      </span>
-                    <a role="button" class="bid d-flex align-items-center justify-content-between">
+                    <a role="button" class="bid d-flex align-items-center justify-content-between"
+                         @click="$router.push(`/profile/auctions/${item.id}`)">
                       <span>{{ $t('mobile_search.bid_now')}}</span>
                     </a>
                   </div>
@@ -208,4 +224,6 @@ export default {
     background-color: $color-black-1
     color: $color-white
     padding: 5px 8px
+    min-width: 60px
+    height: 22px
 </style>

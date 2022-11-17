@@ -1,10 +1,5 @@
 <template>
   <div class="bottom-navigation bg-black px-4 pt-3 position-sticky w-100">
-    <SearchOverlay
-      ref="searchOverlay"
-      :show="showSearchOverlay"
-      @hide="handleSearchOverlayHide"
-    />
     <div
       class="d-flex text-center justify-content-between align-items-center w-100"
     >
@@ -14,12 +9,12 @@
           {{ $t('home.home') }}
         </h6>
       </nuxt-link>
-      <div class="navLink" @click="handleSearchFocus">
-        <search />
+      <nuxt-link class="navLink" to="/browse">
+        <search :active="$route.path === '/browse'" />
         <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
           {{ $t('navbar.browse') }}
         </h6>
-      </div>
+      </nuxt-link>
       <nuxt-link class="navLink" to="/shop">
         <shop :active="$route.path === '/shop'" />
         <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
@@ -55,7 +50,6 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import SearchOverlay from '~/components/search/Overlay'
 import home from '~/assets/icons/bottom-nav/home'
 import search from '~/assets/icons/bottom-nav/search'
 import shop from '~/assets/icons/bottom-nav/shop'
@@ -64,7 +58,7 @@ import auction from '~/assets/icons/bottom-nav/auction'
 import profile from '~/assets/icons/bottom-nav/profile'
 export default {
   name: 'BottomNavigation',
-  components: { SearchOverlay, home, search, shop, trade, auction, profile },
+  components: { home, search, shop, trade, auction, profile },
   data() {
     return {
       showSearchOverlay: false,
@@ -74,14 +68,6 @@ export default {
     ...mapGetters({
       authenticated: 'auth/authenticated',
     }),
-  },
-  methods: {
-    handleSearchFocus() {
-      this.$root.$emit('showSearchOverlay')
-    },
-    handleSearchOverlayHide() {
-      this.$root.$emit('hideSearchOverlay')
-    },
   },
 }
 </script>
