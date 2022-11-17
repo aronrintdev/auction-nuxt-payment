@@ -105,7 +105,6 @@
             <b-col v-for="item in inventory_items" :key="'offer-'+item.id" cols="3 mb-4">
               <div class="create-trade-item" :draggable="true" @dragstart="startDrag($event, item)">
                 <div>
-<!--                  <div class="create-trade-size-car">{{$t('trades.create_listing.vendor.wants.size')}} {{ item.size && item.size.size }}</div>-->
                   <img alt="No Image" class="plus-icon-add" :src="require('~/assets/img/icons/addPlus.svg')"
                        @click="checkIfItemAlreadyListed(item)"/>
                 </div>
@@ -767,6 +766,7 @@ export default {
 .position-floating
   position: absolute
   bottom: 40%
+
 .create-trade-next-web
   width: 151px
   height: 38px
