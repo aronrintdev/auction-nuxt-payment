@@ -17,7 +17,7 @@
     </div>
     <div class="items bg-white" :class="{ selectHide: !open, border: bordered }">
       <template v-for="(option, key) of options">
-        <div v-if="key" :key="key" @click="selectOption(key)">
+        <div v-if="key && !(key==='default' && selected==='default')" :key="key" @click="selectOption(key)">
           {{ option }}
         </div>
       </template>
