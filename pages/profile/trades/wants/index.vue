@@ -15,7 +15,7 @@
       <div class="wants-sub-heading col-md-6 pl-0 pt-1 mb-4">
         {{$t('trades.wants_listing.wants_list_contains_items')}}
       </div>
-      <b-row class="mt-2 pt-2 d-flex justify-content-between">
+      <div class="mt-2 pt-2 d-flex flex-sm-column flex-md-row justify-content-between">
         <b-col sm="12" md="7" xl="8" class="mt-2 px-0">
           <div class="d-flex flex-column d-sm-none">
             <div class="d-flex justify-content-between">
@@ -93,7 +93,7 @@
           </div>
         </b-col>
 
-        <b-col sm="12" md="4" xl="3" class="dropdown-container mt-2">
+        <b-col sm="12" md="4" xl="3" class="dropdown-container mt-2 px-0">
           <CustomDropdown
             v-model="orderFilter"
             :labelLeftImage="require('~/assets/img/icons/feature.png')"
@@ -102,8 +102,12 @@
             :label="orderFilterLabel"
             class="bg-white"
             optionsWidth="custom"
-            labelStyle='font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 16px; color: #000'
+            labelStyle='font-weight: 500 !important; font-size: 16px; color: #000'
             paddingX="23px"
+            :arrowStyle="{
+              marginTop: '0 !important',
+              color: '#999'
+            }"
             variant="white"
             dropDownHeight="46px"
             borderRadius="8px"
@@ -114,7 +118,7 @@
             @change="changeOrderFilter"
           />
         </b-col>
-      </b-row>
+      </div>
       <b-row class="d-none d-sm-flex justify-content-between justify-content-md-start px-2">
         <div 
           class="listing-heading" 
@@ -133,7 +137,7 @@
           {{ $t('trades.wants_listing.combinations', { 0: combinationItems.length }) }}
         </div>
       </b-row>
-      <div class="mt-3 d-flex d-sm-none row navigation-container">
+      <div class="mt-3 d-flex d-sm-none navigation-container">
         <div 
           class="navigation-item" 
           :class="{'navigation-item-active': currentTab === 'inventory'}"
@@ -187,9 +191,17 @@
             variant="white"
             borderRadius="4px"
             paddingX="10px"
-            :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
-            labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
-            arrowStyle='color: #000'
+            :dropdownStyle="{ 
+              border: '1px solid #cbcbcb', 
+              borderTop: 0,
+              borderRadius: '0 0 4px 4px'
+            }"
+            borderRadiusClose="4px 4px 0 0"
+            labelStyle="font-size: 14px; color: #626262;"
+            :arrowStyle="{
+              color: '#000',
+              marginTop: '0 !important'
+            }"
             @change="changeCategory"
           />
         </b-col>
@@ -205,9 +217,17 @@
             variant="white"
             borderRadius="4px"
             paddingX="10px"
-            :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
-            labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
-            arrowStyle='color: #000'
+            :dropdownStyle="{ 
+              border: '1px solid #cbcbcb', 
+              borderTop: 0,
+              borderRadius: '0 0 4px 4px'
+            }"
+            borderRadiusClose="4px 4px 0 0"
+            labelStyle="font-size: 14px; color: #626262;"
+            :arrowStyle="{
+              color: '#000',
+              marginTop: '0 !important'
+            }"
             @change="changeSizeTypeFilter"
           />
         </b-col>
@@ -223,9 +243,17 @@
             variant="white"
             borderRadius="4px"
             paddingX="10px"
-            :dropdownStyle="{ border: '1px solid #cbcbcb', borderTop: 0 }"
-            labelStyle="font-family: Montserrat; font-style: normal; font-weight: 400; font-size: 14px; color: #626262;"
-            arrowStyle='color: #000'
+            :dropdownStyle="{ 
+              border: '1px solid #cbcbcb', 
+              borderTop: 0,
+              borderRadius: '0 0 4px 4px'
+            }"
+            borderRadiusClose="4px 4px 0 0"
+            labelStyle="font-size: 14px; color: #626262;"
+            :arrowStyle="{
+              color: '#000',
+              marginTop: '0 !important'
+            }"
             @change="changeSizeFilter"
           />
         </b-col>
@@ -275,6 +303,7 @@
               <div 
                 v-for="item in wantedItems" 
                 :key="`want-item-${item.id}`"
+                class="col-6 col-md-3"
               >
                 <want-item-card
                   :wantItem="item"
@@ -352,6 +381,7 @@
                 :selected="!!selected.find((id) => id === combination.combination_id)"
                 :editRemove="action === 'delete_combination'"
                 class="h-100"
+                productType="combination"
                 @select="selectItemCombination"
                 @click="editDeleteCombination"
               />
@@ -554,6 +584,10 @@ export default {
     const wrapper = document.querySelector('.main-wrapper')
     if (wrapper.querySelector('.wants-main-container')) {
       wrapper.classList.add('bg-white-5')
+    }
+    const mobile = document.querySelector('.mobile-p-b')
+    if (mobile) {
+      mobile.classList.add('pb-0')
     }
 
     this.$root.$on('edit', (product) => {
@@ -984,8 +1018,10 @@ export default {
   padding-left: 15px
   padding-right: 15px
   background-color: $color-white-1
+  margin-top: -10px
   @media (min-width: 576px)
     background-color: $color-white-5
+    margin-top: 0
     padding-left: 54px
     padding-right: 54px
 

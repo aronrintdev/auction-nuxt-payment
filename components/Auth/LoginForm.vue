@@ -61,7 +61,7 @@
             </b-form-group>
           </ValidationProvider>
 
-          <b-row class="mt-5 w-100">
+          <b-row class="mt-5 login-btn">
             <b-col md="4" offset-md="4" class="text-center">
               <Button
                 :disabled="!isFormFilled"
@@ -178,8 +178,9 @@ export default {
 .input-login
   @include body-5-normal
   color: $black-1
-  background-color: $color-white-5
-  border: 0
+  background-color: $color-white-1
+  border: 1px solid $color-gray-3
+  border-radius: 10px !important
   transition: border-color 0.01s ease-in-out, box-shadow 0.01s ease-in-out
   &::placeholder,
   &:-ms-input-placeholder,
@@ -207,6 +208,8 @@ export default {
 .input-append
   border-bottom-right-radius: 0 !important
   border-top-right-radius: 0 !important
+  &:focus
+    background-color: $color-white-5
   &.is-invalid,
   &.is-invalid:active,
   &.is-invalid:focus
@@ -218,9 +221,14 @@ export default {
       border-left: none !important
 
 .append-icon
-  background: $color-white-5
-  border-bottom-right-radius: 3rem !important
-  border-top-right-radius: 3rem !important
+  background: $color-white-1
+  border: 1px solid $color-gray-3
+  border-radius: 10px !important
+  border-left: transparent
+  border-bottom-right-radius: 10px !important
+  border-top-right-radius: 10px !important
+  border-bottom-left-radius: 0px !important
+  border-top-left-radius: 0px !important
 
 ::v-deep .btn
   &.btn-confirm
@@ -230,4 +238,9 @@ export default {
       cursor: not-allowed
       &:hover
         box-shadow: none
+        
+@media (min-width: 320px) and (max-width: 556px)
+  .login-btn
+    width: 50%
+    margin: 0 auto
 </style>

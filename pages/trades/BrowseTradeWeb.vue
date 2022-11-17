@@ -3,7 +3,7 @@
     <div class="browse-tarde-heading ml-5 mt-3">{{$t('trades.browse_trade')}}</div>
     <div>
       <!-- Display all filter options -->
-      <BrowserTradeFilters @applyFilters="applyTradeFilters" @change="applyTradeFiltersNew" @clearFilters="resetTradeFilters" @applySorting="filterTrades"/>
+      <BrowserTradeFilters @applyFilters="applyTradeFilters" @click="applyTradeFiltersNew" @clearFilters="resetTradeFilters" @applySorting="filterTrades"/>
       <b-row class="w-100">
         <b-col md="12" class="text-center">
           <!-- Display total items filter selection one, two or three items -->
@@ -38,13 +38,13 @@
             <b-row class="d-flex justify-content-center col-md-12">
               <b-col :md="selectedTradeTotalItems === 'one'? 10 : 11" class="d-flex justify-content-between carousel-heading mb-5">
                 <h2 v-html="prettyLabel(key)"></h2>
-                <label v-if="trades.length" @click="showTradeTypeDetails(key)">{{$t('common.view_more')}}<img :src="require('~/assets/img/moreicon.svg')" class="ml-3 mr-2" /></label>
+                <label v-if="trades.length" role="button" @click="showTradeTypeDetails(key)">{{$t('common.view_more')}}<img :src="require('~/assets/img/moreicon.svg')" class="ml-3 mr-2" /></label>
               </b-col>
 
               <!-- Display trade with single items -->
               <b-col v-if="selectedTradeTotalItems === 'one'" md="11">
                 <BrowseCarousel v-if="trades.length"
-                                :trades="trades" />
+                                :trades="trades" :type="key" />
                 <p v-else class="text-center">{{$t('trades.trade_hub.no_trade_listing_found')}}</p>
               </b-col>
 
@@ -63,7 +63,7 @@
         <div v-for="(trades, key) in sectionTypes" :key="key">
           <div class="px-5 pt-5">
             <b-row>
-              <b-col md="12" class="d-flex justify-content-between carousel-heading mb-5 ml-5">
+              <b-col md="12" class="d-flex justify-content-between carousel-heading mb-5 ml-5 pl-5">
                 <h2 v-html="prettyLabel(key)"></h2>
               </b-col>
               <!-- Display trades with single items -->
@@ -75,7 +75,15 @@
                     class="item"
                   >
                     <nuxt-link :to="'/trades/' + trade.id">
-                      <BrowseItemCard :product="product.inventory.product" />
+                      <div class="expire-wrapper">
+			      <div class="btn-expire d-flex mt-2 ml-1 pt-2" :class="`${selectCounterBG(trade.created_at)}`">
+				<div>
+				  <img class="clock-image pl-1 pr-1" :src="require('~/assets/img/'+selectCounterBG(trade.created_at)+'_clock.svg')" height="15" />
+				</div>
+				<div class="text-created">{{prettifyExpiryDate(trade.created_at)}}</div>
+			      </div>
+			    </div>
+                      <BrowseItemCard :inventory="product.inventory" />
                     </nuxt-link>
                   </div>
                 </div>
@@ -100,12 +108,14 @@
 // import component
 import { mapGetters } from 'vuex'
 import debounce from 'lodash.debounce'
+import { tradeRemainingTime, isRemainingTimeLessThan12Hours } from '~/utils/string'
 import BrowserTradeFilters from '~/pages/trades/BrowseTradeFilters'
 import BrowseCarousel from '~/components/trade/BrowseCarousel.vue'
 import CarouselMultipleItems from '~/components/trade/CarouselMultipleItems.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import BrowseItemCard from '~/components/trade/BrowseItemCard.vue'
 import TradeCardWithMultipleItems from '~/components/trade/TradeCardWithMultipleItems.vue'
+import { TRADE_EXPIRY_DAYS } from '~/static/constants'
 export default {
   name: 'BrowseTrade',
   components: {
@@ -135,8 +145,10 @@ export default {
         brands: [],
         categories: [],
         status: [],
-        sortby: 'relevance',
+        sortby: null,
         product: null,
+        maxYear:null,
+        minYear:null
       },
     }
   },
@@ -185,7 +197,7 @@ export default {
     // make section label pretty
     prettyLabel(label){
       const words = label.split('_')
-      return '<u>'+this.$tc('common.'+words[0], 1) + '</u> ' + this.$tc('common.' + words[1], 1)
+      return this.$tc('common.'+words[0], 1)  + this.$tc('common.' + words[1], 1)
     },
 
     // filter if no of trade items is change
@@ -220,7 +232,9 @@ export default {
       this.selectedFilters.status=[]
       this.selectedFilters.sortby = null
       this.selectedFilters.product = null
-      this.selectedFilters.sortby = 'relevance'
+      this.selectedFilters.sortby = null
+      this.selectedFilters.maxYear = null
+      this.selectedFilters.minYear = null
       this.selectedTradeTotalItems = 'one'
       this.$store.commit('trade/setTradeType', 'All')
       this.filterTrades()
@@ -229,19 +243,6 @@ export default {
     // fetch trade offer items
     filterTrades: debounce(function (filters) {
       this.getFilters = filters !== undefined ? filters : this.selectedFilters
-      if(this.getFilters.categories.length <= 0 &&
-        this.getFilters.sizeTypes.length <= 0 &&
-        this.getFilters.sizes.length <= 0 &&
-        this.getFilters.brands.length <= 0 &&
-        this.getFilters.status.length <= 0 &&
-        this.getFilters.sortby == null
-      ){
-        console.log('if')
-        this.$store.commit('trade/setTradeType', 'All')
-      } else {
-        console.log('else')
-        this.$store.commit('trade/setTradeType', 'search_results')
-      }
       this.sectionTypes = []
       this.$axios.post('/trades/offers', {
         trade_type: this.getTradeType,
@@ -256,11 +257,19 @@ export default {
         trade_total_items: this.getTotalItemTrades,
         price_min: this.getFilters.minPrice,
         price_max: this.getFilters.maxPrice,
+        maxYear: this.getFilters.maxYear,
+        minYear: this.getFilters.minYear,
       })
         .then(res => {  // trades listing items in response
           this.sectionTypes = res.data.data
         })
-    }, 500)
+    }, 500),
+    selectCounterBG(createdAt){
+      return isRemainingTimeLessThan12Hours(createdAt, TRADE_EXPIRY_DAYS) ? 'red' : 'gray'
+    },
+    prettifyExpiryDate(createdAt){
+      return tradeRemainingTime(createdAt, TRADE_EXPIRY_DAYS)
+    },
   }
 }
 </script><style lang="sass" scoped>
@@ -278,8 +287,7 @@ export default {
     font-style: normal
     letter-spacing: 2px
     ::v-deep & u
-      text-decoration-color: $color-blue-2
-      text-underline-offset: 15px
+      text-decoration-color: $color-transparent
   & label
     font-family: $font-montserrat
     font-weight: $regular
@@ -292,7 +300,24 @@ export default {
     line-height: 2.5
     width: 20%
     border: none
-
+.btn-expire
+  @include body-5
+  font-weight: $medium
+  width: 110px
+  height: 30px
+.gray
+  background-color: $dark-gray-8
+  color: $color-black-1
+.red
+  background-color: $color-red-24
+  color: $color-white-1
+.text-created
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $medium
+  @include body-18
+  line-height: 12px
+  padding-top: 1px
 .browse-trade-listing-image
   width: 227px
 

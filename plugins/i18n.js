@@ -10,7 +10,7 @@ export default ({ app, store }) => {
   app.i18n = new VueI18n({
     // construction a new VueI18n
     locale: store.state.locale,
-    fallbackLocale: 'en', // always displays Chinese if English translation is not available
+    fallbackLocale: 'en', // always displays english if other not available if English translation is not available
     messages: {
       // 'locales' directory contains all the translations in the form of json files
       en: require('~/static/locales/en.json'), // All the translations in english is listed here

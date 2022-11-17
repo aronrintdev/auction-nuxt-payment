@@ -1,48 +1,49 @@
 <template>
   <div>
-    <b-row 
-      v-show="productItems.length" 
-      id="products" 
-      cols="1" 
-      class="d-none d-sm-flex text-xs w-100 searched-item-row" 
+    <b-row
+      v-show="productItems.length"
+      id="products"
+      cols="1"
+      class="d-none d-sm-flex text-xs w-100 searched-item-row"
       :style="{ 'max-width': width, ...wrapperStyle }"
     >
       <b-col :style="itemStyle" align-self="center">
         <b-list-group v-for="(product, index) in productItems" :key="`searched-product-${index}`">
-          <div 
-            :style="{ minHeight: '60px' }" 
+          <div
+            :style="{ minHeight: '60px' }"
             class="rounded-0 border-top-0 list-group-item text-xs d-flex align-items-center justify-content-between"
+            :class="listGroupItemClass"
           >
-            <div class="d-flex col-sm-8 pl-0 align-items-center">
-              <img 
-                :style="{ maxHeight: '50px', width: 'auto' }" 
-                class="mr-3" 
-                :src="product.image" 
+            <div class="d-flex col-sm-8 col-xl-10 col-md-10 pl-0 align-items-center">
+              <img
+                :style="{ maxHeight: '50px', width: 'auto' }"
+                class="mr-3"
+                :src="product.image"
               />
               <span class="searched-product-name align-self-center">
                 {{ product.name }}
               </span>
             </div>
-            <div class="col-sm-4 px-0">
-              <span 
-                v-if="productsFor === tradeItem || productsFor === counterOffer" 
-                class="cursor-pointer" 
+            <div :class="addBtnClass" class="add-product col-sm-4 px-0">
+              <span
+                v-if="productsFor === tradeItem || productsFor === counterOffer"
+                class="cursor-pointer"
                 @click="addProductTrade(product)"
               >
                 {{ $t('common.add_product') }}
                 <img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
               </span>
-              <span 
-                v-else-if="productsFor === arenaItem" 
-                class="cursor-pointer" 
+              <span
+                v-else-if="productsFor === arenaItem"
+                class="cursor-pointer"
                 @click="addProductArena(product)"
               >
                 <img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
               </span>
-              <a 
-                v-else 
-                class="d-flex justify-content-end searched-product-add-to-wants" 
-                href="#" 
+              <a
+                v-else
+                class="d-flex justify-content-end searched-product-add-to-wants"
+                href="#"
                 @click="addProductWant(product)"
               >
                 {{ $t('trades.create_listing.vendor.wants.add_want') }}
@@ -52,13 +53,16 @@
           </div>
         </b-list-group>
       </b-col>
-      <b-col :style="itemStyle" align-self="center">
+      <b-col v-if="productItems.length > 0" :style="itemStyle" align-self="center">
         <b-list-group class="text-md" :style="suggestNewStyle">
-          <b-list-group-item class="p-4 border-top-0 no-product d-flex align-items-center">
+          <b-list-group-item 
+            class="p-4 border-top-0 no-product d-flex align-items-center"
+            :class="listGroupItemClass"
+          >
             <i>
-              {{$t('common.dont_see_your_product')}} 
-              <a 
-                class="suggest-new" 
+              {{$t('common.dont_see_your_product')}}
+              <a
+                class="suggest-new"
                 @click="$bvModal.show('suggest_a_new_product')"
               >
                 {{$t('common.suggest_a_new_product')}}
@@ -85,17 +89,17 @@
         class="d-flex search-item justify-content-between align-items-center"
       >
         <div class="d-flex align-items-center">
-          <img 
-            :style="{ maxHeight: '70px', width: 'auto' }" 
-            class="mr-1" 
-            :src="item.image" 
+          <img
+            :style="{ maxHeight: '70px', width: 'auto' }"
+            class="mr-1"
+            :src="item.image"
           />
           <span class="searched-product-name col-7 align-self-center mx-3">
             {{ item.name }}
           </span>
         </div>
 
-        <div 
+        <div
           class="add-item-button col-2"
           @click="addProductWant(item)"
         >
@@ -103,9 +107,10 @@
         </div>
       </div>
 
-      <div 
-        v-if="productItems.length > 0" 
+      <div
+        v-if="productItems.length > 0"
         class="mt-2 d-flex justify-content-between px-4 no-product"
+        :class="noProductClass"
       >
         <div class="">{{ $t('common.dont_see_your_product') }}</div>
         <u @click="$bvModal.show('suggest_a_new_product')">
@@ -159,6 +164,18 @@ export default {
     suggestNewStyle: {
       type: Object,
       default: () => {}
+    },
+    addBtnClass: {
+      type: String,
+      default: ''
+    },
+    listGroupItemClass: {
+      type: String,
+      default: ''
+    },
+    noProductClass: {
+      type: String,
+      default: ''
     }
   },
   data(){
@@ -228,6 +245,26 @@ export default {
 @import '~/assets/css/_typography'
 @import '~/assets/css/_variables'
 
+.no-product-responsive
+  height: 92px
+  align-items: center
+  background: $color-white-1
+  border: 0.5px solid $color-gray-89
+  border-radius: 4px
+
+.counter-wrapper::v-deep
+  .list-group-item
+    border-bottom: 1px solid $color-gray-23
+
+.border-gray
+  border-color: $color-gray-47
+
+.width-responsive
+  left: 0
+  right: 0
+  z-index: 1
+  width: auto
+
 .searched-item-row
   font-weight: $normal
   z-index: 100000
@@ -253,6 +290,7 @@ export default {
   @media (min-width: 576px)
     @include body-4-regular
     font-family: $font-family-montserrat
+    border-radius: 0
     border-bottom-left-radius: 8px
     border-bottom-right-radius: 8px
     height: 60px
@@ -266,6 +304,7 @@ export default {
   margin-top: 11px
   border-radius: 4px
   padding: 10px
+  background: $color-white-1
 
 .add-item-button
   @include body-9-medium

@@ -1,19 +1,19 @@
 <template>
   <div>
-    <div class="col-md-12 mx-auto" v-if="width <=500">
+    <div v-if="isScreenXS" class="col-md-12 mx-auto">
       <div v-for="(trade) in trades" :key="'trade-list-' + trade.id" class="search-trade mb-5">
         <nuxt-link :to="'/trades/' + trade.id">
-          <div class="row trade-info-mobile d-flex justify-content-between pl-4 pr-4">
+          <div class="row trade-info-mobile d-flex justify-content-between pl-4 pr-4" :class="`${selectCounterBG(trade.created_at)}`">
               <div class="btn-expire d-flex mt-2 ml-1 pt-2">
                 <div>
-                  <img class="clock-image pl-1 pr-1" :src="require('~/assets/img/clock.svg')" />
+                  <img class="clock-image pl-1 pr-1" :src="require('~/assets/img/'+selectCounterBG(trade.created_at)+'_clock.svg')" height="15" />
                 </div>
                 <div class="text-created">{{prettifyExpiryDate(trade.created_at)}}</div>
               </div>
           </div>
           <div class="row  col-md-12 d-flex justify-content-center pt-2 pb-4">
             <div v-for="(product, index) in trade.offers" :key="'trade-item-'+index" class="products d-flex justify-content-center mx-1" >
-              <BrowseItemCard :product="product.inventory.product" :showExpire="false" class="trade-card item d-inline-block"/>
+              <BrowseItemCard :inventory="product.inventory" :showExpire="false" class="trade-card item d-inline-block"/>
             </div>
           </div>
           <div class="d-flex justify-content-end align-content-end mt-1 mr-3 pb-2">
@@ -22,20 +22,23 @@
         </nuxt-link>
       </div>
     </div>
-    <div class="col-md-12 mb-5 mx-5 " v-else>
-      <div v-for="(trade) in trades" :key="'trade-list-' + trade.id" class="search-trade mb-5">
+    <div v-else class="col-md-12 mb-5 mx-5 ">
+      <div v-for="(trade) in trades" :key="'trade-list-' + trade.id" class="search-trade mb-5 browse-trade d-flex justify-content-center align-items-center">
         <nuxt-link :to="'/trades/' + trade.id">
-          <div class="btn-expire d-flex mt-2 ml-1 pt-2">
+          <div class="btn-expire d-flex mt-2 ml-1 pt-2" :class="`${selectCounterBG(trade.created_at)}`">
             <div>
-              <img class="clock-image pl-1 pr-1 pb-2" :src="require('~/assets/img/clock.svg')" />
+              <img class="clock-image pl-1 pr-1 pb-2" :src="require('~/assets/img/'+selectCounterBG(trade.created_at)+'_clock.svg')" height="15" />
             </div>
             <div class="text-created pl-1 pb-2">{{prettifyExpiryDate(trade.created_at)}}</div>
           </div>
 
-          <div class="row d-flex justify-content-center pt-3 pb-4">
+          <div class="row d-flex justify-content-center pt-3 pb-2">
             <div v-for="(product, index) in trade.offers" :key="'trade-item-'+index" class="products d-flex justify-content-center mx-4" >
-              <BrowseItemCard :product="product.inventory.product" :showExpire="false" class="item d-inline-block"/>
+              <BrowseItemCard :inventory="product.inventory" :showExpire="false" class="item d-inline-block"/>
             </div>
+          </div>
+          <div class="">
+            <img class="trade-btn" :src="require('~/assets/img/tradebtn.svg')" />
           </div>
         </nuxt-link>
       </div>
@@ -43,15 +46,16 @@
   </div>
 </template>
 <script>
-import BrowseItemCard from '~/components/trade/BrowseItemCard.vue'
-import { tradeRemainingTime } from '~/utils/string'
+import BrowseItemCard from '~/components/trade/BrowseItemMultipleCard'
+import { tradeRemainingTime, isRemainingTimeLessThan12Hours } from '~/utils/string'
 import { TRADE_EXPIRY_DAYS } from '~/static/constants'
+import ScreenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'TradeCardWithMultipleItems',
 
   components: { BrowseItemCard },
-
+  mixins: [ScreenSize],
   props: {
     trades: {
       type: Array,
@@ -73,15 +77,20 @@ export default {
   methods: {
     prettifyExpiryDate(createdAt){
       return tradeRemainingTime(createdAt, this.timeLimit)
+    },
+    selectCounterBG(createdAt){
+      return isRemainingTimeLessThan12Hours(createdAt, TRADE_EXPIRY_DAYS) ? 'red' : 'gray'
     }
   }
 }
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
 .trade-btn
   height: 21px
-  width: 62px
+  width: 100px !important
+  float: right
 .trade-card-wrapper
   width: 204px
   @media (min-width: 300px) and (max-width: 500px)
@@ -132,10 +141,22 @@ export default {
   width: 20px
 .btn-expire
   @include body-9
-  color: $color-white-1
-  background-color: $color-gray-23
-  width: 95px
+  width: 110px
   height: 25px
+.gray
+  background-color: $dark-gray-8
+  color: $color-black-1
+.red
+  background-color: $color-red-24
+  color: $color-white-1
 .products
   width: 213px
+
+.text-created
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $medium
+  @include body-18
+  line-height: 12px
+  padding-top: 1px
 </style>

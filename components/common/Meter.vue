@@ -1,6 +1,6 @@
 <template>
   <div class="meter-wrapper d-flex flex-column justify-content-center align-items-center">
-    <div class="text-fair">{{$t(heading).toUpperCase()}} <sup><img :src="require('~/assets/img/trades/info-icon.svg')"></sup></div>
+    <div class="text-fair" :class="headingClass">{{$t(heading).toUpperCase()}} <sup><img :src="require('~/assets/img/trades/info-icon.svg')"></sup></div>
     <div class="meter mx-auto mt-1 user-select-none">
       <div class="label-excellent d-flex justify-content-center align-items-center">{{ $t('common.excellent') }}</div>
     </div>
@@ -34,6 +34,10 @@ export default {
       type: String,
       default:  'common.fair',
     },
+    headingClass: {
+      type: String,
+      default: ''
+    }
   },
 
   computed: {
@@ -83,11 +87,21 @@ export default {
     font-style: normal
     color: $color-black-1
 
+  .my-header
+    @include body-10-normal
+    width: 183px
+    text-align: left
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding-right: 15px
+    margin-bottom: 4px
+
   .meter
     background: linear-gradient(90deg, $color-yellow-8 0%, $color-green-27 63.02%)
     border: 0.5px solid $color-gray-23
     box-shadow: inset 0 2px 3px $color-gray-85
-    width: 249px
+    width: 183px
     height: 24px
     position: relative
 

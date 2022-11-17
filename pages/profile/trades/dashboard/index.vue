@@ -12,15 +12,15 @@
 <script>
 export default {
   name: 'Create',
+  components: {
+    dashboardMobile:()=> import('./dashboardMobile'),
+    dashboardWeb:()=>import('./dashboardWeb'),
+  },
+  layout: 'Profile',
   data(){
     return {
       width:'',
     }
-  },
-  layout: 'Profile',
-  components: {
-    dashboardMobile:()=> import('./dashboardMobile'),
-    dashboardWeb:()=>import('./dashboardWeb'),
   },
   mounted() {
     this.width = window.innerWidth

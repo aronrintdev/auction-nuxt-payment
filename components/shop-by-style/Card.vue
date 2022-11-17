@@ -8,10 +8,6 @@
   >
     <img :src="imageUrl" class=""/>
     <div class="overlay position-absolute w-100 h-100"></div>
-    <div class="view-style position-absolute text-right">
-      {{ $t('shop_by_style.view_style') }}
-      <img :src="require('~/assets/img/icons/view.svg')" />
-    </div>
   </div>
 
   </div>
@@ -45,11 +41,6 @@ export default {
   cursor: pointer
 
   &:hover
-    transform: rotateY(180deg)
-    .overlay
-      visibility: visible
-      opacity: 0.5
-
     .view-style
       display: block
 

@@ -177,7 +177,7 @@
           <ValidationProvider
             v-slot="validationContext"
             :name="$t('shopping_cart.state')"
-            :rules="{ required: true, min: 3, max: 64 }"
+            :rules="{ required: true, max: 64 }"
           >
             <b-form-group label-for="state">
               <template #label>{{ $t('shopping_cart.state') }}&ast;</template>

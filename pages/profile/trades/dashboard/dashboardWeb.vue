@@ -79,8 +79,8 @@
             class="type-nav mt-3 mb-3"
             @change="handleMethodNavClick"
           />
-          <div class="row justify-content-center">
-          <trade-offer-items :offers="tradeOffers"></trade-offer-items>
+          <div class="d-flex justify-content-center pr-4">
+            <trade-offer-items :offers="tradeOffers"></trade-offer-items>
           </div>
           <b-row class="justify-content-center mt-3">
             <Button variant="blue" @click="$router.push('/profile/trades/dashboard/alloffers')">{{$t('trades.view_all')}}</Button>

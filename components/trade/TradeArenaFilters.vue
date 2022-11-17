@@ -3,7 +3,7 @@
     <div class="d-flex flex-column h-100 filters-sheet">
       <div class="filters-sheet-title text-center">{{ $t('auctions.frontpage.filterbar.filter_by') }}</div>
       <div class="flex-shrink-1 overflow-auto filters-sheet-content">
-        <div class="filter-group" v-if="orderFilter">
+        <div v-if="orderFilter" class="filter-group">
           <div class="filter-group-title mb-3">{{ $t('auctions.frontpage.filterbar.sort') }}</div>
           <div class="flex-wrap justify-content-between filter-group-body">
             <label v-for="(option, idx) in SORT_OPTIONS" :key="idx" class="d-flex align-items-center">
