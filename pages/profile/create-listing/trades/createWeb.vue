@@ -54,6 +54,7 @@
                   <CustomDropdown v-model="categoryFilter" :options="categoryItems" type="single-select"
                                   :label="categoryFilterLabel" class="mr-3 width-156" optionsWidth="custom"
                                   width="150px"
+                                  padding-x="10px"
                                   dropDownHeight="38px" variant="white"
                                   @getResults="getInventory"
                                   @change="changeCategory"/>
@@ -67,6 +68,7 @@
                     dropDownHeight="38px"
                     variant="white"
                     width="150px"
+                    padding-x="10px"
                     @getResults="getInventory"
                     @change="changeSizeTypeFilter"/>
                   <CustomDropdown
@@ -79,13 +81,13 @@
                     dropDownHeight="38px"
                     variant="white"
                     width="150px"
+                    padding-x="10px"
                     @getResults="getInventory"
                     @change="changeSizeFilter"/>
                 </client-only>
                 <b-btn class="filter-btn-create-trade mr-3" @click="getInventory">
                   {{ $t('create_listing.trade.offer_items.filter_btn') }}
                 </b-btn>
-                <div class="clear-filter" @click="clearFilters">{{$t('trades.clear_filter')}}</div>
               </div>
             </div>
             <div class="col-md-4 mt-custom p-0">
@@ -95,6 +97,7 @@
                                   :options="generalListItemsCustomFilter" type="single-select"
                                   :label="orderFilterLabel" class="bg-white" optionsWidth="custom"
                                   width="220px" variant="white"
+                                  padding-x="10px"
                                   dropDownHeight="38px"
                                   @getResults="getInventory" @change="changeOrderFilter"/>
                 </client-only>
@@ -105,7 +108,6 @@
             <b-col v-for="item in inventory_items" :key="'offer-'+item.id" cols="3 mb-4">
               <div class="create-trade-item" :draggable="true" @dragstart="startDrag($event, item)">
                 <div>
-<!--                  <div class="create-trade-size-car">{{$t('trades.create_listing.vendor.wants.size')}} {{ item.size && item.size.size }}</div>-->
                   <img alt="No Image" class="plus-icon-add" :src="require('~/assets/img/icons/addPlus.svg')"
                        @click="checkIfItemAlreadyListed(item)"/>
                 </div>
@@ -767,6 +769,7 @@ export default {
 .position-floating
   position: absolute
   bottom: 40%
+
 .create-trade-next-web
   width: 151px
   height: 38px

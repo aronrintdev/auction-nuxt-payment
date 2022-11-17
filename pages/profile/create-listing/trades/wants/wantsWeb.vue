@@ -74,25 +74,24 @@
                 <div class="d-flex">
                   <client-only>
                     <CustomDropdown v-model="categoryFilter" :label="categoryFilterLabel" :options="categoryItems"
-                        class="mr-3 width-156" type="single-select" optionsWidth="custom"
+                        class="mr-3 width-156" type="single-select" optionsWidth="custom" padding-x="10px"
                         width="156px"
                         @change="changeCategory"
                         @getResults="getGeneralListItems"/>
                     <CustomDropdown v-model="sizeTypesFilter" :label="sizeTypesFilterLabel" :options="filters.size_types"
                         class="mr-3 width-156" type="multi-select-checkbox" optionsWidth="custom"
+                        padding-x="10px"
                         @change="changeSizeTypeFilter"
                         @getResults="getGeneralListItems"/>
                     <CustomDropdown v-model="sizeFilter" :label="sizeFilterLabel" :options="filters.sizes"
                         class="mr-3 width-156" type="multi-select-checkbox" optionsWidth="custom"
+                        padding-x="10px"
                         @change="changeSizeFilter"
                         @getResults="getGeneralListItems"/>
                   </client-only>
                   <b-btn class="filter-btn-create-trade mr-3" @click="getGeneralListItems">
                     {{ $t('create_listing.trade.offer_items.filter_btn') }}
                   </b-btn>
-                  <div class="clear-filter" @click="clearFilters">
-                    {{ $t('trades.create_listing.vendor.wants.clear_all_filters') }}
-                  </div>
                 </div>
               </div>
               <div class="col-md-4 mt-custom">
@@ -102,7 +101,7 @@
                         :options="generalListItemsCustomFilter" type="single-select"
                         :label="orderFilterLabel" class="width-200"
                         optionsWidth="custom"
-                        width="220px"
+                        width="220px" padding-x="10px"
                         @getResults="getGeneralListItems" @change="changeOrderFilter"/>
                   </client-only>
                 </b-row>
@@ -183,6 +182,7 @@
                                 :options="combinationCustomFilter" class="width-200" type="single-select"
                                 optionsWidth="custom"
                                 width="220px"
+                                padding-x="10px"
                                 @change="changeOrderFilterCombination" @getResults="getCombinations"/>
               </b-row>
               <b-row class="px-5">
