@@ -125,13 +125,11 @@
                 <span :id="`name${item.id}`"
                       class="create-trade-item-name">{{ item.product && item.product.name }}</span>
                   <span :id="`colorway${item.id}`"
-                        class="create-trade-item-caption-description">{{ item.product && item.product.colorway }}</span>
+                        class="create-trade-item-caption-description">Size: {{ item.size && item.size.size }} , {{ item.product && item.product.colorway }}</span>
                   <span
                     class="create-trade-item-caption-description">Box: {{
                       item.packaging_condition && item.packaging_condition.name
                     }}</span>
-                  <span
-                    class="create-trade-item-caption-description">Size: {{ item.size && item.size.size }}</span>
                 </div>
                 <!-- tooltip for name -->
                 <b-tooltip :target="`name${item.id}`" triggers="hover">
