@@ -4,22 +4,32 @@
       {{$t('trades.my_trade_listings')}}
     </div>
     <div v-if="isScreenXS">
-      <div class="d-flex pt-3">
-        <div>
+      <div class="d-flex justify-content-between pt-3">
+        <div class="col-11 d-flex flex-column px-0">
           <SearchInputMobile
             :value="searchText"
             variant="primary"
             :placeholder="$t('trades.search_trades')"
             :clearSearch="true"
+            inputHeight="33px"
+            class="listings-search"
             bordered
             @change="onSearchInput"
             @clear="onSearchInput"
           />
-          <SearchBarProductsList v-if="searchedProducts.length > 0" :productItems="searchedProducts" width="700px" class="position-absolute"/>
+          <div class="position-relative">
+            <SearchBarProductsList 
+              v-if="searchedProducts.length > 0" 
+              :productItems="searchedProducts" 
+              listItemClass="rounded-0"
+              class="position-absolute right-0 left-0 mx-0 mt-1"
+              wrapperClass="px-0"
+            />
+          </div>
         </div>
-        <div class="mt-2 ml-3">
+        <div class="mt-2">
           <img class="float-right image-filter"
-               :src="require('~/assets/img/filterTradeList.svg')"  @click="openBottomFilter()"/>
+              :src="require('~/assets/img/filterTradeList.svg')"  @click="openBottomFilter()"/>
           <vue-bottom-sheet
             ref="browseFiltersSheet"
             class="more-options"
@@ -373,13 +383,6 @@ export default {
     this.width = window.innerWidth
     this.fetchTradesListing()
 
-    const wrapper = document.querySelector('.main-wrapper')
-    console.log('MOUNT1');
-    if (wrapper.querySelector('.container-trade-dashboard')) {
-      console.log('MOUNT2');
-      wrapper.classList.add('bg-grayish')
-    }
-
     // To filter trades
     this.$root.$on('productClick', (product) => {
       this.searchTrades(product)
@@ -595,6 +598,8 @@ export default {
   padding-left: 15px
   padding-right: 15px
   @media (min-width: 576px)
+    margin-top: -50px
+    padding-top: 50px
     background: $color-white-5
     padding-left: 25px
     padding-right: 25px
