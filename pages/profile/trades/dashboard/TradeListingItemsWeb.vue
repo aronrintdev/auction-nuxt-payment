@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-between flex-wrap pr-4">
+  <div class="d-flex justify-content-between flex-wrap">
     <div v-for="(trade) in tradesList" :key="'trade-' + trade.id" role="button"
          class="trade-listing-item-single mt-3">
       <b-row class="justify-content-end">

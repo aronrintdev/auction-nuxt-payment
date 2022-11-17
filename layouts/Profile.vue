@@ -110,6 +110,9 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.bg-grayish
+  background-color: $color-white-5 !important
+  
 .wrapper
   .custom-wrapper
     overflow: hidden
