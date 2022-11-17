@@ -212,7 +212,7 @@
               <img class="attachment cursor-pointer" src="~/assets/img/attachment.png" @click="showModal">
               <p class="ml-2 text-black fs-14 fw-5">{{ $t('bounty.form.attachment.title') }}</p>
             </div>
-            <UploadModal v-model="form.images" :form="fileForm" :show="showDocModal" @closed="modalClosed" :requirement="fileRequirement" @uploaded="fileUploaded"/>
+            <UploadModal v-model="form.images" :form="fileForm" :show="showDocModal" :requirement="fileRequirement" @closed="modalClosed" @uploaded="fileUploaded"/>
 
             <div class="d-flex">
               <ValidationProvider

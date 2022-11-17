@@ -35,12 +35,12 @@ import NotificationSwitch from '~/components/profile/notifications/Switch';
 
 export default {
   name: 'TwoFactorAuthenticationComponent',
-  mixins: [screenSize],
   components: {
     NotificationSwitch,
     TextVerificationComponent,
     ReadMore
   },
+  mixins: [screenSize],
   data() {
     return {
       enable2fa: false,

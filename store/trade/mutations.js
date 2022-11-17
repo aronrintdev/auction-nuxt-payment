@@ -173,8 +173,9 @@ export function resetAllFilters(state) {
     state.selectedFilters.categories = []
     state.selectedFilters.priceRange = [0, 100]
     state.selectedFilters.searchedText = ''
-    state.selectedFilters.sortOrder = 'relevance'
+    state.selectedFilters.sortOrder = ''
     state.selectedFilters.totalTradeItems = 'one'
+    state.selectedFilters.tradeType = 'All'
 }
 
 /**

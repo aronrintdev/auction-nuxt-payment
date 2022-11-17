@@ -19,8 +19,8 @@
           v-model="type"
           :data="typeOptions"
           nav-key="shop-by-style-type"
-          @change="handleTypeChange"
           class="mt-0"
+          @change="handleTypeChange"
         />
         <Button
           ref="btnFilter"

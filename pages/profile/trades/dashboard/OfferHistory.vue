@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="width <=500">
+    <div v-if="isScreenXS">
       <div v-for="(offer) in offerHistory.offer_history" :key="'offer-history-'+ offer.id" class="offer-history-mobile" :class="'background-' + (isOfferMine(offer) ? 'blue' : 'white')">
         <b-row class="justify-content-between pt-4 pl-4 pr-4">
           <b-col v-if="isOfferMine(offer) && offer.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.your_counter_offer')}} ({{ offer.id}})</b-col>
@@ -110,6 +110,7 @@
 
 <script>
 import OfferItems from '~/pages/profile/trades/dashboard/OfferItems';
+import ScreenSize from '~/plugins/mixins/screenSize'
 import {
   OFFER_TYPE,
   COUNTER_OFFER_TYPE,

@@ -21,12 +21,12 @@
     <div class="text-right w-100 body-9-regular text-gray-24 mt-2">
       {{ $t('vendor_hub.documents_tab.upload_date') }} {{documentFile.created_at | formatDate}}
     </div>
-    <div class="mt-3 text-center" v-if="fieldExist('url')">
+    <div v-if="fieldExist('url')" class="mt-3 text-center">
       <Button pill class="bg-blue-20 body-9-normal" @click="$emit('upload', document)">
         {{$t('vendor_hub.documents_tab.re_upload_form')}}
       </Button>
     </div>
-    <div class="mt-3 text-center" v-if="fieldExist('url')">
+    <div v-if="fieldExist('url')" class="mt-3 text-center">
       <a role="button" @click="$emit('download', document)">
         <span class="text-blue-20 body-9-normal">{{$t('vendor_hub.documents_tab.download_form')}}</span>
       </a>

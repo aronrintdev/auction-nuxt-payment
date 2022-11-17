@@ -1,6 +1,6 @@
 <template>
   <b-col class="container-trade-dashboard">
-    <b-row class="heading-dashboard mt-4"  v-if="width > 500">
+    <b-row v-if="width > 500"  class="heading-dashboard mt-4">
       {{$t('trades.my_trade_listings')}}
     </b-row>
     <div  v-if="width<= 500">
@@ -31,8 +31,8 @@
               <div class="mt-1 ml-2">
                 <span class="filtersHeading ml-2">{{$t('auctions.frontpage.filterbar.sort')}}</span>
                   <b-form-radio-group
-                    class="radios mt-1 mb-1 sorted ml-3"
                     v-model="orderFilter"
+                    class="radios mt-1 mb-1 sorted ml-3"
                     :options="orderFilterItems"
                     :checked="orderFilter"
                     @change="changeOrderFilter($event, 'CUSTOM_VARIABLE')"
@@ -40,7 +40,7 @@
               </div>
               <hr class="hr" />
               <div class="mt-1 ml-2">
-                <div class="d-flex" v-b-toggle="'collapse-1'">
+                <div v-b-toggle="'collapse-1'" class="d-flex">
                   <b-row class="filtersHeading ml-2">
                     <b-col class="col-sm-6">{{$tc('common.category')}}</b-col>
                     <b-col class="col-sm-6">
@@ -65,7 +65,7 @@
               </div>
               <hr class="hr" />
               <div class="mt-1 ml-2">
-                <div class="d-flex" v-b-toggle="'collapse-dateSent'">
+                <div v-b-toggle="'collapse-dateSent'" class="d-flex">
                   <b-row class="filtersHeading ml-2">
                     <b-col class="col-sm-6">{{$tc('trades.date_sent')}}</b-col>
                     <b-col class="col-sm-6">
@@ -82,16 +82,16 @@
                       <CalendarInput
                         :value="start_date"
                         :placeholder="$t('trades.start_date')"
-                        @context="(context) => start_date = context.selectedYMD"
                         class="dates"
+                        @context="(context) => start_date = context.selectedYMD"
                       />
                     </div>
                     <div>
                       <CalendarInput
                         :value="end_date"
                         :placeholder="$t('trades.end_date')"
-                        @context="(context) => end_date = context.selectedYMD"
                         class="dates"
+                        @context="(context) => end_date = context.selectedYMD"
                       />
                     </div>
                   </div>

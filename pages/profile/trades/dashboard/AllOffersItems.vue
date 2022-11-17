@@ -115,6 +115,7 @@ export default {
     OfferItems,
     Button
   },
+  mixins: [ScreenSize],
   props:{
     offers: {
       type: Array,
@@ -125,7 +126,6 @@ export default {
       required: true
     }
   },
-  
   mixins: [ScreenSize],
   data() {
     return {
@@ -186,16 +186,12 @@ export default {
       return this.lastSubmittedOffer.cash_type === CASH_TYPE_REQUESTED
     },
     fetchOfferDetails(){
-      console.log('inside')
       this.offerId = parseInt(this.$route.params.id)
-      console.log(' this.offerId', this.offerId)
       this.$axios
         .get('trades/offer/' + this.offerId)
         .then((response) => {
-          console.log('response',response)
           this.offer = response.data.data
           this.lastSubmittedOffer = response.data.data.latest_offer ?? response.data.data
-          console.log('lastSubmittedOffer', this.lastSubmittedOffer)
         })
         .catch((error) => {
           this.$toasted.error(this.$t(error.response.data.error))

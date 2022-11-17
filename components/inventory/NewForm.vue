@@ -9,7 +9,7 @@
                  required
                  integer
                  @input="handleQuantityChange" />
-      <div class="error-text mt-1" v-if="value.quantity <= 0 || value.quantity > 50">
+      <div v-if="value.quantity <= 0 || value.quantity > 50" class="error-text mt-1">
         {{
           (0 >= value.quantity || value.quantity > 50) &&
           $t('inventory.message.between', {
@@ -32,7 +32,7 @@
         number
         @input="handlePriceChange"
       />
-      <div class="error-text mt-1" v-if="value.price !== null && value.price <= 50">
+      <div v-if="value.price !== null && value.price <= 50" class="error-text mt-1">
         {{
           value.price > 50 ||
           $t('inventory.message.gt_than', {

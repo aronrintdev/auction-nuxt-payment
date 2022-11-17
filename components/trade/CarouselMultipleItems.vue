@@ -20,15 +20,15 @@
             class="browse-trade d-flex justify-content-center align-items-center"
           >
             <nuxt-link :to="'/trades/' + trade.id">
-              <div class="btn-expire d-flex">
+              <div class="btn-expire d-flex" :class="`${selectCounterBG(trade.created_at)}`">
                 <div>
-                  <img class="clock-image p-1" :src="require('~/assets/img/black_clock.svg')" />
+                  <img class="clock-image p-1" :src="require('~/assets/img/'+selectCounterBG(trade.created_at)+'_clock.svg')" height="15" />
                 </div>
                 <div class="text-created pt-1">{{prettifyExpiryDate(trade.created_at)}}</div>
               </div>
               <div class="row d-flex justify-content-center pt-3 pb-2">
                 <div v-for="(product, key) in trade.offers" :key="'trade-item-'+key" class="products d-flex justify-content-center mx-5">
-                  <BrowseItemCard :product="product.inventory.product" :showExpire="false" class="item" itemCount="two" cardSize="sm-" />
+                  <BrowseItemCard :inventory="product.inventory" :showExpire="false" class="item" itemCount="two" cardSize="sm-" />
                 </div>
 
               </div>
@@ -56,7 +56,7 @@
 </template>
 <script>
 import BrowseItemCard from '~/components/trade/BrowseItemMultipleCard'
-import { tradeRemainingTime } from '~/utils/string'
+import { tradeRemainingTime, isRemainingTimeLessThan12Hours } from '~/utils/string'
 import { TRADE_EXPIRY_DAYS } from '~/static/constants'
 
 export default {
@@ -77,6 +77,9 @@ export default {
   methods: {
     prettifyExpiryDate(createdAt){
       return tradeRemainingTime(createdAt, this.timeLimit)
+    },
+    selectCounterBG(createdAt){
+      return isRemainingTimeLessThan12Hours(createdAt, TRADE_EXPIRY_DAYS) ? 'red' : 'gray'
     }
   }
 }
@@ -95,11 +98,15 @@ export default {
 .btn-expire
   width: 95px
   height: 25px
-  background-color: $dark-gray-8
-  color: $color-black-1
   position: relative
   top: 10px
   left: 5px
+.gray
+  background-color: $dark-gray-8
+  color: $color-black-1
+.red
+  background-color: $color-red-24
+  color: $color-white-1
 .clock-image
   height: 20px
   width: 20px

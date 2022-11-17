@@ -13,7 +13,6 @@
     </div>
     <div class="d-flex mt-2">
       <div class="mt-2 ml-3">
-        
         <vue-bottom-sheet
           ref="browseFiltersSheet"
           class="more-options"
@@ -25,8 +24,8 @@
             <div class="mt-1 ml-2">
               <span class="filtersHeading ml-2">{{$t('auctions.frontpage.filterbar.sort')}}</span>
               <b-form-radio-group
-                class="radios mt-1 mb-1 sorted ml-3"
                 v-model="orderFilter"
+                class="radios mt-1 mb-1 sorted ml-3"
                 :options="orderFilterItems"
                 :checked="orderFilter"
                 @change="changeOrderFilter($event, 'CUSTOM_VARIABLE')"
@@ -34,7 +33,7 @@
             </div>
             <hr class="hr" />
             <div class="mt-1 ml-2">
-              <div class="d-flex" v-b-toggle="'collapse-1'">
+              <div v-b-toggle="'collapse-1'" class="d-flex">
                 <b-row class="filtersHeading ml-2">
                   <b-col class="col-sm-6">{{$t('trades.trade_condition')}}</b-col>
                   <b-col class="col-sm-6">

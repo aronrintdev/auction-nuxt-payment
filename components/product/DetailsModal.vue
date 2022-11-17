@@ -2,8 +2,8 @@
   <MobileBottomSheet
     :height="'35%'"
     :open="isOpen"
-    @closed="$emit('closed')"
     :headerStyle="{ display: 'none !important' }"
+    @closed="$emit('closed')"
   >
     <div class="font-sf-pro">
       <div class="header">
