@@ -222,7 +222,7 @@
           </div>
 
           <b-row class="justify-content-end mt-4 pr-5" v-if="getTradeItems.length >= 1">
-            <b-btn class="create-trade-next-btn"
+            <b-btn class="create-trade-next-web"
                    @click="$router.push('/profile/create-listing/trades/wants')">
               {{ $t('create_listing.trade.offer_items.next') }}
             </b-btn>
@@ -787,7 +787,7 @@ export default {
 .search-prod
   z-index: 9999
 .create-trade-subheading
-  font-family: 'SF Pro Display'
+  font-family: $font-sp-pro
   font-weight: 400
   font-size: 18px
   line-height: 21px
@@ -807,4 +807,17 @@ export default {
 .position-floating
   position: absolute
   bottom: 40%
+.create-trade-next-web
+  width: 151px
+  height: 38px
+  background: #667799
+  border-radius: 4px
+  border: 1px solid #667799
+  margin-top: 10px
+  margin-right: 20px
+  color: $color-white-1
+  @include body-13
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $medium
 </style>
