@@ -481,6 +481,9 @@ export default {
       font-weight: $medium
 
 @media (min-width: 993px)
+  .nav-wrapper
+    width: 80%
+
   .d-md-header-group
     display: table-header-group !important
 
@@ -489,6 +492,9 @@ export default {
 
   ::v-deep .nav-group
     margin: 5px 0
+
+  ::v-deep .nav-group .btn-group
+    width: 45%
 
 @media (max-width: 992px)
   .nav-wrapper

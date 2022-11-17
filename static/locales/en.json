@@ -2562,6 +2562,7 @@
     "remove_from_wishilist": "Remove from wishlist",
     "move_this_item_a_list": "Move this item to a list",
     "remove_from_bag": "Remove from bag",
+    "remove_from_wishlist": "Remove from wishlist",
     "shopping_cart": "Shopping Cart",
     "item": "Item | Items",
     "have_promo_code": "Have a Promo Code",
@@ -4007,6 +4008,7 @@
     "items": "Items",
     "auto_bid_to": "Autobid to ",
     "highest_bid_info": "The highest bid for each auction is displayed",
+    "highest_bid_placed_info": "The highest bid you have placed for each auction is displayed",
     "messages": {
       "saved": "Your changes have been saved!"
     },
@@ -5234,6 +5236,7 @@
     "view": "View",
     "discard": "Discard",
     "faq": "Frequently Asked Questions about the Vendor Hub",
+    "faq_title": "Frequently Asked Questions",
     "document_name": "Document Name",
     "file": "File",
     "retailer_certification": "Retailer Certification",
