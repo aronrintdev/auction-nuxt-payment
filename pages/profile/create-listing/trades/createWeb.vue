@@ -2,7 +2,7 @@
   <div class="create-trade-bg">
     <create-trade-search-item v-if="search_item" :product="search_item" productFor="tradeOffer"/>
     <div v-else>
-      <b-row>
+      <b-row class="pl-3">
         <b-col md="6">
           <div  class="create-trade-heading">
             {{ $t('create_listing.trade.offer_items.offer') }}<sup>*</sup>
@@ -13,7 +13,7 @@
         </b-col>
       </b-row>
       <div>
-        <b-row class="mt-4 create-trade-pl-22">
+        <b-row class="mt-4 pl-3">
           <b-col md="7 p-0" xl="8" lg="8">
             <SearchInput
               :value="searchText"
@@ -111,23 +111,26 @@
           <b-row class="inventory-area">
             <b-col v-for="item in inventory_items" :key="'offer-'+item.id" cols="3 mb-4">
               <div class="create-trade-item" :draggable="true" @dragstart="startDrag($event, item)">
-                <div>
-                  <img alt="No Image" class="plus-icon-add" :src="require('~/assets/img/icons/addPlus.svg')"
+                <div class="image-cont d-flex justify-content-center align-items-center position-relative">
+                <img alt="No Image" class="plus-icon-add position-absolute" :src="require('~/assets/img/icons/addPlus.svg')"
                        @click="checkIfItemAlreadyListed(item)"/>
+                <div class="position-relative">
+                  <object
+                    :data="`${IMAGE_PATH}/${item.product && item.product.category && item.product.category.name}/${item.product && item.product.sku}/800xAUTO/IMG01.jpg`"
+                    class="create-trade-item-image"
+                    type="image/png">
+                    <img class="create-trade-item-image mb-2" :src="fallbackImgUrl" alt="image"/>
+                  </object>
                 </div>
-                <object
-                  :data="`${IMAGE_PATH}/${item.product && item.product.category && item.product.category.name}/${item.product && item.product.sku}/800xAUTO/IMG01.jpg`"
-                  class="create-trade-item-image"
-                  type="image/png">
-                  <img class="create-trade-item-image mb-2" :src="fallbackImgUrl" alt="image"/>
-                </object>
+                <div class="overlay-item"></div>
+                </div>
                 <div class="create-trade-item-caption">
                 <span :id="`name${item.id}`"
                       class="create-trade-item-name">{{ item.product && item.product.name }}</span>
                   <span :id="`colorway${item.id}`"
-                        class="create-trade-item-caption-description">Size: {{ item.size && item.size.size }} , {{ item.product && item.product.colorway }}</span>
+                        class="create-trade-item-caption-description">{{ item.product && item.product.colorway }},{{$tc('common.size')}}{{ item.size && item.size.size }} ,</span>
                   <span
-                    class="create-trade-item-caption-description">Box: {{
+                    class="create-trade-item-caption-description">{{$t('common.box')}}: {{
                       item.packaging_condition && item.packaging_condition.name
                     }}</span>
                 </div>
@@ -152,7 +155,7 @@
         </div>
 
         <div class="position-floating">
-          <div class="row create-trade-drag-drop-item-float justify-content-center text-center py-4 mt-5 ml-5 mr-5"
+          <div class="row create-trade-drag-drop-item-float justify-content-center text-center py-4 mt-5"
                @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
             <div v-if="getTradeItems.length < 1">
               <div class="create-trade-drag-drop-heading">
@@ -167,29 +170,29 @@
             </div>
             <b-row v-else class="justify-content-center">
               <div v-for="(prod, index) in getTradeItems"
-                   :key="'selected-'+index+prod.id" class="create-trade-item-web d-flex justify-content-between flex-column mr-4">
-                <div class="d-flex justify-content-between mt-2 mx-2 min-sign">
-                  <div v-if="prod.quantity > 1" class="create-trade-quantity-car-sm">x{{ prod.quantity || 1 }}</div>
-                  <div class="create-trade-minus-icon-web" @click="decrementOrRemoveItem(prod.id)">
-                    <div class="create-trade-minus-line-sm"></div>
+                   :key="'selected-'+index+prod.id" class="create-trade-item-web mr-4">
+                <div class="position-relative d-flex justify-content-center align-items-center sm-img-cont">
+                  <div v-if="prod.quantity > 1" class="create-trade-quantity-car-sm position-absolute">x{{ prod.quantity || 1 }}</div>
+                  <div class="create-trade-minus-icon-web position-absolute" @click="decrementOrRemoveItem(prod.id)">
+                  <div class="create-trade-minus-line-sm"></div>
                   </div>
-                </div>
-                <div class="create-trade-item-image-div-sm">
+                <div class="create-trade-item-image-div-sm position-relative">
                   <object
                     :data="`${IMAGE_PATH}/${prod.product && prod.product.category.name ? prod.product.category.name : prod.category.name }/${prod.sku ? prod.sku : prod.product.sku}/800xAUTO/IMG01.jpg`"
                     class="create-trade-item-image-sm" type="image/png">
                     <img class="create-trade-item-image-sm mb-2" :src="fallbackImgUrl" alt="image"/>
                   </object>
                 </div>
+                <div class="overlay-item"></div>
+                </div>
                 <div class="create-trade-item-caption-web">
                 <span :id="`name-sm${prod.id}`"
                       class="create-trade-item-name-sm">{{ prod.name ? prod.name : prod.product.name }}</span>
                   <span :id="`colorway-sm${prod.id}`"
-                        class="create-trade-item-caption-description-sm">{{ prod.colorway ? prod.colorway : prod.product.colorway }}</span>
-                  <span class="create-trade-item-caption-description-sm">Box: {{
+                        class="create-trade-item-caption-description-sm">{{ prod.colorway ? prod.colorway : prod.product.colorway }},{{$tc('common.size')}}{{ prod.size && prod.size.size }}</span>
+                  <span class="create-trade-item-caption-description-sm">{{$t('common.box')}}: {{
                       prod.packaging_condition && prod.packaging_condition.name
                     }}</span>
-                  <span class="create-trade-item-caption-description-sm">Size: {{ prod.size && prod.size.size }}</span>
                 </div>
 
                 <b-tooltip :target="`name-sm${prod.id}`" triggers="hover">
@@ -722,10 +725,10 @@ export default {
   cursor: pointer
 
 .plus-icon-add
-  margin-left: calc(100% - 35px)
-  margin-top: 13px
+  right: 10px
+  top: 10px
   cursor: pointer
-  z-index: 1000
+  z-index: 100
 
 .inventory-area
   margin-bottom: 33px
@@ -756,7 +759,6 @@ export default {
   line-height: 21px
   color: #626262
 .inventory-section-module
-  width: 1050px
   height: 1016px
   position: relative
   overflow-y: scroll
@@ -771,13 +773,15 @@ export default {
 .position-floating
   position: absolute
   bottom: 40%
-
+  right: 60px
+  left: 300px
+  z-index: 101
 .create-trade-next-web
   width: 151px
   height: 38px
   background: $color-grey-101
   border-radius: 4px
-  border: 1px solid #667799
+  border: 1px solid $color-blue-20
   margin-top: 10px
   margin-right: 20px
   color: $color-white-1
@@ -785,4 +789,42 @@ export default {
   font-family: $font-sp-pro
   font-style: normal
   font-weight: $medium
+.create-trade-item
+  width: 242px
+  height: 336px
+  background: $color-white-4
+.create-trade-bg
+  padding: 15px 30px 78px 30px
+.overlay-item
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: $color-grey-70
+.image-cont
+  height: 273px
+  background: $color-white-1
+  padding: 25px
+.create-trade-item-image
+  width: 100%
+  aspect-ratio: 1
+.create-trade-item-image-sm
+  width: 100%
+  aspect-ratio: 1
+.create-trade-item-image-div-sm
+  background: $color-white-1
+.create-trade-quantity-car-sm
+  left: 10px
+  top: 10px
+.create-trade-minus-icon-web
+  right: 10px
+  top: 10px
+  z-index: 102
+.sm-img-cont
+  height: 180px
+  background: $color-white-1
+  padding: 25px
+.create-trade-item-web
+  background: $color-white-1
 </style>
