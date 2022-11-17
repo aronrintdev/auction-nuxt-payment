@@ -238,12 +238,12 @@
     </div>
 
     <div class="mt-4 listings">
-      {{$t('trades.listings',{'0': totalCount})}}
+      {{ $t('trades.listings', { '0': totalCount }) }}
     </div>
-    <b-row v-if="delete_expired">
+    <div v-if="delete_expired">
       <BulkSelectToolbar
         ref="bulkSelectToolbar"
-        :active="selected.length>0"
+        :active="selected.length > 0"
         :selected="selected"
         :unit-label="$tc('common.product', selected.length)"
         :action-label="$t('trades.delete_selected')"
@@ -251,9 +251,9 @@
         @close="selected = []"
         @selectAll="handleSelectAll()"
         @deselectAll="selected = []"
-        @submit="deleteMySelectedTrades"
+        @submit="$bvModal.show('confirm-bulk-delete')"
       />
-    </b-row>
+    </div>
     <b-row v-if="delete_expired" class="pt-2 pl-4">
       <b-form-checkbox
         id="checkbox-1"
@@ -297,6 +297,21 @@
         @per-page-change="handlePerPageChange"
       />
     </b-row>
+
+    <ConfirmModal
+      id="confirm-bulk-delete"
+      :confirmLabel="$t('common.delete')"
+      :message="$t('common.bulk_delete_warning')"
+      :messageStyle="{
+        fontFamily: 'SF Pro Display',
+        fontWeight: 400,
+        fontSize: '18px',
+        color: '#000',
+        marginTop: '-30px',
+        width: '100%'
+      }"
+      @confirm="deleteMySelectedTrades"
+    />
   </b-col>
 </template>
 
@@ -312,6 +327,7 @@ import Pagination from '~/components/common/Pagination';
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar';
 import SearchBarProductsList from '~/components/product/SearchBarProductsList'
 import ScreenSize from '~/plugins/mixins/screenSize'
+import { ConfirmModal } from '~/components/modal'
 import {
   PAGE,
   PER_PAGE,
@@ -335,6 +351,7 @@ export default {
     SearchInput,
     SearchInputMobile,
     SearchBarProductsList,
+    ConfirmModal,
     tradeListingItemsMobile:()=> import('./TradeListingItemsMobile'),
     tradeListingItemsWeb:()=>import('./TradeListingItemsWeb'),
   },
@@ -549,9 +566,10 @@ export default {
       })
     },
 
-    removeExpired(){
+    removeExpired() {
       this.delete_expired = !this.delete_expired
     },
+
     clearAllFilters(){
       this.start_date = null
       this.end_date = null
