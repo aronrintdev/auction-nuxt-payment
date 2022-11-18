@@ -241,8 +241,8 @@ export default {
 
 @media (min-width: 992px)
   .input-login
-    background-color: #F7F7F7
-    border: 1px solid #F7F7F7
+    background-color: $color-white-5
+    border: 1px solid $color-white-5
     color: $color-black-1
 
     &.input-username
@@ -252,8 +252,8 @@ export default {
       border-radius: 20px  0 0 20px !important
 
   .append-icon
-    background-color: #F7F7F7
-    border: 1px solid #F7F7F7
+    background-color: $color-white-5
+    border: 1px solid $color-white-5
     border-radius: 0 20px 20px 0 !important
 
 
