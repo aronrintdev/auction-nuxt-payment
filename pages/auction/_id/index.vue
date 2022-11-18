@@ -1004,7 +1004,7 @@ export default {
       if (this.$refs.autoBidModalSheet) {
         this.$refs.autoBidModalSheet.close()
       }
-      if (this.activeAuction.auto_bid_settings[0].id) {
+      if (this.activeAuction.auto_bid_settings[0] && this.activeAuction.auto_bid_settings[0].id) {
         this.$axios.post('/auctions/auto-bid', {
           ...this.activeAuction.auto_bid_settings[0],
           price: this.autoBidPrice * 100,
