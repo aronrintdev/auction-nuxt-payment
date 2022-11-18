@@ -134,9 +134,8 @@ export default {
 @import '~/assets/css/_variables'
 .products-category
   margin-top: 33px
-  &:after 
+  &:after
     position: absolute
-    content: ''
     width: calc(100% - 17px)
     height: 100%
     border: 9px solid $color-white-1
