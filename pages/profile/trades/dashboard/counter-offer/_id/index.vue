@@ -202,7 +202,7 @@
                     <div>
                       <div class="position-relative">
                         <img alt="No Image" class="plus-icon-add-trade position-absolute" role="button" :src="require('~/assets/img/icons/addPlus.svg')"
-                             @click="addYourItem(item)"/>
+                             @click="addYourInventoryItem(item)"/>
                       </div>
                       <div class="image-wrapper-inventory position-relative d-flex justify-content-center align-items-center">
                         <img class="item-image-trade" :src="item.product.image" alt="image" />
