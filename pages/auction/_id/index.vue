@@ -3,7 +3,9 @@
     <div v-if="!isMobileSize" class="d-md-flex align-items-center justify-content-between mb-4 auction-header">
       <div>
         <b-breadcrumb :items="breadcrumbItems" class="mb-1"></b-breadcrumb>
-        <div class="auctioner-rating">{{ $t('auctions.frontpage.auctioneer_rating') }}:<span class="ml-4">97%</span></div> <!-- todo -->
+        <div class="auctioner-rating">
+          {{ $t('auctions.frontpage.auctioneer_rating') }}:<span class="ml-4">97%</span> <!-- todo -->
+        </div>
       </div>
     </div>
     <!-- [mobile] time remaining block -->
@@ -14,10 +16,16 @@
       :is-sold="isSold"
       :end-at="activeAuction.end_date"
     />
-    <div v-if="activeAuction.auction_items && activeAuction.auction_items.length > 0 && !isMobileSize" class="d-md-flex auction-content">
+    <div
+      v-if="activeAuction.auction_items && activeAuction.auction_items.length > 0 && !isMobileSize"
+      class="d-md-flex auction-content"
+    >
       <div class="auction-content-main d-block">
         <!-- 360 image viewer -->
-        <ProductImageViewerMagic360 v-if="activeAuction.auction_items[currentItemIdx].inventory.product.has360Images" :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
+        <ProductImageViewerMagic360
+          v-if="activeAuction.auction_items[currentItemIdx].inventory.product.has360Images"
+          :product="activeAuction.auction_items[currentItemIdx].inventory.product"
+        />
         <div v-else class="w-auto pr-5 mr-5">
           <Thumb :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
         </div>
@@ -33,17 +41,26 @@
         <!-- Expired mark -->
         <div v-if="isExpired" class="mb-4 d-flex flex-column align-items-center justify-content-center expired-status">
           <span>{{ $t('bids.expired_on') }}</span>
-          <div class="d-flex mt-1"><span class="date">{{ activeAuction.end_date | formatDate }}</span><span class="ml-2 time">@ {{ formatTime(activeAuction.end_date) }}</span></div>
+          <div class="d-flex mt-1">
+            <span class="date">{{ activeAuction.end_date | formatDate }}</span>
+            <span class="ml-2 time">@ {{ formatTime(activeAuction.end_date) }}</span>
+          </div>
         </div>
         <!-- Scheduled -->
         <div v-if="isScheduled" class="mb-4 d-flex flex-column align-items-center justify-content-center scheduled-status">
           <span>{{ $t('auctions.frontpage.scheduled_on') }}</span>
-          <div class="d-flex mt-1"><span class="date">{{ activeAuction.end_date | formatDate }}</span><span class="ml-2 time">@ {{ formatTime(activeAuction.end_date) }}</span></div>
+          <div class="d-flex mt-1">
+            <span class="date">{{ activeAuction.end_date | formatDate }}</span>
+            <span class="ml-2 time">@ {{ formatTime(activeAuction.end_date) }}</span>
+          </div>
         </div>
         <!-- Sold -->
         <div v-if="isSold" class="mb-4 d-flex flex-column align-items-center justify-content-center sold-status">
           <span>{{ $t('auctions.frontpage.sold_on') }}</span>
-          <div class="d-flex mt-1"><span class="date">{{ activeAuction.end_date | formatDate }}</span><span class="ml-2 time">@ {{ formatTime(activeAuction.end_date) }}</span></div>
+          <div class="d-flex mt-1">
+            <span class="date">{{ activeAuction.end_date | formatDate }}</span>
+            <span class="ml-2 time">@ {{ formatTime(activeAuction.end_date) }}</span>
+          </div>
         </div>
         <div class="mb-4 d-flex justify-content-between px-0 product-info-box">
           <div>
@@ -110,7 +127,12 @@
           <div class="mt-4 quick-bid">
             <div class="mb-2 text-left text-uppercase quick-bid-title">
               {{ $t('auctions.frontpage.quick_bid') }}
-              <img v-b-tooltip.hover :title="$t('auctions.frontpage.quick_bid_info')" class="mt-n1 ml-1" src="~/assets/img/icons/info-dark-blue.svg" />
+              <img
+                v-b-tooltip.hover
+                :title="$t('auctions.frontpage.quick_bid_info')"
+                class="mt-n1 ml-1"
+                src="~/assets/img/icons/info-dark-blue.svg"
+              />
             </div>
             <div class="d-flex align-items-center justify-content-between quick-bid-content">
               <div
@@ -130,21 +152,38 @@
               {{ $t('auctions.frontpage.auto_bid') }}
               <img id="info-icon" class="mt-n1 ml-1" src="~/assets/img/icons/info-dark-blue.svg" />
               <b-tooltip target="info-icon" custom-class="auto-bid-tooltip" triggers="hover">
-                {{ $t('auctions.frontpage.auto_bid_tooltip') }} <span v-b-modal.auto-bid-thresholds-modal class="text-primary">{{ $t('auctions.frontpage.view_threshold_chart') }}</span>
+                {{ $t('auctions.frontpage.auto_bid_tooltip') }} <span v-b-modal.auto-bid-thresholds-modal class="text-primary">
+                  {{ $t('auctions.frontpage.view_threshold_chart') }}
+                </span>
               </b-tooltip>
             </div>
             <div class="d-flex align-items-center">
-              <input v-model="autoBidPrice" v-number-only class="text-left" :placeholder="$t('auctions.frontpage.insert_amount', { price: activeAuction.highest_bid / 100 || activeAuction.start_bid_price / 100 })" />
-              <button class="place-bid-btn auto-bid" :disabled="!autoBidPrice || parseFloat(autoBidPrice) * 100 < activeAuction.start_bid_price || parseFloat(autoBidPrice) * 100 < activeAuction.highest_bid" @click="placeAutoBid">
+              <input
+                v-model="autoBidPrice"
+                v-number-only
+                class="text-left"
+                :placeholder="$t('auctions.frontpage.insert_amount', {
+                  price: activeAuction.highest_bid / 100 || activeAuction.start_bid_price / 100
+                })"
+              />
+              <button
+                class="place-bid-btn auto-bid"
+                :disabled="!canPlaceAutoBid"
+                @click="placeAutoBid"
+              >
                 {{ $t('auctions.frontpage.place_auto_bid') }}  
               </button>
             </div>
-            <div v-if="authUser && activeAuction.auto_bid_setting" class="mt-3 text-left auto-bid-setting">
-              <div>{{ $t('auctions.frontpage.prev_auto_bid_placed_at') }} ${{ activeAuction.auto_bid_setting.price | formatPrice }}</div>
-              <div class="d-flex align-items-center mt-1">
-                <strong class="mr-3">{{ $t('auctions.frontpage.auto_bid_settings') }}</strong>
+            <div v-if="activeAuction.auto_bid_settings[0]" class="mt-3 d-flex align-items-center justify-content-between auto-bid-setting">
+              <div v-if="activeAuction.auto_bid_settings[0].bid">{{ $t('auctions.frontpage.prev_auto_bid_placed_at') }} ${{ activeAuction.auto_bid_settings[0].bid.price | formatPrice }}</div>
+              <div class="d-flex align-items-center">
                 <span class="mr-3">{{ autoBidDisabled ? 'Disabled' : 'Enabled' }}</span>
-                <b-form-checkbox :checked="!autoBidDisabled" switch size="lg" @change="onUpdateAutoBidSetting(!autoBidDisabled)"></b-form-checkbox>
+                <b-form-checkbox
+                  :checked="!autoBidDisabled"
+                  switch
+                  size="lg"
+                  @change="onUpdateAutoBidSetting(!autoBidDisabled)"
+                ></b-form-checkbox>
               </div>
             </div>
           </div>
@@ -154,8 +193,17 @@
               {{ $t('auctions.frontpage.direct_bid') }}
             </div>
             <div class="d-flex align-items-center">
-              <input v-model="placeBidPrice" v-number-only class="text-left flew-grow-1" :placeholder="$t('auctions.frontpage.insert_amount', { price: activeAuction.highest_bid / 100 || activeAuction.start_bid_price / 100 })" />
-              <button class="place-bid-btn" :disabled="!placeBidPrice" @click="placeBid">{{ $t('auctions.frontpage.place_bid') }}</button>
+              <input
+                v-model="placeBidPrice"
+                v-number-only
+                class="text-left flew-grow-1"
+                :placeholder="$t('auctions.frontpage.insert_amount', {
+                  price: activeAuction.highest_bid / 100 || activeAuction.start_bid_price / 100
+                })"
+              />
+              <button class="place-bid-btn" :disabled="!placeBidPrice" @click="placeBid">
+                {{ $t('auctions.frontpage.place_bid') }}
+              </button>
             </div>
             <div v-if="showLowBidError" class="text-left text-danger mt-1">
               {{ $t('auctions.frontpage.place_bid_error') }}
@@ -177,10 +225,16 @@
     <div v-if="activeAuction.auction_items && activeAuction.auction_items.length > 0 && isMobileSize">
       <div>
         <!-- 360 image viewer -->
-        <ProductImageViewerMagic360 v-if="activeAuction.auction_items[currentItemIdx].inventory.product.has360Images" :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
+        <ProductImageViewerMagic360
+          v-if="activeAuction.auction_items[currentItemIdx].inventory.product.has360Images"
+          :product="activeAuction.auction_items[currentItemIdx].inventory.product"
+        />
         <Thumb v-else :product="activeAuction.auction_items[currentItemIdx].inventory.product" />
       </div>
-      <div v-if="activeAuction.auction_items[currentItemIdx]" class="mt-4 d-flex align-items-start justify-content-between p-0 product-info-box">
+      <div
+        v-if="activeAuction.auction_items[currentItemIdx]"
+        class="mt-4 d-flex align-items-start justify-content-between p-0 product-info-box"
+      >
         <div>
           <div class="product-info-box-title">{{ activeAuction.auction_items[currentItemIdx].inventory.product.name }}</div>
           <div class="product-info-box-value">
@@ -236,9 +290,21 @@
             <b-btn class="w-100 py-2 px-0 quick-bid-autobid" @click="prepareAutoBid">{{ $t('auctions.frontpage.place_auto_bid') }}</b-btn>
           </div>
         </div>
+        <div v-if="activeAuction.auto_bid_settings[0]" class="mt-3 d-flex align-items-start flex-column auto-bid-setting">
+          <div v-if="activeAuction.auto_bid_settings[0].bid" class="auto-bid-setting-title">{{ $t('auctions.frontpage.prev_auto_bid_placed_at') }} ${{ activeAuction.auto_bid_settings[0].bid.price | formatPrice }}</div>
+          <div class="d-flex align-items-center">
+            <span class="mr-3 w-65">{{ autoBidDisabled ? 'Disabled' : 'Enabled' }}</span>
+            <b-form-checkbox
+              :checked="!autoBidDisabled"
+              switch
+              size="lg"
+              @change="onUpdateAutoBidSetting(!autoBidDisabled)"
+            ></b-form-checkbox>
+          </div>
+        </div>
       </template>
       <!-- Auction details -->
-      <div class="mt-5 auction-details">
+      <div class="mt-4 auction-details">
         <div class="auction-details-title">{{ $t('auctions.frontpage.details') }}</div>
         <div class="mt-3 auction-details-content">
           <div class="mt-2 d-flex align-items-center justify-content-between">
@@ -303,15 +369,21 @@
             <div class="product-details">
               <div class="mb-2 d-flex justify-content-between">
                 <span>{{ $t('common.sku') }}</span>
-                <span class="product-details-value text-right">{{ activeAuction.auction_items[currentItemIdx].inventory.product.sku }}</span>
+                <span class="product-details-value text-right">
+                  {{ activeAuction.auction_items[currentItemIdx].inventory.product.sku }}
+                </span>
               </div>
               <div class="mb-2 d-flex justify-content-between">
                 <span>{{ $t('common.colorway') }}</span>
-                <span class="product-details-value text-right">{{ activeAuction.auction_items[currentItemIdx].inventory.color }}</span>
+                <span class="product-details-value text-right">
+                  {{ activeAuction.auction_items[currentItemIdx].inventory.color }}
+                </span>
               </div>
               <div class="mb-2 d-flex justify-content-between">
                 <span>{{ $t('common.box_condition') }}</span>
-                <span class="product-details-value text-right">{{ $t(`common.box_conditions.${activeAuction.auction_items[currentItemIdx].inventory.packaging_condition.category_id}.${activeAuction.auction_items[currentItemIdx].inventory.packaging_condition.display_order}`) }}</span>
+                <span class="product-details-value text-right">
+                  {{ $t(`common.box_conditions.${activeAuction.auction_items[currentItemIdx].inventory.packaging_condition.category_id}.${activeAuction.auction_items[currentItemIdx].inventory.packaging_condition.display_order}`) }}
+                </span>
               </div>
               <div class="mt-5 pt-4 mb-5">
                 <div class="product-details-label">{{ $t('auctions.frontpage.description') }}:</div>
@@ -374,7 +446,10 @@
         @showAll="showAllAuctions"
       ></product-slider>
     </div>
-    <div v-if="activeAuction.auction_items && activeAuction.auction_items[currentItemIdx] && !isMobileSize" class="mt-5 d-md-block auctions-block product-details">
+    <div
+      v-if="activeAuction.auction_items && activeAuction.auction_items[currentItemIdx] && !isMobileSize"
+      class="mt-5 d-md-block auctions-block product-details"
+    >
       <b-tabs pills class="product-details-tabs">
         <b-tab title="Product Details" active>
             <b-row class="mb-1">
@@ -387,7 +462,9 @@
             </b-row>
             <b-row>
               <b-col class="field-name" md="2">{{ $t('common.box_condition') }}:</b-col>
-              <b-col class="field-value" md="10">{{ $t(`common.box_conditions.${activeAuction.auction_items[currentItemIdx].inventory.packaging_condition.category_id}.${activeAuction.auction_items[currentItemIdx].inventory.packaging_condition.display_order}`) }}</b-col>
+              <b-col class="field-value" md="10">
+                {{ $t(`common.box_conditions.${activeAuction.auction_items[currentItemIdx].inventory.packaging_condition.category_id}.${activeAuction.auction_items[currentItemIdx].inventory.packaging_condition.display_order}`) }}
+              </b-col>
             </b-row>
         </b-tab>
         <b-tab title="Size Guide">
@@ -436,64 +513,6 @@
             <div>{{ row.item.bid_increment }}</div>
           </template>
         </b-table>
-      </div>
-    </b-modal>
-    <b-modal id="auto-bid-modal" centered hide-footer hide-header size="lg">
-      <div class="text-right">
-        <close-icon class="close-icon auto-bid-auth-link" @click="$bvModal.hide('auto-bid-modal')"></close-icon>
-      </div>
-      <h1 class="auto-bid-modal-title">
-        {{ authUser ? $t('auctions.frontpage.enable_auto_bid') : $t('auctions.frontpage.signup_enable_auto_bid') }}
-      </h1>
-      <div v-if="autoBidStep === 'auth'" class="auto-bid-auth">
-        <div v-if="activeAuthTab === 'signup'" class="auto-bid-auth-signup">
-          <sign-up-component @complete="onAuthFinished"></sign-up-component>
-          <div class="mb-4">
-            {{ $t('auctions.frontpage.already_have_account') }}&nbsp;
-            <span class="text-primary auto-bid-auth-link" @click="activeAuthTab = 'login'">
-              {{ $t('auctions.frontpage.login_to_continue') }}
-            </span>
-          </div>
-        </div>
-        <div v-else class="auto-bid-auth-login">
-          <login-component inlineMode @complete="onAuthFinished"></login-component>
-          <div class="mb-4">
-            {{ $t('auctions.frontpage.have_no_account_yet') }}&nbsp;
-            <span class="text-primary auto-bid-auth-link" @click="activeAuthTab = 'signup'">
-              {{ $t('auctions.frontpage.register_new_one') }}
-            </span>
-          </div>
-        </div>
-      </div>
-      <div v-if="autoBidStep === 'payment'">
-        <div class="auto-bid-section">
-          <div class="auto-bid-section-title">{{ $t('auctions.frontpage.payment_method') }}</div>
-          <Cards isInlineMode :cta-label="'Next'" @complete="autoBidStep = 'shipping_address'" />
-        </div>
-      </div>
-      <div v-if="autoBidStep === 'shipping_address'">
-        <div class="auto-bid-section">
-          <div class="auto-bid-section-title">{{ $t('auctions.frontpage.shipping_information') }}</div>
-          <ValidationObserver ref="shippingAddressObserver">
-            <BillingShippingAddressForm
-              addressType="shipping"
-              ctaAlignment="center"
-              @submit="(address) => addressChanged('shipping', address)"
-            ></BillingShippingAddressForm>
-          </ValidationObserver>
-        </div>
-      </div>
-      <div v-if="autoBidStep === 'billing_address'">
-        <div class="auto-bid-section">
-          <div class="auto-bid-section-title">{{ $t('auctions.frontpage.billing_information') }}</div>
-          <ValidationObserver ref="billingAddressObserver">
-            <BillingShippingAddressForm
-              addressType="billing"
-              ctaAlignment="center"
-              @submit="(address) => addressChanged('billing', address)"
-            ></BillingShippingAddressForm>
-          </ValidationObserver>
-        </div>
       </div>
     </b-modal>
     <!-- Bid Confirm Modal -->
@@ -577,8 +596,8 @@
             <strong class="text-danger">{{ activeAuction | remainingTime('medium') }}</strong>
           </div>
           <div class="my-4 d-flex justify-content-center">
-            <b-button class="mr-2 px-4" variant="primary" pill @click="onPlaceBidConfirmed">{{ modalData.auto_bid ? $t('auctions.frontpage.bid_up_to') : $t('auctions.frontpage.bid') }} ${{ modalData.price | formatPrice }}<small> {{ $t('auctions.frontpage.fees') }}</small></b-button>
-            <b-button class="ml-2 px-5" variant="outline-dark" pill @click="closeQuickBidSheet">{{ $t('common.cancel') }}</b-button>
+            <b-button class="mr-2 px-5" variant="outline-dark" pill @click="closeQuickBidSheet">{{ $t('common.cancel') }}</b-button>
+            <b-button class="ml-2 px-4 border-0 text-white bg-dark-blue d-flex align-items-center" pill @click="onPlaceBidConfirmed">{{ modalData.auto_bid ? $t('auctions.frontpage.bid_up_to') : $t('auctions.frontpage.bid') }} ${{ modalData.price | formatPrice }}<small> {{ $t('auctions.frontpage.fees') }}</small></b-button>
           </div>
           <div class="text-center"><small>{{ $t('auctions.frontpage.placed_bid_desc') }}</small></div>
           <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/fee-policy" class="text-primary">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
@@ -594,8 +613,8 @@
             <strong class="text-danger">{{ activeAuction | remainingTime('medium') }}</strong>
           </div>
           <div class="my-4 d-flex justify-content-center">
-            <b-button class="mr-2 px-4" variant="primary" pill @click="onPlaceBidConfirmed">{{ $t('auctions.frontpage.bid') }} ${{ modalData.price | formatPrice }}<small> {{ $t('auctions.frontpage.fees') }}</small></b-button>
-            <b-button class="ml-2 px-5" variant="outline-dark" pill @click="$refs.placeBidModalSheet.close()">{{ $t('common.cancel') }}</b-button>
+            <b-button class="mr-2 px-5" variant="outline-dark" pill @click="$refs.placeBidModalSheet.close()">{{ $t('common.cancel') }}</b-button>
+            <b-button class="ml-2 px-4 border-0 text-white bg-dark-blue d-flex align-items-center" pill @click="onPlaceBidConfirmed">{{ $t('auctions.frontpage.bid') }} ${{ modalData.price | formatPrice }}<small> {{ $t('auctions.frontpage.fees') }}</small></b-button>
           </div>
           <div class="text-center"><small>{{ $t('auctions.frontpage.placed_bid_desc') }}</small></div>
           <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/fee-policy" class="text-primary">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
@@ -606,13 +625,21 @@
     <vue-bottom-sheet v-if="isMobileSize" ref="autoBidModalSheet">
       <div class="d-flex flex-column h-100 filters-sheet">
         <div class="flex-shrink-1 overflow-auto text-center filters-sheet-content quick-bid-sheet">
-          <h5 class="mt-3 mb-4 mx-auto w-75">{{ $t('auctions.frontpage.enable_auto_bid_confirm_text') }}</h5>
-          <div class="d-flex justify-content-center">
-            <span class="text-primary mr-3">{{ $t('auctions.frontpage.time_remaining') }}</span><strong class="text-danger">{{ activeAuction | remainingTime('medium') }}</strong>
+          <h5>{{ $t('auctions.frontpage.enable_auto_bid_confirm_text') }}</h5>
+          <div class="d-flex justify-content-center time-remaining">
+            <span class="mr-2">{{ $t('auctions.frontpage.time_remaining') }}:</span>
+            <strong class="text-danger">{{ activeAuction | remainingTime('medium') }}</strong>
           </div>
           <div class="my-4 d-flex justify-content-center">
-            <b-button class="mx-2 px-4" variant="primary" pill @click="onEnableAutoBid">{{ $t('auctions.frontpage.bid_up_to') }} ${{ autoBidPrice }}<small> {{ $t('auctions.frontpage.fees') }}</small></b-button>
-            <b-button class="mx-2 px-5" variant="outline-dark" pill @click="$bvModal.hide('auto-bid-enable-modal')">{{ $t('common.cancel') }}</b-button>
+            <b-button class="mr-2 px-5" variant="outline-dark" pill @click="$refs.autoBidModalSheet.close()">{{ $t('common.cancel') }}</b-button>
+            <b-button
+              class="ml-2 px-3 border-0 text-white bg-dark-blue d-flex align-items-center"
+              variant="primary"
+              pill
+              @click="onEnableAutoBid"
+            >
+              {{ $t('auctions.frontpage.bid_up_to') }} ${{ autoBidPrice }}<small>&nbsp;{{ $t('auctions.frontpage.fees') }}</small>
+            </b-button>
           </div>
           <div class="text-center"><small>{{ $t('auctions.frontpage.placed_bid_desc') }}</small></div>
           <div class="text-center"><small>{{ $t('auctions.frontpage.read_about') }} <nuxt-link to="/fee-policy" class="text-primary">{{ $t('auctions.frontpage.policies_and_fees') }}</nuxt-link></small></div>
@@ -644,9 +671,9 @@
         <div class="my-4 d-flex justify-content-center">
           <b-button
             class="w-100"
-            :disabled="autoBidPrice < (activeAuction.highest_bid / 100) || autoBidPrice < (activeAuction.start_bid_price / 100)"
+            :disabled="!canPlaceAutoBid"
             pill
-            @click="placeAutoBid"
+            @click="openAutoBidSheet"
           >
             {{ $t('auctions.frontpage.review') }}
           </b-button>
@@ -747,16 +774,11 @@
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import { ValidationObserver } from 'vee-validate'
 import dayjs from 'dayjs'
 
 import ProductSlider from '~/components/Auctions/ProductSlider'
 import ShareIcon from '~/assets/img/icons/share.svg?inline'
 import CloseIcon from '~/assets/img/icons/close.svg?inline'
-import SignUpComponent from '~/components/Auth/SignUpComponent'
-import LoginComponent from '~/components/Auth/LoginComponent'
-import Cards from '~/components/profile/preferences/Popup/Payments/Cards'
-import BillingShippingAddressForm from '~/components/profile/preferences/Popup/BillingShippingAddressForm'
 import { AuctionThresholdsData, AuctionSizes, AUCTION_TYPE_COLLECTION, WATCHLIST_TYPE_AUCTION, SCHEDULED_STATUS, COMPLETED_STATUS } from '~/static/constants'
 import CheckmarkIcon from '~/assets/img/icons/checkmark.svg?inline'
 import {API_PROD_URL} from '~/static/constants/environments'
@@ -778,11 +800,6 @@ export default {
     ShareIcon,
     ProductSlider,
     CloseIcon,
-    SignUpComponent,
-    LoginComponent,
-    Cards,
-    BillingShippingAddressForm,
-    ValidationObserver,
     CheckmarkIcon,
     WatchlistPopover,
     ShareButton,
@@ -857,6 +874,11 @@ export default {
     },
     estimatedHighPrice() {
       return this.activeAuction ? Math.ceil(this.activeAuction.start_bid_price * 1.84 / 1000) * 1000 : 0
+    },
+    canPlaceAutoBid() {
+      return this.autoBidPrice &&
+        parseFloat(this.autoBidPrice) * 100 > this.activeAuction.start_bid_price &&
+        parseFloat(this.autoBidPrice) * 100 > this.activeAuction.highest_bid
     }
   },
   watch: {
@@ -891,7 +913,7 @@ export default {
       if (this.$options.filters.remainingTime(newV) === EXPIRED_STATUS || newV.status === EXPIRED_STATUS) {
         this.isExpired = true
       }
-      this.autoBidDisabled = newV.auto_bid_setting ? newV.auto_bid_setting.is_disabled : false
+      this.autoBidDisabled = newV.auto_bid_settings[0] ? newV.auto_bid_settings[0].is_disabled : false
       this.auctionName = this.getAuctionName(newV)
       this.watchlist = newV.watchlist_item?.watchlist
       this.loadSimilarAuctions()
@@ -935,64 +957,11 @@ export default {
         }
       }
     },
-    onAuthFinished(user) {
-      this.authUser = user
-      this.getAutoBidStep()
-    },
-    // Add Shipping/Billing address to current login user
-    addressChanged(type, address) {
-      if (type === 'shipping') {
-        this.$refs.shippingAddressObserver.validate().then((success) => {
-          if (success) {
-            this.addAddress(address)
-          }
-        })
-      } else {
-        this.$refs.billingAddressObserver.validate().then((success) => {
-          if (success) {
-            this.addAddress(address)
-          }
-        })
-      }
-    },
-    // Add Shipping/ Billing Address
-    addAddress(address) {
-      this.$axios
-        .post('/preferences/profile/add-address', address)
-        .then((res) => {
-          this.$toasted.success(this.$t(res.data.message))
-          if (address.type === 'billing') {
-            this.$bvModal.hide('auto-bid-modal')
-            if (window.innerWidth < 576) {
-              this.$refs.autoBidModalSheet.open()
-            } else {
-              this.$bvModal.show('auto-bid-enable-modal')
-            }
-          }
-          const billingAddresses = this.authUser.addresses.filter(address => address.type === 'BILLING')
-          if (address.type === 'shipping') {
-            if (billingAddresses.length > 0 || address.addAsBilling === true) {
-              this.$bvModal.hide('auto-bid-modal')
-              if (window.innerWidth < 576) {
-                this.$refs.autoBidModalSheet.open()
-              } else {
-                this.$bvModal.show('auto-bid-enable-modal')
-              }
-            } else {
-              this.autoBidStep = 'billing_address'
-            }
-          }
-        })
-        .catch((err) => {
-          this.$logger.logToServer(
-            'Preferences Section - Add Address:',
-            err.response.data
-          )
-          this.$toasted.error(err.response.data.message)
-        })
-    },
     // Go to bid checkout page
     onPlaceBidConfirmed() {
+      if (this.$refs.placeBidModalSheet) {
+        this.$refs.placeBidModalSheet.close()
+      }
       this.updateBidPrice(this.modalData.price)
       this.$router.push('/checkout/auction')
     },
@@ -1011,11 +980,7 @@ export default {
     // Click autobid button
     placeAutoBid() {
       this.$bvModal.hide('autobid-prepare-modal')
-      if (this.authUser) {
-        this.getAutoBidStep()
-      } else {
-        this.$bvModal.show('auto-bid-modal')
-      }
+      this.$bvModal.show('auto-bid-enable-modal')
     },
     // Similar auctions
     loadSimilarAuctions() {
@@ -1033,65 +998,51 @@ export default {
           this.$toasted.error(err)
         })
     },
-    // Find which step will be shown in autobid modal
-    getAutoBidStep() {
-      if (this.authUser) {
-        if (this.authUser.paymentmethod && this.authUser.paymentmethod.length > 0) {
-          const billingAddresses = this.authUser.addresses.filter(address => address.type === 'BILLING')
-          const shippingAddresses = this.authUser.addresses.filter(address => address.type === 'SHIPPING')
-          if (shippingAddresses.length > 0 && billingAddresses.length > 0) {
-            this.$bvModal.hide('auto-bid-modal')
-            this.$bvModal.show('auto-bid-enable-modal')
-          } else {
-            this.$bvModal.show('auto-bid-modal')
-            if (shippingAddresses.length > 0) {
-              this.autoBidStep = 'billing_address'
-            } else {
-              this.autoBidStep = 'shipping_address'
-            }
-          }
-        } else {
-          this.$bvModal.show('auto-bid-modal')
-          this.autoBidStep = 'payment'
-        }
-      }
-    },
     // Update auto bid settings
     onEnableAutoBid() {
-      this.isAutoBidConfigSaving = true
-      this.$axios.post('/auctions/auto-bid', {
-        id: this.activeAuction.auto_bid_setting ? this.activeAuction.auto_bid_setting.id : null,
-        price: this.autoBidPrice * 100,
-        auction_id: this.activeAuction.id,
-        user_id: this.$auth.user.id,
-        is_disabled: false,
-      })
-      .then((res) => {
-        // Show Auto Bid Confirm Modal
-        this.isAutoBidConfigSaving = false
-        this.autoBidPrice = null
-        this.$bvModal.hide('auto-bid-enable-modal')
-        this.$bvModal.show('auto-bid-success-modal')
+      this.$bvModal.hide('auto-bid-enable-modal')
+      if (this.$refs.autoBidModalSheet) {
         this.$refs.autoBidModalSheet.close()
-        this.updateAuction({
-          auto_bid_setting: res.data,
+      }
+      if (this.activeAuction.auto_bid_settings[0] && this.activeAuction.auto_bid_settings[0].id) {
+        this.$axios.post('/auctions/auto-bid', {
+          ...this.activeAuction.auto_bid_settings[0],
+          price: this.autoBidPrice * 100,
+          is_disabled: false,
         })
-      })
-      .catch((error) => {
-        this.$toasted.error(error)
-      })
+        .then(() => {
+          this.autoBidPrice = null
+          this.loadAuction()
+        })
+        .catch((error) => {
+          this.$toasted.error(error)
+        })
+      } else {
+        this.updateAuction({
+          auto_bid_settings: [{
+            id: null,
+            price: this.autoBidPrice * 100,
+            auction_id: this.activeAuction.id,
+            user_id: this.$auth.user.id,
+            is_disabled: false,
+          }]
+        })
+        this.updateBidPrice(this.autoBidPrice * 100)
+        this.$router.push('/checkout/auction')
+        this.autoBidPrice = null
+      }
     },
     // Enable/disable autobid setting
     onUpdateAutoBidSetting(value) {
       this.$axios.post('/auctions/auto-bid', {
-        ...this.activeAuction.auto_bid_setting,
+        ...this.activeAuction.auto_bid_settings[0],
         is_disabled: value,
       })
       .then((res) => {
         this.autoBidDisabled = value
         this.$toasted.info(value ? this.$t('auctions.frontpage.auto_bid_setting_disabled') : this.$t('auctions.frontpage.auto_bid_setting_enabled'))
         this.updateAuction({
-          auto_bid_setting: res.data,
+          auto_bid_settings: [res.data],
         })
       })
       .catch((error) => {
@@ -1143,6 +1094,7 @@ export default {
       this.currentItemIdx = activeIdx
     },
     openAutoBidSheet() {
+      this.$bvModal.hide('autobid-prepare-modal')
       this.$refs.autoBidModalSheet.open()
     },
     closeQuickBidSheet() {
@@ -1470,10 +1422,10 @@ export default {
               width: 36px
     .place-bid-section
       position: fixed
-      bottom: 98px
+      bottom: 95px
       width: 100%
       left: 0
-      padding: 20px 16px
+      padding: 16px
       background: $white
       z-index: 999
       .current-bid-label
@@ -1570,4 +1522,13 @@ export default {
 .quick-bid-desc-sheet
   img
     margin-top: 2px
+.w-65
+  width: 65px
+.text-dark-blue
+  color: $color-blue-20
+.bg-dark-blue
+  background-color: $color-blue-20
+.bottom-sheet::v-deep
+  .bottom-sheet__content
+    overflow: hidden
 </style>
