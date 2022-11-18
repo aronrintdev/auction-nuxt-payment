@@ -32,7 +32,7 @@
           class="coin bit-coin d-flex flex-column align-items-center gap-2 justify-content-center"
         >
           <img
-            src="~/assets/img/features/newest-feature/crypto-payments/alexa.svg"
+            src="~/assets/img/features/newest-feature/crypto-payments/coin1.png"
             alt=""
             class="img-fluid"
           />
@@ -56,7 +56,7 @@
           class="coin binance-coin d-flex flex-column align-items-center gap-2 justify-content-center"
         >
           <img
-            src="~/assets/img/features/newest-feature/crypto-payments/binance-coin.png"
+            src="~/assets/img/features/newest-feature/crypto-payments/coin3.png"
             alt=""
             class="img-fluid"
           />
@@ -68,7 +68,7 @@
           class="coin vechain-coin d-flex flex-column align-items-center gap-2 justify-content-center"
         >
           <img
-            src="~/assets/img/features/newest-feature/crypto-payments/vechain-coin.png"
+            src="~/assets/img/features/newest-feature/crypto-payments/coin4.png"
             alt=""
             class="img-fluid"
           />
