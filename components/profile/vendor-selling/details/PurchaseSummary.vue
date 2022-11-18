@@ -279,12 +279,7 @@ export default {
   .product-image
     width: 60%
 
-@media (max-width
-
-:
-425
-px
-)
+@media (max-width:425px)
 .product-image
   width: 50%
 </style>
