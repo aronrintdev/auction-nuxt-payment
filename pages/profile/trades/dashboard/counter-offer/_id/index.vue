@@ -3,26 +3,22 @@
     <div v-if="isScreenXS">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col v-if="!cashAdd" :md="isPayment ? 9 : 12">
-<!--          <div>-->
-<!--            <div class="amounts-input ml-2">-->
-<!--              <input type="text" class="theirs" disabled :value="$t('trades.trade_arena.theirs') + `: ${getTheirTotal()}`">-->
-<!--              <input type="text" class="yours" disabled :value="$t('trades.trade_arena.yours') + `: ${getYourTotal()}`">-->
-<!--            </div>-->
-<!--          </div>-->
           <div class="d-flex">
             <div class="left-side-image ml-2" :class="{'left-item-margin':getTheirItems.length === ONE_ITEM && getYourItems.length}">
               <div v-for="(item, index) in getTheirItems"
-                   :key="'their-trade-item-key-'+index" class="mb-4 mt-2">
-                <div v-if="!editYours" class="position-relative">
-                  <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
-                    <img :src="require('~/assets/img/trades/minus-icon.svg')">
+                   :key="'their-trade-item-key-'+index" class="lft-image mb-4 mt-2">
+                <div class="position-relative">
+                  <div v-if="!editYours" class="position-relative">
+                    <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
+                      <img :src="require('~/assets/img/trades/minus-icon.svg')">
+                    </div>
                   </div>
+                  <div class="d-flex justify-content-center align-content-center bg-img p-2">
+                    <img class="item-image-small" :src="item.inventory.product | getProductImageUrl"
+                         :class="{'item-image-cond-small':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
+                  </div>
+                  <div class="overlay-mob position-absolute"></div>
                 </div>
-                <div class="d-flex justify-content-center align-content-center bg-img p-2">
-                  <img class="item-image-small" :src="item.inventory.product | getProductImageUrl"
-                       :class="{'item-image-cond-small':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
-                </div>
-
                 <div class="item-caption-small">
                   <span class="item-name-small">{{ item.inventory.product.name }}</span>
                   <span
@@ -43,20 +39,23 @@
             </div>
             <div class="right-side-image mt-2"
                  :class="{'right-item-margin':getTheirItems.length > ONE_ITEM || getYourItems.length === ONE_ITEM,'mt-10p': getTheirItems.length > ONE_ITEM && getYourItems.length === ONE_ITEM,'mt-8p': getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM}">
-              <div v-if="getYourItems.length" >
+              <div v-if="getYourItems.length">
                 <div v-for="(item, index) in getYourItems"
                       :key="'your-trade-item-key-'+index"
-                     class="image-right mb-4 flex-column">
-                  <div v-if="editYours" class="position-relative">
-                    <div class="d-flex justify-content-end remove-item-icon" role="button" @click.stop="removeItem(item.inventory.product.id)">
-                      <img :src="require('~/assets/img/trades/minus-icon.svg')">
+                     class="image-right mb-4 flex-column rgt-image">
+                  <div class="position-relative">
+                    <div v-if="editYours" class="position-relative">
+                      <div class="d-flex justify-content-end remove-item-icon" role="button" @click.stop="removeItem(item.inventory.product.id)">
+                        <img :src="require('~/assets/img/trades/minus-icon.svg')" class="min-img pr-1">
+                      </div>
                     </div>
-                  </div>
-                  <div class="d-flex justify-content-center align-content-center position-relative">
-                    <img class="item-image-small" :src="item.inventory.product | getProductImageUrl" alt="image"
-                         :class="{'item-image-cond-small':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
+                    <div class="d-flex justify-content-center align-content-center position-relative">
+                      <img class="item-image-small" :src="item.inventory.product | getProductImageUrl" alt="image"
+                           :class="{'item-image-cond-small':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
+                    </div>
                     <div class="overlay-mob position-absolute"></div>
                   </div>
+
 
                   <div class="item-caption-small">
                     <span class="item-name-small">{{ item.inventory.product.name }}</span>
@@ -232,79 +231,6 @@
               </div>
             </div>
           </vue-bottom-sheet>
-
-
-
-
-
-
-
-
-
-
-
-
-<!--          <vue-bottom-sheet-->
-<!--            ref="sheetInventory"-->
-<!--            class="more-options"-->
-<!--            max-width="auto"-->
-<!--            max-height="90vh"-->
-<!--            :rounded="true"-->
-<!--          >-->
-<!--            <div class="m-3 p-3 inventory-card-trade">-->
-<!--              <div class="inventory-heading pl-4">-->
-<!--                {{ (editYours) ? $t('trades.your_inventory', {0: inventoryItems.length}) : $t('trades.their_inventory', {0: inventoryItems.length}) }}-->
-<!--              </div>-->
-<!--              <div v-if="editYours" class="sub-heading-inventory">{{ $t('trades.add_remove_items') }}</div>-->
-<!--              <div v-if="editYours" class="mt-2 mb-2">-->
-<!--                <SearchInput-->
-<!--                  bordered-->
-<!--                  variant="primary"-->
-<!--                  :placeholder="$t('trades.trade_arena.search_inventory')"-->
-<!--                  :clearSearch="true"-->
-<!--                  @change="onSearchInput"-->
-<!--                />-->
-<!--                <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" :productsFor="productFor" width="700px" class="position-absolute"/>-->
-<!--              </div>-->
-
-<!--              <b-row v-if="inventoryItems.length" class="mt-2">-->
-<!--                <b-col v-for="(item) in inventoryItems" :key="item.id" sm="6" class="inventory-small">-->
-<!--                  <div class="bg-img">-->
-<!--                    <b-row class="justify-content-between">-->
-<!--                      <b-col class="d-flex justify-content-end pr-3 pt-3">-->
-<!--                        <img v-if="!editYours" class="plus-icon-add-trade" role="button"-->
-<!--                             :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>-->
-<!--                        <img v-else class="plus-icon-add-trade" role="button"-->
-<!--                             :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>-->
-<!--                      </b-col>-->
-<!--                    </b-row>-->
-<!--                    <div >-->
-<!--                      <img class="item-image-counteroffer-small p-2 ml-3" :src="item.product | getProductImageUrl" />-->
-<!--                    </div>-->
-
-<!--                    <div class="item-caption bg-white">-->
-<!--                      <span class="item-name-small">{{ item.product.name }}</span>-->
-<!--                      <span class="item-box-condition-small">{{$t('common.box')}} : {{item.packaging_condition.name}}</span>-->
-<!--                      <span class="item-caption-description">{{item.product.colorway}}</span>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </b-col>-->
-<!--              </b-row>-->
-<!--              <div v-else class="row justify-content-between inventory-items-trade">-->
-<!--                {{ $t('trades.create_listing.vendor.wants.no_products_found') }}-->
-<!--              </div>-->
-<!--              <b-row class="justify-content-center mb-3">-->
-<!--                <Pagination-->
-<!--                  v-model="page"-->
-<!--                  :total="totalCount"-->
-<!--                  :per-page="perPage"-->
-<!--                  :per-page-options="perPageOptions"-->
-<!--                  @page-click="handlePageClick"-->
-<!--                  @per-page-change="handlePerPageChange"-->
-<!--                />-->
-<!--              </b-row>-->
-<!--            </div>-->
-<!--          </vue-bottom-sheet>-->
           <div class="d-flex mb-5">
             <b-btn class="discard-changes ml-4 mr-3"  @click="$bvModal.show('discardModel')">{{ $t('trades.discard_changes') }}</b-btn>
             <b-btn class="counter-offer"  @click="showPoorTradeConfirmationModal">Next</b-btn>
@@ -634,16 +560,20 @@
             <div v-else class="row justify-content-between inventory-items-trade">
               {{ $t('trades.create_listing.vendor.wants.no_products_found') }}
             </div>
-            <b-row class="justify-content-center mb-3">
-              <Pagination
-                v-model="page"
-                :total="totalCount"
-                :per-page="perPage"
-                :per-page-options="perPageOptions"
-                @page-click="handlePageClick"
-                @per-page-change="handlePerPageChange"
-              />
-            </b-row>
+            <infinite-loading :identifier="infiniteId" @infinite="getInventory">
+              <span slot="no-more"></span>
+              <span slot="no-results"></span>
+            </infinite-loading>
+<!--            <b-row class="justify-content-center mb-3">-->
+<!--              <Pagination-->
+<!--                v-model="page"-->
+<!--                :total="totalCount"-->
+<!--                :per-page="perPage"-->
+<!--                :per-page-options="perPageOptions"-->
+<!--                @page-click="handlePageClick"-->
+<!--                @per-page-change="handlePerPageChange"-->
+<!--              />-->
+<!--            </b-row>-->
           </div>
         </b-col>
         <CheckoutSidebar v-if="isPayment" class="order-summary" />
@@ -667,7 +597,7 @@
   import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox.vue'
   import CustomDropdown from '~/components/common/CustomDropdown'
   import AlreadyListedModal from '~/pages/profile/create-listing/trades/AlreadyListedModal'
-  import Pagination from '~/components/common/Pagination'
+  // import Pagination from '~/components/common/Pagination'
   import DiscardModel from '~/pages/profile/trades/dashboard/counter-offer/DiscardModel'
   import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem'
   import CheckoutSidebar from '~/components/checkout/trades/ShoppingCartOrder'
@@ -711,7 +641,7 @@ export default {
   name: 'Index',
   components: {
     DiscardModel,
-    Pagination,
+    // Pagination,
     CustomDropdown,
     SearchInput,
     Meter,
@@ -1316,6 +1246,17 @@ export default {
   left: 0
   width: 100%
   height: 100%
+.lft-image
+  width: 99px
+  height: 161px
+  top: 126px
+.rgt-image
+  width: 99px
+  height: 161px
+  top: 126px
+.min-img
+  height: 13px
+  width: 13px
 .w-xl-100
   @media (min-width: 1200px)
     width: 100%
@@ -1540,7 +1481,6 @@ export default {
   width: 100px
 .item-name-small
   width: 90px
-  height: 26px
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-18
