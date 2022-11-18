@@ -3,7 +3,7 @@
     <div v-if="isScreenXS">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col v-if="!cashAdd" :md="isPayment ? 9 : 12">
-          <div class="d-flex">
+          <div class="d-flex mt-3">
             <div class="left-side-image ml-2" :class="{'left-item-margin':getTheirItems.length === ONE_ITEM && getYourItems.length}">
               <div v-for="(item, index) in getTheirItems"
                    :key="'their-trade-item-key-'+index" class="lft-image mb-4 mt-2">
@@ -69,7 +69,7 @@
               </div>
             </div>
           </div>
-          <div class="fair-trade-division-mobile d-flex justify-content-center flex-column align-items-center m-5">
+          <div class="fair-trade-division-mobile d-flex justify-content-center flex-column align-items-center m-2">
             <Meter :highest="getTheirTotal(false)"
                    :lowest="0"
                    :value="getYourTotal(false)"
@@ -1457,8 +1457,8 @@ export default {
   height: 68px
 .fair-trade-division-mobile
   background-color: $color-white-4
-  width: 247px
-  height: 68px
+  //width: 247px
+  //height: 68px
 .item-image-small
   width: 80px
   height: 100px
