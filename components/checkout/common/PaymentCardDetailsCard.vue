@@ -35,12 +35,12 @@
                   width="50"
                 />
               </b-col>
-              <b-col md="5" class="d-flex align-items-center mt-2">
+              <b-col md="5" class="d-flex align-items-center pl-3">
                 <div class="body-5-normal">
                   {{ $t('shopping_cart.ending_in') }}&colon;&nbsp;{{ cardLastDigits }}
                 </div>
               </b-col>
-              <b-col md="4" class="d-flex align-items-center mt-1">
+              <b-col md="4" class="d-flex align-items-center">
                 <div class="body-5-normal">
                   {{ $t('shopping_cart.exp') }}&colon;&nbsp;{{ cardExpiryDate }}
                 </div>

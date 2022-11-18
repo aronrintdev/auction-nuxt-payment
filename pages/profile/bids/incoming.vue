@@ -1,5 +1,8 @@
 <template>
-  <b-container fluid class="h-100 p-3 p-md-5" :class="{'container-profile-bids': !isMobileSize}">
+  <b-container fluid class="h-100 container-profile-bids-page" :class="{'container-profile-bids': !isMobileSize}">
+    <div class="d-none mb-3 d-md-flex justify-content-center justify-content-md-between align-items-center">
+      <h2 class="title mb-0" :class="{'body-4-medium' : isMobileSize}">{{ $tc('common.bid', 2) }}</h2>
+    </div>
     <!--    Bids Filters and mobile search    -->
     <div v-if="isMobileSize" class="d-flex align-items-center">
       <MobileSearchInput :value="filters.search" class="flex-grow-1" @input="mobileSearch" />
@@ -23,14 +26,11 @@
       </Button>
     </div>
 
-    <div v-if="bidsCount > 0" class="d-flex justify-content-between align-items-center mt-4">
+    <div class="d-md-none d-flex justify-content-between align-items-center mt-4">
       <div class="d-flex align-items-center mt-0 mt-md-5">
-        <h3 class="title">
-          <span :class="{ 'body-5-medium' : isMobileSize }">
-            {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
-          </span>
-        </h3>
-        <span class="mx-4 d-none d-md-inline-flex">{{ $t('bids.highest_bid_info') }}</span>
+        <h4 class="title">
+          {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
+        </h4>
       </div>
       <Button
         v-if="haveExpired && !isVendor"
@@ -45,6 +45,13 @@
           {{ $t('bids.delete_expired') }}
         </span>
       </Button>
+    </div>
+
+    <div class="d-none mt-5 d-md-flex align-items-center">
+      <h4 class="title mb-0">
+        {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
+      </h4>
+      <span class="mx-4 mt-1 d-none d-md-inline-flex body-5-normal text-gray-5">{{ $t('bids.highest_bid_info') }}</span>
     </div>
 
     <BulkSelectToolbar
@@ -69,17 +76,14 @@
          class="d-flex align-items-center justify-content-center flex-column h-50">
       <div :class="isMobileSize ? 'body-5-medium' : 'not-found-text'">{{ $t('bids.no_bids') }}</div>
     </div>
-    <div v-if="bidsCount>0">
+    <div v-if="bidsCount>0" class="bids-listing">
       <b-row class="mt-5 text-center p-0 font-weight-bold d-none d-md-flex">
         <b-col sm="12" md="2" class="text-center">{{ $t('bids.headers.auction_id') }}</b-col>
         <b-col sm="12" md="3" class="text-left px-0">{{ $t('bids.headers.product') }}</b-col>
         <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }}
           <span role="button"><img :src="FilterDown" alt="donw"></span>
         </b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.auto_bid') }}
-          <span role="button"><img :src="FilterDown" alt="donw"></span>
-        </b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.bid_amt') }}
+        <b-col sm="12" md="2">{{ $t('bids.headers.bid_amt') }}
           <span role="button"><img :src="FilterDown" alt="donw"></span>
         </b-col>
         <b-col sm="12" md="2">{{ $t('bids.headers.time_remaining') }}
@@ -709,5 +713,31 @@ export default {
 
 .expire-button-gray
   color: $color-gray-30
+
+h4.title
+  font-family: $font-sp-pro
+  font-weight: $bold
+  @include body-1
+  @media (max-width: 576px)
+    @include body-4
+    font-weight: $medium
+.bids-listing
+  margin: 0 -25px
+  @media (max-width: 576px)
+    margin: 0
+
+.container-profile-bids-page
+  padding: 47px 54px
+  background-color: $color-white-5
+
+  h2.title
+    @include heading-3
+    font-weight: $bold
+    color: $color-black-1
+
+  @media (max-width: 576px)
+    padding: 12px 16px 
+    background-color: $white
+
 </style>
 

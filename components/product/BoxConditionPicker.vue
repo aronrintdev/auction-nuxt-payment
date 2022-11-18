@@ -36,7 +36,6 @@
         dropDownHeight="38px"
         variant="white"
         paddingX="14px"
-        @change="handleConditionSelect"
         :inputStyle="{
           display: 'flex',
           justifyContent: 'center',
@@ -55,6 +54,7 @@
         }"
         labelStyle="font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 14px; color: #667799;"
         arrowStyle='color: #667799; width: 14px; height: 16px; position: absolute; right: 70px; margin-bottom: 13.5px !important;'
+        @change="handleConditionSelect"
       />
     </div>
 

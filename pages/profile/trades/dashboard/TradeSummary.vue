@@ -1,20 +1,47 @@
 <template>
-  <div class="pt-5">
-    <div v-if="width <= 500">
-      <div class="main-container-small ml-2">
+  <div>
+    <div class="pt-3" v-if="isScreenXS">
+      <div class="main-container-small">
         <div class="justify-content-between">
-          <div class="pt-4 pl-4">
-            <div class="expire-trade-id-small d-flex">{{$t('trades.trade_id')}} #{{ trade.id }}  <ul class="offer-status"><li>{{$t(trade.status_translation)}}</li></ul></div>
-            <div class="offer-time-small d-flex align-items-center pb-1">{{$t('trades.listed_on')}} {{ trade.created_at | formatDateTimeString }}</div>
-            <div class="offer-time-small d-flex align-items-center">{{$t('trades.expires_on')}} {{ trade.expiry_date | formatDateTimeString }}</div>
+          <div class="">
+            <div class="d-flex justify-content-between">
+              <div class="expire-trade-id-small">
+                {{ $t('trades.trade_id') }} #{{ trade.id }}  
+              </div>
+              <div class="new-offers d-flex align-items-center">
+                <div class="red-circle rounded-circle mr-2"></div>
+                <div>{{ $t('trades.new_offers', {'0': trade.new_offers}) }}</div>
+              </div>
+            </div>
+            <div class="mt-1 offer-time-small">
+              {{ $t('trades.listed_on') }} {{ trade.created_at | formatDateTimeString }}
+            </div>
           </div>
           <div>
             <offer-items :offerItems="trade.offers"/>
           </div>
-          <div class="d-flex mt-4">
-            <b-btn v-if="!isDelistedTrade(trade) && !blockTrade(trade)" class="mt-3 list-btn"  @click="$bvModal.show('delist-offer')">{{$t('trades.delist')}}</b-btn>
-            <b-btn v-if="isDelistedTrade(trade)" class="mt-3 list-btn"  @click="$bvModal.show('relist-trade')">Relist</b-btn>
-            <b-btn  v-if="!isDelistedTrade(trade) && !blockTrade(trade)"  class="mt-3 edit-btn" @click="$bvModal.show('edit-trade')">{{$t('common.edit')}}</b-btn>
+          <div class="d-flex mt-4 justify-content-around">
+            <b-btn 
+              v-if="!isDelistedTrade(trade) && !blockTrade(trade)" 
+              class="list-btn" 
+              @click="$bvModal.show('delist-offer')"
+            >
+              {{ $t('trades.delist') }}
+            </b-btn>
+            <b-btn 
+              v-if="isDelistedTrade(trade)"
+              class="list-btn" 
+              @click="$bvModal.show('relist-trade')"
+            > 
+              {{ $t('trades.relist')}}
+            </b-btn>
+            <b-btn 
+              v-if="!isDelistedTrade(trade) && !blockTrade(trade)" 
+              class="edit-btn" 
+              @click="$bvModal.show('edit-trade')"
+            >
+              {{ $t('common.edit') }}
+            </b-btn>
           </div>
         </div>
 
@@ -29,13 +56,13 @@
             <b-col class="offer-time d-flex align-items-center">{{$t('trades.expires_on')}} {{ trade.expiry_date | formatDateTimeString }}</b-col>
           </b-col>
           <b-col class="d-flex flex-column pr-4 pt-4">
-            <Button v-if="!isDelistedTrade(trade) && !blockTrade(trade)" variant="blue" class="expired-btn ml-auto mr-4" @click="$bvModal.show('edit-trade')">{{$t('trades.edit_listing')}}</Button>
-            <Button v-if="!isDelistedTrade(trade) && !blockTrade(trade)" class="mt-3 expired-btn ml-auto mr-4" variant="outline-primary" @click="$bvModal.show('delist-offer')">{{$t('trades.delist')}}</Button>
-            <Button v-if="isDelistedTrade(trade)" class="mt-3 expired-btn ml-auto mr-4" variant="outline-primary" @click="$bvModal.show('relist-trade')">{{$t('trades.relist')}}</Button>
+            <b-btn v-if="!isDelistedTrade(trade) && !blockTrade(trade)"  class="edit-btn-web ml-auto mr-4" @click="$bvModal.show('edit-trade')">{{$t('trades.edit_listing')}}</b-btn>
+            <b-btn v-if="!isDelistedTrade(trade) && !blockTrade(trade)" class="mt-3 delist-btn ml-auto mr-4"  @click="$bvModal.show('delist-offer')">{{$t('trades.delist')}}</b-btn>
+            <b-btn v-if="isDelistedTrade(trade)" class="mt-3 delist-btn ml-auto mr-4"  @click="$bvModal.show('relist-trade')">{{$t('trades.relist')}}</b-btn>
           </b-col>
         </b-row>
-        <b-row class="justify-content-center mt-3">
-          <offer-items :offerItems="trade.offers"/>
+        <b-row class="justify-content-center">
+          <offer-items class="responsive-width" :offerItems="trade.offers"/>
         </b-row>
       </div>
       <delist-modal :tradeId="trade.id" @delist="delistTrade"></delist-modal>
@@ -48,11 +75,12 @@
 
 <script>
   import {mapActions} from 'vuex'
-import Button from '~/components/common/Button'
+// import Button from '~/components/common/Button'
 import OfferItems from '~/pages/profile/trades/dashboard/OfferItems'
 import DelistModal from '~/pages/profile/trades/dashboard/_id/offers/DelistModal'
 import RelistModal from '~/pages/profile/trades/dashboard/_id/offers/RelistModal'
 import EditTradeConfirmationModal from '~/pages/profile/trades/dashboard/_id/offers/EditTradeConfirmationModal'
+import ScreenSize from '~/plugins/mixins/screenSize'
 import {
   DELIST_STATUS,
   COMPLETED_STATUS
@@ -61,11 +89,12 @@ export default {
   name: 'TradeSummary',
   components: {
     OfferItems,
-    Button,
+    // Button,
     DelistModal,
     RelistModal,
     EditTradeConfirmationModal
   },
+  mixins: [ScreenSize],
   props: {
     trade: {
       type: Object,
@@ -75,13 +104,11 @@ export default {
   data(){
     return {
       COMPLETED_STATUS,
-      width:'',
     }
   },
   mounted() {
-      this.$store.commit('trades/setEditTradePageReferrer', null)
-      this.$store.commit('trades/setTradeForEditing', null)
-    this.width = window.innerWidth
+    this.$store.commit('trades/setEditTradePageReferrer', null)
+    this.$store.commit('trades/setTradeForEditing', null)
   },
   methods: {
     ...mapActions('trades', ['relistTrade']),
@@ -127,21 +154,20 @@ export default {
   background: $color-white-1
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
-  height: 371px
+
 .main-container-small
   background: $color-gray-56
   border-radius: 4px
-  height: 370px
-  width: 343px
+  padding: 13px
+
 .expire-trade-id
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-2-bold
   color: $color-black-1
 .expire-trade-id-small
+  @include body-4-bold
   font-family: $font-family-sf-pro-display
-  font-style: normal
-  font-size: 14px
   color: $color-blue-20
 
 .offer-status
@@ -156,10 +182,10 @@ export default {
   @include body-13-normal
   color: $color-black-1
 .offer-time-small
+  @include body-10-normal
   font-family: $font-family-sf-pro-display
-  font-style: normal
-  font-size: 12px
   color: $color-gray-47
+
 .expired-btn
   border-radius: 10px
   width: 174px
@@ -184,5 +210,34 @@ export default {
   @include body-21-medium
   color: $color-white-1
   margin-left: 5rem
+.edit-btn-web
+  width: 174px
+  height: 42px
+  background: $color-blue-20
+  border-radius: 4px
+  color: $color-white-1
+  font-family: $font-family-montserrat
+  font-weight: $normal
+  @include body-13
+.delist-btn
+  width: 174px
+  height: 42px
+  border: 1px solid $color-blue-20
+  border-radius: 4px
+  font-family: $font-family-montserrat
+  font-weight: $normal
+  @include body-13
+  color: $color-blue-20
+  background-color: $color-white-1
+
+.new-offers
+  @include body-10-normal
+  font-family: $font-family-sf-pro-display
+  color: $color-red-18
+
+.red-circle
+  background: $color-red-18
+  width: 4px
+  height: 4px
 
 </style>

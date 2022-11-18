@@ -1,16 +1,21 @@
 <template>
-  <div :class="mobileClass" class="stat-card bg-white br-10 mb-2 mb-md-0">
-    <img :src="icon" aria-hidden="true" class="mb-11 d-none d-sm-inline-block"/>
-    <h4
-        class="body-8-regular mb-0 text-gray-simple font-secondary text-center text-sm-left title d-flex align-items-center align-items-sm-start justify-content-center justify-content-sm-start"
-        :class="mobileClass"
+  <div :class="{
+    'mobile d-flex flex-column align-items-center' : isScreenXS
+  }" class="stat-card bg-white br-10 mb-2 mb-md-0">
+    <img :src="icon" aria-hidden="true" class="mb-11"/>
+    <div
+        :class="{
+          'mobile': isScreenXS,
+          'mb-0': !isScreenXS
+        }"
+        class="title body-8-regular  text-gray-simple font-secondary text-center text-sm-left title d-flex align-items-center align-items-sm-start justify-content-center justify-content-sm-start"
     >
       {{ title }}
-    </h4>
+    </div>
     <h3
-        class="fw-7 fs-24 mb-0 font-primary text-center text-sm-left figures"
+        :style="coloredText? `--color: ${color}`: ''"
         :class="mobileClass"
-        :style="`--color: ${color}`"
+        class="fw-7 fs-24 mb-0 font-primary text-center text-sm-left figures "
     >
       {{ value }}
     </h3>
@@ -39,6 +44,10 @@ export default {
       type: String,
       default: null,
     },
+    coloredText: {
+      type: Boolean,
+      default: true,
+    },
   }
 }
 </script>
@@ -52,12 +61,13 @@ export default {
     border-radius: 8px
     padding: 11px 6px
 
-  h4
-    &.mobile
-      @include body-9-medium
+    .title
+      @include body-9-regular
       font-family: $font-montserrat
       font-style: normal
       color: $color-gray-69 !important
+      white-space: nowrap
+      margin-bottom: 5px
 
 
 .mb-11
@@ -66,7 +76,6 @@ export default {
 @media (max-width: 576px)
   .title
     font-size: 12px
-    height: 40px
     color: $color-black-1 !important
     font-weight: $medium
   .figures

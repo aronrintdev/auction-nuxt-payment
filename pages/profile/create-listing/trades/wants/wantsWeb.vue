@@ -7,21 +7,6 @@
     <section v-else class="content">
       <b-container fluid class="px-3">
         <!-- Main row -->
-        <b-row>
-          <b-col class="text-left col-12 col-md-6">
-            <NuxtLink class="back-to-offers-link text-gray" to="/profile/create-listing/trades/create">
-              <b-img
-                :src="require('~/assets/img/icons/back-btn-slim.svg')"
-                :alt="$t('trades.create_listing.vendor.wants.back_to_offers_item')"
-                class="mr-2"
-              />
-              <span>{{ $t('trades.create_listing.vendor.wants.back_to_offers_item') }}</span>
-            </NuxtLink>
-          </b-col>
-          <b-col class="text-right">
-            <FormStepProgressBar :steps="steps" variant="transparent"/>
-          </b-col>
-        </b-row>
         <b-row cols="1" class="pr-md-5 pr-lg-5 pr-sm-0">
           <b-col class="w-100">
             <h2 class="font-weight-bold">{{ $t('trades.create_listing.vendor.wants.add_wants') }} <span class="ml-3 font-weight-lighter">({{ $t('trades.create_listing.vendor.wants.optional') }})</span></h2>
@@ -31,27 +16,40 @@
           </b-col>
         </b-row>
         <b-row class="pr-md-5 pr-lg-5 pr-sm-0 mb-2">
-          <b-col class="col-md-8 col-12 col-sm-6 mt-md-4">
+          <b-col class="col-md-8 col-12 mt-md-4">
             <SearchInput
               :value="searchText"
               :placeholder="$t('trades.create_listing.vendor.wants.search_by_options')"
               size="lg"
+              :inputStyle="{
+                borderBottomLeftRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
+                borderBottomRightRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
+              }"
               bordered
               inputHeight="60px"
               @change="onSearchInput"
             />
-            <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="wantItemTrade" width="700px" class="position-absolute"/>
+            <div class="position-relative">
+              <SearchedProductsBelowSearchTextBox 
+                v-if="searchedItems.length > 0" 
+                :productItems="searchedItems" 
+                productsFor="wantItemTrade" 
+                class="position-absolute"
+                :wrapperStyle="{ margin: 0 }"
+                :itemStyle="{ padding: 0 }"
+              />
+            </div>
           </b-col>
           <b-col align-self="center" class="col-md-4 col-12 col-sm-6 mt-md-4 text-right">
-            <a class="font-weight-bolder text-gray cursor-pointer" @click="$bvModal.show('offer-item-modal')">
+            <b-btn class="font-weight-bolder cursor-pointer btn-offer" @click="$bvModal.show('offer-item-modal')">
               <b-img
-                :src="require('~/assets/img/icons/clarity_eye-line.svg')"
+                :src="require('~/assets/img/eye-offer.svg')"
                 :alt="$t('trades.create_listing.vendor.wants.view_offer_items')"
               />
-              <span class="border-bottom border-dark">{{
+              <span class="">{{
                   $t('trades.create_listing.vendor.wants.view_offer_items')
                 }}</span>
-            </a>
+            </b-btn>
           </b-col>
         </b-row>
         <b-row class="mt-5 mb-2">
@@ -73,25 +71,28 @@
                 <div class="d-flex">
                   <client-only>
                     <CustomDropdown v-model="categoryFilter" :label="categoryFilterLabel" :options="categoryItems"
-                        class="mr-3 width-156" type="single-select" optionsWidth="custom"
-                        width="156px"
+                        class="mr-3 width-156" type="single-select" optionsWidth="custom" padding-x="10px"
+                        width="180px"
+                                    border-radius="4px"
                         @change="changeCategory"
                         @getResults="getGeneralListItems"/>
                     <CustomDropdown v-model="sizeTypesFilter" :label="sizeTypesFilterLabel" :options="filters.size_types"
                         class="mr-3 width-156" type="multi-select-checkbox" optionsWidth="custom"
+                        padding-x="10px"
                         @change="changeSizeTypeFilter"
+                        width="180px"
+                                    border-radius="4px"
                         @getResults="getGeneralListItems"/>
                     <CustomDropdown v-model="sizeFilter" :label="sizeFilterLabel" :options="filters.sizes"
                         class="mr-3 width-156" type="multi-select-checkbox" optionsWidth="custom"
+                        padding-x="10px" width="180px"
                         @change="changeSizeFilter"
+                                    border-radius="4px"
                         @getResults="getGeneralListItems"/>
                   </client-only>
                   <b-btn class="filter-btn-create-trade mr-3" @click="getGeneralListItems">
                     {{ $t('create_listing.trade.offer_items.filter_btn') }}
                   </b-btn>
-                  <div class="clear-filter" @click="clearFilters">
-                    {{ $t('trades.create_listing.vendor.wants.clear_all_filters') }}
-                  </div>
                 </div>
               </div>
               <div class="col-md-4 mt-custom">
@@ -101,7 +102,8 @@
                         :options="generalListItemsCustomFilter" type="single-select"
                         :label="orderFilterLabel" class="width-200"
                         optionsWidth="custom"
-                        width="220px"
+                        width="220px" padding-x="10px"
+                                    border-radius="4px"
                         @getResults="getGeneralListItems" @change="changeOrderFilter"/>
                   </client-only>
                 </b-row>
@@ -113,23 +115,23 @@
                 <b-col v-for="item in generalListItems" :key="item.id" cols="3" class="mb-5">
                   <div class="create-trade-item position-relative" :draggable="true"
                        @dragstart="startDrag($event, item)">
-                    <div>
-                      <div class="create-trade-size-car">{{$t('trades.create_listing.vendor.wants.size')}} {{ item.size && item.size.size }}</div>
-                      <img role="button" alt="No Image" class="plus-icon-add create-trade-plus-icon mt-0" :src="require('~/assets/img/icons/addPlus.svg')"
+                    <div class="image-cont d-flex justify-content-center align-items-center position-relative">
+                    <img role="button" alt="No Image" class="plus-icon-add position-absolute" :src="require('~/assets/img/icons/addPlus.svg')"
                            @click="addOrIncrementWantedItem(item)"/>
-                    </div>
                     <object
                       class="create-trade-item-image"
                       :data="`${IMAGE_PATH}/${item.product && item.product.category && item.product.category.name}/${item.product && item.product.sku}/800xAUTO/IMG01.jpg`"
                       type="image/png">
                       <img class="create-trade-item-image mb-2" :src="fallbackImgUrl" alt="image"/>
                     </object>
+                    <div class="overlay-item"></div>
+                    </div>
                     <div class="create-trade-item-caption">
                   <span :id="`name${item.id}`" class="create-trade-item-name">{{
                       item.product && item.product.name
                     }}</span>
                       <span :id="`colorway${item.id}`"
-                            class="create-trade-item-caption-description">{{ item.product && item.product.colorway }}</span>
+                            class="create-trade-item-caption-description">Size: {{ item.size && item.size.size }} ,{{ item.product && item.product.colorway }}</span>
                       <span
                         class="create-trade-item-caption-description">Box: {{
                           item.packaging_condition && item.packaging_condition.name
@@ -182,6 +184,7 @@
                                 :options="combinationCustomFilter" class="width-200" type="single-select"
                                 optionsWidth="custom"
                                 width="220px"
+                                padding-x="10px"
                                 @change="changeOrderFilterCombination" @getResults="getCombinations"/>
               </b-row>
               <b-row class="px-5">
@@ -272,7 +275,7 @@
             </div>
           </b-collapse>
         </b-row>
-        <b-row class="mt-5 mr-5 p-5 border-dotted text-center d-flex justify-content-center" @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
+        <b-row class="mt-5 mr-5 p-5 create-trade-drag-drop-item  text-center d-flex justify-content-center" @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
           <div v-if="getTradeItemsWants.length < 1">
             <div class="create-trade-drag-drop-heading">
               {{ $t('create_listing.trade.offer_items.drag_drop') }}
@@ -285,26 +288,26 @@
             </b-row>
           </div>
           <b-row v-else class="justify-content-center">
-            <div v-for="item in getTradeItemsWants" :key="item.id" class="create-trade-item-sm d-flex justify-content-between flex-column mr-4">
-              <div class="d-flex justify-content-between mt-2 mx-2">
-                <div class="create-trade-size-car-sm">{{ item.selected_size_name }}</div>
-                <div v-if="item.selected_quantity > 1" class="create-trade-quantity-car-sm">
+            <div v-for="item in getTradeItemsWants" :key="item.id" class="create-trade-item-web mr-4">
+              <div class="position-relative d-flex justify-content-center align-items-center sm-img-cont">
+                <div v-if="item.selected_quantity > 1" class="create-trade-quantity-car-sm position-absolute">
                   x{{ item.selected_quantity || 1 }}
                 </div>
-                <div class="create-trade-minus-icon-sm" @click="removeOrDecrementWantItem(item.id)">
+                <div class="create-trade-minus-icon-web position-absolute" @click="removeOrDecrementWantItem(item.id)">
                   <div class="create-trade-minus-line-sm"></div>
                 </div>
-              </div>
-              <div class="create-trade-item-image-div-sm">
+                <div class="create-trade-item-image-div-sm position-relative">
                 <object :data="item.image" class="create-trade-item-image-sm" type="image/png">
                   <img class="create-trade-item-image-sm mb-2" :src="fallbackImgUrl" alt="image"/>
                 </object>
+                </div>
+                <div class="overlay-item"></div>
               </div>
-              <div class="create-trade-item-caption-sm">
+              <div class="create-trade-item-caption-web">
                 <span :id="`name-sm${item.id}`"
                       class="create-trade-item-name-sm">{{ item.name ? item.name : item.product.name }}</span>
                 <span :id="`colorway-sm${item.id}`"
-                      class="create-trade-item-caption-description-sm">{{ item.product.colorway }}</span>
+                      class="create-trade-item-caption-description-sm">{{ item.selected_size_name }},{{ item.product.colorway }}</span>
                 <span class="create-trade-item-caption-description-sm">{{ $t('trades.create_listing.vendor.wants.box') }}: {{
                     item.selected_box_condition_name
                   }}</span>
@@ -329,7 +332,7 @@
         </b-row>
         <b-row class="mt-5 d-block pr-5">
           <b-col class="w-25 pull-right">
-            <Button pill :disabled="!getTradeItemsWants.length" size="lg" class="w-50 pull-right mb-4" @click="$router.push('/profile/create-listing/trades/confirmation')">{{ $t('trades.create_listing.vendor.wants.next') }}</Button>
+            <b-btn pill :disabled="!getTradeItemsWants.length" class="pull-right mb-4 create-trade-next-web" @click="$router.push('/profile/create-listing/trades/confirmation')">{{ $t('trades.create_listing.vendor.wants.next') }}</b-btn>
           </b-col>
         </b-row>
         <!-- /.row (main row) -->
@@ -343,9 +346,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import debounce from 'lodash.debounce'
-
-import FormStepProgressBar from '~/components/common/FormStepProgressBar'
-import Button from '~/components/common/Button'
 import SearchInput from '~/components/common/SearchInput'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox'
 import CustomDropdown from '~/components/common/CustomDropdown'
@@ -355,7 +355,7 @@ import { Pagination } from '~/components/common'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
-
+import ScreenSize from '~/plugins/mixins/screenSize'
 
 /*
   Trade Wants Page
@@ -363,16 +363,15 @@ import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
 export default {
   name: 'TradeWants',
   components: {
-    FormStepProgressBar, // Stepper component
-    Button, // Button component
     SearchInput, // search input
     SearchedProductsBelowSearchTextBox, //  component for items show below search as search results
     CustomDropdown, // custom dropdown component used for filters
     CreateTradeSearchItem, // component used for item via search selection
     Pagination, // Pagination component
     ViewOfferItemsModal // model to show offers items
-  },
-  layout: 'Profile', // Layout
+  }, // Layout
+  mixins: [ScreenSize],
+  layout: 'Profile',
   data() {
     return {
       IMAGE_PATH, // Image production path
@@ -940,7 +939,6 @@ export default {
   border: none
 
 .width-156
-  width: 156px
   background: $color-white-1
 
 .width-200
@@ -970,4 +968,54 @@ export default {
 .mt-custom
   margin-top: 45px
   padding-right: 30px
+.btn-offer
+  background: $color-black-1
+  color: $color-white-1
+.create-trade-next-web
+  width: 151px
+  height: 38px
+  background: $color-grey-101
+  border-radius: 4px !important
+  border: 1px solid $color-grey-101
+  margin-top: 10px
+  margin-right: 20px
+  color: $color-white-1
+.image-cont
+  height: 273px
+  background: $color-white-1
+  padding: 25px
+.plus-icon-add
+  right: 10px
+  top: 10px
+  z-index: 99
+.overlay-item
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: $color-grey-70
+.create-trade-item-image
+  width: 100%
+  aspect-ratio: 1
+.create-trade-item-image-sm
+  width: 100%
+  aspect-ratio: 1
+.create-trade-item-image-div-sm
+  background: $color-white-1
+.create-trade-quantity-car-sm
+  left: 10px
+  top: 10px
+.create-trade-minus-icon-web
+  right: 10px
+  top: 10px
+  z-index: 102
+.sm-img-cont
+  height: 180px
+  background: $color-white-1
+  padding: 25px
+.create-trade-item-web
+  background: $color-white-1
+.create-trade-drag-drop-item
+  width: unset
 </style>

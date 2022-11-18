@@ -23,12 +23,12 @@
           </div>
           <div>
             <div class="new-offers ml-4"> {{ $t('trades.new_offers', {'0': trade.new_offers}) }}</div>
-            <div class="view-detail-text ml-4"> View Details</div>
+            <div class="view-detail-text ml-4"> {{ $tc('common.view_details') }}</div>
           </div>
         </div>
       </div>
       <div class="d-flex justify-content-center align-content-center"  @click="showTrade(trade.id)">
-        <div class="d-flex justify-content-center align-content-center" v-for="(offer) in trade.offers" :key="'trade-offer-'+offer.id">
+        <div v-for="(offer) in trade.offers" :key="'trade-offer-'+offer.id" class="d-flex justify-content-center align-content-center">
           <div class="d-inline body-section-box m-1">
             <div class="d-flex justify-content-center align-content-center">
               <img class="image-tarde pt-4" :src="offer.inventory.product | getProductImageUrl">
@@ -36,8 +36,8 @@
 
             <div class="bottom-section mt-4">
               <div class="product-name pt-1">{{ offer.inventory.product.name }}</div>
-              <div class="product-size "><span>Size : </span>{{offer.inventory.size.id }}</div>
-              <div class="product-size "><span>Box : </span>{{offer.inventory.packaging_condition.name}}</div>
+              <div class="product-size "><span>{{ $tc('common.size') }} : </span>{{offer.inventory.size.id }}</div>
+              <div class="product-size "><span>{{$t('common.box')}} : </span>{{offer.inventory.packaging_condition.name}}</div>
             </div>
           </div>
 
@@ -145,6 +145,7 @@ export default {
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
+
 .product-size
   font-family: $font-family-sf-pro-display
   font-style: normal

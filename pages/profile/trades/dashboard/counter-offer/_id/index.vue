@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-if="width <=500">
+    <div v-if="isScreenXS">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
-        <b-col :md="isPayment ? 9 : 12" v-if="!cashAdd">
+        <b-col v-if="!cashAdd" :md="isPayment ? 9 : 12">
           <div>
             <div class="amounts-input ml-2">
               <input type="text" class="theirs" disabled :value="$t('trades.trade_arena.theirs') + `: ${getTheirTotal()}`">
@@ -98,7 +98,6 @@
                 <span class="optional-text">{{ $t('trades.trade_arena.optional') }}</span>
                 <div v-if="!cashAdded" class="optional-input d-flex">
                   <div class="position-relative">
-                    <span v-if="optionalCash" class="position-absolute input-mt ml-2">$</span>
                     <input v-model="optionalCash" type="text" :placeholder="$t('trades.trade_arena.enter_amount_usd')"
                            class="optional-input-field">
                   </div>
@@ -106,7 +105,7 @@
                 </div>
                 <div v-else-if="cashAdded">
                   <div class="d-flex cash-added justify-content-center mt-4">
-                    <div v-if="cashType === CASH_TYPE_ADDED">
+                    <div v-if="cashType === CASH_TYPE_REQUESTED">
                       <img :src="require('~/assets/img/icons/dollar.svg')" class="ml-4 mr-2">
                       {{$t('trades.trade_arena.you_added_cash',{'0': optionalCash })}}
                       <sup class="ml-1 mr-4" role="button"><img  id="cashPopover" :src="infoIcon"/></sup>
@@ -156,7 +155,7 @@
               </div>
 
               <b-row v-if="inventoryItems.length" class="mt-2">
-                <b-col sm="6" v-for="(item) in inventoryItems" :key="item.id" class="inventory-small">
+                <b-col v-for="(item) in inventoryItems" :key="item.id" sm="6" class="inventory-small">
                   <div class="bg-img">
                     <b-row class="justify-content-between">
                       <b-col class="d-flex justify-content-end pr-3 pt-3">
@@ -172,7 +171,7 @@
 
                     <div class="item-caption bg-white">
                       <span class="item-name-small">{{ item.product.name }}</span>
-                      <span class="item-box-condition-small">Box : {{item.packaging_condition.name}}</span>
+                      <span class="item-box-condition-small">{{$t('common.box')}} : {{item.packaging_condition.name}}</span>
                       <span class="item-caption-description">{{item.product.colorway}}</span>
                     </div>
                   </div>
@@ -211,68 +210,87 @@
       <AlreadyListedModal :listingId="itemListingId" :item="alreadyListedItemDetails" @confirm="addYourInventoryItem" />
       <PoorTradeConfirmationModal :poorTrade="(tradeCondition === FILTER_CONDITION_POOR)"></PoorTradeConfirmationModal>
     </div>
-    <div v-else>
+    <div v-else class="bg-white-5">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
-        <b-col :md="isPayment ? 9 : 12">
-          <b-row class="justify-content-between d-flex justify-content-center ml-54 pt-4">
-            <b-col>
-              <div class="offer-id-head">{{ $t('trades.offer_id') }} #{{getOffer.id}}</div>
-              <div class="offer-sum-text">{{ $t('trades.counter_offer') }}</div>
-            </b-col>
-          </b-row>
-          <div class="offer-card m-3">
-            <div class="center-container"
-                 :class="{'center-cont-height':(getTheirItems.length > ONE_ITEM || getYourItems.length) }">
-              <div class="left-item" :class="{'left-item-margin':getTheirItems.length === ONE_ITEM && getYourItems.length}">
-                <div class="item-head-trade-hub">{{ $t('trades.trade_arena.theirs') }}:</div>
-                <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'trade-item-'+index : ''"
-                     :key="'their-trade-item-key-'+index" class="item mb-4"
-                     :class="[((getTheirItems.length > ONE_ITEM )|| (getYourItems.length)) ? 'item-length' : 'item-normal']">
-                  <div v-if="!editYours" class="position-relative">
-                    <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
-                      <img :src="require('~/assets/img/trades/minus-icon.svg')">
-                    </div>
-                  </div>
-                  <img class="item-image" :src="item.inventory.product | getProductImageUrl"
-                       :class="{'item-image-cond':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
-                  <div class="item-caption">
-                    <span class="item-name">{{ item.inventory.product.name }}</span>
-                    <span
-                      class="item-box-condition">{{
-                        $t('trades.trade_arena.box_condition')
-                      }}: {{ item.inventory.packaging_condition.name }}</span>
-                    <span class="item-caption-description">{{ item.inventory.product.colorway }}</span>
-                    <span class="item-size">{{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</span>
-                  </div>
+        <b-col class="px-4" :md="isPayment ? 9 : 12">
+          <div class="">
+            <div class="offer-id-head">{{ $t('trades.offer_id') }} #{{getOffer.id}}</div>
+            <div class="offer-sum-text">{{ $t('trades.counter_offer') }}</div>
+          </div>
+          <div class="offer-card my-3">
+            <div class="d-flex flex-column px-3 px-lg-0">
+              <div class="mt-55 d-flex mb-2 justify-content-between col-md-8 mx-auto">
+                <div class="value">
+                  {{ $t('common.their_value') }}
+                  <span class="ml-1 price">{{ getTheirTotal() }}</span>
+                </div>
+                <div class="value">
+                  {{ $t('common.your_value') }}
+                  <span class="ml-1 price">{{ getYourTotal() }}</span>
                 </div>
               </div>
-              <div class="center-item">
-                <div v-if="getTheirItems.length > ONE_ITEM" class="pointer-left"></div>
-                <div class="long-line" :class="{'long-line-length' : getTheirItems.length === ONE_ITEM }"></div>
-                <img :src="require('~/assets/img/trades/border.svg')"/>
-                <div class="long-line" :class="{'long-line-length' : getYourItems.length === ONE_ITEM }"></div>
-                <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right"></div>
-              </div>
-              <div class="right-item">
-                <div class="item-head-trade-hub">{{ $t('trades.trade_arena.yours') }}:</div>
-                <div v-if="getYourItems.length" >
-                  <div v-for="(item, index) in getYourItems"
-                       :id="getYourItems.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="'your-trade-item-key-'+index"
-                       class="preview item-length mb-4">
-                    <div v-if="editYours" class="position-relative">
-                      <div class="position-absolute remove-item-icon" role="button" @click.stop="removeItem(item.inventory.product.id)">
+              <div
+                class="center-container d-flex mx-0 mx-md-auto justify-content-between align-items-center col-md-8 col-xl-12"
+                :class="{'center-cont-height':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"
+              >
+                <div class="left-item">
+                  <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'trade-item-'+index : ''"
+                      :key="'their-trade-item-key-'+index" class="item mb-4"
+                      :class="[((getTheirItems.length > ONE_ITEM )|| (getYourItems.length)) ? 'item-length' : 'item-normal']">
+                    <div v-if="!editYours" class="position-relative">
+                      <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
                         <img :src="require('~/assets/img/trades/minus-icon.svg')">
                       </div>
                     </div>
-                    <img class="item-image" :src="item.inventory.product | getProductImageUrl" alt="image"
-                         :class="{'item-image-cond':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
+                    <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
                     <div class="item-caption">
                       <span class="item-name">{{ item.inventory.product.name }}</span>
-                      <span class="item-box-condition">
-                      {{ $t('trades.trade_arena.box_condition') }}: {{ item.inventory.packaging_condition.name }}
-                    </span>
-                      <span class="item-caption-description">{{ item.inventory.product.colorway }}</span>
-                      <span class="item-size">{{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</span>
+                      <div class="mt-1 item-caption-description d-flex">
+                        <div class="item-color text-truncate">
+                          {{ item.inventory.product.colorway }}
+                        </div>
+                        <div>, {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</div>
+                      </div>
+                      <span
+                        class="mt-1 item-caption-description">{{
+                          $t('trades.trade_arena.box')
+                        }}: {{ item.inventory.packaging_condition.name }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="center-item">
+                  <div v-if="getTheirItems.length > ONE_ITEM" class="pointer-left"></div>
+                  <div class="long-line" :class="{'w-xl-100' : getTheirItems.length === ONE_ITEM }"></div>
+                  <img :src="require('~/assets/img/trades/Trade.svg')" />
+                  <div class="long-line" :class="{'w-xl-100' : getYourItems.length === ONE_ITEM }"></div>
+                  <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right"></div>
+                </div>
+                <div class="right-item">
+                  <div v-if="getYourItems.length" >
+                    <div v-for="(item, index) in getYourItems"
+                        :id="getYourItems.length > TWO_ITEMS ?'your-trade-item-'+index : 'your-item'" :key="'your-trade-item-key-'+index"
+                        class="item-length mb-4">
+                      <div v-if="editYours" class="position-relative">
+                        <div class="position-absolute remove-item-icon" role="button" @click.stop="removeItem(item.inventory.product.id)">
+                          <img :src="require('~/assets/img/trades/minus-icon.svg')">
+                        </div>
+                      </div>
+                      <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" alt="image" />
+                      <div class="item-caption">
+                        <span class="item-name">{{ item.inventory.product.name }}</span>
+                        <div class="mt-1 item-caption-description d-flex">
+                          <div class="item-color text-truncate">
+                            {{ item.inventory.product.colorway }}
+                          </div>
+                          <div>, {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</div>
+                        </div>
+                        <span
+                          class="mt-1 item-caption-description">{{
+                            $t('trades.trade_arena.box')
+                          }}: {{ item.inventory.packaging_condition.name }}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -280,33 +298,40 @@
             </div>
             <div class="d-flex flex-column align-items-center mb-4">
               <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
-                <Meter :highest="getTheirTotal(false)"
-                       :lowest="0"
-                       :value="getYourTotal(false)"
-                       :fair="getFairTradeValue()"
-                       :heading="false"
+                <Meter
+                  :highest="getTheirTotal(false)"
+                  :lowest="0"
+                  :value="getYourTotal(false)"
+                  :fair="getFairTradeValue()"
+                  heading="common.fair_trade_meter"
+                  headingClass="my-header"
                 />
               </div>
-              <div>
-                <div class="amounts-input">
-                  <input type="text" class="theirs" disabled :value="$t('trades.trade_arena.theirs') + `: ${getTheirTotal()}`">
-                  <input type="text" class="yours" disabled :value="$t('trades.trade_arena.yours') + `: ${getYourTotal()}`">
-                </div>
-              </div>
               <div class="trade-hub-buttons mt-4 mb-4">
-                <span class="optional-text">{{ $t('trades.trade_arena.optional') }}</span>
-                <div v-if="!cashAdded" class="optional-input d-flex">
+                <div class="mb-1">
+                  <span class="add-cash">{{ $t('trades.add_cash') }}</span>
+                  <span class="request-cash">{{ $t('trades.request_cash') }}</span>
+                </div>
+                <div v-if="!cashAdded" class="optional-input w-100 d-flex">
                   <div class="position-relative">
-                    <span v-if="optionalCash" class="position-absolute input-mt ml-2">$</span>
-                    <input v-model="optionalCash" type="text" :placeholder="$t('trades.trade_arena.enter_amount_usd')"
-                           class="optional-input-field">
+                    <input
+                      v-model="optionalCash"
+                      type="number"
+                      :placeholder="$t('common.enter_cash_amount')"
+                      class="optional-input-field"
+                    >
                   </div>
-                  <Button v-if="editYours" variant="primary" pill class="add-cash-btn" @click="addOptionalCash(true)">{{ $t('trades.add_cash') }}</Button>
-                  <Button v-else variant="primary" pill class="add-cash-btn" @click="addOptionalCash(true)">{{ $t('trades.request_cash') }}</Button>
+                  <Button
+                    variant="dark-blue"
+                    class="add-cash-btn"
+                    @click="addOptionalCash(true)"
+                  >
+                    {{ $t('common.confirm') }}
+                  </Button>
                 </div>
                 <div v-else-if="cashAdded">
                   <div class="d-flex cash-added justify-content-center mt-4">
-                    <div v-if="cashType === CASH_TYPE_ADDED">
+                    <div v-if="cashType === cashAddedType">
                       <img :src="require('~/assets/img/icons/dollar.svg')" class="ml-4 mr-2">
                       {{$t('trades.trade_arena.you_added_cash',{'0': optionalCash })}}
                       <sup class="ml-1 mr-4" role="button"><img  id="cashPopover" :src="infoIcon"/></sup>
@@ -325,81 +350,167 @@
                   </div>
                 </div>
               </div>
+
+              <b-row class="justify-content-center my-4">
+                <Button variant="dark-blue" class="mr-4 border-radius-8" @click="showPoorTradeConfirmationModal">{{ $t('trades.counter_offer') }}</Button>
+                <div class="discard-btn d-flex align-items-center justify-content-center" @click="$bvModal.show('discardModel')">{{ $t('trades.discard_changes') }}</div>
+              </b-row>
             </div>
           </div>
-          <div class="m-3 p-3 inventory-card-trade">
-            <div class="inventory-heading pl-4">
-              {{ (editYours) ? $t('trades.your_inventory', {0: inventoryItems.length}) : $t('trades.their_inventory', {0: inventoryItems.length}) }}
-              <span v-if="editYours" class="sub-heading-inventory">{{ $t('trades.add_remove_items') }}</span>
-              <Button v-if="editYours" variant="primary" class="pull-right mr-5" @click="editTheirsItems()">{{ $t('trades.edit_theirs') }}</Button>
-              <Button v-else variant="primary" class="pull-right mr-5" @click="editYoursItems()">{{ $t('trades.edit_yours') }}</Button>
+          <div class="my-3 inventory-card-trade">
+            <div class="inventory-heading d-flex flex-column flex-md-row justify-content-between">
+              <div class="d-flex mb-2 mb-md-0">
+                {{ (editYours) ? $t('trades.your_inventory', {0: inventoryItems.length}) : $t('trades.their_inventory', {0: inventoryItems.length}) }}
+                <span v-if="editYours" class="sub-heading-inventory pt-2">{{ $t('trades.add_remove_items') }}</span>
+              </div>
+              <Button v-if="editYours" variant="dark-blue" class="" @click="editTheirsItems()">{{ $t('trades.edit_theirs') }}</Button>
+              <Button v-else variant="dark-blue" class="" @click="editYoursItems()">{{ $t('trades.edit_yours') }}</Button>
             </div>
-            <b-col v-if="editYours" md="9" sm="12" class="pt-4 pl-4">
+            <b-col v-if="editYours" md="9" sm="12" class="pt-4 px-0">
               <SearchInput
                 bordered
                 variant="primary"
+                class="counter-search-input"
+                inputHeight="46px"
+                :isOpen="searchedItems.length > 0"
+                :onOpenStyle="{
+                  borderBottomLeftRadius: '0 !important',
+                  borderBottomRightRadius: '0 !important',
+                }"
+                :iconStyle="{
+                  position: 'relative',
+                  left: '12px'
+                }"
                 :placeholder="$t('trades.trade_arena.search_inventory')"
                 :clearSearch="true"
                 @change="onSearchInput"
               />
-              <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" :productsFor="productFor" width="700px" class="position-absolute"/>
-            </b-col>
-            <b-col md="12" class="pt-4 pl-4">
-              <label>{{ $t('trades.filter_by') }}</label>
-              <div class="d-flex">
-                <b-col md="2" sm="12" class="pl-0">
-                  <client-only>
-                    <CustomDropdown v-model="categoryFilter" :options="categoryItems" type="single-select"
-                                    :label="categoryFilterLabel" class="mr-3 width-156" optionsWidth="custom"
-                                    width="150px"
-                                    dropDownHeight="38px" variant="white"
-                                    @getResults="getInventory"
-                                    @change="changeCategory"/>
-                  </client-only>
-                </b-col>
-                <b-col md="2" sm="12">
-                  <client-only>
-                    <CustomDropdown v-model="sizeTypesFilter" :options="filters.size_types" type="multi-select-checkbox"
-                                    :label="sizeTypesFilterLabel" class="mr-3 width-156" optionsWidth="custom"
-                                    dropDownHeight="38px" variant="white"
-                                    @getResults="getInventory"
-                                    @change="changeSizeTypeFilter"/>
-                  </client-only>
-                </b-col>
-                <b-col md="2" sm="12">
-                  <client-only>
-                    <CustomDropdown v-model="sizeFilter" :options="filters.sizes" type="multi-select-checkbox"
-                                    :label="sizeFilterLabel" class="mr-3 width-156" optionsWidth="custom"
-                                    dropDownHeight="38px" variant="white"
-                                    @getResults="getInventory"
-                                    @change="changeSizeFilter"/>
-                  </client-only>
-                </b-col>
-                <b-col md="2" sm="12">
-                  <Button class="filter-btn" @click="getInventory">{{ $t('trades.filter') }}</Button>
-                </b-col>
+              <div class="position-relative">
+                <SearchedProductsBelowSearchTextBox
+                  v-if="searchedItems.length > 0"
+                  :productItems="searchedItems"
+                  :productsFor="productFor"
+                  class="position-absolute width-responsive counter-wrapper"
+                  addBtnClass="text-right"
+                  :itemStyle="{
+                    padding: 0
+                  }"
+                  :wrapperStyle="{
+                    margin: 0
+                  }"
+                />
               </div>
             </b-col>
-            <div v-if="inventoryItems.length" class="carousel row justify-content-between inventory-items-trade">
-              <div v-for="(item) in inventoryItems" :key="item.id" class="item invent-item">
-                <div>
-                  <b-row class="justify-content-between">
-                    <b-col>
-                      <div class="size-car">{{ $t('trades.trade_arena.size') }} {{item.size.size}}</div>
-                    </b-col>
-                    <b-col class="d-flex justify-content-end pr-3 pt-3">
-                      <img v-if="!editYours" class="plus-icon-add-trade" role="button"
-                           :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>
-                      <img v-else class="plus-icon-add-trade" role="button"
-                           :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
-                    </b-col>
-                  </b-row>
-                  <img class="item-image-counteroffer" :src="item.product | getProductImageUrl" width="200px" />
-                  <div class="item-caption">
-                    <span class="item-name">{{ item.product.name }}</span>
-                    <span class="item-box-condition">{{ $t('common.box_condition') }}: {{item.packaging_condition.name}}</span>
-                    <span class="item-caption-description">{{item.product.colorway}}</span>
+            <div class="pt-4">
+              <div class="filter-label">{{ $t('trades.filter_by') }}</div>
+              <div class="row align-items-center">
+                <b-col md="3" xl="2" sm="12">
+                  <client-only>
+                    <CustomDropdown
+                      v-model="categoryFilter"
+                      :options="categoryItems"
+                      type="single-select"
+                      :label="categoryFilterLabel"
+                      paddingX="10px"
+                      class="mr-sm-3 counter-page-dropdown"
+                      optionsWidth="custom"
+                      dropDownHeight="38px"
+                      variant="white"
+                      :arrowStyle="{
+                        color: '#000',
+                        marginTop: '0 !important'
+                      }"
+                      :dropdownStyle="{
+                        borderRadius: '0 0 5px 5px'
+                      }"
+                      borderRadius="5px"
+                      borderRadiusClose="5px 5px 0 0"
+                      @getResults="getInventory"
+                      @change="changeCategory"
+                    />
+                  </client-only>
+                </b-col>
+                <b-col md="3" xl="2" sm="12" class="mt-2 mt-md-0">
+                  <client-only>
+                    <CustomDropdown
+                      v-model="sizeTypesFilter"
+                      :options="filters.size_types"
+                      type="multi-select-checkbox"
+                      :label="sizeTypesFilterLabel"
+                      class="mr-sm-3 counter-page-dropdown"
+                      paddingX="10px"
+                      optionsWidth="custom"
+                      dropDownHeight="38px"
+                      :arrowStyle="{
+                        color: '#000',
+                        marginTop: '0 !important'
+                      }"
+                      :dropdownStyle="{
+                        borderRadius: '0 0 5px 5px'
+                      }"
+                      borderRadius="5px"
+                      borderRadiusClose="5px 5px 0 0"
+                      variant="white"
+                      @getResults="getInventory"
+                      @change="changeSizeTypeFilter"
+                    />
+                  </client-only>
+                </b-col>
+                <b-col md="3" xl="2" sm="12" class="mt-2 mt-md-0">
+                  <client-only>
+                    <CustomDropdown
+                      v-model="sizeFilter"
+                      :options="filters.sizes"
+                      type="multi-select-checkbox"
+                      :label="sizeFilterLabel"
+                      class="mr-sm-3 counter-page-dropdown"
+                      paddingX="10px"
+                      optionsWidth="custom"
+                      dropDownHeight="38px"
+                      :arrowStyle="{
+                        color: '#000',
+                        marginTop: '0 !important'
+                      }"
+                      :dropdownStyle="{
+                        borderRadius: '0 0 5px 5px'
+                      }"
+                      borderRadius="5px"
+                      borderRadiusClose="5px 5px 0 0"
+                      variant="white"
+                      @getResults="getInventory"
+                      @change="changeSizeFilter"
+                    />
+                  </client-only>
+                </b-col>
+                <b-col md="2" sm="12" class="mt-2 mt-md-0">
+                  <Button class="filter-btn" variant="dark-blue" @click="getInventory">{{ $t('trades.filter') }}</Button>
+                </b-col>
+              </div>
+            </div>
+            <div v-if="inventoryItems.length" class="carousel d-flex flex-column flex-md-row flex-wrap justify-content-between inventory-items-trade">
+              <div
+                v-for="(item) in inventoryItems"
+                :key="item.id"
+                class="item invent-item d-flex flex-column justify-content-center mx-auto mx-md-0 col-6 col-md-3 px-0"
+              >
+                <b-row class="justify-content-between">
+                  <b-col class="d-flex justify-content-end pr-3 pt-3">
+                    <img v-if="!editYours" class="plus-icon-add-trade" role="button"
+                          :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>
+                    <img v-else class="plus-icon-add-trade" role="button"
+                          :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
+                  </b-col>
+                </b-row>
+                <img class="img-fluid mx-auto max-h-200" :src="item.product | getProductImageUrl" />
+                <div class="item-caption">
+                  <span class="item-name">{{ item.product.name }}</span>
+                  <div class="mt-1 item-caption-description d-flex">
+                    <div class="item-color text-truncate">{{ item.product.colorway }}</div>
+                    <div>, {{ $t('trades.trade_arena.size') }} {{ item.size.size }}</div>
                   </div>
+                  <span class="mt-1 item-caption-description">
+                    {{ $t('trades.trade_arena.box') }}: {{ item.packaging_condition.name }}
+                  </span>
                 </div>
               </div>
             </div>
@@ -417,11 +528,6 @@
               />
             </b-row>
           </div>
-          <b-row class="justify-content-center mb-5 mt-4">
-            <Button variant="primary" class="mr-5" @click="showPoorTradeConfirmationModal">{{ $t('trades.counter_offer') }}</Button>
-            <Button variant="outline-secondary" @click="$bvModal.show('discardModel')">{{ $t('trades.discard_changes') }}
-            </Button>
-          </b-row>
         </b-col>
         <CheckoutSidebar v-if="isPayment" class="order-summary" />
       </b-row>
@@ -449,6 +555,7 @@
   import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem'
   import CheckoutSidebar from '~/components/checkout/trades/ShoppingCartOrder'
   import addCash from '~/pages/profile/trades/dashboard/_id/offers/AddCash'
+  import ScreenSize from '~/plugins/mixins/screenSize'
   import {
     GOOGLE_MAPS_BASE_URL
   } from '~/static/constants/environments'
@@ -494,6 +601,7 @@ export default {
     CheckoutSidebar,
     addCash
   },
+  mixins: [ScreenSize],
   layout: 'Profile',
   data() {
     return {
@@ -515,7 +623,7 @@ export default {
         {text: this.$t('common.apparel'), value: 'apparel'},
         {text: this.$tc('common.accessory', 2), value: 'accessories'},
       ],
-      optionalCash: '0.00',
+      optionalCash: null,
       optional_cash_type:null,
       cashAdded: 0,
       categoryFilter: '',
@@ -687,13 +795,14 @@ export default {
       }
     },
 
-    editTheirsItems(){
+    editTheirsItems() {
       this.submittedItemType = OFFER_TYPE_THEIR
       this.editYours = false
       this.loadData()
       this.cashType = CASH_TYPE_REQUESTED
     },
-    editYoursItems(){
+
+    editYoursItems() {
       this.submittedItemType = OFFER_TYPE_YOURS
       this.editYours = true
       this.loadData()
@@ -908,7 +1017,6 @@ export default {
      * @param selectedSizeType
      */
     changeSizeTypeFilter(selectedSizeType) {
-
       if (!this.sizeTypesFilter.includes(selectedSizeType)) {
         this.sizeTypesFilter.push(selectedSizeType)
       } else {
@@ -928,8 +1036,8 @@ export default {
       } else {
         this.sizeFilter = this.sizeFilter.filter(item => item !== selectedSize.size)
       }
-
-      this.sizeFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.sizeFilter, MAX_LABELS_IN_CUSTOM_DROP_DOWN)
+      this.sizeFilterLabel = this.$options
+        .filters.joinAndCapitalizeFirstLetters(this.sizeFilter, MAX_LABELS_IN_CUSTOM_DROP_DOWN)
         || this.$t('trades.create_listing.vendor.wants.size')
     },
 
@@ -1019,6 +1127,58 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.w-xl-100
+  @media (min-width: 1200px)
+    width: 100%
+
+.max-h-200
+  max-height: 200px
+
+.filter-label
+  @include body-8-normal
+  color: $color-black-1
+  font-family: $font-family-sf-pro-display
+  margin-bottom: 5px
+
+.border-radius-8
+  border-radius: 8px
+
+.discard-btn
+  @include body-4-medium
+  height: 39px
+  width: 190px
+  border-radius: 8px
+  background: $color-white-29
+  color: $color-blue-20
+
+.add-cash, .request-cash
+  @include body-9
+  font-family: $font-family-sf-pro-display
+
+.add-cash
+  color: $color-black-4
+  font-weight: $medium
+  margin-right: 11px
+
+.request-cash
+  color: $color-gray-4
+  font-weight: $regular
+
+.mt-55
+  margin-top: 55px
+
+.value
+  @include body-8-normal
+  color: $color-gray-5
+  text-transform: uppercase
+
+.price
+  @include body-8-medium
+  color: $color-black-1
+
+.item-color
+  max-width: 140px
+
 .offer-id-head
   font-family: $font-family-sf-pro-display
   font-style: normal
@@ -1026,6 +1186,7 @@ export default {
   letter-spacing: -0.02em
   text-transform: capitalize
   color: $color-black-1
+  margin-top: 49px
 
 .offer-sum-text
   font-family: $font-family-sf-pro-display
@@ -1038,12 +1199,19 @@ export default {
   margin-left: 54px
 
 .center-container
-  margin: 45px 2%
+  @media (min-width: 1200px)
+    padding-left: 30px
+    padding-right: 30px
+  @media (min-width: 1400px)
+    padding-left: 160px
+    padding-right: 160px
 
 .offer-card
   background: $color-white-1
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
+  height: 1000px
+
 
 .item-head-trade-hub
   font-family: $font-family-sf-pro-display
@@ -1056,38 +1224,49 @@ export default {
   padding-top: 15px
 
 #trade-item-0
-  position: absolute
-  margin-left: 115%
-  margin-top: 107px
+  @media (min-width: 1200px)
+    position: absolute
+    margin-left: 120%
+    margin-top: 140px
+    z-index: 10
 
 #your-trade-item-0
-  position: absolute
-  margin-top: 107px
-  margin-left: -115%
-
-.item
-  border: 0.5px solid $light-gray-2
+  @media (min-width: 1200px)
+    position: absolute
+    z-index: 10
+    margin-top: 140px
+    margin-left: -120%
 
 .optional-input-field
-  width: 210px
+  @include body-9-normal
+  width: 156px
   height: 38px
   background: $color-white-1
-  border: 0.5px solid $color-gray-4
-  box-sizing: border-box
-  border-radius: 31px
-  padding-left: 20px
+  border: 0.5px solid $color-gray-23
+  border-radius: 4px
+  padding-left: 10px
+  padding-right: 10px
+  color: $color-black-1
+  font-family: $font-family-sf-pro-display
+  box-shadow: inset 0px 6px 9px rgba(0, 0, 0, 0.06)
+  margin-right: 16px
+
+.optional-input-field::placeholder
+  color: $color-gray-47
 
 .input-mt
   margin-top: 7px
 
 .add-cash-btn
   font-size: 14px
-  min-width: 180px
+  min-width: 75px
+  border-radius: 4px
 
 .inventory-card-trade
   background: $color-white-1
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
+  padding: 30px 67px 20px 67px
 
 .inventory-heading
   font-family: $font-family-sf-pro-display
@@ -1107,7 +1286,8 @@ export default {
   height: 42px
 
 .inventory-items-trade
-  padding: 30px 30px 30px 30px
+  padding-top: 30px
+  padding-bottom: 30px
 
 .remove-item-icon
   right: 5px
@@ -1283,5 +1463,9 @@ export default {
   color: $color-blue-19
   background-color: $color-white-1
   border: 1px solid $color-black-1
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25)
+
+.bg-white-5
+  background: $color-white-5
   box-shadow: 0px 1px 2px $color-black-rgb2
 </style>
