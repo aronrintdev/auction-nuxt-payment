@@ -29,11 +29,11 @@
               <div class="center-item-small">
                 <div v-if="lastSubmittedOffer.theirs_items.length === TWO_ITEMS" class="pointer-left-small-two"></div>
                 <div v-if="lastSubmittedOffer.theirs_items.length === THREE_ITEMS" class="pointer-left-small-three"></div>
-                <div class="long-line-small" :class="{'long-line-length-small' : lastSubmittedOffer.theirs_items.length === ONE_ITEM }"></div>
+<!--                <div class="long-line-small" :class="{'long-line-length-small' : lastSubmittedOffer.theirs_items.length === ONE_ITEM }"></div>-->
                 <img v-if="lastSubmittedOffer.theirs_items.length === ONE_ITEM" :src="require('~/assets/img/tradecenter.svg')" class="middle-trade-one"/>
                 <img v-if="lastSubmittedOffer.theirs_items.length === TWO_ITEMS" :src="require('~/assets/img/tradecenter.svg')" class="middle-trade-two mr-2"/>
                 <img  v-if="lastSubmittedOffer.theirs_items.length === THREE_ITEMS" :src="require('~/assets/img/tradecenter.svg')" class="middle-trade-three mr-2"/>
-                <div class="long-line-small" :class="{'long-line-length-small' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>
+<!--                <div class="long-line-small" :class="{'long-line-length-small' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>-->
                 <div v-if="lastSubmittedOffer.theirs_items.length === TWO_ITEMS" class="pointer-right-small-two"></div>
                 <div v-if="lastSubmittedOffer.theirs_items.length === THREE_ITEMS" class="pointer-right-small-three"></div>
               </div>
