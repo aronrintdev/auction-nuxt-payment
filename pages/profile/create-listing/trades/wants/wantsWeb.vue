@@ -29,7 +29,16 @@
               inputHeight="60px"
               @change="onSearchInput"
             />
-            <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="wantItemTrade" width="800px" class="position-absolute"/>
+            <div class="position-relative">
+              <SearchedProductsBelowSearchTextBox 
+                v-if="searchedItems.length > 0" 
+                :productItems="searchedItems" 
+                productsFor="wantItemTrade" 
+                class="position-absolute"
+                :wrapperStyle="{ margin: 0 }"
+                :itemStyle="{ padding: 0 }"
+              />
+            </div>
           </b-col>
           <b-col align-self="center" class="col-md-4 col-12 col-sm-6 mt-md-4 text-right">
             <b-btn class="font-weight-bolder cursor-pointer btn-offer" @click="$bvModal.show('offer-item-modal')">
