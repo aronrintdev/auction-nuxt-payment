@@ -1,11 +1,11 @@
 <template>
   <Modal
-    :id="id"
-    hide-footer
-    no-border
-    title="adad"
-    size="md"
-    @hidden="$emit('hidden')"
+      :id="id"
+      hide-footer
+      no-border
+      modal-class="confirm-modal"
+      size="md"
+      @hidden="$emit('hidden')"
   >
     <div class="confirm-modal-content">
       <div class="">
@@ -86,3 +86,17 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+@import "~/assets/css/variables"
+
+::v-deep.confirm-modal::v-deep
+  background: red !important
+  color: red !important
+  z-index: 99999
+
+  &.show
+    .modal-dialog
+      .modal-content
+        background: red !important
+        border-radius: 12px
+</style>

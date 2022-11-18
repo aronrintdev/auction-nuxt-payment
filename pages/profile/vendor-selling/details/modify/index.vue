@@ -5,12 +5,12 @@
     :class="isScreenXS ? 'p-4' : 'p-5'"
   >
     <div v-if="modifyData">
-      <ModifyListing
-        v-model="form"
-        :action="`edit`"
-        :listingId="modifyData.id"
-        :product="modifyData.inventory.product"
-        @success="editListing"
+      <ModifyListingRevamp
+          v-model="form"
+          :action="`edit`"
+          :listingId="modifyData.id"
+          :product="modifyData.inventory.product"
+          @success="editListing"
       />
     </div>
   </b-container>
@@ -18,13 +18,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import ModifyListing from '~/components/profile/vendor-selling/ModifyListing.vue'
 import screenSize from '~/plugins/mixins/screenSize'
+import ModifyListingRevamp from '~/components/profile/vendor-selling/ModifyListingRevamp'
 export default {
   name: 'Modify',
 
   components: {
-    ModifyListing,
+    ModifyListingRevamp,
   },
 
   mixins: [screenSize],
@@ -44,7 +44,6 @@ export default {
       },
     }
   },
-
   computed: {
     ...mapGetters({
       modifyData: 'sell-listing/getListingData',
