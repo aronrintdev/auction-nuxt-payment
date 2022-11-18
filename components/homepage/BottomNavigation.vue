@@ -14,12 +14,12 @@
           {{ $t('home.home') }}
         </h6>
       </nuxt-link>
-      <div class="navLink" @click="handleSearchFocus">
-        <search />
+      <nuxt-link class="navLink" to="/browse">
+        <search :active="$route.path === '/browse'" />
         <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
           {{ $t('navbar.browse') }}
         </h6>
-      </div>
+      </nuxt-link>
       <nuxt-link class="navLink" to="/shop">
         <shop :active="$route.path === '/shop'" />
         <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">

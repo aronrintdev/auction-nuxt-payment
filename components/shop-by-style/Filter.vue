@@ -2,7 +2,7 @@
   <div class="filter-wrapper d-flex align-items-center flex-column">
     <div class="header">{{ $tc('common.filter', 1) }}</div>
 
-    <div class="main w-100">
+    <div class="main w-100 h-101">
       <div class="row">
         <div class="collapses col-sm-2 mb-4">
           <FilterCollapsible
@@ -10,25 +10,24 @@
             collapseKey="size-types"
             :title="$tc('common.size_type', 1)"
             :options="sizeTypeOptions"
-            class="p-2 mb-1  border border-success rounded"
+            class="p-2 mb-1  border border-success rounded collapse-design position-absolute"
           />
         </div>
-        <div class="offset-sm-1 col-sm-3 mb-4">
+        <div class="col-sm-3 mb-4 ml-54">
           <SearchFilterCollapsible
             v-model="brandsSelected"
             collapseKey="brands"
             :title="$t('filter_sidebar.brands')"
             :options="brands ? brands : brandOptions"
-            class="p-2 mb-1  border border-success rounded"
-            @searchBrands="handleSearchChange"
+            class="p-2 mb-1  border border-success rounded collapse-design position-absolute"
           />
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-5 ml-54">
           <div class="row w-fit-content">
             <div
               v-for="(option, index) in sizeTypeSelected"
               :key="index"
-              class="p-1 br-5 d-flex align-items-center border border-success rounded ml-1 mt-1"
+              class="p-1 br-5 d-flex align-items-center border border-success rounded ml-3 mt-1"
               @click.prevent
             >
               <span class="text-capitalize">{{ option }}</span>
@@ -44,7 +43,7 @@
             <div
               v-for="(option, index) in brandsSelected"
               :key="index"
-              class="p-1 br-5 d-flex align-items-center border border-success rounded ml-1 mt-1"
+              class="p-1 br-5 d-flex align-items-center border border-success rounded ml-3 mt-1"
               @click.prevent
             >
               <span class="text-capitalize">{{ option }}</span>
@@ -73,7 +72,7 @@
           >
           <Button
             variant="info"
-            class="btn-apply flex-shrink-0"
+            class="btn-apply flex-shrink-0 d-none"
             :disabled="!filtersUpdated"
             @click="handleApply"
             >{{ $t('filter_sidebar.apply_filters') }}</Button
@@ -143,6 +142,7 @@ export default {
     },
 
     filtersUpdated() {
+      this.handleApply()
       return (
         _.xor(this.sizeTypeSelected, this.filtersApplied.sizeTypeSelected, this.brandsSelected, this.filtersApplied.brandsSelected)
           .length > 0
@@ -195,6 +195,13 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.h-101
+  height: 101px
+.collapse-design
+  z-index: 999999
+  background-color: $color-white-5
+.ml-54
+  margin-left: 54px
 .w-fit-content
   width: fit-content
 .filters-heading 

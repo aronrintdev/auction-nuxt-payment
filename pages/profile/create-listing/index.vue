@@ -46,7 +46,7 @@
             >
               <div class="position-relative listing-type-img">
                 <img
-                  src="~/assets/img/create-listing/selling1.svg"
+                  src="~/assets/img/create-listing/selling-listing.png"
                   class="position-absolute w-100"
                 />
               </div>
@@ -73,7 +73,7 @@
             >
               <div class="position-relative listing-type-img">
                 <img
-                  src="~/assets/img/create-listing/auctions1.svg"
+                  src="~/assets/img/create-listing/auction-listing.png"
                   class="position-absolute w-100"
                 />
               </div>
@@ -100,7 +100,7 @@
             >
               <div class="position-relative listing-type-img">
                 <img
-                  src="~/assets/img/create-listing/trade1.svg"
+                  src="~/assets/img/create-listing/trade-listing.png"
                   class="position-absolute w-100"
                 />
               </div>
