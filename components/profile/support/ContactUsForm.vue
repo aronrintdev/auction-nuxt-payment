@@ -183,6 +183,9 @@ export default {
     background: $color-white-1
     border-radius: 20px
 
+  ::v-deep .custom-selectbox .items div
+    padding: 12px 26px
+
   ::v-deep .border-bottom
     border-bottom: none !important
 

@@ -1,7 +1,7 @@
 <template>
     <div class="invent-item">
       <div class="w-100">
-        <div v-if="editRemove" class="position-absolute size-cont d-flex justify-content-end">
+        <div v-if="editRemove" class="d-flex justify-content-end">
           <img
             v-if="selected"
             role="button"
@@ -64,10 +64,10 @@
       </div>
       <div class="card-text-item pt-3 pl-sm-2">
         <div class="invent-item-name">{{wantItem.product && wantItem.product.name}}</div>   <!-- to do just frontend .....  -->
-        <div class="invent-item-color">
+        <div class="mt-1 invent-item-color">
           {{ wantItem.product && wantItem.product.colorway }}, {{ $t('home_page.size') }} {{ wantItem.size && wantItem.size.size }}
         </div>
-        <div class="invent-item-color">{{ $t('sell.inventory.box') }}: {{
+        <div class="mt-1 invent-item-color">{{ $t('sell.inventory.box') }}: {{
             wantItem.packaging_condition && wantItem.packaging_condition.name
           }}</div>
       </div>

@@ -110,6 +110,6 @@ export default {
       line-height: 22px
     .desc
       font-size: 14px
-      font-weight: 400
+      font-weight: $regular
       line-height: 23px
 </style>

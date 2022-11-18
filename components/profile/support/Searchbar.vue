@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'mx-auto': centered, 'mobile': isScreenXS }" class="support-search-box">
-    <div class="border d-flex align-items-center br-8 bg-white p-md-2">
+    <div class="d-flex align-items-center br-8 bg-white p-md-2">
       <img
           :src="require(!isScreenXS? '~/assets/img/icons/search.svg': '~/assets/img/profile/mobile/mobile-search.svg')"
           class="search-icon fs-20"
