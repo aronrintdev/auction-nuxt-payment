@@ -4,12 +4,11 @@
       :title="$t('home_page.shop_by_brand')"
       :desc="$t('home_page.shop_by_brand_description')"
       :label="$t('home_page.view_more_brands')"
+      marginLeft="59px"
       to="/shop"
     />
-    <div class="row brand-list-wrapper">
-      <div
-        class="col-lg-9 d-none d-lg-flex justify-content-end border-right pr-3"
-      >
+    <div class="brand-list-wrapper d-flex">
+      <div class="d-none d-lg-flex border-right pr-4">
         <div class="overflow-hidden">
           <img
             width="756px"
@@ -18,7 +17,7 @@
         </div>
       </div>
       <div
-        class="col-7 d-flex d-lg-none border-right image-wrapper justify-content-center"
+        class="d-flex d-lg-none border-right image-wrapper justify-content-center"
       >
         <img
           width="188px"
@@ -26,9 +25,7 @@
           :src="require('~/assets/img/home/shopbybrand-sm.png')"
         />
       </div>
-      <div
-        class="col-lg-3 col-5 pl-lg-5 d-flex links-wrapper position-relative"
-      >
+      <div class="d-flex links-wrapper position-relative">
         <div class="brands-list">
           <h2
             v-for="brand in brands"
@@ -36,7 +33,7 @@
             class="fs-24 fw-5 font-secondary text-black brand-link mb-0 w-fit-content"
             @click="handleBrandClick(brand)"
           >
-            {{ brand.name }} 
+            {{ brand.name }}
           </h2>
         </div>
       </div>
@@ -73,6 +70,8 @@ export default {
 @import '~/assets/css/_variables'
 .brand-list-wrapper
   margin-top: 33px
+  @media (min-width: 576px)
+    margin-left: 146px
 .brands-list
   max-height: 575px
   overflow: auto
@@ -114,6 +113,9 @@ export default {
   .image-wrapper
     padding-right: 12px
     padding-left: 16px
-  .links-wrapper
-    padding-right: 12px
+.links-wrapper
+  padding-right: 12px
+  padding-left: 12px
+  @media (min-width: 576px)
+    padding-left: 76px
 </style>
