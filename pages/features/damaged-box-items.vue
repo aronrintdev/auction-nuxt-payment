@@ -26,35 +26,21 @@
         class="d-flex justify-content-center cards-wrapper-damaged mb-3 mb-md-5 flex-column flex-md-row"
       >
         <FeatureCardHoverable
-          ><template #default>
-            <div class="packaging-damaged d-flex flex-column">
-              <div class="feature-title">Box</div>
-
-              <ul class="feature-description d-flex flex-column gap-2">
-                <li>Excellent</li>
-                <li>Damaged Box</li>
-                <li>Missing Lid</li>
-                <li>No Original Box</li>
-              </ul>
-            </div>
-          </template>
+          :icon="
+            require('~/assets/img/features/newest-feature/damaged-box-items/bi_bag.svg')
+          "
+          :title="$t('newest_features.damaged_box_items.cards.title1')"
+          :description="$t('newest_features.damaged_box_items.cards.desc1')"
+        >
         </FeatureCardHoverable>
 
-        <FeatureCardHoverable>
-          <template #default>
-            <div class="packaging-damaged d-flex flex-column">
-              <div class="feature-title">Packaging</div>
-
-              <ul class="feature-description d-flex flex-column gap-2">
-                <li>Excellent</li>
-                <li>Opened Packinging with Tags</li>
-                <li>Opened Packaging without Tags</li>
-                <li>No Package with Tags</li>
-                <li>No Package with Tags</li>
-                <li>No Package without Tags</li>
-              </ul>
-            </div>
-          </template>
+        <FeatureCardHoverable
+          :icon="
+            require('~/assets/img/features/newest-feature/damaged-box-items/box.svg')
+          "
+          :title="$t('newest_features.damaged_box_items.cards.title2')"
+          :description="$t('newest_features.damaged_box_items.cards.desc2')"
+        >
         </FeatureCardHoverable>
       </div>
     </FeatureContentWrapper>
@@ -129,14 +115,16 @@ export default {
             counter-reset: css-counter 0
             .feature-card-hoverable
                 width: 450px !important
-                justify-content: start !important
-                align-items: start !important
+                justify-content: center !important
+                align-items: center !important
                 padding: 40px 64px !important
+                gap: 35px
                 .packaging-damaged
                     gap: 24px !important
                 .feature-description
                     margin: 0px
                     font-size: 22px
+                    font-weight: 400
             > div
 
                 min-height: 168px
@@ -158,19 +146,17 @@ export default {
                 margin-bottom: 50px !important
                 padding: 40px 16px 0px 16px
                 .feature-card-hoverable
-                    width: 100% !important
-                    padding: 27px 36px !important
-                    .packaging-damaged
-                        gap: 16px !important
-                    .feature-description
-                        font-size: 16px
-                    .feature-title
-                        font-size: 18px
-                > div
-                    min-width: 168px !important
-                    min-height: 164px !important
-                    ul
-                        gap: 14px
+                  width: 100% !important
+                  padding: 27px 36px !important
+                  .packaging-damaged
+                    gap: 16px !important
+                  .feature-description
+                    font-size: 16px
+                  .feature-title
+                    font-size: 18px
+                    img
+                      width: 73px !important
+                      height: 73px
                 .feature-item::v-deep
                     flex-direction: column
                     align-items: center

@@ -1,9 +1,10 @@
 <template>
   <div
-    class="feature-card d-flex flex-column text-md-left text-center align-items-md-baseline align-items-center"
+    class="feature-card d-flex flex-column align-items-md-baseline"
     @click="handleCardClick"
   >
-    <img :src="imageUrl" class="w-100" />
+    <img :src="imageUrl" class="w-100 d-md-block d-none" />
+    <img :src="resImageUrl" class="w-100 d-md-none d-block" />
     <div class="feature-title fs-24 fw-5 font-primary">{{ title }}</div>
     <div class="feature-description fs-18 fw-4 font-primary">
       {{ description }}
@@ -24,6 +25,10 @@ export default {
       default: '',
     },
     imageUrl: {
+      type: String,
+      required: true,
+    },
+    resImageUrl: {
       type: String,
       required: true,
     },
@@ -49,6 +54,7 @@ export default {
 .feature-card
   color: $color-black-1
   cursor: pointer
+  width: 100%
 
   .feature-title
     margin-top: 38px
@@ -63,13 +69,13 @@ export default {
       font-size: 16px
       font-weight: 600
       font-family: 'Montserrat'
-      margin-top: 22px
+      margin-top: 7px
       max-width: 272px
     .feature-description
       font-size: 14px
       font-weight: 400
       font-family: 'Montserrat'
       line-height: 22px
-      margin: 8px 0px 40px 0px !important
+      margin: 8px 0px 0px 0px !important
       max-width: 272px
 </style>

@@ -1,30 +1,33 @@
 <template>
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :bottomBannerImage="bottomBanner.bottomBannerImage"
+      :bottomBannerImageXS="bottomBanner.bottomBannerImageXS"
+      :bottomBannerDescription="bottomBanner.bottomBannerDescription"
+      :bottomBannerDescriptionXS="bottomBanner.bottomBannerDescriptionXS"
+      :bottomBannerButtonLink="bottomBanner.bottomBannerButtonLink"
+      :bottomBannerButtonText="bottomBanner.bottomBannerButtonText"
+      :previousPage="bottomBanner.previousPage"
+      :previousPageXS="bottomBanner.previousPageXS"
+      :previousPageLink="bottomBanner.previousPageLink"
+      :nextPage="bottomBanner.nextPage"
+      :nextPageXS="bottomBanner.nextPageXS"
+      :nextPageLink="bottomBanner.nextPageLink"
     >
-      <b-row
-        class="justify-content-md-between justify-content-center h-card-main mb-md-5 w-100 mx-0"
-      >
+      <b-row class="justify-content-center h-card-main">
         <b-col
           v-for="(item, index) in cardData"
           :key="index"
-          md="3"
-          class="d-flex justify-content-center d-lg-block px-0"
+          lg="3"
+          class="d-flex justify-content-center d-lg-block h-card-column px-0"
         >
           <FeatureCard
             :title="item.title"
             :description="item.description"
             :imageUrl="item.image"
+            :resImageUrl="item.responsiveImage"
           />
         </b-col>
       </b-row>
@@ -98,20 +101,8 @@ export default {
   data() {
     return {
       banner: {
-        title: 'newest_features.payments_plans.feature_banner_title',
-        description: 'newest_features.payments_plans.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/payment-plans/payment-plan-banner.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/payment-plans/paymentplansbannermobile.svg'),
-      },
-      shopNowBanner: {
-        shopNowDescription:
-          'newest_features.payments_plans.shop_now_banner.desc',
-        shopNowButtonText:
-          'newest_features.payments_plans.shop_now_banner.button_text',
-        previousPage: 'newest_features.international_buying_and_selling.title',
-        previousPageLink: '/features/international-buying-and-selling',
-        nextPage: 'newest_features.international_languages.title',
-        nextPageLink: '/features/international-languages',
+        backgroundImage: require('@/assets/img/features/newest-feature/payment-plans/payment-plans-banner.png'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/payment-plans/payment-plans-banner-xs.png'),
       },
       options: [
         {
@@ -133,6 +124,7 @@ export default {
             'newest_features.payments_plans.benefits.first_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/payment-plans/newest-money.png'),
+          responsiveImage: require('~/assets/img/features/newest-feature/payment-plans/mobile-money.png'),
         },
         {
           title: this.$t(
@@ -142,6 +134,7 @@ export default {
             'newest_features.payments_plans.benefits.second_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/payment-plans/timer.svg'),
+          responsiveImage: require('~/assets/img/features/newest-feature/payment-plans/mobile-watch.png'),
         },
         {
           title: this.$t(
@@ -151,8 +144,30 @@ export default {
             'newest_features.payments_plans.benefits.third_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/payment-plans/using-phone.svg'),
+          responsiveImage: require('~/assets/img/features/newest-feature/payment-plans/mobile-shoes.png'),
         },
       ],
+      bottomBanner: {
+        bottomBannerImage: require('@/assets/img/features/newest-feature/payment-plans/bottom-banner.png'),
+        bottomBannerImageXS: require('@/assets/img/features/newest-feature/payment-plans/bottom-banner-xs.png'),
+        bottomBannerDescription:
+          'newest_features.payments_plans.bottom_banner.desc',
+        bottomBannerDescriptionXS:
+          'newest_features.payments_plans.bottom_banner.desc_xs',
+        bottomBannerButtonLink: '/shop',
+        bottomBannerButtonText:
+          'newest_features.payments_plans.bottom_banner.button_text',
+        previousPage:
+          'newest_features.payments_plans.bottom_banner.previous_page_title',
+        previousPageXS:
+          'newest_features.payments_plans.bottom_banner.previous_page_xs_title',
+        previousPageLink: '/features/virtual-giftcards',
+        nextPage:
+          'newest_features.payments_plans.bottom_banner.next_page_title',
+        nextPageXS:
+          'newest_features.payments_plans.bottom_banner.next_page_xs_title',
+        nextPageLink: '/features/international-languages',
+      },
     }
   },
 }
@@ -162,8 +177,6 @@ export default {
 .features-container
   .feature-content
     .h-card-main // card section main desktop
-      .feature-card
-        width: 286px
 
     .feature-item
       margin-bottom: 115px
@@ -180,15 +193,14 @@ export default {
             height: 34px
 
       .affirm-container
-        background-image: url('~/assets/img/features/payment-plans/3-lines.svg')
-        background-position: top right 50px, bottom 54px right 50px
+        background-image: url('~/assets/img/features/newest-feature/payment-plans/affrim.svg')
+        background-position: bottom 56px right 58px, right 50px
         background-repeat: no-repeat, no-repeat
 
       .afterpay-container
-        background-image: url('~/assets/img/icons/afterpay-logo.svg'), url('~/assets/img/icons/afterpay.svg')
-        background-position: top 19px right 26px, bottom 36px right 43px
+        background-image: url('~/assets/img/features/newest-feature/payment-plans/Afterpay.svg')
+        background-position: bottom 18px right 18px, right 50px
         background-repeat: no-repeat, no-repeat
-        background-size: auto, 170px auto
 
       .tab-container
         color: $color-black-1
@@ -240,7 +252,7 @@ export default {
             width: 60px !important
       .tab-container
         .heading
-          font-size: 12px !important
+          font-size: $font-size-12 !important
           margin: 0px
           line-height: 19px !important
           width: 100%
@@ -254,7 +266,7 @@ export default {
           line-height: 18px !important
           margin-bottom: 12px
       .affirm-container, .afterpay-container
-            padding: 22px 46px 10px 14px  !important
-            background-image: none !important
-            border-radius: 12px !important
+        padding: 22px 46px 10px 14px  !important
+        background-image: none !important
+        border-radius: 12px !important
 </style>

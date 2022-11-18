@@ -48,7 +48,6 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .feature-card-hoverableV2
   border-radius: 24px
   box-shadow: 0 1px 4px 0 rgba($color-black-1, 0.25)
@@ -58,7 +57,6 @@ export default {
   height: 361px !important
   width: 361px !important
   background-color: $color-white-1
-
   cursor: help
 
   &.feature-card-hoverableV2-round
@@ -71,7 +69,6 @@ export default {
 
   &:hover
     transform: scale(1.2)
-
 
   .feature-title
     @include heading-1
@@ -98,15 +95,14 @@ export default {
       width: 56px
       height: 47px
 
-
     .feature-title
-        counter-increment: css-counter 1
-        font-size: 16px
-        margin-top: 9px
-        &::before
-            content: counter(css-counter) ". "
+      counter-increment: css-counter 1
+      font-size: 16px
+      margin-top: 9px
+      &::before
+          content: counter(css-counter) ". "
     .feature-description
-      font-size: 12px
+      font-size: $font-size-12
       line-height: 20px
       margin-top: 7px
 </style>

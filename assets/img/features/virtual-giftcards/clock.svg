@@ -1,9 +1,0 @@
-<svg width="91" height="95" viewBox="0 0 91 95" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="45.5" cy="46.5" r="6" stroke="#A3B5FF" stroke-width="3"/>
-<path d="M48 42.1172L65.5856 30.6391C66.9731 29.7335 68.832 30.1242 69.7376 31.5117V31.5117C70.6432 32.8991 70.2525 34.758 68.8651 35.6636L51.2794 47.1417L48 42.1172Z" fill="#A3B5FF"/>
-<path d="M37.8906 45.4688L28.5479 39.6808C27.1395 38.8082 26.705 36.959 27.5776 35.5506V35.5506C28.4502 34.1421 30.2993 33.7077 31.7078 34.5802L41.0505 40.3682L37.8906 45.4688Z" fill="#A3B5FF"/>
-<circle cx="45.5" cy="45.4688" r="41.5" stroke="#41595F" stroke-width="7"/>
-<rect x="56" y="65.5" width="34.5" height="28.8275" fill="#FAFAFA"/>
-<line x1="2.5" y1="-2.5" x2="27.4999" y2="-2.5" transform="matrix(0.707107 -0.707107 0.727889 0.685694 63.5156 92.2148)" stroke="#EE9797" stroke-width="5" stroke-linecap="round"/>
-<line x1="2.5" y1="-2.5" x2="27.4999" y2="-2.5" transform="matrix(0.707107 0.707107 -0.685694 0.727889 59.6875 71)" stroke="#EE9797" stroke-width="5" stroke-linecap="round"/>
-</svg>

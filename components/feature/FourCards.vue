@@ -84,21 +84,19 @@ export default {
     .feature-four-cards
         min-width: 168px !important
         padding: 10px !important
-        height: 168px !important
+        height: 231px !important
         width: 231px !important
-
+        min-height: 231px
         img
-            width: 56px
-            height: 47px
+          width: 56px
+          height: 47px
         &:hover
-            transform: scale(1)
-
-
+          transform: scale(1)
         .feature-title
-            font-size: 12px
-            margin-top: 9px
+          font-size: 12px
+          margin-top: 9px
         .feature-description
-            font-size: 12px
-            line-height: 20px
-            margin-top: 7px
+          font-size: 12px
+          line-height: 20px
+          margin-top: 7px
 </style>
