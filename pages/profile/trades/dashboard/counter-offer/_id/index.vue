@@ -143,8 +143,6 @@
                   </div>
                   <div class="done"  :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="doneClose()">Done</div>
                 </div>
-                {{getYourTradeItems}}
-                {{getYourTradeItems.length}}
                 <div v-if="getYourTradeItems.length > ITEM_COUNT_0" class="d-flex justify-content-center">
                   <div  v-for="(item,index) in getYourTradeItems" :id="'your-card-'+index" :key="index" class="item-inventory mt-2 mb-4 ml-3">
                     <div class="position-relative">
@@ -782,7 +780,8 @@ export default {
   computed: {
     ...mapGetters('browse', ['filters']),
     ...mapGetters('counter-offer', ['getOffer', 'getYourItems', 'getTheirItems', 'getLastSubmittedOffer', 'getYourVendorId', 'getTheirVendorId']),
-    ...mapGetters('trade', ['getActiveTrade','getYourTradeItems'])
+    ...mapGetters('trade', ['getActiveTrade']),
+    ...mapGetters('trade', ['getYourTradeItems']),
   },
   created() {
     this.$store.commit('counter-offer/clearStates')
@@ -849,9 +848,7 @@ export default {
       this.filterScreen = true;
     },
     addYourItem(item) {
-      console.log('item',item)
       if (this.canAddMoreItems() && this.checkIfItemAlreadyListed(item)) {
-        console.log('add your item',item)
         this.addOrIncrementYourItem(item)
       }
     },
@@ -900,7 +897,6 @@ export default {
       this.getYourTotal(false)
     },
     checkIfItemAlreadyListed(item) {
-      console.log('check if alread',item)
       const existingItem = this.getYourTradeItems.find(val => val.id === item.id)
       if (existingItem) return true;
       this.$axios
@@ -928,22 +924,6 @@ export default {
       this.updateActiveTrade()
       this.$nextTick(() => this.$forceUpdate())
     },
-    // canAddMoreItems() {
-    //   const itemsCount = this.getYourTradeItems.map(i => i.quantity).reduce((a, b) => a + b, 0)
-    //   if (itemsCount < MAX_ITEMS_ALLOWED) {
-    //     return true
-    //   } else {
-    //     this.$toasted.error(this.$t('trades.trade_arena.your_items_length', [MAX_ITEMS_ALLOWED]))
-    //     return false
-    //   }
-    // },
-    // updateActiveTrade(){
-    //   this.$store.commit('trade/updateActiveTrade', {
-    //     yourItems: this.getYourTradeItems,
-    //     cashAdded: parseInt(parseFloat(this.optional_cash)*100),
-    //     tradeCondition: this.tradeCondition
-    //   })
-    // },
     /**
      * check if trade is poor/fair
      */
@@ -1047,34 +1027,6 @@ export default {
       const offerId = parseInt(this.$route.params.id)
       this.$router.push(`/profile/trades/dashboard/${offerId}`)
     },
-    /**
-     * This function is used to check  if item
-     * exits in already some listing if exists it will
-     * show model else call function to add item
-     * @param item
-     */
-    // checkIfItemAlreadyListed(item) {
-    //   const existingItem = this.getYourItems.find(val => val.id === item.id)
-    //   if(existingItem) return true;
-    //     this.checkIfItemIsInListingItem({
-    //     inventory_id: item.id
-    //   })
-    //     .then((response) => { // return product information that exits in already listing
-    //       if (response.data.is_listing_item) {
-    //         this.itemListingId = response.data.listingId
-    //         this.alreadyListedItemDetails = item
-    //         this.$bvModal.show('alreadyListed')
-    //         return false
-    //       } else{
-    //         this.addTheirsInventoryItem(item)
-    //         return true
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       this.$toasted.error(this.$t(error.response.data.error))
-    //       this.itemListingId = null
-    //     })
-    // },
     getTheirTotal(formattedPrice = true){
       let optionalCash = 0
       if(this.getLastSubmittedOffer.cash_added &&
@@ -1094,7 +1046,6 @@ export default {
       return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(optionalCash)) : optionalCash * 100
     },
     getYourTotal(formattedPrice = true){
-      console.log('coming')
       let optionalCash = 0
       if(this.getLastSubmittedOffer.cash_added &&
         (this.isOfferMine() &&
@@ -1126,13 +1077,8 @@ export default {
      * or limit exceeds
      * @returns {boolean}
      */
-    canAddMoreItems(){
-      let itemsCount = this.getYourItems.length
-      console.log('itemsCount',itemsCount)
-      if(!this.editYours){
-        console.log('come if')
-        itemsCount = this.getTheirItems.length
-      }
+    canAddMoreItems() {
+      const itemsCount = this.getYourTradeItems.map(i => i.quantity).reduce((a, b) => a + b, 0)
       if (itemsCount < MAX_ITEMS_ALLOWED) {
         return true
       } else {
