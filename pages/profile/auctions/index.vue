@@ -329,6 +329,9 @@ export default {
       infiniteId: +new Date(),
     }
   },
+  async fetch() {
+    await this.FetchAuctions()
+  },
   computed: {
     ...mapGetters({
       getAuctions: 'profile-auction/getAuctions'
@@ -356,9 +359,6 @@ export default {
     isMobileSize() {
       return this.isScreenXS || this.isScreenSM
     }
-  },
-  mounted() {
-    this.FetchAuctions()
   },
   methods: {
     ...mapActions({

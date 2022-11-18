@@ -88,6 +88,7 @@ export default {
   name: 'SendOffer',
   components: {BidOffer, Button, Modal},
   layout: 'Profile',
+  middleware: ['vendor'],
   data(){
     return{
       ArrowLeft,
