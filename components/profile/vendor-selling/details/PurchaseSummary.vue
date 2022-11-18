@@ -132,6 +132,7 @@
     <!-- Relist Item Modal -->
     <SellingModal
       id="relist-item-modal"
+      ref="relistModal"
       :heading="$t('selling_page.relist_content')"
       :confirmLabel="$t('selling_page.relist')"
       @onClear="onRelistCancel"
@@ -211,6 +212,8 @@ export default {
     // On delist
     delistItem() {
       this.$bvModal.show('delist-item-modal')
+      this.addStyle('delist-item-modal')
+
     },
     // On delist confirm
     onDelistConfirm() {
@@ -235,8 +238,19 @@ export default {
     relist() {
       this.relistItem = true
       this.$bvModal.show('relist-item-modal')
+      this.addStyle('relist-item-modal')
     },
-
+    addStyle(id){
+      setTimeout(() => {
+        const modal = document.getElementById(id)
+        const modalBody = modal.querySelector('.modal-content')
+        modalBody.style.width = '438px'
+        modalBody.style.borderRadius = '12px'
+        modal.style.background = 'rgba(0, 0, 0, 0.25)'
+        modal.style.backdropFilter = 'blur(2px)'
+        // this.$refs.relistModal.$el.setAttribute('style', 'background: red')
+      }, 1)
+    },
     // On image error
     imageLoadError(event) {
       event.target.src = `${this.fallbackImgUrl}${this.productImageWidth}`

@@ -10,6 +10,7 @@
     :body-class="`px-4 py-3`"
     :modal-class="modalClass"
     :size="size"
+    :hide-backdrop="hideBackdrop"
     @shown="$emit('shown')"
     @hidden="$emit('hidden')"
   >
@@ -57,6 +58,10 @@ export default {
       default: false,
     },
     hideFooter: {
+      type: Boolean,
+      default: false,
+    },
+    hideBackdrop: {
       type: Boolean,
       default: false,
     },

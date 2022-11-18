@@ -3,26 +3,27 @@
       :id="id"
       hide-footer
       modal-class="confirm-modal"
+      :hide-backdrop="true"
       no-border
       size="md"
       @hidden="$emit('hidden')"
   >
-    <div class="confirm-modal-content">
-      <div class="">
+    <div class="confirm-modal-content d-flex flex-column justify-content-center padding-web">
+      <div class="body-3-regular font-secondary">
         {{ heading }}
       </div>
       <div
-          class="mt-4 mb-5"
+          class="mt-2"
       >
         <p v-if="description1">{{ description1 }}</p>
         <p v-if="description2">{{ description2 }}</p>
         <p v-if="description3">{{ description3 }}</p>
       </div>
-      <div class="d-flex justify-content-around mt-4 mb-3">
-        <Button variant="info" pill @click="handleOkClick">{{
+      <div class="d-flex  mt-41">
+        <Button variant="dark-blue" pill @click="handleOkClick" class="modal-btn mr-43">{{
           confirmLabel || $t('common.ok')
         }}</Button>
-        <Button variant="outline-dark" pill @click="handleCancelClick">{{
+        <Button variant="outline-dark" pill @click="handleCancelClick" class="modal-btn">{{
           $t('common.cancel')
         }}</Button>
       </div>
@@ -87,16 +88,16 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-@import "~/assets/css/variables"
+::v-deep.modal-btn
+  &.btn
+    width: 147px
 
-::v-deep.confirm-modal::v-deep
-  background: red !important
-  color: red !important
-  z-index: 99999
+.mr-43
+  margin-right: 43px
 
-  &.show
-    .modal-dialog
-      .modal-content
-        background: red !important
-        border-radius: 12px
+.mt-41
+  margin-top: 41px
+
+.padding-web
+  padding: 0 24px 42px
 </style>
