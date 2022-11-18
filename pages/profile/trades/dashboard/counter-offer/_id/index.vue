@@ -3,11 +3,11 @@
     <div v-if="isScreenXS">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col v-if="!cashAdd" :md="isPayment ? 9 : 12">
-          <div class="center-container mt-5 mb-5">
-            <div class="left-item" :class="{'right-item-margin-top':getTheirItems.length === TWO_ITEMS,'left-item-one':getTheirItems.length === ONE_ITEM}">
+          <div class="center-container-xs mt-5 mb-5">
+            <div class="left-item-xs" :class="{'right-item-margin-top-sm':getTheirItems.length === TWO_ITEMS,'left-item-one-xs':getTheirItems.length === ONE_ITEM}">
               <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'card-'+index : ''" :key="index" class="item mb-4">
-                <div class="image-wrapper">
-                  <img class="pro-image"  :src="item.inventory.product | getProductImageUrl"/>
+                <div class="image-wrapper-sm">
+                  <img class="pro-image-sm"  :src="item.inventory.product | getProductImageUrl"/>
                   <div class="overlay"></div>
                 </div>
                 <div class="item-caption">
@@ -21,24 +21,24 @@
                 </div>
               </div>
             </div>
-            <div class="center-item">
-              <div v-if="getTheirItems.length > ONE_ITEM" class="pointer-left" :class="{'pointer-right-two-items':getTheirItems.length=== TWO_ITEMS}"></div>
+            <div class="center-item-sm">
+              <div v-if="getTheirItems.length > ONE_ITEM" class="pointer-left-sm" :class="{'pointer-right-two-items-sm':getTheirItems.length=== TWO_ITEMS}"></div>
               <div class="position-relative center-img d-flex justify-content-between">
-                <div v-if="getTheirItems.length === THREE_ITEMS || getTheirItems.length === ONE_ITEM" class="line-bar"></div>
-                <div class="fair-text position-absolute">{{$t('trades.fair')}}</div>
-                <img class="trade-img position-absolute" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
-                <div v-if="getYourItems.length === THREE_ITEMS || getYourItems.length === ONE_ITEM" class="line-bar"></div>
+                <div v-if="getTheirItems.length === THREE_ITEMS || getTheirItems.length === ONE_ITEM" class="line-bar-sm"></div>
+                <div class="fair-text-sm position-absolute">{{$t('trades.fair')}}</div>
+                <img class="trade-img-sm position-absolute" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
+                <div v-if="getYourItems.length === THREE_ITEMS || getYourItems.length === ONE_ITEM" class="line-bar-sm"></div>
               </div>
-              <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right" :class="{'pointer-right-two-items':getYourItems.length === TWO_ITEMS}"></div>
+              <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right-sm" :class="{'pointer-right-two-items-sm':getYourItems.length === TWO_ITEMS}"></div>
             </div>
-            <div class="right-item" :class="{'right-item-margin-top':getYourItems.length === TWO_ITEMS,'right-item-one':getYourItems.length === ONE_ITEM}">
+            <div class="right-item-sm" :class="{'right-item-margin-top-sm':getYourItems.length === TWO_ITEMS,'right-item-one-sm':getYourItems.length === ONE_ITEM}">
               <div  v-if="getYourItems.length" class="">
                 <div  v-for="(item,index) in getYourItems" :id="getYourItems.length > ONE_ITEM ?'your-card-'+index : 'your-item'" :key="index" class="preview mb-4">
                   <div class="remove-item"  @click="removeItem(item.inventory.product.id)">
                     <div class="minus"></div>
                   </div>
-                  <div class="image-wrapper">
-                    <img class="pro-image" :src="item.inventory.product | getProductImageUrl" alt="image" />
+                  <div class="image-wrapper-sm">
+                    <img class="pro-image-sm" :src="item.inventory.product | getProductImageUrl" alt="image" />
                     <div class="overlay"></div>
                   </div>
                   <div class="item-caption">
@@ -53,6 +53,10 @@
               </div>
             </div>
           </div>
+
+
+
+
           <div class="fair-trade-division-mobile d-flex justify-content-center flex-column align-items-center m-2">
             <Meter :highest="getTheirTotal(false)"
                    :lowest="0"
@@ -134,8 +138,8 @@
                         <div class="minus"></div>
                       </div>
                     </div>
-                    <div class="image-wrapper position-relative d-flex justify-content-center align-items-center">
-                      <img class="pro-image" :src="item.product.image" alt="image" />
+                    <div class="image-wrapper-sm position-relative d-flex justify-content-center align-items-center">
+                      <img class="pro-image-sm" :src="item.product.image" alt="image" />
                       <div class="overlay-image position-absolute"></div>
                     </div>
                     <div class="item-caption">
@@ -1764,6 +1768,11 @@ export default {
   &-subtitle
     font-size: 14px
     line-height: 19px
+.center-container-xs
+    min-height: 650px
+    margin: 0 15px
+    display: flex
+    justify-content: center
 .h-43
   height: 43px
 
@@ -1829,9 +1838,7 @@ export default {
   background: $color-white-4
   position: relative
 
-.right-item,.left-item
-  width: 118px
-  height: 153px
+
 
 .remove-item
   height: 13px
@@ -1850,29 +1857,7 @@ export default {
   font-size: 11px
   color: $color-gray-69
 
-.center-item
-  min-width: 10px
-  display: flex
-  justify-content: space-between
-  align-items: center
-  padding-top: 21px
-  margin: 0 10px
-  width: unset
-  max-width: 780px
 
-.pointer-left,.pointer-right
-  width: 25px
-  height: 370px
-
-.pointer-left
-  border-top: 0.5px solid $light-gray-2
-  border-bottom: 0.5px solid $light-gray-2
-  border-right: 0.5px solid $light-gray-2
-
-.pointer-right
-  border-top: 0.5px solid $light-gray-2
-  border-bottom: 0.5px solid $light-gray-2
-  border-left: 0.5px solid $light-gray-2
 
 .long-line
   width: 17px
@@ -1903,47 +1888,9 @@ export default {
 .pro-image
   width: 117px
   height: 100%
-.line-bar
-  width: 9px
-  height: 2px
-  background: $color-white-18
-  margin: 15px -20px 0 -20px
 
-.item-caption
-  //background: $color-white-1
-  padding: 5px 0
 
-.right-item .item, .right-item .preview
-  background-color: transparent
-  box-sizing: border-box
-  position: relative
-  background-image: none
-  background-repeat: no-repeat
-  background-size: 210px 112px
-  background-position: center
-.pointer-right-two-items
-  height: 223px
-.right-item-margin-top
-  margin-top: 115px
-.right-item-one
-  margin-top: 183px
-  margin-left: 15px
-.left-item-one
-  margin-top: 183px
-  margin-right: 15px
-.fair-text
-  //background: $color-white-1
-  color: $color-black-1
-  height: 30px
-  width: 50px
-  text-align: center
-  z-index: 98
-  font-family: $font-family-sf-pro-display
-  font-style: normal
-  @include body-10
-  margin-top: -30px
-  margin-left: -10px
-  padding-top: 5px
+
 .price-container
   margin-bottom: 8px
   margin-top: 7px
@@ -2078,4 +2025,94 @@ export default {
       background: $color-white-5
 .pb-100
   padding-bottom: 100px
+
+
+
+.image-wrapper-sm
+  height: 134px
+  background: $color-white-4
+  position: relative
+
+.right-item-xs,.left-item-xs
+  width: 118px
+  height: 153px
+.right-item-margin-top-sm
+  margin-top: 115px
+.pro-image-sm
+  width: 117px
+  height: 100%
+.center-item-sm
+  min-width: 10px
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding-top: 21px
+  margin: 0 10px
+  width: unset
+  max-width: 780px
+.pointer-left-sm,.pointer-right-sm
+  width: 25px
+  height: 370px
+
+.pointer-left-sm
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-right: 0.5px solid $light-gray-2
+
+.pointer-right-sm
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-left: 0.5px solid $light-gray-2
+.line-bar-sm
+  width: 9px
+  height: 2px
+  background: $color-white-18
+  margin: 15px -20px 0 -20px
+.fair-text-sm
+  //background: $color-white-1
+  color: $color-black-1
+  height: 30px
+  width: 50px
+  text-align: center
+  z-index: 98
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-10
+  margin-top: -30px
+  margin-left: -10px
+  padding-top: 5px
+.pointer-right-two-items-sm
+  height: 223px
+.right-item-sm,.left-item-sm
+  width: 118px
+  height: 153px
+.image-wrapper-sm
+  .overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: $color-grey-70
+.item-caption
+  //background: $color-white-1
+  padding: 5px 0
+
+.right-item-sm .item-sm, .right-item-sm .preview-sm
+  background-color: transparent
+  box-sizing: border-box
+  position: relative
+  background-image: none
+  background-repeat: no-repeat
+  background-size: 210px 112px
+  background-position: center
+
+.right-item-margin-top-sm
+  margin-top: 115px
+.right-item-one-sm
+  margin-top: 183px
+  margin-left: 15px
+.left-item-one-sm
+  margin-top: 183px
+  margin-right: 15px
 </style>
