@@ -25,11 +25,14 @@
               <div class="my-0 my-md-3" :class="{'mobile-collection-svg position-absolute' : isMobileSize}">
                 <img :src="CollectionSvg" alt="collection image" />
               </div>
-              <NuxtLink v-if="!isMobileSize" :to="`/profile/auctions/${auction.id}`">
-                <div class="auction-id text-decoration-underline text-center">
-                  {{ $t('bids.auction_id') }}: {{ auction.id }}
-                </div>
-              </NuxtLink>
+              <template v-if="!isMobileSize">
+                <NuxtLink v-if="bidType === BID_TYPE_OUTGOING" :to="`/auction/collection/${auction.id}`">
+                  <div class="auction-id"> {{ $t('bids.auction_id') }}: {{ auction.id }}</div>
+                </NuxtLink>
+                <NuxtLink v-else :to="`/profile/auctions/${auction.id}`">
+                  <div class="auction-id"> {{ $t('bids.auction_id') }}: {{ auction.id }}</div>
+                </NuxtLink>
+              </template>
             </b-col>
             <b-col cols="8" md="8"
                    class="pr-0 pl-4 d-flex justify-content-between align-items-center">
