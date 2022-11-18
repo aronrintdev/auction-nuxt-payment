@@ -20,13 +20,13 @@
           :src="require('assets/img/icons/draft-list-image.svg')"
         />
       </div>
-      <div class="col">
+      <div class="col px-20">
         <div class="title">
           {{ product.product.name }}
         </div>
         <div class="sub-header">
           {{ product.product.colorway }} | 
-          {{ $t('common.box_condition') }}: {{ product.packaging_condition.name }} |
+          {{ $t('sell.inventory.box') }}: {{ product.packaging_condition.name }} |
           {{ $t('vendor_purchase.size') }}: {{ product.size.size }}
         </div>
       </div>
@@ -80,10 +80,14 @@ export default {
   methods: {
     editProduct() {
       this.$emit('closed')
+
       if (this.productType === 'combination') {
         this.$root.$emit('edit', this.product)
       } else {
-        this.$emit('editWant')
+        // Without setTimeout emit closed will not work
+        setTimeout(() => {
+          this.$emit('editWant')
+        }, 500)
       }
     },
 
@@ -100,6 +104,10 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.px-20
+  padding-left: 20px
+  padding-right: 20px
 
 .title
   @include body-17

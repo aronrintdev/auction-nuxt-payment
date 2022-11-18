@@ -195,6 +195,11 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.editItem
+  .mobile-section
+    margin-left: 0 !important
+    margin-right: 0 !important
+
 .mobile-section
   box-shadow: 0px 1px 2px $color-black-rgb2
   border-radius: 8px

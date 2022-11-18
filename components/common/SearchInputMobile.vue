@@ -115,6 +115,10 @@ export default {
     styles: {
       type: String,
       default: ''
+    },
+    iconClass: {
+      type: String,
+      default: ''
     }
   },
 
@@ -176,5 +180,22 @@ export default {
   position: absolute
   margin-top: 9px
   margin-left: 10px
+
+.listings-search .icon-search
+  width: 14px
+  height: 14px
+  margin-left: 15px
+
+.listings-search .search-input
+  @include body-9
+  width: 100%
+  padding-left: 40px
+  color: $color-gray-5
+  letter-spacing: 0.06em
+
+.listings-search .btn-clear
+  position: absolute
+  right: 15px
+  top: 10px
 
 </style>

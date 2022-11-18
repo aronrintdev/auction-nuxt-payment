@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="isResponsive">
+    <div v-if="isScreenXS">
       <create-mobile></create-mobile>
     </div>
     <div v-else>
@@ -21,10 +21,5 @@ export default {
   mixins: [ screenSize ],
   layout: 'Profile', // Layout
   middleware: 'auth',
-  computed:{
-    isResponsive() {
-      return this.isScreenXS || this.isScreenSM
-    },
-  }
 }
 </script>
