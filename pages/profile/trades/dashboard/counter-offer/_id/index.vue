@@ -196,8 +196,8 @@
                     <img role="button" :src="require('~/assets/img/trades/filter-icon.svg')" @click="showFilters()">
                   </div>
                 </div>
-                <div class="inventory-items d-flex flex-wrap pt-3 pl-4">
-                  <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item">
+                <div class="inventory-items d-flex flex-wrap pt-3 pl-3">
+                  <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item mx-1">
                     <div>
                       <div class="position-relative">
                         <img alt="No Image" class="plus-icon-add-trade position-absolute" role="button" :src="require('~/assets/img/icons/addPlus.svg')"
