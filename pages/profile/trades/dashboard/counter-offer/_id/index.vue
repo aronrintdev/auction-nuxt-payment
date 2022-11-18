@@ -31,11 +31,13 @@
               </div>
               <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right-sm" :class="{'pointer-right-two-items-sm':getYourItems.length === TWO_ITEMS}"></div>
             </div>
-            <div class="right-item-sm" :class="{'right-item-margin-top-sm':getYourItems.length === TWO_ITEMS,'right-item-one-sm':getYourItems.length === ONE_ITEM}">
+            <div class="right-item-sm position-relative" :class="{'right-item-margin-top-sm':getYourItems.length === TWO_ITEMS,'right-item-one-sm':getYourItems.length === ONE_ITEM}">
               <div  v-if="getYourItems.length" class="">
                 <div  v-for="(item,index) in getYourItems" :id="getYourItems.length > ONE_ITEM ?'your-card-'+index : 'your-item'" :key="index" class="preview mb-4">
-                  <div class="remove-item"  @click="removeItem(item.inventory.product.id)">
+                  <div class="position-relative">
+                  <div class="remove-item position-absolute mt-2"  @click="removeItem(item.inventory.product.id)">
                     <div class="minus"></div>
+                  </div>
                   </div>
                   <div class="image-wrapper-sm">
                     <img class="pro-image-sm" :src="item.inventory.product | getProductImageUrl" alt="image" />
@@ -514,7 +516,7 @@
                   </client-only>
                 </b-col>
                 <b-col md="2" sm="12" class="mt-2 mt-md-0">
-                  <Button class="filter-btn" variant="dark-blue" @click="getInventory">{{ $t('trades.filter') }}</Button>
+                  <Button class="filter-btn" variant="dark-blue" @click="applyFilters">{{ $t('trades.filter') }}</Button>
                 </b-col>
               </div>
             </div>
@@ -534,12 +536,12 @@
                 </b-row>
                 <img class="img-fluid mx-auto max-h-200" :src="item.product | getProductImageUrl" />
                 <div class="item-caption">
-                  <span class="item-name">{{ item.product.name }}</span>
-                  <div class="mt-1 item-caption-description d-flex">
+                  <span class="item-name-invent">{{ item.product.name }}</span>
+                  <div class="mt-1 item-caption-description-invent d-flex">
                     <div class="item-color text-truncate">{{ item.product.colorway }}</div>
                     <div>, {{ $t('trades.trade_arena.size') }} {{ item.size.size }}</div>
                   </div>
-                  <span class="mt-1 item-caption-description">
+                  <span class="mt-1 item-caption-description-invent">
                     {{ $t('trades.trade_arena.box') }}: {{ item.packaging_condition.name }}
                   </span>
                 </div>
@@ -552,16 +554,6 @@
               <span slot="no-more"></span>
               <span slot="no-results"></span>
             </infinite-loading>
-<!--            <b-row class="justify-content-center mb-3">-->
-<!--              <Pagination-->
-<!--                v-model="page"-->
-<!--                :total="totalCount"-->
-<!--                :per-page="perPage"-->
-<!--                :per-page-options="perPageOptions"-->
-<!--                @page-click="handlePageClick"-->
-<!--                @per-page-change="handlePerPageChange"-->
-<!--              />-->
-<!--            </b-row>-->
           </div>
         </b-col>
         <CheckoutSidebar v-if="isPayment" class="order-summary" />
@@ -813,6 +805,11 @@ export default {
           this.searchedItems = []
         })
     }, 500),
+    applyFilters(){
+      this.page = 1
+      this.inventoryItems = []
+      this.infiniteId += 1
+    },
     addAmount(value){
       this.optionalCash = value.amount
       this.optional_cash_type = value.add_cash ? 'add_cash':'request_cash'
@@ -1642,7 +1639,7 @@ export default {
 .remove-item
   height: 13px
   width: 13px
-  z-index: 1000
+  z-index: 100
   background: $color-red-24
 .minus
   width: 7px
@@ -1660,6 +1657,25 @@ export default {
   width: 85px
   font-size: 11px
   color: $color-gray-5
+.item-name-invent
+  color: $color-black-1
+  font-size: 15px
+  font-weight: $medium
+  text-overflow: ellipsis
+  white-space: nowrap
+  overflow: hidden
+  width: 200px
+  display: block
+.item-caption-description-invent
+  font-size: 14px
+  color: $color-gray-5
+  font-weight: $normal
+  text-overflow: ellipsis
+  white-space: nowrap
+  overflow: hidden
+  width: 200px
+  display: block
+
 .invent-item
   width: 164px
   height: 265px
@@ -1843,7 +1859,7 @@ export default {
 .remove-item
   height: 13px
   width: 13px
-  z-index: 1000
+  z-index: 100
   background: $color-red-24
 
 .minus
