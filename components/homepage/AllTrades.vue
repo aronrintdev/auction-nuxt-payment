@@ -4,6 +4,7 @@
       :title="$t('home_page.all_trades')"
       :desc="$t('home_page.trade_desc')"
       :label="$t('home_page.view_more_trades')"
+      marginLeft="103px"
       to="/trades"
     />
 
@@ -18,7 +19,7 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <ProductCarousel :products="products" :pageName='pageName'>
+        <ProductCarousel :products="products" :pageName="pageName">
           <template #product>
             <div
               v-for="(product, index) in products"
@@ -30,7 +31,7 @@
                 showActionBtn
                 showSize
                 :showPrice="false"
-                :pageName='pageName'
+                :pageName="pageName"
               >
                 <template #badge>
                   <!-- TODO -->
@@ -41,12 +42,10 @@
                   />
                 </template>
                 <template #action>
-                  <nuxt-link 
-                  :to="'/trades/' + product.id"
-                  >
+                  <nuxt-link :to="'/trades/' + product.id">
                     <b-button
                       variant="dark"
-                      class="fs-15 fw-5 font-secondary w-100 btn-sm d-flex align-items-center justify-content-center bg-grey-73"
+                      class="fs-15 fw-5 font-secondary w-100 btn-sm d-flex align-items-center justify-content-center bg-grey-73 actionButton"
                     >
                       <img class="btnIcon" src="~/assets/img/home/trade.svg" />
                       <span class="ml-1">
@@ -73,7 +72,7 @@ export default {
   data() {
     return {
       products: [],
-      pageName: 'trades'
+      pageName: 'trades',
     }
   },
   async fetch() {
@@ -128,4 +127,15 @@ export default {
         height: 25px
     .badge-icon
       width: 15px
+.actionButton
+  .btnIcon
+    width: 12px
+  span
+    font-size: 12px
+@media (min-width: 576px)
+  .actionButton
+    height: 40px
+    width: 94px
+    .btnIcon
+      width: 22px
 </style>

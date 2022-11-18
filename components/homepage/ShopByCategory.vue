@@ -4,6 +4,7 @@
       :title="$t('home_page.shop_by_category')"
       :desc="$t('home_page.shop_by_category_desc')"
       :label="$t('home_page.view_more_products')"
+      marginLeft="60px"
       to="#"
     />
     <div
@@ -15,24 +16,22 @@
         :to="category.to"
         class="col-6 category col-lg-3 col p-0"
       >
-      <nuxt-link
-        :to="`/shop/${category.id}`"
-      >
-        <div class="overflow-wrapper">
-          <div
-            class="category-wrapper d-flex align-items-center justify-content-center cursor-pointer"
-            :style="{ '--image': `url(${category.image})` }"
-          >
-            <h1 class="fs-24 fw-4 font-primary text-white text-uppercase">
-              {{ category.title }}
-            </h1>
+        <nuxt-link :to="`/shop/${category.id}`">
+          <div class="overflow-wrapper">
+            <div
+              class="category-wrapper d-flex align-items-center justify-content-center cursor-pointer"
+              :style="{ '--image': `url(${category.image})` }"
+            >
+              <h1 class="fs-24 fw-4 font-primary text-white text-uppercase">
+                {{ category.title }}
+              </h1>
+            </div>
           </div>
-        </div>
         </nuxt-link>
       </div>
     </div>
     <div
-      class="row products-category no-gutters overflow-hidden px-2 d-flex d-md-none"
+      class="row products-category position-relative no-gutters overflow-hidden px-2 d-flex d-md-none"
     >
       <div
         v-for="(category, index) in categoriesSm"
@@ -111,7 +110,7 @@ export default {
         },
         {
           title: this.$t('home_page.sweatshirts'),
-          image: require('~/assets/img/home/categories/sweat-shirts.svg'),
+          image: require('~/assets/img/home/categories/sweat-shirts-sm.svg'),
         },
         {
           title: this.$t('home_page.jackets'),
@@ -135,6 +134,12 @@ export default {
 @import '~/assets/css/_variables'
 .products-category
   margin-top: 33px
+  &:after 
+    position: absolute
+    content: ''
+    width: calc(100% - 17px)
+    height: 100%
+    border: 9px solid $color-white-1
 .category
   border-right: 1px solid $color-gray-18
   border-bottom: 1px solid $color-gray-18

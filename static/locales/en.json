@@ -514,7 +514,7 @@
     "shop": "Shop",
     "shop_now": "Shop Now",
     "hero_heading": "Footwear, Apparel, \n and Accessories",
-    "shop_by_category": "Shop by \n Category",
+    "shop_by_category": "Shop \n by Category",
     "by_category": "By Category",
     "shop_by_category_desc": "Browse through different \n types of items to secure \n the latest releases.",
     "shop_by_brand_description": "  Browse items from your \n favorite names in \n fashion.",
@@ -5427,7 +5427,7 @@
   },
   "orders": {
     "orders": "Orders",
-    "best_seller": "Best Seller",
+    "best_seller": "Best Sellers",
     "overview": "Overview",
     "your_top_movers": "Your Top Movers",
     "this_month": "This month",
