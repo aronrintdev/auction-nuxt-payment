@@ -3,21 +3,14 @@
     <div v-if="isScreenXS">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col v-if="!cashAdd" :md="isPayment ? 9 : 12">
-          <div class="d-flex mt-3 pl-4">
-            <div class="left-side-image ml-2" :class="{'left-item-margin':getTheirItems.length === ONE_ITEM && getYourItems.length}">
-              <div v-for="(item, index) in getTheirItems"
-                   :key="'their-trade-item-key-'+index" class="lft-image mb-4 mt-2">
-                  <div v-if="!editYours" class="position-relative">
-                    <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
-                      <img :src="require('~/assets/img/trades/minus-icon.svg')">
-                    </div>
-                  </div>
-                  <div class="d-flex justify-content-center align-content-center bg-img p-2 position-relative">
-                    <img class="item-image-small" :src="item.inventory.product | getProductImageUrl"
-                         :class="{'item-image-cond-small':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
-                    <div class="overlay-mob position-absolute"></div>
-                  </div>
-                <div class="item-caption-small">
+          <div class="center-container mt-5 mb-5">
+            <div class="left-item" :class="{'right-item-margin-top':getTheirItems.length === TWO_ITEMS,'left-item-one':getTheirItems.length === ONE_ITEM}">
+              <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'card-'+index : ''" :key="index" class="item mb-4">
+                <div class="image-wrapper">
+                  <img class="pro-image"  :src="item.inventory.product | getProductImageUrl"/>
+                  <div class="overlay"></div>
+                </div>
+                <div class="item-caption">
                   <span class="item-name-small">{{ item.inventory.product.name }}</span>
                   <span
                     class="item-box-condition-small">{{
@@ -28,37 +21,27 @@
                 </div>
               </div>
             </div>
-            <div class="center-item-small">
-              <div v-if="getTheirItems.length === TWO_ITEMS" class="pointer-left-small-two"></div>
-              <div v-if="getTheirItems.length === THREE_ITEMS" class="pointer-left-small-three"></div>
-              <div class="long-line" :class="{'long-line-length-small' : getTheirItems.length === ONE_ITEM }"></div>
-              <img v-if="getTheirItems.length === ONE_ITEM" :src="require('~/assets/img/tradecenter.svg')" class="middle-trade-one"/>
-              <img v-if="getTheirItems.length === TWO_ITEMS" :src="require('~/assets/img/tradecenter.svg')" class="middle-trade-two mr-2"/>
-              <img  v-if="getTheirItems.length === THREE_ITEMS" :src="require('~/assets/img/tradecenter.svg')" class="middle-trade-three mr-2"/>
-              <div class="long-line" :class="{'long-line-length-small' : getYourItems.length === ONE_ITEM }"></div>
-              <div v-if="getTheirItems.length === TWO_ITEMS" class="pointer-right-small-two"></div>
-              <div v-if="getTheirItems.length === THREE_ITEMS" class="pointer-right-small-three"></div>
+            <div class="center-item">
+              <div v-if="getTheirItems.length > ONE_ITEM" class="pointer-left" :class="{'pointer-right-two-items':getTheirItems.length=== TWO_ITEMS}"></div>
+              <div class="position-relative center-img d-flex justify-content-between">
+                <div v-if="getTheirItems.length === THREE_ITEMS || getTheirItems.length === ONE_ITEM" class="line-bar"></div>
+                <div class="fair-text position-absolute">{{$t('trades.fair')}}</div>
+                <img class="trade-img position-absolute" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
+                <div v-if="getYourItems.length === THREE_ITEMS || getYourItems.length === ONE_ITEM" class="line-bar"></div>
+              </div>
+              <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right" :class="{'pointer-right-two-items':getYourItems.length === TWO_ITEMS}"></div>
             </div>
-            <div class="right-side-image mt-2"
-                 :class="{'right-item-margin':getTheirItems.length > ONE_ITEM || getYourItems.length === ONE_ITEM,'mt-10p': getTheirItems.length > ONE_ITEM && getYourItems.length === ONE_ITEM,'mt-8p': getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM}">
-              <div v-if="getYourItems.length">
-                <div v-for="(item, index) in getYourItems"
-                      :key="'your-trade-item-key-'+index"
-                     class="image-right mb-4 flex-column rgt-image">
-
-                    <div v-if="editYours" class="position-relative">
-                      <div class="d-flex justify-content-end remove-item-icon" role="button" @click.stop="removeItem(item.inventory.product.id)">
-                        <img :src="require('~/assets/img/trades/minus-icon.svg')" class="min-img pr-1">
-                      </div>
-                    </div>
-                    <div class="d-flex justify-content-center align-content-center position-relative">
-                      <img class="item-image-small" :src="item.inventory.product | getProductImageUrl" alt="image"
-                           :class="{'item-image-cond-small':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
-                      <div class="overlay-mob position-absolute"></div>
-                    </div>
-
-
-                  <div class="item-caption-small">
+            <div class="right-item" :class="{'right-item-margin-top':getYourItems.length === TWO_ITEMS,'right-item-one':getYourItems.length === ONE_ITEM}">
+              <div  v-if="getYourItems.length" class="">
+                <div  v-for="(item,index) in getYourItems" :id="getYourItems.length > ONE_ITEM ?'your-card-'+index : 'your-item'" :key="index" class="preview mb-4">
+                  <div class="remove-item"  @click="removeItem(item.inventory.product.id)">
+                    <div class="minus"></div>
+                  </div>
+                  <div class="image-wrapper">
+                    <img class="pro-image" :src="item.inventory.product | getProductImageUrl" alt="image" />
+                    <div class="overlay"></div>
+                  </div>
+                  <div class="item-caption">
                     <span class="item-name-small">{{ item.inventory.product.name }}</span>
                     <span class="item-box-condition-small">
                       {{ $t('trades.trade_arena.box_condition') }}: {{ item.inventory.packaging_condition.name }}
@@ -1730,10 +1713,10 @@ export default {
   height: 100%
   background: $color-white-1
 .image-wrapper
-  width: 99px
+  width: 120px
   height: 112.4px
 .item-caption
-  background: $color-gray-1
+  //background: $color-gray-1
   padding-left: unset
 .color-blue
   color: $color-blue-20
@@ -1781,4 +1764,318 @@ export default {
   &-subtitle
     font-size: 14px
     line-height: 19px
+.h-43
+  height: 43px
+
+.width-156
+  min-width: 156px
+  background: $color-white-1
+
+.heading-left
+  position: absolute
+  margin-top: 30%
+  left: 105%
+  width: 275px
+
+.heading-right
+  position: absolute
+  margin-top: 30%
+  left: -140%
+  width: 275px
+
+.d-relative
+  position: relative
+
+.plus-icon-add-trade
+  position: absolute
+  right: 5%
+  top: 15px
+  z-index: 1000
+
+.optional-input-field
+  width: 236px
+  height: 38px
+  background: $color-white-1
+  border: 0.5px solid $color-gray-4
+  box-sizing: border-box
+  border-radius: 31px
+  padding-left: 20px
+
+.input-mt
+  margin-top: 7px
+
+.cash-added
+  background: $color-gray-1
+  border-radius: 4px
+  min-width: 247px
+  padding: 7px
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $regular
+  font-size: 14px
+  line-height: 17px
+  color: $color-black-1
+
+.edit-cash
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $regular
+  font-size: 14px
+  line-height: 17px
+  color: $color-blue-1
+
+.image-wrapper
+  height: 134px
+  background: $color-white-4
+  position: relative
+
+.right-item,.left-item
+  width: 118px
+  height: 153px
+
+.remove-item
+  height: 13px
+  width: 13px
+  z-index: 1000
+  background: $color-red-24
+
+.minus
+  width: 7px
+  height: 2px
+  margin-top: 6px
+  margin-left: 3px
+
+.item-name
+  width: 85px
+  font-size: 11px
+  color: $color-gray-69
+
+.center-item
+  min-width: 10px
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding-top: 21px
+  margin: 0 10px
+  width: unset
+  max-width: 780px
+
+.pointer-left,.pointer-right
+  width: 25px
+  height: 370px
+
+.pointer-left
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-right: 0.5px solid $light-gray-2
+
+.pointer-right
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-left: 0.5px solid $light-gray-2
+
+.long-line
+  width: 17px
+
+.center-img
+  width: 31px
+.trade-img
+  //background: $color-white-1
+  margin-left: 5px
+  height: 20px
+  width: 20px
+
+.center-container
+  min-height: 650px
+  margin: 0 15px
+  display: flex
+  justify-content: center
+
+.image-wrapper
+  .overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: $color-grey-70
+
+.pro-image
+  width: 117px
+  height: 100%
+.line-bar
+  width: 9px
+  height: 2px
+  background: $color-white-18
+  margin: 15px -20px 0 -20px
+
+.item-caption
+  //background: $color-white-1
+  padding: 5px 0
+
+.right-item .item, .right-item .preview
+  background-color: transparent
+  box-sizing: border-box
+  position: relative
+  background-image: none
+  background-repeat: no-repeat
+  background-size: 210px 112px
+  background-position: center
+.pointer-right-two-items
+  height: 223px
+.right-item-margin-top
+  margin-top: 115px
+.right-item-one
+  margin-top: 183px
+  margin-left: 15px
+.left-item-one
+  margin-top: 183px
+  margin-right: 15px
+.fair-text
+  //background: $color-white-1
+  color: $color-black-1
+  height: 30px
+  width: 50px
+  text-align: center
+  z-index: 98
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-10
+  margin-top: -30px
+  margin-left: -10px
+  padding-top: 5px
+.price-container
+  margin-bottom: 8px
+  margin-top: 7px
+  padding: 0 15px
+
+.theirs-total
+  background: $color-white-4
+  border-radius: 2px
+  height: 38px
+  width: 118px
+
+.price-text
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $normal
+  font-size: 11px
+  line-height: 13px
+  color: $color-black-1
+  padding-left: 6px
+
+.list-icon
+  height: 24px
+  width: 24px
+  padding-left: 6px
+.add-cash
+  height: 37px
+  width: 315px
+  margin-left: 20px
+  border-radius: unset
+  margin-top: 19px
+.authenticity
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $medium
+  font-size: 14.5px
+  line-height: 18px
+  letter-spacing: -0.04em
+  color: $color-black-1
+  padding-top: 25px
+.authenticity-text
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-9-regular
+  color: $color-black-1
+  margin-top: 15px
+
+.detail-heading
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-4-medium
+  color: $color-black-1
+  margin-top: 38px
+  padding-left: 10px
+  padding-bottom: 15px
+.details
+  padding: 0 18px
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-5-regular
+  color: $color-gray-5
+.timer
+  color: $color-red-3
+.trader-wants
+  width: 164px
+  height: 265px
+  margin-right: 12px
+.wants-wrapper
+  position: relative
+  width: 164px
+  height: 185px
+  background: $color-white-4
+  .overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: rgba(153, 153, 153, 0.1)
+  img
+    width: 120px
+    height: auto
+    margin: 25px
+.wants-container
+  width: 375px
+  overflow: scroll
+  padding-left: 10px
+.wants-name
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $medium
+  font-size: 13px
+  line-height: 130%
+  color: $color-black-1
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
+.wants-size,.wants-box
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $regular
+  font-size: 13px
+  line-height: 130%
+  color: $color-gray-5
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
+.wants-heading
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-4-medium
+  color: $color-black-1
+  padding-left: 10px
+  padding-bottom: 14px
+
+.invent-btn,.next-btns
+  width: 162px
+  height: 40px
+
+@media (max-width: 576px)
+  .order-summary::v-deep
+    min-width: 0
+    width: 100%
+    .custom-card .card-body
+      padding: 15px
+      background: $color-white-5
+      border-radius: 10px
+    .heading-1-medium
+      @include body-13
+    .body-4-medium
+      @include body-9
+    .custom-form .form-control
+      background: $color-white-5
+.pb-100
+  padding-bottom: 100px
 </style>
