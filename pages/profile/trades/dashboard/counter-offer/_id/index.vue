@@ -131,67 +131,181 @@
               Inventory
             </b-btn>
           </div>
-          <vue-bottom-sheet
-            ref="sheetInventory"
-            class="more-options"
-            max-width="auto"
-            max-height="90vh"
-            :rounded="true"
-          >
-            <div class="m-3 p-3 inventory-card-trade">
-              <div class="inventory-heading pl-4">
-                {{ (editYours) ? $t('trades.your_inventory', {0: inventoryItems.length}) : $t('trades.their_inventory', {0: inventoryItems.length}) }}
-              </div>
-              <div v-if="editYours" class="sub-heading-inventory">{{ $t('trades.add_remove_items') }}</div>
-              <div v-if="editYours" class="mt-2 mb-2">
-                <SearchInput
-                  bordered
-                  variant="primary"
-                  :placeholder="$t('trades.trade_arena.search_inventory')"
-                  :clearSearch="true"
-                  @change="onSearchInput"
-                />
-                <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" :productsFor="productFor" width="700px" class="position-absolute"/>
-              </div>
-
-              <b-row v-if="inventoryItems.length" class="mt-2">
-                <b-col v-for="(item) in inventoryItems" :key="item.id" sm="6" class="inventory-small">
-                  <div class="bg-img">
-                    <b-row class="justify-content-between">
-                      <b-col class="d-flex justify-content-end pr-3 pt-3">
-                        <img v-if="!editYours" class="plus-icon-add-trade" role="button"
-                             :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>
-                        <img v-else class="plus-icon-add-trade" role="button"
-                             :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
-                      </b-col>
-                    </b-row>
-                    <div >
-                      <img class="item-image-counteroffer-small p-2 ml-3" :src="item.product | getProductImageUrl" />
+          <vue-bottom-sheet ref="myBottomSheet" max-height="90%" :is-full-screen="true" class="bottom-sheet">
+            <trade-arena-filters v-if="filterScreen" @change="handleFilterChange" />
+            <div v-else>
+              <div class="offer-items">
+                <div class="d-flex justify-content-between pl-3 pr-3">
+                  <div class="clear" :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="clearItems()">Clear</div>
+                  <div class="d-block text-center">
+                    <div class="offer-heading">{{$t('trades.your_offer')}}</div>
+                    <div class="est-val">{{$t('trades.estimated_value')}}:{{getYourTotal()}}</div>
+                  </div>
+                  <div class="done"  :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="doneClose()">Done</div>
+                </div>
+                {{getYourTradeItems}}
+                {{getYourTradeItems.length}}
+                <div v-if="getYourTradeItems.length > ITEM_COUNT_0" class="d-flex justify-content-center">
+                  <div  v-for="(item,index) in getYourTradeItems" :id="'your-card-'+index" :key="index" class="item-inventory mt-2 mb-4 ml-3">
+                    <div class="position-relative">
+                      <div class="remove-item mt-2" @click="decrementOrRemoveItem(item)">
+                        <div class="minus"></div>
+                      </div>
                     </div>
-
-                    <div class="item-caption bg-white">
-                      <span class="item-name-small">{{ item.product.name }}</span>
-                      <span class="item-box-condition-small">{{$t('common.box')}} : {{item.packaging_condition.name}}</span>
-                      <span class="item-caption-description">{{item.product.colorway}}</span>
+                    <div class="image-wrapper position-relative d-flex justify-content-center align-items-center">
+                      <img class="pro-image" :src="item.product.image" alt="image" />
+                      <div class="overlay-image position-absolute"></div>
+                    </div>
+                    <div class="item-caption">
+                      <div class="item-name">{{  (item.product && item.product.name) ? item.product.name : item.name  }}</div>
+                      <div class="item-caption-description">{{  (item.product  && item.product.colorway) ? item.product.colorway : item.colorway }},{{$t('trades.trade_arena.size')}} {{ item.size && item.size.size }}</div>
+                      <div class="item-box-condition">{{$t('trades.trade_arena.box_condition')}}: {{  (item.box_condition && item.box_condition.name) ? item.box_condition.name :item.box_condition }}</div>
                     </div>
                   </div>
-                </b-col>
-              </b-row>
-              <div v-else class="row justify-content-between inventory-items-trade">
-                {{ $t('trades.create_listing.vendor.wants.no_products_found') }}
+                </div>
+                <div v-else class="d-flex justify-content-center mb-3">
+                  <div class="add-item-invent text-center">
+                    <div class="select-invent">
+                      {{$t('trades.trade_arena.select_from_inventory')}}
+                    </div>
+                    <div class="upto-three">
+                      {{$t('trades.trade_arena.up_to_three_items')}}
+                    </div>
+                  </div>
+                </div>
               </div>
-              <b-row class="justify-content-center mb-3">
-                <Pagination
-                  v-model="page"
-                  :total="totalCount"
-                  :per-page="perPage"
-                  :per-page-options="perPageOptions"
-                  @page-click="handlePageClick"
-                  @per-page-change="handlePerPageChange"
-                />
-              </b-row>
+              <div class="your-inventory">
+                <div class="d-block pt-4 pl-4">
+                  <div class="invent-heading">
+                    {{$t('trades.trade_arena.your_inventory',[inventoryItems.length])}}
+                  </div>
+                  <div class="invent-subheading mt-1">
+                    {{$t('trades.trade_arena.trade_upto_items', [MAX_ITEMS_ALLOWED])}}
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <SearchInput
+                    :value="searchText"
+                    variant="light"
+                    inputHeight="33px"
+                    :placeholder="$t('trades.trade_arena.search_inventory')"
+                    :clearSearch="true"
+                    bordered
+                    class="mt-3 pl-4 input-search"
+                    @change="onSearchInput"
+                  />
+                  <div class="pt-3 pr-4">
+                    <img role="button" :src="require('~/assets/img/trades/filter-icon.svg')" @click="showFilters()">
+                  </div>
+                </div>
+                <div class="inventory-items d-flex flex-wrap pt-3 pl-4">
+                  <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item">
+                    <div>
+                      <div class="position-relative">
+                        <img alt="No Image" class="plus-icon-add-trade position-absolute" role="button" :src="require('~/assets/img/icons/addPlus.svg')"
+                             @click="addYourItem(item)"/>
+                      </div>
+                      <div class="image-wrapper-inventory position-relative d-flex justify-content-center align-items-center">
+                        <img class="item-image-trade" :src="item.product.image" alt="image" />
+                        <div class="overlay-inventory position-absolute"></div>
+                      </div>
+                      <div class="item-caption-inventory">
+                        <div class="invent-name pt-2">{{item.product && item.product.name}}</div>
+                        <div class="invent-box">{{$t('common.box_condition')}}: {{item.packaging_condition && item.packaging_condition.name}}</div>
+                        <div class="invent-color">{{item.product && item.product.colorway}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <infinite-loading :identifier="infiniteId" @infinite="getInventory">
+                <span slot="no-more"></span>
+                <span slot="no-results"></span>
+              </infinite-loading>
+              <div v-if="!inventoryItems.length" class="w-100 py-5 text-center">
+                <div class="d-inline-flex align-items-center no-items-found">
+                  <img src="~/assets/img/no-items-found.png" class="mr-3" />
+                  <div class="text-left">
+                    <div class="no-items-found-title">{{ $t('auctions.frontpage.no_results_found') }}</div>
+                    <div class="no-items-found-subtitle">{{ $t('auctions.frontpage.cant_find_anything') }}</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </vue-bottom-sheet>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--          <vue-bottom-sheet-->
+<!--            ref="sheetInventory"-->
+<!--            class="more-options"-->
+<!--            max-width="auto"-->
+<!--            max-height="90vh"-->
+<!--            :rounded="true"-->
+<!--          >-->
+<!--            <div class="m-3 p-3 inventory-card-trade">-->
+<!--              <div class="inventory-heading pl-4">-->
+<!--                {{ (editYours) ? $t('trades.your_inventory', {0: inventoryItems.length}) : $t('trades.their_inventory', {0: inventoryItems.length}) }}-->
+<!--              </div>-->
+<!--              <div v-if="editYours" class="sub-heading-inventory">{{ $t('trades.add_remove_items') }}</div>-->
+<!--              <div v-if="editYours" class="mt-2 mb-2">-->
+<!--                <SearchInput-->
+<!--                  bordered-->
+<!--                  variant="primary"-->
+<!--                  :placeholder="$t('trades.trade_arena.search_inventory')"-->
+<!--                  :clearSearch="true"-->
+<!--                  @change="onSearchInput"-->
+<!--                />-->
+<!--                <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" :productsFor="productFor" width="700px" class="position-absolute"/>-->
+<!--              </div>-->
+
+<!--              <b-row v-if="inventoryItems.length" class="mt-2">-->
+<!--                <b-col v-for="(item) in inventoryItems" :key="item.id" sm="6" class="inventory-small">-->
+<!--                  <div class="bg-img">-->
+<!--                    <b-row class="justify-content-between">-->
+<!--                      <b-col class="d-flex justify-content-end pr-3 pt-3">-->
+<!--                        <img v-if="!editYours" class="plus-icon-add-trade" role="button"-->
+<!--                             :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>-->
+<!--                        <img v-else class="plus-icon-add-trade" role="button"-->
+<!--                             :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>-->
+<!--                      </b-col>-->
+<!--                    </b-row>-->
+<!--                    <div >-->
+<!--                      <img class="item-image-counteroffer-small p-2 ml-3" :src="item.product | getProductImageUrl" />-->
+<!--                    </div>-->
+
+<!--                    <div class="item-caption bg-white">-->
+<!--                      <span class="item-name-small">{{ item.product.name }}</span>-->
+<!--                      <span class="item-box-condition-small">{{$t('common.box')}} : {{item.packaging_condition.name}}</span>-->
+<!--                      <span class="item-caption-description">{{item.product.colorway}}</span>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </b-col>-->
+<!--              </b-row>-->
+<!--              <div v-else class="row justify-content-between inventory-items-trade">-->
+<!--                {{ $t('trades.create_listing.vendor.wants.no_products_found') }}-->
+<!--              </div>-->
+<!--              <b-row class="justify-content-center mb-3">-->
+<!--                <Pagination-->
+<!--                  v-model="page"-->
+<!--                  :total="totalCount"-->
+<!--                  :per-page="perPage"-->
+<!--                  :per-page-options="perPageOptions"-->
+<!--                  @page-click="handlePageClick"-->
+<!--                  @per-page-change="handlePerPageChange"-->
+<!--                />-->
+<!--              </b-row>-->
+<!--            </div>-->
+<!--          </vue-bottom-sheet>-->
           <div class="d-flex mb-5">
             <b-btn class="discard-changes ml-4 mr-3"  @click="$bvModal.show('discardModel')">{{ $t('trades.discard_changes') }}</b-btn>
             <b-btn class="counter-offer"  @click="showPoorTradeConfirmationModal">Next</b-btn>
@@ -556,6 +670,10 @@
   import CheckoutSidebar from '~/components/checkout/trades/ShoppingCartOrder'
   import addCash from '~/pages/profile/trades/dashboard/_id/offers/AddCash'
   import ScreenSize from '~/plugins/mixins/screenSize'
+  import TradeArenaFilters from '~/components/trade/TradeArenaFilters'
+  import {
+    ITEM_COUNT_0,
+  } from '~/static/constants/trades'
   import {
     GOOGLE_MAPS_BASE_URL
   } from '~/static/constants/environments'
@@ -585,6 +703,7 @@
     MAX_ITEMS_ALLOWED
   } from '~/static/constants/create-listing'
 
+
 export default {
   name: 'Index',
   components: {
@@ -599,7 +718,8 @@ export default {
     CreateTradeSearchItem,
     AlreadyListedModal,
     CheckoutSidebar,
-    addCash
+    addCash,
+    TradeArenaFilters,
   },
   mixins: [ScreenSize],
   layout: 'Profile',
@@ -653,13 +773,16 @@ export default {
       submittedItemType: OFFER_TYPE_YOURS,
       OFFER_TYPE_THEIR,
       COUNTER_OFFER_TYPE,
-      cashAddedType:CASH_TYPE_ADDED
+      cashAddedType:CASH_TYPE_ADDED,
+      filterScreen: false,
+      infiniteId: +new Date(),
+      ITEM_COUNT_0,
     }
   },
   computed: {
     ...mapGetters('browse', ['filters']),
     ...mapGetters('counter-offer', ['getOffer', 'getYourItems', 'getTheirItems', 'getLastSubmittedOffer', 'getYourVendorId', 'getTheirVendorId']),
-    ...mapGetters('trade', ['getActiveTrade'])
+    ...mapGetters('trade', ['getActiveTrade','getYourTradeItems'])
   },
   created() {
     this.$store.commit('counter-offer/clearStates')
@@ -698,7 +821,7 @@ export default {
     ...mapActions('trades', ['checkIfItemIsInListingItem', 'searchProductsList']),
 
     openBottomFilter() {
-      this.$refs.sheetInventory.open();
+      this.$refs.myBottomSheet.open();
     },
     addCash(){
       this.cashAdd = true
@@ -707,13 +830,120 @@ export default {
     cancelCash(){
       this.cashAdd = false;
     },
+    handleFilterChange(filters) {
+      this.categoryFilter = filters?.categories?.join(',')
+      this.sizeFilter = filters?.sizes
+      this.sizeTypesFilter = filters?.sizeTypes
+      this.filterScreen = false
+      this.page = 1;
+      this.inventoryItems = []
+      this.infiniteId += 1;
+    },
+    doneClose(){
+      this.$refs.myBottomSheet.close();
+    },
+    clearItems(){
+      this.$store.commit('trade/setTradeItemsEmpty',[])
+    },
+    showFilters(){
+      this.filterScreen = true;
+    },
+    addYourItem(item) {
+      console.log('item',item)
+      if (this.canAddMoreItems() && this.checkIfItemAlreadyListed(item)) {
+        console.log('add your item',item)
+        this.addOrIncrementYourItem(item)
+      }
+    },
+    decrementOrRemoveItem(item) {
+      const existingItem = this.getYourTradeItems.find(val => val.id === item.id)
+      if (existingItem.quantity > 1) {
+        this.$store.commit('trade/decrementYourTradeItemQuantity', item.id)
+      } else {
+        this.$store.commit('trade/removeYourTradeItem', item.id)
+      }
+      this.updateActiveTrade()
+      this.$nextTick(() => this.$forceUpdate())
+    },
+    getInventory: debounce(function ($state,filters = {}) {
+      filters.category = this.categoryFilter
+      filters.sizes = this.sizeFilter?.join(',')
+      filters.size_types = this.sizeTypesFilter?.join(',')
+      this.$axios
+        .get('/vendor/inventory', {
+          params: {
+            search: this.searchText, // search query param for api call
+            page: this.page, // Current page No
+            per_page: this.perPage, // Per page no of records
+            ...filters // filters to be applied
+          },
+        })
+        .then((response) => { // response will get us listing of
+          const res = response?.data
+          if (!res.next_page_url) {
+            $state.complete()
+          }else {
+            this.page += 1;
+            this.inventoryItems.push(...res.data);
+            $state.loaded()
+          }
+        })
+        .catch((error) => { // return error
+          this.$toasted.error(this.$t(error.response.data.error))
+          this.searchedItems = []
+        })
+    }, 500),
     addAmount(value){
       this.optionalCash = value.amount
       this.optional_cash_type = value.add_cash ? 'add_cash':'request_cash'
       this.cashAdd = false
       this.getYourTotal(false)
     },
-
+    checkIfItemAlreadyListed(item) {
+      console.log('check if alread',item)
+      const existingItem = this.getYourTradeItems.find(val => val.id === item.id)
+      if (existingItem) return true;
+      this.$axios
+        .post('check/product/in/listing', {
+          inventory_id: item.id
+        })
+        .then((response) => { // return product information that exits in already listing
+          if (response.data.is_listing_item) {
+            this.itemListingId = response.data.listingId
+            this.alreadyListedItemDetails = item
+            this.$bvModal.show('alreadyListed')
+            return false
+          } else {
+            this.addOrIncrementYourItem(item)
+            return true
+          }
+        })
+        .catch((error) => {
+          this.$toasted.error(this.$t(error.response.data.error))
+          this.itemListingId = null
+        })
+    },
+    addOrIncrementYourItem(item) {
+      this.$store.commit('trade/setYourTradeItems', item)
+      this.updateActiveTrade()
+      this.$nextTick(() => this.$forceUpdate())
+    },
+    // canAddMoreItems() {
+    //   const itemsCount = this.getYourTradeItems.map(i => i.quantity).reduce((a, b) => a + b, 0)
+    //   if (itemsCount < MAX_ITEMS_ALLOWED) {
+    //     return true
+    //   } else {
+    //     this.$toasted.error(this.$t('trades.trade_arena.your_items_length', [MAX_ITEMS_ALLOWED]))
+    //     return false
+    //   }
+    // },
+    // updateActiveTrade(){
+    //   this.$store.commit('trade/updateActiveTrade', {
+    //     yourItems: this.getYourTradeItems,
+    //     cashAdded: parseInt(parseFloat(this.optional_cash)*100),
+    //     tradeCondition: this.tradeCondition
+    //   })
+    // },
     /**
      * check if trade is poor/fair
      */
@@ -823,28 +1053,28 @@ export default {
      * show model else call function to add item
      * @param item
      */
-    checkIfItemAlreadyListed(item) {
-      const existingItem = this.getYourItems.find(val => val.id === item.id)
-      if(existingItem) return true;
-        this.checkIfItemIsInListingItem({
-        inventory_id: item.id
-      })
-        .then((response) => { // return product information that exits in already listing
-          if (response.data.is_listing_item) {
-            this.itemListingId = response.data.listingId
-            this.alreadyListedItemDetails = item
-            this.$bvModal.show('alreadyListed')
-            return false
-          } else{
-            this.addTheirsInventoryItem(item)
-            return true
-          }
-        })
-        .catch((error) => {
-          this.$toasted.error(this.$t(error.response.data.error))
-          this.itemListingId = null
-        })
-    },
+    // checkIfItemAlreadyListed(item) {
+    //   const existingItem = this.getYourItems.find(val => val.id === item.id)
+    //   if(existingItem) return true;
+    //     this.checkIfItemIsInListingItem({
+    //     inventory_id: item.id
+    //   })
+    //     .then((response) => { // return product information that exits in already listing
+    //       if (response.data.is_listing_item) {
+    //         this.itemListingId = response.data.listingId
+    //         this.alreadyListedItemDetails = item
+    //         this.$bvModal.show('alreadyListed')
+    //         return false
+    //       } else{
+    //         this.addTheirsInventoryItem(item)
+    //         return true
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       this.$toasted.error(this.$t(error.response.data.error))
+    //       this.itemListingId = null
+    //     })
+    // },
     getTheirTotal(formattedPrice = true){
       let optionalCash = 0
       if(this.getLastSubmittedOffer.cash_added &&
@@ -864,6 +1094,7 @@ export default {
       return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(optionalCash)) : optionalCash * 100
     },
     getYourTotal(formattedPrice = true){
+      console.log('coming')
       let optionalCash = 0
       if(this.getLastSubmittedOffer.cash_added &&
         (this.isOfferMine() &&
@@ -897,7 +1128,9 @@ export default {
      */
     canAddMoreItems(){
       let itemsCount = this.getYourItems.length
+      console.log('itemsCount',itemsCount)
       if(!this.editYours){
+        console.log('come if')
         itemsCount = this.getTheirItems.length
       }
       if (itemsCount < MAX_ITEMS_ALLOWED) {
@@ -1044,32 +1277,32 @@ export default {
     /**
      * This function is used to get user listing of inventory
      */
-    getInventory: debounce(function (filters = {}) {
-      filters.sort_by = this.orderFilter // sorting filter
-      filters.category = this.categoryFilter // category type filter
-      filters.sizes = this.sizeFilter.join(',') // size filter
-      filters.size_types = this.sizeTypesFilter.join(',') // size type filter
-      this.$axios
-        .get('/vendor/inventory', {
-          params: {
-            search: this.searchText,   // for search query
-            user_id: (this.editYours ? this.getYourVendorId : this.getTheirVendorId),   // for search query
-            visibility: (this.editYours ? '' : PUBLIC_INVENTORY),
-            page: this.page, // no of page to change
-            per_page: this.perPage, // no of records to show on per page
-            ...filters
-          },
-        })
-        .then((response) => {  // list of vendor inventory
-          this.inventoryItems = response.data.data
-          this.totalCount = parseInt(response.data.total)
-          this.perPage = parseInt(response.data.per_page)
-        })
-        .catch((error) => {
-          this.$toasted.error(this.$t(error.response.data.error))
-          this.searchedItems = []
-        })
-    }, 500),
+    // getInventory: debounce(function (filters = {}) {
+    //   filters.sort_by = this.orderFilter // sorting filter
+    //   filters.category = this.categoryFilter // category type filter
+    //   filters.sizes = this.sizeFilter.join(',') // size filter
+    //   filters.size_types = this.sizeTypesFilter.join(',') // size type filter
+    //   this.$axios
+    //     .get('/vendor/inventory', {
+    //       params: {
+    //         search: this.searchText,   // for search query
+    //         user_id: (this.editYours ? this.getYourVendorId : this.getTheirVendorId),   // for search query
+    //         visibility: (this.editYours ? '' : PUBLIC_INVENTORY),
+    //         page: this.page, // no of page to change
+    //         per_page: this.perPage, // no of records to show on per page
+    //         ...filters
+    //       },
+    //     })
+    //     .then((response) => {  // list of vendor inventory
+    //       this.inventoryItems = response.data.data
+    //       this.totalCount = parseInt(response.data.total)
+    //       this.perPage = parseInt(response.data.per_page)
+    //     })
+    //     .catch((error) => {
+    //       this.$toasted.error(this.$t(error.response.data.error))
+    //       this.searchedItems = []
+    //     })
+    // }, 500),
 
     /**
      * This function is used to get product and show in
@@ -1468,4 +1701,155 @@ export default {
 .bg-white-5
   background: $color-white-5
   box-shadow: 0px 1px 2px $color-black-rgb2
+.clear,.done
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-17-regular
+  letter-spacing: -0.02em
+  color: $color-gray-23
+.offer-heading
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-17-bold
+  letter-spacing: -0.02em
+  color: $color-black-1
+.est-val
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-5-regular
+  letter-spacing: -0.02em
+  color: $color-gray-25
+
+.pro-image
+  width: 81px
+  z-index: 10
+.remove-item
+  height: 13px
+  width: 13px
+  z-index: 1000
+  background: $color-red-24
+.minus
+  width: 7px
+  height: 2px
+  margin-top: 6px
+  margin-left: 3px
+.item-inventory
+  height: 161px
+  width: 99px
+.item-name
+  width: 85px
+  font-size: 11px
+  color: $color-gray-69
+.item-box-condition,.item-caption-description
+  width: 85px
+  font-size: 11px
+  color: $color-gray-5
+.invent-item
+  width: 164px
+  height: 265px
+.item-image-trade
+  width: 134px
+  border-radius: 0
+.image-wrapper-inventory
+  height: 185px
+  width: 164px
+.plus-icon-add-trade
+  right: 5px
+  top: 7px
+  z-index: 1000
+.your-inventory
+  background: $color-white-1
+
+.inventory-items
+  @media (max-width: 380px)
+    width: 375px
+    overflow: hidden
+.overlay-inventory
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: $color-grey-70
+.item-caption-inventory
+  background: $color-white-1
+
+.invent-name
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $medium
+  @include body-30
+  color: $color-black-1
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
+  max-width: 160px
+
+.invent-color,.invent-box
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $regular
+  @include body-30
+  color: $color-gray-5
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
+  max-width: 160px
+.overlay-image
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: $color-white-1
+.image-wrapper
+  width: 99px
+  height: 112.4px
+.item-caption
+  background: $color-gray-1
+  padding-left: unset
+.color-blue
+  color: $color-blue-20
+.bottom-sheet::v-deep
+  .bottom-sheet__card
+    background: $color-gray-1
+.invent-heading
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-17-bold
+  letter-spacing: -0.02em
+  color: $color-black-1
+.invent-subheading
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-5-regular
+  letter-spacing: -0.02em
+  color: $color-gray-25
+.input-search
+  width: 306px
+.add-item-invent
+  background: url('~/assets/img/trades/select-inventory.svg')
+  width: 100px
+  height: 143px
+.select-invent
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-29-normal
+  letter-spacing: 0.005em
+  color: $color-black-1
+  padding-top: 43px
+.upto-three
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-29-bold
+  letter-spacing: 0.005em
+  color: $color-gray-5
+  padding-top: 13px
+.no-items-found
+  img
+    width: 60px
+  &-title
+    font-size: 16px
+    line-height: 22px
+  &-subtitle
+    font-size: 14px
+    line-height: 19px
 </style>
