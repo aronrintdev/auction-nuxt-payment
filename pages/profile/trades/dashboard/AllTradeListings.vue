@@ -1,25 +1,35 @@
 <template>
   <b-col class="container-trade-dashboard">
-    <b-row v-if="width > 500"  class="heading-dashboard mt-4">
-      {{$t('trades.my_trade_listings')}}
-    </b-row>
-    <div  v-if="width<= 500">
-      <div class="d-flex pt-3">
-        <div>
+    <div class="mt-4 heading-dashboard" v-if="!isScreenXS">
+      {{ $t('trades.my_trade_listings') }}
+    </div>
+    <div v-if="isScreenXS">
+      <div class="d-flex justify-content-between pt-3">
+        <div class="col-11 d-flex flex-column px-0">
           <SearchInputMobile
             :value="searchText"
             variant="primary"
             :placeholder="$t('trades.search_trades')"
             :clearSearch="true"
+            inputHeight="33px"
+            class="listings-search"
             bordered
             @change="onSearchInput"
             @clear="onSearchInput"
           />
-          <SearchBarProductsList v-if="searchedProducts.length > 0" :productItems="searchedProducts" width="700px" class="position-absolute"/>
+          <div class="position-relative">
+            <SearchBarProductsList 
+              v-if="searchedProducts.length > 0" 
+              :productItems="searchedProducts" 
+              listItemClass="rounded-0"
+              class="position-absolute right-0 left-0 mx-0 mt-1"
+              wrapperClass="px-0"
+            />
+          </div>
         </div>
-        <div class="mt-2 ml-3">
+        <div class="mt-2">
           <img class="float-right image-filter"
-               :src="require('~/assets/img/filterTradeList.svg')"  @click="openBottomFilter()"/>
+              :src="require('~/assets/img/filterTradeList.svg')"  @click="openBottomFilter()"/>
           <vue-bottom-sheet
             ref="browseFiltersSheet"
             class="more-options"
@@ -113,44 +123,60 @@
           </b-row>
         </div>
       </div>
-
     </div>
 
-
     <div v-else>
-      <b-row class="mt-5">
-        <b-col lg="8" sm="12" class="pl-0">
+      <b-row class="mt-3 justify-content-between">
+        <b-col lg="8" sm="12" class="">
           <SearchInput
             :value="searchText"
             variant="primary"
             :placeholder="$t('trades.search_trades')"
             :clearSearch="true"
             bordered
+            :inputStyle="{
+              border: '1px solid #CCC',
+              height: '38px',
+              borderBottomLeftRadius: searchedProducts.length > 0 ? 0 : '8px',
+              borderBottomRightRadius: searchedProducts.length > 0 ? 0 : '8px',
+            }"
             @change="onSearchInput"
             @clear="onSearchInput"
           />
-          <SearchBarProductsList v-if="searchedProducts.length > 0" :productItems="searchedProducts" width="700px" class="position-absolute"/>
+          <SearchBarProductsList 
+            v-if="searchedProducts.length > 0"
+            :productItems="searchedProducts"
+            listItemClass="rounded-0 border-top-0"
+            class="position-absolute"
+          />
         </b-col>
-        <b-col lg="4" sm="12" class="d-flex justify-content-end pr-4">
-
+        <b-col lg="3" sm="12" class="d-flex justify-content-end mt-2 mt-lg-0">
           <CustomDropdown
             v-model="orderFilter"
             type="single-select"
             :options="orderFilterItems"
             :label="orderFilterLabel"
             variant="white"
-            width="250px"
-            maxWidth="245px"
+            :arrowStyle="{
+              color: '#000',
+              marginTop: '0 !important'
+            }"
+            class="w-100"
+            paddingX="10px"
+            optionsWidth="custom"
+            borderRadius="5px"
+            borderRadiusClose="5px 5px 0 0"
+            borderRadiusOptions="0 0 5px 5px"
             dropDownHeight="38px"
             @change="changeOrderFilter"
           />
         </b-col>
       </b-row>
-      <b-row class="d-flex mt-4">
-        <b-col lg="3" sm="12" class="pl-0 pr-3">
+      <div class="row mt-3 justify-content-lg-between flex-wrap">
+        <b-col lg="3" sm="12" class="">
           <label>{{$t('trades.filter_by')}}</label>
-          <b-row class="pl-2">
-            <b-col md="4 p-0" sm="12">
+          <b-row class="">
+            <b-col sm="12">
               <CustomDropdown
                 v-model="statusFilter"
                 type="multi-select-checkbox"
@@ -159,48 +185,65 @@
                 optionsWidth="custom"
                 variant="white"
                 dropDownHeight="38px"
-                width="250px"
+                class="w-100"
+                borderRadius="5px"
+                borderRadiusClose="5px 5px 0 0"
+                borderRadiusOptions="0 0 5px 5px"
+                paddingX="10px"
+                :arrowStyle="{
+                  color: '#000',
+                  marginTop: '0 !important'
+                }"
                 @getResults="fetchTradesListing"
                 @change="changeStatusFilter"
               />
             </b-col>
           </b-row>
         </b-col>
-        <b-col lg="6" sm="12" class="pl-0">
-          <label>{{$t('trades.listed_date')}}</label>
-          <b-row class="pl-2">
-            <b-col md="4 p-0" sm="12" class="mr-3">
+        <b-col xl="3" lg="6" sm="12" class="mt-3 mt-lg-0">
+          <label>{{ $t('trades.listed_date') }}</label>
+          <b-row class="">
+            <b-col md="6" sm="12" class="">
               <CalendarInput
                 :value="start_date"
                 :placeholder="$t('trades.start_date')"
+                class="w-100"
+                inputClass="bg-white"
                 @context="(context) => start_date = context.selectedYMD"
               />
             </b-col>
-            <b-col md="4 p-0" sm="12" class="mr-3">
+            <b-col md="6" sm="12" class="mt-2 mt-md-0">
               <CalendarInput
                 :value="end_date"
                 :placeholder="$t('trades.end_date')"
+                class="w-100"
+                inputClass="bg-white"
                 @context="(context) => end_date = context.selectedYMD"
               />
             </b-col>
-            <b-col md="2 p-0" sm="12" class="mr-3">
-              <Button variant="blue" @click="applyFilters">{{$t('trades.apply')}}</Button>
-            </b-col>
           </b-row>
         </b-col>
-        <b-col md="3" class="mt-custom d-flex justify-content-end pr-4">
+
+        <b-col lg="2" sm="6" class="mt-2 d-lg-flex align-items-lg-end justify-content-lg-end">
+          <Button variant="dark-blue" @click="applyFilters">{{$t('trades.apply')}}</Button>
+        </b-col>
+
+        <b-col lg="4" sm="6" 
+          class="mt-custom mt-2 d-flex justify-content-end 
+                justify-content-lg-start justify-content-xl-end align-items-xl-end"
+        >
           <Button v-if="totalCount" variant="transparent" @click="removeExpired()">{{$t('trades.delete_expired_listings')}}</Button>
         </b-col>
-      </b-row>
+      </div>
     </div>
 
-    <b-row class="mt-4 listings">
-      {{$t('trades.listings',{'0': totalCount})}}
-    </b-row>
-    <b-row v-if="delete_expired">
+    <div class="mt-4 listings">
+      {{ $t('trades.listings', { '0': totalCount }) }}
+    </div>
+    <div v-if="delete_expired">
       <BulkSelectToolbar
         ref="bulkSelectToolbar"
-        :active="selected.length>0"
+        :active="selected.length > 0"
         :selected="selected"
         :unit-label="$tc('common.product', selected.length)"
         :action-label="$t('trades.delete_selected')"
@@ -208,9 +251,9 @@
         @close="selected = []"
         @selectAll="handleSelectAll()"
         @deselectAll="selected = []"
-        @submit="deleteMySelectedTrades"
+        @submit="$bvModal.show('confirm-bulk-delete')"
       />
-    </b-row>
+    </div>
     <b-row v-if="delete_expired" class="pt-2 pl-4">
       <b-form-checkbox
         id="checkbox-1"
@@ -221,7 +264,7 @@
         {{$t('trades.select_all_expired_trades')}}
       </b-form-checkbox>
     </b-row>
-    <div v-if="width<= 500">
+    <div v-if="isScreenXS">
       <trade-listing-items-mobile
         v-if="totalCount"
         :tradesList="tradeListing"
@@ -254,6 +297,21 @@
         @per-page-change="handlePerPageChange"
       />
     </b-row>
+
+    <ConfirmModal
+      id="confirm-bulk-delete"
+      :confirmLabel="$t('common.delete')"
+      :message="$t('common.bulk_delete_warning')"
+      :messageStyle="{
+        fontFamily: 'SF Pro Display',
+        fontWeight: 400,
+        fontSize: '18px',
+        color: '#000',
+        marginTop: '-30px',
+        width: '100%'
+      }"
+      @confirm="deleteMySelectedTrades"
+    />
   </b-col>
 </template>
 
@@ -268,8 +326,9 @@ import Button from '~/components/common/Button';
 import Pagination from '~/components/common/Pagination';
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar';
 import SearchBarProductsList from '~/components/product/SearchBarProductsList'
+import ScreenSize from '~/plugins/mixins/screenSize'
+import { ConfirmModal } from '~/components/modal'
 import {
-
   PAGE,
   PER_PAGE,
   PER_PAGE_OPTIONS,
@@ -292,10 +351,12 @@ export default {
     SearchInput,
     SearchInputMobile,
     SearchBarProductsList,
+    ConfirmModal,
     tradeListingItemsMobile:()=> import('./TradeListingItemsMobile'),
     tradeListingItemsWeb:()=>import('./TradeListingItemsWeb'),
   },
   layout: 'Profile',
+  mixins: [ScreenSize],
   data (){
     return {
       isVisible:false,
@@ -505,9 +566,10 @@ export default {
       })
     },
 
-    removeExpired(){
+    removeExpired() {
       this.delete_expired = !this.delete_expired
     },
+
     clearAllFilters(){
       this.start_date = null
       this.end_date = null
@@ -540,7 +602,6 @@ export default {
 </script>
 
 <style scoped lang="sass">
-
 @import '~/assets/css/_variables'
 
 .heading-dashboard
@@ -549,11 +610,22 @@ export default {
   @include heading-13
   text-transform: capitalize
   color: $color-black-1
+  margin-top: 50px
 
 .container-trade-dashboard
-  padding-left: 54px
-  @media(min-width: 300px) and (max-width : 500px)
-   padding-left: 15px
+  padding-left: 15px
+  padding-right: 15px
+  @media (min-width: 576px)
+    margin-top: -50px
+    padding-top: 50px
+    background: $color-white-5
+    padding-left: 25px
+    padding-right: 25px
+  @media (min-width: 768px)
+    padding-left: 65px
+    padding-right: 65px
+
+
 ::v-deep .date-input-icon
   background-color: $color-white-1
   border: 1px solid $color-gray-60
