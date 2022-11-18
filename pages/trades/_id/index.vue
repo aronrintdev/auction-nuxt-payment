@@ -45,7 +45,7 @@
                 <countdown :time="countDownTimer(trade.created_at)" :transform="countDownTimerTransform">
                   <template slot-scope="{days, hours, minutes,seconds}">
                     <div class="d-flex">
-                      <div class="d-block text-center p-o-17"  v-if="days">
+                      <div v-if="days"  class="d-block text-center p-o-17">
                         <div class="time-val">{{ days? days.replace('d','') : '' }}</div>
                         <div class="time-text">{{$tc('common.day')}}</div>
                       </div>
@@ -180,7 +180,7 @@
               {{$t('trades.trade_arena.your_inventory',[inventoryItems.length])}}
               <sup role="button"><img  id="inventoryPopover" :src="infoIcon"/></sup>
             </span>
-            <span class="show-wants pt-4" @click="viewWants()" role="button">{{$t('trades.trader_wants')}}</span>
+            <span class="show-wants pt-4" role="button" @click="viewWants()">{{$t('trades.trader_wants')}}</span>
             </div>
             <b-popover target="inventoryPopover" triggers="hover" placement="top" >
               {{$t('trades.trade_arena.inventory_popover')}}

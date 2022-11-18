@@ -225,7 +225,7 @@
           </template>
         </Carousel>
       </client-only>
-      <div class="d-flex w-100 py-3" v-else>
+      <div v-else class="d-flex w-100 py-3">
         <div class="col-4"></div>
           
         <div class="col-8 d-flex flex-column">
@@ -292,11 +292,6 @@ export default {
       default: false,
     },
   },
-  watch: {
-    combination(newCombo) {
-      this.combinationItems = newCombo.combination_items
-    }
-  },
   data () {
     const product = { product: {}, packaging_condition: {}, size: {} }
     return {
@@ -305,6 +300,11 @@ export default {
       combinationItems: this.combination.combination_items,
       isModalOpen: false,
       selectedItemIndex: 0
+    }
+  },
+  watch: {
+    combination(newCombo) {
+      this.combinationItems = newCombo.combination_items
     }
   },
   methods:{

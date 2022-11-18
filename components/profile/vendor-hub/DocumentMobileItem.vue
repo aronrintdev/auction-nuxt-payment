@@ -5,11 +5,11 @@
       <b-col cols="5">{{document.name}}</b-col>
       <b-col :cols="documentStatusText ? 5 : 7" :class="{'text-right': !documentStatusText.length}">
         <span v-if=documentStatusText class="status-text" :class="documentStatusText.toLowerCase()">{{ documentStatusText }}</span>
-        <Button pill v-else class="bg-blue-20 body-9-normal" @click="$emit('upload', document)">
+        <Button v-else pill class="bg-blue-20 body-9-normal" @click="$emit('upload', document)">
           {{ $t('vendor_hub.upload') }}
         </Button>
       </b-col>
-      <b-col cols="2" class="text-right" v-if="documentStatusText">
+      <b-col v-if="documentStatusText" cols="2" class="text-right">
         <a role="button" class="d-inline-block w-full p-1 text-black" @click="$emit('selected', document)">
           <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </a>

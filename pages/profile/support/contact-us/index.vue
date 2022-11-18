@@ -3,7 +3,7 @@
     <SupportHeroSec/>
     <div class="bg-white p-md-5">
       <div class="row">
-        <div class="col-12 d-none d-md-block">
+        <div class="col-12 d-none px-md-4 d-md-block">
           <h1 class="text-base-blue fw-5 fs-30 font-primary mb-3">
             {{ $t('preferences.profile.support.contact_us.title') }}
           </h1>
