@@ -1071,7 +1071,6 @@ export default {
         tradeId: this.getOffer.trade_id,
         offerParentId: (this.getOffer.parent_id ? this.getOffer.parent_id : this.getOffer.id)
       })
-      this.$refs.myBottomSheet.close();
     },
     submitCounterOffer(){
       if(this.getActiveTrade.trade){
