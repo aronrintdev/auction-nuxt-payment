@@ -1099,7 +1099,6 @@ export default {
   .form-item-desc
     @include body-5-regular
     color: $color-gray-5
-
   .error-msg
     @include body-5-regular
     color: $color-red-3
@@ -1125,7 +1124,6 @@ export default {
     .error
 
       border: 0
-
       .input-error::v-deep
         .form-input
           border-color: $color-red-3
@@ -1144,14 +1142,12 @@ export default {
         margin-left: 0px !important
         text-transform: uppercase
         margin-bottom: 8px
-
       input
         border-radius: 4px !important
         height: 40px
         left: 16px
         top: 804px
         border: 1px solid $color-blue-20
-
         &::placeholder
           font-family: $font-montserrat
           font-style: normal
@@ -1163,9 +1159,7 @@ export default {
   .create-listing-form-wrapper
     .product-thumbnail
       width: 246px
-
 @media (min-width: 650px)
-
 .box-condition-select-col::v-deep
   .form-dropdown-wrapper
     .btn-dropdown
@@ -1173,7 +1167,6 @@ export default {
       border-radius: 0
       width: 315px
       height: 37px
-
     .form-input
       .bg-white
         position: absolute
@@ -1183,7 +1176,6 @@ export default {
         top: 804px
         border: 1px solid $color-gray-3
         border-radius: 10px
-
     .search-results
       .popover-body > div:last-child
         border-bottom-left-radius: 0
@@ -1204,12 +1196,11 @@ export default {
     .section-product-details,
     .product-size-details,
     .size-meter,
+
     .backToSearch
       display: block
-
     .product-thumbnail
       display: flex
-
     .mobile-nav-row,
     .responsive-inputs-row,
     .add-listing-btn,
@@ -1218,7 +1209,6 @@ export default {
       width: 323px !important
       // Added !important coz the product thumb component breaks the width of component
       height: 246px
-
     .image-viewer-three-sixty
       width: 323px !important
       // Added !important coz the product thumb component breaks the width of component
@@ -1237,13 +1227,10 @@ export default {
     .size-meter,
     .backToSearch
       display: none
-
     .product-thumbnail
       width: 240px
-
       .overlay
         display: none
-
     .responsive-inputs::v-deep
       .form-input-wrapper
         .form-input
@@ -1272,7 +1259,6 @@ export default {
           font-style: normal
           @include body-5-medium
           color: $color-black-1
-
     .mobile-nav-row
       .mobile-nav-price-col
         .price-section
@@ -1285,7 +1271,6 @@ export default {
           align-items: center
           letter-spacing: -0.04em
           color: $color-gray-47
-
           .active
             font-family: $font-montserrat
             font-style: normal
@@ -1314,7 +1299,6 @@ export default {
         align-items: center
         text-align: center
         color: $color-black-1
-
       .all-sizes-option
         font-family: $font-montserrat
         font-style: normal
@@ -1323,7 +1307,6 @@ export default {
         align-items: center
         text-align: center
         color: $color-black-1
-
     .box-condition-responsive
       .box-condition-title
         font-family: $font-montserrat
@@ -1334,35 +1317,29 @@ export default {
 #form-input-responsive::v-deep
   .input-label
     margin-bottom: 3px
-
   input
     height: 49px
     left: 16px
     top: 804px
     border: 1px solid $white-5
-
     &::placeholder
       font-family: $font-montserrat
       font-style: normal
       @include body-9-medium
       color: $color-gray-23
-
 #error-responsive::v-deep
   .input-label
     margin-bottom: 3px
-
   input
     height: 49px
     left: 16px
     top: 804px
     border: 1px solid $color-red-3
-
 .box-condition-select-col::v-deep
   #dropdown-container-box-condition-dropdown
     .popover
       .popover-body
         border: 1px solid $color-gray-85
-
     #btn-dropdown-box-condition-dropdown
       div
         font-family: $font-montserrat

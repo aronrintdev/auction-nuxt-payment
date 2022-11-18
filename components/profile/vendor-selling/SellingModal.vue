@@ -2,8 +2,8 @@
   <Modal
       :id="id"
       hide-footer
-      no-border
       modal-class="confirm-modal"
+      no-border
       size="md"
       @hidden="$emit('hidden')"
   >
@@ -12,9 +12,9 @@
         {{ heading }}
       </div>
       <div
-        class="mt-4 mb-5"
+          class="mt-4 mb-5"
       >
-        <p v-if="description1">{{ description1}}</p>
+        <p v-if="description1">{{ description1 }}</p>
         <p v-if="description2">{{ description2 }}</p>
         <p v-if="description3">{{ description3 }}</p>
       </div>
