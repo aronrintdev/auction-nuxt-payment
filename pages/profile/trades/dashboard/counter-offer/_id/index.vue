@@ -3,12 +3,12 @@
     <div v-if="isScreenXS">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col v-if="!cashAdd" :md="isPayment ? 9 : 12">
-          <div>
-            <div class="amounts-input ml-2">
-              <input type="text" class="theirs" disabled :value="$t('trades.trade_arena.theirs') + `: ${getTheirTotal()}`">
-              <input type="text" class="yours" disabled :value="$t('trades.trade_arena.yours') + `: ${getYourTotal()}`">
-            </div>
-          </div>
+<!--          <div>-->
+<!--            <div class="amounts-input ml-2">-->
+<!--              <input type="text" class="theirs" disabled :value="$t('trades.trade_arena.theirs') + `: ${getTheirTotal()}`">-->
+<!--              <input type="text" class="yours" disabled :value="$t('trades.trade_arena.yours') + `: ${getYourTotal()}`">-->
+<!--            </div>-->
+<!--          </div>-->
           <div class="d-flex">
             <div class="left-side-image ml-2" :class="{'left-item-margin':getTheirItems.length === ONE_ITEM && getYourItems.length}">
               <div v-for="(item, index) in getTheirItems"
@@ -46,15 +46,16 @@
               <div v-if="getYourItems.length" >
                 <div v-for="(item, index) in getYourItems"
                       :key="'your-trade-item-key-'+index"
-                     class="image-right mb-4">
-                  <div v-if="editYours" class="position-relative p-2">
-                    <div class="position-absolute remove-item-icon" role="button" @click.stop="removeItem(item.inventory.product.id)">
+                     class="image-right mb-4 flex-column">
+                  <div v-if="editYours" class="position-relative">
+                    <div class="d-flex justify-content-end remove-item-icon" role="button" @click.stop="removeItem(item.inventory.product.id)">
                       <img :src="require('~/assets/img/trades/minus-icon.svg')">
                     </div>
                   </div>
-                  <div class="d-flex justify-content-center align-content-center">
+                  <div class="d-flex justify-content-center align-content-center position-relative">
                     <img class="item-image-small" :src="item.inventory.product | getProductImageUrl" alt="image"
                          :class="{'item-image-cond-small':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
+                    <div class="overlay-mob position-absolute"></div>
                   </div>
 
                   <div class="item-caption-small">
@@ -349,12 +350,16 @@
                   <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'trade-item-'+index : ''"
                       :key="'their-trade-item-key-'+index" class="item mb-4"
                       :class="[((getTheirItems.length > ONE_ITEM )|| (getYourItems.length)) ? 'item-length' : 'item-normal']">
+
                     <div v-if="!editYours" class="position-relative">
                       <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
                         <img :src="require('~/assets/img/trades/minus-icon.svg')">
                       </div>
                     </div>
-                    <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
+                    <div class="position-relative d-flex align-items-center justify-content-center">
+                      <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
+                      <div class="overlay-mob position-absolute"></div>
+                    </div>
                     <div class="item-caption">
                       <span class="item-name">{{ item.inventory.product.name }}</span>
                       <div class="mt-1 item-caption-description d-flex">
@@ -1305,7 +1310,12 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
-
+.overlay-mob
+  background: $light-opacity
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
 .w-xl-100
   @media (min-width: 1200px)
     width: 100%
