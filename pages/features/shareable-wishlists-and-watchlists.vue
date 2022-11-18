@@ -1,21 +1,26 @@
 <template>
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :bottomBannerImage="bottomBanner.bottomBannerImage"
+      :bottomBannerImageXS="bottomBanner.bottomBannerImageXS"
+      :bottomBannerDescription="bottomBanner.bottomBannerDescription"
+      :bottomBannerDescriptionXS="bottomBanner.bottomBannerDescriptionXS"
+      :bottomBannerButtonLink="bottomBanner.bottomBannerButtonLink"
+      :bottomBannerButtonText="bottomBanner.bottomBannerButtonText"
+      :previousPage="bottomBanner.previousPage"
+      :previousPageXS="bottomBanner.previousPageXS"
+      :previousPageLink="bottomBanner.previousPageLink"
+      :nextPage="bottomBanner.nextPage"
+      :nextPageXS="bottomBanner.nextPageXS"
+      :nextPageLink="bottomBanner.nextPageLink"
     >
       <HorizontalBenefitBox
         v-for="(benefit, index) in benefits"
         :key="index"
         :benefitImage="benefit.benefitImage"
+        :benefitImageXS="benefit.benefitImageXS"
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
@@ -57,16 +62,13 @@ export default {
   data() {
     return {
       banner: {
-        title:
-          'newest_features.shareable_wishlists_and_watchlists.feature_banner_title',
-        description:
-          'newest_features.shareable_wishlists_and_watchlists.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/shareable-wishlists-and-watchlists-banner.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/shareable-wishlists-and-watchlists-banner-sm.svg'),
+        backgroundImage: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/shareable-wishlists-and-watchlists-banner.jpg'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/shareable-wishlists-and-watchlists-banner-xs.png'),
       },
       benefits: [
         {
           benefitImage: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/save-items.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/save-items-xs.png'),
           benefitTitle:
             'newest_features.shareable_wishlists_and_watchlists.benefits.first_benefit_title',
           benefitDescription:
@@ -74,6 +76,7 @@ export default {
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/share-lists.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/share-lists-xs.png'),
           benefitTitle:
             'newest_features.shareable_wishlists_and_watchlists.benefits.second_benefit_title',
           benefitDescription:
@@ -81,19 +84,33 @@ export default {
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/customize.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/customize-xs.png'),
           benefitTitle:
             'newest_features.shareable_wishlists_and_watchlists.benefits.third_benefit_title',
           benefitDescription:
             'newest_features.shareable_wishlists_and_watchlists.benefits.third_benefit_desc',
         },
       ],
-      shopNowBanner: {
-        shopNowDescription:
-          'newest_features.shareable_wishlists_and_watchlists.shop_now_banner.desc',
-        shopNowButtonText:
-          'newest_features.shareable_wishlists_and_watchlists.shop_now_banner.button_text',
-        previousPage: 'newest_features.instant_shipping.title',
+      bottomBanner: {
+        bottomBannerImage: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/bottom-banner.png'),
+        bottomBannerImageXS: require('@/assets/img/features/newest-feature/shareable-wishlists-and-watchlists/bottom-banner-xs.png'),
+        bottomBannerDescription:
+          'newest_features.shareable_wishlists_and_watchlists.bottom_banner.desc',
+        bottomBannerDescriptionXS:
+          'newest_features.shareable_wishlists_and_watchlists.bottom_banner.desc_xs',
+        bottomBannerButtonLink: '/browse',
+        bottomBannerButtonText:
+          'newest_features.shareable_wishlists_and_watchlists.bottom_banner.button_text',
+        previousPage:
+          'newest_features.shareable_wishlists_and_watchlists.bottom_banner.previous_page_title',
+        previousPageXS:
+          'newest_features.shareable_wishlists_and_watchlists.bottom_banner.previous_page_xs_title',
         previousPageLink: '/features/instant-shipping',
+        nextPage:
+          'newest_features.shareable_wishlists_and_watchlists.bottom_banner.next_page_title',
+        nextPageXS:
+          'newest_features.shareable_wishlists_and_watchlists.bottom_banner.next_page_xs_title',
+        nextPageLink: '/features/selling-on-deadstock',
       },
       processes: [
         {

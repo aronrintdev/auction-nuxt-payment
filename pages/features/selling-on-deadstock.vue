@@ -1,16 +1,20 @@
 <template>
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :bottomBannerImage="bottomBanner.bottomBannerImage"
+      :bottomBannerImageXS="bottomBanner.bottomBannerImageXS"
+      :bottomBannerDescription="bottomBanner.bottomBannerDescription"
+      :bottomBannerDescriptionXS="bottomBanner.bottomBannerDescriptionXS"
+      :bottomBannerButtonLink="bottomBanner.bottomBannerButtonLink"
+      :bottomBannerButtonText="bottomBanner.bottomBannerButtonText"
+      :previousPage="bottomBanner.previousPage"
+      :previousPageXS="bottomBanner.previousPageXS"
+      :previousPageLink="bottomBanner.previousPageLink"
+      :nextPage="bottomBanner.nextPage"
+      :nextPageXS="bottomBanner.nextPageXS"
+      :nextPageLink="bottomBanner.nextPageLink"
     >
       <b-row class="justify-content-center h-card-main">
         <b-col
@@ -123,19 +127,28 @@ export default {
         },
       ],
       banner: {
-        title: 'newest_features.selling_on_deadstock.feature_banner_title',
-        description: 'newest_features.selling_on_deadstock.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/selling-on-deadstock/sellingbanner.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/selling-on-deadstock/sellingbannermobile.svg'),
+        backgroundImage: require('@/assets/img/features/newest-feature/selling-on-deadstock/selling-on-deadstock-banner.png'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/selling-on-deadstock/selling-on-deadstock-banner-xs.png'),
       },
-      shopNowBanner: {
-        shopNowDescription:
-          'newest_features.selling_on_deadstock.shop_now_banner.desc',
-        shopNowButtonText:
-          'newest_features.selling_on_deadstock.shop_now_banner.button_text',
-        previousPage: 'newest_features.buying.title',
+      bottomBanner: {
+        bottomBannerImage: require('@/assets/img/features/newest-feature/selling-on-deadstock/bottom-banner.png'),
+        bottomBannerImageXS: require('@/assets/img/features/newest-feature/selling-on-deadstock/bottom-banner-xs.png'),
+        bottomBannerDescription:
+          'newest_features.selling_on_deadstock.bottom_banner.desc',
+        bottomBannerDescriptionXS:
+          'newest_features.selling_on_deadstock.bottom_banner.desc_xs',
+        bottomBannerButtonLink: '/apply',
+        bottomBannerButtonText:
+          'newest_features.selling_on_deadstock.bottom_banner.button_text',
+        previousPage:
+          'newest_features.selling_on_deadstock.bottom_banner.previous_page_title',
+        previousPageXS:
+          'newest_features.selling_on_deadstock.bottom_banner.previous_page_xs_title',
         previousPageLink: '/features/buying',
-        nextPage: 'newest_features.trading.title',
+        nextPage:
+          'newest_features.selling_on_deadstock.bottom_banner.next_page_title',
+        nextPageXS:
+          'newest_features.selling_on_deadstock.bottom_banner.next_page_xs_title',
         nextPageLink: '/features/trading',
       },
     }

@@ -1,16 +1,20 @@
 <template>
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :bottomBannerImage="bottomBanner.bottomBannerImage"
+      :bottomBannerImageXS="bottomBanner.bottomBannerImageXS"
+      :bottomBannerDescription="bottomBanner.bottomBannerDescription"
+      :bottomBannerDescriptionXS="bottomBanner.bottomBannerDescriptionXS"
+      :bottomBannerButtonLink="bottomBanner.bottomBannerButtonLink"
+      :bottomBannerButtonText="bottomBanner.bottomBannerButtonText"
+      :previousPage="bottomBanner.previousPage"
+      :previousPageXS="bottomBanner.previousPageXS"
+      :previousPageLink="bottomBanner.previousPageLink"
+      :nextPage="bottomBanner.nextPage"
+      :nextPageXS="bottomBanner.nextPageXS"
+      :nextPageLink="bottomBanner.nextPageLink"
     >
       <b-row class="justify-content-center h-card-main">
         <b-col
@@ -107,19 +111,28 @@ export default {
         },
       ],
       banner: {
-        title: 'newest_features.deadstock_exchange.feature_banner_title',
-        description: 'newest_features.deadstock_exchange.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/deadstock-exchange/deadstockexchangebbanner.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/deadstock-exchange/deadstockexchangemobile.svg'),
+        backgroundImage: require('@/assets/img/features/newest-feature/deadstock-exchange/deadstock-exchange-banner.png'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/deadstock-exchange/deadstock-exchange-banner-xs.png'),
       },
-      shopNowBanner: {
-        shopNowDescription:
-          'newest_features.deadstock_exchange.shop_now_banner.desc',
-        shopNowButtonText:
-          'newest_features.deadstock_exchange.shop_now_banner.button_text',
-        previousPage: 'newest_features.2fa_security.title',
+      bottomBanner: {
+        bottomBannerImage: require('@/assets/img/features/newest-feature/deadstock-exchange/bottom-banner.png'),
+        bottomBannerImageXS: require('@/assets/img/features/newest-feature/deadstock-exchange/bottom-banner-xs.png'),
+        bottomBannerDescription:
+          'newest_features.deadstock_exchange.bottom_banner.desc',
+        bottomBannerDescriptionXS:
+          'newest_features.deadstock_exchange.bottom_banner.desc_xs',
+        bottomBannerButtonLink: '/deadstock-exchange',
+        bottomBannerButtonText:
+          'newest_features.deadstock_exchange.bottom_banner.button_text',
+        previousPage:
+          'newest_features.deadstock_exchange.bottom_banner.previous_page_title',
+        previousPageXS:
+          'newest_features.deadstock_exchange.bottom_banner.previous_page_xs_title',
         previousPageLink: '/features/2fa-security',
-        nextPage: 'newest_features.blockchain_authentication_ledger.title',
+        nextPage:
+          'newest_features.deadstock_exchange.bottom_banner.next_page_title',
+        nextPageXS:
+          'newest_features.deadstock_exchange.bottom_banner.next_page_xs_title',
         nextPageLink: '/features/blockchain-authentication-ledger',
       },
     }

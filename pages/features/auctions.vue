@@ -1,21 +1,26 @@
 <template>
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :bottomBannerImage="bottomBanner.bottomBannerImage"
+      :bottomBannerImageXS="bottomBanner.bottomBannerImageXS"
+      :bottomBannerDescription="bottomBanner.bottomBannerDescription"
+      :bottomBannerDescriptionXS="bottomBanner.bottomBannerDescriptionXS"
+      :bottomBannerButtonLink="bottomBanner.bottomBannerButtonLink"
+      :bottomBannerButtonText="bottomBanner.bottomBannerButtonText"
+      :previousPage="bottomBanner.previousPage"
+      :previousPageXS="bottomBanner.previousPageXS"
+      :previousPageLink="bottomBanner.previousPageLink"
+      :nextPage="bottomBanner.nextPage"
+      :nextPageXS="bottomBanner.nextPageXS"
+      :nextPageLink="bottomBanner.nextPageLink"
     >
       <HorizontalBenefitBox
         v-for="(benefit, index) in benefits"
         :key="index"
         :benefitImage="benefit.benefitImage"
+        :benefitImageXS="benefit.benefitImageXS"
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
@@ -90,10 +95,8 @@ export default {
   data() {
     return {
       banner: {
-        title: 'newest_features.auctions.feature_banner_title',
-        description: 'newest_features.auctions.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/auctions/auctions-banner.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/auctions/auctions-banner-sm.svg'),
+        backgroundImage: require('@/assets/img/features/newest-feature/auctions/auctions-banner.png'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/auctions/auctions-banner-xs.png'),
       },
       options: [
         {
@@ -108,12 +111,14 @@ export default {
       benefits: [
         {
           benefitImage: require('@/assets/img/features/newest-feature/auctions/flexibility.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/auctions/flexibility-xs.png'),
           benefitTitle: 'newest_features.auctions.benefits.first_benefit_title',
           benefitDescription:
             'newest_features.auctions.benefits.first_benefit_desc',
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/auctions/higher-revenues.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/auctions/higher-revenues-xs.png'),
           benefitTitle:
             'newest_features.auctions.benefits.second_benefit_title',
           benefitDescription:
@@ -121,19 +126,29 @@ export default {
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/auctions/certified.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/auctions/certified-xs.png'),
           benefitTitle: 'newest_features.auctions.benefits.third_benefit_title',
           benefitDescription:
             'newest_features.auctions.benefits.third_benefit_desc',
         },
       ],
-      shopNowBanner: {
-        shopNowDescription: 'newest_features.auctions.shop_now_banner.desc',
-        shopNowButtonText:
-          'newest_features.auctions.shop_now_banner.button_text',
-        previousPage: 'newest_features.trading.title',
+      bottomBanner: {
+        bottomBannerImage: require('@/assets/img/features/newest-feature/auctions/bottom-banner.png'),
+        bottomBannerImageXS: require('@/assets/img/features/newest-feature/auctions/bottom-banner-xs.png'),
+        bottomBannerDescription: 'newest_features.auctions.bottom_banner.desc',
+        bottomBannerDescriptionXS:
+          'newest_features.auctions.bottom_banner.desc_xs',
+        bottomBannerButtonLink: '/browse',
+        bottomBannerButtonText:
+          'newest_features.auctions.bottom_banner.button_text',
+        previousPage:
+          'newest_features.auctions.bottom_banner.previous_page_title',
+        previousPageXS:
+          'newest_features.auctions.bottom_banner.previous_page_xs_title',
         previousPageLink: '/features/trading',
-        nextPage: 'newest_features.streetwear.title',
-        nextPageLink: '/features/streetwear',
+        nextPage: 'newest_features.auctions.bottom_banner.next_page_title',
+        nextPageXS: 'newest_features.auctions.bottom_banner.next_page_xs_title',
+        nextPageLink: '/features/shop-by-style',
       },
     }
   },

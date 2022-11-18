@@ -1,26 +1,27 @@
 <template>
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :previousPage="previousPage"
+      :previousPageXS="previousPageXS"
+      :previousPageLink="previousPageLink"
+      :nextPage="nextPage"
+      :nextPageXS="nextPageXS"
+      :nextPageLink="nextPageLink"
     >
       <HorizontalBenefitBox
         v-for="(benefit, index) in benefits"
         :key="index"
         :benefitImage="benefit.benefitImage"
+        :benefitImageXS="benefit.benefitImageXS"
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
       <FeatureTitle>
         {{ $t('newest_features.international_languages.refer_a_friend') }}
       </FeatureTitle>
-      <InviteFriend />
+      <InviteFriend :inviteBannerImage="inviteBannerImage" />
     </FeatureContentWrapper>
   </div>
 </template>
@@ -43,15 +44,13 @@ export default {
   data() {
     return {
       banner: {
-        title: 'newest_features.international_languages.feature_banner_title',
-        description:
-          'newest_features.international_languages.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/international-languages/int-languages-banner.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/international-languages/int-languages-banner-sm.svg'),
+        backgroundImage: require('@/assets/img/features/newest-feature/international-languages/int-languages-banner.jpg'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/international-languages/int-languages-banner-xs.png'),
       },
       benefits: [
         {
           benefitImage: require('@/assets/img/features/newest-feature/international-languages/better-access.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/international-languages/better-access-xs.png'),
           benefitTitle:
             'newest_features.international_languages.benefits.first_benefit_title',
           benefitDescription:
@@ -59,6 +58,7 @@ export default {
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/international-languages/as-a-seller.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/international-languages/as-a-seller-xs.png'),
           benefitTitle:
             'newest_features.international_languages.benefits.second_benefit_title',
           benefitDescription:
@@ -66,18 +66,22 @@ export default {
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/international-languages/join-an-international-community.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/international-languages/join-an-international-community-xs.png'),
           benefitTitle:
             'newest_features.international_languages.benefits.third_benefit_title',
           benefitDescription:
             'newest_features.international_languages.benefits.third_benefit_desc',
         },
       ],
-      shopNowBanner: {
-        previousPage: 'newest_features.payments_plans.title',
-        previousPageLink: '/features/payments-plans',
-        nextPage: 'newest_features.csv_bulk_uploading.title',
-        nextPageLink: '/features/csv-bulk-uploading',
-      },
+      inviteBannerImage: require('@/assets/img/features/newest-feature/international-languages/invite-banner.png'),
+      previousPage:
+        'newest_features.international_languages.previous_page_title',
+      previousPageXS:
+        'newest_features.international_languages.previous_page_xs_title',
+      previousPageLink: '/features/payments-plans',
+      nextPage: 'newest_features.international_languages.next_page_title',
+      nextPageXS: 'newest_features.international_languages.next_page_xs_title',
+      nextPageLink: '/features/csv-bulk-uploading',
     }
   },
 }

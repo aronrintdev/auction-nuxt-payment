@@ -1,21 +1,26 @@
 <template>
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :bottomBannerImage="bottomBanner.bottomBannerImage"
+      :bottomBannerImageXS="bottomBanner.bottomBannerImageXS"
+      :bottomBannerDescription="bottomBanner.bottomBannerDescription"
+      :bottomBannerDescriptionXS="bottomBanner.bottomBannerDescriptionXS"
+      :bottomBannerButtonLink="bottomBanner.bottomBannerButtonLink"
+      :bottomBannerButtonText="bottomBanner.bottomBannerButtonText"
+      :previousPage="bottomBanner.previousPage"
+      :previousPageXS="bottomBanner.previousPageXS"
+      :previousPageLink="bottomBanner.previousPageLink"
+      :nextPage="bottomBanner.nextPage"
+      :nextPageXS="bottomBanner.nextPageXS"
+      :nextPageLink="bottomBanner.nextPageLink"
     >
       <HorizontalBenefitBox
         v-for="(benefit, index) in benefits"
         :key="index"
         :benefitImage="benefit.benefitImage"
+        :benefitImageXS="benefit.benefitImageXS"
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
@@ -67,14 +72,13 @@ export default {
   data() {
     return {
       banner: {
-        title: 'newest_features.promotions.feature_banner_title',
-        description: 'newest_features.promotions.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/promotions/promotions-banner.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/promotions/promotions-banner-sm.svg'),
+        backgroundImage: require('@/assets/img/features/newest-feature/promotions/promotions-banner.png'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/promotions/promotions-banner-xs.png'),
       },
       benefits: [
         {
           benefitImage: require('@/assets/img/features/newest-feature/promotions/new-raffles.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/promotions/new-raffles-xs.png'),
           benefitTitle:
             'newest_features.promotions.benefits.first_benefit_title',
           benefitDescription:
@@ -82,6 +86,7 @@ export default {
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/promotions/never-miss-a-promotion.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/promotions/never-miss-a-promotion-xs.png'),
           benefitTitle:
             'newest_features.promotions.benefits.second_benefit_title',
           benefitDescription:
@@ -89,20 +94,32 @@ export default {
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/promotions/exclusive-to-deadstock.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/promotions/exclusive-to-deadstock-xs.png'),
           benefitTitle:
             'newest_features.promotions.benefits.third_benefit_title',
           benefitDescription:
             'newest_features.promotions.benefits.third_benefit_desc',
         },
       ],
-      shopNowBanner: {
-        shopNowDescription: 'newest_features.promotions.shop_now_banner.desc',
-        shopNowButtonText:
-          'newest_features.promotions.shop_now_banner.button_text',
-        previousPage: 'newest_features.csv_bulk_uploading.title',
+      bottomBanner: {
+        bottomBannerImage: require('@/assets/img/features/newest-feature/promotions/bottom-banner.png'),
+        bottomBannerImageXS: require('@/assets/img/features/newest-feature/promotions/bottom-banner-xs.png'),
+        bottomBannerDescription:
+          'newest_features.promotions.bottom_banner.desc',
+        bottomBannerDescriptionXS:
+          'newest_features.promotions.bottom_banner.desc_xs',
+        bottomBannerButtonLink: '/browse',
+        bottomBannerButtonText:
+          'newest_features.promotions.bottom_banner.button_text',
+        previousPage:
+          'newest_features.promotions.bottom_banner.previous_page_title',
+        previousPageXS:
+          'newest_features.promotions.bottom_banner.previous_page_xs_title',
         previousPageLink: '/features/csv-bulk-uploading',
-        nextPage: 'newest_features.damaged_box_items.title',
-        nextPageLink: '/features/damaged-box-items',
+        nextPage: 'newest_features.promotions.bottom_banner.next_page_title',
+        nextPageXS:
+          'newest_features.promotions.bottom_banner.next_page_xs_title',
+        nextPageLink: '/features/damaged-packaging',
       },
     }
   },

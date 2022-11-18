@@ -1,19 +1,26 @@
 <template>
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :bottomBannerImage="bottomBanner.bottomBannerImage"
+      :bottomBannerImageXS="bottomBanner.bottomBannerImageXS"
+      :bottomBannerDescription="bottomBanner.bottomBannerDescription"
+      :bottomBannerDescriptionXS="bottomBanner.bottomBannerDescriptionXS"
+      :bottomBannerButtonLink="bottomBanner.bottomBannerButtonLink"
+      :bottomBannerButtonText="bottomBanner.bottomBannerButtonText"
+      :previousPage="bottomBanner.previousPage"
+      :previousPageXS="bottomBanner.previousPageXS"
+      :previousPageLink="bottomBanner.previousPageLink"
+      :nextPage="bottomBanner.nextPage"
+      :nextPageXS="bottomBanner.nextPageXS"
+      :nextPageLink="bottomBanner.nextPageLink"
     >
       <HorizontalBenefitBox
         v-for="(benefit, index) in benefits"
         :key="index"
         :benefitImage="benefit.benefitImage"
+        :benefitImageXS="benefit.benefitImageXS"
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
@@ -72,16 +79,8 @@ export default {
   data() {
     return {
       banner: {
-        title: 'newest_features.buying.feature_banner_title',
-        description: 'newest_features.buying.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/buying/feature-banner-updated.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/buying/feature-banner-updated-sm.svg'),
-      },
-      shopNowBanner: {
-        shopNowDescription: 'newest_features.buying.shop_now_banner.desc',
-        shopNowButtonText: 'newest_features.buying.shop_now_banner.button_text',
-        nextPage: 'newest_features.selling_on_deadstock.title',
-        nextPageLink: '/features/selling-on-deadstock',
+        backgroundImage: require('@/assets/img/features/newest-feature/buying/buying-banner.png'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/buying/buying-banner-xs.png'),
       },
       options: [
         {
@@ -96,23 +95,44 @@ export default {
       benefits: [
         {
           benefitImage: require('@/assets/img/features/newest-feature/buying/auth.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/buying/auth-xs.png'),
           benefitTitle: 'newest_features.buying.benefits.first_benefit_title',
           benefitDescription:
             'newest_features.buying.benefits.first_benefit_desc',
         },
         {
-          benefitImage: require('@/assets/img/features/newest-feature/buying/blockchainauth.png'),
-          benefitTitle: 'newest_features.buying.benefits.second_benefit_title',
-          benefitDescription:
-            'newest_features.buying.benefits.second_benefit_desc',
-        },
-        {
           benefitImage: require('@/assets/img/features/newest-feature/buying/customerser.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/buying/customerser-xs.png'),
           benefitTitle: 'newest_features.buying.benefits.third_benefit_title',
           benefitDescription:
             'newest_features.buying.benefits.third_benefit_desc',
         },
+        {
+          benefitImage: require('@/assets/img/features/newest-feature/buying/blockchainauth.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/buying/blockchainauth-xs.png'),
+          benefitTitle: 'newest_features.buying.benefits.second_benefit_title',
+          benefitDescription:
+            'newest_features.buying.benefits.second_benefit_desc',
+        },
       ],
+      bottomBanner: {
+        bottomBannerImage: require('@/assets/img/features/newest-feature/buying/bottom-banner.png'),
+        bottomBannerImageXS: require('@/assets/img/features/newest-feature/buying/bottom-banner-xs.png'),
+        bottomBannerDescription: 'newest_features.buying.bottom_banner.desc',
+        bottomBannerDescriptionXS:
+          'newest_features.buying.bottom_banner.desc_xs',
+        bottomBannerButtonLink: '/shop',
+        bottomBannerButtonText:
+          'newest_features.buying.bottom_banner.button_text',
+        previousPage:
+          'newest_features.buying.bottom_banner.previous_page_title',
+        previousPageXS:
+          'newest_features.buying.bottom_banner.previous_page_xs_title',
+        previousPageLink: '/features/shareable-wishlists-and-watchlists',
+        nextPage: 'newest_features.buying.bottom_banner.next_page_title',
+        nextPageXS: 'newest_features.buying.bottom_banner.next_page_xs_title',
+        nextPageLink: '/features/selling-on-deadstock',
+      },
     }
   },
 }

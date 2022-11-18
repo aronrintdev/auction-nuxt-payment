@@ -1,21 +1,26 @@
 <template>
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :bottomBannerImage="bottomBanner.bottomBannerImage"
+      :bottomBannerImageXS="bottomBanner.bottomBannerImageXS"
+      :bottomBannerDescription="bottomBanner.bottomBannerDescription"
+      :bottomBannerDescriptionXS="bottomBanner.bottomBannerDescriptionXS"
+      :bottomBannerButtonLink="bottomBanner.bottomBannerButtonLink"
+      :bottomBannerButtonText="bottomBanner.bottomBannerButtonText"
+      :previousPage="bottomBanner.previousPage"
+      :previousPageXS="bottomBanner.previousPageXS"
+      :previousPageLink="bottomBanner.previousPageLink"
+      :nextPage="bottomBanner.nextPage"
+      :nextPageXS="bottomBanner.nextPageXS"
+      :nextPageLink="bottomBanner.nextPageLink"
     >
       <HorizontalBenefitBox
         v-for="(benefit, index) in benefits"
         :key="index"
         :benefitImage="benefit.benefitImage"
+        :benefitImageXS="benefit.benefitImageXS"
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
@@ -51,16 +56,13 @@ export default {
   data() {
     return {
       banner: {
-        title:
-          'newest_features.blockchain_authentication_ledger.feature_banner_title',
-        description:
-          'newest_features.blockchain_authentication_ledger.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/blockchain-authentication-banner.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/blockchain-authentication-banner-sm.svg'),
+        backgroundImage: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/blockchain-authentication-banner.jpg'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/blockchain-authentication-banner-xs.png'),
       },
       benefits: [
         {
           benefitImage: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/each-item-bought.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/each-item-bought-xs.png'),
           benefitTitle:
             'newest_features.blockchain_authentication_ledger.benefits.first_benefit_title',
           benefitDescription:
@@ -68,6 +70,7 @@ export default {
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/each-nfc-scan.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/each-nfc-scan-xs.png'),
           benefitTitle:
             'newest_features.blockchain_authentication_ledger.benefits.second_benefit_title',
           benefitDescription:
@@ -75,20 +78,32 @@ export default {
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/scan-nfc.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/scan-nfc-xs.png'),
           benefitTitle:
             'newest_features.blockchain_authentication_ledger.benefits.third_benefit_title',
           benefitDescription:
             'newest_features.blockchain_authentication_ledger.benefits.third_benefit_desc',
         },
       ],
-      shopNowBanner: {
-        shopNowDescription:
-          'newest_features.blockchain_authentication_ledger.shop_now_banner.desc',
-        shopNowButtonText:
-          'newest_features.blockchain_authentication_ledger.shop_now_banner.button_text',
-        previousPage: 'newest_features.deadstock_exchange.title',
+      bottomBanner: {
+        bottomBannerImage: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/bottom-banner.png'),
+        bottomBannerImageXS: require('@/assets/img/features/newest-feature/blockchain-authentication-ledger/bottom-banner-xs.png'),
+        bottomBannerDescription:
+          'newest_features.blockchain_authentication_ledger.bottom_banner.desc',
+        bottomBannerDescriptionXS:
+          'newest_features.blockchain_authentication_ledger.bottom_banner.desc_xs',
+        bottomBannerButtonLink: '/browse',
+        bottomBannerButtonText:
+          'newest_features.blockchain_authentication_ledger.bottom_banner.button_text',
+        previousPage:
+          'newest_features.blockchain_authentication_ledger.bottom_banner.previous_page_title',
+        previousPageXS:
+          'newest_features.blockchain_authentication_ledger.bottom_banner.previous_page_xs_title',
         previousPageLink: '/features/deadstock-exchange',
-        nextPage: 'newest_features.in_app_notifications.title',
+        nextPage:
+          'newest_features.blockchain_authentication_ledger.bottom_banner.next_page_title',
+        nextPageXS:
+          'newest_features.blockchain_authentication_ledger.bottom_banner.next_page_xs_title',
         nextPageLink: '/features/in-app-notifications',
       },
       processes: [

@@ -1,16 +1,20 @@
 <template>
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :bottomBannerImage="bottomBanner.bottomBannerImage"
+      :bottomBannerImageXS="bottomBanner.bottomBannerImageXS"
+      :bottomBannerDescription="bottomBanner.bottomBannerDescription"
+      :bottomBannerDescriptionXS="bottomBanner.bottomBannerDescriptionXS"
+      :bottomBannerButtonLink="bottomBanner.bottomBannerButtonLink"
+      :bottomBannerButtonText="bottomBanner.bottomBannerButtonText"
+      :previousPage="bottomBanner.previousPage"
+      :previousPageXS="bottomBanner.previousPageXS"
+      :previousPageLink="bottomBanner.previousPageLink"
+      :nextPage="bottomBanner.nextPage"
+      :nextPageXS="bottomBanner.nextPageXS"
+      :nextPageLink="bottomBanner.nextPageLink"
     >
       <b-row class="justify-content-center h-card-main">
         <b-col
@@ -97,20 +101,8 @@ export default {
   data() {
     return {
       banner: {
-        title: 'newest_features.payments_plans.feature_banner_title',
-        description: 'newest_features.payments_plans.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/payment-plans/payment-plan-banner.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/payment-plans/paymentplansbannermobile.svg'),
-      },
-      shopNowBanner: {
-        shopNowDescription:
-          'newest_features.payments_plans.shop_now_banner.desc',
-        shopNowButtonText:
-          'newest_features.payments_plans.shop_now_banner.button_text',
-        previousPage: 'newest_features.international_buying_and_selling.title',
-        previousPageLink: '/features/international-buying-and-selling',
-        nextPage: 'newest_features.international_languages.title',
-        nextPageLink: '/features/international-languages',
+        backgroundImage: require('@/assets/img/features/newest-feature/payment-plans/payment-plans-banner.png'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/payment-plans/payment-plans-banner-xs.png'),
       },
       options: [
         {
@@ -155,6 +147,27 @@ export default {
           responsiveImage: require('~/assets/img/features/newest-feature/payment-plans/mobile-shoes.png'),
         },
       ],
+      bottomBanner: {
+        bottomBannerImage: require('@/assets/img/features/newest-feature/payment-plans/bottom-banner.png'),
+        bottomBannerImageXS: require('@/assets/img/features/newest-feature/payment-plans/bottom-banner-xs.png'),
+        bottomBannerDescription:
+          'newest_features.payments_plans.bottom_banner.desc',
+        bottomBannerDescriptionXS:
+          'newest_features.payments_plans.bottom_banner.desc_xs',
+        bottomBannerButtonLink: '/shop',
+        bottomBannerButtonText:
+          'newest_features.payments_plans.bottom_banner.button_text',
+        previousPage:
+          'newest_features.payments_plans.bottom_banner.previous_page_title',
+        previousPageXS:
+          'newest_features.payments_plans.bottom_banner.previous_page_xs_title',
+        previousPageLink: '/features/virtual-giftcards',
+        nextPage:
+          'newest_features.payments_plans.bottom_banner.next_page_title',
+        nextPageXS:
+          'newest_features.payments_plans.bottom_banner.next_page_xs_title',
+        nextPageLink: '/features/international-languages',
+      },
     }
   },
 }

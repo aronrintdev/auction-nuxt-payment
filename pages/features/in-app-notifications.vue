@@ -1,21 +1,26 @@
 <template>
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :bottomBannerImage="bottomBanner.bottomBannerImage"
+      :bottomBannerImageXS="bottomBanner.bottomBannerImageXS"
+      :bottomBannerDescription="bottomBanner.bottomBannerDescription"
+      :bottomBannerDescriptionXS="bottomBanner.bottomBannerDescriptionXS"
+      :bottomBannerButtonLink="bottomBanner.bottomBannerButtonLink"
+      :bottomBannerButtonText="bottomBanner.bottomBannerButtonText"
+      :previousPage="bottomBanner.previousPage"
+      :previousPageXS="bottomBanner.previousPageXS"
+      :previousPageLink="bottomBanner.previousPageLink"
+      :nextPage="bottomBanner.nextPage"
+      :nextPageXS="bottomBanner.nextPageXS"
+      :nextPageLink="bottomBanner.nextPageLink"
     >
       <HorizontalBenefitBox
         v-for="(benefit, index) in benefits"
         :key="index"
         :benefitImage="benefit.benefitImage"
+        :benefitImageXS="benefit.benefitImageXS"
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
@@ -81,42 +86,54 @@ export default {
   data() {
     return {
       banner: {
-        title: 'newest_features.in_app_notifications.feature_banner_title',
-        description: 'newest_features.in_app_notifications.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/in-app-notifications/in-app-notifications-banner.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/in-app-notifications/in-app-notifications-banner-sm.svg'),
+        backgroundImage: require('@/assets/img/features/newest-feature/in-app-notifications/in-app-notifications-banner.png'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/in-app-notifications/in-app-notifications-banner-xs.png'),
       },
       benefits: [
         {
-          benefitImage: require('@/assets/img/features/newest-feature/in-app-notifications/get-notified.svg'),
+          benefitImage: require('@/assets/img/features/newest-feature/in-app-notifications/get-notified.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/in-app-notifications/get-notified-xs.png'),
           benefitTitle:
             'newest_features.in_app_notifications.benefits.first_benefit_title',
           benefitDescription:
             'newest_features.in_app_notifications.benefits.first_benefit_desc',
         },
         {
-          benefitImage: require('@/assets/img/features/newest-feature/in-app-notifications/live-updates.svg'),
+          benefitImage: require('@/assets/img/features/newest-feature/in-app-notifications/live-updates.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/in-app-notifications/live-updates-xs.png'),
           benefitTitle:
             'newest_features.in_app_notifications.benefits.second_benefit_title',
           benefitDescription:
             'newest_features.in_app_notifications.benefits.second_benefit_desc',
         },
         {
-          benefitImage: require('@/assets/img/features/newest-feature/in-app-notifications/live-notifications.svg'),
+          benefitImage: require('@/assets/img/features/newest-feature/in-app-notifications/live-notifications.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/in-app-notifications/live-notifications-xs.png'),
           benefitTitle:
             'newest_features.in_app_notifications.benefits.third_benefit_title',
           benefitDescription:
             'newest_features.in_app_notifications.benefits.third_benefit_desc',
         },
       ],
-      shopNowBanner: {
-        shopNowDescription:
-          'newest_features.in_app_notifications.shop_now_banner.desc',
-        shopNowButtonText:
-          'newest_features.in_app_notifications.shop_now_banner.button_text',
-        previousPage: 'newest_features.blockchain_authentication_ledger.title',
+      bottomBanner: {
+        bottomBannerImage: require('@/assets/img/features/newest-feature/in-app-notifications/bottom-banner.png'),
+        bottomBannerImageXS: require('@/assets/img/features/newest-feature/in-app-notifications/bottom-banner-xs.png'),
+        bottomBannerDescription:
+          'newest_features.in_app_notifications.bottom_banner.desc',
+        bottomBannerDescriptionXS:
+          'newest_features.in_app_notifications.bottom_banner.desc_xs',
+        bottomBannerButtonLink: '/notifications',
+        bottomBannerButtonText:
+          'newest_features.in_app_notifications.bottom_banner.button_text',
+        previousPage:
+          'newest_features.in_app_notifications.bottom_banner.previous_page_title',
+        previousPageXS:
+          'newest_features.in_app_notifications.bottom_banner.previous_page_xs_title',
         previousPageLink: '/features/blockchain-authentication-ledger',
-        nextPage: 'newest_features.social_signin.title',
+        nextPage:
+          'newest_features.in_app_notifications.bottom_banner.next_page_title',
+        nextPageXS:
+          'newest_features.in_app_notifications.bottom_banner.next_page_xs_title',
         nextPageLink: '/features/social-signin',
       },
     }

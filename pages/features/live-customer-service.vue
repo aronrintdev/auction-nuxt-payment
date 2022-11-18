@@ -1,21 +1,26 @@
 <template>
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :bottomBannerImage="bottomBanner.bottomBannerImage"
+      :bottomBannerImageXS="bottomBanner.bottomBannerImageXS"
+      :bottomBannerDescription="bottomBanner.bottomBannerDescription"
+      :bottomBannerDescriptionXS="bottomBanner.bottomBannerDescriptionXS"
+      :bottomBannerButtonLink="bottomBanner.bottomBannerButtonLink"
+      :bottomBannerButtonText="bottomBanner.bottomBannerButtonText"
+      :previousPage="bottomBanner.previousPage"
+      :previousPageXS="bottomBanner.previousPageXS"
+      :previousPageLink="bottomBanner.previousPageLink"
+      :nextPage="bottomBanner.nextPage"
+      :nextPageXS="bottomBanner.nextPageXS"
+      :nextPageLink="bottomBanner.nextPageLink"
     >
       <HorizontalBenefitBox
         v-for="(benefit, index) in benefits"
         :key="index"
         :benefitImage="benefit.benefitImage"
+        :benefitImageXS="benefit.benefitImageXS"
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
@@ -66,15 +71,13 @@ export default {
   data() {
     return {
       banner: {
-        title: 'newest_features.live_customer_service.feature_banner_title',
-        description:
-          'newest_features.live_customer_service.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/live-customer-service/live-customer-service-banner.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/live-customer-service/live-customer-service-banner-sm.svg'),
+        backgroundImage: require('@/assets/img/features/newest-feature/live-customer-service/live-customer-service-banner.jpg'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/live-customer-service/live-customer-service-banner-xs.png'),
       },
       benefits: [
         {
           benefitImage: require('@/assets/img/features/newest-feature/live-customer-service/24-hour-live.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/live-customer-service/24-hour-live-xs.png'),
           benefitTitle:
             'newest_features.live_customer_service.benefits.first_benefit_title',
           benefitDescription:
@@ -82,6 +85,7 @@ export default {
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/live-customer-service/talk-to-a-real-person.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/live-customer-service/talk-to-a-real-person-xs.png'),
           benefitTitle:
             'newest_features.live_customer_service.benefits.second_benefit_title',
           benefitDescription:
@@ -89,20 +93,32 @@ export default {
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/live-customer-service/immediate-problem-solving.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/live-customer-service/immediate-problem-solving-xs.png'),
           benefitTitle:
             'newest_features.live_customer_service.benefits.third_benefit_title',
           benefitDescription:
             'newest_features.live_customer_service.benefits.third_benefit_desc',
         },
       ],
-      shopNowBanner: {
-        shopNowDescription:
-          'newest_features.live_customer_service.shop_now_banner.desc',
-        shopNowButtonText:
-          'newest_features.live_customer_service.shop_now_banner.button_text',
-        previousPage: 'newest_features.heat_check.title',
-        previousPageLink: '/features/heat-check',
-        nextPage: 'newest_features.rewards_program.title',
+      bottomBanner: {
+        bottomBannerImage: require('@/assets/img/features/newest-feature/live-customer-service/bottom-banner.png'),
+        bottomBannerImageXS: require('@/assets/img/features/newest-feature/live-customer-service/bottom-banner-xs.png'),
+        bottomBannerDescription:
+          'newest_features.live_customer_service.bottom_banner.desc',
+        bottomBannerDescriptionXS:
+          'newest_features.live_customer_service.bottom_banner.desc_xs',
+        bottomBannerButtonLink: '/faq',
+        bottomBannerButtonText:
+          'newest_features.live_customer_service.bottom_banner.button_text',
+        previousPage:
+          'newest_features.live_customer_service.bottom_banner.previous_page_title',
+        previousPageXS:
+          'newest_features.live_customer_service.bottom_banner.previous_page_xs_title',
+        previousPageLink: '/features/crypto-payments',
+        nextPage:
+          'newest_features.live_customer_service.bottom_banner.next_page_title',
+        nextPageXS:
+          'newest_features.live_customer_service.bottom_banner.next_page_xs_title',
         nextPageLink: '/features/rewards-program',
       },
     }

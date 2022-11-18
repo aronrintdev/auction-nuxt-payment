@@ -1,16 +1,20 @@
 <template>
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :bottomBannerImage="bottomBanner.bottomBannerImage"
+      :bottomBannerImageXS="bottomBanner.bottomBannerImageXS"
+      :bottomBannerDescription="bottomBanner.bottomBannerDescription"
+      :bottomBannerDescriptionXS="bottomBanner.bottomBannerDescriptionXS"
+      :bottomBannerButtonLink="bottomBanner.bottomBannerButtonLink"
+      :bottomBannerButtonText="bottomBanner.bottomBannerButtonText"
+      :previousPage="bottomBanner.previousPage"
+      :previousPageXS="bottomBanner.previousPageXS"
+      :previousPageLink="bottomBanner.previousPageLink"
+      :nextPage="bottomBanner.nextPage"
+      :nextPageXS="bottomBanner.nextPageXS"
+      :nextPageLink="bottomBanner.nextPageLink"
     >
       <b-row class="justify-content-center h-card-main">
         <b-col
@@ -126,19 +130,28 @@ export default {
         },
       ],
       banner: {
-        title: 'newest_features.csv_bulk_uploading.feature_banner_title',
-        description: 'newest_features.csv_bulk_uploading.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/csv-bulk-uploading/csvbanner.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/csv-bulk-uploading/csvbannermobile.svg'),
+        backgroundImage: require('@/assets/img/features/newest-feature/csv-bulk-uploading/csv-bulk-uploading-banner.jpg'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/csv-bulk-uploading/csv-bulk-uploading-banner-xs.png'),
       },
-      shopNowBanner: {
-        shopNowDescription:
-          'newest_features.csv_bulk_uploading.shop_now_banner.desc',
-        shopNowButtonText:
-          'newest_features.csv_bulk_uploading.shop_now_banner.button_text',
-        previousPage: 'newest_features.international_languages.title',
+      bottomBanner: {
+        bottomBannerImage: require('@/assets/img/features/newest-feature/csv-bulk-uploading/bottom-banner.png'),
+        bottomBannerImageXS: require('@/assets/img/features/newest-feature/csv-bulk-uploading/bottom-banner-xs.png'),
+        bottomBannerDescription:
+          'newest_features.csv_bulk_uploading.bottom_banner.desc',
+        bottomBannerDescriptionXS:
+          'newest_features.csv_bulk_uploading.bottom_banner.desc_xs',
+        bottomBannerButtonLink: '/become-a-vendor',
+        bottomBannerButtonText:
+          'newest_features.csv_bulk_uploading.bottom_banner.button_text',
+        previousPage:
+          'newest_features.csv_bulk_uploading.bottom_banner.previous_page_title',
+        previousPageXS:
+          'newest_features.csv_bulk_uploading.bottom_banner.previous_page_xs_title',
         previousPageLink: '/features/international-languages',
-        nextPage: 'newest_features.promotions.title',
+        nextPage:
+          'newest_features.csv_bulk_uploading.bottom_banner.next_page_title',
+        nextPageXS:
+          'newest_features.csv_bulk_uploading.bottom_banner.next_page_xs_title',
         nextPageLink: '/features/promotions',
       },
     }
