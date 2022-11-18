@@ -12,7 +12,7 @@
               <b-form-input
                 id="login"
                 v-model="form.login"
-                class="rounded-pill input-login"
+                class="rounded-pill input-login input-username"
                 :placeholder="$t('auth.email_address_or_username')"
                 :state="getValidationState(validationContext)"
               ></b-form-input>
@@ -238,7 +238,25 @@ export default {
       cursor: not-allowed
       &:hover
         box-shadow: none
-        
+
+@media (min-width: 992px)
+  .input-login
+    background-color: $color-white-5
+    border: 1px solid $color-white-5
+    color: $color-black-1
+
+    &.input-username
+      border-radius: 20px !important
+
+    &.input-append
+      border-radius: 20px  0 0 20px !important
+
+  .append-icon
+    background-color: $color-white-5
+    border: 1px solid $color-white-5
+    border-radius: 0 20px 20px 0 !important
+
+
 @media (min-width: 320px) and (max-width: 556px)
   .login-btn
     width: 50%

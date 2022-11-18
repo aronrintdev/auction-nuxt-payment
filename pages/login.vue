@@ -12,7 +12,7 @@
     <b-col lg="8" class="w-100 px-sm-1 px-md-5 px-lg-1 pt-lg-5">
       <b-row class="h-100">
         <b-col
-          md="6"
+          md="7"
           offset-md="3"
           class="d-flex flex-column align-items-center justify-content-center"
           >
@@ -66,7 +66,7 @@
           <LoginForm class="mt-4 w-100 d-flex ml-auto px-2" @verify="handleVerify" />
 
           <b-row class="mt-2 w-100">
-            <b-col md="12" class="text-center">
+            <b-col md="12" class="text-center py-md-4">
               <b-link
                 class="text-color-gray-47 text-decoration-underline forgot-pass-text ml-3"
                 to="/forgot-password"
