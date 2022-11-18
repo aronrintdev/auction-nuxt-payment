@@ -2,29 +2,25 @@
   <div class="create-trade-bg">
     <create-trade-search-item v-if="search_item" :product="search_item" productFor="tradeOffer"/>
     <div v-else>
-      <b-row>
-        <b-col md="6" class="create-trade-heading">
-          <div>
+      <b-row class="pl-3">
+        <b-col md="6">
+          <div  class="create-trade-heading">
             {{ $t('create_listing.trade.offer_items.offer') }}<sup>*</sup>
           </div>
-        </b-col>
-        <b-col md="6">
-          <div class="row">
-            <div class="col-md-12 ">
-              <FormStepProgressBar :steps="steps" variant="transparent"/>
-            </div>
+          <div  class="create-trade-subheading mt-1">
+            {{ $t('create_listing.trade.offer_items.offer_subheading') }}
           </div>
         </b-col>
       </b-row>
       <div>
-        <b-row class="mt-4 pl-0 pl-sm-auto create-trade-pl-22">
-          <b-col md="7 p-0">
+        <b-row class="mt-4 pl-3">
+          <b-col md="7 p-0" xl="8" lg="8">
             <SearchInput
               :value="searchText"
               variant="primary"
               :placeholder="$t('create_listing.trade.offer_items.search_by')"
               :clearSearch="true"
-              :inputStyle="{ 
+              :inputStyle="{
                 borderBottomLeftRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
                 borderBottomRightRadius: searchedItems.length > 0 && !isScreenXS ? 0 : '8px',
               }"
@@ -33,241 +29,240 @@
               inputHeight="60px"
               @change="onSearchInput"
             />
-            <div class="position-relative">
-              <SearchedProductsBelowSearchTextBox 
-                v-if="searchedItems.length > 0" 
-                :productItems="searchedItems" 
-                productsFor="tradeItem" 
-                class="position-absolute"
-                :wrapperStyle="{ margin: 0 }"
-                :itemStyle="{ padding: 0 }"
-                addBtnClass="text-right"
-                noProductClass="no-product-responsive"
-                listGroupItemClass="border-gray"
-                :style="{
-                  zIndex: 100
-                }" 
-              />
-            </div>
-            </b-col>
-          <b-col md="5" class="text-center pt-2">
-            <a class="create-new-inventory-btn p-2 float-right cursor-pointer" @click="setReferrer()">
-              {{ $t('create_listing.trade.offer_items.create_inventory') }}
-            </a>
+            <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="tradeItem" width="1000px" class="position-absolute search-prod"/>
+          </b-col>
+          <b-col xl="4" lg="4" class="text-center pt-2">
+            <Button
+              class="flex-shrink-0 btn-file"
+              @click="handleUploadCSVClick"
+            ><b-img
+              :src="require('~/assets/img/bx_upload.svg')"
+               class="mr-2"
+            /><span class="pt-2">{{ $t('inventory.upload_csv_bulk_file') }}</span></Button
+            >
           </b-col>
         </b-row>
-        <b-row class="available-invent-trade-heading">
-          {{ $t('create_listing.trade.offer_items.available_inventory', {'0': totalCount}) }}
-        </b-row>
-        <b-row class="available-invent-trade-text">
-          {{ $t('create_listing.trade.offer_items.select_items', [MAX_ITEMS_ALLOWED]) }}
-        </b-row>
-        <b-row class="create-trade-pl-22">
-          <div class="col-md-8 mt-4 p-0">
-            <span class="filter-by">{{ $t('create_listing.trade.offer_items.filter_by') }}</span>
-            <div class="d-flex">
-              <client-only>
-                <CustomDropdown v-model="categoryFilter" :options="categoryItems" type="single-select"
-                                :label="categoryFilterLabel" class="mr-3 width-156" optionsWidth="custom"
-                                width="150px"
-                                dropDownHeight="38px" variant="white"
-                                @getResults="getInventory"
-                                @change="changeCategory"/>
-                <CustomDropdown
-                  v-model="sizeTypesFilter"
-                  :options="filters.size_types"
-                  type="multi-select-checkbox"
-                  :label="sizeTypesFilterLabel"
-                  class="mr-3 width-156"
-                  optionsWidth="custom"
-                  dropDownHeight="38px"
-                  variant="white"
-                  width="150px"
-                  @getResults="getInventory"
-                  @change="changeSizeTypeFilter"/>
-                <CustomDropdown
-                  v-model="sizeFilter"
-                  :options="filters.sizes"
-                  type="multi-select-checkbox"
-                  :label="sizeFilterLabel"
-                  class="mr-3 width-156"
-                  optionsWidth="custom"
-                  dropDownHeight="38px"
-                  variant="white"
-                  width="150px"
-                  @getResults="getInventory"
-                  @change="changeSizeFilter"/>
-              </client-only>
-              <b-btn class="filter-btn-create-trade mr-3" @click="getInventory">
-                {{ $t('create_listing.trade.offer_items.filter_btn') }}
-              </b-btn>
-              <div class="clear-filter" @click="clearFilters">{{$t('trades.clear_filter')}}</div>
-            </div>
-          </div>
-          <div class="col-md-4 mt-custom p-0">
-            <b-row class="d-flex justify-content-center sort-by">
-              <client-only>
-                <CustomDropdown v-model="orderFilter" :labelLeftImage="require('~/assets/img/icons/feature.png')"
-                                :options="generalListItemsCustomFilter" type="single-select"
-                                :label="orderFilterLabel" class="bg-white" optionsWidth="custom"
-                                width="220px" variant="white"
-                                dropDownHeight="38px"
-                                @getResults="getInventory" @change="changeOrderFilter"/>
-              </client-only>
-            </b-row>
-          </div>
-        </b-row>
-        <b-row class="inventory-area">
-          <b-col v-for="item in inventory_items" :key="'offer-'+item.id" cols="3 mb-4">
-            <div class="create-trade-item" :draggable="true" @dragstart="startDrag($event, item)">
-              <div>
-                <div class="create-trade-size-car">{{$t('trades.create_listing.vendor.wants.size')}} {{ item.size && item.size.size }}</div>
-                <img alt="No Image" class="plus-icon-add" :src="require('~/assets/img/icons/addPlus.svg')"
-                     @click="checkIfItemAlreadyListed(item)"/>
+        <div class="inventory-section-module mt-5 ml-2 mb-2 pb-5">
+          <b-row class="available-invent-trade-heading">
+            {{ $t('create_listing.trade.offer_items.available_inventory', {'0': totalCount}) }}
+          </b-row>
+          <b-row class="create-trade-pl-22">
+            <div class="col-md-8 mt-4 p-0">
+              <span class="filter-by">{{ $t('create_listing.trade.offer_items.filter_by') }}</span>
+              <div class="d-flex">
+                <client-only>
+                  <CustomDropdown v-model="categoryFilter" :options="categoryItems" type="single-select"
+                                  :label="categoryFilterLabel" class="mr-3 width-156" optionsWidth="custom"
+                                  width="150px"
+                                  padding-x="10px"
+                                  border-radius="4px"
+                                  dropDownHeight="38px" variant="white"
+                                  @change="changeCategory"/>
+                  <CustomDropdown
+                    v-model="sizeTypesFilter"
+                    :options="filters.size_types"
+                    type="multi-select-checkbox"
+                    :label="sizeTypesFilterLabel"
+                    class="mr-3 width-156"
+                    optionsWidth="custom"
+                    dropDownHeight="38px"
+                    variant="white"
+                    width="150px"
+                    padding-x="10px"
+                    border-radius="4px"
+                    @change="changeSizeTypeFilter"/>
+                  <CustomDropdown
+                    v-model="sizeFilter"
+                    :options="filters.sizes"
+                    type="multi-select-checkbox"
+                    :label="sizeFilterLabel"
+                    class="mr-3 width-156"
+                    optionsWidth="custom"
+                    dropDownHeight="38px"
+                    variant="white"
+                    width="150px"
+                    padding-x="10px"
+                    border-radius="4px"
+                    @change="changeSizeFilter"/>
+                </client-only>
+                <b-btn class="filter-btn-create-trade mr-3" @click="applyFilters">
+                  {{ $t('create_listing.trade.offer_items.filter_btn') }}
+                </b-btn>
               </div>
-              <object
-                :data="`${IMAGE_PATH}/${item.product && item.product.category && item.product.category.name}/${item.product && item.product.sku}/800xAUTO/IMG01.jpg`"
-                class="create-trade-item-image"
-                type="image/png">
-                <img class="create-trade-item-image mb-2" :src="fallbackImgUrl" alt="image"/>
-              </object>
-              <div class="create-trade-item-caption">
+            </div>
+            <div class="col-md-4 mt-custom p-0">
+              <b-row class="d-flex justify-content-center sort-by">
+                <client-only>
+                  <CustomDropdown v-model="orderFilter" :labelLeftImage="require('~/assets/img/icons/feature.png')"
+                                  :options="generalListItemsCustomFilter" type="single-select"
+                                  :label="orderFilterLabel" class="bg-white" optionsWidth="custom"
+                                  width="220px" variant="white"
+                                  padding-x="10px"
+                                  dropDownHeight="38px"
+                                  border-radius="4px"
+                                  @change="changeOrderFilter"/>
+                </client-only>
+              </b-row>
+            </div>
+          </b-row>
+          <b-row class="inventory-area">
+            <b-col v-for="item in inventory_items" :key="'offer-'+item.id" cols="3 mb-4">
+              <div class="create-trade-item" :draggable="true" @dragstart="startDrag($event, item)">
+                <div class="image-cont d-flex justify-content-center align-items-center position-relative">
+                <img alt="No Image" class="plus-icon-add position-absolute" :src="require('~/assets/img/icons/addPlus.svg')"
+                       @click="checkIfItemAlreadyListed(item)"/>
+                <div class="position-relative">
+                  <object
+                    :data="`${IMAGE_PATH}/${item.product && item.product.category && item.product.category.name}/${item.product && item.product.sku}/800xAUTO/IMG01.jpg`"
+                    class="create-trade-item-image"
+                    type="image/png">
+                    <img class="create-trade-item-image mb-2" :src="fallbackImgUrl" alt="image"/>
+                  </object>
+                </div>
+                <div class="overlay-item"></div>
+                </div>
+                <div class="create-trade-item-caption">
                 <span :id="`name${item.id}`"
                       class="create-trade-item-name">{{ item.product && item.product.name }}</span>
-                <span :id="`colorway${item.id}`"
-                      class="create-trade-item-caption-description">{{ item.product && item.product.colorway }}</span>
-                <span
-                  class="create-trade-item-caption-description">Box: {{
-                    item.packaging_condition && item.packaging_condition.name
-                  }}</span>
-              </div>
-              <!-- tooltip for name -->
-              <b-tooltip :target="`name${item.id}`" triggers="hover">
-                {{ item.product && item.product.name }}
-              </b-tooltip>
-              <!-- tooltip for colorway -->
-              <b-tooltip :target="`colorway${item.id}`" triggers="hover">
-                {{ item.product && item.product.colorway }}
-              </b-tooltip>
-            </div>
-          </b-col>
-          <b-row v-if="!inventory_items || inventory_items.length === 0"
-                 class="col-md-12 justify-content-center">
-            {{ $t('trades.create_listing.vendor.wants.no_products_found') }}
-          </b-row>
-          <b-row class="col-md-12 justify-content-center">
-            <Pagination
-              v-if="inventory_items && inventory_items.length > 0"
-              v-model="page"
-              :total="totalCount"
-              :per-page="perPage"
-              :per-page-options="perPageOptions"
-              class="mt-4"
-              @page-click="handlePageClick"
-              @per-page-change="handlePerPageChange"
-            />
-          </b-row>
-        </b-row>
-        <div class="row create-trade-drag-drop-item justify-content-center text-center py-4"
-             @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
-          <div v-if="getTradeItems.length < 1">
-            <div class="create-trade-drag-drop-heading">
-              {{ $t('create_listing.trade.offer_items.drag_drop') }}
-            </div>
-            <span class="create-trade-drag-drop-sub-heading">{{
-                $t('create_listing.trade.offer_items.search_at')
-              }}</span>
-            <b-row class="justify-content-center mt-2">
-              <img :src="require('~/assets/img/Plus-circle.svg')">
-            </b-row>
-          </div>
-          <b-row v-else class="justify-content-center">
-            <div v-for="(prod, index) in getTradeItems"
-                 :key="'selected-'+index+prod.id" class="create-trade-item-sm d-flex justify-content-between flex-column mr-4">
-              <div class="d-flex justify-content-between mt-2 mx-2">
-                <div class="create-trade-size-car-sm">{{$t('trades.create_listing.vendor.wants.size')}} {{ prod.size && prod.size.size }}</div>
-                <div v-if="prod.quantity > 1" class="create-trade-quantity-car-sm">x{{ prod.quantity || 1 }}</div>
-                <div class="create-trade-minus-icon-sm" @click="decrementOrRemoveItem(prod.id)">
-                  <div class="create-trade-minus-line-sm"></div>
+                  <span :id="`colorway${item.id}`"
+                        class="create-trade-item-caption-description">{{ item.product && item.product.colorway }},{{$tc('common.size')}}{{ item.size && item.size.size }} ,</span>
+                  <span
+                    class="create-trade-item-caption-description">{{$t('common.box')}}: {{
+                      item.packaging_condition && item.packaging_condition.name
+                    }}</span>
                 </div>
+                <!-- tooltip for name -->
+                <b-tooltip :target="`name${item.id}`" triggers="hover">
+                  {{ item.product && item.product.name }}
+                </b-tooltip>
+                <!-- tooltip for colorway -->
+                <b-tooltip :target="`colorway${item.id}`" triggers="hover">
+                  {{ item.product && item.product.colorway }}
+                </b-tooltip>
               </div>
-              <div class="create-trade-item-image-div-sm">
-                <object
-                  :data="`${IMAGE_PATH}/${prod.product && prod.product.category.name ? prod.product.category.name : prod.category.name }/${prod.sku ? prod.sku : prod.product.sku}/800xAUTO/IMG01.jpg`"
-                  class="create-trade-item-image-sm" type="image/png">
-                  <img class="create-trade-item-image-sm mb-2" :src="fallbackImgUrl" alt="image"/>
-                </object>
-              </div>
-              <div class="create-trade-item-caption-sm">
-                <span :id="`name-sm${prod.id}`"
-                      class="create-trade-item-name-sm">{{ prod.name ? prod.name : prod.product.name }}</span>
-                <span :id="`colorway-sm${prod.id}`"
-                      class="create-trade-item-caption-description-sm">{{ prod.colorway ? prod.colorway : prod.product.colorway }}</span>
-                <span class="create-trade-item-caption-description-sm">Box: {{
-                    prod.packaging_condition && prod.packaging_condition.name
-                  }}</span>
-              </div>
-
-              <b-tooltip :target="`name-sm${prod.id}`" triggers="hover">
-                {{ prod.name ? prod.name : prod.product.name }}
-              </b-tooltip>
-
-              <!-- tooltip for colorway -->
-              <b-tooltip :target="`colorway-sm${prod.id}`" triggers="hover">
-                {{ prod.colorway ? prod.colorway : prod.product.colorway }}
-              </b-tooltip>
-
-            </div>
-            <div v-if="getTradeOfferItemQuantity < MAX_ITEMS_ALLOWED" class="create-trade-item-sm">
-              <div>
-                <img :src="require('~/assets/img/three-items.svg')">
-              </div>
-            </div>
+            </b-col>
+            <b-row v-if="!inventory_items || inventory_items.length === 0"
+                   class="col-md-12 justify-content-center">
+              {{ $t('trades.create_listing.vendor.wants.no_products_found') }}
+            </b-row>
           </b-row>
         </div>
+        <div class="position-floating">
+          <div class="row create-trade-drag-drop-item-float justify-content-center text-center py-4 mt-5"
+               @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
+            <div v-if="getTradeItems.length < 1">
+              <div class="create-trade-drag-drop-heading">
+                {{ $t('create_listing.trade.offer_items.drag_drop') }}
+              </div>
+              <span class="create-trade-drag-drop-sub-heading">{{
+                  $t('create_listing.trade.offer_items.search_at')
+                }}</span>
+              <b-row class="justify-content-center mt-2">
+                <img :src="require('~/assets/img/Plus-circle.svg')">
+              </b-row>
+            </div>
+            <b-row v-else class="justify-content-center">
+              <div v-for="(prod, index) in getTradeItems"
+                   :key="'selected-'+index+prod.id" class="create-trade-item-web mr-4">
+                <div class="position-relative d-flex justify-content-center align-items-center sm-img-cont">
+                  <div v-if="prod.quantity > 1" class="create-trade-quantity-car-sm position-absolute">x{{ prod.quantity || 1 }}</div>
+                  <div class="create-trade-minus-icon-web position-absolute" @click="decrementOrRemoveItem(prod.id)">
+                  <div class="create-trade-minus-line-sm"></div>
+                  </div>
+                <div class="create-trade-item-image-div-sm position-relative">
+                  <object
+                    :data="`${IMAGE_PATH}/${prod.product && prod.product.category.name ? prod.product.category.name : prod.category.name }/${prod.sku ? prod.sku : prod.product.sku}/800xAUTO/IMG01.jpg`"
+                    class="create-trade-item-image-sm" type="image/png">
+                    <img class="create-trade-item-image-sm mb-2" :src="fallbackImgUrl" alt="image"/>
+                  </object>
+                </div>
+                <div class="overlay-item"></div>
+                </div>
+                <div class="create-trade-item-caption-web">
+                <span :id="`name-sm${prod.id}`"
+                      class="create-trade-item-name-sm">{{ prod.name ? prod.name : prod.product.name }}</span>
+                  <span :id="`colorway-sm${prod.id}`"
+                        class="create-trade-item-caption-description-sm">{{ prod.colorway ? prod.colorway : prod.product.colorway }},{{$tc('common.size')}}{{ prod.size && prod.size.size }}</span>
+                  <span class="create-trade-item-caption-description-sm">{{$t('common.box')}}: {{
+                      prod.packaging_condition && prod.packaging_condition.name
+                    }}</span>
+                </div>
 
-        <b-row class="justify-content-end mt-4 pr-5">
-          <b-btn class="create-trade-next-btn" :disabled="getTradeItems.length < 1"
-                 @click="$router.push('/profile/create-listing/trades/wants')">
-            {{ $t('create_listing.trade.offer_items.next') }}
-          </b-btn>
-        </b-row>
+                <b-tooltip :target="`name-sm${prod.id}`" triggers="hover">
+                  {{ prod.name ? prod.name : prod.product.name }}
+                </b-tooltip>
+
+                <!-- tooltip for colorway -->
+                <b-tooltip :target="`colorway-sm${prod.id}`" triggers="hover">
+                  {{ prod.colorway ? prod.colorway : prod.product.colorway }}
+                </b-tooltip>
+
+              </div>
+              <div v-if="getTradeOfferItemQuantity < MAX_ITEMS_ALLOWED" class="create-trade-item-web">
+                <div>
+                  <img :src="require('~/assets/img/three-items.svg')">
+                </div>
+              </div>
+            </b-row>
+          </div>
+
+          <b-row class="justify-content-end mt-4 pr-5" v-if="getTradeItems.length >= 1">
+            <b-btn class="create-trade-next-web"
+                   @click="$router.push('/profile/create-listing/trades/wants')">
+              {{ $t('create_listing.trade.offer_items.next') }}
+            </b-btn>
+          </b-row>
+        </div>
       </div>
     </div>
+    <infinite-loading :identifier="infiniteId" @infinite="getInventory">
+      <span slot="no-more"></span>
+      <span slot="no-results"></span>
+    </infinite-loading>
     <AlreadyListedModal :listingId="itemListingId" :item="alreadyListedItemDetails" @confirm="addOrIncrementOfferItem" />
+    <InventoryCsvUploadModal
+      id="csv-upload-modal"
+      :message="$t('inventory.message.csv_upload')"
+      @uploaded="onCsvUploaded"
+    />
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
-import debounce from 'lodash.debounce'
-import FormStepProgressBar from '~/components/common/FormStepProgressBar.vue'
 import SearchInput from '~/components/common/SearchInput';
 import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem';
 import AlreadyListedModal from '~/pages/profile/create-listing/trades/AlreadyListedModal';
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox.vue'
 import CustomDropdown from '~/components/common/CustomDropdown.vue'
-import {Pagination} from '~/components/common'
 import {IMAGE_PATH, MAX_ITEMS_ALLOWED} from '~/static/constants/create-listing'
 import { PRODUCT_FALLBACK_URL } from '~/static/constants'
 import { TAKE_SEARCHED_PRODUCTS } from '~/static/constants/trades'
+
+import {
+  InventoryCsvUploadModal,
+} from '~/components/modal'
 import ScreenSize from '~/plugins/mixins/screenSize'
+
 
 export default {
   name: 'CreateTradeListing',
   components: {
+    InventoryCsvUploadModal,
     CreateTradeSearchItem, // component used for item via search selection
     SearchInput,            // component used for search input field
-    FormStepProgressBar,    //  component for stepper
     SearchedProductsBelowSearchTextBox, // component for items show below search as search results
     CustomDropdown,   // custom dropdown component used for filters
-    Pagination,   // pagination component
     AlreadyListedModal // model used for telling product is already listed in other category
   },
+  mixins: [ScreenSize],
   layout: 'Profile', // Layout
   middleware: 'auth',
   data() {
     return {
+      showOffer: false,
+      infiniteId: +new Date(),
+      url: '/vendor/inventory',
       IMAGE_PATH, // Image path const
       MAX_ITEMS_ALLOWED,
       selected_category: null,
@@ -308,7 +303,6 @@ export default {
       fallbackImgUrl: PRODUCT_FALLBACK_URL,
     }
   },
-  mixins: [ScreenSize],
   computed: {
     ...mapGetters('trades', ['getTradeItems', 'getTradeId', 'getTradeOfferItemQuantity']), // Getter for getting trade items listing,quantity trade id from store
     ...mapGetters('browse', ['filters']), // getter for getting list of filters data
@@ -344,7 +338,6 @@ export default {
     })
     this.fetchFilters();
     this.getInventory();
-
     // Emit listener to emtpy search items
     this.$root.$on('click_outside', () => {
       this.searchedItems = []
@@ -380,7 +373,12 @@ export default {
           })
       }
     },
-
+    handleUploadCSVClick() {
+      this.$bvModal.show('csv-upload-modal')
+    },
+    onCsvUploaded() {
+      this.$router.push('/profile/inventory/csv-drafts')
+    },
     /**
      * This function is used to check item can be added for trade
      * or limit exceeds
@@ -492,7 +490,9 @@ export default {
       this.orderFilter = selectedOrder
       const orderFilteredKey = this.generalListItemsCustomFilter.find(item => item.value === this.orderFilter)
       this.orderFilterLabel = this.capitalizeFirstLetter(orderFilteredKey.text)
-      this.getInventory();
+      this.page = 1;
+      this.inventory_items = []
+      this.infiniteId += 1;
     },
 
     /****
@@ -578,31 +578,42 @@ export default {
     /**
      * This function is used to get user listing of inventory
      */
-    getInventory: debounce(function (filters = {}) {
+    getInventory($state,filters = {}) {
+      const that = this
       filters.sort_by = this.orderFilter // sorting filter
       filters.category = this.categoryFilter // category type filter
       filters.sizes = this.sizeFilter.join(',') // size filter
       filters.size_types = this.sizeTypesFilter.join(',') // size type filter
       this.$axios
-        .get('/vendor/inventory', {
+        .get(this.url, {
           params: {
             search: '',   // for search query
             page: this.page, // no of page to change
             per_page: this.perPage, // no of records to show on per page
             ...filters
-          },
+          }
         })
         .then((response) => {  // list of vendor inventory
-          this.inventory_items = response.data.data
-          this.totalCount = parseInt(response.data.total)
-          this.perPage = parseInt(response.data.per_page)
+          const res = response?.data
+          if (!res.next_page_url) {
+            $state.complete()
+          }else {
+            that.page += 1;
+            that.inventory_items.push(...res.data);
+            that.filterSection = false
+            $state.loaded()
+          }
         })
         .catch((error) => {
           this.$toasted.error(this.$t(error.response.data.error))
           this.searchedItems = []
         })
-    }, 500),
-
+    },
+    applyFilters(){
+      this.page = 1;
+      this.inventory_items = []
+      this.getInventory()
+    },
     /**
      * This function is used to get product and show in
      * listing below input search field
@@ -705,8 +716,7 @@ export default {
   font-family: $font-montserrat
   font-style: normal
   font-weight: $regular
-  font-size: 12px
-  line-height: 15px
+  @include body-9
   text-align: right
   text-decoration-line: underline
   color: $color-blue-2
@@ -715,21 +725,22 @@ export default {
   cursor: pointer
 
 .plus-icon-add
-  margin-left: calc(100% - 35px)
-  margin-top: 13px
+  right: 10px
+  top: 10px
   cursor: pointer
-  z-index: 1000
+  z-index: 100
 
 .inventory-area
   margin-bottom: 33px
-  padding: 33px 60px 0
+  padding-left: 15px
+  padding-right: 15px
+  padding-top: 15px
 
 .filter-by
   font-family: $font-sp-pro
   font-style: normal
   font-weight: $normal
-  font-size: 15px
-  line-height: 18px
+  @include body-8
   color: $color-black-1
 
 .sort-by
@@ -740,5 +751,79 @@ export default {
 
 .flex-flow-column
   flex-flow: column
+.search-prod
+  z-index: 9999
+.create-trade-subheading
+  font-family: $font-sp-pro
+  @include body-12-regular
+  color: $color-gray-5
+.inventory-section-module
+  height: 1016px
+  position: relative
+  overflow-y: scroll
+  background: $color-white-1
+.btn-file
+  background: $color-black-1
+  color:  $color-white-1
+  padding: 8px
+  border-radius: 7px
+  margin-left: 7rem
 
+.position-floating
+  position: absolute
+  bottom: 40%
+  right: 60px
+  left: 300px
+  z-index: 101
+.create-trade-next-web
+  width: 151px
+  height: 38px
+  background: $color-grey-101
+  border-radius: 4px
+  border: 1px solid $color-blue-20
+  margin-top: 10px
+  margin-right: 20px
+  color: $color-white-1
+  @include body-13
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $medium
+.create-trade-item
+  width: 242px
+  height: 336px
+  background: $color-white-4
+.create-trade-bg
+  padding: 15px 30px 78px 30px
+.overlay-item
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: $color-grey-70
+.image-cont
+  height: 273px
+  background: $color-white-1
+  padding: 25px
+.create-trade-item-image
+  width: 100%
+  aspect-ratio: 1
+.create-trade-item-image-sm
+  width: 100%
+  aspect-ratio: 1
+.create-trade-item-image-div-sm
+  background: $color-white-1
+.create-trade-quantity-car-sm
+  left: 10px
+  top: 10px
+.create-trade-minus-icon-web
+  right: 10px
+  top: 10px
+  z-index: 102
+.sm-img-cont
+  height: 180px
+  background: $color-white-1
+  padding: 25px
+.create-trade-item-web
+  background: $color-white-1
 </style>

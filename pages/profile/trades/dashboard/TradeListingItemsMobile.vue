@@ -44,16 +44,6 @@
             <div class="mt-1 product-info text-truncate">
               {{ $t('sell.inventory.box') }}: {{ offer.inventory.packaging_condition.name }}
             </div>
-              <!-- <div class="d-flex justify-content-center align-content-center pt-3">
-                <img class="img-fluid" :src="offer.inventory.product | getProductImageUrl">
-              </div>
-
-              <div class="mt-4">
-                <div class="product-name">{{ offer.inventory.product.name }}</div>
-                <div class="product-size"><span>Size : </span>{{offer.inventory.size.id }}</div>
-                <div class="product-size"><span>Box : </span>{{offer.inventory.packaging_condition.name}}</div>
-              </div> -->
-
           </div>
         </div>
       </div>

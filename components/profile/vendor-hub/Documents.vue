@@ -20,7 +20,7 @@
                                   @upload="upload"
                                   @re-upload="upload" />
       </div>
-      <div  v-else v-for="(document, index) in documents" :key="index">
+      <div  v-for="(document, index) in documents" v-else :key="index">
         <DocumentMobileItem :document="document"
                             @selected="(d) => selectedDocument = d"
                             @upload="upload"

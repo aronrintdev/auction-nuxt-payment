@@ -46,7 +46,7 @@
   </div>
 </template>
 <script>
-import BrowseItemCard from '~/components/trade/BrowseItemMultipleCard'
+import BrowseItemCard from '~/components/trade/BrowseItemCardMultipleMobile'
 import { tradeRemainingTime, isRemainingTimeLessThan12Hours } from '~/utils/string'
 import { TRADE_EXPIRY_DAYS } from '~/static/constants'
 import ScreenSize from '~/plugins/mixins/screenSize'

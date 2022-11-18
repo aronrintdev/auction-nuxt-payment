@@ -211,10 +211,14 @@ export default {
       height: 100%
       background-image: none
 
+@media (max-width: 992px)
+  h1.font-primary
+    font-size: 64px
+    line-height: 78px
+
 @media screen and (max-width: 376px)
   .main-image-section
-    background: none
-    background-color: $color-white-1
+    background-position: center center
 
     .product-error-box
       border-radius: 0 !important
