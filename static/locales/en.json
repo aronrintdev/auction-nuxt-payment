@@ -663,6 +663,14 @@
     "add_to_cart": "Add to Cart",
     "please_select_a_size": "Please select a size."
   },
+  "mobile_search": {
+    "shop_by_category": "Shop by Category",
+    "shop_by_brand": "Shop by Brand",
+    "trade": "Trade",
+    "bid_now": "Bid Now",
+    "view_auctions": "View Auctions",
+    "view_trades": "View Trades"
+  },
   "sell": {
     "summary": {
       "title": "Summary"
