@@ -69,8 +69,8 @@
       <OfferGrid
           v-for="(itemGrid, indexGrid) in offers"
           :key="indexGrid"
-          :offer="itemGrid"
           :highestOffer="highestOffer"
+          :offer="itemGrid"
           class="offer-grid"
           @confirmation="showAcceptConfirmation"
       />

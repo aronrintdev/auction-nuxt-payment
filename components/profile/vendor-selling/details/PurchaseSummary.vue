@@ -74,9 +74,9 @@
             <b-col md="3" sm="12" xl="2">
               <b-img
                   :src="getImage"
-                  fluid
-                  class="product-image"
                   alt="product-image"
+                  class="product-image"
+                  fluid
                   @error="imageLoadError"
               ></b-img>
             </b-col>
@@ -286,5 +286,5 @@ export default {
 px
 )
 .product-image
-    width: 50%
+  width: 50%
 </style>
