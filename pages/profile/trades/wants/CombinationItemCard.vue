@@ -143,7 +143,7 @@
               :key="`trade-carousel-${index}`"
               class="d-flex justify-content-around"
             >
-              <div class="col-4 d-flex flex-column align-items-end pb-3 pt-20">
+              <div class="col-5 d-flex flex-column align-items-end pb-3 pt-20">
                 <img
                   class="w-auto"
                   width="16"
@@ -263,6 +263,7 @@
       :isOpen="isModalOpen"
       :product="selectedCombination"
       :combinationId="combination.combination_id"
+      productType="combination"
       @closed="isModalOpen = false"
       @opened="isModalOpen = true"
     />

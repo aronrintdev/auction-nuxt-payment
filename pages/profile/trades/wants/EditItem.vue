@@ -31,15 +31,17 @@
         </div>
         <div class="col-xl-6 px-0 px-sm-2">
           <p class="mb-0 title">{{ product.product.name }}</p>
-          <div class="position-relative">
+          <div class="mt-2 position-relative">
             <ProductSizePicker
               :value="currentSizeId"
               :sizes="product.product.sizes"
               :prices="[]"
               :viewMode="sizeViewMode"
-              class="size-picker px-0"
+              class="size-picker edit-item"
               :style="{
-                maxWidth: 'unset'
+                maxWidth: 'unset',
+                paddingLeft: '0 !important',
+                paddingRight: '0 !important'
               }"
               :cardStyle="{
                 width: '64px',
@@ -69,8 +71,8 @@
           </div>
           
           <div class="d-flex flex-column pb-sm-2 mt-130">
-            <div class="d-flex align-items-center mb-2">
-              <div class="box mr-2">{{ $t('products.box_condition') }}<sup>*</sup></div>
+            <div class="d-flex align-items-center justify-content-center mb-2">
+              <div class="box mr-2">{{ $t('products.box_condition') }}</div>
               <img
                 width="12"
                 height="12"
@@ -241,11 +243,12 @@
         </div>
       </div>
 
-      <div class="mt-4 px-3 px-sm-0 mb-3 pb-3 custom-shadow">
+      <div class="mt-4 mb-3 pb-3">
         <SalesSection
           :product="product"
           :sku="product.product.sku"
           chartHeaderClass="d-none"
+          class="editItem"
           :chartLabelsStyle="{
             display: 'flex',
             flexDirection: 'row !important',

@@ -486,4 +486,9 @@ export default {
     .all-sizes
       .item
         width: 25%
+
+.edit-item
+  .view-all-btn
+    top: -2px
+
 </style>
