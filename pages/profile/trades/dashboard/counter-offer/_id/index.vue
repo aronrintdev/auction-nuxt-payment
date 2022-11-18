@@ -3,7 +3,7 @@
     <div v-if="isScreenXS">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col v-if="!cashAdd" :md="isPayment ? 9 : 12">
-          <div class="d-flex mt-3">
+          <div class="d-flex mt-3 pl-4">
             <div class="left-side-image ml-2" :class="{'left-item-margin':getTheirItems.length === ONE_ITEM && getYourItems.length}">
               <div v-for="(item, index) in getTheirItems"
                    :key="'their-trade-item-key-'+index" class="lft-image mb-4 mt-2">
