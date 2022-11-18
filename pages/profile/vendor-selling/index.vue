@@ -60,7 +60,7 @@
               <SearchInput
                 id="selling-search"
                 class="flex-grow-1 mr-2"
-                :placeholder="$t('navbar.search')"
+                :placeholder="$t('common.search')"
                 :value="searchFilters.searchKeyword"
                 @change="getProducts"
               />
