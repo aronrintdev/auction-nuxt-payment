@@ -24,13 +24,27 @@
                   </div>
                 </div>
               </div>
+
+
               <div class="center-item-small">
-                <div v-if="lastSubmittedOffer.theirs_items.length > ONE_ITEM" class="pointer-left-small"></div>
+                <div v-if="lastSubmittedOffer.theirs_items.length === TWO_ITEMS" class="pointer-left-small-two"></div>
+                <div v-if="lastSubmittedOffer.theirs_items.length === THREE_ITEMS" class="pointer-left-small-three"></div>
                 <div class="long-line-small" :class="{'long-line-length-small' : lastSubmittedOffer.theirs_items.length === ONE_ITEM }"></div>
-                <img :src="require('~/assets/img/tradecenter.svg')"/>
+                <img v-if="lastSubmittedOffer.theirs_items.length === ONE_ITEM" :src="require('~/assets/img/tradecenter.svg')" class="middle-trade-one"/>
+                <img v-if="lastSubmittedOffer.theirs_items.length === TWO_ITEMS" :src="require('~/assets/img/tradecenter.svg')" class="middle-trade-two mr-2"/>
+                <img  v-if="lastSubmittedOffer.theirs_items.length === THREE_ITEMS" :src="require('~/assets/img/tradecenter.svg')" class="middle-trade-three mr-2"/>
                 <div class="long-line-small" :class="{'long-line-length-small' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>
-                <div v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" class="pointer-right-small m-2"></div>
+                <div v-if="lastSubmittedOffer.theirs_items.length === TWO_ITEMS" class="pointer-right-small-two"></div>
+                <div v-if="lastSubmittedOffer.theirs_items.length === THREE_ITEMS" class="pointer-right-small-three"></div>
               </div>
+
+<!--              <div class="center-item-small">-->
+<!--                <div v-if="lastSubmittedOffer.theirs_items.length > ONE_ITEM" class="pointer-left-small"></div>-->
+<!--                <div class="long-line-small" :class="{'long-line-length-small' : lastSubmittedOffer.theirs_items.length === ONE_ITEM }"></div>-->
+<!--                <img :src="require('~/assets/img/tradecenter.svg')"/>-->
+<!--                <div class="long-line-small" :class="{'long-line-length-small' : lastSubmittedOffer.yours_items.length === ONE_ITEM }"></div>-->
+<!--                <div v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" class="pointer-right-small m-2"></div>-->
+<!--              </div>-->
               <div class="right-side-image mt-2"
                    :class="{'right-item-margin':lastSubmittedOffer.theirs_items.length > ONE_ITEM &&
                     lastSubmittedOffer.yours_items.length === 0,'mt-10p': lastSubmittedOffer.theirs_items.length > ONE_ITEM &&
@@ -697,4 +711,37 @@ export default {
   width: 100%
   height: 100%
   background: $color-grey-70
+.pointer-left-small-two
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-right: 0.5px solid $light-gray-2
+  height: 450px
+  width: 100px
+  margin-right: 8px
+  margin-top: -5rem
+.pointer-left-small-three
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-right: 0.5px solid $light-gray-2
+  height: 450px
+  width: 100px
+  margin-right: 8px
+  margin-top: -10rem
+.middle-trade-three
+  margin-top: -10rem
+.pointer-right-small-three
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-left: 0.5px solid $light-gray-2
+  height: 450px
+  width: 100px
+  margin-top: -10rem !important
+.pointer-right-small-two
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-left: 0.5px solid $light-gray-2
+  height: 450px
+  width: 100px
+  margin-right: 210px
+  margin-top: -5rem !important
 </style>

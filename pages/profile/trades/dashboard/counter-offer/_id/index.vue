@@ -31,11 +31,15 @@
               </div>
             </div>
             <div class="center-item-small">
-              <div v-if="getTheirItems.length > ONE_ITEM" class="pointer-left-small"></div>
+              <div v-if="getTheirItems.length === TWO_ITEMS" class="pointer-left-small-two"></div>
+              <div v-if="getTheirItems.length === THREE_ITEMS" class="pointer-left-small-three"></div>
               <div class="long-line" :class="{'long-line-length-small' : getTheirItems.length === ONE_ITEM }"></div>
-              <img :src="require('~/assets/img/tradecenter.svg')"/>
+              <img v-if="getTheirItems.length === ONE_ITEM" :src="require('~/assets/img/tradecenter.svg')" class="middle-trade-one"/>
+              <img v-if="getTheirItems.length === TWO_ITEMS" :src="require('~/assets/img/tradecenter.svg')" class="middle-trade-two mr-2"/>
+              <img  v-if="getTheirItems.length === THREE_ITEMS" :src="require('~/assets/img/tradecenter.svg')" class="middle-trade-three mr-2"/>
               <div class="long-line" :class="{'long-line-length-small' : getYourItems.length === ONE_ITEM }"></div>
-              <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right-small m-2"></div>
+              <div v-if="getTheirItems.length === TWO_ITEMS" class="pointer-right-small-two"></div>
+              <div v-if="getTheirItems.length === THREE_ITEMS" class="pointer-right-small-three"></div>
             </div>
             <div class="right-side-image mt-2"
                  :class="{'right-item-margin':getTheirItems.length > ONE_ITEM || getYourItems.length === ONE_ITEM,'mt-10p': getTheirItems.length > ONE_ITEM && getYourItems.length === ONE_ITEM,'mt-8p': getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM}">
@@ -1473,6 +1477,22 @@ export default {
   width: 100px
   margin-right: 8px
   margin-top: -2rem
+.pointer-left-small-two
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-right: 0.5px solid $light-gray-2
+  height: 450px
+  width: 100px
+  margin-right: 8px
+  margin-top: -5rem
+.pointer-left-small-three
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-right: 0.5px solid $light-gray-2
+  height: 450px
+  width: 100px
+  margin-right: 8px
+  margin-top: -10rem
 .item-length-small
   height: 160px
   width: 100px
@@ -1521,6 +1541,8 @@ export default {
   margin: 0 10px
   min-width: 100px
   max-width: 300px
+.middle-trade-three
+  margin-top: -10rem
 .long-line-length-small
   width: 40px
   border: 1px solid $light-gray-2
@@ -1533,11 +1555,25 @@ export default {
   border-left: 0.5px solid $light-gray-2
   height: 450px
   width: 100px
-  margin-right: 210px
   margin-top: -1rem !important
+.pointer-right-small-three
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-left: 0.5px solid $light-gray-2
+  height: 450px
+  width: 100px
+  margin-top: -10rem !important
+.pointer-right-small-two
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-left: 0.5px solid $light-gray-2
+  height: 450px
+  width: 100px
+  margin-right: 210px
+  margin-top: -5rem !important
 .item-caption-small
   width: 100px
-  background: $color-white-1
+  //background: $color-white-1
   padding: 5px 10px
   font-family: $font-family-sf-pro-display
   font-style: normal
