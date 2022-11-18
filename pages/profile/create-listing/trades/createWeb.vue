@@ -846,19 +846,6 @@ export default {
   border-radius: 4px
   border: 0
 
-
-.position-floating
-  position: absolute
-  left: 0
-  right: 0
-  z-index: 101
-  padding-left: 45px
-  padding-right: 65px
-  // @media (min-width: 768px)
-  //   bottom: 40%
-  //   right: 60px
-  //   left: 300px
-
 .create-trade-next-web
   width: 151px
   height: 38px
