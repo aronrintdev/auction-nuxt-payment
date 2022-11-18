@@ -7,18 +7,16 @@
             <div class="left-side-image ml-2" :class="{'left-item-margin':getTheirItems.length === ONE_ITEM && getYourItems.length}">
               <div v-for="(item, index) in getTheirItems"
                    :key="'their-trade-item-key-'+index" class="lft-image mb-4 mt-2">
-                <div class="position-relative">
                   <div v-if="!editYours" class="position-relative">
                     <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
                       <img :src="require('~/assets/img/trades/minus-icon.svg')">
                     </div>
                   </div>
-                  <div class="d-flex justify-content-center align-content-center bg-img p-2">
+                  <div class="d-flex justify-content-center align-content-center bg-img p-2 position-relative">
                     <img class="item-image-small" :src="item.inventory.product | getProductImageUrl"
                          :class="{'item-image-cond-small':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
+                    <div class="overlay-mob position-absolute"></div>
                   </div>
-                  <div class="overlay-mob position-absolute"></div>
-                </div>
                 <div class="item-caption-small">
                   <span class="item-name-small">{{ item.inventory.product.name }}</span>
                   <span
@@ -47,7 +45,7 @@
                 <div v-for="(item, index) in getYourItems"
                       :key="'your-trade-item-key-'+index"
                      class="image-right mb-4 flex-column rgt-image">
-                  <div class="position-relative">
+
                     <div v-if="editYours" class="position-relative">
                       <div class="d-flex justify-content-end remove-item-icon" role="button" @click.stop="removeItem(item.inventory.product.id)">
                         <img :src="require('~/assets/img/trades/minus-icon.svg')" class="min-img pr-1">
@@ -56,9 +54,8 @@
                     <div class="d-flex justify-content-center align-content-center position-relative">
                       <img class="item-image-small" :src="item.inventory.product | getProductImageUrl" alt="image"
                            :class="{'item-image-cond-small':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
+                      <div class="overlay-mob position-absolute"></div>
                     </div>
-                    <div class="overlay-mob position-absolute"></div>
-                  </div>
 
 
                   <div class="item-caption-small">
@@ -1074,6 +1071,7 @@ export default {
         tradeId: this.getOffer.trade_id,
         offerParentId: (this.getOffer.parent_id ? this.getOffer.parent_id : this.getOffer.id)
       })
+      this.$refs.myBottomSheet.close();
     },
     submitCounterOffer(){
       if(this.getActiveTrade.trade){
@@ -1573,7 +1571,7 @@ export default {
   margin-top: -5rem !important
 .item-caption-small
   width: 100px
-  //background: $color-white-1
+  background: $color-white-1
   padding: 5px 10px
   font-family: $font-family-sf-pro-display
   font-style: normal
