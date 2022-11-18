@@ -76,6 +76,7 @@
         </div>
         <infinite-loading :identifier="infiniteId" @infinite="getInventory">
           <span slot="no-more"></span>
+          <span slot="no-results"></span>
         </infinite-loading>
         <div v-if="showOffer" class="show-offers">
           <div class="row create-trade-drag-drop-item-mobile justify-content-center text-center position-relative"

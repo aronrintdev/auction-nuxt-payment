@@ -8,7 +8,7 @@
           <div class="flex-wrap justify-content-between filter-group-body">
             <label v-for="(option, idx) in SORT_OPTIONS" :key="idx" class="d-flex align-items-center">
               <input v-model="selectedFilters.sortby" :value="option.value" type="radio" name="sortby"/>
-              <span class="ml-2">{{ option.label }}</span>
+              <span class="ml-2">{{ option.text }}</span>
             </label>
           </div>
         </div>

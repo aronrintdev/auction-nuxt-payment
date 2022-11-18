@@ -3,27 +3,14 @@
     <div v-if="isScreenXS">
       <b-row v-if="getLastSubmittedOffer && !searchItem">
         <b-col v-if="!cashAdd" :md="isPayment ? 9 : 12">
-          <div>
-            <div class="amounts-input ml-2">
-              <input type="text" class="theirs" disabled :value="$t('trades.trade_arena.theirs') + `: ${getTheirTotal()}`">
-              <input type="text" class="yours" disabled :value="$t('trades.trade_arena.yours') + `: ${getYourTotal()}`">
-            </div>
-          </div>
-          <div class="d-flex">
-            <div class="left-side-image ml-2" :class="{'left-item-margin':getTheirItems.length === ONE_ITEM && getYourItems.length}">
-              <div v-for="(item, index) in getTheirItems"
-                   :key="'their-trade-item-key-'+index" class="mb-4 mt-2">
-                <div v-if="!editYours" class="position-relative">
-                  <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
-                    <img :src="require('~/assets/img/trades/minus-icon.svg')">
-                  </div>
+          <div class="center-container-xs mt-5 mb-5">
+            <div class="left-item-xs" :class="{'right-item-margin-top-sm':getTheirItems.length === TWO_ITEMS,'left-item-one-xs':getTheirItems.length === ONE_ITEM}">
+              <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'card-'+index : ''" :key="index" class="item mb-4">
+                <div class="image-wrapper-sm">
+                  <img class="pro-image-sm"  :src="item.inventory.product | getProductImageUrl"/>
+                  <div class="overlay"></div>
                 </div>
-                <div class="d-flex justify-content-center align-content-center bg-img p-2">
-                  <img class="item-image-small" :src="item.inventory.product | getProductImageUrl"
-                       :class="{'item-image-cond-small':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
-                </div>
-
-                <div class="item-caption-small">
+                <div class="item-caption">
                   <span class="item-name-small">{{ item.inventory.product.name }}</span>
                   <span
                     class="item-box-condition-small">{{
@@ -34,30 +21,29 @@
                 </div>
               </div>
             </div>
-            <div class="center-item-small">
-              <div v-if="getTheirItems.length > ONE_ITEM" class="pointer-left-small"></div>
-              <div class="long-line" :class="{'long-line-length-small' : getTheirItems.length === ONE_ITEM }"></div>
-              <img :src="require('~/assets/img/tradecenter.svg')"/>
-              <div class="long-line" :class="{'long-line-length-small' : getYourItems.length === ONE_ITEM }"></div>
-              <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right-small m-2"></div>
+            <div class="center-item-sm">
+              <div v-if="getTheirItems.length > ONE_ITEM" class="pointer-left-sm" :class="{'pointer-right-two-items-sm':getTheirItems.length=== TWO_ITEMS}"></div>
+              <div class="position-relative center-img d-flex justify-content-between">
+                <div v-if="getTheirItems.length === THREE_ITEMS || getTheirItems.length === ONE_ITEM" class="line-bar-sm"></div>
+                <div class="fair-text-sm position-absolute">{{$t('trades.fair')}}</div>
+                <img class="trade-img-sm position-absolute" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
+                <div v-if="getYourItems.length === THREE_ITEMS || getYourItems.length === ONE_ITEM" class="line-bar-sm"></div>
+              </div>
+              <div v-if="getYourItems.length > ONE_ITEM" class="pointer-right-sm" :class="{'pointer-right-two-items-sm':getYourItems.length === TWO_ITEMS}"></div>
             </div>
-            <div class="right-side-image mt-2"
-                 :class="{'right-item-margin':getTheirItems.length > ONE_ITEM || getYourItems.length === ONE_ITEM,'mt-10p': getTheirItems.length > ONE_ITEM && getYourItems.length === ONE_ITEM,'mt-8p': getTheirItems.length === ONE_ITEM && getYourItems.length === ONE_ITEM}">
-              <div v-if="getYourItems.length" >
-                <div v-for="(item, index) in getYourItems"
-                      :key="'your-trade-item-key-'+index"
-                     class="image-right mb-4">
-                  <div v-if="editYours" class="position-relative p-2">
-                    <div class="position-absolute remove-item-icon" role="button" @click.stop="removeItem(item.inventory.product.id)">
-                      <img :src="require('~/assets/img/trades/minus-icon.svg')">
-                    </div>
+            <div class="right-item-sm position-relative" :class="{'right-item-margin-top-sm':getYourItems.length === TWO_ITEMS,'right-item-one-sm':getYourItems.length === ONE_ITEM}">
+              <div  v-if="getYourItems.length" class="">
+                <div  v-for="(item,index) in getYourItems" :id="getYourItems.length > ONE_ITEM ?'your-card-'+index : 'your-item'" :key="index" class="preview mb-4">
+                  <div class="position-relative">
+                  <div class="remove-item position-absolute mt-2"  @click="removeItem(item.inventory.product.id)">
+                    <div class="minus"></div>
                   </div>
-                  <div class="d-flex justify-content-center align-content-center">
-                    <img class="item-image-small" :src="item.inventory.product | getProductImageUrl" alt="image"
-                         :class="{'item-image-cond-small':(getTheirItems.length > ONE_ITEM || getYourItems.length) }"/>
                   </div>
-
-                  <div class="item-caption-small">
+                  <div class="image-wrapper-sm">
+                    <img class="pro-image-sm" :src="item.inventory.product | getProductImageUrl" alt="image" />
+                    <div class="overlay"></div>
+                  </div>
+                  <div class="item-caption">
                     <span class="item-name-small">{{ item.inventory.product.name }}</span>
                     <span class="item-box-condition-small">
                       {{ $t('trades.trade_arena.box_condition') }}: {{ item.inventory.packaging_condition.name }}
@@ -69,7 +55,11 @@
               </div>
             </div>
           </div>
-          <div class="fair-trade-division-mobile d-flex justify-content-center flex-column align-items-center m-5">
+
+
+
+
+          <div class="fair-trade-division-mobile d-flex justify-content-center flex-column align-items-center m-2">
             <Meter :highest="getTheirTotal(false)"
                    :lowest="0"
                    :value="getYourTotal(false)"
@@ -131,65 +121,104 @@
               Inventory
             </b-btn>
           </div>
-          <vue-bottom-sheet
-            ref="sheetInventory"
-            class="more-options"
-            max-width="auto"
-            max-height="90vh"
-            :rounded="true"
-          >
-            <div class="m-3 p-3 inventory-card-trade">
-              <div class="inventory-heading pl-4">
-                {{ (editYours) ? $t('trades.your_inventory', {0: inventoryItems.length}) : $t('trades.their_inventory', {0: inventoryItems.length}) }}
-              </div>
-              <div v-if="editYours" class="sub-heading-inventory">{{ $t('trades.add_remove_items') }}</div>
-              <div v-if="editYours" class="mt-2 mb-2">
-                <SearchInput
-                  bordered
-                  variant="primary"
-                  :placeholder="$t('trades.trade_arena.search_inventory')"
-                  :clearSearch="true"
-                  @change="onSearchInput"
-                />
-                <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" :productsFor="productFor" width="700px" class="position-absolute"/>
-              </div>
-
-              <b-row v-if="inventoryItems.length" class="mt-2">
-                <b-col v-for="(item) in inventoryItems" :key="item.id" sm="6" class="inventory-small">
-                  <div class="bg-img">
-                    <b-row class="justify-content-between">
-                      <b-col class="d-flex justify-content-end pr-3 pt-3">
-                        <img v-if="!editYours" class="plus-icon-add-trade" role="button"
-                             :src="require('~/assets/img/icons/addPlus.svg')" @click="checkIfItemAlreadyListed(item)"/>
-                        <img v-else class="plus-icon-add-trade" role="button"
-                             :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
-                      </b-col>
-                    </b-row>
-                    <div >
-                      <img class="item-image-counteroffer-small p-2 ml-3" :src="item.product | getProductImageUrl" />
+          <vue-bottom-sheet ref="myBottomSheet" max-height="90%" :is-full-screen="true" class="bottom-sheet">
+            <trade-arena-filters v-if="filterScreen" @change="handleFilterChange" />
+            <div v-else>
+              <div class="offer-items">
+                <div class="d-flex justify-content-between pl-3 pr-3">
+                  <div class="clear" :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="clearItems()">Clear</div>
+                  <div class="d-block text-center">
+                    <div class="offer-heading">{{$t('trades.your_offer')}}</div>
+                    <div class="est-val">{{$t('trades.estimated_value')}}:{{getYourTotal()}}</div>
+                  </div>
+                  <div class="done"  :class="{'color-blue': getYourTradeItems.length > 0}" role="button" @click="doneClose()">Done</div>
+                </div>
+                <div v-if="getYourTradeItems.length > ITEM_COUNT_0" class="d-flex justify-content-center">
+                  <div  v-for="(item,index) in getYourTradeItems" :id="'your-card-'+index" :key="index" class="item-inventory mt-2 mb-4 ml-3">
+                    <div class="position-relative">
+                      <div class="remove-item mt-2" @click="decrementOrRemoveItem(item)">
+                        <div class="minus"></div>
+                      </div>
                     </div>
-
-                    <div class="item-caption bg-white">
-                      <span class="item-name-small">{{ item.product.name }}</span>
-                      <span class="item-box-condition-small">{{$t('common.box')}} : {{item.packaging_condition.name}}</span>
-                      <span class="item-caption-description">{{item.product.colorway}}</span>
+                    <div class="image-wrapper-sm position-relative d-flex justify-content-center align-items-center">
+                      <img class="pro-image-sm" :src="item.product.image" alt="image" />
+                      <div class="overlay-image position-absolute"></div>
+                    </div>
+                    <div class="item-caption">
+                      <div class="item-name">{{  (item.product && item.product.name) ? item.product.name : item.name  }}</div>
+                      <div class="item-caption-description">{{  (item.product  && item.product.colorway) ? item.product.colorway : item.colorway }},{{$t('trades.trade_arena.size')}} {{ item.size && item.size.size }}</div>
+                      <div class="item-box-condition">{{$t('trades.trade_arena.box_condition')}}: {{  (item.box_condition && item.box_condition.name) ? item.box_condition.name :item.box_condition }}</div>
                     </div>
                   </div>
-                </b-col>
-              </b-row>
-              <div v-else class="row justify-content-between inventory-items-trade">
-                {{ $t('trades.create_listing.vendor.wants.no_products_found') }}
+                </div>
+                <div v-else class="d-flex justify-content-center mb-3">
+                  <div class="add-item-invent text-center">
+                    <div class="select-invent">
+                      {{$t('trades.trade_arena.select_from_inventory')}}
+                    </div>
+                    <div class="upto-three">
+                      {{$t('trades.trade_arena.up_to_three_items')}}
+                    </div>
+                  </div>
+                </div>
               </div>
-              <b-row class="justify-content-center mb-3">
-                <Pagination
-                  v-model="page"
-                  :total="totalCount"
-                  :per-page="perPage"
-                  :per-page-options="perPageOptions"
-                  @page-click="handlePageClick"
-                  @per-page-change="handlePerPageChange"
-                />
-              </b-row>
+              <div class="your-inventory">
+                <div class="d-block pt-4 pl-4">
+                  <div class="invent-heading">
+                    {{$t('trades.trade_arena.your_inventory',[inventoryItems.length])}}
+                  </div>
+                  <div class="invent-subheading mt-1">
+                    {{$t('trades.trade_arena.trade_upto_items', [MAX_ITEMS_ALLOWED])}}
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <SearchInput
+                    :value="searchText"
+                    variant="light"
+                    inputHeight="33px"
+                    :placeholder="$t('trades.trade_arena.search_inventory')"
+                    :clearSearch="true"
+                    bordered
+                    class="mt-3 pl-4 input-search"
+                    @change="onSearchInput"
+                  />
+                  <div class="pt-3 pr-4">
+                    <img role="button" :src="require('~/assets/img/trades/filter-icon.svg')" @click="showFilters()">
+                  </div>
+                </div>
+                <div class="inventory-items d-flex flex-wrap pt-3 pl-3">
+                  <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item mx-1">
+                    <div>
+                      <div class="position-relative">
+                        <img alt="No Image" class="plus-icon-add-trade position-absolute" role="button" :src="require('~/assets/img/icons/addPlus.svg')"
+                             @click="addYourInventoryItem(item)"/>
+                      </div>
+                      <div class="image-wrapper-inventory position-relative d-flex justify-content-center align-items-center">
+                        <img class="item-image-trade" :src="item.product.image" alt="image" />
+                        <div class="overlay-inventory position-absolute"></div>
+                      </div>
+                      <div class="item-caption-inventory">
+                        <div class="invent-name pt-2">{{item.product && item.product.name}}</div>
+                        <div class="invent-box">{{$t('common.box_condition')}}: {{item.packaging_condition && item.packaging_condition.name}}</div>
+                        <div class="invent-color">{{item.product && item.product.colorway}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <infinite-loading :identifier="infiniteId" @infinite="getInventory">
+                <span slot="no-more"></span>
+                <span slot="no-results"></span>
+              </infinite-loading>
+              <div v-if="!inventoryItems.length" class="w-100 py-5 text-center">
+                <div class="d-inline-flex align-items-center no-items-found">
+                  <img src="~/assets/img/no-items-found.png" class="mr-3" />
+                  <div class="text-left">
+                    <div class="no-items-found-title">{{ $t('auctions.frontpage.no_results_found') }}</div>
+                    <div class="no-items-found-subtitle">{{ $t('auctions.frontpage.cant_find_anything') }}</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </vue-bottom-sheet>
           <div class="d-flex mb-5">
@@ -237,12 +266,16 @@
                   <div v-for="(item, index) in getTheirItems" :id="getTheirItems.length === THREE_ITEMS ?'trade-item-'+index : ''"
                       :key="'their-trade-item-key-'+index" class="item mb-4"
                       :class="[((getTheirItems.length > ONE_ITEM )|| (getYourItems.length)) ? 'item-length' : 'item-normal']">
+
                     <div v-if="!editYours" class="position-relative">
                       <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
                         <img :src="require('~/assets/img/trades/minus-icon.svg')">
                       </div>
                     </div>
-                    <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
+                    <div class="position-relative d-flex align-items-center justify-content-center">
+                      <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
+                      <div class="overlay-mob position-absolute"></div>
+                    </div>
                     <div class="item-caption">
                       <span class="item-name">{{ item.inventory.product.name }}</span>
                       <div class="mt-1 item-caption-description d-flex">
@@ -483,7 +516,7 @@
                   </client-only>
                 </b-col>
                 <b-col md="2" sm="12" class="mt-2 mt-md-0">
-                  <Button class="filter-btn" variant="dark-blue" @click="getInventory">{{ $t('trades.filter') }}</Button>
+                  <Button class="filter-btn" variant="dark-blue" @click="applyFilters">{{ $t('trades.filter') }}</Button>
                 </b-col>
               </div>
             </div>
@@ -503,12 +536,12 @@
                 </b-row>
                 <img class="img-fluid mx-auto max-h-200" :src="item.product | getProductImageUrl" />
                 <div class="item-caption">
-                  <span class="item-name">{{ item.product.name }}</span>
-                  <div class="mt-1 item-caption-description d-flex">
+                  <span class="item-name-invent">{{ item.product.name }}</span>
+                  <div class="mt-1 item-caption-description-invent d-flex">
                     <div class="item-color text-truncate">{{ item.product.colorway }}</div>
                     <div>, {{ $t('trades.trade_arena.size') }} {{ item.size.size }}</div>
                   </div>
-                  <span class="mt-1 item-caption-description">
+                  <span class="mt-1 item-caption-description-invent">
                     {{ $t('trades.trade_arena.box') }}: {{ item.packaging_condition.name }}
                   </span>
                 </div>
@@ -517,16 +550,10 @@
             <div v-else class="row justify-content-between inventory-items-trade">
               {{ $t('trades.create_listing.vendor.wants.no_products_found') }}
             </div>
-            <b-row class="justify-content-center mb-3">
-              <Pagination
-                v-model="page"
-                :total="totalCount"
-                :per-page="perPage"
-                :per-page-options="perPageOptions"
-                @page-click="handlePageClick"
-                @per-page-change="handlePerPageChange"
-              />
-            </b-row>
+            <infinite-loading :identifier="infiniteId" @infinite="getInventory">
+              <span slot="no-more"></span>
+              <span slot="no-results"></span>
+            </infinite-loading>
           </div>
         </b-col>
         <CheckoutSidebar v-if="isPayment" class="order-summary" />
@@ -550,12 +577,16 @@
   import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox.vue'
   import CustomDropdown from '~/components/common/CustomDropdown'
   import AlreadyListedModal from '~/pages/profile/create-listing/trades/AlreadyListedModal'
-  import Pagination from '~/components/common/Pagination'
+  // import Pagination from '~/components/common/Pagination'
   import DiscardModel from '~/pages/profile/trades/dashboard/counter-offer/DiscardModel'
   import CreateTradeSearchItem from '~/pages/profile/create-listing/trades/CreateTradeSearchItem'
   import CheckoutSidebar from '~/components/checkout/trades/ShoppingCartOrder'
   import addCash from '~/pages/profile/trades/dashboard/_id/offers/AddCash'
   import ScreenSize from '~/plugins/mixins/screenSize'
+  import TradeArenaFilters from '~/components/trade/TradeArenaFilters'
+  import {
+    ITEM_COUNT_0,
+  } from '~/static/constants/trades'
   import {
     GOOGLE_MAPS_BASE_URL
   } from '~/static/constants/environments'
@@ -585,11 +616,12 @@
     MAX_ITEMS_ALLOWED
   } from '~/static/constants/create-listing'
 
+
 export default {
   name: 'Index',
   components: {
     DiscardModel,
-    Pagination,
+    // Pagination,
     CustomDropdown,
     SearchInput,
     Meter,
@@ -599,7 +631,8 @@ export default {
     CreateTradeSearchItem,
     AlreadyListedModal,
     CheckoutSidebar,
-    addCash
+    addCash,
+    TradeArenaFilters,
   },
   mixins: [ScreenSize],
   layout: 'Profile',
@@ -653,13 +686,17 @@ export default {
       submittedItemType: OFFER_TYPE_YOURS,
       OFFER_TYPE_THEIR,
       COUNTER_OFFER_TYPE,
-      cashAddedType:CASH_TYPE_ADDED
+      cashAddedType:CASH_TYPE_ADDED,
+      filterScreen: false,
+      infiniteId: +new Date(),
+      ITEM_COUNT_0,
     }
   },
   computed: {
     ...mapGetters('browse', ['filters']),
     ...mapGetters('counter-offer', ['getOffer', 'getYourItems', 'getTheirItems', 'getLastSubmittedOffer', 'getYourVendorId', 'getTheirVendorId']),
-    ...mapGetters('trade', ['getActiveTrade'])
+    ...mapGetters('trade', ['getActiveTrade']),
+    ...mapGetters('trade', ['getYourTradeItems']),
   },
   created() {
     this.$store.commit('counter-offer/clearStates')
@@ -698,7 +735,7 @@ export default {
     ...mapActions('trades', ['checkIfItemIsInListingItem', 'searchProductsList']),
 
     openBottomFilter() {
-      this.$refs.sheetInventory.open();
+      this.$refs.myBottomSheet.open();
     },
     addCash(){
       this.cashAdd = true
@@ -707,13 +744,106 @@ export default {
     cancelCash(){
       this.cashAdd = false;
     },
+    handleFilterChange(filters) {
+      this.categoryFilter = filters?.categories?.join(',')
+      this.sizeFilter = filters?.sizes
+      this.sizeTypesFilter = filters?.sizeTypes
+      this.filterScreen = false
+      this.page = 1;
+      this.inventoryItems = []
+      this.infiniteId += 1;
+    },
+    doneClose(){
+      this.$refs.myBottomSheet.close();
+    },
+    clearItems(){
+      this.$store.commit('trade/setTradeItemsEmpty',[])
+    },
+    showFilters(){
+      this.filterScreen = true;
+    },
+    addYourItem(item) {
+      if (this.canAddMoreItems() && this.checkIfItemAlreadyListed(item)) {
+        this.addOrIncrementYourItem(item)
+      }
+    },
+    decrementOrRemoveItem(item) {
+      const existingItem = this.getYourTradeItems.find(val => val.id === item.id)
+      if (existingItem.quantity > 1) {
+        this.$store.commit('trade/decrementYourTradeItemQuantity', item.id)
+      } else {
+        this.$store.commit('trade/removeYourTradeItem', item.id)
+      }
+      this.updateActiveTrade()
+      this.$nextTick(() => this.$forceUpdate())
+    },
+    getInventory: debounce(function ($state,filters = {}) {
+      filters.category = this.categoryFilter
+      filters.sizes = this.sizeFilter?.join(',')
+      filters.size_types = this.sizeTypesFilter?.join(',')
+      this.$axios
+        .get('/vendor/inventory', {
+          params: {
+            search: this.searchText, // search query param for api call
+            page: this.page, // Current page No
+            per_page: this.perPage, // Per page no of records
+            ...filters // filters to be applied
+          },
+        })
+        .then((response) => { // response will get us listing of
+          const res = response?.data
+          if (!res.next_page_url) {
+            $state.complete()
+          }else {
+            this.page += 1;
+            this.inventoryItems.push(...res.data);
+            $state.loaded()
+          }
+        })
+        .catch((error) => { // return error
+          this.$toasted.error(this.$t(error.response.data.error))
+          this.searchedItems = []
+        })
+    }, 500),
+    applyFilters(){
+      this.page = 1
+      this.inventoryItems = []
+      this.infiniteId += 1
+    },
     addAmount(value){
       this.optionalCash = value.amount
       this.optional_cash_type = value.add_cash ? 'add_cash':'request_cash'
       this.cashAdd = false
       this.getYourTotal(false)
     },
-
+    checkIfItemAlreadyListed(item) {
+      const existingItem = this.getYourTradeItems.find(val => val.id === item.id)
+      if (existingItem) return true;
+      this.$axios
+        .post('check/product/in/listing', {
+          inventory_id: item.id
+        })
+        .then((response) => { // return product information that exits in already listing
+          if (response.data.is_listing_item) {
+            this.itemListingId = response.data.listingId
+            this.alreadyListedItemDetails = item
+            this.$bvModal.show('alreadyListed')
+            return false
+          } else {
+            this.addOrIncrementYourItem(item)
+            return true
+          }
+        })
+        .catch((error) => {
+          this.$toasted.error(this.$t(error.response.data.error))
+          this.itemListingId = null
+        })
+    },
+    addOrIncrementYourItem(item) {
+      this.$store.commit('trade/setYourTradeItems', item)
+      this.updateActiveTrade()
+      this.$nextTick(() => this.$forceUpdate())
+    },
     /**
      * check if trade is poor/fair
      */
@@ -817,34 +947,6 @@ export default {
       const offerId = parseInt(this.$route.params.id)
       this.$router.push(`/profile/trades/dashboard/${offerId}`)
     },
-    /**
-     * This function is used to check  if item
-     * exits in already some listing if exists it will
-     * show model else call function to add item
-     * @param item
-     */
-    checkIfItemAlreadyListed(item) {
-      const existingItem = this.getYourItems.find(val => val.id === item.id)
-      if(existingItem) return true;
-        this.checkIfItemIsInListingItem({
-        inventory_id: item.id
-      })
-        .then((response) => { // return product information that exits in already listing
-          if (response.data.is_listing_item) {
-            this.itemListingId = response.data.listingId
-            this.alreadyListedItemDetails = item
-            this.$bvModal.show('alreadyListed')
-            return false
-          } else{
-            this.addTheirsInventoryItem(item)
-            return true
-          }
-        })
-        .catch((error) => {
-          this.$toasted.error(this.$t(error.response.data.error))
-          this.itemListingId = null
-        })
-    },
     getTheirTotal(formattedPrice = true){
       let optionalCash = 0
       if(this.getLastSubmittedOffer.cash_added &&
@@ -895,11 +997,8 @@ export default {
      * or limit exceeds
      * @returns {boolean}
      */
-    canAddMoreItems(){
-      let itemsCount = this.getYourItems.length
-      if(!this.editYours){
-        itemsCount = this.getTheirItems.length
-      }
+    canAddMoreItems() {
+      const itemsCount = this.getYourTradeItems.map(i => i.quantity).reduce((a, b) => a + b, 0)
       if (itemsCount < MAX_ITEMS_ALLOWED) {
         return true
       } else {
@@ -1044,32 +1143,32 @@ export default {
     /**
      * This function is used to get user listing of inventory
      */
-    getInventory: debounce(function (filters = {}) {
-      filters.sort_by = this.orderFilter // sorting filter
-      filters.category = this.categoryFilter // category type filter
-      filters.sizes = this.sizeFilter.join(',') // size filter
-      filters.size_types = this.sizeTypesFilter.join(',') // size type filter
-      this.$axios
-        .get('/vendor/inventory', {
-          params: {
-            search: this.searchText,   // for search query
-            user_id: (this.editYours ? this.getYourVendorId : this.getTheirVendorId),   // for search query
-            visibility: (this.editYours ? '' : PUBLIC_INVENTORY),
-            page: this.page, // no of page to change
-            per_page: this.perPage, // no of records to show on per page
-            ...filters
-          },
-        })
-        .then((response) => {  // list of vendor inventory
-          this.inventoryItems = response.data.data
-          this.totalCount = parseInt(response.data.total)
-          this.perPage = parseInt(response.data.per_page)
-        })
-        .catch((error) => {
-          this.$toasted.error(this.$t(error.response.data.error))
-          this.searchedItems = []
-        })
-    }, 500),
+    // getInventory: debounce(function (filters = {}) {
+    //   filters.sort_by = this.orderFilter // sorting filter
+    //   filters.category = this.categoryFilter // category type filter
+    //   filters.sizes = this.sizeFilter.join(',') // size filter
+    //   filters.size_types = this.sizeTypesFilter.join(',') // size type filter
+    //   this.$axios
+    //     .get('/vendor/inventory', {
+    //       params: {
+    //         search: this.searchText,   // for search query
+    //         user_id: (this.editYours ? this.getYourVendorId : this.getTheirVendorId),   // for search query
+    //         visibility: (this.editYours ? '' : PUBLIC_INVENTORY),
+    //         page: this.page, // no of page to change
+    //         per_page: this.perPage, // no of records to show on per page
+    //         ...filters
+    //       },
+    //     })
+    //     .then((response) => {  // list of vendor inventory
+    //       this.inventoryItems = response.data.data
+    //       this.totalCount = parseInt(response.data.total)
+    //       this.perPage = parseInt(response.data.per_page)
+    //     })
+    //     .catch((error) => {
+    //       this.$toasted.error(this.$t(error.response.data.error))
+    //       this.searchedItems = []
+    //     })
+    // }, 500),
 
     /**
      * This function is used to get product and show in
@@ -1126,7 +1225,23 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
-
+.overlay-mob
+  background: $light-opacity
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+.lft-image
+  width: 99px
+  height: 161px
+  top: 126px
+.rgt-image
+  width: 99px
+  height: 161px
+  top: 126px
+.min-img
+  height: 13px
+  width: 13px
 .w-xl-100
   @media (min-width: 1200px)
     width: 100%
@@ -1327,8 +1442,8 @@ export default {
   height: 68px
 .fair-trade-division-mobile
   background-color: $color-white-4
-  width: 247px
-  height: 68px
+  //width: 247px
+  //height: 68px
 .item-image-small
   width: 80px
   height: 100px
@@ -1343,6 +1458,22 @@ export default {
   width: 100px
   margin-right: 8px
   margin-top: -2rem
+.pointer-left-small-two
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-right: 0.5px solid $light-gray-2
+  height: 450px
+  width: 100px
+  margin-right: 8px
+  margin-top: -5rem
+.pointer-left-small-three
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-right: 0.5px solid $light-gray-2
+  height: 450px
+  width: 100px
+  margin-right: 8px
+  margin-top: -10rem
 .item-length-small
   height: 160px
   width: 100px
@@ -1351,7 +1482,6 @@ export default {
   width: 100px
 .item-name-small
   width: 90px
-  height: 26px
   font-family: $font-family-sf-pro-display
   font-style: normal
   @include body-18
@@ -1392,6 +1522,8 @@ export default {
   margin: 0 10px
   min-width: 100px
   max-width: 300px
+.middle-trade-three
+  margin-top: -10rem
 .long-line-length-small
   width: 40px
   border: 1px solid $light-gray-2
@@ -1404,8 +1536,22 @@ export default {
   border-left: 0.5px solid $light-gray-2
   height: 450px
   width: 100px
-  margin-right: 210px
   margin-top: -1rem !important
+.pointer-right-small-three
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-left: 0.5px solid $light-gray-2
+  height: 450px
+  width: 100px
+  margin-top: -10rem !important
+.pointer-right-small-two
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-left: 0.5px solid $light-gray-2
+  height: 450px
+  width: 100px
+  margin-right: 210px
+  margin-top: -5rem !important
 .item-caption-small
   width: 100px
   background: $color-white-1
@@ -1468,4 +1614,521 @@ export default {
 .bg-white-5
   background: $color-white-5
   box-shadow: 0px 1px 2px $color-black-rgb2
+.clear,.done
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-17-regular
+  letter-spacing: -0.02em
+  color: $color-gray-23
+.offer-heading
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-17-bold
+  letter-spacing: -0.02em
+  color: $color-black-1
+.est-val
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-5-regular
+  letter-spacing: -0.02em
+  color: $color-gray-25
+
+.pro-image
+  width: 81px
+  z-index: 10
+.remove-item
+  height: 13px
+  width: 13px
+  z-index: 100
+  background: $color-red-24
+.minus
+  width: 7px
+  height: 2px
+  margin-top: 6px
+  margin-left: 3px
+.item-inventory
+  height: 161px
+  width: 99px
+.item-name
+  width: 85px
+  font-size: 11px
+  color: $color-gray-69
+.item-box-condition,.item-caption-description
+  width: 85px
+  font-size: 11px
+  color: $color-gray-5
+.item-name-invent
+  color: $color-black-1
+  font-size: 15px
+  font-weight: $medium
+  text-overflow: ellipsis
+  white-space: nowrap
+  overflow: hidden
+  width: 200px
+  display: block
+.item-caption-description-invent
+  font-size: 14px
+  color: $color-gray-5
+  font-weight: $normal
+  text-overflow: ellipsis
+  white-space: nowrap
+  overflow: hidden
+  width: 200px
+  display: block
+
+.invent-item
+  width: 164px
+  height: 265px
+.item-image-trade
+  width: 134px
+  border-radius: 0
+.image-wrapper-inventory
+  height: 185px
+  width: 164px
+.plus-icon-add-trade
+  right: 5px
+  top: 7px
+  z-index: 1000
+.your-inventory
+  background: $color-white-1
+
+.inventory-items
+  @media (max-width: 380px)
+    width: 375px
+    overflow: hidden
+.overlay-inventory
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: $color-grey-70
+.item-caption-inventory
+  background: $color-white-1
+
+.invent-name
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $medium
+  @include body-30
+  color: $color-black-1
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
+  max-width: 160px
+
+.invent-color,.invent-box
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $regular
+  @include body-30
+  color: $color-gray-5
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
+  max-width: 160px
+.overlay-image
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: $color-white-1
+.image-wrapper
+  width: 120px
+  height: 112.4px
+.item-caption
+  //background: $color-gray-1
+  padding-left: unset
+.color-blue
+  color: $color-blue-20
+.bottom-sheet::v-deep
+  .bottom-sheet__card
+    background: $color-gray-1
+.invent-heading
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-17-bold
+  letter-spacing: -0.02em
+  color: $color-black-1
+.invent-subheading
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-5-regular
+  letter-spacing: -0.02em
+  color: $color-gray-25
+.input-search
+  width: 306px
+.add-item-invent
+  background: url('~/assets/img/trades/select-inventory.svg')
+  width: 100px
+  height: 143px
+.select-invent
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-29-normal
+  letter-spacing: 0.005em
+  color: $color-black-1
+  padding-top: 43px
+.upto-three
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-29-bold
+  letter-spacing: 0.005em
+  color: $color-gray-5
+  padding-top: 13px
+.no-items-found
+  img
+    width: 60px
+  &-title
+    font-size: 16px
+    line-height: 22px
+  &-subtitle
+    font-size: 14px
+    line-height: 19px
+.center-container-xs
+    min-height: 650px
+    margin: 0 15px
+    display: flex
+    justify-content: center
+.h-43
+  height: 43px
+
+.width-156
+  min-width: 156px
+  background: $color-white-1
+
+.heading-left
+  position: absolute
+  margin-top: 30%
+  left: 105%
+  width: 275px
+
+.heading-right
+  position: absolute
+  margin-top: 30%
+  left: -140%
+  width: 275px
+
+.d-relative
+  position: relative
+
+.plus-icon-add-trade
+  position: absolute
+  right: 5%
+  top: 15px
+  z-index: 1000
+
+.optional-input-field
+  width: 236px
+  height: 38px
+  background: $color-white-1
+  border: 0.5px solid $color-gray-4
+  box-sizing: border-box
+  border-radius: 31px
+  padding-left: 20px
+
+.input-mt
+  margin-top: 7px
+
+.cash-added
+  background: $color-gray-1
+  border-radius: 4px
+  min-width: 247px
+  padding: 7px
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $regular
+  font-size: 14px
+  line-height: 17px
+  color: $color-black-1
+
+.edit-cash
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $regular
+  font-size: 14px
+  line-height: 17px
+  color: $color-blue-1
+
+.image-wrapper
+  height: 134px
+  background: $color-white-4
+  position: relative
+
+
+
+.remove-item
+  height: 13px
+  width: 13px
+  z-index: 100
+  background: $color-red-24
+
+.minus
+  width: 7px
+  height: 2px
+  margin-top: 6px
+  margin-left: 3px
+
+.item-name
+  width: 85px
+  font-size: 11px
+  color: $color-gray-69
+
+
+
+.long-line
+  width: 17px
+
+.center-img
+  width: 31px
+.trade-img
+  //background: $color-white-1
+  margin-left: 5px
+  height: 20px
+  width: 20px
+
+.center-container
+  min-height: 650px
+  margin: 0 15px
+  display: flex
+  justify-content: center
+
+.image-wrapper
+  .overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: $color-grey-70
+
+.pro-image
+  width: 117px
+  height: 100%
+
+
+
+.price-container
+  margin-bottom: 8px
+  margin-top: 7px
+  padding: 0 15px
+
+.theirs-total
+  background: $color-white-4
+  border-radius: 2px
+  height: 38px
+  width: 118px
+
+.price-text
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $normal
+  font-size: 11px
+  line-height: 13px
+  color: $color-black-1
+  padding-left: 6px
+
+.list-icon
+  height: 24px
+  width: 24px
+  padding-left: 6px
+.add-cash
+  height: 37px
+  width: 315px
+  margin-left: 20px
+  border-radius: unset
+  margin-top: 19px
+.authenticity
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $medium
+  font-size: 14.5px
+  line-height: 18px
+  letter-spacing: -0.04em
+  color: $color-black-1
+  padding-top: 25px
+.authenticity-text
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-9-regular
+  color: $color-black-1
+  margin-top: 15px
+
+.detail-heading
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-4-medium
+  color: $color-black-1
+  margin-top: 38px
+  padding-left: 10px
+  padding-bottom: 15px
+.details
+  padding: 0 18px
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-5-regular
+  color: $color-gray-5
+.timer
+  color: $color-red-3
+.trader-wants
+  width: 164px
+  height: 265px
+  margin-right: 12px
+.wants-wrapper
+  position: relative
+  width: 164px
+  height: 185px
+  background: $color-white-4
+  .overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: rgba(153, 153, 153, 0.1)
+  img
+    width: 120px
+    height: auto
+    margin: 25px
+.wants-container
+  width: 375px
+  overflow: scroll
+  padding-left: 10px
+.wants-name
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $medium
+  font-size: 13px
+  line-height: 130%
+  color: $color-black-1
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
+.wants-size,.wants-box
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $regular
+  font-size: 13px
+  line-height: 130%
+  color: $color-gray-5
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
+.wants-heading
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-4-medium
+  color: $color-black-1
+  padding-left: 10px
+  padding-bottom: 14px
+
+.invent-btn,.next-btns
+  width: 162px
+  height: 40px
+
+@media (max-width: 576px)
+  .order-summary::v-deep
+    min-width: 0
+    width: 100%
+    .custom-card .card-body
+      padding: 15px
+      background: $color-white-5
+      border-radius: 10px
+    .heading-1-medium
+      @include body-13
+    .body-4-medium
+      @include body-9
+    .custom-form .form-control
+      background: $color-white-5
+.pb-100
+  padding-bottom: 100px
+
+
+
+.image-wrapper-sm
+  height: 134px
+  background: $color-white-4
+  position: relative
+
+.right-item-xs,.left-item-xs
+  width: 118px
+  height: 153px
+.right-item-margin-top-sm
+  margin-top: 115px
+.pro-image-sm
+  width: 117px
+  height: 100%
+.center-item-sm
+  min-width: 10px
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding-top: 21px
+  margin: 0 10px
+  width: unset
+  max-width: 780px
+.pointer-left-sm,.pointer-right-sm
+  width: 25px
+  height: 370px
+
+.pointer-left-sm
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-right: 0.5px solid $light-gray-2
+
+.pointer-right-sm
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+  border-left: 0.5px solid $light-gray-2
+.line-bar-sm
+  width: 9px
+  height: 2px
+  background: $color-white-18
+  margin: 15px -20px 0 -20px
+.fair-text-sm
+  //background: $color-white-1
+  color: $color-black-1
+  height: 30px
+  width: 50px
+  text-align: center
+  z-index: 98
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-10
+  margin-top: -30px
+  margin-left: -10px
+  padding-top: 5px
+.pointer-right-two-items-sm
+  height: 223px
+.right-item-sm,.left-item-sm
+  width: 118px
+  height: 153px
+.image-wrapper-sm
+  .overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: $color-grey-70
+.item-caption
+  //background: $color-white-1
+  padding: 5px 0
+
+.right-item-sm .item-sm, .right-item-sm .preview-sm
+  background-color: transparent
+  box-sizing: border-box
+  position: relative
+  background-image: none
+  background-repeat: no-repeat
+  background-size: 210px 112px
+  background-position: center
+
+.right-item-margin-top-sm
+  margin-top: 115px
+.right-item-one-sm
+  margin-top: 183px
+  margin-left: 15px
+.left-item-one-sm
+  margin-top: 183px
+  margin-right: 15px
 </style>
