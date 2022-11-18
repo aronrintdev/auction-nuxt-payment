@@ -392,6 +392,7 @@
                   :productsFor="productFor"
                   class="position-absolute width-responsive counter-wrapper"
                   addBtnClass="text-right"
+                  :listGroupItemClass="'border-color-gray-47'"
                   :itemStyle="{
                     padding: 0
                   }"
