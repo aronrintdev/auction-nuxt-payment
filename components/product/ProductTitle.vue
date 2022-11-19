@@ -1,23 +1,21 @@
 <template>
   <b-row class="title-wrapper pb-3">
-    <b-col md="12" class="px-4 px-sm-0">
+    <b-col md="12">
       <b-row>
-        <b-col class="p-0 d-flex justify-content-between align-items-center">
-          <div class="w-100 d-flex justify-content-between align-items-center">
-            <div class="title body-1-medium flex-grow-1">{{ productName }}</div>
-            <b-img
-              :id="`popover-wishlist-${product.id}`"
-              :tooltip-text="wishList ? wishList.name : ''"
-              width="18"
-              :src="require('~/assets/img/product/heart-outline.svg')"
-              class="d-sm-none"
-              @click="removeFromWishList"
-            >
-            </b-img>
-          </div>
+        <b-col md="12" class="d-flex align-items-center">
+          <span class="title body-1-medium">{{ formattedProductName }}</span>
+          <b-img
+            :id="`popover-wishlist-${product.id}`"
+            :tooltip-text="wishList ? wishList.name : ''"
+            width="18"
+            :src="require('~/assets/img/product/heart-outline.svg')"
+            class="d-sm-none"
+            @click="removeFromWishList"
+          >
+          </b-img>
           <ShareSVG
             :id="`popover-share-${product.id}`"
-            class="d-none d-sm-block ml-auto"
+            class="ml-auto"
             role="button"
           />
           <WishListPopover
@@ -31,8 +29,8 @@
           />
         </b-col>
       </b-row>
-      <b-row class="w-100">
-        <b-col md="12" class="px-sm-0 mt-1">
+      <b-row>
+        <b-col md="12" class="mt-1">
           <span class="last-sale">
             {{ $t('product_page.last_sale') }}&colon;&nbsp;
             &dollar;{{ productLastSalePrice | formatPrice }}
@@ -107,6 +105,25 @@ export default {
           : null
     }
   },
+  computed: {
+    formattedProductName(vm) {
+      return vm.productName.substr(0, 32)
+    },
+    lastSalePriceProjectionValue(vm) {
+      if (vm.productLastSalePrice === 0) {
+        return 0.00
+      }
+
+      return vm.lowestPrice - vm.productLastSalePrice
+    },
+    lastSalePriceProjectionPercentage(vm) {
+      if (vm.productLastSalePrice === 0) {
+        return 0.00
+      }
+
+      return (((vm.lowestPrice - vm.productLastSalePrice) / vm.productLastSalePrice) * 100).toFixed(2)
+    },
+  },
   methods: {
     ...mapActions({
       removeProductsFromWishList: 'wish-list/removeProductsFromWishList',
@@ -129,22 +146,6 @@ export default {
       }
     }
   },
-  computed: {
-    lastSalePriceProjectionValue(vm) {
-      if (vm.productLastSalePrice === 0) {
-        return 0.00
-      }
-
-      return vm.lowestPrice - vm.productLastSalePrice
-    },
-    lastSalePriceProjectionPercentage(vm) {
-      if (vm.productLastSalePrice === 0) {
-        return 0.00
-      }
-
-      return (((vm.lowestPrice - vm.productLastSalePrice) / vm.productLastSalePrice) * 100).toFixed(2)
-    },
-  }
 }
 </script>
 <style lang="sass" scoped>
