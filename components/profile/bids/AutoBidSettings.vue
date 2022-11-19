@@ -7,13 +7,20 @@
       <div class="auto-bid-sub">{{ $t('bids.auto_bid') }}</div>
       <CheckboxSwitch
         class="scale-up mx-2"
-        :value="form.isAutoBid"
+        :value="isAutoBid"
         @change="handleAutoBidChange"
       />
-      <b-form-input v-if="form.isAutoBid" v-model="form.autoBidPrice" type="number" class="bid-input"
-                    :placeholder="$t('bids.amount')" step="0.01"></b-form-input>
+      <b-form-input
+        v-if="isAutoBid"
+        v-model="autoBidPrice"
+        type="number"
+        class="bid-input"
+        :class="{ 'error' : hasError }"
+        :placeholder="$t('bids.amount')"
+        step="0.01"
+      ></b-form-input>
       <Button
-        v-if="form.isAutoBid"
+        v-if="isAutoBid"
         variant="link"
         class="btn-save ml-3"
         :disabled="saveLoading"
@@ -37,10 +44,9 @@ export default {
   components: {Button, CheckboxSwitch},
   data() {
     return {
-      form: {
-        isAutoBid: false,
-        autoBidPrice: null
-      },
+      isAutoBid: false,
+      autoBidPrice: null,
+      hasError: false,
       saveLoading: false
     }
   },
@@ -52,14 +58,19 @@ export default {
      * A computed property that returns the auto bid setting of the selected bid.
      * @returns {bid}
      */
-    haveAutoBid() {
-      return this.selectedBid.auction.auto_bid_setting
+    autoBidSetting() {
+      return this.selectedBid.auction.auto_bid_settings && this.selectedBid.auction.auto_bid_settings[0]
+    }
+  },
+  watch: {
+    autoBidPrice() {
+      this.hasError = false
     }
   },
   mounted() {
-    if (this.haveAutoBid) {
-      this.form.isAutoBid = !this.selectedBid.auction.auto_bid_setting.is_disabled
-      this.form.autoBidPrice = this.form.isAutoBid ? this.selectedBid.auction.auto_bid_setting.price / 100 : null
+    if (this.autoBidSetting) {
+      this.isAutoBid = !this.autoBidSetting.is_disabled
+      this.autoBidPrice = this.isAutoBid ? this.autoBidSetting.price / 100 : null
     }
   },
   methods: {
@@ -70,16 +81,18 @@ export default {
      * A method that is called when the user clicks the save button. It is used to save the auto bid settings.
      */
     changeAutoBid() {
-      const payload = {
-        id: undefined,
-        auction_id: this.selectedBid.auction.id,
-        user_id: this.$auth.user.id,
-        is_disabled: !this.form.isAutoBid,
-        price: this.form.autoBidPrice * 100
+      if (this.autoBidPrice * 100 < this.selectedBid.auction.highest_bid ||
+        this.autoBidPrice * 100 < this.selectedBid.auction.start_bid_price) 
+      {
+        this.hasError = true
+        return
       }
-      if (this.haveAutoBid)
-        payload.id = this.selectedBid.auction.auto_bid_setting.id
-
+      const payload = {
+        id: this.autoBidSetting.id,
+        auction_id: this.autoBidSetting.auction_id,
+        is_disabled: !this.isAutoBid,
+        price: this.autoBidPrice * 100
+      }
       this.saveLoading = true
       this.editAutoBid(payload).then(res => {
         this.$toasted.success(this.$t('bids.messages.saved'))
@@ -91,11 +104,11 @@ export default {
       })
     },
     handleAutoBidChange(item) {
-      this.form.isAutoBid = item
+      this.isAutoBid = item
       if (!item) {
         this.changeAutoBid()
         this.$nextTick(() => {
-          this.form.autoBidPrice = null
+          this.autoBidPrice = null
         })
       }
     },
@@ -188,4 +201,7 @@ export default {
     font-weight: $medium
   .auto-bid-sub
     @include body-10
+
+.error
+  border: 1px solid $color-red-2
 </style>
