@@ -131,6 +131,7 @@ export const ALL_SETTINGS = {
                 key: 'selling_new_offer',
                 label: 'Offer',
                 desc: 'Get a notification when a new offer has been placed on your listing',
+                desc_next: 'Will not be sent a notifications until ___ percent of your asking price is reached',
                 data: {
                     every: {
                         value: 1,
@@ -170,6 +171,7 @@ export const ALL_SETTINGS = {
                 key: 'selling_trade_offer',
                 label: 'Placed Trade Offers',
                 desc: 'Get a notification when a new offer has been placed on your trade listing ',
+                desc_next: 'Will not be sent a notification unless ___ % of your Offer has been reached.',
                 data: {
                     every: {
                         value: 1,
@@ -198,6 +200,7 @@ export const ALL_SETTINGS = {
                 key: 'selling_new_bids',
                 label: 'Placed Bids',
                 desc: 'Get a notification when you receive a new bid placed on your auction listing',
+                desc_next: 'Will not be sent a notification unless ___ % of your Reserve Price has been reached.',
                 data: {
                     every: {
                         value: 1,
