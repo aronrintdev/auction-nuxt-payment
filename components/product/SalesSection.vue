@@ -74,7 +74,7 @@
         >
           <b-row>
             <b-col md="4">
-              <Button v-b-toggle.recent-sales-collapse block variant="outline-dark">
+              <Button v-b-toggle.recent-sales-collapse block variant="outline-dark px-3">
                 <template #default>
                   <div class="d-flex align-items-center">
                     <span class="pull-left">{{ $t('products.recent_sales') }}</span>
@@ -90,7 +90,7 @@
               </b-collapse>
             </b-col>
             <b-col class="mt-2 mt-md-0" md="4">
-              <Button v-b-toggle.recent-offers-collapse block variant="outline-dark" class="text-left">
+              <Button v-b-toggle.recent-offers-collapse block variant="outline-dark" class="text-left px-3">
                 <template #default>
                   <div class="d-flex align-items-center">
                     <span class="pull-left dropdown-label">{{ $t('products.recent_offers') }}</span>
@@ -106,7 +106,7 @@
               </b-collapse>
             </b-col>
             <b-col class="mt-2 mt-md-0" md="4">
-              <Button v-b-toggle.recent-asks-collapse block variant="outline-dark" class="text-left">
+              <Button v-b-toggle.recent-asks-collapse block variant="outline-dark" class="text-left px-3">
                 <template #default>
                   <div class="d-flex align-items-center">
                     <span class="pull-left dropdown-label">{{ $t('products.recent_asks') }}</span>
