@@ -50,7 +50,7 @@
     <div v-if="watchlists.length > 0 && currentWatchlist">
       <div class="row">
         <div class="col-12 col-sm-3">
-          <section class="d-none d-sm-block" :class="`section-lists`">
+          <section class="d-none d-sm-block section-lists">
             <h5>{{ $t('watchlists.buying_lists') }}</h5>
             <div v-for="list in watchlists" :key="list.id">
               <Button
@@ -310,6 +310,9 @@ export default {
   .section-lists
     max-width: 250px
     margin-right: 20px
+    btn
+      font-size: 16px
+      font-weight: $medium
     h5
       padding-left: 10px
   .title

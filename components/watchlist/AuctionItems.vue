@@ -55,7 +55,7 @@
         </b-dropdown>
       </div>
     </div>
-    <b-card no-body class="mb-1">
+    <b-card no-body class="mb-2">
       <b-card-header
         class="py-2 px-3 d-flex align-items-center justify-content-between"
         role="tab"
