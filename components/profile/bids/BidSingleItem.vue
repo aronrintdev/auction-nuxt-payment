@@ -22,9 +22,14 @@
               </b-form-checkbox>
             </div>
             <ProductThumb :product="inventory.product" />
-            <NuxtLink v-if="!isMobileSize" :to="`/profile/auctions/${auction.id}`">
-              <div class="auction-id"> {{ $t('bids.auction_id') }}: {{ auction.id }}</div>
-            </NuxtLink>
+            <template v-if="!isMobileSize">
+              <NuxtLink v-if="bidType === BID_TYPE_OUTGOING" :to="`/auction/${auction.id}`">
+                <div class="auction-id"> {{ $t('bids.auction_id') }}: {{ auction.id }}</div>
+              </NuxtLink>
+              <NuxtLink v-else :to="`/profile/auctions/${auction.id}`">
+                <div class="auction-id"> {{ $t('bids.auction_id') }}: {{ auction.id }}</div>
+              </NuxtLink>
+            </template>
           </b-col>
           <b-col cols="8" md="8" class="pl-4 d-md-flex align-items-md-center">
             <b-row class="mb-2 mb-md-0 d-block" :class="{ 'flex-grow-1' : isMobileSize }">

@@ -1,6 +1,8 @@
+@import '~/assets/css/_variables'
+
 .features-container
   .mb-6
-    margin-bottom: 68px
+    margin-bottom: 48px
 
   .mb-7
     margin-bottom: 115px
@@ -10,3 +12,53 @@
 
   .mt-6
     margin-top: 137px
+
+.cards-wrapper-in-app
+  padding-bottom: 100px
+  .in-app-cards
+    gap: 70px
+    display: grid
+    grid-template-columns: repeat(3,minmax(100px, 306px))
+    justify-content: center
+    margin-bottom: 70px
+    .feature-four-cards
+      max-width: 306px
+      width: 100% !important
+      max-height: 265px !important
+      min-width: 100px !important
+      min-height: 86px !important
+      height: auto !important
+      img
+        width: 94px
+
+@media (max-width: 768px)
+  .cards-wrapper-in-app
+    padding: 40px 16px
+    .in-app-cards
+      grid-template-columns: repeat(5,minmax(auto, 306px))
+      align-items: center
+      margin-bottom: 0px
+      gap: 5px
+      .before, .after
+        min-width: 10px
+        width: 100%
+        height: 1px
+        background: $color-black-1
+      .feature-four-cards
+        border-radius: 8px !important
+        img
+          width: 42px !important
+
+.h-card-main
+  margin-bottom: 80px
+  gap: 178px
+  .h-card-column
+    width: 100%
+    max-width: 288px
+
+@media (max-width: 768px)
+  .h-card-main
+    margin-bottom: 50px
+    gap: 30px
+    .h-card-column
+      max-width: 343px

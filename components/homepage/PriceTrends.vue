@@ -4,6 +4,7 @@
       :title="$t('home_page.price_trends')"
       :desc="$t('home_page.trade_desc')"
       :label="$t('home_page.view_price_trends')"
+      marginLeft="97px"
       to="/stock/exchange/trending"
     />
     <div class="banner-wrapper">

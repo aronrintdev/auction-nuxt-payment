@@ -1,28 +1,33 @@
 <template>
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :bottomBannerImage="bottomBanner.bottomBannerImage"
+      :bottomBannerImageXS="bottomBanner.bottomBannerImageXS"
+      :bottomBannerDescription="bottomBanner.bottomBannerDescription"
+      :bottomBannerDescriptionXS="bottomBanner.bottomBannerDescriptionXS"
+      :bottomBannerButtonLink="bottomBanner.bottomBannerButtonLink"
+      :bottomBannerButtonText="bottomBanner.bottomBannerButtonText"
+      :previousPage="bottomBanner.previousPage"
+      :previousPageXS="bottomBanner.previousPageXS"
+      :previousPageLink="bottomBanner.previousPageLink"
+      :nextPage="bottomBanner.nextPage"
+      :nextPageXS="bottomBanner.nextPageXS"
+      :nextPageLink="bottomBanner.nextPageLink"
     >
-      <b-row class="justify-content-between h-card-main mb-md-5">
+      <b-row class="justify-content-center h-card-main">
         <b-col
           v-for="(item, index) in sellingCard"
           :key="index"
           lg="3"
-          class="d-flex justify-content-center d-lg-block"
+          class="d-flex justify-content-center d-lg-block h-card-column px-0"
         >
           <FeatureCard
             :title="item.title"
             :description="item.description"
             :imageUrl="item.image"
+            :resImageUrl="item.responsiveImage"
           />
         </b-col>
       </b-row>
@@ -35,13 +40,17 @@
         class="d-flex justify-content-center cards-wrapper-selling mb-3 mb-md-5"
       >
         <FeatureCardHoverable
-          :icon="require('~/assets/img/features/selling/create-listing.svg')"
+          :icon="
+            require('~/assets/img/features/newest-feature/selling-on-deadstock/plus.svg')
+          "
           :title="$t('features.selling.create_listing')"
           :description="$t('features.selling.create_listing_desc')"
         />
 
         <FeatureCardHoverable
-          :icon="require('~/assets/img/features/selling/sell-items.svg')"
+          :icon="
+            require('~/assets/img/features/newest-feature/selling-on-deadstock/mark.svg')
+          "
           :title="$t('features.selling.sell_items')"
           :description="$t('features.selling.sell_items_desc')"
         />
@@ -49,13 +58,17 @@
 
       <div class="d-flex justify-content-center cards-wrapper-selling mb-5">
         <FeatureCardHoverable
-          :icon="require('~/assets/img/features/selling/ship-items.svg')"
+          :icon="
+            require('~/assets/img/features/newest-feature/selling-on-deadstock/Truck-Icon.svg')
+          "
           :title="$t('features.selling.ship_items')"
           :description="$t('features.selling.ship_items_desc')"
         />
 
         <FeatureCardHoverable
-          :icon="require('~/assets/img/features/selling/earn-commission.svg')"
+          :icon="
+            require('~/assets/img/features/newest-feature/selling-on-deadstock/money-hand.svg')
+          "
           :title="$t('features.selling.earn_commission')"
           :description="$t('features.selling.earn_commission_desc')"
         />
@@ -90,6 +103,7 @@ export default {
             'newest_features.selling_on_deadstock.benefits.first_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/selling-on-deadstock/newest-money.png'),
+          responsiveImage: require('~/assets/img/features/newest-feature/selling-on-deadstock/mobile-money.png'),
         },
         {
           title: this.$t(
@@ -99,6 +113,7 @@ export default {
             'newest_features.selling_on_deadstock.benefits.second_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/selling-on-deadstock/low-fee.png'),
+          responsiveImage: require('~/assets/img/features/newest-feature/selling-on-deadstock/mobile-lowfee.png'),
         },
         {
           title: this.$t(
@@ -108,22 +123,32 @@ export default {
             'newest_features.selling_on_deadstock.benefits.third_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/selling-on-deadstock/free-shipping.png'),
+          responsiveImage: require('~/assets/img/features/newest-feature/selling-on-deadstock/mobile-upstrucknologo.png'),
         },
       ],
       banner: {
-        title: 'newest_features.selling_on_deadstock.feature_banner_title',
-        description: 'newest_features.selling_on_deadstock.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/selling-on-deadstock/sellingbanner.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/selling-on-deadstock/sellingbannermobile.svg'),
+        backgroundImage: require('@/assets/img/features/newest-feature/selling-on-deadstock/selling-on-deadstock-banner.png'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/selling-on-deadstock/selling-on-deadstock-banner-xs.png'),
       },
-      shopNowBanner: {
-        shopNowDescription:
-          'newest_features.selling_on_deadstock.shop_now_banner.desc',
-        shopNowButtonText:
-          'newest_features.selling_on_deadstock.shop_now_banner.button_text',
-        previousPage: 'newest_features.buying.title',
+      bottomBanner: {
+        bottomBannerImage: require('@/assets/img/features/newest-feature/selling-on-deadstock/bottom-banner.png'),
+        bottomBannerImageXS: require('@/assets/img/features/newest-feature/selling-on-deadstock/bottom-banner-xs.png'),
+        bottomBannerDescription:
+          'newest_features.selling_on_deadstock.bottom_banner.desc',
+        bottomBannerDescriptionXS:
+          'newest_features.selling_on_deadstock.bottom_banner.desc_xs',
+        bottomBannerButtonLink: '/apply',
+        bottomBannerButtonText:
+          'newest_features.selling_on_deadstock.bottom_banner.button_text',
+        previousPage:
+          'newest_features.selling_on_deadstock.bottom_banner.previous_page_title',
+        previousPageXS:
+          'newest_features.selling_on_deadstock.bottom_banner.previous_page_xs_title',
         previousPageLink: '/features/buying',
-        nextPage: 'newest_features.trading.title',
+        nextPage:
+          'newest_features.selling_on_deadstock.bottom_banner.next_page_title',
+        nextPageXS:
+          'newest_features.selling_on_deadstock.bottom_banner.next_page_xs_title',
         nextPageLink: '/features/trading',
       },
     }
@@ -147,6 +172,7 @@ export default {
       max-width: 361px
       min-height: 168px
       max-height: 320px
+
 
 @media (max-width: 768px)
   .features-container

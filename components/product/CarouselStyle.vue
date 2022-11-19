@@ -7,11 +7,13 @@
         :loop="loop"
         :nav="false"
         :center="true"
+        :showArrows="showArrows || showArrowsOnHover"
         :margin="0"
         :responsive="responsiveAttr"
         :mouse-drag="false"
         :dots="false"
         class="carousel"
+        :class="{ 'show-arrows-on-hover': showArrowsOnHover }"
         autoWidth
       >
         <template #default>
@@ -29,6 +31,17 @@
                 :height="445"
               />
             </nuxt-link>
+          </div>
+        </template>
+        <template #prev>
+          <div class="owl-nav navigation-arrows owl-prev">
+            <img :src="require('~/assets/img/home/arrow-left.svg')" />
+          </div>
+        </template>
+
+        <template #next>
+          <div class="owl-nav navigation-arrows owl-next">
+            <img :src="require('~/assets/img/home/arrow-right.svg')" />
           </div>
         </template>
       </Carousel>
@@ -58,6 +71,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    showArrows: {
+      type: Boolean,
+      default: false,
+    },
+    showArrowsOnHover: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     responsiveAttr() {
@@ -67,7 +88,6 @@ export default {
           700: { items: 2, nav: false, center: false },
           950: { items: 3, nav: false, center: false },
           1150: { items: 4, nav: false, center: false },
-          1400: { items: 5, nav: false, center: false },
         }
       } else {
         return {
@@ -91,6 +111,7 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .product-carousel-wrapper
+  margin: 0 -14px
   .no-text
     @include body-4-medium
     color: $color-gray-5
@@ -105,6 +126,11 @@ export default {
     margin-right: auto
     display: flex
     align-items: center
+    @media (max-width: 576px)
+      [id^='carousel_next_']
+        display: none
+      [id^='carousel_prev_']
+        display: none
     >span .owl-nav
       display: block
     .owl-carousel
@@ -114,7 +140,9 @@ export default {
         max-width: 260px
         padding: 20px
         &.photo-item
-          max-width: 261px
+          margin: 0 39px
+          max-width: 241px
+          padding: 0
           img
             border-radius: 4px
     .owl-nav
@@ -124,8 +152,22 @@ export default {
         background: none
       &.owl-next
         float: right
-        margin-right: -47px !important
+        margin-right: -30px
       &.owl-prev
         float: left
-        margin-left: -47px !important
+        margin-left: -30px
+    &.show-arrows-on-hover
+      .navigation-arrows
+        display: none
+        height: 445px
+        width: 30px
+        img
+          width: 12px
+        &.owl-prev
+          justify-content: end
+      &:hover
+        .navigation-arrows
+          display: flex
+  .thumb-wrapper::v-deep
+    background-color: transparent
 </style>

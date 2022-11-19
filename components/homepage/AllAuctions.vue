@@ -4,6 +4,7 @@
       :title="$t('home_page.all_auctions')"
       :desc="$t('home_page.trade_desc')"
       :label="$t('home_page.view_more_auctions')"
+      marginLeft="67px"
       to="/auction"
     />
 
@@ -37,7 +38,7 @@ export default {
   data() {
     return {
       auctions: [],
-      pageName: 'auctions'
+      pageName: 'auctions',
     }
   },
   async fetch() {

@@ -4,6 +4,7 @@
       :title="$t('home_page.instant_shipping')"
       :desc="$t('home_page.instant_shipping_desc')"
       :label="$t('home_page.view_more_products')"
+      marginLeft="60px"
       to="/shop"
     />
     <NavGroup
@@ -22,7 +23,7 @@
               :key="`product-carousel-${index}`"
               class="item"
             >
-              <ProductCard :product="product">
+              <ProductCard :product="product" cardHeight="352px">
                 <template #badge>
                   <!-- TODO -->
                   <Badge
