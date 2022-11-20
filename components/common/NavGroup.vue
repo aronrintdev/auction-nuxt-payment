@@ -75,6 +75,7 @@ export default {
       font-family: $font-family-montserrat
       line-height: 17px
       padding: 6px 17px
+
       @media (min-width: 576px)
         // font-size: 15px
         // padding: 6px 35px

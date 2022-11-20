@@ -1,17 +1,18 @@
 <template>
-  <b-row class="px-sm-5">
-    <b-col md="12">
+  <b-row>
+    <b-col md="12" xl="12">
       <Loader v-if="loading" class="min-vh-100" />
 
-      <b-row v-if="product" class="justify-content-center">
-        <b-col md="6" xl="6" class="px-4 px-sm-0">
-          <ProductBreadcrumb
-            :category="category"
-            :brand="product.brand"
-            :name="product.name"
-            class="mt-3 d-none d-sm-block"
-          />
+      <ProductBreadcrumb
+        v-if="product"
+        :category="category"
+        :brand="product.brand"
+        :name="product.name"
+        class="mt-3 pl-4 d-none d-sm-block"
+      />
 
+      <b-row v-if="product">
+        <b-col md="7" xl="7">
           <NavGroup
             v-model="method"
             :data="methods"
@@ -45,9 +46,7 @@
           <ProductImageViewer v-if="!has360Images" :product="product" />
           <ProductImageViewerMagic360 v-if="has360Images" :product="product" />
         </b-col>
-
-        <b-col md="6" xl="4" class="mt-sm-5 px-sm-0">
-
+        <b-col md="4" xl="4" class="px-md-1 px-xl-1">
           <ProductTitle
             :product-name="product.name"
             :product="product"
@@ -68,7 +67,7 @@
             @change="handleMethodNavClick"
           />
 
-          <b-row class="mt-2 d-none d-sm-flex col-lg-8 mx-auto w-100">
+          <b-row class="mt-2 offer-text d-none d-sm-flex col-lg-8 mx-auto w-100">
             <div class="d-flex w-100">
               <div
                 class="body-1-medium col-6 text-center"
@@ -108,6 +107,7 @@
           <OutOfStock
             v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
             class="mt-3 px-4 d-none d-sm-block px-sm-0"
+            :product="product"
             @notify-me="handleNotifyMeClick"
             @place-offer="handleOfferSubmit"
           />
@@ -147,7 +147,7 @@
       </b-row>
 
       <!-- Similar Items Section -->
-      <b-row v-if="product" class="mt-4">
+      <b-row v-if="product" class="mt-4 mx-72">
         <b-col md="12">
           <ProductSimilarItems :products="product.similar_products" />
         </b-col>
@@ -155,7 +155,7 @@
       <!-- End of Similar Items Section -->
 
       <!-- Product Details & Size Guide Section -->
-      <b-row v-if="product">
+      <b-row v-if="product" class="mx-72">
         <b-col md="12">
           <ProductDetailsTab :product="product" :selected-size="currentSize" />
         </b-col>
@@ -163,7 +163,7 @@
       <!-- End of Product Details & Size Guide Section -->
 
       <!-- Sales Graph and Sales Data Section -->
-      <b-row v-if="product" class="my-4">
+      <b-row v-if="product" class="my-4 mx-72">
         <b-col md="12">
           <SalesSection chartHeaderClass="d-none" :product="product" />
         </b-col>
@@ -192,6 +192,7 @@
       <OutOfStock
         v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
         class="px-4 d-sm-none"
+        :product="product"
         @notify-me="handleNotifyMeClick"
         @place-offer="handleOfferSubmit"
       />
@@ -654,6 +655,17 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.mx-72
+  @media (min-width: 576px)
+    padding-left: 72px
+    padding-right: 72px
+
+.offer-text
+  color: $color-gray-20
+
+  .active
+    color: $black
 
 .text-color-red-3
   color: $color-red-3

@@ -4,7 +4,7 @@ export async function fetchWatchlists({ commit }, { type }) {
   })
 }
 
-export async function findWatchlist({ commit }, { id }) {
+export async function findWatchList({ commit }, { id }) {
   return await this.$axios.get(`/watchlists/${id}`).then((res) => {
     return res.data
   })

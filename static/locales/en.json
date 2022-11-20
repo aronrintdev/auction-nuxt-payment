@@ -1618,11 +1618,13 @@
     "or_4_installments": "or 4 installments",
     "of_price": "of {price}",
     "authenticity_guaranteed": "Authenticity\nGuaranteed",
+    "deadstock_guarantee": "Deadstock\nGuarantee",
     "select_size": "Select Size",
     "error": {
       "select_size": "Please select a size above to add to cart",
       "select_size_to_offer": "Please select a size above to make an offer",
       "out_of_stock": "Unfortunately, this item and size is currently out of stock!",
+      "out_of_stock_place_offer": "Item out of stock, place offer or get notified",
       "enter_valid_amount": "Please enter valid offer amount",
       "not_found": "Product is not found",
       "select_shipping_type": "Please select a shipping type above"
@@ -5393,8 +5395,7 @@
       },
       "statuses": {
         "paid": "Paid",
-        "due": "Due",
-        "pending": "Pending"
+        "due": "Due"
       },
       "yes": "Yes",
       "no": "No"

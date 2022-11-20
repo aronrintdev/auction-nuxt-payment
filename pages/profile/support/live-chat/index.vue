@@ -29,7 +29,9 @@ import SupportHeroSec from '~/components/profile/support/SupportHeroSec'
 export default {
   name: 'LiveChat',
   components: { NavigationLinks, SupportHeroSec },
-  layout: 'Profile',
+  layout(context) {
+    return context.$auth.user ? 'Profile' : 'IndexLayout'
+  }
 }
 </script>
 <style scoped lang="sass">
