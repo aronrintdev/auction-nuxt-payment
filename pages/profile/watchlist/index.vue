@@ -50,7 +50,7 @@
     <div v-if="watchlists.length > 0 && currentWatchlist">
       <div class="row">
         <div class="col-12 col-sm-3">
-          <section class="d-none d-sm-block" :class="`section-lists`">
+          <section class="d-none d-sm-block section-lists">
             <h5>{{ $t('watchlists.buying_lists') }}</h5>
             <div v-for="list in watchlists" :key="list.id">
               <Button
@@ -141,70 +141,21 @@
           class="section-items mt-4 col-9 d-none d-sm-block"
         >
           <div class="accordion" role="tablist">
-            <b-card no-body class="mb-1">
-              <b-card-header
-                class="py-2 px-3 d-flex align-items-center justify-content-between"
-                role="tab"
-              >
-                <span class="body-2-bold flex-grow-1"
-                  >{{ $t('auction.auction_types.single') }} ({{
-                    singleAuctionsCount
-                  }})</span
-                >
-                <div
-                  v-b-toggle.accordion-1
-                  class="d-flex align-items-center justify-content-center p-1 collapase-icon"
-                >
-                  <UpArrowIcon />
-                </div>
-              </b-card-header>
-              <b-collapse
-                id="accordion-1"
-                visible
-                accordion="my-accordion"
-                role="tabpanel"
-              >
-                <b-card-body class="px-0">
-                  <AuctionItems
-                    :key="currentWatchlist.id"
-                    :currentWatchlist="currentWatchlist"
-                    type="single"
-                  />
-                </b-card-body>
-              </b-collapse>
-            </b-card>
+              <AuctionItems
+                :key="currentWatchlist.id"
+                :currentWatchlist="currentWatchlist"
+                type="single"
+                :auctionsCount="singleAuctionsCount"
+                accordionId="accordion-1"
+              />
 
-            <b-card no-body class="mb-1">
-              <b-card-header
-                class="py-2 px-3 d-flex align-items-center justify-content-between"
-                role="tab"
-              >
-                <span class="body-2-bold flex-grow-1"
-                  >{{ $t('auctions.list.collection') }} ({{
-                    collectionAuctionsCount
-                  }})</span
-                >
-                <div
-                  v-b-toggle.accordion-2
-                  class="d-flex align-items-center justify-content-center p-1 collapase-icon"
-                >
-                  <UpArrowIcon />
-                </div>
-              </b-card-header>
-              <b-collapse
-                id="accordion-2"
-                accordion="my-accordion"
-                role="tabpanel"
-              >
-                <b-card-body class="px-0">
-                  <AuctionItems
-                    :key="currentWatchlist.id"
-                    :currentWatchlist="currentWatchlist"
-                    type="collection"
-                  />
-                </b-card-body>
-              </b-collapse>
-            </b-card>
+              <AuctionItems
+                :key="currentWatchlist.id"
+                :currentWatchlist="currentWatchlist"
+                type="collection"
+                :auctionsCount="collectionAuctionsCount"
+                accordionId="accordion-2"
+              />
           </div>
         </div>
       </div>
@@ -243,7 +194,6 @@ import {
   WATCHLIST_PRIVACY_PRIVATE,
   WATCHLIST_PRIVACY_PUBLIC,
 } from '~/static/constants'
-import UpArrowIcon from '~/assets/img/icons/up-arrow.svg?inline'
 import Thumb from '~/components/product/Thumb'
 import ShareIcon from '~/assets/icons/ShareIcon'
 export default {
@@ -254,7 +204,6 @@ export default {
     ShareButton,
     CreateWatchlistModal,
     Button,
-    UpArrowIcon,
     AuctionItems,
     Thumb,
     ShareIcon,
@@ -361,6 +310,9 @@ export default {
   .section-lists
     max-width: 250px
     margin-right: 20px
+    btn
+      font-size: 16px
+      font-weight: $medium
     h5
       padding-left: 10px
   .title

@@ -12,44 +12,25 @@
         {{ $t('wish_lists.create_new_list') }}
       </Button>
     </div>
-    <div v-else class="watchlist-mobile">
-      <div v-for="(product, index) in listProducts" :key="index" class="mb-4">
-        <div class="d-flex">
-          <div class="thumb-wrapper">
-            <Thumb :src="product.image" />
-          </div>
-          <div class="w-100 d-flex flex-column justify-content-between ml-3">
-            <div>
-              <h4 class="fs-14 fw-6 font-secondary mb-1">
-                {{ product.name }}
-              </h4>
-              <h6 class="fs-12 fw-5 text-gray-5 font-secondary text-capitalize">
-                {{ product.colorway }}
-              </h6>
-              <h6 class="fs-12 fw-5 text-gray-5 font-secondary text-capitalize">
-                ${{ product.retail_price }}
-              </h6>
-            </div>
-            <button
-              class="btn w-100 rounded-pill fs-13 fw-6 font-primary mb-4 text-base-blue add-to-bag"
-            >
-              {{ $t('products.add_to_bag') }}
-            </button>
-          </div>
-        </div>
-        <div>
-          <button
-            class="fs-14 fw-5 font-secondary text-gray-47 btn btn-link p-0 mt-3"
-          >
-            {{ $t('shopping_cart.remove') }}
-          </button>
-          <button
-            class="fs-14 fw-5 font-secondary text-gray-47 btn btn-link p-0 mt-3 ml-4"
-          >
-            {{ $t('wish_lists.move') }}
-          </button>
-        </div>
+    <div v-else class="row watchlist-mobile clear-fix">
+      <div class="col-12 d-block">
+        <NavGroup
+          v-model="activeTab"
+          nav-key="list-type"
+          class="d-flex mb-4 pt-2"
+          :data="tabs"
+          @change="handleTabs"
+        />
       </div>
+      <WatchlistAuctionCard
+        v-for="item in listProducts"
+        :key="item.id"
+        :item="item"
+        :selectable="action === 'move' || action === 'remove'"
+        :selected="!!selected.find((id) => id == item.id)"
+        class="w-50 col-12 col-sm-6 col-md-4 col-lg-6 col-xl-4 "
+        @select="selectItem"
+      ></WatchlistAuctionCard>
     </div>
 
     <Portal to="back-icon-slot">
@@ -82,7 +63,7 @@
       </b-popover>
     </Portal>
     <div class="border-top my-2 divider"></div>
-    <div class="inspirtaion-list">
+    <div class="section inspirtaion-list">
       <h1 class="fs-16 fw-6 font-primary my-3">
         {{ $t('wish_lists.inspired_by_you') }}
       </h1>
@@ -93,15 +74,17 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import Thumb from '~/components/product/Thumb'
 import CreateWatchListModal from '~/components/modal/CreateWatchlist'
 import ShareIcon from '~/assets/icons/ShareIcon'
 import ShareButton from '~/components/common/ShareButton.vue'
 import Button from '~/components/common/Button.vue'
+import NavGroup from '~/components/common/NavGroup.vue'
+import WatchlistAuctionCard from '~/components/watchlist/AuctionCard'
+import { WATCHLIST_TYPE_AUCTION } from '~/static/constants'
 
 export default {
   name: 'WatchListsId',
-  components: { Thumb, CreateWatchListModal, ShareIcon, ShareButton, Button  },
+  components: { CreateWatchListModal, ShareIcon, ShareButton, Button, NavGroup, WatchlistAuctionCard  },
   layout: 'IndexLayout',
   data() {
     return {
@@ -124,130 +107,34 @@ export default {
           value: 'accessories',
         },
       ],
+      tabs: [
+        { label: 'Single', value: 'single' },
+        { label: 'Collection', value: 'collection' },
+      ],
       currentWatchList: null,
       listProducts: [],
       currentPage: 1,
-      perPage: 0,
+      perPage: 15,
       totalCount: 0,
       loading: false,
       shareDescription: this.$t('watchlists.share_description'),
       shareUrl: process.env.APP_URL + '/watch-lists/',
-      // todo
-      products: [
-        {
-          id: 1,
-          sku: 'CZ0328-400',
-          brand: 'Nike',
-          name: 'Nike LeBron 8 South Beach (2021)',
-          colorway: 'Retro/Pink Flash-Filament Green-Black',
-          gender: 'men',
-          category_id: 1,
-          release_year: '2021',
-          release_date: '2021-07-21',
-          retail_price: 20000,
-          estimated_market_value: 252,
-          story: '',
-          ai: 0,
-          enabled: 1,
-          total_sales: '0',
-          image: null,
-          _id: '60556a245d104527f351af92',
-          views: 0,
-          searches: 0,
-          rank: 0,
-          created_at: '08/23/2022',
-          updated_at: '08/23/2022',
-          size_type: 'men',
-          brand_id: 1,
-          sale_price: 27004,
-          previous_month_sale_percentage: 0,
-          current_month_sale_percentage: 0,
-          sales_percentage: 0,
-          category: {
-            id: 1,
-            name: 'sneakers',
-            _id: 'ueEbqPBxLbnTFLWwQdc4gv',
-            created_at: '08/23/2022',
-            updated_at: '08/23/2022',
-          },
-        },
-        {
-          id: 2,
-          sku: 'DJ7998-100',
-          brand: 'Nike',
-          name: 'Nike Air Force 1 Low Hare Space Jam',
-          colorway: 'White/Light Blue Fury-White',
-          gender: 'men',
-          category_id: 1,
-          release_year: '2021',
-          release_date: '2021-07-16',
-          retail_price: 12000,
-          estimated_market_value: 185,
-          story: '',
-          ai: 0,
-          enabled: 1,
-          total_sales: '0',
-          image:
-            '//images.deadstock.co/products/sneakers/DJ7998-100/800xAUTO/IMG01.jpg',
-          _id: '60c9ea8eb842f35756e39442',
-          views: 0,
-          searches: 0,
-          rank: 2,
-          created_at: '08/23/2022',
-          updated_at: '08/23/2022',
-          size_type: 'men',
-          brand_id: 1,
-          sale_price: 23547,
-          previous_month_sale_percentage: 0,
-          current_month_sale_percentage: 0,
-          sales_percentage: 0,
-          category: {
-            id: 1,
-            name: 'sneakers',
-            _id: 'ueEbqPBxLbnTFLWwQdc4gv',
-            created_at: '08/23/2022',
-            updated_at: '08/23/2022',
-          },
-        },
-        {
-          id: 3,
-          sku: 'CV7562-401',
-          brand: 'Nike',
-          name: 'Nike Lebron 18 Low Wile E. vs Roadrunner Space Jam',
-          colorway: 'Racer Blue/Baltic Blue-University Gold-White',
-          gender: 'men',
-          category_id: 1,
-          release_year: '2021',
-          release_date: '2021-07-16',
-          retail_price: 16000,
-          estimated_market_value: 223,
-          story: '',
-          ai: 0,
-          enabled: 1,
-          total_sales: '0',
-          image:
-            '//images.deadstock.co/products/sneakers/CV7562-401/800xAUTO/IMG01.jpg',
-          _id: '60e59a7fea2d5e0f0a00c97a',
-          views: 0,
-          searches: 0,
-          rank: 2,
-          created_at: '08/23/2022',
-          updated_at: '08/23/2022',
-          size_type: 'men',
-          brand_id: 1,
-          sale_price: 26129,
-          previous_month_sale_percentage: 0,
-          current_month_sale_percentage: 0,
-          sales_percentage: 0,
-          category: {
-            id: 1,
-            name: 'sneakers',
-            _id: 'ueEbqPBxLbnTFLWwQdc4gv',
-            created_at: '08/23/2022',
-            updated_at: '08/23/2022',
-          },
-        },
-      ],
+      products: [],
+      action: 'none', // 'move' or 'remove'
+      BUTTON_VARIANTS: ['primary', 'info', 'warning', 'dark'],
+      STATUSES: Object.keys(this.$t('auctions.status')).map(a => {
+        return {
+          text: this.$t('auctions.status.' + a),
+          value: a
+        }
+      }),
+      activeStatusFilters: [],
+      statusFilter: null,
+      activeTab: 'single',
+      selected: [],
+      removed: [],
+      moved: [],
+      movedWatchlist: null,
     }
   },
 
@@ -261,6 +148,7 @@ export default {
     if (this.currentWatchList) {
       await this.getWatchListItems()
     }
+    await this.getProducts()
     this.loading = false
   },
 
@@ -269,19 +157,31 @@ export default {
       return this.$store.state?.auth?.user?.id === this.currentWatchList.user_id
     },
   },
-
+  watch: {
+    activeStatusFilters() {
+      this.getWatchlistItems()
+    }
+  },
   methods: {
     ...mapActions({
-      findWatchList: 'watch-list/findWatchList',
-      fetchWatchListItems: 'watch-list/fetchWatchListItems',
+      findWatchList: 'watchlist/findWatchList',
+      fetchWatchListItems: 'watchlist/fetchWatchlistItems',
+      searchProducts: 'product/searchProducts',
+      suggestProduct: 'product/suggestProduct',
     }),
+    async getProducts(value) {
+      const productRes = await this.searchProducts({ search: value })
+      this.products = productRes
+    },
 
     async getWatchListItems() {
       this.loading = true
       const res = await this.fetchWatchListItems({
-        watchList: this.currentWatchList,
+        watchlist: this.currentWatchList,
         page: this.currentPage,
         perPage: this.perPage,
+        type: WATCHLIST_TYPE_AUCTION,
+        auctionType: this.activeTab,
         category: this.category !== 'all' ? this.category : null,
       })
       this.perPage = parseInt(res.per_page)
@@ -289,11 +189,128 @@ export default {
       this.listProducts = res.data
       this.loading = false
     },
+    handleTabs(tab) {
+      this.activeTab = tab
+      this.getWatchListItems()
+    },
+    // Cancel moving/deleting products
+    cancelAction() {
+      this.action = 'none'
+      this.selected = []
+    },
+
+    removeFilter(idx) {
+      this.activeStatusFilters.splice(idx, 1)
+    },
+
+    // Called when user click move/delete item buttons
+    setAction(mode) {
+      if (this.listProducts.length > 0) {
+        this.selected = []
+        this.action = mode
+      }
+    },
+
+    // Called when user select products to move/delete products from watchlist
+    selectItem(id, checked) {
+      if (checked) {
+        this.selected.push(id)
+      } else {
+        this.selected.splice(this.selected.indexOf(id), 1)
+      }
+    },
+    // Get target watchlists to move products from current watchlist
+    getMovableWatchlists() {
+      return this.watchlists.filter(
+        (list) => list.id !== this.currentWatchlist.id
+      )
+    },
+    handleSelectAll() {
+      this.selected = this.listProducts.map((p) => p.id)
+    },
+
+    handleDeselectAll() {
+      this.selected = []
+    },
+
+    async handleUndoBulkAction() {
+      if (this.action === 'remove') {
+        await this.addItemsToWatchlist({
+          watchlist: this.currentWatchlist,
+          ids: this.removed.map((p) => p.watchlist_itemable_id),
+          type: WATCHLIST_TYPE_AUCTION,
+        })
+        this.listProducts.push(...this.removed)
+        this.removed = []
+      } else if (this.action === 'move') {
+        await this.moveWatchlistItems({
+          watchlist: this.movedWatchlist,
+          ids: this.moved.map((p) => p.watchlist_itemable_id),
+          targetId: this.currentWatchlist.id,
+        })
+        this.listProducts.push(...this.moved)
+        this.moved = []
+        this.movedWatchlist = null
+      }
+      this.$refs.bulkSelectToolbar.showSuccess(null)
+    },
+    // Remove selected products from current watchlist
+    async removeSelected() {
+      if (this.selected.length > 0) {
+        await this.removeItemsFromWatchlist({
+          watchlist: this.currentWatchlist,
+          ids: this.selected,
+        })
+        this.removed = this.listProducts.filter((product) =>
+          this.selected.includes(product.id)
+        )
+        this.listProducts = this.listProducts.filter(
+          (product) => !this.selected.includes(product.id)
+        )
+        this.selected = []
+        this.$refs.bulkSelectToolbar.showSuccess(
+          this.$tc(
+            'watchlists.products_removed_from_watchlist',
+            this.removed.length,
+            {
+              n: this.removed.length,
+            }
+          )
+        )
+      }
+    },
+    // Move selected products from current watchlist to another
+    async moveSelected(watchlist) {
+      if (this.selected.length > 0) {
+        await this.moveWatchlistItems({
+          watchlist: this.currentWatchlist,
+          ids: this.selected,
+          targetId: watchlist.id,
+        })
+        this.movedWatchlist = watchlist
+        this.moved = this.listProducts.filter((product) =>
+          this.selected.includes(product.id)
+        )
+        this.listProducts = this.listProducts.filter(
+          (product) => !this.selected.includes(product.id)
+        )
+        this.selected = []
+        this.$refs.bulkSelectToolbar.showSuccess(
+          this.$tc('watchlists.products_moved', this.moved.length, {
+            n: this.moved.length,
+            watchlist: watchlist.name,
+          })
+        )
+      }
+    },
   },
 }
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.watchlist-mobile
+  width: 100%
+  clear: both
 .thumb-wrapper
   width: 164px
 .add-to-bag
