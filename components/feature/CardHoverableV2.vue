@@ -69,7 +69,7 @@ export default {
 
   &:hover
     transform: scale(1.2)
-
+    cursor: pointer
   .feature-title
     @include heading-1
     font-weight: $medium
