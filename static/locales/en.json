@@ -5395,8 +5395,7 @@
       },
       "statuses": {
         "paid": "Paid",
-        "due": "Due",
-        "pending": "Pending"
+        "due": "Due"
       },
       "yes": "Yes",
       "no": "No"
