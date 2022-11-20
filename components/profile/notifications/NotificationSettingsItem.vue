@@ -5,7 +5,10 @@
         {{ settings.label }}
         <arrow-right v-if="isScreenXS" @click="notificationSelect"/>
       </div>
-      <div :class="{'w-75': isScreenXS}" class="sub-title mt-2 mr-2">{{ settings.desc }}</div>
+      <div :class="{'w-75': isScreenXS}" class="sub-title mt-2 mr-2">
+        {{ settings.desc }}
+        <div v-if="settings.desc_next" class="mt-4">{{ settings.desc_next }}</div>
+      </div>
     </b-col>
     <b-col v-if="!isScreenXS" class="title-labels w-50" md="4">
       <div v-if="fieldExist(settings.data, 'when') || fieldExist(settings.data, 'every')"
@@ -72,7 +75,7 @@
           </div>
         </WhiteDropDown>
       </div>
-      <div v-if="fieldExist(settings.data, 'until') && !isScreenXS" class="mt-3">
+      <div v-if="fieldExist(settings.data, 'until') && !isScreenXS" class="mt-4">
         <vue-slider
             v-if="settings.data.until.type === 'slider'"
             :max="100"
@@ -339,7 +342,7 @@ export default {
   color: $color-black-1
 
 .sub-title
-  @include body-20
+  @include body-8
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $regular
