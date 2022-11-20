@@ -4,7 +4,17 @@ import webpack from 'webpack'
 export default defineNuxtConfig({
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   // ssr: false,
-
+  resourceHints: false,
+  render: {
+    bundleRenderer: {
+      shouldPrefetch: (file, type) => {
+        return false
+      },
+      shouldPreload: (file, type) => {
+        return false
+      },
+    },
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Deadstock',
@@ -55,9 +65,9 @@ export default defineNuxtConfig({
     { src: '~/plugins/magic360.js', mode: 'client' },
     { src: '~/plugins/tawk.js', mode: 'client' },
     { src: '~/plugins/portal', mode: 'client' },
-    { src: '~/plugins/vue-bottom-sheet.js', mode: 'client'},
-    { src: '~/plugins/vue-click-outside.js', mode: 'client'},
-    { src: '~/plugins/v-calendar.js', mode: 'client'},
+    { src: '~/plugins/vue-bottom-sheet.js', mode: 'client' },
+    { src: '~/plugins/vue-click-outside.js', mode: 'client' },
+    { src: '~/plugins/v-calendar.js', mode: 'client' },
     { src: '~/plugins/infinteloading', mode: 'client' },
     { src: '~/plugins/vue-moment.js', mode: 'client' },
     { src: '~/plugins/numberOnly.js', mode: 'client' },

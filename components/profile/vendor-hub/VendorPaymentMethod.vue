@@ -147,6 +147,7 @@ export default {
         this.$toasted.error(err.message)
       }).finally(() => {
         this.modalActionLoading = false
+        this.confirmModal = false
       })
     },
     editItem(item) {

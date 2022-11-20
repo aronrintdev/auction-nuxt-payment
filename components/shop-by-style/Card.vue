@@ -68,4 +68,9 @@ export default {
     img
       width: 54px
       height: 40px
+@media(max-width: 460px)
+  .style-card-wrapper
+    img
+      width: 120px
+      height: 50vh
 </style>
