@@ -2,19 +2,19 @@
   <b-row class="px-30 ">
     <div class="col-4 d-flex flex-column h-81 text-center">
       <div class="flex-1">
-        <b-img class="img-fluid" :src="require('~/assets/img/product/authenticity.png')" />
+        <b-img class="img-fluid" :src="require('~/assets/img/product/authenticity.svg')" />
       </div>
-      <span 
+      <span
         class="label pre-line"
       >
-        {{ $t('products.authenticity_guaranteed') }}
+        {{ $t('products.deadstock_guarantee') }}
       </span>
     </div>
     <div class="col-4 d-flex flex-column h-81 text-center border-x">
       <div class="flex-1">
-        <b-img class="img-fluid" :src="require('~/assets/img/product/affirm.png')" />
+        <b-img class="img-fluid" :src="require('~/assets/img/product/affirm.svg')" />
       </div>
-      <span 
+      <span
         class="label pre-line mt-14"
       >
         {{ $t('products.payment_plans') }}
@@ -22,9 +22,9 @@
     </div>
     <div class="col-4 d-flex flex-column h-81 text-center">
       <div class="flex-1">
-        <b-img class="img-fluid" :src="require('~/assets/img/product/crypto.png')" />
+        <b-img class="img-fluid" :src="require('~/assets/img/product/crypto.svg')" />
       </div>
-      <span 
+      <span
         class="label pre-line"
       >
         {{ $t('products.crypto_payments') }}
@@ -47,7 +47,7 @@ export default {
 
 .px-30
   padding-left: 30px
-  padding-right: 30px  
+  padding-right: 30px
 
 .h-81
   height: 81px
