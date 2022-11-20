@@ -20,27 +20,13 @@
         />
       </div>
     </section>
-    <div v-if="!noSearchResult" class="container">
-
+    <div class="container">
       <SizeType />
       <ShopByStyle />
       <ShopByCategory />
       <ShopByBrand />
       <TradesCarousel />
       <AuctionCarousel />
-    </div>
-    <div v-else>
-      <div class="text-center no-items-found">
-        <img src="~/assets/img/no-items-found.png" class="mr-3" />
-        <div>
-          <div class="no-items-found-title">
-            {{ $t('auctions.frontpage.no_results_found') }}
-          </div>
-          <div class="no-items-found-subtitle">
-            {{ $t('auctions.frontpage.cant_find_anything') }}
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -69,7 +55,6 @@ export default {
   },
   data() {
     return {
-      noSearchResult: false,
       showSearchOverlay: false
     }
   },

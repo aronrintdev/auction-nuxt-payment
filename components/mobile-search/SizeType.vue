@@ -1,5 +1,5 @@
 <template>
-  <section class="mt-5">
+  <section class="mt-3">
     <SectionHeader class="px-2"
                    :title="$t('common.sizetype')"
                    full-width
