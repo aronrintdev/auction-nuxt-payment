@@ -87,7 +87,9 @@ export default {
     SupportHeroSec,
     ContactUsForm
   },
-  layout: 'Profile',
+  layout(context) {
+    return context.$auth.user ? 'Profile' : 'IndexLayout'
+  },
   data() {
     return {
       PHONE_NUMBER,

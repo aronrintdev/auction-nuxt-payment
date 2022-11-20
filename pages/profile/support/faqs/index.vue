@@ -32,7 +32,9 @@ import FAQAccordion from '~/components/profile/support/FAQAccordion'
 export default {
   name: 'FAQ',
   components: { NavigationLinks, SupportHeroSec, FAQAccordion },
-  layout: 'Profile',
+  layout(context) {
+    return context.$auth.user ? 'Profile' : 'IndexLayout'
+  }
 }
 </script>
 <style scoped lang="sass">
