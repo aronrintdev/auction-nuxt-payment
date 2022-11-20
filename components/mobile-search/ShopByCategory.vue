@@ -11,9 +11,9 @@
       :items="shopByCategory"
       variant="photo"
       :item-settings="{
-            0: { items: 2, nav: false, center: true },
+            0: { items: 2, nav: false, center: false },
           }"
-      loop />
+    />
   </section>
 </template>
 
