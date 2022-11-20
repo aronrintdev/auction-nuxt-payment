@@ -50,7 +50,7 @@
         <div class="d-flex cards-wrapper">
           <FeatureFourCards
             :icon="
-              require('~/assets/img/features/newest-feature/rewards-program/hammer.svg')
+              require('~/assets/img/features/newest-feature/rewards-program/hammer.png')
             "
             :title="$t('features.rewards_program.auctions')"
             :description="$t('features.rewards_program.auctions_desc')"

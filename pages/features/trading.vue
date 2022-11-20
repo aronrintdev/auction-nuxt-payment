@@ -47,7 +47,7 @@
 
         <FeatureCardHoverable
           :icon="
-            require('~/assets/img/features/newest-feature/trading/speak.svg')
+            require('~/assets/img/features/newest-feature/trading/speak.png')
           "
           :title="$t('features.trading.new_feature.counter_offers')"
           :description="$t('features.trading.new_feature.counter_offers_desc')"
@@ -57,7 +57,7 @@
       <div class="d-flex justify-content-center cards-wrapper-selling mb-5">
         <FeatureCardHoverable
           :icon="
-            require('~/assets/img/features/newest-feature/trading/shoes-shirt.svg')
+            require('~/assets/img/features/newest-feature/trading/shoes-shirt.png')
           "
           :title="$t('features.trading.new_feature.multi_items')"
           :description="$t('features.trading.new_feature.multi_items_desc')"

@@ -38,7 +38,7 @@
           <span class="before d-md-none d-block mx-auto"></span>
           <FeatureFourCards
             :icon="
-              require('~/assets/img/features/newest-feature/live-customer-service/nfc.svg')
+              require('~/assets/img/features/newest-feature/live-customer-service/nfc.png')
             "
             :title="$t('features.live_customer_service.cards.title2')"
           />

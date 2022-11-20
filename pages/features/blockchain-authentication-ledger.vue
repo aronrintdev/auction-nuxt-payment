@@ -115,7 +115,7 @@ export default {
           ),
         },
         {
-          icon: require('~/assets/img/features/newest-feature/blockchain-authentication-ledger/eye-with-paper.svg'),
+          icon: require('~/assets/img/features/newest-feature/blockchain-authentication-ledger/eye-with-paper.png'),
           title: this.$t('vendor_purchase.view_details'),
           description: this.$t(
             'features.blockchain_authentication_ledger.view_details_desc'
