@@ -8,7 +8,7 @@
             :name="$t('auth.login')"
             :rules="{ required: true, min: 3, max: 128 }"
           >
-            <b-form-group>
+            <b-form-group class="px-1 pr-3">
               <b-form-input
                 id="login"
                 v-model="form.login"
@@ -27,7 +27,7 @@
             :rules="{ required: true }"
           >
             <b-form-group>
-              <b-input-group>
+              <b-input-group class="px-1 pr-3">
                 <b-form-input
                   id="password"
                   v-model="form.password"
@@ -181,6 +181,7 @@ export default {
   background-color: $color-white-1
   border: 1px solid $color-gray-3
   border-radius: 10px !important
+  padding: 19px 15px !important
   transition: border-color 0.01s ease-in-out, box-shadow 0.01s ease-in-out
   &::placeholder,
   &:-ms-input-placeholder,
@@ -261,4 +262,6 @@ export default {
   .login-btn
     width: 50%
     margin: 0 auto
+  .input-append
+    border-right: none
 </style>
