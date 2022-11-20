@@ -42,7 +42,6 @@ import SearchOverlay from '~/components/search/Overlay'
 import SearchInput from '~/components/common/SearchInput'
 export default {
   name: 'Index',
-  layout: 'IndexLayout',
   components: {
     SizeType,
     ShopByStyle,
@@ -53,9 +52,25 @@ export default {
     SearchOverlay,
     SearchInput
   },
+  layout: 'IndexLayout',
   data() {
     return {
       showSearchOverlay: false
+    }
+  },
+  computed: {
+    searchKeyword() {
+      // Set value for search input box in search page
+      if (this.$route.query?.q && this.$route.name === 'browse') {
+        return this.$route.query.q
+      } else {
+        return ''
+      }
+    },
+  },
+  watch:{
+    showSearchOverlay(val) {
+      document.getElementsByTagName('body')[0].style.overflow = val ? 'hidden' : 'auto'
     }
   },
   methods: {
@@ -71,17 +86,7 @@ export default {
         this.$refs.searchOverlay.clearInput()
       })
     }
-  },
-  computed: {
-    searchKeyword() {
-      // Set value for search input box in search page
-      if (this.$route.query?.q && this.$route.name === 'browse') {
-        return this.$route.query.q
-      } else {
-        return ''
-      }
-    },
-  },
+  }
 }
 </script>
 

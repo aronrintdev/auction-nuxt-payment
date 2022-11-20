@@ -23,7 +23,7 @@
               @click.stop="()=> item.to ? $router.push(item.to) : null"
             >
               <div v-if="variant === 'trade' || variant === 'auction'">
-                <CountdownItem :time="5000000 * 3.8" :key="index" />
+                <CountdownItem :key="index" :time="5000000 * 3.8" />
                 <div class="bg-gray">
                   <ProductThumb
                     :src="variant === 'auction' ? item.auction_items[0].inventory.product.image : item.image"
