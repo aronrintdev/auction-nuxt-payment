@@ -206,11 +206,13 @@ export default {
                 }
               },
               fieldsAvailableCallback: () =>{
+                console.log('fieldsAvailableCallback')
                 this.frameLoading = false
               },
               variant: 'inline',
               styleSniffer: 'true',
               callback: (response) => {
+                console.log('callback')
                 if (this.editMode){
                   this.updatePayoutMethods({
                     id: this.editedPayout.id,
@@ -241,6 +243,16 @@ export default {
                 }
 
               },
+              invalidCss: {
+                'border':'solid 1px red',
+              },
+              validationCallback: (fieldName, valid, message)  => {
+                if (!valid) {
+                  this.frameLoading = false
+                  this.confirmModal = false
+                  this.modalActionLoading = false
+                }
+              }
             })
           })
         }
