@@ -241,6 +241,16 @@ export default {
                 }
 
               },
+              invalidCss: {
+                'border':'solid 1px red',
+              },
+              validationCallback: (fieldName, valid, message)  => {
+                if (!valid) {
+                  this.frameLoading = false
+                  this.confirmModal = false
+                  this.modalActionLoading = false
+                }
+              }
             })
           })
         }
