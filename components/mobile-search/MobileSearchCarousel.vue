@@ -48,7 +48,7 @@
                    {{ $t('home_page.size')}} {{ item.inventory.length ? item.inventory[0].size.size : '-' }}
                   </div>
                   <a role="button" class="trade d-flex align-items-center" @click="$router.push(`/trades/${item.id}`)">
-                    <img src="~/assets/img/mobile-search/arrows.svg" /> <span class="ml-2">{{ $t('mobile_search.trade')}}</span>
+                    <img src="~/assets/img/browse/arrows.svg" /> <span class="ml-2">{{ $t('mobile_search.trade')}}</span>
                   </a>
                 </div>
 

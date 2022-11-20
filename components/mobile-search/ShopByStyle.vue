@@ -6,7 +6,7 @@
                    full-width
     />
     <div class="px-2 mt-4 mb-5">
-      <a @click="$router.push('/shop-by-style')"><img :src="require('~/assets/img/mobile-search/created_for_you.png')" class="w-100" /></a>
+      <a @click="$router.push('/shop-by-style')"><img :src="require('~/assets/img/browse/created_for_you.png')" class="w-100" /></a>
     </div>
   </section>
 </template>
