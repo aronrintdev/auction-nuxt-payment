@@ -206,13 +206,11 @@ export default {
                 }
               },
               fieldsAvailableCallback: () =>{
-                console.log('fieldsAvailableCallback')
                 this.frameLoading = false
               },
               variant: 'inline',
               styleSniffer: 'true',
               callback: (response) => {
-                console.log('callback')
                 if (this.editMode){
                   this.updatePayoutMethods({
                     id: this.editedPayout.id,
