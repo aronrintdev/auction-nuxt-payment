@@ -49,7 +49,7 @@
           {{ $t('vendor_hub.payout_method.set_default') }}
         </b-form-radio>
         <div class="mt-4 d-flex flex-column flex-sm-row justify-content-center">
-          <b-button :disabled="modalActionLoading"   pill class="bg-blue-2 mx-sm-3" @click="saveChanges">
+          <b-button :disabled="modalActionLoading || !isValid" pill class="bg-blue-2 mx-sm-3" @click="saveChanges">
             {{ $t('vendor_hub.payout_method.save_changes') }}
           </b-button>
           <b-button id="btnSave" ref="btnSave" pill class="bg-blue-2 d-none mx-sm-3">
@@ -114,6 +114,11 @@ export default {
         routingNumber: null,
         is_default: false,
       },
+      validationStatus: {
+        checkname: false,
+        checkaccount: false,
+        checkaba: false
+      },
       frameLoading: false,
       discardActive: false,
     }
@@ -127,6 +132,9 @@ export default {
     },
     confirmButtonText(){
       return this.discardActive? this.$t('vendor_hub.discard') : this.$t('common.save')
+    },
+    isValid() {
+      return this.validationStatus.checkname && this.validationStatus.checkaba && this.validationStatus.checkname
     }
   },
   watch:{
@@ -250,6 +258,7 @@ export default {
                   this.confirmModal = false
                   this.modalActionLoading = false
                 }
+                this.validationStatus[fieldName] = valid
               }
             })
           })
