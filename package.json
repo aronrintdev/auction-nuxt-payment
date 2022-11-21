@@ -6,7 +6,7 @@
     "dev": "nuxi dev",
     "build": "NODE_OPTIONS='--max-old-space-size=20000' nuxi build",
     "start": "PORT=8082 HOST=0 pm2 start ./node_modules/nuxt/bin/nuxt.js --name=index  -- start  -i 1",
-    "generate": "nuxt generate",
+    "generate": "NODE_OPTIONS='--max-old-space-size=20000' nuxt generate",
     "lint:js": "eslint --fix --ext .js,.vue .",
     "lint": "npm run lint:js",
     "test": "jest"
