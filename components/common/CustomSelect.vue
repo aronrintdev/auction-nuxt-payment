@@ -323,11 +323,15 @@ export default {
     background: $color-white-5
 
 .vp-custom-select
+  background: $color-white-5
   .selected
     width: 100% !important
 
 .top-0
   top: 0 !important
+
+.bg-white-5
+  background: $color-white-5 !important
 
 </style>
 

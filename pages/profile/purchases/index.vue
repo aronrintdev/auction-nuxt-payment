@@ -48,7 +48,7 @@
                 }"
                   :threeline-icon="false"
                   bordered
-                  class="vp-custom-select col-5 col-xl-3 px-0"
+                  class="vp-custom-select col-5 col-xl-3 px-0 bg-white-5"
                   dropdownClass="position-relative top-0"
                   @input="handleFilterChanged"
               ></VendorPurchaseCustomSelect>
@@ -67,7 +67,7 @@
                   :title="typeTitle"
                   :updateFilters="activeTypeFilters"
                   bordered
-                  class="vp-custom-select w-120"
+                  class="vp-custom-select w-120 bg-white-5"
                   inputClass="w-100"
                   @filters="typeFilters"
               />
@@ -79,7 +79,7 @@
                   :title="statusTitle"
                   :updateFilters="activeStatusFilters"
                   bordered
-                  class="vp-custom-select w-245"
+                  class="vp-custom-select w-245 bg-white-5"
                   inputClass="w-100"
                   @filters="statusFilters"
               />

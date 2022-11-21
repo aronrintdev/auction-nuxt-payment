@@ -206,4 +206,7 @@ export default {
   .custom-selectbox
     .selected
       font-size: 13px
+
+.bg-white-5
+  background: $color-white-5 !important
 </style>
