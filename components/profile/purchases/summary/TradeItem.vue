@@ -8,45 +8,45 @@
           <div
             v-for="(items, index) in tradeListingArray.slice(0, 2)"
             :key="index"
-            class="my-col-products-items border w-100 text-center"
+            class="my-col-products-items-web"
           >
-            <div class="thumb-products-similar text-center mt-2">
-              <img
-                :src="items.inventory.product | getProductImageUrl"
-                class="product-similar-img trades-img-prdcts"
-                alt="product-image"
-                @error="imageLoadError"
-              />
-              <div class="text-center">
-                <div class="blockquote">
-                  <p class="products-title-main text-left ml-3">
-                    {{ items.inventory.product.name }}
-                  </p>
-                </div>
-                <div class="products-title-subtitle text-left ml-3">
-                  <p class="mb-0">
+            <div class="thumb-products-similar-web text-center mt-2">
+              <div  class="position-relative">
+                <img
+                  :src="items.inventory.product | getProductImageUrl"
+                  class="product-similar-img-web trades-img-prdcts"
+                  alt="product-image"
+                  @error="imageLoadError"
+                />
+                <div class="overlay"></div>
+              </div>
+
+              <div class="item-caption">
+                <span class="item-name"> {{ items.inventory.product.name }} </span>
+                <div class="mt-1 item-caption-description d-flex">
+                  <div class="item-color text-truncate">
                     {{
                       items.inventory.product.colorway
                         ? items.inventory.product.colorway
                         : ''
-                    }}, {{ $t('trades.trade_arena.size') }} {{
+                    }}
+                  </div>
+                  <div>, {{ $t('trades.trade_arena.size') }} {{
                       items.inventory.size.size
                         ? items.inventory.size.size
                         : ''
-                    }}
-                  </p>
-                  <p>
-                    <span class="text-dark text-bold"
-                      >{{
-                      $t('trades.trade_arena.box')
-                    }}&colon; </span
-                    >{{
-                      items.inventory.packaging_condition.name
-                        ? items.inventory.packaging_condition.name
-                        : ''
-                    }}
-                  </p>
+                    }}</div>
                 </div>
+                <span class="mt-1 item-caption-description d-flex">
+                       {{
+                    $t('trades.trade_arena.box')
+                  }}&colon;
+                        {{
+                    items.inventory.packaging_condition.name
+                      ? items.inventory.packaging_condition.name
+                      : ''
+                  }}
+                      </span>
               </div>
             </div>
           </div>
@@ -60,45 +60,44 @@
             <div
               v-for="(items, index) in tradeListingArray.slice(2, 3)"
               :key="index"
-              class="my-col-products-items border"
+              class="my-col-products-items-web"
             >
-              <div class="thumb-products-similar text-center mt-2">
-                <img
-                  :src="items.inventory.product | getProductImageUrl"
-                  class="product-similar-img trades-img-prdcts"
-                  alt="product-image"
-                  @error="imageLoadError"
-                />
-                <div class="text-center">
-                  <div class="blockquote">
-                    <p class="products-title-main text-left ml-3">
-                      {{ items.inventory.product.name }}
-                    </p>
-                  </div>
-                  <div class="products-title-subtitle text-left ml-3">
-                    <p class="mb-0">
+              <div class="thumb-products-similar-web text-center mt-2">
+                <div  class="position-relative">
+                  <img
+                    :src="items.inventory.product | getProductImageUrl"
+                    class="product-similar-img-web trades-img-prdcts"
+                    alt="product-image"
+                    @error="imageLoadError"
+                  />
+                  <div class="overlay"></div>
+                </div>
+                <div class="item-caption">
+                  <span class="item-name"> {{ items.inventory.product.name }} </span>
+                  <div class="mt-1 item-caption-description d-flex">
+                    <div class="item-color text-truncate">
                       {{
                         items.inventory.product.colorway
                           ? items.inventory.product.colorway
                           : ''
-                      }}, {{ $t('trades.trade_arena.size') }} {{
+                      }}
+                    </div>
+                    <div>, {{ $t('trades.trade_arena.size') }} {{
                         items.inventory.size.size
                           ? items.inventory.size.size
                           : ''
-                      }}
-                    </p>
-                    <p>
-                      <span class="text-dark text-bold"
-                        >{{
-                        $t('trades.trade_arena.box')
-                      }}&colon; </span
-                      >{{
-                        items.inventory.packaging_condition.name
-                          ? items.inventory.packaging_condition.name
-                          : ''
-                      }}
-                    </p>
+                      }}</div>
                   </div>
+                  <span class="mt-1 item-caption-description d-flex">
+                       {{
+                      $t('trades.trade_arena.box')
+                    }}&colon;
+                        {{
+                      items.inventory.packaging_condition.name
+                        ? items.inventory.packaging_condition.name
+                        : ''
+                    }}
+                      </span>
                 </div>
               </div>
             </div>
@@ -118,45 +117,44 @@
             <div
               v-for="(items, index) in wantedListingArray.slice(2, 3)"
               :key="index"
-              class="my-col-products-items border"
+              class="my-col-products-items-web"
             >
-              <div class="thumb-products-similar text-center mt-2">
-                <img
-                  :src="items.inventory.product | getProductImageUrl"
-                  class="product-similar-img trades-img-prdcts"
-                  alt="product-image"
-                  @error="imageLoadError"
-                />
-                <div class="text-center">
-                  <div class="blockquote">
-                    <p class="products-title-main text-left ml-3">
-                      {{ items.inventory.product.name }}
-                    </p>
-                  </div>
-                  <div class="products-title-subtitle text-left ml-3">
-                    <p class="mb-0">
+              <div class="thumb-products-similar-web text-center mt-2">
+                <div  class="position-relative">
+                  <img
+                    :src="items.inventory.product | getProductImageUrl"
+                    class="product-similar-img-web trades-img-prdcts"
+                    alt="product-image"
+                    @error="imageLoadError"
+                  />
+                  <div class="overlay"></div>
+                </div>
+                <div class="item-caption">
+                  <span class="item-name"> {{ items.inventory.product.name }} </span>
+                  <div class="mt-1 item-caption-description d-flex">
+                    <div class="item-color text-truncate">
                       {{
                         items.inventory.product.colorway
                           ? items.inventory.product.colorway
                           : ''
-                      }}, {{ $t('trades.trade_arena.size') }} {{
+                      }}
+                    </div>
+                    <div>, {{ $t('trades.trade_arena.size') }} {{
                         items.inventory.size.size
                           ? items.inventory.size.size
                           : ''
-                      }}
-                    </p>
-                    <p>
-                      <span class="text-dark text-bold"
-                        >{{
-                        $t('trades.trade_arena.box')
-                      }}&colon; </span
-                      >{{
-                        items.inventory.packaging_condition.name
-                          ? items.inventory.packaging_condition.name
-                          : ''
-                      }}
-                    </p>
+                      }}</div>
                   </div>
+                  <span class="mt-1 item-caption-description d-flex">
+                       {{
+                      $t('trades.trade_arena.box')
+                    }}&colon;
+                        {{
+                      items.inventory.packaging_condition.name
+                        ? items.inventory.packaging_condition.name
+                        : ''
+                    }}
+                      </span>
                 </div>
               </div>
             </div>
@@ -170,45 +168,44 @@
           <div
             v-for="(items, index) in wantedListingArray.slice(0, 2)"
             :key="index"
-            class="my-col-products-items border w-100 text-center"
+            class="my-col-products-items-web"
           >
-            <div class="thumb-products-similar text-center mt-2">
-              <img
-                :src="items.inventory.product | getProductImageUrl"
-                class="product-similar-img trades-img-prdcts"
-                alt="product-image"
-                @error="imageLoadError"
-              />
-              <div class="text-center">
-                <div class="blockquote">
-                  <p class="products-title-main text-left ml-3">
-                    {{ items.inventory.product.name }}
-                  </p>
-                </div>
-                <div class="products-title-subtitle text-left ml-3">
-                  <p class="mb-0">
+            <div class="thumb-products-similar-web text-center mt-2">
+              <div  class="position-relative">
+                <img
+                  :src="items.inventory.product | getProductImageUrl"
+                  class="product-similar-img-web trades-img-prdcts"
+                  alt="product-image"
+                  @error="imageLoadError"
+                />
+                <div class="overlay"></div>
+              </div>
+              <div class="item-caption">
+                <span class="item-name"> {{ items.inventory.product.name }} </span>
+                <div class="mt-1 item-caption-description d-flex">
+                  <div class="item-color text-truncate">
                     {{
                       items.inventory.product.colorway
                         ? items.inventory.product.colorway
                         : ''
-                    }}, {{ $t('trades.trade_arena.size') }} {{
+                    }}
+                  </div>
+                  <div>, {{ $t('trades.trade_arena.size') }} {{
                       items.inventory.size.size
                         ? items.inventory.size.size
                         : ''
-                    }}
-                  </p>
-                  <p>
-                    <span class="text-dark text-bold"
-                      >{{
-                      $t('trades.trade_arena.box')
-                    }}&colon; </span
-                    >{{
-                      items.inventory.packaging_condition.name
-                        ? items.inventory.packaging_condition.name
-                        : ''
-                    }}
-                  </p>
+                    }}</div>
                 </div>
+                <span class="mt-1 item-caption-description d-flex">
+                       {{
+                    $t('trades.trade_arena.box')
+                  }}&colon;
+                        {{
+                    items.inventory.packaging_condition.name
+                      ? items.inventory.packaging_condition.name
+                      : ''
+                  }}
+                      </span>
               </div>
             </div>
           </div>
@@ -330,11 +327,20 @@ export default {
   display: inline-block
   margin-left: 10px
   width: 200px
+.my-col-products-items-web
+  margin-top: 20%
+  height: 216px
+  border-radius: 4px 4px 0px 0px
+  display: inline-block
+  margin-left: 10px
+  width: 150px
 .pull-right
   float: right
 .product-similar-img
   width: 132px
   height: 115px
+.product-similar-img-web
+  width: 141px
 .products-title-main
   @include body-9-medium
   font-style: normal
@@ -419,4 +425,50 @@ export default {
     width: 75%
   .slider-container-col
     margin-top: 10px
+.item-caption
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  background: $color-white-1
+
+.item-caption-description
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $normal
+  @include body-9
+  line-height: 14px
+  color: #626262
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+.item-box-condition, .item-size
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $normal
+  @include body-9
+  line-height: 14px
+  color: #626262
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+.item-name
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $medium
+  @include body-10
+  color: $color-black-1
+  white-space: nowrap
+  text-overflow: ellipsis
+  overflow: hidden
+.thumb-products-similar
+  background: #FAFAFA
+.overlay
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: $color-grey-70
+.item-caption
 </style>

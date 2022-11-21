@@ -13,18 +13,18 @@
               <div class="heading-13 font-primary">
                 {{ $t('vendor_purchase.purchases') }}
               </div>
-              <Button
-                  class="btn-back float-right"
-                  to="/profile/purchases"
-                  variant="link"
-              >
-                <img
-                    :alt="$t('common.back')"
-                    :src="require('~/assets/img/icons/arrow-back.svg')"
-                    class="mr-2"
-                />
-                {{ $t('vendor_purchase.back_to_purchases') }}
-              </Button>
+<!--              <Button-->
+<!--                  class="btn-back float-right"-->
+<!--                  to="/profile/purchases"-->
+<!--                  variant="link"-->
+<!--              >-->
+<!--                <img-->
+<!--                    :alt="$t('common.back')"-->
+<!--                    :src="require('~/assets/img/icons/arrow-back.svg')"-->
+<!--                    class="mr-2"-->
+<!--                />-->
+<!--                {{ $t('vendor_purchase.back_to_purchases') }}-->
+<!--              </Button>-->
             </div>
           </div>
           <!-- ./Row -->
@@ -75,7 +75,7 @@ import PaymentSummary from '~/components/profile/purchases/summary/PaymentSummar
 import PurchaseUpdatePaymentInfo from '~/components/profile/purchases/summary/UpdatePaymentInfo.vue'
 import RefundSummary from '~/components/profile/purchases/summary/RefundSummary.vue'
 import VendorPurchaseShippingDetails from '~/components/profile/purchases/summary/shipping/ShippingDetails.vue'
-import {Button} from '~/components/common'
+// import {Button} from '~/components/common'
 import {
   PROCESSING_PAYMENT,
   CANCELLED,
@@ -97,7 +97,7 @@ export default {
     PurchaseUpdatePaymentInfo,
     RefundSummary,
     VendorPurchaseShippingDetails,
-    Button,
+    // Button,
   },
   mixins: [screenSize],
   layout: 'Profile',
