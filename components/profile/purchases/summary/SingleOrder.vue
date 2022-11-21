@@ -366,9 +366,9 @@ export default {
   height: 84px
   width: 52px
 .inv-text
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: 400
   font-size: 18px
-  color: #000000
+  color: $color-black-1
 </style>
