@@ -19,7 +19,7 @@
         <p v-if="description2">{{ description2 }}</p>
         <p v-if="description3">{{ description3 }}</p>
       </div>
-      <div class="d-flex  mt-41">
+      <div class="d-flex justify-content-center mt-41">
         <Button variant="dark-blue" pill @click="handleOkClick" class="modal-btn mr-43">{{
           confirmLabel || $t('common.ok')
         }}</Button>

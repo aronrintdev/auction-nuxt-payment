@@ -167,8 +167,6 @@
             justify-content-between
           "
         >
-          <!-- Delist Multiple Button -->
-          <!-- ./Delist Multiple Button -->
 
           <!-- vacation mode -->
           <div :class="{

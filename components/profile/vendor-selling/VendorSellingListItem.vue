@@ -13,29 +13,37 @@
         borderless
         :items="searchResults"
         :fields="fields"
+        :busy="loading"
         responsive
         tbody-tr-class="bg-white vd-selling-bt"
       >
+        <template #table-busy>
+          <div class="d-flex align-items-center justify-content-center">
+            <Loader :loading="loading"></Loader>
+          </div>
+        </template>
         <template #cell(products)="row">
           <div class="row">
-            <div v-if="showCheckBox" class="vdCheckBox-1 col-md-2 m-auto">
-              <b-form-checkbox
-                :id="`checkbox-${row.item.id}`"
-                v-model="selectedVal"
-                :value="row.item.id"
-                class="vd-checkbox"
-                name="checkbox-move-items"
-                @change="toggleSelect(row.item.id)"
-              >
-              </b-form-checkbox>
-            </div>
-            <div class="vd-sell-product-img col-md-10 text-center">
-              <img
-                :src="getImage(row.item.inventory.product.image)"
-                alt="Product Picture"
-                width="auto"
-                @error="imageLoadError"
-              />
+            <div class="vd-sell-product-img text-center">
+              <div class="d-flex align-items-center">
+                <b-form-checkbox
+                    v-if="showCheckBox"
+                    :id="`checkbox-${row.item.id}`"
+                    v-model="selectedVal"
+                    :value="row.item.id"
+                    class="vd-checkbox mr-2"
+                    name="checkbox-move-items"
+                    @change="toggleSelect(row.item.id)"
+                >
+                </b-form-checkbox>
+                <img
+                    :src="getImage(row.item.inventory.product.image)"
+                    alt="Product Picture"
+                    width="auto"
+                    @error="imageLoadError"
+                />
+              </div>
+
               <br />
               <span class="list-id text-center text-decoration-underline" role="button" @click="handleEditClick(row.item.id)">&#35;{{ row.item.id }}</span>
             </div>
@@ -122,10 +130,11 @@ import {
   ACCEPTED_OFFER,
   LISTED
 } from '~/static/constants'
+import Loader from '~/components/common/Loader';
 
 export default {
   name: 'ListItem',
-
+  components: {Loader},
   props: {
     // Search result
     searchResults: {
@@ -165,7 +174,8 @@ export default {
           key: 'products',
           label: this.$t('selling_page.product'),
           sortable: false,
-          thClass: 'body-4-bold font-primary text-nowrap mr-4'
+          thClass: 'body-4-bold font-primary text-nowrap mr-4',
+          thStyle: { width: '170px' }
         },
         {
           key: 'product_details',
@@ -298,10 +308,12 @@ export default {
   @include body-5-medium
   color: $color-black-1
 .vd-sell-product-img
-  left: 22.29%
-  right: 70%
-  top: 28.31%
-  bottom: 68.59%
+  margin-right: 30px
+  margin-left: auto
+  img
+    width: 100px
+    object-fit: cover
+
 .table-text
   font-family: $font-sp-pro
   font-style: normal
