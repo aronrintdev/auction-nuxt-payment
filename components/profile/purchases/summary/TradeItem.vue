@@ -439,7 +439,7 @@ export default {
   font-weight: $normal
   @include body-9
   line-height: 14px
-  color: #626262
+  color: $color-gray-5
   overflow: hidden
   text-overflow: ellipsis
   white-space: nowrap
@@ -450,7 +450,7 @@ export default {
   font-weight: $normal
   @include body-9
   line-height: 14px
-  color: #626262
+  color: $color-gray-5
   overflow: hidden
   text-overflow: ellipsis
   white-space: nowrap
@@ -465,7 +465,7 @@ export default {
   text-overflow: ellipsis
   overflow: hidden
 .thumb-products-similar
-  background: #FAFAFA
+  background: $color-white-4
 .overlay
   position: absolute
   top: 0
@@ -476,7 +476,7 @@ export default {
 .your-thier-cont
   width: 797px
   height: 61px
-  background: #FAFAFA
+  background: $color-white-4
   border-radius: 4px
   margin-left: 6.5rem
 .value-text
@@ -486,7 +486,7 @@ export default {
   font-size: 15px
   line-height: 18px
   text-transform: uppercase
-  color: #626262
+  color: $color-gray-5
 .value-text-bold
   font-family: $font-montserrat
   font-style: normal
