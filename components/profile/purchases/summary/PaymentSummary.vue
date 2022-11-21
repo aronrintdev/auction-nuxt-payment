@@ -372,6 +372,6 @@ export default {
   font-weight: 500
   font-size: 18px
   line-height: 26px
-  color: #6F6F6F
+  color: $color-black-1
 
 </style>
