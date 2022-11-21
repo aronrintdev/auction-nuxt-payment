@@ -34,6 +34,6 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .active
-  .outer-path
-    fill: $color-white-1
+  path
+    stroke-width: 3px
 </style>
