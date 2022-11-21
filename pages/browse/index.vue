@@ -20,27 +20,13 @@
         />
       </div>
     </section>
-    <div v-if="!noSearchResult" class="container">
-
+    <div class="container">
       <SizeType />
       <ShopByStyle />
       <ShopByCategory />
       <ShopByBrand />
       <TradesCarousel />
       <AuctionCarousel />
-    </div>
-    <div v-else>
-      <div class="text-center no-items-found">
-        <img src="~/assets/img/no-items-found.png" class="mr-3" />
-        <div>
-          <div class="no-items-found-title">
-            {{ $t('auctions.frontpage.no_results_found') }}
-          </div>
-          <div class="no-items-found-subtitle">
-            {{ $t('auctions.frontpage.cant_find_anything') }}
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -56,7 +42,6 @@ import SearchOverlay from '~/components/search/Overlay'
 import SearchInput from '~/components/common/SearchInput'
 export default {
   name: 'Index',
-  layout: 'IndexLayout',
   components: {
     SizeType,
     ShopByStyle,
@@ -67,10 +52,25 @@ export default {
     SearchOverlay,
     SearchInput
   },
+  layout: 'IndexLayout',
   data() {
     return {
-      noSearchResult: false,
       showSearchOverlay: false
+    }
+  },
+  computed: {
+    searchKeyword() {
+      // Set value for search input box in search page
+      if (this.$route.query?.q && this.$route.name === 'browse') {
+        return this.$route.query.q
+      } else {
+        return ''
+      }
+    },
+  },
+  watch:{
+    showSearchOverlay(val) {
+      document.getElementsByTagName('body')[0].style.overflow = val ? 'hidden' : 'auto'
     }
   },
   methods: {
@@ -86,17 +86,7 @@ export default {
         this.$refs.searchOverlay.clearInput()
       })
     }
-  },
-  computed: {
-    searchKeyword() {
-      // Set value for search input box in search page
-      if (this.$route.query?.q && this.$route.name === 'browse') {
-        return this.$route.query.q
-      } else {
-        return ''
-      }
-    },
-  },
+  }
 }
 </script>
 

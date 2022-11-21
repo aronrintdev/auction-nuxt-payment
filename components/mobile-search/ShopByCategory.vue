@@ -11,9 +11,9 @@
       :items="shopByCategory"
       variant="photo"
       :item-settings="{
-            0: { items: 2, nav: false, center: true },
+            0: { items: 2, nav: false, center: false },
           }"
-      loop />
+    />
   </section>
 </template>
 
@@ -23,14 +23,14 @@ export default {
   data() {
     return {
       shopByCategory: [
-        { image: require('~/assets/img/mobile-search/category_1.png'), title: '', to: '/shop' },
-        { image: require('~/assets/img/mobile-search/category_2.png'), title: '', to: '/shop' },
-        { image: require('~/assets/img/mobile-search/category_3.png'), title: '', to: '/shop' },
-        { image: require('~/assets/img/mobile-search/category_4.png'), title: '', to: '/shop' },
-        { image: require('~/assets/img/mobile-search/category_5.png'), title: '', to: '/shop' },
-        { image: require('~/assets/img/mobile-search/category_6.png'), title: '', to: '/shop' },
-        { image: require('~/assets/img/mobile-search/category_7.png'), title: '', to: '/shop' },
-        { image: require('~/assets/img/mobile-search/category_8.png'), title: '', to: '/shop' },
+        { image: require('~/assets/img/browse/category_1.png'), title: '', to: '/shop' },
+        { image: require('~/assets/img/browse/category_2.png'), title: '', to: '/shop' },
+        { image: require('~/assets/img/browse/category_3.png'), title: '', to: '/shop' },
+        { image: require('~/assets/img/browse/category_4.png'), title: '', to: '/shop' },
+        { image: require('~/assets/img/browse/category_5.png'), title: '', to: '/shop' },
+        { image: require('~/assets/img/browse/category_6.png'), title: '', to: '/shop' },
+        { image: require('~/assets/img/browse/category_7.png'), title: '', to: '/shop' },
+        { image: require('~/assets/img/browse/category_8.png'), title: '', to: '/shop' },
       ],
     }
   },
