@@ -252,7 +252,7 @@ export default {
         {
           icon: 'vendor-outline-gray',
           label: this.$t('vendor_hub.apply_title'),
-          link: '/profile/vendor-hub'
+          link: '/signup'
         },
         {
           icon: 'tag-outline-gray',

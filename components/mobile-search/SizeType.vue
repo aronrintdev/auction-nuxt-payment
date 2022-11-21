@@ -1,5 +1,5 @@
 <template>
-  <section class="mt-5">
+  <section class="mt-3">
     <SectionHeader class="px-2"
                    :title="$t('common.sizetype')"
                    full-width
@@ -17,9 +17,9 @@ export default {
   data() {
     return {
       sizeType: [
-        { image: require('~/assets/img/mobile-search/img-1.png'), title: 'Men', to: '/shop' },
-        { image: require('~/assets/img/mobile-search/img-2.png'), title: 'Women', to: '/shop' },
-        { image: require('~/assets/img/mobile-search/img-3.png'), title: 'Kids', to: '/shop' }
+        { image: require('~/assets/img/browse/img-1.png'), title: 'Men', to: '/shop' },
+        { image: require('~/assets/img/browse/img-2.png'), title: 'Women', to: '/shop' },
+        { image: require('~/assets/img/browse/img-3.png'), title: 'Kids', to: '/shop' }
       ],
     }
   },
