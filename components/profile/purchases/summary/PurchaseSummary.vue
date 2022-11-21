@@ -29,54 +29,6 @@
               })
             }}
           </div>
-          <!-- Order Status -->
-<!--          <div class="order-bar">-->
-<!--            <div-->
-<!--                v-if="ORDERS_HAS_ITEMS.includes(orderType) && purchaseStatus !== multiple"-->
-<!--                :id="purchaseStatus.toLowerCase()"-->
-<!--            >-->
-<!--              <div>-->
-<!--                {{ orderDetails.status_label }}-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div-->
-<!--                v-if="orderType === giftCard"-->
-<!--                :id="orderDetails.orderable.status.toLowerCase()"-->
-<!--                class="success-status d-flex align-items-center float-right"-->
-<!--            >-->
-<!--              <div class="p-3 text-uppercase">-->
-<!--                {{ $t(`vendor_purchase.orderstatus.${purchaseStatus}`) }}-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-          <!-- ./Order Status -->
-<!--        <div>-->
-<!--          <div-->
-<!--              v-if="orderDetails.quantity === 1"-->
-<!--              class="body-12-medium font-secondary text-capitalize  mb-14"-->
-<!--          >-->
-<!--            {{-->
-<!--              $t('vendor_purchase.ordered_on', {-->
-<!--                orderedDate: $options.filters.formatDateTimeString(-->
-<!--                    orderDetails.created_at-->
-<!--                ),-->
-<!--              })-->
-<!--            }}-->
-<!--          </div>-->
-<!--          <span v-else class="text-bold text-capitalize"-->
-<!--          >{{ itemQuantity }}&nbsp;{{ $tc('common.item', 1) }}</span-->
-<!--          >-->
-<!--          <span-->
-<!--              v-if="orderType !== giftCard && orderDetails.quantity === 1 && orderDetails.items.length>=1 && orderDetails.items[0].shipment"-->
-<!--              class="d-flex shipping-label"-->
-<!--          >-->
-<!--            {{ $t('vendor_purchase.shipping_carrier') }}&colon;-->
-<!--            {{-->
-<!--              orderDetails.items[0].shipment.shipping_method_text-->
-<!--            }}-->
-<!--          </span>-->
-<!--          &lt;!&ndash; ./Shipping Label &ndash;&gt;-->
-<!--        </div>-->
         <!-- Shipping Address -->
         <b-card-text v-if="ORDERS_HAS_ITEMS.includes(orderType)" class="shipping-address">
           <div class="body-13-medium font-secondary">
@@ -94,17 +46,6 @@
         </b-card-text>
         <!-- ./Shipping Address -->
         <!-- Details: Single Order-->
-<!--        <SingleOrderVue-->
-<!--            v-if=" ORDERS_HAS_ITEMS.includes(orderType)"-->
-<!--            :orderDetails="orderDetails.items"-->
-<!--            :fullOrderDetails='orderDetails'-->
-<!--            :fields="fields"-->
-<!--            :orderType="orderType"-->
-<!--            :itemCount="orderDetails.quantity"-->
-<!--            :timelineStatus="timelineStatus"-->
-<!--            :itemStatus="purchaseStatus"-->
-<!--            :updatedAt="orderDetails.updated_at"-->
-<!--        />-->
 
         <SingleOrderVue
             v-if="orderType === giftCard"
@@ -437,7 +378,7 @@ export default {
   font-weight: $bold
   font-size: 22px
   line-height: 26px
-  color: #000000
+  color: $color-black-1
 .order-created
   font-family: $font-sp-pro
   font-style: normal
