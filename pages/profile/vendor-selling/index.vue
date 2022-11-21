@@ -5,7 +5,7 @@
         md="12"
         lg="12"
         :class="`vendor-dashboard-body ${
-          !mobileClass ? 'px-5 py-5' : 'pad-responsive'
+          !mobileClass ? 'web-padding' : 'pad-responsive'
         }`"
       >
         <!-- FILTERS -->
@@ -15,8 +15,6 @@
           <div
             class="
               col-12
-              mt-md-4
-              my-2
               vd-selling-heading
               align-items-center
             "
@@ -50,6 +48,7 @@
               "
               class="flex-grow-1 mw-734 search"
               :debounce="1000"
+              :input-height="'36px'"
               @search="getProducts"
             />
 
@@ -84,6 +83,9 @@
               col-sm-6
               browse-dropdown
             "
+            :class="{
+          'd-flex justify-content-end': !isScreenXS
+        }"
           >
             <VendorSellingSortBy
               :default="purchaseFilter"
@@ -99,74 +101,51 @@
           <!-- Sort By -->
         </div>
         <!-- Row -->
-        <div v-if="resultLength" class="row filter-data">
-          <!-- Tabs Filter -->
-          <div class="col-12 col-md-4 mt-sm-4 col-sm-12 filter-by mt-2 mt-md-4">
-            <label class="filter-text">{{
-              $t('selling_page.filter_by')
-            }}</label>
+        <div v-if="resultLength && !isScreenXS" class="d-flex align-items-end mt-18">
+
+          <div class="mr-20">
+              <span class="mb-5p font-secondary body-8-normal text-black">{{
+                  $t('selling_page.filter_by')
+                }}</span>
             <VendorSellingFilterBy
-              v-if="searchResults.data"
-              :default="filterBy"
-              :options="filterByOptions"
-              :title="filterByTitle"
-              :updateFilters="activeFilters"
-              @filters="updateFilterBy"
+                v-if="searchResults.data"
+                :default="filterBy"
+                :options="filterByOptions"
+                :title="filterByTitle"
+                :updateFilters="activeFilters"
+                class="vendor-selling-sort"
+                @filters="updateFilterBy"
             />
           </div>
-          <!-- ./Tabs Filter -->
+          <div class="mr-20 d-flex flex-column">
+              <span class="mb-5p font-secondary body-8-normal text-black">{{
+                  $t('selling_page.listed_date')
+                }}</span>
+            <div class="d-flex align-items-center">
+              <CalendarInput
+                  :placeholder="$t('bids.start_date').toString()"
+                  :value="searchFilters.startDate"
+                  class="mr-20 date-calendar"
+                  @context="(context) => (searchFilters.startDate = context.selectedYMD)"
+              ></CalendarInput>
 
-          <!-- Start Date -->
-          <div class="col-md-2 col-sm-12 start-date mt-5 pt-3 mt-md-4 pt-md-0">
-            <label class="filter-text mb-0">{{
-              $t('selling_page.listed_date')
-            }}</label>
-            <b-form-datepicker
-              v-if="searchResults.data"
-              id="example-datepicker-start"
-              v-model="searchFilters.startDate"
-              class="form-item"
-              placeholder="Start Date"
-              :dateFormatOptions="{
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-              }"
-            ></b-form-datepicker>
-          </div>
-          <!-- ./Start Date -->
+              <CalendarInput
+                  :placeholder="$t('bids.end_date').toString()"
+                  :value="searchFilters.endDate"
+                  class="mr-20 date-calendar"
+                  @context="(context) => (searchFilters.endDate = context.selectedYMD)"
+              ></CalendarInput>
 
-          <!-- End Date -->
-          <div class="col-md-2 col-sm-12 end-date mt-4 mt-md-4 pt-0 pt-md-3">
-            <b-form-datepicker
-              v-if="searchResults.data"
-              id="example-datepicker-end"
-              v-model="searchFilters.endDate"
-              class="mt-2 form-item"
-              placeholder="End date"
-              :dateFormatOptions="{
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-              }"
-            ></b-form-datepicker>
+              <Button
+                  class="bg-blue-2 apply-button text-white"
+                  variant="dark-blue"
+                  @click="loadData"
+              >{{ $t('vendor_purchase.apply') }}
+              </Button>
+            </div>
           </div>
-          <!-- ./End Date -->
 
-          <!-- Apply Button -->
-          <div class="col-md-1 col-sm-12 col-xs-6 mt-4 mt-md-4">
-            <br/>
-            <Button
-                variant="apply text-cente form-item"
-                class="px-3"
-                :class="{ 'w-100': isScreenXS || isScreenSM }"
-                @click="loadData"
-            >
-              {{ $t('selling_page.apply') }}
-            </Button>
-          </div>
-          <div class="col-md-3 col-sm-12 col-xs-6 mt-4 mt-md-4">
-            <br/>
+          <div class="ml-auto">
             <Button
                 class="delist-btn float-right mt-2 text-center font-primary body-5-normal"
                 variant="white"
@@ -175,8 +154,6 @@
               {{ $t('selling_page.delist_multiple') }}
             </Button>
           </div>
-          <!-- Apply Button -->
-
         </div>
 
         <div
@@ -528,11 +505,13 @@ import MobileFilter from '~/components/profile/vendor-selling/filters/MobileFilt
 import VacationModeConfirmation from '~/components/profile/vendor-selling/VacationModeConfirmation.vue'
 import { DELIST, RELIST } from '~/static/constants'
 import ListingConfirmation from '~/components/profile/vendor-selling/details/ListingConfirmation.vue'
+import CalendarInput from '~/components/common/form/CalendarInput';
 
 export default {
   name: 'Index',
 
   components: {
+    CalendarInput,
     VendorSellingSortBy,
     // VendorSellingSearchFilter,
     VendorSellingFilterBy,
@@ -1107,11 +1086,39 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.web-padding
+  padding: 42px 54px
+::v-deep.apply-button
+  &.btn
+    width: 90px
+
+.mr-20
+  margin-right: 20px
+
+.mb-5p
+  margin-bottom: 5px
+
+.mt-18
+  margin-top: 18px
+
 ::v-deep.delist-btn
   width: 168px
   border: 0.5px solid $color-gray-4 !important
   border-radius: 5px
 
+::v-deep.date-calendar
+  max-width: 170px
+
+  .date-input
+    background-color: $color-white-1
+    @include body-5-regular
+    font-family: $font-montserrat
+    font-style: normal
+    white-space: nowrap
+
+  .date-dp
+    .btn-secondary
+      background-color: $color-white-1
 
 .filter-text
   font-family: $font-sp-pro
@@ -1317,12 +1324,29 @@ export default {
 #delistConfirmation::v-deep
   .bottom-sheet__content
     overflow-y: hidden
-.search
-  border: 1px solid $white-2
+::v-deep.search
+  border: 1px solid $color-gray-60
   border-radius: 5px
-  height: 45px
-.vendor-selling-sort
-  border: 1px solid $white-2
+  height: 38px !important
+  max-width: 734px
+  width: 100%
+  margin-right: 71px
+  input.search-input
+    @include body-5-regular
+    font-family: $font-montserrat
+    letter-spacing: 0.06em
+
+::v-deep.vendor-selling-sort
+  width: 245px
+  border-radius: 5px
+  border: 1px solid $color-gray-60 !important
+  height: 38px
+  .selected
+    height: 36px
+    padding: 10px
+    &:after
+      top: 3px
+
 .form-item
   border: 1px solid $white-2
   height: 44px
