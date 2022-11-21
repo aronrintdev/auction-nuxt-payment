@@ -1,6 +1,21 @@
 <template>
   <div class="trade-item-wrapper">
     <!-- TODO: Simplify design -->
+    <div class="your-thier-cont">
+      <div class="pt-4 pl-3">
+        <div class="float-left">
+          <span class="value-text">{{ $t('vendor_purchase.their_value') }}&colon; </span><span class="value-text-bold">{{
+            getTheirTotal(true)
+          }}</span>
+        </div>
+        <div class="float-right mr-5">
+          <span  class="value-text">{{ $t('vendor_purchase.your_value') }}&colon;  </span> <span class="value-text-bold">{{
+            getYourTotal(true)
+          }}</span>
+        </div>
+      </div>
+
+    </div>
     <div class="row px-5">
       <!-- Col1- 2 item -->
       <div class="col-md-2 m-auto">
@@ -225,18 +240,6 @@
               class="slider rounded-pill"
               type="range"
             ></b-form-input>
-          </div>
-          <div class="button-wrapper mt-3">
-            <b-button variant="yours float-left text-bold"
-              >{{ $t('vendor_purchase.yours') }}&colon; {{
-                getYourTotal(true)
-              }}</b-button
-            >
-            <b-button variant="theirs float-right text-bold"
-              >{{ $t('vendor_purchase.theirs') }}&colon; {{
-                getTheirTotal(true)
-              }}</b-button
-            >
           </div>
         </div>
         <!-- ./TODO: Slider -->
@@ -470,5 +473,24 @@ export default {
   width: 100%
   height: 100%
   background: $color-grey-70
-.item-caption
+.your-thier-cont
+  width: 797px
+  height: 61px
+  background: #FAFAFA
+  border-radius: 4px
+  margin-left: 6.5rem
+.value-text
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $normal
+  font-size: 15px
+  line-height: 18px
+  text-transform: uppercase
+  color: #626262
+.value-text-bold
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $medium
+  font-size: 15px
+  color: $color-black-1
 </style>
