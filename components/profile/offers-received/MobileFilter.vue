@@ -3,7 +3,7 @@
     v-show="mobileClass"
     :class="`sidebar-wrapper ${mobileClass} d-flex w-100 flex-column align-items-start`"
   >
-    <div :class="`header ${mobileClass} w-100 px-5 py-3 border-bottom`">
+    <div :class="`header ${mobileClass} w-100 px-5 border-bottom`">
       <div
         :class="`filter-by w-100 ${mobileClass} d-flex aling-items-center justify-content-center`"
       >
@@ -39,6 +39,7 @@
       <!-- Sort By ends -->
       <div v-show="filterVisibility" class="collapses flex-column">
         <CollapseStatus
+          id="status-filter"
           :value="filter.status || {}"
           collapseKey="status"
           :title="$t('placed_offers.status')"
@@ -49,6 +50,7 @@
       <hr v-show="filterVisibility" />
       <div class="collapses flex-column">
         <CollapseDate
+          id="date-filter"
           collapseKey="offer-date"
           :title="$t('offers_received.offer_date')"
           :options="status"
@@ -72,7 +74,7 @@
         <Button
           v-if="filterVisibility"
           pill
-          class="btn-apply border-0"
+          class="btn-apply border-0 p-0"
           @click="$emit('filter', { ...filter })"
           ><span
             >{{ $t('offers_received.apply_filters') }}
@@ -116,7 +118,7 @@ export default {
         },
         {
           label: this.$t('offers_received.awaiting_response'),
-          value: 'awaiting_response',
+          value: 'pending',
         },
         {
           label: this.$t('offers_received.declined'),
@@ -193,6 +195,8 @@ export default {
   font-family: $font-sp-pro
   &.mobile
     height: 450px
+    .header
+      padding-bottom: 17.04px
 
   .sliders, .collapses
     flex-direction: column
@@ -204,6 +208,11 @@ export default {
     top: 746px
     background: $color-blue-20
     border-radius: 20px
+    width: 135px
+    height: 40px
+    left: 27px
+    top: 746px
+    border: 1px solid #000000
 
   .btn-reset
     width: 135px
@@ -219,7 +228,7 @@ export default {
 
   .section-actions
     &.mobile
-      margin-top: 20%
+      margin-top: 77px
 
 @media (max-width: 576px)
   .sidebar-wrapper
@@ -237,9 +246,31 @@ export default {
     @include body-17-bold
     letter-spacing: -0.02em
     color: $color-black-1
+.collapses::v-deep
+  #status-filter,
+  #date-filter
+    h2
+      button
+        &:after
+          flex-shrink: 0
+          width: 20px
+          height: 20px
+          margin-left: auto
+          content: ""
+          background-image: url('~/assets/img/icons/arrow-down-black.svg')
+          background-repeat: no-repeat
+          background-size: 20px
+          transition: transform 0.2s ease-in-out
 
-.sort-by-filter
+.sort-by-filter::v-deep
   &.mobile
+    .recent-to-old,
+    .old-to-recent
+      label
+        font-family: $font-sp-pro
+        font-style: normal
+        @include body-5-normal
+        color: $color-black-9
     .header-filter
       font-family: $font-sp-pro
       font-style: normal
