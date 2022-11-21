@@ -15,7 +15,14 @@
       /></label>
       <span>{{ options[selected] }}</span>
     </div>
-    <div class="items bg-white" :class="{ selectHide: !open, border: bordered }">
+    <div 
+      class="items bg-white" 
+      :class="[
+        !open ? 'selectHide' : '', 
+        bordered ? 'border' : '', 
+        dropdownClass
+      ]"
+    >
       <template v-for="(option, key) of options">
         <div v-if="key && !(key==='default' && selected==='default')" :key="key" @click="selectOption(key)">
           {{ option }}
@@ -54,6 +61,10 @@ export default {
     threelineIcon: {
       type: Boolean,
       default: true
+    },
+    dropdownClass: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -86,7 +97,7 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
-
+  
 .custom-selectbox
   position: relative
   width: 100%
@@ -310,6 +321,14 @@ export default {
     background: $color-white-1
   .items-secondary
     background: $color-white-5
+
+.vp-custom-select
+  .selected
+    width: 100% !important
+
+.top-0
+  top: 0 !important
+
 </style>
 
 <style lang="sass" scoped>

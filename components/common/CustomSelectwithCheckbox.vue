@@ -2,7 +2,11 @@
   <div class="custom-selectbox" :tabindex="tabindex" @blur="open = false">
     <div
         class="selected bg-white"
-        :class="{ open: open, border: bordered }"
+        :class="[
+          open ? 'open' : '',
+          bordered ? 'border' : '',
+          inputClass
+        ]"
         @click="open = !open"
     >
       <div
@@ -65,6 +69,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    inputClass: {
+      type: String,
+      default: ''
+    }
   },
 
   data() {
