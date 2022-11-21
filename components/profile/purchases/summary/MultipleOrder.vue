@@ -22,7 +22,7 @@
       <div v-if="showDetails" class="row">
         <div class="col details-col">
           <div class="odr-id">
-            Order ID# {{ orderItems.order_id}}
+            {{$t('orders.order_id')}}# {{ orderItems.order_id}}
           </div>
           <div class="order-created text-capitalize mt-1">
             {{
@@ -46,13 +46,6 @@
           </div>
 
         </div>
-<!--        <div class="col status-col">-->
-<!--          <div :id="orderItems.status">-->
-<!--            <div class="p-3">-->
-<!--              {{ $t(`vendor_purchase.orderstatus.${orderItems.status.split(' ').join('_')}`) }}-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
       </div>
 
       <!-- ./Shipping Carrier -->
@@ -321,17 +314,17 @@ export default {
     max-width: 100%
     margin-top: 10px
 .odr-id
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: 700
   font-size: 20px
   line-height: 24px
-  color: #000000
+  color: $color-black-1
 .order-created
-  font-family: 'SF Pro Display'
+  font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: 600
   font-size: 18px
   line-height: 21px
-  color: #000000
+  color: $color-black-1
 </style>

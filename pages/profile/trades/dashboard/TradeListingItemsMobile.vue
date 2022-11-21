@@ -1,8 +1,8 @@
 <template>
   <div class="d-flex justify-content-between flex-wrap">
-    <div 
-      v-for="(trade) in tradesList" 
-      :key="'trade-' + trade.id" 
+    <div
+      v-for="(trade) in tradesList"
+      :key="'trade-' + trade.id"
       role="button"
       class="trade-listing-item-single w-100 mt-3"
     >
@@ -30,9 +30,9 @@
           }}
         </div>
         <div class="mt-1 row justify-content-center align-content-center"  @click="showTrade(trade.id)">
-          <div 
-            v-for="(offer) in trade.offers" 
-            :key="'trade-offer-' + offer.id" 
+          <div
+            v-for="(offer) in trade.offers"
+            :key="'trade-offer-' + offer.id"
             class="d-flex flex-column justify-content-center col-4"
           >
             <img class="img-fluid" :src="offer.inventory.product | getProductImageUrl">
