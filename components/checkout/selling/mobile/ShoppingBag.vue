@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import emitEventMixin from '~/plugins/mixins/emit-event'
 import orderDetailsMixin from '~/plugins/mixins/order-details'
 import ShoppingBagTitle from '~/components/checkout/common/mobile/ShoppingBagTitle'
@@ -94,6 +94,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      isAuthenticated: 'auth/authenticated'
+    }),
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     additionalTitle(vm) {
       return '(' + vm.getTotalQuantity + ' ' + vm.$tc('shopping_cart.item', vm.getTotalQuantity) + ')'
@@ -129,8 +132,13 @@ export default {
       this.$refs.shoppingBagOrder.open()
     },
     handleCheckoutButtonClick() {
-      this.emitRenderComponentEvent(this.$options.components.ShoppingBagOrder.components.CheckoutSummary.name)
-      this.openBottomSheet('95%')
+      if (this.isAuthenticated) {
+        this.emitRenderComponentEvent(this.$options.components.ShoppingBagOrder.components.CheckoutSummary.name)
+        this.openBottomSheet('95%')
+      } else {
+        this.emitRenderComponentEvent(this.$options.components.ShoppingBagOrder.components.SignUpForm.name)
+        this.openBottomSheet('95%')
+      }
     },
     handleItemOptionsClick(product) {
       this.emitRenderComponentEvent(this.$options.components.ShoppingBagOrder.components.ListItemOptionsMenu.name, product)
