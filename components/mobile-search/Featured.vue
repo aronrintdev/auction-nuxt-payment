@@ -21,12 +21,12 @@ export default {
   data() {
     return {
       featured: [
-        { image: require('~/assets/img/mobile-search/featured_1.png'), title: 'New Releases', to: '/new-release' },
-        { image: require('~/assets/img/mobile-search/featured_2.png'), title: 'Instant Shipping', to: '/shop/products?type=instant-shipping' },
-        { image: require('~/assets/img/mobile-search/featured_3.png'), title: 'Best Selling', to: '/shop/products?type=best-selling' },
-        { image: require('~/assets/img/mobile-search/featured_4.png'), title: 'Trending', to: '/shop/products?type=trending' },
-        { image: require('~/assets/img/mobile-search/featured_5.png'), title: 'Gift Card', to: '/shop/products?type=gift-card' },
-        { image: require('~/assets/img/mobile-search/featured_6.png'), title: '', to: '/shop' }
+        { image: require('~/assets/img/browse/featured_1.png'), title: 'New Releases', to: '/new-release' },
+        { image: require('~/assets/img/browse/featured_2.png'), title: 'Instant Shipping', to: '/shop/products?type=instant-shipping' },
+        { image: require('~/assets/img/browse/featured_3.png'), title: 'Best Selling', to: '/shop/products?type=best-selling' },
+        { image: require('~/assets/img/browse/featured_4.png'), title: 'Trending', to: '/shop/products?type=trending' },
+        { image: require('~/assets/img/browse/featured_5.png'), title: 'Gift Card', to: '/shop/products?type=gift-card' },
+        { image: require('~/assets/img/browse/featured_6.png'), title: '', to: '/shop' }
       ],
     }
   },
