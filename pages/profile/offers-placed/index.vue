@@ -138,7 +138,6 @@
               >{{ $t('selling_page.apply') }}</Button
             >
           </div>
-          <!-- <div class="col-lg-1 hide-col"></div> -->
           <div
             :class="`col remove-multiple-button mt-auto d-flex justify-content-end ${
               screenIsSmallThanLG && 'mt-5'

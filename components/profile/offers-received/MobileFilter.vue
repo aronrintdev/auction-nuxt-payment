@@ -212,7 +212,7 @@ export default {
     height: 40px
     left: 27px
     top: 746px
-    border: 1px solid #000000
+    border: 1px solid $color-black-1
 
   .btn-reset
     width: 135px
