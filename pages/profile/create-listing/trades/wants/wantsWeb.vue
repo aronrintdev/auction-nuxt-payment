@@ -79,15 +79,15 @@
                     <CustomDropdown v-model="sizeTypesFilter" :label="sizeTypesFilterLabel" :options="filters.size_types"
                         class="mr-3 width-156" type="multi-select-checkbox" optionsWidth="custom"
                         padding-x="10px"
-                        @change="changeSizeTypeFilter"
                         width="180px"
-                                    border-radius="4px"
+                        border-radius="4px"
+                                    @change="changeSizeTypeFilter"
                         @getResults="getGeneralListItems"/>
                     <CustomDropdown v-model="sizeFilter" :label="sizeFilterLabel" :options="filters.sizes"
                         class="mr-3 width-156" type="multi-select-checkbox" optionsWidth="custom"
                         padding-x="10px" width="180px"
-                        @change="changeSizeFilter"
-                                    border-radius="4px"
+                        border-radius="4px"
+                                    @change="changeSizeFilter"
                         @getResults="getGeneralListItems"/>
                   </client-only>
                   <b-btn class="filter-btn-create-trade mr-3" @click="getGeneralListItems">

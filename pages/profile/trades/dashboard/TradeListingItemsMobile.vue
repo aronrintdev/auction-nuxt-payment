@@ -31,9 +31,9 @@
         </div>
         <div class="mt-1 row justify-content-center align-content-center"  @click="showTrade(trade.id)">
           <div 
-            class="d-flex flex-column justify-content-center col-4" 
             v-for="(offer) in trade.offers" 
-            :key="'trade-offer-' + offer.id"
+            :key="'trade-offer-' + offer.id" 
+            class="d-flex flex-column justify-content-center col-4"
           >
             <img class="img-fluid" :src="offer.inventory.product | getProductImageUrl">
             <div class="mt-3 product-name">{{ offer.inventory.product.name }}</div>
