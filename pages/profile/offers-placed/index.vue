@@ -106,6 +106,7 @@
           </div>
 
           <div class="col-lg-2 col-md-4 col-sm-4 date-to-col ">
+            <label>&nbsp;</label>
              <CalendarInput
               id="end-date"
               class="position-absolute"
@@ -549,7 +550,7 @@ export default {
       this.searchFilters.sortBy = val.sortby ? val.sortby : ''
       this.searchFilters.filterBy =
         val.status && val.status.value ? val.status.value : ''
-      
+
       this.getOffers()
       this.hideFilter()
     },
@@ -686,6 +687,7 @@ export default {
     // On sort by change.
     handleSortByChange(value) {
       this.searchFilters.sortBy = value === DEFAULT ? '' : value
+      this.getOffers()
     },
     // On filter by change.
     handleFilterByChange(value) {
@@ -869,7 +871,7 @@ export default {
   font-style: normal
   @include body-3-medium
   color: $color-black-1
-  
+
 .responsive-offer-placed-search
   height: 33px
   top: 121px
@@ -974,7 +976,7 @@ export default {
 
   & input[type="checkbox"]:checked + label:after
     opacity: 1
-/** Checkbox style ends here */    
+/** Checkbox style ends here */
 
 .bottom-pop
   margin-left: -25%
@@ -1058,14 +1060,14 @@ export default {
       font-style: normal
       @include body-9-normal
       color: $color-gray-47
-      
+
 #delete-confirm::v-deep
   .bottom-sheet__content
     overflow-y: hidden
 #delete-confirm::v-deep
   .bottom-sheet__content
     height: 145px
-  
+
 .offers-placed-index::v-deep
   /**  Search input */
   .trade-search
@@ -1097,7 +1099,7 @@ export default {
         width: 245px
         height: 38px
         float: right
-    
+
   .apply-button
     .btn-apply
       height: 38px
