@@ -24,8 +24,8 @@
         </template>
         <template #cell(products)="row">
           <div class="row">
-            <div class="vd-sell-product-img text-center">
-              <div class="d-flex align-items-center">
+            <div class="vd-sell-product-img text-center ">
+              <div class="d-flex align-items-center mb-2">
                 <b-form-checkbox
                     v-if="showCheckBox"
                     :id="`checkbox-${row.item.id}`"
@@ -43,8 +43,6 @@
                     @error="imageLoadError"
                 />
               </div>
-
-              <br />
               <span class="list-id text-center text-decoration-underline" role="button" @click="handleEditClick(row.item.id)">&#35;{{ row.item.id }}</span>
             </div>
           </div>

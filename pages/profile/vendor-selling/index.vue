@@ -230,7 +230,7 @@
         <!-- FILTERS ENDS HERE -->
 
         <template
-          v-if="!searchResults.data || !searchResults.data.length"
+          v-if="!loading && (searchResults.data && !searchResults.data.length)"
           class="result-data"
         >
           <!-- Empty Content -->
@@ -282,7 +282,7 @@
 
         <!-- ListingData Responsive -->
         <template
-          v-if="!responsiveData || !responsiveData.length"
+          v-if="!loading && (responsiveData && !responsiveData.length)"
           class="result-data-empty"
         >
           <!-- Empty Content -->
@@ -658,6 +658,7 @@ export default {
 
     // Load the data
     loadData() {
+      this.loading = true
       this.responsiveData = []
       this.$axios
         .get('selling-items', {
@@ -668,7 +669,6 @@ export default {
           },
         })
         .then((res) => {
-          this.loading = false
           this.responsiveData.push(...res.data.data.data)
           this.searchResults = res.data.data
           this.totalCount = parseInt(res.data.data.total)
@@ -677,7 +677,9 @@ export default {
         })
         .catch((err) => {
           this.$logger.logToServer('Selling Data', err.response)
-        })
+        }).finally(() => {
+          this.loading = false
+      })
     },
     // Search keyword
     getProducts: debounce(function (val) {

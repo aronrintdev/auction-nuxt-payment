@@ -292,8 +292,4 @@ export default {
     margin-top: 0
   .product-image
     width: 60%
-
-@media (max-width:425px)
-.product-image
-  width: 50%
 </style>
