@@ -62,7 +62,7 @@
             block
             pill
             @click="$router.push('/login')"
-            >{{ $t('home.sign_in') }}</Button
+            >{{ $t('auth.login') }}</Button
           >
         </b-col>
       </b-row>
