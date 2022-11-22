@@ -194,6 +194,8 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
 .card-padding
   padding: 17px 22px
 
