@@ -1,6 +1,11 @@
 <template>
-  <section class="row mt-sm-5 mb-4">
-    <div :class="mobileClass" class="charts col-md-8 mb-2 mb-md-0">
+  <section class="d-flex  mt-sm-5 mb-4" :class="{
+    'flex-column': isScreenXS
+  }">
+    <div :class="{
+      'mobile': isScreenXS,
+      'XL': isScreenXL,
+    }" class="charts chart-line mb-2 mb-md-0">
       <div
           :class="{
           'pt-4': !isScreenXS,
@@ -28,7 +33,7 @@
             />
           </div>
         </div>
-        <div class="position-relative mt-3 mt-sm-5 mb-3 mb-sm-4">
+        <div class="position-relative mt-3">
           <div class="tabs d-sm-none d-flex gap-2 justify-content-center my-4">
             <h6
                 v-for="(tab, index) in tabsOptions"
@@ -57,17 +62,13 @@
               is-graph
           />
         </div>
-        <div class="text-right d-none d-sm-block">
-          <a
-              class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0"
-              href="#"
-          >{{ $t('vendor_dashboard.view_breakdown') }}</a
-          >
-        </div>
       </div>
     </div>
     <!-- TODO -->
-    <div :class="mobileClass" class="col-md-4 charts radial">
+    <div :class="{
+      'mobile': isScreenXS,
+      'XL': isScreenXL,
+    }" class="charts radial">
       <div
           :class="{
           'py-3': !isScreenXS,
@@ -111,28 +112,28 @@
               :show-next-expire="false"
           />
           <!-- TODO -->
-          <h6
+          <div
               v-if="rewards.next_reward && !isScreenXS"
               class="fs-12 mb-0 fw-7 font-primary text-black mt-3"
           >
             {{ $t('buyer_dashboard.dashobard_buyer.your_next_reward') }}:
             {{ rewards.next_reward.name }}
-          </h6>
+          </div>
           <b-button
-              class="mt-3 bg-blue-primary py-2 w-100 font-primary fw-5 d-none d-sm-inline-block"
+              class="mt-3 bg-blue-primary py-2 w-200 font-primary fw-5 d-none d-sm-inline-block"
               pill
               to="/shop"
           >{{ $t('buyer_dashboard.dashobard_buyer.earn_money') }}
           </b-button>
 
-          <h6
+          <div
               v-if="last.length"
-              class="fs-12 mb-0 fw-4 font-primary mt-3 text-dark d-none d-sm-block"
+              class="body-9-regular font-primary mt-3 text-black d-none d-sm-block"
           >
             {{ last[0].points.toLocaleString() }}
             {{ $t('buyer_dashboard.dashobard_buyer.points_will_expire_on') }}
             {{ new Date(last[0].expires_on).toLocaleDateString() }}
-          </h6>
+          </div>
         </div>
       </div>
     </div>
@@ -336,7 +337,28 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.w-200
+  width: 200px
 .charts
+  &:not(.mobile)
+    height: 364px
+    &.chart-line
+      width: 730px
+      max-width: 730px
+      margin-right: 59px
+      &.XL
+        width: 100%
+        max-width: 70%
+        min-width: 730px
+    &.radial
+      width: 330px
+      max-width: 330px
+      margin-left: auto
+      &.XL
+        width: 100%
+        max-width: 30%
+        min-width: 330px
+
   &.mobile
     box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
     border-radius: 8px
