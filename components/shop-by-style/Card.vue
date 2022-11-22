@@ -72,5 +72,5 @@ export default {
   .style-card-wrapper
     img
       width: 120px
-      height: 50vh
+      height: auto
 </style>

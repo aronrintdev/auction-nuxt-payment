@@ -5,15 +5,9 @@
   >
     <div class="d-flex align-items-center sf-wrapper">
       <div class="searchbar-filter position-relative w-100" @click="open">
-        <FilterIcon class="filter_icon cursor-pointer" />
       </div>
       <div class="setting-filter d-flex justify-content-start px-0 ml-2">
-        <Icon 
-          src="heart-style.svg"
-          width="40"
-          height="40"
-          class="btn-close"
-        />
+        <FilterIcon class="filter_icon cursor-pointer" />
       </div>
     </div>
     <vue-bottom-sheet
@@ -28,12 +22,11 @@
   </div>
 </template>
 <script>
-import { Icon } from '~/components/common'
 import FilterIcon from '~/assets/icons/FilterIcon'
 import ShopFiltersMobile from '~/components/shop-by-style/MobileFilters'
 export default {
   name: 'SearchAndFilter',
-  components: { FilterIcon, ShopFiltersMobile, Icon },
+  components: { FilterIcon, ShopFiltersMobile },
   props: {
     date: {
       type: String,
