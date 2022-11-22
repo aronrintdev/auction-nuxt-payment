@@ -1,7 +1,7 @@
 <template>
-  <div class="container-dashboard d-flex justify-content-center align-content-center">
-    <div>
-     <div class="list-box ml-2 p-1" @click="$router.push('/profile/trades/dashboard/alltradelistings')">
+  <div class="container-dashboard d-flex justify-content-center align-content-center px-3">
+    <div class="col-6 px-0">
+     <div class="list-box p-1" @click="$router.push('/profile/trades/dashboard/alltradelistings')">
        <div class="heading-trade-listing mt-2 ml-2 ">{{$t('trades.my_trade_listings')}}</div>
        <div class="mt-2 d-flex justify-content-center align-content-center">
          <img src="~/assets/img/tradeIcon.svg" />
@@ -10,7 +10,7 @@
          {{$t('trades.the_listings_you_have_created')}}
        </div>
      </div>
-      <div class="list-box ml-2 p-1"  @click="$router.push('/profile/trades/dashboard/alloffers')">
+      <div class="list-box p-1"  @click="$router.push('/profile/trades/dashboard/alloffers')">
         <div class="heading-trade-listing mt-2 ml-2">{{$t('trades.my_trade_offer')}}</div>
         <div class="mt-2 d-flex justify-content-center align-content-center">
           <img src="~/assets/img/tradeOfferIcon.svg" />
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div>
+    <div class="col-6 px-0">
       <div class="list-box p-1" @click="$router.push('/profile/trades/wants')">
         <div class="heading-trade-listing mt-2 ml-2">{{$t('trades.wants_list')}}</div>
         <div class="mt-2 d-flex justify-content-center align-content-center">
@@ -55,10 +55,7 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
-.container-dashboard
-  width: 350px
 .list-box
-  width: 160px
   height: 150px
   border: 2px solid $color-gray-75
 .heading-trade-listing
