@@ -12,7 +12,7 @@
           :class="{
             'body-18-regular': isScreenXS
           }"
-          class="font-secondary fs-16 fw-4 border-primary mb-0 text-decoration-underline text-nowrap"
+          class="font-secondary fs-16 fw-4 text-link-blue mb-0 text-decoration-underline text-nowrap"
       >{{ $t('buyer_dashboard.promotions.view_promotions') }}
       </nuxt-link
       >

@@ -90,7 +90,7 @@
                 :class="{
                 'body-18-regular': isScreenXS,
               }"
-                class="font-secondary fs-16 fw-400 text-decoration-underline border-primary text-nowrap rewards-link"
+                class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue text-nowrap rewards-link"
                 to="/profile/rewards"
             >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}
             </nuxt-link>
