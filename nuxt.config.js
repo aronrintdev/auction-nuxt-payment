@@ -73,7 +73,6 @@ export default defineNuxtConfig({
     '@nuxtjs/html-validator',
     '@nuxtjs/svg',
   ],
-
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     'bootstrap-vue/nuxt',

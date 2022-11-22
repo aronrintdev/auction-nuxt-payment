@@ -19,6 +19,7 @@
               class="dropdown-option d-flex align-items-center"
               @click="selectProduct(prod)"
             >
+            
               <div class="position-relative d-inline-flex">
                 <b-img
                   :src="`${
@@ -67,6 +68,7 @@ export default {
       searchText: null,
       hasSearchResult: false,
       searchedProducts: [],
+      selectedFilters:{}
     }
   },
   watch: {
@@ -143,6 +145,9 @@ export default {
       this.hasSearchResult = false
       this.searchedProducts = []
     },
+    goToDetail(sku){
+      this.$router.push('shop/'+sku)
+    }
   },
 }
 </script>

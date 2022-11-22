@@ -100,6 +100,7 @@
   </b-overlay>
 </template>
 <script>
+import debounce from 'lodash.debounce';
 import { mapActions, mapGetters } from 'vuex'
 import ShopFilters from '~/components/shop/ShopFilters.vue'
 import AdBanner from '~/components/shop/AdBanner.vue'
@@ -144,7 +145,7 @@ export default {
   },
   async fetch() {
     await this.fetchFilters()
-    this.fetchProducts()
+     this.fetchProducts()
   },
   computed: {
     ...mapGetters('browse', [
@@ -171,7 +172,7 @@ export default {
     noSearchResultFound() {
       this.noSearchResult = true
     },
-    fetchProducts() {
+    fetchProducts: debounce(function () {
       if (!this.perPage || !this.page) return
       this.loading = false
       const filters = {}
@@ -191,7 +192,7 @@ export default {
         filters.sizes = this.selectedSizes.join(',')
       }
       if (this.selectedSizeTypes) {
-        filters.size_types = this.selectedSizeTypes
+        filters.size_types = this.selectedSizeTypes.join(',')
       }
       if (this.selectedYears) {
         filters.years = this.selectedYears.join('-')
@@ -206,8 +207,8 @@ export default {
       this.getNewRelease(filters)
       this.getTrending(filters);
       this.getInstantShip(filters)
-    },
-    getRecentProducts(filters){
+    }, 500),
+    getRecentProducts(filters) {
       if (this.selectedSort) {
         filters.order_by = this.selectedSort
       }else{
@@ -223,7 +224,7 @@ export default {
         .finally(() => {
           this.loading = false
         })
-    },
+      },
     getNewRelease(filters){
       if (this.selectedSort) {
         filters.order_by = this.selectedSort
