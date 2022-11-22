@@ -13,7 +13,7 @@
     <div class="main-content-wrapper">
       <!-- Welcome Message Text -->
       <b-row class="welcome-text-wrapper">
-        <b-col cols="12" sm="12" class="d-flex align-items-center">
+        <b-col cols="12" sm="12" class="d-flex align-items-center px-3">
           <UserOutlineGraySVG />
           <span v-if="isAuthenticated" class="body-2-medium text-blue-20"
             >{{ $t('home.hi_user', { name: user.first_name }) }}&excl;</span
@@ -252,7 +252,7 @@ export default {
         {
           icon: 'vendor-outline-gray',
           label: this.$t('vendor_hub.apply_title'),
-          link: '/profile/vendor-hub'
+          link: '/signup'
         },
         {
           icon: 'tag-outline-gray',

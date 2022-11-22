@@ -71,9 +71,6 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
-.style-image
-  width: 305px
-  margin-left: 240px
 .style-image-carousel-wrapper
   .pages
     @include body-4-medium
@@ -96,4 +93,8 @@ export default {
       &.owl-prev
         float: left
         margin-left: -79px !important
+@media(min-width: 576px)
+  .style-image
+    width: 305px
+    margin-left: 240px
 </style>

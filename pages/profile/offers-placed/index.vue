@@ -145,7 +145,7 @@
           >
             <Button
               variant="remove-multiple"
-              class="p-0"
+              class="p-0 font-normal"
               @click="toggleCheckBox"
               >{{ $t('placed_offers.remove_multiple') }}</Button
             >
@@ -751,6 +751,7 @@ export default {
     // On sort by change.
     handleSortByChange(value) {
       this.searchFilters.sortBy = value === DEFAULT ? '' : value
+      this.getOffers()
     },
     // On filter by change.
     handleFilterByChange(value) {
@@ -860,6 +861,15 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.custom-selectbox .selected::after
+  top: 4px
+label.filter-label
+  font-weight: $normal
+  font-size: 14px
+  margin: 0
+.font-normal
+  font-weight: $normal !important
+  font-size: 14px
 .placed-offer-heading
   height: 36px
   left: 319px
@@ -1061,7 +1071,7 @@ export default {
 
   & input[type="checkbox"]:checked + label:after
     opacity: 1
-/** Checkbox style ends here */    
+/** Checkbox style ends here */
 
 .bottom-pop
   margin-left: -25%
