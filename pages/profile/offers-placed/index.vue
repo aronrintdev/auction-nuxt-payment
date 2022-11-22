@@ -45,6 +45,7 @@
                     form-control form-input
                     vd-purchases-browse-input
                     bg-white
+                    input-fullwidth
                   "
                   :placeholder="$t('selling_page.filter_details_placeholder')"
                   autocomplete="on"
@@ -101,7 +102,7 @@
 
           <!-- Offer Date -->
           <div class="col date-from-col">
-            <label class="offer-date-label">{{ $t('selling_page.offer_date') }}</label>
+            <label class="offer-date-label filter-label">{{ $t('selling_page.offer_date') }}</label>
             <CalendarInput
               id="start-date"
               class="position-absolute"
@@ -114,6 +115,7 @@
           </div>
 
           <div class="col date-to-col">
+            <label class="filter-label">&nbsp;</label>
             <CalendarInput
               id="end-date"
               class="position-absolute"
@@ -585,7 +587,7 @@ export default {
       this.searchFilters.sortBy = val.sortby ? val.sortby : ''
       this.searchFilters.filterBy =
         val.status && val.status.value ? val.status.value : ''
-      this.searchFilters.page = 1 
+      this.searchFilters.page = 1
       this.getOffers()
       this.hideFilter()
     },
@@ -727,7 +729,7 @@ export default {
           }else{
             $state.complete()
           }
-          
+
         })
         .catch((err) => {
           this.isTableBusy = false
@@ -831,7 +833,7 @@ export default {
           this.$nuxt.refresh()
           this.searchFilters.page = 1
           this.getOffers()
-          
+
           if (showPopUp) {
             this.$toasted.success(this.$t(res.data.message))
           }
@@ -863,6 +865,9 @@ export default {
 @import '~/assets/css/_variables'
 .custom-selectbox .selected::after
   top: 4px
+#search-result.input-fullwidth
+  width: 100%
+  max-width: 100%
 label.filter-label
   font-weight: $normal
   font-size: 14px
