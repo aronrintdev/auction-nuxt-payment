@@ -171,6 +171,7 @@ export default {
       } else {
         this.filters.sortBy = null
       }
+      this.GetBids()
     },
     GetBids() {
       this.$store.commit('profile-bids/setFilters', this.filters)
@@ -341,7 +342,7 @@ export default {
           margin: 0 -24px
           background-color: $color-blue-20
           border-radius: 0
-  
+
 .date-input-group::v-deep
   background-color: $white
 
