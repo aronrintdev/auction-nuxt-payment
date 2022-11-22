@@ -5,7 +5,7 @@
         md="12"
         lg="12"
         :class="`vendor-dashboard-body ${
-          !mobileClass ? 'px-5 py-5' : 'pad-responsive'
+          !mobileClass ? 'web-padding' : 'pad-responsive'
         }`"
       >
         <!-- FILTERS -->
@@ -15,8 +15,6 @@
           <div
             class="
               col-12
-              mt-md-4
-              my-2
               vd-selling-heading
               align-items-center
             "
@@ -50,6 +48,7 @@
               "
               class="flex-grow-1 mw-734 search"
               :debounce="1000"
+              :input-height="'36px'"
               @search="getProducts"
             />
 
@@ -60,7 +59,7 @@
               <SearchInput
                 id="selling-search"
                 class="flex-grow-1 mr-2"
-                :placeholder="$t('navbar.search')"
+                :placeholder="$t('common.search')"
                 :value="searchFilters.searchKeyword"
                 @change="getProducts"
               />
@@ -84,6 +83,9 @@
               col-sm-6
               browse-dropdown
             "
+            :class="{
+          'd-flex justify-content-end': !isScreenXS
+        }"
           >
             <VendorSellingSortBy
               :default="purchaseFilter"
@@ -99,82 +101,58 @@
           <!-- Sort By -->
         </div>
         <!-- Row -->
-        <div v-if="resultLength" class="row filter-data">
-          <!-- Tabs Filter -->
-          <div class="col-12 col-md-4 mt-sm-4 col-sm-12 filter-by mt-2 mt-md-4">
-            <label class="filter-text">{{
-              $t('selling_page.filter_by')
-            }}</label>
+        <div v-if="resultLength && !isScreenXS" class="d-flex align-items-end mt-18">
+
+          <div class="mr-20">
+              <span class="mb-5p font-secondary body-8-normal text-black">{{
+                  $t('selling_page.filter_by')
+                }}</span>
             <VendorSellingFilterBy
-              v-if="searchResults.data"
-              :default="filterBy"
-              :options="filterByOptions"
-              :title="filterByTitle"
-              :updateFilters="activeFilters"
-              @filters="updateFilterBy"
+                v-if="searchResults.data"
+                :default="filterBy"
+                :options="filterByOptions"
+                :title="filterByTitle"
+                :updateFilters="activeFilters"
+                class="vendor-selling-sort"
+                @filters="updateFilterBy"
             />
           </div>
-          <!-- ./Tabs Filter -->
+          <div class="mr-20 d-flex flex-column">
+              <span class="mb-5p font-secondary body-8-normal text-black">{{
+                  $t('selling_page.listed_date')
+                }}</span>
+            <div class="d-flex align-items-center">
+              <CalendarInput
+                  :placeholder="$t('bids.start_date').toString()"
+                  :value="searchFilters.startDate"
+                  class="mr-20 date-calendar"
+                  @context="(context) => (searchFilters.startDate = context.selectedYMD)"
+              ></CalendarInput>
 
-          <!-- Start Date -->
-          <div class="col-md-2 col-sm-12 start-date mt-5 pt-3 mt-md-4 pt-md-0">
-            <label class="filter-text mb-0">{{
-              $t('selling_page.listed_date')
-            }}</label>
-            <b-form-datepicker
-              v-if="searchResults.data"
-              id="example-datepicker-start"
-              v-model="searchFilters.startDate"
-              class="form-item"
-              placeholder="Start Date"
-              :dateFormatOptions="{
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-              }"
-            ></b-form-datepicker>
+              <CalendarInput
+                  :placeholder="$t('bids.end_date').toString()"
+                  :value="searchFilters.endDate"
+                  class="mr-20 date-calendar"
+                  @context="(context) => (searchFilters.endDate = context.selectedYMD)"
+              ></CalendarInput>
+
+              <Button
+                  class="bg-blue-2 apply-button text-white"
+                  variant="dark-blue"
+                  @click="loadData"
+              >{{ $t('vendor_purchase.apply') }}
+              </Button>
+            </div>
           </div>
-          <!-- ./Start Date -->
 
-          <!-- End Date -->
-          <div class="col-md-2 col-sm-12 end-date mt-4 mt-md-4 pt-0 pt-md-3">
-            <b-form-datepicker
-              v-if="searchResults.data"
-              id="example-datepicker-end"
-              v-model="searchFilters.endDate"
-              class="mt-2 form-item"
-              placeholder="End date"
-              :dateFormatOptions="{
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-              }"
-            ></b-form-datepicker>
-          </div>
-          <!-- ./End Date -->
-
-          <!-- Apply Button -->
-          <div class="col-md-1 col-sm-12 col-xs-6 mt-4 mt-md-4">
-            <br />
+          <div class="ml-auto">
             <Button
-              variant="apply text-cente form-item"
-              class="px-3"
-              :class="{ 'w-100': isScreenXS || isScreenSM }"
-              @click="loadData"
+                class="delist-btn float-right mt-2 text-center font-primary body-5-normal"
+                variant="white"
+                @click="delistMultiple()"
             >
-              {{ $t('selling_page.apply') }}
+              {{ $t('selling_page.delist_multiple') }}
             </Button>
-          </div>
-          <!-- Apply Button -->
-
-          <div class="col-md-3 float-right">
-            <Button
-            variant="delist"
-            class="float-right mt-2 text-center"
-            @click="delistMultiple()"
-          >
-            {{ $t('selling_page.delist_multiple') }}
-          </Button>
           </div>
         </div>
 
@@ -182,21 +160,22 @@
           v-if="resultLength && searchResults.data && !isScreenXS"
           class="
             row
-            mt-5
-            px-3
+            mt-4
+            px-1
             d-flex
             flex-column flex-sm-row
             justify-content-between
           "
         >
-          <!-- Delist Multiple Button -->
-          <!-- ./Delist Multiple Button -->
 
           <!-- vacation mode -->
-          <div class="d-flex align-items-center mt-3 mt-sm-0">
-            <div>
-              <template v-if="activeFilters.length">
-                <b-badge
+          <div :class="{
+            'justify-content-between': activeFilters.length,
+            'justify-content-end': !activeFilters.length,
+          }"
+               class="w-100 d-flex align-items-center mt-3 mt-sm-0">
+            <div v-if="activeFilters.length">
+              <b-badge
                   v-for="(options, typeIndex) in activeFilters"
                   :key="`type-${typeIndex}`"
                   class="
@@ -207,38 +186,40 @@
                     mr-2
                     text-capitalize
                   "
-                >
-                  {{ options.type }}&colon; {{ options.text }}
-                  <i
+              >
+                {{ options.type }}&colon; {{ options.text }}
+                <i
                     class="fa fa-times"
                     role="button"
                     aria-hidden="true"
                     @click="removeTypeFilter(options)"
-                  ></i>
-                </b-badge>
-                <span
+                ></i>
+              </b-badge>
+              <span
                   role="button"
                   class="text-decoration-underline text-primary"
                   @click="clearFilters()"
-                >
+              >
                   {{ $t('vendor_purchase.clear_all_filters') }}
                 </span>
-              </template>
             </div>
+
             <div class="vacationMode d-flex align-items-center">
               <!-- TODO: Vacation Mode -->
               <b-form-checkbox
-                id="checkbox"
-                v-model="vacationMode"
-                name="checkbox-1"
-                :value="true"
-                :unchecked-value="false"
-                @change="enableDisableVacationMode"
+                  id="checkbox"
+                  v-model="vacationMode"
+                  class="vacation-mode-checkbox"
+                  name="checkbox-1"
+                  :value="true"
+                  :unchecked-value="false"
+                  @change="enableDisableVacationMode"
               >
                 {{ $t('selling_page.enable_vacation_mode') }}
                 <img
-                  :src="require('~/assets/img/icons/info-blue.svg')"
-                  alt="ToolTip"
+                    :src="require('~/assets/img/icons/info-blue.svg')"
+                    alt="ToolTip"
+                    class="info-icon"
                 />
               </b-form-checkbox>
             </div>
@@ -249,7 +230,7 @@
         <!-- FILTERS ENDS HERE -->
 
         <template
-          v-if="!searchResults.data || !searchResults.data.length"
+          v-if="!loading && (searchResults.data && !searchResults.data.length)"
           class="result-data"
         >
           <!-- Empty Content -->
@@ -301,7 +282,7 @@
 
         <!-- ListingData Responsive -->
         <template
-          v-if="!responsiveData || !responsiveData.length"
+          v-if="!loading && (responsiveData && !responsiveData.length)"
           class="result-data-empty"
         >
           <!-- Empty Content -->
@@ -522,11 +503,13 @@ import MobileFilter from '~/components/profile/vendor-selling/filters/MobileFilt
 import VacationModeConfirmation from '~/components/profile/vendor-selling/VacationModeConfirmation.vue'
 import { DELIST, RELIST } from '~/static/constants'
 import ListingConfirmation from '~/components/profile/vendor-selling/details/ListingConfirmation.vue'
+import CalendarInput from '~/components/common/form/CalendarInput';
 
 export default {
   name: 'Index',
 
   components: {
+    CalendarInput,
     VendorSellingSortBy,
     // VendorSellingSearchFilter,
     VendorSellingFilterBy,
@@ -675,6 +658,7 @@ export default {
 
     // Load the data
     loadData() {
+      this.loading = true
       this.responsiveData = []
       this.$axios
         .get('selling-items', {
@@ -685,7 +669,6 @@ export default {
           },
         })
         .then((res) => {
-          this.loading = false
           this.responsiveData.push(...res.data.data.data)
           this.searchResults = res.data.data
           this.totalCount = parseInt(res.data.data.total)
@@ -694,7 +677,9 @@ export default {
         })
         .catch((err) => {
           this.$logger.logToServer('Selling Data', err.response)
-        })
+        }).finally(() => {
+          this.loading = false
+      })
     },
     // Search keyword
     getProducts: debounce(function (val) {
@@ -959,7 +944,7 @@ export default {
       this.searchFilters.delistMultipleSelected =
         !this.searchFilters.delistMultiple
       this.page = 1
-        this.loadData() 
+      this.loadData()
       this.$refs.myBottomSheet.close()
     },
 
@@ -1050,7 +1035,7 @@ export default {
             })
         }
       } else {
-        this.selected.push(...this.responsiveData.map((p) => p.id)) 
+        this.selected.push(...this.responsiveData.map((p) => p.id))
         if (value === this.delist) {
           this.multipleDelist()
           return true
@@ -1101,11 +1086,46 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.web-padding
+  padding: 42px 54px
+::v-deep.apply-button
+  &.btn
+    width: 90px
+
+.mr-20
+  margin-right: 20px
+
+.mb-5p
+  margin-bottom: 5px
+
+.mt-18
+  margin-top: 18px
+
+::v-deep.delist-btn
+  width: 168px
+  border: 0.5px solid $color-gray-4 !important
+  border-radius: 5px
+
+::v-deep.date-calendar
+  max-width: 170px
+
+  .date-input
+    background-color: $color-white-1
+    @include body-5-regular
+    font-family: $font-montserrat
+    font-style: normal
+    white-space: nowrap
+
+  .date-dp
+    .btn-secondary
+      background-color: $color-white-1
+
 .filter-text
   font-family: $font-sp-pro
   font-style: normal
   @include body-8-normal
   color: $color-black-1
+
 .vd-selling-heading
   font-family: $font-montserrat
   font-style: normal
@@ -1123,10 +1143,22 @@ export default {
     display: flex
     justify-items: center
   label
+    height: 18px
+    padding-top: 3px
     font-family: $font-sp-pro
     font-style: normal
     @include body-8-normal
     color: $color-black-1
+
+    .info-icon
+      margin-top: -12px
+      margin-left: -2px
+
+    &:before
+      border: 2px solid $color-gray-6
+      border-radius: 2px
+      background-color: $color-white-1
+      box-shadow: none
 .start-date::v-deep,
 .end-date::v-deep
   label
@@ -1292,12 +1324,29 @@ export default {
 #delistConfirmation::v-deep
   .bottom-sheet__content
     overflow-y: hidden
-.search
-  border: 1px solid $white-2
+::v-deep.search
+  border: 1px solid $color-gray-60
   border-radius: 5px
-  height: 45px
-.vendor-selling-sort
-  border: 1px solid $white-2
+  height: 38px !important
+  max-width: 734px
+  width: 100%
+  margin-right: 71px
+  input.search-input
+    @include body-5-regular
+    font-family: $font-montserrat
+    letter-spacing: 0.06em
+
+::v-deep.vendor-selling-sort
+  width: 245px
+  border-radius: 5px
+  border: 1px solid $color-gray-60 !important
+  height: 38px
+  .selected
+    height: 36px
+    padding: 10px
+    &:after
+      top: 3px
+
 .form-item
   border: 1px solid $white-2
   height: 44px
