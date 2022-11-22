@@ -5849,6 +5849,7 @@
     "save_for_later": "Save for later"
   },
   "offers_received": {
+    "offers"  : "Offers",
     "heading": "Offers Received",
     "your_placed_offers": "Your Received Offers ({count})",
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
