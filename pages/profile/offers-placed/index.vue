@@ -73,10 +73,10 @@
 
       <!-- filter for web -->
       <div v-if="!isScreenXS" class="offer-placed-web">
-        <div class="row filter-row-bottom">
+        <div class="row filter-row-bottom mt-2">
           <!-- Filter By -->
           <div class="col-lg-3 col-md-4 col-sm-4 filter-by-col">
-            <label>{{ $t('selling_page.filter_by') }}</label>
+            <label class="filter-label">{{ $t('selling_page.filter_by') }}</label>
             <CustomSelect
               id="filterby"
               :default="filterBy"
@@ -95,7 +95,7 @@
 
           <!-- Offer Date -->
           <div class="col-lg-2 col-md-4 col-sm-4 date-from-col p-0">
-            <label>{{ $t('selling_page.offer_date') }}</label>
+            <label class="filter-label">{{ $t('selling_page.offer_date') }}</label>
             <CalendarInput
               id="start-date"
               class="position-absolute"
@@ -105,7 +105,8 @@
             ></CalendarInput>
           </div>
 
-          <div class="col-lg-2 col-md-4 col-sm-4 date-to-col ">
+          <div class="col-lg-2 col-md-4 col-sm-4 date-to-col">
+            <label>&nbsp;</label>
              <CalendarInput
               id="end-date"
               class="position-absolute"
@@ -116,16 +117,16 @@
           </div>
           <!-- ./Offer Date -->
 
-          <div :class="`col-lg-2 col-6 apply-button d-flex ${screenIsSmallThanLG && 'mt-5'}`">
-            <Button variant="apply" class="mt-2 position-absolute ml-1" @click="getOffers">{{
+          <div :class="`col-lg-1 col-6 apply-button d-flex ${screenIsSmallThanLG && 'mt-5'}`">
+            <Button variant="apply" class="mt-2 font-normal position-absolute ml-1" @click="getOffers">{{
               $t('selling_page.apply')
             }}</Button>
           </div>
           <!-- <div class="col-lg-1 hide-col"></div> -->
-          <div :class="`col-lg-3 col-6 remove-multiple-button mt-auto d-flex justify-content-end ${screenIsSmallThanLG && 'mt-5'}`">
+          <div :class="`col-lg-4 col-6 remove-multiple-button mt-auto d-flex justify-content-end ${screenIsSmallThanLG && 'mt-5'}`">
             <Button
               variant="remove-multiple"
-              class="p-0"
+              class="p-0 font-normal"
               @click="toggleCheckBox"
               >{{ $t('placed_offers.remove_multiple') }}</Button
             >
@@ -549,7 +550,7 @@ export default {
       this.searchFilters.sortBy = val.sortby ? val.sortby : ''
       this.searchFilters.filterBy =
         val.status && val.status.value ? val.status.value : ''
-      
+
       this.getOffers()
       this.hideFilter()
     },
@@ -686,6 +687,7 @@ export default {
     // On sort by change.
     handleSortByChange(value) {
       this.searchFilters.sortBy = value === DEFAULT ? '' : value
+      this.getOffers()
     },
     // On filter by change.
     handleFilterByChange(value) {
@@ -788,6 +790,15 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.custom-selectbox .selected::after
+  top: 4px
+label.filter-label
+  font-weight: $normal
+  font-size: 14px
+  margin: 0
+.font-normal
+  font-weight: $normal !important
+  font-size: 14px
 .placed-offer-heading
   font-style: normal
   @include heading-3
@@ -869,7 +880,7 @@ export default {
   font-style: normal
   @include body-3-medium
   color: $color-black-1
-  
+
 .responsive-offer-placed-search
   height: 33px
   top: 121px
@@ -974,7 +985,7 @@ export default {
 
   & input[type="checkbox"]:checked + label:after
     opacity: 1
-/** Checkbox style ends here */    
+/** Checkbox style ends here */
 
 .bottom-pop
   margin-left: -25%
@@ -1058,14 +1069,14 @@ export default {
       font-style: normal
       @include body-9-normal
       color: $color-gray-47
-      
+
 #delete-confirm::v-deep
   .bottom-sheet__content
     overflow-y: hidden
 #delete-confirm::v-deep
   .bottom-sheet__content
     height: 145px
-  
+
 .offers-placed-index::v-deep
   /**  Search input */
   .trade-search
@@ -1097,7 +1108,7 @@ export default {
         width: 245px
         height: 38px
         float: right
-    
+
   .apply-button
     .btn-apply
       height: 38px
