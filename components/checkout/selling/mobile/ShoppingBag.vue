@@ -47,6 +47,7 @@
     <b-row class="btn-wrapper">
       <b-col cols="12" sm="12" class="text-center">
         <Button
+          :disabled="! canCheckout"
           class="btn-checkout body-13-medium"
           pill
           variant="dark-blue"
@@ -97,6 +98,9 @@ export default {
     ...mapGetters({
       isAuthenticated: 'auth/authenticated'
     }),
+    canCheckout(vm) {
+      return !!(vm.getTotalQuantity)
+    },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     additionalTitle(vm) {
       return '(' + vm.getTotalQuantity + ' ' + vm.$tc('shopping_cart.item', vm.getTotalQuantity) + ')'
@@ -160,6 +164,11 @@ export default {
       width: 216px
       height: 40px
       margin-bottom: 14px
+
+      &:disabled
+        border: none
+        background: $color-gray-1
+        color: $color-gray-47
 
 .section-title
   margin-bottom: 7px

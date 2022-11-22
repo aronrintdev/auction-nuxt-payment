@@ -82,7 +82,7 @@
       <!-- ./Product Details -->
 
       <!-- Offer Amount -->
-      <template #cell(offer_amount)="row"  >
+      <template #cell(offer_amount)="row">
         <div class="offer-amount text-center">
           <span v-if="!row.item.isEditing" @click="editAmount(row.item)"
             >{{ row.item.bid_price | toCurrency('USD', 'N/A') }}
@@ -93,7 +93,11 @@
             ></Button>
           </span>
 
-          <span v-else id="editOffer" class="d-flex justify-content-center m-auto">
+          <span
+            v-else
+            id="editOffer"
+            class="d-flex justify-content-center m-auto"
+          >
             <ValidationObserver ref="observer">
               <form @submit.prevent="onSubmit(row.item)">
                 <ValidationProvider
@@ -102,7 +106,7 @@
                   rules="required|price"
                   :name="$t('selling_page.offer_amount')"
                 >
-                  <span  class="d-flex">
+                  <span class="d-flex">
                     <b-form-input
                       id="offeramountInput"
                       v-model="inputAmount"
@@ -240,8 +244,9 @@ export default {
         },
         {
           key: 'products',
-          label: this.$t('placed_offers.table.products'),
+          label: this.$tc('common.product', 1),
           sortable: false,
+          thClass: 'active-row',
         },
         {
           key: 'product_details',
@@ -251,23 +256,26 @@ export default {
         {
           key: 'offer_amount',
           label: this.$t('placed_offers.table.offer_amount'),
-          thClass: 'text-center',
+          thClass: 'text-center active-row',
           sortable: true,
         },
         {
           key: 'expires',
           label: this.$t('placed_offers.table.expires'),
           sortable: true,
+          thClass: 'active-row',
         },
         {
           key: 'status',
           label: this.$t('placed_offers.table.status'),
           sortable: true,
+          thClass: 'active-row',
         },
         {
           key: 'actions',
           label: this.$t('placed_offers.table.actions'),
           sortable: true,
+          thClass: 'active-row',
         },
       ],
       productImageWidth: PRODUCT_IMG_WIDTH,
@@ -395,14 +403,16 @@ export default {
       const sizeId = value.size_id
       const conditionId = value.packaging_condition_id
 
-
       const result = value.product.inventories.find(
-        (i) => i.size_id === sizeId && i.product_id === productId && i.packaging_condition_id === conditionId
+        (i) =>
+          i.size_id === sizeId &&
+          i.product_id === productId &&
+          i.packaging_condition_id === conditionId
       )
 
-      if(result && result.listing_items.length){
+      if (result && result.listing_items.length) {
         return result.listing_items[0].id
-      }else{
+      } else {
         return '--'
       }
     },
@@ -498,16 +508,34 @@ export default {
 .offer-placed-table::v-deep
   .offer-table
     .table.b-table > thead > tr > [aria-sort=none]
-      background-image: url('~/assets/img/icons/filter-down.svg')
+      background-image: url('~/assets/img/icons/table-carot.svg')
+      background-size: 9px
     .table.b-table > thead > tr > [aria-sort=ascending]
-      background-image: url('~/assets/img/icons/filter-down.svg')
+      background-image: url('~/assets/img/icons/table-carot.svg')
+      background-size: 9px
     .table.b-table > thead > tr > [aria-sort=descending]
-      background-image: url('~/assets/img/icons/filter-down.svg')
+      background-image: url('~/assets/img/icons/table-carot.svg')
+      background-size: 9px
     .expire-date
       font-family: $font-sp-pro
       font-style: normal
       @include body-13-normal
       color: $color-black-1
+    .active-row
+      div
+        width: 116px
+        height: 20px
+        font-family: $font-montserrat
+        font-style: normal
+        @include body-4-bold
+        color: $color-black-1
+    .table::v-deep
+      .offers-table-head
+        .vd-selling-bt
+          width: 1121px
+          height: 134px
+          left: 291px
+          top: 629px
   .action-col
     #delete-btn
       font-family: $font-sp-pro

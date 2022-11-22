@@ -1,5 +1,9 @@
 <template>
-  <div id="top" class="col-md-12 vendor-trade-inv-body offers-placed-index" :class="isScreenXS && 'mb-5'">
+  <div
+    id="top"
+    class="col-md-12 vendor-trade-inv-body offers-placed-index"
+    :class="[isScreenXS && 'mb-5', !isScreenXS && 'top-margin']"
+  >
     <div class="container-fluid">
       <!-- title for web -->
       <div v-if="!isScreenXS" class="offer-placed-web">
@@ -17,7 +21,7 @@
       <div v-if="!isScreenXS" class="offer-placed-web">
         <div class="row filter-row-top">
           <!-- Input search -->
-          <div class="col-md-12 col-lg-8 search-input-col vtpc-search pt-3">
+          <div class="col search-input-col vtpc-search pt-3 search-field">
             <div class="form trade-search">
               <div
                 class="
@@ -53,7 +57,7 @@
           <!-- ./Input search -->
 
           <!-- Sort By -->
-          <div class="col-md-12 col-lg-4 sortby-col pt-3">
+          <div class="col sortby-col pt-3">
             <CustomSelect
               id="category-types"
               :default="categorySelected"
@@ -74,10 +78,12 @@
 
       <!-- filter for web -->
       <div v-if="!isScreenXS" class="offer-placed-web">
-        <div class="row filter-row-bottom mt-2">
+        <div class="row filter-row-bottom mt-3">
           <!-- Filter By -->
-          <div class="col-lg-3 col-md-4 col-sm-4 filter-by-col">
-            <label class="filter-label">{{ $t('selling_page.filter_by') }}</label>
+          <div class="col filter-by-col">
+            <label class="filter-label">{{
+              $t('selling_page.filter_by')
+            }}</label>
             <CustomSelect
               id="filterby"
               :default="filterBy"
@@ -95,36 +101,50 @@
           <!-- ./Filter By -->
 
           <!-- Offer Date -->
-          <div class="col-lg-2 col-md-4 col-sm-4 date-from-col p-0">
-            <label class="filter-label">{{ $t('selling_page.offer_date') }}</label>
+          <div class="col date-from-col">
+            <label class="offer-date-label filter-label">{{ $t('selling_page.offer_date') }}</label>
             <CalendarInput
               id="start-date"
               class="position-absolute"
               :value="searchFilters.startDate"
               :placeholder="$t('placed_offers.start_date')"
-              @context="(context) => searchFilters.startDate = context.selectedYMD"
+              @context="
+                (context) => (searchFilters.startDate = context.selectedYMD)
+              "
             ></CalendarInput>
           </div>
 
-          <div class="col-lg-2 col-md-4 col-sm-4 date-to-col">
+          <div class="col date-to-col">
             <label class="filter-label">&nbsp;</label>
-             <CalendarInput
+            <CalendarInput
               id="end-date"
               class="position-absolute"
               :value="searchFilters.endDate"
               :placeholder="$t('placed_offers.end_date')"
-              @context="(context) => searchFilters.endDate = context.selectedYMD"
+              @context="
+                (context) => (searchFilters.endDate = context.selectedYMD)
+              "
             ></CalendarInput>
           </div>
           <!-- ./Offer Date -->
 
-          <div :class="`col-lg-1 col-6 apply-button d-flex ${screenIsSmallThanLG && 'mt-5'}`">
-            <Button variant="apply" class="mt-2 font-normal position-absolute ml-1" @click="getOffers">{{
-              $t('selling_page.apply')
-            }}</Button>
+          <div
+            :class="`col apply-button d-flex ${
+              screenIsSmallThanLG && 'mt-5'
+            }`"
+          >
+            <Button
+              variant="apply"
+              class="mt-2 position-absolute ml-1"
+              @click="getOffers"
+              >{{ $t('selling_page.apply') }}</Button
+            >
           </div>
-          <!-- <div class="col-lg-1 hide-col"></div> -->
-          <div :class="`col-lg-4 col-6 remove-multiple-button mt-auto d-flex justify-content-end ${screenIsSmallThanLG && 'mt-5'}`">
+          <div
+            :class="`col remove-multiple-button mt-auto d-flex justify-content-end ${
+              screenIsSmallThanLG && 'mt-5'
+            }`"
+          >
             <Button
               variant="remove-multiple"
               class="p-0 font-normal"
@@ -189,9 +209,16 @@
       <!-- page content for web -->
 
       <!-- search for mob -->
-      <div v-if="isScreenXS" class="responsive-offer-placed-mobile search-input-col pt-3 row">
+      <div
+        v-if="isScreenXS"
+        class="responsive-offer-placed-mobile search-input-col pt-3 row"
+      >
         <div class="col-10 form-group d-flex align-items-center m-auto">
-          <MobileSearchInput id="mobile-search" :value="searchFilters.keyWord" @input="search" />
+          <MobileSearchInput
+            id="mobile-search"
+            :value="searchFilters.keyWord"
+            @input="search"
+          />
         </div>
         <div class="col-2 m-auto d-flex justify-content-center">
           <span class="filter-wrapper" role="button" @click="showFilter">
@@ -210,14 +237,18 @@
           id="mobile-filter"
           ref="mobileFilter"
           max-width="100vw"
-          max-height="90vh"
+          max-height="450px"
           :rounded="true"
         >
           <MobileFilter showStatusOfferPlaced @filter="applyFilter" />
         </vue-bottom-sheet>
       </div>
 
-      <div v-show="isScreenXS" class="row" :class="mobileClass ? 'mt-3 px-2' : 'mt-5'">
+      <div
+        v-show="isScreenXS"
+        class="row"
+        :class="mobileClass ? 'custom-margin px-2' : 'mt-5'"
+      >
         <div class="col-xs-7 placed-offers-items-mobile">
           <div class="d-flex align-items-baseline">
             <span class="heading-placed-offers text-align-center">
@@ -266,7 +297,7 @@
       <!-- product card for mob -->
       <div v-show="!showDetailsPage" class="responsive-offer-placed-mobile">
         <div
-          v-if="offers == ''"
+          v-if="!responsiveData.length"
           class="no-offer-message justify-content-center w-100"
         >
           <div
@@ -296,9 +327,9 @@
         </div>
 
         <div v-else>
-          <b-col class="placed-offer-result pt-5">
+          <b-col class="placed-offer-result placed-offer-result-wrapper">
             <offer-received-mobile-view
-              v-for="(offer,index) in offers"
+              v-for="(offer, index) in responsiveData"
               id="responsive-product-placed-offer-card"
               :key="index"
               :offer="offer"
@@ -311,20 +342,19 @@
               @selectedItem="toggleSelect"
               @showEdit="showEdit"
             />
-            <Pagination
-              v-model="searchFilters.page"
-              :total="totalCount"
-              :per-page="searchFilters.perPage"
-              :per-page-options="perPageOptions"
-              class="mt-2"
-              @page-click="handlePageClick"
-              @per-page-change="handlePerPageChange"
-            />
+            <infinite-loading
+            v-if="responsiveData.length && isScreenXS"
+            spinner="spiral"
+            @infinite="infiniteScroll"
+          ></infinite-loading>
           </b-col>
         </div>
       </div>
       <!-- product card for mob -->
-      <div v-show="showCheckBox && isScreenXS" class="responsive-offer-placed-mobile row">
+      <div
+        v-show="showCheckBox && isScreenXS"
+        class="responsive-offer-placed-mobile row"
+      >
         <div class="col-xs-12">
           <div class="bottom-pop m-auto">
             <div
@@ -338,7 +368,7 @@
             >
               {{ $t('offers_received.tap_on_offers_to_delete') }}
             </div>
-            <div class="delete-confirm-button d-flex">
+            <div class="delete-confirm-button d-flex justify-content-around">
               <b-button
                 variant="outline"
                 class="
@@ -437,7 +467,7 @@ export default {
     Confirmation,
     MobileSearchInput,
     EditOffer,
-    CalendarInput
+    CalendarInput,
   },
 
   mixins: [screenSize],
@@ -487,14 +517,19 @@ export default {
         sortby: null,
       },
       selectedOffer: null,
-      openEdit: false
+      openEdit: false,
+      responsiveData: []
     }
   },
 
   computed: {
     // Total count
     offerCount: (vm) => {
-      return vm.offers ? vm.offers.length : 0
+      if(!vm.isScreenXS){
+        return vm.offers ? vm.offers.length : 0
+      }else{
+        return vm.responsiveData ? vm.responsiveData.length : 0
+      }
     },
 
     itemSelected: (vm) => {
@@ -506,11 +541,12 @@ export default {
     },
 
     editOfferId: (vm) => {
-      return vm.selectedOffer && vm.selectedOffer.id || 0
-    }
+      return (vm.selectedOffer && vm.selectedOffer.id) || 0
+    },
   },
 
   created() {
+    this.responsiveData = []
     this.getOffers()
   },
 
@@ -551,7 +587,7 @@ export default {
       this.searchFilters.sortBy = val.sortby ? val.sortby : ''
       this.searchFilters.filterBy =
         val.status && val.status.value ? val.status.value : ''
-
+      this.searchFilters.page = 1
       this.getOffers()
       this.hideFilter()
     },
@@ -656,12 +692,14 @@ export default {
 
     // Get the offers
     getOffers() {
+      this.responsiveData = []
       this.isTableBusy = true
       this.$axios
         .get('/offers', {
           params: this.searchFilters,
         })
         .then((res) => {
+          this.responsiveData.push(...res.data.data)
           this.totalCount = parseInt(res.data.meta.total)
           this.searchFilters.perPage = parseInt(res.data.meta.per_page)
           this.offers = res.data.data
@@ -671,6 +709,33 @@ export default {
           this.isTableBusy = false
           this.$logger.logToServer('Offers Listing', err.response)
         })
+    },
+
+    infiniteScroll($state) {
+      setTimeout(() =>  {
+        this.searchFilters.page ++
+        this.$axios
+        .get('/offers', {
+          params: this.searchFilters,
+        })
+        .then((res) => {
+          if(res.data.data.length ){
+            this.responsiveData.push(...res.data.data)
+            this.totalCount = parseInt(res.data.meta.total)
+            this.searchFilters.perPage = parseInt(res.data.meta.per_page)
+            this.offers = res.data.data
+            this.isTableBusy = false
+            $state.loaded()
+          }else{
+            $state.complete()
+          }
+
+        })
+        .catch((err) => {
+          this.isTableBusy = false
+          this.$logger.logToServer('Offers Listing', err.response)
+        })
+      })
     },
 
     // On start date select.
@@ -725,7 +790,11 @@ export default {
     },
     // On select all click
     handleSelectAll() {
-      this.selected = this.offers.map((p) => p.id)
+      if(this.isScreenXS){
+        this.selected = this.responsiveData.map((p) => p.id)
+      }else{
+        this.selected = this.offers.map((p) => p.id)
+      }
     },
 
     // On pagination click
@@ -761,7 +830,10 @@ export default {
           this.action = ''
           this.selected = []
           this.showCheckBox = false
+          this.$nuxt.refresh()
+          this.searchFilters.page = 1
           this.getOffers()
+
           if (showPopUp) {
             this.$toasted.success(this.$t(res.data.message))
           }
@@ -776,15 +848,15 @@ export default {
     },
 
     // show edit offer
-    showEdit(val){
+    showEdit(val) {
       this.selectedOffer = val
       this.openEdit = true
     },
 
     // reload offers
-    reload(){
+    reload() {
       this.getOffers()
-    }
+    },
   },
 }
 </script>
@@ -804,8 +876,12 @@ label.filter-label
   font-weight: $normal !important
   font-size: 14px
 .placed-offer-heading
+  height: 36px
+  left: 319px
+  top: 146px
+  font-family: $font-family-sf-pro-display
   font-style: normal
-  @include heading-3
+  @include body-16-bold
   color: $color-black-1
 
 @media (min-width: 992px)
@@ -817,17 +893,23 @@ label.filter-label
   .col-md-12
     flex: 0 0 auto
     width: 100%
-.selling-search-input
+.selling-search-input::v-deep
   background: $color-white-1
   border-radius: 4px
-  height: 44px
+  width: 100%
+  max-width: 734px
+  height: 38px
   padding: 10px 14px
+  #search-result
+    height: 36px
 #btn-dropdown-sort-by
   border-radius: none
 .placed-offers-items
+  font-family: $font-sp-pro
   font-style: normal
   @include body-1-bold
   color: $color-black-1
+
 .placed-offer-item-col
   flex: 0 0 100%
   max-width: 100%
@@ -876,6 +958,12 @@ label.filter-label
   background: $color-white-1
   border: 0.5px solid $color-gray-47
   border-radius: 5px
+  color: $color-black-1
+
+  font-family: $font-montserrat
+  font-style: normal
+  @include body-5-normal
+  text-align: center
   color: $color-black-1
 
 //for mobile
@@ -938,7 +1026,6 @@ label.filter-label
   height: 176px
 
 .delete-confirm-button
-  justify-content: space-evenly
   margin-top: 10px
 
 .decline-btn
@@ -1038,7 +1125,6 @@ label.filter-label
     display: block
   .vendor-trade-inv-body
     background-color: $color-white-4
-    padding: 2%
   .responsive-offer-placed-mobile
     display: none
     &.search-input-col
@@ -1047,9 +1133,11 @@ label.filter-label
 .responsive-offer-placed-mobile::v-deep
   #mobile-search
     width: 100%
+  .placed-offer-result-wrapper
+    padding-top: 38px
 
 #responsive-product-placed-offer-card::v-deep
-  height: 208px
+  height: 185px
 
 .empty-browse-now
   .browse-btn
@@ -1082,16 +1170,20 @@ label.filter-label
     height: 145px
 
 .offers-placed-index::v-deep
+  &.top-margin
+    padding: 71px 2%
   /**  Search input */
   .trade-search
     .selling-search-input
       border: 1px solid $color-gray-60
       @media (min-width: 1440px)
         width: 100%
-        height: 40px
-      @media (max-width: 1440px)
-        width: 100%
-        height: 40px
+        height: 38px
+      @media (min-width: 1314px)
+        width: 734px
+        height: 38px
+        #search-result
+          height: 36px
       #search-result
         font-family: $font-montserrat
         font-style: normal
@@ -1101,30 +1193,47 @@ label.filter-label
   /** Sort by */
   .sortby-col
     #category-types
+      width: 100%
+      max-width: 245px
+      height: 38px
+      float: right
       .selected
         height: 100%
         border: 1px solid $color-gray-60
         border-radius: 5px
         padding: 8px 8px
+        &::after
+          top: 4px
       .items
         border: 1px solid $color-gray-60
-      @media (min-width: 1440px)
-        width: 245px
-        height: 38px
-        float: right
 
   .apply-button
     .btn-apply
       height: 38px
+      width: 89px
       background: $color-blue-20
       border-radius: 5px
       bottom: 0
+      font-family: $font-sp-pro
+      font-style: normal
+      @include body-8-normal
+      text-align: center
+      color: $color-white
 
   .date-from-col
-    @media (min-width: 992px)
-      padding: 0
+    .offer-date-label
+      width: 67px
+      height: 18px
+      left: 583px
+      top: 268px
+      font-family: $font-sp-pro
+      font-style: normal
+      @include body-8-normal
+      color: $color-black-1
+
     #start-date
       width: 100%
+      max-width: 170px
       height: 38px
       bottom: 0
       .date-input
@@ -1135,6 +1244,7 @@ label.filter-label
   .date-to-col
     #end-date
       width: 100%
+      max-width: 170px
       height: 38px
       bottom: 0
       .date-input
@@ -1143,8 +1253,18 @@ label.filter-label
         .dropdown-toggle
           background: $color-white-1
   .filter-by-col
+    .filter-label
+      width: 67px
+      height: 18px
+      left: 583px
+      top: 268px
+      font-family: $font-sp-pro
+      font-style: normal
+      @include body-8-normal
+      color: $color-black-1
     #filterby
       width: 100%
+      max-width: 245px
       height: 38px
       .selected
         height: 100%
@@ -1156,4 +1276,142 @@ label.filter-label
       .items
         border: 1px solid $color-gray-60
         border-radius: 5px
+#mobile-filter::v-deep
+  .bottom-sheet__pan
+    padding-bottom: 10.96px
+    .bottom-sheet__bar
+      width: 36px
+      height: 5px
+  .bottom-sheet__content
+    overflow-y: unset
+.vendor-trade-inv-body::v-deep
+  .custom-margin
+    margin-top: 38px
+  .offers-placed-web
+    margin-top: 18px
+    .filter-row-bottom
+      // For the filter by select
+      .filter-by-select
+        .filter-label
+          font-family: $font-sp-pro
+          font-style: normal
+          @include body-8-normal
+          color: $color-black-1
+        #filterby-select-box
+          .selected
+            width: 245px
+            height: 38px
+            left: 319px
+            top: 291px
+            background: $color-white
+            border: 1px solid $color-gray-60
+            border-radius: 5px
+            padding: 8px
+            &::after
+              top: 4px
+      // For the offer start date
+      .offer-date
+        .parent-row
+          width: 360px
+          height: 38px
+        .offer-date-label
+          font-family: $font-sp-pro
+          font-style: normal
+          @include body-8-normal
+          color: $color-black-1
+        #start-date-input,
+        #end-date-input
+          width: 170px
+          height: 38px
+          border-radius: 5px
+          .date-input-icon
+            .date-dp .btn-secondary
+              background: $color-white
+          input
+            background: $color-white
+      .remove-multiple-button
+        margin-left: auto
+        margin-top: auto
+@media (min-width: 576px) and (max-width: 894px)
+  .offers-placed-web
+    .remove-multiple-button
+      margin-top: 18px
+@media (min-width: 576px) and (max-width: 780px)
+  .filter-by-select::v-deep
+    margin-right: 11px
+    #filterby-select-box
+      width: 210px
+      height: 38px
+      margin-right: 0
+      .selected
+        width: 245px !important
+  .offer-date::v-deep
+    margin-right: 0px
+
+.search-field
+  @media (min-width:993px)
+    flex: 0 0 71%
+    max-width: 71%
+.filter-by-col
+  font-family: $font-sp-pro
+  @media (max-width: 425px)
+    flex: 0 0 100%
+    max-width: 100%
+  @media (min-width: 993px)
+    flex: 0 0 20%
+    max-width: 20%
+  @media (min-width:426px) and (max-width: 768px)
+    flex: 0 0 33.33%
+    max-width: 33.33%
+  @media (min-width: 768px)
+    margin-right: 4px
+.date-from-col,
+.date-to-col
+  font-family: $font-sp-pro
+  @media (max-width: 425px)
+    flex: 0 0 100%
+    max-width: 100%
+  @media (min-width: 993px)
+    flex: 0 0 17%
+    max-width: 17%
+  @media (min-width:426px) and (max-width: 768px)
+    flex: 0 0 33.33%
+    max-width: 33.33%
+  @media (min-width: 768px)
+    margin-right: 4px
+.apply-button
+  .btn-aplly
+    height: 38px
+    width: 89px
+  @media (max-width: 320px)
+    flex: 0 0 50%
+    max-width: 50%
+.remove-multiple-button
+  .btn-remove-multiple
+    width: 100%
+    max-width: 168px
+    height: 38px
+    @media (max-width: 320px)
+      width: 139px
+  @media (max-width: 320px)
+    flex: 0 0 50%
+    max-width: 50%
+.offers-placed-index::v-deep
+  .infinite-loading-container
+    .infinite-status-prompt
+      display: none
+  @media (max-width: 641px)
+    #category-types::v-deep
+      .selected
+        float: right
+        &::after
+          right: 56px
+    #filterby::v-deep
+      .selected
+        font-family: $font-montserrat
+        font-style: normal
+        @include body-5-regular
+        color: $color-gray-5
+        &::after
+          right: 47px
 </style>
