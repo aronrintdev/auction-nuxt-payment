@@ -428,8 +428,8 @@ export default {
     right: 20px
 
 ::v-deep .custom-control-label::before
-  background-color: #ffffff
-  border: 1px solid #000000
+  background-color: $color-white-1
+  border: 1px solid $color-black-1
 
 ::v-deep .custom-radio .custom-control-input:checked ~ .custom-control-label::after
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'%3E%3Ccircle r='3' fill='%23000'/%3E%3C/svg%3E")
@@ -438,8 +438,8 @@ export default {
   background: 50%/90% 100% no-repeat
 
 ::v-deep .custom-control-input:checked ~ .custom-control-label::before
-  border-color: #00050b
-  background-color: #fff
+  border-color: $color-black-1
+  background-color: $color-white-1
 
 @media (max-width: 992px)
   ::v-deep .search
