@@ -4,11 +4,11 @@
       <h1 class="heading-1-bold mb-0  font-secondary">
         {{ $t('vendor_dashboard.orders') }}
       </h1>
-      <NavGroup :data="menus" :value="activeNav" @change="navItem"/>
+      <NavGroup :data="menus" :value="activeNav" :class="mobileClass" class="nav-grp" @change="navItem"/>
       <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
         <nuxt-link
             to="/orders"
-            class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link "
+            class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0 view-more-link "
         >{{ $t('vendor_dashboard.view_all') }}
         </nuxt-link
         >
@@ -19,13 +19,13 @@
         {{ $t('vendor_dashboard.orders') }}
       </div>
       <nuxt-link
-          class="font-secondary text-decoration-underline body-18-regular border-primary mb-0 view-more-link "
+          class="font-secondary text-decoration-underline body-18-regular border-primary mb-0 text-link-blue-mobile "
           to="/orders"
       >{{ $t('vendor_dashboard.view_all') }}
       </nuxt-link
       >
     </div>
-    <NavGroup v-if="isScreenXS" :data="mobileMenu" :value="activeNav" class="mt-2" @change="navItem"/>
+    <NavGroup v-if="isScreenXS" :data="mobileMenu" :value="activeNav" :class="mobileClass" class="mt-2 nav-grp" @change="navItem"/>
 
     <div :class="{
       'my-5': !isScreenXS
@@ -84,7 +84,7 @@
           </div>
         </template>
         <template #cell(order_id)="data">
-          <div :aria-label="$t('vendor_dashboard.order_id')" class="d-flex align-items-center  w-fit-content tdHeight"
+          <div :aria-label="$t('vendor_dashboard.order_id')" class="d-flex align-items-center   w-fit-content tdHeight"
                :class="{
                   'flex-column': !isScreenXS
                }"
@@ -98,7 +98,7 @@
               />
             </div>
             <h4
-                class="fw-7 fs-14 font-secondary border-bottom border-primary text-primary mb-0 mx-auto text-nowrap"
+                class="fw-7 fs-14 font-secondary text-decoration-underline text-link-blue-mobile mb-0 mx-auto text-nowrap"
             >
               #{{ orderId(data.item) }}
             </h4>
@@ -148,7 +148,7 @@
         </template>
         <template #cell(actions)="data">
           <div
-              class="d-flex align-items-center justify-content-center tdHeight"
+              class="d-flex align-items-center justify-content-center tdHeight text-link-blue-mobile"
               :aria-label="$t('vendor_dashboard.actions')"
           >
             <div :class="{
@@ -160,25 +160,25 @@
                 <img :src="require('~/assets/img/paper.svg')"/>
               </div>
               <div v-if="data.item.status === PROCESSING">
-                <a href="#generate-label" @click="generateLabel(data.item)">{{ $t('orders.generate_shipping_label') }}
+                <a href="#generate-label" class="text-link-blue-mobile" @click="generateLabel(data.item)">{{ $t('orders.generate_shipping_label') }}
                   <img v-if="isScreenXS" :src="require('~/assets/img/paper.svg')" height="16" width="12"/>
                   <img v-if="!isScreenXS" :src="require('~/assets/img/rewards/arrow-right-blue.svg')"/>
                 </a>
               </div>
               <div v-if="data.item.status === AWAITING_SHIPMENT_TO_DEADSTOCK">
-                <a href="#generate-label" @click="generateLabel(data.item)">{{ $t('orders.delivered_to_deadstock') }}
+                <a href="#generate-label" class="text-link-blue-mobile" @click="generateLabel(data.item)">{{ $t('orders.delivered_to_deadstock') }}
                   <img v-if="isScreenXS" :src="require('~/assets/img/paper.svg')" height="16" width="12"/>
                   <img v-if="!isScreenXS" :src="require('~/assets/img/rewards/arrow-right-blue.svg')"/>
                 </a>
               </div>
               <div v-if="data.item.status !== PROCESSING && data.item.vendor_shipment">
-                <a :download="`${data.item.vendor_shipment.tracking_no}.pdf`" :href="downloadPdf(data.item)">{{
+                <a class="text-link-blue-mobile" :download="`${data.item.vendor_shipment.tracking_no}.pdf`" :href="downloadPdf(data.item)">{{
                     $t('orders.print_shipping_label')
                   }} <img v-if="isScreenXS" :src="require('~/assets/img/paper.svg')" height="16" width="12"/></a>
               </div>
-              <span v-if="data.item.status !== PROCESSING && data.item.vendor_shipment">
+              <span v-if="data.item.status !== PROCESSING && data.item.vendor_shipment" class="text-link-blue-mobile">
                 <span>{{ data.item.vendor_shipment.shipping_method_text }}</span>
-                <a :href="data.item.vendor_shipment.tracking_url" class="text-decoration-underline"
+                <a  :href="data.item.vendor_shipment.tracking_url" class="text-decoration-underline text-link-blue-mobile"
                    target="_blank">{{ data.item.vendor_shipment.tracking_no }}</a>
               </span>
             </div>
@@ -204,7 +204,7 @@ export default {
       PROCESSING,
       AWAITING_SHIPMENT_TO_DEADSTOCK,
       // Active Nav for the Toggle Button
-      activeNav: this.isScreenXS ? '1' : '',
+      activeNav: '1',
       topOrders: [],
       statusColors: {
         'pending': 'orange',
@@ -366,8 +366,21 @@ export default {
   },
 }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
 @import '~/assets/css/_variables'
+::v-deep.nav-grp
+  width: 460px
+  &.mobile
+    width: 100%
+  .btn-group
+    height: 32px
+    button.btn
+      @include body-6-regular
+      font-family: $font-montserrat
+      width: 103px
+      padding-block: 1px
+      &.active
+        font-weight: $medium
 
 .status
   &.mobile
@@ -450,7 +463,7 @@ export default {
   color: $color-gray-6
   font-family: $font-sf-pro-text
 
-.ordersTable
+::v-deep.ordersTable
   &.table.b-table.b-table-no-border-collapse
     border-spacing: 0 10px
 

@@ -24,7 +24,7 @@
           </h1>
           <a
               v-if="isScreenXS"
-              class="font-primary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link text-nowrap"
+              class="font-primary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0 view-more-link text-nowrap"
               href="#"
           >{{ $t('vendor_dashboard.view_breakdown') }}</a
           >
@@ -70,7 +70,7 @@
         </div>
         <div class="text-right d-none d-sm-block">
           <a
-              class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
+              class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0 view-more-link"
               href="#"
           >{{ $t('vendor_dashboard.view_breakdown') }}</a
           >
@@ -98,7 +98,7 @@
           </h1>
           <a
               v-if="isScreenXS"
-              class="font-primary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link text-nowrap"
+              class="font-primary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0 view-more-link text-nowrap"
               href="#"
           >{{ $t('vendor_dashboard.view_breakdown') }}</a
           >
@@ -148,7 +148,7 @@
         </div>
         <div class="text-right d-none d-sm-block">
           <a
-              class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
+              class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0 view-more-link"
               href="#"
           >{{ $t('vendor_dashboard.view_breakdown') }}</a
           >

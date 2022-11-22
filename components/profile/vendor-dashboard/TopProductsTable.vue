@@ -4,10 +4,10 @@
       <h1 class="heading-1-bold mb-0  font-secondary">
         {{ $t('vendor_dashboard.top_products') }}
       </h1>
-      <NavGroup :data="menus" :value="activeNav" @change="navItem"/>
+      <NavGroup :data="menus" :value="activeNav" :class="mobileClass" class="nav-grp" @change="navItem"/>
       <div class="col-6 col-md-3 d-flex justify-content-end align-items-center" role="button">
         <a
-            class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
+            class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0"
             @click="$router.push('/profile/inventory')"
         >{{ $t('vendor_dashboard.view_all') }}</a
         >
@@ -18,13 +18,13 @@
         {{ $t('vendor_purchase.products') }}
       </div>
       <nuxt-link
-          class="font-secondary text-decoration-underline body-18-regular border-primary mb-0 view-more-link "
+          class="font-secondary text-decoration-underline body-18-regular border-primary mb-0 text-link-blue-mobile "
           to="/profile/inventory"
       >{{ $t('vendor_dashboard.view_all') }}
       </nuxt-link
       >
     </div>
-    <NavGroup v-if="isScreenXS" :data="mobileMenu" :value="activeNav" class="mt-20" @change="navItem"/>
+    <NavGroup v-if="isScreenXS" :data="mobileMenu" :value="activeNav" :class="mobileClass" class="mt-20 nav-grp" @change="navItem"/>
 
     <div>
       <b-table
@@ -58,7 +58,7 @@
                   'body-5-medium mobile': isScreenXS,
                   'font-secondary': !isScreenXS,
                 }"
-                  class="body-8-medium text-color-blue-30 text-decoration-underline border-primary mb-1 text-nowrap text-truncate mw-300"
+                  class="body-8-medium text-decoration-underline text-link-blue-mobile border-primary mb-1 text-nowrap text-truncate mw-300"
               >
                 {{ row.item.name }}
               </h4>
@@ -289,6 +289,19 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+::v-deep.nav-grp
+  width: 460px
+  &.mobile
+    width: 100%
+  .btn-group
+    height: 32px
+    button.btn
+      @include body-6-regular
+      font-family: $font-montserrat
+      width: 103px
+      padding-block: 1px
+      &.active
+        font-weight: $medium
 
 ::v-deep.prod-image
   width: 100px
