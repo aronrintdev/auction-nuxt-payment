@@ -41,6 +41,7 @@
                     form-control form-input
                     vd-purchases-browse-input
                     bg-white
+                    input-fullwidth
                   "
                   :placeholder="$t('selling_page.filter_details_placeholder')"
                   autocomplete="on"
@@ -106,7 +107,7 @@
           </div>
 
           <div class="col-lg-2 col-md-4 col-sm-4 date-to-col">
-            <label>&nbsp;</label>
+            <label class="filter-label">&nbsp;</label>
              <CalendarInput
               id="end-date"
               class="position-absolute"
@@ -792,6 +793,9 @@ export default {
 @import '~/assets/css/_variables'
 .custom-selectbox .selected::after
   top: 4px
+#search-result.input-fullwidth
+  width: 100%
+  max-width: 100%
 label.filter-label
   font-weight: $normal
   font-size: 14px
