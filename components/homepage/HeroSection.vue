@@ -26,13 +26,13 @@
           <h1
             class="fs-32 fw-5 font-secondary text-white hero-heading pre-line"
           >
-            <span>{{ slide.heading }}</span>
+            <span>{{ slide.heading }} </span>
           </h1>
           <nuxt-link to="/shop">
             <b-button
               variant="outline-light"
-              squared
-              class="py-2 px-md-5 fs-20 fw-6 font-primary d-flex align-items-center justify-content-center"
+              squared 
+              class="fs-20 fw-6 font-primary d-flex align-items-center justify-content-center"
             >
               {{ slide.btnLabel }}
             </b-button>
@@ -54,24 +54,7 @@ export default {
           heading: this.$t('home_page.hero_heading'),
           btnLabel: this.$t('home_page.shop_now'),
         },
-        {
-          image: require('~/assets/img/home/slider/hero_banner2.jpg'),
-          imageSm: require('~/assets/img/home/slider/hero_banner2-sm.jpg'),
-          heading: this.$t('home_page.hero_heading'),
-          btnLabel: this.$t('home_page.shop_now'),
-        },
-        {
-          image: require('~/assets/img/home/slider/hero_banner3.jpg'),
-          imageSm: require('~/assets/img/home/slider/hero_banner3-sm.jpg'),
-          heading: this.$t('home_page.hero_heading'),
-          btnLabel: this.$t('home_page.shop_now'),
-        },
-        {
-          image: require('~/assets/img/home/slider/hero_banner4.jpg'),
-          imageSm: require('~/assets/img/home/slider/hero_banner4-sm.jpg'),
-          heading: this.$t('home_page.hero_heading'),
-          btnLabel: this.$t('home_page.shop_now'),
-        },
+
         {
           image: require('~/assets/img/home/slider/hero_banner5.jpg'),
           imageSm: require('~/assets/img/home/slider/hero_banner5-sm.jpg'),
@@ -81,6 +64,12 @@ export default {
         {
           image: require('~/assets/img/home/slider/hero_banner6.jpg'),
           imageSm: require('~/assets/img/home/slider/hero_banner6-sm.jpg'),
+          heading: this.$t('home_page.hero_heading'),
+          btnLabel: this.$t('home_page.shop_now'),
+        },
+        {
+          image: require('~/assets/img/home/slider/hero_banner4.jpg'),
+          imageSm: require('~/assets/img/home/slider/hero_banner4-sm.jpg'),
           heading: this.$t('home_page.hero_heading'),
           btnLabel: this.$t('home_page.shop_now'),
         },
@@ -114,10 +103,14 @@ export default {
   height: 600px
   .hero-content
     margin-bottom: 130px
+    @media (min-width: 576px)
+      margin-left: 90px
     .hero-heading
       margin-bottom: 22px
       @media (min-width: 576px)
         margin-bottom: 40px
+    button
+      width: 194px
   @media (max-width: 576px)
     background-image: var(--background-sm)
     background-color: transparent
@@ -126,15 +119,15 @@ export default {
       margin-bottom: 63px
       padding-left: 20px
       padding-right: 20px
-    h1
-      font-size: 20px
-    button
-      font-size: 15px
-      border-width: 2px
-      width: 109px
-      padding-left: 0 !important
-      padding-right: 0 !important
-      height: 40px
+      h1
+        font-size: 20px
+      button
+        font-size: 15px
+        border-width: 2px
+        width: 109px
+        padding-left: 0 !important
+        padding-right: 0 !important
+        height: 40px
 ::v-deep .owl-carousel
   .owl-dots
     bottom: 32px

@@ -54,15 +54,13 @@ export default {
     padding: 22px
     color: $color-black-1
     transition: transform .2s
-    height: 300px !important
+    height: 265px !important
     width: 228px !important
     cursor: help
-    min-height: 300px
     background-color: $color-white-1
-
     &:hover
-        transform: scale(1.1)
-
+      transform: scale(1.1)
+      cursor: pointer
 
     .feature-title
         @include heading-1
@@ -81,24 +79,23 @@ export default {
 
 
 @media (max-width: 768px)
-    .feature-four-cards
-        min-width: 168px !important
-        padding: 10px !important
-        height: 168px !important
-        width: 231px !important
-
-        img
-            width: 56px
-            height: 47px
-        &:hover
-            transform: scale(1)
+  .feature-four-cards
+    min-width: 168px !important
+    padding: 10px !important
+    height: 96px !important
+    width: 231px !important
 
 
-        .feature-title
-            font-size: 12px
-            margin-top: 9px
-        .feature-description
-            font-size: 12px
-            line-height: 20px
-            margin-top: 7px
+    img
+      width: 56px
+      height: 47px
+    &:hover
+      transform: scale(1)
+    .feature-title
+      font-size: 12px
+      margin-top: 9px
+    .feature-description
+      font-size: 12px
+      line-height: 20px
+      margin-top: 7px
 </style>

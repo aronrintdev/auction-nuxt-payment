@@ -6,7 +6,7 @@
       :style="wrapperStyle"
     >
       <b-row>
-        <b-col md="12" class="d-flex justify-content-between align-items-center px-0">
+        <b-col md="12" class="d-flex justify-content-between align-items-center">
           <span class="select-size">
             {{ $t('products.select_size') }}<span class="d-sm-none">:</span>
             <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
@@ -47,7 +47,8 @@
             576: { items: 6, nav: false },
             1268: { items: 5, nav: false },
           }"
-          :mouse-drag="false"
+          :mouse-drag="mouseDrag"
+          :show-arrows="arrowsVisible"
           :nav-text="['', '']"
           :dots="false"
           :autoWidth="true"
@@ -78,28 +79,30 @@
 
           <template #prev>
             <div
-              v-if="arrowsVisible"
               class="owl-nav owl-prev"
               :style="arrowStyle"
             >
-              <img :src="require('~/assets/img/icons/arrow-left-gray.svg')" />
+              <b-img :src="require('~/assets/img/icons/arrow-left-gray.svg')" />
             </div>
           </template>
 
           <template #next>
             <div
-              v-if="arrowsVisible"
               class="owl-nav owl-next"
               :style="arrowStyle"
             >
-              <img :src="require('~/assets/img/icons/arrow-right-gray.svg')" />
+              <b-img :src="require('~/assets/img/icons/arrow-right-gray.svg')" />
             </div>
           </template>
         </Carousel>
       </client-only>
     </div>
 
-    <div v-if="viewMode === 'all'" class="mx-auto position-relative all-sizes">
+    <div
+      v-if="viewMode === 'all'"
+      class="mx-auto position-relative all-sizes"
+      :class="allSizesClass"
+    >
       <div class="items-wrapper">
         <div
           v-for="size in sizes"
@@ -196,6 +199,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    mouseDrag: {
+      type: Boolean,
+      default: true,
+    },
     xsCenter: {
       type: Boolean,
       default: false,
@@ -207,6 +214,10 @@ export default {
     errorText: {
       type: String,
       default: null
+    },
+    allSizesClass: {
+      type: String,
+      default: ''
     }
   },
 
@@ -343,7 +354,7 @@ export default {
 
   .size-carousel::v-deep
     max-width: 100%
-    padding: 0 20px
+    padding: 0
     margin-top: 8px
 
     >span .owl-nav
@@ -478,4 +489,9 @@ export default {
     .all-sizes
       .item
         width: 25%
+
+.edit-item
+  .view-all-btn
+    top: -2px
+
 </style>

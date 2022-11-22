@@ -52,6 +52,17 @@
           @styleProduct="productDetail"
         />
       </b-col>
+      <b-col cols="12" class="d-flex justify-content-center">
+        <Button
+          variant="dark-blue"
+          black-text
+          border="thick"
+          class="mt-5 d-block d-sm-none rounded-pill w-100 text-white sticky-sm-top"
+          @click="handleStyleAddToCart"
+        >
+          {{ $t('shop_by_style.general.add_style_to_bag') }}
+        </Button>
+      </b-col>
     </b-row>
   </b-overlay>
 </template>
@@ -89,8 +100,6 @@ export default {
           products: res.data.data.products,
           style: res.data.data.style
         }
-        console.log('360 image data is',this.style.images);
-        console.log('360 image data is');
       })
       .catch(error => {
         this.$toasted.error(error)
@@ -99,7 +108,6 @@ export default {
   },
   computed: {
     has360Images() {
-      console.log('response data is',this.style);
       return this.style.style?.has360Images
     },
   },
@@ -143,5 +151,7 @@ export default {
       padding: 64px 0 0 0
 @media (max-width: 460px)
   .container-style-detail
-    padding: 30px 20px
+    padding: 0 20px 30px 20px
+    .product-list
+      padding: 26px 0 64px 0
 </style>

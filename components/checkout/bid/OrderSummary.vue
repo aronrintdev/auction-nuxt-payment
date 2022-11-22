@@ -445,6 +445,7 @@ export default {
             type: this.shippingAddress.type,
             is_default: this.paymentMethod.isDefault
           },
+          auto_bid_enabled: this.auction.auto_bid_settings[0] && !this.auction.auto_bid_settings[0].is_disabled,
         }).then(() => {
           this.loading = false
           this.$bvModal.show('order-success-modal')

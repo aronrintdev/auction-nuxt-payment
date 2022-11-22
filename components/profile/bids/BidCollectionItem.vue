@@ -2,18 +2,12 @@
   <div>
     <component :is="isMobileSize ? 'div' : 'b-row'"
       v-if="auction.auction_items"
-      :class="isMobileSize ? 'border shadow-sm' : 'ml-n1'"
-      class="mt-3 pr-1 text-center font-weight-bold w-100 bg-white collection-item position-relative"
+      :class="isMobileSize ? 'border shadow-sm' : ''"
+      class="mt-3 pr-1 text-center font-weight-bold w-100 mx-0 bg-white collection-item position-relative"
     >
       <div v-if="isMobileSize" :class="`${bid.place}_mobile`"
           class="position-absolute sf-pro-font text-left body-9-normal bid-status">
       {{ $t('bids.bid_status.' + bid.place) }}
-      </div>
-      <div v-else-if="bidType === BID_TYPE_OUTGOING"
-        class="position-absolute tag-bid d-flex align-items-center justify-content-center text-white"
-        :class="bid.place"
-      >
-        {{ $t('bids.bid_status.' + bid.place) }}
       </div>
       <b-row class="w-100 pr-0 mr-0">
         <b-col sm="12" md="5" class="text-left mt-1 mt-md-4">
@@ -29,13 +23,16 @@
                 </b-form-checkbox>
               </div>
               <div class="my-0 my-md-3" :class="{'mobile-collection-svg position-absolute' : isMobileSize}">
-                <img :src="CollectionSvg" alt="collection image my-2" />
+                <img :src="CollectionSvg" alt="collection image" />
               </div>
-              <NuxtLink v-if="!isMobileSize" :to="`/profile/auctions/${auction.id}`">
-                <div class="auction-id text-decoration-underline text-center">
-                  {{ $t('bids.auction_id') }}: {{ auction.id }}
-                </div>
-              </NuxtLink>
+              <template v-if="!isMobileSize">
+                <NuxtLink v-if="bidType === BID_TYPE_OUTGOING" :to="`/auction/collection/${auction.id}`">
+                  <div class="auction-id"> {{ $t('bids.auction_id') }}: {{ auction.id }}</div>
+                </NuxtLink>
+                <NuxtLink v-else :to="`/profile/auctions/${auction.id}`">
+                  <div class="auction-id"> {{ $t('bids.auction_id') }}: {{ auction.id }}</div>
+                </NuxtLink>
+              </template>
             </b-col>
             <b-col cols="8" md="8"
                    class="pr-0 pl-4 d-flex justify-content-between align-items-center">
@@ -55,9 +52,7 @@
                 <!-- MOBILE BID MENU END -->
                 <!-- MOBILE ACCEPT BUTTON BEGIN -->
                 <div v-if="acceptable && isMobileSize">
-                  <Button size="sm" variant="primary" class="btn-dark-blue px-2" @click="$emit('accept', bid)">
-                    <div class="body-9-medium"> {{ $t('bids.accept') }}</div>
-                  </Button>
+                  <a role="button" class="btn-mobile-accept body-6-normal text-white rounded py-1 px-2" @click="$emit('accept', bid)">{{ $t('bids.accept') }}</a>
                 </div>
                 <!-- MOBILE ACCEPT BUTTON END -->
               </template>
@@ -68,11 +63,14 @@
         <b-col sm="12" md="1" class="d-flex justify-content-around flex-column pt-4">
           <span class="body-4-medium">{{ $t('bids.auction_types.' + auction.type) }}</span>
         </b-col>
-        <b-col sm="12" md="2" class="d-flex justify-content-around flex-column pt-4">
+        <b-col sm="12" md="2" class="d-flex justify-content-center flex-column pt-4">
           <span class="body-4-medium">${{ bid.price | formatPrice }}</span>
+          <div v-if="bidType === BID_TYPE_OUTGOING" class="d-none tag-bid d-md-flex align-items-center justify-content-center" :class="bid.place">
+            {{ $t('bids.bid_status.' + bid.place) }}
+          </div>
         </b-col>
         <b-col sm="12" md="2" class="d-flex justify-content-around flex-column pt-4">
-          <span class="body-4-medium">
+          <span class="body-4-medium text-capitalize">
             {{ !isExpiredOrDelisted ? bid.auction.remaining_time : $t('bids.expired') }}
           </span>
         </b-col>
@@ -320,11 +318,11 @@ export default {
 
 // Setting the background color of the bid status.
 .highest_bid
-  background-color: $color-green-15
+  color: $color-green-15
 .outbid
-  background-color: $color-red-15
+  color: $color-red-15
 .winner
-  background-color: $color-blue-1
+  color: $color-blue-1
 
 .highest_bid_mobile
   color: $color-green-15
@@ -337,15 +335,9 @@ export default {
   z-index: 2
 
 .tag-bid
+  font-family: $font-sp-pro
   @include body-4
-  font-weight: $regular
-  height: 30px
-  width: 120px
-  left: 0
-  top: 0
-  z-index: 10
-  border-top-left-radius: 0px
-  border-bottom-right-radius: 10px
+  font-weight: $normal
 
 .view-similar
   @include body-4
@@ -383,14 +375,17 @@ export default {
     height: 4px
     border-radius: 50%
 .mobile-collection-svg
-  right: -18px
-  top: -3px
+  right: -15px
+  top: 0
   z-index: 2
   img
-    width: 22px
+    width: 16px
 
 .sf-pro-font
   font-family: $font-family-sf-pro-display
 .bid-status
   top: 7px
+
+.btn-mobile-accept
+  background-color: $color-blue-20
 </style>

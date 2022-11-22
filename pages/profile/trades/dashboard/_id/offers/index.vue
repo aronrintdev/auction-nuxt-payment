@@ -1,23 +1,18 @@
 <template>
-  <div class="container-fluid" v-if="isScreenXS">
+  <div class="px-16" v-if="isScreenXS">
     <trade-summary v-if="trade !== null" :trade="trade" />
-    <div class="mt-5 offers-heading pl-30">
-      {{$t('trades.offers' , {'0': tradeOffers.length})}}
+    <div class="mt-4 d-flex">
+      <div class="offers-heading mr-2">
+        {{ $t('trades.offers', { '0': tradeOffers.length }) }}
+      </div>
+      <img 
+        class="float-right image-filter"
+        :src="require('~/assets/img/filterTradeList.svg')"  
+        @click="openBottomFilter()"
+      />
     </div>
     <div class="d-flex mt-2">
-      <div>
-        <SearchInput
-          :value="searchText"
-          variant="primary"
-          placeholder="Search Offers"
-          :clearSearch="true"
-          @change="onSearchInput"
-          class="searching-box"
-        />
-      </div>
       <div class="mt-2 ml-3">
-        <img class="float-right image-filter"
-             :src="require('~/assets/img/filterTradeList.svg')"  @click="openBottomFilter()"/>
         <vue-bottom-sheet
           ref="browseFiltersSheet"
           class="more-options"
@@ -29,8 +24,8 @@
             <div class="mt-1 ml-2">
               <span class="filtersHeading ml-2">{{$t('auctions.frontpage.filterbar.sort')}}</span>
               <b-form-radio-group
-                class="radios mt-1 mb-1 sorted ml-3"
                 v-model="orderFilter"
+                class="radios mt-1 mb-1 sorted ml-3"
                 :options="orderFilterItems"
                 :checked="orderFilter"
                 @change="changeOrderFilter($event, 'CUSTOM_VARIABLE')"
@@ -38,7 +33,7 @@
             </div>
             <hr class="hr" />
             <div class="mt-1 ml-2">
-              <div class="d-flex" v-b-toggle="'collapse-1'">
+              <div v-b-toggle="'collapse-1'" class="d-flex">
                 <b-row class="filtersHeading ml-2">
                   <b-col class="col-sm-6">{{$t('trades.trade_condition')}}</b-col>
                   <b-col class="col-sm-6">
@@ -76,26 +71,10 @@
     </div>
     <all-offers-items :offerType="offerType" :offers="tradeOffers" />
   </div>
-  <div class="container-fluid" v-else>
-    <b-col md="12" class="pl-54 pt-4">
-      <b-row class="heading">{{$t('trades.trade_id')}} #{{ trade && trade.id }}</b-row>
-      <b-row class="sub-heading pt-4">{{$t('trades.trade_summary')}}</b-row>
-    </b-col>
+  <div class="container-fluid bg-white-5 pt-5" v-else>
+    <div class="heading mx-4">{{ $t('vendor_purchase.trade_summary') }}</div>
+    <div class="sub-heading mx-4">{{ $t('common.your_listing') }}</div>
     <trade-summary v-if="trade !== null" :trade="trade" />
-
-    <!-- Search Input -->
-    <b-row class="mt-3">
-      <b-col md="7" class="pl-30">
-        <SearchInput
-          :value="searchText"
-          variant="primary"
-          placeholder="Search Offers"
-          :clearSearch="true"
-          @change="onSearchInput"
-        />
-      </b-col>
-
-    </b-row>
 
     <!--Offers Section-->
     <b-row class="mt-5 offers-heading pl-30">
@@ -110,8 +89,8 @@
         @change="handleMethodNavClick"
       />
     </b-row>
-    <b-row class="justify-content-between pl-30">
-      <b-col >
+    <b-row class="justify-content-between px-4">
+      <b-col>
         <label>{{$t('trades.filter_by')}}</label>
         <b-row class="pl-2">
         <custom-dropdown
@@ -122,15 +101,24 @@
           variant="white"
           width="200px"
           maxWidth="162px"
+          paddingX="10px"
+          :arrowStyle="{
+            marginTop: '0 !important',
+            color: '#000'
+          }"
+          :dropdownStyle="{
+            background: '#FFF'
+          }"
+          borderRadius="5px"
+          borderRadiusClose="5px 5px 0 0"
+          borderRadiusOptions="0 0 5px 5px"
           dropDownHeight="38px"
           @change="changeConditionFilter"
         />
-        <Button  variant="blue" class="ml-4" @click="fetchOffersListing()">{{$t('trades.filter')}}</Button>
+        <Button variant="dark-blue" class="ml-4" @click="fetchOffersListing()">{{$t('trades.filter')}}</Button>
         </b-row>
       </b-col>
-      <b-col>
-        <label></label>
-        <b-row class="justify-content-end pr-5">
+      <b-col class="d-flex align-items-end justify-content-end">
         <custom-dropdown
           v-model="conditionFilter"
           type="single-select"
@@ -139,10 +127,20 @@
           variant="white"
           maxWidth="245px"
           width="245px"
-          class="pt-2"
+          paddingX="10px"
+          borderRadius="5px"
+          borderRadiusClose="5px 5px 0 0"
+          borderRadiusOptions="0 0 5px 5px"
+          :dropdownStyle="{
+            background: '#FFF'
+          }"
+          :arrowStyle="{
+            marginTop: '0 !important',
+            color: '#000'
+          }"
           dropDownHeight="38px"
-          @change="changeOrderFilter"/>
-        </b-row>
+          @change="changeOrderFilter"
+        />
       </b-col>
     </b-row>
     <all-offers-items :offerType="offerType" :offers="tradeOffers" />
@@ -152,7 +150,6 @@
 <script>
 import debounce from 'lodash.debounce'
 import TradeSummary from '~/pages/profile/trades/dashboard/TradeSummary';
-import SearchInput from '~/components/common/SearchInput';
 import NavGroup from '~/components/common/NavGroup';
 import AllOffersItems from '~/pages/profile/trades/dashboard/AllOffersItems';
 import CustomDropdown from '~/components/common/CustomDropdown';
@@ -175,7 +172,6 @@ export default {
     CustomDropdown,
     AllOffersItems,
     NavGroup,
-    SearchInput,
     TradeSummary,
   },
   mixins: [ScreenSize],
@@ -319,6 +315,9 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.bg-white-5
+  background: $color-white-5
+
 .pl-54
   padding-left: 54px
 
@@ -335,12 +334,15 @@ export default {
   font-style: normal
   @include body-15-bold
   color: $color-black-1
+  margin-top: 35px
 
 .offers-heading
+  @include body-4-medium
   font-family: $font-family-sf-pro-display
   font-style: normal
-  @include body-15-bold
   color: $color-black-1
+  @media (min-width: 576px)
+    @include body-15-bold
 
 .pl-30
   padding-left: 30px
@@ -419,4 +421,9 @@ export default {
     width: 100px
     height: auto
     font-size: 12px
+
+.px-16
+  padding-left: 16px
+  padding-right: 16px
+
 </style>

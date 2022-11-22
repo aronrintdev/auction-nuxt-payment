@@ -2,7 +2,7 @@
   <div v-show="productItems.length" id="products"  class="text-xs w-100 searched-item-row" :style="{'max-width': width}">
     <div class="white-bg mt-2" align-self="center">
       <b-list-group v-for="(product, index) in productItems" :key="`searched-product-${index}`" class="list-group">
-        <b-list-group-item class="sub-con d-flex mb-2">
+        <b-list-group-item class="sub-con d-flex mb-2" :class="listGroupItemClass">
           <div><img class="searched-product-image ml-1 mr-3" :src="product.image"/></div>
           <div class="searched-product-name ml-1">{{product.name}}</div>
           <div class="searched-product-add-to-wants">
@@ -54,6 +54,10 @@ export default {
       type: String,
       default: '',
     },
+    listGroupItemClass: {
+      type: String,
+      default: ''
+    }
   },
   data(){
     return {

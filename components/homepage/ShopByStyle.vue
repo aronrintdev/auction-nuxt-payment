@@ -3,7 +3,7 @@
     <SectionHeader
       :title="$t('home_page.shop_by_style')"
       :desc="$t('home_page.shop_by_style_description')"
-      :label="$t('home_page.view_more_products')"
+      :label="$t('home_page.view_more_styles')"
       to="/shop-by-style"
     />
     <NavGroup
@@ -14,7 +14,11 @@
       @change="handleCategoryChange"
     />
     <div>
-      <ProductStyleCarousel :products="styles" variant="photo" />
+      <ProductStyleCarousel
+        :products="styles"
+        showArrowsOnHover
+        variant="photo"
+      />
     </div>
   </div>
 </template>
@@ -49,7 +53,7 @@ export default {
         .get('/shop-by-style', {
           params: {
             type: this.currentCategory,
-            pageName: 'HOME'
+            pageName: 'HOME',
           },
         })
         .then((res) => {

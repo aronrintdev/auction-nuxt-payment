@@ -31,14 +31,14 @@
                 @click="addProductTrade(product)"
               >
                 {{ $t('common.add_product') }}
-                <img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
+                <img class="ml-2" :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
               </span>
               <span
                 v-else-if="productsFor === arenaItem"
                 class="cursor-pointer"
                 @click="addProductArena(product)"
               >
-                <img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
+                <img class="ml-2" :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
               </span>
               <a
                 v-else
@@ -53,7 +53,7 @@
           </div>
         </b-list-group>
       </b-col>
-      <b-col :style="itemStyle" align-self="center" v-if="productItems.length > 0">
+      <b-col v-if="productItems.length > 0" :style="itemStyle" align-self="center">
         <b-list-group class="text-md" :style="suggestNewStyle">
           <b-list-group-item 
             class="p-4 border-top-0 no-product d-flex align-items-center"
@@ -316,5 +316,8 @@ export default {
   font-family: $font-family-sf-pro-display
   color: $color-white-1
   height: 22px
+
+.border-color-gray-47
+  border-color: $color-gray-47
 
 </style>

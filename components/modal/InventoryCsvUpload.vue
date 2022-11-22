@@ -3,10 +3,11 @@
     :id="id"
     hide-footer
     no-border
+    content-class
     @shown="$emit('shown')"
     @hidden="$emit('hidden')"
   >
-    <div class="csv-upload-modal-content">
+    <div class="csv-upload-modal-content px-5 py-5">
       <div v-if="status === 'uploading'" class="text-center">
         <div class="manify-section">CSV</div>
         <b-progress

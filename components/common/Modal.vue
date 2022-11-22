@@ -9,6 +9,7 @@
     no-stacking
     :body-class="`px-4 py-3`"
     :modal-class="modalClass"
+    :content-class="`rounded-0 shadow-none`"
     :size="size"
     @shown="$emit('shown')"
     @hidden="$emit('hidden')"
@@ -92,4 +93,5 @@ export default {
   float: right
   text-align: right
   margin-left: auto
+
 </style>

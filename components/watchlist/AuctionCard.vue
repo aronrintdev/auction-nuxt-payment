@@ -172,6 +172,8 @@ export default {
 @media (max-width: 576px)
   .item
     padding: 0 8px
+    max-width: 50%
+    float: left
   .auct-card
     .remaining-time
       padding: 4px 8px 4px 6px

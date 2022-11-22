@@ -22,7 +22,7 @@
         :rounded="true"
       >
         <div class="mt-1 ml-2">
-          <div class="d-flex" v-b-toggle="'collapse-1'">
+          <div v-b-toggle="'collapse-1'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">{{$tc('common.category')}}</b-col>
               <b-col class="col-sm-6">
@@ -47,7 +47,7 @@
         </div>
         <hr class="hr" />
         <div class="mt-1 ml-2">
-          <div class="d-flex" v-b-toggle="'collapse-2'">
+          <div v-b-toggle="'collapse-2'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">Size Type</b-col>
               <b-col class="col-sm-6">
@@ -71,7 +71,7 @@
         </div>
         <hr class="hr" />
         <div class="mt-1 ml-2">
-          <div class="d-flex" v-b-toggle="'collapse-3'">
+          <div v-b-toggle="'collapse-3'" class="d-flex">
             <b-row class="filtersHeading ml-2">
               <b-col class="col-sm-6">Size</b-col>
               <b-col class="col-sm-6">

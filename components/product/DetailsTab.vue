@@ -41,7 +41,7 @@
               </b-col>
             </b-row>
           </b-tab>
-          <b-tab title-link-class="body-2-bold border-0 p-0 w-160 text-center" :title="$t('products.size_guide')">
+          <b-tab v-if="hasSize" title-link-class="body-2-bold border-0 p-0 w-160 text-center" :title="$t('products.size_guide')">
             <ProductSizeGuideShoe
               v-if="product.size_type && SHOE_CATEGORIES.indexOf(product.size_type) > -1"
               :selected-size="selectedSize"
@@ -52,7 +52,7 @@
     </b-row>
 
     <div class="d-sm-none px-3 d-flex flex-column">
-      <div 
+      <div
         class="field"
         @click="isDetailsModalOpen = true"
       >
@@ -60,7 +60,7 @@
         <i class="fa fa-2x fa-angle-down icon"></i>
       </div>
 
-      <div 
+      <div
         class="mt-3 field"
         @click="isSizeModalOpen = true"
       >
@@ -136,6 +136,9 @@ export default {
       }
 
       return this.productDescription.slice(0, 128) + '...'
+    },
+    hasSize(vm) {
+      return vm.product.sizes && vm.product.sizes.length
     }
   }
 }

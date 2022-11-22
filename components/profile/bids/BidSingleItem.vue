@@ -2,17 +2,11 @@
   <div>
     <component :is="isMobileSize ? 'div' : 'b-row'"
       v-if="inventory.product"
-      :class="isMobileSize ? 'border shadow-sm' : 'ml-n1'"
-      class="position-relative mt-3 text-center font-weight-bold w-100 bg-white single-item"
+      :class="isMobileSize ? 'border shadow-sm' : ''"
+      class="position-relative mt-3 text-center font-weight-bold w-100 mx-0 bg-white single-item"
     >
       <div v-if="isMobileSize" :class="`${bid.place}_mobile`"
            class="position-absolute sf-pro-font text-left body-9-normal bid-status">
-        {{ $t('bids.bid_status.' + bid.place) }}
-      </div>
-      <div v-else-if="bidType === BID_TYPE_OUTGOING"
-        class="position-absolute tag-bid d-flex align-items-center justify-content-center text-white"
-        :class="bid.place"
-      >
         {{ $t('bids.bid_status.' + bid.place) }}
       </div>
       <b-col sm="12" md="5"  class="text-left">
@@ -28,9 +22,14 @@
               </b-form-checkbox>
             </div>
             <ProductThumb :product="inventory.product" />
-            <NuxtLink v-if="!isMobileSize" :to="`/profile/auctions/${auction.id}`">
-              <div class="auction-id"> {{ $t('bids.auction_id') }}: {{ auction.id }}</div>
-            </NuxtLink>
+            <template v-if="!isMobileSize">
+              <NuxtLink v-if="bidType === BID_TYPE_OUTGOING" :to="`/auction/${auction.id}`">
+                <div class="auction-id"> {{ $t('bids.auction_id') }}: {{ auction.id }}</div>
+              </NuxtLink>
+              <NuxtLink v-else :to="`/profile/auctions/${auction.id}`">
+                <div class="auction-id"> {{ $t('bids.auction_id') }}: {{ auction.id }}</div>
+              </NuxtLink>
+            </template>
           </b-col>
           <b-col cols="8" md="8" class="pl-4 d-md-flex align-items-md-center">
             <b-row class="mb-2 mb-md-0 d-block" :class="{ 'flex-grow-1' : isMobileSize }">
@@ -100,6 +99,9 @@
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-medium'">
             &dollar;{{ bid.price | formatPrice }}
           </span>
+          <div v-if="bidType === BID_TYPE_OUTGOING" class="d-none tag-bid d-md-flex align-items-center justify-content-center" :class="bid.place">
+            {{ $t('bids.bid_status.' + bid.place) }}
+          </div>
         </div>
       </b-col>
       <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0 px-0"
@@ -257,11 +259,11 @@ export default {
 @import '~/assets/css/_variables'
 
 .highest_bid
-    background-color: $color-green-15
+  color: $color-green-15
 .outbid
-    background-color: $color-red-15
+  color: $color-red-15
 .winner
-    background-color: $color-blue-1
+  color: $color-blue-1
 
 .highest_bid_mobile
   color: $color-green-15
@@ -280,15 +282,9 @@ export default {
     padding: 0 !important
 
 .tag-bid
+  font-family: $font-sp-pro
   @include body-4
-  font-weight: $regular
-  height: 30px
-  width: 120px
-  left: 0
-  top: 0
-  z-index: 10
-  border-top-left-radius: 0px
-  border-bottom-right-radius: 10px
+  font-weight: $normal
 
 .view-similar
   color: $color-blue-2

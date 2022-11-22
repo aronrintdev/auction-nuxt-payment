@@ -933,7 +933,6 @@ export default {
           this.lineDatasets.labels = this.graphData.week.labels
           this.lineDatasets.datasets[0].data = week
           this.$refs.lineChart.renderLineChart()
-          console.log(week)
           break
         }
         case '30': {
@@ -988,7 +987,6 @@ export default {
     },
     // On filter sort by change.
     handleSortBySelect(option) {
-      console.log(option?.value)
       this.selectedFilters = {
         ...this.selectedFilters,
         sortby: option?.value,

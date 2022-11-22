@@ -170,6 +170,13 @@ export default {
     Button
   },
 
+  props: {
+    isOpen: {
+      type: Boolean,
+      default: false
+    }
+  },
+
   data() {
     return {
       sortOptions: [
@@ -201,47 +208,6 @@ export default {
         start_date: '',
         end_date: ''
       },
-    }
-  },
-
-  props: {
-    isOpen: {
-      type: Boolean,
-      default: false
-    }
-  },
-    
-  methods: {
-    resetForm() {
-      this.filters = {
-        sortBy: FILTER_RECENT_TO_OLDEST,
-        offerType: { text: '', value: '' },
-        trade: [],
-        status: [],
-        start_date: '',
-        end_date: ''
-      }
-      this.$emit('filter', this.filters)
-    },
-    
-    offerTypeChange(value) {
-      this.filters.offerType = this.offerTypes.find(v => v.value === value);
-    },
-
-    tradeChange(value) {
-      this.filters.trade = value;
-    },
-
-    statusChange(value) {
-      this.filters.status = value;
-    },
-
-    changeStartDate(e) {
-      this.filters.start_date = e.target.value
-    },
-
-    changeEndDate(e) {
-      this.filters.end_date = e.target.value
     }
   },
 
@@ -309,6 +275,40 @@ export default {
       }, '')
       return result;
     },
+  },
+    
+  methods: {
+    resetForm() {
+      this.filters = {
+        sortBy: FILTER_RECENT_TO_OLDEST,
+        offerType: { text: '', value: '' },
+        trade: [],
+        status: [],
+        start_date: '',
+        end_date: ''
+      }
+      this.$emit('filter', this.filters)
+    },
+    
+    offerTypeChange(value) {
+      this.filters.offerType = this.offerTypes.find(v => v.value === value);
+    },
+
+    tradeChange(value) {
+      this.filters.trade = value;
+    },
+
+    statusChange(value) {
+      this.filters.status = value;
+    },
+
+    changeStartDate(e) {
+      this.filters.start_date = e.target.value
+    },
+
+    changeEndDate(e) {
+      this.filters.end_date = e.target.value
+    }
   }
 
 }

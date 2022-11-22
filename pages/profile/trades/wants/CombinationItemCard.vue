@@ -143,7 +143,7 @@
               :key="`trade-carousel-${index}`"
               class="d-flex justify-content-around"
             >
-              <div class="col-4 d-flex flex-column align-items-end pb-3 pt-20">
+              <div class="col-5 d-flex flex-column align-items-end pb-3 pt-20">
                 <img
                   class="w-auto"
                   width="16"
@@ -225,7 +225,7 @@
           </template>
         </Carousel>
       </client-only>
-      <div class="d-flex w-100 py-3" v-else>
+      <div v-else class="d-flex w-100 py-3">
         <div class="col-4"></div>
           
         <div class="col-8 d-flex flex-column">
@@ -263,6 +263,7 @@
       :isOpen="isModalOpen"
       :product="selectedCombination"
       :combinationId="combination.combination_id"
+      productType="combination"
       @closed="isModalOpen = false"
       @opened="isModalOpen = true"
     />
@@ -292,11 +293,6 @@ export default {
       default: false,
     },
   },
-  watch: {
-    combination(newCombo) {
-      this.combinationItems = newCombo.combination_items
-    }
-  },
   data () {
     const product = { product: {}, packaging_condition: {}, size: {} }
     return {
@@ -305,6 +301,11 @@ export default {
       combinationItems: this.combination.combination_items,
       isModalOpen: false,
       selectedItemIndex: 0
+    }
+  },
+  watch: {
+    combination(newCombo) {
+      this.combinationItems = newCombo.combination_items
     }
   },
   methods:{

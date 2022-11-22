@@ -1,6 +1,6 @@
 <template>
   <div
-    class="feature-card-hoverable d-flex align-items-center flex-column justify-content-center position-relative"
+    class="feature-card-hoverable d-flex align-items-center flex-column justify-content-center position-relative mb-80"
     :class="`feature-card-hoverable-${variant}`"
   >
     <slot>
@@ -70,10 +70,12 @@ export default {
   transition: transform .2s
   height: 376px !important
   width: 376px !important
-  cursor: help
+
   background-color: $color-white-1
   &:hover
+    cursor: pointer
     transform: scale(1.1)
+
   .step-text
     @include heading-1
     font-weight: $medium
@@ -98,6 +100,7 @@ export default {
     min-width: 163px !important
     padding: 10px !important
     height: auto !important
+
     img
       width: 56px
       height: 47px
@@ -106,10 +109,10 @@ export default {
 
 
     .feature-title
-      font-size: 12px
+      font-size: $font-size-12
       margin-top: 9px
     .feature-description
-      font-size: 12px
+      font-size: $font-size-12
       line-height: 20px
       margin-top: 7px
 </style>

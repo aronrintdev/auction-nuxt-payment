@@ -2,39 +2,73 @@
   <!-- todo: refactor code. refer to virtual-giftcards -->
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :bottomBannerImage="bottomBanner.bottomBannerImage"
+      :bottomBannerImageXS="bottomBanner.bottomBannerImageXS"
+      :bottomBannerDescription="bottomBanner.bottomBannerDescription"
+      :bottomBannerDescriptionXS="bottomBanner.bottomBannerDescriptionXS"
+      :bottomBannerButtonLink="bottomBanner.bottomBannerButtonLink"
+      :bottomBannerButtonText="bottomBanner.bottomBannerButtonText"
+      :previousPage="bottomBanner.previousPage"
+      :previousPageXS="bottomBanner.previousPageXS"
+      :previousPageLink="bottomBanner.previousPageLink"
+      :nextPage="bottomBanner.nextPage"
+      :nextPageXS="bottomBanner.nextPageXS"
+      :nextPageLink="bottomBanner.nextPageLink"
     >
-      <b-row
-        class="justify-content-md-between justify-content-center h-card-main mb-md-5 w-100 mx-0"
-      >
+      <b-row class="justify-content-center h-card-main">
         <b-col
           v-for="(item, index) in tradingCard"
           :key="index"
           md="3"
-          class="d-flex justify-content-center d-lg-block px-0"
+          class="d-flex justify-content-center d-lg-block h-card-column px-0"
         >
           <FeatureCard
             :title="item.title"
             :description="item.description"
             :imageUrl="item.image"
+            :resImageUrl="item.responsiveImage"
           />
         </b-col>
       </b-row>
       <FeatureTitle>{{ $t('features.trading.new_features') }}</FeatureTitle>
 
-      <div class="text-center new-features mb-5">
-        <img
-          :src="require('~/assets/img/features/trading/new-features.svg')"
-          class="img-fluid"
+      <div
+        class="d-flex justify-content-center cards-wrapper-selling mb-3 mb-md-5"
+      >
+        <FeatureCardHoverable
+          :icon="
+            require('~/assets/img/features/newest-feature/trading/add.svg')
+          "
+          :title="$t('features.trading.new_feature.add_cash')"
+          :description="$t('features.trading.new_feature.add_cash_desc')"
+        />
+
+        <FeatureCardHoverable
+          :icon="
+            require('~/assets/img/features/newest-feature/trading/speak.svg')
+          "
+          :title="$t('features.trading.new_feature.counter_offers')"
+          :description="$t('features.trading.new_feature.counter_offers_desc')"
+        />
+      </div>
+
+      <div class="d-flex justify-content-center cards-wrapper-selling mb-5">
+        <FeatureCardHoverable
+          :icon="
+            require('~/assets/img/features/newest-feature/trading/shoes-shirt.svg')
+          "
+          :title="$t('features.trading.new_feature.multi_items')"
+          :description="$t('features.trading.new_feature.multi_items_desc')"
+        />
+
+        <FeatureCardHoverable
+          :icon="
+            require('~/assets/img/features/newest-feature/trading/list.svg')
+          "
+          :title="$t('features.trading.new_feature.want_list')"
+          :description="$t('features.trading.new_feature.want_list_desc')"
         />
       </div>
     </FeatureContentWrapper>
@@ -63,6 +97,7 @@ export default {
             'newest_features.trading.benefits.first_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/trading/tradingondead.png'),
+          responsiveImage: require('~/assets/img/features/newest-feature/trading/mobile-tradingondeadstockfirstofitskind.png'),
         },
         {
           title: this.$t(
@@ -72,6 +107,7 @@ export default {
             'newest_features.trading.benefits.second_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/trading/fairtrademeter.png'),
+          responsiveImage: require('~/assets/img/features/newest-feature/trading/mobile-fairtrademeter.png'),
         },
         {
           title: this.$t(
@@ -81,21 +117,29 @@ export default {
             'newest_features.trading.benefits.third_benefit_desc'
           ),
           image: require('~/assets/img/features/newest-feature/trading/heatcheck.png'),
+          responsiveImage: require('~/assets/img/features/newest-feature/trading/mobile-heatcheck.png'),
         },
       ],
       banner: {
-        title: 'newest_features.trading.feature_banner_title',
-        description: 'newest_features.trading.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/trading/tradebanner.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/trading/tradebannermobile.svg'),
+        backgroundImage: require('@/assets/img/features/newest-feature/trading/trading-banner.jpg'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/trading/trading-banner-xs.png'),
       },
-      shopNowBanner: {
-        shopNowDescription: 'newest_features.trading.shop_now_banner.desc',
-        shopNowButtonText:
-          'newest_features.trading.shop_now_banner.button_text',
-        previousPage: 'newest_features.selling_on_deadstock.title',
+      bottomBanner: {
+        bottomBannerImage: require('@/assets/img/features/newest-feature/trading/bottom-banner.png'),
+        bottomBannerImageXS: require('@/assets/img/features/newest-feature/trading/bottom-banner-xs.png'),
+        bottomBannerDescription: 'newest_features.trading.bottom_banner.desc',
+        bottomBannerDescriptionXS:
+          'newest_features.trading.bottom_banner.desc_xs',
+        bottomBannerButtonLink: '/browse',
+        bottomBannerButtonText:
+          'newest_features.trading.bottom_banner.button_text',
+        previousPage:
+          'newest_features.trading.bottom_banner.previous_page_title',
+        previousPageXS:
+          'newest_features.trading.bottom_banner.previous_page_xs_title',
         previousPageLink: '/features/selling-on-deadstock',
-        nextPage: 'newest_features.auctions.title',
+        nextPage: 'newest_features.trading.bottom_banner.next_page_title',
+        nextPageXS: 'newest_features.trading.bottom_banner.next_page_xs_title',
         nextPageLink: '/features/auctions',
       },
     }
@@ -104,13 +148,32 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .features-container
-  .new-features img
-    max-width: 837px !important
-    width: 100% !important
+  .feature-content
+    .process-box
+      width: 360px !important
+      height: 320px !important
+
+    .feature-item
+      margin-bottom: 115px
+
+  .cards-wrapper-selling
+    gap: 180px !important
+    > div
+      max-width: 361px
+      min-height: 168px
+      max-height: 320px
+
+
 @media (max-width: 768px)
   .features-container
-    .new-features img
+    .cards-wrapper-selling
       padding: 0px 16px
+      gap: 16px !important
+    > div
+      min-width: 168px !important
+      min-height: 164px !important
+      .feature-item::v-deep
+        flex-direction: column
+        align-items: center
 </style>

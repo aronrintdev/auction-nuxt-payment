@@ -1,16 +1,16 @@
 <template>
-  <b-container fluid class="h-100 py-2 px-3 p-md-5 container-profile-auctions-listing" :class="{'container-profile-auctions' : !isMobileSize}">
+  <b-container fluid class="h-100 container-profile-auctions-listing" :class="{'container-profile-auctions' : !isMobileSize}">
     <div
       :class="{'border-bottom border-dark' : isMobileSize}"
-      class="d-flex justify-content-center justify-content-md-between align-items-center">
-      <h2 class="title" :class="{'body-4-medium' : isMobileSize}">{{ $tc('profile_menu.auctions', 1) }}</h2>
+      class="d-none d-md-flex justify-content-center justify-content-md-between align-items-center">
+      <h2 class="title mb-0" :class="{'body-4-medium' : isMobileSize}">{{ $t('home.auctions') }}</h2>
     </div>
     <template v-if="!isMobileSize">
-      <div class="d-flex justify-content-between align-items-center mt-4">
+      <div class="d-flex justify-content-start align-items-center mt-4">
         <SearchInput
           :value="search"
           :placeholder="$t('auction.search_placeholder')"
-          class="flex-grow-1 mr-5 mw-734"
+          class="flex-grow-1 mw-734"
           :debounce="1000"
           inputHeight="38"
           @input="handleSearch"
@@ -21,41 +21,40 @@
             :value="sortBy"
             :placeholder="$t('auction.sort_by')"
             :items="SORT_BY"
+            :iconArrowDown="require('~/assets/img/icons/arrow-down-black.svg')"
             class="dropdown-filters sort-by mr-4"
             @select="handleSortBySelect"
           ></FormDropdown>
         </div>
       </div>
-      <div class="d-flex justify-content-between align-items-center mt-5">
+      <div class="d-flex justify-content-between align-items-center mt-md-3 pt-1">
         <div class="d-flex align-items-end justify-content-start filters-bar">
           <div>
             <div class="body-8-normal mb-1 sf-pro-display">{{ $t('common.filter_by') }}</div>
             <div class="d-flex align-items-center">
               <SelectWithCheckbox
                 id="auction-type-selector"
-                class="mr-4 dropdown-filters"
+                class=" mr-10 dropdown-filters"
                 :default="auctionType"
                 :options="AUCTION_TYPES"
                 :title="$t('auction.auction_type')"
                 :updateFilters="activeTypeFilters"
-                @filters="typeFilters"
               />
 
               <SelectWithCheckbox
                 id="auction-status-selector"
-                class="mr-4 dropdown-filters"
+                class=" mr-10 dropdown-filters"
                 :default="auctionStatus"
                 :options="STATUS_TYPES"
                 :title="$t('auction.status_type')"
                 :updateFilters="activeStatusFilters"
-                @filters="typeFilters"
               />
             </div>
           </div>
           <div>
             <div class="body-8-normal mb-1 sf-pro-display">{{ $t('selling_page.date_listed') }}</div>
             <div class="d-flex align-items-center">
-              <b-input-group class="date-input-group mr-4">
+              <b-input-group class="date-input-group mr-10">
                 <b-form-input class="date-input" :placeholder="$t('auction.start_date')" :value="start_date"></b-form-input>
                 <b-input-group-append class="date-input-icon">
                   <b-form-datepicker
@@ -74,7 +73,7 @@
                 </b-input-group-append>
               </b-input-group>
 
-              <b-input-group class="date-input-group mr-4">
+              <b-input-group class="date-input-group mr-10">
                 <b-form-input class="date-input" :placeholder="$t('auction.end_date')" :value="end_date"></b-form-input>
                 <b-input-group-append class="date-input-icon">
                   <b-form-datepicker
@@ -98,7 +97,7 @@
           <b-button
             variant="primary"
             size="sm"
-            class=" apply-button text-white shadow border-0 px-3 py-2"
+            class=" apply-button text-white shadow border-0 px-4 py-2"
             @click="FetchAuctions"
           >{{ $t('vendor_purchase.apply') }}
           </b-button>
@@ -107,12 +106,12 @@
         </div>
       </div>
     </template>
-    <div v-if="isMobileSize" class="d-flex align-items-center mt-3">
+    <div v-if="isMobileSize" class="d-flex align-items-center mt-md-3">
       <MobileSearchInput :value="search" class="flex-grow-1" @input="handleSearch" />
-      <span class="ml-3 mt-1" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
+      <span class="ml-3" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
     </div>
 
-    <div class="d-flex justify-content-start align-items-center mt-4">
+    <div class="d-flex justify-content-start align-items-center mt-4 pt-1 pt-md-0 mt-md-5">
       <div class="d-flex justify-content-between align-items-center">
         <h4 class="title" :class="{'body-4-medium' : isMobileSize}">
           {{ $tc('auction.auctions_listings', 1) }} ({{ totalCount }})
@@ -121,7 +120,7 @@
     </div>
 
     <div
-      class="d-flex justify-content-around align-items-center mt-4"
+      class="d-flex d-md-none justify-content-around align-items-center mt-3"
     >
       <NavGroup
         v-model="status"
@@ -167,15 +166,15 @@
       </b-form-checkbox>
     </div>
 
-    <div v-if="!fetchLoading">
-      <b-row v-if="!isMobileSize" class="mt-5 text-center font-weight-bold">
-        <b-col sm="12" md="2" class="text-left">{{ $t('auction.auction_id') }} <span v-html="downArrow" /></b-col>
-        <b-col sm="12" md="3" class="text-left pl-0">{{ $t('auction.product') }} <span v-html="downArrow" /></b-col>
-        <b-col sm="12" md="1">{{ $t('auction.type') }} <span v-html="downArrow" /></b-col>
-        <b-col sm="12" md="2">{{ $t('auction.highest_bid') }} <span v-html="downArrow" /></b-col>
-        <b-col sm="12" md="1">{{ $t('auction.bids') }} <span v-html="downArrow" /></b-col>
-        <b-col sm="12" md="2">{{ $t('auction.time_remaining') }} <span v-html="downArrow" /></b-col>
-        <b-col sm="12" md="1">{{ $t('auction.status') }} <span v-html="downArrow" /></b-col>
+    <div v-if="!fetchLoading" class="auction-listings-table">
+      <b-row v-if="!isMobileSize" class="text-center font-weight-bold">
+        <b-col sm="12" md="2" class="text-center">{{ $t('auction.auction_id') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
+        <b-col sm="12" md="3" class="text-left pl-0">{{ $t('auction.product') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
+        <b-col sm="12" md="1">{{ $t('auction.type') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
+        <b-col sm="12" md="2">{{ $t('auction.highest_bid') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
+        <b-col sm="12" md="1">{{ $t('auction.bids') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
+        <b-col sm="12" md="2">{{ $t('auction.time_remaining') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
+        <b-col sm="12" md="1">{{ $t('auction.status') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
       </b-row>
 
       <client-only>
@@ -330,6 +329,9 @@ export default {
       infiniteId: +new Date(),
     }
   },
+  async fetch() {
+    await this.FetchAuctions()
+  },
   computed: {
     ...mapGetters({
       getAuctions: 'profile-auction/getAuctions'
@@ -357,9 +359,6 @@ export default {
     isMobileSize() {
       return this.isScreenXS || this.isScreenSM
     }
-  },
-  mounted() {
-    this.FetchAuctions()
   },
   methods: {
     ...mapActions({
@@ -561,19 +560,6 @@ export default {
       }
     },
     /**
-     * method that is called when a user clicks on a type filter. It checks if the filter is already active, and if it
-     * is, it removes it from the activeTypeFilters array. If it is not active, it adds it to the activeTypeFilters array.
-     * @param array
-     * @param value
-     */
-    typeFilters({array, value}) {
-      if (this.activeTypeFilters.includes(value)) {
-        this.activeTypeFilters.splice(this.activeTypeFilters.indexOf(value), 1)
-      } else {
-        this.activeTypeFilters.push(value)
-      }
-    },
-    /**
      * method that is called when the user types in the search bar. It takes the text that the user
      * types in and sets it to the search variable. Then it calls the FetchAuctions method.
      * @param text
@@ -650,9 +636,14 @@ export default {
 
 .dropdown-filters.sort-by::v-deep
   border: none
+  .fw-5
+    font-family: $font-montserrat
+    font-weight: $regular
+    color: $color-gray-5
+    @include body-5
   .btn-dropdown
-    width: 300px
-    padding: 0 10px
+    min-width: 245px
+    padding: 0 9px 0 10px
     height: 38px
     border-color: $color-gray-60
 
@@ -670,10 +661,10 @@ export default {
   .custom-control-input:checked
     ~ .custom-control-label::before
       color: $white
-      background-color: $black
+      border-radius: 0px
+      background-color: $color-blue-20
       box-shadow: none
-      border-radius: 2px
-      border: 2px solid $black
+      border: 1px solid $color-blue-20
 
 ::v-deep
   .custom-control-input
@@ -681,9 +672,14 @@ export default {
       color: $white
       background-color: $white
       box-shadow: none
-      border-radius: 2px
-      border: 2px solid $color-gray-4
-
+      border-radius: 0px
+      top: 4px
+      left: -20px
+      width: 10px
+      height: 10px
+      border: 1px solid $color-gray-60
+    ~ .custom-control-label::after
+      left: -20px
 
 ::v-deep
   .bg-light
@@ -732,8 +728,8 @@ export default {
   max-width: 200px
 
 .mw-734
-  max-width: 934px
-
+  max-width: 734px
+  margin-right: 71px
 
 ::v-deep
   #auction-filters
@@ -746,22 +742,59 @@ export default {
 
   h2.title
     @include heading-3
+    font-weight: $bold
     color: $color-black-1
 
-.search-input-wrapper.search-primary::v-deep input.search-input
-  height: 38px
-  border: 1px solid $color-gray-60
-  border-radius: 5px
+.search-input-wrapper.search-primary::v-deep
+  img.icon-search
+    object-fit: cover
+    height: 18px
+  input.search-input
+    height: 38px
+    border: 1px solid $color-gray-60
+    border-radius: 5px
+    font-weight: $regular
+    @include body-5
+    letter-spacing: 0.06em
+    color: $color-gray-5
+    text-transform: capitalize
 .dropdown-filters::v-deep
   min-width: 170px
   height: 38px
-  border: 1px solid $color-gray-60
+  border: none
   .selected
-    height: 36px
-    padding: 10px 16px
+    height: 38px
+    border: 1px solid $color-gray-60
+    padding: 9px 9px 9px 10px
+    &.open
+      border: 1px solid $color-gray-60
+      border-bottom: none
+      &::after
+        top: 2px
     &::after
       top: 2px
       right: 25px
+  .items
+    padding: 0
+    overflow: auto
+    border: 1px solid $color-gray-60
+    .filter-select-count
+      padding: 10px !important
+    .item-wrapper
+      border: none
+      & > div
+        border: none
+        border-bottom: 1px solid $color-gray-60
+      .d-flex
+        font-weight: $regular
+        @include body-5
+        color: $black
+        border: none
+        padding: 9px 10px !important
+        .custom-checkbox
+          min-height: 18px
+          line-height: 18px
+          margin-left: 20px !important
   .btn-dropdown
     display: flex
     justify-content: space-between
@@ -804,8 +837,23 @@ export default {
           margin: 0 -24px
           background-color: $color-blue-20
           border-radius: 0
+.mr-10
+  margin-right: 10px
 
-.container-profile-auctions-listing
+h4.title
+  font-family: $font-sp-pro
+  font-weight: $bold
+  @include body-1
   @media (max-width: 576px)
+    @include body-4
+    font-weight: $medium
+.container-profile-auctions-listing
+  padding: 47px 54px
+  .auction-listings-table
+    margin: 37px -25px 0
+  @media (max-width: 576px)
+    padding: 12px 16px
     min-height: calc(100vh - 360px)
+    .auction-listings-table
+      margin: 27px 0 0
 </style>

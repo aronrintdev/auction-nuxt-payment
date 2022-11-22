@@ -32,16 +32,16 @@ export default {
     },
     btnClass: {
       type: String,
-      default: ''
+      default: '',
     },
     btnGroupStyle: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     btnStyle: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
 
   methods: {
@@ -75,6 +75,7 @@ export default {
       font-family: $font-family-montserrat
       line-height: 17px
       padding: 6px 17px
+
       @media (min-width: 576px)
         // font-size: 15px
         // padding: 6px 35px
@@ -85,7 +86,7 @@ export default {
       &::before
         display: block
         content: attr(title)
-        font-weight: $normal
+        font-weight: $medium
         height: 0
         overflow: hidden
         visibility: hidden

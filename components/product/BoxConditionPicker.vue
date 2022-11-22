@@ -4,7 +4,7 @@
       {{ $t('products.box_condition') }}
 
       <b-img
-        v-b-tooltip.hover
+        v-b-tooltip.hover="{ customClass: 'custom-tooltip' }"
         :src="require('~/assets/img/icons/info-dark-blue.svg')"
         :title="$t('products.message.box_condition_info')"
         class="ml-1"
@@ -17,7 +17,7 @@
         :key="`box-condition-${index}`"
         variant="link"
         :class="{ active: (condition && condition.id) === c.id }"
-        class="m-0 condition"
+        class="m-0 condition px-md-0 px-lg-0 px-xl-0"
         @click="handleConditionSelect(c)"
       >
         {{
@@ -36,7 +36,6 @@
         dropDownHeight="38px"
         variant="white"
         paddingX="14px"
-        @change="handleConditionSelect"
         :inputStyle="{
           display: 'flex',
           justifyContent: 'center',
@@ -55,6 +54,7 @@
         }"
         labelStyle="font-family: Montserrat; font-style: normal; font-weight: 500 !important; font-size: 14px; color: #667799;"
         arrowStyle='color: #667799; width: 14px; height: 16px; position: absolute; right: 70px; margin-bottom: 13.5px !important;'
+        @change="handleConditionSelect"
       />
     </div>
 
@@ -107,6 +107,18 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+::v-deep.custom-tooltip
+  .tooltip-inner
+    background: $white
+    color: $black
+    border-radius: 16px
+    border: 1px solid $color-gray-23
+    border-bottom: none
+    box-shadow: 0 4px 14px $color-gray-23
+
+  .arrow::before
+    border-top-color: $white
 
 .container
   width: auto

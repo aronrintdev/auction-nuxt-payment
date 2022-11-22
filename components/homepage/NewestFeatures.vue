@@ -7,7 +7,7 @@
       to="/features"
     />
 
-    <div class="newest-features-grid row no-gutters">
+    <div class="newest-features-grid position-relative row no-gutters">
       <div class="col-12 col-sm-6 row no-gutters border-right features-sm">
         <div class="col-7 col-sm-12 border-bottom">
           <NuxtLink to="./features/shareable-wishlists-and-watchlists">
@@ -159,6 +159,13 @@ export default {
 @import '~/assets/css/_variables'
 .newest-features-grid
   margin-top: 33px
+  &:after
+    border: 8px solid $color-white-1
+    width: 100%
+    height: 100%
+    content: ''
+    position: absolute
+    top: 0
 .overflow-wrapper
   margin: 0.5rem
   .feature-title
