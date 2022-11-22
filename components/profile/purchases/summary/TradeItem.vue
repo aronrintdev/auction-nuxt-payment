@@ -122,7 +122,9 @@
       <!-- Col2 ends -->
       <div class="col-md-3 m-auto text-center">
         <div class="trade-outline-wrapper">
-          <img :src="require('~/assets/img/icons/trade-outline.svg')" alt="" />
+          <div class="left-bdr"></div>
+          <img class="img-trd" :src="require('~/assets/img/trd.svg')" alt="" />
+          <div class="right-bdr"></div>
         </div>
       </div>
       <!-- Col4-1 item -->
@@ -232,7 +234,7 @@
       <div class="col-md-12 col-sm-12 text-center slider-container-col">
         <!-- TODO: Slider -->
         <div class="slider-container m-auto">
-          <div class="slider-wrapper border">
+          <div class="slider-wrapper">
             <p class="text-bold text-capitalize">{{ $tc(status) }}</p>
             <b-form-input
               id="type-range"
@@ -417,6 +419,7 @@ export default {
   width: 25%
 .slider-wrapper
   padding: 1rem
+  background: #FAFAFA
 .btn-yours,.btn-theirs
   border: 1px solid $color-grey-37
   color: $color-grey-37
@@ -493,4 +496,17 @@ export default {
   font-weight: $medium
   font-size: 15px
   color: $color-black-1
+.left-bdr
+  margin-top: 23px
+  border: 1px solid #C4C4C4
+  width: 40px
+  margin-left: 2rem
+  position: absolute
+.right-bdr
+  width: 40px
+  border: 1px solid #C4C4C4
+  margin-left: 9rem
+  margin-top: -21px
+.img-trd
+  position: relative
 </style>
