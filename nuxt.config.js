@@ -87,6 +87,7 @@ export default defineNuxtConfig({
     '@nuxtjs/dotenv',
     '@nuxtjs/html-validator',
     '@nuxtjs/svg',
+    'nuxt-compress',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -98,6 +99,7 @@ export default defineNuxtConfig({
     'vue-social-sharing/nuxt',
     'nuxt-clipboard',
     '@nuxtjs/recaptcha',
+    'nuxt-compress',
   ],
   bootstrapVue: {
     icons: true,
@@ -202,6 +204,7 @@ export default defineNuxtConfig({
   },
 
   router: {
+    prefetchLinks: false,
     middleware: ['i18n', 'remember'],
   },
 
