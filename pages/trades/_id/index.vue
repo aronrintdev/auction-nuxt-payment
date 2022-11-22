@@ -1138,4 +1138,6 @@ export default {
 .pointer-left,.pointer-right
   height: 340px
   width: 275px
+.long-line-length
+  width: 190px
 </style>
