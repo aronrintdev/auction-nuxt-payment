@@ -176,8 +176,6 @@ export default {
 @import '~/assets/css/_variables'
 .features-container
   .feature-content
-    .h-card-main // card section main desktop
-
     .feature-item
       margin-bottom: 115px
 
