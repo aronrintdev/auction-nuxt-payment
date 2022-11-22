@@ -228,7 +228,7 @@
                   <b-btn class="add-items">{{$t('trades.trade_arena.add_items')}}</b-btn>
                 </div>
                 <div v-else class="carousel row pl-2">
-                  <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item">
+                  <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item pl-2">
                     <div draggable @dragstart="startDrag($event, item)">
                       <div class="d-relative">
                         <img alt="No Image" class="plus-icon-add-trade" role="button" :src="require('~/assets/img/icons/addPlus.svg')"
