@@ -8,7 +8,7 @@
     </div>
   </div>
   <div v-else>
-    <div class="initial-listing mx-auto col-12 col-lg-10 col-xl-6">
+    <div class="initial-listing mx-auto col-12 col-lg-10 col-xl-7">
       <div class="d-flex justify-content-between">
         <div class="listing-heading">{{ $t('trades.initial_listing') }}</div>
         <div class="created-at">
