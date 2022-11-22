@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="isResponsive" class="responsive-div">
+    <div v-if="isScreenXS" class="responsive-div">
       <b-row v-if="offer !== null">
         <b-col :md="isPayment ? 9 : 12">
           <div class="">
@@ -223,9 +223,7 @@
             </div>
           </div>
           <div class="history-heading">{{ $t('trades.offer_history') }}</div>
-          <div class="col-12 col-lg-10 col-xl-6 d-flex px-0 m-0">
-            <offer-history class="w-100" :offerHistory="offer" />
-          </div>
+          <offer-history :offerHistory="offer" />
           <b-row class="justify-content-center pt-3 pb-3">
             <hr class="center-line">
           </b-row>
@@ -289,11 +287,6 @@ export default {
       ACCEPT_OFFER,
       OFFER_TYPE_YOURS,
       FILTER_OFFER_STATUS_DECLINED
-    }
-  },
-  computed:{
-    isResponsive() {
-      return this.isScreenXS || this.isScreenSM
     }
   },
   mounted(){

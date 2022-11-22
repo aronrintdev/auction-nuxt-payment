@@ -53,7 +53,12 @@
       </div>
     </div>
     <div v-else>
-      <div v-for="(offer) in offerHistory.offer_history" :key="'offer-history-'+ offer.id" class="offer-history" :class="'background-' + (isOfferMine(offer) ? 'blue' : 'white')">
+      <div 
+        v-for="(offer) in offerHistory.offer_history" 
+        :key="'offer-history-'+ offer.id" 
+        class="offer-history col-12 col-lg-10 col-xl-7" 
+        :class="'background-' + (isOfferMine(offer) ? 'blue' : 'white')"
+      >
         <b-row class="justify-content-between pt-4 pl-4 pr-4">
           <b-col v-if="isOfferMine(offer) && offer.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.your_counter_offer')}} ({{ offer.id}})</b-col>
           <b-col v-else-if="!isOfferMine(offer) && offer.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.their_counter_offer')}} ({{ offer.id}})</b-col>
@@ -62,8 +67,18 @@
         <b-col v-if="!isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.they_offered')}}</b-col>
         <b-col v-else-if="isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.you_asking_for')}}</b-col>
         <b-col class="row justify-content-start px-54 pt-2 m-0">
-          <offer-items v-if="isOfferMine(offer) && offer.yours_items && offer.yours_items.length > 0" :offerItems="offer.yours_items" marginItems="mr-3"/>
-          <offer-items v-if="!isOfferMine(offer) && offer.theirs_items && offer.theirs_items.length > 0" :offerItems="offer.theirs_items" marginItems="mr-3"/>
+          <offer-items 
+            v-if="isOfferMine(offer) && offer.yours_items && offer.yours_items.length > 0" 
+            :offerItems="offer.yours_items" 
+            marginItems="mr-3"
+            class="w-100"
+          />
+          <offer-items 
+            v-if="!isOfferMine(offer) && offer.theirs_items && offer.theirs_items.length > 0" 
+            :offerItems="offer.theirs_items"
+            marginItems="mr-3"
+            class="w-100"
+          />
         </b-col>
         <b-row v-if="offer.cash_added" class="justify-content-end pr-5 pt-3 pb-3">
           <b-col class="request-amount d-flex">
@@ -78,10 +93,35 @@
           </b-col>
         </b-row>
       </div>
-      <div class="offer-history"  :class="isOfferMine(offerHistory) ? 'blue-theme':'white-theme'">
-        <b-row class="justify-content-between pt-4 pl-4 pr-4">
-          <b-col v-if="isOfferMine(offerHistory) && offerHistory.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.your_counter_offer')}} ({{ offerHistory.id}})</b-col>
-          <b-col v-else-if="!isOfferMine(offerHistory) && offerHistory.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.their_counter_offerHistory')}} ({{ offerHistory.id}})</b-col>
+      <div 
+        class="offer-history col-12 col-lg-10 col-xl-7 ml-auto" 
+        :class="isOfferMine(offerHistory) ? 'blue-theme' : 'white-theme'"
+      >
+        <b-row class="justify-content-between pt-4 pl-5 pr-4">
+          <b-col 
+            v-if="isOfferMine(offerHistory) && offerHistory.type === COUNTER_OFFER_TYPE" 
+            class="history-heading"
+          >
+            {{ $t('trades.your_counter_offer') }} ({{ offerHistory.id }})
+          </b-col>
+          <b-col 
+            v-else-if="!isOfferMine(offerHistory) && offerHistory.type === COUNTER_OFFER_TYPE" 
+            class="history-heading"
+          >
+            {{ $t('trades.their_counter_offerHistory') }} ({{ offerHistory.id }})
+          </b-col>
+          <b-col 
+            v-else-if="!isOfferMine(offerHistory) && offerHistory.type === 'offer'" 
+            class="history-heading"
+          >
+            {{ $t('trades.their_offer') }} ({{ offerHistory.id }})
+          </b-col>
+          <b-col 
+            v-else
+            class="history-heading"
+          >
+            {{ $t('trades.your_offer') }} ({{ offerHistory.id }})
+          </b-col>
           <b-col class="history-time text-right">{{ offerHistory.created_at | formatDateTimeString }}</b-col>
         </b-row>
         <b-col v-if="!isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.they_offered')}}</b-col>
@@ -141,6 +181,7 @@ export default {
     }
   },
   mounted(){
+    console.log('offerHistory', this.offerHistory);
     this.width = window.innerWidth
   },
   methods: {
@@ -208,7 +249,10 @@ export default {
   color: $color-gray-47
 
 .background-blue
-  background:  $color-blue-28
+  background: $color-blue-28
+
+.background-white
+  background: $color-white-1
 
 .request-amount
   max-width: 247px
@@ -234,10 +278,6 @@ export default {
 .blue-theme
   background: #edf5ff
   margin-top: 2rem
-  float: right
-  margin-left: 35rem
-  @media (min-width: 576px)
-    width: 100%
 
 .white-theme
   background: white
