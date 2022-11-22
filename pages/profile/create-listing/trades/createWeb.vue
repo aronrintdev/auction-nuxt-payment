@@ -281,7 +281,7 @@
                 </b-row>
               </div>
 
-              <b-row class="justify-content-end my-2" v-if="getTradeItems.length >= 1">
+              <b-row v-if="getTradeItems.length >= 1" class="justify-content-end my-2">
                 <b-btn class="create-trade-next-web"
                       @click="$router.push('/profile/create-listing/trades/wants')">
                   {{ $t('create_listing.trade.offer_items.next') }}

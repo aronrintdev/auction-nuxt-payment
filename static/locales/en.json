@@ -3800,6 +3800,8 @@
     }
   },
   "vendor_purchase": {
+    "their_value": "THEIR VALUE",
+    "your_value": "YOUR VALUE",
     "product": "Product",
     "purchases": "Purchases",
     "search_purchases": "Search Purchases",

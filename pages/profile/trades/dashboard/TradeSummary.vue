@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="pt-3" v-if="isScreenXS">
+    <div v-if="isScreenXS" class="pt-3">
       <div class="main-container-small">
         <div class="justify-content-between">
           <div class="">
