@@ -11,6 +11,7 @@
     :modal-class="modalClass"
     :content-class="`rounded-0 shadow-none`"
     :size="size"
+    :hide-backdrop="hideBackdrop"
     @shown="$emit('shown')"
     @hidden="$emit('hidden')"
   >
@@ -58,6 +59,10 @@ export default {
       default: false,
     },
     hideFooter: {
+      type: Boolean,
+      default: false,
+    },
+    hideBackdrop: {
       type: Boolean,
       default: false,
     },
