@@ -134,6 +134,7 @@ export default {
       category: 'all',
       loading: false,
       loadingFilter: false,
+      prices:null,
       perPage: 4,
       page: 1,
       recentProducts: [],
@@ -182,8 +183,9 @@ export default {
       if (this.category) {
         filters.category = this.category !== 'all' ? this.category :  '';
       }
-      if (this.selectedPrices) {
-        filters.prices = this.selectedPrices.join('-')
+      if (this.selectedPrices.length  > 0) {
+        this.prices = this.selectedPrices[0] * 100 +'-'+this.selectedPrices[1] * 100
+        filters.prices = this.prices
       }
       if (this.selectedBrands) {
         filters.brands = this.selectedBrands.join(',')

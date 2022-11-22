@@ -86,18 +86,21 @@
       </div>
     </div>
     <div class="mt-3 d-flex align-items-center text-secondary flex-wrap gap-2">
-      <div
-        v-if="selectedFilters.sizeTypes.length"
+      <template  v-if="selectedFilters.sizeTypes.length">
+      <div v-for="(x, index) in selectedFilters.sizeTypes"
+         :key="`sizeType${index}`"
         class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
       >
-        {{ selectedFilters.sizeTypes.join(',') }}
+      
+        {{ x }}
         <span
           class="remove-filter ml-3"
-          @click="selectedFilters.sizeTypes = []"
+          @click="removeFilter('sizesType', index)"
         >
           ✖
         </span>
       </div>
+    </template>
       <div
         v-for="(x, index) in selectedFilters.sizes"
         :key="`sizes${index}`"
@@ -122,7 +125,7 @@
         v-if="selectedFilters.prices.length > 0"
         class="selected-filter text-uppercase px-3 py-2 font-primary fs-13 fw-5 text-gray-25"
       >
-        ${{ selectedFilters.prices[0] }} - {{ selectedFilters.prices[1] }}
+        ${{ selectedFilters.prices[0] }} - ${{ selectedFilters.prices[1] }}
         <span class="remove-filter ml-3" @click="removeFilter('prices')">
           ✖
         </span>
@@ -287,8 +290,9 @@ export default {
       this.applyFilters()
     }, 300),
     applyFilters() {
-      console.log('this is brands', this.selectedFilters.brands)
       const brands = JSON.parse(JSON.stringify(this.selectedFilters.brands))
+      const sizeTypes = JSON.parse(JSON.stringify(this.selectedFilters.sizeTypes))
+      const sizes = JSON.parse(JSON.stringify(this.selectedFilters.sizes))
       this.$store.commit(
         'browse/setSelectedPrices',
         this.selectedFilters.prices
@@ -300,7 +304,7 @@ export default {
       )
       this.$store.commit(
         'browse/setSelectedSizeTypes',
-        this.selectedFilters.sizeTypes
+        sizeTypes
       )
       this.$store.commit('browse/setSelectedSort', 'sale_price')
       this.$store.commit(
@@ -326,7 +330,7 @@ export default {
       } else {
         this.$store.commit(
           'browse/setSelectedSizes',
-          this.selectedFilters.sizes
+          sizes
         )
       }
       this.$emit('apply')
@@ -358,11 +362,6 @@ export default {
       this.$store.commit('browse/setSelectedPrices', [])
       this.$store.commit('browse/setSelectedYears', [])
     },
-    // handleSearchChange(value) {
-    //   this.selectedFilters.search = value
-    //   this.page = 1
-    //   this.applyFilters();
-    // },
     handleSortBySelect(option) {
       // Select SortBy option
       this.selectedFilters = {
@@ -380,7 +379,7 @@ export default {
     // Update selected prices and pass to parent component
     updatePriceFilters(value) {
       this.selectedPrices = value
-      this.selectedFilters.prices = value
+      this.selectedFilters.prices = value 
     },
     // Update selected years and pass to parent component
     updateYearFilters(value) {
