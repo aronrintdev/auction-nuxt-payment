@@ -88,9 +88,10 @@
           <div>
             <nuxt-link
                 :class="{
-                'body-18-regular': isScreenXS,
+                'body-18-regular text-link-blue-mobile': isScreenXS,
+                'text-link-blue': !isScreenXS,
               }"
-                class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue text-nowrap rewards-link"
+                class="font-secondary fs-16 fw-400 text-decoration-underline text-nowrap rewards-link"
                 to="/profile/rewards"
             >{{ $t('buyer_dashboard.dashobard_buyer.view_rewards') }}
             </nuxt-link>
