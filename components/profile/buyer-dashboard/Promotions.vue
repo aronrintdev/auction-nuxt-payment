@@ -1,6 +1,7 @@
 <template>
   <div :class="{
     'mobile' : isScreenXS,
+    'mobile empty' : isScreenXS && !loading && !promotion,
     'pt-4' : !isScreenXS,
   }" class="promotions bg-white  p-sm-4 br-10">
     <div class="d-flex justify-content-between align-items-center px-1">
@@ -10,14 +11,15 @@
       <nuxt-link
           to="/promotions"
           :class="{
-            'body-18-regular': isScreenXS
-          }"
-          class="font-secondary fs-16 fw-4 border-primary mb-0 text-decoration-underline text-nowrap"
+                'body-18-regular text-link-blue-mobile': isScreenXS,
+                'text-link-blue': !isScreenXS,
+              }"
+          class="font-secondary fs-16 fw-4 mb-0 text-decoration-underline text-nowrap"
       >{{ $t('buyer_dashboard.promotions.view_promotions') }}
       </nuxt-link
       >
     </div>
-    <div class="container">
+    <div class="container h-100">
       <div v-if="promotion && !loading" class="row mt-4 my-sm-4">
         <div
             :class="{
@@ -67,7 +69,7 @@
           >
         </div>
       </div>
-      <div v-if="!loading && !promotion" class="text-center my-4">
+      <div v-if="!loading && !promotion" class="d-flex align-items-center justify-content-center h-100">
         <div :class="{
           'body-4-normal': isScreenXS,
           'body-4-medium': !isScreenXS,
@@ -75,7 +77,7 @@
           {{ $t('buyer_dashboard.promotions.no_active') }}
         </div>
       </div>
-      <div v-if="loading" class="d-flex align-items-center justify-content-center my-4">
+      <div v-if="loading" class="d-flex align-items-center justify-content-center h-100">
         <Loader :loading="loading"></Loader>
       </div>
     </div>
@@ -127,6 +129,9 @@ export default {
     box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
     border-radius: 8px
     padding: 11px 7px
+
+    &.empty
+      height: 144px
 
 .divider
   height: 2px

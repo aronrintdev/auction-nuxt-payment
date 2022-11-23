@@ -14,7 +14,7 @@
             class="rounded-0 border-top-0 list-group-item text-xs d-flex align-items-center justify-content-between"
             :class="listGroupItemClass"
           >
-            <div class="d-flex col-sm-8 col-xl-10 col-md-10 pl-0 align-items-center">
+            <div class="d-flex col-sm-8 pl-0 align-items-center">
               <img
                 :style="{ maxHeight: '50px', width: 'auto' }"
                 class="mr-3"
@@ -31,14 +31,14 @@
                 @click="addProductTrade(product)"
               >
                 {{ $t('common.add_product') }}
-                <img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
+                <img class="ml-2" :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
               </span>
               <span
                 v-else-if="productsFor === arenaItem"
                 class="cursor-pointer"
                 @click="addProductArena(product)"
               >
-                <img :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
+                <img class="ml-2" :src="require('~/assets/img/icons/arrow-right-for-search-box.svg')" />
               </span>
               <a
                 v-else
@@ -316,5 +316,11 @@ export default {
   font-family: $font-family-sf-pro-display
   color: $color-white-1
   height: 22px
+
+.border-color-gray-47
+  border-color: $color-gray-47
+
+.z-100
+  z-index: 100
 
 </style>

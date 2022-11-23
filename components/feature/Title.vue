@@ -1,6 +1,10 @@
 <template>
-  <h3 class="title text-uppercase text-center text-md-left mt-5 mt-sm-0 mb-6">
+  <h3
+    class="title text-uppercase mt-5 mt-sm-0 mb-6 d-flex justify-content-center align-items-center justify-content-md-start"
+  >
+    <div class="title-before d-md-none d-block"></div>
     <slot></slot>
+    <div class="title-after d-md-none d-block"></div>
   </h3>
 </template>
 <script>
@@ -14,6 +18,13 @@ export default {
 h3.title
   @include heading-7
   color: $color-black-5
+  gap: 34px
+  .title-before, .title-after
+    width: 100%
+    background-color: $color-black-1
+    height: 1px
+    max-width: 61px
+
 
 @media (max-width: 768px)
   .title

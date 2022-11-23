@@ -31,7 +31,7 @@
       </NotificationSettingsSection>
 
       <div class="text-center my-4">
-        <NavGroup
+        <NavGroup v-if="isVendor"
             :data="tabs"
             :value="currentTab"
             nav-key="notification-tabs"
@@ -104,7 +104,8 @@ export default {
     ...mapGetters({
       'changedSettings': 'notifications/getChangedSettings',
       'getSettings': 'notifications/getSettings',
-      'pushActive': 'notifications/getPushNotificationsActive'
+      'pushActive': 'notifications/getPushNotificationsActive',
+      isVendor: 'auth/isVendor',
     })
   },
   methods: {

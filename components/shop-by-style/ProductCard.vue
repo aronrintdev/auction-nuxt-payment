@@ -9,7 +9,6 @@
           :product="product"
           :width="152"
           :height="172"
-          overlay
           class="flex-shrink-0 product-image"
         />
         <div class="info-section position-relative flex-grow-1">
@@ -161,7 +160,7 @@
                   @click="handleAddToCartClick"
                 >
                   <div class="d-flex justify-content-center">
-                    <div>{{ $t('products.add_to_cart') }} {{ currentListingItem ? `: (`+ currentListingItem.length / 100 +`)`: '' }}</div>
+                    <div>{{ $t('shop_by_style.general.add_style_to_bag') }}</div>
                     <div
                       class="ml-1"
                       :class="
@@ -192,7 +191,6 @@
           :product="product"
           :width="152"
           :height="172"
-          overlay
           class="flex-shrink-0 product-image"
         />
         <div v-show="show === product.id" class="row">
@@ -357,7 +355,7 @@
                   @click="handleAddToCartClick"
                 >
                   <div class="d-flex justify-content-center">
-                    <div>{{ $t('products.add_to_cart') }} {{ currentListingItem ? `: (`+ currentListingItem.length / 100 +`)`: '' }}</div>
+                    <div>{{ $t('shop_by_style.general.add_style_to_bag') }}</div>
                     <div
                       class="ml-1"
                       :class="

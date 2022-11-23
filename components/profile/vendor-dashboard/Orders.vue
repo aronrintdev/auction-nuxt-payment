@@ -4,11 +4,11 @@
       <h1 class="heading-1-bold mb-0  font-secondary">
         {{ $t('vendor_dashboard.orders') }}
       </h1>
-      <NavGroup :data="menus" :value="activeNav" @change="navItem"/>
-      <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
+      <NavGroup :data="menus" :value="activeNav" :class="mobileClass" class="nav-grp" @change="navItem"/>
+      <div class="d-flex justify-content-end align-items-center">
         <nuxt-link
             to="/orders"
-            class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link "
+            class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0 view-more-link "
         >{{ $t('vendor_dashboard.view_all') }}
         </nuxt-link
         >
@@ -19,13 +19,13 @@
         {{ $t('vendor_dashboard.orders') }}
       </div>
       <nuxt-link
-          class="font-secondary text-decoration-underline body-18-regular border-primary mb-0 view-more-link "
+          class="font-secondary text-decoration-underline body-18-regular border-primary mb-0 text-link-blue-mobile "
           to="/orders"
       >{{ $t('vendor_dashboard.view_all') }}
       </nuxt-link
       >
     </div>
-    <NavGroup v-if="isScreenXS" :data="mobileMenu" :value="activeNav" class="mt-2" @change="navItem"/>
+    <NavGroup v-if="isScreenXS" :data="mobileMenu" :value="activeNav" :class="mobileClass" class="mt-2 nav-grp" @change="navItem"/>
 
     <div :class="{
       'my-5': !isScreenXS
@@ -43,6 +43,13 @@
         <template #table-busy>
           <div class="d-flex align-items-center justify-content-center w-100">
             <Loader :loading="loading"/>
+          </div>
+        </template>
+        <template #head()="scope">
+          <div class="text-nowrap" role="button" @click="orderBy(scope)">
+            <span class="mr-1">{{ scope.label }}</span>
+            <img v-if="scope.label !== $t('vendor_dashboard.actions')" :src="require('~/assets/img/icons/down-arrow-solid.svg')" :alt="scope.label"
+            class="sort-icon" :class="reverseDirection(scope.column)">
           </div>
         </template>
         <template #cell(product)="data">
@@ -63,7 +70,7 @@
                  'body-5-medium mobile': isScreenXS,
                   'font-secondary': !isScreenXS,
                 }"
-                  class="fw-6 fs-15 border-primary mb-1 text-nowrap text-truncate mw-300"
+                  class="fw-6 fs-15 border-primary mb-1 text-nowrap text-truncate mw-220"
               >
                 {{ data.item.listing_item.inventory.product.name }}
               </h4>
@@ -72,7 +79,7 @@
                 {{ data.item.listing_item.inventory.product.sku }}
               </h4>
               <h4 :class="mobileClass"
-                  class="font-secondary fs-13 fw-5 mb-0 text-secondary-6 text-nowrap text-truncate mw-300">
+                  class="font-secondary fs-13 fw-5 mb-0 text-secondary-6 text-nowrap text-truncate mw-220">
                 {{ $t('vendor_dashboard.colorway') }}:
                 {{ data.item.listing_item.inventory.product.colorway }}
               </h4>
@@ -84,7 +91,7 @@
           </div>
         </template>
         <template #cell(order_id)="data">
-          <div :aria-label="$t('vendor_dashboard.order_id')" class="d-flex align-items-center  w-fit-content tdHeight"
+          <div :aria-label="$t('vendor_dashboard.order_id')" class="d-flex align-items-center   w-fit-content tdHeight"
                :class="{
                   'flex-column': !isScreenXS
                }"
@@ -98,7 +105,7 @@
               />
             </div>
             <h4
-                class="fw-7 fs-14 font-secondary border-bottom border-primary text-primary mb-0 mx-auto text-nowrap"
+                class="fw-7 fs-14 font-secondary text-decoration-underline text-link-blue-mobile mb-0 mx-auto text-nowrap"
             >
               #{{ orderId(data.item) }}
             </h4>
@@ -141,14 +148,14 @@
               :aria-label="$t('vendor_dashboard.status')"
           >
             <h4 :class="styleFor(data.item.status) + ` ${mobileClass}` + `${isScreenXS? 'text-nowrap': ''}`"
-                class="text-capitalize status body-13-normal">
+                class="text-capitalize status body-13-normal mb-0">
               {{ data.item.status_label }}
             </h4>
           </div>
         </template>
         <template #cell(actions)="data">
           <div
-              class="d-flex align-items-center justify-content-center tdHeight"
+              class="d-flex align-items-center justify-content-center tdHeight text-link-blue-mobile"
               :aria-label="$t('vendor_dashboard.actions')"
           >
             <div :class="{
@@ -160,25 +167,25 @@
                 <img :src="require('~/assets/img/paper.svg')"/>
               </div>
               <div v-if="data.item.status === PROCESSING">
-                <a href="#generate-label" @click="generateLabel(data.item)">{{ $t('orders.generate_shipping_label') }}
+                <a href="#generate-label" class="text-link-blue-mobile" @click="generateLabel(data.item)">{{ $t('orders.generate_shipping_label') }}
                   <img v-if="isScreenXS" :src="require('~/assets/img/paper.svg')" height="16" width="12"/>
                   <img v-if="!isScreenXS" :src="require('~/assets/img/rewards/arrow-right-blue.svg')"/>
                 </a>
               </div>
               <div v-if="data.item.status === AWAITING_SHIPMENT_TO_DEADSTOCK">
-                <a href="#generate-label" @click="generateLabel(data.item)">{{ $t('orders.delivered_to_deadstock') }}
+                <a href="#generate-label" class="text-link-blue-mobile" @click="generateLabel(data.item)">{{ $t('orders.delivered_to_deadstock') }}
                   <img v-if="isScreenXS" :src="require('~/assets/img/paper.svg')" height="16" width="12"/>
                   <img v-if="!isScreenXS" :src="require('~/assets/img/rewards/arrow-right-blue.svg')"/>
                 </a>
               </div>
               <div v-if="data.item.status !== PROCESSING && data.item.vendor_shipment">
-                <a :download="`${data.item.vendor_shipment.tracking_no}.pdf`" :href="downloadPdf(data.item)">{{
+                <a class="text-link-blue-mobile" :download="`${data.item.vendor_shipment.tracking_no}.pdf`" :href="downloadPdf(data.item)">{{
                     $t('orders.print_shipping_label')
                   }} <img v-if="isScreenXS" :src="require('~/assets/img/paper.svg')" height="16" width="12"/></a>
               </div>
-              <span v-if="data.item.status !== PROCESSING && data.item.vendor_shipment">
+              <span v-if="data.item.status !== PROCESSING && data.item.vendor_shipment" class="text-link-blue-mobile">
                 <span>{{ data.item.vendor_shipment.shipping_method_text }}</span>
-                <a :href="data.item.vendor_shipment.tracking_url" class="text-decoration-underline"
+                <a  :href="data.item.vendor_shipment.tracking_url" class="text-decoration-underline text-link-blue-mobile"
                    target="_blank">{{ data.item.vendor_shipment.tracking_no }}</a>
               </span>
             </div>
@@ -203,8 +210,7 @@ export default {
     return {
       PROCESSING,
       AWAITING_SHIPMENT_TO_DEADSTOCK,
-      // Active Nav for the Toggle Button
-      activeNav: this.isScreenXS ? '1' : '',
+      activeNav: '1',
       topOrders: [],
       statusColors: {
         'pending': 'orange',
@@ -222,49 +228,51 @@ export default {
         {
           key: 'order_id',
           label: this.$t('vendor_dashboard.order_id'),
-          sortable: true,
+          sortable: false,
           tdClass: 'product-img-cell ',
-          thClass: ' body-4-bold',
+          thClass: 'text-nowrap  body-4-bold'
         },
         {
           key: 'product',
           label: this.$t('vendor_dashboard.product'),
-          sortable: true,
+          sortable: false,
           tdClass: 'product-info-cell',
-          thClass: 'body-4-bold',
+          thClass: 'text-nowrap body-4-bold'
         },
         {
           key: 'date_ordered',
           label: this.$t('vendor_dashboard.date_ordered'),
-          sortable: true,
-          thClass: 'text-center body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap text-center body-4-bold'
         },
         {
           key: 'type',
           label: this.$t('vendor_dashboard.type'),
-          sortable: true,
-          thClass: 'text-center body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap text-center body-4-bold'
         },
         {
           key: 'vendor_payout',
           label: this.$t('vendor_dashboard.vendor_payout'),
-          sortable: true,
-          thClass: 'text-center body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap text-center body-4-bold'
         },
         {
           key: 'status',
           label: this.$t('vendor_dashboard.status'),
-          sortable: true,
-          thClass: 'text-center body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap text-center body-4-bold'
         },
         {
           key: 'actions',
           label: this.$t('vendor_dashboard.actions'),
           sortable: false,
-          thClass: 'text-center body-4-bold',
+          thClass: 'text-nowrap text-center body-4-bold'
         },
       ],
       loading: false,
+      orderByField: 'id',
+      orderByDirection: 'asc',
       /** Todo need to make dynamic onces we have way of main categories in DB */
       menus: [
         {label: this.$t('vendor_dashboard.all'), value: ''},
@@ -292,6 +300,16 @@ export default {
     this.getTopOrders()
   },
   methods: {
+    orderBy(scope){
+      if (scope.column !== 'actions'){
+        this.orderByDirection = this.reverseDirection(scope.column)
+        this.orderByField = scope.column
+        this.getTopOrders()
+      }
+    },
+    reverseDirection(column){
+      return column === this.orderByField? (this.orderByDirection === 'asc'? 'desc' : 'asc'): 'desc'
+    },
     async generateLabel(item) {
       const len = item.status_markable.length
       if (len < 1) {
@@ -353,7 +371,13 @@ export default {
     getTopOrders() {
       this.loading = true
       this.$axios
-          .get('/dashboard/vendor/orders?category_id=' + this.activeNav)
+          .get('/dashboard/vendor/orders', {
+            params: {
+              category_id: this.activeNav,
+              order_by_column: this.orderByField,
+              order_by_direction: this.orderByDirection
+            }
+          })
           .then((res) => {
             this.topOrders = res.data.data.data
           })
@@ -366,8 +390,25 @@ export default {
   },
 }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.sort-icon
+  &.asc
+    transform: rotate(180deg)
+
+::v-deep.nav-grp
+  width: 460px
+  &.mobile
+    width: 100%
+  .btn-group
+    height: 32px
+    button.btn
+      @include body-6-regular
+      font-family: $font-montserrat
+      width: 103px
+      padding-block: 1px
+      &.active
+        font-weight: $medium
 
 .status
   &.mobile
@@ -440,8 +481,8 @@ export default {
 .mw-140
   max-width: 160px
 
-.mw-300
-  max-width: 300px
+.mw-220
+  max-width: 220px
 
   &.mobile
     max-width: 200px
@@ -450,7 +491,7 @@ export default {
   color: $color-gray-6
   font-family: $font-sf-pro-text
 
-.ordersTable
+::v-deep.ordersTable
   &.table.b-table.b-table-no-border-collapse
     border-spacing: 0 10px
 
@@ -507,7 +548,7 @@ export default {
       outline: 1px solid $color-gray-3
       display: block
       margin: 12px 0
-      padding: 15px 0
+      padding: 15px 0 6px 0
 
       div.font-secondary
         font-size: 12px
@@ -515,16 +556,16 @@ export default {
         font-weight: $normal
         font-family: $font-family-base
     .tdHeight
-      font-size: 12px
+      @include body-9-medium
       color: $color-black-1
-      font-weight: $bold
       width: 100%
+      padding: 1px 0
+
       .status-badge
         background: none
         padding: 0
       h4
-        font-size: 12px
-        font-weight: $normal
+        @include body-9-normal
         font-family: $font-family-base
         &.actions
           display: flex

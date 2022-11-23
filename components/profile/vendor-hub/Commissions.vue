@@ -83,7 +83,7 @@
                 :updateFilters="filterForm.activeStatusFilters"
                 :value="filterForm.statusType"
                 class="mr-4 dropdown-filters"
-                @filters="getCommissions(true)"
+                @filters="onStatusHandler"
             />
           </div>
         </div>
@@ -312,6 +312,7 @@
 
 <script>
 import Vue from 'vue'
+import debounce from 'lodash.debounce';
 import {mapActions} from 'vuex';
 import JsonCSV from 'vue-json-csv'
 import CommissionItem from '~/components/profile/vendor-hub/CommissionItem';
@@ -321,6 +322,7 @@ import Loader from '~/components/common/Loader';
 import {COMMISSIONS_PAGE_OPTIONS, COMMISSIONS_PER_PAGE} from '~/static/constants';
 import screenSize from '~/plugins/mixins/screenSize'
 import CommissionMobileFilter from '~/components/profile/vendor-hub/CommissionMobileFilter';
+
 
 Vue.component('DownloadCsv', JsonCSV)
 export default {
@@ -585,6 +587,9 @@ export default {
         mobileFilter.open()
       }
     },
+    onStatusHandler: debounce(function (e) {
+     this.getCommissions(true)
+    }, 500)
   }
 }
 </script>

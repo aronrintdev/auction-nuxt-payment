@@ -1,8 +1,8 @@
 <template>
-  <div v-if="!!currentWatchlist" class="section-items py-4 px-1 flex-grow-1">
+  <div class="mt-5">
     <div
       v-if="action === 'none'"
-      class="d-flex align-items-center justify-content-between"
+      class="d-flex align-items-center justify-content-between mb-2"
     >
       <div class="position-relative">
         <div class="header-title position-absolute">{{ $t('bids.filter_by') }}</div>
@@ -55,98 +55,129 @@
         </b-dropdown>
       </div>
     </div>
-
-    <div
-      v-if="action !== 'none'"
-      class="bulk-select-section"
-    >
-      <BulkSelectToolbar
-        ref="bulkSelectToolbar"
-        :active="action !== 'none'"
-        :selected="selected"
-        :unitLabel="$tc('common.product', selected.length)"
-        :successLabel="$tc('watchlists.products_removed_from_watchlist')"
-        :total="listProducts.length"
-        @close="cancelAction()"
-        @selectAll="handleSelectAll()"
-        @deselectAll="handleDeselectAll()"
-        @undo="handleUndoBulkAction()"
-      />
-    </div>
-
-    <Loader v-if="loading" class="py-5" />
-
-    <div v-else class="py-3">
-      <div v-if="listProducts.length > 0" class="row">
-        <WatchlistAuctionCard
-          v-for="item in listProducts"
-          :key="item.id"
-          :item="item"
-          :selectable="action === 'move' || action === 'remove'"
-          :selected="!!selected.find((id) => id == item.id)"
-          class="col-12 col-md-4 col-lg-6 col-xl-4"
-          @select="selectItem"
-        ></WatchlistAuctionCard>
-      </div>
-
-      <div v-else class="text-center">
-        <p class="pt-5">
-          {{ $t('watchlists.no_items_info') }}
-        </p>
-
-        <Button
-          variant="primary"
-          class="mt-4 mx-auto"
-          pill
-          @click="handleBrowseClick"
+    <b-card no-body class="mb-2">
+      <b-card-header
+        class="py-2 px-3 d-flex align-items-center justify-content-between"
+        role="tab"
+      >
+        <span class="body-2-bold flex-grow-1"
+          >{{ type === 'single' ? $t('auction.auction_types.single') :  $t('auctions.list.collection') }} ({{
+            auctionCount
+          }})</span
         >
-          {{ $t('watchlists.browse_items') }}
-        </Button>
-      </div>
-
-      <div>
         <div
-          v-if="action === 'remove' && listProducts.length > 0"
-          class="action-container"
+          v-b-toggle="''+accordionId"
+          class="d-flex align-items-center justify-content-center p-1 collapase-icon"
         >
-          <Button
-            variant="primary"
-            :disabled="selected.length === 0"
-            @click="removeSelected"
-          >
-            {{ $t('watchlists.remove_selected') }}
-          </Button>
+          <UpArrowIcon />
         </div>
+      </b-card-header>
+      <b-collapse
+        :id="accordionId"
+        visible
+        accordion="my-accordion"
+        role="tabpanel"
+      >
+        <b-card-body class="px-0">
+          <div v-if="!!currentWatchlist" class="section-items py-4 px-1 flex-grow-1">
+            <div
+              v-if="action !== 'none'"
+              class="bulk-select-section"
+            >
+              <BulkSelectToolbar
+                ref="bulkSelectToolbar"
+                :active="action !== 'none'"
+                :selected="selected"
+                :unitLabel="$tc('common.product', selected.length)"
+                :successLabel="$tc('watchlists.products_removed_from_watchlist')"
+                :total="listProducts.length"
+                @close="cancelAction()"
+                @selectAll="handleSelectAll()"
+                @deselectAll="handleDeselectAll()"
+                @undo="handleUndoBulkAction()"
+              />
+            </div>
 
-        <div
-          v-if="action === 'move' && listProducts.length > 0"
-          class="action-container"
-        >
-          <Button
-            v-for="(list, index) in getMovableWatchlists()"
-            :key="`move-to-watchlist-${list.id}`"
-            :disabled="selected.length === 0"
-            :variant="BUTTON_VARIANTS[index % 4]"
-            @click="moveSelected(list)"
-          >
-            {{ $t('watchlists.move_to_list', { list: list.name }) }}
-          </Button>
-        </div>
+            <Loader v-if="loading" class="py-5" />
 
-        <Pagination
-          v-if="listProducts.length > 0"
-          v-model="currentPage"
-          :total="totalCount"
-          :per-page="perPage"
-          :per-page-options="[5, 10, 15, 20, 25]"
-          class="mt-2"
-          @page-click="handlePageClick"
-          @per-page-change="handlePerPageChange"
-        />
-      </div>
-    </div>
+            <div v-else class="py-3">
+              <div v-if="listProducts.length > 0" class="row">
+                <WatchlistAuctionCard
+                  v-for="item in listProducts"
+                  :key="item.id"
+                  :item="item"
+                  :selectable="action === 'move' || action === 'remove'"
+                  :selected="!!selected.find((id) => id == item.id)"
+                  class="col-12 col-md-4 col-lg-6 col-xl-4"
+                  @select="selectItem"
+                ></WatchlistAuctionCard>
+              </div>
+
+              <div v-else class="text-center">
+                <p class="pt-5">
+                  {{ $t('watchlists.no_items_info') }}
+                </p>
+
+                <Button
+                  variant="primary"
+                  class="mt-4 mx-auto"
+                  pill
+                  @click="handleBrowseClick"
+                >
+                  {{ $t('watchlists.browse_items') }}
+                </Button>
+              </div>
+
+              <div>
+                <div
+                  v-if="action === 'remove' && listProducts.length > 0"
+                  class="action-container"
+                >
+                  <Button
+                    variant="primary"
+                    :disabled="selected.length === 0"
+                    @click="removeSelected"
+                  >
+                    {{ $t('watchlists.remove_selected') }}
+                  </Button>
+                </div>
+
+                <div
+                  v-if="action === 'move' && listProducts.length > 0"
+                  class="action-container"
+                >
+                  <Button
+                    v-for="(list, index) in getMovableWatchlists()"
+                    :key="`move-to-watchlist-${list.id}`"
+                    :disabled="selected.length === 0"
+                    :variant="BUTTON_VARIANTS[index % 4]"
+                    @click="moveSelected(list)"
+                  >
+                    {{ $t('watchlists.move_to_list', { list: list.name }) }}
+                  </Button>
+                </div>
+
+                <Pagination
+                  v-if="listProducts.length > 0"
+                  v-model="currentPage"
+                  :total="totalCount"
+                  :per-page="perPage"
+                  :per-page-options="[5, 10, 15, 20, 25]"
+                  class="mt-2"
+                  @page-click="handlePageClick"
+                  @per-page-change="handlePerPageChange"
+                />
+              </div>
+            </div>
+          </div>
+        </b-card-body>
+      </b-collapse>
+    </b-card>
   </div>
+
+
 </template>
+
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
@@ -158,6 +189,7 @@ import CloseIcon from '~/assets/img/icons/close.svg?inline'
 import { WATCHLIST_TYPE_AUCTION } from '~/static/constants'
 import Button from '~/components/common/Button.vue'
 import WatchlistAuctionCard from '~/components/watchlist/AuctionCard'
+import UpArrowIcon from '~/assets/img/icons/up-arrow.svg?inline'
 
 export default {
   name: 'WatchlistAuctionItems',
@@ -169,6 +201,7 @@ export default {
     CustomSelectwithCheckbox,
     CloseIcon,
     WatchlistAuctionCard,
+    UpArrowIcon,
   },
   props: {
     currentWatchlist: {
@@ -176,6 +209,14 @@ export default {
       default: () => {},
     },
     type: {
+      type: String,
+      default: '',
+    },
+    auctionCount: {
+      type: Number,
+      default: 0,
+    },
+    accordionId: {
       type: String,
       default: '',
     },
@@ -213,7 +254,7 @@ export default {
 
   watch: {
     activeStatusFilters() {
-      this.getWatchlistItems() 
+      this.getWatchlistItems()
     }
   },
 

@@ -29,7 +29,16 @@
               inputHeight="60px"
               @change="onSearchInput"
             />
-            <SearchedProductsBelowSearchTextBox v-if="searchedItems.length > 0" :productItems="searchedItems" productsFor="wantItemTrade" width="800px" class="position-absolute"/>
+            <div class="position-relative">
+              <SearchedProductsBelowSearchTextBox 
+                v-if="searchedItems.length > 0" 
+                :productItems="searchedItems" 
+                productsFor="wantItemTrade" 
+                class="position-absolute z-100"
+                :wrapperStyle="{ margin: 0 }"
+                :itemStyle="{ padding: 0 }"
+              />
+            </div>
           </b-col>
           <b-col align-self="center" class="col-md-4 col-12 col-sm-6 mt-md-4 text-right">
             <b-btn class="font-weight-bolder cursor-pointer btn-offer" @click="$bvModal.show('offer-item-modal')">
@@ -70,15 +79,15 @@
                     <CustomDropdown v-model="sizeTypesFilter" :label="sizeTypesFilterLabel" :options="filters.size_types"
                         class="mr-3 width-156" type="multi-select-checkbox" optionsWidth="custom"
                         padding-x="10px"
-                        @change="changeSizeTypeFilter"
                         width="180px"
-                                    border-radius="4px"
+                        border-radius="4px"
+                                    @change="changeSizeTypeFilter"
                         @getResults="getGeneralListItems"/>
                     <CustomDropdown v-model="sizeFilter" :label="sizeFilterLabel" :options="filters.sizes"
                         class="mr-3 width-156" type="multi-select-checkbox" optionsWidth="custom"
                         padding-x="10px" width="180px"
-                        @change="changeSizeFilter"
-                                    border-radius="4px"
+                        border-radius="4px"
+                                    @change="changeSizeFilter"
                         @getResults="getGeneralListItems"/>
                   </client-only>
                   <b-btn class="filter-btn-create-trade mr-3" @click="getGeneralListItems">

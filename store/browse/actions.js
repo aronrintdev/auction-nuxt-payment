@@ -3,11 +3,6 @@ export async function fetchFilters({ commit }) {
     return commit('setFilters', res.data)
   })
 }
-export async function fetchSizesByType({ commit },type) {
-  return await this.$axios.get('/sizes-by-type/'+type).then((res) => {
-    return commit('setSizesByType', res.data.data)
-  })
-}
 export function resetFilters({ commit }) {
   commit('setSelectedPrices', [])
   commit('setSelectedYears', [])

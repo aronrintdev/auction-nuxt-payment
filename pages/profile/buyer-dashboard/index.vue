@@ -20,7 +20,7 @@
         <div class="col-3 col-md-3">
           <StatsCard
               :coloredText="false"
-              :icon="require('~/assets/img/icons/profile/commision-pending.svg')"
+              :icon="require('~/assets/img/icons/profile/trophy-green.svg')"
               :title="$t(`buyer_dashboard.dashobard_buyer.rewards_points${isScreenXS? '_mobile': ''}`)"
               :value="
               '' + analytics.reward_points !== 'undefined'

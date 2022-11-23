@@ -1,22 +1,26 @@
 <template>
   <div class="features-container">
     <FeatureBanner
-      :title="title"
-      :description="description"
       :backgroundImage="backgroundImage"
-      :backgroundImageSm="backgroundImageSm"
+      :backgroundImageXS="backgroundImageXS"
     />
 
     <div class="feature-content mx-auto">
       <FeatureBackButton class="mb-2 d-md-inline-flex d-none" />
       <FeatureTitle>{{ $tc('common.benefit', 2) }}</FeatureTitle>
       <slot></slot>
-      <ShopNowBanner
-        :shopNowDescription="shopNowDescription"
-        :shopNowButtonText="shopNowButtonText"
+      <BottomBanner
+        :bottomBannerImage="bottomBannerImage"
+        :bottomBannerImageXS="bottomBannerImageXS"
+        :bottomBannerDescription="bottomBannerDescription"
+        :bottomBannerDescriptionXS="bottomBannerDescriptionXS"
+        :bottomBannerButtonLink="bottomBannerButtonLink"
+        :bottomBannerButtonText="bottomBannerButtonText"
         :previousPage="previousPage"
+        :previousPageXS="previousPageXS"
         :previousPageLink="previousPageLink"
         :nextPage="nextPage"
+        :nextPageXS="nextPageXS"
         :nextPageLink="nextPageLink"
       />
     </div>
@@ -26,56 +30,72 @@
 import FeatureBanner from '~/components/feature/Banner'
 import FeatureBackButton from '~/components/feature/BackButton'
 import FeatureTitle from '~/components/feature/Title'
-import ShopNowBanner from '~/components/feature/ShopNowBanner'
+import BottomBanner from '~/components/feature/BottomBanner'
 export default {
   name: 'FeatureContentWrapper',
   components: {
     FeatureBanner,
     FeatureBackButton,
     FeatureTitle,
-    ShopNowBanner,
+    BottomBanner,
   },
 
   props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      default: '',
-    },
     backgroundImage: {
       type: String,
-      required: true,
+      default: null,
     },
-    backgroundImageSm: {
+    backgroundImageXS: {
       type: String,
-      required: true,
+      default: null,
     },
-    shopNowDescription: {
+    bottomBannerImage: {
       type: String,
-      default: '',
+      default: null,
     },
-    shopNowButtonText: {
+    bottomBannerImageXS: {
       type: String,
-      default: '',
+      default: null,
+    },
+    bottomBannerDescription: {
+      type: String,
+      default: null,
+    },
+    bottomBannerDescriptionXS: {
+      type: String,
+      default: null,
+    },
+    bottomBannerButtonLink: {
+      type: String,
+      default: null,
+    },
+    bottomBannerButtonText: {
+      type: String,
+      default: null,
     },
     previousPage: {
       type: String,
-      default: '',
+      default: null,
+    },
+    previousPageXS: {
+      type: String,
+      default: null,
     },
     previousPageLink: {
       type: String,
-      default: '',
+      default: null,
     },
     nextPage: {
       type: String,
-      default: '',
+      default: null,
+    },
+    nextPageXS: {
+      type: String,
+      default: null,
     },
     nextPageLink: {
       type: String,
-      default: '',
+      default: null,
     },
   },
 }
@@ -85,7 +105,7 @@ export default {
 .features-container
   background-color: $color-gray-1
   .feature-content
-    width: 1196px
+    width: 1216px
     padding: 3rem 0px
     h3.benefit-title
       color: #1d1d1d

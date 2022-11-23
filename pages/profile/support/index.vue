@@ -25,7 +25,9 @@ export default {
   name: 'Support',
   components: {NavigationLinks, Searchbar},
   mixins: [screenSize],
-  layout: 'Profile',
+  layout(context) {
+    return context.$auth.user ? 'Profile' : 'IndexLayout'
+  }
 }
 </script>
 <style scoped lang="sass">

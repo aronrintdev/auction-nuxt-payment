@@ -1,61 +1,56 @@
 <template>
   <div>
     <FeatureContentWrapper
-      :title="banner.title"
-      :description="banner.description"
       :backgroundImage="banner.backgroundImage"
-      :backgroundImageSm="banner.backgroundImageSm"
-      :shopNowDescription="shopNowBanner.shopNowDescription"
-      :shopNowButtonText="shopNowBanner.shopNowButtonText"
-      :previousPage="shopNowBanner.previousPage"
-      :previousPageLink="shopNowBanner.previousPageLink"
-      :nextPage="shopNowBanner.nextPage"
-      :nextPageLink="shopNowBanner.nextPageLink"
+      :backgroundImageXS="banner.backgroundImageXS"
+      :bottomBannerImage="bottomBanner.bottomBannerImage"
+      :bottomBannerImageXS="bottomBanner.bottomBannerImageXS"
+      :bottomBannerDescription="bottomBanner.bottomBannerDescription"
+      :bottomBannerDescriptionXS="bottomBanner.bottomBannerDescriptionXS"
+      :bottomBannerButtonLink="bottomBanner.bottomBannerButtonLink"
+      :bottomBannerButtonText="bottomBanner.bottomBannerButtonText"
+      :previousPage="bottomBanner.previousPage"
+      :previousPageXS="bottomBanner.previousPageXS"
+      :previousPageLink="bottomBanner.previousPageLink"
+      :nextPage="bottomBanner.nextPage"
+      :nextPageXS="bottomBanner.nextPageXS"
+      :nextPageLink="bottomBanner.nextPageLink"
     >
       <HorizontalBenefitBox
         v-for="(benefit, index) in benefits"
         :key="index"
         :benefitImage="benefit.benefitImage"
+        :benefitImageXS="benefit.benefitImageXS"
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
       <FeatureTitle>
         {{ $t('newest_features.promotions.prizes') }}
       </FeatureTitle>
-      <div
-        class="d-flex align-items-center justify-content-between position-relative options-section mb-5"
-      >
-        <div class="card-wrapper">
-          <FeatureCardHoverableRound
+      <div class="cards-wrapper-in-app d-flex flex-column align-items-center">
+        <div class="in-app-cards">
+          <FeatureFourCards
             :icon="
-              require('~/assets/img/features/newest-feature/promotions/car.svg')
+              require('~/assets/img/features/newest-feature/promotions/car-2.svg')
             "
-            :title="$t('newest_features.promotions.cars')"
-            variant="round"
+            :title="$t('newest_features.promotions.cards.title1')"
+          />
+          <span class="before d-md-none d-block mx-auto"></span>
+          <FeatureFourCards
+            :icon="
+              require('~/assets/img/features/newest-feature/promotions/shoes-2.svg')
+            "
+            :title="$t('newest_features.promotions.cards.title2')"
+            class="feature-four-cards-center-promotions"
+          />
+          <span class="after d-md-none d-block mx-auto"></span>
+          <FeatureFourCards
+            :icon="
+              require('~/assets/img/features/newest-feature/promotions/cash-2.svg')
+            "
+            :title="$t('newest_features.promotions.cards.title3')"
           />
         </div>
-
-        <div class="card-wrapper">
-          <FeatureCardHoverableRound
-            :icon="
-              require('~/assets/img/features/newest-feature/promotions/shoes.svg')
-            "
-            :title="$t('newest_features.promotions.sneakers')"
-            variant="round"
-          />
-        </div>
-
-        <div class="card-wrapper">
-          <FeatureCardHoverableRound
-            :icon="
-              require('~/assets/img/features/newest-feature/promotions/cash.svg')
-            "
-            :title="$t('newest_features.promotions.cash')"
-            variant="round"
-          />
-        </div>
-
-        <div class="mid-line position-absolute"></div>
       </div>
     </FeatureContentWrapper>
   </div>
@@ -64,14 +59,12 @@
 import FeatureContentWrapper from '~/components/feature/ContentWrapper'
 import HorizontalBenefitBox from '~/components/feature/HorizontalBenefitBox'
 import FeatureTitle from '~/components/feature/Title'
-import FeatureCardHoverableRound from '~/components/feature/CardHoverableRound'
 
 export default {
   components: {
     FeatureContentWrapper,
     HorizontalBenefitBox,
     FeatureTitle,
-    FeatureCardHoverableRound,
   },
 
   layout: 'IndexLayout',
@@ -79,14 +72,13 @@ export default {
   data() {
     return {
       banner: {
-        title: 'newest_features.promotions.feature_banner_title',
-        description: 'newest_features.promotions.feature_banner_desc',
-        backgroundImage: require('@/assets/img/features/newest-feature/promotions/promotions-banner.svg'),
-        backgroundImageSm: require('@/assets/img/features/newest-feature/promotions/promotions-banner-sm.svg'),
+        backgroundImage: require('@/assets/img/features/newest-feature/promotions/promotions-banner.png'),
+        backgroundImageXS: require('@/assets/img/features/newest-feature/promotions/promotions-banner-xs.png'),
       },
       benefits: [
         {
           benefitImage: require('@/assets/img/features/newest-feature/promotions/new-raffles.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/promotions/new-raffles-xs.png'),
           benefitTitle:
             'newest_features.promotions.benefits.first_benefit_title',
           benefitDescription:
@@ -94,6 +86,7 @@ export default {
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/promotions/never-miss-a-promotion.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/promotions/never-miss-a-promotion-xs.png'),
           benefitTitle:
             'newest_features.promotions.benefits.second_benefit_title',
           benefitDescription:
@@ -101,78 +94,41 @@ export default {
         },
         {
           benefitImage: require('@/assets/img/features/newest-feature/promotions/exclusive-to-deadstock.png'),
+          benefitImageXS: require('@/assets/img/features/newest-feature/promotions/exclusive-to-deadstock-xs.png'),
           benefitTitle:
             'newest_features.promotions.benefits.third_benefit_title',
           benefitDescription:
             'newest_features.promotions.benefits.third_benefit_desc',
         },
       ],
-      shopNowBanner: {
-        shopNowDescription: 'newest_features.promotions.shop_now_banner.desc',
-        shopNowButtonText:
-          'newest_features.promotions.shop_now_banner.button_text',
-        previousPage: 'newest_features.csv_bulk_uploading.title',
+      bottomBanner: {
+        bottomBannerImage: require('@/assets/img/features/newest-feature/promotions/bottom-banner.png'),
+        bottomBannerImageXS: require('@/assets/img/features/newest-feature/promotions/bottom-banner-xs.png'),
+        bottomBannerDescription:
+          'newest_features.promotions.bottom_banner.desc',
+        bottomBannerDescriptionXS:
+          'newest_features.promotions.bottom_banner.desc_xs',
+        bottomBannerButtonLink: '/browse',
+        bottomBannerButtonText:
+          'newest_features.promotions.bottom_banner.button_text',
+        previousPage:
+          'newest_features.promotions.bottom_banner.previous_page_title',
+        previousPageXS:
+          'newest_features.promotions.bottom_banner.previous_page_xs_title',
         previousPageLink: '/features/csv-bulk-uploading',
-        nextPage: 'newest_features.damaged_box_items.title',
-        nextPageLink: '/features/damaged-box-items',
+        nextPage: 'newest_features.promotions.bottom_banner.next_page_title',
+        nextPageXS:
+          'newest_features.promotions.bottom_banner.next_page_xs_title',
+        nextPageLink: '/features/damaged-packaging',
       },
     }
   },
 }
 </script>
-
 <style lang="sass" scoped>
-@import '~/assets/css/_variables'
-.features-container
-  .feature-content
-
-    .feature-item
-      margin-bottom: 115px
-
-    .options-section
-      margin: 0px 80px
-      .mid-line
-        width: 100%
-        border-bottom: 1px solid $color-black-1
-
-      .card-wrapper
-        z-index: 1
-        background-color: $color-white-1
-        padding: 0 20px
-        background-color: $color-gray-1
-
-@media (max-width: 1200px)
-  .features-container
-    .feature-content
-      .options-section
-        margin: 0px 0px
-        .mid-line
-          width: 100%
-          border-bottom: 1px solid $color-black-1
-@media (max-width: 1000px)
-  .features-container
-    .feature-content
-      .options-section
-        margin: 0px 0px
-        .card-wrapper
-          padding: 20px 0
-          margin: 20px 0
-
-@media (max-width: 578px)
-  .features-container
-    .feature-content
-      .feature-item::v-deep
-        flex-direction: column
-        align-items: center
-        .img-wrapper
-          margin: 0
-          margin-bottom: 20px
-
-        .text-wrapper
-          text-align: center
-      .options-section
-        margin: 0px 0px
-        .card-wrapper
-          padding: 0 10px
-          background-color: $color-white-1
+@media (max-width: 768px)
+  .cards-wrapper-in-app
+    .in-app-cards
+      .feature-four-cards
+        border-radius: 50% !important
 </style>

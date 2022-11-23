@@ -293,6 +293,9 @@ export default {
 @import '/assets/css/variables'
 .filter-boxes
   border-color: $color-gray-28
+  min-height: 45px
+  padding-left: 3px !important
+  padding-right: 3px !important
 
   .border
     border-radius: 3px
@@ -423,6 +426,20 @@ export default {
   &::after
     top: 3px
     right: 20px
+
+::v-deep .custom-control-label::before
+  background-color: $color-white-1
+  border: 1px solid $color-black-1
+
+::v-deep .custom-radio .custom-control-input:checked ~ .custom-control-label::after
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'%3E%3Ccircle r='3' fill='%23000'/%3E%3C/svg%3E")
+
+::v-deep .custom-control-label::after
+  background: 50%/90% 100% no-repeat
+
+::v-deep .custom-control-input:checked ~ .custom-control-label::before
+  border-color: $color-black-1
+  background-color: $color-white-1
 
 @media (max-width: 992px)
   ::v-deep .search
