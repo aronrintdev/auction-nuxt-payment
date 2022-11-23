@@ -4,7 +4,6 @@
       <img :src="require('~/assets/img/icons/arrow-left-gray.svg')" class="img-fluid"/>
       {{ $t(backButtonText) }}
     </span>
-
     <b-row>
       <b-col sm="12" md="6">
       </b-col>
@@ -234,7 +233,7 @@ import arrowDownIcon from '~/assets/img/icons/arrow-down-dark-blue.svg'
 import BoxConditionPicker from '~/components/product/BoxConditionPicker';
 
 export default {
-  name: 'DetailsListing',
+  name: 'ProductView',
 
   components: {
     ProductSizePicker,
@@ -373,6 +372,7 @@ export default {
             i.inventory.size_id === vm.value.currentSize &&
             i.inventory.packaging_condition_id === vm.value.boxCondition
         )
+
         return sold && sold.inventory
       }
     },
@@ -443,11 +443,12 @@ export default {
 
   created() {
     this.getColors()
-
     if (!this.value.boxCondition) {
       this.selectedCondition = 1
       this.$emit('input', { ...this.value, boxCondition: 1 })
     }
+
+
   },
 
   methods: {

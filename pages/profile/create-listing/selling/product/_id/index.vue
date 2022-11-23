@@ -1,24 +1,39 @@
 <template>
   <b-container fluid class="container-profile-create-listing h-100">
     <div v-if="product">
-      <DetailsListing
-        v-model="form"
-        :action="`add`"
-        :product="product"
-        @addToDraft="addToDraft"
-      />
+      <!-- New ProductView component instead of DetailsListing -->
+      <ProductView v-model="form" :product="product">
+        <div slot="right-content">
+          <ProductSellingForm
+            v-model="form"
+            :product="product"
+            :action="`add`"
+            @submit="addToDraft"
+          />
+        </div>
+      </ProductView>
+
+      <!-- Sales Graph and Sales Data Section -->
+      <b-row class="my-5">
+        <b-col md="12">
+          <SalesSection :product="product" />
+        </b-col>
+      </b-row>
+      <!-- End of Sales Graph and Sales Data Section -->
     </div>
   </b-container>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
-import DetailsListing from '~/components/profile/create-listing/product/DetailsListing.vue'
+import ProductView from '~/components/profile/create-listing/product/ProductView'
+import ProductSellingForm from '~/components/profile/create-listing/selling/ProductSellingForm'
+import SalesSection from '~/components/product/SalesSection'
 export default {
   name: 'ProductDetails',
 
   components: {
-    DetailsListing,
+    ProductView, ProductSellingForm, SalesSection
   },
 
   layout: 'Profile',
