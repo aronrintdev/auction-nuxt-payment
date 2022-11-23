@@ -217,7 +217,7 @@ export default {
     padding: 0
 @media (max-width: 460px)
   .look-view
-    margin: 0 0 !important
+    margin: 0 16px !important
   .mobile-styles
     width: 33.3%
   .container-shop-by-style 
