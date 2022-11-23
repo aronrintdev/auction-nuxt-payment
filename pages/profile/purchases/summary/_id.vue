@@ -13,35 +13,47 @@
               <div class="heading-13 font-primary">
                 {{ $t('vendor_purchase.purchases') }}
               </div>
+              <Button
+                class="btn-back float-right"
+                to="/profile/purchases"
+                variant="link"
+              >
+                <img
+                  :alt="$t('common.back')"
+                  :src="require('~/assets/img/icons/arrow-back.svg')"
+                  class="mr-2"
+                />
+                {{ $t('vendor_purchase.back_to_purchases') }}
+              </Button>
             </div>
           </div>
           <!-- ./Row -->
           <template v-if="dataloaded">
             <!-- Purchase Summary Details -->
             <PurchaseSummary
-                :orderDetails="orderDetails"
-                @exportPDF="exportPDF"
+              :orderDetails="orderDetails"
+              @exportPDF="exportPDF"
             />
             <!-- ./Purchase Summary Details -->
 
             <!-- Payment Summary Details -->
             <PurchaseUpdatePaymentInfo
-                v-if="status === processingPayment && updatePaymentMethod &&
+              v-if="status === processingPayment && updatePaymentMethod &&
               !paymentInfoIsUpdated
             "
-                :orderDetails="orderDetails"
+              :orderDetails="orderDetails"
             />
             <PaymentSummary
-                v-else
-                :orderDetails="orderDetails"
-                :paymentInfoIsUpdated="paymentInfoIsUpdated"
-                class="payment-summary"
+              v-else
+              :orderDetails="orderDetails"
+              :paymentInfoIsUpdated="paymentInfoIsUpdated"
+              class="payment-summary"
             />
             <!-- ./Payment Summary Details -->
             <!-- Refund Summary -->
             <RefundSummary
-                v-if="orderDetails.status === cancelled"
-                :orderDetails="orderDetails"
+              v-if="orderDetails.status === cancelled"
+              :orderDetails="orderDetails"
             />
             <!-- Refund Summary -->
           </template>
@@ -63,6 +75,7 @@ import PaymentSummary from '~/components/profile/purchases/summary/PaymentSummar
 import PurchaseUpdatePaymentInfo from '~/components/profile/purchases/summary/UpdatePaymentInfo.vue'
 import RefundSummary from '~/components/profile/purchases/summary/RefundSummary.vue'
 import VendorPurchaseShippingDetails from '~/components/profile/purchases/summary/shipping/ShippingDetails.vue'
+import {Button} from '~/components/common'
 import {
   PROCESSING_PAYMENT,
   CANCELLED,
@@ -84,6 +97,7 @@ export default {
     PurchaseUpdatePaymentInfo,
     RefundSummary,
     VendorPurchaseShippingDetails,
+    Button,
   },
   mixins: [screenSize],
   layout: 'Profile',
@@ -183,26 +197,26 @@ export default {
     // Export to PDF
     exportPDF(orderId) {
       this.$axios.get(`/purchases/${orderId}/generate-pdf`,
-      {
-        headers: {
+        {
+          headers: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
           },
           params: { id: orderId },
           responseType: 'blob',
         }).then((res) => {
-          const fileURL = window.URL.createObjectURL(
-            new Blob([res.data], {
-              type: 'application/pdf',
-            })
-          )
-          const fileLink = document.createElement('a')
-          fileLink.href = fileURL
-          fileLink.setAttribute('download', 'invoice.pdf')
-          document.body.appendChild(fileLink)
-          fileLink.click()
-        }).catch((err) => {
-          this.$logger.logToServer(err.response)
-        })
+        const fileURL = window.URL.createObjectURL(
+          new Blob([res.data], {
+            type: 'application/pdf',
+          })
+        )
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'invoice.pdf')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+      }).catch((err) => {
+        this.$logger.logToServer(err.response)
+      })
     },
 
     // Inject Google Maps Api (if it doesn't exist)

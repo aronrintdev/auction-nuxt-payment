@@ -4,17 +4,17 @@
     <!-- Cash Summary -->
     <div v-if="orderDetails.type === 'trade'" class="col-12">
       <b-card class="purchase-multiple-orders card-web">
-        <h6 class="card-title cash-summary-header">
-          <img :src="require('~/assets/img/purchases/dollar.svg')" alt="dollar-image" class="dollar-image-trade ml-3"/>
-         <span class="ml-5"> {{
+        <h4 class="card-title cash-summary-header">
+          <img :src="require('~/assets/img/purchases/dollar.svg')" alt="dollar-image" class="dollar-image-trade"/>
+          {{
             $t('vendor_purchase.cash_received', {total: $options.filters.formatPrice(orderDetails.accepted_offer_their.cash_type === 'added' && orderDetails.accepted_offer_their.cash_added)})
-          }}</span>
-        </h6>
+          }}
+        </h4>
         <!-- Down arrow -->
         <span class="float-right" :class="{ rotatearrowimage: showDetails }" @click="toggleDetails">
           <span v-if="!showDetails" class="text-bold text-capitalize">
             {{ $t('vendor_purchase.status') }} &colon;
-            {{ orderDetails.status }}
+            {{ orderDetails.order_status }}
           </span>
           <img :src="downArrow" alt="down-arrow" />
         </span>
@@ -34,7 +34,7 @@
           <b-card-text>
             <div class="row">
               <div class="col-md-3">
-                <div class="payment-summary">
+                <div class="payment-summary-details-subheading text-muted text-bold">
                   {{ $t('vendor_purchase.payment_method') }}
                 </div>
                 <div class="payment-summary-details-description">
@@ -42,7 +42,7 @@
                 </div>
               </div>
               <div class="col-md-3">
-                <div class="payment-summary">
+                <div class="payment-summary-details-subheading text-muted text-bold">
                   {{ $t('vendor_purchase.pending_cash') }}
                 </div>
                 <div class="payment-summary-details-description">
@@ -166,7 +166,7 @@
           <!-- Order Total -->
           <div v-if="orderDetails.transaction" class="col-md-4 col-sm-12 total">
             <div
-                class="body-24-normal font-secondary text-muted6"
+              class="body-24-normal font-secondary text-muted6"
             >
               {{ $t('vendor_purchase.order_total') }}
             </div>
@@ -366,12 +366,4 @@ export default {
   border: 1.5px solid $color-gray-29
   border-radius: 4px
   padding: 10px
-.payment-summary
-  font-family: 'SF Pro Display'
-  font-style: normal
-  font-weight: 500
-  font-size: 18px
-  line-height: 26px
-  color: $color-black-1
-
 </style>

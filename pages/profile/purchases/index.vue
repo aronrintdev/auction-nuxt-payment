@@ -288,8 +288,8 @@
               >
                 <ButtonSelector
                     :options="typeOptions"
-                    :values="activeTypeFilters"
-                    @change="typeChange"
+                    :values="typeFilter"
+                    @change="typeFilterChange"
                 />
               </FilterAccordion>
               <ItemDivider/>
@@ -305,7 +305,7 @@
                         (a) => a.type === 'products' && a.value
                       )
                     "
-                      :values="typeFilter"
+                      :values="statusFilter"
                       @change="productFilterChange"
                   />
                   <div class="filter-divider">
@@ -317,7 +317,7 @@
                         (a) => a.type === 'giftcard' && a.value
                       )
                     "
-                      :values="typeFilter"
+                      :values="statusFilter"
                       @change="productFilterChange"
                   />
                 </div>
@@ -332,17 +332,13 @@
                       v-model="startdate"
                       :placeholder="$t('notifications.start_date')"
                       class="date-input"
-                      onblur="(this.type='text')"
-                      onfocus="(this.type='date')"
-                      type="text"
+                      type="date"
                   />
                   <input
                       v-model="enddate"
                       :placeholder="$t('notifications.end_date')"
                       class="date-input"
-                      onblur="(this.type='text')"
-                      onfocus="(this.type='date')"
-                      type="text"
+                      type="date"
                   />
                 </div>
               </FilterAccordion>
@@ -608,7 +604,7 @@ export default {
       return (
           +!!this.startdate +
           +!!this.enddate +
-          +(this.activeTypeFilters.length > 0) +
+          +(this.statusFilter.length > 0) +
           +(this.typeFilter.length > 0)
       )
     },
@@ -643,18 +639,20 @@ export default {
         $state.complete()
       }
     },
-    typeChange(types) {
-      this.activeTypeFilters = types
+    typeFilterChange(types) {
+      this.typeFilter = types
     },
     productFilterChange(filter) {
-      this.typeFilter = filter
+      this.statusFilter = filter
     },
     handleFilter() {
       this.infiniteId += 1
+      this.perPage = PERPAGE
       this.loadData()
     },
     handleSearch(value) {
       this.infiniteId += 1
+      this.perPage = PERPAGE
       this.searchValue = value
       this.loadData()
     },
@@ -700,7 +698,8 @@ export default {
 
     // Get the purchase data
     loadData($loaderState = null) {
-      this.loading = true
+      if (!$loaderState)
+        this.loading = true
       this.filters.keyword = this.searchValue
       this.filters.sortBy = this.sortbySelected
       this.filters.startDate = this.startdate
@@ -740,6 +739,7 @@ export default {
     // Clear the values
     clearFilters() {
       this.infiniteId += 1
+      this.perPage = PERPAGE
       this.mobileFiltersOpen = false
       this.searchValue = ''
       this.productsFilter = []
