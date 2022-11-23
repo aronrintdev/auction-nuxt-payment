@@ -53,7 +53,7 @@
         <div class="position-relative mt-3 mt-sm-5 mb-3 mb-sm-4">
           <LineChart
               :chart-data="mainChart"
-              :height="212"
+              :height="174"
               :options="lineChartOptions"
               chart-id="vendor-dashboard-line-chart"
               class="line-chart d-none d-sm-block"
@@ -61,7 +61,7 @@
           />
           <LineChart
               :chart-data="mainChart"
-              :height="204"
+              :height="174"
               :options="lineChartOptions"
               chart-id="vendor-dashboard-line-chart"
               class="line-chart d-block d-sm-none"
@@ -70,7 +70,7 @@
         </div>
         <div class="text-right d-none d-sm-block">
           <a
-              class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0 view-more-link"
+              class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0"
               href="#"
           >{{ $t('vendor_dashboard.view_breakdown') }}</a
           >
@@ -129,7 +129,7 @@
               ref="donChart1"
               :bg-colors="dataBgColors"
               :data="dataChart"
-              :height="212"
+              :height="170"
               :labels="chartLabels"
               :options="chartOptions"
               chart-id="vendor-dashboard-doughnut-chart"
@@ -139,7 +139,7 @@
               ref="donChart2"
               :bg-colors="dataBgColors"
               :data="dataChart"
-              :height="204"
+              :height="170"
               :labels="chartLabels"
               :options="chartOptions"
               chart-id="vendor-dashboard-doughnut-chart"
