@@ -6,7 +6,6 @@
       :margin="0"
       :responsive="responsiveAttr"
       loop
-      autoplay
       mouse-drag
       lazyLoad
       nav

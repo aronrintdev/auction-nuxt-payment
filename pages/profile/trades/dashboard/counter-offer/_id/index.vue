@@ -589,11 +589,7 @@
   import TradeArenaFilters from '~/components/trade/TradeArenaFilters'
   import {
     ITEM_COUNT_0,
-  } from '~/static/constants/trades'
-  import {
-    GOOGLE_MAPS_BASE_URL
-  } from '~/static/constants/environments'
-  import {
+  
     PAGE,
     PER_PAGE,
     PER_PAGE_OPTIONS,
@@ -616,6 +612,9 @@
     TAKE_SEARCHED_PRODUCTS
   } from '~/static/constants/trades'
   import {
+    GOOGLE_MAPS_BASE_URL
+  } from '~/static/constants/environments'
+    import {
     MAX_ITEMS_ALLOWED
   } from '~/static/constants/create-listing'
 

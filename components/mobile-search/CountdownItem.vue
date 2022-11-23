@@ -2,9 +2,9 @@
   <div class="countdown d-flex align-items-center">
     <i class="fa fa-clock-o mr-1 fa-2x" aria-hidden="true"></i>
     <vue-countdown
+      v-slot="{ days, hours, minutes, seconds }"
       :auto-start="true"
       :time="time"
-      v-slot="{ days, hours, minutes, seconds }"
       :transform="transformSlotProps"
     >
       <template v-if="days > 0">

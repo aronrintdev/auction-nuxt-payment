@@ -1,5 +1,5 @@
 <template>
-  <div class="px-16" v-if="isScreenXS">
+  <div v-if="isScreenXS" class="px-16">
     <trade-summary v-if="trade !== null" :trade="trade" />
     <div class="mt-4 d-flex">
       <div class="offers-heading mr-2">
@@ -71,7 +71,7 @@
     </div>
     <all-offers-items :offerType="offerType" :offers="tradeOffers" />
   </div>
-  <div class="container-fluid bg-white-5 pt-5" v-else>
+  <div v-else class="container-fluid bg-white-5 pt-5">
     <div class="heading mx-4">{{ $t('vendor_purchase.trade_summary') }}</div>
     <div class="sub-heading mx-4">{{ $t('common.your_listing') }}</div>
     <trade-summary v-if="trade !== null" :trade="trade" />

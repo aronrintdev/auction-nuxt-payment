@@ -95,7 +95,7 @@
       </div>
       <div 
         class="offer-history col-12 col-lg-10 col-xl-7 ml-auto" 
-        :class="isOfferMine(offerHistory) ? 'blue-theme' : 'white-theme'"
+        :class="[isOfferMine(offerHistory) ? 'blue-theme' : 'white-theme', offerHistoryClass]"
       >
         <b-row class="justify-content-between pt-4 pl-5 pr-4">
           <b-col 
@@ -126,9 +126,19 @@
         </b-row>
         <b-col v-if="!isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.they_offered')}}</b-col>
         <b-col v-else-if="isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.you_asking_for')}}</b-col>
-        <b-col class="row justify-content-center px-54 pt-2 m-0">
-          <offer-items v-if="isOfferMine(offerHistory) && offerHistory.yours_items && offerHistory.yours_items.length > 0" :offerItems="offerHistory.yours_items" marginItems="mr-3"/>
-          <offer-items v-if="!isOfferMine(offerHistory) && offerHistory.theirs_items && offerHistory.theirs_items.length > 0" :offerItems="offerHistory.theirs_items" marginItems="mr-3"/>
+        <b-col class="row justify-content-center px-54 pt-2 pb-4 m-0">
+          <offer-items            
+            v-if="isOfferMine(offerHistory) && offerHistory.yours_items && offerHistory.yours_items.length > 0" 
+            :offerItems="offerHistory.yours_items" 
+            marginItems="mr-3"
+            class="w-100"
+          />
+          <offer-items 
+            v-if="!isOfferMine(offerHistory) && offerHistory.theirs_items && offerHistory.theirs_items.length > 0" 
+            :offerItems="offerHistory.theirs_items" 
+            marginItems="mr-3"
+            class="w-100"
+          />
         </b-col>
         <b-row v-if="offerHistory.cash_added" class="justify-content-end pr-5 pt-3 pb-3">
           <b-col class="request-amount d-flex">
@@ -170,6 +180,10 @@ export default {
     offerHistory: {
       type: Object,
       default: () => {},
+    },
+    offerHistoryClass: {
+      type: String,
+      default: ''
     }
   },
   data(){
@@ -208,6 +222,9 @@ export default {
     min-height: 333px
     max-height: 350px
     background: $color-white-1
+    border-radius: 10px
+
+  @media (min-width: 576px)
     border-radius: 10px
 
 .px-54

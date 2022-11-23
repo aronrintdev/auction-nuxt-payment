@@ -10,7 +10,7 @@
     hide-header
   >
     <div class="d-flex justify-content-end position-relative">
-      <img :src="require('~/assets/img/trades/modelclose.svg')" role="button" @click="$bvModal.hide('offer-item-modal')" class="close-btn position-absolute">
+      <img :src="require('~/assets/img/trades/modelclose.svg')" role="button" class="close-btn position-absolute" @click="$bvModal.hide('offer-item-modal')">
     </div>
     <div class="custom-header-modal mt-3">
       {{$t('trades.create_listing.vendor.wants.offer_items')}}
