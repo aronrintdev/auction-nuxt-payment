@@ -176,12 +176,10 @@ export default {
 @import '~/assets/css/_variables'
 .features-container
   .feature-content
-    //.h-card-main // card section main desktop
-
     .feature-item
       margin-bottom: 115px
 
-    .feature-tabs::v-deep // Tabs section main desktop
+    .feature-tabs::v-deep
       margin-bottom: 117px
       .btn-feature-tab
         &:first-child
