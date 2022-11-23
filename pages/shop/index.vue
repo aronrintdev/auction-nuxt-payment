@@ -100,6 +100,7 @@
   </b-overlay>
 </template>
 <script>
+import debounce from 'lodash.debounce';
 import { mapActions, mapGetters } from 'vuex'
 import ShopFilters from '~/components/shop/ShopFilters.vue'
 import AdBanner from '~/components/shop/AdBanner.vue'
@@ -133,6 +134,7 @@ export default {
       category: 'all',
       loading: false,
       loadingFilter: false,
+      prices:null,
       perPage: 4,
       page: 1,
       recentProducts: [],
@@ -144,7 +146,7 @@ export default {
   },
   async fetch() {
     await this.fetchFilters()
-    this.fetchProducts()
+     this.fetchProducts()
   },
   computed: {
     ...mapGetters('browse', [
@@ -171,7 +173,7 @@ export default {
     noSearchResultFound() {
       this.noSearchResult = true
     },
-    fetchProducts() {
+    fetchProducts: debounce(function () {
       if (!this.perPage || !this.page) return
       this.loading = false
       const filters = {}
@@ -181,8 +183,9 @@ export default {
       if (this.category) {
         filters.category = this.category !== 'all' ? this.category :  '';
       }
-      if (this.selectedPrices) {
-        filters.prices = this.selectedPrices.join('-')
+      if (this.selectedPrices.length  > 0) {
+        this.prices = this.selectedPrices[0] * 100 +'-'+this.selectedPrices[1] * 100
+        filters.prices = this.prices
       }
       if (this.selectedBrands) {
         filters.brands = this.selectedBrands.join(',')
@@ -191,7 +194,7 @@ export default {
         filters.sizes = this.selectedSizes.join(',')
       }
       if (this.selectedSizeTypes) {
-        filters.size_types = this.selectedSizeTypes
+        filters.size_types = this.selectedSizeTypes.join(',')
       }
       if (this.selectedYears) {
         filters.years = this.selectedYears.join('-')
@@ -206,8 +209,8 @@ export default {
       this.getNewRelease(filters)
       this.getTrending(filters);
       this.getInstantShip(filters)
-    },
-    getRecentProducts(filters){
+    }, 500),
+    getRecentProducts(filters) {
       if (this.selectedSort) {
         filters.order_by = this.selectedSort
       }else{
@@ -223,7 +226,7 @@ export default {
         .finally(() => {
           this.loading = false
         })
-    },
+      },
     getNewRelease(filters){
       if (this.selectedSort) {
         filters.order_by = this.selectedSort

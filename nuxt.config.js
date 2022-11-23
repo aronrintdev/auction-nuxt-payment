@@ -89,7 +89,6 @@ export default defineNuxtConfig({
     '@nuxtjs/svg',
     'nuxt-compress',
   ],
-
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     'bootstrap-vue/nuxt',
