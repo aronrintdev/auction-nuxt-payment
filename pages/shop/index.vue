@@ -128,7 +128,7 @@ export default {
         { label: this.$t('common.all'), value: 'all' },
         { label: this.$t('common.footwear'), value: 'sneakers' },
         { label: this.$t('common.apparel'), value: 'apparel' },
-        { label: this.$tc('common.accessory', 2), value: 'accessories' },
+        { label: this.$tc('common.all_sizes', 2), value: 'all_sizes' },
       ],
       category: 'all',
       loading: false,

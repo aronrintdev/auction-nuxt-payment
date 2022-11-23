@@ -14,12 +14,21 @@
         </b-col>
       </b-row>
 
+      <b-row class="mb-3">
+        <b-col md="12">
+          <div class="text-center main-mobile-image d-block d-lg-none">
+            <nuxt-link to='/'>
+              <b-img :src="require('~/assets/img/home/logo-mb.png')" class="ds-logo pt-1 img-main" />
+            </nuxt-link>
+          </div>
+        </b-col>
+      </b-row>
       <b-row class="h-100">
         <b-col md="6" offset-md="3" class="d-flex flex-column align-items-center justify-content-center">
           <b-row>
             <b-col md="12">
               <div class="right-heading-bold text-center">{{ $t('auth.forgot_password') }}</div>
-              <div class="body-5-normal text-color-gray-38 text-center text-pre-line mt-3">{{ $t('auth.enter_your_email_and') }}</div>
+              <div class="body-5-normal text-center text-pre-line mt-3 email-text">{{ $t('auth.enter_your_email_and') }}</div>
             </b-col>
           </b-row>
 
@@ -48,12 +57,17 @@
 
                   <b-row class="mt-5 w-100 link-btn">
                     <b-col md="4" offset-md="4" class="text-center">
-                      <Button :disabled="! isEmailFilled" block pill variant="confirm" type="submit" :class=" { 'btn-disabled': ! isEmailFilled }">{{ $t('auth.send_link') }}</Button>
+                      <Button :disabled="! isEmailFilled" block pill variant="confirm" type="submit" :class=" { 'btn-disabled': ! isEmailFilled }" class="d-none d-lg-block">
+                        {{ $t('auth.send_link') }}
+                      </Button>
+                      <Button :disabled="! isEmailFilled" block pill variant="confirm" type="submit" :class=" { 'btn-disabled': ! isEmailFilled }" class="d-block d-lg-none btn-email">
+                        {{ $t('auth.send_email') }}
+                      </Button>
                     </b-col>
                   </b-row>
                 </b-form>
               </ValidationObserver>
-              <div class="back-to-login-btn">
+              <div class="back-to-login-btn d-lg-none">
                 <b-img :src="require('~/assets/img/auth/back_arrow_blue_1.svg')"></b-img>
                 <NuxtLink
                   class="custom-link pl-0"
@@ -182,9 +196,11 @@ export default {
 .input-forgot-password
   @include body-5-normal
   color: $black-1
-  background-color: $color-white-5
+  background-color: $color-white-1
   border: 0
   transition: border-color 0.01s ease-in-out, box-shadow 0.01s ease-in-out
+  border: 1px solid $color-gray-3
+  border-radius: 10px !important
   &::placeholder,
   &:-ms-input-placeholder,
   &::-ms-input-placeholder
@@ -215,4 +231,16 @@ export default {
       cursor: not-allowed
       &:hover
         box-shadow: none
+
+@media (min-width: 320px) and (max-width: 556px)
+  .email-text
+    color: $color-gray-47
+  .main-mobile-image
+    padding: 20px 0px 0px 1px
+  .img-main
+    height: 44px !important
+    width: 133.2px !important
+    margin-top: 23px !important
+  .btn-email
+    background-color: $color-blue-20 !important
 </style>
