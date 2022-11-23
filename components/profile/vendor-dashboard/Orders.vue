@@ -45,6 +45,13 @@
             <Loader :loading="loading"/>
           </div>
         </template>
+        <template #head()="scope">
+          <div class="text-nowrap" role="button" @click="orderBy(scope)">
+            <span class="mr-1">{{ scope.label }}</span>
+            <img v-if="scope.label !== $t('vendor_dashboard.actions')" :src="require('~/assets/img/icons/down-arrow-solid.svg')" :alt="scope.label"
+            class="sort-icon" :class="reverseDirection(scope.column)">
+          </div>
+        </template>
         <template #cell(product)="data">
           <div
               class="d-flex align-items-center align-items-sm-baseline justify-content-center flex-sm-column gap-2 tdHeightSm mb-2 mb-sm-0"
@@ -221,49 +228,51 @@ export default {
         {
           key: 'order_id',
           label: this.$t('vendor_dashboard.order_id'),
-          sortable: true,
+          sortable: false,
           tdClass: 'product-img-cell ',
-          thClass: 'text-nowrap  body-4-bold',
+          thClass: 'text-nowrap  body-4-bold'
         },
         {
           key: 'product',
           label: this.$t('vendor_dashboard.product'),
-          sortable: true,
+          sortable: false,
           tdClass: 'product-info-cell',
-          thClass: 'text-nowrap body-4-bold',
+          thClass: 'text-nowrap body-4-bold'
         },
         {
           key: 'date_ordered',
           label: this.$t('vendor_dashboard.date_ordered'),
-          sortable: true,
-          thClass: 'text-nowrap text-center body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap text-center body-4-bold'
         },
         {
           key: 'type',
           label: this.$t('vendor_dashboard.type'),
-          sortable: true,
-          thClass: 'text-nowrap text-center body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap text-center body-4-bold'
         },
         {
           key: 'vendor_payout',
           label: this.$t('vendor_dashboard.vendor_payout'),
-          sortable: true,
-          thClass: 'text-nowrap text-center body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap text-center body-4-bold'
         },
         {
           key: 'status',
           label: this.$t('vendor_dashboard.status'),
-          sortable: true,
-          thClass: 'text-nowrap text-center body-4-bold',
+          sortable: false,
+          thClass: 'text-nowrap text-center body-4-bold'
         },
         {
           key: 'actions',
           label: this.$t('vendor_dashboard.actions'),
           sortable: false,
-          thClass: 'text-nowrap text-center body-4-bold',
+          thClass: 'text-nowrap text-center body-4-bold'
         },
       ],
       loading: false,
+      orderByField: 'id',
+      orderByDirection: 'asc',
       /** Todo need to make dynamic onces we have way of main categories in DB */
       menus: [
         {label: this.$t('vendor_dashboard.all'), value: ''},
@@ -291,6 +300,16 @@ export default {
     this.getTopOrders()
   },
   methods: {
+    orderBy(scope){
+      if (scope.column !== 'actions'){
+        this.orderByDirection = this.reverseDirection(scope.column)
+        this.orderByField = scope.column
+        this.getTopOrders()
+      }
+    },
+    reverseDirection(column){
+      return column === this.orderByField? (this.orderByDirection === 'asc'? 'desc' : 'asc'): 'desc'
+    },
     async generateLabel(item) {
       const len = item.status_markable.length
       if (len < 1) {
@@ -352,7 +371,13 @@ export default {
     getTopOrders() {
       this.loading = true
       this.$axios
-          .get('/dashboard/vendor/orders?category_id=' + this.activeNav)
+          .get('/dashboard/vendor/orders', {
+            params: {
+              category_id: this.activeNav,
+              order_by_column: this.orderByField,
+              order_by_direction: this.orderByDirection
+            }
+          })
           .then((res) => {
             this.topOrders = res.data.data.data
           })
@@ -367,6 +392,10 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.sort-icon
+  &.asc
+    transform: rotate(180deg)
+
 ::v-deep.nav-grp
   width: 460px
   &.mobile

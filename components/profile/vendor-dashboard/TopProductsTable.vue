@@ -42,6 +42,13 @@
             <Loader :loading="loading"/>
           </div>
         </template>
+        <template #head()="scope">
+          <div class="text-nowrap" role="button" @click="orderBy(scope)">
+            <span class="mr-1">{{ scope.label }}</span>
+            <img v-if="scope.label" :src="require('~/assets/img/icons/down-arrow-solid.svg')" :alt="scope.label"
+                 class="sort-icon" :class="reverseDirection(scope.column)">
+          </div>
+        </template>
         <template #cell(product)="row">
           <div :class="{
                   'align-items-center': !isScreenXS,
@@ -148,25 +155,25 @@ export default {
         {
           key: 'product',
           label: this.$t('vendor_dashboard.product'),
-          sortable: true,
+          sortable: false,
           thClass: 'text-nowrap body-4-bold',
         },
         {
           key: 'average_sale_price',
           label: this.$t('vendor_dashboard.avg_price'),
-          sortable: true,
+          sortable: false,
           thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'sales_this_month',
           label: this.$t('vendor_dashboard.sales_this_month'),
-          sortable: true,
+          sortable: false,
           thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'total_sales',
           label: this.$tc('vendor_dashboard.total_sales', 1),
-          sortable: true,
+          sortable: false,
           thClass: 'text-nowrap text-center body-4-bold',
         },
         {
@@ -234,7 +241,9 @@ export default {
           value: '3',
         },
       ],
-      loading: false
+      loading: false,
+      orderByField: 'id',
+      orderByDirection: 'asc',
     }
   },
   computed: {
@@ -246,6 +255,16 @@ export default {
     this.getTopProducts()
   },
   methods: {
+    orderBy(scope){
+      if (scope.column !== 'actions'){
+        this.orderByDirection = this.reverseDirection(scope.column)
+        this.orderByField = scope.column
+        this.getTopProducts()
+      }
+    },
+    reverseDirection(column){
+      return column === this.orderByField? (this.orderByDirection === 'asc'? 'desc' : 'asc'): 'desc'
+    },
     navItem(val) {
       this.activeNav = val
       this.getTopProducts()
@@ -273,7 +292,13 @@ export default {
     getTopProducts() {
       this.loading = true
       this.$axios
-          .get('/dashboard/vendor/top-products?category_id=' + this.activeNav)
+          .get('/dashboard/vendor/top-products',{
+            params: {
+              category_id: this.activeNav,
+              order_by_column: this.orderByField,
+              order_by_direction: this.orderByDirection
+            }
+          })
           .then((res) => {
             this.topProducts = res.data.data
           })
@@ -288,6 +313,10 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.sort-icon
+  &.asc
+    transform: rotate(180deg)
+
 ::v-deep.p-web-row
   padding: 26px 28px
 
