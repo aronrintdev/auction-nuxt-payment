@@ -107,11 +107,11 @@ export default {
         bottomBannerButtonLink: '/browse',
         bottomBannerButtonText:
           'newest_features.damaged_packaging.bottom_banner.button_text',
-        previousPage:
-          'newest_features.damaged_packaging.bottom_banner.previous_page_title',
-        previousPageXS:
-          'newest_features.damaged_packaging.bottom_banner.previous_page_xs_title',
-        previousPageLink: '/features/international-languages',
+        // previousPage:
+        //   'newest_features.damaged_packaging.bottom_banner.previous_page_title',
+        // previousPageXS:
+        //   'newest_features.damaged_packaging.bottom_banner.previous_page_xs_title',
+        // previousPageLink: '/features/international-languages',
         nextPage:
           'newest_features.damaged_packaging.bottom_banner.next_page_title',
         nextPageXS:

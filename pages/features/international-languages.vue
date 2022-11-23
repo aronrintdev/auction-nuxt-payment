@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div>
     <FeatureContentWrapper
       :backgroundImage="banner.backgroundImage"
@@ -93,4 +93,4 @@ export default {
     width: 80%
     margin-top: 48px !important
     margin-bottom: 24px !important
-</style>
+</style> -->

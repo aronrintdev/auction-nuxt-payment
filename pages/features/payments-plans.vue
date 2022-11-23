@@ -162,11 +162,11 @@ export default {
         previousPageXS:
           'newest_features.payments_plans.bottom_banner.previous_page_xs_title',
         previousPageLink: '/features/virtual-giftcards',
-        nextPage:
-          'newest_features.payments_plans.bottom_banner.next_page_title',
-        nextPageXS:
-          'newest_features.payments_plans.bottom_banner.next_page_xs_title',
-        nextPageLink: '/features/international-languages',
+        // nextPage:
+        //   'newest_features.payments_plans.bottom_banner.next_page_title',
+        // nextPageXS:
+        //   'newest_features.payments_plans.bottom_banner.next_page_xs_title',
+        // nextPageLink: '/features/international-languages',
       },
     }
   },

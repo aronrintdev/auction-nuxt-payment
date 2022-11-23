@@ -67,11 +67,6 @@
               class="d-sm-none d-block mr-1"
             />
             <div class="d-block ml-2 ml-sm-3">
-              <!-- <p
-                class="previous mb-0 font-primary fs-18 fw-6 text-black d-none d-sm-block"
-              >
-                {{ $t('newest_features.previous') }}
-              </p> -->
               <p
                 class="previous-link mb-0 font-primary fs-18 fw-4 d-none d-sm-block"
               >
@@ -89,14 +84,15 @@
           v-if="nextPage && nextPageLink"
           :to="nextPageLink"
           class="next-text d-inline-flex justify-content-center align-items-center"
+          :class="{
+            'ml-auto':
+              previousPage === null &&
+              previousPageXS === null &&
+              previousPageLink === null,
+          }"
         >
           <div class="d-flex align-items-center">
             <div class="d-block mr-2 mr-sm-3">
-              <!-- <p
-                class="next mb-0 font-primary fs-18 fw-6 text-black text-right d-none d-sm-block"
-              >
-                {{ $t('newest_features.next') }}
-              </p> -->
               <p
                 class="next-link mb-0 font-primary fs-18 fw-4 d-none d-sm-block"
               >

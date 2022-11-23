@@ -143,11 +143,11 @@ export default {
         bottomBannerButtonLink: '/become-a-vendor',
         bottomBannerButtonText:
           'newest_features.csv_bulk_uploading.bottom_banner.button_text',
-        previousPage:
-          'newest_features.csv_bulk_uploading.bottom_banner.previous_page_title',
-        previousPageXS:
-          'newest_features.csv_bulk_uploading.bottom_banner.previous_page_xs_title',
-        previousPageLink: '/features/international-languages',
+        // previousPage:
+        //   'newest_features.csv_bulk_uploading.bottom_banner.previous_page_title',
+        // previousPageXS:
+        //   'newest_features.csv_bulk_uploading.bottom_banner.previous_page_xs_title',
+        // previousPageLink: '/features/international-languages',
         nextPage:
           'newest_features.csv_bulk_uploading.bottom_banner.next_page_title',
         nextPageXS:
