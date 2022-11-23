@@ -726,6 +726,13 @@ export default {
           tradeCondition: this.tradeCondition
         })
       }
+      else {
+        this.$store.commit('trade/updateActiveTrade', {
+          yourItems: this.getYourTradeItems,
+          cashAdded: parseInt(parseFloat(0.00) * 100),
+          tradeCondition: this.tradeCondition
+        })
+      }
     },
 
     /**
