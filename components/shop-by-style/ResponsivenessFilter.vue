@@ -4,10 +4,15 @@
     :class="{ scrolled: scrollPosition > 150 }"
   >
     <div class="d-flex align-items-center sf-wrapper">
-      <div class="searchbar-filter position-relative w-100" @click="open">
+      <div class="searchbar-filter position-relative w-100">
       </div>
-      <div class="setting-filter d-flex justify-content-start px-0 ml-2">
-        <FilterIcon class="filter_icon cursor-pointer" />
+      <div class="setting-filter d-flex justify-content-start px-0 ml-2" @click="open">
+        <Icon 
+          src="sbs-filter-icon.png"
+          width="40"
+          height="40"
+          class="btn-close"
+        />
       </div>
     </div>
     <vue-bottom-sheet
@@ -22,11 +27,11 @@
   </div>
 </template>
 <script>
-import FilterIcon from '~/assets/icons/FilterIcon'
+import { Icon } from '~/components/common'
 import ShopFiltersMobile from '~/components/shop-by-style/MobileFilters'
 export default {
   name: 'SearchAndFilter',
-  components: { FilterIcon, ShopFiltersMobile },
+  components: { ShopFiltersMobile, Icon },
   props: {
     date: {
       type: String,
