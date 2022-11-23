@@ -54,10 +54,16 @@
         </div>
       </template>
       <template #cell(colorway)="row">
-        {{ row.item.inventory.colorway }}
+        {{ row.item.inventory.product.colorway }}
       </template>
       <template #cell(sale_price)="row">
-        ${{ row.item.sale_price | formatPrice }}
+        ${{ row.item.inventory.sale_price | formatPrice }}
+      </template>
+      <template #cell(size)="row">
+        {{ row.item.inventory.size.size }}
+      </template>
+      <template #cell(listing_type)="row">
+        {{ row.item.inventory.type }}
       </template>
       <template #cell(bid_price)="row">
         ${{ row.item.bid_price | formatPrice }}

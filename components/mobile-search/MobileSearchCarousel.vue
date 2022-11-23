@@ -23,14 +23,15 @@
               @click.stop="()=> item.to ? $router.push(item.to) : null"
             >
               <div v-if="variant === 'trade' || variant === 'auction'">
-                <CountdownItem :time="5000000 * 3.8" :key="index" />
+                <CountdownItem :key="index" :time="5000000 * 3.8" />
                 <div class="bg-gray">
                   <ProductThumb
                     :src="variant === 'auction' ? item.auction_items[0].inventory.product.image : item.image"
                     :img-class="'m-0'"
-                    style="opacity: .9" />
+                    class="thumb"
+                  />
                 </div>
-                <div class="title mt-2 text-nowrap text-truncate">
+                <div class="title mt-2 text-nowrap text-truncate px-1">
                   <template v-if="variant === 'auction'">
                     {{ item.auction_items[0].inventory.product.name }}
                   </template>
@@ -38,20 +39,20 @@
                     {{ item.name }}
                   </template>
                 </div>
-                <div class="color text-gray-light fs-14 fw-5 font-secondary text-nowrap text-truncate">
+                <div class="color text-gray-light fs-14 fw-5 font-secondary text-nowrap text-truncate px-1">
                   {{ item.colorway }}
                 </div>
 
-                <div v-if="variant === 'trade'" class="d-flex justify-content-between">
+                <div v-if="variant === 'trade'" class="d-flex justify-content-between px-1 pb-1">
                   <div class="font-secondary fs-14 mt-1 text-black body-5-normal">
                    {{ $t('home_page.size')}} {{ item.inventory.length ? item.inventory[0].size.size : '-' }}
                   </div>
                   <a role="button" class="trade d-flex align-items-center" @click="$router.push(`/trades/${item.id}`)">
-                    <img src="~/assets/img/mobile-search/arrows.svg" /> <span class="ml-2">{{ $t('mobile_search.trade')}}</span>
+                    <img src="~/assets/img/browse/arrows.svg" /> <span class="ml-2">{{ $t('mobile_search.trade')}}</span>
                   </a>
                 </div>
 
-                <div v-else class="d-flex justify-content-sm-start w-100">
+                <div v-else class="d-flex justify-content-sm-start w-100 px-1 pb-1">
                  <div class="font-secondary fs-14 mt-1 text-black body-5-normal">
                    &dollar;{{ item.highest_bid ? item.highest_bid : item.start_bid_price | formatPrice }}
                  </div>
@@ -226,4 +227,13 @@ export default {
     padding: 5px 8px
     min-width: 60px
     height: 22px
+
+  .thumb
+    opacity: 0.9
+    padding-bottom: 15%
+    padding-top: 15%
+    background-color: $color-white
+    border: none
+    padding-left: 15px
+    padding-right: 15px
 </style>

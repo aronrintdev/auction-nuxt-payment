@@ -70,12 +70,12 @@ export default {
       font-weight: 600
       font-family: 'Montserrat'
       margin-top: 7px
-      max-width: 272px
+      max-width: 343px
     .feature-description
       font-size: 14px
       font-weight: 400
       font-family: 'Montserrat'
       line-height: 22px
       margin: 8px 0px 0px 0px !important
-      max-width: 272px
+      max-width: 343px
 </style>

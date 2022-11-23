@@ -32,11 +32,11 @@
                   <div class="col-xs-7">
                     <div class="info-single-reserve-info-prodct-mbl my-auto float-left">
                       <!-- Product name -->
-                      <div class="name-prodct-single-live-reserve-jordon mb-1 d-flex w-100">
-                        <span class="w-90">
+                      <div class="name-prodct-single-live-reserve-jordon mb-12 d-flex w-100 ">
+                        <span class="w-90 text-nowrap text-truncate">
                           {{ product.name }}
                         </span>
-                        
+
                       </div>
                       <!-- Product name ends -->
                       <!-- Product sku -->
@@ -72,10 +72,6 @@
                     </div>
                   </div>
                   <div class="col-xs-1">
-                    <span class="float-right view-icon d-flex align-items-center text-center" role="button" @click="viewMore">
-                      <img :src="require('~/assets/img/icons/eye2.svg')" alt="view-details" class="mr-1">
-                      {{ $t('common.view') }}
-                    </span>
                     <div v-if="delistMultiple" class="three-dots-icon-single-reserve-mbl float-right mx-3 mt-2">
                       <div
                         class="
@@ -116,7 +112,7 @@
             float-right
             auction-id-digit-num-live-single
             text-decoration-underline
-            text-primary
+            text-link
           "
           role="button"
           @click="viewMore"
@@ -125,32 +121,32 @@
       </div>
       <div class="single-live-auctions-listed-on-heading-mbl">
         {{ $t('selling_page.date_listed') }}&colon;
-        <span class="float-right">{{ result.created_at | formatDate }}</span>
+        <span class="float-right text-gray-6">{{ result.created_at | formatDate }}</span>
       </div>
       <div class="single-live-auctions-id-informtion">
         {{ $t('common.price') }}&colon;
 
-        <span class="float-right">{{
+        <span class="float-right text-gray-6">{{
           result.min_bid_price | toCurrency('USD', 'N/A')
         }}</span>
       </div>
       <!-- TODO Last sold -->
       <div class="single-live-auctions-listed-on-heading-mbl">
-        {{ $t('selling_page.last_sold') }}&colon; <span class="float-right">--</span>
+        {{ $t('selling_page.last_sold') }}&colon; <span class="float-right text-gray-6">--</span>
       </div>
         <!-- TODO Last Sold -->
       <div class="single-live-auctions-id-informtion">
-        {{ $t('place_offer.offer') }}&colon; 
-        <span v-if="result.status === listed" class="float-right">{{ getOffers(inventory) }}</span>
-        <span v-else class="float-right">{{ emptyOffer }}</span>
+        {{ $t('place_offer.offer') }}&colon;
+        <span v-if="result.status === listed" class="float-right text-gray-6">{{ getOffers(inventory) }}</span>
+        <span v-else class="float-right text-gray-6">{{ emptyOffer }}</span>
 
       </div>
       <div class="single-live-auctions-listed-on-heading-mbl">
-        {{ $t('place_offer.quantity') }}&colon; <span class="float-right">{{ result.quantity }}</span>
+        {{ $t('place_offer.quantity') }}&colon; <span class="float-right text-gray-6">{{ result.quantity }}</span>
       </div>
       <div class="single-live-auctions-id-informtion">
         {{ $t('selling_page.status') }}&colon;
-        
+
         <span
           class="
             float-right
@@ -275,6 +271,14 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.mw-200
+  max-width: 200px
+.text-link
+  color: $color-blue-30
+.text-gray-6
+  color: $color-gray-6
+.mb-12
+  margin-bottom: 12px
 .w-90
   width: 90%
 .single-live-reserve-section-box-collections

@@ -19,8 +19,8 @@
           v-model="type"
           :data="typeOptions"
           nav-key="shop-by-style-type"
-          @change="handleTypeChange"
           class="mt-0 w-345"
+          @change="handleTypeChange"
         />
         <Button
           ref="btnFilter"
@@ -45,7 +45,7 @@
       <ResponsivenessFilter :currentType="type" @renderStyles="getStyles"/>
     </div>
     <b-row v-if="type === 'look'" class="mt-0 ml-0 mr-0 look-view">
-      <b-col v-for="(style, index) in styles" :key="index" md="3" sm="6" class="p-0">
+      <b-col v-for="(style, index) in styles" :key="index" md="3" sm="3" class="p-0 mobile-styles">
         <ShopByStyleCard
           :style-id="style.id"
           :image-url="style.image"
@@ -53,9 +53,9 @@
         ></ShopByStyleCard>
       </b-col>
     </b-row>
-    <b-row v-else class="mt-0 ml-0 mr-0">
+    <b-row v-else class="mt-0 ml-0 mr-0 mobile-styles">
       <template v-for="(style, index) in styles">
-        <b-col v-if="index == 1" :key="index" lg="3" md="3" sm="6" class="p-0">
+        <b-col v-if="index == 1" :key="index" lg="3" md="3" sm="3" class="p-0 mobile-styles">
           <ShopByStyleCard
             :style-id="style.id"
             :image-url="style.image"
@@ -64,7 +64,7 @@
         </b-col>
       </template>
       <template v-for="(style, index) in styles">
-        <b-col v-if="index != 1" :key="index" lg="3" md="3" sm="6">
+        <b-col v-if="index != 1" :key="index" lg="3" md="3" sm="3" class="mobile-styles">
           <ShopByStyleCard
             :style-id="style.id"
             :image-url="style.image"
@@ -215,4 +215,14 @@ export default {
 @media (max-width: 576px)
   .container-shop-by-style
     padding: 0
+@media (max-width: 460px)
+  .look-view
+    margin: 0 0 !important
+  .mobile-styles
+    width: 33.3%
+  .container-shop-by-style 
+    .row 
+      > div 
+        .style-card
+          margin-bottom: 0
 </style>

@@ -117,19 +117,20 @@
               <b-col md="12" class="px-0">
                 <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
                   <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-                    <b-row class="d-lg-none d-flex"
-                      ><b-col
+                    <b-row class="d-lg-none d-flex">
+                      <b-col
                         class="d-flex justify-content-center flex-column align-items-center"
                       >
-                        <b-link to="/">
-                          <Logo class="img-fluid w-auto img-main" :height="53" />
-                        </b-link>
+                        <nuxt-link to="/">
+                          <Logo class="img-main" />
+                        </nuxt-link>
                         <span
-                          class="signup-heading fs-15 fw-5 font-primary w-75 text-center my-3 pre-line"
-                          >{{ $t('signup.create_your_account') }}</span
-                        ></b-col
-                      ></b-row
-                    >
+                          class="signup-heading fs-15 fw-5 font-primary w-75 text-center mb-3 pre-line"
+                        >
+                          {{ $t('signup.create_your_account') }}
+                        </span>
+                      </b-col>
+                    </b-row>
                     <NavGroup
                       :data="tabs"
                       :value="currentTab"
@@ -152,7 +153,7 @@
                           <b-form-input
                             id="first-name"
                             v-model="form.first_name"
-                            class="rounded-pill rounded-md input-signup"
+                            class="rounded-pill rounded-md input-signup ml-3"
                             :placeholder="$t('auth.first_name')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -163,7 +164,7 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1"
+                          class="success-check d-flex align-items-center px-1 pl-2"
                         >
                           <b-img
                             width="20"
@@ -188,7 +189,7 @@
                           <b-form-input
                             id="last-name"
                             v-model="form.last_name"
-                            class="rounded-pill input-signup"
+                            class="rounded-pill input-signup ml-3"
                             :placeholder="$t('auth.last_name')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -198,7 +199,7 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1"
+                          class="success-check d-flex align-items-center px-1 pl-2"
                         >
                           <b-img
                             width="20"
@@ -223,7 +224,7 @@
                           <b-form-input
                             id="username"
                             v-model="form.username"
-                            class="rounded-pill input-signup"
+                            class="rounded-pill input-signup ml-3"
                             :placeholder="$t('auth.username')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -234,7 +235,7 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1"
+                          class="success-check d-flex align-items-center px-1 pl-2"
                         >
                           <b-img
                             width="20"
@@ -259,7 +260,7 @@
                           <b-form-input
                             id="email-address"
                             v-model="form.email"
-                            class="rounded-pill input-signup"
+                            class="rounded-pill input-signup ml-3"
                             :placeholder="$t('auth.email_address')"
                             :state="getValidationState(validationContext)"
                           ></b-form-input>
@@ -269,7 +270,7 @@
                         </b-input-group>
                         <b-input-group-prepend
                           v-if="getValidationState(validationContext)"
-                          class="success-check d-flex align-items-center px-1"
+                          class="success-check d-flex align-items-center px-1 pl-2"
                         >
                           <b-img
                             width="20"
@@ -296,7 +297,7 @@
                           <b-form-input
                             id="password"
                             v-model="form.password"
-                            class="rounded-pill input-signup input-append"
+                            class="rounded-pill input-signup input-append ml-3"
                             :placeholder="$t('auth.password')"
                             :state="getValidationState(validationContext)"
                             :type="passwordFieldType"
@@ -352,7 +353,7 @@
                           <b-form-input
                             id="password-confirmation"
                             v-model="form.password_confirmation"
-                            class="rounded-pill input-signup input-append"
+                            class="rounded-pill input-signup input-append ml-3"
                             :placeholder="$t('auth.confirm_password')"
                             :state="getValidationState(validationContext)"
                             :type="confirmPasswordFieldType"
@@ -398,7 +399,7 @@
                             getValidationState(validationContext) ||
                             getValidationState(validationContext) === null
                           "
-                          class="body-5-normal text-color-gray-47 mt-2 text-lg-center validation minimum"
+                          class="body-5-normal text-color-gray-47 mt-2 text-lg-center validation minimum ml-3"
                         >
                           {{ $t('auth.password_validation_rule') }}
                         </div>
@@ -756,7 +757,6 @@ export default {
   .input-signup
     font-size: 15px
     line-height: 18px
-    color: $color-gray-47
 
   .form-area::v-deep
     padding: 0px 1px
@@ -797,9 +797,6 @@ export default {
       color: $color-gray-5
       font-style: normal
       font-weight: $bold
-    .logo-img
-      width: 134px
-      height: 53px
     .validation
       font-size: 10px !important
       font-weight: 500 !important
@@ -824,8 +821,6 @@ export default {
         width: 50px !important
 
 @media (min-width: 320px) and (max-width: 556px)
-  .input-signup
-    left: 10px !important
   .img-main
     margin: 0 auto
 </style>

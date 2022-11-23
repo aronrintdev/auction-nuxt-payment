@@ -61,6 +61,7 @@ export default {
 
   &:hover
     transform: scale(1.1)
+    cursor: pointer
 
   .feature-title
     @include heading-1

@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" class="navbar-wrapper border-bottom">
+  <b-navbar toggleable="lg" :class="`navbar-wrapper ${!mobileClass && 'border-bottom'}`">
     <PortalTarget name="back-icon-slot">
       <b-navbar-toggle target="top-menu-sidebar">
         <template #default>

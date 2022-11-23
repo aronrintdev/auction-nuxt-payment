@@ -1618,11 +1618,13 @@
     "or_4_installments": "or 4 installments",
     "of_price": "of {price}",
     "authenticity_guaranteed": "Authenticity\nGuaranteed",
+    "deadstock_guarantee": "Deadstock\nGuarantee",
     "select_size": "Select Size",
     "error": {
       "select_size": "Please select a size above to add to cart",
       "select_size_to_offer": "Please select a size above to make an offer",
       "out_of_stock": "Unfortunately, this item and size is currently out of stock!",
+      "out_of_stock_place_offer": "Item out of stock, place offer or get notified",
       "enter_valid_amount": "Please enter valid offer amount",
       "not_found": "Product is not found",
       "select_shipping_type": "Please select a shipping type above"
@@ -2568,6 +2570,7 @@
     "checkout": "Checkout",
     "options": "Options",
     "change_size": "Change size",
+    "create_an_account": "Create an Account",
     "create_new_list": "Create New List",
     "move_to_wishilist": "Move to wishlist",
     "remove_from_wishilist": "Remove from wishlist",
@@ -2575,6 +2578,7 @@
     "remove_from_bag": "Remove from bag",
     "remove_from_wishlist": "Remove from wishlist",
     "shopping_cart": "Shopping Cart",
+    "proceed": "Proceed",
     "item": "Item | Items",
     "have_promo_code": "Have a Promo Code",
     "item_purchasing": "Item Purchasing | Items Purchasing",
@@ -3796,6 +3800,8 @@
     }
   },
   "vendor_purchase": {
+    "their_value": "THEIR VALUE",
+    "your_value": "YOUR VALUE",
     "product": "Product",
     "purchases": "Purchases",
     "search_purchases": "Search Purchases",
@@ -4497,6 +4503,8 @@
       "their_counter_offerHistory": "Their Counter Offer",
       "your_counter_offer": "Your Counter Offer",
       "their_offer": "Their Offer",
+      "you_offered": "You Offered",
+      "they_offered": "They Offered",
       "create_listing_btn": "Create a Trade Listing",
       "trades": "Trades",
       "trade_hub": "Trade Hub",
@@ -5393,8 +5401,7 @@
       },
       "statuses": {
         "paid": "Paid",
-        "due": "Due",
-        "pending": "Pending"
+        "due": "Due"
       },
       "yes": "Yes",
       "no": "No"
@@ -5846,6 +5853,7 @@
     "save_for_later": "Save for later"
   },
   "offers_received": {
+    "offers"  : "Offers",
     "heading": "Offers Received",
     "your_placed_offers": "Your Received Offers ({count})",
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",

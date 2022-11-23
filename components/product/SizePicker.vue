@@ -47,7 +47,8 @@
             576: { items: 6, nav: false },
             1268: { items: 5, nav: false },
           }"
-          :mouse-drag="false"
+          :mouse-drag="mouseDrag"
+          :show-arrows="arrowsVisible"
           :nav-text="['', '']"
           :dots="false"
           :autoWidth="true"
@@ -78,29 +79,27 @@
 
           <template #prev>
             <div
-              v-if="arrowsVisible"
               class="owl-nav owl-prev"
               :style="arrowStyle"
             >
-              <img :src="require('~/assets/img/icons/arrow-left-gray.svg')" />
+              <b-img :src="require('~/assets/img/icons/arrow-left-gray.svg')" />
             </div>
           </template>
 
           <template #next>
             <div
-              v-if="arrowsVisible"
               class="owl-nav owl-next"
               :style="arrowStyle"
             >
-              <img :src="require('~/assets/img/icons/arrow-right-gray.svg')" />
+              <b-img :src="require('~/assets/img/icons/arrow-right-gray.svg')" />
             </div>
           </template>
         </Carousel>
       </client-only>
     </div>
 
-    <div 
-      v-if="viewMode === 'all'" 
+    <div
+      v-if="viewMode === 'all'"
       class="mx-auto position-relative all-sizes"
       :class="allSizesClass"
     >
@@ -197,6 +196,10 @@ export default {
       default: () => {}
     },
     arrowsVisible: {
+      type: Boolean,
+      default: true,
+    },
+    mouseDrag: {
       type: Boolean,
       default: true,
     },
@@ -351,7 +354,7 @@ export default {
 
   .size-carousel::v-deep
     max-width: 100%
-    padding: 0 20px
+    padding: 0
     margin-top: 8px
 
     >span .owl-nav

@@ -17,6 +17,7 @@ import PaymentCrypto from '~/components/checkout/selling/mobile/payment/PaymentC
 import PaymentGiftCard from '~/components/checkout/selling/mobile/payment/PaymentGiftCard'
 import WishList from '~/components/checkout/selling/mobile/WishList'
 import CreateWishList from '~/components/checkout/selling/mobile/CreateWishList'
+import SignUpForm from '~/components/checkout/selling/mobile/SignUpForm'
 
 export default {
   name: 'ShoppingCartOrder',
@@ -33,6 +34,7 @@ export default {
     PaymentGiftCard,
     WishList,
     CreateWishList,
+    SignUpForm,
   },
   data: () => {
     return {

@@ -52,6 +52,8 @@ export default {
   border-radius: 14px
   padding: 36px 22px
   color: $color-black-1
+  &:hover
+    cursor: pointer
 
   &:not(:last-of-type)
     margin-right: 42px

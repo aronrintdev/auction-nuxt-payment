@@ -13,30 +13,36 @@
         borderless
         :items="searchResults"
         :fields="fields"
+        :busy="loading"
         responsive
         tbody-tr-class="bg-white vd-selling-bt"
       >
+        <template #table-busy>
+          <div class="d-flex align-items-center justify-content-center">
+            <Loader :loading="loading"></Loader>
+          </div>
+        </template>
         <template #cell(products)="row">
           <div class="row">
-            <div v-if="showCheckBox" class="vdCheckBox-1 col-md-2 m-auto">
-              <b-form-checkbox
-                :id="`checkbox-${row.item.id}`"
-                v-model="selectedVal"
-                :value="row.item.id"
-                class="vd-checkbox"
-                name="checkbox-move-items"
-                @change="toggleSelect(row.item.id)"
-              >
-              </b-form-checkbox>
-            </div>
-            <div class="vd-sell-product-img col-md-10 text-center">
-              <img
-                :src="getImage(row.item.inventory.product.image)"
-                alt="Product Picture"
-                width="auto"
-                @error="imageLoadError"
-              />
-              <br />
+            <div class="vd-sell-product-img text-center ">
+              <div class="d-flex align-items-center mb-2">
+                <b-form-checkbox
+                    v-if="showCheckBox"
+                    :id="`checkbox-${row.item.id}`"
+                    v-model="selectedVal"
+                    :value="row.item.id"
+                    class="vd-checkbox mr-2"
+                    name="checkbox-move-items"
+                    @change="toggleSelect(row.item.id)"
+                >
+                </b-form-checkbox>
+                <img
+                    :src="getImage(row.item.inventory.product.image)"
+                    alt="Product Picture"
+                    width="auto"
+                    @error="imageLoadError"
+                />
+              </div>
               <span class="list-id text-center text-decoration-underline" role="button" @click="handleEditClick(row.item.id)">&#35;{{ row.item.id }}</span>
             </div>
           </div>
@@ -122,10 +128,11 @@ import {
   ACCEPTED_OFFER,
   LISTED
 } from '~/static/constants'
+import Loader from '~/components/common/Loader';
 
 export default {
   name: 'ListItem',
-
+  components: {Loader},
   props: {
     // Search result
     searchResults: {
@@ -165,53 +172,56 @@ export default {
           key: 'products',
           label: this.$t('selling_page.product'),
           sortable: false,
+          thClass: 'body-4-bold font-primary text-nowrap mr-4',
+          thStyle: { width: '170px' }
         },
         {
           key: 'product_details',
           label: '',
           sortable: false,
+          thClass: 'body-4-bold font-primary text-nowrap '
         },
         {
           key: 'date_listed',
           label: this.$t('selling_page.date_listed'),
           sortable: true,
-          tdClass: 'text-center custom-width',
-          thClass: 'text-center custom-width',
+          tdClass: 'body-4-regular text-center custom-width',
+          thClass: 'body-4-bold font-primary text-nowrap text-center custom-width',
         },
         {
           key: 'price',
           label: this.$t('common.price'),
           sortable: true,
-          tdClass: 'text-center custom-width',
-          thClass: 'text-center custom-width',
+          tdClass: 'body-4-regular text-center custom-width',
+          thClass: 'body-4-bold font-primary text-nowrap text-center custom-width',
         },
         {
           key: 'last_sold',
           label: this.$t('sell.sell_now.last_sold'),
           sortable: true,
-          tdClass: 'text-center custom-width',
-          thClass: 'text-center custom-width',
+          tdClass: 'body-4-regular text-center custom-width',
+          thClass: 'body-4-bold font-primary text-nowrap text-center custom-width',
         },
         {
           key: 'offers',
           label: this.$t('selling_page.offers'),
           sortable: true,
-          tdClass: 'text-center',
-          thClass: 'text-center',
+          tdClass: 'body-4-regular text-center',
+          thClass: 'body-4-bold font-primary text-nowrap text-center',
         },
         {
           key: 'qty',
           label: this.$t('selling_page.qty'),
           sortable: true,
-          tdClass: 'text-center',
-          thClass: 'text-center',
+          tdClass: 'body-4-regular text-center',
+          thClass: 'body-4-bold font-primary text-nowrap text-center',
         },
         {
           key: 'status',
           label: this.$t('selling_page.status'),
           sortable: true,
-          tdClass: 'text-center',
-          thClass: 'text-center',
+          tdClass: 'body-4-regular text-center',
+          thClass: 'body-4-bold font-primary text-nowrap text-center',
         },
       ],
       productImageWidth: PRODUCT_IMG_WIDTH,
@@ -278,27 +288,33 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.mt-3p
+  margin-top: 3px
+
 .vd-sku,
 .vd-color,
 .vd-condition
   font-family: $font-sp-pro
   font-style: normal
-  @include body-10-normal
+  @include body-21-normal
   color: $color-gray-6
+  margin-top: 3px
+
 .vd-product-title
   font-family: $font-sf-pro-text
   font-style: normal
-  @include body-8-medium
+  @include body-5-medium
   color: $color-black-1
 .vd-sell-product-img
-  left: 22.29%
-  right: 70%
-  top: 28.31%
-  bottom: 68.59%
+  margin-right: 30px
+  margin-left: auto
+  img
+    width: 100px
+    object-fit: cover
+
 .table-text
   font-family: $font-sp-pro
   font-style: normal
-  @include body-4-normal
   color: $color-black-1
 .list-id
   font-family: $font-sp-pro

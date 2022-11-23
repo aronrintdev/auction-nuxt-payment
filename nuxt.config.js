@@ -3,8 +3,23 @@ import webpack from 'webpack'
 
 export default defineNuxtConfig({
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  // ssr: false,
-
+  ssr:false,
+  nitro: false,
+  bridge: {
+    nitro: false
+},
+  target: 'static',
+  render: {
+    resourceHints: false,
+    bundleRenderer: {
+      shouldPrefetch: (file, type) => {
+        return false
+      },
+      shouldPreload: (file, type) => {
+        return false
+      },
+    },
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Deadstock',
@@ -55,9 +70,9 @@ export default defineNuxtConfig({
     { src: '~/plugins/magic360.js', mode: 'client' },
     { src: '~/plugins/tawk.js', mode: 'client' },
     { src: '~/plugins/portal', mode: 'client' },
-    { src: '~/plugins/vue-bottom-sheet.js', mode: 'client'},
-    { src: '~/plugins/vue-click-outside.js', mode: 'client'},
-    { src: '~/plugins/v-calendar.js', mode: 'client'},
+    { src: '~/plugins/vue-bottom-sheet.js', mode: 'client' },
+    { src: '~/plugins/vue-click-outside.js', mode: 'client' },
+    { src: '~/plugins/v-calendar.js', mode: 'client' },
     { src: '~/plugins/infinteloading', mode: 'client' },
     { src: '~/plugins/vue-moment.js', mode: 'client' },
     { src: '~/plugins/numberOnly.js', mode: 'client' },
@@ -72,16 +87,18 @@ export default defineNuxtConfig({
     '@nuxtjs/dotenv',
     '@nuxtjs/html-validator',
     '@nuxtjs/svg',
+    'nuxt-compress',
   ],
-
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
+    ['@nuxtjs/html-minifier', { log: 'once', logHtml: true }],
     '@nuxtjs/auth-next',
     'vue-social-sharing/nuxt',
     'nuxt-clipboard',
     '@nuxtjs/recaptcha',
+    'nuxt-compress',
   ],
   bootstrapVue: {
     icons: true,
@@ -144,11 +161,31 @@ export default defineNuxtConfig({
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    html: {
+      minify: {
+        collapseBooleanAttributes: true,
+        decodeEntities: true,
+        minifyCSS: true,
+        minifyJS: true,
+        processConditionalComments: true,
+        removeEmptyAttributes: true,
+        removeRedundantAttributes: true,
+        trimCustomFragments: true,
+        useShortDoctype: true,
+        minifyURLs: true,
+        removeComments: true,
+        removeEmptyElements: true,
+        preserveLineBreaks: false,
+        collapseWhitespace: true,
+      },
+    },
     babel: {
       compact: true,
     },
     transpile: ['vee-validate/dist/rules'],
-    extend(config, ctx) {},
+    extend(config, ctx) {
+      config.performance.hints = false
+    },
     extractCSS: process.env.NODE_ENV !== 'development', // Disable in development mode for debugging css
     plugins: [
       new webpack.ProvidePlugin({
@@ -160,10 +197,13 @@ export default defineNuxtConfig({
   },
 
   generate: {
+    crawler: true,
+    dir: '.dist',
     fallback: '404.html',
   },
 
   router: {
+    prefetchLinks: false,
     middleware: ['i18n', 'remember'],
   },
 
@@ -175,7 +215,7 @@ export default defineNuxtConfig({
 
   htmlValidator: {
     usePrettier: true,
-    failOnError: true,
+    failOnError: false,
   },
 
   publicRuntimeConfig: {

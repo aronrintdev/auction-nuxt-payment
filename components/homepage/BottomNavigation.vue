@@ -22,17 +22,17 @@
       </nuxt-link>
       <nuxt-link class="navLink" to="/shop">
         <shop :active="$route.path === '/shop'" />
-        <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
+        <h6 class="mb-0 fs-12 fw-5 font-primary text-white shop-text">
           {{ $t('navbar.shop') }}
         </h6>
       </nuxt-link>
-      <nuxt-link v-if="authenticated" class="navLink" to="/trades">
+      <nuxt-link class="navLink" to="/trades">
         <trade :active="$route.path === '/trades'" />
         <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
           {{ $t('navbar.trade') }}
         </h6>
       </nuxt-link>
-      <nuxt-link v-if="authenticated" class="navLink" to="/auction">
+      <nuxt-link class="navLink" to="/auction">
         <auction :active="$route.path === '/auction'" />
         <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
           {{ $t('navbar.auction') }}
@@ -42,12 +42,6 @@
         <profile :active="$route.path === '/profile/preferences'" />
         <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
           {{ $t('navbar.profile') }}
-        </h6>
-      </nuxt-link>
-      <nuxt-link v-if="!authenticated" class="navLink" to="/login">
-        <profile :active="$route.path === '/login'" />
-        <h6 class="mb-0 fs-12 fw-5 font-primary text-white mt-2">
-          {{ $t('navbar.login') }}
         </h6>
       </nuxt-link>
     </div>
@@ -86,14 +80,13 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+
 @import '/assets/css/variables'
 
 .bottom-navigation
     bottom: 0
     z-index: 9999
     padding-bottom: 30px
-
-.fs-12
-  @include body-18
-  letter-spacing: -0.02em
+.shop-text
+  margin-top: 5px
 </style>

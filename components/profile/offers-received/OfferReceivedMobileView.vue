@@ -9,8 +9,7 @@
             d-flex
             align-items-center
             justify-content-center
-            text-capitalize
-            text-center
+            text-capitalize text-center
           "
           :class="offerStatus"
         >
@@ -70,8 +69,8 @@
       </div>
 
       <div class="col-xs-8 product-mobile-details">
-        <div v-if="!hideButtons" class="product-name">{{ productName }}</div>
-        <div v-if="hideButtons" class="product-name" @click="showDetailPage">
+        <div v-if="!hideButtons" class="product-name text-truncate">{{ productName }}</div>
+        <div v-if="hideButtons" class="product-name text-truncate" @click="showDetailPage">
           {{ productName }}
         </div>
         <div class="custom-height"></div>
@@ -99,7 +98,15 @@
           offerAmount | toCurrency('USD', 'N/A')
         }}</span>
       </div>
-      <div class="col-xs-12 d-flex justify-content-between background-grey list-item-details">
+      <div
+        class="
+          col-xs-12
+          d-flex
+          justify-content-between
+          background-grey
+          list-item-details
+        "
+      >
         <span class="offer-details-key my-auto mx-2">
           {{ $t('selling_page.offer_date') }}&colon;
         </span>
@@ -220,7 +227,7 @@ export default {
       declinedOffer: DECLINED_OFFER,
       pendingOffer: PENDING_OFFER,
       hideOnConfirm: false,
-      selected: false
+      selected: false,
     }
   },
 
@@ -333,7 +340,7 @@ export default {
       this.$axios
         .put(`/listing-items/offers/${this.action}/${this.offer.id}`)
         .then((res) => {
-          this.$parent.getOffers()
+          this.$emit('reload')
           this.hideOnConfirm = true
           this.action = null
           this.showConfirmation = false
@@ -374,11 +381,15 @@ export default {
       background: $color-white-5
 
     .offer-details-key
-      font-family: $font-sp-pro
+      width: 97px
+      height: 15px
+      left: 36px
+      top: 511px
+      font-family: $font-montserrat
       font-style: normal
       @include body-9-medium
       color: $color-black-1
-      box-sizing: border-box
+
     .offer-details-value
       font-family: $font-sp-pro
       font-style: normal
@@ -393,33 +404,30 @@ export default {
     .custom-height
       height: 12px
     .product-name
-      width: 90%
       left: 124px
       top: 12px
       font-family: $font-sp-pro
       font-style: normal
       @include body-5-medium
       color: $color-black-1
+      width: 150px
+      height: 17px
+      left: 140px
+      top: 989px
     .product-sku
-      left: 124px
-      top: 41px
       font-family: $font-sp-pro
       font-style: normal
-      @include body-20-normal
+      @include body-6-normal
       color: $color-gray-5
     .product-colorway-size
-      left: 124px
-      top: 56px
       font-family: $font-sp-pro
       font-style: normal
-      @include body-20-normal
+      @include body-6-normal
       color: $color-gray-5
     .product-condition
-      left: 124px
-      top: 71px
       font-family: $font-sp-pro
       font-style: normal
-      @include body-20-normal
+      @include body-6-normal
       color: $color-gray-6
   .decline-btn
     box-sizing: border-box
@@ -491,5 +499,5 @@ export default {
     height: 1.1rem
 @media (min-width: 417px) and (max-width: 575px)
   .offer-received-item-wrapper
-    height: 293px
+    height: 229px
 </style>

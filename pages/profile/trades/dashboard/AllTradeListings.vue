@@ -1,6 +1,6 @@
 <template>
   <b-col class="container-trade-dashboard">
-    <div class="mt-4 heading-dashboard" v-if="!isScreenXS">
+    <div v-if="!isScreenXS" class="mt-4 heading-dashboard">
       {{ $t('trades.my_trade_listings') }}
     </div>
     <div v-if="isScreenXS">
@@ -355,8 +355,8 @@ export default {
     tradeListingItemsMobile:()=> import('./TradeListingItemsMobile'),
     tradeListingItemsWeb:()=>import('./TradeListingItemsWeb'),
   },
-  layout: 'Profile',
   mixins: [ScreenSize],
+  layout: 'Profile',
   data (){
     return {
       isVisible:false,

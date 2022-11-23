@@ -4,7 +4,7 @@
       <NotificationSettingsSection :items="settings('shop')" :path="titlePath('shop')"
                                    :title="$t('notifications.settings.shop')"/>
     </div>
-    <div class="mt-3">
+    <div v-if="isVendor" class="mt-3">
       <NotificationSettingsSection :items="settings('trade')" :path="titlePath('trade')"
                                    :title="$t('notifications.settings.trade')"/>
     </div>
@@ -37,7 +37,8 @@ export default {
       }
     },
     ...mapGetters({
-      'getSettings': 'notifications/getSettings'
+      'getSettings': 'notifications/getSettings',
+      isVendor: 'auth/isVendor',
     }),
     settings() {
       return category => {

@@ -1,9 +1,6 @@
 <template>
   <div class="row mt-md-4 mt-2 vd-purchase-history">
-    <div class="col-12 d-flex align-items-center justify-content-between   mt-md-4 mt-2">
-      <span class="body-16-bold font-secondary">{{
-          $t('vendor_purchase.purchase_summary')
-        }}</span>
+    <div class="d-flex justify-content-end align-items-end">
       <!-- Export to PDF -->
       <Button
           v-if="exportStatus.includes(purchaseStatus) || orderType === giftCard"
@@ -14,73 +11,26 @@
       </Button>
       <!-- Export to PDF -->
     </div>
+
     <!-- Purchase Summary Details -->
     <div class="col-12 purchase-summary-details mt-3">
-      <b-card class="shadow-none border card-web position-relative">
-        <div class="d-flex justify-content-between mb-27">
-          <!-- Order Id with type -->
-          <div>
-            <h5 class="body-15-bold font-secondary text-capitalize">
-              {{
-                $t('vendor_purchase.order', {orderNo: orderDetails.order_id})
-              }}&nbsp;({{ orderType }})
-            </h5>
+      <b-card class="shadow-none border box-order position-relative">
+          <div class="order-heading">
+            {{
+              $t('vendor_purchase.order', {orderNo: orderDetails.order_id})
+            }}&nbsp;({{ orderType }})
           </div>
-          <!-- ./Order Id with type -->
-          <!-- Order Status -->
-          <div class="order-bar">
-            <div
-                v-if="ORDERS_HAS_ITEMS.includes(orderType) && purchaseStatus !== multiple"
-                :id="purchaseStatus.toLowerCase()"
-            >
-              <div>
-                {{ orderDetails.status_label }}
-              </div>
-            </div>
-            <div
-                v-if="orderType === giftCard"
-                :id="orderDetails.orderable.status.toLowerCase()"
-                class="success-status d-flex align-items-center float-right"
-            >
-              <div class="p-3 text-uppercase">
-                {{ $t(`vendor_purchase.orderstatus.${purchaseStatus}`) }}
-              </div>
-            </div>
-          </div>
-          <!-- ./Order Status -->
-        </div>
-
-        <div>
-          <!-- Ordered on Date -->
-          <div
-              v-if="orderDetails.quantity === 1"
-              class="body-12-medium font-secondary text-capitalize  mb-14"
-          >
+          <div class="order-created">
             {{
               $t('vendor_purchase.ordered_on', {
                 orderedDate: $options.filters.formatDateTimeString(
-                    orderDetails.created_at
+                  orderDetails.created_at
                 ),
               })
             }}
           </div>
-          <span v-else class="text-bold text-capitalize"
-          >{{ itemQuantity }}&nbsp;{{ $tc('common.item', 1) }}</span
-          >
-          <!-- Ordered on Date -->
-          <span
-              v-if="orderType !== giftCard && orderDetails.quantity === 1 && orderDetails.items.length>=1 && orderDetails.items[0].shipment"
-              class="d-flex shipping-label"
-          >
-            {{ $t('vendor_purchase.shipping_carrier') }}&colon;
-            {{
-              orderDetails.items[0].shipment.shipping_method_text
-            }}
-          </span>
-          <!-- ./Shipping Label -->
-        </div>
         <!-- Shipping Address -->
-        <b-card-text v-if="ORDERS_HAS_ITEMS.includes(orderType)" class="shipping-address mb-62">
+        <b-card-text v-if="ORDERS_HAS_ITEMS.includes(orderType)" class="shipping-address">
           <div class="body-13-medium font-secondary">
             {{ $t('vendor_purchase.shipping_address') }}&colon;
             {{ shippingAddress }}
@@ -96,17 +46,6 @@
         </b-card-text>
         <!-- ./Shipping Address -->
         <!-- Details: Single Order-->
-        <SingleOrderVue
-            v-if=" ORDERS_HAS_ITEMS.includes(orderType)"
-            :orderDetails="orderDetails.items"
-            :fullOrderDetails='orderDetails'
-            :fields="fields"
-            :orderType="orderType"
-            :itemCount="orderDetails.quantity"
-            :timelineStatus="timelineStatus"
-            :itemStatus="purchaseStatus"
-            :updatedAt="orderDetails.updated_at"
-        />
 
         <SingleOrderVue
             v-if="orderType === giftCard"
@@ -433,4 +372,18 @@ export default {
   @include heading-9
   color: $color-green-20
   background: none
+.order-heading
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $bold
+  font-size: 22px
+  line-height: 26px
+  color: $color-black-1
+.order-created
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $medium
+  @mixin body-12
+  color: $color-black-1
+
 </style>

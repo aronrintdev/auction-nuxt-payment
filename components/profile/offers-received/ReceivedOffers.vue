@@ -51,11 +51,20 @@
               @error="imageLoadError"
             />
 
-            <span role="button" class="listing-id text-decoration-underline" @click="$router.push(`/profile/vendor-selling/details/${getListingID(row.item)}`)">{{
-              $t('placed_offers.listing_id', {
-                listingID: getListingID(row.item),
-              })
-            }}</span>
+            <span
+              role="button"
+              class="listing-id text-decoration-underline"
+              @click="
+                $router.push(
+                  `/profile/vendor-selling/details/${getListingID(row.item)}`
+                )
+              "
+              >{{
+                $t('placed_offers.listing_id', {
+                  listingID: getListingID(row.item),
+                })
+              }}</span
+            >
           </div>
         </div>
       </template>
@@ -100,7 +109,10 @@
 
       <template #cell(actions)="row" class="text-center">
         <div class="action-col">
-          <div v-if="row.item.status === PENDING_OFFER" class="d-flex justify-content-center">
+          <div
+            v-if="row.item.status === PENDING_OFFER"
+            class="d-flex justify-content-center"
+          >
             <Button
               variant="outline-success mr-4"
               class="br-10"
@@ -224,8 +236,9 @@ export default {
         },
         {
           key: 'products',
-          label: this.$t('placed_offers.table.products'),
+          label: this.$tc('common.product', 1),
           sortable: true,
+          thClass: 'active-row',
         },
         {
           key: 'product_details',
@@ -236,21 +249,21 @@ export default {
           key: 'offer_amount',
           label: this.$t('placed_offers.table.offer_amount'),
           sortable: false,
-          thClass: 'text-center',
+          thClass: 'text-center active-row',
           tdClass: 'text-center',
         },
         {
           key: 'expires',
           label: this.$t('placed_offers.table.expires'),
           sortable: true,
-          thClass: 'text-center',
+          thClass: 'text-center active-row',
           tdClass: 'text-center',
         },
         {
           key: 'actions',
           label: this.$t('placed_offers.table.actions'),
           sortable: true,
-          thClass: 'text-center ',
+          thClass: 'text-center active-row',
           tdClass: 'text-center action-width',
         },
       ],
@@ -357,13 +370,15 @@ export default {
       const sizeId = value.size_id
       const conditionId = value.packaging_condition_id
 
-
       const result = value.product.inventories.find(
-        (i) => i.size_id === sizeId && i.product_id === productId && i.packaging_condition_id === conditionId
+        (i) =>
+          i.size_id === sizeId &&
+          i.product_id === productId &&
+          i.packaging_condition_id === conditionId
       )
-      if(result && result.listing_items.length){
+      if (result && result.listing_items.length) {
         return result.listing_items[0].id
-      }else{
+      } else {
         return '--'
       }
     },
@@ -385,9 +400,9 @@ export default {
   @include body-4-normal
   color: $color-red-3
 .vd-product-title
-  font-style: normal
   font-family: $font-sp-pro
-  @include body-5-bold
+  font-style: normal
+  @include body-8-medium
   color: $color-black-1
 .vd-sku,
 .vd-color,
@@ -412,9 +427,11 @@ export default {
 .btn-outline-danger
   font-family: $font-sp-pro
 .offer-amount
+  font-family: $font-sf-pro-text
   font-style: normal
-  @include body-4-normal
+  @include body-13-normal
   color: $color-black-1
+
 .remove-from-list
   font-style: normal
   @include body-4-normal
@@ -422,6 +439,7 @@ export default {
 :deep(.offers-table-head > th)
   display: none
 .listing-id
+  font-family: $font-sf-pro-text
   font-style: normal
   @include body-5-bold
   color: $color-blue-1
@@ -450,5 +468,64 @@ export default {
       font-family: $font-sp-pro
       font-style: normal
       @include body-13-normal
+      color: $color-red-3
+.offer-placed-table::v-deep
+  .offer-table
+    .table.b-table > thead > tr > [aria-sort=none]
+      background-image: url('~/assets/img/icons/table-carot.svg')
+      background-size: 9px
+    .table.b-table > thead > tr > [aria-sort=ascending]
+      background-image: url('~/assets/img/icons/table-carot.svg')
+      background-size: 9px
+    .table.b-table > thead > tr > [aria-sort=descending]
+      background-image: url('~/assets/img/icons/table-carot.svg')
+      background-size: 9px
+    .expire-date
+      font-family: $font-sp-pro
+      font-style: normal
+      @include body-13-normal
+      color: $color-black-1
+
+    .active-row
+      div
+        width: 116px
+        height: 20px
+        left: 769px
+        top: 453px
+        font-family: $font-montserrat
+        font-style: normal
+        @include body-4-bold
+        display: inline
+        align-items: center
+        color: $color-black-1
+  .action-col
+    .btn-outline-success
+      width: 115px
+      left: calc(50% - 115px/2 + 463.5px)
+      top: 57.08%
+      bottom: 41.07%
+      border: 1px solid $color-green-2
+      border-radius: 10px
+      font-family: $font-sp-pro
+      font-style: normal
+      @include body-13-normal
+      display: flex
+      align-items: center
+      text-align: center
+      color: $color-green-2
+
+    .btn-outline-danger
+      width: 115px
+      left: calc(50% - 115px/2 + 602.5px)
+      top: 57.14%
+      bottom: 41.02%
+      border: 1px solid $color-red-3
+      border-radius: 10px
+      font-family: $font-sp-pro
+      font-style: normal
+      @include body-13-normal
+      display: flex
+      align-items: center
+      text-align: center
       color: $color-red-3
 </style>

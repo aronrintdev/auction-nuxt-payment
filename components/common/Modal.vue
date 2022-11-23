@@ -9,7 +9,9 @@
     no-stacking
     :body-class="`px-4 py-3`"
     :modal-class="modalClass"
+    :content-class="`rounded-0 shadow-none`"
     :size="size"
+    :hide-backdrop="hideBackdrop"
     @shown="$emit('shown')"
     @hidden="$emit('hidden')"
   >
@@ -60,6 +62,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    hideBackdrop: {
+      type: Boolean,
+      default: false,
+    },
     noHeaderBorder: {
       type: Boolean,
       default: false,
@@ -92,4 +98,5 @@ export default {
   float: right
   text-align: right
   margin-left: auto
+
 </style>
