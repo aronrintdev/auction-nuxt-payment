@@ -230,27 +230,23 @@
       </div>
       <!-- ./Col5 ends -->
     </div>
-    <div class="row">
-      <div class="col-md-12 col-sm-12 text-center slider-container-col">
-        <!-- TODO: Slider -->
-        <div class="slider-container m-auto">
-          <div class="slider-wrapper">
-            <p class="text-bold text-capitalize">{{ $tc(status) }}</p>
-            <b-form-input
-              id="type-range"
-              v-model="sliderVal"
-              class="slider rounded-pill"
-              type="range"
-            ></b-form-input>
-          </div>
-        </div>
-        <!-- ./TODO: Slider -->
+    <div class="d-flex justify-content-center align-items-center mt-4">
+      <div class="fair-trade-division-mobile">
+        <Meter :highest="getTheirTotal(false)"
+               :lowest="0"
+               :value="getYourTotal(false)"
+               :fair="getFairTradeValue()"
+               heading="trades.trade_arena.fair_trade_meter"
+        />
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
+import Meter from '~/components/common/Meter'
+import {DEFAULT_FAIR_TRADE_VALUE} from '~/static/constants/trades';
 export default {
   name: 'TradeItem',
 
@@ -261,7 +257,9 @@ export default {
       required: true,
     },
   },
-
+  components: {
+    Meter,
+  },
   data() {
     return {
       sliderVal: '',
@@ -269,6 +267,7 @@ export default {
       tradeListingArray: [],
       status: null,
       cashReceived: 0,
+      fairTradePercentage: (DEFAULT_FAIR_TRADE_VALUE / 100).toFixed(2), // converting to percentage
     }
   },
 
@@ -317,6 +316,9 @@ export default {
     // Image on load error
     imageLoadError(event) {
       event.target.src = `${this.fallbackImgUrl}${this.productImageWidth}`
+    },
+    getFairTradeValue(){
+      return (this.getTheirTotal(false) * this.fairTradePercentage)
     },
   },
 }
@@ -509,4 +511,8 @@ export default {
   margin-top: -21px
 .img-trd
   position: relative
+.fair-trade-division-mobile
+  background-color: $color-white-4
+  width: 247px
+  height: 68px
 </style>
