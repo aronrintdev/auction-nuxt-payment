@@ -294,7 +294,7 @@ export default {
         this.cashReceived = optionalCash
       }
 
-      const totalPrice = this.orderDetails.accepted_offer_your.theirs_items.map((inventoryItem) => inventoryItem.inventory.sale_price)
+      const totalPrice = this.wantedListingArray.map((inventoryItem) => inventoryItem.inventory.sale_price)
       if(totalPrice.length) {
         return (formattedPrice) ?
           '$' + ((totalPrice.reduce((a, b) => a + b, 0)/100) + parseFloat(optionalCash)).toFixed(2) : totalPrice.reduce((a, b) => a + b, 0) + (optionalCash * 100)
@@ -307,7 +307,7 @@ export default {
       {
           optionalCash = (this.orderDetails.accepted_offer_your.cash_added/100)
       }
-      const totalPrice = this.orderDetails.accepted_offer_your.yours_items.map((inventoryItem) => inventoryItem.inventory.sale_price)
+      const totalPrice = this.tradeListingArray.map((inventoryItem) => inventoryItem.inventory.sale_price)
       if(totalPrice.length) {
         return (formattedPrice) ?
           '$' + ((totalPrice.reduce((a, b) => a + b, 0)/100) + parseFloat(optionalCash)).toFixed(2) : totalPrice.reduce((a, b) => a + b, 0) + (optionalCash * 100)
