@@ -6,35 +6,35 @@
         <b-table v-if="ORDERS_HAS_ITEMS.includes(orderType)" :fields="fields" :items="orderDetails" borderless
                  class="vendor-purchase-details-table" responsive="sm">
           <template #cell(products)="row">
-            <div class="img-col w-100">
+            <div class="img-col">
               <img :src="row.item.inventory.product | getProductImageUrl" alt="product-image"
                    class="product-image img-fluid" @error="imageLoadError"/>
             </div>
           </template>
           <template #cell(details)="row">
             <span>
-              <p class="f-w-500 mb-0 name">
+              <p class="inv-text">
                 {{ row.item.inventory.product.name }}
               </p>
-              <p class="f-w-500 mb-0 colorway">
+              <p class="inv-text">
                 {{ $t('vendor_purchase.colorway') }}&colon; {{row.item.inventory.product.colorway}}
               </p>
-              <p class="f-w-500 mb-0 size">
+              <p class="inv-text">
                 {{ $t('vendor_purchase.size') }}&colon; {{row.item.inventory.size.size}}
               </p>
-              <p class="f-w-500 mb-0 box-condition">
+              <p class="inv-text">
                 {{ $t('vendor_purchase.box_condition') }}&colon; {{row.item.inventory.packaging_condition.name}}
               </p>
-              <p class="f-w-500 mb-0 sku">
+              <p class="inv-text">
                 {{ $t('vendor_purchase.sku') }}&colon; {{row.item.inventory.product.sku}}
               </p>
             </span>
           </template>
           <template #cell(quantity)="row">
-            <span>{{ row.item.quantity }}</span>
+            <span class="inv-text">{{ row.item.quantity }}</span>
           </template>
           <template #cell(total)="row">
-            <span>{{ row.item.inventory.sale_price | toCurrency('USD', 'N/A') }}</span>
+            <span class="inv-text">{{ row.item.inventory.sale_price | toCurrency('USD', 'N/A') }}</span>
           </template>
         </b-table>
 
@@ -362,4 +362,13 @@ export default {
       @include body-9
 :deep(.vd-giftcardimg)
   width: 20%
+.img-col
+  height: 84px
+  width: 52px
+.inv-text
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: 400
+  font-size: 18px
+  color: $color-black-1
 </style>

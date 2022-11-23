@@ -3800,6 +3800,8 @@
     }
   },
   "vendor_purchase": {
+    "their_value": "THEIR VALUE",
+    "your_value": "YOUR VALUE",
     "product": "Product",
     "purchases": "Purchases",
     "search_purchases": "Search Purchases",
@@ -4501,6 +4503,8 @@
       "their_counter_offerHistory": "Their Counter Offer",
       "your_counter_offer": "Your Counter Offer",
       "their_offer": "Their Offer",
+      "you_offered": "You Offered",
+      "they_offered": "They Offered",
       "create_listing_btn": "Create a Trade Listing",
       "trades": "Trades",
       "trade_hub": "Trade Hub",
@@ -5849,6 +5853,7 @@
     "save_for_later": "Save for later"
   },
   "offers_received": {
+    "offers"  : "Offers",
     "heading": "Offers Received",
     "your_placed_offers": "Your Received Offers ({count})",
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",

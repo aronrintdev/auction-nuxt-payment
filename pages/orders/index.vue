@@ -17,6 +17,7 @@
         <top-movers-list-component></top-movers-list-component>
       </div>
     </div>
+    <Portal to="page-title"> {{ $t('orders.orders') }}</Portal>
   </div>
 </template>
 
