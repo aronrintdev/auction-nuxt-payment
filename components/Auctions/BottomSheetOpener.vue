@@ -42,7 +42,7 @@ export default {
   .auction-bottom-sheet-opener
     &-btn
       @include body-5
-      box-shadow: 0px -0.1px 2px rgba($black, 0.25), 0px 1px 2px rgba($black, 0.25)
+      box-shadow: 0px -0.1px 2px rgba($black, 0.15), 0px 1px 2px rgba($black, 0.15)
       border-radius: 8px
       font-weight: $medium
       padding: 20px

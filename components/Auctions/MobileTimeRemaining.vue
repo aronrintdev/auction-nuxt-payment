@@ -24,19 +24,19 @@
     <div v-else class="d-md-none d-flex justify-content-center mobile-time-remaining">
       <div class="time position-relative d-flex flex-column justify-content-center align-items-center">
         <div class="time-value">{{ days }}</div>
-        <div class="time-unit">{{ $t('promotions.days') }}</div>
+        <div class="time-unit text-lowercase">{{ $t('promotions.days') }}</div>
       </div>
       <div class="time position-relative d-flex flex-column justify-content-center align-items-center">
         <div class="time-value">{{ hours }}</div>
-        <div class="time-unit">{{ $t('promotions.hours') }}</div>
+        <div class="time-unit text-lowercase">{{ $t('promotions.hours') }}</div>
       </div>
       <div class="time position-relative d-flex flex-column justify-content-center align-items-center">
         <div class="time-value">{{ mins }}</div>
-        <div class="time-unit">{{ $t('promotions.mins') }}</div>
+        <div class="time-unit text-lowercase">{{ $t('promotions.mins') }}</div>
       </div>
       <div class="time position-relative d-flex flex-column justify-content-center align-items-center">
         <div class="time-value">{{ secs }}</div>
-        <div class="time-unit">{{ $t('promotions.secs') }}</div>
+        <div class="time-unit text-lowercase">{{ $t('promotions.secs') }}</div>
       </div>
     </div>
   </div>
@@ -112,11 +112,11 @@ export default {
   &::after
     content: ''
     position: absolute
-    top: 11px
+    top: 13px
     right: 0
     display: block
     width: 0.5px
-    height: 38px
+    height: 34px
     background: #EDEDED
   &:last-child
     &::after
@@ -128,6 +128,7 @@ export default {
     color: $black
   &-unit
     @include body-1224
+    line-height: 14px
     font-family: $font-sp-pro
     font-weight: $light
     color: $black

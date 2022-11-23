@@ -1,13 +1,18 @@
-.auction-details
+.auction-details-page
   .auction-content
     display: flex
-    padding: 0 160px
+    padding: 0 140px
+    @media (max-width: 1500px)
+      padding: 0 100px
+    @media (max-width: 1400px)
+      padding: 0 40px 0 50px
     &-main
       width: calc(100% - 500px)
       .collection-items-slider
         display: flex
         align-content: center
         justify-content: center
+        margin-bottom: 50px
         svg
           height: 22px
           &.disabled
@@ -170,7 +175,7 @@
       color: $black
     &-value
       color: $color-gray-5
-      margin-top: 5px
+      margin-top: 9px
       white-space: nowrap
   .bid-details
     position: relative
