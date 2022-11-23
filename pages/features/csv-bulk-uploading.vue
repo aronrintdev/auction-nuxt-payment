@@ -32,7 +32,7 @@
         </b-col>
       </b-row>
 
-      <FeatureTitle>{{
+      <FeatureTitle class="feature-title-my">{{
         $t('features.csv_bulk_uploading.the_process')
       }}</FeatureTitle>
 
@@ -183,6 +183,10 @@ export default {
 
 @media (max-width: 576px)
   .features-container
+    .feature-title-my
+      width: 100%
+      margin-top: 48px !important
+      margin-bottom: 24px !important
     .csv-bulk
       margin-bottom: 34px
     .cards-wrapper::v-deep

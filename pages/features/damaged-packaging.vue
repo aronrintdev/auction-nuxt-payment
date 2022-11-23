@@ -24,7 +24,7 @@
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{ $t('newest_features.damaged_packaging.conditions') }}
       </FeatureTitle>
       <div
@@ -177,4 +177,11 @@ export default {
                 .feature-item::v-deep
                     flex-direction: column
                     align-items: center
+
+@media screen and (max-width: 577px)
+  .features-container::v-deep
+    .feature-content
+      .feature-title-my
+        margin-top: 48px !important
+        margin-bottom: 24px !important
 </style>

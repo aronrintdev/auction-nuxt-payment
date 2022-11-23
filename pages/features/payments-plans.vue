@@ -31,7 +31,7 @@
           />
         </b-col>
       </b-row>
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{ $t('newest_features.payments_plans.options') }}
       </FeatureTitle>
 
@@ -176,7 +176,7 @@ export default {
 @import '~/assets/css/_variables'
 .features-container
   .feature-content
-    .h-card-main // card section main desktop
+    //.h-card-main // card section main desktop
 
     .feature-item
       margin-bottom: 115px
@@ -269,4 +269,13 @@ export default {
         padding: 22px 46px 10px 14px  !important
         background-image: none !important
         border-radius: 12px !important
+
+@media screen and (max-width: 577px)
+  .features-container::v-deep
+    .feature-content
+      .feature-title-my
+        margin-top: 48px !important
+        margin-bottom: 24px !important
+      .feature-tabs
+        margin-top: 0 !important
 </style>

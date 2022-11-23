@@ -32,7 +32,9 @@
           />
         </b-col>
       </b-row>
-      <FeatureTitle>{{ $t('features.trading.new_features') }}</FeatureTitle>
+      <FeatureTitle class="feature-title-my">{{
+        $t('features.trading.new_features')
+      }}</FeatureTitle>
 
       <div
         class="d-flex justify-content-center cards-wrapper-selling mb-3 mb-md-5"
@@ -176,4 +178,9 @@ export default {
       .feature-item::v-deep
         flex-direction: column
         align-items: center
+@media screen and (max-width: 577px)
+  .feature-title-my
+    width: 100%
+    margin-top: 0px !important
+    margin-bottom: 24px !important
 </style>
