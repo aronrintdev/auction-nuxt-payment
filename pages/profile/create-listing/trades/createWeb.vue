@@ -236,6 +236,9 @@
                   <b-row class="justify-content-center mt-2">
                     <img :src="require('~/assets/img/Plus-circle.svg')">
                   </b-row>
+                  <div class="d-flex justify-content-end align-items-end">
+                    <img :src="require('~/assets/img/trades/updown.svg')" role="button" class="position-absolute up-down-arrow-empty" @click="showOffer = !showOffer">
+                  </div>
                 </div>
                 <b-row v-else class="justify-content-center">
                   <div v-for="(prod, index) in getTradeItems"
@@ -939,4 +942,7 @@ export default {
   letter-spacing: -0.02em
   color: $color-gray-5
   padding-left: 10px
+.up-down-arrow-empty
+  height: 50px
+  width: 30px
 </style>
