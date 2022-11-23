@@ -222,8 +222,7 @@
                 {{ $t('trades.create_listing.vendor.wants.no_products_found') }}
               </b-row>
             </div>
-
-            <div class="overlay-container position-absolute">
+            <div class="overlay-container position-fixed">
               <div  v-if="showOffer" class="d-flex create-trade-drag-drop-item-float mx-0 justify-content-center text-center py-4"
                   @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
                 <div v-if="getTradeItems.length < 1">
@@ -236,9 +235,6 @@
                   <b-row class="justify-content-center mt-2">
                     <img :src="require('~/assets/img/Plus-circle.svg')">
                   </b-row>
-                  <div class="d-flex justify-content-end align-items-end">
-                    <img :src="require('~/assets/img/trades/updown.svg')" role="button" class="position-absolute up-down-arrow-empty" @click="showOffer = !showOffer">
-                  </div>
                 </div>
                 <b-row v-else class="justify-content-center">
                   <div v-for="(prod, index) in getTradeItems"
@@ -281,17 +277,11 @@
                       <img :src="require('~/assets/img/three-items.svg')">
                     </div>
                   </div>
-                  <img :src="require('~/assets/img/trades/updown.svg')" role="button" class="position-absolute up-down-arrow" @click="showOffer = !showOffer">
                 </b-row>
+                <img :src="require('~/assets/img/trades/updown.svg')" role="button" class="position-absolute up-down-arrow-empty" @click="showOffer = !showOffer">
               </div>
 
               <b-row  class="justify-content-end my-2">
-<!--                <b-col>-->
-<!--                <b-btn :disabled="getTradeItems.length < 1" class="create-trade-next-web"-->
-<!--                      @click="$router.push('/profile/create-listing/trades/wants')">-->
-<!--                  {{ $t('create_listing.trade.offer_items.next') }}-->
-<!--                </b-btn>-->
-<!--                </b-col>-->
               <b-col class="position-relative">
                 <b-btn :disabled="getTradeItems.length < 1" class="create-trade-next-web"
                        @click="$router.push('/profile/create-listing/trades/wants')">
@@ -922,8 +912,17 @@ export default {
 
 .overlay-container
   z-index: 1000
-  top: 30%
-  width: 99%
+  bottom:  150px
+  width: 75%
+  @media (min-width: 1500px) and (max-width: 1600px)
+   width: 77%
+  @media (min-width: 1601px) and (max-width: 1800px)
+    width: 79%
+  @media (min-width: 1801px) and (max-width: 2000px)
+    width: 82%
+  @media (min-width: 2001px) and (max-width: 2500px)
+    width: 84%
+
 .offers-items
   background: $color-white-27
   box-shadow: inset 0 1px 4px$drop-shadow1
@@ -945,4 +944,17 @@ export default {
 .up-down-arrow-empty
   height: 50px
   width: 30px
+  right: 8px
+  bottom: 10px
+  z-index: 20
+.counter-icon
+  background: $color-red-29
+  width: 18px
+  height: 18px
+  border-radius: 50%
+  font-size: 13px
+  font-family: $font-family-montserrat
+  color: $color-white-1
+  top: -5px
+  right: -5px
 </style>
