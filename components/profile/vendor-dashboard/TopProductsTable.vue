@@ -5,7 +5,7 @@
         {{ $t('vendor_dashboard.top_products') }}
       </h1>
       <NavGroup :data="menus" :value="activeNav" :class="mobileClass" class="nav-grp" @change="navItem"/>
-      <div class="col-6 col-md-3 d-flex justify-content-end align-items-center" role="button">
+      <div class="d-flex justify-content-end align-items-center" role="button">
         <a
             class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0"
             @click="$router.push('/profile/inventory')"
@@ -33,7 +33,7 @@
           borderless
           class="productTable"
           no-border-collapse
-          tbody-tr-class="bg-white"
+          tbody-tr-class="bg-white p-web-row"
           :busy="loading"
           :show-empty="!loading && topProducts.length === 0"
       >
@@ -58,7 +58,7 @@
                   'body-5-medium mobile': isScreenXS,
                   'font-secondary': !isScreenXS,
                 }"
-                  class="body-8-medium text-decoration-underline text-link-blue-mobile border-primary mb-1 text-nowrap text-truncate mw-300"
+                  class="body-8-medium text-decoration-underline text-link-blue-mobile border-primary mb-1 text-nowrap text-truncate mw-220"
               >
                 {{ row.item.name }}
               </h4>
@@ -66,7 +66,7 @@
                 {{ $t('vendor_dashboard.sku') }}: {{ row.item.sku }}
               </h4>
               <h4 :class="mobileClass"
-                  class="body-21-normal mb-0 text-color-gray-6 text-nowrap text-truncate mw-300">
+                  class="body-21-normal mb-0 text-color-gray-6 text-nowrap text-truncate mw-220">
                 {{ $t('vendor_dashboard.colorway') }}: {{ row.item.colorway }}
               </h4>
             </div>
@@ -142,33 +142,32 @@ export default {
   mixins: [screenSize],
   data() {
     return {
-      // Active Nav for the Toggle Button
-      activeNav: this.isScreenXS ? '1' : '',
+      activeNav: '1',
       topProducts: [],
       fields: [
         {
           key: 'product',
           label: this.$t('vendor_dashboard.product'),
           sortable: true,
-          thClass: 'body-4-bold',
+          thClass: 'text-nowrap body-4-bold',
         },
         {
           key: 'average_sale_price',
           label: this.$t('vendor_dashboard.avg_price'),
           sortable: true,
-          thClass: 'text-center body-4-bold',
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'sales_this_month',
           label: this.$t('vendor_dashboard.sales_this_month'),
           sortable: true,
-          thClass: 'text-center body-4-bold',
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'total_sales',
           label: this.$tc('vendor_dashboard.total_sales', 1),
           sortable: true,
-          thClass: 'text-center body-4-bold',
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'chart',
@@ -289,6 +288,9 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+::v-deep.p-web-row
+  padding: 26px 28px
+
 ::v-deep.nav-grp
   width: 460px
   &.mobile
@@ -321,8 +323,8 @@ export default {
 .text-color-gray-6
   color: $color-gray-6
 
-.mw-300
-  max-width: 300px
+.mw-220
+  max-width: 220px
 
   &.mobile
     max-width: 200px
@@ -380,7 +382,7 @@ export default {
       outline: 1px solid $color-gray-3
       display: block
       margin: 12px 0
-      padding: 15px 0
+      padding: 15px 0 6px 0
 
       h4.font-secondary
         width: fit-content
@@ -392,15 +394,13 @@ export default {
         &.border-bottom.bottom-primary
           border: 0 !important
     .tdHeight
-      font-size: 12px
+      @include body-9-medium
       color: $color-black-1
-      font-weight: $bold
       width: 100%
-
+      padding: 1px 0
       h4
-        font-size: 12px
+        @include body-9-normal
         color: $color-gray-6
-        font-weight: $normal
 
       &::before
         content: attr(aria-label)

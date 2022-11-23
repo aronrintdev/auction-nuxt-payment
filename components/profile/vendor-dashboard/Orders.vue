@@ -5,7 +5,7 @@
         {{ $t('vendor_dashboard.orders') }}
       </h1>
       <NavGroup :data="menus" :value="activeNav" :class="mobileClass" class="nav-grp" @change="navItem"/>
-      <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
+      <div class="d-flex justify-content-end align-items-center">
         <nuxt-link
             to="/orders"
             class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0 view-more-link "
@@ -63,7 +63,7 @@
                  'body-5-medium mobile': isScreenXS,
                   'font-secondary': !isScreenXS,
                 }"
-                  class="fw-6 fs-15 border-primary mb-1 text-nowrap text-truncate mw-300"
+                  class="fw-6 fs-15 border-primary mb-1 text-nowrap text-truncate mw-220"
               >
                 {{ data.item.listing_item.inventory.product.name }}
               </h4>
@@ -72,7 +72,7 @@
                 {{ data.item.listing_item.inventory.product.sku }}
               </h4>
               <h4 :class="mobileClass"
-                  class="font-secondary fs-13 fw-5 mb-0 text-secondary-6 text-nowrap text-truncate mw-300">
+                  class="font-secondary fs-13 fw-5 mb-0 text-secondary-6 text-nowrap text-truncate mw-220">
                 {{ $t('vendor_dashboard.colorway') }}:
                 {{ data.item.listing_item.inventory.product.colorway }}
               </h4>
@@ -141,7 +141,7 @@
               :aria-label="$t('vendor_dashboard.status')"
           >
             <h4 :class="styleFor(data.item.status) + ` ${mobileClass}` + `${isScreenXS? 'text-nowrap': ''}`"
-                class="text-capitalize status body-13-normal">
+                class="text-capitalize status body-13-normal mb-0">
               {{ data.item.status_label }}
             </h4>
           </div>
@@ -203,7 +203,6 @@ export default {
     return {
       PROCESSING,
       AWAITING_SHIPMENT_TO_DEADSTOCK,
-      // Active Nav for the Toggle Button
       activeNav: '1',
       topOrders: [],
       statusColors: {
@@ -224,44 +223,44 @@ export default {
           label: this.$t('vendor_dashboard.order_id'),
           sortable: true,
           tdClass: 'product-img-cell ',
-          thClass: ' body-4-bold',
+          thClass: 'text-nowrap  body-4-bold',
         },
         {
           key: 'product',
           label: this.$t('vendor_dashboard.product'),
           sortable: true,
           tdClass: 'product-info-cell',
-          thClass: 'body-4-bold',
+          thClass: 'text-nowrap body-4-bold',
         },
         {
           key: 'date_ordered',
           label: this.$t('vendor_dashboard.date_ordered'),
           sortable: true,
-          thClass: 'text-center body-4-bold',
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'type',
           label: this.$t('vendor_dashboard.type'),
           sortable: true,
-          thClass: 'text-center body-4-bold',
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'vendor_payout',
           label: this.$t('vendor_dashboard.vendor_payout'),
           sortable: true,
-          thClass: 'text-center body-4-bold',
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'status',
           label: this.$t('vendor_dashboard.status'),
           sortable: true,
-          thClass: 'text-center body-4-bold',
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'actions',
           label: this.$t('vendor_dashboard.actions'),
           sortable: false,
-          thClass: 'text-center body-4-bold',
+          thClass: 'text-nowrap text-center body-4-bold',
         },
       ],
       loading: false,
@@ -453,8 +452,8 @@ export default {
 .mw-140
   max-width: 160px
 
-.mw-300
-  max-width: 300px
+.mw-220
+  max-width: 220px
 
   &.mobile
     max-width: 200px
@@ -520,7 +519,7 @@ export default {
       outline: 1px solid $color-gray-3
       display: block
       margin: 12px 0
-      padding: 15px 0
+      padding: 15px 0 6px 0
 
       div.font-secondary
         font-size: 12px
@@ -528,16 +527,16 @@ export default {
         font-weight: $normal
         font-family: $font-family-base
     .tdHeight
-      font-size: 12px
+      @include body-9-medium
       color: $color-black-1
-      font-weight: $bold
       width: 100%
+      padding: 1px 0
+
       .status-badge
         background: none
         padding: 0
       h4
-        font-size: 12px
-        font-weight: $normal
+        @include body-9-normal
         font-family: $font-family-base
         &.actions
           display: flex
