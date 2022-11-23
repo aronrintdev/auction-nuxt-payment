@@ -56,8 +56,8 @@
       <div 
         v-for="(offer) in offerHistory.offer_history" 
         :key="'offer-history-'+ offer.id" 
-        class="offer-history col-12 col-lg-10 col-xl-7" 
-        :class="'background-' + (isOfferMine(offer) ? 'blue' : 'white')"
+        class="offer-history col-12 col-lg-10 col-xl-7 pb-4" 
+        :class="'background-' + (isOfferMine(offer) ? 'blue' : 'white ml-auto')"
       >
         <b-row class="justify-content-between pt-4 pl-4 pr-4">
           <b-col v-if="isOfferMine(offer) && offer.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.your_counter_offer')}} ({{ offer.id}})</b-col>
@@ -80,21 +80,19 @@
             class="w-100"
           />
         </b-col>
-        <b-row v-if="offer.cash_added" class="justify-content-end pr-5 pt-3 pb-3">
-          <b-col class="request-amount d-flex">
-            <img class="mr-2" :src="require('~/assets/img/trades/dollar.svg')">
-            <span v-if="isOfferMine(offer) && cashRequested(offer)" class="amount-text" v-html="$t('trades.you_requested',{0: convertCashToDollars(offer.cash_added)})"></span>
-            <span v-if="isOfferMine(offer) && !cashRequested(offer)" class="amount-text" v-html="$t('trades.you_added',{0: convertCashToDollars(offer.cash_added)})"></span>
-            <span v-if="!isOfferMine(offer) && !cashRequested(offer)" class="amount-text" v-html="$t('trades.they_offered_amount',{0: convertCashToDollars(offer.cash_added)})"></span>
-            <span v-if="!isOfferMine(offer) && cashRequested(offer)" class="amount-text" v-html="$t('trades.they_requested_amount',{0: convertCashToDollars(offer.cash_added)})"></span>
-            <sup>
-              <img class="ml-3" :src="require('~/assets/img/trades/info.svg')">
-            </sup>
-          </b-col>
-        </b-row>
+        <div v-if="offer.cash_added" class="request-amount d-flex align-items-center ml-auto mr-1">
+          <img class="mr-2" :src="require('~/assets/img/trades/dollar.svg')">
+          <span v-if="isOfferMine(offer) && cashRequested(offer)" class="amount-text" v-html="$t('trades.you_requested',{0: convertCashToDollars(offer.cash_added)})"></span>
+          <span v-if="isOfferMine(offer) && !cashRequested(offer)" class="amount-text" v-html="$t('trades.you_added',{0: convertCashToDollars(offer.cash_added)})"></span>
+          <span v-if="!isOfferMine(offer) && !cashRequested(offer)" class="amount-text" v-html="$t('trades.they_offered_amount',{0: convertCashToDollars(offer.cash_added)})"></span>
+          <span v-if="!isOfferMine(offer) && cashRequested(offer)" class="amount-text" v-html="$t('trades.they_requested_amount',{0: convertCashToDollars(offer.cash_added)})"></span>
+          <sup>
+            <img class="ml-3" :src="require('~/assets/img/trades/info.svg')">
+          </sup>
+        </div>
       </div>
       <div 
-        class="offer-history col-12 col-lg-10 col-xl-7 ml-auto" 
+        class="mt-4 offer-history col-12 col-lg-10 col-xl-7 ml-auto" 
         :class="[isOfferMine(offerHistory) ? 'blue-theme' : 'white-theme', offerHistoryClass]"
       >
         <b-row class="justify-content-between pt-4 pl-5 pr-4">
@@ -114,7 +112,7 @@
             v-else-if="!isOfferMine(offerHistory) && offerHistory.type === 'offer'" 
             class="history-heading"
           >
-            {{ $t('trades.their_offer') }} ({{ offerHistory.id }})
+            {{ $t('trades.index.their_offer') }} ({{ offerHistory.id }})
           </b-col>
           <b-col 
             v-else
@@ -140,18 +138,16 @@
             class="w-100"
           />
         </b-col>
-        <b-row v-if="offerHistory.cash_added" class="justify-content-end pr-5 pt-3 pb-3">
-          <b-col class="request-amount d-flex">
-            <img class="mr-2" :src="require('~/assets/img/trades/dollar.svg')">
-            <span v-if="isOfferMine(offerHistory) && cashRequested(offerHistory)" class="amount-text" v-html="$t('trades.you_requested',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
-            <span v-if="isOfferMine(offerHistory) && !cashRequested(offerHistory)" class="amount-text" v-html="$t('trades.you_added',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
-            <span v-if="!isOfferMine(offerHistory) && !cashRequested(offerHistory)" class="amount-text" v-html="$t('trades.they_offered_amount',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
-            <span v-if="!isOfferMine(offerHistory) && cashRequested(offerHistory)" class="amount-text" v-html="$t('trades.they_requested_amount',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
-            <sup>
-              <img class="ml-3" :src="require('~/assets/img/trades/info.svg')">
-            </sup>
-          </b-col>
-        </b-row>
+        <div v-if="offerHistory.cash_added" class="request-amount d-flex align-items-center ml-auto mr-1 mb-3">
+          <img class="mr-2" :src="require('~/assets/img/trades/dollar.svg')">
+          <span v-if="isOfferMine(offerHistory) && cashRequested(offerHistory)" class="amount-text" v-html="$t('trades.you_requested',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
+          <span v-if="isOfferMine(offerHistory) && !cashRequested(offerHistory)" class="amount-text" v-html="$t('trades.you_added',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
+          <span v-if="!isOfferMine(offerHistory) && !cashRequested(offerHistory)" class="amount-text" v-html="$t('trades.they_offered_amount',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
+          <span v-if="!isOfferMine(offerHistory) && cashRequested(offerHistory)" class="amount-text" v-html="$t('trades.they_requested_amount',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
+          <sup>
+            <img class="ml-3" :src="require('~/assets/img/trades/info.svg')">
+          </sup>
+        </div>
       </div>
     </div>
 
@@ -272,10 +268,12 @@ export default {
   background: $color-white-1
 
 .request-amount
-  max-width: 247px
   background: $color-gray-1
   border-radius: 4px
-  padding: 10px
+  padding-left: 20px
+  padding-right: 10px
+  height: 33px
+  width: max-content
 
 .amount-text
   font-family: $font-family-sf-pro-display
@@ -298,5 +296,4 @@ export default {
 
 .white-theme
   background: white
-  float: left
 </style>

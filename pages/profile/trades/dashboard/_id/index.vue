@@ -224,7 +224,7 @@
           </div>
           <div class="history-heading">{{ $t('trades.offer_history') }}</div>
           <offer-history :offerHistory="offer" />
-          <b-row class="justify-content-center pt-3 pb-3">
+          <b-row class="justify-content-center pt-3 pb-3 w-100">
             <hr class="center-line">
           </b-row>
           <initial-listing :initialWantsItems="offer.trade.wants" />
