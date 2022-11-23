@@ -74,12 +74,6 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'ListItem',
 
-  data() {
-    return {
-      expiryDate: 5, // TODO: Offer Expiry
-    }
-  },
-
   computed: {
     ...mapGetters({
       getOfferDetails: 'offer/getOfferDetails',
@@ -104,7 +98,7 @@ export default {
     },
 
     expiry: (vm) => {
-      return `${vm.expiryDate} ${vm.$tc('place_offer.days', 1)}`
+      return `${vm.getOfferDetails.duration} ${vm.$tc('place_offer.days', vm.getOfferDetails.duration)}`
     },
 
     itemQuantity: (vm) => {
