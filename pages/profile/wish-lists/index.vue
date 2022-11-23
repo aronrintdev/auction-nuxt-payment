@@ -190,7 +190,7 @@
                 </b-popover>
               </div>
               <div class="d-flex justify-content-end">
-                <span v-b-modal.create-list-modal><img width="42" height="42" src="~/assets/img/plus-circle-blue.svg" /></span>
+                <span v-b-modal.create-list-modal><img width="42" height="42" src="~/assets/img/icons/plus-icon-bg.svg" /></span>
               </div>
 
             </div>
@@ -235,7 +235,9 @@
                 />
               </b-col>
             </b-row>
-            <infinite-loading :identifier="infiniteId" @infinite="handleLoading" ></infinite-loading>
+            <infinite-loading :identifier="infiniteId" @infinite="handleLoading" >
+              <div slot="no-more"></div>
+            </infinite-loading>
 
             <div v-if="listProducts.length === 0" class="text-center no-itmes">
             <p class="mt-5">
@@ -632,7 +634,10 @@ export default {
       color: $color-black-1
       &:hover
         border-bottom: 1px solid $color-black-1
-
+.tablist
+  ::v-deep .btn-group
+     width: 460px
+     height: 32px
 ::v-deep .nav-group
   margin: 0
 .wishlist-mobile
