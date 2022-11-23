@@ -105,11 +105,19 @@
 
           <!-- User Conditional Actions -->
           <OutOfStock
-            v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
+            v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel' && ! offerAmount"
             class="mt-3 px-4 d-none d-sm-block px-sm-0"
             :product="product"
             @notify-me="handleNotifyMeClick"
+            @offer-duration="handleOfferDurationEvent"
+          />
+
+          <OfferDuration
+            v-else-if="sizeViewMode === 'carousel' && offerAmount"
+            class="mt-3 px-3 px-sm-0"
+            :offer-amount="offerAmount"
             @place-offer="handleOfferSubmit"
+            @clear-offer="offerAmount = null"
           />
 
           <BuyNow
@@ -123,10 +131,10 @@
           />
 
           <SellNow
-            v-else-if="sizeViewMode === 'carousel'"
+            v-else-if="sizeViewMode === 'carousel' && ! offerAmount"
             class="mt-3 px-3 px-sm-0"
             :highest-offer="highestOffer"
-            @place-offer="handleOfferSubmit"
+            @offer-duration="handleOfferDurationEvent"
             @sell-now="handleSellNowClick"
           />
           <!-- End of User Conditional Actions -->
@@ -242,9 +250,11 @@ import SalesSection from '~/components/product/SalesSection'
 import BuyNow from '~/components/product/BuyNow'
 import OutOfStock from '~/components/product/OutOfStock'
 import SellNow from '~/components/product/SellNow'
+import OfferDuration from '~/components/product/OfferDuration'
 
 export default {
   components: {
+    OfferDuration,
     OutOfStock,
     BuyNow,
     SellNow,
@@ -294,6 +304,7 @@ export default {
       message: null,
       amountOffset: AMOUNT_OFFSET,
       shippingOption: '',
+      offerAmount: null,
     }
   },
   async fetch() {
@@ -526,7 +537,7 @@ export default {
           this.showMessageModal(this.$t('products.message.send_item_email'))
         })
     },
-    handleOfferSubmit(amount) {
+    handleOfferDurationEvent(amount) {
       this.resetError()
       // If no size is selected.
       if (!this.currentSize) {
@@ -544,12 +555,30 @@ export default {
       if (!this.$auth.loggedIn) {
         return this.$router.push('/login')
       }
+
+      this.offerAmount = amount
+    },
+    handleOfferSubmit(payload) {
+      this.resetError()
+      // If no amount.
+      if (!payload.offerAmount || payload.offerAmount <= 0) {
+        return (this.error.makeOffer = this.$t(
+          'products.error.enter_valid_amount'
+        ))
+      }
+      // If not duration.
+      if (! payload.offerDuration) {
+        return (this.error.makeOffer = this.$t(
+          'products.error.select_offer_duration'
+        ))
+      }
       // Do the place offer.
       this.storeOfferDetails({
-        bid_price: amount * this.amountOffset,
+        bid_price: payload.offerAmount * this.amountOffset,
         packaging_condition_id: this.currentCondition,
         size_id: this.currentSize,
         product: this.product,
+        duration: payload.offerDuration,
         quantity: 1
       }).then(() => {
         this.$router.push('/checkout/place-offer')
