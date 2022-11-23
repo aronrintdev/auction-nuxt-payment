@@ -56,6 +56,38 @@
         </Collapse>
       </div>
 
+      <div class="border-bottom py-3">
+        <Collapse
+          :title="$t('filter_sidebar.brands')"
+          :selectedValue="activeBrands"
+        >
+          <div class="row">
+            <div
+              v-for="(brandCategory, index) in brandOptionsLess"
+              :key="index"
+              class="col-4 mb-3"
+            >
+              <Checkbox
+                v-model="selectedBrand"
+                button
+                :label="brandCategory.label"
+                :val="brandCategory.value"
+                name="brandCategory"
+                @change="getBrands"
+              />
+            </div>
+            <div class="text-center w-100">
+              <button
+                class="fs-14 fw-5 font-secondary text-base-blue bg-transparent border-0"
+                @click="$emit('showAllBrands')"
+              >
+                View More
+              </button>
+            </div>
+          </div>
+        </Collapse>
+      </div>
+
       <div v-if="isArchive" class="border-bottom pb-2 mt-2">
         <div class="py-1">
           <collapsible-box :title="$t('filter_sidebar.year')" :second-title="selectedDateString">
@@ -173,6 +205,10 @@ export default {
       'selectedSizeTypes',
       'selectedYears'
     ]),
+
+    brandOptionsLess() {
+      return this.brandOptions?.slice(0, 9)
+    },
 
     selectedSizes() {
       return this.sizes.join(', ')
