@@ -1,6 +1,6 @@
 <template>
   <div class="container-trade-dashboard">
-    <b-row class="heading-dashboard mt-lg-5 mx-0 d-none d-sm-flex">
+    <b-row class="heading-dashboard pt-sm-4 mt-lg-5 mx-0 d-none d-sm-flex">
       {{$t('trades.my_trade_offer')}}
     </b-row>
     <b-row class="m-0 mt-sm-3 justify-content-lg-between pt-3">
@@ -48,7 +48,7 @@
             class="w-100"
             :value="searchText"
             variant="primary"
-            inputClass="search-offers-input"
+            inputClass="search-offers-input bg-white"
             :placeholder="$t('trades.search_trades_offers')"
             :clearSearch="true"
             :isOpen="searchedProducts.length > 0"

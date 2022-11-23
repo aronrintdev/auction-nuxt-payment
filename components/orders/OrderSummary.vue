@@ -8,11 +8,11 @@
           </div>
           <div class="order-date d-none d-sm-block">{{ $t('orders.ordered_on') }} {{ new Date(order.created_at) }}</div>
         </b-col>
-        <b-col cols="2">
+        <b-col cols="3">
           <div v-if="item.status!=='processing'" class="text-right cursor-pointer d-block d-sm-none" @click="openBottomSheet">
             <img :src="require('/assets/img/icons/three-dots.svg')" alt="" />
           </div>
-          <div class="text-center w-200 align-self-end d-none d-sm-block">
+          <div class="text-right w-200 align-self-end d-none d-sm-block">
             <template v-if="item.status!=='processing'">
               <div class="my-2">
                 <a class="btn-print-shipping px-3 py-2 align-items-center text-center" :href="printLabel()"
@@ -20,8 +20,8 @@
                   {{ $t('orders.print_shipping_label') }}
                 </a>
               </div>
-              <div class="print-invoice">
-                <a href="#print-invoice" @click="exportPDF(order.order_id)">{{ $t('orders.print_invoice') }}</a>
+              <div class="print-invoice text-right mr-4">
+                <a href="#print-invoice" class="mr-3" @click="exportPDF(order.order_id)">{{ $t('orders.print_invoice') }}</a>
               </div>
             </template>
           </div>

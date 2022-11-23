@@ -17,25 +17,6 @@
           {{ $t('vendor_purchase.back_to_selling') }}
         </Button>
       </b-col>
-      <b-col md="8" cols="12" sm="6" class="mt-md-4 vd-selling-search">
-        <!-- TODO -->
-        <div class="form browse-search border rounded">
-          <div class="form-group selling-search-input align-items-center d-flex m-0">
-            <img
-              :src="require('~/assets/img/icons/search.svg')"
-              class="icon-search"
-              alt="Search"
-            />
-            <input
-              id="search-result"
-              class="form-control form-input vd-purchases-browse-input"
-              :placeholder="$t('vendor_purchase.search_purchases_summary')"
-              autocomplete="on"
-            />
-          </div>
-        </div>
-        <!-- ./TODO -->
-      </b-col>
     </b-row>
     <!-- Purchase Summary Section -->
     <template v-if="loaded">
@@ -143,13 +124,6 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-.selling-search-input
-  background: $color-white-1
-  border-radius: 4px
-  height: 44px
-  padding: 10px 14px
-#search-result
-  background: $color-white-1
 
 @media (min-width: 576px)
   .selling-listing

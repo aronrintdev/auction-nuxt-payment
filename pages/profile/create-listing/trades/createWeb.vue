@@ -175,49 +175,55 @@
               </client-only>
             </div>
           </b-row>
-          <b-row class="inventory-area">
-            <b-col v-for="item in inventory_items" :key="'offer-'+item.id" cols="3 mb-4">
-              <div class="create-trade-item" :draggable="true" @dragstart="startDrag($event, item)">
-                <div class="image-cont d-flex justify-content-center align-items-center position-relative">
-                <img alt="No Image" class="plus-icon-add position-absolute" :src="require('~/assets/img/icons/addPlus.svg')"
-                       @click="checkIfItemAlreadyListed(item)"/>
-                <div class="position-relative">
-                  <object
-                    :data="`${IMAGE_PATH}/${item.product && item.product.category && item.product.category.name}/${item.product && item.product.sku}/800xAUTO/IMG01.jpg`"
-                    class="create-trade-item-image"
-                    type="image/png">
-                    <img class="create-trade-item-image mb-2" :src="fallbackImgUrl" alt="image"/>
-                  </object>
+          <div class="mt-4 position-relative">
+            <div class="row align-items-center flex-wrap inventory-area">
+              <b-col 
+                v-for="item in inventory_items" 
+                :key="'offer-'+item.id" 
+                cols="6 mb-4"
+                xl="3"
+                class="d-flex justify-content-center"
+              >
+                <div :draggable="true" @dragstart="startDrag($event, item)">
+                  <div class="image-cont d-flex justify-content-center align-items-center position-relative">
+                  <img alt="No Image" class="plus-icon-add position-absolute" :src="require('~/assets/img/icons/addPlus.svg')"
+                        @click="checkIfItemAlreadyListed(item)"/>
+                  <div class="position-relative">
+                    <object
+                      :data="`${IMAGE_PATH}/${item.product && item.product.category && item.product.category.name}/${item.product && item.product.sku}/800xAUTO/IMG01.jpg`"
+                      class="img-fluid"
+                      type="image/png">
+                      <img class="img-fluid mb-2" :src="fallbackImgUrl" alt="image"/>
+                    </object>
+                  </div>
+                  </div>
+                  <div class="create-trade-item-caption">
+                  <span :id="`name${item.id}`"
+                        class="create-trade-item-name">{{ item.product && item.product.name }}</span>
+                    <span :id="`colorway${item.id}`"
+                          class="create-trade-item-caption-description">{{ item.product && item.product.colorway }}, {{$tc('common.size')}} {{ item.size && item.size.size }}</span>
+                    <span
+                      class="create-trade-item-caption-description">{{$t('common.box')}}: {{
+                        item.packaging_condition && item.packaging_condition.name
+                      }}</span>
+                  </div>
+                  <!-- tooltip for name -->
+                  <b-tooltip :target="`name${item.id}`" triggers="hover">
+                    {{ item.product && item.product.name }}
+                  </b-tooltip>
+                  <!-- tooltip for colorway -->
+                  <b-tooltip :target="`colorway${item.id}`" triggers="hover">
+                    {{ item.product && item.product.colorway }}
+                  </b-tooltip>
                 </div>
-                <div class="overlay-item"></div>
-                </div>
-                <div class="create-trade-item-caption">
-                <span :id="`name${item.id}`"
-                      class="create-trade-item-name">{{ item.product && item.product.name }}</span>
-                  <span :id="`colorway${item.id}`"
-                        class="create-trade-item-caption-description">{{ item.product && item.product.colorway }},{{$tc('common.size')}}{{ item.size && item.size.size }} ,</span>
-                  <span
-                    class="create-trade-item-caption-description">{{$t('common.box')}}: {{
-                      item.packaging_condition && item.packaging_condition.name
-                    }}</span>
-                </div>
-                <!-- tooltip for name -->
-                <b-tooltip :target="`name${item.id}`" triggers="hover">
-                  {{ item.product && item.product.name }}
-                </b-tooltip>
-                <!-- tooltip for colorway -->
-                <b-tooltip :target="`colorway${item.id}`" triggers="hover">
-                  {{ item.product && item.product.colorway }}
-                </b-tooltip>
-              </div>
-            </b-col>
-            <b-row v-if="!inventory_items || inventory_items.length === 0"
-                   class="col-md-12 justify-content-center">
-              {{ $t('trades.create_listing.vendor.wants.no_products_found') }}
-            </b-row>
-          </b-row>
-          <div class="position-relative">
-            <div class="position-absolute w-100">
+              </b-col>
+              <b-row v-if="!inventory_items || inventory_items.length === 0"
+                    class="col-md-12 justify-content-center">
+                {{ $t('trades.create_listing.vendor.wants.no_products_found') }}
+              </b-row>
+            </div>
+
+            <div class="overlay-container position-absolute">
               <div class="d-flex create-trade-drag-drop-item-float mx-0 justify-content-center text-center py-4"
                   @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
                 <div v-if="getTradeItems.length < 1">
@@ -252,7 +258,7 @@
                     <span :id="`name-sm${prod.id}`"
                           class="create-trade-item-name-sm">{{ prod.name ? prod.name : prod.product.name }}</span>
                       <span :id="`colorway-sm${prod.id}`"
-                            class="create-trade-item-caption-description-sm">{{ prod.colorway ? prod.colorway : prod.product.colorway }},{{$tc('common.size')}}{{ prod.size && prod.size.size }}</span>
+                            class="create-trade-item-caption-description-sm">{{ prod.colorway ? prod.colorway : prod.product.colorway }}, {{$tc('common.size')}} {{ prod.size && prod.size.size }}</span>
                       <span class="create-trade-item-caption-description-sm">{{$t('common.box')}}: {{
                           prod.packaging_condition && prod.packaging_condition.name
                         }}</span>
@@ -262,7 +268,6 @@
                       {{ prod.name ? prod.name : prod.product.name }}
                     </b-tooltip>
 
-                    <!-- tooltip for colorway -->
                     <b-tooltip :target="`colorway-sm${prod.id}`" triggers="hover">
                       {{ prod.colorway ? prod.colorway : prod.product.colorway }}
                     </b-tooltip>
@@ -276,7 +281,7 @@
                 </b-row>
               </div>
 
-              <b-row class="justify-content-end my-2" v-if="getTradeItems.length >= 1">
+              <b-row v-if="getTradeItems.length >= 1" class="justify-content-end my-2">
                 <b-btn class="create-trade-next-web"
                       @click="$router.push('/profile/create-listing/trades/wants')">
                   {{ $t('create_listing.trade.offer_items.next') }}
@@ -284,6 +289,7 @@
               </b-row>
             </div>
           </div>
+          
         </div>
         
       </div>
@@ -832,8 +838,6 @@ export default {
   @include body-12-regular
   color: $color-gray-5
 .inventory-section-module
-  min-height: 1016px
-  overflow-y: scroll
   background: $color-white-1
   padding: 30px 10px 66px 21px
 
@@ -859,10 +863,7 @@ export default {
   font-family: $font-sp-pro
   font-style: normal
   font-weight: $medium
-.create-trade-item
-  width: 242px
-  height: 336px
-  background: $color-white-4
+
 .create-trade-bg
   padding: 15px 30px 78px 30px
 .overlay-item
@@ -873,9 +874,8 @@ export default {
   height: 100%
   background: $color-grey-70
 .image-cont
-  height: 273px
-  background: $color-white-1
-  padding: 25px
+  padding-left: 35px
+  padding-right: 35px
 .create-trade-item-image
   width: 100%
   aspect-ratio: 1
@@ -897,4 +897,10 @@ export default {
   padding: 25px
 .create-trade-item-web
   background: $color-white-1
+
+.overlay-container
+  z-index: 1000
+  top: 30%
+  width: 99%
+  
 </style>
