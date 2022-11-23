@@ -266,6 +266,7 @@
             :showCheckBox="showCheckBox"
             :selected="selected"
             @selectedItem="selectedItem"
+            @sort="sortItems"
           />
 
           <Pagination
@@ -583,6 +584,8 @@ export default {
       delistCheckbox: false,
       relist: RELIST,
       responsiveData: [],
+      orderByField: 'id',
+      orderByDirection: 'asc',
     }
   },
 
@@ -619,6 +622,12 @@ export default {
   },
 
   methods: {
+    sortItems(sort){
+      const {orderByField, orderByDirection} = sort
+      this.orderByField = orderByField
+      this.orderByDirection = orderByDirection
+      this.loadData()
+    },
     infiniteScroll($state) {
       setTimeout(() => {
         this.page++
@@ -666,6 +675,8 @@ export default {
             perPage: this.perPage,
             searchFilters: this.searchFilters,
             page: this.page,
+            order_by_column: this.orderByField,
+            order_by_direction: this.orderByDirection
           },
         })
         .then((res) => {

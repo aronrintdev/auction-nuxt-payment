@@ -245,7 +245,7 @@ export default {
         const modal = document.getElementById(id)
         const modalBody = modal.querySelector('.modal-content')
         modalBody.style.width = '438px'
-        modalBody.style.borderRadius = '12px'
+        modalBody.style.borderRadius = '12px !important'
         modal.style.background = 'rgba(0, 0, 0, 0.25)'
         modal.style.backdropFilter = 'blur(2px)'
         // this.$refs.relistModal.$el.setAttribute('style', 'background: red')
