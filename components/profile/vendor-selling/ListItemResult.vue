@@ -289,7 +289,7 @@ export default {
 .carousel
   height: 130px
 .auction-inner-carousels-box
-  height: 145px
+  height: 130px
 .carousel-item
   &.active
     padding: 3%

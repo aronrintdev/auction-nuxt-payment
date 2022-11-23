@@ -33,12 +33,13 @@
       </div>
       <!-- Sort By ends -->
       <!-- Status -->
-      
+
       <div v-show="filterVisibility" class="collapses flex-column w-100">
         <CollapseStatus
           :value="filter.status"
           collapseKey="status"
           :title="$t('selling_page.filter.status')"
+          :preview-text="filterStatusText"
           :options="status"
           @selected="statusSelected"
         />
@@ -133,6 +134,9 @@ export default {
 
     filterStatus: (vm) => {
       return vm.filter.status
+    },
+    filterStatusText() {
+      return this.$options.filters.joinAndCapitalizeFirstLetters(this.filter.status, 2)
     }
   },
 
