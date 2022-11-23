@@ -9,3 +9,4 @@ export const DELETE = 'delete'
 
 export const START_DATE = 'Start Date'
 export const END_DATE = 'End Date'
+export const OFFER_DURATIONS = [5, 10, 15, 20]
