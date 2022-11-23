@@ -1552,6 +1552,7 @@
     "image": {
       "not_found": "Product image is not found"
     },
+    "please_select_offer_duration": "Please select your offer duration",
     "standard": "Standard",
     "inches": "Inches",
     "runs_small": "Runs Small",
@@ -1569,6 +1570,7 @@
     "place_offer": "Place Offer",
     "or_sell_now": "or Sell Now",
     "sell_for": "Sell for {amount}",
+    "place_offer_for": "Place Offer for {amount}",
     "read_more": "Read More",
     "read_less": "Read Less",
     "pre_authenticated_ships_instantly": "Pre - authenticated, ships instantly",
@@ -1622,6 +1624,7 @@
     "select_size": "Select Size",
     "error": {
       "select_size": "Please select a size above to add to cart",
+      "select_offer_duration": "Please select a an offer duration",
       "select_size_to_offer": "Please select a size above to make an offer",
       "out_of_stock": "Unfortunately, this item and size is currently out of stock!",
       "out_of_stock_place_offer": "Item out of stock, place offer or get notified",
