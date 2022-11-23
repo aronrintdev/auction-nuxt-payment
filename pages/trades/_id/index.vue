@@ -719,11 +719,13 @@ export default {
     },
 
     updateActiveTrade(){
-      this.$store.commit('trade/updateActiveTrade', {
-        yourItems: this.getYourTradeItems,
-        cashAdded: parseInt(parseFloat(this.optional_cash)*100),
-        tradeCondition: this.tradeCondition
-      })
+      if(this.cashType === this.addCashType) {
+        this.$store.commit('trade/updateActiveTrade', {
+          yourItems: this.getYourTradeItems,
+          cashAdded: parseInt(parseFloat(this.optional_cash) * 100),
+          tradeCondition: this.tradeCondition
+        })
+      }
     },
 
     /**
