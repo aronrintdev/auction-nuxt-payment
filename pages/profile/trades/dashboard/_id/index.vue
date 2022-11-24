@@ -312,6 +312,7 @@ export default {
         cashType: this.lastSubmittedOffer.cash_type,
         lastOffer: this.lastSubmittedOffer,
         tradeCondition: this.lastSubmittedOffer.condition,
+        typeOffer: false,
         submittedItemType: OFFER_TYPE_YOURS,
         offerType: ACCEPT_OFFER,
         theirVendorId: this.lastSubmittedOffer.theirs_items[0].vendor_id,

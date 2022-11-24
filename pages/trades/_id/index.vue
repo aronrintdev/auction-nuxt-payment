@@ -132,7 +132,7 @@
           <div v-if="!cash_added && !isExpire" class="optional-input d-flex">
             <div class="position-relative">
             <span v-if="optional_cash" class="position-absolute input-mt ml-2">$</span>
-            <input v-model="optional_cash" type="text" :placeholder="$t('trades.trade_arena.enter_amount_usd')" class="optional-input-field">
+            <input v-model="optional_cash" type="number" :placeholder="$t('trades.trade_arena.enter_amount_usd')" class="optional-input-field">
             </div>
             <button @click="addOptionalCash(true)">{{$t('trades.trade_arena.confirm')}}</button>
           </div>
@@ -725,12 +725,24 @@ export default {
     },
 
     updateActiveTrade(){
+      if(this.cashType === this.addCashType) {
         this.$store.commit('trade/updateActiveTrade', {
           yourItems: this.getYourTradeItems,
           cashType: this.cashType,
+          typeOffer: false,
           cashAdded: parseInt(parseFloat(this.optional_cash) * 100),
           tradeCondition: this.tradeCondition
         })
+      }
+      else {
+        this.$store.commit('trade/updateActiveTrade', {
+          yourItems: this.getYourTradeItems,
+          cashType: this.cashType,
+          typeOffer: true,
+          cashAdded: parseInt(parseFloat(this.optional_cash) * 100),
+
+      })
+      }
     },
 
     /**

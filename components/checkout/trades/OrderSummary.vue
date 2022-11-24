@@ -262,10 +262,10 @@ export default {
       return vm.getCashAdded
     },
     getCashAdded: (vm) => {
-      return vm.getCashType === 'requested'? 0 : vm.shoppingCart.cashAdded
+      return vm.getTypeOffer ? 0 : vm.shoppingCart.cashAdded
     },
-    getAddedCash: (vm) => {
-      return  vm.shoppingCart.cashAdded
+    getTypeOffer: (vm) => {
+      return  vm.shoppingCart.typeOffer
     },
     getCashType: (vm) => {
       return vm.shoppingCart.cashType
@@ -400,7 +400,7 @@ export default {
           trade_fee: this.getTradeFee,
           tax: this.getTax,
           total: this.getTotal,
-          cash_added: this.getAddedCash,
+          cash_added: this.shoppingCart?.cashAdded,
           cash_type: this.getCashType,
           card_details: this.getCardDetails(),
           payment_method: this.getPaymentMethodDetails(),
