@@ -1,7 +1,7 @@
 <template>
   <b-row class="h-100">
     <b-col md="12">
-      <b-tabs content-class="mt-0 mt-sm-3" nav-class="pb-2 pl-sm-3">
+      <b-tabs content-class="mt-0 mt-sm-3" nav-class="pb-3 pl-sm-3">
         <b-tab
           title-link-class="body-2-bold border-0 p-0 w-160 d-none d-sm-block"
           :title="$t('products.sales_graph')"

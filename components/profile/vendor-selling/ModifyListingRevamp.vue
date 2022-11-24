@@ -10,11 +10,11 @@
           :src="require('~/assets/img/icons/arrow-left-gray.svg')"
           class="img-fluid"
       />
-      {{ $t('common.back_to_search') }}
+      {{ $t('common.back') }}
     </span>
 
     <b-row>
-      <b-col v-if="!isScreenXS" md="6" offset-md="6" sm="12">
+      <b-col v-if="!isScreenXS" md="6" offset-md="6" sm="12" class="mt-38">
         <ProductTitleSec
             :lowest-price="lowestPrice ? lowestPrice : 0"
             :product="product"
@@ -100,17 +100,17 @@
                 nav-key="category"
             />
           </div>
-          <div class="col-12">
-            <div class="d-flex justify-content-center mt-2">
+          <div class="col-12 d-flex justify-content-center">
+            <div class="d-flex justify-content-center mt-3 web-prices">
               <div
                   :class="selectedCategory == buy && 'active text-black'"
-                  class="px-5 mx-3 text-gray-24 body-1-medium"
+                  class="w-100 text-center text-gray-24 body-1-medium"
               >
                 {{ lowestPrice | toCurrency }}
               </div>
               <div
                   :class="selectedCategory == offer && 'active text-black'"
-                  class="px-5 mx-3 text-gray-24 body-1-medium"
+                  class="w-100 text-center text-gray-24 body-1-medium"
               >
                 {{ highestOffer | toCurrency }}
               </div>
@@ -155,6 +155,9 @@
               :sizes="sizes"
               :value="value.currentSize"
               :view-mode="sizeViewMode"
+              :card-style="{
+                'background-color': '#F5F5F5'
+              }"
               class="size-picker"
               iconClass="d-none"
               iconTextClass="text-color-blue-30"
@@ -285,7 +288,7 @@
               :class="
               value.price !== null && value.price <= priceMinVal && 'error'
             "
-              class="mt-3 col-12 input-col"
+              class="mt-4 col-12 input-col"
           >
             <FormInput
                 :label="$t('create_listing.your_listing_price')"
@@ -352,13 +355,13 @@
         >
           <Button
               :disabled="!isFormValid"
-              class="mt-3 mr-3 flex-grow-1"
+              class="mt-3 mr-3 flex-grow-1 submit-buttons"
               variant="dark"
               @click="handleEditClick"
           >
             {{ $t('inventory.save_changes') }}
           </Button>
-          <Button class="mt-3 flex-grow-1" variant="outline-dark" @click="handleDiscard">
+          <Button class="mt-3 flex-grow-1 submit-buttons" variant="outline-dark" @click="handleDiscard">
             {{ $t('inventory.discard_changes') }}
           </Button>
         </div>
@@ -450,26 +453,26 @@
       </b-col>
     </b-row>
 
-    <div v-if="!isScreenXS" class="section-product-details">
-      <span class="body-2-medium text-black">{{
+    <div v-if="!isScreenXS" class="section-product-details mb-1">
+      <div class="body-2-medium font-secondary text-black mb-1 mt-68">{{
           $t('create_listing.product.product_details')
-        }}</span>
+        }}</div>
       <hr/>
-      <b-row>
+      <b-row class="mt-40">
         <b-col md="6" sm="12">
           <b-row>
-            <b-col class="text-black py-1" cols="4"
+            <b-col class="text-black font-secondary py-1" cols="4"
             >{{ $t('common.sku') }}:
             </b-col
             >
             <b-col class="py-1" cols="8">{{ product.sku }}</b-col>
-            <b-col class="text-black py-1" cols="4"
+            <b-col class="text-black  font-secondary py-1" cols="4"
             >{{ $t('common.color') }}:
             </b-col
             >
             <b-col class="py-1" cols="8">{{ product.colorway }}</b-col>
             <template v-if="product.retail_price">
-              <b-col class="text-black py-1" cols="4"
+              <b-col class="text-black font-secondary py-1" cols="4"
               >{{ $t('common.retail_price') }}:
               </b-col
               >
@@ -479,7 +482,7 @@
               </b-col>
             </template>
             <template v-if="product.release_date">
-              <b-col class="text-black py-1" cols="4"
+              <b-col class="text-black font-secondary py-1" cols="4"
               >{{ $t('common.release_date') }}:
               </b-col
               >
@@ -629,11 +632,13 @@ import screenSize from '~/plugins/mixins/screenSize'
 import arrowDownIcon from '~/assets/img/icons/arrow-down-dark-blue.svg'
 import BoxConditionPicker from '~/components/product/BoxConditionPicker'
 import ProductTitleSec from '~/components/profile/vendor-selling/details/ProductTitleSec'
+import ProductThumb from '~/components/product/Thumb'
 
 export default {
   name: 'ModifyListingRevamp',
 
   components: {
+    ProductThumb,
     ProductTitleSec,
     ProductSizePicker,
     ModifyListingConfirm,
@@ -1074,6 +1079,24 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.mt-38
+  margin-top: 38px
+
+.mt-68
+  margin-top: 68px
+
+.mt-40
+  margin-top: 40px
+
+.mb-20
+  margin-bottom: 20px
+
+::v-deep.submit-buttons
+  &.btn
+    height: 46px
+
+.web-prices
+  width: 408px
 
 ::v-deep.nav-408
   .btn-group
@@ -1141,7 +1164,7 @@ export default {
         color: $color-black-1
         margin-left: 0px !important
         text-transform: uppercase
-        margin-bottom: 8px
+        margin-bottom: 16px
       input
         border-radius: 4px !important
         height: 40px
@@ -1206,9 +1229,9 @@ export default {
     .add-listing-btn,
     .responsive-product-details-block,
     .product-thumbnail
-      width: 323px !important
+      width: 420px !important
       // Added !important coz the product thumb component breaks the width of component
-      height: 246px
+      height: 420px
     .image-viewer-three-sixty
       width: 323px !important
       // Added !important coz the product thumb component breaks the width of component
