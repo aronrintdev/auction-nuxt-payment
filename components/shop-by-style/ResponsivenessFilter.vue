@@ -1,7 +1,7 @@
 <template>
   <div
     class="container search-filter-main py-3 px-1"
-    :class="{ scrolled: scrollPosition > 150 }"
+    :class="{ scrolled: scrollPosition > 130 }"
   >
     <div class="d-flex align-items-center sf-wrapper">
       <div class="searchbar-filter position-relative w-100"></div>
@@ -9,12 +9,7 @@
         class="setting-filter d-flex justify-content-start px-0 ml-2"
         @click="open"
       >
-        <Icon
-          src="sbs-filter-icon.png"
-          width="40"
-          height="40"
-          class="btn-close"
-        />
+        <FilterIcon />
       </div>
     </div>
     <vue-bottom-sheet
@@ -91,14 +86,14 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import { Icon } from '~/components/common'
+import FilterIcon from '~/assets/icons/FilterIcon'
 import ShopFiltersMobile from '~/components/shop-by-style/MobileFilters'
 import Checkbox from '~/components/common/form/Checkbox'
 import SearchIcon from '~/assets/icons/SearchIcon'
 
 export default {
   name: 'SearchAndFilter',
-  components: { ShopFiltersMobile, Icon, Checkbox, SearchIcon },
+  components: { ShopFiltersMobile, FilterIcon, Checkbox, SearchIcon },
   props: {
     date: {
       type: String,

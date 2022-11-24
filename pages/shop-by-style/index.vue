@@ -1,5 +1,5 @@
 <template>
-  <div class="container-shop-by-style mx-auto h-auto">
+  <div class="container container-shop-by-style h-auto">
     <div class="d-none d-sm-block">
       <div class="text-right mr-5">
         <Button
@@ -13,7 +13,7 @@
       <div class="d-flex justify-content-between align-items-center mmt-8">
         <h2 class="title">{{ $t('shop_by_style.title') }}</h2>
       </div>
-      
+
       <div class="text-center position-relative d-flex offset-sm-4 mt-10">
         <NavGroup
           v-model="type"
@@ -42,37 +42,41 @@
       </b-collapse>
     </div>
     <div class="d-block d-sm-none">
-      <ResponsivenessFilter :currentType="type" @renderStyles="getStyles"/>
+      <ResponsivenessFilter :currentType="type" @renderStyles="getStyles" />
     </div>
-    <b-row v-if="type === 'look'" class="mt-0 ml-0 mr-0 look-view">
-      <b-col v-for="(style, index) in styles" :key="index" md="3" sm="3" class="p-0 mobile-styles">
+    <div v-if="type === 'look'" class="styles-grid mt-0 ml-0 mr-0 look-view">
+      <div
+        v-for="(style, index) in styles"
+        :key="index"
+        class="p-0 mobile-styles"
+      >
         <ShopByStyleCard
           :style-id="style.id"
           :image-url="style.image"
           class="style-card"
         ></ShopByStyleCard>
-      </b-col>
-    </b-row>
-    <b-row v-else class="mt-0 ml-0 mr-0 mobile-styles">
+      </div>
+    </div>
+    <div v-else class="styles-grid mt-0 ml-0 mr-0 mobile-styles">
       <template v-for="(style, index) in styles">
-        <b-col v-if="index == 1" :key="index" lg="3" md="3" sm="3" class="p-0 mobile-styles">
+        <div v-if="index == 1" :key="index" class="p-0 mobile-styles">
           <ShopByStyleCard
             :style-id="style.id"
             :image-url="style.image"
             class="style-card"
           />
-        </b-col>
+        </div>
       </template>
       <template v-for="(style, index) in styles">
-        <b-col v-if="index != 1" :key="index" lg="3" md="3" sm="3" class="mobile-styles">
+        <div v-if="index != 1" :key="index" class="mobile-styles">
           <ShopByStyleCard
             :style-id="style.id"
             :image-url="style.image"
             class="style-card"
           />
-        </b-col>
+        </div>
       </template>
-    </b-row>
+    </div>
   </div>
 </template>
 <script>
@@ -84,7 +88,13 @@ import { TYPE } from '~/static/constants/shop-by-style'
 import ResponsivenessFilter from '~/components/shop-by-style/ResponsivenessFilter'
 
 export default {
-  components: { NavGroup, Button, ShopByStyleFilter, ShopByStyleCard, ResponsivenessFilter },
+  components: {
+    NavGroup,
+    Button,
+    ShopByStyleFilter,
+    ShopByStyleCard,
+    ResponsivenessFilter,
+  },
 
   layout: 'IndexLayout',
 
@@ -104,14 +114,14 @@ export default {
         },
         {
           label: this.$tc('common.best_seller', 2),
-          value: 'best_seller'
-        }
+          value: 'best_seller',
+        },
       ],
       page: 1,
       perPage: null,
       styles: null,
       styleCount: 0,
-      filters: false
+      filters: false,
     }
   },
 
@@ -131,12 +141,12 @@ export default {
           params: {
             selectedType: this.type,
             pageName: 'BROWSE',
-            filters
+            filters,
           },
         })
         .then((res) => {
           this.styles = res.data.data
-          if(this.styles.length) {
+          if (this.styles.length) {
             this.filters = true
           }
         })
@@ -174,6 +184,13 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.styles-grid
+  display: grid
+  grid-template-columns: repeat(5, 182px)
+  @media (max-width: 576px)
+    grid-template-columns: repeat(3, 182px)
+
 
 .mt-10
   margin-top: 10px
@@ -216,13 +233,9 @@ export default {
   .container-shop-by-style
     padding: 0
 @media (max-width: 460px)
-  .look-view
-    margin: 0 16px !important
-  .mobile-styles
-    width: 33.3%
-  .container-shop-by-style 
-    .row 
-      > div 
+  .container-shop-by-style
+    .row
+      > div
         .style-card
           margin-bottom: 0
 </style>
