@@ -7,7 +7,7 @@
             'web-padding': !isScreenXS,
             mobile: isScreenXS,
           }"
-            class="col-md-12 col-lg-12 vendor-dashboard-body"
+            class="col-md-12 col-lg-12 vendor-dashboard-body main-section"
         >
           <!-- Row (Heading/ Search Fields/ Tabs) -->
           <div v-if="!isScreenXS" class="vd-purchase-css">
@@ -971,4 +971,7 @@ input.date-input
   :deep(.clearall-filter)
     flex: 0 0 22.666667%
     max-width: 22.666667%
+
+.main-section
+  background: $color-white-5
 </style>
