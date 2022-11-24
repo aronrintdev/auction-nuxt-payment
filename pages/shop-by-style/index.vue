@@ -189,7 +189,7 @@ export default {
   display: grid
   grid-template-columns: repeat(5, 182px)
   @media (max-width: 576px)
-    grid-template-columns: repeat(3, 182px)
+    grid-template-columns: repeat(3, 127px)
 
 
 .mt-10
@@ -199,7 +199,8 @@ export default {
 .mmt-8
   margin-top: -8px
 .look-view
-  margin: 0 178px!important
+  @media (min-width: 576px)
+    margin: 0 178px !important
 .container-shop-by-style
   max-width: 1440px
   padding: 64px 86px 64px 87px
