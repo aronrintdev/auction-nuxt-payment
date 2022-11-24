@@ -230,7 +230,7 @@
       </div>
       <!-- ./Col5 ends -->
     </div>
-    <div class="d-flex justify-content-center align-items-center mt-4">
+    <div class="d-flex justify-content-center align-items-center mt-4 mb-4">
       <div class="fair-trade-division-mobile">
         <Meter :highest="getTheirTotal(false)"
                :lowest="0"
