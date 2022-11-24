@@ -44,7 +44,7 @@
     <div class="d-block d-sm-none">
       <ResponsivenessFilter :currentType="type" @renderStyles="getStyles" />
     </div>
-    <div v-if="type === 'look'" class="styles-grid mt-0 ml-0 mr-0 ">
+    <div v-if="type === 'look'" class="styles-grid mt-0 ml-0 mr-0 look-view">
       <div
         v-for="(style, index) in styles"
         :key="index"
@@ -199,7 +199,8 @@ export default {
 .mmt-8
   margin-top: -8px
 .look-view
-  margin: 0 178px!important
+  @media (min-width: 576px)
+    margin: 0 178px !important
 .container-shop-by-style
   max-width: 1440px
   padding: 64px 86px 64px 87px
