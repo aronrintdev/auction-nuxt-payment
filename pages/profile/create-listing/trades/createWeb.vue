@@ -815,7 +815,7 @@ export default {
   right: 10px
   top: 10px
   cursor: pointer
-  z-index: 100
+  z-index: 88
 
 .inventory-area
   margin-bottom: 33px
