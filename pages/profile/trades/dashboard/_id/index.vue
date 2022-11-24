@@ -3,8 +3,8 @@
     <div v-if="isResponsive" class="responsive-div">
       <b-row v-if="offer !== null">
         <b-col :md="isPayment ? 9 : 12">
-          <div class="center-container-xs mt-5 mb-5">
-            <div class="left-item-xs" :class="{'right-item-margin-top-sm':lastSubmittedOffer.theirs_items.length === TWO_ITEMS,'left-item-one-xs':lastSubmittedOffer.theirs_items.length=== ONE_ITEM}">
+          <div class="mt-5 mb-5" :class="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ? 'center-container-xs': lastSubmittedOffer.theirs_items.length === TWO_ITEMS ? 'center-container-xs2':'center-container-xs1 ml-5'">
+            <div class="left-item-xs" :class="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ? 'height-th-3': lastSubmittedOffer.theirs_items.length === TWO_ITEMS ? 'height-th-2':'height-th-1'">
               <div v-for="(item,index) in lastSubmittedOffer.theirs_items" :id="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ?'card-'+index : ''" :key="index" class="item mb-4">
                 <div class="image-wrapper-sm">
                   <img class="pro-image-sm" :src="item.inventory.product | getProductImageUrl"/>
@@ -21,17 +21,20 @@
                 </div>
               </div>
             </div>
-            <div class="center-item-sm">
+            <div  :class="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ? 'center-item-sm': lastSubmittedOffer.theirs_items.length === TWO_ITEMS ? 'center-item-sm-2':'center-item-sm1'">
               <div v-if="lastSubmittedOffer.theirs_items.length  > ONE_ITEM" class="pointer-left-sm" :class="{'pointer-right-two-items-sm':lastSubmittedOffer.theirs_items.length === TWO_ITEMS}"></div>
               <div class="position-relative center-img d-flex justify-content-between ml-3">
                 <div v-if="lastSubmittedOffer.theirs_items.length  === THREE_ITEMS || lastSubmittedOffer.theirs_items.length === ONE_ITEM" class="line-bar-sm"></div>
-                <div class="fair-text-sm position-absolute">{{$t('trades.fair')}}</div>
-                <img class="trade-img-sm position-absolute" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
+                <div :class="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ? 'fair-t3': lastSubmittedOffer.theirs_items.length === TWO_ITEMS ? 'fair-t2':'fair-t1'">
+                  <div class="fair-text-sm position-absolute">{{$t('trades.fair')}}</div>
+                  <img class="trade-img-sm position-absolute" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
+                </div>
+
                 <div v-if="lastSubmittedOffer.yours_items.length === THREE_ITEMS || lastSubmittedOffer.yours_items.length === ONE_ITEM" class="line-bar-sm"></div>
               </div>
               <div v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" class="pointer-right-sm ml-5" :class="{'pointer-right-two-items-sm':lastSubmittedOffer.yours_items.lengthh === TWO_ITEMS}"></div>
             </div>
-            <div class="right-item-sm position-relative" :class="{'right-item-margin-top-sm':lastSubmittedOffer.yours_items.length === TWO_ITEMS,'right-item-one-sm':lastSubmittedOffer.yours_items.length === ONE_ITEM}">
+            <div class="right-item-sm position-relative"  :class="lastSubmittedOffer.yours_items.length === THREE_ITEMS ? 'height-3': lastSubmittedOffer.yours_items.length === TWO_ITEMS ? 'height-2':'height-1'">
               <div  v-if="lastSubmittedOffer.yours_items.length" class="">
                 <div   v-for="(item,index) in lastSubmittedOffer.yours_items" :id="lastSubmittedOffer.yours_items.length > ONE_ITEM ?'your-card-'+index : 'your-item'" :key="index" class="preview mb-4">
                   <div class="image-wrapper-sm">
@@ -728,7 +731,13 @@ export default {
   min-height: 650px
   margin: 0 15px
   display: flex
-  justify-content: center
+.center-container-xs1
+  margin: 0 15px
+  display: flex
+.center-container-xs2
+  min-height: 400px
+  margin: 0 15px
+  display: flex
 .right-item-xs,.left-item-xs
   width: 118px
   height: 153px
@@ -791,6 +800,15 @@ export default {
   margin: 0 10px
   width: unset
   max-width: 780px
+.center-item-sm-2
+  min-width: 10px
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding-top: 21px
+  margin: 0 10px
+  width: unset
+  max-width: 780px
 .pointer-left-sm,.pointer-right-sm
   width: 25px
   height: 370px
@@ -809,7 +827,7 @@ export default {
 .line-bar-sm
   width: 9px
   height: 2px
-  background: $color-white-18
+  //background: $color-black-1
   margin: 15px -20px 0 -20px
 .fair-text-sm
   //background: $color-white-1
@@ -835,4 +853,13 @@ export default {
 .right-item-sm,.left-item-sm
   width: 118px
   height: 153px
+.right-item-one-sm
+  margin-left: 40px
+.fair-t1
+  margin-top: 9rem
+.height-1
+  margin-top: 6rem
+  margin-left: 40px
+.height-th-1
+  margin-top: 6rem
 </style>
