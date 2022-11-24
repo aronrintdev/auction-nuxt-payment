@@ -7,7 +7,7 @@
             'web-padding': !isScreenXS,
             mobile: isScreenXS,
           }"
-            class="col-md-12 col-lg-12 vendor-dashboard-body"
+            class="col-md-12 col-lg-12 vendor-dashboard-body main-section"
         >
           <!-- Row (Heading/ Search Fields/ Tabs) -->
           <div v-if="!isScreenXS" class="vd-purchase-css">
@@ -17,10 +17,8 @@
             </div>
             <!-- ./Heading -->
             <!-- Search Input -->
-            <div class="w-100 d-flex align-items-center">
-              <div
-                  class="w-100 flex-grow-1 d-flex input-field-search align-items-center mr-5"
-              >
+            <div class="w-100 d-flex align-items-center justify-content-between">
+              <div class="col-7 col-xl-9 flex-grow-1 d-flex input-field-search align-items-center mr-2">
                 <img
                     :src="require('~/assets/img/icons/search.svg')"
                     alt="Search"
@@ -50,7 +48,8 @@
                 }"
                   :threeline-icon="false"
                   bordered
-                  class="vp-custom-select w-245"
+                  class="vp-custom-select col-5 col-xl-3 px-0 bg-white-5"
+                  dropdownClass="position-relative top-0"
                   @input="handleFilterChanged"
               ></VendorPurchaseCustomSelect>
             </div>
@@ -58,7 +57,7 @@
           </div>
           <!-- ./Row -->
           <!-- ./Row -->
-          <div v-if="!isScreenXS" class="d-flex align-items-end">
+          <div v-if="!isScreenXS" class="mt-4 d-flex align-items-end flex-wrap">
             <div class="mr-20">
               <span class="mb-5p font-secondary body-8-normal text-black">{{
                   $t('common.filter_by')
@@ -68,7 +67,8 @@
                   :title="typeTitle"
                   :updateFilters="activeTypeFilters"
                   bordered
-                  class="vp-custom-select w-120"
+                  class="vp-custom-select w-120 bg-white-5"
+                  inputClass="w-100"
                   @filters="typeFilters"
               />
             </div>
@@ -79,7 +79,8 @@
                   :title="statusTitle"
                   :updateFilters="activeStatusFilters"
                   bordered
-                  class="vp-custom-select w-245"
+                  class="vp-custom-select w-245 bg-white-5"
+                  inputClass="w-100"
                   @filters="statusFilters"
               />
             </div>
@@ -946,4 +947,7 @@ input.date-input
   :deep(.clearall-filter)
     flex: 0 0 22.666667%
     max-width: 22.666667%
+
+.main-section
+  background: $color-white-5
 </style>
