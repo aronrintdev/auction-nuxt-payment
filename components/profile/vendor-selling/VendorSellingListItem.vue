@@ -29,7 +29,7 @@
             <Loader :loading="loading"></Loader>
           </div>
         </template>
-        <template #cell(products)="row">
+        <template #cell(id)="row">
           <div class="row">
             <div class="vd-sell-product-img text-center ">
               <div class="d-flex align-items-center mb-2">
@@ -176,15 +176,15 @@ export default {
       // Table fields
       fields: [
         {
-          key: 'products',
-          label: this.$t('selling_page.product'),
+          key: 'id',
+          label: this.$t('common.listing_id'),
           sortable: false,
           thClass: 'body-4-bold font-primary text-nowrap mr-4',
           thStyle: { width: '170px' }
         },
         {
           key: 'product_details',
-          label: '',
+          label: this.$t('selling_page.product'),
           sortable: false,
           thClass: 'body-4-bold font-primary text-nowrap '
         },
@@ -249,7 +249,7 @@ export default {
 
   methods: {
     isSortActive(column){
-      return !['products', 'product_details'].includes(column)
+      return !!column
     },
     orderBy(column){
       if (this.isSortActive(column)){

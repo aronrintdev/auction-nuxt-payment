@@ -18,7 +18,7 @@
               >
             </div>
             <!-- Listed on -->
-            <div class="mt-md-1 mt-2 d-flex justify-content-between w-100">
+            <div class="mt-2 d-flex justify-content-between w-100">
               <span class="body-13-normal font-secondary text-capitalize"
               >{{ $t('selling_page.listed_on') }}
                 {{ details.created_at | formatDateTimeString }}
@@ -26,7 +26,7 @@
             </div>
             <!-- ./Listed On -->
             <!-- Price -->
-            <div class="mt-1 mb-0">
+            <div class="mt-2 mb-0">
               <span class="body-13-normal font-secondary"
               >{{ $t('selling_page.price_at') }} &dollar;{{
                   details.inventory.sale_price | formatPrice
@@ -36,10 +36,10 @@
             <!-- ./Price -->
           </div>
 
-          <div class="d-flex flex-column flex-grow-0">
+          <div class="d-flex flex-column align-items-center flex-grow-0">
             <Button
                 v-if="details.status !== 'delisted'"
-                class="float-right px-3"
+                class="float-right list-buttons"
                 pill
                 variant="dark-blue"
                 @click="delistItem()"
@@ -48,14 +48,14 @@
             </Button>
             <Button
                 v-else
-                class="float-right px-3"
+                class="float-right list-buttons"
                 pill
                 variant="dark-blue"
                 @click="relist()"
             >
               {{ $t('selling_page.relist') }}
             </Button>
-            <div class="text-ds mt-13" role="button" @click="modifyListing">
+            <div class="text-ds mt-13 body-13-normal font-secondary" role="button" @click="modifyListing">
               {{ $t('selling_page.modify_listing') }}
             </div>
           </div>
@@ -82,36 +82,38 @@
             </b-col>
             <!-- ./Product Image -->
             <!-- Product Details -->
-            <b-col md="4" sm="12" xl="3">
+            <b-col md="9" sm="12" xl="10">
               <div class="body-12-medium font-secondary text-gray-simple mb-2">
                 {{ $t('selling_page.product_details') }}
               </div>
-              <div class="body-13-regular font-secondary mb-1">
-                {{ details.inventory.product.name }}
+              <div class="d-flex align-items-start">
+                <div class="mr-105">
+                  <div class="body-13-regular font-secondary mb-1">
+                    {{ details.inventory.product.name }}
+                  </div>
+                  <div class="body-13-regular font-secondary mb-1">
+                    {{ $t('selling_page.colorway') }}&colon;
+                    {{ details.inventory.product.colorway }}
+                  </div>
+                  <div class="body-13-regular font-secondary mb-1">
+                    {{ $t('selling_page.box_condition') }}&colon;
+                    {{ details.inventory.packaging_condition.name }}
+                  </div>
+                </div>
+                <div class="">
+                  <p class="body-13-regular font-secondary mb-1">
+                    {{ $t('selling_page.size') }}&colon;
+                    {{ details.inventory.size.size }}
+                  </p>
+                  <p class="body-13-regular font-secondary mb-1">
+                    {{ $t('selling_page.sku') }}&colon;
+                    {{ details.inventory.product.sku }}
+                  </p>
+                </div>
               </div>
-              <div class="body-13-regular font-secondary mb-1">
-                {{ $t('selling_page.colorway') }}&colon;
-                {{ details.inventory.product.colorway }}
-              </div>
-              <div class="body-13-regular font-secondary mb-1">
-                {{ $t('selling_page.box_condition') }}&colon;
-                {{ details.inventory.packaging_condition.name }}
-              </div>
-            </b-col>
-            <!-- ./Product Details -->
-            <!-- Size/ SKU -->
-            <b-col class="" md="3" sm="12">
-              <p class="body-13-regular font-secondary mb-1 mt-4">
-                {{ $t('selling_page.size') }}&colon;
-                {{ details.inventory.size.size }}
-              </p>
-              <p class="body-13-regular font-secondary mb-1">
-                {{ $t('selling_page.sku') }}&colon;
-                {{ details.inventory.product.sku }}
-              </p>
+
             </b-col>
             <!-- ./Size/ SKU -->
-            <b-col md="4" sm="12"></b-col>
           </b-row>
           <!-- ./Details -->
         </div>
@@ -269,6 +271,12 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+.mr-105
+  margin-right: 105px
+
+::v-deep.list-buttons
+  &.btn
+    width: 98px
 .mt-13
   margin-top: 13px
 
