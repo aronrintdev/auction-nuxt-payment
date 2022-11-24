@@ -24,7 +24,7 @@
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{ $t('newest_features.in_app_notifications.methods') }}
       </FeatureTitle>
       <div class="cards-wrapper-in-app d-flex flex-column align-items-center">
@@ -187,4 +187,9 @@ export default {
             font-size: 12px !important
             font-weight: 400
             line-height: 22px
+@media screen and (max-width: 577px)
+  .features-container
+    .feature-title-my
+      margin-top: 48px !important
+      margin-bottom: 24px !important
 </style>

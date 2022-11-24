@@ -1,6 +1,6 @@
 <template>
   <div :class="{
-    'mb-2': !isScreenXS
+    'mb-2 px-4': !isScreenXS
   }">
     <div class="row mt-2 mb-2 my-sm-3">
       <div class="col-6 col-md-3">
@@ -11,29 +11,37 @@
         </h1>
       </div>
       <div class="d-none col-md-6 d-sm-flex justify-content-center">
-        <NavGroup :value="activeNav" :data="menus" @change="navItem"/>
+        <NavGroup class="nav-grp" :value="activeNav" :data="menus" @change="navItem"/>
       </div>
       <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
         <nuxt-link
+            :class="{
+                'text-link-blue-mobile': isScreenXS,
+                'text-link-blue': !isScreenXS,
+              }"
           to="/profile/purchases"
-          class="font-secondary fs-16 fw-400 border-bottom border-primary mb-0 view-more-link"
+          class="font-secondary fs-16 fw-400 text-decoration-underline mb-0 view-more-link"
           >{{ $t('vendor_dashboard.view_all') }}</nuxt-link
         >
       </div>
     </div>
     <div>
       <div class="buyer-purchases">
-        <div class="row d-none d-sm-flex">
-          <div v-for="row in purchases" :key="row.id" class="col-md-6">
-            <div class="bg-white p-5 border br-10">
-              <!-- TODO dummy data  -->
-              <div class="row">
+        <div class="row d-none d-sm-flex mb-5r">
+          <div v-for="row in purchases" :key="row.id" class="purchase-card col-md-6 mb-15" :class="{
+              'mobile': isScreenXS,
+              'XL': isScreenXL,
+            }">
+            <div class="bg-white p-38 border br-10">
+              <div class="row text-nowrap">
                 <div class="col-6">
                   <h2 class="fs-18 fw-7 font-secondary">
                     {{ $t('buyer_dashboard.purchases.order') }}#{{
                       row.order_id
                     }}
-                    ({{ row.type.label }})
+                    <span class="text-capitalize">
+                      ({{ row.type.label }})
+                    </span>
                   </h2>
                   <h4 class="fs-16 fw-6 font-secondary mb-0">
                     {{ $t('buyer_dashboard.purchases.ordred_on') }}
@@ -49,7 +57,7 @@
                 <div class="col-6 d-flex flex-column align-items-end">
                   <nuxt-link
                     :to="'/profile/purchases/summary/' + row.id"
-                    class="font-secondary fs-16 fw-4 border-bottom border-primary mb-0"
+                    class="font-secondary fs-16 fw-4 text-decoration-underline text-link-blue mb-0"
                     >{{ $t('buyer_dashboard.purchases.view_order') }}
                   </nuxt-link>
                 </div>
@@ -92,6 +100,7 @@
         </div>
       </div>
     </div>
+
     <div class="row d-flex d-sm-none">
       <div v-for="row in purchases" :key="row.id" class="col-12 my-2">
         <div class="bg-white py-2 border br-10">
@@ -128,15 +137,15 @@
                   <h4 class="title-item body-5-medium text-nowrap text-truncate text-black">
                     {{ item.product.name }}
                   </h4>
-                  <h4 class="body-6-normal text-nowrap mb-0 ">
+                  <h4 class="body-6-regular text-nowrap mb-0 ">
                     {{ $t('common.sku') }}: {{ item.product.sku }}
                   </h4>
-                  <h4 class="body-6-normal text-secondary mb-0">
+                  <h4 class="body-6-regular text-secondary mb-0">
                     {{ $t('vendor_dashboard.colorway') }}:{{
                       item.product.colorway
                     }}
                   </h4>
-                  <h4 class="body-6-normal  text-secondary mb-0">
+                  <h4 class="body-6-regular  text-secondary mb-0">
                     {{ $t('vendor_dashboard.box_condition') }}: {{ item.product.box_condition || '' }}
                   </h4>
                 </b-col>
@@ -147,18 +156,22 @@
           <!-- TODO  -->
           <div class="order-info">
             <div class="d-flex info-row px-3 py-1 justify-content-between">
-              <h6 class="mb-0 fs-12 fw-7 font-primary text-black">
+              <h6 class="mb-0 body-9-medium font-primary text-black">
                 {{ $t('buyer_dashboard.purchases.order') }}:
               </h6>
               <h6
-                  class="mb-0 fs-12 fw-5 font-primary text-primary w-fit-content border-bottom border-primary"
+                  :class="{
+                    ' text-link-blue-mobile': isScreenXS,
+                    'text-link-blue': !isScreenXS,
+                  }"
+                  class="mb-0 fs-12 fw-5 font-primary w-fit-content text-decoration-underline"
                   @click="$router.push('/profile/purchases/summary/' + row.order_id)"
               >
                 #{{ row.order_id }}
               </h6>
             </div>
             <div class="d-flex info-row px-3 py-1 justify-content-between">
-              <h6 class="mb-0 fs-12 fw-7 font-primary text-black">
+              <h6 class="mb-0 body-9-medium font-primary text-black">
                 {{ $t('buyer_dashboard.purchases.ordred_on') }}:
               </h6>
               <h6
@@ -168,7 +181,7 @@
               </h6>
             </div>
             <div class="d-flex info-row px-3 py-1 justify-content-between">
-              <h6 class="mb-0 fs-12 fw-7 font-primary text-black">
+              <h6 class="mb-0 body-9-medium font-primary text-black">
                 {{ $t('vendor_dashboard.status') }}:
               </h6>
               <h6
@@ -178,7 +191,7 @@
               </h6>
             </div>
             <div class="d-flex info-row px-3 py-1 justify-content-between">
-              <h6 class="mb-0 fs-12 fw-7 font-primary text-black">
+              <h6 class="mb-0 body-9-medium font-primary text-black">
                 {{ $t('vendor_dashboard.type') }}:
               </h6>
               <h6
@@ -189,7 +202,7 @@
             </div>
 
             <div class="d-flex info-row px-3 py-1 justify-content-between">
-              <h6 class="mb-0 fs-12 fw-7 font-primary text-black">
+              <h6 class="mb-0 body-9-medium font-primary text-black">
                 {{ $t('buyer_dashboard.purchases.quantity') }}:
               </h6>
               <h6
@@ -199,7 +212,7 @@
               </h6>
             </div>
             <div class="d-flex info-row px-3 py-1 justify-content-between">
-              <h6 class="mb-0 fs-12 fw-7 font-primary text-black">
+              <h6 class="mb-0 body-9-medium font-primary text-black">
                 {{ $t('buyer_dashboard.purchases.order_total') }}:
               </h6>
               <h6
@@ -299,6 +312,35 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.mb-15
+  margin-bottom: 15px
+
+.p-38
+  padding: 38px
+
+.purchase-card.col-md-6
+  width: 521px !important
+  flex: 100%
+  max-width: 521px
+  height: 333px
+  &.XL
+    flex: 0 0 50%
+    max-width: 50%
+    height: fit-content
+
+
+::v-deep.nav-grp
+  .btn-group
+    width: 460px
+    height: 32px
+    button.btn
+      @include body-6-regular
+      font-family: $font-montserrat
+      width: 103px
+      padding-block: 1px
+      &.active
+        font-weight: $medium
+
 .awaiting
   color: $color-red-20
 

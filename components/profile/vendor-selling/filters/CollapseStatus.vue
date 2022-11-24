@@ -26,8 +26,8 @@
           <div class="col text-left">
             {{ title }}
           </div>
-          <div class="col text-right">
-            <span v-if="value" class="filters overflow-hidden d-inline-block text-nowrap">{{ value.label }}</span>
+          <div class="col text-right mr-1">
+            <span v-if="previewText" class="filters overflow-hidden d-inline-block text-nowrap">{{ previewText }}</span>
           </div>
         </div>
       </button>
@@ -72,6 +72,10 @@ export default {
     collapseKey: {
       type: String,
       default: '',
+    },
+    previewText: {
+      type: [String, null],
+      default: null,
     },
     title: {
       type: String,

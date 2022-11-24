@@ -31,10 +31,10 @@
               @change="onSearchInput"
             />
             <div class="position-relative">
-              <SearchedProductsBelowSearchTextBox 
-                v-if="searchedItems.length > 0" 
-                :productItems="searchedItems" 
-                productsFor="tradeItem" 
+              <SearchedProductsBelowSearchTextBox
+                v-if="searchedItems.length > 0"
+                :productItems="searchedItems"
+                productsFor="tradeItem"
                 class="position-absolute z-100"
                 addBtnClass="text-right"
                 :itemStyle="{
@@ -67,26 +67,26 @@
               <div class="row">
                 <client-only>
                   <div class="col-12 col-md-6 col-xl-3">
-                    <CustomDropdown 
-                      v-model="categoryFilter" 
-                      :options="categoryItems" 
+                    <CustomDropdown
+                      v-model="categoryFilter"
+                      :options="categoryItems"
                       type="single-select"
-                      :label="categoryFilterLabel" 
-                      class="" 
+                      :label="categoryFilterLabel"
+                      class=""
                       optionsWidth="custom"
                       paddingX="10px"
                       :arrowStyle="{
                         marginTop: '0 !important',
                         color: '#000'
                       }"
-                      :dropdownStyle="{ 
-                        border: '1px solid #CCC', 
+                      :dropdownStyle="{
+                        border: '1px solid #CCC',
                         borderTop: 0,
                         borderRadius: '0 0 4px 4px'
                       }"
                       borderRadiusClose="4px 4px 0 0"
                       border-radius="4px"
-                      dropDownHeight="38px" 
+                      dropDownHeight="38px"
                       variant="white"
                       @change="changeCategory"
                     />
@@ -105,8 +105,8 @@
                         marginTop: '0 !important',
                         color: '#000'
                       }"
-                      :dropdownStyle="{ 
-                        border: '1px solid #CCC', 
+                      :dropdownStyle="{
+                        border: '1px solid #CCC',
                         borderTop: 0,
                         borderRadius: '0 0 4px 4px'
                       }"
@@ -126,8 +126,8 @@
                       optionsWidth="custom"
                       dropDownHeight="38px"
                       variant="white"
-                      :dropdownStyle="{ 
-                        border: '1px solid #CCC', 
+                      :dropdownStyle="{
+                        border: '1px solid #CCC',
                         borderTop: 0,
                         borderRadius: '0 0 4px 4px'
                       }"
@@ -151,8 +151,8 @@
             </div>
             <div class="mt-2 mt-xl-5 col-md-6 col-xl-3">
               <client-only>
-                <CustomDropdown 
-                  v-model="orderFilter" 
+                <CustomDropdown
+                  v-model="orderFilter"
                   :labelLeftImage="require('~/assets/img/icons/feature.png')"
                   :options="generalListItemsCustomFilter" type="single-select"
                   :label="orderFilterLabel" class="bg-white w-100" optionsWidth="custom"
@@ -160,8 +160,8 @@
                   padding-x="10px"
                   dropDownHeight="38px"
                   border-radius="4px"
-                  :dropdownStyle="{ 
-                    border: '1px solid #CCC', 
+                  :dropdownStyle="{
+                    border: '1px solid #CCC',
                     borderTop: 0,
                     borderRadius: '0 0 4px 4px'
                   }"
@@ -177,9 +177,9 @@
           </b-row>
           <div class="mt-4 position-relative">
             <div class="row align-items-center flex-wrap inventory-area">
-              <b-col 
-                v-for="item in inventory_items" 
-                :key="'offer-'+item.id" 
+              <b-col
+                v-for="item in inventory_items"
+                :key="'offer-'+item.id"
                 cols="6 mb-4"
                 xl="3"
                 class="d-flex justify-content-center"
@@ -222,9 +222,8 @@
                 {{ $t('trades.create_listing.vendor.wants.no_products_found') }}
               </b-row>
             </div>
-
-            <div class="overlay-container position-absolute">
-              <div class="d-flex create-trade-drag-drop-item-float mx-0 justify-content-center text-center py-4"
+            <div class="overlay-container position-fixed">
+              <div  v-if="showOffer" class="d-flex create-trade-drag-drop-item-float mx-0 justify-content-center text-center py-4"
                   @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
                 <div v-if="getTradeItems.length < 1">
                   <div class="create-trade-drag-drop-heading">
@@ -279,19 +278,27 @@
                     </div>
                   </div>
                 </b-row>
+                <img :src="require('~/assets/img/trades/updown.svg')" role="button" class="position-absolute up-down-arrow-empty" @click="showOffer = !showOffer">
               </div>
 
-              <b-row v-if="getTradeItems.length >= 1" class="justify-content-end my-2">
-                <b-btn class="create-trade-next-web"
-                      @click="$router.push('/profile/create-listing/trades/wants')">
+              <b-row  class="justify-content-end my-2">
+              <b-col class="position-relative">
+                <b-btn :disabled="getTradeItems.length < 1" class="create-trade-next-web"
+                       @click="$router.push('/profile/create-listing/trades/wants')">
                   {{ $t('create_listing.trade.offer_items.next') }}
                 </b-btn>
+                <div v-if="!showOffer" class="offers-items d-flex align-items-center" role="button" @click="showOffer = !showOffer">
+                  <img :src="require('~/assets/img/trades/updown.svg')">
+                  <span class="offer-text">{{$t('trades.offer')}}</span>
+                  <div v-if="getTradeItems.length" class="counter-icon position-absolute d-flex justify-content-center align-items-center">{{getTradeItems.length}}</div>
+                </div>
+              </b-col>
               </b-row>
             </div>
           </div>
-          
+
         </div>
-        
+
       </div>
     </div>
     <infinite-loading :identifier="infiniteId" @infinite="getInventory">
@@ -808,7 +815,7 @@ export default {
   right: 10px
   top: 10px
   cursor: pointer
-  z-index: 100
+  z-index: 88
 
 .inventory-area
   margin-bottom: 33px
@@ -849,13 +856,18 @@ export default {
   border: 0
 
 .create-trade-next-web
+  padding: 0 25px 0 14px
+  right: 15px
+  bottom: 120px
+  position: fixed
+  z-index: 80
   width: 151px
   height: 38px
   background: $color-grey-101
   border-radius: 4px
   border: 1px solid $color-blue-20
   margin-top: 10px
-  margin-right: 20px
+  margin-right: 120px
   color: $color-white-1
   @include body-13
   font-family: $font-sp-pro
@@ -898,7 +910,53 @@ export default {
 
 .overlay-container
   z-index: 1000
-  top: 30%
-  width: 99%
-  
+  bottom:  150px
+  width: 75%
+
+  @media (min-width: 1500px) and (max-width: 1600px)
+   width: 77%
+
+  @media (min-width: 1601px) and (max-width: 1800px)
+    width: 79%
+
+  @media (min-width: 1801px) and (max-width: 2000px)
+    width: 82%
+
+  @media (min-width: 2001px) and (max-width: 2500px)
+    width: 84%
+
+.offers-items
+  background: $color-white-27
+  box-shadow: inset 0 1px 4px$drop-shadow1
+  border-radius: 9px
+  width: 100px
+  height: 38px
+  padding: 0 25px 0 14px
+  right: 15px
+  bottom: 120px
+  position: fixed
+  z-index: 80
+.offer-text
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-9-regular
+  letter-spacing: -0.02em
+  color: $color-gray-5
+  padding-left: 10px
+.up-down-arrow-empty
+  height: 50px
+  width: 30px
+  right: 8px
+  bottom: 10px
+  z-index: 20
+.counter-icon
+  background: $color-red-29
+  width: 18px
+  height: 18px
+  border-radius: 50%
+  font-size: 13px
+  font-family: $font-family-montserrat
+  color: $color-white-1
+  top: -5px
+  right: -5px
 </style>

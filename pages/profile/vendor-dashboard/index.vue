@@ -23,7 +23,7 @@
             {{ vendor.rank }} {{ $t('vendor_dashboard.seller') }}
           </h3>
           <a
-            class="font-secondary fs-14 fw-5 mb-0 border-bottom border-primary font-primary"
+            class="font-secondary fs-14 fw-5 mb-0 text-decoration-underline text-link-blue-mobile font-primary"
             role="button"
             @click="detailsMenu = true"
             >{{ $t('vendor_dashboard.view_details') }}</a

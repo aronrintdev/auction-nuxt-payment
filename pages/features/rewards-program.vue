@@ -24,7 +24,7 @@
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{ $t('newest_features.rewards_program.ways_to_earn') }}
       </FeatureTitle>
       <div
@@ -50,7 +50,7 @@
         <div class="d-flex cards-wrapper">
           <FeatureFourCards
             :icon="
-              require('~/assets/img/features/newest-feature/rewards-program/hammer.svg')
+              require('~/assets/img/features/newest-feature/rewards-program/hammer.png')
             "
             :title="$t('features.rewards_program.auctions')"
             :description="$t('features.rewards_program.auctions_desc')"
@@ -175,4 +175,11 @@ export default {
         .cards-wrapper
           gap: 9px
           justify-content: center
+@media screen and (max-width: 577px)
+  .features-container
+    .feature-content
+      .feature-title-my
+        width: 100%
+        margin-top: 48px !important
+        margin-bottom: 24px !important
 </style>

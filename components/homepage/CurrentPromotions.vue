@@ -6,7 +6,7 @@
         :desc="$t('home_page.current_promotions_description')"
         :label="$t('home_page.view_more_promotions')"
         marginLeft="17px"
-        to="/shop"
+        to="/promotions"
       />
     </div>
     <div class="d-block d-md-none">
@@ -14,7 +14,7 @@
         :title="$t('home_page.current_promos')"
         :desc="$t('home_page.trade_desc')"
         :label="$t('home_page.view_more_promotions')"
-        to="/shop"
+        to="/promotions"
       />
     </div>
     <div

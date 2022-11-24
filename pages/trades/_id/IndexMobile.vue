@@ -61,7 +61,7 @@
             </div>
           <div class="d-flex justify-content-center">
             <!-- Meter -->
-            <Meter :fair="70" heading="trades.trade_arena.fair_trade_meter" :highest="100" :lowest="0" :value="60"/>
+            <Meter :fair="getFairTradeValue()" heading="trades.trade_arena.fair_trade_meter" :highest="theirTotal(false)" :lowest="0" :value="yourTotal(false)"/>
           </div>
           <div>
             <Button variant="outline-secondary-blue" class="add-cash" @click="cashAdd">{{buttonText}}</Button>
@@ -394,11 +394,11 @@ export default {
      * This function is used to add or increment your trade item in store
      * @param item
      */
-    addOrIncrementYourItem(item) {
+    addOrIncrementYourItem: debounce(function (item) {
       this.$store.commit('trade/setYourTradeItems', item)
       this.updateActiveTrade()
       this.$nextTick(() => this.$forceUpdate())
-    },
+    }, 100),
     /**
      * This function is used to get trade items against trade id
      * get trade ID from route parameter

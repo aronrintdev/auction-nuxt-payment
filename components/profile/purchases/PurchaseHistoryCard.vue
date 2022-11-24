@@ -416,7 +416,6 @@ button.status-button
   float: right
 .btn-processing
   color: $color-orange-7
-  font-size: 1.6rem
   font-weight: $bold
   float: right
 .btn-auth_completed
@@ -437,7 +436,6 @@ button.status-button
 .btn-auth_failed
   background-color: none
   color: $color-red-7
-  font-size: 1.3rem
   font-weight: $bold
   float: right
 .btn-shipped_to_ds

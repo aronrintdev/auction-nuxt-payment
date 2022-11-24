@@ -3946,7 +3946,8 @@
       "arrived_at_deadstock": "Arrived at Deadstock",
       "awaiting_shipment_to_ds": "Awaiting Shipment to DS",
       "completed": "Completed",
-      "order_shipped": "Order Shipped"
+      "order_shipped": "Order Shipped",
+      "commission_paid": "Commission Paid"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
