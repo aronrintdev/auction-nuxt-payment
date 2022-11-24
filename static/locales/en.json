@@ -1,5 +1,6 @@
 {
   "common": {
+    "select_brands": "Select Brand(s)",
     "cancel": "Cancel",
     "buying": "Buying",
     "auction": "Auction",

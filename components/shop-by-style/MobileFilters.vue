@@ -33,27 +33,6 @@
             </div>
           </div>
         </Collapse>
-      </div>  
-      
-      <div class="border-bottom pb-3 mt-2">
-        <Collapse :title="$t('filter_sidebar.brands')" :selectedValue="activeBrands">
-          <div class="row">
-            <div
-              v-for="(brandCategory, index) in brandOptions"
-              :key="index"
-              class="col-4 mb-3"
-            >
-              <Checkbox
-                v-model="selectedBrand"
-                button
-                :label="brandCategory.label"
-                :val="brandCategory.value"
-                name="brandCategory"
-                @change="getBrands"
-              />
-            </div>
-          </div>
-        </Collapse>
       </div>
 
       <div class="border-bottom py-3">

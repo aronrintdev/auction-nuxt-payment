@@ -43,7 +43,7 @@
       <div class="all-brands-bottom-sheet">
         <div class="border-bottom mb-3 pb-2 bottom_sheet_header">
           <h3 class="font-secondary fs-16 fw-7 text-black text-center">
-            All Brands
+            {{ $t('filter_sidebar.brands') }}
           </h3>
         </div>
         <div class="bottom_sheet_body">
@@ -80,8 +80,9 @@
           </button>
           <button
             class="btn text-white fs-16 fw-6 font-secondary rounded-pill apply-btn"
+            @click="closeSelectedBrands()"
           >
-            {{ $t('orders.apply_filter') }} 
+            {{ $t('common.select_brands') }} 
           </button>
         </div>
       </div>
@@ -177,7 +178,7 @@ export default {
       height: 33px
       border-radius: 8px
       &::placeholder
-        color: $color-white-1
+        color: $color-gray-5
         letter-spacing: 0.06em
     .search_icon
       left: 14px
