@@ -61,7 +61,7 @@
             </div>
           <div class="d-flex justify-content-center">
             <!-- Meter -->
-            <Meter :fair="70" heading="trades.trade_arena.fair_trade_meter" :highest="100" :lowest="0" :value="60"/>
+            <Meter :fair="getFairTradeValue()" heading="trades.trade_arena.fair_trade_meter" :highest="theirTotal(false)" :lowest="0" :value="yourTotal(false)"/>
           </div>
           <div>
             <Button variant="outline-secondary-blue" class="add-cash" @click="cashAdd">{{buttonText}}</Button>
