@@ -1,6 +1,6 @@
 <template>
   <h3
-    class="title text-uppercase mt-5 mt-sm-0 mb-6 d-flex justify-content-center align-items-center justify-content-md-start"
+    class="title text-center text-md-left text-uppercase mt-5 mt-sm-0 mb-6 d-flex justify-content-center align-items-center justify-content-md-start"
   >
     <div class="title-before d-md-none d-block"></div>
     <slot></slot>
@@ -20,10 +20,11 @@ h3.title
   color: $color-black-5
   gap: 34px
   .title-before, .title-after
-    width: 100%
+    width: 61px
     background-color: $color-black-1
     height: 1px
     max-width: 61px
+    min-width: 35px
 
 
 @media (max-width: 768px)
@@ -32,4 +33,7 @@ h3.title
     font-weight: 600 !important
     font-size: 16px !important
     margin: 20px 0px 20px 0px !important
+    width: 272px
+    margin: 20px auto !important
+    line-height: 22px !important
 </style>

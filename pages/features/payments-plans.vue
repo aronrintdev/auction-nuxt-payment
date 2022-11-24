@@ -31,7 +31,7 @@
           />
         </b-col>
       </b-row>
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{ $t('newest_features.payments_plans.options') }}
       </FeatureTitle>
 
@@ -162,11 +162,11 @@ export default {
         previousPageXS:
           'newest_features.payments_plans.bottom_banner.previous_page_xs_title',
         previousPageLink: '/features/virtual-giftcards',
-        nextPage:
-          'newest_features.payments_plans.bottom_banner.next_page_title',
-        nextPageXS:
-          'newest_features.payments_plans.bottom_banner.next_page_xs_title',
-        nextPageLink: '/features/international-languages',
+        // nextPage:
+        //   'newest_features.payments_plans.bottom_banner.next_page_title',
+        // nextPageXS:
+        //   'newest_features.payments_plans.bottom_banner.next_page_xs_title',
+        // nextPageLink: '/features/international-languages',
       },
     }
   },
@@ -179,7 +179,7 @@ export default {
     .feature-item
       margin-bottom: 115px
 
-    .feature-tabs::v-deep // Tabs section main desktop
+    .feature-tabs::v-deep
       margin-bottom: 117px
       .btn-feature-tab
         &:first-child
@@ -267,4 +267,13 @@ export default {
         padding: 22px 46px 10px 14px  !important
         background-image: none !important
         border-radius: 12px !important
+
+@media screen and (max-width: 577px)
+  .features-container::v-deep
+    .feature-content
+      .feature-title-my
+        margin-top: 48px !important
+        margin-bottom: 24px !important
+      .feature-tabs
+        margin-top: 0 !important
 </style>

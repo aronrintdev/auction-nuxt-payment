@@ -2,7 +2,7 @@
   <div id="tracking">
     <!-- TODO Add date -->
     <div v-for="(result, index) in timeline" :key="index" class="tracking-list">
-      <div class="row">
+      <div class="row" v-if="result.description != 'Commission Paid'">
         <div class="col-md-3">
           <span
             v-if="result.value === orderStatus"
