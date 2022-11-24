@@ -32,7 +32,9 @@
           />
         </b-col>
       </b-row>
-      <FeatureTitle>{{ $t('features.trading.new_features') }}</FeatureTitle>
+      <FeatureTitle class="feature-title-my">{{
+        $t('features.trading.new_features')
+      }}</FeatureTitle>
 
       <div
         class="d-flex justify-content-center cards-wrapper-selling mb-3 mb-md-5"
@@ -47,7 +49,7 @@
 
         <FeatureCardHoverable
           :icon="
-            require('~/assets/img/features/newest-feature/trading/speak.svg')
+            require('~/assets/img/features/newest-feature/trading/speak.png')
           "
           :title="$t('features.trading.new_feature.counter_offers')"
           :description="$t('features.trading.new_feature.counter_offers_desc')"
@@ -57,7 +59,7 @@
       <div class="d-flex justify-content-center cards-wrapper-selling mb-5">
         <FeatureCardHoverable
           :icon="
-            require('~/assets/img/features/newest-feature/trading/shoes-shirt.svg')
+            require('~/assets/img/features/newest-feature/trading/shoes-shirt.png')
           "
           :title="$t('features.trading.new_feature.multi_items')"
           :description="$t('features.trading.new_feature.multi_items_desc')"
@@ -176,4 +178,9 @@ export default {
       .feature-item::v-deep
         flex-direction: column
         align-items: center
+@media screen and (max-width: 577px)
+  .feature-title-my
+    width: 100%
+    margin-top: 0px !important
+    margin-bottom: 24px !important
 </style>

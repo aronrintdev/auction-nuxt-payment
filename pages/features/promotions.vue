@@ -24,7 +24,7 @@
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{ $t('newest_features.promotions.prizes') }}
       </FeatureTitle>
       <div class="cards-wrapper-in-app d-flex flex-column align-items-center">
@@ -131,4 +131,8 @@ export default {
     .in-app-cards
       .feature-four-cards
         border-radius: 50% !important
+@media screen and (max-width: 577px)
+  .feature-title-my
+    margin-top: 48px !important
+    margin-bottom: 24px !important
 </style>

@@ -32,7 +32,7 @@
         </b-col>
       </b-row>
 
-      <FeatureTitle>{{
+      <FeatureTitle class="feature-title-my">{{
         $t('newest_features.deadstock_exchange.check_it_out')
       }}</FeatureTitle>
 
@@ -150,4 +150,10 @@ export default {
   .features-container
     .new-features img
       padding: 0px 16px
+@media screen and (max-width: 577px)
+  .features-container
+    .feature-title-my
+      width: 100%
+      margin-top: 48px !important
+      margin-bottom: 24px !important
 </style>
