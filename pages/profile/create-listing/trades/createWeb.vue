@@ -912,12 +912,16 @@ export default {
   z-index: 1000
   bottom:  150px
   width: 75%
+
   @media (min-width: 1500px) and (max-width: 1600px)
    width: 77%
+
   @media (min-width: 1601px) and (max-width: 1800px)
     width: 79%
+
   @media (min-width: 1801px) and (max-width: 2000px)
     width: 82%
+
   @media (min-width: 2001px) and (max-width: 2500px)
     width: 84%
 
