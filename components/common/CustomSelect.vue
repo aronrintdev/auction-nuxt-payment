@@ -7,7 +7,7 @@
   >
     <div
       class="selected bg-white"
-      :class="{ open: open, border: bordered }"
+      :class="[open ? 'open' : '', bordered ? 'border' : '', inputClass]"
       @click="open = !open"
     >
       <label class="bg-white mr-2"
@@ -54,6 +54,10 @@ export default {
     threelineIcon: {
       type: Boolean,
       default: true
+    },
+    inputClass: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -86,6 +90,9 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.bg-white-5
+  background: $color-white-5 !important
 
 .custom-selectbox
   position: relative
@@ -310,6 +317,12 @@ export default {
     background: $color-white-1
   .items-secondary
     background: $color-white-5
+
+.custom-selectbox
+  .purchase-input
+    width: 100% !important
+    height: 38px
+
 </style>
 
 <style lang="sass" scoped>
