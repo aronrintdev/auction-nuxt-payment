@@ -172,8 +172,6 @@
           />
         </b-col>
       </b-row>
-
-
       <div class="d-flex">
         <div class="status-drop mr-2">
           <label>{{$t('trades.filter_by')}}</label>
@@ -224,79 +222,6 @@
           <Button v-if="totalCount" variant="transparent" @click="removeExpired()">{{$t('trades.delete_expired_listings')}}</Button>
         </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-<!--      <div class="row mt-3 justify-content-lg-between flex-wrap">-->
-<!--        <b-col lg="3" sm="12" class="">-->
-<!--          <label>{{$t('trades.filter_by')}}</label>-->
-<!--          <b-row class="">-->
-<!--            <b-col sm="12">-->
-<!--              <CustomDropdown-->
-<!--                v-model="statusFilter"-->
-<!--                type="multi-select-checkbox"-->
-<!--                :options="getStatusFilterItems"-->
-<!--                :label="statusFilterLabel"-->
-<!--                optionsWidth="custom"-->
-<!--                variant="white"-->
-<!--                dropDownHeight="38px"-->
-<!--                class="w-100"-->
-<!--                borderRadius="5px"-->
-<!--                borderRadiusClose="5px 5px 0 0"-->
-<!--                borderRadiusOptions="0 0 5px 5px"-->
-<!--                paddingX="10px"-->
-<!--                :arrowStyle="{-->
-<!--                  color: '#000',-->
-<!--                  marginTop: '0 !important'-->
-<!--                }"-->
-<!--                @getResults="fetchTradesListing"-->
-<!--                @change="changeStatusFilter"-->
-<!--              />-->
-<!--            </b-col>-->
-<!--          </b-row>-->
-<!--        </b-col>-->
-<!--        <b-col xl="3" lg="6" sm="12" class="mt-3 mt-lg-0">-->
-<!--          <label>{{ $t('trades.listed_date') }}</label>-->
-<!--          <b-row class="">-->
-<!--            <b-col md="6" sm="12" class="">-->
-<!--              <CalendarInput-->
-<!--                :value="start_date"-->
-<!--                :placeholder="$t('trades.start_date')"-->
-<!--                class="w-100"-->
-<!--                inputClass="bg-white"-->
-<!--                @context="(context) => start_date = context.selectedYMD"-->
-<!--              />-->
-<!--            </b-col>-->
-<!--            <b-col md="6" sm="12" class="mt-2 mt-md-0">-->
-<!--              <CalendarInput-->
-<!--                :value="end_date"-->
-<!--                :placeholder="$t('trades.end_date')"-->
-<!--                class="w-100"-->
-<!--                inputClass="bg-white"-->
-<!--                @context="(context) => end_date = context.selectedYMD"-->
-<!--              />-->
-<!--            </b-col>-->
-<!--          </b-row>-->
-<!--        </b-col>-->
-
-<!--        <b-col lg="2" sm="6" class="mt-2 d-lg-flex align-items-lg-end justify-content-lg-end">-->
-<!--          <Button variant="dark-blue" @click="applyFilters">{{$t('trades.apply')}}</Button>-->
-<!--        </b-col>-->
-
-<!--        <b-col lg="4" sm="6" -->
-<!--          class="mt-custom mt-2 d-flex justify-content-end -->
-<!--                justify-content-lg-start justify-content-xl-end align-items-xl-end"-->
-<!--        >-->
-<!--          <Button v-if="totalCount" variant="transparent" @click="removeExpired()">{{$t('trades.delete_expired_listings')}}</Button>-->
-<!--        </b-col>-->
-<!--      </div>-->
     </div>
 
     <div class="mt-4 listings">
