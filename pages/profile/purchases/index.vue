@@ -18,97 +18,113 @@
             <!-- ./Heading -->
             <!-- Search Input -->
             <div class="w-100 d-flex align-items-center justify-content-between">
-              <div class="col-7 col-xl-9 flex-grow-1 d-flex input-field-search align-items-center mr-2">
-                <img
-                    :src="require('~/assets/img/icons/search.svg')"
-                    alt="Search"
-                    class="mr-2"
-                    height="18"
-                    width="18"
-                />
-                <input
-                    id="search-result"
-                    v-model="searchValue"
-                    :placeholder="
-                    $t('vendor_purchase.search_purchases_summary_placeholder')
-                  "
-                    autocomplete="on"
-                    class="border-0 w-100 input-text"
-                    type="text"
-                    @input="searchPurchase"
-                />
+              <div class="col-8 pl-0">
+                <div class="flex-grow-1 d-flex input-field-search align-items-center">
+                  <img
+                      :src="require('~/assets/img/icons/search.svg')"
+                      alt="Search"
+                      class="mr-2"
+                      height="18"
+                      width="18"
+                  />
+                  <input
+                      id="search-result"
+                      v-model="searchValue"
+                      :placeholder="
+                      $t('vendor_purchase.search_purchases_summary_placeholder')
+                    "
+                      autocomplete="on"
+                      class="border-0 w-100 input-text"
+                      type="text"
+                      @input="searchPurchase"
+                  />
+                </div>
               </div>
-              <VendorPurchaseCustomSelect
-                  :options="{
-                  '': $t('vendor_purchase.sort_by'),
-                  recent_to_old: $t('vendor_purchase.purchase_recent_to_old'),
-                  old_to_recent: $t(
-                    'vendor_purchase.purchase_oldest_to_recent'
-                  ),
-                }"
-                  :threeline-icon="false"
-                  bordered
-                  class="vp-custom-select col-5 col-xl-3 px-0 bg-white-5"
-                  dropdownClass="position-relative top-0"
-                  @input="handleFilterChanged"
-              ></VendorPurchaseCustomSelect>
+              <div class="col-4 pr-0 col-xl-3">
+                <VendorPurchaseCustomSelect
+                    :options="{
+                    '': $t('vendor_purchase.sort_by'),
+                    recent_to_old: $t('vendor_purchase.purchase_recent_to_old'),
+                    old_to_recent: $t(
+                      'vendor_purchase.purchase_oldest_to_recent'
+                    ),
+                  }"
+                    :threeline-icon="false"
+                    bordered
+                    class="vp-custom-select w-100 bg-white-5"
+                    inputClass="purchase-input"
+                    dropdownClass="purchase-items"
+                    @input="handleFilterChanged"
+                ></VendorPurchaseCustomSelect>
+              </div>
             </div>
             <!-- Select Box -->
           </div>
           <!-- ./Row -->
           <!-- ./Row -->
-          <div v-if="!isScreenXS" class="mt-4 d-flex align-items-end flex-wrap">
-            <div class="mr-20">
-              <span class="mb-5p font-secondary body-8-normal text-black">{{
-                  $t('common.filter_by')
-                }}</span>
-              <VendorPurchaseSelectWithCheckbox
-                  :options="typeOptions"
-                  :title="typeTitle"
-                  :updateFilters="activeTypeFilters"
-                  bordered
-                  class="vp-custom-select w-120 bg-white-5"
-                  inputClass="w-100"
-                  @filters="typeFilters"
-              />
-            </div>
+          <div v-if="!isScreenXS" class="mt-3 d-xl-flex">
+            <div class="col-xl-4 px-0 pr-xl-3">
+              <span class="filter-title">
+                {{ $t('common.filter_by') }}
+              </span>
+              <div class="d-flex mb-3 mb-xl-0">
+                <div class="col-6 pl-0">
+                  <VendorPurchaseSelectWithCheckbox
+                      :options="typeOptions"
+                      :title="typeTitle"
+                      :updateFilters="activeTypeFilters"
+                      bordered
+                      class="vp-custom-select purchase border-0 bg-white-5"
+                      inputClass="purchase-input"
+                      @filters="typeFilters"
+                  />
+                </div>
 
-            <div class="mr-20">
-              <VendorPurchaseSelectWithCheckbox
-                  :options="productsOptions"
-                  :title="statusTitle"
-                  :updateFilters="activeStatusFilters"
-                  bordered
-                  class="vp-custom-select w-245 bg-white-5"
-                  inputClass="w-100"
-                  @filters="statusFilters"
-              />
-            </div>
-            <div class="d-flex flex-column">
-              <span class="mb-5p font-secondary body-8-normal text-black">{{
-                  $t('orders.date_ordered')
-                }}</span>
-              <div class="d-flex align-items-center">
-                <CalendarInput
-                    :placeholder="$t('bids.start_date').toString()"
-                    :value="startdate"
-                    class="mr-20 date-calendar"
-                    @context="(context) => (startdate = context.selectedYMD)"
-                ></CalendarInput>
-                <CalendarInput
-                    :placeholder="$t('bids.end_date').toString()"
-                    :value="enddate"
-                    class="mr-20 date-calendar"
-                    @context="(context) => (enddate = context.selectedYMD)"
-                ></CalendarInput>
-                <Button
-                    class="bg-blue-2 apply-button text-white"
-                    variant="dark-blue"
-                    @click="loadData"
-                >{{ $t('vendor_purchase.apply') }}
-                </Button>
+                <div class="col-6 pr-0">
+                  <VendorPurchaseSelectWithCheckbox
+                      :options="productsOptions"
+                      :title="statusTitle"
+                      :updateFilters="activeStatusFilters"
+                      bordered
+                      class="vp-custom-select purchase border-0 bg-white-5"
+                      inputClass="purchase-input"
+                      @filters="statusFilters"
+                  />
+                </div>
               </div>
             </div>
+            <div class="col-xl-4 px-0">
+              <span class="filter-title">
+                {{ $t('orders.date_ordered') }}
+              </span>
+              <div class="d-flex">
+                <div class="col-6 pl-0">
+                  <CalendarInput
+                      :placeholder="$t('bids.start_date').toString()"
+                      :value="startdate"
+                      class="date-calendar"
+                      inputClass="letter-spacing-initial"
+                      @context="(context) => (startdate = context.selectedYMD)"
+                  ></CalendarInput>
+                </div>
+                <div class="col-6 pr-0">
+                  <CalendarInput
+                      :placeholder="$t('bids.end_date').toString()"
+                      :value="enddate"
+                      class="date-calendar"
+                      inputClass="letter-spacing-initial"
+                      @context="(context) => (enddate = context.selectedYMD)"
+                  ></CalendarInput>
+                </div>                            
+              </div>
+            </div>
+            <Button
+              class="mt-3 mt-xl-4 ml-xl-3 bg-blue-2 apply-button text-white"
+              variant="dark-blue"
+              @click="loadData"
+            >
+              {{ $t('vendor_purchase.apply') }}
+            </Button>
           </div>
           <!-- ./Row -->
           <!-- Filters -->
@@ -221,7 +237,10 @@
             <template
                 v-if="purchaseDatas.data.length !== 0 && !isScreenXS && !loading"
             >
-              <VendorPurchaseHistory :purchaseDatas="purchaseDatas.data"/>
+              <VendorPurchaseHistory 
+                class="justify-content-center justify-content-md-start" 
+                :purchaseDatas="purchaseDatas.data"
+              />
             </template>
 
             <div
@@ -376,6 +395,7 @@
 </template>
 
 <script>
+/* eslint-disable vue/no-unused-components */
 import InfiniteLoading from 'vue-infinite-loading'
 import VendorPurchaseCustomSelect from '~/components/common/CustomSelect.vue'
 import VendorPurchaseHistory from '~/components/profile/purchases/PurchaseHistory.vue'
@@ -801,14 +821,18 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
+
+.filter-title
+  @include body-8-normal
+  color: $color-black-1
+  font-family: $font-family-sf-pro-display
+
 ::v-deep.vp-custom-select
   .selected
     &:after
       top: 3px
 
 ::v-deep.date-calendar
-  max-width: 170px
-
   .date-input
     background-color: $color-white-1
     @include body-5-regular
@@ -922,6 +946,7 @@ input.date-input
       background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='4' fill='%23000'/%3E%3C/svg%3E")
 
 .vendor-dashboard-body
+  background: $color-white-5
   &.mobile
     padding: 16px 20px
     background-color: $color-white-1

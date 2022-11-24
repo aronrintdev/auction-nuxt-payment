@@ -2,11 +2,7 @@
   <div class="custom-selectbox" :tabindex="tabindex" @blur="open = false">
     <div
         class="selected bg-white"
-        :class="[
-          open ? 'open' : '',
-          bordered ? 'border' : '',
-          inputClass
-        ]"
+        :class="[open ? 'open' : '', bordered ? 'border': '', inputClass]"
         @click="open = !open"
     >
       <div
@@ -109,6 +105,10 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.bg-white-5
+  background: $color-white-5 !important
+
 .custom-selectbox
   position: relative
   width: 100%
@@ -207,6 +207,14 @@ export default {
     .selected
       font-size: 13px
 
-.bg-white-5
-  background: $color-white-5 !important
+.custom-selectbox
+  .purchase-input
+    width: 100% !important
+    height: 38px !important
+
+.purchase
+  .items 
+    border-color: $color-gray-60 !important
+    border-top-width: 0 !important
+
 </style>

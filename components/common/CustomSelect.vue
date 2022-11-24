@@ -7,7 +7,7 @@
   >
     <div
       class="selected bg-white"
-      :class="{ open: open, border: bordered }"
+      :class="[open ? 'open' : '', bordered ? 'border' : '', inputClass]"
       @click="open = !open"
     >
       <label class="bg-white mr-2"
@@ -62,6 +62,10 @@ export default {
       type: Boolean,
       default: true
     },
+    inputClass: {
+      type: String,
+      default: ''
+    },
     dropdownClass: {
       type: String,
       default: ''
@@ -97,7 +101,10 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
-  
+
+.bg-white-5
+  background: $color-white-5 !important
+
 .custom-selectbox
   position: relative
   width: 100%
@@ -322,16 +329,17 @@ export default {
   .items-secondary
     background: $color-white-5
 
-.vp-custom-select
-  background: $color-white-5
-  .selected
+.custom-selectbox
+  .purchase-input
     width: 100% !important
+    height: 38px !important
 
-.top-0
-  top: 0 !important
-
-.bg-white-5
-  background: $color-white-5 !important
+.purchase-items
+  position: relative
+  top: 0
+  border-top-width: 0 !important
+  border-bottom-width: 0 !important
+  border-color: $color-gray-60 !important
 
 </style>
 
