@@ -140,7 +140,12 @@
             <div class="d-flex cash-added justify-content-center mt-4">
               <div>
                 <img :src="require('~/assets/img/icons/dollar.svg')" class="ml-4 mr-2">
-                {{$t('trades.trade_arena.you_added_cash',{'0': optional_cash })}}
+                <span v-if="cashType === addCashType">
+                  {{$t('trades.trade_arena.you_added_cash',{'0': optional_cash })}}
+                </span>
+                <span v-else>
+                  {{$t('trades.trade_arena.you_requested_cash',{'0': optional_cash })}}
+                </span>
                 <sup class="ml-1 mr-4" role="button"><img  id="cashPopover" :src="infoIcon"/></sup>
               </div>
               <b-popover target="cashPopover" triggers="hover" placement="top" >
@@ -489,11 +494,12 @@ export default {
      */
     theirTotal(formattedPrice = true){
       const price = this.trade.offers.map((value) => value.inventory.sale_price)
+      const cashAdded = (!isNaN(parseFloat(this.optional_cash)) && this.cashType === this.requestCashType) ? this.optional_cash : 0
       if(price.length) {
         return (formattedPrice) ?
-          '$' + (price.reduce((a, b) => a + b, 0)/100).toFixed(2) : price.reduce((a, b) => a + b, 0)
+          '$' + ((price.reduce((a, b) => a + b, 0)/100) + parseFloat(cashAdded)).toFixed(2) : price.reduce((a, b) => a + b, 0) + (cashAdded * 100)
       }
-      return (formattedPrice) ? '$0.00' : 0
+      return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(cashAdded)) : cashAdded * 100
     },
 
     /**
@@ -503,7 +509,7 @@ export default {
      */
     yourTotal(formattedPrice = true){
       const price = this.getYourTradeItems.map((item) => item.sale_price)
-      const cashAdded = !isNaN(parseFloat(this.optional_cash)) ? this.optional_cash : 0
+      const cashAdded = (!isNaN(parseFloat(this.optional_cash)) && this.cashType === this.addCashType) ? this.optional_cash : 0
       if(price.length) {
         return (formattedPrice) ?
           '$' + ((price.reduce((a, b) => a + b, 0)/100) + parseFloat(cashAdded)).toFixed(2) : price.reduce((a, b) => a + b, 0) + (cashAdded * 100)
@@ -719,20 +725,21 @@ export default {
     },
 
     updateActiveTrade(){
-      if(this.cashType === this.addCashType) {
+      // if(this.cashType === this.addCashType) {
         this.$store.commit('trade/updateActiveTrade', {
           yourItems: this.getYourTradeItems,
+          cashType: this.cashType,
           cashAdded: parseInt(parseFloat(this.optional_cash) * 100),
           tradeCondition: this.tradeCondition
         })
-      }
-      else {
-        this.$store.commit('trade/updateActiveTrade', {
-          yourItems: this.getYourTradeItems,
-          cashAdded: parseInt(parseFloat(0.00) * 100),
-          tradeCondition: this.tradeCondition
-        })
-      }
+      // }
+      // else {
+      //   this.$store.commit('trade/updateActiveTrade', {
+      //     yourItems: this.getYourTradeItems,
+      //     cashAdded: parseInt(parseFloat(0.00) * 100),
+      //     tradeCondition: this.tradeCondition
+      //   })
+      // }
     },
 
     /**
