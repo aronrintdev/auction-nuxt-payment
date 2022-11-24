@@ -280,7 +280,7 @@ export default {
     // Array the items to wanted and trade listing array
     checkTradeItems(order) {
       if (order.type === 'trade') {
-        this.wantedListingArray = order.accepted_offer_their.yours_items
+        this.wantedListingArray = order.accepted_offer_your.theirs_items
         this.tradeListingArray =  order.accepted_offer_your.yours_items
         this.status = order.trade.condition_translation
       }

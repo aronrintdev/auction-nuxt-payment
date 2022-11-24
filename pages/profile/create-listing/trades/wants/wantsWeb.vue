@@ -34,7 +34,7 @@
                 v-if="searchedItems.length > 0" 
                 :productItems="searchedItems" 
                 productsFor="wantItemTrade" 
-                class="position-absolute"
+                class="position-absolute z-100"
                 :wrapperStyle="{ margin: 0 }"
                 :itemStyle="{ padding: 0 }"
               />

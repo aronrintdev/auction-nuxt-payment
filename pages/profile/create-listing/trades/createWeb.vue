@@ -35,7 +35,7 @@
                 v-if="searchedItems.length > 0"
                 :productItems="searchedItems"
                 productsFor="tradeItem"
-                class="position-absolute search-prod"
+                class="position-absolute z-100"
                 addBtnClass="text-right"
                 :itemStyle="{
                   padding: 0
@@ -838,8 +838,6 @@ export default {
 
 .flex-flow-column
   flex-flow: column
-.search-prod
-  z-index: 9999
 .create-trade-subheading
   font-family: $font-sp-pro
   @include body-12-regular

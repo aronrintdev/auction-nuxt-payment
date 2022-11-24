@@ -23,12 +23,12 @@
               </h1>
             </div>
             <div>
-              <NuxtLink
-                :to="loggedIn === true ? '/' : '/login'"
-                class="error-link nuxt-link-active font-primary fs-16 fw-5 text-decoration-underline text-gray-simple"
+              <div
+                class="error-link nuxt-link-active font-primary fs-16 fw-5 text-decoration-underline text-gray-simple cursor-pointer"
+                @click="goBack"
               >
                 {{ $t('error_layout.go_back') }}
-              </NuxtLink>
+              </div>
             </div>
           </div>
           <div>
@@ -174,6 +174,9 @@ export default {
     goToLink(link) {
       this.$router.push({path: link})
     },
+    goBack(){
+      this.$router.go(-1)
+    }
   },
 }
 </script>

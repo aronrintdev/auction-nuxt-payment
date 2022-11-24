@@ -537,11 +537,11 @@ export default {
      * This function is used to add or increment your trade item in store
      * @param item
      */
-    addOrIncrementYourItem(item) {
+    addOrIncrementYourItem: debounce(function (item) {
         this.$store.commit('trade/setYourTradeItems', item)
         this.updateActiveTrade()
         this.$nextTick(() => this.$forceUpdate())
-    },
+    }, 100),
     /**
      * This function is used to get trade items against trade id
      * get trade ID from route parameter
