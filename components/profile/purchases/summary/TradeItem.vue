@@ -70,7 +70,7 @@
       <!-- ./Col1 Ends -->
       <!-- Col2 - 1 item -->
       <div class="col-md-2 m-auto">
-        <div class="border-left-box">
+        <div class="border-left-box" v-if="tradeListingArray.length > 1">
           <template v-if="tradeListingArray.slice(2, 3).length">
             <div
               v-for="(items, index) in tradeListingArray.slice(2, 3)"
@@ -129,7 +129,7 @@
       </div>
       <!-- Col4-1 item -->
       <div class="col-md-2 m-auto">
-        <div class="border-right-box">
+        <div class="border-right-box" v-if="tradeListingArray.length > 1">
           <template v-if="wantedListingArray.slice(2, 3).length">
             <div
               v-for="(items, index) in wantedListingArray.slice(2, 3)"
