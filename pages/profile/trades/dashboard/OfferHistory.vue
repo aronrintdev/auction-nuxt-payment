@@ -57,7 +57,7 @@
         v-for="(offer) in offerHistory.offer_history" 
         :key="'offer-history-'+ offer.id" 
         class="offer-history col-12 col-lg-10 col-xl-7 pb-4" 
-        :class="'background-' + (isOfferMine(offer) ? 'blue' : 'white ml-auto')"
+        :class="'background-' + (isOfferMine(offer) ? 'blue mt-4' : 'white ml-auto')"
       >
         <b-row class="justify-content-between pt-4 pl-4 pr-4">
           <b-col v-if="isOfferMine(offer) && offer.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.your_counter_offer')}} ({{ offer.id}})</b-col>
@@ -92,7 +92,7 @@
         </div>
       </div>
       <div 
-        class="mt-4 offer-history col-12 col-lg-10 col-xl-7 ml-auto" 
+        class="mt-4 offer-history col-12 col-lg-10 col-xl-7 ml-auto pb-2" 
         :class="[isOfferMine(offerHistory) ? 'blue-theme' : 'white-theme', offerHistoryClass]"
       >
         <b-row class="justify-content-between pt-4 pl-5 pr-4">
