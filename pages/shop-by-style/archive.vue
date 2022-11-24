@@ -1,5 +1,5 @@
 <template>
-  <div class="container container-shop-by-style">
+  <div class="container container-shop-by-style pb-5">
     <div class="d-none d-sm-block">
       <div class="d-flex justify-content-between align-items-center">
         <Button to="/shop-by-style" variant="link">{{
@@ -157,7 +157,8 @@ export default {
 @import '~/assets/css/_variables'
 
 .container-shop-by-style
-  margin-top: 31px
+  @media (min-width: 576px)
+    margin-top: 31px
   .mt-30
     margin-top: 30px
   .title
@@ -186,16 +187,16 @@ export default {
   .nav-group::v-deep
     margin: 0 auto
   .styles-warpper
-    max-width: 805px
+    max-width: max-content
     margin: 0 auto
-    margin-top: 74px
     display: grid
-    grid-template-columns: repeat(5, 125px)
-    column-gap: 45px
+    grid-template-columns: repeat(5, 195px)
     row-gap: 8px
+    margin-top: 74px
     @media (max-width: 576px)
       grid-template-columns: repeat(3, 125px)
       column-gap: 0
+      margin-top: 0
   .filter-button
     width: 180px
     height: 46px
