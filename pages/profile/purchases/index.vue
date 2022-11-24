@@ -53,6 +53,7 @@
                     bordered
                     class="vp-custom-select w-100 bg-white-5"
                     inputClass="purchase-input"
+                    dropdownClass="purchase-items"
                     @input="handleFilterChanged"
                 ></VendorPurchaseCustomSelect>
               </div>
@@ -73,7 +74,7 @@
                       :title="typeTitle"
                       :updateFilters="activeTypeFilters"
                       bordered
-                      class="vp-custom-select border-0 bg-white-5"
+                      class="vp-custom-select purchase border-0 bg-white-5"
                       inputClass="purchase-input"
                       @filters="typeFilters"
                   />
@@ -85,7 +86,7 @@
                       :title="statusTitle"
                       :updateFilters="activeStatusFilters"
                       bordered
-                      class="vp-custom-select border-0 bg-white-5"
+                      class="vp-custom-select purchase border-0 bg-white-5"
                       inputClass="purchase-input"
                       @filters="statusFilters"
                   />

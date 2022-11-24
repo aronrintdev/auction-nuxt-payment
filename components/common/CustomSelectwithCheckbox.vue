@@ -212,4 +212,9 @@ export default {
     width: 100% !important
     height: 38px !important
 
+.purchase
+  .items 
+    border-color: $color-gray-60 !important
+    border-top-width: 0 !important
+
 </style>
