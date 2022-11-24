@@ -2923,7 +2923,9 @@
     "drafts": "Drafts ({0})",
     "search": {
       "title": "Search",
-      "add_product": "Add Product"
+      "add_product": "Add Product",
+      "bulk_file": "Bulk Upload",
+      "description": "Select items you would like to list"
     },
     "index": {
       "title": "Select Listing Type",
@@ -3094,6 +3096,7 @@
       "save_as_draft": "Save as Draft",
       "quantity": "Quantity",
       "can_not_add_more": "Collection Auctions can add up to 10 items.",
+      "confirm_page_description": "*By pressing on Post Listing(s), I accept the seller fee of 9.5% + a 2.9% transaction fee. No authentication fees will be charged to sellers.",
       "bottom_text": "*By clicking Post Auction(s), I accept the seller fee of {0}% + a {1}% transaction | fee. No authentication fees will be charged to sellers."
     },
     "details": {
