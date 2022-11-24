@@ -76,7 +76,7 @@
       </div>
     </div>
     <div
-      class="col-12 col-md-6 mt-3"
+      class="col-12 col-md-6 mt-4"
       :class="isScreenXS ? 'input-col-mobile' : 'input-col'"
     >
       <FormInput
@@ -139,6 +139,7 @@
       <Button class="mt-3 w-100"
               variant="dark"
               :disabled="!isFormValid"
+              :class="{'py-4' : !isScreenXS}"
               @click="$emit('submit')">{{ $t('createlisting.add_listing') }}</Button>
     </div>
     <div
@@ -148,6 +149,7 @@
         variant="dark"
         :disabled="!isFormValid"
         class="mt-3 mr-3 w-100"
+        :class="{'py-4' : !isScreenXS}"
         @click="handleEditClick"
       >
         {{ $t('inventory.save_changes') }}
@@ -155,6 +157,7 @@
       <Button
         variant="outline-primary"
         class="mt-3 w-100"
+        :class="{'py-4' : !isScreenXS}"
         @click="handleDiscard"
       >
         {{ $t('inventory.discard_changes') }}
@@ -166,6 +169,7 @@
         variant="dark"
         :disabled="!isFormValid"
         class="mt-3 mr-3 w-100"
+        :class="{'py-4' : !isScreenXS}"
         @click="handleSellNow"
       >
         {{ $t('sell_now.sell_now') }}&colon;
@@ -174,6 +178,7 @@
       <Button
         variant="outline-primary"
         class="mt-3 w-100"
+        :class="{'py-4' : !isScreenXS}"
         @click="handleDiscard"
       >
         {{ $t('inventory.discard_changes') }}
@@ -441,7 +446,7 @@ export default {
     color: $color-black-1
     margin-left: 0px!important
     text-transform: uppercase
-    margin-bottom: 8px
+    margin-bottom: 16px
   .input
     .form-input, .dropdown-btn
       border-radius: 4px!important
