@@ -44,7 +44,7 @@
     <div class="d-block d-sm-none">
       <ResponsivenessFilter :currentType="type" @renderStyles="getStyles" />
     </div>
-    <div v-if="type === 'look'" class="styles-grid mt-0 ml-0 mr-0 look-view">
+    <div v-if="type === 'look'" class="styles-grid mt-0 ml-0 mr-0 ">
       <div
         v-for="(style, index) in styles"
         :key="index"
@@ -189,7 +189,7 @@ export default {
   display: grid
   grid-template-columns: repeat(5, 182px)
   @media (max-width: 576px)
-    grid-template-columns: repeat(3, 182px)
+    grid-template-columns: repeat(3, 127px)
 
 
 .mt-10
