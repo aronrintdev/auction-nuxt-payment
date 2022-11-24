@@ -24,7 +24,7 @@
             <div class="center-item-sm">
               <div v-if="lastSubmittedOffer.theirs_items.length  > ONE_ITEM" class="pointer-left-sm" :class="{'pointer-right-two-items-sm':lastSubmittedOffer.theirs_items.length === TWO_ITEMS}"></div>
               <div class="position-relative center-img d-flex justify-content-between ml-3">
-                <div v-if="lastSubmittedOffer.theirs_items.length  === THREE_ITEMS || lastSubmittedOffer.theirs_items.length .length === ONE_ITEM" class="line-bar-sm"></div>
+                <div v-if="lastSubmittedOffer.theirs_items.length  === THREE_ITEMS || lastSubmittedOffer.theirs_items.length === ONE_ITEM" class="line-bar-sm"></div>
                 <div class="fair-text-sm position-absolute">{{$t('trades.fair')}}</div>
                 <img class="trade-img-sm position-absolute" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
                 <div v-if="lastSubmittedOffer.yours_items.length === THREE_ITEMS || lastSubmittedOffer.yours_items.length === ONE_ITEM" class="line-bar-sm"></div>
