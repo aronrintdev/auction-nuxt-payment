@@ -1,11 +1,11 @@
 <template>
   <div v-if="rewards" class="progressbar position-relative">
     <svg class="progress-svg">
-      <circle cx="105" cy="105" r="90"></circle>
+      <circle cx="75" cy="75" r="66"></circle>
       <circle
-          cx="105"
-          cy="105"
-          r="90"
+          cx="75"
+          cy="75"
+          r="66"
           :style="{ '--progress': progress }"
       ></circle>
     </svg>
@@ -54,15 +54,15 @@ export default {
 @import '~/assets/css/_variables'
 .progress-svg
   position: relative
-  width: 210px
-  height: 210px
+  width: 150px
+  height: 150px
   transform: rotate(120deg)
   circle
     width: 100%
     height: 100%
     fill: none
-    stroke: $color-gray-29
-    stroke-width: 16
+    stroke: $light-gray-2
+    stroke-width: 10
     &:last-of-type
       stroke-dasharray: 468px
       stroke-dashoffset: calc(625px - (625px * var(--progress)) / 100)
@@ -75,10 +75,10 @@ export default {
 .progress_value
   position: absolute
   left: 50%
-  bottom: 7px
+  bottom: 0
   translate: -50%
   background: $color-white-1
-  width: 120px
+  width: 90px
   clip-path: polygon(87% 0, 100% 100%, 0 100%, 13% 0)
   height: 30px
 </style>

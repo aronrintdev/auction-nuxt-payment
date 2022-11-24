@@ -1,8 +1,10 @@
-<template>  
+<template>
   <div class="container-shop pb-5">
     <section class="section-filters">
       <div class="d-none d-sm-block container">
-        <h1 class="fs-48 fw-7 font-adobe-garamond my-4">{{$t('shop.browse_shop')}}</h1>
+        <h1 class="fs-48 fw-7 font-adobe-garamond my-4">
+          {{ $t('shop.browse_shop') }}
+        </h1>
         <ShopFilters ref="filterSidebar" @apply="research" />
         <article class="pt-5">
           <div class="row">
@@ -23,7 +25,10 @@
               </ProductCard>
             </div>
           </div>
-          <infinite-loading :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
+          <infinite-loading
+            :identifier="infiniteId"
+            @infinite="handleLoading"
+          ></infinite-loading>
           <!-- <div v-if="products.length !== 0" class="below text-center pb-20">
             <div class="text-center"><img src="~/assets/img/loading.gif" width="100" /></div>
           </div> -->
@@ -36,6 +41,7 @@
   </div>
 </template>
 <script>
+import debounce from 'lodash.debounce'
 import { mapActions, mapGetters } from 'vuex'
 import ShopFilters from '~/components/shop/ShopFilters.vue'
 import Badge from '~/components/product/Badge'
@@ -43,7 +49,7 @@ import Badge from '~/components/product/Badge'
 export default {
   components: {
     ShopFilters,
-    Badge
+    Badge,
   },
   layout: 'IndexLayout',
   fetchOnServer: false,
@@ -53,12 +59,13 @@ export default {
       maxPerPage: 12,
       totalResults: 0,
       showloader: true,
+      prices:null,
       products: [],
       pageType: '',
       state: '',
       url: '',
-      infiniteId: +new Date()
-    };
+      infiniteId: +new Date(),
+    }
   },
   computed: {
     ...mapGetters('browse', [
@@ -70,7 +77,7 @@ export default {
       'selectedSizeTypes',
       'selectedSearch',
       'selectedSort',
-      'selectedOrdering'
+      'selectedOrdering',
     ]),
     pageCount() {
       return Math.ceil(this.totalResults / this.maxPerPage)
@@ -78,44 +85,44 @@ export default {
     pageOffset() {
       return this.maxPerPage * this.currentPage
     },
-    
   },
   mounted() {
     this.pageType = this.$route.query.type
-    if(this.pageType === 'recent'){
+    if (this.pageType === 'recent') {
       this.url = '/products/shop'
-    }else if (this.pageType === 'new-release'){
+    } else if (this.pageType === 'new-release') {
       this.url = '/products/shop'
-    }else if (this.pageType === 'trending'){
+    } else if (this.pageType === 'trending') {
       this.url = '/products/shop/trending'
-    }else if(this.pageType === 'instant-shipping'){
+    } else if (this.pageType === 'instant-shipping') {
       this.url = '/products/shop/instant-shipping'
     }
-    // this.fetchProducts();
+    this.fetchProducts()
   },
   methods: {
     ...mapActions('browse', ['fetchFilters']),
     handleLoading($state) {
       this.state = $state
-      this.fetchProducts();
+      this.fetchProducts()
     },
-    research(){
+    research() {
       this.totalResults = 0
-      this.currentPage = 1;
+      this.currentPage = 1
       this.products = []
-      this.fetchProducts();
+      this.fetchProducts()
     },
-    fetchProducts() {
+    fetchProducts: debounce(function () {
       this.loading = false
       const filters = {}
       if (this.search) {
         filters.search = this.search
       }
       if (this.category) {
-        filters.category = this.category !== 'all' ? this.category :  '';
+        filters.category = this.category !== 'all' ? this.category : ''
       }
-      if (this.selectedPrices) {
-        filters.prices = this.selectedPrices.join('-')
+      if (this.selectedPrices.length > 0) {
+        this.prices = this.selectedPrices[0] * 100 + '-' + this.selectedPrices[1] * 100
+        filters.prices = this.prices
       }
       if (this.selectedBrands) {
         filters.brands = this.selectedBrands.join(',')
@@ -129,7 +136,7 @@ export default {
       if (this.selectedYears) {
         filters.years = this.selectedYears.join('-')
       }
-      if(this.selectedSearch){
+      if (this.selectedSearch) {
         filters.search = this.selectedSearch
       }
       filters.desc = this.selectedOrdering
@@ -137,59 +144,59 @@ export default {
       filters.take = this.maxPerPage
       filters.page = this.currentPage
 
-      if(this.pageType === 'recent'){
+      if (this.pageType === 'recent') {
         this.getRecentProducts(filters)
-      }else if (this.pageType === 'new-release'){
+      } else if (this.pageType === 'new-release') {
         this.getNewRelease(filters)
-      }else if (this.pageType === 'trending'){
+      } else if (this.pageType === 'trending') {
         this.getTrending(filters)
-      }else if(this.pageType === 'instant-shipping'){
+      } else if (this.pageType === 'instant-shipping') {
         this.getInstantShip(filters)
       }
-    },
-    getRecentProducts(filters){
+    }, 500),
+    getRecentProducts(filters) {
       if (this.selectedSort) {
         filters.order_by = this.selectedSort
-      }else{
+      } else {
         filters.order_by = 'views'
       }
       this.loadData(filters)
     },
-    getNewRelease(filters){
+    getNewRelease(filters) {
       if (this.selectedSort) {
         filters.order_by = this.selectedSort
-      }else{
+      } else {
         filters.order_by = 'created_at'
       }
       this.loadData(filters)
     },
-    getTrending(filters){
+    getTrending(filters) {
       if (this.selectedSort) {
         filters.order_by = this.selectedSort
-      }else{
+      } else {
         filters.sort_by = 'created_at'
       }
       this.loadData(filters)
     },
-    getInstantShip(filters){
+    getInstantShip(filters) {
       if (this.selectedSort) {
         filters.order_by = this.selectedSort
-      }else{
+      } else {
         filters.sort_by = 'created_at'
       }
       this.loadData(filters)
     },
-    loadData(filters){
+    loadData(filters) {
       this.$axios
         .get(this.url, {
-          params: filters
+          params: filters,
         })
         .then((res) => {
           const that = this
           if (!res.data.next_page_url) {
             this.state.complete()
-          }else{
-            this.currentPage += 1;
+          } else {
+            this.currentPage += 1
             this.url = res.data.next_page_url
           }
           if (res.data.current_page === 1) {
@@ -202,8 +209,8 @@ export default {
         .finally(() => {
           this.loading = false
         })
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="sass" scoped>
@@ -218,7 +225,7 @@ export default {
     overflow: hidden
     .p
       margin: 0
-      padding: 10px 20px 
+      padding: 10px 20px
 .below
   position: relative
   height: 200px
