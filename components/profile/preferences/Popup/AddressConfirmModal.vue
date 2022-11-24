@@ -53,6 +53,7 @@ export default {
     onClick(type) {
       this.$bvModal.hide('confirm-modal')
       this.$emit('actionConfirmed', type)
+      this.$router.reload('actionCanceled')
     }
   }
 }

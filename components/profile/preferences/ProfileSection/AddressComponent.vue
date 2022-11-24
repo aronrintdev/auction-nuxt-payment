@@ -13,6 +13,7 @@
               class="preferences-make-as-default-billing"
               :value="billingAddress.id"
               @change="updateDefault(billingAddress.id, billingAddress.type)"
+              @actionCanceled="actionCanceled"
             >
               {{
                 billingAddress.is_default
