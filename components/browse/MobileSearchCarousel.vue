@@ -95,8 +95,8 @@
   </div>
 </template>
 <script>
-import ProductThumb from '~/components/mobile-search/Thumb.vue'
-import CountdownItem from '~/components/mobile-search/CountdownItem'
+import ProductThumb from '~/components/browse/Thumb.vue'
+import CountdownItem from '~/components/browse/CountdownItem'
 
 export default {
   name: 'MobileSearchCarousel',

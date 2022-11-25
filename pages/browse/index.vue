@@ -8,7 +8,7 @@
                        variant="light"
                      @focus="handleSearchFocus"
                      @clear="handleSearchClear" />
-          <a role="button">
+          <a role="button" @click="openFilter">
             <img src="~/assets/img/icons/filter-icon.png" />
           </a>
         </div>
@@ -28,18 +28,21 @@
       <TradesCarousel />
       <AuctionCarousel />
     </div>
+    <FiltersWrapper ref="filtersWrapper" />
   </div>
 </template>
 
 <script>
-import AuctionCarousel from '~/components/mobile-search/AuctionCarousel'
-import TradesCarousel from '~/components/mobile-search/TradesCarousel'
-import ShopByBrand from '~/components/mobile-search/ShopByBrand'
-import ShopByCategory from '~/components/mobile-search/ShopByCategory'
-import ShopByStyle from '~/components/mobile-search/ShopByStyle'
-import SizeType from '~/components/mobile-search/SizeType'
+import AuctionCarousel from '~/components/browse/AuctionCarousel'
+import TradesCarousel from '~/components/browse/TradesCarousel'
+import ShopByBrand from '~/components/browse/ShopByBrand'
+import ShopByCategory from '~/components/browse/ShopByCategory'
+import ShopByStyle from '~/components/browse/ShopByStyle'
+import SizeType from '~/components/browse/SizeType'
 import SearchOverlay from '~/components/search/Overlay'
 import SearchInput from '~/components/common/SearchInput'
+import FiltersWrapper from '~/components/browse/FiltersWrapper'
+
 export default {
   name: 'Index',
   components: {
@@ -50,7 +53,8 @@ export default {
     AuctionCarousel,
     TradesCarousel,
     SearchOverlay,
-    SearchInput
+    SearchInput,
+    FiltersWrapper
   },
   layout: 'IndexLayout',
   data() {
@@ -85,6 +89,9 @@ export default {
       this.$nextTick(() => {
         this.$refs.searchOverlay.clearInput()
       })
+    },
+    openFilter() {
+      this.$refs.filtersWrapper.open()
     }
   }
 }
@@ -119,4 +126,3 @@ export default {
 ::v-deep .section-header
   @media (max-width: 576px)
     margin: 30px 12.5px
-
