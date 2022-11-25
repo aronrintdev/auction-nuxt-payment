@@ -1,8 +1,8 @@
 <template>
   <div>
     <!--      End Header Search and Filter   -->
-    <b-row class="mt-md-4 align-items-md-end">
-      <b-col md="12" lg="6">
+    <b-row class="mt-md-4 align-items-md-end justify-content-md-between">
+      <b-col md="12" lg="6" class="search-text-wrapper">
         <b-row>
           <b-col md="12" lg="12" class="mt-md-2">
             <div class="d-flex align-items-center">
@@ -20,7 +20,7 @@
           </b-col>
         </b-row>
       </b-col>
-      <b-col md="12" lg="6" class="d-none d-md-block">
+      <b-col md="12" lg="6" class="d-none d-md-block search-date-wrapper">
         <span class="header-title">{{ $t('orders.date_ordered') }}</span>
         <b-row>
           <b-col sm="12" md="4" class="mt-2">
@@ -451,6 +451,14 @@ export default {
     border-radius: 8px
 
 @media (min-width: 993px)
+  .search-text-wrapper
+    flex: 0 0 56% !important
+    max-width: 56% !important
+
+  .search-date-wrapper
+    flex: 0 0 44% !important
+    max-width: 44% !important
+
   .box-gap
     gap: 24px
   ::v-deep .date-input
