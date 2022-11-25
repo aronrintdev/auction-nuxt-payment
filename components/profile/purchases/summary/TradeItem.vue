@@ -4,12 +4,12 @@
     <div class="">
       <div class="pt-4 d-flex justify-content-between col-xl-10 mx-auto">
         <div class="">
-          <span class="value-text"> {{ $t('vendor_purchase.their_value') }}&colon; </span>
-          <span class="value-text-bold">{{ getTheirTotal(true) }}</span>
-        </div>
-        <div class="">
           <span class="value-text">{{ $t('vendor_purchase.your_value') }}&colon;  </span>
           <span class="value-text-bold">{{ getYourTotal(true) }}</span>
+        </div>
+        <div class="">
+          <span class="value-text"> {{ $t('vendor_purchase.their_value') }}&colon; </span>
+          <span class="value-text-bold">{{ getTheirTotal(true) }}</span>
         </div>
       </div>
 
@@ -17,14 +17,14 @@
     <div
       class="center-container d-flex mx-0 mx-md-auto justify-content-between align-items-center col-md-8 col-xl-12"
       :class="{
-        'center-cont-height': (tradeListingArray.length > 1 || wantedListingArray.length) 
+        'center-cont-height': (tradeListingArray.length > 1 || wantedListingArray.length)
       }"
     >
       <div class="left-item">
-        <div 
-          v-for="(item, index) in tradeListingArray" 
+        <div
+          v-for="(item, index) in tradeListingArray"
           :id="tradeListingArray.length === 3 ?'trade-item-'+index : ''"
-          :key="item.id" 
+          :key="item.id"
           class="item"
           :class="[
             ((tradeListingArray.length > 1) || (wantedListingArray.length)) ? 'item-length' : 'item-normal'
@@ -71,7 +71,7 @@
 
       <div class="right-item">
         <div v-if="wantedListingArray.length">
-          <div 
+          <div
             v-for="(item, index) in wantedListingArray"
             :id="wantedListingArray.length > 2 ?'your-trade-item-'+index : 'your-item'" :key="item.id"
             class="item-length"
@@ -111,7 +111,7 @@
     </div>
 
     <div class="d-flex justify-content-center align-items-center mt-4 mb-4">
-        <Meter 
+        <Meter
           :highest="getTheirTotal(false)"
           :lowest="0"
           :value="getYourTotal(false)"
