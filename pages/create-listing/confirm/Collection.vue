@@ -1,11 +1,22 @@
 <template>
   <b-container fluid class="container-auction-confirm-collection h-100">
     <div class="d-none d-md-flex justify-content-between align-items-center">
-      <h2 class="title">{{ $t('create_listing.collection.collection') }}</h2>
+      <h2 class="title">{{ $t('create_listing.product.confirm_collection_title') }}</h2>
     </div>
+    <div v-if="stateConfirmCollection" class="d-none d-md-block mx-3" >
+      <AuctionDetailsCard :item="selectedAuction[0]" @edit="editClicked" />
+    </div>
+
+    <div v-if="stateConfirmCollection" class="d-none d-md-block mx-3 add-products-row">
+      <b-row class="align-items-center">
+        <div class="add-products-row-title mr-5">{{ $t('create_listing.confirm.added_products') }}</div>
+        <div class="add-more-btn" role="button" @click="addMore">+ {{ $t('create_listing.confirm.add_another_product') }}</div>
+      </b-row>
+    </div>
+
     <b-row class="d-none d-md-flex collection-details">
       <b-col cols="12" sm="12" md="8">
-        <span class="table-header">{{$t('create_listing.collection.details')}}</span>
+        <span class="table-header px-2">{{$t('create_listing.collection.details')}}</span>
       </b-col>
       <b-col cols="12" sm="12" md="2" class="text-center">
         <span class="table-header">{{$t('create_listing.collection.quantity')}}</span>
@@ -111,15 +122,20 @@
         >
       </div>
       <div v-else class="d-none d-md-block w-100 h-100 overflow-auto auction-items">
-        <b-row v-for="(item, index) in selectedAuctionItems" :key="index"  class="w-100 p-2" >
-          <AuctionItemHorizontal :item="item" :disable-quantity="!stateAddProduct" :item-error="itemError()" @clone="cloneItem(item)" @delete="deleteSingleItem(item, index)" @edit="editItem(item)"
-          @quantityChanged="quantityChanged"/>
-        </b-row>
+        <AuctionItemHorizontal
+          v-for="(item, index) in selectedAuctionItems"
+          :key="index"
+          :item="item"
+          :disable-quantity="!stateAddProduct"
+          :item-error="itemError()"
+          @clone="cloneItem(item)"
+          @delete="deleteSingleItem(item, index)"
+          @edit="editItem(item)"
+          @quantityChanged="quantityChanged"
+        />
       </div>
     </div>
-    <div v-if="stateConfirmCollection" class="d-none d-md-block mt-4 w-100 h-25" >
-      <AuctionDetailsCard :item="selectedAuction[0]" @edit="editClicked" />
-    </div>
+
     <div v-if="selectedAuctionItems.length > 0" class="d-md-none text-right mt-3">
       <img
         src="~/assets/img/icons/plus-icon-gray.svg"
@@ -364,6 +380,7 @@ export default {
 .auction-items
   max-height: 50vh
   overflow: auto
+  padding: 0 8px 0 6px
 
 .table-header
   font-family: $font-sp-pro
@@ -380,7 +397,7 @@ export default {
     font-weight: $bold
     @include body-1
     color: $black
-    margin-bottom: 4px
+    margin-bottom: 50px
 
   .btn-draft::v-deep
     @include body-5-bold
@@ -393,9 +410,9 @@ export default {
     min-width: 200px
   
   .collection-details
-    margin-top: 36px
+    margin-top: 0
     margin-bottom: 21px
-    padding: 0 48px
+    padding: 0 32px 0 29px
   
   @media (max-width: 576px)
     padding: 20px 16px
@@ -541,4 +558,17 @@ export default {
       @include body-21
       font-weight: $medium
       margin: 0 10px
+  .add-products-row
+    margin: 50px 0 25px
+    &-title
+      font-family: $font-sp-pro
+      font-weight: $bold
+      @include body-12
+      color: $black
+    .add-more-btn
+      font-family: $font-sp-pro
+      font-weight: $medium
+      @include body-13
+      color: $color-blue-2
+
 </style>
