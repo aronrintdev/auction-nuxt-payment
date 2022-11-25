@@ -1,49 +1,53 @@
 <template>
   <b-container fluid class="container-profile-selling h-100">
     <div class="selling-listing">
-    <b-row class="mt-md-4 mt-2 vd-selling">
-      <b-col cols="12" class="vd-selling-details-heading">
-        {{ $t('selling_page.selling_page_heading') }}
-        <Button
-          to="/profile/vendor-selling"
-          variant="link"
-          class="btn-back float-right"
-        >
-          <img
-            :src="require('~/assets/img/icons/arrow-back.svg')"
-            :alt="$t('common.back')"
-            class="mr-2"
-          />
-          {{ $t('vendor_purchase.back_to_selling') }}
-        </Button>
-      </b-col>
-    </b-row>
-    <!-- Purchase Summary Section -->
-    <template v-if="loaded">
-      <SellingDetailsPurchaseSummary
-        :details="details"
-        class="purchase-summary"
-        :listingId="listingId"
-        @reloadData="reloadData"
-      />
-    </template>
-    <!-- ./Purchase Summary Section -->
+      <b-row class="mt-md-4 mt-2 vd-selling">
+        <b-col cols="12" class="vd-selling-details-heading">
+          {{ $t('selling_page.selling_page_heading') }}
+          <Button
+            to="/profile/vendor-selling"
+            variant="link"
+            class="btn-back float-right"
+          >
+            <img
+              :src="require('~/assets/img/icons/arrow-back.svg')"
+              :alt="$t('common.back')"
+              class="mr-2"
+            />
+            {{ $t('vendor_purchase.back_to_selling') }}
+          </Button>
+        </b-col>
+      </b-row>
+      <!-- Purchase Summary Section -->
+      <template v-if="loaded">
+        <SellingDetailsPurchaseSummary
+          :details="details"
+          class="purchase-summary"
+          :listingId="listingId"
+          @reloadData="reloadData"
+        />
+      </template>
+      <!-- ./Purchase Summary Section -->
 
-    <!-- Offers Section -->
-    <template v-if="loaded">
-      <SellingOffers
-        :offers="getOffers"
-        class="offer-details"
-        :status="details.status"
-        :highestOffer="highestOffer"
-        @reloadData="reloadData"
-      />
-    </template>
-    <!-- Offers Section -->
+      <!-- Offers Section -->
+      <template v-if="loaded">
+        <SellingOffers
+          :offers="getOffers"
+          class="offer-details"
+          :status="details.status"
+          :highestOffer="highestOffer"
+          @reloadData="reloadData"
+        />
+      </template>
+      <!-- Offers Section -->
     </div>
     <!-- Mobile Screen -->
 
-    <SellingDetails class="offer-responsive" :details="details" @reloadData="loadData"  />
+    <SellingDetails
+      class="offer-responsive"
+      :details="details"
+      @reloadData="loadData"
+    />
     <!-- ./Mobile Screen -->
   </b-container>
 </template>
@@ -61,7 +65,7 @@ export default {
     SellingDetailsPurchaseSummary,
     SellingOffers,
     Button,
-    SellingDetails
+    SellingDetails,
   },
 
   layout: 'Profile',
@@ -70,7 +74,7 @@ export default {
     return {
       details: {},
       loaded: false,
-      listingId: null
+      listingId: null,
     }
   },
   computed: {
@@ -82,10 +86,10 @@ export default {
     },
 
     highestOffer: (vm) => {
-      if(vm.details && vm.details.highest_offer) {
+      if (vm.details && vm.details.highest_offer) {
         return vm.details.highest_offer
       }
-    }
+    },
   },
 
   created() {
@@ -95,7 +99,7 @@ export default {
 
   methods: {
     ...mapActions({
-      addListingData: 'sell-listing/addListingData'
+      addListingData: 'sell-listing/addListingData',
     }),
     // Load the data
     loadData() {
@@ -105,7 +109,7 @@ export default {
           this.details = res.data.data
           this.loaded = true
           // Save the selected data.
-          this.addListingData({data: this.details})
+          this.addListingData({ data: this.details })
         })
         .catch((err) => {
           this.$toasted.error(this.$t(err.response.data.message))
