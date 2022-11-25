@@ -327,28 +327,32 @@ export default {
   opacity: 0.66
 
 .label
-  @include body-8
+  @include body-8-regular
   font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: $regular
   color: $color-gray-5
+  white-space: nowrap
 
 
 .title
-  @include body-13
+  @include body-8-medium
   font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: $medium
   color: $color-black-1
 
 .sub-title
-  @include body-8
+  @include body-8-regular
   font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: $regular
   color: $color-gray-5
 
 ::v-deep.vue-slider-ltr-shop
+  .vue-slider-process
+    background-color: $color-blue-20
+  .vue-slider-dot
+    .vue-slider-dot-handle
+      background-color: $color-blue-20
+
   .vue-slider-dot-tooltip-text
     @include body-10
     background-color: transparent

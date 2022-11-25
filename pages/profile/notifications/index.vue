@@ -50,11 +50,12 @@
           @closed="mobileFiltersOpen = false"
           @filter="filtersChanged"
       />
-      <div v-if="!isScreenXS && !onSettingsItemTab" class="text-center mt-4">
+      <div v-if="!isScreenXS && !onSettingsItemTab" class="d-flex justify-content-center mt-4">
         <NavGroup
             :data="tabs"
             :value="currentTab"
             nav-key="notification-tabs"
+            class="notification-tabs"
             @change="handlePageChange"
         />
       </div>
@@ -175,6 +176,10 @@ export default {
 .profile-notification
   &.mobile
     background-color: $color-white-1
+
+  .notification-tabs
+    max-width: 236px
+    margin-bottom: 26px
 
   .title
     @include body-16
