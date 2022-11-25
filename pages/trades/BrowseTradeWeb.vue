@@ -1,21 +1,27 @@
 <template>
-  <div>
-    <div class="browse-tarde-heading ml-5 mt-3">{{$t('trades.browse_trade')}}</div>
+  <div class="px-5">
+    <div class="browse-tarde-heading my-3">{{$t('trades.browse_trade')}}</div>
     <div>
       <!-- Display all filter options -->
-      <BrowserTradeFilters @applyFilters="applyTradeFilters" @click="applyTradeFiltersNew" @clearFilters="resetTradeFilters" @applySorting="filterTrades"/>
-      <b-row class="w-100">
-        <b-col md="12" class="text-center">
-          <!-- Display total items filter selection one, two or three items -->
-          <NavGroup
-            :data="tradeTotalItems"
-            :value="selectedTradeTotalItems"
-            nav-key="trade-type"
-            class="section-nav pb-4"
-            @change="changeTotalTradeItems"
-          />
-        </b-col>
-      </b-row>
+      <BrowserTradeFilters 
+        @applyFilters="applyTradeFilters" 
+        @click="applyTradeFiltersNew" 
+        @clearFilters="resetTradeFilters" 
+        @applySorting="filterTrades"
+      />
+      <div class="col-md-6 mx-auto">
+        <!-- Display total items filter selection one, two or three items -->
+        <NavGroup
+          :data="tradeTotalItems"
+          :value="selectedTradeTotalItems"
+          nav-key="trade-type"
+          class="section-nav pb-4"
+          :btnGroupStyle="{
+            margin: 0
+          }"
+          @change="changeTotalTradeItems"
+        />
+      </div>
     </div>
     <div class="bg-white">
       <!-- Display all sections -->
@@ -105,7 +111,7 @@
 </template>
 
 <script>
-// import component
+/* eslint-disable vue/no-unused-components */
 import { mapGetters } from 'vuex'
 import debounce from 'lodash.debounce'
 import { tradeRemainingTime, isRemainingTimeLessThan12Hours } from '~/utils/string'
