@@ -40,9 +40,39 @@
                   </template>
                 </div>
                 <div class="color text-gray-light fs-14 fw-5 font-secondary text-nowrap text-truncate px-1">
-                  {{ item.colorway }}
+                  <span v-if="variant === 'trade'">{{ item.colorway }}</span>
+                  <span v-else>{{ item.auction_items[0].inventory.color }}</span>
                 </div>
 
+                <div class="d-flex justify-content-between px-1 pb-1">
+                  <template v-if="variant === 'trade'">
+                    <div class="font-secondary fs-14 mt-1 text-black body-5-normal">
+                      {{ $t('home_page.size')}} {{ item.inventory.length ? item.inventory[0].size.size : '-' }}
+                    </div>
+                  </template>
+                  <div v-else class="d-flex align-items-center mt-1">
+                    <div class="font-secondary fs-12 text-black body-5-normal">
+                      &dollar;{{ item.highest_bid ? item.highest_bid : item.start_bid_price | formatPrice }}
+                    </div>
+                    <div class="color text-gray-light auction-size text-nowrap text-truncate px-1">
+                      ({{ $t('home_page.size')}} {{ item.auction_items[0].inventory ? item.auction_items[0].inventory.size.size : '-' }})
+                    </div>
+                  </div>
+
+                  <template v-if="variant === 'trade'">
+                    <a role="button" class="trade d-flex align-items-center" @click="$router.push(`/trades/${item.id}`)">
+                      <img src="~/assets/img/browse/arrows.svg" /> <span class="ml-2">{{ $t('mobile_search.trade')}}</span>
+                    </a>
+                  </template>
+                  <template v-else>
+                    <a role="button" class="bid d-flex align-items-center justify-content-between"
+                       @click="$router.push(`/profile/auctions/${item.id}`)">
+                      <span>{{ $t('mobile_search.bid_now')}}</span>
+                    </a>
+                  </template>
+                </div>
+
+                <!--
                 <div v-if="variant === 'trade'" class="d-flex justify-content-between px-1 pb-1">
                   <div class="font-secondary fs-14 mt-1 text-black body-5-normal">
                    {{ $t('home_page.size')}} {{ item.inventory.length ? item.inventory[0].size.size : '-' }}
@@ -67,6 +97,7 @@
                   </div>
 
                </div>
+               -->
               </div>
               <div v-else>
                 <ProductThumb :src="item.image" :img-class="'m-0'" />
@@ -236,4 +267,9 @@ export default {
     border: none
     padding-left: 15px
     padding-right: 15px
+
+  .auction-size
+    font-size: 12px
+    @media (max-width: 375px)
+      font-size: 7px
 </style>
