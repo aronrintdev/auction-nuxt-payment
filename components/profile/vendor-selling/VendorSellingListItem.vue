@@ -56,17 +56,17 @@
         </template>
 
         <template #cell(product_details)="row">
-          <div class="vd-product-title">
+          <div class="vd-product-title text-truncate mw-250">
             {{ row.item.inventory.product.name }}
           </div>
 
-          <div class="vd-sku">{{ $t('common.sku') }}&colon;
+          <div class="vd-sku text-truncate">{{ $t('common.sku') }}&colon;
             <span v-if="row.item.inventory.product.sku">
               {{ row.item.inventory.product.sku }}</span>
             <span v-else>&#8211;</span>
           </div>
 
-          <div class="vd-color">{{ $t('shopping_cart.color_way') }}&colon;
+          <div class="vd-color text-truncate mw-250">{{ $t('shopping_cart.color_way') }}&colon;
             <span v-if="row.item.inventory.product.colorway">
               {{ row.item.inventory.product.colorway }}
             </span>
@@ -79,7 +79,7 @@
             <span v-else>&#8211;</span>
           </div>
 
-          <div class="vd-condition">{{ $t('common.box_condition') }}&colon;
+          <div class="vd-condition text-truncate">{{ $t('common.box_condition') }}&colon;
             <span v-if="row.item.inventory.packaging_condition">
               {{ row.item.inventory.packaging_condition.name }}</span>
             <span v-else>&#8211;</span>
@@ -313,6 +313,8 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.mw-250
+  max-width: 250px !important
 .sort-icon
   &.asc
     transform: rotate(180deg)
