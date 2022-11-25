@@ -58,9 +58,9 @@
             <div class="text-center w-100">
               <button
                 class="fs-14 fw-5 font-secondary text-base-blue bg-transparent border-0"
-                @click="$emit('showAllBrands')"
+                @click="$emit('showAllBrands', selectedBrand)"
               >
-                View More
+                {{ $t('common.view_more') }}
               </button>
             </div>
           </div>
@@ -179,6 +179,11 @@ export default {
       checkedTypes: [],
       checkedBrands: [],
       isArchive: this.dateFilter
+    }
+  },
+  watch: {
+    defaultBrand(brands) {
+      this.selectedBrand = brands
     }
   },
   computed: {

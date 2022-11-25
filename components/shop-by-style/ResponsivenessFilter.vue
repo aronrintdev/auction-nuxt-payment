@@ -156,7 +156,8 @@ export default {
     open() {
       this.$refs.filtersBottomSheet.open()
     },
-    showAllBrands() {
+    showAllBrands(value) {
+      this.selectedBrand = value
       this.$refs.AllBrands.open()
       this.$refs.filtersBottomSheet.close()
     },
