@@ -190,6 +190,7 @@ export default {
   grid-template-columns: repeat(5, 182px)
   @media (max-width: 576px)
     grid-template-columns: repeat(3, 127px)
+    margin: 0 16px !important
 
 
 .mt-10
