@@ -28,6 +28,7 @@
           <ProductCarousel
             class="mt-4 mb-5"
             :products="recentProducts"
+            :showActions="false"
             showArrows
             loop
           />
