@@ -63,11 +63,23 @@
           :labelOff="$t('create_listing.confirm.status_select.live')"
           :labelOn="$t('create_listing.confirm.status_select.scheduled')"
           :value="item.status === 'scheduled'"
-          @change="handleStatusSwitch"
+          @change="handleStatusChange"
         />
         <div v-if="item.status === 'scheduled'" class="schedule-time mt-2">
-          <span v-if="item.scheduled_date">{{ item.scheduled_date }}</span>
-          <span v-else class="text-danger body-5-regular">* {{ $t('create_listing.confirm.schedule_date_required') }}</span>
+          <div class="d-flex align-items-center">
+            <span v-if="item.scheduled_date">{{ item.scheduled_date }}</span>
+            <b-form-datepicker
+              size="xs"
+              class="ml-2"
+              button-only
+              hide-header
+              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+              locale="en"
+              @context="onContext">
+              default
+            </b-form-datepicker>
+          </div>
+          <span v-if="!item.scheduled_date"  class="text-danger body-5-regular">* {{ $t('create_listing.confirm.schedule_date_required') }}</span>
         </div>
       </div>
       <div class="d-flex flex-md-column">
@@ -218,6 +230,7 @@ export default {
         }
       }),
       tempScheduleDate: null,
+      openDatePicker: false,
     }
   },
   computed: {
@@ -230,6 +243,7 @@ export default {
       if (ctx.selectedFormatted!=='No date selected'){
         this.handleChanges('scheduled_date', ctx.selectedFormatted)
       }
+      this.openDatePicker = false
     },
     handleDurationSelect(item) {
       this.handleChanges('time_limit', item.value)
@@ -275,6 +289,13 @@ export default {
         this.$refs.scheduleDateSheet.open()
       }
     },
+    handleStatusChange(value) {
+      this.$emit('formChange', {...this.item, status: value ? 'scheduled' : 'live' })
+      if (value) {
+        this.tempScheduleDate = this.item.scheduled_date
+        this.openDatePicker = true
+      }
+    },
     setScheduleDate() {
       this.$emit('formChange', {...this.item, scheduled_date: this.tempScheduleDate })
       this.$refs.scheduleDateSheet.close()
@@ -288,7 +309,7 @@ export default {
 
 .is-invalid
   border: $color-red-1 2px solid
-  border-radius: 100px
+  border-radius: 5px
 
   @media (max-width: 576px)
     border-radius: 10px

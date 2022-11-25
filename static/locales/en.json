@@ -1058,10 +1058,10 @@
       "send_offers": "Send Offers",
       "select_durations": {
         "1": "1 Day",
-        "3": "3 Day",
-        "5": "5 Day",
-        "7": "7 Day",
-        "10": "10 Day"
+        "3": "3 Days",
+        "5": "5 Days",
+        "7": "7 Days",
+        "10": "10 Days"
       },
       "select_duration": "Select Duration",
       "back_to_summary": "Back to Auction Summary",
@@ -1261,10 +1261,10 @@
         "select_duration_placeholder": "Select Duration",
         "select_duration": {
           "1": "1 Day",
-          "3": "3 Day",
-          "5": "5 Day",
-          "7": "7 Day",
-          "10": "10 Day"
+          "3": "3 Days",
+          "5": "5 Days",
+          "7": "7 Days",
+          "10": "10 Days"
         },
         "reserve": "Reserve",
         "no_reserve": "No Reserve",
@@ -2866,10 +2866,10 @@
     "send_offers": "Send Offers",
     "select_durations": {
       "1": "1 Day",
-      "3": "3 Day",
-      "5": "5 Day",
-      "7": "7 Day",
-      "10": "10 Day"
+      "3": "3 Days",
+      "5": "5 Days",
+      "7": "7 Days",
+      "10": "10 Days"
     },
     "select_duration": "Select Duration",
     "back_to_summary": "Back to Auction Summary",
@@ -3072,11 +3072,12 @@
       "select_duration_placeholder": "Select Duration",
       "select_duration": {
         "1": "1 Day",
-        "3": "3 Day",
-        "5": "5 Day",
-        "7": "7 Day",
-        "10": "10 Day"
+        "3": "3 Days",
+        "5": "5 Days",
+        "7": "7 Days",
+        "10": "10 Days"
       },
+      "added_products": "Added Products",
       "reserve": "Reserve",
       "no_reserve": "No Reserve",
       "reserve_price": "Reserve Price",

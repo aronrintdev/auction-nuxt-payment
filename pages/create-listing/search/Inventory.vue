@@ -165,11 +165,11 @@
         ></b-spinner>
       </div>
 
-      <div class="bg-white pb-md-5 inventory-card-list">
-        <b-row v-if="inventories.length === 0 && !loading" class="mt-3 pt-md-5 d-flex justify-content-center align-items-center mx-auto w-50 text-center no-items-found">
+      <div class="bg-white inventory-card-list">
+        <b-row v-if="inventories.length === 0 && !loading" class="pt-md-5 d-flex justify-content-center align-items-center mx-auto w-50 text-center no-items-found">
           {{ $t('create_listing.no_items_found') }}
         </b-row>
-        <b-row v-else class="mt-3 mx-auto">
+        <b-row v-else class="">
             <b-col
               v-for="inventory in inventories"
               :key="`inventory-${inventory.id}`"
@@ -184,7 +184,6 @@
                 :selectable="selectedAuctionType === AUCTION_TYPE_SINGLE"
                 :stock-visible="false"
                 :selected="!!selected.find((id) => id === inventory.id)"
-                class="my-3"
                 @select="selectItem"
                 @add="addItem"
               />
@@ -209,7 +208,7 @@
           </infinite-loading>
         </template>
       </div>
-      <div v-if="selectedAuctionType === AUCTION_TYPE_COLLECTION" class="mt-md-4 mx-md-5 px-2 collection-items-preview">
+      <div v-if="selectedAuctionType === AUCTION_TYPE_COLLECTION" class="mt-md-4 collection-items-preview">
         <PreviewDragAndDrop :inventories="selectedInventoryItems" :hide-info="onPreview"
                             @next="handleBulkAction()" @removed="(index) => selected.splice(index, 1)" @dragged="addItem"/>
       </div>
@@ -706,7 +705,7 @@ export default {
       background: $color-blue-2
 
 .container-auction-search
-  padding: 36px 30px
+  padding: 36px 30px 0
   background-color: $color-white-4
 
   h2.title
@@ -805,7 +804,7 @@ export default {
   .inventory-card
     flex: 0 0 50%
     max-width: 50%
-    padding: 0
+    padding: 0 7.5px 7.5px
 
     @media (min-width: 1280px)
       flex: 0 0 33.33%
@@ -814,10 +813,11 @@ export default {
     @media (min-width: 1525px)
       flex: 0 0 25%
       max-width: 25%
-
+      padding: 0 18px 18px
     @media (min-width: 1800px)
       flex: 0 0 25%
       max-width: 25%
+      padding: 0 18px 18px
   .continue-btn-container 
     bottom: 94px
     padding: 18px 16px
@@ -860,31 +860,20 @@ export default {
         padding: 5px 10px
         color: $black
 
-  
-  .inventory-card-wrapper::v-deep
-    .checkbox-label
-      top: 8px
-      right: 8px
-    .product-info
-      background: transparent
-      border: none
-      .product-image
-        .product-overlay
-          background: rgba(200, 200, 200, 0.1)
-      .product-detail
-        .product-price
-          color: $black
   .inventory-card-list
+    margin: 21px -9px 0 
     @media (max-width: 576px)
-      margin: 0 -6px
+      margin: 0 -7.5px
   .collection-items-preview::v-deep
     @media (max-width: 576px)
       position: fixed
-      bottom: 98px
+      bottom: 94px
       left: 0
       width: 100%
       background: $white
       z-index: 10
+      .preview-container
+        margin: 0 16px
       .simple-content
         @include body-5-normal
         border: 0.5px solid rgba($light-gray-2, 0.5)
@@ -894,56 +883,60 @@ export default {
         height: 42px
         margin-top: 10px
       .expand-btn
-        bottom: 80px
-        right: 20px
+        bottom: 76px
+        right: 24px
       .preview-drag
         background: $white
         border: 0.5px solid rgba($light-gray-2, 0.5)
+        box-shadow: none
         margin: 0
         border-radius: 5px
-        padding: 10px 2.5px
+        padding: 13px 5px 17px
         &.no-items
           border: none
           padding: 0
-        .inventory-card-wrapper
-          .product-info
-            padding: 0
-            .product-image
+        .inventory-card
+          flex: 0 0 98px
+          max-width: 98px
+          margin: 0 6px
+          padding: 0
+          .inventory-card-wrapper
+            .product-info
               padding: 0
-              height: auto
-              .thumb-wrapper
-                height: 0
-                padding-top: 100%
-                width: 100% !important
-                img
-                  position: absolute
-                  top: 0
-                  left: 0
-                  width: 100%
-                  height: 100%
-              .check-box
-                width: 10px
-                height: 10px
-                top: 0
-                img
-                  width: 100%
-            .product-detail
-              padding: 5px 0
-              .product-title,
-              .product-color,
-              .product-price
-                font-size: 11px
+              background-size: 70%
+              .product-image
+                padding: 30px 10px 20px
+                height: auto
+                .thumb-wrapper
+                  height: 0
+                  padding-top: 100%
+                  width: 100% !important
+                  img
+                    position: absolute
+                    top: 0
+                    left: 0
+                    width: 100%
+                    height: 100%
+                .check-box
+                  width: 10px
+                  height: 10px
+                  top: 2px
+                  right: 4px
+                  img
+                    width: 11px
+                    height: 11px
+              .product-detail
+                padding: 5px 0
+                .product-title,
+                .product-color,
+                .product-price
+                  font-size: 11px
 .no-more-bar
   width: 38px
   background: $black
   height: 3px
   border-radius: 5px
 
-.inventory-card-wrapper::v-deep
-  max-width: 242px
-  .product-info
-    .product-image
-      height: 242px
 .search-input-wrapper::v-deep
   border-radius: 8px
   width: 688px
@@ -974,7 +967,7 @@ export default {
     border-color: $color-black-10
 .inventories-wrapper
   margin-top: 35px
-  padding: 30px 21px 50px
+  padding: 30px 21px 28px
   &-title
     font-family: $font-sp-pro
     color: $black
@@ -1037,6 +1030,11 @@ export default {
   @media (max-width: 576px)
     margin-top: 0
     padding: 0
+    &-title
+      font-family: $font-montserrat
+      font-weight: $bold
+      @include body-5
+      margin: 22px 0 5px
 
 .dropdown-filters::v-deep
   min-width: 170px

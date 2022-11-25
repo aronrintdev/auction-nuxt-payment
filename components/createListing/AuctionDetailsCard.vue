@@ -1,28 +1,29 @@
 <template>
-  <b-row class="h-100 w-100 d-flex flex-column p-3">
+  <b-row class="d-flex flex-column">
     <div>
       <p class="title">{{$t('create_listing.collection.collection_details')}}</p>
     </div>
-    <b-row>
-      <b-col class="text-center"><span class="table-header">{{ $t('common.name') }}</span></b-col>
-      <b-col class="text-center"><span class="table-header">{{ $t('create_listing.confirm.duration') }}</span></b-col>
-      <b-col class="text-center"><span class="table-header">{{ $t('create_listing.confirm.reserve') }}</span></b-col>
-      <b-col class="text-center"><span class="table-header">{{ $t('create_listing.confirm.starting_bid') }}</span></b-col>
-      <b-col class="text-center"><span class="table-header">{{ $t('create_listing.confirm.status') }}</span></b-col>
-      <b-col v-if="!editDisabled" class="text-center"><span class="table-header">{{ $t('create_listing.collection.actions') }}</span></b-col>
+    <b-row class="mx-0">
+      <b-col class="text-center table-header">{{ $t('common.name') }}</b-col>
+      <b-col class="text-center table-header">{{ $t('create_listing.confirm.duration') }}</b-col>
+      <b-col class="text-center table-header">{{ $t('create_listing.confirm.reserve') }}</b-col>
+      <b-col class="text-center table-header">{{ $t('create_listing.confirm.starting_bid') }}</b-col>
+      <b-col class="text-center table-header">{{ $t('create_listing.confirm.status') }}</b-col>
+      <b-col v-if="!editDisabled" class="text-center table-header">{{ $t('create_listing.collection.actions') }}</b-col>
     </b-row>
-    <b-row v-if="item" class="bg-white rounded py-4 mt-2">
+    <b-row v-if="item" class="bg-white rounded details-info mx-0">
       <b-col class="detail-text name text-center my-auto" data-toggle="tooltip" data-placement="bottom" :title="item.name">{{item.name}}</b-col>
       <b-col class="detail-text text-center my-auto">{{ item.time_limit }} Day</b-col>
       <b-col class="detail-text text-center my-auto"><span v-show="item.is_reserved">{{ '$' + item.reserve_price  }}</span></b-col>
       <b-col class="detail-text text-center my-auto">${{  item.start_bid_price  }}</b-col>
-      <b-col class="detail-text text-center my-auto text-uppercase">{{  item.status }}</b-col>
-      <b-col v-if="!editDisabled" class="detail-text text-right my-auto">
+      <b-col class="detail-text text-center my-auto text-capitalize">{{  item.status }}</b-col>
+      <b-col v-if="!editDisabled" class="detail-text text-center my-auto">
         <Button
           variant="outline-primary"
           :icon="pencil"
           :iconPos="'right'"
           :icon-hover="pencilW"
+          class="p-1 ml-3 edit-btn"
           @click="editClicked"
         >{{ $t('create_listing.collection.edit_details') }}</Button
         >
@@ -67,15 +68,32 @@ export default {
 @import '~/assets/css/_variables'
 
 .detail-text
-  @include body-5-medium
+  font-family: $font-sp-pro
+  font-weight: $regular
+  @include body-13
+  color: $black
   &.name
     text-overflow: ellipsis
     white-space: nowrap
     overflow: hidden
 .table-header
-  @include body-4-bold
-p.title
-  @include body-1
-  color: $color-black-1
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-12
+  color: $black
 
+p.title
+  font-family: $font-sp-pro
+  font-weight: $bold
+  @include body-12
+  color: $black
+  margin-bottom: 20px
+
+.edit-btn.btn
+  color: $color-blue-20
+  border-color: $color-blue-20
+  height: auto
+
+.details-info
+  height: 125px
 </style>
