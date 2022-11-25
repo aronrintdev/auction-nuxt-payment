@@ -47,13 +47,7 @@
               v-else
               class="search-filter-responsive d-flex align-items-center"
             >
-              <SearchInput
-                id="selling-search"
-                class="flex-grow-1 mr-2"
-                :placeholder="$t('common.search')"
-                :value="searchFilters.searchKeyword"
-                @change="getProducts"
-              />
+              <MobileSearchInput :value="searchFilters.searchKeyword" class="flex-grow-1 mr-2" @input="getProducts" />
               <span class="filter-wrapper" role="button" @click="showFilter">
                 <img
                   class="mobile-filter"
@@ -212,7 +206,7 @@
           class="result-data"
         >
           <!-- Empty Content -->
-          <EmptyListing class="empty-listing" />
+          <EmptyListing class="empty-listing " />
           <!-- ./Empty Content -->
         </template>
         <template v-else class="result-data">
@@ -265,7 +259,7 @@
           class="result-data-empty"
         >
           <!-- Empty Content -->
-          <EmptyListing class="empty-listing-responsive" />
+          <EmptyListing class="empty-listing-responsive mt-31" />
           <!-- ./Empty Content -->
         </template>
         <template v-else>
@@ -484,11 +478,13 @@ import VacationModeConfirmation from '~/components/profile/vendor-selling/Vacati
 import { DELIST, RELIST } from '~/static/constants'
 import ListingConfirmation from '~/components/profile/vendor-selling/details/ListingConfirmation.vue'
 import CalendarInput from '~/components/common/form/CalendarInput'
+import MobileSearchInput from '~/components/mobile/MobileSearchInput';
 
 export default {
   name: 'Index',
 
   components: {
+    MobileSearchInput,
     CalendarInput,
     VendorSellingSortBy,
     // VendorSellingSearchFilter,
@@ -1076,6 +1072,9 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.mt-31
+  margin-top: 31px
+
 .web-padding
   padding: 42px 54px
 ::v-deep.apply-button
