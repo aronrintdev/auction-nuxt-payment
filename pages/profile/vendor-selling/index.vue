@@ -1178,6 +1178,7 @@ export default {
 .pad-responsive
   background-color: $color-white-1
   padding: 16px
+  margin-bottom: -70px   // on profile layout file there is padding-bottom: 98px for mobile. It gives to much space on bottom of mobile devices.
 
 @media (min-width: 576px)
   .empty-listing-responsive,
