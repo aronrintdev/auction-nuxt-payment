@@ -1,14 +1,14 @@
 <template>
   <div class="create-listing-form-wrapper">
     <span
-        v-if="!isScreenXS"
-        class="backToSearch body-13"
-        role="button"
-        @click="moveBack"
+      v-if="!isScreenXS"
+      class="backToSearch body-13"
+      role="button"
+      @click="moveBack"
     >
       <img
-          :src="require('~/assets/img/icons/arrow-left-gray.svg')"
-          class="img-fluid"
+        :src="require('~/assets/img/icons/arrow-left-gray.svg')"
+        class="img-fluid"
       />
       {{ $t('common.back') }}
     </span>
@@ -16,14 +16,14 @@
     <b-row>
       <b-col v-if="!isScreenXS" md="6" offset-md="6" sm="12" class="mt-38">
         <ProductTitleSec
-            :lowest-price="lowestPrice ? lowestPrice : 0"
-            :product="product"
-            :product-color="product.colorway"
-            :product-last-sale-price="
+          :lowest-price="lowestPrice ? lowestPrice : 0"
+          :product="product"
+          :product-color="product.colorway"
+          :product-last-sale-price="
             lastSold && lastSold.sale_price ? lastSold.sale_price : 0
           "
-            :product-name="product.name"
-            class="mt-2"
+          :product-name="product.name"
+          class="mt-2"
         />
       </b-col>
       <b-col v-else md="6" sm="12">
@@ -31,23 +31,23 @@
         <div class="row mb-3">
           <div class="col-12">
             <nav-group
-                v-model="selectedCategory"
-                :data="visibleCategories"
-                class="m-0 w-100 d-flex justify-content-center"
-                nav-key="category"
+              v-model="selectedCategory"
+              :data="visibleCategories"
+              class="m-0 w-100 d-flex justify-content-center"
+              nav-key="category"
             />
           </div>
           <div class="col-12">
             <div class="d-flex justify-content-center mt-2">
               <div
-                  :class="selectedCategory == buy && 'active text-black'"
-                  class="px-5 mx-3 text-gray-24 body-5-medium"
+                :class="selectedCategory == buy && 'active text-black'"
+                class="px-5 mx-3 text-gray-24 body-5-medium"
               >
                 {{ lowestPrice | toCurrency }}
               </div>
               <div
-                  :class="selectedCategory == offer && 'active text-black'"
-                  class="px-5 mx-3 text-gray-24 body-5-medium"
+                :class="selectedCategory == offer && 'active text-black'"
+                class="px-5 mx-3 text-gray-24 body-5-medium"
               >
                 {{ highestOffer | toCurrency }}
               </div>
@@ -61,25 +61,25 @@
       <b-col md="6" sm="12">
         <!-- Product thumbnail -->
         <ProductThumb
-            v-if="!has360Images"
-            :product="product"
-            class="product-thumbnail mx-auto align-items-center overflow-hidden mt-3"
+          v-if="!has360Images"
+          :product="product"
+          class="product-thumbnail mx-auto align-items-center overflow-hidden mt-3"
         />
         <!-- Product thumbnail ends -->
 
         <!-- Product thumbnail 360 -->
         <ProductImageViewerMagic360
-            v-if="has360Images"
-            :product="product"
-            class="image-viewer-three-sixty px-2"
+          v-if="has360Images"
+          :product="product"
+          class="image-viewer-three-sixty px-2"
         />
 
         <div v-if="has360Images" class="row">
           <div class="col-12">
             <span class="float-right">
               <img
-                  :src="require('~/assets/img/icons/360.svg')"
-                  alt="360 view icon"
+                :src="require('~/assets/img/icons/360.svg')"
+                alt="360 view icon"
               />
             </span>
           </div>
@@ -91,26 +91,26 @@
         <div v-if="!isScreenXS" class="row">
           <div class="col-12 mt-4">
             <nav-group
-                v-model="selectedCategory"
-                :class="{
+              v-model="selectedCategory"
+              :class="{
                 'nav-408': !isScreenXS,
               }"
-                :data="visibleCategories"
-                class="m-0 w-100 d-flex justify-content-center"
-                nav-key="category"
+              :data="visibleCategories"
+              class="m-0 w-100 d-flex justify-content-center"
+              nav-key="category"
             />
           </div>
           <div class="col-12 d-flex justify-content-center">
             <div class="d-flex justify-content-center mt-3 web-prices">
               <div
-                  :class="selectedCategory == buy && 'active text-black'"
-                  class="w-100 text-center text-gray-24 body-1-medium"
+                :class="selectedCategory == buy && 'active text-black'"
+                class="w-100 text-center text-gray-24 body-1-medium"
               >
                 {{ lowestPrice | toCurrency }}
               </div>
               <div
-                  :class="selectedCategory == offer && 'active text-black'"
-                  class="w-100 text-center text-gray-24 body-1-medium"
+                :class="selectedCategory == offer && 'active text-black'"
+                class="w-100 text-center text-gray-24 body-1-medium"
               >
                 {{ highestOffer | toCurrency }}
               </div>
@@ -123,14 +123,14 @@
         <b-row v-else>
           <b-col md="6" sm="12">
             <ProductTitleSec
-                :lowest-price="lowestPrice ? lowestPrice : 0"
-                :product="product"
-                :product-color="product.colorway"
-                :product-last-sale-price="
+              :lowest-price="lowestPrice ? lowestPrice : 0"
+              :product="product"
+              :product-color="product.colorway"
+              :product-last-sale-price="
                 lastSold && lastSold.sale_price ? lastSold.sale_price : 0
               "
-                :product-name="product.name"
-                class="mt-5"
+              :product-name="product.name"
+              class="mt-5"
             />
           </b-col>
         </b-row>
@@ -140,29 +140,29 @@
         <div class="mt-2 mx-auto section-product-size">
           <!-- SizePicker -->
           <SizeCarouselResponsive
-              v-if="isScreenXS"
-              :prices="pricesBySize"
-              :sizes="sizes"
-              :value="value.currentSize"
-              :view-mode="sizeViewMode"
-              class="size-picker"
-              @changeViewMode="handleSizeViewModeChange"
-              @update="handleSizeChange"
+            v-if="isScreenXS"
+            :prices="pricesBySize"
+            :sizes="sizes"
+            :value="value.currentSize"
+            :view-mode="sizeViewMode"
+            class="size-picker"
+            @changeViewMode="handleSizeViewModeChange"
+            @update="handleSizeChange"
           />
           <ProductSizePicker
-              v-if="!isScreenXS"
-              :prices="pricesBySize"
-              :sizes="sizes"
-              :value="value.currentSize"
-              :view-mode="sizeViewMode"
-              :card-style="{
-                'background-color': '#F5F5F5'
-              }"
-              class="size-picker"
-              iconClass="d-none"
-              iconTextClass="text-color-blue-30"
-              @changeViewMode="handleSizeViewModeChange"
-              @update="handleSizeChange"
+            v-if="!isScreenXS"
+            :prices="pricesBySize"
+            :sizes="sizes"
+            :value="value.currentSize"
+            :view-mode="sizeViewMode"
+            :card-style="{
+              'background-color': '#F5F5F5',
+            }"
+            class="size-picker"
+            iconClass="d-none"
+            iconTextClass="text-color-blue-30"
+            @changeViewMode="handleSizeViewModeChange"
+            @update="handleSizeChange"
           />
           <!-- ./SizePicker -->
         </div>
@@ -171,10 +171,10 @@
         <!-- Box Condition Section Responsive -->
         <div class="row box-condition-responsive mt-4 mb-4 px-2">
           <BoxConditionPicker
-              :conditions="packagingConditions"
-              :value="value.boxCondition"
-              class="box-conditions m-0"
-              @change="(obj) => handlePackagingConditionChange(obj.id)"
+            :conditions="packagingConditions"
+            :value="value.boxCondition"
+            class="box-conditions m-0"
+            @change="(obj) => handlePackagingConditionChange(obj.id)"
           />
         </div>
         <!-- Box Condition Section Responsive ends -->
@@ -183,27 +183,27 @@
         <div v-if="!isScreenXS" class="row section-form-fields m-auto mt-5">
           <!-- In case of Accessories / Apparel - Min Offer Amount -->
           <div
-              v-if="
+            v-if="
               ['apparel', 'accessories'].includes(
                 product.category.name.toLowerCase()
               )
             "
-              :class="
+            :class="
               value.minOfferAmount !== null &&
               value.minOfferAmount <= minOfferMinVal &&
               'error'
             "
-              class="col-md-6 col-xs-12 input-col"
+            class="col-md-6 col-xs-12 input-col"
           >
             <FormInput
-                :label="$t('createlisting.min_offer_amount')"
-                :placeholder="$t('createlisting.enter_min_offer_amount')"
-                :value="value.minOfferAmount"
-                class="input-error"
-                integer
-                prefix="$"
-                required
-                @input="handleMinOfferPriceChange"
+              :label="$t('createlisting.min_offer_amount')"
+              :placeholder="$t('createlisting.enter_min_offer_amount')"
+              :value="value.minOfferAmount"
+              class="input-error"
+              integer
+              prefix="$"
+              required
+              @input="handleMinOfferPriceChange"
             />
             <div class="error-text mt-1">
               {{
@@ -218,27 +218,27 @@
           <!-- ./MinOffer Amount -->
 
           <div
-              v-if="
+            v-if="
               !['apparel', 'accessories'].includes(
                 product.category.name.toLowerCase()
               )
             "
-              :class="
+            :class="
               value.minOfferAmount !== null &&
               value.minOfferAmount <= minOfferMinVal &&
               'error'
             "
-              class="mt-3 col-md-6 col-xs-12 input-col"
+            class="mt-3 col-md-6 col-xs-12 input-col"
           >
             <FormInput
-                :label="$t('createlisting.min_offer_amount')"
-                :placeholder="$t('createlisting.enter_min_offer_amount')"
-                :value="value.minOfferAmount"
-                class="input-error"
-                integer
-                prefix="$"
-                required
-                @input="handleMinOfferPriceChange"
+              :label="$t('createlisting.min_offer_amount')"
+              :placeholder="$t('createlisting.enter_min_offer_amount')"
+              :value="value.minOfferAmount"
+              class="input-error"
+              integer
+              prefix="$"
+              required
+              @input="handleMinOfferPriceChange"
             />
             <div class="error-text mt-1">
               {{
@@ -253,26 +253,26 @@
 
           <!-- Quantity -->
           <div
-              :class="
+            :class="
               (value.quantity < quantityMinVal ||
                 value.quantity > quantityMaxVal) &&
               'error'
             "
-              class="mt-3 col-md-6 col-xs-12 input-col"
+            class="mt-3 col-md-6 col-xs-12 input-col"
           >
             <FormInput
-                :label="$t('common.quantity')"
-                :placeholder="$t('inventory.enter_quantity')"
-                :value="value.quantity"
-                class="input-error"
-                integer
-                required
-                @input="handleQuantityChange"
+              :label="$t('common.quantity')"
+              :placeholder="$t('inventory.enter_quantity')"
+              :value="value.quantity"
+              class="input-error"
+              integer
+              required
+              @input="handleQuantityChange"
             />
             <div class="error-text mt-1">
               {{
                 (quantityMinVal > value.quantity ||
-                    value.quantity > quantityMaxVal) &&
+                  value.quantity > quantityMaxVal) &&
                 $t('inventory.message.between', {
                   field: $t('common.quantity').toLowerCase(),
                   min: quantityMinVal,
@@ -285,20 +285,20 @@
 
           <!-- Price -->
           <div
-              :class="
+            :class="
               value.price !== null && value.price <= priceMinVal && 'error'
             "
-              class="mt-4 col-12 input-col"
+            class="mt-4 col-12 input-col"
           >
             <FormInput
-                :label="$t('create_listing.your_listing_price')"
-                :placeholder="$t('create_listing.your_listing_price_placeholder')"
-                :value="value.price"
-                class="input-error"
-                number
-                prefix="$"
-                required
-                @input="handlePriceChange"
+              :label="$t('create_listing.your_listing_price')"
+              :placeholder="$t('create_listing.your_listing_price_placeholder')"
+              :value="value.price"
+              class="input-error"
+              number
+              prefix="$"
+              required
+              @input="handlePriceChange"
             />
             <div class="error-text mt-1">
               {{
@@ -313,7 +313,7 @@
           <!-- End of Price -->
 
           <template
-              v-if="
+            v-if="
               ['apparel', 'accessories'].includes(
                 product.category.name.toLowerCase()
               )
@@ -322,13 +322,13 @@
             <!-- Color -->
             <div class="mt-3 col-md-6 col-xs-12 input-col">
               <FormDropdown
-                  id="packaging-condition"
-                  :items="colors"
-                  :label="$t('common.color')"
-                  :placeholder="$t('createlisting.select_color')"
-                  :value="value.color"
-                  required
-                  @input="handleColorChange"
+                id="packaging-condition"
+                :items="colors"
+                :label="$t('common.color')"
+                :placeholder="$t('createlisting.select_color')"
+                :value="value.color"
+                required
+                @input="handleColorChange"
               />
             </div>
             <!-- End of Color -->
@@ -336,32 +336,35 @@
             <!-- Year -->
             <div class="mt-3 col-md-6 col-xs-12 input-col">
               <FormInput
-                  :label="$t('common.year')"
-                  :placeholder="$t('createlisting.enter_year')"
-                  :value="``"
-                  class="input-error"
-                  number
-                  required
-                  @input="handleYearChange"
+                :label="$t('common.year')"
+                :placeholder="$t('createlisting.enter_year')"
+                :value="``"
+                class="input-error"
+                number
+                required
+                @input="handleYearChange"
               />
             </div>
             <!-- End of Year -->
-
           </template>
         </div>
         <div
-            v-if="!isScreenXS && typeof action === 'string' && action === 'edit'"
-            class="row section-form-fields d-flex justify-content-center px-3"
+          v-if="!isScreenXS && typeof action === 'string' && action === 'edit'"
+          class="row section-form-fields d-flex justify-content-center px-3"
         >
           <Button
-              :disabled="!isFormValid"
-              class="mt-3 mr-3 flex-grow-1 submit-buttons"
-              variant="dark"
-              @click="handleEditClick"
+            :disabled="!isFormValid"
+            class="mt-3 mr-3 flex-grow-1 submit-buttons"
+            variant="dark"
+            @click="handleEditClick"
           >
             {{ $t('inventory.save_changes') }}
           </Button>
-          <Button class="mt-3 flex-grow-1 submit-buttons" variant="outline-dark" @click="handleDiscard">
+          <Button
+            class="mt-3 flex-grow-1 submit-buttons"
+            variant="outline-dark"
+            @click="handleDiscard"
+          >
             {{ $t('inventory.discard_changes') }}
           </Button>
         </div>
@@ -372,20 +375,20 @@
           <!-- Minimum offer -->
           <div class="col-6 input-col">
             <FormInput
-                :id="
+              :id="
                 (value.minOfferAmount !== null &&
                   value.minOfferAmount <= minOfferMinVal &&
                   'error-responsive') ||
                 'form-input-responsive'
               "
-                :label="$t('createlisting.minOfferAmount')"
-                :pill="false"
-                :placeholder="$t('createlisting.enter_min_offer')"
-                :value="value.minOfferAmount"
-                class="input-form input-error"
-                integer
-                required
-                @input="handleMinOfferPriceChange"
+              :label="$t('createlisting.minOfferAmount')"
+              :pill="false"
+              :placeholder="$t('createlisting.enter_min_offer')"
+              :value="value.minOfferAmount"
+              class="input-form input-error"
+              integer
+              required
+              @input="handleMinOfferPriceChange"
             />
             <span v-if="value.minOfferAmount">
               <small class="text-danger">
@@ -397,20 +400,20 @@
           <!-- Quantity -->
           <div class="col-6 input-col">
             <FormInput
-                :id="
+              :id="
                 ((value.quantity < quantityMinVal ||
                   value.quantity > quantityMaxVal) &&
                   'error-responsive') ||
                 'form-input-responsive'
               "
-                :label="$t('common.quantity')"
-                :pill="false"
-                :placeholder="$t('common.quantity')"
-                :value="value.quantity"
-                class="input-form input-error"
-                integer
-                required
-                @input="handleQuantityChange"
+              :label="$t('common.quantity')"
+              :pill="false"
+              :placeholder="$t('common.quantity')"
+              :value="value.quantity"
+              class="input-form input-error"
+              integer
+              required
+              @input="handleQuantityChange"
             />
             <span>
               <small class="text-danger">
@@ -426,20 +429,20 @@
           <!-- Price -->
           <div class="col-12 input-col">
             <FormInput
-                id="form-input-responsive"
-                :class="
+              id="form-input-responsive"
+              :class="
                 value.price !== null &&
                 value.price <= priceMinVal &&
                 'error-responsive'
               "
-                :label="$t('create_listing.your_listing_price')"
-                :pill="false"
-                :placeholder="$t('create_listing.your_listing_price_placeholder')"
-                :value="value.price"
-                class="input-form input-error"
-                integer
-                required
-                @input="handlePriceChange"
+              :label="$t('create_listing.your_listing_price')"
+              :pill="false"
+              :placeholder="$t('create_listing.your_listing_price_placeholder')"
+              :value="value.price"
+              class="input-form input-error"
+              integer
+              required
+              @input="handlePriceChange"
             />
             <span v-if="value.price">
               <small class="text-danger">
@@ -454,41 +457,35 @@
     </b-row>
 
     <div v-if="!isScreenXS" class="section-product-details mb-1">
-      <div class="body-2-medium font-secondary text-black mb-1 mt-68">{{
-          $t('create_listing.product.product_details')
-        }}</div>
-      <hr/>
+      <div class="body-2-medium font-secondary text-black mb-1 mt-68">
+        {{ $t('create_listing.product.product_details') }}
+      </div>
+      <hr />
       <b-row class="mt-40">
         <b-col md="6" sm="12">
           <b-row>
             <b-col class="text-black font-secondary py-1" cols="4"
-            >{{ $t('common.sku') }}:
-            </b-col
-            >
+              >{{ $t('common.sku') }}:
+            </b-col>
             <b-col class="py-1" cols="8">{{ product.sku }}</b-col>
-            <b-col class="text-black  font-secondary py-1" cols="4"
-            >{{ $t('common.color') }}:
-            </b-col
-            >
+            <b-col class="text-black font-secondary py-1" cols="4"
+              >{{ $t('common.color') }}:
+            </b-col>
             <b-col class="py-1" cols="8">{{ product.colorway }}</b-col>
             <template v-if="product.retail_price">
               <b-col class="text-black font-secondary py-1" cols="4"
-              >{{ $t('common.retail_price') }}:
-              </b-col
-              >
-              <b-col class="py-1" cols="8">{{
-                  product.retail_price | formatPrice
-                }}
+                >{{ $t('common.retail_price') }}:
+              </b-col>
+              <b-col class="py-1" cols="8"
+                >{{ product.retail_price | formatPrice }}
               </b-col>
             </template>
             <template v-if="product.release_date">
               <b-col class="text-black font-secondary py-1" cols="4"
-              >{{ $t('common.release_date') }}:
-              </b-col
-              >
-              <b-col class="py-1" cols="8">{{
-                  product.release_date | formatDate
-                }}
+                >{{ $t('common.release_date') }}:
+              </b-col>
+              <b-col class="py-1" cols="8"
+                >{{ product.release_date | formatDate }}
               </b-col>
             </template>
           </b-row>
@@ -501,18 +498,18 @@
       </b-row>
     </div>
     <div
-        v-else
-        class="rounded p-3 box-shadow mt-4"
-        @click="mobileDetailsIsExpanded = !mobileDetailsIsExpanded"
+      v-else
+      class="rounded p-3 box-shadow mt-4"
+      @click="mobileDetailsIsExpanded = !mobileDetailsIsExpanded"
     >
       <div class="d-flex justify-content-between">
         <span class="body-9-medium text-black">
           {{ $t('create_listing.product.product_details') }}
         </span>
         <img
-            :class="{ rotate: mobileDetailsIsExpanded }"
-            :src="require('~/assets/img/icons/arrow-down-dark-blue.svg')"
-            width="12"
+          :class="{ rotate: mobileDetailsIsExpanded }"
+          :src="require('~/assets/img/icons/arrow-down-dark-blue.svg')"
+          width="12"
         />
       </div>
       <div v-if="mobileDetailsIsExpanded" class="mt-3">
@@ -525,15 +522,15 @@
           <div>{{ product.colorway }}</div>
         </div>
         <div
-            v-if="product.retail_price"
-            class="d-flex justify-content-between body-6-medium py-1"
+          v-if="product.retail_price"
+          class="d-flex justify-content-between body-6-medium py-1"
         >
           <div class="flex-grow-1">{{ $t('common.retail_price') }}:</div>
           <div>{{ product.retail_price | formatPrice }}</div>
         </div>
         <div
-            v-if="product.release_date"
-            class="d-flex justify-content-between body-6-medium py-1"
+          v-if="product.release_date"
+          class="d-flex justify-content-between body-6-medium py-1"
         >
           <div class="flex-grow-1">{{ $t('common.retail_price') }}:</div>
           <div>{{ product.release_date | formatDate }}</div>
@@ -544,18 +541,18 @@
     <!-- Sales Graph and Sales Data Section -->
     <b-row v-if="product" class="my-5">
       <b-col md="12">
-        <SalesSection :product="product"/>
+        <SalesSection :product="product" />
       </b-col>
     </b-row>
     <!-- End of Sales Graph and Sales Data Section -->
 
     <Button
-        v-if="isScreenXS && action === 'edit'"
-        :class="!isFormValid && 'disabled'"
-        :disabled="!isFormValid"
-        class="mt-3 add-listing-btn"
-        variant="block"
-        @click="handleEditClick"
+      v-if="isScreenXS && action === 'edit'"
+      :class="!isFormValid && 'disabled'"
+      :disabled="!isFormValid"
+      class="mt-3 add-listing-btn"
+      variant="block"
+      @click="handleEditClick"
     >
       {{ $t('inventory.save_changes') }}
     </Button>
@@ -563,47 +560,47 @@
     <!-- Modal popup -->
     <!-- On save changes click -->
     <AlertModal
-        id="save-listing-success"
-        :message="$t('inventory.message.saved')"
-        auto-hide
-        icon="tick"
-        @hidden="emitEditSuccess"
+      id="save-listing-success"
+      :message="$t('inventory.message.saved')"
+      auto-hide
+      icon="tick"
+      @hidden="emitEditSuccess"
     />
     <!-- End of On save changes click -->
 
     <!-- On discard changes -->
     <ConfirmModal
-        id="discard"
-        :confirmLabel="$t('common.discard')"
-        :message="$t('createlisting.discard_changes')"
-        @cancel="onCancel"
-        @confirm="onConfirm"
+      id="discard"
+      :confirmLabel="$t('common.discard')"
+      :message="$t('createlisting.discard_changes')"
+      @cancel="onCancel"
+      @confirm="onConfirm"
     />
     <!-- End of On discard changes -->
 
     <!-- Discard confirm message -->
     <AlertModal
-        id="discard-confirm"
-        :message="$t('inventory.message.discarded')"
-        auto-hide
-        icon="trash"
-        @hidden="onCancelDiscard"
+      id="discard-confirm"
+      :message="$t('inventory.message.discarded')"
+      auto-hide
+      icon="trash"
+      @hidden="onCancelDiscard"
     />
     <!-- Discard confirm message -->
     <!-- Modal popup ends here -->
     <ModifyListingConfirm
-        id="modify-listing-confirm"
-        :heading="$t('selling_page.edit_listing_heading')"
-        :text="$t('selling_page.edit_listing_text')"
-        @hidden="emitEditSuccess"
-        @success="$emit('success')"
+      id="modify-listing-confirm"
+      :heading="$t('selling_page.edit_listing_heading')"
+      :text="$t('selling_page.edit_listing_text')"
+      @hidden="emitEditSuccess"
+      @success="$emit('success')"
     ></ModifyListingConfirm>
   </div>
 </template>
 
 <script>
 import _ from 'lodash'
-import {mapActions, mapGetters} from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import ModifyListingConfirm from './ModifyListingConfirm.vue'
 import ProductSizePicker from '~/components/product/SizePicker'
 import SizeCarouselResponsive from '~/components/profile/create-listing/SizeCarouselResponsive.vue'
@@ -616,7 +613,7 @@ import {
   Button,
   NavGroup,
 } from '~/components/common'
-import {AlertModal, ConfirmModal} from '~/components/modal'
+import { AlertModal, ConfirmModal } from '~/components/modal'
 import {
   QUANTITY_MIN_VAL,
   QUANTITY_MAX_VAL,
@@ -666,8 +663,7 @@ export default {
     },
     value: {
       type: Object,
-      default: () => {
-      },
+      default: () => {},
     },
     action: {
       type: String,
@@ -728,9 +724,9 @@ export default {
      */
     colors: (vm) => {
       return (
-          vm.inventoryColors?.map((i) => {
-            return {label: i.name, value: i.id}
-          }) || []
+        vm.inventoryColors?.map((i) => {
+          return { label: i.name, value: i.id }
+        }) || []
       )
     },
     /**
@@ -739,7 +735,7 @@ export default {
     pricesBySize() {
       return this.product?.lowest_prices?.filter((i) => {
         const items = this.product.lowest_prices.filter(
-            (j) => j.packaging_condition_id === i.packaging_condition_id
+          (j) => j.packaging_condition_id === i.packaging_condition_id
         )
         const minItem = _.minBy(items, 'price')
         return i.size_id === minItem.size_id
@@ -750,7 +746,7 @@ export default {
      */
     lowestListedPrice() {
       const items = this.product?.lowest_prices?.filter(
-          (i) => i.size_id === this.value.currentSize
+        (i) => i.size_id === this.value.currentSize
       )
       return _.minBy(items, 'price')?.price
     },
@@ -759,7 +755,7 @@ export default {
      */
     highestOfferPrice() {
       const offers = this.product?.highest_offers?.filter(
-          (i) => i.size_id === this.value.currentSize
+        (i) => i.size_id === this.value.currentSize
       )
       return _.maxBy(offers, 'price')?.price
     },
@@ -773,22 +769,22 @@ export default {
      */
     packagingConditions() {
       return (
-          this.product?.packaging_conditions?.map((i) => {
-            return {...i}
-          }) || []
+        this.product?.packaging_conditions?.map((i) => {
+          return { ...i }
+        }) || []
       )
     },
     // Form valid? Enable the save/update button
     isFormValid() {
       return (
-          this.value.currentSize &&
-          this.value.quantity &&
-          this.value.price &&
-          this.value.boxCondition &&
-          this.value.quantity >= this.quantityMinVal &&
-          this.value.quantity <= this.quantityMaxVal &&
-          this.value.price > this.priceMinVal &&
-          this.value.minOfferAmount > this.minOfferMinVal
+        this.value.currentSize &&
+        this.value.quantity &&
+        this.value.price &&
+        this.value.boxCondition &&
+        this.value.quantity >= this.quantityMinVal &&
+        this.value.quantity <= this.quantityMaxVal &&
+        this.value.price > this.priceMinVal &&
+        this.value.minOfferAmount > this.minOfferMinVal
       )
     },
 
@@ -800,9 +796,9 @@ export default {
       if (vm.listingItemOrder && vm.listingItemOrder.length) {
         const items = vm.listingItemOrder && vm.listingItemOrder.reverse()
         const sold = items.find(
-            (i) =>
-                i.inventory.size_id === vm.value.currentSize &&
-                i.inventory.packaging_condition_id === vm.value.boxCondition
+          (i) =>
+            i.inventory.size_id === vm.value.currentSize &&
+            i.inventory.packaging_condition_id === vm.value.boxCondition
         )
         return sold && sold.inventory
       }
@@ -815,9 +811,9 @@ export default {
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     lowestPrice: (vm) => {
       const val = vm.product.lowest_prices.find(
-          (i) =>
-              i.size_id === vm.selectedSize &&
-              i.packaging_condition_id === vm.selectedCondition
+        (i) =>
+          i.size_id === vm.selectedSize &&
+          i.packaging_condition_id === vm.selectedCondition
       )
       return val && val.price
     },
@@ -825,26 +821,26 @@ export default {
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     highestOffer: (vm) => {
       const val = vm.product.highest_offers.find(
-          (i) =>
-              i.size_id === vm.selectedSize &&
-              i.packaging_condition_id === vm.selectedCondition
+        (i) =>
+          i.size_id === vm.selectedSize &&
+          i.packaging_condition_id === vm.selectedCondition
       )
       return val && val.price
     },
 
     highestOfferId: (vm) => {
       return vm.product?.highest_offers?.find(
-          (i) =>
-              i.size_id === vm.selectedSize &&
-              i.packaging_condition_id === vm.selectedCondition
+        (i) =>
+          i.size_id === vm.selectedSize &&
+          i.packaging_condition_id === vm.selectedCondition
       )?.offer_id
     },
 
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     quantityError: (vm) => {
       if (
-          vm.quantityMinVal > vm.value.quantity ||
-          vm.value.quantity > vm.quantityMaxVal
+        vm.quantityMinVal > vm.value.quantity ||
+        vm.value.quantity > vm.quantityMaxVal
       ) {
         return vm.$t('inventory.message.between', {
           field: vm.$t('common.quantity').toLowerCase(),
@@ -857,8 +853,8 @@ export default {
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     minOfferError: (vm) => {
       if (
-          vm.value.minOfferAmount === null ||
-          vm.value.minOfferAmount <= vm.minOfferMinVal
+        vm.value.minOfferAmount === null ||
+        vm.value.minOfferAmount <= vm.minOfferMinVal
       ) {
         return vm.$t('inventory.message.gt_than', {
           field: vm.$t('common.price').toLowerCase(),
@@ -913,21 +909,21 @@ export default {
     handleSizeChange(value) {
       if (value) {
         this.selectedSize = value
-        this.$emit('input', {...this.value, currentSize: value})
+        this.$emit('input', { ...this.value, currentSize: value })
       }
     },
     /**
      * On quantity input emit the value to be updated.
      */
     handleQuantityChange(value) {
-      this.$emit('input', {...this.value, quantity: value})
+      this.$emit('input', { ...this.value, quantity: value })
     },
     /**
      * On price input emit the value to be updated.
      */
     handlePriceChange(value) {
       if (value) {
-        this.$emit('input', {...this.value, price: value})
+        this.$emit('input', { ...this.value, price: value })
       }
     },
     /**
@@ -936,12 +932,12 @@ export default {
     handlePackagingConditionChange(value) {
       if (value) {
         this.selectedCondition = value
-        this.$emit('input', {...this.value, boxCondition: value})
+        this.$emit('input', { ...this.value, boxCondition: value })
       }
     },
     // On min offer amount input
     handleMinOfferPriceChange(value) {
-      this.$emit('input', {...this.value, minOfferAmount: value})
+      this.$emit('input', { ...this.value, minOfferAmount: value })
     },
     /**
      * On add listing button click.
@@ -978,7 +974,7 @@ export default {
 
     // Color input on change.
     handleColorChange(value) {
-      this.$emit('input', {...this.value, color: value})
+      this.$emit('input', { ...this.value, color: value })
     },
 
     // On cancel discard
@@ -1017,29 +1013,29 @@ export default {
         packagingConditionId: this.selectedCondition,
         offerAmount: this.highestOffer,
       })
-          .then((res) => {
-            this.$store
-                .dispatch('sell-now/selectedItem', res.data.data)
-                .then(() => {
-                  this.moveToSellNow()
-                })
-            return true
-          })
-          .catch((err) => {
-            this.$logger.logToServer(
-                'Sell now create inventory and listing error',
-                err.response
-            )
-            this.$nuxt.refresh()
-          })
+        .then((res) => {
+          this.$store
+            .dispatch('sell-now/selectedItem', res.data.data)
+            .then(() => {
+              this.moveToSellNow()
+            })
+          return true
+        })
+        .catch((err) => {
+          this.$logger.logToServer(
+            'Sell now create inventory and listing error',
+            err.response
+          )
+          this.$nuxt.refresh()
+        })
     },
 
     moveToSellNow() {
       if (
-          this.getSelectedItemforVendor &&
-          this.getSelectedItemforVendor.product &&
-          this.authenticated &&
-          this.isVendor
+        this.getSelectedItemforVendor &&
+        this.getSelectedItemforVendor.product &&
+        this.authenticated &&
+        this.isVendor
       ) {
         const sellNowData = {
           id: this.getSelectedItemforVendor.product_id,
@@ -1053,9 +1049,9 @@ export default {
           image: `${this.apiProdUrl}/${this.getSelectedItemforVendor.product.category.name}/${this.getSelectedItemforVendor.product.sku}/image`,
           quantity: 1,
           packaging_condition:
-              this.product.packaging_conditions[
+            this.product.packaging_conditions[
               this.getSelectedItemforVendor.packaging_condition_id - 1
-                  ],
+            ],
           packaging_condition_id: this.selectedCondition,
           price: this.getSelectedItemforVendor.sale_price,
           listing_item_id: this.getSelectedItemforVendor.listing_items[0].id,
@@ -1069,7 +1065,7 @@ export default {
     },
 
     // Show the up/down
-    latestPrice({amount, type}) {
+    latestPrice({ amount, type }) {
       this.avgAmount = amount
       this.avgType = type
     },

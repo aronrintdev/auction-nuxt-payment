@@ -6,11 +6,11 @@
   >
     <div v-if="modifyData">
       <ModifyListingRevamp
-          v-model="form"
-          :action="`edit`"
-          :listingId="modifyData.id"
-          :product="modifyData.inventory.product"
-          @success="editListing"
+        v-model="form"
+        :action="`edit`"
+        :listingId="modifyData.id"
+        :product="modifyData.inventory.product"
+        @success="editListing"
       />
     </div>
   </b-container>
