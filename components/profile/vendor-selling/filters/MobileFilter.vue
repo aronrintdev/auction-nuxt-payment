@@ -1,78 +1,77 @@
 <template>
-  <div v-show="mobileClass" :class="`sidebar-wrapper ${mobileClass} d-flex w-100 flex-column align-items-start`">
+  <div
+    v-show="mobileClass"
+    :class="`sidebar-wrapper ${mobileClass} d-flex w-100 flex-column align-items-start`"
+  >
     <div :class="`header ${mobileClass} w-100 px-5 py-3 border-bottom`">
-      <div :class="`filter-by w-100 ${mobileClass} d-flex aling-items-center justify-content-center`">
+      <div
+        :class="`filter-by w-100 ${mobileClass} d-flex aling-items-center justify-content-center`"
+      >
         <span>{{ $t('common.filter_by') }}</span>
       </div>
     </div>
     <div :class="`filter-body ${mobileClass} p-4 w-100`">
-      <!-- Sort By -->
-      <div v-show="filterVisibility" class="sort-by">
-        <div :class="`sort-by-filter ${mobileClass}`">
-          <div class="header-filter">
-            {{ $t('offers_received.sort') }}
-          </div>
-          <div :class="`body-filter mt-2 ${mobileClass} f-w-normal`">
-            <b-form-radio
-              v-model="filter.sortby"
-              class="recent-to-old text-normal"
-              name="sortby"
-              value="date-new-old"
-              >{{ $t('offers_received.offers_recent_old') }}</b-form-radio
-            >
-            <b-form-radio
-              v-model="filter.sortby"
-              class="old-to-recent text-normal"
-              name="sortby"
-              value="date-old-new"
-              >{{ $t('offers_received.offers_old_recent') }}</b-form-radio
-            >
-          </div>
+      <FilterAccordion
+        :open="true"
+        :title="$t('offers_received.sort').toString()"
+      >
+        <b-form-radio
+          v-model="filter.sortby"
+          class="recent-to-old text-normal radios"
+          name="sortby"
+          value="date-new-old"
+          >{{ $t('offers_received.offers_recent_old') }}</b-form-radio
+        >
+        <b-form-radio
+          v-model="filter.sortby"
+          class="old-to-recent text-normal radios"
+          name="sortby"
+          value="date-old-new"
+          >{{ $t('offers_received.offers_old_recent') }}</b-form-radio
+        >
+      </FilterAccordion>
+      <ItemDivider />
+      <FilterAccordion
+        :title="$t('purchases.purchase_type').toString()"
+        :data="filterStatusText"
+      >
+        <ButtonSelector
+          :options="status"
+          :values="filter.status"
+          @change="statusFilterChange"
+        />
+      </FilterAccordion>
+      <ItemDivider />
+      <FilterAccordion :title="$t('orders.date_ordered').toString()">
+        <div
+          class="mt-2 d-flex align-items-center justify-content-between sort-filters"
+        >
+          <input
+            v-model="filter.date.start"
+            :placeholder="$t('notifications.start_date')"
+            class="date-input"
+            type="date"
+          />
+          <input
+            v-model="filter.date.end"
+            :placeholder="$t('notifications.end_date')"
+            class="date-input"
+            type="date"
+          />
         </div>
-        <hr />
-      </div>
-      <!-- Sort By ends -->
-      <!-- Status -->
+      </FilterAccordion>
 
-      <div v-show="filterVisibility" class="collapses flex-column w-100">
-        <CollapseStatus
-          :value="filter.status"
-          collapseKey="status"
-          :title="$t('selling_page.filter.status')"
-          :preview-text="filterStatusText"
-          :options="status"
-          @selected="statusSelected"
-        />
-      </div>
-      <!-- Status ends -->
-      <hr v-show="filterVisibility" />
-      <div class="collapses flex-column">
-        <CollapseDate
-          :value="filter.date"
-          collapseKey="offer-date"
-          :title="$t('selling_page.filter.date_send')"
-          :options="status"
-          :clearDate="!filter.date"
-          @startDate="startDateSelected"
-          @endDate="endDateSelected"
-        />
-      </div>
-
-      <hr v-show="filterVisibility" />
-
-      <div v-show="filterVisibility" :class="`section-actions ${mobileClass} d-flex align-items-center w-100 justify-content-between`">
-        <Button v-if="filterVisibility" pill class="btn-reset btn-light" @click="resetFilter">{{
+      <div
+        :class="`section-actions ${mobileClass} d-flex align-items-center w-100 justify-content-between`"
+      >
+        <Button pill class="btn-reset btn-light" @click="resetFilter">{{
           $t('offers_received.reset')
         }}</Button>
 
-        <Button
-          v-if="filterVisibility"
-          pill
-          class="btn-apply border-0"
-          @click="applyFilter()"
+        <Button pill class="btn-apply border-0" @click="applyFilter()"
           ><span
             >{{ $t('offers_received.apply_filters') }}
-            <span v-if="count">&#40;{{ count }}&#41;</span></span
+            <span v-if="filterCount">&#40;{{ filterCount }}&#41;</span></span
           ></Button
         >
       </div>
@@ -81,133 +80,118 @@
 </template>
 
 <script>
-import CollapseStatus from './CollapseStatus.vue'
-import CollapseDate from './CollapseDate.vue'
 import screenSize from '~/plugins/mixins/screenSize'
 import { Button } from '~/components/common'
+import FilterAccordion from '~/components/mobile/FilterAccordion'
+import ItemDivider from '~/components/profile/notifications/ItemDivider'
+import ButtonSelector from '~/components/mobile/ButtonSelector'
 export default {
   name: 'MobileFilter',
-
   components: {
-    CollapseStatus,
+    ButtonSelector,
+    ItemDivider,
+    FilterAccordion,
     Button,
-    CollapseDate,
   },
-
   mixins: [screenSize],
-
   data() {
     return {
       status: [
         {
-          label: this.$t('selling_page.listed'),
+          text: this.$t('selling_page.listed'),
           value: 'listed',
         },
         {
-          label: this.$t('selling_page.delisted'),
+          text: this.$t('selling_page.delisted'),
           value: 'delisted',
         },
       ],
       showFilter: true,
       filter: {
         date: {
-          start: '',
-          end: ''
+          start: null,
+          end: null,
         },
         status: [],
         sortby: null,
       },
-      count: 0,
-
     }
   },
-
   computed: {
-    filterVisibility: (vm) => {
-      return vm.showFilter
-    },
-
-    sortbyStatus: (vm) => {
-      return vm.filter.sortby
-    },
-
-    filterStatus: (vm) => {
-      return vm.filter.status
-    },
     filterStatusText() {
-      return this.$options.filters.joinAndCapitalizeFirstLetters(this.filter.status, 2)
-    }
-  },
-
-  watch: {
-    sortbyStatus: {
-      deep: true,
-      handler(newValue, oldValue) {
-        if(!oldValue){
-          this.count = this.count + 1
-        }
-      }
+      return this.$options.filters.joinAndCapitalizeFirstLetters(
+        this.filter.status,
+        2
+      )
+    },
+    filterCount() {
+      return (
+        this.filter.status.length +
+        (!!this.filter.sortby | 0) +
+        (!!this.filter.date.start | 0) +
+        (!!this.filter.date.end | 0)
+      )
     },
   },
-
   methods: {
     resetFilter() {
-      this.count = 0
-      this.filter.date = null
+      this.filter.date = {
+        start: null,
+        end: null,
+      }
       this.filter.status = []
       this.filter.sortby = null
       this.applyFilter()
     },
-
-    // If status is selected
-    statusSelected(value) {
-      value.forEach(element => {
-        if(!this.filter.status.includes(element)){
-          this.count = this.count + 1
-        }
-      });
-      this.filter.status = value
+    statusFilterChange(types) {
+      this.filter.status = types
     },
-
-    // If date is selected.
-    dateSelected(value) {
-      this.showFilter = value
-    },
-
-    // On start date select
-    startDateSelected(value) {
-      if(this.filter.date && !this.filter.date.end){
-        if(this.filter.date && !this.filter.date.start) {
-          this.count = this.count + 1
-        }
-        if(this.filter.date && this.filter.date.start && !value){
-          this.count = this.count - 1
-        }
-      }
-      this.filter.date.start = value
-    },
-
-    // On end date select
-    endDateSelected(value) {
-      if(this.filter.date && !this.filter.date.start){
-        if(this.filter.date && !this.filter.date.end) {
-          this.count = this.count + 1
-        }
-        if(this.filter.date && this.filter.date.end && !value){
-          this.count = this.count - 1
-        }
-      }
-      this.filter.date.end = value
-    },
-
-    applyFilter(){
+    applyFilter() {
       this.$emit('filter', { ...this.filter })
-    }
+    },
   },
 }
 </script>
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+::v-deep.custom-radio
+  &.custom-control
+    display: flex
+    align-items: center
+
+    label
+      @include body-5-normal
+      padding-top: 3px
+      font-family: $font-family-sf-pro-display
+      font-style: normal
+      color: $color-black-9
+
+      &:before
+        color: $color-black-1
+        border-color: $color-black-1
+        background-color: $color-white-1
+        box-shadow: none
+
+::v-deep.custom-radio
+  .custom-control-input
+    &:checked ~ .custom-control-label::after
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='4' fill='%23000'/%3E%3C/svg%3E")
+input.date-input
+  @include body-9
+  height: 49px
+  width: 154px
+  border-radius: 10px
+  border: 1px solid $color-black-1
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $medium
+  color: $color-black-4
+  padding: 15px 17px
+
+::v-deep.divider
+  border-top: 1px solid $color-gray-62
+  margin-inline: 0
+  margin-block: 20px
 
 .sidebar-wrapper
   font-family: $font-sp-pro
