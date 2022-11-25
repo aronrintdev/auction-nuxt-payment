@@ -25,7 +25,7 @@
     <div :class="`body w-100 px-3 py-3 border-bottom`">
       <div :class="`filter-by w-100  justify-content-center`">
         <span class="more-option-body d-flex align-items-center justify-content-between"
-          >{{ $t('selling_page.enable_vacation_mode') }}
+          >{{ $t('selling_page.vacation_mode_text') }}
           <CheckboxSwitch v-model="enableVacationMode" />
         </span>
       </div>

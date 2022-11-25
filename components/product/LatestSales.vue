@@ -1,57 +1,58 @@
 <template>
   <div class="child-container">
-    <h2 :class="headerClass" class="m-0">{{ $t('products.latest_sales') }}</h2>
-    <div :style="labelsStyle" class="d-flex justify-content-between period-block px-3">
-      <Button
-        variant="link"
-        :class="{ active: currentFormat === 'day' }"
-        class="label"
-        :style="labelStyle"
-        @click="setFormat('day')"
-        >{{ $tc('common.day', 1) }}</Button
-      >
-      <Button
-        variant="link"
-        :class="{ active: currentFormat === 'month' }"
-        :style="labelStyle"
-        class="label"
-        @click="setFormat('month')"
-        >{{ $t('common.month') }}</Button
-      >
-      <Button
-        variant="link"
-        :class="{ active: currentFormat === 'quarter' }"
-        :style="labelStyle"
-        class="label"
-        @click="setFormat('quarter')"
-        >{{ $t('common.quarter') }}</Button
-      >
-      <Button
-        variant="link"
-        :class="{ active: currentFormat === 'year' }"
-        :style="labelStyle"
-        class="label"
-        @click="setFormat('year')"
-        >{{ $t('common.year') }}</Button
-      >
-      <Button
-        variant="link"
-        :class="{ active: currentFormat === 'all' }"
-        :style="labelStyle"
-        class="label"
-        @click="setFormat('all')"
-        >{{ $t('common.all') }}</Button
-      >
-    </div>
-    <div v-if="latestPrice" class="d-flex align-items-center current-trend">
-      {{ latestPrice | toCurrency }}
-      <img
-        :src="
+    <div :style="labelsStyle" class="d-flex align-items-center px-5 tabs-part">
+      <div v-if="latestPrice" class="d-flex align-items-center current-trend">
+        {{ latestPrice | toCurrency }}
+        <img
+            :src="
           require(`~/assets/img/icons/product/trend-${
             latestPrice >= currentTrend ? 'up' : 'down'
           }.svg`)
         "
-      />
+        />
+      </div>
+      <div class="d-flex justify-content-between period-block ">
+        <Button
+            variant="link"
+            :class="{ active: currentFormat === 'day' }"
+            class="label"
+            :style="labelStyle"
+            @click="setFormat('day')"
+        >{{ $tc('common.day', 1) }}</Button
+        >
+        <Button
+            variant="link"
+            :class="{ active: currentFormat === 'month' }"
+            :style="labelStyle"
+            class="label"
+            @click="setFormat('month')"
+        >{{ $t('common.month') }}</Button
+        >
+        <Button
+            variant="link"
+            :class="{ active: currentFormat === 'quarter' }"
+            :style="labelStyle"
+            class="label"
+            @click="setFormat('quarter')"
+        >{{ $t('common.quarter') }}</Button
+        >
+        <Button
+            variant="link"
+            :class="{ active: currentFormat === 'year' }"
+            :style="labelStyle"
+            class="label"
+            @click="setFormat('year')"
+        >{{ $t('common.year') }}</Button
+        >
+        <Button
+            variant="link"
+            :class="{ active: currentFormat === 'all' }"
+            :style="labelStyle"
+            class="label"
+            @click="setFormat('all')"
+        >{{ $t('common.all') }}</Button
+        >
+      </div>
     </div>
     <div class="position-relative sales-chart">
       <client-only>
@@ -290,6 +291,9 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.tabs-part
+  margin-bottom: 40px
+  margin-top: 44px
 
 .label
   @include body-10
@@ -306,7 +310,7 @@ export default {
     width: 85%
     margin-left: 10px !important
     margin-right: 10px !important
-    
+
 .responsive-header
   color: $color-black-1 !important
   font-size: 14px !important
@@ -327,7 +331,8 @@ export default {
     font-family: 'Baloo 2', cursive
 
   .period-block
-    margin-top: 40px
+    max-width: 420px
+    width: 100%
 
     .btn
       &.active
@@ -337,7 +342,7 @@ export default {
   .current-trend
     @include body-2-regular
     color: $color-black-1
-    margin-left: 70px
+    margin-right: 90px
 
     img
       margin-left: 20px
