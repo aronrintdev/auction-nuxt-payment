@@ -24,7 +24,7 @@
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{ $t('newest_features.live_customer_service.options') }}
       </FeatureTitle>
       <div class="cards-wrapper-in-app d-flex flex-column align-items-center">
@@ -38,7 +38,7 @@
           <span class="before d-md-none d-block mx-auto"></span>
           <FeatureFourCards
             :icon="
-              require('~/assets/img/features/newest-feature/live-customer-service/nfc.svg')
+              require('~/assets/img/features/newest-feature/live-customer-service/nfc.png')
             "
             :title="$t('features.live_customer_service.cards.title2')"
           />
@@ -125,3 +125,9 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+@media screen and (max-width: 577px)
+  .feature-title-my
+    margin-top: 48px !important
+    margin-bottom: 24px !important
+</style>

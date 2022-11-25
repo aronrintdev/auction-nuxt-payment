@@ -124,13 +124,13 @@ export default {
           imageUrl: require('@/assets/img/features/all-features/payments-plans.svg'),
           imgSmUrl: require('@/assets/img/features/all-features/payments-plans-sm.svg'),
         },
-        {
-          to: '/features/international-languages',
-          title: 'newest_features.international_languages.title',
-          description: 'newest_features.international_languages.desc',
-          imageUrl: require('@/assets/img/features/all-features/int-languages.svg'),
-          imgSmUrl: require('@/assets/img/features/all-features/int-languages-sm.svg'),
-        },
+        // {
+        //   to: '/features/international-languages',
+        //   title: 'newest_features.international_languages.title',
+        //   description: 'newest_features.international_languages.desc',
+        //   imageUrl: require('@/assets/img/features/all-features/int-languages.svg'),
+        //   imgSmUrl: require('@/assets/img/features/all-features/int-languages-sm.svg'),
+        // },
         {
           to: '/features/csv-bulk-uploading',
           title: 'newest_features.csv_bulk_uploading.title',

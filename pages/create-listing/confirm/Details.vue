@@ -2,8 +2,6 @@
   <b-container fluid class="container-auction-confirm-details h-100">
     <div class="d-none d-md-flex justify-content-between align-items-center">
       <h2 class="title">{{ $t('create_listing.collection.collection_details') }}</h2>
-      <FormStepper :steps="steps" :selected="getCollectionState"/>
-
     </div>
     <!-- Status Box -->
     <div class="d-md-none mb-4 statusbox">
@@ -182,7 +180,7 @@
             </Button>
             <Button
               variant="primary"
-              class="px-5"
+              class="px-5 next-btn"
               pill
               @click="setScheduleDate"
             >
@@ -214,13 +212,12 @@ import {mapGetters} from 'vuex';
 import {FormDropdown, FormInput, CheckboxSwitch, Button} from '~/components/common'
 import infoIcon from '~/assets/img/icons/info-dark-blue.svg';
 import createListingAuction from '~/plugins/mixins/create-listing-auction';
-import FormStepper from '~/components/createListing/FormStepper';
 import arrowUpIcon from '~/assets/img/icons/arrow-up-blue.svg'
 import arrowDownIcon from '~/assets/img/icons/arrow-down-blue.svg'
 
 export default {
   name: 'ConfirmDetails',
-  components: {FormDropdown, FormInput, CheckboxSwitch, Button, FormStepper},
+  components: {FormDropdown, FormInput, CheckboxSwitch, Button},
   mixins: [createListingAuction],
   layout: 'Profile',
   data() {
@@ -342,12 +339,15 @@ export default {
     border-radius: 10px
 
 .container-auction-confirm-details
-  padding: 47px 54px
+  padding: 61px 20px
   background-color: $color-white-5
 
   h2.title
-    @include heading-3
-    color: $color-black-1
+    font-family: $font-sp-pro
+    font-weight: $bold
+    @include body-1
+    color: $black
+    margin-bottom: 4px
 
   @media (max-width: 576px)
     padding: 20px 16px
@@ -424,6 +424,16 @@ export default {
       padding: 12px 40px
       width: 100%
       height: auto
+.next-button.btn
+  @include body-8
+  font-weight: $medium
+  background-color: $black
+  border-color: $black
+  width: 200px
+  height: 38px
+  padding: 0
+  font-family: $font-sp-pro
+  border-radius: 4px
 .reserve-info
   @include body-5-regular
   background-color: $color-blue-10

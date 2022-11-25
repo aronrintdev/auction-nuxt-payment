@@ -10,7 +10,7 @@
     <div class="balance-deal">{{subHeading}}</div>
     <div class="d-flex flex-column align-items-center">
     <div class="d-flex justify-content-center">
-      <Meter :fair="70" heading="trades.trade_arena.fair_trade_meter" :highest="100" :lowest="0" :value="60"/>
+      <Meter :fair="getFairTradeValue()" heading="trades.trade_arena.fair_trade_meter" :highest="parseFloat(theirAmount)" :lowest="0" :value="yourTotal(false)"/>
     </div>
     <div>
       <div class="d-flex justify-content-between pt-2 total-container" >
@@ -59,6 +59,7 @@
 import {mapGetters} from 'vuex';
 import Meter from '~/components/common/Meter'
 import Button from '~/components/common/Button';
+import {DEFAULT_FAIR_TRADE_VALUE} from '~/static/constants/trades';
 export default {
   name: 'AddCash',
   components:{
@@ -87,6 +88,7 @@ export default {
     return {
       amount: 0,
       addCash: true,
+      fairTradePercentage: (DEFAULT_FAIR_TRADE_VALUE / 100).toFixed(2), // converting to percentage
     }
   },
   computed:{
@@ -141,7 +143,10 @@ export default {
         amount:this.amount
       }
       this.$emit('change',data)
-    }
+    },
+    getFairTradeValue(){
+      return (this.theirAmount * this.fairTradePercentage)
+    },
   }
 }
 </script>
