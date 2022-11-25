@@ -47,7 +47,11 @@
               v-else
               class="search-filter-responsive d-flex align-items-center"
             >
-              <MobileSearchInput :value="searchFilters.searchKeyword" class="flex-grow-1 mr-2" @input="getProducts" />
+              <MobileSearchInput
+                :value="searchFilters.searchKeyword"
+                class="flex-grow-1 mr-2"
+                @input="getProducts"
+              />
               <span class="filter-wrapper" role="button" @click="showFilter">
                 <img
                   class="mobile-filter"
@@ -206,7 +210,7 @@
           class="result-data"
         >
           <!-- Empty Content -->
-          <EmptyListing class="empty-listing " />
+          <EmptyListing class="empty-listing" />
           <!-- ./Empty Content -->
         </template>
         <template v-else class="result-data">
@@ -310,10 +314,18 @@
             />
           </template>
           <infinite-loading
-            v-if="responsiveData.length && isScreenXS"
-            spinner="spiral"
-            @infinite="infiniteScroll"
-          ></infinite-loading>
+            v-if="!loading"
+            :identifier="infiniteId"
+            @infinite="infiniteHandler"
+          >
+            <div slot="spinner">
+              <div class="d-flex align-items-center justify-content-center w-100 mt-3">
+                <Loader :loading="true"></Loader>
+              </div>
+            </div>
+
+            <div slot="no-more"> </div>
+          </infinite-loading>
         </template>
 
         <!-- ListingData Responsive Ends -->
@@ -458,7 +470,6 @@
 <script>
 import debounce from 'lodash.debounce'
 import EmptyListing from '~/components/profile/vendor-selling/EmptyListing.vue'
-// import VendorSellingSearchFilter from '~/components/profile/vendor-selling/SearchFilter'
 import VendorSellingListItem from '~/components/profile/vendor-selling/VendorSellingListItem'
 import SellingModal from '~/components/profile/vendor-selling/SellingModal.vue'
 import {
@@ -475,15 +486,17 @@ import ListItemResult from '~/components/profile/vendor-selling/ListItemResult.v
 import MoreOptions from '~/components/profile/vendor-selling/MoreOptions.vue'
 import MobileFilter from '~/components/profile/vendor-selling/filters/MobileFilter.vue'
 import VacationModeConfirmation from '~/components/profile/vendor-selling/VacationModeConfirmation.vue'
-import { DELIST, RELIST } from '~/static/constants'
+import { DELIST, PERPAGE, RELIST } from '~/static/constants'
 import ListingConfirmation from '~/components/profile/vendor-selling/details/ListingConfirmation.vue'
 import CalendarInput from '~/components/common/form/CalendarInput'
-import MobileSearchInput from '~/components/mobile/MobileSearchInput';
+import MobileSearchInput from '~/components/mobile/MobileSearchInput'
+import Loader from '~/components/common/Loader';
 
 export default {
   name: 'Index',
 
   components: {
+    Loader,
     MobileSearchInput,
     CalendarInput,
     VendorSellingSortBy,
@@ -509,6 +522,7 @@ export default {
   middleware: ['vendor'],
   data() {
     return {
+      infiniteId: +new Date(),
       loading: false,
       selected: [],
       action: null,
@@ -603,47 +617,18 @@ export default {
       this.orderByDirection = orderByDirection
       this.loadData()
     },
-    infiniteScroll($state) {
-      setTimeout(() => {
-        this.page++
-        this.$axios
-          .get('selling-items', {
-            params: {
-              perPage: this.perPage,
-              searchFilters: this.searchFilters,
-              page: this.page,
-            },
-          })
-          .then((res) => {
-            if (res.data.data.data.length > 1) {
-              this.loading = false
-              this.responsiveData.push(...res.data.data.data)
-              this.searchResults = res.data.data
-              this.totalCount = parseInt(res.data.data.total)
-              this.perPage = parseInt(res.data.data.per_page)
-              this.pageCount = parseInt(res.data.data.last_page)
-              $state.loaded()
-            } else {
-              $state.complete()
-            }
-          })
-          .catch((err) => {
-            this.$logger.logToServer('Selling Data', err.response)
-          })
-      }, 500)
-    },
-
-    onScrollLoad(page) {
-      if (this.page !== page) {
-        this.page = page
-        this.loadData()
+    infiniteHandler($state) {
+      console.log($state)
+      if (this.totalCount > this.perPage) {
+        this.perPage += PERPAGE
+        this.loadData($state)
+      } else {
+        $state.complete()
       }
     },
-
     // Load the data
-    loadData() {
-      this.loading = true
-      this.responsiveData = []
+    loadData($loaderState = null) {
+      if (!$loaderState) this.loading = true
       this.$axios
         .get('selling-items', {
           params: {
@@ -655,7 +640,7 @@ export default {
           },
         })
         .then((res) => {
-          this.responsiveData.push(...res.data.data.data)
+          this.responsiveData = res.data.data.data
           this.searchResults = res.data.data
           this.totalCount = parseInt(res.data.data.total)
           this.perPage = parseInt(res.data.data.per_page)
@@ -666,11 +651,19 @@ export default {
         })
         .finally(() => {
           this.loading = false
+          if ($loaderState) {
+            $loaderState.loaded()
+          }
         })
+    },
+    resetLoader(){
+      this.perPage = PERPAGE
+      this.infiniteId +=1
     },
     // Search keyword
     getProducts: debounce(function (val) {
       this.searchFilters.searchKeyword = val
+      this.resetLoader()
       this.loadData()
     }, 300),
 
@@ -715,7 +708,6 @@ export default {
       this.searchFilters.searchFilterBy = []
       this.searchFilters.startDate = ''
       this.searchFilters.endDate = ''
-
       this.activeFilters = []
       this.loadData()
     },
@@ -907,6 +899,7 @@ export default {
 
     // On responsive filter apply
     applyFilter(value) {
+      this.resetLoader()
       this.searchFilters.searchFilterBy = value.status
       this.searchFilters.searchSortBy = value.sortby
       if (value.date && value.date.start) {
@@ -1340,8 +1333,4 @@ export default {
 .form-item
   border: 1px solid $white-2
   height: 44px
-.vendor-dashboard-body::v-deep
-  .infinite-loading-container
-    .infinite-status-prompt
-      display: none
 </style>
