@@ -1,5 +1,5 @@
 <template>
-  <b-row class="title-wrapper pb-3">
+  <b-row class="title-wrapper pb-2">
     <b-col md="12">
       <b-row>
         <b-col md="12" class="d-flex align-items-center">

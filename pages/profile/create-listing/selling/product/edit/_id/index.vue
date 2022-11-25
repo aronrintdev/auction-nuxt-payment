@@ -1,25 +1,32 @@
 <template>
   <b-container fluid class="container-profile-create-listing h-100 py-5">
     <div v-if="product">
-      <DetailsListing
-        v-model="form"
-        :action="`edit`"
-        :product="product"
-        @editDraft="editDraft"
-        @clearValue="clearValue"
-      />
+      <!-- New ProductView component instead of DetailsListing -->
+      <ProductView v-model="form" :product="product">
+        <div slot="right-content">
+          <ProductSellingForm
+            v-model="form"
+            :product="product"
+            :action="`edit`"
+            @submit="editDraft"
+            @clearValue="clearValue"
+          />
+        </div>
+      </ProductView>
     </div>
   </b-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import DetailsListing from '~/components/profile/create-listing/product/DetailsListing.vue'
+import ProductView from '~/components/profile/create-listing/product/ProductView'
+import ProductSellingForm from '~/components/profile/create-listing/selling/ProductSellingForm'
+
 export default {
   name: 'CreateListingEdit',
 
   components: {
-    DetailsListing,
+    ProductView, ProductSellingForm
   },
 
   layout: 'Profile',

@@ -2,7 +2,7 @@
   <b-container fluid class="container-profile-inventory-draft h-100">
     <div v-if="!form"><Loader /></div>
     <div v-else>
-      <InventoryNewForm v-model="form" :product="product" />
+      <InventoryNewForm v-model="form" :product="product" :show-add-button="false" />
 
       <div class="mt-5 mx-auto d-flex justify-content-center">
         <Button

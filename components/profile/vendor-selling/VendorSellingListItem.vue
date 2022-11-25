@@ -17,12 +17,19 @@
         responsive
         tbody-tr-class="bg-white vd-selling-bt"
       >
+        <template #head()="scope">
+          <div class="text-nowrap" role="button" @click="orderBy(scope.column)">
+            <span class="mr-1">{{ scope.label }}</span>
+            <img v-if="isSortActive(scope.column)" :src="require('~/assets/img/icons/down-arrow-solid.svg')" :alt="scope.label"
+                 class="sort-icon" :class="reverseDirection(scope.column)">
+          </div>
+        </template>
         <template #table-busy>
           <div class="d-flex align-items-center justify-content-center">
             <Loader :loading="loading"></Loader>
           </div>
         </template>
-        <template #cell(products)="row">
+        <template #cell(id)="row">
           <div class="row">
             <div class="vd-sell-product-img text-center ">
               <div class="d-flex align-items-center mb-2">
@@ -49,17 +56,17 @@
         </template>
 
         <template #cell(product_details)="row">
-          <div class="vd-product-title">
+          <div class="vd-product-title text-truncate mw-250">
             {{ row.item.inventory.product.name }}
           </div>
 
-          <div class="vd-sku">{{ $t('common.sku') }}&colon;
+          <div class="vd-sku text-truncate">{{ $t('common.sku') }}&colon;
             <span v-if="row.item.inventory.product.sku">
               {{ row.item.inventory.product.sku }}</span>
             <span v-else>&#8211;</span>
           </div>
 
-          <div class="vd-color">{{ $t('shopping_cart.color_way') }}&colon;
+          <div class="vd-color text-truncate mw-250">{{ $t('shopping_cart.color_way') }}&colon;
             <span v-if="row.item.inventory.product.colorway">
               {{ row.item.inventory.product.colorway }}
             </span>
@@ -72,7 +79,7 @@
             <span v-else>&#8211;</span>
           </div>
 
-          <div class="vd-condition">{{ $t('common.box_condition') }}&colon;
+          <div class="vd-condition text-truncate">{{ $t('common.box_condition') }}&colon;
             <span v-if="row.item.inventory.packaging_condition">
               {{ row.item.inventory.packaging_condition.name }}</span>
             <span v-else>&#8211;</span>
@@ -169,57 +176,57 @@ export default {
       // Table fields
       fields: [
         {
-          key: 'products',
-          label: this.$t('selling_page.product'),
+          key: 'id',
+          label: this.$t('common.listing_id'),
           sortable: false,
           thClass: 'body-4-bold font-primary text-nowrap mr-4',
           thStyle: { width: '170px' }
         },
         {
           key: 'product_details',
-          label: '',
+          label: this.$t('selling_page.product'),
           sortable: false,
           thClass: 'body-4-bold font-primary text-nowrap '
         },
         {
           key: 'date_listed',
           label: this.$t('selling_page.date_listed'),
-          sortable: true,
+          sortable: false,
           tdClass: 'body-4-regular text-center custom-width',
           thClass: 'body-4-bold font-primary text-nowrap text-center custom-width',
         },
         {
           key: 'price',
           label: this.$t('common.price'),
-          sortable: true,
+          sortable: false,
           tdClass: 'body-4-regular text-center custom-width',
           thClass: 'body-4-bold font-primary text-nowrap text-center custom-width',
         },
         {
           key: 'last_sold',
           label: this.$t('sell.sell_now.last_sold'),
-          sortable: true,
+          sortable: false,
           tdClass: 'body-4-regular text-center custom-width',
           thClass: 'body-4-bold font-primary text-nowrap text-center custom-width',
         },
         {
           key: 'offers',
           label: this.$t('selling_page.offers'),
-          sortable: true,
+          sortable: false,
           tdClass: 'body-4-regular text-center',
           thClass: 'body-4-bold font-primary text-nowrap text-center',
         },
         {
           key: 'qty',
           label: this.$t('selling_page.qty'),
-          sortable: true,
+          sortable: false,
           tdClass: 'body-4-regular text-center',
           thClass: 'body-4-bold font-primary text-nowrap text-center',
         },
         {
           key: 'status',
           label: this.$t('selling_page.status'),
-          sortable: true,
+          sortable: false,
           tdClass: 'body-4-regular text-center',
           thClass: 'body-4-bold font-primary text-nowrap text-center',
         },
@@ -228,7 +235,9 @@ export default {
       fallbackUrl: PRODUCT_FALLBACK_URL,
       pendingOffer: PENDING_OFFER,
       acceptedOffer: ACCEPTED_OFFER,
-      listedOffer: LISTED
+      listedOffer: LISTED,
+      orderByField: 'id',
+      orderByDirection: 'asc',
     }
   },
 
@@ -239,6 +248,22 @@ export default {
   },
 
   methods: {
+    isSortActive(column){
+      return !!column
+    },
+    orderBy(column){
+      if (this.isSortActive(column)){
+        this.orderByDirection = this.reverseDirection(column)
+        this.orderByField = column
+        this.$emit('sort', {
+          orderByField: this.orderByField,
+          orderByDirection: this.orderByDirection,
+        })
+      }
+    },
+    reverseDirection(column){
+      return column === this.orderByField? (this.orderByDirection === 'asc'? 'desc' : 'asc'): 'desc'
+    },
     // On edit click
     handleEditClick(id) {
       this.$router.push(`/profile/vendor-selling/details/${id}`)
@@ -288,6 +313,12 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.mw-250
+  max-width: 250px !important
+.sort-icon
+  &.asc
+    transform: rotate(180deg)
+
 .mt-3p
   margin-top: 3px
 

@@ -132,7 +132,7 @@ export default {
       color: $color-black-1
       text-transform: uppercase
       padding: 0
-      margin: 24px 0 0
+      margin: 2px 0 0
       position: relative
 
     img
@@ -142,7 +142,7 @@ export default {
       cursor: help
 
   .box-condition-btns
-    margin-top: 8px
+    margin-top: 17px
 
     .btn
       @include body-8-normal

@@ -10,7 +10,7 @@
       <Button
         :id="`btn-dropdown-${id}`"
         variant="link"
-        :class="`d-flex justify-content-between btn-dropdown ${
+        :class="`dropdown-btn d-flex justify-content-between btn-dropdown ${
           dropdownShow && 'opened'
         } ${value !== null && 'active'}`"
         block
