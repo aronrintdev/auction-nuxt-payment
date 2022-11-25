@@ -5,7 +5,7 @@
         <span>{{ $t('common.filter_by') }}</span>
       </div>
     </div>
-    <div :class="`filter-body ${mobileClass} p-4 w-100 h-100`">
+    <div :class="`filter-body ${mobileClass} p-4 w-100`">
       <!-- Sort By -->
       <div v-show="filterVisibility" class="sort-by">
         <div :class="`sort-by-filter ${mobileClass}`">
@@ -53,7 +53,6 @@
           :title="$t('selling_page.filter.date_send')"
           :options="status"
           :clearDate="!filter.date"
-          @showFilters="dateSelected"
           @startDate="startDateSelected"
           @endDate="endDateSelected"
         />

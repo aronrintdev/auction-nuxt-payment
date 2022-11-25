@@ -35,12 +35,11 @@
       @hide="hideFilter(true)"
     >
       <div class="accordion-filter-body p-0 d-flex justify-content-between date-input-fields">
-        <b-form-group class="start-date h-100">
+        <b-form-group class="start-date">
           <b-input-group @click="showStartDate">
             <b-form-input
               id="date"
               type="date"
-              placeholder="dd/mm/yyyy"
               class="start-date-input bg-white rounded-circle"
               required
               @input="inputStartDate($event)"
@@ -48,12 +47,11 @@
             </b-form-input>
           </b-input-group>
         </b-form-group>
-        <b-form-group class="start-date h-100">
+        <b-form-group class="start-date ">
           <b-input-group @click="showEndDate">
             <b-form-input
               id="date"
               type="date"
-              placeholder="dd/mm/yyyy"
               class="start-date-input bg-white rounded-circle"
               required
               @input="inputEndDate($event)"
