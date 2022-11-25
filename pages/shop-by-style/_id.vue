@@ -57,7 +57,7 @@
           variant="dark-blue"
           black-text
           border="thick"
-          class="mt-5 d-block d-sm-none rounded-pill w-100 text-white sticky-sm-top"
+          class="mt-5 d-block d-sm-none rounded-pill w-100 text-white style-bag position-fixed"
           @click="handleStyleAddToCart"
         >
           {{ $t('shop_by_style.general.add_style_to_bag') }}
@@ -125,6 +125,9 @@ export default {
 @import '~/assets/css/_variables'
 @import '~/assets/css/_typography'
 
+.style-bag
+  bottom: 120px
+  width: 343px
 .items-counter
   color: $color-gray-6
 .backto-css

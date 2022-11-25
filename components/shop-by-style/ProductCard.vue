@@ -212,8 +212,8 @@
             {{ product.sale_price | toCurrency }}
           </div>
           <div class="position-absolute btn-add">
-            <Icon v-show="show !== product.id" src="thick-plus.png" width="45" height="45" @click='showProductDetail(product.id)' />
-            <Icon v-show="show === product.id" src="minus.svg" width="45" height="45" @click='showProductDetail(product.id)' />
+            <Icon v-show="show !== product.id" src="mobile-plus.png" width="20" height="20" @click='showProductDetail(product.id)' />
+            <Icon v-show="show === product.id" src="minus.svg" width="20" height="20" @click='showProductDetail(product.id)' />
           </div>
         </div>
       </div>
