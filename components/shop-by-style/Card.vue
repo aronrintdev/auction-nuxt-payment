@@ -68,7 +68,7 @@ export default {
 @media(max-width: 460px)
   .style-card-wrapper
     img
-      width: 127px
+      width: 115px
       height: auto
       margin-bottom: 30px
 </style>
