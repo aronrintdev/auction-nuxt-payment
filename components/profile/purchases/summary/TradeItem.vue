@@ -16,9 +16,9 @@
       </div>
 
     </div>
-    <div class="row px-5">
+    <div class="row justify-content-center align-items-center px-5">
       <!-- Col1- 2 item -->
-      <div class="col-md-2 m-auto">
+      <div class="col-md-2" v-if="tradeListingArray.slice(0, 2).length">
         <template v-if="tradeListingArray.slice(0, 2).length">
           <div
             v-for="(items, index) in tradeListingArray.slice(0, 2)"
@@ -69,7 +69,7 @@
       </div>
       <!-- ./Col1 Ends -->
       <!-- Col2 - 1 item -->
-      <div class="col-md-2 m-auto">
+      <div class="col-md-2" v-if="tradeListingArray.length > 1">
         <div class="border-left-box" v-if="tradeListingArray.length > 1">
           <template v-if="tradeListingArray.slice(2, 3).length">
             <div
@@ -120,16 +120,17 @@
         </div>
       </div>
       <!-- Col2 ends -->
-      <div class="col-md-3 m-auto text-center">
-        <div class="trade-outline-wrapper">
-          <div class="left-bdr"></div>
+      <div class="text-center trade-outline-wrapper d-flex align-items-center justify-content-center position-relative" :class="{'col-md-6': (tradeListingArray.length < 2 && wantedListingArray.length < 2),
+      'col-md-3': (tradeListingArray.length > 1 && wantedListingArray.length > 1),
+      'col-md-3':((tradeListingArray.length > 1 && wantedListingArray.length < 2)
+      || (tradeListingArray.length < 2 && wantedListingArray.length > 1) )}">
+          <b-row class="left-bdr mr-1 ml-2"></b-row>
           <img class="img-trd" :src="require('~/assets/img/trd.svg')" alt="" />
-          <div class="right-bdr"></div>
-        </div>
+          <b-row class="right-bdr ml-1 mr-2"></b-row>
       </div>
       <!-- Col4-1 item -->
-      <div class="col-md-2 m-auto">
-        <div class="border-right-box" v-if="tradeListingArray.length > 1">
+      <div class="col-md-2" v-if="wantedListingArray.length > 1">
+        <div class="border-right-box" v-if="wantedListingArray.length > 1">
           <template v-if="wantedListingArray.slice(2, 3).length">
             <div
               v-for="(items, index) in wantedListingArray.slice(2, 3)"
@@ -180,7 +181,7 @@
       </div>
       <!-- ./col4 ends -->
       <!-- Col5-2 item -->
-      <div class="col-md-2 m-auto">
+      <div class="col-md-2" v-if="wantedListingArray.slice(0, 2).length">
         <template v-if="wantedListingArray.slice(0, 2).length">
           <div
             v-for="(items, index) in wantedListingArray.slice(0, 2)"
@@ -339,7 +340,6 @@ export default {
   height: 216px
   border-radius: 4px 4px 0px 0px
   display: inline-block
-  margin-left: 10px
   width: 150px
 .pull-right
   float: right
@@ -499,16 +499,24 @@ export default {
   font-size: 15px
   color: $color-black-1
 .left-bdr
-  margin-top: 23px
   border: 1px solid #C4C4C4
-  width: 40px
-  margin-left: 2rem
-  position: absolute
+  width: 100%
+
+  @media (min-width: 1000px) and (max-width: 1300px)
+    width: 30%
+
+  @media (min-width: 560px) and (max-width: 999px)
+    width: 20%
+
 .right-bdr
-  width: 40px
+  width: 100%
   border: 1px solid #C4C4C4
-  margin-left: 9rem
-  margin-top: -21px
+
+  @media (min-width: 1000px) and (max-width: 1300px)
+    width: 30%
+
+  @media (min-width: 560px) and (max-width: 999px)
+    width: 20%
 .img-trd
   position: relative
 .fair-trade-division-mobile
