@@ -23,6 +23,7 @@
         ref="shopFilters"
         :defaultType="currentType"
         :dateFilter="date"
+        :defaultBrand="selectedBrand"
         @getStyles="stylesList"
         @selectedFilters="totalFilters"
         @showAllBrands="showAllBrands"
@@ -70,6 +71,7 @@
         >
           <button
             class="btn fs-16 fw-6 font-secondary rounded-pill btn-outline-dark"
+            @click="resetBrands"
           >
             {{ $t('common.reset') }}
           </button>
@@ -156,7 +158,15 @@ export default {
     },
     showAllBrands() {
       this.$refs.AllBrands.open()
+      this.$refs.filtersBottomSheet.close()
     },
+    closeSelectedBrands() {
+      this.$refs.filtersBottomSheet.open()
+      this.$refs.AllBrands.close()
+    },
+    resetBrands() {
+      this.selectedBrand = []
+    }
   },
 }
 </script>
@@ -216,7 +226,7 @@ export default {
     bottom: 0
     z-index: 9
     .btn
-      width: 134px
+      width: 140px
     .apply-btn
         background-color: $color-blue-20    
 .search_icon

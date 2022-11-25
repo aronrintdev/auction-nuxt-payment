@@ -136,6 +136,10 @@ export default {
     defaultType: {
       type: String,
       default: ''
+    },
+    defaultBrand: {
+      type: Array,
+      default: () => []
     }
   },
 
