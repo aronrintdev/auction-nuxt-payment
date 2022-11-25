@@ -618,7 +618,6 @@ export default {
       this.loadData()
     },
     infiniteHandler($state) {
-      console.log($state)
       if (this.totalCount > this.perPage) {
         this.perPage += PERPAGE
         this.loadData($state)
