@@ -37,8 +37,7 @@
         />
       </b-collapse>
     </div>
-    <div class="d-block d-sm-none">
-      <ResponsivenessFilter :date="showDate" />
+    <div class="d-block d-sm-none"><ResponsivenessFilter :date="showDate" />
     </div>
     <div v-if="type === TYPE" class="styles-warpper">
       <div v-for="(style, index) in styles" :key="index">
@@ -194,7 +193,7 @@ export default {
     row-gap: 8px
     margin-top: 74px
     @media (max-width: 576px)
-      grid-template-columns: repeat(3, 125px)
+      grid-template-columns: repeat(3, 115px)
       column-gap: 0
       margin-top: 0
   .filter-button
