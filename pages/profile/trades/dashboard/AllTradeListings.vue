@@ -172,9 +172,9 @@
           />
         </b-col>
       </b-row>
-      <div class="d-flex">
-        <div class="status-drop mr-2">
-          <label>{{$t('trades.filter_by')}}</label>
+      <div class="mt-3 row flex-wrap">
+        <div class="col-4 col-xl-3 col-xxl-2">
+          <div class="filter-label">{{ $t('trades.filter_by') }}</div>
           <CustomDropdown
             v-model="statusFilter"
             type="multi-select-checkbox"
@@ -196,8 +196,8 @@
             @change="changeStatusFilter"
           />
         </div>
-        <div class="strt-dt mr-2">
-          <label>{{ $t('trades.listed_date') }}</label>
+        <div class="col-4 col-xl-3 col-xxl-2">
+          <div class="filter-label">{{ $t('trades.listed_date') }}</div>
           <CalendarInput
             :value="start_date"
             :placeholder="$t('trades.start_date')"
@@ -206,7 +206,7 @@
             @context="(context) => start_date = context.selectedYMD"
           />
         </div>
-        <div class="mr-2 end-dt">
+        <div class="col-4 col-xl-3 align-self-end col-xxl-2">
           <CalendarInput
             :value="end_date"
             :placeholder="$t('trades.end_date')"
@@ -215,13 +215,13 @@
             @context="(context) => end_date = context.selectedYMD"
           />
         </div>
-        <div class="mr-2 btn-fil">
+        <div class="mt-3 mt-xl-4 col-6 col-xl-3 col-xxl-2 d-flex justify-content-xl-end btn-fil">
           <Button variant="dark-blue" @click="applyFilters">{{$t('trades.apply')}}</Button>
         </div>
-        <div class="del-btn">
+        <div class="mt-3 mt-xl-4 col-6 col-xl-12 col-xxl-3 d-flex justify-content-end justify-content-xl-start del-btn">
           <Button v-if="totalCount" variant="transparent" @click="removeExpired()">{{$t('trades.delete_expired_listings')}}</Button>
         </div>
-        </div>
+      </div>
     </div>
 
     <div class="mt-4 listings">
@@ -591,6 +591,20 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.del-btn
+  @media (min-width: 1400px)
+    margin-left: auto
+    justify-content: end !important
+
+.col-xxl-2
+  @media (min-width: 1400px)
+    flex: 0 0 16.666667
+    max-width: 16.666667%
+.col-xxl-3
+  @media (min-width: 1400px)
+    flex: 0 0 25%
+    max-width: 25%
+
 .heading-dashboard
   font-family: $font-family-montserrat
   font-style: normal
@@ -725,8 +739,12 @@ export default {
   width: 170px
   margin-top: 2rem
 .btn-fil
-  margin-top: 2rem
   width: 250px
-.del-btn
-  margin-top: 2rem
+
+.filter-label
+  @include body-8-normal
+  font-family: $font-family-sf-pro-display
+  color: $color-black-1
+  margin-bottom: 5px
+
 </style>
