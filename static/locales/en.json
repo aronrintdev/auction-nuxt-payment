@@ -2029,7 +2029,7 @@
       "read_about": "Read about",
       "policies_and_fees": "DEADSTOCK policies and fees",
       "enable_auto_bid_confirm_text": "Are you sure you want to enable auto bid?",
-      "fees": "+ fees",
+      "fees": "+fees",
       "success_bid_msg": "Your bid has been placed. You are the Highest Bidder. Good luck!",
       "bid_up_to": "Bid up to",
       "bid": "Bid",
@@ -2054,7 +2054,7 @@
       "description": "Description",
       "size_guide": "Size Guide",
       "bidding_history": "Bidding History",
-      "verification_guaranteed": "Every item is authenticated by our experts through our authentication process. 100% verification guaranteed.",
+      "verification_guaranteed": "Our experts verify each item through our authentication process using AI, digital technology, and in-person verification. We aim to ensure all items are authentic and as described.",
       "collection_items": "Collection Items",
       "direct_bid": "Direct bid",
       "auction_details_title": "Auction Details",
@@ -2923,7 +2923,9 @@
     "drafts": "Drafts ({0})",
     "search": {
       "title": "Search",
-      "add_product": "Add Product"
+      "add_product": "Add Product",
+      "bulk_file": "Bulk Upload",
+      "description": "Select items you would like to list"
     },
     "index": {
       "title": "Select Listing Type",
@@ -2933,12 +2935,13 @@
       "auction_desc": "Post a Single Item Auction or put a whole Collection up for Auction.",
       "trade": "Trade",
       "trade_desc": "Trade up to three items at a time with other Deadstock Sellers. If no offer is accepted, the listing will be active for 14 days.",
+      "trade_desc_mobile": "Trade up to three items at a time. If no offer is accepted in 14 days the trade will expire.",
       "select": "Select",
       "type": "Type",
       "auction_single": "Single Item Auction",
       "auction_single_desc": "For auctions that are a single item only.",
       "auction_collection": "Collection Auctions",
-      "auction_collection_desc": "Multiple product auction listings where buyers bid on the entire collection as a whole.",
+      "auction_collection_desc": "Multiple product auction listings where buyers bid on the entire collection as a whole. Add up to 10 products.",
       "selling_text": "Sell sneakers, a pieace of apparel, or an accessory.",
       "auction_text": "Post a Single Item Auction or put a whole Collection up for Auction.",
       "trade_text": "Trade up to three items at a time. If no offer is accepted in 14 days the trade will expire."
@@ -3093,6 +3096,7 @@
       "save_as_draft": "Save as Draft",
       "quantity": "Quantity",
       "can_not_add_more": "Collection Auctions can add up to 10 items.",
+      "confirm_page_description": "*By pressing on Post Listing(s), I accept the seller fee of 9.5% + a 2.9% transaction fee. No authentication fees will be charged to sellers.",
       "bottom_text": "*By clicking Post Auction(s), I accept the seller fee of {0}% + a {1}% transaction | fee. No authentication fees will be charged to sellers."
     },
     "details": {

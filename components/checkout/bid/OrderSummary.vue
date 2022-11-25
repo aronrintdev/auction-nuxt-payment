@@ -22,21 +22,6 @@
     />
     <!-- End of Shopping Cart Order Summary Card -->
 
-    <!-- Shopping Cart Promo Code -->
-    <b-row v-if="!promoCode">
-      <b-col md="12">
-        <div class="body-4-medium">
-          {{ $t('shopping_cart.promo_code') }}&colon;
-        </div>
-      </b-col>
-    </b-row>
-    <PromoCodeInput
-      v-if="!promoCode"
-      class="mt-2"
-      @click="applyPromoCode"
-    />
-    <!-- End of Shopping Cart Promo Code -->
-
     <!-- Shopping Cart Billing Address -->
     <b-row v-if="billingAddress" :class="{ 'mt-3': !promoCode }">
       <b-col md="12">
@@ -226,7 +211,6 @@ import { mapActions, mapGetters } from 'vuex'
 import emitEvent from '~/plugins/mixins/emit-event'
 import OrderTitle from '~/components/checkout/common/OrderTitle'
 import OrderSummaryCard from '~/components/checkout/common/OrderSummaryCard'
-import PromoCodeInput from '~/components/checkout/common/PromoCodeInput'
 import AddressCard from '~/components/checkout/common/AddressCard'
 import PaymentCardDetailsCard from '~/components/checkout/common/PaymentCardDetailsCard'
 import CryptoDetailsCard from '~/components/checkout/common/CryptoDetailsCard'
@@ -247,7 +231,6 @@ export default {
   components: {
     OrderTitle,
     OrderSummaryCard,
-    PromoCodeInput,
     AddressCard,
     PaymentCardDetailsCard,
     CryptoDetailsCard,
@@ -489,4 +472,14 @@ export default {
     @include body-10
   .btn.btn-link.custom-link
     @include body-10
+
+  @media (max-width: 576px)
+    .custom-card
+      .card-body
+        .d-flex
+          & > div:first-child
+            flex: 1
+            &.images-squard
+              flex: none
+              width: calc(100% - 21px)
 </style>

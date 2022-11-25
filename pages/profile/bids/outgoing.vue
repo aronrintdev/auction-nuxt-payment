@@ -6,13 +6,13 @@
     <!--    Bids Filters and mobile search    -->
     <div v-if="isMobileSize" class="d-flex align-items-center">
       <MobileSearchInput :value="filters.search" class="flex-grow-1" @input="mobileSearch" />
-      <span class="ml-3" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
+      <span class="ml-3 mr-1" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
     </div>
     <!--    Bids Filters    -->
     <BidsFilters v-else @update="FetchBids(true) "/>
 
-    <div class="d-md-none d-flex justify-content-between align-items-center mt-4">
-      <h4 class="title mb-0">
+    <div class="d-md-none d-flex justify-content-between align-items-center">
+      <h4 class="title">
         {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
       </h4>
       <Button
@@ -70,9 +70,9 @@
     </div>
 
     <div v-if="bidsCount>0" class="bids-listing">
-      <b-row class="mt-5 text-center p-0 font-weight-bold d-none d-md-flex">
+      <b-row class="mt-5 text-center p-0 font-weight-bold d-none d-md-flex bids-listing-header">
         <b-col sm="12" md="2" class="text-center">{{ $t('bids.headers.auction_id') }}</b-col>
-        <b-col sm="12" md="3" class="text-left">{{ $t('bids.headers.product') }}</b-col>
+        <b-col sm="12" md="3" class="text-left px-0">{{ $t('bids.headers.product') }}</b-col>
         <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }} <span role="button"><img :src="FilterDown"
                                                                                              alt="donw"></span></b-col>
         <b-col sm="12" md="2">{{ $t('bids.headers.bid_amt') }} <span role="button"><img :src="FilterDown"
@@ -620,7 +620,7 @@ export default {
     color: $color-black-1
 
   @media (max-width: 576px)
-    padding: 12px 16px 
+    padding: 20px 16px 
     background-color: $white
 
   h3.title
@@ -642,10 +642,15 @@ h4.title
   font-weight: $bold
   @include body-1
   @media (max-width: 576px)
+    margin: 22px 0 23px
     @include body-4
     font-weight: $medium
+    font-family: $font-montserrat
+    color: $black
 .bids-listing
   margin: 0 -25px
+  &-header
+    margin-bottom: 13px
   @media (max-width: 576px)
     margin: 0
 </style>
