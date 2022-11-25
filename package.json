@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxi dev",
+    "dev": "PORT=8082 nuxi dev",
     "build": "NODE_OPTIONS='--max-old-space-size=20000' nuxi build",
     "start": "PORT=8082 HOST=0 pm2 start ./node_modules/nuxt/bin/nuxt.js --name=index  -- start  -i 1",
     "generate": "./node_modules/nuxt/bin/nuxt.js generate",
