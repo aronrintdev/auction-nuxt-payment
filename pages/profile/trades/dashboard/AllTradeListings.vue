@@ -696,7 +696,6 @@ export default {
   border-top: 1px solid $color-gray-62
 
 .unselected-item
-  width: 99px
   height: 45px
   border-radius: 3px
   background: $color-white-1
