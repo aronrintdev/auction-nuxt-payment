@@ -38,23 +38,23 @@
             :rounded="true"
           >
             <div class="filtersSection">
-              <div class="mt-1 ml-2">
-                <span class="filtersHeading ml-2">{{$t('auctions.frontpage.filterbar.sort')}}</span>
+              <div class="mt-1">
+                <span class="filtersHeading">{{$t('auctions.frontpage.filterbar.sort')}}</span>
                   <b-form-radio-group
                     v-model="orderFilter"
-                    class="radios mt-1 mb-1 sorted ml-3"
+                    class="radios mt-1 mb-1 sorted"
                     :options="orderFilterItems"
                     :checked="orderFilter"
                     @change="changeOrderFilter($event, 'CUSTOM_VARIABLE')"
                   />
               </div>
               <hr class="hr" />
-              <div class="mt-1 ml-2">
+              <div class="mt-1">
                 <div v-b-toggle="'collapse-1'" class="d-flex">
-                  <b-row class="filtersHeading ml-2">
+                  <b-row class="filtersHeading align-items-center">
                     <b-col class="col-sm-6">{{$tc('common.category')}}</b-col>
                     <b-col class="col-sm-6">
-                      <div class="d-flex justify-content-end mr-3">
+                      <div class="d-flex justify-content-end">
 
                         <img  v-if="isVisible" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
                         <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
@@ -65,21 +65,27 @@
                 <b-collapse id="collapse-1" v-model="isVisible">
                   <b-row class="row mt-1">
                     <b-col v-for="(status, key) in getStatusFilterItems" :key="'cat-' + key">
-                      <div :value="status" class= "unselected-item m-1 d-flex justify-content-center align-content-center"
-                           @click="changeStatusFilterMobile(status)">
-                        {{status}}
+                      <div 
+                        :value="status" 
+                        class="unselected-item m-1 d-flex justify-content-center align-items-center"
+                        :class="{
+                          'active-item': statusFilter.includes(status)
+                        }"
+                        @click="changeStatusFilterMobile(status)"
+                      >
+                        <span>{{ $t(`trades.${status}`) }}</span>
                       </div>
                     </b-col>
                   </b-row>
                 </b-collapse>
               </div>
               <hr class="hr" />
-              <div class="mt-1 ml-2">
+              <div class="mt-1">
                 <div v-b-toggle="'collapse-dateSent'" class="d-flex">
-                  <b-row class="filtersHeading ml-2">
+                  <b-row class="filtersHeading align-items-center">
                     <b-col class="col-sm-6">{{$tc('trades.date_sent')}}</b-col>
                     <b-col class="col-sm-6">
-                      <div class="d-flex justify-content-end mr-3">
+                      <div class="d-flex justify-content-end">
                         <img  v-if="isVisibleSizeType" class="arrow-image" :src="require('~/assets/img/chev-up.svg')"/>
                         <img  v-else class="arrow-image" :src="require('~/assets/img/chev-down.svg')"/>
                       </div>
@@ -87,20 +93,20 @@
                   </b-row>
                 </div>
                 <b-collapse id="collapse-dateSent" v-model="isVisibleSizeType">
-                  <div class="d-flex mt-2">
-                    <div>
+                  <div class="row mt-2">
+                    <div class="col-6">
                       <CalendarInput
                         :value="start_date"
                         :placeholder="$t('trades.start_date')"
-                        class="dates"
+                        class="w-100"
                         @context="(context) => start_date = context.selectedYMD"
                       />
                     </div>
-                    <div>
+                    <div class="col-6">
                       <CalendarInput
                         :value="end_date"
                         :placeholder="$t('trades.end_date')"
-                        class="dates"
+                        class="w-100"
                         @context="(context) => end_date = context.selectedYMD"
                       />
                     </div>
@@ -108,13 +114,22 @@
                 </b-collapse>
               </div>
               <hr class="hr" />
-              <div class="d-flex mb-3">
-                              <div class="ml-2">
-                                <b-btn class="resetBtn" @click="clearAllFilters">{{$t('common.reset')}}</b-btn>
-                              </div>
-                <div class="ml-5">
-                  <b-btn class="filter-btn" @click="applyFilters">{{$t('common.apply_filters')}}</b-btn>
-                </div>
+              <div class="buttons-section d-flex justify-content-between mb-3">
+                <Button
+                  pill
+                  variant="outline-dark"
+                  @click="clearAllFilters"
+                >
+                  {{ $t('notifications.reset') }}
+                </Button>
+
+                <Button
+                  pill
+                  variant="dark-blue"
+                  @click="applyFilters"
+                >
+                  {{ $t('common.apply_filters') }}
+                </Button>
               </div>
             </div>
           </vue-bottom-sheet>
@@ -439,9 +454,12 @@ export default {
       }
       this.statusFilterLabel = this.$options.filters.joinAndCapitalizeFirstLetters(this.statusFilter, 2) || this.$t('trades.status') // 2 is max number of labels show in filter
     },
-    changeStatusFilterMobile(selectedStatuses){
-      if (!this.statusFilter.includes(selectedStatuses)) {
+    changeStatusFilterMobile(selectedStatuses) {
+      const index = this.statusFilter.findIndex(s => s === selectedStatuses)
+      if (index === -1) {
         this.statusFilter.push(selectedStatuses)
+      } else {
+        this.statusFilter.splice(index, 1)
       }
     },
     searchTrades(product){
@@ -461,7 +479,7 @@ export default {
             from_date: this.start_date,
             to_date: this.end_date,
             order_by: this.orderFilter,
-            status: this.statusFilter.join(',')
+            status: this.statusFilter ? this.statusFilter.join(',') : ''
           }
         })
         .then((response) => {
@@ -514,7 +532,9 @@ export default {
       const orderFilteredKey = this.orderFilterItems.find(item => item.value === this.orderFilter)
       this.orderFilterLabel = this.$options.filters.capitalizeFirstLetter(orderFilteredKey.text)
       this.fetchTradesListing()
-      this.$refs.browseFiltersSheet.close();
+      if (this.$refs.browseFiltersSheet) {
+        this.$refs.browseFiltersSheet.close();
+      }
     },
 
     /**
@@ -532,7 +552,9 @@ export default {
 
     applyFilters(){
       this.fetchTradesListing()
-      this.$refs.browseFiltersSheet.close();
+      if (this.$refs.browseFiltersSheet) {
+        this.$refs.browseFiltersSheet.close();
+      }
     },
 
     /**
@@ -561,7 +583,7 @@ export default {
       this.start_date = null
       this.end_date = null
       this.orderFilter = null
-      this.statusFilter = null
+      this.statusFilter = []
       this.fetchTradesListing()
       this.isVisible = false
       this.isVisibleSizeType = false
@@ -661,6 +683,10 @@ export default {
   font-weight: $normal
   color: $color-black-9
   display: grid
+  ::v-deep.custom-control-label
+    display: flex
+    align-items: center
+  
 .filtersHeading
   @include body-13-bold
   font-family: $font-sp-pro
@@ -668,7 +694,7 @@ export default {
   width: 100%
 .hr
   border-top: 1px solid $color-gray-62
-  width: 318px
+
 .unselected-item
   width: 99px
   height: 45px
@@ -679,7 +705,6 @@ export default {
   font-weight: $normal
   font-family: $font-sp-pro
   color: $color-gray-47
-  padding-top: 10px
   cursor: pointer
 .sorted
   display: grid !important
@@ -715,7 +740,7 @@ export default {
   cursor: pointer
   background: $color-white-7
 .dates
-  width: 150px
+  width: 44%
 .resetBtn
   width: 130px
   height: 40px
@@ -746,5 +771,20 @@ export default {
   font-family: $font-family-sf-pro-display
   color: $color-black-1
   margin-bottom: 5px
+
+.buttons-section
+  button
+    width: 44%
+    padding-left: 15px
+    padding-right: 15px 
+
+.filtersSection
+  padding-left: 20px
+  padding-right: 10px
+
+.active-item
+  border-color: $color-black-1
+  span
+    color: $color-black-1
 
 </style>
