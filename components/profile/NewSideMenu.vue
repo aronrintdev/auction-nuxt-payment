@@ -199,8 +199,8 @@ export default {
         },
         {
           label: this.$t('profile_menu.offers_received'),
-          icon: require('~/assets/img/icons/side-menu/offers.svg'),
-          iconActive: require('~/assets/img/icons/side-menu/offers-active.svg'),
+          icon: require('~/assets/img/icons/side-menu/offer-received.svg'),
+          iconActive: require('~/assets/img/icons/side-menu/offer-received-active.svg'),
           href: '/profile/offers-received',
           route: 'profile-offers-received',
           menu: MENU_CATEGORY_SELLING,
