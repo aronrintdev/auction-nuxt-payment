@@ -263,7 +263,7 @@ export default {
       }
     },
     getChannelValue(channel) {
-      return this.getSettings.filter(sett => sett.key === this.settings.key && sett.channel === channel)[0].is_active === 1
+      return this.getSettings.filter(sett => sett.key === this.settings.key && sett.channel === channel)[0]?.is_active === 1
     },
     selectAllWhenOptions(check) {
       this.isAllWhenOptionsChecked = check
