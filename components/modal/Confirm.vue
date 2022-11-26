@@ -11,7 +11,7 @@
         {{ message }}
       </div>
       <div class="d-flex justify-content-around mt-4 mb-3">
-        <Button variant="info" pill @click="handleOkClick">{{
+        <Button variant="modal-blue" pill @click="handleOkClick">{{
           confirmLabel || $t('common.ok')
         }}</Button>
         <Button variant="outline-dark" pill @click="handleCancelClick">{{
@@ -71,4 +71,9 @@ export default {
     width: 300px
     margin-left: auto
     margin-right: auto
+  .btn-modal-blue
+    background-color: $color-blue-20
+    color: $white
+    &:hover
+      background-color: rgba($color-blue-20, .9)
 </style>
