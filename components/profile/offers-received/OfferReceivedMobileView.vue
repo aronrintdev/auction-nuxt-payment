@@ -385,7 +385,7 @@ export default {
       height: 15px
       left: 36px
       top: 511px
-      font-family: $font-montserrat
+      font-family: $font-sp-pro
       font-style: normal
       @include body-9-medium
       color: $color-black-1
