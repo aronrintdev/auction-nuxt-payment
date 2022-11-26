@@ -373,15 +373,6 @@ export default {
 
     // clear all filters
     clearAllFilters(){
-      this.selectedFilters.sizes = []
-      this.selectedFilters.sizeTypes =[]
-      this.selectedFilters.brands =[]
-      this.selectedFilters.categories =[]
-      this.selectedFilters.status=[]
-      this.selectedFilters.sortby = null
-      this.selectedFilters.product = null
-      this.selectedFilters.maxYear = null
-      this.selectedFilters.minYear = null
       this.searchedText = ''
       this.$store.commit('trade/resetAllFilters')
       this.$emit('clearFilters')
