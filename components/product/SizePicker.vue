@@ -41,7 +41,7 @@
           :loop="true"
           :nav="true"
           :center="true"
-          :margin="10"
+          :margin="38"
           :responsive="{
             0: { items: xsCount, nav: false, center: xsCenter },
             576: { items: 6, nav: false },
@@ -66,7 +66,7 @@
               } user-select-none`"
             >
               <div
-                class="d-flex align-items-center justify-content-center mx-auto card"
+                class="d-flex align-items-center justify-content-center mx-auto card mb-2"
                 :style="cardStyle"
               >
                 {{ size.size }}
@@ -110,7 +110,7 @@
           :class="`d-inline-block item ${value === size.id ? 'active' : ''}`"
         >
           <div
-            class="d-flex align-items-center justify-content-center mx-auto card"
+            class="d-flex align-items-center justify-content-center mx-auto card mb-2"
             @click="handleSizeSelect(size.id)"
           >
             {{ size.size }}
