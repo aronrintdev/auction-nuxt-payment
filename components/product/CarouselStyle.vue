@@ -127,10 +127,10 @@ export default {
     display: flex
     align-items: center
     @media (max-width: 576px)
-      //[id^='carousel_next_']
-      //  display: none
-      //[id^='carousel_prev_']
-      //  display: none
+      [id^='carousel_next_']
+        display: none
+      [id^='carousel_prev_']
+        display: none
     >span .owl-nav
       display: block
     .owl-carousel
