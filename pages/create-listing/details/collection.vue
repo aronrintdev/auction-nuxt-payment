@@ -22,7 +22,7 @@
             </b-row>
           </div>
         </div>
-        <div class="mt-4 w-100 h-25" >
+        <div class="mt-4 ml-2 mr-4" >
           <AuctionDetailsCard :item="selectedAuction" editDisabled />
         </div>
       </b-container>

@@ -24,7 +24,7 @@
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{ $t('newest_features.blockchain_authentication_ledger.process') }}
       </FeatureTitle>
       <div class="d-flex cards-wrapper justify-content-center gap-6">
@@ -115,7 +115,7 @@ export default {
           ),
         },
         {
-          icon: require('~/assets/img/features/newest-feature/blockchain-authentication-ledger/eye-with-paper.svg'),
+          icon: require('~/assets/img/features/newest-feature/blockchain-authentication-ledger/eye-with-paper.png'),
           title: this.$t('vendor_purchase.view_details'),
           description: this.$t(
             'features.blockchain_authentication_ledger.view_details_desc'
@@ -156,4 +156,9 @@ export default {
 
       > div:not(:last-child)
         margin: 0 0 22px 0
+@media screen and (max-width: 577px)
+  .features-container
+    .feature-title-my
+      margin-top: 48px !important
+      margin-bottom: 24px !important
 </style>

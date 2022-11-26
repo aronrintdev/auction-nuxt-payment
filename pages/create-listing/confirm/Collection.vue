@@ -1,12 +1,22 @@
 <template>
   <b-container fluid class="container-auction-confirm-collection h-100">
     <div class="d-none d-md-flex justify-content-between align-items-center">
-      <h2 class="title">{{ $t('create_listing.collection.collection') }}</h2>
-      <FormStepper :steps="steps" :selected="getCollectionState"/>
+      <h2 class="title">{{ $t('create_listing.product.confirm_collection_title') }}</h2>
     </div>
-    <b-row class="d-none d-md-flex mt-3 px-5">
+    <div v-if="stateConfirmCollection" class="d-none d-md-block mx-3" >
+      <AuctionDetailsCard :item="selectedAuction[0]" @edit="editClicked" />
+    </div>
+
+    <div v-if="stateConfirmCollection" class="d-none d-md-block mx-3 add-products-row">
+      <b-row class="align-items-center">
+        <div class="add-products-row-title mr-5">{{ $t('create_listing.confirm.added_products') }}</div>
+        <div class="add-more-btn" role="button" @click="addMore">+ {{ $t('create_listing.confirm.add_another_product') }}</div>
+      </b-row>
+    </div>
+
+    <b-row class="d-none d-md-flex collection-details">
       <b-col cols="12" sm="12" md="8">
-        <span class="table-header">{{$t('create_listing.collection.details')}}</span>
+        <span class="table-header px-2">{{$t('create_listing.collection.details')}}</span>
       </b-col>
       <b-col cols="12" sm="12" md="2" class="text-center">
         <span class="table-header">{{$t('create_listing.collection.quantity')}}</span>
@@ -66,15 +76,15 @@
                 <Thumb :product="item.item.product" />
               </b-col>
               <b-col sm="9" md="10" class="pl-2 pr-4">
-                <b-row class="mb-2 d-block">
-                  <div class="body-4-bold mb-2 product-name">{{ item.item.product.name }}</div>
-                  <div class="body-4-normal mb-2 text-gray-6 text-uppercase product-sku">
+                <b-row class="d-block">
+                  <div class="body-4-bold mb-02 product-name">{{ item.item.product.name }}</div>
+                  <div class="body-4-normal mb-02 text-gray-6 text-uppercase product-sku">
                     {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ item.item.product.sku }}
                   </div>
-                  <div class="body-4-normal mb-2 text-gray-6 product-color">
+                  <div class="body-4-normal mb-02 text-gray-6 product-color">
                     {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ item.item.product.colorway }}, {{ $t('shopping_cart.size') }}&colon;&nbsp;{{item.item.size.size }}
                   </div>
-                  <div class="body-4-normal mb-2 text-gray-6 product-condition">
+                  <div class="body-4-normal mb-02 text-gray-6 product-condition">
                     {{ $t('products.box_condition') }}&colon;&nbsp;{{item.item.packaging_condition.name}}
                   </div>
                 </b-row>
@@ -112,15 +122,20 @@
         >
       </div>
       <div v-else class="d-none d-md-block w-100 h-100 overflow-auto auction-items">
-        <b-row v-for="(item, index) in selectedAuctionItems" :key="index"  class="w-100 p-2" >
-          <AuctionItemHorizontal :item="item" :disable-quantity="!stateAddProduct" :item-error="itemError()" @clone="cloneItem(item)" @delete="deleteSingleItem(item, index)" @edit="editItem(item)"
-          @quantityChanged="quantityChanged"/>
-        </b-row>
+        <AuctionItemHorizontal
+          v-for="(item, index) in selectedAuctionItems"
+          :key="index"
+          :item="item"
+          :disable-quantity="!stateAddProduct"
+          :item-error="itemError()"
+          @clone="cloneItem(item)"
+          @delete="deleteSingleItem(item, index)"
+          @edit="editItem(item)"
+          @quantityChanged="quantityChanged"
+        />
       </div>
     </div>
-    <div v-if="stateConfirmCollection" class="d-none d-md-block mt-4 w-100 h-25" >
-      <AuctionDetailsCard :item="selectedAuction[0]" @edit="editClicked" />
-    </div>
+
     <div v-if="selectedAuctionItems.length > 0" class="d-md-none text-right mt-3">
       <img
         src="~/assets/img/icons/plus-icon-gray.svg"
@@ -130,21 +145,27 @@
         @click="addMore"
       />
     </div>
-    <div v-if="selectedAuctionItems.length > 0" class="d-flex align-items-center justify-content-between mt-4 py-4">
-      <div class="d-none d-md-block flex-grow-1"></div>
+
+    <div class="d-md-none mt-5 text-center confirm-description">{{ $t('create_listing.confirm.confirm_page_description') }}</div>
+
+    <div
+      v-if="selectedAuctionItems.length > 0"
+      class="d-flex align-items-center justify-content-center"
+      :class="{ 'bottom-control-bar' : isMobileSize }"
+    >
       <Button
         v-if="stateAddProduct"
         variant="outline-primary"
-        pill
+        :pill="isMobileSize"
         :disabled="processing"
-        class="d-none d-md-block mr-4 px-4"
+        class="d-none action-btns d-md-block add-auction-btn"
         @click="addMore"
       >{{ $t('create_listing.confirm.add_auction') }}</Button
       >
       <Button
         variant="primary"
-        pill
-        class="mr-2 mx-md-4 px-0 px-md-5 save-draft"
+        :pill="isMobileSize"
+        class="action-btns save-as-draft"
         :disabled="processing"
         @click="saveAsDraft"
       >{{ $t('create_listing.confirm.save_draft') }}</Button
@@ -152,14 +173,13 @@
       <Button
         variant="dark"
         :disabled="processing || selectedAuctionItems.length < 2"
-        class="ml-2 ml-md-4 px-0 px-md-5 next-post-btn"
-        pill
+        class="action-btns post-auction-btn"
+        :pill="isMobileSize"
         @click="postAuctions"
       >
         {{ (stateAddProduct || stateConfirmCollection)? $t('create_listing.confirm.post_auction'): $t('create_listing.collection.proceed_details') }}
       </Button
       >
-      <div class="d-none d-md-block flex-grow-1"></div>
     </div>
 
     <Modal
@@ -233,14 +253,14 @@ import AuctionItemHorizontal from '~/components/createListing/AuctionItemHorizon
 import DeleteSvg from '~/assets/img/icons/delete-icon-white.png';
 import createListingAuction from '~/plugins/mixins/create-listing-auction';
 import AuctionDetailsCard from '~/components/createListing/AuctionDetailsCard';
-import FormStepper from '~/components/createListing/FormStepper';
 import { MAX_COLLECTION_AUCTION_ITEMS } from '~/static/constants';
 import Thumb from '~/components/product/Thumb'
+import screenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'Collection',
-  components: {AuctionDetailsCard, AuctionItemHorizontal, Button, Modal, FormStepper, Thumb},
-  mixins: [createListingAuction],
+  components: {AuctionDetailsCard, AuctionItemHorizontal, Button, Modal, Thumb},
+  mixins: [createListingAuction, screenSize],
   layout: 'Profile',
   data(){
     return {
@@ -269,6 +289,9 @@ export default {
     },
     stateConfirmCollection(){
       return this.getCollectionState === 'confirm'
+    },
+    isMobileSize() {
+      return this.isScreenXS || this.isScreenSM
     }
   },
   mounted() {
@@ -357,17 +380,24 @@ export default {
 .auction-items
   max-height: 50vh
   overflow: auto
+  padding: 0 8px 0 6px
 
 .table-header
-  @include body-4-bold
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-12
+  color: $black
 
 .container-auction-confirm-collection
-  padding: 47px 54px
+  padding: 61px 20px
   background-color: $color-white-5
 
   h2.title
-    @include heading-3
-    color: $color-black-1
+    font-family: $font-sp-pro
+    font-weight: $bold
+    @include body-1
+    color: $black
+    margin-bottom: 50px
 
   .btn-draft::v-deep
     @include body-5-bold
@@ -378,6 +408,11 @@ export default {
   
   .next-post-btn
     min-width: 200px
+  
+  .collection-details
+    margin-top: 0
+    margin-bottom: 21px
+    padding: 0 32px 0 29px
   
   @media (max-width: 576px)
     padding: 20px 16px
@@ -415,15 +450,17 @@ export default {
             .product
               &-name
                 font-size: 14px
+                font-family: $font-sp-pro
                 font-weight: $medium
               &-sku,
               &-size,
               &-color,
               &-condition
-                font-weight: $regular
-                font-size: 13px
-                line-height: 16px
-                color: $color-gray-6
+                font-weight: $normal
+                font-family: $font-sp-pro
+                font-size: 11px
+                line-height: 13px
+                color: $color-gray-5
         .background-gray
           background: $color-white-5
         .label
@@ -457,6 +494,7 @@ export default {
       background: $color-blue-20
       border-color: $color-blue-20
       width: 50%
+      min-width: unset
     .collection-details-info
       box-shadow: 0px 1px 4px rgba($black, 0.25)
       border-radius: 10px
@@ -485,4 +523,52 @@ export default {
         line-height: 16px
         padding: 12px 40px
         height: auto
+  .bottom-control-bar
+    position: fixed
+    bottom: 94px
+    left: 0
+    width: 100%
+    padding: 18px 6px
+    background: $white
+  .confirm-description
+    background: $color-white-5
+    padding: 6px 16px
+    font-weight: $normal
+    @include body-31
+    color: $black
+
+  .mb-02
+    margin-bottom: 2px
+
+  .action-btns
+    font-family: $font-sp-pro
+    font-weight: $medium
+    margin: 34px 22px 27px
+    width: 200px
+    padding: 0
+    height: 38px
+    @include body-8
+    &.add-auction-btn
+      color: $color-blue-19
+      border-color: $color-blue-19
+    &.save-as-draft
+      background: $color-blue-20
+      border-color: $color-blue-20
+    @media (max-width: 576px)
+      @include body-21
+      font-weight: $medium
+      margin: 0 10px
+  .add-products-row
+    margin: 50px 0 25px
+    &-title
+      font-family: $font-sp-pro
+      font-weight: $bold
+      @include body-12
+      color: $black
+    .add-more-btn
+      font-family: $font-sp-pro
+      font-weight: $medium
+      @include body-13
+      color: $color-blue-2
+
 </style>

@@ -33,7 +33,7 @@
                     <div class="info-single-reserve-info-prodct-mbl my-auto float-left">
                       <!-- Product name -->
                       <div class="name-prodct-single-live-reserve-jordon mb-12 d-flex w-100 ">
-                        <span class="w-90 text-nowrap text-truncate">
+                        <span class="mw-200 text-nowrap text-truncate">
                           {{ product.name }}
                         </span>
 
@@ -289,7 +289,7 @@ export default {
 .carousel
   height: 130px
 .auction-inner-carousels-box
-  height: 145px
+  height: 130px
 .carousel-item
   &.active
     padding: 3%

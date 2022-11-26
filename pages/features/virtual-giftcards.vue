@@ -24,7 +24,7 @@
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{ $t('newest_features.virtual_giftcards.options') }}
       </FeatureTitle>
       <div
@@ -160,4 +160,10 @@ export default {
         .feature-card-hoverable
           img
             margin-top: 0px !important
+@media screen and (max-width: 577px)
+  .features-container::v-deep
+    .feature-content
+      .feature-title-my
+        margin-top: 48px !important
+        margin-bottom: 24px !important
 </style>

@@ -32,7 +32,7 @@
         </b-col>
       </b-row>
 
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{ $t('newest_features.selling_on_deadstock.process') }}
       </FeatureTitle>
 
@@ -185,4 +185,8 @@ export default {
       .feature-item::v-deep
         flex-direction: column
         align-items: center
+@media screen and (max-width: 577px)
+  .feature-title-my
+    margin-top: 0px !important
+    margin-bottom: 24px !important
 </style>

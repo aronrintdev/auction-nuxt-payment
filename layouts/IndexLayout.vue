@@ -6,7 +6,7 @@
     </div>
     <ScrollToTop v-show="showScroll"/>
     <BottomNavigation class="d-flex d-md-none mt-4"/>
-    <Footer class="d-none d-md-flex" ref="footer"/>
+    <Footer ref="footer" class="d-none d-md-flex"/>
 
   </div>
 </template>
@@ -75,8 +75,13 @@ export default {
     calculateMinHeight() {
       if (!this.isScreenXS) {
         const doc = document.body.getBoundingClientRect()
-        const header = this.$refs.header.$el.getBoundingClientRect()
-        const footer = this.$refs.footer.$el.getBoundingClientRect()
+        const header = this.$refs.header?.$el.getBoundingClientRect()
+        const footer = this.$refs.footer?.$el.getBoundingClientRect()
+        if(!header || !footer){
+          this.bodyMinHeight = ''
+          return null
+        }
+
         const minHeight = doc.height - (header.height + footer.height)
         this.bodyMinHeight = `min-height: ${minHeight}px`
       } else {

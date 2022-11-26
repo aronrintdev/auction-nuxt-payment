@@ -21,10 +21,10 @@
 
       <div v-if="showDetails" class="row">
         <div class="col details-col">
-          <div class="body-2-bold font-secondary">
-            {{ orderItems.inventory.product.name }}
+          <div class="odr-id">
+            {{$t('orders.order_id')}}# {{ orderItems.order_id}}
           </div>
-          <div class="body-3-medium font-secondary text-capitalize mt-1">
+          <div class="order-created text-capitalize mt-1">
             {{
               $t('vendor_purchase.ordered_on', {
                 orderedDate: $options.filters.formatDateTimeString(
@@ -45,13 +45,6 @@
                target="_blank" class="text-decoration-underline">{{ trackingNumber }}</a>
           </div>
 
-        </div>
-        <div class="col status-col">
-          <div :id="orderItems.status">
-            <div class="p-3">
-              {{ $t(`vendor_purchase.orderstatus.${orderItems.status.split(' ').join('_')}`) }}
-            </div>
-          </div>
         </div>
       </div>
 
@@ -201,6 +194,8 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
 .card-padding
   padding: 17px 22px
 
@@ -320,4 +315,18 @@ export default {
     flex: 0 0 100%
     max-width: 100%
     margin-top: 10px
+.odr-id
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: 700
+  font-size: 20px
+  line-height: 24px
+  color: $color-black-1
+.order-created
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: 600
+  font-size: 18px
+  line-height: 21px
+  color: $color-black-1
 </style>

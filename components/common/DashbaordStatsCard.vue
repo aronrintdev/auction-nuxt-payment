@@ -53,6 +53,13 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.figures
+  &.mobile
+    @include body-8-medium
+    font-family: $font-montserrat
+    font-style: normal
+    color: $color-black-4
+
 .stat-card
   padding: 15px 36px
 

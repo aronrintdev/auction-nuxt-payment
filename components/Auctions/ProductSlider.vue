@@ -7,6 +7,9 @@
           <span>{{ $t('home.view_more_products') }}</span>
           <img src="~/assets/img/icons/arrow-right-in-circle.svg">
         </div>
+        <div v-if="showAllText" class="view-all-products-text" @click="showAll">
+          <span>{{ $t('home_page.view_all') }}</span>
+        </div>
       </div>
 
       <div v-if="auctionList.length > 0" class="col-12 auctions-block-list">
@@ -101,6 +104,10 @@ export default {
     showHeader: {
       type: Boolean,
       default: true,
+    },
+    showAllText: {
+      type: Boolean,
+      default: false,
     }
   },
 
@@ -173,4 +180,9 @@ export default {
       &-subtitle
         font-size: 14px
         line-height: 19px
+    .view-all-products-text
+      font-family: $font-montserrat
+      font-weight: $normal
+      @include body-5
+      color: $color-gray-30
 </style>

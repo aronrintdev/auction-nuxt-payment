@@ -24,7 +24,7 @@
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{ $t('newest_features.crypto_payments.we_accept') }}
       </FeatureTitle>
       <div class="coins-section">
@@ -196,4 +196,9 @@ export default {
       font-size: 12px !important
       font-weight: 600
       line-height: 15px !important
+@media screen and (max-width: 577px)
+  .feature-title-my
+    width: 100%
+    margin-top: 48px !important
+    margin-bottom: 24px !important
 </style>

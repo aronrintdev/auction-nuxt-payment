@@ -166,7 +166,7 @@
           <!-- Order Total -->
           <div v-if="orderDetails.transaction" class="col-md-4 col-sm-12 total">
             <div
-                class="body-24-normal font-secondary text-muted6"
+              class="body-24-normal font-secondary text-muted6"
             >
               {{ $t('vendor_purchase.order_total') }}
             </div>

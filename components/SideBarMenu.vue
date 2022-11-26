@@ -58,11 +58,11 @@
         </b-col>
         <b-col cols="6" sm="6">
           <Button
-            variant="dark-blue"
+            variant="dark"
             block
             pill
             @click="$router.push('/login')"
-            >{{ $t('home.sign_in') }}</Button
+            >{{ $t('auth.login') }}</Button
           >
         </b-col>
       </b-row>

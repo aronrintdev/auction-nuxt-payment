@@ -24,7 +24,7 @@
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{ $t('newest_features.shop_by_style.new_products') }}
       </FeatureTitle>
       <div class="cards-wrapper-in-app d-flex flex-column align-items-center">
@@ -124,3 +124,10 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+@media screen and (max-width: 577px)
+  .feature-title-my
+    width: 100%
+    margin-top: 48px !important
+    margin-bottom: 24px !important
+</style>

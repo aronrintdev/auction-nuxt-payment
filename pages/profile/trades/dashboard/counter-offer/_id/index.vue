@@ -274,7 +274,6 @@
                     </div>
                     <div class="position-relative d-flex align-items-center justify-content-center">
                       <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
-                      <div class="overlay-mob position-absolute"></div>
                     </div>
                     <div class="item-caption">
                       <span class="item-name">{{ item.inventory.product.name }}</span>
@@ -282,7 +281,7 @@
                         <div class="item-color text-truncate">
                           {{ item.inventory.product.colorway }}
                         </div>
-                        <div>, {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</div>
+                        <div>,  {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</div>
                       </div>
                       <span
                         class="mt-1 item-caption-description">{{
@@ -316,7 +315,7 @@
                           <div class="item-color text-truncate">
                             {{ item.inventory.product.colorway }}
                           </div>
-                          <div>, {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</div>
+                          <div>,  {{ $t('trades.trade_arena.size') }} {{ item.inventory.size.size }}</div>
                         </div>
                         <span
                           class="mt-1 item-caption-description">{{
@@ -341,9 +340,27 @@
                 />
               </div>
               <div class="trade-hub-buttons mt-4 mb-4">
-                <div class="mb-1">
-                  <span class="add-cash">{{ $t('trades.add_cash') }}</span>
-                  <span class="request-cash">{{ $t('trades.request_cash') }}</span>
+                <div v-if="!cashAdded" class="mb-1">
+                  <span 
+                    class="add-cash mr-3"
+                    role="button"
+                    @click="cashType = cashAddedType"
+                    :class="{
+                      'active-cash-type': cashType === cashAddedType
+                    }"
+                  >
+                    {{ $t('trades.add_cash') }}
+                  </span>
+                  <span 
+                    class="request-cash"
+                    role="button"
+                    @click="cashType = cashRequestedType"
+                    :class="{
+                      'active-cash-type': cashType === cashRequestedType
+                    }"
+                  >
+                    {{ $t('trades.request_cash') }}
+                  </span>
                 </div>
                 <div v-if="!cashAdded" class="optional-input w-100 d-flex">
                   <div class="position-relative">
@@ -446,7 +463,7 @@
                       type="single-select"
                       :label="categoryFilterLabel"
                       paddingX="10px"
-                      class="mr-sm-3 counter-page-dropdown"
+                      class="mr-md-3 counter-page-dropdown"
                       optionsWidth="custom"
                       dropDownHeight="38px"
                       variant="white"
@@ -471,7 +488,7 @@
                       :options="filters.size_types"
                       type="multi-select-checkbox"
                       :label="sizeTypesFilterLabel"
-                      class="mr-sm-3 counter-page-dropdown"
+                      class="mr-md-3 counter-page-dropdown"
                       paddingX="10px"
                       optionsWidth="custom"
                       dropDownHeight="38px"
@@ -497,7 +514,7 @@
                       :options="filters.sizes"
                       type="multi-select-checkbox"
                       :label="sizeFilterLabel"
-                      class="mr-sm-3 counter-page-dropdown"
+                      class="mr-md-3 counter-page-dropdown"
                       paddingX="10px"
                       optionsWidth="custom"
                       dropDownHeight="38px"
@@ -521,11 +538,14 @@
                 </b-col>
               </div>
             </div>
-            <div v-if="inventoryItems.length" class="carousel d-flex flex-column flex-md-row flex-wrap justify-content-between inventory-items-trade">
+            <div 
+              v-if="inventoryItems.length" 
+              class="carousel d-flex flex-column flex-sm-row flex-wrap justify-content-between inventory-items-trade"
+            >
               <div
                 v-for="(item) in inventoryItems"
                 :key="item.id"
-                class="item invent-item d-flex flex-column justify-content-center mx-auto mx-md-0 col-6 col-md-3 px-0"
+                class="item invent-item d-flex flex-column justify-content-center col-6 col-md-3"
               >
                 <b-row class="justify-content-between">
                   <b-col class="d-flex justify-content-end pr-3 pt-3">
@@ -587,11 +607,7 @@
   import TradeArenaFilters from '~/components/trade/TradeArenaFilters'
   import {
     ITEM_COUNT_0,
-  } from '~/static/constants/trades'
-  import {
-    GOOGLE_MAPS_BASE_URL
-  } from '~/static/constants/environments'
-  import {
+  
     PAGE,
     PER_PAGE,
     PER_PAGE_OPTIONS,
@@ -614,6 +630,9 @@
     TAKE_SEARCHED_PRODUCTS
   } from '~/static/constants/trades'
   import {
+    GOOGLE_MAPS_BASE_URL
+  } from '~/static/constants/environments'
+    import {
     MAX_ITEMS_ALLOWED
   } from '~/static/constants/create-listing'
 
@@ -687,7 +706,8 @@ export default {
       submittedItemType: OFFER_TYPE_YOURS,
       OFFER_TYPE_THEIR,
       COUNTER_OFFER_TYPE,
-      cashAddedType:CASH_TYPE_ADDED,
+      cashAddedType: CASH_TYPE_ADDED,
+      cashRequestedType: CASH_TYPE_REQUESTED,
       filterScreen: false,
       infiniteId: +new Date(),
       ITEM_COUNT_0,
@@ -1271,14 +1291,13 @@ export default {
   @include body-9
   font-family: $font-family-sf-pro-display
 
-.add-cash
-  color: $color-black-4
-  font-weight: $medium
-  margin-right: 11px
-
-.request-cash
+.add-cash, .request-cash
   color: $color-gray-4
   font-weight: $regular
+
+.active-cash-type
+  color: $color-black-4
+  font-weight: $medium
 
 .mt-55
   margin-top: 55px
@@ -1293,7 +1312,7 @@ export default {
   color: $color-black-1
 
 .item-color
-  max-width: 140px
+  max-width: 120px
 
 .offer-id-head
   font-family: $font-family-sf-pro-display
@@ -1326,7 +1345,8 @@ export default {
   background: $color-white-1
   box-shadow: 0 1px 4px $drop-shadow1
   border-radius: 10px
-  height: 1000px
+  @media (max-width: 575px)
+    height: 1000px
 
 
 .item-head-trade-hub
@@ -1654,10 +1674,22 @@ export default {
   width: 85px
   font-size: 11px
   color: $color-gray-69
+  @media (min-width: 576px)
+    @include body-10-medium
+    font-family: $font-family-sf-pro-display
+    color: $color-black-1
+    width: auto
 .item-box-condition,.item-caption-description
   width: 85px
   font-size: 11px
   color: $color-gray-5
+
+.item-caption-description
+  @media (min-width: 576px)
+    @include body-9-normal
+    font-family: $font-family-sf-pro-display
+    width: auto
+  
 .item-name-invent
   color: $color-black-1
   font-size: 15px
@@ -1667,6 +1699,9 @@ export default {
   overflow: hidden
   width: 200px
   display: block
+  @media (min-width: 576px)
+    width: auto
+
 .item-caption-description-invent
   font-size: 14px
   color: $color-gray-5
@@ -1676,6 +1711,8 @@ export default {
   overflow: hidden
   width: 200px
   display: block
+  @media (min-width: 576px)
+    width: auto
 
 .invent-item
   width: 164px
@@ -1818,15 +1855,6 @@ export default {
   top: 15px
   z-index: 1000
 
-.optional-input-field
-  width: 236px
-  height: 38px
-  background: $color-white-1
-  border: 0.5px solid $color-gray-4
-  box-sizing: border-box
-  border-radius: 31px
-  padding-left: 20px
-
 .input-mt
   margin-top: 7px
 
@@ -1868,13 +1896,6 @@ export default {
   height: 2px
   margin-top: 6px
   margin-left: 3px
-
-.item-name
-  width: 85px
-  font-size: 11px
-  color: $color-gray-69
-
-
 
 .long-line
   width: 17px
@@ -1935,7 +1956,6 @@ export default {
 .add-cash
   height: 37px
   width: 315px
-  margin-left: 20px
   border-radius: unset
   margin-top: 19px
 .authenticity

@@ -36,7 +36,7 @@
       <img :src="require('~/assets/img/icons/home_indicator.svg')" alt="footer-icon">
     </div>
     </div>
-    
+
     </div>
   </div>
 </template>
@@ -83,17 +83,20 @@ export default {
   color: $color-black-1
 
 .confirm-btn
+  width: 216px
+  height: 40px
   background: $color-blue-20
   border-radius: 21px
   font-family: $font-sp-pro
   font-style: normal
-  @include body-4-medium
+  @include body-13-medium
   color: $color-white-1
 .cancel-btn
   font-family: $font-sp-pro
   font-style: normal
   @include body-17-medium
-  color: $color-blue-20
+  color: $color-blue-20 !important
+
 @media (min-width: 576px)
   .sidebar-wrapper
     display: none
