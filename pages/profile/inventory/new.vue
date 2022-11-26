@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="w h-100" :class=" !isScreenXS ? 'container-profile-inventory-new' : 'p-4'">
+  <b-container fluid class="h-100" :class=" !isScreenXS ? 'container-profile-inventory-new' : 'p-4'">
     <div v-if="loading"><Loader /></div>
     <div v-else-if="product">
       <ProductView v-model="form" :product="product" @back="$router.push('/profile/inventory/search')">
@@ -92,7 +92,8 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
 .container-profile-inventory-new
-  padding: 47px 54px
+  padding: 30px  120px 0px 14px
   background-color: $color-white-5
 </style>

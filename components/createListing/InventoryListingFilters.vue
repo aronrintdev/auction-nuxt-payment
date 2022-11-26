@@ -2,7 +2,7 @@
   <section class="position-relative inventory-listing-filters">
     <div class="d-flex align-items-center inventory-listing-filters-content searchbox">
       <search-box :searchText="searchText" :placeholder="$t('common.search')" @search="search"/>
-      <img src="~/assets/img/icons/more-filter-icon.svg" role="button" class="ml-3 more-btn" @click="openBottomFilter" />
+      <img src="~/assets/img/icons/more-filter-icon.svg" role="button" class="ml-3 mr-1 more-btn" @click="openBottomFilter" />
     </div>
     <div v-if="hasSearchResult" class="products">
       <div v-for="prod in searchedProducts" :key="prod.id" class="text-left text-capitalize product d-flex align-items-center">

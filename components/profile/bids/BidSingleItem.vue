@@ -3,24 +3,15 @@
     <component :is="isMobileSize ? 'div' : 'b-row'"
       v-if="inventory.product"
       :class="isMobileSize ? 'border shadow-sm' : ''"
-      class="position-relative mt-3 text-center font-weight-bold w-100 mx-0 bg-white single-item"
+      class="position-relative text-center font-weight-bold w-100 mx-0 bg-white single-item"
     >
-      <div v-if="isMobileSize" :class="`${bid.place}_mobile`"
+      <div v-if="isMobileSize && bidType === BID_TYPE_OUTGOING" :class="`${bid.place}_mobile`"
            class="position-absolute sf-pro-font text-left body-9-normal bid-status">
         {{ $t('bids.bid_status.' + bid.place) }}
       </div>
-      <b-col sm="12" md="5"  class="text-left">
-        <b-row>
+      <b-col sm="12" md="5"  class="text-left mb-3 mb-md-0 product-details">
+        <b-row class="align-items-end">
           <b-col cols="4" md="4">
-            <div @click.stop>
-              <b-form-checkbox
-                v-if="selectable"
-                :checked="selected"
-                class="position-absolute ml-n4 chekbox"
-                @change="$emit('selected', bid.id)"
-              >
-              </b-form-checkbox>
-            </div>
             <ProductThumb :product="inventory.product" />
             <template v-if="!isMobileSize">
               <NuxtLink v-if="bidType === BID_TYPE_OUTGOING" :to="`/auction/${auction.id}`">
@@ -31,11 +22,11 @@
               </NuxtLink>
             </template>
           </b-col>
-          <b-col cols="8" md="8" class="pl-4 d-md-flex align-items-md-center">
-            <b-row class="mb-2 mb-md-0 d-block" :class="{ 'flex-grow-1' : isMobileSize }">
-              <div class="mb-2 d-flex align-items-center">
+          <b-col cols="8" md="8" class="pl-0 pl-md-4 pr-3 d-md-flex align-items-md-center">
+            <b-row class="mb-2 mb-md-0 d-block mx-md-0 product-details-info" :class="{ 'flex-grow-1' : isMobileSize }">
+              <div class="mb-12 mb-md-2 d-flex align-items-center">
                 <div :class="isMobileSize ?
-                'body-5-regular flex-grow-1 text-nowrap overflow-hidden text-truncate sf-pro-font' : 'body-8-medium'">
+                'body-5-medium flex-grow-1 text-nowrap overflow-hidden text-truncate sf-pro-font' : 'body-8-medium'">
                   {{ inventory.product.name }}
                 </div>
                 <template v-if="isMobileSize">
@@ -45,8 +36,8 @@
                   </div>
                   <!-- MOBILE BID MENU END -->
                   <!-- MOBILE ACCEPT BUTTON BEGIN -->
-                  <div v-if="acceptable">
-                    <a role="button" class="btn-mobile-accept body-6-normal text-white rounded py-1 px-2"
+                  <div v-if="acceptable" class="ml-1">
+                    <a role="button" class="btn-mobile-accept d-flex align-items-center justify-content-center body-6-normal text-white rounded"
                        @click="$emit('accept', bid)">
                       {{ $t('bids.accept') }}
                     </a>
@@ -54,28 +45,28 @@
                   <!-- MOBILE ACCEPT BUTTON END -->
                 </template>
               </div>
-              <div class="mb-1 text-gray-6 text-uppercase"
+              <div class="mb-02 mb-md-1 text-gray-6 text-uppercase"
                    :class="isMobileSize ? 'body-6-normal sf-pro-font' : 'body-5-regular'">
                 {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{
                   inventory.product.sku
                 }}
               </div>
-              <div class="mb-1 text-gray-6" :class="isMobileSize ? 'body-6-normal sf-pro-font' : 'body-5-regular'">
+              <div class="mb-02 mb-md-1 text-gray-6" :class="isMobileSize ? 'body-6-normal sf-pro-font' : 'body-5-regular'">
                 {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
                   inventory.product.colorway.replace('/', ',')
                 }}, {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
                   inventory.size.size
                 }}
               </div>
-              <div class="mb-1 text-gray-6" :class="isMobileSize ? 'body-6-normal sf-pro-font' : 'body-5-regular'">
+              <div class="mb-02 mb-md-1 text-gray-6" :class="isMobileSize ? 'body-6-normal sf-pro-font' : 'body-5-regular'">
                 {{ $t('products.box_condition') }}&colon;&nbsp;{{ inventory.packaging_condition.name }}
               </div>
             </b-row>
           </b-col>
         </b-row>
       </b-col>
-      <b-col sm="12" md="1" class="d-sm-block d-md-none d-flex justify-content-around flex-column py-1 py-md-0 px-0 mt-md-3">
-        <div class="d-flex justify-content-between d-md-block align-items-end">
+      <b-col sm="12" md="1" class="d-sm-block d-md-none d-flex justify-content-around flex-column px-0 mt-md-3">
+        <div class="d-flex justify-content-between d-md-block align-items-center high-row-section">
           <span class="body-9-medium">{{ $t('bids.auction_id') }}:</span>
           <NuxtLink :to="`/profile/auctions/${auction.id}`">
             <span :class="isMobileSize ? 'body-9-regular text-underline text-blue-30' : 'body-4-medium'">
@@ -84,17 +75,17 @@
           </NuxtLink>
         </div>
       </b-col>
-      <b-col sm="12" md="1" class="d-flex justify-content-around flex-column py-1 py-md-0 px-0"
+      <b-col sm="12" md="1" class="d-flex justify-content-around flex-column px-0"
              :class="{'bg-lightgrey': isMobileSize}">
-        <div class="d-flex justify-content-between d-md-block">
+        <div class="d-flex justify-content-between d-md-block  align-items-center short-row-section">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.auction_type') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-medium'">
           {{ $t('bids.auction_types.' + auction.type) }}
         </span>
         </div>
       </b-col>
-      <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0 px-0">
-        <div class="d-flex justify-content-between d-md-block">
+      <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-medium px-0">
+        <div class="d-flex justify-content-between d-md-block align-items-center high-row-section">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.highest_bid_amt') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-medium'">
             &dollar;{{ bid.price | formatPrice }}
@@ -104,9 +95,9 @@
           </div>
         </div>
       </b-col>
-      <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-medium py-1 py-md-0 px-0"
+      <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-medium px-0"
              :class="{'bg-lightgrey': isMobileSize}">
-        <div class="d-flex justify-content-between d-md-block">
+        <div class="d-flex justify-content-between d-md-block  align-items-center short-row-section">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.time_remaining') }}:</span>
           <span :class="isMobileSize ? 'body-9-regular text-gray-6 text-capitalize' : 'body-4-medium text-capitalize'">{{ !isExpiredOrDelisted ? bid.auction.remaining_time : 'Expired' }}</span>
         </div>
@@ -117,7 +108,7 @@
         md="2"
         class="d-flex justify-content-start align-items-center flex-column"
       >
-        <Button class="bg-blue-2 mt-4" pill @click="$emit('edit', bid)">
+        <Button class="bg-dark-blue mt-4" pill @click="$emit('edit', bid)">
           <span>
             {{
               isExpiredOrDelisted ? $t('bids.view') : $t('bids.edit_bid')
@@ -280,6 +271,9 @@ export default {
   margin: auto
   img
     padding: 0 !important
+  @media (max-width: 576px)
+    width: 86px
+    margin-left: 0
 
 .tag-bid
   font-family: $font-sp-pro
@@ -297,8 +291,12 @@ export default {
 
 .single-item
   padding: 16px
+  margin-bottom: 11px
   @media (max-width: 576px)
-    padding: 12px
+    padding: 14px 0 6px
+    margin-bottom: 15px
+    .product-details
+      padding: 0 9px
 
 .border
   border: 1px solid $color-gray-60
@@ -320,6 +318,28 @@ export default {
 
 .btn-mobile-accept
   background-color: $color-blue-20
+  width: 54px
+  font-family: $font-sp-pro
+  font-weight: $medium
+  @include body-31
+  height: 22px
 .bid-status
+  left: 12px
   top: 7px
+.bg-dark-blue.btn.btn-primary
+  background-color: $color-blue-20
+  border-color: $color-blue-20
+
+@media (max-width: 576px)
+  .product-details-info
+    .mb-12
+      margin-bottom: 12px
+    .mb-02
+      margin-bottom: 2px
+  .high-row-section
+    height: 22px
+    padding: 0 12px
+  .short-row-section
+    height: 20px
+    padding: 0 12px
 </style>

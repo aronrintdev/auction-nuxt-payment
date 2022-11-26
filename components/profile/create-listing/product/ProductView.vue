@@ -4,7 +4,6 @@
       <img :src="require('~/assets/img/icons/arrow-left-gray.svg')" class="img-fluid"/>
       {{ $t(backButtonText) }}
     </span>
-
     <b-row>
       <b-col sm="12" md="6">
       </b-col>
@@ -19,7 +18,7 @@
       </b-col>
       <b-col v-else sm="12" md="6">
         <!-- Nav Bar Mobile -->
-        <div class="row mb-3">
+        <div class="row mb-3 w-100">
           <div class="col-12">
             <nav-group
               v-model="selectedCategory"
@@ -29,11 +28,11 @@
             />
           </div>
           <div class="col-12">
-            <div class="d-flex justify-content-center mt-2">
-              <div class="px-5 mx-3 text-gray-24 body-5-medium" :class="selectedCategory == buy && 'active text-black'">
+            <div class="d-flex justify-content-between mt-2 mx-3">
+              <div class="mx-3 text-gray-24 body-5-medium w-100 text-center" :class="selectedCategory == buy && 'active text-black'">
                 {{ lowestPrice | toCurrency }}
               </div>
-              <div class="px-5 mx-3 text-gray-24 body-5-medium" :class="selectedCategory == offer && 'active text-black'">
+              <div class="mx-3 text-gray-24 body-5-medium w-100 text-center" :class="selectedCategory == offer && 'active text-black'">
                 {{ highestOffer | toCurrency }}
               </div>
             </div>
@@ -84,11 +83,11 @@
             />
           </div>
           <div class="col-12">
-            <div class="d-flex justify-content-center mt-2">
-              <div class="px-5 mx-3 text-gray-24 body-1-medium" :class="selectedCategory == buy && 'active text-black'">
+            <div class="d-flex justify-content-between mt-2 mx-4">
+              <div class="text-gray-24 body-1-medium text-center w-100" :class="selectedCategory == buy && 'active text-black'">
                 {{ lowestPrice | toCurrency }}
               </div>
-              <div class="px-5 mx-3 text-gray-24 body-1-medium" :class="selectedCategory == offer && 'active text-black'">
+              <div class="text-gray-24 body-1-medium text-center w-100" :class="selectedCategory == offer && 'active text-black'">
                 {{ highestOffer | toCurrency }}
               </div>
             </div>
@@ -141,7 +140,7 @@
         <!-- SizePicker ends -->
 
         <!-- Box Condition Section Responsive -->
-        <div class="row box-condition-responsive mt-4 mb-4 px-2">
+        <div class="row box-condition-responsive mt-2 mb-4 px-2">
           <BoxConditionPicker
             :value="value.boxCondition"
             :conditions="packagingConditions"
@@ -157,10 +156,10 @@
     </b-row>
 
     <div v-if="!isScreenXS" class="section-product-details">
-      <span class="body-2-medium text-black">{{ $t('create_listing.product.product_details') }}</span>
+      <span class="body-2-medium text-black px-3">{{ $t('create_listing.product.product_details') }}</span>
       <hr>
       <b-row>
-        <b-col sm="12" md="6">
+        <b-col sm="12" md="6" class="px-4 pt-3">
           <b-row>
             <b-col cols="4" class="text-black py-1">{{ $t('common.sku') }}:</b-col>
             <b-col cols="8" class="py-1">{{ product.sku }}</b-col>
@@ -234,7 +233,7 @@ import arrowDownIcon from '~/assets/img/icons/arrow-down-dark-blue.svg'
 import BoxConditionPicker from '~/components/product/BoxConditionPicker';
 
 export default {
-  name: 'DetailsListing',
+  name: 'ProductView',
 
   components: {
     ProductSizePicker,
@@ -373,6 +372,7 @@ export default {
             i.inventory.size_id === vm.value.currentSize &&
             i.inventory.packaging_condition_id === vm.value.boxCondition
         )
+
         return sold && sold.inventory
       }
     },
@@ -443,11 +443,12 @@ export default {
 
   created() {
     this.getColors()
-
     if (!this.value.boxCondition) {
       this.selectedCondition = 1
       this.$emit('input', { ...this.value, boxCondition: 1 })
     }
+
+
   },
 
   methods: {
@@ -659,10 +660,13 @@ export default {
   .profile-view::v-deep
     .section-product-details,
     .product-size-details,
-    .size-meter,
+    .size-meter
+      display: block
 
     .backToSearch
       display: block
+      margin-left: 14px
+
     .product-thumbnail
       display: flex
     .mobile-nav-row,
@@ -818,5 +822,11 @@ export default {
 
 .rotate
   transform: rotate(180deg)
+</style>
+<style lang="sass">
+.nav-group .btn-group
+  width: 100%
+  margin-left: 24px
+  margin-right: 24px
 </style>
 

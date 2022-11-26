@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import MobileSearchCarousel from '~/components/mobile-search/MobileSearchCarousel'
+import MobileSearchCarousel from '~/components/browse/MobileSearchCarousel'
 import SectionHeader from '~/components/SectionHeader'
 export default {
   name: 'MobileSearchAuctions',

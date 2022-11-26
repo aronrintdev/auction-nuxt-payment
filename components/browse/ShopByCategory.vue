@@ -18,8 +18,10 @@
 </template>
 
 <script>
+import MobileSearchCarousel from '~/components/browse/MobileSearchCarousel'
 export default {
   name: 'ShopByCategory',
+  components: { MobileSearchCarousel },
   data() {
     return {
       shopByCategory: [
