@@ -170,7 +170,7 @@ export default {
   row-gap: 60px
 
 .style-bag
-
+  z-index: 999
   background: $color-white-1
   display: flex
   align-items: center
