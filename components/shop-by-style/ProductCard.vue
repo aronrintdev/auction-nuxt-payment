@@ -12,24 +12,31 @@
           class="flex-shrink-0 product-image"
         />
         <div class="info-section position-relative flex-grow-1">
-          <div class="title">{{ product.name }}</div>
-          <div class="color mt-2">
+          <div class="title fw-6 fs-20 font-secondary text-capitalize">
+            {{ product.name }}
+          </div>
+          <div class="color mt-2 fw-5 font-secondary fs-15">
             {{ `${$t('common.color')}: ${product.colorway}` }}
           </div>
-          <div class="color mt-1">
+          <div class="color mt-2 fw-5 font-secondary fs-15">
             {{ $t('common.price') }}: {{ product.sale_price | toCurrency }}
           </div>
-          <div class="position-absolute btn-add cursor-pointer">
-            <Icon v-show="show !== product.id" src="transparent-plus.png" width="35" height="35" @click='showProductDetail(product.id)' />
-            <Icon v-show="show === product.id" src="transparent-minus.png" width="35" height="5" @click='showProductDetail(product.id)' />
+          <div
+            class="position-absolute btn-add cursor-pointer"
+            @click="showProductDetail(product.id)"
+          >
+            <PlusIcon :active="show === product.id" />
           </div>
         </div>
       </div>
       <!-- Product Detail -->
-      <div v-show="show === product.id" class="info-section position-relative flex-grow-1">
+      <div
+        v-show="show === product.id"
+        class="info-section position-relative flex-grow-1"
+      >
         <div>
           <ShopByStyleImageCarousel :images="productImages" class="mt-4" />
-          <div  class="w-100">
+          <div class="w-100">
             <ProductSizePicker
               :sizes="sizes"
               :prices="pricesBySize"
@@ -48,7 +55,10 @@
             @change="handleConditionChange"
           />
           <div class="accordion-filter-item bg-transparent w-100 border-0 mt-4">
-            <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header mb-4">
+            <h2
+              id="panelsStayO pen-headingOne"
+              class="accordion-filter-header mb-4"
+            >
               <button
                 v-b-toggle.collapse-product-detail
                 aria-controls="panelsStayOpen-collapseOne"
@@ -58,12 +68,14 @@
                 data-bs-toggle="collapse"
                 type="button"
               >
-              <span class="w-100 text-left">{{ $t('shop_by_style.product_details')  }}</span>
+                <span class="w-100 text-left">{{
+                  $t('shop_by_style.product_details')
+                }}</span>
               </button>
             </h2>
             <b-collapse
               id="collapse-product-detail"
-              :accordion="accordion-title"
+              accordion="product-detail"
               role="tabpanel"
               class="accordion-filter-collapse"
               aria-labelledby="panelsStayOpen-headingOne"
@@ -102,12 +114,12 @@
                 data-bs-toggle="collapse"
                 type="button"
               >
-              {{ $t('shop_by_style.size_guide')  }}
+                {{ $t('shop_by_style.size_guide') }}
               </button>
             </h2>
             <b-collapse
-              id="collapse-1"
-              :accordion="accordion-title"
+              id="collapse-2"
+              accordion="collapse-2"
               role="tabpanel"
               class="accordion-filter-collapse"
               aria-labelledby="panelsStayOpen-headingOne"
@@ -115,7 +127,8 @@
               <div class="accordion-filter-body">
                 <ProductSizeGuideShoe
                   v-if="
-                    products.size_type && SHOE_CATEGORIES.indexOf(products.size_type) > -1
+                    products.size_type &&
+                    SHOE_CATEGORIES.indexOf(products.size_type) > -1
                   "
                 />
               </div>
@@ -144,9 +157,7 @@
 
             <div
               v-else-if="
-                method === 'buy' &&
-                sizeViewMode === 'all' &&
-                !isOutOfStock
+                method === 'buy' && sizeViewMode === 'all' && !isOutOfStock
               "
               class="action-btns w-100"
             >
@@ -160,7 +171,9 @@
                   @click="handleAddToCartClick"
                 >
                   <div class="d-flex justify-content-center">
-                    <div>{{ $t('shop_by_style.general.add_style_to_bag') }}</div>
+                    <div>
+                      {{ $t('shop_by_style.general.add_style_to_bag') }}
+                    </div>
                     <div
                       class="ml-1"
                       :class="
@@ -175,7 +188,6 @@
                   {{ error.addToCart }}
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -203,7 +215,10 @@
             <p>{{ product.colorway }}</p>
           </div>
         </div>
-        <div v-show="show !== product.id" class="info-section position-relative flex-grow-1">
+        <div
+          v-show="show !== product.id"
+          class="info-section position-relative flex-grow-1"
+        >
           <div class="title">{{ product.name }}</div>
           <div class="color mt-2">
             {{ product.colorway }}
@@ -211,17 +226,22 @@
           <div class="price color mt-1">
             {{ product.sale_price | toCurrency }}
           </div>
-          <div class="position-absolute btn-add">
-            <Icon v-show="show !== product.id" src="mobile-plus.png" width="20" height="20" @click='showProductDetail(product.id)' />
-            <Icon v-show="show === product.id" src="minus.svg" width="20" height="20" @click='showProductDetail(product.id)' />
+          <div
+            class="position-absolute btn-add"
+            @click="showProductDetail(product.id)"
+          >
+            <PlusIcon :active="show === product.id" />
           </div>
         </div>
       </div>
       <!-- Product Detail -->
-      <div v-show="show === product.id" class="info-section position-relative flex-grow-1 ml-0">
+      <div
+        v-show="show === product.id"
+        class="info-section position-relative flex-grow-1 ml-0"
+      >
         <div>
           <ShopByStyleImageCarousel :images="productImages" class="mt-4" />
-          <div  class="w-100">
+          <div class="w-100">
             <ProductSizePicker
               :sizes="sizes"
               :prices="pricesBySize"
@@ -240,7 +260,11 @@
             @change="handleConditionChange"
           />
           <div class="accordion-filter-item bg-transparent w-100 border-0">
-            <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header mb-0 product-detail-sheet p-3" @click="open">
+            <h2
+              id="panelsStayO pen-headingOne"
+              class="accordion-filter-header mb-0 product-detail-sheet p-3"
+              @click="open"
+            >
               <button
                 aria-controls="panelsStayOpen-collapseOne"
                 aria-expanded="false"
@@ -249,11 +273,13 @@
                 data-bs-toggle="collapse"
                 type="button"
               >
-              {{ $t('shop_by_style.product_details')  }}
+                {{ $t('shop_by_style.product_details') }}
               </button>
             </h2>
             <vue-bottom-sheet ref="openProductDetail">
-              <h2 class="fs-16 fw-7 text-center">{{ $t('shop_by_style.product_details')  }}</h2>
+              <h2 class="fs-16 fw-7 text-center">
+                {{ $t('shop_by_style.product_details') }}
+              </h2>
               <hr class="mb-0" />
               <div class="accordion-filter-body pl-3 pr-3 m-0">
                 <div class="mobile-tab-content mt-40">
@@ -283,11 +309,18 @@
                   </div>
                 </div>
               </div>
-              <h2 class="fs-14 fw-6 text-left p-3">{{ $t('product_page.description')  }}:</h2>
-              <p class="pl-3 pr-3">{{ $t('create_listing.product.description_details') }}</p>
+              <h2 class="fs-14 fw-6 text-left p-3">
+                {{ $t('product_page.description') }}:
+              </h2>
+              <p class="pl-3 pr-3">
+                {{ $t('create_listing.product.description_details') }}
+              </p>
             </vue-bottom-sheet>
-            
-            <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header mt-3 product-detail-sheet p-3">
+
+            <h2
+              id="panelsStayO pen-headingOne"
+              class="accordion-filter-header mt-3 product-detail-sheet p-3"
+            >
               <button
                 v-b-toggle.collapse-1
                 aria-controls="panelsStayOpen-collapseOne"
@@ -297,12 +330,12 @@
                 data-bs-toggle="collapse"
                 type="button"
               >
-              {{ $t('shop_by_style.size_guide')  }}
+                {{ $t('shop_by_style.size_guide') }}
               </button>
             </h2>
             <b-collapse
               id="collapse-1"
-              :accordion="accordion-title"
+              accordion="collapse-1"
               role="tabpanel"
               class="accordion-filter-collapse"
               aria-labelledby="panelsStayOpen-headingOne"
@@ -310,7 +343,8 @@
               <div class="accordion-filter-body">
                 <ProductSizeGuideShoe
                   v-if="
-                    products.size_type && SHOE_CATEGORIES.indexOf(products.size_type) > -1
+                    products.size_type &&
+                    SHOE_CATEGORIES.indexOf(products.size_type) > -1
                   "
                 />
               </div>
@@ -339,9 +373,7 @@
 
             <div
               v-else-if="
-                method === 'buy' &&
-                sizeViewMode === 'all' &&
-                !isOutOfStock
+                method === 'buy' && sizeViewMode === 'all' && !isOutOfStock
               "
               class="action-btns w-100"
             >
@@ -355,7 +387,9 @@
                   @click="handleAddToCartClick"
                 >
                   <div class="d-flex justify-content-center">
-                    <div>{{ $t('shop_by_style.general.add_style_to_bag') }}</div>
+                    <div>
+                      {{ $t('shop_by_style.general.add_style_to_bag') }}
+                    </div>
                     <div
                       class="ml-1"
                       :class="
@@ -370,42 +404,49 @@
                   {{ error.addToCart }}
                 </div>
               </div>
-
             </div>
           </div>
         </div>
       </div>
-      <div v-show="show === product.id" class="row justify-content-between pr-3 pl-3">
+      <div
+        v-show="show === product.id"
+        class="row justify-content-between pr-3 pl-3"
+      >
         <h2 class="fs-16 fw-6">{{ $t('shop_by_style.more_look') }}</h2>
-        <p class="fs-14 fw-5 text-gray cursor-pointer" @click='showProductDetail(product.id)'>{{ $t('shop_by_style.view_all') }}</p>
+        <p
+          class="fs-14 fw-5 text-gray cursor-pointer"
+          @click="showProductDetail(product.id)"
+        >
+          {{ $t('shop_by_style.view_all') }}
+        </p>
       </div>
       <AlertModal id="message-modal" :message="message" icon="tick" />
     </div>
-    
   </div>
 </template>
 <script>
 import _ from 'lodash'
-import { Icon, Button } from '~/components/common'
+import { Button } from '~/components/common'
 import ProductThumb from '~/components/product/Thumb'
 import ShopByStyleImageCarousel from '~/components/shop-by-style/ImageCarousel'
 import ProductSizePicker from '~/components/product/SizePicker'
 import ProductBoxConditionPicker from '~/components/shop-by-style/BoxConditionPicker'
 import ProductSizeGuideShoe from '~/components/product/size-guide/Shoe'
 import AlertModal from '~/components/modal/Alert'
-
+import PlusIcon from '~/assets/icons/Plus'
 export default {
   name: 'ShopByStyleProductCard',
 
   components: {
     ProductThumb,
-    Icon,
+
     ShopByStyleImageCarousel,
     ProductSizePicker,
     ProductBoxConditionPicker,
     ProductSizeGuideShoe,
     Button,
-    AlertModal
+    AlertModal,
+    PlusIcon,
   },
 
   props: {
@@ -416,14 +457,12 @@ export default {
     styleID: {
       type: Number,
       required: false,
-    }
+    },
   },
 
   data() {
     return {
-      productImages: [
-        this.product.image
-      ],
+      productImages: [this.product.image],
       products: {},
       method: 'buy',
       error: {
@@ -431,7 +470,7 @@ export default {
         buyNow: null,
         makeOffer: null,
       },
-      sizeViewMode: 'all',
+      sizeViewMode: 'carousel',
       addingToCart: false,
       currentSize: null,
       currentCondition: null,
@@ -449,12 +488,12 @@ export default {
       ],
       message: null,
       MODAL_FADE_TIMEOUT: 2000,
-      show: null
+      show: null,
     }
   },
   async fetch() {
     this.products = await this.$axios
-      .get('/products/'+this.product.sku+'/details')
+      .get('/products/' + this.product.sku + '/details')
       .then((res) => res.data)
     if (this.products) {
       const lowestPrice = _.minBy(this.products.lowest_prices, 'price')
@@ -506,16 +545,15 @@ export default {
     },
 
     pricesBySize() {
-        if (this.method === 'buy') {
-          return this.products?.lowest_prices?.filter(
-            (i) => i.packaging_condition_id === this.currentCondition
-          )
-        } else {
-          return this.products?.highest_offers?.filter(
-            (i) => i.packaging_condition_id === this.currentCondition
-          )
-        }
-
+      if (this.method === 'buy') {
+        return this.products?.lowest_prices?.filter(
+          (i) => i.packaging_condition_id === this.currentCondition
+        )
+      } else {
+        return this.products?.highest_offers?.filter(
+          (i) => i.packaging_condition_id === this.currentCondition
+        )
+      }
     },
 
     wishList() {
@@ -530,7 +568,7 @@ export default {
       this.$refs.openProductDetail.open()
     },
     showProductDetail(id) {
-      if(this.show === id) {
+      if (this.show === id) {
         this.show = 'false'
       } else {
         this.show = id
@@ -591,14 +629,14 @@ export default {
       this.sizeViewMode = mode
     },
     handleNotifyMeClick() {
-    this.$axios
-      .post(`/products/${this.products.id}/requests`, {
-        size_id: this.currentSize,
-        packaging_condition_id: this.currentCondition,
-      })
-      .then(() => {
-        this.showMessageModal(this.$t('products.message.send_item_email'))
-      })
+      this.$axios
+        .post(`/products/${this.products.id}/requests`, {
+          size_id: this.currentSize,
+          packaging_condition_id: this.currentCondition,
+        })
+        .then(() => {
+          this.showMessageModal(this.$t('products.message.send_item_email'))
+        })
     },
 
     showMessageModal(message, callback = () => {}) {
@@ -640,10 +678,11 @@ export default {
         () => (this.addingToCart = true)
       )
     },
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>
+@import '~/assets/css/_variables'
 .product-image
   width: 152px
   height: 172px
@@ -651,4 +690,16 @@ export default {
   background: #FFFFFF
   box-shadow: 0px -0.1px 2px rgba(0, 0, 0, 0.25), 0px 1px 2px rgba(0, 0, 0, 0.25)
   border-radius: 8px
+.info-section
+  margin-left: 28px
+  .title
+    max-width: 200px
+.thumb-wrapper::v-deep
+  display: flex
+  align-items: center
+  justify-content: center
+  background-color: $color-gray-29
+  img
+    width: 120px
+    height: auto
 </style>

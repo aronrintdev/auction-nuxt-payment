@@ -197,7 +197,7 @@ export default {
     },
     arrowsVisible: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     mouseDrag: {
       type: Boolean,
@@ -364,7 +364,8 @@ export default {
 
       .item
         cursor: pointer
-        margin: 0 !important
+        margin: 0
+        magin-right: 25px
         &.active
           .card
             border: 1px solid $color-black-4
