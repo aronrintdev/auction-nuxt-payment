@@ -899,7 +899,6 @@ export default {
     background-color: $color-gray-1
 
   &.mobile
-    @include body-5
     font-family: $font-family-montserrat
     font-style: normal
     font-weight: $normal
@@ -941,6 +940,9 @@ export default {
   font-weight: $normal
   background: $color-white-5
 
+::v-deep.form-control.mobile
+  @include body-9
+
 .bg-blue-2.btn
   background: $color-blue-2
   border: 1px solid $color-blue-2
@@ -957,11 +959,11 @@ export default {
   color: $color-blue-20
 
 .mobile-input-button
-  @include body-4-normal
+  @include body-9
   color:  $color-blue-20
   position: absolute
   right: 15px
-  top: 18px
+  top: 20px
   z-index: 10
 
 .faq-icon
