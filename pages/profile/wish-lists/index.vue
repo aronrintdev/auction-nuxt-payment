@@ -349,7 +349,7 @@ export default {
       category: 'all',
       activeTab: 'single-item',
       tabs: [
-        { label: 'Single Item', value: 'single-item' },
+        { label: 'Single Items', value: 'single-item' },
         { label: 'Shop by Style', value: 'shop-by-style' },
       ],
       action: 'none', // 'move' or 'remove'
@@ -674,5 +674,23 @@ export default {
   min-height: 500px
 .wishlist-wrapper
   margin-left: -10px
+::v-deep .checkbox-switch
+  line-height: 32px
+  .custom-switch
+    height: 31px
+    margin-right: 20px
+    .custom-control-label::before
+      background: rgba(120, 120, 128, 0.16)
+      border: none
+      height: 31px
+      width: 51px
+      border-radius: 40%
+    .custom-control-label::after
+      background: #FFFFFF
+      border: 0.5px solid rgba(0, 0, 0, 0.04)
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15), 0px 3px 1px rgba(0, 0, 0, 0.06)
+      width: 27px
+      height: 27px
+      border-radius: 100%
 
 </style>
