@@ -7,9 +7,9 @@
       >
         <template #label>
           <div class="d-flex">
-            <span>{{ $t('vendor_hub.payout_method.name_of_account') }} - </span>
+            <span>{{ $t('vendor_hub.payout_method.name_of_account') }} -</span>
               <span class="verified d-flex align-items-center">
-                <span class="pr-1">
+                <span class="px-1">
                   {{ $t('vendor_hub.payout_method.verified') }}
                 </span>
                 <i class="fa fa-check-circle-o" />
@@ -163,4 +163,7 @@ export default {
   background-position: right
   border: none
   border-radius: 4px
+
+.input-payout input
+  background-color: $color-white-5
 </style>
