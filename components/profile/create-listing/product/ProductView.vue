@@ -1,6 +1,11 @@
 <template>
   <div class="profile-view">
-    <span v-if="!isScreenXS" role="button" class="backToSearch body-13" @click="$emit('back')">
+    <span
+      v-if="!isScreenXS"
+      role="button" :class="backButtonClass"
+      class="backToSearch body-13"
+      @click="$emit('back')"
+    >
       <img :src="require('~/assets/img/icons/arrow-left-gray.svg')" class="img-fluid"/>
       {{ $t(backButtonText) }}
     </span>
@@ -260,6 +265,10 @@ export default {
     backButtonText: {
       type: String,
       default: 'common.back_to_search'
+    },
+    backButtonClass: {
+      type: String,
+      default: ''
     }
   },
 

@@ -1,11 +1,12 @@
 <template>
-  <div class="container-profile">
+  <div :class="(isScreenSM || isScreenXS) ? 'p-4' : 'container-profile'">
     <ProductView
       v-if="product"
       v-model="form"
       :product="product"
       :back-button-text="backButtonText"
       @back="backSearch"
+      :back-button-class="(isScreenSM || isScreenXS) ? 'mx-0' : ''"
     >
       <div slot="right-content">
         <div class="row">
@@ -15,6 +16,7 @@
                        :label="$t('trades.create_listing.vendor.wants.quantity')"
                        class="input"
                        :class="{'input-error': !isValidQuantity(quantity)}"
+                       :label-class="'ml-0'"
                        required
                        integer
             />
@@ -482,7 +484,7 @@ export default {
       font-style: normal
       @include body-8-normal
       color: $color-black-1
-      margin-left: 0px!important
+      margin-left: 0px
       text-transform: uppercase
       margin-bottom: 16px
     .input
@@ -515,19 +517,6 @@ export default {
       @include body-5-regular
       display: block
       color: $color-red-3
-
-    .custom-dropdown
-      .label-wrapper
-        border-radius: 4px!important
-        padding: 2px 10px
-        height: 40px
-        left: 16px
-        border: 1px solid $color-blue-20
-      ul
-        border: 1px solid $color-blue-20
-        li
-          padding: 8px
-          border-color:  $color-blue-20
 
   .input-col-mobile::v-deep
     .input-label
@@ -566,17 +555,6 @@ export default {
       @include body-5-regular
       display: block
       color: $color-red-3
-
-    .custom-dropdown
-      .label-wrapper
-        padding: 8px 10px
-        left: 16px
-        top: 804px
-        border: 1px solid $white-5
-        border-radius: 4px!important
-      ul
-        li
-          padding: 12px
 
 .progress-bar-container
   margin-bottom: -36px
