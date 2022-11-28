@@ -3,7 +3,7 @@
        :class="{'m-2 px-1 py-2 mobile-box': mobileClass.length}">
     <img :src="item.image" :alt="item.description" :height="mobileClass ? 30 : 40" :width="mobileClass ? 30 : 'auto'">
     <div class="flex-column flex-sm-row pl-3 pl-sm-0">
-      <div class="text-sm-center my-1" :class="mobileClass ? 'body-6-bold': 'body-5-bold'">
+      <div class="text-sm-center my-1" :class="mobileClass ? 'body-6-bold': 'body-5-normal title'">
         {{
           mobileClass ? item.description.replace('Fulfilled', '') : item.description
         }}</div>
@@ -60,7 +60,5 @@ export default {
 .mobile-box
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15)
   border-radius: 16px
-
-
 
 </style>
