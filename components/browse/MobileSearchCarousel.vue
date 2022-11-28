@@ -269,7 +269,7 @@ export default {
     padding-right: 15px
 
   .auction-size
-    font-size: 12px
+    font-size: $font-size-12
     @media (max-width: 375px)
-      font-size: 7px
+      font-size: $font-size-7
 </style>
