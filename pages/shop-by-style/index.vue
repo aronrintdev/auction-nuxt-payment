@@ -199,7 +199,7 @@ export default {
   margin-top: -8px
 .look-view
   @media (min-width: 576px)
-    margin: 0 178px !important
+    margin: 0 178px
 .container-shop-by-style
   max-width: 1440px
   padding: 64px 86px 64px 87px
