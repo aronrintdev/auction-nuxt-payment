@@ -146,7 +146,7 @@
           </div>
         </div>
         <div
-          class="ml-auto d-flex align-items-baseline justify-content-end section-actions"
+          class="ml-auto d-flex align-items-baseline justify-content-end section-actions align-items-center flex-column"
         >
           <Button
             v-if="filtersSelected"
@@ -297,9 +297,6 @@ export default {
 
 .w-fit-content
   width: fit-content
-.filters-heading
-  &.h2
-    margin-top: 0 !important
 .filter-wrapper
   .header
     @include body-2-medium
@@ -324,11 +321,8 @@ export default {
   .filter-wrapper
     .main
       .section-actions
-        flex-direction: column
-        align-items: center !important
-
         > button
-          margin: 10px 0 !important
+          margin: 10px 0
 
 // filter checkboxes
 .dropdown-sort::v-deep
@@ -344,7 +338,7 @@ export default {
     &.opened
       border-bottom: 0
     .icon-main
-      margin-right: 20px !important
+      margin-right: 20px
     .icon-clear
       right: 23px
     &.opened
@@ -382,11 +376,11 @@ export default {
       transform: translate(0 , -50%)
 
   .slider-input::v-deep
-    margin-top: 0 !important
+    margin-top: 0
   .form-check
     margin-bottom: 7px
     & > *
-      cursor: pointer !important
+      cursor: pointer
     .form-check-input
       border: none
       box-shadow: none
@@ -427,10 +421,10 @@ export default {
       border-radius: 0 0 8px 8px
       border-top: 0
 ::-webkit-scrollbar
-  width: 6px !important
+  width: 6px
 ::-webkit-scrollbar-thumb
   background-color: $color-blue-2
-  border: none !important
+  border: none
 ::-webkit-scrollbar-track
   background-color: $color-gray-3
 </style>
