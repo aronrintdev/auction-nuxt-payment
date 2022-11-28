@@ -106,7 +106,7 @@
             </b-collapse>
             <h2 id="panelsStayO pen-headingOne" class="accordion-filter-header">
               <button
-                v-b-toggle.collapse-1
+                v-b-toggle.size-guide-collapse
                 aria-controls="panelsStayOpen-collapseOne"
                 aria-expanded="false"
                 class="p-0 accordion-filter-button collapsed position-relative d-flex align-items-center w-100 pa-0 border-0"
@@ -118,8 +118,8 @@
               </button>
             </h2>
             <b-collapse
-              id="collapse-2"
-              accordion="collapse-2"
+              id="size-guide-collapse"
+              accordion="size-guide-collapse"
               role="tabpanel"
               class="accordion-filter-collapse"
               aria-labelledby="panelsStayOpen-headingOne"
@@ -230,7 +230,7 @@
             class="position-absolute btn-add"
             @click="showProductDetail(product.id)"
           >
-            <PlusIcon :active="show === product.id" />
+            <PlusCircle />
           </div>
         </div>
       </div>
@@ -434,6 +434,7 @@ import ProductBoxConditionPicker from '~/components/shop-by-style/BoxConditionPi
 import ProductSizeGuideShoe from '~/components/product/size-guide/Shoe'
 import AlertModal from '~/components/modal/Alert'
 import PlusIcon from '~/assets/icons/Plus'
+import PlusCircle from '~/assets/icons/PlusCircle'
 export default {
   name: 'ShopByStyleProductCard',
 
@@ -447,6 +448,7 @@ export default {
     Button,
     AlertModal,
     PlusIcon,
+    PlusCircle,
   },
 
   props: {
@@ -470,7 +472,7 @@ export default {
         buyNow: null,
         makeOffer: null,
       },
-      sizeViewMode: 'carousel',
+      sizeViewMode: 'all',
       addingToCart: false,
       currentSize: null,
       currentCondition: null,
@@ -686,12 +688,13 @@ export default {
 .product-image
   width: 152px
   height: 172px
+  margin-right: 28px
 .product-detail-sheet
   background: #FFFFFF
   box-shadow: 0px -0.1px 2px rgba(0, 0, 0, 0.25), 0px 1px 2px rgba(0, 0, 0, 0.25)
   border-radius: 8px
 .info-section
-  margin-left: 28px
+  // margin-left: 28px
   .title
     max-width: 200px
 .thumb-wrapper::v-deep

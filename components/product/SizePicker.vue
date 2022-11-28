@@ -482,8 +482,8 @@ export default {
         color: $color-gray-20
 
     .close-btn
-      right: 0
-      top: 0
+      right: 8px
+      top: -38px
 
 @media (max-width: 768px)
   .container
