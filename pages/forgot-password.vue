@@ -238,9 +238,9 @@ export default {
   .main-mobile-image
     padding: 20px 0px 0px 1px
   .img-main
-    height: 44px !important
-    width: 133.2px !important
-    margin-top: 23px !important
+    height: 44px
+    width: 133.2px
+    margin-top: 23px
   .btn-email
     background-color: $color-blue-20 !important
 </style>
