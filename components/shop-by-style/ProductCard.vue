@@ -697,12 +697,5 @@ export default {
   // margin-left: 28px
   .title
     max-width: 200px
-.thumb-wrapper::v-deep
-  display: flex
-  align-items: center
-  justify-content: center
-  background-color: $color-gray-29
-  img
-    width: 120px
-    height: auto
+
 </style>
