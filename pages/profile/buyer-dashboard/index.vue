@@ -1,6 +1,6 @@
 <template>
   <client-only>
-    <div class="pt-2 pt-sm-5 px-4">
+    <div class="pt-2 pt-sm-5 px-4 buyer-dashboard" :class="mobileClass">
       <div class="d-sm-flex d-none">
         <h1 class="fs-24 fw-7 mb-0 font-primary">
           {{ $t('buyer_dashboard.dashobard_buyer.dashboard') }}
@@ -137,6 +137,9 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.buyer-dashboard
+  &.mobile
+    margin-bottom: -60px
 .mt-20
   margin-top: 20px
 
