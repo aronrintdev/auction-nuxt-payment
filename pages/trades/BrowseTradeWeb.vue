@@ -111,7 +111,6 @@
 </template>
 
 <script>
-/* eslint-disable vue/no-unused-components */
 import { mapGetters } from 'vuex'
 import debounce from 'lodash.debounce'
 import { tradeRemainingTime, isRemainingTimeLessThan12Hours } from '~/utils/string'
