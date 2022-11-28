@@ -6,12 +6,20 @@
         class="input-payout"
       >
         <template #label>
-          {{ $t('vendor_hub.payout_method.name_of_account') }}
+          <div class="d-flex">
+            <span>{{ $t('vendor_hub.payout_method.name_of_account') }} - </span>
+              <span class="verified d-flex align-items-center">
+                <span class="pr-1">
+                  {{ $t('vendor_hub.payout_method.verified') }}
+                </span>
+                <i class="fa fa-check-circle-o" />
+              </span>
 <!--          This code should stay untill this feature activated    -->
 <!--          <span :class="method.is_verified? 'verified': 'not-verified'">-->
 <!--            {{method.is_verified? $t('vendor_hub.payout_method.verified') : $t('vendor_hub.payout_method.not_verified')}}-->
 <!--            <img :src="itemImage" >-->
 <!--          </span>-->
+          </div>
         </template>
         <b-input-group>
           <b-form-input
@@ -96,6 +104,8 @@ export default {
 
 .verified
   color: rgba($color-green-15, 1)
+  .fa
+    font-size:  18px
 
 .not-verified
   color: rgba($color-red-3, 1)
@@ -125,7 +135,7 @@ export default {
 .m-40
   margin-left: 40px
 
-:deep()label.d-block
+::v-deep label.d-block
   @include body-5
   font-family: $font-family-montserrat
   font-style: normal
