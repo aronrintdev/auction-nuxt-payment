@@ -819,6 +819,10 @@ export default {
         background: $color-gray-71
         flex: 1
         width: 50px !important
+@media (max-width: 992px)
+  ::v-deep .nav-group .btn-group
+    margin-left: 0
+    margin-right: 0
 
 @media (min-width: 320px) and (max-width: 556px)
   .img-main
