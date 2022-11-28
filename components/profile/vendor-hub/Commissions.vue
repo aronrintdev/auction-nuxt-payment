@@ -615,10 +615,9 @@ export default {
   font-weight: $normal
 
 .label-text
-  @include body-3
+  @include body-8-normal
   font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: $bold
   color: $color-black-1
 
 .commission
