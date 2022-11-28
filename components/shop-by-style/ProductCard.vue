@@ -18,9 +18,6 @@
           <div class="color mt-2 fw-5 font-secondary fs-15">
             {{ `${$t('common.color')}: ${product.colorway}` }}
           </div>
-          <div class="color mt-2 fw-5 font-secondary fs-15">
-            {{ $t('common.price') }}: {{ product.sale_price | toCurrency }}
-          </div>
           <div
             class="position-absolute btn-add cursor-pointer"
             @click="showProductDetail(product.id)"
@@ -222,9 +219,6 @@
           <div class="title">{{ product.name }}</div>
           <div class="color mt-2">
             {{ product.colorway }}
-          </div>
-          <div class="price color mt-1">
-            {{ product.sale_price | toCurrency }}
           </div>
           <div
             class="position-absolute btn-add"
