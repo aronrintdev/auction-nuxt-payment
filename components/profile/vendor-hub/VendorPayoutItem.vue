@@ -114,7 +114,7 @@ export default {
   @include body-4
   width: 150px
   height: 40px
-  color: $color-blue-2
+  color: $color-blue-20
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $normal
