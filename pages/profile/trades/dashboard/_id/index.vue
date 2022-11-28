@@ -89,7 +89,7 @@
             <initial-listing :initialWantsItems="offer.trade.wants" />
           </b-row>
         </b-col>
-        <CheckoutSidebar v-if="isPayment" class="order-summary" />
+        <CheckoutSidebar v-if="isPayment" id="payment" class="order-summary" />
       </b-row>
       <DeclineModel v-if="lastSubmittedOffer" :offer="lastSubmittedOffer"
                     @decline="declineOffer" @close="closeDeclineModal" />
@@ -296,7 +296,7 @@ export default {
     isAcceptedOffer(){
       return (this.lastSubmittedOffer.status === ACCEPTED_OFFER)
     },
-    acceptOffer(){
+    acceptOffer() {
       let cashAdded = 0
       if(this.lastSubmittedOffer.cash_added &&
         !this.isOfferMine() &&
@@ -320,6 +320,12 @@ export default {
         offerParentId: (this.lastSubmittedOffer.parent_id ? this.lastSubmittedOffer.parent_id : this.lastSubmittedOffer.id)
       })
       this.isPayment = true
+
+      if (this.isScreenXS) {
+        setTimeout(() => {
+          document.getElementById('payment')?.scrollIntoView(true)
+        }, 500);
+      }
     },
     getFairTradeValue(){
       return (this.getTheirTotal(false) * this.fairTradePercentage)
