@@ -13,9 +13,9 @@
         </b-col>
         <b-col md="9" class="pl-3">
           <b-row class="mb-2 d-block">
-            <div class="body-4-bold mb-2">{{ product.name }}</div>
+            <div class="body-4-bold mb-2">{{ name }}</div>
             <div class="body-4-normal mb-2 text-gray-6 text-uppercase">
-              {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ product.sku }} &nbsp;
+              {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ sku }} &nbsp;
               {{ $tc('common.size', 1) }}&colon;&nbsp;{{ product.size.size }}
             </div>
             <div class="body-4-normal mb-2 text-gray-6">
@@ -109,6 +109,14 @@ export default {
     }
   },
   computed: {
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    sku: (vm) => {
+      return vm.product.sku.substr(0, 22)
+    },
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    name: (vm) => {
+      return vm.product.name.substr(0, 36)
+    },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     wishList(vm) {
       return vm.product.wishLists && vm.product.wishLists.length ? vm.product.wishLists[0] : false

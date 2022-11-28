@@ -43,8 +43,8 @@
             </b-col>
           </b-row>
 
-          <ProductImageViewer v-if="!has360Images" :product="product" />
-          <ProductImageViewerMagic360 v-if="has360Images" :product="product" />
+          <ProductImageViewer v-if="!has360Images" :product="product" class="product-image-wrapper" />
+          <ProductImageViewerMagic360 v-if="has360Images" :product="product" class="product-image-wrapper" />
         </b-col>
         <b-col md="4" xl="4" class="px-md-1 px-xl-1">
           <ProductTitle
@@ -67,21 +67,23 @@
             @change="handleMethodNavClick"
           />
 
-          <b-row class="mt-2 offer-text d-none d-sm-flex col-lg-8 mx-auto w-100">
-            <div class="d-flex w-100">
-              <div
-                class="body-1-medium col-6 text-center"
+          <b-row class="mt-2 offer-text d-none d-sm-flex mx-auto">
+            <b-col md="6" class="text-center">
+              <span
+                class="body-1-medium"
                 :class="method === 'buy' && 'active'"
               >
                 {{ lowestPrice | toCurrency }}
-              </div>
-              <div
-                class="body-1-medium col-6 text-center"
+              </span>
+            </b-col>
+            <b-col md="6" class="text-center">
+              <span
+                class="body-1-medium"
                 :class="method === 'offer' && 'active'"
               >
                 {{ highestOffer | toCurrency }}
-              </div>
-            </div>
+              </span>
+            </b-col>
           </b-row>
           <!-- End of Lowest Price & Highest Offer Nav Group -->
 
@@ -157,7 +159,7 @@
       <!-- Product Details & Size Guide Section -->
       <b-row v-if="product" class="mx-72">
         <b-col md="12">
-          <ProductDetailsTab :product="product" :selected-size="currentSize" />
+          <ProductDetailsTab :product="product" :selected-size="productCurrentSize" />
         </b-col>
       </b-row>
       <!-- End of Product Details & Size Guide Section -->
@@ -382,6 +384,9 @@ export default {
       }
 
       return false
+    },
+    productCurrentSize(vm) {
+      return vm.sizes.find(size => size.id === vm.currentSize)
     }
   },
   methods: {
@@ -463,10 +468,10 @@ export default {
         brand: this.product.brand,
         sku: this.product.sku,
         colorWay: this.product.colorway,
-        size: this.sizes[this.currentSize - 1],
+        size: this.sizes.find(item => item.id === this.currentSize),
         quantity: 1,
         wishLists: this.product?.wish_lists,
-        packaging_condition: this.packagingConditions[this.currentCondition - 1].name,
+        packaging_condition: this.packagingConditions.find(item => item.id === this.currentCondition).name,
         inventory_stock: this.currentListingItem?.inventory_stock,
         price: this.currentListingItem?.inventory?.sale_price,
         instantShipPrice: this.shippingOption === INSTANT_SHIPPING ? this.currentListingItem?.inventory?.instant_ship_price : 0,
@@ -656,6 +661,17 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.product-image-wrapper
+  @media (min-width: 576px)
+    margin-top: 110px
+
+.nav-group::v-deep
+  @media (min-width: 576px)
+    margin: 32px 0 15px
+
+    .btn-group
+      min-width: 408px
+
 .mx-72
   @media (min-width: 576px)
     padding-left: 72px
@@ -664,8 +680,16 @@ export default {
 .offer-text
   color: $color-gray-20
 
+  @media (min-width: 576px)
+    width: 408px
+
   .active
     color: $black
+
+.size-picker::v-deep
+  .carousel-wrapper
+    @media (min-width: 576px)
+      padding-top: 32px
 
 .text-color-red-3
   color: $color-red-3
