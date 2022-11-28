@@ -5225,11 +5225,11 @@
     "edit_offer_amount": "Edit offer amount",
     "edit_offer_delete": "Delete Offer",
     "placed_offers_product_summary": "Product Summary",
-    "placed_offers_your_placed_offers": "Your Placed Offers",
+    "placed_offers_your_placed_offers": "Your Placed",
     "responsive_heading": "Offers",
     "responsive_detailed_heading": "Offer",
     "highest_offer": "Highest Offer",
-    "your_placed_offers": "Your Placed Offers ({count})",
+    "your_placed_offers": "Your Offers Placed ({count})",
     "table": {
       "products": "Products",
       "offer_amount": "Offer Amount",
