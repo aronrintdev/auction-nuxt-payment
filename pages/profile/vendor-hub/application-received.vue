@@ -1,21 +1,22 @@
 <template>
   <div :class="isMobileSize ? 'd-block' : 'd-flex'">
     <div :class="isMobileSize ? 'w-100' : 'w-50'">
-      <img :src="require('~/assets/img/profile/vendor-hub/vendor_acceptance.png')" class="left-image"
+      <img :src="image" class="left-image"
            :class="{'h-100' : isMobileSize }">
     </div>
-      <div :class="isMobileSize ? 'position-absolute p-4 rounded mobile-box' : 'w-50 d-flex flex-column align-items-center flex-grow-1 p-1'"
-         style="margin-top: 30vh">
-      <h3 class="title-application mb-3" :class="{'mobile': isMobileSize}">
-        {{$t('vendor_hub.application_revieved')}}
-      </h3>
-      <h3 class="subtitle-application mb-3" :class="{'mobile': isMobileSize}">
-        {{$tc('vendor_hub.in_review',1)}}<br/>
-        {{$tc('vendor_hub.in_review',2)}}
-      </h3>
-      <h3 class="subtitle-application mb-3" :class="{'mobile': isMobileSize}">
-        {{$t('vendor_hub.thanks')}}
-      </h3>
+      <div :class="isMobileSize ? 'position-relative p-3' : 'w-50 d-flex flex-grow-1 p-1'">
+        <div :class="{'content' : !isMobileSize}">
+          <h3 class="title-application mb-4 px-md-5 mx-md-3" :class="{'mobile': isMobileSize}">
+            {{$t('vendor_hub.application_revieved')}}
+          </h3>
+          <h3 class="subtitle-application mb-4" :class="{'mobile': isMobileSize}">
+            {{$tc('vendor_hub.in_review',1)}}<br v-if="!isMobileSize" />
+            {{$tc('vendor_hub.in_review',2)}}
+          </h3>
+          <h3 class="subtitle-application mt-4" :class="{'mobile': isMobileSize}">
+            {{$t('vendor_hub.thanks')}}
+          </h3>
+      </div>
     </div>
   </div>
 </template>
@@ -29,6 +30,10 @@ export default {
   computed: {
     isMobileSize() {
       return this.isScreenXS || this.isScreenSM
+    },
+    image() {
+      const suffix = this.isMobileSize ? '_mobile' : ''
+      return require(`~/assets/img/profile/vendor-hub/vendor_acceptance${suffix}.png`)
     }
   }
 }
@@ -45,25 +50,27 @@ export default {
   font-family: $font-family-montserrat
   font-style: normal
   font-weight: $bold
-  max-width: 500px
   text-align: center
   &.mobile
     @include body-13
+    text-align: left
 
 .subtitle-application
   @include body-3
   font-family: $font-family-montserrat
+  text-align: center
   font-style: normal
   font-weight: $normal
-  text-align: center
 
   &.mobile
-    @include body-5
+    @include body-5-regular
+    text-align: left
 
-.mobile-box
-  z-index: 1
-  background-color: rgba($white, .85)
-  top: 0
-  width: 80%
-  transform: translateX(13%)
+.content
+  max-height: 85vh
+  height: 85vh
+  display: flex
+  flex-direction: column
+  justify-items: center
+  justify-content: center
 </style>
