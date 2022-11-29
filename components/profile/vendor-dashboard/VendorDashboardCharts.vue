@@ -22,11 +22,11 @@
           >
             {{ $tc('vendor_dashboard.total_sales', 2) }}
           </h1>
-          <a
+          <nuxt-link
             v-if="isScreenXS"
             class="font-primary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0 view-more-link text-nowrap"
-            href="#"
-            >{{ $t('vendor_dashboard.view_breakdown') }}</a
+            to="/profile/vendor-dashboard/breakdown/categories"
+            >{{ $t('vendor_dashboard.view_breakdown') }}</nuxt-link
           >
           <div class="dropdownSelect d-none d-sm-block">
             <CustomSelect
@@ -147,10 +147,10 @@
           />
         </div>
         <div class="text-right d-none d-sm-block">
-          <a
+          <nuxt-link
             class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0 view-more-link"
-            href="#"
-            >{{ $t('vendor_dashboard.view_breakdown') }}</a
+            to="/profile/vendor-dashboard/breakdown/categories"
+            >{{ $t('vendor_dashboard.view_breakdown') }}</nuxt-link
           >
         </div>
       </div>
@@ -321,26 +321,7 @@ export default {
       },
       dataGraph: [],
       dataBgColors: Object.values(GRAPH_COLORS),
-      labels: [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Friday',
-        'Saturday',
-      ],
-      lineDatasets: {
-        labels: this.labels,
-        datasets: [
-          {
-            borderColor: '#18A0FB',
-            backgroundColor: 'rgba(24, 160, 251, 0.15)',
-            data: this.dataGraph,
-            fill: true,
-            borderWidth: 4,
-          },
-        ],
-      },
+      labels: [],
       chartFilterOptions: {
         week: 'Week',
         month: 'Month',
@@ -363,6 +344,9 @@ export default {
         ],
       }
     },
+    isDataEmpty(){
+      return this.dataGraph.every(item => !item )
+    }
   },
   mounted() {
     this.handleFilterByChangeTotalSale('month')

@@ -5699,7 +5699,30 @@
     "sku": "SKU",
     "colorway": "Colorway",
     "box_condition": "Box Condition",
-    "fedex": "FedEx"
+    "fedex": "FedEx",
+    "breakdown": {
+      "export": "Export to CSV",
+      "percentage": "Percentage Breakdown",
+      "statistics": "Statistics",
+      "select_all": "Select All",
+      "clear_all": "Clear All",
+      "tabs": {
+        "category": "Categories",
+        "brand": "Brands",
+        "product": "Products"
+      },
+      "table": {
+        "product": "Product",
+        "category": "Category",
+        "brand": "Brand",
+        "items_sold": "Items Sold",
+        "price_premium": "Price Premium",
+        "avg_sale_price": "Avg. Sale Price",
+        "sales": "Sales ($)"
+      },
+      "premium_info": "Price premium is the percentage in which the selling price has exceeded or fallen short of the retail price.",
+      "sales": "Sales Breakdown"
+    }
   },
   "notifications": {
     "title": "Notifications",
