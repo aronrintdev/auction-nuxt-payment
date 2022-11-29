@@ -322,7 +322,7 @@
     "private_policy": "Private Policy",
     "privacy_policy": "Privacy Policy",
     "please_wait": "Please wait",
-    "create_your_account": "Create your Account \n with Dead Stock",
+    "create_your_account": "Create an Account!",
     "face_id": "Allow Face ID Sign In",
     "touch_id": "Allow Touch ID",
     "touch_id_icon": "Touch ID",
@@ -1552,6 +1552,7 @@
     "image": {
       "not_found": "Product image is not found"
     },
+    "please_select_offer_duration": "Please select your offer duration",
     "standard": "Standard",
     "inches": "Inches",
     "runs_small": "Runs Small",
@@ -1569,6 +1570,7 @@
     "place_offer": "Place Offer",
     "or_sell_now": "or Sell Now",
     "sell_for": "Sell for {amount}",
+    "place_offer_for": "Place Offer for {amount}",
     "read_more": "Read More",
     "read_less": "Read Less",
     "pre_authenticated_ships_instantly": "Pre - authenticated, ships instantly",
@@ -1578,7 +1580,8 @@
     "all_sizes": "All Sizes",
     "box_condition": "Box Condition",
     "box_conditions": {
-      "good_condition": "Excellent",
+      "excellent": "Excellent",
+      "good_condition": "Good Condition",
       "damaged_box": "Damaged Box",
       "missing_lid": "Missing Lid",
       "no_original_box": "No Original Box",
@@ -1622,6 +1625,7 @@
     "select_size": "Select Size",
     "error": {
       "select_size": "Please select a size above to add to cart",
+      "select_offer_duration": "Please select a an offer duration",
       "select_size_to_offer": "Please select a size above to make an offer",
       "out_of_stock": "Unfortunately, this item and size is currently out of stock!",
       "out_of_stock_place_offer": "Item out of stock, place offer or get notified",
@@ -5225,11 +5229,11 @@
     "edit_offer_amount": "Edit offer amount",
     "edit_offer_delete": "Delete Offer",
     "placed_offers_product_summary": "Product Summary",
-    "placed_offers_your_placed_offers": "Your Placed Offers",
+    "placed_offers_your_placed_offers": "Your Placed",
     "responsive_heading": "Offers",
     "responsive_detailed_heading": "Offer",
     "highest_offer": "Highest Offer",
-    "your_placed_offers": "Your Placed Offers ({count})",
+    "your_placed_offers": "Your Offers Placed ({count})",
     "table": {
       "products": "Products",
       "offer_amount": "Offer Amount",

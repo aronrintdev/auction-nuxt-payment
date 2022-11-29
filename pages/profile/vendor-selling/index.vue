@@ -314,7 +314,7 @@
             />
           </template>
           <infinite-loading
-            v-if="!loading"
+            v-if="!loading && isScreenXS"
             :identifier="infiniteId"
             @infinite="infiniteHandler"
           >

@@ -83,6 +83,7 @@
   </div>
 </template>
 <script>
+import debounce from 'lodash.debounce'
 import { mapActions } from 'vuex'
 import CloseIcon from '~/assets/img/icons/close.svg?inline'
 import { Button, SearchInput } from '~/components/common'
@@ -143,7 +144,7 @@ export default {
       setProductFilter: 'auction/setProductFilter',
     }),
 
-    async handleSearchChange(value) {
+    handleSearchChange: debounce( async function (value) {
       this.searchKeyword = value
       if (value) {
         this.searchedProducts = await this.searchProducts({
@@ -153,7 +154,7 @@ export default {
       } else {
         this.searchedProducts = []
       }
-    },
+    }, 500),
 
     async fetchPopularProducts() {
       this.popularProducts = await this.searchProducts({
@@ -321,7 +322,7 @@ export default {
           button
             margin: 15px 20px 0 0
 .product-img
-  width: 39px 
+  width: 39px
   height: 39px
 .close-icon
   margin-top: 20px

@@ -32,7 +32,7 @@
       <!-- Info Message Text -->
       <b-row v-if="! isAuthenticated" class="info-text-wrapper">
         <b-col cols="12" sm="12">
-          <div class="body-13-medium">{{ $t('home.deadstock_app_buy_sell_trade') }}</div>
+          <div class="body-8-medium">{{ $t('home.deadstock_app_buy_sell_trade') }}</div>
         </b-col>
       </b-row>
       <!-- End of Info Message Text -->

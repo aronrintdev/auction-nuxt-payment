@@ -82,6 +82,12 @@
       <!-- ./Product Details -->
 
       <!-- Offer Amount -->
+      <template #head(offer_amount)="data">
+        <div class="d-flex justify-content-end">
+          <span class="position-absolute pr-3">{{ $t(data.field.label) }}</span>
+          <img class="th-arrow" src="~/assets/img/icons/table-carot.svg" />
+        </div>
+      </template>
       <template #cell(offer_amount)="row">
         <div class="offer-amount text-center">
           <span v-if="!row.item.isEditing" @click="editAmount(row.item)"
@@ -131,13 +137,27 @@
       </template>
       <!-- ./Offer Amount -->
 
+      <!-- Expires -->
+      <template #head(expires)="data">
+        <div class="d-flex">
+          <span>{{ $t(data.field.label) }}</span>
+          <img class="th-arrow" src="~/assets/img/icons/table-carot.svg" />
+        </div>
+      </template>
       <template #cell(expires)="row">
         <div class="expire-date">
           <span>{{ row.item.created_at | formatDate('DD/MM/YYYY') }}</span>
         </div>
       </template>
+      <!-- ./Expires -->
 
       <!-- Status -->
+      <template #head(status)="data">
+        <div class="d-flex">
+          <span>{{ $t(data.field.label) }}</span>
+          <img class="th-arrow" src="~/assets/img/icons/table-carot.svg" />
+        </div>
+      </template>
       <template #cell(status)="row">
         <div
           :class="`offer-status-${getStatus(row.item.status)}`"
@@ -149,6 +169,13 @@
         </div>
       </template>
       <!-- ./Status -->
+
+      <template #head(actions)="data">
+        <div class="d-flex">
+          <span>{{ $t(data.field.label) }}</span>
+          <img class="th-arrow" src="~/assets/img/icons/table-carot.svg" />
+        </div>
+      </template>
 
       <template #cell(actions)="row" class="text-center">
         <div class="action-col">
@@ -257,24 +284,24 @@ export default {
           key: 'offer_amount',
           label: this.$t('placed_offers.table.offer_amount'),
           thClass: 'text-center active-row',
-          sortable: true,
+          sortable: false,
         },
         {
           key: 'expires',
           label: this.$t('placed_offers.table.expires'),
-          sortable: true,
+          sortable: false,
           thClass: 'active-row',
         },
         {
           key: 'status',
           label: this.$t('placed_offers.table.status'),
-          sortable: true,
+          sortable: false,
           thClass: 'active-row',
         },
         {
           key: 'actions',
           label: this.$t('placed_offers.table.actions'),
-          sortable: true,
+          sortable: false,
           thClass: 'active-row',
         },
       ],
@@ -505,6 +532,9 @@ export default {
     max-width: 70%
 #editOffer
   width: 18rem
+.th-arrow
+  width: 9px
+  margin-left: 4px
 .offer-placed-table::v-deep
   .offer-table
     .table.b-table > thead > tr > [aria-sort=none]

@@ -7,7 +7,6 @@
             responsive
             :items="items"
             striped
-            :fields="fields"
             thead-class="d-none"
             borderless
           >
@@ -25,17 +24,17 @@
   </b-row>
 </template>
 <script>
-import { SIZE_GUIDE_ITEMS } from '~/static/constants/sizes'
+import { APPAREL_SIZE_GUIDE_ITEMS } from '~/static/constants/sizes'
 
 export default {
-  name: 'ProductSizeGuideShoe',
+  name: 'ProductSizeGuideApparel',
   props: {
     selectedSize: {
       type: Object,
       required: false,
       default() {
         return {}
-      }
+      },
     },
   },
   data() {
@@ -59,18 +58,15 @@ export default {
         's12',
         's13',
         's14',
-        's15',
-        's16',
-        's17',
       ],
-      items: SIZE_GUIDE_ITEMS,
+      items: APPAREL_SIZE_GUIDE_ITEMS,
     }
   },
   methods: {
     isSizeSelected(sizeKey) {
       return this.items.find(item => {
-        if (item.label_key === this.selectedSize.type) {
-          const sizes = Object.keys(item).length - 1
+        if (item.type === 'Standard') {
+          const sizes = Object.keys(item).length
 
           for (let i = 1; i < sizes ; i++) {
             if (item[`s${i}`] === this.selectedSize.size) {

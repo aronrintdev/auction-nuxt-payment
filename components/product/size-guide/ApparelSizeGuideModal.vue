@@ -15,7 +15,7 @@
 
       <div class="pb-3">
         <div class="overall-fit">
-          <img src="~/assets/img/icons/arcticons_tapemeasure.svg" />
+          <b-img src="~/assets/img/icons/arcticons_tapemeasure.svg" />
           <span class="ml-2">{{ $t('auctions.frontpage.overall_fit') }}</span>
         </div>
         <div class="d-flex px-30">
@@ -32,11 +32,10 @@
             <div class="line-label text-right">{{ $t('products.runs_large') }}</div>
           </div>
         </div>
-
         <div class="d-flex flex-column pb-3">
           <div class="table-header d-flex align-items-center justify-content-between">
             <div
-              v-for="(item, idx) in tableHeaders"
+              v-for="(item, idx) in fields"
               :key="idx"
               class="col"
             >
@@ -44,13 +43,13 @@
             </div>
           </div>
           <div
-            v-for="(row, i) in tableData"
+            v-for="(row, i) in items"
             :key="i"
             class="table-row d-flex align-items-center justify-content-between"
             :class="{
-              'bg-light-gray': i % 2 !== 0,
-              'row-active': findSelectedIndexRow(row)
-            }"
+            'bg-light-gray': i % 2 !== 0,
+            'row-active': isSizeSelected(row)
+          }"
           >
             <div
               v-for="(el, j) in row"
@@ -60,9 +59,7 @@
               {{ el }}
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
   </MobileBottomSheet>
@@ -70,15 +67,13 @@
 
 <script>
 import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
-import { SIZE_GUIDE_ITEMS } from '~/static/constants/sizes'
+import { APPAREL_SIZE_GUIDE_ITEMS } from '~/static/constants'
 
 export default {
-  name: 'SizeGuideModal',
-
+  name: 'ApparelSizeGuideModal',
   components: {
     MobileBottomSheet
   },
-
   props: {
     isOpen: {
       type: Boolean,
@@ -96,34 +91,34 @@ export default {
       }
     }
   },
+  computed: {
+    fields() {
+      return APPAREL_SIZE_GUIDE_ITEMS.map(item => item.type)
+    },
+    items() {
+      const items = []
+      const count = Object.keys(APPAREL_SIZE_GUIDE_ITEMS[0]).length
 
-  data() {
-    const tableData = []
-    const count = Object.keys(SIZE_GUIDE_ITEMS[0]).length
-    for (let i = 1; i < count; i++) {
-      const tmp = []
-      for (let j = 0; j < SIZE_GUIDE_ITEMS.length; j++) {
-        const item = SIZE_GUIDE_ITEMS[j][`s${i}`]
-        tmp.push(item)
+      // Transpose the array of object in the Apparel size guide items.
+      for (let i = 1; i < count; i++) {
+        const tmp = []
+
+        for (let j = 0; j < APPAREL_SIZE_GUIDE_ITEMS.length; j++) {
+          const item = APPAREL_SIZE_GUIDE_ITEMS[j][`s${i}`]
+          tmp.push(item)
+        }
+
+        items.push(tmp)
       }
-      tableData.push(tmp)
+
+      return items
     }
-    return {
-      tableHeaders: SIZE_GUIDE_ITEMS.reduce((acc, item) => {
-        acc.push(item.type)
-        return acc
-      }, []),
-      tableData,
-    };
   },
-
   methods: {
-    findSelectedIndexRow(row) {
-      if (this.selectedSize.size === row[0]) {
-        return true
-      }
+    isSizeSelected(sizeRow) {
+      return sizeRow[0] === this.selectedSize.size
     }
-  }
+  },
 }
 </script>
 

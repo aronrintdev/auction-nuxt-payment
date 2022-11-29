@@ -12,8 +12,10 @@
 </template>
 
 <script>
+import MobileSearchCarousel from '~/components/browse/MobileSearchCarousel'
 export default {
   name: 'SizeType',
+  components: { MobileSearchCarousel },
   data() {
     return {
       sizeType: [
