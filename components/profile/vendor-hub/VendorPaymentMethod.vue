@@ -200,5 +200,5 @@ export default {
 .mobile-add-payout
   position: absolute
   right: 16px
-  bottom: 200px
+  bottom: 110px
 </style>
