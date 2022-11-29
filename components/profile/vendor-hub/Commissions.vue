@@ -635,8 +635,10 @@ export default {
 .apply-button.btn
   width: max-content
   font-weight: $normal
-  background-color: $color-blue-2
+  background-color: $color-blue-20
   border: none
+  &:hover
+    background-color: rgba($color-blue-20, .9)
 
 ::v-deep
   .custom-control-input:checked
