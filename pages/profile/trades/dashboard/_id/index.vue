@@ -805,12 +805,9 @@ export default {
 .pro-image-sm
   height: 100%
 .item-caption
-  //background: $color-gray-1
-  padding-left: unset
 .item-caption
-  //background: $color-white-1
+  padding-left: unset
   padding: 5px 0
-
 
 .center-item-sm
   min-width: 10px
