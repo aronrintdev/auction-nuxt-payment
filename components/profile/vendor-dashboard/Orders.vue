@@ -189,7 +189,7 @@
               "
               class="text-capitalize status body-13-normal mb-0"
             >
-              {{ data.item.status_label }}
+              {{ getLabelForStatus(data.item.status, 'vendor') }}
             </h4>
           </div>
         </template>
@@ -292,11 +292,12 @@ import NavGroup from '~/components/common/NavGroup.vue'
 import screenSize from '~/plugins/mixins/screenSize'
 import { AWAITING_SHIPMENT_TO_DEADSTOCK, PROCESSING } from '~/static/constants'
 import Loader from '~/components/common/Loader'
+import orderStatus from '~/plugins/mixins/order-status';
 
 export default {
   name: 'TopOrdersTable',
   components: { Loader, NavGroup, ProductThumb },
-  mixins: [screenSize],
+  mixins: [screenSize, orderStatus],
   data() {
     return {
       PROCESSING,
@@ -361,6 +362,12 @@ export default {
           thClass: 'text-nowrap text-center body-4-bold',
         },
       ],
+      orderStatuses: Object.keys(this.$t('orders.order_statuses')).map(a => {
+        return {
+          text: this.$t('orders.order_statuses.' + a),
+          value: a
+        }
+      }),
       loading: false,
       orderByField: 'id',
       orderByDirection: 'asc',

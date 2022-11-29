@@ -87,6 +87,7 @@ export default {
     }
     this.$store.dispatch('notifications/getNotifications')
     this.$store.dispatch('notifications/getUnreadCount')
+    this.$store.dispatch('order-settings/fetchOrderStatuses')
     enquireScreenSizeHandler((type) => {
       this.$store.commit('size/setScreenType', type)
     })
@@ -112,7 +113,7 @@ export default {
 
 .bg-grayish
   background-color: $color-white-5 !important
-  
+
 .wrapper
   .custom-wrapper
     overflow: hidden

@@ -116,7 +116,7 @@
                     "
                     class="text-capitalize status body-13-normal"
                   >
-                    {{ row.order_status }}
+                    {{ getLabelForStatus(row.order_status) }}
                   </h4>
                 </div>
               </div>
@@ -218,9 +218,14 @@
                 {{ $t('vendor_dashboard.status') }}:
               </h6>
               <h6
-                class="mb-0 fs-12 fw-5 font-primary text-warning w-fit-content text-capitalize"
+                  :class="
+                      styleFor(row.order_status) +
+                      ` ${mobileClass}` +
+                      `${isScreenXS ? 'text-nowrap' : ''}`
+                    "
+                class="mb-0 status font-primary body-9-normal text-capitalize"
               >
-                {{ row.order_status }}
+                {{ getLabelForStatus(row.order_status) }}
               </h6>
             </div>
             <div class="d-flex info-row px-3 py-1 justify-content-between">
@@ -266,9 +271,10 @@
 import NavGroup from '~/components/common/NavGroup.vue'
 import ProductThumb from '~/components/product/Thumb.vue'
 import screenSize from '~/plugins/mixins/screenSize'
+import orderStatus from '~/plugins/mixins/order-status';
 export default {
   components: { ProductThumb, NavGroup },
-  mixins: [screenSize],
+  mixins: [screenSize, orderStatus],
   data() {
     return {
       purchases: [],
@@ -376,7 +382,24 @@ export default {
       &.active
         font-weight: $medium
 
-.awaiting
+.status
+  &.mobile
+    border: none
+    box-shadow: none
+    filter: none
+    text-align: right
+
+  &:not(.mobile)
+    padding: 11px 30px
+    border-radius: 4px
+    width: 141px
+    height: 61px
+    display: flex
+    align-items: center
+    justify-content: center
+    border: none
+
+.status.awaiting
   color: $color-red-20
 
   &:not(.mobile)
