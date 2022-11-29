@@ -1,10 +1,17 @@
 <template>
   <div v-if="isScreenXS">
     <div class="initial-listing">
-      <div class="justify-content-center listing-heading pt-4 ml-3">{{$t('trades.initial_listing')}}</div>
-      <b-row class="justify-content-center mt-3">
-        <offer-items v-if="initialWantsItems && initialWantsItems.length > 0" :offerItems="initialWantsItems" :heading="$t('trades.your_listed_items')"/>
-      </b-row>
+      <div class="justify-content-center listing-heading pt-4">
+        {{ $t('trades.initial_listing') }}
+      </div>
+      <div class="d-flex justify-content-center mt-3">
+        <offer-items 
+          v-if="initialWantsItems && initialWantsItems.length > 0" 
+          :offerItems="initialWantsItems" 
+          :heading="$t('trades.your_listed_items')"
+          class="w-100"
+        />
+      </div>
     </div>
   </div>
   <div v-else>
@@ -75,6 +82,7 @@ export default {
 .initial-listing
   background: $color-white-1
   border-radius: 10px
+  padding: 0 25px 15px 25px
   @media (min-width: 576px)
     padding: 30px 49px
 
