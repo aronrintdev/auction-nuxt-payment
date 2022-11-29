@@ -631,7 +631,7 @@ export default {
         shippingFee: this.getShippingFee,
         tax: this.getTax,
         subTotal: this.getSubtotalAfterInstantShip,
-        total: Math.ceil(this.$options.filters.formatPrice(this.getTotal)),
+        total: this.getTotal,
         promoCode: this.promoCode ? this.promoCode.code : '',
         giftCardNumber: this.giftCard ? this.giftCard.number : '',
         giftCardAmount: this.giftCard ? this.giftCard.amount : 0,
