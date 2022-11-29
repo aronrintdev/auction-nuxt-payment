@@ -944,8 +944,12 @@ export default {
   @include body-9
 
 .bg-blue-2.btn
-  background: $color-blue-2
-  border: 1px solid $color-blue-2
+  background: $color-blue-20
+  border: 1px solid $color-blue-20
+
+  &:hover
+    background: rgba($color-blue-20, .9)
+    border: 1px solid rgba($color-blue-20, .9)
 
 .m-40
   margin-left: 40px
