@@ -385,7 +385,7 @@ export default {
       }
     }
     await this.selectWishList(this.wishLists[0])
-    this.url = `wish-lists/${this.currentWishList.id}/items?page=1&per_page=${this.perPage}`
+    this.url = `wish-lists/${this.currentWishList?.id}/items?page=1&per_page=${this.perPage}`
   },
 
   methods: {

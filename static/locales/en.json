@@ -2160,6 +2160,7 @@
     "move_to_list": "Move to {list}",
     "share_description": "Wishlist products from deadstock.co",
     "inspired_by_you": "Inspired By Your List",
+    "invalid_data": "The given data is invalid.",
     "categories": {
       "all": "All",
       "footwear": "Footwear",
