@@ -8,14 +8,9 @@
     </div>
 
     <div class="auction-items d-flex  align-items-center " :class="selectedAuctionItems.length>0? ' justify-content-between ' : ' justify-content-around '">
-      <div v-if="selectedAuctionItems.length===0" class="d-flex flex-column justify-content-between align-items-center">
-          <h3>{{ $t('create_listing.confirm.no_item_found') }}</h3>
-          <Button
-            variant="outline-primary"
-            pill
-            @click="$router.push({path: '/profile/create-listing'})"
-          >{{ $t('create_listing.confirm.create_auction') }}</Button
-          >
+      <div v-if="selectedAuctionItems.length===0" class="py-5 d-flex flex-column justify-content-between align-items-center">
+          <h4 class="d-none d-md-block">{{ $t('create_listing.confirm.no_item_found') }}</h4>
+          <h6 class="d-md-none">{{ $t('create_listing.confirm.no_item_found') }}</h6>
       </div>
       <b-row v-else class="w-100 h-100 p-0 m-0">
         <b-col v-for="(item, index) in selectedAuctionItems" :key="index" class="auction-item d-flex justify-content-around mb-3 mb-md-4" cols="12" sm="12"  lg="6">
@@ -89,25 +84,29 @@
       centered
       no-header-border
       no-footer-border
+      noBorder
+      rounded
       hide-footer
     >
       <template  #default>
-        <div class="px-5">
+        <div class="px-5 mx-3 mt-n3 mb-2">
           <b-row class="mb-4">
             <b-col md="12" >
               {{ $t('create_listing.confirm.delete_text') }}
             </b-col>
           </b-row>
-          <b-row class="d-flex justify-content-around">
+          <b-row class="d-flex justify-content-between">
             <Button
               variant="primary"
               pill
+              class="dark-blue-fill-btn mr-4 flex-grow-1"
               @click="deleteSingeItemModalOk"
             >{{ $t('create_listing.confirm.delete') }}</Button
             >
             <Button
               variant="outline-dark"
               pill
+              class="flex-grow-1"
               @click="$bvModal.hide('delete-auction-item-modal')"
             >{{ $t('create_listing.confirm.cancel') }}</Button
             >
@@ -144,6 +143,32 @@
 
       </template>
     </Modal>
+    <vue-bottom-sheet ref="deleteItemSheet">
+      <div class="d-flex flex-column h-100 filters-sheet">
+        <div class="flex-shrink-1 overflow-auto filters-sheet-content">
+          <div class="text-center mb-4">{{ $t('create_listing.confirm.delete_text') }}</div>
+          <div class="text-center mb-3">
+            <Button
+              variant="primary"
+              pill
+              class="dark-blue-fill-btn px-5"
+              @click="deleteSingeItemModalOk"
+            >
+            {{ $t('create_listing.confirm.delete') }}
+            </Button>
+          </div>
+          <div class="text-center mb-3">
+            <Button
+              variant="link"
+              pill
+              @click="$refs.deleteItemSheet.close()"
+            >
+              {{ $t('create_listing.confirm.cancel') }}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </vue-bottom-sheet>
   </b-container>
 </template>
 
@@ -158,6 +183,7 @@ import {
 } from '~/components/common'
 import AuctionItem from '~/components/createListing/AuctionItem';
 import { SELLER_FEE, TRANSACTION_FEE } from '~/static/constants';
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'CreateListingConfirm',
@@ -166,7 +192,7 @@ export default {
     Modal,
     Button
   },
-  mixins: [auctionValidation],
+  mixins: [auctionValidation, screenSize],
   layout: 'Profile',
   data(){
     return {
@@ -185,6 +211,9 @@ export default {
   computed:{
     selectedAuctionItems(){
       return _.cloneDeep(this.$store.state['create-listing'].auctionItems)
+    },
+    isMobileSize() {
+      return this.isScreenXS || this.isScreenSM
     }
   },
   methods: {
@@ -205,7 +234,7 @@ export default {
     },
     deleteSingeItemModalOk(){
       this.$bvModal.hide('delete-auction-item-modal')
-      this.$bvModal.show('deleted-auction-item-modal')
+      this.$refs.deleteItemSheet.close()
       this.$store.commit('create-listing/setAuctionItems', this.selectedAuctionItems.filter((a, ind) => ind !==this.deletableItem.index))
     },
     deleteSingleItem(item,index){
@@ -213,7 +242,11 @@ export default {
         index,
         item
       }
-      this.$bvModal.show('delete-auction-item-modal')
+      if (this.isMobileSize) {
+        this.$refs.deleteItemSheet.open()
+      } else {
+        this.$bvModal.show('delete-auction-item-modal')
+      }
     },
     addMore(){
       this.$router.push({path: '/create-listing/search/inventory'})
@@ -337,6 +370,7 @@ export default {
     width: 100%
     padding: 18px 16px
     background: $white
+    z-index: 100
   .confirm-description
     background: $color-white-5
     padding: 6px 16px
@@ -350,4 +384,10 @@ export default {
     text-align: center
     width: 660px
     color: $black
+.dark-blue-fill-btn.btn
+  background: $color-blue-20
+  border-color: $color-blue-20
+  &:hover
+    background: $color-blue-19
+    border-color: $color-blue-19
 </style>
