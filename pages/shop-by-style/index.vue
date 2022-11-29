@@ -190,7 +190,7 @@ export default {
   grid-template-columns: repeat(5, 182px)
   @media (max-width: 576px)
     margin: 0 16px
-    grid-template-columns: repeat(3, 127px)
+    grid-template-columns: repeat(3, 114px)
 .mt-10
   margin-top: 10px
 .w-345
@@ -222,6 +222,9 @@ export default {
     > div
       .style-card
         margin-bottom: 20px
+@media (min-width: 768px)
+  .mobile-styles
+    margin-bottom: 20px
 
 @media (max-width: 768px)
   .container-shop-by-style

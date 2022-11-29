@@ -159,6 +159,7 @@
               class="action-btns w-100"
             >
               <div>
+                <p v-if="currentListingItem" class="text-center lowest-price mb-1"><span class="total-price">${{ currentListingItem.inventory.sale_price / 100 }}</span> {{ $t('shop_by_style.4_installments') }} <span class="partial-price">of ${{ (currentListingItem.inventory.sale_price / 100) / 4 }}</span></p>
                 <Button
                   variant="dark"
                   block
@@ -687,5 +688,18 @@ export default {
   background: #FFFFFF
   box-shadow: 0px -0.1px 2px rgba(0, 0, 0, 0.25), 0px 1px 2px rgba(0, 0, 0, 0.25)
   border-radius: 8px
+.lowest-price
+  font-family: $font-montserrat
+  font-weight: $medium
+  font-size: 15px
+  color: $color-orange-11
+  letter-spacing: 0.02em
+  line-height: 18px
+  .total-price
+    color: $color-grey-101
+    line-height: 21px
+    font-size: 17px
+  .partial-price
+    font-weight: $regular
 
 </style>

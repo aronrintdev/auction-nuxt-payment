@@ -5192,7 +5192,8 @@
     "more_look": "More From This Look",
     "view_all": "View All",
     "style_id": "Style ID",
-    "package_condition": "Package Condition"
+    "package_condition": "Package Condition",
+    "4_installments": "or 4 Installments"
   },
   "coupons": {
     "errors": {
