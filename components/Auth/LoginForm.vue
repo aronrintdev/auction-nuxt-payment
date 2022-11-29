@@ -264,4 +264,7 @@ export default {
     margin: 0 auto
   .input-append
     border-right: none
+
+  .btn.btn-confirm.btn-disabled
+    background: $color-black-1
 </style>

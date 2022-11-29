@@ -6,7 +6,7 @@
           <div class="">
             <div class="d-flex justify-content-between">
               <div class="expire-trade-id-small">
-                {{ $t('trades.trade_id') }} #{{ trade.id }}  
+                {{ $t('trades.trade_id') }} #{{ trade.id }}
               </div>
               <div class="new-offers d-flex align-items-center">
                 <div class="red-circle rounded-circle mr-2"></div>
@@ -20,24 +20,24 @@
           <div>
             <offer-items :offerItems="trade.offers"/>
           </div>
-          <div class="d-flex mt-4 justify-content-around">
-            <b-btn 
-              v-if="!isDelistedTrade(trade) && !blockTrade(trade)" 
-              class="list-btn" 
+          <div class="d-flex mt-4 pb-2 justify-content-around">
+            <b-btn
+              v-if="!isDelistedTrade(trade) && !blockTrade(trade)"
+              class="list-btn"
               @click="$bvModal.show('delist-offer')"
             >
               {{ $t('trades.delist') }}
             </b-btn>
-            <b-btn 
+            <b-btn
               v-if="isDelistedTrade(trade)"
-              class="list-btn" 
+              class="list-btn"
               @click="$bvModal.show('relist-trade')"
-            > 
+            >
               {{ $t('trades.relist')}}
             </b-btn>
-            <b-btn 
-              v-if="!isDelistedTrade(trade) && !blockTrade(trade)" 
-              class="edit-btn" 
+            <b-btn
+              v-if="!isDelistedTrade(trade) && !blockTrade(trade)"
+              class="edit-btn"
               @click="$bvModal.show('edit-trade')"
             >
               {{ $t('common.edit') }}
@@ -191,7 +191,6 @@ export default {
   width: 174px
 .list-btn
   height: 16px
-  width: 39px
   color: $color-blue-5
   font-family: $font-family-montserrat
   font-style: normal

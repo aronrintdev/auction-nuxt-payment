@@ -2,14 +2,15 @@
   <div class="trade-carousel-wrapper">
     <client-only>
       <Carousel
-        :loop="true"
+        :loop="false"
+        :showArrows="true"
         :nav="true"
         :center="true"
         :margin="10"
         :responsive="{
           0: { items: 1, nav: false, center: true },
         }"
-        :mouse-drag="false"
+        :mouse-drag="true"
         :dots="false"
         class="carousel"
       >
@@ -89,27 +90,7 @@ export default {
 
 .trade-carousel-wrapper
   padding: 0
-.text-created
-  font-family: $font-family-montserrat
-  font-style: normal
-  font-weight: $medium
-  @include body-18
-  line-height: 12px
-.btn-expire
-  width: 95px
-  height: 25px
-  position: relative
-  top: 10px
-  left: 5px
-.gray
-  background-color: $dark-gray-8
-  color: $color-black-1
-.red
-  background-color: $color-red-24
-  color: $color-white-1
-.clock-image
-  height: 20px
-  width: 20px
+
   .carousel::v-deep
     width: 100%
     padding: 0 58px
@@ -144,6 +125,32 @@ export default {
       &.owl-prev
         float: left
         margin-left: -50px !important
+
+.text-created
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $medium
+  @include body-18
+  line-height: 12px
+
+.btn-expire
+  width: 95px
+  height: 25px
+  position: relative
+  top: 10px
+  left: 5px
+
+.gray
+  background-color: $dark-gray-8
+  color: $color-black-1
+
+.red
+  background-color: $color-red-24
+  color: $color-white-1
+
+.clock-image
+  height: 20px
+  width: 20px
 
 .browse-trade
   background: $color-white-1
