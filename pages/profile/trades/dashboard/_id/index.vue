@@ -22,7 +22,7 @@
               {{ $t('vendor_purchase.yours') }}
             </div>
           </div>
-          <div class="mb-3 row justify-content-between px-29">
+          <div class="row justify-content-between px-29">
             <div 
               class="col-5 d-flex flex-column align-items-center justify-content-center z-10"
               :class="{
@@ -46,34 +46,41 @@
                 </div>
               </div>
             </div>
-            <div class="col-2 d-flex flex-column align-items-center justify-content-center h-70">
+            <div 
+              class="col-2 d-flex flex-column align-items-center justify-content-center"
+            >
 
-              <div class="position-relative d-flex w-100 justify-content-center">
+              <div class="position-relative d-flex w-100 justify-content-center"
+                :class="{
+                  'h-70': lastSubmittedOffer.theirs_items.length > ONE_ITEM || 
+                          lastSubmittedOffer.yours_items.length > ONE_ITEM
+                }"
+              >
                 <div 
                   v-if="lastSubmittedOffer.theirs_items.length > ONE_ITEM" 
                   class="pointer-left-sm" 
-                />
+                ></div>
                 <div 
                   v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" 
                   class="pointer-right-sm" 
-                />
+                ></div>
                 <div class="position-absolute bg-white pt-1 pb-2 bottom-45">
-                    <div class="fair-text-sm">{{ $t('trades.fair') }}</div>
-                    <div class="d-flex align-items-center">
-                      <div 
-                        v-if="lastSubmittedOffer.theirs_items.length === THREE_ITEMS || 
-                              lastSubmittedOffer.theirs_items.length === ONE_ITEM" 
-                        class="line-bar-sm"
-                      />
-                      <div v-else class="slot-line" />
-                      <img class="trade-img-sm mx-2" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
-                      <div 
-                        v-if="lastSubmittedOffer.yours_items.length === THREE_ITEMS || 
-                              lastSubmittedOffer.yours_items.length === ONE_ITEM" 
-                        class="line-bar-sm"
-                      />
-                      <div v-else class="slot-line" />
-                    </div>
+                  <div class="fair-text-sm">{{ $t('trades.fair') }}</div>
+                  <div class="d-flex align-items-center">
+                    <div 
+                      v-if="lastSubmittedOffer.theirs_items.length === THREE_ITEMS || 
+                            lastSubmittedOffer.theirs_items.length === ONE_ITEM" 
+                      class="line-bar-sm"
+                    />
+                    <div v-else class="slot-line" />
+                    <img class="trade-img-sm mx-2" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
+                    <div 
+                      v-if="lastSubmittedOffer.yours_items.length === THREE_ITEMS || 
+                            lastSubmittedOffer.yours_items.length === ONE_ITEM" 
+                      class="line-bar-sm"
+                    />
+                    <div v-else class="slot-line" />
+                  </div>
 
                 </div>
                 

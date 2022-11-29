@@ -20,9 +20,9 @@
           <offer-items v-if="isOfferMine(offer) && offer.yours_items && offer.yours_items.length > 0" :offerItems="offer.yours_items" marginItems="mr-3"/>
           <offer-items v-if="!isOfferMine(offer) && offer.theirs_items && offer.theirs_items.length > 0" :offerItems="offer.theirs_items" marginItems="mr-3"/>
         </div>
-        <b-row v-if="offer.cash_added" class="justify-content-end pr-5 pt-3 pb-3">
-          <b-col class="request-amount-mobile d-flex justify-content-center align-content-center ml-4 mt-2">
-            <img class="mr-2 dollar-img mt-1" :src="require('~/assets/img/dollar.svg')">
+        <div v-if="offer.cash_added" class="d-flex justify-content-center pt-3">
+          <div class="request-amount-mobile d-flex justify-content-center align-items-center mt-2">
+            <img class="mr-2 dollar-img" :src="require('~/assets/img/dollar.svg')">
             <span v-if="isOfferMine(offer) && cashRequested(offer)" class="amount-text" v-html="$t('trades.you_requested',{0: convertCashToDollars(offer.cash_added)})"></span>
             <span v-if="isOfferMine(offer) && !cashRequested(offer)" class="amount-text" v-html="$t('trades.you_added',{0: convertCashToDollars(offer.cash_added)})"></span>
             <span v-if="!isOfferMine(offer) && !cashRequested(offer)" class="amount-text" v-html="$t('trades.they_offered_amount',{0: convertCashToDollars(offer.cash_added)})"></span>
@@ -30,8 +30,8 @@
             <sup>
               <img class="ml-3 mt-2" :src="require('~/assets/img/info.svg')">
             </sup>
-          </b-col>
-        </b-row>
+          </div>
+        </div>
       </div>
       <div 
         class="offer-history-mobile mt-3" 
@@ -49,9 +49,9 @@
           <offer-items v-if="isOfferMine(offerHistory) && offerHistory.yours_items && offerHistory.yours_items.length > 0" :offerItems="offerHistory.yours_items" marginItems="mr-3" class="w-100" />
           <offer-items v-if="!isOfferMine(offerHistory) && offerHistory.theirs_items && offerHistory.theirs_items.length > 0" :offerItems="offerHistory.theirs_items" marginItems="mr-3" class="w-100" />
         </div>
-        <b-row v-if="offerHistory.cash_added" class="justify-content-end pr-5 pt-3 pb-3">
-          <b-col class="request-amount-mobile  d-flex justify-content-center align-content-center ml-4 mt-2">
-            <img class="mr-2 dollar-img mt-1" :src="require('~/assets/img/dollar.svg')">
+        <div v-if="offerHistory.cash_added" class="d-flex justify-content-center pt-3">
+          <div class="request-amount-mobile d-flex justify-content-center align-items-center mt-2">
+            <img class="mr-2 dollar-img" :src="require('~/assets/img/dollar.svg')">
             <span v-if="isOfferMine(offerHistory) && cashRequested(offerHistory)" class="amount-text" v-html="$t('trades.you_requested',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
             <span v-if="isOfferMine(offerHistory) && !cashRequested(offerHistory)" class="amount-text" v-html="$t('trades.you_added',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
             <span v-if="!isOfferMine(offerHistory) && !cashRequested(offerHistory)" class="amount-text" v-html="$t('trades.they_offered_amount',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
@@ -59,18 +59,18 @@
             <sup>
               <img class="ml-3 mt-2" :src="require('~/assets/img/info.svg')">
             </sup>
-          </b-col>
-        </b-row>
+          </div>
+        </div>
       </div>
     </div>
     <div v-else>
       <div 
         v-for="(offer) in offerHistory.offer_history" 
         :key="'offer-history-'+ offer.id" 
-        class="offer-history col-12 col-lg-10 col-xl-7 pb-4" 
-        :class="'background-' + (isOfferMine(offer) ? 'blue mt-4' : 'white ml-auto')"
+        class="offer-history col-12 col-lg-10 col-xl-7 pb-4 mt-4" 
+        :class="'background-' + (isOfferMine(offer) ? 'blue' : 'white ml-auto')"
       >
-        <b-row class="justify-content-between pt-4 pl-4 pr-4">
+        <b-row class="justify-content-between">
           <b-col class="history-heading">
             {{ getOfferTitle(offer) }}
           </b-col>
@@ -104,8 +104,12 @@
         </div>
       </div>
       <div 
-        class="mt-4 offer-history col-12 col-lg-10 col-xl-7 ml-auto pb-2" 
-        :class="[isOfferMine(offerHistory) ? 'blue-theme' : 'white-theme', offerHistoryClass]"
+        class="mt-4 offer-history col-12 col-lg-10 col-xl-7 pb-2" 
+        :class="[
+          isOfferMine(offerHistory) ? 'blue-theme' : 'white-theme',
+          isLastOfferMine ? 'ml-auto' : '',
+          offerHistoryClass
+        ]"
       >
         <b-row class="justify-content-between align-items-center">
           <b-col class="history-heading">
@@ -115,10 +119,10 @@
             {{ offerHistory.created_at | formatDateTimeString }}
           </b-col>
         </b-row>
-        <div v-if="!isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-3">
+        <div v-if="!isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-2">
           {{ $t('trades.they_offered') }}
         </div>
-        <div v-else-if="isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-3">
+        <div v-else-if="isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-2">
           {{ $t('trades.you_asking_for') }}
         </div>
         <b-col class="row justify-content-center px-54 pt-2 pb-4 m-0">
@@ -188,8 +192,16 @@ export default {
     }
   },
   mounted() {
-    console.log('offerHistory', this.offerHistory);
     this.width = window.innerWidth
+  },
+  computed: {
+    isLastOfferMine() {
+      const offer = this.offerHistory.offer_history[this.offerHistory.offer_history.length - 1]
+      if (offer) {
+        return this.isOfferMine(offer)
+      }
+      return false
+    }
   },
   methods: {
     cashRequested(offer){
@@ -293,6 +305,7 @@ export default {
   padding-left: 54px
 .request-amount-mobile
   width: 225px
+  height: 30px
   border-radius: 4px
   background: $color-white-4
 .dollar-img
