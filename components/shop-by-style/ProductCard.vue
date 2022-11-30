@@ -166,7 +166,7 @@
                   border="thick"
                   :disabled="addingToCart"
                   class="mx-auto"
-                  @click="handleAddToCartClick"
+                  @click="handleAddToCartClick('web', product.id)"
                 >
                   <div class="d-flex justify-content-center">
                     <div>
@@ -190,7 +190,7 @@
           </div>
         </div>
       </div>
-      <AlertModal id="message-modal" :message="message" icon="tick" />
+      <AlertModal :id="`message-modal-web-${product.id}`" :message="message" icon="tick" />
     </div>
     <div class="d-block d-sm-none">
       <div class="d-flex">
@@ -373,13 +373,14 @@
               class="action-btns w-100"
             >
               <div>
+                <p v-if="currentListingItem" class="text-center lowest-price mb-1"><span class="total-price">${{ currentListingItem.inventory.sale_price / 100 }}</span> {{ $t('shop_by_style.4_installments') }} <span class="partial-price">of ${{ (currentListingItem.inventory.sale_price / 100) / 4 }}</span></p>
                 <Button
                   variant="dark"
                   block
                   border="thick"
                   :disabled="addingToCart"
                   class="mx-auto"
-                  @click="handleAddToCartClick"
+                  @click="handleAddToCartClick('mobile', product.id)"
                 >
                   <div class="d-flex justify-content-center">
                     <div>
@@ -415,7 +416,7 @@
           {{ $t('shop_by_style.view_all') }}
         </p>
       </div>
-      <AlertModal id="message-modal" :message="message" icon="tick" />
+      <AlertModal :id="`message-modal-${product.id}`" :message="message" icon="tick" />
     </div>
   </div>
 </template>
@@ -660,20 +661,24 @@ export default {
       }
     },
 
-    handleAddToCartClick() {
+    handleAddToCartClick(device = 'web', id = 0) {
       this.resetError()
       if (!this.currentSize) {
         return (this.error.addToCart = this.$t('products.error.select_size'))
       }
-
       this.addingToCart = true
       this.$store.dispatch('shopping-cart/addProduct', this.getCartProduct())
-      this.showMessageModal(
-        this.$t('products.message.added_to_cart', {
-          productName: this.products.name,
-        }),
-        () => (this.addingToCart = true)
-      )
+      if(device !== 'mobile') {
+        this.message = this.$t('products.message.added_to_cart', {
+            productName: this.products.name,
+        })
+        this.$bvModal.show('message-modal-'+id)  
+      } else {
+        this.message = this.$t('products.message.added_to_cart', {
+            productName: this.products.name,
+        })
+        this.$bvModal.show('message-modal-web-'+id)
+      }
     },
   },
 }
