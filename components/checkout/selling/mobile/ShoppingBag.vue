@@ -111,11 +111,6 @@ export default {
       return '(' + vm.getTotalQuantity + ' ' + vm.$tc('shopping_cart.item', vm.getTotalQuantity) + ')'
     },
   },
-  mounted() {
-    if (this.getTotalQuantity) {
-      this.$root.$emit('hide-footer', { hideFooter: true })
-    }
-  },
   methods: {
     ...mapActions({
       addPromoCode: 'order-details/addPromoCode',
