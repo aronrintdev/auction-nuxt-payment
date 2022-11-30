@@ -1774,7 +1774,6 @@ export default {
   width: 120px
   height: 112.4px
 .item-caption
-  //background: $color-gray-1
   padding-left: unset
 .color-blue
   color: $color-blue-20

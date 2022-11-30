@@ -1,14 +1,14 @@
 <template>
   <b-container fluid class="position-relative container-auction-search h-100" >
-    <div class="d-none d-md-flex justify-content-between align-items-center">
+    <div class="d-none d-sm-flex justify-content-between align-items-center">
       <h2 class="title">{{ selectedAuctionTypeTitle }}</h2>
     </div>
-    <div class="d-none d-md-flex justify-content-between align-items-start">
+    <div class="d-none d-sm-flex justify-content-between align-items-center">
       <div class="position-relative w-100">
         <SearchInput
           :value="searchText"
           :placeholder="$t('inventory.search_placeholder')"
-          class="flex-grow-1 mr-5"
+          class="flex-grow-1 mr-3"
           :class="{'show-results': !inventories.length && inventoryProducts.length > 0}"
           :debounce="1000"
           inputHeight="46px"
@@ -39,7 +39,7 @@
     </div>
     <!-- Mobile search box -->
     <inventory-listing-filters :isCollection="selectedAuctionType === AUCTION_TYPE_COLLECTION"></inventory-listing-filters>
-    <div class="bg-white inventories-wrapper">
+    <div class="mt-3 inventories-wrapper">
 
       <div class="d-flex flex-row flex-md-column justify-content-between align-items-center align-items-md-start">
         <h2 class="inventories-wrapper-title">{{ $t('selling_page.inventory') }} ({{ totalCount }} {{$t('common.results')}})</h2>
@@ -47,51 +47,61 @@
         <h6 v-else class="title d-none d-md-block">{{ $t('create_listing.search.description') }}</h6>
       </div>
 
-      <div class="d-none d-md-flex justify-content-between align-items-center">
-        <div class="d-flex justify-content-between align-items-center">
-
+      <div class="d-none d-sm-flex row justify-content-between align-items-center flex-wrap">
+        <div class="col-6 col-xl-2">
           <CustomDropdown
             v-model="categorySelect"
             :options="CATEGORIES"
             type="single-select"
             :label="categoryFilterLabel"
-            class="categories-selector mr-4"
+            class="categories-selector w-100"
             optionsWidth="custom"
-            width="150px"
             dropDownHeight="38px"
+            :dropdownStyle="{ 
+              borderRadius: '0 0 4px 4px'
+            }"
+            borderRadiusClose="4px 4px 0 0"
             variant="white"
-            borderRadius="4"
-            borderRadiusClose="4"
+            borderRadius="4px"
             borderRadiusOptions="4"
             @change="handleCategorySelect"
           />
+        </div>
 
+        <div class="col-6 col-xl-2">
           <SelectWithCheckbox
-            class="mr-4 size-select-box dropdown-filters"
+            class="size-select-box dropdown-filters"
+            inputClass="w-100"
             :default="sizeTypeSelect"
             :options="SIZE_TYPES"
             :title="$t('auctions.frontpage.filterbar.size_type')"
             :updateFilters="activeSizeTypeFilters"
             @filters="typeFilters"
           />
+        </div>
 
+        <div class="mt-2 mt-xl-0 col-6 col-xl-2">
           <SelectWithCheckbox
-            class="mr-4 size-select-box dropdown-filters"
+            class="size-select-box dropdown-filters"
+            inputClass="w-100"
             :default="sizeSelect"
             :options="SIZES"
             :title="$t('heatcheck.size')"
             :updateFilters="activeSizeFilters"
             @filters="sizeFilters"
           />
+        </div>
 
+        <div class="mt-2 mt-xl-0 col-6 col-xl-2 d-flex justify-content-end justify-content-xl-start">
           <Button
             variant="primary"
             class="btn-filter px-2"
             @click="getInventories"
-          >{{ $tc('common.filter', 1) }}
+          >
+            {{ $tc('common.filter', 1) }}
           </Button>
         </div>
-        <div>
+        <div class="mt-2 mt-xl-0 col-12 col-xl-3">
           <FormDropdown
             id="sort-by"
             :value="sortBy"
@@ -169,26 +179,26 @@
         <b-row v-if="inventories.length === 0 && !loading" class="pt-md-5 d-flex justify-content-center align-items-center mx-auto w-50 text-center no-items-found">
           {{ $t('create_listing.no_items_found') }}
         </b-row>
-        <b-row v-else class="">
-            <b-col
-              v-for="inventory in inventories"
-              :key="`inventory-${inventory.id}`"
-              class="inventory-card "
-              :draggable="selectedAuctionType === AUCTION_TYPE_COLLECTION"
-              @dragstart="(evt) => dragStart(evt, inventory)"
-            >
-              <InventoryCard
-                :inventory="inventory"
-                :is-actions-visible="false"
-                :addable="selectedAuctionType === AUCTION_TYPE_COLLECTION"
-                :selectable="selectedAuctionType === AUCTION_TYPE_SINGLE"
-                :stock-visible="false"
-                :selected="!!selected.find((id) => id === inventory.id)"
-                @select="selectItem"
-                @add="addItem"
-              />
-            </b-col>
-        </b-row>
+        <div v-else class="d-flex flex-wrap">
+          <b-col
+            v-for="inventory in inventories"
+            :key="`inventory-${inventory.id}`"
+            class="inventory-card "
+            :draggable="selectedAuctionType === AUCTION_TYPE_COLLECTION"
+            @dragstart="(evt) => dragStart(evt, inventory)"
+          >
+            <InventoryCard
+              :inventory="inventory"
+              :is-actions-visible="false"
+              :addable="selectedAuctionType === AUCTION_TYPE_COLLECTION"
+              :selectable="selectedAuctionType === AUCTION_TYPE_SINGLE"
+              :stock-visible="false"
+              :selected="!!selected.find((id) => id === inventory.id)"
+              @select="selectItem"
+              @add="addItem"
+            />
+          </b-col>
+        </div>
 
         <template v-if="!isMobileSize">
           <Pagination
@@ -235,6 +245,7 @@
   </b-container>
 </template>
 <script>
+/* eslint-disable vue/no-unused-components */
 import _ from 'lodash'
 import {mapActions, mapGetters} from 'vuex'
 import SearchInput from '~/components/common/SearchInput.vue'
@@ -707,13 +718,12 @@ export default {
 
 .container-auction-search
   padding: 36px 30px 0
-  background-color: $color-white-4
+  background-color: $color-white-5
 
   h2.title
     font-weight: $bold
     @include body-1
     color: $black
-    margin-bottom: 43px
 
     @media (max-width: 576px)
       font-size: 14px
@@ -792,9 +802,6 @@ export default {
       font-size: 14px
       line-height: 24px
 
-  .size-select-box
-    min-width: 180px
-
   .add-inventory-btn
     font-family: $font-family-sf-pro-display
     font-weight: $regular
@@ -869,7 +876,7 @@ export default {
         color: $black
 
   .inventory-card-list
-    margin: 21px -9px 0 
+    margin-top: 21px 
     @media (max-width: 576px)
       margin: 0 -7.5px
   .collection-items-preview::v-deep
@@ -947,7 +954,6 @@ export default {
 
 .search-input-wrapper::v-deep
   border-radius: 8px
-  width: 688px
   background: $white
   img.icon-search
     margin-left: 21px
@@ -975,8 +981,6 @@ export default {
     background-color: $color-black-10
     border-color: $color-black-10
 .inventories-wrapper
-  margin-top: 35px
-  padding: 30px 21px 28px
   &-title
     font-family: $font-sp-pro
     color: $black
@@ -1046,7 +1050,6 @@ export default {
       margin: 22px 0 5px
 
 .dropdown-filters::v-deep
-  min-width: 170px
   height: 38px
   border: none
   .selected
