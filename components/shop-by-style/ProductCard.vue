@@ -406,7 +406,7 @@
       </div>
       <div
         v-show="show === product.id"
-        class="row justify-content-between pr-3 pl-3"
+        class="row justify-content-between pr-3 pl-3 pt-1"
       >
         <h2 class="fs-16 fw-6">{{ $t('shop_by_style.more_look') }}</h2>
         <p
