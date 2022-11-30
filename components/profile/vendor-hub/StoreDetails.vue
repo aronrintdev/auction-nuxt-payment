@@ -905,7 +905,7 @@ export default {
     background-color: $color-white-1 !important
     padding: 10px 20px
     width: 100%
-    height: 59px
+    height: 49px
     border: 1px solid $input-mobile-border-color
     border-radius: 10px !important
 
