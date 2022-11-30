@@ -2,25 +2,26 @@
   <div>
     <div v-if="isScreenXS">
       <div class="product-card">
-        <div v-if="heading" class="item-heading-text pb-2 pl-2">{{heading}}</div>
+        <div v-if="heading" class="item-heading-text pb-2">{{heading}}</div>
         <div class="mt-2 row justify-content-center align-content-center">
           <div v-for="(item) in offerItems" :key="'offer-item-list-' + item.id" class="col-4">
-            <div class="offer-item-small">
-              <img 
-                v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
-                class="img-fluid"
-              />
-              <img v-else :src="item.product | getProductImageUrl" class="img-fluid" />
-            </div>
-            <div class="inner-section">
-              <div class="item-name align-items-center mt-2">
-                {{item.inventory ? item.inventory.product.name : item.product.name}}
+            <div class="bg-white">
+              <div class="offer-item-small">
+                <img 
+                  v-if="item.inventory" :src="item.inventory.product | getProductImageUrl"
+                  class="img-fluid"
+                />
+                <img v-else :src="item.product | getProductImageUrl" class="img-fluid" />
               </div>
-              <div class="offer-item-text-small">{{$t('common.box')}} : {{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
-              <div class="offer-item-text-small">{{item.inventory ? item.inventory.product.colorway : item.product.colorway}}</div>
-              <div class="offer-item-text-small">{{$tc('common.size')}} {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
+              <div class="inner-section">
+                <div class="item-name align-items-center mt-2">
+                  {{item.inventory ? item.inventory.product.name : item.product.name}}
+                </div>
+                <div class="offer-item-text-small">{{$t('common.box')}}: {{item.inventory ? item.inventory.packaging_condition.name : item.packaging_condition.name}}</div>
+                <div class="offer-item-text-small">{{item.inventory ? item.inventory.product.colorway : item.product.colorway}}</div>
+                <div class="offer-item-text-small">{{$tc('common.size')}} {{item.inventory ? item.inventory.size.size : item.size.size}}</div>
+              </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -124,20 +125,20 @@ export default {
     @include body-5-regular
     color: $color-gray-4
 .offer-item-text-small
+  @include body-6-normal
   font-family: $font-family-sf-pro-display
-  font-style: normal
-  font-weight: 500
-  font-size: 11px
+  line-height: 15px
   color: $color-gray-5
   white-space: nowrap
   overflow: hidden
   text-overflow: ellipsis
 
 .item-heading-text
+  @include body-9-normal
   font-family: $font-family-sf-pro-display
-  font-style: normal
-  @include body-13-normal
   color: $color-gray-47
+  @media (min-width: 576px)
+    @include body-13-normal
 
 .listed-time
   font-family: $font-family-sf-pro-display
@@ -222,5 +223,8 @@ export default {
   width: 100%
   @media (min-width: 1200px)
     width: 72%
+
+.inner-section
+  padding: 5px 
 
 </style>
