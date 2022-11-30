@@ -1,30 +1,32 @@
 <template>
   <div class="card-wrapper">
-    <div :class="{
-      'px-4': !isScreenXS,
-    }"
-         class="action-buttons d-flex align-items-center justify-content-between ">
+    <div 
+      :class="{
+        'px-4': !isScreenXS,
+      }"
+      class="pt-3 action-buttons d-flex align-items-center justify-content-between mx-auto"
+    >
       <Button
-          v-if="!selectable && isActionsVisible && !isScreenXS"
-          class="btn-list edit"
-          icon="edit-pencil.svg"
-          icon-height="14"
-          icon-pos="left"
-          icon-width="14"
-          variant="link"
-          @click="handleEditClick()"
+        v-if="!selectable && isActionsVisible && !isScreenXS"
+        class="btn-list edit"
+        icon="edit-pencil.svg"
+        icon-height="14"
+        icon-pos="left"
+        icon-width="14"
+        variant="link"
+        @click="handleEditClick()"
       >
         {{ $t('common.edit') }}
       </Button>
       <Button
-          v-if="!selectable && isActionsVisible && !isScreenXS"
-          class="btn-list add"
-          icon="plus-circle-gray.svg"
-          icon-height="15"
-          icon-pos="left"
-          icon-width="15"
-          variant="link"
-          @click="handleListClick()"
+        v-if="!selectable && isActionsVisible && !isScreenXS"
+        class="btn-list add"
+        icon="plus-circle-gray.svg"
+        icon-height="15"
+        icon-pos="left"
+        icon-width="15"
+        variant="link"
+        @click="handleListClick()"
       >
         {{ $t('common.list') }}
       </Button>
@@ -81,6 +83,7 @@
           align-items-center
           justify-content-center
           position-relative
+          mx-auto
         "
         :class="mobileClass"
     >
@@ -97,7 +100,7 @@
         </div>
       </div>
     </div>
-    <div class="product-detail position-relative mt-2">
+    <div class="product-detail position-relative mt-2  mx-auto">
       <div class="product-title text-truncate">
         {{ inventory.product.name }}
       </div>
@@ -251,9 +254,9 @@ export default {
 
 .product-detail
   font-family: $font-family-sf-pro-display
+  max-width: 242px
   @include body-5-normal
   padding: 5px 8px
-  max-width: 242px
 
   .product-title
     @include body-8
@@ -280,15 +283,16 @@ export default {
     max-width: 50px
 
 ::v-deep.btn-list
-  .btn
-    @include body-8-normal
+  .btn.btn-link
     font-family: $font-montserrat
     font-style: normal
 
+  &.edit.btn, &.add.btn, &.delist.btn 
+    @include body-8-normal
   &.edit.btn
     color: $color-blue-20
 
-  &.delist.btn
+  &.delist.btn, &.add.btn
     color: $color-red-24
 
 ::v-deep.drop-menu
