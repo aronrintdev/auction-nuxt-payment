@@ -958,6 +958,8 @@ export default {
   box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
   border-radius: 10px
   padding-bottom: 3px
+  ::v-deep label.d-block
+    @include body-9-normal
 
 .text-blue-20
   color: $color-blue-20
