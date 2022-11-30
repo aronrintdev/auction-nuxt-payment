@@ -9,7 +9,7 @@
         }}
       </h2>
     </div>
-    <div class="d-flex flex-column flex-md-row justify-content-between listing-types">
+    <div class="d-flex flex-column flex-md-row justify-content-around listing-types">
       <div class="d-flex flex-row flex-md-column listing-type" @click="selectAuctionType('single')">
         <div class="position-relative listing-type-img">
           <img src="~/assets/img/create-listing/auction-single-type.png" class="position-absolute" />
@@ -124,6 +124,7 @@ export default {
     max-width: unset
     padding: 0
     flex: 1
+    max-width: 560px
     background: transparent
     &:last-child
       margin-right: 0

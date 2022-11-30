@@ -1,6 +1,7 @@
 <template>
   <div
     class="custom-dropdown text-gray"
+    :class="{'open': isOpen }"
     :style="{
         'min-width': width,
         'height': dropDownHeight,

@@ -9,7 +9,7 @@
     no-stacking
     :body-class="`px-4 py-3`"
     :modal-class="modalClass"
-    :content-class="`rounded-0 shadow-none`"
+    :content-class="`${rounded ? '' : 'rounded-0'} shadow-none`"
     :size="size"
     :hide-backdrop="hideBackdrop"
     @shown="$emit('shown')"
@@ -90,6 +90,10 @@ export default {
       type: String,
       default: 'md', // 'sm', 'md', 'lg', 'xl'
     },
+    rounded: {
+      type: Boolean,
+      default: false,
+    }
   },
 }
 </script>

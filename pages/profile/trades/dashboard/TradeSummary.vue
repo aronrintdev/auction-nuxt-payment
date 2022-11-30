@@ -190,7 +190,6 @@ export default {
   border-radius: 10px
   width: 174px
 .list-btn
-  height: 16px
   color: $color-blue-5
   font-family: $font-family-montserrat
   font-style: normal
