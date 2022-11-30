@@ -15,7 +15,7 @@
         />
       </div>
 
-      <div class="m-3 h-100 ">
+      <div class="h-100 mx-3" :class="{'my-3' : currentTab !== 'commission'}">
         <VendorPaymentMethod v-if="currentTab === 'payout_method'"/>
         <Documents v-if="currentTab === 'documents'"/>
         <StoreDetails v-if="currentTab === 'store_details'"/>

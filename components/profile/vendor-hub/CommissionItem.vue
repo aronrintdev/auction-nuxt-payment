@@ -57,7 +57,7 @@ export default {
   letter-spacing: 0.1em
 
 .amount.blue
-  color: $color-blue-25
+  color: $color-blue-20
 
 .amount.orange
   color: $color-red-16
