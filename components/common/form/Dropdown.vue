@@ -38,7 +38,7 @@
       <b-popover
         ref="popover"
         :target="`btn-dropdown-${id}`"
-        triggers="focus"
+        triggers="click"
         placement="bottom"
         :container="`dropdown-container-${id}`"
         :custom-class="`search-results`"
