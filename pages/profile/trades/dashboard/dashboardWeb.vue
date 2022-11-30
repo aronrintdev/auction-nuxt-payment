@@ -88,7 +88,10 @@
             v-model="offerType"
             :data="offerTypeData"
             nav-key="type"
-            class="type-nav mt-3 mb-3"
+            class="type-nav mt-3 mb-3 col-lg-8 col-xl-6 mx-auto"
+            :btnGroupStyle="{
+              margin: 0
+            }"
             @change="handleMethodNavClick"
           />
           <div class="d-flex justify-content-center">
