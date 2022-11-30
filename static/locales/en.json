@@ -4074,6 +4074,7 @@
       "winner": "Winner"
     },
     "success_deleted": "Your selected items have been deleted",
+    "success_expired_deleted": "Expired bids have been deleted",
     "headers": {
       "auction_id": "Auction ID",
       "product": "Product",

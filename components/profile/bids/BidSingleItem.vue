@@ -10,7 +10,7 @@
         {{ $t('bids.bid_status.' + bid.place) }}
       </div>
       <b-col sm="12" md="5"  class="text-left mb-3 mb-md-0 product-details">
-        <b-row class="align-items-end">
+        <b-row class="align-items-center">
           <b-col cols="4" md="4">
             <ProductThumb :product="inventory.product" />
             <template v-if="!isMobileSize">
@@ -26,7 +26,7 @@
             <b-row class="mb-2 mb-md-0 d-block mx-md-0 product-details-info" :class="{ 'flex-grow-1' : isMobileSize }">
               <div class="mb-12 mb-md-2 d-flex align-items-center">
                 <div :class="isMobileSize ?
-                'body-5-medium flex-grow-1 text-nowrap overflow-hidden text-truncate sf-pro-font' : 'body-8-medium'">
+                'body-5-medium flex-grow-1 text-nowrap overflow-hidden text-truncate sf-pro-font' : 'body-8-medium sf-pro-font'">
                   {{ inventory.product.name }}
                 </div>
                 <template v-if="isMobileSize">
@@ -46,19 +46,19 @@
                 </template>
               </div>
               <div class="mb-02 mb-md-1 text-gray-6 text-uppercase"
-                   :class="isMobileSize ? 'body-6-normal sf-pro-font' : 'body-5-regular'">
+                   :class="isMobileSize ? 'body-6-normal sf-pro-font' : 'body-5-normal sf-pro-font'">
                 {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{
                   inventory.product.sku
                 }}
               </div>
-              <div class="mb-02 mb-md-1 text-gray-6" :class="isMobileSize ? 'body-6-normal sf-pro-font' : 'body-5-regular'">
+              <div class="mb-02 mb-md-1 text-gray-6" :class="isMobileSize ? 'body-6-normal sf-pro-font' : 'body-5-normal sf-pro-font'">
                 {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
                   inventory.product.colorway.replace('/', ',')
                 }}, {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
                   inventory.size.size
                 }}
               </div>
-              <div class="mb-02 mb-md-1 text-gray-6" :class="isMobileSize ? 'body-6-normal sf-pro-font' : 'body-5-regular'">
+              <div class="text-gray-6" :class="isMobileSize ? 'body-6-normal sf-pro-font' : 'body-5-normal sf-pro-font'">
                 {{ $t('products.box_condition') }}&colon;&nbsp;{{ inventory.packaging_condition.name }}
               </div>
             </b-row>
@@ -79,7 +79,7 @@
              :class="{'bg-lightgrey': isMobileSize}">
         <div class="d-flex justify-content-between d-md-block  align-items-center short-row-section">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.auction_type') }}:</span>
-          <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-medium'">
+          <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal sf-pro-text'">
           {{ $t('bids.auction_types.' + auction.type) }}
         </span>
         </div>
@@ -87,7 +87,7 @@
       <b-col sm="12" md="2" class="d-flex justify-content-around flex-column body-4-medium px-0">
         <div class="d-flex justify-content-between d-md-block align-items-center high-row-section">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.highest_bid_amt') }}:</span>
-          <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-medium'">
+          <span :class="isMobileSize ? 'body-9-regular text-gray-6' : 'body-4-normal sf-pro-text'">
             &dollar;{{ bid.price | formatPrice }}
           </span>
           <div v-if="bidType === BID_TYPE_OUTGOING" class="d-none tag-bid d-md-flex align-items-center justify-content-center" :class="bid.place">
@@ -99,7 +99,7 @@
              :class="{'bg-lightgrey': isMobileSize}">
         <div class="d-flex justify-content-between d-md-block  align-items-center short-row-section">
           <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.headers.time_remaining') }}:</span>
-          <span :class="isMobileSize ? 'body-9-regular text-gray-6 text-capitalize' : 'body-4-medium text-capitalize'">{{ !isExpiredOrDelisted ? bid.auction.remaining_time : 'Expired' }}</span>
+          <span :class="isMobileSize ? 'body-9-regular text-gray-6 text-capitalize' : 'body-4-normal sf-pro-text text-capitalize'">{{ !isExpiredOrDelisted ? bid.auction.remaining_time : 'Expired' }}</span>
         </div>
       </b-col>
       <b-col
@@ -108,19 +108,18 @@
         md="2"
         class="d-flex justify-content-start align-items-center flex-column"
       >
-        <Button class="bg-dark-blue mt-4" pill @click="$emit('edit', bid)">
+        <Button class="bg-dark-blue mt-4 body-4-normal sf-pro-font" pill @click="$emit('edit', bid)">
           <span>
-            {{
-              isExpiredOrDelisted ? $t('bids.view') : $t('bids.edit_bid')
-            }}</span
-          >
+            {{ isExpiredOrDelisted ? $t('bids.view') : $t('bids.edit_bid') }}
+          </span>
         </Button>
         <span
           role="button"
-          class="view-similar mt-2 body-8-normal"
+          class="view-similar mt-2 pt-1 body-8-normal sf-pro-font"
           @click="viewSimilarAuction"
-        >{{ $t('bids.view_similar') }}</span
         >
+          {{ $t('bids.view_similar') }}
+        </span>
       </b-col>
       <b-col
         v-if="bidType !== BID_TYPE_OUTGOING &&!isMobileSize"
@@ -267,7 +266,7 @@ export default {
   z-index: 2
 
 .thumb-wrapper::v-deep
-  width: 100px
+  width: 85px
   margin: auto
   img
     padding: 0 !important
@@ -304,15 +303,19 @@ export default {
   overflow: hidden
 
 .auction-id
-  color: $color-blue-31
   text-decoration: underline
+  font-family: $font-sf-pro-text
+  font-weight: $bold
   text-align: center
-  font-size: 14px
+  @include body-5
+  color: $color-blue-1
 
 .text-blue-30
   color: $color-blue-30
   text-decoration: underline
 
+.sf-pro-text
+  font-family: $font-sf-pro-text
 .sf-pro-font
   font-family: $font-family-sf-pro-display
 
