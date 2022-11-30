@@ -441,8 +441,9 @@ export default {
           is_reserved: false,
           reserve_price: null,
           scheduled_date: null,
-          type: AUCTION_TYPE_COLLECTION,
           name: null,
+          type: AUCTION_TYPE_COLLECTION,
+          ...this.selectedAuctionItems[0],
           items: [],
         })
         this.selected.map(a => {
@@ -813,11 +814,12 @@ export default {
     max-width: 50%
     padding: 0 7.5px 7.5px
 
-    @media (min-width: 1280px)
+    @media (min-width: 992px)
       flex: 0 0 33.33%
       max-width: 33.33%
+      padding: 0 18px 18px
 
-    @media (min-width: 1525px)
+    @media (min-width: 1400px)
       flex: 0 0 25%
       max-width: 25%
       padding: 0 18px 18px
@@ -844,6 +846,10 @@ export default {
       padding-bottom: 12px
 
   .categories-selector::v-deep
+    &.open
+      .label-wrapper
+        border-bottom-left-radius: 0
+        border-bottom-right-radius: 0
     .label-wrapper 
       border-radius: 4px
       padding: 0 10px
@@ -861,7 +867,10 @@ export default {
         margin-right: -4px
         transform: translateY(-2px)
     ul.custom-dropdown-options
-      margin-top: -2px
+      margin-top: 0
+      border-top: 0
+      border-bottom-left-radius: 4px
+      border-bottom-right-radius: 4px
       li
         padding: 5px 10px
         color: $black
@@ -885,8 +894,8 @@ export default {
         border: 0.5px solid rgba($light-gray-2, 0.5)
         border-radius: 5px
         background: $white
-        padding: 12px 10px 10px
-        height: 42px
+        padding: 8px 5px
+        height: auto
         margin-top: 10px
       .expand-btn
         bottom: 76px
@@ -955,6 +964,7 @@ export default {
     letter-spacing: 0.06em
     text-transform: capitalize
     color: $color-gray-5
+    padding-right: 45px
 .btn-file.btn
   background: $black
   border-radius: 4px

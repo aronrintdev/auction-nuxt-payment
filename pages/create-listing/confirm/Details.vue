@@ -76,7 +76,7 @@
         <div class="auction-form-field position-relative">
           <div class="d-flex align-items-center reserve-switch">
             <CheckboxSwitch
-              :value="form.is_reserved"
+              :value="!!form.is_reserved"
               @change="form.is_reserved = !form.is_reserved; form.reserve_price = null"
             />
             <FormInput
@@ -92,7 +92,7 @@
               @input="(e) => form.reserve_price = e"
             />
           </div>
-          <div v-if="form.is_reserved" class="rounded position-absolute reserve-info d-flex align-items-start" >
+          <div v-if="form.is_reserved" class="rounded reserve-info d-flex align-items-start" >
             <img :src="infoIcon" class="icon-info" alt="Info icon" />
             {{ $t('create_listing.confirm.reserve_info_short') }}
           </div>
@@ -132,6 +132,7 @@
               class=""
               button-only
               hide-header
+              :min="tomorrowDate"
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
               locale="en"
               @context="onContext">
@@ -156,7 +157,7 @@
         <div class="filters-sheet-title text-center">{{ $t('create_listing.product.select_box_condition') }}</div>
         <div class="flex-shrink-1 overflow-auto filters-sheet-content">
           <div class="pt-3 text-center">
-            <v-date-picker v-model="tempScheduleDate" :min-date="new Date()" :model-config="{ type: 'string', mask: 'YYYY/MM/DD' }" />
+            <v-date-picker v-model="tempScheduleDate" :min-date="tomorrowDate" :model-config="{ type: 'string', mask: 'YYYY/MM/DD' }" />
           </div>
           <div class="py-3 d-flex align-items-center justify-content-around">
             <Button
@@ -252,6 +253,10 @@ export default {
     selectedAuction(){
       return _.cloneDeep(this.getAuctionItems)
     },
+    tomorrowDate() {
+      const date = new Date()
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+    }
   },
   watch: {
     form: {
@@ -357,6 +362,7 @@ export default {
       width: 470px
       left: 0
       top: 45px
+      position: absolute
       padding: 4px 10px
       font-family: $font-sp-pro
       font-weight: $regular
@@ -373,8 +379,14 @@ export default {
       font-weight: $regular
       @include body-8
       height: 40px
+    &.is-invalid
+      .form-input
+        border: none
   .form-dropdown-wrapper::v-deep
     width: 225px
+    &.is-invalid
+      .btn-dropdown
+        border: none
     .search-results
       .popover-body 
         & > div
@@ -441,6 +453,10 @@ export default {
       margin-bottom: 8px
     .auction-form-field
       width: 100%
+      .reserve-info
+        width: 100%
+        margin-top: 4px
+        position: relative
     .form-dropdown-wrapper::v-deep
       .btn-dropdown
         @include body-9
