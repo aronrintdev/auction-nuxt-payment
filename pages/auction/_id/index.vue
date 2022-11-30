@@ -760,10 +760,13 @@ import dayjs from 'dayjs'
 import ProductSlider from '~/components/Auctions/ProductSlider'
 import ShareIcon from '~/assets/img/icons/share.svg?inline'
 import CloseIcon from '~/assets/img/icons/close.svg?inline'
-import { AuctionThresholdsData, AuctionSizes, AUCTION_TYPE_COLLECTION, WATCHLIST_TYPE_AUCTION, SCHEDULED_STATUS, COMPLETED_STATUS } from '~/static/constants'
+import { AuctionThresholdsData, AuctionSizes, AUCTION_TYPE_COLLECTION, WATCHLIST_TYPE_AUCTION, SCHEDULED_STATUS } from '~/static/constants'
 import CheckmarkIcon from '~/assets/img/icons/checkmark.svg?inline'
 import {API_PROD_URL} from '~/static/constants/environments'
 import {LARGE_PRODUCT_IMG_WIDTH, THUMB_PRODUCT_IMG_WIDTH, DEADSTOCK_PRODUCT_FALLBACK_IMAGE, EXPIRED_STATUS} from '~/static/constants/auctions'
+import {
+  COMPLETED_STATUS
+} from '~/static/constants/trades'
 import WatchlistPopover from '~/components/watchlist/Popover'
 import ShareButton from '~/components/common/ShareButton'
 import Icon from '~/components/common/Icon.vue'
@@ -1548,7 +1551,8 @@ export default {
     height: 50px
     @include body-8
     font-weight: $normal
-    width: 160px
+    min-width: 160px
+    width: auto
   .cancel-btn
     width: 160px
     color: $black

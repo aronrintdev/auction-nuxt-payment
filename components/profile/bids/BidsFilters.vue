@@ -59,6 +59,7 @@
             <CalendarInput
               class="mr-4"
               :value="filters.bid_start_date"
+              :max-date="filters.bid_end_date"
               :placeholder="$t('bids.start_date')"
               @context="(context) => filters.bid_start_date = context.selectedYMD"
             ></CalendarInput>
@@ -67,6 +68,7 @@
             <CalendarInput
               class="mr-4"
               :value="filters.bid_end_date"
+              :min-date="filters.bid_start_date"
               :placeholder="$t('bids.end_date')"
               @context="(context) => filters.bid_end_date = context.selectedYMD"
             ></CalendarInput>
@@ -256,6 +258,7 @@ export default {
     letter-spacing: 0.06em
     color: $color-gray-5
     text-transform: capitalize
+    padding-right: 45px
 
 .dropdown-filters::v-deep
   height: 38px

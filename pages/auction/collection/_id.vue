@@ -158,9 +158,11 @@ import Icon from '~/components/common/Icon.vue'
 import MobileTimeRemaining from '~/components/Auctions/MobileTimeRemaining'
 import {
   EXPIRED_STATUS,
-  COMPLETED_STATUS,
   SCHEDULED_STATUS,
 } from '~/static/constants'
+import {
+  COMPLETED_STATUS
+} from '~/static/constants/trades'
 
 export default {
   name: 'AuctionCollectionBrowser',

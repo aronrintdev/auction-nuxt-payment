@@ -283,6 +283,7 @@
       display: flex
       align-items: center
       min-width: 80px
+      background: $white
     .product-name
       @include body-5-bold
       color: $black
@@ -319,8 +320,10 @@
       .card-body
         background: $color-white-5
         border-radius: 10px
-        & > div:first-child
+        & > .d-flex
           margin-top: 0
+          & > div:first-child
+            min-width: calc(100% - 21px)
       .row
         justify-content: space-between
       .col-md-6
