@@ -154,7 +154,7 @@
 
             <div
               v-else-if="
-                method === 'buy' && sizeViewMode === 'all' && !isOutOfStock
+                method === 'buy' && !isOutOfStock
               "
               class="action-btns w-100"
             >
