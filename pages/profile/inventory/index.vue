@@ -32,6 +32,9 @@
             :class="`${isScreenXS && 'w-100'}`"
             :data="TYPES"
             :value="inventoryType"
+            :btnGroupStyle="{
+              margin: 0
+            }"
             nav-key="list-type"
             @change="handleTypeChange"
         />

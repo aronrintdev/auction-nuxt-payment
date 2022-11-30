@@ -32,7 +32,12 @@
       <b-dropdown v-if="isScreenXS" id="mobile-down-icon" class="border-0 ml-auto drop-menu" no-caret
                   variant="outlined">
         <template #button-content>
-          <img :src="require('~/assets/img/icons/dot-circle-gray.svg')" height="19" width="19">
+          <img 
+            :src="require('~/assets/img/icons/dot-circle-gray.svg')" 
+            height="19" 
+            width="19"
+            class="z-1 position-relative"
+          >
         </template>
         <Button
             v-if="!selectable && isActionsVisible"
@@ -213,6 +218,10 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.z-1
+  z-index: 1
+
 .stock-count
   @include body-12
   font-family: $font-family-sf-pro-display
