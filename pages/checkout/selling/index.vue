@@ -1,5 +1,5 @@
 <template>
-  <b-row>
+  <b-row class="checkout-wrapper">
     <!-- Checkout selling normal version (md, lg & xl) -->
     <ItemsList v-if="! isResponsive" />
 
