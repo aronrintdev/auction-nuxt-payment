@@ -3,7 +3,7 @@
     <div v-if="isResponsive">
           <b-card class="custom-card">
             <div class="d-flex">
-              <div class="images-squard">
+              <div class="images-squared">
                 <img
                   :src="getCardBrandLogo"
                   alt="..."
@@ -18,7 +18,6 @@
               </div>
               <div>
                 <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
-                <CloseSquaredRed v-if="clearable" class="btn-action mt-1" role="button" @click="$emit('clear')" />
               </div>
             </div>
           </b-card>
@@ -36,7 +35,7 @@
                 />
               </b-col>
               <b-col md="5" class="d-flex align-items-center pl-3">
-                <div class="body-5-normal">
+                <div class="body-5-regular">
                   {{ $t('shopping_cart.ending_in') }}&colon;&nbsp;{{ cardLastDigits }}
                 </div>
               </b-col>
@@ -47,7 +46,6 @@
               </b-col>
               <b-col md="1" class="d-flex flex-column mt-2">
                 <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
-                <CloseSquaredRed v-if="clearable" class="btn-action mt-1" role="button" @click="$emit('clear')" />
               </b-col>
             </b-row>
           </b-card>
@@ -60,20 +58,14 @@
 
 <script>
 import PencilSquaredBlueSvg from '~/assets/img/icons/pencil_squared_blue.svg?inline'
-import CloseSquaredRed from '~/assets/img/icons/close_squared_red.svg?inline'
 import screenSize from '~/plugins/mixins/screenSize';
-
 
 export default {
   name: 'PaymentCardDetailsCard',
-  components: { PencilSquaredBlueSvg, CloseSquaredRed },
+  components: { PencilSquaredBlueSvg },
   mixins: [ screenSize ],
   props: {
     editable: {
-      type: Boolean,
-      default: false,
-    },
-    clearable: {
       type: Boolean,
       default: false,
     },
@@ -98,7 +90,7 @@ export default {
       try {
         return require(`~/assets/img/shopping-cart/${vm.cardBrand}-logo.png`)
       } catch (error) {
-        return require('~/assets/img/shopping-cart/visa-logo.png')
+        return require('~/assets/img/shopping-cart/visa-logo.svg')
       }
     },
     isResponsive() {
@@ -109,6 +101,19 @@ export default {
 </script>
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
-.images-squard
+
+.card
+  &.custom-card
+    .card-body
+      @media (min-width: 576px)
+        padding: 20px
+        min-height: 57px
+
+        svg
+          position: absolute
+          top: -20px
+          right: 0
+
+.images-squared
   width: 300px
 </style>

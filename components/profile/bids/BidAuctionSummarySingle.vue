@@ -68,4 +68,5 @@ export default {
       @include body-9
       color: $color-gray-5
       font-weight: $regular
+      line-break: anywhere
 </style>

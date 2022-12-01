@@ -325,7 +325,7 @@ export default {
       ],
       sellerProfileListItems: [
         {
-          icon: 'tag-outline-gray',
+          icon: 'gauge-outline-gray',
           label: this.$t('home.vendor_dashboard'),
           link: '/profile/vendor-dashboard',
         },

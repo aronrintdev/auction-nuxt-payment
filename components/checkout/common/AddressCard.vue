@@ -1,34 +1,28 @@
 <template>
   <div>
     <div v-if="isResponsive">
-          <b-card class="custom-card">
-            <div class="d-flex">
-              <div>
-                <div class="body-5-normal mb-2">{{ fullName }}</div>
-                <div class="body-5-regular">{{ fullAddress }}</div>
-              </div>
-              <div>
-                <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
-              </div>
-            </div>
-          </b-card>
+      <b-card class="custom-card">
+        <div class="d-flex">
+          <div>
+            <div class="body-5-normal mb-2">{{ fullName }}</div>
+            <div class="body-5-regular">{{ fullAddress }}</div>
+          </div>
+          <div>
+            <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
+          </div>
+        </div>
+      </b-card>
     </div>
     <div v-else>
-      <b-row>
-        <b-col class="col-md-12">
-          <b-card class="custom-card">
-            <b-row>
-              <b-col md="11">
-                <div class="body-5-normal mb-2">{{ fullName }}</div>
-                <div class="body-5-regular">{{ fullAddress }}</div>
-              </b-col>
-              <b-col md="1" class="d-flex flex-column mt-2">
-                <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
-              </b-col>
-            </b-row>
-          </b-card>
-        </b-col>
-      </b-row>
+      <b-card class="custom-card">
+        <b-row>
+          <b-col md="12">
+            <PencilSquaredBlueSvg v-if="editable" class="btn-action" role="button" @click="$emit('edit')" />
+            <div class="body-5-normal mb-1">{{ fullName }}</div>
+            <div class="body-5-regular">{{ fullAddress }}</div>
+          </b-col>
+        </b-row>
+      </b-card>
     </div>
   </div>
 
@@ -65,3 +59,17 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+.card
+  &.custom-card
+    .card-body
+      @media (min-width: 576px)
+        padding: 16px 20px
+        min-height: 70px
+
+        svg
+          position: absolute
+          top: -6px
+          right: 0
+</style>
