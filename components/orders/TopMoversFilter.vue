@@ -62,7 +62,7 @@
             <CustomSelectwithCheckbox
               id="auction-type-selector"
               class="mr-4 dropdown-filters"
-              :value="filters.auctionType"
+              :value="filters.orderType"
               :options="orderTypes"
               :icon-arrow-down="DownArrow"
               title="Type"
@@ -213,6 +213,8 @@ export default {
         search: '',
         start_date: null,
         end_date: null,
+        orderType: null,
+        statusType: null
       }
     }
   },
@@ -255,6 +257,8 @@ export default {
         search: '',
         start_date: null,
         end_date: null,
+        orderType: null,
+        statusType: null
       }
 
       this.$store.commit('vendors/setFilters', this.filters)
@@ -440,6 +444,116 @@ export default {
 ::v-deep .custom-control-input:checked ~ .custom-control-label::before
   border-color: $color-black-1
   background-color: $color-white-1
+
+.dropdown-filters::v-deep
+  height: 38px
+  min-width: 170px
+  border: none
+  .selected
+    height: 38px
+    border: 1px solid $color-gray-60
+    padding: 9px 9px 9px 10px
+    &.open
+      border: 1px solid $color-gray-60
+      border-bottom: none
+      &::after
+        top: 2px
+    &::after
+      top: 2px
+      right: 25px
+  .items
+    padding: 0
+    overflow: auto
+    border: 1px solid $color-gray-60
+    .filter-select-count
+      padding: 10px !important
+    .item-wrapper
+      border: none
+      & > div
+        border: none
+        border-bottom: 1px solid $color-gray-60
+      .d-flex
+        font-weight: $regular
+        @include body-5
+        color: $black
+        border: none
+        padding: 9px 10px !important
+        .custom-checkbox
+          min-height: 18px
+          line-height: 18px
+          margin-left: 20px !important
+  .btn-dropdown
+    display: flex
+    justify-content: space-between
+    color: $color-gray-5
+    border-radius: 6px
+    padding: 0 9px 0 10px
+    height: 38px
+    border-color: $color-gray-60
+
+    .fw-5
+      font-family: $font-montserrat
+      font-weight: $regular
+      color: $color-gray-5
+      @include body-5
+    &.opened
+      border-bottom: none
+
+  .search-results
+    .popover-body
+      > div
+        font-family: $font-family-base
+        color: $color-black-1
+        height: auto
+        border: 1px solid $color-gray-58
+        padding: 0 23px
+
+        &:hover
+          color: $white
+
+        &:last-child
+          border-bottom-left-radius: 6px
+          border-bottom-right-radius: 6px
+
+        &:first-child
+          border-top: none
+
+      .active
+        color: $white
+        margin: 0 -24px
+        background-color: $color-blue-20
+        border-radius: 0
+      .dropdownItem
+        height: 38px
+        &:hover
+          color: $white
+          margin: 0 -24px
+          background-color: $color-blue-20
+          border-radius: 0
+
+.dropdown-filters::v-deep
+  .custom-control-input:checked
+    ~ .custom-control-label::before
+      color: $white
+      border-radius: 0px
+      background-color: $color-blue-20
+      box-shadow: none
+      border: 1px solid $color-blue-20
+.dropdown-filters::v-deep
+  .custom-control-input
+    ~ .custom-control-label::before
+      color: $white
+      background-color: $white
+      box-shadow: none
+      border-radius: 0px
+      top: 4px
+      left: -20px
+      width: 10px
+      height: 10px
+      border: 1px solid $color-gray-60
+    ~ .custom-control-label::after
+      left: -20px
+
 
 @media (max-width: 992px)
   ::v-deep .search
