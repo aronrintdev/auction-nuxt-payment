@@ -4512,6 +4512,7 @@
         "open": "Open Trades",
         "completed": "Completed"
       },
+      "search_bar_text": "Search For Trade ID, Product SKU Or By Keyword",
       "their_counter_offerHistory": "Their Counter Offer",
       "your_counter_offer": "Your Counter Offer",
       "their_offer": "Their Offer",
