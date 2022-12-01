@@ -5702,6 +5702,7 @@
     "fedex": "FedEx",
     "breakdown": {
       "export": "Export to CSV",
+      "search_brand": "Search for Brands",
       "percentage": "Percentage Breakdown",
       "statistics": "Statistics",
       "select_all": "Select All",

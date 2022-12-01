@@ -83,6 +83,9 @@
             @input="handleFilterByChangeTotalSale"
           />
         </div>
+
+        <BreakDownFilters :current-tab="activeGlobalTab"/>
+
         <div class="tabs d-sm-none d-flex gap-2 justify-content-center my-4">
           <h6
             v-for="(tab, index) in filterTabs"
@@ -202,10 +205,11 @@ import screenSize from '~/plugins/mixins/screenSize'
 import { CustomSelect } from '~/components/common'
 import NavGroup from '~/components/common/NavGroup'
 import Loader from '~/components/common/Loader'
+import BreakDownFilters from '~/components/profile/vendor-dashboard/BreakDownFilters';
 
 export default {
   name: 'BreakDownPage',
-  components: { Loader, NavGroup, CustomSelect },
+  components: {BreakDownFilters, Loader, NavGroup, CustomSelect },
   mixins: [screenSize],
   layout: 'Profile',
   data() {
