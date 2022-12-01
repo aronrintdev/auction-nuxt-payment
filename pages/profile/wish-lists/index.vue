@@ -258,6 +258,7 @@
                   :selectable="action === 'move' || action === 'remove'"
                   :selected="!!selected.find((id) => id == product.id)"
                   :show-actions="false"
+                  card-height="240px"
                   @select="selectItem"
                 />
               </b-col>
@@ -677,9 +678,9 @@ export default {
       &:hover
         border-bottom: 1px solid $color-black-1
 .tablist
-  ::v-deep .btn-group
-     width: 460px
-     height: 32px
+::v-deep .btn-group
+    width: 460px
+    height: 32px
 ::v-deep .nav-group
   margin: 0
 .wishlist-mobile
@@ -715,6 +716,9 @@ export default {
       border-radius: 100%
 .plus-sign
   @include body-4-normal
+@media (max-width: 576px)
+::v-deep .nav-group .btn-group
+  height: 35px
 </style>
 <style lang="sass">
 .mobile-p-b

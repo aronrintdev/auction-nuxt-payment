@@ -2765,6 +2765,7 @@
     "get_notified": "Get Notified",
     "stock_from_different_vendors": "The item you're looking to checkout has insufficient quantity. The following items from different vendors can be added to your bag in order to match the requested quantity.",
     "add_to_bag": "Add to Bag",
+    "add_to_cart": "Add to Cart",
     "cash_added": "Cash Added",
     "trade_fee": "Trade Fee",
     "send_offer": "Send Offer"
