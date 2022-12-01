@@ -14,15 +14,6 @@
         </b-col>
       </b-row>
 
-      <b-row class="mb-3">
-        <b-col md="12">
-          <div class="text-center main-mobile-image d-block d-lg-none">
-            <nuxt-link to='/'>
-              <b-img :src="require('~/assets/img/home/logo-mb.png')" class="ds-logo pt-1 img-main" />
-            </nuxt-link>
-          </div>
-        </b-col>
-      </b-row>
       <b-row class="h-100">
         <b-col md="6" offset-md="3" class="d-flex flex-column align-items-center justify-content-center">
           <div class="d-block d-md-none position-relative" style="top: -140px">
@@ -33,7 +24,7 @@
           <b-row>
             <b-col md="12">
               <div class="right-heading-bold text-center">{{ $t('auth.forgot_password') }}</div>
-              <div class="body-5-normal text-center text-pre-line mt-3 email-text">{{ $t('auth.enter_your_email_and') }}</div>
+              <div class="body-5-normal text-color-gray-38 text-center text-pre-line mt-3">{{ $t('auth.enter_your_email_and') }}</div>
             </b-col>
           </b-row>
           <b-row class="mt-4 w-100">
@@ -61,17 +52,12 @@
 
                   <b-row class="mt-5 w-100 link-btn">
                     <b-col md="4" offset-md="4" class="text-center">
-                      <Button :disabled="! isEmailFilled" block pill variant="confirm" type="submit" :class=" { 'btn-disabled': ! isEmailFilled }" class="d-none d-lg-block">
-                        {{ $t('auth.send_link') }}
-                      </Button>
-                      <Button :disabled="! isEmailFilled" block pill variant="confirm" type="submit" :class=" { 'btn-disabled': ! isEmailFilled }" class="d-block d-lg-none btn-email">
-                        {{ $t('auth.send_email') }}
-                      </Button>
+                      <Button :disabled="! isEmailFilled" block pill variant="confirm" type="submit" :class=" { 'btn-disabled': ! isEmailFilled }">{{ $t('auth.send_link') }}</Button>
                     </b-col>
                   </b-row>
                 </b-form>
               </ValidationObserver>
-              <div class="back-to-login-btn d-lg-none">
+              <div class="back-to-login-btn">
                 <b-img :src="require('~/assets/img/auth/back_arrow_blue_1.svg')"></b-img>
                 <NuxtLink
                   class="custom-link pl-0"
@@ -108,7 +94,6 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import Button from '~/components/common/Button'
 import { UNPROCESSABLE_ENTITY } from '~/static/constants'
 import Logo from '~/components/header/Logo.vue'
-
 export default {
   name: 'ForgotPassword',
   components: { ValidationProvider, ValidationObserver, Button, Logo },
@@ -151,26 +136,20 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .bg-color-white-5
   background: $color-white-5
-
 .text-color-black-1
   color: $color-black-1
-
 .text-pre-line
   white-space: pre-line
-
 .text-color-blue-1
   color: $color-blue-1
-
 .left-heading-bold
   color: black
   font-style: normal
   font-weight: $bold
   font-size: 36px
   line-height: 44px
-
 .right-heading-bold
   color: black
   font-style: normal
@@ -196,16 +175,13 @@ export default {
     padding: 6px 10px
     width: 185px !important
     margin-top: 80px
-
 /* Override bootstrap-vue 'b-form-input' styles */
 .input-forgot-password
   @include body-5-normal
   color: $black-1
-  background-color: $color-white-1
+  background-color: $color-white-5
   border: 0
   transition: border-color 0.01s ease-in-out, box-shadow 0.01s ease-in-out
-  border: 1px solid $color-gray-3
-  border-radius: 10px !important
   &::placeholder,
   &:-ms-input-placeholder,
   &::-ms-input-placeholder
@@ -227,7 +203,6 @@ export default {
   &:focus
     background-color: $color-white-5
     border: 0
-
 .btn
   &.btn-confirm
     &.btn-disabled
@@ -236,14 +211,11 @@ export default {
       cursor: not-allowed
       &:hover
         box-shadow: none
-
 @media (max-width: 992px)
   .btn.btn-confirm.btn-disabled
     background: $color-black-1
-
   .text-color-gray-38
     color: $color-gray-47
-
   .back-to-login-btn
     margin-top: 160px
 </style>
