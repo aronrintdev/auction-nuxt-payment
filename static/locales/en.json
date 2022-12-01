@@ -1,5 +1,6 @@
 {
   "common": {
+    "select_brands": "Select Brand(s)",
     "cancel": "Cancel",
     "buying": "Buying",
     "auction": "Auction",
@@ -5206,7 +5207,9 @@
     "box_condition_info": "Package condition refers to the current condition of the item’s package.",
     "more_look": "More From This Look",
     "view_all": "View All",
-    "style_id": "Style ID"
+    "style_id": "Style ID",
+    "package_condition": "Package Condition",
+    "4_installments": "or 4 Installments"
   },
   "coupons": {
     "errors": {

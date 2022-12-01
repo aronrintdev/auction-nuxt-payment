@@ -1,16 +1,16 @@
 <template>
-  <div class="container-shop-by-style mx-auto">
+  <div class="container container-shop-by-style pb-5">
     <div class="d-none d-sm-block">
       <div class="d-flex justify-content-between align-items-center">
-          <Button to="/shop-by-style"
-              variant="link"
-          >{{ $t('shop_by_style.back_to_featured_style') }}</Button>
+        <Button to="/shop-by-style" variant="link">{{
+          $t('shop_by_style.back_to_featured_style')
+        }}</Button>
       </div>
-      <div class="d-flex justify-content-between align-items-center mt-3">
-        <h2 class="title">{{ $t('shop_by_style.title_archive') }}</h2>
+      <div class="d-flex justify-content-between align-items-center mt-30">
+        <h2 class="title mb-0">{{ $t('shop_by_style.title_archive') }}</h2>
       </div>
 
-      <div class="text-center mt-1 position-relative pt-2">
+      <div class="d-flex align-items-center nav-group-wrapper">
         <NavGroup
           v-model="type"
           :data="typeOptions"
@@ -23,13 +23,13 @@
           v-b-toggle.collapse-filters
           variant="light"
           size="lg"
-          class="btn-filters position-absolute"
+          class="filter-button"
         >
           {{ $tc('common.filter', 1) }}
         </Button>
       </div>
 
-      <b-collapse  v-if="filters" id="collapse-filters">
+      <b-collapse v-if="filters" id="collapse-filters">
         <ArchiveFilter
           class="mt-3"
           @close="closeFilter()"
@@ -37,42 +37,37 @@
         />
       </b-collapse>
     </div>
-    <div class="d-block d-sm-none">
-      <ResponsivenessFilter 
-        :date="showDate"
-      />
+    <div class="d-block d-sm-none"><ResponsivenessFilter :date="showDate" />
     </div>
-    <b-row v-if="type === TYPE" class="mt-5 ml-0 mr-0">
-      <b-col v-for="(style, index) in styles" :key="index" md="3" sm="6">
+    <div v-if="type === TYPE" class="styles-warpper">
+      <div v-for="(style, index) in styles" :key="index">
         <ShopByStyleCard
           :style-id="style.id"
           :image-url="style.image"
           class="style-card"
-        ></ShopByStyleCard> 
-      </b-col>
-    </b-row>
-    <b-row  v-else class="mt-5 ml-0 mr-0">
+        ></ShopByStyleCard>
+      </div>
+    </div>
+    <div v-else class="styles-warpper">
       <template v-for="(style, index) in styles">
-        <b-col v-if="index == 1" :key="index" lg="6" md="8">
+        <div v-if="index == 1" :key="index">
           <ShopByStyleCard
             :style-id="style.id"
             :image-url="style.image"
             class="style-card"
           />
-        </b-col>
+        </div>
       </template>
       <template v-for="(style, index) in styles">
-        <b-col v-if="index != 1" :key="index" lg="3" md="6">
+        <div v-if="index != 1" :key="index">
           <ShopByStyleCard
             :style-id="style.id"
             :image-url="style.image"
             class="style-card"
           />
-        </b-col>
-        
+        </div>
       </template>
-      
-    </b-row>
+    </div>
   </div>
 </template>
 <script>
@@ -83,7 +78,13 @@ import { ARCHIVED, TYPE } from '~/static/constants/shop-by-style'
 import ResponsivenessFilter from '~/components/shop-by-style/ResponsivenessFilter'
 
 export default {
-  components: { NavGroup, Button, ArchiveFilter, ShopByStyleCard, ResponsivenessFilter },
+  components: {
+    NavGroup,
+    Button,
+    ArchiveFilter,
+    ShopByStyleCard,
+    ResponsivenessFilter,
+  },
 
   layout: 'IndexLayout',
 
@@ -99,14 +100,14 @@ export default {
         },
         {
           label: this.$tc('common.best_seller', 2),
-          value: 'best_seller'
-        }
+          value: 'best_seller',
+        },
       ],
       page: 1,
       perPage: null,
       styles: null,
       filters: null,
-      showDate: true
+      showDate: true,
     }
   },
 
@@ -122,16 +123,16 @@ export default {
           params: {
             selectedType: this.type,
             status: ARCHIVED,
-            filters
-          }
+            filters,
+          },
         })
         .then((res) => {
           this.styles = res.data.data
-          if(this.styles.length) {
+          if (this.styles.length) {
             this.filters = true
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.$toasted.error(error)
         })
     },
@@ -148,16 +149,17 @@ export default {
     applyFilter(filters) {
       this.fetchStyles(filters)
     },
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
 .container-shop-by-style
-  max-width: 1440px
-  padding: 80px 86px
-
+  @media (min-width: 576px)
+    margin-top: 31px
+  .mt-30
+    margin-top: 30px
   .title
     @include heading-2
     font-weight: $medium
@@ -179,7 +181,24 @@ export default {
 
       .style-card
         margin-bottom: 70px
-
+  .nav-group-wrapper
+    margin-top: 10px
+  .nav-group::v-deep
+    margin: 0 auto
+  .styles-warpper
+    max-width: max-content
+    margin: 0 auto
+    display: grid
+    grid-template-columns: repeat(5, 195px)
+    row-gap: 8px
+    margin-top: 74px
+    @media (max-width: 576px)
+      grid-template-columns: repeat(3, 115px)
+      column-gap: 0
+      margin-top: 0
+  .filter-button
+    width: 180px
+    height: 46px
 @media (max-width: 768px)
   .container-shop-by-style
     .btn-filters
