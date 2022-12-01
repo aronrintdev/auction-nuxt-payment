@@ -1,30 +1,32 @@
 <template>
   <div class="card-wrapper">
-    <div :class="{
-      'px-4': !isScreenXS,
-    }"
-         class="action-buttons d-flex align-items-center justify-content-between ">
+    <div 
+      :class="{
+        'px-4': !isScreenXS,
+      }"
+      class="pt-3 action-buttons d-flex align-items-center justify-content-between mx-auto"
+    >
       <Button
-          v-if="!selectable && isActionsVisible && !isScreenXS"
-          class="btn-list edit"
-          icon="edit-pencil.svg"
-          icon-height="14"
-          icon-pos="left"
-          icon-width="14"
-          variant="link"
-          @click="handleEditClick()"
+        v-if="!selectable && isActionsVisible && !isScreenXS"
+        class="btn-list edit"
+        icon="edit-pencil.svg"
+        icon-height="14"
+        icon-pos="left"
+        icon-width="14"
+        variant="link"
+        @click="handleEditClick()"
       >
         {{ $t('common.edit') }}
       </Button>
       <Button
-          v-if="!selectable && isActionsVisible && !isScreenXS"
-          class="btn-list add"
-          icon="plus-circle-gray.svg"
-          icon-height="15"
-          icon-pos="left"
-          icon-width="15"
-          variant="link"
-          @click="handleListClick()"
+        v-if="!selectable && isActionsVisible && !isScreenXS"
+        class="btn-list add"
+        icon="plus-circle-gray.svg"
+        icon-height="15"
+        icon-pos="left"
+        icon-width="15"
+        variant="link"
+        @click="handleListClick()"
       >
         {{ $t('common.list') }}
       </Button>
@@ -32,7 +34,12 @@
       <b-dropdown v-if="isScreenXS" id="mobile-down-icon" class="border-0 ml-auto drop-menu" no-caret
                   variant="outlined">
         <template #button-content>
-          <img :src="require('~/assets/img/icons/dot-circle-gray.svg')" height="19" width="19">
+          <img 
+            :src="require('~/assets/img/icons/dot-circle-gray.svg')" 
+            height="19" 
+            width="19"
+            class="z-1 position-relative"
+          >
         </template>
         <Button
             v-if="!selectable && isActionsVisible"
@@ -76,6 +83,7 @@
           align-items-center
           justify-content-center
           position-relative
+          mx-auto
         "
         :class="mobileClass"
     >
@@ -92,7 +100,7 @@
         </div>
       </div>
     </div>
-    <div class="product-detail position-relative mt-2">
+    <div class="product-detail position-relative mt-2  mx-auto">
       <div class="product-title text-truncate">
         {{ inventory.product.name }}
       </div>
@@ -213,6 +221,10 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.z-1
+  z-index: 1
+
 .stock-count
   @include body-12
   font-family: $font-family-sf-pro-display
@@ -242,9 +254,9 @@ export default {
 
 .product-detail
   font-family: $font-family-sf-pro-display
+  max-width: 242px
   @include body-5-normal
   padding: 5px 8px
-  max-width: 242px
 
   .product-title
     @include body-8
@@ -271,15 +283,16 @@ export default {
     max-width: 50px
 
 ::v-deep.btn-list
-  .btn
-    @include body-8-normal
+  .btn.btn-link
     font-family: $font-montserrat
     font-style: normal
 
+  &.edit.btn, &.add.btn, &.delist.btn 
+    @include body-8-normal
   &.edit.btn
     color: $color-blue-20
 
-  &.delist.btn
+  &.delist.btn, &.add.btn
     color: $color-red-24
 
 ::v-deep.drop-menu

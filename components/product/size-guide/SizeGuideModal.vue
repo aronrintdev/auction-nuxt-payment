@@ -35,10 +35,10 @@
 
         <div class="d-flex flex-column pb-3">
           <div class="table-header d-flex align-items-center justify-content-between">
-            <div 
+            <div
               v-for="(item, idx) in tableHeaders"
-              :key="idx" 
-              class="col"  
+              :key="idx"
+              class="col"
             >
               {{ item }}
             </div>
@@ -47,9 +47,9 @@
             v-for="(row, i) in tableData"
             :key="i"
             class="table-row d-flex align-items-center justify-content-between"
-            :class="{ 
-              'bg-light-gray': i % 2 !== 0, 
-              'row-active': i === selectedSizeIndex 
+            :class="{
+              'bg-light-gray': i % 2 !== 0,
+              'row-active': findSelectedIndexRow(row)
             }"
           >
             <div
@@ -70,7 +70,7 @@
 
 <script>
 import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
-import { SIZE_GUIDE_ITEMS } from '~/static/constants/sizes' 
+import { SIZE_GUIDE_ITEMS } from '~/static/constants/sizes'
 
 export default {
   name: 'SizeGuideModal',
@@ -89,24 +89,21 @@ export default {
       required: true
     },
     selectedSize: {
-      type: Number,
+      type: Object,
       required: false,
-      default: 0
+      default() {
+        return {}
+      }
     }
   },
 
   data() {
-    const size = this.product.sizes.find(el => el.id === this.selectedSize)
     const tableData = []
     const count = Object.keys(SIZE_GUIDE_ITEMS[0]).length
-    let selectedSizeIndex = null
     for (let i = 1; i < count; i++) {
       const tmp = []
       for (let j = 0; j < SIZE_GUIDE_ITEMS.length; j++) {
         const item = SIZE_GUIDE_ITEMS[j][`s${i}`]
-        if (item === size.size && !selectedSizeIndex) {
-          selectedSizeIndex = i - 1
-        }
         tmp.push(item)
       }
       tableData.push(tmp)
@@ -117,28 +114,14 @@ export default {
         return acc
       }, []),
       tableData,
-      selectedSizeIndex
     };
   },
 
-  watch: {  
-    selectedSize(newItem, old) {
-      this.findSelectedIndexRow()
-    }
-  },
-
   methods: {
-    findSelectedIndexRow() {
-      const size = this.product.sizes.find(el => el.id === this.selectedSize).size
-      let newIndex = null
-      for (let i = 0; i < this.tableData.length; i++) {
-        const found = this.tableData[i].find(el => el === size)
-        if (found) {
-          newIndex = i
-          break;
-        }
+    findSelectedIndexRow(row) {
+      if (this.selectedSize.size === row[0]) {
+        return true
       }
-      this.selectedSizeIndex = newIndex
     }
   }
 }

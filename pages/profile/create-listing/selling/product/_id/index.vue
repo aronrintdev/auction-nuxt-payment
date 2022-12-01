@@ -1,25 +1,45 @@
 <template>
   <b-container fluid class="container-profile-create-listing h-100">
     <div v-if="product">
-      <DetailsListing
-        v-model="form"
-        :action="`add`"
-        :product="product"
-        @addToDraft="addToDraft"
-      />
+      <!-- New ProductView component instead of DetailsListing -->
+      <ProductView v-model="form" :product="product">
+        <div slot="right-content">
+          <ProductSellingForm
+            v-model="form"
+            :product="product"
+            :action="`add`"
+            @submit="addToDraft"
+          />
+        </div>
+      </ProductView>
+
+      <!-- Sales Graph and Sales Data Section -->
+      <b-row class="my-5">
+        <b-col md="12">
+          <SalesSection :product="product"
+                        :chart-header-class="'d-none mt-1'"
+                        :chart-labels-style="chartLabelStyle" />
+        </b-col>
+      </b-row>
+      <!-- End of Sales Graph and Sales Data Section -->
     </div>
   </b-container>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
-import DetailsListing from '~/components/profile/create-listing/product/DetailsListing.vue'
+import ProductView from '~/components/profile/create-listing/product/ProductView'
+import ProductSellingForm from '~/components/profile/create-listing/selling/ProductSellingForm'
+import SalesSection from '~/components/product/SalesSection'
+import screenSize from '~/plugins/mixins/screenSize'
 export default {
   name: 'ProductDetails',
 
   components: {
-    DetailsListing,
+    ProductView, ProductSellingForm, SalesSection
   },
+
+  mixins: [screenSize],
 
   layout: 'Profile',
 
@@ -34,6 +54,18 @@ export default {
         minOfferAmount: null,
         color: null,
       },
+    }
+  },
+
+  computed: {
+    chartLabelStyle() {
+      if (this.isScreenSM)
+        return 'width: 80%; margin-left: 140px'
+
+      if (this.isScreenMD)
+        return 'width: 70%; margin-left: 140px'
+
+        return 'width: 60%; margin-left: 160px'
     }
   },
 
@@ -88,7 +120,7 @@ export default {
     color: $color-black-1
 @media (min-width: 576px)
   .container-profile-create-listing
-    padding: 47px 54px
+    padding: 30px  120px 0px 14px
     background-color: $color-white-5
 @media (max-width: 576px)
   .container-profile-create-listing

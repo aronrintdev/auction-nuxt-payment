@@ -55,7 +55,8 @@
           </template>
           <template #cell(status)="row">
             <div v-if="row.item.status === 'scheduled'">
-              <span>{{ $t(`create_listing.details.status.scheduled`) }}</span>&nbsp;<span class="schedule-date">{{ row.item.scheduled_date }}</span>
+              <div>{{ $t(`create_listing.details.status.scheduled`) }}</div>
+              <div class="schedule-date">{{ row.item.scheduled_date }}</div>
             </div>
             <div v-else>{{ $t(`create_listing.details.status.${row.item.status}`) }}</div>
           </template>

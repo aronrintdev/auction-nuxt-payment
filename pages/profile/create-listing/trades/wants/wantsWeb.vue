@@ -30,10 +30,10 @@
               @change="onSearchInput"
             />
             <div class="position-relative">
-              <SearchedProductsBelowSearchTextBox 
-                v-if="searchedItems.length > 0" 
-                :productItems="searchedItems" 
-                productsFor="wantItemTrade" 
+              <SearchedProductsBelowSearchTextBox
+                v-if="searchedItems.length > 0"
+                :productItems="searchedItems"
+                productsFor="wantItemTrade"
                 class="position-absolute z-100"
                 :wrapperStyle="{ margin: 0 }"
                 :itemStyle="{ padding: 0 }"
@@ -332,7 +332,7 @@
         </b-row>
         <b-row class="mt-5 d-block pr-5">
           <b-col class="w-25 pull-right">
-            <b-btn pill :disabled="!getTradeItemsWants.length" class="pull-right mb-4 create-trade-next-web" @click="$router.push('/profile/create-listing/trades/confirmation')">{{ $t('trades.create_listing.vendor.wants.next') }}</b-btn>
+            <b-btn pill  class="pull-right mb-4 create-trade-next-web" @click="$router.push('/profile/create-listing/trades/confirmation')">{{ $t('trades.create_listing.vendor.wants.next') }}</b-btn>
           </b-col>
         </b-row>
         <!-- /.row (main row) -->

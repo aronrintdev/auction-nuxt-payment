@@ -759,7 +759,8 @@ export default {
     line-height: 18px
 
   .form-area::v-deep
-    padding: 0px 1px
+    padding: 30px 1px 0 1px
+
     .form-group
       margin-bottom: 14px !important
     .minimum
@@ -796,7 +797,7 @@ export default {
       line-height: 18px
       color: $color-gray-5
       font-style: normal
-      font-weight: $bold
+      font-weight: $medium
     .validation
       font-size: 10px !important
       font-weight: 500 !important
@@ -819,8 +820,15 @@ export default {
         background: $color-gray-71
         flex: 1
         width: 50px !important
+@media (max-width: 992px)
+  ::v-deep .nav-group .btn-group
+    margin-left: 0
+    margin-right: 0
 
 @media (min-width: 320px) and (max-width: 556px)
   .img-main
     margin: 0 auto
+
+  .btn.btn-confirm.btn-disabled
+    background: $color-black-1 !important
 </style>

@@ -121,6 +121,9 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
+.letter-spacing-initial
+  letter-spacing: initial !important
+
 .date-input
   @include body-5
   font-weight: $regular

@@ -23,7 +23,9 @@
               class="recent-to-old text-normal"
               name="sortby"
               value="recent_to_old"
-              >{{ $t('offers_received.offers_recent_old') }}</b-form-radio
+              >
+              {{ $t('offers_received.offers_recent_old') }}
+            </b-form-radio
             >
             <b-form-radio
               v-model="filter.sortby"
@@ -58,30 +60,29 @@
           @showFilters="dateSelected"
         />
       </div>
-
-      <div
-        v-show="filterVisibility"
-        :class="`section-actions ${mobileClass} d-flex align-items-center w-100 justify-content-between`"
+    </div>
+    <div
+      v-show="filterVisibility"
+      :class="`section-actions ${mobileClass} d-flex align-items-center w-100 justify-content-between p-4 bg-white`"
+    >
+      <Button
+        v-if="filterVisibility"
+        pill
+        class="btn-reset btn-light"
+        @click="resetFilter"
+      >{{ $t('offers_received.reset') }}</Button
       >
-        <Button
-          v-if="filterVisibility"
-          pill
-          class="btn-reset btn-light"
-          @click="resetFilter"
-          >{{ $t('offers_received.reset') }}</Button
-        >
 
-        <Button
-          v-if="filterVisibility"
-          pill
-          class="btn-apply border-0 p-0"
-          @click="$emit('filter', { ...filter })"
-          ><span
-            >{{ $t('offers_received.apply_filters') }}
+      <Button
+        v-if="filterVisibility"
+        pill
+        class="btn-apply border-0 p-0"
+        @click="$emit('filter', { ...filter })"
+      ><span
+      >{{ $t('offers_received.apply_filters') }}
             <span v-if="count">&#40;{{ count }}&#41;</span></span
-          ></Button
-        >
-      </div>
+      ></Button
+      >
     </div>
   </div>
 </template>
@@ -228,7 +229,8 @@ export default {
 
   .section-actions
     &.mobile
-      margin-top: 77px
+      position: absolute
+      bottom: 0
 
 @media (max-width: 576px)
   .sidebar-wrapper
@@ -271,6 +273,7 @@ export default {
         font-style: normal
         @include body-5-normal
         color: $color-black-9
+        line-height: 24px
     .header-filter
       font-family: $font-sp-pro
       font-style: normal

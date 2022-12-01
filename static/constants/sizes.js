@@ -1,9 +1,11 @@
+export const CATEGORY_SNEAKERS = 'sneakers'
+export const CATEGORY_APPAREL = 'apparel'
 export const SNEAKER_SIZES = [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15, 15.5]
 export const APPAREL_SIZES = ['XXS', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
-
 export const SIZE_GUIDE_ITEMS = [
   {
     type: 'US - M',
+    label_key: 'men',
     s1: '4',
     s2: '4.5',
     s3: '5',
@@ -24,6 +26,7 @@ export const SIZE_GUIDE_ITEMS = [
   },
   {
     type: 'US - W',
+    label_key: 'women',
     s1: '5.5',
     s2: '6',
     s3: '6.5',
@@ -44,6 +47,7 @@ export const SIZE_GUIDE_ITEMS = [
   },
   {
     type: 'US - Kids',
+    label_key: 'child',
     s1: '4Y',
     s2: '4.5Y',
     s3: '5Y',
@@ -64,6 +68,7 @@ export const SIZE_GUIDE_ITEMS = [
   },
   {
     type: 'UK',
+    label_key: 'uk',
     s1: '3.5',
     s2: '4',
     s3: '4.5',
@@ -84,6 +89,7 @@ export const SIZE_GUIDE_ITEMS = [
   },
   {
     type: 'CM',
+    label_key: 'cm',
     s1: '23',
     s2: '23.5',
     s3: '24',
@@ -104,6 +110,7 @@ export const SIZE_GUIDE_ITEMS = [
   },
   {
     type: 'EU',
+    label_key: 'eu',
     s1: '36',
     s2: '36.5',
     s3: '37',
@@ -121,5 +128,75 @@ export const SIZE_GUIDE_ITEMS = [
     s15: '43',
     s16: '43.5',
     s17: '44',
+  },
+]
+export const APPAREL_SIZE_GUIDE_ITEMS = [
+  {
+    type: 'Standard',
+    s1: 'XXXS',
+    s2: 'XXS',
+    s3: 'XS',
+    s4: 'S',
+    s5: 'M',
+    s6: 'L',
+    s7: 'XL',
+    s8: 'XXL',
+    s9: '3L',
+    s10: '4L',
+    s11: '5L',
+    s12: '6L',
+    s13: '7L',
+    s14: '8L',
+  },
+  {
+    type: 'UK/US',
+    s1: '30.0',
+    s2: '32.0',
+    s3: '34.0',
+    s4: '36.0',
+    s5: '38.0',
+    s6: '40.0',
+    s7: '42.0',
+    s8: '44.0',
+    s9: '46.0',
+    s10: '48.0',
+    s11: '50.0',
+    s12: '52.0',
+    s13: '54.0',
+    s14: '56.0',
+  },
+  {
+    type: 'Italy/France',
+    s1: '40.0',
+    s2: '42.0',
+    s3: '44.0',
+    s4: '48.0',
+    s5: '50.0',
+    s6: '52.0',
+    s7: '54.0',
+    s8: '56.0',
+    s9: '58.0',
+    s10: '60.0',
+    s11: '62.0',
+    s12: '64.0',
+    s13: '66.0',
+    s14: '68.0',
+  },
+  {
+    type: 'Japan',
+    s1: '3.5',
+    s2: '4.0',
+    s3: '4.5',
+    s4: '5.0',
+    s5: '5.5',
+    s6: '6.0',
+    s7: '6.5',
+    s8: '7.0',
+    s9: '7.5',
+    s10: '8.0',
+    s11: '8.5',
+    s12: '9.0',
+    s13: '9.5',
+    s14: '10.0',
   },
 ]

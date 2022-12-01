@@ -10,10 +10,7 @@
           position-relative
         "
       >
-        <ProductThumb :product="inventory.product" />
-
-        <div class="product-overlay position-absolute w-100 h-100">
-        </div>
+        <ProductThumb :product="inventory.product" overlay />
 
         <label v-if="selectable" class="position-absolute d-flex align-items-center checkbox-label">
           <input
@@ -27,21 +24,20 @@
           
         </label>
 
-        <span
+        <div
           v-if="addable"
-          class="check-box position-absolute mr-1"
+          class="check-box position-absolute"
           role="button"
         >
           <img :src="plusIcon" alt="addIcon" @click="addClicked" />
-        </span>
-        <span
+        </div>
+        <div
           v-if="removable"
-          class="check-box position-absolute mr-1"
+          class="check-box position-absolute"
           role="button"
         >
-          <img :src="removeIcon" alt="addIcon" class="remove d-none d-md-block" @click="removeClicked" />
-          <img :src="removeFillIcon" alt="removeIcon"  class="remove d-md-none" @click="removeClicked" />
-        </span>
+          <img :src="removeFillIcon" alt="removeIcon"  class="remove" @click="removeClicked" />
+        </div>
       </div>
 
       <div class="product-detail position-relative">
@@ -121,7 +117,7 @@ import ProductThumb from '~/components/product/Thumb'
 import { ConfirmModal } from '~/components/modal'
 import plusIcon from '~/assets/img/icons/plus_circle.svg'
 import removeIcon from '~/assets/img/icons/red-remove.svg'
-import removeFillIcon from '~/assets/img/icons/minus-filled-red.svg'
+import removeFillIcon from '~/assets/img/icons/red-remove-icon.svg'
 
 export default {
   name: 'InventoryCard',
@@ -205,18 +201,13 @@ export default {
 @import '~/assets/css/_variables'
 
 .inventory-card-wrapper
-  max-width: 213px
-  margin-left: auto
-  margin-right: auto
-
   .product-info
-    border: 1px solid $color-gray-23
-
     .product-image
-      padding: 25px
-      height: 200px
-      background-color: $color-white-1
-
+      padding: 60px 40px 40px
+      background-color: $color-white-4
+      .thumb-wrapper::v-deep
+        .overlay
+          background: rgba(195, 195, 195, 0.1)
       .product-overlay
         top: 0
         left: 0
@@ -238,26 +229,31 @@ export default {
         overflow: hidden
 
       .check-box
-        right: 4px
+        right: 10px
         top: 10px
+        line-height: 1em
         z-index: 10
 
     .product-detail
-      @include body-10-normal
-      padding: 5px 8px
+      padding: 10px 3px
+      font-family: $font-sp-pro
 
       .product-title
-        @include body-5-medium
+        font-weight: $medium
+        @include body-8
         color: $color-black-1
-        margin-bottom: 3px
+        margin-bottom: 1px
 
       .product-color
+        font-weight: $normal
+        @include body-5
         color: $color-gray-5
-        margin-bottom: 3px
+        margin-bottom: 1px
 
       .product-price
-        color: $color-gray-39
-        margin-top: 3px
+        font-weight: $normal
+        @include body-5
+        color: $black
 
       .product-stock
         @include body-4-normal
@@ -286,8 +282,8 @@ export default {
       border-color: $color-gray-4
   
   .checkbox-label
-    top: 4px
-    right: 4px
+    top: 10px
+    right: 10px
     z-index: 2
     .check-box
       visibility: hidden
@@ -306,6 +302,10 @@ export default {
       .product-image
         background: $color-white-4
         padding: 10px
+        .check-box
+          img
+            width: 16px
+            height: 16px
       .product-detail
         .product-title
           font-size: 13px

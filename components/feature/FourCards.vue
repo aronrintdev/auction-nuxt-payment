@@ -54,7 +54,8 @@ export default {
     padding: 22px
     color: $color-black-1
     transition: transform .2s
-    height: 265px !important
+    min-height: 265px
+    height: auto
     width: 228px !important
     cursor: help
     background-color: $color-white-1
@@ -82,9 +83,10 @@ export default {
   .feature-four-cards
     min-width: 168px !important
     padding: 10px !important
-    height: 96px !important
+    height: auto !important
     width: 231px !important
-
+    min-height: 96px
+    border-radius: 10px
 
     img
       width: 56px

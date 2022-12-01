@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div>
     <FeatureContentWrapper
       :backgroundImage="banner.backgroundImage"
@@ -18,7 +18,7 @@
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{ $t('newest_features.international_languages.refer_a_friend') }}
       </FeatureTitle>
       <InviteFriend :inviteBannerImage="inviteBannerImage" />
@@ -86,3 +86,11 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+
+@media screen and (max-width: 577px)
+  .feature-title-my
+    width: 80%
+    margin-top: 48px !important
+    margin-bottom: 24px !important
+</style> -->

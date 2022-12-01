@@ -1,8 +1,5 @@
 <template>
-    <div class="product-info mt-md-3 d-flex flex-column justify-content-around p-2 p-md-4">
-      <div class="">
-        <div class="rectangle2 position-absolute mt-n3 ml-n2"></div>
-      </div>
+    <div class="product-info mt-md-3">
       <div class="d-flex justify-content-around text-center">
         <span class="sltext">
           {{$t('create_listing.collection.select_inventory')}}
@@ -12,7 +9,7 @@
         {{$t('create_listing.collection.up_to_ten')}}
       </div>
       <div class="d-flex justify-content-around">
-        <img :src="plusIcon" class="scale-2 mt-2 mt-md-4 py-2 mb-2"/>
+        <img :src="plusIcon" class="plus-icon"/>
       </div>
       <div class="d-none d-md-flex justify-content-around text-center sltext2">
         {{$t('create_listing.collection.select_items')}}
@@ -25,7 +22,7 @@
 
 <script>
 import sneaker from '~/assets/img/icons/sneaker-placeholder.svg';
-import plusIcon from '~/assets/img/icons/plus_circle_black.svg';
+import plusIcon from '~/assets/img/icons/large-plus-icon.svg';
 
 export default {
   name: 'InventoryItemPlaceHolder',
@@ -42,46 +39,41 @@ export default {
 @import '~/assets/css/_variables'
 
 .sltext
-  @include body-4-bold
-  max-width: 100px
+  font-family: $font-sp-pro
+  font-weight: $medium
+  @include body-1214
+  width: 90px
+  margin-bottom: 16px
 
 .sltext2
-  @include body-10-medium
+  font-family: $font-sp-pro
+  font-weight: $medium
+  @include body-1214
+  color: $color-gray-5
 
 .rectangle
-  width: 160px
-  height: 30px
-  border-radius: 4px
-  background-color: $color-gray-12
-
-.rectangle2
-  width: 60px
+  width: 108px
   height: 20px
   border-radius: 4px
-  background-color: $color-gray-18
+  background-color: $color-gray-12
+  margin-top: 5px
 
-.scale-2
-  transform: scale(2)
+.plus-icon
+  width: 31px
+  height: 31px
+  margin: 10px 0
 
 .product-info
-  @include body-10-normal
-  border: 1px solid $color-gray-23
-  background: url("~/assets/img/icons/sneaker-placeholder.svg") no-repeat
-  background-size: 150px
+  background-color: $color-white-4
+  padding: 26px 0px 12px
+  background-image: url("~/assets/img/icons/sneaker-shoe.svg")
+  background-repeat: no-repeat
   background-position: center
-  background-color: $white
-  padding: 5px 8px
-  max-width: 213px
-  margin-left: auto
-  margin-right: auto
-  min-height: 284px
 
-.product-info
   @media (max-width: 576px)
     border: none
     min-height: 0
     background-size: 100%
-    margin-top: 15px
     .rectangle2
       width: 50px
       height: 14px

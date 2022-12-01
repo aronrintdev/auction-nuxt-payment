@@ -7,7 +7,7 @@
   >
     <div
       class="selected bg-white"
-      :class="{ open: open, border: bordered }"
+      :class="[open ? 'open' : '', bordered ? 'border' : '', inputClass]"
       @click="open = !open"
     >
       <label class="bg-white mr-2"
@@ -15,7 +15,14 @@
       /></label>
       <span>{{ options[selected] }}</span>
     </div>
-    <div class="items bg-white" :class="{ selectHide: !open, border: bordered }">
+    <div 
+      class="items bg-white" 
+      :class="[
+        !open ? 'selectHide' : '', 
+        bordered ? 'border' : '', 
+        dropdownClass
+      ]"
+    >
       <template v-for="(option, key) of options">
         <div v-if="key && !(key==='default' && selected==='default')" :key="key" @click="selectOption(key)">
           {{ option }}
@@ -54,6 +61,14 @@ export default {
     threelineIcon: {
       type: Boolean,
       default: true
+    },
+    inputClass: {
+      type: String,
+      default: ''
+    },
+    dropdownClass: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -86,6 +101,9 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+
+.bg-white-5
+  background: $color-white-5 !important
 
 .custom-selectbox
   position: relative
@@ -310,6 +328,19 @@ export default {
     background: $color-white-1
   .items-secondary
     background: $color-white-5
+
+.custom-selectbox
+  .purchase-input
+    width: 100% !important
+    height: 38px !important
+
+.purchase-items
+  position: relative
+  top: 0
+  border-top-width: 0 !important
+  border-bottom-width: 0 !important
+  border-color: $color-gray-60 !important
+
 </style>
 
 <style lang="sass" scoped>

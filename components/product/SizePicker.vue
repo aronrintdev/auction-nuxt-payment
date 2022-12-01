@@ -41,11 +41,11 @@
           :loop="true"
           :nav="true"
           :center="true"
-          :margin="10"
+          :margin="38"
           :responsive="{
             0: { items: xsCount, nav: false, center: xsCenter },
             576: { items: 6, nav: false },
-            1268: { items: 5, nav: false },
+            1268: { items: 3, nav: false },
           }"
           :mouse-drag="mouseDrag"
           :show-arrows="arrowsVisible"
@@ -66,7 +66,7 @@
               } user-select-none`"
             >
               <div
-                class="d-flex align-items-center justify-content-center mx-auto card"
+                class="d-flex align-items-center justify-content-center mx-auto card mb-2"
                 :style="cardStyle"
               >
                 {{ size.size }}
@@ -110,7 +110,7 @@
           :class="`d-inline-block item ${value === size.id ? 'active' : ''}`"
         >
           <div
-            class="d-flex align-items-center justify-content-center mx-auto card"
+            class="d-flex align-items-center justify-content-center mx-auto card mb-2"
             @click="handleSizeSelect(size.id)"
           >
             {{ size.size }}
@@ -411,12 +411,12 @@ export default {
 
     .card
       @include body-9-medium
-      border: 1px solid $color-gray-21
-      border-radius: 10px
+      border: 1px solid $color-gray-26
+      border-radius: 4px
       width: 49px
       height: 49px
       color: $color-black-4
-      background-color: $color-white-1
+      background-color: transparent
       box-shadow: none
       @media (min-width: 576px)
         @include body-2-medium
@@ -465,11 +465,11 @@ export default {
         @include body-9-medium
         width: 49px
         height: 49px
-        border: 1px solid $color-gray-21
+        border: 1px solid $color-gray-26
         color: $color-black-4
         box-shadow: none
-        background-color: $color-white-1
-        border-radius: 10px
+        background-color: transparent
+        border-radius: 4px
         @media (min-width: 576px)
           @include body-2-medium
           width: 64px

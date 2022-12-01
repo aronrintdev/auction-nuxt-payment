@@ -6,10 +6,20 @@
       </p>
 
       <Button
+        v-if="!isScreenXS"
         v-b-modal.create-list-modal
         variant="primary"
         class="mx-auto"
         pill
+      >
+        {{ $t('wish_lists.create_new_list') }}
+      </Button>
+      <Button
+        v-if="isScreenXS"
+        variant="primary"
+        class="mx-auto"
+        pill
+        @click="mobileFiltersOpen = !mobileFiltersOpen"
       >
         {{ $t('wish_lists.create_new_list') }}
       </Button>
@@ -190,7 +200,7 @@
                 </b-popover>
               </div>
               <div class="d-flex justify-content-end">
-                <span v-b-modal.create-list-modal><img width="42" height="42" src="~/assets/img/plus-circle-blue.svg" /></span>
+                <span @click="mobileFiltersOpen = !mobileFiltersOpen"><img width="42" height="42" src="~/assets/img/icons/plus-icon-bg.svg" /></span>
               </div>
 
             </div>
@@ -235,7 +245,9 @@
                 />
               </b-col>
             </b-row>
-            <infinite-loading :identifier="infiniteId" @infinite="handleLoading" ></infinite-loading>
+            <infinite-loading :identifier="infiniteId" @infinite="handleLoading" >
+              <div slot="no-more"></div>
+            </infinite-loading>
 
             <div v-if="listProducts.length === 0" class="text-center no-itmes">
             <p class="mt-5">
@@ -289,6 +301,12 @@
     </div>
     <Portal to="page-title"> Wishlist </Portal>
     <CreateWishListModal @created="handleCreated" />
+    <MobileCreateWishListModal
+          :height="'90%'"
+          :open="mobileFiltersOpen"
+          :title="$t('wish_lists.create_new_list').toString()"
+      >
+    </MobileCreateWishListModal>
   </b-container>
 </template>
 <script>
@@ -302,6 +320,9 @@ import CreateWishListModal from '~/components/modal/CreateWishList'
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar'
 import Thumb from '~/components/product/Thumb'
 import ShareIcon from '~/assets/icons/ShareIcon'
+import screenSize from '~/plugins/mixins/screenSize'
+import MobileCreateWishListModal from '~/components/mobile/MobileCreateWishList'
+
 export default {
   name: 'WishLists',
   components: {
@@ -314,8 +335,9 @@ export default {
     BulkSelectToolbar,
     Thumb,
     ShareIcon,
+    MobileCreateWishListModal,
   },
-
+  mixins: [screenSize],
   layout: 'Profile',
 
   middleware: 'auth',
@@ -365,6 +387,7 @@ export default {
       infiniteId: +new Date(),
       state: '',
       url: '',
+      mobileFiltersOpen: false,
     }
   },
 
@@ -632,7 +655,10 @@ export default {
       color: $color-black-1
       &:hover
         border-bottom: 1px solid $color-black-1
-
+.tablist
+  ::v-deep .btn-group
+     width: 460px
+     height: 32px
 ::v-deep .nav-group
   margin: 0
 .wishlist-mobile

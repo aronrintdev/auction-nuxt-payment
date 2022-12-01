@@ -6,48 +6,46 @@
     <!--    Bids Filters and mobile search    -->
     <div v-if="isMobileSize" class="d-flex align-items-center">
       <MobileSearchInput :value="filters.search" class="flex-grow-1" @input="mobileSearch" />
-      <span class="ml-3" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
+      <span class="ml-3 mr-1" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
     </div>
 
     <BidsFilters v-else @update="FetchBids(true)"/>
 
 
-    <div v-if="isVendor" class="d-flex justify-content-between align-items-center">
-      <Button
-        v-if="haveExpired"
-        variant="link"
-        size="sm"
-        class="mobile px-4 py-3 mt-0 mt-mb-5"
-        :class="isMobileSize ? 'delete-expired-mobile' : 'delete-expired'"
-        @click="deleteAction = true"
-      >
-        <img v-if="isMobileSize" src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
-        {{ $t('bids.delete_expired') }}
-      </Button>
+    <div v-if="isVendor" class="d-none d-md-flex justify-content-between align-items-center">
+      <b-row class=" w-100">
+        <b-col md="6"></b-col>
+        <b-col md="6" class="text-right">
+          <Button
+            variant="link"
+            size="sm"
+            class="delete-expired"
+            @click="deleteAction = true"
+          >
+            {{ $t('bids.delete_expired') }}
+          </Button>
+        </b-col>
+      </b-row>
     </div>
 
-    <div class="d-md-none d-flex justify-content-between align-items-center mt-4">
-      <div class="d-flex align-items-center mt-0 mt-md-5">
+    <div class="d-md-none d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center mt-0">
         <h4 class="title">
           {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
         </h4>
       </div>
       <Button
-        v-if="haveExpired && !isVendor"
         variant="link"
         size="sm"
-        class="mobile px-4 py-3 mt-0 mb-md-5"
-        :class="isMobileSize ? 'delete-expired-mobile' : 'delete-expired'"
+        class="delete-expired-mobile"
         @click="deleteAction = true"
       >
-        <img v-if="isMobileSize" src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
-        <span class="body-9-regular" :class="isMobileSize ? 'expire-button-gray' : 'text-black'">
-          {{ $t('bids.delete_expired') }}
-        </span>
+        <img src="~/assets/img/profile/mobile/mobile-delete.svg" class="mr-1" />
+        <span>{{ $t('bids.delete_expired') }}</span>
       </Button>
     </div>
 
-    <div class="d-none mt-5 d-md-flex align-items-center">
+    <div class="d-none d-md-flex align-items-center">
       <h4 class="title mb-0">
         {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
       </h4>
@@ -77,7 +75,7 @@
       <div :class="isMobileSize ? 'body-5-medium' : 'not-found-text'">{{ $t('bids.no_bids') }}</div>
     </div>
     <div v-if="bidsCount>0" class="bids-listing">
-      <b-row class="mt-5 text-center p-0 font-weight-bold d-none d-md-flex">
+      <b-row class="mt-5 mb-13 text-center p-0 font-weight-bold d-none d-md-flex">
         <b-col sm="12" md="2" class="text-center">{{ $t('bids.headers.auction_id') }}</b-col>
         <b-col sm="12" md="3" class="text-left px-0">{{ $t('bids.headers.product') }}</b-col>
         <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }}
@@ -181,9 +179,9 @@
       max-height="90vh"
       :rounded="true"
     >
-      <div class="px-4">
-        <b-row class="my-3">
-          <b-col md="12" class="text-center">
+      <div class="px-4 bid-accept-sheet">
+        <b-row class="mt-3">
+          <b-col md="12" class="text-center bid-accept-sheet-content">
             <span v-if="acceptedBid">
               {{ $tc('bids.accept_body', 1).replace(':amount:', acceptedBid.price / 100) }}
             </span>
@@ -192,7 +190,7 @@
         <b-row class="d-flex flex-column">
           <Button
             variant="primary"
-            class="bg-dark-blue my-3 mx-5"
+            class="bg-dark-blue d-flex align-items-center justify-content-center accept-btn"
             pill
             :disabled="modalActionLoading"
             @click="acceptBidModalOk"
@@ -200,7 +198,7 @@
           </Button>
           <Button
             variant="outline"
-            class="mt-2 mb-3 text-dark-blue"
+            class="text-dark-blue cancel-btn"
             pill
             :disabled="modalActionLoading"
             @click="$refs.mobileBidAcceptConfirm.close()"
@@ -686,13 +684,21 @@ export default {
         background-color: $white-2
 
 .delete-expired.btn
-  @include body-5-regular
+  @include body-5-normal
   background-color: $white
   color: $black
+  width: 228px
+  height: 38px
+  font-family: $font-montserrat
+  margin: 46px 0 40px
+  margin-right: calc(33.33% - 116px)
 
 .delete-expired-mobile.btn
-  @include body-5-regular
-  color: $color-gray-30
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-1214
+  color: $color-gray-47
+  height: auto
 
 .container-profile-bids
   background-color: $color-white-5
@@ -719,8 +725,11 @@ h4.title
   font-weight: $bold
   @include body-1
   @media (max-width: 576px)
+    margin: 22px 0 23px
     @include body-4
     font-weight: $medium
+    font-family: $font-montserrat
+    color: $black
 .bids-listing
   margin: 0 -25px
   @media (max-width: 576px)
@@ -734,10 +743,35 @@ h4.title
     @include heading-3
     font-weight: $bold
     color: $color-black-1
+  .mb-13
+    margin-bottom: 13px
 
   @media (max-width: 576px)
-    padding: 12px 16px 
+    padding: 20px 16px 
     background-color: $white
 
+    .bid-accept-sheet
+      &-content
+        font-family: $font-sp-pro
+        font-weight: $normal
+        @include body-32
+        color: $black
+        margin-bottom: 35px
+      .accept-btn
+        font-family: $font-sp-pro
+        font-weight: $medium
+        @include body-13
+        color: $white
+        height: 40px
+        width: 216px
+      .cancel-btn
+        font-family: $font-sp-pro
+        font-weight: $medium
+        @include body-17
+        color: $color-blue-20
+        height: 24px
+        width: 54px
+        padding: 0
+        margin: 19px auto 20px
 </style>
 

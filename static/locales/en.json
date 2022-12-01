@@ -12,6 +12,7 @@
     "accept": "Accept",
     "decline": "Decline",
     "or": "or",
+    "on": "on",
     "and": "and",
     "close": "Close",
     "revert": "Revert",
@@ -324,7 +325,7 @@
     "private_policy": "Private Policy",
     "privacy_policy": "Privacy Policy",
     "please_wait": "Please wait",
-    "create_your_account": "Create your Account \n with Dead Stock",
+    "create_your_account": "Create an Account!",
     "face_id": "Allow Face ID Sign In",
     "touch_id": "Allow Touch ID",
     "touch_id_icon": "Touch ID",
@@ -1061,10 +1062,10 @@
       "send_offers": "Send Offers",
       "select_durations": {
         "1": "1 Day",
-        "3": "3 Day",
-        "5": "5 Day",
-        "7": "7 Day",
-        "10": "10 Day"
+        "3": "3 Days",
+        "5": "5 Days",
+        "7": "7 Days",
+        "10": "10 Days"
       },
       "select_duration": "Select Duration",
       "back_to_summary": "Back to Auction Summary",
@@ -1264,10 +1265,10 @@
         "select_duration_placeholder": "Select Duration",
         "select_duration": {
           "1": "1 Day",
-          "3": "3 Day",
-          "5": "5 Day",
-          "7": "7 Day",
-          "10": "10 Day"
+          "3": "3 Days",
+          "5": "5 Days",
+          "7": "7 Days",
+          "10": "10 Days"
         },
         "reserve": "Reserve",
         "no_reserve": "No Reserve",
@@ -1555,6 +1556,7 @@
     "image": {
       "not_found": "Product image is not found"
     },
+    "please_select_offer_duration": "Please select your offer duration",
     "standard": "Standard",
     "inches": "Inches",
     "runs_small": "Runs Small",
@@ -1572,6 +1574,7 @@
     "place_offer": "Place Offer",
     "or_sell_now": "or Sell Now",
     "sell_for": "Sell for {amount}",
+    "place_offer_for": "Place Offer for {amount}",
     "read_more": "Read More",
     "read_less": "Read Less",
     "pre_authenticated_ships_instantly": "Pre - authenticated, ships instantly",
@@ -1581,7 +1584,8 @@
     "all_sizes": "All Sizes",
     "box_condition": "Box Condition",
     "box_conditions": {
-      "good_condition": "Excellent",
+      "excellent": "Excellent",
+      "good_condition": "Good Condition",
       "damaged_box": "Damaged Box",
       "missing_lid": "Missing Lid",
       "no_original_box": "No Original Box",
@@ -1625,6 +1629,7 @@
     "select_size": "Select Size",
     "error": {
       "select_size": "Please select a size above to add to cart",
+      "select_offer_duration": "Please select a an offer duration",
       "select_size_to_offer": "Please select a size above to make an offer",
       "out_of_stock": "Unfortunately, this item and size is currently out of stock!",
       "out_of_stock_place_offer": "Item out of stock, place offer or get notified",
@@ -2032,7 +2037,7 @@
       "read_about": "Read about",
       "policies_and_fees": "DEADSTOCK policies and fees",
       "enable_auto_bid_confirm_text": "Are you sure you want to enable auto bid?",
-      "fees": "+ fees",
+      "fees": "+fees",
       "success_bid_msg": "Your bid has been placed. You are the Highest Bidder. Good luck!",
       "bid_up_to": "Bid up to",
       "bid": "Bid",
@@ -2057,7 +2062,7 @@
       "description": "Description",
       "size_guide": "Size Guide",
       "bidding_history": "Bidding History",
-      "verification_guaranteed": "Every item is authenticated by our experts through our authentication process. 100% verification guaranteed.",
+      "verification_guaranteed": "Our experts verify each item through our authentication process using AI, digital technology, and in-person verification. We aim to ensure all items are authentic and as described.",
       "collection_items": "Collection Items",
       "direct_bid": "Direct bid",
       "auction_details_title": "Auction Details",
@@ -2870,10 +2875,10 @@
     "send_offers": "Send Offers",
     "select_durations": {
       "1": "1 Day",
-      "3": "3 Day",
-      "5": "5 Day",
-      "7": "7 Day",
-      "10": "10 Day"
+      "3": "3 Days",
+      "5": "5 Days",
+      "7": "7 Days",
+      "10": "10 Days"
     },
     "select_duration": "Select Duration",
     "back_to_summary": "Back to Auction Summary",
@@ -2927,7 +2932,9 @@
     "drafts": "Drafts ({0})",
     "search": {
       "title": "Search",
-      "add_product": "Add Product"
+      "add_product": "Add Product",
+      "bulk_file": "Bulk Upload",
+      "description": "Select items you would like to list"
     },
     "index": {
       "title": "Select Listing Type",
@@ -2937,12 +2944,13 @@
       "auction_desc": "Post a Single Item Auction or put a whole Collection up for Auction.",
       "trade": "Trade",
       "trade_desc": "Trade up to three items at a time with other Deadstock Sellers. If no offer is accepted, the listing will be active for 14 days.",
+      "trade_desc_mobile": "Trade up to three items at a time. If no offer is accepted in 14 days the trade will expire.",
       "select": "Select",
       "type": "Type",
       "auction_single": "Single Item Auction",
       "auction_single_desc": "For auctions that are a single item only.",
       "auction_collection": "Collection Auctions",
-      "auction_collection_desc": "Multiple product auction listings where buyers bid on the entire collection as a whole.",
+      "auction_collection_desc": "Multiple product auction listings where buyers bid on the entire collection as a whole. Add up to 10 products.",
       "selling_text": "Sell sneakers, a pieace of apparel, or an accessory.",
       "auction_text": "Post a Single Item Auction or put a whole Collection up for Auction.",
       "trade_text": "Trade up to three items at a time. If no offer is accepted in 14 days the trade will expire."
@@ -3073,11 +3081,12 @@
       "select_duration_placeholder": "Select Duration",
       "select_duration": {
         "1": "1 Day",
-        "3": "3 Day",
-        "5": "5 Day",
-        "7": "7 Day",
-        "10": "10 Day"
+        "3": "3 Days",
+        "5": "5 Days",
+        "7": "7 Days",
+        "10": "10 Days"
       },
+      "added_products": "Added Products",
       "reserve": "Reserve",
       "no_reserve": "No Reserve",
       "reserve_price": "Reserve Price",
@@ -3097,6 +3106,7 @@
       "save_as_draft": "Save as Draft",
       "quantity": "Quantity",
       "can_not_add_more": "Collection Auctions can add up to 10 items.",
+      "confirm_page_description": "*By pressing on Post Listing(s), I accept the seller fee of 9.5% + a 2.9% transaction fee. No authentication fees will be charged to sellers.",
       "bottom_text": "*By clicking Post Auction(s), I accept the seller fee of {0}% + a {1}% transaction | fee. No authentication fees will be charged to sellers."
     },
     "details": {
@@ -3310,6 +3320,7 @@
     "selling_page_heading": "Selling",
     "filter_placeholder": "Search Inventory By SKU or Other",
     "enable_vacation_mode": "Enable Vacation Mode",
+    "vacation_mode_text": "Vacation Mode",
     "inventory": "Inventory",
     "product": "Product",
     "date_listed": "Date Listed",
@@ -3946,7 +3957,8 @@
       "arrived_at_deadstock": "Arrived at Deadstock",
       "awaiting_shipment_to_ds": "Awaiting Shipment to DS",
       "completed": "Completed",
-      "order_shipped": "Order Shipped"
+      "order_shipped": "Order Shipped",
+      "commission_paid": "Commission Paid"
     },
     "delivery_address": "Delivery address",
     "tracking_history": "Tracking History",
@@ -5222,11 +5234,11 @@
     "edit_offer_amount": "Edit offer amount",
     "edit_offer_delete": "Delete Offer",
     "placed_offers_product_summary": "Product Summary",
-    "placed_offers_your_placed_offers": "Your Placed Offers",
+    "placed_offers_your_placed_offers": "Your Placed",
     "responsive_heading": "Offers",
     "responsive_detailed_heading": "Offer",
     "highest_offer": "Highest Offer",
-    "your_placed_offers": "Your Placed Offers ({count})",
+    "your_placed_offers": "Your Offers Placed ({count})",
     "table": {
       "products": "Products",
       "offer_amount": "Offer Amount",

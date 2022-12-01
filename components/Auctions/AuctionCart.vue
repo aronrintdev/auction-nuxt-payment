@@ -1,26 +1,26 @@
 <template>
-  <b-col md="9" class="p-3 p-md-5 auction-cart">
+  <b-col md="9" class="auction-cart">
     <b-row>
       <b-col md="12">
         <b-row>
           <b-col md="9">
-            <div class="heading-1-bold">{{ `${$t('common.auction')} #${auction.id}` }}</div>
-            <p class="mt-3">{{ $t('auctions.frontpage.auction_cart_desc') }}</p>
+            <div class="auction-cart-title">{{ `${$t('common.auction')} #${auction.id}` }}</div>
+            <p class="mt-2 auction-cart-desc mb-0">{{ $t('auctions.frontpage.auction_cart_desc') }}</p>
           </b-col>
           <b-col md="3">
-            <div class="pull-right pr-md-5 heading-1-bold">
+            <div class="pull-right pr-md-4 auction-cart-title">
               {{ getTotalQuantity }} {{ $tc('shopping_cart.item', getTotalQuantity) }}
             </div>
           </b-col>
         </b-row>
-        <hr class="mb-5 mt-4" />
+        <hr class="mb-5 mt-1" />
       </b-col>
     </b-row>
 
-    <b-row class="mb-3 mb-md-5 auction-cart-header">
+    <b-row class="mb-3 mb-md-4 auction-cart-header">
       <b-col cols="9" md="10" class="d-flex align-items-center">
         <div class="body-5-bold text-gray-6 text-uppercase">
-          {{ `Item Details` }}
+          {{ $t('shopping_cart.my_products') }}
         </div>
       </b-col>
       <b-col cols="3" md="2" class="text-center">
@@ -30,7 +30,7 @@
       </b-col>
     </b-row>
 
-    <b-row v-for="item in auction.auction_items" :key="item.id" class="mt-4">
+    <b-row v-for="item in auction.auction_items" :key="item.id">
       <b-col cols="9" md="10">
         <b-row>
           <b-col cols="4" md="2">
@@ -56,7 +56,7 @@
         </b-row>
       </b-col>
       <b-col cols="3" md="2" class="text-center quantity">
-        <h5>{{ item.quantity }}</h5>
+        {{ item.quantity }}
       </b-col>
     </b-row>
   </b-col>
@@ -81,20 +81,38 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import '~/assets/css/_typography'
+@import '~/assets/css/_variables'
 
 .auction-cart
+  padding: 44px 57px 0 76px
+  font-family: $font-sf-pro-text
+  &-title
+    font-weight: $bold
+    @include body-16
+    color: $black
+  &-desc
+    font-family: $font-montserrat
+    font-weight: $medium
+    @include body-8
+    color: $color-gray-5
+  .quantity
+    font-weight: $bold
+    @include body-13
+    color: $black
+  &-header
+    .body-5-bold
+      letter-spacing: -0.02em
   @media (max-width: 576px)
-    .heading-1-bold
+    padding: 16px
+    &-title
       @include body-2
-      & + p
-        @include body-21
+    &-desc
+      @include body-21
     &-header
       .body-5-bold
         @include body-9
     .quantity
-      h5
-        @include body-10
+      @include body-10
     .body-4-bold 
       @include body-10
     .body-4-normal

@@ -2,26 +2,32 @@
   <div class="item d-flex flex-column bg-white h-md-100 w-100 rounded-md">
     <div class="position-relative d-flex flex-column justify-content-between">
       <div class="top-section d-none d-md-flex justify-content-between align-content-center">
-        <span class="font-weight-bold">{{ $t('create_listing.confirm.details') }}</span>
+        <span>{{ $t('create_listing.confirm.details') }}</span>
         <div class="d-flex align-items-center">
           <Button
             variant="link"
             class="btn-copy mr-2"
             :tooltip-text="$t('common.copy')"
             @click="cloneItem"
-          ></Button>
+          >
+            <img src="~/assets/img/icons/copy-icon.svg" alt="copy icon" />
+          </Button>
           <Button
             variant="link"
             class="btn-edit-inventory mr-2"
             :tooltip-text="$t('common.edit')"
             @click="editItem"
-          ></Button>
+          >
+            <img src="~/assets/img/icons/edit-icon.svg" alt="edit icon" />
+          </Button>
           <Button
             variant="link"
             class="btn-delete"
             :tooltip-text="$t('common.delete')"
             @click="deleteItem"
-          ></Button>
+          >
+            <img src="~/assets/img/icons/delete-icon.svg" alt="delete icon" />
+          </Button>
         </div>
       </div>
       <b-dropdown id="dropdown-right" right variant="link" no-caret class="d-md-none position-absolute more-btn">
@@ -32,21 +38,21 @@
         <b-dropdown-item @click="editItem">{{ $t('common.edit') }}</b-dropdown-item>
         <b-dropdown-item @click="deleteItem">{{ $t('common.delete') }}</b-dropdown-item>
       </b-dropdown>
-      <div class="detail-section d-flex mt-2 flex-grow-1">
+      <div class="detail-section d-flex">
         <b-row>
-          <b-col sm="3" md="2">
+          <b-col cols="3" md="3">
             <Thumb :product="itemProduct.product" />
           </b-col>
-          <b-col sm="9" md="10" class="pr-4">
-            <b-row class="mb-2 d-block">
-              <div class="body-4-bold mb-2 product-name">{{ itemProduct.product.name }}</div>
-              <div class="body-4-normal mb-2 text-gray-6 text-uppercase product-sku">
+          <b-col cols="9" md="9" class="px-4">
+            <b-row class="d-block">
+              <div class="product-name">{{ itemProduct.product.name }}</div>
+              <div class="product-sku text-uppercase">
                 {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ itemProduct.product.sku }}
               </div>
-              <div class="body-4-normal mb-2 text-gray-6 product-color">
+              <div class="product-color">
                 {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{ itemProduct.product.colorway }}, {{ $t('shopping_cart.size') }}&colon;&nbsp;{{itemProduct.size.size }}
               </div>
-              <div class="body-4-normal mb-2 text-gray-6 product-condition">
+              <div class="product-condition">
                 {{ $t('products.box_condition') }}&colon;&nbsp;{{itemProduct.packaging_condition.name}}
               </div>
             </b-row>
@@ -55,34 +61,47 @@
       </div>
     </div>
 
-    <div class="d-md-none">
+    <div class="auction-item-form">
       <div class="mt-4 statusbox">
-        <div class="font-weight-bold mb-2">{{ $t('create_listing.confirm.status') }}*</div>
+        <div class="auction-form-label mb-2">{{ $t('create_listing.confirm.status') }}</div>
         <CheckboxSwitch
           class="full-width-switch"
           :labelOff="$t('create_listing.confirm.status_select.live')"
           :labelOn="$t('create_listing.confirm.status_select.scheduled')"
           :value="item.status === 'scheduled'"
-          @change="handleStatusSwitch"
+          @change="handleStatusChange"
         />
         <div v-if="item.status === 'scheduled'" class="schedule-time mt-2">
-          <span v-if="item.scheduled_date">{{ item.scheduled_date }}</span>
-          <span v-else class="text-danger body-5-regular">* {{ $t('create_listing.confirm.schedule_date_required') }}</span>
+          <div class="d-flex align-items-center">
+            <span v-if="item.scheduled_date">{{ item.scheduled_date }}</span>
+            <b-form-datepicker
+              v-if="openDatePicker"
+              size="xs"
+              class="ml-2"
+              button-only
+              hide-header
+              :min="tomorrowDate"
+              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+              locale="en"
+              @context="onContext">
+              default
+            </b-form-datepicker>
+          </div>
+          <span v-if="!item.scheduled_date"  class="text-danger body-5-regular">* {{ $t('create_listing.confirm.schedule_date_required') }}</span>
         </div>
       </div>
-      <div class="mt-4 d-flex">
-        <div class="duration-section d-flex flex-column">
-          <div class="font-weight-bold mb-2">{{ $t('create_listing.confirm.duration') }}</div>
+      <div class="d-flex flex-md-column">
+        <div class="mt-4 duration-section d-flex flex-column">
+          <div class="auction-form-label mb-2">{{ $t('create_listing.confirm.duration') }}</div>
           <FormDropdown
             :id="'durationSelector'+item.id"
             :value="item.time_limit"
             :placeholder="$tc('create_listing.confirm.select_duration_placeholder')"
             :items="DURATIONS"
-            :icon-arrow-up="require('~/assets/img/icons/arrow-up-blue.svg')"
-            :icon-arrow-down="require('~/assets/img/icons/arrow-down-blue.svg')"
+            :icon-arrow-up="require('~/assets/img/icons/arrow-up-black.svg')"
+            :icon-arrow-down="require('~/assets/img/icons/arrow-down-black.svg')"
             :class="{'is-invalid': itemError.includes('time_limit')}"
-            class="d-none d-md-block"
-            no-arrow
+            class="d-none d-md-block duration-box"
             @select="handleDurationSelect"
           />
           <button
@@ -94,8 +113,8 @@
             <span v-else class="value">{{ item.time_limit }} {{ $tc('common.day', item.time_limit) }}</span>
           </button>
         </div>
-        <div class="reserve-section d-flex flex-column ml-3">
-          <div class="font-weight-bold">{{ $t('create_listing.confirm.reserve') }} <img :src="infoIcon" class="icon-info position-absolute ml-1 scale-2" alt="Info icon" /></div>
+        <div class="mt-4 reserve-section d-flex flex-column ml-3 ml-md-0">
+          <div class="auction-form-label">{{ $t('create_listing.confirm.reserve') }} <img :src="infoIcon" class="icon-info position-absolute d-md-none ml-1 scale-2" alt="Info icon" /></div>
           <div class="mt-2 d-flex align-items-center">
             <CheckboxSwitch
               class="reserve-switch"
@@ -108,7 +127,7 @@
               :disabled="!item.is_reserved"
               required
               number
-              class="ml-2"
+              class="ml-2 ml-md-3 flex-grow-1"
               :pill="false"
               type="number"
               :value="item.reserve_price"
@@ -122,11 +141,11 @@
         <span>{{ $t('create_listing.confirm.reserve_info_short') }}</span>
       </div>
       <div class="bid-section d-flex flex-column mt-4 row">
-        <div class="col-12 col-md-7">
-          <span class="font-weight-bold">{{ $t('create_listing.confirm.starting_bid') }}</span>
+        <div class="col-12 col-md-12">
+          <span class="auction-form-label">{{ $t('create_listing.confirm.starting_bid') }}</span>
           <FormInput
             :placeholder="$t('create_listing.confirm.enter_starting_bid')"
-            class="mt-2"
+            class="mt-2 flex-grow-1"
             :class="{'is-invalid': itemError.includes('start_bid_price')}"
             required
             number
@@ -138,108 +157,6 @@
       </div>
     </div>
 
-    <div class="d-none d-md-flex flex-column justify-content-between h-100">
-      <div class="duration-section d-flex flex-column mt-2">
-        <span class="font-weight-bold mb-2">{{ $t('create_listing.confirm.duration') }}</span>
-        <FormDropdown
-          :id="'durationSelector-md-'+item.id"
-          :value="item.time_limit"
-          :placeholder="$tc('create_listing.confirm.select_duration_placeholder')"
-          :items="DURATIONS"
-          :icon-arrow-up="require('~/assets/img/icons/arrow-up-blue.svg')"
-          :icon-arrow-down="require('~/assets/img/icons/arrow-down-blue.svg')"
-          class="mb-3 mw-40 mt-2"
-          :class="{'is-invalid': itemError.includes('time_limit')}"
-          no-arrow
-          @select="handleDurationSelect"
-        />
-      </div>
-      <div class="reserve-section d-flex flex-column">
-        <span class="font-weight-bold">{{ $t('create_listing.confirm.reserve') }}&nbsp;
-          <img
-            v-b-tooltip.hover
-            :src="infoIcon"
-            :title="$tc('create_listing.confirm.reserve_info_short')"
-            class="icon-info position-absolute mt-n2 mr-n5 scale-2"
-          />
-        </span>
-        <b-row class="mt-2 ">
-          <b-col cols="2">
-            <CheckboxSwitch
-              class="scale-2 ml-n3"
-              :value="item.is_reserved"
-              @change="handleReserveChange"
-            />
-          </b-col>
-          <b-col cols="5">
-            <FormInput
-              :placeholder="$t('create_listing.confirm.reserve_price')"
-              class="ml-3"
-              :class="{'is-invalid': itemError.includes('reserve_price')}"
-              :disabled="!item.is_reserved"
-              required
-              number
-              type="number"
-              :value="item.reserve_price"
-              @input="(e) => handleChanges('reserve_price', e)"
-            />
-          </b-col>
-          <b-col cols="5">
-            <div v-if="item.is_reserved" class="py-4 px-3 rounded reserve-info position-absolute" >
-              <img :src="infoIcon" class="icon-info scale-2 position-absolute mt-n3 ml-n2" alt="Info icon" />
-              {{ $tc('create_listing.confirm.reserve_text_info', 1) }} ${{calculateFee(item.reserve_price).toFixed(2)}} {{ $tc('create_listing.confirm.reserve_text_info', 2) }}
-            </div>
-          </b-col>
-        </b-row>
-      </div>
-      <div class="bid-section d-flex flex-column mt-2 row">
-        <div class="col-12 col-md-7">
-          <span class="font-weight-bold">{{ $t('create_listing.confirm.starting_bid') }}</span>
-          <FormInput
-            :placeholder="$t('create_listing.confirm.enter_starting_bid')"
-            class="mw-40 mt-2"
-            :class="{'is-invalid': itemError.includes('start_bid_price')}"
-            required
-            number
-            :value="item.start_bid_price"
-            @input="(e) => handleChanges('start_bid_price', e)"
-          />
-        </div>
-      </div>
-      <div class="status-section d-flex flex-column mt-2">
-        <span class="font-weight-bold">{{ $t('create_listing.confirm.status') }}</span>
-        <div class="d-flex align-items-center w-100 row">
-          <div class="col-7 d-flex align-items-center flex-wrap status-row">
-            <FormDropdown
-              :id="'statusSelector'+itemProduct.id"
-              :value="item.status"
-              :placeholder="$tc('create_listing.confirm.select_duration_placeholder')"
-              :items="STATUSES"
-              :class="{'is-invalid': itemError.includes('status')}"
-              :value-filtered="true"
-              class="mb-3 mw-40 mt-2 pr-2 dropdown-filters"
-              @select="handleStatusSelect"
-            />
-            <div v-if="item.status === 'scheduled'" class="schedule-time">
-              <span
-                :class="{'is-invalid': itemError.includes('scheduled_date')}"
-              >{{(item.scheduled_date || $tc('create_listing.confirm.date_text'))}}</span>
-              <b-form-datepicker
-                size="xs"
-                class=""
-                button-only
-                hide-header
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                locale="en"
-                @context="onContext">
-                default
-              </b-form-datepicker>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
     <!-- Duration Sheet -->
     <vue-bottom-sheet ref="durationSheet">
       <div class="d-flex flex-column h-100 filters-sheet">
@@ -259,19 +176,20 @@
         <div class="filters-sheet-title text-center">{{ $t('create_listing.product.select_box_condition') }}</div>
         <div class="flex-shrink-1 overflow-auto filters-sheet-content">
           <div class="pt-3 text-center">
-            <v-date-picker v-model="tempScheduleDate" :min-date="new Date()" :model-config="{ type: 'string', mask: 'YYYY/MM/DD' }" />
+            <v-date-picker v-model="tempScheduleDate" :min-date="tomorrowDate" :model-config="{ type: 'string', mask: 'YYYY/MM/DD' }" />
           </div>
           <div class="py-3 d-flex align-items-center justify-content-around">
             <Button
               variant="outline-primary"
               pill
+              class="schedule-cancel-btn"
               @click="$refs.scheduleDateSheet.close()"
             >
               {{ $t('create_listing.product.cancel') }}
             </Button>
             <Button
               variant="primary"
-              class="px-5"
+              class="schedule-set-btn"
               pill
               @click="setScheduleDate"
             >
@@ -289,11 +207,12 @@ import Thumb from '~/components/product/Thumb';
 import {FormDropdown, FormInput, CheckboxSwitch, Button} from '~/components/common'
 import infoIcon from '~/assets/img/icons/info-dark-blue.svg';
 import createListingAuction from '~/plugins/mixins/create-listing-auction';
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'AuctionItem',
   components: { Thumb, FormDropdown, FormInput, CheckboxSwitch, Button},
-  mixins: [createListingAuction],
+  mixins: [createListingAuction, screenSize],
   props: {
     item: {
       type: Object,
@@ -320,11 +239,19 @@ export default {
         }
       }),
       tempScheduleDate: null,
+      openDatePicker: false,
     }
   },
   computed: {
     itemProduct(){
       return this.item.item
+    },
+    tomorrowDate() {
+      const date = new Date()
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+    },
+    isMobileSize() {
+      return this.isScreenXS || this.isScreenSM
     }
   },
   methods: {
@@ -332,6 +259,7 @@ export default {
       if (ctx.selectedFormatted!=='No date selected'){
         this.handleChanges('scheduled_date', ctx.selectedFormatted)
       }
+      this.openDatePicker = false
     },
     handleDurationSelect(item) {
       this.handleChanges('time_limit', item.value)
@@ -370,11 +298,15 @@ export default {
     closeDurationSheet() {
       this.$refs.durationSheet.close()
     },
-    handleStatusSwitch(value) {
+    handleStatusChange(value) {
       this.$emit('formChange', {...this.item, status: value ? 'scheduled' : 'live' })
       if (value) {
         this.tempScheduleDate = this.item.scheduled_date
-        this.$refs.scheduleDateSheet.open()
+        if (this.isMobileSize) {
+          this.$refs.scheduleDateSheet.open()
+        } else {
+          this.openDatePicker = true
+        }
       }
     },
     setScheduleDate() {
@@ -390,7 +322,9 @@ export default {
 
 .is-invalid
   border: $color-red-1 2px solid
-  border-radius: 100px
+  border-radius: 5px
+  input
+    border: none
 
   @media (max-width: 576px)
     border-radius: 10px
@@ -518,8 +452,163 @@ export default {
     .schedule-time
       width: 120px
 .item::v-deep
-  padding: 16px 24px
+  padding: 16px 20px 14px 33px
 
+  .top-section
+    font-family: $font-family-sf-pro-display
+    font-weight: $normal
+    @include body-12
+    color: $black
+    margin-bottom: 15px
+  .product
+    &-name
+      font-family: $font-family-sf-pro-display
+      font-weight: $medium
+      @include body-8
+      color: $black
+    &-sku,
+    &-color,
+    &-condition
+      font-family: $font-family-sf-pro-display
+      font-weight: $normal
+      @include body-21
+      color: $color-gray-6
+      margin-top: 3px
+  .auction-item-form
+    max-width: 248px
+    @media (max-width: 576px)
+      max-width: 100%
+  .auction-form-label
+    font-family: $font-sp-pro
+    font-weight: $normal
+    @include body-12
+    color: $black
+  .full-width-switch
+    background: $color-blue-20
+    border-radius: 2px
+    padding: 6px 12px
+    display: flex
+    .custom-control
+      width: 0
+      padding: 0
+      visibility: hidden
+    & > span
+      flex: 1
+      font-weight: $normal
+      font-size: 15px
+      line-height: 18px
+      color: $white
+      flex: 1
+      padding: 4px
+      text-align: center
+      &.active
+        background: $white
+        color: $black
+        box-shadow: 0px 2px 4px rgba($black, 0.15), 0px 3px 8px rgba($black, 0.15)
+        border-radius: 2px
+  .duration-section
+    .form-dropdown-wrapper
+      &.is-invalid
+        .btn-dropdown
+          border: none
+      .btn-dropdown
+        border: 1px solid $color-blue-20
+        border-radius: 4px
+        @include body-13
+        white-space: nowrap
+        padding: 10px 15px 9px
+        height: auto
+        min-width: 128px
+        &.opened
+          border-bottom: none
+          border-bottom-left-radius: 0
+          border-bottom-right-radius: 0
+    .search-results
+      .popover-body
+        & > div
+          border: 1px solid $color-blue-20
+          border-top: none
+          font-size: 12px
+          line-height: 15px
+          &:last-child
+            border-bottom-left-radius: 4px
+            border-bottom-right-radius: 4px
+  .reserve-section
+    .form-input-wrapper
+      .form-input
+        border: 1px solid $color-blue-20
+        border-radius: 4px
+        @include body-13
+        font-family: $font-family-sf-pro-display
+        white-space: nowrap
+        padding: 10px 15px 9px
+        height: auto
+      &.is-invalid
+        .form-input
+          border: none
+    
+    .checkbox-switch
+      .custom-switch
+        margin: 0
+        padding-left: 55px
+        height: 30px
+        .custom-control-input ~ .custom-control-label::before
+          background: $white-5
+          border-radius: 2px
+          height: 30px
+          width: 55px
+          border: none
+          top: 0
+          left: -55px
+        .custom-control-input ~ .custom-control-label::after
+          width: 24px
+          height: 24px
+          background: $white
+          box-shadow: 0px 2px 4px rgba($black, 0.15), 0px 3px 8px rgba($black, 0.15)
+          border-radius: 2px
+          top: 3px
+          left: -51px
+        .custom-control-input:checked ~ .custom-control-label::before
+          background: $color-green-16
+        .custom-control-input:checked ~ .custom-control-label::after
+          transform: translateX(24px)
+  .reserve-info
+    font-size: 14px
+    line-height: 17px
+    font-weight: $regular
+    width: 390px
+    .icon-info
+      width: 14px
+      height: 14px
+  .bid-section
+    .form-input-wrapper
+      .form-input
+        border: 1px solid $color-blue-20
+        border-radius: 4px
+        font-family: $font-family-sf-pro-display
+        font-weight: $regular
+        @include body-13
+        height: 40px
+      &.is-invalid
+        .form-input
+          border: none
+
+  .duration-box-btn
+    @include body-9
+    border: 1px solid $color-blue-20
+    border-radius: 4px
+    background: transparent
+    padding: 17px 14px
+    font-family: $font-montserrat
+    font-weight: $medium
+    white-space: nowrap
+    width: 128px
+    &.is-invalid
+      border: 2px solid $red-1
+    .placeholder
+      color: $color-gray-23
+    .value
+      color: $black
   @media (max-width: 576px)
     padding: 12px
     box-shadow: 0px 1px 4px rgba($black, 0.25)
@@ -548,106 +637,31 @@ export default {
             font-size: 13px
             line-height: 16px
             color: $color-gray-6
-    .font-weight-bold
-      font-size: 12px
-      line-height: 15px
-    .full-width-switch
-      background: $color-blue-20
-      border-radius: 2px
-      padding: 6px 12px
-      display: flex
-      .custom-control
-        width: 0
-        padding: 0
-        visibility: hidden
-      & > span
-        flex: 1
-        font-weight: $normal
-        font-size: 15px
-        line-height: 18px
-        color: $white
-        flex: 1
-        padding: 4px
-        text-align: center
-        &.active
-          background: $white
-          color: $black
-          box-shadow: 0px 2px 4px rgba($black, 0.15), 0px 3px 8px rgba($black, 0.15)
-          border-radius: 2px
     .duration-section
       .form-dropdown-wrapper
         .btn-dropdown
-          border: 1px solid $white-5
+          border: 1px solid $color-white-5
           border-radius: 10px
-          font-size: 12px
-          line-height: 15px
-          white-space: nowrap
-          padding: 16px 15px 16px 15px
-          height: auto
-          min-width: 128px
-          &.opened
-            border-bottom: none
-            border-bottom-left-radius: 0
-            border-bottom-right-radius: 0
-      .search-results
-        .popover-body
-          & > div
-            border: 1px solid $white-5
-            font-size: 12px
-            line-height: 15px
-            &:last-child
-              border-bottom-left-radius: 10px
-              border-bottom-right-radius: 10px
+          @include body-9
+          padding: 16px 15px
+          font-family: $font-montserrat
     .reserve-section
       .form-input-wrapper
         .form-input
           border: 1px solid $white-5
           border-radius: 10px
-          font-size: 12px
-          line-height: 15px
-          white-space: nowrap
-          padding: 16px 15px 16px 15px
-          height: auto
-      
-      .checkbox-switch
-        .custom-switch
-          margin: 0
-          padding-left: 55px
-          height: 30px
-          .custom-control-input ~ .custom-control-label::before
-            background: $white-5
-            border-radius: 2px
-            height: 30px
-            width: 55px
-            border: none
-            top: 0
-            left: -55px
-          .custom-control-input ~ .custom-control-label::after
-            width: 24px
-            height: 24px
-            background: $white
-            box-shadow: 0px 2px 4px rgba($black, 0.15), 0px 3px 8px rgba($black, 0.15)
-            border-radius: 2px
-            top: 3px
-            left: -51px
-          .custom-control-input:checked ~ .custom-control-label::before
-            background: $color-green-16
-          .custom-control-input:checked ~ .custom-control-label::after
-            transform: translateX(24px)
+          @include body-9
+          padding: 16px 15px
+          font-family: $font-montserrat
     .reserve-info
-      font-size: 14px
-      line-height: 17px
-      font-weight: 400
-      .icon-info
-        width: 14px
-        height: 14px
+      width: 100%
+
     .bid-section
       .form-input-wrapper .form-input
         border: 1px solid $white-5
         border-radius: 10px
-        font-weight: 600
-        font-size: 12px
-        line-height: 15px
+        font-family: $font-montserrat
+        @include body-9
         height: 50px
 
     .duration-box-btn
@@ -666,6 +680,9 @@ export default {
         color: $color-gray-23
       .value
         color: $black
+    .auction-form-label
+      font-size: 12px
+      line-height: 15px
 .bottom-sheet::v-deep
   .bottom-sheet__content
     overflow: hidden
@@ -686,4 +703,13 @@ export default {
         div
           border-color: $color-blue-20
           color: $white
+    .schedule-set-btn
+      width: 160px
+      background: $color-blue-20
+      border-color: $color-blue-20
+      color: $white
+    .schedule-cancel-btn
+      width: 160px
+      color: $color-blue-20
+      border-color: $color-blue-20
 </style>

@@ -76,7 +76,7 @@
         <div :class="{'timings-left' : isPayment}">
         </div>
         <div class="center-container" :class="{'center-cont-height':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_ONE) , 'center-container-margin': isPayment, 'mt-5': isExpire, 'pt-5': isExpire }">
-          <div class="left-item" :class="{'left-item-margin':trade.offers.length == ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_ONE}">
+          <div class="left-item" :class="{'left-item-margin':trade.offers.length == ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0}">
             <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'item-'+index : ''" :key="index" class="item" :class="[((trade.offers.length > ITEM_COUNT_ONE )|| (getYourTradeItems.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
               <div class="image-wrapper position-relative">
               <img class="item-image" :src="item.inventory.product | getProductImageUrl" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
@@ -94,12 +94,12 @@
             <div v-if="trade.offers.length > ITEM_COUNT_ONE" class="pointer-left"></div>
             <div class="long-line" :class="{'long-line-length' : trade.offers.length == ITEM_COUNT_ONE }"></div>
             <img :src="require('~/assets/img/trades/border.svg')" />
-            <div class="long-line" :class="{'long-line-length' : (getYourTradeItems.length == ITEM_COUNT_0 || getYourTradeItems.length == ITEM_COUNT_ONE) }"></div>
-            <div v-if="getYourTradeItems.length > ITEM_COUNT_ONE" class="pointer-right"></div>
+            <div class="long-line" :class="{'long-line-length' : getYourTradeItems.length == ITEM_COUNT_0  }"></div>
+            <div v-if="getYourTradeItems.length > ITEM_COUNT_0" class="pointer-right"></div>
           </div>
-          <div class="right-item" :class="{'right-item-margin':trade.offers.length > ITEM_COUNT_ONE && (getYourTradeItems.length === ITEM_COUNT_0 || getYourTradeItems.length === ITEM_COUNT_ONE)}">
+          <div class="right-item" :class="{'right-item-margin':trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 }">
             <div  v-if="getYourTradeItems.length" class="">
-              <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_TWO ?'your-item-'+index : 'your-item'" :key="index" class="preview item-length mb-4" :class="{'yml': isPayment && getYourTradeItems.length > ITEM_COUNT_TWO}">
+              <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_ONE ?'your-item-'+index : 'your-item'" :key="index" class="preview item-length mb-4" :class="{'yml': isPayment && getYourTradeItems.length > ITEM_COUNT_TWO}">
                 <div class="remove-item" @click="decrementOrRemoveItem(item)">
                   <div class="minus"></div>
                 </div>
@@ -116,7 +116,7 @@
                 </div>
               </div>
             </div>
-            <div v-if="getYourTradeItems.length === ITEM_COUNT_0" :class="[getYourTradeItems.length > ITEM_COUNT_ONE ? 'item-length' : 'item-normal']"   @drop="onDrop($event)"
+            <div v-if="getYourTradeItems.length === ITEM_COUNT_0 || getYourTradeItems.length < ITEM_COUNT_THREE" :class="[getYourTradeItems.length > ITEM_COUNT_ONE ? 'item-length' : 'item-normal']"   @drop="onDrop($event)"
                 @dragover.prevent
                 @dragenter.prevent>
             <img :src="require('~/assets/img/trades/tradeNow.svg')">
@@ -132,7 +132,7 @@
           <div v-if="!cash_added && !isExpire" class="optional-input d-flex">
             <div class="position-relative">
             <span v-if="optional_cash" class="position-absolute input-mt ml-2">$</span>
-            <input v-model="optional_cash" type="text" :placeholder="$t('trades.trade_arena.enter_amount_usd')" class="optional-input-field">
+            <input v-model="optional_cash" type="number" :placeholder="$t('trades.trade_arena.enter_amount_usd')" class="optional-input-field">
             </div>
             <button @click="addOptionalCash(true)">{{$t('trades.trade_arena.confirm')}}</button>
           </div>
@@ -140,7 +140,12 @@
             <div class="d-flex cash-added justify-content-center mt-4">
               <div>
                 <img :src="require('~/assets/img/icons/dollar.svg')" class="ml-4 mr-2">
-                {{$t('trades.trade_arena.you_added_cash',{'0': optional_cash })}}
+                <span v-if="cashType === addCashType">
+                  {{$t('trades.trade_arena.you_added_cash',{'0': optional_cash })}}
+                </span>
+                <span v-else>
+                  {{$t('trades.trade_arena.you_requested_cash',{'0': optional_cash })}}
+                </span>
                 <sup class="ml-1 mr-4" role="button"><img  id="cashPopover" :src="infoIcon"/></sup>
               </div>
               <b-popover target="cashPopover" triggers="hover" placement="top" >
@@ -489,11 +494,12 @@ export default {
      */
     theirTotal(formattedPrice = true){
       const price = this.trade.offers.map((value) => value.inventory.sale_price)
+      const cashAdded = (!isNaN(parseFloat(this.optional_cash)) && this.cashType === this.requestCashType) ? this.optional_cash : 0
       if(price.length) {
         return (formattedPrice) ?
-          '$' + (price.reduce((a, b) => a + b, 0)/100).toFixed(2) : price.reduce((a, b) => a + b, 0)
+          '$' + ((price.reduce((a, b) => a + b, 0)/100) + parseFloat(cashAdded)).toFixed(2) : price.reduce((a, b) => a + b, 0) + (cashAdded * 100)
       }
-      return (formattedPrice) ? '$0.00' : 0
+      return (formattedPrice) ? '$' + (parseFloat('0.00') +  parseFloat(cashAdded)) : cashAdded * 100
     },
 
     /**
@@ -503,7 +509,7 @@ export default {
      */
     yourTotal(formattedPrice = true){
       const price = this.getYourTradeItems.map((item) => item.sale_price)
-      const cashAdded = !isNaN(parseFloat(this.optional_cash)) ? this.optional_cash : 0
+      const cashAdded = (!isNaN(parseFloat(this.optional_cash)) && this.cashType === this.addCashType) ? this.optional_cash : 0
       if(price.length) {
         return (formattedPrice) ?
           '$' + ((price.reduce((a, b) => a + b, 0)/100) + parseFloat(cashAdded)).toFixed(2) : price.reduce((a, b) => a + b, 0) + (cashAdded * 100)
@@ -537,11 +543,11 @@ export default {
      * This function is used to add or increment your trade item in store
      * @param item
      */
-    addOrIncrementYourItem(item) {
+    addOrIncrementYourItem: debounce(function (item) {
         this.$store.commit('trade/setYourTradeItems', item)
         this.updateActiveTrade()
         this.$nextTick(() => this.$forceUpdate())
-    },
+    }, 100),
     /**
      * This function is used to get trade items against trade id
      * get trade ID from route parameter
@@ -719,11 +725,24 @@ export default {
     },
 
     updateActiveTrade(){
-      this.$store.commit('trade/updateActiveTrade', {
-        yourItems: this.getYourTradeItems,
-        cashAdded: parseInt(parseFloat(this.optional_cash)*100),
-        tradeCondition: this.tradeCondition
+      if(this.cashType === this.addCashType) {
+        this.$store.commit('trade/updateActiveTrade', {
+          yourItems: this.getYourTradeItems,
+          cashType: this.cashType,
+          typeOffer: false,
+          cashAdded: parseInt(parseFloat(this.optional_cash) * 100),
+          tradeCondition: this.tradeCondition
+        })
+      }
+      else {
+        this.$store.commit('trade/updateActiveTrade', {
+          yourItems: this.getYourTradeItems,
+          cashType: this.cashType,
+          typeOffer: true,
+          cashAdded: parseInt(parseFloat(this.optional_cash) * 100),
+
       })
+      }
     },
 
     /**

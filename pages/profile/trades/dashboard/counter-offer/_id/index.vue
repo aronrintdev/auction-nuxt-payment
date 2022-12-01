@@ -340,9 +340,27 @@
                 />
               </div>
               <div class="trade-hub-buttons mt-4 mb-4">
-                <div class="mb-1">
-                  <span class="add-cash">{{ $t('trades.add_cash') }}</span>
-                  <span class="request-cash">{{ $t('trades.request_cash') }}</span>
+                <div v-if="!cashAdded" class="mb-1">
+                  <span 
+                    class="add-cash mr-3"
+                    role="button"
+                    @click="cashType = cashAddedType"
+                    :class="{
+                      'active-cash-type': cashType === cashAddedType
+                    }"
+                  >
+                    {{ $t('trades.add_cash') }}
+                  </span>
+                  <span 
+                    class="request-cash"
+                    role="button"
+                    @click="cashType = cashRequestedType"
+                    :class="{
+                      'active-cash-type': cashType === cashRequestedType
+                    }"
+                  >
+                    {{ $t('trades.request_cash') }}
+                  </span>
                 </div>
                 <div v-if="!cashAdded" class="optional-input w-100 d-flex">
                   <div class="position-relative">
@@ -688,7 +706,8 @@ export default {
       submittedItemType: OFFER_TYPE_YOURS,
       OFFER_TYPE_THEIR,
       COUNTER_OFFER_TYPE,
-      cashAddedType:CASH_TYPE_ADDED,
+      cashAddedType: CASH_TYPE_ADDED,
+      cashRequestedType: CASH_TYPE_REQUESTED,
       filterScreen: false,
       infiniteId: +new Date(),
       ITEM_COUNT_0,
@@ -1272,14 +1291,13 @@ export default {
   @include body-9
   font-family: $font-family-sf-pro-display
 
-.add-cash
-  color: $color-black-4
-  font-weight: $medium
-  margin-right: 11px
-
-.request-cash
+.add-cash, .request-cash
   color: $color-gray-4
   font-weight: $regular
+
+.active-cash-type
+  color: $color-black-4
+  font-weight: $medium
 
 .mt-55
   margin-top: 55px
@@ -1756,7 +1774,6 @@ export default {
   width: 120px
   height: 112.4px
 .item-caption
-  //background: $color-gray-1
   padding-left: unset
 .color-blue
   color: $color-blue-20
@@ -1836,15 +1853,6 @@ export default {
   right: 5%
   top: 15px
   z-index: 1000
-
-.optional-input-field
-  width: 236px
-  height: 38px
-  background: $color-white-1
-  border: 0.5px solid $color-gray-4
-  box-sizing: border-box
-  border-radius: 31px
-  padding-left: 20px
 
 .input-mt
   margin-top: 7px
@@ -1947,7 +1955,6 @@ export default {
 .add-cash
   height: 37px
   width: 315px
-  margin-left: 20px
   border-radius: unset
   margin-top: 19px
 .authenticity

@@ -20,7 +20,7 @@
             class="px-0"
             variant="dark-blue"
             block
-            @click="$emit('place-offer', offerAmount)"
+            @click="$emit('offer-duration', offerAmount)"
           >
             {{ $t('products.place_offer') }}
           </Button>

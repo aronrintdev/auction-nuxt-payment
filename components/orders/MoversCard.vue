@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="text-center">
-        <img :src="productImage" alt="" height="100">
+        <img :src="productImage" alt="" height="120">
       </div>
       <div class="d-flex justify-content-between align-items-end">
         <div class="d-none d-md-block">

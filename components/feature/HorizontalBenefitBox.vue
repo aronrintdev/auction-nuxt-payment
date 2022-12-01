@@ -2,7 +2,7 @@
   <div>
     <div class="horizontal-benefit-box">
       <div
-        class="benefit-item-main-wrapper d-flex align-items-center justify-content-center flex-column align-items-xl-start justify-content-sm-start flex-sm-row gap-6 mb-4"
+        class="benefit-item-main-wrapper d-flex align-items-center justify-content-center flex-column align-items-xl-start justify-content-sm-start flex-sm-row gap-6 mb-sm-5 mb-4"
       >
         <div class="benefit-image">
           <img

@@ -24,7 +24,7 @@
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
-      <FeatureTitle>
+      <FeatureTitle class="feature-title-my">
         {{ $t('newest_features.auctions.types') }}
       </FeatureTitle>
       <FeatureTabs :options="options" class="feature-tabs">
@@ -265,4 +265,9 @@ export default {
       background-size: auto !important
       padding: 22px 46px 10px 14px  !important
       border-radius: 12px !important
+
+@media screen and (max-width: 577px)
+  .feature-title-my
+    margin-top: 48px !important
+    margin-bottom: 24px !important
 </style>

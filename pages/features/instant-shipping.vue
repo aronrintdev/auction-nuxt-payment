@@ -24,6 +24,9 @@
         :benefitTitle="benefit.benefitTitle"
         :benefitDescription="benefit.benefitDescription"
       />
+      <FeatureTitle v-if="isScreenXS" class="feature-title-my">
+        {{ $t('newest_features.social_signin.refer_a_friend') }}
+      </FeatureTitle>
       <InviteFriend v-if="isScreenXS" />
     </FeatureContentWrapper>
   </div>
@@ -32,12 +35,14 @@
 import screenSize from '~/plugins/mixins/screenSize'
 import FeatureContentWrapper from '~/components/feature/ContentWrapper'
 import HorizontalBenefitBox from '~/components/feature/HorizontalBenefitBox'
+import FeatureTitle from '~/components/feature/Title'
 import InviteFriend from '~/components/feature/InviteFriend'
 
 export default {
   components: {
     FeatureContentWrapper,
     HorizontalBenefitBox,
+    FeatureTitle,
     InviteFriend,
   },
   mixins: [screenSize],
@@ -99,3 +104,11 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+
+@media screen and (max-width: 577px)
+  .feature-title-my
+    width: 80%
+    margin-top: 48px !important
+    margin-bottom: 24px !important
+</style>
