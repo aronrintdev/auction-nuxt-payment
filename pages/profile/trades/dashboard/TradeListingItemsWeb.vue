@@ -4,7 +4,7 @@
       v-for="(trade) in tradesList" 
       :key="'trade-' + trade.id" 
       role="button"
-      class="col-12 col-lg-6 mt-3"
+      class="col-12 col-xl-6 mt-3"
     >
       <div class="trade-listing-item-single">
         <b-row class="justify-content-end">
@@ -88,7 +88,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .trade-listing-item-single
-  background: $color-white-1
+  background: $color-white-4
   border-radius: 10px
   padding: 20px 28px 7px 28px
 
