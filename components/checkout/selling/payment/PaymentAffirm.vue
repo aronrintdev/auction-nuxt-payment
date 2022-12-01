@@ -250,7 +250,7 @@ export default {
         const array = {
           display_name: vm.shoppingCart[i].name,
           sku: vm.shoppingCart[i].sku,
-          unit_price: vm.$options.filters.formatPrice(vm.shoppingCart[i].price),
+          unit_price: vm.shoppingCart[i].price,
           qty: vm.shoppingCart[i].quantity,
           item_image_url: vm.shoppingCart[i].image,
           item_url: `${vm.appUrl}/shop/${vm.shoppingCart[i].sku}`,
@@ -259,6 +259,12 @@ export default {
       }
       return items
     },
+    getOrdertax: (vm) => {
+      return vm.getTax
+    },
+    getOrderShipping: (vm) => {
+      return vm.getShippingFee
+    },
   },
 
   methods: {
@@ -266,6 +272,8 @@ export default {
       addPaymentMethod: 'auth/addPaymentMethod',
       addPaymentToken: 'order-details/addPaymentToken',
       addInstallmentPlans: 'order-details/addInstallmentPlans',
+      getTaxAmount: 'order-details/getTax',
+      getOrderShippingAmount: 'order-details/getShippingFee',
     }),
     injectAffirm() {
       // Inject Affirm JS
@@ -330,15 +338,15 @@ export default {
       const checkoutObject = {
         merchant: this.merchantData(),
         shipping: this.getShippingAddress,
-        billing: this.billingAddress,
+        billing: this.getBillingAddress,
         items: this.getShoppingCart,
         // Set to modal to enable the modal checkout flow (default uses redirect checkout flow). Possible values:- modal, redirect
         // More details: https://docs.affirm.com/developers/docs/modal-vs-redirect-checkout
         metadata: { mode: 'modal' },
         order_id: this.orderID,
         currency: 'USD',
-        shipping_amount: this.shippingFee,
-        tax_amount: this.tax,
+        shipping_amount: this.getOrderShipping,
+        tax_amount: this.getOrdertax,
         total: this.getTotal, // The checkout total must be a positive integer
       }
       // eslint-disable-next-line no-undef
