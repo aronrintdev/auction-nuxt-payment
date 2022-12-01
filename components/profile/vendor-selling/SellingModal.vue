@@ -20,10 +20,10 @@
         <p v-if="description3">{{ description3 }}</p>
       </div>
       <div class="d-flex justify-content-center mt-41">
-        <Button variant="dark-blue" pill @click="handleOkClick" class="modal-btn mr-43">{{
+        <Button variant="dark-blue" pill class="modal-btn mr-43" @click="handleOkClick">{{
           confirmLabel || $t('common.ok')
         }}</Button>
-        <Button variant="outline-dark" pill @click="handleCancelClick" class="modal-btn">{{
+        <Button variant="outline-dark" pill class="modal-btn" @click="handleCancelClick">{{
           $t('common.cancel')
         }}</Button>
       </div>

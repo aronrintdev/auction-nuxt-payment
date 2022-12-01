@@ -42,7 +42,7 @@
         }}
       </div>
     </div>
-    <div class="col-12 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'" v-if="showAddButton">
+    <div v-if="showAddButton" class="col-12 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
       <Button class="mt-3 w-100"
               variant="dark"
               :class="{'py-4' : !isScreenXS}"
