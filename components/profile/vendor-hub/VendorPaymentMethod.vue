@@ -164,8 +164,8 @@ export default {
 @import '~/assets/css/_variables'
 
 .add-payout.btn
-  color: $color-blue-2
-  border: 1px solid $color-blue-2
+  color: $color-blue-20
+  border: 1px solid $color-blue-20
 
 
 .no-payout
@@ -200,5 +200,5 @@ export default {
 .mobile-add-payout
   position: absolute
   right: 16px
-  bottom: 200px
+  bottom: 110px
 </style>
