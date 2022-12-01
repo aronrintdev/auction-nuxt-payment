@@ -317,16 +317,16 @@
       color: $color-blue-30
   
   .icon-text
-    font-size: 14px !important
-    font-weight: $medium !important
-    color: $color-black-1 !important,
+    font-size: 14px
+    font-weight: $medium
+    color: $color-black-1
   
   .text-color-blue-30
     color: $color-blue-30
   
   .size-label-responsive
     @include body-10
-    display: block !important
+    display: block
     color: $color-black-1
     left: 0
     top: 0
@@ -335,16 +335,16 @@
       text-transform: uppercase
   
   .icon-text-responsive
-    font-size: 13px !important
-    font-weight: $regular !important
-    color: $color-black-1 !important
+    font-size: 13px
+    font-weight: $regular
+    color: $color-black-1
     @media (min-width: 576px)
-      color: $color-blue-30 !important
-      font-weight: $medium !important
+      color: $color-blue-30
+      font-weight: $medium
   
   .owl-carousel
     .owl-item
-      width: 70px !important
+      width: 70px
   
   .container
     .carousel-wrapper
@@ -358,7 +358,7 @@
       margin-top: 8px
   
       >span .owl-nav
-        display: block !important
+        display: block
   
       .owl-carousel
   
@@ -395,20 +395,20 @@
         &.owl-next
           float: right
           width: auto
-          margin-right: -30px !important
-          margin-top: -71px !important
+          margin-right: -30px
+          margin-top: -71px
           @media (min-width: 576px)
-            margin-right: -30px !important
-            margin-top: -80px !important
+            margin-right: -30px
+            margin-top: -80px
   
         &.owl-prev
           float: left
           width: auto
-          margin-top: 13px !important
-          margin-left: -30px !important
+          margin-top: 13px
+          margin-left: -30px
           @media (min-width: 576px)
-            margin-top: 18px !important
-            margin-left: -30px !important
+            margin-top: 18px
+            margin-left: -30px
   
       .card
         @include body-9-medium
