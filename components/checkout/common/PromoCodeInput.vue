@@ -38,7 +38,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .promo-wrapper
-  font-family: 'SF Pro Display', serif
+  font-family: $font-sp-pro
 
   @media (max-width: 576px)
     border-bottom: 1px solid $color-gray-23b
