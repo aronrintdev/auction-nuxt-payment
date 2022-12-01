@@ -83,6 +83,22 @@
               :disabled="
                 listProducts.length === 0 || getMovableWishLists().length === 0
               "
+              @click="setAction('rename')"
+            >
+              {{ $t('wish_lists.rename_list') }}
+            </b-dropdown-item>
+            <b-dropdown-item
+              :disabled="
+                listProducts.length === 0 || getMovableWishLists().length === 0
+              "
+              @click="setAction('delete')"
+            >
+              {{ $t('wish_lists.delete_list') }}
+            </b-dropdown-item>
+            <b-dropdown-item
+              :disabled="
+                listProducts.length === 0 || getMovableWishLists().length === 0
+              "
               @click="setAction('move')"
             >
               {{ $t('wish_lists.move_items') }}
@@ -114,7 +130,7 @@
             :class="`section-lists ${action !== 'none' ? 'mt' : ''}`"
           >
             <h5 class="d-none d-sm-block px-2">
-              {{ $t('wish_lists.buying_lists') }}
+              {{ $t('wish_lists.buying_lists') }} <span v-b-modal.create-list-modal class="plus-sign">+</span>
             </h5>
             <div class="d-none d-sm-block wishlist-wrapper">
               <div v-for="list in wishLists" :key="list.id" class="px-2">
@@ -163,8 +179,8 @@
                           {{ list.privacy }} List
                         </h6>
                       </div>
-                      <div :id="`popover-share-${list.id}`">
-                        <ShareIcon />
+                      <div v-if="list.privacy === 'public'" :id="`popover-share-${list.id}`">
+                        <img src="~/assets/img/icons/share.svg" alt="Share" width="19" height="19" class="d-block" />
                       </div>
                     </div>
                     <nuxt-link
@@ -199,12 +215,13 @@
                   />
                 </b-popover>
               </div>
-              <div class="d-flex justify-content-end">
-                <span @click="mobileFiltersOpen = !mobileFiltersOpen"><img width="42" height="42" src="~/assets/img/icons/plus-icon-bg.svg" /></span>
-              </div>
+
 
             </div>
           </section>
+          <div class="d-flex justify-content-end align-self-end d-block d-sm-none">
+            <span @click="mobileFiltersOpen = !mobileFiltersOpen"><img width="42" height="42" src="~/assets/img/icons/plus-icon-bg.svg" /></span>
+          </div>
         </div>
 
         <div
@@ -256,7 +273,7 @@
 
             <Button
               variant="primary"
-              class="mt-4 mx-auto"
+              class="mt-4 mx-auto browse-button"
               pill
               @click="handleBrowseClick"
             >
@@ -319,7 +336,6 @@ import ProductCard from '~/components/product/Card.vue'
 import CreateWishListModal from '~/components/modal/CreateWishList'
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar'
 import Thumb from '~/components/product/Thumb'
-import ShareIcon from '~/assets/icons/ShareIcon'
 import screenSize from '~/plugins/mixins/screenSize'
 import MobileCreateWishListModal from '~/components/mobile/MobileCreateWishList'
 
@@ -334,7 +350,6 @@ export default {
     CreateWishListModal,
     BulkSelectToolbar,
     Thumb,
-    ShareIcon,
     MobileCreateWishListModal,
   },
   mixins: [screenSize],
@@ -397,6 +412,10 @@ export default {
     }),
   },
   async mounted (){
+    const mobile = document.querySelector('.mobile-p-b')
+    if (mobile) {
+      mobile.classList.add('mobile-p-b-1')
+    }
     await this.fetchWishLists()
     if (this.$route.query?.id) {
       const wishList = this.wishLists.find(
@@ -638,6 +657,8 @@ export default {
 @import '~/assets/css/_variables'
 .text-gray-5
   color: $color-gray-5
+.btn-primary, .browse-button
+  background: $color-blue-10
 
 .mw-300px
   max-width: 300px
@@ -692,5 +713,12 @@ export default {
       width: 27px
       height: 27px
       border-radius: 100%
-
+.plus-sign
+  @include body-4-normal
+</style>
+<style lang="sass">
+.mobile-p-b
+  padding-bottom: 14px
+.mobile-p-b-1
+  padding-bottom: 14px !important
 </style>
