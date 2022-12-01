@@ -57,13 +57,7 @@
           >
         </b-col>
         <b-col cols="6" sm="6">
-          <Button
-            variant="dark"
-            block
-            pill
-            @click="$router.push('/login')"
-            >{{ $t('auth.login') }}</Button
-          >
+          <Button variant="dark-blue" block pill @click="$router.push('/login')">{{ $t('home.login') }}</Button>
         </b-col>
       </b-row>
       <!-- End of Authentication Buttons -->
