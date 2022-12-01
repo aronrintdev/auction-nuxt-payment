@@ -196,8 +196,12 @@ export default {
 .apply-button
   background: $color-blue-20
   color: $color-white-1
-  border-radius: 6px
+  border-radius: 5px
   box-shadow: none
+  @include body-8
+  font-weight: $normal
+  font-family: $font-sp-pro
+  height: 38px
 
   &:hover
     border: none
@@ -353,7 +357,8 @@ export default {
     @include body-5
     font-weight: $regular
     background-color: $white
-    color: $color-gray-5 !important
+    color: $color-gray-5
+    letter-spacing: 0
     border: 1px solid $color-gray-60
     border-right: none
   .btn-secondary
