@@ -196,6 +196,6 @@ export default {
 .bottom-sheet
   &__content
     height: 100% !important
-    font-family: 'SF Pro Display', serif !important
+    font-family: $font-sp-pro !important
     overflow-x: hidden !important
 </style>
