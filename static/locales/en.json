@@ -3766,6 +3766,7 @@
   "inventory": {
     "available_to_list": "Available to List",
     "add_inventory": "Add Inventory",
+    "create_inventory": "Create Inventory",
     "search_placeholder": "Search your Inventory by SKU, Product Name or Brand",
     "search_product_placeholder": "Search by SKU, Keyword, or Brand",
     "upload_csv_file": "Upload CSV File",

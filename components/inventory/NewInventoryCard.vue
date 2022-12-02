@@ -1,6 +1,6 @@
 <template>
   <div class="card-wrapper">
-    <div 
+    <div
       :class="{
         'px-4': !isScreenXS,
       }"
@@ -34,9 +34,9 @@
       <b-dropdown v-if="isScreenXS" id="mobile-down-icon" class="border-0 ml-auto drop-menu" no-caret
                   variant="outlined">
         <template #button-content>
-          <img 
-            :src="require('~/assets/img/icons/dot-circle-gray.svg')" 
-            height="19" 
+          <img
+            :src="require('~/assets/img/icons/dot-circle-gray.svg')"
+            height="19"
             width="19"
             class="z-1 position-relative"
           >
@@ -69,12 +69,13 @@
 
       </b-dropdown>
 
-      <b-checkbox
-          v-if="selectable"
-          :checked="selected"
-          class="check-box position-absolute"
-          @change="toggleSelect"
-      ></b-checkbox>
+      <input
+        v-if="selectable"
+        type="checkbox"
+        class="check-box position-absolute"
+        :checked="selected"
+        @change="toggleSelect"
+      />
     </div>
     <div
         class="
@@ -108,7 +109,7 @@
         {{ inventory.product.colorway }}, {{ $t('sell.inventory.size') }} {{ inventory.size.size }}
       </div>
       <div class="product-color text-truncate mr-5">
-        {{ conditionLabel }}&colon; {{ inventory.packaging_condition.name }}
+        {{ conditionLabel }}&colon; {{ $t(inventory.packaging_condition.name) }}
       </div>
       <div class="product-price text-truncate">
         {{ inventory.sale_price | toCurrency }}
@@ -248,9 +249,10 @@ export default {
   &.mobile
     height: 150px
 
-  .check-box
-    right: 4px
-    top: 10px
+.check-box
+  accent-color: $color-black-1
+  z-index: 2
+  transform : scale(1.4)
 
 .product-detail
   font-family: $font-family-sf-pro-display
@@ -260,12 +262,14 @@ export default {
 
   .product-title
     @include body-8
+    font-family: $font-family-sf-pro-display
     color: $color-black-1
     margin-bottom: 3px
     font-weight: $medium
 
   .product-color
     color: $color-gray-5
+    font-family: $font-family-sf-pro-display
     margin-bottom: 3px
 
   .product-price
@@ -287,7 +291,7 @@ export default {
     font-family: $font-montserrat
     font-style: normal
 
-  &.edit.btn, &.add.btn, &.delist.btn 
+  &.edit.btn, &.add.btn, &.delist.btn
     @include body-8-normal
   &.edit.btn
     color: $color-blue-20
