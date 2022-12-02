@@ -127,7 +127,7 @@
       </b-navbar-nav>
     </b-collapse>
 
-    <SideBarMenu
+    <LeftSideBarMenu
       :user="user"
       :is-authenticated="authenticated"
       :is-vendor="isVendor"
@@ -193,7 +193,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import Logo from '~/components/header/Logo'
-import SideBarMenu from '~/components/SideBarMenu'
+import LeftSideBarMenu from '~/components/LeftSideBarMenu'
 import SearchInput from '~/components/common/SearchInput'
 import BagIcon from '~/components/checkout/icons/BagIcon'
 import SearchOverlay from '~/components/search/Overlay'
@@ -207,7 +207,7 @@ export default {
     NotificationDropdown,
     BagIcon,
     Logo,
-    SideBarMenu,
+    LeftSideBarMenu,
     SearchInput,
     SearchOverlay,
     Dropdown,
@@ -216,7 +216,6 @@ export default {
   data() {
     return {
       showSearchOverlay: false,
-      sidebarIsVisible: false,
     }
   },
   head: {
