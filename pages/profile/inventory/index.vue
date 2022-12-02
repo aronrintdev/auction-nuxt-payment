@@ -739,10 +739,11 @@ export default {
           @include body-4-normal
           font-family: $font-family-base
           color: $color-black-1
-          height: 46px
+          height: 98px
           border: 1px solid $color-white-1
           border-bottom: 1px solid $color-gray-23
           padding: 0 23px
+          background-color: $color-transparent
 
           &:hover
             color: $color-gray-5

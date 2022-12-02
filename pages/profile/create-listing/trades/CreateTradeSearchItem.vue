@@ -5,8 +5,8 @@
       v-model="form"
       :product="product"
       :back-button-text="backButtonText"
-      @back="backSearch"
       :back-button-class="(isScreenSM || isScreenXS) ? 'mx-0' : ''"
+      @back="backSearch"
     >
       <div slot="right-content">
         <div class="row">

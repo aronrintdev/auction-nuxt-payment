@@ -34,7 +34,7 @@
                 <div id="card-holder-name" class="payment-details">
                   <b-row v-if="fieldsSpinnerLoading">
                     <b-col md="12" class="text-center">
-                      <b-spinner variant="color-blue-2" small></b-spinner>
+                      <b-spinner variant="blue-20" small></b-spinner>
                     </b-col>
                   </b-row>
                 </div>
@@ -58,7 +58,7 @@
                 <div id="card-number" class="payment-details">
                   <b-row v-if="fieldsSpinnerLoading">
                     <b-col md="12" class="text-center">
-                      <b-spinner variant="color-blue-2" small></b-spinner>
+                      <b-spinner variant="blue-20" small></b-spinner>
                     </b-col>
                   </b-row>
                 </div>
@@ -82,7 +82,7 @@
                 <div id="exp-date" class="payment-details">
                   <b-row v-if="fieldsSpinnerLoading">
                     <b-col md="12" class="text-center">
-                      <b-spinner variant="color-blue-2" small></b-spinner>
+                      <b-spinner variant="blue-20" small></b-spinner>
                     </b-col>
                   </b-row>
                 </div>
@@ -106,7 +106,7 @@
                 <div id="security-code" class="payment-details">
                   <b-row v-if="fieldsSpinnerLoading">
                     <b-col md="12" class="text-center">
-                      <b-spinner variant="color-blue-2" small></b-spinner>
+                      <b-spinner variant="blue-20" small></b-spinner>
                     </b-col>
                   </b-row>
                 </div>
@@ -123,22 +123,23 @@
 
         <!-- Save For Next Time Checkbox -->
         <b-row class="mt-4">
-          <b-col md="2" offset-md="1" class="text-center">
-            <b-form-checkbox v-model="form.saveForNextTime"></b-form-checkbox>
+          <b-col md="12">
+            <b-form-checkbox v-model="form.saveForNextTime">
+              <template #default>
+                <i18n
+                  path="shopping_cart.save_for_next_time"
+                  tag="p"
+                  class="body-5-regular justify-content-start pl-2"
+                ></i18n>
+              </template>
+            </b-form-checkbox>
           </b-col>
-          <b-col md="9">
-            <i18n
-              path="shopping_cart.save_for_next_time"
-              tag="p"
-              class="body-5-regular justify-content-start"
-            ></i18n>
-          </b-col> </b-row
-        ><!-- End of Save For Next Time Checkbox -->
+        </b-row><!-- End of Save For Next Time Checkbox -->
 
         <!-- Continue Button -->
         <b-row class="mt-4">
           <b-col v-if="buttonSpinnerLoading" md="12" class="text-center">
-            <b-spinner variant="color-blue-2"></b-spinner>
+            <b-spinner variant="blue-20"></b-spinner>
           </b-col>
           <b-col v-else md="12" class="text-center">
             <b-button

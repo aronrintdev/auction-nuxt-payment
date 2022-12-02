@@ -96,5 +96,4 @@ export default {
 @media(min-width: 576px)
   .style-image
     width: 305px
-    margin-left: 240px
 </style>

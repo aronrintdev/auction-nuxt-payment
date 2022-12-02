@@ -107,7 +107,7 @@
                 <small>
                   {{
                     $t('shopping_cart.affirm_loan_text', {
-                      price: Math.ceil($options.filters.formatPrice(getTotal)),
+                      price: $options.filters.formatPrice(getTotal),
                     })
                   }}
                 </small>
@@ -152,7 +152,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import OrderTitle from '~/components/checkout/common/OrderTitle'
 import RadioOptionCard from '~/components/checkout/common/RadioOptionCard'
 
@@ -161,12 +161,16 @@ import {
   PAYMENT_METHOD_TYPE_INSTALLMENT,
 } from '~/static/constants'
 import eventMixin from '~/plugins/mixins/emit-event'
+import orderDetails from '~/plugins/mixins/order-details'
+import shippingAddress from '~/plugins/mixins/shipping-address'
+import billingAddress from '~/plugins/mixins/billing-address'
+
 export default {
   name: 'PaymentAffirm',
 
   components: { OrderTitle, RadioOptionCard },
 
-  mixins: [eventMixin],
+  mixins: [eventMixin, orderDetails,shippingAddress,billingAddress],
 
   data() {
     return {
@@ -178,9 +182,6 @@ export default {
         text: this.$t('shopping_cart.affirm'),
       },
       appUrl: process.env.APP_URL,
-      shippingFee: 1000, // TODO: Temporary dummy data
-      tax: 100, // TODO: Temporary dummy data
-      processingFee: 900, // TODO: Temporary dummy data
       orderID: '',
       form: {
         inputCardHolderName: '',
@@ -205,13 +206,6 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      billingAddress: 'auth/getBillingAddress',
-      shippingAddress: 'auth/getShippingAddress',
-      shoppingCart: 'shopping-cart/getShoppingCart',
-      giftCard: 'order-details/getGiftCard',
-      promoCode: 'order-details/getPromoCode',
-    }),
     // Restructure the users billing address
     getBillingAddress: (vm) => {
       return {
@@ -264,51 +258,6 @@ export default {
         items.push(array)
       }
       return items
-    },
-    getSubtotal: (vm) => {
-      return vm.shoppingCart.reduce((sum, product) => {
-        return sum + product.price * product.quantity
-      }, 0)
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getShippingFee: (vm) => {
-      return vm.shippingFee
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getProcessingFee: (vm) => {
-      return vm.processingFee
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getTax: (vm) => {
-      return vm.tax
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getTotal: (vm) => {
-      // TODO: Handle coupons as well
-      let total = vm.shippingFee + vm.processingFee + vm.tax + vm.getSubtotal
-
-      if (vm.promoCode) {
-        total -= vm.promoCode.amount
-      }
-
-      if (vm.giftCard) {
-        total -= vm.giftCard.amount
-      }
-
-      return total
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    getDiscount: (vm) => {
-      let discount = 0
-
-      if (vm.promoCode) {
-        discount += vm.promoCode.amount
-      }
-
-      if (vm.giftCard) {
-        discount += vm.giftCard.amount
-      }
-      return discount
     },
   },
 
@@ -388,9 +337,9 @@ export default {
         metadata: { mode: 'modal' },
         order_id: this.orderID,
         currency: 'USD',
-        shipping_amount: this.$options.filters.formatPrice(this.shippingFee),
-        tax_amount: this.$options.filters.formatPrice(this.tax),
-        total: Math.ceil(this.$options.filters.formatPrice(this.getTotal)), // The checkout total must be a positive integer
+        shipping_amount: this.shippingFee,
+        tax_amount: this.tax,
+        total: this.getTotal, // The checkout total must be a positive integer
       }
       // eslint-disable-next-line no-undef
       affirm.checkout(checkoutObject)
@@ -444,7 +393,7 @@ export default {
       // Save the newly created payment token in order to be used for placing the order.
       this.addPaymentToken({
         paymentToken: payload.checkout_token,
-        amount: Math.ceil(this.$options.filters.formatPrice(this.getTotal)),
+        amount: this.$options.filters.formatPrice(this.getTotal),
       })
     },
     submit() {

@@ -4,7 +4,7 @@
       :title="$t('home.new_releases')"
       :desc="$t('home.new_releases_desc')"
       :label="$t('home_page.view_more_products')"
-      to="/new-release"
+      to="/shop/products?type=new-release"
     />
 
     <NavGroup

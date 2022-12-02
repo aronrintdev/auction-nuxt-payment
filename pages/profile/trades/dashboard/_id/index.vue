@@ -805,7 +805,6 @@ export default {
 .pro-image-sm
   height: 100%
 .item-caption
-.item-caption
   padding-left: unset
   padding: 5px 0
 

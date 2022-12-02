@@ -249,6 +249,8 @@ export default {
   .list-group-item
     padding: 20px
     border-color: $color-gray-23b
+    border-left: none
+    border-right: none
 
     .option-action
       margin-right: 29px

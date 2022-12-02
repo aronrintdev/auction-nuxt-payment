@@ -29,6 +29,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .promo-btn-wrapper
+  font-family: $font-sp-pro
   padding: 0
 
   @media (max-width: 576px)

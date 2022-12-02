@@ -263,8 +263,8 @@
       <div
         class="add-want-button d-sm-none mt-1 mb-3"
         role="button"
-        @click="addToOffer(product)"
         :class="{'py-4' : !isScreenXS}"
+        @click="addToOffer(product)"
       >
         {{ $t('trades.create_listing.vendor.wants.add_want') }}
       </div>

@@ -344,20 +344,20 @@
                   <span 
                     class="add-cash mr-3"
                     role="button"
-                    @click="cashType = cashAddedType"
                     :class="{
                       'active-cash-type': cashType === cashAddedType
                     }"
+                    @click="cashType = cashAddedType"
                   >
                     {{ $t('trades.add_cash') }}
                   </span>
                   <span 
                     class="request-cash"
                     role="button"
-                    @click="cashType = cashRequestedType"
                     :class="{
                       'active-cash-type': cashType === cashRequestedType
                     }"
+                    @click="cashType = cashRequestedType"
                   >
                     {{ $t('trades.request_cash') }}
                   </span>

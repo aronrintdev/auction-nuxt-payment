@@ -1,17 +1,17 @@
 <template>
   <ul class="list-group">
-    <li class="px-2 pb-3 border-bottom">
+    <li class="px-3 pb-2 border-bottom">
       <div v-if="auctionItems" class="collection-items">
         <b-carousel controls indicators>
           <b-carousel-slide v-for="(item, i) in auctionItems" :key="i" class="h-auto">
             <template #img>
-              <b-row>
-                <b-col cols="2">
+              <b-row class="align-items-center">
+                <b-col cols="2" class="pr-0 mb-1 mt-n2">
                   <ProductThumb :product="item.inventory.product" />
                 </b-col>
-                <b-col cols="10" class="d-flex flex-wrap align-items-baseline">
+                <b-col cols="10" class="d-flex flex-wrap align-items-baseline pl-4 mt-n2">
                   <div class="text-nowrap overflow-hidden text-truncate">
-                    <div class="text-black body-5-normal text-nowrap overflow-hidden text-truncate sf-pro-font mt-1">
+                    <div class="text-black body-5-normal text-nowrap overflow-hidden text-truncate sf-pro-font">
                       {{ item.inventory.product.name }}
                     </div>
                     <div class="text-gray-6 body-6-normal text-nowrap overflow-hidden text-truncate sf-pro-font mt-1">
@@ -29,13 +29,13 @@
         </b-carousel>
       </div>
       <template v-else>
-        <b-row>
-          <b-col cols="2">
+        <b-row class="align-items-center">
+          <b-col cols="2" class="pr-0 mb-1 mt-n2">
             <ProductThumb :product="inventory.product" />
           </b-col>
-          <b-col cols="10" class="d-flex flex-wrap">
+          <b-col cols="10" class="pl-4 d-flex flex-wrap mt-n2">
             <div class="text-nowrap overflow-hidden text-truncate">
-              <div class="text-black body-5-normal text-nowrap overflow-hidden text-truncate sf-pro-font mt-1">
+              <div class="text-black body-5-normal text-nowrap overflow-hidden text-truncate sf-pro-font">
                 {{ inventory.product.name }}
               </div>
               <div class="text-gray-6 body-6-normal text-nowrap overflow-hidden text-truncate sf-pro-font mt-1">
@@ -52,7 +52,7 @@
     </li>
     <li class="border-bottom">
       <a
-        class="p-3 d-inline-block text-black body-3-normal d-flex justify-content-between"
+        class="d-flex justify-content-between align-items-center nav-link"
         @click="$emit('edit')"
       >
         <span>{{ isExpiredOrDelisted ? $t('bids.view') : $t('bids.edit_bid') }}</span>
@@ -61,7 +61,7 @@
     </li>
     <li class="border-bottom">
       <a
-        class="p-3 d-inline-block text-black body-3-normal d-flex justify-content-between"
+        class="d-flex justify-content-between align-items-center nav-link"
         @click="$emit('viewSimilar')"
       >
         <span>{{ $t('bids.view_similar') }}</span>
@@ -70,7 +70,7 @@
     </li>
     <li>
       <a
-        class="p-3 d-inline-block text-black body-3-normal d-flex justify-content-between"
+        class="d-flex justify-content-between align-items-center nav-link"
         @click="$emit('close')"
       >
         <span>{{ $t('create_listing.confirm.cancel') }}</span>
@@ -99,10 +99,24 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
 
 .list-group
   .thumb-wrapper
     img
       padding: 0 !important
+
+.nav-link
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-17
+  letter-spacing: -0.02em
+  color: $black
+  height: 54px
+  padding-left: 20px
+  padding-right: 13px
+  img
+    width: 24px
+    height: 22px
 </style>
