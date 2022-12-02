@@ -65,7 +65,7 @@
         <div class="pt-5">
             <b-row>
               <b-col md="12" class="d-flex carousel-heading mb-5 pl-4">
-                <h2 v-html="prettyLabel(labelName)" v-if="labelName"></h2>
+                <h2 v-if="labelName" v-html="prettyLabel(labelName)"></h2>
               </b-col>
               <!-- Display trades with single items -->
               <b-col v-if="selectedTradeTotalItems === 'one' && sectionTypes.length" md="12" class="d-flex flex-wrap pl-4">

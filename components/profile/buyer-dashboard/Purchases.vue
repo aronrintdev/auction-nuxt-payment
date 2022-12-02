@@ -87,10 +87,10 @@
                     :class="{
                 'text-center ml-auto': !isScreenXS
               }"
-                    class="d-flex align-items-center justify-content-center tdHeight "
+                    class="d-flex align-items-center justify-content-center tdHeight col-md-4"
                 >
                   <h4 :class="styleFor(row.order_status) + ` ${mobileClass}` + `${isScreenXS? 'text-nowrap': ''}`"
-                      class="text-capitalize status body-13-normal">
+                      class="text-capitalize status body-13-normal px-5 py-3">
                     {{ row.order_status }}
                   </h4>
                 </div>
