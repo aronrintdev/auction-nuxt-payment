@@ -1,9 +1,7 @@
 <template>
   <div class="card-wrapper">
     <div
-      :class="{
-        'px-4': !isScreenXS,
-      }"
+      :class="{'px-4': !isScreenXS,}"
       class="pt-3 action-buttons d-flex align-items-center justify-content-between mx-auto"
     >
       <Button
@@ -31,8 +29,22 @@
         {{ $t('common.list') }}
       </Button>
 
+      <div v-if="isScreenXS" class="d-flex flex-grow-1 justify-content-end w-100 pr-3">
+        <Button variant="link"
+              id="mobile-down-icon"  @click="showMobileOptionsMenu">
+        <img
+          :src="require('~/assets/img/icons/dot-circle-gray.svg')"
+          height="19"
+          width="19"
+          class="z-1 position-relative"
+        >
+      </Button>
+      </div>
+
+      <!--
       <b-dropdown v-if="isScreenXS" id="mobile-down-icon" class="border-0 ml-auto drop-menu" no-caret
-                  variant="outlined">
+                  variant="outlined"
+      >
         <template #button-content>
           <img
             :src="require('~/assets/img/icons/dot-circle-gray.svg')"
@@ -68,6 +80,7 @@
         </Button>
 
       </b-dropdown>
+      -->
 
       <input
         v-if="selectable"
@@ -124,6 +137,26 @@
         :message="$t('inventory.message.confirm_delete')"
         @confirm="onConfirmDelete"
     />
+
+
+    <vue-bottom-sheet
+      ref="mobileOptionsMenu"
+      max-width="auto"
+      max-height="90vh"
+      :rounded="true"
+    >
+     <MobileInventoryOptions
+       :inventory="inventory"
+       @list="handleListClick"
+       @edit="handleEditClick"
+       @cancel="hideMobileOptionsMenu"
+       @delete="()=>{
+         this.hideMobileOptionsMenu();
+         handleDeleteClick()
+       }"
+     />
+    </vue-bottom-sheet>
+
   </div>
 </template>
 
@@ -135,11 +168,12 @@ import plusIcon from '~/assets/img/icons/plus_circle.svg'
 import removeIcon from '~/assets/img/icons/red-remove.svg'
 import Button from '~/components/common/Button';
 import screenSize from '~/plugins/mixins/screenSize';
+import MobileInventoryOptions from '~/components/inventory/MobileInventoryOptions'
 
 export default {
   name: 'NewInventoryCard',
 
-  components: {Button, ProductThumb, ConfirmModal},
+  components: {Button, ProductThumb, ConfirmModal, MobileInventoryOptions},
   mixins: [screenSize],
   props: {
     inventory: {
@@ -215,6 +249,19 @@ export default {
       this.deleteInventories({ids: [this.inventory.id]})
       this.$nuxt.refresh()
     },
+
+    showMobileOptionsMenu() {
+      const { mobileOptionsMenu } = this.$refs
+      if (mobileOptionsMenu) {
+        mobileOptionsMenu.open()
+      }
+    },
+    hideMobileOptionsMenu() {
+      const { mobileOptionsMenu } = this.$refs
+      if (mobileOptionsMenu) {
+        mobileOptionsMenu.close()
+      }
+    },
   },
 }
 </script>
@@ -257,7 +304,7 @@ export default {
 .product-detail
   font-family: $font-family-sf-pro-display
   max-width: 242px
-  @include body-5-normal
+  @include body-10-normal
   padding: 5px 8px
 
   .product-title
@@ -275,6 +322,7 @@ export default {
   .product-price
     color: $color-black-1
     margin-top: 3px
+    @include body-9-normal
 
   .product-stock
     @include body-4-normal
@@ -299,7 +347,4 @@ export default {
   &.delist.btn, &.add.btn
     color: $color-red-24
 
-::v-deep.drop-menu
-  ul.dropdown-menu
-    min-width: 80px
 </style>

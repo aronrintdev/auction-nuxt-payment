@@ -208,7 +208,7 @@
           <div class="my-2 flex-grow-1">
             <FilterAccordion :open="true" :title="$tc('common.category', 1)">
               <div class="mt-2">
-                <ButtonSelector :options="mobileFilters" :single="true" :values="category"
+                <ButtonSelector :options="mobileFilters" :single="false" :values="category"
                                 @change="handeMobileFilterSelect"/>
               </div>
             </FilterAccordion>
@@ -235,6 +235,7 @@
           </div>
         </div>
       </MobileBottomSheet>
+
     </b-container>
   </client-only>
 </template>
