@@ -3,7 +3,7 @@
     <div class="header">{{ $tc('common.filter', 1) }}</div>
 
     <div class="main w-100 h-101">
-      <div class="row">
+      <div class="row mb-30">
         <div class="collapses col-sm-2 mb-4">
           <FilterCollapsible
             v-model="sizeTypeSelected"
@@ -19,6 +19,7 @@
             collapseKey="brands"
             :title="$t('filter_sidebar.brands')"
             :options="brands ? brands : brandOptions"
+            @searchBrands="handleSearchChange"
             class="p-2 mb-1 borderDark rounded collapse-design position-absolute"
           />
         </div>
@@ -107,7 +108,7 @@ export default {
     Button,
     Icon,
     SearchFilterCollapsible,
-    FilterCollapsible,
+    FilterCollapsible
   },
 
   data() {
@@ -118,7 +119,7 @@ export default {
         brandsSelected: [],
       },
       brandsSelected: [],
-      brands: null,
+      brands: null
     }
   },
 
@@ -129,6 +130,16 @@ export default {
       return this.filters?.brands?.map(({ name }) => {
         return { label: name, value: name }
       })
+    },
+
+    filterBrands() {
+      if (this.brandName.trim() === '') {
+        return this.brandOptions
+      }
+      return this.brandOptions.filter(
+        (brand) =>
+          brand.label?.toLowerCase().indexOf(this.brandName.toLowerCase()) > -1
+      )
     },
 
     sizeTypeOptions() {
@@ -193,6 +204,8 @@ export default {
           }
         })
         this.brands = result.length ? result : this.brandOptions
+      } else {
+        this.brands = this.brandOptions
       }
     },
   },
@@ -202,7 +215,9 @@ export default {
 @import '~/assets/css/_variables'
 
 .h-101
-  height: 101px
+  max-height: 1000px
+.mb-30
+  margin-bottom: 30px
 .collapse-design
   z-index: 999999
   background-color: $color-white-5
