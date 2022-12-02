@@ -207,7 +207,7 @@
             :total="totalCount"
             :per-page="perPage"
             :per-page-options="perPageOptions"
-            class="mt-2"
+            class="mt-2 pb-3"
             @page-click="handlePageClick"
             @per-page-change="handlePerPageChange"
           />
@@ -230,7 +230,7 @@
         :unit-label="$tc('common.product', selected.length)"
         :total="inventories.length"
         :action-label="$tc('sell.create_listing.continue_listing')"
-        class="d-none d-md-flex mt-3"
+        class="d-none d-md-flex mt-3 mb-3"
         @close="selected = []"
         @selectAll="handleSelectAll()"
         @deselectAll="selected = []"
