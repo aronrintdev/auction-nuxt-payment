@@ -3767,7 +3767,8 @@
         "city": "City",
         "state": "State",
         "phone": "Phone #"
-      }
+      },
+      "field_is_empty"  : "Field is empty"
     }
   },
   "monthNames": {

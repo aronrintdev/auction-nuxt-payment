@@ -380,7 +380,7 @@ export default {
               : 'text-danger'
 
             if (
-              this.formErrors[field].message !== 'Field is empty' &&
+              this.formErrors[field].message !== this.$t('preferences.payments.field_is_empty') &&
               this.formErrors[field].message !== ''
             ) {
               this.formValidated = true
@@ -479,7 +479,7 @@ export default {
                   : 'text-danger'
 
                 if (
-                  this.formErrors[field].message !== 'Field is empty' &&
+                  this.formErrors[field].message !== this.$t('preferences.payments.field_is_empty') &&
                   this.formErrors[field].message !== ''
                 ) {
                   this.formValidated = true
@@ -554,24 +554,24 @@ export default {
     }),
 
     ccnumberValid() {
-      return this.formErrors.ccnumber.message !== 'Field is empty'
+      return this.formErrors.ccnumber.message !== this.$t('preferences.payments.field_is_empty')
     },
     checknameValid() {
-      return this.formErrors.checkname.message !== 'Field is empty'
+      return this.formErrors.checkname.message !== this.$t('preferences.payments.field_is_empty')
     },
     ccexpValid() {
-      return this.formErrors.ccexp.message !== 'Field is empty'
+      return this.formErrors.ccexp.message !== this.$t('preferences.payments.field_is_empty')
     },
     cvvValid() {
-      return this.formErrors.cvv.message !== 'Field is empty'
+      return this.formErrors.cvv.message !== this.$t('preferences.payments.field_is_empty')
     },
 
     showValidateMessage() {
       return (
-        this.formErrors.ccnumber.message === 'Field is empty' ||
-        this.formErrors.checkname.message === 'Field is empty' ||
-        this.formErrors.ccexp.message === 'Field is empty' ||
-        this.formErrors.cvv.message === 'Field is empty'
+        this.formErrors.ccnumber.message === this.$t('preferences.payments.field_is_empty') ||
+        this.formErrors.checkname.message === this.$t('preferences.payments.field_is_empty') ||
+        this.formErrors.ccexp.message === this.$t('preferences.payments.field_is_empty') ||
+        this.formErrors.cvv.message === this.$t('preferences.payments.field_is_empty')
       )
     },
   },
