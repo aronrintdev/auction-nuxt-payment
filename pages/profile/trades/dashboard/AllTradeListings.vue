@@ -142,16 +142,15 @@
 
     <div v-else>
       <b-row class="mt-3 justify-content-between">
-        <b-col lg="8" sm="12" class="">
+        <b-col xl="8" sm="12" class="">
           <SearchInput
             :value="searchText"
             variant="primary"
-            :placeholder="$t('trades.search_trades')"
+            :placeholder="$t('trades.index.search_bar_text')"
             :clearSearch="true"
             bordered
+            class="listings-search-desktop"
             :inputStyle="{
-              border: '1px solid #CCC',
-              height: '38px',
               borderBottomLeftRadius: searchedProducts.length > 0 ? 0 : '8px',
               borderBottomRightRadius: searchedProducts.length > 0 ? 0 : '8px',
             }"
@@ -165,7 +164,7 @@
             class="position-absolute"
           />
         </b-col>
-        <b-col lg="3" sm="12" class="d-flex justify-content-end mt-2 mt-lg-0">
+        <b-col xl="3" sm="12" class="d-flex justify-content-end mt-2 mt-xl-0">
           <CustomDropdown
             v-model="orderFilter"
             type="single-select"
@@ -176,7 +175,12 @@
               color: '#000',
               marginTop: '0 !important'
             }"
-            class="w-100"
+            :dropdownStyle="{ 
+              border: '1px solid #cbcbcb', 
+              borderTop: 0,
+              borderRadius: '0 0 5px 5px'
+            }"
+            class="w-100 listings-filter"
             paddingX="10px"
             optionsWidth="custom"
             borderRadius="5px"
@@ -198,15 +202,20 @@
             optionsWidth="custom"
             variant="white"
             dropDownHeight="38px"
-            class="w-100"
+            class="w-100 listings-filter"
             borderRadius="5px"
             borderRadiusClose="5px 5px 0 0"
             borderRadiusOptions="0 0 5px 5px"
             paddingX="10px"
+            :dropdownStyle="{ 
+              border: '1px solid #cbcbcb', 
+              borderTop: 0,
+              borderRadius: '0 0 5px 5px'
+            }"
             :arrowStyle="{
-            color: '#000',
-            marginTop: '0 !important'
-          }"
+              color: '#000',
+              marginTop: '0 !important'
+            }"
             @getResults="fetchTradesListing"
             @change="changeStatusFilter"
           />
@@ -221,7 +230,7 @@
             @context="(context) => start_date = context.selectedYMD"
           />
         </div>
-        <div class="col-4 col-xl-3 align-self-end col-xxl-2">
+        <div class="pt-4 col-4 col-xl-3 col-xxl-2">
           <CalendarInput
             :value="end_date"
             :placeholder="$t('trades.end_date')"
@@ -230,10 +239,23 @@
             @context="(context) => end_date = context.selectedYMD"
           />
         </div>
-        <div class="mt-3 mt-xl-4 col-6 col-xl-3 col-xxl-2 d-flex justify-content-xl-end btn-fil">
-          <Button variant="dark-blue" @click="applyFilters">{{$t('trades.apply')}}</Button>
+        <div class="mt-3 mt-xl-4 col-6 col-xl-3 col-xxl-2 d-flex flex-column align-items-xl-end">
+          <Button variant="dark-blue" @click="applyFilters">
+            {{ $t('trades.apply') }}
+          </Button>
+          <div class="text-center">
+            <span
+              class="clear-all"
+              role="button"
+              @click="clearAllFilters()"
+            >
+              {{ $t('common.clear_all_filters') }}
+            </span>
+          </div>
         </div>
-        <div class="mt-3 mt-xl-4 col-6 col-xl-12 col-xxl-3 d-flex justify-content-end justify-content-xl-start del-btn">
+        <div class="mt-3 mt-xl-0 col-6 col-xl-12 col-xxl-3 align-items-xl-center
+                    d-flex justify-content-end justify-content-xl-start del-btn
+        ">
           <Button v-if="totalCount" variant="transparent" @click="removeExpired()">{{$t('trades.delete_expired_listings')}}</Button>
         </div>
       </div>
@@ -366,8 +388,8 @@ export default {
       isVisibleSizeType: false,
       width:'',
       searchText: null,
-      orderFilterLabel: this.$t('trades.create_listing.vendor.wants.sort_by'),
-      orderFilter: null,
+      orderFilterLabel: this.$t('trades.recent_to_oldest'),
+      orderFilter: FILTER_RECENT_TO_OLDEST,
       orderFilterItems: [
         { text: this.$t('trades.recent_to_oldest'), value: FILTER_RECENT_TO_OLDEST },
         { text: this.$t('trades.oldest_to_recent'), value: FILTER_OLDEST_TO_RECENT },
@@ -394,7 +416,7 @@ export default {
     }
   },
   computed: {
-    getStatusFilterItems(){
+    getStatusFilterItems() {
       return this.statusFilterItems.map(status => status.value)
     }
   },
@@ -579,16 +601,18 @@ export default {
       this.delete_expired = !this.delete_expired
     },
 
-    clearAllFilters(){
+    clearAllFilters() {
       this.start_date = null
       this.end_date = null
       this.orderFilter = null
       this.statusFilter = []
+      this.statusFilterLabel = this.$t('trades.status')
       this.fetchTradesListing()
       this.isVisible = false
       this.isVisibleSizeType = false
     },
-    deleteMySelectedTrades(){
+
+    deleteMySelectedTrades() {
       this.deleteSelectedTrades({
         trade_ids: this.selected.join(',')
       })
@@ -785,5 +809,28 @@ export default {
   border-color: $color-black-1
   span
     color: $color-black-1
+
+.listings-filter::v-deep
+  .label-wrapper
+    border: 1px solid $color-gray-60
+  label, span
+    @include body-5-regular
+    color: $color-black-1
+
+.listings-search-desktop::v-deep
+  input.search-input
+    font-size: 14px !important
+    font-weight: $regular !important
+    letter-spacing: 0.06em
+    border: 1px solid $color-gray-60 !important
+    height: 38px !important
+
+.clear-all
+  @include body-9-regular
+  margin-top: 8px
+  color: $color-blue-20
+  text-decoration: underline
+  @media (min-width: 1200px)
+    margin-right: 8px
 
 </style>

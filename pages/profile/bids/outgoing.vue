@@ -1,40 +1,62 @@
 <template>
-  <b-container fluid class="h-100 container-profile-bids-page" :class="{'container-profile-bids': !isMobileSize}">
+  <b-container
+    fluid
+    class="h-100 container-profile-bids-page"
+    :class="{'container-profile-bids': !isMobileSize}"
+  >
     <div class="d-none mb-3 d-md-flex justify-content-center justify-content-md-between align-items-center">
       <h2 class="title mb-0" :class="{'body-4-medium' : isMobileSize}">{{ $tc('common.bid', 2) }}</h2>
     </div>
     <!--    Bids Filters and mobile search    -->
     <div v-if="isMobileSize" class="d-flex align-items-center">
       <MobileSearchInput :value="filters.search" class="flex-grow-1" @input="mobileSearch" />
-      <span class="ml-3 mr-1" @click="showMobileFilter"><img src="~/assets/img/icons/filter-icon.png" /></span>
+      <span class="ml-3 mr-1" @click="showMobileFilter">
+        <img src="~/assets/img/icons/filter-icon.png" />
+      </span>
     </div>
     <!--    Bids Filters    -->
     <BidsFilters v-else @update="FetchBids(true) "/>
 
-    <div class="d-md-none d-flex justify-content-between align-items-center">
+    <div v-if="!isMobileSize" class="d-flex justify-content-between align-items-center">
+      <b-row class=" w-100">
+        <b-col md="6"></b-col>
+        <b-col md="6" class="text-right">
+          <Button
+            variant="link"
+            size="sm"
+            class="delete-expired"
+            @click="deleteExpireds"
+          >
+            {{ $t('bids.delete_expired') }}
+          </Button>
+        </b-col>
+      </b-row>
+    </div>
+
+    <div v-else class="d-flex justify-content-between align-items-center">
       <h4 class="title">
         {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
       </h4>
       <Button
-        v-if="!haveExpired && isVendor"
         variant="link"
         size="sm"
-        class="p-0 px-md-5 py-md-3 br-5"
-        :class="isMobileSize ? 'body-5-regular' : 'bg-white'"
-        @click="deleteAction = true"
+        class="p-0"
+        @click="deleteExpireds"
       >
-        <img v-if="isMobileSize" src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
-        <span class="body-9-regular" :class="isMobileSize ? 'expire-button-gray' : 'text-black'">
+        <img src="~/assets/img/profile/mobile/mobile-delete.svg" class="mx-1" />
+        <span class="expire-button-gray">
           {{ $t('bids.delete_expired') }}
         </span>
       </Button>
     </div>
 
-    <div class="d-none mt-5 d-md-flex align-items-center">
+    <div class="d-none d-md-flex align-items-center">
       <h4 class="title mb-0">
         {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
       </h4>
-      <span class="ml-4 mt-1 d-none d-md-inline-flex body-5-normal text-gray-5">{{ $t('bids.highest_bid_placed_info') }}</span>
+      <span class="ml-4 d-inline-flex text-gray-5 info-text">
+        {{ $t('bids.highest_bid_placed_info') }}
+      </span>
     </div>
 
     <BulkSelectToolbar
@@ -54,65 +76,90 @@
       @undo="undoDeleted()"
     />
 
-
-    <div v-if="bidsCount===0 && !fetchLoading"
-         class="d-flex align-items-center justify-content-center flex-column h-50 mt-5">
+    <div
+      v-if="bidsCount === 0 && !fetchLoading"
+      class="d-flex align-items-center justify-content-center flex-column pt-5 mt-5"
+    >
       <div :class="isMobileSize ? 'body-5-medium' : 'not-found-text'"> {{ $t('bids.no_bids') }}</div>
-      <div class="mt-2" :class="isMobileSize ? 'body-5-medium' : 'not-found-text'"> {{ $t('bids.place_bid') }}</div>
+      <div class="mt-2" :class="isMobileSize ? 'body-5-medium' : 'not-found-text'">{{ $t('bids.place_bid') }}</div>
       <Button
         to="/auction"
         class="bg-blue-2 mt-4"
         :class="{'mobile': isMobileSize}"
         pill
       >
-        <span class="px-4"> {{ $t('bids.browse_auction') }}</span>
+        <span class="px-4">{{ $t('bids.browse_auction') }}</span>
       </Button>
     </div>
 
-    <div v-if="bidsCount>0" class="bids-listing">
+    <div v-if="bidsCount > 0" class="bids-listing">
       <b-row class="mt-5 text-center p-0 font-weight-bold d-none d-md-flex bids-listing-header">
-        <b-col sm="12" md="2" class="text-center">{{ $t('bids.headers.auction_id') }}</b-col>
-        <b-col sm="12" md="3" class="text-left px-0">{{ $t('bids.headers.product') }}</b-col>
-        <b-col sm="12" md="1">{{ $t('bids.headers.auction_type') }} <span role="button"><img :src="FilterDown"
-                                                                                             alt="donw"></span></b-col>
-        <b-col sm="12" md="2">{{ $t('bids.headers.bid_amt') }} <span role="button"><img :src="FilterDown"
-                                                                                        alt="donw"></span></b-col>
-        <b-col sm="12" md="2">{{ $t('bids.headers.time_remaining') }} <span role="button"><img :src="FilterDown"
-                                                                                               alt="donw"></span>
+        <b-col sm="12" md="5">
+          <b-row>
+            <b-col cols="4" md="4" class="text-center">
+              {{ $t('bids.headers.auction_id') }}
+            </b-col>
+            <b-col cols="8" md="8" class="text-left pl-4">
+              {{ $t('bids.headers.product') }}
+            </b-col>
+          </b-row>
+        </b-col>
+        <b-col sm="12" md="1">
+          <span>{{ $t('bids.headers.auction_type') }}&nbsp;</span>
+          <span role="button">
+            <img :src="FilterDown" alt="down">
+          </span>
+        </b-col>
+        <b-col sm="12" md="2">
+          <span>{{ $t('bids.headers.bid_amt') }}&nbsp;</span>
+          <span role="button">
+            <img :src="FilterDown" alt="down">
+          </span>
+          </b-col>
+        <b-col sm="12" md="2">
+          <span>{{ $t('bids.headers.time_remaining') }}&nbsp;</span>
+          <span role="button">
+            <img :src="FilterDown" alt="down">
+          </span>
         </b-col>
         <b-col sm="12" md="2">{{ $t('bids.headers.action') }}</b-col>
       </b-row>
 
       <client-only>
-        <div v-if="bidsCount>0" class="w-100">
+        <div v-if="bidsCount > 0" class="w-100">
           <div v-for="bid in bids" :key="bid.id" class="p-0">
-            <BidSingleItem v-if="bid.auction.type===BID_AUCTION_TYPE_SINGLE"
-                           :bid-type="bidType"
-                           :selected="selected.includes(bid.id)"
-                           :bid="bid" :selectable="isSelectable(bid)"
-                           :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
-                           @selected="selectBidAction"
-                           @accept="acceptBid"
-                           @edit="handleEdit"/>
-            <BidCollectionItem v-else
-                               :selected="selected.includes(bid.id)"
-                               :bid-type="bidType"
-                               :bid="bid"
-                               :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
-                               :selectable="isSelectable(bid)"
-                               @selected="selectBidAction"
-                               @accept="acceptBid"
-                               @edit="handleEdit"/>
+            <BidSingleItem
+              v-if="bid.auction.type === BID_AUCTION_TYPE_SINGLE"
+              :bid-type="bidType"
+              :selected="selected.includes(bid.id)"
+              :bid="bid" :selectable="isSelectable(bid)"
+              :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
+              @selected="selectBidAction"
+              @accept="acceptBid"
+              @edit="handleEdit"
+            />
+            <BidCollectionItem
+              v-else
+              :selected="selected.includes(bid.id)"
+              :bid-type="bidType"
+              :bid="bid"
+              :acceptable="bidTagStatus(bid) === HIGHEST_BID_STATUS && bidType === BID_TYPE_INCOMING"
+              :selectable="isSelectable(bid)"
+              @selected="selectBidAction"
+              @accept="acceptBid"
+              @edit="handleEdit"
+            />
           </div>
         </div>
       </client-only>
     </div>
+
     <div v-if="fetchLoading" class="mx-auto mt-5 mb-5 pb-5 pt-5">
       <Loader :loading="fetchLoading"/>
     </div>
 
     <Pagination
-      v-if="bidsCount>0 && !fetchLoading && !isMobileSize"
+      v-if="bidsCount > 0 && !fetchLoading && !isMobileSize"
       v-model="page"
       :total="totalCount"
       :per-page="perPage"
@@ -122,7 +169,7 @@
       @per-page-change="handlePerPageChange"
     />
 
-    <!--    Bid accept confrimation modal -->
+    <!-- Bid accept confrimation modal -->
     <Modal
       id="accept-item-modal"
       centered
@@ -160,7 +207,7 @@
       </template>
     </Modal>
 
-    <!--    Bid accepted success modal-->
+    <!-- Bid accepted success modal-->
     <Modal
       id="bid-accepted-modal"
       centered
@@ -204,7 +251,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex';
+import {mapActions, mapGetters} from 'vuex'
 import debounce from 'lodash.debounce'
 import {
   Button,
@@ -212,7 +259,7 @@ import {
   BulkSelectToolbar,
   Loader,
   Modal
-} from '~/components/common';
+} from '~/components/common'
 import FilterDown from '~/assets/img/icons/filter-down.svg'
 import BidSingleItem from '~/components/profile/bids/BidSingleItem'
 import BidCollectionItem from '~/components/profile/bids/BidCollectionItem'
@@ -225,7 +272,7 @@ import {
   HIGHEST_BID_STATUS,
   OUTBID_BID_STATUS,
   WINNING_BID_STATUS, BID_TYPE_OUTGOING
-} from '~/static/constants';
+} from '~/static/constants'
 import MobileFilter from '~/components/profile/bids/filters/MobileFilter'
 import MobileSearchInput from '~/components/mobile/MobileSearchInput'
 
@@ -298,10 +345,6 @@ export default {
     bidsCount() {
       return this.bids?.length || 0
     },
-    // Checking if the auction has expired or not.
-    haveExpired() {
-      return this.bids.filter(a => a.auction.status === EXPIRED_STATUS || a.auction.status === DELISTED_STATUS).length > 0
-    },
     isMobileSize() {
       return this.isScreenXS || this.isScreenSM
     }
@@ -328,6 +371,7 @@ export default {
       deleteBids: 'profile-bids/deleteBids',
       editBids: 'profile-bids/editBids',
       acceptAuctionBid: 'profile-bids/acceptAuctionBid',
+      deleteExpiredBids: 'profile-bids/deleteExpiredBids',
     }),
     acceptBidModalOk() {
       this.modalActionLoading = true
@@ -545,6 +589,13 @@ export default {
       this.closeMobileFilter()
       await this.$store.commit('profile-bids/setFilters', filterData)
       this.FetchBids(true)
+    },
+    deleteExpireds() {
+      this.deleteExpiredBids({ type: this.bidType })
+        .then(() => {
+          this.FetchBids(true)
+          this.$toasted.success(this.$t('bids.success_expired_deleted'))
+        })
     }
   }
 }
@@ -570,11 +621,14 @@ export default {
 
 
 .bg-blue-2.btn.btn-primary
-  background-color: $color-blue-2
+  background-color: $color-blue-20
   border: none
+  height: 40px
+  font-weight: $normal
+  font-family: $font-sp-pro
   &.mobile
     background-color: $color-blue-20
-    font-weight: 500
+    font-family: $font-montserrat
 
 :deep()
   .custom-control-input:checked
@@ -616,6 +670,7 @@ export default {
 
   h2.title
     @include heading-3
+    letter-spacing: -0.02em
     font-weight: $bold
     color: $color-black-1
 
@@ -635,7 +690,10 @@ export default {
 
 
 .expire-button-gray
-  color: $color-gray-30
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-1214
+  color: $color-gray-47
 
 h4.title
   font-family: $font-sp-pro
@@ -651,7 +709,24 @@ h4.title
   margin: 0 -25px
   &-header
     margin-bottom: 13px
+    margin-left: 16px
+    margin-right: 16px
   @media (max-width: 576px)
     margin: 0
+
+.delete-expired.btn
+  @include body-5-normal
+  background-color: $white
+  color: $black
+  width: 228px
+  height: 38px
+  font-family: $font-montserrat
+  margin: 46px 0 40px
+  margin-right: calc(33.33% - 116px)
+
+.info-text
+  font-family: $font-sf-pro-text
+  font-weight: $normal
+  @include body-13
 </style>
 

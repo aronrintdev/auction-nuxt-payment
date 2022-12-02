@@ -147,6 +147,10 @@ export default {
 .summary-row
   margin: 16px 0 0
 
+  @media (min-width: 576px)
+    &:first-child
+      margin-top: 0
+
   @media (max-width: 576px)
     margin: 12px 0 0
 

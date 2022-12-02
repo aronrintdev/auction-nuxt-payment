@@ -188,9 +188,10 @@
       no-header-border
       no-footer-border
       hide-footer
+      rounded
     >
       <template  #default>
-        <div class="px-5">
+        <div class="px-5 mt-n3 mb-2">
           <b-row class="mb-4">
             <b-col md="12" >
               {{ $t('create_listing.confirm.delete_text') }}
@@ -199,12 +200,14 @@
           <b-row class="d-flex justify-content-around">
             <Button
               variant="primary"
+              class="dark-blue-fill-btn mr-4 flex-grow-1"
               pill
               @click="deleteSingeItemModalOk"
             >{{ $t('create_listing.confirm.delete') }}</Button
             >
             <Button
               variant="outline-dark"
+              class="flex-grow-1"
               pill
               @click="$bvModal.hide('delete-auction-item-modal')"
             >{{ $t('create_listing.confirm.cancel') }}</Button
@@ -242,6 +245,32 @@
 
       </template>
     </Modal>
+    <vue-bottom-sheet ref="deleteItemSheet">
+      <div class="d-flex flex-column h-100 filters-sheet">
+        <div class="flex-shrink-1 overflow-auto filters-sheet-content">
+          <div class="text-center mb-4">{{ $t('create_listing.confirm.delete_text') }}</div>
+          <div class="text-center mb-3">
+            <Button
+              variant="primary"
+              pill
+              class="dark-blue-fill-btn px-5"
+              @click="deleteSingeItemModalOk"
+            >
+            {{ $t('create_listing.confirm.delete') }}
+            </Button>
+          </div>
+          <div class="text-center mb-3">
+            <Button
+              variant="link"
+              pill
+              @click="$refs.deleteItemSheet.close()"
+            >
+              {{ $t('create_listing.confirm.cancel') }}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </vue-bottom-sheet>
   </b-container>
 </template>
 
@@ -305,7 +334,6 @@ export default {
     }),
     deleteSingeItemModalOk(){
       this.$bvModal.hide('delete-auction-item-modal')
-      this.$bvModal.show('deleted-auction-item-modal')
       this.$store.commit('create-listing/deleteFromCollection', this.deletableItem.index)
     },
     deleteSingleItem(item,index){
@@ -313,7 +341,11 @@ export default {
         index,
         item
       }
-      this.$bvModal.show('delete-auction-item-modal')
+      if (this.isMobileSize) {
+        this.$refs.deleteItemSheet.open()
+      } else {
+        this.$bvModal.show('delete-auction-item-modal')
+      }
     },
     addMore(){
       this.$router.push({path: '/create-listing/search/inventory'})
@@ -528,6 +560,7 @@ export default {
     bottom: 94px
     left: 0
     width: 100%
+    z-index: 100
     padding: 18px 6px
     background: $white
   .confirm-description
@@ -570,5 +603,10 @@ export default {
       font-weight: $medium
       @include body-13
       color: $color-blue-2
-
+.dark-blue-fill-btn.btn
+  background: $color-blue-20
+  border-color: $color-blue-20
+  &:hover
+    background: $color-blue-19
+    border-color: $color-blue-19
 </style>

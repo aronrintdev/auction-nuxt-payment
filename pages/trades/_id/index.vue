@@ -76,7 +76,7 @@
         <div :class="{'timings-left' : isPayment}">
         </div>
         <div class="center-container" :class="{'center-cont-height':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_ONE) , 'center-container-margin': isPayment, 'mt-5': isExpire, 'pt-5': isExpire }">
-          <div class="left-item" :class="{'left-item-margin':trade.offers.length == ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_ONE}">
+          <div class="left-item" :class="{'left-item-margin':trade.offers.length == ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0}">
             <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'item-'+index : ''" :key="index" class="item" :class="[((trade.offers.length > ITEM_COUNT_ONE )|| (getYourTradeItems.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
               <div class="image-wrapper position-relative">
               <img class="item-image" :src="item.inventory.product | getProductImageUrl" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
@@ -94,12 +94,12 @@
             <div v-if="trade.offers.length > ITEM_COUNT_ONE" class="pointer-left"></div>
             <div class="long-line" :class="{'long-line-length' : trade.offers.length == ITEM_COUNT_ONE }"></div>
             <img :src="require('~/assets/img/trades/border.svg')" />
-            <div class="long-line" :class="{'long-line-length' : (getYourTradeItems.length == ITEM_COUNT_0 || getYourTradeItems.length == ITEM_COUNT_ONE) }"></div>
-            <div v-if="getYourTradeItems.length > ITEM_COUNT_ONE" class="pointer-right"></div>
+            <div class="long-line" :class="{'long-line-length' : getYourTradeItems.length == ITEM_COUNT_0  }"></div>
+            <div v-if="getYourTradeItems.length > ITEM_COUNT_0" class="pointer-right"></div>
           </div>
-          <div class="right-item" :class="{'right-item-margin':trade.offers.length > ITEM_COUNT_ONE && (getYourTradeItems.length === ITEM_COUNT_0 || getYourTradeItems.length === ITEM_COUNT_ONE)}">
+          <div class="right-item" :class="{'right-item-margin':trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 }">
             <div  v-if="getYourTradeItems.length" class="">
-              <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_TWO ?'your-item-'+index : 'your-item'" :key="index" class="preview item-length mb-4" :class="{'yml': isPayment && getYourTradeItems.length > ITEM_COUNT_TWO}">
+              <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_ONE ?'your-item-'+index : 'your-item'" :key="index" class="preview item-length mb-4" :class="{'yml': isPayment && getYourTradeItems.length > ITEM_COUNT_TWO}">
                 <div class="remove-item" @click="decrementOrRemoveItem(item)">
                   <div class="minus"></div>
                 </div>
@@ -116,7 +116,7 @@
                 </div>
               </div>
             </div>
-            <div v-if="getYourTradeItems.length === ITEM_COUNT_0" :class="[getYourTradeItems.length > ITEM_COUNT_ONE ? 'item-length' : 'item-normal']"   @drop="onDrop($event)"
+            <div v-if="getYourTradeItems.length === ITEM_COUNT_0 || getYourTradeItems.length < ITEM_COUNT_THREE" :class="[getYourTradeItems.length > ITEM_COUNT_ONE ? 'item-length' : 'item-normal']"   @drop="onDrop($event)"
                 @dragover.prevent
                 @dragenter.prevent>
             <img :src="require('~/assets/img/trades/tradeNow.svg')">

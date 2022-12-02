@@ -61,6 +61,7 @@
                     v-model="start_date"
                     button-only
                     hide-header
+                    :max="end_date"
                     hide-footer
                     class="date-dp"
                     right
@@ -78,6 +79,7 @@
                 <b-input-group-append class="date-input-icon">
                   <b-form-datepicker
                     v-model="end_date"
+                    :min="start_date"
                     button-only
                     hide-header
                     hide-footer
@@ -758,6 +760,7 @@ export default {
     letter-spacing: 0.06em
     color: $color-gray-5
     text-transform: capitalize
+    padding-right: 45px
 .dropdown-filters::v-deep
   min-width: 170px
   height: 38px

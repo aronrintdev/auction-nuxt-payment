@@ -1,6 +1,9 @@
 <template>
-  <b-navbar toggleable="lg" :class="`navbar-wrapper ${!mobileClass && 'border-bottom'}`">
-    <PortalTarget name="back-icon-slot">
+  <b-navbar
+    toggleable="lg"
+    :class="`navbar-wrapper ${!mobileClass && 'border-bottom'}`"
+  >
+    <PortalTarget name="back-icon-slot" class="d-block d-sm-none">
       <b-navbar-toggle target="top-menu-sidebar">
         <template #default>
           <img
@@ -254,9 +257,9 @@ export default {
     pageTitle() {
       return this.$nuxt?.context?.route?.meta[0]?.pageTitle ?? null
     },
-    showMenuIcon(){
+    showMenuIcon() {
       return this.$route.name !== 'login' && this.$route.name !== 'signup'
-    }
+    },
   },
   watch: {
     screenIsSmallThanLG(newVal) {

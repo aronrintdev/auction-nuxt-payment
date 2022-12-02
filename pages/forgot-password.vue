@@ -16,13 +16,17 @@
 
       <b-row class="h-100">
         <b-col md="6" offset-md="3" class="d-flex flex-column align-items-center justify-content-center">
+          <div class="d-block d-md-none position-relative" style="top: -140px">
+            <nuxt-link to="/">
+              <Logo class="img-main" />
+            </nuxt-link>
+          </div>
           <b-row>
             <b-col md="12">
               <div class="right-heading-bold text-center">{{ $t('auth.forgot_password') }}</div>
               <div class="body-5-normal text-color-gray-38 text-center text-pre-line mt-3">{{ $t('auth.enter_your_email_and') }}</div>
             </b-col>
           </b-row>
-
           <b-row class="mt-4 w-100">
             <b-col md="12">
               <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
@@ -89,10 +93,10 @@
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import Button from '~/components/common/Button'
 import { UNPROCESSABLE_ENTITY } from '~/static/constants'
-
+import Logo from '~/components/header/Logo.vue'
 export default {
   name: 'ForgotPassword',
-  components: { ValidationProvider, ValidationObserver, Button },
+  components: { ValidationProvider, ValidationObserver, Button, Logo },
   layout: 'Auth',
   data() {
     return {
@@ -132,26 +136,20 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .bg-color-white-5
   background: $color-white-5
-
 .text-color-black-1
   color: $color-black-1
-
 .text-pre-line
   white-space: pre-line
-
 .text-color-blue-1
   color: $color-blue-1
-
 .left-heading-bold
   color: black
   font-style: normal
   font-weight: $bold
   font-size: 36px
   line-height: 44px
-
 .right-heading-bold
   color: black
   font-style: normal
@@ -177,7 +175,6 @@ export default {
     padding: 6px 10px
     width: 185px !important
     margin-top: 80px
-
 /* Override bootstrap-vue 'b-form-input' styles */
 .input-forgot-password
   @include body-5-normal
@@ -206,7 +203,6 @@ export default {
   &:focus
     background-color: $color-white-5
     border: 0
-
 .btn
   &.btn-confirm
     &.btn-disabled
@@ -215,4 +211,11 @@ export default {
       cursor: not-allowed
       &:hover
         box-shadow: none
+@media (max-width: 992px)
+  .btn.btn-confirm.btn-disabled
+    background: $color-black-1
+  .text-color-gray-38
+    color: $color-gray-47
+  .back-to-login-btn
+    margin-top: 160px
 </style>

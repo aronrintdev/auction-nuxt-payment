@@ -91,7 +91,6 @@
               :options="{
                 default: $t('selling_page.status'),
                 accepted: $t('placed_offers.filter_by.accepted'),
-                rejeced: $t('placed_offers.filter_by.rejected'),
                 pending: $t('placed_offers.filter_by.awaiting_approval'),
               }"
               :title="filterByTitle"

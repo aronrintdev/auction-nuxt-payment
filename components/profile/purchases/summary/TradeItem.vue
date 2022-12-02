@@ -1,242 +1,122 @@
 <template>
   <div class="trade-item-wrapper">
     <!-- TODO: Simplify design -->
-    <div class="your-thier-cont">
-      <div class="pt-4 pl-3">
-        <div class="float-left">
-          <span class="value-text">{{ $t('vendor_purchase.their_value') }}&colon; </span><span class="value-text-bold">{{
-            getTheirTotal(true)
-          }}</span>
+    <div class="">
+      <div class="pt-4 d-flex justify-content-between col-xl-10 mx-auto">
+        <div class="">
+          <span class="value-text">{{ $t('vendor_purchase.your_value') }}&colon;  </span>
+          <span class="value-text-bold">{{ getYourTotal(true) }}</span>
         </div>
-        <div class="float-right mr-5">
-          <span  class="value-text">{{ $t('vendor_purchase.your_value') }}&colon;  </span> <span class="value-text-bold">{{
-            getYourTotal(true)
-          }}</span>
+        <div class="">
+          <span class="value-text"> {{ $t('vendor_purchase.their_value') }}&colon; </span>
+          <span class="value-text-bold">{{ getTheirTotal(true) }}</span>
         </div>
       </div>
 
     </div>
-    <div class="row px-5">
-      <!-- Col1- 2 item -->
-      <div class="col-md-2 m-auto">
-        <template v-if="tradeListingArray.slice(0, 2).length">
-          <div
-            v-for="(items, index) in tradeListingArray.slice(0, 2)"
-            :key="index"
-            class="my-col-products-items-web"
-          >
-            <div class="thumb-products-similar-web text-center mt-2">
-              <div  class="position-relative">
-                <img
-                  :src="items.inventory.product | getProductImageUrl"
-                  class="product-similar-img-web trades-img-prdcts"
-                  alt="product-image"
-                  @error="imageLoadError"
-                />
-                <div class="overlay"></div>
+    <div
+      class="center-container d-flex mx-0 mx-md-auto justify-content-between align-items-center col-md-8 col-xl-12"
+      :class="{
+        'center-cont-height': (tradeListingArray.length > 1 || wantedListingArray.length)
+      }"
+    >
+      <div class="left-item">
+        <div
+          v-for="(item, index) in tradeListingArray"
+          :id="tradeListingArray.length === 3 ?'trade-item-'+index : ''"
+          :key="item.id"
+          class="item"
+          :class="[
+            ((tradeListingArray.length > 1) || (wantedListingArray.length)) ? 'item-length' : 'item-normal'
+          ]"
+        >
+          <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
+          <div class="item-caption">
+            <span class="item-name">{{ item.inventory.product.name }}</span>
+            <div class="mt-1 item-caption-description d-flex">
+              <div class="item-color text-truncate">
+                {{
+                  item.inventory.product.colorway
+                    ? item.inventory.product.colorway
+                    : ''
+                }}
               </div>
+              <div>, {{ $t('trades.trade_arena.size') }} {{
+                  item.inventory.size.size
+                    ? item.inventory.size.size
+                    : ''
+                }}</div>
+            </div>
+            <span class="mt-1 item-caption-description d-flex">
+                  {{
+                $t('trades.trade_arena.box')
+              }}&colon;
+                    {{
+                item.inventory.packaging_condition.name
+                  ? item.inventory.packaging_condition.name
+                  : ''
+              }}
+            </span>
+          </div>
+        </div>
+      </div>
 
-              <div class="item-caption">
-                <span class="item-name"> {{ items.inventory.product.name }} </span>
-                <div class="mt-1 item-caption-description d-flex">
-                  <div class="item-color text-truncate">
-                    {{
-                      items.inventory.product.colorway
-                        ? items.inventory.product.colorway
-                        : ''
-                    }}
-                  </div>
-                  <div>, {{ $t('trades.trade_arena.size') }} {{
-                      items.inventory.size.size
-                        ? items.inventory.size.size
-                        : ''
-                    }}</div>
-                </div>
-                <span class="mt-1 item-caption-description d-flex">
-                       {{
-                    $t('trades.trade_arena.box')
-                  }}&colon;
-                        {{
-                    items.inventory.packaging_condition.name
-                      ? items.inventory.packaging_condition.name
-                      : ''
-                  }}
-                      </span>
-              </div>
-            </div>
-          </div>
-        </template>
+      <div class="center-item">
+        <div v-if="tradeListingArray.length > 1" class="pointer-left"></div>
+        <div class="long-line" :class="{'w-xl-100' : tradeListingArray.length === 1 }"></div>
+        <img :src="require('~/assets/img/trades/Trade.svg')" />
+        <div class="long-line" :class="{'w-xl-100' : wantedListingArray.length === 1 }"></div>
+        <div v-if="wantedListingArray.length > 1" class="pointer-right"></div>
       </div>
-      <!-- ./Col1 Ends -->
-      <!-- Col2 - 1 item -->
-      <div class="col-md-2 m-auto">
-        <div class="border-left-box" v-if="tradeListingArray.length > 1">
-          <template v-if="tradeListingArray.slice(2, 3).length">
-            <div
-              v-for="(items, index) in tradeListingArray.slice(2, 3)"
-              :key="index"
-              class="my-col-products-items-web"
-            >
-              <div class="thumb-products-similar-web text-center mt-2">
-                <div  class="position-relative">
-                  <img
-                    :src="items.inventory.product | getProductImageUrl"
-                    class="product-similar-img-web trades-img-prdcts"
-                    alt="product-image"
-                    @error="imageLoadError"
-                  />
-                  <div class="overlay"></div>
-                </div>
-                <div class="item-caption">
-                  <span class="item-name"> {{ items.inventory.product.name }} </span>
-                  <div class="mt-1 item-caption-description d-flex">
-                    <div class="item-color text-truncate">
-                      {{
-                        items.inventory.product.colorway
-                          ? items.inventory.product.colorway
-                          : ''
-                      }}
-                    </div>
-                    <div>, {{ $t('trades.trade_arena.size') }} {{
-                        items.inventory.size.size
-                          ? items.inventory.size.size
-                          : ''
-                      }}</div>
-                  </div>
-                  <span class="mt-1 item-caption-description d-flex">
-                       {{
-                      $t('trades.trade_arena.box')
-                    }}&colon;
-                        {{
-                      items.inventory.packaging_condition.name
-                        ? items.inventory.packaging_condition.name
-                        : ''
-                    }}
-                      </span>
-                </div>
-              </div>
-            </div>
-          </template>
-        </div>
-      </div>
-      <!-- Col2 ends -->
-      <div class="col-md-3 m-auto text-center">
-        <div class="trade-outline-wrapper">
-          <div class="left-bdr"></div>
-          <img class="img-trd" :src="require('~/assets/img/trd.svg')" alt="" />
-          <div class="right-bdr"></div>
-        </div>
-      </div>
-      <!-- Col4-1 item -->
-      <div class="col-md-2 m-auto">
-        <div class="border-right-box" v-if="tradeListingArray.length > 1">
-          <template v-if="wantedListingArray.slice(2, 3).length">
-            <div
-              v-for="(items, index) in wantedListingArray.slice(2, 3)"
-              :key="index"
-              class="my-col-products-items-web"
-            >
-              <div class="thumb-products-similar-web text-center mt-2">
-                <div  class="position-relative">
-                  <img
-                    :src="items.inventory.product | getProductImageUrl"
-                    class="product-similar-img-web trades-img-prdcts"
-                    alt="product-image"
-                    @error="imageLoadError"
-                  />
-                  <div class="overlay"></div>
-                </div>
-                <div class="item-caption">
-                  <span class="item-name"> {{ items.inventory.product.name }} </span>
-                  <div class="mt-1 item-caption-description d-flex">
-                    <div class="item-color text-truncate">
-                      {{
-                        items.inventory.product.colorway
-                          ? items.inventory.product.colorway
-                          : ''
-                      }}
-                    </div>
-                    <div>, {{ $t('trades.trade_arena.size') }} {{
-                        items.inventory.size.size
-                          ? items.inventory.size.size
-                          : ''
-                      }}</div>
-                  </div>
-                  <span class="mt-1 item-caption-description d-flex">
-                       {{
-                      $t('trades.trade_arena.box')
-                    }}&colon;
-                        {{
-                      items.inventory.packaging_condition.name
-                        ? items.inventory.packaging_condition.name
-                        : ''
-                    }}
-                      </span>
-                </div>
-              </div>
-            </div>
-          </template>
-        </div>
-      </div>
-      <!-- ./col4 ends -->
-      <!-- Col5-2 item -->
-      <div class="col-md-2 m-auto">
-        <template v-if="wantedListingArray.slice(0, 2).length">
+
+      <div class="right-item">
+        <div v-if="wantedListingArray.length">
           <div
-            v-for="(items, index) in wantedListingArray.slice(0, 2)"
-            :key="index"
-            class="my-col-products-items-web"
+            v-for="(item, index) in wantedListingArray"
+            :id="wantedListingArray.length > 2 ?'your-trade-item-'+index : 'your-item'" :key="item.id"
+            class="item-length"
           >
-            <div class="thumb-products-similar-web text-center mt-2">
-              <div  class="position-relative">
-                <img
-                  :src="items.inventory.product | getProductImageUrl"
-                  class="product-similar-img-web trades-img-prdcts"
-                  alt="product-image"
-                  @error="imageLoadError"
-                />
-                <div class="overlay"></div>
-              </div>
-              <div class="item-caption">
-                <span class="item-name"> {{ items.inventory.product.name }} </span>
-                <div class="mt-1 item-caption-description d-flex">
-                  <div class="item-color text-truncate">
-                    {{
-                      items.inventory.product.colorway
-                        ? items.inventory.product.colorway
-                        : ''
-                    }}
-                  </div>
-                  <div>, {{ $t('trades.trade_arena.size') }} {{
-                      items.inventory.size.size
-                        ? items.inventory.size.size
-                        : ''
-                    }}</div>
-                </div>
-                <span class="mt-1 item-caption-description d-flex">
-                       {{
-                    $t('trades.trade_arena.box')
-                  }}&colon;
-                        {{
-                    items.inventory.packaging_condition.name
-                      ? items.inventory.packaging_condition.name
+            <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" alt="image" />
+
+            <div class="item-caption">
+              <span class="item-name"> {{ item.inventory.product.name }} </span>
+              <div class="mt-1 item-caption-description d-flex">
+                <div class="item-color text-truncate">
+                  {{
+                    item.inventory.product.colorway
+                      ? item.inventory.product.colorway
                       : ''
                   }}
-                      </span>
+                </div>
+                <div>, {{ $t('trades.trade_arena.size') }} {{
+                    item.inventory.size.size
+                      ? item.inventory.size.size
+                      : ''
+                  }}</div>
               </div>
+              <span class="mt-1 item-caption-description d-flex">
+                  {{
+                  $t('trades.trade_arena.box')
+                }}&colon;
+                    {{
+                  item.inventory.packaging_condition.name
+                    ? item.inventory.packaging_condition.name
+                    : ''
+                }}
+                  </span>
             </div>
           </div>
-        </template>
+        </div>
       </div>
-      <!-- ./Col5 ends -->
     </div>
+
     <div class="d-flex justify-content-center align-items-center mt-4 mb-4">
-      <div class="fair-trade-division-mobile">
-        <Meter :highest="getTheirTotal(false)"
-               :lowest="0"
-               :value="getYourTotal(false)"
-               :fair="getFairTradeValue()"
-               heading="trades.trade_arena.fair_trade_meter"
+        <Meter
+          :highest="getTheirTotal(false)"
+          :lowest="0"
+          :value="getYourTotal(false)"
+          :fair="getFairTradeValue()"
+          heading="trades.trade_arena.fair_trade_meter"
         />
       </div>
     </div>
@@ -279,15 +159,16 @@ export default {
 
     // Array the items to wanted and trade listing array
     checkTradeItems(order) {
+      console.log(order)
       if (order.type === 'trade') {
-        this.wantedListingArray = order.accepted_offer_your.theirs_items
-        this.tradeListingArray =  order.accepted_offer_your.yours_items
+        this.wantedListingArray = order.accepted_offer_your !== null ? order.accepted_offer_your.theirs_items : []
+        this.tradeListingArray =  order.accepted_offer_your !== null ? order.accepted_offer_your.yours_items : []
         this.status = order.trade.condition_translation
       }
     },
     getTheirTotal(formattedPrice = true){
       let optionalCash = 0
-      if(this.orderDetails.accepted_offer_their.cash_added && this.orderDetails.accepted_offer_your.cash_type === 'added')
+      if(this.orderDetails.accepted_offer_their !== null && this.orderDetails.accepted_offer_their.cash_added && this.orderDetails.accepted_offer_your.cash_type === 'added')
       {
         optionalCash = (this.orderDetails.accepted_offer_their.cash_added/100)
         this.cashReceived = optionalCash
@@ -302,7 +183,7 @@ export default {
     },
     getYourTotal(formattedPrice = true){
       let optionalCash = 0
-      if(this.orderDetails.accepted_offer_your.cash_added && this.orderDetails.accepted_offer_your.cash_type === 'added')
+      if(this.orderDetails.accepted_offer_your !== null && this.orderDetails.accepted_offer_your.cash_added && this.orderDetails.accepted_offer_your.cash_type === 'added')
       {
           optionalCash = (this.orderDetails.accepted_offer_your.cash_added/100)
       }
@@ -335,11 +216,9 @@ export default {
   margin-left: 10px
   width: 200px
 .my-col-products-items-web
-  margin-top: 20%
   height: 216px
   border-radius: 4px 4px 0px 0px
   display: inline-block
-  margin-left: 10px
   width: 150px
 .pull-right
   float: right
@@ -374,14 +253,13 @@ export default {
 .blockquote
   margin-bottom: 1rem
   font-size: 1.25rem
-.border-left-box
-  height: 360px
-  border: 1px solid $white-2
-  border-left: none
-.border-right-box
-  height: 360px
-  border: 1px solid $white-2
-  border-right: none
+
+.border-right-box, .border-left-box
+  @media (min-width: 1200px)
+    height: 360px
+    border: 1px solid $white-2
+    border-right: none
+
 .slider::-webkit-slider-runnable-track
   -webkit-appearance: none
   opacity: 1
@@ -478,12 +356,6 @@ export default {
   width: 100%
   height: 100%
   background: $color-grey-70
-.your-thier-cont
-  width: 797px
-  height: 61px
-  background: $color-white-4
-  border-radius: 4px
-  margin-left: 6.5rem
 .value-text
   font-family: $font-montserrat
   font-style: normal
@@ -498,21 +370,40 @@ export default {
   font-weight: $medium
   font-size: 15px
   color: $color-black-1
-.left-bdr
-  margin-top: 23px
-  border: 1px solid #C4C4C4
-  width: 40px
-  margin-left: 2rem
-  position: absolute
-.right-bdr
-  width: 40px
-  border: 1px solid #C4C4C4
-  margin-left: 9rem
-  margin-top: -21px
+.left-bdr, .right-bdr
+  @media (min-width: 1200px)
+    border: 1px solid $color-gray-23
+    width: 100%
+
+.center-container
+  @media (min-width: 1200px)
+    padding-left: 30px
+    padding-right: 30px
+  @media (min-width: 1400px)
+    padding-left: 127px
+    padding-right: 127px
+
 .img-trd
   position: relative
 .fair-trade-division-mobile
   background-color: $color-white-4
   width: 247px
   height: 68px
+
+.w-xl-100
+  @media (min-width: 1200px)
+    width: 100%
+
+
+#trade-item-0
+  @media (min-width: 1200px)
+    position: absolute
+    margin-left: 110%
+    margin-top: 110px
+
+#your-trade-item-0
+  @media (min-width: 1200px)
+    position: absolute
+    margin-top: 110px
+    margin-left: -110%
 </style>
