@@ -266,14 +266,15 @@ export default {
       return vm.getShippingFee
     },
   },
-
+  mounted() {
+    this.getTaxRateByZip({ zip: this.billingAddress.zipCode })
+  },
   methods: {
     ...mapActions({
       addPaymentMethod: 'auth/addPaymentMethod',
       addPaymentToken: 'order-details/addPaymentToken',
       addInstallmentPlans: 'order-details/addInstallmentPlans',
-      getTaxAmount: 'order-details/getTax',
-      getOrderShippingAmount: 'order-details/getShippingFee',
+      getTaxRateByZip: 'tax-rate/getTaxRateByZip',
     }),
     injectAffirm() {
       // Inject Affirm JS
