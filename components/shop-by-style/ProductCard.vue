@@ -159,7 +159,7 @@
               class="action-btns w-100"
             >
               <div>
-                <p v-if="currentListingItem" class="text-center lowest-price mb-1"><span class="total-price">${{ currentListingItem.inventory.sale_price / 100 }}</span> {{ $t('shop_by_style.4_installments') }} <span class="partial-price">of ${{ (currentListingItem.inventory.sale_price / 100) / 4 }}</span></p>
+                <p v-if="currentListingItem" class="text-center lowest-price mb-1"><span class="total-price">${{( currentListingItem.inventory.sale_price / 100 | toCurrency)}}</span> {{ $t('shop_by_style.4_installments') }} <span class="partial-price">of ${{( (currentListingItem.inventory.sale_price / 100) / 4 | toCurrency)}}</span></p>
                 <Button
                   variant="dark"
                   block

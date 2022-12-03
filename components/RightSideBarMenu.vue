@@ -1,12 +1,13 @@
 <template>
   <!-- Side Bar Menu -->
   <b-sidebar
-    id="top-menu-sidebar"
-    ref="topSidebar"
+    id="bottom-menu-sidebar"
+    ref="bottomSidebar"
     width="100%"
     z-index="99999"
     shadow
     no-header
+    right
     @shown="isVisible = true"
     @hidden="isVisible = false"
   >
@@ -16,14 +17,14 @@
         <b-col cols="12" sm="12" class="d-flex align-items-center px-3">
           <UserOutlineGraySVG />
           <span v-if="isAuthenticated" class="body-2-medium text-blue-20"
-            >{{ $t('home.hi_user', { name: user.first_name }) }}&excl;</span
+          >{{ $t('home.hi_user', { name: user.first_name }) }}&excl;</span
           >
           <span v-else class="body-2-medium text-blue-20"
-            >{{ $t('home.welcome') }}&excl;</span
+          >{{ $t('home.welcome') }}&excl;</span
           >
           <CloseOutlineBlueSVG
             class="ml-auto"
-            @click="$refs.topSidebar.hide()"
+            @click="$refs.bottomSidebar.hide()"
           />
         </b-col>
       </b-row>
@@ -53,11 +54,17 @@
             block
             pill
             @click="$router.push('/signup')"
-            >{{ $t('home.create_account') }}</Button
+          >{{ $t('home.create_account') }}</Button
           >
         </b-col>
         <b-col cols="6" sm="6">
-          <Button variant="dark-blue" block pill @click="$router.push('/login')">{{ $t('home.login') }}</Button>
+          <Button
+            variant="dark"
+            block
+            pill
+            @click="$router.push('/login')"
+          >{{ $t('auth.login') }}</Button
+          >
         </b-col>
       </b-row>
       <!-- End of Authentication Buttons -->
@@ -114,7 +121,7 @@
           <Button
             block
             variant="outline-dark-blue"
-            :to="'/profile/create-listing'"
+            to="/profile/create-listing"
           >
             <template #default>
               <b-row>
@@ -125,8 +132,8 @@
                 >
                   <PlusOutlineGraySVG />
                   <span class="body-8-regular ml-2">{{
-                    $t('home.create_a_listing')
-                  }}</span>
+                      $t('home.create_a_listing')
+                    }}</span>
                 </b-col>
               </b-row>
             </template>
@@ -138,7 +145,7 @@
       <!-- Become a Vendor Button -->
       <b-row v-if="isAuthenticated && !isVendor" class="create-listing-wrapper">
         <b-col cols="12" sm="12">
-          <Button block variant="outline-dark-blue">
+          <Button block variant="outline-dark-blue" to="/profile/vendor-hub/apply">
             <template #default>
               <b-row>
                 <b-col
@@ -148,8 +155,8 @@
                 >
                   <PlusOutlineGraySVG />
                   <span class="body-8-regular ml-2">{{
-                    $t('home.become_a_vendor')
-                  }}</span>
+                      $t('home.become_a_vendor')
+                    }}</span>
                 </b-col>
               </b-row>
             </template>
@@ -215,7 +222,7 @@ import ArrowRightBlackSVG from '~/assets/img/shopping-cart/arrow-right-black.svg
 import PlusOutlineGraySVG from '~/assets/img/home/sidebar/plus-outline-gray.svg?inline'
 
 export default {
-  name: 'SideBarMenu',
+  name: 'RightSideBarMenu',
   components: {
     Button,
     UserOutlineGraySVG,
