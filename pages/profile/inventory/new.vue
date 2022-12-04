@@ -10,7 +10,7 @@
           ref="inventoryForm"
           v-model="form"
           class="mb-sm-4"
-          :show-add-button="!isScreenXS"
+          :show-buttons="!isScreenXS"
           :is-form-valid="isFormValid"
           @submit="handleAddInventory"
         />
@@ -22,8 +22,8 @@
         :chart-labels-style="chartLabelStyle"
       />
       <!-- End of Sales Graph and Sales Data Section -->
-      <div class="d-flex justify-content-center mt-5" v-if="isScreenXS">
-        <a role="button" @click="handleAddInventory" class="inventory-add-btn">{{ $t('inventory.add_inventory') }}</a>
+      <div v-if="isScreenXS" class="d-flex justify-content-center mt-5">
+        <a role="button" class="inventory-add-btn" @click="handleAddInventory">{{ $t('inventory.add_inventory') }}</a>
       </div>
     </div>
   </b-container>
@@ -90,12 +90,12 @@ export default {
     },
     chartLabelStyle() {
       if (this.isScreenSM)
-        return 'width: 80%; margin-left: 140px'
+        return { 'width': '80%', 'margin-left': '140px' }
 
       if (this.isScreenMD)
-        return 'width: 70%; margin-left: 140px'
+        return {'width': '70%', 'margin-left': '140px' }
 
-      return 'width: 60%; margin-left: 160px'
+      return {'width': '60%', 'margin-left': '160px' }
     }
   },
 

@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-6 col-md-6 mt-3" :class="isScreenXS ? 'input-col-mobile pr-4' : 'input-col'">
+    <div class="mt-3" :class="[isScreenXS ? 'input-col-mobile pr-2' : 'input-col', colClass]">
       <FormInput :value="value.quantity"
                  :placeholder="$t('inventory.enter_quantity')"
                  :label="$t('common.quantity')"
@@ -21,7 +21,7 @@
         }}
       </div>
     </div>
-    <div class="col-6 col-md-6 mt-3" :class="isScreenXS ? 'input-col-mobile pl-4' : 'input-col'">
+    <div class="mt-3" :class="[isScreenXS ? 'input-col-mobile pr-2' : 'input-col', colClass]">
       <FormInput
         :value="value.price"
         :placeholder="$t('inventory.enter_price')"
@@ -44,13 +44,34 @@
         }}
       </div>
     </div>
-    <div class="col-12 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'" v-if="showAddButton">
-      <Button class="mt-3 w-100"
-              variant="dark"
-              :class="{'py-4' : !isScreenXS}"
-              :disabled="!isFormValid"
-              @click="$emit('submit')">{{ $t('inventory.add_inventory') }}</Button>
-    </div>
+    <template v-if="showButtons">
+      <div v-if="!isEditForm"
+           class="col-12 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+        <Button class="mt-3 w-100"
+                variant="dark"
+                :class="{'py-4' : !isScreenXS}"
+                :disabled="!isFormValid"
+                @click="$emit('submit')">{{ $t('inventory.add_inventory') }}</Button>
+      </div>
+      <template v-else>
+        <div class="col-6 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+          <Button class="mt-3 w-100"
+                  variant="dark"
+                  :class="{'py-4' : !isScreenXS}"
+                  :disabled="!isFormValid || !isFormTouched"
+                  @click="$emit('submit')">{{ $t('inventory.save_changes') }}</Button>
+        </div>
+        <div class="col-6 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+          <Button class="mt-3 w-100"
+                  variant="outline-dark"
+                  :class="{'py-4' : !isScreenXS}"
+                  @click="$emit('cancel')">{{ isFormTouched
+            ? $t('inventory.discard_changes')
+            : $t('common.cancel') }}</Button>
+        </div>
+      </template>
+    </template>
+
   </div>
 </template>
 <script>
@@ -71,12 +92,30 @@ export default {
       required: true,
     },
     isFormValid: {
+      type: [Boolean, Number],
+      default: false,
+    },
+    isFormTouched: {
+      required: false,
       type: Boolean,
       default: false,
     },
-    showAddButton: {
+    showButtons: {
       type: Boolean,
       default: true,
+    },
+    isEditForm: {
+      required: false,
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    colClass() {
+      if (this.isEditForm) {
+        return 'col-12'
+      }
+      return this.isScreenXS ? 'col-12' : 'col-6'
     }
   },
   methods: {
@@ -91,7 +130,7 @@ export default {
     handlePriceChange(value) {
       this.$emit('input', { ...this.value, price: value })
     },
-  },
+  }
 }
 </script>
 <style lang="sass" scoped>
