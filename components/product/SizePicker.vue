@@ -398,7 +398,7 @@ export default {
         margin-top: -71px !important
         @media (min-width: 576px)
           margin-right: -30px !important
-          margin-top: -80px !important
+          margin-top: -73px !important
 
       &.owl-prev
         float: left

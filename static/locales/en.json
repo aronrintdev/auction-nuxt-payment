@@ -3819,7 +3819,8 @@
       "between": "Please choose another {field} between {min} and {max}"
     },
     "list_product": "List Product",
-    "edit_details": "Edit Details"
+    "edit_details": "Edit Details",
+    "mobile_search_info": "Begin by searching for your product"
   },
   "vendor_purchase": {
     "their_value": "THEIR VALUE",

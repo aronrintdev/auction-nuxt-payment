@@ -1,15 +1,16 @@
 <template>
   <div class="row">
-    <div class="col-12 col-md-6 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+    <div class="col-6 col-md-6 mt-3" :class="isScreenXS ? 'input-col-mobile pr-4' : 'input-col'">
       <FormInput :value="value.quantity"
                  :placeholder="$t('inventory.enter_quantity')"
                  :label="$t('common.quantity')"
+                 :label-class="isScreenXS ? 'ml-0 mb-2' : ''"
                  class="input"
-                 :class="{'input-error': value.quantity <= 0 || value.quantity > 50}"
+                 :class="{'input-error': value.price !== null && (value.quantity <= 0 || value.quantity > 50)}"
                  required
                  integer
                  @input="handleQuantityChange" />
-      <div v-if="value.quantity <= 0 || value.quantity > 50" class="error-text mt-1">
+      <div v-if="value.price !== null && (value.quantity <= 0 || value.quantity > 50)" class="error-text mt-1">
         {{
           (0 >= value.quantity || value.quantity > 50) &&
           $t('inventory.message.between', {
@@ -20,11 +21,12 @@
         }}
       </div>
     </div>
-    <div class="col-12 col-md-6 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+    <div class="col-6 col-md-6 mt-3" :class="isScreenXS ? 'input-col-mobile pl-4' : 'input-col'">
       <FormInput
         :value="value.price"
         :placeholder="$t('inventory.enter_price')"
         :label="$t('inventory.your_price')"
+        :label-class="isScreenXS ? 'ml-0 mb-2' : ''"
         prefix="$"
         class="input"
         :class="{'input-error': value.price !== null && value.price <= 50}"
@@ -147,7 +149,7 @@ export default {
       left: 16px
       top: 804px
       border: 1px solid $white-5
-      border-radius: 4px!important
+      border-radius: 10px!important
       &::placeholder
         font-family: $font-montserrat
         font-style: normal

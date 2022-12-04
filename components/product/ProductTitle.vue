@@ -182,4 +182,10 @@ export default {
   @media (min-width: 576px)
     @include body-5-medium
 
+.popover
+  width: auto
+
+</style>
+<style lang="sass">
+
 </style>
