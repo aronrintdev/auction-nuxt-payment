@@ -407,8 +407,16 @@
     "promotions": "Promotions",
     "rewards": "Rewards",
     "support": "Support",
+    "menu": "Menu",
+    "shop": "Shop",
+    "trade": "Trade",
+    "auction": "Auction",
+    "sell": "Sell",
+    "profile": "Profile",
     "dashboard": "Dashboard",
+    "dead_stock_exchange": "Deadstock Exchange",
     "inventory": "Inventory",
+    "shop_by_style_2": "Shop by Style",
     "buying_profile": "Buying Profile",
     "selling_profile": "Selling Profile",
     "my_profile": "My Profile",
@@ -3318,7 +3326,8 @@
         "size_low_high": "Size: Low to High",
         "size_high_low": "Size: High to Low"
       }
-    }
+    },
+    "payment_method_invalid": "Your payment method is invalid. Please try again."
   },
   "selling_page": {
     "selling_page_heading": "Selling",
