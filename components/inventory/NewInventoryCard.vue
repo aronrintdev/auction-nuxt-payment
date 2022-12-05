@@ -17,7 +17,7 @@
         {{ $t('common.edit') }}
       </Button>
       <Button
-        v-if="!selectable && isActionsVisible && !isScreenXS"
+        v-if="!selectable && isActionsVisible && !isScreenXS && !inventory.listing_items.length"
         class="btn-list add"
         icon="plus-circle-gray.svg"
         icon-height="15"
@@ -27,6 +27,18 @@
         @click="handleListClick()"
       >
         {{ $t('common.list') }}
+      </Button>
+      <Button
+        v-if="!selectable && isActionsVisible && !isScreenXS && inventory.listing_items.length"
+        class="btn-list delist"
+        icon="plus-circle-delist.svg"
+        icon-height="15"
+        icon-pos="left"
+        icon-width="15"
+        variant="link"
+        @click="handleDelistClick"
+      >
+        {{ $t('auction.delist') }}
       </Button>
 
       <div v-if="isScreenXS" class="d-flex flex-grow-1 justify-content-end w-100 pr-3">
@@ -150,6 +162,7 @@
        @list="handleListClick"
        @edit="handleEditClick"
        @cancel="hideMobileOptionsMenu"
+       @delist="handleDelistClick"
        @delete="()=>{
          this.hideMobileOptionsMenu();
          handleDeleteClick()
@@ -232,6 +245,10 @@ export default {
     },
     handleListClick(checked) {
       this.$emit('list', {inventory: this.inventory, checked: true})
+    },
+    handleDelistClick() {
+      this.$emit('delist', this.inventory.listing_items[0].id)
+      this.hideMobileOptionsMenu()
     },
 
     handleEditClick() {

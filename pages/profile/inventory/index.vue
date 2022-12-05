@@ -148,9 +148,9 @@
               :inventory="inventory"
               :selectable="!!action"
               :selected="!!selected.find((id) => id == inventory.id)"
-
               class="my-3"
               @list="selectList"
+              @delist="delistItem"
               @select="selectItem"
             />
           </b-col>
@@ -468,6 +468,7 @@ export default {
       if (type !== this.inventoryType) {
         this.inventoryType = type
         this.infiniteId += 1
+        this.page = 1
         this.$refs.InfiniteLoading.stateChanger.reset();
         this.getInventories()
       }
@@ -529,6 +530,14 @@ export default {
 
     handleDeselectAll() {
       this.selected = []
+    },
+
+    async delistItem(id) {
+      await this.$axios.put(`/listing-items/${id}/delist`)
+      this.page = 1
+      this.infiniteId += 1
+      this.$refs.InfiniteLoading.stateChanger.reset();
+      this.getInventories()
     },
 
     handleBulkAction() {
