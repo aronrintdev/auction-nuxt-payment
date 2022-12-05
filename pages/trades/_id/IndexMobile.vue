@@ -70,13 +70,14 @@
           <div>
             <b-btn  class="add-cash" @click="cashAdd">{{buttonText}}</b-btn>
             <div v-if="!isExpire && !isPayment" >
-            <div class="authenticity d-flex justify-content-center align-items-center">
-              <img :src="require('~/assets/img/trades/authenticity.svg')">
-              <div class="pl-1">{{$t('products.authenticity_guaranteed')}}</div>
-            </div>
-            <div class="authenticity-text d-flex justify-content-center text-center">
-              {{$t('features.auctions.certified_authentic_products_desc')}}
-            </div>
+              <div class="d-flex guranty-box">
+                 <div>
+                  <img :src="require('~/assets/img/guranty.png')">
+                 </div>
+                 <div class="authenticity-text">
+                   {{$t('features.auctions.certified_authentic_products_desc_new')}}
+                 </div>
+              </div>
             </div>
 
             <div v-if="!isExpire && !isPayment" >
@@ -1080,4 +1081,6 @@ export default {
   width : 118px
   height : 134px
   margin-top: 183px
+.guranty-box
+  margin-top : 24px
 </style>
