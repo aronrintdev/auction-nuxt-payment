@@ -554,7 +554,7 @@ export default {
           }else{
             $state.complete()
           }
-          
+
         })
         .catch((err) => {
           this.isTableBusy = false
@@ -740,9 +740,8 @@ export default {
       }
 
       this.searchFilters.sortBy = val.sortby ? val.sortby : ''
-      this.searchFilters.filterBy =
-        val.status && val.status.value ? val.status.value : ''
-      this.searchFilters.page = 1 
+      this.searchFilters.filterBy = val.status.length ? val.status.map((s) => s.value) : ''
+      this.searchFilters.page = 1
       this.getOffers()
       this.hideFilter()
     },
@@ -1086,7 +1085,7 @@ export default {
     width: 100%
     max-width: 170px
     height: 38px
-    
+
     .input-group-append
       #append-b-datepicker
         background: $color-white-1

@@ -40,13 +40,11 @@
       </div>
       <!-- Sort By ends -->
       <div v-show="filterVisibility" class="collapses flex-column">
-        <CollapseStatus
-          id="status-filter"
-          :value="filter.status || {}"
+        <CollapseSelector
+          v-model="filter.status"
           collapseKey="status"
           :title="$t('placed_offers.status')"
           :options="status"
-          @selected="statusSelected"
         />
       </div>
       <hr v-show="filterVisibility" />
@@ -88,17 +86,17 @@
 </template>
 
 <script>
-import CollapseStatus from './filter/CollapseStatus.vue'
 import CollapseDate from './filter/CollapseDate.vue'
 import screenSize from '~/plugins/mixins/screenSize'
+import CollapseSelector from '~/components/common/mobileFilters/CollapseSelector'
 import { Button } from '~/components/common'
 export default {
   name: 'MobileFilter',
 
   components: {
-    CollapseStatus,
     Button,
     CollapseDate,
+    CollapseSelector,
   },
 
   mixins: [screenSize],
@@ -114,25 +112,24 @@ export default {
     return {
       status: [
         {
-          label: this.$t('offers_received.accepted'),
+          text: this.$t('offers_received.accepted'),
           value: 'accepted',
         },
         {
-          label: this.$t('offers_received.awaiting_response'),
+          text: this.$t('offers_received.awaiting_response'),
           value: 'pending',
         },
         {
-          label: this.$t('offers_received.declined'),
+          text: this.$t('offers_received.declined'),
           value: 'declined',
         },
       ],
       showFilter: true,
       filter: {
         date: null,
-        status: null,
+        status: [],
         sortby: null,
       },
-      count: 0,
     }
   },
 
@@ -144,46 +141,27 @@ export default {
     sortbyStatus: (vm) => {
       return vm.filter.sortby
     },
-  },
 
-  watch: {
-    sortbyStatus: {
-      deep: true,
-      handler(newValue, oldValue) {
-        if (!oldValue) {
-          this.count = this.count + 1
-        }
-      },
-    },
+    count() {
+      let total = 0
+      if (this.filter.sortby) total += 1
+      if (this.filter.date) total += 1
+      if (this.filter.status.length) total += 1
+      return total
+    }
   },
 
   methods: {
     resetFilter() {
-      this.count = 0
       this.filter.date = null
-      this.filter.status = null
+      this.filter.status = []
       this.filter.sortby = null
     },
 
-    statusSelected({ value }) {
-      if (!this.filter.status) {
-        this.count = this.count + 1
-      }
-      if (this.filter.status && this.filter.status.value === value.value) {
-        this.filter.status = null
-        this.count = this.count - 1
-        return
-      }
-      this.filter.status = value
-    },
     dateSelected({ value, data }) {
       if (value === true) {
-        if ((data.start !== '' || data.end !== '') && !this.filter.date) {
-          this.count = this.count + 1
-        }
         this.filter.date = data
       }
-
       this.showFilter = value
     },
   },
