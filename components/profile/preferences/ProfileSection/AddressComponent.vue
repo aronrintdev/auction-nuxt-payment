@@ -10,7 +10,7 @@
               v-model="defaultBilling"
               :aria-describedby="ariaDescribedby"
               name="some-radios-billing"
-              class="preferences-make-as-default-billing"
+              class="preferences-make-as-default-billing w-50"
               :value="billingAddress.id"
               @change="updateDefault(billingAddress.id, billingAddress.type)"
             >
@@ -27,7 +27,7 @@
               v-model="defaultShipping"
               :aria-describedby="ariaDescribedby"
               name="some-radios-shipping"
-              class="preferences-make-as-default-shipping"
+              class="preferences-make-as-default-shipping w-50"
               :value="shippingAddress.id"
               @change="updateDefault(shippingAddress.id, shippingAddress.type)"
             >
@@ -102,7 +102,7 @@
             </b-col>
             <!-- ./Billing Adress -->
             <!-- Apt-suite-unit-building(Optionals) -->
-            <b-col md="3">
+            <b-col md="4">
               <ValidationProvider
                 rules="alphaNum"
                 :name="$t('preferences.profile.apt_suite_unit_building')"
@@ -110,7 +110,7 @@
                 <b-form-group
                   id="input-group"
                   slot-scope="{ valid, errors }"
-                  class="profile-label"
+                  class="profile-label mr-0"
                   :label="$t('preferences.profile.apt_suite_unit_building')"
                   label-for="input"
                 >
@@ -135,7 +135,7 @@
             </b-col>
             <!-- ./Apt-suite-unit-building(Optionals) -->
             <!-- City -->
-            <b-col md="4">
+            <b-col md="5">
               <ValidationProvider
                 rules="required|alphaSpaces"
                 :name="$t('preferences.profile.city')"
@@ -167,27 +167,6 @@
               </ValidationProvider>
             </b-col>
             <!-- ./City -->
-            <b-col md="2">
-              <div class="address-trash-button-wrapper">
-                <b-button
-                  class="profile-trash-icon"
-                  pill
-                  variant="light"
-                  @click="
-                    onSubmit(
-                      addressType === 'billing'
-                        ? billingAddress.id
-                        : shippingAddress.id
-                    )
-                  "
-                >
-                  <img
-                    :src="require('~/assets/img/icons/pencil.svg')"
-                    :alt="$t('preferences.common.update_alt_text')"
-                  />
-                </b-button>
-              </div>
-            </b-col>
           </b-row>
           <b-row>
             <!-- State -->
@@ -223,7 +202,7 @@
             </b-col>
             <!-- ./State -->
             <!-- Zip Code -->
-            <b-col md="3">
+            <b-col md="4">
               <b-form-group
                 id="input-group"
                 class="profile-label"
@@ -247,38 +226,44 @@
             </b-col>
             <!-- Zip Code -->
             <!-- Country -->
-            <b-col md="4">
+            <b-col md="5" class="d-flex">
               <b-form-group
                 id="input-group"
-                class="profile-label"
+                class="profile-label p-0 m-0 w-250"
                 :label="$t('preferences.profile.country')"
                 label-for="input"
               >
-                <b-form-select
-                  v-model="address.country"
-                  :value="
-                    addressType === 'billing'
-                      ? billingAddress.country
-                      : shippingAddress.country
-                  "
-                  class="profile-input"
-                >
-                  <b-form-select-option
-                    v-for="country in countries"
-                    :key="country.value"
-                    :value="country.value"
-                  >
-                    {{ country.text }}
-                  </b-form-select-option>
-                </b-form-select>
+                <b-row>
+                  <div
+                        class="dob-selector d-flex rounded-pill"
+                      >
+                    <b-form-select
+                      v-model="address.country"
+                      :value="
+                        addressType === 'billing'
+                          ? billingAddress.country
+                          : shippingAddress.country
+                      "
+                      class="profile-input calendar-input"
+                    >
+                      <b-form-select-option
+                        v-for="country in countries"
+                        :key="country.value"
+                        :value="country.value"
+                      >
+                        {{ country.text }}
+                      </b-form-select-option>
+                    </b-form-select>
+                    <div class="date-icon mt-13 mr-3">
+                      <img :src="dateIcon" alt="date-icon" />
+                    </div>
+                  </div>
+                </b-row>
               </b-form-group>
-            </b-col>
-            <!-- ./Country -->
 
-            <b-col md="2">
-              <div class="address-trash-button-wrapper">
+              <div class="address-trash-button-wrapper mt-27">
                 <b-button
-                  class="profile-trash-icon"
+                  class="profile-trash-icon ml-50"
                   pill
                   variant="light"
                   @click="
@@ -290,12 +275,32 @@
                   "
                 >
                   <img
+                    class="delete"
                     :src="require('~/assets/img/icons/delete.png')"
                     :alt="$t('preferences.common.delete_alt_text')"
                   />
                 </b-button>
+                <b-button
+                  class="profile-edit-icon ml-11"
+                  pill
+                  variant="light"
+                  @click="
+                    onSubmit(
+                      addressType === 'billing'
+                        ? billingAddress.id
+                        : shippingAddress.id
+                    )
+                  "
+                >
+                  <img
+                    class="edit"
+                    :src="require('~/assets/img/icons/pencil-light-gray.png')"
+                    :alt="$t('preferences.common.update_alt_text')"
+                  />
+                </b-button>
               </div>
             </b-col>
+            <!-- ./Country -->
           </b-row>
         </b-card-text>
       </form>
@@ -304,6 +309,7 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import DateIcon from '~/assets/img/icons/down-arrow-calendar.svg'
 
 export default {
   name: 'AddressComponent',
@@ -365,6 +371,7 @@ export default {
         country: this.getAddress('country'),
         add_as_billing: false,
       },
+      dateIcon: DateIcon,
     }
   },
 
