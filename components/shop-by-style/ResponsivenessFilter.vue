@@ -9,7 +9,7 @@
         class="setting-filter d-flex justify-content-start px-0 ml-2"
         @click="open"
       >
-        <FilterIcon />
+        <p class="filter-text">{{ $tc('common.filter', 1) }}</p>
       </div>
     </div>
     <vue-bottom-sheet
@@ -88,14 +88,13 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import FilterIcon from '~/assets/icons/FilterIcon'
 import ShopFiltersMobile from '~/components/shop-by-style/MobileFilters'
 import Checkbox from '~/components/common/form/Checkbox'
 import SearchIcon from '~/assets/icons/SearchIcon'
 
 export default {
   name: 'SearchAndFilter',
-  components: { ShopFiltersMobile, FilterIcon, Checkbox, SearchIcon },
+  components: { ShopFiltersMobile, Checkbox, SearchIcon },
   props: {
     date: {
       type: String,
@@ -174,6 +173,15 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+
+.filter-text
+  width: auto
+  padding: 4px 15px
+  border: 1px solid $color-gray-23
+  font-family: $font-montserrat
+  font-size: 11px
+  line-height: 13px
+
 .search-filter-main
   .sf-wrapper
       margin: 0 16px
