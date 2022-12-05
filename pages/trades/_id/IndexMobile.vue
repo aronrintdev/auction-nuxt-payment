@@ -999,7 +999,7 @@ export default {
   font-style: normal
   @include body-4-medium
   color: $color-black-1
-  margin-top: 38px
+  margin-top: 24px
   padding-left: 10px
   padding-bottom: 15px
 .details
