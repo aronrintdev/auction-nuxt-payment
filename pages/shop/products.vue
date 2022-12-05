@@ -32,9 +32,9 @@
           <!-- <div v-if="products.length !== 0" class="below text-center pb-20">
             <div class="text-center"><img src="~/assets/img/loading.gif" width="100" /></div>
           </div> -->
-          <div v-if="products.length == 0" class="no-text py-5 text-center">
+          <!-- <div v-if="products.length == 0" class="no-text py-5 text-center">
             {{ $t('message.no_products_found') }}
-          </div>
+          </div> -->
         </article>
       </div>
     </section>
@@ -131,7 +131,7 @@ export default {
         filters.sizes = this.selectedSizes.join(',')
       }
       if (this.selectedSizeTypes) {
-        filters.size_types = this.selectedSizeTypes
+        filters.size_types = this.selectedSizeTypes.join(',')
       }
       if (this.selectedYears) {
         filters.years = this.selectedYears.join('-')
@@ -215,6 +215,9 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+// .container-shop
+//   .no-text
+//     display: none
 .article
   margin: 0 auto
   width: 400px
