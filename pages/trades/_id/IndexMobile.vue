@@ -72,7 +72,7 @@
             <div v-if="!isExpire && !isPayment" >
               <div class="d-flex guranty-box">
                  <div>
-                  <img :src="require('~/assets/img/guranty.png')">
+                  <img class="granty-img" :src="require('~/assets/img/guranty.png')">
                  </div>
                  <div class="authenticity-text">
                    {{$t('features.auctions.certified_authentic_products_desc_new')}}
@@ -983,11 +983,16 @@ export default {
   color: $color-black-1
   padding-top: 25px
 .authenticity-text
-  font-family: $font-family-montserrat
+  font-family: $font-montserrat
   font-style: normal
-  @include body-9-regular
+  @include body-9
   color: $color-black-1
-  margin-top: 15px
+  border-left : 1px solid #EFEFEF
+  padding-left : 10px
+  height : 80px
+  width: 236px
+  line-height: 16px
+
 
 .detail-heading
   font-family: $font-family-montserrat
@@ -1083,4 +1088,8 @@ export default {
   margin-top: 183px
 .guranty-box
   margin-top : 24px
+.granty-img
+  margin-left : 21px
+  height : 70px
+  width: 68px
 </style>
