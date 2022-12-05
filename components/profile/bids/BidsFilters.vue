@@ -59,6 +59,7 @@
             <CalendarInput
               class="mr-4"
               :value="filters.bid_start_date"
+              :max-date="filters.bid_end_date"
               :placeholder="$t('bids.start_date')"
               @context="(context) => filters.bid_start_date = context.selectedYMD"
             ></CalendarInput>
@@ -67,6 +68,7 @@
             <CalendarInput
               class="mr-4"
               :value="filters.bid_end_date"
+              :min-date="filters.bid_start_date"
               :placeholder="$t('bids.end_date')"
               @context="(context) => filters.bid_end_date = context.selectedYMD"
             ></CalendarInput>
@@ -194,8 +196,12 @@ export default {
 .apply-button
   background: $color-blue-20
   color: $color-white-1
-  border-radius: 6px
+  border-radius: 5px
   box-shadow: none
+  @include body-8
+  font-weight: $normal
+  font-family: $font-sp-pro
+  height: 38px
 
   &:hover
     border: none
@@ -256,6 +262,7 @@ export default {
     letter-spacing: 0.06em
     color: $color-gray-5
     text-transform: capitalize
+    padding-right: 45px
 
 .dropdown-filters::v-deep
   height: 38px
@@ -350,7 +357,8 @@ export default {
     @include body-5
     font-weight: $regular
     background-color: $white
-    color: $color-gray-5 !important
+    color: $color-gray-5
+    letter-spacing: 0
     border: 1px solid $color-gray-60
     border-right: none
   .btn-secondary

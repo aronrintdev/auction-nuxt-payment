@@ -1,15 +1,12 @@
 <template>
   <div>
-
-  <div
-
-    class="style-card-wrapper position-relative user-select-none"
-    @click="handleClick"
-  >
-    <img :src="imageUrl" class=""/>
-    <div class="overlay position-absolute w-100 h-100"></div>
-  </div>
-
+    <div
+      class="style-card-wrapper position-relative user-select-none"
+      @click="handleClick"
+    >
+      <img :src="imageUrl" class="" />
+      <div class="overlay position-absolute w-100 h-100"></div>
+    </div>
   </div>
 </template>
 <script>
@@ -46,7 +43,7 @@ export default {
 
   img
     width: 100%
-    height: 372px
+    height: 100%
     object-fit: contain
 
   .overlay
@@ -71,6 +68,7 @@ export default {
 @media(max-width: 460px)
   .style-card-wrapper
     img
-      width: 120px
-      height: 50vh
+      width: 115px
+      height: auto
+      margin-bottom: 30px
 </style>

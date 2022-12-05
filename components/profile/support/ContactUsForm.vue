@@ -215,8 +215,15 @@ export default {
 @media (max-width: 767px)
   .contact-us-form
     .form-control
+      @include body-1214
       border: 1px solid $white-5
       border-radius: 10px
+
+    ::v-deep .custom-selectbox .selected span
+      font-size: 12px !important
+
+    ::v-deep .custom-selectbox .selected
+      padding: 12px 0
 
     ::v-deep .border-bottom
       border-radius: 10px

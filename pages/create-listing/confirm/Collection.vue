@@ -1,11 +1,22 @@
 <template>
   <b-container fluid class="container-auction-confirm-collection h-100">
     <div class="d-none d-md-flex justify-content-between align-items-center">
-      <h2 class="title">{{ $t('create_listing.collection.collection') }}</h2>
+      <h2 class="title">{{ $t('create_listing.product.confirm_collection_title') }}</h2>
     </div>
+    <div v-if="stateConfirmCollection" class="d-none d-md-block mx-3" >
+      <AuctionDetailsCard :item="selectedAuction[0]" @edit="editClicked" />
+    </div>
+
+    <div v-if="stateConfirmCollection" class="d-none d-md-block mx-3 add-products-row">
+      <b-row class="align-items-center">
+        <div class="add-products-row-title mr-5">{{ $t('create_listing.confirm.added_products') }}</div>
+        <div class="add-more-btn" role="button" @click="addMore">+ {{ $t('create_listing.confirm.add_another_product') }}</div>
+      </b-row>
+    </div>
+
     <b-row class="d-none d-md-flex collection-details">
       <b-col cols="12" sm="12" md="8">
-        <span class="table-header">{{$t('create_listing.collection.details')}}</span>
+        <span class="table-header px-2">{{$t('create_listing.collection.details')}}</span>
       </b-col>
       <b-col cols="12" sm="12" md="2" class="text-center">
         <span class="table-header">{{$t('create_listing.collection.quantity')}}</span>
@@ -111,15 +122,20 @@
         >
       </div>
       <div v-else class="d-none d-md-block w-100 h-100 overflow-auto auction-items">
-        <b-row v-for="(item, index) in selectedAuctionItems" :key="index"  class="w-100 p-2" >
-          <AuctionItemHorizontal :item="item" :disable-quantity="!stateAddProduct" :item-error="itemError()" @clone="cloneItem(item)" @delete="deleteSingleItem(item, index)" @edit="editItem(item)"
-          @quantityChanged="quantityChanged"/>
-        </b-row>
+        <AuctionItemHorizontal
+          v-for="(item, index) in selectedAuctionItems"
+          :key="index"
+          :item="item"
+          :disable-quantity="!stateAddProduct"
+          :item-error="itemError()"
+          @clone="cloneItem(item)"
+          @delete="deleteSingleItem(item, index)"
+          @edit="editItem(item)"
+          @quantityChanged="quantityChanged"
+        />
       </div>
     </div>
-    <div v-if="stateConfirmCollection" class="d-none d-md-block mt-4 w-100 h-25" >
-      <AuctionDetailsCard :item="selectedAuction[0]" @edit="editClicked" />
-    </div>
+
     <div v-if="selectedAuctionItems.length > 0" class="d-md-none text-right mt-3">
       <img
         src="~/assets/img/icons/plus-icon-gray.svg"
@@ -172,9 +188,10 @@
       no-header-border
       no-footer-border
       hide-footer
+      rounded
     >
       <template  #default>
-        <div class="px-5">
+        <div class="px-5 mt-n3 mb-2">
           <b-row class="mb-4">
             <b-col md="12" >
               {{ $t('create_listing.confirm.delete_text') }}
@@ -183,12 +200,14 @@
           <b-row class="d-flex justify-content-around">
             <Button
               variant="primary"
+              class="dark-blue-fill-btn mr-4 flex-grow-1"
               pill
               @click="deleteSingeItemModalOk"
             >{{ $t('create_listing.confirm.delete') }}</Button
             >
             <Button
               variant="outline-dark"
+              class="flex-grow-1"
               pill
               @click="$bvModal.hide('delete-auction-item-modal')"
             >{{ $t('create_listing.confirm.cancel') }}</Button
@@ -226,6 +245,32 @@
 
       </template>
     </Modal>
+    <vue-bottom-sheet ref="deleteItemSheet">
+      <div class="d-flex flex-column h-100 filters-sheet">
+        <div class="flex-shrink-1 overflow-auto filters-sheet-content">
+          <div class="text-center mb-4">{{ $t('create_listing.confirm.delete_text') }}</div>
+          <div class="text-center mb-3">
+            <Button
+              variant="primary"
+              pill
+              class="dark-blue-fill-btn px-5"
+              @click="deleteSingeItemModalOk"
+            >
+            {{ $t('create_listing.confirm.delete') }}
+            </Button>
+          </div>
+          <div class="text-center mb-3">
+            <Button
+              variant="link"
+              pill
+              @click="$refs.deleteItemSheet.close()"
+            >
+              {{ $t('create_listing.confirm.cancel') }}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </vue-bottom-sheet>
   </b-container>
 </template>
 
@@ -289,7 +334,6 @@ export default {
     }),
     deleteSingeItemModalOk(){
       this.$bvModal.hide('delete-auction-item-modal')
-      this.$bvModal.show('deleted-auction-item-modal')
       this.$store.commit('create-listing/deleteFromCollection', this.deletableItem.index)
     },
     deleteSingleItem(item,index){
@@ -297,7 +341,11 @@ export default {
         index,
         item
       }
-      this.$bvModal.show('delete-auction-item-modal')
+      if (this.isMobileSize) {
+        this.$refs.deleteItemSheet.open()
+      } else {
+        this.$bvModal.show('delete-auction-item-modal')
+      }
     },
     addMore(){
       this.$router.push({path: '/create-listing/search/inventory'})
@@ -364,6 +412,7 @@ export default {
 .auction-items
   max-height: 50vh
   overflow: auto
+  padding: 0 8px 0 6px
 
 .table-header
   font-family: $font-sp-pro
@@ -380,7 +429,7 @@ export default {
     font-weight: $bold
     @include body-1
     color: $black
-    margin-bottom: 4px
+    margin-bottom: 50px
 
   .btn-draft::v-deep
     @include body-5-bold
@@ -393,9 +442,9 @@ export default {
     min-width: 200px
   
   .collection-details
-    margin-top: 36px
+    margin-top: 0
     margin-bottom: 21px
-    padding: 0 48px
+    padding: 0 32px 0 29px
   
   @media (max-width: 576px)
     padding: 20px 16px
@@ -511,6 +560,7 @@ export default {
     bottom: 94px
     left: 0
     width: 100%
+    z-index: 100
     padding: 18px 6px
     background: $white
   .confirm-description
@@ -541,4 +591,22 @@ export default {
       @include body-21
       font-weight: $medium
       margin: 0 10px
+  .add-products-row
+    margin: 50px 0 25px
+    &-title
+      font-family: $font-sp-pro
+      font-weight: $bold
+      @include body-12
+      color: $black
+    .add-more-btn
+      font-family: $font-sp-pro
+      font-weight: $medium
+      @include body-13
+      color: $color-blue-2
+.dark-blue-fill-btn.btn
+  background: $color-blue-20
+  border-color: $color-blue-20
+  &:hover
+    background: $color-blue-19
+    border-color: $color-blue-19
 </style>

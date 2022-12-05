@@ -1,21 +1,28 @@
 <template>
   <div>
     <div v-if="isScreenXS">
-      <div v-for="(offer) in offerHistory.offer_history" :key="'offer-history-'+ offer.id" class="offer-history-mobile" :class="'background-' + (isOfferMine(offer) ? 'blue' : 'white')">
-        <b-row class="justify-content-between pt-4 pl-4 pr-4">
-          <b-col v-if="isOfferMine(offer) && offer.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.your_counter_offer')}} ({{ offer.id}})</b-col>
-          <b-col v-else-if="!isOfferMine(offer) && offer.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.their_counter_offer')}} ({{ offer.id}})</b-col>
-          <b-col class="history-time-mobile text-right">on {{ offer.created_at | formatDateTimeString }}</b-col>
-        </b-row>
-        <b-col v-if="!isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.they_offered')}}</b-col>
-        <b-col v-else-if="isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.you_asking_for')}}</b-col>
-        <b-col class="row justify-content-start pt-2 m-0">
+      <div 
+        v-for="(offer) in offerHistory.offer_history" 
+        :key="'offer-history-'+ offer.id" 
+        class="offer-history-mobile" 
+        :class="'background-' + (isOfferMine(offer) ? 'blue ml-3' : 'white mr-3')"
+      >
+        <div class="history-heading"> {{ getOfferTitle(offer) }} </div>
+        <div class="mt-2 d-flex justify-content-between align-items-center">
+          <div v-if="!isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer">{{$t('trades.they_offered')}}</div>
+          <div v-else-if="isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer">{{$t('trades.you_asking_for')}}</div>
+          <div class="history-time-mobile">
+            {{ $t('common.on') }} {{ offer.created_at | formatDateTimeString }}
+          </div>
+        </div>
+        
+        <div class="row justify-content-start pt-2 m-0">
           <offer-items v-if="isOfferMine(offer) && offer.yours_items && offer.yours_items.length > 0" :offerItems="offer.yours_items" marginItems="mr-3"/>
           <offer-items v-if="!isOfferMine(offer) && offer.theirs_items && offer.theirs_items.length > 0" :offerItems="offer.theirs_items" marginItems="mr-3"/>
-        </b-col>
-        <b-row v-if="offer.cash_added" class="justify-content-end pr-5 pt-3 pb-3">
-          <b-col class="request-amount-mobile d-flex justify-content-center align-content-center ml-4 mt-2">
-            <img class="mr-2 dollar-img mt-1" :src="require('~/assets/img/dollar.svg')">
+        </div>
+        <div v-if="offer.cash_added" class="d-flex justify-content-center pt-3">
+          <div class="request-amount-mobile d-flex justify-content-center align-items-center mt-2">
+            <img class="mr-2 dollar-img" :src="require('~/assets/img/dollar.svg')">
             <span v-if="isOfferMine(offer) && cashRequested(offer)" class="amount-text" v-html="$t('trades.you_requested',{0: convertCashToDollars(offer.cash_added)})"></span>
             <span v-if="isOfferMine(offer) && !cashRequested(offer)" class="amount-text" v-html="$t('trades.you_added',{0: convertCashToDollars(offer.cash_added)})"></span>
             <span v-if="!isOfferMine(offer) && !cashRequested(offer)" class="amount-text" v-html="$t('trades.they_offered_amount',{0: convertCashToDollars(offer.cash_added)})"></span>
@@ -23,24 +30,28 @@
             <sup>
               <img class="ml-3 mt-2" :src="require('~/assets/img/info.svg')">
             </sup>
-          </b-col>
-        </b-row>
+          </div>
+        </div>
       </div>
-      <div class="offer-history-mobile mt-2" :class="'background-' + (isOfferMine(offerHistory) ? 'blue' : 'white')">
-        <b-row class="justify-content-between pt-4 pl-4 pr-4">
-          <b-col v-if="isOfferMine(offerHistory) && offerHistory.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.your_counter_offer')}} ({{ offerHistory.id}})</b-col>
-          <b-col v-else-if="!isOfferMine(offerHistory) && offerHistory.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.their_counter_offerHistory')}} ({{ offerHistory.id}})</b-col>
-          <b-col class="history-time-mobile text-right">on {{ offerHistory.created_at | formatDateTimeString }}</b-col>
-        </b-row>
-        <b-col v-if="!isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer-small pt-1">{{$t('trades.they_offered')}}</b-col>
-        <b-col v-else-if="isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer-small pt-1">{{$t('trades.you_asking_for')}}</b-col>
-        <b-col class="row justify-content-start pt-2 m-0">
-          <offer-items v-if="isOfferMine(offerHistory) && offerHistory.yours_items && offerHistory.yours_items.length > 0" :offerItems="offerHistory.yours_items" marginItems="mr-3"/>
-          <offer-items v-if="!isOfferMine(offerHistory) && offerHistory.theirs_items && offerHistory.theirs_items.length > 0" :offerItems="offerHistory.theirs_items" marginItems="mr-3"/>
-        </b-col>
-        <b-row v-if="offerHistory.cash_added" class="justify-content-end pr-5 pt-3 pb-3">
-          <b-col class="request-amount-mobile  d-flex justify-content-center align-content-center ml-4 mt-2">
-            <img class="mr-2 dollar-img mt-1" :src="require('~/assets/img/dollar.svg')">
+      <div 
+        class="offer-history-mobile mt-3" 
+        :class="'background-' + (isOfferMine(offerHistory) ? 'blue ml-3' : 'white mr-3')"
+      >
+        <div class="history-heading"> {{ getOfferTitle(offerHistory) }} </div>
+        <div class="mt-2 d-flex justify-content-between align-items-center">
+          <div v-if="!isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer">{{$t('trades.they_offered')}}</div>
+          <div v-else-if="isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer">{{$t('trades.you_asking_for')}}</div>
+          <div class="history-time-mobile">
+            {{ $t('common.on') }} {{ offerHistory.created_at | formatDateTimeString }}
+          </div>
+        </div>
+        <div class="row pt-2 m-0">
+          <offer-items v-if="isOfferMine(offerHistory) && offerHistory.yours_items && offerHistory.yours_items.length > 0" :offerItems="offerHistory.yours_items" marginItems="mr-3" class="w-100" />
+          <offer-items v-if="!isOfferMine(offerHistory) && offerHistory.theirs_items && offerHistory.theirs_items.length > 0" :offerItems="offerHistory.theirs_items" marginItems="mr-3" class="w-100" />
+        </div>
+        <div v-if="offerHistory.cash_added" class="d-flex justify-content-center pt-3">
+          <div class="request-amount-mobile d-flex justify-content-center align-items-center mt-2">
+            <img class="mr-2 dollar-img" :src="require('~/assets/img/dollar.svg')">
             <span v-if="isOfferMine(offerHistory) && cashRequested(offerHistory)" class="amount-text" v-html="$t('trades.you_requested',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
             <span v-if="isOfferMine(offerHistory) && !cashRequested(offerHistory)" class="amount-text" v-html="$t('trades.you_added',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
             <span v-if="!isOfferMine(offerHistory) && !cashRequested(offerHistory)" class="amount-text" v-html="$t('trades.they_offered_amount',{0: convertCashToDollars(offerHistory.cash_added)})"></span>
@@ -48,24 +59,25 @@
             <sup>
               <img class="ml-3 mt-2" :src="require('~/assets/img/info.svg')">
             </sup>
-          </b-col>
-        </b-row>
+          </div>
+        </div>
       </div>
     </div>
     <div v-else>
       <div 
         v-for="(offer) in offerHistory.offer_history" 
         :key="'offer-history-'+ offer.id" 
-        class="offer-history col-12 col-lg-10 col-xl-7 pb-4" 
-        :class="'background-' + (isOfferMine(offer) ? 'blue mt-4' : 'white ml-auto')"
+        class="offer-history col-12 col-lg-10 col-xl-7 pb-4 mt-4" 
+        :class="'background-' + (isOfferMine(offer) ? 'blue' : 'white ml-auto')"
       >
-        <b-row class="justify-content-between pt-4 pl-4 pr-4">
-          <b-col v-if="isOfferMine(offer) && offer.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.your_counter_offer')}} ({{ offer.id}})</b-col>
-          <b-col v-else-if="!isOfferMine(offer) && offer.type === COUNTER_OFFER_TYPE" class="history-heading">{{$t('trades.their_counter_offer')}} ({{ offer.id}})</b-col>
-          <b-col class="history-time text-right">on {{ offer.created_at | formatDateTimeString }}</b-col>
+        <b-row class="justify-content-between">
+          <b-col class="history-heading">
+            {{ getOfferTitle(offer) }}
+          </b-col>
+          <b-col class="history-time text-right">{{ $t('common.on') }} {{ offer.created_at | formatDateTimeString }}</b-col>
         </b-row>
-        <b-col v-if="!isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.they_offered')}}</b-col>
-        <b-col v-else-if="isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.you_asking_for')}}</b-col>
+        <div v-if="!isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.they_offered')}}</div>
+        <div v-else-if="isOfferMine(offer) && offer.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.you_asking_for')}}</div>
         <b-col class="row justify-content-start px-54 pt-2 m-0">
           <offer-items 
             v-if="isOfferMine(offer) && offer.yours_items && offer.yours_items.length > 0" 
@@ -92,38 +104,27 @@
         </div>
       </div>
       <div 
-        class="mt-4 offer-history col-12 col-lg-10 col-xl-7 ml-auto pb-2" 
-        :class="[isOfferMine(offerHistory) ? 'blue-theme' : 'white-theme', offerHistoryClass]"
+        class="mt-4 offer-history col-12 col-lg-10 col-xl-7 pb-2" 
+        :class="[
+          isOfferMine(offerHistory) ? 'blue-theme' : 'white-theme',
+          isLastOfferMine ? 'ml-auto' : '',
+          offerHistoryClass
+        ]"
       >
-        <b-row class="justify-content-between pt-4 pl-5 pr-4">
-          <b-col 
-            v-if="isOfferMine(offerHistory) && offerHistory.type === COUNTER_OFFER_TYPE" 
-            class="history-heading"
-          >
-            {{ $t('trades.your_counter_offer') }} ({{ offerHistory.id }})
+        <b-row class="justify-content-between align-items-center">
+          <b-col class="history-heading">
+            {{ getOfferTitle(offerHistory) }}
           </b-col>
-          <b-col 
-            v-else-if="!isOfferMine(offerHistory) && offerHistory.type === COUNTER_OFFER_TYPE" 
-            class="history-heading"
-          >
-            {{ $t('trades.their_counter_offerHistory') }} ({{ offerHistory.id }})
+          <b-col class="history-time text-right">
+            {{ offerHistory.created_at | formatDateTimeString }}
           </b-col>
-          <b-col 
-            v-else-if="!isOfferMine(offerHistory) && offerHistory.type === 'offer'" 
-            class="history-heading"
-          >
-            {{ $t('trades.index.their_offer') }} ({{ offerHistory.id }})
-          </b-col>
-          <b-col 
-            v-else
-            class="history-heading"
-          >
-            {{ $t('trades.your_offer') }} ({{ offerHistory.id }})
-          </b-col>
-          <b-col class="history-time text-right">{{ offerHistory.created_at | formatDateTimeString }}</b-col>
         </b-row>
-        <b-col v-if="!isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.they_offered')}}</b-col>
-        <b-col v-else-if="isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-1">{{$t('trades.you_asking_for')}}</b-col>
+        <div v-if="!isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-2">
+          {{ $t('trades.they_offered') }}
+        </div>
+        <div v-else-if="isOfferMine(offerHistory) && offerHistory.type === OFFER_TYPE" class="heading-offer pt-2">
+          {{ $t('trades.you_asking_for') }}
+        </div>
         <b-col class="row justify-content-center px-54 pt-2 pb-4 m-0">
           <offer-items            
             v-if="isOfferMine(offerHistory) && offerHistory.yours_items && offerHistory.yours_items.length > 0" 
@@ -190,8 +191,16 @@ export default {
       width:'',
     }
   },
-  mounted(){
-    console.log('offerHistory', this.offerHistory);
+  computed: {
+    isLastOfferMine() {
+      const offer = this.offerHistory.offer_history[this.offerHistory.offer_history.length - 1]
+      if (offer) {
+        return this.isOfferMine(offer)
+      }
+      return false
+    }
+  },
+  mounted() {
     this.width = window.innerWidth
   },
   methods: {
@@ -200,6 +209,20 @@ export default {
     },
     isOfferMine(offer) {
       return offer.sent_by_id === this.$auth.user.vendor.id
+    },
+    getOfferTitle(offerHistory) {
+      let result = ''
+      if (this.isOfferMine(offerHistory) && this.offerHistory.type === COUNTER_OFFER_TYPE) {
+        result = `${this.$t('trades.your_counter_offer')}`
+      } else if (!this.isOfferMine(offerHistory) && this.offerHistory.type === COUNTER_OFFER_TYPE) {
+        result = `${this.$t('trades.their_counter_offerHistory')}`
+      } else if (!this.isOfferMine(offerHistory) && this.offerHistory.type === 'offer') {
+        result = `${this.$t('trades.index.their_offer')}`
+      } else {
+        result = this.$t('trades.your_offer')
+      }
+
+      return `${result} (${this.offerHistory.id})`
     },
     // convert cash to dollars
     convertCashToDollars(cash){
@@ -222,20 +245,23 @@ export default {
 
   @media (min-width: 576px)
     border-radius: 10px
+    padding: 30px 49px 0 49px
 
 .px-54
   padding-left: 54px
   padding-right: 54px
 
 .offer-history-mobile
-  width: 360px
   background: $color-white-5 !important
+  padding: 15px 22px 20px 22px
 
 .history-heading
+  @include body-4-bold
   font-family: $font-family-sf-pro-display
-  font-style: normal
-  @include body-2-bold
-  color: $color-blue-1
+  color: $color-blue-20
+  @media (min-width: 576px)
+    @include body-2-bold
+    color: $color-blue-1
 
 .history-time
   font-family: $font-family-sf-pro-display
@@ -246,20 +272,14 @@ export default {
 .history-time-mobile
   font-family: $font-family-sf-pro-display
   font-style: normal
-  @include body-9-regular
+  @include body-9-normal
   color: $color-black-1
 .heading-offer
-  font-family: $font-family-sf-pro-display
-  font-style: normal
-  @include body-13-normal
-  color: $color-gray-47
-  padding-left: 47px
-
-.heading-offer-small
-  font-family: $font-family-sf-pro-display
-  font-style: normal
   @include body-9-normal
   color: $color-gray-47
+  font-family: $font-family-sf-pro-display
+  @media (min-width: 576px)
+    @include body-13-normal
 
 .background-blue
   background: $color-blue-28
@@ -285,6 +305,7 @@ export default {
   padding-left: 54px
 .request-amount-mobile
   width: 225px
+  height: 30px
   border-radius: 4px
   background: $color-white-4
 .dollar-img

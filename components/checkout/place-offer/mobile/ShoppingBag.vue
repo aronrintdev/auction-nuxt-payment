@@ -28,7 +28,7 @@
           </b-col>
           <b-col cols="6" sm="6">
             <span class="body-5-normal text-gray-5 text-right">
-              {{ $t('place_offer.duration') }}&colon;&nbsp;{{ offerDuration }}&nbsp;{{ $tc('place_offer.days', offerDuration) }}
+              {{ $t('place_offer.duration') }}&colon;&nbsp;{{ offerDetails.duration }}&nbsp;{{ $tc('place_offer.days', offerDetails.duration) }}
             </span>
           </b-col>
         </b-row>
@@ -100,7 +100,6 @@ export default {
   mixins: [ emitEventMixin, offerDetailsMixin ],
   data() {
     return {
-      offerDuration: 10, // TODO: NP - Fill this once implemented.
       bottomSheetMaxWidth: '640px',
       bottomSheetMaxHeight: '95%',
       isPromoCodeVisible: false,

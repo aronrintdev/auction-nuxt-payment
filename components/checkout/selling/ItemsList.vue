@@ -18,7 +18,7 @@
     ><!-- End of Shopping Cart Product -->
 
     <!-- Shopping Cart List Headers -->
-    <b-row class="mb-5">
+    <b-row v-show="getTotalQuantity" class="mb-5">
       <b-col md="6">
         <div class="body-5-bold text-gray-6 text-uppercase">
           {{ $t('shopping_cart.my_products') }}
@@ -46,17 +46,16 @@
     ><!-- End Of Product List Headers -->
 
     <!-- Empty Cart Message -->
-    <b-row v-show="! getTotalQuantity" class="mt-5">
-      <b-col md="12">
-        <h6>
-          {{
-            $t('shopping_cart.you_have_no_items_in_your_cart')
-          }}&nbsp;<b-button id="continue-shopping-empty-cart" variant="link" to="/">{{
-            $t('shopping_cart.continue_shopping')
-          }}</b-button>
-        </h6>
-      </b-col> </b-row
-    ><!-- End of Empty Cart Message -->
+    <b-row v-show="! getTotalQuantity" class="empty-cart-wrapper">
+      <b-col md="12" class="d-flex align-items-center justify-content-center">
+        <b-img :src="require('~/assets/img/shopping-cart/empty-cart.svg')" />
+        <div>
+          <div class="body-1-bold text-black">{{ $t('shopping_cart.empty_cart') }}</div>
+          <div class="body-3-normal text-gray-102">{{ $t('shopping_cart.looks_like_you') }}&period;&period;&period;</div>
+          <Button variant="dark-blue" to="/shop">{{ $t('shopping_cart.back_to_browse') }}</Button>
+        </div>
+      </b-col>
+    </b-row><!-- End of Empty Cart Message -->
 
     <!-- Reward Item -->
     <div v-if="freeSneakersRedeemedReward">
@@ -105,7 +104,7 @@
               block
               pill
               variant="outline-dark"
-              to="/"
+              to="/shop"
             >{{ $t('shopping_cart.ok') }}
             </b-button>
           </b-col>
@@ -185,10 +184,11 @@ import { mapActions, mapGetters } from 'vuex'
 import ListItem from '~/components/checkout/selling/ListItem'
 import RewardItem from '~/components/checkout/selling/RewardItem'
 import ListItemModal from '~/components/checkout/selling/ListItemModal'
+import Button from '~/components/common/Button'
 
 export default {
   name: 'ItemsList',
-  components: { ListItemModal, ListItem, RewardItem },
+  components: { ListItemModal, ListItem, RewardItem, Button },
   data() {
     return {
       productShownInModal: {},
@@ -249,6 +249,25 @@ export default {
 
 *
   font-family: 'SF Pro Display', serif
+
+.empty-cart-wrapper
+  margin: 94px 215px 0
+
+  .text-gray-102
+    margin-top: 22px
+
+  img
+    margin-right: 76px
+
+  button
+    @include body-13-medium
+    margin-top: 22px
+    border-radius: 2px
+    width: 222px
+    height: 40px
+
+.text-gray-102
+  color: $color-gray-102
 
 /* Continue shopping button link styles */
 #continue-shopping,

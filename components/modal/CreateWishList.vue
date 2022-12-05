@@ -18,7 +18,7 @@
                 <ValidationProvider
                   v-slot="validationContext"
                   :name="$t('wish_lists.list_name')"
-                  :rules="{ required: true, min: 3, max: 255 }"
+                  :rules="{ required: true, }"
                 >
                   <b-form-group
                     label-for="list-name"
@@ -128,6 +128,16 @@ export default {
         this.loading = false
         this.$emit('created', wishList)
         this.$bvModal.hide(this.id)
+      }
+      else if(this.createWishList === 0){
+        this.$toasted.error(
+          this.$t('wish_lists.invalid_data')
+        )
+      }
+      else if(this.createWishList >= 255){
+        this.$toasted.error(
+          this.$t('wish_lists.invalid_data')
+        )
       }
     },
     getValidationState({ dirty, validated, valid = null }) {

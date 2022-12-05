@@ -1,7 +1,7 @@
 <template>
-  <div class="create-trade-bg">
+  <div>
     <create-trade-search-item v-if="search_item" :product="search_item" productFor="tradeOffer"/>
-    <div v-else>
+    <div v-else class="create-trade-bg">
       <b-row class="">
         <b-col md="6">
           <div  class="create-trade-heading">

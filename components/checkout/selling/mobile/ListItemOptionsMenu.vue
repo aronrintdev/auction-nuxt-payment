@@ -126,6 +126,8 @@ export default {
   .list-group-item
     padding: 17px 20px
     border-color: $color-gray-23b
+    border-left: none
+    border-right: none
 
     &:last-child
       border-bottom: none

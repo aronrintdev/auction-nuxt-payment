@@ -6,13 +6,14 @@
         :nav="false"
         :center="true"
         :margin="0"
+        :showArrows="true"
         :responsive="{
           0: { items: 1, nav: false, center: true },
           700: { items: 2, nav: false, center: false },
           950: { items: 3, nav: false, center: true },
           1150: { items: 4, nav: false, center: false },
         }"
-        :mouse-drag="false"
+        :mouse-drag="true"
         :dots="false"
         class="carousel"
       >

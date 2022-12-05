@@ -37,20 +37,14 @@
                   unchecked-value="not_accepted"
                 />
               </div>
-              <div class="d-flex justify-content-center align-items-center pointer"
-                   @click="handleSort('order_id')">
-                <div>{{ $t('orders.order_id') }}</div>
+              <div class="d-flex justify-content-center pointer align-items-center" @click="handleSort('products.name')">
+                <div>{{ $t('orders.product') }}</div>
                 <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                      :class="(descSort === 'order_id')?'ml-1 desc':'ml-1'"/>
+                      :class="(descSort === 'products.name')?'ml-1 desc':'ml-1'"/>
               </div>
             </div>
           </div>
           <div class="col-md-2 d-none d-md-block">
-            <div class="d-flex justify-content-center pointer align-items-center" @click="handleSort('products.name')">
-              <div>{{ $t('orders.product') }}</div>
-              <Icon :src="require('~/assets/img/icons/down-arrow-solid.svg')" height="9"
-                    :class="(descSort === 'products.name')?'ml-1 desc':'ml-1'"/>
-            </div>
           </div>
           <div class="col d-none d-md-block">
             <div class="d-flex justify-content-center pointer align-items-center" @click="handleSort('created_at')">

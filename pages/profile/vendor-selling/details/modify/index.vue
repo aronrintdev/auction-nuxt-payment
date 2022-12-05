@@ -2,15 +2,15 @@
   <b-container
     fluid
     class="container-profile-create-listing h-100"
-    :class="isScreenXS ? 'p-4' : 'p-5'"
+    :class="isScreenXS ? 'p-4' : 'web-padding'"
   >
     <div v-if="modifyData">
       <ModifyListingRevamp
-          v-model="form"
-          :action="`edit`"
-          :listingId="modifyData.id"
-          :product="modifyData.inventory.product"
-          @success="editListing"
+        v-model="form"
+        :action="`edit`"
+        :listingId="modifyData.id"
+        :product="modifyData.inventory.product"
+        @success="editListing"
       />
     </div>
   </b-container>
@@ -108,3 +108,10 @@ export default {
   },
 }
 </script>
+<style scoped lang="sass">
+@import "~/assets/css/variables"
+.web-padding
+  padding: 30px 24px
+.container-profile-create-listing
+  background-color: $color-gray-1
+</style>

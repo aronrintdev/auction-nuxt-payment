@@ -42,9 +42,10 @@
         }}
       </div>
     </div>
-    <div class="col-12 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+    <div v-if="showAddButton" class="col-12 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
       <Button class="mt-3 w-100"
               variant="dark"
+              :class="{'py-4' : !isScreenXS}"
               :disabled="!isFormValid"
               @click="$emit('submit')">{{ $t('inventory.add_inventory') }}</Button>
     </div>
@@ -70,6 +71,10 @@ export default {
     isFormValid: {
       type: Boolean,
       default: false,
+    },
+    showAddButton: {
+      type: Boolean,
+      default: true,
     }
   },
   methods: {
@@ -97,7 +102,7 @@ export default {
     color: $color-black-1
     margin-left: 0px!important
     text-transform: uppercase
-    margin-bottom: 8px
+    margin-bottom: 16px
   .input
     .form-input
       border-radius: 4px!important

@@ -150,7 +150,7 @@
 
       </div>
       <div class="mobile-offer d-lg-none">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between align-items-center">
           <div
             class="offer-id"
             @click="showOffer(offer)"

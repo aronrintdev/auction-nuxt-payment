@@ -3,14 +3,14 @@
     <div class="header">{{ $tc('common.filter', 1) }}</div>
 
     <div class="main w-100 h-101">
-      <div class="row">
+      <div class="row mb-30">
         <div class="collapses col-sm-2 mb-4">
           <FilterCollapsible
             v-model="sizeTypeSelected"
             collapseKey="size-types"
             :title="$tc('common.size_type', 1)"
             :options="sizeTypeOptions"
-            class="p-2 mb-1  border border-success rounded collapse-design position-absolute"
+            class="p-2 mb-1 borderDark rounded collapse-design position-absolute"
           />
         </div>
         <div class="col-sm-3 mb-4 ml-54">
@@ -19,7 +19,8 @@
             collapseKey="brands"
             :title="$t('filter_sidebar.brands')"
             :options="brands ? brands : brandOptions"
-            class="p-2 mb-1  border border-success rounded collapse-design position-absolute"
+            @searchBrands="handleSearchChange"
+            class="p-2 mb-1 borderDark rounded collapse-design position-absolute"
           />
         </div>
         <div class="col-sm-5 ml-54">
@@ -27,7 +28,7 @@
             <div
               v-for="(option, index) in sizeTypeSelected"
               :key="index"
-              class="p-1 br-5 d-flex align-items-center border border-success rounded ml-3 mt-1"
+              class="p-1 br-5 d-flex align-items-center borderDark rounded ml-3 mt-1"
               @click.prevent
             >
               <span class="text-capitalize">{{ option }}</span>
@@ -43,7 +44,7 @@
             <div
               v-for="(option, index) in brandsSelected"
               :key="index"
-              class="p-1 br-5 d-flex align-items-center border border-success rounded ml-3 mt-1"
+              class="p-1 br-5 d-flex align-items-center borderDark rounded ml-3 mt-1"
               @click.prevent
             >
               <span class="text-capitalize">{{ option }}</span>
@@ -115,20 +116,30 @@ export default {
       sizeTypeSelected: [],
       filtersApplied: {
         sizeTypeSelected: [],
-        brandsSelected: []
+        brandsSelected: [],
       },
       brandsSelected: [],
-      brands: null,
+      brands: null
     }
   },
 
   computed: {
     ...mapGetters('browse', ['filters']),
-    
+
     brandOptions() {
       return this.filters?.brands?.map(({ name }) => {
         return { label: name, value: name }
       })
+    },
+
+    filterBrands() {
+      if (this.brandName.trim() === '') {
+        return this.brandOptions
+      }
+      return this.brandOptions.filter(
+        (brand) =>
+          brand.label?.toLowerCase().indexOf(this.brandName.toLowerCase()) > -1
+      )
     },
 
     sizeTypeOptions() {
@@ -138,14 +149,18 @@ export default {
     },
 
     filtersSelected() {
-      return this.sizeTypeSelected.length+this.brandsSelected.length
+      return this.sizeTypeSelected.length + this.brandsSelected.length
     },
 
     filtersUpdated() {
       this.handleApply()
       return (
-        _.xor(this.sizeTypeSelected, this.filtersApplied.sizeTypeSelected, this.brandsSelected, this.filtersApplied.brandsSelected)
-          .length > 0
+        _.xor(
+          this.sizeTypeSelected,
+          this.filtersApplied.sizeTypeSelected,
+          this.brandsSelected,
+          this.filtersApplied.brandsSelected
+        ).length > 0
       )
     },
   },
@@ -159,7 +174,10 @@ export default {
 
     handleApply() {
       const filters = {}
-      if ((this.sizeTypeSelected && this.sizeTypeSelected.length > 0) || (this.brandsSelected && this.brandsSelected.length > 0)) {
+      if (
+        (this.sizeTypeSelected && this.sizeTypeSelected.length > 0) ||
+        (this.brandsSelected && this.brandsSelected.length > 0)
+      ) {
         filters.sizeTypes = this.sizeTypeSelected
         filters.brandsSelected = this.brandsSelected
       }
@@ -167,7 +185,6 @@ export default {
       this.filtersApplied = _.cloneDeep({
         sizeTypeSelected: this.sizeTypeSelected,
         brandsSelected: this.brandsSelected,
-
       })
     },
 
@@ -178,15 +195,17 @@ export default {
       this.brandsSelected.splice(index, 1)
     },
     handleSearchChange(value) {
-      if(value) {
+      if (value) {
         this.brands = this.brandOptions
-        const result = [];
-        this.brands.forEach((element,index) => {
-            if (element.label.toLowerCase().includes(value.toLowerCase())) {
-                  result.push(element);
-            }
-        });
+        const result = []
+        this.brands.forEach((element, index) => {
+          if (element.label.toLowerCase().includes(value.toLowerCase())) {
+            result.push(element)
+          }
+        })
         this.brands = result.length ? result : this.brandOptions
+      } else {
+        this.brands = this.brandOptions
       }
     },
   },
@@ -196,7 +215,9 @@ export default {
 @import '~/assets/css/_variables'
 
 .h-101
-  height: 101px
+  max-height: 1000px
+.mb-30
+  margin-bottom: 30px
 .collapse-design
   z-index: 999999
   background-color: $color-white-5
@@ -204,7 +225,7 @@ export default {
   margin-left: 54px
 .w-fit-content
   width: fit-content
-.filters-heading 
+.filters-heading
   &.h2
     margin-top: 0 !important
 .filter-wrapper
@@ -236,4 +257,7 @@ export default {
 
         > button
           margin: 10px 0 !important
+
+.borderDark
+  border: 1px solid $color-gray-23                    
 </style>
