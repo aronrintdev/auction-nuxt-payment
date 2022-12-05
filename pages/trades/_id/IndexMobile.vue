@@ -20,7 +20,7 @@
               </div>
             </div>
           </div>
-          <div class="center-container">
+          <div class="center-container" :class="trade.offers.length  === ITEM_COUNT_ONE ? 'center-container-one' : 'center-container' ">
               <div class="left-item" :class="{'right-item-margin-top':trade.offers.length === ITEM_COUNT_TWO,'left-item-one':trade.offers.length === ITEM_COUNT_ONE}">
                 <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'card-'+index : ''" :key="index" class="item mb-4">
                   <div class="image-wrapper">
@@ -272,7 +272,7 @@ export default {
     }
   },
   computed:{
-    ...mapGetters('browse', ['filters']),
+    ...mapGetters('browse', ['filters'                            ]),
     ...mapGetters('trade', ['getYourTradeItems', 'getSubmittedOffer', 'getVendorTradeSummary']),// List of your trade items from store
 
     isExpire(){
@@ -888,6 +888,11 @@ export default {
   margin: 0 15px
   display: flex
   justify-content: center
+.center-container-one
+  min-height: 100px
+  margin: 0 15px
+  display: flex
+  justify-content: center
 
 .image-wrapper
   .overlay
@@ -918,10 +923,12 @@ export default {
 .right-item-margin-top
   margin-top: 115px
 .right-item-one
-  margin-top: 183px
+  margin-top: 60px
+  margin-bottom: 60px
   margin-left: 15px
 .left-item-one
-  margin-top: 183px
+  margin-top: 60px
+  margin-bottom: 60px
   margin-right: 15px
 .fair-text
   background: $color-white-1
@@ -1085,7 +1092,8 @@ export default {
 .dumy-image
   width : 118px
   height : 134px
-  margin-top: 183px
+  margin-top: 60px
+  margin-bottom: 60px
 .guranty-box
   margin-top : 24px
 .granty-img
