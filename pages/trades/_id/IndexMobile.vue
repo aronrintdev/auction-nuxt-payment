@@ -68,7 +68,7 @@
             <Meter :fair="getFairTradeValue()" heading="trades.trade_arena.fair_trade_meter" :highest="theirTotal(false)" :lowest="0" :value="yourTotal(false)"/>
           </div>
           <div>
-            <Button variant="outline-secondary-blue" class="add-cash" @click="cashAdd">{{buttonText}}</Button>
+            <b-btn  class="add-cash" @click="cashAdd">{{buttonText}}</b-btn>
             <div v-if="!isExpire && !isPayment" >
             <div class="authenticity d-flex justify-content-center align-items-center">
               <img :src="require('~/assets/img/trades/authenticity.svg')">
@@ -965,6 +965,13 @@ export default {
   margin-left: 20px
   border-radius: unset
   margin-top: 19px
+  font-family: $font-montserrat
+  @include body-5
+  font-weight: $normal
+  font-style: normal
+  line-height: 17px
+  background-color: $color-white-1
+  color: #7196B1
 .authenticity
   font-family: $font-family-montserrat
   font-style: normal
