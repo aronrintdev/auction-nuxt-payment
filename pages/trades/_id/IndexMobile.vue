@@ -57,6 +57,10 @@
                     </div>
                   </div>
                 </div>
+                <div v-if="getYourTradeItems.length === ITEM_COUNT_0 || getYourTradeItems.length < ITEM_COUNT_THREE"
+                >
+            <img class="dumy-image" :src="require('~/assets/img/trades/tradeNow.svg')">
+            </div>
               </div>
             </div>
           <div class="d-flex justify-content-center">
@@ -838,9 +842,10 @@ export default {
   margin-left: 3px
 
 .item-name
-  width: 85px
-  font-size: 11px
-  color: $color-gray-69
+  @include body-6
+  font-weight: $light
+  font-family: $font-sp-pro
+  font-style: normal
 
 .center-item
   min-width: 10px
@@ -1064,5 +1069,8 @@ export default {
       background: $color-white-5
 .pb-100
   padding-bottom: 100px
-
+.dumy-image
+  width : 118px
+  height : 134px
+  margin-top: 183px
 </style>
