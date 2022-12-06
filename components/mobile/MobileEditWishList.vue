@@ -16,7 +16,7 @@
               class="d-flex flex-column align-items-center justify-content-between h-88 w-100 filters"
           >
             <div class="d-flex flex-column w-100">
-              <b-form @submit.stop.prevent="handleSubmit(createNewList)">
+              <b-form @submit.stop.prevent="handleSubmit(handleEditWishList)">
                 <b-row>
                   <b-col md="10" offset-md="1">
                     <ValidationProvider
@@ -71,7 +71,7 @@
                       block
                       :disabled="!newListName || loading"
                     >
-                      {{ $t('wish_lists.create_list') }}
+                      {{ $t('wish_lists.rename_list') }}
                     </Button>
                   </b-col>
                   <div class="w-100 d-flex justify-content-between buttons">
@@ -151,7 +151,7 @@ export default {
         this.loading = true
         console.log(this.wishList);
         const updatedWishList = await this.editWishList({
-          id: this.wishList.id,
+          id: this.listId,
           name: this.newListName,
         })
         this.loading = false

@@ -184,12 +184,12 @@
                     </nuxt-link>
                   </div>
                 </div>
-                <button
+                <span
                   class="fs-14 fw-5 font-secondary text-gray-47 btn btn-link p-0 mt-3"
                   @click="handleMobileListEdit(list)"
                 >
                   Edit
-                </button>
+                </span>
 
                 <b-popover
                   ref="sharePopover"
@@ -327,7 +327,7 @@
       >
     </MobileCreateWishListModal>
     <MobileEditWishListModal
-          :key="`mobile-${currentWishListUpdate}`"
+          :key="currentWishList"
           :height="'40%'"
           :open="mobileEditList"
           :current-name="currentWishList && currentWishList.name"
@@ -415,6 +415,7 @@ export default {
       BUTTON_VARIANTS: ['primary', 'info', 'warning', 'dark'],
       currentWishList: null,
       currentWishListUpdate: 1,
+      currentWishListMobileUpdate: 1,
       listProducts: [],
       selected: [],
       removed: [],
@@ -726,9 +727,9 @@ export default {
       this.$emit('clearValue')
     },
     handleMobileListEdit(wishlist) {
-      console.log(wishlist);
       this.selectWishList(wishlist)
-      this.mobileEditList = true
+      this.mobileEditList = !this.mobileEditList
+      this.currentWishListMobileUpdate += 1
     }
   },
 }
