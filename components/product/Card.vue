@@ -257,7 +257,7 @@ export default {
 .product-card-wrapper
   max-width: initial
   text-align: left
-  background-color: $color-white-4
+  background-color: $color-white-1
   .badge-slot
     position: absolute
     top: 20px
