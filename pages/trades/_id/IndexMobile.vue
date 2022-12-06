@@ -38,6 +38,7 @@
                 <div v-if="trade.offers.length === ITEM_COUNT_THREE || trade.offers.length === ITEM_COUNT_ONE" class="line-bar"></div>
                 <div class="fair-text position-absolute">{{$t('trades.fair')}}</div>
                 <img class="trade-img position-absolute" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
+                <div v-if="trade.offers.length === ITEM_COUNT_THREE || trade.offers.length === ITEM_COUNT_ONE" class="line-bar-2"></div>
                 <div v-if="getYourTradeItems.length === ITEM_COUNT_THREE || getYourTradeItems.length === ITEM_COUNT_ONE" class="line-bar"></div>
                 </div>
                 <div v-if="getYourTradeItems.length > ITEM_COUNT_ONE" class="pointer-right" :class="{'pointer-right-two-items':getYourTradeItems.length === ITEM_COUNT_TWO}"></div>
@@ -907,8 +908,13 @@ export default {
 .line-bar
   width: 9px
   height: 2px
-  background: $color-white-18
+  background: #E3E3E3
   margin: 15px -20px 0 -20px
+.line-bar-2
+  width: 9px
+  height: 2px
+  background: #E3E3E3
+  margin: 15px -16px 0 -20px
 
 .item-caption
   background: $color-white-1
