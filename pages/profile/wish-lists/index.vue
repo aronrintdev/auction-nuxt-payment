@@ -434,6 +434,8 @@ export default {
   methods: {
     ...mapActions({
       fetchWishLists: 'wish-list/fetchWishLists',
+      editWishLists: 'wish-list/editWishLists',
+      deleteWishLists: 'wish-list/deleteWishLists',
       updateWishListPrivacy: 'wish-list/updateWishListPrivacy',
       fetchWishListItems: 'wish-list/fetchWishListItems',
       removeProductsFromWishList: 'wish-list/removeProductsFromWishList',
@@ -650,6 +652,46 @@ export default {
         this.movedWishList = null
       }
       this.$refs.bulkSelectToolbar.showSuccess(null)
+    },
+
+    // Remove selected products from current wishlist
+    async removeWishlist() {
+      if (this.selected.length > 0) {
+        await this.editWishList({
+          id: this.currentWishList.id,
+          name: this.currentWishList.name,
+          privacy: this.currentWishList.privacy
+        })
+        this.selected = []
+        this.$refs.bulkSelectToolbar.showSuccess(
+          this.$tc(
+            'wish_lists.products_removed_from_wishlist',
+            this.removed.length,
+            {
+              n: this.removed.length,
+            }
+          )
+        )
+      }
+    },
+
+    // Remove selected products from current wishlist
+    async renameSelected() {
+      if (this.selected.length > 0) {
+        await this.editWishList({
+          wishList: this.currentWishList,
+          ids: this.selected,
+        })
+        this.$refs.bulkSelectToolbar.showSuccess(
+          this.$tc(
+            'wish_lists.products_removed_from_wishlist',
+            this.removed.length,
+            {
+              n: this.removed.length,
+            }
+          )
+        )
+      }
     },
   },
 }
