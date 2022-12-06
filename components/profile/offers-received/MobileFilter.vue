@@ -273,4 +273,21 @@ export default {
       font-style: normal
       @include body-5-medium
       color: $color-white-1
+
+</style>
+
+<style lang="sass">
+@import '~/assets/css/_variables'
+.custom-control-label
+  &:before
+    border: solid 1px $color-black-1!important
+    background-color: $color-white!important
+    box-shadow: inset 0 0 0 rgba(1,1,1, 0)
+  &:after
+    background: 80%/80% 80% no-repeat
+    top: 0.25rem
+    left: -1.5765rem
+
+.custom-radio .custom-control-input:checked~.custom-control-label::after
+  filter: invert(100%)
 </style>
