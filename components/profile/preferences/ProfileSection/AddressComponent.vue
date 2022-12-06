@@ -276,7 +276,7 @@
                 >
                   <img
                     class="delete"
-                    :src="require('~/assets/img/icons/delete.png')"
+                    :src="require('~/assets/img/icons/delete-address-icon.svg')"
                     :alt="$t('preferences.common.delete_alt_text')"
                   />
                 </b-button>
@@ -294,7 +294,7 @@
                 >
                   <img
                     class="edit"
-                    :src="require('~/assets/img/icons/pencil-light-gray.png')"
+                    :src="require('~/assets/img/icons/pencil-light-gray.svg')"
                     :alt="$t('preferences.common.update_alt_text')"
                   />
                 </b-button>

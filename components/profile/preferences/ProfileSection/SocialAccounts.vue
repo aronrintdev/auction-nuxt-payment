@@ -13,7 +13,7 @@
             <!-- Google -->
             <SocialAccountListItem
               :type="$t('preferences.profile.google')"
-              :img="`google-icon.png`"
+              :img="`google-icon.svg`"
               :val="`google`"
               :connectionStatus="socialConnectionStatus.google"
               @connectTo="connectTo"
@@ -24,7 +24,7 @@
             <!-- TODO: Apple -->
             <SocialAccountListItem
               :type="$t('preferences.profile.apple')"
-              :img="`apple-icon.png`"
+              :img="`apple-icon.svg`"
               :val="`apple`"
               :connectionStatus="socialConnectionStatus.apple"
               @connectTo="connectTo"
@@ -34,7 +34,7 @@
             <!-- Twitter -->
             <SocialAccountListItem
               :type="$t('preferences.profile.twitter')"
-              :img="`twitter-icon.png`"
+              :img="`twitter-icon.svg`"
               :val="`twitter`"
               :connectionStatus="socialConnectionStatus.twitter"
               @connectTo="connectTo"
@@ -46,7 +46,7 @@
             <!-- Facebook -->
             <SocialAccountListItem
               :type="$t('preferences.profile.facebook')"
-              :img="`facebook-icon.png`"
+              :img="`facebook-icon.svg`"
               :val="`facebook`"
               :connectionStatus="socialConnectionStatus.facebook"
               @connectTo="connectTo"
@@ -55,7 +55,7 @@
             <!-- TODO: Instagram -->
             <SocialAccountListItem
               :type="$t('preferences.profile.instagram')"
-              :img="`instagram-icon.png`"
+              :img="`instagram-icon.svg`"
               :val="`instagram`"
               :connectionStatus="socialConnectionStatus.instagram"
               @connectTo="connectTo"
@@ -65,7 +65,7 @@
             <!-- TODO: Tiktok -->
             <SocialAccountListItem
               :type="$t('preferences.profile.tiktok')"
-              :img="`tiktok-icon.png`"
+              :img="`tiktok-icon.svg`"
               :val="`tiktok`"
               :connectionStatus="socialConnectionStatus.tiktok"
               @connectTo="connectTo"
