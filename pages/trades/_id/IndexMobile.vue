@@ -888,7 +888,7 @@ export default {
   justify-content: center
 .center-container-one
   min-height: 100px
-  margin: 0 15px
+  margin: 0 30px
   display: flex
   justify-content: center
 
@@ -942,9 +942,7 @@ export default {
   margin-left: -10px
   padding-top: 5px
 .price-container
-  margin-bottom: 8px
-  margin-top: 7px
-  padding: 0 15px
+  margin: 20px
 
 .theirs-total
   background: $color-white-4
