@@ -29,12 +29,6 @@
             :identifier="infiniteId"
             @infinite="handleLoading"
           ></infinite-loading>
-          <!-- <div v-if="products.length !== 0" class="below text-center pb-20">
-            <div class="text-center"><img src="~/assets/img/loading.gif" width="100" /></div>
-          </div> -->
-          <!-- <div v-if="products.length == 0" class="no-text py-5 text-center">
-            {{ $t('message.no_products_found') }}
-          </div> -->
         </article>
       </div>
     </section>
@@ -215,9 +209,6 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-// .container-shop
-//   .no-text
-//     display: none
 .article
   margin: 0 auto
   width: 400px
