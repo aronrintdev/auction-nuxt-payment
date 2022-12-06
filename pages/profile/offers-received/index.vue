@@ -740,7 +740,7 @@ export default {
       }
 
       this.searchFilters.sortBy = val.sortby ? val.sortby : ''
-      this.searchFilters.filterBy = val.status.length ? val.status.map((s) => s.value) : ''
+      this.searchFilters.filterBy = val.status.length ? val.status.map((s) => s.value).toString() : ''
       this.searchFilters.page = 1
       this.getOffers()
       this.hideFilter()
