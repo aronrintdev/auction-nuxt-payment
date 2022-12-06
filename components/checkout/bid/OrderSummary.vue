@@ -403,7 +403,13 @@ export default {
           tax: this.getTax,
           total: this.getTotal,
           payment_token: this.paymentToken,
-          payment_method: this.paymentMethod,
+          payment_method: {
+            card_holder_name: this.paymentMethod.cardHolderName,
+            card_brand: this.paymentMethod.cardBrand,
+            card_last_digits: this.paymentMethod.cardLastDigits,
+            card_expiry_date: this.paymentMethod.cardExpiryDate,
+            is_default: this.paymentMethod.isDefault,
+          },
           billing_address: {
             first_name: this.billingAddress.firstName,
             last_name: this.billingAddress.lastName,

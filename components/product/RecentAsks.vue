@@ -6,13 +6,15 @@
           <tr>
             <th class="text-center">{{ $t('products.date_time') }}</th>
             <th class="text-center">{{ $tc('common.size', 1) }}</th>
+            <th class="text-center">{{ $t('product_page.asks') }}</th>
           </tr>
           <tr v-for="(row, index) in asks" :key="`recent-ask-${index}`">
             <td class="text-center">
-              <div>{{ row.created_at | formatDate('DD-MM-YYYY') }}</div>
+              <div>{{ row.created_at | formatDate('MM-DD-YYYY') }}</div>
               <div class="time">{{ row.created_at | formatTime(':') }}</div>
             </td>
             <td class="text-center">{{ row.size.size }}</td>
+            <td class="text-center">{{ row.price | toRoundedCurrency }}</td>
           </tr>
         </table>
       </b-overlay>
@@ -51,7 +53,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .recent-asks-wrapper
-  padding-top: 24px
+  position: relative
 
   .table-wrapper
     min-height: 300px
@@ -60,7 +62,7 @@ export default {
 
   .table-recent-asks
     th
-      @include body-8-bold
+      @include body-8-normal
       color: $color-black-1
       padding: 12px 9px
 
@@ -69,5 +71,6 @@ export default {
       padding: 15px 3px
 
       .time
+        display: block
         color: $color-gray-4
 </style>

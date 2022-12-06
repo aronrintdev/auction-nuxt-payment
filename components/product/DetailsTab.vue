@@ -12,7 +12,7 @@
                 <div class="body-24-normal text-black">
                   {{ $t('common.colorway') }}:
                 </div>
-                <div class="body-24-normal text-black">
+                <div v-if="product.retail_price" class="body-24-normal text-black">
                   {{ $t('common.retail_price') }}:
                 </div>
                 <div class="body-24-normal text-black">
@@ -26,8 +26,8 @@
                 <div class="body-24-normal text-color-gray-5">
                   {{ product.colorway }}
                 </div>
-                <div class="body-24-normal text-color-gray-5">
-                  {{ product.retail_price | toCurrency }}
+                <div v-if="product.retail_price" class="body-24-normal text-color-gray-5">
+                  {{ product.retail_price | toRoundedCurrency }}
                 </div>
                 <div class="body-24-normal text-color-gray-5">
                   {{ product.release_year }}

@@ -6,28 +6,28 @@
       </h1>
     </div>
     <b-container v-if="!isScreenXS" class="vendor-preferences-body preferences-web" fluid >
-      <b-row class="mt-md-4 mt-4">
-        <b-col md="3" sm="3"></b-col>
+      <b-row class="mt-38 mb-46">
+        <b-col md="2" sm="2"></b-col>
         <b-col
-          md="6"
-          sm="6"
+          md="8"
+          sm="8"
           class="vd-sub-row-heading justify-content-center d-flex col-xs-8"
         >
           <!-- Profile/ Payments Tab -->
-          <NavGroup :value="activeNav" :data="menus" @change="navItem" />
+          <NavGroup :value="activeNav" :data="menus" navGroupClass="m-0" btnGroupClass="p-1 mx-19" btnClass="w-98 h-30 px-25-py-7" @change="navItem" />
           <!-- ./Profile/ Payments Tab -->
         </b-col>
         <!-- Logout Button -->
         <b-col
           id="logout-button-wrapper"
-          md="3"
-          sm="3"
+          md="2"
+          sm="2"
           class="text-center col-xs-4 m-auto"
         >
           <b-button
             v-if="activeNav === 'profile'"
             variant="light"
-            class="preferences-logout-btn"
+            class="preferences-logout-btn px-26 py-2 d-block"
             pill
             @click="logout"
           >
@@ -64,7 +64,7 @@
         <!-- Content -->
         <ResponsiveProfileComponent v-if="activeNav === 'profile'"/>
         <PaymentComponent v-if="activeNav === 'payments'"/>
-        
+
         <!-- ./Content -->
       </b-row>
     </div>
@@ -187,9 +187,9 @@ export default {
   @include body-3-medium
   letter-spacing: -0.02em
   color: $color-black-1
-  background-color: $color-white-1  
+  background-color: $color-white-1
 
-.nav-select  
+.nav-select
   width: 100% !important
 
 @media (max-width:576px)
@@ -198,10 +198,10 @@ export default {
   .responsive-preferences::v-deep
     height: 700px
     display: block
-    background-color: $color-white-1  
+    background-color: $color-white-1
 @media (min-width:576px)
   .preferences-web
-    display: block  
+    display: block
 
 
 </style>

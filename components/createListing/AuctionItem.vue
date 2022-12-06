@@ -6,11 +6,12 @@
         <div class="d-flex align-items-center">
           <Button
             variant="link"
+            :disabled="!canClone"
             class="btn-copy mr-2"
             :tooltip-text="$t('common.copy')"
             @click="cloneItem"
           >
-            <img src="~/assets/img/icons/copy-icon.svg" alt="copy icon" />
+            <img :src="require('~/assets/img/icons/copy-icon.svg')" alt="copy icon" />
           </Button>
           <Button
             variant="link"
@@ -18,7 +19,7 @@
             :tooltip-text="$t('common.edit')"
             @click="editItem"
           >
-            <img src="~/assets/img/icons/edit-icon.svg" alt="edit icon" />
+            <img :src="require('~/assets/img/icons/edit-icon.svg')" alt="edit icon" />
           </Button>
           <Button
             variant="link"
@@ -26,7 +27,7 @@
             :tooltip-text="$t('common.delete')"
             @click="deleteItem"
           >
-            <img src="~/assets/img/icons/delete-icon.svg" alt="delete icon" />
+            <img :src="require('~/assets/img/icons/delete-icon.svg')" alt="delete icon" />
           </Button>
         </div>
       </div>
@@ -252,6 +253,9 @@ export default {
     },
     isMobileSize() {
       return this.isScreenXS || this.isScreenSM
+    },
+    canClone() {
+      return this.item.item.stock > 1
     }
   },
   methods: {

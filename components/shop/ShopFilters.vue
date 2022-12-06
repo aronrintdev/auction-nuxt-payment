@@ -3,7 +3,7 @@
     <div class="filters-wrapper">
       <div class="row">
         <div class="col-9">
-          <Searchbar @change="handleFilterChange" />
+          <Searchbar :searchKeyword="selectedSearch" @enter="searchProducts"/>
         </div>
         <div class="col-3">
           <FormDropdown
@@ -32,7 +32,7 @@
             class="mr-3 mr-xl-4 w-100"
           />
         </div>
-        <div class="col-2">
+        <div v-if="sizeOptions.length" class="col-2">
           <!-- Sizes -->
           <MultiSelectDropdown
             v-model="selectedFilters.sizes"
@@ -206,6 +206,7 @@ export default {
         brands: [],
         status: [],
         sortBy: null,
+        orderBy:'',
         prices: [],
         years: [],
         brandName: '',
@@ -220,6 +221,7 @@ export default {
       [
         'filters',
         'selectedBrands',
+        'selectedSearch',
         'selectedSizes',
         'selectedSizeTypes',
         'selectedOrdering',
@@ -240,6 +242,9 @@ export default {
       )
     },
     sizeOptions() {
+      if(this.selectedFilters.sizeTypes.length === 0){
+        return []
+      }
       let options = this.filters?.sizes
       if (
         options &&
@@ -306,10 +311,10 @@ export default {
         'browse/setSelectedSizeTypes',
         sizeTypes
       )
-      this.$store.commit('browse/setSelectedSort', 'sale_price')
+      this.$store.commit('browse/setSelectedSort', this.selectedFilters.sortBy)
       this.$store.commit(
         'browse/setSelectedOrdering',
-        this.selectedFilters.sortBy
+        this.selectedFilters.orderBy
       )
       this.$store.commit(
         'browse/setSelectedSearch',
@@ -337,17 +342,31 @@ export default {
     },
 
     removeFilter(type, index) {
-      type === 'sizesType'
-        ? this.selectedFilters.sizeTypes.splice(index, 1)
-        : type === 'sizes'
-        ? this.selectedFilters.sizes.splice(index, 1)
-        : type === 'brands'
-        ? this.selectedFilters.brands.splice(index, 1)
-        : type === 'prices'
-        ? (this.selectedFilters.prices = [])
-        : (this.selectedFilters.years = [])
+      switch(type) {
+            case 'sizesType':
+              this.selectedFilters.sizeTypes.splice(index, 1)
+              break;
+            case 'sizes':
+              this.selectedFilters.sizes.splice(index, 1)
+              break;
+            case 'brands':
+              this.selectedFilters.brands.splice(index, 1)
+              break;
+            case 'years':
+              this.selectedFilters.years = []
+              this.selectedYears =  [MIN_YEAR, MAX_YEAR]
+              break;
+            case 'prices':
+              this.selectedFilters.prices = []
+              this.selectedPrices = [MIN_PRICE, MAX_PRICE / 100]
+              break;
+            default:
+              // code block
+          }
     },
     clearAllFilters() {
+      this.selectedPrices = [MIN_PRICE, MAX_PRICE / 100]
+      this.selectedYears =  [MIN_YEAR, MAX_YEAR]
       this.selectedFilters.sizes = []
       this.selectedFilters.sizeTypes = []
       this.selectedFilters.brands = []
@@ -355,7 +374,7 @@ export default {
       this.selectedFilters.prices = []
       this.$store.commit('browse/setSelectedBrands', [])
       this.$store.commit('browse/setSelectedSizeTypes', [])
-      this.$store.commit('browse/setSelectedSort', 'sale_price')
+      this.$store.commit('browse/setSelectedSort', null)
       this.$store.commit('browse/setSelectedOrdering', null)
       this.$store.commit('browse/setSelectedSearch', null)
       this.$store.commit('browse/setSizesByType', [])
@@ -364,14 +383,24 @@ export default {
     },
     handleSortBySelect(option) {
       // Select SortBy option
-      this.selectedFilters = {
+      if(option){
+        this.selectedFilters = {
         ...this.selectedFilters,
         sortBy: option?.value,
+        orderBy:'sale_price'
       }
-    },
-    handleFilterChange(filters) {
-      if (filters) {
-        this.selectedFilters.search = filters.product
+      }else{
+        this.selectedFilters = {
+        ...this.selectedFilters,
+        sortBy: option?.value,
+        orderBy:''
+      }
+    
+    }
+  },
+    searchProducts(searchKeyword) {
+      if (searchKeyword) {
+        this.selectedFilters.search = searchKeyword
       } else {
         this.selectedFilters.search = null
       }
@@ -379,12 +408,18 @@ export default {
     // Update selected prices and pass to parent component
     updatePriceFilters(value) {
       this.selectedPrices = value
-      this.selectedFilters.prices = value 
+      this.selectedFilters = {
+        ...this.selectedFilters,
+        prices:value,
+      }
     },
     // Update selected years and pass to parent component
     updateYearFilters(value) {
       this.selectedYears = value
-      this.selectedFilters.years = value
+      this.selectedFilters = {
+        ...this.selectedFilters,
+        years:value,
+      }
     },
     getSizeName(id) {
       const size = this.filters?.sizes?.find((s) => s.id === id)
