@@ -464,7 +464,6 @@ export default {
       }
     },
     removeFilter(type, index) {
-      console.log('------ type index', type, index)
       switch (type) {
         case 'selectedYears':
           this.selectedYears = [MIN_YEAR, MAX_YEAR]
