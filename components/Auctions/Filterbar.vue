@@ -139,6 +139,12 @@
         @change="updateYearFilters"
       />
     </div>
+    <div v-if="selectedFiltersArray.length" class="filter-list d-flex flex-wrap">
+      <div v-for="(filter, index) in selectedFiltersArray" :key="index" class="filter-list-item d-flex align-items-center">
+        <span>{{ filter.label }}</span>
+        <img :src="require('~/assets/img/icons/dark-blue-close.svg')" role="button" @click="removeFilter(filter.type, filter.index)" />
+      </div>
+    </div>
     <div class="text-center auction-filters-type-selector">
       <NavGroup :value="selectedFilters.type" :data="auctionTypes" @change="auctionTypeChanged"/>
     </div>
@@ -300,6 +306,60 @@ export default {
         return { label: type, value: type }
       })
     },
+    selectedFiltersArray() {
+      const data = []
+      for (const prop in this.selectedFilters) {
+        const value = this.selectedFilters[prop]
+        if (Array.isArray(value)) {
+          value.forEach((item, idx) => {
+            let label, index
+            switch (prop) {
+              case 'sizeTypes':
+                index = this.sizeTypeOptions.findIndex(it => it.value === item)
+                label = index > -1 ? this.sizeTypeOptions[index].label : ''
+                break;
+              case 'brands':
+                index = this.brandOptions.findIndex(it => it.value === item)
+                label = index > -1 ? this.brandOptions[index].label : ''
+                break;
+              case 'sizes':
+                index = this.sizeOptions.findIndex(it => it.value === item)
+                label = index > -1 ? this.sizeOptions[index].label : ''
+                break;
+              case 'categories':
+                index = this.categoryOptions.findIndex(it => it.value === item)
+                label = index > -1 ? this.categoryOptions[index].label : ''
+                break;
+              case 'status':
+                index = this.statusOptions.findIndex(it => it.value === item)
+                label = index > -1 ? this.statusOptions[index].label : ''
+                break;
+              default:
+                label = ''
+                index = 0
+            }
+            data.push({
+              label,
+              index: idx,
+              type: prop,
+            })
+          })
+        }
+      }
+      if (this.selectedPrices[0] !== MIN_PRICE || this.selectedPrices[1] !== MAX_PRICE / 100) {
+        data.push({
+          type: 'selectedPrices',
+          label: this.selectedPrices.map(price => `$${price}`).join(' - ')
+        })
+      }
+      if (this.selectedYears[0] !== MIN_YEAR || this.selectedYears[1] !== MAX_YEAR) {
+        data.push({
+          type: 'selectedYears',
+          label: this.selectedYears.join(' - ')
+        })
+      }
+      return data
+    }
   },
   watch: {
     searchKeyword(newV) {
@@ -403,6 +463,20 @@ export default {
         maxYear: value[1] === MAX_YEAR ? undefined : value[1],
       }
     },
+    removeFilter(type, index) {
+      console.log('------ type index', type, index)
+      switch (type) {
+        case 'selectedYears':
+          this.selectedYears = [MIN_YEAR, MAX_YEAR]
+          break;
+        case 'selectedPrices':
+          this.selectedPrices = [MIN_PRICE, MAX_PRICE / 100]
+          break;
+        default: {
+          this.selectedFilters[type].splice(index, 1)
+        }
+      }
+    }
   }
 }
 </script>
@@ -473,4 +547,20 @@ export default {
   width: 100%
   height: 100%
   background: rgba($gray, 0.05)
+
+.filter-list
+  padding: 31px 0 0
+  gap: 1em 0
+  &-item
+    background: $color-white-5
+    padding: 4px 8px
+    margin-right: 23px
+    span
+      font-family: $font-montserrat
+      font-weight: $normal
+      @include body-21
+      color: $color-black-15
+      margin-right: 16px
+    img
+      width: 10px
 </style>
