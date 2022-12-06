@@ -312,7 +312,11 @@
     </div>
     <Portal to="page-title"> Wishlist </Portal>
     <CreateWishListModal @created="handleCreated" />
-    <EditWishListModal :wishList="currentWishList" @created="handleCreated" />
+    <EditWishListModal :key="currentWishListUpdate"
+      :current-name="currentWishList && currentWishList.name"
+      :list-id="currentWishList && currentWishList.id"
+      @created="handleCreated"
+      />
     <MobileCreateWishListModal
           :height="'90%'"
           :open="mobileFiltersOpen"
@@ -396,6 +400,7 @@ export default {
       ],
       BUTTON_VARIANTS: ['primary', 'info', 'warning', 'dark'],
       currentWishList: null,
+      currentWishListUpdate: 1,
       listProducts: [],
       selected: [],
       removed: [],
@@ -473,9 +478,11 @@ export default {
         this.currentWishList = wishList
         this.currentPage = 1
         this.infiniteId += 1
+        this.currentWishListUpdate += 1
       } else {
         this.currentWishList = null
         this.listProducts = []
+        this.currentWishListUpdate += 1
       }
     },
 

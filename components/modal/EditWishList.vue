@@ -12,7 +12,7 @@
     <template #default="{}">
       <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
         <b-container fluid>
-          <b-form @submit.stop.prevent="handleSubmit(editWishList)">
+          <b-form @submit.stop.prevent="handleSubmit(handleEditWishList)">
             <b-row>
               <b-col md="10" offset-md="1">
                 <ValidationProvider
@@ -27,7 +27,7 @@
                     <b-form-input
                       id="list-name"
                       v-model="newListName"
-                      :value="wishList.name"
+                      :value="currentName"
                       aria-describedby="input-live-help"
                       trim
                       :state="getValidationState(validationContext)"
@@ -49,7 +49,7 @@
                   block
                   :disabled="!newListName || loading"
                 >
-                  {{ $t('wish_lists.create_list') }}
+                  {{ $t('wish_lists.rename_list') }}
                 </Button>
               </b-col>
               <b-col md="5">
@@ -85,13 +85,14 @@ export default {
       type: String,
       default: 'edit-list-modal',
     },
-    wishList: {
-      type: Object,
+    listId: {
+      type: Number,
       required: true,
-      default(raw) {
-        return {name: '', id: ''}
-      }
-    }
+    },
+    currentName: {
+      type: String,
+      required: true,
+    },
   },
 
   data() {
@@ -100,9 +101,10 @@ export default {
       loading: false,
     }
   },
-  watch: {
-    wishList() {
-      this.newListName = this.$props.wishList.name
+  mounted() {
+    console.log(this.currentName);
+    if(this.currentName) {
+      this.newListName = this.currentName
     }
   },
   methods: {
@@ -111,7 +113,7 @@ export default {
     }),
 
     // Edit selected wishlist
-    async editWishList() {
+    async handleEditWishList() {
       if (this.newListName) {
         this.loading = true
         console.log(this.wishList);
