@@ -1,5 +1,4 @@
 <template>
-
   <div class="style-image-carousel-wrapper">
     <client-only>
       <Carousel
@@ -14,12 +13,11 @@
         class="carousel d-flex align-items-center"
         @changed="handleCarouselChanged"
       >
-
         <template #default>
           <div
             v-for="(image, index) in images"
             :key="`style-image-carousel-${index}`"
-            :class="[mainImage ? 'style-image': '']"
+            :class="[mainImage ? 'style-image' : '']"
           >
             <img :src="image" class="w-100" />
           </div>
@@ -51,8 +49,8 @@ export default {
     },
     mainImage: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data() {
@@ -96,4 +94,5 @@ export default {
 @media(min-width: 576px)
   .style-image
     width: 305px
+    margin: 0 auto
 </style>

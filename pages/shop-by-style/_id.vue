@@ -8,7 +8,7 @@
       v-if="style"
       class="style-details-wrapper d-flex flex-column flex-sm-row"
     >
-      <div class="left-side-details">
+      <div class="left-side-details ml-auto">
         <div
           class="topbar d-none d-sm-flex justify-content-between align-items-center"
         >
@@ -50,7 +50,7 @@
           />
         </div>
       </div>
-      <div class="right-side-details ml-auto">
+      <div class="right-side-details">
         <p class="items-counter mb-2">
           {{ style.products.length }} {{ $t('common.items') }}
         </p>
@@ -163,6 +163,7 @@ export default {
     max-width: 562px
   .right-side-details
     margin-top: 43px
+    margin-left: 202px
     width: 100%
     max-width: 498px
 

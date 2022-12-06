@@ -39,6 +39,7 @@
               :prices="pricesBySize"
               :value="currentSize"
               :viewMode="sizeViewMode"
+              :arrowsVisible="true"
               class="size-picker ml-2"
               @update="handleSizeChange"
               @changeViewMode="handleSizeViewModeChange"
@@ -153,13 +154,28 @@
             </div>
 
             <div
-              v-else-if="
-                method === 'buy' && !isOutOfStock
-              "
+              v-else-if="method === 'buy' && !isOutOfStock"
               class="action-btns w-100"
             >
               <div>
-                <p v-if="currentListingItem" class="text-center lowest-price mb-1"><span class="total-price">${{( currentListingItem.inventory.sale_price / 100 | toCurrency)}}</span> {{ $t('shop_by_style.4_installments') }} <span class="partial-price">of ${{( (currentListingItem.inventory.sale_price / 100) / 4 | toCurrency)}}</span></p>
+                <p
+                  v-if="currentListingItem"
+                  class="text-center lowest-price mb-1"
+                >
+                  <span class="total-price"
+                    >${{
+                      (currentListingItem.inventory.sale_price / 100)
+                        | toCurrency
+                    }}</span
+                  >
+                  {{ $t('shop_by_style.4_installments') }}
+                  <span class="partial-price"
+                    >of ${{
+                      (currentListingItem.inventory.sale_price / 100 / 4)
+                        | toCurrency
+                    }}</span
+                  >
+                </p>
                 <Button
                   variant="dark"
                   block
@@ -170,7 +186,7 @@
                 >
                   <div class="d-flex justify-content-center">
                     <div>
-                      {{ $t('shop_by_style.general.add_style_to_bag') }}
+                      {{ $t('product_page.add_to_cart') }}
                     </div>
                     <div
                       class="ml-1"
@@ -190,7 +206,11 @@
           </div>
         </div>
       </div>
-      <AlertModal :id="`message-modal-web-${product.id}`" :message="message" icon="tick" />
+      <AlertModal
+        :id="`message-modal-web-${product.id}`"
+        :message="message"
+        icon="tick"
+      />
     </div>
     <div class="d-block d-sm-none">
       <div class="d-flex">
@@ -242,6 +262,7 @@
               :prices="pricesBySize"
               :value="currentSize"
               :viewMode="sizeViewMode"
+              :arrowsVisible="true"
               class="size-picker"
               @update="handleSizeChange"
               @changeViewMode="handleSizeViewModeChange"
@@ -373,7 +394,20 @@
               class="action-btns w-100"
             >
               <div>
-                <p v-if="currentListingItem" class="text-center lowest-price mb-1"><span class="total-price">${{ currentListingItem.inventory.sale_price / 100 }}</span> {{ $t('shop_by_style.4_installments') }} <span class="partial-price">of ${{ (currentListingItem.inventory.sale_price / 100) / 4 }}</span></p>
+                <p
+                  v-if="currentListingItem"
+                  class="text-center lowest-price mb-1"
+                >
+                  <span class="total-price"
+                    >${{ currentListingItem.inventory.sale_price / 100 }}</span
+                  >
+                  {{ $t('shop_by_style.4_installments') }}
+                  <span class="partial-price"
+                    >of ${{
+                      currentListingItem.inventory.sale_price / 100 / 4
+                    }}</span
+                  >
+                </p>
                 <Button
                   variant="dark"
                   block
@@ -384,7 +418,7 @@
                 >
                   <div class="d-flex justify-content-center">
                     <div>
-                      {{ $t('shop_by_style.general.add_style_to_bag') }}
+                      {{ $t('product_page.add_to_cart') }}
                     </div>
                     <div
                       class="ml-1"
@@ -416,7 +450,11 @@
           {{ $t('shop_by_style.view_all') }}
         </p>
       </div>
-      <AlertModal :id="`message-modal-${product.id}`" :message="message" icon="tick" />
+      <AlertModal
+        :id="`message-modal-${product.id}`"
+        :message="message"
+        icon="tick"
+      />
     </div>
   </div>
 </template>
@@ -668,16 +706,16 @@ export default {
       }
       this.addingToCart = true
       this.$store.dispatch('shopping-cart/addProduct', this.getCartProduct())
-      if(device !== 'mobile') {
+      if (device !== 'mobile') {
         this.message = this.$t('products.message.added_to_cart', {
-            productName: this.products.name,
+          productName: this.products.name,
         })
-        this.$bvModal.show('message-modal-'+id)  
+        this.$bvModal.show('message-modal-' + id)
       } else {
         this.message = this.$t('products.message.added_to_cart', {
-            productName: this.products.name,
+          productName: this.products.name,
         })
-        this.$bvModal.show('message-modal-web-'+id)
+        this.$bvModal.show('message-modal-web-' + id)
       }
     },
   },
@@ -706,5 +744,4 @@ export default {
     font-size: 17px
   .partial-price
     font-weight: $regular
-
 </style>
