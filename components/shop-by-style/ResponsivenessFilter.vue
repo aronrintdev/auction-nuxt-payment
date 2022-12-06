@@ -9,7 +9,7 @@
         class="setting-filter d-flex justify-content-start px-0 ml-2"
         @click="open"
       >
-        <p class="filter-text">{{ $tc('common.filter', 1) }}</p>
+        <p class="filter-text w-auto">{{ $tc('common.filter', 1) }}</p>
       </div>
     </div>
     <vue-bottom-sheet
@@ -175,9 +175,9 @@ export default {
 @import '~/assets/css/_variables'
 
 .filter-text
-  width: auto
   padding: 4px 15px
   border: 1px solid $color-gray-23
+  border-radius: 2px
   font-family: $font-montserrat
   font-size: 11px
   line-height: 13px

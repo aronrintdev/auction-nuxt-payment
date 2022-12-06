@@ -20,12 +20,12 @@
 
           <div class="text-right share-wrapper">
             <Button
+              :id="`popover-share-${style.id}`"
               variant="white"
               icon="share.svg"
               icon-only
               pill
               class="mr-3"
-              :id="`popover-share-${style.id}`"
             />
             <Button
               :id="`popover-wishlist-${style.id}`"
@@ -56,7 +56,10 @@
             :description="style.name"
           />
         </b-popover>
-        <div class="style-image mt-4">
+        <div class="style-image mt-4 position-relative">
+          <div class="position-absolute add-to-wishlist d-block d-sm-none">
+            <HeartIcon />
+          </div>
           <ShopByStyleImageCarousel
             v-if="!has360Images"
             :images="style.images"
@@ -72,14 +75,48 @@
         <p class="items-counter mb-2">
           {{ style.products.length }} {{ $t('common.items') }}
         </p>
-        <div class="d-flex flex-column row-gap-60">
+        <div class="d-none d-sm-flex flex-column row-gap-60">
           <ShopByStyleProductCard
             v-for="product in style.products"
-            v-show="showStyleProduct ? showStyleProduct : true"
             :key="`product-${product.id}`"
             :product="product"
             @styleProduct="productDetail"
           />
+        </div>
+        <div class="d-block d-sm-none">
+          <ProductCarousel
+            v-show="showStyleProduct ? showStyleProduct : true"
+            :products="style.products"
+            :pageName="pageName"
+            itemWidth="129px"
+            autoWidth
+          >
+            <template #product>
+              <div
+                v-for="(product, index) in style.products"
+                :key="`product-carousel-${index}`"
+                class="item"
+              >
+                <ProductCard
+                  :product="product"
+                  :showActionBtn="false"
+                  :showActions="false"
+                  cardHeight="137px"
+                  cardHeightSm="137px"
+                  cardWidthSm="192px"
+                  :showSize="false"
+                  :showPrice="true"
+                  noRedirect
+                >
+                  <template #badge>
+                    <div class="d-flex justify-content-end">
+                      <PlusCircle @click="redirectToDetail(product)" />
+                    </div>
+                  </template>
+                </ProductCard>
+              </div>
+            </template>
+          </ProductCarousel>
         </div>
       </div>
     </div>
@@ -100,18 +137,22 @@
 <script>
 import { Button } from '~/components/common'
 import ShopByStyleImageCarousel from '~/components/shop-by-style/ImageCarousel'
+import PlusCircle from '~/assets/icons/PlusCircle'
 import ShopByStyleProductCard from '~/components/shop-by-style/ProductCard'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
 import ShareIcon from '~/assets/icons/ShareIcon'
+import HeartIcon from '~/assets/icons/HeartIcon'
 import ShareButton from '~/components/common/ShareButton'
 export default {
   components: {
     Button,
-    ShopByStyleProductCard,
+    PlusCircle,
     ShopByStyleImageCarousel,
     ProductImageViewerMagic360,
     ShareIcon,
-    ShareButton
+    HeartIcon,
+    ShareButton,
+    ShopByStyleProductCard,
   },
 
   layout: 'IndexLayout',
@@ -158,6 +199,9 @@ export default {
     productDetail(value) {
       this.showStyleProduct = value
     },
+    redirectToDetail(product) {
+      this.$router.push(`/shop-by-style/${this.style.id}/${product.sku}`)
+    },
   },
 }
 </script>
@@ -171,9 +215,10 @@ export default {
     max-width: 562px
   .right-side-details
     margin-top: 43px
-    margin-left: 202px
     width: 100%
     max-width: 498px
+    @media (min-width: 576px)
+      margin-left: 202px
 
 .row-gap-60
   row-gap: 60px
@@ -219,4 +264,7 @@ export default {
     stroke: $color-gray-47
   .fillColor
     fill: $color-gray-47
+
+.add-to-wishlist
+  right: 0
 </style>

@@ -70,8 +70,10 @@ export default {
 @import '~/assets/css/_variables'
 
 .mobile-feature-image
-  height: 371px
   object-fit: contain
+  height: auto
+  @media (max-width: 576px)
+    height: 371px
 .style-image-carousel-wrapper
   .pages
     @include body-4-medium

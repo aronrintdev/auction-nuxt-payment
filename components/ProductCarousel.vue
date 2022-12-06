@@ -14,6 +14,8 @@
         :dots="false"
         class="carousel"
         :class="{ 'show-arrows-on-hover': showArrowsOnHover }"
+        :style="`--item-width: ${itemWidth}`"
+        :autoWidth="autoWidth"
       >
         <template #default>
           <slot name="product">
@@ -103,6 +105,14 @@ export default {
       type: String,
       default: '312px',
     },
+    itemWidth: {
+      type: String,
+      default: '100%',
+    },
+    autoWidth: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   computed: {
@@ -159,6 +169,7 @@ export default {
       .item
         text-align: left
         margin: 0 12px
+        width: var(--item-width)
         &.photo-item
           img
             border-radius: 5px
@@ -184,7 +195,7 @@ export default {
         img
           width: 12px
         &.owl-prev
-          justify-content: end          
+          justify-content: end
       &:hover
         .navigation-arrows
           display: flex
