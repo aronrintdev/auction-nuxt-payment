@@ -255,7 +255,6 @@ export default {
       return this.isScreenXS || this.isScreenSM
     },
     canClone() {
-      console.log('this.item.item.stock', this.item.item.stock > 1)
       return this.item.item.stock > 1
     }
   },
