@@ -129,6 +129,9 @@ import Meter from '~/components/common/Meter'
 import {DEFAULT_FAIR_TRADE_VALUE} from '~/static/constants/trades';
 export default {
   name: 'TradeItem',
+  components: {
+    Meter,
+  },
 
   props: {
     orderDetails: {
@@ -136,9 +139,6 @@ export default {
       default: () => {},
       required: true,
     },
-  },
-  components: {
-    Meter,
   },
   data() {
     return {
@@ -159,15 +159,16 @@ export default {
 
     // Array the items to wanted and trade listing array
     checkTradeItems(order) {
+      console.log(order)
       if (order.type === 'trade') {
-        this.wantedListingArray = order.accepted_offer_your.theirs_items
-        this.tradeListingArray =  order.accepted_offer_your.yours_items
+        this.wantedListingArray = order.accepted_offer_your !== null ? order.accepted_offer_your.theirs_items : []
+        this.tradeListingArray =  order.accepted_offer_your !== null ? order.accepted_offer_your.yours_items : []
         this.status = order.trade.condition_translation
       }
     },
     getTheirTotal(formattedPrice = true){
       let optionalCash = 0
-      if(this.orderDetails.accepted_offer_their.cash_added && this.orderDetails.accepted_offer_your.cash_type === 'added')
+      if(this.orderDetails.accepted_offer_their !== null && this.orderDetails.accepted_offer_their.cash_added && this.orderDetails.accepted_offer_your.cash_type === 'added')
       {
         optionalCash = (this.orderDetails.accepted_offer_their.cash_added/100)
         this.cashReceived = optionalCash
@@ -182,7 +183,7 @@ export default {
     },
     getYourTotal(formattedPrice = true){
       let optionalCash = 0
-      if(this.orderDetails.accepted_offer_your.cash_added && this.orderDetails.accepted_offer_your.cash_type === 'added')
+      if(this.orderDetails.accepted_offer_your !== null && this.orderDetails.accepted_offer_your.cash_added && this.orderDetails.accepted_offer_your.cash_type === 'added')
       {
           optionalCash = (this.orderDetails.accepted_offer_your.cash_added/100)
       }

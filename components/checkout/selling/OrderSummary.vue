@@ -164,22 +164,23 @@
     <!-- End of Shopping Cart Applied Gift Card -->
 
     <!-- Terms & Conditions Paragraph -->
-    <b-row v-show="billingAddress && shippingAddress && (paymentMethod || cryptoDetails.amount)" class="mt-4">
-      <b-col md="3" class="text-center">
-        <b-form-checkbox v-model="form.agreedToTerms"></b-form-checkbox>
+    <b-row v-show="billingAddress && shippingAddress && (paymentMethod || cryptoDetails.amount)" class="mt-4 px-4">
+      <b-col md="12">
+        <b-form-checkbox v-model="form.agreedToTerms">
+          <template #default>
+            <i18n
+              path="shopping_cart.terms_and_conditions_paragraph"
+              tag="p"
+              class="body-5-normal justify-content-start pl-1"
+            >
+              <span class="text-decoration-underline" role="button" @click="$router.push('/terms-and-conditions')">
+                {{ $t('shopping_cart.terms_and_conditions') }}
+              </span>
+            </i18n>
+          </template>
+        </b-form-checkbox>
       </b-col>
-      <b-col md="9">
-        <i18n
-          path="shopping_cart.terms_and_conditions_paragraph"
-          tag="p"
-          class="body-5-normal justify-content-start"
-        >
-          <span class="text-decoration-underline">{{
-            $t('shopping_cart.terms_and_conditions')
-          }}</span>
-        </i18n>
-      </b-col> </b-row
-    ><!-- End of Terms & Conditions Paragraph -->
+     </b-row><!-- End of Terms & Conditions Paragraph -->
 
     <!-- Shopping Cart Total Price Heading -->
     <b-row class="mt-4">
@@ -280,22 +281,22 @@
         <b-spinner variant="color-blue-2"></b-spinner>
       </b-col>
       <b-col v-else md="12" class="text-center place-order-wrapper">
-        <b-button v-if="!billingAddress" :disabled="! getTotalQuantity" type="button" class="px-5" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.BillingForm.name)">{{
+        <b-button v-if="!billingAddress" :disabled="! getTotalQuantity" type="button" class="px-0" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.BillingForm.name)">{{
             $t('shopping_cart.proceed_to_billing')
           }}</b-button>
-        <b-button v-else-if="!shippingAddress" :disabled="! getTotalQuantity" type="button" class="px-5" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.ShippingForm.name)">{{
+        <b-button v-else-if="!shippingAddress" :disabled="! getTotalQuantity" type="button" class="px-0" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.ShippingForm.name)">{{
             $t('shopping_cart.proceed_to_shipping')
           }}</b-button>
-        <b-button v-else-if="!paymentMethod && !cryptoDetails.estimatedAmount" :disabled="! getTotalQuantity" type="button" class="px-5" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.PaymentOption.name)">{{
+        <b-button v-else-if="!paymentMethod && !cryptoDetails.estimatedAmount" :disabled="! getTotalQuantity" type="button" class="px-0" variant="confirm" pill @click="emitRenderComponentEvent($parent.$options.components.PaymentOption.name)">{{
             $t('shopping_cart.proceed_to_payment')
           }}</b-button>
-        <b-button v-else-if="paymentMethod && paymentMethod.paymentType === isCard" type="button" :disabled=" ! form.agreedToTerms || ! getTotalQuantity" class="px-5" variant="confirm" pill @click="checkoutWithCard">{{
+        <b-button v-else-if="paymentMethod && paymentMethod.paymentType === isCard" type="button" :disabled=" ! form.agreedToTerms || ! getTotalQuantity" class="px-0" variant="confirm" pill @click="checkoutWithCard">{{
             $t('shopping_cart.place_order')
           }}</b-button>
-        <b-button v-else-if="paymentMethod" type="button" :disabled=" ! form.agreedToTerms || ! getTotalQuantity" class="px-5" variant="confirm" pill @click="checkoutWithInstallment">{{
+        <b-button v-else-if="paymentMethod" type="button" :disabled=" ! form.agreedToTerms || ! getTotalQuantity" class="px-0" variant="confirm" pill @click="checkoutWithInstallment">{{
             $t('shopping_cart.place_order')
           }}</b-button>
-        <b-button v-else type="button" :disabled="! form.agreedToTerms  || ! getTotalQuantity" class="px-5" variant="confirm" pill @click="checkoutWithCrypto">{{
+        <b-button v-else type="button" :disabled="! form.agreedToTerms  || ! getTotalQuantity" class="px-0" variant="confirm" pill @click="checkoutWithCrypto">{{
             $t('shopping_cart.place_order')
           }}</b-button>
       </b-col>
@@ -631,7 +632,7 @@ export default {
         shippingFee: this.getShippingFee,
         tax: this.getTax,
         subTotal: this.getSubtotalAfterInstantShip,
-        total: Math.ceil(this.$options.filters.formatPrice(this.getTotal)),
+        total: this.getTotal,
         promoCode: this.promoCode ? this.promoCode.code : '',
         giftCardNumber: this.giftCard ? this.giftCard.number : '',
         giftCardAmount: this.giftCard ? this.giftCard.amount : 0,

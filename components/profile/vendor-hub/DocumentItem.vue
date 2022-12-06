@@ -124,19 +124,19 @@ export default {
   font-weight: $normal
 
 .btn-primary.btn
-  background: $color-blue-2
+  background: $color-blue-20
   &:hover
-    background: $color-blue-3
+    background: rgba($color-blue-20, .9)
 
 .btn-outline-primary.btn
-  color: $color-blue-2
+  color: $color-blue-20
   &:hover
-    background: $color-blue-2
+    background: rgba($color-blue-20, .9)
 
 .action-button.btn
   padding-block: 20px
   max-width: max-content
-  border: 1px solid $color-blue-2
+  border: 1px solid $color-blue-20
 
 .column-label
   @include body-4

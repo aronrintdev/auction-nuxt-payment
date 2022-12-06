@@ -144,3 +144,14 @@ export async function increaseBidPrice({commit}, { id, price }) {
     commit('updateSelectedBidAuctionBids', { id, price })
   })
 }
+
+/**
+ * Delete expired bids
+ * @param commit
+ * @param {Object} payload
+ * @param {string} payload.type
+ * @return {Promise<AxiosResponse<any>>}
+ */
+export async function deleteExpiredBids({commit}, payload) {
+  return await this.$axios.delete('/bids/expired', { data: { type: payload.type } })
+}

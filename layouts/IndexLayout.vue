@@ -5,9 +5,8 @@
       <Nuxt/>
     </div>
     <ScrollToTop v-show="showScroll"/>
-    <BottomNavigation class="d-flex d-md-none mt-4"/>
+    <BottomNavigation v-if="! isFooterHidden || ! isResponsive" class="d-flex d-md-none mt-4"/>
     <Footer ref="footer" class="d-none d-md-flex"/>
-
   </div>
 </template>
 
@@ -30,6 +29,7 @@ export default {
       showScroll: false,
       scrollY: SCROLLY,
       isHeaderHidden: false,
+      isFooterHidden: false,
       bodyMinHeight: ''
     }
   },
@@ -55,6 +55,10 @@ export default {
   mounted() {
     this.$root.$on('hide-header', payload => {
       this.isHeaderHidden = payload.hideHeader
+    })
+
+    this.$root.$on('hide-footer', payload => {
+      this.isFooterHidden = payload.hideFooter
     })
 
     this.calculateMinHeight()

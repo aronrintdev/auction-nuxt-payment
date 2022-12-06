@@ -237,7 +237,7 @@
                 </div>
                 </div>
                 <div class="text-center">
-                  <Button :block="isScreenXS" :disabled="isSendCodeDisabled" class="submit-button" pill type="submit"
+                  <Button :block="isScreenXS" :disabled="isSendCodeDisabled" class="submit-button d-sm-block" pill type="submit"
                           variant="primary">
                     {{ $t('vendor_hub.send_code') }}
                   </Button>
@@ -687,6 +687,7 @@ input.code-field
   font-weight: $normal
   background-color: $color-blue-2
   border: none
+  margin: auto
 
   &[disabled="disabled"]
     background-color: $color-gray-4

@@ -1,10 +1,11 @@
 <template>
-  <div :class="{'p-5':padding}">
+  <div :class="(isScreenSM || isScreenXS) ? 'p-4' : 'container-profile'">
     <ProductView
       v-if="product"
       v-model="form"
       :product="product"
       :back-button-text="backButtonText"
+      :back-button-class="(isScreenSM || isScreenXS) ? 'mx-0' : ''"
       @back="backSearch"
     >
       <div slot="right-content">
@@ -15,6 +16,7 @@
                        :label="$t('trades.create_listing.vendor.wants.quantity')"
                        class="input"
                        :class="{'input-error': !isValidQuantity(quantity)}"
+                       :label-class="'ml-0'"
                        required
                        integer
             />
@@ -56,10 +58,16 @@
             />
           </div>
           <div  class="col-12">
-            <b-btn class="search-trade-add-btn w-100 rounded" :disabled = !disabledBtn  @click="addToOffer(product)">
+            <Button
+              class="mt-3 w-100 rounded"
+              variant="dark"
+              :class="{'py-4' : !isScreenXS}"
+              :disabled = !disabledBtn
+              @click="addToOffer(product)"
+            >
               {{ ((productFor === tradeOffer) || (productFor === tradeArena)) ?
               $t('trades.create_listing.vendor.wants.add_to_offers') : $t('trades.create_listing.vendor.wants.add_to_wants') }}
-            </b-btn>
+            </Button>
           </div>
 
         </div>
@@ -76,14 +84,15 @@ import {WANTS_SELECT_LIST_OPTIONS,PRODUCT_FOR_COUNTER_OFFER} from '~/static/cons
 import SelectListDropDown from '~/pages/profile/trades/wants/SelectListDropDown'
 import ProductView from '~/components/profile/create-listing/product/ProductView'
 import screenSize from '~/plugins/mixins/screenSize'
-import {FormInput} from '~/components/common'
+import {FormInput, Button} from '~/components/common'
 
 export default {
   name: 'CreateTradeSearchItem',
   components:{
     SelectListDropDown,
     ProductView,
-    FormInput
+    FormInput,
+    Button
   },
   mixins: [screenSize],
   props:{
@@ -467,107 +476,85 @@ export default {
 
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
-.input-col::v-deep
-  .input-label
-    font-family: $font-montserrat
-    font-style: normal
-    @include body-8-normal
-    color: $color-black-1
-    margin-left: 0px!important
-    text-transform: uppercase
-    margin-bottom: 8px
-  .input
-    .form-input
-      border-radius: 4px!important
-      height: 40px
-      left: 16px
-      border: 1px solid $color-blue-20
-      &::placeholder
-        font-family: $font-montserrat
-        font-style: normal
-        @include body-8-normal
-        font-weight: normal
-        color: $color-gray-23
-  .error-text
-    @include body-5-regular
-    display: block
-    color: $color-red-3
+.container-profile
+  padding: 30px  120px 0px 14px
+  .input-col::v-deep
+    .input-label
+      font-family: $font-montserrat
+      font-style: normal
+      @include body-8-normal
+      color: $color-black-1
+      margin-left: 0px
+      text-transform: uppercase
+      margin-bottom: 16px
+    .input
+      .form-input
+        border-radius: 4px!important
+        height: 40px
+        left: 16px
+        border: 1px solid $color-blue-20
+        &::placeholder
+          font-family: $font-montserrat
+          font-style: normal
+          @include body-8-normal
+          font-weight: normal
+          color: $color-gray-23
+    .error-text
+      @include body-5-regular
+      display: block
+      color: $color-red-3
 
-  .button
-    background: $color-black-1
-    border-radius: 20px
-    color: $color-white-1
+    .button
+      background: $color-black-1
+      border-radius: 20px
+      color: $color-white-1
 
-  .input-error
-    .form-input
-      border-color: $color-red-3
+    .input-error
+      .form-input
+        border-color: $color-red-3
 
-  .error-text
-    @include body-5-regular
-    display: block
-    color: $color-red-3
+    .error-text
+      @include body-5-regular
+      display: block
+      color: $color-red-3
 
-  .custom-dropdown
-    .label-wrapper
-      border-radius: 4px!important
-      padding: 2px 10px
-      height: 40px
-      left: 16px
-      border: 1px solid $color-blue-20
-    ul
-      border: 1px solid $color-blue-20
-      li
-        padding: 8px
-        border-color:  $color-blue-20
+  .input-col-mobile::v-deep
+    .input-label
+      margin-bottom: 3px
+      font-family: $font-montserrat
+      font-style: normal
+      @include body-9-medium
+      color: $color-black-1
+    .input
+      .form-input
+        height: 49px
+        left: 16px
+        top: 804px
+        border: 1px solid $white-5
+        border-radius: 4px!important
+        &::placeholder
+          font-family: $font-montserrat
+          font-style: normal
+          @include body-9-medium
+          color: $color-gray-23
+    .error-text
+      @include body-5-regular
+      display: block
+      color: $color-red-3
 
-.input-col-mobile::v-deep
-  .input-label
-    margin-bottom: 3px
-    font-family: $font-montserrat
-    font-style: normal
-    @include body-9-medium
-    color: $color-black-1
-  .input
-    .form-input
-      height: 49px
-      left: 16px
-      top: 804px
-      border: 1px solid $white-5
-      border-radius: 4px!important
-      &::placeholder
-        font-family: $font-montserrat
-        font-style: normal
-        @include body-9-medium
-        color: $color-gray-23
-  .error-text
-    @include body-5-regular
-    display: block
-    color: $color-red-3
+    .button
+      background: $color-black-1
+      border-radius: 20px
+      color: $color-white-1
 
-  .button
-    background: $color-black-1
-    border-radius: 20px
-    color: $color-white-1
+    .input-error
+      .form-input
+        border-color: $color-red-3
 
-  .input-error
-    .form-input
-      border-color: $color-red-3
-
-  .error-text
-    @include body-5-regular
-    display: block
-    color: $color-red-3
-
-  .custom-dropdown
-    .label-wrapper
-      padding: 8px 10px
-      left: 16px
-      top: 804px
-      border: 1px solid $white-5
-      border-radius: 4px!important
-    ul
-      li
-        padding: 12px
+    .error-text
+      @include body-5-regular
+      display: block
+      color: $color-red-3
 
 .progress-bar-container
   margin-bottom: -36px

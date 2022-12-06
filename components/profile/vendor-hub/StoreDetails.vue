@@ -899,14 +899,13 @@ export default {
     background-color: $color-gray-1
 
   &.mobile
-    @include body-5
     font-family: $font-family-montserrat
     font-style: normal
     font-weight: $normal
     background-color: $color-white-1 !important
     padding: 10px 20px
     width: 100%
-    height: 59px
+    height: 49px
     border: 1px solid $input-mobile-border-color
     border-radius: 10px !important
 
@@ -941,9 +940,16 @@ export default {
   font-weight: $normal
   background: $color-white-5
 
+::v-deep.form-control.mobile
+  @include body-9
+
 .bg-blue-2.btn
-  background: $color-blue-2
-  border: 1px solid $color-blue-2
+  background: $color-blue-20
+  border: 1px solid $color-blue-20
+
+  &:hover
+    background: rgba($color-blue-20, .9)
+    border: 1px solid rgba($color-blue-20, .9)
 
 .m-40
   margin-left: 40px
@@ -952,16 +958,18 @@ export default {
   box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
   border-radius: 10px
   padding-bottom: 3px
+  ::v-deep label.d-block
+    @include body-9-normal
 
 .text-blue-20
   color: $color-blue-20
 
 .mobile-input-button
-  @include body-4-normal
+  @include body-9
   color:  $color-blue-20
   position: absolute
   right: 15px
-  top: 18px
+  top: 20px
   z-index: 10
 
 .faq-icon
