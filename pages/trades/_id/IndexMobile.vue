@@ -124,7 +124,7 @@
                 </div>
                 <div class="wants-name">{{item.product.name}}</div>
                 <div class="wants-size">{{item.product.colorway}},{{$t('trades.trade_arena.size')}} {{item.size.size}}</div>
-                <div class="wants-box">{{item.packaging_condition.name}}</div>
+                <div class="wants-box">Box: {{item.packaging_condition.name}}</div>
               </div>
             </div>
             </div>
