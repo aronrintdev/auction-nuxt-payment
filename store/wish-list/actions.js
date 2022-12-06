@@ -46,7 +46,6 @@ export async function deleteWishList({ commit }, { id }) {
   return await this.$axios
     .delete(`/wish-lists/${id}`)
     .then((res) => {
-      // commit('addWishList', res.data)
       return res.data
     })
 }

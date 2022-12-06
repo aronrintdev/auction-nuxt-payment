@@ -323,7 +323,7 @@
     <ConfirmModal
       id="confirm-wishlist-delete"
       :confirmLabel="$t('wish_lists.confirm_delete')"
-      :message="$t('wish_lists.confirm_delete_message')"
+      :message="$t('wish_lists.confirm_delete_message', { list: currentWishList && currentWishList.name })"
       @cancel="onCancel"
       @confirm="onConfirm"
     />
@@ -342,6 +342,7 @@ import BulkSelectToolbar from '~/components/common/BulkSelectToolbar'
 import Thumb from '~/components/product/Thumb'
 import screenSize from '~/plugins/mixins/screenSize'
 import MobileCreateWishListModal from '~/components/mobile/MobileCreateWishList'
+import { ConfirmModal } from '~/components/modal'
 
 export default {
   name: 'WishLists',
@@ -355,6 +356,7 @@ export default {
     BulkSelectToolbar,
     Thumb,
     MobileCreateWishListModal,
+    ConfirmModal,
   },
   mixins: [screenSize],
   layout: 'Profile',
@@ -437,8 +439,8 @@ export default {
   methods: {
     ...mapActions({
       fetchWishLists: 'wish-list/fetchWishLists',
-      editWishLists: 'wish-list/editWishLists',
-      deleteWishLists: 'wish-list/deleteWishLists',
+      editWishList: 'wish-list/editWishList',
+      deleteWishList: 'wish-list/deleteWishList',
       updateWishListPrivacy: 'wish-list/updateWishListPrivacy',
       fetchWishListItems: 'wish-list/fetchWishListItems',
       removeProductsFromWishList: 'wish-list/removeProductsFromWishList',
@@ -659,21 +661,10 @@ export default {
 
     // Remove selected products from current wishlist
     async removeWishlist() {
-      if (this.selected.length > 0) {
-        await this.deleteWishList({
-          id: this.currentWishList.id
-        })
-        this.selected = []
-        this.$refs.bulkSelectToolbar.showSuccess(
-          this.$tc(
-            'wish_lists.products_removed_from_wishlist',
-            this.removed.length,
-            {
-              n: this.removed.length,
-            }
-          )
-        )
-      }
+      await this.deleteWishList({
+        id: this.currentWishList.id
+      })
+      this.$toasted.success(this.$tc('wish_lists.delete_success'))
     },
 
     // Remove selected products from current wishlist
@@ -699,10 +690,9 @@ export default {
       this.$bvModal.show('confirm-wishlist-delete')
     },
 
-    // On confirm disacard
+    // On confirm remove
     onConfirm() {
       this.removeWishlist()
-      // this.$bvModal.show('discard-confirm')
     },
     // On cancel click, clear the value
     onCancel() {
