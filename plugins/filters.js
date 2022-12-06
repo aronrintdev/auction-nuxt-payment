@@ -66,6 +66,20 @@ Vue.filter('toCurrency', (value, currency = 'USD', alt = '-') => {
     return formatter.format(value / 100)
 })
 
+Vue.filter('toRoundedCurrency', (value, currency = 'USD', alt = '-') => {
+  if (typeof value !== 'number') {
+    return alt
+  }
+
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: 0
+  })
+
+  return formatter.format(Math.round(value / 100))
+})
+
 // Format date as 'MM-DD-YYYY' or 'MM/DD/YYYY' string.
 Vue.filter('formatDate', (value, type) => {
   const date = new Date(value)
