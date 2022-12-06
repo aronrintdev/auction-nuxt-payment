@@ -17,7 +17,7 @@
             v-model="method"
             :data="methods"
             nav-key="method"
-            class="text-center mt-4 body-8-normal d-sm-none"
+            class="mt-4 body-8-normal d-sm-none"
             :btnGroupStyle="{
               minHeight: '40px'
             }"
@@ -30,7 +30,7 @@
                 class="body-17-medium"
                 :class="method === 'buy' && 'active'"
               >
-                {{ lowestPrice | toCurrency }}
+                {{ lowestPrice | toRoundedCurrency }}
               </span>
             </b-col>
             <b-col class="text-center">
@@ -38,7 +38,7 @@
                 class="body-17-medium"
                 :class="method === 'offer' && 'active'"
               >
-                {{ highestOffer | toCurrency }}
+                {{ highestOffer | toRoundedCurrency }}
               </span>
             </b-col>
           </b-row>
@@ -73,7 +73,7 @@
                 class="body-1-medium"
                 :class="method === 'buy' && 'active'"
               >
-                {{ lowestPrice | toCurrency }}
+                {{ lowestPrice | toRoundedCurrency }}
               </span>
             </b-col>
             <b-col md="6" class="text-center">
@@ -81,7 +81,7 @@
                 class="body-1-medium"
                 :class="method === 'offer' && 'active'"
               >
-                {{ highestOffer | toCurrency }}
+                {{ highestOffer | toRoundedCurrency }}
               </span>
             </b-col>
           </b-row>
@@ -696,10 +696,11 @@ export default {
 
 .nav-group::v-deep
   @media (min-width: 576px)
-    margin: 32px 0 15px
+    margin: 32px 0 0
 
     .btn-group
-      min-width: 408px
+      box-sizing: border-box
+      width: 408px
 
 .mx-72
   @media (min-width: 576px)

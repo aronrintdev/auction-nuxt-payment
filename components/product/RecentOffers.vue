@@ -2,21 +2,21 @@
   <div class="recent-offers-wrapper">
     <div class="table-wrapper">
       <b-overlay :opacity="0.85" blur="2px" :show="loading" rounded="sm">
-        <table class="table-recent-offers">
-          <tr>
-            <th>{{ $t('products.date_time') }}</th>
-            <th>{{ $tc('common.size', 1) }}</th>
-            <th>{{ $t('products.recent_offers_modal.offer_price') }}</th>
-          </tr>
-          <tr v-for="(row, index) in offers" :key="`recent-offer-${index}`">
-            <td>
-              <div>{{ row.created_at | formatDate('DD-MM-YYYY') }}</div>
+        <b-table-simple class="table-recent-offers" fixed borderless>
+          <b-tr>
+            <b-th class="text-center">{{ $t('products.date_time') }}</b-th>
+            <b-th class="text-center">{{ $tc('common.size', 1) }}</b-th>
+            <b-th class="text-center">{{ $t('product_page.offers') }}</b-th>
+          </b-tr>
+          <b-tr v-for="(row, index) in offers" :key="`recent-offer-${index}`">
+            <b-td class="text-center">
+              <div>{{ row.created_at | formatDate('MM-DD-YYYY') }}</div>
               <div class="time">{{ row.created_at | formatTime(':') }}</div>
-            </td>
-            <td>{{ row.size.size }}</td>
-            <td>{{ row.bid_price | toCurrency }}</td>
-          </tr>
-        </table>
+            </b-td>
+            <b-td class="text-center">{{ row.size.size }}</b-td>
+            <b-td class="text-center">{{ row.bid_price | toRoundedCurrency }}</b-td>
+          </b-tr>
+        </b-table-simple>
       </b-overlay>
     </div>
   </div>
@@ -53,7 +53,6 @@ export default {
 @import '~/assets/css/_variables'
 
 .recent-offers-wrapper
-  padding-top: 24px
   position: relative
 
   .table-wrapper
@@ -65,16 +64,13 @@ export default {
     width: 100%
 
     th
-      @include body-8-bold
+      @include body-8-normal
       color: $color-black-1
-      text-align: center
-      padding: 12px 9px
 
     td
       @include body-8-normal
-      text-align: center
-      padding: 15px 3px
 
       .time
+        display: block
         color: $color-gray-4
 </style>
