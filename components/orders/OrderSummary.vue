@@ -185,8 +185,8 @@ export default {
 .btn-print-shipping
   width: 180px
   left: calc(50% - 180px / 2 + 569px)
-  background: $color-blue-2
-  border: 1px solid $color-blue-2
+  background: $color-grey-101
+  border: 1px solid $color-grey-101
   border-radius: 21px
   font-family: $font-family-sf-pro-display
   font-weight: $normal
