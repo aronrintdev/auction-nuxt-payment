@@ -79,8 +79,7 @@
             <template #button-content>
               {{ $t('wish_lists.edit_list') }}
             </template>
-            <b-dropdown-item
-              @click="setAction('rename')"
+            <b-dropdown-item v-b-modal.edit-list-modal
             >
               {{ $t('wish_lists.rename_list') }}
             </b-dropdown-item>
@@ -313,6 +312,7 @@
     </div>
     <Portal to="page-title"> Wishlist </Portal>
     <CreateWishListModal @created="handleCreated" />
+    <EditWishListModal :wishList="currentWishList" @created="handleCreated" />
     <MobileCreateWishListModal
           :height="'90%'"
           :open="mobileFiltersOpen"
@@ -338,6 +338,7 @@ import ShareButton from '~/components/common/ShareButton.vue'
 import Button from '~/components/common/Button.vue'
 import ProductCard from '~/components/product/Card.vue'
 import CreateWishListModal from '~/components/modal/CreateWishList'
+import EditWishListModal from '~/components/modal/EditWishList'
 import BulkSelectToolbar from '~/components/common/BulkSelectToolbar'
 import Thumb from '~/components/product/Thumb'
 import screenSize from '~/plugins/mixins/screenSize'
@@ -353,6 +354,7 @@ export default {
     Button,
     ProductCard,
     CreateWishListModal,
+    EditWishListModal,
     BulkSelectToolbar,
     Thumb,
     MobileCreateWishListModal,
@@ -665,6 +667,9 @@ export default {
         id: this.currentWishList.id
       })
       this.$toasted.success(this.$tc('wish_lists.delete_success'))
+      await this.fetchWishLists()
+      await this.selectWishList(this.wishLists[0])
+      this.infiniteId += 1
     },
 
     // Remove selected products from current wishlist

@@ -30,11 +30,10 @@ export async function createWishList({ commit }, { name, privacy }) {
     })
 }
 
-export async function editWishList({ commit }, { id, name, privacy }) {
+export async function editWishList({ commit }, { id, name }) {
   return await this.$axios
     .patch(`/wish-lists/${id}`, {
       name,
-      privacy,
     })
     .then((res) => {
       // commit('addWishList', res.data)
