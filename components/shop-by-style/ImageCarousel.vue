@@ -19,7 +19,7 @@
             :key="`style-image-carousel-${index}`"
             :class="[mainImage ? 'style-image' : '']"
           >
-            <img :src="image" class="w-100" />
+            <img :src="image" class="w-100 mobile-feature-image" />
           </div>
         </template>
 
@@ -69,6 +69,9 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+.mobile-feature-image
+  height: 371px
+  object-fit: contain
 .style-image-carousel-wrapper
   .pages
     @include body-4-medium

@@ -25,6 +25,7 @@
               icon-only
               pill
               class="mr-3"
+              :id="`popover-share-${style.id}`"
             />
             <Button
               :id="`popover-wishlist-${style.id}`"
@@ -38,6 +39,23 @@
             </Button>
           </div>
         </div>
+        <b-popover
+          ref="sharePopover"
+          :target="`popover-share-${style.id}`"
+          triggers="click"
+          placement="bottom"
+          container="body"
+          custom-class="wishlist-popover w-auto"
+          delay="200"
+          @show="shareShow = true"
+          @hidden="shareShow = false"
+        >
+          <ShareButton
+            :url="shareUrl + style.id"
+            :title="style.name"
+            :description="style.name"
+          />
+        </b-popover>
         <div class="style-image mt-4">
           <ShopByStyleImageCarousel
             v-if="!has360Images"
@@ -64,19 +82,6 @@
           />
         </div>
       </div>
-      <div
-        class="d-sm-none style-bag position-fixed d-flex align-items-center justify-content-center"
-      >
-        <Button
-          variant="dark-blue"
-          black-text
-          border="thick"
-          class="d-block w-100 rounded-pill text-white"
-          @click="handleStyleAddToCart"
-        >
-          {{ $t('shop_by_style.general.add_style_to_bag') }}
-        </Button>
-      </div>
     </div>
     <Portal to="back-icon-slot">
       <nuxt-link :to="`/shop-by-style`">
@@ -98,6 +103,7 @@ import ShopByStyleImageCarousel from '~/components/shop-by-style/ImageCarousel'
 import ShopByStyleProductCard from '~/components/shop-by-style/ProductCard'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
 import ShareIcon from '~/assets/icons/ShareIcon'
+import ShareButton from '~/components/common/ShareButton'
 export default {
   components: {
     Button,
@@ -105,6 +111,7 @@ export default {
     ShopByStyleImageCarousel,
     ProductImageViewerMagic360,
     ShareIcon,
+    ShareButton
   },
 
   layout: 'IndexLayout',
@@ -118,6 +125,7 @@ export default {
       loading: true,
       wishList: false,
       showStyleProduct: '',
+      shareUrl: process.env.APP_URL + '/shop-by-style/',
     }
   },
 

@@ -176,6 +176,18 @@
                     }}</span
                   >
                 </p>
+                <p
+                  v-else
+                  class="text-center lowest-price mb-1"
+                >
+                  <span class="total-price"
+                    >{{ $t('common.$0') }}</span
+                  >
+                  {{ $t('shop_by_style.4_installments') }}
+                  <span class="partial-price"
+                    >{{ $t('common.of') }} {{ $t('common.$0') }}</span
+                  >
+                </p>
                 <Button
                   variant="dark"
                   block
