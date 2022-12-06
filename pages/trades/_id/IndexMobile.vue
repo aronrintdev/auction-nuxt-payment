@@ -130,8 +130,8 @@
             </div>
             <!-- Buttons Section -->
             <div v-if="!isExpire && !isPayment"  class="d-flex justify-content-between mt-3 mb-4  ml-1 mr-1">
-              <Button variant="outline-info" pill class="invent-btn" @click="showInventory">{{$t('orders.inventory')}}</Button>
-              <Button variant="info" pill class="next-btns" @click="showPoorTradeConfirmationModal">{{$t('trades.trade_arena.next')}}</Button>
+              <b-btn   class="invent-btn" @click="showInventory">{{$t('orders.inventory')}}</b-btn>
+              <b-btn   class="next-btns" @click="showPoorTradeConfirmationModal">{{$t('trades.trade_arena.next')}}</b-btn>
             </div>
           </div>
           <inventory-bottom-sheet ref="inventory"/>
@@ -183,7 +183,6 @@ import {
   OFFER_TYPE,
   TAKE_SEARCHED_PRODUCTS, CASH_TYPE_REQUESTED
 } from '~/static/constants/trades'
-import Button from '~/components/common/Button';
 import InventoryBottomSheet from '~/pages/trades/_id/InventoryBottomSheet';
 import Meter from '~/components/common/Meter';
 import AddCash from '~/pages/trades/_id/AddCash';
@@ -194,7 +193,6 @@ export default {
     AddCash,
     Meter,
     InventoryBottomSheet,
-    Button,
     CreateTradeSearchItem,
     TraderWants,
     PoorTradeConfirmationModal,
@@ -1100,4 +1098,12 @@ export default {
   margin-left : 21px
   height : 70px
   width: 68px
+.invent-btn
+  background: #FFFFFF
+  border: 1px solid #667799
+  border-radius: 21px
+  color: #667799
+.next-btns
+  background: #667799
+  border-radius: 21px
 </style>
