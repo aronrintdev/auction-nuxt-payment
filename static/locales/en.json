@@ -2152,6 +2152,8 @@
     "edit_list": "Edit List",
     "rename_list": "Rename List",
     "delete_list": "Delete List",
+    "confirm_delete": "Kindly confirm",
+    "confirm_delete_message": "You are about to delete {list}",
     "buying_lists": "Single items wishlist",
     "auction_watchlists": "Auction Watchlists",
     "trade_lists": "Trade Lists",

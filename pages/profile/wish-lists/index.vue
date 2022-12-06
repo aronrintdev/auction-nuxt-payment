@@ -80,18 +80,12 @@
               {{ $t('wish_lists.edit_list') }}
             </template>
             <b-dropdown-item
-              :disabled="
-                listProducts.length === 0 || getMovableWishLists().length === 0
-              "
               @click="setAction('rename')"
             >
               {{ $t('wish_lists.rename_list') }}
             </b-dropdown-item>
             <b-dropdown-item
-              :disabled="
-                listProducts.length === 0 || getMovableWishLists().length === 0
-              "
-              @click="setAction('delete')"
+              @click="handleDelete()"
             >
               {{ $t('wish_lists.delete_list') }}
             </b-dropdown-item>
@@ -325,6 +319,15 @@
           :title="$t('wish_lists.create_new_list').toString()"
       >
     </MobileCreateWishListModal>
+    <!-- On discard changes -->
+    <ConfirmModal
+      id="confirm-wishlist-delete"
+      :confirmLabel="$t('wish_lists.confirm_delete')"
+      :message="$t('wish_lists.confirm_delete_message')"
+      @cancel="onCancel"
+      @confirm="onConfirm"
+    />
+    <!-- End of On discard changes -->
   </b-container>
 </template>
 <script>
@@ -657,10 +660,8 @@ export default {
     // Remove selected products from current wishlist
     async removeWishlist() {
       if (this.selected.length > 0) {
-        await this.editWishList({
-          id: this.currentWishList.id,
-          name: this.currentWishList.name,
-          privacy: this.currentWishList.privacy
+        await this.deleteWishList({
+          id: this.currentWishList.id
         })
         this.selected = []
         this.$refs.bulkSelectToolbar.showSuccess(
@@ -692,6 +693,20 @@ export default {
           )
         )
       }
+    },
+
+    handleDelete() {
+      this.$bvModal.show('confirm-wishlist-delete')
+    },
+
+    // On confirm disacard
+    onConfirm() {
+      this.removeWishlist()
+      // this.$bvModal.show('discard-confirm')
+    },
+    // On cancel click, clear the value
+    onCancel() {
+      this.$emit('clearValue')
     },
   },
 }
