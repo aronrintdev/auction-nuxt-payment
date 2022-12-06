@@ -186,6 +186,7 @@
                 </div>
                 <button
                   class="fs-14 fw-5 font-secondary text-gray-47 btn btn-link p-0 mt-3"
+                  @click="handleMobileListEdit(list)"
                 >
                   Edit
                 </button>
@@ -312,18 +313,29 @@
     </div>
     <Portal to="page-title"> Wishlist </Portal>
     <CreateWishListModal @created="handleCreated" />
-    <EditWishListModal :key="currentWishListUpdate"
+    <EditWishListModal
+      v-if="currentWishList"
+      :key="currentWishListUpdate"
       :current-name="currentWishList && currentWishList.name"
       :list-id="currentWishList && currentWishList.id"
       @created="handleCreated"
       />
     <MobileCreateWishListModal
-          :height="'90%'"
+          :height="'40%'"
           :open="mobileFiltersOpen"
           :title="$t('wish_lists.create_new_list').toString()"
       >
     </MobileCreateWishListModal>
-    <!-- On discard changes -->
+    <MobileEditWishListModal
+          :key="`mobile-${currentWishListUpdate}`"
+          :height="'40%'"
+          :open="mobileEditList"
+          :current-name="currentWishList && currentWishList.name"
+          :list-id="currentWishList && currentWishList.id"
+          :title="$t('wish_lists.rename_list').toString()"
+      >
+    </MobileEditWishListModal>
+    <!-- On delete list -->
     <ConfirmModal
       id="confirm-wishlist-delete"
       :confirmLabel="$t('wish_lists.confirm_delete')"
@@ -331,7 +343,7 @@
       @cancel="onCancel"
       @confirm="onConfirm"
     />
-    <!-- End of On discard changes -->
+    <!-- End of  On delete list -->
   </b-container>
 </template>
 <script>
@@ -347,6 +359,7 @@ import BulkSelectToolbar from '~/components/common/BulkSelectToolbar'
 import Thumb from '~/components/product/Thumb'
 import screenSize from '~/plugins/mixins/screenSize'
 import MobileCreateWishListModal from '~/components/mobile/MobileCreateWishList'
+import MobileEditWishListModal from '~/components/mobile/MobileEditWishList'
 import { ConfirmModal } from '~/components/modal'
 
 export default {
@@ -363,6 +376,7 @@ export default {
     Thumb,
     MobileCreateWishListModal,
     ConfirmModal,
+    MobileEditWishListModal,
   },
   mixins: [screenSize],
   layout: 'Profile',
@@ -416,6 +430,7 @@ export default {
       state: '',
       url: '',
       mobileFiltersOpen: false,
+      mobileEditList: false,
     }
   },
 
@@ -710,6 +725,11 @@ export default {
     onCancel() {
       this.$emit('clearValue')
     },
+    handleMobileListEdit(wishlist) {
+      console.log(wishlist);
+      this.selectWishList(wishlist)
+      this.mobileEditList = true
+    }
   },
 }
 </script>

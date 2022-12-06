@@ -2,12 +2,12 @@
   <MobileBottomSheet
           :height="height"
           :open="open"
-          :title="$t('wish_lists.create_new_list').toString()"
+          :title="$t('wish_lists.rename_list').toString()"
           @closed="mobileFiltersOpen = false"
           @opened="mobileFiltersOpen = true"
       >
     <template #header>
-      <h5>{{ $t('wish_lists.create_new_list') }}</h5>
+      <h5>{{ $t('wish_lists.rename_list') }}</h5>
     </template>
 
     <template #default="{}">
@@ -31,6 +31,7 @@
                         <b-form-input
                           id="list-name"
                           v-model="newListName"
+                          :value="currentName"
                           aria-describedby="input-live-help"
                           trim
                           :state="getValidationState(validationContext)"
@@ -101,7 +102,7 @@ export default {
   props: {
     id: {
       type: String,
-      default: 'create-list-modal',
+      default: 'edit-list-modal',
     },
     open: {
       type: Boolean,
@@ -110,6 +111,14 @@ export default {
     closed: {
       type: Boolean,
       default: true
+    },
+    listId: {
+      type: Number,
+      required: true,
+    },
+    currentName: {
+      type: String,
+      required: true,
     },
     height: {
       type: String,
@@ -126,22 +135,27 @@ export default {
       mobileFiltersOpen: false
     }
   },
-
+  mounted() {
+    if(this.currentName) {
+      this.newListName = this.currentName
+    }
+  },
   methods: {
     ...mapActions({
-      createWishList: 'wish-list/createWishList',
+      editWishList: 'wish-list/editWishList',
     }),
 
-    // Create new wishlist
-    async createNewList() {
+    // Edit selected wishlist
+    async handleEditWishList() {
       if (this.newListName) {
         this.loading = true
-        const wishList = await this.createWishList({
+        console.log(this.wishList);
+        const updatedWishList = await this.editWishList({
+          id: this.wishList.id,
           name: this.newListName,
-          privacy: this.newListPrivacy ? 'public' : 'private',
         })
         this.loading = false
-        this.$emit('created', wishList)
+        this.$emit('created', updatedWishList)
         this.$bvModal.hide(this.id)
       }
     },

@@ -102,7 +102,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.currentName);
     if(this.currentName) {
       this.newListName = this.currentName
     }
