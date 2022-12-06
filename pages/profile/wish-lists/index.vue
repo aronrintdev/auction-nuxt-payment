@@ -697,21 +697,11 @@ export default {
 
     // Remove selected products from current wishlist
     async renameSelected() {
-      if (this.selected.length > 0) {
-        await this.editWishList({
-          wishList: this.currentWishList,
-          ids: this.selected,
-        })
-        this.$refs.bulkSelectToolbar.showSuccess(
-          this.$tc(
-            'wish_lists.products_removed_from_wishlist',
-            this.removed.length,
-            {
-              n: this.removed.length,
-            }
-          )
-        )
-      }
+      await this.editWishList({
+        wishList: this.currentWishList,
+        ids: this.selected,
+      })
+      this.$toasted.success(this.$tc('wish_lists.rename_success'))
     },
 
     handleDelete() {

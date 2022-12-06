@@ -32,11 +32,10 @@ export async function createWishList({ commit }, { name, privacy }) {
 
 export async function editWishList({ commit }, { id, name }) {
   return await this.$axios
-    .patch(`/wish-lists/${id}`, {
+    .put(`/wish-lists/${id}`, {
       name,
     })
     .then((res) => {
-      // commit('addWishList', res.data)
       return res.data
     })
 }

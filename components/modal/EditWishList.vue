@@ -115,7 +115,6 @@ export default {
     async handleEditWishList() {
       if (this.newListName) {
         this.loading = true
-        console.log(this.wishList);
         const updatedWishList = await this.editWishList({
           id: this.wishList.id,
           name: this.newListName,
