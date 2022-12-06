@@ -5702,7 +5702,10 @@
     "fedex": "FedEx",
     "breakdown": {
       "export": "Export to CSV",
+      "total": "Total",
+      "products": "Products",
       "search_brand": "Search for Brands",
+      "search_product": "Search for Products",
       "percentage": "Percentage Breakdown",
       "statistics": "Statistics",
       "select_all": "Select All",
@@ -5720,6 +5723,11 @@
         "price_premium": "Price Premium",
         "avg_sale_price": "Avg. Sale Price",
         "sales": "Sales ($)"
+      },
+      "categories": {
+        "footwear": "Footwear",
+        "apparel": "Apparel",
+        "accessories": "Accessories"
       },
       "premium_info": "Price premium is the percentage in which the selling price has exceeded or fallen short of the retail price.",
       "sales": "Sales Breakdown"

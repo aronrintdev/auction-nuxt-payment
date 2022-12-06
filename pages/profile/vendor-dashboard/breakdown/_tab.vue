@@ -340,7 +340,7 @@ export default {
             borderColor: this.isScreenXS ? '#667799' : '#18A0FB',
             backgroundColor: 'rgba(24, 160, 251, 0.15)',
             data: this.dataGraph,
-            fill: !this.isScreenXS,
+            fill: false,
             borderWidth: this.isScreenXS ? 2 : 4,
           },
         ],
@@ -354,8 +354,8 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route)
-    console.log(this.$router)
+    // console.log(this.$route)
+    // console.log(this.$router)
   },
   methods: {
     orderBy(scope) {
@@ -380,8 +380,27 @@ export default {
     tabChange(tab) {
       this.activeGlobalTab = tab
     },
-    handleFilterByChangeTotalSale(filter) {},
-    getData() {},
+    handleFilterByChangeTotalSale(filter) {
+      this.filterBy = filter
+      this.getData()
+    },
+    getData() {
+      this.$axios
+          .get('/dashboard/vendor/sales-breakdown', {
+            params: {
+              category_ids: [],
+              group_by: this.filterBy,
+              brand_ids: [],
+              product_ids: [],
+            },
+          })
+          .then((response) => {
+            console.log(response)
+          })
+          .catch((error) => {
+            this.$toasted.error(error)
+          })
+    },
   },
 }
 </script>
