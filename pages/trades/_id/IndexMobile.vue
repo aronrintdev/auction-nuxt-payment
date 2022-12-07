@@ -36,8 +36,6 @@
                   </div>
                 </div>
               </div>
-
-
               <div v-else class="left-item" :class="{'right-item-margin-top':trade.offers.length === ITEM_COUNT_TWO,'left-item-one':trade.offers.length === ITEM_COUNT_ONE}">
                 <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'card-'+index : ''" :key="index" class="item mb-4">
                   <div class="image-wrapper">
@@ -49,13 +47,6 @@
                   </div>
                 </div>
               </div>
-
-
-
-
-
-
-
               <div class="center-item">
                 <div v-if="trade.offers.length > ITEM_COUNT_ONE" class="pointer-left" :class="{'pointer-right-two-items':trade.offers.length === ITEM_COUNT_TWO}"></div>
                 <div class="position-relative center-img d-flex justify-content-between">
@@ -84,7 +75,7 @@
                 </div>
                 <div v-if="getYourTradeItems.length === ITEM_COUNT_0 || getYourTradeItems.length < ITEM_COUNT_THREE"
                 >
-            <img :class="trade.offers.length  === ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 ? 'dumy-image'
+            <img v-if="getYourTradeItems.length <= 0 " :class="trade.offers.length  === ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 ? 'dumy-image'
               : trade.offers.length  === ITEM_COUNT_TWO  && getYourTradeItems.length === ITEM_COUNT_0 ? 'dumy-image-0'
               : trade.offers.length  === ITEM_COUNT_THREE  && getYourTradeItems.length === ITEM_COUNT_0 ? 'dumy-image-03'
         : getYourTradeItems.length  === ITEM_COUNT_ONE ? 'dumy-image-1'
