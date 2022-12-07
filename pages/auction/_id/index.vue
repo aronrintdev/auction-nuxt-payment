@@ -683,7 +683,7 @@
         <div class="my-4 d-flex justify-content-center">
           <b-button
             class="w-100"
-            :disabled="placeBidPrice < (activeAuction.highest_bid / 100) || placeBidPrice < (activeAuction.start_bid_price / 100)"
+            :disabled="placeBidPrice <= (activeAuction.highest_bid / 100) || placeBidPrice <= (activeAuction.start_bid_price / 100)"
             pill
             @click="placeBid('sheet')"
           >

@@ -60,8 +60,8 @@
             <span :class="{'body-9-normal' : isScreenXS}">{{ $t('vendor_hub.payout_method.save_changes') }}</span>
           </b-button>
 
-          <b-button pill variant="outline-dark" class="mx-3" @click="discardData"
-                    :class="{'body-9 w-50' : isScreenXS}">
+          <b-button pill variant="outline-dark" class="mx-3" :class="{'body-9 w-50' : isScreenXS}"
+                    @click="discardData">
             <span :class="{'body-9-normal' : isScreenXS}">
               {{ isScreenXS ? $t('common.cancel') : $t('vendor_hub.payout_method.discard_changes') }}
             </span>
@@ -103,13 +103,13 @@ import screenSize from '~/plugins/mixins/screenSize';
 export default {
   name: 'VendorPayoutForm',
   components: {Loader, SuccessModal, ConfirmModal},
+  mixins: [screenSize],
   props: {
     editMode:{
       type: Boolean,
       default: false
     }
   },
-  mixins: [screenSize],
   data() {
     return {
       confirmModal: false,
