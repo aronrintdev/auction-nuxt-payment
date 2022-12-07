@@ -61,7 +61,8 @@
                 </div>
                 <div v-if="getYourTradeItems.length === ITEM_COUNT_0 || getYourTradeItems.length < ITEM_COUNT_THREE"
                 >
-            <img :class="getYourTradeItems.length === ITEM_COUNT_0 ? 'dumy-image-0'
+            <img :class="trade.offers.length  === ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 ? 'dumy-image'
+              : trade.offers.length  === ITEM_COUNT_TWO  && getYourTradeItems.length === ITEM_COUNT_0 ? 'dumy-image-0'
         : getYourTradeItems.length  === ITEM_COUNT_ONE ? 'dumy-image-1'
         : getYourTradeItems.length  === ITEM_COUNT_TWO ? 'dumy-image-2'
         : 'dumy-image-3'" :src="require('~/assets/img/trades/tradeNow.svg')">
