@@ -36,11 +36,11 @@
               <div class="center-item">
                 <div v-if="trade.offers.length > ITEM_COUNT_ONE" class="pointer-left" :class="{'pointer-right-two-items':trade.offers.length === ITEM_COUNT_TWO}"></div>
                 <div class="position-relative center-img d-flex justify-content-between">
-                <div v-if="trade.offers.length === ITEM_COUNT_THREE || trade.offers.length === ITEM_COUNT_ONE" class="line-bar"></div>
+                <div v-if="(trade.offers.length === ITEM_COUNT_THREE || trade.offers.length === ITEM_COUNT_ONE || trade.offers.length === ITEM_COUNT_TWO)" class="line-bar"></div>
                 <div class="fair-text position-absolute">{{$t('trades.fair')}}</div>
                 <img class="trade-img position-absolute" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
-                <div v-if="trade.offers.length === ITEM_COUNT_THREE || trade.offers.length === ITEM_COUNT_ONE" class="line-bar-2"></div>
-                <div v-if="getYourTradeItems.length === ITEM_COUNT_THREE || getYourTradeItems.length === ITEM_COUNT_ONE" class="line-bar"></div>
+                <div v-if="(trade.offers.length === ITEM_COUNT_THREE || trade.offers.length === ITEM_COUNT_ONE || trade.offers.length === ITEM_COUNT_TWO)" class="line-bar-2"></div>
+                <div v-if="(getYourTradeItems.length === ITEM_COUNT_THREE || getYourTradeItems.length === ITEM_COUNT_ONE || getYourTradeItems.length === ITEM_COUNT_TWO)" class="line-bar"></div>
                 </div>
                 <div v-if="getYourTradeItems.length > ITEM_COUNT_ONE" class="pointer-right" :class="{'pointer-right-two-items':getYourTradeItems.length === ITEM_COUNT_TWO}"></div>
               </div>
@@ -121,7 +121,7 @@
             <!-- Wants section -->
             <div v-if="!isExpire && !isPayment" >
             <div class="wants-heading">
-              {{$t('trades.trader_wants')}}
+              {{$t('trades.trader_wants')}} 
             </div>
             <div class="d-flex wants-container">
               <div v-for="(item,index) in wants" :key="index" class="trader-wants">
@@ -1114,6 +1114,7 @@ export default {
   height : 134px
   margin-top: 148px
   margin-bottom: 60px
+  margin-left : 10px
 .dumy-image-1
   width : 118px
   height : 134px
