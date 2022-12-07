@@ -1,9 +1,5 @@
 <template>
   <div class="your-address-page">
-    <MobileHeader
-      :title="$t('navbar.profile')"
-      @back="$router.push('/profile/preferences')"
-    ></MobileHeader>
     <div class="address-content p-4">
       <b-card class="mt-3 address-card">
         <!-- Your address -->
@@ -50,7 +46,7 @@
             {{ shipping.state }}
             {{ shipping.country }}
             {{ shipping.zip }}
-          
+
           </div>
         </div>
         <hr />
@@ -89,7 +85,7 @@
             {{ billing.state }},
             {{ billing.country }},
             {{ billing.zip }}
-          
+
           </div>
         </div>
       </b-card>
@@ -99,17 +95,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import MobileHeader from '~/components/mobile/MobileHeader.vue'
 import emitEvent from '~/plugins/mixins/emit-event'
-import { 
+import {
   SHIPPING, BILLING
 } from '~/static/constants'
 export default {
   name: 'YourAddress',
 
-  components: {
-    MobileHeader,
-  },
   mixins: [emitEvent],
 
   layout: 'Profile',

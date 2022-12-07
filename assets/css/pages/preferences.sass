@@ -254,11 +254,23 @@
 
   /* Payments Section */
   .payment-component-wrapper
-    width: 100%
+    width: 95%
     .payment-methods
       #payment-methods-card
+        .card-body
+          padding: 32px 0 0px 30px
         .card-title
           @include heading-3
+          font-family: $font-montserrat
+          margin-bottom: 4px
+
+        .card-text
+          font-family: $font-montserrat
+          font-weight: $normal
+          font-size: 14px
+          color: $color-gray-5
+        .card-text
+          line-height: 17px
 
         /* Add new payment methods button */
         .payment-methods-heading
@@ -282,7 +294,11 @@
 
         .default-payment-radios
           label
-            font-weight: normal
+            font-family: $font-montserrat
+            font-weight: $normal
+            font-size: 14px
+            color: $color-gray-5
+            line-height: 24px
   /* Payments Section Ends */
 #address-type-modal
   .modal-content
