@@ -20,7 +20,7 @@
         <!-- Input search -->
         <div
           class="search-input-col vtpc-search"
-          :class="mobileClass ? 'col-xs-10' : 'col'"
+          :class="mobileClass ? 'col-xs-11' : 'col'"
         >
           <div class="form trade-search">
             <div
@@ -54,7 +54,7 @@
         <div
           v-show="mobileClass"
           :class="
-            mobileClass ? 'col-xs-2 filter-icon-col text-center m-auto' : ''
+            mobileClass ? 'col-xs-1 filter-icon-col text-right m-auto' : ''
           "
         >
           <span class="filter-wrapper" role="button" @click="showFilter">
@@ -192,7 +192,7 @@
         </div>
       </div>
 
-      <div class="row" :class="mobileClass ? 'custom-margin' : 'mt-5'">
+      <div class="row" :class="mobileClass ? 'custom-margin px-0' : 'mt-5'">
         <div :class="`col-xs-7 ${!mobileClass ? 'placed-offer-item-col' : ''}`">
           <div class="d-flex align-items-baseline">
             <span :class="`placed-offers-items d-flex text-align-center ${mobileClass}`">
@@ -207,7 +207,7 @@
         </div>
 
         <!-- Delete offers for mobile view -->
-        <b-col v-if="mobileClass" class="col-xs-5 d-flex justify-content-end">
+        <b-col v-if="mobileClass" class="col-xs-5 d-flex justify-content-end px-0">
           <!-- Delete offers -->
           <span
             v-if="!showCheckBox"
@@ -242,7 +242,7 @@
         </b-col>
         <!-- Delete offer for mobile view ends -->
       </div>
-      <div class="row" :class="[mobileClass && 'custom-margin']">
+      <div class="row" :class="[mobileClass && 'custom-margin px-0']">
         <b-col
           v-if="mobileClass && !offers.length"
           :class="`empty-data ${mobileClass}`"
@@ -274,7 +274,7 @@
 
         <b-col
           v-if="mobileClass && responsiveData.length"
-          class="offer-received-data"
+          class="offer-received-data mx-0 px-0"
         >
           <offer-received-mobile-view
             v-for="offer in responsiveData"
@@ -763,7 +763,7 @@ export default {
   &.top-margin
     padding: 71px 2%
   .custom-margin
-    margin-top: 38px
+    margin-top: 20px
   .filter-row-bottom
     .filter-by-label,
     .offer-date-label
@@ -788,10 +788,12 @@ export default {
 
 .vendor-trade-inv-body
   background-color: $color-white-4
-  padding: 2%
+  padding-top: 2%
   // For mobile view
   &.mobile
     background-color: $color-white-1
+    padding-left: 16px
+    padding-right: 16px
 
 @media (min-width: 992px)
   .col-lg-10
