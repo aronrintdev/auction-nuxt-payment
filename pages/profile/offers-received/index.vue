@@ -93,19 +93,15 @@
         <!-- Filter By -->
         <div class="col filter-by-col">
           <label class="filter-by-label">{{ $t('selling_page.filter_by') }}</label>
-          <CustomSelect
+          <CustomSelectwithCheckbox
             id="filter-by"
-            bordered
-            :default="filterBy"
-            :threelineIcon="false"
-            :options="{
-              default: $t('selling_page.status'),
-              accepted: $t('offers_received.filter_by.accepted'),
-              rejeced: $t('offers_received.filter_by.rejected'),
-              pending: $t('offers_received.filter_by.awaiting_approval'),
-            }"
+            class="dropdown-filters"
+            :value="null"
+            :default="null"
+            :options="FILTER_BY_OPTIONS"
+            :icon-arrow-down="DownArrow"
             :title="filterByTitle"
-            @input="handleFilterByChange"
+            :updateFilters="filterBy"
           />
         </div>
         <!-- ./Filter By -->
@@ -429,7 +425,7 @@ import {
   Button,
   BulkSelectToolbar,
   Pagination,
-} from '~/components/common'
+CustomSelectwithCheckbox} from '~/components/common'
 import { AlertModal } from '~/components/modal'
 import ReceivedOffers from '~/components/profile/offers-received/ReceivedOffers'
 import { DEFAULT, NO_DATE_SELECTED, DELETE } from '~/static/constants'
@@ -437,6 +433,7 @@ import screenSize from '~/plugins/mixins/screenSize'
 import OfferReceivedMobileView from '~/components/profile/offers-received/OfferReceivedMobileView'
 import Confirmation from '~/components/profile/offers-received/Confirmation.vue'
 import MobileFilter from '~/components/profile/offers-received/MobileFilter.vue'
+import DownArrow from '~/assets/img/icons/down-arrow.svg'
 
 export default {
   name: 'OffersReceived',
@@ -450,12 +447,14 @@ export default {
     AlertModal,
     Confirmation,
     MobileFilter,
+    CustomSelectwithCheckbox,
   },
   mixins: [screenSize],
   layout: 'Profile',
   middleware: ['auth', 'vendor'],
   data() {
     return {
+      DownArrow,
       showCheckBox: false,
       filterByTitle: this.$t('selling_page.status'),
       isTableBusy: false,
@@ -466,14 +465,19 @@ export default {
       offers: [],
       searchValue: '',
       categorySelected: '', // For Sort by filter
-      filterBy: '',
+      filterBy: [],
       showSuccessMessage: null,
+      FILTER_BY_OPTIONS: [
+        { text: this.$t('offers_received.filter_by.accepted'), value: 'accepted'},
+        { text: this.$t('offers_received.filter_by.rejected'), value: 'rejected'},
+        { text: this.$t('offers_received.filter_by.awaiting_approval'), value: 'pending'},
+      ],
       searchFilters: {
         startDate: '',
         endDate: '',
         keyWord: '',
         sortBy: '',
-        filterBy: '',
+        auctionType: '',
         perPage: 8,
         page: 1,
       },
@@ -505,6 +509,18 @@ export default {
     itemSelected: (vm) => {
       return vm.selected.length > 0
     },
+  },
+  watch: {
+    filterBy: {
+      handler (val) {
+        if (val.length > 0) {
+          this.searchFilters.filterBy = val.map((item) => item.value ).toString()
+        } else {
+          this.searchFilters.filterBy = ''
+        }
+      },
+      deep: true
+    }
   },
   created() {
     this.responsiveData = []
@@ -676,7 +692,6 @@ export default {
         this.selected.splice(this.selected.indexOf(Number(id)), 1)
       }
     },
-
 
     onCancel() {
       this.showCheckBox = false
@@ -906,7 +921,7 @@ export default {
     max-width: 245px
     height: 38px
     .selected
-      height: 38px
+      height: 36px
       padding: 8px
       &::after
         top: 4px
