@@ -1,5 +1,5 @@
 <template>
-  <div v-if="activeTab === 'single-item'" class="row wishlist-products-wrapper">
+  <div class="row wishlist-products-wrapper">
     <div class="d-flex flex-column flex-shrink-0 col-12 col-sm-3">
       <section
         v-if="wishLists.length > 0"
