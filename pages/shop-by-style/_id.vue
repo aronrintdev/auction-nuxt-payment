@@ -109,8 +109,10 @@
                   noRedirect
                 >
                   <template #badge>
-                    <div class="d-flex justify-content-end">
-                      <PlusCircle @click="redirectToDetail(product)" />
+                    <div class="d-flex justify-content-end"
+                      @click="redirectToDetail(product)"
+                    >
+                      <PlusCircle />
                     </div>
                   </template>
                 </ProductCard>

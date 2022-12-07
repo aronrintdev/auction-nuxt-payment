@@ -2,13 +2,13 @@
   <b-row class="title-wrapper pb-2">
     <b-col md="12">
       <b-row>
-        <b-col md="12" class="d-flex align-items-center">
+        <b-col md="12" class="d-flex align-items-center justify-content-between">
           <span class="title body-1-medium">{{ formattedProductName }}</span>
           <b-img
             :id="`popover-wishlist-${product.id}`"
             :tooltip-text="wishList ? wishList.name : ''"
             width="18"
-            :src="require('~/assets/img/product/heart-outline.svg')"
+            :src="require('~/assets/img/icons/heart-style.svg')"
             class="d-sm-none"
             @click="removeFromWishList"
           >
