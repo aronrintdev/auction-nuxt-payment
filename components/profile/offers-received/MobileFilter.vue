@@ -13,7 +13,7 @@
     <div :class="`filter-body ${mobileClass} p-4 w-100 h-100`">
       <!-- Sort By -->
       <div v-show="filterVisibility" class="sort-by">
-        <div :class="`sort-by-filter ${mobileClass}`">
+        <div :class="`offer-received sort-by-filter ${mobileClass}`">
           <div class="header-filter">
             {{ $t('offers_received.sort') }}
           </div>
@@ -278,16 +278,17 @@ export default {
 
 <style lang="sass">
 @import '~/assets/css/_variables'
-.custom-control-label
-  &:before
-    border: solid 1px $color-black-1!important
-    background-color: $color-white!important
-    box-shadow: inset 0 0 0 rgba(1,1,1, 0)
-  &:after
-    background: 80%/80% 80% no-repeat
-    top: 0.25rem
-    left: -1.5765rem
+.offer-received
+  .custom-control-label
+    &:before
+      border: solid 1px $color-black-1!important
+      background-color: $color-white!important
+      box-shadow: inset 0 0 0 rgba(1,1,1, 0)
+    &:after
+      background: 80%/80% 80% no-repeat
+      top: 0.25rem
+      left: -1.5765rem
 
-.custom-radio .custom-control-input:checked~.custom-control-label::after
-  filter: invert(100%)
+  .custom-radio .custom-control-input:checked~.custom-control-label::after
+    filter: invert(100%)
 </style>
