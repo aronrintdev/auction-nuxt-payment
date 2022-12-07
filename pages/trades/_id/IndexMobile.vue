@@ -20,7 +20,8 @@
               </div>
             </div>
           </div>
-          <div class="center-container" :class="trade.offers.length  === ITEM_COUNT_ONE ? 'center-container-one' : 'center-container' ">
+          <div  :class="trade.offers.length  === ITEM_COUNT_ONE ? 'center-container-one'
+             : trade.offers.length  === ITEM_COUNT_TWO ?'center-container-two' : 'center-container' ">
               <div class="left-item" :class="{'right-item-margin-top':trade.offers.length === ITEM_COUNT_TWO,'left-item-one':trade.offers.length === ITEM_COUNT_ONE}">
                 <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'card-'+index : ''" :key="index" class="item mb-4">
                   <div class="image-wrapper">
@@ -60,7 +61,10 @@
                 </div>
                 <div v-if="getYourTradeItems.length === ITEM_COUNT_0 || getYourTradeItems.length < ITEM_COUNT_THREE"
                 >
-            <img class="dumy-image" :src="require('~/assets/img/trades/tradeNow.svg')">
+            <img :class="getYourTradeItems.length === ITEM_COUNT_0 ? 'dumy-image-0'
+        : getYourTradeItems.length  === ITEM_COUNT_ONE ? 'dumy-image-1'
+        : getYourTradeItems.length  === ITEM_COUNT_TWO ? 'dumy-image-2'
+        : 'dumy-image-3'" :src="require('~/assets/img/trades/tradeNow.svg')">
             </div>
               </div>
             </div>
@@ -893,6 +897,12 @@ export default {
   display: flex
   justify-content: center
 
+.center-container-two
+  min-height: 450px
+  margin: 0 30px
+  display: flex
+  justify-content: center
+
 .image-wrapper
   .overlay
     position: absolute
@@ -925,7 +935,7 @@ export default {
 .pointer-right-two-items
   height: 223px
 .right-item-margin-top
-  margin-top: 115px
+  margin-top: 60px
 .right-item-one
   margin-top: 60px
   margin-bottom: 60px
@@ -1095,6 +1105,26 @@ export default {
   width : 118px
   height : 134px
   margin-top: 60px
+  margin-bottom: 60px
+.dumy-image-0
+  width : 118px
+  height : 134px
+  margin-top: 148px
+  margin-bottom: 60px
+.dumy-image-1
+  width : 118px
+  height : 134px
+  margin-top: 60px
+  margin-bottom: 60px
+.dumy-image-2
+  width : 118px
+  height : 134px
+  margin-top: 148px
+  margin-bottom: 60px
+.dumy-image-3
+  width : 118px
+  height : 134px
+  margin-top: 148px
   margin-bottom: 60px
 .guranty-box
   margin-top : 24px
