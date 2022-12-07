@@ -8,34 +8,34 @@
     <b-row v-else>
     <b-col v-if="Object.keys(trade).length && !trade_completed" class=" p-0" :class="{'cont-height':isPayment}" :md="isPayment ? 9 : 12">
       <div>
-        <div class="text-center mb-1">
-          <div class="heading d-flex justify-content-center pt-2">{{$t('trades.trade_arena.arena')}}</div>
+        <div class="text-center mb-11px">
+          <div class="heading d-flex justify-content-center">{{$t('trades.trade_arena.arena')}}</div>
           <div class="sub-heading">{{$t('trades.trade_hub.trade_id')}}:{{ $route.params.id }}</div>
         </div>
-        <div v-if="!isPayment && !isExpire" class="share-icons position-absolute">
-          <div class="icons">
-            <div id="popover-bottom" class="mr-2">
-              <img :src="require('~/assets/img/trades/share.svg')">
-            </div>
-            <div class="">
-              <img :src="require('~/assets/img/trades/eye.svg')">
-            </div>
-          </div>
-          <b-popover target="popover-bottom" placement="bottom" triggers="click">
-            <div class="d-flex align-items-start flex-column justify-content-center h-90">
-              <span class="font-weight-bold ml-4 mb-3">{{$t('trades.trade_arena.share')}}</span>
-              <div class="social-icons">
-                <div class="twitter">
-                  <b-icon icon="twitter" class="twt-icon" role="button"></b-icon></div>
-                <b-icon icon="facebook" class="facebook" role="button"></b-icon>
-                <img :src="require('~/assets/img/instagram.png')" class="instagram" role="button">
-                <b-icon icon="link45deg" class="link-icon" role="button"></b-icon>
-              </div>
-            </div>
-          </b-popover>
-        </div>
         <div class="d-flex justify-content-center trade-values align-items-center">
-          <div class="header-values-div d-flex justify-content-between align-items-center">
+          <div class="header-values-div d-flex justify-content-between align-items-center position-relative">
+            <div v-if="!isPayment && !isExpire" class="share-icons position-absolute">
+              <div class="d-flex">
+                <div id="popover-bottom" class="share-icon-margin">
+                  <img :src="require('~/assets/img/trades/share.svg')">
+                </div>
+                <div class="">
+                  <img :src="require('~/assets/img/trades/eye.svg')">
+                </div>
+              </div>
+              <b-popover target="popover-bottom" placement="bottom" triggers="click">
+                <div class="d-flex align-items-start flex-column justify-content-center h-90">
+                  <span class="font-weight-bold ml-4 mb-3">{{$t('trades.trade_arena.share')}}</span>
+                  <div class="social-icons">
+                    <div class="twitter">
+                      <b-icon icon="twitter" class="twt-icon" role="button"></b-icon></div>
+                    <b-icon icon="facebook" class="facebook" role="button"></b-icon>
+                    <img :src="require('~/assets/img/instagram.png')" class="instagram" role="button">
+                    <b-icon icon="link45deg" class="link-icon" role="button"></b-icon>
+                  </div>
+                </div>
+              </b-popover>
+            </div>
             <div class="their-value text-center">
               <div>{{$t('trades.their_value')}}</div>
               <div class="their-value-text">{{theirTotal()}}</div>
@@ -75,31 +75,39 @@
         </div>
         <div :class="{'timings-left' : isPayment}">
         </div>
-        <div class="center-container" :class="{'center-cont-height':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_ONE) , 'center-container-margin': isPayment, 'mt-5': isExpire, 'pt-5': isExpire }">
-          <div class="left-item" :class="{'left-item-margin':trade.offers.length == ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0}">
-            <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'item-'+index : ''" :key="index" class="item" :class="[((trade.offers.length > ITEM_COUNT_ONE )|| (getYourTradeItems.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
+        <div class="d-flex" :class="{'center-cont-height':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_ONE) , 'center-container-margin': isPayment, 'mt-5': isExpire, 'pt-5': isExpire,
+        'margin-one-item': (trade.offers.length === ITEM_COUNT_ONE && (getYourTradeItems.length === ITEM_COUNT_ONE ||  getYourTradeItems.length === ITEM_COUNT_0)),
+        'margin-one-vs-two': (trade.offers.length === ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0 ),
+        'margin-two-vs-one': (trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 ),
+        'margin-two-vs-two': (trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0 ),
+        }">
+          <div class="left-item" :class="{'left-item-margin':trade.offers.length == ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0,
+          'lft-mt-one': trade.offers.length == ITEM_COUNT_ONE,'lft-mt-two': trade.offers.length > ITEM_COUNT_ONE
+          }">
+            <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'item-'+index : 'items-'+index" :key="index" class="item" :class="[((trade.offers.length > ITEM_COUNT_ONE )|| (getYourTradeItems.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
               <div class="image-wrapper position-relative">
               <img class="item-image" :src="item.inventory.product | getProductImageUrl" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
               <div class="overlay"></div>
               </div>
               <div class="item-caption">
                 <span class="item-name">{{ item.inventory.product.name}}</span>
-                <span class="item-box-condition">{{$t('trades.trade_arena.box_condition')}}: {{ item.inventory.packaging_condition.name }}</span>
-                <span class="item-caption-description">{{ item.inventory.product.colorway }}</span>
-                <span class="item-size">{{$t('trades.trade_arena.size')}} {{ item.inventory.size.size }}</span>
+                <span class="item-size">{{ item.inventory.product.colorway }},{{$t('trades.trade_arena.size')}} {{ item.inventory.size.size }}</span>
+                <span class="item-box-condition">{{$t('common.box')}}: {{ item.inventory.packaging_condition.name }}</span>
               </div>
             </div>
           </div>
-          <div class="center-item">
+          <div class="center-item mt-268px">
             <div v-if="trade.offers.length > ITEM_COUNT_ONE" class="pointer-left"></div>
             <div class="long-line" :class="{'long-line-length' : trade.offers.length == ITEM_COUNT_ONE }"></div>
             <img :src="require('~/assets/img/trades/border.svg')" />
             <div class="long-line" :class="{'long-line-length' : getYourTradeItems.length == ITEM_COUNT_0  }"></div>
             <div v-if="getYourTradeItems.length > ITEM_COUNT_0" class="pointer-right"></div>
           </div>
-          <div class="right-item" :class="{'right-item-margin':trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 }">
+          <div class="right-item" :class="{'right-item-margin':trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0,
+           'rt-mt-one': getYourTradeItems.length === ITEM_COUNT_0,'rt-mt-two': getYourTradeItems.length > ITEM_COUNT_0
+           }">
             <div  v-if="getYourTradeItems.length" class="">
-              <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_ONE ?'your-item-'+index : 'your-item'" :key="index" class="preview item-length mb-4" :class="{'yml': isPayment && getYourTradeItems.length > ITEM_COUNT_TWO}">
+              <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_ONE ?'your-item-'+index : 'your-items-'+index" :key="index" class="preview item-length" :class="{'yml': isPayment && getYourTradeItems.length > ITEM_COUNT_TWO}">
                 <div class="remove-item" @click="decrementOrRemoveItem(item)">
                   <div class="minus"></div>
                 </div>
@@ -110,9 +118,8 @@
                 </div>
                 <div class="item-caption">
                   <span class="item-name">{{  (item.product && item.product.name) ? item.product.name : item.name  }}</span>
-                  <span class="item-box-condition">{{$t('trades.trade_arena.box_condition')}}: {{  (item.box_condition && item.box_condition.name) ? item.box_condition.name :item.box_condition }}</span>
-                  <span class="item-caption-description">{{  (item.product  && item.product.colorway) ? item.product.colorway : item.colorway }}</span>
-                  <span class="item-size">{{$t('trades.trade_arena.size')}} {{ item.size && item.size.size }}</span>
+                  <span class="item-caption-description">{{  (item.product  && item.product.colorway) ? item.product.colorway : item.colorway }},{{$t('trades.trade_arena.size')}} {{ item.size && item.size.size }}</span>
+                  <span class="item-box-condition">{{$t('common.box')}}: {{  (item.box_condition && item.box_condition.name) ? item.box_condition.name :item.box_condition }}</span>
                 </div>
               </div>
             </div>
@@ -123,7 +130,7 @@
             </div>
           </div>
         </div>
-        <div class="d-flex flex-column align-items-center mb-4">
+        <div class="d-flex flex-column align-items-center mb-4 mt-75px">
           <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
             <span class="fair-trade-label"></span>
             <Meter :fair="getFairTradeValue()" heading="trades.trade_arena.fair_trade_meter" :highest="theirTotal(false)" :lowest="0" :value="yourTotal(false)"/>
@@ -891,9 +898,11 @@ export default {
   color: $color-black-1
   width: unset
   height: unset
+  padding-top: 25px
 .sub-heading
   line-height: 130%
   color: $color-gray-5
+  font-weight: $normal
 .width-156
   min-width: 156px
   background: $color-white-1
@@ -927,6 +936,7 @@ export default {
   border-radius: 4px
   box-shadow: inset 0px 6px 9px $color-gray-100
   padding-left: 20px
+  margin-right: 10px
 
 .input-mt
   margin-top: 7px
@@ -957,17 +967,28 @@ export default {
   border-radius: 0
 
 .image-wrapper
-  height: 220px
+  height: 221px
   background: $color-white-4
 
 #item-0
-  margin-top: 130px
+  margin-top: 144px
+  margin-left: 223px
+#item-1
+  margin-bottom: 10px
+#items-0
+  margin-bottom: 10px
 #your-item-0
-  margin-top: 130px
+  margin-top: 144px
+  margin-left: -223px
+#your-item-1
+  margin-bottom: 10px
+#your-items-0
+  margin-bottom: 10px
 .header-values-div
   background: $color-white-4
   border-radius: 4px
   height: 72px
+  width: 935px
 
 .their-value
   font-family: $font-family-montserrat
@@ -986,12 +1007,12 @@ export default {
   padding: 0 17px
   border-left: 0.5px solid $color-white-20
 .time-val
-  font-family: $font-family-sf-pro-display
+  font-family: $font-family-montserrat
   font-style: normal
   @include body-17-medium
   color: $color-gray-5
 .time-text
-  font-family: $font-family-sf-pro-display
+  font-family: $font-family-montserrat
   font-style: normal
   font-weight: $light
   @include body-6
@@ -1018,6 +1039,8 @@ export default {
   background: $color-grey-70
 .item-caption
   background: $color-white-1
+  min-height: 59px
+
 #item-1
   margin-bottom: 30px
 .right-item-margin,.left-item-margin
@@ -1038,25 +1061,10 @@ export default {
 .remove-item
   z-index: 100
 .share-icons
-  right: 11.4%
-  margin-top: -30px
+  right: 0
+  top: -35px
   z-index: 10
-  @media (min-width: 1600px) and (max-width: 1700px)
-    right: 15%
-  @media (min-width: 1701px) and (max-width: 1800px)
-    right: 16%
-  @media (min-width: 1801px) and (max-width: 1901px)
-    right: 18%
-  @media (min-width: 1901px) and (max-width: 2000px)
-    right: 20%
-  @media (min-width: 2001px) and (max-width: 2100px)
-    right: 22%
-  @media (min-width: 2101px) and (max-width: 2200px)
-    right: 24%
-  @media (min-width: 2201px) and (max-width: 2400px)
-    right: 26%
-  @media (min-width: 2401px) and (max-width: 2900px)
-    right: 30%
+
 .fair-trade-division
   border: unset
 .active
@@ -1134,10 +1142,6 @@ export default {
   text-overflow: ellipsis
   overflow: hidden
   width: 185px
-.center-container
-  display: flex
-  justify-content: center
-  margin: 45px 10%
 .center-cont-height
   min-height: 545px
 .center-container-margin
@@ -1146,17 +1150,51 @@ export default {
   display: flex
   justify-content: space-between
   align-items: center
-  padding-top: 21px
-  margin: 0 10px
-  min-width: 435px
+  padding-top: unset
+  margin: unset
+  min-width: unset
   width: unset
-  max-width: 780px
+  height: 59px
 .long-line
   border: 0.5px solid $color-gray-23
-  width: 50px
+  width: 24px
+  margin-left: 16px
+  margin-right: 16px
+
 .pointer-left,.pointer-right
-  height: 340px
-  width: 275px
+  height: 338px
+  width: 236px
+.pointer-right
+  margin-right: 16px
+.pointer-left
+  margin-left: 16px
 .long-line-length
-  width: 190px
+  width: 51px
+.share-icon-margin
+  margin-right: 20px
+.mb-11px
+  margin-bottom: 11px
+.margin-one-item
+  margin: 0 405px
+.margin-one-vs-two
+  margin-left: 405px
+  margin-right: 181px
+.margin-two-vs-one
+  margin-right: 405px
+  margin-left: 181px
+.margin-two-vs-two
+  margin: 0 181px
+.lft-mt-one,.rt-mt-one
+  margin-top: 157px
+.mt-75px
+  margin-top: 75px
+.mt-268px
+  margin-top: 268px
+.optional-text
+  margin-top: 19px
+.optional-input > button
+  margin-left: unset
+  width: 75px
+.rt-mt-two,.lft-mt-two
+  margin-top: 12px
 </style>
