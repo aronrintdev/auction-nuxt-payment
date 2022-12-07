@@ -320,6 +320,7 @@
             :selected="selected"
             @reloadOffers="getOffers"
             @selectedItem="selectedItem"
+            @sort="sortItems"
           />
           <Pagination
             v-model="searchFilters.page"
@@ -485,7 +486,9 @@ export default {
       hideSelectConfirm: false,
       handleDelete: false,
       pageCount: 0,
-      responsiveData: []
+      responsiveData: [],
+      orderByField: 'id',
+      orderByDirection: 'asc',
     }
   },
 
@@ -519,7 +522,11 @@ export default {
       this.isTableBusy = true
       this.$axios
         .get('/offers-received', {
-          params: this.searchFilters,
+          params: {
+            ...this.searchFilters,
+            order_by_column: this.orderByField,
+            order_by_direction: this.orderByDirection,
+          }
         })
         .then((res) => {
           this.responsiveData.push(...res.data.data)
@@ -749,7 +756,15 @@ export default {
     reloadData(){
       this.searchFilters.page = 1
       this.getOffers()
-    }
+    },
+
+    sortItems(sort) {
+      const { orderByField, orderByDirection } = sort
+      this.orderByField = orderByField
+      this.orderByDirection = orderByDirection
+      this.searchFilters.page = 1
+      this.getOffers()
+    },
   },
 }
 </script>
