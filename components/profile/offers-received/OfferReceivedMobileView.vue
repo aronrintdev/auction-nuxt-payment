@@ -91,10 +91,10 @@
     </div>
     <div class="row product-offer-details">
       <div class="col-xs-12 d-flex justify-content-between list-item-details">
-        <span class="offer-details-key my-auto mx-2">
+        <span class="offer-details-key my-auto">
           {{ $t('selling_page.offer_amount') }}&colon;
         </span>
-        <span class="offer-details-value text-right my-auto mx-2">{{
+        <span class="offer-details-value text-right my-auto">{{
           offerAmount | toCurrency('USD', 'N/A')
         }}</span>
       </div>
@@ -389,6 +389,7 @@ export default {
       font-style: normal
       @include body-9-medium
       color: $color-black-1
+      padding-left: 14px
 
     .offer-details-value
       font-family: $font-montserrat
@@ -396,9 +397,11 @@ export default {
       @include body-9-normal
       color: $color-gray-6
       box-sizing: border-box
+      padding-left: 14px
 
   .product-mobile-img
     width: 86px
+    margin-left: 14px
 
   .product-mobile-details
     .custom-height
@@ -424,11 +427,13 @@ export default {
       font-style: normal
       @include body-6-normal
       color: $color-gray-5
+      margin-top: 2px
     .product-condition
       font-family: $font-sp-pro
       font-style: normal
       @include body-6-normal
       color: $color-gray-6
+      margin-top: 2px
   .decline-btn
     box-sizing: border-box
     border: 1px solid $color-red-25
