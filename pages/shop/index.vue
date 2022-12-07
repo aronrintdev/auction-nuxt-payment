@@ -25,7 +25,7 @@
             to="/shop/products?type=recent"
             full-width
           />
-          <ProductCarousel
+          <ProductShopCarousel
             class="mt-4 mb-5"
             :products="recentProducts"
             showArrows
@@ -39,7 +39,7 @@
             to="/shop/products?type=new-release"
             full-width
           />
-          <ProductCarousel class="mt-4 mb-5" :products="newRelease" loop />
+          <ProductShopCarousel class="mt-4 mb-5" :products="newRelease" loop />
         </section>
         <section class="trending">
           <SectionHeader
@@ -48,7 +48,7 @@
             to="/shop/products?type=trending"
             full-width
           />
-          <ProductCarousel class="mt-4 mb-5" :products="trendingPRoducts" loop />
+          <ProductShopCarousel class="mt-4 mb-5" :products="trendingPRoducts" loop />
         </section>
         <section class="ad-banner">
           <AdBanner class="d-block d-md-none" />
@@ -60,7 +60,7 @@
             to="/shop/products?type=instant-shipping"
             full-width
           />
-          <ProductCarousel class="mt-4 mb-5" :products="instantShippingProducts" loop>
+          <ProductShopCarousel class="mt-4 mb-5" :products="instantShippingProducts" loop>
             <template #product>
               <div
                 v-for="(product, index) in products"
@@ -80,7 +80,7 @@
                 </ProductCard>
               </div>
             </template>
-          </ProductCarousel>
+          </ProductShopCarousel>
         </section>
       </div>
       <div v-else>
@@ -108,6 +108,7 @@ import { NavGroup } from '~/components/common'
 import ProductCard from '~/components/product/Card'
 import Badge from '~/components/product/Badge'
 import SearchAndFilter from '~/components/shop/SearchAndFilter'
+import ProductShopCarousel from '~/components/shop/ProductCarousel'
 
 export default {
   components: {
@@ -117,6 +118,7 @@ export default {
     AdBanner,
     ShopFilters,
     SearchAndFilter,
+    ProductShopCarousel
   },
   layout: 'IndexLayout',
   fetchOnServer: false,
@@ -135,7 +137,7 @@ export default {
       loading: false,
       loadingFilter: false,
       prices:null,
-      perPage: 4,
+      perPage: 12,
       page: 1,
       recentProducts: [],
       newRelease: [],
@@ -204,7 +206,7 @@ export default {
       }
       filters.desc = this.selectedOrdering
 
-      filters.take = 4
+      filters.take = this.perPage
       this.getRecentProducts(filters)
       this.getNewRelease(filters)
       this.getTrending(filters);
@@ -310,4 +312,8 @@ export default {
 ::v-deep .section-header
   @media (max-width: 576px)
     margin: 30px 12.5px
+.container-shop
+  @media (min-width: 576px)
+    margin: 0px 60px
+
 </style>
