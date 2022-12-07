@@ -129,6 +129,9 @@ import Meter from '~/components/common/Meter'
 import {DEFAULT_FAIR_TRADE_VALUE} from '~/static/constants/trades';
 export default {
   name: 'TradeItem',
+  components: {
+    Meter,
+  },
 
   props: {
     orderDetails: {
@@ -136,9 +139,6 @@ export default {
       default: () => {},
       required: true,
     },
-  },
-  components: {
-    Meter,
   },
   data() {
     return {

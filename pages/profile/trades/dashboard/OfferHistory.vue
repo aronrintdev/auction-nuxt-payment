@@ -191,9 +191,6 @@ export default {
       width:'',
     }
   },
-  mounted() {
-    this.width = window.innerWidth
-  },
   computed: {
     isLastOfferMine() {
       const offer = this.offerHistory.offer_history[this.offerHistory.offer_history.length - 1]
@@ -202,6 +199,9 @@ export default {
       }
       return false
     }
+  },
+  mounted() {
+    this.width = window.innerWidth
   },
   methods: {
     cashRequested(offer){

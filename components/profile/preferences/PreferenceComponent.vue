@@ -1,7 +1,7 @@
 <template>
   <b-col cols="12">
     <!-- Parent Component for Preferences -->
-    <b-row class="mt-md-4 mt-4">
+    <b-row class="m-0">
       <profile-component v-if="activeNav === 'profile'" />
       <payment-component v-else />
     </b-row>
