@@ -1,10 +1,10 @@
 <template>
   <div :class="isMobileSize ? 'd-block' : 'd-flex'">
-    <div :class="isMobileSize ? 'w-100' : 'w-50'">
+    <div :class="isMobileSize ? 'w-100' : ''">
       <img :src="image" class="left-image"
-           :class="{'h-100' : isMobileSize }">
+           :class="isMobileSize ? 'h-100' : 'web-img'">
     </div>
-      <div :class="isMobileSize ? 'position-relative p-3' : 'w-50 d-flex flex-grow-1 p-1'">
+    <div :class="isMobileSize ? 'position-relative p-3' : 'w-100 flex-grow-1'">
         <div :class="{'content' : !isMobileSize}">
           <h3 class="title-application mb-4 px-md-5 mx-md-3" :class="{'mobile': isMobileSize}">
             {{$t('vendor_hub.application_revieved')}}
@@ -73,4 +73,8 @@ export default {
   flex-direction: column
   justify-items: center
   justify-content: center
+
+.web-img
+  width: 528px
+  height: 770px
 </style>
