@@ -9,7 +9,7 @@
           <div class="d-flex justify-content-between price-container">
             <div class="theirs-total d-flex align-items-center">
               <img class="list-icon" :src="require('~/assets/img/trades/list-icon.svg')">
-              <div class="price-text">
+              <div class="price-text" @click="leftDataShow = !leftDataShow">
                 {{$t('trades.trade_arena.theirs')}}: {{theirTotal()}}
               </div>
             </div>
@@ -22,7 +22,23 @@
           </div>
           <div  :class="trade.offers.length  === ITEM_COUNT_ONE ? 'center-container-one'
              : trade.offers.length  === ITEM_COUNT_TWO ?'center-container-two' : 'center-container' ">
-              <div class="left-item" :class="{'right-item-margin-top':trade.offers.length === ITEM_COUNT_TWO,'left-item-one':trade.offers.length === ITEM_COUNT_ONE}">
+            <div v-if="leftDataShow" class="left-item" :class="{'right-item-margin-top':trade.offers.length === ITEM_COUNT_TWO,'left-item-one':trade.offers.length === ITEM_COUNT_ONE}">
+                <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'card-'+index : ''" :key="index" class="item mb-4">
+                  <div class="image-wrapper">
+                    <img class="pro-image" :src="getProductImageUrl(item.inventory.product)"/>
+                    <div class="overlay-black"></div>
+                    <div class="item-caption-black">
+                    <span class="wants-size-hover">{{ item.inventory.product.name}}</span>
+                    <div class="wants-size-hover">{{item.inventory.product.colorway}},{{$t('trades.trade_arena.size')}} {{item.inventory.size.size}}</div>
+                    <div class="wants-box-hover">Box: {{item.inventory.packaging_condition.name}}</div>
+                    <div></div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div v-else class="left-item" :class="{'right-item-margin-top':trade.offers.length === ITEM_COUNT_TWO,'left-item-one':trade.offers.length === ITEM_COUNT_ONE}">
                 <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'card-'+index : ''" :key="index" class="item mb-4">
                   <div class="image-wrapper">
                     <img class="pro-image" :src="getProductImageUrl(item.inventory.product)"/>
@@ -33,6 +49,13 @@
                   </div>
                 </div>
               </div>
+
+
+
+
+
+
+
               <div class="center-item">
                 <div v-if="trade.offers.length > ITEM_COUNT_ONE" class="pointer-left" :class="{'pointer-right-two-items':trade.offers.length === ITEM_COUNT_TWO}"></div>
                 <div class="position-relative center-img d-flex justify-content-between">
@@ -263,6 +286,7 @@ export default {
       cashTypeAdded:CASH_TYPE_ADDED,
       cashTypeReq:CASH_TYPE_REQUESTED,
       addCash: false,
+      leftDataShow:false,
     }
   },
   head() {
@@ -337,7 +361,10 @@ export default {
       }
       return this.tradeCondition === FILTER_CONDITION_POOR
     },
-
+    showLeftBox(){
+      console.log('come')
+     this.leftDataShow = true
+    },
     getFairTradeValue(){
       return (this.theirTotal(false) * this.fairTradePercentage)
     },
@@ -852,6 +879,15 @@ export default {
   font-weight: $light
   font-family: $font-sp-pro
   font-style: normal
+.item-name-hover
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $regular
+  font-size: 11px
+  color: $color-white-1
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
 
 .center-item
   min-width: 10px
@@ -914,7 +950,13 @@ export default {
     width: 100%
     height: 100%
     background: $color-grey-70
-
+  .overlay-black
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: #0c0c0ccf
 .pro-image
   width: 117px
   height: 100%
@@ -1076,6 +1118,17 @@ export default {
   text-overflow: ellipsis
   overflow: hidden
   white-space: nowrap
+
+.wants-size-hover,.wants-box-hover
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $regular
+  font-size: 12px
+  line-height: 130%
+  color: $color-white-1
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
 .wants-heading
   font-family: $font-family-montserrat
   font-style: normal
@@ -1149,4 +1202,8 @@ export default {
 .next-btns
   background: #667799
   border-radius: 21px
+.item-caption-black
+  position: relative
+  top: -100px
+  padding: 10px
 </style>
