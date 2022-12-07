@@ -18,6 +18,13 @@
           </h3>
       </div>
     </div>
+    <template v-if="isMobileSize">
+      <Portal to="back-icon-slot">
+        <nuxt-link to="/profile/vendor-hub/apply">
+          <img src="~/assets/img/icons/back.svg" />
+        </nuxt-link> </Portal>
+      <Portal to="page-title">{{ $t('home.become_a_vendor') }}</Portal>
+    </template>
   </div>
 </template>
 
