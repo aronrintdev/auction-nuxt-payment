@@ -85,9 +85,11 @@
           'lft-mt-one': trade.offers.length == ITEM_COUNT_ONE,'lft-mt-two': trade.offers.length > ITEM_COUNT_ONE
           }">
             <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'item-'+index : 'items-'+index" :key="index" class="item" :class="[((trade.offers.length > ITEM_COUNT_ONE )|| (getYourTradeItems.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
-              <div class="image-wrapper position-relative">
+              <div class="image-wrapper position-relative d-flex align-items-center justify-content-center">
+              <div class="position-relative image-thumb-are">
               <img class="item-image" :src="item.inventory.product | getProductImageUrl" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
               <div class="overlay"></div>
+              </div>
               </div>
               <div class="item-caption">
                 <span class="item-name">{{ item.inventory.product.name}}</span>
@@ -111,10 +113,12 @@
                 <div class="remove-item" @click="decrementOrRemoveItem(item)">
                   <div class="minus"></div>
                 </div>
-                <div class="image-wrapper position-relative">
+                <div class="image-wrapper position-relative d-flex align-items-center justify-content-center">
+                <div class="position-relative image-thumb-are">
                 <img v-if="item.product" class="item-image" :src="item.product | getProductImageUrl" alt="image" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
                 <img v-else class="item-image" :src="item | getProductImageUrl" alt="image" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
                 <div v-if="item.product" class="overlay"></div>
+                </div>
                 </div>
                 <div class="item-caption">
                   <span class="item-name">{{  (item.product && item.product.name) ? item.product.name : item.name  }}</span>
@@ -138,7 +142,7 @@
           <span v-if="!cash_added && !isExpire" class="optional-text"><span :class="{'active': addCash}" @click="setCashType(addCashType)">{{$t('trades.add_cash')}}</span><span class="ml-4" :class="{'active': !addCash}" @click="setCashType(requestCashType)">{{$t('trades.request_cash')}}</span></span>
           <div v-if="!cash_added && !isExpire" class="optional-input d-flex">
             <div class="position-relative">
-            <span v-if="optional_cash" class="position-absolute input-mt ml-2">$</span>
+            <span  class="position-absolute input-mt ml-2">$</span>
             <input v-model="optional_cash" type="number" :placeholder="$t('trades.trade_arena.enter_amount_usd')" class="optional-input-field">
             </div>
             <button @click="addOptionalCash(true)">{{$t('trades.trade_arena.confirm')}}</button>
@@ -382,7 +386,7 @@ export default {
       ],
       totalOffersReceived: 0,
       MAX_ITEMS_ALLOWED,
-      optional_cash: '0.00',
+      optional_cash: null,
       cash_added: 0,
       searchedItems: [],
       itemListingId: 0,
@@ -969,6 +973,7 @@ export default {
 .image-wrapper
   height: 221px
   background: $color-white-4
+  padding: 10px
 
 #item-0
   margin-top: 144px
@@ -1027,9 +1032,7 @@ export default {
   max-height: 280px
   min-height: 280px
 .item-image
-  width: 191px
   height: auto
-  margin-left: 6px
 .overlay
   position: absolute
   top: 0
@@ -1081,7 +1084,7 @@ export default {
   border: 1px solid $color-black-1
   color: $color-gray-56
   @include body-13-medium
-  margin-top: 180px
+  margin-top: 181px
 .trade-footer
   background: unset
 .expired
@@ -1197,4 +1200,6 @@ export default {
   width: 75px
 .rt-mt-two,.lft-mt-two
   margin-top: 12px
+.image-thumb-are
+  background: $color-white-4
 </style>
