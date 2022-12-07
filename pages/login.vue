@@ -1,11 +1,11 @@
 <template>
   <b-row v-if="Object.keys(credentials).length">
-    <b-col  lg="12" class="w-100 py-5 px-5 px-md-0">
+    <b-col lg="12" class="w-100 py-5 px-5 px-md-0">
       <TwoFaVerificationCodeForm
-            v-if="Object.keys(credentials).length"
-            :credentials="credentials"
-            class="mt-1 w-100"
-          />
+        v-if="Object.keys(credentials).length"
+        :credentials="credentials"
+        class="mt-1 w-100"
+      />
     </b-col>
   </b-row>
   <b-row v-else class="w-100">
@@ -15,15 +15,16 @@
           md="7"
           offset-md="3"
           class="d-flex flex-column align-items-center justify-content-center"
-          >
-            <b-row
-              class="justify-content-center flex-column align-items-center"
-              ><b-row class="mb-4">
+        >
+          <b-row class="justify-content-center flex-column align-items-center"
+            ><b-row class="mb-1">
               <b-col md="12">
                 <div class="right-heading-bold text-center d-none d-lg-flex">
                   {{ $t('auth.login_to_your_account') }}
                 </div>
-                <div class="body-5-normal text-color-gray-38 text-center mt-3 d-none d-lg-block">
+                <div
+                  class="body-5-normal text-color-gray-38 text-center mt-3 d-none d-lg-block"
+                >
                   {{ $t('auth.login_via_social_media') }}
                 </div>
               </b-col>
@@ -31,8 +32,11 @@
             <b-row class="mb-3">
               <b-col md="12">
                 <div class="text-center main-mobile-image d-block d-lg-none">
-                  <nuxt-link to='/'>
-                    <b-img :src="require('~/assets/img/home/logo-mb.png')" class="ds-logo pt-1 img-main" />
+                  <nuxt-link to="/">
+                    <b-img
+                      :src="require('~/assets/img/home/logo-mb.png')"
+                      class="ds-logo pt-1 img-main"
+                    />
                   </nuxt-link>
                 </div>
                 <div class="welcome-back-text text-center d-block d-lg-none">
@@ -43,15 +47,17 @@
 
             <div class="toggler-main d-lg-none">
               <span class="signup-btn" role="button" @click="singupPage">
-                {{$t('auth.create_an_account')}}
+                {{ $t('auth.create_an_account') }}
               </span>
               <button class="login-btn">
-                {{$t('auth.login')}}
+                {{ $t('auth.login') }}
               </button>
             </div>
-            <SocialLoginButtons class="mt-4 d-none d-lg-block"/>
+            <SocialLoginButtons class="d-none d-lg-block" />
 
-            <b-row class="my-2 w-100 order-1 order-lg-3 px-4 px-lg-0 mt-5 d-none d-lg-block">
+            <b-row
+              class="mb-3 w-100 order-1 order-lg-3 px-4 px-lg-0 mt-5 d-none d-lg-block"
+            >
               <b-col md="12">
                 <div class="text-line-middle">
                   <span
@@ -63,9 +69,12 @@
               </b-col>
             </b-row>
           </b-row>
-          <LoginForm class="mt-4 w-100 d-flex ml-auto px-2" @verify="handleVerify" />
+          <LoginForm
+            class="mt-5 w-100 d-flex ml-auto px-2"
+            @verify="handleVerify"
+          />
 
-          <b-row class="mt-2 w-100">
+          <b-row class="mt-3 w-100">
             <b-col md="12" class="text-center py-md-4">
               <b-link
                 class="text-color-gray-47 text-decoration-underline forgot-pass-text ml-3"
@@ -77,18 +86,18 @@
           </b-row>
           <b-col md="12 d-lg-none pt-5 pb-3 ml-auto mt-5">
             <div class="text-line-middle pl-2">
-              <span
-                class="body-4-bold text-color-gray-22 text-uppercase mx-3"
-              >
-              {{ $t('auth.or') }}
+              <span class="body-4-bold text-color-gray-22 text-uppercase mx-3">
+                {{ $t('auth.or') }}
               </span>
             </div>
           </b-col>
-          <div class="body-5-normal text-color-gray-38 text-center mt-2 d-block d-lg-none">
+          <div
+            class="body-5-normal text-color-gray-38 text-center mt-2 d-block d-lg-none"
+          >
             {{ $t('auth.login_via_social_media') }}
           </div>
 
-          <SocialLoginButtons class="mt-4 d-block d-lg-none mb-5 p-0"/>
+          <SocialLoginButtons class="mt-4 d-block d-lg-none mb-5 p-0" />
 
           <b-row class="mt-4 mb-5 d-none d-lg-block">
             <b-col md="12 mb-5">
@@ -123,7 +132,7 @@
             {{ $t('auth.new_to_deadstock') }}&quest;
           </div>
           <div
-            class="body-1-normal text-color-black-1 text-pre-line text-center mt-4"
+            class="body-1-normal text-color-black-1 text-pre-line text-center"
           >
             {{ $t('auth.signup_and_buy') }}
           </div>
@@ -156,8 +165,13 @@ import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 
 export default {
   name: 'Login',
-  components: { TwoFaVerificationCodeForm, LoginForm, SocialLoginButtons, Button },
-  mixins: [ screenSize ],
+  components: {
+    TwoFaVerificationCodeForm,
+    LoginForm,
+    SocialLoginButtons,
+    Button,
+  },
+  mixins: [screenSize],
   layout: 'Auth',
   data() {
     return {
@@ -167,7 +181,7 @@ export default {
   computed: {
     isResponsive(vm) {
       return vm.isScreenXS || vm.isScreenSM
-    }
+    },
   },
   beforeMount() {
     this.$root.$emit('hide-header', { hideHeader: true })
@@ -182,7 +196,7 @@ export default {
     this.$root.$emit('hide-footer', { hideFooter: false })
   },
   methods: {
-    singupPage(){
+    singupPage() {
       this.$router.push({
         path: '/signup',
       })

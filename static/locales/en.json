@@ -273,7 +273,7 @@
     "terms": "Terms",
     "privacy": "Privacy",
     "verify": "Verify",
-    "login_to_your_account": "Log in to your Account",
+    "login_to_your_account": "Log in to Your Account",
     "login_via_social_media": "Log in via Social Media",
     "forgot_password": "Forgot Password",
     "new_to_deadstock": "New to Deadstock",
@@ -5886,7 +5886,7 @@
     "save_for_later": "Save for later"
   },
   "offers_received": {
-    "offers"  : "Offers",
+    "offers": "Offers",
     "heading": "Offers Received",
     "your_placed_offers": "Your Received Offers ({count})",
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
