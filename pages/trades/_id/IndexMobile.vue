@@ -63,6 +63,7 @@
                 >
             <img :class="trade.offers.length  === ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 ? 'dumy-image'
               : trade.offers.length  === ITEM_COUNT_TWO  && getYourTradeItems.length === ITEM_COUNT_0 ? 'dumy-image-0'
+              : trade.offers.length  === ITEM_COUNT_THREE  && getYourTradeItems.length === ITEM_COUNT_0 ? 'dumy-image-03'
         : getYourTradeItems.length  === ITEM_COUNT_ONE ? 'dumy-image-1'
         : getYourTradeItems.length  === ITEM_COUNT_TWO ? 'dumy-image-2'
         : 'dumy-image-3'" :src="require('~/assets/img/trades/tradeNow.svg')">
@@ -888,10 +889,11 @@ export default {
   width: 40px
 
 .center-container
-  min-height: 550px
+  min-height: 450px
   margin: 0 15px
   display: flex
   justify-content: center
+  margin-bottom: 140px
 .center-container-one
   min-height: 100px
   margin: 0 30px
@@ -1123,6 +1125,11 @@ export default {
   margin-top: 148px
   margin-bottom: 60px
 .dumy-image-3
+  width : 118px
+  height : 134px
+  margin-top: 148px
+  margin-bottom: 60px
+.dumy-image-03
   width : 118px
   height : 134px
   margin-top: 148px
