@@ -116,7 +116,8 @@
         :data="tabs"
         @change="handleTabs"
       />
-      <div class="row wishlist-products-wrapper">
+      <shop-by-style-wish-list v-if="activeTab === 'shop-by-style'"></shop-by-style-wish-list>
+      <div v-if="activeTab === 'single-item'" class="row wishlist-products-wrapper">
         <div class="d-flex flex-column flex-shrink-0 col-12 col-sm-3">
           <section
             v-if="wishLists.length > 0"
@@ -361,7 +362,7 @@ import screenSize from '~/plugins/mixins/screenSize'
 import MobileCreateWishListModal from '~/components/mobile/MobileCreateWishList'
 import MobileEditWishListModal from '~/components/mobile/MobileEditWishList'
 import { ConfirmModal } from '~/components/modal'
-
+import ShopByStyleWishList from '~/components/wish-list/ShopByStyleWishList.vue'
 export default {
   name: 'WishLists',
   components: {
@@ -377,6 +378,7 @@ export default {
     MobileCreateWishListModal,
     ConfirmModal,
     MobileEditWishListModal,
+    ShopByStyleWishList,
   },
   mixins: [screenSize],
   layout: 'Profile',
