@@ -6,70 +6,115 @@
   >
     <div
       v-if="!isScreenXS"
-      class="font-primary body-9-normal text-gray-24"
+      class="font-primary body-9-normal text-gray-24 mb-19"
       role="button"
       @click="$router.push('/profile/vendor-dashboard/products')"
     >
       &lt; {{ $t('common.back') }}
     </div>
 
-    <div
-      :class="{
-        mobile: isScreenXS,
-        'mr-59': !isScreenXS,
-      }"
-      class="chart-card bg-white br-10 p-1 p-sm-4"
-    >
+    <div class="d-flex">
       <div
-        :class="{
+          :class="{
+        mobile: isScreenXS,
+        'mr-31 flex-grow-1': !isScreenXS,
+      }"
+          class="chart-card bg-white br-10 p-1 p-sm-4"
+      >
+        <div
+            :class="{
           'm-padding-title': isScreenXS,
         }"
-        class="d-flex align-items-center justify-content-between"
-      >
-        <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
-          {{ $tc('vendor_dashboard.total_sales', 1) }}
-        </h1>
+            class="d-flex align-items-center justify-content-between"
+        >
+          <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
+            {{ $tc('vendor_dashboard.total_sales', 1) }}
+          </h1>
 
-        <div class="dropdownSelect d-none d-sm-block">
-          <CustomSelect
-            :default="filterBy"
-            :options="chartFilterOptions"
-            :threelineIcon="false"
-            :title="filterByTitle"
-            class="dropdown-filter"
-            @input="handleFilterByChangeTotalSale"
+          <div class="dropdownSelect d-none d-sm-block">
+            <CustomSelect
+                :default="filterBy"
+                :options="chartFilterOptions"
+                :threelineIcon="false"
+                :title="filterByTitle"
+                class="dropdown-filter"
+                @input="handleFilterByChangeTotalSale"
+            />
+          </div>
+        </div>
+        <div class="tabs d-sm-none d-flex gap-2 justify-content-center my-4">
+          <h6
+              v-for="(tab, index) in tabsOptions"
+              :key="index"
+              :class="{ activeOne: activeTab === tab.value }"
+              class="fs-10 fw-7 font-primary mb-0 cursor-pointer position-relative text-uppercase"
+              @click="changeTab(tab.value)"
+          >
+            {{ tab.title }}
+          </h6>
+        </div>
+
+        <div class="position-relative mt-3 mt-sm-5 mb-3 mb-sm-4">
+          <LineChart
+              :chart-data="mainChart"
+              :height="174"
+              :options="lineChartOptions"
+              chart-id="vendor-dashboard-line-chart"
+              class="line-chart d-none d-sm-block"
+              is-graph
+          />
+          <LineChart
+              :chart-data="mainChart"
+              :height="174"
+              :options="lineChartOptions"
+              chart-id="vendor-dashboard-line-chart"
+              class="line-chart d-block d-sm-none"
+              is-graph
           />
         </div>
       </div>
-      <div class="tabs d-sm-none d-flex gap-2 justify-content-center my-4">
-        <h6
-          v-for="(tab, index) in tabsOptions"
-          :key="index"
-          :class="{ activeOne: activeTab === tab.value }"
-          class="fs-10 fw-7 font-primary mb-0 cursor-pointer position-relative text-uppercase"
-          @click="changeTab(tab.value)"
-        >
-          {{ tab.title }}
-        </h6>
-      </div>
 
-      <div class="position-relative mt-3 mt-sm-5 mb-3 mb-sm-4">
-        <LineChart
-          :chart-data="mainChart"
-          :height="174"
-          :options="lineChartOptions"
-          chart-id="vendor-dashboard-line-chart"
-          class="line-chart d-none d-sm-block"
-          is-graph
-        />
-        <LineChart
-          :chart-data="mainChart"
-          :height="174"
-          :options="lineChartOptions"
-          chart-id="vendor-dashboard-line-chart"
-          class="line-chart d-block d-sm-none"
-          is-graph
-        />
+
+      <div :class="{
+        'mt-25 flex-grow-1': !isScreenXS
+      }">
+        <div class="d-flex w-100 justify-content-between align-items-baseline">
+          <div :class="{
+          'body-21-medium text-black font-primary':isScreenXS,
+          'body-4-bold font-primary text-uppercase text-black': !isScreenXS
+        }">
+            {{chartFilterOptions[activeTab]}}
+          </div>
+          <div
+              class="text-decoration-underline text-black body-4-normal font-secondary"
+              role="button"
+          >
+            {{ $t('vendor_dashboard.breakdown.export') }}
+          </div>
+        </div>
+
+        <div>
+          <BreakdownProductStatCard
+              :label="$t('vendor_dashboard.breakdown.table.items_sold').toString()"
+              :value="21"
+              class="mb-14"
+          />
+          <BreakdownProductStatCard
+              :label="$t('vendor_dashboard.breakdown.table.price_premium').toString()"
+              :value="21"
+              class="mb-14"
+          />
+          <BreakdownProductStatCard
+              :label="$t('vendor_dashboard.breakdown.table.avg_sale_price').toString()"
+              :value="21"
+              class="mb-14"
+          />
+          <BreakdownProductStatCard
+              :label="$t('vendor_dashboard.breakdown.table.sales').toString()"
+              :value="21"
+              class="mb-14"
+          />
+        </div>
       </div>
     </div>
 
@@ -323,9 +368,10 @@ import { AWAITING_SHIPMENT_TO_DEADSTOCK, PROCESSING } from '~/static/constants'
 import ProductThumb from '~/components/product/Thumb'
 import orderStatus from '~/plugins/mixins/order-status'
 import CustomSelect from '~/components/common/CustomSelect'
+import BreakdownProductStatCard from '~/components/profile/vendor-dashboard/BreakdownProductStatCard';
 export default {
   name: 'DashboardSingleProduct',
-  components: { CustomSelect, ProductThumb, Loader },
+  components: {BreakdownProductStatCard, CustomSelect, ProductThumb, Loader },
   mixins: [screenSize, orderStatus],
   layout: 'Profile',
   data() {
@@ -491,6 +537,10 @@ export default {
     this.getTopOrders()
   },
   methods: {
+    handleFilterByChangeTotalSale(tab) {
+      this.activeTab = tab
+      // this.getData()
+    },
     orderBy(scope) {
       if (scope.column !== 'actions') {
         this.orderByDirection = this.reverseDirection(scope.column)
@@ -588,21 +638,34 @@ export default {
 
 <style scoped lang="sass">
 @import "~/assets/css/variables"
+.mb-14
+  margin-bottom: 14px
+.mt-25
+  margin-top: 25px
+.mr-31
+  margin-right: 31px
+
+.mb-19
+  margin-bottom: 19px
+
 .text-gray-24
   color: $color-gray-24
+
 .line-chart
-  #vendor-dashboard-line-chart
-    height: 280px
-    @media (max-width: 576px)
-      height: 204px
+  height: 210px
+  &.mobile
+    height: 204px
 
 .chart-card
+  max-width: 730px
+  height: 364px
   &.mobile
     box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
     border-radius: 8px
+    max-width: 100%
 
 .dropdown-filter::v-deep
-  background-color: $color-white-1
+  background-color: $color-white-4
   border-radius: 8px
   border: none !important
   width: 200px
@@ -610,7 +673,7 @@ export default {
   .selected
     @include body-13-medium
     color: $color-black-1
-    background-color: $color-white-1 !important
+    background-color: $color-white-4 !important
     font-family: $font-family-sf-pro-display
     border: none !important
     padding-inline: 18px

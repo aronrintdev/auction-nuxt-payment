@@ -124,7 +124,7 @@
             }"
             class="d-flex gap-3 mb-2 mb-sm-0"
             role="button"
-            @click="$router.push('/profile/inventory')"
+            @click="$router.push(`/profile/vendor-dashboard/products/${row.item.id}`)"
           >
             <div class="col-thumb d-flex justify-content-center">
               <ProductThumb
