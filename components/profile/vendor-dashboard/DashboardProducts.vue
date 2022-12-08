@@ -8,13 +8,18 @@
         {{ $t('vendor_dashboard.products') }}
       </h1>
       <NavGroup
+        v-if="!isScreenXS"
         :data="menus"
         :value="activeNav"
         :class="mobileClass"
         class="nav-grp"
         @change="navItem"
       />
-      <div class="d-flex justify-content-end align-items-center" role="button">
+      <div
+        v-if="!isScreenXS"
+        class="d-flex justify-content-end align-items-center"
+        role="button"
+      >
         <a
           class="font-primary body-4-regular mb-0 text-black"
           @click="$router.push('/profile/inventory')"
@@ -28,40 +33,36 @@
         <div class="col-8 pl-0">
           <div class="flex-grow-1 d-flex input-field-search align-items-center">
             <img
-                :src="require('~/assets/img/icons/search.svg')"
-                alt="Search"
-                class="mr-2"
-                height="18"
-                width="18"
+              :src="require('~/assets/img/icons/search.svg')"
+              alt="Search"
+              class="mr-2"
+              height="18"
+              width="18"
             />
             <input
-                id="search-result"
-                v-model="searchValue"
-                :placeholder="
-                      $t('vendor_dashboard.breakdown.search_placeholder')
-                    "
-                autocomplete="off"
-                class="border-0 w-100 input-text"
-                type="text"
-                @input="searchProducts"
+              id="search-result"
+              v-model="searchValue"
+              :placeholder="$t('vendor_dashboard.breakdown.search_placeholder')"
+              autocomplete="off"
+              class="border-0 w-100 input-text"
+              type="text"
+              @input="searchProducts"
             />
           </div>
         </div>
         <div class="col-4 d-flex justify-content-end">
           <CustomSelect
-              :options="{
-                    '': $t('vendor_purchase.sort_by'),
-                    recent_to_old: $t('vendor_purchase.purchase_recent_to_old'),
-                    old_to_recent: $t(
-                      'vendor_purchase.purchase_oldest_to_recent'
-                    ),
-                  }"
-              :threeline-icon="false"
-              bordered
-              class="vp-custom-select w-100 bg-white-5"
-              inputClass="purchase-input"
-              dropdownClass="purchase-items"
-              @input="handleFilterChanged"
+            :options="{
+              '': $t('vendor_purchase.sort_by'),
+              recent_to_old: $t('vendor_purchase.purchase_recent_to_old'),
+              old_to_recent: $t('vendor_purchase.purchase_oldest_to_recent'),
+            }"
+            :threeline-icon="false"
+            bordered
+            class="vp-custom-select w-100 bg-white-5"
+            inputClass="purchase-input"
+            dropdownClass="purchase-items"
+            @input="handleFilterChanged"
           ></CustomSelect>
         </div>
       </div>
@@ -73,20 +74,7 @@
       <div class="text-center body-5-medium">
         {{ $t('vendor_purchase.products') }}
       </div>
-      <nuxt-link
-        class="font-secondary text-decoration-underline body-18-regular border-primary mb-0 text-link-blue-mobile"
-        to="/profile/inventory"
-        >{{ $t('vendor_dashboard.view_all') }}
-      </nuxt-link>
     </div>
-    <NavGroup
-      v-if="isScreenXS"
-      :data="mobileMenu"
-      :value="activeNav"
-      :class="mobileClass"
-      class="mt-20 nav-grp"
-      @change="navItem"
-    />
 
     <div>
       <b-table
@@ -124,7 +112,9 @@
             }"
             class="d-flex gap-3 mb-2 mb-sm-0"
             role="button"
-            @click="$router.push(`/profile/vendor-dashboard/products/${row.item.id}`)"
+            @click="
+              $router.push(`/profile/vendor-dashboard/products/${row.item.id}`)
+            "
           >
             <div class="col-thumb d-flex justify-content-center">
               <ProductThumb
@@ -219,12 +209,22 @@ import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import screenSize from '~/plugins/mixins/screenSize'
 import Loader from '~/components/common/Loader'
-import CustomSelect from '~/components/common/CustomSelect';
+import CustomSelect from '~/components/common/CustomSelect'
 
 export default {
   name: 'DashboardVendorProducts',
-  components: {CustomSelect, Loader, NavGroup, ProductThumb },
+  components: { CustomSelect, Loader, NavGroup, ProductThumb },
   mixins: [screenSize],
+  props: {
+    filterSearch: {
+      type: String,
+      default: '',
+    },
+    filterSort: {
+      type: String,
+      default: 'recent_to_old',
+    },
+  },
   data() {
     return {
       activeNav: '1',
@@ -331,15 +331,25 @@ export default {
       return this.menus.filter((menu) => menu.value !== '')
     },
   },
+  watch: {
+    filterSearch(val) {
+      this.searchProducts(val)
+    },
+    filterSort(val) {
+      this.handleFilterChanged(val)
+    },
+  },
   mounted() {
     this.getTopProducts()
   },
   methods: {
-    handleFilterChanged(filter){
+    handleFilterChanged(filter) {
       this.sortBySelected = filter
+      this.orderByField = 'created_at'
+      this.orderByDirection = filter === 'recent_to_old' ? 'asc' : 'desc'
       this.getTopProducts()
     },
-    searchProducts: _.debounce(function (){
+    searchProducts: _.debounce(function () {
       this.getTopProducts()
     }, 500),
     orderBy(scope) {

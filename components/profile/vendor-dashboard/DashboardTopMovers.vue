@@ -1,9 +1,20 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-baseline">
-      <h2 class="body-15-bold text-black font-secondary">
+      <h2
+        class="text-black"
+        :class="{
+          'body-5-bold font-primary mb-20': isScreenXS,
+          'body-15-bold font-secondary': !isScreenXS,
+        }"
+      >
         {{ $t('orders.your_top_movers') }}
-        <small class="body-13-bold text-gray-6"
+        <small
+          class="text-gray-6"
+          :class="{
+            'body-13-bold ': !isScreenXS,
+            'body-9-medium   ': isScreenXS,
+          }"
           >({{ $t('orders.this_month') }})</small
         >
       </h2>
@@ -19,33 +30,33 @@
 
     <div class="d-none d-md-block">
       <Carousel
-          ref="sizeCarousel"
-          :center="false"
-          :dots="false"
-          :loop="false"
-          :margin="10"
-          :mouse-drag="false"
-          :nav="false"
-          :nav-text="['', '']"
-          :responsive="{
-              0: { items: 3, nav: false, center: false },
-            }"
-          class="carousel slide-fade position-relative thumb-carousel"
+        ref="sizeCarousel"
+        :center="false"
+        :dots="false"
+        :loop="false"
+        :margin="10"
+        :mouse-drag="false"
+        :nav="false"
+        :nav-text="['', '']"
+        :responsive="{
+          0: { items: 3, nav: false, center: false },
+        }"
+        class="carousel slide-fade position-relative thumb-carousel"
       >
         <template #prev><span ref="prev"></span></template>
 
         <template #next><span ref="next"></span></template>
         <div
-            v-for="(item, index) in products"
-            :key="item.id"
-            :data-position="index"
-            :data-size="item.id"
+          v-for="(item, index) in products"
+          :key="item.id"
+          :data-position="index"
+          :data-size="item.id"
         >
           <div class="h-100 w-100">
             <movers-card
-                v-if="item"
-                :product="item"
-                :top-sales-percentage="topSalesPercentage"
+              v-if="item"
+              :product="item"
+              :top-sales-percentage="topSalesPercentage"
             ></movers-card>
           </div>
         </div>
@@ -78,10 +89,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import MoversCard from '~/components/orders/MoversCard'
+import screenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'DashboardTopMovers',
   components: { MoversCard },
+  mixins: [screenSize],
   data() {
     return {
       slide: 0,
@@ -108,6 +121,9 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+.mb-20
+  margin-bottom: 20px
+
 ::v-deep.thumb-carousel
   .owl-carousel
     margin-left: -15px
