@@ -134,7 +134,7 @@
             </div>
           </div>
         </div>
-        <div class="d-flex flex-column align-items-center mb-4 mt-75px">
+        <div class="d-flex flex-column align-items-center mt-75px">
           <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
             <span class="fair-trade-label"></span>
             <Meter :fair="getFairTradeValue()" heading="trades.trade_arena.fair_trade_meter" :highest="theirTotal(false)" :lowest="0" :value="yourTotal(false)"/>
@@ -190,25 +190,24 @@
           <div v-if="isExpire" class="expired">
             <div class="expire-item">{{$t('trades.trade_arena.expired')}}</div>
           </div>
-          <div v-else class="px-5">
-            <div class="d-flex pl-4">
-            <span class="trade-inventory pt-4">
+          <div v-else class="">
+            <div class="d-flex pl-111px">
+            <span class="trade-inventory">
               {{$t('trades.trade_arena.your_inventory',[inventoryItems.length])}}
-              <sup role="button"><img  id="inventoryPopover" :src="infoIcon"/></sup>
+            <img  id="inventoryPopover" :src="infoIcon"/>
             </span>
-            <span class="show-wants pt-4" role="button" @click="viewWants()">{{$t('trades.trader_wants')}}</span>
+            <span class="show-wants" role="button" @click="viewWants()">{{$t('trades.trader_wants')}}</span>
             </div>
             <b-popover target="inventoryPopover" triggers="hover" placement="top" >
               {{$t('trades.trade_arena.inventory_popover')}}
             </b-popover>
-            <hr>
+            <hr class="hr-line">
             <div class="container-fluid p-0 mt-4 pt-3">
               <div class="pb-md-4 w-100 d-flex">
-                <div class="col-md-6 pl-0">
+                <div class="pl-111px">
                   <div class="form browse-search">
                     <SearchInput
                       :value="searchText"
-
                       :placeholder="$t('create_listing.trade.offer_items.search_by')"
                       :clearSearch="true"
                       inputHeight="46px"
@@ -220,21 +219,21 @@
                     <SearchedProductsBelowSearchTextBox :productItems="searchedItems" productsFor="tradeItemArena" />
                   </div>
                 </div>
-                <div class="col-md-6 mt--4 pl-5 pr-0">
+                <div class="col-md-6 mt--4 pl-43px pr-0">
                   <span class="filter-by">{{$t('trades.trade_arena.filter_by')}}</span>
                   <div class="d-flex">
                     <client-only>
                       <CustomDropdown v-model="categoryFilter" :options="categoryItems" type="single-select"
-                          :label="categoryFilterLabel" class="mr-3 width-156 h-43" width="155px" borderRadius="4px" paddingX="5px"
+                          :label="categoryFilterLabel" class="mr-18px width-156 h-43" width="156px" borderRadius="4px" paddingX="5px"
                           optionsWidth="custom" dropDownHeight="46px" @getResults="getInventory" @change="changeCategory" />
                       <CustomDropdown v-model="sizeTypesFilter" :options="filters.size_types" type="multi-select-checkbox"
-                          :label="sizeTypesFilterLabel" class="mr-3 width-156 h-43" width="155px" borderRadius="4px" paddingX="5px"
+                          :label="sizeTypesFilterLabel" class="mr-18px width-156 h-43" width="156px" borderRadius="4px" paddingX="5px"
                           optionsWidth="custom" dropDownHeight="46px" @getResults="getInventory" @change="changeSizeTypeFilter"/>
                       <CustomDropdown v-model="sizeFilter" :options="filters.sizes" type="multi-select-checkbox"
-                          :label="sizeFilterLabel" class="mr-3 width-156 h-43" width="155px" borderRadius="4px" paddingX="5px"
+                          :label="sizeFilterLabel" class="mr-18px width-156 h-43" width="120px" borderRadius="4px" paddingX="5px"
                           optionsWidth="custom" dropDownHeight="46px" @getResults="getInventory" @change="changeSizeFilter" />
                     </client-only>
-                    <b-btn class="filter-btn ml-19" @click="getInventory()">{{$t('trades.trade_arena.apply')}}</b-btn>
+                    <b-btn class="filter-btn" @click="getInventory()">{{$t('trades.trade_arena.apply')}}</b-btn>
                   </div>
                 </div>
               </div>
@@ -243,21 +242,19 @@
                   <div class="no-item">{{$t('trades.trade_arena.no_items')}}</div>
                   <b-btn class="add-items">{{$t('trades.trade_arena.add_items')}}</b-btn>
                 </div>
-                <div v-else class="carousel row pl-2">
-                  <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item pl-2">
+                <div v-else class="row pl-147px">
+                  <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item position-relative">
                     <div draggable @dragstart="startDrag($event, item)">
-                      <div class="d-relative">
-                        <img alt="No Image" class="plus-icon-add-trade" role="button" :src="require('~/assets/img/icons/addPlus.svg')"
+                      <img alt="No Image" class="plus-icon-add-trade" role="button" :src="require('~/assets/img/icons/addPlus.svg')"
                             @click="addYourItem(item)"/>
-                      </div>
-                      <div class="d-relative">
+                      <div class="position-relative height-240px d-flex justify-content-center align-items-center">
                         <img class="item-image-trade" :src="item.product | getProductImageUrl" alt="image" />
                         <div class="overlay"></div>
                       </div>
                       <div class="item-caption">
                         <span class="item-name">{{item.product && item.product.name}}</span>
-                        <span class="item-box-condition">{{$t('common.box_condition')}}: {{item.packaging_condition && item.packaging_condition.name}}</span>
-                        <span class="item-caption-description">{{item.product && item.product.colorway}} {{$t('trades.trade_arena.size')}} {{item.size && item.size.size}}</span>
+                        <span class="item-caption-description">{{item.product && item.product.colorway}},{{$t('trades.trade_arena.size')}} {{item.size && item.size.size}}</span>
+                        <span class="item-box-condition">{{$t('common.box')}}: {{item.packaging_condition && item.packaging_condition.name}}</span>
                       </div>
                     </div>
                   </div>
@@ -966,9 +963,9 @@ export default {
   color: $color-blue-1
 
 .item-image-trade
-  width: 204px
-  height: 232px
-  border-radius: 0
+  height: 100%
+  width: 100%
+  background: $color-white-4
 
 .image-wrapper
   height: 221px
@@ -1083,6 +1080,7 @@ export default {
   width: 111px
   border: 1px solid $color-black-1
   color: $color-gray-56
+  margin-bottom: 23px
   @include body-13-medium
   margin-top: 181px
 .trade-footer
@@ -1093,6 +1091,7 @@ export default {
   font-family: $font-family-sf-pro-display
   font-size: 20px
   line-height: 100%
+  padding-top: 60px
 .show-wants
   font-family: $font-family-sf-pro-display
   font-style: normal
@@ -1102,12 +1101,14 @@ export default {
   letter-spacing: 0.01em
   color: $color-gray-4
   margin-left: 67px
+  padding-top: 60px
 .filter-btn
   border: 1px solid $color-black-1
   border-radius: 5px
   color: $color-black-1
   background: $color-white-1
   height: 46px
+  width: 86px
 
 .back-btn-trade
   border: 1px solid $color-blue-20
@@ -1202,4 +1203,25 @@ export default {
   margin-top: 12px
 .image-thumb-are
   background: $color-white-4
+#inventoryPopover
+  margin-left: 9px
+.invent-item
+  margin-right: 21px
+  width: 213px
+  height: 323px
+.pl-111px
+  padding-left: 111px
+.hr-line
+  margin-left: 70px
+  margin-right: 80px
+.pl-147px
+  padding-left: 147px
+.height-240px
+  height: 240px
+.browse-search
+  width: 570px
+.pl-43px
+  padding-left: 43px
+.mr-18px
+  margin-right: 18px
 </style>
