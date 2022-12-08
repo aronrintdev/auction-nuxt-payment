@@ -80,7 +80,7 @@
               : trade.offers.length  === ITEM_COUNT_THREE  && getYourTradeItems.length === ITEM_COUNT_0 ? 'dumy-image-03'
         : getYourTradeItems.length  === ITEM_COUNT_ONE ? 'dumy-image-1'
         : getYourTradeItems.length  === ITEM_COUNT_TWO ? 'dumy-image-2'
-        : 'dumy-image-3'" :src="require('~/assets/img/trades/tradeNow.svg')">
+        : 'dumy-image-3'" :src="require('~/assets/img/box3.svg')">
             </div>
               </div>
             </div>
@@ -994,7 +994,9 @@ export default {
   margin-left: -10px
   padding-top: 5px
 .price-container
-  margin: 20px
+  margin-top: 20px
+  margin-left: 30px
+  margin-right: 30px
 
 .theirs-total
   background: $color-white-4
