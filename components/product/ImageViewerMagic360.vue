@@ -1,7 +1,7 @@
 <template>
-  <div ref="container" class="flex w-100 jutify-content-center">
+  <div ref="container" class="flex justify-content-center">
     <a class="Magic360" :data-options="filename">
-      <img :src="firstimage" />
+      <b-img :src="firstimage" />
     </a>
   </div>
 </template>
@@ -125,6 +125,11 @@ export default {
 .container
   :deep(.v360-viewer-container)
     height: 100%
+
+    @media (min-width: 576px)
+      width: 512px
+      height: 512px
+
   .input-range
     width: 189px
     max-width: 100%

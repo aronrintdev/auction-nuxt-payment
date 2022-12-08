@@ -1,7 +1,7 @@
 <template>
   <div class="form-group rounded-search-input">
     <img :src="searchIcon" class="icon-search" alt="search" />
-    <input id="product-search-input" type="text" :placeholder="placeholder" :value="text" @input="onSearch" @focus="onFocus">
+    <input id="product-search-input" type="text" :placeholder="placeholder" :value="text" @input="onSearch" @focus="onFocus"  @keyup.enter="onEnter">
     <Icon
       v-if="text"
       src="close-gray.svg"
@@ -63,6 +63,9 @@ export default {
     },
     onFocus() {
       this.$emit('focus')
+    },
+    onEnter(){
+      this.$emit('enter')
     }
   }
 };
