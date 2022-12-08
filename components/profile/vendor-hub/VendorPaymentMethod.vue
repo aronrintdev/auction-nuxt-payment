@@ -45,8 +45,6 @@
         </div>
       </div>
 
-
-
       <VendorPayoutForm
         v-if="isPaymentAddition || isPaymentEditActive"
         :editMode="isPaymentEditActive"
@@ -79,6 +77,9 @@
         <img src="~/assets/img/vendorhub/plus.svg" />
       </Button>
     </div>
+
+    <PortalTarget v-if="isScreenXS" name="tos-portal"></PortalTarget>
+    <PortalTarget v-if="isScreenXS" name="button-portal" class="w-100 button-portal" />
   </div>
 </template>
 
@@ -201,4 +202,11 @@ export default {
   position: absolute
   right: 16px
   bottom: 110px
+
+.button-portal
+  bottom: 89px
+  position: fixed
+  padding-right: 30px
+  padding-top: 30px
+  padding-bottom: 10px
 </style>
