@@ -163,7 +163,7 @@
       </template>
 
       <!-- Desktop list (table) view -->
-      <div v-else class="mt-3 flex-wrap overflow-auto">
+      <div v-else class="mt-3 flex-wrap overflow-auto commission-table">
         <b-table
             :borderless="true"
             :busy="dataLoading"
@@ -171,6 +171,25 @@
             :items="items"
             :show-empty="true"
         >
+          <template #head()="scope">
+
+            <div class="d-flex">
+              <b-form-checkbox
+                v-if="isExportActive && scope.column == 'order_id'"
+                v-model="isAllSelected"
+                @change="allSelected"
+              />
+              <div class="text-nowrap" role="button" @click="orderBy(scope)">
+                <span class="mr-1">{{ scope.label }}</span>
+                <img v-if="isSortActive(scope.field)"
+                     :src="require('~/assets/img/icons/down-arrow-solid.svg')"
+                     :alt="scope.label"
+                     class="sort-icon" :class="reverseDirection(scope.column)">
+              </div>
+
+            </div>
+          </template>
+
           <template #empty>
             <div class="d-flex justify-content-around">{{ $t('vendor_hub.commission.no_data') }}</div>
           </template>
@@ -214,74 +233,26 @@
               {{ data.item.product && data.item.product.name ? data.item.product.name : '-' }}
             </div>
           </template>
-
           <template #cell(commission)="data">
             <span>
               {{ data.value | toCurrency }}
             </span>
           </template>
-
           <template #cell(shipped_to_ds)="data">
             <span>
               {{ data.item.status === 'paid' ? 'Yes' : 'No' }}
             </span>
           </template>
-
           <template #cell(date_ordered)="data">
             <span>
               {{ data.item.order.created_at | formatDate }}
             </span>
           </template>
-
           <template #cell(status)="data">
             <span class="text-capitalize">
               {{ data.value }}
             </span>
           </template>
-
-          <template #head(order_id)="data">
-            <div class="d-flex">
-              <b-form-checkbox
-                  v-if="isExportActive"
-                  v-model="isAllSelected"
-                  @change="allSelected"
-              >
-              </b-form-checkbox>
-              <span class="header">{{ data.label }}</span>
-              <img src="~/assets/img/icons/filter-down.svg" class="ml-2" />
-            </div>
-          </template>
-          <template #head(product)="data">
-            <div class="d-flex justify-content-center">
-              <span class="header">{{ data.label }}</span>
-              <img src="~/assets/img/icons/filter-down.svg" class="ml-2" />
-            </div>
-          </template>
-          <template #head(commission)="data">
-            <div class="d-flex justify-content-center">
-              <span class="header">{{ data.label }}</span>
-              <img src="~/assets/img/icons/filter-down.svg" class="ml-2" />
-            </div>
-          </template>
-          <template #head(status)="data">
-            <div class="d-flex justify-content-center">
-              <span class="header">{{ data.label }}</span>
-              <img src="~/assets/img/icons/filter-down.svg" class="ml-2" />
-            </div>
-          </template>
-          <template #head(shipped_to_ds)="data">
-            <div class="d-flex justify-content-center">
-              <span class="header">{{ data.label }}</span>
-              <img src="~/assets/img/icons/filter-down.svg" class="ml-2" />
-            </div>
-          </template>
-          <template #head(date_ordered)="data">
-            <div class="d-flex justify-content-center">
-              <span class="header">{{ data.label }}</span>
-              <img src="~/assets/img/icons/filter-down.svg" class="ml-2" />
-            </div>
-          </template>
-
         </b-table>
       </div>
     </div>
@@ -343,7 +314,9 @@ export default {
         return {
           label: this.$t('vendor_hub.commission.table.' + a),
           key: a,
-          class: a !== 'order_id' ? ['text-center', 'table-bold', 'pt-3'] : ['table-bold', 'pt-3']
+          column: a,
+          class: a !== 'order_id' ? ['text-center', 'table-bold', 'pt-3'] : ['table-bold', 'pt-3'],
+          sortable: true
         }
       }),
       items: [],
@@ -399,7 +372,9 @@ export default {
       ],
       selected: [],
       isAllSelected: false,
-      dataLoading: false
+      dataLoading: false,
+      orderByField: 'id',
+      orderByDirection: 'asc',
     }
   },
   computed: {
@@ -487,7 +462,9 @@ export default {
             status: this.filterForm.activeStatusFilters.map(filter => filter.value),
             startDate: this.filterForm.startDate,
             endDate: this.filterForm.endDate,
-            page: this.page
+            page: this.page,
+            order_by_column: this.orderByField,
+            order_by_direction: this.orderByDirection,
           }
       ).then(res => {
         this.items.push(...res.data.data.data)
@@ -589,7 +566,21 @@ export default {
     },
     onStatusHandler: debounce(function (e) {
      this.getCommissions(true)
-    }, 500)
+    }, 500),
+
+    isSortActive(field){
+      return field.sortable
+    },
+    orderBy(headerItem){
+      if (this.isSortActive(headerItem.field)){
+        this.orderByDirection = this.reverseDirection(headerItem.field.column)
+        this.orderByField = headerItem.field.column
+        this.getCommissions(true, 1)
+      }
+    },
+    reverseDirection(column){
+      return column === this.orderByField ? (this.orderByDirection === 'asc'? 'desc' : 'asc'): 'desc'
+    },
   }
 }
 </script>
@@ -694,4 +685,19 @@ export default {
 
 .mt-30px
   margin-top: 30px
+
+.commission-table::v-deep
+  .table.b-table > thead > tr > [aria-sort=none]
+    background-image: url('~/assets/img/icons/table-carot.svg')!important
+    background-size: 0px
+  .table.b-table > thead > tr > [aria-sort=ascending]
+    background-image: url('~/assets/img/icons/table-carot.svg')!important
+    background-size: 0px
+  .table.b-table > thead > tr > [aria-sort=descending]
+    background-image: url('~/assets/img/icons/table-carot.svg')!important
+    background-size: 0px
+
+.sort-icon
+  &.asc
+    transform: rotate(180deg)
 </style>
