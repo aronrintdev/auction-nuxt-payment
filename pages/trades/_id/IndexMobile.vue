@@ -6,21 +6,20 @@
       <create-trade-search-item v-if="search_item" :product="search_item" productFor="tradeArena" :progressBar="false" :padding="true" />
       <div v-else>
         <b-col v-if="Object.keys(trade).length && !trade_completed">
-          <div class="d-flex justify-content-between price-container">
+          <div class="d-flex  price-container">
             <div class="theirs-total d-flex align-items-center">
               <img class="list-icon" :src="require('~/assets/img/trades/list-icon.svg')">
               <div class="price-text" @click="leftDataShow = !leftDataShow">
                 {{$t('trades.trade_arena.theirs')}}: {{theirTotal()}}
               </div>
             </div>
-            <div class="theirs-total d-flex align-items-center">
+            <div class="yours-total d-flex align-items-center">
               <img class="list-icon" :src="require('~/assets/img/trades/list-icon.svg')">
               <div class="price-text">
                 {{$t('trades.trade_arena.yours')}}: {{yourTotal()}}
               </div>
             </div>
           </div>
-          {{trade.offers.length}} | {{getYourTradeItems.length}}
           <div  :class="trade.offers.length  === ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_ONE ? 'center-container-one'
              :trade.offers.length  === ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 ? 'center-container-one'
              :trade.offers.length  === ITEM_COUNT_TWO && getYourTradeItems.length === ITEM_COUNT_0 ? 'center-container-20'
@@ -1101,7 +1100,12 @@ export default {
   border-radius: 2px
   height: 38px
   width: 118px
-
+.yours-total
+  background: $color-white-4
+  border-radius: 2px
+  height: 38px
+  width: 118px
+  margin-left: 79px
 .price-text
   font-family: $font-family-montserrat
   font-style: normal
