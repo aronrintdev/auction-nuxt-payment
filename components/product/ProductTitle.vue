@@ -186,6 +186,3 @@ export default {
   width: auto
 
 </style>
-<style lang="sass">
-
-</style>
