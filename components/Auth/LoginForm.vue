@@ -8,7 +8,7 @@
             :name="$t('auth.login')"
             :rules="{ required: true, min: 3, max: 128 }"
           >
-            <b-form-group class="px-1 pr-3">
+            <b-form-group class="px-md-1 pr-md-3">
               <b-form-input
                 id="login"
                 v-model="form.login"
@@ -17,8 +17,8 @@
                 :state="getValidationState(validationContext)"
               ></b-form-input>
               <b-form-invalid-feedback>{{
-                  validationContext.errors[0]
-                }}</b-form-invalid-feedback>
+                validationContext.errors[0]
+              }}</b-form-invalid-feedback>
             </b-form-group>
           </ValidationProvider>
           <ValidationProvider
@@ -27,7 +27,7 @@
             :rules="{ required: true }"
           >
             <b-form-group>
-              <b-input-group class="px-1 pr-3">
+              <b-input-group class="px-md-1 pr-md-3">
                 <b-form-input
                   id="password"
                   v-model="form.password"
@@ -55,14 +55,19 @@
                   ></i>
                 </b-input-group-append>
                 <b-form-invalid-feedback>{{
-                    validationContext.errors[0]
-                  }}</b-form-invalid-feedback>
+                  validationContext.errors[0]
+                }}</b-form-invalid-feedback>
               </b-input-group>
             </b-form-group>
           </ValidationProvider>
 
-          <b-row class="mt-5 login-btn">
-            <b-col md="4" offset-md="4" class="text-center">
+          <b-row
+            class="mt-5 login-btn mx-0 row w-100 d-flex justify-content-center"
+          >
+            <b-col
+              md="4"
+              class="d-flex justify-content-center px-0 text-center w-100"
+            >
               <Button
                 :disabled="!isFormFilled"
                 block
@@ -72,8 +77,7 @@
                 :class="{ 'btn-disabled': !isFormFilled }"
               >
                 <span>{{ $t('auth.login') }}</span>
-              </Button
-              >
+              </Button>
             </b-col>
           </b-row>
         </b-form>
@@ -83,8 +87,8 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
-import {ValidationProvider, ValidationObserver} from 'vee-validate'
+import { mapActions, mapGetters } from 'vuex'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import Button from '~/components/common/Button'
 import { NO_CONTENT } from '~/static/constants'
 
@@ -116,7 +120,7 @@ export default {
   methods: {
     ...mapActions({
       getUserDetails: 'auth/getUserDetails',
-      getUserRedeemedReward: 'redeemed-reward/getUserRedeemedReward'
+      getUserRedeemedReward: 'redeemed-reward/getUserRedeemedReward',
     }),
     ...mapGetters({
       getLoginRedirectUrl: 'auth/getLoginRedirectUrl',
@@ -139,14 +143,16 @@ export default {
             this.$auth.$storage.removeCookie('rememberExpires')
             this.$store.dispatch('notifications/getNotifications')
             this.$store.dispatch('notifications/getUnreadCount')
-            this.$toasted.success(this.$t('login.success_message.login_successfull').toString())
+            this.$toasted.success(
+              this.$t('login.success_message.login_successfull').toString()
+            )
 
             // redirect if redirect url is set in state
             const redirectUrl = this.getLoginRedirectUrl()
             if (redirectUrl) {
               if (redirectUrl.includes('trades') && !this.isVendor) {
                 this.$router.push({
-                  path: '/profile/vendor-hub/apply'
+                  path: '/profile/vendor-hub/apply',
                 })
               } else {
                 this.$store.commit('auth/setLoginRedirectUrl', null)
@@ -154,11 +160,11 @@ export default {
               }
             } else if (this.isVendor) {
               this.$router.push({
-                path: '/profile/vendor-dashboard'
+                path: '/profile/vendor-dashboard',
               })
             } else {
               this.$router.push({
-                path: '/profile/buyer-dashboard'
+                path: '/profile/buyer-dashboard',
               })
             }
           }
@@ -167,7 +173,7 @@ export default {
           this.$toasted.error(this.$t(error.response.data.message).toString())
         })
     },
-  }
+  },
 }
 </script>
 
@@ -241,6 +247,7 @@ export default {
         box-shadow: none
 
 @media (min-width: 992px)
+
   .input-login
     background-color: $color-white-5
     border: 1px solid $color-white-5
@@ -258,13 +265,15 @@ export default {
     border-radius: 0 20px 20px 0 !important
 
 
-@media (min-width: 320px) and (max-width: 556px)
-  .login-btn
-    width: 50%
-    margin: 0 auto
+@media (max-width: 768px)
   .input-append
     border-right: none
 
   .btn.btn-confirm.btn-disabled
     background: $color-black-1
+  .login-btn
+    button
+      width: 171px !important
+      height: 42px !important
+      font-weight: $normal
 </style>
