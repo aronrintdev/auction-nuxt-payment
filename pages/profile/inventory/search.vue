@@ -1,6 +1,6 @@
 <template>
   <b-container fluid class="h-100" :class="isScreenXS ? 'p-4' : 'container-profile-inventory-search'">
-    <!-- Mobile View Begin --->
+    <!-- Mobile View Begin -->
     <div v-if="isScreenXS">
       <div class="d-flex align-items-center">
         <MobileSearchInput
@@ -39,9 +39,9 @@
         <span class="mobile-search-info">{{ $t('inventory.mobile_search_info') }}</span>
       </div>
     </div>
-    <!-- Mobile View End --->
+    <!-- Mobile View End -->
 
-    <!-- Desktop View Begin --->
+    <!-- Desktop View Begin -->
     <template v-else>
       <Button :to="moveBack" variant="link" class="btn-back">
         <img :src="require('~/assets/img/icons/back.svg')" alt="back" />
@@ -144,7 +144,7 @@
         @uploaded="onCsvUploaded"
       />
     </template>
-    <!-- Desktop View End --->
+    <!-- Desktop View End -->
     <NewProductSuggestedModal
       id="new-product-suggested-modal"
       :name="searchKeyword"
