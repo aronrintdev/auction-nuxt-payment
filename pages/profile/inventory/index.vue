@@ -247,7 +247,6 @@ import {
   NavGroup,
   SearchInput,
   FormDropdown,
-  // Pagination,
   Loader,
   BulkSelectToolbar,
 } from '~/components/common'
@@ -278,7 +277,6 @@ export default {
     NavGroup,
     SearchInput,
     FormDropdown,
-    // Pagination,
     Loader,
     BulkSelectToolbar,
     AlertModal,
@@ -376,17 +374,8 @@ export default {
     },
   },
 
-  beforeMount() {
-    // window.addEventListener('resize', this.updatePerPageOptions)
-    // this.updatePerPageOptions()
-  },
-
   created() {
     this.removeDraftListing()
-  },
-
-  destroyed() {
-    // window.removeEventListener('resize', this.updatePerPageOptions)
   },
 
   methods: {
