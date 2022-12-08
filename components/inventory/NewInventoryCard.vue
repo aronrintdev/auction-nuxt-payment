@@ -53,47 +53,6 @@
       </Button>
       </div>
 
-      <!--
-      <b-dropdown v-if="isScreenXS" id="mobile-down-icon" class="border-0 ml-auto drop-menu" no-caret
-                  variant="outlined"
-      >
-        <template #button-content>
-          <img
-            :src="require('~/assets/img/icons/dot-circle-gray.svg')"
-            height="19"
-            width="19"
-            class="z-1 position-relative"
-          >
-        </template>
-        <Button
-            v-if="!selectable && isActionsVisible"
-            class="btn-list edit d-flex align-items-center mx-auto"
-            icon="edit-pencil.svg"
-            icon-height="14"
-            icon-pos="left"
-            icon-width="14"
-            variant="link"
-            @click="handleEditClick()"
-        >
-          {{ $t('common.edit') }}
-        </Button>
-        <b-dropdown-divider></b-dropdown-divider>
-        <Button
-            v-if="!selectable && isActionsVisible"
-            class="btn-list add d-flex align-items-center mx-auto"
-            icon="plus-circle-gray.svg"
-            icon-height="15"
-            icon-pos="left"
-            icon-width="15"
-            variant="link"
-            @click="handleListClick()"
-        >
-          {{ $t('common.list') }}
-        </Button>
-
-      </b-dropdown>
-      -->
-
       <input
         v-if="selectable"
         type="checkbox"
