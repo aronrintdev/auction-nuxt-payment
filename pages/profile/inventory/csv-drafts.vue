@@ -44,7 +44,6 @@
       >
     </div>
 
-    {{ isScreenXS }}
     <div :class="{'scroll-container' : !isScreenXS && !isScreenSM}">
     <table v-if="type === 'available'" class="mt-2 w-100 table-inventory">
       <thead>
@@ -620,9 +619,9 @@ export default {
 
   .table-inventory
     .inventory-rows
-      max-height: 35vh !important
-      height: 35vh !important
-      overflow-y: scroll !important
+      max-height: 35vh
+      height: 35vh
+      overflow-y: scroll
 
     .w-1
       width: 1%
