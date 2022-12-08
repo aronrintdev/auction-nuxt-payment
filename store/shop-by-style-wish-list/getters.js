@@ -1,5 +1,4 @@
 export function getWishLists(state) {
-  console.log(state.shopByStyleWishLists);
   return state.shopByStyleWishLists
 }
 

@@ -281,6 +281,8 @@ export default {
     }
     await this.fetchWishLists()
     await this.selectWishList(this.wishLists[0])
+    console.log(this.currentWishList);
+    console.log(this.wishLists);
     this.url = `wish-lists/${this.currentWishList?.id}/items?page=1&per_page=${this.perPage}`
   },
 
