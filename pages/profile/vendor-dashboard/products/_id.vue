@@ -76,9 +76,9 @@
 
 
       <div :class="{
-        'mt-25 flex-grow-1': !isScreenXS
+        'mt-20 flex-grow-1': !isScreenXS
       }">
-        <div class="d-flex w-100 justify-content-between align-items-baseline">
+        <div class="d-flex w-100 justify-content-between align-items-baseline mb-12">
           <div :class="{
           'body-21-medium text-black font-primary':isScreenXS,
           'body-4-bold font-primary text-uppercase text-black': !isScreenXS
@@ -101,6 +101,7 @@
           />
           <BreakdownProductStatCard
               :label="$t('vendor_dashboard.breakdown.table.price_premium').toString()"
+              :sub-label="`(${$t('vendor_dashboard.breakdown.over_retail_price').toString()})`"
               :value="21"
               class="mb-14"
           />
@@ -112,7 +113,6 @@
           <BreakdownProductStatCard
               :label="$t('vendor_dashboard.breakdown.table.sales').toString()"
               :value="21"
-              class="mb-14"
           />
         </div>
       </div>
@@ -638,10 +638,14 @@ export default {
 
 <style scoped lang="sass">
 @import "~/assets/css/variables"
+.mw-220
+  max-width: 220px
+.mb-12
+  margin-bottom: 12px
 .mb-14
   margin-bottom: 14px
-.mt-25
-  margin-top: 25px
+.mt-20
+  margin-top: 20px
 .mr-31
   margin-right: 31px
 

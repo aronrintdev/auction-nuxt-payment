@@ -1,5 +1,7 @@
 <template>
-  <div class="stat-card d-flex align-items-center justify-content-between">
+  <div class="stat-card d-flex align-items-center justify-content-between" :class="{
+    'has-sub': subLabel
+  }">
     <div class="body-4-medium font-primary text-black">
       <div>
         {{label}}
@@ -47,5 +49,6 @@ export default {
   background-color: $color-white-1
   border-radius: 10px
   padding: 24px 26px
-
+  &.has-sub
+    padding: 14px 26px
 </style>
