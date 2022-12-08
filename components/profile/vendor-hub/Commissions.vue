@@ -91,11 +91,10 @@
       <div v-else class="d-flex justify-content-between">
         <span class="text-color-gray-5 body-10-medium">{{ itemsTotal  }} {{ $t('vendor_hub.commission.entries') }}</span>
         <!-- Hide it right now there aren't API yet -->
-        <!--
-        <a role="button" class="color-blue-20 body-10-normal" @click="toggleExport">
-          <i class="fa fa-upload" aria-hidden="true"></i> {{ $t("vendor_hub.commission.email_cvs") }}
+        <a role="button" class="d-flex align-items-center" @click="toggleExport">
+          <img :src="require('~/assets/img/vendorhub/upload-icon.svg')" class="px-1">
+          <span class="color-gray-5 body-5-normal">{{ $t("vendor_hub.commission.email_cvs") }}</span>
         </a>
-        -->
       </div>
 
       <!-- Mobile list view -->
@@ -654,6 +653,9 @@ export default {
 
 .color-blue-20
   color: $color-blue-20
+
+.color-gray-5
+  color: $color-gray-5
 
 .commission-item-box
   flex: 50%
