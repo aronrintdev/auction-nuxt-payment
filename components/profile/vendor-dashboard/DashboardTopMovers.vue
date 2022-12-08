@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-baseline">
-      <h2 class="body-15-bold text-black font-secondary px-md-2">
+      <h2 class="body-15-bold text-black font-secondary">
         {{ $t('orders.your_top_movers') }}
         <small class="body-13-bold text-gray-6"
           >({{ $t('orders.this_month') }})</small
@@ -16,6 +16,7 @@
         /></span>
       </div>
     </div>
+
     <div class="d-none d-md-block">
       <Carousel
           ref="sizeCarousel"
@@ -95,25 +96,6 @@ export default {
       const count = this.products.length
       return `width: ${count * 151}px`
     },
-    slides() {
-      const slides = []
-      const products = Object.values(this.products)
-
-      // find the highest sales_percentage from the product list
-      products.forEach((p) => {
-        if (p.sales_percentage >= this.topSalesPercentage) {
-          this.topSalesPercentage = p.sales_percentage
-        }
-      })
-
-      // in the carousel we are showing 3 products in single slide,
-      // creating a segment of 3 products from the list of all the products,
-      for (let i = 0; i < products.length; ) {
-        slides.push(products.slice(i, i + 3))
-        i = i + 3
-      }
-      return slides
-    },
   },
   methods: {
     prev() {
@@ -128,6 +110,7 @@ export default {
 <style scoped lang="sass">
 ::v-deep.thumb-carousel
   .owl-carousel
+    margin-left: -15px
     .owl-stage
       width: max-content !important
     .owl-item
