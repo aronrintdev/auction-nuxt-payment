@@ -119,6 +119,8 @@
         </div>
       </div>
     </div>
+
+
     <div :class="{
       'mt-26': isScreenXS,
       'mt-36': !isScreenXS,
@@ -169,37 +171,41 @@
             />
           </div>
         </template>
-        <template #cell(sales_this_month)="row">
+
+        <template #cell(premium_percentage)="row">
           <div
             :aria-label="$t('vendor_dashboard.sales_this_month')"
             class="d-flex align-items-center justify-content-center tdHeight"
           >
-            <h4 class="font-secondary fw-5 fs-16 mb-0">
-              {{ row.item.sales_amount_this_month | toCurrency }}
-              <span
-                v-if="row.item.sales_percentage > 0"
-                class="text-success text-sm"
-                >(+{{ row.item.sales_percentage }}%)</span
-              >
-              <span
-                v-if="row.item.sales_percentage < 0"
-                class="text-danger text-sm"
-                >(-{{ row.item.sales_percentage }}%)</span
-              >
+            <h4 class="font-secondary fw-5 fs-16 mb-0" :class="{
+              'text-success': row.item.premium_percentage >=0,
+              'text-danger': row.item.premium_percentage < 0
+            }">
+              {{ row.item.premium_percentage | toPercentage }} %
             </h4>
           </div>
         </template>
-        <template #cell(total_sales)="row">
+        <template #cell(total_sales_amount)="row">
           <div
             :aria-label="$tc('vendor_dashboard.total_sales', 1)"
             class="d-flex align-items-center justify-content-center tdHeight"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">
               {{ row.item.total_sales_amount | toCurrency }}
+              <span
+                  v-if="row.item.premium_percentage > 0"
+                  class="text-success text-sm"
+              >(+{{ row.item.avg_sales_price }}%)</span
+              >
+              <span
+                  v-if="row.item.premium_percentage < 0"
+                  class="text-danger text-sm"
+              >(-{{ row.item.avg_sales_price }}%)</span
+              >
             </h4>
           </div>
         </template>
-        <template #cell(average_sale_price)="row">
+        <template #cell(avg_sales_price)="row">
           <div
             :aria-label="$t('vendor_dashboard.avg_price')"
             class="d-flex align-items-center justify-content-center tdHeight"
@@ -262,21 +268,25 @@ export default {
           thClass: 'text-nowrap text-center body-4-bold',
         },
         {
-          key: 'price_premium',
+          key: 'premium_percentage',
           label: this.$t('vendor_dashboard.breakdown.table.price_premium'),
           thClass: 'text-nowrap text-center body-4-bold',
         },
         {
-          key: 'avg_sale_price',
+          key: 'avg_sales_price',
           label: this.$t('vendor_dashboard.breakdown.table.avg_sale_price'),
           thClass: 'text-nowrap text-center body-4-bold',
         },
         {
-          key: 'sales',
+          key: 'total_sales_amount',
           label: this.$t('vendor_dashboard.breakdown.table.sales'),
           thClass: 'text-nowrap text-center body-4-bold',
         },
       ],
+      result: {
+        chart: {},
+        statistics: []
+      },
       filterByTitle: this.$t('selling_page.status'),
       filterBy: 'month',
       activeTab: 'month',
@@ -411,6 +421,7 @@ export default {
           })
           .then((response) => {
             console.log(response)
+            this.result = response.data.data
           })
           .catch((error) => {
             this.$toasted.error(error)

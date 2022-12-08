@@ -676,7 +676,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res)
           this.result = res.data.data
         })
         .catch((err) => {

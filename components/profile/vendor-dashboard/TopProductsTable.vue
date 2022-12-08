@@ -17,7 +17,7 @@
       <div class="d-flex justify-content-end align-items-center" role="button">
         <a
           class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0"
-          @click="$router.push('/profile/inventory')"
+          @click="$router.push('/profile/vendor-dashboard/products')"
           >{{ $t('vendor_dashboard.view_all') }}</a
         >
       </div>
@@ -31,7 +31,7 @@
       </div>
       <nuxt-link
         class="font-secondary text-decoration-underline body-18-regular border-primary mb-0 text-link-blue-mobile"
-        to="/profile/inventory"
+        to="/profile/vendor-dashboard/products"
         >{{ $t('vendor_dashboard.view_all') }}
       </nuxt-link>
     </div>
@@ -80,7 +80,7 @@
             }"
             class="d-flex gap-3 mb-2 mb-sm-0"
             role="button"
-            @click="$router.push('/profile/inventory')"
+            @click="$router.push(`/profile/vendor-dashboard/products/${row.item.id}`)"
           >
             <div class="col-thumb d-flex justify-content-center">
               <ProductThumb

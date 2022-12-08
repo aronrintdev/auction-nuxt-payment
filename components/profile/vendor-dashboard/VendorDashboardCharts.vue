@@ -69,10 +69,10 @@
           />
         </div>
         <div class="text-right d-none d-sm-block">
-          <a
+          <nuxt-link
             class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0"
-            href="#"
-            >{{ $t('vendor_dashboard.view_breakdown') }}</a
+            to="/profile/vendor-dashboard/breakdown/categories"
+            >{{ $t('vendor_dashboard.view_breakdown') }}</nuxt-link
           >
         </div>
       </div>
@@ -96,11 +96,11 @@
           >
             {{ $tc('vendor_dashboard.by_type', 1) }}
           </h1>
-          <a
+          <nuxt-link
             v-if="isScreenXS"
             class="font-primary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0 view-more-link text-nowrap"
-            href="#"
-            >{{ $t('vendor_dashboard.view_breakdown') }}</a
+            to="/profile/vendor-dashboard/breakdown/categories"
+            >{{ $t('vendor_dashboard.view_breakdown') }}</nuxt-link
           >
           <div class="dropdownSelect d-none d-sm-block">
             <CustomSelect
@@ -323,9 +323,9 @@ export default {
       dataBgColors: Object.values(GRAPH_COLORS),
       labels: [],
       chartFilterOptions: {
-        week: 'Week',
-        month: 'Month',
-        year: 'Year',
+        week: 'Week to Date',
+        month: 'Month to Date',
+        year: 'Year to Date',
       },
     }
   },
@@ -434,7 +434,7 @@ export default {
   color: $color-blue-30
 
 .dropdown-filter::v-deep
-  background-color: $color-white-1
+  background-color: $color-white-4
   border-radius: 8px
   border: none !important
   width: 200px
@@ -442,7 +442,7 @@ export default {
   .selected
     @include body-13-medium
     color: $color-black-1
-    background-color: $color-white-1 !important
+    background-color: $color-white-4 !important
     font-family: $font-family-sf-pro-display
     border: none !important
     padding-inline: 18px
