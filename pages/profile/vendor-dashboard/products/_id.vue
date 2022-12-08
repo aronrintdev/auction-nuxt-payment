@@ -15,17 +15,17 @@
 
     <div class="d-flex">
       <div
-          :class="{
-        mobile: isScreenXS,
-        'mr-31 flex-grow-1': !isScreenXS,
-      }"
-          class="chart-card bg-white br-10 p-1 p-sm-4"
+        :class="{
+          mobile: isScreenXS,
+          'mr-31 flex-grow-1': !isScreenXS,
+        }"
+        class="chart-card bg-white br-10 p-1 p-sm-4"
       >
         <div
-            :class="{
-          'm-padding-title': isScreenXS,
-        }"
-            class="d-flex align-items-center justify-content-between"
+          :class="{
+            'm-padding-title': isScreenXS,
+          }"
+          class="d-flex align-items-center justify-content-between"
         >
           <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
             {{ $tc('vendor_dashboard.total_sales', 1) }}
@@ -33,22 +33,22 @@
 
           <div class="dropdownSelect d-none d-sm-block">
             <CustomSelect
-                :default="filterBy"
-                :options="chartFilterOptions"
-                :threelineIcon="false"
-                :title="filterByTitle"
-                class="dropdown-filter"
-                @input="handleFilterByChangeTotalSale"
+              :default="filterBy"
+              :options="chartFilterOptions"
+              :threelineIcon="false"
+              :title="filterByTitle"
+              class="dropdown-filter"
+              @input="handleFilterByChangeTotalSale"
             />
           </div>
         </div>
         <div class="tabs d-sm-none d-flex gap-2 justify-content-center my-4">
           <h6
-              v-for="(tab, index) in tabsOptions"
-              :key="index"
-              :class="{ activeOne: activeTab === tab.value }"
-              class="fs-10 fw-7 font-primary mb-0 cursor-pointer position-relative text-uppercase"
-              @click="changeTab(tab.value)"
+            v-for="(tab, index) in filterTabs"
+            :key="index"
+            :class="{ activeOne: activeTab === tab.value }"
+            class="fs-10 fw-7 font-primary mb-0 cursor-pointer position-relative text-uppercase"
+            @click="changeTab(tab.value)"
           >
             {{ tab.title }}
           </h6>
@@ -56,38 +56,44 @@
 
         <div class="position-relative mt-3 mt-sm-5 mb-3 mb-sm-4">
           <LineChart
-              :chart-data="mainChart"
-              :height="174"
-              :options="lineChartOptions"
-              chart-id="vendor-dashboard-line-chart"
-              class="line-chart d-none d-sm-block"
-              is-graph
+            :chart-data="mainChart"
+            :height="174"
+            :options="lineChartOptions"
+            chart-id="vendor-dashboard-line-chart"
+            class="line-chart d-none d-sm-block"
+            is-graph
           />
           <LineChart
-              :chart-data="mainChart"
-              :height="174"
-              :options="lineChartOptions"
-              chart-id="vendor-dashboard-line-chart"
-              class="line-chart d-block d-sm-none"
-              is-graph
+            :chart-data="mainChart"
+            :height="174"
+            :options="lineChartOptions"
+            chart-id="vendor-dashboard-line-chart"
+            class="line-chart d-block d-sm-none"
+            is-graph
           />
         </div>
       </div>
 
-
-      <div :class="{
-        'mt-20 flex-grow-1': !isScreenXS
-      }">
-        <div class="d-flex w-100 justify-content-between align-items-baseline mb-12">
-          <div :class="{
-          'body-21-medium text-black font-primary':isScreenXS,
-          'body-4-bold font-primary text-uppercase text-black': !isScreenXS
-        }">
-            {{chartFilterOptions[activeTab]}}
+      <div
+        v-if="!isScreenXS"
+        :class="{
+          'mt-20 flex-grow-1': !isScreenXS,
+        }"
+      >
+        <div
+          class="d-flex w-100 justify-content-between align-items-baseline mb-12"
+        >
+          <div
+            :class="{
+              'body-21-medium text-black font-primary': isScreenXS,
+              'body-4-bold font-primary text-uppercase text-black': !isScreenXS,
+            }"
+          >
+            {{ chartFilterOptions[activeTab] }}
           </div>
           <div
-              class="text-decoration-underline text-black body-4-normal font-secondary"
-              role="button"
+            class="text-decoration-underline text-black body-4-normal font-secondary"
+            role="button"
           >
             {{ $t('vendor_dashboard.breakdown.export') }}
           </div>
@@ -95,24 +101,32 @@
 
         <div>
           <BreakdownProductStatCard
-              :label="$t('vendor_dashboard.breakdown.table.items_sold').toString()"
-              :value="21"
-              class="mb-14"
+            :label="
+              $t('vendor_dashboard.breakdown.table.items_sold').toString()
+            "
+            :value="result.stats.items_sold || 0"
+            class="mb-14"
           />
           <BreakdownProductStatCard
-              :label="$t('vendor_dashboard.breakdown.table.price_premium').toString()"
-              :sub-label="`(${$t('vendor_dashboard.breakdown.over_retail_price').toString()})`"
-              :value="21"
-              class="mb-14"
+            :label="
+              $t('vendor_dashboard.breakdown.table.price_premium').toString()
+            "
+            :sub-label="`(${$t(
+              'vendor_dashboard.breakdown.over_retail_price'
+            ).toString()})`"
+            :value="(result.stats.price_premium || 0) + '%'"
+            class="mb-14"
           />
           <BreakdownProductStatCard
-              :label="$t('vendor_dashboard.breakdown.table.avg_sale_price').toString()"
-              :value="21"
-              class="mb-14"
+            :label="
+              $t('vendor_dashboard.breakdown.table.avg_sale_price').toString()
+            "
+            :value="(result.stats.price_premium || 0) | toCurrency"
+            class="mb-14"
           />
           <BreakdownProductStatCard
-              :label="$t('vendor_dashboard.breakdown.table.sales').toString()"
-              :value="21"
+            :label="$t('vendor_dashboard.breakdown.table.sales').toString()"
+            :value="(result.stats.price_premium || 0 )| toCurrency"
           />
         </div>
       </div>
@@ -123,15 +137,42 @@
         'my-5': !isScreenXS,
       }"
     >
+      <div
+        v-if="isScreenXS"
+        class="d-flex mt-26"
+        :class="{
+          'justify-content-center ': isScreenXS,
+          'mb-31': !isScreenXS,
+        }"
+      >
+        <div
+          class="ml-4 font-primary"
+          :class="{
+            'body-21-medium mr-1 text-black': isScreenXS,
+            'body-2-bold mr-22': !isScreenXS,
+          }"
+        >
+          {{ $t('vendor_dashboard.breakdown.statistics') }}
+        </div>
+        <div
+          :class="{
+            'body-21-medium text-black font-primary': isScreenXS,
+            'body-2-normal font-secondary text-capitalize text-gray-simple':
+              !isScreenXS,
+          }"
+        >
+          ({{ chartFilterOptions[activeTab] }})
+        </div>
+      </div>
       <b-table
         class="ordersTable"
         borderless
         no-border-collapse
         :fields="tableFields"
-        :items="topOrders"
+        :items="result.orders"
         tbody-tr-class="bg-white"
         :busy="loading"
-        :show-empty="!loading && topOrders.length === 0"
+        :show-empty="!loading && result.orders.length === 0"
       >
         <template #table-busy>
           <div class="d-flex align-items-center justify-content-center w-100">
@@ -368,21 +409,19 @@ import { AWAITING_SHIPMENT_TO_DEADSTOCK, PROCESSING } from '~/static/constants'
 import ProductThumb from '~/components/product/Thumb'
 import orderStatus from '~/plugins/mixins/order-status'
 import CustomSelect from '~/components/common/CustomSelect'
-import BreakdownProductStatCard from '~/components/profile/vendor-dashboard/BreakdownProductStatCard';
+import BreakdownProductStatCard from '~/components/profile/vendor-dashboard/BreakdownProductStatCard'
 export default {
   name: 'DashboardSingleProduct',
-  components: {BreakdownProductStatCard, CustomSelect, ProductThumb, Loader },
+  components: { BreakdownProductStatCard, CustomSelect, ProductThumb, Loader },
   mixins: [screenSize, orderStatus],
   layout: 'Profile',
   data() {
     return {
       PROCESSING,
       AWAITING_SHIPMENT_TO_DEADSTOCK,
-      topOrders: [],
       filterByTitle: this.$t('selling_page.status'),
-      filterBy: 'month',
-      activeTab: 'month',
-      activeTabDoughnut: 'week',
+      filterBy: 'week',
+      activeTab: 'week',
       filterTabs: [
         { title: 'Week', value: 'week' },
         { title: 'Month', value: 'month' },
@@ -421,6 +460,7 @@ export default {
                 drawOnChartArea: false,
               },
               ticks: {
+                beginAtZero: true,
                 fontFamily: 'Montserrat',
                 fontColor: '#000',
                 fontSize: 12,
@@ -511,17 +551,28 @@ export default {
       loading: false,
       orderByField: 'id',
       orderByDirection: 'asc',
+      result: {
+        orders: [],
+        graph: {},
+        product: null,
+        stats: {
+          avg_price: null,
+          items_sold: null,
+          price_premium: null,
+          sales: null,
+        },
+      },
     }
   },
   computed: {
     mainChart() {
       return {
-        labels: this.labels,
+        labels: Object.keys(this.result.graph),
         datasets: [
           {
             borderColor: this.isScreenXS ? '#667799' : '#18A0FB',
             backgroundColor: 'rgba(24, 160, 251, 0.15)',
-            data: this.dataGraph,
+            data: Object.values(this.result.graph),
             fill: false,
             borderWidth: this.isScreenXS ? 2 : 4,
           },
@@ -537,9 +588,13 @@ export default {
     this.getTopOrders()
   },
   methods: {
+    changeTab(tab) {
+      this.activeTab = tab
+      this.getTopOrders()
+    },
     handleFilterByChangeTotalSale(tab) {
       this.activeTab = tab
-      // this.getData()
+      this.getTopOrders()
     },
     orderBy(scope) {
       if (scope.column !== 'actions') {
@@ -615,15 +670,14 @@ export default {
     getTopOrders() {
       this.loading = true
       this.$axios
-        .get('/dashboard/vendor/orders', {
+        .get(`dashboard/vendor/product-breakdown/${this.$route.params.id}`, {
           params: {
-            category_id: this.activeNav,
-            order_by_column: this.orderByField,
-            order_by_direction: this.orderByDirection,
+            group_by: this.activeTab,
           },
         })
         .then((res) => {
-          this.topOrders = res.data.data.data
+          console.log(res)
+          this.result = res.data.data
         })
         .catch((err) => {
           this.logger.logToServer(err.response)
@@ -638,6 +692,8 @@ export default {
 
 <style scoped lang="sass">
 @import "~/assets/css/variables"
+.mt-26
+  margin-top: 26px
 .mw-220
   max-width: 220px
 .mb-12
@@ -667,6 +723,8 @@ export default {
     box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
     border-radius: 8px
     max-width: 100%
+    width: 100%
+    height: max-content
 
 .dropdown-filter::v-deep
   background-color: $color-white-4
@@ -843,4 +901,26 @@ export default {
         content: attr(aria-label)
         margin-right: auto
         width: 100%
+
+.tabs
+  h6
+    color: $color-gray-47
+    transition: 0.1s all ease-in
+
+    &:hover
+      color: $color-black-1
+
+    &.activeOne
+      color: $color-black-1
+
+      &::after
+        content: ''
+        position: absolute
+        left: 50%
+        bottom: -5px
+        translate: -50% 50%
+        background: $color-black-1
+        height: 4px
+        width: 4px
+        border-radius: 50%
 </style>
