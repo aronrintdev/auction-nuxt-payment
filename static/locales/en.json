@@ -5704,6 +5704,7 @@
     "breakdown": {
       "export": "Export to CSV",
       "total": "Total",
+      "search_placeholder": "Search for SKU, Brand or Product Name",
       "products": "Products",
       "search_brand": "Search for Brands",
       "search_product": "Search for Products",

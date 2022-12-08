@@ -38,7 +38,7 @@
                 id="search-result"
                 v-model="searchValue"
                 :placeholder="
-                      $t('vendor_purchase.search_purchases_summary_placeholder')
+                      $t('vendor_dashboard.breakdown.search_placeholder')
                     "
                 autocomplete="off"
                 class="border-0 w-100 input-text"
