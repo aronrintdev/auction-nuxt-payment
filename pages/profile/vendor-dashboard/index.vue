@@ -1,6 +1,6 @@
 <template>
   <client-only>
-    <div class="dashboard pt-3 pt-sm-5 p-3" :class="mobileClass">
+    <div class="dashboard  pt-sm-5 p-3" :class="mobileClass">
       <div class="d-flex justify-content-between align-items-baseline">
         <h1 class="heading-1-bold d-none d-sm-block">
           {{ $t('vendor_dashboard.title') }}

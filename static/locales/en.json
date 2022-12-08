@@ -5649,6 +5649,7 @@
   },
   "vendor_dashboard": {
     "title": "Dashboard",
+    "products": "Products",
     "hi_name": "Hi {0},",
     "you_are_seller": "You are a {rank} Seller",
     "seller_fee": "Seller Fee",

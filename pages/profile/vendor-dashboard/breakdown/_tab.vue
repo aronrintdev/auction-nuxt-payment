@@ -2,7 +2,7 @@
   <b-container
     fluid
     class="container-profile-dashboard-breakdown h-100"
-    :class="isScreenXS ? 'p-4' : 'web-padding'"
+    :class="(isScreenXS ? '' : ' web-padding ') + mobileClass"
   >
     <span
       v-if="!isScreenXS"
@@ -16,12 +16,13 @@
       />
       {{ $t('common.back') }}
     </span>
+
     <NavGroup
       v-if="isScreenXS"
       :data="globalTabs"
       :value="activeGlobalTab"
       :class="mobileClass"
-      class="mt-20 nav-grp"
+      class="nav-grp mb-20"
       @change="tabChange"
     />
 
@@ -56,7 +57,7 @@
           v-if="!isScreenXS"
           class="mt-14 d-flex align-items-center justify-content-between"
         >
-          <div class="tabs d-flex align-items-center">
+          <div class="tabs global d-flex align-items-center">
             <div
               v-for="tab in globalTabs"
               :key="tab.value"
@@ -84,9 +85,9 @@
           />
         </div>
 
-        <BreakDownFilters :current-tab="activeGlobalTab"/>
+        <BreakDownFilters v-if="!isScreenXS" :current-tab="activeGlobalTab"/>
 
-        <div class="tabs d-sm-none d-flex gap-2 justify-content-center my-4">
+        <div class="tabs d-sm-none d-flex gap-2 justify-content-center">
           <h6
             v-for="(tab, index) in filterTabs"
             :key="index"
@@ -118,12 +119,25 @@
         </div>
       </div>
     </div>
-    <div class="mt-36">
-      <div class="d-flex">
-        <div class="ml-4 body-2-bold font-primary mr-22">
+    <div :class="{
+      'mt-26': isScreenXS,
+      'mt-36': !isScreenXS,
+    }">
+
+      <div class="d-flex " :class="{
+        'justify-content-center ': isScreenXS,
+        'mb-31': !isScreenXS
+      }">
+        <div class="ml-4 font-primary" :class="{
+          'body-21-medium mr-1 text-black':isScreenXS,
+          'body-2-bold mr-22': !isScreenXS
+        }">
           {{ $t('vendor_dashboard.breakdown.statistics') }}
         </div>
-        <div class="body-2-normal font-secondary text-capitalize text-gray-simple">
+        <div :class="{
+          'body-21-medium text-black font-primary':isScreenXS,
+          'body-2-normal font-secondary text-capitalize text-gray-simple': !isScreenXS
+        }">
           ({{chartFilterOptions[activeTab]}})
         </div>
       </div>
@@ -134,7 +148,7 @@
         borderless
         class="stat-table"
         no-border-collapse
-        tbody-tr-class="bg-white p-web-row mt-31"
+        tbody-tr-class="bg-white p-web-row"
         :busy="loading"
         :show-empty="!loading && stats.length === 0"
       >
@@ -219,6 +233,7 @@ export default {
         (key) => {
           return {
             text: this.$t(`vendor_dashboard.breakdown.tabs.${key}`),
+            label: this.$t(`vendor_dashboard.breakdown.tabs.${key}`),
             value: key,
           }
         }
@@ -417,7 +432,8 @@ export default {
   &.mobile
     width: 100%
   .btn-group
-    height: 32px
+    height: 36px
+    margin-inline: 0
     button.btn
       @include body-6-regular
       font-family: $font-montserrat
@@ -432,6 +448,21 @@ export default {
 .mt-36
   margin-top: 36px
 
+.mt-26
+  margin-top: 26px
+
+.mb-31
+  margin-top: 31px
+
+.mb-31
+  margin-bottom: 31px
+
+.mb-15
+  margin-bottom: 15px
+
+.mt-15
+  margin-top: 15px
+
 .mt-31
   margin-top: 31px
 
@@ -441,13 +472,17 @@ export default {
 .mr-22
   margin-right: 22px
 
+.mb-20
+  margin-bottom: 20px
+
 .tabs
-  width: 408px
-  border-bottom:  0.5px solid $color-gray-23
-  padding-bottom: 4px
-  .tab
-    &:not(last-child)
-      margin-right: 96px
+  &.global
+    width: 408px
+    border-bottom:  0.5px solid $color-gray-23
+    padding-bottom: 4px
+    .tab
+      &:not(last-child)
+        margin-right: 96px
 
 .text-gray-4
   color: $color-gray-4
@@ -455,6 +490,7 @@ export default {
 .chart-card
   padding: 25px 27px
   &.mobile
+    padding: 15px 8px 10px 7px
     box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
     border-radius: 8px
 
@@ -462,6 +498,9 @@ export default {
   padding: 30px 24px
 .container-profile-dashboard-breakdown
   background-color: $color-gray-1
+  &.mobile
+    background-color: $color-white-1
+    padding: 10px 15px 38px 17px
 
 .dropdown-filter::v-deep
   background-color: $color-white-4
