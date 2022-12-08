@@ -182,7 +182,28 @@ export default {
   @media (min-width: 576px)
     @include body-5-medium
 
-.popover
-  width: auto
+::v-deep.popover
+  width: 150px
+  height: 45px
+  border: none
+  box-shadow: 0 4px 14px $color-gray-23
 
+  .popover-body
+    padding: 0
+
+  .arrow::before
+    border-bottom-color: $white
+
+  .share-btn-group
+    display: flex
+    align-items: center
+    justify-content: space-around
+    height: 45px
+
+    img
+      margin-right: 0
+      cursor: pointer
+
+      &.link-share-btn
+        margin-right: 0
 </style>

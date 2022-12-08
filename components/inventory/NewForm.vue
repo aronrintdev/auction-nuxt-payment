@@ -6,12 +6,12 @@
                  :label="$t('common.quantity')"
                  :label-class="isScreenXS ? 'ml-0 mb-2' : ''"
                  class="input"
-                 :pill="false"
-                 :class="{'input-error': value.price !== null && (value.quantity <= 0 || value.quantity > 50)}"
+                 :class="{'input-error': quantityChanged && (value.quantity <= 0 || value.quantity > 50)}"
                  required
+                 :pill="false"
                  integer
                  @input="handleQuantityChange" />
-      <div v-if="value.price !== null && (value.quantity <= 0 || value.quantity > 50)" class="error-text mt-1">
+      <div v-if="quantityChanged && (value.quantity <= 0 || value.quantity > 50)" class="error-text mt-1">
         {{
           (0 >= value.quantity || value.quantity > 50) &&
           $t('inventory.message.between', {
@@ -120,12 +120,18 @@ export default {
       return this.isScreenXS ? 'col-12' : 'col-6'
     }
   },
+  data() {
+    return {
+      quantityChanged: false,
+    }
+  },
   methods: {
     handleSizeChange(value) {
       this.$emit('input', { ...this.value, currentSize: value })
     },
 
     handleQuantityChange(value) {
+      this.quantityChanged = true
       this.$emit('input', { ...this.value, quantity: value })
     },
 

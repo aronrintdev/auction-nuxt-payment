@@ -837,9 +837,10 @@ export default {
   padding: 19px
 </style>
 <style lang="sass">
-.nav-group .btn-group
-  width: 100%
-  margin-left: 24px
-  margin-right: 24px
+.profile-view
+  .nav-group .btn-group
+    width: 100%
+    margin-left: 24px
+    margin-right: 24px
 </style>
 

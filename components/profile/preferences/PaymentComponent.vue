@@ -291,7 +291,9 @@ export default {
     // Update the card payments default status
     onChangeOption(id) {
       this.$axios
-        .put(`/preferences/payments/update-default-status/${id}`)
+        .put(`/preferences/payments/update-default-status/${id}`, {
+          default: true
+        })
         .then((res) => {
           this.defaultCardPayment = res.data.id
           this.$nuxt.refresh()

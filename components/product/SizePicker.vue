@@ -7,14 +7,14 @@
     >
       <b-row>
         <b-col md="12" class="d-flex justify-content-between align-items-center">
-          <span class="select-size">
+          <div class="select-size">
             {{ $t('products.select_size') }}<span class="d-sm-none">:</span>
             <span class="ml-2 body-8-normal text-red">{{ errorText }}</span>
-          </span>
+          </div>
 
           <div
             v-if="!singleMode"
-            class="position-absolute view-all-btn mr-2"
+            class="view-all-btn"
             @click="handleViewAllClick"
           >
             <img
@@ -72,7 +72,7 @@
                 {{ size.size }}
               </div>
               <div class="price">
-                {{ getPriceBySize(size.id) | toCurrency }}
+                {{ getPriceBySize(size.id) | toRoundedCurrency }}
               </div>
             </div>
           </template>
@@ -116,7 +116,7 @@
             {{ size.size }}
           </div>
           <div class="text-center price">
-            {{ getPriceBySize(size.id) | toCurrency }}
+            {{ getPriceBySize(size.id) | toRoundedCurrency }}
           </div>
         </div>
       </div>
@@ -313,6 +313,7 @@ export default {
   @include body-10-regular
   color: $color-black-1
   @media (min-width: 576px)
+    margin-top: 32px
     @include body-8-medium
     color: $color-blue-30
 
