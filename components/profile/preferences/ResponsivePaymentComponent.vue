@@ -6,7 +6,8 @@
 import PaymentComponent from './Payments/PaymentsComponent.vue'
 import CardPayments from './Payments/CardPayments.vue'
 import AddCardComponent from './Payments/AddCardComponent.vue'
-
+import GiftCardMethod from '~/components/profile/preferences/GiftCard/RedeemGiftcard/GiftCardMethod.vue'
+import ResponsiveRedeemGiftCard from '~/components/profile/preferences/GiftCard/RedeemGiftcard/ResponsiveRedeemGiftCard.vue'
 export default {
   name: 'ResponsivePaymentComponent',
 
@@ -14,6 +15,8 @@ export default {
     PaymentComponent,
     CardPayments,
     AddCardComponent,
+    GiftCardMethod,
+    ResponsiveRedeemGiftCard,
   },
 
   data() {
@@ -26,6 +29,12 @@ export default {
     this.$nuxt.$on('renderComponent', (componentName) => {
       this.renderedComponent = componentName
     })
+
+    if(this.$auth.$storage.getUniversal('showGiftCardMethod')){
+      this.$store.dispatch('preferences/changeHeaderVisibility', false)
+      this.renderedComponent = GiftCardMethod
+      this.$auth.$storage.removeUniversal('showGiftCardMethod')
+    }
   },
 }
 </script>

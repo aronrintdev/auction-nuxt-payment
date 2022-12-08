@@ -1,25 +1,46 @@
 <template>
   <b-col class="vendor-preferences-body">
-    <div class="vd-preferences-slider">
-      <h1 v-if="getPageTitle" class="vd-preferences-heading">
+    <div v-if="!isScreenXS" class="vd-preferences-slider">
+      <h1 v-if="getPageTitle" class="vd-preferences-heading position-absolute">
         {{ getPageTitle }}
       </h1>
     </div>
-    <b-container id="content-body" fluid>
+    <b-container v-if="!isScreenXS" id="content-body" fluid>
       <ViewGiftCard v-if="showDetails" />
     </b-container>
+      <gift-card-details v-if="isScreenXS"/>
+    
+    <client-only  v-if="isScreenXS">
+      <Portal to="page-title"> {{ $t('preferences.payments.gift_card') }}&colon; {{ getSelectedGiftCard.giftcard_number }}</Portal>
+      <!-- If back icons needed -->
+      <Portal to="back-icon-slot"> 
+        <img
+          :src="require('~/assets/img/icons/back.svg')"
+          alt="back-arrow"
+          class="float-left"
+          @click="backTo"
+        />
+      </Portal>
+    </client-only>
   </b-col>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import ViewGiftCard from '~/components/profile/preferences/GiftCard/ViewGiftCard.vue'
+import screenSize from '~/plugins/mixins/screenSize'
+import GiftCardDetails from '~/components/profile/preferences/ResponsiveGiftCardDetails/Details.vue'
+import { GOOGLE_MAPS_BASE_URL } from '~/static/constants'
+
 export default {
   name: 'GiftCard',
 
   components: {
     ViewGiftCard,
+    GiftCardDetails
   },
+
+  mixins: [screenSize],
 
   layout: 'Profile',
 
@@ -44,6 +65,10 @@ export default {
     },
   },
 
+  mounted() {
+     this.injectGoogleMapsApi()
+  },
+
   created() {
     // Get the card details
     const id = this.$route.params.id
@@ -66,6 +91,35 @@ export default {
       saveGiftCardDetails: 'preferences/saveGiftCardDetails',
       updatePageTitle: 'preferences/viewPageTitle',
     }),
+
+    backTo() {
+      this.$store.dispatch('preferences/changeHeaderVisibility', true)
+      this.$router.push('/profile/preferences')
+      this.$auth.$storage.setState('showGiftCardMethod', true)
+    },
+
+    injectGoogleMapsApi() {
+      if (!window.google) {
+        const scriptTag = this.createScriptTag()
+        scriptTag.src = GOOGLE_MAPS_BASE_URL
+        this.insertScript(scriptTag)
+        return true
+      }
+      return false
+    },
+
+    // Create a new script tag without the src attribute.
+    createScriptTag() {
+      const scriptTag = document.createElement('script')
+      scriptTag.type = 'text/javascript'
+      scriptTag.async = true
+      return scriptTag
+    },
+    // Insert a new script tag before the first found script tag.
+    insertScript(scriptTag) {
+      const firstScriptTag = document.getElementsByTagName('script')[0]
+      firstScriptTag.parentNode.insertBefore(scriptTag, firstScriptTag)
+    },
   },
 }
 </script>
@@ -77,7 +131,6 @@ export default {
   @include heading-11
   color: $color-black-1
   left: 2rem
-  position: absolute
   top: 5rem
 
 /* media query */

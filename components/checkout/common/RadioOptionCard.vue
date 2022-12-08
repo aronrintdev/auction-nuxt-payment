@@ -1,10 +1,10 @@
 <template>
   <!-- Radio Option Card -->
-  <b-row>
-    <b-col md="12">
+  <b-row class="custom-card-row">
+    <b-col md="12" class="custom-card-col">
       <b-card class="custom-card">
         <b-row>
-          <b-col md="6" class="d-flex align-items-center">
+          <b-col md="6" cols="6" class="d-flex align-items-center">
             <b-form-radio
               :disabled="disabled"
               :checked="checked"
@@ -17,14 +17,14 @@
             </b-form-radio
             >
           </b-col>
-          <b-col v-if="typeof imageUrls === 'string'" md="6" class="d-flex align-items-center">
+          <b-col v-if="typeof imageUrls === 'string'" md="6" cols="6" class="d-flex align-items-center">
             <img
               class="ml-auto"
               :src="getImageUrl(imageUrls)"
               alt="..."
             />
           </b-col>
-          <b-col v-else md="6" class="d-flex align-items-center">
+          <b-col v-else md="6" cols="6" class="d-flex align-items-center">
             <img
               v-for="url in imageUrls" :key="url"
               class="ml-auto"

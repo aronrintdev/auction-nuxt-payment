@@ -5,29 +5,29 @@
         {{ $t('profile_menu.preferences') }}
       </h1>
     </div>
-    <b-container v-if="!isScreenXS" class="vendor-preferences-body preferences-web" fluid >
-      <b-row class="mt-38 mb-46">
-        <b-col md="2" sm="2"></b-col>
+    <b-container class="vendor-preferences-body preferences-web" fluid>
+      <b-row class="mt-md-4 mt-4">
+        <b-col md="3" sm="3"></b-col>
         <b-col
-          md="8"
-          sm="8"
+          md="6"
+          sm="6"
           class="vd-sub-row-heading justify-content-center d-flex col-xs-8"
         >
           <!-- Profile/ Payments Tab -->
-          <NavGroup :value="activeNav" :data="menus" navGroupClass="m-0" btnGroupClass="p-1 mx-19" btnClass="w-98 h-30 px-25-py-7" @change="navItem" />
+          <NavGroup :value="activeNav" :data="menus" @change="navItem" />
           <!-- ./Profile/ Payments Tab -->
         </b-col>
         <!-- Logout Button -->
         <b-col
           id="logout-button-wrapper"
-          md="2"
-          sm="2"
+          md="3"
+          sm="3"
           class="text-center col-xs-4 m-auto"
         >
           <b-button
             v-if="activeNav === 'profile'"
             variant="light"
-            class="preferences-logout-btn px-26 py-2 d-block"
+            class="preferences-logout-btn"
             pill
             @click="logout"
           >
@@ -68,10 +68,10 @@
       >
         <!-- Profile/ Payments Tab for responsive screen-->
         <NavGroup
-          id="preferences-nav"
+          id="responsive-nav"
           :value="activeNav"
           :data="menus"
-          class="nav-select"
+          class="nav-select w-100"
           @change="navItem"
         />
         <!-- Profile/ Payments Tab for responsive screen-->
@@ -130,6 +130,9 @@ export default {
   },
 
   mounted() {
+    if(this.$auth.$storage.getUniversal('showGiftCardMethod')){
+      this.activeNav = 'payments'
+    }
     // inject google maps on mount.
     this.injectGoogleMapsApi()
     this.getUserPaymentMethods()
@@ -138,7 +141,7 @@ export default {
 
   methods: {
     ...mapActions({
-      savePaymentMethods: 'preferences/savePaymentMethods',
+      savePaymentMethods: 'preferences/savePaymentMethods'
     }),
     // On Tab Change (Profile/ Payment)
     navItem(val) {
@@ -200,29 +203,28 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
-.responsive-preferences
-  padding: 4%
-  #preferences-nav::v-deep
-    width: 100%
-    .btn-group
-      margin-right: 0
-      margin-left: 0
-.responsive-heading
-  font-family: $font-montserrat
-  font-style: normal
-  @include body-3-medium
-  letter-spacing: -0.02em
-  color: $color-black-1
-  background-color: $color-white-1
+.vendor-preferences-body
+  .responsive-preferences
+    padding: 20px 16px
+  .responsive-heading
+    font-family: $font-montserrat
+    font-style: normal
+    @include body-3-medium
+    letter-spacing: -0.02em
+    color: $color-black-1
+    background-color: $color-white-1
 
 @media (max-width:576px)
   .preferences-web
     display: none
   .responsive-preferences::v-deep
-    height: 700px
     display: block
     background-color: $color-white-1
 @media (min-width:576px)
   .preferences-web
     display: block
+.vendor-preferences-body
+  #responsive-nav::v-deep
+    .btn-group
+      margin: 0
 </style>
