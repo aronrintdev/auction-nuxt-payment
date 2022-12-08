@@ -6,6 +6,7 @@
                  :label="$t('common.quantity')"
                  :label-class="isScreenXS ? 'ml-0 mb-2' : ''"
                  class="input"
+                 :pill="false"
                  :class="{'input-error': value.price !== null && (value.quantity <= 0 || value.quantity > 50)}"
                  required
                  integer
@@ -27,6 +28,7 @@
         :placeholder="$t('inventory.enter_price')"
         :label="$t('inventory.your_price')"
         :label-class="isScreenXS ? 'ml-0 mb-2' : ''"
+        :pill="false"
         prefix="$"
         class="input"
         :class="{'input-error': value.price !== null && value.price <= 50}"
@@ -141,12 +143,12 @@ export default {
     font-style: normal
     @include body-8-normal
     color: $color-black-1
-    margin-left: 0px!important
+    margin-left: 0px
     text-transform: uppercase
     margin-bottom: 16px
   .input
     .form-input
-      border-radius: 4px!important
+      border-radius: 4px
       height: 40px
       left: 16px
       border: 1px solid $color-blue-20
@@ -188,7 +190,7 @@ export default {
       left: 16px
       top: 804px
       border: 1px solid $white-5
-      border-radius: 10px!important
+      border-radius: 10px
       &::placeholder
         font-family: $font-montserrat
         font-style: normal
