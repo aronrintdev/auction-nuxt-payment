@@ -20,10 +20,26 @@
               </div>
             </div>
           </div>
-          <div  :class="trade.offers.length  === ITEM_COUNT_ONE ? 'center-container-one'
-             : trade.offers.length  === ITEM_COUNT_TWO ?'center-container-two' : 'center-container' ">
-            <div v-if="leftDataShow" class="left-item" :class="{'right-item-margin-top':trade.offers.length === ITEM_COUNT_TWO,'left-item-one':trade.offers.length === ITEM_COUNT_ONE}">
-                <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'card-'+index : ''" :key="index" class="item mb-4">
+          {{trade.offers.length}} | {{getYourTradeItems.length}}
+          <div  :class="trade.offers.length  === ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_ONE ? 'center-container-one'
+             :trade.offers.length  === ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 ? 'center-container-one'
+             :trade.offers.length  === ITEM_COUNT_TWO && getYourTradeItems.length === ITEM_COUNT_0 ? 'center-container-20'
+             : trade.offers.length  === ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_TWO ? 'center-container-two'
+ : trade.offers.length  === ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_THREE ?'center-container-three' 
+ : 'center-container' ">
+
+
+            <div v-if="leftDataShow" class="left-item"  :class="trade.offers.length === ITEM_COUNT_ONE &&  getYourTradeItems.length === ITEM_COUNT_0 ? 'left-item-one-zero'
+                :getYourTradeItems.length === ITEM_COUNT_ONE && trade.offers.length === ITEM_COUNT_ONE  ?  'left-item-one' 
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_0 ? 'left-item-two-zero' 
+                : trade.offers.length === ITEM_COUNT_THREE && getYourTradeItems.length === ITEM_COUNT_0 ? 'left-item-three-zero'
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_ONE ? 'left-item-21'
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_TWO ? 'left-item-22'
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_THREE ? 'left-item-23'
+                : trade.offers.length === ITEM_COUNT_ONE &&  getYourTradeItems.length === ITEM_COUNT_TWO ? 'left-item-one-two' : trade.offers.length === ITEM_COUNT_ONE
+                &&  getYourTradeItems.length === ITEM_COUNT_THREE ? 'left-item-one-three' : ''">
+               
+               <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'card-'+index : ''" :key="index" class="item mb-4">
                   <div class="image-wrapper">
                     <img class="pro-image" :src="getProductImageUrl(item.inventory.product)"/>
                     <div class="overlay-black"></div>
@@ -36,7 +52,18 @@
                   </div>
                 </div>
               </div>
-              <div v-else class="left-item" :class="{'right-item-margin-top':trade.offers.length === ITEM_COUNT_TWO,'left-item-one':trade.offers.length === ITEM_COUNT_ONE}">
+              <div v-else class="left-item" :class="trade.offers.length === ITEM_COUNT_ONE &&  getYourTradeItems.length === ITEM_COUNT_0 ? 'left-item-one-zero'
+                :getYourTradeItems.length === ITEM_COUNT_ONE && trade.offers.length === ITEM_COUNT_ONE  ?  'left-item-one' 
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_0 ? 'left-item-two-zero' 
+                : trade.offers.length === ITEM_COUNT_THREE && getYourTradeItems.length === ITEM_COUNT_0 ? 'left-item-three-zero'
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_ONE ? 'left-item-21'
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_TWO ? 'left-item-22'
+                : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_THREE ? 'left-item-23'
+                : trade.offers.length === ITEM_COUNT_ONE &&  getYourTradeItems.length === ITEM_COUNT_TWO ? 'left-item-one-two' : trade.offers.length === ITEM_COUNT_ONE
+                &&  getYourTradeItems.length === ITEM_COUNT_THREE ? 'left-item-one-three' : ''">
+                
+                
+                
                 <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'card-'+index : ''" :key="index" class="item mb-4">
                   <div class="image-wrapper">
                     <img class="pro-image" :src="getProductImageUrl(item.inventory.product)"/>
@@ -58,7 +85,8 @@
                 </div>
                 <div v-if="getYourTradeItems.length > ITEM_COUNT_ONE" class="pointer-right" :class="{'pointer-right-two-items':getYourTradeItems.length === ITEM_COUNT_TWO}"></div>
               </div>
-              <div class="right-item" :class="{'right-item-margin-top':getYourTradeItems.length === ITEM_COUNT_TWO,'right-item-one':getYourTradeItems.length === ITEM_COUNT_ONE}">
+              <div class="right-item" :class="trade.offers.length === ITEM_COUNT_TWO && 
+               getYourTradeItems.length === ITEM_COUNT_ONE ?  'right-item-one' : trade.offers.length === ITEM_COUNT_TWO &&  getYourTradeItems.length === ITEM_COUNT_TWO ? 'right-item-two-two' : trade.offers.length === ITEM_COUNT_THREE &&  getYourTradeItems.length === ITEM_COUNT_ONE ? 'right-item-three-one': trade.offers.length === ITEM_COUNT_THREE &&  getYourTradeItems.length === ITEM_COUNT_TWO ? 'right-item-three-two' : trade.offers.length === ITEM_COUNT_ONE &&  getYourTradeItems.length === ITEM_COUNT_ONE ? 'right-item-one-one' : trade.offers.length === ITEM_COUNT_ONE &&  getYourTradeItems.length === ITEM_COUNT_TWO ? 'right-item-one-two' : trade.offers.length === ITEM_COUNT_ONE &&  getYourTradeItems.length === ITEM_COUNT_THREE ? 'right-item-one-three' : ''">
                 <div  v-if="getYourTradeItems.length" class="">
                   <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_ONE ?'your-card-'+index : 'your-item'" :key="index" class="preview mb-4">
                     <div class="remove-item" @click="decrementOrRemoveItem(item)">
@@ -922,12 +950,24 @@ export default {
   margin: 0 30px
   display: flex
   justify-content: center
-
-.center-container-two
+.center-container-20
   min-height: 450px
   margin: 0 30px
   display: flex
   justify-content: center
+
+.center-container-two
+  min-height: 300px
+  margin: 0 30px
+  display: flex
+  justify-content: center
+  margin-bottom: 60px
+.center-container-three
+  min-height: 510px
+  margin: 0 30px
+  display: flex
+  justify-content: center
+  margin-bottom: 60px
 
 .image-wrapper
   .overlay
@@ -971,6 +1011,26 @@ export default {
 .right-item-margin-top
   margin-top: 60px
 .right-item-one
+  margin-top: 148px
+  margin-bottom: 60px
+  margin-left: 15px
+.right-item-one-one
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-left: 15px
+.right-item-two-two
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-left: 15px
+.right-item-one-two
+  margin-top: 10px
+  margin-bottom: 60px
+  margin-left: 15px
+.right-item-three-one
+  margin-top: 148px
+  margin-bottom: 60px
+  margin-left: 15px
+.right-item-three-two
   margin-top: 60px
   margin-bottom: 60px
   margin-left: 15px
@@ -978,6 +1038,46 @@ export default {
   margin-top: 60px
   margin-bottom: 60px
   margin-right: 15px
+.left-item-21
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-right: 15px
+.left-item-22
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-right: 15px
+.left-item-23
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-right: 15px
+.left-item-one-zero
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-right: 15px
+.left-item-two-zero
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-right: 15px
+.left-item-one-one
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-left: 15px
+.left-item-two-two
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-left: 15px
+.left-item-one-two
+  margin-top: 148px
+  margin-bottom: 60px
+.left-item-three-one
+  margin-top: 148px
+  margin-bottom: 60px
+.left-item-three-two
+  margin-top: 60px
+  margin-bottom: 60px
+  margin-left: 15px
+.left-item-one-three
+   margin-top: 148px
 .fair-text
   background: $color-white-1
   color: $color-black-1
