@@ -82,12 +82,6 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
-.list-group
-  .thumb-wrapper
-    img
-      padding: 0 !important
-
 .nav-link
   font-family: $font-sp-pro
   font-weight: $normal
