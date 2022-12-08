@@ -352,10 +352,6 @@ export default {
       }
       return this.tradeCondition === FILTER_CONDITION_POOR
     },
-    showLeftBox(){
-      console.log('come')
-     this.leftDataShow = true
-    },
     getFairTradeValue(){
       return (this.theirTotal(false) * this.fairTradePercentage)
     },
@@ -912,8 +908,8 @@ export default {
 .trade-img
   background: $color-white-1
   margin-left: -5px
-  height: 40px
-  width: 40px
+  height: 25px
+  width: 25px
 
 .center-container
   min-height: 450px
@@ -955,12 +951,14 @@ export default {
   width: 9px
   height: 2px
   background: #E3E3E3
-  margin: 15px -20px 0 -20px
+  margin: 15px 9px 6px -20px
 .line-bar-2
   width: 9px
   height: 2px
   background: #E3E3E3
-  margin: 15px -16px 0 -20px
+  margin-right: -4px
+  margin-top: 15px
+  margin-left: 9px
 
 .item-caption
   background: $color-white-1
@@ -984,7 +982,7 @@ export default {
   background: $color-white-1
   color: $color-black-1
   height: 30px
-  width: 50px
+  width: 40px
   text-align: center
   z-index: 98
   font-family: $font-family-sf-pro-display
