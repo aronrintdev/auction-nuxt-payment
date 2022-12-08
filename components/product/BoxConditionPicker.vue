@@ -142,7 +142,7 @@ export default {
       cursor: help
 
   .box-condition-btns
-    margin-top: 17px
+    margin-top: 12px
 
     .btn
       @include body-8-normal

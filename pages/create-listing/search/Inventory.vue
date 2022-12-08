@@ -207,7 +207,7 @@
             :total="totalCount"
             :per-page="perPage"
             :per-page-options="perPageOptions"
-            class="mt-2"
+            class="mt-2 pb-3"
             @page-click="handlePageClick"
             @per-page-change="handlePerPageChange"
           />
@@ -230,7 +230,7 @@
         :unit-label="$tc('common.product', selected.length)"
         :total="inventories.length"
         :action-label="$tc('sell.create_listing.continue_listing')"
-        class="d-none d-md-flex mt-3"
+        class="d-none d-md-flex mt-3 mb-3"
         @close="selected = []"
         @selectAll="handleSelectAll()"
         @deselectAll="selected = []"
@@ -527,7 +527,8 @@ export default {
         category: this.categorySelect,
         sizes: this.activeSizeFilters.map(a => a.value),
         size_types: this.activeSizeTypeFilters.map(a => a.value),
-        sort_by: this.sortBy
+        sort_by: this.sortBy,
+        available_only: 1,
       }
 
       // if edit item selected we need use previous search in order to show that item
@@ -674,7 +675,8 @@ export default {
         category: this.categorySelect,
         sizes: this.activeSizeFilters.map(a => a.value),
         size_types: this.activeSizeTypeFilters.map(a => a.value),
-        sort_by: this.sortBy
+        sort_by: this.sortBy,
+        available_only: 1,
       }
       this.fetchPublicInventories(params).then((res) => {
         this.totalCount = parseInt(res.total)
@@ -876,7 +878,7 @@ export default {
         color: $black
 
   .inventory-card-list
-    margin-top: 21px 
+    margin: 21px -18px
     @media (max-width: 576px)
       margin: 0 -7.5px
   .collection-items-preview::v-deep
@@ -981,6 +983,10 @@ export default {
     background-color: $color-black-10
     border-color: $color-black-10
 .inventories-wrapper
+  padding: 25px 28px 0
+  background: $white
+  @media (max-width: 576px)
+    padding: 0
   &-title
     font-family: $font-sp-pro
     color: $black

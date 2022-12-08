@@ -16,6 +16,7 @@
           :key="`box-condition-${index}`"
           variant="link"
           :class="{ active: value === condition.id }"
+          class="pl-0"
           @click="handleConditionSelect(condition)"
         >
           {{
