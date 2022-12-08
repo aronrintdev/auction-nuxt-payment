@@ -6,12 +6,12 @@
         :class="`section-lists ${action !== 'none' ? 'mt' : ''}`"
       >
         <h5 class="d-none d-sm-block px-2">
-          {{ $t('wish_lists.shop_by_style_lists') }} <span v-b-modal.create-list-modal class="plus-sign">+</span>
+          {{ $t('wish_lists.buying_lists') }} <span v-b-modal.create-list-modal class="plus-sign">+</span>
         </h5>
         <div class="d-none d-sm-block wishlist-wrapper">
           <div v-for="list in wishLists" :key="list.id" class="px-2">
             <Button
-              :pressed="currentWishList && list.id === currentWishList.id"
+              :pressed="list.id === currentWishList.id"
               variant="link"
               class="text-truncate mw-300px"
               @click="selectWishList(list)"
@@ -21,7 +21,7 @@
 
             <div
               v-if="
-                currentWishList && list.id === currentWishList.id &&
+                list.id === currentWishList.id &&
                 currentWishList.privacy === 'public'
               "
               class="share-block"
@@ -284,7 +284,7 @@ export default {
     await this.selectWishList(this.wishLists[0])
     console.log(this.currentWishList);
     console.log(this.wishLists);
-    this.url = `shop-by-style/wish-lists/${this.currentWishList?.id}/items?page=1&per_page=${this.perPage}`
+    this.url = `wish-lists/${this.currentWishList?.id}/items?page=1&per_page=${this.perPage}`
   },
 
   methods: {
