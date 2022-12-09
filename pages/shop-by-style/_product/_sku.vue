@@ -113,14 +113,6 @@
             @sell-now="handleSellNowClick"
           />
           <!-- End of User Conditional Actions -->
-
-          <!-- Error message text -->
-          <b-row v-if="errorText" class="mt-2">
-            <b-col md="12">
-              <div class="body-5-normal text-color-red-3">{{ errorText }}</div>
-            </b-col>
-          </b-row>
-          <!-- End of Error message text -->
         </b-col>
       </b-row>
 
@@ -131,24 +123,6 @@
         </b-col>
       </b-row>
       <!-- End of Product Details & Size Guide Section -->
-
-      <OutOfStock
-        v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
-        class="px-4 d-sm-none"
-        :product="product"
-        @notify-me="handleNotifyMeClick"
-        @place-offer="handleOfferSubmit"
-      />
-
-      <BuyNow
-        v-else-if="method === 'buy' && sizeViewMode === 'carousel' && product"
-        class="mt-3 px-4 d-sm-none"
-        :product="product"
-        :lowest-price="lowestPrice"
-        @buy-now="handleBuyNowClick"
-        @add-to-cart="handleAddToCartClick"
-        @shipping-option-selected="handleShippingOptionSelected"
-      />
 
       <AlertModal id="message-modal" :message="message" icon="tick" />
       <div class="row mt-3 ml-2 mr-2">
@@ -171,7 +145,7 @@
             :key="`product-carousel-${index}`"
             class="item"
           >
-            <ProductCard
+            <ShopByStyleProductCard
               :product="product"
               :showActionBtn="false"
               :showActions="false"
@@ -189,10 +163,36 @@
                   <PlusCircle />
                 </div>
               </template>
-            </ProductCard>
+            </ShopByStyleProductCard>
           </div>
         </template>
       </ShopProductCarousel>
+
+      <!-- Error message text -->
+      <b-row v-if="errorText" class="mt-2 text-center">
+          <b-col md="12">
+          <div class="body-5-normal text-color-red-3">{{ errorText }}</div>
+        </b-col>
+      </b-row>
+      <!-- End of Error message text -->
+      
+      <OutOfStock
+        v-if="method === 'buy' && isOutOfStock && sizeViewMode === 'carousel'"
+        class="px-4 d-sm-none"
+        :product="product"
+        @notify-me="handleNotifyMeClick"
+        @place-offer="handleOfferSubmit"
+      />
+
+      <BuyNow
+        v-else-if="method === 'buy' && sizeViewMode === 'carousel' && product"
+        class="mt-3 px-4 d-sm-none"
+        :product="product"
+        :lowest-price="lowestPrice"
+        @buy-now="handleBuyNowClick"
+        @add-to-cart="handleAddToCartClick"
+        @shipping-option-selected="handleShippingOptionSelected"
+      />
     </b-col>
   </b-row>
 </template>
@@ -216,6 +216,7 @@ import SellNow from '~/components/product/SellNow'
 import OfferDuration from '~/components/product/OfferDuration'
 import PlusCircle from '~/assets/icons/PlusCircle'
 import ShopProductCarousel from '~/components/shop-by-style/ProductCarousel'
+import ShopByStyleProductCard from '~/components/shop-by-style/ProductCard'
 
 export default {
   components: {
@@ -233,7 +234,8 @@ export default {
     Loader,
     AlertModal,
     PlusCircle,
-    ShopProductCarousel
+    ShopProductCarousel,
+    ShopByStyleProductCard
   },
   name: 'ShopByStyleProductDetails',
   layout: 'IndexLayout',
