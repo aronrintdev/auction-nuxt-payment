@@ -77,6 +77,40 @@
           />
         </div>
       </div>
+
+      <div
+          v-if="(activeGlobalTab === 'brand' || activeGlobalTab === 'product') && (filters.brands.length || filters.products.length)"
+          class="categories shown row d-flex align-items-center mb-20"
+      >
+        <div
+            v-for="(item, index) in (activeGlobalTab === 'brand'? filters.brands : filters.products)"
+            :key="index"
+            class="form-check  col-6"
+        >
+          <input
+              :id="`${activeGlobalTab}-flexCheckDefault-${index}`"
+              :checked="true"
+              class="form-check-input"
+              type="checkbox"
+              @change="selectedChange(item)"
+          />
+          <label :for="`${activeGlobalTab}-flexCheckDefault-${index}`">
+            {{ item.name | capitalizeFirstLetter }}
+          </label>
+        </div>
+        <div
+            class="form-check col-6"
+        >
+          <div
+              v-if="filters.brands.length || filters.products.length"
+              class="body-13-normal font-secondary text-decoration-underline text-gray-simple"
+              role="button"
+              @click="resetFilter"
+          >
+            {{ $t('vendor_dashboard.breakdown.clear_all') }}
+          </div>
+        </div>
+      </div>
     </div>
 
     <div>
@@ -612,7 +646,6 @@ export default {
     this.fetchServerData()
     this.searchProduct()
     this.getData()
-    // console.log(this.$route)
   },
   methods: {
     allProductSelect() {
@@ -715,6 +748,14 @@ export default {
       }
       this.categoryTransformer()
     },
+    selectedChange(item){
+      if (this.activeGlobalTab === 'brand'){
+       this.filters.brands = this.filters.brands.filter(it => item.id !== it.id)
+      }else {
+        this.filters.products = this.filters.products.filter(it => item.id !== it.id)
+      }
+      this.applyFilters()
+    },
     categoryChange(val) {
       this.categorySelectAll = this.filters.categories.length === 3
       this.categoryTransformer()
@@ -733,7 +774,6 @@ export default {
     },
     filterChanged(data) {
       const filters = data.filterData
-      console.log(data)
       this.filters.category_ids = filters.category_ids || []
       this.filters.brand_ids = filters.brand_ids || []
       this.filters.product_ids = filters.product_ids || []
@@ -777,7 +817,6 @@ export default {
           },
         })
         .then((response) => {
-          console.log(response)
           this.result = response.data.data
         })
         .catch((error) => {
@@ -964,6 +1003,8 @@ export default {
 
 .categories
   margin-inline: 30px
+  &.shown
+    margin-inline: 4px
 
 .form-check
   & > *
@@ -995,6 +1036,10 @@ export default {
         background-position: center
 
   label
+    max-width: 140px
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
     font-family: $font-family-sf-pro-display
     @include body-13-normal
     text-align: left
