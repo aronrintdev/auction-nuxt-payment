@@ -384,3 +384,30 @@ export function addressDelete({ commit }, payload) {
     })
   })
 }
+
+export function changeHeaderVisibility({ commit }, payload){
+  commit('updateHeader', payload)
+}
+
+export function defaultCardStatus({ commit }, payload) {
+  commit('cardStatus', payload.defaultCard)
+}
+
+export function updateCardToDefault({ commit }, payload){
+  return new Promise((resolve, reject) => {
+    this.$axios
+        .put(`/preferences/payments/update-default-status/${payload.cardId}`, {
+          default: payload.default
+        })
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((err) => {
+          this.$logger.logToServer(
+            'Preferences Payments make default: ',
+            err.response
+          )
+          reject(err)
+        })
+  })
+}

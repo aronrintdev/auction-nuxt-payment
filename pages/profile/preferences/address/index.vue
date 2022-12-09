@@ -1,5 +1,16 @@
 <template>
   <div class="your-address-page">
+    <client-only>
+      <Portal to="page-title"> {{ $t('navbar.profile') }}</Portal>
+      <Portal to="back-icon-slot">
+        <img
+          :src="require('~/assets/img/icons/back.svg')"
+          alt="back-arrow"
+          class="float-left"
+          @click="moveBack"
+        />
+      </Portal>
+    </client-only>
     <AddressComponent />
   </div>
 </template>
@@ -52,7 +63,11 @@ export default {
       if(!this.isScreenXS){
         this.$router.push('/profile/preferences')
       }
-    }
+    },
+    moveBack()
+    {
+      this.$router.push('/profile/preferences')
+    },
   },
 }
 </script>
