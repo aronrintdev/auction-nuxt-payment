@@ -78,8 +78,10 @@
       </Button>
     </div>
 
-    <PortalTarget v-if="isScreenXS" name="tos-portal"></PortalTarget>
-    <PortalTarget v-if="isScreenXS" name="button-portal" class="w-100 button-portal" />
+    <client-only v-if="isScreenXS">
+      <PortalTarget name="tos-portal"></PortalTarget>
+      <PortalTarget name="button-portal" class="w-100 button-portal" />
+    </client-only>
   </div>
 </template>
 
