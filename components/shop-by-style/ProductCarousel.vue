@@ -72,7 +72,7 @@
     </div>
   </template>
   <script>
-  import ProductCard from '~/components/product/Card.vue'
+  import ProductCard from '~/components/shop-by-style/DetailCard.vue'
   import ProductThumb from '~/components/product/Thumb.vue'
   export default {
     name: 'HomeProductCarousel',

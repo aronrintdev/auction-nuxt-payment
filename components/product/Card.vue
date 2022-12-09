@@ -6,13 +6,9 @@
     <div class="badge-slot">
       <slot name="badge"></slot>
     </div>
-    <div
-      class="product-image"
-      :style="`--card-height: ${cardHeight}; --card-height-sm: ${cardHeight}; --card-width: ${cardHeight}; --card-width-sm: ${cardHeight}`"
-    >
+    <div class="product-image" :style="`--card-height: ${cardHeight}`">
       <ProductThumb :src="product.image" :product="product" />
-      <div v-if="noRedirect" class="overlay"></div>
-      <div v-else class="overlay" @click="goToDetailPage"></div>
+      <div class="overlay" @click="goToDetailPage"></div>
       <b-checkbox
         v-if="selectable"
         class="check-box"
@@ -174,23 +170,7 @@ export default {
       type: String,
       default: '312px',
     },
-    cardHeightSm: {
-      type: String,
-      default: '185px',
-    },
-    cardWidth: {
-      type: String,
-      default: '100%',
-    },
-    cardWidthSm: {
-      type: String,
-      default: '164px',
-    },
     showShareBtns: {
-      type: Boolean,
-      default: false,
-    },
-    noRedirect: {
       type: Boolean,
       default: false,
     },
@@ -218,9 +198,9 @@ export default {
         .join(' ')
       return name
     },
-    isShareBtnsVisible() {
+    isShareBtnsVisible(){
       return this.showShareBtns
-    },
+    }
   },
   watch: {
     product(newVal, oldVal) {
@@ -346,8 +326,8 @@ export default {
       width: 20px
   @media (max-width: 500px)
     .product-image
-      height: var(--card-height-sm)
-      width: var(--card-width-sm)
+      height: 185px
+      width: 164px
     .action-btn-slot button
       font-size: 10px
       img.btnIcon
