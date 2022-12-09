@@ -96,6 +96,7 @@
     <div v-if="showrefineMatch" class="mt-2 ml-3 mr-3 mb-5 refine-sections p-2">
       <div>
         <div class="offer-head">  {{$t('trades.preferences.refine_your_matches')}}</div>
+        <div class="update-urs">{{$t('trades.preferences.update_your_interests')}}</div>
        <div class="refine-headings">
          {{$t('trades.preferences.sneaker')}}
        </div>
@@ -687,11 +688,20 @@ export default {
   box-shadow: 0 1px 4px $color-black-rgb1
   padding-top: 20px
 .offer-head
-  font-family: $font-family-sf-pro-display
+  font-family: $font-sp-pro
   font-style: normal
   font-weight: $medium
   font-size: 16px
   color: $color-blue-20
+  line-height: 19px
+  letter-spacing: 0.02em
+.update-urs
+  font-family: 'SF Pro Display'
+  font-style: normal
+  font-weight: 400
+  font-size: 13px
+  line-height: 16px
+  color: #33363C
 .offer-start
   font-family: $font-family-sf-pro-display
   font-style: normal

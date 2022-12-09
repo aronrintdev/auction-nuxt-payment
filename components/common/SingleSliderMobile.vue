@@ -5,27 +5,38 @@
         <div>{{$t('trades.preferences.poor')}}</div>
         <div>{{$t('trades.preferences.fair')}}</div>
       </b-col>
-      <client-only>
-        <vue-slider
-          :value="value"
-          :drag-on-click="false"
-          :enable-cross="false"
-          :max="maxValue"
-          :min="minValue"
-          tooltip="none"
-          v-bind="options"
-          class="vue-slider-ltr-shop"
-          :class="{'meter': meterText }"
-          @change="captureSliderValue"
-        >
-          <template v-if="meterText" #dot>
-            <img :src="require('~/assets/img/trades/dot.svg')" class="custom-dot"/>
-          </template>
-          <template v-else #dot>
-            <img :src="require('~/assets/img/trades/dot-blue.svg')" class="custom-dot"/>
-          </template>
-        </vue-slider>
-      </client-only>
+      <div class="d-flex">
+        <div class="slider-div">
+          <client-only>
+            <vue-slider
+              :value="value"
+              :drag-on-click="false"
+              :enable-cross="false"
+              :max="maxValue"
+              :min="minValue"
+              tooltip="none"
+              v-bind="options"
+              class="vue-slider-ltr-shop"
+              :class="{'meter': meterText }"
+              @change="captureSliderValue"
+            >
+              <template v-if="meterText" #dot>
+                <img :src="require('~/assets/img/trades/dot.svg')" class="custom-dot"/>
+              </template>
+              <template v-else #dot>
+                <img :src="require('~/assets/img/trades/dot-blue.svg')" class="custom-dot"/>
+              </template>
+            </vue-slider>
+          </client-only>
+        </div>
+        <div class="percent-div">
+          <div class="input-box">
+            <input class="percentage-value"  :value="`${value}%`" readonly />
+            <span v-if="textToShow" class="input-text  float-left">{{textToShow}}</span>
+          </div>
+        </div>
+      </div>
+
       <b-col v-if="belowText" class="d-flex justify-content-between below-text pt-2">
         <div>{{$t('trades.preferences.not_interested')}}</div>
         <div>{{$t('trades.preferences.interested')}}</div>
@@ -98,21 +109,25 @@ export default {
   background: linear-gradient(180deg, $red-rgba 0%, $yellow-rgba 293.51%, $yellow-rgba 293.54%)
 
 .percentage-value
-  border: 1.5px solid $color-gray-60
-  border-radius: 10px
-  width: 50px
-  height: 40px
-  text-align: center
-  font-family: $font-family-montserrat
-  font-style: normal
-  font-size: 14px
+  width: 35px
+  height: 35px
+  background: #F7F7F7
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25)
+  border: 1px solid #F7F7F7
+  border-radius: 5px
+  @include body-9
   color: $color-black-1
   float: right
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $normal
+  line-height: 100%
+
 
 .input-text
   font-family: $font-family-montserrat
   font-style: normal
-  font-size: 13px
+  font-size: 12px
   color: $color-black-1
   float: right
 
@@ -128,5 +143,8 @@ export default {
   font-weight: $regular
   font-size: 10px
   color: $color-black-1
-
+.slider-div
+  width: 100%
+.percent-div
+   width: 30%
 </style>
