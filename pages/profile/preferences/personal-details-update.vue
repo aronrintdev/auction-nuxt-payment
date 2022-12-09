@@ -2,8 +2,6 @@
   <div v-if="isScreenXS" class="profile-component-wrapper">
     <!-- heading -->
 
-    <MobileHeader id="mobile-update-header" :title="$t('preferences.profile.profile')" @back="moveBack"></MobileHeader>
-
     <b-card id="mobile-personal-details-update" class="mt-3">
       <span class="personal-details-heading">
         <span class="d-flex col-sx-8">
@@ -160,6 +158,17 @@
       :show="showAlert"
       @hide="listenModalClose"
     />
+    <client-only>
+      <Portal to="page-title"> {{ $t('preferences.profile.profile') }}</Portal>
+      <Portal to="back-icon-slot">
+        <img
+          :src="require('~/assets/img/icons/back.svg')"
+          alt="back-arrow"
+          class="float-left"
+          @click="moveBack"
+        />
+      </Portal>
+    </client-only>
   </div>
 </template>
 
@@ -167,7 +176,6 @@
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import TransparentAlertModal from '~/components/common/TransparentAlertModal.vue'
 import screenSize from '~/plugins/mixins/screenSize'
-import MobileHeader from '~/components/mobile/MobileHeader.vue'
 
 export default {
   name: 'PersonalDetailsUpdate',
@@ -175,7 +183,6 @@ export default {
     TransparentAlertModal,
     ValidationObserver,
     ValidationProvider,
-    MobileHeader
   },
   mixins: [screenSize],
 
