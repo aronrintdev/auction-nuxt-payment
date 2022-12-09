@@ -118,7 +118,11 @@
             <b-col cols="12" class="py-1">
               <div class="d-flex justify-content-between">
                 <span class="d-sm-block d-md-none body-9-medium">{{ $t('vendor_hub.commission.table.order_id') }}</span>
-                <span class="body-9-regular text-decoration-underline text-blue-30">{{ item.order.order_id }}</span>
+                <NuxtLink :to="`/orders/${item.order.order_id}-1`">
+                  <span class="body-9-regular text-decoration-underline text-blue-30">
+                  {{ item.order.order_id }}
+                  </span>
+                </NuxtLink>
               </div>
             </b-col>
             <b-col cols="12" class="py-1 bg-lightgrey">
@@ -223,7 +227,9 @@
               >
               </b-form-checkbox>
 
-              <span class="link-text" role="button">{{ data.item.order.order_id }}</span>
+              <span class="link-text" role="button" @click="$router.push(`/orders/${data.item.order.order_id}-1`)">
+                {{ data.item.order.order_id }}
+              </span>
             </div>
           </template>
 
