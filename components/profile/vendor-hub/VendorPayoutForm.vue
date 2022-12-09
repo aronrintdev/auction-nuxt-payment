@@ -1,15 +1,15 @@
 <template>
   <div>
-      <b-form class="d-flex flex-column" >
+    <b-form class="d-flex flex-column" >
         <div class="d-flex flex-column flex-sm-row align-items-start mt-4">
             <b-form-group
               label-for="accountName"
               class="w-100 mr-0 mr-sm-4"
             >
               <template #label>
-                <span class="px-2">{{ $t('vendor_hub.payout_method.name_of_account') }}</span>
+                <span :class="{'label' : isMobileSize}">{{ $t('vendor_hub.payout_method.name_of_account') }}</span>
               </template>
-              <b-input-group>
+              <b-input-group class="fix">
                 <div id="accountName"></div>
                 <div v-if="frameLoading" class="d-flex">
                   <Loader :loading="frameLoading"></Loader>
@@ -18,10 +18,10 @@
             </b-form-group>
             <b-form-group
               label-for="accountNumber"
-              class="w-100"
+              class="w-100 fix"
             >
               <template #label>
-                <span class="px-2">{{ $t('vendor_hub.payout_method.account_number') }}</span>
+                <span :class="{'label' : isMobileSize}">{{ $t('vendor_hub.payout_method.account_number') }}</span>
               </template>
               <b-input-group>
                 <div id="accountNumber"></div>
@@ -32,10 +32,10 @@
             </b-form-group>
             <b-form-group
               label-for="routingNumber"
-              class="w-100 ml-0 ml-sm-4"
+              class="w-100 ml-0 ml-sm-4 fix"
             >
               <template #label>
-                <span class="px-2">{{ $t('vendor_hub.payout_method.routing_number') }}</span>
+                <span :class="{'label' : isMobileSize}">{{ $t('vendor_hub.payout_method.routing_number') }}</span>
               </template>
               <b-input-group>
                 <div id="routingNumber"></div>
@@ -46,24 +46,29 @@
             </b-form-group>
         </div>
         <b-form-radio v-model="form.is_default" name="is_default" :value="true" class="mt-4">
-          {{ $t('vendor_hub.payout_method.set_default') }}
+          <span :class="{'label' : isMobileSize}">{{ $t('vendor_hub.payout_method.set_default') }}</span>
         </b-form-radio>
-        <div class="mt-4 d-flex flex-column flex-sm-row justify-content-center">
-          <b-button :disabled="modalActionLoading || !isValid" pill class="bg-blue-2 mx-sm-3" @click="saveChanges">
-            {{ $t('vendor_hub.payout_method.save_changes') }}
+        <div class="mt-4 d-flex justify-content-center" :class="{'flex-row-reverse' : isScreenXS}">
+          <b-button :disabled="modalActionLoading || !isValid"
+                    pill
+                    class="bg-blue-2 mx-3"
+                    :class="{'w-50' : isScreenXS}"
+                    @click="saveChanges">
+            <span :class="{'body-9-normal' : isScreenXS}"> {{ $t('vendor_hub.payout_method.save_changes') }}</span>
           </b-button>
-          <b-button id="btnSave" ref="btnSave" pill class="bg-blue-2 d-none mx-sm-3">
-            {{ $t('vendor_hub.payout_method.save_changes') }}
+          <b-button id="btnSave" ref="btnSave" pill class="bg-blue-2 d-none mx-sm-3" :class="{'w-50' : isScreenXS}">
+            <span :class="{'body-9-normal' : isScreenXS}">{{ $t('vendor_hub.payout_method.save_changes') }}</span>
           </b-button>
 
-          <b-button pill variant="outline-dark" class="mx-sm-3 mt-3 mt-sm-0" @click="discardData">
-            {{ $t('vendor_hub.payout_method.discard_changes') }}
+          <b-button pill variant="outline-dark" class="mx-3" :class="{'body-9 w-50' : isScreenXS}"
+                    @click="discardData">
+            <span :class="{'body-9-normal' : isScreenXS}">
+              {{ isScreenXS ? $t('common.cancel') : $t('vendor_hub.payout_method.discard_changes') }}
+            </span>
           </b-button>
         </div>
       </b-form>
-
-
-    <div class="mt-5 tos-text text-center d-none d-sm-block">
+    <div class="mt-5" :class="isScreenXS ? 'tos-text-mobile text-left' : 'tos-text text-center'">
       {{ $tc('vendor_hub.payout_method.tos', 0) }}
       <span class="px-1 tos" role="button">{{ $tc('vendor_hub.payout_method.tos', 1) }}</span>
       {{ $tc('vendor_hub.payout_method.tos', 2) }}
@@ -93,10 +98,12 @@ import {MAX_PAYOUT_METHODS} from '~/static/constants/environments';
 import Loader from '~/components/common/Loader';
 import SuccessModal from '~/components/profile/vendor-hub/SuccessModal';
 import ConfirmModal from '~/components/profile/vendor-hub/ConfirmModal';
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'VendorPayoutForm',
   components: {Loader, SuccessModal, ConfirmModal},
+  mixins: [screenSize],
   props: {
     editMode:{
       type: Boolean,
@@ -135,6 +142,33 @@ export default {
     },
     isValid() {
       return this.validationStatus.checkname && this.validationStatus.checkaba && this.validationStatus.checkname
+    },
+    isMobileSize() {
+      return this.isScreenXS
+    },
+    inputStyle() {
+      const webSizeCss = {
+        width: '100%',
+        'max-width': '250px',
+        'border-radius': '50rem',
+        'background-color': '#F7F7F7',
+        border: 'none',
+        height: '42px',
+        padding: '4px 20px'
+      }
+      const mobileSizeCss = {
+        width: '85%',
+        'border-radius': '10px',
+        'background-color': '#FFFFFF',
+        border: 'solid 1px #E8E8E8',
+        height: '49px',
+        padding: '10px 20px',
+        fontFamily: 'Montserrat',
+        'font-size': '14px',
+        fontWeight: 500
+      }
+
+      return this.isMobileSize ? mobileSizeCss : webSizeCss
     }
   },
   watch:{
@@ -144,6 +178,9 @@ export default {
         if (val)
           this.form = JSON.parse(JSON.stringify(val))
       }
+    },
+    isMobileSize() {
+      this.initPayoutMethods()
     }
   },
   mounted() {
@@ -187,15 +224,7 @@ export default {
             CollectJS.configure({
               paymentSelector: '#btnSave',
               theme: 'bootstrap',
-              customCss: {
-                width: '100%',
-                'max-width': '250px',
-                'border-radius': '50rem',
-                'background-color': '#F7F7F7',
-                border: 'none',
-                height: '42px',
-                padding: '4px 20px'
-              },
+              customCss: this.inputStyle,
               fields: {
                 checkaccount: {
                   selector: '#accountNumber',
@@ -313,14 +342,25 @@ export default {
 @import '~/assets/css/_variables'
 
 .bg-blue-2.btn
-  background: $color-blue-2
-  border: 1px solid $color-blue-2
+  background: $color-blue-20
+  border: 1px solid $color-blue-20
 
 .tos-text
   @include body-4
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $regular
+
+.tos-text-mobile
+  position: absolute
+  left: 0px
+  padding-left: 16px
+  @include body-9
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $regular
+  .tos
+    color: $color-blue-20
 
 .mt-8
   margin-top: 8rem
@@ -335,4 +375,12 @@ div.input-group
 div.invalid-feedback
   width: auto
 
+.label
+  @include body-9-medium
+  font-family: $font-family-montserrat
+  font-style: normal
+  font-weight: $normal
+
+.fix
+  margin-right: 2px
 </style>

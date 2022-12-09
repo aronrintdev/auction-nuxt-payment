@@ -109,6 +109,7 @@ export default {
 @import '~/assets/css/_variables'
 
 .product-wrapper
+  font-family: $font-sp-pro
   padding: 0 18px
 
 .product-card

@@ -5,11 +5,11 @@
                  :placeholder="$t('inventory.enter_quantity')"
                  :label="$t('common.quantity')"
                  class="input"
-                 :class="{'input-error': value.quantity <= 0 || value.quantity > 50}"
+                 :class="{'input-error': quantityChanged && (value.quantity <= 0 || value.quantity > 50)}"
                  required
                  integer
                  @input="handleQuantityChange" />
-      <div v-if="value.quantity <= 0 || value.quantity > 50" class="error-text mt-1">
+      <div v-if="quantityChanged && (value.quantity <= 0 || value.quantity > 50)" class="error-text mt-1">
         {{
           (0 >= value.quantity || value.quantity > 50) &&
           $t('inventory.message.between', {
@@ -42,7 +42,7 @@
         }}
       </div>
     </div>
-    <div class="col-12 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'" v-if="showAddButton">
+    <div v-if="showAddButton" class="col-12 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
       <Button class="mt-3 w-100"
               variant="dark"
               :class="{'py-4' : !isScreenXS}"
@@ -77,12 +77,18 @@ export default {
       default: true,
     }
   },
+  data() {
+    return {
+      quantityChanged: false,
+    }
+  },
   methods: {
     handleSizeChange(value) {
       this.$emit('input', { ...this.value, currentSize: value })
     },
 
     handleQuantityChange(value) {
+      this.quantityChanged = true
       this.$emit('input', { ...this.value, quantity: value })
     },
 

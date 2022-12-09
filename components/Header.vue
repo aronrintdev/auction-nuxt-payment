@@ -1,6 +1,9 @@
 <template>
-  <b-navbar toggleable="lg" :class="`navbar-wrapper ${!mobileClass && 'border-bottom'}`">
-    <PortalTarget name="back-icon-slot">
+  <b-navbar
+    toggleable="lg"
+    :class="`navbar-wrapper ${!mobileClass && 'border-bottom'}`"
+  >
+    <PortalTarget name="back-icon-slot" class="d-block d-sm-none">
       <b-navbar-toggle target="top-menu-sidebar">
         <template #default>
           <img
@@ -127,7 +130,7 @@
       </b-navbar-nav>
     </b-collapse>
 
-    <SideBarMenu
+    <LeftSideBarMenu
       :user="user"
       :is-authenticated="authenticated"
       :is-vendor="isVendor"
@@ -193,7 +196,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import Logo from '~/components/header/Logo'
-import SideBarMenu from '~/components/SideBarMenu'
+import LeftSideBarMenu from '~/components/LeftSideBarMenu'
 import SearchInput from '~/components/common/SearchInput'
 import BagIcon from '~/components/checkout/icons/BagIcon'
 import SearchOverlay from '~/components/search/Overlay'
@@ -207,7 +210,7 @@ export default {
     NotificationDropdown,
     BagIcon,
     Logo,
-    SideBarMenu,
+    LeftSideBarMenu,
     SearchInput,
     SearchOverlay,
     Dropdown,
@@ -216,7 +219,6 @@ export default {
   data() {
     return {
       showSearchOverlay: false,
-      sidebarIsVisible: false,
     }
   },
   head: {
@@ -255,9 +257,9 @@ export default {
     pageTitle() {
       return this.$nuxt?.context?.route?.meta[0]?.pageTitle ?? null
     },
-    showMenuIcon(){
+    showMenuIcon() {
       return this.$route.name !== 'login' && this.$route.name !== 'signup'
-    }
+    },
   },
   watch: {
     screenIsSmallThanLG(newVal) {
@@ -327,8 +329,9 @@ export default {
     overflow: hidden
 .navbar-wrapper.navbar::v-deep
   font-family: $font-family-base
-  padding: 31px 16px
+  padding: 19px 10px 10px 10px
   background-color: $color-white-1
+  border-bottom: 1px $color-gray-47
 
   svg text
     font-family: $font-family-sf-pro-display

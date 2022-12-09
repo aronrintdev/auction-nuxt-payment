@@ -299,6 +299,8 @@ export default {
             class: (index + 1) === vm.orderDetails.items[0].status_history.length ? 'tracking-end' : ''
           }
         })
+      }else{
+        return []
       }
     },
 

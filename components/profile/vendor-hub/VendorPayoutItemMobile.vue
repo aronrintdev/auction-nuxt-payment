@@ -47,10 +47,10 @@
       <div class="d-flex flex-column align-items-center mt-4 px-2">
         <b-form-group
           label-for="name"
-          class="input-payout w-100"
+          class="w-100"
         >
           <template #label>
-            {{ $t('vendor_hub.payout_method.name_of_account') }}
+            <span class="label">{{ $t('vendor_hub.payout_method.name_of_account') }}</span>
             <!--          This code should stay untill this feature activated    -->
             <!--          <span :class="method.is_verified? 'verified': 'not-verified'">-->
             <!--            {{method.is_verified? $t('vendor_hub.payout_method.verified') : $t('vendor_hub.payout_method.not_verified')}}-->
@@ -62,37 +62,41 @@
               id="name"
               :value="method.check_name"
               :disabled="true"
-              class="rounded-pill input-payout"
+              class="rounded-pill input-payout-mobile"
               :placeholder="$t('vendor_hub.payout_method.enter_name')"
             ></b-form-input>
           </b-input-group>
         </b-form-group>
         <b-form-group
-          :label="$t('vendor_hub.payout_method.account_number')"
           label-for="account_number"
-          class="input-payout w-100"
+          class="w-100"
         >
+          <template #label>
+            <span class="label">{{ $t('vendor_hub.payout_method.account_number') }}</span>
+          </template>
           <b-input-group>
             <b-form-input
               id="account_number"
               :value="method.check_account"
               :disabled="true"
-              class="rounded-pill input-payout"
+              class="rounded-pill input-payout-mobile"
               :placeholder="$t('vendor_hub.payout_method.enter_account')"
             ></b-form-input>
           </b-input-group>
         </b-form-group>
         <b-form-group
-          :label="$t('vendor_hub.payout_method.routing_number')"
           label-for="routing_number"
-          class="input-payout w-100"
+          class="w-100"
         >
+          <template #label>
+            <span class="label">{{ $t('vendor_hub.payout_method.routing_number') }}</span>
+          </template>
           <b-input-group>
             <b-form-input
               id="routing_number"
               :value="method.check_aba"
               :disabled="true"
-              class="rounded-pill input-payout"
+              class="rounded-pill input-payout-mobile"
               :placeholder="$t('vendor_hub.payout_method.routing_number_placeholder')"
             ></b-form-input>
           </b-input-group>
@@ -141,8 +145,8 @@ export default {
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
 
-:deep()label.d-block
-  @include body-5
+.label
+  @include body-9-medium
   font-family: $font-family-montserrat
   font-style: normal
   font-weight: $normal
@@ -162,7 +166,7 @@ export default {
   background-color: $color-white-1 !important
   padding: 10px 20px
   width: 100%
-  height: 59px
+  height: 49px
   border: 1px solid $input-mobile-border-color
   border-radius: 10px !important
 

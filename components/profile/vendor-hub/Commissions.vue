@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="mobileClass" class="d-flex justify-content-between align-items-center mb-3">
+    <div v-if="mobileClass" class="d-flex justify-content-between align-items-center mb-30px">
       <MobileSearchInput :value="''" class="flex-grow-1" />
       <a role="button" @click="showMobileFilter">
         <img
@@ -16,16 +16,16 @@
           {{ $t('vendor_hub.commission.overview') }}
         </div>
       </div>
-      <b-row class="mt-3 mt-sm-5">
+      <b-row class="mt-1 mt-sm-3">
         <div v-for="(item, ind) in commissionItems" :key="ind" :class="mobileClass.length ? 'commission-item-box' : 'col'">
           <CommissionItem :item="item" />
         </div>
       </b-row>
     </div>
 
-    <div :class="mobileClass ? '' : 'commission p-4'" class="mt-3">
+    <div :class="mobileClass.length ? 'mt-30px' : 'commission p-4 mt-3'">
       <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center">
-        <div class="d-flex justify-content-between w-100 mb-4 mb-sm-0">
+        <div class="d-flex justify-content-between w-100 mb-2 mb-sm-4">
           <div class="title" :class="mobileClass.length ? 'body-10-medium color-blue-20' : 'heading-3-normal'">
           {{ $t('vendor_hub.commission.commission_details') }}
           </div>
@@ -615,10 +615,9 @@ export default {
   font-weight: $normal
 
 .label-text
-  @include body-3
+  @include body-8-normal
   font-family: $font-family-sf-pro-display
   font-style: normal
-  font-weight: $bold
   color: $color-black-1
 
 .commission
@@ -636,8 +635,10 @@ export default {
 .apply-button.btn
   width: max-content
   font-weight: $normal
-  background-color: $color-blue-2
+  background-color: $color-blue-20
   border: none
+  &:hover
+    background-color: rgba($color-blue-20, .9)
 
 ::v-deep
   .custom-control-input:checked
@@ -687,4 +688,10 @@ export default {
   font-family: $font-sp-pro
   font-style: normal
   @include body-8-bold
+
+.mb-30px
+  margin-bottom: 30px
+
+.mt-30px
+  margin-top: 30px
 </style>

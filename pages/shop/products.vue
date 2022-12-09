@@ -29,12 +29,6 @@
             :identifier="infiniteId"
             @infinite="handleLoading"
           ></infinite-loading>
-          <!-- <div v-if="products.length !== 0" class="below text-center pb-20">
-            <div class="text-center"><img src="~/assets/img/loading.gif" width="100" /></div>
-          </div> -->
-          <div v-if="products.length == 0" class="no-text py-5 text-center">
-            {{ $t('message.no_products_found') }}
-          </div>
         </article>
       </div>
     </section>
@@ -131,7 +125,7 @@ export default {
         filters.sizes = this.selectedSizes.join(',')
       }
       if (this.selectedSizeTypes) {
-        filters.size_types = this.selectedSizeTypes
+        filters.size_types = this.selectedSizeTypes.join(',')
       }
       if (this.selectedYears) {
         filters.years = this.selectedYears.join('-')

@@ -129,6 +129,16 @@ export default {
         this.$emit('created', wishList)
         this.$bvModal.hide(this.id)
       }
+      else if(this.createWishList === 0){
+        this.$toasted.error(
+          this.$t('wish_lists.invalid_data')
+        )
+      }
+      else if(this.createWishList >= 255){
+        this.$toasted.error(
+          this.$t('wish_lists.invalid_data')
+        )
+      }
     },
     getValidationState({ dirty, validated, valid = null }) {
       // Returns the contextual state (validation style) of the element being validated (false for invalid, true for valid, or null for no validation state)

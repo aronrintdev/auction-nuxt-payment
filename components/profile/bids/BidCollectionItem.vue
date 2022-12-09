@@ -30,7 +30,7 @@
               <div
                 :class="isMobileSize
                 ? 'body-5-medium flex-grow-1 text-nowrap overflow-hidden text-truncate sf-pro-font'
-                : 'body-4-bold'"
+                : 'body-4-bold sf-pro-text'"
               >
                 {{ auction.name }} ( {{ auction.auction_items.length }}
               {{ $t('bids.items') }} )
@@ -48,6 +48,7 @@
                     {{ $t('bids.accept') }}
                   </a>
                 </div>
+                <div v-else>-</div>
                 <!-- MOBILE ACCEPT BUTTON END -->
               </template>
             </b-col>
@@ -55,16 +56,16 @@
         </b-col>
         <template v-if="!isMobileSize">
         <b-col sm="12" md="1" class="d-flex justify-content-around flex-column pt-4">
-          <span class="body-4-medium">{{ $t('bids.auction_types.' + auction.type) }}</span>
+          <span class="body-4-normal sf-pro-text">{{ $t('bids.auction_types.' + auction.type) }}</span>
         </b-col>
         <b-col sm="12" md="2" class="d-flex justify-content-center flex-column pt-4">
-          <span class="body-4-medium">${{ bid.price | formatPrice }}</span>
+          <span class="body-4-normal sf-pro-text">${{ bid.price | formatPrice }}</span>
           <div v-if="bidType === BID_TYPE_OUTGOING" class="d-none tag-bid d-md-flex align-items-center justify-content-center" :class="bid.place">
             {{ $t('bids.bid_status.' + bid.place) }}
           </div>
         </b-col>
         <b-col sm="12" md="2" class="d-flex justify-content-around flex-column pt-4">
-          <span class="body-4-medium text-capitalize">
+          <span class="body-4-normal sf-pro-text text-capitalize">
             {{ !isExpiredOrDelisted ? bid.auction.remaining_time : $t('bids.expired') }}
           </span>
         </b-col>
@@ -74,17 +75,13 @@
           md="2"
           class="d-flex justify-content-start align-items-center flex-column"
         >
-          <Button class="bg-dark-blue mt-4 border-0" pill @click="$emit('edit', bid)">
-            <span>
-              {{
-                isExpiredOrDelisted ? $t('bids.view') : $t('bids.edit_bid')
-              }}</span
-            >
+          <Button class="bg-dark-blue mt-4 border-0 body-4-normal sf-pro-font" pill @click="$emit('edit', bid)">
+            <span>{{ isExpiredOrDelisted ? $t('bids.view') : $t('bids.edit_bid') }}</span>
           </Button>
 
           <span
             role="button"
-            class="view-similar mt-2"
+            class="view-similar mt-2 pt-1 body-8-normal sf-pro-font"
             @click="viewSimilarAuction"
             >{{ $t('bids.view_similar') }}</span
           >
@@ -99,6 +96,7 @@
             <div class="px-0 px-md-1 px-lg-2 px-xl-3 body-4-medium"> {{ $t('bids.accept') }}</div>
           </Button>
         </b-col>
+        <b-col v-else sm="12" md="2" class="d-flex justify-content-center align-items-center flex-column pt-4">-</b-col>
         </template>
       </b-row>
 
@@ -160,7 +158,7 @@
           </div>
         </b-col>
       </div>
-      <b-row v-else>
+      <b-row v-else class="w-100">
         <b-col sm="12" md="2" class="text-left"> </b-col>
         <b-col sm="12" md="10">
           <b-row class="mt-2">
@@ -405,6 +403,10 @@ export default {
 
 .mb-02
   margin-bottom: 2px
+
+
+.sf-pro-text
+  font-family: $font-sf-pro-text
 
 .thumb-wrapper::v-deep
   background-color: $white

@@ -234,18 +234,6 @@ export default {
     ConfirmModal
   },
   mixins: [screenSize],
-  data() {
-    return {
-      minOfferMinVal: MINOFFER_MIN_VAL,
-      quantityMinVal: QUANTITY_MIN_VAL,
-      quantityMaxVal: QUANTITY_MAX_VAL,
-      priceMinVal: PRICE_MIN_VAL,
-      avgAmount: '',
-      avgType: '',
-      selectedCategory: 'buy',
-      offer: TYPE_OFFER,
-    }
-  },
   props: {
     product: {
       type: Object,
@@ -258,6 +246,53 @@ export default {
     action: {
       type: String,
       required: true,
+    },
+  },
+  data() {
+    return {
+      minOfferMinVal: MINOFFER_MIN_VAL,
+      quantityMinVal: QUANTITY_MIN_VAL,
+      quantityMaxVal: QUANTITY_MAX_VAL,
+      priceMinVal: PRICE_MIN_VAL,
+      avgAmount: '',
+      avgType: '',
+      selectedCategory: 'buy',
+      offer: TYPE_OFFER,
+    }
+  },
+  computed: {
+    /**
+     * Get the colors available.
+     */
+    colors: (vm) => {
+      return (
+        vm.inventoryColors?.map((i) => {
+          return { label: i.name, value: i.id }
+        }) || []
+      )
+    },
+    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
+    highestOffer: (vm) => {
+      const val = vm.product.highest_offers.find(
+        (i) =>
+          i.size_id === vm.selectedSize &&
+          i.packaging_condition_id === vm.selectedCondition
+      )
+      return val && val.price
+    },
+
+    // Form valid? Enable the save/update button
+    isFormValid() {
+      return (
+        this.value.currentSize &&
+        this.value.quantity &&
+        this.value.price &&
+        this.value.boxCondition &&
+        this.value.quantity >= this.quantityMinVal &&
+        this.value.quantity <= this.quantityMaxVal &&
+        this.value.price > this.priceMinVal &&
+        this.value.minOfferAmount > this.minOfferMinVal
+      )
     },
   },
   methods: {
@@ -397,41 +432,6 @@ export default {
     latestPrice({ amount, type }) {
       this.avgAmount = amount
       this.avgType = type
-    },
-  },
-  computed: {
-    /**
-     * Get the colors available.
-     */
-    colors: (vm) => {
-      return (
-        vm.inventoryColors?.map((i) => {
-          return { label: i.name, value: i.id }
-        }) || []
-      )
-    },
-    // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
-    highestOffer: (vm) => {
-      const val = vm.product.highest_offers.find(
-        (i) =>
-          i.size_id === vm.selectedSize &&
-          i.packaging_condition_id === vm.selectedCondition
-      )
-      return val && val.price
-    },
-
-    // Form valid? Enable the save/update button
-    isFormValid() {
-      return (
-        this.value.currentSize &&
-        this.value.quantity &&
-        this.value.price &&
-        this.value.boxCondition &&
-        this.value.quantity >= this.quantityMinVal &&
-        this.value.quantity <= this.quantityMaxVal &&
-        this.value.price > this.priceMinVal &&
-        this.value.minOfferAmount > this.minOfferMinVal
-      )
     },
   }
 }

@@ -1,27 +1,17 @@
 <template>
-  <div
-    :class="{
-      'mb-2 px-4': !isScreenXS,
-    }"
-  >
+  <div :class="{
+    'mb-2 px-4': !isScreenXS
+  }">
     <div class="row mt-2 mb-2 my-sm-3">
       <div class="col-6 col-md-3">
-        <h1
-          :class="{
-            'body-5-medium font-primary': isScreenXS,
-          }"
-          class="font-secondary fs-24 fw-7 mb-0"
-        >
+        <h1 :class="{
+          'body-5-medium font-primary': isScreenXS
+        }" class="font-secondary fs-24 fw-7 mb-0">
           {{ $t('buyer_dashboard.purchases.title') }}
         </h1>
       </div>
       <div class="d-none col-md-6 d-sm-flex justify-content-center">
-        <NavGroup
-          class="nav-grp"
-          :value="activeNav"
-          :data="menus"
-          @change="navItem"
-        />
+        <NavGroup class="nav-grp" :value="activeNav" :data="menus" @change="navItem"/>
       </div>
       <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
         <nuxt-link
@@ -38,15 +28,10 @@
     <div>
       <div class="buyer-purchases">
         <div class="row d-none d-sm-flex mb-5r">
-          <div
-            v-for="row in purchases"
-            :key="row.id"
-            class="purchase-card col-md-6 mb-15"
-            :class="{
-              mobile: isScreenXS,
-              XL: isScreenXL,
-            }"
-          >
+          <div v-for="row in purchases" :key="row.id" class="purchase-card col-md-6 mb-15" :class="{
+              'mobile': isScreenXS,
+              'XL': isScreenXL,
+            }">
             <div class="bg-white p-38 border br-10">
               <div class="row text-nowrap">
                 <div class="col-6">

@@ -6,22 +6,29 @@
         <div class="d-flex align-items-center">
           <Button
             variant="link"
+            :disabled="!canClone"
             class="btn-copy mr-2"
             :tooltip-text="$t('common.copy')"
             @click="cloneItem"
-          ></Button>
+          >
+            <img :src="require('~/assets/img/icons/copy-icon.svg')" alt="copy icon" />
+          </Button>
           <Button
             variant="link"
             class="btn-edit-inventory mr-2"
             :tooltip-text="$t('common.edit')"
             @click="editItem"
-          ></Button>
+          >
+            <img :src="require('~/assets/img/icons/edit-icon.svg')" alt="edit icon" />
+          </Button>
           <Button
             variant="link"
             class="btn-delete"
             :tooltip-text="$t('common.delete')"
             @click="deleteItem"
-          ></Button>
+          >
+            <img :src="require('~/assets/img/icons/delete-icon.svg')" alt="delete icon" />
+          </Button>
         </div>
       </div>
       <b-dropdown id="dropdown-right" right variant="link" no-caret class="d-md-none position-absolute more-btn">
@@ -69,10 +76,12 @@
           <div class="d-flex align-items-center">
             <span v-if="item.scheduled_date">{{ item.scheduled_date }}</span>
             <b-form-datepicker
+              v-if="openDatePicker"
               size="xs"
               class="ml-2"
               button-only
               hide-header
+              :min="tomorrowDate"
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
               locale="en"
               @context="onContext">
@@ -90,11 +99,10 @@
             :value="item.time_limit"
             :placeholder="$tc('create_listing.confirm.select_duration_placeholder')"
             :items="DURATIONS"
-            :icon-arrow-up="require('~/assets/img/icons/arrow-up-blue.svg')"
-            :icon-arrow-down="require('~/assets/img/icons/arrow-down-blue.svg')"
+            :icon-arrow-up="require('~/assets/img/icons/arrow-up-black.svg')"
+            :icon-arrow-down="require('~/assets/img/icons/arrow-down-black.svg')"
             :class="{'is-invalid': itemError.includes('time_limit')}"
             class="d-none d-md-block duration-box"
-            no-arrow
             @select="handleDurationSelect"
           />
           <button
@@ -169,19 +177,20 @@
         <div class="filters-sheet-title text-center">{{ $t('create_listing.product.select_box_condition') }}</div>
         <div class="flex-shrink-1 overflow-auto filters-sheet-content">
           <div class="pt-3 text-center">
-            <v-date-picker v-model="tempScheduleDate" :min-date="new Date()" :model-config="{ type: 'string', mask: 'YYYY/MM/DD' }" />
+            <v-date-picker v-model="tempScheduleDate" :min-date="tomorrowDate" :model-config="{ type: 'string', mask: 'YYYY/MM/DD' }" />
           </div>
           <div class="py-3 d-flex align-items-center justify-content-around">
             <Button
               variant="outline-primary"
               pill
+              class="schedule-cancel-btn"
               @click="$refs.scheduleDateSheet.close()"
             >
               {{ $t('create_listing.product.cancel') }}
             </Button>
             <Button
               variant="primary"
-              class="px-5"
+              class="schedule-set-btn"
               pill
               @click="setScheduleDate"
             >
@@ -199,11 +208,12 @@ import Thumb from '~/components/product/Thumb';
 import {FormDropdown, FormInput, CheckboxSwitch, Button} from '~/components/common'
 import infoIcon from '~/assets/img/icons/info-dark-blue.svg';
 import createListingAuction from '~/plugins/mixins/create-listing-auction';
+import screenSize from '~/plugins/mixins/screenSize';
 
 export default {
   name: 'AuctionItem',
   components: { Thumb, FormDropdown, FormInput, CheckboxSwitch, Button},
-  mixins: [createListingAuction],
+  mixins: [createListingAuction, screenSize],
   props: {
     item: {
       type: Object,
@@ -236,6 +246,16 @@ export default {
   computed: {
     itemProduct(){
       return this.item.item
+    },
+    tomorrowDate() {
+      const date = new Date()
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+    },
+    isMobileSize() {
+      return this.isScreenXS || this.isScreenSM
+    },
+    canClone() {
+      return this.item.item.stock > 1
     }
   },
   methods: {
@@ -282,18 +302,15 @@ export default {
     closeDurationSheet() {
       this.$refs.durationSheet.close()
     },
-    handleStatusSwitch(value) {
-      this.$emit('formChange', {...this.item, status: value ? 'scheduled' : 'live' })
-      if (value) {
-        this.tempScheduleDate = this.item.scheduled_date
-        this.$refs.scheduleDateSheet.open()
-      }
-    },
     handleStatusChange(value) {
       this.$emit('formChange', {...this.item, status: value ? 'scheduled' : 'live' })
       if (value) {
         this.tempScheduleDate = this.item.scheduled_date
-        this.openDatePicker = true
+        if (this.isMobileSize) {
+          this.$refs.scheduleDateSheet.open()
+        } else {
+          this.openDatePicker = true
+        }
       }
     },
     setScheduleDate() {
@@ -310,6 +327,8 @@ export default {
 .is-invalid
   border: $color-red-1 2px solid
   border-radius: 5px
+  input
+    border: none
 
   @media (max-width: 576px)
     border-radius: 10px
@@ -493,6 +512,9 @@ export default {
         border-radius: 2px
   .duration-section
     .form-dropdown-wrapper
+      &.is-invalid
+        .btn-dropdown
+          border: none
       .btn-dropdown
         border: 1px solid $color-blue-20
         border-radius: 4px
@@ -508,12 +530,13 @@ export default {
     .search-results
       .popover-body
         & > div
-          border: 1px solid $white-5
+          border: 1px solid $color-blue-20
+          border-top: none
           font-size: 12px
           line-height: 15px
           &:last-child
-            border-bottom-left-radius: 10px
-            border-bottom-right-radius: 10px
+            border-bottom-left-radius: 4px
+            border-bottom-right-radius: 4px
   .reserve-section
     .form-input-wrapper
       .form-input
@@ -524,6 +547,9 @@ export default {
         white-space: nowrap
         padding: 10px 15px 9px
         height: auto
+      &.is-invalid
+        .form-input
+          border: none
     
     .checkbox-switch
       .custom-switch
@@ -559,13 +585,17 @@ export default {
       width: 14px
       height: 14px
   .bid-section
-    .form-input-wrapper .form-input
-      border: 1px solid $color-blue-20
-      border-radius: 4px
-      font-family: $font-family-sf-pro-display
-      font-weight: $regular
-      @include body-13
-      height: 40px
+    .form-input-wrapper
+      .form-input
+        border: 1px solid $color-blue-20
+        border-radius: 4px
+        font-family: $font-family-sf-pro-display
+        font-weight: $regular
+        @include body-13
+        height: 40px
+      &.is-invalid
+        .form-input
+          border: none
 
   .duration-box-btn
     @include body-9
@@ -677,4 +707,13 @@ export default {
         div
           border-color: $color-blue-20
           color: $white
+    .schedule-set-btn
+      width: 160px
+      background: $color-blue-20
+      border-color: $color-blue-20
+      color: $white
+    .schedule-cancel-btn
+      width: 160px
+      color: $color-blue-20
+      border-color: $color-blue-20
 </style>

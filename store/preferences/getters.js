@@ -165,3 +165,15 @@ export function editAddressID(state){
 export function getDefaultConfirmedStatus(state){
   return state.updateDefaultConfirmed
 }
+
+export function showHeader(state){
+  return state.showHeader
+}
+
+export function isCardDefault(state){
+  return state.hasDefaultCard
+}
+
+export function getcardExpStatus(state) {
+  return state.cardExpStatus
+}

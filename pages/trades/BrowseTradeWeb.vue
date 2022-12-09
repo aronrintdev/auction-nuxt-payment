@@ -1,25 +1,31 @@
 <template>
-  <div>
-    <div class="browse-tarde-heading ml-5 mt-3">{{$t('trades.browse_trade')}}</div>
+  <div class="px-5">
+    <div class="browse-tarde-heading my-3">{{$t('trades.browse_trade')}}</div>
     <div>
       <!-- Display all filter options -->
-      <BrowserTradeFilters @applyFilters="applyTradeFilters" @click="applyTradeFiltersNew" @clearFilters="resetTradeFilters" @applySorting="filterTrades"/>
-      <b-row class="w-100">
-        <b-col md="12" class="text-center">
-          <!-- Display total items filter selection one, two or three items -->
-          <NavGroup
-            :data="tradeTotalItems"
-            :value="selectedTradeTotalItems"
-            nav-key="trade-type"
-            class="section-nav pb-4"
-            @change="changeTotalTradeItems"
-          />
-        </b-col>
-      </b-row>
+      <BrowserTradeFilters
+        @applyFilters="applyTradeFilters"
+        @click="applyTradeFiltersNew"
+        @clearFilters="resetTradeFilters"
+        @applySorting="filterTrades"
+      />
+      <div class="col-md-6 mx-auto">
+        <!-- Display total items filter selection one, two or three items -->
+        <NavGroup
+          :data="tradeTotalItems"
+          :value="selectedTradeTotalItems"
+          nav-key="trade-type"
+          class="section-nav pb-4"
+          :btnGroupStyle="{
+            margin: 0
+          }"
+          @change="changeTotalTradeItems"
+        />
+      </div>
     </div>
     <div class="bg-white">
       <!-- Display all sections -->
-      <div v-if="Object.keys(sectionTypes).length > 1">
+      <div v-if="getTradeType === 'All'">
         <div v-for="(trades, key, index) in sectionTypes" :key="key">
           <!-- show banner in between sections -->
           <div v-if="index === 2" class="m-5 pt-5">
@@ -60,15 +66,15 @@
 
       <!-- Display single section -->
       <div v-else>
-        <div v-for="(trades, key) in sectionTypes" :key="key">
+        <div>
           <div class="px-5 pt-5">
             <b-row>
               <b-col md="12" class="d-flex justify-content-between carousel-heading mb-5 ml-5 pl-5">
-                <h2 v-html="prettyLabel(key)"></h2>
+                <h2 v-if="labelName" v-html="prettyLabel(labelName)"></h2>
               </b-col>
               <!-- Display trades with single items -->
-              <b-col v-if="selectedTradeTotalItems === 'one' && trades.length" md="12" class="justify-content-center d-flex flex-wrap">
-                <div v-for="(trade) in trades" :key="'trade-item-' + trade.id" class="trade-card mb-5 mx-3 d-inline-block">
+              <b-col v-if="selectedTradeTotalItems === 'one' && sectionTypes.length" md="12" class="justify-content-center d-flex flex-wrap">
+                <div v-for="(trade) in sectionTypes" :key="'trade-item-' + trade.id" class="trade-card mb-5 mx-3 d-inline-block">
                   <div
                     v-for="(product, index) in trade.offers"
                     :key="`trade-carousel-${index}`"
@@ -90,8 +96,8 @@
               </b-col>
 
               <!-- Display trades with multiple items -->
-              <b-col v-else-if="trades.length" md="11">
-                <TradeCardWithMultipleItems :trades="trades" />
+              <b-col v-else-if="sectionTypes.length" md="11">
+                <TradeCardWithMultipleItems :trades="sectionTypes" />
               </b-col>
               <b-col v-else>
                 <p class="text-center">{{$t('trades.trade_hub.no_trade_listing_found')}}</p>
@@ -100,12 +106,15 @@
           </div>
         </div>
       </div>
+      <infinite-loading :identifier="infiniteId" @infinite="filterTrades">
+        <span slot="no-more"></span>
+        <span slot="no-results"></span>
+      </infinite-loading>
     </div>
   </div>
 </template>
 
 <script>
-// import component
 import { mapGetters } from 'vuex'
 import debounce from 'lodash.debounce'
 import { tradeRemainingTime, isRemainingTimeLessThan12Hours } from '~/utils/string'
@@ -115,7 +124,7 @@ import CarouselMultipleItems from '~/components/trade/CarouselMultipleItems.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import BrowseItemCard from '~/components/trade/BrowseItemCard.vue'
 import TradeCardWithMultipleItems from '~/components/trade/TradeCardWithMultipleItems.vue'
-import { TRADE_EXPIRY_DAYS } from '~/static/constants'
+import {DEFAULT_PER_PAGE_ITEMS, TRADE_EXPIRY_DAYS} from '~/static/constants'
 export default {
   name: 'BrowseTrade',
   components: {
@@ -148,8 +157,14 @@ export default {
         sortby: null,
         product: null,
         maxYear:null,
-        minYear:null
+        minYear:null,
+        minPrice: null,
+        maxPrice: null
       },
+      perPage: DEFAULT_PER_PAGE_ITEMS,
+      page: 1,
+      infiniteId: +new Date(),
+      labelName: '',
     }
   },
   async fetch() {
@@ -173,7 +188,6 @@ export default {
   mounted() {
     // set filters as per previous state
     this.selectedTradeTotalItems = this.getTotalItemTrades
-    this.filterTrades()
   },
   methods: {
     ...mapGetters({
@@ -196,7 +210,7 @@ export default {
     },
     // make section label pretty
     prettyLabel(label){
-      const words = label.split('_')
+      const words = label?.split('_')
       return this.$tc('common.'+words[0], 1)  + this.$tc('common.' + words[1], 1)
     },
 
@@ -204,22 +218,42 @@ export default {
     changeTotalTradeItems(tradeTotalItems) {
       this.selectedTradeTotalItems = tradeTotalItems
       this.$store.commit('trade/setTotalItemTrades', tradeTotalItems)
-      this.filterTrades()
+      this.page = 1;
+      this.sectionTypes = []
+      this.infiniteId += 1;
     },
 
     // filter if single section is selected
     showTradeTypeDetails(tradeType) {
       this.$store.commit('trade/setTradeType', tradeType)
-      this.filterTrades()
+      this.page = 1;
+      this.sectionTypes = []
+      this.infiniteId += 1;
     },
 
     // load trade items when filters are applied
     applyTradeFilters(){
       this.$store.commit('trade/setTradeType', 'search_results')
-      this.filterTrades()
+      this.page = 1;
+      this.sectionTypes = []
+      this.infiniteId += 1;
     },
     applyTradeFiltersNew(filters){
       this.$store.commit('trade/setTradeType', 'search_results')
+      this.selectedFilters.sizes = filters.sizes
+      this.selectedFilters.sizeTypes = filters.sizeTypes
+      this.selectedFilters.brands = filters.brands
+      this.selectedFilters.categories = filters.categories
+      this.selectedFilters.status= filters.status
+      this.selectedFilters.sortby = filters.sortby
+      this.selectedFilters.product = filters.product
+      this.selectedFilters.maxYear = filters.maxYear
+      this.selectedFilters.minYear = filters.minYear
+      this.selectedFilters.minPrice = filters.minPrice
+      this.selectedFilters.maxPrice = filters.maxPrice
+      this.page = 1;
+      this.sectionTypes = []
+      this.infiniteId += 1;
       this.filterTrades(filters)
     },
 
@@ -237,13 +271,14 @@ export default {
       this.selectedFilters.minYear = null
       this.selectedTradeTotalItems = 'one'
       this.$store.commit('trade/setTradeType', 'All')
-      this.filterTrades()
+      this.page = 1;
+      this.sectionTypes = []
+      this.infiniteId += 1;
     },
 
     // fetch trade offer items
-    filterTrades: debounce(function (filters) {
+    filterTrades: debounce(function ($state,filters) {
       this.getFilters = filters !== undefined ? filters : this.selectedFilters
-      this.sectionTypes = []
       this.$axios.post('/trades/offers', {
         trade_type: this.getTradeType,
         categories: this.getFilters.categories.join(','),
@@ -259,9 +294,26 @@ export default {
         price_max: this.getFilters.maxPrice,
         maxYear: this.getFilters.maxYear,
         minYear: this.getFilters.minYear,
+        page: this.page, // Current page No
+        per_page: this.perPage,
       })
-        .then(res => {  // trades listing items in response
-          this.sectionTypes = res.data.data
+        .then(resp => {  // trades listing items in response
+          const res = resp?.data?.data
+          if(this.getTradeType !== 'All' && Object.keys(res).length < 2){
+            this.labelName = Object.keys(res)[0]
+            if (!res[this.getTradeType].next_page_url) {
+              $state.complete()
+            }else {
+              this.page += 1;
+              this.sectionTypes.push(...res[this.getTradeType].data);
+              $state.loaded()
+            }
+          }
+          else {
+              this.page += 1;
+              this.sectionTypes = res;
+            $state.complete()
+          }
         })
     }, 500),
     selectCounterBG(createdAt){

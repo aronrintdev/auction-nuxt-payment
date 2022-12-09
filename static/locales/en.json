@@ -1,5 +1,6 @@
 {
   "common": {
+    "select_brands": "Select Brand(s)",
     "cancel": "Cancel",
     "buying": "Buying",
     "auction": "Auction",
@@ -12,6 +13,7 @@
     "accept": "Accept",
     "decline": "Decline",
     "or": "or",
+    "on": "on",
     "and": "and",
     "close": "Close",
     "revert": "Revert",
@@ -42,6 +44,7 @@
     "bulk_delete_warning": "Are you sure you would like to delete selected?",
     "items_deleted": "Your items have been deleted!",
     "apparel": "Apparel",
+    "all_sizes": "All Sizes",
     "accessory": "Accessory | Accessories",
     "hat": "Hat | Hats",
     "look": "Look | Looks",
@@ -223,7 +226,8 @@
         "3": "No Original Packaging"
       }
     },
-    "box": "Box"
+    "box": "Box",
+    "$0": "$0.00"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -271,7 +275,7 @@
     "terms": "Terms",
     "privacy": "Privacy",
     "verify": "Verify",
-    "login_to_your_account": "Log in to your Account",
+    "login_to_your_account": "Log in to Your Account",
     "login_via_social_media": "Log in via Social Media",
     "forgot_password": "Forgot Password",
     "new_to_deadstock": "New to Deadstock",
@@ -279,6 +283,7 @@
     "back_to_log_in": "Back to Log In",
     "enter_your_email_and": "Enter your email and we'll send you a link\nto reset your password.",
     "send_link": "Send Link",
+    "send_email": "Send Email",
     "a_recovery_email_has_been_sent": "A recovery email has been sent to",
     "reset_password": "Reset Password",
     "please_choose_your_new_password": "Please choose your new password",
@@ -323,7 +328,7 @@
     "private_policy": "Private Policy",
     "privacy_policy": "Privacy Policy",
     "please_wait": "Please wait",
-    "create_your_account": "Create your Account \n with Dead Stock",
+    "create_your_account": "Create an Account!",
     "face_id": "Allow Face ID Sign In",
     "touch_id": "Allow Touch ID",
     "touch_id_icon": "Touch ID",
@@ -399,12 +404,21 @@
     "deadstock_app_buy_sell_trade": "Deadstock App - Buy, Sell, Trade and Auction",
     "create_account": "Create Account",
     "sign_in": "Sign In",
+    "login": "Log In",
     "vendor_hub": "Vendor Hub",
     "promotions": "Promotions",
     "rewards": "Rewards",
     "support": "Support",
+    "menu": "Menu",
+    "shop": "Shop",
+    "trade": "Trade",
+    "auction": "Auction",
+    "sell": "Sell",
+    "profile": "Profile",
     "dashboard": "Dashboard",
+    "dead_stock_exchange": "Deadstock Exchange",
     "inventory": "Inventory",
+    "shop_by_style_2": "Shop by Style",
     "buying_profile": "Buying Profile",
     "selling_profile": "Selling Profile",
     "my_profile": "My Profile",
@@ -423,9 +437,9 @@
     "watchlist": "Watchlist",
     "create_a_listing": "Create a Listing",
     "become_a_vendor": "Become a Vendor",
-    "preferences": "Preferences Gauge",
+    "preferences": "Preferences",
     "welcome": "Welcome",
-    "logout": "Logout",
+    "logout": "Log Out",
     "please_wait": "Please wait",
     "security": "Security",
     "purchases": "Purchases",
@@ -617,12 +631,14 @@
     "home": "Home",
     "sku": "SKU",
     "latest_sales": "Latest Sales",
+    "asks": "Asks",
     "select_size": "Select Size",
     "day_month_year": "Day Month Year",
     "buy_now_for": "Buy Now for",
     "as_low_as_$42/month_with": "as low as $42/month with",
     "prequalify_now": "Prequalify Now",
     "buy": "Buy",
+    "offers": "Offers",
     "or_bid": "or Bid",
     "or": "OR",
     "size": "Size",
@@ -2008,7 +2024,7 @@
       "watchers": "Watchers",
       "current_bid": "Current Bid",
       "place_bid": "Place Bid",
-      "place_bid_error": "*Please Enter a Bid Higher than the Current Bid",
+      "place_bid_error": "*Please Enter a Bid at the Next Available Bid Increment",
       "quick_bid": "Quick Bid",
       "auto_bid": "Auto Bid",
       "auto_bid_tooltip": "An auto bid allows you to set a maximum bid threshold, to where the system will automatically bids in increments up to the specified threshold, labeled \"Up To.\"",
@@ -2051,7 +2067,7 @@
       "auction_id": "Auction ID",
       "true_to_size": "'True to Size'",
       "of": "of",
-      "insert_amount": "Enter Bid ($%{price} or More)",
+      "insert_amount": "Enter Bid (More than $%{price})",
       "payment_method": "Payment Method",
       "no_results_found": "No results found",
       "cant_find_anything": "We couldn’t find anything that matches this search",
@@ -2162,6 +2178,7 @@
     "move_to_list": "Move to {list}",
     "share_description": "Wishlist products from deadstock.co",
     "inspired_by_you": "Inspired By Your List",
+    "invalid_data": "The given data is invalid.",
     "categories": {
       "all": "All",
       "footwear": "Footwear",
@@ -2592,6 +2609,9 @@
     "price": "Price",
     "total": "Total",
     "estimated_total": "Estimated Total",
+    "empty_cart": "Empty Cart",
+    "looks_like_you": "Looks like you haven’t made \nyour choice yet",
+    "back_to_browse": "Back to Browse",
     "you_have_no_items_in_your_cart": "You have no items in your cart",
     "continue_shopping": "Continue Shopping",
     "product_image": "Product Image",
@@ -3310,7 +3330,8 @@
         "size_low_high": "Size: Low to High",
         "size_high_low": "Size: High to Low"
       }
-    }
+    },
+    "payment_method_invalid": "Your payment method is invalid. Please try again."
   },
   "selling_page": {
     "selling_page_heading": "Selling",
@@ -3717,7 +3738,50 @@
       "deleted_payment": "Payment deleted successfully",
       "error": {
         "from_field": "The From field is required."
-      }
+      },
+      "add_gift_card": "Add Gift Card",
+      "add_card_payments": "Add Card Payment",
+      "ds_wallet" : "DS Wallet",
+      "enter_card_info" : "Enter your card information",
+      "card_expiration_date" : "Expiration Date",
+      "add_new_default": "Add New Default",
+      "add_new_default_alert": "You must have one default card payment saved in your profile",
+      "change_default_card_alert": "Are you sure you want to make this card your default method of payment?",
+      "card_scan_alert": "Move your card inside the frame and we’ll scan it for you.",
+      "card_save_success_alert":"Card has been added successfully",
+      "update_exp_cvv": "*Please update expiration date and CVV",
+      "form_not_valid_message": "*Please enter valid payment information",
+      "scan_card": "Scan Card",
+      "enter_manually": "Enter Manually",
+      "redeem_a_gift_card": "Redeem a Gift Card",
+      "got_gift_card": "Got a gift card? Redeem it here!",
+      "purchase_a_gift_card": "Purchase a Gift Card",
+      "purchase_gift_card_caption": "Gift a digital gift card for your friends, family or yourself!",
+      "gift_card_success_alert": "Gift card has been added successfully",
+      "gift_card_remaining" : "Remaining Amount",
+      "pin": "PIN",
+      "view_gift_card_detail": "View Gift Card Details",
+      "reload_gift_card": "Reload Gift Card",
+      "now": "Now",
+      "add_to_cart": "Add To Cart",
+      "buy_now": "Buy Now",
+      "shopping_bag": "Shopping Bag ({giftCardCount} item)",
+      "check_out": "Check Out",
+      "deadstock_gift_card": "Deadstock Gift Card",
+      "recipients": "Recipients",
+      "terms_and_services_agreement": "By ordering, I agree to the",
+      "add_billing_address": "Adding Billing Address",
+      "gift_card_checkout_form":{
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "address_line_1": "Address Line 1",
+        "address_line_2_opt": "Address Line 2 (Optional)",
+        "zip": "Zip",
+        "city": "City",
+        "state": "State",
+        "phone": "Phone #"
+      },
+      "field_is_empty"  : "Field is empty"
     }
   },
   "monthNames": {
@@ -4075,6 +4139,7 @@
       "winner": "Winner"
     },
     "success_deleted": "Your selected items have been deleted",
+    "success_expired_deleted": "Expired bids have been deleted",
     "headers": {
       "auction_id": "Auction ID",
       "product": "Product",
@@ -4512,6 +4577,7 @@
         "open": "Open Trades",
         "completed": "Completed"
       },
+      "search_bar_text": "Search For Trade ID, Product SKU Or By Keyword",
       "their_counter_offerHistory": "Their Counter Offer",
       "your_counter_offer": "Your Counter Offer",
       "their_offer": "Their Offer",
@@ -5186,7 +5252,7 @@
     "general": {
       "add_to_bag": "Add {type} to Bag",
       "add_style_to_bag": "Add Style to Cart",
-      "back_to_style": "< Back to All Style"
+      "back_to_style": "< Back to All Styles"
     },
     "title": "Shop by Style",
     "title_archive": "Shop by Style (Archive)",
@@ -5204,7 +5270,9 @@
     "box_condition_info": "Package condition refers to the current condition of the item’s package.",
     "more_look": "More From This Look",
     "view_all": "View All",
-    "style_id": "Style ID"
+    "style_id": "Style ID",
+    "package_condition": "Package Condition",
+    "4_installments": "or 4 Installments"
   },
   "coupons": {
     "errors": {
@@ -5311,8 +5379,8 @@
     "consent": "I am a certified reseller.",
     "store_details": "Store Details",
     "discard_body": "Are you sure you would like to discard these changes?",
-    "in_review": "A Deadstock Team Member is currently reveiewing your application. | Please allow 1-3 days for review, we will contact your via email.",
-    "application_revieved": "Your application has been received! \uD83D\uDC4D",
+    "in_review": "A Deadstock Team Member is currently reviewing your application. | Please allow 1-3 days for review, we will contact your via email.",
+    "application_revieved": "Your application has been received!",
     "thanks": "Thanks for choosing Deadstock!",
     "apply_title": "Apply to be a Vendor ",
     "verify": "Verify",
@@ -5902,7 +5970,7 @@
     "save_for_later": "Save for later"
   },
   "offers_received": {
-    "offers"  : "Offers",
+    "offers": "Offers",
     "heading": "Offers Received",
     "your_placed_offers": "Your Received Offers ({count})",
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",

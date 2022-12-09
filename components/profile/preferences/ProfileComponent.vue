@@ -10,7 +10,8 @@
             <div class="card-text">
               {{ $t('preferences.profile.update_your_profile') }}
               <b-button
-                class="preferences-logout-btn float-right px-3"
+                v-if="profileReadOnly"
+                class="preferences-logout-btn float-right px-3 mr-3"
                 size="sm"
                 variant="light"
                 pill
@@ -21,7 +22,7 @@
             </div>
 
             <!-- Profile - Description -->
-            <div class="card-text pt-3">
+            <div class="card-text pt-3 ml-3">
               <b-row>
                 <!-- First Name -->
                 <b-col md="3">
@@ -81,7 +82,7 @@
                 </b-col>
                 <!-- ./Last Name -->
                 <!-- Birthday -->
-                <b-col md="4">
+                <b-col md="5">
                   <b-form-group
                     id="input-group"
                     class="profile-label"
@@ -90,40 +91,15 @@
                   >
                     <!-- Dropdown for date - month - year -->
                     <b-row>
-                      <!-- Year -->
-                      <b-col
-                        md="4"
-                        sm="12"
-                        class="dob-selector d-flex shadow-none rounded-pill"
-                      >
-                        <b-form-select
-                          v-model="selectedYear"
-                          class="profile-input year-select shadow-none"
-                          required
-                          :disabled="profileReadOnly"
-                          @change="updateDays()"
-                        >
-                          <b-form-select-option
-                            v-for="year in years"
-                            :key="year.year"
-                            :value="year.year"
-                            >{{ year.year }}</b-form-select-option
-                          >
-                        </b-form-select>
-                        <div class="date-icon m-auto">
-                          <img :src="dateIcon" alt="date-icon" />
-                        </div>
-                      </b-col>
-                      <!-- ./Year -->
                       <!-- Months -->
                       <b-col
-                        md="4"
+                        md="5"
                         sm="12"
                         class="dob-selector d-flex rounded-pill"
                       >
                         <b-form-select
                           v-model="selectedMonth"
-                          class="profile-input month-select shadow-none"
+                          class="profile-input month-select shadow-none calendar-input"
                           required
                           :disabled="profileReadOnly"
                           @change="updateDays()"
@@ -144,11 +120,11 @@
                       <b-col
                         md="3"
                         sm="12"
-                        class="dob-selector d-flex rounded-pill"
+                        class="dob-selector d-flex rounded-pill w-70"
                       >
                         <b-form-select
                           v-model="selectedDate"
-                          class="profile-input date-select shadow-none"
+                          class="profile-input date-select shadow-none calendar-input"
                           required
                           :disabled="profileReadOnly"
                         >
@@ -164,6 +140,31 @@
                         </div>
                       </b-col>
                       <!-- ./Date -->
+                      <!-- Year -->
+                      <b-col
+                        md="3"
+                        sm="12"
+                        class="dob-selector d-flex shadow-none rounded-pill w-90 "
+                      >
+                        <b-form-select
+                          v-model="selectedYear"
+                          class="profile-input year-select shadow-none calendar-input"
+                          required
+                          :disabled="profileReadOnly"
+                          @change="updateDays()"
+                        >
+                          <b-form-select-option
+                            v-for="year in years"
+                            :key="year.year"
+                            :value="year.year"
+                            >{{ year.year }}</b-form-select-option
+                          >
+                        </b-form-select>
+                        <div class="date-icon m-auto">
+                          <img :src="dateIcon" alt="date-icon" />
+                        </div>
+                      </b-col>
+                      <!-- ./Year -->
                     </b-row>
                     <!-- Dropdown for date - month - year -->
                   </b-form-group>
@@ -235,7 +236,7 @@
                 variant="light"
                 type="submit"
                 pill
-                class="float-right preferences-logout-btn px-3"
+                class="float-right preferences-logout-btn px-3 m-3"
                 >{{ $t('preferences.profile.update') }}</b-button
               >
             </div>
@@ -257,13 +258,13 @@
         <!-- SHIPPING-ADDRESS -->
         <div class="your-addresses-shipping-address">
           <div class="card-text">
-            <b-row class="mt-md-4 mt-4">
+            <b-row class="mt-36 position-relative">
               <b-col md="6" sm="6" class="shipping-address mt-2">
-                <h5 class="text-bold">
+                <h5 class="section-sub-heading">
                   {{ $t('preferences.profile.shipping_address') }}
                 </h5>
               </b-col>
-              <b-col md="6" sm="6" class="address-button-wrapper mt-2">
+              <b-col md="6" sm="6" class="address-button-wrapper mt-2 position-absolute">
                 <b-button
                   id="shipping-modal"
                   variant="outline-primary"
@@ -300,7 +301,7 @@
           <div class="card-text">
             <b-row class="mt-md-4 mt-4">
               <b-col md="6" sm="6" class="billing-address mt-2">
-                <h5 class="text-bold">
+                <h5 class="section-sub-heading">
                   {{ $t('preferences.profile.billing_address') }}
                 </h5>
               </b-col>
@@ -365,7 +366,7 @@ import AddressModal from '@/components/profile/preferences/Popup/AddAddressModal
 import AddressConfirmModal from '@/components/profile/preferences/Popup/AddressConfirmModal'
 import AddressSuccessModal from '@/components/profile/preferences/Popup/AddressSuccessModal'
 import { MONTHS } from '~/static/constants'
-import DateIcon from '~/assets/img/icons/date-icon.svg'
+import DateIcon from '~/assets/img/icons/down-arrow-calendar.svg'
 export default {
   name: 'ProfileComponent',
 

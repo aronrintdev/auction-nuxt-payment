@@ -1,7 +1,7 @@
 <template>
     <div class="container">
       <div class="box-condition-text">
-        {{ $t('shop_by_style.product_condition') }}
+        {{ $t('common.box_condition') }}
   
         <b-img
           v-b-tooltip.hover="{variant: 'light'}"
@@ -16,6 +16,7 @@
           :key="`box-condition-${index}`"
           variant="link"
           :class="{ active: value === condition.id }"
+          class="pl-0"
           @click="handleConditionSelect(condition)"
         >
           {{
@@ -80,6 +81,7 @@
         @include body-8-normal
         color: $color-gray-23
         margin-right: 6px
+        padding: 6px 6px
   
         &:first-child
           padding-left: 0

@@ -17,12 +17,12 @@
     >
       <template #default>
         <div>
-          <video controls height="auto" width="100%">
+          <video controls height="auto" width="100%" poster="https://cdn.pixabay.com/photo/2016/11/12/23/34/win-1820037_960_720.jpg">
             <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4">
           </video>
         </div>
         <div>
-          <video controls height="auto" width="100%">
+          <video controls height="auto" width="100%" poster="https://cdn.pixabay.com/photo/2016/11/12/23/34/win-1820037_960_720.jpg">
             <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4">
           </video>
         </div>
