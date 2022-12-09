@@ -1,21 +1,21 @@
 <template>
   <b-col md="12" class="m-0 p-0">
     <div class="social-tabs ml-30 mb-46">
-      <b-row>
+      <b-row class="mb-2 mt-2 ml-2">
         <!-- Image -->
 
 
-        <b-col md="2" class="social-logo p-0 m-0 d-block col-md-1">
+        <b-col class="social-logo p-0 m-0 d-block d-flex" :class="{'col-md-2': !responsiveDesign}">
           <img :class="responsiveDesign && 'icon-image'" :src="require(`~/assets/img/icons/${img}`)" alt="logo" />
 
-          <span v-if="responsiveDesign" class="text-bold social-media-label ml-3">
+          <div v-if="responsiveDesign" class="text-bold social-media-label ml-2">
               <span class="responsive-social-name">{{ type }}</span>
             <div
-            v-if="connectionStatus === 'connected' && responsiveDesign"
-            class="text-success connected-text-responsive ml-5">
+            v-if="connectionStatus === 'connected'"
+            class="text-success connected-text-responsive">
             {{ $t('preferences.profile.social_account_desc') }}
             </div>
-          </span>
+          </div>
           <!-- for responsive design-->
 
         </b-col>
@@ -66,7 +66,6 @@
               align-items-center
               text-align-center
               justify-content-between
-              position-absolute
               "
               @click="remove(val)"
           >
@@ -79,7 +78,6 @@
             align-items-center
             text-align-center
             justify-content-center
-            position-absolute
             "
             @click="connect(val)"
             >
