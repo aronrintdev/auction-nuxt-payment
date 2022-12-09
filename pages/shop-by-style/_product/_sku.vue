@@ -152,10 +152,10 @@
 
       <AlertModal id="message-modal" :message="message" icon="tick" />
       <div class="row mt-3 ml-2 mr-2">
-        <div class="w-50 text-left">
+        <div class="w-75 text-left">
           <p class="fw-6 fs-16">{{ $t('shop_by_style.more_look') }}</p>
         </div>
-        <div class="w-50 fw-5 fs-14 text-right view-all">
+        <div class="w-25 fw-5 fs-14 text-right view-all">
           <p>{{ $t('shop_by_style.view_all') }}</p>
         </div>
       </div>
@@ -193,16 +193,6 @@
           </div>
         </template>
       </ProductCarousel>
-
-<!--        TODO: NP - Keeping this for now in order to have a reference on the product promo flow.-->
-<!--        <b-row class="mt-4">-->
-<!--          <b-col md="6">-->
-<!--            <ProductDetailsTab :product="product" />-->
-<!--          </b-col>-->
-<!--          <b-col md="6">-->
-<!--            <ProductPromo :product="product" />-->
-<!--          </b-col>-->
-<!--        </b-row>-->
     </b-col>
   </b-row>
 </template>
@@ -216,11 +206,11 @@ import ProductImageViewer from '~/components/product/ImageViewerV2'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
 import ProductSizePicker from '~/components/product/SizePicker'
 import ProductBoxConditionPicker from '~/components/product/BoxConditionPicker'
-import ProductDetailsTab from '~/components/product/DetailsTab'
+import ProductDetailsTab from '~/components/shop-by-style/DetailsTab'
 import AlertModal from '~/components/modal/Alert'
 import { API_PROD_URL } from '~/static/constants/environments'
 import { AMOUNT_OFFSET, INSTANT_SHIPPING } from '~/static/constants'
-import BuyNow from '~/components/product/BuyNow'
+import BuyNow from '~/components/shop-by-style/BuyNow'
 import OutOfStock from '~/components/product/OutOfStock'
 import SellNow from '~/components/product/SellNow'
 import OfferDuration from '~/components/product/OfferDuration'
