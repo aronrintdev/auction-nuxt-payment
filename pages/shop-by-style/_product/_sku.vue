@@ -159,7 +159,7 @@
           <p>{{ $t('shop_by_style.view_all') }}</p>
         </div>
       </div>
-      <ProductCarousel
+      <ShopProductCarousel
         :products="style.products"
         :pageName="pageName"
         itemWidth="129px"
@@ -192,7 +192,7 @@
             </ProductCard>
           </div>
         </template>
-      </ProductCarousel>
+      </ShopProductCarousel>
     </b-col>
   </b-row>
 </template>
@@ -215,6 +215,7 @@ import OutOfStock from '~/components/product/OutOfStock'
 import SellNow from '~/components/product/SellNow'
 import OfferDuration from '~/components/product/OfferDuration'
 import PlusCircle from '~/assets/icons/PlusCircle'
+import ShopProductCarousel from '~/components/shop-by-style/ProductCarousel'
 
 export default {
   components: {
@@ -231,7 +232,8 @@ export default {
     ProductDetailsTab,
     Loader,
     AlertModal,
-    PlusCircle
+    PlusCircle,
+    ShopProductCarousel
   },
   name: 'ShopByStyleProductDetails',
   layout: 'IndexLayout',
