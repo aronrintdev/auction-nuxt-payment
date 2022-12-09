@@ -115,7 +115,7 @@
                       inputClass="letter-spacing-initial"
                       @context="(context) => (enddate = context.selectedYMD)"
                   ></CalendarInput>
-                </div>                            
+                </div>
               </div>
             </div>
             <Button
@@ -237,8 +237,8 @@
             <template
                 v-if="purchaseDatas.data.length !== 0 && !isScreenXS && !loading"
             >
-              <VendorPurchaseHistory 
-                class="justify-content-center justify-content-md-start" 
+              <VendorPurchaseHistory
+                class="justify-content-center justify-content-md-start"
                 :purchaseDatas="purchaseDatas.data"
               />
             </template>
@@ -252,10 +252,11 @@
               </div>
             </div>
             <div
-                v-if="!isScreenXS"
+                v-if="(!isScreenXS)"
                 class="row justify-content-center purchase-paginator"
             >
               <Pagination
+                  v-if="(purchaseDatas.data.length !== 0)"
                   v-model="currentPage"
                   :per-page="perPage"
                   :per-page-options="perPageOption"
