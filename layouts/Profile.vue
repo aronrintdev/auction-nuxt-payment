@@ -15,6 +15,7 @@
       </div>
 
       <div
+        id="mobile-p-b-1"
         class="main-wrapper"
         :class="{ 'mobile-p-b': isScreenXS || isScreenSM }"
       >
@@ -112,7 +113,7 @@ export default {
 
 .bg-grayish
   background-color: $color-white-5 !important
-  
+
 .wrapper
   .custom-wrapper
     overflow: hidden

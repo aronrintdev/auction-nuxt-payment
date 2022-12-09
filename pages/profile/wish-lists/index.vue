@@ -780,7 +780,7 @@ export default {
       width: 51px
       border-radius: 40%
     .custom-control-label::after
-      background: #FFFFFF
+      background: $color-white
       border: 0.5px solid rgba(0, 0, 0, 0.04)
       box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15), 0px 3px 1px rgba(0, 0, 0, 0.06)
       width: 27px
@@ -795,6 +795,6 @@ export default {
 <style lang="sass">
 .mobile-p-b
   padding-bottom: 14px
-.mobile-p-b-1
-  padding-bottom: 14px !important
+#mobile-p-b-1
+  padding-bottom: 14px
 </style>
