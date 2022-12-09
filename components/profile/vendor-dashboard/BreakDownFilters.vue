@@ -34,7 +34,7 @@
 
 
     <div v-if="currentTab === 'brand'" class="row w-100 align-items-center gap-2">
-      <div class="col-3">
+      <div class="col-4">
         <MultiSelectDropdown
             v-if="currentTab === 'brand'"
             v-model="selectedFilters.brand_ids"
@@ -63,7 +63,7 @@
       <div
         v-for="(item, index) in selectedFilters.brand_ids"
         :key="item.id"
-        class="form-check  col-1"
+        class="form-check  col-2"
       >
         <input
           :id="`${currentTab}-flexCheckDefault-${index}`"
