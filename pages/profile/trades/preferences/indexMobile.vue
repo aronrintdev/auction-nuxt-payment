@@ -696,12 +696,12 @@ export default {
   line-height: 19px
   letter-spacing: 0.02em
 .update-urs
-  font-family: 'SF Pro Display'
+  font-family: $font-sp-pro
   font-style: normal
-  font-weight: 400
-  font-size: 13px
+  font-weight: $regular
+  @include body-10
   line-height: 16px
-  color: #33363C
+  color: $color-black-17
 .offer-start
   font-family: $font-family-sf-pro-display
   font-style: normal
