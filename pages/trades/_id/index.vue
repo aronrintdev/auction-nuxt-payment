@@ -203,12 +203,12 @@
             </b-popover>
             <hr class="hr-line">
             <div class="container-fluid p-0 mt-4 pt-3">
-              <div class="pb-md-4 w-100 d-flex">
+              <div class="pb-md-4 d-flex">
                 <div class="pl-111px">
                   <div class="form browse-search">
                     <SearchInput
                       :value="searchText"
-                      :placeholder="$t('create_listing.trade.offer_items.search_by')"
+                      :placeholder="$t('inventory.search_placeholder')"
                       :clearSearch="true"
                       inputHeight="46px"
                       bordered
@@ -224,25 +224,25 @@
                   <div class="d-flex">
                     <client-only>
                       <CustomDropdown v-model="categoryFilter" :options="categoryItems" type="single-select"
-                          :label="categoryFilterLabel" class="mr-18px width-156 h-43" width="156px" borderRadius="4px" paddingX="5px"
-                          optionsWidth="custom" dropDownHeight="46px" @getResults="getInventory" @change="changeCategory" />
+                          :label="categoryFilterLabel" class="mr-18px width-156 h-43" maxWidth="156px" borderRadius="4px" paddingX="5px"
+                          optionsWidth="custom" dropDownHeight="46px" @getResults="applyFilters()" @change="changeCategory" />
                       <CustomDropdown v-model="sizeTypesFilter" :options="filters.size_types" type="multi-select-checkbox"
-                          :label="sizeTypesFilterLabel" class="mr-18px width-156 h-43" width="156px" borderRadius="4px" paddingX="5px"
-                          optionsWidth="custom" dropDownHeight="46px" @getResults="getInventory" @change="changeSizeTypeFilter"/>
+                          :label="sizeTypesFilterLabel" class="mr-18px width-156 h-43" maxWidth="156px" borderRadius="4px" paddingX="5px"
+                          optionsWidth="custom" dropDownHeight="46px" :showFilterBtn="false" @getResults="applyFilters()" @change="changeSizeTypeFilter"/>
                       <CustomDropdown v-model="sizeFilter" :options="filters.sizes" type="multi-select-checkbox"
-                          :label="sizeFilterLabel" class="mr-18px width-156 h-43" width="120px" borderRadius="4px" paddingX="5px"
-                          optionsWidth="custom" dropDownHeight="46px" @getResults="getInventory" @change="changeSizeFilter" />
+                          :label="sizeFilterLabel" class="mr-18px width-156 h-43" maxWidth="120px" borderRadius="4px" paddingX="5px"
+                          optionsWidth="custom" dropDownHeight="46px" :showFilterBtn="false" @getResults="applyFilters()" @change="changeSizeFilter" />
                     </client-only>
-                    <b-btn class="filter-btn" @click="getInventory()">{{$t('trades.trade_arena.apply')}}</b-btn>
+                    <b-btn class="filter-btn" @click="applyFilters()">{{$t('trades.trade_arena.apply')}}</b-btn>
+                    <label class="d-flex align-items-center" v-if="categoryFilter || sizeTypesFilter.length || sizeFilter.length "><u class="clear-all-text" @click="clearAllFilters" role="button">{{$t('common.clear_all')}}</u></label>
                   </div>
                 </div>
               </div>
               <client-only>
                 <div v-if="!inventoryItems.length" class="col-md-12">
                   <div class="no-item">{{$t('trades.trade_arena.no_items')}}</div>
-                  <b-btn class="add-items">{{$t('trades.trade_arena.add_items')}}</b-btn>
                 </div>
-                <div v-else class="row pl-147px">
+                <div v-else class="row pl-154px">
                   <div v-for="(item,index) in inventoryItems" :key="index" class="item invent-item position-relative">
                     <div draggable @dragstart="startDrag($event, item)">
                       <img alt="No Image" class="plus-icon-add-trade" role="button" :src="require('~/assets/img/icons/addPlus.svg')"
@@ -260,21 +260,25 @@
                   </div>
 
                   <b-row class="justify-content-center col-md-12">
-                  <Pagination
-                    v-if="inventoryItems && inventoryItems.length > ITEM_COUNT_0"
-                    v-model="page"
-                    :total="totalCount"
-                    :per-page="perPage"
-                    :per-page-options="perPageOptions"
-                    class="mt-4"
-                    @page-click="handlePageClick"
-                    @per-page-change="handlePerPageChange"
-                  />
+<!--                  <Pagination-->
+<!--                    v-if="inventoryItems && inventoryItems.length > ITEM_COUNT_0"-->
+<!--                    v-model="page"-->
+<!--                    :total="totalCount"-->
+<!--                    :per-page="perPage"-->
+<!--                    :per-page-options="perPageOptions"-->
+<!--                    class="mt-4"-->
+<!--                    @page-click="handlePageClick"-->
+<!--                    @per-page-change="handlePerPageChange"-->
+<!--                  />-->
                   </b-row>
                 </div>
               </client-only>
             </div>
           </div>
+          <infinite-loading :identifier="infiniteId" @infinite="getInventory">
+            <span slot="no-more"></span>
+            <span slot="no-results"></span>
+          </infinite-loading>
         </div>
       </div>
       <TraderWants :wants="wants"/>
@@ -299,7 +303,7 @@ import AlreadyListedModal from '~/pages/profile/create-listing/trades/AlreadyLis
 import Meter from '~/components/common/Meter'
 import SearchInput from '~/components/common/SearchInput'
 import CustomDropdown from '~/components/common/CustomDropdown'
-import {Pagination} from '~/components/common'
+// import {Pagination} from '~/components/common'
 import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox'
 import CheckoutSidebar from '~/components/checkout/trades/ShoppingCartOrder'
 import {
@@ -348,7 +352,7 @@ export default {
     Meter,
     TradeCompleted,
     Countdown,
-    Pagination,
+    // Pagination,
     AlreadyListedModal,
     CheckoutSidebar
   },
@@ -407,6 +411,7 @@ export default {
       addCashType: CASH_TYPE_ADDED,
       requestCashType: CASH_TYPE_REQUESTED,
       addCash: true,
+      infiniteId: +new Date(),
     }
   },
   head() {
@@ -808,7 +813,7 @@ export default {
      * This function is used to get listing of your inventory items
      * from api
      */
-    getInventory: debounce(function (filters = {}) {
+    getInventory: debounce(function ($state,filters = {}) {
 
       filters.category = this.categoryFilter
       filters.sizes = this.sizeFilter.join(',')
@@ -823,9 +828,14 @@ export default {
           },
         })
         .then((response) => { // response will get us listing of
-          this.inventoryItems = response.data.data
-          this.totalCount = parseInt(response.data.total)
-          this.perPage = parseInt(response.data.per_page)
+          const res = response?.data
+          if (!res.next_page_url) {
+            $state.complete()
+          }else {
+            this.page += 1;
+            this.inventoryItems.push(...res.data);
+            $state.loaded()
+          }
         })
         .catch((error) => { // return error
           this.$toasted.error(this.$t(error.response.data.error))
@@ -881,6 +891,22 @@ export default {
     setCashType(val){
      this.addCash = val === this.addCashType
      this.cashType = val
+    },
+    applyFilters(){
+      this.page = 1;
+      this.inventoryItems = []
+      this.infiniteId += 1;
+    },
+    clearAllFilters(){
+      this.categoryFilter = ''
+      this.sizeTypesFilter = []
+      this.sizeFilter = []
+      this.categoryFilterLabel = this.$t('trades.trade_arena.category')
+      this.sizeTypesFilterLabel = this.$t('trades.trade_arena.size_type')
+      this.sizeFilterLabel = this.$t('trades.trade_arena.size')
+      this.page = 1;
+      this.inventoryItems = []
+      this.infiniteId += 1;
     }
   }
 }
@@ -1029,7 +1055,8 @@ export default {
   max-height: 280px
   min-height: 280px
 .item-image
-  height: auto
+  height: 100%
+  width: 100%
 .overlay
   position: absolute
   top: 0
@@ -1214,8 +1241,8 @@ export default {
 .hr-line
   margin-left: 70px
   margin-right: 80px
-.pl-147px
-  padding-left: 147px
+.pl-154px
+  padding-left: 154px
 .height-240px
   height: 240px
 .browse-search
@@ -1224,4 +1251,11 @@ export default {
   padding-left: 43px
 .mr-18px
   margin-right: 18px
+.clear-all-text
+  color: $color-gray-5
+  font-weight: $medium
+  font-family: $font-family-sf-pro-display
+  @include body-5
+  padding-left: 15px
+  padding-top: 9px
 </style>
