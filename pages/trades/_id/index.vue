@@ -75,7 +75,7 @@
         </div>
         <div :class="{'timings-left' : isPayment}">
         </div>
-        <div class="d-flex" :class="{'center-cont-height':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_ONE) , 'center-container-margin': isPayment, 'mt-5': isExpire, 'pt-5': isExpire,
+        <div class="d-flex" :class="{'center-container-margin': isPayment, 'mt-5': isExpire, 'pt-5': isExpire,
         'margin-one-item': (trade.offers.length === ITEM_COUNT_ONE && (getYourTradeItems.length === ITEM_COUNT_ONE ||  getYourTradeItems.length === ITEM_COUNT_0)),
         'margin-one-vs-two': (trade.offers.length === ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0 ),
         'margin-two-vs-one': (trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 ),
@@ -203,7 +203,7 @@
             </b-popover>
             <hr class="hr-line">
             <div class="container-fluid p-0 mt-4 pt-3">
-              <div class="pb-md-4 d-flex">
+              <div class="pb-27px d-flex">
                 <div class="pl-111px">
                   <div class="form browse-search">
                     <SearchInput
@@ -214,9 +214,6 @@
                       bordered
                       @change="onSearchInput"
                     />
-                  </div>
-                  <div class="position-absolute z-100">
-                    <SearchedProductsBelowSearchTextBox :productItems="searchedItems" productsFor="tradeItemArena" />
                   </div>
                 </div>
                 <div class="col-md-6 mt--4 pl-43px pr-0">
@@ -237,6 +234,9 @@
                     <label class="d-flex align-items-center" v-if="categoryFilter || sizeTypesFilter.length || sizeFilter.length "><u class="clear-all-text" @click="clearAllFilters" role="button">{{$t('common.clear_all')}}</u></label>
                   </div>
                 </div>
+              </div>
+              <div class="d-flex justify-content-end pb-27px">
+                <div class="mr-160px d-flex align-items-center" role="button" @click="addInventory()"> <img :src="require('~/assets/img/trades/add_invent.svg')"> <span class="add-inventory">{{$t('inventory.add_inventory')}}</span> </div>
               </div>
               <client-only>
                 <div v-if="!inventoryItems.length" class="col-md-12">
@@ -303,8 +303,6 @@ import AlreadyListedModal from '~/pages/profile/create-listing/trades/AlreadyLis
 import Meter from '~/components/common/Meter'
 import SearchInput from '~/components/common/SearchInput'
 import CustomDropdown from '~/components/common/CustomDropdown'
-// import {Pagination} from '~/components/common'
-import SearchedProductsBelowSearchTextBox from '~/components/product/SearchedProductsBelowSearchTextBox'
 import CheckoutSidebar from '~/components/checkout/trades/ShoppingCartOrder'
 import {
   GOOGLE_MAPS_BASE_URL
@@ -334,7 +332,6 @@ import {
   OFFER_TYPE_YOURS,
   OFFER_TYPE_THEIR,
   OFFER_TYPE,
-  TAKE_SEARCHED_PRODUCTS,
   OFFER_SENT, CASH_TYPE_REQUESTED
 } from '~/static/constants/trades'
 import IndexMobile from '~/pages/trades/_id/IndexMobile';
@@ -344,7 +341,6 @@ export default {
   components: {
     IndexMobile,
     CreateTradeSearchItem,
-    SearchedProductsBelowSearchTextBox,
     TraderWants,
     PoorTradeConfirmationModal,
     CustomDropdown,
@@ -352,7 +348,6 @@ export default {
     Meter,
     TradeCompleted,
     Countdown,
-    // Pagination,
     AlreadyListedModal,
     CheckoutSidebar
   },
@@ -468,6 +463,7 @@ export default {
     ...mapActions('trade', ['fetchVendorTradeSummary', 'fetchSubmittedOffer']), // Action to call api request to get vendor trade summary
     ...mapActions('trades', ['checkIfItemIsInListingItem', 'searchProductsList']),
     ...mapGetters('auth', ['isVendor']),
+    ...mapActions('inventory', ['addReferrer']),
 
     screenWidth(){
       const self = this;
@@ -792,20 +788,14 @@ export default {
     onSearchInput(term) {
       this.searchText = term
       if (term) {
-        this.searchProductsList({
-          search: term.toLowerCase(),
-          take: TAKE_SEARCHED_PRODUCTS
-        })
-          .then((response) => { // response will get us list of search query
-            this.searchedItems = response.data.results.data
-          })
-          .catch((error) => { // error will return us error
-            this.$toasted.error(this.$t(error.response.data.error))
-            this.searchedItems = []
-          })
+        this.page = 1;
+        this.inventoryItems = []
+        this.infiniteId += 1;
       } else {
         this.searchText = null
-        this.searchedItems = []
+        this.page = 1;
+        this.inventoryItems = []
+        this.infiniteId += 1;
       }
     },
 
@@ -821,7 +811,7 @@ export default {
       this.$axios
         .get('/vendor/inventory', {
           params: {
-            search: '', // search query param for api call
+            search: this.searchText,
             page: this.page, // Current page No
             per_page: this.perPage, // Per page no of records
             ...filters // filters to be applied
@@ -898,6 +888,7 @@ export default {
       this.infiniteId += 1;
     },
     clearAllFilters(){
+      this.searchText = null
       this.categoryFilter = ''
       this.sizeTypesFilter = []
       this.sizeFilter = []
@@ -907,6 +898,10 @@ export default {
       this.page = 1;
       this.inventoryItems = []
       this.infiniteId += 1;
+    },
+    addInventory(){
+      this.addReferrer(`/trades/${this.$route.params.id}`)
+      this.$router.push('/profile/inventory/search')
     }
   }
 }
@@ -1258,4 +1253,14 @@ export default {
   @include body-5
   padding-left: 15px
   padding-top: 9px
+.pb-27px
+  padding-bottom: 27px
+.add-inventory
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include body-13-normal
+  color: $color-blue-20
+  padding-left: 9px
+.mr-160px
+  margin-right: 160px
 </style>
