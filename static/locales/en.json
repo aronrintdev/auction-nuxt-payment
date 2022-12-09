@@ -167,6 +167,7 @@
     "done": "Done",
     "end_date": "End Date",
     "search_brands": "Search Brands",
+    "search_products": "Search Products",
     "sort_by": "Sort By",
     "options": "Options",
     "reset": "Reset",
@@ -5704,6 +5705,7 @@
     "breakdown": {
       "export": "Export to CSV",
       "total": "Total",
+      "select_name": "Select {name}",
       "overview": "Overview",
       "search_placeholder": "Search for SKU, Brand or Product Name",
       "products": "Products",

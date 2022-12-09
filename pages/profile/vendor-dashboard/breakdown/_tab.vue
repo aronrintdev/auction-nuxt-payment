@@ -26,6 +26,59 @@
       @change="tabChange"
     />
 
+    <div v-if="isScreenXS">
+      <div
+        v-if="activeGlobalTab === 'category'"
+        class="categories row d-flex align-items-center mb-20"
+      >
+        <div class="col-6 form-check mr-43">
+          <input
+            id="flexCheckDefault-total"
+            v-model="categorySelectAll"
+            class="form-check-input"
+            type="checkbox"
+            @change="categoryTotalSelect"
+          />
+          <label for="flexCheckDefault-total">
+            {{ $t('vendor_dashboard.breakdown.total') }}
+          </label>
+        </div>
+        <div
+          v-for="(item, index) in categories"
+          :key="index"
+          class="form-check mr-43 col-6"
+        >
+          <input
+            :id="`${activeGlobalTab}-flexCheckDefault-${index}`"
+            v-model="filters.categories"
+            :value="item.value"
+            class="form-check-input"
+            type="checkbox"
+            @change="categoryChange"
+          />
+          <label :for="`${activeGlobalTab}-flexCheckDefault-${index}`">
+            {{ item.label | capitalizeFirstLetter }}
+          </label>
+        </div>
+      </div>
+      <div v-if="activeGlobalTab === 'brand'" class="mt-1 mb-31">
+        <div @click="mobileFiltersOpen = true">
+          <MobileSearchInput
+            :value="''"
+            :placeholder="$t('common.search_brands').toString()"
+          />
+        </div>
+      </div>
+      <div v-if="activeGlobalTab === 'product'" class="mt-1 mb-31">
+        <div @click="mobileFiltersOpen = true">
+          <MobileSearchInput
+            :value="''"
+            :placeholder="$t('common.search_products').toString()"
+          />
+        </div>
+      </div>
+    </div>
+
     <div>
       <div
         :class="{
@@ -85,7 +138,13 @@
           />
         </div>
 
-        <BreakDownFilters v-if="!isScreenXS" :current-tab="activeGlobalTab"/>
+        <BreakDownFilters
+          v-if="!isScreenXS"
+          :current-tab="activeGlobalTab"
+          :server-brands="serverBrands"
+          :server-categories="serverCategories"
+          @filters="filterChanged"
+        />
 
         <div class="tabs d-sm-none d-flex gap-2 justify-content-center">
           <h6
@@ -120,39 +179,48 @@
       </div>
     </div>
 
-
-    <div :class="{
-      'mt-26': isScreenXS,
-      'mt-36': !isScreenXS,
-    }">
-
-      <div class="d-flex " :class="{
-        'justify-content-center ': isScreenXS,
-        'mb-31': !isScreenXS
-      }">
-        <div class="ml-4 font-primary" :class="{
-          'body-21-medium mr-1 text-black':isScreenXS,
-          'body-2-bold mr-22': !isScreenXS
-        }">
+    <div
+      :class="{
+        'mt-26': isScreenXS,
+        'mt-36': !isScreenXS,
+      }"
+    >
+      <div
+        class="d-flex"
+        :class="{
+          'justify-content-center ': isScreenXS,
+          'mb-31': !isScreenXS,
+        }"
+      >
+        <div
+          class="ml-4 font-primary"
+          :class="{
+            'body-21-medium mr-1 text-black': isScreenXS,
+            'body-2-bold mr-22': !isScreenXS,
+          }"
+        >
           {{ $t('vendor_dashboard.breakdown.statistics') }}
         </div>
-        <div :class="{
-          'body-21-medium text-black font-primary':isScreenXS,
-          'body-2-normal font-secondary text-capitalize text-gray-simple': !isScreenXS
-        }">
-          ({{chartFilterOptions[activeTab]}})
+        <div
+          :class="{
+            'body-21-medium text-black font-primary': isScreenXS,
+            'body-2-normal font-secondary text-capitalize text-gray-simple':
+              !isScreenXS,
+          }"
+        >
+          ({{ chartFilterOptions[activeTab] }})
         </div>
       </div>
 
       <b-table
         :fields="filteredTableFields"
-        :items="stats"
+        :items="result.statistics"
         borderless
         class="stat-table"
         no-border-collapse
         tbody-tr-class="bg-white p-web-row"
         :busy="loading"
-        :show-empty="!loading && stats.length === 0"
+        :show-empty="!loading && result.statistics.length === 0"
       >
         <template #table-busy>
           <div class="d-flex align-items-center justify-content-center w-100">
@@ -160,7 +228,12 @@
           </div>
         </template>
         <template #head()="scope">
-          <div class="text-nowrap" role="button" onselectstart="return false" @click="orderBy(scope)">
+          <div
+            class="text-nowrap"
+            role="button"
+            onselectstart="return false"
+            @click="orderBy(scope)"
+          >
             <span class="mr-1">{{ scope.label }}</span>
             <img
               v-if="scope.label"
@@ -174,66 +247,181 @@
 
         <template #cell(premium_percentage)="row">
           <div
-            :aria-label="$t('vendor_dashboard.sales_this_month')"
+            :aria-label="$t('vendor_dashboard.breakdown.table.price_premium')"
             class="d-flex align-items-center justify-content-center tdHeight"
           >
-            <h4 class="font-secondary fw-5 fs-16 mb-0" :class="{
-              'text-success': row.item.premium_percentage >=0,
-              'text-danger': row.item.premium_percentage < 0
-            }">
-              {{ row.item.premium_percentage | toPercentage }} %
+            <h4
+              class="font-secondary fw-5 fs-16 mb-0"
+              :class="{
+                'text-success': (row.item.premium_percentage | 0) > 0,
+                'text-danger': (row.item.premium_percentage | 0) < 0,
+              }"
+            >
+              {{ row.item.premium_percentage || 0 | toPercentage }}
             </h4>
           </div>
         </template>
         <template #cell(total_sales_amount)="row">
           <div
-            :aria-label="$tc('vendor_dashboard.total_sales', 1)"
+            :aria-label="$t('vendor_dashboard.breakdown.table.sales')"
             class="d-flex align-items-center justify-content-center tdHeight"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">
-              {{ row.item.total_sales_amount | toCurrency }}
+              {{ row.item.total_sales_amount || 0 | toCurrency }}
               <span
-                  v-if="row.item.premium_percentage > 0"
-                  class="text-success text-sm"
-              >(+{{ row.item.avg_sales_price }}%)</span
+                v-if="(row.item.premium_percentage | 0) > 0"
+                class="text-success text-sm"
+                >(+{{ row.item.avg_sales_price || 0 }}%)</span
               >
               <span
-                  v-if="row.item.premium_percentage < 0"
-                  class="text-danger text-sm"
-              >(-{{ row.item.avg_sales_price }}%)</span
+                v-if="(row.item.premium_percentage | 0) < 0"
+                class="text-danger text-sm"
+                >(-{{ row.item.avg_sales_price || 0 }}%)</span
               >
             </h4>
           </div>
         </template>
         <template #cell(avg_sales_price)="row">
           <div
-            :aria-label="$t('vendor_dashboard.avg_price')"
+            :aria-label="$t('vendor_dashboard.breakdown.table.avg_sale_price')"
             class="d-flex align-items-center justify-content-center tdHeight"
           >
             <h4 class="font-secondary fw-5 fs-16 mb-0">
-              {{ row.item.avg_sales_price | toCurrency }}
+              {{ row.item.avg_sales_price || 0 | toCurrency }}
+            </h4>
+          </div>
+        </template>
+
+        <template #cell(items_sold)="row">
+          <div
+            :aria-label="$t('vendor_dashboard.breakdown.table.items_sold')"
+            class="d-flex align-items-center justify-content-center tdHeight"
+          >
+            <h4 class="font-secondary fw-5 fs-16 mb-0">
+              {{ row.item.items_sold || '-' }}
             </h4>
           </div>
         </template>
       </b-table>
     </div>
+
+    <MobileBottomSheet
+      :height="'90%'"
+      :open="mobileFiltersOpen"
+      :is-rounded="false"
+      :has-overlay="false"
+      :swipeable="false"
+      :header-style="{
+        display: 'none !important',
+      }"
+      class="bottom-sheet"
+      :title="$t('notifications.filter_by')"
+      @closed="mobileFiltersOpen = false"
+      @opened="mobileFiltersOpen = true"
+    >
+      <div
+        class="filter-content py-2 px-4 d-flex flex-column justify-content-between h-100"
+      >
+        <div class="my-2">
+          <MobileSearchInput
+            v-model="productSearchKey"
+            :value="productSearchKey"
+            :placeholder="
+              activeGlobalTab === 'brand'
+                ? $t('common.search_brands').toString()
+                : $t('common.search_products').toString()
+            "
+            @input="filterSearchChange"
+          />
+        </div>
+        <div class="overflow-auto flex-grow-1">
+          <div v-if="activeGlobalTab === 'brand'">
+            <div v-for="item in filteredBrands" :key="item.id">
+              <MobileFilterItem :title="item.name" />
+            </div>
+          </div>
+          <div v-if="activeGlobalTab === 'product'">
+            <div v-if="searchLoading" class="d-flex align-items-center justify-content-center">
+              <Loader :loading="searchLoading"></Loader>
+            </div>
+            <div v-else>
+              <div v-for="item in products" :key="item.id">
+                <MobileFilterItem :title="item.name" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between my-4">
+          <Button
+            class="filter-button"
+            pill
+            variant="outline-dark"
+            @click="mobileFiltersOpen = false"
+          >
+            {{ $t('notifications.reset') }}
+          </Button>
+
+          <Button
+            :disabled="loading"
+            class="filter-button apply-filters"
+            pill
+            variant="dark-blue"
+            @click="getData"
+          >
+            {{
+              $t('vendor_dashboard.breakdown.select_name', {
+                name: $options.filters.capitalizeFirstLetter(activeGlobalTab),
+              })
+            }}
+          </Button>
+        </div>
+      </div>
+    </MobileBottomSheet>
   </b-container>
 </template>
 
 <script>
+import _ from 'lodash'
 import screenSize from '~/plugins/mixins/screenSize'
 import { CustomSelect } from '~/components/common'
 import NavGroup from '~/components/common/NavGroup'
 import Loader from '~/components/common/Loader'
-import BreakDownFilters from '~/components/profile/vendor-dashboard/BreakDownFilters';
+import BreakDownFilters from '~/components/profile/vendor-dashboard/BreakDownFilters'
+import MobileSearchInput from '~/components/mobile/MobileSearchInput'
+import MobileBottomSheet from '~/components/mobile/MobileBottomSheet'
+import Button from '~/components/common/Button'
+import MobileFilterItem from '~/components/profile/vendor-dashboard/MobileFilterItem'
 
 export default {
   name: 'BreakDownPage',
-  components: {BreakDownFilters, Loader, NavGroup, CustomSelect },
+  components: {
+    MobileFilterItem,
+    Button,
+    MobileBottomSheet,
+    MobileSearchInput,
+    BreakDownFilters,
+    Loader,
+    NavGroup,
+    CustomSelect,
+  },
   mixins: [screenSize],
   layout: 'Profile',
   data() {
     return {
+      productSearchKey: '',
+      products: [],
+      serverCategories: [],
+      serverBrands: [],
+      mobileFiltersOpen: false,
+      categorySelectAll: false,
+      categories: Object.keys(
+        this.$t('vendor_dashboard.breakdown.categories')
+      ).map((key) => {
+        return {
+          label: this.$t(`vendor_dashboard.breakdown.categories.${key}`),
+          value: key,
+        }
+      }),
       activeGlobalTab: 'category',
       globalTabs: Object.keys(this.$t('vendor_dashboard.breakdown.tabs')).map(
         (key) => {
@@ -245,6 +433,7 @@ export default {
         }
       ),
       loading: false,
+      searchLoading: false,
       stats: [],
       fields: [
         {
@@ -285,7 +474,15 @@ export default {
       ],
       result: {
         chart: {},
-        statistics: []
+        statistics: [],
+      },
+      filters: {
+        category_ids: [],
+        categories: [],
+        brands: [],
+        products: [],
+        brand_ids: [],
+        product_ids: [],
       },
       filterByTitle: this.$t('selling_page.status'),
       filterBy: 'month',
@@ -371,18 +568,94 @@ export default {
         ],
       }
     },
+    filteredBrands() {
+      return this.serverBrands.filter((item) =>
+        this.productSearchKey
+          ? item.name.toLowerCase().includes(this.productSearchKey)
+          : true
+      )
+    },
     isDataEmpty() {
       return this.dataGraph.every((item) => !item)
     },
-    filteredTableFields(){
-      return [...this.fields.filter(field => field.key === this.activeGlobalTab), ...this.fields.slice(3, this.fields.length)]
-    }
+    filteredTableFields() {
+      return [
+        ...this.fields.filter((field) => field.key === this.activeGlobalTab),
+        ...this.fields.slice(3, this.fields.length),
+      ]
+    },
   },
   mounted() {
+    this.fetchServerData()
+    this.searchProduct()
+    this.getData()
     // console.log(this.$route)
-    // console.log(this.$router)
   },
   methods: {
+    filterSearchChange: _.debounce(function (search) {
+      if (this.activeGlobalTab === 'product') {
+        this.searchProduct()
+      }
+    }, 300),
+    searchProduct() {
+      this.searchLoading = true
+      this.$axios
+        .get('/products', {
+          params: {
+            search: this.productSearchKey.toLowerCase(),
+            take: 50,
+          },
+        })
+        .then((response) => {
+          this.products = response.data.data || []
+        })
+        .catch((error) => {
+          this.$toasted.error(error)
+        })
+        .finally(() => {
+          this.searchLoading = false
+        })
+    },
+    fetchServerData() {
+      this.$axios.get('/categories').then((res) => {
+        this.serverCategories = res.data
+      })
+      this.$axios.get('/brands').then((res) => {
+        this.serverBrands = res.data
+      })
+    },
+    categoryTotalSelect(val) {
+      if (this.categorySelectAll) {
+        this.filters.categories = this.categories.map((item) => item.value)
+      } else {
+        this.filters.categories = []
+      }
+      this.categoryTransformer()
+    },
+    categoryChange(val) {
+      this.categorySelectAll = this.filters.categories.length === 3
+      this.categoryTransformer()
+    },
+    categoryTransformer() {
+      const categories = this.serverCategories
+        .filter((item) => this.filters.categories.includes(item.name))
+        .map((a) => a.id)
+      if (this.filters.categories.includes('footwear')) {
+        categories.push(1)
+      }
+      const filterData = {
+        category_ids: categories,
+      }
+      this.filterChanged({ filterData })
+    },
+    filterChanged(data) {
+      const filters = data.filterData
+      console.log(data)
+      this.filters.category_ids = filters.category_ids || []
+      this.filters.brand_ids = filters.brand_ids || []
+      this.filters.product_ids = filters.product_ids || []
+      this.getData()
+    },
     orderBy(scope) {
       this.orderByDirection = this.reverseDirection(scope.column)
       this.orderByField = scope.column
@@ -410,22 +683,26 @@ export default {
       this.getData()
     },
     getData() {
+      this.loading = true
       this.$axios
-          .get('/dashboard/vendor/sales-breakdown', {
-            params: {
-              category_ids: [],
-              group_by: this.filterBy,
-              brand_ids: [],
-              product_ids: [],
-            },
-          })
-          .then((response) => {
-            console.log(response)
-            this.result = response.data.data
-          })
-          .catch((error) => {
-            this.$toasted.error(error)
-          })
+        .get('/dashboard/vendor/sales-breakdown', {
+          params: {
+            category_ids: this.filters.category_ids.join(','),
+            group_by: this.filterBy,
+            brand_ids: this.filters.brand_ids.join(','),
+            product_ids: this.filters.product_ids.join(','),
+          },
+        })
+        .then((response) => {
+          console.log(response)
+          this.result = response.data.data
+        })
+        .catch((error) => {
+          this.$toasted.error(error)
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
   },
 }
@@ -433,6 +710,10 @@ export default {
 
 <style scoped lang="sass">
 @import "~/assets/css/variables"
+::v-deep.bottom-sheet
+  .bottom-sheet__pan
+    display: none !important
+
 ::v-deep.p-web-row
   padding: 26px 28px
 
@@ -462,12 +743,6 @@ export default {
 .mt-26
   margin-top: 26px
 
-.mb-31
-  margin-top: 31px
-
-.mb-31
-  margin-bottom: 31px
-
 .mb-15
   margin-bottom: 15px
 
@@ -476,6 +751,9 @@ export default {
 
 .mt-31
   margin-top: 31px
+
+.mb-31
+  margin-bottom: 31px
 
 .mt-14
   margin-top: 14px
@@ -600,4 +878,44 @@ export default {
         content: attr(aria-label)
         margin-right: auto
         width: 100%
+
+.categories
+  margin-inline: 30px
+
+.form-check
+  & > *
+    cursor: pointer !important
+
+  .form-check-input
+    border: none
+    box-shadow: none
+
+    &::after
+      content: ' '
+      background-color: $color-gray-75
+      position: absolute
+      left: 0
+      top: 50%
+      width: 16px
+      height: 16px
+      transform: translateY(-7px)
+      border-radius: 2px
+
+    &:checked
+      &::after
+        background-color: $color-blue-20
+        border-color: $color-blue-20
+        background-image: url('~/assets/img/icons/checkmark-thick.svg')
+        background-repeat: no-repeat
+        background-size: 10px
+        box-shadow: none
+        background-position: center
+
+  label
+    font-family: $font-family-sf-pro-display
+    @include body-13-normal
+    text-align: left
+    color: $color-gray-5
+    padding-left: 16px
+    width: 100%
 </style>

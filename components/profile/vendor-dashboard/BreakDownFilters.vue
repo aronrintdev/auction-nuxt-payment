@@ -20,7 +20,7 @@
       >
         <input
           :id="`${currentTab}-flexCheckDefault-${index}`"
-          v-model="selectedCategories"
+          v-model="selectedFilters.category_ids"
           :value="item.value"
           class="form-check-input"
           type="checkbox"
@@ -34,11 +34,12 @@
 
     <MultiSelectDropdown
       v-if="currentTab === 'brand'"
-      v-model="selectedFilters.brands"
+      v-model="selectedFilters.brand_ids"
       collapseKey="brands"
       :title="$t('filter_sidebar.brands').toString()"
       :options="brandOptions"
       class="brands mr-29"
+      @input="brandChange"
     >
       <template #firstRow>
         <div>
@@ -56,8 +57,8 @@
     </MultiSelectDropdown>
     <div v-if="currentTab === 'brand'" class="d-flex align-items-center">
       <div
-        v-for="(item, index) in selectedFilters.brands"
-        :key="index"
+        v-for="(item, index) in selectedFilters.brand_ids"
+        :key="item.id"
         class="form-check mr-25"
       >
         <input
@@ -75,7 +76,7 @@
       </div>
 
       <div
-        v-if="selectedFilters.brands.length"
+        v-if="selectedFilters.brand_ids.length"
         class="body-13-normal font-secondary text-decoration-underline text-gray-simple"
         role="button"
         @click="clearFilters"
@@ -86,11 +87,12 @@
 
     <MultiSelectDropdown
       v-if="currentTab === 'product'"
-      v-model="selectedFilters.products"
+      v-model="selectedFilters.product_ids"
       collapseKey="categories"
       :title="$t('vendor_dashboard.breakdown.products').toString()"
       :options="productOptions"
       class="categories mr-29"
+      @input="productChange"
     >
       <template #firstRow>
         <div>
@@ -109,7 +111,7 @@
 
     <div v-if="currentTab === 'product'" class="d-flex align-items-center">
       <div
-        v-for="(item, index) in selectedFilters.products"
+        v-for="(item, index) in selectedFilters.product_ids"
         :key="index"
         class="form-check mr-25"
       >
@@ -128,7 +130,7 @@
       </div>
 
       <div
-        v-if="selectedFilters.products.length"
+        v-if="selectedFilters.product_ids.length"
         class="body-13-normal font-secondary text-decoration-underline text-gray-simple"
         role="button"
         @click="clearFilters"
@@ -141,7 +143,6 @@
 
 <script>
 import _ from 'lodash'
-import { mapGetters } from 'vuex'
 import screenSize from '~/plugins/mixins/screenSize'
 import MultiSelectDropdown from '~/components/common/MultiSelectDropdown'
 import SearchInput from '~/components/common/SearchInput'
@@ -155,6 +156,14 @@ export default {
       type: String,
       required: true,
     },
+    serverBrands: {
+      type: Array,
+      default: () => [],
+    },
+    serverCategories: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -162,11 +171,11 @@ export default {
       productSearchKey: '',
       categorySelectAll: false,
       selectedFilters: {
-        brands: [],
-        products: [],
+        category_ids: [],
+        brand_ids: [],
+        product_ids: [],
       },
       searchedProducts: [],
-      selectedCategories: [],
       categories: Object.keys(
         this.$t('vendor_dashboard.breakdown.categories')
       ).map((key) => {
@@ -178,10 +187,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('browse', ['filters']),
     brandOptions() {
-      const res = this.filters?.brands
-        ?.map((item) => {
+      const res = this.serverBrands
+        .map((item) => {
           return { label: item.name, value: item }
         })
         .filter((item) =>
@@ -194,7 +202,7 @@ export default {
         label: this.$t('vendor_dashboard.breakdown.select_all'),
         value: {
           id: -1,
-          name: this.$t('vendor_dashboard.breakdown.select_all').toString()
+          name: this.$t('vendor_dashboard.breakdown.select_all').toString(),
         },
       })
       return res
@@ -214,7 +222,7 @@ export default {
         label: this.$t('vendor_dashboard.breakdown.select_all'),
         value: {
           id: -1,
-          name: this.$t('vendor_dashboard.breakdown.select_all').toString()
+          name: this.$t('vendor_dashboard.breakdown.select_all').toString(),
         },
       })
       return res
@@ -224,19 +232,45 @@ export default {
     this.searchProduct()
   },
   methods: {
-    categoryTotalSelect(val){
-      if (this.categorySelectAll){
-        this.selectedCategories = this.categories.map(item => item.value)
-      }else{
-        this.selectedCategories = []
-      }
+    brandChange(val) {
+      this.filterChanged()
     },
-    categoryChange(val){
-      this.categorySelectAll = this.selectedCategories.length === 3;
+    productChange(val) {
+      console.log(val);
+      this.filterChanged()
+    },
+    categoryTotalSelect(val) {
+      if (this.categorySelectAll) {
+        this.selectedFilters.category_ids = this.categories.map(
+          (item) => item.value
+        )
+      } else {
+        this.selectedFilters.category_ids = []
+      }
+      this.filterChanged()
+    },
+    filterChanged() {
+      const categories = this.serverCategories
+        .filter((item) => this.selectedFilters.category_ids.includes(item.name))
+        .map((a) => a.id)
+        if (this.selectedFilters.category_ids.includes('footwear')){
+          categories.push(1)
+        }
+      const filterData = {
+        category_ids: categories,
+        brand_ids: this.selectedFilters.brand_ids.map(a => a.id),
+        product_ids: this.selectedFilters.product_ids.map(a => a.id),
+      }
+      this.$emit('filters', {filterData, data: this.selectedFilters})
+    },
+    categoryChange(val) {
+      this.categorySelectAll = this.selectedFilters.category_ids.length === 3
+      this.filterChanged()
     },
     clearFilters() {
-      this.selectedFilters.brands = []
-      this.selectedFilters.products = []
+      this.selectedFilters.brand_ids = []
+      this.selectedFilters.product_ids = []
+      this.filterChanged()
     },
     filterBrands(text) {
       this.brandSearch = text
