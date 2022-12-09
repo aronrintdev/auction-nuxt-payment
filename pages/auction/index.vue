@@ -15,6 +15,7 @@
         ></product-slider>
         <product-slider
           :title="$t('auctions.frontpage.ending_soon')"
+          :view-more-btn-label="$t('auctions.frontpage.ending_soon_load_more')"
           :auctions="endingSoonAuctions"
           :type="'ending_soon'"
           @showAll="showAllAuctions('ending_soon')"

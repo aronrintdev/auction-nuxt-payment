@@ -2001,7 +2001,8 @@
         "cta_label": "List"
       },
       "recently_viewed": "Recently Viewed",
-      "ending_soon": "Auctions Ending Soon",
+      "ending_soon": "Ending Soon",
+      "ending_soon_load_more": "View More Ending Soon",
       "no_reserve": "No-Reserve",
       "reserve": "Reserve",
       "search_results": "Search Results",
