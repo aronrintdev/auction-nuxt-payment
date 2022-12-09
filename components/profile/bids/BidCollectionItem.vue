@@ -48,6 +48,7 @@
                     {{ $t('bids.accept') }}
                   </a>
                 </div>
+                <div v-else>-</div>
                 <!-- MOBILE ACCEPT BUTTON END -->
               </template>
             </b-col>
@@ -95,6 +96,7 @@
             <div class="px-0 px-md-1 px-lg-2 px-xl-3 body-4-medium"> {{ $t('bids.accept') }}</div>
           </Button>
         </b-col>
+        <b-col v-else sm="12" md="2" class="d-flex justify-content-center align-items-center flex-column pt-4">-</b-col>
         </template>
       </b-row>
 
