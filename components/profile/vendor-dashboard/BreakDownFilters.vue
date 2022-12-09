@@ -32,34 +32,38 @@
       </div>
     </div>
 
-    <MultiSelectDropdown
-      v-if="currentTab === 'brand'"
-      v-model="selectedFilters.brand_ids"
-      collapseKey="brands"
-      :title="$t('filter_sidebar.brands').toString()"
-      :options="brandOptions"
-      class="brands mr-29"
-      @input="brandChange"
-    >
-      <template #firstRow>
-        <div>
-          <SearchInput
-            :placeholder="
+
+    <div v-if="currentTab === 'brand'" class="row w-100 align-items-center gap-2">
+      <div class="col-3">
+        <MultiSelectDropdown
+            v-if="currentTab === 'brand'"
+            v-model="selectedFilters.brand_ids"
+            collapseKey="brands"
+            :title="$t('filter_sidebar.brands').toString()"
+            :options="brandOptions"
+            class="brands "
+            @input="brandChange"
+        >
+          <template #firstRow>
+            <div>
+              <SearchInput
+                  :placeholder="
               $t('vendor_dashboard.breakdown.search_brand').toString()
             "
-            class="search-filter"
-            :debounce="1000"
-            :input-height="'26px'"
-            @search="filterBrands"
-          />
-        </div>
-      </template>
-    </MultiSelectDropdown>
-    <div v-if="currentTab === 'brand'" class="d-flex align-items-center">
+                  class="search-filter"
+                  :debounce="1000"
+                  :input-height="'26px'"
+                  @search="filterBrands"
+              />
+            </div>
+          </template>
+        </MultiSelectDropdown>
+      </div>
+
       <div
         v-for="(item, index) in selectedFilters.brand_ids"
         :key="item.id"
-        class="form-check mr-25"
+        class="form-check  col-1"
       >
         <input
           :id="`${currentTab}-flexCheckDefault-${index}`"
@@ -69,7 +73,7 @@
         />
         <label
           :for="`${currentTab}-flexCheckDefault-${index}`"
-          class="text-gray-simple body-13-normal font-secondary"
+          class="text-gray-simple body-13-normal font-secondary text-truncate text-nowrap"
         >
           {{ item.name | capitalizeFirstLetter }}
         </label>
@@ -77,7 +81,7 @@
 
       <div
         v-if="selectedFilters.brand_ids.length"
-        class="body-13-normal font-secondary text-decoration-underline text-gray-simple"
+        class="col-3 body-13-normal font-secondary text-decoration-underline text-gray-simple"
         role="button"
         @click="clearFilters"
       >
@@ -85,35 +89,36 @@
       </div>
     </div>
 
-    <MultiSelectDropdown
-      v-if="currentTab === 'product'"
-      v-model="selectedFilters.product_ids"
-      collapseKey="categories"
-      :title="$t('vendor_dashboard.breakdown.products').toString()"
-      :options="productOptions"
-      class="categories mr-29"
-      @input="productChange"
-    >
-      <template #firstRow>
-        <div>
-          <SearchInput
-            :placeholder="
+    <div v-if="currentTab === 'product'" class="row w-100 align-items-center gap-2">
+      <div class="col-4">
+        <MultiSelectDropdown
+            v-if="currentTab === 'product'"
+            v-model="selectedFilters.product_ids"
+            collapseKey="categories"
+            :title="$t('vendor_dashboard.breakdown.products').toString()"
+            :options="productOptions"
+            class="categories mr-29"
+            @input="productChange"
+        >
+          <template #firstRow>
+            <div>
+              <SearchInput
+                  :placeholder="
               $t('vendor_dashboard.breakdown.search_product').toString()
             "
-            class="search-filter"
-            :debounce="1000"
-            :input-height="'26px'"
-            @search="filterProducts"
-          />
-        </div>
-      </template>
-    </MultiSelectDropdown>
-
-    <div v-if="currentTab === 'product'" class="d-flex align-items-center">
+                  class="search-filter"
+                  :debounce="1000"
+                  :input-height="'26px'"
+                  @search="filterProducts"
+              />
+            </div>
+          </template>
+        </MultiSelectDropdown>
+      </div>
       <div
         v-for="(item, index) in selectedFilters.product_ids"
         :key="index"
-        class="form-check mr-25"
+        class="form-check col-2 d-flex align-items-center "
       >
         <input
           :id="`${currentTab}-flexCheckDefault-${index}`"
@@ -123,7 +128,7 @@
         />
         <label
           :for="`${currentTab}-flexCheckDefault-${index}`"
-          class="text-gray-simple body-13-normal font-secondary"
+          class="text-gray-simple body-13-normal font-secondary text-truncate text-nowrap"
         >
           {{ item.name | capitalizeFirstLetter }}
         </label>
@@ -131,7 +136,7 @@
 
       <div
         v-if="selectedFilters.product_ids.length"
-        class="body-13-normal font-secondary text-decoration-underline text-gray-simple"
+        class="col-1 body-13-normal font-secondary text-decoration-underline text-gray-simple"
         role="button"
         @click="clearFilters"
       >
@@ -374,4 +379,5 @@ export default {
     color: $color-gray-5
     padding-left: 16px
     width: 100%
+    margin-bottom: -4px
 </style>
