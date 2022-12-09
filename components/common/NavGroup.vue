@@ -67,14 +67,16 @@ export default {
 .nav-group
   @media (min-width: 576px)
     margin: 32px 0
+  .mx-19
+    margin-left: 19px
+    margin-right: 19px
   .btn-group
     background-color: $color-white-19
     border-radius: 20px
     padding: 4px 6px
     height: 40px
-  .mx-19
-    margin-left: 19px
-    margin-right: 19px
+    @media (max-width: 576px)
+      height: 35px
     .btn, .btn-lg
       @include body-6-regular
       background-color: $color-white-19
