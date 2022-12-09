@@ -336,17 +336,38 @@
         </div>
         <div class="overflow-auto flex-grow-1">
           <div v-if="activeGlobalTab === 'brand'">
+            <MobileFilterItem
+              :title="$t('vendor_dashboard.breakdown.select_all').toString()"
+              :selected="allBrandsSelected"
+              @click="allBrandSelect"
+            />
             <div v-for="item in filteredBrands" :key="item.id">
-              <MobileFilterItem :title="item.name" />
+              <MobileFilterItem
+                :title="item.name"
+                :selected="hasItem(filters.brands, item)"
+                @click="brandFilterClick(item)"
+              />
             </div>
           </div>
           <div v-if="activeGlobalTab === 'product'">
-            <div v-if="searchLoading" class="d-flex align-items-center justify-content-center">
+            <div
+              v-if="searchLoading"
+              class="d-flex align-items-center justify-content-center"
+            >
               <Loader :loading="searchLoading"></Loader>
             </div>
             <div v-else>
+              <MobileFilterItem
+                :title="$t('vendor_dashboard.breakdown.select_all').toString()"
+                :selected="allProductsSelected"
+                @click="allProductSelect"
+              />
               <div v-for="item in products" :key="item.id">
-                <MobileFilterItem :title="item.name" />
+                <MobileFilterItem
+                  :title="item.name"
+                  :selected="hasItem(filters.products, item)"
+                  @click="productFilterClick(item)"
+                />
               </div>
             </div>
           </div>
@@ -356,7 +377,7 @@
             class="filter-button"
             pill
             variant="outline-dark"
-            @click="mobileFiltersOpen = false"
+            @click="resetFilter"
           >
             {{ $t('notifications.reset') }}
           </Button>
@@ -366,7 +387,7 @@
             class="filter-button apply-filters"
             pill
             variant="dark-blue"
-            @click="getData"
+            @click="applyFilters"
           >
             {{
               $t('vendor_dashboard.breakdown.select_name', {
@@ -413,6 +434,8 @@ export default {
       serverCategories: [],
       serverBrands: [],
       mobileFiltersOpen: false,
+      allBrandsSelected: false,
+      allProductsSelected: false,
       categorySelectAll: false,
       categories: Object.keys(
         this.$t('vendor_dashboard.breakdown.categories')
@@ -592,6 +615,66 @@ export default {
     // console.log(this.$route)
   },
   methods: {
+    allProductSelect() {
+      this.allProductsSelected = !this.allProductsSelected
+      this.filters.products = []
+      this.filters.product_ids = []
+    },
+    allBrandSelect() {
+      this.allBrandsSelected = !this.allBrandsSelected
+      this.filters.brands = []
+      this.filters.brand_ids = []
+    },
+    brandFilterClick(item) {
+      this.allBrandsSelected = false
+      if (this.hasItem(this.filters.brands, item)) {
+        this.filters.brands = this.removeItem(this.filters.brands, item)
+      } else {
+        this.filters.brands.push(item)
+      }
+    },
+    productFilterClick(item) {
+      this.allProductsSelected = false
+      if (this.hasItem(this.filters.products, item)) {
+        this.filters.products = this.removeItem(this.filters.products, item)
+      } else {
+        this.filters.products.push(item)
+      }
+    },
+    resetFilter() {
+      this.allProductsSelected = false
+      this.allBrandsSelected = false
+      this.filters = {
+        category_ids: [],
+        categories: [],
+        brands: [],
+        products: [],
+        brand_ids: [],
+        product_ids: [],
+      }
+      this.mobileFiltersOpen = false
+      this.filterChanged({ filterData: {} })
+    },
+    applyFilters(){
+      let filterData = {}
+      if (this.activeGlobalTab === 'brand'){
+        filterData = {
+          brand_ids: this.filters.brands.map(item => item.id),
+        }
+      }else {
+        filterData = {
+          product_ids: this.filters.products.map(item => item.id)
+        }
+      }
+      this.filterChanged({ filterData })
+      this.mobileFiltersOpen = false
+    },
+    removeItem(arr, value) {
+      return arr?.filter((i) => i.id !== value.id)
+    },
+    hasItem(arr, item) {
+      return arr?.filter((it) => it.id === item.id).length > 0
+    },
     filterSearchChange: _.debounce(function (search) {
       if (this.activeGlobalTab === 'product') {
         this.searchProduct()
