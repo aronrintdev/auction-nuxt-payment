@@ -254,6 +254,7 @@ export default {
         font-weight: $normal
         @include body-5
         color: $black
+        margin-top: 4px
 
       .product-stock
         @include body-4-normal
@@ -297,8 +298,6 @@ export default {
   @media (max-width: 576px)
     .product-info
       border: none
-      padding-left: 6px
-      padding-right: 6px
       .product-image
         background: $color-white-4
         padding: 10px
@@ -316,6 +315,7 @@ export default {
         .product-price
           font-size: 12px
           line-height: 14px
+          font-weight: $medium
           color: $black
     .checkbox-label
       img

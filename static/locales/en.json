@@ -60,6 +60,7 @@
     "size": "Size | Sizes",
     "size_type": "Size Type | Size Types",
     "n_item_selected": "{n} {unit} selected",
+    "deselect": "Deselect",
     "deselect_all": "Deselect All",
     "select_all": "Select All",
     "product": "Product | Products",
@@ -1868,6 +1869,8 @@
       "single_item": "Single Item",
       "lot": "Lot",
       "collection": "Collection",
+      "delete_sold_expired_listings": "Delete Sold/Expired Listings",
+      "delete_listings": "Delete Listings",
       "table_columns": {
         "details": "Details",
         "listing": "Listing",
@@ -2824,6 +2827,7 @@
   "auction": {
     "list_auction_today": "List an auction today on Deadstock!",
     "search_placeholder": "Search for product SKU or by keyword",
+    "browse_auction": "Browse Auction",
     "auction_type": "Auction Type",
     "auction_types": {
       "single": "Single Item",

@@ -4,7 +4,7 @@
     class="h-100 container-profile-bids-page"
     :class="{'container-profile-bids': !isMobileSize}"
   >
-    <div class="d-none mb-3 d-md-flex justify-content-center justify-content-md-between align-items-center">
+    <div class="d-none mb-4 d-md-flex justify-content-center justify-content-md-between align-items-center">
       <h2 class="title mb-0" :class="{'body-4-medium' : isMobileSize}">{{ $tc('common.bid', 2) }}</h2>
     </div>
     <!--    Bids Filters and mobile search    -->
@@ -20,7 +20,7 @@
     <div v-if="!isMobileSize" class="d-flex justify-content-between align-items-center">
       <b-row class=" w-100">
         <b-col md="6"></b-col>
-        <b-col md="6" class="text-right">
+        <b-col md="6" class="text-right pr-0">
           <Button
             variant="link"
             size="sm"
@@ -54,7 +54,7 @@
       <h4 class="title mb-0">
         {{ $t('bids.bid_title.' + bidType) }} ({{ totalCount || 0 }})
       </h4>
-      <span class="ml-4 d-inline-flex text-gray-5 info-text">
+      <span class="d-inline-flex text-gray-5 info-text">
         {{ $t('bids.highest_bid_placed_info') }}
       </span>
     </div>
@@ -700,7 +700,7 @@ h4.title
   font-weight: $bold
   @include body-1
   @media (max-width: 576px)
-    margin: 22px 0 23px
+    margin: 20px 0 23px
     @include body-4
     font-weight: $medium
     font-family: $font-montserrat
@@ -722,11 +722,12 @@ h4.title
   height: 38px
   font-family: $font-montserrat
   margin: 46px 0 40px
-  margin-right: calc(33.33% - 116px)
+  margin-right: 0
 
 .info-text
   font-family: $font-sf-pro-text
   font-weight: $normal
   @include body-13
+  margin-left: 41px
 </style>
 
