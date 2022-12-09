@@ -2,7 +2,7 @@
   <b-row class="offer-duration-wrapper">
     <b-col md="12">
       <div class="offer-duration-text body-4-regular text-center">
-        <span class="float-left" role="button" @click="$emit('clear-offer')">
+        <span class="back-link" role="button" @click="$emit('clear-offer')">
           <b-img :src="require('~/assets/img/product/arrow-left-gray.svg')"/>
           <span class="text-gray-22 body-8-medium">{{ $t('common.back') }}</span>
         </span>
@@ -82,6 +82,10 @@ export default {
 .offer-duration-wrapper
   .offer-duration-text
     padding: 2px 0
+
+  .back-link
+    position: absolute
+    left: 0
 
   .place-offer-btn
     min-height: 46px

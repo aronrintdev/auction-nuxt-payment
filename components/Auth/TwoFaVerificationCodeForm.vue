@@ -29,7 +29,7 @@
               <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
                 <b-row class="mt-3" align-v="end">
                   <b-col md="9">
-                    <OtpInputVue :default="'00000'" :digit-count="5" @setOtp="onSetOtp($event)" />
+                    <OtpInputVue :default="'000000'" :digit-count="6" @setOtp="onSetOtp($event)" />
                   </b-col>
                   <b-col md="3">
                     <div v-if="timer"  class="d-flex bg-dark justify-content-end align-items-center rounded mb-1">

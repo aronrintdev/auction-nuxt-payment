@@ -195,3 +195,11 @@ export function editAddressID(state, payload){
 export function storeDefaultConfirmed(state, payload){
   state.updateDefaultConfirmed = payload
 }
+
+export function updateHeader(state, payload) {
+  state.showHeader = payload
+}
+
+export function cardStatus(state, payload) {
+  state.hasDefaultCard = payload
+}
