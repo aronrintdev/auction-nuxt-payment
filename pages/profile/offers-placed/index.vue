@@ -180,7 +180,7 @@
                 @selectAll="handleSelectAll()"
                 @deselectAll="selected = []"
                 @close="cancelAction()"
-                @submit="handleBulkAction()"
+                @submit="handleBulkAction({ showPopUp: true })"
               />
             </div>
 
