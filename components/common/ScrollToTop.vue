@@ -24,8 +24,8 @@ export default {
 
 <style lang="sass" scoped>
 .back-to-top
-  bottom: 25px
-  right: 25px
+  bottom: 70px
+  right: 16px
   @media (max-width: 576px) 
     bottom: 100px
   img

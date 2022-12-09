@@ -5,7 +5,7 @@
       :desc="$t('home_page.shop_by_category_desc')"
       :label="$t('home_page.view_more_products')"
       marginLeft="60px"
-      to="#"
+      to="/shop"
     />
     <div
       class="row products-category no-gutters overflow-hidden px-2 d-none d-md-flex"
