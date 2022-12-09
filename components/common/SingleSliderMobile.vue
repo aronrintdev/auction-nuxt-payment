@@ -31,12 +31,12 @@
         <div>{{$t('trades.preferences.interested')}}</div>
       </b-col>
     </b-col>
-    <b-col md="4" class="pl-4 pr-0">
-      <div class="input-box">
-        <input class="percentage-value"  :value="`${value}%`" readonly />
-        <span v-if="textToShow" class="input-text  float-left">{{textToShow}}</span>
-      </div>
-    </b-col>
+<!--    <b-col md="4" class="pl-4 pr-0">-->
+<!--      <div class="input-box">-->
+<!--        <input class="percentage-value"  :value="`${value}%`" readonly />-->
+<!--        <span v-if="textToShow" class="input-text  float-left">{{textToShow}}</span>-->
+<!--      </div>-->
+<!--    </b-col>-->
   </b-row>
 </template>
 
@@ -117,9 +117,9 @@ export default {
   float: right
 
 .meter-text
-  font-family: $font-family-sf-pro-display
+  font-family: $font-sp-pro
   font-style: normal
-  @include body-12-bold
+  @include body-9
   color: $color-black-1
 
 .below-text

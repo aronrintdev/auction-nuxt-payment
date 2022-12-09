@@ -83,9 +83,9 @@
           />
         </div>
       </div>
-      <div class="offer-subtext pt-2">
-        {{$t('trades.preferences.other_traders_will_only_be_able')}}
-      </div>
+<!--      <div class="offer-subtext pt-2">-->
+<!--        {{$t('trades.preferences.other_traders_will_only_be_able')}}-->
+<!--      </div>-->
       <div>
         <b-btn class="save-btn-offer-setting ml-4" @click="savePreference">
           {{$t('common.save_changes')}}
