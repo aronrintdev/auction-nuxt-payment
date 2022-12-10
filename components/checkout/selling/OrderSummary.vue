@@ -183,9 +183,9 @@
      </b-row><!-- End of Terms & Conditions Paragraph -->
 
     <!-- Shopping Cart Total Price Heading -->
-    <b-row class="mt-4">
+    <b-row class="mt-4 total-text-wrapper">
       <b-col md="12" class="d-flex align-items-center">
-        <span class="body-4-medium">{{ $t('shopping_cart.total') }}&colon;</span>
+        <span class="body-4-medium">{{ $t('shopping_cart.current_total') }}&colon;</span>
         <span class="body-4-medium ml-auto">&dollar;{{ getTotal | formatPrice }}</span>
       </b-col>
     </b-row><!-- End of Shopping Cart Total Price Heading -->
@@ -734,6 +734,11 @@ export default {
 
 *
   font-family: 'SF Pro Display', serif
+
+.total-text-wrapper
+  @media (min-width: 576px)
+    padding-left: 27px
+    padding-right: 27px
 
 /* Promo code input & button styles */
 #btn-promo
