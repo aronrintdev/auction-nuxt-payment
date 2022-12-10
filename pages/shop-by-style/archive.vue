@@ -156,6 +156,8 @@ export default {
 @import '~/assets/css/_variables'
 
 .container-shop-by-style
+  max-width: 1440px
+  padding: 0 86px
   @media (min-width: 576px)
     margin-top: 31px
   .mt-30
@@ -189,9 +191,9 @@ export default {
     max-width: max-content
     margin: 0 auto
     display: grid
-    grid-template-columns: repeat(5, 195px)
+    grid-template-columns: repeat(5, 182px)
     row-gap: 8px
-    margin-top: 74px
+    margin-top: 50px
     @media (max-width: 576px)
       grid-template-columns: repeat(3, 115px)
       column-gap: 0
