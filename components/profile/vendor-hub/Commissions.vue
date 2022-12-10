@@ -696,13 +696,10 @@ export default {
 
 .commission-table::v-deep
   .table.b-table > thead > tr > [aria-sort=none]
-    background-image: url('~/assets/img/icons/table-carot.svg')!important
     background-size: 0px
   .table.b-table > thead > tr > [aria-sort=ascending]
-    background-image: url('~/assets/img/icons/table-carot.svg')!important
     background-size: 0px
   .table.b-table > thead > tr > [aria-sort=descending]
-    background-image: url('~/assets/img/icons/table-carot.svg')!important
     background-size: 0px
 
 .sort-icon
