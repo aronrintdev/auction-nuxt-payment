@@ -670,6 +670,10 @@ $font-size-7: 7px
   @include heading-3
   font-weight: $medium
 
+@mixin heading-3-bold
+  @include heading-3
+  font-weight: $bold
+
 /* Common Text Styles */
 .heading-4-normal
   @include heading-4-normal
@@ -698,6 +702,9 @@ $font-size-7: 7px
 
 .heading-2-bold
   @include heading-2-bold
+
+.heading-3-bold
+  @include heading-3-bold
 
 .body-1-regular
   @include body-1-regular
