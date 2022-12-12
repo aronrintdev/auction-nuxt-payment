@@ -460,7 +460,7 @@ export default {
 .thumb-carousel::v-deep
   .owl-dots
     height: 10px
-    margin-top: 0
+    margin-top: 0 !important
     margin-bottom: 22px
 
     .owl-dot
