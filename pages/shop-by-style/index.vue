@@ -78,6 +78,12 @@
         </div>
       </template>
     </div>
+    <Portal to="back-icon-slot">
+      <Hamburger class="hamburger-icon" />
+    </Portal>
+    <Portal to="cart-icon-slot">
+      <Cart class="cart-icon" />
+    </Portal>
   </div>
 </template>
 <script>
@@ -87,7 +93,8 @@ import ShopByStyleFilter from '~/components/shop-by-style/Filter'
 import ShopByStyleCard from '~/components/shop-by-style/Card'
 import { TYPE } from '~/static/constants/shop-by-style'
 import ResponsivenessFilter from '~/components/shop-by-style/ResponsivenessFilter'
-
+import Cart from '~/assets/icons/Cart'
+import Hamburger from '~/assets/icons/Hamburger'
 export default {
   components: {
     NavGroup,
@@ -95,6 +102,8 @@ export default {
     ShopByStyleFilter,
     ShopByStyleCard,
     ResponsivenessFilter,
+    Cart,
+    Hamburger,
   },
 
   layout: 'IndexLayout',
