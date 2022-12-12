@@ -1,6 +1,6 @@
 <template>
   <section
-    class="d-flex mt-sm-5 mb-4"
+    class="d-flex mb-4"
     :class="{
       'flex-column': isScreenXS,
     }"
@@ -79,10 +79,10 @@
     >
       <div
         :class="{
-          'py-3': !isScreenXS,
+          'chat-web-padding': !isScreenXS,
           'pb-4 pt-1': isScreenXS,
         }"
-        class="bg-white br-10 px-2 p-sm-4 h-100"
+        class="bg-white br-10 h-100"
       >
         <div
           :class="{
@@ -247,9 +247,9 @@ export default {
         ],
       },
       chartFilterOptions: {
-        week: 'Week',
-        month: 'Month',
-        year: 'Year',
+        week: 'Week To Date',
+        month: 'Month To Date',
+        year: 'Year To Date',
       },
     }
   },
@@ -339,11 +339,13 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.chat-web-padding
+  padding: 32px 31px 26px 22px
 .w-200
   width: 200px
 .charts
   &:not(.mobile)
-    height: 364px
+    height: 366px
     &.chart-line
       width: 730px
       max-width: 730px
@@ -373,7 +375,7 @@ export default {
   right: 50px
 
 .dropdown-filter::v-deep
-  background-color: $color-white-1
+  background-color: $color-white-4
   border-radius: 8px
   border: none !important
   width: 200px
@@ -381,7 +383,7 @@ export default {
   .selected
     @include body-13-medium
     color: $color-black-1
-    background-color: $color-white-1 !important
+    background-color: $color-white-4 !important
     font-family: $font-family-sf-pro-display
     border: none !important
     padding-inline: 18px

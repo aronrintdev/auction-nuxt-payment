@@ -1,7 +1,5 @@
 <template>
-  <div :class="{
-    'mb-2 px-4': !isScreenXS
-  }">
+  <div>
     <div class="row mt-2 mb-2 my-sm-3">
       <div class="col-6 col-md-3">
         <h1 :class="{
@@ -66,16 +64,17 @@
                   </nuxt-link>
                 </div>
               </div>
-              <div class="row my-sm-3">
+              <div class="row product-images">
                 <div v-for="item in row.items" :key="item.id" class="col-md-4">
                   <ProductThumb
                     :src="item.product.image"
                     :product="item.product"
+                    class="image-group"
                   />
                 </div>
               </div>
-              <div class="row align-items-center">
-                <div class="col-md-8">
+              <div class="d-flex align-items-center">
+                <div class="flex-grow-1">
                   <h5 class="fs-14 fw-5 font-secondary mb-0">
                     {{ $t('buyer_dashboard.purchases.quantity') }}:
                     {{ row.quantity }}
@@ -338,6 +337,14 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.product-images
+  margin-top: 33px
+  margin-bottom: 28px
+
+::v-deep.image-group
+  img
+    max-height: 75px
+    object-fit: cover
 .mb-15
   margin-bottom: 15px
 
@@ -349,7 +356,7 @@ export default {
   flex: 100%
   max-width: 521px
   height: 333px
-  &.XL
+  @media (min-width: 1441px)
     flex: 0 0 50%
     max-width: 50%
     height: fit-content
@@ -377,8 +384,8 @@ export default {
   &:not(.mobile)
     padding: 11px 30px
     border-radius: 4px
-    width: 141px
-    height: 61px
+    width: 152px
+    height: 66px
     display: flex
     align-items: center
     justify-content: center

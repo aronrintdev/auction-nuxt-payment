@@ -1,6 +1,6 @@
 <template>
   <client-only>
-    <div class="pt-2 pt-sm-5 px-4 buyer-dashboard" :class="mobileClass">
+    <div class="buyer-dashboard" :class="mobileClass">
       <div class="d-sm-flex d-none">
         <h1 class="fs-24 fw-7 mb-0 font-primary">
           {{ $t('buyer_dashboard.dashobard_buyer.dashboard') }}
@@ -64,7 +64,8 @@
         <Promotions/>
       </section>
       <section :class="{
-        'mt-20': isScreenXS
+        'mt-20': isScreenXS,
+        'mb-104 px-27': !isScreenXS,
       }">
         <Purchases/>
       </section>
@@ -138,10 +139,18 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .buyer-dashboard
+  padding: 97px 30px 0 30px
   &.mobile
+    padding: 16px
     margin-bottom: -60px
 .mt-20
   margin-top: 20px
+
+.mb-104
+  margin-bottom: 104px
+
+.px-27
+  padding-inline: 27px 33px
 
 .row
   &.mobile
