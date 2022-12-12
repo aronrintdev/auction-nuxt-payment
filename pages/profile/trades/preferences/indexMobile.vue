@@ -72,14 +72,17 @@
     </div>
     <div v-if="showOfferSetting" class="mt-2 ml-3 mr-3 mb-5 offer-sections p-2">
       <div>
-        <div class="offer-head">  {{$t('trades.preferences.offer_settings')}}</div>
-        <div class="offer-start"> {{$t('trades.preferences.starting_at')}}</div>
+        <div class="offer-head ml-2">  {{$t('trades.preferences.offer_settings')}}</div>
+        <div class="offer-start mt-1 ml-2"> {{$t('trades.preferences.starting_at_new')}}</div>
+        <hr class="hr mt-3" />
         <div class="fair-text">
-          <single-slider :value="fairTrade"
-                         :minValue="0"
-                         :maxValue="DEFAULT_INTERESTS"
-                         :textToShow="$t('trades.preferences.of_fair_offer')"
-                         :meterText="true" @slide="changeFairTrade"
+          <single-slider-offer
+            :value="fairTrade"
+            :minValue="0"
+            :maxValue="DEFAULT_INTERESTS"
+            :textToShow="$t('trades.preferences.of_fair_offer')"
+            :meterText="true"
+            @slide="changeFairTrade"
           />
         </div>
       </div>
@@ -243,6 +246,7 @@
 
 import {mapActions, mapGetters} from 'vuex';
 import SingleSlider from '~/components/common/SingleSliderMobile';
+import SingleSliderOffer from '~/components/common/SingleSliderMobileOfferSetting';
 import Button from '~/components/common/Button';
 import YourInventory from '~/pages/profile/trades/preferences/YourInventoryMobile';
 import ResetModal from '~/pages/profile/trades/preferences/ResetModal';
@@ -257,7 +261,7 @@ import {
 
 export default {
   name: 'Index',
-  components: {ResetModal, YourInventory, Button, SingleSlider},
+  components: {ResetModal, YourInventory, Button, SingleSlider,SingleSliderOffer},
   layout: 'Profile',
   data(){
     return {
@@ -634,9 +638,16 @@ export default {
 .image-tick
   height: 20px
   width: 12px
-  margin-left: 10rem
+  margin-left: 13rem
 .option-status
   border-bottom: 1px solid $color-white-28
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $normal
+  @mixin body-14
+  line-height: 19px
+  letter-spacing: 0.01em
+  color: $color-black-16
 .save-btn
   background: $color-blue-20
   border-radius: 20px
@@ -704,11 +715,12 @@ export default {
   line-height: 16px
   color: $color-black-17
 .offer-start
-  font-family: $font-family-sf-pro-display
+  font-family: $font-sp-pro
   font-style: normal
-  font-weight: $normal
-  font-size: 14px
-  color: $color-gray-5
+  font-weight: $regular
+  @include body-10
+  color: $color-black-17
+  line-height: 16px
 .offer-subtext
   font-family: $font-family-montserrat
   font-style: normal

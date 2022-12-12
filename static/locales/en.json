@@ -5057,6 +5057,7 @@
       "offer_settings": "Offer Settings",
       "other_traders_will_only_be_able": "Other traders will only be able to send offers starting at a certain trade condition",
       "starting_at": "Starting at:",
+      "starting_at_new": "Customize the min. offer value you want sent",
       "poor": "Poor",
       "fair": "Fair",
       "of_fair_offer": "of Fair Offers",
@@ -5093,7 +5094,7 @@
       "brand_preferences": "Brand Preferences",
       "select_brands_you_are_interested_in": "Select brands you are interested in",
       "nike_supreme_bape": "Nike, Supreme, Bape",
-      "set_what_other_traders_are_able_to_view_when_placing": "Set what other traders are able to view when placing an offer"
+      "set_what_other_traders_are_able_to_view_when_placing": "Set Privacy Settings for your inventory"
     },
     "wants_listing": {
       "general_wants": "General Wants",
