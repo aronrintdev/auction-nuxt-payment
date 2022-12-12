@@ -1,19 +1,20 @@
 <template>
   <div class="container container-shop-by-style h-auto">
     <div class="d-none d-sm-block">
-      <div class="text-right mr-5">
-        <Button
-          to="/shop-by-style/archive"
-          variant="link"
-          class="btn-draft"
-          underlinedText
-          >{{ $t('shop_by_style.archive') }} ({{ styleCount }})</Button
-        >
+      <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between align-items-center mmt-8">
+          <h2 class="title">{{ $t('shop_by_style.title') }}</h2>
+        </div>
+        <div class="text-right">
+          <Button
+            to="/shop-by-style/archive"
+            variant="link"
+            class="btn-draft"
+            underlinedText
+            >{{ $t('shop_by_style.archive') }} ({{ styleCount }})</Button
+          >
+        </div>
       </div>
-      <div class="d-flex justify-content-between align-items-center mmt-8">
-        <h2 class="title">{{ $t('shop_by_style.title') }}</h2>
-      </div>
-
       <div class="text-center position-relative d-flex offset-sm-4 mt-10">
         <NavGroup
           v-model="type"
@@ -204,7 +205,7 @@ export default {
     margin: 0 178px
 .container-shop-by-style
   max-width: 1440px
-  padding: 64px 86px 64px 87px
+  padding: 40px 86px 64px 89px
 
   .title
     @include heading-2
