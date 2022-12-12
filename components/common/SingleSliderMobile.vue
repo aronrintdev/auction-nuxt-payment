@@ -18,13 +18,16 @@
               v-bind="options"
               class="vue-slider-ltr-shop"
               :class="{'meter': meterText }"
+              :dotStyle="{ background: '#667799', border: '1px solid #F7F7F7' }"
+              :railStyle="{ background: '#E8E8E8', borderRadius: '2px' }"
+              :processStyle="{ background: '#667799' }"
               @change="captureSliderValue"
             >
               <template v-if="meterText" #dot>
                 <img :src="require('~/assets/img/trades/dot.svg')" class="custom-dot"/>
               </template>
               <template v-else #dot>
-                <img :src="require('~/assets/img/trades/dot-blue.svg')" class="custom-dot"/>
+                <img :src="require('~/assets/img/grey-circle.svg')" class="custom-dot"/>
               </template>
             </vue-slider>
           </client-only>
@@ -102,6 +105,7 @@ export default {
 .custom-dot
   margin-top: -17px
   height : 15px
+  color: #667799
 
 ::v-deep.meter.vue-slider-ltr-shop .vue-slider-rail
   background: linear-gradient(180deg, $red-rgba 0%, $yellow-rgba 100%)
