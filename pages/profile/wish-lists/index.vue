@@ -317,8 +317,7 @@
     <EditWishListModal
       v-if="currentWishList"
       :key="currentWishListUpdate"
-      :current-name="currentWishList && currentWishList.name"
-      :list-id="currentWishList && currentWishList.id"
+      :wishListItem="currentWishList"
       @created="handleCreated"
       />
     <MobileCreateWishListModal
@@ -440,7 +439,7 @@ export default {
   computed: {
     ...mapGetters({
       wishLists: 'wish-list/getWishLists',
-    }),
+    })
   },
   async mounted (){
     const mobile = document.querySelector('.mobile-p-b')

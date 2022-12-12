@@ -1,6 +1,6 @@
 <template>
   <Modal
-    :id="id"
+    id="edit-list-modal"
     modal-class="edit-list-modal"
     hide-footer
     @hidden="newListName = ''"
@@ -27,7 +27,6 @@
                     <b-form-input
                       id="list-name"
                       v-model="newListName"
-                      :value="currentName"
                       aria-describedby="input-live-help"
                       trim
                       :state="getValidationState(validationContext)"
@@ -57,7 +56,7 @@
                   variant="outline-dark"
                   pill
                   block
-                  @click.prevent="$bvModal.hide(id)"
+                  @click.prevent="$bvModal.hide('edit-list-modal')"
                 >
                   {{ $t('common.cancel') }}
                 </Button>
@@ -81,16 +80,8 @@ export default {
   components: { Modal, ValidationObserver, ValidationProvider, Button },
 
   props: {
-    id: {
-      type: String,
-      default: 'edit-list-modal',
-    },
-    listId: {
-      type: Number,
-      required: true,
-    },
-    currentName: {
-      type: String,
+    wishListItem: {
+      type: Object,
       required: true,
     },
   },
@@ -102,9 +93,7 @@ export default {
     }
   },
   mounted() {
-    if(this.currentName) {
-      this.newListName = this.currentName
-    }
+      this.newListName = this.wishListItem?.name
   },
   methods: {
     ...mapActions({
@@ -116,12 +105,12 @@ export default {
       if (this.newListName) {
         this.loading = true
         const updatedWishList = await this.editWishList({
-          id: this.wishList.id,
+          id: this.wishListItem.id,
           name: this.newListName,
         })
         this.loading = false
         this.$emit('created', updatedWishList)
-        this.$bvModal.hide(this.id)
+        this.$bvModal.hide('edit-list-modal')
       }
     },
     getValidationState({ dirty, validated, valid = null }) {

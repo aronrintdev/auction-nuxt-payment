@@ -36,6 +36,7 @@ export async function editWishList({ commit }, { id, name }) {
       name,
     })
     .then((res) => {
+      commit('updateWishListName', res.data)
       return res.data
     })
 }
