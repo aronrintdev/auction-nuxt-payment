@@ -1,7 +1,7 @@
 <template>
   <b-row class="checkout-wrapper">
     <!-- Checkout selling normal version (md, lg & xl) -->
-    <ItemsList v-if="! isResponsive" />
+    <ItemsList v-if="! isResponsive" class="items-list" />
 
     <ShoppingCartOrder v-if="! isResponsive" class="order-summary" />
     <!-- End of Checkout selling normal version (md, lg & xl) -->
