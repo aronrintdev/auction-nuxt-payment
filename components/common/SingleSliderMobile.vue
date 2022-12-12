@@ -37,8 +37,8 @@
         </div>
       </div>
 
-      <b-col v-if="belowText" class="d-flex justify-content-between below-text pt-2">
-        <div>{{$t('trades.preferences.not_interested')}}</div>
+      <b-col v-if="belowText" class="d-flex below-text">
+        <div class="small-space">{{$t('trades.preferences.not_interested')}}</div>
         <div>{{$t('trades.preferences.interested')}}</div>
       </b-col>
     </b-col>
@@ -83,8 +83,8 @@ export default {
   data(){
     return {
       options: {
-        height: 6,
-        dotSize: 30,
+        height: 3,
+        dotSize: 15,
       }
     }
   },
@@ -101,6 +101,7 @@ export default {
 
 .custom-dot
   margin-top: -17px
+  height : 15px
 
 ::v-deep.meter.vue-slider-ltr-shop .vue-slider-rail
   background: linear-gradient(180deg, $red-rgba 0%, $yellow-rgba 100%)
@@ -138,13 +139,18 @@ export default {
   color: $color-black-1
 
 .below-text
-  font-family: $font-family-montserrat
+  font-family: $font-sp-pro
   font-style: normal
-  font-weight: $regular
-  font-size: 10px
-  color: $color-black-1
+  font-weight: $light
+  @include body-9
+  line-height: 100%
+  color: $color-black-16
+.small-space
+  margin-right: 7.2rem
 .slider-div
   width: 100%
 .percent-div
-   width: 30%
+  margin-top: -10px
+  margin-left: 20px
+   //width: 30%
 </style>

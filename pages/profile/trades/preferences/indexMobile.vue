@@ -95,21 +95,22 @@
 
     <div v-if="showrefineMatch" class="mt-2 ml-3 mr-3 mb-5 refine-sections p-2">
       <div>
-        <div class="offer-head">  {{$t('trades.preferences.refine_your_matches')}}</div>
-        <div class="update-urs">{{$t('trades.preferences.update_your_interests')}}</div>
-       <div class="refine-headings">
+        <div class="offer-head ml-2">  {{$t('trades.preferences.refine_your_matches')}}</div>
+        <div class="update-urs ml-2 mt-1">{{$t('trades.preferences.update_your_interests')}}</div>
+        <hr class="hr" />
+       <div class="refine-headings ml-2">
          {{$t('trades.preferences.sneaker')}}
        </div>
         <div>
           <single-slider :value="sneakerInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeSneakerInterest" />
         </div>
-        <div class="refine-headings">
+        <div class="refine-headings ml-2 mt-2">
           {{$t('trades.preferences.apparel')}}
         </div>
         <div>
           <single-slider :value="apparelInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeApparelInterest" />
         </div>
-        <div class="refine-headings">
+        <div class="refine-headings ml-2 mt-2">
           {{$t('trades.preferences.accessories')}}
         </div>
         <div>
@@ -730,8 +731,10 @@ export default {
   font-family: $font-family-sf-pro-display
   font-style: normal
   font-weight: $medium
-  font-size: 14px
+  font-size: 16px
   color: $color-black-1
+  line-height: 19px
+  letter-spacing: 0.01em
 .sizePre-sections
   width: 343px
   background: $color-white-1
