@@ -59,11 +59,6 @@
          </div>
         </div>
       </div>
-      <div>
-       <b-btn class="save-changes-btn ml-5" @click="savePreference">
-         {{$t('common.save_changes')}}
-       </b-btn>
-      </div>
     </div>
     <div v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM" class="customize-cont ml-3 m-2 p-3" >
      <div>
@@ -86,17 +81,9 @@
           />
         </div>
       </div>
-<!--      <div class="offer-subtext pt-2">-->
-<!--        {{$t('trades.preferences.other_traders_will_only_be_able')}}-->
-<!--      </div>-->
-      <div>
-        <b-btn class="save-btn-offer-setting ml-4" @click="savePreference">
-          {{$t('common.save_changes')}}
-        </b-btn>
-      </div>
     </div>
 
-    <div v-if="showrefineMatch" class="mt-2 ml-3 mr-3 mb-5 refine-sections p-2">
+    <div v-if="showrefineMatch" class="mt-2 ml-3 mr-3 refine-sections p-2">
       <div>
         <div class="offer-head ml-2">  {{$t('trades.preferences.refine_your_matches')}}</div>
         <div class="update-urs ml-2 mt-1">{{$t('trades.preferences.update_your_interests')}}</div>
@@ -119,11 +106,6 @@
         <div>
           <single-slider :value="accessoriesInterest" :minValue="0" :maxValue="DEFAULT_INTERESTS" :belowText="true" @slide="changeAccessoriesInterest" />
         </div>
-      <div>
-        <b-btn class="save-btn-refine ml-4" @click="savePreference">
-          {{$t('common.save_changes')}}
-        </b-btn>
-      </div>
     </div>
     </div>
 
@@ -202,11 +184,6 @@
           </b-collapse>
         </div>
       </div>
-      <div>
-        <b-btn class="save-btn-size" @click="savePreference">
-          {{$t('common.save_changes')}}
-        </b-btn>
-      </div>
     </div>
     <div v-if="brandsPre" class="mt-2 ml-2 mr-3 p-2">
       <div  class="brand-sections">
@@ -219,24 +196,16 @@
           </b-col>
         </b-row>
       </div>
-      <div>
-        <b-btn class="save-btn-brand" @click="savePreference">
-          {{$t('common.save_changes')}}
-        </b-btn>
-      </div>
     </div>
     <div v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM">
       <b-btn class="save-btn-customzie ml-5" @click="savePreference">
         {{$t('common.save_changes')}}
       </b-btn>
     </div>
-    <div class="main-pref-container">
-      <b-row class="justify-content-center pt-4">
-        <Button variant="grey-light" pill @click="$bvModal.show('resetModel')">
-          {{$t('trades.preferences.reset_to_default_preferences')}}
-        </Button>
-      </b-row>
-
+    <div class="main-pref-container d-flex justify-content-center align-items-center" v-if="showInventory || showOfferSetting || showrefineMatch || sizePre || brandsPre">
+      <b-btn class="save-changes-btn" @click="savePreference">
+        {{$t('common.save_changes')}}
+      </b-btn>
     </div>
     <reset-modal @reset="resetToDefaultPreferences()" />
   </div>
@@ -247,7 +216,6 @@
 import {mapActions, mapGetters} from 'vuex';
 import SingleSlider from '~/components/common/SingleSliderMobile';
 import SingleSliderOffer from '~/components/common/SingleSliderMobileOfferSetting';
-import Button from '~/components/common/Button';
 import YourInventory from '~/pages/profile/trades/preferences/YourInventoryMobile';
 import ResetModal from '~/pages/profile/trades/preferences/ResetModal';
 import {
@@ -261,7 +229,7 @@ import {
 
 export default {
   name: 'Index',
-  components: {ResetModal, YourInventory, Button, SingleSlider,SingleSliderOffer},
+  components: {ResetModal, YourInventory, SingleSlider,SingleSliderOffer},
   layout: 'Profile',
   data(){
     return {
@@ -659,7 +627,8 @@ export default {
   border-radius: 20px
   height: 40px
   width: 270px
-  margin-top: 1rem
+  bottom: 150px
+  position: absolute
 .save-btn-size
   background: $color-blue-20
   border-radius: 20px
