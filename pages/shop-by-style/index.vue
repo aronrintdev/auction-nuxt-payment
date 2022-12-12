@@ -205,7 +205,7 @@ export default {
     margin: 0 178px
 .container-shop-by-style
   max-width: 1440px
-  padding: 40px 86px 64px 89px
+  padding: 40px 86px 64px 86px
 
   .title
     @include heading-2
