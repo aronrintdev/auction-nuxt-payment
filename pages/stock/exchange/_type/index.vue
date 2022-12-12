@@ -72,7 +72,7 @@ export default {
   },
   created(){
     this.currentCategory = this.categoryItems.filter(({ value }) => value === this.$route.params.type )
-    this.myEventHandler()
+    // this.myEventHandler()
   },
   beforeMount() {
     enquireScreenSizeHandler((type) => {
