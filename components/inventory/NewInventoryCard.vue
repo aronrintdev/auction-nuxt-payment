@@ -1,9 +1,7 @@
 <template>
   <div class="card-wrapper">
-    <div 
-      :class="{
-        'px-4': !isScreenXS,
-      }"
+    <div
+      :class="{'px-4': !isScreenXS,}"
       class="pt-3 action-buttons d-flex align-items-center justify-content-between mx-auto"
     >
       <Button
@@ -19,7 +17,7 @@
         {{ $t('common.edit') }}
       </Button>
       <Button
-        v-if="!selectable && isActionsVisible && !isScreenXS"
+        v-if="!selectable && isActionsVisible && !isScreenXS && !inventory.listing_items.length"
         class="btn-list add"
         icon="plus-circle-gray.svg"
         icon-height="15"
@@ -30,51 +28,38 @@
       >
         {{ $t('common.list') }}
       </Button>
+      <Button
+        v-if="!selectable && isActionsVisible && !isScreenXS && inventory.listing_items.length"
+        class="btn-list delist"
+        icon="plus-circle-delist.svg"
+        icon-height="15"
+        icon-pos="left"
+        icon-width="15"
+        variant="link"
+        @click="handleDelistClick"
+      >
+        {{ $t('auction.delist') }}
+      </Button>
 
-      <b-dropdown v-if="isScreenXS" id="mobile-down-icon" class="border-0 ml-auto drop-menu" no-caret
-                  variant="outlined">
-        <template #button-content>
-          <img 
-            :src="require('~/assets/img/icons/dot-circle-gray.svg')" 
-            height="19" 
-            width="19"
-            class="z-1 position-relative"
-          >
-        </template>
-        <Button
-            v-if="!selectable && isActionsVisible"
-            class="btn-list edit d-flex align-items-center mx-auto"
-            icon="edit-pencil.svg"
-            icon-height="14"
-            icon-pos="left"
-            icon-width="14"
-            variant="link"
-            @click="handleEditClick()"
+      <div v-if="isScreenXS" class="d-flex flex-grow-1 justify-content-end w-100 pr-3">
+        <Button variant="link"
+              id="mobile-down-icon"  @click="showMobileOptionsMenu">
+        <img
+          :src="require('~/assets/img/icons/dot-circle-gray.svg')"
+          height="19"
+          width="19"
+          class="z-1 position-relative"
         >
-          {{ $t('common.edit') }}
-        </Button>
-        <b-dropdown-divider></b-dropdown-divider>
-        <Button
-            v-if="!selectable && isActionsVisible"
-            class="btn-list add d-flex align-items-center mx-auto"
-            icon="plus-circle-gray.svg"
-            icon-height="15"
-            icon-pos="left"
-            icon-width="15"
-            variant="link"
-            @click="handleListClick()"
-        >
-          {{ $t('common.list') }}
-        </Button>
+      </Button>
+      </div>
 
-      </b-dropdown>
-
-      <b-checkbox
-          v-if="selectable"
-          :checked="selected"
-          class="check-box position-absolute"
-          @change="toggleSelect"
-      ></b-checkbox>
+      <input
+        v-if="selectable"
+        type="checkbox"
+        class="check-box position-absolute"
+        :checked="selected"
+        @change="toggleSelect"
+      />
     </div>
     <div
         class="
@@ -108,7 +93,7 @@
         {{ inventory.product.colorway }}, {{ $t('sell.inventory.size') }} {{ inventory.size.size }}
       </div>
       <div class="product-color text-truncate mr-5">
-        {{ conditionLabel }}&colon; {{ inventory.packaging_condition.name }}
+        {{ conditionLabel }}&colon; {{ $t(inventory.packaging_condition.name) }}
       </div>
       <div class="product-price text-truncate">
         {{ inventory.sale_price | toCurrency }}
@@ -123,6 +108,27 @@
         :message="$t('inventory.message.confirm_delete')"
         @confirm="onConfirmDelete"
     />
+
+
+    <vue-bottom-sheet
+      ref="mobileOptionsMenu"
+      max-width="auto"
+      max-height="90vh"
+      :rounded="true"
+    >
+     <MobileInventoryOptions
+       :inventory="inventory"
+       @list="handleListClick"
+       @edit="handleEditClick"
+       @cancel="hideMobileOptionsMenu"
+       @delist="handleDelistClick"
+       @delete="()=>{
+         this.hideMobileOptionsMenu();
+         handleDeleteClick()
+       }"
+     />
+    </vue-bottom-sheet>
+
   </div>
 </template>
 
@@ -134,11 +140,12 @@ import plusIcon from '~/assets/img/icons/plus_circle.svg'
 import removeIcon from '~/assets/img/icons/red-remove.svg'
 import Button from '~/components/common/Button';
 import screenSize from '~/plugins/mixins/screenSize';
+import MobileInventoryOptions from '~/components/inventory/MobileInventoryOptions'
 
 export default {
   name: 'NewInventoryCard',
 
-  components: {Button, ProductThumb, ConfirmModal},
+  components: {Button, ProductThumb, ConfirmModal, MobileInventoryOptions},
   mixins: [screenSize],
   props: {
     inventory: {
@@ -198,6 +205,10 @@ export default {
     handleListClick(checked) {
       this.$emit('list', {inventory: this.inventory, checked: true})
     },
+    handleDelistClick() {
+      this.$emit('delist', this.inventory.listing_items[0].id)
+      this.hideMobileOptionsMenu()
+    },
 
     handleEditClick() {
       this.$router.push({
@@ -213,6 +224,19 @@ export default {
     onConfirmDelete() {
       this.deleteInventories({ids: [this.inventory.id]})
       this.$nuxt.refresh()
+    },
+
+    showMobileOptionsMenu() {
+      const { mobileOptionsMenu } = this.$refs
+      if (mobileOptionsMenu) {
+        mobileOptionsMenu.open()
+      }
+    },
+    hideMobileOptionsMenu() {
+      const { mobileOptionsMenu } = this.$refs
+      if (mobileOptionsMenu) {
+        mobileOptionsMenu.close()
+      }
     },
   },
 }
@@ -248,29 +272,33 @@ export default {
   &.mobile
     height: 150px
 
-  .check-box
-    right: 4px
-    top: 10px
+.check-box
+  accent-color: $color-black-1
+  z-index: 2
+  transform : scale(1.4)
 
 .product-detail
   font-family: $font-family-sf-pro-display
   max-width: 242px
-  @include body-5-normal
+  @include body-10-normal
   padding: 5px 8px
 
   .product-title
     @include body-8
+    font-family: $font-family-sf-pro-display
     color: $color-black-1
     margin-bottom: 3px
     font-weight: $medium
 
   .product-color
     color: $color-gray-5
+    font-family: $font-family-sf-pro-display
     margin-bottom: 3px
 
   .product-price
     color: $color-black-1
     margin-top: 3px
+    @include body-9-normal
 
   .product-stock
     @include body-4-normal
@@ -287,7 +315,7 @@ export default {
     font-family: $font-montserrat
     font-style: normal
 
-  &.edit.btn, &.add.btn, &.delist.btn 
+  &.edit.btn, &.add.btn, &.delist.btn
     @include body-8-normal
   &.edit.btn
     color: $color-blue-20
@@ -295,7 +323,4 @@ export default {
   &.delist.btn, &.add.btn
     color: $color-red-24
 
-::v-deep.drop-menu
-  ul.dropdown-menu
-    min-width: 80px
 </style>

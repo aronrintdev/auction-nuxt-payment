@@ -25,7 +25,7 @@ export default {
       renderedComponent: YourAddress.name
     }
   },
-  
+
   mounted() {
      this.injectGoogleMapsApi()
   },
@@ -54,7 +54,7 @@ export default {
       scriptTag.async = true
       return scriptTag
     },
-    
+
     // Insert a new script tag before the first found script tag.
     insertScript(scriptTag) {
       const firstScriptTag = document.getElementsByTagName('script')[0]

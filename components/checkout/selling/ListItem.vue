@@ -3,7 +3,7 @@
   <b-row class="mt-4">
     <b-col md="6">
       <b-row>
-        <b-col md="3">
+        <b-col md="4">
           <b-img
             class="custom-thumbnail"
             :src="product.image"
@@ -11,7 +11,7 @@
             @click="showModal"
           ></b-img>
         </b-col>
-        <b-col md="9" class="pl-3">
+        <b-col md="8">
           <b-row class="mb-2 d-block">
             <div class="body-4-bold mb-2">{{ name }}</div>
             <div class="body-4-normal mb-2 text-gray-6 text-uppercase">

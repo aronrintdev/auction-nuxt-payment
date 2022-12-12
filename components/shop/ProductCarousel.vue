@@ -11,6 +11,7 @@
         :margin="0"
         :responsive="responsiveAttr"
         :mouse-drag="true"
+        :slideBy="4"
         :dots="false"
         class="carousel"
         :class="{ 'show-arrows-on-hover': showArrowsOnHover }"
@@ -28,7 +29,6 @@
                   :product="product"
                   :pageName="pageName"
                   :cardHeight="cardHeight"
-                  :showActions="showActions"
                 />
               </div>
               <nuxt-link
@@ -95,10 +95,6 @@ export default {
     showArrows: {
       type: Boolean,
       default: false,
-    },
-    showActions: {
-      type: Boolean,
-      default: true,
     },
     showArrowsOnHover: {
       type: Boolean,

@@ -12,7 +12,7 @@
             <b-col md="6" class="mt-2 mt-md-2 updated-payment-info"
               >{{ $t('preferences.payments.update_your_payment_info') }}
             </b-col>
-            <b-col md="6" class="add-new-payment-col mt-2 mt-md-2">
+            <b-col md="5" class="add-new-payment-col mt-2 mt-md-2">
               <b-button
                 variant="light"
                 class="add-new-payments"
@@ -24,7 +24,7 @@
                 }}</span>
               </b-button>
             </b-col>
-            <b-col>
+            <b-col md="11">
               <b-button
                 variant="light"
                 class="purchase-gift-card-button text-white mt-2"
@@ -148,7 +148,7 @@
 
         <!-- Gift Card Section -->
         <template v-if="giftCardList && giftCardList.length">
-          <span id="card-payments-heading" class="text-bold">{{
+          <span id="card-payments-heading" class="text-bold d-block mt-5">{{
             $t('preferences.payments.gift_card')
           }}</span>
 

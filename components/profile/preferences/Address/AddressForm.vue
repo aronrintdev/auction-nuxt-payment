@@ -1,6 +1,16 @@
 <template>
   <div class="your-address-form">
-    <MobileHeader :title="$t('navbar.profile')" @back="moveBack"></MobileHeader>
+    <client-only>
+      <Portal to="page-title"> {{ $t('navbar.profile') }}</Portal>
+      <Portal to="back-icon-slot">
+        <img
+          :src="require('~/assets/img/icons/back.svg')"
+          alt="back-arrow"
+          class="float-left"
+          @click="moveBack"
+        />
+      </Portal>
+    </client-only>
     <div class="address-form p-4">
       <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
         <form @submit.stop.prevent="handleSubmit(onSubmit)">
@@ -635,7 +645,7 @@ export default {
           } else {
             vm.form.default = true
           }
-        
+
       } else {
         return true
       }
@@ -799,7 +809,7 @@ export default {
       this.emitRenderComponentEvent(
         this.$parent.$options.components.YourAddress.name
       )
-      
+
     },
 
     onSubmit() {
@@ -851,7 +861,7 @@ export default {
 
               this.$auth.$storage.removeState('updateConfirm')
             }
-            
+
             this.getUserDetails()
             this.$auth.$storage.setState('showSuccessModal', true)
             this.emitRenderComponentEvent(

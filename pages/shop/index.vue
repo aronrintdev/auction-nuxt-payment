@@ -31,7 +31,7 @@
         >
           <Loader :loading="recentLoading"></Loader>
         </div>
-          <ProductCarousel
+          <ProductShopCarousel
             v-if="!recentLoading"
             class="mt-4 mb-5"
             :products="recentProducts"
@@ -54,7 +54,7 @@
         >
           <Loader :loading="newReleaseLoading"></Loader>
         </div>
-          <ProductCarousel v-if="!newReleaseLoading" class="mt-4 mb-5" :products="newRelease" loop />
+          <ProductShopCarousel v-if="!newReleaseLoading" class="mt-4 mb-5" :products="newRelease" loop />
         </section>
        
         <section class="trending">
@@ -70,7 +70,7 @@
         >
           <Loader :loading="trendingLoading"></Loader>
         </div>
-          <ProductCarousel  v-if="!trendingLoading" class="mt-4 mb-5" :products="trendingPRoducts" loop />
+          <ProductShopCarousel  v-if="!trendingLoading" class="mt-4 mb-5" :products="trendingPRoducts" loop />
         </section>
         <section class="ad-banner">
           <AdBanner class="d-block d-md-none" />
@@ -89,7 +89,7 @@
         >
           <Loader :loading="instantShippingLoading"></Loader>
         </div>
-          <ProductCarousel v-if="!instantShippingLoading" class="mt-4 mb-5" :products="instantShippingProducts" loop>
+          <ProductShopCarousel v-if="!instantShippingLoading" class="mt-4 mb-5" :products="instantShippingProducts" loop>
             <template #product>
               <div
                 v-for="(product, index) in products"
@@ -109,7 +109,7 @@
                 </ProductCard>
               </div>
             </template>
-          </ProductCarousel>
+          </ProductShopCarousel>
         </section>
       </div>
       <div v-else>
@@ -137,6 +137,7 @@ import { NavGroup,Loader } from '~/components/common'
 import ProductCard from '~/components/product/Card'
 import Badge from '~/components/product/Badge'
 import SearchAndFilter from '~/components/shop/SearchAndFilter'
+import ProductShopCarousel from '~/components/shop/ProductCarousel'
 
 export default {
   components: {
@@ -146,6 +147,7 @@ export default {
     AdBanner,
     ShopFilters,
     SearchAndFilter,
+    ProductShopCarousel,
     Loader
   },
   layout: 'IndexLayout',
@@ -169,7 +171,7 @@ export default {
       loading: false,
       loadingFilter: false,
       prices:null,
-      perPage: 4,
+      perPage: 12,
       page: 1,
       recentProducts: [],
       newRelease: [],
@@ -234,7 +236,7 @@ export default {
       }
       filters.desc = this.selectedSort?this.selectedSort:'true'
 
-      filters.take = 4
+      filters.take =  this.perPage
       this.saveRecentSearch(this.selectedSearch)
       this.getRecentProducts(filters)
       this.getNewRelease(filters)
@@ -357,4 +359,8 @@ export default {
 ::v-deep .section-header
   @media (max-width: 576px)
     margin: 30px 12.5px
+.container-shop
+  @media (min-width: 576px)
+    margin: 0px 60px
+
 </style>

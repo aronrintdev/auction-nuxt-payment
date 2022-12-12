@@ -76,7 +76,7 @@
         />
         <!-- Profile/ Payments Tab for responsive screen-->
       </b-col>
-      <b-row class="component-row">
+      <b-row class="component-row justify-content-center">
         <!-- Content -->
         <ResponsiveProfileComponent v-if="activeNav === 'profile'" />
         <ResponsivePaymentComponent v-else />

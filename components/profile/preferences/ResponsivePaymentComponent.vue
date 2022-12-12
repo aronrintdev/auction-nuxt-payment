@@ -1,5 +1,5 @@
 <template>
-  <component :is="renderedComponent" class="responsive-payment-component custom-pad w-100"></component>
+  <component :is="renderedComponent" class="responsive-payment-component custom-pad w-100 px-0"></component>
 </template>
 
 <script>
