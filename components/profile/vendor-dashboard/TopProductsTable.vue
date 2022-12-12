@@ -362,7 +362,7 @@ export default {
   &.mobile
     width: 100%
   .btn-group
-    height: 32px
+    height: 36px
     button.btn
       @include body-6-regular
       font-family: $font-montserrat

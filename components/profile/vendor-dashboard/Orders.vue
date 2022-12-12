@@ -156,7 +156,9 @@
             :aria-label="$t('vendor_dashboard.type')"
           >
             <h4 v-if="data.item.order" class="font-secondary fw-5 fs-16 mb-0">
-              {{ data.item.order.type.label }}
+              {{ data.item.order.type.label === 'buy'
+                ? $t('common.shop')
+                : data.item.order.type.label }}
             </h4>
           </div>
         </template>
@@ -506,7 +508,7 @@ export default {
   &.mobile
     width: 100%
   .btn-group
-    height: 32px
+    height: 36px
     button.btn
       @include body-6-regular
       font-family: $font-montserrat
