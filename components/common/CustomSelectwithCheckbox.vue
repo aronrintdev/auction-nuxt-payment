@@ -14,10 +14,10 @@
     <div :class="{ selectHide: !open, border: bordered }" class="items bg-white">
       <div class="item-wrapper">
         <div v-for="(option, key) in options" :key="key" class="p-0" @click="checked(option)">
-          <div class="p-3 d-flex">
+          <div class="d-flex">
             <b-form-checkbox
                 v-if="option.value"
-                class="border-0 p-0 ml-4 text-normal"
+                class="border-0 px-10 py-14 text-normal"
                 :value="option.value"
                 :checked="getVal(option)"
                 @change="checked(option)"
@@ -109,6 +109,12 @@ export default {
 .bg-white-5
   background: $color-white-5 !important
 
+.px-10
+  padding-left: 10px
+  padding-right: 10px
+.py-14
+  padding-top: 14px
+  padding-bottom: 14px
 .custom-selectbox
   position: relative
   width: 100%
@@ -213,7 +219,7 @@ export default {
     height: 38px !important
 
 .purchase
-  .items 
+  .items
     border-color: $color-gray-60 !important
     border-top-width: 0 !important
 
