@@ -19,7 +19,7 @@
         variant="primary"
         class="mx-auto"
         pill
-        @click="mobileFiltersOpen = !mobileFiltersOpen"
+        @click="showMobileEdit"
       >
         {{ $t('wish_lists.create_new_list') }}
       </Button>
@@ -216,7 +216,7 @@
             </div>
           </section>
           <div class="d-flex justify-content-end align-self-end d-block d-sm-none">
-            <span @click="mobileFiltersOpen = !mobileFiltersOpen"><img width="42" height="42" src="~/assets/img/icons/plus-icon-bg.svg" /></span>
+            <span @click="showMobileEdit"><img width="42" height="42" src="~/assets/img/icons/plus-icon-bg.svg" /></span>
           </div>
         </div>
 
@@ -325,15 +325,18 @@
           :height="'40%'"
           :open="mobileFiltersOpen"
           :title="$t('wish_lists.create_new_list').toString()"
+          @created="hideMobileEdit"
       >
     </MobileCreateWishListModal>
     <MobileEditWishListModal
+          v-if="currentWishList"
+          ref="mobileEditView"
           :key="currentWishList"
           :height="'40%'"
-          :open="mobileEditList"
-          :current-name="currentWishList && currentWishList.name"
-          :list-id="currentWishList && currentWishList.id"
+          :wishListItem="currentWishList"
           :title="$t('wish_lists.rename_list').toString()"
+          @closed="hideMobileEdit"
+          @created="handleCreated"
       >
     </MobileEditWishListModal>
     <!-- On delete list -->
@@ -433,7 +436,6 @@ export default {
       state: '',
       url: '',
       mobileFiltersOpen: false,
-      mobileEditList: false,
     }
   },
 
@@ -720,8 +722,22 @@ export default {
     },
     handleMobileListEdit(wishlist) {
       this.selectWishList(wishlist)
-      this.mobileEditList = !this.mobileEditList
       this.currentWishListMobileUpdate += 1
+      this.$nextTick(() => {
+        this.showMobileEdit()
+      })
+    },
+    showMobileEdit() {
+      const { mobileEditView } = this.$refs
+      if (mobileEditView) {
+        mobileEditView.show()
+      }
+    },
+    hideMobileEdit() {
+      const { mobileEditView } = this.$refs
+      if (mobileEditView) {
+        mobileEditView.hide()
+      }
     }
   },
 }

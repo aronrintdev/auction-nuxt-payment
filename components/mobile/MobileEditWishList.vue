@@ -3,8 +3,8 @@
           :height="height"
           :open="open"
           :title="$t('wish_lists.rename_list').toString()"
-          @closed="mobileFiltersOpen = false"
-          @opened="mobileFiltersOpen = true"
+          @closed="$emit('closed')"
+          @opened="$emit('opened')"
       >
     <template #header>
       <h5>{{ $t('wish_lists.rename_list') }}</h5>
@@ -31,7 +31,6 @@
                         <b-form-input
                           id="list-name"
                           v-model="newListName"
-                          :value="currentName"
                           aria-describedby="input-live-help"
                           trim
                           :state="getValidationState(validationContext)"
@@ -100,24 +99,8 @@ export default {
   components: { MobileBottomSheet, ValidationObserver, ValidationProvider, Button, CheckboxSwitch, ItemDivider },
 
   props: {
-    id: {
-      type: String,
-      default: 'edit-list-modal',
-    },
-    open: {
-      type: Boolean,
-      default: false,
-    },
-    closed: {
-      type: Boolean,
-      default: true
-    },
-    listId: {
-      type: Number,
-      required: true,
-    },
-    currentName: {
-      type: String,
+    wishListItem: {
+      type: Object,
       required: true,
     },
     height: {
@@ -132,13 +115,12 @@ export default {
       newListPrivacy: false,
       loading: false,
       wishList: null,
-      mobileFiltersOpen: false
+      mobileFiltersOpen: false,
+      open: false,
     }
   },
   mounted() {
-    if(this.currentName) {
-      this.newListName = this.currentName
-    }
+    this.newListName = this.wishListItem?.name
   },
   methods: {
     ...mapActions({
@@ -150,18 +132,20 @@ export default {
       if (this.newListName) {
         this.loading = true
         const updatedWishList = await this.editWishList({
-          id: this.listId,
+          id: this.wishListItem.id,
           name: this.newListName,
         })
         this.loading = false
         this.$emit('created', updatedWishList)
-        this.$bvModal.hide(this.id)
+        this.hide()
       }
     },
     getValidationState({ dirty, validated, valid = null }) {
       // Returns the contextual state (validation style) of the element being validated (false for invalid, true for valid, or null for no validation state)
       return dirty || validated ? valid : null
     },
+    show() { this.open = true },
+    hide() { this.open = false }
   },
 }
 </script>
