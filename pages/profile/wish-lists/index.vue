@@ -57,8 +57,9 @@
 
       <div
         v-if="!!currentWishList && action === 'none'"
-        class="d-none d-sm-flex align-items-center"
+        class="d-none d-sm-flex justify-content-between align-items-center"
       >
+        <div></div>
         <div class="btn-categories flex-grow-1 text-center">
           <NavGroup
             v-model="category"
@@ -72,7 +73,7 @@
         <div class="btn-edit">
           <b-dropdown
             variant="link"
-            toggle-class="text-decoration-none"
+            toggle-class="text-decoration-none px-0 mx-0"
             no-caret
             right
           >
@@ -89,18 +90,18 @@
               {{ $t('wish_lists.delete_list') }}
             </b-dropdown-item>
             <b-dropdown-item
+              :disabled="listProducts.length === 0"
+              @click="setAction('remove')"
+            >
+              {{ $t('wish_lists.remove_items') }}
+            </b-dropdown-item>
+            <b-dropdown-item
               :disabled="
                 listProducts.length === 0 || getMovableWishLists().length === 0
               "
               @click="setAction('move')"
             >
               {{ $t('wish_lists.move_items') }}
-            </b-dropdown-item>
-            <b-dropdown-item
-              :disabled="listProducts.length === 0"
-              @click="setAction('remove')"
-            >
-              {{ $t('wish_lists.remove_items') }}
             </b-dropdown-item>
             <b-dropdown-item v-b-modal.create-list-modal>
               <img src="~/assets/img/icons/plus_blue.svg" />
@@ -750,7 +751,6 @@ export default {
         border-bottom: 1px solid $color-black-1
 .tablist
 ::v-deep .btn-group
-    width: 460px
     height: 32px
 ::v-deep .nav-group
   margin: 0
@@ -769,15 +769,22 @@ export default {
   margin-left: -10px
 ::v-deep .checkbox-switch
   line-height: 32px
+  span[role='button']
+    font-family: $font-montserrat
+    @include body-5-bold
+    margin-top: 7px
   .custom-switch
     height: 31px
     margin-right: 20px
     .custom-control-label::before
-      background: rgba(120, 120, 128, 0.16)
+      background-color: rgba(120, 120, 128, 0)
       border: none
       height: 31px
       width: 51px
-      border-radius: 40%
+      box-shadow: none
+      background-image: url('~/assets/img/profile/wishlist/toggle-bg.svg')
+      background-repeat: no-repeat
+
     .custom-control-label::after
       background: $color-white
       border: 0.5px solid rgba(0, 0, 0, 0.04)
@@ -785,6 +792,9 @@ export default {
       width: 27px
       height: 27px
       border-radius: 100%
+
+    .custom-control-input:checked ~ .custom-control-label::after
+      transform: translateX(1.27rem)
 .plus-sign
   @include body-4-normal
 @media (max-width: 576px)
