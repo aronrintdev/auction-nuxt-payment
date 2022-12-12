@@ -702,7 +702,7 @@ export default {
   color: $color-black-1
 .refine-sections
   width: 343px
-  height: 400px
+  height: 320px
   background: $color-white-1
   border-radius: 10px
   box-shadow: 0 1px 4px $color-black-rgb1
