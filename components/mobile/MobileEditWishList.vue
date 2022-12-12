@@ -115,7 +115,6 @@ export default {
       newListPrivacy: false,
       loading: false,
       wishList: null,
-      mobileFiltersOpen: false,
       open: false,
     }
   },
