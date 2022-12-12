@@ -62,7 +62,9 @@
                 <b-row class="mt-5 w-100 align-items-center justify-content-center">
                   <p class="text-center">
                     <span class="otp-cancel" @click.prevent="cancel">
-                      {{$t('common.cancel')}}
+                      <NuxtLink to="/">
+                        {{$t('common.cancel')}}
+                      </NuxtLink>
                     </span>
                   </p>
                 </b-row>
