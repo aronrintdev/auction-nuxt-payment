@@ -327,6 +327,7 @@ export default {
         month: 'Month to Date',
         year: 'Year to Date',
       },
+      chartsLoading: false
     }
   },
   computed: {
@@ -347,11 +348,14 @@ export default {
     isDataEmpty() {
       return this.dataGraph.every((item) => !item)
     },
+    emptyOrLoadingText(){
+      return this.chartsLoading? 'Loading...' : 'No Data Found'
+    }
   },
   created() {
     // eslint-disable-next-line no-undef
     Chart.plugins.register({
-      afterDraw(chart) {
+      afterDraw: (chart) => {
         if (chart.data.datasets[0].data.every((item) => item === 0)) {
           const ctx = chart.chart.ctx
           const width = chart.chart.width
@@ -362,7 +366,7 @@ export default {
           ctx.textBaseline = 'middle'
           ctx.font = '500 18px Montserrat'
 
-          ctx.fillText('No Data Found', width / 2, height / 2 - 30)
+          ctx.fillText(this.emptyOrLoadingText, width / 2, height / 2 - 30)
           ctx.restore()
         }
       },
@@ -374,6 +378,7 @@ export default {
   },
   methods: {
     handleFilterByChangeTotalSale(value) {
+      this.chartsLoading = true
       this.$axios
         .get('/dashboard/vendor/sales-graph?group_by=' + value)
         .then((res) => {
@@ -388,6 +393,8 @@ export default {
         })
         .catch((err) => {
           this.logger.logToServer(err.response)
+        }).finally(() => {
+        this.chartsLoading = false
         })
     },
     changeTab(tab) {
