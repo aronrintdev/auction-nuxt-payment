@@ -252,7 +252,7 @@ export default {
     })
 
     // fetch trade details
-    if(this.getEditTradePageReferrer !== null){
+    if(this.getEditTradePageReferrer !== null && this.getTradeId){
       this.$store.commit('trades/removeAllOfferItems')
       this.$store.commit('trades/removeAllWantItems')
       this.$axios
