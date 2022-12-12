@@ -23,7 +23,7 @@ export async function addProductsToWishList({ commit }, { wishList, ids }) {
 
 export async function createWishList({ commit }, { name, privacy }) {
   return await this.$axios
-    .post('/wish-lists/')
+    .post('/wish-lists/', { name, privacy })
     .then((res) => {
       commit('addWishList', res.data)
       return res.data
