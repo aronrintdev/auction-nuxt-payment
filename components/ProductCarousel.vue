@@ -28,6 +28,7 @@
                   :product="product"
                   :pageName="pageName"
                   :cardHeight="cardHeight"
+                  :showActions="showActions"
                 />
               </div>
               <nuxt-link
@@ -94,6 +95,10 @@ export default {
     showArrows: {
       type: Boolean,
       default: false,
+    },
+    showActions: {
+      type: Boolean,
+      default: true,
     },
     showArrowsOnHover: {
       type: Boolean,

@@ -82,9 +82,15 @@ export default {
           if (isNaN(parseInt(inv.inventory_id)))
             isValid.push(`items.${inv.id}.inventory_id`)
 
+          const inventoryId = inv.inventory_id
+          const sameInventories = item.items.filter(obj => obj.inventory_id === inventoryId)
+          let total = 0
+          sameInventories.forEach(inv => {
+            total += parseInt(inv.quantity)
+          })
           const quantity = parseInt(inv.quantity)
 
-          if (isNaN(quantity) || (quantity>10 || quantity<1))
+          if (isNaN(quantity) || (quantity>10 || quantity<1) || (inv.item && inv.item.stock < total))
             isValid.push(`items.${inv.id}.quantity`)
 
           return inv

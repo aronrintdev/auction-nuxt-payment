@@ -8,14 +8,26 @@
 
   .vd-preferences-slider
     background-color: $color-white-4
-    height: 200px
+    height: 212px
     width: 100%
 
     .vd-preferences-slider-heading
       font-weight: $bold
-      left: 2rem
+      left: 70px
       position: absolute
-      top: 5rem
+      top: 72px
+      font-family: $font-montserrat
+      line-height: 63.39px
+
+  .nav-group
+    @media (min-width: 576px)
+      margin: 0
+
+  .mt-38
+      margin-top: 38px
+
+  .mb-46
+      margin-bottom: 46px
 
   /* ./Top Heading- Background Box */
 
@@ -31,47 +43,175 @@
   /* Logout Button */
 
   .preferences-logout-btn
-    background: $color-blue-2
+    font-family: $font-montserrat
+    background: $color-grey-101
+    font-weight: $normal
+    font-size: 16px
     border: 0
     color: $color-white-1
     &:hover
-      background: $color-blue-2
+      background: $color-grey-101
       border: 0
       box-shadow: rgb(0 0 0 / 35%) 0 5px 15px
       color: $color-white-1
+  .px-26
+    padding-left: 25.5px
+    padding-right: 25.5px
+
+  .mt-36
+    margin-top: 36px
+
+  .mt-38
+    margin-top: 38px
+
+  .mt-13
+    margin-top: 13px
+
+  .mt-27
+    margin-top: 27px
+
+  .mt-26
+    margin-top: 26px
+
+  .mt-45
+    margin-top: 45px
+
+  .ml-50
+    margin-left: 50px
+
+  .ml-61
+    margin-left: 61px
+
+  .ml-30
+    margin-left: 30px
+
+  .mb-46
+    margin-bottom: 46px
+
+  .ml-11
+    margin-left: 11px
+
+  .w-250
+    width: 250px
+
+  span.account-type-name
+    font-family: $font-montserrat
+    font-weight: $medium
+    font-size: 18px
+    line-height: 21px
+    color: $color-black-1
+  .connected-text
+    font-family: $font-montserrat
+    font-weight: $medium
+    font-size: 14px
+    line-height: 17px
+    color: $color-green-4
+    margin-top: 3px
+
+  .social-logo
+    img
+      width: 52px
+      height: 52px
+
+  .address-trash-button-wrapper
+    .delete
+      width: 21px
+      height: 21px
+    .edit
+      width: 20px
+      height: 20px
 
   /* ./Logout Button */
 
   /* Profile Section */
   .profile-component-wrapper
-    width: 100%
+    width: 95%
+
+
+    h5.section-sub-heading
+      font-family: $font-montserrat
+      font-weight: $medium
+      font-size: 20px
+      line-height: 24px
+      color: $color-black-1
 
     .personal-details,
     .your-addresses,
     .social-links
       .card
+        .card-body
+          padding: 32px 0 0px 30px
+
+        .card-text,
+        .custom-control-label
+          font-family: $font-montserrat
+          font-weight: $normal
+          font-size: 14px
+          color: $color-gray-5
+        .card-text
+          line-height: 17px
+        .custom-control-label
+          line-height: 24px
+
         .card-title
           @include heading-3
+          font-family: $font-montserrat
+          margin-bottom: 4px
 
         .profile-input
-          background: $color-gray-1
+          background: $color-white-5
           border-radius: 25px
+          font-family: $font-montserrat
+          font-weight: $normal
+          font-size: 14px
+          line-height: 19.5px
+          color: $color-black-1
+          height: 42px
+          padding-top: 11px
+          padding-bottom: 11px
+          padding-left: 22px
+          width: 250px
+          box-shadow: none
+
+        .calendar-input
+          padding-left: 14px
 
         .profile-label
+          font-family: $font-montserrat
+          font-weight: $normal
+          font-size: 14px
+          line-height: 17px
+          color: $color-black-1
+          margin-bottom: 34px
+          margin-right: 48px
           .d-block
-            @include body-8-medium
+            font-family: $font-montserrat
+            @include body-8-normal
+            font-size: 14px
+            margin-bottom: 16px
+            line-height: 17px
 
         .preferences-make-as-default
           label
             font-weight: $regular
     .dob-selector
-      background: $color-gray-1
-      box-shadow: inset 0 1px 2px rgb(0 0 0 / 8%)
+        background: $color-white-5
+    .w-70
+        max-width: 70px
+    .w-90
+        max-width: 90px
+    .address-button-wrapper
+      right: 97px
+      top: 14px
     /* Social links buttons */
     .social-links
       .profile-social-link-button
         background: none
         color: $color-blue-1
+        font-family: $font-montserrat
+        font-weight: $normal
+        font-size: 16px
+        line-height: 19px
 
       .btn-secondary
         border: 1px solid $color-red-1
@@ -92,11 +232,11 @@
 
       .profile-trash-icon
         border: 0.5px solid $color-gray-26
-        bottom: 0
-        left: 0
-        margin-bottom: 1rem
-        padding: 5px 12px
-        position: absolute
+        padding: 6px 6px
+
+      .profile-edit-icon
+        border: 0.5px solid $color-gray-26
+        padding: 8px 10px
 
       .your-addresses-billing-address
         .add-new-billing
@@ -114,11 +254,23 @@
 
   /* Payments Section */
   .payment-component-wrapper
-    width: 100%
+    width: 95%
     .payment-methods
       #payment-methods-card
+        .card-body
+          padding: 32px 0 0px 30px
         .card-title
           @include heading-3
+          font-family: $font-montserrat
+          margin-bottom: 4px
+
+        .card-text
+          font-family: $font-montserrat
+          font-weight: $normal
+          font-size: 14px
+          color: $color-gray-5
+        .card-text
+          line-height: 17px
 
         /* Add new payment methods button */
         .payment-methods-heading
@@ -142,7 +294,11 @@
 
         .default-payment-radios
           label
-            font-weight: normal
+            font-family: $font-montserrat
+            font-weight: $normal
+            font-size: 14px
+            color: $color-gray-5
+            line-height: 24px
   /* Payments Section Ends */
 #address-type-modal
   .modal-content
@@ -155,6 +311,7 @@
   .profile-input
     background: $color-gray-1
     border-radius: 25px
+    box-shadow: none
 
   .profile-label
     label

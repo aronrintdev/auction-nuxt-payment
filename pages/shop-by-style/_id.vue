@@ -8,7 +8,7 @@
       v-if="style"
       class="style-details-wrapper d-flex flex-column flex-sm-row"
     >
-      <div class="left-side-details">
+      <div class="left-side-details ml-auto">
         <div
           class="topbar d-none d-sm-flex justify-content-between align-items-center"
         >
@@ -20,6 +20,7 @@
 
           <div class="text-right share-wrapper">
             <Button
+              :id="`popover-share-${style.id}`"
               variant="white"
               icon="share.svg"
               icon-only
@@ -38,7 +39,27 @@
             </Button>
           </div>
         </div>
-        <div class="style-image mt-4">
+        <b-popover
+          ref="sharePopover"
+          :target="`popover-share-${style.id}`"
+          triggers="click"
+          placement="bottom"
+          container="body"
+          custom-class="wishlist-popover w-auto"
+          delay="200"
+          @show="shareShow = true"
+          @hidden="shareShow = false"
+        >
+          <ShareButton
+            :url="shareUrl + style.id"
+            :title="style.name"
+            :description="style.name"
+          />
+        </b-popover>
+        <div class="style-image mt-4 position-relative">
+          <div class="position-absolute add-to-wishlist d-block d-sm-none">
+            <HeartIcon />
+          </div>
           <ShopByStyleImageCarousel
             v-if="!has360Images"
             :images="style.images"
@@ -50,32 +71,55 @@
           />
         </div>
       </div>
-      <div class="right-side-details ml-auto">
+      <div class="right-side-details">
         <p class="items-counter mb-2">
           {{ style.products.length }} {{ $t('common.items') }}
         </p>
-        <div class="d-flex flex-column row-gap-60">
+        <div class="d-none d-sm-flex flex-column row-gap-60">
           <ShopByStyleProductCard
             v-for="product in style.products"
-            v-show="showStyleProduct ? showStyleProduct : true"
             :key="`product-${product.id}`"
             :product="product"
             @styleProduct="productDetail"
           />
         </div>
-      </div>
-      <div
-        class="d-sm-none style-bag position-fixed d-flex align-items-center justify-content-center"
-      >
-        <Button
-          variant="dark-blue"
-          black-text
-          border="thick"
-          class="d-block w-100 rounded-pill text-white"
-          @click="handleStyleAddToCart"
-        >
-          {{ $t('shop_by_style.general.add_style_to_bag') }}
-        </Button>
+        <div class="d-block d-sm-none">
+          <ProductCarousel
+            v-show="showStyleProduct ? showStyleProduct : true"
+            :products="style.products"
+            :pageName="pageName"
+            itemWidth="129px"
+            autoWidth
+          >
+            <template #product>
+              <div
+                v-for="(product, index) in style.products"
+                :key="`product-carousel-${index}`"
+                class="item"
+              >
+                <ProductCard
+                  :product="product"
+                  :showActionBtn="false"
+                  :showActions="false"
+                  cardHeight="137px"
+                  cardHeightSm="137px"
+                  cardWidthSm="192px"
+                  :showSize="false"
+                  :showPrice="true"
+                  noRedirect
+                >
+                  <template #badge>
+                    <div class="d-flex justify-content-end"
+                      @click="redirectToDetail(product)"
+                    >
+                      <PlusCircle />
+                    </div>
+                  </template>
+                </ProductCard>
+              </div>
+            </template>
+          </ProductCarousel>
+        </div>
       </div>
     </div>
     <Portal to="back-icon-slot">
@@ -95,16 +139,22 @@
 <script>
 import { Button } from '~/components/common'
 import ShopByStyleImageCarousel from '~/components/shop-by-style/ImageCarousel'
+import PlusCircle from '~/assets/icons/PlusCircle'
 import ShopByStyleProductCard from '~/components/shop-by-style/ProductCard'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
 import ShareIcon from '~/assets/icons/ShareIcon'
+import HeartIcon from '~/assets/icons/HeartIcon'
+import ShareButton from '~/components/common/ShareButton'
 export default {
   components: {
     Button,
-    ShopByStyleProductCard,
+    PlusCircle,
     ShopByStyleImageCarousel,
     ProductImageViewerMagic360,
     ShareIcon,
+    HeartIcon,
+    ShareButton,
+    ShopByStyleProductCard,
   },
 
   layout: 'IndexLayout',
@@ -118,6 +168,7 @@ export default {
       loading: true,
       wishList: false,
       showStyleProduct: '',
+      shareUrl: process.env.APP_URL + '/shop-by-style/',
     }
   },
 
@@ -150,6 +201,9 @@ export default {
     productDetail(value) {
       this.showStyleProduct = value
     },
+    redirectToDetail(product) {
+      this.$router.push(`/shop-by-style/${this.style.id}/${product.sku}`)
+    },
   },
 }
 </script>
@@ -165,6 +219,8 @@ export default {
     margin-top: 43px
     width: 100%
     max-width: 498px
+    @media (min-width: 576px)
+      margin-left: 202px
 
 .row-gap-60
   row-gap: 60px
@@ -210,4 +266,7 @@ export default {
     stroke: $color-gray-47
   .fillColor
     fill: $color-gray-47
+
+.add-to-wishlist
+  right: 0
 </style>

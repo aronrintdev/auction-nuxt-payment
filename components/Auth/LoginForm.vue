@@ -17,8 +17,8 @@
                 :state="getValidationState(validationContext)"
               ></b-form-input>
               <b-form-invalid-feedback>{{
-                  validationContext.errors[0]
-                }}</b-form-invalid-feedback>
+                validationContext.errors[0]
+              }}</b-form-invalid-feedback>
             </b-form-group>
           </ValidationProvider>
           <ValidationProvider
@@ -55,14 +55,14 @@
                   ></i>
                 </b-input-group-append>
                 <b-form-invalid-feedback>{{
-                    validationContext.errors[0]
-                  }}</b-form-invalid-feedback>
+                  validationContext.errors[0]
+                }}</b-form-invalid-feedback>
               </b-input-group>
             </b-form-group>
           </ValidationProvider>
 
           <b-row class="mt-5 login-btn">
-            <b-col md="4" offset-md="4" class="text-center">
+            <b-col md="4" offset-md="4" class="text-center mt-3">
               <Button
                 :disabled="!isFormFilled"
                 block
@@ -72,8 +72,7 @@
                 :class="{ 'btn-disabled': !isFormFilled }"
               >
                 <span>{{ $t('auth.login') }}</span>
-              </Button
-              >
+              </Button>
             </b-col>
           </b-row>
         </b-form>
@@ -83,8 +82,8 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
-import {ValidationProvider, ValidationObserver} from 'vee-validate'
+import { mapActions, mapGetters } from 'vuex'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import Button from '~/components/common/Button'
 import { NO_CONTENT } from '~/static/constants'
 
@@ -116,7 +115,7 @@ export default {
   methods: {
     ...mapActions({
       getUserDetails: 'auth/getUserDetails',
-      getUserRedeemedReward: 'redeemed-reward/getUserRedeemedReward'
+      getUserRedeemedReward: 'redeemed-reward/getUserRedeemedReward',
     }),
     ...mapGetters({
       getLoginRedirectUrl: 'auth/getLoginRedirectUrl',
@@ -139,14 +138,16 @@ export default {
             this.$auth.$storage.removeCookie('rememberExpires')
             this.$store.dispatch('notifications/getNotifications')
             this.$store.dispatch('notifications/getUnreadCount')
-            this.$toasted.success(this.$t('login.success_message.login_successfull').toString())
+            this.$toasted.success(
+              this.$t('login.success_message.login_successfull').toString()
+            )
 
             // redirect if redirect url is set in state
             const redirectUrl = this.getLoginRedirectUrl()
             if (redirectUrl) {
               if (redirectUrl.includes('trades') && !this.isVendor) {
                 this.$router.push({
-                  path: '/profile/vendor-hub/apply'
+                  path: '/profile/vendor-hub/apply',
                 })
               } else {
                 this.$store.commit('auth/setLoginRedirectUrl', null)
@@ -154,11 +155,11 @@ export default {
               }
             } else if (this.isVendor) {
               this.$router.push({
-                path: '/profile/vendor-dashboard'
+                path: '/'
               })
             } else {
               this.$router.push({
-                path: '/profile/buyer-dashboard'
+                path: '/profile/buyer-dashboard',
               })
             }
           }
@@ -167,7 +168,7 @@ export default {
           this.$toasted.error(this.$t(error.response.data.message).toString())
         })
     },
-  }
+  },
 }
 </script>
 

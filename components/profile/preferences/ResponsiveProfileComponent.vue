@@ -72,27 +72,6 @@
         </p>
       </div>
       <!-- social media links -->
-
-      <!-- language -->
-      <div class="card-text mt-3">
-        <span class="personal-details-heading"
-        @click="openLanguage">
-          <span class="d-flex">
-            {{ $t('preferences.profile.language') }}
-            <span role="button" class="forward-btn position-absolute" >
-              <img
-                :src="require('~/assets/img/icons/right-arrow.svg')"
-                class="float-right d-flex"
-                alt="right arrow"
-              />
-            </span>
-          </span>
-        </span>
-        <p class="personal-details-sub-heading mt-2 d-flex">
-          {{ $t('preferences.profile.language_description') }}
-        </p>
-      </div>
-      <!-- language -->
     </b-card>
 
     <!-- logout btn -->
@@ -163,13 +142,13 @@ export default {
 .personal-details-heading
   font-family: $font-sp-pro
   font-style: normal
-  @include body-4-medium
+  @include body-4b-medium
   color: $color-blue-20
 
 .personal-details-sub-heading
-  font-family: $font-sp-pro
+  font-family: $font-montserrat
   font-style: normal
-  @include body-21-medium
+  @include body-21-regular
   color: $color-black-17
 
 .border-underline
@@ -186,7 +165,7 @@ export default {
   font-style: normal
   @include body-4-medium
   background: $color-blue-20
-  color: $color-white-1 
+  color: $color-white-1
   position: fixed
   bottom: 15vh
 

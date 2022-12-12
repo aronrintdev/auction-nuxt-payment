@@ -225,7 +225,8 @@
         "3": "No Original Packaging"
       }
     },
-    "box": "Box"
+    "box": "Box",
+    "$0": "$0.00"
   },
   "message": {
     "no_products_found": "No Products Found",
@@ -273,7 +274,7 @@
     "terms": "Terms",
     "privacy": "Privacy",
     "verify": "Verify",
-    "login_to_your_account": "Log in to your Account",
+    "login_to_your_account": "Log in to Your Account",
     "login_via_social_media": "Log in via Social Media",
     "forgot_password": "Forgot Password",
     "new_to_deadstock": "New to Deadstock",
@@ -437,7 +438,7 @@
     "become_a_vendor": "Become a Vendor",
     "preferences": "Preferences",
     "welcome": "Welcome",
-    "logout": "Logout",
+    "logout": "Log Out",
     "please_wait": "Please wait",
     "security": "Security",
     "purchases": "Purchases",
@@ -629,12 +630,14 @@
     "home": "Home",
     "sku": "SKU",
     "latest_sales": "Latest Sales",
+    "asks": "Asks",
     "select_size": "Select Size",
     "day_month_year": "Day Month Year",
     "buy_now_for": "Buy Now for",
     "as_low_as_$42/month_with": "as low as $42/month with",
     "prequalify_now": "Prequalify Now",
     "buy": "Buy",
+    "offers": "Offers",
     "or_bid": "or Bid",
     "or": "OR",
     "size": "Size",
@@ -2020,7 +2023,7 @@
       "watchers": "Watchers",
       "current_bid": "Current Bid",
       "place_bid": "Place Bid",
-      "place_bid_error": "*Please Enter a Bid Higher than the Current Bid",
+      "place_bid_error": "*Please Enter a Bid at the Next Available Bid Increment",
       "quick_bid": "Quick Bid",
       "auto_bid": "Auto Bid",
       "auto_bid_tooltip": "An auto bid allows you to set a maximum bid threshold, to where the system will automatically bids in increments up to the specified threshold, labeled \"Up To.\"",
@@ -2063,7 +2066,7 @@
       "auction_id": "Auction ID",
       "true_to_size": "'True to Size'",
       "of": "of",
-      "insert_amount": "Enter Bid ($%{price} or More)",
+      "insert_amount": "Enter Bid (More than $%{price})",
       "payment_method": "Payment Method",
       "no_results_found": "No results found",
       "cant_find_anything": "We couldn’t find anything that matches this search",
@@ -3742,7 +3745,50 @@
       "deleted_payment": "Payment deleted successfully",
       "error": {
         "from_field": "The From field is required."
-      }
+      },
+      "add_gift_card": "Add Gift Card",
+      "add_card_payments": "Add Card Payment",
+      "ds_wallet" : "DS Wallet",
+      "enter_card_info" : "Enter your card information",
+      "card_expiration_date" : "Expiration Date",
+      "add_new_default": "Add New Default",
+      "add_new_default_alert": "You must have one default card payment saved in your profile",
+      "change_default_card_alert": "Are you sure you want to make this card your default method of payment?",
+      "card_scan_alert": "Move your card inside the frame and we’ll scan it for you.",
+      "card_save_success_alert":"Card has been added successfully",
+      "update_exp_cvv": "*Please update expiration date and CVV",
+      "form_not_valid_message": "*Please enter valid payment information",
+      "scan_card": "Scan Card",
+      "enter_manually": "Enter Manually",
+      "redeem_a_gift_card": "Redeem a Gift Card",
+      "got_gift_card": "Got a gift card? Redeem it here!",
+      "purchase_a_gift_card": "Purchase a Gift Card",
+      "purchase_gift_card_caption": "Gift a digital gift card for your friends, family or yourself!",
+      "gift_card_success_alert": "Gift card has been added successfully",
+      "gift_card_remaining" : "Remaining Amount",
+      "pin": "PIN",
+      "view_gift_card_detail": "View Gift Card Details",
+      "reload_gift_card": "Reload Gift Card",
+      "now": "Now",
+      "add_to_cart": "Add To Cart",
+      "buy_now": "Buy Now",
+      "shopping_bag": "Shopping Bag ({giftCardCount} item)",
+      "check_out": "Check Out",
+      "deadstock_gift_card": "Deadstock Gift Card",
+      "recipients": "Recipients",
+      "terms_and_services_agreement": "By ordering, I agree to the",
+      "add_billing_address": "Adding Billing Address",
+      "gift_card_checkout_form":{
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "address_line_1": "Address Line 1",
+        "address_line_2_opt": "Address Line 2 (Optional)",
+        "zip": "Zip",
+        "city": "City",
+        "state": "State",
+        "phone": "Phone #"
+      },
+      "field_is_empty"  : "Field is empty"
     }
   },
   "monthNames": {
@@ -3783,6 +3829,7 @@
   "inventory": {
     "available_to_list": "Available to List",
     "add_inventory": "Add Inventory",
+    "create_inventory": "Create Inventory",
     "search_placeholder": "Search your Inventory by SKU, Product Name or Brand",
     "search_product_placeholder": "Search by SKU, Keyword, or Brand",
     "upload_csv_file": "Upload CSV File",
@@ -3804,6 +3851,7 @@
     "save_changes": "Save Changes",
     "discard_changes": "Discard Changes",
     "csv_drafts": "CSV Drafts",
+    "csv_upload": "CSV Upload",
     "export_to_csv": "Export to CSV",
     "list_selected": "List Selected",
     "delete_selected": "Delete Selected",
@@ -3811,6 +3859,7 @@
     "analyzing": "Analyzing...",
     "analyzing_completed": "Analyzing Completed!",
     "available_to_add_to_inventory": "Available to add to inventory ( {count} )",
+    "recognized_items": "Recognized items ( {count} )",
     "unrecognized_items": "Unrecognized items ( {count} )",
     "search_draft_placeholder": "Search Draft by SKU, Product Name or Brand",
     "do_you_mean": "Do you mean?",
@@ -3833,7 +3882,10 @@
       "after_suggestion_info": "If product is a good fit, our team reach out to<br> the email associated with this account for<br> more information.",
       "gt_than": "Please choose another {field} more than {amount}",
       "between": "Please choose another {field} between {min} and {max}"
-    }
+    },
+    "list_product": "List Product",
+    "edit_details": "Edit Details",
+    "mobile_search_info": "Begin by searching for your product"
   },
   "vendor_purchase": {
     "their_value": "THEIR VALUE",
@@ -5213,7 +5265,7 @@
     "general": {
       "add_to_bag": "Add {type} to Bag",
       "add_style_to_bag": "Add Style to Cart",
-      "back_to_style": "< Back to All Style"
+      "back_to_style": "< Back to All Styles"
     },
     "title": "Shop by Style",
     "title_archive": "Shop by Style (Archive)",
@@ -5894,7 +5946,7 @@
     "save_for_later": "Save for later"
   },
   "offers_received": {
-    "offers"  : "Offers",
+    "offers": "Offers",
     "heading": "Offers Received",
     "your_placed_offers": "Your Received Offers ({count})",
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",

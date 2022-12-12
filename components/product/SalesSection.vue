@@ -9,7 +9,7 @@
           <b-row class="d-none d-sm-block">
             <b-col md="12">
               <LatestSales
-                :value="product.latest_sales"
+                :value="salesData"
                 :sku="sku || product.sku"
                 :headerClass="chartHeaderClass"
                 :labelsStyle="chartLabelsStyle"
@@ -40,7 +40,7 @@
           </div>
           <div v-else>
             <LatestSales
-              :value="product.latest_sales"
+              :value="salesData"
               :sku="sku || product.sku"
               :headerClass="chartHeaderClass"
               :labelsStyle="chartLabelsStyle"
@@ -167,6 +167,11 @@ export default {
       isRecentOffersShown: false,
       isRecentAsksShown: false,
       currentDataTab: ''
+    }
+  },
+  computed: {
+    salesData() {
+      return this.product?.latest_sales ?? null
     }
   },
   mounted() {

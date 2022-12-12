@@ -19,8 +19,8 @@
             collapseKey="brands"
             :title="$t('filter_sidebar.brands')"
             :options="brands ? brands : brandOptions"
-            @searchBrands="handleSearchChange"
             class="p-2 mb-1 borderDark rounded collapse-design position-absolute"
+            @searchBrands="handleSearchChange"
           />
         </div>
         <div class="col-sm-5 ml-54">

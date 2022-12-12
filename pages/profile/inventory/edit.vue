@@ -1,20 +1,45 @@
 <template>
-  <b-container fluid class="container-profile-inventory-edit h-100">
+  <b-container fluid class="h-100" :class="!isScreenXS ? 'container-profile-inventory-edit' : 'p-0'">
     <div v-if="loading"><Loader /></div>
     <div v-else-if="inventory">
-      <InventoryNewForm v-model="form" :product="inventory.product" />
 
-      <div class="mt-5 mx-auto d-flex justify-content-center">
+      <ProductView v-model="form" :product="inventory.product"
+                   :class="isScreenXS ? 'p-3' : ''"
+                   @back="$router.push('/profile/inventory')">
+        <InventoryNewForm
+          slot="right-content"
+          ref="inventoryForm"
+          v-model="form"
+          class="mb-sm-4"
+          :is-edit-form="true"
+          :show-add-button="!isScreenXS"
+          :is-form-valid="isFormValid"
+          :is-form-touched="isFormTouched"
+          :show-buttons="!isScreenXS"
+          @submit="handleSaveClick"
+          @cancel="handleDiscardClick"
+        />
+      </ProductView>
+
+      <!-- Sales Graph and Sales Data Section -->
+      <SalesSection :class="!isScreenXS ? 'sales-section' : ''"
+                    :product="inventory.product"
+                    :chart-header-class="'d-none mt-1'"
+                    :chart-labels-style="chartLabelStyle"
+      />
+      <!-- End of Sales Graph and Sales Data Section -->
+
+      <div v-if="isScreenXS" class="mt-5 mx-auto d-flex justify-content-center">
         <Button
-          variant="info"
+          variant="dark-blue"
           pill
           :disabled="!isFormValid || !isFormTouched"
-          class="mr-4"
+          class="mr-4 px-4"
           @click="handleSaveClick"
         >
           {{ $t('inventory.save_changes') }}
         </Button>
-        <Button variant="outline-dark" pill @click="handleDiscardClick">
+        <Button class="px-4" variant="outline-dark" pill @click="handleDiscardClick">
           {{
             isFormTouched
               ? $t('inventory.discard_changes')
@@ -52,59 +77,59 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
+import screenSize from '~/plugins/mixins/screenSize'
 import { Button, Loader } from '~/components/common'
 import InventoryNewForm from '~/components/inventory/NewForm'
 import { AlertModal, ConfirmModal } from '~/components/modal'
+import ProductView from '~/components/profile/create-listing/product/ProductView'
+import SalesSection from '~/components/product/SalesSection'
 
 export default {
   name: 'ProfileInventoryEdit',
-
   components: {
     Button,
     Loader,
     InventoryNewForm,
     ConfirmModal,
     AlertModal,
+    ProductView,
+    SalesSection
   },
-
+  mixins: [screenSize],
   layout: 'Profile',
-
   fetchOnServer: false,
-
   data() {
     return {
       loading: false,
       inventory: null,
       form: {
-        sizeId: null,
+        currentSize: null,
         quantity: null,
         price: null,
-        packagingConditionId: null,
+        boxCondition: null,
       },
     }
   },
-
   fetch() {
     const { id } = this.$route.query
 
     this.loading = true
     this.fetchInventory({ id }).then((data) => {
-      this.form.sizeId = data.size_id
+      this.form.currentSize = data.size_id
       this.form.quantity = data.stock
       this.form.price = parseInt(data.sale_price) / 100
-      this.form.packagingConditionId = data.packaging_condition_id
+      this.form.boxCondition = data.packaging_condition_id
       this.inventory = data
       this.loading = false
     })
   },
-
   computed: {
     isFormValid() {
       return (
-        this.form.sizeId &&
+        this.form.currentSize &&
         this.form.quantity &&
         this.form.price &&
-        this.form.packagingConditionId &&
+        this.form.boxCondition &&
         this.form.quantity > 0 &&
         this.form.quantity < 51 &&
         this.form.price > 50
@@ -113,15 +138,24 @@ export default {
 
     isFormTouched() {
       return (
-        Number(this.form.sizeId) !== this.inventory.size_id ||
+        Number(this.form.currentSize) !== this.inventory.size_id ||
         Number(this.form.quantity) !== this.inventory.stock ||
         Number(this.form.price) * 100 !== this.inventory.sale_price ||
-        Number(this.form.packagingConditionId) !==
+        Number(this.form.boxCondition) !==
           this.inventory.packaging_condition_id
       )
     },
-  },
 
+    chartLabelStyle() {
+      if (this.isScreenSM)
+        return { 'width': '80%', 'margin-left': '140px' }
+
+      if (this.isScreenMD)
+        return {'width': '70%', 'margin-left': '140px' }
+
+      return {'width': '60%', 'margin-left': '160px' }
+    }
+  },
   methods: {
     ...mapActions({
       fetchInventory: 'inventory/fetchInventory',
@@ -132,10 +166,10 @@ export default {
       this.updateInventory({
         id: this.$route.query?.id,
         data: {
-          size_id: Number(this.form.sizeId),
+          size_id: Number(this.form.currentSize),
           stock: Number(this.form.quantity),
           sale_price: Number(this.form.price) * 100,
-          packaging_condition_id: Number(this.form.packagingConditionId),
+          packaging_condition_id: Number(this.form.boxCondition),
         },
       })
       this.$bvModal.show('saved-message-modal')
@@ -167,6 +201,9 @@ export default {
 @import '~/assets/css/_variables'
 
 .container-profile-inventory-edit
-  padding: 47px 54px
+  padding: 30px  120px 0px 14px
   background-color: $color-white-5
+
+.sales-section
+  margin-top: 55px
 </style>

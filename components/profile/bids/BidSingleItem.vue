@@ -22,7 +22,7 @@
               </NuxtLink>
             </template>
           </b-col>
-          <b-col cols="8" md="8" class="pl-0 pl-md-4 pr-3 d-md-flex align-items-md-center">
+          <b-col cols="8" md="8" class="pl-0 pl-md-4 pr-3 d-md-flex align-items-md-center w-md-100">
             <b-row class="mb-2 mb-md-0 d-block mx-md-0 product-details-info" :class="{ 'flex-grow-1' : isMobileSize }">
               <div class="mb-12 mb-md-2 d-flex align-items-center">
                 <div :class="isMobileSize ?
@@ -335,6 +335,7 @@ export default {
 
 @media (max-width: 576px)
   .product-details-info
+    width: 100%
     .mb-12
       margin-bottom: 12px
     .mb-02
