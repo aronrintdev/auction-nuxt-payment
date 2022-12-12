@@ -1,12 +1,14 @@
 <template>
   <div class="row">
-    <div class="col-12 col-md-6 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+    <div class="mt-3" :class="[isScreenXS ? 'input-col-mobile pr-2' : 'input-col', colClass]">
       <FormInput :value="value.quantity"
                  :placeholder="$t('inventory.enter_quantity')"
                  :label="$t('common.quantity')"
+                 :label-class="isScreenXS ? 'ml-0 mb-2' : ''"
                  class="input"
                  :class="{'input-error': quantityChanged && (value.quantity <= 0 || value.quantity > 50)}"
                  required
+                 :pill="false"
                  integer
                  @input="handleQuantityChange" />
       <div v-if="quantityChanged && (value.quantity <= 0 || value.quantity > 50)" class="error-text mt-1">
@@ -20,11 +22,13 @@
         }}
       </div>
     </div>
-    <div class="col-12 col-md-6 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+    <div class="mt-3" :class="[isScreenXS ? 'input-col-mobile pr-2' : 'input-col', colClass]">
       <FormInput
         :value="value.price"
         :placeholder="$t('inventory.enter_price')"
         :label="$t('inventory.your_price')"
+        :label-class="isScreenXS ? 'ml-0 mb-2' : ''"
+        :pill="false"
         prefix="$"
         class="input"
         :class="{'input-error': value.price !== null && value.price <= 50}"
@@ -42,13 +46,34 @@
         }}
       </div>
     </div>
-    <div v-if="showAddButton" class="col-12 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
-      <Button class="mt-3 w-100"
-              variant="dark"
-              :class="{'py-4' : !isScreenXS}"
-              :disabled="!isFormValid"
-              @click="$emit('submit')">{{ $t('inventory.add_inventory') }}</Button>
-    </div>
+    <template v-if="showButtons">
+      <div v-if="!isEditForm"
+           class="col-12 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+        <Button class="mt-3 w-100"
+                variant="dark"
+                :class="{'py-4' : !isScreenXS}"
+                :disabled="!isFormValid"
+                @click="$emit('submit')">{{ $t('inventory.add_inventory') }}</Button>
+      </div>
+      <template v-else>
+        <div class="col-6 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+          <Button class="mt-3 w-100"
+                  variant="dark"
+                  :class="{'py-4' : !isScreenXS}"
+                  :disabled="!isFormValid || !isFormTouched"
+                  @click="$emit('submit')">{{ $t('inventory.save_changes') }}</Button>
+        </div>
+        <div class="col-6 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+          <Button class="mt-3 w-100"
+                  variant="outline-dark"
+                  :class="{'py-4' : !isScreenXS}"
+                  @click="$emit('cancel')">{{ isFormTouched
+            ? $t('inventory.discard_changes')
+            : $t('common.cancel') }}</Button>
+        </div>
+      </template>
+    </template>
+
   </div>
 </template>
 <script>
@@ -69,12 +94,30 @@ export default {
       required: true,
     },
     isFormValid: {
+      type: [Boolean, Number],
+      default: false,
+    },
+    isFormTouched: {
+      required: false,
       type: Boolean,
       default: false,
     },
-    showAddButton: {
+    showButtons: {
       type: Boolean,
       default: true,
+    },
+    isEditForm: {
+      required: false,
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    colClass() {
+      if (this.isEditForm) {
+        return 'col-12'
+      }
+      return this.isScreenXS ? 'col-12' : 'col-6'
     }
   },
   data() {
@@ -95,7 +138,7 @@ export default {
     handlePriceChange(value) {
       this.$emit('input', { ...this.value, price: value })
     },
-  },
+  }
 }
 </script>
 <style lang="sass" scoped>
@@ -106,12 +149,12 @@ export default {
     font-style: normal
     @include body-8-normal
     color: $color-black-1
-    margin-left: 0px!important
+    margin-left: 0px
     text-transform: uppercase
     margin-bottom: 16px
   .input
     .form-input
-      border-radius: 4px!important
+      border-radius: 4px
       height: 40px
       left: 16px
       border: 1px solid $color-blue-20
@@ -153,7 +196,7 @@ export default {
       left: 16px
       top: 804px
       border: 1px solid $white-5
-      border-radius: 4px!important
+      border-radius: 10px
       &::placeholder
         font-family: $font-montserrat
         font-style: normal

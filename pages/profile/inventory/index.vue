@@ -1,7 +1,7 @@
 <template>
   <client-only>
     <b-container :class="mobileClass" class="container-profile-inventory h-100" fluid>
-      <div v-if="!isScreenXS" class="d-flex justify-content-between align-items-center">
+      <div v-if="!isScreenXS" class="d-flex justify-content-between align-items-end">
         <h2 class="title">{{ $tc('common.inventory', 1) }}</h2>
         <Button
             :disabled="!csvDrafts.length"
@@ -23,7 +23,7 @@
         <filter-svg class="ml-3" role="button"
                     @click="mobileFiltersOpen = !mobileFiltersOpen"></filter-svg>
       </div>
-      <div class="mt-2 d-xl-flex align-items-center justify-content-between">
+      <div class="mt-8px d-xl-flex align-items-center justify-content-between">
         <div v-if="!isScreenXS" class="products-count">
           {{ $tc('common.product', totalCount) }} ({{ totalCount }})
         </div>
@@ -45,7 +45,7 @@
             variant="dark"
             @click="moveToCreateInventory"
           >
-            {{ $t('inventory.add_inventory') }}
+            {{ $t('inventory.create_inventory') }}
           </Button>
         </div>
       </div>
@@ -65,7 +65,7 @@
         </div>
 
         <div class="mt-3 mt-xl-0 col-6 col-xl-3 col-xxl-2 d-flex align-items-center justify-content-xl-center">
-          <CustomDropdown 
+          <CustomDropdown
             v-model="category"
             :options="FILTERS"
             :label="categoryFilterLabel"
@@ -76,8 +76,8 @@
             variant="white"
             borderRadius="4px"
             paddingX="10px"
-            :dropdownStyle="{ 
-              border: '1px solid #cbcbcb', 
+            :dropdownStyle="{
+              border: '1px solid #cbcbcb',
               borderTop: 0,
               borderRadius: '0 0 4px 4px'
             }"
@@ -107,7 +107,7 @@
 
       <div v-if="isScreenXS" class="d-flex align-items-center justify-content-between mt-4">
         <div class="products-count">
-          {{ $tc('common.inventory', totalCount) }}({{ totalCount }})
+          {{ $tc('home.inventory', totalCount) }} ({{ totalCount }})
         </div>
         <div class="d-flex align-items-center" @click="moveToCreateInventory">
           <add-svg class="add-svg mr-2" height="13" width="13"/>
@@ -133,10 +133,10 @@
 
       <Loader v-if="loading" :loading="loading"/>
       <div v-else>
-        <div 
-          v-if="inventories.length > 0" 
+        <div
+          v-if="inventories.length > 0"
           :class="(!action && !isScreenXS && 'mt-5 ') + mobileClass"
-          class="items-wrapper bg-white d-flex flex-wrap" 
+          class="items-wrapper bg-white d-flex flex-wrap"
         >
           <b-col
             v-for="inventory in inventories"
@@ -148,14 +148,18 @@
               :inventory="inventory"
               :selectable="!!action"
               :selected="!!selected.find((id) => id == inventory.id)"
-
               class="my-3"
               @list="selectList"
+              @delist="delistItem"
               @select="selectItem"
             />
           </b-col>
         </div>
 
+        <infinite-loading ref="InfiniteLoading" :identifier="infiniteId" @infinite="handleLoading" >
+          <div slot="no-more"></div>
+        </infinite-loading>
+        <!--
         <Pagination
             v-if="inventories.length > 0"
             v-model="page"
@@ -166,6 +170,7 @@
             @page-click="handlePageClick"
             @per-page-change="handlePerPageChange"
         />
+        -->
       </div>
 
       <ConfirmModal
@@ -203,7 +208,7 @@
           <div class="my-2 flex-grow-1">
             <FilterAccordion :open="true" :title="$tc('common.category', 1)">
               <div class="mt-2">
-                <ButtonSelector :options="mobileFilters" :single="true" :values="category"
+                <ButtonSelector :options="mobileFilters" :single="false" :values="category"
                                 @change="handeMobileFilterSelect"/>
               </div>
             </FilterAccordion>
@@ -230,17 +235,18 @@
           </div>
         </div>
       </MobileBottomSheet>
+
     </b-container>
   </client-only>
 </template>
 <script>
 import {mapActions, mapGetters} from 'vuex'
+import debounce from 'lodash.debounce'
 import {
   Button,
   NavGroup,
   SearchInput,
   FormDropdown,
-  Pagination,
   Loader,
   BulkSelectToolbar,
 } from '~/components/common'
@@ -271,7 +277,6 @@ export default {
     NavGroup,
     SearchInput,
     FormDropdown,
-    Pagination,
     Loader,
     BulkSelectToolbar,
     AlertModal,
@@ -349,6 +354,7 @@ export default {
       ],
       perPageOptions: [8, 16, 32, 48],
       toList: [],
+      infiniteId: +new Date(),
     }
   },
 
@@ -368,17 +374,8 @@ export default {
     },
   },
 
-  beforeMount() {
-    window.addEventListener('resize', this.updatePerPageOptions)
-    this.updatePerPageOptions()
-  },
-
   created() {
     this.removeDraftListing()
-  },
-
-  destroyed() {
-    window.removeEventListener('resize', this.updatePerPageOptions)
   },
 
   methods: {
@@ -413,8 +410,11 @@ export default {
       this.category = null
       this.getInventories()
     },
-    getInventories() {
-      this.loading = true
+    handleLoading($state) {
+      this.getInventories($state);
+    },
+    getInventories($state) {
+      // this.loading = true
       this.fetchInventories({
         search: this.search,
         page: this.page,
@@ -422,24 +422,43 @@ export default {
         category: this.category,
         type: this.inventoryType,
       }).then((res) => {
-        this.inventories = res.data
+
+        if (res.current_page === 1) {
+          this.inventories = [...res.data]
+        } else {
+          this.inventories.push(...res.data);
+        }
+
+        $state.loaded()
+        if (!res.next_page_url) {
+          $state.complete()
+        }else{
+          this.page += 1
+        }
+
+        // this.inventories = res.data
         this.totalCount = parseInt(res.total)
-        this.perPage = parseInt(res.per_page)
+        // this.perPage = parseInt(res.per_page)
       }).finally(() => {
         this.loading = false
         this.mobileFiltersOpen = false
       })
     },
 
-    handleSearch(value) {
+    handleSearch: debounce(function (value) {
       this.search = value
       this.page = 1
+      this.infiniteId += 1
+      this.$refs.InfiniteLoading.stateChanger.reset();
       this.getInventories()
-    },
+    }, 500),
 
     handleTypeChange(type) {
       if (type !== this.inventoryType) {
         this.inventoryType = type
+        this.infiniteId += 1
+        this.page = 1
+        this.$refs.InfiniteLoading.stateChanger.reset();
         this.getInventories()
       }
     },
@@ -455,6 +474,8 @@ export default {
         this.categoryFilterLabel = this.FILTERS.find(f => f.value === this.category).label
       }
       this.page = 1
+      this.infiniteId += 1
+      this.$refs.InfiniteLoading.stateChanger.reset();
       this.getInventories()
     },
 
@@ -465,6 +486,7 @@ export default {
     handlePageClick(bvEvent, page) {
       if (this.page !== page) {
         this.page = page
+        this.infiniteId += 1
         this.getInventories()
       }
     },
@@ -473,6 +495,7 @@ export default {
       if (this.perPage !== value) {
         this.perPage = value
         this.page = 1
+        this.infiniteId += 1
         this.getInventories()
       }
     },
@@ -496,6 +519,14 @@ export default {
 
     handleDeselectAll() {
       this.selected = []
+    },
+
+    async delistItem(id) {
+      await this.$axios.put(`/listing-items/${id}/delist`)
+      this.page = 1
+      this.infiniteId += 1
+      this.$refs.InfiniteLoading.stateChanger.reset();
+      this.getInventories()
     },
 
     handleBulkAction() {
@@ -545,6 +576,7 @@ export default {
     onDeletedModalHidden() {
       this.action = null
       this.selected = []
+      this.infiniteId += 1
       this.getInventories()
     },
 
@@ -797,5 +829,8 @@ export default {
   @media (min-width: 1400px)
     flex: 0 0 66.666667%
     max-width: 66.666667%
+
+.mt-8px
+  margin-top: 8px
 
 </style>
