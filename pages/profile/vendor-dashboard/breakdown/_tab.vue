@@ -79,33 +79,36 @@
       </div>
 
       <div
-          v-if="(activeGlobalTab === 'brand' || activeGlobalTab === 'product') && (filters.brands.length || filters.products.length)"
-          class="categories shown row d-flex align-items-center mb-20"
+        v-if="
+          (activeGlobalTab === 'brand' || activeGlobalTab === 'product') &&
+          (filters.brands.length || filters.products.length)
+        "
+        class="categories shown row d-flex align-items-center mb-20"
       >
         <div
-            v-for="(item, index) in (activeGlobalTab === 'brand'? filters.brands : filters.products)"
-            :key="index"
-            class="form-check  col-6"
+          v-for="(item, index) in activeGlobalTab === 'brand'
+            ? filters.brands
+            : filters.products"
+          :key="index"
+          class="form-check col-6"
         >
           <input
-              :id="`${activeGlobalTab}-flexCheckDefault-${index}`"
-              :checked="true"
-              class="form-check-input"
-              type="checkbox"
-              @change="selectedChange(item)"
+            :id="`${activeGlobalTab}-flexCheckDefault-${index}`"
+            :checked="true"
+            class="form-check-input"
+            type="checkbox"
+            @change="selectedChange(item)"
           />
           <label :for="`${activeGlobalTab}-flexCheckDefault-${index}`">
             {{ item.name | capitalizeFirstLetter }}
           </label>
         </div>
-        <div
-            class="form-check col-6"
-        >
+        <div class="form-check col-6">
           <div
-              v-if="filters.brands.length || filters.products.length"
-              class="body-13-normal font-secondary text-decoration-underline text-gray-simple"
-              role="button"
-              @click="resetFilter"
+            v-if="filters.brands.length || filters.products.length"
+            class="body-13-normal font-secondary text-decoration-underline text-gray-simple"
+            role="button"
+            @click="resetFilter"
           >
             {{ $t('vendor_dashboard.breakdown.clear_all') }}
           </div>
@@ -642,6 +645,26 @@ export default {
       ]
     },
   },
+  created() {
+    // eslint-disable-next-line no-undef
+    Chart.plugins.register({
+      afterDraw(chart) {
+        if (chart.data.datasets[0].data.every((item) => item === 0)) {
+          const ctx = chart.chart.ctx
+          const width = chart.chart.width
+          const height = chart.chart.height
+          ctx.clearRect(width * 0.25, height * 0.25, width * 0.75, height * 0.6)
+          ctx.fillStyle = '#626262'
+          ctx.textAlign = 'center'
+          ctx.textBaseline = 'middle'
+          ctx.font = '500 18px Montserrat'
+
+          ctx.fillText('No Data Found', width / 2, height / 2 - 30)
+          ctx.restore()
+        }
+      },
+    })
+  },
   mounted() {
     this.fetchServerData()
     this.searchProduct()
@@ -688,15 +711,15 @@ export default {
       this.mobileFiltersOpen = false
       this.filterChanged({ filterData: {} })
     },
-    applyFilters(){
+    applyFilters() {
       let filterData = {}
-      if (this.activeGlobalTab === 'brand'){
+      if (this.activeGlobalTab === 'brand') {
         filterData = {
-          brand_ids: this.filters.brands.map(item => item.id),
+          brand_ids: this.filters.brands.map((item) => item.id),
         }
-      }else {
+      } else {
         filterData = {
-          product_ids: this.filters.products.map(item => item.id)
+          product_ids: this.filters.products.map((item) => item.id),
         }
       }
       this.filterChanged({ filterData })
@@ -748,11 +771,15 @@ export default {
       }
       this.categoryTransformer()
     },
-    selectedChange(item){
-      if (this.activeGlobalTab === 'brand'){
-       this.filters.brands = this.filters.brands.filter(it => item.id !== it.id)
-      }else {
-        this.filters.products = this.filters.products.filter(it => item.id !== it.id)
+    selectedChange(item) {
+      if (this.activeGlobalTab === 'brand') {
+        this.filters.brands = this.filters.brands.filter(
+          (it) => item.id !== it.id
+        )
+      } else {
+        this.filters.products = this.filters.products.filter(
+          (it) => item.id !== it.id
+        )
       }
       this.applyFilters()
     },

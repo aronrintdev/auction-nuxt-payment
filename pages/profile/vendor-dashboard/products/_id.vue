@@ -27,15 +27,15 @@
           }"
           class="d-flex align-items-center justify-content-between"
         >
-         <div>
-           <h1 class="fs-24 fw-7 font-primary mb-0 d-none d-sm-block">
-             {{ result.product.name}}
-           </h1>
+          <div>
+            <h1 class="fs-24 fw-7 font-primary mb-0 d-none d-sm-block">
+              {{ result.product.name }}
+            </h1>
 
-           <h1 class="body-2-normal font-primary mb-0 d-none d-sm-block">
-             {{ result.product.colorway}}
-           </h1>
-         </div>
+            <h1 class="body-2-normal font-primary mb-0 d-none d-sm-block">
+              {{ result.product.colorway }}
+            </h1>
+          </div>
 
           <div class="dropdownSelect d-none d-sm-block">
             <CustomSelect
@@ -132,7 +132,7 @@
           />
           <BreakdownProductStatCard
             :label="$t('vendor_dashboard.breakdown.table.sales').toString()"
-            :value="(result.stats.price_premium || 0 )| toCurrency"
+            :value="(result.stats.price_premium || 0) | toCurrency"
           />
         </div>
       </div>
@@ -589,6 +589,26 @@ export default {
       if (!this.isScreenXS) return this.fields
       else return this.swapElementTable()
     },
+  },
+  created() {
+    // eslint-disable-next-line no-undef
+    Chart.plugins.register({
+      afterDraw(chart) {
+        if (chart.data.datasets[0].data.every((item) => item === 0)) {
+          const ctx = chart.chart.ctx
+          const width = chart.chart.width
+          const height = chart.chart.height
+          ctx.clearRect(width * 0.25, height * 0.25, width * 0.75, height * 0.6)
+          ctx.fillStyle = '#626262'
+          ctx.textAlign = 'center'
+          ctx.textBaseline = 'middle'
+          ctx.font = '500 18px Montserrat'
+
+          ctx.fillText('No Data Found', width / 2, height / 2 - 30)
+          ctx.restore()
+        }
+      },
+    })
   },
   mounted() {
     this.getTopOrders()

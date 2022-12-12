@@ -344,9 +344,29 @@ export default {
         ],
       }
     },
-    isDataEmpty(){
-      return this.dataGraph.every(item => !item )
-    }
+    isDataEmpty() {
+      return this.dataGraph.every((item) => !item)
+    },
+  },
+  created() {
+    // eslint-disable-next-line no-undef
+    Chart.plugins.register({
+      afterDraw(chart) {
+        if (chart.data.datasets[0].data.every((item) => item === 0)) {
+          const ctx = chart.chart.ctx
+          const width = chart.chart.width
+          const height = chart.chart.height
+          ctx.clearRect(width * 0.25, height * 0.25, width * 0.75, height * 0.6)
+          ctx.fillStyle = '#626262'
+          ctx.textAlign = 'center'
+          ctx.textBaseline = 'middle'
+          ctx.font = '500 18px Montserrat'
+
+          ctx.fillText('No Data Found', width / 2, height / 2 - 30)
+          ctx.restore()
+        }
+      },
+    })
   },
   mounted() {
     this.handleFilterByChangeTotalSale('month')
