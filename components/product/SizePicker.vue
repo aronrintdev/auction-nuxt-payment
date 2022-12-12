@@ -41,7 +41,7 @@
           :loop="true"
           :nav="true"
           :center="true"
-          :margin="38"
+          :margin="50"
           :responsive="{
             0: { items: xsCount, nav: false, center: xsCenter },
             576: { items: 6, nav: false },
