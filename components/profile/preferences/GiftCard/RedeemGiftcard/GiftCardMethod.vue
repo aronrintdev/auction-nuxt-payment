@@ -36,10 +36,7 @@
         </div>
 
         <div class="d-flex justify-content-center w-100 mt-3">
-          <span v-if="!swap" role="button" class="icon-wrapper" @click="swap = true">
-            <img :src="require('~/assets/img/icons/more-info.svg')" class="position-absolute more-info-icon float-right" alt="more-info">
-          </span>
-          <span v-if="swap" role="button" class="icon-wrapper" @click="swap = false">
+          <span role="button" class="icon-wrapper" @click="swap = !swap">
             <img :src="require('~/assets/img/icons/more-info.svg')" class="position-absolute more-info-icon float-right" alt="more-info">
           </span>
           <img
@@ -193,11 +190,7 @@ export default {
   },
 
   created() {
-    if (this.successAlert === true) {
-      this.showAlert = true
-    } else {
-      this.showAlert = false
-    }
+    this.showAlert = this.successAlert === true
   },
 
   methods: {

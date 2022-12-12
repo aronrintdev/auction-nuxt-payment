@@ -352,9 +352,6 @@ export default {
           height: 12px
           margin-right: 12px
     #radio-option-card
-      .custom-card-col
-        padding-left: 16px
-        padding-right: 16px
       .card-body
         background: color-white-5
         border-radius: 4px
