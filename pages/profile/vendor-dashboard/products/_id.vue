@@ -27,9 +27,15 @@
           }"
           class="d-flex align-items-center justify-content-between"
         >
-          <h1 class="fs-20 fw-7 font-primary mb-0 d-none d-sm-block">
-            {{ $tc('vendor_dashboard.total_sales', 1) }}
-          </h1>
+         <div>
+           <h1 class="fs-24 fw-7 font-primary mb-0 d-none d-sm-block">
+             {{ result.product.name}}
+           </h1>
+
+           <h1 class="body-2-normal font-primary mb-0 d-none d-sm-block">
+             {{ result.product.colorway}}
+           </h1>
+         </div>
 
           <div class="dropdownSelect d-none d-sm-block">
             <CustomSelect
@@ -554,7 +560,7 @@ export default {
       result: {
         orders: [],
         graph: {},
-        product: null,
+        product: {},
         stats: {
           avg_price: null,
           items_sold: null,
