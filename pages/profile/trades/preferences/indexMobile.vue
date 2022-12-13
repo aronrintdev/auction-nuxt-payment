@@ -194,20 +194,23 @@
           <img :src="searchIcon" class="icon-search" alt="" />
           <input type="text" v-model="search" placeholder="Search Brands" />
         </div>
+        <div class="brands-container">
           <div class="brand-border" v-for="(brand,index) in filteredList" :key="index">
-              <div class="m-2" >
-                <div @click="changeSelectedBrands(brand._id)">
-                  <div class="brand-name">
-                    {{brand.name}}
-                  </div>
-                  <div class="right-tick">
-                    <div v-if="selectedBrands.includes(brand._id)"  class="tick-circle">
-                      <img  src="~/assets/img/white-tick.svg" class="white-tick" />
-                    </div>
+            <div class="m-2" >
+              <div @click="changeSelectedBrands(brand._id)">
+                <div class="brand-name">
+                  {{brand.name}}
+                </div>
+                <div class="right-tick">
+                  <div v-if="selectedBrands.includes(brand._id)"  class="tick-circle">
+                    <img  src="~/assets/img/white-tick.svg" class="white-tick" />
                   </div>
                 </div>
               </div>
+            </div>
           </div>
+        </div>
+
       </div>
     </div>
     <div v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM">
@@ -840,4 +843,9 @@ export default {
       outline: none
       padding: 0 8px
       width: 300px
+.brands-container
+  height: 520px
+  overflow-y: scroll
+  margin-left: 10px
+  margin-bottom: 10px
 </style>
