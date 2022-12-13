@@ -354,12 +354,12 @@ export default {
         width: 12px
     .product-title
       font-size: 13px
-      font-weight: 600
+      font-weight: $medium
     .product-title-2
       font-size: 13px
-      font-weight: 400
+      font-weight: $regular
       color:$color-gray-5
     .product-price
       font-size: 12px
-      font-weight: 600
+      font-weight: $medium
 </style>
