@@ -16,8 +16,8 @@
     />
 
     <b-row v-else class="empty-cart-section">
-      <b-col cols="12" sm="12" class="d-flex flex-column align-items-center justify-content-center">
-        <b-img block :src="require('~/assets/img/shopping-cart/empty-cart.svg')" width="140" />
+      <b-col cols="12" sm="12" class="d-flex flex-column align-items-center">
+        <b-img block :src="require('~/assets/img/shopping-cart/empty-cart.svg')" width="157" height="107" />
         <div class="body-15-bold text-black mt-5">{{ $t('shopping_cart.empty_cart') }}</div>
         <div class="body-3-normal text-gray-102 text-center">{{ $t('shopping_cart.looks_like_you') }}&period;&period;&period;</div>
         <Button variant="dark-blue" to="/shop">{{ $t('shopping_cart.back_to_browse') }}</Button>
@@ -44,7 +44,7 @@
       @clear-gift-card="removeGiftCard"
     >
       <template #label>
-        <div class="section-title body-5-medium">{{ $t('shopping_cart.total') }}&colon;</div>
+        <div class="section-title total-text body-5-medium">{{ $t('shopping_cart.total') }}&colon;</div>
       </template>
     </OrderSummaryCard>
 
@@ -164,8 +164,14 @@ export default {
   color: $color-gray-102
 
 .empty-cart-section
-  margin: 0 50px
+  margin: 167px 50px 0
   height: calc(100vh - 200px)
+
+  .body-15-bold
+    font-family: $font-sp-pro
+
+  .body-3-normal
+    font-family: $font-sf-pro-text
 
   .text-gray-102
     margin-top: 18px
@@ -191,6 +197,10 @@ export default {
 
 .section-title
   margin-bottom: 7px
+
+  &.total-text
+    @include body-13-medium
+    font-family: $font-sp-pro
 
 /* Override bottom sheet settings in order to fix height readjustment. */
 .bottom-sheet
