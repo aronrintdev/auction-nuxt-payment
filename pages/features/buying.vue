@@ -28,7 +28,7 @@
       <FeatureTitle class="feature-title-my">
         {{ $t('features.buying.purchase_methods') }}
       </FeatureTitle>
-      <b-row class="cards-wrapper">
+      <b-row class="cards-wrapper buying-bottom-cards">
         <b-col
           md="4"
           class="d-flex justify-content-md-start col-6 offset-3 offset-md-0"
@@ -47,14 +47,16 @@
             "
             :title="$t('features.buying.add_to_bag')"
             :description="$t('features.buying.add_to_bag_desc')"
+            class="add-to-bag"
         /></b-col>
         <b-col md="4" cols="6" class="d-flex justify-content-md-end"
           ><FeatureCardHoverable
             :icon="
-              require('~/assets/img/features/newest-feature/buying/bxs_offer.svg')
+              require('~/assets/img/features/newest-feature/buying/bxs_offer.png')
             "
             :title="$t('features.buying.make_an_offer')"
             :description="$t('features.buying.make_an_offer_desc')"
+            class="make-an-offer"
         /></b-col>
       </b-row>
     </FeatureContentWrapper>
@@ -151,7 +153,7 @@ export default {
       @include heading-7
       color: $color-black-5
       text-transform: uppercase
-      margin: 68px 0px
+      margin: 80px 0px 75px 0
     .benefit-title
       margin: 9px 0px 38px 0px !important
 
@@ -173,16 +175,20 @@ export default {
         margin-bottom: 50px !important
         padding: 0px 16px
         .feature-card-hoverable
-          margin-bottom: 24px
-          .first-img
-            img
-              width: 88px !important
-              height: 33px
+          margin-bottom: 24px !important
+        .first-img
+          img
+            width: 88px !important
+            height: 33px
+            margin-right: 25px
+        .make-an-offer
+          img
+            width: 50px !important
+            height: 50px
       .benefit-title, .title
         font-size: 16px !important
         font-weight: 600 !important
         font-size: 16px !important
-        margin: 0px 0px 20px 0px !important
       // .title
       //   margin: 40px 0px 24px 0px !important
 
@@ -198,11 +204,10 @@ export default {
           text-align: center
       .vertical-cards
         gap: 40px
+
 @media screen and (max-width: 577px)
   .features-container
     .feature-content
       .feature-title-my
         width: 100%
-        margin-top: 48px !important
-        margin-bottom: 24px !important
 </style>

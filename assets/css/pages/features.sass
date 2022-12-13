@@ -14,13 +14,12 @@
     margin-top: 137px
 
 .cards-wrapper-in-app
-  padding-bottom: 100px
   .in-app-cards
-    gap: 70px
+    gap: 90px
     display: grid
     grid-template-columns: repeat(3,minmax(100px, 306px))
     justify-content: center
-    margin-bottom: 70px
+    margin-bottom: 100px
     .feature-four-cards
       max-width: 306px
       width: 100% !important
@@ -31,11 +30,14 @@
 
 .feature-title-my
   margin-top: 80px !important
-  margin-bottom: 48px !important
-  
+  margin-bottom: 48px
+  @media (max-width: 768px)
+    padding: 0px 50px 0px 50px !important
+    gap: 10px
+
 @media (max-width: 768px)
   .cards-wrapper-in-app
-    padding: 40px 16px
+    padding: 48px 16px
     .in-app-cards
       grid-template-columns: repeat(5,minmax(auto, 306px))
       align-items: center

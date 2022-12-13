@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="rewards-program-main">
     <FeatureContentWrapper
       :backgroundImage="banner.backgroundImage"
       :backgroundImageXS="banner.backgroundImageXS"
@@ -175,6 +175,9 @@ export default {
         .cards-wrapper
           gap: 9px
           justify-content: center
+  .rewards-program-main
+    .feature-four-cards
+      height: 231px !important
 @media screen and (max-width: 577px)
   .features-container
     .feature-content

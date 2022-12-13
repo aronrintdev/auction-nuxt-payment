@@ -70,7 +70,6 @@ export default {
   transition: transform .2s
   height: 376px !important
   width: 376px !important
-
   background-color: $color-white-1
   &:hover
     cursor: pointer

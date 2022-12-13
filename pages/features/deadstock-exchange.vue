@@ -36,7 +36,7 @@
         $t('newest_features.deadstock_exchange.check_it_out')
       }}</FeatureTitle>
 
-      <div class="text-center new-features mb-5">
+      <div class="text-center new-features">
         <img
           :src="
             require('~/assets/img/features/newest-feature/deadstock-exchange/statics.png')
@@ -146,10 +146,12 @@ export default {
   .new-features img
     max-width: 837px !important
     width: 100% !important
+    margin-bottom: 100px
 @media (max-width: 768px)
   .features-container
     .new-features img
-      padding: 0px 16px
+      padding: 0px
+      margin-bottom: 0px
 @media screen and (max-width: 577px)
   .features-container
     .feature-title-my

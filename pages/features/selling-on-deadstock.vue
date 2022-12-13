@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="selling-on-deadstock-main">
     <FeatureContentWrapper
       :backgroundImage="banner.backgroundImage"
       :backgroundImageXS="banner.backgroundImageXS"
@@ -32,9 +32,11 @@
         </b-col>
       </b-row>
 
-      <FeatureTitle class="feature-title-my">
-        {{ $t('newest_features.selling_on_deadstock.process') }}
-      </FeatureTitle>
+      <div class="selling-on-second-title">
+        <FeatureTitle class="feature-title-my">
+          {{ $t('newest_features.selling_on_deadstock.process') }}
+        </FeatureTitle>
+      </div>
 
       <div
         class="d-flex justify-content-center cards-wrapper-selling mb-3 mb-md-5"
@@ -166,6 +168,10 @@ export default {
     .feature-item
       margin-bottom: 115px
 
+    .selling-on-second-title
+      h3.title
+        margin: 80px 0px 100px 0px
+        width: 100%
   .cards-wrapper-selling
     gap: 180px !important
     > div
@@ -176,6 +182,9 @@ export default {
 
 @media (max-width: 768px)
   .features-container
+    .selling-on-second-title
+      h3.title
+        margin: 50px 0px 20px 0px !important
     .cards-wrapper-selling
       padding: 0px 16px
       gap: 16px !important

@@ -5886,7 +5886,7 @@
     "save_for_later": "Save for later"
   },
   "offers_received": {
-    "offers"  : "Offers",
+    "offers": "Offers",
     "heading": "Offers Received",
     "your_placed_offers": "Your Received Offers ({count})",
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
@@ -6074,11 +6074,11 @@
       "feature_banner_desc": "Start trading your items today",
       "benefits": {
         "first_benefit_title": "First of its Kind",
-        "first_benefit_desc": "The first platform that enables you to trade sneakers, apparel, streetwear and accessories.",
+        "first_benefit_desc": "The first platform that allows you to trade multiple items at once and add cash to complete a trade of sneakers, apparel, and accessories.",
         "second_benefit_title": "Value Meter",
         "second_benefit_desc": "Our fair trade meter uses live analytics to help create the most compatible trades and assure equal transactions.",
         "third_benefit_title": "Authenticity Guaranteed Products",
-        "third_benefit_desc": "Trade with confidence as all of our traded items are placed in our authentication process and authenticated by our experts."
+        "third_benefit_desc": "Trade with confidence as all of our items are verified through our authentication process using AI and in-person verification."
       },
       "new-features": "NEW FEATURES",
       "bottom_banner": {
@@ -6098,7 +6098,7 @@
       "feature_banner_desc": "A new enhanced buying experience",
       "benefits": {
         "first_benefit_title": "Certified Authentic Products",
-        "first_benefit_desc": "All of our products are placed in our authentication process and authenticated by our experts. Feel safe with your purchases as we guarantee 100% authentication and satisfaction.",
+        "first_benefit_desc": "Our experts verify each item through our authentication process using A.I. and in-person verification. We aim to ensure all items are authentic and as described.",
         "second_benefit_title": "24 hour live Customer Service",
         "second_benefit_desc": "We offer 24 hour live customer service where you can speak with an actual person to help you resolve any issues, questions or concerns.",
         "third_benefit_title": "NFC blockchain backed photo ledger",
@@ -6142,8 +6142,8 @@
       "benefits": {
         "first_benefit_title": "Flexibility",
         "first_benefit_desc": "Deadstock offers bidding on single item auctions or entire collections, paired with a variety of bidding methods.",
-        "second_benefit_title": "Higher Revenues",
-        "second_benefit_desc": "Auctions tend to allow Sellers to sell more items in a quicker time frame.",
+        "second_benefit_title": "Higher Revenue Options:",
+        "second_benefit_desc": "1. Maximize revenue by auctioning single items or an entire collection and set a minimum bidding amount, paired with our low seller fees to reach your revenue goal. \n 2. Maximize revenue by setting a starting bidding amount and set an auction duration to entice buyers to place the highest bid. \n 3. Maximixe revenue faster by auctioning single items or an entire collection, setting a starting bidding amount, promoting auction on socials, and placing a duration on your auction.",
         "third_benefit_title": "Certified Authentic Products   ",
         "third_benefit_desc": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed."
       },
@@ -6190,7 +6190,7 @@
       "benefits": {
         "first_benefit_title": "Safe and secure transactions",
         "first_benefit_desc": "100% safety and satisfaction guranteed with all Crypto transactions.",
-        "second_benefit_title": "Privacy",
+        "second_benefit_title": "Enables International Buying",
         "second_benefit_desc": "Crypto eliminates the traceability of specific accounts, cards and data.",
         "third_benefit_title": "Transactional Freedom",
         "third_benefit_desc": "Cryptocurrency is not tied to any bank or centralized agency, so you can experience true transactional freedom."
@@ -6229,7 +6229,7 @@
         "second_benefit_title": "Talk to a real person",
         "second_benefit_desc": "Talk to a real person via phone or email anytime to resolve your issue.",
         "third_benefit_title": "Immediate Problem Solving",
-        "third_benefit_desc": "Our customer service representives will help solve your issue immediately."
+        "third_benefit_desc": "Our customer service representatives will help solve your issue immediately."
       },
       "options": "Options",
       "bottom_banner": {
@@ -6475,7 +6475,7 @@
       }
     },
     "selling_on_deadstock": {
-      "title": "Sell",
+      "title": "Selling",
       "desc": "Sell your items quicker with our increased marketing visiblity. New analytics help you determine pricing, also receieve immediate payouts and low fees.",
       "feature_banner_title": "Selling on Deadstock",
       "feature_banner_desc": "Start selling your items today",
@@ -6509,7 +6509,7 @@
         "first_benefit_desc": "Receive your payout immediately after the transaction is completed.",
         "second_benefit_title": "Easily editable & user-friendly",
         "second_benefit_desc": "The lowest seller fees in the marketplace, keep more of your revenue.",
-        "third_benefit_title": "Time Saving & Efficient",
+        "third_benefit_title": "Time Saving and Efficient",
         "third_benefit_desc": "Detailed instructions on how to quickly and efficiently ship your items."
       },
       "process": "THE PROCESS",

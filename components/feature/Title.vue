@@ -18,13 +18,17 @@ export default {
 h3.title
   @include heading-7
   color: $color-black-5
-  gap: 34px
+  gap: 10px
   .title-before, .title-after
-    width: 61px
+    width: 100%
     background-color: $color-black-1
     height: 1px
-    max-width: 61px
+    max-width: 55px
     min-width: 35px
+  .title-before
+    margin-right: 20px
+  .title-after
+    margin-left: 20px
 
 
 @media (max-width: 768px)
@@ -32,8 +36,7 @@ h3.title
     font-size: 16px !important
     font-weight: 600 !important
     font-size: 16px !important
-    margin: 20px 0px 20px 0px !important
-    width: 272px
-    margin: 20px auto !important
+    width: 100%
+    margin: 28px auto 30px auto !important
     line-height: 22px !important
 </style>

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <b-container fluid class="px-0 mb-4 mb-sm-0 all-features-container">
+    <b-container fluid class="px-0 all-features-container">
       <b-container>
         <div class="m-auto my-wrapper-class">
-          <div class="mx-2 mx-sm-0 mb-76 position-relative">
+          <div class="mx-2 mx-sm-0 mb-76 position-relative d-sm-block d-none">
             <h2
               class="text-center text-black fs-48 fw-7 newest-features font-adobe-garamond mb-0"
             >
@@ -11,7 +11,7 @@
             </h2>
           </div>
           <div
-            class="d-flex align-items-center justify-content-around justify-content-sm-between flex-wrap cards_wrapper"
+            class="d-flex align-items-start justify-content-around justify-content-sm-start flex-wrap cards_wrapper"
           >
             <NewestFeatureCard
               v-for="(feature, index) in newestFeatures"
@@ -215,7 +215,10 @@ export default {
     margin-bottom: 76px
 .cards_wrapper
   @media (min-width: 576px)
-    row-gap: 50px
+    row-gap: 60px
+    column-gap: 43px
+  @media (max-width: 576px)
+    row-gap: 15px
 .font-adobe-garamond
   @media (max-width: 576px)
     .pre_line_sm
@@ -227,7 +230,7 @@ export default {
     max-width: 968px
     padding-top: 30px
     @media (min-width: 576px)
-      padding-top: 117px
+      padding: 117px 0px 92px 0px !important
   h2.newest-features
     text-transform: capitalize
   h2.newest-features::before
@@ -260,6 +263,7 @@ export default {
       width: 145px
 @media screen and (max-width: 577px)
   .all-features-container
+    margin-bottom: 16px
     h2.newest-features
       font-size: 16px
 @media screen and (max-width: 426px)

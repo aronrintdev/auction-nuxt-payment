@@ -32,7 +32,7 @@
       >
         <FeatureCardHoverable
           :icon="
-            require('~/assets/img/features/newest-feature/damaged-packaging/bi_bag.svg')
+            require('~/assets/img/features/newest-feature/damaged-packaging/box.png')
           "
           :title="$t('newest_features.damaged_packaging.cards.title1')"
           :description="$t('newest_features.damaged_packaging.cards.desc1')"
@@ -41,7 +41,7 @@
 
         <FeatureCardHoverable
           :icon="
-            require('~/assets/img/features/newest-feature/damaged-packaging/box.svg')
+            require('~/assets/img/features/newest-feature/damaged-packaging/bi_bag.svg')
           "
           :title="$t('newest_features.damaged_packaging.cards.title2')"
           :description="$t('newest_features.damaged_packaging.cards.desc2')"
@@ -156,27 +156,28 @@ export default {
 
 
 @media (max-width: 768px)
-    .features-container::v-deep
-        .feature-content
-            .cards-wrapper-damaged
-                gap: 26px !important
-                margin-bottom: 50px !important
-                padding: 40px 16px 0px 16px
-                .feature-card-hoverable
-                  width: 100% !important
-                  padding: 27px 36px !important
-                  .packaging-damaged
-                    gap: 16px !important
-                  .feature-description
-                    font-size: 16px
-                  .feature-title
-                    font-size: 18px
-                    img
-                      width: 73px !important
-                      height: 73px
-                .feature-item::v-deep
-                    flex-direction: column
-                    align-items: center
+  .features-container::v-deep
+      .feature-content
+          .cards-wrapper-damaged
+              gap: 26px !important
+              margin-bottom: 50px !important
+              padding: 0px 16px 0px 16px
+              .feature-card-hoverable
+                width: 100% !important
+                padding: 27px 36px !important
+                gap: 18px
+                .packaging-damaged
+                  gap: 16px !important
+                .feature-description
+                  font-size: 16px
+                .feature-title
+                  font-size: 18px
+                  img
+                    width: 73px !important
+                    height: 73px
+              .feature-item::v-deep
+                  flex-direction: column
+                  align-items: center
 
 @media screen and (max-width: 577px)
   .features-container::v-deep

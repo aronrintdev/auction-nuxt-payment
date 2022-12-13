@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="promotions-main">
     <FeatureContentWrapper
       :backgroundImage="banner.backgroundImage"
       :backgroundImageXS="banner.backgroundImageXS"
@@ -126,11 +126,26 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+@media (min-width: 768px)
+  .promotions-main::v-deep
+      .cards-wrapper-in-app
+        .in-app-cards
+          .feature-four-cards-center-promotions
+            img
+              margin-top: -20px
+            .feature-title
+              margin-top: 10px
+
 @media (max-width: 768px)
-  .cards-wrapper-in-app
-    .in-app-cards
-      .feature-four-cards
-        border-radius: 50% !important
+  .promotions-main::v-deep
+    .cards-wrapper-in-app
+      .in-app-cards
+        .feature-four-cards
+          border-radius: 50% !important
+          .feature-title
+            margin-top: -9px
+
+
 @media screen and (max-width: 577px)
   .feature-title-my
     margin-top: 48px !important
