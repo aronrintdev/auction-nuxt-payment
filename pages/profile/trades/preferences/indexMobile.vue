@@ -189,8 +189,12 @@
       <div  class="brand-sections">
         <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.brand_preferences')}}</div>
         <div class="offer-start mt-1 ml-3 mb-3"> {{$t('trades.preferences.looking_for')}}</div>
-        <hr class="hr-border"/>
-          <div class="brand-border" v-for="(brand,index) in filters.brands" :key="index">
+        <hr class="hr-border1"/>
+        <div class="form-group rounded-search-input ml-2">
+          <img :src="searchIcon" class="icon-search" alt="" />
+          <input type="text" v-model="search" placeholder="Search Brands" />
+        </div>
+          <div class="brand-border" v-for="(brand,index) in filteredList" :key="index">
               <div class="m-2" >
                 <div @click="changeSelectedBrands(brand._id)">
                   <div class="brand-name">
@@ -227,6 +231,8 @@ import SingleSlider from '~/components/common/SingleSliderMobile';
 import SingleSliderOffer from '~/components/common/SingleSliderMobileOfferSetting';
 import YourInventory from '~/pages/profile/trades/preferences/YourInventoryMobile';
 import ResetModal from '~/pages/profile/trades/preferences/ResetModal';
+import searchIcon from '~/assets/img/icons/search.svg';
+
 import {
   INVENTORY_STATUS_OPTIONS,
   APPAREL_SIZE_TYPE,
@@ -242,6 +248,7 @@ export default {
   layout: 'Profile',
   data(){
     return {
+      searchIcon,
       showInventory:false,
       showOfferSetting:false,
       showrefineMatch:false,
@@ -280,12 +287,18 @@ export default {
       sneakerInterest: DEFAULT_INTERESTS,
       apparelInterest: DEFAULT_INTERESTS,
       accessoriesInterest: DEFAULT_INTERESTS,
-      publicInventories: []
+      publicInventories: [],
+      search:'',
 
     }
   },
   computed:{
-    ...mapGetters('browse', ['filters','selectedBrands']), // getter for getting list of filters data
+    ...mapGetters('browse', ['filters','selectedBrands']),
+    filteredList() {
+      return this.filters.brands.filter(post => {
+        return post.name.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
   },
   mounted() {
     this.filterApparelSizes = this.filters?.sizes?.filter(function (size) {
@@ -595,6 +608,8 @@ export default {
   margin-left: 12rem
 .hr-border
   border: 1px solid $color-gray-96
+.hr-border1
+  border: 1px solid #C4C4C4
 .inven-cont
   width: 343px
   height: 300px
@@ -807,4 +822,24 @@ export default {
 .right-tick
   float: right
   margin-top: -1rem
+.rounded-search-input
+  align-items: center
+  background: #F7F7F7
+  border-radius: 8px
+  display: flex
+  margin-bottom: 1rem
+  padding: 6px 12px
+  width: 315px
+  .icon-search
+      height: 18px
+      width: 18px
+  input
+      background: transparent
+      border: 0
+      color: $dark-gray
+      font-size: 15px
+      line-height: 18px
+      outline: none
+      padding: 0 8px
+      width: 300px
 </style>
