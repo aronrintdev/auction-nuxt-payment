@@ -2,12 +2,17 @@
   <MobileBottomSheet
           :height="height"
           :open="open"
-          :title="$t('wish_lists.rename_list').toString()"
+          :title="''"
           @closed="$emit('closed')"
           @opened="$emit('opened')"
       >
-    <template #header>
-      <h5>{{ $t('wish_lists.rename_list') }}</h5>
+    <template #subtitle>
+      <div class="d-flex justify-content-between w-100 px-3">
+        <span>{{ $t('wish_lists.rename_list') }}</span>
+        <a class="role">
+          <span class="cancel-link" @click="hide">{{ $t('common.cancel') }}</span>
+        </a>
+      </div>
     </template>
 
     <template #default="{}">
@@ -19,6 +24,17 @@
               <b-form @submit.stop.prevent="handleSubmit(handleEditWishList)">
                 <b-row>
                   <b-col md="10" offset-md="1">
+                    <CheckboxSwitch
+                      v-model="newListPrivacy"
+                      :label-on="$t('common.public').toUpperCase()"
+                      :label-off="$t('common.private').toUpperCase()"
+                    />
+                  </b-col>
+                  <ItemDivider/>
+                </b-row>
+                <b-row class="mt-2">
+                  <b-col md="10" offset-md="1">
+                    <ItemDivider/>
                     <ValidationProvider
                       v-slot="validationContext"
                       :name="$t('wish_lists.list_name')"
@@ -40,29 +56,12 @@
                           }}</b-form-invalid-feedback>
                       </b-form-group>
                     </ValidationProvider>
-                    <ItemDivider/>
-                  </b-col>
-                </b-row>
-                <b-row>
-                  <b-col md="10" offset-md="1">
-                    <b-form-text id="input-live-help">
-                      {{ $t('wish_lists.create_list_helper') }}
-                    </b-form-text>
                   </b-col>
                 </b-row>
                 <b-row class="mt-2">
-                  <b-col md="10" offset-md="1">
-                    <CheckboxSwitch
-                      v-model="newListPrivacy"
-                      :label-on="$t('common.public').toUpperCase()"
-                      :label-off="$t('common.private').toUpperCase()"
-                    />
-                  </b-col>
-                  <ItemDivider/>
-                </b-row>
-                <b-row class="mt-2">
-                  <b-col md="5" offset-md="1">
+                  <b-col md="5" offset-md="1" class="d-flex justify-content-center">
                     <Button
+                      class="w-50"
                       ref="btnSave"
                       type="submit"
                       variant="dark-blue"
@@ -78,7 +77,6 @@
                   </div>
                 </b-row>
               </b-form>
-
             </div>
           </div>
       </ValidationObserver>
@@ -156,4 +154,19 @@ export default {
   height: 92%
 ::v-deep.buttons
   margin-top: 10px
+
+.cancel-link
+  @include body-17-medium
+  color: $color-blue-20
+
+::v-deep .checkbox-switch
+  span[role='button']
+    text-transform: lowercase
+    &:first-letter
+      text-transform: uppercase
+
+::v-deep .form-group
+  label
+    @include body-5-bold
+    padding-top: 5px
 </style>
