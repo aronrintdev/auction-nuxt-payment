@@ -54,12 +54,6 @@
         </template>
 
         <infinite-loading :identifier="infiniteId" @infinite="handleLoading">
-          <!-- <div
-            slot="spinner"
-            class="d-flex align-items-center justify-content-center h-300"
-          >
-            <Loader :loading="loading"></Loader>
-          </div> -->
         </infinite-loading>
       </div>
     </section>
@@ -80,8 +74,7 @@ export default {
     Badge,
     SearchAndFilter,
     NavGroup,
-    ShopProductCard,
-    // Loader,
+    ShopProductCard
   },
   layout: 'IndexLayout',
   fetchOnServer: false,
@@ -105,7 +98,7 @@ export default {
         { label: this.$t('common.apparel'), value: 'apparel' },
         { label: this.$t('common.all_sizes', 2), value: 'all_sizes' },
       ],
-      // infiniteId: +new Date(),
+      infiniteId: +new Date(),
     }
   },
 
