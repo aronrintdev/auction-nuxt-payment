@@ -5,7 +5,7 @@
       :desc="$t('home_page.shop_by_category_desc')"
       :label="$t('home_page.view_more_products')"
       marginLeft="60px"
-      to="/shop"
+      to="#"
     />
     <div
       class="row products-category no-gutters overflow-hidden px-2 d-none d-md-flex"
@@ -16,18 +16,23 @@
         :to="category.to"
         class="col-6 category col-lg-3 col p-0"
       >
-        <nuxt-link :to="`/shop/${category.id}`">
-          <div class="overflow-wrapper">
-            <div
-              class="category-wrapper d-flex align-items-center justify-content-center cursor-pointer"
-              :style="{ '--image': `url(${category.image})` }"
-            >
-              <h1 class="fs-24 fw-4 font-primary text-white text-uppercase">
-                {{ category.title }}
-              </h1>
+        <span
+          v-for="(categoryData, index) in categoriesData"
+          :key="index"
+        >
+          <nuxt-link :to="`/shop/${categoryData.name}`">
+            <div class="overflow-wrapper">
+              <div
+                class="category-wrapper d-flex align-items-center justify-content-center cursor-pointer"
+                :style="{ '--image': `url(${category.image})` }"
+              >
+                <h1 class="fs-24 fw-4 font-primary text-white text-uppercase">
+                  {{ categoryData.name }}
+                </h1>
+              </div>
             </div>
-          </div>
-        </nuxt-link>
+          </nuxt-link>
+        </span>
       </div>
     </div>
     <div
@@ -62,41 +67,49 @@ export default {
           title: this.$t('home_page.tops'),
           image: require('~/assets/img/home/categories/tops.svg'),
           to: './shop',
+          id: 'tops'
         },
         {
           title: this.$t('home_page.t-shirts'),
           image: require('~/assets/img/home/categories/t-shirts.svg'),
           to: './shop',
+          id: 't-shirts',
         },
         {
           title: this.$t('home_page.sweatshirts'),
           image: require('~/assets/img/home/categories/sweat-shirts.svg'),
           to: './shop',
+          id: 'sweatshirts'
         },
         {
           title: this.$t('home_page.footwear'),
           image: require('~/assets/img/home/categories/footwear.svg'),
           to: './shop',
+          id: 'footwear'
         },
         {
           title: this.$t('home_page.bottoms'),
           image: require('~/assets/img/home/categories/bottoms.svg'),
           to: './shop',
+          id: 'bottoms'
         },
         {
           title: this.$t('home_page.shirts'),
           image: require('~/assets/img/home/categories/shirts.svg'),
           to: './shop',
+          id: 'shirts'
         },
         {
           title: this.$t('home_page.jackets'),
           image: require('~/assets/img/home/categories/jackets.svg'),
           to: './shop',
+          id: 'jackets'
         },
         {
           title: this.$t('home_page.accessories'),
           image: require('~/assets/img/home/categories/accessories.svg'),
           to: './shop',
+          id: 'accessories'
         },
       ],
       categoriesSm: [
@@ -126,8 +139,18 @@ export default {
           image: require('~/assets/img/home/categories/accessories.svg'),
         },
       ],
+      categoriesData: [],
     }
   },
+  async fetch() {
+    this.product = await this.$axios
+      .get('/categories/')
+      .then((res) => {
+        this.categoriesData = res.data
+        console.log('log data is',this.categoriesData);
+      }
+    )
+  }
 }
 </script>
 <style lang="sass" scoped>
