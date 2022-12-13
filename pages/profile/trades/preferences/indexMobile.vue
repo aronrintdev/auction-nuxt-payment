@@ -808,7 +808,7 @@ export default {
   line-height: 17px
   color: $color-black-16
 .tick-circle
-  background-color: #667799
+  background-color: $color-grey-101
   height: 19px
   width: 19px
   border-radius: 50%
@@ -819,13 +819,13 @@ export default {
   margin-left: 4px
   margin-top: 5px
 .brand-border
-  border: 1px solid #E1E1E1
+  border: 1px solid $color-gray-62
 .right-tick
   float: right
   margin-top: -1rem
 .rounded-search-input
   align-items: center
-  background: #F7F7F7
+  background: $color-white-5
   border-radius: 8px
   display: flex
   margin-bottom: 1rem
