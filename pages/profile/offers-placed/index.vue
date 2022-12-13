@@ -2,7 +2,7 @@
   <div
     id="top"
     class="col-md-12 vendor-trade-inv-body offers-placed-index"
-    :class="[isScreenXS && 'mb-5', !isScreenXS && 'top-margin']"
+    :class="[isScreenXS && 'mb-5 px-0', !isScreenXS && 'top-margin']"
   >
     <div class="container-fluid">
       <!-- title for web -->
@@ -210,16 +210,17 @@
       <!-- search for mob -->
       <div
         v-if="isScreenXS"
-        class="responsive-offer-placed-mobile search-input-col pt-3 row"
+        class="responsive-offer-placed-mobile search-input-col pt-3 row d-flex flex-grow-1 align-items-center"
       >
-        <div class="col-10 form-group d-flex align-items-center m-auto">
+        <div class="ml-16 flex-grow-1">
           <MobileSearchInput
+            class="w-100"
             id="mobile-search"
             :value="searchFilters.keyWord"
             @input="search"
           />
         </div>
-        <div class="col-2 m-auto d-flex justify-content-center">
+        <div class="mr-16 ml-16">
           <span class="filter-wrapper" role="button" @click="showFilter">
             <img
               class="mobile-filter"
@@ -246,11 +247,12 @@
       <div
         v-show="isScreenXS"
         class="row"
-        :class="mobileClass ? 'custom-margin px-2' : 'mt-5'"
+        :class="mobileClass ? 'custom-margin' : 'mt-5'"
       >
         <div class="col-xs-7 placed-offers-items-mobile">
           <div class="d-flex align-items-baseline">
-            <span class="heading-placed-offers text-align-center">
+            <span class="heading-placed-offers text-align-center"
+                  :class="{'ml-16': mobileClass}">
               {{
                 $t('placed_offers.your_placed_offers', { count: offerCount })
               }}
@@ -260,7 +262,7 @@
 
         <b-col
           v-if="offers && offers.length"
-          class="col-xs-5 d-flex justify-content-end action-cols"
+          class="col-xs-5 d-flex justify-content-end action-cols mr-16"
         >
           <span
             v-if="!showCheckBox"
@@ -1133,7 +1135,7 @@ label.filter-label
   #mobile-search
     width: 100%
   .placed-offer-result-wrapper
-    padding-top: 38px
+    padding-top: 20px
 
 #responsive-product-placed-offer-card::v-deep
   height: 185px
@@ -1285,7 +1287,7 @@ label.filter-label
     overflow-y: unset
 .vendor-trade-inv-body::v-deep
   .custom-margin
-    margin-top: 38px
+    margin-top: 20px
   .offers-placed-web
     margin-top: 18px
     .filter-row-bottom
@@ -1413,4 +1415,10 @@ label.filter-label
         color: $color-gray-5
         &::after
           right: 47px
+
+.ml-16
+  margin-left: 16px
+
+.mr-16
+  margin-right: 16px
 </style>

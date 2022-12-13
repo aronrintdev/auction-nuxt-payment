@@ -81,7 +81,7 @@
                     name="default-payment-radios"
                     class="text-normal default-payment-radios"
                     :value="cardPayments.id"
-                    @change="onChangeOption(cardPayments.id)"
+                    @change="onChangeOption(cardPayments.id, cardPayments.is_default)"
                   >
                     {{
                       cardPayments.id === defaultCardPayment
@@ -289,10 +289,10 @@ export default {
       this.$bvModal.show('payment-methods-modal')
     },
     // Update the card payments default status
-    onChangeOption(id) {
+    onChangeOption(id, defaultVal) {
       this.$axios
-        .put(`/preferences/payments/update-default-status/${id}`, {
-          default: true
+        .put(`/preferences/payments/update-default-status/${id}`, { 
+          default: defaultVal !== 1 
         })
         .then((res) => {
           this.defaultCardPayment = res.data.id

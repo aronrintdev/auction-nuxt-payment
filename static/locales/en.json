@@ -3540,6 +3540,7 @@
       "city": "City",
       "state": "State",
       "zip": "Zip/ Postal Code",
+      "please_provide_billing_first"  : "Please provide billing address.",
       "country": "Country",
       "billing_address": "Billing Address",
       "social_media_links": "Social Media Links",
@@ -3788,7 +3789,7 @@
         "state": "State",
         "phone": "Phone #"
       },
-      "field_is_empty"  : "Field is empty"
+      "new_balance" : "New Balance"
     }
   },
   "monthNames": {
@@ -4248,6 +4249,7 @@
       "higher_revenues_desc": "Auctions tend to allow Sellers to sell more items in a quicker time frame.",
       "certified_authentic_products": "Certified Authentic Products",
       "certified_authentic_products_desc": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed.",
+      "certified_authentic_products_desc_new": "Our experts verify each item through our authentication process using A.I. and in-person verification. We aim to ensure all items are authentic and as described.",
       "bidding": "Bidding",
       "selling": "Selling",
       "low_costs": "Low Costs",
@@ -5254,7 +5256,9 @@
     "how_to_find_my_code": "How do I find my code?",
     "redeemed": "Redeemed",
     "giftcard_error": "*Unfortunately, this gift card code and PIN is invalid. Please check your code for typos and enter it again.",
-    "how_to_find_code_text": "Once you receive a gift card, an email confirmation will be delivered with details including your gift card code and pin number."
+    "how_to_find_code_text": "Once you receive a gift card, an email confirmation will be delivered with details including your gift card code and pin number.",
+    "invalid_data"  : "*Unfortunately, this gift card code and PIN is invalid.",
+    "redeem_success"  : "Once you receive a gift card, an email confirmation will be delivered with details including your gift code and pin number."
   },
   "thresholds": {
     "success_message": "Commission Threshold Saved Successfully",
@@ -5311,7 +5315,7 @@
     "edit_offer_amount": "Edit offer amount",
     "edit_offer_delete": "Delete Offer",
     "placed_offers_product_summary": "Product Summary",
-    "placed_offers_your_placed_offers": "Your Placed",
+    "placed_offers_your_placed_offers": "Your Placed Offers",
     "responsive_heading": "Offers",
     "responsive_detailed_heading": "Offer",
     "highest_offer": "Highest Offer",
@@ -5948,7 +5952,7 @@
   "offers_received": {
     "offers": "Offers",
     "heading": "Offers Received",
-    "your_placed_offers": "Your Received Offers ({count})",
+    "your_placed_offers": "Offers Received ({count})",
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
     "start_date": "Start Date",
     "end_date": "End Date",

@@ -65,5 +65,10 @@ export default function () {
     updateDefaultConfirmed: false,
     showHeader: true,
     hasDefaultCard: false,
+    cardExpStatus: false,
+    giftCardRedeemed: false,
+    giftCardSuccessAlert: false,
+
+    giftCardCount:1
   }
 }

@@ -122,7 +122,10 @@
             </div>
             <div v-if="cardStatus.includes(orderDetails.transaction.payment_type)">
               <span class="text-decoration-underline">
-                {{ $t('vendor_purchase.terms_condition') }}</span>
+                <NuxtLink to="/terms-and-conditions" class="text-dark">
+                  {{ $t('vendor_purchase.terms_condition') }}
+                </NuxtLink>
+              </span>
             </div>
           </div>
           <!-- ./Billing address -->

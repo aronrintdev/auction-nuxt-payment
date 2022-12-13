@@ -29,10 +29,7 @@
       </div>
     </template>
     <div v-else class="mt-3 body-9-medium">
-      <div class="d-flex justify-content-between">
-        <a class="d-inline-block w-full p-1 text-black"  @click="$emit('showDetail', null)">
-          <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        </a>
+      <div class="d-flex justify-content-end">
         <div>
           <a role="button" class="text-blue-20" @click="$emit('edit', method)">{{  $t('common.edit') }}</a>
           <template v-if="!method.is_default">
