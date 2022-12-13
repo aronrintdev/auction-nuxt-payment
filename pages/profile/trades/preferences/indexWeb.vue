@@ -14,7 +14,7 @@
           {{$t('trades.preferences.allow_other_traders_to')}}
         </div>
         <div class="d-flex mt-5 mb-4">
-          <span class="invent-setting-option mr-3">
+          <span class="invent-setting-option mr-3 current-status">
             {{$t('trades.preferences.current_status')}}
         </span>
           <custom-dropdown
@@ -23,10 +23,12 @@
             type="single-select"
             :label="inventoryStatusLabel"
             optionsWidth="custom"
-            width="150px"
+            width="164px"
             variant="white"
             borderRadius="4px"
+            padding-x="10px"
             @change="changeStatus"
+            class="inventory-status-dropdown"
           />
         </div>
       </b-col>
@@ -500,26 +502,30 @@ export default {
   padding: 50px
 
 .main-pref-container
-  background: $color-white-1
+  background: $color-white-5
   padding: 50px
 
 .inventory-settings
   background: $color-white-1
   border-radius: 4px
   box-shadow: 0 1px 4px $drop-shadow1
-  padding: 30px
+  //padding: 30px
 
 .invent-setting-head
   font-family: $font-family-montserrat
   font-style: normal
   @include body-16-medium
   color: $color-black-1
+  padding-top: 32px
+  padding-left: 30px
+  padding-bottom: 4px
 
 .invent-setting-sub-head
   font-family: $font-family-montserrat
   font-style: normal
   @include body-5-regular
   color: $color-gray-5
+  padding-left: 30px
 
 .invent-setting-option
   font-family: $font-family-montserrat
@@ -556,4 +562,11 @@ export default {
   padding: 5px
   min-width: 75px
   @include body-9-regular
+.current-status
+  padding-left: 30px
+  padding-bottom: 64px
+.inventory-status-dropdown
+  @include body-5
+  font-family: $medium
+  font-family: $font-montserrat
 </style>

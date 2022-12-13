@@ -5053,7 +5053,7 @@
       "trade_preferences": "Trade Preferences",
       "inventory_settings": "Inventory Settings",
       "allow_other_traders_to": "Allow other traders to view your inventory when placing an offer.",
-      "current_status": "Current Status:",
+      "current_status": "Current Status : ",
       "offer_settings": "Offer Settings",
       "other_traders_will_only_be_able": "Other traders will only be able to send offers starting at a certain trade condition",
       "starting_at": "Starting at:",
