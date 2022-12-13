@@ -183,17 +183,26 @@ export default {
     height: 40px
     border-radius: 2px
 
-.btn
-  &.btn-dark-blue
-    &.btn-checkout
-      width: 216px
-      height: 40px
-      margin-bottom: 14px
+.btn-wrapper
+  height: 40px
+  width: 100%
+  margin-top: 14px
+  margin-bottom: 14px
 
-      &:disabled
-        border: none
-        background: $color-gray-1
-        color: $color-gray-47
+  .btn
+    &.btn-dark-blue
+      &.btn-checkout
+        position: fixed
+        bottom: 35px
+        left: 50%
+        transform: translateX(-50%)
+        width: 216px
+        height: 40px
+
+        &:disabled
+          border: none
+          background: $color-gray-1
+          color: $color-gray-47
 
 .section-title
   margin-bottom: 7px
