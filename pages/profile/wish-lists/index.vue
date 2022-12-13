@@ -740,15 +740,12 @@ export default {
       }
     },
     showMobileCreate() {
-      console.log('hereeee')
       const { mobileCreateView } = this.$refs
-      console.log(mobileCreateView)
       if (mobileCreateView) {
         mobileCreateView.show()
       }
     },
     hideMobileCreate() {
-      console.log('hide')
       const { mobileCreateView } = this.$refs
       if (mobileCreateView) {
         mobileCreateView.hide()
