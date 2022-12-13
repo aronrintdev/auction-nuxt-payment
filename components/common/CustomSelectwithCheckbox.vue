@@ -22,7 +22,9 @@
                 :checked="getVal(option)"
                 @change="checked(option)"
             />
-            {{ option.text }}
+            <span>
+              {{ option.text }}
+            </span>
           </div>
         </div>
       </div>
@@ -194,6 +196,7 @@ export default {
       cursor: pointer
       user-select: none
       font-style: normal
+      padding: 14px 10px 15px 10px
 
       &:hover
         background-color: rgba(0, 0, 0, 0.1)
