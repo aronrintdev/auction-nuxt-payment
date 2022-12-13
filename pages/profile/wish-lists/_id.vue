@@ -8,7 +8,7 @@
         {{ $t('wish_lists.no_wish_lists') }}
       </p>
 
-      <Button variant="primary" class="mx-auto" pill>
+      <Button variant="dark-blue" class="mx-auto" pill>
         {{ $t('wish_lists.create_new_list') }}
       </Button>
     </div>
@@ -86,7 +86,7 @@
       <h1 class="fs-16 fw-6 font-primary my-3">
         {{ $t('wish_lists.inspired_by_you') }}
       </h1>
-      <ProductCarousel class="mt-4 mb-5" :products="products" :show-share-btns="false" loop />
+      <ProductCarousel class="mt-4 mb-5" :products="products" :show-share-btns="false" :showActions="false" loop />
     </div>
     <CreateWishListModal />
   </b-container>
