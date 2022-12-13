@@ -511,8 +511,6 @@ export default {
   background: $color-white-1
   border-radius: 4px
   box-shadow: 0 1px 4px $drop-shadow1
-  height: 404px
-  overflow-y: scroll
 .invent-setting-head
   font-family: $font-family-montserrat
   font-style: normal
