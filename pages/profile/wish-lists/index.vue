@@ -8,7 +8,7 @@
       <Button
         v-if="!isScreenXS"
         v-b-modal.create-list-modal
-        variant="primary"
+        variant="dark-blue"
         class="mx-auto"
         pill
       >
@@ -269,7 +269,7 @@
             </p>
 
             <Button
-              variant="primary"
+              variant="dark-blue"
               class="mt-4 mx-auto browse-button"
               pill
               @click="handleBrowseClick"
@@ -284,7 +284,7 @@
               class="action-container"
             >
               <Button
-                variant="primary"
+                variant="dark-blue"
                 :disabled="selected.length === 0"
                 @click="removeSelected"
               >
