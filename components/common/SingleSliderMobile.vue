@@ -45,12 +45,6 @@
         <div>{{$t('trades.preferences.interested')}}</div>
       </b-col>
     </b-col>
-<!--    <b-col md="4" class="pl-4 pr-0">-->
-<!--      <div class="input-box">-->
-<!--        <input class="percentage-value"  :value="`${value}%`" readonly />-->
-<!--        <span v-if="textToShow" class="input-text  float-left">{{textToShow}}</span>-->
-<!--      </div>-->
-<!--    </b-col>-->
   </b-row>
 </template>
 
