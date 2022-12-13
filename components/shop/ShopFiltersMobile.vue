@@ -222,7 +222,7 @@ export default {
         { label: this.$t('common.all'), value: 'all' },
         { label: this.$t('common.footwear'), value: 'sneakers' },
         { label: this.$t('common.apparel'), value: 'apparel' },
-        { label: this.$tc('common.accessory', 2), value: 'accessories' },
+        { label: this.$tc('common.all_sizes', 2), value: 'all_sizes' },
       ],
       selectedRangePrices: null,
       selectedRangeYears: null,
@@ -372,12 +372,14 @@ export default {
       }
     },
     handleSortBySelect(option) {
-     
       // Select SortBy option
-      if (option) {
+      if (option === 'true' || option === 'false') {
+        this.sortBy= option
+        this.orderBy=  'sale_price'
+      } else if(option === 'trending' || option === 'created_at') {
         this.sortBy= 'true'
         this.orderBy=  option
-      } else {
+      }else{
         this.orderBy=  ''
       }
     },
