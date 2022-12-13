@@ -265,7 +265,7 @@ export default {
         buyNow: null,
         makeOffer: null,
       },
-      sizeViewMode: 'all',
+      sizeViewMode: 'carousel',
       addingToCart: false,
       currentSize: null,
       currentCondition: null,

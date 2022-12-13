@@ -48,31 +48,34 @@
         <b-form-radio v-model="form.is_default" name="is_default" :value="true" class="mt-4">
           <span :class="{'label' : isMobileSize}">{{ $t('vendor_hub.payout_method.set_default') }}</span>
         </b-form-radio>
-        <div class="mt-4 d-flex justify-content-center" :class="{'flex-row-reverse' : isScreenXS}">
-          <b-button :disabled="modalActionLoading || !isValid"
-                    pill
-                    class="bg-blue-2 mx-3"
-                    :class="{'w-50' : isScreenXS}"
-                    @click="saveChanges">
-            <span :class="{'body-9-normal' : isScreenXS}"> {{ $t('vendor_hub.payout_method.save_changes') }}</span>
-          </b-button>
-          <b-button id="btnSave" ref="btnSave" pill class="bg-blue-2 d-none mx-sm-3" :class="{'w-50' : isScreenXS}">
-            <span :class="{'body-9-normal' : isScreenXS}">{{ $t('vendor_hub.payout_method.save_changes') }}</span>
-          </b-button>
-
-          <b-button pill variant="outline-dark" class="mx-3" :class="{'body-9 w-50' : isScreenXS}"
-                    @click="discardData">
-            <span :class="{'body-9-normal' : isScreenXS}">
-              {{ isScreenXS ? $t('common.cancel') : $t('vendor_hub.payout_method.discard_changes') }}
-            </span>
-          </b-button>
-        </div>
+        <component :is="isScreenXS ? 'Portal' : 'div'" to="button-portal">
+          <div class="mt-4 d-flex justify-content-center" :class="{'flex-row-reverse bg-white py-4' : isScreenXS}">
+            <b-button :disabled="modalActionLoading || !isValid"
+                      pill
+                      class="bg-blue-2 ml-3 mx-sm-3"
+                      :class="{'w-50' : isScreenXS}"
+                      @click="saveChanges">
+              <span :class="{'body-9-normal' : isScreenXS}"> {{ $t('vendor_hub.payout_method.save_changes') }}</span>
+            </b-button>
+            <b-button id="btnSave" ref="btnSave" pill class="bg-blue-2 d-none mx-sm-3" :class="{'w-50' : isScreenXS}">
+              <span :class="{'body-9-normal' : isScreenXS}">{{ $t('vendor_hub.payout_method.save_changes') }}</span>
+            </b-button>
+            <b-button pill variant="outline-dark" class="mr-3 mx-sm-3" :class="{'body-9 w-50' : isScreenXS}"
+                      @click="discardData">
+              <span :class="{'body-9-normal' : isScreenXS}">
+                {{ isScreenXS ? $t('common.cancel') : $t('vendor_hub.payout_method.discard_changes') }}
+              </span>
+            </b-button>
+          </div>
+        </component>
       </b-form>
-    <div class="mt-5" :class="isScreenXS ? 'tos-text-mobile text-left' : 'tos-text text-center'">
-      {{ $tc('vendor_hub.payout_method.tos', 0) }}
-      <span class="px-1 tos" role="button">{{ $tc('vendor_hub.payout_method.tos', 1) }}</span>
-      {{ $tc('vendor_hub.payout_method.tos', 2) }}
-    </div>
+      <component :is="isScreenXS ? 'Portal' : 'div'" to="tos-portal">
+        <div :class="isScreenXS ? 'tos-text-mobile text-left' : 'mt-5 tos-text text-center'">
+          {{ $tc('vendor_hub.payout_method.tos', 0) }}
+          <span class="px-1 tos" role="button">{{ $tc('vendor_hub.payout_method.tos', 1) }}</span>
+          {{ $tc('vendor_hub.payout_method.tos', 2) }}
+        </div>
+      </component>
 
     <ConfirmModal
       :id="'payout-method-modal'"
@@ -352,9 +355,7 @@ export default {
   font-weight: $regular
 
 .tos-text-mobile
-  position: absolute
-  left: 0px
-  padding-left: 16px
+  padding-top: 30px
   @include body-9
   font-family: $font-montserrat
   font-style: normal
@@ -383,4 +384,7 @@ div.invalid-feedback
 
 .fix
   margin-right: 2px
+
+.bg-white
+  background-color: $color-white
 </style>

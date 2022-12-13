@@ -203,3 +203,15 @@ export function updateHeader(state, payload) {
 export function cardStatus(state, payload) {
   state.hasDefaultCard = payload
 }
+
+export function cardRedeemStatus(state, payload) {
+  state.giftCardRedeemed = payload
+}
+
+export function successAlert(state, payload) {
+  state.giftCardSuccessAlert = payload
+}
+
+export function updateGiftCardCount(state, payload) {
+  state.updateGiftCardCount = payload
+}

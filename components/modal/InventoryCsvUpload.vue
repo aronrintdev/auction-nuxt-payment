@@ -54,7 +54,7 @@
             @change="onFileUpload"
           />
           <Button
-            variant="info"
+            variant="dark-blue"
             pill
             class="btn-upload"
             @click="handleUploadClick"
@@ -278,9 +278,9 @@ export default {
 
   .btn-download
     @include body-3-normal
-    color: $color-blue-2
+    color: $color-blue-20
     padding-bottom: 4px
-    border-bottom: 1px solid $color-blue-2
+    border-bottom: 1px solid $color-blue-20
     border-radius: 0px
     margin-top: 10px
 
@@ -338,7 +338,7 @@ export default {
   height: 8px
 
   .progress-bar
-    background-color: $color-blue-2
+    background-color: $color-blue-20
     background-size: 8px 8px
     border-radius: 4px
 </style>

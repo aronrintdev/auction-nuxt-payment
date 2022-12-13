@@ -177,3 +177,16 @@ export function isCardDefault(state){
 export function getcardExpStatus(state) {
   return state.cardExpStatus
 }
+
+export function giftCardRedeemed(state){
+  return state.giftCardRedeemed
+}
+
+export function giftCardSuccessAlert(state){
+  return state.giftCardSuccessAlert
+}
+
+
+export function getUpdateGiftCardCount(state){
+  return state.updateGiftCardCount 
+}

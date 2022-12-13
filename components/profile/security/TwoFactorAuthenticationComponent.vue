@@ -8,7 +8,7 @@
       }" class="mt-2">{{ $t('features.2fa_security.add_additional_security') }}</p>
       <div class="body-3-normal text-black font-primary d-flex align-items-center">
         <span class="mr-2 mt-3">{{ $t('features.2fa_security.2fa_disabled').toString() }}</span>
-        <NotificationSwitch :value="enable2fa" @change="change"/>
+        <NotificationSwitch :disabled="(this.$store.state.auth.user.phoneNumber) ? false : true" :value="enable2fa" @change="change"/>
       </div>
       <div v-if="enable2fa" class="mt-2">
         <text-verification-component></text-verification-component>

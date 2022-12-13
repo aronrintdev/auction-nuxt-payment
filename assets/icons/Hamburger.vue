@@ -1,0 +1,37 @@
+<template>
+  <svg
+    width="17"
+    height="18"
+    viewBox="0 0 17 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <line
+      x1="16.25"
+      y1="0.75"
+      x2="0.75"
+      y2="0.75"
+      stroke="#999999"
+      stroke-width="1.5"
+      stroke-linecap="round"
+    />
+    <line
+      x1="16.25"
+      y1="8.75"
+      x2="0.75"
+      y2="8.75"
+      stroke="#999999"
+      stroke-width="1.5"
+      stroke-linecap="round"
+    />
+    <line
+      x1="16.25"
+      y1="16.75"
+      x2="0.75"
+      y2="16.75"
+      stroke="#999999"
+      stroke-width="1.5"
+      stroke-linecap="round"
+    />
+  </svg>
+</template>
