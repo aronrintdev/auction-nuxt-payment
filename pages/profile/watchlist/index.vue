@@ -1,8 +1,6 @@
 <template>
   <b-container fluid class="container-watchlists">
-    <div
-      class="d-none d-sm-flex justify-content-between align-items-start header"
-    >
+    <div class="d-none d-sm-flex justify-content-between align-items-start header">
       <div v-if="!!currentWatchlist" class="title">
         <h2 class="text-truncate mw-800px">{{ currentWatchlist.name }}</h2>
         <span>({{ totalCount }} {{ $t('common.items') }})</span>
@@ -12,7 +10,7 @@
       <div class="py-1 d-flex align-items-center">
         <span
           role="button"
-          class="body-2-medium mx-5 watchlists-type"
+          class="mx-5 watchlists-type"
           :class="{ active: watchlistsType === WATCHLIST_TYPE_TRADE }"
           @click="changeListType(WATCHLIST_TYPE_TRADE)"
         >
@@ -20,7 +18,7 @@
         </span>
         <span
           role="button"
-          class="body-2-medium text-underline mx-5 watchlists-type"
+          class="text-underline mx-5 watchlists-type"
           :class="{ active: watchlistsType === WATCHLIST_TYPE_AUCTION }"
           @click="changeListType(WATCHLIST_TYPE_AUCTION)"
         >
@@ -49,7 +47,7 @@
     </div>
     <div v-if="watchlists.length > 0 && currentWatchlist">
       <div class="row">
-        <div class="col-12 col-sm-3">
+        <div v-if="watchlistsType !== WATCHLIST_TYPE_AUCTION" class="col-12 col-sm-3">
           <section class="d-none d-sm-block section-lists">
             <h5>{{ $t('watchlists.buying_lists') }}</h5>
             <div v-for="list in watchlists" :key="list.id">
@@ -138,26 +136,46 @@
 
         <div
           v-if="!!currentWatchlist && watchlistsType === WATCHLIST_TYPE_AUCTION"
-          class="section-items mt-4 col-9 d-none d-sm-block"
+          class="section-items mt-4 col-12 d-none d-sm-block"
         >
           <div class="accordion" role="tablist">
-              <AuctionItems
-                :key="currentWatchlist.id"
-                :currentWatchlist="currentWatchlist"
-                type="single"
-                :auctionsCount="singleAuctionsCount"
-                accordionId="accordion-1"
-              />
-
-              <AuctionItems
-                :key="currentWatchlist.id"
-                :currentWatchlist="currentWatchlist"
-                type="collection"
-                :auctionsCount="collectionAuctionsCount"
-                accordionId="accordion-2"
-              />
+            <b-row>
+              <b-col cols="3"></b-col>
+              <b-col cols="9">
+                <AuctionItems
+                  :key="currentWatchlist.id"
+                  :currentWatchlist="currentWatchlist"
+                  type="single"
+                  :auctionsCount="singleAuctionsCount"
+                  accordionId="accordion-1"
+                />
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col cols="3">
+                <div class="title">
+                  <h2 class="text-truncate mw-800px">{{ currentWatchlist.name }}</h2>
+                </div>
+              </b-col>
+              <b-col cols="9" class="pt-4">
+                <hr />
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col cols="3"></b-col>
+              <b-col cols="9">
+                <AuctionItems
+                  :key="currentWatchlist.id"
+                  :currentWatchlist="currentWatchlist"
+                  type="collection"
+                  :auctionsCount="collectionAuctionsCount"
+                  accordionId="accordion-2"
+                />
+              </b-col>
+            </b-row>
           </div>
         </div>
+
       </div>
     </div>
     <div v-else>
@@ -317,7 +335,6 @@ export default {
       padding-left: 10px
   .title
     flex: 3
-    padding-right: 100px
   .checkbox-switch-wrapper
     margin-top: 2px
     flex: 3
