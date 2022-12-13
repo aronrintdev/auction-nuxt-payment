@@ -13,7 +13,7 @@
     <div :class="`filter-body ${mobileClass} p-4 w-100 h-100`">
       <!-- Sort By -->
       <div v-show="filterVisibility" class="sort-by">
-        <div :class="`sort-by-filter ${mobileClass}`">
+        <div :class="`offer-received sort-by-filter ${mobileClass}`">
           <div class="header-filter">
             {{ $t('offers_received.sort') }}
           </div>
@@ -40,13 +40,11 @@
       </div>
       <!-- Sort By ends -->
       <div v-show="filterVisibility" class="collapses flex-column">
-        <CollapseStatus
-          id="status-filter"
-          :value="filter.status || {}"
+        <CollapseSelector
+          v-model="filter.status"
           collapseKey="status"
           :title="$t('placed_offers.status')"
           :options="status"
-          @selected="statusSelected"
         />
       </div>
       <hr v-show="filterVisibility" />
@@ -88,17 +86,17 @@
 </template>
 
 <script>
-import CollapseStatus from './filter/CollapseStatus.vue'
 import CollapseDate from './filter/CollapseDate.vue'
 import screenSize from '~/plugins/mixins/screenSize'
+import CollapseSelector from '~/components/common/mobileFilters/CollapseSelector'
 import { Button } from '~/components/common'
 export default {
   name: 'MobileFilter',
 
   components: {
-    CollapseStatus,
     Button,
     CollapseDate,
+    CollapseSelector,
   },
 
   mixins: [screenSize],
@@ -114,25 +112,24 @@ export default {
     return {
       status: [
         {
-          label: this.$t('offers_received.accepted'),
+          text: this.$t('offers_received.accepted'),
           value: 'accepted',
         },
         {
-          label: this.$t('offers_received.awaiting_response'),
+          text: this.$t('offers_received.awaiting_response'),
           value: 'pending',
         },
         {
-          label: this.$t('offers_received.declined'),
+          text: this.$t('offers_received.declined'),
           value: 'declined',
         },
       ],
       showFilter: true,
       filter: {
         date: null,
-        status: null,
+        status: [],
         sortby: null,
       },
-      count: 0,
     }
   },
 
@@ -144,46 +141,27 @@ export default {
     sortbyStatus: (vm) => {
       return vm.filter.sortby
     },
-  },
 
-  watch: {
-    sortbyStatus: {
-      deep: true,
-      handler(newValue, oldValue) {
-        if (!oldValue) {
-          this.count = this.count + 1
-        }
-      },
-    },
+    count() {
+      let total = 0
+      if (this.filter.sortby) total += 1
+      if (this.filter.date) total += 1
+      if (this.filter.status.length) total += 1
+      return total
+    }
   },
 
   methods: {
     resetFilter() {
-      this.count = 0
       this.filter.date = null
-      this.filter.status = null
+      this.filter.status = []
       this.filter.sortby = null
     },
 
-    statusSelected({ value }) {
-      if (!this.filter.status) {
-        this.count = this.count + 1
-      }
-      if (this.filter.status && this.filter.status.value === value.value) {
-        this.filter.status = null
-        this.count = this.count - 1
-        return
-      }
-      this.filter.status = value
-    },
     dateSelected({ value, data }) {
       if (value === true) {
-        if ((data.start !== '' || data.end !== '') && !this.filter.date) {
-          this.count = this.count + 1
-        }
         this.filter.date = data
       }
-
       this.showFilter = value
     },
   },
@@ -295,4 +273,26 @@ export default {
       font-style: normal
       @include body-5-medium
       color: $color-white-1
+
+</style>
+
+<style lang="sass">
+@import '~/assets/css/_variables'
+.offer-received
+  .custom-control-label
+    &:before
+      border: solid 1px $color-black-1
+      background-color: $color-white
+      box-shadow: inset 0 0 0 rgba(1,1,1, 0)
+    &:after
+      background: 80%/80% 80% no-repeat
+      top: 0.25rem
+      left: -1.5765rem
+
+  .custom-radio .custom-control-input:checked ~ .custom-control-label::before
+    border: solid 1px $color-black-1
+    background-color: $color-white
+
+  .custom-radio .custom-control-input:checked~.custom-control-label::after
+    filter: invert(100%)
 </style>

@@ -189,8 +189,10 @@ export default {
   display: grid
   grid-template-columns: repeat(5, 182px)
   @media (max-width: 576px)
-    margin: 0 16px
-    grid-template-columns: repeat(3, 114px)
+    max-width: max-content
+    margin: 0 auto
+    grid-template-columns: repeat(3, 115px)
+    column-gap: 0
 .mt-10
   margin-top: 10px
 .w-345
