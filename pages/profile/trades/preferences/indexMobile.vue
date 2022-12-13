@@ -187,14 +187,23 @@
     </div>
     <div v-if="brandsPre" class="mt-2 ml-2 mr-3 p-2">
       <div  class="brand-sections">
-        <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.size_preferences')}}</div>
-        <b-row>
-          <b-col v-for="(brand,index) in filters.brands" :key="index">
-              <div class="m-2" :class="selectedBrands.includes(brand._id) ?'selected-brand':'unselected-brand'">
-                <img :src="brand.image" class="brand-image" @click="changeSelectedBrands(brand._id)">
+        <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.brand_preferences')}}</div>
+        <div class="offer-start mt-1 ml-3 mb-3"> {{$t('trades.preferences.looking_for')}}</div>
+        <hr class="hr-border"/>
+          <div class="brand-border" v-for="(brand,index) in filters.brands" :key="index">
+              <div class="m-2" >
+                <div @click="changeSelectedBrands(brand._id)">
+                  <div class="brand-name">
+                    {{brand.name}}
+                  </div>
+                  <div class="right-tick">
+                    <div v-if="selectedBrands.includes(brand._id)"  class="tick-circle">
+                      <img  src="~/assets/img/white-tick.svg" class="white-tick" />
+                    </div>
+                  </div>
+                </div>
               </div>
-          </b-col>
-        </b-row>
+          </div>
       </div>
     </div>
     <div v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM">
@@ -775,4 +784,27 @@ export default {
 .images-row
   height: 300px
   overflow-y: scroll
+.brand-name
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $normal
+  @include body-5
+  line-height: 17px
+  color: $color-black-16
+.tick-circle
+  background-color: #667799
+  height: 19px
+  width: 19px
+  border-radius: 50%
+.white-tick
+  position: absolute
+  height: 8px
+  width: 10px
+  margin-left: 4px
+  margin-top: 5px
+.brand-border
+  border: 1px solid #E1E1E1
+.right-tick
+  float: right
+  margin-top: -1rem
 </style>
