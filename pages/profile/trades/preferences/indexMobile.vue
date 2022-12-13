@@ -189,7 +189,7 @@
       <div  class="brand-sections">
         <div class="offer-head ml-3 mb-2"> {{$t('trades.preferences.brand_preferences')}}</div>
         <div class="offer-start mt-1 ml-3 mb-3"> {{$t('trades.preferences.looking_for')}}</div>
-        <hr class="hr-border1"/>
+        <hr />
         <div class="form-group rounded-search-input ml-2">
           <img :src="searchIcon" class="icon-search" alt="" />
           <input type="text" v-model="search" placeholder="Search Brands" />
@@ -608,8 +608,6 @@ export default {
   margin-left: 12rem
 .hr-border
   border: 1px solid $color-gray-96
-.hr-border1
-  border: 1px solid #C4C4C4
 .inven-cont
   width: 343px
   height: 300px
