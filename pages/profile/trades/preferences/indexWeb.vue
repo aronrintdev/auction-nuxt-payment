@@ -114,7 +114,7 @@
         </div>
         <b-row class="pb-5">
           <b-col md="4" class="d-flex align-items-center" >
-            <span class="invent-setting-option pr-39">
+            <span class="invent-setting-option  size-type-left">
               {{$t('trades.preferences.size_type')}}
             </span>
             <client-only>
@@ -124,9 +124,11 @@
                 type="multi-select-checkbox"
                 :label="sizeTypeLabel"
                 :showFilterBtn="false"
-                class="mr-3 width-156"
+                class="dropdown-margins"
+                padding-x="10px"
                 optionsWidth="custom"
                 width="164px"
+                drop-down-height="38px"
                 variant="white"
                 borderRadius="4px"
                 @change="changeSizeTypeFilter"
@@ -134,7 +136,7 @@
             </client-only>
           </b-col>
           <b-col md="4" class="d-flex align-items-center">
-            <span class="invent-setting-option pr-39">{{$t('trades.preferences.sneaker')}}</span>
+            <span class="invent-setting-option">{{$t('trades.preferences.sneaker')}}</span>
             <client-only>
               <CustomDropdown
                 v-model="sizes"
@@ -142,9 +144,11 @@
                 type="multi-select-checkbox"
                 :label="sizesLabel"
                 :showFilterBtn="false"
-                class="mr-3 width-156"
+                class="dropdown-margins"
                 optionsWidth="custom"
+                padding-x="10px"
                 width="164px"
+                drop-down-height="38px"
                 variant="white"
                 borderRadius="4px"
                 @change="changeSizeFilter"
@@ -152,7 +156,7 @@
             </client-only>
           </b-col>
           <b-col md="4" class="d-flex align-items-center">
-            <span class="invent-setting-option pr-39">{{$t('trades.preferences.apparel')}}</span>
+            <span class="invent-setting-option">{{$t('trades.preferences.apparel')}}</span>
             <client-only>
               <CustomDropdown
                 v-model="apparelSize"
@@ -160,9 +164,11 @@
                 type="multi-select-checkbox"
                 :label="apparelSizesLabel"
                 :showFilterBtn="false"
-                class="mr-3 width-156"
+                class="dropdown-margins"
                 optionsWidth="custom"
+                padding-x="10px"
                 width="164px"
+                drop-down-height="38px"
                 variant="white"
                 borderRadius="4px"
                 @change="changeApparelSizeFilter"
@@ -174,24 +180,24 @@
           <b-col md="4" class="d-flex justify-content-start flex-wrap">
             <div  v-for="(size,index) in sizeType" :key="index" class="selected-size text-center mr-1 mb-3">
               {{size}}
-              <img class="ml-3" :src="require('~/assets/img/trades/small-cross.svg')" role="button" @click="removeSizeType(index)"/>
+              <img class="ml-3" :src="require('~/assets/img/size-cross.svg')" role="button" @click="removeSizeType(index)"/>
             </div>
           </b-col>
           <b-col md="4" class="d-flex justify-content-start flex-wrap">
             <div  v-for="(size,index) in sizes" :key="index" class="selected-size text-center mr-1 mb-3">
               {{size}}
-              <img class="ml-3" :src="require('~/assets/img/trades/small-cross.svg')" role="button" @click="removeSize(index)"/>
+              <img class="ml-3" :src="require('~/assets/img/size-cross.svg')" role="button" @click="removeSize(index)"/>
             </div>
           </b-col>
           <b-col md="4" class="d-flex justify-content-start flex-wrap">
             <div  v-for="(size,index) in apparelSize" :key="index" class="selected-size text-center mr-1 mb-3">
               {{size}}
-              <img class="ml-3" :src="require('~/assets/img/trades/small-cross.svg')" role="button" @click="removeApparelSize(index)"/>
+              <img class="ml-3" :src="require('~/assets/img/size-cross.svg')" role="button" @click="removeApparelSize(index)"/>
             </div>
           </b-col>
         </b-col>
         <b-row class="justify-content-center pt-3">
-          <Button variant="primary" class="mr-4" pill @click="savePreference()">
+          <Button variant="dark-blue" class="mr-4" pill @click="savePreference()">
             {{$t('trades.preferences.save_changes')}}
           </Button>
           <Button variant="grey-light" pill @click="getTradePreferences()">
@@ -511,6 +517,7 @@ export default {
   background: $color-white-1
   border-radius: 4px
   box-shadow: 0 1px 4px $drop-shadow1
+  height: 325px
 .brand-settings
   background: $color-white-1
   border-radius: 4px
@@ -549,6 +556,8 @@ export default {
   font-style: normal
   @include body-16-medium
   color: $color-black-1
+  padding-top: 32px
+  padding-left: 30px
 .brands-section
   font-family: $font-family-montserrat
   font-style: normal
@@ -589,15 +598,15 @@ export default {
   padding-right: 39px
 
 .selected-size
-  height: 26px
-  background: $light-blue-rgba
-  border-radius: 20px
-  color: $color-blue-2
+  height: 24px
+  background: $color-white-5
+  border-radius: 5px
+  color: $color-black-15
   font-family: $font-family-montserrat
   font-style: normal
   padding: 5px
-  min-width: 75px
-  @include body-9-regular
+  width: 109px
+  @include body-10
 .current-status
   padding-left: 30px
   padding-bottom: 64px
@@ -615,4 +624,8 @@ export default {
   font-style: normal
 .offer-group
   margin-left: 30px
+.size-type-left
+  margin-left: 40px
+.dropdown-margins
+  margin-left: 15px
 </style>
