@@ -215,31 +215,18 @@
           {{$t('trades.preferences.suggest_these_brands_to_find')}}
         </div>
         <b-row class="mt-4">
-          <div  v-for="(brand,index) in filters.brands" :key="index" class="brand mr-5 mb-5">
-            <div class="position-relative">
-              <div class="position-absolute checkbox-brand">
-                <b-form-checkbox :checked="selectedBrands" :value="brand._id" @change="changeSelectedBrands(brand._id)"></b-form-checkbox>
-              </div>
-              <div>
-                <img :src="brand.image" class="brand-image">
-              </div>
-            </div>
-          </div>
-        </b-row>
-        <b-row class="justify-content-center pt-3">
-          <Button variant="primary" class="mr-4" pill @click="savePreference()">
-            {{$t('trades.preferences.save_changes')}}
-          </Button>
-          <Button variant="grey-light" pill @click="getTradePreferences()">
-            {{$t('trades.preferences.discard_changes')}}
-          </Button>
+          <b-row>
+            <b-col md="3" v-for="(brand,index) in filters.brands" :key="index" class="brand-section-left">
+              <b-form-checkbox :checked="selectedBrands" :value="brand._id" @change="changeSelectedBrands(brand._id)"> <span class="brnad-name">{{brand.name}}</span>  </b-form-checkbox>
+            </b-col>
+          </b-row>
         </b-row>
       </b-col>
 
       <b-row class="justify-content-end pt-4">
-        <Button variant="grey-light" pill @click="$bvModal.show('resetModel')">
+        <span class="rest-btn" @click="$bvModal.show('resetModel')">
           {{$t('trades.preferences.reset_to_default_preferences')}}
-        </Button>
+        </span>
       </b-row>
 
     </div>
@@ -477,8 +464,10 @@ export default {
     changeSelectedBrands(brandId){
       if(this.selectedBrands.includes(brandId)){
         this.selectedBrands = this.selectedBrands.filter(brand => brand !== brandId)
+        this.savePreference()
       }else{
         this.selectedBrands.push(brandId)
+        this.savePreference()
       }
     }
 
@@ -522,6 +511,8 @@ export default {
   background: $color-white-1
   border-radius: 4px
   box-shadow: 0 1px 4px $drop-shadow1
+  height: 404px
+  overflow-y: scroll
 .invent-setting-head
   font-family: $font-family-montserrat
   font-style: normal
@@ -563,6 +554,8 @@ export default {
   font-style: normal
   @include body-16-medium
   color: $color-black-1
+  padding-top: 32px
+  padding-left: 30px
 
 .invent-setting-sub-head
   font-family: $font-montserrat
@@ -628,4 +621,14 @@ export default {
   margin-left: 40px
 .dropdown-margins
   margin-left: 15px
+.brand-section-left
+  padding-left: 30px
+.rest-btn
+  border-bottom: 1px solid $color-black-1
+.brnad-name
+  font-family: $font-sp-pro
+  font-style: $normal
+  font-weight: 500
+  @mixin body-13
+  color: $color-gray-5
 </style>
