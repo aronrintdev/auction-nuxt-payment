@@ -6,7 +6,7 @@
     >
       <b-row class="carousel-wrapper-title">
         <b-col md="12">
-          <span class="body-8-normal text-uppercase">{{ $t('products.select_size') }}</span>
+          <span class="body-8-normal text-uppercase">{{ $t('products.select_size') }}*</span>
 
           <Button
             v-if="!singleMode"
@@ -89,7 +89,7 @@
             @click="handleSizeSelect(size.id)"
           >
             {{ size.size }}
-            
+
           </div>
           <div class="text-center price">
             {{ getPriceBySize(size.id) | toCurrency }}

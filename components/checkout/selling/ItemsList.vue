@@ -1,19 +1,19 @@
 <template>
   <!-- Shopping Cart Product -->
-  <b-col md="9" class="py-5 px-5">
-    <b-row>
+  <b-col md="9" class="product-list-wrapper">
+    <b-row class="product-text-wrapper">
       <b-col md="12">
         <b-row>
           <b-col md="6">
-            <div class="pull-left heading-1-bold">{{ $t('shopping_cart.shopping_cart') }}</div>
+            <div class="pull-left heading-3-bold">{{ $t('shopping_cart.shopping_cart') }}</div>
           </b-col>
           <b-col md="6">
-            <div class="pull-right pr-5 heading-1-bold">
+            <div class="pull-right pr-4 heading-3-bold">
               {{ getTotalQuantity }} {{ $tc('shopping_cart.item', getTotalQuantity) }}
             </div>
           </b-col>
         </b-row>
-        <hr class="mb-5 mt-4" />
+        <hr />
       </b-col> </b-row
     ><!-- End of Shopping Cart Product -->
 
@@ -248,16 +248,28 @@ export default {
 @import '~/assets/css/_variables'
 
 *
-  font-family: 'SF Pro Display', serif
+  font-family: $font-sp-pro
+
+.product-list-wrapper
+  padding-left: 76px
+  padding-right: 76px
+
+  .product-text-wrapper
+    div
+      font-family: $font-sf-pro-text
+
+    hr
+      margin-top: 30px
+      margin-bottom: 42px
 
 .empty-cart-wrapper
-  margin: 94px 215px 0
+  margin: 130px 139px 0 199px
 
   .text-gray-102
     margin-top: 22px
 
   img
-    margin-right: 76px
+    margin-right: 128px
 
   button
     @include body-13-medium
@@ -270,22 +282,18 @@ export default {
   color: $color-gray-102
 
 /* Continue shopping button link styles */
-#continue-shopping,
-#continue-shopping-empty-cart
+#continue-shopping
+  padding-left: 0
   border: 0
+  bottom: 2%
+  position: absolute
   color: $color-blue-2
-  text-decoration: underline
+  text-decoration: none
   &:hover
     background: none
     border: 0
     color: $color-blue-2
     text-decoration: none
-
-#continue-shopping
-  border: 0
-  bottom: 2%
-  position: absolute
-  text-decoration: none
 
 /* Navigation modal outline button styles */
 .btn

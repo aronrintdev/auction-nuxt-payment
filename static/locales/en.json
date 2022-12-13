@@ -3821,6 +3821,7 @@
   "inventory": {
     "available_to_list": "Available to List",
     "add_inventory": "Add Inventory",
+    "create_inventory": "Create Inventory",
     "search_placeholder": "Search your Inventory by SKU, Product Name or Brand",
     "search_product_placeholder": "Search by SKU, Keyword, or Brand",
     "upload_csv_file": "Upload CSV File",
@@ -3842,6 +3843,7 @@
     "save_changes": "Save Changes",
     "discard_changes": "Discard Changes",
     "csv_drafts": "CSV Drafts",
+    "csv_upload": "CSV Upload",
     "export_to_csv": "Export to CSV",
     "list_selected": "List Selected",
     "delete_selected": "Delete Selected",
@@ -3849,6 +3851,7 @@
     "analyzing": "Analyzing...",
     "analyzing_completed": "Analyzing Completed!",
     "available_to_add_to_inventory": "Available to add to inventory ( {count} )",
+    "recognized_items": "Recognized items ( {count} )",
     "unrecognized_items": "Unrecognized items ( {count} )",
     "search_draft_placeholder": "Search Draft by SKU, Product Name or Brand",
     "do_you_mean": "Do you mean?",
@@ -3871,7 +3874,10 @@
       "after_suggestion_info": "If product is a good fit, our team reach out to<br> the email associated with this account for<br> more information.",
       "gt_than": "Please choose another {field} more than {amount}",
       "between": "Please choose another {field} between {min} and {max}"
-    }
+    },
+    "list_product": "List Product",
+    "edit_details": "Edit Details",
+    "mobile_search_info": "Begin by searching for your product"
   },
   "vendor_purchase": {
     "their_value": "THEIR VALUE",
@@ -4234,6 +4240,7 @@
       "higher_revenues_desc": "Auctions tend to allow Sellers to sell more items in a quicker time frame.",
       "certified_authentic_products": "Certified Authentic Products",
       "certified_authentic_products_desc": "Every item is authenticated by our experts through our authentication process. 100% verification guranteed.",
+      "certified_authentic_products_desc_new": "Our experts verify each item through our authentication process using A.I. and in-person verification. We aim to ensure all items are authentic and as described.",
       "bidding": "Bidding",
       "selling": "Selling",
       "low_costs": "Low Costs",
@@ -5297,7 +5304,7 @@
     "edit_offer_amount": "Edit offer amount",
     "edit_offer_delete": "Delete Offer",
     "placed_offers_product_summary": "Product Summary",
-    "placed_offers_your_placed_offers": "Your Placed",
+    "placed_offers_your_placed_offers": "Your Placed Offers",
     "responsive_heading": "Offers",
     "responsive_detailed_heading": "Offer",
     "highest_offer": "Highest Offer",
@@ -5934,7 +5941,7 @@
   "offers_received": {
     "offers": "Offers",
     "heading": "Offers Received",
-    "your_placed_offers": "Your Received Offers ({count})",
+    "your_placed_offers": "Offers Received ({count})",
     "placed_offers_desc": "The highest offer for each listing are displayed (Select Listing ID to view all offers)",
     "start_date": "Start Date",
     "end_date": "End Date",

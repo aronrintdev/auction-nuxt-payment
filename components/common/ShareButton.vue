@@ -102,11 +102,15 @@ export default {
   },
 }
 </script>
-<style lang="scss" scoped>
-.share-btn-group {
-  img {
-    margin-right: 18px;
-    cursor: pointer;
-  }
-}
+<style lang="sass" scoped>
+.share-btn-group
+  display: flex
+  padding: 0
+  justify-content: space-between
+  padding: 0px 5px
+  *:not(:last-child)
+    padding-right: 18px
+  img
+    cursor: pointer
+    padding: 5px 0px
 </style>
