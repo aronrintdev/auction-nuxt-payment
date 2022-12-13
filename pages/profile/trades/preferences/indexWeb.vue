@@ -64,14 +64,6 @@
           <b-col class="d-flex justify-content-center" sm="12" md="12">
             <single-slider :value="fairTrade" :minValue="0" :maxValue="DEFAULT_INTERESTS" :textToShow="$t('trades.preferences.of_fair_offer')" :meterText="true" @slide="changeFairTrade" />
           </b-col>
-          <b-row class="justify-content-center pt-3">
-            <Button variant="primary" class="mr-4" pill @click="savePreference()">
-              {{$t('trades.preferences.save_changes')}}
-            </Button>
-            <Button variant="grey-light" pill @click="getTradePreferences()">
-              {{$t('trades.preferences.discard_changes')}}
-            </Button>
-          </b-row>
         </div>
       </b-col>
 
@@ -259,6 +251,7 @@
 
 <script>
 
+import debounce from 'lodash.debounce';
 import {mapActions, mapGetters} from 'vuex';
 import CustomDropdown from '~/components/common/CustomDropdown';
 import SingleSlider from '~/components/common/SingleSlider';
@@ -376,9 +369,10 @@ export default {
     setTotalInventory(totalInventory){
       this.totalInventory = totalInventory
     },
-    changeFairTrade(val){
+    changeFairTrade: debounce( function (val) {
       this.fairTrade = val
-    },
+      this.savePreference()
+    }, 1000),
     changeSneakerInterest(val){
       this.sneakerInterest = val
     },
@@ -513,6 +507,7 @@ export default {
   background: $color-white-1
   border-radius: 4px
   box-shadow: 0 1px 4px $drop-shadow1
+  padding-bottom: 30px
 .refine-settings
   background: $color-white-1
   border-radius: 4px
