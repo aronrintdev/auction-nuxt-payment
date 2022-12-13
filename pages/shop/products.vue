@@ -227,7 +227,6 @@ export default {
         .then((res) => {
           if (this.getIsFilterActive === true) {
             this.state.reset()
-            this.state.loaded()
             this.products = []
             this.currentPage = 1
             this.url = ''
@@ -241,9 +240,7 @@ export default {
             }
 
             if (!res.data.next_page_url) {
-              if (this.products.length) {
                 this.state.complete()
-              }
             } else {
               this.currentPage += 1
               this.url = res.data.next_page_url
@@ -270,27 +267,6 @@ export default {
 @import '~/assets/css/_variables'
 .h-300
   height: 300px
-// .article
-//   margin: 0 auto
-//   width: 400px
-//   .section
-//     width: 400px
-//     margin-bottom: 20px
-//     border-radius: 10px
-//     overflow: hidden
-//     .p
-//       margin: 0
-//       padding: 10px 20px
-// .below
-//   position: relative
-//   height: 200px
-//   #scroll-trigger
-//     height: 50px
-// @keyframes animate
-//   0%
-//     transform: translate(-50%, -50%) rotate(0deg)
-//   100%
-//     transform: translate(-50%, -50%) rotate(360deg)
 .container-shop
   @media (min-width: 576px)
     margin: 0px 60px
