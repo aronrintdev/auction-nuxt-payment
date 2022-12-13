@@ -5178,7 +5178,9 @@
     "their_value": "THEIR VALUE",
     "your_value": "YOUR VALUE",
     "view_details": "View Details",
-    "all_trade_listing_expire": "All trade listings expire in 14 days"
+    "all_trade_listing_expire": "All trade listings expire in 14 days",
+    "if_trader_accepts" : "*If the trader accepts this offer, the charges will be placed on your card. You will have 3 days to send your items.",
+    "trade_offer_confirmation": "Trade Offer Confirmation"
   },
   "change_password": {
     "password": "Password",

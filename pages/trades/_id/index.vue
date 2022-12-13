@@ -8,12 +8,17 @@
     <b-row v-else>
     <b-col v-if="Object.keys(trade).length && !trade_completed" class=" p-0" :class="{'cont-height':isPayment}" :md="isPayment ? 9 : 12">
       <div>
-        <div class="text-center mb-11px">
+        <div v-if="isPayment" class="mt-29px pl-43px mb-90px">
+          <div class="offer-confirmation">{{$t('trades.trade_offer_confirmation')}}</div>
+          <div class="trader-ranking">{{$t('trades.trade_arena.trader_ranking')}}{{ vendor.trader_ranking }},{{ vendor.total_trades }}{{ $t('trades.trade_arena.trades') }}</div>
+          <div class="trader-accept">{{$t('trades.if_trader_accepts')}}</div>
+        </div>
+        <div v-else class="text-center mb-11px">
           <div class="heading d-flex justify-content-center">{{$t('trades.trade_arena.arena')}}</div>
           <div class="sub-heading">{{$t('trades.trade_hub.trade_id')}}:{{ $route.params.id }}</div>
         </div>
-        <div class="d-flex justify-content-center trade-values align-items-center">
-          <div class="header-values-div d-flex justify-content-between align-items-center position-relative">
+        <div class="d-flex trade-values align-items-center" :class="{'justify-content-center' : !isPayment}">
+          <div class="header-values-div d-flex justify-content-between align-items-center position-relative" :class="{'header-values-payment' : isPayment}">
             <div v-if="!isPayment && !isExpire" class="share-icons position-absolute">
               <div class="d-flex">
                 <div id="popover-bottom" class="share-icon-margin">
@@ -75,66 +80,71 @@
         </div>
         <div :class="{'timings-left' : isPayment}">
         </div>
-        <div class="d-flex" :class="{'center-container-margin': isPayment, 'mt-5': isExpire, 'pt-5': isExpire,
-        'margin-one-item': (trade.offers.length === ITEM_COUNT_ONE && (getYourTradeItems.length === ITEM_COUNT_ONE ||  getYourTradeItems.length === ITEM_COUNT_0)),
-        'margin-one-vs-two': (trade.offers.length === ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0 ),
-        'margin-two-vs-one': (trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 ),
-        'margin-two-vs-two': (trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0 ),
+        <div class="d-flex" :class="{'center-cont-height':(trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0 && !isPayment) , 'mt-5': isExpire, 'pt-5': isExpire,
+        'margin-one-item': (trade.offers.length === ITEM_COUNT_ONE && (getYourTradeItems.length === ITEM_COUNT_ONE ||  getYourTradeItems.length === ITEM_COUNT_0)) && !isPayment,
+        'margin-one-vs-two': (trade.offers.length === ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0 ) && !isPayment,
+        'margin-two-vs-one': (trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 ) && !isPayment,
+        'margin-two-vs-two': (trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0 ) && !isPayment,
+        'margin-one-item-payment': (trade.offers.length === ITEM_COUNT_ONE && (getYourTradeItems.length === ITEM_COUNT_ONE ||  getYourTradeItems.length === ITEM_COUNT_0)) && isPayment,
+        'margin-one-vs-two-payment': (trade.offers.length === ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0 ) && isPayment,
+        'margin-two-vs-one-payment': (trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0 ) && isPayment,
+        'margin-two-vs-two-payment': (trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0 ) && isPayment,
+        'center-cont-height-payment':(trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0 && isPayment)
         }">
-          <div class="left-item" :class="{'left-item-margin':trade.offers.length == ITEM_COUNT_ONE && getYourTradeItems.length > ITEM_COUNT_0,
-          'lft-mt-one': trade.offers.length == ITEM_COUNT_ONE,'lft-mt-two': trade.offers.length > ITEM_COUNT_ONE
+          <div class="left-item" :class="{'lft-mt-one': trade.offers.length == ITEM_COUNT_ONE && !isPayment ,'lft-mt-two': trade.offers.length > ITEM_COUNT_ONE && !isPayment,
+           'left-item-payment' : isPayment , 'item-normal' : !isPayment ,'lft-mt-one-payment': trade.offers.length == ITEM_COUNT_ONE && isPayment ,'lft-mt-two-payment': trade.offers.length > ITEM_COUNT_ONE && isPayment
           }">
-            <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE ?'item-'+index : 'items-'+index" :key="index" class="item" :class="[((trade.offers.length > ITEM_COUNT_ONE )|| (getYourTradeItems.length > ITEM_COUNT_0)) ? 'item-length' : 'item-normal']">
-              <div class="image-wrapper position-relative d-flex align-items-center justify-content-center">
+            <div v-for="(item,index) in trade.offers" :id="trade.offers.length === ITEM_COUNT_THREE && !isPayment ?'item-'+index : trade.offers.length === ITEM_COUNT_THREE && isPayment ?'item-payment-'+index : isPayment ? 'items-payment-'+index :  'items-'+index" :key="index" class="item">
+              <div class="image-wrapper position-relative d-flex align-items-center justify-content-center" :class="{'image-wrapper-payment':isPayment}">
               <div class="position-relative image-thumb-are">
-              <img class="item-image" :src="item.inventory.product | getProductImageUrl" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
+              <img class="item-image" :src="item.inventory.product | getProductImageUrl"/>
               <div class="overlay"></div>
               </div>
               </div>
-              <div class="item-caption">
-                <span class="item-name">{{ item.inventory.product.name}}</span>
-                <span class="item-size">{{ item.inventory.product.colorway }},{{$t('trades.trade_arena.size')}} {{ item.inventory.size.size }}</span>
-                <span class="item-box-condition">{{$t('common.box')}}: {{ item.inventory.packaging_condition.name }}</span>
+              <div class="item-caption" :class="{'item-caption-payment' : isPayment}">
+                <span class="item-name" :class="{'text-payment-width' : isPayment}">{{ item.inventory.product.name}}</span>
+                <span class="item-size" :class="{'text-payment-width' : isPayment}">{{ item.inventory.product.colorway }},{{$t('trades.trade_arena.size')}} {{ item.inventory.size.size }}</span>
+                <span class="item-box-condition" :class="{'text-payment-width' : isPayment}">{{$t('common.box')}}: {{ item.inventory.packaging_condition.name }}</span>
               </div>
             </div>
           </div>
-          <div class="center-item mt-268px">
-            <div v-if="trade.offers.length > ITEM_COUNT_ONE" class="pointer-left"></div>
-            <div class="long-line" :class="{'long-line-length' : trade.offers.length == ITEM_COUNT_ONE }"></div>
-            <img :src="require('~/assets/img/trades/border.svg')" />
-            <div class="long-line" :class="{'long-line-length' : getYourTradeItems.length == ITEM_COUNT_0  }"></div>
-            <div v-if="getYourTradeItems.length > ITEM_COUNT_0" class="pointer-right"></div>
+          <div class="center-item" :class="{'mt-218px' : isPayment , 'mt-268px' : !isPayment}">
+            <div v-if="trade.offers.length > ITEM_COUNT_ONE"  :class="{'pointer-left-payment' : isPayment, 'pointer-left' : !isPayment}"></div>
+            <div class="long-line" :class="{'long-line-length' : trade.offers.length == ITEM_COUNT_ONE && !isPayment , 'long-line-length-payment' : trade.offers.length == ITEM_COUNT_ONE && isPayment, 'short-line-payment': isPayment && trade.offers.length > ITEM_COUNT_ONE}"></div>
+            <img :src="require('~/assets/img/trades/border.svg')"  :class="{'payment-center-image': isPayment}"/>
+            <div class="long-line" :class="{'long-line-length' : getYourTradeItems.length == ITEM_COUNT_0 && !isPayment,'long-line-length-payment' : getYourTradeItems.length == ITEM_COUNT_0 && isPayment, 'short-line-payment': isPayment && getYourTradeItems.length > ITEM_COUNT_0 }"></div>
+            <div v-if="getYourTradeItems.length > ITEM_COUNT_0" :class="{'pointer-right-payment' : isPayment ,'pointer-right' : !isPayment}"></div>
           </div>
-          <div class="right-item" :class="{'right-item-margin':trade.offers.length > ITEM_COUNT_ONE && getYourTradeItems.length === ITEM_COUNT_0,
-           'rt-mt-one': getYourTradeItems.length === ITEM_COUNT_0,'rt-mt-two': getYourTradeItems.length > ITEM_COUNT_0
+          <div class="right-item" :class="{'rt-mt-one': getYourTradeItems.length === ITEM_COUNT_0 && !isPayment,'rt-mt-two': getYourTradeItems.length > ITEM_COUNT_0 && !isPayment ,
+          'right-item-payment': isPayment ,'rt-mt-one-payment': getYourTradeItems.length === ITEM_COUNT_0 && isPayment,'rt-mt-two-payment': getYourTradeItems.length > ITEM_COUNT_0 && isPayment
            }">
             <div  v-if="getYourTradeItems.length" class="">
-              <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_ONE ?'your-item-'+index : 'your-items-'+index" :key="index" class="preview item-length" :class="{'yml': isPayment && getYourTradeItems.length > ITEM_COUNT_TWO}">
-                <div class="remove-item" @click="decrementOrRemoveItem(item)">
+              <div  v-for="(item,index) in getYourTradeItems" :id="getYourTradeItems.length > ITEM_COUNT_ONE && !isPayment ?'your-item-'+index : getYourTradeItems.length > ITEM_COUNT_ONE && isPayment ? 'your-item-payment-'+index : isPayment ? 'your-items-payment-'+index : 'your-items-'+index" :key="index" class="preview" :class="{'right-item-payment': isPayment,'item-normal': !isPayment}">
+                <div class="remove-item" @click="decrementOrRemoveItem(item)" v-if="!isPayment">
                   <div class="minus"></div>
                 </div>
-                <div class="image-wrapper position-relative d-flex align-items-center justify-content-center">
+                <div class="image-wrapper position-relative d-flex align-items-center justify-content-center" :class="{'image-wrapper-payment':isPayment}">
                 <div class="position-relative image-thumb-are">
-                <img v-if="item.product" class="item-image" :src="item.product | getProductImageUrl" alt="image" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
-                <img v-else class="item-image" :src="item | getProductImageUrl" alt="image" :class="{'item-image-cond':(trade.offers.length > ITEM_COUNT_ONE || getYourTradeItems.length > ITEM_COUNT_0) }"/>
+                <img v-if="item.product" class="item-image" :src="item.product | getProductImageUrl" alt="image" />
+                <img v-else class="item-image" :src="item | getProductImageUrl" alt="image" />
                 <div v-if="item.product" class="overlay"></div>
                 </div>
                 </div>
-                <div class="item-caption">
-                  <span class="item-name">{{  (item.product && item.product.name) ? item.product.name : item.name  }}</span>
-                  <span class="item-caption-description">{{  (item.product  && item.product.colorway) ? item.product.colorway : item.colorway }},{{$t('trades.trade_arena.size')}} {{ item.size && item.size.size }}</span>
-                  <span class="item-box-condition">{{$t('common.box')}}: {{  (item.box_condition && item.box_condition.name) ? item.box_condition.name :item.box_condition }}</span>
+                <div class="item-caption" :class="{'item-caption-payment' : isPayment}">
+                  <span class="item-name" :class="{'text-payment-width' : isPayment}">{{  (item.product && item.product.name) ? item.product.name : item.name  }}</span>
+                  <span class="item-caption-description" :class="{'text-payment-width' : isPayment}">{{  (item.product  && item.product.colorway) ? item.product.colorway : item.colorway }},{{$t('trades.trade_arena.size')}} {{ item.size && item.size.size }}</span>
+                  <span class="item-box-condition" :class="{'text-payment-width' : isPayment}">{{$t('common.box')}}: {{  (item.box_condition && item.box_condition.name) ? item.box_condition.name :item.box_condition }}</span>
                 </div>
               </div>
             </div>
-            <div v-if="getYourTradeItems.length === ITEM_COUNT_0 || getYourTradeItems.length < ITEM_COUNT_THREE" :class="[getYourTradeItems.length > ITEM_COUNT_ONE ? 'item-length' : 'item-normal']"   @drop="onDrop($event)"
+            <div v-if="getYourTradeItems.length === ITEM_COUNT_0 || getYourTradeItems.length < ITEM_COUNT_THREE"  @drop="onDrop($event)"
                 @dragover.prevent
                 @dragenter.prevent>
-            <img :src="require('~/assets/img/trades/tradeNow.svg')">
+            <img :src="require('~/assets/img/trades/tradeNow.svg')"  :class="{'payment-drag-item' : isPayment}">
             </div>
           </div>
         </div>
-        <div class="d-flex flex-column align-items-center mt-75px">
+        <div class="d-flex flex-column align-items-center" :class="{'mt-51px': isPayment, 'mt-75px' : !isPayment }">
           <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
             <span class="fair-trade-label"></span>
             <Meter :fair="getFairTradeValue()" heading="trades.trade_arena.fair_trade_meter" :highest="theirTotal(false)" :lowest="0" :value="yourTotal(false)"/>
@@ -258,19 +268,6 @@
                       </div>
                     </div>
                   </div>
-
-                  <b-row class="justify-content-center col-md-12">
-<!--                  <Pagination-->
-<!--                    v-if="inventoryItems && inventoryItems.length > ITEM_COUNT_0"-->
-<!--                    v-model="page"-->
-<!--                    :total="totalCount"-->
-<!--                    :per-page="perPage"-->
-<!--                    :per-page-options="perPageOptions"-->
-<!--                    class="mt-4"-->
-<!--                    @page-click="handlePageClick"-->
-<!--                    @per-page-change="handlePerPageChange"-->
-<!--                  />-->
-                  </b-row>
                 </div>
               </client-only>
             </div>
@@ -407,6 +404,10 @@ export default {
       requestCashType: CASH_TYPE_REQUESTED,
       addCash: true,
       infiniteId: +new Date(),
+      vendor: {
+        trader_ranking: '100%',
+        total_trades: '100+'
+      },
     }
   },
   head() {
@@ -992,20 +993,37 @@ export default {
   height: 221px
   background: $color-white-4
   padding: 10px
-
+.image-wrapper-payment
+  height: 162px
 #item-0
   margin-top: 144px
   margin-left: 223px
+#item-payment-0
+  margin-top: 106px
+  margin-left: 173px
+  position: absolute
 #item-1
   margin-bottom: 10px
+#item-payment-1
+  margin-bottom: 10px
 #items-0
+  margin-bottom: 10px
+#items-payment-0
   margin-bottom: 10px
 #your-item-0
   margin-top: 144px
   margin-left: -223px
+#your-item-payment-0
+  margin-top: 106px
+  margin-left: -173px
+  position: absolute
 #your-item-1
   margin-bottom: 10px
+#your-item-payment-1
+  margin-bottom: 10px
 #your-items-0
+  margin-bottom: 10px
+#your-items-payment-0
   margin-bottom: 10px
 .header-values-div
   background: $color-white-4
@@ -1044,6 +1062,13 @@ export default {
   height: 280px
   width: 203px
   max-height: 280px
+.left-item-payment,.right-item-payment
+  width: 150px
+  height: 216px
+  max-height: 216px
+.payment-drag-item
+  width: 150px
+  height: 216px
 .item-normal
   width: 203px
   height: 280px
@@ -1065,16 +1090,7 @@ export default {
 
 #item-1
   margin-bottom: 30px
-.right-item-margin,.left-item-margin
-  margin-top: 11%
-  @media (min-width: 1600px) and (max-width: 1700px)
-    margin-top: 10%
-  @media (min-width: 1701px) and (max-width: 1900px)
-    margin-top: 9%
-  @media (min-width: 1901px) and (max-width: 2480px)
-    margin-top: 7%
-  @media (min-width: 2481px) and (max-width: 2900px)
-    margin-top: 6%
+
 .right-item .item,.right-item .preview
   border: unset
 .item-length
@@ -1136,6 +1152,7 @@ export default {
   border: 1px solid $color-blue-20
   border-radius: 8px
   color: $color-blue-20
+  margin-top: 59px
 .back-btn-trade:hover
   color: $color-white-1
 .z-100
@@ -1169,9 +1186,9 @@ export default {
   overflow: hidden
   width: 185px
 .center-cont-height
-  min-height: 545px
-.center-container-margin
-  margin: 70px 2%
+  min-height: 437px
+.center-cont-height-payment
+  min-height: 365px
 .center-item
   display: flex
   justify-content: space-between
@@ -1190,26 +1207,54 @@ export default {
 .pointer-left,.pointer-right
   height: 338px
   width: 236px
+.pointer-left-payment,.pointer-right-payment
+  height: 248px
+  width: 174px
+  border-top: 0.5px solid $light-gray-2
+  border-bottom: 0.5px solid $light-gray-2
+.pointer-right-payment
+  margin-right: 12px
+  border-left: 0.5px solid $light-gray-2
+.pointer-left-payment
+  margin-left: 12px
+  border-right: 0.5px solid $light-gray-2
+
 .pointer-right
   margin-right: 16px
 .pointer-left
   margin-left: 16px
 .long-line-length
   width: 51px
+.long-line-length-payment
+  width: 34px
+  margin: 0 12px
+.short-line-payment
+  width: 17px
+  margin: 0 12px
 .share-icon-margin
   margin-right: 20px
 .mb-11px
   margin-bottom: 11px
 .margin-one-item
   margin: 0 405px
+.margin-one-item-payment
+  margin: 0 290px
 .margin-one-vs-two
   margin-left: 405px
   margin-right: 181px
+.margin-one-vs-two-payment
+  margin-left: 290px
+  margin-right: 123px
 .margin-two-vs-one
   margin-right: 405px
   margin-left: 181px
+.margin-two-vs-one-payment
+  margin-right: 290px
+  margin-left: 123px
 .margin-two-vs-two
   margin: 0 181px
+.margin-two-vs-two-payment
+  margin: 0 123px
 .lft-mt-one,.rt-mt-one
   margin-top: 157px
 .mt-75px
@@ -1263,4 +1308,43 @@ export default {
   padding-left: 9px
 .mr-160px
   margin-right: 160px
+.header-values-payment
+  width: 797px
+  margin-left: 123px
+.item-caption-payment
+  min-height: 50px
+.text-payment-width
+  width: 115px
+.rt-mt-two-payment,.lft-mt-two-payment
+  margin-top: 33px
+.rt-mt-one-payment,.lft-mt-one-payment
+  margin-top: 132px
+.mt-218px
+  margin-top: 218px
+.offer-confirmation
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  @include heading-1
+  text-transform: uppercase
+  color: $color-black-1
+.trader-ranking
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-8-medium
+  color: $color-gray-47
+  padding-top: 5px
+.trader-accept
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-8-medium
+  color: $color-gray-5
+.mt-29px
+  margin-top: 29px
+.mb-90px
+  margin-bottom: 90px
+.mt-51px
+  margin-top: 51px
+.payment-center-image
+  height: 45px
+  width: 45px
 </style>
