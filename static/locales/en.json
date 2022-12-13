@@ -3532,6 +3532,7 @@
       "city": "City",
       "state": "State",
       "zip": "Zip/ Postal Code",
+      "please_provide_billing_first"  : "Please provide billing address.",
       "country": "Country",
       "billing_address": "Billing Address",
       "social_media_links": "Social Media Links",
@@ -3780,7 +3781,7 @@
         "state": "State",
         "phone": "Phone #"
       },
-      "field_is_empty"  : "Field is empty"
+      "new_balance" : "New Balance"
     }
   },
   "monthNames": {
@@ -5247,7 +5248,9 @@
     "how_to_find_my_code": "How do I find my code?",
     "redeemed": "Redeemed",
     "giftcard_error": "*Unfortunately, this gift card code and PIN is invalid. Please check your code for typos and enter it again.",
-    "how_to_find_code_text": "Once you receive a gift card, an email confirmation will be delivered with details including your gift card code and pin number."
+    "how_to_find_code_text": "Once you receive a gift card, an email confirmation will be delivered with details including your gift card code and pin number.",
+    "invalid_data"  : "*Unfortunately, this gift card code and PIN is invalid.",
+    "redeem_success"  : "Once you receive a gift card, an email confirmation will be delivered with details including your gift code and pin number."
   },
   "thresholds": {
     "success_message": "Commission Threshold Saved Successfully",

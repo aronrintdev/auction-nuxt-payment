@@ -135,10 +135,6 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
-.profile-component-wrapper
-  padding: 2%
-
 .personal-details-heading
   font-family: $font-sp-pro
   font-style: normal
