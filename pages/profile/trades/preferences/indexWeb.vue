@@ -76,7 +76,7 @@
           {{$t('trades.preferences.only_see_trade_matches_based')}}
         </div>
         <div class="mt-4 mb-2">
-          <div class="invent-setting-option mr-3 d-flex flex-wrap">
+          <div class="invent-setting-option mr-3 d-flex flex-wrap offer-group">
             <b-col md="2" sm="12" class="d-flex pt-1">
               {{$t('trades.preferences.sneaker')}}
             </b-col>
@@ -86,7 +86,7 @@
           </div>
         </div>
         <div class="mt-4 mb-2">
-          <div class="invent-setting-option mr-3 d-flex flex-wrap">
+          <div class="invent-setting-option mr-3 d-flex flex-wrap offer-group">
             <b-col md="2" sm="12" class="d-flex pt-1">
               {{$t('trades.preferences.apparel')}}
             </b-col>
@@ -96,7 +96,7 @@
           </div>
         </div>
         <div class="mt-4 mb-3">
-          <div class="invent-setting-option mr-3 d-flex flex-wrap">
+          <div class="invent-setting-option mr-3 d-flex flex-wrap offer-group">
             <b-col md="2" sm="12" class="d-flex pt-1">
               {{$t('trades.preferences.accessories')}}
             </b-col>
@@ -105,14 +105,6 @@
             </b-col>
           </div>
         </div>
-        <b-row class="justify-content-center pt-3">
-          <Button variant="primary" class="mr-4" pill @click="savePreference()">
-            {{$t('trades.preferences.save_changes')}}
-          </Button>
-          <Button variant="grey-light" pill @click="getTradePreferences()">
-            {{$t('trades.preferences.discard_changes')}}
-          </Button>
-        </b-row>
       </b-col>
 
       <!-- Size Preferences -->
@@ -373,15 +365,18 @@ export default {
       this.fairTrade = val
       this.savePreference()
     }, 1000),
-    changeSneakerInterest(val){
+    changeSneakerInterest: debounce( function (val) {
       this.sneakerInterest = val
-    },
-    changeApparelInterest(val){
+      this.savePreference()
+    }, 1000),
+    changeApparelInterest: debounce( function (val) {
       this.apparelInterest = val
-    },
-    changeAccessoriesInterest(val){
+      this.savePreference()
+    }, 1000),
+    changeAccessoriesInterest: debounce( function (val) {
       this.accessoriesInterest = val
-    },
+      this.savePreference()
+    }, 1000),
     /**
      * This function is used to change product size filter
      * @param selectedSizeType
@@ -547,6 +542,8 @@ export default {
   font-style: normal
   @include body-16-medium
   color: $color-black-1
+  padding-top: 32px
+  padding-left: 30px
 .size-prefer
   font-family: $font-family-montserrat
   font-style: normal
@@ -616,4 +613,6 @@ export default {
   font-size: 20px
   color: $color-black-1
   font-style: normal
+.offer-group
+  margin-left: 30px
 </style>
