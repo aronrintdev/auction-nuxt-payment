@@ -19,7 +19,7 @@
         variant="primary"
         class="mx-auto"
         pill
-        @click="showMobileEdit"
+        @click="showMobileCreate"
       >
         {{ $t('wish_lists.create_new_list') }}
       </Button>
@@ -216,7 +216,7 @@
             </div>
           </section>
           <div class="d-flex justify-content-end align-self-end d-block d-sm-none">
-            <span @click="showMobileEdit"><img width="42" height="42" src="~/assets/img/icons/plus-icon-bg.svg" /></span>
+            <span @click="showMobileCreate"><img width="42" height="42" src="~/assets/img/icons/plus-icon-bg.svg" /></span>
           </div>
         </div>
 
@@ -322,10 +322,11 @@
       @created="handleCreated"
       />
     <MobileCreateWishListModal
+          ref="mobileCreateView"
           :height="'40%'"
-          :open="mobileFiltersOpen"
           :title="$t('wish_lists.create_new_list').toString()"
-          @created="hideMobileEdit"
+          @created="hideMobileCreate"
+          @closed="hideMobileCreate"
       >
     </MobileCreateWishListModal>
     <MobileEditWishListModal
@@ -435,7 +436,6 @@ export default {
       infiniteId: +new Date(),
       state: '',
       url: '',
-      mobileFiltersOpen: false,
     }
   },
 
@@ -737,6 +737,21 @@ export default {
       const { mobileEditView } = this.$refs
       if (mobileEditView) {
         mobileEditView.hide()
+      }
+    },
+    showMobileCreate() {
+      console.log('hereeee')
+      const { mobileCreateView } = this.$refs
+      console.log(mobileCreateView)
+      if (mobileCreateView) {
+        mobileCreateView.show()
+      }
+    },
+    hideMobileCreate() {
+      console.log('hide')
+      const { mobileCreateView } = this.$refs
+      if (mobileCreateView) {
+        mobileCreateView.hide()
       }
     }
   },

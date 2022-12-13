@@ -3,8 +3,8 @@
           :height="height"
           :open="open"
           :title="$t('wish_lists.create_new_list').toString()"
-          @closed="mobileFiltersOpen = false"
-          @opened="mobileFiltersOpen = true"
+          @closed="$emit('closed')"
+          @opened="$emit('opened')"
       >
     <template #header>
       <h5>{{ $t('wish_lists.create_new_list') }}</h5>
@@ -95,22 +95,8 @@ import ItemDivider from '~/components/profile/notifications/ItemDivider'
 
 export default {
   name: 'MobileCreateWishListModal',
-
   components: { MobileBottomSheet, ValidationObserver, ValidationProvider, Button, CheckboxSwitch, ItemDivider },
-
   props: {
-    id: {
-      type: String,
-      default: 'create-list-modal',
-    },
-    open: {
-      type: Boolean,
-      default: false,
-    },
-    closed: {
-      type: Boolean,
-      default: true
-    },
     height: {
       type: String,
       default: '40%',
@@ -123,7 +109,8 @@ export default {
       newListPrivacy: false,
       loading: false,
       wishList: null,
-      mobileFiltersOpen: false
+      mobileFiltersOpen: false,
+      open: false
     }
   },
 
@@ -142,13 +129,15 @@ export default {
         })
         this.loading = false
         this.$emit('created', wishList)
-        this.$bvModal.hide(this.id)
+        this.hide()
       }
     },
     getValidationState({ dirty, validated, valid = null }) {
       // Returns the contextual state (validation style) of the element being validated (false for invalid, true for valid, or null for no validation state)
       return dirty || validated ? valid : null
     },
+    show() { this.open = true },
+    hide() { this.open = false },
   },
 }
 </script>
