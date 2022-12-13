@@ -91,9 +91,9 @@ export default {
 .percentage-value
   width: 35px
   height: 35px
-  background: #F7F7F7
+  background: $color-white-5
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25)
-  border: 1px solid #F7F7F7
+  border: 1px solid $color-white-5
   border-radius: 5px
   @include body-9
   color: $color-black-1
@@ -131,5 +131,4 @@ export default {
 .percent-div
   margin-top: -10px
   margin-left: 20px
-   //width: 30%
 </style>
