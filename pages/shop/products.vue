@@ -15,7 +15,7 @@
       :data="CATEGORIES"
       :value="category"
       nav-key="category"
-      class="section-nav text-center mt-4 mb-5 mx-sm-0"
+      class="section-nav text-center mt-4 mb-5 mx-sm-0 mx-4"
       btn-class="px-lg-5 px-0"
       @change="handleCategoryChange"
     />
@@ -45,8 +45,8 @@
             </div>
           </div>
         </template>
-        <template v-else-if="!state">
-          <div class="text-center no-items-found h-300">
+        <template v-else-if="!loading">
+          <div class="d-flex align-items-center justify-content-center h-300">
             <div class="no-items-found-title">
               {{ $t('auctions.frontpage.no_results_found') }}
             </div>
@@ -54,12 +54,6 @@
         </template>
 
         <infinite-loading :identifier="infiniteId" @infinite="handleLoading">
-          <!-- <div
-            slot="spinner"
-            class="d-flex align-items-center justify-content-center h-300"
-          >
-            <Loader :loading="loading"></Loader>
-          </div> -->
         </infinite-loading>
       </div>
     </section>
@@ -81,7 +75,6 @@ export default {
     SearchAndFilter,
     NavGroup,
     ShopProductCard,
-    // Loader,
   },
   layout: 'IndexLayout',
   fetchOnServer: false,
@@ -91,7 +84,6 @@ export default {
       maxPerPage: 12,
       totalResults: 0,
       loading: true,
-      filter: false,
       prices: null,
       products: [],
       pageType: this.$route.query.type,
@@ -105,7 +97,7 @@ export default {
         { label: this.$t('common.apparel'), value: 'apparel' },
         { label: this.$t('common.all_sizes', 2), value: 'all_sizes' },
       ],
-      // infiniteId: +new Date(),
+      infiniteId: +new Date(),
     }
   },
 
@@ -120,6 +112,7 @@ export default {
       'selectedSearch',
       'selectedSort',
       'selectedOrdering',
+      'getIsFilterActive',
     ]),
     pageCount() {
       return Math.ceil(this.totalResults / this.maxPerPage)
@@ -141,44 +134,36 @@ export default {
       this.fetchProducts()
     },
     fetchProducts: debounce(function () {
+      this.loading = true
       const filters = {}
       if (this.search) {
         filters.search = this.search
-        this.filter = true
       }
       if (this.category) {
         filters.category = this.category !== 'all' ? this.category : ''
-        this.filter = true
       }
       if (this.selectedPrices.length > 0) {
         this.prices =
           this.selectedPrices[0] * 100 + '-' + this.selectedPrices[1] * 100
         filters.prices = this.prices
-        this.filter = true
       }
       if (this.selectedBrands) {
         filters.brands = this.selectedBrands.join(',')
-        this.filter = true
       }
       if (this.selectedSizes) {
         filters.sizes = this.selectedSizes.join(',')
-        this.filter = true
       }
       if (this.selectedSizeTypes) {
         filters.size_types = this.selectedSizeTypes.join(',')
-        this.filter = true
       }
       if (this.selectedYears) {
         filters.years = this.selectedYears.join('-')
-        this.filter = true
       }
       if (this.selectedSearch) {
         filters.search = this.selectedSearch
-        this.filter = true
       }
       if (this.selectedSort) {
         filters.desc = this.selectedSort ?? 'true'
-        this.filter = true
       }
 
       filters.take = this.maxPerPage
@@ -201,7 +186,7 @@ export default {
         this.productType = this.$t('home_page.instant_shipping')
         this.getInstantShip(filters)
       }
-    }, 200),
+    }, 50),
     getRecentProducts(filters) {
       if (this.selectedOrdering) {
         filters.order_by = this.selectedOrdering
@@ -240,25 +225,32 @@ export default {
           params: filters,
         })
         .then((res) => {
-          if (this.filter === true) {
+          if (this.getIsFilterActive === true) {
+            this.state.reset()
+            this.state.loaded()
             this.products = []
             this.currentPage = 1
-          }
-          this.loading = false
-          const that = this
-          this.filter = false
-          if (!res.data.next_page_url) {
-            this.state.complete()
+            this.url = ''
           } else {
-            this.currentPage += 1
-            this.url = res.data.next_page_url
-          }
-          if (res.data.current_page === 1) {
-            this.products = [...res.data.data]
-          } else {
-            this.products = [...that.products, ...res.data.data]
+            this.loading = false
+            const that = this
+            if (res.data.current_page === 1) {
+              this.products = [...res.data.data]
+            } else {
+              this.products = [...that.products, ...res.data.data]
+            }
+
+            if (!res.data.next_page_url) {
+              if (this.products.length) {
+                this.state.complete()
+              }
+            } else {
+              this.currentPage += 1
+              this.url = res.data.next_page_url
+            }
           }
 
+          this.$store.commit('browse/setIsFilter', false)
           this.state.loaded()
         })
         .finally(() => {
@@ -267,7 +259,7 @@ export default {
     },
     handleCategoryChange(category) {
       this.category = category
-      this.filter = true
+      this.$store.commit('browse/setIsFilter', true)
       this.$store.commit('browse/setSelectedCategory', category)
       this.fetchProducts()
     },

@@ -320,6 +320,7 @@ export default {
         'browse/setSelectedSearch',
         this.selectedFilters.search
       )
+      this.$store.commit('browse/setIsFilter',true)
       if (
         this.selectedFilters.sizeTypes &&
         this.selectedFilters.sizeTypes.length > 0 &&
@@ -345,20 +346,25 @@ export default {
       switch(type) {
             case 'sizesType':
               this.selectedFilters.sizeTypes.splice(index, 1)
+              this.$store.commit('browse/setIsFilter',false)
               break;
             case 'sizes':
               this.selectedFilters.sizes.splice(index, 1)
+              this.$store.commit('browse/setIsFilter',false)
               break;
             case 'brands':
               this.selectedFilters.brands.splice(index, 1)
+              this.$store.commit('browse/setIsFilter',false)
               break;
             case 'years':
               this.selectedFilters.years = []
               this.selectedYears =  [MIN_YEAR, MAX_YEAR]
+              this.$store.commit('browse/setIsFilter',false)
               break;
             case 'prices':
               this.selectedFilters.prices = []
               this.selectedPrices = [MIN_PRICE, MAX_PRICE / 100]
+              this.$store.commit('browse/setIsFilter',false)
               break;
             default:
               // code block
@@ -380,6 +386,7 @@ export default {
       this.$store.commit('browse/setSizesByType', [])
       this.$store.commit('browse/setSelectedPrices', [])
       this.$store.commit('browse/setSelectedYears', [])
+      this.$store.commit('browse/setIsFilter',false)
     },
     handleSortBySelect(option) {
       // Select SortBy option

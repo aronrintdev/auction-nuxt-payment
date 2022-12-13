@@ -335,6 +335,7 @@ export default {
       this.$store.commit('browse/setSelectedSizeTypes', this.sizeTypes)
       this.$store.commit('browse/setSelectedSort', this.sortBy)
       this.$store.commit('browse/setSelectedOrdering', this.orderBy)
+      this.$store.commit('browse/setIsFilter', true)
 
       if (this.selectedSizeType && this.sizes) {
         const newSizes = this.sizes.filter((size) =>
