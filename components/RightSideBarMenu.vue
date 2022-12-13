@@ -381,6 +381,11 @@ export default {
           label: this.$t('home.trade_offers'),
           link: '/profile/trades/dashboard/alloffers',
         },
+        {
+          icon: 'settings-outline-gray',
+          label: this.$t('home.trade_preferences'),
+          link: '/profile/trades/preferences',
+        },
       ],
     }
   },
