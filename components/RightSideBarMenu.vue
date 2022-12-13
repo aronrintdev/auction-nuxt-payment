@@ -6,6 +6,7 @@
     width="100%"
     z-index="99999"
     shadow
+    :visible="isVisible"
     no-header
     right
     @shown="isVisible = true"
@@ -388,6 +389,11 @@ export default {
         },
       ],
     }
+  },
+  mounted() {
+    this.$root.$on('open-right-sidebar', () => {
+      this.isVisible = true
+    })
   },
   methods: {
     getIcon(name) {
