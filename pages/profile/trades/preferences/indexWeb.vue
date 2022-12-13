@@ -35,7 +35,7 @@
 
       <!-- Your Inventory -->
       <b-col v-if="inventoryStatus === INVENTORY_STATUS_CUSTOM"  class="inventory-settings mt-4">
-        <div class="invent-setting-head">
+        <div class="invent-status-custom">
           {{$t('trades.your_inventory', {0: totalInventory})}}
         </div>
         <your-inventory @updateTotal="setTotalInventory" @change="changePublicInventories" />
@@ -50,15 +50,15 @@
       </b-col>
 
       <!-- Offers Settings -->
-      <b-col class="inventory-settings mt-4">
-        <div class="invent-setting-head">
+      <b-col class="inventory-offer-settings mt-4">
+        <div class="offer-setting">
           {{$t('trades.preferences.offer_settings')}}
         </div>
         <div class="invent-setting-sub-head">
           {{$t('trades.preferences.other_traders_will_only_be_able')}}
         </div>
         <div class="mt-4 mb-4">
-          <div class="invent-setting-option mr-3">
+          <div class="mr-3 starting-at">
             {{$t('trades.preferences.starting_at')}}
           </div>
           <b-col class="d-flex justify-content-center" sm="12" md="12">
@@ -76,8 +76,8 @@
       </b-col>
 
       <!-- Refine Your Matches -->
-      <b-col class="inventory-settings mt-4 pb-5">
-        <div class="invent-setting-head">
+      <b-col class="refine-settings mt-4 pb-5">
+        <div class="refine-match">
           {{$t('trades.preferences.refine_your_matches')}}
         </div>
         <div class="invent-setting-sub-head">
@@ -124,8 +124,8 @@
       </b-col>
 
       <!-- Size Preferences -->
-      <b-col class="inventory-settings mt-4">
-        <div class="invent-setting-head pb-5">
+      <b-col class="size-settings mt-4">
+        <div class="size-prefer pb-5">
           {{$t('trades.preferences.size_preferences')}}
         </div>
         <b-row class="pb-5">
@@ -217,8 +217,8 @@
       </b-col>
 
       <!-- Brands Section -->
-      <b-col class="inventory-settings mt-4">
-        <div class="invent-setting-head">
+      <b-col class="brand-settings mt-4">
+        <div class="brands-section">
           {{$t('trades.preferences.brands_i_am_looking_for')}}
         </div>
         <div class="invent-setting-sub-head">
@@ -509,8 +509,22 @@ export default {
   background: $color-white-1
   border-radius: 4px
   box-shadow: 0 1px 4px $drop-shadow1
-  //padding: 30px
-
+.inventory-offer-settings
+  background: $color-white-1
+  border-radius: 4px
+  box-shadow: 0 1px 4px $drop-shadow1
+.refine-settings
+  background: $color-white-1
+  border-radius: 4px
+  box-shadow: 0 1px 4px $drop-shadow1
+.size-settings
+  background: $color-white-1
+  border-radius: 4px
+  box-shadow: 0 1px 4px $drop-shadow1
+.brand-settings
+  background: $color-white-1
+  border-radius: 4px
+  box-shadow: 0 1px 4px $drop-shadow1
 .invent-setting-head
   font-family: $font-family-montserrat
   font-style: normal
@@ -520,12 +534,42 @@ export default {
   padding-left: 30px
   padding-bottom: 4px
 
-.invent-setting-sub-head
+.invent-status-custom
   font-family: $font-family-montserrat
   font-style: normal
-  @include body-5-regular
+  @include body-16-medium
+  color: $color-black-1
+.offer-setting
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-16-medium
+  color: $color-black-1
+  padding-left: 30px
+  padding-top: 28px
+  padding-bottom: 4px
+.refine-match
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-16-medium
+  color: $color-black-1
+.size-prefer
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-16-medium
+  color: $color-black-1
+.brands-section
+  font-family: $font-family-montserrat
+  font-style: normal
+  @include body-16-medium
+  color: $color-black-1
+
+.invent-setting-sub-head
+  font-family: $font-montserrat
+  font-style: normal
+  @include body-5
   color: $color-gray-5
   padding-left: 30px
+  font-weight: $medium
 
 .invent-setting-option
   font-family: $font-family-montserrat
@@ -569,4 +613,12 @@ export default {
   @include body-5
   font-family: $medium
   font-family: $font-montserrat
+.starting-at
+  padding-top: 33px
+  padding-left: 30px
+  font-weight: $medium
+  font-family: $font-montserrat
+  font-size: 20px
+  color: $color-black-1
+  font-style: normal
 </style>
