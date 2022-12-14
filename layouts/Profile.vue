@@ -120,7 +120,6 @@ export default {
 
 .wrapper
   .custom-wrapper
-    overflow: hidden
     margin: 0
     padding: 0
 
