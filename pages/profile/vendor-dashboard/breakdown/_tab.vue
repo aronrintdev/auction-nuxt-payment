@@ -1129,6 +1129,8 @@ export default {
     margin-inline: 4px
 
 .form-check
+  & > *
+    cursor: pointer
 
   .form-check-input
     border: none

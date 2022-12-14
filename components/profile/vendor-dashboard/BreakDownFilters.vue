@@ -340,6 +340,8 @@ export default {
       padding-top: 4px
 
 .form-check
+  & > *
+    cursor: pointer
 
   .form-check-input
     border: none
