@@ -422,7 +422,7 @@ export default {
   max-width: 778px
 
 ::v-deep.vp-custom-select
-  width: 245px !important
+  max-width: 245px
   .selected
     &:after
       top: 3px
@@ -441,7 +441,8 @@ export default {
 
 ::v-deep.nav-grp
   width: 460px
-  margin: 0 !important
+  &.nav-group
+    margin: 0
   &.mobile
     width: 100%
   .btn-group
@@ -496,17 +497,6 @@ export default {
         background-color: $color-white-5
       &:first-child
         background-color: transparent
-
-  thead
-    tr
-      [aria-sort=none]
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 1l25 23 24 22H1l25-22zM51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e") !important
-
-      [aria-sort=descending]
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e") !important
-
-      [aria-sort=ascending]
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 1l25 23 24 22H1l25-22z'/%3e%3c/svg%3e") !important
 
 
   .tdHeight

@@ -754,24 +754,24 @@ export default {
 .dropdown-filter::v-deep
   background-color: $color-white-4
   border-radius: 8px
-  border: none !important
+  border: none
   width: 200px
+  &.custom-selectbox
+    .selected
+      @include body-13-medium
+      color: $color-black-1
+      background-color: $color-white-4
+      font-family: $font-family-sf-pro-display
+      border: none
+      padding-inline: 18px
 
-  .selected
-    @include body-13-medium
-    color: $color-black-1
-    background-color: $color-white-4 !important
-    font-family: $font-family-sf-pro-display
-    border: none !important
-    padding-inline: 18px
+      label
+        display: none
 
-    label
-      display: none
-
-  .items
-    @include body-13-regular
-    color: $color-black-1
-    font-family: $font-family-sf-pro-display
+    .items
+      @include body-13-regular
+      color: $color-black-1
+      font-family: $font-family-sf-pro-display
 
 .web-padding
   padding: 30px 25px

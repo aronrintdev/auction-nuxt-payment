@@ -1038,24 +1038,24 @@ export default {
 .dropdown-filter::v-deep
   background-color: $color-white-4
   border-radius: 8px
-  border: none !important
+  border: none
   width: 200px
+  &.custom-selectbox
+    .selected
+      @include body-13-medium
+      color: $color-black-1
+      background-color: $color-white-4
+      font-family: $font-family-sf-pro-display
+      border: none
+      padding-inline: 18px
 
-  .selected
-    @include body-13-medium
-    color: $color-black-1
-    background-color: $color-white-4 !important
-    font-family: $font-family-sf-pro-display
-    border: none !important
-    padding-inline: 18px
+      label
+        display: none
 
-    label
-      display: none
-
-  .items
-    @include body-13-regular
-    color: $color-black-1
-    font-family: $font-family-sf-pro-display
+    .items
+      @include body-13-regular
+      color: $color-black-1
+      font-family: $font-family-sf-pro-display
 
 ::v-deep.stat-table
   &.table.b-table.b-table-no-border-collapse
@@ -1108,7 +1108,7 @@ export default {
         font-family: $font-family-base
 
         &.border-bottom.bottom-primary
-          border: 0 !important
+          border: 0
     .tdHeight
       @include body-9-medium
       color: $color-black-1
@@ -1129,8 +1129,6 @@ export default {
     margin-inline: 4px
 
 .form-check
-  & > *
-    cursor: pointer !important
 
   .form-check-input
     border: none
