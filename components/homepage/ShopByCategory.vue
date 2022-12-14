@@ -24,7 +24,7 @@
             <div class="overflow-wrapper">
               <div
                 class="category-wrapper d-flex align-items-center justify-content-center cursor-pointer"
-                :style="{ '--image': `url(${categoryData.image})` }"
+                :style="{ '--image': `url(${category.image})` }"
               >
                 <h1 class="fs-24 fw-4 font-primary text-white text-uppercase">
                   {{ categoryData.name }}
