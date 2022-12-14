@@ -5,7 +5,7 @@
       :desc="$t('home_page.shop_by_category_desc')"
       :label="$t('home_page.view_more_products')"
       marginLeft="60px"
-      to="#"
+      to="/shop"
     />
     <div
       class="row products-category no-gutters overflow-hidden px-2 d-none d-md-flex"
@@ -24,7 +24,7 @@
             <div class="overflow-wrapper">
               <div
                 class="category-wrapper d-flex align-items-center justify-content-center cursor-pointer"
-                :style="{ '--image': `url(${category.image})` }"
+                :style="{ '--image': `url(${categoryData.image})` }"
               >
                 <h1 class="fs-24 fw-4 font-primary text-white text-uppercase">
                   {{ categoryData.name }}
@@ -67,49 +67,41 @@ export default {
           title: this.$t('home_page.tops'),
           image: require('~/assets/img/home/categories/tops.svg'),
           to: './shop',
-          id: 'tops'
         },
         {
           title: this.$t('home_page.t-shirts'),
           image: require('~/assets/img/home/categories/t-shirts.svg'),
           to: './shop',
-          id: 't-shirts',
         },
         {
           title: this.$t('home_page.sweatshirts'),
           image: require('~/assets/img/home/categories/sweat-shirts.svg'),
           to: './shop',
-          id: 'sweatshirts'
         },
         {
           title: this.$t('home_page.footwear'),
           image: require('~/assets/img/home/categories/footwear.svg'),
           to: './shop',
-          id: 'footwear'
         },
         {
           title: this.$t('home_page.bottoms'),
           image: require('~/assets/img/home/categories/bottoms.svg'),
           to: './shop',
-          id: 'bottoms'
         },
         {
           title: this.$t('home_page.shirts'),
           image: require('~/assets/img/home/categories/shirts.svg'),
           to: './shop',
-          id: 'shirts'
         },
         {
           title: this.$t('home_page.jackets'),
           image: require('~/assets/img/home/categories/jackets.svg'),
           to: './shop',
-          id: 'jackets'
         },
         {
           title: this.$t('home_page.accessories'),
           image: require('~/assets/img/home/categories/accessories.svg'),
           to: './shop',
-          id: 'accessories'
         },
       ],
       categoriesSm: [
