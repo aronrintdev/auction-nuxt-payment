@@ -45,7 +45,7 @@
             variant="dark"
             @click="moveToCreateInventory"
           >
-            {{ $t('inventory.create_inventory') }}
+            {{ $t('inventory.add_inventory') }}
           </Button>
         </div>
       </div>
@@ -94,8 +94,8 @@
         <div class="mt-3 mt-xl-0 col-6 col-xl-2 d-flex justify-content-end">
           <FormDropdown
             id="inventory-actions"
-            :icon-arrow-down="require('~/assets/img/icons/arrow-down-blue.svg')"
-            :icon-arrow-up="require('~/assets/img/icons/arrow-up-blue.svg')"
+            :icon-arrow-down="require('~/assets/img/icons/arrow-up-blue.svg')"
+            :icon-arrow-up="require('~/assets/img/icons/arrow-down-blue.svg')"
             :items="ACTIONS"
             :value="action"
             :placeholder="$tc('common.action', 2)"
