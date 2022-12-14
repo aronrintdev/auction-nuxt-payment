@@ -112,7 +112,7 @@
         <div class="d-flex align-items-center" @click="moveToCreateInventory">
           <add-svg class="add-svg mr-2" height="13" width="13"/>
           <span class="add-text">
-          {{ $t('createlisting.create_new_inventory') }}
+          {{ $t('inventory.add_inventory') }}
         </span>
         </div>
       </div>
