@@ -22,7 +22,7 @@
           <b-col cols="3">
             <ProductThumb :product="product" width="78px" style="margin-top:-8px" />
           </b-col>
-          <b-col cols="6"><div class="text-truncate text-nowrap product-name pl-2">{{ product.name }}</div></b-col>
+          <b-col cols="6"><div class="product-name pl-2">{{ product.name }}</div></b-col>
           <b-col cols="3 text-right">
             <a role="button" class="add-btn" @click="handleAddToInventory(product.sku)">{{ $t('common.add') }}</a>
           </b-col>
@@ -327,6 +327,10 @@ export default {
     font-family: $font-montserrat
     @include body-10-medium
     color: $color-black-15
+    display: -webkit-box
+    -webkit-line-clamp: 2
+    -webkit-box-orient: vertical
+    overflow: hidden
 
   .add-btn
     font-family: $font-family-sf-pro-display
