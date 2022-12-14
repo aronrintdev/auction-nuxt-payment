@@ -861,7 +861,7 @@ export default {
   border-radius: 4px
   border: 1px solid $color-blue-20
   margin-top: 10px
-  margin-right: 120px
+  margin-right: 25px
   color: $color-white-1
   @include body-13
   font-family: $font-sp-pro
