@@ -100,8 +100,8 @@
               <div v-for="(prod, index) in getTradeItems"
                    :key="'selected-'+index+prod.id" class="create-trade-item-sm d-flex justify-content-between flex-column mr-2">
                 <div class="position-relative">
-                  <div class="create-trade-minus-icon-sm position-absolute" @click="decrementOrRemoveItem(prod.id)">
-                    <div class="create-trade-minus-line-sm"></div>
+                  <div class="create-trade-remove-icon-sm position-absolute" @click="decrementOrRemoveItem(prod.id)">
+                    <img :src="require('~/assets/img/minusSign.svg')" />
                   </div>
                 </div>
                 <div class="offer-item-img-sm position-relative d-flex align-items-center justify-content-center">
@@ -722,8 +722,7 @@ export default {
   @include body-18
   font-weight: $normal
   font-family: $font-sp-pro
-.create-trade-minus-icon-sm
-  background-color: $color-red-27
+.create-trade-remove-icon-sm
   right: 5px
   top: 5px
   z-index: 81
