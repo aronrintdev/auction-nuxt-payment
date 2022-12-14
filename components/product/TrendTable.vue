@@ -86,7 +86,7 @@ export default {
   components: { ProductThumb },
   props: {
     products: {
-      type: Array,
+      type: [Array, Object],
       default: () => {
         return [
           {
