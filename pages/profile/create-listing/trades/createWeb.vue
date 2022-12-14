@@ -241,8 +241,9 @@
                       :key="'selected-'+index+prod.id" class="create-trade-item-web mr-4">
                     <div class="position-relative d-flex justify-content-center align-items-center sm-img-cont">
                       <div v-if="prod.quantity > 1" class="create-trade-quantity-car-sm position-absolute">x{{ prod.quantity || 1 }}</div>
-                      <div class="create-trade-minus-icon-web position-absolute" @click="decrementOrRemoveItem(prod.id)">
-                      <div class="create-trade-minus-line-sm"></div>
+
+                      <div class="create-trade-remove-icon-web position-absolute" @click="decrementOrRemoveItem(prod.id)">
+                        <img :src="require('~/assets/img/minusSign.svg')" />
                       </div>
                     <div class="create-trade-item-image-div-sm position-relative">
                       <object
@@ -891,12 +892,13 @@ export default {
 .create-trade-quantity-car-sm
   left: 10px
   top: 10px
-.create-trade-minus-icon-web
+.create-trade-remove-icon-web
   right: 10px
   top: 10px
   z-index: 102
 .sm-img-cont
-  height: 180px
+  height: 185px
+  width: 164px
   background: $color-white-1
   padding: 25px
 .create-trade-item-web
