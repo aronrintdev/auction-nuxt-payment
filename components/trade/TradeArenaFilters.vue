@@ -14,7 +14,7 @@
         </div>
         <FilterGroup
           :title="$t('home_page.categories')"
-          :options="categoryOptions"
+          :options="categoryOption"
           :selectedValues="selectedFilters.categories"
           name="category"
           @change="(value) => filterGroupChanged(value, 'categories')"
@@ -59,7 +59,11 @@ export default {
   },
   data(){
     return {
-      categoryOptions: [],
+      categoryOption: [
+        { text: this.$t('common.categories.footwear'), value: 'footwear' },
+        { text: this.$t('common.categories.apparel'), value: 'Apparel' },
+        { text: this.$t('common.categories.accessories'), value: 'Accessories' }
+      ],
       selectedFilters: {
         sizeTypes: [],
         category: '',
@@ -69,6 +73,8 @@ export default {
       SORT_OPTIONS: [
         { text: this.$t('trades.create_listing.vendor.wants.price_low_to_high'), value: 'price_low_to_high' },
         { text: this.$t('trades.create_listing.vendor.wants.price_high_to_low'), value: 'price_high_to_low' },
+        { text: this.$t('trades.create_listing.vendor.wants.size_small_to_large'), value: 'size_small_to_large' },
+        { text: this.$t('trades.create_listing.vendor.wants.size_large_to_small'), value: 'size_large_to_small' },
       ],
     }
   },
@@ -99,6 +105,10 @@ export default {
     },
   },
   mounted() {
+    this.categoryOption = this.categoryOption.map(cat => ({
+      label: cat.text,
+      value: cat.value,
+    }))
     // Get categories list
     this.$axios.get('/categories', {
       params: {
