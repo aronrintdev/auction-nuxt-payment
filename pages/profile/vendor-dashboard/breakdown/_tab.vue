@@ -212,13 +212,13 @@
             class="line-chart d-block d-sm-none"
             is-graph
           />
-          <div class="d-flex align-items-center justify-content-end mr-3 mt-4">
-            <div v-for="item in mainChart.datasets" :key="item.label" class="d-flex align-items-center mr-3">
+          <div class="chart-labels mx-3 mt-4">
+            <div v-for="item in mainChart.datasets" :key="item.label" class="item d-flex align-items-center mr-3 ">
               <div class="dot" :style="{
                 'background-color': item.borderColor
               }">
               </div>
-              <div class="body-5-normal font-primary text-black">
+              <div class="body-5-normal font-primary text-black chart-label">
                 {{item.label}}
               </div>
             </div>
@@ -934,8 +934,22 @@ export default {
 
 <style scoped lang="sass">
 @import "~/assets/css/variables"
+.chart-labels
+  direction: rtl
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))
+  .item
+    direction: ltr
+    margin-left: auto
+  .chart-label
+    max-width: 170px
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
 .dot
   width: 12px
+  min-width: 12px
   height: 12px
   border-radius: 43px
   margin-right: 13px
