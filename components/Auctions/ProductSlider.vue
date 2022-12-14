@@ -4,7 +4,7 @@
       <div v-if="showHeader" class="col-12 d-flex align-items-center justify-content-between auctions-block-header">
         <div class="px-0 px-md-4 new-releases-heading text-left">{{ title }}</div>
         <div v-if="isCarouselMode" class="px-2 px-md-4 view-more-products-text" @click="showAll">
-          <span>{{ $t('home.view_more_products') }}</span>
+          <span>{{ viewMoreBtnLabel ? viewMoreBtnLabel : $t('home.view_more_products') }}</span>
           <img src="~/assets/img/icons/arrow-right-in-circle.svg">
         </div>
         <div v-if="showAllText" class="view-all-products-text" @click="showAll">
@@ -13,20 +13,20 @@
       </div>
 
       <div v-if="auctionList.length > 0" class="col-12 auctions-block-list">
-        <div v-if="isCarouselMode" class="w-100 mt-3 mt-md-5 tab-align-center">
+        <div v-if="isCarouselMode" class="w-100 tab-align-center">
           <carousel
             :key="auctionList.length"
             ref="carousel"
             class="carousel auction-carousel slide-fade"
-            :nav="false"
+            :nav="showArrows"
             :loop="false"
             :center="true"
             :margin="30"
             :responsive="{
-              0: { items: 2, nav: false, center: false, margin: 15 },
-              600: { items: 2, nav: false, center: false, margin: 20 },
-              1024: { items: 3, nav: false, center: false, margin: 30 },
-              1200: { items: 4, nav: false, center: false },
+              0: { items: 2, nav: false, center: false, margin: 12 },
+              600: { items: 2, nav: false, center: false, margin: 18 },
+              1024: { items: 3, nav: false, center: false, margin: 24 },
+              1200: { items: itemsCount, nav: showArrows, center: false,  margin: margin },
             }"
             :mouse-drag="false"
             :dots="false"
@@ -52,7 +52,7 @@
             </template>
           </carousel>
         </div>
-        <div v-else class="mt-3 mt-md-5 tab-align-center full-view">
+        <div v-else class="tab-align-center full-view">
           <div class="row">
             <AuctionCard
               v-for="auction in auctionList"
@@ -108,6 +108,22 @@ export default {
     showAllText: {
       type: Boolean,
       default: false,
+    },
+    viewMoreBtnLabel: {
+      type: String,
+      default: '',
+    },
+    itemsCount: {
+      type: Number,
+      default: 4,
+    },
+    showArrows: {
+      type: Boolean,
+      default: false,
+    },
+    margin: {
+      type: Number,
+      default: 24,
     }
   },
 
@@ -143,6 +159,8 @@ export default {
 
   .auctions-block
     margin-bottom: 70px
+    &-list
+      margin-top: 50px
   .no-items-found
     img
       width: 130px
@@ -156,7 +174,9 @@ export default {
       color: $black
   @media (max-width: 576px)
     .auctions-block
-      margin-bottom: 40px
+      margin-bottom: 11px
+      &-list
+        margin-top: 24px
       .full-view
         .item
           padding: 8px
