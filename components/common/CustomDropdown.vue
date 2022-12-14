@@ -53,7 +53,7 @@
         />
         <span>{{ getText(option) }}</span>
       </li>
-      <li v-if="type.includes('multi') && showFilterBtn" class="fixed">
+      <li v-if="type.includes('multi') && !showFilterBtn" class="fixed">
         <Button @click="filterResults">{{$t('common.drop_filter')}} ({{value && value.length}})</Button>
       </li>
     </ul>
