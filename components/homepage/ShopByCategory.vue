@@ -16,23 +16,18 @@
         :to="category.to"
         class="col-6 category col-lg-3 col p-0"
       >
-        <span
-          v-for="(categoryData, index) in categoriesData"
-          :key="index"
-        >
-          <nuxt-link :to="`/shop/${categoryData.name}`">
-            <div class="overflow-wrapper">
-              <div
-                class="category-wrapper d-flex align-items-center justify-content-center cursor-pointer"
-                :style="{ '--image': `url(${category.image})` }"
-              >
-                <h1 class="fs-24 fw-4 font-primary text-white text-uppercase">
-                  {{ categoryData.name }}
-                </h1>
-              </div>
+        <nuxt-link :to="`/shop?category=${category.title}`">
+          <div class="overflow-wrapper">
+            <div
+              class="category-wrapper d-flex align-items-center justify-content-center cursor-pointer"
+              :style="{ '--image': `url(${category.image})` }"
+            >
+              <h1 class="fs-24 fw-4 font-primary text-white text-uppercase">
+                {{ category.title }}
+              </h1>
             </div>
-          </nuxt-link>
-        </span>
+          </div>
+        </nuxt-link>
       </div>
     </div>
     <div
@@ -43,16 +38,18 @@
         :key="index"
         class="col-6 category col-lg-3 col p-0"
       >
-        <div class="overflow-wrapper">
-          <div
-            class="category-wrapper d-flex align-items-center justify-content-center cursor-pointer"
-            :style="{ '--image': `url(${category.image})` }"
-          >
-            <h1 class="fs-24 fw-4 font-primary text-white text-uppercase">
-              {{ category.title }}
-            </h1>
+        <nuxt-link :to="`/shop?category=${category.title}`">
+          <div class="overflow-wrapper">
+            <div
+              class="category-wrapper d-flex align-items-center justify-content-center cursor-pointer"
+              :style="{ '--image': `url(${category.image})` }"
+            >
+              <h1 class="fs-24 fw-4 font-primary text-white text-uppercase">
+                {{ category.title }}
+              </h1>
+            </div>
           </div>
-        </div>
+        </nuxt-link>
       </div>
     </div>
   </div>
@@ -130,18 +127,8 @@ export default {
           title: this.$t('home_page.accessories'),
           image: require('~/assets/img/home/categories/accessories.svg'),
         },
-      ],
-      categoriesData: [],
+      ]
     }
-  },
-  async fetch() {
-    this.product = await this.$axios
-      .get('/categories/')
-      .then((res) => {
-        this.categoriesData = res.data
-        console.log('log data is',this.categoriesData);
-      }
-    )
   }
 }
 </script>
