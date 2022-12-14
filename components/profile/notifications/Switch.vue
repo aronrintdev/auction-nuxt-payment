@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form-checkbox :checked="value" class="notification-switch" switch @change="changed"></b-form-checkbox>
+    <b-form-checkbox :disabled="disabled" :checked="value" class="notification-switch" switch @change="changed"></b-form-checkbox>
   </div>
 </template>
 
@@ -11,6 +11,11 @@ export default {
     value: {
       type: Boolean,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default:false,
+      required: false,
     }
   },
   methods: {

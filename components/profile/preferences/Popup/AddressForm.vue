@@ -27,7 +27,7 @@
                   <b-form-input
                     id="input-group-shipping-autocomplete"
                     v-model="address.shippingBillingAddress"
-                    class="profile-input"
+                    class="profile-input mt-4"
                     :state="errors[0] ? false : valid ? true : null"
                     type="text"
                   ></b-form-input>

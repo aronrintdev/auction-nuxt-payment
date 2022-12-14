@@ -16,11 +16,9 @@
 
       <b-row class="h-100">
         <b-col md="6" offset-md="3" class="d-flex flex-column align-items-center justify-content-center">
-          <div class="d-block d-md-none position-relative" style="top: -140px">
-            <nuxt-link to="/">
-              <Logo class="img-main" />
-            </nuxt-link>
-          </div>
+          <nuxt-link class="d-lg-none mb-5" to="/">
+            <Logo class="mb-3"/>
+          </nuxt-link>
           <b-row>
             <b-col md="12">
               <div class="right-heading-bold text-center">{{ $t('auth.forgot_password') }}</div>
@@ -57,7 +55,7 @@
                   </b-row>
                 </b-form>
               </ValidationObserver>
-              <div class="back-to-login-btn">
+              <div class="back-to-login-btn d-lg-none">
                 <b-img :src="require('~/assets/img/auth/back_arrow_blue_1.svg')"></b-img>
                 <NuxtLink
                   class="custom-link pl-0"

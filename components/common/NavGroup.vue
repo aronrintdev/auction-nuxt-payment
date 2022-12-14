@@ -96,8 +96,6 @@ export default {
         padding: 7px 25px
 
       @media (min-width: 576px)
-        // font-size: 15px
-        // padding: 6px 35px
 
       &.active
         background-color: $color-white-1
@@ -117,6 +115,14 @@ export default {
       width: 100%
       .btn
         padding: 6px 10px
+        white-space: nowrap
+        font-size: 11px
+
+  @media (max-width: 375px)
+    .btn-group
+      width: 100%
+      .btn
+        padding: 6px 5px
         white-space: nowrap
         font-size: 11px
 </style>

@@ -35,7 +35,7 @@
       <!-- card payments -->
 
       <!-- gift card -->
-      <div class="card-text mt-3">
+      <div class="card-text mt-3" @click="showGiftCards">
         <span class="payment-details-heading">
           <span class="d-flex">
             {{ $t('preferences.payments.gift_card') }}

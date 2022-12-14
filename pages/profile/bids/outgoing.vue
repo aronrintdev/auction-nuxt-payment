@@ -106,19 +106,19 @@
         </b-col>
         <b-col sm="12" md="1">
           <span>{{ $t('bids.headers.auction_type') }}&nbsp;</span>
-          <span role="button">
+          <span role="button" @click="FetchBids(bidSort)">
             <img :src="FilterDown" alt="down">
           </span>
         </b-col>
         <b-col sm="12" md="2">
           <span>{{ $t('bids.headers.bid_amt') }}&nbsp;</span>
-          <span role="button">
+          <span role="button" @click="FetchBids(bidSort)">
             <img :src="FilterDown" alt="down">
           </span>
           </b-col>
         <b-col sm="12" md="2">
           <span>{{ $t('bids.headers.time_remaining') }}&nbsp;</span>
-          <span role="button">
+          <span role="button" @click="FetchBids(bidSort)">
             <img :src="FilterDown" alt="down">
           </span>
         </b-col>
@@ -323,6 +323,7 @@ export default {
       deletePayload: [],
       acceptedBid: null,
       modalActionLoading: false,
+      bidTypeData: this.bids
     }
   },
   computed: {
@@ -513,6 +514,9 @@ export default {
         this.bids.push(...data)
         this.totalCount = res.data.total
         this.lastPage = res.data.last_page
+        if (this.bidSort) {
+          this.bids.sort(...data)
+        }
       }).finally(() => {
         this.fetchLoading = false
       })

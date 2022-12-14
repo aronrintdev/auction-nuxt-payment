@@ -109,7 +109,7 @@
                 <ValidationProvider
                   id="validator-field"
                   v-slot="{ errors }"
-                  rules="required|price"
+                  rules="required"
                   :name="$t('selling_page.offer_amount')"
                 >
                   <span class="d-flex">
