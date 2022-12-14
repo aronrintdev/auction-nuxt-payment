@@ -212,6 +212,17 @@
             class="line-chart d-block d-sm-none"
             is-graph
           />
+          <div class="d-flex align-items-center justify-content-end mr-3 mt-4">
+            <div v-for="item in mainChart.datasets" :key="item.label" class="d-flex align-items-center mr-3">
+              <div class="dot" :style="{
+                'background-color': item.borderColor
+              }">
+              </div>
+              <div class="body-5-normal font-primary text-black">
+                {{item.label}}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -281,14 +292,43 @@
             />
           </div>
         </template>
-
+        <template #cell(category)="row">
+          <div
+              :aria-label="row.item.category | capitalizeFirstLetter"
+              class="d-flex align-items-center justify-content-center tdHeight tTitle"
+          >
+            <h4 class="font-secondary fw-5 fs-18 mb-0">
+              {{ row.item.category | capitalizeFirstLetter }}
+            </h4>
+          </div>
+        </template>
+        <template #cell(brand)="row">
+          <div
+              :aria-label="row.item.brand | capitalizeFirstLetter"
+              class="d-flex align-items-center justify-content-center tdHeight tTitle"
+          >
+            <h4 class="font-secondary fw-5 fs-18 mb-0">
+              {{ row.item.brand | capitalizeFirstLetter }}
+            </h4>
+          </div>
+        </template>
+        <template #cell(product)="row">
+          <div
+              :aria-label="row.item.product | capitalizeFirstLetter"
+              class="d-flex align-items-center justify-content-center tdHeight tTitle"
+          >
+            <h4 class="font-secondary fw-5 fs-18 mb-0">
+              {{ row.item.product | capitalizeFirstLetter }}
+            </h4>
+          </div>
+        </template>
         <template #cell(premium_percentage)="row">
           <div
             :aria-label="$t('vendor_dashboard.breakdown.table.price_premium')"
             class="d-flex align-items-center justify-content-center tdHeight"
           >
             <h4
-              class="font-secondary fw-5 fs-16 mb-0"
+              class="font-secondary fw-5 fs-18 mb-0"
               :class="{
                 'text-success': (row.item.premium_percentage | 0) > 0,
                 'text-danger': (row.item.premium_percentage | 0) < 0,
@@ -303,7 +343,7 @@
             :aria-label="$t('vendor_dashboard.breakdown.table.sales')"
             class="d-flex align-items-center justify-content-center tdHeight"
           >
-            <h4 class="font-secondary fw-5 fs-16 mb-0">
+            <h4 class="font-secondary fw-5 fs-18 mb-0">
               {{ row.item.total_sales_amount || 0 | toCurrency }}
               <span
                 v-if="(row.item.premium_percentage | 0) > 0"
@@ -323,7 +363,7 @@
             :aria-label="$t('vendor_dashboard.breakdown.table.avg_sale_price')"
             class="d-flex align-items-center justify-content-center tdHeight"
           >
-            <h4 class="font-secondary fw-5 fs-16 mb-0">
+            <h4 class="font-secondary fw-5 fs-18 mb-0">
               {{ row.item.avg_sales_price || 0 | toCurrency }}
             </h4>
           </div>
@@ -334,7 +374,7 @@
             :aria-label="$t('vendor_dashboard.breakdown.table.items_sold')"
             class="d-flex align-items-center justify-content-center tdHeight"
           >
-            <h4 class="font-secondary fw-5 fs-16 mb-0">
+            <h4 class="font-secondary fw-5 fs-18 mb-0">
               {{ row.item.items_sold || '-' }}
             </h4>
           </div>
@@ -499,17 +539,17 @@ export default {
         {
           key: 'brand',
           label: this.$t('vendor_dashboard.breakdown.table.brand'),
-          thClass: 'text-center text-nowrap body-4-bold',
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'product',
           label: this.$t('vendor_dashboard.breakdown.table.product'),
-          thClass: 'text-center text-nowrap body-4-bold',
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'category',
           label: this.$t('vendor_dashboard.breakdown.table.category'),
-          thClass: 'text-center text-nowrap body-4-bold',
+          thClass: 'text-nowrap text-center body-4-bold',
         },
         {
           key: 'items_sold',
@@ -611,23 +651,31 @@ export default {
       },
       orderByField: 'id',
       orderByDirection: 'asc',
+      labels: [],
+      colors: [
+          '#CE745F80',
+          '#7196B180',
+          '#3A71EA80',
+          '#DD5E5E80',
+          '#E09D6A',
+          '#5D5FEF80',
+          '#FDB92780',
+          '#1D1C1D80',
+          '#EF5DA880',
+          '#66779980',
+          '#FF8181',
+          '#32BD4080',
+          '#C1C1C1',
+          '#FD800280',
+          '#6F88EA80',
+      ],
+      mainChart: {
+        labels: [],
+        datasets: [],
+      }
     }
   },
   computed: {
-    mainChart() {
-      return {
-        labels: this.labels,
-        datasets: [
-          {
-            borderColor: this.isScreenXS ? '#667799' : '#18A0FB',
-            backgroundColor: 'rgba(24, 160, 251, 0.15)',
-            data: this.dataGraph,
-            fill: false,
-            borderWidth: this.isScreenXS ? 2 : 4,
-          },
-        ],
-      }
-    },
     filteredBrands() {
       return this.serverBrands.filter((item) =>
         this.productSearchKey
@@ -649,11 +697,13 @@ export default {
     // eslint-disable-next-line no-undef
     Chart.plugins.register({
       afterDraw(chart) {
-        if (chart.data.datasets[0].data.every((item) => item === 0)) {
+        let sum = 0
+        sum = chart.data.datasets.reduce((accumulator, item) => accumulator + item.data.reduce((acc, val) => acc + val, 0), sum)
+        if (sum === 0) {
           const ctx = chart.chart.ctx
           const width = chart.chart.width
           const height = chart.chart.height
-          ctx.clearRect(width * 0.25, height * 0.25, width * 0.75, height * 0.6)
+          ctx.clearRect(width * 0.25, height * 0.25, width * 0.75, height * 0.5)
           ctx.fillStyle = '#626262'
           ctx.textAlign = 'center'
           ctx.textBaseline = 'middle'
@@ -837,14 +887,39 @@ export default {
       this.$axios
         .get('/dashboard/vendor/sales-breakdown', {
           params: {
-            category_ids: this.filters.category_ids.join(','),
+            category_ids: Array.isArray(this.filters.category_ids)? this.filters.category_ids.join(','): null,
             group_by: this.filterBy,
-            brand_ids: this.filters.brand_ids.join(','),
-            product_ids: this.filters.product_ids.join(','),
+            brand_ids: Array.isArray(this.filters.brand_ids)? this.filters.brand_ids.join(','): null,
+            product_ids: Array.isArray(this.filters.product_ids)? this.filters.product_ids.join(','): null,
           },
         })
         .then((response) => {
-          this.result = response.data.data
+          const stats = response.data.data.statistics
+          const chart = response.data.data.chart
+          this.result.chart = chart
+          this.result.statistics = Object.keys(stats).map(key => {
+            const obj = stats[key]
+            obj[this.activeGlobalTab] = key
+            return obj
+          })
+          const chartData = {
+            labels: [],
+            datasets: []
+          }
+          chartData.labels = Array.from(new Set(Object.keys(chart).map(item => Object.keys(chart[item])).flat(1)))
+          chartData.datasets = Object.keys(chart).map((key, index) => {
+            return {
+              label: this.$options.filters.capitalizeFirstLetter(key),
+              data: chartData.labels.map(label => Number(chart[key][label] || 0)),
+              fill:false,
+              borderColor: this.colors[index],
+            }
+          })
+
+          this.mainChart = chartData
+          console.log(this.mainChart);
+          console.log(response.data.data);
+          console.log(this.labels);
         })
         .catch((error) => {
           this.$toasted.error(error)
@@ -859,6 +934,12 @@ export default {
 
 <style scoped lang="sass">
 @import "~/assets/css/variables"
+.dot
+  width: 12px
+  height: 12px
+  border-radius: 43px
+  margin-right: 13px
+
 ::v-deep.bottom-sheet
   .bottom-sheet__pan
     display: none !important
@@ -926,7 +1007,7 @@ export default {
   color: $color-gray-4
 
 .chart-card
-  padding: 25px 27px
+  padding: 25px 27px 20px 27px
   &.mobile
     padding: 15px 8px 10px 7px
     box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)

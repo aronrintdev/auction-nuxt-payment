@@ -246,10 +246,6 @@ export default {
     },
     categoryTotalSelect(val) {
       if (this.categorySelectAll) {
-        this.selectedFilters.category_ids = this.categories.map(
-          (item) => item.value
-        )
-      } else {
         this.selectedFilters.category_ids = []
       }
       this.filterChanged()
@@ -262,14 +258,14 @@ export default {
           categories.push(1)
         }
       const filterData = {
-        category_ids: categories,
+        category_ids: this.categorySelectAll? []: categories,
         brand_ids: this.selectedFilters.brand_ids.map(a => a.id),
         product_ids: this.selectedFilters.product_ids.map(a => a.id),
       }
       this.$emit('filters', {filterData, data: this.selectedFilters})
     },
     categoryChange(val) {
-      this.categorySelectAll = this.selectedFilters.category_ids.length === 3
+      this.categorySelectAll = false
       this.filterChanged()
     },
     clearFilters() {
