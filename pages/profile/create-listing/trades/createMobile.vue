@@ -13,10 +13,10 @@
             class="create-trade-search w-100"
             @change="onSearchInput"
           />
-          <SearchedProductsBelowSearchTextBox 
-            v-if="searchedItems.length > 0" 
-            :productItems="searchedItems" 
-            productsFor="tradeItem" 
+          <SearchedProductsBelowSearchTextBox
+            v-if="searchedItems.length > 0"
+            :productItems="searchedItems"
+            productsFor="tradeItem"
             class="position-absolute"
             listGroupItemClass="w-100 justify-content-between px-2"
           />
@@ -770,7 +770,7 @@ export default {
   height: 28px
   padding: 0 25px 0 14px
   right: 15px
-  bottom: 120px
+  bottom: 110px
   position: fixed
   z-index: 80
 .offer-text
@@ -801,4 +801,9 @@ export default {
   bottom: 160px
   z-index: 80
   width: 92%
+.create-trade-search
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $regular
+  @include body-9
 </style>
