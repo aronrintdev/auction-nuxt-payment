@@ -41,9 +41,9 @@
         {{ $t('auction.delist') }}
       </Button>
 
-      <div v-if="isScreenXS" class="d-flex flex-grow-1 justify-content-end w-100 pr-3">
+      <div v-if="isScreenXS" class="d-flex flex-grow-1 justify-content-end w-100 dot-icon-position">
         <Button variant="link"
-              id="mobile-down-icon"  @click="showMobileOptionsMenu">
+              class="mobile-down-icon"  @click="showMobileOptionsMenu">
         <img
           :src="require('~/assets/img/icons/dot-circle-gray.svg')"
           height="19"
@@ -323,4 +323,7 @@ export default {
   &.delist.btn, &.add.btn
     color: $color-black-1
 
+.dot-icon-position
+  padding-right: 6px
+  margin-top: -10px
 </style>
