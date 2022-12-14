@@ -282,7 +282,7 @@
 
               <b-row  class="justify-content-end my-2">
               <b-col class="position-relative">
-                <b-btn :disabled="getTradeItems.length < 1" class="create-trade-next-web"
+                <b-btn v-if="getTradeItems.length >= 1" class="create-trade-next-web"
                        @click="$router.push('/profile/create-listing/trades/wants')">
                   {{ $t('create_listing.trade.offer_items.next') }}
                 </b-btn>
