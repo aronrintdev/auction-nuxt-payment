@@ -833,4 +833,7 @@ export default {
 .mt-8px
   margin-top: 8px
 
+.filter-button
+  font-family: $font-family-sf-pro-display
+
 </style>
