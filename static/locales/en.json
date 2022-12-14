@@ -3875,7 +3875,8 @@
       "thanks_for_suggestion": "Thanks For Suggestion!",
       "after_suggestion_info": "If product is a good fit, our team reach out to<br> the email associated with this account for<br> more information.",
       "gt_than": "Please choose another {field} more than {amount}",
-      "between": "Please choose another {field} between {min} and {max}"
+      "between": "Please choose another {field} between {min} and {max}",
+      "offer_gth_than_price": "Min offer amount shouldn't be higher than listing price"
     },
     "list_product": "List Product",
     "edit_details": "Edit Details",
