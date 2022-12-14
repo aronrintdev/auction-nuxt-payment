@@ -223,7 +223,7 @@
               </b-row>
             </div>
             <div class="overlay-container position-fixed">
-              <div  v-if="showOffer" class="d-flex create-trade-drag-drop-item-float mx-0 justify-content-center text-center py-4"
+              <div  class="d-flex create-trade-drag-drop-item-float mx-0 justify-content-center text-center py-4"
                   @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
                 <div v-if="getTradeItems.length < 1">
                   <div class="create-trade-drag-drop-heading">
@@ -278,7 +278,6 @@
                     </div>
                   </div>
                 </b-row>
-                <img :src="require('~/assets/img/trades/updown.svg')" role="button" class="position-absolute up-down-arrow-empty" @click="showOffer = !showOffer">
               </div>
 
               <b-row  class="justify-content-end my-2">
@@ -287,11 +286,6 @@
                        @click="$router.push('/profile/create-listing/trades/wants')">
                   {{ $t('create_listing.trade.offer_items.next') }}
                 </b-btn>
-                <div v-if="!showOffer" class="offers-items d-flex align-items-center" role="button" @click="showOffer = !showOffer">
-                  <img :src="require('~/assets/img/trades/updown.svg')">
-                  <span class="offer-text">{{$t('trades.offer')}}</span>
-                  <div v-if="getTradeItems.length" class="counter-icon position-absolute d-flex justify-content-center align-items-center">{{getTradeItems.length}}</div>
-                </div>
               </b-col>
               </b-row>
             </div>
