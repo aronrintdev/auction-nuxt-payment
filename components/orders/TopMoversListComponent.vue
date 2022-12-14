@@ -132,7 +132,9 @@
         >
         </top-mover-component-new>
       </div>
-      <infinite-loading :identifier="infiniteId" @infinite="handleLoading"></infinite-loading>
+      <infinite-loading :identifier="infiniteId" @infinite="handleLoading">
+        <div slot="no-more"></div>
+      </infinite-loading>
     </template>
   </div>
 </template>
