@@ -35,8 +35,8 @@
           @change="(value) => filterGroupChanged(value, 'sizes')"
         />
       </div>
-      <div class="d-flex align-items-center justify-content-between filters-sheet-footer mb-4 pb-4">
-        <button class="btn btn-pills" @click="resetFilters">{{ $t('auctions.frontpage.filterbar.reset') }}</button>
+      <div class="d-flex align-items-center justify-content-between filters-sheet-footer">
+        <button class="btn btn-pills rest-btn" @click="resetFilters">{{ $t('auctions.frontpage.filterbar.reset') }}</button>
         <button class="btn btn-pills apply-btn" @click="applyFilters">{{ $t('auctions.frontpage.filterbar.apply_filters') }}</button>
       </div>
     </div>
@@ -189,6 +189,9 @@ export default {
       color: $white
       background: $color-blue-20
       border-color: $color-blue-20
+      margin-left: 3rem
+    .rest-btn
+      background: $color-white-1
 .filter-group
   border-bottom: 1px solid $color-gray-62
   &-title
@@ -283,4 +286,7 @@ export default {
       z-index: 1000
   @media (min-width: 576px)
     display: none
+.filters-sheet-footer
+  position: absolute
+  bottom: 0
 </style>
