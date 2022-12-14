@@ -610,7 +610,7 @@ export default {
   padding-left: 30px
   font-weight: $medium
   font-family: $font-montserrat
-  font-size: 20px
+  @mixin body-20
   color: $color-black-1
   font-style: normal
 .offer-group
@@ -625,8 +625,8 @@ export default {
   border-bottom: 1px solid $color-black-1
 .brnad-name
   font-family: $font-sp-pro
-  font-style: $normal
-  font-weight: 500
+  font-style: normal
+  font-weight: $normal
   @mixin body-13
   color: $color-gray-5
 </style>

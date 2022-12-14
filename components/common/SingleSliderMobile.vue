@@ -150,5 +150,4 @@ export default {
 .percent-div
   margin-top: -10px
   margin-left: 20px
-   //width: 30%
 </style>
