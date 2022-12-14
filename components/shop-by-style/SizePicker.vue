@@ -373,7 +373,7 @@ export default {
 
           &::after
             content: " "
-            border-bottom: 2px solid $color-blue-5
+            border-bottom: 2px solid $color-grey-101
             margin-top: 11px
             display: block
             margin-left: auto
