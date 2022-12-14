@@ -852,7 +852,7 @@ export default {
 .create-trade-next-web
   padding: 0 25px 0 14px
   right: 15px
-  bottom: 120px
+  //bottom: 120px
   position: fixed
   z-index: 80
   width: 151px
@@ -904,7 +904,7 @@ export default {
 
 .overlay-container
   z-index: 1000
-  bottom:  150px
+  bottom:  76px
   width: 75%
 
   @media (min-width: 1500px) and (max-width: 1600px)
