@@ -29,7 +29,7 @@
         </div>
         <div class="d-flex align-items-center justify-content-between col-xl-9 pr-0">
           <NavGroup
-            :class="`${isScreenXS && 'w-100'} my-2`"
+            :class="`${isScreenXS && 'w-100'} my-2 text-center`"
             :data="TYPES"
             :value="inventoryType"
             :btnGroupStyle="{
