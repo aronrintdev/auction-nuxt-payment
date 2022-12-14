@@ -5587,6 +5587,9 @@
     "sort": "Sort",
     "apply_filter": "Apply Filter",
     "reset": "Reset",
+    "looks_like_no_orders_have_been_placed": "Looks like no orders have been placed.",
+    "list_a_product_today_on_deadstock": "List a product today on Deadstock",
+    "create_a_listing": "Create a Listing",
     "order_types": {
       "buy": "Buy",
       "trade": "Trade",

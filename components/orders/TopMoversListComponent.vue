@@ -90,9 +90,18 @@
             @checked="handleChecked"
           >
           </top-mover-component-new>
+          <div v-if="orders.length===0">
+            <div class="py-5 no-order-msg">
+              <div class="text-center">{{$t('orders.looks_like_no_orders_have_been_placed')}}</div>
+              <div class="text-center my-2">{{$t('orders.list_a_product_today_on_deadstock')}}!</div>
+              <div class="text-center mt-4">
+                <NuxtLink to="/profile/create-listing" class="btn btn-primary btn-create-listing">{{$t('orders.create_a_listing')}}</NuxtLink>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div v-if="!isLoading">
+      <div v-if="!isLoading && orders.length!==0">
         <Pagination
           v-model="page"
           :total="totalPage"
@@ -164,7 +173,7 @@ export default {
         {label: 'Footwear', value: '1'},
         {label: 'Apparel', value: '2'},
         {label: 'Accessories', value: '3'},
-      ]
+      ],
     }
   },
   computed: {
@@ -356,6 +365,18 @@ export default {
 
 <style scoped lang="sass">
 @import '/assets/css/variables'
+.no-order-msg
+  color: $color-gray-5
+  font-family: $font-montserrat
+  @include body-14
+  font-weight: $medium
+
+  .btn-create-listing
+    border: none
+    background: $color-blue-20
+    color: $color-white-1
+    background: $color-grey-101
+    border-radius: 21px
 
 .py-20
   padding: 20px
