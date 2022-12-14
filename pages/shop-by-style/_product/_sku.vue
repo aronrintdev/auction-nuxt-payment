@@ -133,40 +133,42 @@
           <p>{{ $t('shop_by_style.view_all') }}</p>
         </div>
       </div>
-      <ShopProductCarousel
+      <ProductCarousel
         :products="style.products"
         :pageName="pageName"
-        itemWidth="129px"
+        itemWidth="164px"
         autoWidth
       >
         <template #product>
           <div
-            v-for="(product, index) in style.products"
+            v-for="(product, index) in filteredProducts"
             :key="`product-carousel-${index}`"
             class="item"
           >
-            <ShopByStyleProductCard
+            <DetailCard
               :product="product"
               :showActionBtn="false"
               :showActions="false"
               cardHeight="137px"
-              cardHeightSm="137px"
-              cardWidthSm="192px"
+              cardHeightSm="180px"
+              cardWidthSm="164px"
               :showSize="false"
               :showPrice="true"
               noRedirect
             >
               <template #badge>
-                <div class="d-flex justify-content-end"
+                <div
+                  class="d-flex justify-content-end"
                   @click="redirectToDetail(product)"
                 >
                   <PlusCircle />
                 </div>
               </template>
-            </ShopByStyleProductCard>
+            </DetailCard>
           </div>
         </template>
-      </ShopProductCarousel>
+      </ProductCarousel>
+     
 
       <!-- Error message text -->
       <b-row v-if="errorText" class="mt-2 text-center">
@@ -215,8 +217,8 @@ import OutOfStock from '~/components/product/OutOfStock'
 import SellNow from '~/components/product/SellNow'
 import OfferDuration from '~/components/product/OfferDuration'
 import PlusCircle from '~/assets/icons/PlusCircle'
-import ShopProductCarousel from '~/components/shop-by-style/ProductCarousel'
-import ShopByStyleProductCard from '~/components/shop-by-style/ProductCard'
+import ProductCarousel from '~/components/shop-by-style/ProductCarousel'
+import DetailCard from '~/components/shop-by-style/DetailCard'
 
 export default {
   components: {
@@ -234,8 +236,8 @@ export default {
     Loader,
     AlertModal,
     PlusCircle,
-    ShopProductCarousel,
-    ShopByStyleProductCard
+    ProductCarousel,
+    DetailCard
   },
   name: 'ShopByStyleProductDetails',
   layout: 'IndexLayout',
@@ -315,6 +317,9 @@ export default {
       getSelectedItemforVendor: 'sell-now/getSelectedItem',
       hasVendorPayoutMethod: 'auth/getVendorPayoutMethod'
     }),
+    filteredProducts() {
+      return this.style.products.filter(item => item.sku !== this.$route.params.sku) 
+    },
     category() {
       return this.product?.category?.name
     },
@@ -403,7 +408,7 @@ export default {
       }
     },
     redirectToDetail(product) {
-      this.$router.push(`/shop-by-style/${this.style.id}/${product.sku}`)
+      this.$router.push(`/shop-by-style/${this.$route.params.product}/${product.sku}`)
     },
     async findListingItem() {
       if (!this.currentSize || !this.currentCondition) return
