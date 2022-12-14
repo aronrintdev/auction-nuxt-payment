@@ -32,28 +32,30 @@
       </div>
     </div>
 
-
-    <div v-if="currentTab === 'brand'" class="row w-100 align-items-center gap-2">
+    <div
+      v-if="currentTab === 'brand'"
+      class="row w-100 align-items-center gap-2"
+    >
       <div class="col-4">
         <MultiSelectDropdown
-            v-if="currentTab === 'brand'"
-            v-model="selectedFilters.brand_ids"
-            collapseKey="brands"
-            :title="$t('filter_sidebar.brands').toString()"
-            :options="brandOptions"
-            class="brands "
-            @input="brandChange"
+          v-if="currentTab === 'brand'"
+          v-model="selectedFilters.brand_ids"
+          collapseKey="brands"
+          :title="$t('filter_sidebar.brands').toString()"
+          :options="brandOptions"
+          class="brands"
+          @input="brandChange"
         >
           <template #firstRow>
             <div>
               <SearchInput
-                  :placeholder="
-              $t('vendor_dashboard.breakdown.search_brand').toString()
-            "
-                  class="search-filter"
-                  :debounce="1000"
-                  :input-height="'26px'"
-                  @search="filterBrands"
+                :placeholder="
+                  $t('vendor_dashboard.breakdown.search_brand').toString()
+                "
+                class="search-filter"
+                :debounce="1000"
+                :input-height="'26px'"
+                @search="filterBrands"
               />
             </div>
           </template>
@@ -63,7 +65,7 @@
       <div
         v-for="(item, index) in selectedFilters.brand_ids"
         :key="item.id"
-        class="form-check  col-2"
+        class="form-check col-2"
       >
         <input
           :id="`${currentTab}-flexCheckDefault-${index}`"
@@ -89,27 +91,30 @@
       </div>
     </div>
 
-    <div v-if="currentTab === 'product'" class="row w-100 align-items-center gap-2">
+    <div
+      v-if="currentTab === 'product'"
+      class="row w-100 align-items-center gap-2"
+    >
       <div class="col-4">
         <MultiSelectDropdown
-            v-if="currentTab === 'product'"
-            v-model="selectedFilters.product_ids"
-            collapseKey="categories"
-            :title="$t('vendor_dashboard.breakdown.products').toString()"
-            :options="productOptions"
-            class="categories mr-29"
-            @input="productChange"
+          v-if="currentTab === 'product'"
+          v-model="selectedFilters.product_ids"
+          collapseKey="categories"
+          :title="$t('vendor_dashboard.breakdown.products').toString()"
+          :options="productOptions"
+          class="categories mr-29"
+          @input="productChange"
         >
           <template #firstRow>
             <div>
               <SearchInput
-                  :placeholder="
-              $t('vendor_dashboard.breakdown.search_product').toString()
-            "
-                  class="search-filter"
-                  :debounce="1000"
-                  :input-height="'26px'"
-                  @search="filterProducts"
+                :placeholder="
+                  $t('vendor_dashboard.breakdown.search_product').toString()
+                "
+                class="search-filter"
+                :debounce="1000"
+                :input-height="'26px'"
+                @search="filterProducts"
               />
             </div>
           </template>
@@ -118,7 +123,7 @@
       <div
         v-for="(item, index) in selectedFilters.product_ids"
         :key="index"
-        class="form-check col-2 d-flex align-items-center "
+        class="form-check col-2 d-flex align-items-center"
       >
         <input
           :id="`${currentTab}-flexCheckDefault-${index}`"
@@ -241,7 +246,7 @@ export default {
       this.filterChanged()
     },
     productChange(val) {
-      console.log(val);
+      console.log(val)
       this.filterChanged()
     },
     categoryTotalSelect(val) {
@@ -254,15 +259,15 @@ export default {
       const categories = this.serverCategories
         .filter((item) => this.selectedFilters.category_ids.includes(item.name))
         .map((a) => a.id)
-        if (this.selectedFilters.category_ids.includes('footwear')){
-          categories.push(1)
-        }
-      const filterData = {
-        category_ids: this.categorySelectAll? []: categories,
-        brand_ids: this.selectedFilters.brand_ids.map(a => a.id),
-        product_ids: this.selectedFilters.product_ids.map(a => a.id),
+      if (this.selectedFilters.category_ids.includes('footwear')) {
+        categories.push(1)
       }
-      this.$emit('filters', {filterData, data: this.selectedFilters})
+      const filterData = {
+        category_ids: this.categorySelectAll ? [] : categories,
+        brand_ids: this.selectedFilters.brand_ids.map((a) => a.id),
+        product_ids: this.selectedFilters.product_ids.map((a) => a.id),
+      }
+      this.$emit('filters', { filterData, data: this.selectedFilters })
     },
     categoryChange(val) {
       this.categorySelectAll = false

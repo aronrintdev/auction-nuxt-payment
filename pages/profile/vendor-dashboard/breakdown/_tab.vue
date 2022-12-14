@@ -213,13 +213,19 @@
             is-graph
           />
           <div class="chart-labels mx-3 mt-4">
-            <div v-for="item in mainChart.datasets" :key="item.label" class="item d-flex align-items-center mr-3 ">
-              <div class="dot" :style="{
-                'background-color': item.borderColor
-              }">
-              </div>
+            <div
+              v-for="item in mainChart.datasets"
+              :key="item.label"
+              class="item d-flex align-items-center mr-3"
+            >
+              <div
+                class="dot"
+                :style="{
+                  'background-color': item.borderColor,
+                }"
+              ></div>
               <div class="body-5-normal font-primary text-black chart-label">
-                {{item.label}}
+                {{ item.label }}
               </div>
             </div>
           </div>
@@ -294,8 +300,8 @@
         </template>
         <template #cell(category)="row">
           <div
-              :aria-label="row.item.category | capitalizeFirstLetter"
-              class="d-flex align-items-center justify-content-center tdHeight tTitle"
+            :aria-label="row.item.category | capitalizeFirstLetter"
+            class="d-flex align-items-center justify-content-center tdHeight tTitle"
           >
             <h4 class="font-secondary fw-5 fs-18 mb-0">
               {{ row.item.category | capitalizeFirstLetter }}
@@ -304,8 +310,8 @@
         </template>
         <template #cell(brand)="row">
           <div
-              :aria-label="row.item.brand | capitalizeFirstLetter"
-              class="d-flex align-items-center justify-content-center tdHeight tTitle"
+            :aria-label="row.item.brand | capitalizeFirstLetter"
+            class="d-flex align-items-center justify-content-center tdHeight tTitle"
           >
             <h4 class="font-secondary fw-5 fs-18 mb-0">
               {{ row.item.brand | capitalizeFirstLetter }}
@@ -314,8 +320,8 @@
         </template>
         <template #cell(product)="row">
           <div
-              :aria-label="row.item.product | capitalizeFirstLetter"
-              class="d-flex align-items-center justify-content-center tdHeight tTitle"
+            :aria-label="row.item.product | capitalizeFirstLetter"
+            class="d-flex align-items-center justify-content-center tdHeight tTitle"
           >
             <h4 class="font-secondary fw-5 fs-18 mb-0">
               {{ row.item.product | capitalizeFirstLetter }}
@@ -653,26 +659,26 @@ export default {
       orderByDirection: 'asc',
       labels: [],
       colors: [
-          '#CE745F80',
-          '#7196B180',
-          '#3A71EA80',
-          '#DD5E5E80',
-          '#E09D6A',
-          '#5D5FEF80',
-          '#FDB92780',
-          '#1D1C1D80',
-          '#EF5DA880',
-          '#66779980',
-          '#FF8181',
-          '#32BD4080',
-          '#C1C1C1',
-          '#FD800280',
-          '#6F88EA80',
+        '#CE745F80',
+        '#7196B180',
+        '#3A71EA80',
+        '#DD5E5E80',
+        '#E09D6A',
+        '#5D5FEF80',
+        '#FDB92780',
+        '#1D1C1D80',
+        '#EF5DA880',
+        '#66779980',
+        '#FF8181',
+        '#32BD4080',
+        '#C1C1C1',
+        '#FD800280',
+        '#6F88EA80',
       ],
       mainChart: {
         labels: [],
         datasets: [],
-      }
+      },
     }
   },
   computed: {
@@ -698,7 +704,11 @@ export default {
     Chart.plugins.register({
       afterDraw(chart) {
         let sum = 0
-        sum = chart.data.datasets.reduce((accumulator, item) => accumulator + item.data.reduce((acc, val) => acc + val, 0), sum)
+        sum = chart.data.datasets.reduce(
+          (accumulator, item) =>
+            accumulator + item.data.reduce((acc, val) => acc + val, 0),
+          sum
+        )
         if (sum === 0) {
           const ctx = chart.chart.ctx
           const width = chart.chart.width
@@ -887,39 +897,53 @@ export default {
       this.$axios
         .get('/dashboard/vendor/sales-breakdown', {
           params: {
-            category_ids: Array.isArray(this.filters.category_ids)? this.filters.category_ids.join(','): null,
+            category_ids: Array.isArray(this.filters.category_ids)
+              ? this.filters.category_ids.join(',')
+              : null,
             group_by: this.filterBy,
-            brand_ids: Array.isArray(this.filters.brand_ids)? this.filters.brand_ids.join(','): null,
-            product_ids: Array.isArray(this.filters.product_ids)? this.filters.product_ids.join(','): null,
+            brand_ids: Array.isArray(this.filters.brand_ids)
+              ? this.filters.brand_ids.join(',')
+              : null,
+            product_ids: Array.isArray(this.filters.product_ids)
+              ? this.filters.product_ids.join(',')
+              : null,
           },
         })
         .then((response) => {
           const stats = response.data.data.statistics
           const chart = response.data.data.chart
           this.result.chart = chart
-          this.result.statistics = Object.keys(stats).map(key => {
+          this.result.statistics = Object.keys(stats).map((key) => {
             const obj = stats[key]
             obj[this.activeGlobalTab] = key
             return obj
           })
           const chartData = {
             labels: [],
-            datasets: []
+            datasets: [],
           }
-          chartData.labels = Array.from(new Set(Object.keys(chart).map(item => Object.keys(chart[item])).flat(1)))
+          chartData.labels = Array.from(
+            new Set(
+              Object.keys(chart)
+                .map((item) => Object.keys(chart[item]))
+                .flat(1)
+            )
+          )
           chartData.datasets = Object.keys(chart).map((key, index) => {
             return {
               label: this.$options.filters.capitalizeFirstLetter(key),
-              data: chartData.labels.map(label => Number(chart[key][label] || 0)),
-              fill:false,
+              data: chartData.labels.map((label) =>
+                Number(chart[key][label] || 0)
+              ),
+              fill: false,
               borderColor: this.colors[index],
             }
           })
 
           this.mainChart = chartData
-          console.log(this.mainChart);
-          console.log(response.data.data);
-          console.log(this.labels);
+          console.log(this.mainChart)
+          console.log(response.data.data)
+          console.log(this.labels)
         })
         .catch((error) => {
           this.$toasted.error(error)
