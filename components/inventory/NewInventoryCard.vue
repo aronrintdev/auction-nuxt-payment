@@ -80,7 +80,7 @@
             <!--          TODO add link to auction, trada or listing-->
           </div>
           <div v-if="inventory.stock" class="stock-count">
-            {{ inventory.stock }}X
+            X{{ inventory.stock }}
           </div>
         </div>
       </div>
@@ -321,6 +321,6 @@ export default {
     color: $color-blue-20
 
   &.delist.btn, &.add.btn
-    color: $color-red-24
+    color: $color-black-1
 
 </style>
