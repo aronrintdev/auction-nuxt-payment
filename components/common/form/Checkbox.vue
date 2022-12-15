@@ -109,10 +109,12 @@ input[type="checkbox"]
     font-weight: 500
     display: flex
     justify-content: space-between
+    &:active
+      background-color: $color-gray-21
     .checkedIcon
       display: none
   input
-    display: none 
+    display: none
     &:checked~.checkbox-title
       .checkedIcon
         display: inline

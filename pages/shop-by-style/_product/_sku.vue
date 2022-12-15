@@ -78,7 +78,22 @@
             :xsCount="5"
             @update="handleSizeChange"
             @changeViewMode="handleSizeViewModeChange"
-          />
+          >
+            <template #all-sizes-btn>
+              <div @click="openSizePicker">
+                <img
+                  width="18"
+                  height="18"
+                  :src="require('~/assets/img/icons/eye2.svg')"
+                  class="d-sm-none"
+                  :class="iconClass"
+                />
+                <span class="all-sizes" :class="iconTextClass" role="button">
+                  {{ $t('products.all_sizes') }}
+                </span>
+              </div>
+            </template>
+          </ProductSizePicker>
 
           <ProductBoxConditionPicker
             :value="currentCondition"
@@ -210,6 +225,53 @@
         @shipping-option-selected="handleShippingOptionSelected"
       />
     </b-col>
+
+    <!-- bottom sheet for all sizes  -->
+    <vue-bottom-sheet
+      ref="sizePicker"
+      max-width="auto"
+      max-height="95vh"
+      :rounded="true"
+      :is-full-screen="true"
+    >
+      <div class="all-sizes-bottom-sheet">
+        <div class="border-bottom mb-3 pb-2 bottom_sheet_header">
+          <h3 class="font-secondary fs-16 fw-7 text-black text-center">
+            All Sizes
+          </h3>
+        </div>
+        <div class="bottom_sheet_body">
+          <div class="radio_wrapper">
+            <div v-for="(size, index) in sizes" :key="index">
+              <SizePickerMobile
+                v-model="selectedSize"
+                list
+                :size="size.size"
+                :price="getPriceBySize(size.id)"
+                :boxCondition="'Excellent Condition'"
+                :val="size.id"
+                name="sizePicker"
+                @notify-me="handleNotifyMeClick"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="bottom-sheet-footers position-absolute d-flex justify-content-between align-items-center w-100 p-3 bg-white"
+        >
+          <button
+            class="btn fs-16 fw-6 font-secondary rounded-pill btn-outline-dark"
+          >
+            {{ $t('common.reset') }}
+          </button>
+          <button
+            class="btn text-white fs-16 fw-6 font-secondary rounded-pill apply-btn"
+          >
+            {{ $t('orders.apply_filter') }}
+          </button>
+        </div>
+      </div>
+    </vue-bottom-sheet>
   </b-row>
 </template>
 
@@ -234,7 +296,7 @@ import OfferDuration from '~/components/product/OfferDuration'
 import PlusCircle from '~/assets/icons/PlusCircle'
 import ProductCarousel from '~/components/shop-by-style/ProductCarousel'
 import DetailCard from '~/components/shop-by-style/DetailCard'
-
+import SizePickerMobile from '~/components/shop-by-style/SizePickerMobile'
 export default {
   name: 'ShopByStyleProductDetails',
   components: {
@@ -255,6 +317,7 @@ export default {
     PlusCircle,
     ProductCarousel,
     DetailCard,
+    SizePickerMobile,
   },
   layout: 'IndexLayout',
   fetchOnServer: false,
@@ -267,6 +330,7 @@ export default {
       currentCondition: null,
       currentListingItem: null,
       loading: true,
+      selectedSize: null,
       methods: [
         {
           label: this.$t('products.lowest_price'),
@@ -333,6 +397,7 @@ export default {
       getSelectedItemforVendor: 'sell-now/getSelectedItem',
       hasVendorPayoutMethod: 'auth/getVendorPayoutMethod',
     }),
+
     filteredProducts() {
       return this.style.products.filter(
         (item) => item.sku !== this.$route.params.sku
@@ -409,6 +474,17 @@ export default {
       checkItemExistforVendor: 'sell-now/checkItemExistforVendor',
       storeOfferDetails: 'offer/storeOfferDetails',
     }),
+    // Get min price for a given size among listing items
+    getPriceBySize(sizeId) {
+      return this.pricesBySize.find((i) => String(i.size_id) === String(sizeId))
+        ?.price
+    },
+    openSizePicker() {
+      this.$refs.sizePicker.open()
+    },
+    closeSizePicker() {
+      this.$refs.sizePicker.close()
+    },
     handleShippingOptionSelected(shippingOption) {
       this.shippingOption = shippingOption
     },
@@ -808,4 +884,13 @@ export default {
   background: $color-white-1
   padding: 4px 17px 14px 17px
   left: 0
+.all-sizes-bottom-sheet
+  padding-bottom: 90px
+  .bottom_sheet_body
+    margin: 0 19px
+    .radio_wrapper
+      margin: 0 -19px
+      ::v-deep .list-type .radio-title
+        padding-left: 19px
+        padding-right: 19px
 </style>
