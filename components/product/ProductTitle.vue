@@ -194,7 +194,8 @@ export default {
     @include body-5-medium
 
 ::v-deep.popover
-  width: 150px
+  width: auto
+  padding: 0 15px
   height: 45px
   border: none
   box-shadow: 0 4px 14px $color-gray-23
