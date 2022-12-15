@@ -272,8 +272,8 @@ export default {
   .btn.btn-confirm.btn-disabled
     background: $color-black-1
   .login-btn
-    button
-      width: 171px !important
-      height: 42px !important
+    .btn
+      width: 171px
+      height: 42px
       font-weight: $normal
 </style>

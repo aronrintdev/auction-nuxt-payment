@@ -47,7 +47,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 @media (min-width: 320px) and (max-width: 556px)
-  .social_login_btn
-    height: 48px !important
-    width: 48px !important
+  .social_login_btn::v-deep
+    height: 48px
+    width: 48px
 </style>

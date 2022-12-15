@@ -317,7 +317,7 @@ export default {
 //     margin: 0 auto
 
 @media (max-width: 768px)
-  .login-main
+  .login-main::v-deep
     .main-mobile-image
       padding: 76px 0px 0px 0px
     .welcome-back-text
@@ -325,14 +325,14 @@ export default {
       line-height: 18px
       margin-top: 18px
     .toggler-main
-      margin: 26px auto 50px auto !important
+      margin: 26px auto 50px auto
       width: 343px
       display: flex
       justify-content: space-between
       border-radius: 50px
       .signup-btn, .login-btn
-        width: 168px !important
-        height: 28px !important
+        width: 168px
+        height: 28px
         padding: 0px
         display: flex
         align-items: center

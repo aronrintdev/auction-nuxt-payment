@@ -211,8 +211,8 @@ export default {
     display: none !important
   .link-btn
     margin: 53px 0 177px 0
-    button
-      width: 171px !important
+    .btn
+      width: 171px
       height: 42px
 
   .back-to-login
