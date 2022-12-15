@@ -5165,7 +5165,7 @@
     "estimated_value": "Estimated Value",
     "estimated_value_trade": "Estimated Trade Value",
     "trader_wants": "Trader’s Wants",
-    "by_pressing_post_listing": "*By pressing on Post Listing(s),I accept the seller fee of 9.5% + a 2.9% transaction fee. No authentication fees will be charged to sellers.",
+    "by_pressing_post_listing": "If you choose to accept an offer from another trader, at that point you will be charged a flat \nTrade Fee of $25.00,  a processing fee of 2.9%, and a Shipping fee which depends on the quantity of items traded.",
     "balance_the_deal": "Balance this deal by adding cash",
     "balance_the_deal_request": "Balance this deal by requesting cash",
     "insert_amount": "Insert Amount",
