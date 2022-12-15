@@ -1,10 +1,10 @@
 <template>
-  <div class="row">
+  <div class="row" :class="{'mobile-form' : isScreenXS}">
     <div class="mt-3" :class="[isScreenXS ? 'input-col-mobile pr-2' : 'input-col', colClass]">
       <FormInput :value="value.quantity"
                  :placeholder="$t('inventory.enter_quantity')"
                  :label="$t('common.quantity')"
-                 :label-class="isScreenXS ? 'ml-0 mb-2' : ''"
+                 :label-class="isScreenXS ? 'ml-0' : ''"
                  class="input"
                  :class="{'input-error': quantityChanged && (value.quantity <= 0 || value.quantity > 50)}"
                  required
@@ -22,12 +22,12 @@
         }}
       </div>
     </div>
-    <div class="mt-3" :class="[isScreenXS ? 'input-col-mobile pr-2' : 'input-col', colClass]">
+    <div class="mt-3" :class="[isScreenXS ? 'input-col-mobile d-flex justify-content-end' : 'input-col', colClass]">
       <FormInput
         :value="value.price"
         :placeholder="$t('inventory.enter_price')"
         :label="$t('inventory.your_price')"
-        :label-class="isScreenXS ? 'ml-0 mb-2' : ''"
+        :label-class="isScreenXS ? 'ml-0' : ''"
         :pill="false"
         prefix="$"
         class="input"
@@ -48,7 +48,7 @@
     </div>
     <template v-if="showButtons">
       <div v-if="!isEditForm"
-           class="col-12 mt-3" :class="isScreenXS ? 'input-col-mobile' : 'input-col'">
+           class="col-12" :class="isScreenXS ? 'input-col-mobile' : 'input-col mt-3'">
         <Button class="mt-3 w-100"
                 variant="dark"
                 :class="{'py-4' : !isScreenXS}"
@@ -73,7 +73,6 @@
         </div>
       </template>
     </template>
-
   </div>
 </template>
 <script>
@@ -117,7 +116,7 @@ export default {
       if (this.isEditForm) {
         return 'col-12'
       }
-      return this.isScreenXS ? 'col-12' : 'col-6'
+      return 'col-6'
     }
   },
   data() {
@@ -185,7 +184,7 @@ export default {
 
 .input-col-mobile::v-deep
   .input-label
-    margin-bottom: 3px
+    margin-bottom: 7px
     font-family: $font-montserrat
     font-style: normal
     @include body-9-medium
@@ -197,6 +196,7 @@ export default {
       top: 804px
       border: 1px solid $white-5
       border-radius: 10px
+      max-width: 152px
       &::placeholder
         font-family: $font-montserrat
         font-style: normal
@@ -207,10 +207,11 @@ export default {
     display: block
     color: $color-red-3
 
-  .button
+  button
     background: $color-black-1
-    border-radius: 20px
+    border-radius: 8px
     color: $color-white-1
+    height: 40px
 
   .input-error
     .form-input
@@ -220,4 +221,8 @@ export default {
     @include body-5-regular
     display: block
     color: $color-red-3
+
+.mobile-form
+  max-width: 358px
+  margin: auto
 </style>

@@ -14,10 +14,7 @@
         <!-- New menu design end -->
       </div>
 
-      <div
-        class="main-wrapper"
-        :class="{ 'mobile-p-b': isScreenXS || isScreenSM }"
-      >
+      <div class="main-wrapper">
         <Nuxt />
       </div>
     </div>
@@ -112,7 +109,7 @@ export default {
 
 .bg-grayish
   background-color: $color-white-5 !important
-  
+
 .wrapper
   .custom-wrapper
     margin: 0
@@ -164,7 +161,4 @@ export default {
   .wrapper
     .custom-wrapper
       background-color: $color-white-19
-
-.mobile-p-b
-  padding-bottom: 98px
 </style>

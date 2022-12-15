@@ -7,10 +7,8 @@
                    @back="$router.push('/profile/inventory/search')">
         <InventoryNewForm
           slot="right-content"
-          ref="inventoryForm"
           v-model="form"
           class="mb-sm-4"
-          :show-buttons="!isScreenXS"
           :is-form-valid="isFormValid"
           @submit="handleAddInventory"
         />
@@ -22,9 +20,6 @@
         :chart-labels-style="chartLabelStyle"
       />
       <!-- End of Sales Graph and Sales Data Section -->
-      <div v-if="isScreenXS" class="d-flex justify-content-center mt-5">
-        <a role="button" class="inventory-add-btn" @click="handleAddInventory">{{ $t('inventory.add_inventory') }}</a>
-      </div>
     </div>
   </b-container>
 </template>
@@ -60,7 +55,7 @@ export default {
         currentSize: null,
         quantity: null,
         price: null,
-        boxCondition: null,
+        boxCondition: 1, // default 1
       },
     }
   },
@@ -128,17 +123,6 @@ export default {
 
 .sales-section
   margin-top: 55px
-
-.inventory-add-btn
-  background-color: $color-black-1
-  max-width: 216px
-  color: $color-white
-  font-family: $font-montserrat
-  @include body-10-normal
-  border-radius: 20px
-  padding: 12px 61px
-  &:hover
-    background-color: rgba($color-black-1, .8)
 
 .px-16
   padding-right: 16px
