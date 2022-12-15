@@ -252,6 +252,8 @@ export default {
         &.active
           .card
             border-color: $color-black-4
+            width: 52px
+            height: 52px
 
 
           .price
@@ -260,7 +262,7 @@ export default {
           &::after
             content: " "
             border-bottom: 3px solid $color-blue-5
-            margin-top: 11px
+            margin-top: -3px
             display: block
             margin-left: auto
             margin-right: auto
@@ -288,8 +290,8 @@ export default {
         width: auto
 
     .card
-      width: 52px
-      height: 52px
+      width: 49px
+      height: 49px
       border: 1px solid $color-gray-3
       border-radius: 4px
 
@@ -301,6 +303,7 @@ export default {
       letter-spacing: 0.005em
       text-transform: uppercase
       color: $color-gray-20
+      margin-top: -5px
 
   .view-all-btn
     right: 0
