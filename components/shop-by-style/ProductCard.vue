@@ -15,7 +15,13 @@
           {{ product.name }}
         </div>
         <div class="color mt-2 fw-5 font-secondary fs-15">
-          {{ `${$t('common.color')}: ${product.colorway}` }}
+          {{ `${$t('shopping_cart.color_way')}: ${product.colorway}` }}
+        </div>
+        <div
+          v-if="pricesBySize ? pricesBySize.length > 0 : false"
+          class="color mt-2 fw-5 font-secondary fs-15"
+        >
+          {{ `${$t('products.lowest_price')}: ${lowestPrice}` }}
         </div>
         <div
           class="position-absolute btn-add cursor-pointer"
@@ -65,7 +71,7 @@
               data-bs-toggle="collapse"
               type="button"
             >
-              <span class="w-100 text-left">{{
+              <span class="w-100 text-left fs-18 font-secondary fw-7">{{
                 $t('shop_by_style.product_details')
               }}</span>
             </button>
@@ -111,7 +117,9 @@
               data-bs-toggle="collapse"
               type="button"
             >
-              {{ $t('shop_by_style.size_guide') }}
+              <span class="fs-18 font-secondary fw-7">
+                {{ $t('shop_by_style.size_guide') }}
+              </span>
             </button>
           </h2>
           <b-collapse
@@ -136,16 +144,15 @@
             v-if="method === 'buy' && isOutOfStock"
             class="out-of-stock-btns w-100 text-center"
           >
-            <div class="warn-text mx-auto">
+            <div class="warn-text mx-auto mb-13">
               {{ $t('products.error.out_of_stock') }}
             </div>
 
             <Button
               variant="outline-dark-blue"
-              block
               black-text
               border="thick"
-              class="mx-auto"
+              class="mx-auto warn-button"
               @click="handleNotifyMeClick"
             >
               {{ $t('products.notify_me') }}
@@ -159,22 +166,21 @@
             <div>
               <p
                 v-if="currentListingItem"
-                class="text-center lowest-price mb-1"
+                class="text-center lowest-price mb-13"
               >
-                <span class="total-price"
-                  >${{
-                    (currentListingItem.inventory.sale_price / 100) | toCurrency
-                  }}</span
-                >
+                <span class="total-price">{{
+                  (currentListingItem.inventory.sale_price / 100) | toCurrency
+                }}</span>
                 {{ $t('shop_by_style.4_installments') }}
                 <span class="partial-price"
-                  >of ${{
+                  >of
+                  {{
                     (currentListingItem.inventory.sale_price / 100 / 4)
                       | toCurrency
                   }}</span
                 >
               </p>
-              <p v-else class="text-center lowest-price mb-1">
+              <p v-else class="text-center lowest-price mb-13">
                 <span class="total-price">{{ $t('common.$0') }}</span>
                 {{ $t('shop_by_style.4_installments') }}
                 <span class="partial-price"
@@ -183,10 +189,9 @@
               </p>
               <Button
                 variant="dark"
-                block
                 border="thick"
                 :disabled="addingToCart"
-                class="mx-auto"
+                class="mx-auto add-to-cart-button"
                 @click="handleAddToCartClick('web', product.id)"
               >
                 <div class="d-flex justify-content-center">
@@ -465,6 +470,7 @@ export default {
       }
       this.addingToCart = true
       this.$store.dispatch('shopping-cart/addProduct', this.getCartProduct())
+      this.show = false
       if (device !== 'mobile') {
         this.message = this.$t('products.message.added_to_cart', {
           productName: this.products.name,
@@ -503,4 +509,9 @@ export default {
     font-size: 17px
   .partial-price
     font-weight: $regular
+.mb-13
+  margin-bottom: 13px
+.add-to-cart-button, .warn-button
+  height: 46px
+  width: 473px
 </style>
