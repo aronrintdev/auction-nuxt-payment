@@ -9,13 +9,13 @@
         <!-- Main row -->
         <b-row cols="1" class="pr-md-5 pr-lg-5 pr-sm-0">
           <b-col class="w-100">
-            <h2 class="font-weight-bold">{{ $t('trades.create_listing.vendor.wants.add_wants') }} <span class="ml-3 font-weight-lighter">({{ $t('trades.create_listing.vendor.wants.optional') }})</span></h2>
+            <div class="add-wants-heading">{{ $t('trades.create_listing.vendor.wants.add_wants') }} <span class="ml-3 add-wants-subheading">({{ $t('trades.create_listing.vendor.wants.optional') }})</span></div>
           </b-col>
           <b-col class="w-100">
-            <p>{{ $t('trades.create_listing.vendor.wants.search_information', [MAX_ITEMS_ALLOWED]) }}</p>
+            <p class="add-wants-subtext">{{ $t('trades.create_listing.vendor.wants.search_information', [MAX_ITEMS_ALLOWED]) }}</p>
           </b-col>
         </b-row>
-        <b-row class="pr-md-5 pr-lg-5 pr-sm-0 mb-2">
+        <b-row class="pr-md-5 pr-lg-5 pr-sm-0 mb-2 search-section">
           <b-col class="col-md-8 col-12 mt-md-4">
             <SearchInput
               :value="searchText"
@@ -52,11 +52,11 @@
             </b-btn>
           </b-col>
         </b-row>
-        <b-row class="mt-5 mb-2">
-          <h2 class="font-weight-bold">{{ $t('trades.create_listing.vendor.wants.trade_wants_list') }}</h2>
+        <b-row class="mt-5 mb-2 ">
+          <h2 class="add-wants-heading">{{ $t('trades.create_listing.vendor.wants.trade_wants_list') }}</h2>
         </b-row>
         <!-- General list -->
-        <b-row class="collapse-btn pr-md-5 pr-lg-5 pr-sm-0">
+        <b-row class="collapse-btn pr-md-5 pr-lg-5 pr-sm-0 pdl-30">
           <b-button v-b-toggle.collapse-1 variant="light" class="pl-3 bg-white w-100 text-left general-list"
                     @click="generalListIsOpen = !generalListIsOpen">
             {{ $t('trades.create_listing.vendor.wants.general_list') }} ({{ generalListItems.length }})
@@ -64,7 +64,7 @@
               <i class="fa" :class="generalListIsOpen ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </div>
           </b-button>
-          <b-collapse id="collapse-1" class="mt-1 w-100">
+          <b-collapse id="collapse-1" class="w-100">
             <div class="d-flex create-trade-pl-22 bg-white">
               <div class="col-md-8 mt-4 p-0">
                 <span class="filter-by">{{ $t('create_listing.trade.offer_items.filter_by') }}</span>
@@ -168,7 +168,7 @@
         </b-row>
 
         <!-- Collapse -->
-        <b-row class="collapese-btn mt-3 pr-md-5 pr-lg-5 pr-sm-0 ">
+        <b-row class="collapese-btn mt-3 pr-md-5 pr-lg-5 pr-sm-0 pdl-30">
           <b-button v-b-toggle.collapse-2 variant="light" class="pl-3 bg-white w-100 text-left general-list"
                     @click="combinationIsOpen = !combinationIsOpen">
             {{ $t('trades.create_listing.vendor.wants.combinations') }} ({{ combinationItems.length }})
@@ -176,7 +176,7 @@
               <i class="fa" :class="combinationIsOpen ? 'fa-angle-up' : 'fa-angle-down'"></i>
             </div>
           </b-button>
-          <b-collapse id="collapse-2" class="mt-1 w-100">
+          <b-collapse id="collapse-2" class=" w-100">
             <div class="bg-white pt-4">
               <b-row class="combination-sort-row mr-5 mb-4">
                 <CustomDropdown v-model="orderFilterCombination" :label="orderFilterLabelCombination"
@@ -275,9 +275,9 @@
             </div>
           </b-collapse>
         </b-row>
-        <b-row class="mt-5 mr-5 p-5 create-trade-drag-drop-item  text-center d-flex justify-content-center" @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
-          <div v-if="getTradeItemsWants.length < 1">
-            <div class="create-trade-drag-drop-heading">
+        <b-row class="mt-5 mr-5  create-trade-drag-drop-item  text-center d-flex justify-content-center" @drop="onDrop($event)" @dragover.prevent @dragenter.prevent>
+          <div class="trade-drag-box" v-if="getTradeItemsWants.length < 1">
+            <div class="create-trade-drag-drop-headings">
               {{ $t('create_listing.trade.offer_items.drag_drop') }}
             </div>
             <span class="create-trade-drag-drop-sub-heading">{{
@@ -287,14 +287,14 @@
               <img :src="require('~/assets/img/Plus-circle.svg')">
             </b-row>
           </div>
-          <b-row v-else class="justify-content-center">
+          <b-row v-else class="justify-content-center p-5">
             <div v-for="item in getTradeItemsWants" :key="item.id" class="create-trade-item-web mr-4">
               <div class="position-relative d-flex justify-content-center align-items-center sm-img-cont">
                 <div v-if="item.selected_quantity > 1" class="create-trade-quantity-car-sm position-absolute">
                   x{{ item.selected_quantity || 1 }}
                 </div>
-                <div class="create-trade-minus-icon-web position-absolute" @click="removeOrDecrementWantItem(item.id)">
-                  <div class="create-trade-minus-line-sm"></div>
+                <div class="create-trade-remove-icon-web position-absolute" @click="removeOrDecrementWantItem(item.id)">
+                  <img :src="require('~/assets/img/minusSign.svg')" />
                 </div>
                 <div class="create-trade-item-image-div-sm position-relative">
                 <object :data="item.image" class="create-trade-item-image-sm" type="image/png">
@@ -330,7 +330,7 @@
             </div>
           </b-row>
         </b-row>
-        <b-row class="mt-5 d-block pr-5">
+        <b-row class="btn-next d-block pr-5">
           <b-col class="w-25 pull-right">
             <b-btn pill  class="pull-right mb-4 create-trade-next-web" @click="$router.push('/profile/create-listing/trades/confirmation')">{{ $t('trades.create_listing.vendor.wants.next') }}</b-btn>
           </b-col>
@@ -930,6 +930,7 @@ export default {
 </script>
 <style scoped lang="sass">
 @import '~/assets/css/_variables'
+@import '~/assets/css/_typography'
 .border-dotted
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='4' stroke-dasharray='16%2c 16%2c 16%2c 16' stroke-dashoffset='50' stroke-linecap='square'/%3e%3c/svg%3e")
   border-radius: 20px
@@ -961,6 +962,8 @@ export default {
   font-size: 18px
   line-height: 21px
   color: $color-gray-5
+  width: 1111px
+  height: 56px
 
 .font-22
   font-size: 22px
@@ -971,6 +974,7 @@ export default {
 .btn-offer
   background: $color-black-1
   color: $color-white-1
+  width: 162px
 .create-trade-next-web
   width: 151px
   height: 38px
@@ -1006,16 +1010,53 @@ export default {
 .create-trade-quantity-car-sm
   left: 10px
   top: 10px
-.create-trade-minus-icon-web
+.create-trade-remove-icon-web
   right: 10px
   top: 10px
   z-index: 102
 .sm-img-cont
-  height: 180px
+  height: 185px
+  width: 164px
   background: $color-white-1
   padding: 25px
 .create-trade-item-web
   background: $color-white-1
 .create-trade-drag-drop-item
   width: unset
+.add-wants-heading
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $bold
+  font-size: 24px
+  padding-left: 30px
+  padding-top: 36px
+.add-wants-subheading
+  font-family: $font-montserrat
+  font-style: normal
+  font-weight: $regular
+  font-size: 18px
+
+.add-wants-subtext
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $regular
+  font-size: 18px
+  padding-top: 9px
+  padding-left: 30px
+.search-section
+  padding-left: 30px
+.pdl-30
+  padding-left: 30px
+.trade-drag-box
+  padding-top: 84px
+  padding-bottom: 84px
+.create-trade-drag-drop-headings
+  font-family: $font-sp-pro
+  font-style: normal
+  font-weight: $medium
+  font-size: 24px
+  line-height: 29px
+  color: $color-black-1
+.btn-next
+  padding-top: 19px
 </style>
