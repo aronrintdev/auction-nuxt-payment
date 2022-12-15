@@ -4,29 +4,31 @@
       <b-row>
         <b-col md="12" class="d-flex align-items-center">
           <span class="title body-1-medium">{{ formattedProductName }}</span>
-          <b-img
-            :id="`popover-wishlist-${product.id}`"
-            :tooltip-text="wishList ? wishList.name : ''"
-            width="18"
-            :src="require('~/assets/img/product/heart-outline.svg')"
-            class="d-sm-none"
-            @click="removeFromWishList"
-          >
-          </b-img>
-          <ShareSVG
-            :id="`popover-share-${product.id}`"
-            class="ml-auto"
-            role="button"
-          />
-          <WishListPopover
-            v-if="!wishList"
-            :product="product"
-            :wish-list="wishList"
-            :target="`popover-wishlist-${product.id}`"
-            @wishlisted="onWishListed"
-            @show="wishListShow = true"
-            @hidden="wishListShow = false"
-          />
+          <template v-if="showWishlist">
+            <b-img
+              :id="`popover-wishlist-${product.id}`"
+              :tooltip-text="wishList ? wishList.name : ''"
+              width="18"
+              :src="require('~/assets/img/product/heart-outline.svg')"
+              class="d-sm-none"
+              @click="removeFromWishList"
+            >
+            </b-img>
+            <ShareSVG
+              :id="`popover-share-${product.id}`"
+              class="ml-auto"
+              role="button"
+            />
+            <WishListPopover
+              v-if="!wishList"
+              :product="product"
+              :wish-list="wishList"
+              :target="`popover-wishlist-${product.id}`"
+              @wishlisted="onWishListed"
+              @show="wishListShow = true"
+              @hidden="wishListShow = false"
+            />
+          </template>
         </b-col>
       </b-row>
       <b-row>
@@ -49,6 +51,7 @@
     </b-col>
 
     <b-popover
+      v-if="showShare"
       ref="sharePopover"
       :target="`popover-share-${product.id}`"
       triggers="click"
@@ -93,6 +96,14 @@ export default {
       type: Object,
       default: () => {}
     },
+    showWishlist: {
+      type: Boolean,
+      default: true
+    },
+    showShare: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {

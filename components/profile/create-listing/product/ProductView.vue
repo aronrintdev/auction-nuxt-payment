@@ -108,6 +108,8 @@
               :product-name="product.name"
               :lowest-price="lowestPrice ? lowestPrice : 0"
               :product-last-sale-price="lastSold && lastSold.sale_price ? lastSold.sale_price : 0"
+              :show-share="false"
+              :show-wishlist="false"
               class="mt-5"
             />
           </b-col>
