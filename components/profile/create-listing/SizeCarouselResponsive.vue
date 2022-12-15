@@ -5,11 +5,8 @@
       class="position-relative mx-auto carousel-wrapper w-100"
     >
       <b-row class="carousel-wrapper-title">
-        <b-col md="12">
-          <span
-            class="text-uppercase"
-            :class="isScreenXS ? 'body-10-regular font-monserrat' : 'body-8-normal'"
-          >
+        <b-col md="12 px-0">
+          <span class="text-uppercase" :class="isScreenXS ? 'body-10-regular font-monserrat' : 'body-8-normal'">
             {{ $t('products.select_size') }}*
           </span>
 

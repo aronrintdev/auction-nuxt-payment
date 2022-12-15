@@ -1,7 +1,7 @@
 <template>
   <div class="card-wrapper">
     <div
-      :class="{'px-4': !isScreenXS,}"
+      :class="{'px-4': !isScreenXS}"
       class="pt-3 action-buttons d-flex align-items-center justify-content-between mx-auto"
     >
       <Button
