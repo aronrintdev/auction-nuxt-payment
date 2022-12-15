@@ -23,16 +23,16 @@
             </div>
           </div>
           <div class="row justify-content-between px-29">
-            <div 
+            <div
               class="col-5 d-flex flex-column align-items-center justify-content-center z-10"
               :class="{
                 'justify-content-between': lastSubmittedOffer.theirs_items.length === TWO_ITEMS
-              }" 
+              }"
             >
-              <div 
-                v-for="(item,index) in lastSubmittedOffer.theirs_items" 
-                :id="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ? 'card-'+index : ''" 
-                :key="index" 
+              <div
+                v-for="(item,index) in lastSubmittedOffer.theirs_items"
+                :id="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ? 'card-'+index : ''"
+                :key="index"
                 class="item mb-5"
               >
                 <img class="img-fluid" :src="item.inventory.product | getProductImageUrl"/>
@@ -46,57 +46,57 @@
                 </div>
               </div>
             </div>
-            <div 
+            <div
               class="col-2 d-flex flex-column align-items-center justify-content-center"
             >
 
               <div class="position-relative d-flex w-100 justify-content-center"
                 :class="{
-                  'h-70': lastSubmittedOffer.theirs_items.length > ONE_ITEM || 
+                  'h-70': lastSubmittedOffer.theirs_items.length > ONE_ITEM ||
                           lastSubmittedOffer.yours_items.length > ONE_ITEM
                 }"
               >
-                <div 
-                  v-if="lastSubmittedOffer.theirs_items.length > ONE_ITEM" 
-                  class="pointer-left-sm" 
+                <div
+                  v-if="lastSubmittedOffer.theirs_items.length > ONE_ITEM"
+                  class="pointer-left-sm"
                 ></div>
-                <div 
-                  v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM" 
-                  class="pointer-right-sm" 
+                <div
+                  v-if="lastSubmittedOffer.yours_items.length > ONE_ITEM"
+                  class="pointer-right-sm"
                 ></div>
                 <div class="position-absolute bg-white pt-1 pb-2 bottom-45">
                   <div class="fair-text-sm">{{ $t('trades.fair') }}</div>
                   <div class="d-flex align-items-center">
-                    <div 
-                      v-if="lastSubmittedOffer.theirs_items.length === THREE_ITEMS || 
-                            lastSubmittedOffer.theirs_items.length === ONE_ITEM" 
+                    <div
+                      v-if="lastSubmittedOffer.theirs_items.length === THREE_ITEMS ||
+                            lastSubmittedOffer.theirs_items.length === ONE_ITEM"
                       class="line-bar-sm"
                     />
                     <div v-else class="slot-line" />
                     <img class="trade-img-sm mx-2" :src="require('~/assets/img/trades/mb-trade-icon.svg')" />
-                    <div 
-                      v-if="lastSubmittedOffer.yours_items.length === THREE_ITEMS || 
-                            lastSubmittedOffer.yours_items.length === ONE_ITEM" 
+                    <div
+                      v-if="lastSubmittedOffer.yours_items.length === THREE_ITEMS ||
+                            lastSubmittedOffer.yours_items.length === ONE_ITEM"
                       class="line-bar-sm"
                     />
                     <div v-else class="slot-line" />
                   </div>
 
                 </div>
-                
-              </div> 
+
+              </div>
 
             </div>
-            <div 
+            <div
               class="col-5 d-flex flex-column align-items-center justify-content-center z-10"
               :class="{
                 'justify-content-between': lastSubmittedOffer.yours_items.length === TWO_ITEMS
-              }" 
+              }"
             >
-              <div 
-                v-for="(item,index) in lastSubmittedOffer.yours_items" 
-                :id="lastSubmittedOffer.yours_items.length > ONE_ITEM ?'your-card-'+index : 'your-item'" 
-                :key="index" 
+              <div
+                v-for="(item,index) in lastSubmittedOffer.yours_items"
+                :id="lastSubmittedOffer.yours_items.length > ONE_ITEM ?'your-card-'+index : 'your-item'"
+                :key="index"
                 class="item mb-5"
               >
                 <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" alt="image" />
@@ -176,7 +176,7 @@
             <div
               class="d-flex flex-column px-3 px-lg-0"
             >
-              <div class="d-flex justify-content-between col-12 col-md-8 mb-2 mx-auto">
+              <div class="d-flex justify-content-between align-items-center theirs-yours-values">
                 <div class="value">
                   {{ $t('common.their_value') }}
                   <span class="ml-1 price">{{ getTheirTotal() }}</span>
@@ -187,7 +187,7 @@
                 </div>
               </div>
               <div
-                class="center-container d-flex mx-0 mx-md-auto justify-content-between align-items-center col-md-8 col-xl-12"
+                class="center-container d-flex mx-0 mx-md-auto align-items-center col-md-8 col-xl-12"
                 :class="{'center-cont-height':(lastSubmittedOffer.theirs_items.length > ONE_ITEM || lastSubmittedOffer.yours_items.length) }"
               >
                 <div class="left-item">
@@ -241,7 +241,9 @@
                 </div>
               </div>
             </div>
-            <div v-if="!isAcceptedOffer()" class="d-flex flex-column align-items-center">
+            <div v-if="!isAcceptedOffer()" class="d-flex flex-column align-items-center margin-top-minus"
+           :class="{'margin-top-minus-one':(lastSubmittedOffer.theirs_items.length === ONE_ITEM && lastSubmittedOffer.yours_items.length === ONE_ITEM) }"
+            >
               <div class="fair-trade-division d-flex justify-content-center flex-column align-items-center">
                 <Meter :highest="getTheirTotal(false)"
                        :lowest="0"
@@ -469,7 +471,7 @@ export default {
 
 .w-xl-100
   @media (min-width: 1200px)
-    width: 100%
+    width: 34px
 
 .value
   @include body-8-normal
@@ -679,7 +681,7 @@ export default {
   @include body-6-medium
   font-family: $font-family-sf-pro-display
   color: $color-black-1
-  
+
 .item-box-condition-small, .item-caption-description-small
   @include body-6-medium
   font-family: $font-sp-pro
@@ -825,6 +827,9 @@ export default {
   margin: 0 10px
   width: unset
   max-width: 780px
+.center-item
+  width: unset
+  margin: 0 12px
 .pointer-left-sm,.pointer-right-sm
   width: 25px
 
@@ -885,5 +890,14 @@ export default {
 
 .bottom-45
   bottom: 45%
-
+.theirs-yours-values
+  width: 797px
+  background: $color-white-4
+  min-height: 62px
+  margin-left: 123px
+  padding: 0 63px
+.margin-top-minus
+  margin-top: -118px
+.margin-top-minus-one
+  margin-top: -145px
 </style>
