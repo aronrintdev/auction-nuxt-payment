@@ -75,7 +75,7 @@
             <b-list-group-item
               v-for="listItem in sellerProfileListItems"
               :key="listItem.label"
-              :to="listItem.link"
+              @click="listItem.onClick"
             >
               <b-row>
                 <b-col cols="12" sm="12" class="d-flex align-items-center">
@@ -97,7 +97,7 @@
             <b-list-group-item
               v-for="listItem in profileListItems"
               :key="listItem.label"
-              :to="listItem.link"
+              @click="listItem.onClick"
             >
               <b-row>
                 <b-col cols="12" sm="12" class="d-flex align-items-center">
@@ -119,7 +119,7 @@
             <b-list-group-item
               v-for="listItem in guestProfileListItems"
               :key="listItem.label"
-              :to="listItem.link"
+              @click="listItem.onClick"
             >
               <b-row>
                 <b-col cols="12" sm="12" class="d-flex align-items-center">
@@ -175,96 +175,150 @@ export default {
         {
           icon: 'vendor-outline-gray',
           label: this.$t('vendor_hub.apply_title'),
-          link: '/signup'
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/signup')
+          }
         },
         {
           icon: 'tag-outline-gray',
           label: this.$t('home.promotions'),
-          link: '/promotions',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/promotions')
+          }
         },
         {
           icon: 'trophy-outline-gray',
           label: this.$t('home.rewards'),
-          link: '/profile/rewards',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/profile/rewards')
+          }
         },
         {
           icon: 'headphones-outline-gray',
           label: this.$t('home.support'),
-          link: '/profile/support',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/profile/support')
+          }
         },
       ],
       profileListItems: [
         {
           icon: 'shop-outline-gray',
           label: this.$t('home.shop'),
-          link: '/shop',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/shop')
+          }
         },
         {
           icon: 'trade-outline-gray',
           label: this.$t('home.trade'),
-          link: '/trades',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/trades')
+          }
         },
         {
           icon: 'hummer-outline-gray',
           label: this.$t('home.auction'),
-          link: '/auction',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/auction')
+          }
         },
         {
           icon: 'shirt-outline-gray',
           label: this.$t('home.shop_by_style_2'),
-          link: '/shop-by-style',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/shop-by-style')
+          }
         },
         {
           icon: 'vendor-outline-gray',
           label: this.$t('vendor_hub.apply_title'),
-          link: '/profile/vendor-hub/apply',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/profile/vendor-hub/apply')
+          }
         },
         {
           icon: 'exchange-outline-gray',
           label: this.$t('home.dead_stock_exchange'),
-          link: '/stock/exchange',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/stock/exchange')
+          }
         },
         {
           icon: 'user-outline-gray',
           label: this.$t('home.profile'),
-          link: '/profile/preferences',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$root.$emit('open-right-sidebar')
+          }
         },
       ],
       sellerProfileListItems: [
         {
           icon: 'shop-outline-gray',
           label: this.$t('home.shop'),
-          link: '/shop',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/shop')
+          }
         },
         {
           icon: 'trade-outline-gray',
           label: this.$t('home.trade'),
-          link: '/trades',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/trades')
+          }
         },
         {
           icon: 'hummer-outline-gray',
           label: this.$t('home.auction'),
-          link: '/auction',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/auction')
+          }
         },
         {
           icon: 'shirt-outline-gray',
           label: this.$t('home.shop_by_style_2'),
-          link: '/shop-by-style',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/shop-by-style')
+          }
         },
         {
           icon: 'sell-outline-gray',
           label: this.$t('home.sell'),
-          link: '/sell',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/sell')
+          }
         },
         {
           icon: 'exchange-outline-gray',
           label: this.$t('home.dead_stock_exchange'),
-          link: '/stock/exchange',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$router.push('/stock/exchange')
+          }
         },
         {
           icon: 'user-outline-gray',
           label: this.$t('home.profile'),
-          link: '/profile/preferences',
+          onClick: () => {
+            this.$refs.topSidebar.hide()
+            this.$root.$emit('open-right-sidebar')
+          }
         },
       ],
     }

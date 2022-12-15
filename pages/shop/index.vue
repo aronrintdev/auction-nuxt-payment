@@ -181,6 +181,8 @@ export default {
     }
   },
   async fetch() {
+    const categoryName = this.$router.currentRoute.query.category.toLowerCase();
+    this.$store.commit('browse/setSelectedCategory', categoryName)
     await this.fetchFilters()
     this.fetchProducts()
   },

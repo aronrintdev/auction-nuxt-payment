@@ -13,9 +13,11 @@
               <img :src="CollectionSvg" class="collection-image" alt="collection image">
             </b-col>
             <b-col cols="8" md="8" class="pl-3 pl-md-4 d-flex align-items-center">
-              <span class="auction-name sf-pro-display overflow-hidden text-nowrap text-capitalize" :class="isMobileSize ? 'body-5-medium': 'body-13-bold'">
-                {{ auction.name }} ( {{auction.auction_items.length}} {{$t('auction.items')}} )
-              </span>
+              <b-row>
+                <span class="auction-name sf-pro-display overflow-hidden text-nowrap text-capitalize" :class="isMobileSize ? 'body-5-medium': 'body-13-bold'">
+                  {{ auction.name }} ( {{auction.auction_items.length}} {{$t('auction.items')}} )
+                </span>
+              </b-row>
             </b-col>
           </b-row>
         </b-col>
@@ -48,7 +50,7 @@
         </template>
       </b-row>
 
-      <div v-if="isMobileSize" class="w-100 collection-items mt-2">
+      <div v-if="isMobileSize" class="w-100 collection-items">
         <b-carousel indicators>
           <b-carousel-slide v-for="(item, i) in auction.auction_items" :key="i" class="h-auto">
             <template #img>
@@ -57,17 +59,17 @@
                   <ProductThumb :product="item.inventory.product" />
                 </b-col>
                 <b-col class="d-flex flex-column justify-content-center pl-3">
-                  <div class="text-gray-6 body-6-normal text-left mb-1 sf-pro-display text-uppercase">
+                  <div class="text-gray-6 body-6-normal text-left mb-01 sf-pro-display text-uppercase">
                     {{ $t('shopping_cart.sku') }}&colon;&nbsp;{{ item.inventory.product.sku }}
                   </div>
-                  <div class="text-gray-6 body-6-normal text-left mb-1 sf-pro-display text-wrap">
+                  <div class="text-gray-6 body-6-normal text-left mb-01 sf-pro-display text-wrap">
                     {{ $t('shopping_cart.color_way') }}&colon;&nbsp;{{
                       item.inventory.product.colorway
                     }}, {{ $t('shopping_cart.size') }}&colon;&nbsp;{{
                       item.inventory.size.size
                     }}
                   </div>
-                  <div class="text-gray-6 body-6-normal text-left mb-1 sf-pro-display ">
+                  <div class="text-gray-6 body-6-normal text-left mb-01 sf-pro-display ">
                     {{ $t('products.box_condition') }}&colon;&nbsp;{{ item.inventory.packaging_condition.name }}
                   </div>
                 </b-col>
@@ -77,19 +79,19 @@
           </b-carousel-slide>
         </b-carousel>
         <b-col class="py-1">
-          <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display ">
+          <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('bids.auction_id') }}:</span>
             <span class="body-9-regular text-decoration-underline text-blue-30">{{ auction.id }}</span>
           </div>
         </b-col>
-        <b-col class="py-1 bg-lightgrey">
-          <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display ">
+        <b-col class="py-025 bg-lightgrey">
+          <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.type') }}:</span>
             <span class="body-9-regular text-gray-6">{{ $t('auction.auction_types.'+auction.type) }}</span>
           </div>
         </b-col>
         <b-col sm="12" md="1" class="py-1">
-          <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display ">
+          <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.highest_bid') }}:</span>
             <span class="body-9-regular text-gray-6">
               <span v-if="auction.bids.length">&dollar;{{ auction.highest_bid | formatPrice }}</span>
@@ -97,20 +99,20 @@
             </span>
           </div>
         </b-col>
-        <b-col sm="12" md="1" class="py-1 bg-lightgrey">
-          <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display ">
+        <b-col sm="12" md="1" class="py-025 bg-lightgrey">
+          <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.bids') }}:</span>
             <span class="body-9-regular text-gray-6">{{auction.bids.length|| '-'}}</span>
           </div>
         </b-col>
         <b-col sm="12" md="1" class="py-1">
-          <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display ">
+          <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.time_remaining') }}:</span>
             <span class="body-9-regular text-gray-6">{{ isExpired || auction.status !== LIVE_STATUS ? '-' : auction.remaining_time }}</span>
           </div>
         </b-col>
-        <b-col sm="12" md="1" class="py-1 bg-lightgrey">
-          <div class="px-1 d-flex justify-content-between d-md-block sf-pro-display ">
+        <b-col sm="12" md="1" class="py-025 bg-lightgrey">
+          <div class="px-1 d-flex justify-content-between d-md-block" :class="isMobileSize ? 'font-montserrat' : 'sf-pro-display'">
             <span class="d-sm-block d-md-none body-9-medium">{{ $t('auction.status') }}:</span>
             <span class="body-9-regular text-gray-6"
             :class="{'text-green' : !isExpired && auction.status === LIVE_STATUS, 'text-danger': isExpired && auction.status === LIVE_STATUS }">
@@ -236,6 +238,12 @@ export default {
       border: none
     .carousel
       padding: 0 14px
+
+.mb-01
+  margin-bottom: 1px
+.py-025
+  padding-top: 2.5px
+  padding-bottom: 2.5px
 
 .collection-item
   .thumb-wrapper

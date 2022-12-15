@@ -1,7 +1,9 @@
 <template>
   <div class="auction-browser pb-4">
-    <auction-banner />
     <div class="m-auto auction-browser-container">
+      <div class="auction-banner-title">
+        {{ $t('auction.browse_auction') }}
+      </div>
       <auction-filterbar :searchKeyword="productFilter ? productFilter.name : null" @change="handleFilterChange"/>
       <auction-mobile-filter @change="handleFilterChange"></auction-mobile-filter>
       <div v-if="!isViewAll" :class="{ 'invisible': loading }">
@@ -13,6 +15,7 @@
         ></product-slider>
         <product-slider
           :title="$t('auctions.frontpage.ending_soon')"
+          :view-more-btn-label="$t('auctions.frontpage.ending_soon_load_more')"
           :auctions="endingSoonAuctions"
           :type="'ending_soon'"
           @showAll="showAllAuctions('ending_soon')"
@@ -44,14 +47,12 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import AuctionBanner from '~/components/Auctions/Banner'
 import AuctionFilterbar from '~/components/Auctions/Filterbar'
 import ProductSlider from '~/components/Auctions/ProductSlider'
 import AuctionMobileFilter from '~/components/Auctions/MobileFilter'
 
 export default {
   components: {
-    AuctionBanner,
     AuctionFilterbar,
     ProductSlider,
     AuctionMobileFilter,
@@ -258,6 +259,19 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-  .auction-browser-container
-    max-width: 1440px
+@import '~/assets/css/_variables'
+
+.auction-browser-container
+  max-width: 1440px
+.auction-banner-title
+  font-family: $font-family-garamond
+  font-weight: $bold
+  font-size: 48px
+  line-height: 100%
+  color: $black
+  margin: 35px 60px 34px
+  @media (max-width: 576px)
+    display: none
+    margin: 0
+
 </style>

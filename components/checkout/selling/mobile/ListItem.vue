@@ -77,15 +77,15 @@ export default {
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     name: (vm) => {
-      return vm.product.name.substr(0, 36)
+      return vm.product.name.substr(0, 64)
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     colorWay: (vm) => {
-      return vm.product.colorWay.substr(0, 4)
+      return vm.product.colorWay.substr(0, 4) + '...'
     },
     // Expects a View Model. Use the variable vm (short for ViewModel) to refer to our Vue instance.
     boxCondition: (vm) => {
-      return vm.product.packaging_condition.substr(0, 8)
+      return vm.product.packaging_condition.substr(0, 8) + '...'
     }
   },
   methods: {
@@ -114,6 +114,9 @@ export default {
 
 .product-card
   min-height: 188px
+
+  img
+    mix-blend-mode: multiply
 
 .product-details
   >div + div

@@ -557,9 +557,7 @@ import { mapGetters, mapActions } from 'vuex'
 import emitEvent from '~/plugins/mixins/emit-event'
 import { countryRestriction } from '~/static/constants/address'
 import MobileBottomSheet from '~/components/mobile/MobileBottomSheet.vue'
-import {
-  ADD, EDIT, SHIPPING, BILLING
-} from '~/static/constants'
+import { ADD, EDIT, SHIPPING, BILLING } from '~/static/constants'
 export default {
   name: 'AddressForm',
 

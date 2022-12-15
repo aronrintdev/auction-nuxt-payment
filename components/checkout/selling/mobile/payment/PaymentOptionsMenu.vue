@@ -96,6 +96,10 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
+::v-deep.title-wrapper
+  span
+    @include body-13-medium
+
 .options-wrapper
   margin: 12px 18px 0
 

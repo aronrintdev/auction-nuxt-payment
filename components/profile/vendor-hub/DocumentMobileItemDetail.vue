@@ -31,11 +31,6 @@
         <span class="text-blue-20 body-9-normal">{{$t('vendor_hub.documents_tab.download_form')}}</span>
       </a>
     </div>
-    <div class="mt-3 text-center">
-      <a role="button" @click="$emit('selected', null)">
-        <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
-      </a>
-    </div>
   </div>
 </template>
 

@@ -3,28 +3,28 @@
     <Header />
 
     <div class="custom-wrapper flex-grow-1">
-      <div class="row mb-bb">
+      <b-row>
         <!-- New menu design begin -->
         <client-only>
-          <div class="col">
-            <NewSideMenu v-if="!isScreenXS && !isScreenSM && !isScreenMD" />
+          <b-col>
+            <SideMenu v-if="! isResponsive" />
             <!-- new menu area end -->
-          </div>
+          </b-col>
         </client-only>
         <!-- New menu design end -->
-      </div>
+      </b-row>
 
       <div
         class="main-wrapper"
-        :class="{ 'mobile-p-b': isScreenXS || isScreenSM }"
+        :class="{ 'mobile-p-b': isResponsive }"
       >
         <Nuxt />
       </div>
     </div>
 
-    <!-- ScollTo Top Button -->
+    <!-- Scroll To Top Button -->
     <ScrollToTop v-show="mobileClass && showScroll" />
-    <!-- ./ScrollTo Top Button Ends -->
+    <!-- ./Scroll To Top Button Ends -->
     <BottomNavigation class="d-flex d-md-none mt-4" />
     <Footer class="d-none d-md-flex" />
   </div>
@@ -33,17 +33,18 @@
 import { mapGetters } from 'vuex'
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
-import NewSideMenu from '~/components/profile/NewSideMenu'
+import SideMenu from '~/components/profile/SideMenu'
 import ScrollToTop from '~/components/common/ScrollToTop.vue'
 import screenSize from '~/plugins/mixins/screenSize'
 import { SCROLLY } from '~/static/constants'
 import realtime from '~/plugins/mixins/realtime'
 import { enquireScreenSizeHandler } from '~/utils/screenSizeHandler'
 import BottomNavigation from '~/components/homepage/BottomNavigation.vue'
+
 export default {
   name: 'Default',
   components: {
-    NewSideMenu,
+    SideMenu,
     Header,
     Footer,
     ScrollToTop,
@@ -68,6 +69,9 @@ export default {
     ...mapGetters({
       pushActive: 'notifications/getPushNotificationsActive',
     }),
+    isResponsive(vm) {
+      return vm.isScreenXS || vm.isScreenSM
+    },
   },
   watch: {
     screenIsSmallThanLG(newVal) {
@@ -107,15 +111,15 @@ export default {
   },
 }
 </script>
+
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 
 .bg-grayish
   background-color: $color-white-5 !important
-  
+
 .wrapper
   .custom-wrapper
-    overflow: hidden
     margin: 0
     padding: 0
 

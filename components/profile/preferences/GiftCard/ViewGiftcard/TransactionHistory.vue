@@ -22,7 +22,13 @@
             <b-td v-if="transaction.transaction_type === reload">
               <span class="text-bold">{{ $t('giftcard_section.add_funds') }}</span>
             </b-td>
-            <b-td v-else></b-td>
+            <b-td v-else>
+              <template v-if="transaction.order && transaction.order.items">
+                <div v-for="(item, indexVal) in  transaction.order.items" :key="indexVal">
+                  <span class="product-list">{{ item.product.name }}</span>
+                </div>
+              </template>
+            </b-td>
             <b-td>{{ transaction.order.created_at | formatDate }}</b-td>
             <b-td>
               <span :class="[refund, reload].includes(transaction.transaction_type) && 'text-success'">
@@ -74,6 +80,11 @@ export default {
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
 .transaction-details-col
+  .product-list
+    font-family: $font-sf-pro-text
+    font-style: normal
+    @include body-13-normal
+    color: $color-black-1
   .transaction-history-heading
     font-style: normal
     @include body-1-normal
