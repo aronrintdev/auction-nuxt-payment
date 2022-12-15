@@ -95,6 +95,18 @@
                 <Loader :loading="loading"></Loader>
               </div>
             </template>
+            <template #head()="scope">
+              <div class="text-nowrap" role="button" @click="orderBy(scope)">
+                <span class="mr-1">{{ scope.label }}</span>
+                <img
+                    v-if="scope.label !== $t('vendor_dashboard.actions')"
+                    :src="require('~/assets/img/icons/down-arrow-solid.svg')"
+                    :alt="scope.label"
+                    class="sort-icon"
+                    :class="reverseDirection(scope.column)"
+                />
+              </div>
+            </template>
             <template #cell(order_id)="data">
               <div class="text-decoration-underline blue-color-link">
                 #{{ data.item.order.order_id }}
@@ -103,7 +115,7 @@
 
             <template #cell(product)="data">
               <div class="text-nowrap text-truncate max-128">
-                {{ data.item.listing_item.inventory.product.name }}
+                {{ data.item.listing_item? data.item.listing_item.inventory.product.name: '-' }}
               </div>
             </template>
 
@@ -183,25 +195,25 @@ export default {
         {
           key: 'order_id',
           label: this.$t('vendor_dashboard.order_id'),
-          sortable: true,
+          sortable: false,
           tdClass: '',
         },
         {
           key: 'product',
           label: this.$t('vendor_dashboard.product'),
-          sortable: true,
+          sortable: false,
           tdClass: 'text-center',
         },
         {
           key: 'date_ordered',
           label: this.$t('common.date'),
-          sortable: true,
+          sortable: false,
           thClass: 'text-center',
         },
         {
           key: 'outcome',
           label: this.$t('vendor_dashboard.outcome'),
-          sortable: true,
+          sortable: false,
           thClass: 'text-center',
         },
         {
@@ -210,6 +222,8 @@ export default {
           thClass: 'text-center',
         },
       ],
+      orderByField: 'id',
+      orderByDirection: 'asc',
       detailsMenu: false,
       loading: false,
       thresholds: []
@@ -247,6 +261,20 @@ export default {
     this.getCommissionThresholds()
   },
   methods: {
+    orderBy(scope) {
+      if (scope.column !== 'actions') {
+        this.orderByDirection = this.reverseDirection(scope.column)
+        this.orderByField = scope.column
+        this.getOrders()
+      }
+    },
+    reverseDirection(column) {
+      return column === this.orderByField
+          ? this.orderByDirection === 'asc'
+              ? 'desc'
+              : 'asc'
+          : 'desc'
+    },
     addMore() {
       if (this.total > this.ordersCount) {
         this.ordersCount += DETAILS_ORDER_COUNT
@@ -271,7 +299,9 @@ export default {
       this.$axios
           .get('/dashboard/vendor/orders', {
             params: {
-              orders_count: this.ordersCount
+              orders_count: this.ordersCount,
+              order_by_column: this.orderByField,
+              order_by_direction: this.orderByDirection,
             }
           })
           .then((res) => {
@@ -291,7 +321,9 @@ export default {
 
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
+.sort-icon
+  &.asc
+    transform: rotate(180deg)
 .overview-body
   margin-bottom: 50px
 
