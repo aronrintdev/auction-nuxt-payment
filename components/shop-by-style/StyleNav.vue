@@ -59,7 +59,7 @@
   
   .nav-group
     @media (min-width: 576px)
-      margin: 50px 0 52px 0
+      margin: 50px 0 54px 0
     .btn-group
       background-color: $color-white-19
       border-radius: 20px

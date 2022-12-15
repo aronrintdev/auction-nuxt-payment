@@ -2,7 +2,7 @@
   <div id="profile-layout" class="wrapper min-vh-100 d-flex flex-column">
     <Header />
 
-    <div class="custom-wrapper flex-grow-1">
+    <div class="custom-wrapper">
       <div class="row mb-bb">
         <!-- New menu design begin -->
         <client-only>
@@ -115,7 +115,6 @@ export default {
   
 .wrapper
   .custom-wrapper
-    overflow: hidden
     margin: 0
     padding: 0
 

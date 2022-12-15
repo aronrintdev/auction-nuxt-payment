@@ -10,7 +10,7 @@
         <SearchInput
           :value="search"
           :placeholder="$t('auction.search_placeholder')"
-          class="flex-grow-1 mw-734"
+          class="mw-734"
           :debounce="1000"
           inputHeight="38"
           @input="handleSearch"
@@ -27,14 +27,14 @@
           ></FormDropdown>
         </div>
       </div>
-      <div class="d-flex justify-content-between align-items-center mt-md-3 pt-1">
+      <div class="d-flex justify-content-between align-items-center filters">
         <div class="d-flex align-items-end justify-content-start filters-bar">
           <div>
-            <div class="body-8-normal mb-1 sf-pro-display">{{ $t('common.filter_by') }}</div>
+            <div class="body-8-normal filter-label sf-pro-display">{{ $t('common.filter_by') }}</div>
             <div class="d-flex align-items-center">
               <SelectWithCheckbox
                 id="auction-type-selector"
-                class=" mr-10 dropdown-filters"
+                class=" mr-10 dropdown-filters auction-type"
                 :default="auctionType"
                 :options="AUCTION_TYPES"
                 :title="$t('auction.auction_type')"
@@ -52,7 +52,7 @@
             </div>
           </div>
           <div>
-            <div class="body-8-normal mb-1 sf-pro-display">{{ $t('selling_page.date_listed') }}</div>
+            <div class="body-8-normal filter-label sf-pro-display">{{ $t('selling_page.date_listed') }}</div>
             <div class="d-flex align-items-center">
               <b-input-group class="date-input-group mr-10">
                 <b-form-input class="date-input" :placeholder="$t('auction.start_date')" :value="start_date"></b-form-input>
@@ -99,12 +99,19 @@
           <b-button
             variant="primary"
             size="sm"
-            class=" apply-button text-white shadow border-0 px-4 py-2"
+            class=" apply-button text-white shadow border-0"
             @click="FetchAuctions"
           >{{ $t('vendor_purchase.apply') }}
           </b-button>
-          <span v-if="haveFilters" role="button" class="clear-filters text-nowrap ml-4"
-                @click="clearFilters">{{ $t('auction.clear_filters') }}</span>
+
+          <Button
+            variant="link"
+            size="sm"
+            class="delete-expired"
+            @click="deleteSoldExpiredAuctions"
+          >
+            {{ $t('auctions.list.delete_sold_expired_listings') }}
+          </Button>
         </div>
       </div>
     </template>
@@ -114,10 +121,19 @@
     </div>
 
     <div class="d-flex justify-content-start align-items-center mt-4 pt-1 pt-md-0 mt-md-5">
-      <div class="d-flex justify-content-between align-items-center">
-        <h4 class="title" :class="{'body-4-medium' : isMobileSize}">
+      <div class="d-flex w-100 justify-content-between align-items-center mb-1">
+        <h4 class="title" :class="{'mb-0 body-4-medium' : isMobileSize}">
           {{ $tc('auction.auctions_listings', 1) }} ({{ totalCount }})
         </h4>
+        <Button
+          variant="link"
+          size="sm"
+          class="delete-expired-mobile"
+          @click="deleteAction = true"
+        >
+          <img src="~/assets/img/profile/mobile/mobile-delete.svg" class="mr-1" />
+          <span>{{ $t('auctions.list.delete_listings') }}</span>
+        </Button>
       </div>
     </div>
 
@@ -169,9 +185,17 @@
     </div>
 
     <div v-if="!fetchLoading" class="auction-listings-table">
-      <b-row v-if="!isMobileSize" class="text-center font-weight-bold">
-        <b-col sm="12" md="2" class="text-center">{{ $t('auction.auction_id') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
-        <b-col sm="12" md="3" class="text-left pl-0">{{ $t('auction.product') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
+      <b-row v-if="!isMobileSize" class="text-center font-weight-bold auction-listings-table-header">
+        <b-col sm="12" md="5" class="text-left">
+          <b-row>
+            <b-col cols="4" md="4">
+              {{ $t('auction.auction_id') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"/>
+            </b-col>
+            <b-col cols="8" md="8" class="pl-3">
+              <b-row class="align-items-center">{{ $t('auction.product') }}<img class="ml-1" src="~/assets/img/icons/triangle-arrow-down.svg"/></b-row>
+            </b-col>
+          </b-row>
+        </b-col>
         <b-col sm="12" md="1">{{ $t('auction.type') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
         <b-col sm="12" md="2">{{ $t('auction.highest_bid') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
         <b-col sm="12" md="1">{{ $t('auction.bids') }} <img class="mt-n1" src="~/assets/img/icons/triangle-arrow-down.svg"></b-col>
@@ -629,6 +653,9 @@ export default {
         $state.loaded()
       })
     },
+    deleteSoldExpiredAuctions() {
+
+    }
   }
 }
 </script>
@@ -705,7 +732,12 @@ export default {
 .apply-button
   background: $color-blue-20
   color: $color-white-1
-  border-radius: 6px
+  border-radius: 5px
+  height: 38px
+  width: 89px
+  font-family: $font-sp-pro
+  font-weight: $normal
+  @include body-8
 
   &:hover
     border: none
@@ -727,10 +759,10 @@ export default {
   border-radius: 0 6px 6px 0
 
 .date-input-group
-  max-width: 200px
+  max-width: 170px
 
 .mw-734
-  max-width: 734px
+  width: 734px
   margin-right: 71px
 
 ::v-deep
@@ -744,6 +776,7 @@ export default {
 
   h2.title
     @include heading-3
+    letter-spacing: -0.02em
     font-weight: $bold
     color: $color-black-1
 
@@ -761,10 +794,13 @@ export default {
     color: $color-gray-5
     text-transform: capitalize
     padding-right: 45px
+    margin-left: -30px
 .dropdown-filters::v-deep
-  min-width: 170px
+  width: 170px
   height: 38px
   border: none
+  &.auction-type
+    width: 162px
   .selected
     height: 38px
     border: 1px solid $color-gray-60
@@ -852,11 +888,35 @@ h4.title
     font-weight: $medium
 .container-profile-auctions-listing
   padding: 47px 54px
+  .filters
+    margin-top: 18px
+    .filter-label
+      margin-bottom: 5px
+      color: $black
+    .delete-expired.btn
+      margin-left: 23px
+      border: 1px solid $color-gray-23
+      border-radius: 5px
+      @include body-5-normal
+      background-color: $white
+      color: $black
+      width: 226px
+      height: 38px
+      font-family: $font-montserrat
   .auction-listings-table
     margin: 37px -25px 0
+    color: $black
   @media (max-width: 576px)
     padding: 12px 16px
     min-height: calc(100vh - 360px)
+    .filters
+      margin-top: 4px
     .auction-listings-table
       margin: 27px 0 0
+    .delete-expired-mobile.btn
+      font-family: $font-sp-pro
+      font-weight: $normal
+      @include body-1214
+      color: $color-gray-47
+      height: auto
 </style>

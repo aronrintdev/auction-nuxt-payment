@@ -60,6 +60,7 @@
     "size": "Size | Sizes",
     "size_type": "Size Type | Size Types",
     "n_item_selected": "{n} {unit} selected",
+    "deselect": "Deselect",
     "deselect_all": "Deselect All",
     "select_all": "Select All",
     "product": "Product | Products",
@@ -426,6 +427,7 @@
     "selling_listings": "Selling Listings",
     "trade_listings": "Trade Listings",
     "trade_offers": "Trade Offers",
+    "trade_preferences": "Trade Preferences",
     "offers_received": "Offers Received",
     "bids_received": "Bids Received",
     "auctions_listings": "Auctions Listings",
@@ -1869,6 +1871,8 @@
       "single_item": "Single Item",
       "lot": "Lot",
       "collection": "Collection",
+      "delete_sold_expired_listings": "Delete Sold/Expired Listings",
+      "delete_listings": "Delete Listings",
       "table_columns": {
         "details": "Details",
         "listing": "Listing",
@@ -1999,7 +2003,8 @@
         "cta_label": "List"
       },
       "recently_viewed": "Recently Viewed",
-      "ending_soon": "Auctions Ending Soon",
+      "ending_soon": "Ending Soon",
+      "ending_soon_load_more": "View More Ending Soon",
       "no_reserve": "No-Reserve",
       "reserve": "Reserve",
       "search_results": "Search Results",
@@ -2825,6 +2830,7 @@
   "auction": {
     "list_auction_today": "List an auction today on Deadstock!",
     "search_placeholder": "Search for product SKU or by keyword",
+    "browse_auction": "Browse Auction",
     "auction_type": "Auction Type",
     "auction_types": {
       "single": "Single Item",
@@ -3532,6 +3538,7 @@
       "city": "City",
       "state": "State",
       "zip": "Zip/ Postal Code",
+      "please_provide_billing_first"  : "Please provide billing address.",
       "country": "Country",
       "billing_address": "Billing Address",
       "social_media_links": "Social Media Links",
@@ -3780,7 +3787,7 @@
         "state": "State",
         "phone": "Phone #"
       },
-      "field_is_empty"  : "Field is empty"
+      "new_balance" : "New Balance"
     }
   },
   "monthNames": {
@@ -3910,7 +3917,6 @@
     "shipping_method": "Shipping Method",
     "shipping_status": "Shipping Status",
     "shipping_details": "Shipping Details",
-    "payment_summary": "Payment Summary",
     "billing_address": "Billing Address",
     "payment_method": "Payment Method",
     "item": "{count} Item",
@@ -4815,7 +4821,6 @@
           "offered": "Offered",
           "wants": "Wants",
           "box": "Box",
-          "size": "Size",
           "wants_inventory": "Wants Inventory",
           "wants_combinations": "Wants Combinations",
           "no_offers_specified": "No Offered Items Specified",
@@ -5247,7 +5252,9 @@
     "how_to_find_my_code": "How do I find my code?",
     "redeemed": "Redeemed",
     "giftcard_error": "*Unfortunately, this gift card code and PIN is invalid. Please check your code for typos and enter it again.",
-    "how_to_find_code_text": "Once you receive a gift card, an email confirmation will be delivered with details including your gift card code and pin number."
+    "how_to_find_code_text": "Once you receive a gift card, an email confirmation will be delivered with details including your gift card code and pin number.",
+    "invalid_data"  : "*Unfortunately, this gift card code and PIN is invalid.",
+    "redeem_success"  : "Once you receive a gift card, an email confirmation will be delivered with details including your gift code and pin number."
   },
   "thresholds": {
     "success_message": "Commission Threshold Saved Successfully",

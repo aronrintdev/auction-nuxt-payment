@@ -64,7 +64,7 @@ export default {
 
 .mobile-box
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15)
-  border-radius: 16px
+  border-radius: 4px
   height: 45px
   max-height: 45px
 

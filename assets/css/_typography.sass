@@ -241,6 +241,10 @@ $font-size-7: 7px
 @mixin body-1816
   font-size: 18px
   line-height: 16px
+  
+@mixin body-1214-light
+  @include body-1214
+  font-weight: $light
 
 @mixin body-1-regular
   @include body-1
@@ -440,6 +444,10 @@ $font-size-7: 7px
 
 @mixin body-1816-normal
   @include body-1816
+  font-weight: $normal
+
+@mixin body-1214-normal
+  @include body-1214
   font-weight: $normal
 
 @mixin heading-1-medium
