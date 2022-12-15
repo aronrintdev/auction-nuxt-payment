@@ -564,6 +564,10 @@ export default {
     background: #F7F7F7
     border-radius: 8px
 
+  ::v-deep
+    .custom-control-label::before, .custom-control-input:focus ~ .custom-control-label::before
+      box-shadow: none
+
 @media (min-width: 993px)
   .search-text-wrapper
     flex: 0 0 56% !important

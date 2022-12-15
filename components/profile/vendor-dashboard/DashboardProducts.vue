@@ -1,25 +1,70 @@
 <template>
-  <div>
+  <div class="vendor-products" :class="mobileClass">
     <div
       v-if="!isScreenXS"
-      class="d-flex align-items-center justify-content-between"
+      class="d-flex align-items-center justify-content-between mb-4"
     >
       <h1 class="heading-1-bold mb-0 font-secondary">
-        {{ $t('vendor_dashboard.top_products') }}
+        {{ $t('vendor_dashboard.products') }}
       </h1>
       <NavGroup
+        v-if="!isScreenXS"
         :data="menus"
         :value="activeNav"
         :class="mobileClass"
         class="nav-grp"
         @change="navItem"
       />
-      <div class="d-flex justify-content-end align-items-center" role="button">
+      <div
+        v-if="!isScreenXS"
+        class="d-flex justify-content-end align-items-center"
+        role="button"
+      >
         <a
-          class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0"
-          @click="$router.push('/profile/vendor-dashboard/products')"
-          >{{ $t('vendor_dashboard.view_all') }}</a
-        >
+          class="font-primary body-4-regular mb-0 text-black"
+          @click="$router.push('/profile/inventory')"
+          >{{ $t('vendor_dashboard.view_all') }}
+          <img :src="require('~/assets/img/icons/arrow-right-gray.svg')"
+        /></a>
+      </div>
+    </div>
+    <div v-if="!isScreenXS" class="vd-purchases-section">
+      <div class="w-100 d-flex align-items-center justify-content-between">
+        <div class="col-8 pl-0">
+          <div class="flex-grow-1 d-flex input-field-search align-items-center">
+            <img
+              :src="require('~/assets/img/icons/search.svg')"
+              alt="Search"
+              class="mr-2"
+              height="18"
+              width="18"
+            />
+            <input
+              id="search-result"
+              v-model="searchValue"
+              :placeholder="$t('vendor_dashboard.breakdown.search_placeholder')"
+              autocomplete="off"
+              class="border-0 w-100 input-text"
+              type="text"
+              @input="searchProducts"
+            />
+          </div>
+        </div>
+        <div class="col-4 d-flex justify-content-end">
+          <CustomSelect
+            :options="{
+              '': $t('vendor_purchase.sort_by'),
+              recent_to_old: $t('vendor_purchase.purchase_recent_to_old'),
+              old_to_recent: $t('vendor_purchase.purchase_oldest_to_recent'),
+            }"
+            :threeline-icon="false"
+            bordered
+            class="vp-custom-select w-100 bg-white-5"
+            inputClass="purchase-input"
+            dropdownClass="purchase-items"
+            @input="handleFilterChanged"
+          ></CustomSelect>
+        </div>
       </div>
     </div>
     <div
@@ -29,20 +74,7 @@
       <div class="text-center body-5-medium">
         {{ $t('vendor_purchase.products') }}
       </div>
-      <nuxt-link
-        class="font-secondary text-decoration-underline body-18-regular border-primary mb-0 text-link-blue-mobile"
-        to="/profile/vendor-dashboard/products"
-        >{{ $t('vendor_dashboard.view_all') }}
-      </nuxt-link>
     </div>
-    <NavGroup
-      v-if="isScreenXS"
-      :data="mobileMenu"
-      :value="activeNav"
-      :class="mobileClass"
-      class="mt-20 nav-grp"
-      @change="navItem"
-    />
 
     <div>
       <b-table
@@ -80,7 +112,9 @@
             }"
             class="d-flex gap-3 mb-2 mb-sm-0"
             role="button"
-            @click="$router.push(`/profile/vendor-dashboard/products/${row.item.id}`)"
+            @click="
+              $router.push(`/profile/vendor-dashboard/products/${row.item.id}`)
+            "
           >
             <div class="col-thumb d-flex justify-content-center">
               <ProductThumb
@@ -170,15 +204,27 @@
   </div>
 </template>
 <script>
+import _ from 'lodash'
 import ProductThumb from '~/components/product/Thumb.vue'
 import NavGroup from '~/components/common/NavGroup.vue'
 import screenSize from '~/plugins/mixins/screenSize'
 import Loader from '~/components/common/Loader'
+import CustomSelect from '~/components/common/CustomSelect'
 
 export default {
-  name: 'TopProductsTable',
-  components: { Loader, NavGroup, ProductThumb },
+  name: 'DashboardVendorProducts',
+  components: { CustomSelect, Loader, NavGroup, ProductThumb },
   mixins: [screenSize],
+  props: {
+    filterSearch: {
+      type: String,
+      default: '',
+    },
+    filterSort: {
+      type: String,
+      default: 'recent_to_old',
+    },
+  },
   data() {
     return {
       activeNav: '1',
@@ -276,6 +322,8 @@ export default {
       loading: false,
       orderByField: 'id',
       orderByDirection: 'asc',
+      sortBySelected: 'recent_to_old',
+      searchValue: null,
     }
   },
   computed: {
@@ -283,10 +331,27 @@ export default {
       return this.menus.filter((menu) => menu.value !== '')
     },
   },
+  watch: {
+    filterSearch(val) {
+      this.searchProducts(val)
+    },
+    filterSort(val) {
+      this.handleFilterChanged(val)
+    },
+  },
   mounted() {
     this.getTopProducts()
   },
   methods: {
+    handleFilterChanged(filter) {
+      this.sortBySelected = filter
+      this.orderByField = 'created_at'
+      this.orderByDirection = filter === 'recent_to_old' ? 'asc' : 'desc'
+      this.getTopProducts()
+    },
+    searchProducts: _.debounce(function () {
+      this.getTopProducts()
+    }, 500),
     orderBy(scope) {
       if (scope.column !== 'actions') {
         this.orderByDirection = this.reverseDirection(scope.column)
@@ -330,9 +395,12 @@ export default {
       this.$axios
         .get('/dashboard/vendor/top-products', {
           params: {
+            top_products_count: 5,
             category_id: this.activeNav,
             order_by_column: this.orderByField,
             order_by_direction: this.orderByDirection,
+            sort_by: this.sortBySelected,
+            search: this.searchValue,
           },
         })
         .then((res) => {
@@ -350,6 +418,20 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.input-field-search
+  max-width: 778px
+
+::v-deep.vp-custom-select
+  max-width: 245px
+  .selected
+    &:after
+      top: 3px
+
+.vendor-products
+  margin-top: 61px
+  &.mobile
+    margin-top: 40px
+
 .sort-icon
   &.asc
     transform: rotate(180deg)
@@ -359,10 +441,12 @@ export default {
 
 ::v-deep.nav-grp
   width: 460px
+  &.nav-group
+    margin: 0
   &.mobile
     width: 100%
   .btn-group
-    height: 36px
+    height: 32px
     button.btn
       @include body-6-regular
       font-family: $font-montserrat
@@ -413,17 +497,6 @@ export default {
         background-color: $color-white-5
       &:first-child
         background-color: transparent
-
-  thead
-    tr
-      [aria-sort=none]
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 1l25 23 24 22H1l25-22zM51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e") !important
-
-      [aria-sort=descending]
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 101l25-23 24-22H1l25 22z'/%3e%3c/svg%3e") !important
-
-      [aria-sort=ascending]
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='101' height='101' view-box='0 0 101 101' preserveAspectRatio='none'%3e%3cpath fill='black' d='M51 1l25 23 24 22H1l25-22z'/%3e%3c/svg%3e") !important
 
 
   .tdHeight
