@@ -126,7 +126,7 @@
             :prices="pricesBySize"
             :value="value.currentSize"
             :view-mode="sizeViewMode"
-            class="size-picker"
+            class="size-picker px-0"
             @update="handleSizeChange"
             @changeViewMode="handleSizeViewModeChange"
           />

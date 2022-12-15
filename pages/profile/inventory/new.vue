@@ -3,7 +3,7 @@
     <div v-if="loading"><Loader /></div>
     <div v-else-if="product">
       <ProductView v-model="form" :product="product"
-                   :class="isScreenXS ? 'p-3' : ''"
+                   :class="isScreenXS ? 'px-16' : ''"
                    @back="$router.push('/profile/inventory/search')">
         <InventoryNewForm
           slot="right-content"
@@ -139,5 +139,9 @@ export default {
   padding: 12px 61px
   &:hover
     background-color: rgba($color-black-1, .8)
+
+.px-16
+  padding-right: 16px
+  padding-left: 16px
 
 </style>
