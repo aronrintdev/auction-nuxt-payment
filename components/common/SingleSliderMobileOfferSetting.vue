@@ -5,8 +5,6 @@
         <div>{{$t('trades.preferences.poor')}}</div>
         <div>{{$t('trades.preferences.fair')}}</div>
       </b-col>
-      <div class="d-flex">
-        <div class="slider-div">
           <client-only>
             <vue-slider
               :value="value"
@@ -18,9 +16,6 @@
               v-bind="options"
               class="vue-slider-ltr-shop"
               :class="{'meter': meterText }"
-              :dotStyle="{ background: '#667799', border: '1px solid #F7F7F7' }"
-              :railStyle="{ background: '#E8E8E8', borderRadius: '2px' }"
-              :processStyle="{ background: '#667799' }"
               @change="captureSliderValue"
             >
               <template v-if="meterText" #dot>
@@ -31,19 +26,6 @@
               </template>
             </vue-slider>
           </client-only>
-        </div>
-        <div class="percent-div">
-          <div class="input-box">
-            <input class="percentage-value"  :value="`${value}%`" readonly />
-            <span v-if="textToShow" class="input-text  float-left">{{textToShow}}</span>
-          </div>
-        </div>
-      </div>
-
-      <b-col v-if="belowText" class="d-flex below-text">
-        <div class="small-space">{{$t('trades.preferences.not_interested')}}</div>
-        <div>{{$t('trades.preferences.interested')}}</div>
-      </b-col>
     </b-col>
   </b-row>
 </template>
@@ -97,9 +79,8 @@ export default {
 @import '~/assets/css/_variables'
 
 .custom-dot
-  margin-top: -17px
+  margin-top: -9px
   height : 15px
-  color: $color-grey-101
 
 ::v-deep.meter.vue-slider-ltr-shop .vue-slider-rail
   background: linear-gradient(180deg, $red-rgba 0%, $yellow-rgba 100%)
