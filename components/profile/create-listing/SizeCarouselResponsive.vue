@@ -6,7 +6,12 @@
     >
       <b-row class="carousel-wrapper-title">
         <b-col md="12">
-          <span class="body-8-normal text-uppercase">{{ $t('products.select_size') }}*</span>
+          <span
+            class="text-uppercase"
+            :class="isScreenXS ? 'body-10-regular font-monserrat' : 'body-8-normal'"
+          >
+            {{ $t('products.select_size') }}*
+          </span>
 
           <Button
             v-if="!singleMode"
@@ -114,11 +119,14 @@
 <script>
 import { Button } from '~/components/common'
 import {API_PROD_URL} from '~/static/constants/environments'
+import screenSize from '~/plugins/mixins/screenSize'
 
 export default {
   name: 'SizeCarouselResponsive',
 
   components: { Button },
+
+  mixins: [screenSize],
 
   props: {
     sizes: {
@@ -361,4 +369,7 @@ export default {
     .close-btn
       right: 0
       top: 0
+
+.font-monserrat
+  font-family: $font-montserrat
 </style>
