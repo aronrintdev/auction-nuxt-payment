@@ -3,11 +3,11 @@
     <b-col md="8">
       <b-row class="mt-3 ml-2 back-to-login">
         <b-col md="12" class="d-flex align-items-center">
-          <b-img :src="require('~/assets/img/auth/back_arrow_blue_1.svg')"></b-img>
-          <NuxtLink
-            class="custom-link pl-0"
-            to="login"
-          ><span class="text-color-blue-1">{{
+          <b-img
+            :src="require('~/assets/img/auth/back_arrow_blue_1.svg')"
+          ></b-img>
+          <NuxtLink class="custom-link pl-0" to="login"
+            ><span class="text-color-blue-1">{{
               $t('auth.back_to_log_in')
             }}</span>
           </NuxtLink>
@@ -15,17 +15,27 @@
       </b-row>
 
       <b-row class="h-100">
-        <b-col md="6" offset-md="3" class="d-flex flex-column align-items-center justify-content-center">
+        <b-col
+          md="6"
+          offset-md="3"
+          class="d-flex flex-column align-items-center justify-content-center"
+        >
           <nuxt-link class="d-lg-none mb-5" to="/">
-            <Logo class="mb-3"/>
+            <Logo class="mb-3" />
           </nuxt-link>
           <b-row>
             <b-col md="12">
-              <div class="right-heading-bold text-center">{{ $t('auth.forgot_password') }}</div>
-              <div class="body-5-normal text-color-gray-38 text-center text-pre-line mt-3">{{ $t('auth.enter_your_email_and') }}</div>
+              <div class="right-heading-bold text-center">
+                {{ $t('auth.forgot_password') }}
+              </div>
+              <div
+                class="body-5-normal text-color-gray-38 text-center text-pre-line"
+              >
+                {{ $t('auth.enter_your_email_and') }}
+              </div>
             </b-col>
           </b-row>
-          <b-row class="mt-4 w-100">
+          <b-row class="w-100" style="margin-top: 55px">
             <b-col md="12">
               <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
                 <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
@@ -39,28 +49,37 @@
                         id="email-address"
                         v-model="email"
                         class="rounded-pill input-forgot-password"
-                        :placeholder="$t('auth.email_address')"
+                        :placeholder="$t('auth.forgot_password_placeholder')"
                         :state="getValidationState(validationContext)"
                       ></b-form-input>
                       <b-form-invalid-feedback>{{
-                          validationContext.errors[0]
-                        }}</b-form-invalid-feedback>
+                        validationContext.errors[0]
+                      }}</b-form-invalid-feedback>
                     </b-form-group>
                   </ValidationProvider>
 
                   <b-row class="mt-5 w-100 link-btn">
                     <b-col md="4" offset-md="4" class="text-center">
-                      <Button :disabled="! isEmailFilled" block pill variant="confirm" type="submit" :class=" { 'btn-disabled': ! isEmailFilled }">{{ $t('auth.send_link') }}</Button>
+                      <Button
+                        :disabled="!isEmailFilled"
+                        block
+                        pill
+                        variant="confirm"
+                        type="submit"
+                        :class="{ 'btn-disabled': !isEmailFilled }"
+                        style="width: 171px; height: 42px"
+                        >{{ $t('auth.send_email') }}</Button
+                      >
                     </b-col>
                   </b-row>
                 </b-form>
               </ValidationObserver>
               <div class="back-to-login-btn d-lg-none">
-                <b-img :src="require('~/assets/img/auth/back_arrow_blue_1.svg')"></b-img>
-                <NuxtLink
-                  class="custom-link pl-0"
-                  to="login"
-                ><span class="text-color-blue-1">{{
+                <b-img
+                  :src="require('~/assets/img/auth/back_arrow_blue_1.svg')"
+                ></b-img>
+                <NuxtLink class="custom-link pl-0" to="login"
+                  ><span class="text-color-blue-1">{{
                     $t('auth.back_to_log_in')
                   }}</span>
                 </NuxtLink>
@@ -70,17 +89,28 @@
         </b-col>
       </b-row>
     </b-col>
-    <b-col md="4" class="d-flex flex-column align-items-center justify-content-center bg-color-white-5 new-to-deadstock-main">
+    <b-col
+      md="4"
+      class="d-flex flex-column align-items-center justify-content-center bg-color-white-5 new-to-deadstock-main"
+    >
       <b-row class="mt-5">
         <b-col md="12">
-          <div class="left-heading-bold text-center">{{ $t('auth.new_to_deadstock') }}&quest;</div>
-          <div class="body-1-normal text-color-black-1 text-pre-line text-center mt-4">{{ $t('auth.signup_and_buy') }}</div>
+          <div class="left-heading-bold text-center">
+            {{ $t('auth.new_to_deadstock') }}&quest;
+          </div>
+          <div
+            class="body-1-normal text-color-black-1 text-pre-line text-center mt-4"
+          >
+            {{ $t('auth.signup_and_buy') }}
+          </div>
         </b-col>
       </b-row>
 
       <b-row class="mt-5 w-100">
         <b-col md="4" offset-md="4">
-          <Button pill block variant="dark" to="/signup">{{ $t('auth.signup') }}</Button>
+          <Button pill block variant="dark" to="/signup">{{
+            $t('auth.signup')
+          }}</Button>
         </b-col>
       </b-row>
     </b-col>
@@ -102,33 +132,42 @@ export default {
     }
   },
   computed: {
-    isEmailFilled (vm) {
+    isEmailFilled(vm) {
       return vm.email.length
-    }
+    },
   },
   methods: {
-    getValidationState({dirty, validated, valid = null}) {
+    getValidationState({ dirty, validated, valid = null }) {
       // Returns the contextual state (validation style) of the element being validated (false for invalid, true for valid, or null for no validation state)
       return dirty || validated ? valid : null
     },
     onSubmit() {
-      this.$axios.get('forgot-password/?email=' + this.email, {
-        handleError: false,
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(() => {
-        this.$toasted.success(this.$t('auth.a_recovery_email_has_been_sent') + ' ' + this.email)
-        this.$router.push('/login')
-      }).catch((error) => {
-        if (error.response.status === UNPROCESSABLE_ENTITY) {
-          this.$toasted.error(this.$t('auth.error.unauthorized').toString());
-        } else {
-          this.$toasted.error(this.$t('auth.error.something_went_wrong_please_try_later').toString());
-        }
-      })
+      this.$axios
+        .get('forgot-password/?email=' + this.email, {
+          handleError: false,
+          headers: {
+            Accept: 'application/json',
+          },
+        })
+        .then(() => {
+          this.$toasted.success(
+            this.$t('auth.a_recovery_email_has_been_sent') + ' ' + this.email
+          )
+          this.$router.push('/login')
+        })
+        .catch((error) => {
+          if (error.response.status === UNPROCESSABLE_ENTITY) {
+            this.$toasted.error(this.$t('auth.error.unauthorized').toString())
+          } else {
+            this.$toasted.error(
+              this.$t(
+                'auth.error.something_went_wrong_please_try_later'
+              ).toString()
+            )
+          }
+        })
     },
-  }
+  },
 }
 </script>
 
@@ -177,8 +216,13 @@ export default {
 .input-forgot-password
   @include body-5-normal
   color: $black-1
-  background-color: $color-white-5
-  border: 0
+  background-color: $color-white-1
+  border: 1px solid $color-gray-3
+  border-radius: 10px !important
+  width: 343px
+  height: 40px
+  margin-left: auto
+  margin-right: auto
   transition: border-color 0.01s ease-in-out, box-shadow 0.01s ease-in-out
   &::placeholder,
   &:-ms-input-placeholder,
