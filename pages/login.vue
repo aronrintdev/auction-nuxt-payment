@@ -303,19 +303,6 @@ export default {
   font-size: 13px
 .main-mobile-image
   padding: 20px 0px 0px 1px
-
-// @media (min-width: 320px) and (max-width: 556px)
-//   .img-main
-//     height: 44px !important
-//     width: 133.2px !important
-//   .forgot-pass-text
-//     font-size: 14px !important
-//   .text-line-middle
-//     width: 50%
-//     margin: 0 auto
-//   .welcome-back-text
-//     margin: 0 auto
-
 @media (max-width: 768px)
   .login-main::v-deep
     .main-mobile-image
