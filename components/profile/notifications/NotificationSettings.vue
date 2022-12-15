@@ -172,9 +172,9 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
-.notification-setting-main
+.notification-setting-main::v-deep
   .notification-setting-nav
-    margin: 26px 0 18px 0 !important
+    margin: 26px 0 18px 0
   .buttons-sec
     button
       width: 217px

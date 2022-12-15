@@ -174,8 +174,7 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
-
-.profile-notification
+.profile-notification::v-deep
   &.mobile
     background-color: $color-white-1
 
@@ -185,5 +184,5 @@ export default {
     font-style: normal
     font-weight: $medium
   .notification-nav
-    margin: 20px 0 18px 0 !important
+    margin: 20px 0 18px 0
 </style>
