@@ -798,6 +798,7 @@ export default {
   margin-top: 13px
   width: 286px
   height: 286px
+  margin-left: 45px
 
 .buy-now-section, .out-of-stock-section
   position: fixed
