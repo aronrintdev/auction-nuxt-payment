@@ -13,7 +13,7 @@
     </div>
     <div :class="{ selectHide: !open, border: bordered }" class="items bg-white">
       <div class="item-wrapper">
-        <div v-for="(option, key) in options" :key="key" class="p-0" @click="checked(option)">
+        <div v-for="(option, key) in options" :key="key" class="p-0 checkbox-wrapper" @click="checked(option)">
           <div class="d-flex">
             <b-form-checkbox
                 v-if="option.value"
@@ -28,7 +28,7 @@
           </div>
         </div>
       </div>
-      <div class="filter-select-count p-3 text-center">
+      <div v-if="showFilterBtn" class="filter-select-count p-3 text-center">
         <span class="text-white"
           >{{ $tc('common.filter', 1) }} ({{ updateFilters.length }})
         </span>
@@ -70,6 +70,10 @@ export default {
     inputClass: {
       type: String,
       default: ''
+    },
+    showFilterBtn: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -111,12 +115,6 @@ export default {
 .bg-white-5
   background: $color-white-5 !important
 
-.px-10
-  padding-left: 10px
-  padding-right: 10px
-.py-14
-  padding-top: 14px
-  padding-bottom: 14px
 .custom-selectbox
   position: relative
   width: 100%
@@ -188,15 +186,24 @@ export default {
     background-color: $color-white-5
     z-index: 99
 
-    div
-      @include body-4-normal
-      color: $color-black-1
+    .checkbox-wrapper
       border: 1px solid transparent
       border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent
+
+      span
+        @include body-5-regular
+        font-family: $font-montserrat
+        padding-left: 14px
+        margin-top: 10px
+        margin-bottom: 10px
+
+    .custom-checkbox
+      @include body-4-normal
+      color: $color-black-1
       cursor: pointer
       user-select: none
       font-style: normal
-      padding: 14px 10px 15px 10px
+      padding: 10px 10px
 
       &:hover
         background-color: rgba(0, 0, 0, 0.1)

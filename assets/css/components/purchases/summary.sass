@@ -19,10 +19,14 @@
 .custom-selectbox .items div:hover
   background-color: transparent !important
 .custom-checkbox .custom-control-label::before
-  margin: 14px 10px
   width: 9px
   height: 9px
+  left: 0
   border-radius: unset
+.custom-control-label::after
+  width: 9px
+  height: 9px
+  left: 0
 .custom-control-input:checked ~ .custom-control-label::before
   color: $color-blue-20
   border-color: $color-blue-20
@@ -40,3 +44,6 @@
   padding-left: 10px !important
 .custom-selectbox.border-bottom
   border-bottom: none !important
+.custom-control-input
+  width: 9px
+  height: 9px
