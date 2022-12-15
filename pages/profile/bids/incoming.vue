@@ -15,7 +15,7 @@
     <div v-if="isVendor" class="d-none d-md-flex justify-content-between align-items-center">
       <b-row class=" w-100">
         <b-col md="6"></b-col>
-        <b-col md="6" class="text-right">
+        <b-col md="6" class="text-right pr-0">
           <Button
             variant="link"
             size="sm"
@@ -695,7 +695,6 @@ export default {
   height: 38px
   font-family: $font-montserrat
   margin: 46px 0 40px
-  margin-right: calc(33.33% - 116px)
 
 .delete-expired-mobile.btn
   font-family: $font-sp-pro

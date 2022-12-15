@@ -1,93 +1,77 @@
 <template>
   <div>
     <!--      Header Search and Filter   -->
-    <b-row class="mt-2">
-      <b-col md="12" lg="7" class="mt-2">
-        <SearchInput
-          :value="filters.search"
-          :placeholder="$t('bids.search_placeholder')"
-          class="flex-grow-1 mw-734"
-          :debounce="1000"
-          @change="handleSearch"
-        />
-      </b-col>
-      <b-col md="12" lg="5" class="mt-2 d-flex w-100 justify-content-start pl-5">
-        <FormDropdown
-          id="sortBySelect"
-          :value="filters.sortBy"
-          :placeholder="$t('bids.sort_by')"
-          :items="SORT_BY"
-          class="dropdown-filters sortBy "
-          :icon-arrow-down="DownArrow"
-          @select="handleSortBySelect"
-        ></FormDropdown>
-      </b-col>
-    </b-row>
+    <div class="d-flex align-items-center flex-column flex-md-row">
+      <SearchInput
+        :value="filters.search"
+        :placeholder="$t('bids.search_placeholder')"
+        class="mw-734"
+        :debounce="1000"
+        inputHeight="38px"
+        @change="handleSearch"
+      />
+      <FormDropdown
+        id="sortBySelect"
+        :value="filters.sortBy"
+        :placeholder="$t('bids.sort_by')"
+        :items="SORT_BY"
+        class="dropdown-filters sortBy "
+        :icon-arrow-down="DownArrow"
+        @select="handleSortBySelect"
+      ></FormDropdown>
+    </div>
     <!--      End Header Search and Filter   -->
-    <b-row class="mt-4">
-      <b-col md="12" lg="6">
-        <span class="header-title">{{ $t('bids.filter_by') }}</span>
-        <b-row>
-          <b-col sm="12" md="5">
-            <CustomSelectwithCheckbox
-              id="auction-type-selector"
-              class="mr-4 dropdown-filters"
-              :value="filters.auctionType"
-              :options="AUCTION_TYPES"
-              :icon-arrow-down="DownArrow"
-              :title="$t('bids.auction_type')"
-              :updateFilters="filters.activeTypeFilters"
-            />
-          </b-col>
-          <b-col sm="12" md="5">
-            <CustomSelectwithCheckbox
-              id="auction-status-selector"
-              class="mr-4 dropdown-filters"
-              :value="filters.statusType"
-              :options="STATUSES"
-              :title="$t('bids.status')"
-              :updateFilters="filters.activeStatusFilters"
-            />
-          </b-col>
-        </b-row>
-
-      </b-col>
-      <b-col md="12" lg="6">
-        <span class="header-title">{{ $t('bids.bid_date') }}</span>
-        <b-row>
-          <b-col sm="12" md="4">
-            <CalendarInput
-              class="mr-4"
-              :value="filters.bid_start_date"
-              :max-date="filters.bid_end_date"
-              :placeholder="$t('bids.start_date')"
-              @context="(context) => filters.bid_start_date = context.selectedYMD"
-            ></CalendarInput>
-          </b-col>
-          <b-col sm="12" md="4">
-            <CalendarInput
-              class="mr-4"
-              :value="filters.bid_end_date"
-              :min-date="filters.bid_start_date"
-              :placeholder="$t('bids.end_date')"
-              @context="(context) => filters.bid_end_date = context.selectedYMD"
-            ></CalendarInput>
-          </b-col>
-          <b-col sm="12" md="4">
-            <div class="d-flex align-items-center position-relative">
-              <b-button
-                variant="primary"
-                class=" apply-button text-white shadow border-0 px-4 py-2"
-                @click="GetBids"
-              >{{ $t('vendor_purchase.apply') }}
-              </b-button>
-              <span v-if="haveFilters" role="button" class="clear-filters ml-3"
-                    @click="clearFilters">{{ $t('bids.clear_filters') }}</span>
-            </div>
-          </b-col>
-        </b-row>
-      </b-col>
-    </b-row>
+    <div class="filters d-flex">
+      <div class="filter-group">
+        <div class="header-title">{{ $t('bids.filter_by') }}</div>
+        <div class="d-flex align-items-center">
+          <CustomSelectwithCheckbox
+            id="auction-type-selector"
+            class="dropdown-filters"
+            :value="filters.auctionType"
+            :options="AUCTION_TYPES"
+            :icon-arrow-down="DownArrow"
+            :title="$t('bids.auction_type')"
+            :updateFilters="filters.activeTypeFilters"
+          />
+          <CustomSelectwithCheckbox
+            id="auction-status-selector"
+            class="dropdown-filters mr-79"
+            :value="filters.statusType"
+            :options="STATUSES"
+            :title="$t('bids.status')"
+            :updateFilters="filters.activeStatusFilters"
+          />
+        </div>
+      </div>
+      <div class="filter-group">
+        <div class="header-title">{{ $t('bids.bid_date') }}</div>
+        <div class="d-flex align-items-center">
+          <CalendarInput
+            :value="filters.bid_start_date"
+            :max-date="filters.bid_end_date"
+            groupClass="mr-20"
+            :placeholder="$t('bids.start_date')"
+            @context="(context) => filters.bid_start_date = context.selectedYMD"
+          ></CalendarInput>
+          <CalendarInput
+            :value="filters.bid_end_date"
+            :min-date="filters.bid_start_date"
+            groupClass="mr-20"
+            :placeholder="$t('bids.end_date')"
+            @context="(context) => filters.bid_end_date = context.selectedYMD"
+          ></CalendarInput>
+          <div class="d-flex align-items-center position-relative">
+            <b-button
+              variant="primary"
+              class=" apply-button text-white shadow border-0"
+              @click="GetBids"
+            >{{ $t('vendor_purchase.apply') }}
+            </b-button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -192,6 +176,7 @@ export default {
   @include body-8
   font-weight: $normal
   font-family: $font-sp-pro
+  margin-bottom: 5px
 
 .apply-button
   background: $color-blue-20
@@ -202,6 +187,7 @@ export default {
   font-weight: $normal
   font-family: $font-sp-pro
   height: 38px
+  width: 89px
 
   &:hover
     border: none
@@ -220,10 +206,21 @@ export default {
 
 .dropdown-filters.sortBy
   min-width: 245px
+  margin-left: 71px
+
+.filters
+  margin-top: 18px
+  .dropdown-filters
+    width: 245px
+    margin-right: 12px
+    &.mr-79
+      margin-right: 79px
+
 
 @media (max-width: 993px)
   .dropdown-filters.sortBy
     width: 100%
+    margin-left: 0
 
 
 ::v-deep
@@ -263,6 +260,7 @@ export default {
     color: $color-gray-5
     text-transform: capitalize
     padding-right: 45px
+    margin-left: -30px
 
 .dropdown-filters::v-deep
   height: 38px
@@ -352,6 +350,7 @@ export default {
 
 .date-input-group::v-deep
   background-color: $white
+  width: 170px
 
   .date-input
     @include body-5
@@ -370,9 +369,11 @@ export default {
   border-left: none
   border-radius: 0 6px 6px 0
 
+.mr-20
+  margin-right: 20px
 
 .mw-734
-  max-width: 734px
+  width: 734px
 
 :deep(#auction-filters)
     button

@@ -41,6 +41,7 @@
             <div class="overflow-wrapper">
               <img
                 width="100%"
+                height="441px"
                 class="d-none d-sm-block"
                 :src="require('~/assets/img/home/features/features3.svg')"
               />
@@ -63,12 +64,13 @@
             <div class="overflow-wrapper">
               <img
                 width="100%"
+                height="441px"
                 class="d-none d-sm-block"
                 :src="require('~/assets/img/home/features/features4.svg')"
               />
               <img
                 width="100%"
-                height="100%"
+                height="auto"
                 class="d-block d-sm-none"
                 :src="require('~/assets/img/home/features/features4-sm.png')"
               />
@@ -121,6 +123,7 @@
             <div class="overflow-wrapper">
               <img
                 width="100%"
+                height="327px"
                 :src="require('~/assets/img/home/features/features5.svg')"
               />
               <h1
@@ -136,6 +139,7 @@
             <div class="overflow-wrapper">
               <img
                 width="100%"
+                height="auto"
                 :src="require('~/assets/img/home/features/features6.svg')"
               />
               <h1
@@ -163,7 +167,6 @@ export default {
     border: 8px solid $color-white-1
     width: 100%
     height: 100%
-    content: ''
     position: absolute
     top: 0
 .overflow-wrapper

@@ -1,7 +1,5 @@
 <template>
-  <div :class="{
-    'mb-2 px-4': !isScreenXS
-  }">
+  <div>
     <div class="row mt-2 mb-2 my-sm-3">
       <div class="col-6 col-md-3">
         <h1 :class="{
@@ -15,12 +13,12 @@
       </div>
       <div class="col-6 col-md-3 d-flex justify-content-end align-items-center">
         <nuxt-link
-            :class="{
-                'text-link-blue-mobile': isScreenXS,
-                'text-link-blue': !isScreenXS,
-              }"
+          :class="{
+            'text-link-blue-mobile body-18-regular': isScreenXS,
+            'text-link-blue fs-16 fw-400': !isScreenXS,
+          }"
           to="/profile/purchases"
-          class="font-secondary fs-16 fw-400 text-decoration-underline mb-0 view-more-link"
+          class="font-secondary text-decoration-underline mb-0"
           >{{ $t('vendor_dashboard.view_all') }}</nuxt-link
         >
       </div>
@@ -40,7 +38,11 @@
                       row.order_id
                     }}
                     <span class="text-capitalize">
-                      ({{ row.type.label }})
+                      ({{
+                        row.type.label === 'buy'
+                          ? $t('common.shop')
+                          : row.type.label
+                      }})
                     </span>
                   </h2>
                   <h4 class="fs-16 fw-6 font-secondary mb-0">
@@ -49,7 +51,7 @@
                       new Date(row.created_at).toLocaleDateString(undefined, {
                         year: 'numeric',
                         month: 'long',
-                        day: 'numeric'
+                        day: 'numeric',
                       })
                     }}
                   </h4>
@@ -62,16 +64,17 @@
                   </nuxt-link>
                 </div>
               </div>
-              <div class="row my-sm-3">
+              <div class="row product-images">
                 <div v-for="item in row.items" :key="item.id" class="col-md-4">
                   <ProductThumb
                     :src="item.product.image"
                     :product="item.product"
+                    class="image-group"
                   />
                 </div>
               </div>
-              <div class="row align-items-center">
-                <div class="col-md-8">
+              <div class="d-flex align-items-center">
+                <div class="flex-grow-1">
                   <h5 class="fs-14 fw-5 font-secondary mb-0">
                     {{ $t('buyer_dashboard.purchases.quantity') }}:
                     {{ row.quantity }}
@@ -83,15 +86,21 @@
                   </h5>
                 </div>
                 <div
-                    :aria-label="$t('vendor_dashboard.status')"
-                    :class="{
-                'text-center ml-auto': !isScreenXS
-              }"
-                    class="d-flex align-items-center justify-content-center tdHeight col-md-4"
+                  :aria-label="$t('vendor_dashboard.status')"
+                  :class="{
+                    'text-center ml-auto': !isScreenXS,
+                  }"
+                  class="d-flex align-items-center justify-content-center tdHeight"
                 >
-                  <h4 :class="styleFor(row.order_status) + ` ${mobileClass}` + `${isScreenXS? 'text-nowrap': ''}`"
-                      class="text-capitalize status body-13-normal px-5 py-3">
-                    {{ row.order_status }}
+                  <h4
+                    :class="
+                      styleFor(row.order_status) +
+                      ` ${mobileClass}` +
+                      `${isScreenXS ? 'text-nowrap' : ''}`
+                    "
+                    class="text-capitalize status body-13-normal"
+                  >
+                    {{ getLabelForStatus(row.order_status) }}
                   </h4>
                 </div>
               </div>
@@ -105,39 +114,44 @@
       <div v-for="row in purchases" :key="row.id" class="col-12 my-2">
         <div class="bg-white py-2 border br-10">
           <Carousel
-              ref="sizeCarousel"
-              :center="true"
-              :dots="true"
-              :loop="false"
-              :margin="20"
-              :mouse-drag="false"
-              :nav="true"
-              :nav-text="['', '']"
-              :responsive="{
-            0: { items: 1, nav: false, center: true },
-          }"
-              class="carousel slide-fade position-relative thumb-carousel"
+            ref="sizeCarousel"
+            :center="true"
+            :dots="true"
+            :loop="false"
+            :margin="20"
+            :mouse-drag="false"
+            :nav="true"
+            :nav-text="['', '']"
+            :responsive="{
+              0: { items: 1, nav: false, center: true },
+            }"
+            class="carousel slide-fade position-relative thumb-carousel"
           >
             <div
-                v-for="(item, index) in row.items"
-                :key="item.id"
-                :data-position="index"
-                :data-size="item.id"
+              v-for="(item, index) in row.items"
+              :key="item.id"
+              :data-position="index"
+              :data-size="item.id"
             >
               <b-row v-if="item" class="px-2">
                 <b-col cols="4">
                   <ProductThumb
-                      :product="item.product"
-                      :src="item.product.image"
-                      class="image-thumb"
-                      width="82"
+                    :product="item.product"
+                    :src="item.product.image"
+                    class="image-thumb"
+                    width="82"
                   />
                 </b-col>
-                <b-col class="item-desc d-flex flex-column justify-content-center" cols="8">
-                  <h4 class="title-item body-5-medium text-nowrap text-truncate text-black">
+                <b-col
+                  class="item-desc d-flex flex-column justify-content-center font-secondary"
+                  cols="8"
+                >
+                  <h4
+                    class="title-item body-5-medium text-nowrap text-truncate text-black"
+                  >
                     {{ item.product.name }}
                   </h4>
-                  <h4 class="body-6-regular text-nowrap mb-0 ">
+                  <h4 class="body-6-regular text-nowrap mb-0">
                     {{ $t('common.sku') }}: {{ item.product.sku }}
                   </h4>
                   <h4 class="body-6-regular text-secondary mb-0">
@@ -145,13 +159,14 @@
                       item.product.colorway
                     }}
                   </h4>
-                  <h4 class="body-6-regular  text-secondary mb-0">
-                    {{ $t('vendor_dashboard.box_condition') }}: {{ item.product.box_condition || '' }}
+                  <h4 class="body-6-regular text-secondary mb-0">
+                    {{ $t('vendor_dashboard.box_condition') }}:
+                    {{ item.product.box_condition || '' }}
                   </h4>
                 </b-col>
               </b-row>
             </div>
-            </Carousel>
+          </Carousel>
 
           <!-- TODO  -->
           <div class="order-info">
@@ -160,12 +175,14 @@
                 {{ $t('buyer_dashboard.purchases.order') }}:
               </h6>
               <h6
-                  :class="{
-                    ' text-link-blue-mobile': isScreenXS,
-                    'text-link-blue': !isScreenXS,
-                  }"
-                  class="mb-0 fs-12 fw-5 font-primary w-fit-content text-decoration-underline"
-                  @click="$router.push('/profile/purchases/summary/' + row.order_id)"
+                :class="{
+                  ' text-link-blue-mobile': isScreenXS,
+                  'text-link-blue': !isScreenXS,
+                }"
+                class="mb-0 fs-12 fw-5 font-primary w-fit-content text-decoration-underline"
+                @click="
+                  $router.push('/profile/purchases/summary/' + row.order_id)
+                "
               >
                 #{{ row.order_id }}
               </h6>
@@ -185,9 +202,14 @@
                 {{ $t('vendor_dashboard.status') }}:
               </h6>
               <h6
-                  class="mb-0 fs-12 fw-5 font-primary text-warning w-fit-content text-capitalize"
+                  :class="
+                      styleFor(row.order_status) +
+                      ` ${mobileClass}` +
+                      `${isScreenXS ? 'text-nowrap' : ''}`
+                    "
+                class="mb-0 status font-primary body-9-normal text-capitalize"
               >
-                {{ row.order_status }}
+                {{ getLabelForStatus(row.order_status) }}
               </h6>
             </div>
             <div class="d-flex info-row px-3 py-1 justify-content-between">
@@ -195,9 +217,11 @@
                 {{ $t('vendor_dashboard.type') }}:
               </h6>
               <h6
-                  class="mb-0 fs-12 fw-5 font-primary text-black w-fit-content text-secondary text-capitalize"
+                class="mb-0 fs-12 fw-5 font-primary text-black w-fit-content text-secondary text-capitalize"
               >
-                {{ row.type.label }}
+                {{
+                  row.type.label === 'buy' ? $t('common.shop') : row.type.label
+                }}
               </h6>
             </div>
 
@@ -230,10 +254,11 @@
 <script>
 import NavGroup from '~/components/common/NavGroup.vue'
 import ProductThumb from '~/components/product/Thumb.vue'
-import screenSize from '~/plugins/mixins/screenSize';
+import screenSize from '~/plugins/mixins/screenSize'
+import orderStatus from '~/plugins/mixins/order-status';
 export default {
-  components: {ProductThumb, NavGroup},
-  mixins: [screenSize],
+  components: { ProductThumb, NavGroup },
+  mixins: [screenSize, orderStatus],
   data() {
     return {
       purchases: [],
@@ -241,9 +266,9 @@ export default {
       // Menus for tabs
       /** Todo need to make dynamic onces we have way of main categories in DB */
       menus: [
-        {label: this.$t('vendor_dashboard.all'), value: ''},
-        {label: this.$t('vendor_dashboard.footwear'), value: '1'},
-        {label: this.$t('vendor_dashboard.apparel'), value: '2'},
+        { label: this.$t('vendor_dashboard.all'), value: '' },
+        { label: this.$t('vendor_dashboard.footwear'), value: '1' },
+        { label: this.$t('vendor_dashboard.apparel'), value: '2' },
         {
           label: this.$t('vendor_dashboard.accessories'),
           value: '3',
@@ -254,7 +279,7 @@ export default {
   computed: {
     responsiveAttr() {
       return {
-        0: {items: 1, nav: false, center: true},
+        0: { items: 1, nav: false, center: true },
       }
     },
   },
@@ -265,29 +290,29 @@ export default {
     styleFor(statusLabel) {
       switch (statusLabel.toLowerCase()) {
         case 'arrived_at_deadstock':
-          return 'arrived';
+          return 'arrived'
         case 'arrived_at_ds':
-          return 'arrived';
+          return 'arrived'
         case 'delivered':
-          return 'delivered';
+          return 'delivered'
         case 'completed':
-          return 'arrived';
+          return 'arrived'
         case 'cancel':
-          return 'cancel';
+          return 'cancel'
         case 'refunded':
-          return 'cancel';
+          return 'cancel'
         case 'cancelled':
-          return 'cancel';
+          return 'cancel'
         case 'shipped_to_deadstock':
-          return 'shipped';
+          return 'shipped'
         case 'shipped_to_ds':
-          return 'shipped';
+          return 'shipped'
         case 'awaiting_authentication':
-          return 'awaiting-auth';
+          return 'awaiting-auth'
         case 'auth_completed':
-          return 'auth-completed';
+          return 'auth-completed'
         case 'order_taken_over':
-          return 'order-taken-over';
+          return 'order-taken-over'
       }
 
       return 'awaiting'
@@ -299,9 +324,9 @@ export default {
     },
     getPurchases() {
       this.$axios
-          .get('/dashboard/buyer/purchases?category_id=' + this.activeNav)
-          .then((res) => {
-            this.purchases = res.data.data
+        .get('/dashboard/buyer/purchases?category_id=' + this.activeNav)
+        .then((res) => {
+          this.purchases = res.data.data
         })
         .catch((err) => {
           this.logger.logToServer(err.response)
@@ -312,6 +337,14 @@ export default {
 </script>
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
+.product-images
+  margin-top: 33px
+  margin-bottom: 28px
+
+::v-deep.image-group
+  img
+    max-height: 75px
+    object-fit: cover
 .mb-15
   margin-bottom: 15px
 
@@ -323,7 +356,7 @@ export default {
   flex: 100%
   max-width: 521px
   height: 333px
-  &.XL
+  @media (min-width: 1441px)
     flex: 0 0 50%
     max-width: 50%
     height: fit-content
@@ -341,7 +374,24 @@ export default {
       &.active
         font-weight: $medium
 
-.awaiting
+.status
+  &.mobile
+    border: none
+    box-shadow: none
+    filter: none
+    text-align: right
+
+  &:not(.mobile)
+    padding: 11px 30px
+    border-radius: 4px
+    width: 152px
+    height: 66px
+    display: flex
+    align-items: center
+    justify-content: center
+    border: none
+
+.status.awaiting
   color: $color-red-20
 
   &:not(.mobile)
@@ -410,7 +460,7 @@ export default {
 .thumb-carousel::v-deep
   .owl-dots
     height: 10px
-    margin-top: 0
+    margin-top: 0 !important
     margin-bottom: 22px
 
     .owl-dot

@@ -83,12 +83,12 @@
             @styleProduct="productDetail"
           />
         </div>
-        <div class="d-block d-sm-none">
+        <div class="d-block d-sm-none mb-4">
           <ProductCarousel
             v-show="showStyleProduct ? showStyleProduct : true"
             :products="style.products"
             :pageName="pageName"
-            itemWidth="129px"
+            itemWidth="164px"
             autoWidth
           >
             <template #product>
@@ -97,25 +97,26 @@
                 :key="`product-carousel-${index}`"
                 class="item"
               >
-                <ProductCard
+                <DetailCard
                   :product="product"
                   :showActionBtn="false"
                   :showActions="false"
                   cardHeight="137px"
-                  cardHeightSm="137px"
-                  cardWidthSm="192px"
+                  cardHeightSm="180px"
+                  cardWidthSm="164px"
                   :showSize="false"
                   :showPrice="true"
                   noRedirect
                 >
                   <template #badge>
-                    <div class="d-flex justify-content-end"
+                    <div
+                      class="d-flex justify-content-end"
                       @click="redirectToDetail(product)"
                     >
                       <PlusCircle />
                     </div>
                   </template>
-                </ProductCard>
+                </DetailCard>
               </div>
             </template>
           </ProductCarousel>
@@ -134,6 +135,9 @@
     <Portal to="notification-icon-slot">
       <ShareIcon class="share-icon" />
     </Portal>
+    <Portal to="cart-icon-slot">
+      <Cart class="cart-icon" />
+    </Portal>
   </b-overlay>
 </template>
 <script>
@@ -141,9 +145,12 @@ import { Button } from '~/components/common'
 import ShopByStyleImageCarousel from '~/components/shop-by-style/ImageCarousel'
 import PlusCircle from '~/assets/icons/PlusCircle'
 import ShopByStyleProductCard from '~/components/shop-by-style/ProductCard'
+import DetailCard from '~/components/shop-by-style/DetailCard'
+import ProductCarousel from '~/components/shop-by-style/ProductCarousel'
 import ProductImageViewerMagic360 from '~/components/product/ImageViewerMagic360'
 import ShareIcon from '~/assets/icons/ShareIcon'
 import HeartIcon from '~/assets/icons/HeartIcon'
+import Cart from '~/assets/icons/Cart'
 import ShareButton from '~/components/common/ShareButton'
 export default {
   components: {
@@ -155,6 +162,9 @@ export default {
     HeartIcon,
     ShareButton,
     ShopByStyleProductCard,
+    Cart,
+    ProductCarousel,
+    DetailCard,
   },
 
   layout: 'IndexLayout',
@@ -220,6 +230,7 @@ export default {
     width: 100%
     max-width: 498px
     @media (min-width: 576px)
+      margin-top: 14px
       margin-left: 202px
 
 .row-gap-60

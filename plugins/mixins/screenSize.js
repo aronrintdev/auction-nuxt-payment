@@ -5,7 +5,7 @@ export default {
   computed: {
     ...mapGetters({
       screenSize: 'size/getWindowWidth',
-      type: 'size/getScreenType'
+      screenSizeType: 'size/getScreenType'
     }),
     /*
     isScreenXS() {
@@ -25,19 +25,19 @@ export default {
     },
     */
     isScreenXS() {
-      return this.type === SCREEN_SIZE.XS
+      return this.screenSizeType === SCREEN_SIZE.XS
     },
     isScreenSM() {
-      return this.type === SCREEN_SIZE.SM
+      return this.screenSizeType === SCREEN_SIZE.SM
     },
     isScreenMD() {
-      return this.type === SCREEN_SIZE.MD
+      return this.screenSizeType === SCREEN_SIZE.MD
     },
     isScreenLG() {
-      return this.type === SCREEN_SIZE.LG
+      return this.screenSizeType === SCREEN_SIZE.LG
     },
     isScreenXL() {
-      return this.type === SCREEN_SIZE.XL
+      return this.screenSizeType === SCREEN_SIZE.XL
     },
     mobileClass() {
       return this.isScreenXS ? ' mobile ' : ''

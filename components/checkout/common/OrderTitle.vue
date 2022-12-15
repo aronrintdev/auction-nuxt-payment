@@ -1,8 +1,8 @@
 <template>
   <!-- Order Title -->
-  <b-row>
+  <b-row class="order-title-wrapper">
     <b-col md="12">
-      <span class="heading-1-medium d-block">{{ title }}</span>
+      <span class="heading-3-bold d-block">{{ title }}</span>
       <b-button
         v-if="backLink"
         class="custom-link pl-0"
@@ -36,3 +36,10 @@ export default {
   },
 }
 </script>
+
+<style lang="sass" scoped>
+@import '~/assets/css/_variables'
+
+.order-title-wrapper
+  font-family: $font-sf-pro-text
+</style>

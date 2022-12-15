@@ -1,6 +1,6 @@
 <template>
   <!-- Dynamic Component Rendering of OrderSummary, BillingForm, ShippingForm, PaymentOption, PaymentCard, PaymentOptionError & PaymentGiftCard -->
-  <component :is="renderedComponent" class="px-4 py-5"></component
+  <component :is="renderedComponent" class="px-4 pb-5"></component
   ><!-- End of Dynamic Component Rendering -->
 </template>
 
