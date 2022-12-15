@@ -66,12 +66,12 @@
 
         <div v-if="has360Images" class="row">
           <div class="col-12">
-        <span class="float-right">
-          <img
-            :src="require('~/assets/img/icons/360.svg')"
-            alt="360 view icon"
-          />
-        </span>
+            <span class="d-flex justify-content-center -mt-32px">
+              <img
+                :src="require('~/assets/img/icons/360ViewIcon.svg')"
+                alt="360 view icon"
+              />
+            </span>
           </div>
         </div>
         <!-- Product thumbnail 360 ends -->
@@ -844,5 +844,7 @@ export default {
     width: 100%
     margin-left: 24px
     margin-right: 24px
+  .-mt-32px
+    margin-top: -32px
 </style>
 
