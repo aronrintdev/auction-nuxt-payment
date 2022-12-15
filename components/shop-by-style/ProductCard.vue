@@ -21,7 +21,7 @@
           v-if="pricesBySize ? pricesBySize.length > 0 : false"
           class="color mt-2 fw-5 font-secondary fs-15"
         >
-          {{ `${$t('products.lowest_price')}: ${lowestPrice}` }}
+          {{ $t('products.lowest_price') }}: {{ lowestPrice | toCurrency }}
         </div>
         <div
           class="position-absolute btn-add cursor-pointer"
@@ -169,13 +169,13 @@
                 class="text-center lowest-price mb-13"
               >
                 <span class="total-price">{{
-                  (currentListingItem.inventory.sale_price / 100) | toCurrency
+                  currentListingItem.inventory.sale_price | toCurrency
                 }}</span>
                 {{ $t('shop_by_style.4_installments') }}
                 <span class="partial-price"
                   >of
                   {{
-                    (currentListingItem.inventory.sale_price / 100 / 4)
+                    (currentListingItem.inventory.sale_price / 4)
                       | toCurrency
                   }}</span
                 >
