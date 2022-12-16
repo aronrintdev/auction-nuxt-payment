@@ -269,11 +269,12 @@
 
                     <div v-if="!editYours" class="position-relative">
                       <div class="position-absolute remove-item-icon" role="button" @click="removeItem(item.inventory.product.id)">
-                        <img :src="require('~/assets/img/trades/minus-icon.svg')">
+                       ff <img :src="require('~/assets/img/trades/minus-icon.svg')">
                       </div>
                     </div>
-                    <div class="position-relative d-flex align-items-center justify-content-center">
+                    <div class="image-wrapper">
                       <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
+<!--                      <div class="overlay"></div>-->
                     </div>
                     <div class="item-caption">
                       <span class="item-name">{{ item.inventory.product.name }}</span>
@@ -308,7 +309,10 @@
                           <img :src="require('~/assets/img/trades/minus-icon.svg')">
                         </div>
                       </div>
-                      <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" alt="image" />
+                      <div class="image-wrapper">
+                        <img class="img-fluid" :src="item.inventory.product | getProductImageUrl" />
+<!--                        <div class="overlay"></div>-->
+                      </div>
                       <div class="item-caption">
                         <span class="item-name">{{ item.inventory.product.name }}</span>
                         <div class="mt-1 item-caption-description d-flex">
@@ -555,6 +559,7 @@
                           :src="require('~/assets/img/icons/addPlus.svg')" @click="addYourInventoryItem(item)"/>
                   </b-col>
                 </b-row>
+
                 <img class="img-fluid mx-auto max-h-200" :src="item.product | getProductImageUrl" />
                 <div class="item-caption">
                   <span class="item-name-invent">{{ item.product.name }}</span>
@@ -1771,7 +1776,7 @@ export default {
   height: 100%
   background: $color-white-1
 .image-wrapper
-  width: 120px
+  width: 130px
   height: 112.4px
 .item-caption
   padding-left: unset
@@ -1880,7 +1885,7 @@ export default {
 .image-wrapper
   height: 134px
   background: $color-white-4
-  position: relative
+  //position: relative
 
 
 
