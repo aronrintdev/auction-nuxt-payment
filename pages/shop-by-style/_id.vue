@@ -279,8 +279,9 @@ export default {
       &::-webkit-scrollbar
         width: 0px
     @media (min-width: 576px)
-      margin-top: 14px
+      margin-top: 40px
       margin-left: 202px
+      margin-right: 17px
 
 .row-gap-60
   row-gap: 60px
@@ -306,7 +307,7 @@ export default {
   min-height: 925px
   padding-bottom: 60px
   @media (min-width: 576px)
-    margin-top: 27px
+    margin-top: 30px
   .product-list
     padding: 64px 0 0 89px
     > div
