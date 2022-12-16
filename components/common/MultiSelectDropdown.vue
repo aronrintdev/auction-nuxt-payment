@@ -13,6 +13,7 @@
     </div>
 
     <div v-show="menuVisible" class="position-absolute m-0 w-100 accordion-filter-body">
+      <slot name="firstRow"></slot>
       <div class="mr-2">
         <div v-for="(item, index) in options" :key="index" class="form-check">
           <input

@@ -3,6 +3,9 @@
       ref="myBottomSheet"
       :is-full-screen="true"
       :max-height="height"
+      :rounded="isRounded"
+      :overlay="hasOverlay"
+      :swipe-able="swipeable"
       class="mobile-bottom-sheet"
       @closed="$emit('closed')"
       @opened="$emit('opened')"
@@ -28,6 +31,18 @@ export default {
     open: {
       type: Boolean,
       default: false,
+    },
+    isRounded: {
+      type: Boolean,
+      default: true,
+    },
+    swipeable: {
+      type: Boolean,
+      default: true,
+    },
+    hasOverlay: {
+      type: Boolean,
+      default: true,
     },
     title: {
       type: String,

@@ -353,6 +353,9 @@ export default {
         const category = this.categories.find(
           (category) => category.value === value
         )
+        if(category === undefined){
+          return ''
+        }
         return category.label
       }
     },

@@ -534,7 +534,6 @@ export default {
             'Preferences - Add Credit Cards',
             err.response.data.error
           )
-          this.$toasted.error(this.$t('server.error'))
         })
     },
     // Add the details to cards
