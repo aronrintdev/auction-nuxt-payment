@@ -4,6 +4,7 @@
       'mt-4': !isScreenXS,
       'm-2': isScreenXS,
     }"
+    class="notification-setting-main"
   >
     <div
       v-if="loading && getSettings.length === 0"
@@ -49,7 +50,7 @@
           :data="tabs"
           :value="currentTab"
           nav-key="notification-tabs"
-          class="notification-tabs"
+          class="notification-setting-nav"
           @change="handlePageChange"
         />
       </div>
@@ -58,7 +59,7 @@
         <NotificationSettingsTab :tab="currentTab" />
       </div>
 
-      <div v-if="!isScreenXS" class="mt-5">
+      <div v-if="!isScreenXS" class="mt-5 buttons-sec">
         <Button
           :disabled="loading || changedSettings.length === 0"
           class="mr-2"
@@ -173,9 +174,12 @@ export default {
 
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
-.notification-tabs
-  max-width: 236px
-  margin-bottom: 26px
+.notification-setting-main::v-deep
+  .notification-setting-nav
+    margin: 26px 0 18px 0
+  .buttons-sec
+    button
+      width: 217px
 
 .push-title
   @include body-8-medium
