@@ -114,7 +114,7 @@ export default {
   computed: {
     colClass() {
       if (this.isEditForm) {
-        return 'col-12'
+        return this.isScreenXS ? 'col-6' : 'col-12'
       }
       return 'col-6'
     }
