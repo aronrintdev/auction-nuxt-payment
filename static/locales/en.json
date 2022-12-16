@@ -3350,6 +3350,7 @@
     "product": "Product",
     "date_listed": "Date Listed",
     "qty": "Qty",
+    "quantity": "Quantity",
     "price": "Price",
     "offers": "Offers",
     "actions": "Actions",

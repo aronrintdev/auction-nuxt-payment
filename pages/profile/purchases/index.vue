@@ -298,9 +298,15 @@
               class="d-flex flex-column align-items-center justify-content-between h-88 w-100 filters"
           >
             <div class="d-flex flex-column w-100">
-              <FilterAccordion
-                  :open="true"
-                  :title="$t('orders.sort').toString()"
+              <div
+                class="d-flex align-items-center justify-content-between"
+              >
+                <span class="title">
+                  {{ $t('orders.sort').toString() }}
+                </span>
+              </div>
+              <div
+                class="d-flex align-items-center justify-content-between"
               >
                 <b-form-radio-group
                     v-model="sortbySelected"
@@ -308,7 +314,8 @@
                     class="d-flex flex-column mt-2 sort-filters"
                 >
                 </b-form-radio-group>
-              </FilterAccordion>
+              </div>
+
               <ItemDivider/>
 
               <FilterAccordion
@@ -783,6 +790,13 @@ export default {
 <style lang="sass" scoped>
 @import "~/assets/css/variables"
 
+
+.title
+  @include body-13
+  font-family: $font-family-sf-pro-display
+  font-style: normal
+  font-weight: $medium
+  color: $color-blue-20
 .w-140
   width: 140px
   max-width: 140px
@@ -917,6 +931,9 @@ input.date-input
         border-color: $color-black-1
         background-color: $color-white-1
         box-shadow: none
+        border-radius: 50%
+        width: 16px
+        height: 16px
 
 ::v-deep.sort-filters
   .custom-control-input

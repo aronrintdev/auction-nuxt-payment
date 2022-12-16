@@ -4,9 +4,9 @@
       :is="single? 'b-form-radio-group': 'b-form-checkbox-group'"
       v-model="selected"
       :options="options"
-      :button-variant="`d-custom col col-4 d-flex justify-content-center align-items-center ml-${marginLeft} mt-1 ${itemClass}`"
+      :button-variant="`d-custom col d-flex mt-19 justify-content-center align-items-center ml-${marginLeft} ${itemClass}`"
       buttons
-      class="custom-button-multi w-100 row text-capitalize d-flex justify-content-between"
+      class="custom-button-multi w-100 row text-capitalize justify-content-between"
       :style="contentStyle"
       @change="emitChanges"
     >
@@ -16,7 +16,7 @@
           v-if="all"
           v-model="selected"
           :value="'all'"
-          :button-variant="`d-custom d-flex justify-content-center align-items-center ml-${marginLeft} mt-1 ${itemClass}`"
+          :button-variant="`d-custom d-flex mt-19 justify-content-center align-items-center ml-${marginLeft} ${itemClass}`"
           buttons
           @change="allChanged"
         >
@@ -97,12 +97,14 @@ export default {
     color: $color-black-1 !important
     background-color: $color-gray-21 !important
 
+  .mt-19
+    margin-top: 19px
   .btn-d-custom
     @include body-5
     height: 45px !important
-    width: 100px !important
-    min-width: 100px !important
-    max-width: 100px !important
+    width: 99px !important
+    min-width: 99px !important
+    max-width: 99px !important
     border: 1px solid $color-gray-4
     font-family: $font-family-sf-pro-display
     font-style: normal
