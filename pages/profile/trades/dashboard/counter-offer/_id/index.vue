@@ -248,7 +248,7 @@
           </div>
           <div class="offer-card my-3">
             <div class="d-flex flex-column px-3 px-lg-0">
-              <div class="mt-55 d-flex mb-2 justify-content-between col-md-8 mx-auto">
+              <div class="mt-55 d-flex mb-2 justify-content-between col-md-8 mx-auto price-value-box">
                 <div class="value">
                   {{ $t('common.their_value') }}
                   <span class="ml-1 price">{{ getTheirTotal() }}</span>
@@ -341,7 +341,7 @@
               </div>
               <div class="trade-hub-buttons mt-4 mb-4">
                 <div v-if="!cashAdded" class="mb-1">
-                  <span 
+                  <span
                     class="add-cash mr-3"
                     role="button"
                     :class="{
@@ -351,7 +351,7 @@
                   >
                     {{ $t('trades.add_cash') }}
                   </span>
-                  <span 
+                  <span
                     class="request-cash"
                     role="button"
                     :class="{
@@ -538,8 +538,8 @@
                 </b-col>
               </div>
             </div>
-            <div 
-              v-if="inventoryItems.length" 
+            <div
+              v-if="inventoryItems.length"
               class="carousel d-flex flex-column flex-sm-row flex-wrap justify-content-between inventory-items-trade"
             >
               <div
@@ -607,7 +607,7 @@
   import TradeArenaFilters from '~/components/trade/TradeArenaFilters'
   import {
     ITEM_COUNT_0,
-  
+
     PAGE,
     PER_PAGE,
     PER_PAGE_OPTIONS,
@@ -1689,7 +1689,7 @@ export default {
     @include body-9-normal
     font-family: $font-family-sf-pro-display
     width: auto
-  
+
 .item-name-invent
   color: $color-black-1
   font-size: 15px
@@ -2151,4 +2151,9 @@ export default {
 .left-item-one-sm
   margin-top: 183px
   margin-right: 15px
+.price-value-box
+  background-color: $color-white-4
+  width: 797px
+  height: 61px
+  padding: 25px
 </style>
