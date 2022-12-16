@@ -3885,7 +3885,13 @@
     },
     "list_product": "List Product",
     "edit_details": "Edit Details",
-    "mobile_search_info": "Begin by searching for your product"
+    "mobile_search_info": "Begin by searching for your product",
+    "delist_mobile_message" : {
+      "title": "Are you sure you would like to delist these listings?",
+      "part_1": "All the",
+      "part_2": "active offers",
+      "part_3": "associated with these listing will be lost."
+    }
   },
   "vendor_purchase": {
     "their_value": "THEIR VALUE",
