@@ -76,8 +76,8 @@
 
       <div class="image-bottom-text position-absolute w-100 px-4">
         <div class="d-flex align-items-center justify-content-between">
-          <div>
-            <!--          TODO add link to auction, trada or listing-->
+          <div v-if="inventory.listing_items.length">
+            <span class="listing-id">{{ $t('common.listing_id') }}: #{{inventory.listing_items[0].id}}</span>
           </div>
           <div v-if="inventory.stock" class="stock-count">
             X{{ inventory.stock }}
@@ -326,4 +326,10 @@ export default {
 .dot-icon-position
   padding-right: 6px
   margin-top: -10px
+
+.listing-id
+  font-family: $font-family-sf-pro-display
+  @include body-10-medium
+  color: $color-blue-31
+  text-decoration: underline
 </style>

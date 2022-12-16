@@ -326,16 +326,12 @@ export default {
       ],
       ACTIONS: [
         {
-          label: this.$t('common.list'),
-          value: 'list',
-        },
-        {
-          label: this.$t('sell.inventory.bulk_delete'),
-          value: 'delete',
-        },
-        {
           label: this.$t('inventory.export_to_csv'),
           value: 'export',
+        },
+        {
+          label: this.$t('sell.inventory.bulk_delist'),
+          value: 'delete',
         },
       ],
       FILTERS: [

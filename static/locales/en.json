@@ -698,6 +698,7 @@
     },
     "inventory": {
       "bulk_delete": "Bulk Delete",
+      "bulk_delist": "Bulk Delist",
       "sku": "SKU",
       "package": "Package",
       "box": "Box",
