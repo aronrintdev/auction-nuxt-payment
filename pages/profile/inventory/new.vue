@@ -1,5 +1,13 @@
 <template>
   <b-container fluid class="h-100" :class=" !isScreenXS ? 'container-profile-inventory-new' : 'p-0'">
+    <Portal to="back-icon-slot">
+      <img
+        :src="require('~/assets/img/icons/back.svg')"
+        alt="back-arrow"
+        class="float-left"
+        @click="moveBack"
+      />
+    </Portal>
     <div v-if="loading"><Loader /></div>
     <div v-else-if="product">
       <ProductView v-model="form" :product="product"
@@ -20,6 +28,35 @@
         :chart-labels-style="chartLabelStyle"
       />
       <!-- End of Sales Graph and Sales Data Section -->
+
+      <!-- Share Icon in Navbar Begin -->
+      <client-only>
+        <Portal to="notification-slot">
+          <ShareSVG
+            :id="`popover-share-product`"
+            class="ml-auto share-svg"
+            role="button"
+          />
+          <b-popover
+            ref="sharePopover"
+            :target="`popover-share-product`"
+            triggers="click"
+            placement="bottom"
+            container="body"
+            custom-class="wishlist-popover"
+            delay="200"
+            @show="shareShow = true"
+            @hidden="shareShow = false"
+          >
+            <ShareButton
+              :url="shareUrl + product.sku"
+              :title="product.name"
+              :description="product.description"
+            />
+          </b-popover>
+        </Portal>
+      </client-only>
+      <!-- Share Icon in Navbar End -->
     </div>
   </b-container>
 </template>
@@ -30,6 +67,8 @@ import InventoryNewForm from '~/components/inventory/NewForm'
 import ProductView from '~/components/profile/create-listing/product/ProductView'
 import screenSize from '~/plugins/mixins/screenSize'
 import SalesSection from '~/components/product/SalesSection'
+import ShareSVG from '~/assets/img/icons/share.svg?inline'
+import ShareButton from '~/components/common/ShareButton'
 
 export default {
   name: 'ProfileInventoryNew',
@@ -38,7 +77,9 @@ export default {
     Loader,
     InventoryNewForm,
     ProductView,
-    SalesSection
+    SalesSection,
+    ShareSVG,
+    ShareButton
   },
 
   mixins: [screenSize],
@@ -57,6 +98,8 @@ export default {
         price: null,
         boxCondition: 1, // default 1
       },
+      shareShow: false,
+      shareUrl: process.env.APP_URL + '/shop/',
     }
   },
 
@@ -111,6 +154,10 @@ export default {
       })
       this.$router.push('/profile/inventory/confirm')
     },
+
+    moveBack() {
+      this.$router.go(-1)
+    }
   },
 }
 </script>
@@ -127,5 +174,8 @@ export default {
 .px-16
   padding-right: 16px
   padding-left: 16px
+
+.share-svg
+  stroke: $color-gray-17
 
 </style>

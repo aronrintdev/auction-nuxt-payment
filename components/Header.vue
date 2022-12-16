@@ -45,19 +45,21 @@
       @hide="handleSearchOverlayHide"
     />
     <b-navbar-nav class="nav-menu-wrapper flex-row d-flex d-lg-none">
-      <b-nav-item
-        class="nav-item-icons"
-        :to="`${authenticated ? '/profile/notification' : '/login'}`"
-      >
-        <!-- to append custom elements based on different pages in responsive mode  -->
-        <PortalTarget name="notification-icon-slot">
-          <img
-            height="24px"
-            :src="require('~/assets/img/icons/notification-icon.svg')"
-            alt="..."
-          />
-        </PortalTarget>
-      </b-nav-item>
+      <PortalTarget name="notification-slot">
+        <b-nav-item
+          class="nav-item-icons"
+          :to="`${authenticated ? '/profile/notification' : '/login'}`"
+        >
+          <!-- to append custom elements based on different pages in responsive mode  -->
+          <PortalTarget name="notification-icon-slot">
+            <img
+              height="24px"
+              :src="require('~/assets/img/icons/notification-icon.svg')"
+              alt="..."
+            />
+          </PortalTarget>
+        </b-nav-item>
+      </PortalTarget>
       <b-nav-item class="nav-item-icons" to="/checkout/selling">
         <PortalTarget name="cart-icon-slot">
           <img
