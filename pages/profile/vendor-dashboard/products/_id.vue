@@ -1,63 +1,184 @@
 <template>
-  <div>
+  <b-container
+    fluid
+    class="container-profile-dashboard-product h-100"
+    :class="(isScreenXS ? '' : ' web-padding ') + mobileClass"
+  >
     <div
       v-if="!isScreenXS"
-      class="d-flex align-items-center justify-content-between"
+      class="font-primary body-9-normal text-gray-24 mb-19"
+      role="button"
+      @click="$router.push('/profile/vendor-dashboard/products')"
     >
-      <h1 class="heading-1-bold mb-0 font-secondary">
-        {{ $t('vendor_dashboard.orders') }}
-      </h1>
-      <NavGroup
-        :data="menus"
-        :value="activeNav"
-        :class="mobileClass"
-        class="nav-grp"
-        @change="navItem"
-      />
-      <div class="d-flex justify-content-end align-items-center">
-        <nuxt-link
-          to="/orders"
-          class="font-secondary fs-16 fw-400 text-decoration-underline text-link-blue-mobile mb-0 view-more-link"
-          >{{ $t('vendor_dashboard.view_all') }}
-        </nuxt-link>
+      &lt; {{ $t('common.back') }}
+    </div>
+
+    <div class="d-flex">
+      <div
+        :class="{
+          mobile: isScreenXS,
+          'mr-31 flex-grow-1': !isScreenXS,
+        }"
+        class="chart-card bg-white br-10 p-1 p-sm-4"
+      >
+        <div
+          :class="{
+            'm-padding-title': isScreenXS,
+          }"
+          class="d-flex align-items-center justify-content-between"
+        >
+          <div>
+            <h1 class="fs-24 fw-7 font-primary mb-0 d-none d-sm-block">
+              {{ result.product.name }}
+            </h1>
+
+            <h1 class="body-2-normal font-primary mb-0 d-none d-sm-block">
+              {{ result.product.colorway }}
+            </h1>
+          </div>
+
+          <div class="dropdownSelect d-none d-sm-block">
+            <CustomSelect
+              :default="filterBy"
+              :options="chartFilterOptions"
+              :threelineIcon="false"
+              :title="filterByTitle"
+              class="dropdown-filter"
+              @input="handleFilterByChangeTotalSale"
+            />
+          </div>
+        </div>
+        <div class="tabs d-sm-none d-flex gap-2 justify-content-center my-4">
+          <h6
+            v-for="(tab, index) in filterTabs"
+            :key="index"
+            :class="{ activeOne: activeTab === tab.value }"
+            class="fs-10 fw-7 font-primary mb-0 cursor-pointer position-relative text-uppercase"
+            @click="changeTab(tab.value)"
+          >
+            {{ tab.title }}
+          </h6>
+        </div>
+
+        <div class="position-relative mt-3 mt-sm-5 mb-3 mb-sm-4">
+          <LineChart
+            :chart-data="mainChart"
+            :height="174"
+            :options="lineChartOptions"
+            chart-id="vendor-dashboard-line-chart"
+            class="line-chart d-none d-sm-block"
+            is-graph
+          />
+          <LineChart
+            :chart-data="mainChart"
+            :height="174"
+            :options="lineChartOptions"
+            chart-id="vendor-dashboard-line-chart"
+            class="line-chart d-block d-sm-none"
+            is-graph
+          />
+        </div>
+      </div>
+
+      <div
+        v-if="!isScreenXS"
+        :class="{
+          'mt-20 flex-grow-1': !isScreenXS,
+        }"
+      >
+        <div
+          class="d-flex w-100 justify-content-between align-items-baseline mb-12"
+        >
+          <div
+            :class="{
+              'body-21-medium text-black font-primary': isScreenXS,
+              'body-4-bold font-primary text-uppercase text-black': !isScreenXS,
+            }"
+          >
+            {{ chartFilterOptions[activeTab] }}
+          </div>
+          <div
+            class="text-decoration-underline text-black body-4-normal font-secondary"
+            role="button"
+          >
+            {{ $t('vendor_dashboard.breakdown.export') }}
+          </div>
+        </div>
+
+        <div>
+          <BreakdownProductStatCard
+            :label="
+              $t('vendor_dashboard.breakdown.table.items_sold').toString()
+            "
+            :value="result.stats.items_sold || 0"
+            class="mb-14"
+          />
+          <BreakdownProductStatCard
+            :label="
+              $t('vendor_dashboard.breakdown.table.price_premium').toString()
+            "
+            :sub-label="`(${$t(
+              'vendor_dashboard.breakdown.over_retail_price'
+            ).toString()})`"
+            :value="(result.stats.price_premium || 0) + '%'"
+            class="mb-14"
+          />
+          <BreakdownProductStatCard
+            :label="
+              $t('vendor_dashboard.breakdown.table.avg_sale_price').toString()
+            "
+            :value="(result.stats.price_premium || 0) | toCurrency"
+            class="mb-14"
+          />
+          <BreakdownProductStatCard
+            :label="$t('vendor_dashboard.breakdown.table.sales').toString()"
+            :value="(result.stats.price_premium || 0) | toCurrency"
+          />
+        </div>
       </div>
     </div>
-    <div
-      v-if="isScreenXS"
-      class="d-flex align-items-center justify-content-between"
-    >
-      <div class="body-5-medium">
-        {{ $t('vendor_dashboard.orders') }}
-      </div>
-      <nuxt-link
-        class="font-secondary text-decoration-underline body-18-regular border-primary mb-0 text-link-blue-mobile"
-        to="/orders"
-        >{{ $t('vendor_dashboard.view_all') }}
-      </nuxt-link>
-    </div>
-    <NavGroup
-      v-if="isScreenXS"
-      :data="mobileMenu"
-      :value="activeNav"
-      :class="mobileClass"
-      class="mt-2 nav-grp"
-      @change="navItem"
-    />
 
     <div
       :class="{
         'my-5': !isScreenXS,
       }"
     >
+      <div
+        v-if="isScreenXS"
+        class="d-flex mt-26"
+        :class="{
+          'justify-content-center ': isScreenXS,
+          'mb-31': !isScreenXS,
+        }"
+      >
+        <div
+          class="ml-4 font-primary"
+          :class="{
+            'body-21-medium mr-1 text-black': isScreenXS,
+            'body-2-bold mr-22': !isScreenXS,
+          }"
+        >
+          {{ $t('vendor_dashboard.breakdown.statistics') }}
+        </div>
+        <div
+          :class="{
+            'body-21-medium text-black font-primary': isScreenXS,
+            'body-2-normal font-secondary text-capitalize text-gray-simple':
+              !isScreenXS,
+          }"
+        >
+          ({{ chartFilterOptions[activeTab] }})
+        </div>
+      </div>
       <b-table
         class="ordersTable"
         borderless
         no-border-collapse
         :fields="tableFields"
-        :items="topOrders"
+        :items="result.orders"
         tbody-tr-class="bg-white"
         :busy="loading"
-        :show-empty="!loading && topOrders.length === 0"
+        :show-empty="!loading && result.orders.length === 0"
       >
         <template #table-busy>
           <div class="d-flex align-items-center justify-content-center w-100">
@@ -156,9 +277,7 @@
             :aria-label="$t('vendor_dashboard.type')"
           >
             <h4 v-if="data.item.order" class="font-secondary fw-5 fs-16 mb-0">
-              {{ data.item.order.type.label === 'buy'
-                ? $t('common.shop')
-                : data.item.order.type.label }}
+              {{ data.item.order.type.label }}
             </h4>
           </div>
         </template>
@@ -286,26 +405,91 @@
         </template>
       </b-table>
     </div>
-  </div>
+  </b-container>
 </template>
+
 <script>
-import ProductThumb from '~/components/product/Thumb.vue'
-import NavGroup from '~/components/common/NavGroup.vue'
+import Loader from '~/components/common/Loader'
 import screenSize from '~/plugins/mixins/screenSize'
 import { AWAITING_SHIPMENT_TO_DEADSTOCK, PROCESSING } from '~/static/constants'
-import Loader from '~/components/common/Loader'
-import orderStatus from '~/plugins/mixins/order-status';
-
+import ProductThumb from '~/components/product/Thumb'
+import orderStatus from '~/plugins/mixins/order-status'
+import CustomSelect from '~/components/common/CustomSelect'
+import BreakdownProductStatCard from '~/components/profile/vendor-dashboard/BreakdownProductStatCard'
 export default {
-  name: 'TopOrdersTable',
-  components: { Loader, NavGroup, ProductThumb },
+  name: 'DashboardSingleProduct',
+  components: { BreakdownProductStatCard, CustomSelect, ProductThumb, Loader },
   mixins: [screenSize, orderStatus],
+  layout: 'Profile',
   data() {
     return {
       PROCESSING,
       AWAITING_SHIPMENT_TO_DEADSTOCK,
-      activeNav: '1',
-      topOrders: [],
+      filterByTitle: this.$t('selling_page.status'),
+      filterBy: 'week',
+      activeTab: 'week',
+      filterTabs: [
+        { title: 'Week', value: 'week' },
+        { title: 'Month', value: 'month' },
+        { title: 'Year', value: 'year' },
+      ],
+      chartFilterOptions: {
+        week: 'Week to Date',
+        month: 'Month to Date',
+        year: 'Year to Date',
+      },
+      lineChartOptions: {
+        responsive: true,
+        maintainAspectRatio: false,
+        borderWidth: 5,
+        showLine: false,
+        scales: {
+          xAxes: [
+            {
+              gridLines: {
+                drawOnChartArea: false,
+              },
+              ticks: {
+                fontFamily: 'Montserrat',
+                fontColor: '#000',
+                fontSize: 12,
+                fontStyle: 'bold',
+              },
+            },
+          ],
+          yAxes: [
+            {
+              scaleLabel: {
+                labelString: ['5k', '15k', '20k', '25k', '30k'],
+              },
+              gridLines: {
+                drawOnChartArea: false,
+              },
+              ticks: {
+                beginAtZero: true,
+                fontFamily: 'Montserrat',
+                fontColor: '#000',
+                fontSize: 12,
+                fontStyle: 'bold',
+                callback(value, index, ticks) {
+                  const formatter = Intl.NumberFormat('en', {
+                    notation: 'compact',
+                  })
+                  return formatter.format(value)
+                },
+              },
+            },
+          ],
+        },
+        legend: {
+          display: false,
+        },
+        elements: {
+          point: {
+            radius: 0,
+          },
+        },
+      },
       statusColors: {
         pending: 'orange',
         processing: 'orange',
@@ -364,40 +548,80 @@ export default {
           thClass: 'text-nowrap text-center body-4-bold',
         },
       ],
-      orderStatuses: Object.keys(this.$t('orders.order_statuses')).map(a => {
+      orderStatuses: Object.keys(this.$t('orders.order_statuses')).map((a) => {
         return {
           text: this.$t('orders.order_statuses.' + a),
-          value: a
+          value: a,
         }
       }),
       loading: false,
       orderByField: 'id',
       orderByDirection: 'asc',
-      /** Todo need to make dynamic onces we have way of main categories in DB */
-      menus: [
-        { label: this.$t('vendor_dashboard.all'), value: '' },
-        { label: this.$t('vendor_dashboard.footwear'), value: '1' },
-        { label: this.$t('vendor_dashboard.apparel'), value: '2' },
-        {
-          label: this.$t('vendor_dashboard.accessories'),
-          value: '3',
+      result: {
+        orders: [],
+        graph: {},
+        product: {},
+        stats: {
+          avg_price: null,
+          items_sold: null,
+          price_premium: null,
+          sales: null,
         },
-      ],
+      },
     }
   },
   computed: {
+    mainChart() {
+      return {
+        labels: Object.keys(this.result.graph),
+        datasets: [
+          {
+            borderColor: this.isScreenXS ? '#667799' : '#18A0FB',
+            backgroundColor: 'rgba(24, 160, 251, 0.15)',
+            data: Object.values(this.result.graph),
+            fill: false,
+            borderWidth: this.isScreenXS ? 2 : 4,
+          },
+        ],
+      }
+    },
     tableFields() {
       if (!this.isScreenXS) return this.fields
       else return this.swapElementTable()
     },
-    mobileMenu() {
-      return this.menus.filter((menu) => menu.value !== '')
-    },
+  },
+  created() {
+    // eslint-disable-next-line no-undef
+    Chart.plugins.register({
+      afterDraw(chart) {
+        if (chart.data.datasets[0].data.every((item) => item === 0)) {
+          const ctx = chart.chart.ctx
+          const width = chart.chart.width
+          const height = chart.chart.height
+          ctx.clearRect(width * 0.25, height * 0.25, width * 0.75, height * 0.6)
+          ctx.fillStyle = '#626262'
+          ctx.textAlign = 'center'
+          ctx.textBaseline = 'middle'
+          ctx.font = '500 18px Montserrat'
+
+          ctx.fillText('No Data Found', width / 2, height / 2 - 30)
+          ctx.restore()
+        }
+      },
+    })
   },
   mounted() {
     this.getTopOrders()
   },
   methods: {
+    changeTab(tab) {
+      this.activeTab = tab
+      this.getTopOrders()
+    },
+    handleFilterByChangeTotalSale(tab) {
+      this.activeTab = tab
+      this.getTopOrders()
+    },
     orderBy(scope) {
       if (scope.column !== 'actions') {
         this.orderByDirection = this.reverseDirection(scope.column)
@@ -469,23 +693,16 @@ export default {
       const length = order.order.items.length
       return `${order.order.order_id}${length > 0 ? '-1' : ''}`
     },
-    // On Tab Change (All/ Footwear/ Apparel/ Accessories)
-    navItem(val) {
-      this.activeNav = val
-      this.getTopOrders()
-    },
     getTopOrders() {
       this.loading = true
       this.$axios
-        .get('/dashboard/vendor/orders', {
+        .get(`dashboard/vendor/product-breakdown/${this.$route.params.id}`, {
           params: {
-            category_id: this.activeNav,
-            order_by_column: this.orderByField,
-            order_by_direction: this.orderByDirection,
+            group_by: this.activeTab,
           },
         })
         .then((res) => {
-          this.topOrders = res.data.data.data
+          this.result = res.data.data
         })
         .catch((err) => {
           this.logger.logToServer(err.response)
@@ -497,25 +714,76 @@ export default {
   },
 }
 </script>
-<style lang="sass" scoped>
-@import '~/assets/css/_variables'
+
+<style scoped lang="sass">
+@import "~/assets/css/variables"
+.mt-26
+  margin-top: 26px
+.mw-220
+  max-width: 220px
+.mb-12
+  margin-bottom: 12px
+.mb-14
+  margin-bottom: 14px
+.mt-20
+  margin-top: 20px
+.mr-31
+  margin-right: 31px
+
+.mb-19
+  margin-bottom: 19px
+
+.text-gray-24
+  color: $color-gray-24
+
+.line-chart
+  height: 210px
+  &.mobile
+    height: 204px
+
+.chart-card
+  max-width: 730px
+  height: 364px
+  &.mobile
+    box-shadow: 0px 1px 4px rgba($color-black-1, 0.25)
+    border-radius: 8px
+    max-width: 100%
+    width: 100%
+    height: max-content
+
+.dropdown-filter::v-deep
+  background-color: $color-white-4
+  border-radius: 8px
+  border: none
+  width: 200px
+  &.custom-selectbox
+    .selected
+      @include body-13-medium
+      color: $color-black-1
+      background-color: $color-white-4
+      font-family: $font-family-sf-pro-display
+      border: none
+      padding-inline: 18px
+
+      label
+        display: none
+
+    .items
+      @include body-13-regular
+      color: $color-black-1
+      font-family: $font-family-sf-pro-display
+
+.web-padding
+  padding: 30px 25px
+.container-profile-dashboard-product
+  background-color: $color-gray-1
+  &.mobile
+    background-color: $color-white-1
+    padding: 10px 15px 38px 17px
+
 .sort-icon
   &.asc
     transform: rotate(180deg)
-
-::v-deep.nav-grp
-  width: 460px
-  &.mobile
-    width: 100%
-  .btn-group
-    height: 36px
-    button.btn
-      @include body-6-regular
-      font-family: $font-montserrat
-      width: 103px
-      padding-block: 1px
-      &.active
-        font-weight: $medium
 
 .status
   &.mobile
@@ -585,18 +853,6 @@ export default {
     background-color: transparent
     padding: 0
 
-.mw-140
-  max-width: 160px
-
-.mw-220
-  max-width: 220px
-
-  &.mobile
-    max-width: 200px
-
-.text-secondary-6
-  color: $color-gray-6
-  font-family: $font-sf-pro-text
 
 ::v-deep.ordersTable
   &.table.b-table.b-table-no-border-collapse
@@ -670,4 +926,26 @@ export default {
         content: attr(aria-label)
         margin-right: auto
         width: 100%
+
+.tabs
+  h6
+    color: $color-gray-47
+    transition: 0.1s all ease-in
+
+    &:hover
+      color: $color-black-1
+
+    &.activeOne
+      color: $color-black-1
+
+      &::after
+        content: ''
+        position: absolute
+        left: 50%
+        bottom: -5px
+        translate: -50% 50%
+        background: $color-black-1
+        height: 4px
+        width: 4px
+        border-radius: 50%
 </style>

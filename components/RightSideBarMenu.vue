@@ -338,7 +338,7 @@ export default {
           link: '/profile/vendor-dashboard',
         },
         {
-          icon: 'trophy-outline-gray',
+          icon: 'sell-outline-gray',
           label: this.$t('home.selling_listings'),
           link: '/profile/vendor-selling',
         },

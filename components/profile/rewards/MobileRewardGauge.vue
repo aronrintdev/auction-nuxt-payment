@@ -79,7 +79,7 @@ export default {
       context.stroke();
 
       context.beginPath();
-      context.arc(centerX, centerY, radius, Math.PI, (1 + this.tillNext / 1000) * Math.PI);
+      context.arc(centerX, centerY, radius, Math.PI, (1 + this.tillNext / this.nextTier.highestValue) * Math.PI);
       context.strokeStyle = '#66779A';
       context.stroke();
       context.fillStyle = '#667799';
