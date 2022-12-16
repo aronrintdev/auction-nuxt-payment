@@ -1,13 +1,15 @@
 <template>
   <b-container fluid class="h-100" :class=" !isScreenXS ? 'container-profile-inventory-new' : 'p-0'">
-    <Portal to="back-icon-slot">
-      <img
-        :src="require('~/assets/img/icons/back.svg')"
-        alt="back-arrow"
-        class="float-left"
-        @click="moveBack"
-      />
-    </Portal>
+    <client-only v-if="isScreenXS">
+      <Portal to="back-icon-slot">
+        <img
+          :src="require('~/assets/img/icons/back.svg')"
+          alt="back-arrow"
+          class="float-left"
+          @click="moveBack"
+        />
+      </Portal>
+    </client-only>
     <div v-if="loading"><Loader /></div>
     <div v-else-if="product">
       <ProductView v-model="form" :product="product"
@@ -30,7 +32,7 @@
       <!-- End of Sales Graph and Sales Data Section -->
 
       <!-- Share Icon in Navbar Begin -->
-      <client-only>
+      <client-only v-if="isScreenXS">
         <Portal to="notification-slot">
           <ShareSVG
             :id="`popover-share-product`"

@@ -258,7 +258,7 @@
       </b-row><!-- End of Country Field -->
 
       <!-- Use as Shipping CheckBox -->
-      <b-row>
+      <b-row class="use-as-shipping-wrapper">
         <b-col v-if="useAsShipping" md="12">
           <b-form-checkbox v-model="form.inputForShipping">
             <template #default>

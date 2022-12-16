@@ -2,26 +2,26 @@
   <div id="profile-layout" class="wrapper min-vh-100 d-flex flex-column">
     <Header />
 
-    <div class="custom-wrapper">
-      <div class="row mb-bb">
+    <div class="custom-wrapper flex-grow-1">
+      <b-row>
         <!-- New menu design begin -->
         <client-only>
-          <div class="col">
-            <NewSideMenu v-if="!isScreenXS && !isScreenSM && !isScreenMD" />
+          <b-col>
+            <SideMenu v-if="! isResponsive" />
             <!-- new menu area end -->
-          </div>
+          </b-col>
         </client-only>
         <!-- New menu design end -->
-      </div>
+      </b-row>
 
       <div class="main-wrapper">
         <Nuxt />
       </div>
     </div>
 
-    <!-- ScollTo Top Button -->
+    <!-- Scroll To Top Button -->
     <ScrollToTop v-show="mobileClass && showScroll" />
-    <!-- ./ScrollTo Top Button Ends -->
+    <!-- ./Scroll To Top Button Ends -->
     <BottomNavigation class="d-flex d-md-none mt-4" />
     <Footer class="d-none d-md-flex" />
   </div>
@@ -30,7 +30,7 @@
 import { mapGetters } from 'vuex'
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
-import NewSideMenu from '~/components/profile/NewSideMenu'
+import SideMenu from '~/components/profile/SideMenu'
 import ScrollToTop from '~/components/common/ScrollToTop.vue'
 import screenSize from '~/plugins/mixins/screenSize'
 import { SCROLLY } from '~/static/constants'
@@ -40,7 +40,7 @@ import BottomNavigation from '~/components/homepage/BottomNavigation.vue'
 export default {
   name: 'Default',
   components: {
-    NewSideMenu,
+    SideMenu,
     Header,
     Footer,
     ScrollToTop,
@@ -65,13 +65,8 @@ export default {
     ...mapGetters({
       pushActive: 'notifications/getPushNotificationsActive',
     }),
-  },
-  watch: {
-    screenIsSmallThanLG(newVal) {
-      const { mySidebar } = this.$refs
-      if (!newVal && mySidebar) {
-        mySidebar.hide()
-      }
+    isResponsive(vm) {
+      return vm.isScreenXS || vm.isScreenSM
     },
   },
   beforeMount() {
@@ -84,6 +79,7 @@ export default {
     }
     this.$store.dispatch('notifications/getNotifications')
     this.$store.dispatch('notifications/getUnreadCount')
+    this.$store.dispatch('order-settings/fetchOrderStatuses')
     enquireScreenSizeHandler((type) => {
       this.$store.commit('size/setScreenType', type)
     })
@@ -104,27 +100,23 @@ export default {
   },
 }
 </script>
+
 <style lang="sass" scoped>
 @import '~/assets/css/_variables'
-
 .bg-grayish
   background-color: $color-white-5 !important
-
 .wrapper
   .custom-wrapper
     margin: 0
     padding: 0
-
     .main-wrapper
       width: 100%
       background-color: $color-white-4
       @media (max-width: 576px)
         min-height: calc(100vh - 200px)
-
 .w3-xlarge
   @include body-1
   float: right
-
 .w3-btn, .w3-button
   border: none
   display: inline-block
@@ -137,7 +129,6 @@ export default {
   text-align: center
   cursor: pointer
   white-space: nowrap
-
 @media (min-width: 993px)
   .wrapper
     .custom-wrapper
@@ -146,13 +137,11 @@ export default {
     display: none
   .sidebar
     display: block
-
 @media (max-width: 992px)
   .wrapper
     .custom-wrapper
       .main-wrapper
         background-color: $color-white-1
-
   .sidebar
     display: none
   #sidemenu-expanded
